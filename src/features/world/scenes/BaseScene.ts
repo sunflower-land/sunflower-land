@@ -32,7 +32,7 @@ export type NPCBumpkin = {
 };
 
 // 3 Times per second send position to server
-const SEND_PACKET_RATE = 3;
+const SEND_PACKET_RATE = 10;
 
 export abstract class BaseScene extends Phaser.Scene {
   abstract roomId: RoomId;

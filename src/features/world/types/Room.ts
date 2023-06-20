@@ -20,6 +20,7 @@ export interface Player extends Schema {
 export interface Message extends Schema {
   text: string;
   sessionId?: string;
+  sentAt: number;
 }
 
 export interface PlazaRoomState extends Schema {

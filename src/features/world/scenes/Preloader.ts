@@ -50,7 +50,6 @@ export abstract class Preloader extends Phaser.Scene {
     this.load.bitmapFont("pixelmix", "world/7px.png", "world/7px.xml");
 
     this.load.once("complete", () => {
-      console.log({ initial: this.registry.get("initialScene") });
       this.scene.start(this.registry.get("initialScene"));
     });
   }

@@ -29,6 +29,7 @@ export interface ChatContext {
   bumpkin: Bumpkin;
   rooms: Rooms;
   roomId: RoomId;
+  previousRoomId?: RoomId;
   client?: Client;
 }
 
@@ -143,16 +144,17 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
     initialising: {
       invoke: {
         id: "initialising",
-        src: () => async () => {
+        src: (context) => async () => {
           if (!CONFIG.ROOM_URL) {
             return { roomId: undefined };
           }
 
           // Server connection is too fast
           await new Promise((res) => setTimeout(res, 1000));
+
           const client = new Client(CONFIG.ROOM_URL);
 
-          return { roomId: "plaza", client };
+          return { roomId: context.roomId, client };
         },
         onDone: [
           {
@@ -179,7 +181,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
             await context.rooms[context.roomId]?.leave();
           }
 
-          const roomId = (event.roomId ?? event.data.roomId) as RoomId;
+          const roomId = context.roomId as RoomId;
 
           const room = await context.client.joinOrCreate<PlazaRoomState>(
             roomId,
@@ -189,15 +191,19 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
             }
           );
 
-          room.onError((e) => {
-            console.log("Room OnError", JSON.stringify(e, null, 2));
+          room.onLeave(() => {
             cb({
               type: "ROOM_DISCONNECTED",
               roomId,
             });
           });
 
-          room.state.messages.onAdd((message: any) => {
+          room.state.messages.onAdd((message) => {
+            // Old message
+            if (message.sentAt < Date.now() - 5000) {
+              return;
+            }
+
             if (message.sessionId && String(message.sessionId).length > 4) {
               cb({
                 type: "CHAT_MESSAGE_RECEIVED",
@@ -218,7 +224,6 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
               clothing: player.clothing,
             });
 
-            console.log("On player added");
             let clothingChangedAt = 0;
             player.onChange(() => {
               if (clothingChangedAt !== player.clothing.updatedAt) {
@@ -245,11 +250,6 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
         },
         onError: {
           target: "error",
-          actions: assign({
-            roomId: (_) => undefined as unknown as RoomId,
-          }),
-          // cond: (_, event) => !event.data.room,
-          // Fire off an event, and let the game render player anyway
         },
         onDone: {
           target: "ready",
@@ -269,9 +269,20 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
       on: {
         CHANGE_ROOM: {
           target: "joinRoom",
+          actions: assign({
+            previousRoomId: (context) => context.roomId,
+            roomId: (_, event) => event.roomId,
+          }),
         },
         ROOM_DISCONNECTED: {
           target: "error",
+          actions: assign({
+            rooms: (context) => {
+              const rooms = context.rooms;
+              delete rooms[context.roomId];
+              return rooms;
+            },
+          }),
         },
         SEND_CHAT_MESSAGE: {
           actions: (context, event) => {

@@ -42,21 +42,25 @@ export const InteractableModals: React.FC = () => {
 
   return (
     <>
-      <AuctioneerModal
-        isOpen={interactable === "auction_item"}
-        onClose={() => setInteractable(undefined)}
-        gameState={state}
-        onUpdate={(state) => {
-          console.log("Update hit!");
-          gameService.send("UPDATE", { state });
-        }}
-        onMint={(id) => {
-          console.log("Update hit!", gameState.value);
-          setInteractable(undefined);
-          gameService.send("MINT", { auctionId: id });
-        }}
-        deviceTrackerId={gameState.context.deviceTrackerId as string}
-      />
+      {/* TODO - make smoother opening */}
+      {interactable === "auction_item" && (
+        <AuctioneerModal
+          isOpen={interactable === "auction_item"}
+          onClose={() => setInteractable(undefined)}
+          gameState={state}
+          onUpdate={(state) => {
+            console.log("Update hit!");
+            gameService.send("UPDATE", { state });
+          }}
+          onMint={(id) => {
+            console.log("Update hit!", gameState.value);
+            setInteractable(undefined);
+            gameService.send("MINT", { auctionId: id });
+          }}
+          deviceTrackerId={gameState.context.deviceTrackerId as string}
+        />
+      )}
+
       {/* <Modal
         centered
         show={!!interactable}
