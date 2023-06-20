@@ -57,6 +57,10 @@ type ChangeClothingEvent = {
   clothing: BumpkinParts;
 };
 
+type RoomDisconnected = {
+  type: "ROOM_DISCONNECTED";
+  roomId: RoomId;
+};
 export type ChatMessageReceived = {
   type: "CHAT_MESSAGE_RECEIVED";
   roomId: RoomId;
@@ -93,8 +97,10 @@ export type RoomEvent =
   | PlayerQuit
   | ChangeClothingEvent
   | PlayerJoined
+  | RoomDisconnected
   | SendPositionEvent
-  | ClothingChangedEvent;
+  | ClothingChangedEvent
+  | { type: "RETRY" };
 
 export type MachineState = State<ChatContext, RoomEvent, RoomState>;
 
@@ -141,6 +147,9 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
           if (!CONFIG.ROOM_URL) {
             return { roomId: undefined };
           }
+
+          // Server connection is too fast
+          await new Promise((res) => setTimeout(res, 1000));
           const client = new Client(CONFIG.ROOM_URL);
 
           return { roomId: "plaza", client };
@@ -179,6 +188,14 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
               bumpkin: context.bumpkin,
             }
           );
+
+          room.onError((e) => {
+            console.log("Room OnError", JSON.stringify(e, null, 2));
+            cb({
+              type: "ROOM_DISCONNECTED",
+              roomId,
+            });
+          });
 
           room.state.messages.onAdd((message: any) => {
             if (message.sessionId && String(message.sessionId).length > 4) {
@@ -253,6 +270,9 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
         CHANGE_ROOM: {
           target: "joinRoom",
         },
+        ROOM_DISCONNECTED: {
+          target: "error",
+        },
         SEND_CHAT_MESSAGE: {
           actions: (context, event) => {
             const room = context.rooms[context.roomId];
@@ -287,6 +307,9 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
       on: {
         CHANGE_ROOM: {
           target: "joinRoom",
+        },
+        RETRY: {
+          target: "initialising",
         },
       },
     },

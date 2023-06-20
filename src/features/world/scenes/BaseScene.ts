@@ -31,6 +31,9 @@ export type NPCBumpkin = {
   npc: NPCName;
 };
 
+// 3 Times per second send position to server
+const SEND_PACKET_RATE = 3;
+
 export abstract class BaseScene extends Phaser.Scene {
   abstract roomId: RoomId;
   eventListener: (event: EventObject) => void;
@@ -111,7 +114,9 @@ export abstract class BaseScene extends Phaser.Scene {
   room: Room | undefined;
 
   currentPlayer: BumpkinContainer | undefined;
-  betty: BumpkinContainer | undefined;
+  serverPosition: { x: number; y: number } = { x: 0, y: 0 };
+  packetSentAt = 0;
+
   playerEntities: {
     [sessionId: string]: BumpkinContainer;
   } = {};
@@ -407,18 +412,25 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     const room = this.roomService.state.context.rooms[this.roomId];
-    const player = room?.state.players.get(room.sessionId);
 
-    // Only send position if the server has different coordinates
-    // to the client
     if (
-      player?.x !== this.currentPlayer.x ||
-      player?.y !== this.currentPlayer.y
+      // Hasn't sent to server recently
+      Date.now() - this.packetSentAt > 1000 / SEND_PACKET_RATE &&
+      // Position has changed
+      (this.serverPosition.x !== this.currentPlayer.x ||
+        this.serverPosition.y !== this.currentPlayer.y)
     ) {
-      this.roomService.send("SEND_POSITION", {
+      this.serverPosition = {
         x: this.currentPlayer.x,
         y: this.currentPlayer.y,
+      };
+      console.log({
+        sendPosition: this.serverPosition,
       });
+
+      this.packetSentAt = Date.now();
+
+      this.roomService.send("SEND_POSITION", this.serverPosition);
     }
 
     if (

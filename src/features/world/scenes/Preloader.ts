@@ -11,7 +11,6 @@ import woodlandsJSON from "assets/map/woodlands.json";
 import dawnBreakerJSON from "assets/map/dawn_breaker.json";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
-import { INITIAL_ROOM } from "../roomMachine";
 
 export abstract class Preloader extends Phaser.Scene {
   preload() {
@@ -51,7 +50,8 @@ export abstract class Preloader extends Phaser.Scene {
     this.load.bitmapFont("pixelmix", "world/7px.png", "world/7px.xml");
 
     this.load.once("complete", () => {
-      this.scene.start(INITIAL_ROOM);
+      console.log({ initial: this.registry.get("initialScene") });
+      this.scene.start(this.registry.get("initialScene"));
     });
   }
 }

@@ -11,6 +11,8 @@ import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong"
 import { Refreshing } from "features/auth/components/Refreshing";
 import { WorldHud } from "features/island/hud/WorldHud";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
+import { useParams } from "react-router-dom";
+import { RoomId } from "./roomMachine";
 
 const _gameState = (state: MachineState) => state.value;
 
@@ -38,9 +40,11 @@ export const Explore: React.FC = () => {
   const errored = useSelector(gameService, _isErrored);
   const refreshing = useSelector(gameService, _refreshing);
 
+  const { name } = useParams();
+
   return (
     <>
-      {!isLoading && <PhaserComponent />}
+      {!isLoading && <PhaserComponent scene={name as RoomId} />}
 
       <WorldHud />
       <AuctionCountdown />

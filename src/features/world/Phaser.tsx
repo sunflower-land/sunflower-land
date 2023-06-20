@@ -14,7 +14,12 @@ import { AuctionScene } from "./scenes/AuctionHouseScene";
 
 import { InteractableModals } from "./ui/InteractableModals";
 import { NPCModals } from "./ui/NPCModals";
-import { MachineInterpreter, MachineState, roomMachine } from "./roomMachine";
+import {
+  MachineInterpreter,
+  MachineState,
+  RoomId,
+  roomMachine,
+} from "./roomMachine";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
 import { InnerPanel, Panel } from "components/ui/Panel";
@@ -30,6 +35,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Preloader } from "./scenes/Preloader";
 import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
 import { DawnBreakerScene } from "./scenes/DawnBreakerScene";
+import { Label } from "components/ui/Label";
 
 const _roomState = (state: MachineState) => state.value;
 const _messages = (state: MachineState) => {
@@ -44,7 +50,10 @@ const _messages = (state: MachineState) => {
   return JSON.stringify(messages ?? []);
 };
 
-export const PhaserComponent: React.FC = () => {
+interface Props {
+  scene: RoomId;
+}
+export const PhaserComponent: React.FC<Props> = ({ scene }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
@@ -56,6 +65,7 @@ export const PhaserComponent: React.FC = () => {
       jwt: authState.context.user.rawToken,
       farmId: authState.context.user.farmId,
       bumpkin: gameState.context.state.bumpkin,
+      roomId: scene,
     },
   }) as unknown as MachineInterpreter;
 
@@ -124,6 +134,7 @@ export const PhaserComponent: React.FC = () => {
     });
 
     game.registry.set("roomService", roomService);
+    game.registry.set("initialScene", scene);
     gameService.onEvent((e) => {
       if (e.type === "bumpkin.equipped") {
         roomService.send("CHANGE_CLOTHING", {
@@ -159,11 +170,14 @@ export const PhaserComponent: React.FC = () => {
       </Modal>
 
       {roomState === "error" && (
-        <InnerPanel className="fixed bottom-2 left-2 flex items-center">
+        <InnerPanel
+          className="fixed bottom-2 left-2 flex items-center cursor-pointer"
+          onClick={() => roomService.send("RETRY")}
+        >
           <img src={SUNNYSIDE.icons.sad} className="h-6 mr-2" />
-          <div>
-            <p className="text-xs">Connection failed</p>
-            <p className="text-xxs underline cursor-pointer">Retry</p>
+          <div className="mb-0.5">
+            <Label type="danger">Connection failed</Label>
+            <p className="text-xxs underline cursor-pointer ml-0.5">Retry</p>
           </div>
         </InnerPanel>
       )}
