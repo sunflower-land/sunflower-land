@@ -43,6 +43,7 @@ interface IslandListProps {
   showVisitList: boolean;
   inventory: Inventory;
   travelAllowed: boolean;
+  hasBetaAccess?: boolean;
 }
 
 const IslandListItem: React.FC<IslandProps> = ({
@@ -146,6 +147,7 @@ export const IslandList: React.FC<IslandListProps> = ({
   bumpkin,
   showVisitList,
   travelAllowed,
+  hasBetaAccess = false,
 }) => {
   const { authService } = useContext(Auth.Context);
   const userType = useSelector(authService, userTypeSelector);
@@ -170,6 +172,17 @@ export const IslandList: React.FC<IslandListProps> = ({
       image: SUNNYSIDE.icons.helios,
       path: `/land/${farmId}/helios`,
     },
+    ...(hasBetaAccess
+      ? [
+          {
+            name: "Dawn Breaker (BETA)",
+            image: dawnBreakerBanner,
+            levelRequired: 2 as BumpkinLevel,
+            guestAccess: true,
+            path: `/world/dawn_breaker`,
+          },
+        ]
+      : []),
     {
       name: "Dawn Breaker",
       image: dawnBreakerBanner,

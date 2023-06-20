@@ -332,6 +332,12 @@ export abstract class BaseScene extends Phaser.Scene {
               this
             );
           }
+
+          const interactable = (obj2 as any).data?.list?.open;
+          if (interactable) {
+            console.log({ interactable });
+            interactableModalManager.open(interactable);
+          }
         }
       );
     }
@@ -424,9 +430,6 @@ export abstract class BaseScene extends Phaser.Scene {
         x: this.currentPlayer.x,
         y: this.currentPlayer.y,
       };
-      console.log({
-        sendPosition: this.serverPosition,
-      });
 
       this.packetSentAt = Date.now();
 

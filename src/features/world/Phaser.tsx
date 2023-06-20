@@ -142,6 +142,10 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
         });
       }
     });
+
+    return () => {
+      game.destroy(true);
+    };
   }, []);
 
   return (
@@ -156,7 +160,7 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
         messages={messages ?? []}
       />
       <NPCModals />
-      <InteractableModals />
+      <InteractableModals id={authState.context.user.farmId as number} />
       <Modal show={roomState === "initialising"} centered>
         <Panel>
           <p className="loading">Loading</p>

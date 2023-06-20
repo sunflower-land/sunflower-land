@@ -369,6 +369,8 @@ export const OFFLINE_FARM: GameState = {
     "Cabbage Girl": new Decimal(1),
     "Cabbage Boy": new Decimal(1),
 
+    "Beta Pass": new Decimal(1),
+
     Kitchen: new Decimal(1),
 
     "Iron Rock": new Decimal(3),
