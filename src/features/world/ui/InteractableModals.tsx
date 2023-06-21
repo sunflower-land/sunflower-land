@@ -6,13 +6,15 @@ import { AuctioneerModal } from "features/retreat/components/auctioneer/Auctione
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { Donations } from "./donations/Donations";
 
 type InteractableName =
   | "welcome_sign"
   | "plaza_statue"
   | "fan_art"
   | "auction_item"
-  | "boat_modal";
+  | "boat_modal"
+  | "homeless_man";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -80,6 +82,16 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
             <p className="mb-3">Would you like to return home?</p>
           </div>
           <Button onClick={() => navigate(`/land/${id}`)}>Go home</Button>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "homeless_man"}
+        onHide={() => setInteractable(undefined)}
+      >
+        <CloseButtonPanel onClose={() => setInteractable(undefined)}>
+          <Donations />
         </CloseButtonPanel>
       </Modal>
 
