@@ -446,7 +446,10 @@ export type LanternName =
   | "Radiance Lantern"
   | "Aurora Lantern"
   | "Ocean Lantern"
-  | "Solar Lantern";
+  | "Solar Lantern"
+  | "Goblin Lantern"
+  | "Betty Lantern"
+  | "Bumpkin Lantern";
 
 export type LanternIngredients = Partial<Record<InventoryItemName, Decimal>>;
 

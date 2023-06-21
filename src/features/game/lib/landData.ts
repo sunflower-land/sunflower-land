@@ -384,6 +384,11 @@ export const OFFLINE_FARM: GameState = {
     "Wild Mushroom": new Decimal(1),
     Eggplant: new Decimal(1),
 
+    "Betty Lantern": new Decimal(1),
+    "Bumpkin Lantern": new Decimal(1),
+    "Goblin Lantern": new Decimal(1),
+    "Eggplant Bear": new Decimal(1),
+
     "Bonnie's Tombstone": new Decimal(1),
     "Grubnash's Tombstone": new Decimal(1),
     "Crimson Cap": new Decimal(1),

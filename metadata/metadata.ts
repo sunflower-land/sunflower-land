@@ -3776,4 +3776,32 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/467.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
+  "Betty Lantern": {
+    description: "It looks so real! I wonder how they crafted this.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1273.png",
+    attributes: [],
+  },
+  "Goblin Lantern": {
+    description: "A scary looking lantern",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1276.png",
+    attributes: [],
+  },
+  "Bumpkin Lantern": {
+    description: "Moving closer you hear murmurs of a living Bumpkin...creepy!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1274.png",
+    attributes: [],
+  },
+  "Eggplant Bear": {
+    description: "The mark of a generous eggplant whale.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1275.png",
+    attributes: [],
+  },
 };

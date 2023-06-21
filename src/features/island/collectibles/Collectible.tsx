@@ -166,6 +166,10 @@ import lockIcon from "assets/skills/lock.png";
 import { SolarLantern } from "./components/SolarLantern";
 import { hasMoveRestriction } from "features/game/types/removeables";
 import { ScaryMike } from "./components/ScaryMike";
+import { BettyLantern } from "./components/BettyLantern";
+import { BumpkinLantern } from "./components/BumpkinLantern";
+import { EggplantBear } from "./components/EggplantBear";
+import { GoblinLantern } from "./components/GoblinLantern";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -374,6 +378,10 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Hoot: Hoot,
   "Genie Bear": GenieBear,
   "Sir Goldensnout": SirGoldenSnout,
+  "Betty Lantern": BettyLantern,
+  "Bumpkin Lantern": BumpkinLantern,
+  "Eggplant Bear": EggplantBear,
+  "Goblin Lantern": GoblinLantern,
 };
 
 // Need readonly versions for some troublesome components while in design mode

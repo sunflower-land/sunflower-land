@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { CropSeedName } from "../types/crops";
-import { InventoryItemName } from "../types/game";
+import { InventoryItemName, LanternName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
 import { marketRate } from "../lib/halvening";
@@ -176,13 +176,6 @@ export type LimitedItemName =
   | MutantChicken
   | WarTentItem;
 
-export type Lantern =
-  | "Luminous Lantern"
-  | "Radiance Lantern"
-  | "Ocean Lantern"
-  | "Aurora Lantern"
-  | "Solar Lantern";
-
 export type CollectibleName =
   | LegacyItem
   | BarnItem
@@ -200,7 +193,7 @@ export type CollectibleName =
   | SeasonPassName
   | BoostTreasure
   | WarBanner
-  | Lantern
+  | LanternName
   | "Observatory"
   | "War Skull"
   | "War Tombstone"
@@ -1155,6 +1148,9 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Radiance Lantern": { height: 2, width: 1 },
   "Ocean Lantern": { height: 2, width: 1 },
   "Solar Lantern": { height: 2, width: 1 },
+  "Goblin Lantern": { height: 2, width: 1 },
+  "Bumpkin Lantern": { height: 2, width: 1 },
+  "Betty Lantern": { height: 2, width: 1 },
 
   "Purple Trail": { width: 1, height: 1 },
   Obie: { width: 1, height: 1 },

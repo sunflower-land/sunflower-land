@@ -4,7 +4,6 @@ import {
   Animal,
   BarnItem,
   Food,
-  Lantern,
   LegacyItem,
   MOMEventItem,
   MarketItem,
@@ -19,6 +18,7 @@ import {
   EasterEgg,
   FertiliserName,
   InventoryItemName,
+  LanternName,
   Points,
   SpecialEvent,
 } from "./game";
@@ -567,14 +567,18 @@ const eventDecoration: Record<EventDecorationName, boolean> = {
   "Easter Bush": true,
   "Giant Carrot": true,
   "Genie Bear": false,
+  "Eggplant Bear": true,
 };
 
-const lanterns: Record<Lantern, boolean> = {
+const lanterns: Record<LanternName, boolean> = {
   "Luminous Lantern": false,
   "Radiance Lantern": false,
   "Aurora Lantern": false,
   "Ocean Lantern": false,
   "Solar Lantern": false,
+  "Betty Lantern": false,
+  "Bumpkin Lantern": false,
+  "Goblin Lantern": false,
 };
 
 const purchasables: Record<SeasonPassName, boolean> = {

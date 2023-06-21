@@ -53,6 +53,9 @@ import auroraLantern from "assets/sfts/aurora_lantern.webp";
 import radianceLantern from "assets/sfts/radiance_lantern.webp";
 import oceanLantern from "assets/sfts/ocean_lantern.png";
 import solarLantern from "assets/sfts/solar_lantern.png";
+import bumpkinLantern from "assets/sfts/bumpkin_Lantern.png";
+import bettyLantern from "assets/sfts/betty_lantern.png";
+import goblinLantern from "assets/sfts/goblin_lantern.png";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -323,6 +326,7 @@ import valentineBear from "src/assets/sfts/bears/love_bear.png";
 import easterBear from "src/assets/sfts/bears/easter_bear.png";
 import ironIdol from "src/assets/sfts/iron_idol.webp";
 import genieBear from "src/assets/sfts/bears/genie_bear.png";
+import eggplantBear from "src/assets/sfts/bears/eggplant_bear.png";
 
 import pineTree from "src/assets/decorations/pine_tree.png";
 import fieldMaple from "src/assets/decorations/field_maple.webp";
@@ -2216,5 +2220,21 @@ export const ITEM_DETAILS: Items = {
   "Genie Bear": {
     image: genieBear,
     description: "Exactly what I wished for!",
+  },
+  "Betty Lantern": {
+    image: bettyLantern,
+    description: "It looks so real! I wonder how they crafted this.",
+  },
+  "Bumpkin Lantern": {
+    image: bumpkinLantern,
+    description: "Moving closer you hear murmurs of a living Bumpkin...creepy!",
+  },
+  "Eggplant Bear": {
+    image: eggplantBear,
+    description: "The mark of a generous eggplant whale.",
+  },
+  "Goblin Lantern": {
+    image: goblinLantern,
+    description: "A scary looking lantern",
   },
 };
