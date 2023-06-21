@@ -1,8 +1,9 @@
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
-import { AbiItem } from "web3-utils";
+import { AbiItem, fromWei } from "web3-utils";
 import BuyBlockBucksAbi from "./abis/BuyBlockBucks.json";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
+import { analytics } from "lib/analytics";
 
 const address = CONFIG.BUY_BLOCK_BUCKS_CONTRACT;
 
@@ -56,6 +57,21 @@ export async function buyBlockBucksMATIC({
         }
       })
       .on("receipt", function (receipt: any) {
+        // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#purchase
+        analytics.logEvent("purchase", {
+          currency: "MATIC",
+          // Unique ID to prevent duplicate events
+          transaction_id: `${Date.now()}-${farmId}`,
+          value: Number(fromWei(fee.toString())),
+          items: [
+            {
+              item_id: "Block_Buck",
+              item_name: "Block Buck",
+              quantity: amount,
+            },
+          ],
+        });
+
         resolve(receipt);
       });
   });
