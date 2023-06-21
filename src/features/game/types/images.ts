@@ -53,7 +53,7 @@ import auroraLantern from "assets/sfts/aurora_lantern.webp";
 import radianceLantern from "assets/sfts/radiance_lantern.webp";
 import oceanLantern from "assets/sfts/ocean_lantern.png";
 import solarLantern from "assets/sfts/solar_lantern.png";
-import bumpkinLantern from "assets/sfts/bumpkin_Lantern.png";
+import bumpkinLantern from "assets/sfts/bumpkin_lantern.png";
 import bettyLantern from "assets/sfts/betty_lantern.png";
 import goblinLantern from "assets/sfts/goblin_lantern.png";
 

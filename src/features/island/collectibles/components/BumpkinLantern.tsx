@@ -1,6 +1,6 @@
 import React from "react";
 
-import bumpkinLantern from "src/assets/sfts/bumpkin_Lantern.png";
+import bumpkinLantern from "src/assets/sfts/lantern.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const BumpkinLantern: React.FC = () => {
