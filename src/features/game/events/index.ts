@@ -234,7 +234,8 @@ export type PlacementEvent =
   | MoveChickenAction
   | RemoveBuildingAction
   | RemoveCollectibleAction
-  | RemoveChickenAction;
+  | RemoveChickenAction
+  | MixPotionAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];

@@ -513,7 +513,12 @@ export type PotionName =
   | "Miracle Mix"
   | "Golden Syrup";
 
-export type PotionStatus = "incorrect" | "correct" | "almost" | "bomb";
+export type PotionStatus =
+  | "pending"
+  | "incorrect"
+  | "correct"
+  | "almost"
+  | "bomb";
 
 type PotionSlot = { potion: PotionName; status: PotionStatus };
 

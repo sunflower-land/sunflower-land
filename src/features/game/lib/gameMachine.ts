@@ -1425,7 +1425,26 @@ export function startGame(authContext: AuthContext) {
                 },
               },
             },
-            mixing: {},
+            mixing: {
+              invoke: {
+                src: async (context, e) => {
+                  const { event } = e as { event: any; type: "REVEAL" };
+
+                  await autosave({
+                    farmId: Number(authContext.user.farmId),
+                    sessionId: context.sessionId as string,
+                    actions: [...context.actions],
+                    token: authContext.user.rawToken as string,
+                    fingerprint: context.fingerprint as string,
+                    deviceTrackerId: context.deviceTrackerId as string,
+                    transactionId: context.transactionId as string,
+                  });
+                },
+                onDone: {
+                  target: "playing",
+                },
+              },
+            },
           },
           on: {
             CLOSE_POTION_HOUSE: {
