@@ -238,7 +238,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
       ...events,
       [eventName]: [
         {
-          target: "hoarding",
+          target: "#hoarding",
           cond: (context: Context, event: PlayingEvent) => {
             const { valid } = checkProgress({
               state: context.state as GameState,
@@ -1298,6 +1298,7 @@ export function startGame(authContext: AuthContext) {
           },
         },
         error: {
+          id: "error",
           on: {
             CONTINUE: "playing",
             REFRESH: {
@@ -1313,6 +1314,7 @@ export function startGame(authContext: AuthContext) {
           },
         },
         hoarding: {
+          id: "hoarding",
           on: {
             SYNC: {
               target: "syncing",
@@ -1411,15 +1413,11 @@ export function startGame(authContext: AuthContext) {
                 id: "potionHouse.playing",
                 src: potionHouseMachine,
                 data: {
-                  farmId: (context: Context) => context.state.id,
-                  jwt: () => authContext.user.rawToken,
-                  sessionId: (context: Context) => context.sessionId,
-                  fingerprint: (context: Context) => context.fingerprint,
-                  deviceTrackerId: (context: Context) =>
-                    context.deviceTrackerId,
+                  potionHouse: (context: Context) => context.state.potionHouse,
                 },
               },
               on: {
+                ...GAME_EVENT_HANDLERS,
                 MIX_POTION: {
                   target: "mixing",
                 },
@@ -1442,6 +1440,10 @@ export function startGame(authContext: AuthContext) {
                 },
                 onDone: {
                   target: "playing",
+                },
+                onError: {
+                  target: "#error",
+                  actions: "assignErrorMessage",
                 },
               },
             },

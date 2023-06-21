@@ -524,7 +524,7 @@ type PotionSlot = { potion: PotionName; status: PotionStatus };
 
 export type Attempt = [PotionSlot, PotionSlot, PotionSlot, PotionSlot];
 
-type PotionHouse = {
+export type PotionHouse = {
   game: {
     status: "in_progress" | "finished";
     attempts: Attempt[];

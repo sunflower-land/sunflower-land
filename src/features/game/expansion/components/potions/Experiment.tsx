@@ -13,13 +13,14 @@ import { Box } from "./Box";
 import { getEntries, getKeys } from "features/game/types/craftables";
 import shadow from "assets/npcs/shadow.png";
 import classNames from "classnames";
-import { Game, MachineInterpreter } from "./lib/potionHouseMachine";
+import { MachineInterpreter } from "./lib/potionHouseMachine";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import { InventoryItemName } from "features/game/types/game";
+import { initialiseGuessGrid } from "./lib/helpers";
 
 interface Props {
   machine: MachineInterpreter;
@@ -39,16 +40,11 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
   const isPlaying = useSelector(machine, _isPlaying);
   const isGameOver = useSelector(machine, _isGameOver);
 
-  console.log({ isGameOver });
+  const { selectedPotion, currentGuess, guessSpot, feedbackText, potionHouse } =
+    state.context;
 
-  const {
-    selectedPotion,
-    guesses,
-    currentGuess,
-    guessRow,
-    guessSpot,
-    feedbackText,
-  } = state.context.game as Game;
+  const guesses = initialiseGuessGrid(3);
+  const guessRow = 2 - (potionHouse?.game.attempts.length ?? 0);
 
   const onPotionButtonClick = () => {
     if (currentGuess[guessSpot]) {

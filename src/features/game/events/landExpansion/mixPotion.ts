@@ -22,7 +22,6 @@ export type MixPotionAction = {
 type Options = {
   state: Readonly<GameState>;
   action: MixPotionAction;
-  createdAt: number;
 };
 
 export const POTIONS: Record<
@@ -104,7 +103,8 @@ export function calculateScore(attempt: Attempt): number {
   return score;
 }
 
-export function mixPotion({ state, action, createdAt }: Options): GameState {
+export function mixPotion({ state, action }: Options): GameState {
+  console.log("MIX", action, state);
   const stateCopy = cloneDeep<GameState>(state);
 
   const potions = action.potions;

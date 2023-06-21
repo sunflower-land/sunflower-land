@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 
-import * as AuthProvider from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 
 import { IntroPage } from "./Intro";
@@ -14,18 +13,8 @@ import {
   MachineInterpreter,
   MachineState as PotionHouseState,
 } from "./lib/potionHouseMachine";
-import { AuthMachineState } from "features/auth/lib/authMachine";
-import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { Rules } from "./Rules";
 import classNames from "classnames";
-
-const _farmId = (state: AuthMachineState) => state.context.user.farmId;
-const _jwt = (state: AuthMachineState) => state.context.user.rawToken;
-
-const _sessionId = (state: GameMachineState) => state.context.sessionId;
-const _fingerprint = (state: GameMachineState) => state.context.fingerprint;
-const _deviceTrackerId = (state: GameMachineState) =>
-  state.context.deviceTrackerId;
 
 const _isIntro = (state: PotionHouseState) => state.matches("intro");
 const _isExperimenting = (state: PotionHouseState) =>
@@ -55,14 +44,7 @@ export const PotionHouse: React.FC = () => {
 };
 
 const PotionHousePlaying: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
-
-  const farmId = useSelector(authService, _farmId);
-  const jwt = useSelector(authService, _jwt);
-  const sessionId = useSelector(gameService, _sessionId);
-  const fingerprint = useSelector(gameService, _fingerprint);
-  const deviceTrackerId = useSelector(gameService, _deviceTrackerId);
 
   const potionHouseService = gameService.state.children[
     "potionHouse.playing"

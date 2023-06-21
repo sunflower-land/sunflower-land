@@ -1,6 +1,4 @@
-import shuffle from "lodash.shuffle";
-import { POTIONS } from "./potions";
-import { Combination, GuessFeedback, Turn } from "./types";
+import { GuessFeedback, Turn } from "./types";
 
 export function calculateScore(feedback?: GuessFeedback[]): number {
   if (!feedback) return 0;
@@ -30,26 +28,6 @@ export function calculateScore(feedback?: GuessFeedback[]): number {
 
   return score;
 }
-
-// TEMP FUNCTION
-export const generatePotionCombination = (): Combination => {
-  const VALID_POTIONS = POTIONS.filter(({ name }) => name !== "Golden Syrup");
-
-  const bomb =
-    VALID_POTIONS[Math.floor(Math.random() * VALID_POTIONS.length)].name;
-  const filteredPotions = VALID_POTIONS.filter(
-    (potion) => potion.name !== bomb
-  );
-
-  const code = shuffle(filteredPotions)
-    .slice(0, 4)
-    .map((potion) => potion.name);
-
-  return {
-    code,
-    bomb,
-  };
-};
 
 export function getFeedbackText(score: number): string {
   if (score >= 90) {

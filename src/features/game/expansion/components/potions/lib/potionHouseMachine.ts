@@ -1,31 +1,23 @@
 import { createMachine, assign, Interpreter, State, sendParent } from "xstate";
-import { Combination, GuessFeedback, Potion, PotionName, Turn } from "./types";
-import { generatePotionCombination, initialiseGuessGrid } from "./helpers";
+import { GuessFeedback, Potion, PotionName } from "./types";
 import { POTIONS } from "./potions";
 import {
   acknowledgePotionHouseIntro,
   getPotionHouseIntroRead,
 } from "./introStorage";
-
-export type Game = {
-  selectedPotion: Potion;
-  guesses: Turn[];
-  currentGuess: (PotionName | null)[];
-  guessRow: number;
-  guessSpot: number;
-  combination: Combination;
-  feedbackText: string;
-  score: number;
-};
+import { PotionHouse } from "features/game/types/game";
 
 interface PotionHouseContext {
-  farmId: number;
-  sessionId: string;
-  jwt: string;
-  fingerprint: string;
-  deviceTrackerId: string;
-  transactionId: string;
-  game?: Game;
+  potionHouse?: PotionHouse;
+  selectedPotion: Potion;
+  guessSpot: number;
+  currentGuess: [
+    PotionName | null,
+    PotionName | null,
+    PotionName | null,
+    PotionName | null
+  ];
+  feedbackText: string;
 }
 
 type PotionHouseEvent =
@@ -112,27 +104,15 @@ export const potionHouseMachine = createMachine<
       always: {
         target: "gameOver",
         cond: (context) => {
-          if (!context.game) return false;
-
-          if (context.game.score === 100) return true;
-
-          return context.game.guesses.every(
-            (turn) => !turn.guess.includes(null)
-          );
+          return context.potionHouse?.game.status === "finished";
         },
       },
       entry: assign(() => ({
-        game: {
-          selectedPotion: POTIONS[0],
-          guesses: initialiseGuessGrid(3),
-          currentGuess: [null, null, null, null],
-          guessRow: 2,
-          guessSpot: 0,
-          score: 0,
-          combination: generatePotionCombination(),
-          feedbackText:
-            "Select your potions and unveil the secrets of the plants!",
-        },
+        guessSpot: 0,
+        selectedPotion: POTIONS[0],
+        currentGuess: [null, null, null, null],
+        feedbackText:
+          "Select your potions and unveil the secrets of the plants!",
       })),
       on: {
         SHOW_RULES: {
@@ -140,25 +120,23 @@ export const potionHouseMachine = createMachine<
         },
         SELECT_POTION: {
           actions: assign({
-            game: (context, event) => {
-              console.log({ event });
-              return {
-                ...(context.game as Game),
-                selectedPotion: event.potion,
-              };
-            },
+            selectedPotion: (_, event) => event.potion,
           }),
         },
         SET_GUESS_SPOT: {
           actions: assign({
-            game: (context, event) => ({
-              ...(context.game as Game),
-              guessSpot: event.index,
-            }),
+            guessSpot: (_, event) => event.index,
           }),
         },
         CONFIRM_GUESS: {
-          actions: sendParent("MIX_POTION"),
+          actions: [
+            sendParent((context) => ({
+              type: "potion.mixed",
+              attemptNumber: 1,
+              potions: context.currentGuess,
+            })),
+            sendParent("MIX_POTION"),
+          ],
           // actions: assign((context) => {
           //   if (!context.game) return context;
 
@@ -196,41 +174,37 @@ export const potionHouseMachine = createMachine<
         },
         REMOVE_POTION: {
           actions: assign((context, event) => {
-            if (!context.game) return context;
+            const indexToRemove = event.index || context.guessSpot;
 
-            const { game } = context;
-
-            const indexToRemove = event.index || game.guessSpot;
-
-            const newGuess = [...game.currentGuess];
+            const newGuess: [
+              PotionName | null,
+              PotionName | null,
+              PotionName | null,
+              PotionName | null
+            ] = [...context.currentGuess];
             newGuess[indexToRemove] = null;
 
             return {
-              game: {
-                ...game,
-                currentGuess: newGuess,
-                guessSpot: indexToRemove,
-              },
+              currentGuess: newGuess,
+              guessSpot: indexToRemove,
             };
           }),
         },
         ADD_POTION: {
           actions: assign((context) => {
-            if (!context.game) return context;
-
-            const { game } = context;
-
-            const newGuess = [...game.currentGuess];
-            newGuess[game.guessSpot] = game.selectedPotion.name;
+            const newGuess: [
+              PotionName | null,
+              PotionName | null,
+              PotionName | null,
+              PotionName | null
+            ] = [...context.currentGuess];
+            newGuess[context.guessSpot] = context.selectedPotion.name;
 
             const guessSpot = newGuess.indexOf(null);
 
             return {
-              game: {
-                ...game,
-                currentGuess: newGuess,
-                guessSpot,
-              },
+              currentGuess: newGuess,
+              guessSpot,
             };
           }),
         },
