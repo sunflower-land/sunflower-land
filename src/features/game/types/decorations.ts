@@ -56,7 +56,8 @@ export type EventDecorationName =
   | "Easter Bush"
   | "Giant Carrot"
   | "Genie Bear"
-  | "Eggplant Bear";
+  | "Eggplant Bear"
+  | "Dawn Flower";
 
 export type DecorationName =
   | AchievementDecorationName
@@ -320,6 +321,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 1,
   },
   "Eggplant Bear": {
+    width: 1,
+    height: 1,
+  },
+  "Dawn Flower": {
     width: 1,
     height: 1,
   },

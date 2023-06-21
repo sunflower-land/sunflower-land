@@ -170,6 +170,7 @@ import { BettyLantern } from "./components/BettyLantern";
 import { BumpkinLantern } from "./components/BumpkinLantern";
 import { EggplantBear } from "./components/EggplantBear";
 import { GoblinLantern } from "./components/GoblinLantern";
+import { DawnFlower } from "./components/DawnFlower";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -382,6 +383,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Bumpkin Lantern": BumpkinLantern,
   "Eggplant Bear": EggplantBear,
   "Goblin Lantern": GoblinLantern,
+  "Dawn Flower": DawnFlower,
 };
 
 // Need readonly versions for some troublesome components while in design mode

@@ -327,6 +327,7 @@ import easterBear from "src/assets/sfts/bears/easter_bear.png";
 import ironIdol from "src/assets/sfts/iron_idol.webp";
 import genieBear from "src/assets/sfts/bears/genie_bear.png";
 import eggplantBear from "src/assets/sfts/bears/eggplant_bear.png";
+import dawnFlower from "src/assets/sfts/dawn_flower.png";
 
 import pineTree from "src/assets/decorations/pine_tree.png";
 import fieldMaple from "src/assets/decorations/field_maple.webp";
@@ -2236,5 +2237,10 @@ export const ITEM_DETAILS: Items = {
   "Goblin Lantern": {
     image: goblinLantern,
     description: "A scary looking lantern",
+  },
+  "Dawn Flower": {
+    image: dawnFlower,
+    description:
+      "Embrace the radiant beauty of the Dawn Flower as its delicate petals shimmer with the first light of day",
   },
 };

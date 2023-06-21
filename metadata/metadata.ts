@@ -3804,4 +3804,12 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1275.png",
     attributes: [],
   },
+  "Dawn Flower": {
+    description:
+      "Embrace the radiant beauty of the Dawn Flower as its delicate petals shimmer with the first light of day.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1277.png",
+    attributes: [],
+  },
 };

@@ -568,6 +568,7 @@ const eventDecoration: Record<EventDecorationName, boolean> = {
   "Giant Carrot": true,
   "Genie Bear": false,
   "Eggplant Bear": true,
+  "Dawn Flower": false,
 };
 
 const lanterns: Record<LanternName, boolean> = {
