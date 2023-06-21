@@ -14,7 +14,6 @@ import { CONFIG } from "lib/config";
 
 export abstract class Preloader extends Phaser.Scene {
   preload() {
-    console.log("PRELOAD INITIAL");
     this.load.tilemapTiledJSON("main-map", mapJson);
     this.load.tilemapTiledJSON("auction-map", auctionJson);
     this.load.tilemapTiledJSON("dawn-breaker", dawnBreakerJSON);
@@ -38,10 +37,7 @@ export abstract class Preloader extends Phaser.Scene {
     this.load.image("hammer", SUNNYSIDE.icons.hammer);
     this.load.image("disc", SUNNYSIDE.icons.disc);
     this.load.image("shadow", "world/shadow.png");
-    this.load.spritesheet("homeless_man", "world/homeless_man.png", {
-      frameWidth: 32,
-      frameHeight: 32,
-    });
+
     this.load.spritesheet("silhouette", "world/silhouette.webp", {
       frameWidth: 14,
       frameHeight: 18,
