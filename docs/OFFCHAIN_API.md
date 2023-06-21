@@ -20,7 +20,7 @@ POST https://api.sunflower-land.com/community/getFarms
 
 ### Request Body:
 
-A unique list of farmIds, no duplicates. You can query up to 500 farms per request.
+A unique list of farmIds, no duplicates. You can query up to 100 farms per request.
 
 ```json
 {
@@ -66,7 +66,7 @@ POST https://api.sunflower-land.com/community/getBumpkins
 
 ### Request Body:
 
-A unique list of bumpkinIds, no duplicates. You can query up to 500 bumpkins per request.
+A unique list of bumpkinIds, no duplicates. You can query up to 100 bumpkins per request.
 
 ```json
 {
