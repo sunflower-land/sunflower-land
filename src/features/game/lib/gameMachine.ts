@@ -77,6 +77,7 @@ import { Currency, buyBlockBucksMATIC } from "../actions/buyBlockBucks";
 import { getSessionId } from "lib/blockchain/Session";
 import { depositBumpkin } from "../actions/deposit";
 import { mintAuctionItem } from "../actions/mintAuctionItem";
+import { potionHouseMachine } from "../expansion/components/potions/lib/potionHouseMachine";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -225,6 +226,8 @@ export type BlockchainEvent =
   | { type: "SAVE_SUCCESS" }
   | { type: "UPGRADE" }
   | { type: "CLOSE" }
+  | { type: "OPEN_POTION_HOUSE" }
+  | { type: "CLOSE_POTION_HOUSE" }
   | { type: "RANDOMISE" }; // Test only
 
 // // For each game event, convert it to an XState event + handler
@@ -332,6 +335,8 @@ export type BlockchainState = {
     | "coolingDown"
     | "upgradingGuestGame"
     | "buyingBlockBucks"
+    | "potionHouse.playing"
+    | "potionHouse.guessing"
     | "randomising"; // TEST ONLY
   context: Context;
 };
@@ -850,6 +855,9 @@ export function startGame(authContext: AuthContext) {
             },
             LANDSCAPE: {
               target: "landscaping",
+            },
+            OPEN_POTION_HOUSE: {
+              target: "potionHouse",
             },
             RANDOMISE: {
               target: "randomising",
@@ -1391,6 +1399,30 @@ export function startGame(authContext: AuthContext) {
               actions: assign((context: Context, event: any) =>
                 handleSuccessfulSave(context, event)
               ),
+            },
+          },
+        },
+        potionHouse: {
+          initial: "playing",
+          states: {
+            playing: {
+              invoke: {
+                id: "potionHouse.playing",
+                src: potionHouseMachine,
+                data: {
+                  farmId: (context: Context) => context.state.id,
+                  jwt: () => authContext.user.rawToken,
+                  sessionId: (context: Context) => context.sessionId,
+                  fingerprint: (context: Context) => context.fingerprint,
+                  deviceTrackerId: (context: Context) =>
+                    context.deviceTrackerId,
+                },
+              },
+            },
+          },
+          on: {
+            CLOSE_POTION_HOUSE: {
+              target: "playing",
             },
           },
         },

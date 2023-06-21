@@ -53,6 +53,7 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
 
   const child = gameService.state.children.landscaping as MachineInterpreter;
 
+  console.log("LANDSCAPING", gameService.state.children);
   const balance = useSelector(
     gameService,
     (state) => state.context.state.balance,

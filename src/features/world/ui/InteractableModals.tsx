@@ -70,12 +70,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           deviceTrackerId={gameState.context.deviceTrackerId as string}
         />
       )}
-      {interactable === "potion_table" && (
-        <PotionHouse
-          showModal={interactable === "potion_table"}
-          onClose={() => setInteractable(undefined)}
-        />
-      )}
+      {interactable === "potion_table" && <PotionHouse />}
     </>
   );
 

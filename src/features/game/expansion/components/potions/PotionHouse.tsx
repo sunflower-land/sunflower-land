@@ -9,11 +9,10 @@ import { Modal } from "react-bootstrap";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelRoomBorderStyle } from "features/game/lib/style";
-import { useInterpret, useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import {
   MachineInterpreter,
   MachineState as PotionHouseState,
-  potionHouseMachine,
 } from "./lib/potionHouseMachine";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
@@ -36,10 +35,26 @@ const _isRules = (state: PotionHouseState) => state.matches("rules");
 const _isGameOver = (state: PotionHouseState) => state.matches("gameOVer");
 const _isRevealing = (state: PotionHouseState) => state.matches("revealing");
 
-export const PotionHouse: React.FC<{
-  showModal: boolean;
-  onClose: () => void;
-}> = ({ showModal, onClose }) => {
+export const PotionHouse: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  if (gameState.matches("potionHouse.playing")) {
+    return <PotionHousePlaying />;
+  }
+
+  if (gameState.matches("potionHouse.guessing")) {
+    return <>Guessing</>;
+  }
+
+  return (
+    <button onClick={() => gameService.send("OPEN_POTION_HOUSE")}>
+      POTION HOUSE
+    </button>
+  );
+};
+
+const PotionHousePlaying: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
 
@@ -49,21 +64,19 @@ export const PotionHouse: React.FC<{
   const fingerprint = useSelector(gameService, _fingerprint);
   const deviceTrackerId = useSelector(gameService, _deviceTrackerId);
 
-  const potionHouseService = useInterpret(potionHouseMachine, {
-    context: {
-      farmId,
-      jwt,
-      sessionId,
-      fingerprint,
-      deviceTrackerId,
-    },
-  }) as unknown as MachineInterpreter;
+  const potionHouseService = gameService.state.children[
+    "potionHouse.playing"
+  ] as MachineInterpreter;
 
   const isIntro = useSelector(potionHouseService, _isIntro);
   const isExperimenting = useSelector(potionHouseService, _isExperimenting);
   const isRules = useSelector(potionHouseService, _isRules);
 
   const showRulesButton = isExperimenting && !isRules;
+
+  const onClose = () => {
+    gameService.send("CLOSE_POTION_HOUSE");
+  };
 
   return (
     <>
