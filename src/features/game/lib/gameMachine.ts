@@ -228,6 +228,7 @@ export type BlockchainEvent =
   | { type: "CLOSE" }
   | { type: "OPEN_POTION_HOUSE" }
   | { type: "CLOSE_POTION_HOUSE" }
+  | { type: "MIX_POTION" }
   | { type: "RANDOMISE" }; // Test only
 
 // // For each game event, convert it to an XState event + handler
@@ -336,7 +337,7 @@ export type BlockchainState = {
     | "upgradingGuestGame"
     | "buyingBlockBucks"
     | "potionHouse.playing"
-    | "potionHouse.guessing"
+    | "potionHouse.mixing"
     | "randomising"; // TEST ONLY
   context: Context;
 };
@@ -1418,11 +1419,17 @@ export function startGame(authContext: AuthContext) {
                     context.deviceTrackerId,
                 },
               },
+              on: {
+                MIX_POTION: {
+                  target: "mixing",
+                },
+              },
             },
+            mixing: {},
           },
           on: {
             CLOSE_POTION_HOUSE: {
-              target: "playing",
+              target: ".playing",
             },
           },
         },

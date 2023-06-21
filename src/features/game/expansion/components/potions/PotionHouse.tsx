@@ -43,8 +43,8 @@ export const PotionHouse: React.FC = () => {
     return <PotionHousePlaying />;
   }
 
-  if (gameState.matches("potionHouse.guessing")) {
-    return <>Guessing</>;
+  if (gameState.matches("potionHouse.mixing")) {
+    return <>Mixing</>;
   }
 
   return (

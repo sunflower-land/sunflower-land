@@ -1,11 +1,6 @@
-import { createMachine, assign, Interpreter, State } from "xstate";
+import { createMachine, assign, Interpreter, State, sendParent } from "xstate";
 import { Combination, GuessFeedback, Potion, PotionName, Turn } from "./types";
-import {
-  calculateScore,
-  generatePotionCombination,
-  getFeedbackText,
-  initialiseGuessGrid,
-} from "./helpers";
+import { generatePotionCombination, initialiseGuessGrid } from "./helpers";
 import { POTIONS } from "./potions";
 import {
   acknowledgePotionHouseIntro,
@@ -163,40 +158,41 @@ export const potionHouseMachine = createMachine<
           }),
         },
         CONFIRM_GUESS: {
-          actions: assign((context) => {
-            if (!context.game) return context;
+          actions: sendParent("MIX_POTION"),
+          // actions: assign((context) => {
+          //   if (!context.game) return context;
 
-            const { game } = context;
+          //   const { game } = context;
 
-            const feedback = getTurnFeedback(game);
+          //   const feedback = getTurnFeedback(game);
 
-            const newTurn: Turn = {
-              guess: game.currentGuess,
-              feedback,
-            };
+          //   const newTurn: Turn = {
+          //     guess: game.currentGuess,
+          //     feedback,
+          //   };
 
-            const score = calculateScore(feedback);
+          //   const score = calculateScore(feedback);
 
-            const updatedGuesses = game.guesses.map((guess, index) =>
-              index === game.guessRow ? newTurn : guess
-            );
+          //   const updatedGuesses = game.guesses.map((guess, index) =>
+          //     index === game.guessRow ? newTurn : guess
+          //   );
 
-            const guessRow = game.guessRow - 1;
-            const feedbackText = getFeedbackText(score);
+          //   const guessRow = game.guessRow - 1;
+          //   const feedbackText = getFeedbackText(score);
 
-            return {
-              game: {
-                ...context.game,
-                guesses: updatedGuesses,
-                currentGuess: [null, null, null, null],
-                guessSpot: 0,
-                selectedPotion: POTIONS[0],
-                guessRow,
-                feedbackText,
-                score,
-              } as Game,
-            };
-          }),
+          //   return {
+          //     game: {
+          //       ...context.game,
+          //       guesses: updatedGuesses,
+          //       currentGuess: [null, null, null, null],
+          //       guessSpot: 0,
+          //       selectedPotion: POTIONS[0],
+          //       guessRow,
+          //       feedbackText,
+          //       score,
+          //     } as Game,
+          //   };
+          // }),
         },
         REMOVE_POTION: {
           actions: assign((context, event) => {
