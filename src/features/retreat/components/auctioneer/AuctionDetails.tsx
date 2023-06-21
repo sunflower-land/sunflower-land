@@ -77,6 +77,13 @@ export const AuctionDetails: React.FC<Props> = ({
     ) ?? false;
 
   const MintButton = () => {
+    if (
+      item.type === "collectible"
+        ? !!game.inventory[item.collectible]
+        : !!game.wardrobe[item.wearable]
+    ) {
+      return <Label type="info">Already minted</Label>;
+    }
     if (isUpcomingItem) {
       return null;
     }
