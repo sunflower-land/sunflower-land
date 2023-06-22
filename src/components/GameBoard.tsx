@@ -7,10 +7,7 @@ import { ZoomContext } from "./ZoomProvider";
 
 import ocean from "assets/decorations/ocean.webp";
 
-export const GameBoard: React.FC<{ isDawnBreaker: boolean }> = ({
-  isDawnBreaker,
-  children,
-}) => {
+export const GameBoard: React.FC = ({ children }) => {
   const { scale } = useContext(ZoomContext);
 
   return (

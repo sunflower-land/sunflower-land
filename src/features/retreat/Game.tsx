@@ -111,7 +111,7 @@ export const Game = () => {
         className="bg-blue-300 overflow-scroll relative w-full h-full overscroll-none"
         innerRef={container}
       >
-        <GameBoard isDawnBreaker={false}>
+        <GameBoard>
           {hasRequiredLevel && !goblinState.matches("loading") && (
             <div
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
