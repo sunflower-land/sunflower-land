@@ -5,6 +5,7 @@ import { HeliosBlacksmithItems } from "features/helios/components/blacksmith/com
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
+import { Sofia } from "./dawn/Sofia";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -44,14 +45,10 @@ export const NPCModals: React.FC = () => {
           <SpeakingModal
             onClose={() => setNpc(undefined)}
             bumpkinParts={NPC_WEARABLES["pumpkin'pete"]}
-            text={[
-              "Howdy Bumpkin",
-              `Welcome to the Plaza, I'm Pumpkin Pete.`,
-              "Here you can explore, trade & compete with other Bumpkins.",
-            ]}
-            npc="pumpkin'pete"
+            message={[]}
           />
         )}
+        {npc === "sofia" && <Sofia onClose={() => setNpc(undefined)} />}
         {npc === "stella" && (
           <CloseButtonPanel
             onClose={() => setNpc(undefined)}
@@ -99,8 +96,9 @@ export const NPCModals: React.FC = () => {
           <SpeakingModal
             onClose={() => setNpc(undefined)}
             bumpkinParts={NPC_WEARABLES["hammerin' harry"]}
-            text={["Gather round Bumpkins, an auction is about to begin."]}
-            npc="hammerin' harry"
+            message={[
+              { text: "Gather round Bumpkins, an auction is about to begin." },
+            ]}
           />
         )}
         {npc === "grimbly" && (

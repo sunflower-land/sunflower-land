@@ -124,6 +124,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Farmer Pitchfork",
     background: "Farm Background",
     shoes: "Black Farmer Boots",
+    onesie: "Eggplant Onesie",
   },
   // Welcomes to plaza - friendly + wholesome
   adam: {

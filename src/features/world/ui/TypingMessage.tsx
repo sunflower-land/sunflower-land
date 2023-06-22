@@ -3,7 +3,7 @@ import { animated, useTransition } from "react-spring";
 
 interface Props {
   message: string;
-  onMessageEnd: () => void;
+  onMessageEnd: (message: string) => void;
   trail?: number;
   forceShowFullMessage?: boolean;
 }
@@ -30,8 +30,9 @@ export const TypingMessage: React.FC<Props> = ({
     from: { display: "none" },
     enter: { display: "" },
     onRest: (status, controller, item) => {
+      console.log({ item });
       if (item.key === items.length - 1) {
-        onMessageEnd();
+        onMessageEnd(message);
       }
     },
   });

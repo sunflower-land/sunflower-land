@@ -157,6 +157,10 @@ import { skipChore, SkipChoreAction } from "./landExpansion/skipChore";
 import { deliverOrder, DeliverOrderAction } from "./landExpansion/deliver";
 import { equip, EquipBumpkinAction } from "./landExpansion/equip";
 import { refundBid, RefundBidAction } from "./landExpansion/refundBid";
+import {
+  tendDawnFlower,
+  TendDawnFlowerAction,
+} from "./landExpansion/tendDawnFlower";
 
 export type PlayingEvent =
   | TradeAction
@@ -207,7 +211,8 @@ export type PlayingEvent =
   | CraftLanternAction
   | DeliverOrderAction
   | EquipBumpkinAction
-  | RefundBidAction;
+  | RefundBidAction
+  | TendDawnFlowerAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -308,6 +313,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "order.delivered": deliverOrder,
   "bumpkin.equipped": equip,
   "bid.refunded": refundBid,
+  "dawnFlower.tended": tendDawnFlower,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
