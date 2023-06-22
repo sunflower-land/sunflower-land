@@ -1,7 +1,7 @@
 import { useActor } from "@xstate/react";
-import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
+import { DAWN_FLOWER_COOLDOWN } from "features/game/events/landExpansion/tendDawnFlower";
 import { NPC_WEARABLES } from "lib/npcs";
 import { secondsToString } from "lib/utils/time";
 import React, { useContext } from "react";
@@ -74,7 +74,7 @@ export const Sofia: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  const timeLeft = Date.now() - flower.tendedAt + 24 * 60 * 60 * 1000;
+  const timeLeft = flower.tendedAt + DAWN_FLOWER_COOLDOWN - Date.now();
   if (timeLeft > 0) {
     return (
       <SpeakingModal

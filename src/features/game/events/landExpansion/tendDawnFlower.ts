@@ -12,6 +12,8 @@ type Options = {
   createdAt?: number;
 };
 
+export const DAWN_FLOWER_COOLDOWN = 24 * 60 * 60 * 1000;
+
 export function tendDawnFlower({
   state,
   action,
@@ -38,7 +40,7 @@ export function tendDawnFlower({
     return game;
   }
 
-  if (game.dawnBreaker.dawnFlower.tendedAt > createdAt - 24 * 60 * 60 * 1000) {
+  if (game.dawnBreaker.dawnFlower.tendedAt > createdAt - DAWN_FLOWER_COOLDOWN) {
     throw new Error("Flower in cooldown");
   }
 
