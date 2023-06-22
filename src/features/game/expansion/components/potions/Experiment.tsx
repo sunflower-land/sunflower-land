@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useReducer } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelTableBorderStyle } from "features/game/lib/style";
 import tableTop from "assets/ui/table_top.webp";
@@ -13,17 +13,16 @@ import { Box } from "./Box";
 import { getEntries, getKeys } from "features/game/types/craftables";
 import shadow from "assets/npcs/shadow.png";
 import classNames from "classnames";
-import { MachineInterpreter } from "./lib/potionHouseMachine";
-import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
-import { InventoryItemName } from "features/game/types/game";
+import { InventoryItemName, PotionName } from "features/game/types/game";
 import { calculateScore } from "features/game/events/landExpansion/mixPotion";
+import { Potion } from "./lib/types";
 
 interface Props {
-  machine: MachineInterpreter;
+  onClose: () => void;
 }
 
 const _inventory = (state: GameMachineState) => state.context.state.inventory;
@@ -32,43 +31,138 @@ const _isPlaying = (state: GameMachineState) =>
 const _isGameOver = (state: GameMachineState) =>
   !state.matches("playing") && !state.matches("rules");
 
-export const Experiment: React.FC<Props> = ({ machine }) => {
+type Potions = [
+  PotionName | null,
+  PotionName | null,
+  PotionName | null,
+  PotionName | null
+];
+
+type PotionState = {
+  guessSpot: number;
+  selectedPotion: Potion;
+  currentGuess: Potions;
+  feedbackText: string;
+  isPrizeRevealed: boolean;
+  isNewGame: boolean;
+};
+
+type PotionAction =
+  | {
+      type: "UPDATE_GUESS_SPOT";
+      guessSpot: number;
+    }
+  | { type: "RESET_GAME" }
+  | { type: "REMOVE_GUESS"; guessSpot: number }
+  | { type: "ADD_GUESS"; guessSpot: number; potion: PotionName }
+  | { type: "REVEAL_PRIZE" }
+  | { type: "NEW_GAME" }
+  | { type: "UPDATE_POTION"; potion: PotionName };
+
+const resetGame = (isGameFinished: boolean): PotionState => ({
+  guessSpot: 0,
+  selectedPotion: Object.values(POTIONS)[0],
+  currentGuess: [null, null, null, null],
+  feedbackText: "Select your potions and unveil the secrets of the plants!",
+  isPrizeRevealed: isGameFinished,
+  isNewGame: false,
+});
+
+const gameHandler = (state: PotionState, action: PotionAction): PotionState => {
+  switch (action.type) {
+    case "UPDATE_GUESS_SPOT":
+      return {
+        ...state,
+        guessSpot: action.guessSpot,
+      };
+    case "REMOVE_GUESS": {
+      const newGuess: Potions = [...state.currentGuess];
+      newGuess[action.guessSpot] = null;
+      return {
+        ...state,
+        currentGuess: newGuess,
+      };
+    }
+    case "ADD_GUESS": {
+      const newGuess: Potions = [...state.currentGuess];
+      newGuess[action.guessSpot] = action.potion;
+      return {
+        ...state,
+        currentGuess: newGuess,
+        guessSpot: newGuess.indexOf(null),
+      };
+    }
+    case "REVEAL_PRIZE":
+      return {
+        ...state,
+        isPrizeRevealed: true,
+      };
+    case "NEW_GAME": {
+      return {
+        ...state,
+        isNewGame: true,
+      };
+    }
+    case "UPDATE_POTION":
+      return {
+        ...state,
+        selectedPotion: POTIONS[action.potion],
+      };
+    case "RESET_GAME":
+      return resetGame(false);
+  }
+};
+
+export const Experiment: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
-  const [state, send] = useActor(machine);
 
-  const inventory = useSelector(gameService, _inventory);
-  const isPlaying = useSelector(machine, _isPlaying);
-  const isGameOver = useSelector(machine, _isGameOver);
+  const potionHouse = gameService.state.context.state.potionHouse;
+  const inventory = gameService.state.context.state.inventory;
 
-  const { selectedPotion, currentGuess, guessSpot, feedbackText, potionHouse } =
-    state.context;
+  const isFinished = potionHouse?.game.status === "finished";
 
-  const [isPrizeRevealed, setPrizeRevealed] = useState(
-    potionHouse?.game.status === "finished"
+  const [potionState, dispatch] = useReducer(
+    gameHandler,
+    resetGame(isFinished)
   );
 
+  const {
+    isNewGame,
+    currentGuess,
+    feedbackText,
+    guessSpot,
+    isPrizeRevealed,
+    selectedPotion,
+  } = potionState;
+
+  const isEndScreen = isFinished && !isNewGame;
+
   const previousAttempts = potionHouse?.game.attempts ?? [];
+  const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
+
   const emptyAttempt = new Array(4).fill({
     potion: null,
     feedback: undefined,
   });
-  const attempts = previousAttempts
-    .concat(new Array(3).fill(emptyAttempt))
-    .slice(0, 3)
-    .reverse();
+  const attempts = isNewGame
+    ? new Array(3).fill(emptyAttempt)
+    : previousAttempts.concat(new Array(3).fill(emptyAttempt)).slice(0, 3);
 
-  const guessRow = 2 - (potionHouse?.game.attempts.length ?? 0);
-
-  const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
-  const score = calculateScore(lastAttempt);
+  const guessRow = isNewGame ? 0 : potionHouse?.game.attempts.length ?? 0;
+  const score = isNewGame ? 0 : calculateScore(lastAttempt);
 
   const onPotionButtonClick = () => {
+    // REMOVE
     if (currentGuess[guessSpot]) {
-      send("REMOVE_POTION", { index: guessSpot });
+      dispatch({ type: "REMOVE_GUESS", guessSpot: guessSpot });
       return;
     }
 
-    send("ADD_POTION");
+    dispatch({
+      type: "ADD_GUESS",
+      guessSpot: guessSpot,
+      potion: selectedPotion.name,
+    });
   };
 
   const hasRequirementsForPotion = () => {
@@ -82,9 +176,24 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
     });
   };
 
+  const onSubmit = () => {
+    dispatch({ type: "RESET_GAME" });
+
+    gameService.send("potion.mixed", {
+      attemptNumber: guessRow + 1,
+      potions: currentGuess,
+    });
+    gameService.send("SAVE");
+  };
+
   return (
     <>
-      {isPrizeRevealed && (
+      {isEndScreen && !isPrizeRevealed && (
+        <Button onClick={() => dispatch({ type: "REVEAL_PRIZE" })}>
+          Reveal Prize
+        </Button>
+      )}
+      {isEndScreen && isPrizeRevealed && (
         <div>
           {potionHouse?.game.reward
             ? `Congratulations! You won a ${[potionHouse?.game.reward]}!`
@@ -93,7 +202,7 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
       )}
       <div
         className={classNames("transition-all ease-in duration-300", {
-          "translate-y-28": !isPlaying,
+          "translate-y-28": isEndScreen,
         })}
       >
         <div className="flex w-full">
@@ -135,43 +244,45 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
                         }}
                       />
                     </div>
-                    {attempts.map((attempt, rowIndex) => (
-                      <div className="flex items-center mb-2" key={rowIndex}>
-                        {attempt.map(({ potion, status }, columnIndex) => {
-                          if (rowIndex === guessRow) {
-                            return (
-                              <div
-                                className="relative"
-                                key={`select-${columnIndex}`}
-                                onClick={() =>
-                                  send({
-                                    type: "SET_GUESS_SPOT",
-                                    index: columnIndex,
-                                  })
-                                }
-                              >
-                                <Box
-                                  potionName={currentGuess[columnIndex]}
-                                  selected={guessSpot === columnIndex}
-                                />
-                              </div>
-                            );
-                          }
+                    {attempts
+                      .map((attempt, rowIndex) => (
+                        <div className="flex items-center mb-2" key={rowIndex}>
+                          {attempt.map(({ potion, status }, columnIndex) => {
+                            if (rowIndex === guessRow) {
+                              return (
+                                <div
+                                  className="relative"
+                                  key={`select-${columnIndex}`}
+                                  onClick={() =>
+                                    dispatch({
+                                      type: "UPDATE_GUESS_SPOT",
+                                      guessSpot: columnIndex,
+                                    })
+                                  }
+                                >
+                                  <Box
+                                    potionName={currentGuess[columnIndex]}
+                                    selected={guessSpot === columnIndex}
+                                  />
+                                </div>
+                              );
+                            }
 
-                          return (
-                            <Box
-                              key={`${rowIndex}-${columnIndex}`}
-                              potionName={potion}
-                              potionStatus={status}
-                            />
-                          );
-                        })}
-                      </div>
-                    ))}
+                            return (
+                              <Box
+                                key={`${rowIndex}-${columnIndex}`}
+                                potionName={potion}
+                                potionStatus={status}
+                              />
+                            );
+                          })}
+                        </div>
+                      ))
+                      .reverse()}
                     <Button
                       className="mt-2"
                       disabled={currentGuess.some((potion) => potion === null)}
-                      onClick={() => send("CONFIRM_GUESS")}
+                      onClick={() => onSubmit()}
                     >
                       Mix potion
                     </Button>
@@ -213,7 +324,7 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
           className={classNames(
             "flex flex-col justify-end grow transition-all scale-y-1 origin-bottom ease-in duration-300",
             {
-              "scale-y-0": !isPlaying,
+              "scale-y-0": isEndScreen,
             }
           )}
         >
@@ -262,7 +373,9 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
                 className={classNames("relative cursor-pointer", {
                   "img-highlight": potion.name === selectedPotion?.name,
                 })}
-                onClick={() => send({ type: "SELECT_POTION", potion })}
+                onClick={() =>
+                  dispatch({ type: "UPDATE_POTION", potion: potion.name })
+                }
               >
                 <img src={shadow} alt="" className="absolute -bottom-1 w-8" />
                 <img src={potion.image} alt="" className="w-8 relative" />
@@ -270,6 +383,11 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
             ))}
           </div>
         </div>
+        {isEndScreen && (
+          <Button onClick={() => dispatch({ type: "NEW_GAME" })}>
+            Play again
+          </Button>
+        )}
       </div>
     </>
   );
