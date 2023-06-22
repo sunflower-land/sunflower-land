@@ -468,6 +468,11 @@ export type DawnBreaker = {
   lanternsCraftedByWeek: LanternsCraftedByWeek;
   riddle?: Riddle & { id: string };
   answeredRiddleIds: string[];
+  dawnFlower?: {
+    tendedAt: number;
+    plantedAt: number;
+    tendedCount: number;
+  };
 };
 
 export type Order = {
