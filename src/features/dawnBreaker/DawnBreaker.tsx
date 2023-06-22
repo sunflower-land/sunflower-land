@@ -33,6 +33,7 @@ import { LeaderboardButton } from "./components/LeaderboardButton";
 import { Leaderboards } from "./components/Leaderboards";
 import { fetchLeaderboardData } from "./actions/leaderboards";
 import { LeaderboardsType } from "./actions/cache";
+import { DawnCountdown } from "./components/DawnCountdown";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _dawnBreaker = (state: MachineState) =>
@@ -250,6 +251,8 @@ export const DawnBreaker: React.FC = () => {
           />
         )}
       </Modal>
+
+      <DawnCountdown />
     </>
   );
 };
