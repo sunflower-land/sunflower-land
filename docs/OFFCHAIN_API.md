@@ -6,7 +6,7 @@ This information is relevant for developers who are looking to build custom tool
 
 ### Rate-Limits
 
-There are some rate-limits imposed while querying this API. For best results, query these batch APIs at a 15 second interval. Querying at higher intervals will amost certainly result in failure response: `HTTP 429 Too Many Requests`.
+There are some rate-limits imposed while querying this API. For best results, query these batch APIs at a 15 second interval. Querying at higher intervals will almost certainly result in failure response: `HTTP 429 Too Many Requests`.
 
 ## Batch Farm Data
 
