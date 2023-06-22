@@ -2,7 +2,7 @@ import { Context, GameProvider } from "features/game/GameProvider";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import React, { useContext } from "react";
 import { PhaserComponent } from "./Phaser";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
@@ -31,20 +31,29 @@ const _isMinting = (state: MachineState) => state.matches("minting");
 const _isSynced = (state: MachineState) => state.matches("synced");
 const _isErrored = (state: MachineState) => state.matches("error");
 const _refreshing = (state: MachineState) => state.matches("refreshing");
+const _hasAccess = (state: MachineState) =>
+  !!state.context.state.inventory["Beta Pass"];
 
 export const Explore: React.FC = () => {
   const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const isLoading = useSelector(gameService, _isLoading);
   const isMinting = useSelector(gameService, _isMinting);
   const synced = useSelector(gameService, _isSynced);
   const errored = useSelector(gameService, _isErrored);
   const refreshing = useSelector(gameService, _refreshing);
-
+  const hasPass = useSelector(gameService, _hasAccess);
   const { name } = useParams();
+
+  const hasAccess = name === "plaza" || hasPass;
 
   return (
     <>
-      {!isLoading && <PhaserComponent scene={name as RoomId} />}
+      {!isLoading && hasAccess && <PhaserComponent scene={name as RoomId} />}
+
+      <Modal show={!hasAccess} centered>
+        <Panel>Coming soon...</Panel>
+      </Modal>
 
       <WorldHud />
       <AuctionCountdown />
