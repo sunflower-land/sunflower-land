@@ -6,6 +6,7 @@ import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Sofia } from "./dawn/Sofia";
+import { Bella } from "./dawn/Bella";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -49,6 +50,7 @@ export const NPCModals: React.FC = () => {
           />
         )}
         {npc === "sofia" && <Sofia onClose={() => setNpc(undefined)} />}
+        {npc === "bella" && <Bella onClose={() => setNpc(undefined)} />}
         {npc === "stella" && (
           <CloseButtonPanel
             onClose={() => setNpc(undefined)}
@@ -99,6 +101,13 @@ export const NPCModals: React.FC = () => {
             message={[
               { text: "Gather round Bumpkins, an auction is about to begin." },
             ]}
+          />
+        )}
+        {npc === "marcus" && (
+          <SpeakingModal
+            onClose={() => setNpc(undefined)}
+            bumpkinParts={NPC_WEARABLES["marcus"]}
+            message={[{ text: "Hey! You are not allowed to go in my house." }]}
           />
         )}
         {npc === "grimbly" && (

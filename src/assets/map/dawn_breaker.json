@@ -2774,24 +2774,6 @@
           "y": 110.665137614679
         },
         {
-          "height": 5.282493336855,
-          "id": 101,
-          "name": "",
-          "properties": [
-            {
-              "name": "warp",
-              "type": "string",
-              "value": "eggplant_house"
-            }
-          ],
-          "rotation": 0,
-          "type": "",
-          "visible": true,
-          "width": 15.9675366773117,
-          "x": 479.986553653324,
-          "y": 284.774413523183
-        },
-        {
           "height": 16.0560278916141,
           "id": 102,
           "name": "",

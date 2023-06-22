@@ -13,6 +13,8 @@ import { WorldHud } from "features/island/hud/WorldHud";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 import { useParams } from "react-router-dom";
 import { RoomId } from "./roomMachine";
+import { ToastProvider } from "features/game/toast/ToastProvider";
+import { ToastPanel } from "features/game/toast/ToastPanel";
 
 const _gameState = (state: MachineState) => state.value;
 
@@ -49,44 +51,46 @@ export const Explore: React.FC = () => {
 
   return (
     <>
-      {!isLoading && hasAccess && <PhaserComponent scene={name as RoomId} />}
-
       <Modal show={!hasAccess} centered>
         <Panel>Coming soon...</Panel>
       </Modal>
+      <ToastProvider>
+        <ToastPanel />
+        {!isLoading && hasAccess && <PhaserComponent scene={name as RoomId} />}
 
-      <WorldHud />
-      <AuctionCountdown />
+        <WorldHud />
+        <AuctionCountdown />
 
-      <Modal show={isLoading} centered>
-        <Panel>
-          <p className="loading">Loading</p>
-        </Panel>
-      </Modal>
+        <Modal show={isLoading} centered>
+          <Panel>
+            <p className="loading">Loading</p>
+          </Panel>
+        </Modal>
 
-      <Modal show={isMinting} centered>
-        <Panel>
-          <p className="loading">Minting</p>
-        </Panel>
-      </Modal>
+        <Modal show={isMinting} centered>
+          <Panel>
+            <p className="loading">Minting</p>
+          </Panel>
+        </Modal>
 
-      <Modal show={synced} centered>
-        <Panel>
-          <Success />
-        </Panel>
-      </Modal>
+        <Modal show={synced} centered>
+          <Panel>
+            <Success />
+          </Panel>
+        </Modal>
 
-      <Modal show={errored} centered>
-        <Panel>
-          <SomethingWentWrong />
-        </Panel>
-      </Modal>
+        <Modal show={errored} centered>
+          <Panel>
+            <SomethingWentWrong />
+          </Panel>
+        </Modal>
 
-      <Modal show={refreshing} centered>
-        <Panel>
-          <Refreshing />
-        </Panel>
-      </Modal>
+        <Modal show={refreshing} centered>
+          <Panel>
+            <Refreshing />
+          </Panel>
+        </Modal>
+      </ToastProvider>
     </>
   );
 };

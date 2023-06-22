@@ -13,6 +13,9 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Deposit } from "features/goblins/bank/components/Deposit";
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
 import { createPortal } from "react-dom";
+import { Save } from "./components/Save";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Settings } from "./components/Settings";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -83,6 +86,19 @@ const HudComponent: React.FC = () => {
           />
 
           <BumpkinProfile isFullUser={isFullUser} />
+
+          <div
+            className="fixed z-50 flex flex-col justify-between"
+            style={{
+              right: `${PIXEL_SCALE * 3}px`,
+              bottom: `${PIXEL_SCALE * 3}px`,
+              width: `${PIXEL_SCALE * 22}px`,
+              height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
+            }}
+          >
+            <Save />
+            <Settings isFarming={false} />
+          </div>
 
           {farmAddress && (
             <Modal show={showDepositModal} centered>

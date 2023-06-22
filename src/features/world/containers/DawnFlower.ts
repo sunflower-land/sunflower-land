@@ -28,6 +28,7 @@ const FLOWER_STAGE: Record<number, string> = {
 };
 export class DawnFlower extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
+  public bar: Phaser.GameObjects.Sprite | undefined;
 
   constructor(
     scene: Phaser.Scene,
@@ -62,11 +63,12 @@ export class DawnFlower extends Phaser.GameObjects.Container {
       .setOrigin(0.5);
     this.add(idle);
 
+    this.bar?.destroy();
     if (stage <= 9) {
-      const bar = this.scene.add
+      this.bar = this.scene.add
         .sprite(0, 12, PROGRESS_STAGES[stage] ?? "progress_0")
         .setOrigin(0.5);
-      this.add(bar);
+      this.add(this.bar);
     }
   }
 }
