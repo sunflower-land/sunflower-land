@@ -13,6 +13,8 @@ import { WorldHud } from "features/island/hud/WorldHud";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 import { useParams } from "react-router-dom";
 import { RoomId } from "./roomMachine";
+import { ToastProvider } from "features/game/toast/ToastProvider";
+import { ToastPanel } from "features/game/toast/ToastPanel";
 
 const _gameState = (state: MachineState) => state.value;
 
@@ -43,7 +45,8 @@ export const Explore: React.FC = () => {
   const { name } = useParams();
 
   return (
-    <>
+    <ToastProvider>
+      <ToastPanel />
       {!isLoading && <PhaserComponent scene={name as RoomId} />}
 
       <WorldHud />
@@ -78,6 +81,6 @@ export const Explore: React.FC = () => {
           <Refreshing />
         </Panel>
       </Modal>
-    </>
+    </ToastProvider>
   );
 };

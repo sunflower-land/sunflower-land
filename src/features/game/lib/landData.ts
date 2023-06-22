@@ -285,6 +285,16 @@ export const OFFLINE_FARM: GameState = {
         },
       },
     },
+    dawnFlower: {
+      plantedAt: 0,
+      tendedAt: 0,
+      tendedCount: 9,
+    },
+    party: {
+      requirements: {
+        Wood: 50,
+      },
+    },
   },
   balance: new Decimal(100),
   wardrobe: {

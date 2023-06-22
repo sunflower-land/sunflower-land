@@ -53,8 +53,8 @@ export const SPAWNS: SpawnLocation = {
     default: {
       // x: 241,
       // y: 423,
-      x: 225,
-      y: 150,
+      x: 370,
+      y: 370,
     },
   },
   auction_house: {

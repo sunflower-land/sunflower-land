@@ -161,6 +161,10 @@ import {
   tendDawnFlower,
   TendDawnFlowerAction,
 } from "./landExpansion/tendDawnFlower";
+import {
+  prepareParty,
+  PreparePartyAction,
+} from "./landExpansion/prepareDawnParty";
 
 export type PlayingEvent =
   | TradeAction
@@ -212,7 +216,8 @@ export type PlayingEvent =
   | DeliverOrderAction
   | EquipBumpkinAction
   | RefundBidAction
-  | TendDawnFlowerAction;
+  | TendDawnFlowerAction
+  | PreparePartyAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -314,6 +319,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "bumpkin.equipped": equip,
   "bid.refunded": refundBid,
   "dawnFlower.tended": tendDawnFlower,
+  "dawnParty.prepared": prepareParty,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
