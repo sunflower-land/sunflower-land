@@ -12,7 +12,7 @@ type Options = {
   createdAt?: number;
 };
 
-export const DAWN_FLOWER_COOLDOWN = 1;
+export const DAWN_FLOWER_COOLDOWN = 24 * 60 * 60 * 1000;
 
 export function tendDawnFlower({
   state,
