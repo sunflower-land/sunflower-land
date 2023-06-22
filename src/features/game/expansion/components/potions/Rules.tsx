@@ -68,7 +68,7 @@ export const Rules: React.FC<Props> = ({ onDone }) => {
           </div>
           <div className="flex items-center space-x-1">
             <img
-              src={FeedbackIcons["bombed"]}
+              src={FeedbackIcons["bomb"]}
               style={{
                 width: `${PIXEL_SCALE * 7}px`,
                 height: `${PIXEL_SCALE * 8}px`,

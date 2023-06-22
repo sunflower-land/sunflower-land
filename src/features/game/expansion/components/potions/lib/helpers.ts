@@ -1,34 +1,3 @@
-import { GuessFeedback, Turn } from "./types";
-
-export function calculateScore(feedback?: GuessFeedback[]): number {
-  if (!feedback) return 0;
-
-  const scoreMap: Record<GuessFeedback, number> = {
-    correct: 25,
-    almost: 15,
-    incorrect: -10,
-    bombed: 0,
-  };
-
-  let score = 0;
-
-  if (feedback.some((type) => type === "bombed")) return scoreMap.bombed;
-
-  const correctCount = feedback.filter((type) => type === "correct").length;
-  score = correctCount * scoreMap.correct;
-
-  const almostCount = feedback.filter((type) => type === "almost").length;
-  score += almostCount * scoreMap.almost;
-
-  const incorrectCount = feedback.filter((type) => type === "incorrect").length;
-  score += incorrectCount * scoreMap.incorrect;
-
-  // Ensure the score is within the range of 0 to 100
-  score = Math.max(0, Math.min(100, score));
-
-  return score;
-}
-
 export function getFeedbackText(score: number): string {
   if (score >= 90) {
     const feedbackOptions = [
@@ -73,13 +42,3 @@ export function getFeedbackText(score: number): string {
   ];
   return feedbackOptions[Math.floor(Math.random() * feedbackOptions.length)];
 }
-
-export const initialiseGuessGrid = (rows: number) => {
-  const guessGrid: Turn[] = [];
-
-  for (let i = 0; i < rows; i++) {
-    guessGrid.push({ guess: [null, null, null, null] });
-  }
-
-  return guessGrid;
-};

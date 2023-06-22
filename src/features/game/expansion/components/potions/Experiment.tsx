@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelTableBorderStyle } from "features/game/lib/style";
 import tableTop from "assets/ui/table_top.webp";
@@ -20,7 +20,7 @@ import { MachineState as GameMachineState } from "features/game/lib/gameMachine"
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import { InventoryItemName } from "features/game/types/game";
-import { initialiseGuessGrid } from "./lib/helpers";
+import { calculateScore } from "features/game/events/landExpansion/mixPotion";
 
 interface Props {
   machine: MachineInterpreter;
@@ -43,8 +43,24 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
   const { selectedPotion, currentGuess, guessSpot, feedbackText, potionHouse } =
     state.context;
 
-  const guesses = initialiseGuessGrid(3);
+  const [isPrizeRevealed, setPrizeRevealed] = useState(
+    potionHouse?.game.status === "finished"
+  );
+
+  const previousAttempts = potionHouse?.game.attempts ?? [];
+  const emptyAttempt = new Array(4).fill({
+    potion: null,
+    feedback: undefined,
+  });
+  const attempts = previousAttempts
+    .concat(new Array(3).fill(emptyAttempt))
+    .slice(0, 3)
+    .reverse();
+
   const guessRow = 2 - (potionHouse?.game.attempts.length ?? 0);
+
+  const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
+  const score = calculateScore(lastAttempt);
 
   const onPotionButtonClick = () => {
     if (currentGuess[guessSpot]) {
@@ -66,10 +82,15 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
     });
   };
 
-  console.log({ isPlaying });
-
   return (
     <>
+      {isPrizeRevealed && (
+        <div>
+          {potionHouse?.game.reward
+            ? `Congratulations! You won a ${[potionHouse?.game.reward]}!`
+            : "Whoops! better luck next time!"}
+        </div>
+      )}
       <div
         className={classNames("transition-all ease-in duration-300", {
           "translate-y-28": !isPlaying,
@@ -106,7 +127,7 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
                       />
                       {/* <Prog */}
                       <ResizableBar
-                        percentage={80}
+                        percentage={score}
                         type="health"
                         outerDimensions={{
                           width: 28,
@@ -114,9 +135,9 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
                         }}
                       />
                     </div>
-                    {guesses.map(({ guess, feedback }, rowIndex) => (
+                    {attempts.map((attempt, rowIndex) => (
                       <div className="flex items-center mb-2" key={rowIndex}>
-                        {guess.map((potionName, columnIndex) => {
+                        {attempt.map(({ potion, status }, columnIndex) => {
                           if (rowIndex === guessRow) {
                             return (
                               <div
@@ -140,8 +161,8 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
                           return (
                             <Box
                               key={`${rowIndex}-${columnIndex}`}
-                              potionName={potionName}
-                              feedback={feedback?.[columnIndex]}
+                              potionName={potion}
+                              potionStatus={status}
                             />
                           );
                         })}
@@ -235,7 +256,7 @@ export const Experiment: React.FC<Props> = ({ machine }) => {
             </Button>
           </InnerPanel>
           <div className="flex flex-wrap justify-center gap-2 mt-3 mb-2">
-            {POTIONS.map((potion) => (
+            {Object.values(POTIONS).map((potion) => (
               <div
                 key={potion.name}
                 className={classNames("relative cursor-pointer", {

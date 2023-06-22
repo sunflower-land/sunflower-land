@@ -1,8 +1,10 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
-import { InventoryItemName } from "features/game/types/game";
-
-export type GuessFeedback = "correct" | "almost" | "incorrect" | "bombed";
+import {
+  InventoryItemName,
+  PotionName,
+  PotionStatus,
+} from "features/game/types/game";
 
 export type Potion = {
   name: PotionName;
@@ -11,31 +13,10 @@ export type Potion = {
   image: string;
 };
 
-export type PotionName =
-  | "Bloom Boost"
-  | "Happy Hooch"
-  | "Earth Essence"
-  | "Flower Power"
-  | "Organic Oasis"
-  | "Dream Drip"
-  | "Ember Elixir"
-  | "Whisper Brew"
-  | "Miracle Mix"
-  | "Golden Syrup";
-
-export type Combination = {
-  code: PotionName[];
-  bomb: PotionName;
-};
-
-export type Turn = {
-  guess: (PotionName | null)[];
-  feedback?: GuessFeedback[];
-};
-
-export const FeedbackIcons: Record<GuessFeedback, string> = {
+export const FeedbackIcons: Record<PotionStatus, string> = {
+  pending: SUNNYSIDE.icons.neutral,
   correct: SUNNYSIDE.icons.happy,
   almost: SUNNYSIDE.icons.neutral,
   incorrect: SUNNYSIDE.icons.sad,
-  bombed: SUNNYSIDE.icons.angry,
+  bomb: SUNNYSIDE.icons.angry,
 };

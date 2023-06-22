@@ -1,6 +1,7 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { POTIONS, mixPotion } from "./mixPotion";
+import { mixPotion } from "./mixPotion";
 import Decimal from "decimal.js-light";
+import { POTIONS } from "features/game/expansion/components/potions/lib/potions";
 
 describe("mixPotion", () => {
   const now = Date.now();
@@ -23,7 +24,6 @@ describe("mixPotion", () => {
   it("starts the first game", () => {
     const newState = mixPotion({
       state: GAME_STATE,
-      createdAt: now,
       action: {
         type: "potion.mixed",
         attemptNumber: 1,
@@ -37,7 +37,6 @@ describe("mixPotion", () => {
   it("prevents the same row being attempted twice", () => {
     const firstState = mixPotion({
       state: GAME_STATE,
-      createdAt: now,
       action: {
         type: "potion.mixed",
         attemptNumber: 1,
@@ -48,7 +47,7 @@ describe("mixPotion", () => {
     expect(() =>
       mixPotion({
         state: firstState,
-        createdAt: now,
+
         action: {
           type: "potion.mixed",
           attemptNumber: 1,
@@ -62,7 +61,7 @@ describe("mixPotion", () => {
     expect(() =>
       mixPotion({
         state: GAME_STATE,
-        createdAt: now,
+
         action: {
           type: "potion.mixed",
           attemptNumber: 2,
@@ -75,7 +74,7 @@ describe("mixPotion", () => {
   it("allows a second attempt to be made", () => {
     const firstState = mixPotion({
       state: GAME_STATE,
-      createdAt: now,
+
       action: {
         type: "potion.mixed",
         attemptNumber: 1,
@@ -85,7 +84,7 @@ describe("mixPotion", () => {
 
     const secondState = mixPotion({
       state: firstState,
-      createdAt: now,
+
       action: {
         type: "potion.mixed",
         attemptNumber: 2,
@@ -112,7 +111,7 @@ describe("mixPotion", () => {
   it("prevents a fourth attempt being made", () => {
     const firstState = mixPotion({
       state: GAME_STATE,
-      createdAt: now,
+
       action: {
         type: "potion.mixed",
         attemptNumber: 1,
@@ -122,7 +121,7 @@ describe("mixPotion", () => {
 
     const secondState = mixPotion({
       state: firstState,
-      createdAt: now,
+
       action: {
         type: "potion.mixed",
         attemptNumber: 2,
@@ -133,7 +132,7 @@ describe("mixPotion", () => {
     expect(() =>
       mixPotion({
         state: secondState,
-        createdAt: now,
+
         action: {
           type: "potion.mixed",
           attemptNumber: 4 as any,
@@ -174,7 +173,7 @@ describe("mixPotion", () => {
           history: {},
         },
       },
-      createdAt: now,
+
       action: {
         type: "potion.mixed",
         attemptNumber: 1,
@@ -218,7 +217,7 @@ describe("mixPotion", () => {
             history: {},
           },
         },
-        createdAt: now,
+
         action: {
           type: "potion.mixed",
           attemptNumber: 3,
@@ -244,7 +243,7 @@ describe("mixPotion", () => {
           history: {},
         },
       },
-      createdAt: now,
+
       action: {
         type: "potion.mixed",
         attemptNumber: 1,
@@ -263,10 +262,10 @@ describe("mixPotion", () => {
     };
 
     expect(state.inventory.Sunflower?.toNumber()).toBe(
-      100 - potionIngredients.sunflowers! * 4
+      new Decimal(100).sub(potionIngredients.sunflowers!).mul(4)
     );
     expect(state.inventory.Cauliflower?.toNumber()).toBe(
-      50 - potionIngredients.cauliflowers! * 4
+      new Decimal(50).sub(potionIngredients.cauliflowers!).mul(4)
     );
   });
 
@@ -287,7 +286,7 @@ describe("mixPotion", () => {
           history: {},
         },
       },
-      createdAt: now,
+
       action: {
         type: "potion.mixed",
         attemptNumber: 1,
@@ -295,18 +294,20 @@ describe("mixPotion", () => {
       },
     });
 
-    const sunflowerRequirements =
-      POTIONS["Flower Power"].ingredients.Sunflower! +
-      POTIONS["Bloom Boost"].ingredients.Sunflower!;
+    const sunflowerRequirements = POTIONS[
+      "Flower Power"
+    ].ingredients.Sunflower!.add(POTIONS["Bloom Boost"].ingredients.Sunflower!);
 
     expect(state.inventory.Sunflower?.toNumber()).toBe(
-      100 - sunflowerRequirements * 2
+      new Decimal(100).sub(sunflowerRequirements).mul(2)
     );
     expect(state.inventory.Cauliflower?.toNumber()).toBe(
-      50 - POTIONS["Flower Power"].ingredients.Cauliflower! * 2
+      new Decimal(50)
+        .sub(POTIONS["Flower Power"].ingredients.Cauliflower!)
+        .mul(2)
     );
     expect(state.inventory.Potato?.toNumber()).toBe(
-      100 - POTIONS["Bloom Boost"].ingredients.Potato! * 2
+      new Decimal(100).sub(POTIONS["Bloom Boost"].ingredients.Potato!).mul(2)
     );
   });
 });

@@ -508,9 +508,6 @@ export type PotionName =
   | "Flower Power"
   | "Organic Oasis"
   | "Dream Drip"
-  | "Ember Elixir"
-  | "Whisper Brew"
-  | "Miracle Mix"
   | "Golden Syrup";
 
 export type PotionStatus =
@@ -520,7 +517,7 @@ export type PotionStatus =
   | "almost"
   | "bomb";
 
-type PotionSlot = { potion: PotionName; status: PotionStatus };
+export type PotionSlot = { potion: PotionName; status: PotionStatus };
 
 export type Attempt = [PotionSlot, PotionSlot, PotionSlot, PotionSlot];
 

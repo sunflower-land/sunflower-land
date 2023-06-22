@@ -86,7 +86,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   transacting: true,
   minting: true,
   "potionHouse.playing": true,
-  "potionHouse.guessing": true,
+  "potionHouse.mixing": true,
 };
 
 // State change selectors

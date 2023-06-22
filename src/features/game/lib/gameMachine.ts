@@ -755,6 +755,7 @@ export function startGame(authContext: AuthContext) {
           },
         },
         playing: {
+          id: "playing",
           always: [
             {
               target: "playingGuestGame",
@@ -913,22 +914,7 @@ export function startGame(authContext: AuthContext) {
             ...GAME_EVENT_HANDLERS,
           },
           invoke: {
-            src: async (context, event) => {
-              if (authContext.user.type !== "FULL") {
-                return saveGuestGame(
-                  context,
-                  event,
-                  authContext.user.guestKey as string
-                );
-              }
-
-              return saveGame(
-                context,
-                event,
-                authContext.user.farmId as number,
-                authContext.user.rawToken as string
-              );
-            },
+            src: "save",
             onDone: [
               {
                 target: "playing",
@@ -1425,21 +1411,12 @@ export function startGame(authContext: AuthContext) {
             },
             mixing: {
               invoke: {
-                src: async (context, e) => {
-                  const { event } = e as { event: any; type: "REVEAL" };
-
-                  await autosave({
-                    farmId: Number(authContext.user.farmId),
-                    sessionId: context.sessionId as string,
-                    actions: [...context.actions],
-                    token: authContext.user.rawToken as string,
-                    fingerprint: context.fingerprint as string,
-                    deviceTrackerId: context.deviceTrackerId as string,
-                    transactionId: context.transactionId as string,
-                  });
-                },
+                src: "save",
                 onDone: {
                   target: "playing",
+                  actions: assign((context: Context, event) =>
+                    handleSuccessfulSave(context, event)
+                  ),
                 },
                 onError: {
                   target: "#error",
@@ -1450,7 +1427,7 @@ export function startGame(authContext: AuthContext) {
           },
           on: {
             CLOSE_POTION_HOUSE: {
-              target: ".playing",
+              target: "#playing",
             },
           },
         },
@@ -1512,6 +1489,24 @@ export function startGame(authContext: AuthContext) {
         clearTransactionId: assign<Context, any>({
           transactionId: () => undefined,
         }),
+      },
+      services: {
+        save: async (context, event) => {
+          if (authContext.user.type !== "FULL") {
+            return saveGuestGame(
+              context,
+              event,
+              authContext.user.guestKey as string
+            );
+          }
+
+          return saveGame(
+            context,
+            event,
+            authContext.user.farmId as number,
+            authContext.user.rawToken as string
+          );
+        },
       },
     }
   );

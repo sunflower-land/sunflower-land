@@ -2,18 +2,19 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import React from "react";
 import { POTIONS } from "./lib/potions";
-import { PotionName, GuessFeedback, FeedbackIcons } from "./lib/types";
+import { FeedbackIcons } from "./lib/types";
 
 import selectBoxBL from "assets/ui/select/selectbox_bl.png";
 import selectBoxBR from "assets/ui/select/selectbox_br.png";
 import selectBoxTL from "assets/ui/select/selectbox_tl.png";
 import selectBoxTR from "assets/ui/select/selectbox_tr.png";
+import { PotionName, PotionStatus } from "features/game/types/game";
 
 const INNER_CANVAS_WIDTH = 14;
 
 interface Props {
   potionName: PotionName | null;
-  feedback?: GuessFeedback;
+  potionStatus?: PotionStatus;
   selected?: boolean;
   onClick?: () => void;
 }
@@ -21,16 +22,16 @@ interface Props {
 export const Box: React.FC<Props> = ({
   potionName,
   selected = false,
-  feedback,
+  potionStatus,
   onClick,
 }) => {
   return (
     <>
       <div className="relative">
-        {feedback && (
+        {potionStatus && (
           <img
-            src={FeedbackIcons[feedback]}
-            alt={feedback}
+            src={FeedbackIcons[potionStatus]}
+            alt={potionStatus}
             style={{
               position: "absolute",
               width: `${PIXEL_SCALE * 7}px`,
@@ -49,7 +50,7 @@ export const Box: React.FC<Props> = ({
         >
           {potionName && (
             <img
-              src={POTIONS.find((potion) => potion.name === potionName)?.image}
+              src={POTIONS[potionName].image}
               className="object-contain w-full h-full"
             />
           )}

@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
+import { POTIONS } from "features/game/expansion/components/potions/lib/potions";
 import { getKeys } from "features/game/types/craftables";
 import {
   Attempt,
   GameState,
-  InventoryItemName,
   PotionName,
   PotionStatus,
 } from "features/game/types/game";
@@ -22,66 +22,6 @@ export type MixPotionAction = {
 type Options = {
   state: Readonly<GameState>;
   action: MixPotionAction;
-};
-
-export const POTIONS: Record<
-  PotionName,
-  { ingredients: Partial<Record<InventoryItemName, number>> }
-> = {
-  "Bloom Boost": {
-    ingredients: {
-      Sunflower: 10,
-      Potato: 50,
-    },
-  },
-  "Dream Drip": {
-    ingredients: {
-      Wood: 10,
-    },
-  },
-  "Earth Essence": {
-    ingredients: {
-      Stone: 10,
-    },
-  },
-  "Ember Elixir": {
-    ingredients: {
-      Carrot: 10,
-    },
-  },
-  "Flower Power": {
-    ingredients: {
-      Sunflower: 20,
-      Cauliflower: 10,
-    },
-  },
-  "Golden Syrup": {
-    ingredients: {
-      Gold: 10,
-    },
-  },
-  "Happy Hooch": {
-    ingredients: {
-      Wheat: 20,
-    },
-  },
-  "Miracle Mix": {
-    ingredients: {
-      Cabbage: 10,
-      Kale: 5,
-    },
-  },
-  "Organic Oasis": {
-    ingredients: {
-      Radish: 10,
-      Apple: 5,
-    },
-  },
-  "Whisper Brew": {
-    ingredients: {
-      Eggplant: 10,
-    },
-  },
 };
 
 export function calculateScore(attempt: Attempt): number {

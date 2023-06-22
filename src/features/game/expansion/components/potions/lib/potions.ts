@@ -8,9 +8,10 @@ import greenBottle from "assets/decorations/green_bottle.webp";
 import mustardBottle from "assets/decorations/mustard_bottle.webp";
 import whiteBottle from "assets/decorations/white_bottle.webp";
 import Decimal from "decimal.js-light";
+import { PotionName } from "features/game/types/game";
 
-export const POTIONS: Potion[] = [
-  {
+export const POTIONS: Record<PotionName, Potion> = {
+  "Bloom Boost": {
     name: "Bloom Boost",
     ingredients: {
       Pumpkin: new Decimal(10),
@@ -19,44 +20,7 @@ export const POTIONS: Potion[] = [
     image: orangeBottle,
     description: "Ignite your plants with vibrant blooms!",
   },
-  {
-    name: "Happy Hooch",
-    ingredients: {
-      Parsnip: new Decimal(10),
-      Radish: new Decimal(10),
-    },
-    image: blueBottle,
-    description: "A potion to bring joy and laughter to your plants.",
-  },
-  {
-    name: "Earth Essence",
-    ingredients: {
-      Potato: new Decimal(10),
-      Stone: new Decimal(10),
-    },
-    image: pinkBottle,
-    description: "Harness the power of the earth to nurture your plants.",
-  },
-  {
-    name: "Flower Power",
-    ingredients: {
-      Sunflower: new Decimal(10),
-      Iron: new Decimal(10),
-    },
-    image: aquaBottle,
-    description: "Unleash a burst of floral energy upon your plants.",
-  },
-  {
-    name: "Organic Oasis",
-    ingredients: {
-      Egg: new Decimal(10),
-      Kale: new Decimal(10),
-      Stone: new Decimal(10),
-    },
-    image: greenBottle,
-    description: "Create a lush, organic paradise for your plants.",
-  },
-  {
+  "Dream Drip": {
     name: "Dream Drip",
     ingredients: {
       Egg: new Decimal(10),
@@ -66,18 +30,25 @@ export const POTIONS: Potion[] = [
     image: mustardBottle,
     description: "Drizzle your plants with magical dreams and fantasies.",
   },
-  // {
-  //   name: "Miracle Mix",
-  //   ingredients: {
-  //     Egg: new Decimal(10),
-  //     Kale: new Decimal(10),
-  //     Stone: new Decimal(10),
-  //   },
-  //   image: blackBottle,
-  //   description:
-  //     "Risk it all! 50/50 chance of booming or destroying the plant.",
-  // },
-  {
+  "Earth Essence": {
+    name: "Earth Essence",
+    ingredients: {
+      Potato: new Decimal(10),
+      Stone: new Decimal(10),
+    },
+    image: pinkBottle,
+    description: "Harness the power of the earth to nurture your plants.",
+  },
+  "Flower Power": {
+    name: "Flower Power",
+    ingredients: {
+      Sunflower: new Decimal(10),
+      Iron: new Decimal(10),
+    },
+    image: aquaBottle,
+    description: "Unleash a burst of floral energy upon your plants.",
+  },
+  "Golden Syrup": {
     name: "Golden Syrup",
     ingredients: {
       Gold: new Decimal(5),
@@ -85,4 +56,23 @@ export const POTIONS: Potion[] = [
     image: whiteBottle,
     description: "Guaranteed to bloom the plant, but at a cost.",
   },
-];
+  "Happy Hooch": {
+    name: "Happy Hooch",
+    ingredients: {
+      Parsnip: new Decimal(10),
+      Radish: new Decimal(10),
+    },
+    image: blueBottle,
+    description: "A potion to bring joy and laughter to your plants.",
+  },
+  "Organic Oasis": {
+    name: "Organic Oasis",
+    ingredients: {
+      Egg: new Decimal(10),
+      Kale: new Decimal(10),
+      Stone: new Decimal(10),
+    },
+    image: greenBottle,
+    description: "Create a lush, organic paradise for your plants.",
+  },
+};
