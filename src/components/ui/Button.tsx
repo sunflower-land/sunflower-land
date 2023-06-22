@@ -2,7 +2,6 @@ import React from "react";
 import classnames from "classnames";
 import { pixelLightBorderStyle } from "features/game/lib/style";
 import { useLongPress } from "lib/utils/hooks/useLongPress";
-import { setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
 
 interface Props {
@@ -22,8 +21,6 @@ export const Button: React.FC<Props> = ({
   longPress = false,
   longPressInterval = 50,
 }) => {
-  const precisionCount = setPrecision(new Decimal(0 || 0));
-
   const longPressEvents = useLongPress(
     (e) =>
       !disabled
