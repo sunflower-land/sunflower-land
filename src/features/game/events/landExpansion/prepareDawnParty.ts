@@ -14,8 +14,8 @@ type Options = {
   createdAt?: number;
 };
 
-// export const PARTY_COOLDOWN = 12 * 60 * 60 * 1000;
-export const PARTY_COOLDOWN = 3 * 1000;
+export const PARTY_COOLDOWN = 12 * 60 * 60 * 1000;
+// export const PARTY_COOLDOWN = 3 * 1000;
 
 export function prepareParty({
   state,
@@ -51,7 +51,6 @@ export function prepareParty({
     game.inventory[ingredientName] = count.sub(required);
   });
 
-  console.log("Fulfilled");
   game.dawnBreaker.party = {
     fulfilledAt: createdAt,
     fulfilledCount: fulfilledCount + 1,
