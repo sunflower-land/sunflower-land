@@ -134,6 +134,7 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
     });
 
     game.registry.set("roomService", roomService);
+    game.registry.set("gameService", gameService);
     game.registry.set("initialScene", scene);
     gameService.onEvent((e) => {
       if (e.type === "bumpkin.equipped") {
