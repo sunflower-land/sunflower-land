@@ -105,6 +105,21 @@ function areAnyGoldsMined(game: GameState): Restriction {
   return [goldMined, "Gold is mined"];
 }
 
+function areAnyMineralsMined(game: GameState): Restriction {
+  const areStonesMined = areAnyStonesMined(game);
+  const areIronsMined = areAnyIronsMined(game);
+  const areGoldsMined = areAnyGoldsMined(game);
+
+  if (areStonesMined[0]) {
+    return areStonesMined;
+  }
+  if (areIronsMined[0]) {
+    return areIronsMined;
+  }
+
+  return areGoldsMined;
+}
+
 function areAnyChickensFed(game: GameState): Restriction {
   const chickensAreFed = Object.values(game.chickens).some(
     (chicken) =>
@@ -191,6 +206,8 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Rocky the Mole": (game) => areAnyIronsMined(game),
   "Iron Idol": (game) => areAnyIronsMined(game),
   Nugget: (game) => areAnyGoldsMined(game),
+  "Tin Turtle": (game) => areAnyStonesMined(game),
+  "Emerald Turtle": (game) => areAnyMineralsMined(game),
 
   "Heart of Davy Jones": (game) => areAnyTreasureHolesDug(game),
 
