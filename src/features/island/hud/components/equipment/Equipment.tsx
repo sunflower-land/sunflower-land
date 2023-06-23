@@ -14,7 +14,6 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import lock from "assets/skills/lock.png";
 
 import Decimal from "decimal.js-light";
-import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { ITEM_ICONS } from "../inventory/Chest";
@@ -42,9 +41,6 @@ export const Equipment: React.FC<Props> = ({ onClose }) => {
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
 
   const landCount = state.inventory["Basic Land"] ?? new Decimal(0);
-
-  const landscapingMachine = gameService.state.children
-    .landscaping as MachineInterpreter;
 
   const lessIngredients = () =>
     getKeys(selectedItem.ingredients).some((name) =>
