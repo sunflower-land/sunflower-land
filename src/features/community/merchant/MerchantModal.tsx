@@ -26,7 +26,6 @@ export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { communityService } = useContext(Context);
   const [communityState] = useActor(communityService);
   const [machine, send] = useMachine(frogMachine);
-  const { state, errorCode } = machine.context;
 
   // links
   const openseaLink =
