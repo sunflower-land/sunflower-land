@@ -87,7 +87,6 @@ const CharityDetail = ({
 
 export const CreateFarm: React.FC = () => {
   const { authService } = useContext(Context);
-  const [authState] = useActor(authService);
 
   const child = authService.state.children
     .createFarmMachine as MachineInterpreter;
