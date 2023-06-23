@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
@@ -22,9 +22,6 @@ import token from "features/community/assets/icons/token.png";
 import { setPrecision } from "lib/utils/formatNumber";
 
 export const InventoryItems: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
-
   const [tadpoleData, setTadpoleData] = useState<Tadpole[]>([]);
   const [frogData, setFrogData] = useState<Frog[]>([]);
   const [whitelistTokenData, setWhitelistTokenData] = useState<Token>({
