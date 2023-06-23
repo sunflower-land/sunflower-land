@@ -106,7 +106,6 @@ describe("craftTool", () => {
 });
 
 it("increments Axe Crafted activity by 1 when 1 axe is crafted", () => {
-  const createdAt = Date.now();
   const bumpkin = {
     ...INITIAL_BUMPKIN,
   };
@@ -126,7 +125,6 @@ it("increments Axe Crafted activity by 1 when 1 axe is crafted", () => {
 });
 
 it("increments SFL spent when axe is crafted", () => {
-  const createdAt = Date.now();
   const bumpkin = {
     ...INITIAL_BUMPKIN,
   };
