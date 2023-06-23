@@ -6,6 +6,7 @@ import { AuctioneerModal } from "features/retreat/components/auctioneer/Auctione
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import fanArt from "assets/fanArt/dawn_breaker.png";
 import { Donations } from "./donations/Donations";
 
 type InteractableName =
@@ -14,7 +15,8 @@ type InteractableName =
   | "fan_art"
   | "auction_item"
   | "boat_modal"
-  | "homeless_man";
+  | "homeless_man"
+  | "fan_art_1";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -92,6 +94,25 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
       >
         <CloseButtonPanel onClose={() => setInteractable(undefined)}>
           <Donations />
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "fan_art_1"}
+        onHide={() => setInteractable(undefined)}
+      >
+        <CloseButtonPanel
+          onClose={() => setInteractable(undefined)}
+          title="Congratulations"
+        >
+          <div className="p-2">
+            <p className="text-sm mb-2 text-center">
+              Congratulations Palisman, the winner of the first Fan Art
+              competition
+            </p>
+            <img src={fanArt} className="w-2/3 mx-auto rounded-lg" />
+          </div>
         </CloseButtonPanel>
       </Modal>
 

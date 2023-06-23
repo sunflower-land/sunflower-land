@@ -8,6 +8,7 @@ import bertHomeJSON from "assets/map/bert_home.json";
 import timmyHomeJSON from "assets/map/timmy_home.json";
 import bettyHomeJSON from "assets/map/betty_home.json";
 import woodlandsJSON from "assets/map/woodlands.json";
+import marcusHomeJSON from "assets/map/marcus_home.json";
 import dawnBreakerJSON from "assets/map/dawn_breaker.json";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
@@ -24,6 +25,7 @@ export abstract class Preloader extends Phaser.Scene {
     this.load.tilemapTiledJSON("bert-home", bertHomeJSON);
     this.load.tilemapTiledJSON("timmy-home", timmyHomeJSON);
     this.load.tilemapTiledJSON("betty-home", bettyHomeJSON);
+    this.load.tilemapTiledJSON("marcus-home", marcusHomeJSON);
     this.load.tilemapTiledJSON("woodlands", woodlandsJSON);
 
     // Phaser assets must be served from an URL

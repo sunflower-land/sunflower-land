@@ -20,6 +20,7 @@ export type Rooms = {
   betty_home: Room<PlazaRoomState> | undefined;
   woodlands: Room<PlazaRoomState> | undefined;
   dawn_breaker: Room<PlazaRoomState> | undefined;
+  marcus_home: Room<PlazaRoomState> | undefined;
 };
 export type RoomId = keyof Rooms;
 
@@ -113,7 +114,7 @@ export type MachineInterpreter = Interpreter<
   any
 >;
 
-export const INITIAL_ROOM: RoomId = "plaza";
+export const INITIAL_ROOM: RoomId = "marcus_home";
 
 /**
  * Machine which handles room events
@@ -136,6 +137,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
       betty_home: undefined,
       woodlands: undefined,
       dawn_breaker: undefined,
+      marcus_home: undefined,
     },
     // TEMP FIELD - server will set this
     bumpkin: INITIAL_BUMPKIN,

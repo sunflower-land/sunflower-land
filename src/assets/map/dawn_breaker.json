@@ -2911,6 +2911,24 @@
           "width": 24.1064188819004,
           "x": 326.751550481033,
           "y": 208.410948697158
+        },
+        {
+          "height": 6.33732685517703,
+          "id": 120,
+          "name": "",
+          "properties": [
+            {
+              "name": "warp",
+              "type": "string",
+              "value": "marcus_home"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 15.9942058725895,
+          "x": 479.926768667451,
+          "y": 283.3690436672
         }
       ],
       "opacity": 1,
@@ -2951,7 +2969,7 @@
     }
   ],
   "nextlayerid": 74,
-  "nextobjectid": 120,
+  "nextobjectid": 121,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.8.4",
