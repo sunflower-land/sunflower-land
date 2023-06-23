@@ -59,7 +59,6 @@ export const ChatUI: React.FC<Props> = ({
         <ChatText
           messages={messages}
           onMessage={(text) => onMessage({ text })}
-          isChatOpen={showChat}
           onChatStarted={onChatStarted}
         />
       </div>
