@@ -73,10 +73,6 @@ export type MachineInterpreter = Interpreter<
   TadpoleState
 >;
 
-const assignTadpoleState = assign<Context, any>({
-  state: (_, event) => event.data.state,
-});
-
 const assignErrorMessage = assign<Context, any>({
   errorCode: (_: Context, event: any) => event.data.message,
 });
