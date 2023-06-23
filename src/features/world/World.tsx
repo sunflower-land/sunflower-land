@@ -2,7 +2,7 @@ import { Context, GameProvider } from "features/game/GameProvider";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import React, { useContext } from "react";
 import { PhaserComponent } from "./Phaser";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
@@ -41,7 +41,6 @@ const _hasAccess = (state: MachineState) =>
 
 export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const isLoading = useSelector(gameService, _isLoading);
   const isMinting = useSelector(gameService, _isMinting);
   const synced = useSelector(gameService, _isSynced);
