@@ -16,8 +16,6 @@ import { RoomId } from "./roomMachine";
 import { ToastProvider } from "features/game/toast/ToastProvider";
 import { ToastPanel } from "features/game/toast/ToastPanel";
 
-const _gameState = (state: MachineState) => state.value;
-
 interface Props {
   isCommunity?: boolean;
 }
