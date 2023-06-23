@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useActor, useMachine } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 
@@ -23,9 +23,6 @@ interface Props {
 }
 
 export const ScientistModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
-
   const handleClose = () => onClose();
 
   const [tab, setTab] = useState<"inventory" | "incubator">("inventory");
