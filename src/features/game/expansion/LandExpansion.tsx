@@ -13,8 +13,6 @@ export const LandExpansion: React.FC = () => {
   const { id } = useParams();
   const location = useLocation();
 
-  const isDawnBreaker = location.pathname.includes("dawn-breaker");
-
   // Load data
   return (
     <GameProvider key={id}>
