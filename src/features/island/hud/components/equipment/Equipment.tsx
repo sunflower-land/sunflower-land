@@ -11,11 +11,11 @@ import { Button } from "components/ui/Button";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 
-import lock from "assets/skills/lock.png";
+//import lock from "assets/skills/lock.png";
 
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Label } from "components/ui/Label";
+//import { Label } from "components/ui/Label";
 import { ITEM_ICONS } from "../inventory/Chest";
 import {
   HELIOS_BLACKSMITH_ITEMS,
@@ -40,7 +40,7 @@ export const Equipment: React.FC<Props> = ({ onClose }) => {
   const selectedItem = HELIOS_BLACKSMITH_ITEMS[selectedName];
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
 
-  const landCount = state.inventory["Basic Land"] ?? new Decimal(0);
+  //const landCount = state.inventory["Basic Land"] ?? new Decimal(0);
 
   const lessIngredients = () =>
     getKeys(selectedItem.ingredients).some((name) =>
@@ -60,20 +60,20 @@ export const Equipment: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const landLocked = (level: number) => {
-    return (
-      <div className="flex flex-col w-full justify-center">
-        <div className="flex items-center justify-center border-t border-white w-full pt-2">
-          <img src={lock} className="h-4 mr-1" />
-          <p className="text-xxs mb-1">Unlock more land</p>
-        </div>
-        <div className="flex items-center justify-center ">
-          <img src={ITEM_DETAILS["Basic Land"].image} className="h-4 mr-1" />
-          <Label type="danger">{`${landCount.toNumber()}/${level}`}</Label>
-        </div>
-      </div>
-    );
-  };
+  // const landLocked = (level: number) => {
+  //   return (
+  //     <div className="flex flex-col w-full justify-center">
+  //       <div className="flex items-center justify-center border-t border-white w-full pt-2">
+  //         <img src={lock} className="h-4 mr-1" />
+  //         <p className="text-xxs mb-1">Unlock more land</p>
+  //       </div>
+  //       <div className="flex items-center justify-center ">
+  //         <img src={ITEM_DETAILS["Basic Land"].image} className="h-4 mr-1" />
+  //         <Label type="danger">{`${landCount.toNumber()}/${level}`}</Label>
+  //       </div>
+  //     </div>
+  //   );
+  // };
 
   const action = () => {
     // const level = BUILDINGS()[selectedName][0].unlocksAtLevel;
