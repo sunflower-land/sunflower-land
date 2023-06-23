@@ -29,8 +29,6 @@ export class DecorationShopScene extends BaseScene {
       key: "decorations-shop",
     });
 
-    const camera = this.cameras.main;
-
     super.create();
 
     this.initialiseNPCs(BUMPKINS);
