@@ -36,7 +36,8 @@ export const setGuestKey = (guestKey: string) =>
   localStorage.setItem(GUEST_KEY, guestKey);
 export const removeGuestKey = () => localStorage.removeItem(GUEST_KEY);
 
-export const getGuestModeComplete = () =>
+export const getOnboardingComplete = () =>
   localStorage.getItem(GUEST_MODE_COMPLETE);
-export const setGuestModeComplete = () =>
+
+export const setOnboardingComplete = () =>
   localStorage.setItem(GUEST_MODE_COMPLETE, "true");

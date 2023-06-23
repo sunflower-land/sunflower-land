@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import MetaMaskOnboarding from "@metamask/onboarding";
 
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
@@ -10,9 +11,97 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import walletIcon from "src/assets/icons/wallet.png";
 import phantomIcon from "src/assets/icons/phantom.svg";
 import okxIcon from "src/assets/icons/okx.svg";
-import { getGuestModeComplete } from "../actions/createGuestAccount";
+import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { Label } from "components/ui/Label";
 import { hasFeatureAccess } from "lib/flags";
+
+const OtherWallets = () => {
+  const { authService } = useContext(Context);
+
+  return (
+    <>
+      {hasFeatureAccess({}, "OKX_WALLET") ? (
+        <>
+          <Button
+            className="mb-2 py-2 text-sm relative"
+            onClick={() => authService.send("CONNECT_TO_OKX")}
+          >
+            <div className="px-8">
+              <img
+                src={okxIcon}
+                alt="OKX"
+                className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+              />
+              <Label
+                type="info"
+                className="absolute top-1/2 -translate-y-1/2 right-1"
+              >
+                Featured
+              </Label>
+              OKX Wallet
+            </div>
+          </Button>
+          <Button
+            className="mb-2 py-2 text-sm relative"
+            onClick={() => authService.send("CONNECT_TO_PHANTOM")}
+          >
+            <div className="px-8">
+              <img
+                src={phantomIcon}
+                alt="Phantom"
+                className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
+              />
+              Phantom
+            </div>
+          </Button>
+        </>
+      ) : (
+        <>
+          <Button
+            className="mb-2 py-2 text-sm relative"
+            onClick={() => authService.send("CONNECT_TO_PHANTOM")}
+          >
+            <div className="px-8">
+              <img
+                src={phantomIcon}
+                alt="Phantom"
+                className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
+              />
+              <Label
+                type="info"
+                className="absolute top-1/2 -translate-y-1/2 right-1"
+              >
+                Featured
+              </Label>
+              Phantom
+            </div>
+          </Button>
+        </>
+      )}
+      <div className="bg-white b-1 mx-auto w-2/3 h-[1px] my-3" />
+      <Button
+        className="mb-2 py-2 text-sm relative"
+        onClick={() => authService.send("CONNECT_TO_WALLET_CONNECT")}
+      >
+        <div className="px-8">
+          <svg
+            height="25"
+            viewBox="0 0 40 25"
+            width="40"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
+          >
+            <path
+              d="m8.19180572 4.83416816c6.52149658-6.38508884 17.09493158-6.38508884 23.61642788 0l.7848727.76845565c.3260748.31925442.3260748.83686816 0 1.15612272l-2.6848927 2.62873374c-.1630375.15962734-.4273733.15962734-.5904108 0l-1.0800779-1.05748639c-4.5495589-4.45439756-11.9258514-4.45439756-16.4754105 0l-1.1566741 1.13248068c-.1630376.15962721-.4273735.15962721-.5904108 0l-2.68489263-2.62873375c-.32607483-.31925456-.32607483-.83686829 0-1.15612272zm29.16903948 5.43649934 2.3895596 2.3395862c.3260732.319253.3260751.8368636.0000041 1.1561187l-10.7746894 10.5494845c-.3260726.3192568-.8547443.3192604-1.1808214.0000083-.0000013-.0000013-.0000029-.0000029-.0000042-.0000043l-7.6472191-7.4872762c-.0815187-.0798136-.2136867-.0798136-.2952053 0-.0000006.0000005-.000001.000001-.0000015.0000014l-7.6470562 7.4872708c-.3260715.3192576-.8547434.319263-1.1808215.0000116-.0000019-.0000018-.0000039-.0000037-.0000059-.0000058l-10.7749893-10.5496247c-.32607469-.3192544-.32607469-.8368682 0-1.1561226l2.38956395-2.3395823c.3260747-.31925446.85474652-.31925446 1.18082136 0l7.64733029 7.4873809c.0815188.0798136.2136866.0798136.2952054 0 .0000012-.0000012.0000023-.0000023.0000035-.0000032l7.6469471-7.4873777c.3260673-.31926181.8547392-.31927378 1.1808214-.0000267.0000046.0000045.0000091.000009.0000135.0000135l7.6473203 7.4873909c.0815186.0798135.2136866.0798135.2952053 0l7.6471967-7.4872433c.3260748-.31925458.8547465-.31925458 1.1808213 0z"
+              fill="currentColor"
+            ></path>
+          </svg>
+          Wallet Connect
+        </div>
+      </Button>
+    </>
+  );
+};
 
 const SignIn = ({ onBack }: { onBack?: () => void }) => {
   const { authService } = useContext(Context);
@@ -31,7 +120,9 @@ const SignIn = ({ onBack }: { onBack?: () => void }) => {
       <>
         <Button
           className="mb-2 py-2 text-sm relative"
-          onClick={() => authService.send("CONNECT_TO_METAMASK")}
+          onClick={() => {
+            authService.send("CONNECT_TO_METAMASK");
+          }}
         >
           <div className="px-8">
             {metamaskIcon}
@@ -67,92 +158,6 @@ const SignIn = ({ onBack }: { onBack?: () => void }) => {
               className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
             />
             Sequence
-          </div>
-        </Button>
-      </>
-    );
-  };
-
-  const OtherWallets = () => {
-    return (
-      <>
-        {hasFeatureAccess({}, "OKX_WALLET") ? (
-          <>
-            <Button
-              className="mb-2 py-2 text-sm relative"
-              onClick={() => authService.send("CONNECT_TO_OKX")}
-            >
-              <div className="px-8">
-                <img
-                  src={okxIcon}
-                  alt="OKX"
-                  className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
-                />
-                <Label
-                  type="info"
-                  className="absolute top-1/2 -translate-y-1/2 right-1"
-                >
-                  Featured
-                </Label>
-                OKX Wallet
-              </div>
-            </Button>
-            <Button
-              className="mb-2 py-2 text-sm relative"
-              onClick={() => authService.send("CONNECT_TO_PHANTOM")}
-            >
-              <div className="px-8">
-                <img
-                  src={phantomIcon}
-                  alt="Phantom"
-                  className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
-                />
-                Phantom
-              </div>
-            </Button>
-          </>
-        ) : (
-          <>
-            <Button
-              className="mb-2 py-2 text-sm relative"
-              onClick={() => authService.send("CONNECT_TO_PHANTOM")}
-            >
-              <div className="px-8">
-                <img
-                  src={phantomIcon}
-                  alt="Phantom"
-                  className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
-                />
-                <Label
-                  type="info"
-                  className="absolute top-1/2 -translate-y-1/2 right-1"
-                >
-                  Featured
-                </Label>
-                Phantom
-              </div>
-            </Button>
-          </>
-        )}
-        <div className="bg-white b-1 mx-auto w-2/3 h-[1px] my-3" />
-        <Button
-          className="mb-2 py-2 text-sm relative"
-          onClick={() => authService.send("CONNECT_TO_WALLET_CONNECT")}
-        >
-          <div className="px-8">
-            <svg
-              height="25"
-              viewBox="0 0 40 25"
-              width="40"
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
-            >
-              <path
-                d="m8.19180572 4.83416816c6.52149658-6.38508884 17.09493158-6.38508884 23.61642788 0l.7848727.76845565c.3260748.31925442.3260748.83686816 0 1.15612272l-2.6848927 2.62873374c-.1630375.15962734-.4273733.15962734-.5904108 0l-1.0800779-1.05748639c-4.5495589-4.45439756-11.9258514-4.45439756-16.4754105 0l-1.1566741 1.13248068c-.1630376.15962721-.4273735.15962721-.5904108 0l-2.68489263-2.62873375c-.32607483-.31925456-.32607483-.83686829 0-1.15612272zm29.16903948 5.43649934 2.3895596 2.3395862c.3260732.319253.3260751.8368636.0000041 1.1561187l-10.7746894 10.5494845c-.3260726.3192568-.8547443.3192604-1.1808214.0000083-.0000013-.0000013-.0000029-.0000029-.0000042-.0000043l-7.6472191-7.4872762c-.0815187-.0798136-.2136867-.0798136-.2952053 0-.0000006.0000005-.000001.000001-.0000015.0000014l-7.6470562 7.4872708c-.3260715.3192576-.8547434.319263-1.1808215.0000116-.0000019-.0000018-.0000039-.0000037-.0000059-.0000058l-10.7749893-10.5496247c-.32607469-.3192544-.32607469-.8368682 0-1.1561226l2.38956395-2.3395823c.3260747-.31925446.85474652-.31925446 1.18082136 0l7.64733029 7.4873809c.0815188.0798136.2136866.0798136.2952054 0 .0000012-.0000012.0000023-.0000023.0000035-.0000032l7.6469471-7.4873777c.3260673-.31926181.8547392-.31927378 1.1808214-.0000267.0000046.0000045.0000091.000009.0000135.0000135l7.6473203 7.4873909c.0815186.0798135.2136866.0798135.2952053 0l7.6471967-7.4872433c.3260748-.31925458.8547465-.31925458 1.1808213 0z"
-                fill="currentColor"
-              ></path>
-            </svg>
-            Wallet Connect
           </div>
         </Button>
       </>
@@ -205,39 +210,7 @@ export const Connect: React.FC = () => {
   const isGuest = user.type === "GUEST";
   const hasGuestKey = isGuest && !!user.guestKey;
 
-  const guestText = hasGuestKey ? "Continue as guest" : "Play as guest!";
-  const guestModeComplete = !!getGuestModeComplete();
-
-  if (authState.matches("idle")) {
-    return (
-      <div className="pt-2 px-4">
-        <Button
-          className="mb-2 py-2 text-sm relative"
-          onClick={() => authService.send("CONNECT_AS_GUEST")}
-        >
-          <div className="px-8">
-            <img
-              src={SUNNYSIDE.icons.player}
-              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
-            />
-            {guestText}
-          </div>
-        </Button>
-        <Button
-          className="mb-2 py-2 text-sm relative"
-          onClick={() => authService.send("SIGN_IN")}
-        >
-          <div className="px-8">
-            <img
-              src={walletIcon}
-              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
-            />
-            Sign In
-          </div>
-        </Button>
-      </div>
-    );
-  }
+  const guestModeComplete = !!getOnboardingComplete();
 
   if (guestModeComplete) {
     return (
@@ -247,9 +220,108 @@ export const Connect: React.FC = () => {
     );
   }
 
+  return <CreateWallet />;
+};
+
+export const CreateWallet = () => {
+  const { authService } = useContext(Context);
+  const [page, setPage] = useState<"home" | "other">("home");
+
+  const handleBack = () => {
+    authService.send("BACK");
+  };
+
+  const onboarding = React.useRef<MetaMaskOnboarding>();
+
+  React.useEffect(() => {
+    if (!onboarding.current) {
+      onboarding.current = new MetaMaskOnboarding();
+    }
+  }, []);
+
+  const connectToMetaMask = () => {
+    if (MetaMaskOnboarding.isMetaMaskInstalled()) {
+      authService.send("CONNECT_TO_METAMASK");
+    } else {
+      console.log("NOT FOUND!");
+      onboarding.current?.startOnboarding();
+    }
+  };
+
+  const MainWallets = () => {
+    return (
+      <>
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={connectToMetaMask}
+        >
+          <div className="px-8">
+            {metamaskIcon}
+            Metamask
+          </div>
+        </Button>
+
+        <div className="bg-white b-1 w-full h-[1px] my-4" />
+        <div className="flex justify-center relative pb-1">
+          <span className="text-xs text-center bg-[#c28669] px-2 absolute top-[-34px] italic ">
+            Or
+          </span>
+        </div>
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() => authService.send("CONNECT_TO_SEQUENCE")}
+        >
+          <div className="px-8">
+            <img
+              src="https://sequence.app/static/images/sequence-logo.7c854742a6b8b4969004.svg"
+              className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
+            />
+            Connect with email
+          </div>
+        </Button>
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() => setPage("other")}
+        >
+          <div className="px-8">
+            <img
+              src={walletIcon}
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
+            />
+            Other wallets
+          </div>
+        </Button>
+      </>
+    );
+  };
+
   return (
-    <div className="px-4">
-      <SignIn onBack={() => authService.send("RETURN")} />
-    </div>
+    <>
+      <div className="flex flex-col text-center items-center mb-3 mt-1">
+        {/* <div
+          className="flex items-center"
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+          }}
+        >
+          <img
+            src={SUNNYSIDE.icons.arrow_left}
+            className="cursor-pointer"
+            onClick={handleBack}
+            style={{
+              width: `${PIXEL_SCALE * 8}px`,
+            }}
+          />
+        </div> */}
+        <p className="text-sm mb-2 text-center">
+          Welcome to decentralized gaming!
+        </p>
+        <p className="text-xs text-white mt-2 mb-0.5 text-center">
+          Create a wallet to store your NFTs.
+        </p>
+      </div>
+      {page === "home" && <MainWallets />}
+      {page === "other" && <OtherWallets />}
+    </>
   );
 };

@@ -9,13 +9,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 
 import { ErrorMessage } from "./ErrorMessage";
 import { Panel } from "components/ui/Panel";
-import {
-  NoFarm,
-  CreatingFarm,
-  Loading,
-  CreateFarm,
-  VisitFarm,
-} from "./components";
+import { CreatingFarm, Loading, CreateFarm, VisitFarm } from "./components";
 
 import { Signing } from "./components/Signing";
 import { ErrorCode } from "lib/errors";
@@ -25,6 +19,10 @@ import { Connect } from "./components/Connect";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ConnectedToWallet } from "./components/ConnectedToWallet";
 import { Verifying } from "./components/Verifying";
+import { Welcome } from "./components/Welcome";
+import { Offer } from "./components/Offer";
+import classNames from "classnames";
+import { NPC_WEARABLES } from "lib/npcs";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -55,7 +53,15 @@ export const Auth: React.FC = () => {
       }
       backdrop={false}
     >
-      <div className="relative flex items-center justify-center mb-4 -mt-44 w-full max-w-xl">
+      <div
+        className={classNames(
+          "relative flex items-center justify-center mb-4 -mt-44 w-full max-w-xl transition-opacity duration-500 opacity-0",
+          {
+            "opacity-100":
+              authState.matches("welcome") || authState.matches("signIn"),
+          }
+        )}
+      >
         <div className="w-[90%] relative">
           <img
             src={sparkle}
@@ -69,8 +75,18 @@ export const Auth: React.FC = () => {
           <img id="logo" src={logo} className="w-full" />
         </div>
       </div>
-      <Panel className="pb-1">
+      <Panel
+        className="pb-1"
+        bumpkinParts={
+          authState.matches({ connected: "offer" }) ||
+          authState.matches({ connected: "funding" })
+            ? NPC_WEARABLES.grimbly
+            : undefined
+        }
+      >
         {loading && <Loading />}
+        {authState.matches("welcome") && <Welcome />}
+        {authState.matches({ connected: "offer" }) && <Offer />}
         {(authState.matches("idle") || authState.matches("signIn")) && (
           <Connect />
         )}
@@ -78,9 +94,8 @@ export const Auth: React.FC = () => {
         {authState.matches("connectedToWallet") && <ConnectedToWallet />}
         {authState.matches("signing") && <Signing />}
         {authState.matches("verifying") && <Verifying />}
-        {authState.matches({ connected: "noFarmLoaded" }) && <NoFarm />}
         {authState.matches("oauthorising") && <Loading />}
-        {authState.matches({ connected: "donating" }) && <CreateFarm />}
+        {authState.matches({ connected: "funding" }) && <CreateFarm />}
         {authState.matches({ connected: "countdown" }) && <Countdown />}
         {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
         {(authState.matches({ connected: "blacklisted" }) ||

@@ -21,7 +21,7 @@ import {
   hasValidSession,
   saveSession,
 } from "../actions/login";
-import { oauthorise, redirectOAuth } from "../actions/oauth";
+import { oauthorise } from "../actions/oauth";
 import { CharityAddress } from "../components/CreateFarm";
 import { randomID } from "lib/utils/random";
 import { createFarmMachine } from "./createFarmMachine";
@@ -31,7 +31,7 @@ import { getCreatedAt } from "lib/blockchain/AccountMinter";
 import {
   createGuestAccount,
   getGuestKey,
-  getGuestModeComplete,
+  getOnboardingComplete,
   setGuestKey,
 } from "../actions/createGuestAccount";
 import { analytics } from "lib/analytics";
@@ -146,6 +146,8 @@ export type BlockchainEvent =
   | {
       type: "CHOOSE_CHARITY";
     }
+  | { type: "CONTINUE" }
+  | { type: "BACK" }
   | { type: "CONNECT_TO_DISCORD" }
   | { type: "CONFIRM" }
   | { type: "SKIP" }
@@ -165,6 +167,7 @@ export type BlockchainEvent =
 export type BlockchainState = {
   value:
     | "idle"
+    | "welcome"
     | "signIn"
     | "initialising"
     | "visiting"
@@ -184,11 +187,11 @@ export type BlockchainState = {
     | "blacklisted"
     | { connected: "loadingFarm" }
     | { connected: "farmLoaded" }
-    | { connected: "noFarmLoaded" }
+    | { connected: "offer" }
     | { connected: "creatingFarm" }
     | { connected: "countdown" }
     | { connected: "readyToStart" }
-    | { connected: "donating" }
+    | { connected: "funding" }
     | { connected: "authorised" }
     | { connected: "blacklisted" }
     | "exploring"
@@ -213,7 +216,8 @@ export const authMachine = createMachine<
 >(
   {
     id: "authMachine",
-    initial: ART_MODE ? "connected" : "idle",
+    // initial: ART_MODE ? "connected" : "idle",
+    initial: "welcome",
     context: {
       user: ART_MODE
         ? { type: "FULL", farmId: 1 }
@@ -232,10 +236,15 @@ export const authMachine = createMachine<
             saveReferrerId(referrerId);
           }
         },
-        always: {
-          target: "signIn",
-          cond: () => !!getGuestModeComplete(),
-        },
+        always: [
+          {
+            target: "welcome",
+            cond: () => !getOnboardingComplete(),
+          },
+          {
+            target: "signIn",
+          },
+        ],
         on: {
           SIGN_IN: {
             target: "signIn",
@@ -245,6 +254,17 @@ export const authMachine = createMachine<
           },
         },
       },
+      welcome: {
+        on: {
+          SIGN_IN: {
+            target: "signIn",
+          },
+          CONTINUE: {
+            target: "signIn",
+          },
+        },
+      },
+
       signIn: {
         id: "signIn",
         on: {
@@ -563,7 +583,7 @@ export const authMachine = createMachine<
                   cond: "hasFarm",
                 },
 
-                { target: "noFarmLoaded" },
+                { target: "offer" },
               ],
               onError: [
                 {
@@ -580,7 +600,7 @@ export const authMachine = createMachine<
               ],
             },
           },
-          donating: {
+          funding: {
             invoke: {
               id: "createFarmMachine",
               src: createFarmMachine,
@@ -621,18 +641,10 @@ export const authMachine = createMachine<
               },
             },
           },
-          noFarmLoaded: {
+          offer: {
             on: {
-              CHOOSE_CHARITY: {
-                target: "donating",
-              },
-              CONNECT_TO_DISCORD: {
-                // Redirects to Discord OAuth so no need for a state change
-                target: "noFarmLoaded",
-                actions: redirectOAuth,
-              },
-              EXPLORE: {
-                target: "#exploring",
+              CONTINUE: {
+                target: "funding",
               },
             },
           },
@@ -721,7 +733,7 @@ export const authMachine = createMachine<
                 ],
               },
               BUY_FULL_ACCOUNT: {
-                target: "donating",
+                target: "funding",
               },
               SIGN_IN: {
                 target: "#signIn",

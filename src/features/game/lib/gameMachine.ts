@@ -69,7 +69,7 @@ import { choose } from "xstate/lib/actions";
 import {
   getGuestKey,
   removeGuestKey,
-  setGuestModeComplete,
+  setOnboardingComplete,
 } from "features/auth/actions/createGuestAccount";
 import { Announcements } from "../types/conversations";
 import { purchaseItem } from "../actions/purchaseItem";
@@ -524,7 +524,7 @@ export function startGame(authContext: AuthContext) {
                 }
 
                 removeGuestKey();
-                setGuestModeComplete();
+                setOnboardingComplete();
 
                 const {
                   game,
