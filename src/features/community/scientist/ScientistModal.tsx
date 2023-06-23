@@ -25,8 +25,6 @@ interface Props {
 export const ScientistModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
-  const { communityService } = useContext(Context);
-  const [communityState] = useActor(communityService);
 
   const handleClose = () => onClose();
 
