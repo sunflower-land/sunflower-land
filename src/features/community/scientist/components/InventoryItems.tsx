@@ -24,7 +24,6 @@ import { setPrecision } from "lib/utils/formatNumber";
 export const InventoryItems: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
-  const { communityService } = useContext(Context);
 
   const [tadpoleData, setTadpoleData] = useState<Tadpole[]>([]);
   const [frogData, setFrogData] = useState<Frog[]>([]);
