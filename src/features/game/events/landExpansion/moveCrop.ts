@@ -104,6 +104,30 @@ export function isLocked(
     }
   }
 
+  if (collectibles["Sir Goldensnout"]?.[0]) {
+    const basicScarecrowCoordinates =
+      collectibles["Sir Goldensnout"]?.[0].coordinates;
+    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Sir Goldensnout"];
+
+    const scarecrowPosition: Position = {
+      x: basicScarecrowCoordinates.x,
+      y: basicScarecrowCoordinates.y,
+      height: scarecrowDimensions.height,
+      width: scarecrowDimensions.width,
+    };
+
+    const plotPosition: Position = {
+      x: plot?.x,
+      y: plot?.y,
+      height: plot.height,
+      width: plot.width,
+    };
+
+    if (isWithinAOE("Sir Goldensnout", scarecrowPosition, plotPosition)) {
+      return true;
+    }
+  }
+
   return false;
 }
 
