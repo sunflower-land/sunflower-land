@@ -18,10 +18,9 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
-  onClose: () => void;
   skipping: boolean;
 }
-export const Chore: React.FC<Props> = ({ onClose, skipping }) => {
+export const Chore: React.FC<Props> = ({ skipping }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
