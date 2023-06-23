@@ -12,7 +12,6 @@ import { ZoomContext } from "components/ZoomProvider";
 export const Seal: React.FC = () => {
   const { scale } = useContext(ZoomContext);
   const sealGif = useRef<SpriteSheetInstance>();
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const swim = () => {
     console.log("swim");
