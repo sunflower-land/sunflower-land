@@ -96,7 +96,7 @@ export const CreateFarm: React.FC = () => {
   const charity = useRef(
     CHARITIES[Math.floor(Math.random() * CHARITIES.length)]
   );
-  const [paymentConfirmed, setPaymentConfirmed] = useState(false);
+  const [paymentConfirmed] = useState(false);
   const [screen, setScreen] = useState<"intro" | "create">("intro");
   const [showAddFunds, setShowAddFunds] = useState(false);
 
