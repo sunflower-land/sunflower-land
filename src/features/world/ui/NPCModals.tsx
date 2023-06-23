@@ -27,8 +27,6 @@ class NpcModalManager {
 
 export const npcModalManager = new NpcModalManager();
 
-type NpcModals = Partial<Record<NPCName, boolean>>;
-
 interface Props {
   onClose: () => void;
   onOpen: () => void;
