@@ -5,7 +5,6 @@ import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import * as AuthProvider from "features/auth/lib/Provider";
-import { Context } from "features/community/lib/CommunityProvider";
 import { frogMachine } from "./lib/frogMachine";
 
 // images
@@ -23,8 +22,6 @@ interface Props {
 export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
-  const { communityService } = useContext(Context);
-  const [communityState] = useActor(communityService);
 
   // links
   const openseaLink =
