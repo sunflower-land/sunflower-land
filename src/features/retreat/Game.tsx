@@ -35,7 +35,6 @@ import { Minting } from "features/game/components/Minting";
 import { Minted } from "features/game/components/Minted";
 import { Refreshing } from "features/auth/components/Refreshing";
 import { RetreatPirate } from "./components/pirate/RetreatPirate";
-import { ZoomContext } from "components/ZoomProvider";
 import { GameBoard } from "components/GameBoard";
 import { Auctioneer } from "./components/auctioneer/Auctioneer";
 
@@ -71,8 +70,6 @@ export const Game = () => {
   const [scrollIntoView] = useScrollIntoView();
   const [retreatLoaded, setRetreatLoaded] = useState(false);
   const [sealSpawn] = useState(getRandomSpawn());
-
-  const { scale } = useContext(ZoomContext);
 
   useLayoutEffect(() => {
     if (retreatLoaded) {
