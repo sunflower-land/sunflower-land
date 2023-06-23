@@ -1,12 +1,8 @@
 import React, { useState } from "react";
-import { useActor, useMachine } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
-import * as AuthProvider from "features/auth/lib/Provider";
-import { Context } from "features/community/lib/CommunityProvider";
-import { incubateMachine } from "./lib/incubateMachine";
 
 // images
 import tadpole_icon from "../assets/icons/tadpole.png";
