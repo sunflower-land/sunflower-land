@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
-
-import * as AuthProvider from "features/auth/lib/Provider";
-import { Context } from "features/community/lib/CommunityProvider";
 
 import { Box } from "components/ui/Box";
 import { CONFIG } from "lib/config";
