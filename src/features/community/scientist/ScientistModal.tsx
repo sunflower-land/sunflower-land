@@ -27,7 +27,6 @@ export const ScientistModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [authState] = useActor(authService);
   const { communityService } = useContext(Context);
   const [communityState] = useActor(communityService);
-  const [machine, send] = useMachine(incubateMachine);
 
   const handleClose = () => onClose();
 
