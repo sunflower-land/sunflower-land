@@ -41,8 +41,6 @@ export const Equipment: React.FC<Props> = ({ onClose }) => {
   const selectedItem = HELIOS_BLACKSMITH_ITEMS[selectedName];
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
 
-  const ingredients = selectedItem.ingredients;
-
   const landCount = state.inventory["Basic Land"] ?? new Decimal(0);
 
   const landscapingMachine = gameService.state.children
