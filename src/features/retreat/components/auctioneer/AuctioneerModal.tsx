@@ -9,7 +9,7 @@ import {
   MachineInterpreter,
   createAuctioneerMachine,
 } from "features/game/lib/auctionMachine";
-import { Bid, GameState } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -68,8 +68,6 @@ export const AuctioneerModal: React.FC<Props> = ({
       </Modal>
     );
   }
-
-  const bid = auctioneerState.context.bid as Bid;
 
   const closeModal = () => {
     onClose();
