@@ -62,7 +62,6 @@ export const InventoryItems: React.FC = () => {
     CONFIG.NETWORK == "mainnet"
       ? "https://opensea.io/collection/project-dignity-frogs-collection"
       : "https://testnets.opensea.io/collection/sunflower-land-frogs-collection-testnet";
-  const projectDignity = "https://www.projectdignity.work";
   console.log("tadpole", tadpoleData);
   return (
     <>
