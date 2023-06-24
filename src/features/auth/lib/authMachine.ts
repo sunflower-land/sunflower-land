@@ -18,7 +18,6 @@ import {
   Token,
   decodeToken,
   removeSession,
-  hasValidSession,
   saveSession,
 } from "../actions/login";
 import { oauthorise } from "../actions/oauth";
@@ -318,6 +317,7 @@ export const authMachine = createMachine<
           onDone: [
             {
               target: "setupContracts",
+              actions: "assignUser",
             },
           ],
           onError: {
@@ -333,6 +333,7 @@ export const authMachine = createMachine<
           onDone: [
             {
               target: "setupContracts",
+              actions: "assignUser",
             },
           ],
           onError: {
@@ -348,6 +349,7 @@ export const authMachine = createMachine<
           onDone: [
             {
               target: "setupContracts",
+              actions: "assignUser",
             },
           ],
           onError: [
@@ -369,6 +371,7 @@ export const authMachine = createMachine<
           onDone: [
             {
               target: "setupContracts",
+              actions: "assignUser",
             },
           ],
           onError: [
@@ -424,6 +427,7 @@ export const authMachine = createMachine<
       setupContracts: {
         invoke: {
           src: async (context) => {
+            console.log({ isWeb3: context.user.web3 });
             if (context.user.web3) {
               await wallet.initialise(
                 context.user.web3.provider,
@@ -442,27 +446,21 @@ export const authMachine = createMachine<
             },
             {
               target: "signing",
-              cond: (context) =>
-                context.user.web3?.wallet === "METAMASK" ||
-                context.user.web3?.wallet === "PHANTOM",
             },
-            {
-              target: "connectedToWallet",
-              actions: (context) =>
-                analytics.logEvent("wallet_connected", {
-                  wallet: context.user.web3?.wallet,
-                }),
-            },
+            // TODO check with sequence if we need intermediate state
+            // {
+            //   target: "connectedToWallet",
+            //   actions: (context) =>
+            //     analytics.logEvent("wallet_connected", {
+            //       wallet: context.user.web3?.wallet,
+            //     }),
+            // },
           ],
           onError: {
             target: "unauthorised",
             actions: "assignErrorMessage",
           },
         },
-      },
-      connectedToWallet: {
-        always: { target: "signing", cond: () => hasValidSession() },
-        on: { SIGN: { target: "signing" } },
       },
       signing: {
         entry: "setTransactionId",
@@ -677,7 +675,7 @@ export const authMachine = createMachine<
                 actions: ["clearSession", "refreshFarm"],
               },
               SET_WALLET: {
-                actions: "assignGuestUser",
+                actions: "assignUser",
               },
               SET_TOKEN: {
                 actions: [
@@ -900,12 +898,14 @@ export const authMachine = createMachine<
       login: async (context): Promise<{ token: string | null }> => {
         let token: string | null = null;
 
+        console.log("Try it", wallet.myAccount);
         if (wallet.myAccount) {
           ({ token } = await login(
             context.transactionId as string,
             wallet.myAccount
           ));
         }
+        console.log({ token });
 
         return { token };
       },
@@ -960,6 +960,12 @@ export const authMachine = createMachine<
       }),
       assignErrorMessage: assign<Context, any>({
         errorCode: (_context, event) => event.data.message,
+      }),
+      assignUser: assign<Context, any>({
+        user: (_context, event) => ({
+          type: "FULL",
+          web3: event.data.web3,
+        }),
       }),
       refreshFarm: assign<Context, any>({
         visitingFarmId: undefined,
