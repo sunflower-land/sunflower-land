@@ -102,7 +102,11 @@ export const CreateFarm: React.FC = () => {
   const hasEnoughMatic = createFarmState.matches("hasEnoughMatic");
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <div className="h-32">
+        <Loading />
+      </div>
+    );
   }
 
   const maticFee = fromWei(toBN(createFarmState.context.maticFee ?? 0));
@@ -161,23 +165,6 @@ export const CreateFarm: React.FC = () => {
               )}
             </div>
           </li>
-
-          <li>
-            <div className="flex flex-col space-y-2">
-              <Button
-                disabled={!hasEnoughMatic}
-                onClick={() => {
-                  authService.send("CREATE_FARM", {
-                    charityAddress: charity.current.address,
-                    donation: 10,
-                    captcha: "0x",
-                  });
-                }}
-              >
-                Start your adventure!
-              </Button>
-            </div>
-          </li>
         </ol>
       </div>
 
@@ -186,6 +173,18 @@ export const CreateFarm: React.FC = () => {
           <AddMATIC onClose={() => setShowAddFunds(false)} />
         </Panel>
       </Modal>
+      <Button
+        disabled={!hasEnoughMatic}
+        onClick={() => {
+          authService.send("CREATE_FARM", {
+            charityAddress: charity.current.address,
+            donation: 10,
+            captcha: "0x",
+          });
+        }}
+      >
+        Start your adventure!
+      </Button>
     </>
   );
 };
