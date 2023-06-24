@@ -446,6 +446,10 @@ export const authMachine = createMachine<
             },
             {
               target: "signing",
+              actions: (context) =>
+                analytics.logEvent("wallet_connected", {
+                  wallet: context.user.web3?.wallet,
+                }),
             },
             // TODO check with sequence if we need intermediate state
             // {
@@ -573,6 +577,7 @@ export const authMachine = createMachine<
             on: {
               CREATE_FARM: {
                 target: "creatingFarm",
+                actions: () => analytics.logEvent("mint_farm"),
               },
               REFRESH: {
                 target: "#reconnecting",

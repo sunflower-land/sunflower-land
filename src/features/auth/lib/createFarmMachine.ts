@@ -74,6 +74,7 @@ export const createFarmMachine = createMachine<
         },
       },
       notEnoughMatic: {
+        entry: () => analytics.logEvent("not_enough_matic"),
         invoke: {
           src: "updateBalance",
           onDone: [

@@ -14,7 +14,9 @@ type GameAnalyticEvent =
   | EventNameString
   | "connect_wallet"
   | "create_account"
+  | "mint_farm"
   | "offer_seen"
+  | "not_enough_matic"
   | "offer_accepted"
   | "tutorial_begin"
   | "tutorial_complete"
