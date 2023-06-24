@@ -661,6 +661,7 @@ export const authMachine = createMachine<
                 analytics.initialise({
                   id: context.user.farmId as number,
                   type: context.user.type,
+                  wallet: context.user.web3?.wallet,
                 }),
               () => analytics.logEvent("login"),
             ],

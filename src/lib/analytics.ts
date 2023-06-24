@@ -49,13 +49,22 @@ class GameAnalytics {
     this.analytics = getAnalytics(app);
   }
 
-  public initialise({ id, type }: { id?: number; type: "GUEST" | "FULL" }) {
+  public initialise({
+    id,
+    type,
+    wallet,
+  }: {
+    id?: number;
+    type: "GUEST" | "FULL";
+    wallet: string;
+  }) {
     if (id) {
       setUserId(this.analytics, id.toString());
     }
 
     setUserProperties(this.analytics, {
       userType: type,
+      wallet,
     });
   }
 
