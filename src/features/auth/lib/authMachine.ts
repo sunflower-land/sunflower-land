@@ -244,30 +244,20 @@ export const authMachine = createMachine<
         on: {
           SIGN_IN: {
             target: "signIn",
+            actions: () => analytics.logEvent("connect_wallet"),
           },
           CONTINUE: {
             target: "createWallet",
+            actions: () => analytics.logEvent("create_account"),
           },
         },
       },
 
       createWallet: {
-        id: "createWallet",
         on: {
-          CONNECT_TO_METAMASK: {
-            target: "connectingToMetamask",
-          },
-          CONNECT_TO_PHANTOM: {
-            target: "connectingToPhantom",
-          },
-          CONNECT_TO_WALLET_CONNECT: {
-            target: "connectingToWalletConnect",
-          },
-          CONNECT_TO_SEQUENCE: {
-            target: "connectingToSequence",
-          },
-          RETURN: {
-            target: "idle",
+          CONTINUE: {
+            target: "signIn",
+            actions: () => analytics.logEvent("connect_wallet"),
           },
         },
       },
@@ -612,9 +602,11 @@ export const authMachine = createMachine<
             },
           },
           offer: {
+            entry: () => analytics.logEvent("offer_seen"),
             on: {
               CONTINUE: {
                 target: "funding",
+                actions: () => analytics.logEvent("offer_accepted"),
               },
             },
           },

@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
 
+import MetaMaskOnboarding from "@metamask/onboarding";
+
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
 import { metamaskIcon } from "./WalletIcons";
@@ -105,6 +107,22 @@ export const SignIn = ({ onBack }: { onBack?: () => void }) => {
   const { authService } = useContext(Context);
   const [page, setPage] = useState<"home" | "other">("home");
 
+  const onboarding = React.useRef<MetaMaskOnboarding>();
+
+  React.useEffect(() => {
+    if (!onboarding.current) {
+      onboarding.current = new MetaMaskOnboarding();
+    }
+  }, []);
+
+  const connectToMetaMask = () => {
+    if (MetaMaskOnboarding.isMetaMaskInstalled()) {
+      authService.send("CONNECT_TO_METAMASK");
+    } else {
+      onboarding.current?.startOnboarding();
+    }
+  };
+
   const handleBack = () => {
     if (page === "other") {
       setPage("home");
@@ -118,9 +136,7 @@ export const SignIn = ({ onBack }: { onBack?: () => void }) => {
       <>
         <Button
           className="mb-2 py-2 text-sm relative"
-          onClick={() => {
-            authService.send("CONNECT_TO_METAMASK");
-          }}
+          onClick={connectToMetaMask}
         >
           <div className="px-8">
             {metamaskIcon}

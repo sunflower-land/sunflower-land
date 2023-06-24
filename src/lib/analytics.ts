@@ -12,6 +12,10 @@ import {
 
 type GameAnalyticEvent =
   | EventNameString
+  | "connect_wallet"
+  | "create_account"
+  | "offer_seen"
+  | "offer_accepted"
   | "tutorial_begin"
   | "tutorial_complete"
   | "earn_virtual_currency"
