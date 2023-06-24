@@ -34,12 +34,20 @@ export const Welcome: React.FC = () => {
           Create Account
         </div>
       </Button>
-      <div className="flex justify-center">
-        <a href="https://discord.gg/sunflowerland">
+      <div className="flex justify-between">
+        <a href="https://discord.gg/sunflowerland" className="mr-4">
           <img
             src="https://img.shields.io/discord/880987707214544966?label=Sunflower%20Land&logo=Discord&style=social"
             alt="Discord: Sunflower Land"
           />
+        </a>
+        <a
+          href="https://docs.sunflower-land.com/getting-started/how-to-start"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline text-white text-xs"
+        >
+          Need help?
         </a>
       </div>
     </div>

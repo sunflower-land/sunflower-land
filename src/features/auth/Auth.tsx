@@ -24,6 +24,7 @@ import classNames from "classnames";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SignIn } from "./components/SignIn";
 import { CreateWallet } from "./components/CreateWallet";
+import { getOnboardingComplete } from "./actions/createGuestAccount";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -59,7 +60,8 @@ export const Auth: React.FC = () => {
           "relative flex items-center justify-center mb-4 -mt-44 w-full max-w-xl transition-opacity duration-500 opacity-0",
           {
             "opacity-100":
-              authState.matches("welcome") || authState.matches("signIn"),
+              authState.matches("welcome") ||
+              (authState.matches("signIn") && getOnboardingComplete()),
           }
         )}
       >
@@ -81,6 +83,7 @@ export const Auth: React.FC = () => {
         bumpkinParts={
           authState.matches({ connected: "offer" }) ||
           authState.matches("createWallet") ||
+          (authState.matches("signIn") && !getOnboardingComplete()) ||
           authState.matches({ connected: "funding" })
             ? NPC_WEARABLES.grimbly
             : undefined
