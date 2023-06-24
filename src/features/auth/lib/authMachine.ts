@@ -28,12 +28,7 @@ import { createFarmMachine } from "./createFarmMachine";
 import { SEQUENCE_CONNECT_OPTIONS } from "./sequence";
 import { getFarm, getFarms } from "lib/blockchain/Farm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
-import {
-  createGuestAccount,
-  getGuestKey,
-  getOnboardingComplete,
-  setGuestKey,
-} from "../actions/createGuestAccount";
+import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { analytics } from "lib/analytics";
 
 export const ART_MODE = !CONFIG.API_URL;
@@ -77,18 +72,13 @@ interface Authentication {
   farmId?: number;
 }
 
-interface GuestUser extends Authentication {
-  type: "GUEST";
-  guestKey: string | null;
-}
-
 export interface FullUser extends Authentication {
   type: "FULL";
   farmAddress?: string;
 }
 
 export interface Context {
-  user: GuestUser | FullUser;
+  user: FullUser;
   errorCode?: ErrorCode;
   transactionId?: string;
   blacklistStatus?: "OK" | "VERIFY" | "PENDING" | "REJECTED";
@@ -155,8 +145,11 @@ export type BlockchainEvent =
   | { type: "CONNECT_TO_PHANTOM" }
   | { type: "CONNECT_TO_WALLET_CONNECT" }
   | { type: "CONNECT_TO_SEQUENCE" }
+<<<<<<< HEAD
   | { type: "CONNECT_TO_OKX" }
   | { type: "CONNECT_AS_GUEST" }
+=======
+>>>>>>> aa1408326 (Remove guest mode)
   | { type: "SIGN" }
   | { type: "VERIFIED" }
   | { type: "SET_WALLET" }
@@ -168,6 +161,7 @@ export type BlockchainState = {
   value:
     | "idle"
     | "welcome"
+    | "createWallet"
     | "signIn"
     | "initialising"
     | "visiting"
@@ -219,12 +213,7 @@ export const authMachine = createMachine<
     // initial: ART_MODE ? "connected" : "idle",
     initial: "welcome",
     context: {
-      user: ART_MODE
-        ? { type: "FULL", farmId: 1 }
-        : {
-            type: "GUEST",
-            guestKey: getGuestKey(),
-          },
+      user: ART_MODE ? { type: "FULL", farmId: 1 } : { type: "FULL" },
     },
     states: {
       idle: {
@@ -249,9 +238,6 @@ export const authMachine = createMachine<
           SIGN_IN: {
             target: "signIn",
           },
-          CONNECT_AS_GUEST: {
-            target: "connectingAsGuest",
-          },
         },
       },
       welcome: {
@@ -260,7 +246,28 @@ export const authMachine = createMachine<
             target: "signIn",
           },
           CONTINUE: {
-            target: "signIn",
+            target: "createWallet",
+          },
+        },
+      },
+
+      createWallet: {
+        id: "createWallet",
+        on: {
+          CONNECT_TO_METAMASK: {
+            target: "connectingToMetamask",
+          },
+          CONNECT_TO_PHANTOM: {
+            target: "connectingToPhantom",
+          },
+          CONNECT_TO_WALLET_CONNECT: {
+            target: "connectingToWalletConnect",
+          },
+          CONNECT_TO_SEQUENCE: {
+            target: "connectingToSequence",
+          },
+          RETURN: {
+            target: "idle",
           },
         },
       },
@@ -321,11 +328,6 @@ export const authMachine = createMachine<
           onDone: [
             {
               target: "setupContracts",
-              cond: (context) => context.user.type === "GUEST",
-              actions: "assignGuestUser",
-            },
-            {
-              target: "setupContracts",
             },
           ],
           onError: {
@@ -341,11 +343,6 @@ export const authMachine = createMachine<
           onDone: [
             {
               target: "setupContracts",
-              cond: (context) => context.user.type === "GUEST",
-              actions: "assignGuestUser",
-            },
-            {
-              target: "setupContracts",
             },
           ],
           onError: {
@@ -359,11 +356,6 @@ export const authMachine = createMachine<
         invoke: {
           src: "initWalletConnect",
           onDone: [
-            {
-              target: "setupContracts",
-              cond: (context) => context.user.type === "GUEST",
-              actions: "assignGuestUser",
-            },
             {
               target: "setupContracts",
             },
@@ -387,11 +379,6 @@ export const authMachine = createMachine<
           onDone: [
             {
               target: "setupContracts",
-              cond: (context) => context.user.type === "GUEST",
-              actions: "assignGuestUser",
-            },
-            {
-              target: "setupContracts",
             },
           ],
           onError: [
@@ -407,6 +394,7 @@ export const authMachine = createMachine<
           ],
         },
       },
+<<<<<<< HEAD
       connectingToOkx: {
         id: "connectingToOkx",
         invoke: {
@@ -440,27 +428,9 @@ export const authMachine = createMachine<
               const guestKey = await createGuestAccount({
                 transactionId: context.transactionId as string,
               });
+=======
+>>>>>>> aa1408326 (Remove guest mode)
 
-              setGuestKey(guestKey);
-
-              analytics.logEvent("play_as_guest");
-            }
-          },
-          onDone: {
-            target: "#authorised",
-            actions: assign({
-              user: (context) => ({
-                ...context.user,
-                guestKey: getGuestKey(),
-              }),
-            }),
-          },
-          onError: {
-            target: "unauthorised",
-            actions: "assignErrorMessage",
-          },
-        },
-      },
       setupContracts: {
         invoke: {
           src: async (context) => {
@@ -689,13 +659,7 @@ export const authMachine = createMachine<
                 if (window.location.hash.includes("world")) return;
 
                 if (!ART_MODE) {
-                  if (context.user.type === "GUEST") {
-                    window.location.href = `${window.location.pathname}#/land/guest`;
-                  }
-
-                  if (context.user.type === "FULL") {
-                    window.location.href = `${window.location.pathname}#/land/${context.user.farmId}`;
-                  }
+                  window.location.href = `${window.location.pathname}#/land/${context.user.farmId}`;
                 }
               },
               (context) =>
@@ -933,18 +897,12 @@ export const authMachine = createMachine<
 
         const { charityAddress, captcha } = event as CreateFarmEvent;
 
-        let guestKey: string | undefined = undefined;
-        if (context.user.type === "GUEST") {
-          guestKey = context.user.guestKey ?? undefined;
-        }
-
         await createFarmAction({
           charity: charityAddress,
           token: context.user.rawToken,
           captcha,
           transactionId: context.transactionId as string,
           account: wallet.myAccount,
-          guestKey,
         });
       },
       login: async (context): Promise<{ token: string | null }> => {
@@ -1011,18 +969,7 @@ export const authMachine = createMachine<
       assignErrorMessage: assign<Context, any>({
         errorCode: (_context, event) => event.data.message,
       }),
-      assignGuestUser: assign<Context, any>({
-        user: (_context, event) => ({
-          type: "GUEST",
-          guestKey: getGuestKey(),
-          web3: event.data.web3,
-        }),
-      }),
       refreshFarm: assign<Context, any>({
-        user: () => ({
-          type: "GUEST",
-          guestKey: getGuestKey(),
-        }),
         visitingFarmId: undefined,
       }),
       clearSession: () => removeSession(wallet.myAccount as string),

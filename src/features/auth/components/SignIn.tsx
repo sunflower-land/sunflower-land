@@ -1,10 +1,8 @@
 import React, { useContext, useState } from "react";
-import MetaMaskOnboarding from "@metamask/onboarding";
 
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
 import { metamaskIcon } from "./WalletIcons";
-import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -103,7 +101,7 @@ const OtherWallets = () => {
   );
 };
 
-const SignIn = ({ onBack }: { onBack?: () => void }) => {
+export const SignIn = ({ onBack }: { onBack?: () => void }) => {
   const { authService } = useContext(Context);
   const [page, setPage] = useState<"home" | "other">("home");
 
@@ -167,7 +165,7 @@ const SignIn = ({ onBack }: { onBack?: () => void }) => {
   const showBackButton = !!onBack || page !== "home";
 
   return (
-    <>
+    <div className="px-4">
       <div className="flex text-center items-center justify-between mb-3 mt-1">
         <div
           className="flex items-center"
@@ -198,130 +196,6 @@ const SignIn = ({ onBack }: { onBack?: () => void }) => {
       </div>
       {page === "home" && <MainWallets />}
       {page === "other" && <OtherWallets />}
-    </>
-  );
-};
-
-export const Connect: React.FC = () => {
-  const { authService } = useContext(Context);
-  const [authState] = useActor(authService);
-
-  const user = authState.context.user;
-  const isGuest = user.type === "GUEST";
-  const hasGuestKey = isGuest && !!user.guestKey;
-
-  const guestModeComplete = !!getOnboardingComplete();
-
-  if (guestModeComplete) {
-    return (
-      <div className="px-4">
-        <SignIn />
-      </div>
-    );
-  }
-
-  return <CreateWallet />;
-};
-
-export const CreateWallet = () => {
-  const { authService } = useContext(Context);
-  const [page, setPage] = useState<"home" | "other">("home");
-
-  const handleBack = () => {
-    authService.send("BACK");
-  };
-
-  const onboarding = React.useRef<MetaMaskOnboarding>();
-
-  React.useEffect(() => {
-    if (!onboarding.current) {
-      onboarding.current = new MetaMaskOnboarding();
-    }
-  }, []);
-
-  const connectToMetaMask = () => {
-    if (MetaMaskOnboarding.isMetaMaskInstalled()) {
-      authService.send("CONNECT_TO_METAMASK");
-    } else {
-      console.log("NOT FOUND!");
-      onboarding.current?.startOnboarding();
-    }
-  };
-
-  const MainWallets = () => {
-    return (
-      <>
-        <Button
-          className="mb-2 py-2 text-sm relative"
-          onClick={connectToMetaMask}
-        >
-          <div className="px-8">
-            {metamaskIcon}
-            Metamask
-          </div>
-        </Button>
-
-        <div className="bg-white b-1 w-full h-[1px] my-4" />
-        <div className="flex justify-center relative pb-1">
-          <span className="text-xs text-center bg-[#c28669] px-2 absolute top-[-34px] italic ">
-            Or
-          </span>
-        </div>
-        <Button
-          className="mb-2 py-2 text-sm relative"
-          onClick={() => authService.send("CONNECT_TO_SEQUENCE")}
-        >
-          <div className="px-8">
-            <img
-              src="https://sequence.app/static/images/sequence-logo.7c854742a6b8b4969004.svg"
-              className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
-            />
-            Connect with email
-          </div>
-        </Button>
-        <Button
-          className="mb-2 py-2 text-sm relative"
-          onClick={() => setPage("other")}
-        >
-          <div className="px-8">
-            <img
-              src={walletIcon}
-              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
-            />
-            Other wallets
-          </div>
-        </Button>
-      </>
-    );
-  };
-
-  return (
-    <>
-      <div className="flex flex-col text-center items-center mb-3 mt-1">
-        {/* <div
-          className="flex items-center"
-          style={{
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
-        >
-          <img
-            src={SUNNYSIDE.icons.arrow_left}
-            className="cursor-pointer"
-            onClick={handleBack}
-            style={{
-              width: `${PIXEL_SCALE * 8}px`,
-            }}
-          />
-        </div> */}
-        <p className="text-sm mb-2 text-center">
-          Welcome to decentralized gaming!
-        </p>
-        <p className="text-xs text-white mt-2 mb-0.5 text-center">
-          Create a wallet to store your NFTs.
-        </p>
-      </div>
-      {page === "home" && <MainWallets />}
-      {page === "other" && <OtherWallets />}
-    </>
+    </div>
   );
 };

@@ -13,7 +13,6 @@ import { Inventory, InventoryItemName } from "features/game/types/game";
 import {
   Context as GameMachineContext,
   saveGame,
-  saveGuestGame,
 } from "features/game/lib/gameMachine";
 import { RESOURCES } from "features/game/types/resources";
 import { ResourceName } from "features/game/types/resources";
@@ -117,12 +116,6 @@ export type SaveEvent = {
   farmId: number;
 };
 
-export type GuestSaveEvent = {
-  type: "GUEST_SAVE";
-  gameMachineContext: GameMachineContext;
-  guestKey: string;
-};
-
 export type BlockchainEvent =
   | { type: "DRAG" }
   | { type: "DROP" }
@@ -133,7 +126,6 @@ export type BlockchainEvent =
   | PlaceEvent
   | UpdateEvent
   | SaveEvent
-  | GuestSaveEvent
   | MoveEvent
   | RemoveEvent
   | { type: "CANCEL" }
@@ -185,36 +177,9 @@ export const landscapingMachine = createMachine<
         idle: {
           on: {
             SAVE: { target: "autosaving" },
-            GUEST_SAVE: { target: "guestAutosaving" },
           },
         },
-        guestAutosaving: {
-          invoke: {
-            src: async (_: Context, event: any) => {
-              const saveEvent = event as GuestSaveEvent;
 
-              const result = await saveGuestGame(
-                saveEvent.gameMachineContext,
-                undefined,
-                saveEvent.guestKey
-              );
-
-              return result;
-            },
-            onDone: {
-              target: "idle",
-              actions: sendParent((_, event) => ({
-                type: "SAVE_SUCCESS",
-                data: event.data,
-              })),
-            },
-            onError: {
-              actions: (_, event) => {
-                console.error(event);
-              },
-            },
-          },
-        },
         autosaving: {
           invoke: {
             src: async (_: Context, event: any) => {

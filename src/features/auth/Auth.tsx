@@ -15,7 +15,6 @@ import { Signing } from "./components/Signing";
 import { ErrorCode } from "lib/errors";
 import { Countdown } from "./components/Countdown";
 import { Blacklisted } from "features/game/components/Blacklisted";
-import { Connect } from "./components/Connect";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ConnectedToWallet } from "./components/ConnectedToWallet";
 import { Verifying } from "./components/Verifying";
@@ -23,6 +22,8 @@ import { Welcome } from "./components/Welcome";
 import { Offer } from "./components/Offer";
 import classNames from "classnames";
 import { NPC_WEARABLES } from "lib/npcs";
+import { SignIn } from "./components/SignIn";
+import { CreateWallet } from "./components/CreateWallet";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -79,6 +80,7 @@ export const Auth: React.FC = () => {
         className="pb-1"
         bumpkinParts={
           authState.matches({ connected: "offer" }) ||
+          authState.matches("createWallet") ||
           authState.matches({ connected: "funding" })
             ? NPC_WEARABLES.grimbly
             : undefined
@@ -86,9 +88,10 @@ export const Auth: React.FC = () => {
       >
         {loading && <Loading />}
         {authState.matches("welcome") && <Welcome />}
+        {authState.matches("createWallet") && <CreateWallet />}
         {authState.matches({ connected: "offer" }) && <Offer />}
         {(authState.matches("idle") || authState.matches("signIn")) && (
-          <Connect />
+          <SignIn />
         )}
         {connecting && <Loading text="Connecting" />}
         {authState.matches("connectedToWallet") && <ConnectedToWallet />}
