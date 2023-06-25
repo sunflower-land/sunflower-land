@@ -20,6 +20,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { EventObject } from "xstate";
 import { isTouchDevice } from "../lib/device";
 import { SPAWNS } from "../lib/spawn";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 type SceneTransitionData = {
   previousSceneId: RoomId;
@@ -31,83 +32,39 @@ export type NPCBumpkin = {
   npc: NPCName;
 };
 
+type RoomListener = (event: EventObject) => void;
+
 // 3 Times per second send position to server
 const SEND_PACKET_RATE = 10;
 
+type BaseSceneOptions = {
+  name: RoomId;
+  mmo: {
+    enabled: boolean;
+  };
+  map: {
+    // tilesetUrl (Coming Soon)
+    json: any;
+  };
+  controls: {
+    enabled: boolean;
+  };
+};
 export abstract class BaseScene extends Phaser.Scene {
   abstract roomId: RoomId;
-  eventListener: (event: EventObject) => void;
+  eventListener?: RoomListener;
 
   private joystick?: VirtualJoystick;
 
+  private spawns = SPAWNS;
+
+  private options: BaseSceneOptions;
+
   private sceneTransitionData?: SceneTransitionData;
 
-  constructor(key: RoomId) {
-    super(key);
-
-    this.eventListener = (event) => {
-      if (event.type === "CHAT_MESSAGE_RECEIVED") {
-        const { sessionId, text, roomId } = event as ChatMessageReceived;
-        if (roomId !== this.roomId) return;
-
-        const room = this.roomService.state.context.rooms[roomId];
-
-        if (
-          sessionId &&
-          String(sessionId).length > 4 &&
-          this.playerEntities[sessionId]
-        ) {
-          this.playerEntities[sessionId].speak(text);
-        } else if (sessionId === room?.sessionId) {
-          this.currentPlayer?.speak(text);
-        }
-      }
-
-      if (event.type === "CLOTHING_CHANGED") {
-        const { sessionId, clothing, roomId } = event as ClothingChangedEvent;
-        if (roomId !== this.roomId) return;
-
-        const room = this.roomService.state.context.rooms[roomId];
-
-        if (
-          sessionId &&
-          String(sessionId).length > 4 &&
-          this.playerEntities[sessionId]
-        ) {
-          this.playerEntities[sessionId].changeClothing(clothing);
-        } else if (sessionId === room?.sessionId) {
-          this.currentPlayer?.changeClothing(clothing);
-        }
-      }
-
-      if (event.type === "PLAYER_JOINED") {
-        const { sessionId, x, y, clothing, roomId } = event as PlayerJoined;
-        if (roomId !== this.roomId) return;
-
-        const room = this.roomService.state.context.rooms[roomId];
-
-        if (!room) return;
-
-        // Current player
-        if (sessionId !== room.sessionId) {
-          const player = this.createPlayer({
-            x,
-            y,
-            clothing,
-            isCurrentPlayer: sessionId === room.sessionId,
-          });
-          this.playerEntities[sessionId] = player;
-        }
-      }
-
-      if (event.type === "PLAYER_QUIT") {
-        const { sessionId, roomId } = event as PlayerQuit;
-
-        if (roomId !== this.roomId) return;
-
-        this.destroyPlayer(sessionId);
-      }
-    };
+  constructor(options: BaseSceneOptions) {
+    super(options.name);
+    this.options = options;
   }
 
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
@@ -155,11 +112,14 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   preload() {
-    console.log("Preload");
+    this.map = this.make.tilemap({
+      key: this.options.name,
+    });
   }
-  async create() {
-    const camera = this.cameras.main;
-    camera.fadeIn();
+
+  public loadMap() {
+    this.map = this.make.tilemap({ key: this.options.name });
+
     const tileset = this.map.addTilesetImage(
       "Sunnyside V3",
       "tileset",
@@ -213,7 +173,9 @@ export abstract class BaseScene extends Phaser.Scene {
         layer?.setDepth(1000000);
       }
     });
+  }
 
+  public initialiseControls() {
     if (isTouchDevice()) {
       // Initialise joystick
       const { x, y, centerX, centerY, width, height } = this.cameras.main;
@@ -235,23 +197,79 @@ export abstract class BaseScene extends Phaser.Scene {
       this.cursorKeys = this.input.keyboard?.createCursorKeys();
       this.input.keyboard?.removeCapture("SPACE");
     }
+  }
 
-    this.roomService.off(this.eventListener);
-    this.roomService.onEvent(this.eventListener);
+  public initialiseMMO() {
+    this.eventListener = (event) => {
+      if (event.type === "CHAT_MESSAGE_RECEIVED") {
+        const { sessionId, text, roomId } = event as ChatMessageReceived;
+        if (roomId !== this.roomId) return;
+
+        const room = this.roomService.state.context.rooms[roomId];
+
+        if (
+          sessionId &&
+          String(sessionId).length > 4 &&
+          this.playerEntities[sessionId]
+        ) {
+          this.playerEntities[sessionId].speak(text);
+        } else if (sessionId === room?.sessionId) {
+          this.currentPlayer?.speak(text);
+        }
+      }
+
+      if (event.type === "CLOTHING_CHANGED") {
+        const { sessionId, clothing, roomId } = event as ClothingChangedEvent;
+        if (roomId !== this.roomId) return;
+
+        const room = this.roomService.state.context.rooms[roomId];
+
+        if (
+          sessionId &&
+          String(sessionId).length > 4 &&
+          this.playerEntities[sessionId]
+        ) {
+          this.playerEntities[sessionId].changeClothing(clothing);
+        } else if (sessionId === room?.sessionId) {
+          this.currentPlayer?.changeClothing(clothing);
+        }
+      }
+
+      if (event.type === "PLAYER_JOINED") {
+        const { sessionId, x, y, clothing, roomId } = event as PlayerJoined;
+        if (roomId !== this.roomId) return;
+
+        const room = this.roomService.state.context.rooms[roomId];
+
+        if (!room) return;
+
+        if (sessionId !== room.sessionId) {
+          const otherPlayer = new BumpkinContainer(this, x, y, clothing);
+          this.playerEntities[sessionId] = otherPlayer;
+        }
+      }
+
+      if (event.type === "PLAYER_QUIT") {
+        const { sessionId, roomId } = event as PlayerQuit;
+
+        if (roomId !== this.roomId) return;
+
+        this.destroyPlayer(sessionId);
+      }
+    };
+
+    this.roomService.off(this.eventListener as RoomListener);
+    this.roomService.onEvent(this.eventListener as RoomListener);
 
     // Connect to Room
     this.roomService.send("CHANGE_ROOM", {
       roomId: this.roomId,
     });
+  }
 
-    const from = this.sceneTransitionData?.previousSceneId as RoomId;
-    const spawn = SPAWNS[this.roomId][from] ?? SPAWNS[this.roomId].default;
-    this.createPlayer({
-      x: spawn.x ?? 0,
-      y: spawn.y ?? 0,
-      isCurrentPlayer: true,
-      clothing: this.roomService.state.context.bumpkin.equipped,
-    });
+  public initialiseCamera() {
+    const camera = this.cameras.main;
+    camera.fadeIn();
 
     camera.setBounds(
       0,
@@ -272,75 +290,91 @@ export abstract class BaseScene extends Phaser.Scene {
     const offsetY =
       (window.innerHeight - this.map.height * 4 * SQUARE_WIDTH) / 2;
     camera.setPosition(Math.max(offsetX, 0), Math.max(offsetY, 0));
+  }
 
-    // this.physics.world.fixedStep = false; // activates sync
-    // this.physics.world.fixedStep = true; // deactivates sync (default)
+  async create() {
+    this.loadMap();
+
+    if (this.options.mmo.enabled) {
+      this.initialiseMMO();
+    }
+
+    if (this.options.controls.enabled) {
+      this.initialiseControls();
+    }
+
+    this.initialiseCamera();
+
+    // TODO move somewhere?
+    const from = this.sceneTransitionData?.previousSceneId as RoomId;
+    const spawn =
+      this.spawns[this.roomId][from] ?? this.spawns[this.roomId].default;
+    this.createPlayer({
+      x: spawn.x ?? 0,
+      y: spawn.y ?? 0,
+      clothing: this.roomService.state.context.bumpkin.equipped,
+    });
   }
 
   createPlayer({
     x,
     y,
-    isCurrentPlayer,
     clothing,
   }: {
-    isCurrentPlayer: boolean;
     x: number;
     y: number;
     clothing: BumpkinParts;
   }): BumpkinContainer {
     const entity = new BumpkinContainer(this, x, y, clothing);
 
-    // Is current player
-    if (isCurrentPlayer) {
-      this.currentPlayer = entity;
+    this.currentPlayer = entity;
 
-      // (this.currentPlayer.body as Phaser.Physics.Arcade.Body).width = 10;
-      (this.currentPlayer.body as Phaser.Physics.Arcade.Body)
-        .setOffset(3, 10)
-        .setSize(10, 8)
-        .setCollideWorldBounds(true);
+    // (this.currentPlayer.body as Phaser.Physics.Arcade.Body).width = 10;
+    (this.currentPlayer.body as Phaser.Physics.Arcade.Body)
+      .setOffset(3, 10)
+      .setSize(10, 8)
+      .setCollideWorldBounds(true);
 
-      (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setAllowRotation(
-        false
-      );
+    (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setAllowRotation(
+      false
+    );
 
-      // Follow player with camera
-      this.cameras.main.startFollow(this.currentPlayer);
+    // Follow player with camera
+    this.cameras.main.startFollow(this.currentPlayer);
 
-      // Callback to fire on collisions
-      this.physics.add.collider(
-        this.currentPlayer,
-        this.customColliders as Phaser.GameObjects.Group,
-        // Read custom Tiled Properties
-        async (obj1, obj2) => {
-          // Change scenes
-          const warpTo = (obj2 as any).data?.list?.warp;
-          if (warpTo) {
-            this.cameras.main.fadeOut(1000);
-            (
-              this.currentPlayer?.body as Physics.Arcade.Body | undefined
-            )?.destroy();
+    // Callback to fire on collisions
+    this.physics.add.collider(
+      this.currentPlayer,
+      this.customColliders as Phaser.GameObjects.Group,
+      // Read custom Tiled Properties
+      async (obj1, obj2) => {
+        // Change scenes
+        const warpTo = (obj2 as any).data?.list?.warp;
+        if (warpTo) {
+          this.cameras.main.fadeOut(1000);
+          (
+            this.currentPlayer?.body as Physics.Arcade.Body | undefined
+          )?.destroy();
 
-            this.cameras.main.on(
-              "camerafadeoutcomplete",
-              () => {
-                const data: SceneTransitionData = {
-                  previousSceneId: this.roomId,
-                };
-                this.scene.start(warpTo, data);
-              },
-              this
-            );
-          }
-
-          const interactable = (obj2 as any).data?.list?.open;
-          if (interactable) {
-            console.log({ interactable });
-            interactableModalManager.open(interactable);
-          }
+          this.cameras.main.on(
+            "camerafadeoutcomplete",
+            () => {
+              const data: SceneTransitionData = {
+                previousSceneId: this.roomId,
+              };
+              this.scene.start(warpTo, data);
+            },
+            this
+          );
         }
-      );
-    }
+
+        const interactable = (obj2 as any).data?.list?.open;
+        if (interactable) {
+          console.log({ interactable });
+          interactableModalManager.open(interactable);
+        }
+      }
+    );
 
     return entity;
   }
@@ -374,13 +408,6 @@ export abstract class BaseScene extends Phaser.Scene {
     this.inputPayload.right = this.cursorKeys?.right.isDown ?? false;
     this.inputPayload.up = this.cursorKeys?.up.isDown ?? false;
     this.inputPayload.down = this.cursorKeys?.down.isDown ?? false;
-
-    // if (this.inputPayload.right) this.cameras.main.x -= 4;
-    // if (this.inputPayload.left) this.cameras.main.x += 4;
-    // if (this.inputPayload.up) this.cameras.main.y += 4;
-    // if (this.inputPayload.down) this.cameras.main.y -= 4;
-
-    // return;
 
     // Horizontal movements
     if (this.inputPayload.left) {
@@ -417,8 +444,6 @@ export abstract class BaseScene extends Phaser.Scene {
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityY(0);
     }
 
-    const room = this.roomService.state.context.rooms[this.roomId];
-
     if (
       // Hasn't sent to server recently
       Date.now() - this.packetSentAt > 1000 / SEND_PACKET_RATE &&
@@ -448,8 +473,6 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     this.currentPlayer.setDepth(Math.floor(this.currentPlayer.y));
-
-    // this.cameras.main.setScroll(this.currentPlayer.x, this.currentPlayer.y);
   }
 
   updateOtherPlayers() {
@@ -533,4 +556,12 @@ export abstract class BaseScene extends Phaser.Scene {
     this.updatePlayer();
     this.updateOtherPlayers();
   }
+
+  public setSpawn(coordinates: Coordinates) {
+    this.spawns[this.roomId] = {
+      default: coordinates,
+    };
+  }
 }
+
+window.BaseScene = BaseScene;

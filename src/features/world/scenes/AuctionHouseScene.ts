@@ -1,3 +1,5 @@
+import auctionJson from "assets/map/auction.json";
+
 import { RoomId } from "../roomMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
@@ -13,7 +15,12 @@ export class AuctionScene extends BaseScene {
   roomId: RoomId = "auction_house";
 
   constructor() {
-    super("auction_house");
+    super({
+      name: "auction_house",
+      controls: { enabled: true },
+      mmo: { enabled: true },
+      map: { json: auctionJson },
+    });
   }
 
   preload() {
@@ -21,12 +28,6 @@ export class AuctionScene extends BaseScene {
   }
 
   async create() {
-    console.log("Create auction");
-    this.map = this.make.tilemap({
-      key: "auction-map",
-    });
-    console.log("Created auction");
-
     super.create();
 
     this.initialiseNPCs(BUMPKINS);

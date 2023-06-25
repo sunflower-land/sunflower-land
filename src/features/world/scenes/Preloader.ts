@@ -1,5 +1,4 @@
 import mapJson from "assets/map/plaza.json";
-import auctionJson from "assets/map/auction.json";
 import clothesShopJson from "assets/map/clothe_shop.json";
 import decorationShopJSON from "assets/map/decorations.json";
 import windmillFloorJSON from "assets/map/windmill_floor.json";
@@ -14,8 +13,10 @@ import { CONFIG } from "lib/config";
 
 export abstract class Preloader extends Phaser.Scene {
   preload() {
+    window.secret = "123";
+    this.load.sceneFile("ExternalScene", "http://localhost:3002/Scene.js");
+
     this.load.tilemapTiledJSON("main-map", mapJson);
-    this.load.tilemapTiledJSON("auction-map", auctionJson);
     this.load.tilemapTiledJSON("dawn-breaker", dawnBreakerJSON);
     this.load.tilemapTiledJSON("clothes-shop", clothesShopJson);
     this.load.tilemapTiledJSON("decorations-shop", decorationShopJSON);
@@ -50,7 +51,8 @@ export abstract class Preloader extends Phaser.Scene {
     this.load.bitmapFont("pixelmix", "world/7px.png", "world/7px.xml");
 
     this.load.once("complete", () => {
-      this.scene.start(this.registry.get("initialScene"));
+      // this.scene.start(this.registry.get("initialScene"));
+      this.scene.start("ExternalScene");
     });
   }
 }
