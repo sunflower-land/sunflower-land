@@ -125,6 +125,24 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.silhoutte?.destroy();
 
         idleLoader.removeAllListeners();
+
+        const text = new Phaser.GameObjects.Text(
+          this.scene,
+          0,
+          0,
+          "Craig #87",
+          {
+            fontFamily: "monospace",
+            fontSize: 4,
+            resolution: 4,
+            padding: {
+              bottom: 1,
+            },
+          }
+        );
+        text.setPosition(-text.width / 2, 10);
+        this.add(text);
+        this.sendToBack(text);
       });
     }
 

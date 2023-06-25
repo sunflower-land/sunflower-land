@@ -82,7 +82,6 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
       },
       backgroundColor: "#000000",
       parent: "phaser-example",
-
       autoRound: true,
       pixelArt: true,
       plugins: {
@@ -101,7 +100,6 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
       },
       width: window.innerWidth,
       height: window.innerHeight,
-
       physics: {
         default: "arcade",
         arcade: {
