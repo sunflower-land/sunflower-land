@@ -43,6 +43,7 @@ export const Auth: React.FC = () => {
     authState.matches("connectingToPhantom") ||
     authState.matches("connectingToWalletConnect") ||
     authState.matches("connectingToSequence") ||
+    authState.matches("connectingToOkx") ||
     authState.matches("setupContracts");
 
   return (
