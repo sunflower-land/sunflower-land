@@ -1003,7 +1003,7 @@ describe("canremove", () => {
     expect(restricted).toBe(true);
   });
 
-  it("prevents a user from removing Tin Turtle when Cabbages are planted", () => {
+  it("prevents a user from removing Tin Turtle when Stones are mined", () => {
     const [restricted] = hasRemoveRestriction("Tin Turtle", "1", {
       ...TEST_FARM,
       stones: {
