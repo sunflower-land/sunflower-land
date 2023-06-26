@@ -742,6 +742,7 @@ export const authMachine = createMachine<
   {
     services: {
       initMetamask: async () => {
+        analytics.logEvent("connect_to_metamask");
         const _window = window as any;
 
         // TODO add type support
@@ -758,6 +759,7 @@ export const authMachine = createMachine<
         }
       },
       initPhantom: async () => {
+        analytics.logEvent("connect_to_phantom");
         const _window = window as any;
 
         if (_window.phantom) {
@@ -779,6 +781,7 @@ export const authMachine = createMachine<
         }
       },
       initWalletConnect: async () => {
+        analytics.logEvent("connect_to_walletconnect");
         // TODO abstract RPC constants
         const provider = new WalletConnectProvider({
           rpc: {
@@ -794,6 +797,7 @@ export const authMachine = createMachine<
         return { web3: { wallet: name, provider } };
       },
       initSequence: async () => {
+        analytics.logEvent("connect_to_sequence");
         const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
 
         const sequenceWallet = await sequence.initWallet(network);
@@ -808,6 +812,7 @@ export const authMachine = createMachine<
         return { web3: { wallet: "SEQUENCE", provider } };
       },
       initOkx: async () => {
+        analytics.logEvent("connect_to_okx");
         const _window = window as any;
 
         if (typeof _window.okxwallet !== "undefined") {

@@ -201,7 +201,7 @@ export const CreateFarm: React.FC = () => {
           href="https://docs.sunflower-land.com/getting-started/how-to-start#step-2-fund-your-wallet"
           target="_blank"
           rel="noopener noreferrer"
-          className="underline text-white text-xs text-center"
+          className="underline text-white text-xxs text-center"
         >
           How to fund your wallet
         </a>
