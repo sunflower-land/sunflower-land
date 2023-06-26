@@ -461,10 +461,10 @@ const travelingSalesmanItems: Record<TravelingSalesmanItem, boolean> = {
 };
 
 const soldOut: Record<SoldOutCollectibleName, boolean> = {
-  "Sir Goldensnout": false,
+  "Sir Goldensnout": true,
   "Peeled Potato": true,
   "Christmas Snow Globe": true,
-  "Beta Bear": false,
+  "Beta Bear": true,
   "Cyborg Bear": true,
   "Wood Nymph Wendy": true,
   "Squirrel Monkey": true,
@@ -483,7 +483,7 @@ const soldOut: Record<SoldOutCollectibleName, boolean> = {
   "Easter Bush": true,
   "Giant Carrot": true,
 
-  Hoot: false,
+  Hoot: true,
 };
 
 const achievementDecoration: Record<AchievementDecorationName, boolean> = {
