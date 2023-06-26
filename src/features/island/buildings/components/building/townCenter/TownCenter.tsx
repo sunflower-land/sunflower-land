@@ -70,17 +70,6 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
 
       <DeliveryBoard />
 
-      <img
-        src={SUNNYSIDE.icons.heart}
-        className="absolute animate-pulsate transition-opacity"
-        style={{
-          width: `${PIXEL_SCALE * 10}px`,
-          top: `${PIXEL_SCALE * -6}px`,
-          left: `${PIXEL_SCALE * 4}px`,
-          opacity: showHeart ? 100 : 0,
-        }}
-      />
-
       <div
         className="absolute"
         style={{

@@ -135,7 +135,6 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
     description: "Free Trades! Woohoo!",
   },
-
   "War Bond": {
     description: "A mark of a true warrior",
   },
@@ -502,6 +501,37 @@ export type DailyRewards = {
   };
 };
 
+export type PotionName =
+  | "Bloom Boost"
+  | "Happy Hooch"
+  | "Earth Essence"
+  | "Flower Power"
+  | "Organic Oasis"
+  | "Dream Drip"
+  | "Golden Syrup";
+
+export type PotionStatus =
+  | "pending"
+  | "incorrect"
+  | "correct"
+  | "almost"
+  | "bomb";
+
+export type PotionSlot = { potion: PotionName; status: PotionStatus };
+
+export type Attempt = [PotionSlot, PotionSlot, PotionSlot, PotionSlot];
+
+export type PotionHouse = {
+  game: {
+    status: "in_progress" | "finished";
+    attempts: Attempt[];
+    reward?: InventoryItemName;
+  };
+  history: {
+    [score: number]: number;
+  };
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -572,6 +602,7 @@ export interface GameState {
   hayseedHank: HayseedHank;
   mushrooms: Mushrooms;
   dawnBreaker?: DawnBreaker;
+  potionHouse?: PotionHouse;
 }
 
 export interface Context {

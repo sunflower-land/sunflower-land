@@ -114,6 +114,7 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
         DawnBreakerScene,
         PlazaScene,
         AuctionScene,
+        WoodlandsScene,
         BettyHomeScene,
         TimmyHomeScene,
         BertScene,
@@ -121,7 +122,6 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
         WindmillFloorScene,
         ClothesShopScene,
         DecorationShopScene,
-        WoodlandsScene,
       ],
       loader: {
         crossOrigin: "anonymous",

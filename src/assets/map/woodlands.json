@@ -1343,7 +1343,26 @@
       "draworder": "topdown",
       "id": 56,
       "name": "Interactable",
-      "objects": [],
+      "objects": [
+        {
+          "height": 30.1194510045521,
+          "id": 141,
+          "name": "",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "potion_table"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 56.1317041448472,
+          "x": 180.716706027313,
+          "y": 67.7687647602423
+        }
+      ],
       "opacity": 1,
       "tintcolor": "#00ff00",
       "type": "objectgroup",
@@ -1353,7 +1372,7 @@
     }
   ],
   "nextlayerid": 64,
-  "nextobjectid": 140,
+  "nextobjectid": 142,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.8.4",
