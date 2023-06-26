@@ -1,6 +1,6 @@
 import { sequence } from "0xsequence";
 import { createMachine, Interpreter, State, assign } from "xstate";
-import WalletConnectProvider from "@walletconnect/web3-provider";
+import { EthereumProvider } from "@walletconnect/ethereum-provider";
 
 import { loadBanDetails } from "features/game/actions/bans";
 import { isFarmBlacklisted } from "features/game/actions/onchain";
@@ -833,19 +833,15 @@ export const authMachine = createMachine<
         }
       },
       initWalletConnect: async () => {
-        // TODO abstract RPC constants
-        const provider = new WalletConnectProvider({
-          rpc: {
-            80001: "https://matic-mumbai.chainstacklabs.com",
-            137: "https://polygon-rpc.com/",
-          },
+        const provider = await EthereumProvider.init({
+          chains: [CONFIG.POLYGON_CHAIN_ID],
+          projectId: CONFIG.WALLETCONNECT_PROJECT_ID,
+          showQrModal: true,
         });
-        //  Enable session (triggers QR Code modal)
+
         await provider.enable();
 
-        const name = provider.walletMeta?.name;
-
-        return { web3: { wallet: name, provider } };
+        return { web3: { wallet: "WALLETCONNECT", provider } };
       },
       initSequence: async () => {
         const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
