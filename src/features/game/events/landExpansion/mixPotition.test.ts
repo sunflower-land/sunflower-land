@@ -262,10 +262,12 @@ describe("mixPotion", () => {
     };
 
     expect(state.inventory.Sunflower?.toNumber()).toBe(
-      new Decimal(100).sub(potionIngredients.sunflowers!).mul(4)
+      new Decimal(state.inventory.Sunflower?.toNumber() ?? 0)
+        .sub(potionIngredients.sunflowers!.mul(4))
+        .toNumber()
     );
     expect(state.inventory.Cauliflower?.toNumber()).toBe(
-      new Decimal(50).sub(potionIngredients.cauliflowers!).mul(4)
+      new Decimal(50).sub(potionIngredients.cauliflowers!.mul(4)).toNumber()
     );
   });
 
@@ -299,15 +301,17 @@ describe("mixPotion", () => {
     ].ingredients.Sunflower!.add(POTIONS["Bloom Boost"].ingredients.Sunflower!);
 
     expect(state.inventory.Sunflower?.toNumber()).toBe(
-      new Decimal(100).sub(sunflowerRequirements).mul(2)
+      new Decimal(100).sub(sunflowerRequirements.mul(2)).toNumber()
     );
     expect(state.inventory.Cauliflower?.toNumber()).toBe(
       new Decimal(50)
-        .sub(POTIONS["Flower Power"].ingredients.Cauliflower!)
-        .mul(2)
+        .sub(POTIONS["Flower Power"].ingredients.Cauliflower!.mul(2))
+        .toNumber()
     );
     expect(state.inventory.Potato?.toNumber()).toBe(
-      new Decimal(100).sub(POTIONS["Bloom Boost"].ingredients.Potato!).mul(2)
+      new Decimal(100)
+        .sub(POTIONS["Bloom Boost"].ingredients.Potato!.mul(2))
+        .toNumber()
     );
   });
 });

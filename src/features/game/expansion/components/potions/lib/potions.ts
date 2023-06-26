@@ -14,8 +14,10 @@ export const POTIONS: Record<PotionName, Potion> = {
   "Bloom Boost": {
     name: "Bloom Boost",
     ingredients: {
-      Pumpkin: new Decimal(10),
-      Cabbage: new Decimal(10),
+      Pumpkin: new Decimal(0),
+      Cabbage: new Decimal(0),
+      Sunflower: new Decimal(0),
+      Potato: new Decimal(0),
     },
     image: orangeBottle,
     description: "Ignite your plants with vibrant blooms!",
@@ -23,9 +25,9 @@ export const POTIONS: Record<PotionName, Potion> = {
   "Dream Drip": {
     name: "Dream Drip",
     ingredients: {
-      Egg: new Decimal(10),
-      Kale: new Decimal(10),
-      Stone: new Decimal(10),
+      Egg: new Decimal(0),
+      Kale: new Decimal(0),
+      Stone: new Decimal(0),
     },
     image: mustardBottle,
     description: "Drizzle your plants with magical dreams and fantasies.",
@@ -33,8 +35,8 @@ export const POTIONS: Record<PotionName, Potion> = {
   "Earth Essence": {
     name: "Earth Essence",
     ingredients: {
-      Potato: new Decimal(10),
-      Stone: new Decimal(10),
+      Potato: new Decimal(0),
+      Stone: new Decimal(0),
     },
     image: pinkBottle,
     description: "Harness the power of the earth to nurture your plants.",
@@ -42,8 +44,9 @@ export const POTIONS: Record<PotionName, Potion> = {
   "Flower Power": {
     name: "Flower Power",
     ingredients: {
-      Sunflower: new Decimal(10),
-      Iron: new Decimal(10),
+      Sunflower: new Decimal(0),
+      Iron: new Decimal(0),
+      Cauliflower: new Decimal(0),
     },
     image: aquaBottle,
     description: "Unleash a burst of floral energy upon your plants.",
@@ -51,7 +54,7 @@ export const POTIONS: Record<PotionName, Potion> = {
   "Golden Syrup": {
     name: "Golden Syrup",
     ingredients: {
-      Gold: new Decimal(5),
+      Gold: new Decimal(0),
     },
     image: whiteBottle,
     description: "Guaranteed to bloom the plant, but at a cost.",
@@ -59,8 +62,8 @@ export const POTIONS: Record<PotionName, Potion> = {
   "Happy Hooch": {
     name: "Happy Hooch",
     ingredients: {
-      Parsnip: new Decimal(10),
-      Radish: new Decimal(10),
+      Parsnip: new Decimal(0),
+      Radish: new Decimal(0),
     },
     image: blueBottle,
     description: "A potion to bring joy and laughter to your plants.",
@@ -68,9 +71,9 @@ export const POTIONS: Record<PotionName, Potion> = {
   "Organic Oasis": {
     name: "Organic Oasis",
     ingredients: {
-      Egg: new Decimal(10),
-      Kale: new Decimal(10),
-      Stone: new Decimal(10),
+      Egg: new Decimal(0),
+      Kale: new Decimal(0),
+      Stone: new Decimal(0),
     },
     image: greenBottle,
     description: "Create a lush, organic paradise for your plants.",
