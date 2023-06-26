@@ -140,12 +140,13 @@ export const Experiment: React.FC<Props> = ({ onClose }) => {
   const previousAttempts = potionHouse?.game.attempts ?? [];
   const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
 
-  const emptyAttempt = new Array(4).fill({
+  const emptyAttempt = new Array<{ potion: null; status: undefined }>(4).fill({
     potion: null,
-    feedback: undefined,
+    status: undefined,
   });
+
   const attempts = isNewGame
-    ? new Array(3).fill(emptyAttempt)
+    ? new Array<{ potion: null; status: undefined }[]>(3).fill(emptyAttempt)
     : previousAttempts.concat(new Array(3).fill(emptyAttempt)).slice(0, 3);
 
   const guessRow = isNewGame ? 0 : potionHouse?.game.attempts.length ?? 0;
