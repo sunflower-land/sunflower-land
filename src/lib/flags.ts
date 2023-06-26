@@ -28,13 +28,10 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
   AUCTION: () => true, // TEMP FOR TESTING defaultFeatureFlag,
-  SCARY_MIKE: testnetFeatureFlag,
   OKX_WALLET: testnetFeatureFlag,
-<<<<<<< HEAD
   POTION_HOUSE: testnetFeatureFlag,
-=======
-  LAURIE: testnetFeatureFlag,
->>>>>>> ec07af593 ([FEAT] block from mainnet)
+  SCARY_MIKE: defaultFeatureFlag,
+  LAURIE: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (
