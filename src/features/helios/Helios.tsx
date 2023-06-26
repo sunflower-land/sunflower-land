@@ -42,7 +42,6 @@ export const Helios: React.FC = () => {
   const { bumpkin } = state;
   const [sealSpawn] = useState(getRandomSpawn());
 
-  console.log("HELIOS", gameState.value);
   const autosaving = gameState.matches("autosaving");
 
   const [scrollIntoView] = useScrollIntoView();

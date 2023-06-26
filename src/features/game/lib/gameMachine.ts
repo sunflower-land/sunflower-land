@@ -234,7 +234,7 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
       ...events,
       [eventName]: [
         {
-          target: "#hoarding",
+          target: "hoarding",
           cond: (context: Context, event: PlayingEvent) => {
             const { valid } = checkProgress({
               state: context.state as GameState,
@@ -749,7 +749,6 @@ export function startGame(authContext: AuthContext) {
           },
         },
         playing: {
-          id: "playing",
           always: [
             {
               target: "playingGuestGame",
@@ -905,7 +904,22 @@ export function startGame(authContext: AuthContext) {
             ...GAME_EVENT_HANDLERS,
           },
           invoke: {
-            src: "save",
+            src: async (context, event) => {
+              if (authContext.user.type !== "FULL") {
+                return saveGuestGame(
+                  context,
+                  event,
+                  authContext.user.guestKey as string
+                );
+              }
+
+              return saveGame(
+                context,
+                event,
+                authContext.user.farmId as number,
+                authContext.user.rawToken as string
+              );
+            },
             onDone: [
               {
                 target: "playing",
@@ -1275,7 +1289,6 @@ export function startGame(authContext: AuthContext) {
           },
         },
         error: {
-          id: "error",
           on: {
             CONTINUE: "playing",
             REFRESH: {
@@ -1291,7 +1304,6 @@ export function startGame(authContext: AuthContext) {
           },
         },
         hoarding: {
-          id: "hoarding",
           on: {
             SYNC: {
               target: "syncing",
@@ -1440,24 +1452,6 @@ export function startGame(authContext: AuthContext) {
         clearTransactionId: assign<Context, any>({
           transactionId: () => undefined,
         }),
-      },
-      services: {
-        save: async (context, event) => {
-          if (authContext.user.type !== "FULL") {
-            return saveGuestGame(
-              context,
-              event,
-              authContext.user.guestKey as string
-            );
-          }
-
-          return saveGame(
-            context,
-            event,
-            authContext.user.farmId as number,
-            authContext.user.rawToken as string
-          );
-        },
       },
     }
   );
