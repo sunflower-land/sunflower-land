@@ -407,10 +407,10 @@ const points: Record<Points, boolean> = {
 };
 
 const goblinBlacksmith: Record<GoblinBlacksmithItemName, boolean> = {
-  "Mushroom House": false,
-  Obie: false,
+  "Mushroom House": true,
+  Obie: true,
   "Purple Trail": false,
-  Maximus: false,
+  Maximus: true,
 };
 
 const animals: Record<Animal, boolean> = {
