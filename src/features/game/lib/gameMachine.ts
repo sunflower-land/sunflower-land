@@ -77,7 +77,6 @@ import { Currency, buyBlockBucksMATIC } from "../actions/buyBlockBucks";
 import { getSessionId } from "lib/blockchain/Session";
 import { depositBumpkin } from "../actions/deposit";
 import { mintAuctionItem } from "../actions/mintAuctionItem";
-import { potionHouseMachine } from "../expansion/components/potions/lib/potionHouseMachine";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -226,9 +225,6 @@ export type BlockchainEvent =
   | { type: "SAVE_SUCCESS" }
   | { type: "UPGRADE" }
   | { type: "CLOSE" }
-  | { type: "OPEN_POTION_HOUSE" }
-  | { type: "CLOSE_POTION_HOUSE" }
-  | { type: "MIX_POTION" }
   | { type: "RANDOMISE" }; // Test only
 
 // // For each game event, convert it to an XState event + handler
@@ -336,8 +332,6 @@ export type BlockchainState = {
     | "coolingDown"
     | "upgradingGuestGame"
     | "buyingBlockBucks"
-    | "potionHouse.playing"
-    | "potionHouse.mixing"
     | "randomising"; // TEST ONLY
   context: Context;
 };
@@ -857,9 +851,6 @@ export function startGame(authContext: AuthContext) {
             },
             LANDSCAPE: {
               target: "landscaping",
-            },
-            OPEN_POTION_HOUSE: {
-              target: "potionHouse",
             },
             RANDOMISE: {
               target: "randomising",
@@ -1388,46 +1379,6 @@ export function startGame(authContext: AuthContext) {
               actions: assign((context: Context, event: any) =>
                 handleSuccessfulSave(context, event)
               ),
-            },
-          },
-        },
-        potionHouse: {
-          initial: "playing",
-          states: {
-            playing: {
-              invoke: {
-                id: "potionHouse.playing",
-                src: potionHouseMachine,
-                data: {
-                  potionHouse: (context: Context) => context.state.potionHouse,
-                },
-              },
-              on: {
-                ...GAME_EVENT_HANDLERS,
-                MIX_POTION: {
-                  target: "mixing",
-                },
-              },
-            },
-            mixing: {
-              invoke: {
-                src: "save",
-                onDone: {
-                  target: "playing",
-                  actions: assign((context: Context, event) =>
-                    handleSuccessfulSave(context, event)
-                  ),
-                },
-                onError: {
-                  target: "#error",
-                  actions: "assignErrorMessage",
-                },
-              },
-            },
-          },
-          on: {
-            CLOSE_POTION_HOUSE: {
-              target: "#playing",
             },
           },
         },

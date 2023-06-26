@@ -1,6 +1,4 @@
-import React, { useContext, useState } from "react";
-
-import { Context } from "features/game/GameProvider";
+import React, { useState } from "react";
 
 import { IntroPage } from "./Intro";
 import { Experiment } from "./Experiment";
@@ -8,26 +6,16 @@ import { Modal } from "react-bootstrap";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelRoomBorderStyle } from "features/game/lib/style";
-import { MachineState as PotionHouseState } from "./lib/potionHouseMachine";
 import { Rules } from "./Rules";
 import { getPotionHouseIntroRead } from "./lib/introStorage";
 
-const _isIntro = (state: PotionHouseState) => state.matches("intro");
-const _isExperimenting = (state: PotionHouseState) =>
-  !state.matches("intro") && !state.matches("finished");
-const _isPlaying = (state: PotionHouseState) => state.matches("playing");
-const _isRules = (state: PotionHouseState) => state.matches("rules");
-const _isGameOver = (state: PotionHouseState) => state.matches("gameOVer");
-const _isRevealing = (state: PotionHouseState) => state.matches("revealing");
-
 export const PotionHouse: React.FC = () => {
-  const { gameService } = useContext(Context);
-
   const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState<"intro" | "playing" | "rules">(
     getPotionHouseIntroRead() ? "playing" : "intro"
   );
 
+  // Temporarily show text to open the page
   if (!isOpen) {
     return <button onClick={() => setIsOpen(true)}>Potion House</button>;
   }
