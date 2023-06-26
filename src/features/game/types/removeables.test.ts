@@ -1002,4 +1002,96 @@ describe("canremove", () => {
 
     expect(restricted).toBe(true);
   });
+
+  it("prevents a user from removing Tin Turtle when Stones are mined", () => {
+    const [restricted] = hasRemoveRestriction("Tin Turtle", "1", {
+      ...TEST_FARM,
+      stones: {
+        0: {
+          x: 0,
+          y: 3,
+          width: 1,
+          height: 1,
+          stone: {
+            amount: 1,
+            minedAt: Date.now() - 100,
+          },
+        },
+      },
+      inventory: {
+        "Tin Turtle": new Decimal(1),
+      },
+    });
+
+    expect(restricted).toBe(true);
+  });
+
+  it("prevents a user from removing Emerald Turtle when Stone is mined", () => {
+    const [restricted] = hasRemoveRestriction("Emerald Turtle", "1", {
+      ...TEST_FARM,
+      stones: {
+        0: {
+          x: 0,
+          y: 3,
+          width: 1,
+          height: 1,
+          stone: {
+            amount: 1,
+            minedAt: Date.now() - 100,
+          },
+        },
+      },
+      inventory: {
+        "Emerald Turtle": new Decimal(1),
+      },
+    });
+
+    expect(restricted).toBe(true);
+  });
+
+  it("prevents a user from removing Emerald Turtle when iron is mined", () => {
+    const [restricted] = hasRemoveRestriction("Emerald Turtle", "1", {
+      ...TEST_FARM,
+      iron: {
+        0: {
+          x: 0,
+          y: 3,
+          width: 1,
+          height: 1,
+          stone: {
+            amount: 1,
+            minedAt: Date.now() - 100,
+          },
+        },
+      },
+      inventory: {
+        "Emerald Turtle": new Decimal(1),
+      },
+    });
+
+    expect(restricted).toBe(true);
+  });
+
+  it("prevents a user from removing Emerald Turtle when Gold is mined", () => {
+    const [restricted] = hasRemoveRestriction("Emerald Turtle", "1", {
+      ...TEST_FARM,
+      gold: {
+        0: {
+          x: 0,
+          y: 3,
+          width: 1,
+          height: 1,
+          stone: {
+            amount: 1,
+            minedAt: Date.now() - 100,
+          },
+        },
+      },
+      inventory: {
+        "Emerald Turtle": new Decimal(1),
+      },
+    });
+
+    expect(restricted).toBe(true);
+  });
 });
