@@ -13,8 +13,11 @@ import { Loading } from "./Loading";
 import Decimal from "decimal.js-light";
 import { fromWei, toBN } from "web3-utils";
 import { SUNNYSIDE } from "assets/sunnyside";
+import maticToken from "assets/icons/polygon-token.png";
 import { Modal } from "react-bootstrap";
 import { AddMATIC } from "features/island/hud/components/AddMATIC";
+import { wallet } from "lib/blockchain/wallet";
+import { CopyAddress } from "components/ui/CopyAddress";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -133,36 +136,30 @@ export const CreateFarm: React.FC = () => {
           </p>
         )}
 
-        <ol className="space-y-3 text-sm">
+        <span className="text-xxs">Your wallet address:</span>
+        <CopyAddress address={wallet.myAccount as string} showCopy />
+
+        <ol className="space-y-3 text-sm mt-1">
           <li>
             <div>
               <div className="flex space-x-1 mb-2 items-center">
-                {hasEnoughMatic && (
+                {hasEnoughMatic ? (
                   <img
                     src={SUNNYSIDE.icons.confirm}
                     style={{
                       width: `${PIXEL_SCALE * 6}px`,
                     }}
                   />
+                ) : (
+                  <img
+                    src={maticToken}
+                    style={{
+                      width: `${PIXEL_SCALE * 6}px`,
+                    }}
+                  />
                 )}
-                <span>
-                  Add Matic ({maticFeePlusGas.toNumber()} Matic required)
-                </span>
+                <span>{maticFeePlusGas.toNumber()} Matic required</span>
               </div>
-              {!hasEnoughMatic && (
-                <>
-                  <Button disabled={paymentConfirmed} onClick={addFunds}>
-                    Buy Matic
-                  </Button>
-                  {paymentConfirmed && (
-                    <p className="text-xxs italic" style={{ lineHeight: 1.1 }}>
-                      Waiting for crypto to be sent to your wallet. This usually
-                      takes 20-30 seconds
-                      <span className="loading2" />
-                    </p>
-                  )}
-                </>
-              )}
             </div>
           </li>
         </ol>
@@ -173,6 +170,20 @@ export const CreateFarm: React.FC = () => {
           <AddMATIC onClose={() => setShowAddFunds(false)} />
         </Panel>
       </Modal>
+      {!hasEnoughMatic && (
+        <div className="mb-2">
+          <Button disabled={paymentConfirmed} onClick={addFunds}>
+            Buy Matic with POKO
+          </Button>
+          {paymentConfirmed && (
+            <p className="text-xxs italic px-2" style={{ lineHeight: 1.1 }}>
+              Waiting for crypto to be sent to your wallet. This usually takes
+              20-30 seconds
+              <span className="loading2" />
+            </p>
+          )}
+        </div>
+      )}
       <Button
         disabled={!hasEnoughMatic}
         onClick={() => {
@@ -185,6 +196,16 @@ export const CreateFarm: React.FC = () => {
       >
         Start your adventure!
       </Button>
+      <div className="w-full flex justify-center">
+        <a
+          href="https://docs.sunflower-land.com/getting-started/how-to-start#step-2-fund-your-wallet"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline text-white text-xs text-center"
+        >
+          How to fund your wallet
+        </a>
+      </div>
     </>
   );
 };

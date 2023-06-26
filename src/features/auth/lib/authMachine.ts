@@ -144,11 +144,7 @@ export type BlockchainEvent =
   | { type: "CONNECT_TO_PHANTOM" }
   | { type: "CONNECT_TO_WALLET_CONNECT" }
   | { type: "CONNECT_TO_SEQUENCE" }
-<<<<<<< HEAD
   | { type: "CONNECT_TO_OKX" }
-  | { type: "CONNECT_AS_GUEST" }
-=======
->>>>>>> aa1408326 (Remove guest mode)
   | { type: "SIGN" }
   | { type: "VERIFIED" }
   | { type: "SET_WALLET" }
@@ -209,8 +205,7 @@ export const authMachine = createMachine<
 >(
   {
     id: "authMachine",
-    // initial: ART_MODE ? "connected" : "idle",
-    initial: "welcome",
+    initial: ART_MODE ? "connected" : "idle",
     context: {
       user: ART_MODE ? { type: "FULL", farmId: 1 } : { type: "FULL" },
     },
@@ -279,8 +274,8 @@ export const authMachine = createMachine<
           CONNECT_TO_OKX: {
             target: "connectingToOkx",
           },
-          RETURN: {
-            target: "idle",
+          BACK: {
+            target: "welcome",
           },
         },
       },
@@ -387,7 +382,6 @@ export const authMachine = createMachine<
           ],
         },
       },
-<<<<<<< HEAD
       connectingToOkx: {
         id: "connectingToOkx",
         invoke: {
@@ -395,11 +389,7 @@ export const authMachine = createMachine<
           onDone: [
             {
               target: "setupContracts",
-              cond: (context) => context.user.type === "GUEST",
-              actions: "assignGuestUser",
-            },
-            {
-              target: "setupContracts",
+              actions: "assignUser",
             },
           ],
           onError: {
@@ -408,22 +398,6 @@ export const authMachine = createMachine<
           },
         },
       },
-      connectingAsGuest: {
-        entry: "setTransactionId",
-        invoke: {
-          src: async (context) => {
-            if (context.user.type !== "GUEST") throw new Error("Not a guest");
-
-            // Sleep 500ms to show Loading screen
-            await new Promise((resolve) => setTimeout(resolve, 500));
-
-            if (!context.user.guestKey) {
-              const guestKey = await createGuestAccount({
-                transactionId: context.transactionId as string,
-              });
-=======
->>>>>>> aa1408326 (Remove guest mode)
-
       setupContracts: {
         invoke: {
           src: async (context) => {
@@ -661,7 +635,7 @@ export const authMachine = createMachine<
                 analytics.initialise({
                   id: context.user.farmId as number,
                   type: context.user.type,
-                  wallet: context.user.web3?.wallet,
+                  wallet: context.user.web3?.wallet as string,
                 }),
               () => analytics.logEvent("login"),
             ],

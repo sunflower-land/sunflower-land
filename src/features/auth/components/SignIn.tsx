@@ -103,7 +103,7 @@ const OtherWallets = () => {
   );
 };
 
-export const SignIn = ({ onBack }: { onBack?: () => void }) => {
+export const SignIn = () => {
   const { authService } = useContext(Context);
   const [page, setPage] = useState<"home" | "other">("home");
 
@@ -127,7 +127,7 @@ export const SignIn = ({ onBack }: { onBack?: () => void }) => {
     if (page === "other") {
       setPage("home");
     } else {
-      onBack && onBack();
+      authService.send("BACK");
     }
   };
 
@@ -178,8 +178,6 @@ export const SignIn = ({ onBack }: { onBack?: () => void }) => {
     );
   };
 
-  const showBackButton = !!onBack || page !== "home";
-
   return (
     <div className="px-4">
       <div className="flex text-center items-center justify-between mb-3 mt-1">
@@ -189,7 +187,7 @@ export const SignIn = ({ onBack }: { onBack?: () => void }) => {
             width: `${PIXEL_SCALE * 11}px`,
           }}
         >
-          {showBackButton && (
+          {(page === "other" || getOnboardingComplete()) && (
             <img
               src={SUNNYSIDE.icons.arrow_left}
               className="cursor-pointer"
