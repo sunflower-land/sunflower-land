@@ -16,8 +16,7 @@ import { Week, characters } from "./lib/characters";
 import { WeeklyLanternCount } from "./components/WeeklyLanternCount";
 import { PlayerBumpkin } from "./components/PlayerBumpkin";
 
-import background from "assets/land/dawn_breaker_8.webp";
-import nextBackground from "assets/land/dawn_breaker_9.png";
+import background from "assets/land/dawn_breaker_9.png";
 import { Characters } from "./components/Characters";
 import { Modal } from "react-bootstrap";
 import {
@@ -131,23 +130,9 @@ export const DawnBreaker: React.FC = () => {
         }}
       >
         <img
-          src={nextBackground}
-          alt="dawnbreaker-island"
-          className={classNames("absolute inset-0 w-full h-full", {
-            "transition-opacity duration-1000": showMapTransition,
-            "opacity-100": showNextStep,
-            "opacity-0": !showNextStep,
-          })}
-          id={Section.DawnBreakerBackGround}
-        />
-        <img
           src={background}
           alt="dawnbreaker-island"
-          className={classNames("absolute inset-0 w-full h-full", {
-            "transition-opacity duration-1000": showMapTransition,
-            "opacity-100": !showNextStep,
-            "opacity-0": showNextStep,
-          })}
+          className={classNames("absolute inset-0 w-full h-full")}
           id={Section.DawnBreakerBackGround}
         />
         <IslandTravel
