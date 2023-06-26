@@ -548,4 +548,5 @@ export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
   "Devil Wings": "Instant Crops",
   "Eggplant Onesie": "+0.1 Eggplant",
   "Golden Spatula": "+10% EXP",
+  "Mushroom Hat": "+0.1 Mushrooms",
 };
