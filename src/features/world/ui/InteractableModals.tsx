@@ -4,6 +4,7 @@ import { AuctioneerModal } from "features/retreat/components/auctioneer/Auctione
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
+import { hasFeatureAccess } from "lib/flags";
 
 type InteractableName =
   | "welcome_sign"
@@ -70,7 +71,9 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           deviceTrackerId={gameState.context.deviceTrackerId as string}
         />
       )}
-      {interactable === "potion_table" && <PotionHouse />}
+
+      {interactable === "potion_table" &&
+        hasFeatureAccess(state.inventory, "POTION_HOUSE") && <PotionHouse />}
     </>
   );
 
