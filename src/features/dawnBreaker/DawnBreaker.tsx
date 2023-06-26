@@ -13,7 +13,6 @@ import {
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Week, characters } from "./lib/characters";
-import { WeeklyLanternCount } from "./components/WeeklyLanternCount";
 import { PlayerBumpkin } from "./components/PlayerBumpkin";
 
 import background from "assets/land/dawn_breaker_9.png";
@@ -191,14 +190,7 @@ export const DawnBreaker: React.FC = () => {
         onClick={() => setShowLeaderboard(true)}
         loaded={!loadingLeaderboards}
       />
-      {showWeeklyLanternCount && (
-        <WeeklyLanternCount
-          lanternName={availableLantern.name}
-          endAt={new Date(availableLantern.endAt).getTime()}
-          totalCrafted={leaderboards?.lanterns?.total ?? 0}
-          loaded={!loadingLeaderboards}
-        />
-      )}
+
       <Modal show={showIntroModal} onHide={handleIntroModalClose} centered>
         <CloseButtonPanel
           title="Dawn Breaker Island is in Danger!"

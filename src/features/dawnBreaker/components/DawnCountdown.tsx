@@ -10,7 +10,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 
 export const DawnCountdown: React.FC = () => {
   const start = useCountdown(new Date("2023-07-03").getTime());
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
   return createPortal(
     <>
       <Modal show={showModal} centered onHide={() => setShowModal(false)}>
