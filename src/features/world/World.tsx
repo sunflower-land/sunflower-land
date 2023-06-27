@@ -56,7 +56,7 @@ export const Explore: React.FC = () => {
       </Modal>
       <ToastProvider>
         <ToastPanel />
-        {!isLoading && hasAccess && <PhaserComponent scene={name as RoomId} />}
+        {!isLoading && <PhaserComponent scene={name as RoomId} />}
 
         <WorldHud />
         <AuctionCountdown />
@@ -91,6 +91,11 @@ export const Explore: React.FC = () => {
           </Panel>
         </Modal>
       </ToastProvider>
+      <Modal show={refreshing} centered>
+        <Panel>
+          <Refreshing />
+        </Panel>
+      </Modal>
     </>
   );
 };
