@@ -1,3 +1,4 @@
+import MetaMaskOnboarding from "@metamask/onboarding";
 import { sequence } from "0xsequence";
 import { createMachine, Interpreter, State, assign } from "xstate";
 import WalletConnectProvider from "@walletconnect/web3-provider";
@@ -755,7 +756,8 @@ export const authMachine = createMachine<
 
           return { web3: { wallet: "METAMASK", provider } };
         } else {
-          throw new Error(ERRORS.NO_WEB3);
+          const onboarding = new MetaMaskOnboarding();
+          onboarding.startOnboarding();
         }
       },
       initPhantom: async () => {
