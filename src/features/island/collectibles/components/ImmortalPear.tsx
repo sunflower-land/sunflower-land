@@ -10,8 +10,9 @@ export const ImmortalPear: React.FC = () => {
         src={immortalPear}
         style={{
           width: `${PIXEL_SCALE * 22}px`,
-          bottom: `${PIXEL_SCALE * 4}px`,
-          left: `${PIXEL_SCALE * 5}px`,
+          bottom: `${PIXEL_SCALE * 1}px`,
+          left: "50%",
+          transform: "translateX(-50%)",
         }}
         className="absolute"
         alt="Immortal Pear"
