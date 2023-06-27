@@ -1,6 +1,6 @@
 import React from "react";
 
-import immortalPear from "assets/sfts/immortal_pear.gif";
+import immortalPear from "assets/sfts/immortal_pear.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const ImmortalPear: React.FC = () => {
@@ -10,7 +10,7 @@ export const ImmortalPear: React.FC = () => {
         src={immortalPear}
         style={{
           width: `${PIXEL_SCALE * 22}px`,
-          bottom: `${PIXEL_SCALE * 1}px`,
+          bottom: 0,
           left: "50%",
           transform: "translateX(-50%)",
         }}
