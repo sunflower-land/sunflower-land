@@ -40,7 +40,6 @@ import { reset } from "features/farming/hud/actions/reset";
 import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
 import { checkProgress, processEvent } from "./processEvent";
 import {
-  GuestSaveEvent,
   landscapingMachine,
   SaveEvent,
 } from "../expansion/placeable/landscapingMachine";
@@ -63,13 +62,10 @@ import {
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
-import { loadGuestSession } from "../actions/loadGuestSession";
-import { guestAutosave } from "../actions/guestAutosave";
 import { choose } from "xstate/lib/actions";
 import {
-  getGuestKey,
   removeGuestKey,
-  setGuestModeComplete,
+  setOnboardingComplete,
 } from "features/auth/actions/createGuestAccount";
 import { Announcements } from "../types/conversations";
 import { purchaseItem } from "../actions/purchaseItem";
@@ -348,36 +344,6 @@ export type MachineInterpreter = Interpreter<
   BlockchainState
 >;
 
-export const saveGuestGame = async (
-  context: Context,
-  event: any,
-  guestKey: string
-) => {
-  const saveAt = (event as any)?.data?.saveAt || new Date();
-
-  // Skip autosave when no actions were produced or if playing ART_MODE
-  if (context.actions.length === 0 || ART_MODE) {
-    return { verified: true, saveAt, farm: context.state };
-  }
-
-  const { verified, farm } = await guestAutosave({
-    guestKey,
-    actions: context.actions,
-    deviceTrackerId: context.deviceTrackerId as string,
-    transactionId: context.transactionId as string,
-  });
-
-  // This gives the UI time to indicate that a save is taking place both when clicking save
-  // and when autosaving
-  await new Promise((res) => setTimeout(res, 1000));
-
-  return {
-    saveAt,
-    verified,
-    farm,
-  };
-};
-
 export const saveGame = async (
   context: Context,
   event: any,
@@ -466,22 +432,6 @@ export function startGame(authContext: AuthContext) {
           ],
           invoke: {
             src: async (context) => {
-              if (authContext.user.type === "GUEST") {
-                const response = await loadGuestSession({
-                  transactionId: context.transactionId as string,
-                  guestKey: authContext.user.guestKey as string,
-                });
-
-                if (!response) throw new Error("NO_FARM");
-
-                const { game, deviceTrackerId } = response;
-
-                return {
-                  state: game,
-                  deviceTrackerId,
-                };
-              }
-
               if (!wallet.myAccount) throw new Error("No account");
 
               const user = authContext.user;
@@ -508,15 +458,12 @@ export function startGame(authContext: AuthContext) {
               if (sessionId) {
                 const fingerprint = "X";
 
-                const guestKey = getGuestKey() ?? undefined;
-
                 const response = await loadSession({
                   farmId,
                   sessionId,
                   token: authContext.user.rawToken as string,
                   wallet: authContext.user.web3?.wallet as string,
                   transactionId: context.transactionId as string,
-                  guestKey,
                 });
 
                 if (!response) {
@@ -524,7 +471,7 @@ export function startGame(authContext: AuthContext) {
                 }
 
                 removeGuestKey();
-                setGuestModeComplete();
+                setOnboardingComplete();
 
                 const {
                   game,
@@ -561,10 +508,6 @@ export function startGame(authContext: AuthContext) {
             onDone: {
               target: "notifying",
               actions: choose([
-                {
-                  cond: () => authContext.user.type === "GUEST",
-                  actions: "assignGuestGame",
-                },
                 {
                   cond: () => authContext.user.type === "FULL",
                   actions: "assignGame",
@@ -749,13 +692,7 @@ export function startGame(authContext: AuthContext) {
           },
         },
         playing: {
-          always: [
-            {
-              target: "playingGuestGame",
-              cond: () => authContext.user.type === "GUEST",
-            },
-            { target: "playingFullGame" },
-          ],
+          always: [{ target: "playingFullGame" }],
         },
         playingGuestGame: {
           on: {
@@ -905,14 +842,6 @@ export function startGame(authContext: AuthContext) {
           },
           invoke: {
             src: async (context, event) => {
-              if (authContext.user.type !== "FULL") {
-                return saveGuestGame(
-                  context,
-                  event,
-                  authContext.user.guestKey as string
-                );
-              }
-
               return saveGame(
                 context,
                 event,
@@ -1360,32 +1289,16 @@ export function startGame(authContext: AuthContext) {
           on: {
             ...PLACEMENT_EVENT_HANDLERS,
             SAVE: {
-              actions: choose([
-                {
-                  cond: () => authContext.user.type === "GUEST",
-                  actions: send(
-                    (context) =>
-                      ({
-                        type: "GUEST_SAVE",
-                        gameMachineContext: context,
-                        guestKey: (authContext.user as any).guestKey,
-                      } as GuestSaveEvent),
-                    { to: "landscaping" }
-                  ),
-                },
-                {
-                  actions: send(
-                    (context) =>
-                      ({
-                        type: "SAVE",
-                        gameMachineContext: context,
-                        rawToken: authContext.user.rawToken as string,
-                        farmId: authContext.user.farmId as number,
-                      } as SaveEvent),
-                    { to: "landscaping" }
-                  ),
-                },
-              ]),
+              actions: send(
+                (context) =>
+                  ({
+                    type: "SAVE",
+                    gameMachineContext: context,
+                    rawToken: authContext.user.rawToken as string,
+                    farmId: authContext.user.farmId as number,
+                  } as SaveEvent),
+                { to: "landscaping" }
+              ),
             },
             SAVE_SUCCESS: {
               actions: assign((context: Context, event: any) =>

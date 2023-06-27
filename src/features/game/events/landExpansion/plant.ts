@@ -323,6 +323,17 @@ export function getCropYieldAmount({
     }
   }
 
+  const isOvernightCrop =
+    crop === "Radish" || crop === "Wheat" || crop === "Kale";
+
+  if (
+    isOvernightCrop &&
+    collectibles["Hoot"] &&
+    isCollectibleBuilt("Hoot", collectibles)
+  ) {
+    amount = amount + 0.5;
+  }
+
   return Number(setPrecision(new Decimal(amount)));
 }
 

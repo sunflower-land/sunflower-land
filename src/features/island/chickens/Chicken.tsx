@@ -1,4 +1,4 @@
-import { useActor, useInterpret, useSelector } from "@xstate/react";
+import { useInterpret, useSelector } from "@xstate/react";
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
@@ -30,19 +30,17 @@ import {
   MachineState as ChickenMachineState,
 } from "features/farming/animals/chickenMachine";
 import { MutantChickenModal } from "features/farming/animals/components/MutantChickenModal";
-import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { getWheatRequiredToFeed } from "features/game/events/landExpansion/feedChicken";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
 import { Collectibles, Chicken as ChickenType } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
-import { MachineState } from "features/game/expansion/placeable/landscapingMachine";
 import { MoveableComponent } from "../collectibles/MovableComponent";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { ZoomContext } from "components/ZoomProvider";
 import { isLocked } from "features/game/events/landExpansion/moveChicken";
 import lockIcon from "assets/skills/lock.png";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 const getPercentageComplete = (fedAt?: number) => {
   if (!fedAt) return 0;
@@ -129,10 +127,11 @@ const compareCollectibles = (prev: Collectibles, next: Collectibles) =>
 
 interface Props {
   id: string;
-  coordinates: Coordinates;
+  x: number;
+  y: number;
 }
 
-const ChickenComponent: React.FC<Props> = ({ id }) => {
+const PlaceableChicken: React.FC<Props> = ({ id }) => {
   const { scale } = useContext(ZoomContext);
   const { gameService, selectedItem, showTimers } = useContext(Context);
 
@@ -182,9 +181,6 @@ const ChickenComponent: React.FC<Props> = ({ id }) => {
   const [showPopover, setShowPopover] = useState(false);
   const [showTimeToEgg, setShowTimeToEgg] = useState(false);
   const [showMutantModal, setShowMutantModal] = useState(false);
-
-  const shortcuts = getShortcuts();
-  const [showRemoveModal, setShowRemoveModal] = useState(false);
 
   const handleMouseEnter = () => {
     eggIsBrewing && setShowTimeToEgg(true);
@@ -486,75 +482,70 @@ const ChickenComponent: React.FC<Props> = ({ id }) => {
   );
 };
 
-const isLandscaping = (state: MachineState) => state.matches("landscaping");
+const isLandscaping = (state: GameMachineState) => state.matches("landscaping");
+const _collectibles = (state: GameMachineState) =>
+  state.context.state.collectibles;
+const _chickens = (state: GameMachineState) => state.context.state.chickens;
 
-export const Chicken: React.FC<Props> = (props) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
-  const collectibles = gameState.context.state.collectibles;
-  const chickens = gameState.context.state.chickens;
+const LockedChicken: React.FC<Props> = (props) => {
   const [showPopover, setShowPopover] = useState(false);
 
-  const landscaping = useSelector(gameService, isLandscaping);
-
-  const handleMouseEnter = () => {
-    // set state to show details
-    setShowPopover(true);
-  };
-
-  const handleMouseLeave = () => {
-    // set state to hide details
-    setShowPopover(false);
-  };
-
-  if (landscaping) {
-    // In Landscaping mode, use readonly building
-
-    if (isLocked(chickens[props.id], collectibles, Date.now())) {
-      return (
+  return (
+    <div
+      className="relative w-full h-full"
+      onMouseEnter={() => setShowPopover(true)}
+      onMouseLeave={() => setShowPopover(false)}
+    >
+      {showPopover && (
         <div
-          className="relative w-full h-full"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            top: `${PIXEL_SCALE * -15}px`,
+          }}
         >
-          <InnerPanel
-            className={classNames(
-              "transition-opacity absolute whitespace-nowrap sm:opacity-0 w-fit z-50 pointer-events-none",
-              {
-                "opacity-100": showPopover,
-                "opacity-0": !showPopover,
-              }
-            )}
-            style={{
-              top: `${PIXEL_SCALE * -10}px`,
-              left: `${PIXEL_SCALE * 16}px`,
-            }}
-          >
-            <div className="flex flex-col text-xxs text-white text-shadow mx-2">
-              <div className="flex flex-1 items-center justify-center">
-                <img src={lockIcon} className="w-4 mr-1" />
-                <span>AoE Locked</span>
-              </div>
+          <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
+            <div className="flex items-center space-x-2 mx-1 p-1">
+              <SquareIcon icon={lockIcon} width={5} />
+              <span className="text-xxs mb-0.5">AoE Locked</span>
             </div>
           </InnerPanel>
-          <div className="relative">
-            <ChickenComponent {...props} />
-          </div>
         </div>
-      );
-    }
-    return (
-      <MoveableComponent
-        name="Chicken"
-        x={props.coordinates.x}
-        y={props.coordinates.y}
-        id={props.id}
-      >
-        <ChickenComponent {...props} />
-      </MoveableComponent>
-    );
+      )}
+      <div className="relative">
+        <PlaceableChicken {...props} />
+      </div>
+    </div>
+  );
+};
+
+const MoveableChicken: React.FC<Props> = (props) => {
+  return (
+    <MoveableComponent name="Chicken" x={props.x} y={props.y} id={props.id}>
+      <PlaceableChicken {...props} />
+    </MoveableComponent>
+  );
+};
+
+const LandscapingChicken: React.FC<Props> = (props) => {
+  const { gameService } = useContext(Context);
+
+  const collectibles = useSelector(gameService, _collectibles);
+  const chickens = useSelector(gameService, _chickens);
+
+  if (isLocked(chickens[props.id], collectibles, Date.now())) {
+    return <LockedChicken {...props} />;
   }
 
-  return <ChickenComponent {...props} />;
+  return <MoveableChicken {...props} />;
 };
+
+const ChickenComponent: React.FC<Props> = (props) => {
+  const { gameService } = useContext(Context);
+  const landscaping = useSelector(gameService, isLandscaping);
+
+  if (landscaping) return <LandscapingChicken {...props} />;
+
+  return <PlaceableChicken {...props} />;
+};
+
+export const Chicken = React.memo(ChickenComponent);
