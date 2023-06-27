@@ -123,7 +123,6 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
         WindmillFloorScene,
         ClothesShopScene,
         DecorationShopScene,
-        WoodlandsScene,
         MarcusHomeScene,
       ],
       loader: {
