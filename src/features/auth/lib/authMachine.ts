@@ -789,6 +789,9 @@ export const authMachine = createMachine<
           chains: [CONFIG.POLYGON_CHAIN_ID],
           projectId: CONFIG.WALLETCONNECT_PROJECT_ID,
           showQrModal: true,
+          qrModalOptions: {
+            themeVariables: { "--wcm-z-index": "1100" }, // Ensures modal appears above splash
+          },
         });
 
         await provider.enable();
