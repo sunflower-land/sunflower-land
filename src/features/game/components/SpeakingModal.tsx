@@ -4,7 +4,6 @@ import { Panel } from "../../../components/ui/Panel";
 import { Equipped } from "features/game/types/bumpkin";
 import classNames from "classnames";
 import { TypingMessage } from "features/world/ui/TypingMessage";
-import { NPCName } from "lib/npcs";
 import { Button } from "components/ui/Button";
 
 export interface PanelTabs {
@@ -81,7 +80,11 @@ export const SpeakingModal: React.FC<Props> = ({
           message[currentMessage].actions && (
             <div className="flex mt-2 justify-start">
               {message[currentMessage].actions?.map((action) => (
-                <Button className="w-auto px-4 mr-2" onClick={action.cb}>
+                <Button
+                  key={action.text}
+                  className="w-auto px-4 mr-2"
+                  onClick={action.cb}
+                >
                   {action.text}
                 </Button>
               ))}
