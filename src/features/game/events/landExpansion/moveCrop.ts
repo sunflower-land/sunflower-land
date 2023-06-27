@@ -128,6 +128,39 @@ export function isLocked(
     }
   }
 
+  const isAdvancedLevelCrop =
+    cropName === "Eggplant" ||
+    cropName === "Radish" ||
+    cropName === "Wheat" ||
+    cropName === "Kale";
+
+  if (isAdvancedLevelCrop && collectibles["Laurie the Chuckle Crow"]?.[0]) {
+    const ScarecrowCoordinates =
+      collectibles["Laurie the Chuckle Crow"]?.[0].coordinates;
+    const scarecrowDimensions =
+      COLLECTIBLES_DIMENSIONS["Laurie the Chuckle Crow"];
+
+    const scarecrowPosition: Position = {
+      x: ScarecrowCoordinates.x,
+      y: ScarecrowCoordinates.y,
+      height: scarecrowDimensions.height,
+      width: scarecrowDimensions.width,
+    };
+
+    const plotPosition: Position = {
+      x: plot?.x,
+      y: plot?.y,
+      height: plot.height,
+      width: plot.width,
+    };
+
+    if (
+      isWithinAOE("Laurie the Chuckle Crow", scarecrowPosition, plotPosition)
+    ) {
+      return true;
+    }
+  }
+
   return false;
 }
 

@@ -3812,4 +3812,12 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1277.png",
     attributes: [],
   },
+  "Laurie the Chuckle Crow": {
+    description:
+      "With her disconcerting chuckle, she shooes peckers away from your crops!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/468.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
 };

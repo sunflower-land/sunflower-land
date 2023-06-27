@@ -171,6 +171,7 @@ import { BumpkinLantern } from "./components/BumpkinLantern";
 import { EggplantBear } from "./components/EggplantBear";
 import { GoblinLantern } from "./components/GoblinLantern";
 import { DawnFlower } from "./components/DawnFlower";
+import { LaurieTheChuckleCrow } from "./components/LaurieTheChuckelCrow";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -261,6 +262,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Tin Turtle": TinTurtle,
   Bale: Bale,
   "Scary Mike": ScaryMike,
+  "Laurie the Chuckle Crow": LaurieTheChuckleCrow,
 
   "Carrot Sword": CarrotSword,
 
@@ -444,7 +446,38 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
           width: `${PIXEL_SCALE * 16 * 3}px`,
           height: `${PIXEL_SCALE * 16 * 3}px`,
           left: `${PIXEL_SCALE * -12.8}px`,
-          top: `${PIXEL_SCALE * 16 * 2 - 2}px`,
+          top: `${PIXEL_SCALE * 16 * 2 - 7.5}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+
+  "Laurie the Chuckle Crow": () => (
+    <div
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 25}px`, right: `${PIXEL_SCALE * -5}px` }}
+    >
+      <img
+        src={ITEM_DETAILS["Laurie the Chuckle Crow"].image}
+        className="w-full"
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -12}px`,
+          top: `${PIXEL_SCALE * 16 * 2 - 13}px`,
         }}
       >
         <img

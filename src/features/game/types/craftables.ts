@@ -1164,6 +1164,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Bale: { width: 2, height: 2 },
   "Sir Goldensnout": { width: 2, height: 2 },
   "Scary Mike": { width: 1, height: 2 },
+  "Laurie the Chuckle Crow": { width: 1, height: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
