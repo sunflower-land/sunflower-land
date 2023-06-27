@@ -9,6 +9,7 @@ const farm: GameState = {
     answeredRiddleIds: [],
     currentWeek: 8,
     lanternsCraftedByWeek: {},
+    party: {},
   },
 };
 

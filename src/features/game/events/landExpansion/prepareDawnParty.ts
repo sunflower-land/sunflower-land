@@ -36,7 +36,7 @@ export function prepareParty({
 
   const fulfilledCount = game.dawnBreaker?.party?.fulfilledCount ?? 0;
 
-  if (!game.dawnBreaker.party.requirements) {
+  if (!game.dawnBreaker.party?.requirements) {
     throw new Error("No more resources required");
   }
   const requirements = game.dawnBreaker.party.requirements;
@@ -54,7 +54,7 @@ export function prepareParty({
   game.dawnBreaker.party = {
     fulfilledAt: createdAt,
     fulfilledCount: fulfilledCount + 1,
-    requirements: game.dawnBreaker.party.requirements,
+    requirements: game.dawnBreaker.party?.requirements,
   };
 
   return game;

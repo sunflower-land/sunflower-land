@@ -479,7 +479,7 @@ export type DawnBreaker = {
     plantedAt: number;
     tendedCount: number;
   };
-  party: Party;
+  party?: Party;
 };
 
 export type Order = {
