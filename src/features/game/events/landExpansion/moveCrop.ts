@@ -135,14 +135,14 @@ export function isLocked(
     cropName === "Kale";
 
   if (isAdvancedLevelCrop && collectibles["Laurie the Chuckle Crow"]?.[0]) {
-    const basicScarecrowCoordinates =
+    const ScarecrowCoordinates =
       collectibles["Laurie the Chuckle Crow"]?.[0].coordinates;
     const scarecrowDimensions =
       COLLECTIBLES_DIMENSIONS["Laurie the Chuckle Crow"];
 
     const scarecrowPosition: Position = {
-      x: basicScarecrowCoordinates.x,
-      y: basicScarecrowCoordinates.y,
+      x: ScarecrowCoordinates.x,
+      y: ScarecrowCoordinates.y,
       height: scarecrowDimensions.height,
       width: scarecrowDimensions.width,
     };
