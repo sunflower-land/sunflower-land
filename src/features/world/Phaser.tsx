@@ -36,6 +36,7 @@ import { Preloader } from "./scenes/Preloader";
 import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
 import { DawnBreakerScene } from "./scenes/DawnBreakerScene";
 import { Label } from "components/ui/Label";
+import { MarcusHomeScene } from "./scenes/MarcusHomeScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _messages = (state: MachineState) => {
@@ -122,6 +123,8 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
         WindmillFloorScene,
         ClothesShopScene,
         DecorationShopScene,
+        WoodlandsScene,
+        MarcusHomeScene,
       ],
       loader: {
         crossOrigin: "anonymous",
@@ -134,6 +137,7 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
     });
 
     game.registry.set("roomService", roomService);
+    game.registry.set("gameService", gameService);
     game.registry.set("initialScene", scene);
     gameService.onEvent((e) => {
       if (e.type === "bumpkin.equipped") {

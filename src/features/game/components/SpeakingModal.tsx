@@ -4,7 +4,7 @@ import { Panel } from "../../../components/ui/Panel";
 import { Equipped } from "features/game/types/bumpkin";
 import classNames from "classnames";
 import { TypingMessage } from "features/world/ui/TypingMessage";
-import { NPCName } from "lib/npcs";
+import { Button } from "components/ui/Button";
 
 export interface PanelTabs {
   icon: string;
@@ -17,8 +17,7 @@ interface Props {
   onBack?: () => void;
   bumpkinParts?: Partial<Equipped>;
   className?: string;
-  text: string[];
-  npc: NPCName;
+  message: { text: string; actions?: { text: string; cb: () => void }[] }[];
 }
 
 /**
@@ -29,19 +28,20 @@ export const SpeakingModal: React.FC<Props> = ({
   onBack,
   bumpkinParts,
   className,
-  text,
-  npc,
+  message,
 }) => {
   const [currentMessage, setCurrentMessage] = useState(0);
   const [messageEnded, setMessageEnded] = useState(false);
+  const [currentTextEnded, setCurrentTextEnded] = useState(false);
   const [forceShowFullMessage, setForceShowFullMessage] = useState(false);
 
   const handleClick = useCallback(() => {
     if (messageEnded) {
       setMessageEnded(false);
       setForceShowFullMessage(false);
-      if (currentMessage < text.length - 1) {
+      if (currentMessage < message.length - 1) {
         setCurrentMessage(currentMessage + 1);
+        setCurrentTextEnded(false);
       } else {
         setCurrentMessage(0);
         onClose();
@@ -50,7 +50,7 @@ export const SpeakingModal: React.FC<Props> = ({
       setMessageEnded(true);
       setForceShowFullMessage(true);
     }
-  }, [currentMessage, messageEnded, text.length]);
+  }, [currentMessage, messageEnded, message.length]);
 
   useEffect(() => {
     const handleKeyPressed = (e: KeyboardEvent) => {
@@ -63,6 +63,7 @@ export const SpeakingModal: React.FC<Props> = ({
     return () => window.removeEventListener("keydown", handleKeyPressed);
   }, [handleClick]);
 
+  console.log({ currentTextEnded, currentMessage });
   return (
     <Panel
       className={classNames("relative w-full", className)}
@@ -70,10 +71,25 @@ export const SpeakingModal: React.FC<Props> = ({
     >
       <div className="p-1" style={{ minHeight: "100px" }}>
         <TypingMessage
-          message={text[currentMessage]}
-          onMessageEnd={() => console.log("ended")}
+          message={message[currentMessage].text}
+          key={currentMessage}
+          onMessageEnd={() => setCurrentTextEnded(true)}
           forceShowFullMessage={forceShowFullMessage}
         />
+        {(currentTextEnded || forceShowFullMessage) &&
+          message[currentMessage].actions && (
+            <div className="flex mt-2 justify-start">
+              {message[currentMessage].actions?.map((action) => (
+                <Button
+                  key={action.text}
+                  className="w-auto px-4 mr-2"
+                  onClick={action.cb}
+                >
+                  {action.text}
+                </Button>
+              ))}
+            </div>
+          )}
       </div>
     </Panel>
   );

@@ -3,6 +3,7 @@ import { Room } from "colyseus.js";
 
 import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
+import { MachineInterpreter as GameMachineInterpreter } from "features/game/lib/gameMachine";
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
@@ -148,6 +149,10 @@ export abstract class BaseScene extends Phaser.Scene {
 
   public get roomService() {
     return this.registry.get("roomService") as MachineInterpreter;
+  }
+
+  public get gameService() {
+    return this.registry.get("gameService") as GameMachineInterpreter;
   }
 
   init(data: SceneTransitionData) {
