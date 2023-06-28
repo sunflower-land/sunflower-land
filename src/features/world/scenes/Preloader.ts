@@ -12,6 +12,7 @@ import marcusHomeJSON from "assets/map/marcus_home.json";
 import dawnBreakerJSON from "assets/map/dawn_breaker.json";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
+import { SOUNDS } from "assets/sound-effects/soundEffects";
 
 export abstract class Preloader extends Phaser.Scene {
   preload() {
@@ -27,6 +28,13 @@ export abstract class Preloader extends Phaser.Scene {
     this.load.tilemapTiledJSON("betty-home", bettyHomeJSON);
     this.load.tilemapTiledJSON("marcus-home", marcusHomeJSON);
     this.load.tilemapTiledJSON("woodlands", woodlandsJSON);
+
+    // Load Sound Effects
+    this.load.audio("walk", SOUNDS.footsteps.dirt);
+    this.load.audio("fire", SOUNDS.loops.fire);
+    this.load.audio("nature_1", SOUNDS.loops.nature_1);
+    this.load.audio("nature_2", SOUNDS.loops.nature_2);
+    this.load.audio("royal_farms", "src/assets/songs/royal_farms.mp3");
 
     // Phaser assets must be served from an URL
     this.load.image(
