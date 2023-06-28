@@ -415,8 +415,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
     const speed = 50;
 
-    this.cursorKeys?.a?.reset();
-
     this.inputPayload.left =
       (this.cursorKeys?.left.isDown ||
         this.cursorKeys?.a?.isDown ||
