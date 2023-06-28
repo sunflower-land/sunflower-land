@@ -31,26 +31,25 @@ export const SpeakingModal: React.FC<Props> = ({
   message,
 }) => {
   const [currentMessage, setCurrentMessage] = useState(0);
-  const [messageEnded, setMessageEnded] = useState(false);
   const [currentTextEnded, setCurrentTextEnded] = useState(false);
   const [forceShowFullMessage, setForceShowFullMessage] = useState(false);
 
   const handleClick = useCallback(() => {
-    if (messageEnded) {
-      setMessageEnded(false);
+    if (currentTextEnded) {
+      setCurrentTextEnded(false);
       setForceShowFullMessage(false);
+
       if (currentMessage < message.length - 1) {
         setCurrentMessage(currentMessage + 1);
-        setCurrentTextEnded(false);
       } else {
         setCurrentMessage(0);
         onClose();
       }
     } else {
-      setMessageEnded(true);
+      setCurrentTextEnded(true);
       setForceShowFullMessage(true);
     }
-  }, [currentMessage, messageEnded, message.length]);
+  }, [currentTextEnded, currentMessage, message.length]);
 
   useEffect(() => {
     const handleKeyPressed = (e: KeyboardEvent) => {
@@ -63,33 +62,47 @@ export const SpeakingModal: React.FC<Props> = ({
     return () => window.removeEventListener("keydown", handleKeyPressed);
   }, [handleClick]);
 
-  console.log({ currentTextEnded, currentMessage });
+  const showActions =
+    (currentTextEnded || forceShowFullMessage) &&
+    message[currentMessage].actions;
   return (
     <Panel
       className={classNames("relative w-full", className)}
       bumpkinParts={bumpkinParts}
     >
-      <div className="p-1" style={{ minHeight: "100px" }}>
-        <TypingMessage
-          message={message[currentMessage].text}
-          key={currentMessage}
-          onMessageEnd={() => setCurrentTextEnded(true)}
-          forceShowFullMessage={forceShowFullMessage}
-        />
-        {(currentTextEnded || forceShowFullMessage) &&
-          message[currentMessage].actions && (
-            <div className="flex mt-2 justify-start">
+      <div
+        className="p-1 flex flex-col cursor-pointer"
+        style={{ minHeight: "100px" }}
+        onClick={handleClick}
+      >
+        <div className="flex-1  pb-2">
+          <TypingMessage
+            message={message[currentMessage].text}
+            key={currentMessage}
+            onMessageEnd={() => setCurrentTextEnded(true)}
+            forceShowFullMessage={forceShowFullMessage}
+          />
+          {showActions && (
+            <div className="flex mt-2 justify-start ">
               {message[currentMessage].actions?.map((action) => (
                 <Button
                   key={action.text}
                   className="w-auto px-4 mr-2"
-                  onClick={action.cb}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    action.cb();
+                  }}
                 >
                   {action.text}
                 </Button>
               ))}
             </div>
           )}
+        </div>
+        {!showActions && (
+          <p className="text-xxs italic float-right">(Tap to continue)</p>
+        )}
       </div>
     </Panel>
   );

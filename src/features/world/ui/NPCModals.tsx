@@ -25,35 +25,46 @@ class NpcModalManager {
 export const npcModalManager = new NpcModalManager();
 
 type NpcModals = Partial<Record<NPCName, boolean>>;
-export const NPCModals: React.FC = () => {
+
+interface Props {
+  onClose: () => void;
+  onOpen: () => void;
+}
+export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
   const [npc, setNpc] = useState<NPCName>();
 
   useEffect(() => {
     npcModalManager.listen((npc, open) => {
       setNpc(npc);
+      setTimeout(onOpen, 100); // Lag the pause of movement to give natural effect
     });
   }, []);
+
+  const closeModal = () => {
+    setNpc(undefined);
+    onClose();
+  };
 
   return (
     <>
       <Modal
-        dialogClassName="npc-dialog"
+        // dialogClassName="npc-dialog"
         show={!!npc}
-        size="xl"
-        onHide={() => setNpc(undefined)}
+        centered
+        onHide={closeModal}
       >
         {npc === "pumpkin'pete" && (
           <SpeakingModal
-            onClose={() => setNpc(undefined)}
+            onClose={closeModal}
             bumpkinParts={NPC_WEARABLES["pumpkin'pete"]}
             message={[]}
           />
         )}
-        {npc === "sofia" && <Sofia onClose={() => setNpc(undefined)} />}
-        {npc === "bella" && <Bella onClose={() => setNpc(undefined)} />}
+        {npc === "sofia" && <Sofia onClose={closeModal} />}
+        {npc === "bella" && <Bella onClose={closeModal} />}
         {npc === "stella" && (
           <CloseButtonPanel
-            onClose={() => setNpc(undefined)}
+            onClose={closeModal}
             bumpkinParts={NPC_WEARABLES.stella}
           >
             <div className="p-2">
@@ -63,7 +74,7 @@ export const NPCModals: React.FC = () => {
         )}
         {npc === "timmy" && (
           <CloseButtonPanel
-            onClose={() => setNpc(undefined)}
+            onClose={closeModal}
             bumpkinParts={NPC_WEARABLES.timmy}
           >
             <div className="p-2">
@@ -77,7 +88,7 @@ export const NPCModals: React.FC = () => {
         )}
         {npc === "lily" && (
           <CloseButtonPanel
-            onClose={() => setNpc(undefined)}
+            onClose={closeModal}
             bumpkinParts={NPC_WEARABLES.lily}
           >
             <div className="p-2">
@@ -87,7 +98,7 @@ export const NPCModals: React.FC = () => {
         )}
         {npc === "igor" && (
           <CloseButtonPanel
-            onClose={() => setNpc(undefined)}
+            onClose={closeModal}
             bumpkinParts={NPC_WEARABLES.igor}
             tabs={[{ icon: SUNNYSIDE.icons.hammer, name: "Craft" }]}
           >
@@ -96,7 +107,7 @@ export const NPCModals: React.FC = () => {
         )}
         {npc === "hammerin' harry" && (
           <SpeakingModal
-            onClose={() => setNpc(undefined)}
+            onClose={closeModal}
             bumpkinParts={NPC_WEARABLES["hammerin' harry"]}
             message={[
               { text: "Gather round Bumpkins, an auction is about to begin." },
@@ -105,14 +116,14 @@ export const NPCModals: React.FC = () => {
         )}
         {npc === "marcus" && (
           <SpeakingModal
-            onClose={() => setNpc(undefined)}
+            onClose={closeModal}
             bumpkinParts={NPC_WEARABLES["marcus"]}
             message={[{ text: "Hey! You are not allowed to go in my house." }]}
           />
         )}
         {npc === "grimbly" && (
           <CloseButtonPanel
-            onClose={() => setNpc(undefined)}
+            onClose={closeModal}
             bumpkinParts={NPC_WEARABLES.grimbly}
           >
             <div className="p-2">
@@ -122,7 +133,7 @@ export const NPCModals: React.FC = () => {
         )}
         {npc === "grimtooth" && (
           <CloseButtonPanel
-            onClose={() => setNpc(undefined)}
+            onClose={closeModal}
             bumpkinParts={NPC_WEARABLES.grimtooth}
           >
             <div className="p-2">
@@ -132,7 +143,7 @@ export const NPCModals: React.FC = () => {
         )}
         {npc === "craig" && (
           <CloseButtonPanel
-            onClose={() => setNpc(undefined)}
+            onClose={closeModal}
             bumpkinParts={NPC_WEARABLES.craig}
           >
             <div className="p-2">
@@ -143,7 +154,7 @@ export const NPCModals: React.FC = () => {
         )}
         {npc === "gabi" && (
           <CloseButtonPanel
-            onClose={() => setNpc(undefined)}
+            onClose={closeModal}
             bumpkinParts={NPC_WEARABLES.gabi}
           >
             <div className="p-2">

@@ -137,14 +137,6 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
       parent: "game-content",
     });
 
-    game.current.canvas.addEventListener("focus", () => {
-      console.log("Focus canvas");
-    });
-
-    game.current.canvas.addEventListener("blur", () => {
-      console.log("Blur canvas");
-    });
-
     game.current.registry.set("roomService", roomService);
     game.current.registry.set("gameService", gameService);
     game.current.registry.set("initialScene", scene);
@@ -163,6 +155,28 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
 
   const ref = useRef<HTMLDivElement>(null);
 
+  const pauseInput = () => {
+    if (!game.current) {
+      return;
+    }
+
+    game.current.input.enabled = false;
+    if (game.current.input.keyboard) {
+      game.current.input.keyboard.enabled = false;
+    }
+  };
+
+  const resumeInput = () => {
+    if (!game.current) {
+      return;
+    }
+
+    game.current.input.enabled = true;
+    if (game.current.input.keyboard) {
+      game.current.input.keyboard.enabled = true;
+    }
+  };
+
   // Prevent Phaser events firing when interacting with HTML UI
   useEffect(() => {
     function handleClickOutside(event: any) {
@@ -171,21 +185,14 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
       }
 
       if (!ref.current.contains(event.target)) {
-        game.current.input.enabled = false;
-        if (game.current.input.keyboard) {
-          game.current.input.keyboard.enabled = false;
-        }
+        pauseInput();
       } else {
-        game.current.input.enabled = true;
-        if (game.current.input.keyboard) {
-          game.current.input.keyboard.enabled = true;
-        }
+        resumeInput();
       }
     }
-    // Bind the event listener
     document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
-      // Unbind the event listener on clean up
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [ref]);
@@ -201,8 +208,12 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
         }
         messages={messages ?? []}
       />
-      <NPCModals />
-      <InteractableModals id={authState.context.user.farmId as number} />
+      <NPCModals onClose={resumeInput} onOpen={pauseInput} />
+      <InteractableModals
+        id={authState.context.user.farmId as number}
+        onClose={resumeInput}
+        onOpen={pauseInput}
+      />
       <Modal
         show={roomState === "loading" || roomState === "initialising"}
         centered

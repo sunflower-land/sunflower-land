@@ -10,7 +10,7 @@ interface Props {
 export const TypingMessage: React.FC<Props> = ({
   message,
   onMessageEnd,
-  trail = 60,
+  trail = 30,
   forceShowFullMessage = false,
 }) => {
   const items = useMemo(
@@ -30,7 +30,6 @@ export const TypingMessage: React.FC<Props> = ({
     from: { display: "none" },
     enter: { display: "" },
     onRest: (status, controller, item) => {
-      console.log({ item });
       if (item.key === items.length - 1) {
         onMessageEnd(message);
       }

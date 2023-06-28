@@ -39,8 +39,14 @@ export const interactableModalManager = new InteractableModalManager();
 
 interface Props {
   id: number;
+  onClose: () => void;
+  onOpen: () => void;
 }
-export const InteractableModals: React.FC<Props> = ({ id }) => {
+export const InteractableModals: React.FC<Props> = ({
+  id,
+  onOpen,
+  onClose,
+}) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
@@ -52,8 +58,14 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
   useEffect(() => {
     interactableModalManager.listen((interactable, open) => {
       setInteractable(interactable);
+      onOpen();
     });
   }, []);
+
+  const closeModal = () => {
+    setInteractable(undefined);
+    onClose();
+  };
 
   const navigate = useNavigate();
 
@@ -63,7 +75,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
       {interactable === "auction_item" && (
         <AuctioneerModal
           isOpen={interactable === "auction_item"}
-          onClose={() => setInteractable(undefined)}
+          onClose={closeModal}
           gameState={state}
           onUpdate={(state) => {
             console.log("Update hit!");
@@ -81,12 +93,8 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
       {interactable === "potion_table" &&
         hasFeatureAccess(state.inventory, "POTION_HOUSE") && <PotionHouse />}
 
-      <Modal
-        centered
-        show={interactable === "boat_modal"}
-        onHide={() => setInteractable(undefined)}
-      >
-        <CloseButtonPanel onClose={() => setInteractable(undefined)}>
+      <Modal centered show={interactable === "boat_modal"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
           <div className="p-2">
             <p className="mb-3">Would you like to return home?</p>
           </div>
@@ -97,22 +105,15 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
       <Modal
         centered
         show={interactable === "homeless_man"}
-        onHide={() => setInteractable(undefined)}
+        onHide={closeModal}
       >
-        <CloseButtonPanel onClose={() => setInteractable(undefined)}>
+        <CloseButtonPanel onClose={closeModal}>
           <Donations />
         </CloseButtonPanel>
       </Modal>
 
-      <Modal
-        centered
-        show={interactable === "fan_art_1"}
-        onHide={() => setInteractable(undefined)}
-      >
-        <CloseButtonPanel
-          onClose={() => setInteractable(undefined)}
-          title="Congratulations"
-        >
+      <Modal centered show={interactable === "fan_art_1"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal} title="Congratulations">
           <div className="p-2">
             <p className="text-sm mb-2 text-center">
               Congratulations Palisman, the winner of the first Fan Art
@@ -131,9 +132,9 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
       {/* <Modal
         centered
         show={!!interactable}
-        onHide={() => setInteractable(undefined)}
+        onHide={closeModal}
       >
-        <CloseButtonPanel onClose={() => setInteractable(undefined)}>
+        <CloseButtonPanel onClose={closeModal}>
           {interactable === "fan_art" && (
             <div className="p-2">
               <p className="mb-2">Have you submitted your fan art?</p>
