@@ -201,12 +201,11 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   "pumpkin'pete": {
     body: "Light Brown Farmer Potion",
     background: "Farm Background",
-    hair: "Sun Spots",
+    hair: "Explorer Hair",
     shirt: "Yellow Farmer Shirt",
     pants: "Lumberjack Overalls",
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
-    coat: "Fruit Picker Apron",
   },
   // Crazy buggy eyed bert
   bert: {

@@ -35,7 +35,7 @@ export interface ChatContext {
 }
 
 export type RoomState = {
-  value: "initialising" | "joinRoom" | "ready" | "error";
+  value: "loading" | "joinRoom" | "ready" | "error" | "introduction";
   context: ChatContext;
 };
 
@@ -102,6 +102,7 @@ export type RoomEvent =
   | RoomDisconnected
   | SendPositionEvent
   | ClothingChangedEvent
+  | { type: "CONTINUE" }
   | { type: "RETRY" };
 
 export type MachineState = State<ChatContext, RoomEvent, RoomState>;
@@ -144,8 +145,31 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
   },
   states: {
     initialising: {
+      always: [
+        {
+          target: "introduction",
+          cond: () => !localStorage.getItem("mmo_introduction.read"),
+        },
+        {
+          target: "loading",
+        },
+      ],
+    },
+    introduction: {
+      on: {
+        CONTINUE: {
+          target: "loading",
+          actions: () =>
+            localStorage.setItem(
+              "mmo_introduction.read",
+              Date.now().toString()
+            ),
+        },
+      },
+    },
+    loading: {
       invoke: {
-        id: "initialising",
+        id: "loading",
         src: (context) => async () => {
           if (!CONFIG.ROOM_URL) {
             return { roomId: undefined };
@@ -322,7 +346,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
           target: "joinRoom",
         },
         RETRY: {
-          target: "initialising",
+          target: "loading",
         },
       },
     },

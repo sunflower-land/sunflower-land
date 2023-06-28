@@ -37,6 +37,7 @@ import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
 import { DawnBreakerScene } from "./scenes/DawnBreakerScene";
 import { Label } from "components/ui/Label";
 import { MarcusHomeScene } from "./scenes/MarcusHomeScene";
+import { WorldIntroduction } from "./ui/WorldIntroduction";
 
 const _roomState = (state: MachineState) => state.value;
 const _messages = (state: MachineState) => {
@@ -151,6 +152,7 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
     };
   }, []);
 
+  console.log({ roomState });
   return (
     <div>
       <div id="game-content" />
@@ -164,10 +166,17 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
       />
       <NPCModals />
       <InteractableModals id={authState.context.user.farmId as number} />
-      <Modal show={roomState === "initialising"} centered>
+      <Modal
+        show={roomState === "loading" || roomState === "initialising"}
+        centered
+      >
         <Panel>
           <p className="loading">Loading</p>
         </Panel>
+      </Modal>
+
+      <Modal show={roomState === "introduction"} centered>
+        <WorldIntroduction roomService={roomService} />
       </Modal>
 
       <Modal show={roomState === "joinRoom"} centered>
