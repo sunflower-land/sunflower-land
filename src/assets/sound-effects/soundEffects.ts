@@ -13,4 +13,7 @@ export const SOUNDS = {
     nature_1: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Loops/Nature Loops/Farm_Game_Loop_Nature_Ambience_Birds_&_Noise_1_Outside_Trees_Peaceful_Wind.mp3`,
     nature_2: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Loops/Nature Loops/Farm_Game_Loop_Nature_Ambience_Birds_&_Noise_2_Outside_Trees_Peaceful_Wind.mp3`,
   },
+  songs: {
+    royal_farms: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/songs/royal_farms.mp3`,
+  },
 };
