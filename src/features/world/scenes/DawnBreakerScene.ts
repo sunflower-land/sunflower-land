@@ -9,7 +9,6 @@ import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { npcModalManager } from "../ui/NPCModals";
 
-
 const BUMPKINS: NPCBumpkin[] = [
   {
     npc: "bella",
@@ -157,7 +156,7 @@ export class DawnBreakerScene extends BaseScene {
         end: 18,
       }),
       repeat: -1,
-      frameRate: 10,
+      frameRate: 13.8,
     });
     drummer.play("drummer_animation", true);
 
@@ -170,7 +169,7 @@ export class DawnBreakerScene extends BaseScene {
         end: 18,
       }),
       repeat: -1,
-      frameRate: 10,
+      frameRate: 9.2,
     });
     dancing.play("dancing_girl_animation", true);
 
