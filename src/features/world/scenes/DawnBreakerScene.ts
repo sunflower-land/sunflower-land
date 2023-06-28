@@ -2,6 +2,7 @@ import { Label } from "../containers/Label";
 import { RoomId } from "../roomMachine";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
+import { AudioController, Sound } from "../lib/AudioController";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -20,6 +21,9 @@ const BUMPKINS: NPCBumpkin[] = [
     y: 290,
   },
 ];
+
+const fireCoords = { x: 352, y: 435 };
+const drummerCoords = { x: 255, y: 365 };
 
 export class DawnBreakerScene extends BaseScene {
   roomId: RoomId = "dawn_breaker";
@@ -60,6 +64,39 @@ export class DawnBreakerScene extends BaseScene {
       frameWidth: 16,
       frameHeight: 27,
     });
+
+    // SFX
+
+    // Ambience
+    const nature1 = this.sound.add("nature_1") as Sound;
+    const nature2 = this.sound.add("nature_2") as Sound;
+    nature1.play({ loop: true, volume: 0.02 });
+    nature2.play({ loop: true, volume: 0.02 });
+
+    // Fogueira
+    const fireSound = this.sound.add("fire") as Sound;
+    fireSound.play({ loop: true, volume: 0 });
+
+    this.soundEffects.push(
+      new AudioController({
+        sound: fireSound,
+        distanceThreshold: 100,
+        coordinates: fireCoords,
+        maxVolume: 0.1,
+      })
+    );
+
+    // Music
+    const music = this.sound.add("royal_farms") as Sound;
+    music.play({ loop: true, volume: 0 });
+    this.soundEffects.push(
+      new AudioController({
+        sound: music,
+        distanceThreshold: 150,
+        coordinates: drummerCoords,
+        maxVolume: 0.8,
+      })
+    );
   }
 
   async create() {
@@ -91,7 +128,11 @@ export class DawnBreakerScene extends BaseScene {
     label.setDepth(100000000);
 
     // Drummer
-    const drummer = this.add.sprite(255, 365, "drummer");
+    const drummer = this.add.sprite(
+      drummerCoords.x,
+      drummerCoords.y,
+      "drummer"
+    );
     this.anims.create({
       key: "drummer_animation",
       frames: this.anims.generateFrameNumbers("drummer", {
@@ -117,7 +158,9 @@ export class DawnBreakerScene extends BaseScene {
     dancing.play("dancing_girl_animation", true);
 
     // Fire
-    const fire = this.add.sprite(352, 435, "fogueira");
+
+    const fire = this.add.sprite(fireCoords.x, fireCoords.y, "fogueira");
+
     this.anims.create({
       key: "fire_animation",
       frames: this.anims.generateFrameNumbers("fogueira", {
@@ -144,7 +187,8 @@ export class DawnBreakerScene extends BaseScene {
     turtle.play("turtle_animation", true);
 
     // Frog
-    const frog = this.add.sprite(335, 246, "frog");
+    const frogCoords = { x: 335, y: 246 };
+    const frog = this.add.sprite(frogCoords.x, frogCoords.y, "frog");
     this.anims.create({
       key: "frog_animation",
       frames: this.anims.generateFrameNumbers("frog", {

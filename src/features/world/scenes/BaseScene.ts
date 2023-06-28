@@ -20,6 +20,11 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { EventObject } from "xstate";
 import { isTouchDevice } from "../lib/device";
 import { SPAWNS } from "../lib/spawn";
+import {
+  AudioController,
+  Sound,
+  WalkAudioController,
+} from "../lib/AudioController";
 
 type SceneTransitionData = {
   previousSceneId: RoomId;
@@ -122,6 +127,8 @@ export abstract class BaseScene extends Phaser.Scene {
   } = {};
 
   customColliders?: Phaser.GameObjects.Group;
+  soundEffects: AudioController[] = [];
+  walkAudioController?: WalkAudioController;
 
   cursorKeys:
     | {
@@ -180,6 +187,13 @@ export abstract class BaseScene extends Phaser.Scene {
       this.physics.world.enable(polygon);
       (polygon.body as Physics.Arcade.Body).setImmovable(true);
     });
+
+    // set up Sound FXs
+    const walkSound = this.sound.add("walk") as Sound;
+
+    this.walkAudioController = new WalkAudioController(walkSound);
+
+    // this.audioController = new AudioController({ sound: walkSound });
 
     // Setup interactable layers
     const interactablesPolygons = this.map.createFromObjects(
@@ -436,12 +450,30 @@ export abstract class BaseScene extends Phaser.Scene {
       this.roomService.send("SEND_POSITION", this.serverPosition);
     }
 
-    if (
+    const isMoving =
       this.inputPayload.left ||
       this.inputPayload.right ||
       this.inputPayload.up ||
-      this.inputPayload.down
-    ) {
+      this.inputPayload.down;
+
+    if (this.soundEffects) {
+      this.soundEffects.forEach((audio) =>
+        audio.setVolumeAndPan(
+          this.currentPlayer?.x ?? 0,
+          this.currentPlayer?.y ?? 0
+        )
+      );
+    } else {
+      console.error("audioController is undefined");
+    }
+
+    if (this.walkAudioController) {
+      this.walkAudioController.handleWalkSound(isMoving);
+    } else {
+      console.error("walkAudioController is undefined");
+    }
+
+    if (isMoving) {
       this.currentPlayer.walk();
     } else {
       this.currentPlayer.idle();
