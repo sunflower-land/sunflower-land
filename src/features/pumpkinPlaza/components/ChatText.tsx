@@ -145,6 +145,7 @@ export const ChatText: React.FC<Props> = ({
           onInput={(e: ChangeEvent<HTMLInputElement>) => {
             setText(e.target.value);
             isValid();
+            e.preventDefault();
           }}
           placeholder="Type here..."
           className="text-xxs placeholder-white text-shadow w-full bg-black bg-opacity-10 px-2 py-2 rounded-md max-h-min"

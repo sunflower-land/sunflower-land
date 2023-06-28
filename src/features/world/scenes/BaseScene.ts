@@ -124,12 +124,25 @@ export abstract class BaseScene extends Phaser.Scene {
 
   customColliders?: Phaser.GameObjects.Group;
 
+  joystickKeys:
+    | {
+        up: Phaser.Input.Keyboard.Key;
+        down: Phaser.Input.Keyboard.Key;
+        left: Phaser.Input.Keyboard.Key;
+        right: Phaser.Input.Keyboard.Key;
+      }
+    | undefined;
+
   cursorKeys:
     | {
         up: Phaser.Input.Keyboard.Key;
         down: Phaser.Input.Keyboard.Key;
         left: Phaser.Input.Keyboard.Key;
         right: Phaser.Input.Keyboard.Key;
+        w?: Phaser.Input.Keyboard.Key;
+        s?: Phaser.Input.Keyboard.Key;
+        a?: Phaser.Input.Keyboard.Key;
+        d?: Phaser.Input.Keyboard.Key;
       }
     | undefined;
 
@@ -233,14 +246,28 @@ export abstract class BaseScene extends Phaser.Scene {
         fixed: true,
         forceMin: 10,
       });
+      this.joystickKeys = this.joystick.createCursorKeys();
+    }
+    // Initialise Keyboard
+    this.cursorKeys = this.input.keyboard?.createCursorKeys();
+    if (this.cursorKeys) {
+      this.cursorKeys.w = this.input.keyboard?.addKey(
+        Phaser.Input.Keyboard.KeyCodes.W
+      );
+      this.cursorKeys.a = this.input.keyboard?.addKey(
+        Phaser.Input.Keyboard.KeyCodes.A
+      );
+      this.cursorKeys.s = this.input.keyboard?.addKey(
+        Phaser.Input.Keyboard.KeyCodes.S
+      );
+      this.cursorKeys.d = this.input.keyboard?.addKey(
+        Phaser.Input.Keyboard.KeyCodes.D
+      );
 
-      this.cursorKeys = this.joystick?.createCursorKeys();
-    } else {
-      // Initialise Keyboard
-      this.cursorKeys = this.input.keyboard?.createCursorKeys();
       this.input.keyboard?.removeCapture("SPACE");
     }
 
+    this.input.setTopOnly(true);
     this.roomService.off(this.eventListener);
     this.roomService.onEvent(this.eventListener);
 
@@ -340,7 +367,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
           const interactable = (obj2 as any).data?.list?.open;
           if (interactable) {
-            console.log({ interactable });
             interactableModalManager.open(interactable);
           }
         }
@@ -375,10 +401,26 @@ export abstract class BaseScene extends Phaser.Scene {
 
     const speed = 50;
 
-    this.inputPayload.left = this.cursorKeys?.left.isDown ?? false;
-    this.inputPayload.right = this.cursorKeys?.right.isDown ?? false;
-    this.inputPayload.up = this.cursorKeys?.up.isDown ?? false;
-    this.inputPayload.down = this.cursorKeys?.down.isDown ?? false;
+    this.inputPayload.left =
+      (this.cursorKeys?.left.isDown ||
+        this.cursorKeys?.a?.isDown ||
+        this.joystickKeys?.left.isDown) ??
+      false;
+    this.inputPayload.right =
+      (this.cursorKeys?.right.isDown ||
+        this.cursorKeys?.d?.isDown ||
+        this.joystickKeys?.right.isDown) ??
+      false;
+    this.inputPayload.up =
+      (this.cursorKeys?.up.isDown ||
+        this.cursorKeys?.w?.isDown ||
+        this.joystickKeys?.up.isDown) ??
+      false;
+    this.inputPayload.down =
+      (this.cursorKeys?.down.isDown ||
+        this.cursorKeys?.s?.isDown ||
+        this.joystickKeys?.down.isDown) ??
+      false;
 
     // if (this.inputPayload.right) this.cameras.main.x -= 4;
     // if (this.inputPayload.left) this.cameras.main.x += 4;
