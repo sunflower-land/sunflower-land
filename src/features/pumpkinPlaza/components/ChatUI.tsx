@@ -12,9 +12,17 @@ interface Props {
   game: GameState;
   messages: { sessionId: string; text: string }[];
   onMessage: (content: { text?: string; reaction?: ReactionName }) => void;
+  onChatStarted: () => void;
+  onChatClose: () => void;
 }
 
-export const ChatUI: React.FC<Props> = ({ onMessage, game, messages }) => {
+export const ChatUI: React.FC<Props> = ({
+  onMessage,
+  game,
+  messages,
+  onChatStarted,
+  onChatClose,
+}) => {
   const [showChat, setShowChat] = useState(false);
   const [messageCountOnChatClose, setMessageCountOnChatClose] = useState(0);
   const [newMessageCount, setNewMessageCount] = useState(0);
@@ -36,6 +44,7 @@ export const ChatUI: React.FC<Props> = ({ onMessage, game, messages }) => {
   const handleChatClose = () => {
     setShowChat(false);
     setMessageCountOnChatClose(messages.length);
+    onChatClose();
   };
 
   return (
@@ -51,6 +60,7 @@ export const ChatUI: React.FC<Props> = ({ onMessage, game, messages }) => {
           messages={messages}
           onMessage={(text) => onMessage({ text })}
           isChatOpen={showChat}
+          onChatStarted={onChatStarted}
         />
       </div>
       <div
@@ -60,7 +70,7 @@ export const ChatUI: React.FC<Props> = ({ onMessage, game, messages }) => {
             "scale-50": showChat,
           }
         )}
-        style={{ width: `${PIXEL_SCALE * 22}px` }}
+        style={{ width: `${PIXEL_SCALE * 22}px`, zIndex: 51 }}
         onClick={showChat ? handleChatClose : handleChatOpen}
       >
         <img

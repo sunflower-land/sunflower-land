@@ -6,6 +6,7 @@ import classNames from "classnames";
 interface Props {
   messages: { sessionId: string; text: string }[];
   onMessage: (text: string) => void;
+  onChatStarted: () => void;
   isChatOpen: boolean;
 }
 
@@ -22,6 +23,7 @@ const ALPHA_REGEX = new RegExp(/^[\w*?!, '-]+$/);
 export const ChatText: React.FC<Props> = ({
   messages,
   onMessage,
+  onChatStarted,
   isChatOpen,
 }) => {
   const ref = useRef<HTMLInputElement>();
@@ -141,10 +143,14 @@ export const ChatText: React.FC<Props> = ({
           autoComplete="off"
           value={text}
           ref={(r) => (ref.current = r as HTMLInputElement)}
-          onClick={() => ref.current?.focus()}
+          onClick={() => {
+            ref.current?.focus();
+            onChatStarted();
+          }}
           onInput={(e: ChangeEvent<HTMLInputElement>) => {
             setText(e.target.value);
             isValid();
+            onChatStarted();
             e.preventDefault();
           }}
           placeholder="Type here..."

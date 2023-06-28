@@ -158,7 +158,7 @@ export abstract class BaseScene extends Phaser.Scene {
     right: false,
     up: false,
     down: false,
-    tick: undefined,
+    // tick: undefined,
   };
 
   // Advanced server timing - not used
@@ -415,6 +415,8 @@ export abstract class BaseScene extends Phaser.Scene {
 
     const speed = 50;
 
+    this.cursorKeys?.a?.reset();
+
     this.inputPayload.left =
       (this.cursorKeys?.left.isDown ||
         this.cursorKeys?.a?.isDown ||
@@ -436,12 +438,9 @@ export abstract class BaseScene extends Phaser.Scene {
         this.joystickKeys?.down.isDown) ??
       false;
 
-    // if (this.inputPayload.right) this.cameras.main.x -= 4;
-    // if (this.inputPayload.left) this.cameras.main.x += 4;
-    // if (this.inputPayload.up) this.cameras.main.y += 4;
-    // if (this.inputPayload.down) this.cameras.main.y -= 4;
-
-    // return;
+    if (!this.game.input.enabled) {
+      this.input.keyboard?.resetKeys();
+    }
 
     // Horizontal movements
     if (this.inputPayload.left) {

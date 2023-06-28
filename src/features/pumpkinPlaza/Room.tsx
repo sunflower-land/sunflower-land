@@ -255,6 +255,8 @@ export const Room: React.FC<Props> = ({
               reaction,
             });
           }}
+          onChatClose={console.log}
+          onChatStarted={console.log}
           game={gameState.context.state}
           messages={[]}
         />

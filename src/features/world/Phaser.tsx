@@ -159,10 +159,10 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
     if (!game.current) {
       return;
     }
-
     game.current.input.enabled = false;
     if (game.current.input.keyboard) {
       game.current.input.keyboard.enabled = false;
+      game.current.input.keyboard.clearCaptures();
     }
   };
 
@@ -174,6 +174,7 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
     game.current.input.enabled = true;
     if (game.current.input.keyboard) {
       game.current.input.keyboard.enabled = true;
+      game.current.input.keyboard.clearCaptures();
     }
   };
 
@@ -191,9 +192,11 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
     };
   }, [ref]);
 
@@ -203,9 +206,16 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
       <img id="imageTest" />
       <ChatUI
         game={OFFLINE_FARM}
-        onMessage={(m) =>
-          roomService.send("SEND_CHAT_MESSAGE", { text: m.text ?? "?" })
-        }
+        onMessage={(m) => {
+          roomService.send("SEND_CHAT_MESSAGE", { text: m.text ?? "?" });
+          resumeInput(); // Focus on game again
+        }}
+        onChatStarted={() => {
+          pauseInput();
+        }}
+        onChatClose={() => {
+          resumeInput();
+        }}
         messages={messages ?? []}
       />
       <NPCModals onClose={resumeInput} onOpen={pauseInput} />
@@ -238,10 +248,9 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
           className="fixed bottom-2 left-2 flex items-center cursor-pointer"
           onClick={() => roomService.send("RETRY")}
         >
-          <img src={SUNNYSIDE.icons.sad} className="h-6 mr-2" />
+          <img src={SUNNYSIDE.icons.sad} className="h-4 mr-1" />
           <div className="mb-0.5">
             <Label type="danger">Connection failed</Label>
-            <p className="text-xxs underline cursor-pointer ml-0.5">Retry</p>
           </div>
         </InnerPanel>
       )}
