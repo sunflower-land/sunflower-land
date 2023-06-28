@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { Game, AUTO } from "phaser";
 import { useActor, useSelector } from "@xstate/react";
 import { useInterpret } from "@xstate/react";
@@ -36,6 +36,8 @@ import { Preloader } from "./scenes/Preloader";
 import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
 import { DawnBreakerScene } from "./scenes/DawnBreakerScene";
 import { Label } from "components/ui/Label";
+import { MarcusHomeScene } from "./scenes/MarcusHomeScene";
+import { WorldIntroduction } from "./ui/WorldIntroduction";
 
 const _roomState = (state: MachineState) => state.value;
 const _messages = (state: MachineState) => {
@@ -60,6 +62,7 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const game = useRef<Game>();
   const roomService = useInterpret(roomMachine, {
     context: {
       jwt: authState.context.user.rawToken,
@@ -122,19 +125,21 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
         WindmillFloorScene,
         ClothesShopScene,
         DecorationShopScene,
+        MarcusHomeScene,
       ],
       loader: {
         crossOrigin: "anonymous",
       },
     };
 
-    const game = new Game({
+    game.current = new Game({
       ...config,
       parent: "game-content",
     });
 
-    game.registry.set("roomService", roomService);
-    game.registry.set("initialScene", scene);
+    game.current.registry.set("roomService", roomService);
+    game.current.registry.set("gameService", gameService);
+    game.current.registry.set("initialScene", scene);
     gameService.onEvent((e) => {
       if (e.type === "bumpkin.equipped") {
         roomService.send("CHANGE_CLOTHING", {
@@ -144,13 +149,57 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
     });
 
     return () => {
-      game.destroy(true);
+      game.current?.destroy(true);
     };
   }, []);
 
+  const ref = useRef<HTMLDivElement>(null);
+
+  const pauseInput = () => {
+    if (!game.current) {
+      return;
+    }
+
+    game.current.input.enabled = false;
+    if (game.current.input.keyboard) {
+      game.current.input.keyboard.enabled = false;
+    }
+  };
+
+  const resumeInput = () => {
+    if (!game.current) {
+      return;
+    }
+
+    game.current.input.enabled = true;
+    if (game.current.input.keyboard) {
+      game.current.input.keyboard.enabled = true;
+    }
+  };
+
+  // Prevent Phaser events firing when interacting with HTML UI
+  useEffect(() => {
+    function handleClickOutside(event: any) {
+      if (!ref.current || !game.current) {
+        return;
+      }
+
+      if (!ref.current.contains(event.target)) {
+        pauseInput();
+      } else {
+        resumeInput();
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+
   return (
     <div>
-      <div id="game-content" />
+      <div id="game-content" ref={ref} />
       <img id="imageTest" />
       <ChatUI
         game={OFFLINE_FARM}
@@ -159,12 +208,23 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
         }
         messages={messages ?? []}
       />
-      <NPCModals />
-      <InteractableModals id={authState.context.user.farmId as number} />
-      <Modal show={roomState === "initialising"} centered>
+      <NPCModals onClose={resumeInput} onOpen={pauseInput} />
+      <InteractableModals
+        id={authState.context.user.farmId as number}
+        onClose={resumeInput}
+        onOpen={pauseInput}
+      />
+      <Modal
+        show={roomState === "loading" || roomState === "initialising"}
+        centered
+      >
         <Panel>
           <p className="loading">Loading</p>
         </Panel>
+      </Modal>
+
+      <Modal show={roomState === "introduction"} centered>
+        <WorldIntroduction roomService={roomService} />
       </Modal>
 
       <Modal show={roomState === "joinRoom"} centered>

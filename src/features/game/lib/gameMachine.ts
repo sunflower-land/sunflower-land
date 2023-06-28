@@ -73,6 +73,7 @@ import { Currency, buyBlockBucksMATIC } from "../actions/buyBlockBucks";
 import { getSessionId } from "lib/blockchain/Session";
 import { depositBumpkin } from "../actions/deposit";
 import { mintAuctionItem } from "../actions/mintAuctionItem";
+import { BumpkinItem } from "../types/bumpkin";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -95,6 +96,7 @@ export interface Context {
   revealed?: {
     balance: string;
     inventory: Record<InventoryItemName, string>;
+    wardrobe: Record<BumpkinItem, number>;
   };
   announcements: Announcements;
   bumpkins: OnChainBumpkin[];

@@ -462,12 +462,24 @@ export type LanternOffering = {
 
 export type LanternsCraftedByWeek = Partial<Record<Week, number>>;
 
+export type Party = {
+  fulfilledAt?: number;
+  fulfilledCount?: number;
+  requirements?: Partial<Record<InventoryItemName, number>>;
+};
+
 export type DawnBreaker = {
   currentWeek: Week;
   availableLantern?: LanternOffering;
   lanternsCraftedByWeek: LanternsCraftedByWeek;
   riddle?: Riddle & { id: string };
   answeredRiddleIds: string[];
+  dawnFlower?: {
+    tendedAt: number;
+    plantedAt: number;
+    tendedCount: number;
+  };
+  party?: Party;
 };
 
 export type Order = {

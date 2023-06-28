@@ -10,6 +10,8 @@ import { ITEM_DETAILS } from "../types/images";
 import { InventoryItemName } from "../types/game";
 import { setImageWidth } from "lib/images";
 import { Label } from "components/ui/Label";
+import { getImageUrl } from "features/goblins/tailor/TabContent";
+import { ITEM_IDS } from "../types/bumpkin";
 
 export const Revealed: React.FC<{
   onAcknowledged?: () => void;
@@ -25,6 +27,7 @@ export const Revealed: React.FC<{
   };
 
   const items = getKeys(gameState.context.revealed?.inventory ?? {});
+  const wearables = getKeys(gameState.context.revealed?.wardrobe ?? {});
   const sfl = Number(gameState.context.revealed?.balance ?? 0);
 
   const currentStreaks = gameState.context.state.dailyRewards?.streaks ?? 1;
@@ -63,6 +66,18 @@ export const Revealed: React.FC<{
                   }}
                 />
               ))}
+
+              {wearables.map((name, index) => (
+                <img
+                  key={`${name}-${index}`}
+                  src={getImageUrl(ITEM_IDS[name])}
+                  className="mb-2"
+                  onLoad={(e) => setImageWidth(e.currentTarget)}
+                  style={{
+                    opacity: 0,
+                  }}
+                />
+              ))}
             </div>
 
             {/* Text*/}
@@ -76,6 +91,12 @@ export const Revealed: React.FC<{
                   key={`${name}-${index}`}
                   className="text-center text-sm mb-2"
                 >{`${gameState.context.revealed?.inventory[name]} x ${name}`}</p>
+              ))}
+              {wearables.map((name, index) => (
+                <p
+                  key={`${name}-${index}`}
+                  className="text-center text-sm mb-2"
+                >{`${gameState.context.revealed?.wardrobe[name]} x ${name}`}</p>
               ))}
             </div>
           </div>

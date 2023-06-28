@@ -124,6 +124,13 @@ export const SUNNYSIDE = {
     cursor: `${CONFIG.PROTECTED_IMAGE_URL}/ui/cursor.png`,
     round_button: `${CONFIG.PROTECTED_IMAGE_URL}/ui/round_button.png`,
     select_box: `${CONFIG.PROTECTED_IMAGE_URL}/ui/select_box.png`,
+    green_bar_0: `${CONFIG.PROTECTED_IMAGE_URL}/ui/greenbar_00.png`,
+    green_bar_1: `${CONFIG.PROTECTED_IMAGE_URL}/ui/greenbar_01.png`,
+    green_bar_2: `${CONFIG.PROTECTED_IMAGE_URL}/ui/greenbar_02.png`,
+    green_bar_3: `${CONFIG.PROTECTED_IMAGE_URL}/ui/greenbar_03.png`,
+    green_bar_4: `${CONFIG.PROTECTED_IMAGE_URL}/ui/greenbar_04.png`,
+    green_bar_5: `${CONFIG.PROTECTED_IMAGE_URL}/ui/greenbar_05.png`,
+    green_bar_6: `${CONFIG.PROTECTED_IMAGE_URL}/ui/greenbar_06.png`,
   },
   decorations: {
     treasure_chest: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/treasure_chest.png`,

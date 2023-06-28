@@ -20,6 +20,7 @@ export type Rooms = {
   betty_home: Room<PlazaRoomState> | undefined;
   woodlands: Room<PlazaRoomState> | undefined;
   dawn_breaker: Room<PlazaRoomState> | undefined;
+  marcus_home: Room<PlazaRoomState> | undefined;
 };
 export type RoomId = keyof Rooms;
 
@@ -34,7 +35,7 @@ export interface ChatContext {
 }
 
 export type RoomState = {
-  value: "initialising" | "joinRoom" | "ready" | "error";
+  value: "loading" | "joinRoom" | "ready" | "error" | "introduction";
   context: ChatContext;
 };
 
@@ -101,6 +102,7 @@ export type RoomEvent =
   | RoomDisconnected
   | SendPositionEvent
   | ClothingChangedEvent
+  | { type: "CONTINUE" }
   | { type: "RETRY" };
 
 export type MachineState = State<ChatContext, RoomEvent, RoomState>;
@@ -113,7 +115,7 @@ export type MachineInterpreter = Interpreter<
   any
 >;
 
-export const INITIAL_ROOM: RoomId = "plaza";
+export const INITIAL_ROOM: RoomId = "marcus_home";
 
 /**
  * Machine which handles room events
@@ -136,14 +138,38 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
       betty_home: undefined,
       woodlands: undefined,
       dawn_breaker: undefined,
+      marcus_home: undefined,
     },
     // TEMP FIELD - server will set this
     bumpkin: INITIAL_BUMPKIN,
   },
   states: {
     initialising: {
+      always: [
+        {
+          target: "introduction",
+          cond: () => !localStorage.getItem("mmo_introduction.read"),
+        },
+        {
+          target: "loading",
+        },
+      ],
+    },
+    introduction: {
+      on: {
+        CONTINUE: {
+          target: "loading",
+          actions: () =>
+            localStorage.setItem(
+              "mmo_introduction.read",
+              Date.now().toString()
+            ),
+        },
+      },
+    },
+    loading: {
       invoke: {
-        id: "initialising",
+        id: "loading",
         src: (context) => async () => {
           if (!CONFIG.ROOM_URL) {
             return { roomId: undefined };
@@ -320,7 +346,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
           target: "joinRoom",
         },
         RETRY: {
-          target: "initialising",
+          target: "loading",
         },
       },
     },

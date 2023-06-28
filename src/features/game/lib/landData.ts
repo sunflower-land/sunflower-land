@@ -240,6 +240,7 @@ const INITIAL_BUMPKIN: Bumpkin = {
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
     background: "Farm Background",
+    onesie: "Eggplant Onesie",
   },
   skills: {
     "Michelin Stars": 1,
@@ -282,6 +283,16 @@ export const OFFLINE_FARM: GameState = {
         items: {
           "Dawn Breaker Ticket": 50,
         },
+      },
+    },
+    dawnFlower: {
+      plantedAt: 0,
+      tendedAt: 0,
+      tendedCount: 9,
+    },
+    party: {
+      requirements: {
+        Wood: 50,
       },
     },
   },

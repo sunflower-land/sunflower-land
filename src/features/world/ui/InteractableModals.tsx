@@ -5,6 +5,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
 import { hasFeatureAccess } from "lib/flags";
+import fanArt from "assets/fanArt/dawn_breaker.png";
+import { Donations } from "./donations/Donations";
+import { Modal } from "react-bootstrap";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { Button } from "components/ui/Button";
 
 type InteractableName =
   | "welcome_sign"
@@ -13,7 +18,8 @@ type InteractableName =
   | "auction_item"
   | "boat_modal"
   | "homeless_man"
-  | "potion_table";
+  | "potion_table"
+  | "fan_art_1";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -33,8 +39,14 @@ export const interactableModalManager = new InteractableModalManager();
 
 interface Props {
   id: number;
+  onClose: () => void;
+  onOpen: () => void;
 }
-export const InteractableModals: React.FC<Props> = ({ id }) => {
+export const InteractableModals: React.FC<Props> = ({
+  id,
+  onOpen,
+  onClose,
+}) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
@@ -46,8 +58,14 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
   useEffect(() => {
     interactableModalManager.listen((interactable, open) => {
       setInteractable(interactable);
+      onOpen();
     });
   }, []);
+
+  const closeModal = () => {
+    setInteractable(undefined);
+    onClose();
+  };
 
   const navigate = useNavigate();
 
@@ -57,7 +75,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
       {interactable === "auction_item" && (
         <AuctioneerModal
           isOpen={interactable === "auction_item"}
-          onClose={() => setInteractable(undefined)}
+          onClose={closeModal}
           gameState={state}
           onUpdate={(state) => {
             console.log("Update hit!");
@@ -74,16 +92,9 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
 
       {interactable === "potion_table" &&
         hasFeatureAccess(state.inventory, "POTION_HOUSE") && <PotionHouse />}
-    </>
-  );
 
-  {
-    /* <Modal
-        centered
-        show={interactable === "boat_modal"}
-        onHide={() => setInteractable(undefined)}
-      >
-        <CloseButtonPanel onClose={() => setInteractable(undefined)}>
+      <Modal centered show={interactable === "boat_modal"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
           <div className="p-2">
             <p className="mb-3">Would you like to return home?</p>
           </div>
@@ -94,19 +105,36 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
       <Modal
         centered
         show={interactable === "homeless_man"}
-        onHide={() => setInteractable(undefined)}
+        onHide={closeModal}
       >
-        <CloseButtonPanel onClose={() => setInteractable(undefined)}>
+        <CloseButtonPanel onClose={closeModal}>
           <Donations />
         </CloseButtonPanel>
       </Modal>
 
+      <Modal centered show={interactable === "fan_art_1"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal} title="Congratulations">
+          <div className="p-2">
+            <p className="text-sm mb-2 text-center">
+              Congratulations Palisman, the winner of the first Fan Art
+              competition
+            </p>
+            <img src={fanArt} className="w-2/3 mx-auto rounded-lg" />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+    </>
+  );
+
+  {
+    /* 
+
       {/* <Modal
         centered
         show={!!interactable}
-        onHide={() => setInteractable(undefined)}
+        onHide={closeModal}
       >
-        <CloseButtonPanel onClose={() => setInteractable(undefined)}>
+        <CloseButtonPanel onClose={closeModal}>
           {interactable === "fan_art" && (
             <div className="p-2">
               <p className="mb-2">Have you submitted your fan art?</p>

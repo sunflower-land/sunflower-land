@@ -334,6 +334,44 @@ export function getCropYieldAmount({
     amount = amount + 0.5;
   }
 
+  const isAdvancedLevelCrop =
+    crop === "Eggplant" ||
+    crop === "Radish" ||
+    crop === "Wheat" ||
+    crop === "Kale";
+
+  if (
+    collectibles["Laurie the Chuckle Crow"]?.[0] &&
+    isAdvancedLevelCrop &&
+    plot
+  ) {
+    const scarecrowCoordinates =
+      collectibles["Laurie the Chuckle Crow"]?.[0].coordinates;
+    const scarecrowDimensions =
+      COLLECTIBLES_DIMENSIONS["Laurie the Chuckle Crow"];
+
+    const scarecrowPosition: Position = {
+      x: scarecrowCoordinates.x,
+      y: scarecrowCoordinates.y,
+      height: scarecrowDimensions.height,
+      width: scarecrowDimensions.width,
+    };
+
+    const plotPosition: Position = {
+      x: plot?.x,
+      y: plot?.y,
+      height: plot.height,
+      width: plot.width,
+    };
+
+    if (
+      isCollectibleBuilt("Laurie the Chuckle Crow", collectibles) &&
+      isWithinAOE("Laurie the Chuckle Crow", scarecrowPosition, plotPosition)
+    ) {
+      amount = amount + 0.2;
+    }
+  }
+
   return Number(setPrecision(new Decimal(amount)));
 }
 
