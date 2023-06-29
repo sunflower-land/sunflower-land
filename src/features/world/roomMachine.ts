@@ -213,6 +213,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
             {
               previousRoomId: context.roomId,
               bumpkin: context.bumpkin,
+              farmId: context.farmId,
             }
           );
 
