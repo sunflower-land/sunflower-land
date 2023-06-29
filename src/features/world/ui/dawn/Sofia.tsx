@@ -49,6 +49,7 @@ export const Sofia: React.FC<Props> = ({ onClose }) => {
                   text: "Sure, let's do it",
                   cb: () => {
                     gameService.send("dawnFlower.tended");
+                    gameService.send("SAVE");
                     onClose();
                   },
                 },
@@ -110,6 +111,7 @@ export const Sofia: React.FC<Props> = ({ onClose }) => {
               text: "Sure, let's do it",
               cb: () => {
                 gameService.send("dawnFlower.tended");
+                gameService.send("SAVE");
                 onClose();
               },
             },

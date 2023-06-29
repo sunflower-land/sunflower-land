@@ -44,6 +44,7 @@ export const Bella: React.FC<Props> = ({ onClose }) => {
     } else {
       console.log("YEET");
       gameService.send("dawnParty.prepared");
+      gameService.send("SAVE");
     }
   };
   const Progress = () => {
