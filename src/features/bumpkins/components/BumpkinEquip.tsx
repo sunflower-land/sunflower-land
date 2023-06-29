@@ -38,8 +38,6 @@ export const BumpkinEquip: React.FC = () => {
     gameState.context.state.bumpkin?.equipped as Equipped
   );
 
-  const [finished, setFinished] = useState(false);
-
   const wardrobe = gameState.context.state.wardrobe;
 
   const equipPart = (name: BumpkinItem) => {
@@ -77,14 +75,12 @@ export const BumpkinEquip: React.FC = () => {
     setEquipped(outfit);
   };
 
-  const finish = () => {
+  const finish = (equipment: Equipped) => {
     gameService.send("bumpkin.equipped", {
-      equipment: equipped,
+      equipment,
     });
-    setFinished(true);
+    gameService.send("SAVE");
   };
-
-  console.log({ equipped });
 
   const isDirty =
     JSON.stringify(equipped) !==
@@ -147,16 +143,8 @@ export const BumpkinEquip: React.FC = () => {
               <NPC parts={equipped} key={JSON.stringify(equipped)} />
             </div>
           </div>
-          <Button disabled={!isDirty || warn} onClick={finish}>
-            <div className="flex">
-              Save
-              {finished && !isDirty && (
-                <img
-                  src={SUNNYSIDE.icons.confirm}
-                  className="h-4 relative left-2"
-                />
-              )}
-            </div>
+          <Button disabled={!isDirty || warn} onClick={() => finish(equipped)}>
+            <div className="flex">Save</div>
           </Button>
           {warn && <Label type="warning">{warning()}</Label>}
         </div>

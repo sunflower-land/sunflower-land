@@ -140,7 +140,6 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
       dawn_breaker: undefined,
       marcus_home: undefined,
     },
-    // TEMP FIELD - server will set this
     bumpkin: INITIAL_BUMPKIN,
   },
   states: {
@@ -319,12 +318,21 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
           },
         },
         CHANGE_CLOTHING: {
-          actions: (context, event) => {
-            const room = context.rooms[context.roomId];
-            if (!room) return {};
+          actions: [
+            (context, event) => {
+              const room = context.rooms[context.roomId];
+              if (!room) return {};
 
-            room.send(0, { clothing: event.clothing });
-          },
+              room.send(0, { clothing: event.clothing });
+            },
+            assign({
+              bumpkin: (context, event) =>
+                ({
+                  ...context.bumpkin,
+                  equipped: event.clothing,
+                } as Bumpkin),
+            }),
+          ],
         },
         SEND_POSITION: {
           actions: (context, event) => {

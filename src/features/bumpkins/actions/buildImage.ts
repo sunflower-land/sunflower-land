@@ -34,7 +34,6 @@ export async function buildImageRequest({ fileName }: { fileName: string }) {
 
   const data: Response = await response.json();
 
-  console.log(data);
   return data.image;
 }
 
