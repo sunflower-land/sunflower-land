@@ -25,7 +25,7 @@ export const WorldIntroduction: React.FC<Props> = ({ roomService }) => {
           </div>
           <div className="flex-1">
             <p className="text-sm">
-              To move your Bumpkin, use the keyboard arrow or WASD keys
+              To move your Bumpkin, use the keyboard arrow keys
             </p>
             <p className="text-xs italic">On touch screen, use the joystick.</p>
           </div>

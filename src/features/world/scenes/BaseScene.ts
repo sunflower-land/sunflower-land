@@ -265,18 +265,18 @@ export abstract class BaseScene extends Phaser.Scene {
     // Initialise Keyboard
     this.cursorKeys = this.input.keyboard?.createCursorKeys();
     if (this.cursorKeys) {
-      this.cursorKeys.w = this.input.keyboard?.addKey(
-        Phaser.Input.Keyboard.KeyCodes.W
-      );
-      this.cursorKeys.a = this.input.keyboard?.addKey(
-        Phaser.Input.Keyboard.KeyCodes.A
-      );
-      this.cursorKeys.s = this.input.keyboard?.addKey(
-        Phaser.Input.Keyboard.KeyCodes.S
-      );
-      this.cursorKeys.d = this.input.keyboard?.addKey(
-        Phaser.Input.Keyboard.KeyCodes.D
-      );
+      // this.cursorKeys.w = this.input.keyboard?.addKey(
+      //   Phaser.Input.Keyboard.KeyCodes.W
+      // );
+      // this.cursorKeys.a = this.input.keyboard?.addKey(
+      //   Phaser.Input.Keyboard.KeyCodes.A
+      // );
+      // this.cursorKeys.s = this.input.keyboard?.addKey(
+      //   Phaser.Input.Keyboard.KeyCodes.S
+      // );
+      // this.cursorKeys.d = this.input.keyboard?.addKey(
+      //   Phaser.Input.Keyboard.KeyCodes.D
+      // );
 
       this.input.keyboard?.removeCapture("SPACE");
     }
