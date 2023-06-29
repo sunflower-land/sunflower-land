@@ -27,7 +27,7 @@
     "@react-spring/web": "^9.7.2",
     "@types/uuid": "^9.0.0",
     "@use-gesture/react": "^10.2.26",
-    "@walletconnect/ethereum-provider": "^2.8.3",
+    "@walletconnect/ethereum-provider": "^2.8.5",
     "@walletconnect/modal": "^2.5.4",
     "@xstate/inspect": "^0.6.2",
     "@xstate/react": "^3.0.1",
