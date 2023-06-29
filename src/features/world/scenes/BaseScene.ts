@@ -253,12 +253,12 @@ export abstract class BaseScene extends Phaser.Scene {
       this.joystick = new VirtualJoystick(this, {
         x: centerX + 25 - width / zoom / 2,
         y: centerY - 25 + height / zoom / 2,
-        radius: 40,
+        radius: 20,
         base: this.add.circle(0, 0, 20, 0x000000, 0.2).setDepth(1000000000),
         thumb: this.add.circle(0, 0, 10, 0xffffff, 0.2).setDepth(1000000000),
         dir: "8dir",
-        fixed: true,
-        forceMin: 10,
+        // fixed: true,
+        forceMin: 1,
       });
       this.joystickKeys = this.joystick.createCursorKeys();
     }
