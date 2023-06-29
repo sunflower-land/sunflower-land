@@ -33,7 +33,9 @@ type GameAnalyticEvent =
   | "chore_complete"
   | "play_as_guest"
   | "wallet_connected"
-  | "wallet_funded";
+  | "wallet_funded"
+  | "select_poko"
+  | "select_matic";
 
 class GameAnalytics {
   private analytics: Analytics;

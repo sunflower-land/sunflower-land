@@ -2,9 +2,12 @@ import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem, fromWei } from "web3-utils";
 import MinterABI from "./abis/AccountMinter.json";
+import PokoMinterABI from "./abis/PokoAccountMinter.json";
 import { AccountMinter as IAccountMinter } from "./types/AccountMinter";
+import { AccountMinter as IPokoAccountMinter } from "./types/PokoAccountMinter";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { analytics } from "lib/analytics";
+import { PayableTransactionObject } from "./types/types";
 
 export async function getCreatedAt(
   web3: Web3,
@@ -45,6 +48,8 @@ export async function createNewAccount({
   bumpkinWearableIds,
   bumpkinTokenUri,
   referrerId,
+  referrerAmount,
+  type,
 }: {
   web3: Web3;
   account: string;
@@ -55,26 +60,69 @@ export async function createNewAccount({
   bumpkinWearableIds: number[];
   bumpkinTokenUri: string;
   referrerId: number;
+  referrerAmount: string;
+  type?: "MATIC" | "USDC";
 }): Promise<string> {
   const gasPrice = await estimateGasPrice(web3);
 
-  console.log({ referrerId, addy: CONFIG.ACCOUNT_MINTER_CONTRACT });
-  return new Promise((resolve, reject) => {
-    (
+  let mintAccountFn: PayableTransactionObject<void>;
+
+  if (type === "MATIC") {
+    mintAccountFn = (
+      new web3.eth.Contract(
+        PokoMinterABI as AbiItem[],
+        CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string
+      ) as unknown as IPokoAccountMinter
+    ).methods.mintAccount(
+      signature,
+      deadline,
+      fee,
+      bumpkinWearableIds,
+      bumpkinTokenUri,
+      referrerId,
+      referrerAmount,
+      account
+    );
+  }
+
+  if (type === "USDC") {
+    mintAccountFn = (
+      new web3.eth.Contract(
+        PokoMinterABI as AbiItem[],
+        CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string
+      ) as unknown as IPokoAccountMinter
+    ).methods.mintAccountUSDC(
+      signature,
+      deadline,
+      fee,
+      bumpkinWearableIds,
+      bumpkinTokenUri,
+      referrerId,
+      referrerAmount,
+      account
+    );
+  }
+
+  if (type === undefined) {
+    mintAccountFn = (
       new web3.eth.Contract(
         MinterABI as AbiItem[],
         CONFIG.ACCOUNT_MINTER_CONTRACT as string
       ) as unknown as IAccountMinter
-    ).methods
-      .mintAccount(
-        signature,
-        charity,
-        deadline,
-        fee,
-        bumpkinWearableIds,
-        bumpkinTokenUri,
-        referrerId
-      )
+    ).methods.mintAccount(
+      signature,
+      charity,
+      deadline,
+      fee,
+      bumpkinWearableIds,
+      bumpkinTokenUri,
+      referrerId
+    );
+  }
+
+  console.log({ referrerId, addy: CONFIG.ACCOUNT_MINTER_CONTRACT });
+  return new Promise((resolve, reject) => {
+    mintAccountFn
       .send({ from: account, value: fee, gasPrice })
       .on("error", function (error: any) {
         console.log({ error });
