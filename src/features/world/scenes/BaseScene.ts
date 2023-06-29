@@ -258,7 +258,7 @@ export abstract class BaseScene extends Phaser.Scene {
         thumb: this.add.circle(0, 0, 7, 0xffffff, 0.2).setDepth(1000000000),
         dir: "8dir",
         // fixed: true,
-        forceMin: 1,
+        forceMin: 3,
       });
       this.joystickKeys = this.joystick.createCursorKeys();
     }
