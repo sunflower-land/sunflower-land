@@ -2,7 +2,6 @@ import { defineConfig } from "vite";
 import reactRefresh from "@vitejs/plugin-react-refresh";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { minifyHtml, injectHtml } from "vite-plugin-html";
-import inject from "@rollup/plugin-inject";
 import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
@@ -62,11 +61,5 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 1000,
     assetsDir: "assets",
-    commonjsOptions: {
-      transformMixedEsModules: true,
-    },
-    rollupOptions: {
-      plugins: [inject({ Buffer: ["buffer", "Buffer"] })],
-    },
   },
 });
