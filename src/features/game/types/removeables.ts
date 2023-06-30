@@ -87,7 +87,7 @@ function areAnyAdvancedCropsPlanted(game: GameState): Restriction {
       plot.crop?.name === "Kale"
   );
 
-  return [cropsPlanted, "Medium crops are planted"];
+  return [cropsPlanted, "Advanced crops are planted"];
 }
 
 function areAnyTreesChopped(game: GameState): Restriction {
