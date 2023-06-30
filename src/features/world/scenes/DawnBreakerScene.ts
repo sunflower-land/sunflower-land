@@ -43,13 +43,8 @@ export class DawnBreakerScene extends BaseScene {
     this.load.image("dawn_flower", "world/dawn_flower.png");
     this.load.image("dawn_flower_sprout", CROP_LIFECYCLE.Sunflower.seedling);
     this.load.image("dawn_flower_growing", CROP_LIFECYCLE.Sunflower.almost);
-    this.load.image("progress_0", SUNNYSIDE.ui.green_bar_0);
-    this.load.image("progress_1", SUNNYSIDE.ui.green_bar_1);
-    this.load.image("progress_2", SUNNYSIDE.ui.green_bar_2);
-    this.load.image("progress_3", SUNNYSIDE.ui.green_bar_3);
-    this.load.image("progress_4", SUNNYSIDE.ui.green_bar_4);
-    this.load.image("progress_5", SUNNYSIDE.ui.green_bar_5);
-    this.load.image("progress_6", SUNNYSIDE.ui.green_bar_6);
+
+    this.load.image("water", SUNNYSIDE.icons.water);
 
     this.load.spritesheet("homeless_man", "world/homeless_man.png", {
       frameWidth: 32,
@@ -220,10 +215,14 @@ export class DawnBreakerScene extends BaseScene {
 
     const camera = this.cameras.main;
 
-    const stage =
-      this.gameService.state.context.state.dawnBreaker?.dawnFlower
-        ?.tendedCount ?? 0;
-    const flower = new DawnFlower(this, 280, 143.5, stage, () =>
+    const dawnFlower =
+      this.gameService.state.context.state.dawnBreaker?.dawnFlower;
+    const stage = dawnFlower?.tendedCount ?? 0;
+
+    const isReady =
+      Date.now() - (dawnFlower?.tendedAt ?? 0) > 24 * 60 * 60 * 1000;
+
+    const flower = new DawnFlower(this, 280, 143.5, stage, isReady, () =>
       npcModalManager.open("sofia")
     );
 
@@ -232,7 +231,8 @@ export class DawnBreakerScene extends BaseScene {
         console.log("UPDATE!");
         flower.update(
           this.gameService.state.context.state.dawnBreaker?.dawnFlower
-            ?.tendedCount ?? 0
+            ?.tendedCount ?? 0,
+          false
         );
       }
     });

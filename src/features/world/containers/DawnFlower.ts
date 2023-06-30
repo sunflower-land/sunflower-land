@@ -1,18 +1,5 @@
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 
-const PROGRESS_STAGES: Record<number, string> = {
-  0: "progress_0",
-  1: "progress_1",
-  2: "progress_2",
-  3: "progress_2",
-  4: "progress_3",
-  5: "progress_3",
-  6: "progress_4",
-  7: "progress_4",
-  8: "progress_5",
-  9: "progress_5",
-};
-
 const FLOWER_STAGE: Record<number, string> = {
   0: "dawn_flower_sprout",
   1: "dawn_flower_sprout",
@@ -35,6 +22,7 @@ export class DawnFlower extends Phaser.GameObjects.Container {
     x: number,
     y: number,
     stage: number,
+    isReady: boolean,
     onClick?: () => void
   ) {
     super(scene, x, y);
@@ -53,22 +41,19 @@ export class DawnFlower extends Phaser.GameObjects.Container {
     }
 
     if (stage > 0) {
-      this.update(stage);
+      this.update(stage, isReady);
     }
   }
 
-  public update(stage: number) {
+  public update(stage: number, isReady: boolean) {
     const idle = this.scene.add
       .sprite(0, 0, FLOWER_STAGE[stage] ?? "dawn_flower_sprout")
       .setOrigin(0.5);
     this.add(idle);
 
-    this.bar?.destroy();
-    if (stage <= 9) {
-      this.bar = this.scene.add
-        .sprite(0, 12, PROGRESS_STAGES[stage] ?? "progress_0")
-        .setOrigin(0.5);
-      this.add(this.bar);
+    if (isReady) {
+      const water = this.scene.add.sprite(6, -6, "water").setOrigin(0.5);
+      this.add(water);
     }
   }
 }
