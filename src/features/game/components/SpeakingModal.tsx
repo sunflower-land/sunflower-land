@@ -35,6 +35,11 @@ export const SpeakingModal: React.FC<Props> = ({
   const [forceShowFullMessage, setForceShowFullMessage] = useState(false);
 
   const handleClick = useCallback(() => {
+    // Cannot accidentally click through last message
+    if (currentTextEnded && currentMessage === message.length - 1) {
+      return;
+    }
+
     if (currentTextEnded) {
       setCurrentTextEnded(false);
       setForceShowFullMessage(false);
@@ -100,7 +105,7 @@ export const SpeakingModal: React.FC<Props> = ({
             </div>
           )}
         </div>
-        {!showActions && (
+        {currentMessage !== message.length - 1 && (
           <p className="text-xxs italic float-right">(Tap to continue)</p>
         )}
       </div>
