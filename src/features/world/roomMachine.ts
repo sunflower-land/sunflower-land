@@ -7,6 +7,7 @@ import { CONFIG } from "lib/config";
 import { Bumpkin } from "features/game/types/game";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import { SPAWNS } from "./lib/spawn";
 
 export type Rooms = {
   plaza: Room<PlazaRoomState> | undefined;
@@ -214,6 +215,8 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
               previousRoomId: context.roomId,
               bumpkin: context.bumpkin,
               farmId: context.farmId,
+              x: SPAWNS[context.roomId]?.default.x ?? 0,
+              y: SPAWNS[context.roomId]?.default.y ?? 0,
             }
           );
 
