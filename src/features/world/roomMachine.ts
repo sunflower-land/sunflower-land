@@ -293,13 +293,16 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
     },
     ready: {
       on: {
-        CHANGE_ROOM: {
-          target: "joinRoom",
-          actions: assign({
-            previousRoomId: (context) => context.roomId,
-            roomId: (_, event) => event.roomId,
-          }),
-        },
+        CHANGE_ROOM: [
+          {
+            target: "joinRoom",
+            actions: assign({
+              previousRoomId: (context) => context.roomId,
+              roomId: (_, event) => event.roomId,
+            }),
+            cond: (context, event) => !context.roomId.startsWith(event.roomId),
+          },
+        ],
         ROOM_DISCONNECTED: {
           target: "error",
           actions: assign({

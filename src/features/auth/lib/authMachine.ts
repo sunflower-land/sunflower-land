@@ -208,7 +208,13 @@ export const authMachine = createMachine<
     id: "authMachine",
     initial: ART_MODE ? "connected" : "idle",
     context: {
-      user: ART_MODE ? { type: "FULL", farmId: 1 } : { type: "FULL" },
+      user: ART_MODE
+        ? {
+            type: "FULL",
+            // Random ID
+            farmId: Math.floor(Math.random() * (500 + 1)),
+          }
+        : { type: "FULL" },
     },
     states: {
       idle: {
