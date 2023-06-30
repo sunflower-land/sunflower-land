@@ -107,7 +107,10 @@ export const InteractableModals: React.FC<Props> = ({
         show={interactable === "homeless_man"}
         onHide={closeModal}
       >
-        <CloseButtonPanel onClose={closeModal}>
+        <CloseButtonPanel
+          title="Want to support more events like this?!"
+          onClose={closeModal}
+        >
           <Donations />
         </CloseButtonPanel>
       </Modal>
