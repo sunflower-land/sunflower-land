@@ -143,5 +143,5 @@ it("increments SFL spent when axe is crafted", () => {
     },
   });
 
-  expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(new Decimal(marketRate(5)));
+  expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(marketRate(5).toNumber());
 });
