@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { marketRate } from "features/game/lib/halvening";
 import { WORKBENCH_TOOLS } from "features/game/types/tools";
 import { TEST_FARM, INITIAL_BUMPKIN } from "../../lib/constants";
 import { GameState } from "../../types/game";
@@ -24,7 +25,7 @@ describe("craftTool", () => {
       craftTool({
         state: {
           ...GAME_STATE,
-          balance: new Decimal(0.0000005),
+          balance: new Decimal(marketRate(4)),
         },
         action: {
           type: "tool.crafted",
@@ -142,5 +143,5 @@ it("increments SFL spent when axe is crafted", () => {
     },
   });
 
-  expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(0.0625);
+  expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(new Decimal(marketRate(5)));
 });
