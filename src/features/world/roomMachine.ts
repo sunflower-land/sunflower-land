@@ -223,6 +223,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
             roomId,
             {
               jwt: context.jwt,
+              bumpkin: context.bumpkin,
               farmId: context.farmId,
               x: SPAWNS[context.roomId]?.default.x ?? 0,
               y: SPAWNS[context.roomId]?.default.y ?? 0,

@@ -96,13 +96,12 @@ export abstract class BaseScene extends Phaser.Scene {
           const player = this.createPlayer({
             x,
             y,
+            farmId,
             clothing,
             isCurrentPlayer: sessionId === room.sessionId,
           });
-          const text = this.createPlayerText({ x, y, text: `#${farmId}` });
 
           this.playerEntities[sessionId] = player;
-          this.playerNameTags[sessionId] = text;
         }
       }
 
@@ -120,15 +119,11 @@ export abstract class BaseScene extends Phaser.Scene {
   room: Room | undefined;
 
   currentPlayer: BumpkinContainer | undefined;
-  currentPlayerNameTag: Phaser.GameObjects.Text | undefined;
   serverPosition: { x: number; y: number } = { x: 0, y: 0 };
   packetSentAt = 0;
 
   playerEntities: {
     [sessionId: string]: BumpkinContainer;
-  } = {};
-  playerNameTags: {
-    [sessionId: string]: Phaser.GameObjects.Text;
   } = {};
 
   customColliders?: Phaser.GameObjects.Group;
@@ -303,13 +298,9 @@ export abstract class BaseScene extends Phaser.Scene {
     this.createPlayer({
       x: spawn.x ?? 0,
       y: spawn.y ?? 0,
+      farmId: this.roomService.state.context.farmId,
       isCurrentPlayer: true,
       clothing: this.roomService.state.context.bumpkin.equipped,
-    });
-    this.currentPlayerNameTag = this.createPlayerText({
-      x: spawn.x ?? 0,
-      y: spawn.y ?? 0,
-      text: `#${this.roomService.state.context.farmId}`,
     });
 
     camera.setBounds(
@@ -339,15 +330,23 @@ export abstract class BaseScene extends Phaser.Scene {
   createPlayer({
     x,
     y,
+    farmId,
     isCurrentPlayer,
     clothing,
   }: {
     isCurrentPlayer: boolean;
     x: number;
     y: number;
+    farmId: number;
     clothing: BumpkinParts;
   }): BumpkinContainer {
     const entity = new BumpkinContainer(this, x, y, clothing);
+    const nameTag = this.createPlayerText({
+      x: 0,
+      y: 0,
+      text: `#${farmId}`,
+    });
+    entity.add(nameTag);
 
     // Is current player
     if (isCurrentPlayer) {
@@ -409,7 +408,6 @@ export abstract class BaseScene extends Phaser.Scene {
       fontFamily: "monospace",
       resolution: 4,
     });
-    textObject.setDepth(10000000 - 1);
     textObject.setOrigin(0.5);
 
     this.physics.add.existing(textObject);
@@ -632,23 +630,10 @@ export abstract class BaseScene extends Phaser.Scene {
     });
   }
 
-  updatePlayerNameTag() {
-    if (!this.currentPlayer?.body) return;
-
-    const playerBody = this.currentPlayer.body as Phaser.Physics.Arcade.Body;
-    const playerNameTagBody = this.currentPlayerNameTag
-      ?.body as Phaser.Physics.Arcade.Body;
-
-    playerNameTagBody.setVelocityX(playerBody.velocity.x);
-
-    playerNameTagBody.setVelocityY(playerBody.velocity.y);
-  }
-
   fixedTick(time: number, delta: number) {
     this.currentTick++;
 
     this.updatePlayer();
-    this.updatePlayerNameTag();
     this.updateOtherPlayers();
   }
 }
