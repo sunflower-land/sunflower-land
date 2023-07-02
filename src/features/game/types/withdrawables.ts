@@ -524,7 +524,7 @@ const goblinPirate: Record<GoblinPirateItemName, boolean> = {
   "Iron Idol": true,
   "Heart of Davy Jones": true,
   Karkinos: true,
-  "Emerald Turtle": false,
+  "Emerald Turtle": true,
   "Tin Turtle": false,
 };
 

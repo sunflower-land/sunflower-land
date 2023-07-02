@@ -10,6 +10,8 @@ import { Donations } from "./donations/Donations";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
+import { SpeakingModal } from "features/game/components/SpeakingModal";
+import { NPC_WEARABLES } from "lib/npcs";
 
 type InteractableName =
   | "welcome_sign"
@@ -19,7 +21,12 @@ type InteractableName =
   | "boat_modal"
   | "homeless_man"
   | "potion_table"
-  | "fan_art_1";
+  | "fan_art_1"
+  | "fan_art_2"
+  | "dawn_book_1"
+  | "dawn_book_2"
+  | "dawn_book_3"
+  | "dawn_book_4";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -107,7 +114,10 @@ export const InteractableModals: React.FC<Props> = ({
         show={interactable === "homeless_man"}
         onHide={closeModal}
       >
-        <CloseButtonPanel onClose={closeModal}>
+        <CloseButtonPanel
+          title="Want to support more events like this?!"
+          onClose={closeModal}
+        >
           <Donations />
         </CloseButtonPanel>
       </Modal>
@@ -122,6 +132,82 @@ export const InteractableModals: React.FC<Props> = ({
             <img src={fanArt} className="w-2/3 mx-auto rounded-lg" />
           </div>
         </CloseButtonPanel>
+      </Modal>
+
+      <Modal centered show={interactable === "fan_art_2"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <p className="text-sm">
+            The perfect place to for a beautiful painting. I wonder what they
+            will put here next...
+          </p>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal centered show={interactable === "dawn_book_1"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["marcus"]}
+          message={[
+            {
+              text: "For centuries our family has protected Dawn Breaker Island. As the island's bell ringer, we've warned of dangers from the North, even as shadowy creatures threaten our home.",
+            },
+            {
+              text: "Our family stands as the first line of defence against the darkness spreading from the North, but alas, our sacrifices go unnoticed.",
+            },
+            {
+              text: "Will the day come when our devotion is acknowledged?",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "dawn_book_2"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["bella"]}
+          message={[
+            {
+              text: "Eggplants, they're more than they appear. Despite their dark exterior that attracts shadowy creatures, they bring light to our dishes.",
+            },
+            {
+              text: "Grilled or mashed into a baba ganoush, their versatility is unmatched. The nightshade vegetables are a symbol of our resilience in the face of adversity.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "dawn_book_3"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["sofia"]}
+          message={[
+            {
+              text: "Dear diary, the Bumpkins' arrival has brought a ray of hope. ",
+            },
+            {
+              text: "I dream of the day I can steer my own boat to Sunfloria, the land where adventurers and travelers congregate.",
+            },
+            {
+              text: "I've heard whispers about the Bumpkins' special preparations there - a beacon of promise in these challenging times.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "dawn_book_4"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["marcus"]}
+          message={[
+            { text: "The gnomes, their allure was too potent to resist." },
+            {
+              text: "The Witch's instructions echoed in my mind - 'Align the three, and power shall be yours.'",
+            },
+            {
+              text: "Alas, even the eggplant soldiers couldn't guard against the temptation. But I will not falter. One day, I will claim the power I rightfully deserve​.",
+            },
+          ]}
+        />
       </Modal>
     </>
   );

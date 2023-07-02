@@ -21,13 +21,25 @@ export const WorldIntroduction: React.FC<Props> = ({ roomService }) => {
         </p>
         <div className="flex mb-2">
           <div className="w-8">
+            <img src={SUNNYSIDE.icons.happy} className="h-6" />
+          </div>
+          <div className="flex-1">
+            <p className="text-sm">
+              This is a beta feature - we appreciate your patience and feedback.
+            </p>
+          </div>
+        </div>
+        <div className="flex mb-2">
+          <div className="w-8">
             <img src={SUNNYSIDE.icons.player} className="h-6" />
           </div>
           <div className="flex-1">
             <p className="text-sm">
-              To move your Bumpkin, use the keyboard arrow or WASD keys
+              To move your Bumpkin, use the keyboard arrow keys
             </p>
-            <p className="text-xs italic">On touch screen, use the joystick.</p>
+            <p className="text-xs italic">
+              (On touch screen, use the joystick.)
+            </p>
           </div>
         </div>
         <div className="flex mb-2">

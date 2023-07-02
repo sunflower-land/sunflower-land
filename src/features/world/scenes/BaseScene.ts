@@ -51,7 +51,6 @@ export abstract class BaseScene extends Phaser.Scene {
     this.eventListener = (event) => {
       if (event.type === "CHAT_MESSAGE_RECEIVED") {
         const { sessionId, text, roomId } = event as ChatMessageReceived;
-        if (roomId !== this.roomId) return;
 
         const room = this.roomService.state.context.rooms[roomId];
 
@@ -68,7 +67,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
       if (event.type === "CLOTHING_CHANGED") {
         const { sessionId, clothing, roomId } = event as ClothingChangedEvent;
-        if (roomId !== this.roomId) return;
 
         const room = this.roomService.state.context.rooms[roomId];
 
@@ -85,7 +83,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
       if (event.type === "PLAYER_JOINED") {
         const { sessionId, x, y, clothing, roomId } = event as PlayerJoined;
-        if (roomId !== this.roomId) return;
 
         const room = this.roomService.state.context.rooms[roomId];
 
@@ -252,32 +249,32 @@ export abstract class BaseScene extends Phaser.Scene {
       const { x, y, centerX, centerY, width, height } = this.cameras.main;
       const zoom = 4;
       this.joystick = new VirtualJoystick(this, {
-        x: centerX + 25 - width / zoom / 2,
-        y: centerY - 25 + height / zoom / 2,
-        radius: 40,
-        base: this.add.circle(0, 0, 20, 0x000000, 0.2).setDepth(1000000000),
-        thumb: this.add.circle(0, 0, 10, 0xffffff, 0.2).setDepth(1000000000),
+        x: centerX,
+        y: centerY - 35 + height / zoom / 2,
+        radius: 15,
+        base: this.add.circle(0, 0, 15, 0x000000, 0.2).setDepth(1000000000),
+        thumb: this.add.circle(0, 0, 7, 0xffffff, 0.2).setDepth(1000000000),
         dir: "8dir",
-        fixed: true,
-        forceMin: 10,
+        // fixed: true,
+        forceMin: 3,
       });
       this.joystickKeys = this.joystick.createCursorKeys();
     }
     // Initialise Keyboard
     this.cursorKeys = this.input.keyboard?.createCursorKeys();
     if (this.cursorKeys) {
-      this.cursorKeys.w = this.input.keyboard?.addKey(
-        Phaser.Input.Keyboard.KeyCodes.W
-      );
-      this.cursorKeys.a = this.input.keyboard?.addKey(
-        Phaser.Input.Keyboard.KeyCodes.A
-      );
-      this.cursorKeys.s = this.input.keyboard?.addKey(
-        Phaser.Input.Keyboard.KeyCodes.S
-      );
-      this.cursorKeys.d = this.input.keyboard?.addKey(
-        Phaser.Input.Keyboard.KeyCodes.D
-      );
+      // this.cursorKeys.w = this.input.keyboard?.addKey(
+      //   Phaser.Input.Keyboard.KeyCodes.W
+      // );
+      // this.cursorKeys.a = this.input.keyboard?.addKey(
+      //   Phaser.Input.Keyboard.KeyCodes.A
+      // );
+      // this.cursorKeys.s = this.input.keyboard?.addKey(
+      //   Phaser.Input.Keyboard.KeyCodes.S
+      // );
+      // this.cursorKeys.d = this.input.keyboard?.addKey(
+      //   Phaser.Input.Keyboard.KeyCodes.D
+      // );
 
       this.input.keyboard?.removeCapture("SPACE");
     }
