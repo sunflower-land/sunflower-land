@@ -47,13 +47,8 @@ export const Explore: React.FC = () => {
   const hasPass = useSelector(gameService, _hasAccess);
   const { name } = useParams();
 
-  const hasAccess = name === "plaza" || hasPass;
-
   return (
     <>
-      <Modal show={!hasAccess} centered>
-        <Panel>Coming soon...</Panel>
-      </Modal>
       <ToastProvider>
         <ToastPanel />
         {!isLoading && <PhaserComponent scene={name as RoomId} />}

@@ -28,6 +28,7 @@ interface Island {
   path: string;
   image?: string;
   comingSoon?: boolean;
+  beta?: boolean;
 }
 
 interface IslandProps extends Island {
@@ -53,6 +54,7 @@ const IslandListItem: React.FC<IslandProps> = ({
   comingSoon,
   currentPath,
   disabled,
+  beta,
 }) => {
   const navigate = useNavigate();
   const onSameIsland = path === currentPath;
@@ -104,6 +106,7 @@ const IslandListItem: React.FC<IslandProps> = ({
           )}
           {/* Coming soon */}
           {comingSoon && <Label type="warning">Coming soon</Label>}
+          {beta && <Label type="info">Beta</Label>}
         </div>
       </div>
     </OuterPanel>
@@ -162,21 +165,12 @@ export const IslandList: React.FC<IslandListProps> = ({
       image: SUNNYSIDE.icons.helios,
       path: `/land/${farmId}/helios`,
     },
-    ...(hasBetaAccess
-      ? [
-          {
-            name: "Dawn Breaker (BETA)",
-            image: dawnBreakerBanner,
-            levelRequired: 2 as BumpkinLevel,
-            path: `/world/dawn_breaker`,
-          },
-        ]
-      : []),
     {
       name: "Dawn Breaker",
       image: dawnBreakerBanner,
       levelRequired: 2 as BumpkinLevel,
-      path: `/land/${farmId}/dawn-breaker`,
+      path: `/world/dawn_breaker`,
+      beta: true,
     },
     {
       name: "Goblin Retreat",
