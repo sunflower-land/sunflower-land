@@ -54,7 +54,6 @@ export abstract class BaseScene extends Phaser.Scene {
     this.eventListener = (event) => {
       if (event.type === "CHAT_MESSAGE_RECEIVED") {
         const { sessionId, text, roomId } = event as ChatMessageReceived;
-        console.log({ roomId, this: this.roomId });
 
         const room = this.roomService.state.context.rooms[roomId];
 
