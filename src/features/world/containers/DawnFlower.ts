@@ -15,7 +15,7 @@ const FLOWER_STAGE: Record<number, string> = {
 };
 export class DawnFlower extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
-  public bar: Phaser.GameObjects.Sprite | undefined;
+  public water: Phaser.GameObjects.Sprite | undefined;
 
   constructor(
     scene: Phaser.Scene,
@@ -51,9 +51,12 @@ export class DawnFlower extends Phaser.GameObjects.Container {
       .setOrigin(0.5);
     this.add(idle);
 
+    console.log({ isReady, stage });
     if (isReady) {
-      const water = this.scene.add.sprite(6, -6, "water").setOrigin(0.5);
-      this.add(water);
+      this.water = this.scene.add.sprite(6, -6, "water").setOrigin(0.5);
+      this.add(this.water);
+    } else if (this.water) {
+      this.water.destroy();
     }
   }
 }
