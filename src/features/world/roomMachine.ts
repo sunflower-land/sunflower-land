@@ -209,6 +209,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
           }
 
           const available = await context.client.getAvailableRooms();
+          console.log({ available });
 
           const roomId = chooseRoom(context.roomId as RoomId, available);
 

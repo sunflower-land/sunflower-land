@@ -54,7 +54,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.eventListener = (event) => {
       if (event.type === "CHAT_MESSAGE_RECEIVED") {
         const { sessionId, text, roomId } = event as ChatMessageReceived;
-        if (roomId !== this.roomId) return;
+        console.log({ roomId, this: this.roomId });
 
         const room = this.roomService.state.context.rooms[roomId];
 
@@ -71,7 +71,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
       if (event.type === "CLOTHING_CHANGED") {
         const { sessionId, clothing, roomId } = event as ClothingChangedEvent;
-        if (roomId !== this.roomId) return;
 
         const room = this.roomService.state.context.rooms[roomId];
 
@@ -88,7 +87,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
       if (event.type === "PLAYER_JOINED") {
         const { sessionId, x, y, clothing, roomId } = event as PlayerJoined;
-        if (roomId !== this.roomId) return;
 
         const room = this.roomService.state.context.rooms[roomId];
 

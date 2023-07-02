@@ -2,7 +2,7 @@ import { RoomAvailable } from "colyseus.js";
 import { RoomId } from "../roomMachine";
 
 const WORLD_COUNT = 5;
-const MAX_PLAYERS = 2;
+const MAX_PLAYERS = 100;
 
 export function chooseRoom(roomId: RoomId, rooms: RoomAvailable[]) {
   let chosenRoom: RoomId | undefined = roomId;
