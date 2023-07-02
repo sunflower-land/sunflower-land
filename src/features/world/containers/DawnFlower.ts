@@ -51,7 +51,6 @@ export class DawnFlower extends Phaser.GameObjects.Container {
       .setOrigin(0.5);
     this.add(idle);
 
-    console.log({ isReady, stage });
     if (isReady) {
       this.water = this.scene.add.sprite(6, -6, "water").setOrigin(0.5);
       this.add(this.water);
