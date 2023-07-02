@@ -21,11 +21,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { EventObject } from "xstate";
 import { isTouchDevice } from "../lib/device";
 import { SPAWNS } from "../lib/spawn";
-import {
-  AudioController,
-  Sound,
-  WalkAudioController,
-} from "../lib/AudioController";
+import { AudioController, WalkAudioController } from "../lib/AudioController";
 
 type SceneTransitionData = {
   previousSceneId: RoomId;
@@ -45,11 +41,12 @@ export abstract class BaseScene extends Phaser.Scene {
   eventListener: (event: EventObject) => void;
 
   private joystick?: VirtualJoystick;
-
+  private walkSound: string;
   private sceneTransitionData?: SceneTransitionData;
 
-  constructor(key: RoomId) {
+  constructor(key: RoomId, walkSound = "dirt_footstep") {
     super(key);
+    this.walkSound = walkSound;
 
     this.eventListener = (event) => {
       if (event.type === "CHAT_MESSAGE_RECEIVED") {
@@ -204,9 +201,13 @@ export abstract class BaseScene extends Phaser.Scene {
     });
 
     // set up Sound FXs
-    const walkSound = this.sound.add("walk") as Sound;
 
-    this.walkAudioController = new WalkAudioController(walkSound);
+    // this.walkAudioController = new WalkAudioController(walkSound);
+    if (this.walkSound) {
+      this.walkAudioController = new WalkAudioController(
+        this.sound.add(this.walkSound)
+      );
+    }
 
     // this.audioController = new AudioController({ sound: walkSound });
 

@@ -29,6 +29,9 @@ const BUMPKINS: NPCBumpkin[] = [
 
 const fireCoords = { x: 352, y: 435 };
 const drummerCoords = { x: 255, y: 365 };
+const frogCoords = { x: 335, y: 246 };
+const turtleCoords = { x: 555, y: 117 };
+const boatCoords = { x: 195, y: 460 };
 
 export class DawnBreakerScene extends BaseScene {
   roomId: RoomId = "dawn_breaker";
@@ -76,6 +79,7 @@ export class DawnBreakerScene extends BaseScene {
       frameHeight: 27,
     });
 
+
     this.load.spritesheet("bumpkin_roaster_1", "world/roasting_bumpkin_1.png", {
       frameWidth: 21,
       frameHeight: 21,
@@ -101,38 +105,96 @@ export class DawnBreakerScene extends BaseScene {
       frameHeight: 4,
     });
 
-    // SFX
 
     // Ambience
-    const nature1 = this.sound.add("nature_1") as Sound;
-    const nature2 = this.sound.add("nature_2") as Sound;
-    nature1.play({ loop: true, volume: 0.02 });
-    nature2.play({ loop: true, volume: 0.02 });
+    if (!this.sound.get("nature_1")) {
+      const nature1 = this.sound.add("nature_1") as Sound;
+      nature1.play({ loop: true, volume: 0.01 });
+    }
+    if (!this.sound.get("nature_2")) {
+      const nature2 = this.sound.add("nature_2") as Sound;
+      nature2.play({ loop: true, volume: 0.01 });
+    }
 
     // Fogueira
-    const fireSound = this.sound.add("fire") as Sound;
-    fireSound.play({ loop: true, volume: 0 });
+    if (!this.sound.get("fire")) {
+      const fireSound = this.sound.add("fire") as Sound;
+      fireSound.play({ loop: true, volume: 0 });
 
-    this.soundEffects.push(
-      new AudioController({
-        sound: fireSound,
-        distanceThreshold: 100,
-        coordinates: fireCoords,
-        maxVolume: 0.1,
-      })
-    );
+      this.soundEffects.push(
+        new AudioController({
+          sound: fireSound,
+          distanceThreshold: 100,
+          coordinates: fireCoords,
+          maxVolume: 0.2,
+        })
+      );
+    }
+
+    // Frog
+    if (!this.sound.get("toad")) {
+      const frogSound = this.sound.add("toad") as Sound;
+      frogSound.play({ loop: true, volume: 0, rate: 1.02, delay: 0.7 });
+
+      this.soundEffects.push(
+        new AudioController({
+          sound: frogSound,
+          distanceThreshold: 60,
+          coordinates: frogCoords,
+          maxVolume: 0.1,
+        })
+      );
+    }
+
+    // Boat
+    if (!this.sound.get("boat")) {
+      const boatSopund = this.sound.add("boat") as Sound;
+      boatSopund.play({ loop: true, volume: 0, rate: 0.6 });
+
+      this.soundEffects.push(
+        new AudioController({
+          sound: boatSopund,
+          distanceThreshold: 80,
+          coordinates: boatCoords,
+          maxVolume: 0.2,
+        })
+      );
+    }
+
+    if (!this.sound.get("shoreline")) {
+      const shorelineSopund = this.sound.add("shoreline") as Sound;
+      shorelineSopund.play({ loop: true, volume: 0 });
+
+      this.soundEffects.push(
+        new AudioController({
+          sound: shorelineSopund,
+          distanceThreshold: 80,
+          coordinates: { x: boatCoords.x + 20, y: boatCoords.y },
+          maxVolume: 0.1,
+        })
+      );
+    }
 
     // Music
-    const music = this.sound.add("royal_farms") as Sound;
-    music.play({ loop: true, volume: 0 });
-    this.soundEffects.push(
-      new AudioController({
-        sound: music,
-        distanceThreshold: 150,
-        coordinates: drummerCoords,
-        maxVolume: 0.8,
-      })
-    );
+    if (!this.sound.get("royal_farms")) {
+      const music = this.sound.add("royal_farms") as Sound;
+      music.play({ loop: true, volume: 0 });
+      this.soundEffects.push(
+        new AudioController({
+          sound: music,
+          distanceThreshold: 150,
+          coordinates: drummerCoords,
+          maxVolume: 1,
+        })
+      );
+    }
+    // Shut down all sounds on scene change
+    this.events.on("shutdown", () => {
+      this.sound.getAllPlaying().forEach((sound) => {
+        sound.destroy();
+      });
+      this.soundEffects = [];
+    });
   }
 
   async create() {
@@ -155,6 +217,9 @@ export class DawnBreakerScene extends BaseScene {
     });
     sprite.play("homeless_animation", true);
     sprite.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      // play sound
+      this.sound.add("howdy");
+      this.sound.play("howdy", { volume: 0.5 });
       interactableModalManager.open("homeless_man");
     });
 
@@ -210,7 +275,7 @@ export class DawnBreakerScene extends BaseScene {
     fire.setDepth(100000);
 
     // Turtle
-    const turtle = this.add.sprite(555, 117, "turtle");
+    const turtle = this.add.sprite(turtleCoords.x, turtleCoords.y, "turtle");
     this.anims.create({
       key: "turtle_animation",
       frames: this.anims.generateFrameNumbers("turtle", {
@@ -223,7 +288,6 @@ export class DawnBreakerScene extends BaseScene {
     turtle.play("turtle_animation", true);
 
     // Frog
-    const frogCoords = { x: 335, y: 246 };
     const frog = this.add.sprite(frogCoords.x, frogCoords.y, "frog");
     this.anims.create({
       key: "frog_animation",
