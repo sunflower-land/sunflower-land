@@ -118,7 +118,11 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
           <SpeakingModal
             onClose={closeModal}
             bumpkinParts={NPC_WEARABLES["marcus"]}
-            message={[{ text: "Hey! You are not allowed to go in my house." }]}
+            message={[
+              {
+                text: "Hey! You are not allowed to go in my house. Don't you dare touch my things!",
+              },
+            ]}
           />
         )}
         {npc === "grimbly" && (

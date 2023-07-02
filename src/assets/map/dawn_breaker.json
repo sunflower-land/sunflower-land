@@ -3024,6 +3024,60 @@
           "width": 16.0970642021003,
           "x": 191.960228205999,
           "y": 409.982369882064
+        },
+        {
+          "height": 7.64559716524781,
+          "id": 126,
+          "name": "",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "dawn_book_1"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 7.20450502109891,
+          "x": 65.722729478188,
+          "y": 231.720406392895
+        },
+        {
+          "height": 6.84393808248961,
+          "id": 127,
+          "name": "",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "dawn_book_2"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 5.03230741359529,
+          "x": 114.032085992069,
+          "y": 370.277179492341
+        },
+        {
+          "height": 7.57855587115182,
+          "id": 128,
+          "name": "",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "dawn_book_3"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 5.79536625441023,
+          "x": 472.60893377998,
+          "y": 325.750531772618
         }
       ],
       "opacity": 1,
@@ -3034,7 +3088,7 @@
     }
   ],
   "nextlayerid": 75,
-  "nextobjectid": 126,
+  "nextobjectid": 129,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.8.4",
