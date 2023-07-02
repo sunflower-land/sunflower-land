@@ -76,6 +76,31 @@ export class DawnBreakerScene extends BaseScene {
       frameHeight: 27,
     });
 
+    this.load.spritesheet("bumpkin_roaster_1", "world/roasting_bumpkin_1.png", {
+      frameWidth: 21,
+      frameHeight: 21,
+    });
+
+    this.load.spritesheet("bumpkin_roaster_2", "world/roasting_bumpkin_2.png", {
+      frameWidth: 20,
+      frameHeight: 19,
+    });
+
+    this.load.spritesheet("dawn_flag", "world/dawn_flag.png", {
+      frameWidth: 16,
+      frameHeight: 20,
+    });
+
+    this.load.spritesheet("dragonfly", "world/dragonfly_1.png", {
+      frameWidth: 13,
+      frameHeight: 4,
+    });
+
+    this.load.spritesheet("dragonfly_2", "world/dragonfly_2.png", {
+      frameWidth: 13,
+      frameHeight: 4,
+    });
+
     // SFX
 
     // Ambience
@@ -210,6 +235,71 @@ export class DawnBreakerScene extends BaseScene {
       frameRate: 10,
     });
     frog.play("frog_animation", true);
+
+    const flag = this.add.sprite(260, 435, "dawn_flag");
+    this.anims.create({
+      key: "dawn_flag_animation",
+      frames: this.anims.generateFrameNumbers("dawn_flag", {
+        start: 0,
+        end: 10,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    flag.play("dawn_flag_animation", true);
+    flag.setDepth(100000);
+
+    const roaster = this.add.sprite(329, 445, "bumpkin_roaster_1");
+    this.anims.create({
+      key: "bumpkin_roaster_animation",
+      frames: this.anims.generateFrameNumbers("bumpkin_roaster_1", {
+        start: 0,
+        end: 18,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    roaster.play("bumpkin_roaster_animation", true);
+    roaster.setDepth(100000);
+
+    const roaster2 = this.add.sprite(374, 442, "bumpkin_roaster_2");
+    this.anims.create({
+      key: "bumpkin_roaster_animation_2",
+      frames: this.anims.generateFrameNumbers("bumpkin_roaster_2", {
+        start: 0,
+        end: 18,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    roaster2.play("bumpkin_roaster_animation_2", true);
+    roaster2.setDepth(100000);
+
+    const dragonfly = this.add.sprite(430, 475, "dragonfly");
+    this.anims.create({
+      key: "dragonfly_animation",
+      frames: this.anims.generateFrameNumbers("dragonfly", {
+        start: 0,
+        end: 2,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    dragonfly.play("dragonfly_animation", true);
+    dragonfly.setDepth(100000);
+
+    const dragonfly2 = this.add.sprite(32, 220, "dragonfly_2");
+    this.anims.create({
+      key: "dragonfly_2_animation",
+      frames: this.anims.generateFrameNumbers("dragonfly_2", {
+        start: 0,
+        end: 2,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    dragonfly2.play("dragonfly_2_animation", true);
+    dragonfly2.setDepth(100000);
 
     this.initialiseNPCs(BUMPKINS);
 
