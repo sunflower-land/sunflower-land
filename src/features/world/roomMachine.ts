@@ -8,6 +8,7 @@ import { Bumpkin } from "features/game/types/game";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SPAWNS } from "./lib/spawn";
+import { chooseRoom } from "./lib/availableRooms";
 
 export type Rooms = {
   plaza: Room<PlazaRoomState> | undefined;
@@ -207,7 +208,14 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
             await context.rooms[context.roomId]?.leave();
           }
 
-          const roomId = context.roomId as RoomId;
+          const available = await context.client.getAvailableRooms();
+          console.log({ available });
+
+          const roomId = chooseRoom(context.roomId as RoomId, available);
+
+          if (!roomId) {
+            throw new Error("No room available");
+          }
 
           const room = await context.client.joinOrCreate<PlazaRoomState>(
             roomId,
@@ -223,7 +231,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
           room.onLeave(() => {
             cb({
               type: "ROOM_DISCONNECTED",
-              roomId,
+              roomId: roomId as RoomId,
             });
           });
 
@@ -236,7 +244,8 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
             if (message.sessionId && String(message.sessionId).length > 4) {
               cb({
                 type: "CHAT_MESSAGE_RECEIVED",
-                roomId,
+                roomId: roomId as RoomId,
+
                 text: message.text,
                 sessionId: message.sessionId,
               });
@@ -246,7 +255,8 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
           room.state.players.onAdd((player: any, sessionId: string) => {
             cb({
               type: "PLAYER_JOINED",
-              roomId,
+              roomId: roomId as RoomId,
+
               sessionId: sessionId,
               x: player.x,
               y: player.y,
@@ -259,7 +269,8 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
                 clothingChangedAt = player.clothing.updatedAt;
                 cb({
                   type: "CLOTHING_CHANGED",
-                  roomId,
+                  roomId: roomId as RoomId,
+
                   clothing: player.clothing,
                   sessionId: sessionId,
                 });
@@ -270,7 +281,8 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
           room.state.players.onRemove((_player: any, sessionId: string) => {
             cb({
               type: "PLAYER_QUIT",
-              roomId,
+              roomId: roomId as RoomId,
+
               sessionId: sessionId,
             });
           });
