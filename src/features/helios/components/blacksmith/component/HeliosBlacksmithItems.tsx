@@ -14,6 +14,7 @@ import {
 } from "features/game/types/collectibles";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
+import { hasFeatureAccess } from "lib/flags";
 
 export const HeliosBlacksmithItems: React.FC = () => {
   const [selectedName, setSelectedName] =
@@ -67,8 +68,15 @@ export const HeliosBlacksmithItems: React.FC = () => {
       }
       content={
         <>
-          {getKeys(HELIOS_BLACKSMITH_ITEMS).map(
-            (name: HeliosBlacksmithItem) => (
+          {getKeys(HELIOS_BLACKSMITH_ITEMS)
+            .filter(
+              (name: HeliosBlacksmithItem) =>
+                (name !== "Scary Mike" ||
+                  hasFeatureAccess(state.inventory, "SCARY_MIKE")) &&
+                (name !== "Laurie the Chuckle Crow" ||
+                  hasFeatureAccess(state.inventory, "LAURIE"))
+            )
+            .map((name: HeliosBlacksmithItem) => (
               <Box
                 isSelected={selectedName === name}
                 key={name}
@@ -76,8 +84,7 @@ export const HeliosBlacksmithItems: React.FC = () => {
                 image={ITEM_DETAILS[name].image}
                 count={inventory[name]}
               />
-            )
-          )}
+            ))}
         </>
       }
     />

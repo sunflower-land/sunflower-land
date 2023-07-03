@@ -3552,6 +3552,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1251.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
+  "Solar Lantern": {
+    description:
+      "Harnessing the vibrant essence of sunflowers, the Solar Lantern emanates a warm and radiant glow, reminiscent of a blossoming field under the golden sun.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1272.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
   "Bonnie's Tombstone": {
     description:
       "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
@@ -3744,6 +3752,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1266.png",
     attributes: [],
   },
+  Bale: {
+    description:
+      "A poultry's favorite neighbor, providing a cozy retreat for chickens",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/465.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
   "Sir Goldensnout": {
     description:
       "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
@@ -3752,12 +3768,56 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/466.png",
     attributes: [],
   },
-  Bale: {
+  "Scary Mike": {
     description:
-      "A poultry's favorite neighbor, providing a cozy retreat for chickens",
+      "The veggie whisperer and champion of frightfully good harvests!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/465.png",
+    image_url: "../public/erc1155/images/467.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Betty Lantern": {
+    description: "It looks so real! I wonder how they crafted this.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1273.png",
+    attributes: [],
+  },
+  "Goblin Lantern": {
+    description: "A scary looking lantern",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1276.png",
+    attributes: [],
+  },
+  "Bumpkin Lantern": {
+    description: "Moving closer you hear murmurs of a living Bumpkin...creepy!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1274.png",
+    attributes: [],
+  },
+  "Eggplant Bear": {
+    description: "The mark of a generous eggplant whale.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1275.png",
+    attributes: [],
+  },
+  "Dawn Flower": {
+    description:
+      "Embrace the radiant beauty of the Dawn Flower as its delicate petals shimmer with the first light of day.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1277.png",
+    attributes: [],
+  },
+  "Laurie the Chuckle Crow": {
+    description:
+      "With her disconcerting chuckle, she shooes peckers away from your crops!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/468.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
 };

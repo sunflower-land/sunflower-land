@@ -1,23 +1,23 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import shuffle from "lodash.shuffle";
-import ReCAPTCHA from "react-google-recaptcha";
 
 import { Button } from "components/ui/Button";
 import { InnerPanel, Panel } from "components/ui/Panel";
 
 import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
-import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineInterpreter } from "../lib/createFarmMachine";
 import classNames from "classnames";
 import { Loading } from "./Loading";
 import Decimal from "decimal.js-light";
 import { fromWei, toBN } from "web3-utils";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
+import maticToken from "assets/icons/polygon-token.png";
 import { Modal } from "react-bootstrap";
-import { AddMATIC } from "features/island/hud/components/AddMATIC";
+import { PokoOnRamp } from "features/island/hud/components/PokoOnRamp";
+import { wallet } from "lib/blockchain/wallet";
+import { CopyAddress } from "components/ui/CopyAddress";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -94,18 +94,22 @@ export const CreateFarm: React.FC = () => {
 
   const [createFarmState] = useActor(child);
 
-  const [showCaptcha, setShowCaptcha] = useState(false);
-  const [charity, setCharity] = useState<CharityAddress | null>(null);
+  const charity = useRef(
+    CHARITIES[Math.floor(Math.random() * CHARITIES.length)]
+  );
   const [paymentConfirmed, setPaymentConfirmed] = useState(false);
   const [screen, setScreen] = useState<"intro" | "create">("intro");
   const [showAddFunds, setShowAddFunds] = useState(false);
 
   const isLoading = createFarmState.matches("loading");
   const hasEnoughMatic = createFarmState.matches("hasEnoughMatic");
-  const hasCharitySelected = charity !== null;
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <div className="h-32">
+        <Loading />
+      </div>
+    );
   }
 
   const maticFee = fromWei(toBN(createFarmState.context.maticFee ?? 0));
@@ -117,142 +121,94 @@ export const CreateFarm: React.FC = () => {
     .mul(1.24)
     .toDecimalPlaces(2, Decimal.ROUND_UP);
 
-  const onCaptchaSolved = async (token: string | null) => {
-    await new Promise((res) => setTimeout(res, 1000));
-
-    authService.send("CREATE_FARM", {
-      charityAddress: charity,
-      donation: 10,
-      captcha: token,
-    });
-  };
-
   const addFunds = async () => setShowAddFunds(true);
 
-  if (showCaptcha) {
-    return (
-      <ReCAPTCHA
-        sitekey={CONFIG.RECAPTCHA_SITEKEY}
-        onChange={onCaptchaSolved}
-        onExpired={() => setShowCaptcha(false)}
-        className="w-full flex items-center justify-center min-h-[78px]"
-      />
-    );
-  }
-
   return (
-    <div className="flex flex-col items-center">
-      <h1 className="text-center mb-1">Getting Started</h1>
-      <img
-        src={CROP_LIFECYCLE.Sunflower.crop}
-        className="my-1"
-        style={{
-          width: `${PIXEL_SCALE * 13}px`,
-        }}
-      />
-      {screen === "intro" && (
-        <>
-          <div className="flex flex-col space-y-2 text-xs p-2 pt-1 mb-2">
-            <p>
-              {`Sunflower Land is powered by the Polygon blockchain and requires
-              Polygon's Matic token to play.`}
-            </p>
-            <p>
-              {`Creating an account requires ${maticFeePlusGas.toNumber()} Matic (~$5 USD). 50 cents will
-              be donated to a charity of your choice.`}
-            </p>
-            <p>You will also receive a free Bumpkin NFT (worth $5 USD).</p>
-            <p>This Bumpkin will be your guide in Sunflower Land.</p>
-          </div>
-          <Button onClick={() => setScreen("create")}>Continue</Button>
-        </>
-      )}
+    <>
+      <div className="flex flex-col p-2">
+        <p className="text-sm mb-2">
+          {`To mint NFTs and claim your starter pack, you'll need MATIC tokens.`}
+        </p>
+        {!hasEnoughMatic && (
+          <p className="text-sm mb-2">
+            {`Don't worry if you don't have any yet. We offer an easy way to buy
+                MATIC tokens directly within the game.`}
+          </p>
+        )}
 
-      {screen === "create" && (
-        <>
-          <ol className="p-2 space-y-3 text-sm">
-            <li>
-              <div>
-                <div className="flex space-x-1 mb-2 items-center">
-                  {!hasEnoughMatic && <span>1.</span>}
-                  {hasEnoughMatic && (
-                    <img
-                      src={SUNNYSIDE.icons.confirm}
-                      style={{
-                        width: `${PIXEL_SCALE * 6}px`,
-                      }}
-                    />
-                  )}
-                  <span>
-                    Add Matic ({maticFeePlusGas.toNumber()} Matic required)
-                  </span>
-                </div>
-                {!hasEnoughMatic && (
-                  <>
-                    <Button disabled={paymentConfirmed} onClick={addFunds}>
-                      Buy Matic
-                    </Button>
-                    {paymentConfirmed && (
-                      <p
-                        className="text-xxs italic"
-                        style={{ lineHeight: 1.1 }}
-                      >
-                        Waiting for crypto to be sent to your wallet. This
-                        usually takes 20-30 seconds
-                        <span className="loading2" />
-                      </p>
-                    )}
-                  </>
+        <span className="text-xxs">Your wallet address:</span>
+        <CopyAddress address={wallet.myAccount as string} showCopy />
+
+        <ol className="space-y-3 text-sm mt-1">
+          <li>
+            <div>
+              <div className="flex space-x-1 mb-2 items-center">
+                {hasEnoughMatic ? (
+                  <img
+                    src={SUNNYSIDE.icons.confirm}
+                    style={{
+                      width: `${PIXEL_SCALE * 6}px`,
+                    }}
+                  />
+                ) : (
+                  <img
+                    src={maticToken}
+                    style={{
+                      width: `${PIXEL_SCALE * 6}px`,
+                    }}
+                  />
                 )}
+                <span>{maticFeePlusGas.toNumber()} Matic required</span>
               </div>
-            </li>
-            <li>
-              <div className="flex flex-col space-y-2">
-                <div className="flex space-x-1 mb-1 items-center">
-                  {!hasCharitySelected && <span>2.</span>}
-                  {hasCharitySelected && (
-                    <img
-                      src={SUNNYSIDE.icons.confirm}
-                      style={{
-                        width: `${PIXEL_SCALE * 6}px`,
-                      }}
-                    />
-                  )}
-                  <span>Pick your charity</span>
-                </div>
-                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 justify-evenly">
-                  {CHARITIES.map((_charity) => (
-                    <CharityDetail
-                      {..._charity}
-                      selected={charity === _charity.address}
-                      onClick={() => setCharity(_charity.address)}
-                      key={_charity.address}
-                    />
-                  ))}
-                </div>
-              </div>
-            </li>
-
-            <li>
-              <div className="flex flex-col space-y-2">
-                <span>3. Create your account</span>
-                <Button
-                  disabled={!hasEnoughMatic || !hasCharitySelected}
-                  onClick={() => setShowCaptcha(true)}
-                >
-                  Start your adventure!
-                </Button>
-              </div>
-            </li>
-          </ol>
-        </>
-      )}
+            </div>
+          </li>
+        </ol>
+      </div>
 
       <Modal show={showAddFunds} onHide={() => setShowAddFunds(false)} centered>
         <Panel>
-          <AddMATIC onClose={() => setShowAddFunds(false)} />
+          <PokoOnRamp
+            crypto="MATIC-polygon"
+            onClose={() => setShowAddFunds(false)}
+          />
         </Panel>
       </Modal>
-    </div>
+      {!hasEnoughMatic && (
+        <div className="mb-2">
+          <Button disabled={paymentConfirmed} onClick={addFunds}>
+            Buy Matic with POKO
+          </Button>
+          {paymentConfirmed && (
+            <p className="text-xxs italic px-2" style={{ lineHeight: 1.1 }}>
+              Waiting for crypto to be sent to your wallet. This usually takes
+              20-30 seconds
+              <span className="loading2" />
+            </p>
+          )}
+        </div>
+      )}
+      <Button
+        disabled={!hasEnoughMatic}
+        onClick={() => {
+          authService.send("CREATE_FARM", {
+            charityAddress: charity.current.address,
+            donation: 10,
+            captcha: "0x",
+          });
+        }}
+      >
+        Start your adventure!
+      </Button>
+      <div className="w-full flex justify-center">
+        <a
+          href="https://docs.sunflower-land.com/getting-started/how-to-start#step-2-fund-your-wallet"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline text-white text-xxs text-center"
+        >
+          How to fund your wallet
+        </a>
+      </div>
+    </>
   );
 };

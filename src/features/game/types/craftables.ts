@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { CropSeedName } from "../types/crops";
-import { InventoryItemName } from "../types/game";
+import { InventoryItemName, LanternName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
 import { marketRate } from "../lib/halvening";
@@ -176,12 +176,6 @@ export type LimitedItemName =
   | MutantChicken
   | WarTentItem;
 
-export type Lantern =
-  | "Luminous Lantern"
-  | "Radiance Lantern"
-  | "Ocean Lantern"
-  | "Aurora Lantern";
-
 export type CollectibleName =
   | LegacyItem
   | BarnItem
@@ -199,7 +193,7 @@ export type CollectibleName =
   | SeasonPassName
   | BoostTreasure
   | WarBanner
-  | Lantern
+  | LanternName
   | "Observatory"
   | "War Skull"
   | "War Tombstone"
@@ -1126,7 +1120,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Pablo The Bunny": { width: 1, height: 1 },
   "Easter Bear": { width: 1, height: 1 },
   "Giant Carrot": { width: 2, height: 2 },
-  "Easter Bush": { width: 2, height: 2 },
+  "Easter Bush": { width: 2, height: 1 },
 
   // Treasure Island SFTs
   "Tiki Totem": { height: 1, width: 1 },
@@ -1153,6 +1147,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Aurora Lantern": { height: 2, width: 1 },
   "Radiance Lantern": { height: 2, width: 1 },
   "Ocean Lantern": { height: 2, width: 1 },
+  "Solar Lantern": { height: 2, width: 1 },
+  "Goblin Lantern": { height: 2, width: 1 },
+  "Bumpkin Lantern": { height: 2, width: 1 },
+  "Betty Lantern": { height: 2, width: 1 },
 
   "Purple Trail": { width: 1, height: 1 },
   Obie: { width: 1, height: 1 },
@@ -1165,6 +1163,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Basic Scarecrow": { width: 1, height: 2 },
   Bale: { width: 2, height: 2 },
   "Sir Goldensnout": { width: 2, height: 2 },
+  "Scary Mike": { width: 1, height: 2 },
+  "Laurie the Chuckle Crow": { width: 1, height: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

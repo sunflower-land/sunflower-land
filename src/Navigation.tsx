@@ -120,7 +120,7 @@ export const Navigation: React.FC = () => {
                   }
                 />
               )}
-              <Route path="/world" element={<World key="world" />} />
+              <Route path="/world/:name" element={<World key="world" />} />
               <Route path="/visit/*" element={<LandExpansion key="visit" />} />
               <Route
                 path="/land/:id?/*"

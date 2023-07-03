@@ -10,7 +10,9 @@ export type HeliosBlacksmithItem =
   | "Immortal Pear"
   | "Treasure Map"
   | "Basic Scarecrow"
-  | "Bale";
+  | "Bale"
+  | "Scary Mike"
+  | "Laurie the Chuckle Crow";
 
 export type SoldOutCollectibleName =
   | "Sir Goldensnout"
@@ -97,6 +99,31 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     },
     sfl: new Decimal(5),
     boost: "Adjacent chickens produce +0.2 Eggs",
+  },
+  "Scary Mike": {
+    description:
+      "The veggie whisperer and champion of frightfully good harvests!",
+    ingredients: {
+      Wood: new Decimal(30),
+      Carrot: new Decimal(50),
+      Wheat: new Decimal(10),
+      Parsnip: new Decimal(10),
+    },
+    sfl: new Decimal(15),
+    boost:
+      "+0.2 yield on Carrots, Cabbages, Beetroots, Cauliflowers and Parsnips",
+  },
+  "Laurie the Chuckle Crow": {
+    description:
+      "With her disconcerting chuckle, she shooes peckers away from your crops!",
+    ingredients: {
+      Wood: new Decimal(100),
+      Radish: new Decimal(60),
+      Kale: new Decimal(40),
+      Wheat: new Decimal(20),
+    },
+    sfl: new Decimal(45),
+    boost: "+0.2 yield on Eggplants, Radishes, Wheat and Kale",
   },
 };
 

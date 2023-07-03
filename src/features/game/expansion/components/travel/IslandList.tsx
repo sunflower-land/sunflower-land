@@ -25,16 +25,15 @@ import { analytics } from "lib/analytics";
 interface Island {
   name: string;
   levelRequired: BumpkinLevel;
-  guestAccess: boolean;
   path: string;
   image?: string;
   comingSoon?: boolean;
+  beta?: boolean;
 }
 
 interface IslandProps extends Island {
   bumpkin: Bumpkin | undefined;
   currentPath: string;
-  isGuest: boolean;
   disabled: boolean;
 }
 
@@ -43,6 +42,7 @@ interface IslandListProps {
   showVisitList: boolean;
   inventory: Inventory;
   travelAllowed: boolean;
+  hasBetaAccess?: boolean;
 }
 
 const IslandListItem: React.FC<IslandProps> = ({
@@ -50,20 +50,18 @@ const IslandListItem: React.FC<IslandProps> = ({
   levelRequired,
   path,
   bumpkin,
-  guestAccess,
   image,
   comingSoon,
   currentPath,
-  isGuest,
   disabled,
+  beta,
 }) => {
   const navigate = useNavigate();
   const onSameIsland = path === currentPath;
   const notEnoughLevel =
     !bumpkin || getBumpkinLevel(bumpkin.experience) < levelRequired;
-  const guestDenied = guestAccess === false && isGuest;
   const cannotNavigate =
-    notEnoughLevel || onSameIsland || comingSoon || guestDenied || disabled;
+    notEnoughLevel || onSameIsland || comingSoon || disabled;
 
   const onClick = () => {
     if (!cannotNavigate) {
@@ -106,11 +104,9 @@ const IslandListItem: React.FC<IslandProps> = ({
               Lvl {levelRequired}
             </Label>
           )}
-          {guestDenied && !comingSoon && (
-            <Label type="info">Full access required</Label>
-          )}
           {/* Coming soon */}
           {comingSoon && <Label type="warning">Coming soon</Label>}
+          {beta && <Label type="info">Beta</Label>}
         </div>
       </div>
     </OuterPanel>
@@ -146,6 +142,7 @@ export const IslandList: React.FC<IslandListProps> = ({
   bumpkin,
   showVisitList,
   travelAllowed,
+  hasBetaAccess = false,
 }) => {
   const { authService } = useContext(Auth.Context);
   const userType = useSelector(authService, userTypeSelector);
@@ -160,13 +157,11 @@ export const IslandList: React.FC<IslandListProps> = ({
       name: "Home",
       image: CROP_LIFECYCLE.Sunflower.ready,
       levelRequired: 1,
-      guestAccess: true,
       path: `/land/${farmId}`,
     },
     {
       name: "Helios",
       levelRequired: 1 as BumpkinLevel,
-      guestAccess: true,
       image: SUNNYSIDE.icons.helios,
       path: `/land/${farmId}/helios`,
     },
@@ -174,27 +169,24 @@ export const IslandList: React.FC<IslandListProps> = ({
       name: "Dawn Breaker",
       image: dawnBreakerBanner,
       levelRequired: 2 as BumpkinLevel,
-      guestAccess: true,
-      path: `/land/${farmId}/dawn-breaker`,
+      path: `/world/dawn_breaker`,
+      beta: true,
     },
     {
       name: "Goblin Retreat",
       levelRequired: 1 as BumpkinLevel,
-      guestAccess: false,
       image: goblin,
       path: `/retreat/${farmId}`,
     },
     {
       name: "Treasure Island",
       levelRequired: 10 as BumpkinLevel,
-      guestAccess: false,
       image: SUNNYSIDE.icons.treasure,
       path: `/land/${farmId}/treasure-island`,
     },
     {
       name: "Stone Haven",
       levelRequired: 20 as BumpkinLevel,
-      guestAccess: false,
       image: SUNNYSIDE.resource.boulder,
       path: `/treasure/${farmId}`,
       comingSoon: true,
@@ -202,7 +194,6 @@ export const IslandList: React.FC<IslandListProps> = ({
     {
       name: "Sunflorea",
       levelRequired: 30 as BumpkinLevel,
-      guestAccess: false,
       image: sunflorea,
       path: `/treasure/${farmId}`,
       comingSoon: true,
@@ -210,7 +201,6 @@ export const IslandList: React.FC<IslandListProps> = ({
     {
       name: "Snow Kingdom",
       levelRequired: 50 as BumpkinLevel,
-      guestAccess: false,
       image: snowman,
       path: `/snow/${farmId}`,
       comingSoon: true,
@@ -238,8 +228,6 @@ export const IslandList: React.FC<IslandListProps> = ({
             name="Home"
             image={CROP_LIFECYCLE.Sunflower.ready}
             levelRequired={1}
-            guestAccess={true}
-            isGuest={userType === "GUEST"}
             path={`/land/${farmId}`}
             bumpkin={bumpkin}
             currentPath={location.pathname}
@@ -260,7 +248,6 @@ export const IslandList: React.FC<IslandListProps> = ({
         <IslandListItem
           key={item.name}
           {...item}
-          isGuest={userType === "GUEST"}
           bumpkin={bumpkin}
           currentPath={location.pathname}
           disabled={!travelAllowed}

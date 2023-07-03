@@ -44,7 +44,7 @@ import wendy from "assets/sfts/wood_nymph_wendy.gif";
 import cabbageBoy from "assets/sfts/cabbage_boy.gif";
 import cabbageGirl from "assets/sfts/cabbage_girl.gif";
 import prizedPotato from "assets/sfts/peeled_potato.gif";
-import immortalPear from "assets/sfts/immortal_pear.gif";
+import immortalPear from "assets/sfts/immortal_pear.webp";
 import ladybug from "assets/sfts/ladybug.gif";
 import blackBear from "assets/sfts/black_bear.gif";
 import squirrelMonkey from "assets/sfts/squirrel_monkey.gif";
@@ -52,12 +52,19 @@ import luminousLantern from "assets/sfts/luminous_lantern.webp";
 import auroraLantern from "assets/sfts/aurora_lantern.webp";
 import radianceLantern from "assets/sfts/radiance_lantern.webp";
 import oceanLantern from "assets/sfts/ocean_lantern.png";
+import solarLantern from "assets/sfts/solar_lantern.png";
+import bumpkinLantern from "assets/sfts/bumpkin_lantern.png";
+import bettyLantern from "assets/sfts/betty_lantern.png";
+import goblinLantern from "assets/sfts/goblin_lantern.png";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
 import emeraldTurtle from "assets/sfts/aoe/emerald_turtle.webp";
 import tinTurtle from "assets/sfts/aoe/tin_turtle.webp";
 import bale from "assets/sfts/aoe/bale.png";
+import scaryMike from "assets/sfts/aoe/scary_mike.png";
+import laurie from "assets/sfts/aoe/laurie.png";
+
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
 import fatChicken from "assets/animals/chickens/fat_chicken.gif";
@@ -320,6 +327,8 @@ import valentineBear from "src/assets/sfts/bears/love_bear.png";
 import easterBear from "src/assets/sfts/bears/easter_bear.png";
 import ironIdol from "src/assets/sfts/iron_idol.webp";
 import genieBear from "src/assets/sfts/bears/genie_bear.png";
+import eggplantBear from "src/assets/sfts/bears/eggplant_bear.png";
+import dawnFlower from "src/assets/sfts/dawn_flower.png";
 
 import pineTree from "src/assets/decorations/pine_tree.png";
 import fieldMaple from "src/assets/decorations/field_maple.webp";
@@ -1996,6 +2005,20 @@ export const ITEM_DETAILS: Items = {
     description: HELIOS_BLACKSMITH_ITEMS["Bale"].description,
     image: bale,
   },
+  "Sir Goldensnout": {
+    image: sirGoldenSnout,
+    description:
+      "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
+  },
+  "Scary Mike": {
+    description: HELIOS_BLACKSMITH_ITEMS["Scary Mike"].description,
+    image: scaryMike,
+  },
+
+  "Laurie the Chuckle Crow": {
+    description: HELIOS_BLACKSMITH_ITEMS["Laurie the Chuckle Crow"].description,
+    image: laurie,
+  },
 
   // Season tickets
   "Solar Flare Ticket": {
@@ -2123,6 +2146,11 @@ export const ITEM_DETAILS: Items = {
     description:
       "A wavy paper lantern that sways with the bobbing of the tide.",
   },
+  "Solar Lantern": {
+    image: solarLantern,
+    description:
+      "Harnessing the vibrant essence of sunflowers, the Solar Lantern emanates a warm and radiant glow.",
+  },
   "Aurora Lantern": {
     image: auroraLantern,
     description:
@@ -2190,7 +2218,7 @@ export const ITEM_DETAILS: Items = {
   },
   Obie: {
     image: obie,
-    description: "A fierce eggplant solider",
+    description: "A fierce eggplant soldier",
   },
   Hoot: {
     image: hoot,
@@ -2200,9 +2228,25 @@ export const ITEM_DETAILS: Items = {
     image: genieBear,
     description: "Exactly what I wished for!",
   },
-  "Sir Goldensnout": {
-    image: sirGoldenSnout,
+  "Betty Lantern": {
+    image: bettyLantern,
+    description: "It looks so real! I wonder how they crafted this.",
+  },
+  "Bumpkin Lantern": {
+    image: bumpkinLantern,
+    description: "Moving closer you hear murmurs of a living Bumpkin...creepy!",
+  },
+  "Eggplant Bear": {
+    image: eggplantBear,
+    description: "The mark of a generous eggplant whale.",
+  },
+  "Goblin Lantern": {
+    image: goblinLantern,
+    description: "A scary looking lantern",
+  },
+  "Dawn Flower": {
+    image: dawnFlower,
     description:
-      "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
+      "Embrace the radiant beauty of the Dawn Flower as its delicate petals shimmer with the first light of day",
   },
 };

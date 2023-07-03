@@ -135,7 +135,6 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
     description: "Free Trades! Woohoo!",
   },
-
   "War Bond": {
     description: "A mark of a true warrior",
   },
@@ -445,7 +444,11 @@ export type LanternName =
   | "Luminous Lantern"
   | "Radiance Lantern"
   | "Aurora Lantern"
-  | "Ocean Lantern";
+  | "Ocean Lantern"
+  | "Solar Lantern"
+  | "Goblin Lantern"
+  | "Betty Lantern"
+  | "Bumpkin Lantern";
 
 export type LanternIngredients = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -459,12 +462,24 @@ export type LanternOffering = {
 
 export type LanternsCraftedByWeek = Partial<Record<Week, number>>;
 
+export type Party = {
+  fulfilledAt?: number;
+  fulfilledCount?: number;
+  requirements?: Partial<Record<InventoryItemName, number>>;
+};
+
 export type DawnBreaker = {
   currentWeek: Week;
   availableLantern?: LanternOffering;
   lanternsCraftedByWeek: LanternsCraftedByWeek;
   riddle?: Riddle & { id: string };
   answeredRiddleIds: string[];
+  dawnFlower?: {
+    tendedAt: number;
+    plantedAt: number;
+    tendedCount: number;
+  };
+  party?: Party;
 };
 
 export type Order = {
@@ -495,6 +510,37 @@ export type DailyRewards = {
   chest?: {
     collectedAt: number;
     code: number;
+  };
+};
+
+export type PotionName =
+  | "Bloom Boost"
+  | "Happy Hooch"
+  | "Earth Essence"
+  | "Flower Power"
+  | "Organic Oasis"
+  | "Dream Drip"
+  | "Golden Syrup";
+
+export type PotionStatus =
+  | "pending"
+  | "incorrect"
+  | "correct"
+  | "almost"
+  | "bomb";
+
+export type PotionSlot = { potion: PotionName; status: PotionStatus };
+
+export type Attempt = [PotionSlot, PotionSlot, PotionSlot, PotionSlot];
+
+export type PotionHouse = {
+  game: {
+    status: "in_progress" | "finished";
+    attempts: Attempt[];
+    reward?: InventoryItemName;
+  };
+  history: {
+    [score: number]: number;
   };
 };
 
@@ -568,6 +614,7 @@ export interface GameState {
   hayseedHank: HayseedHank;
   mushrooms: Mushrooms;
   dawnBreaker?: DawnBreaker;
+  potionHouse?: PotionHouse;
 }
 
 export interface Context {

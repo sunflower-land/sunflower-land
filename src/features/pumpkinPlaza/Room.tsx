@@ -199,7 +199,7 @@ export const Room: React.FC<Props> = ({
           <Panel>
             <div className="p-2 flex flex-col items-center">
               <p className="mb-4">Something went wrong!</p>
-              <img src={SUNNYSIDE.icons.unhappy} className="w-1/3 mb-2" />
+              <img src={SUNNYSIDE.icons.sad} className="w-1/3 mb-2" />
             </div>
             <Button onClick={() => websocketService.send("CONNECT")}>
               Continue
@@ -211,7 +211,7 @@ export const Room: React.FC<Props> = ({
           <Panel>
             <div className="p-2 flex flex-col items-center">
               <p className="mb-4">This room is full.</p>
-              <img src={SUNNYSIDE.icons.unhappy} className="w-1/3 mb-2" />
+              <img src={SUNNYSIDE.icons.sad} className="w-1/3 mb-2" />
             </div>
             <Button onClick={() => navigate(`/land/${id}`)}>Return</Button>
           </Panel>
@@ -255,6 +255,8 @@ export const Room: React.FC<Props> = ({
               reaction,
             });
           }}
+          onChatClose={console.log}
+          onChatStarted={console.log}
           game={gameState.context.state}
           messages={[]}
         />

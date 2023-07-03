@@ -12,6 +12,17 @@ import {
 
 type GameAnalyticEvent =
   | EventNameString
+  | "connect_wallet"
+  | "connect_to_metamask"
+  | "connect_to_phantom"
+  | "connect_to_okx"
+  | "connect_to_sequence"
+  | "connect_to_walletconnect"
+  | "create_account"
+  | "mint_farm"
+  | "offer_seen"
+  | "not_enough_matic"
+  | "offer_accepted"
   | "tutorial_begin"
   | "tutorial_complete"
   | "earn_virtual_currency"
@@ -43,13 +54,22 @@ class GameAnalytics {
     this.analytics = getAnalytics(app);
   }
 
-  public initialise({ id, type }: { id?: number; type: "GUEST" | "FULL" }) {
+  public initialise({
+    id,
+    type,
+    wallet,
+  }: {
+    id?: number;
+    type: "GUEST" | "FULL";
+    wallet: string;
+  }) {
     if (id) {
       setUserId(this.analytics, id.toString());
     }
 
     setUserProperties(this.analytics, {
       userType: type,
+      wallet,
     });
   }
 

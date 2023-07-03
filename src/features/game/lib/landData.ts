@@ -240,7 +240,7 @@ const INITIAL_BUMPKIN: Bumpkin = {
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
     background: "Farm Background",
-    coat: "Chef Apron",
+    onesie: "Eggplant Onesie",
   },
   skills: {
     "Michelin Stars": 1,
@@ -256,9 +256,9 @@ const INITIAL_BUMPKIN: Bumpkin = {
 export const OFFLINE_FARM: GameState = {
   id: 4,
   dawnBreaker: {
-    currentWeek: 7,
+    currentWeek: 8,
     availableLantern: {
-      name: "Ocean Lantern",
+      name: "Solar Lantern",
       startAt: "2023-05-08T00:00:00.000Z",
       endAt: "2023-05-15T00:00:00.000Z",
       ingredients: {
@@ -283,6 +283,16 @@ export const OFFLINE_FARM: GameState = {
         items: {
           "Dawn Breaker Ticket": 50,
         },
+      },
+    },
+    dawnFlower: {
+      plantedAt: 0,
+      tendedAt: 0,
+      tendedCount: 7,
+    },
+    party: {
+      requirements: {
+        Wood: 50,
       },
     },
   },
@@ -331,11 +341,19 @@ export const OFFLINE_FARM: GameState = {
   },
   inventory: {
     "Sunflower Cake": new Decimal(15),
-    Carrot: new Decimal(800),
-    Cauliflower: new Decimal(700),
-    Beetroot: new Decimal(1000),
-    Cabbage: new Decimal(1000),
-    Wood: new Decimal(500),
+    Carrot: new Decimal(80),
+    Cauliflower: new Decimal(70),
+    Beetroot: new Decimal(10),
+    Cabbage: new Decimal(100),
+    Pumpkin: new Decimal(100),
+    Parsnip: new Decimal(10),
+    Radish: new Decimal(10),
+    Potato: new Decimal(10),
+    Sunflower: new Decimal(10),
+    Iron: new Decimal(10),
+    Egg: new Decimal(10),
+    Kale: new Decimal(10),
+    Wood: new Decimal(30),
     "Luminous Lantern": new Decimal(5),
     "Radiance Lantern": new Decimal(3),
     Market: new Decimal(1),
@@ -347,7 +365,7 @@ export const OFFLINE_FARM: GameState = {
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
     "Mashed Potato": new Decimal(2),
-    Gold: new Decimal(150),
+    Gold: new Decimal(50),
     "Wooden Compass": new Decimal(20),
     "Dirt Path": new Decimal(100),
     Fence: new Decimal(50),
@@ -355,8 +373,7 @@ export const OFFLINE_FARM: GameState = {
     Shrub: new Decimal(50),
     "White Tulips": new Decimal(10),
     Artist: new Decimal(1),
-    Sunflower: new Decimal(100),
-    Potato: new Decimal(100),
+    "Solar Lantern": new Decimal(1),
     Stone: new Decimal(500),
     Bale: new Decimal(1),
     Wheat: new Decimal(100),
@@ -368,6 +385,8 @@ export const OFFLINE_FARM: GameState = {
     "Easter Bear": new Decimal(1),
     "Cabbage Girl": new Decimal(1),
     "Cabbage Boy": new Decimal(1),
+
+    // "Beta Pass": new Decimal(1),
 
     Kitchen: new Decimal(1),
 
@@ -381,6 +400,12 @@ export const OFFLINE_FARM: GameState = {
 
     "Wild Mushroom": new Decimal(1),
     Eggplant: new Decimal(1),
+
+    "Betty Lantern": new Decimal(1),
+    "Bumpkin Lantern": new Decimal(1),
+    "Goblin Lantern": new Decimal(1),
+    "Eggplant Bear": new Decimal(1),
+    "Dawn Flower": new Decimal(1),
 
     "Bonnie's Tombstone": new Decimal(1),
     "Grubnash's Tombstone": new Decimal(1),

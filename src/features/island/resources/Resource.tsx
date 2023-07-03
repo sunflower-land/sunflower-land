@@ -12,25 +12,24 @@ import { FruitPatch } from "../fruit/FruitPatch";
 import { Boulder } from "../boulder/Boulder";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
-import { useActor, useSelector } from "@xstate/react";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { useSelector } from "@xstate/react";
 import { MoveableComponent } from "../collectibles/MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
 import { isLocked as isPlotLocked } from "features/game/events/landExpansion/moveCrop";
 import { isLocked as isStoneLocked } from "features/game/events/landExpansion/moveStone";
 import { isLocked as isIronLocked } from "features/game/events/landExpansion/moveIron";
 import { isLocked as isGoldLocked } from "features/game/events/landExpansion/moveGold";
-import lockIcon from "assets/skills/lock.png";
-
 import { InnerPanel } from "components/ui/Panel";
-import classNames from "classnames";
+import { SquareIcon } from "components/ui/SquareIcon";
+import lockIcon from "assets/skills/lock.png";
 
 export interface ResourceProps {
   name: ResourceName;
   id: string;
   readyAt: number;
   createdAt: number;
-  coordinates?: Coordinates;
+  x: number;
+  y: number;
 }
 
 // Used for placing
@@ -143,39 +142,64 @@ export const RESOURCE_COMPONENTS: Record<
   Boulder: Boulder,
 };
 
-// const ResourceComponent: React.FC<ResourceProps> = ({
-//   name,
-//   id,
-//   readyAt,
-//   createdAt,
-// }) => {
-//   const Component = RESOURCE_COMPONENTS[name];
-
-//   return (
-//     <>
-//       <Component
-//         key={id}
-//         createdAt={createdAt}
-//         id={id}
-//         name={name}
-//         readyAt={readyAt}
-//       />
-//     </>
-//   );
-// };
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
+const _collectibles = (state: MachineState) => state.context.state.collectibles;
+const _crops = (state: MachineState) => state.context.state.crops;
+const _stones = (state: MachineState) => state.context.state.stones;
+const _iron = (state: MachineState) => state.context.state.iron;
+const _gold = (state: MachineState) => state.context.state.gold;
 
-const ResourceComponent: React.FC<ResourceProps> = (props) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
+const LockedResource: React.FC<ResourceProps> = (props) => {
   const [showPopover, setShowPopover] = useState(false);
-
-  const landscaping = useSelector(gameService, isLandscaping);
 
   const Component = RESOURCE_COMPONENTS[props.name];
 
-  const collectibles = gameState.context.state.collectibles;
+  return (
+    <div
+      className="relative w-full h-full"
+      onMouseEnter={() => setShowPopover(true)}
+      onMouseLeave={() => setShowPopover(false)}
+    >
+      {showPopover && (
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            top: `${PIXEL_SCALE * -15}px`,
+          }}
+        >
+          <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
+            <div className="flex items-center space-x-2 mx-1 p-1">
+              <SquareIcon icon={lockIcon} width={5} />
+              <span className="text-xxs mb-0.5">AoE Locked</span>
+            </div>
+          </InnerPanel>
+        </div>
+      )}
+      <div className="relative">
+        <Component {...props} />
+      </div>
+    </div>
+  );
+};
+
+const MoveableResource: React.FC<ResourceProps> = (props) => {
+  const Component = RESOURCE_COMPONENTS[props.name];
+
+  return (
+    <MoveableComponent x={props.x} y={props.y} {...(props as any)}>
+      <Component {...props} />
+    </MoveableComponent>
+  );
+};
+
+const LandscapingResource: React.FC<ResourceProps> = (props) => {
+  const { gameService } = useContext(Context);
+
+  const collectibles = useSelector(gameService, _collectibles);
+  const crops = useSelector(gameService, _crops);
+  const stones = useSelector(gameService, _stones);
+  const iron = useSelector(gameService, _iron);
+  const gold = useSelector(gameService, _gold);
 
   const isResourceLocked = (): boolean => {
     const isPlot = props.name === "Crop Plot";
@@ -184,79 +208,35 @@ const ResourceComponent: React.FC<ResourceProps> = (props) => {
     const isGold = props.name === "Gold Rock";
 
     if (isPlot) {
-      const plot = gameState.context.state.crops[props.id];
+      const plot = crops[props.id];
       return isPlotLocked(plot, collectibles, Date.now());
     }
     if (isStone) {
-      const stone = gameState.context.state.stones[props.id];
-      return isStoneLocked(stone, collectibles, Date.now());
+      const stoneRock = stones[props.id];
+      return isStoneLocked(stoneRock, collectibles, Date.now());
     }
     if (isIron) {
-      const iron = gameState.context.state.iron[props.id];
-      return isIronLocked(iron, collectibles, Date.now());
+      const ironRock = iron[props.id];
+      return isIronLocked(ironRock, collectibles, Date.now());
     }
     if (isGold) {
-      const gold = gameState.context.state.gold[props.id];
-      return isGoldLocked(gold, collectibles, Date.now());
+      const goldRock = gold[props.id];
+      return isGoldLocked(goldRock, collectibles, Date.now());
     }
     return false;
   };
 
-  const handleMouseEnter = () => {
-    // set state to show details
-    setShowPopover(true);
-  };
+  if (isResourceLocked()) return <LockedResource {...props} />;
 
-  const handleMouseLeave = () => {
-    // set state to hide details
-    setShowPopover(false);
-  };
+  return <MoveableResource {...props} />;
+};
 
-  if (landscaping) {
-    if (isResourceLocked()) {
-      return (
-        <div
-          className="relative w-full h-full"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          <InnerPanel
-            className={classNames(
-              "transition-opacity absolute whitespace-nowrap sm:opacity-0 w-fit z-50 pointer-events-none",
-              {
-                "opacity-100": showPopover,
-                "opacity-0": !showPopover,
-              }
-            )}
-            style={{
-              top: `${PIXEL_SCALE * -10}px`,
-              left: `${PIXEL_SCALE * 16}px`,
-            }}
-          >
-            <div className="flex flex-col text-xxs text-white text-shadow mx-2">
-              <div className="flex flex-1 items-center justify-center">
-                <img src={lockIcon} className="w-4 mr-1" />
-                <span>AoE Locked</span>
-              </div>
-            </div>
-          </InnerPanel>
-          <div className="relative">
-            <Component {...props} />
-          </div>
-        </div>
-      );
-    }
+const ResourceComponent: React.FC<ResourceProps> = (props) => {
+  const { gameService } = useContext(Context);
+  const landscaping = useSelector(gameService, isLandscaping);
+  const Component = RESOURCE_COMPONENTS[props.name];
 
-    return (
-      <MoveableComponent
-        x={props.coordinates?.x}
-        y={props.coordinates?.y}
-        {...(props as any)}
-      >
-        <Component {...props} />
-      </MoveableComponent>
-    );
-  }
+  if (landscaping) return <LandscapingResource {...props} />;
 
   return <Component {...props} />;
 };

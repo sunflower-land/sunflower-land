@@ -32,7 +32,9 @@ import { Mushroom } from "features/island/mushrooms/Mushroom";
 import { useFirstRender } from "lib/utils/hooks/useFirstRender";
 import { MUSHROOM_DIMENSIONS } from "../types/resources";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
+import { PotionHouse } from "./components/potions/PotionHouse";
 import ocean from "assets/decorations/ocean.webp";
+import { hasFeatureAccess } from "lib/flags";
 
 export const LAND_WIDTH = 6;
 
@@ -153,14 +155,7 @@ const getIslandElements = ({
             height={height}
             width={width}
           >
-            <ChickenElement
-              key={`chicken-${id}`}
-              id={id}
-              coordinates={{
-                x,
-                y,
-              }}
-            />
+            <ChickenElement key={`chicken-${id}`} id={id} x={x} y={y} />
           </MapPlacement>
         );
       })
@@ -180,11 +175,12 @@ const getIslandElements = ({
         >
           <Resource
             key={`tree-${id}`}
-            coordinates={{ x, y }}
             name="Tree"
             createdAt={0}
             readyAt={0}
             id={id}
+            x={x}
+            y={y}
           />
         </MapPlacement>
       );
@@ -205,11 +201,12 @@ const getIslandElements = ({
         >
           <Resource
             key={`stone-${id}`}
-            coordinates={{ x, y }}
             name="Stone Rock"
             createdAt={0}
             readyAt={0}
             id={id}
+            x={x}
+            y={y}
           />
         </MapPlacement>
       );
@@ -234,7 +231,8 @@ const getIslandElements = ({
             createdAt={0}
             readyAt={0}
             id={id}
-            coordinates={{ x, y }}
+            x={x}
+            y={y}
           />
         </MapPlacement>
       );
@@ -259,7 +257,8 @@ const getIslandElements = ({
             createdAt={0}
             readyAt={0}
             id={id}
-            coordinates={{ x, y }}
+            x={x}
+            y={y}
           />
         </MapPlacement>
       );
@@ -283,7 +282,8 @@ const getIslandElements = ({
             createdAt={0}
             readyAt={0}
             id={id}
-            coordinates={{ x, y }}
+            x={x}
+            y={y}
           />
         </MapPlacement>
       );
@@ -307,7 +307,8 @@ const getIslandElements = ({
             createdAt={0}
             readyAt={0}
             id={id}
-            coordinates={{ x, y }}
+            x={x}
+            y={y}
           />
         </MapPlacement>
       );
@@ -491,6 +492,12 @@ export const Land: React.FC = () => {
         </>
       ) : (
         <Hud isFarming={!visiting} />
+      )}
+
+      {hasFeatureAccess(inventory, "POTION_HOUSE") && (
+        <MapPlacement x={1} y={2}>
+          <PotionHouse />
+        </MapPlacement>
       )}
     </>
   );

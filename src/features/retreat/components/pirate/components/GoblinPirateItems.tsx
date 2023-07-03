@@ -100,7 +100,7 @@ export const GoblinPirateItems: React.FC<Props> = ({ onClose }) => {
       return <span className="text-xxs text-center my-1">Coming soon</span>;
     }
 
-    if (mintedAtTimes[selectedName])
+    if (inventory[selectedName])
       return <span className="text-xxs text-center my-1">Already minted!</span>;
 
     return (

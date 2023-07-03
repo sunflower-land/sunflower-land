@@ -54,6 +54,10 @@ const PROTECTED_IMAGE_URL = import.meta.env.VITE_PRIVATE_IMAGE_URL as string;
 const POKO_API_KEY = import.meta.env.VITE_POKO_API_KEY as string;
 const POKO_DIRECT_CHECKOUT_API_KEY = import.meta.env
   .VITE_POKO_DIRECT_CHECKOUT_API_KEY as string;
+const WALLETCONNECT_PROJECT_ID = import.meta.env
+  .VITE_WALLETCONNECT_PROJECT_ID as string;
+const DAWN_BREAKER_EVENT_DONATION = import.meta.env
+  .VITE_DAWN_BREAKER_EVENT_DONATION as string;
 
 // Arcade Mini Games Donation Addresses
 const GREEDY_GOBLIN_DONATION = import.meta.env
@@ -110,4 +114,6 @@ export const CONFIG = {
   ROOM_URL,
   POKO_API_KEY,
   POKO_DIRECT_CHECKOUT_API_KEY,
+  WALLETCONNECT_PROJECT_ID,
+  DAWN_BREAKER_EVENT_DONATION,
 };

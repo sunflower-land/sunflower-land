@@ -3,14 +3,14 @@ import { animated, useTransition } from "react-spring";
 
 interface Props {
   message: string;
-  onMessageEnd: () => void;
+  onMessageEnd: (message: string) => void;
   trail?: number;
   forceShowFullMessage?: boolean;
 }
 export const TypingMessage: React.FC<Props> = ({
   message,
   onMessageEnd,
-  trail = 60,
+  trail = 30,
   forceShowFullMessage = false,
 }) => {
   const items = useMemo(
@@ -31,7 +31,7 @@ export const TypingMessage: React.FC<Props> = ({
     enter: { display: "" },
     onRest: (status, controller, item) => {
       if (item.key === items.length - 1) {
-        onMessageEnd();
+        onMessageEnd(message);
       }
     },
   });

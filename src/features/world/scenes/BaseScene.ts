@@ -3,11 +3,13 @@ import { Room } from "colyseus.js";
 
 import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
-import { INITIAL_BUMPKIN, SQUARE_WIDTH } from "features/game/lib/constants";
+import { MachineInterpreter as GameMachineInterpreter } from "features/game/lib/gameMachine";
+import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
 import {
   ChatMessageReceived,
+  ClothingChangedEvent,
   MachineInterpreter,
   PlayerJoined,
   PlayerQuit,
@@ -19,6 +21,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { EventObject } from "xstate";
 import { isTouchDevice } from "../lib/device";
 import { SPAWNS } from "../lib/spawn";
+import { AudioController, WalkAudioController } from "../lib/AudioController";
 
 type SceneTransitionData = {
   previousSceneId: RoomId;
@@ -30,22 +33,24 @@ export type NPCBumpkin = {
   npc: NPCName;
 };
 
+// 3 Times per second send position to server
+const SEND_PACKET_RATE = 10;
+
 export abstract class BaseScene extends Phaser.Scene {
   abstract roomId: RoomId;
   eventListener: (event: EventObject) => void;
 
   private joystick?: VirtualJoystick;
-
+  private walkSound: string;
   private sceneTransitionData?: SceneTransitionData;
 
-  constructor(key: RoomId) {
+  constructor(key: RoomId, walkSound = "dirt_footstep") {
     super(key);
+    this.walkSound = walkSound;
 
     this.eventListener = (event) => {
       if (event.type === "CHAT_MESSAGE_RECEIVED") {
-        console.log({ CHAT: event });
         const { sessionId, text, roomId } = event as ChatMessageReceived;
-        if (roomId !== this.roomId) return;
 
         const room = this.roomService.state.context.rooms[roomId];
 
@@ -60,9 +65,24 @@ export abstract class BaseScene extends Phaser.Scene {
         }
       }
 
+      if (event.type === "CLOTHING_CHANGED") {
+        const { sessionId, clothing, roomId } = event as ClothingChangedEvent;
+
+        const room = this.roomService.state.context.rooms[roomId];
+
+        if (
+          sessionId &&
+          String(sessionId).length > 4 &&
+          this.playerEntities[sessionId]
+        ) {
+          this.playerEntities[sessionId].changeClothing(clothing);
+        } else if (sessionId === room?.sessionId) {
+          this.currentPlayer?.changeClothing(clothing);
+        }
+      }
+
       if (event.type === "PLAYER_JOINED") {
         const { sessionId, x, y, clothing, roomId } = event as PlayerJoined;
-        if (roomId !== this.roomId) return;
 
         const room = this.roomService.state.context.rooms[roomId];
 
@@ -83,7 +103,7 @@ export abstract class BaseScene extends Phaser.Scene {
       if (event.type === "PLAYER_QUIT") {
         const { sessionId, roomId } = event as PlayerQuit;
 
-        if (roomId !== this.roomId) return;
+        if (roomId !== this.roomService.state.context.roomId) return;
 
         this.destroyPlayer(sessionId);
       }
@@ -94,14 +114,18 @@ export abstract class BaseScene extends Phaser.Scene {
   room: Room | undefined;
 
   currentPlayer: BumpkinContainer | undefined;
-  betty: BumpkinContainer | undefined;
+  serverPosition: { x: number; y: number } = { x: 0, y: 0 };
+  packetSentAt = 0;
+
   playerEntities: {
     [sessionId: string]: BumpkinContainer;
   } = {};
 
   customColliders?: Phaser.GameObjects.Group;
+  soundEffects: AudioController[] = [];
+  walkAudioController?: WalkAudioController;
 
-  cursorKeys:
+  joystickKeys:
     | {
         up: Phaser.Input.Keyboard.Key;
         down: Phaser.Input.Keyboard.Key;
@@ -110,12 +134,25 @@ export abstract class BaseScene extends Phaser.Scene {
       }
     | undefined;
 
+  cursorKeys:
+    | {
+        up: Phaser.Input.Keyboard.Key;
+        down: Phaser.Input.Keyboard.Key;
+        left: Phaser.Input.Keyboard.Key;
+        right: Phaser.Input.Keyboard.Key;
+        w?: Phaser.Input.Keyboard.Key;
+        s?: Phaser.Input.Keyboard.Key;
+        a?: Phaser.Input.Keyboard.Key;
+        d?: Phaser.Input.Keyboard.Key;
+      }
+    | undefined;
+
   inputPayload = {
     left: false,
     right: false,
     up: false,
     down: false,
-    tick: undefined,
+    // tick: undefined,
   };
 
   // Advanced server timing - not used
@@ -128,8 +165,11 @@ export abstract class BaseScene extends Phaser.Scene {
     return this.registry.get("roomService") as MachineInterpreter;
   }
 
+  public get gameService() {
+    return this.registry.get("gameService") as GameMachineInterpreter;
+  }
+
   init(data: SceneTransitionData) {
-    console.log({ data });
     this.sceneTransitionData = data;
   }
 
@@ -143,7 +183,10 @@ export abstract class BaseScene extends Phaser.Scene {
       "Sunnyside V3",
       "tileset",
       16,
-      16
+      16,
+      // Extruded tileset
+      1,
+      2
     ) as Phaser.Tilemaps.Tileset;
 
     // Set up collider layers
@@ -156,6 +199,17 @@ export abstract class BaseScene extends Phaser.Scene {
       this.physics.world.enable(polygon);
       (polygon.body as Physics.Arcade.Body).setImmovable(true);
     });
+
+    // set up Sound FXs
+
+    // this.walkAudioController = new WalkAudioController(walkSound);
+    if (this.walkSound) {
+      this.walkAudioController = new WalkAudioController(
+        this.sound.add(this.walkSound)
+      );
+    }
+
+    // this.audioController = new AudioController({ sound: walkSound });
 
     // Setup interactable layers
     const interactablesPolygons = this.map.createFromObjects(
@@ -186,7 +240,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.map.layers.forEach((layerData, idx) => {
       const layer = this.map.createLayer(layerData.name, tileset, 0, 0);
       if (TOP_LAYERS.includes(layerData.name)) {
-        layer?.setDepth(1);
+        layer?.setDepth(1000000);
       }
     });
 
@@ -195,23 +249,37 @@ export abstract class BaseScene extends Phaser.Scene {
       const { x, y, centerX, centerY, width, height } = this.cameras.main;
       const zoom = 4;
       this.joystick = new VirtualJoystick(this, {
-        x: centerX + 25 - width / zoom / 2,
-        y: centerY - 25 + height / zoom / 2,
-        radius: 40,
-        base: this.add.circle(0, 0, 20, 0x000000, 0.2).setDepth(100),
-        thumb: this.add.circle(0, 0, 10, 0xffffff, 0.2).setDepth(100),
+        x: centerX,
+        y: centerY - 35 + height / zoom / 2,
+        radius: 15,
+        base: this.add.circle(0, 0, 15, 0x000000, 0.2).setDepth(1000000000),
+        thumb: this.add.circle(0, 0, 7, 0xffffff, 0.2).setDepth(1000000000),
         dir: "8dir",
-        fixed: true,
-        forceMin: 10,
+        // fixed: true,
+        forceMin: 3,
       });
+      this.joystickKeys = this.joystick.createCursorKeys();
+    }
+    // Initialise Keyboard
+    this.cursorKeys = this.input.keyboard?.createCursorKeys();
+    if (this.cursorKeys) {
+      // this.cursorKeys.w = this.input.keyboard?.addKey(
+      //   Phaser.Input.Keyboard.KeyCodes.W
+      // );
+      // this.cursorKeys.a = this.input.keyboard?.addKey(
+      //   Phaser.Input.Keyboard.KeyCodes.A
+      // );
+      // this.cursorKeys.s = this.input.keyboard?.addKey(
+      //   Phaser.Input.Keyboard.KeyCodes.S
+      // );
+      // this.cursorKeys.d = this.input.keyboard?.addKey(
+      //   Phaser.Input.Keyboard.KeyCodes.D
+      // );
 
-      this.cursorKeys = this.joystick?.createCursorKeys();
-    } else {
-      // Initialise Keyboard
-      this.cursorKeys = this.input.keyboard?.createCursorKeys();
       this.input.keyboard?.removeCapture("SPACE");
     }
 
+    this.input.setTopOnly(true);
     this.roomService.off(this.eventListener);
     this.roomService.onEvent(this.eventListener);
 
@@ -226,7 +294,7 @@ export abstract class BaseScene extends Phaser.Scene {
       x: spawn.x ?? 0,
       y: spawn.y ?? 0,
       isCurrentPlayer: true,
-      clothing: INITIAL_BUMPKIN.equipped,
+      clothing: this.roomService.state.context.bumpkin.equipped,
     });
 
     camera.setBounds(
@@ -248,6 +316,9 @@ export abstract class BaseScene extends Phaser.Scene {
     const offsetY =
       (window.innerHeight - this.map.height * 4 * SQUARE_WIDTH) / 2;
     camera.setPosition(Math.max(offsetX, 0), Math.max(offsetY, 0));
+
+    // this.physics.world.fixedStep = false; // activates sync
+    // this.physics.world.fixedStep = true; // deactivates sync (default)
   }
 
   createPlayer({
@@ -273,8 +344,12 @@ export abstract class BaseScene extends Phaser.Scene {
         .setSize(10, 8)
         .setCollideWorldBounds(true);
 
+      (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setAllowRotation(
+        false
+      );
+
       // Follow player with camera
-      this.cameras.main.startFollow(this.currentPlayer, true, 0.08, 0.08);
+      this.cameras.main.startFollow(this.currentPlayer);
 
       // Callback to fire on collisions
       this.physics.add.collider(
@@ -294,12 +369,17 @@ export abstract class BaseScene extends Phaser.Scene {
               "camerafadeoutcomplete",
               () => {
                 const data: SceneTransitionData = {
-                  previousSceneId: this.roomId,
+                  previousSceneId: this.roomService.state.context.roomId,
                 };
                 this.scene.start(warpTo, data);
               },
               this
             );
+          }
+
+          const interactable = (obj2 as any).data?.list?.open;
+          if (interactable) {
+            interactableModalManager.open(interactable);
           }
         }
       );
@@ -311,7 +391,6 @@ export abstract class BaseScene extends Phaser.Scene {
   destroyPlayer(sessionId: string) {
     const entity = this.playerEntities[sessionId];
     if (entity) {
-      console.log({ destroy: sessionId });
       entity.destroy();
       delete this.playerEntities[sessionId];
     }
@@ -327,17 +406,37 @@ export abstract class BaseScene extends Phaser.Scene {
     this.fixedTick(time, this.fixedTimeStep);
   }
 
-  moveCurrentPlayer() {
+  updatePlayer() {
     if (!this.currentPlayer?.body) {
       return;
     }
 
     const speed = 50;
 
-    this.inputPayload.left = this.cursorKeys?.left.isDown ?? false;
-    this.inputPayload.right = this.cursorKeys?.right.isDown ?? false;
-    this.inputPayload.up = this.cursorKeys?.up.isDown ?? false;
-    this.inputPayload.down = this.cursorKeys?.down.isDown ?? false;
+    this.inputPayload.left =
+      (this.cursorKeys?.left.isDown ||
+        this.cursorKeys?.a?.isDown ||
+        this.joystickKeys?.left.isDown) ??
+      false;
+    this.inputPayload.right =
+      (this.cursorKeys?.right.isDown ||
+        this.cursorKeys?.d?.isDown ||
+        this.joystickKeys?.right.isDown) ??
+      false;
+    this.inputPayload.up =
+      (this.cursorKeys?.up.isDown ||
+        this.cursorKeys?.w?.isDown ||
+        this.joystickKeys?.up.isDown) ??
+      false;
+    this.inputPayload.down =
+      (this.cursorKeys?.down.isDown ||
+        this.cursorKeys?.s?.isDown ||
+        this.joystickKeys?.down.isDown) ??
+      false;
+
+    if (!this.game.input.enabled) {
+      this.input.keyboard?.resetKeys();
+    }
 
     // Horizontal movements
     if (this.inputPayload.left) {
@@ -374,31 +473,99 @@ export abstract class BaseScene extends Phaser.Scene {
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityY(0);
     }
 
-    const room = this.roomService.state.context.rooms[this.roomId];
-    const player = room?.state.players.get(room.sessionId);
-
-    // Only send position if the server has different coordinates
-    // to the client
     if (
-      player?.x !== this.currentPlayer.x ||
-      player?.y !== this.currentPlayer.y
+      // Hasn't sent to server recently
+      Date.now() - this.packetSentAt > 1000 / SEND_PACKET_RATE &&
+      // Position has changed
+      (this.serverPosition.x !== this.currentPlayer.x ||
+        this.serverPosition.y !== this.currentPlayer.y)
     ) {
-      this.roomService.send("SEND_POSITION", {
+      this.serverPosition = {
         x: this.currentPlayer.x,
         y: this.currentPlayer.y,
-      });
+      };
+
+      this.packetSentAt = Date.now();
+
+      this.roomService.send("SEND_POSITION", this.serverPosition);
     }
 
-    if (
+    const isMoving =
       this.inputPayload.left ||
       this.inputPayload.right ||
       this.inputPayload.up ||
-      this.inputPayload.down
-    ) {
+      this.inputPayload.down;
+
+    if (this.soundEffects) {
+      this.soundEffects.forEach((audio) =>
+        audio.setVolumeAndPan(
+          this.currentPlayer?.x ?? 0,
+          this.currentPlayer?.y ?? 0
+        )
+      );
+    } else {
+      console.error("audioController is undefined");
+    }
+
+    if (this.walkAudioController) {
+      this.walkAudioController.handleWalkSound(isMoving);
+    } else {
+      console.error("walkAudioController is undefined");
+    }
+
+    if (isMoving) {
       this.currentPlayer.walk();
     } else {
       this.currentPlayer.idle();
     }
+
+    this.currentPlayer.setDepth(Math.floor(this.currentPlayer.y));
+
+    // this.cameras.main.setScroll(this.currentPlayer.x, this.currentPlayer.y);
+  }
+
+  updateOtherPlayers() {
+    const room =
+      this.roomService.state.context.rooms[
+        this.roomService.state.context.roomId
+      ];
+    if (!room) return;
+
+    // Destroy any dereferenced players
+    Object.keys(this.playerEntities).forEach((sessionId) => {
+      if (!room.state.players.get(sessionId)) {
+        this.destroyPlayer(sessionId);
+      }
+    });
+
+    // Render current players
+    room?.state.players.forEach((player, sessionId) => {
+      if (sessionId === room.sessionId) return;
+
+      const entity = this.playerEntities[sessionId];
+
+      // Skip if the player hasn't been set up yet
+      if (!entity?.active) return;
+
+      if (player.x > entity.x) {
+        entity.faceRight();
+      } else if (player.x < entity.x) {
+        entity.faceLeft();
+      }
+
+      const distance = Phaser.Math.Distance.BetweenPoints(player, entity);
+
+      if (distance < 2) {
+        entity.idle();
+      } else {
+        entity.walk();
+      }
+
+      entity.x = Phaser.Math.Linear(entity.x, player.x, 0.05);
+      entity.y = Phaser.Math.Linear(entity.y, player.y, 0.05);
+
+      entity.setDepth(entity.y);
+    });
   }
 
   initialiseNPCs(npcs: NPCBumpkin[]) {
@@ -422,6 +589,8 @@ export abstract class BaseScene extends Phaser.Scene {
         },
         bumpkin.npc
       );
+
+      container.setDepth(bumpkin.y);
       (container.body as Phaser.Physics.Arcade.Body)
         .setSize(16, 20)
         .setOffset(0, 0)
@@ -433,49 +602,10 @@ export abstract class BaseScene extends Phaser.Scene {
     });
   }
 
-  moveOtherPlayers() {
-    const room = this.roomService.state.context.rooms[this.roomId];
-    if (!room) return;
-
-    // Destroy any dereferenced players
-    Object.keys(this.playerEntities).forEach((sessionId) => {
-      if (!room.state.players.get(sessionId)) {
-        this.destroyPlayer(sessionId);
-      }
-    });
-
-    // Render current players
-    room?.state.players.forEach((player, sessionId) => {
-      if (sessionId === room.sessionId) return;
-
-      const entity = this.playerEntities[sessionId];
-
-      // Skip if the player hasn't been set up yet
-      if (!entity.active) return;
-
-      if (player.x > entity.x) {
-        entity.setScale(1, 1);
-      } else if (player.x < entity.x) {
-        entity.setScale(-1, 1);
-      }
-
-      const distance = Phaser.Math.Distance.BetweenPoints(player, entity);
-
-      if (distance < 2) {
-        entity.idle();
-      } else {
-        entity.walk();
-      }
-
-      entity.x = Phaser.Math.Linear(entity.x, player.x, 0.05);
-      entity.y = Phaser.Math.Linear(entity.y, player.y, 0.05);
-    });
-  }
-
   fixedTick(time: number, delta: number) {
     this.currentTick++;
 
-    this.moveCurrentPlayer();
-    this.moveOtherPlayers();
+    this.updatePlayer();
+    this.updateOtherPlayers();
   }
 }

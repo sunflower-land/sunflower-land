@@ -221,23 +221,6 @@ export function getCropYieldAmount({
   const { tool, necklace } = equipped;
 
   if (
-    collectibles["Sir Goldensnout"] &&
-    isCollectibleBuilt("Sir Goldensnout", collectibles)
-  ) {
-    const sirGoldenSnout = collectibles["Sir Goldensnout"][0];
-
-    const position: Position = {
-      x: sirGoldenSnout.coordinates.x,
-      y: sirGoldenSnout.coordinates.y,
-      ...COLLECTIBLES_DIMENSIONS["Sir Goldensnout"],
-    };
-
-    if (isWithinAOE("Sir Goldensnout", position, plot)) {
-      amount = amount + 0.5;
-    }
-  }
-
-  if (
     crop === "Cauliflower" &&
     isCollectibleBuilt("Golden Cauliflower", collectibles)
   ) {
@@ -288,6 +271,105 @@ export function getCropYieldAmount({
   //Bumpkin Wearable boost Sunflower Amulet
   if (crop === "Sunflower" && necklace === "Sunflower Amulet") {
     amount *= 1.1;
+  }
+
+  const isMediumLevelCrop =
+    crop === "Carrot" ||
+    crop === "Cabbage" ||
+    crop === "Beetroot" ||
+    crop === "Cauliflower" ||
+    crop === "Parsnip";
+
+  if (collectibles["Scary Mike"]?.[0] && isMediumLevelCrop && plot) {
+    const scarecrowCoordinates = collectibles["Scary Mike"]?.[0].coordinates;
+    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Scary Mike"];
+
+    const scarecrowPosition: Position = {
+      x: scarecrowCoordinates.x,
+      y: scarecrowCoordinates.y,
+      height: scarecrowDimensions.height,
+      width: scarecrowDimensions.width,
+    };
+
+    const plotPosition: Position = {
+      x: plot?.x,
+      y: plot?.y,
+      height: plot.height,
+      width: plot.width,
+    };
+
+    if (
+      isCollectibleBuilt("Scary Mike", collectibles) &&
+      isWithinAOE("Scary Mike", scarecrowPosition, plotPosition)
+    ) {
+      amount = amount + 0.2;
+    }
+  }
+
+  if (
+    collectibles["Sir Goldensnout"] &&
+    isCollectibleBuilt("Sir Goldensnout", collectibles)
+  ) {
+    const sirGoldenSnout = collectibles["Sir Goldensnout"][0];
+
+    const position: Position = {
+      x: sirGoldenSnout.coordinates.x,
+      y: sirGoldenSnout.coordinates.y,
+      ...COLLECTIBLES_DIMENSIONS["Sir Goldensnout"],
+    };
+
+    if (isWithinAOE("Sir Goldensnout", position, plot)) {
+      amount = amount + 0.5;
+    }
+  }
+
+  const isOvernightCrop =
+    crop === "Radish" || crop === "Wheat" || crop === "Kale";
+
+  if (
+    isOvernightCrop &&
+    collectibles["Hoot"] &&
+    isCollectibleBuilt("Hoot", collectibles)
+  ) {
+    amount = amount + 0.5;
+  }
+
+  const isAdvancedLevelCrop =
+    crop === "Eggplant" ||
+    crop === "Radish" ||
+    crop === "Wheat" ||
+    crop === "Kale";
+
+  if (
+    collectibles["Laurie the Chuckle Crow"]?.[0] &&
+    isAdvancedLevelCrop &&
+    plot
+  ) {
+    const scarecrowCoordinates =
+      collectibles["Laurie the Chuckle Crow"]?.[0].coordinates;
+    const scarecrowDimensions =
+      COLLECTIBLES_DIMENSIONS["Laurie the Chuckle Crow"];
+
+    const scarecrowPosition: Position = {
+      x: scarecrowCoordinates.x,
+      y: scarecrowCoordinates.y,
+      height: scarecrowDimensions.height,
+      width: scarecrowDimensions.width,
+    };
+
+    const plotPosition: Position = {
+      x: plot?.x,
+      y: plot?.y,
+      height: plot.height,
+      width: plot.width,
+    };
+
+    if (
+      isCollectibleBuilt("Laurie the Chuckle Crow", collectibles) &&
+      isWithinAOE("Laurie the Chuckle Crow", scarecrowPosition, plotPosition)
+    ) {
+      amount = amount + 0.2;
+    }
   }
 
   return Number(setPrecision(new Decimal(amount)));
@@ -353,7 +435,7 @@ export function plant({
         inventory: inventory,
         collectibles,
         bumpkin,
-        plot: plots[action.index],
+        plot,
       }),
     },
   };

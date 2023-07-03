@@ -19,7 +19,9 @@ type RESTRICTION_REASON =
   | "Treasure holes are dug"
   | "Genie Lamp rubbed"
   | "Paw shaken"
-  | "Basic crops are planted";
+  | "Basic crops are planted"
+  | "Medium crops are planted"
+  | "Advanced crops are planted";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -63,6 +65,31 @@ function areAnyBasicCropsPlanted(game: GameState): Restriction {
   return [cropsPlanted, "Basic crops are planted"];
 }
 
+function areAnyMediumCropsPlanted(game: GameState): Restriction {
+  const cropsPlanted = Object.values(game.crops ?? {}).some(
+    (plot) =>
+      plot.crop?.name === "Carrot" ||
+      plot.crop?.name === "Cabbage" ||
+      plot.crop?.name === "Beetroot" ||
+      plot.crop?.name === "Cauliflower" ||
+      plot.crop?.name === "Parsnip"
+  );
+
+  return [cropsPlanted, "Medium crops are planted"];
+}
+
+function areAnyAdvancedCropsPlanted(game: GameState): Restriction {
+  const cropsPlanted = Object.values(game.crops ?? {}).some(
+    (plot) =>
+      plot.crop?.name === "Eggplant" ||
+      plot.crop?.name === "Radish" ||
+      plot.crop?.name === "Wheat" ||
+      plot.crop?.name === "Kale"
+  );
+
+  return [cropsPlanted, "Advanced crops are planted"];
+}
+
 function areAnyTreesChopped(game: GameState): Restriction {
   const treesChopped = Object.values(game.trees ?? {}).some(
     (tree) => !canChop(tree)
@@ -89,6 +116,21 @@ function areAnyGoldsMined(game: GameState): Restriction {
     (gold) => !canMine(gold)
   );
   return [goldMined, "Gold is mined"];
+}
+
+function areAnyMineralsMined(game: GameState): Restriction {
+  const areStonesMined = areAnyStonesMined(game);
+  const areIronsMined = areAnyIronsMined(game);
+  const areGoldsMined = areAnyGoldsMined(game);
+
+  if (areStonesMined[0]) {
+    return areStonesMined;
+  }
+  if (areIronsMined[0]) {
+    return areIronsMined;
+  }
+
+  return areGoldsMined;
 }
 
 function areAnyChickensFed(game: GameState): Restriction {
@@ -150,6 +192,8 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Lunar Calendar": (game) => areAnyCropsPlanted(game),
   "Basic Scarecrow": (game) => areAnyBasicCropsPlanted(game),
   "Sir Goldensnout": (game) => areAnyCropsPlanted(game),
+  "Scary Mike": (game) => areAnyMediumCropsPlanted(game),
+  "Laurie the Chuckle Crow": (game) => areAnyAdvancedCropsPlanted(game),
 
   "Cabbage Boy": (game) => cropIsPlanted({ item: "Cabbage", game }),
   "Cabbage Girl": (game) => cropIsPlanted({ item: "Cabbage", game }),
@@ -176,13 +220,15 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Rocky the Mole": (game) => areAnyIronsMined(game),
   "Iron Idol": (game) => areAnyIronsMined(game),
   Nugget: (game) => areAnyGoldsMined(game),
+  "Tin Turtle": (game) => areAnyStonesMined(game),
+  "Emerald Turtle": (game) => areAnyMineralsMined(game),
 
   "Heart of Davy Jones": (game) => areAnyTreasureHolesDug(game),
 
   "Maneki Neko": (game) => hasShakenManeki(game),
 };
 
-export const hasRestriction = (
+export const hasRemoveRestriction = (
   name: InventoryItemName,
   id: string,
   state: GameState
@@ -210,4 +256,27 @@ export const hasRestriction = (
   if (removeRestriction) return removeRestriction(state);
 
   return [false, "No restriction"];
+};
+
+export const hasMoveRestriction = (
+  name: InventoryItemName,
+  id: string,
+  state: GameState
+): Restriction => {
+  const isAoEItem =
+    name === "Bale" ||
+    name === "Basic Scarecrow" ||
+    name === "Emerald Turtle" ||
+    name === "Tin Turtle" ||
+    name === "Sir Goldensnout" ||
+    name === "Scary Mike" ||
+    name === "Laurie the Chuckle Crow";
+
+  const [isRestricted, restrictionReason] = hasRemoveRestriction(
+    name,
+    id,
+    state
+  );
+
+  return [isRestricted && isAoEItem, restrictionReason];
 };

@@ -4,7 +4,6 @@ import {
   Animal,
   BarnItem,
   Food,
-  Lantern,
   LegacyItem,
   MOMEventItem,
   MarketItem,
@@ -19,6 +18,7 @@ import {
   EasterEgg,
   FertiliserName,
   InventoryItemName,
+  LanternName,
   Points,
   SpecialEvent,
 } from "./game";
@@ -150,6 +150,8 @@ const heliosBlacksmith: Record<HeliosBlacksmithItem, boolean> = {
   "Treasure Map": false,
   "Basic Scarecrow": false,
   Bale: false,
+  "Scary Mike": false,
+  "Laurie the Chuckle Crow": false,
 };
 
 const commodities: Record<CommodityName, boolean> = {
@@ -406,10 +408,10 @@ const points: Record<Points, boolean> = {
 };
 
 const goblinBlacksmith: Record<GoblinBlacksmithItemName, boolean> = {
-  "Mushroom House": false,
-  Obie: false,
+  "Mushroom House": true,
+  Obie: true,
   "Purple Trail": false,
-  Maximus: false,
+  Maximus: true,
 };
 
 const animals: Record<Animal, boolean> = {
@@ -460,10 +462,10 @@ const travelingSalesmanItems: Record<TravelingSalesmanItem, boolean> = {
 };
 
 const soldOut: Record<SoldOutCollectibleName, boolean> = {
-  "Sir Goldensnout": false,
+  "Sir Goldensnout": true,
   "Peeled Potato": true,
   "Christmas Snow Globe": true,
-  "Beta Bear": false,
+  "Beta Bear": true,
   "Cyborg Bear": true,
   "Wood Nymph Wendy": true,
   "Squirrel Monkey": true,
@@ -482,7 +484,7 @@ const soldOut: Record<SoldOutCollectibleName, boolean> = {
   "Easter Bush": true,
   "Giant Carrot": true,
 
-  Hoot: false,
+  Hoot: true,
 };
 
 const achievementDecoration: Record<AchievementDecorationName, boolean> = {
@@ -522,7 +524,7 @@ const goblinPirate: Record<GoblinPirateItemName, boolean> = {
   "Iron Idol": true,
   "Heart of Davy Jones": true,
   Karkinos: true,
-  "Emerald Turtle": false,
+  "Emerald Turtle": true,
   "Tin Turtle": false,
 };
 
@@ -566,13 +568,19 @@ const eventDecoration: Record<EventDecorationName, boolean> = {
   "Easter Bush": true,
   "Giant Carrot": true,
   "Genie Bear": false,
+  "Eggplant Bear": true,
+  "Dawn Flower": false,
 };
 
-const lanterns: Record<Lantern, boolean> = {
+const lanterns: Record<LanternName, boolean> = {
   "Luminous Lantern": false,
   "Radiance Lantern": false,
   "Aurora Lantern": false,
   "Ocean Lantern": false,
+  "Solar Lantern": false,
+  "Betty Lantern": false,
+  "Bumpkin Lantern": false,
+  "Goblin Lantern": false,
 };
 
 const purchasables: Record<SeasonPassName, boolean> = {

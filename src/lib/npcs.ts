@@ -101,17 +101,18 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     hair: "Blacksmith Hair",
     shirt: "Striped Blue Shirt",
     pants: "Lumberjack Overalls",
-    body: "Light Brown Worried Farmer Potion",
+    body: "Light Brown Farmer Potion",
     background: "Farm Background",
     tool: "Farmer Pitchfork",
     shoes: "Black Farmer Boots",
   },
   bella: {
     hair: "Parlour Hair",
+    hat: "Straw Hat",
     shirt: "Maiden Top",
     pants: "Peasant Skirt",
     tool: "Farmer Pitchfork",
-    body: "Light Brown Worried Farmer Potion",
+    body: "Light Brown Farmer Potion",
     background: "Farm Background",
     shoes: "Black Farmer Boots",
   },
@@ -120,10 +121,11 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shirt: "Fire Shirt",
     necklace: "Artist Scarf",
     pants: "Farmer Pants",
-    body: "Light Brown Worried Farmer Potion",
+    body: "Light Brown Farmer Potion",
     tool: "Farmer Pitchfork",
     background: "Farm Background",
     shoes: "Black Farmer Boots",
+    onesie: "Eggplant Onesie",
   },
   // Welcomes to plaza - friendly + wholesome
   adam: {
@@ -200,12 +202,11 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   "pumpkin'pete": {
     body: "Light Brown Farmer Potion",
     background: "Farm Background",
-    hair: "Sun Spots",
+    hair: "Explorer Hair",
     shirt: "Yellow Farmer Shirt",
     pants: "Lumberjack Overalls",
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
-    coat: "Fruit Picker Apron",
   },
   // Crazy buggy eyed bert
   bert: {

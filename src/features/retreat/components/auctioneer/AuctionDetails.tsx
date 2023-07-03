@@ -77,18 +77,16 @@ export const AuctionDetails: React.FC<Props> = ({
     ) ?? false;
 
   const MintButton = () => {
+    if (
+      item.type === "collectible"
+        ? !!game.inventory[item.collectible]
+        : !!game.wardrobe[item.wearable]
+    ) {
+      return <Label type="info">Already minted</Label>;
+    }
     if (isUpcomingItem) {
       return null;
     }
-
-    const hasMinted =
-      item.type === "collectible"
-        ? game.inventory[item.collectible]
-        : game.wardrobe[item.wearable];
-    // Turned off for testing
-    // if (CONFIG.NETWORK !== "mumbai" && hasMinted) {
-    //   return <span className="text-sm">Already minted</span>;
-    // }
 
     return (
       <Button

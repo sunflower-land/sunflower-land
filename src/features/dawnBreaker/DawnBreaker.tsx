@@ -13,11 +13,9 @@ import {
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Week, characters } from "./lib/characters";
-import { WeeklyLanternCount } from "./components/WeeklyLanternCount";
 import { PlayerBumpkin } from "./components/PlayerBumpkin";
 
-import background from "assets/land/dawn_breaker_7.png";
-import nextBackground from "assets/land/dawn_breaker_8.webp";
+import background from "assets/land/dawn_breaker_9.png";
 import { Characters } from "./components/Characters";
 import { Modal } from "react-bootstrap";
 import {
@@ -33,6 +31,7 @@ import { LeaderboardButton } from "./components/LeaderboardButton";
 import { Leaderboards } from "./components/Leaderboards";
 import { fetchLeaderboardData } from "./actions/leaderboards";
 import { LeaderboardsType } from "./actions/cache";
+import { DawnCountdown } from "./components/DawnCountdown";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _dawnBreaker = (state: MachineState) =>
@@ -46,6 +45,7 @@ export const DawnBreaker: React.FC = () => {
   const { gameService } = useContext(Context);
   const [scrollIntoView] = useScrollIntoView();
   const { id } = useParams();
+
   // "0" will be assigned to guest farms
   const farmId = parseInt(id ?? "0", 10);
 
@@ -129,23 +129,9 @@ export const DawnBreaker: React.FC = () => {
         }}
       >
         <img
-          src={nextBackground}
-          alt="dawnbreaker-island"
-          className={classNames("absolute inset-0 w-full h-full", {
-            "transition-opacity duration-1000": showMapTransition,
-            "opacity-100": showNextStep,
-            "opacity-0": !showNextStep,
-          })}
-          id={Section.DawnBreakerBackGround}
-        />
-        <img
           src={background}
           alt="dawnbreaker-island"
-          className={classNames("absolute inset-0 w-full h-full", {
-            "transition-opacity duration-1000": showMapTransition,
-            "opacity-100": !showNextStep,
-            "opacity-0": showNextStep,
-          })}
+          className={classNames("absolute inset-0 w-full h-full")}
           id={Section.DawnBreakerBackGround}
         />
         <IslandTravel
@@ -204,14 +190,7 @@ export const DawnBreaker: React.FC = () => {
         onClick={() => setShowLeaderboard(true)}
         loaded={!loadingLeaderboards}
       />
-      {showWeeklyLanternCount && (
-        <WeeklyLanternCount
-          lanternName={availableLantern.name}
-          endAt={new Date(availableLantern.endAt).getTime()}
-          totalCrafted={leaderboards?.lanterns?.total ?? 0}
-          loaded={!loadingLeaderboards}
-        />
-      )}
+
       <Modal show={showIntroModal} onHide={handleIntroModalClose} centered>
         <CloseButtonPanel
           title="Dawn Breaker Island is in Danger!"
@@ -249,6 +228,8 @@ export const DawnBreaker: React.FC = () => {
           />
         )}
       </Modal>
+
+      <DawnCountdown />
     </>
   );
 };

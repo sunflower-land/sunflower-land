@@ -162,8 +162,16 @@ import { SirGoldenSnout } from "./components/SirGoldenSnout";
 import { Bale } from "./components/Bale";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
-import { hasRestriction } from "features/game/types/removeables";
 import lockIcon from "assets/skills/lock.png";
+import { SolarLantern } from "./components/SolarLantern";
+import { hasMoveRestriction } from "features/game/types/removeables";
+import { ScaryMike } from "./components/ScaryMike";
+import { BettyLantern } from "./components/BettyLantern";
+import { BumpkinLantern } from "./components/BumpkinLantern";
+import { EggplantBear } from "./components/EggplantBear";
+import { GoblinLantern } from "./components/GoblinLantern";
+import { DawnFlower } from "./components/DawnFlower";
+import { LaurieTheChuckleCrow } from "./components/LaurieTheChuckelCrow";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -253,6 +261,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Emerald Turtle": EmeraldTurtle,
   "Tin Turtle": TinTurtle,
   Bale: Bale,
+  "Scary Mike": ScaryMike,
+  "Laurie the Chuckle Crow": LaurieTheChuckleCrow,
 
   "Carrot Sword": CarrotSword,
 
@@ -289,6 +299,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Aurora Lantern": AuroraLantern,
   "Radiance Lantern": RadianceLantern,
   "Ocean Lantern": OceanLantern,
+  "Solar Lantern": SolarLantern,
 
   "Golden Bean": Bean,
   "Magic Bean": Bean,
@@ -370,6 +381,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Hoot: Hoot,
   "Genie Bear": GenieBear,
   "Sir Goldensnout": SirGoldenSnout,
+  "Betty Lantern": BettyLantern,
+  "Bumpkin Lantern": BumpkinLantern,
+  "Eggplant Bear": EggplantBear,
+  "Goblin Lantern": GoblinLantern,
+  "Dawn Flower": DawnFlower,
 };
 
 // Need readonly versions for some troublesome components while in design mode
@@ -395,17 +411,73 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
       className="absolute bottom-0"
       style={{ width: `${PIXEL_SCALE * 22}px`, right: `${PIXEL_SCALE * -3}px` }}
     >
-      <img
-        src={ITEM_DETAILS["Basic Scarecrow"].image}
-        className="w-full pointer-events-auto"
-      />
+      <img src={ITEM_DETAILS["Basic Scarecrow"].image} className="w-full " />
       <div
-        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 16 * 3}px`,
           height: `${PIXEL_SCALE * 16 * 3}px`,
           left: `${PIXEL_SCALE * -12.8}px`,
           top: `${PIXEL_SCALE * 16 * 2 - 2}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+
+  "Scary Mike": () => (
+    <div
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 22}px`, right: `${PIXEL_SCALE * -3}px` }}
+    >
+      <img src={ITEM_DETAILS["Scary Mike"].image} className="w-full" />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * 16 * 2 - 7.5}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+
+  "Laurie the Chuckle Crow": () => (
+    <div
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 25}px`, right: `${PIXEL_SCALE * -5}px` }}
+    >
+      <img
+        src={ITEM_DETAILS["Laurie the Chuckle Crow"].image}
+        className="w-full"
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -12}px`,
+          top: `${PIXEL_SCALE * 16 * 2 - 13}px`,
         }}
       >
         <img
@@ -438,7 +510,7 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
         }}
       />
       <div
-        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 16 * 3}px`,
           height: `${PIXEL_SCALE * 16 * 3}px`,
@@ -477,7 +549,7 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
         }}
       />
       <div
-        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 16 * 4}px`,
           height: `${PIXEL_SCALE * 16 * 4}px`,
@@ -515,7 +587,7 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
         }}
       />
       <div
-        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 16 * 3}px`,
           height: `${PIXEL_SCALE * 16 * 3}px`,
@@ -546,7 +618,7 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
     >
       <img
         src={ITEM_DETAILS["Bale"].image}
-        className=" absolute w-full pointer-events-auto"
+        className=" absolute w-full"
         style={{
           width: `${PIXEL_SCALE * 28}px`,
           left: `${PIXEL_SCALE * 3}px`,
@@ -554,7 +626,7 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
         }}
       />
       <div
-        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50"
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 16 * 4}px`,
           height: `${PIXEL_SCALE * 16 * 4}px`,
@@ -743,7 +815,7 @@ export const Collectible: React.FC<Props> = (props) => {
   if (landscaping) {
     const CollectiblePlaced = READONLY_COLLECTIBLES[props.name];
 
-    const [isRestricted, restrictionReason] = hasRestriction(
+    const [isRestricted, restrictionReason] = hasMoveRestriction(
       props.name,
       props.id,
       gameService.state.context.state
@@ -751,13 +823,13 @@ export const Collectible: React.FC<Props> = (props) => {
     if (isRestricted) {
       return (
         <div
-          className="relative w-full h-full pointer-events-none"
+          className="relative w-full h-full"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
           <InnerPanel
             className={classNames(
-              "transition-opacity absolute whitespace-nowrap sm:opacity-0 w-fit z-50 pointer-events-none",
+              "transition-opacity absolute whitespace-nowrap sm:opacity-0 w-fit z-50",
               {
                 "opacity-100": showPopover,
                 "opacity-0": !showPopover,

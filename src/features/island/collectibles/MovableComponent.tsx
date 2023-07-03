@@ -31,8 +31,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { ZoomContext } from "components/ZoomProvider";
 import { InnerPanel } from "components/ui/Panel";
-import { hasRestriction } from "../../game/types/removeables";
 import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
+import { hasRemoveRestriction } from "features/game/types/removeables";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -125,7 +125,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   const isSelected = movingItem?.id === id && movingItem?.name === name;
   const removeAction = !isMobile && getRemoveAction(name);
   const hasRemovalAction = !!removeAction;
-  const [isRestricted, restrictionReason] = hasRestriction(
+  const [isRestricted, restrictionReason] = hasRemoveRestriction(
     name,
     id,
     gameService.state.context.state

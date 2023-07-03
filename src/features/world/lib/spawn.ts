@@ -49,6 +49,22 @@ export const SPAWNS: SpawnLocation = {
       y: 142,
     },
   },
+  marcus_home: {
+    default: {
+      x: 100,
+      y: 174,
+    },
+  },
+  dawn_breaker: {
+    default: {
+      x: 241,
+      y: 423,
+    },
+    marcus_home: {
+      x: 490,
+      y: 290,
+    },
+  },
   auction_house: {
     default: {
       x: 170,

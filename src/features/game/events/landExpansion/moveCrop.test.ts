@@ -1,4 +1,4 @@
-import { TEST_FARM } from "features/game/lib/constants";
+import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { MOVE_CROP_ERRORS, moveCrop } from "./moveCrop";
 
 describe("moveCrop", () => {
@@ -82,5 +82,165 @@ describe("moveCrop", () => {
       "456": { height: 1, width: 1, x: 4, y: 4, createdAt: 0 },
       "789": { height: 1, width: 1, x: 8, y: 8, createdAt: 0 },
     });
+  });
+
+  it("does not move locked crop by Basic Scarecrow", () => {
+    expect(() =>
+      moveCrop({
+        state: {
+          ...TEST_FARM,
+          bumpkin: INITIAL_BUMPKIN,
+          collectibles: {
+            "Basic Scarecrow": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: Date.now(),
+                readyAt: 0,
+              },
+            ],
+          },
+          crops: {
+            1: {
+              height: 1,
+              width: 1,
+              x: 0,
+              y: -2,
+              createdAt: Date.now(),
+              crop: {
+                name: "Potato",
+                amount: 1,
+                plantedAt: Date.now(),
+              },
+            },
+          },
+        },
+        action: {
+          type: "crop.moved",
+          id: "1",
+          coordinates: { x: 2, y: 2 },
+        },
+      })
+    ).toThrow(MOVE_CROP_ERRORS.AOE_LOCKED);
+  });
+
+  it("does not move locked crop by Scary Mike", () => {
+    expect(() =>
+      moveCrop({
+        state: {
+          ...TEST_FARM,
+          bumpkin: INITIAL_BUMPKIN,
+          collectibles: {
+            "Scary Mike": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: Date.now(),
+                readyAt: 0,
+              },
+            ],
+          },
+          crops: {
+            1: {
+              height: 1,
+              width: 1,
+              x: 0,
+              y: -2,
+              createdAt: Date.now(),
+              crop: {
+                name: "Cauliflower",
+                amount: 1,
+                plantedAt: Date.now(),
+              },
+            },
+          },
+        },
+        action: {
+          type: "crop.moved",
+          id: "1",
+          coordinates: { x: 2, y: 2 },
+        },
+      })
+    ).toThrow(MOVE_CROP_ERRORS.AOE_LOCKED);
+  });
+
+  it("does not move locked crop by Sir Goldensnout", () => {
+    expect(() =>
+      moveCrop({
+        state: {
+          ...TEST_FARM,
+          bumpkin: INITIAL_BUMPKIN,
+          collectibles: {
+            "Sir Goldensnout": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: Date.now(),
+                readyAt: 0,
+              },
+            ],
+          },
+          crops: {
+            1: {
+              height: 1,
+              width: 1,
+              x: 0,
+              y: -2,
+              createdAt: Date.now(),
+              crop: {
+                name: "Potato",
+                amount: 1,
+                plantedAt: Date.now(),
+              },
+            },
+          },
+        },
+        action: {
+          type: "crop.moved",
+          id: "1",
+          coordinates: { x: 2, y: 2 },
+        },
+      })
+    ).toThrow(MOVE_CROP_ERRORS.AOE_LOCKED);
+  });
+
+  it("does not move locked crop by Laurie the Chuckle Crow", () => {
+    expect(() =>
+      moveCrop({
+        state: {
+          ...TEST_FARM,
+          bumpkin: INITIAL_BUMPKIN,
+          collectibles: {
+            "Laurie the Chuckle Crow": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: Date.now(),
+                readyAt: 0,
+              },
+            ],
+          },
+          crops: {
+            1: {
+              height: 1,
+              width: 1,
+              x: 0,
+              y: -2,
+              createdAt: Date.now(),
+              crop: {
+                name: "Eggplant",
+                amount: 1,
+                plantedAt: Date.now(),
+              },
+            },
+          },
+        },
+        action: {
+          type: "crop.moved",
+          id: "1",
+          coordinates: { x: 2, y: 2 },
+        },
+      })
+    ).toThrow(MOVE_CROP_ERRORS.AOE_LOCKED);
   });
 });

@@ -29,7 +29,7 @@ const marcusParts: Partial<NPCParts> = {
   hair: "Blacksmith Hair",
   shirt: "Striped Blue Shirt",
   pants: "Lumberjack Overalls",
-  body: "Light Brown Worried Farmer Potion",
+  body: "Light Brown Farmer Potion",
 };
 
 const bellaParts: Partial<NPCParts> = {
@@ -37,7 +37,7 @@ const bellaParts: Partial<NPCParts> = {
   shirt: "Maiden Top",
   pants: "Peasant Skirt",
   tool: "Farmer Pitchfork",
-  body: "Light Brown Worried Farmer Potion",
+  body: "Light Brown Farmer Potion",
 };
 
 const sofiaParts: Partial<NPCParts> = {
@@ -45,7 +45,7 @@ const sofiaParts: Partial<NPCParts> = {
   shirt: "Fire Shirt",
   necklace: "Artist Scarf",
   pants: "Farmer Pants",
-  body: "Light Brown Worried Farmer Potion",
+  body: "Light Brown Farmer Potion",
 };
 
 type CharacterDetails = Coordinates & {
@@ -678,8 +678,8 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       },
     ],
     bumpkin: {
-      x: -7,
-      y: -13,
+      x: -8,
+      y: -12.7,
     },
     marcus: {
       x: 4,
@@ -718,6 +718,7 @@ export const characters: Record<Week, DawnBreakerPositions> = {
           <p>{`Maximus: Obie, what do we do?!?`}</p>
         </>
       ),
+      inDarkness: true,
     },
     wendy: {
       x: -4.5,
@@ -729,6 +730,7 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       x: -8,
       y: -12,
       dialogue: <>{`Obie: Boss ain't gonna be happy about this.`}</>,
+      inDarkness: true,
     },
   },
   9: {
@@ -736,6 +738,56 @@ export const characters: Record<Week, DawnBreakerPositions> = {
     bumpkin: {
       x: -4,
       y: -14,
+    },
+    marcus: {
+      x: 4,
+      y: -13,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Marcus: Peace and order is restored, I can't wait to sail the oceans and welcome more travelling Bumpkins!`}</p>
+        </>
+      ),
+    },
+    bella: {
+      x: 3,
+      y: -15,
+      flip: true,
+      dialogue: (
+        <>
+          <p>{`Bella: The beautiful sunshine....time to tend to my crops and prepare for the festivities next week!`}</p>
+        </>
+      ),
+    },
+    sofia: {
+      x: -7.75,
+      y: -8.5,
+      dialogue: (
+        <>
+          <p>{`Sofia: Time to warn all the neighboring islands. Dawn has broken, no more hiding!`}</p>
+        </>
+      ),
+    },
+    maximus: {
+      x: -13.4,
+      y: -10.4,
+      inDarkness: false,
+      dialogue: (
+        <>
+          <p>{`Row Obie, get us out of here!`}</p>
+        </>
+      ),
+    },
+    obie: {
+      x: -14.3,
+      y: -10.6,
+      flip: false,
+      inDarkness: false,
+      dialogue: (
+        <>
+          <p>{`I thought the Bumpkins were weak - they didn't fight like this at Sunflower Land!`}</p>
+        </>
+      ),
     },
   },
 };
