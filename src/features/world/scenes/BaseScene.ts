@@ -103,7 +103,7 @@ export abstract class BaseScene extends Phaser.Scene {
       if (event.type === "PLAYER_QUIT") {
         const { sessionId, roomId } = event as PlayerQuit;
 
-        if (roomId !== this.roomId) return;
+        if (roomId !== this.roomService.state.context.roomId) return;
 
         this.destroyPlayer(sessionId);
       }
@@ -369,7 +369,7 @@ export abstract class BaseScene extends Phaser.Scene {
               "camerafadeoutcomplete",
               () => {
                 const data: SceneTransitionData = {
-                  previousSceneId: this.roomId,
+                  previousSceneId: this.roomService.state.context.roomId,
                 };
                 this.scene.start(warpTo, data);
               },
@@ -527,7 +527,10 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   updateOtherPlayers() {
-    const room = this.roomService.state.context.rooms[this.roomId];
+    const room =
+      this.roomService.state.context.rooms[
+        this.roomService.state.context.roomId
+      ];
     if (!room) return;
 
     // Destroy any dereferenced players
