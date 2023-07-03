@@ -79,7 +79,6 @@ export class DawnBreakerScene extends BaseScene {
       frameHeight: 27,
     });
 
-
     this.load.spritesheet("bumpkin_roaster_1", "world/roasting_bumpkin_1.png", {
       frameWidth: 21,
       frameHeight: 21,
@@ -104,7 +103,6 @@ export class DawnBreakerScene extends BaseScene {
       frameWidth: 13,
       frameHeight: 4,
     });
-
 
     // Ambience
     if (!this.sound.get("nature_1")) {
