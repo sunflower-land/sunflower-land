@@ -15,7 +15,7 @@ import { fromWei, toBN } from "web3-utils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import maticToken from "assets/icons/polygon-token.png";
 import { Modal } from "react-bootstrap";
-import { AddMATIC } from "features/island/hud/components/AddMATIC";
+import { PokoOnRamp } from "features/island/hud/components/PokoOnRamp";
 import { wallet } from "lib/blockchain/wallet";
 import { CopyAddress } from "components/ui/CopyAddress";
 
@@ -167,7 +167,10 @@ export const CreateFarm: React.FC = () => {
 
       <Modal show={showAddFunds} onHide={() => setShowAddFunds(false)} centered>
         <Panel>
-          <AddMATIC onClose={() => setShowAddFunds(false)} />
+          <PokoOnRamp
+            crypto="MATIC-polygon"
+            onClose={() => setShowAddFunds(false)}
+          />
         </Panel>
       </Modal>
       {!hasEnoughMatic && (

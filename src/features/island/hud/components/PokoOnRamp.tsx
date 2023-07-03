@@ -5,13 +5,18 @@ import { CONFIG } from "lib/config";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-export const AddMATIC: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+interface Props {
+  onClose: () => void;
+  crypto: "MATIC-polygon" | "SFL-polygon";
+}
+
+export const PokoOnRamp: React.FC<Props> = ({ onClose, crypto }) => {
   const pokoUrl =
     CONFIG.NETWORK === "mumbai"
       ? "https://stg.onramp.pokoapp.xyz"
       : "https://onramp.pokoapp.xyz";
-  const crypto = "MATIC-polygon";
-  const cryptoAmount = 10;
+  const cryptoAmount = crypto === "MATIC-polygon" ? 10 : 100;
+  const fiatList = crypto === "SFL-polygon" ? "BRL,PHP,INR" : undefined;
 
   return (
     <>
@@ -36,7 +41,11 @@ export const AddMATIC: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </div>
       </div>
       <iframe
-        src={`${pokoUrl}?crypto=${crypto}&cryptoAmount=${cryptoAmount}&receiveWalletAddress=${wallet.myAccount}&userId=${wallet.myAccount}&apiKey=${CONFIG.POKO_API_KEY}&cryptoList=${crypto}`}
+        src={`${pokoUrl}?crypto=${crypto}&cryptoAmount=${cryptoAmount}&receiveWalletAddress=${
+          wallet.myAccount
+        }&userId=${wallet.myAccount}&apiKey=${
+          CONFIG.POKO_API_KEY
+        }&cryptoList=${crypto}${fiatList ? `&fiatList=${fiatList}` : ""}`}
         height="650px"
         className="w-full"
         title="Poko widget"
