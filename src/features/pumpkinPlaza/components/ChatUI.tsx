@@ -51,7 +51,7 @@ export const ChatUI: React.FC<Props> = ({
     <>
       <div
         className={classNames(
-          "w-full fixed top-48 left-3 transition-transform origin-top-left ease-in-out duration-300",
+          "fixed top-48 left-3 transition-transform origin-top-left ease-in-out duration-300",
           { "scale-0": !showChat, "scale-100": showChat }
         )}
         onClick={console.log}
