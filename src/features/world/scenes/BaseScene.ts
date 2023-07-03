@@ -473,8 +473,6 @@ export abstract class BaseScene extends Phaser.Scene {
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityY(0);
     }
 
-    const room = this.roomService.state.context.rooms[this.roomId];
-
     if (
       // Hasn't sent to server recently
       Date.now() - this.packetSentAt > 1000 / SEND_PACKET_RATE &&
