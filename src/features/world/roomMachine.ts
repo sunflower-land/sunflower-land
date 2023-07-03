@@ -144,6 +144,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
     },
     bumpkin: INITIAL_BUMPKIN,
   },
+  exit: (context) => context.rooms[context.roomId]?.leave(),
   states: {
     initialising: {
       always: [
