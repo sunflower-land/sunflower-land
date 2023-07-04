@@ -282,4 +282,5 @@ export const SEASON_PASS_ITEMS: Record<SeasonPassName, Purchasable> = {
 // TODO - add all other boosts
 export const COLLECTIBLE_BUFF: Partial<Record<InventoryItemName, string>> = {
   "Sir Goldensnout": "+0.5 Surrounding Crops",
+  "Freya Fox": "+0.5 Pumpkin",
 };
