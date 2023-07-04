@@ -427,6 +427,7 @@ export const OFFLINE_FARM: GameState = {
     Maximus: new Decimal(1),
     Hoot: new Decimal(1),
     "Sir Goldensnout": new Decimal(1),
+    "Freya Fox": new Decimal(1),
   },
 
   ...INITIAL_RESOURCES,

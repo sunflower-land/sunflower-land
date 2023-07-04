@@ -394,6 +394,7 @@ import obie from "assets/sfts/obie.png";
 import maximus from "assets/sfts/maximus.png";
 import hoot from "assets/sfts/hoot.png";
 import sirGoldenSnout from "assets/sfts/sir_goldensnout.png";
+import freyaFox from "assets/sfts/freya_fox.png";
 
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
@@ -2014,10 +2015,14 @@ export const ITEM_DETAILS: Items = {
     description: HELIOS_BLACKSMITH_ITEMS["Scary Mike"].description,
     image: scaryMike,
   },
-
   "Laurie the Chuckle Crow": {
     description: HELIOS_BLACKSMITH_ITEMS["Laurie the Chuckle Crow"].description,
     image: laurie,
+  },
+  "Freya Fox": {
+    image: freyaFox,
+    description:
+      "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
   },
 
   // Season tickets

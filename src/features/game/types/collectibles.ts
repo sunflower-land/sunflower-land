@@ -36,7 +36,8 @@ export type SoldOutCollectibleName =
   | "Squirrel Monkey"
   | "Black Bearry"
   | "Hoot"
-  | "Lady Bug";
+  | "Lady Bug"
+  | "Freya Fox";
 
 export type GoblinBlacksmithItemName =
   | "Purple Trail"
@@ -281,4 +282,5 @@ export const SEASON_PASS_ITEMS: Record<SeasonPassName, Purchasable> = {
 // TODO - add all other boosts
 export const COLLECTIBLE_BUFF: Partial<Record<InventoryItemName, string>> = {
   "Sir Goldensnout": "+0.5 Surrounding Crops",
+  "Freya Fox": "+0.5 Pumpkin",
 };

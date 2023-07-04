@@ -1181,6 +1181,43 @@ describe("plant", () => {
 
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
   });
+
+  it("yields +0.5 pumpkin with Freya Fox placed", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Pumpkin Seed": new Decimal(1),
+          "Freya Fox": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        collectibles: {
+          "Freya Fox": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              // ready at < now
+              readyAt: dateNow - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+
+        item: "Pumpkin Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.5);
+  });
 });
 
 describe("getCropTime", () => {
