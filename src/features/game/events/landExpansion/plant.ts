@@ -245,6 +245,10 @@ export function getCropYieldAmount({
     amount *= 1.2;
   }
 
+  if (crop === "Pumpkin" && isCollectibleBuilt("Freya Fox", collectibles)) {
+    amount += 0.5;
+  }
+
   if (inventory.Coder?.gte(1)) {
     amount *= 1.2;
   }

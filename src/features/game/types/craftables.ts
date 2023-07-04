@@ -1157,6 +1157,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Maximus: { width: 2, height: 2 },
   Hoot: { width: 1, height: 1 },
 
+  "Freya Fox": { width: 1, height: 1 },
+
   // AoE items
   "Emerald Turtle": { height: 1, width: 1 },
   "Tin Turtle": { height: 1, width: 1 },
