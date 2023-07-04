@@ -16,8 +16,8 @@ type ProgressData = {
   mintAmounts: string[];
   burnIds: number[];
   burnAmounts: string[];
-  statisticIds: number[];
-  statisticAmounts: number[];
+  wearableIds: number[];
+  wearableAmounts: number[];
   tokens: string;
 };
 
