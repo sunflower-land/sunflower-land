@@ -74,6 +74,7 @@ export type ChatMessageReceived = {
 
 export type PlayerJoined = {
   type: "PLAYER_JOINED";
+  farmId: number;
   roomId: RoomId;
   sessionId: string;
   x: number;
@@ -221,7 +222,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
           const room = await context.client.joinOrCreate<PlazaRoomState>(
             roomId,
             {
-              previousRoomId: context.roomId,
+              jwt: context.jwt,
               bumpkin: context.bumpkin,
               farmId: context.farmId,
               x: SPAWNS[context.roomId]?.default.x ?? 0,
@@ -257,7 +258,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
             cb({
               type: "PLAYER_JOINED",
               roomId: roomId as RoomId,
-
+              farmId: player.farmId,
               sessionId: sessionId,
               x: player.x,
               y: player.y,

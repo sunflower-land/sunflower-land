@@ -35,6 +35,7 @@ export type NPCBumpkin = {
 
 // 3 Times per second send position to server
 const SEND_PACKET_RATE = 10;
+const NAME_TAG_OFFSET_PX = 12;
 
 export abstract class BaseScene extends Phaser.Scene {
   abstract roomId: RoomId;
@@ -82,7 +83,9 @@ export abstract class BaseScene extends Phaser.Scene {
       }
 
       if (event.type === "PLAYER_JOINED") {
-        const { sessionId, x, y, clothing, roomId } = event as PlayerJoined;
+        const { farmId, sessionId, x, y, clothing, roomId } =
+          event as PlayerJoined;
+        if (roomId !== this.roomId) return;
 
         const room = this.roomService.state.context.rooms[roomId];
 
@@ -93,9 +96,11 @@ export abstract class BaseScene extends Phaser.Scene {
           const player = this.createPlayer({
             x,
             y,
+            farmId,
             clothing,
             isCurrentPlayer: sessionId === room.sessionId,
           });
+
           this.playerEntities[sessionId] = player;
         }
       }
@@ -293,6 +298,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.createPlayer({
       x: spawn.x ?? 0,
       y: spawn.y ?? 0,
+      farmId: this.roomService.state.context.farmId,
       isCurrentPlayer: true,
       clothing: this.roomService.state.context.bumpkin.equipped,
     });
@@ -324,15 +330,23 @@ export abstract class BaseScene extends Phaser.Scene {
   createPlayer({
     x,
     y,
+    farmId,
     isCurrentPlayer,
     clothing,
   }: {
     isCurrentPlayer: boolean;
     x: number;
     y: number;
+    farmId: number;
     clothing: BumpkinParts;
   }): BumpkinContainer {
     const entity = new BumpkinContainer(this, x, y, clothing);
+    const nameTag = this.createPlayerText({
+      x: 0,
+      y: 0,
+      text: `#${farmId}`,
+    });
+    entity.add(nameTag);
 
     // Is current player
     if (isCurrentPlayer) {
@@ -386,6 +400,20 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     return entity;
+  }
+
+  createPlayerText({ x, y, text }: { x: number; y: number; text: string }) {
+    const textObject = this.add.text(x, y + NAME_TAG_OFFSET_PX, text, {
+      fontSize: "4px",
+      fontFamily: "monospace",
+      resolution: 4,
+    });
+    textObject.setOrigin(0.5);
+
+    this.physics.add.existing(textObject);
+    (textObject.body as Phaser.Physics.Arcade.Body).checkCollision.none = true;
+
+    return textObject;
   }
 
   destroyPlayer(sessionId: string) {
