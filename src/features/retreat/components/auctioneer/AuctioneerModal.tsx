@@ -12,7 +12,6 @@ import {
 import { Bid, GameState } from "features/game/types/game";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { hasFeatureAccess } from "lib/flags";
 import { NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
@@ -43,7 +42,7 @@ export const AuctioneerModal: React.FC<Props> = ({
       token: authState.context.user.rawToken,
       bid: gameState.auctioneer.bid,
       deviceTrackerId: deviceTrackerId,
-      canAccess: hasFeatureAccess(gameState.inventory, "AUCTION"),
+      canAccess: true,
     },
   }) as unknown as MachineInterpreter;
 

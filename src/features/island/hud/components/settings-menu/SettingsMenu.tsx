@@ -20,12 +20,13 @@ import { Discord } from "./DiscordModal";
 import { AddSFL } from "../AddSFL";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { AddMATIC } from "../AddMATIC";
+import { PokoOnRamp } from "../PokoOnRamp";
 
 enum MENU_LEVELS {
   ROOT = "root",
   COMMUNITY = "community",
-  ON_RAMP = "on-ramp",
+  ON_RAMP_MATIC = "on-ramp-matic",
+  ON_RAMP_SFL = "on-ramp-sfl",
 }
 
 interface Props {
@@ -68,10 +69,14 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   };
 
   const handleAddMatic = async () => {
-    setMenuLevel(MENU_LEVELS.ON_RAMP);
+    setMenuLevel(MENU_LEVELS.ON_RAMP_MATIC);
   };
 
-  const handleAddSFL = () => {
+  const handleAddSFL = async () => {
+    setMenuLevel(MENU_LEVELS.ON_RAMP_SFL);
+  };
+
+  const handleSwapSFL = () => {
     setShowAddSFLModal(true);
     onClose();
   };
@@ -156,13 +161,19 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
 
                     <li className="p-1">
                       <Button onClick={handleAddMatic}>
-                        <span>Add Matic</span>
+                        <span>Buy Matic</span>
                       </Button>
                     </li>
 
                     <li className="p-1">
                       <Button onClick={handleAddSFL}>
-                        <span>Add SFL</span>
+                        <span>Buy SFL 🇧🇷🇵🇭🇮🇳</span>
+                      </Button>
+                    </li>
+
+                    <li className="p-1">
+                      <Button onClick={handleSwapSFL}>
+                        <span>Swap MATIC for SFL</span>
                       </Button>
                     </li>
                   </>
@@ -200,8 +211,17 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
               </>
             )}
 
-            {menuLevel === MENU_LEVELS.ON_RAMP && (
-              <AddMATIC onClose={() => setMenuLevel(MENU_LEVELS.ROOT)} />
+            {menuLevel === MENU_LEVELS.ON_RAMP_MATIC && (
+              <PokoOnRamp
+                crypto="MATIC-polygon"
+                onClose={() => setMenuLevel(MENU_LEVELS.ROOT)}
+              />
+            )}
+            {menuLevel === MENU_LEVELS.ON_RAMP_SFL && (
+              <PokoOnRamp
+                crypto="SFL-polygon"
+                onClose={() => setMenuLevel(MENU_LEVELS.ROOT)}
+              />
             )}
           </ul>
         </Panel>

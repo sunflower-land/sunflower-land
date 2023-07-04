@@ -22,7 +22,6 @@ import {
   HELIOS_BLACKSMITH_ITEMS,
   HeliosBlacksmithItem,
 } from "features/game/types/collectibles";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -133,15 +132,8 @@ export const Equipment: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {getKeys(HELIOS_BLACKSMITH_ITEMS)
-            .filter(
-              (name: HeliosBlacksmithItem) =>
-                (name !== "Scary Mike" ||
-                  hasFeatureAccess(state.inventory, "SCARY_MIKE")) &&
-                (name !== "Laurie the Chuckle Crow" ||
-                  hasFeatureAccess(state.inventory, "LAURIE"))
-            )
-            .map((name: HeliosBlacksmithItem) => {
+          {getKeys(HELIOS_BLACKSMITH_ITEMS).map(
+            (name: HeliosBlacksmithItem) => {
               // const isLocked = landCount.lt(
               //   HELIOS_BLACKSMITH_ITEMS[name].unlocksAtLevel
               // );
@@ -166,7 +158,8 @@ export const Equipment: React.FC<Props> = ({ onClose }) => {
                   showOverlay={isLocked}
                 />
               );
-            })}
+            }
+          )}
         </>
       }
     />

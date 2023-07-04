@@ -3820,4 +3820,12 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/468.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
+  "Freya Fox": {
+    description:
+      "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/469.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
 };

@@ -706,7 +706,7 @@ export const characters: Record<Week, DawnBreakerPositions> = {
       y: -13,
       dialogue: (
         <>
-          <p>{`Sofia: If only we could move these Eggplant soliders, I could run up to the Bell Tower`}</p>
+          <p>{`Sofia: If only we could move these Eggplant soldiers, I could run up to the Bell Tower`}</p>
         </>
       ),
     },
