@@ -258,7 +258,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
             cb({
               type: "PLAYER_JOINED",
               roomId: roomId as RoomId,
-
+              farmId: player.farmId,
               sessionId: sessionId,
               x: player.x,
               y: player.y,
