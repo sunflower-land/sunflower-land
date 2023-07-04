@@ -11,71 +11,46 @@ import phantomIcon from "src/assets/icons/phantom.svg";
 import okxIcon from "src/assets/icons/okx.svg";
 import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { Label } from "components/ui/Label";
-import { hasFeatureAccess } from "lib/flags";
 
 const OtherWallets = () => {
   const { authService } = useContext(Context);
 
   return (
     <>
-      {hasFeatureAccess({}, "OKX_WALLET") ? (
-        <>
-          <Button
-            className="mb-2 py-2 text-sm relative"
-            onClick={() => authService.send("CONNECT_TO_OKX")}
-          >
-            <div className="px-8">
-              <img
-                src={okxIcon}
-                alt="OKX"
-                className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
-              />
-              <Label
-                type="info"
-                className="absolute top-1/2 -translate-y-1/2 right-1"
-              >
-                Featured
-              </Label>
-              OKX Wallet
-            </div>
-          </Button>
-          <Button
-            className="mb-2 py-2 text-sm relative"
-            onClick={() => authService.send("CONNECT_TO_PHANTOM")}
-          >
-            <div className="px-8">
-              <img
-                src={phantomIcon}
-                alt="Phantom"
-                className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
-              />
-              Phantom
-            </div>
-          </Button>
-        </>
-      ) : (
-        <>
-          <Button
-            className="mb-2 py-2 text-sm relative"
-            onClick={() => authService.send("CONNECT_TO_PHANTOM")}
-          >
-            <div className="px-8">
-              <img
-                src={phantomIcon}
-                alt="Phantom"
-                className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
-              />
-              <Label
-                type="info"
-                className="absolute top-1/2 -translate-y-1/2 right-1"
-              >
-                Featured
-              </Label>
-              Phantom
-            </div>
-          </Button>
-        </>
-      )}
+      <>
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() => authService.send("CONNECT_TO_OKX")}
+        >
+          <div className="px-8">
+            <img
+              src={okxIcon}
+              alt="OKX"
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+            />
+            <Label
+              type="info"
+              className="absolute top-1/2 -translate-y-1/2 right-1"
+            >
+              Featured
+            </Label>
+            OKX Wallet
+          </div>
+        </Button>
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() => authService.send("CONNECT_TO_PHANTOM")}
+        >
+          <div className="px-8">
+            <img
+              src={phantomIcon}
+              alt="Phantom"
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
+            />
+            Phantom
+          </div>
+        </Button>
+      </>
       <div className="bg-white b-1 mx-auto w-2/3 h-[1px] my-3" />
       <Button
         className="mb-2 py-2 text-sm relative"
