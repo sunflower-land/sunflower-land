@@ -4,6 +4,7 @@ import ocean from "assets/decorations/ocean.webp";
 import { BoundaryError } from "./SomethingWentWrong";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
+import { createErrorLogger } from "lib/errorLogger";
 
 interface Props {
   children?: ReactNode;
@@ -18,8 +19,11 @@ class ErrorBoundary extends Component<Props, State> {
     error: null,
   };
 
+  private static errorLogger = createErrorLogger("react_error_modal", 0);
+
   public static getDerivedStateFromError(error: Error): State {
     // Update state so the next render will show the fallback UI.
+    this.errorLogger(error);
     return { error };
   }
 
