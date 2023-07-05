@@ -4,7 +4,7 @@ import Filter from "bad-words";
 import classNames from "classnames";
 
 interface Props {
-  messages: { sessionId: string; text: string }[];
+  messages: { farmId: number; sessionId: string; text: string }[];
   onMessage: (text: string) => void;
   onChatStarted: () => void;
   isChatOpen: boolean;
@@ -131,7 +131,7 @@ export const ChatText: React.FC<Props> = ({
                   key={`${i}-${message.sessionId}`}
                   className="pt-0.5 -indent-6 pl-6"
                 >
-                  {`[${message.sessionId}]`}: {message.text}
+                  {`[${message.farmId}]`}: {message.text}
                 </p>
               );
             })}
