@@ -49,10 +49,7 @@ export abstract class Preloader extends Phaser.Scene {
       this.load.tilemapTiledJSON("woodlands", woodlandsJSON);
 
       // Load Sound Effects
-      this.load.audio(
-        "dirt_footstep",
-        "http://localhost:3000/dirt_footstep.mp3"
-      );
+      this.load.audio("dirt_footstep", SOUNDS.footsteps.dirt);
       this.load.audio("wood_footstep", SOUNDS.footsteps.wood);
       this.load.audio("fire", SOUNDS.loops.fire);
       this.load.audio("nature_1", SOUNDS.loops.nature_1);
