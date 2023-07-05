@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import lightningAnimation from "assets/npcs/human_death.gif";
 
 import * as Auth from "features/auth/lib/Provider";
@@ -7,6 +7,7 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
+import { createErrorLogger } from "lib/errorLogger";
 
 interface BoundaryErrorProps {
   farmId?: number;
@@ -29,6 +30,11 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
 }) => {
   const [date] = useState(new Date().toISOString());
   const [showStackTrace, setShowStackTrace] = useState(false);
+
+  useEffect(() => {
+    const errorLogger = createErrorLogger("react_error_modal", farmId ?? 0);
+    errorLogger({ error, transactionId, stack, date });
+  }, []);
 
   return (
     <>
