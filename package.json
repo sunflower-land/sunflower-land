@@ -61,6 +61,7 @@
     "react-share": "^4.4.1",
     "react-spring": "^9.7.1",
     "remark-gfm": "^3.0.1",
+    "serialize-error": "^11.0.0",
     "stream-browserify": "^3.0.0",
     "util": "^0.12.4",
     "uuid": "^9.0.0",

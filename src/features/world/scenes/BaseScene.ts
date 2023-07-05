@@ -22,6 +22,7 @@ import { EventObject } from "xstate";
 import { isTouchDevice } from "../lib/device";
 import { SPAWNS } from "../lib/spawn";
 import { AudioController, WalkAudioController } from "../lib/AudioController";
+import { createErrorLogger } from "lib/errorLogger";
 
 type SceneTransitionData = {
   previousSceneId: RoomId;
@@ -182,149 +183,159 @@ export abstract class BaseScene extends Phaser.Scene {
     console.log("Preload");
   }
   async create() {
-    const camera = this.cameras.main;
-    camera.fadeIn();
-    const tileset = this.map.addTilesetImage(
-      "Sunnyside V3",
-      "tileset",
-      16,
-      16,
-      // Extruded tileset
-      1,
-      2
-    ) as Phaser.Tilemaps.Tileset;
-
-    // Set up collider layers
-    this.customColliders = this.add.group();
-    const collisionPolygons = this.map.createFromObjects("Collision", {
-      scene: this,
-    });
-    collisionPolygons.forEach((polygon) => {
-      this.customColliders?.add(polygon);
-      this.physics.world.enable(polygon);
-      (polygon.body as Physics.Arcade.Body).setImmovable(true);
-    });
-
-    // set up Sound FXs
-
-    // this.walkAudioController = new WalkAudioController(walkSound);
-    if (this.walkSound) {
-      this.walkAudioController = new WalkAudioController(
-        this.sound.add(this.walkSound)
-      );
-    }
-
-    // this.audioController = new AudioController({ sound: walkSound });
-
-    // Setup interactable layers
-    const interactablesPolygons = this.map.createFromObjects(
-      "Interactable",
-      {}
+    const errorLogger = createErrorLogger(
+      "phaser_base_scene",
+      this.roomService.state.context.farmId
     );
-    interactablesPolygons.forEach((polygon) => {
-      polygon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        const id = polygon.data.list.id;
-        interactableModalManager.open(id);
+
+    try {
+      const camera = this.cameras.main;
+      camera.fadeIn();
+      const tileset = this.map.addTilesetImage(
+        "Sunnyside V3",
+        "tileset",
+        16,
+        16,
+        // Extruded tileset
+        1,
+        2
+      ) as Phaser.Tilemaps.Tileset;
+
+      // Set up collider layers
+      this.customColliders = this.add.group();
+      const collisionPolygons = this.map.createFromObjects("Collision", {
+        scene: this,
       });
-    });
+      collisionPolygons.forEach((polygon) => {
+        this.customColliders?.add(polygon);
+        this.physics.world.enable(polygon);
+        (polygon.body as Physics.Arcade.Body).setImmovable(true);
+      });
 
-    // Debugging purposes - display colliders in pink
-    this.physics.world.drawDebug = false;
+      // set up Sound FXs
 
-    // Set up the Z layers to draw in correct order
-    const TOP_LAYERS = [
-      "Decorations Layer 1",
-      "Decorations Foreground",
-      "Decorations Layer 2",
-      "Decorations Layer 3",
-      "Decorations Layer 4",
-      "Building Layer 2",
-      "Building Layer 3",
-      "Building Layer 4",
-    ];
-    this.map.layers.forEach((layerData, idx) => {
-      const layer = this.map.createLayer(layerData.name, tileset, 0, 0);
-      if (TOP_LAYERS.includes(layerData.name)) {
-        layer?.setDepth(1000000);
+      // this.walkAudioController = new WalkAudioController(walkSound);
+      if (this.walkSound) {
+        this.walkAudioController = new WalkAudioController(
+          this.sound.add(this.walkSound)
+        );
       }
-    });
 
-    if (isTouchDevice()) {
-      // Initialise joystick
-      const { x, y, centerX, centerY, width, height } = this.cameras.main;
-      const zoom = 4;
-      this.joystick = new VirtualJoystick(this, {
-        x: centerX,
-        y: centerY - 35 + height / zoom / 2,
-        radius: 15,
-        base: this.add.circle(0, 0, 15, 0x000000, 0.2).setDepth(1000000000),
-        thumb: this.add.circle(0, 0, 7, 0xffffff, 0.2).setDepth(1000000000),
-        dir: "8dir",
-        // fixed: true,
-        forceMin: 3,
+      // this.audioController = new AudioController({ sound: walkSound });
+
+      // Setup interactable layers
+      const interactablesPolygons = this.map.createFromObjects(
+        "Interactable",
+        {}
+      );
+      interactablesPolygons.forEach((polygon) => {
+        polygon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+          const id = polygon.data.list.id;
+          interactableModalManager.open(id);
+        });
       });
-      this.joystickKeys = this.joystick.createCursorKeys();
+
+      // Debugging purposes - display colliders in pink
+      this.physics.world.drawDebug = false;
+
+      // Set up the Z layers to draw in correct order
+      const TOP_LAYERS = [
+        "Decorations Layer 1",
+        "Decorations Foreground",
+        "Decorations Layer 2",
+        "Decorations Layer 3",
+        "Decorations Layer 4",
+        "Building Layer 2",
+        "Building Layer 3",
+        "Building Layer 4",
+      ];
+      this.map.layers.forEach((layerData, idx) => {
+        const layer = this.map.createLayer(layerData.name, tileset, 0, 0);
+        if (TOP_LAYERS.includes(layerData.name)) {
+          layer?.setDepth(1000000);
+        }
+      });
+
+      if (isTouchDevice()) {
+        // Initialise joystick
+        const { x, y, centerX, centerY, width, height } = this.cameras.main;
+        const zoom = 4;
+        this.joystick = new VirtualJoystick(this, {
+          x: centerX,
+          y: centerY - 35 + height / zoom / 2,
+          radius: 15,
+          base: this.add.circle(0, 0, 15, 0x000000, 0.2).setDepth(1000000000),
+          thumb: this.add.circle(0, 0, 7, 0xffffff, 0.2).setDepth(1000000000),
+          dir: "8dir",
+          // fixed: true,
+          forceMin: 3,
+        });
+        this.joystickKeys = this.joystick.createCursorKeys();
+      }
+      // Initialise Keyboard
+      this.cursorKeys = this.input.keyboard?.createCursorKeys();
+      if (this.cursorKeys) {
+        // this.cursorKeys.w = this.input.keyboard?.addKey(
+        //   Phaser.Input.Keyboard.KeyCodes.W
+        // );
+        // this.cursorKeys.a = this.input.keyboard?.addKey(
+        //   Phaser.Input.Keyboard.KeyCodes.A
+        // );
+        // this.cursorKeys.s = this.input.keyboard?.addKey(
+        //   Phaser.Input.Keyboard.KeyCodes.S
+        // );
+        // this.cursorKeys.d = this.input.keyboard?.addKey(
+        //   Phaser.Input.Keyboard.KeyCodes.D
+        // );
+
+        this.input.keyboard?.removeCapture("SPACE");
+      }
+
+      this.input.setTopOnly(true);
+      this.roomService.off(this.eventListener);
+      this.roomService.onEvent(this.eventListener);
+
+      // Connect to Room
+      this.roomService.send("CHANGE_ROOM", {
+        roomId: this.roomId,
+      });
+
+      const from = this.sceneTransitionData?.previousSceneId as RoomId;
+      const spawn = SPAWNS[this.roomId][from] ?? SPAWNS[this.roomId].default;
+      this.createPlayer({
+        x: spawn.x ?? 0,
+        y: spawn.y ?? 0,
+        farmId: this.roomService.state.context.farmId,
+        isCurrentPlayer: true,
+        clothing: this.roomService.state.context.bumpkin.equipped,
+      });
+
+      camera.setBounds(
+        0,
+        0,
+        this.map.width * SQUARE_WIDTH,
+        this.map.height * SQUARE_WIDTH
+      );
+      camera.setZoom(4);
+      this.physics.world.setBounds(
+        0,
+        0,
+        this.map.width * SQUARE_WIDTH,
+        this.map.height * SQUARE_WIDTH
+      );
+
+      // Center it on canvas
+      const offsetX =
+        (window.innerWidth - this.map.width * 4 * SQUARE_WIDTH) / 2;
+      const offsetY =
+        (window.innerHeight - this.map.height * 4 * SQUARE_WIDTH) / 2;
+      camera.setPosition(Math.max(offsetX, 0), Math.max(offsetY, 0));
+
+      // this.physics.world.fixedStep = false; // activates sync
+      // this.physics.world.fixedStep = true; // deactivates sync (default)
+    } catch (error) {
+      errorLogger(JSON.stringify(error));
     }
-    // Initialise Keyboard
-    this.cursorKeys = this.input.keyboard?.createCursorKeys();
-    if (this.cursorKeys) {
-      // this.cursorKeys.w = this.input.keyboard?.addKey(
-      //   Phaser.Input.Keyboard.KeyCodes.W
-      // );
-      // this.cursorKeys.a = this.input.keyboard?.addKey(
-      //   Phaser.Input.Keyboard.KeyCodes.A
-      // );
-      // this.cursorKeys.s = this.input.keyboard?.addKey(
-      //   Phaser.Input.Keyboard.KeyCodes.S
-      // );
-      // this.cursorKeys.d = this.input.keyboard?.addKey(
-      //   Phaser.Input.Keyboard.KeyCodes.D
-      // );
-
-      this.input.keyboard?.removeCapture("SPACE");
-    }
-
-    this.input.setTopOnly(true);
-    this.roomService.off(this.eventListener);
-    this.roomService.onEvent(this.eventListener);
-
-    // Connect to Room
-    this.roomService.send("CHANGE_ROOM", {
-      roomId: this.roomId,
-    });
-
-    const from = this.sceneTransitionData?.previousSceneId as RoomId;
-    const spawn = SPAWNS[this.roomId][from] ?? SPAWNS[this.roomId].default;
-    this.createPlayer({
-      x: spawn.x ?? 0,
-      y: spawn.y ?? 0,
-      farmId: this.roomService.state.context.farmId,
-      isCurrentPlayer: true,
-      clothing: this.roomService.state.context.bumpkin.equipped,
-    });
-
-    camera.setBounds(
-      0,
-      0,
-      this.map.width * SQUARE_WIDTH,
-      this.map.height * SQUARE_WIDTH
-    );
-    camera.setZoom(4);
-    this.physics.world.setBounds(
-      0,
-      0,
-      this.map.width * SQUARE_WIDTH,
-      this.map.height * SQUARE_WIDTH
-    );
-
-    // Center it on canvas
-    const offsetX = (window.innerWidth - this.map.width * 4 * SQUARE_WIDTH) / 2;
-    const offsetY =
-      (window.innerHeight - this.map.height * 4 * SQUARE_WIDTH) / 2;
-    camera.setPosition(Math.max(offsetX, 0), Math.max(offsetY, 0));
-
-    // this.physics.world.fixedStep = false; // activates sync
-    // this.physics.world.fixedStep = true; // deactivates sync (default)
   }
 
   createPlayer({
