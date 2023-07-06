@@ -37,6 +37,8 @@ export async function loadSession(
 ): Promise<Response | undefined> {
   if (!API_URL) return;
 
+  const promoCode = getPromoCode();
+
   const response = await window.fetch(`${API_URL}/session/${request.farmId}`, {
     method: "POST",
     //mode: "no-cors",
@@ -51,6 +53,7 @@ export async function loadSession(
       clientVersion: CONFIG.CLIENT_VERSION as string,
       wallet: request.wallet,
       guestKey: request.guestKey,
+      promoCode,
     }),
   });
 
@@ -146,4 +149,20 @@ export function saveSession(farmId: number) {
   };
 
   return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newSessions));
+}
+
+const PROMO_LS_KEY = `sb_wiz.promo-key.v.${host}-${window.location.pathname}`;
+
+export function savePromoCode(id: string) {
+  localStorage.setItem(PROMO_LS_KEY, id);
+}
+
+export function getPromoCode() {
+  const item = localStorage.getItem(PROMO_LS_KEY);
+
+  if (!item) {
+    return undefined;
+  }
+
+  return item;
 }
