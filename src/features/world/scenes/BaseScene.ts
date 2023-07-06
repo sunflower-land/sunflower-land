@@ -145,7 +145,6 @@ export abstract class BaseScene extends Phaser.Scene {
     );
 
     try {
-      this.initialiseCamera();
       this.initialiseMap();
       this.initialiseSounds();
 
@@ -166,6 +165,8 @@ export abstract class BaseScene extends Phaser.Scene {
         isCurrentPlayer: true,
         clothing: this.roomService.state.context.bumpkin.equipped,
       });
+
+      this.initialiseCamera();
 
       // this.physics.world.fixedStep = false; // activates sync
       // this.physics.world.fixedStep = true; // deactivates sync (default)
@@ -243,7 +244,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
   public initialiseCamera() {
     const camera = this.cameras.main;
-    camera.fadeIn();
 
     camera.setBounds(
       0,
@@ -258,6 +258,8 @@ export abstract class BaseScene extends Phaser.Scene {
     const offsetY =
       (window.innerHeight - this.map.height * 4 * SQUARE_WIDTH) / 2;
     camera.setPosition(Math.max(offsetX, 0), Math.max(offsetY, 0));
+
+    camera.fadeIn();
   }
 
   public initialiseMMO() {
