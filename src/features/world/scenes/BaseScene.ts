@@ -38,6 +38,25 @@ export type NPCBumpkin = {
 const SEND_PACKET_RATE = 10;
 const NAME_TAG_OFFSET_PX = 12;
 
+type BaseSceneOptions = {
+  name: RoomId;
+  mmo: {
+    enabled: boolean;
+  };
+  map: {
+    // tilesetUrl (Coming Soon)
+    json: any;
+  };
+  controls: {
+    enabled: boolean;
+  };
+  audio: {
+    fx: {
+      walk_key: string;
+    };
+  };
+};
+
 export abstract class BaseScene extends Phaser.Scene {
   abstract roomId: RoomId;
   eventListener: (event: EventObject) => void;
@@ -46,9 +65,26 @@ export abstract class BaseScene extends Phaser.Scene {
   private walkSound: string;
   private sceneTransitionData?: SceneTransitionData;
 
-  constructor(key: RoomId, walkSound = "dirt_footstep") {
-    super(key);
-    this.walkSound = walkSound;
+  private options: BaseSceneOptions;
+
+  preload() {
+    this.map = this.make.tilemap({
+      key: this.options.name,
+    });
+  }
+
+  public initialiseMap() {}
+
+  public initialiseCamera() {}
+
+  public initialiseMMO() {}
+
+  constructor(options: BaseSceneOptions) {
+    super(options.name);
+
+    this.options = options;
+
+    this.walkSound = options.audio.fx.walk_key ?? "dirt_footstep";
 
     this.eventListener = (event) => {
       if (event.type === "CHAT_MESSAGE_RECEIVED") {
@@ -179,9 +215,6 @@ export abstract class BaseScene extends Phaser.Scene {
     this.sceneTransitionData = data;
   }
 
-  preload() {
-    console.log("Preload");
-  }
   async create() {
     const errorLogger = createErrorLogger(
       "phaser_base_scene",
