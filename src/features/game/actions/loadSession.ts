@@ -37,6 +37,8 @@ export async function loadSession(
 ): Promise<Response | undefined> {
   if (!API_URL) return;
 
+  const promoCode = getPromoCode();
+
   const response = await window.fetch(`${API_URL}/session/${request.farmId}`, {
     method: "POST",
     //mode: "no-cors",
@@ -51,6 +53,7 @@ export async function loadSession(
       clientVersion: CONFIG.CLIENT_VERSION as string,
       wallet: request.wallet,
       guestKey: request.guestKey,
+      promoCode,
     }),
   });
 
@@ -161,5 +164,5 @@ function getPromoCode() {
     return undefined;
   }
 
-  return Number(item);
+  return item;
 }
