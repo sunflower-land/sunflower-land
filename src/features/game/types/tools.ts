@@ -3,7 +3,6 @@
  */
 
 import Decimal from "decimal.js-light";
-import { marketRate } from "../lib/halvening";
 import { Inventory } from "./game";
 
 export type WorkbenchToolName =
@@ -27,7 +26,7 @@ export const WORKBENCH_TOOLS: () => Record<WorkbenchToolName, Tool> = () => ({
     name: "Axe",
     description: "Used to collect wood",
     ingredients: {},
-    sfl: marketRate(5),
+    sfl: new Decimal(0.0625),
   },
   Pickaxe: {
     name: "Pickaxe",
@@ -35,7 +34,7 @@ export const WORKBENCH_TOOLS: () => Record<WorkbenchToolName, Tool> = () => ({
     ingredients: {
       Wood: new Decimal(3),
     },
-    sfl: marketRate(5),
+    sfl: new Decimal(0.0625),
   },
   "Stone Pickaxe": {
     name: "Stone Pickaxe",
@@ -44,7 +43,7 @@ export const WORKBENCH_TOOLS: () => Record<WorkbenchToolName, Tool> = () => ({
       Wood: new Decimal(3),
       Stone: new Decimal(5),
     },
-    sfl: marketRate(5),
+    sfl: new Decimal(0.0625),
   },
   "Iron Pickaxe": {
     name: "Iron Axe",
@@ -53,7 +52,7 @@ export const WORKBENCH_TOOLS: () => Record<WorkbenchToolName, Tool> = () => ({
       Wood: new Decimal(3),
       Iron: new Decimal(5),
     },
-    sfl: marketRate(20),
+    sfl: new Decimal(0.25),
   },
 });
 
@@ -65,7 +64,7 @@ export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
       Wood: new Decimal(2),
       Stone: new Decimal(1),
     },
-    sfl: marketRate(5),
+    sfl: new Decimal(0.0625),
   },
   "Sand Drill": {
     name: "Sand Drill",
@@ -74,6 +73,6 @@ export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
       Gold: new Decimal(1),
       Iron: new Decimal(3),
     },
-    sfl: marketRate(10),
+    sfl: new Decimal(0.125),
   },
 };
