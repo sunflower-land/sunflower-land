@@ -1,3 +1,5 @@
+import mapJson from "assets/map/plaza.json";
+
 import { RoomId } from "../roomMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
@@ -63,7 +65,7 @@ export class PlazaScene extends BaseScene {
   roomId: RoomId = "plaza";
 
   constructor() {
-    super("plaza");
+    super({ name: "plaza", map: { json: mapJson } });
   }
 
   async create() {

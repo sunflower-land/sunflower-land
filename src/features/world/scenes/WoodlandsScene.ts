@@ -1,3 +1,5 @@
+import woodlandsJSON from "assets/map/woodlands.json";
+
 import { RoomId } from "../roomMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
@@ -7,7 +9,7 @@ export class WoodlandsScene extends BaseScene {
   roomId: RoomId = "woodlands";
 
   constructor() {
-    super("woodlands");
+    super({ name: "woodlands", map: { json: woodlandsJSON } });
   }
 
   async create() {

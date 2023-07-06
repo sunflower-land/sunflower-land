@@ -1,3 +1,5 @@
+import timmyHomeJSON from "assets/map/timmy_home.json";
+
 import { RoomId } from "../roomMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
@@ -7,7 +9,7 @@ export class TimmyHomeScene extends BaseScene {
   roomId: RoomId = "timmy_home";
 
   constructor() {
-    super("timmy_home");
+    super({ name: "timmy_home", map: { json: timmyHomeJSON } });
   }
 
   async create() {

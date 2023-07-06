@@ -1,3 +1,5 @@
+import marcusHomeJSON from "assets/map/marcus_home.json";
+
 import { SUNNYSIDE } from "assets/sunnyside";
 import { RoomId } from "../roomMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
@@ -8,7 +10,11 @@ export class MarcusHomeScene extends BaseScene {
   roomId: RoomId = "marcus_home";
 
   constructor() {
-    super("marcus_home", "wood_footstep");
+    super({
+      name: "marcus_home",
+      audio: { fx: { walk_key: "wood_footstep" } },
+      map: { json: marcusHomeJSON },
+    });
   }
 
   preload() {

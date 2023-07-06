@@ -1,3 +1,5 @@
+import auctionJson from "assets/map/auction.json";
+
 import { RoomId } from "../roomMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
@@ -13,7 +15,7 @@ export class AuctionScene extends BaseScene {
   roomId: RoomId = "auction_house";
 
   constructor() {
-    super("auction_house");
+    super({ name: "auction_house", map: { json: auctionJson } });
   }
 
   preload() {

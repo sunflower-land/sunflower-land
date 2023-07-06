@@ -1,3 +1,5 @@
+import dawnBreakerJSON from "assets/map/dawn_breaker.json";
+
 import { DawnFlower } from "../containers/DawnFlower";
 import { Label } from "../containers/Label";
 import { RoomId } from "../roomMachine";
@@ -37,7 +39,7 @@ export class DawnBreakerScene extends BaseScene {
   roomId: RoomId = "dawn_breaker";
 
   constructor() {
-    super("dawn_breaker");
+    super({ name: "dawn_breaker", map: { json: dawnBreakerJSON } });
   }
 
   preload() {

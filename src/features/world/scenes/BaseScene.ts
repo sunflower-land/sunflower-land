@@ -40,17 +40,17 @@ const NAME_TAG_OFFSET_PX = 12;
 
 type BaseSceneOptions = {
   name: RoomId;
-  mmo: {
-    enabled: boolean;
-  };
   map: {
     // tilesetUrl (Coming Soon)
     json: any;
   };
-  controls: {
+  mmo?: {
     enabled: boolean;
   };
-  audio: {
+  controls?: {
+    enabled: boolean; // Default to true
+  };
+  audio?: {
     fx: {
       walk_key: string;
     };
@@ -59,33 +59,208 @@ type BaseSceneOptions = {
 
 export abstract class BaseScene extends Phaser.Scene {
   abstract roomId: RoomId;
-  eventListener: (event: EventObject) => void;
+  eventListener?: (event: EventObject) => void;
 
   private joystick?: VirtualJoystick;
-  private walkSound: string;
   private sceneTransitionData?: SceneTransitionData;
 
-  private options: BaseSceneOptions;
+  private options: Required<BaseSceneOptions>;
 
-  preload() {
-    this.map = this.make.tilemap({
-      key: this.options.name,
-    });
-  }
+  public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
+  room: Room | undefined;
 
-  public initialiseMap() {}
+  currentPlayer: BumpkinContainer | undefined;
+  serverPosition: { x: number; y: number } = { x: 0, y: 0 };
+  packetSentAt = 0;
 
-  public initialiseCamera() {}
+  playerEntities: {
+    [sessionId: string]: BumpkinContainer;
+  } = {};
 
-  public initialiseMMO() {}
+  customColliders?: Phaser.GameObjects.Group;
+  soundEffects: AudioController[] = [];
+  walkAudioController?: WalkAudioController;
+
+  joystickKeys:
+    | {
+        up: Phaser.Input.Keyboard.Key;
+        down: Phaser.Input.Keyboard.Key;
+        left: Phaser.Input.Keyboard.Key;
+        right: Phaser.Input.Keyboard.Key;
+      }
+    | undefined;
+
+  cursorKeys:
+    | {
+        up: Phaser.Input.Keyboard.Key;
+        down: Phaser.Input.Keyboard.Key;
+        left: Phaser.Input.Keyboard.Key;
+        right: Phaser.Input.Keyboard.Key;
+        w?: Phaser.Input.Keyboard.Key;
+        s?: Phaser.Input.Keyboard.Key;
+        a?: Phaser.Input.Keyboard.Key;
+        d?: Phaser.Input.Keyboard.Key;
+      }
+    | undefined;
+
+  inputPayload = {
+    left: false,
+    right: false,
+    up: false,
+    down: false,
+    // tick: undefined,
+  };
+
+  // Advanced server timing - not used
+  elapsedTime = 0;
+  fixedTimeStep = 1000 / 60;
+
+  currentTick = 0;
 
   constructor(options: BaseSceneOptions) {
     super(options.name);
 
-    this.options = options;
+    const defaultedOptions: Required<BaseSceneOptions> = {
+      ...options,
+      audio: options.audio ?? { fx: { walk_key: "dirt_footstep" } },
+      controls: options.controls ?? { enabled: true },
+      mmo: options.controls ?? { enabled: true },
+    };
 
-    this.walkSound = options.audio.fx.walk_key ?? "dirt_footstep";
+    this.options = defaultedOptions;
+  }
 
+  preload() {
+    this.load.tilemapTiledJSON(this.options.name, this.options.map.json);
+  }
+
+  init(data: SceneTransitionData) {
+    this.sceneTransitionData = data;
+  }
+
+  async create() {
+    const errorLogger = createErrorLogger(
+      "phaser_base_scene",
+      this.roomService.state.context.farmId
+    );
+
+    try {
+      this.initialiseCamera();
+      this.initialiseMap();
+      this.initialiseSounds();
+
+      if (this.options.mmo.enabled) {
+        this.initialiseMMO();
+      }
+
+      if (this.options.controls.enabled) {
+        this.initialiseControls();
+      }
+
+      const from = this.sceneTransitionData?.previousSceneId as RoomId;
+      const spawn = SPAWNS[this.roomId][from] ?? SPAWNS[this.roomId].default;
+      this.createPlayer({
+        x: spawn.x ?? 0,
+        y: spawn.y ?? 0,
+        farmId: this.roomService.state.context.farmId,
+        isCurrentPlayer: true,
+        clothing: this.roomService.state.context.bumpkin.equipped,
+      });
+
+      // this.physics.world.fixedStep = false; // activates sync
+      // this.physics.world.fixedStep = true; // deactivates sync (default)
+    } catch (error) {
+      errorLogger(JSON.stringify(error));
+    }
+  }
+
+  public initialiseMap() {
+    this.map = this.make.tilemap({
+      key: this.options.name,
+    });
+
+    const tileset = this.map.addTilesetImage(
+      "Sunnyside V3",
+      "tileset",
+      16,
+      16,
+      // Extruded tileset
+      1,
+      2
+    ) as Phaser.Tilemaps.Tileset;
+
+    // Set up collider layers
+    this.customColliders = this.add.group();
+    const collisionPolygons = this.map.createFromObjects("Collision", {
+      scene: this,
+    });
+    collisionPolygons.forEach((polygon) => {
+      this.customColliders?.add(polygon);
+      this.physics.world.enable(polygon);
+      (polygon.body as Physics.Arcade.Body).setImmovable(true);
+    });
+
+    // Setup interactable layers
+    const interactablesPolygons = this.map.createFromObjects(
+      "Interactable",
+      {}
+    );
+    interactablesPolygons.forEach((polygon) => {
+      polygon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+        const id = polygon.data.list.id;
+        interactableModalManager.open(id);
+      });
+    });
+
+    // Debugging purposes - display colliders in pink
+    this.physics.world.drawDebug = false;
+
+    // Set up the Z layers to draw in correct order
+    const TOP_LAYERS = [
+      "Decorations Layer 1",
+      "Decorations Foreground",
+      "Decorations Layer 2",
+      "Decorations Layer 3",
+      "Decorations Layer 4",
+      "Building Layer 2",
+      "Building Layer 3",
+      "Building Layer 4",
+    ];
+    this.map.layers.forEach((layerData, idx) => {
+      const layer = this.map.createLayer(layerData.name, tileset, 0, 0);
+      if (TOP_LAYERS.includes(layerData.name)) {
+        layer?.setDepth(1000000);
+      }
+    });
+
+    this.physics.world.setBounds(
+      0,
+      0,
+      this.map.width * SQUARE_WIDTH,
+      this.map.height * SQUARE_WIDTH
+    );
+  }
+
+  public initialiseCamera() {
+    const camera = this.cameras.main;
+    camera.fadeIn();
+
+    camera.setBounds(
+      0,
+      0,
+      this.map.width * SQUARE_WIDTH,
+      this.map.height * SQUARE_WIDTH
+    );
+    camera.setZoom(4);
+
+    // Center it on canvas
+    const offsetX = (window.innerWidth - this.map.width * 4 * SQUARE_WIDTH) / 2;
+    const offsetY =
+      (window.innerHeight - this.map.height * 4 * SQUARE_WIDTH) / 2;
+    camera.setPosition(Math.max(offsetX, 0), Math.max(offsetY, 0));
+  }
+
+  public initialiseMMO() {
     this.eventListener = (event) => {
       if (event.type === "CHAT_MESSAGE_RECEIVED") {
         const { sessionId, text, roomId } = event as ChatMessageReceived;
@@ -150,58 +325,60 @@ export abstract class BaseScene extends Phaser.Scene {
         this.destroyPlayer(sessionId);
       }
     };
+
+    this.roomService.off(this.eventListener);
+    this.roomService.onEvent(this.eventListener);
+
+    // Connect to Room
+    this.roomService.send("CHANGE_ROOM", {
+      roomId: this.roomId,
+    });
   }
 
-  public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
-  room: Room | undefined;
+  public initialiseSounds() {
+    this.walkAudioController = new WalkAudioController(
+      this.sound.add(this.options.audio.fx.walk_key)
+    );
+  }
 
-  currentPlayer: BumpkinContainer | undefined;
-  serverPosition: { x: number; y: number } = { x: 0, y: 0 };
-  packetSentAt = 0;
+  public initialiseControls() {
+    if (isTouchDevice()) {
+      // Initialise joystick
+      const { x, y, centerX, centerY, width, height } = this.cameras.main;
+      const zoom = 4;
+      this.joystick = new VirtualJoystick(this, {
+        x: centerX,
+        y: centerY - 35 + height / zoom / 2,
+        radius: 15,
+        base: this.add.circle(0, 0, 15, 0x000000, 0.2).setDepth(1000000000),
+        thumb: this.add.circle(0, 0, 7, 0xffffff, 0.2).setDepth(1000000000),
+        dir: "8dir",
+        // fixed: true,
+        forceMin: 3,
+      });
+      this.joystickKeys = this.joystick.createCursorKeys();
+    }
+    // Initialise Keyboard
+    this.cursorKeys = this.input.keyboard?.createCursorKeys();
+    if (this.cursorKeys) {
+      // this.cursorKeys.w = this.input.keyboard?.addKey(
+      //   Phaser.Input.Keyboard.KeyCodes.W
+      // );
+      // this.cursorKeys.a = this.input.keyboard?.addKey(
+      //   Phaser.Input.Keyboard.KeyCodes.A
+      // );
+      // this.cursorKeys.s = this.input.keyboard?.addKey(
+      //   Phaser.Input.Keyboard.KeyCodes.S
+      // );
+      // this.cursorKeys.d = this.input.keyboard?.addKey(
+      //   Phaser.Input.Keyboard.KeyCodes.D
+      // );
 
-  playerEntities: {
-    [sessionId: string]: BumpkinContainer;
-  } = {};
+      this.input.keyboard?.removeCapture("SPACE");
+    }
 
-  customColliders?: Phaser.GameObjects.Group;
-  soundEffects: AudioController[] = [];
-  walkAudioController?: WalkAudioController;
-
-  joystickKeys:
-    | {
-        up: Phaser.Input.Keyboard.Key;
-        down: Phaser.Input.Keyboard.Key;
-        left: Phaser.Input.Keyboard.Key;
-        right: Phaser.Input.Keyboard.Key;
-      }
-    | undefined;
-
-  cursorKeys:
-    | {
-        up: Phaser.Input.Keyboard.Key;
-        down: Phaser.Input.Keyboard.Key;
-        left: Phaser.Input.Keyboard.Key;
-        right: Phaser.Input.Keyboard.Key;
-        w?: Phaser.Input.Keyboard.Key;
-        s?: Phaser.Input.Keyboard.Key;
-        a?: Phaser.Input.Keyboard.Key;
-        d?: Phaser.Input.Keyboard.Key;
-      }
-    | undefined;
-
-  inputPayload = {
-    left: false,
-    right: false,
-    up: false,
-    down: false,
-    // tick: undefined,
-  };
-
-  // Advanced server timing - not used
-  elapsedTime = 0;
-  fixedTimeStep = 1000 / 60;
-
-  currentTick = 0;
+    this.input.setTopOnly(true);
+  }
 
   public get roomService() {
     return this.registry.get("roomService") as MachineInterpreter;
@@ -209,166 +386,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
   public get gameService() {
     return this.registry.get("gameService") as GameMachineInterpreter;
-  }
-
-  init(data: SceneTransitionData) {
-    this.sceneTransitionData = data;
-  }
-
-  async create() {
-    const errorLogger = createErrorLogger(
-      "phaser_base_scene",
-      this.roomService.state.context.farmId
-    );
-
-    try {
-      const camera = this.cameras.main;
-      camera.fadeIn();
-      const tileset = this.map.addTilesetImage(
-        "Sunnyside V3",
-        "tileset",
-        16,
-        16,
-        // Extruded tileset
-        1,
-        2
-      ) as Phaser.Tilemaps.Tileset;
-
-      // Set up collider layers
-      this.customColliders = this.add.group();
-      const collisionPolygons = this.map.createFromObjects("Collision", {
-        scene: this,
-      });
-      collisionPolygons.forEach((polygon) => {
-        this.customColliders?.add(polygon);
-        this.physics.world.enable(polygon);
-        (polygon.body as Physics.Arcade.Body).setImmovable(true);
-      });
-
-      // set up Sound FXs
-
-      // this.walkAudioController = new WalkAudioController(walkSound);
-      if (this.walkSound) {
-        this.walkAudioController = new WalkAudioController(
-          this.sound.add(this.walkSound)
-        );
-      }
-
-      // this.audioController = new AudioController({ sound: walkSound });
-
-      // Setup interactable layers
-      const interactablesPolygons = this.map.createFromObjects(
-        "Interactable",
-        {}
-      );
-      interactablesPolygons.forEach((polygon) => {
-        polygon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-          const id = polygon.data.list.id;
-          interactableModalManager.open(id);
-        });
-      });
-
-      // Debugging purposes - display colliders in pink
-      this.physics.world.drawDebug = false;
-
-      // Set up the Z layers to draw in correct order
-      const TOP_LAYERS = [
-        "Decorations Layer 1",
-        "Decorations Foreground",
-        "Decorations Layer 2",
-        "Decorations Layer 3",
-        "Decorations Layer 4",
-        "Building Layer 2",
-        "Building Layer 3",
-        "Building Layer 4",
-      ];
-      this.map.layers.forEach((layerData, idx) => {
-        const layer = this.map.createLayer(layerData.name, tileset, 0, 0);
-        if (TOP_LAYERS.includes(layerData.name)) {
-          layer?.setDepth(1000000);
-        }
-      });
-
-      if (isTouchDevice()) {
-        // Initialise joystick
-        const { x, y, centerX, centerY, width, height } = this.cameras.main;
-        const zoom = 4;
-        this.joystick = new VirtualJoystick(this, {
-          x: centerX,
-          y: centerY - 35 + height / zoom / 2,
-          radius: 15,
-          base: this.add.circle(0, 0, 15, 0x000000, 0.2).setDepth(1000000000),
-          thumb: this.add.circle(0, 0, 7, 0xffffff, 0.2).setDepth(1000000000),
-          dir: "8dir",
-          // fixed: true,
-          forceMin: 3,
-        });
-        this.joystickKeys = this.joystick.createCursorKeys();
-      }
-      // Initialise Keyboard
-      this.cursorKeys = this.input.keyboard?.createCursorKeys();
-      if (this.cursorKeys) {
-        // this.cursorKeys.w = this.input.keyboard?.addKey(
-        //   Phaser.Input.Keyboard.KeyCodes.W
-        // );
-        // this.cursorKeys.a = this.input.keyboard?.addKey(
-        //   Phaser.Input.Keyboard.KeyCodes.A
-        // );
-        // this.cursorKeys.s = this.input.keyboard?.addKey(
-        //   Phaser.Input.Keyboard.KeyCodes.S
-        // );
-        // this.cursorKeys.d = this.input.keyboard?.addKey(
-        //   Phaser.Input.Keyboard.KeyCodes.D
-        // );
-
-        this.input.keyboard?.removeCapture("SPACE");
-      }
-
-      this.input.setTopOnly(true);
-      this.roomService.off(this.eventListener);
-      this.roomService.onEvent(this.eventListener);
-
-      // Connect to Room
-      this.roomService.send("CHANGE_ROOM", {
-        roomId: this.roomId,
-      });
-
-      const from = this.sceneTransitionData?.previousSceneId as RoomId;
-      const spawn = SPAWNS[this.roomId][from] ?? SPAWNS[this.roomId].default;
-      this.createPlayer({
-        x: spawn.x ?? 0,
-        y: spawn.y ?? 0,
-        farmId: this.roomService.state.context.farmId,
-        isCurrentPlayer: true,
-        clothing: this.roomService.state.context.bumpkin.equipped,
-      });
-
-      camera.setBounds(
-        0,
-        0,
-        this.map.width * SQUARE_WIDTH,
-        this.map.height * SQUARE_WIDTH
-      );
-      camera.setZoom(4);
-      this.physics.world.setBounds(
-        0,
-        0,
-        this.map.width * SQUARE_WIDTH,
-        this.map.height * SQUARE_WIDTH
-      );
-
-      // Center it on canvas
-      const offsetX =
-        (window.innerWidth - this.map.width * 4 * SQUARE_WIDTH) / 2;
-      const offsetY =
-        (window.innerHeight - this.map.height * 4 * SQUARE_WIDTH) / 2;
-      camera.setPosition(Math.max(offsetX, 0), Math.max(offsetY, 0));
-
-      // this.physics.world.fixedStep = false; // activates sync
-      // this.physics.world.fixedStep = true; // deactivates sync (default)
-    } catch (error) {
-      errorLogger(JSON.stringify(error));
-    }
   }
 
   createPlayer({

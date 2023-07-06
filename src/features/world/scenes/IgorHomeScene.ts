@@ -1,3 +1,5 @@
+import igorHomeJSON from "assets/map/blacksmith_home.json";
+
 import { RoomId } from "../roomMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
@@ -7,7 +9,7 @@ export class IgorHomeScene extends BaseScene {
   roomId: RoomId = "igor_home";
 
   constructor() {
-    super("igor_home");
+    super({ name: "igor_home", map: { json: igorHomeJSON } });
   }
 
   async create() {
