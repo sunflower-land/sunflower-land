@@ -157,7 +157,7 @@ export function savePromoCode(id: string) {
   localStorage.setItem(PROMO_LS_KEY, id);
 }
 
-function getPromoCode() {
+export function getPromoCode() {
   const item = localStorage.getItem(PROMO_LS_KEY);
 
   if (!item) {
