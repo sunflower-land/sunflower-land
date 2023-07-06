@@ -147,3 +147,19 @@ export function saveSession(farmId: number) {
 
   return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newSessions));
 }
+
+const PROMO_LS_KEY = `sb_wiz.promo-key.v.${host}-${window.location.pathname}`;
+
+export function savePromoCode(id: string) {
+  localStorage.setItem(PROMO_LS_KEY, id);
+}
+
+function getPromoCode() {
+  const item = localStorage.getItem(PROMO_LS_KEY);
+
+  if (!item) {
+    return undefined;
+  }
+
+  return Number(item);
+}

@@ -30,6 +30,7 @@ import { getFarm, getFarms } from "lib/blockchain/Farm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
 import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { analytics } from "lib/analytics";
+import { savePromoCode } from "features/game/actions/loadSession";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -47,6 +48,12 @@ const getDiscordCode = () => {
 
 const getReferrerID = () => {
   const code = new URLSearchParams(window.location.search).get("ref");
+
+  return code;
+};
+
+const getPromoCode = () => {
+  const code = new URLSearchParams(window.location.search).get("promo");
 
   return code;
 };
@@ -224,6 +231,11 @@ export const authMachine = createMachine<
 
           if (referrerId) {
             saveReferrerId(referrerId);
+          }
+
+          const promoCode = getPromoCode();
+          if (promoCode) {
+            savePromoCode(promoCode);
           }
         },
         always: [
