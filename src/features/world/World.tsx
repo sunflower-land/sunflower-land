@@ -18,11 +18,14 @@ import { ToastPanel } from "features/game/toast/ToastPanel";
 
 const _gameState = (state: MachineState) => state.value;
 
-export const World: React.FC = () => {
+interface Props {
+  isCommunity?: boolean;
+}
+export const World: React.FC<Props> = ({ isCommunity = false }) => {
   return (
     <GameProvider>
       <ModalProvider>
-        <Explore />
+        <Explore isCommunity={isCommunity} />
       </ModalProvider>
     </GameProvider>
   );
@@ -36,7 +39,7 @@ const _refreshing = (state: MachineState) => state.matches("refreshing");
 const _hasAccess = (state: MachineState) =>
   !!state.context.state.inventory["Beta Pass"];
 
-export const Explore: React.FC = () => {
+export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const isLoading = useSelector(gameService, _isLoading);
@@ -51,7 +54,9 @@ export const Explore: React.FC = () => {
     <>
       <ToastProvider>
         <ToastPanel />
-        {!isLoading && <PhaserComponent scene={name as RoomId} />}
+        {!isLoading && (
+          <PhaserComponent scene={name as RoomId} isCommunity={isCommunity} />
+        )}
 
         <WorldHud />
         <AuctionCountdown />

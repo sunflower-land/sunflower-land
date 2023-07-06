@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Sofia } from "./dawn/Sofia";
 import { Bella } from "./dawn/Bella";
+import { CommunityIslands } from "./community/CommunityIslands";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -70,6 +71,14 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
             <div className="p-2">
               <p className="mb-2">I am opening </p>
             </div>
+          </CloseButtonPanel>
+        )}
+        {npc === "grubnuk" && (
+          <CloseButtonPanel
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES.grubnuk}
+          >
+            <CommunityIslands />
           </CloseButtonPanel>
         )}
         {npc === "timmy" && (

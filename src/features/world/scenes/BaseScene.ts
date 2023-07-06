@@ -23,6 +23,7 @@ import { isTouchDevice } from "../lib/device";
 import { SPAWNS } from "../lib/spawn";
 import { AudioController, WalkAudioController } from "../lib/AudioController";
 import { createErrorLogger } from "lib/errorLogger";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 type SceneTransitionData = {
   previousSceneId: RoomId;
@@ -54,6 +55,9 @@ type BaseSceneOptions = {
     fx: {
       walk_key: string;
     };
+  };
+  player?: {
+    spawn: Coordinates;
   };
 };
 
@@ -125,6 +129,7 @@ export abstract class BaseScene extends Phaser.Scene {
       audio: options.audio ?? { fx: { walk_key: "dirt_footstep" } },
       controls: options.controls ?? { enabled: true },
       mmo: options.controls ?? { enabled: true },
+      player: options.player ?? { spawn: { x: 0, y: 0 } },
     };
 
     this.options = defaultedOptions;
@@ -157,7 +162,13 @@ export abstract class BaseScene extends Phaser.Scene {
       }
 
       const from = this.sceneTransitionData?.previousSceneId as RoomId;
-      const spawn = SPAWNS[this.roomId][from] ?? SPAWNS[this.roomId].default;
+
+      let spawn = this.options.player.spawn;
+
+      if (SPAWNS[this.roomId]) {
+        spawn = SPAWNS[this.roomId][from] ?? SPAWNS[this.roomId].default;
+      }
+
       this.createPlayer({
         x: spawn.x ?? 0,
         y: spawn.y ?? 0,
@@ -171,6 +182,7 @@ export abstract class BaseScene extends Phaser.Scene {
       // this.physics.world.fixedStep = false; // activates sync
       // this.physics.world.fixedStep = true; // deactivates sync (default)
     } catch (error) {
+      console.log({ error });
       errorLogger(JSON.stringify(error));
     }
   }
