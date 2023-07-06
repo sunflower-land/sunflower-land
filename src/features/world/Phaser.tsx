@@ -38,6 +38,7 @@ import { DawnBreakerScene } from "./scenes/DawnBreakerScene";
 import { Label } from "components/ui/Label";
 import { MarcusHomeScene } from "./scenes/MarcusHomeScene";
 import { WorldIntroduction } from "./ui/WorldIntroduction";
+import { CommunityScene } from "./scenes/CommunityScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _messages = (state: MachineState) => {
@@ -54,8 +55,10 @@ const _messages = (state: MachineState) => {
 
 interface Props {
   scene: RoomId;
+  isCommunity: boolean;
 }
-export const PhaserComponent: React.FC<Props> = ({ scene }) => {
+
+export const PhaserComponent: React.FC<Props> = ({ scene, isCommunity }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
@@ -74,6 +77,25 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
 
   const roomState = useSelector(roomService, _roomState);
   const messages = JSON.parse(useSelector(roomService, _messages));
+
+  console.log({ isCommunity });
+  const scenes = isCommunity
+    ? [CommunityScene]
+    : [
+        Preloader,
+        DawnBreakerScene,
+        PlazaScene,
+        AuctionScene,
+        WoodlandsScene,
+        BettyHomeScene,
+        TimmyHomeScene,
+        BertScene,
+        IgorHomeScene,
+        WindmillFloorScene,
+        ClothesShopScene,
+        DecorationShopScene,
+        MarcusHomeScene,
+      ];
 
   useEffect(() => {
     const config: Phaser.Types.Core.GameConfig = {
@@ -112,21 +134,7 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
           gravity: { y: 0 },
         },
       },
-      scene: [
-        Preloader,
-        DawnBreakerScene,
-        PlazaScene,
-        AuctionScene,
-        WoodlandsScene,
-        BettyHomeScene,
-        TimmyHomeScene,
-        BertScene,
-        IgorHomeScene,
-        WindmillFloorScene,
-        ClothesShopScene,
-        DecorationShopScene,
-        MarcusHomeScene,
-      ],
+      scene: scenes,
       loader: {
         crossOrigin: "anonymous",
       },
