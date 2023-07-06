@@ -597,7 +597,13 @@ export const authMachine = createMachine<
               },
             },
           },
-          creatingPokoFarm: {},
+          creatingPokoFarm: {
+            on: {
+              CONTINUE: {
+                target: "#reconnecting",
+              },
+            },
+          },
           creatingFarm: {
             entry: "setTransactionId",
             invoke: {

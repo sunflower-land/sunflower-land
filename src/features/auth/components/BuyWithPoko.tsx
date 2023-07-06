@@ -13,7 +13,7 @@ interface PokoConfig {
   marketplaceCode: string;
   itemName: string;
   itemImageURL: string;
-  listingId: number;
+  listingId: string;
   apiKey: string;
   extra: string;
   receiverId: string;
@@ -80,8 +80,6 @@ export const BuyWithPoko: React.FC = () => {
   const loadTransaction = async () => {
     setLoading(true);
     try {
-      const amount = 2.99;
-
       const transaction = await signTransaction({
         charity: CharityAddress.TheWaterProject,
         token: authState.context.user.rawToken as string,
@@ -93,11 +91,12 @@ export const BuyWithPoko: React.FC = () => {
       const details = {
         signature: transaction.signature,
         deadline: transaction.deadline,
-        mintFee: transaction.fee,
-        bumpkinItemIds: transaction.bumpkinWearableIds,
+        fee: transaction.fee,
+        bumpkinWearableIds: transaction.bumpkinWearableIds,
         referrerId: transaction.referrerId,
         referrerAmount: transaction.referrerAmount,
         account: wallet.myAccount?.toLowerCase(),
+        bumpkinTokenUri: transaction.bumpkinTokenUri,
       };
 
       setPokoConfig({
@@ -107,14 +106,11 @@ export const BuyWithPoko: React.FC = () => {
             : "https://checkout.pokoapp.xyz/checkout",
         network:
           CONFIG.NETWORK === "mumbai" ? "polygonMumbaiRealUSDC" : "polygon",
-        marketplaceCode: "sunflowerland",
-        listingId: authState.context.user.farmId as number,
-        itemName: encodeURIComponent(
-          `${amount} Block Buck${amount > 1 ? "s" : ""}`
-        ),
-        itemImageURL: encodeURIComponent(
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAAAXNSR0IArs4c6QAAABhQTFRFAAAAPolIGBQkcz45Y8dN/q40JlxC93Yi51WP2wAAAAh0Uk5TAP/////////VylQyAAAAm0lEQVRYhe3X0QqAIAyFYVem7//GDQ0ZEjWLYK7zX3UR38WhkkJACCGEjpaRHIB8TywRUVR0axoHq0allBIpujanADVIlxtQbriKnIGnMzKSc95KfNGZmlfPONjMtiELTNUB68WQNhEoN/QNtk+i3PDlc2gZlEdAN+Pjr419sN2mPPU8gfqmBqWp3FB/ppgFg/m/gC9AhBBCP2kHvTwQvZ+Xte4AAAAASUVORK5CYII="
-        ),
+        marketplaceCode: "sunflowerland-account-creation",
+        listingId: wallet.myAccount?.toLowerCase() as string,
+        itemName: "Sunflower Land Account",
+        itemImageURL:
+          "https://sunflower-land.com/assets/collectibles.a4c4ac46.gif",
         apiKey: CONFIG.POKO_DIRECT_CHECKOUT_API_KEY,
         extra: encodeURIComponent(JSON.stringify(details)),
         receiverId: wallet.myAccount?.toLowerCase() as string,
