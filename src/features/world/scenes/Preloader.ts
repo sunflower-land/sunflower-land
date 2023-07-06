@@ -14,7 +14,7 @@ import { CONFIG } from "lib/config";
 export abstract class Preloader extends Phaser.Scene {
   preload() {
     window.secret = "123";
-    this.load.sceneFile("ExternalScene", "http://localhost:3002/Scene.js");
+    // this.load.sceneFile("ExternalScene", "http://localhost:3002/Scene.js");
 
     this.load.tilemapTiledJSON("main-map", mapJson);
     this.load.tilemapTiledJSON("dawn-breaker", dawnBreakerJSON);
@@ -51,8 +51,8 @@ export abstract class Preloader extends Phaser.Scene {
     this.load.bitmapFont("pixelmix", "world/7px.png", "world/7px.xml");
 
     this.load.once("complete", () => {
-      // this.scene.start(this.registry.get("initialScene"));
-      this.scene.start("ExternalScene");
+      this.scene.start(this.registry.get("initialScene"));
+      // this.scene.start("ExternalScene");
     });
   }
 }
