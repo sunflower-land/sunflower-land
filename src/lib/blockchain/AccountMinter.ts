@@ -120,7 +120,6 @@ export async function createNewAccount({
     );
   }
 
-  console.log({ referrerId, addy: CONFIG.ACCOUNT_MINTER_CONTRACT });
   return new Promise((resolve, reject) => {
     mintAccountFn
       .send({ from: account, value: fee, gasPrice })
