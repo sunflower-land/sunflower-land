@@ -4,6 +4,8 @@
 
 import { CONFIG } from "lib/config";
 
+export type Footsteps = "dirt_footstep" | "wood_footstep";
+
 export const SOUNDS = {
   footsteps: {
     dirt: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Footsteps/Dirt/Farm_Game_Footsteps_Dirt_1_Soil_Walk_Run_Ground_Surface.mp3`,

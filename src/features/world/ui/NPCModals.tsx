@@ -69,7 +69,7 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
             bumpkinParts={NPC_WEARABLES.stella}
           >
             <div className="p-2">
-              <p className="mb-2">I am opening </p>
+              <p className="mb-2">Coming soon... </p>
             </div>
           </CloseButtonPanel>
         )}

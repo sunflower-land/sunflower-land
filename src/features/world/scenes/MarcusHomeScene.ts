@@ -47,8 +47,5 @@ export class MarcusHomeScene extends BaseScene {
     this.add.sprite(56.5, 15.5, "alert");
 
     this.initialiseNPCs(BUMPKINS);
-
-    // SFX
-    this.sound.get("wood_footstep").manager.volume = 1;
   }
 }

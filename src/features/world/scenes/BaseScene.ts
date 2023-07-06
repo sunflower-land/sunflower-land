@@ -24,6 +24,7 @@ import { SPAWNS } from "../lib/spawn";
 import { AudioController, WalkAudioController } from "../lib/AudioController";
 import { createErrorLogger } from "lib/errorLogger";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { Footsteps } from "assets/sound-effects/soundEffects";
 
 type SceneTransitionData = {
   previousSceneId: RoomId;
@@ -55,7 +56,7 @@ type BaseSceneOptions = {
   };
   audio?: {
     fx: {
-      walk_key: string;
+      walk_key: Footsteps;
     };
   };
   player?: {
@@ -69,7 +70,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
   private joystick?: VirtualJoystick;
   private sceneTransitionData?: SceneTransitionData;
-
   private options: Required<BaseSceneOptions>;
 
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
@@ -127,7 +127,7 @@ export abstract class BaseScene extends Phaser.Scene {
     const defaultedOptions: Required<BaseSceneOptions> = {
       ...options,
       name: options.name ?? "community_island",
-      audio: options.audio ?? { fx: { walk_key: "dirt_footstep" } },
+      audio: options.audio ?? { fx: { walk_key: "wood_footstep" } },
       controls: options.controls ?? { enabled: true },
       mmo: options.mmo ?? { enabled: true },
       player: options.player ?? { spawn: { x: 0, y: 0 } },
