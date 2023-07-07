@@ -17,6 +17,7 @@ export const PokoOnRamp: React.FC<Props> = ({ onClose, crypto }) => {
       : "https://onramp.pokoapp.xyz";
   const cryptoAmount = crypto === "MATIC-polygon" ? 10 : 100;
   const fiatList = crypto === "SFL-polygon" ? "BRL,PHP,INR" : undefined;
+  const title = crypto === "SFL-polygon" ? "Add SFL" : "Add SFL";
 
   return (
     <>
@@ -28,7 +29,7 @@ export const PokoOnRamp: React.FC<Props> = ({ onClose, crypto }) => {
           }}
         />
 
-        <div className="grow mb-3 text-lg">Add Matic</div>
+        <div className="grow mb-3 text-lg">{title}</div>
         <div className="flex-none">
           <img
             src={SUNNYSIDE.icons.close}

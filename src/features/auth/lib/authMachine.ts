@@ -31,6 +31,7 @@ import { getCreatedAt } from "lib/blockchain/AccountMinter";
 import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { analytics } from "lib/analytics";
 import { savePromoCode } from "features/game/actions/loadSession";
+import { hasFeatureAccess } from "lib/flags";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -158,7 +159,9 @@ export type BlockchainEvent =
   | { type: "SET_WALLET" }
   | { type: "SET_TOKEN" }
   | { type: "BUY_FULL_ACCOUNT" }
-  | { type: "SIGN_IN" };
+  | { type: "SIGN_IN" }
+  | { type: "SELECT_POKO" }
+  | { type: "SELECT_MATIC" };
 
 export type BlockchainState = {
   value:
@@ -185,10 +188,12 @@ export type BlockchainState = {
     | { connected: "loadingFarm" }
     | { connected: "farmLoaded" }
     | { connected: "offer" }
+    | { connected: "selectPaymentMethod" }
+    | { connected: "creatingPokoFarm" }
     | { connected: "creatingFarm" }
+    | { connected: "funding" }
     | { connected: "countdown" }
     | { connected: "readyToStart" }
-    | { connected: "funding" }
     | { connected: "authorised" }
     | { connected: "blacklisted" }
     | "exploring"
@@ -577,6 +582,28 @@ export const authMachine = createMachine<
               },
             },
           },
+          selectPaymentMethod: {
+            on: {
+              BACK: {
+                target: "offer",
+              },
+              SELECT_POKO: {
+                target: "creatingPokoFarm",
+                actions: () => analytics.logEvent("select_poko"),
+              },
+              SELECT_MATIC: {
+                target: "funding",
+                actions: () => analytics.logEvent("select_matic"),
+              },
+            },
+          },
+          creatingPokoFarm: {
+            on: {
+              CONTINUE: {
+                target: "#reconnecting",
+              },
+            },
+          },
           creatingFarm: {
             entry: "setTransactionId",
             invoke: {
@@ -600,10 +627,17 @@ export const authMachine = createMachine<
           offer: {
             entry: () => analytics.logEvent("offer_seen"),
             on: {
-              CONTINUE: {
-                target: "funding",
-                actions: () => analytics.logEvent("offer_accepted"),
-              },
+              CONTINUE: [
+                {
+                  target: "selectPaymentMethod",
+                  actions: () => analytics.logEvent("offer_accepted"),
+                  cond: () => hasFeatureAccess({}, "MINT_ACCOUNT_WITH_POKO"),
+                },
+                {
+                  target: "funding",
+                  actions: () => analytics.logEvent("offer_accepted"),
+                },
+              ],
             },
           },
           readyToStart: {
