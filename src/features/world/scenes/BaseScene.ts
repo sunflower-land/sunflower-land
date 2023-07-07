@@ -136,7 +136,9 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.tilemapTiledJSON(this.options.name, this.options.map.json);
+    if (this.options.map?.json) {
+      this.load.tilemapTiledJSON(this.options.name, this.options.map.json);
+    }
   }
 
   init(data: SceneTransitionData) {

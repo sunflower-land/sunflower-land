@@ -11,7 +11,7 @@ type CommunityIsland = {
 
 export const COMMUNITY_ISLANDS = [
   {
-    url: "https://sunflower-land.github.io/community-island-example/public/Scene.js",
+    url: "https://sunflower-land.github.io/community-island-example/public/",
     name: "Test Island",
     id: "test_island",
   },

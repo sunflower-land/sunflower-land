@@ -48,7 +48,11 @@ export abstract class CommunityScene extends Phaser.Scene {
       const island = COMMUNITY_ISLANDS.find(
         (island) => island.id === sceneName
       );
-      this.load.sceneFile("ExternalScene", island?.url);
+      this.load.sceneFile("ExternalScene", `${island?.url}/Scene.js`);
+      this.load.tilemapTiledJSON(
+        island?.id as string,
+        `${island?.url}/map.json`
+      );
 
       // Load Sound Effects
       this.load.audio("dirt_footstep", SOUNDS.footsteps.dirt);
