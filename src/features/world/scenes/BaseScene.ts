@@ -122,15 +122,16 @@ export abstract class BaseScene extends Phaser.Scene {
   currentTick = 0;
 
   constructor(options: BaseSceneOptions) {
-    super(options.name);
-
     const defaultedOptions: Required<BaseSceneOptions> = {
       ...options,
+      name: options.name ?? "community_island",
       audio: options.audio ?? { fx: { walk_key: "dirt_footstep" } },
       controls: options.controls ?? { enabled: true },
       mmo: options.controls ?? { enabled: true },
       player: options.player ?? { spawn: { x: 0, y: 0 } },
     };
+
+    super(defaultedOptions.name);
 
     this.options = defaultedOptions;
   }

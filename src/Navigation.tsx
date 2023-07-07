@@ -24,6 +24,7 @@ import { wallet } from "lib/blockchain/wallet";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { ZoomProvider } from "components/ZoomProvider";
 import { World } from "features/world/World";
+import { CommunityTools } from "features/world/ui/CommunityTools";
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
@@ -125,6 +126,13 @@ export const Navigation: React.FC = () => {
                 path="/community/:name"
                 element={<World key="community" isCommunity />}
               />
+              {CONFIG.NETWORK === "mumbai" && (
+                <Route
+                  path="/community-tools"
+                  element={<CommunityTools key="community-tools" />}
+                />
+              )}
+
               <Route path="/visit/*" element={<LandExpansion key="visit" />} />
               <Route
                 path="/land/:id?/*"

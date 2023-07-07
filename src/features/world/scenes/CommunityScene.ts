@@ -22,6 +22,8 @@ export async function getgit(owner: string, repo: string, path: string) {
   return data;
 }
 
+export const COMMUNITY_TEST_ISLAND = "local";
+
 export abstract class CommunityScene extends Phaser.Scene {
   public get roomService() {
     return this.registry.get("roomService") as MachineInterpreter;
@@ -45,14 +47,18 @@ export abstract class CommunityScene extends Phaser.Scene {
       (window as any).BaseScene = BaseScene;
 
       const sceneName = this.registry.get("initialScene");
-      const island = COMMUNITY_ISLANDS.find(
-        (island) => island.id === sceneName
-      );
+      let island = COMMUNITY_ISLANDS.find((island) => island.id === sceneName);
+
+      if (CONFIG.NETWORK === "mumbai" && sceneName === COMMUNITY_TEST_ISLAND) {
+        island = {
+          id: "local",
+          name: "Test Island",
+          url: localStorage.getItem("community-tools-url") as string,
+        };
+      }
+
       this.load.sceneFile("ExternalScene", `${island?.url}/Scene.js`);
-      this.load.tilemapTiledJSON(
-        island?.id as string,
-        `${island?.url}/map.json`
-      );
+      this.load.tilemapTiledJSON("community_island", `${island?.url}/map.json`);
 
       // Load Sound Effects
       this.load.audio("dirt_footstep", SOUNDS.footsteps.dirt);
@@ -91,7 +97,7 @@ export abstract class CommunityScene extends Phaser.Scene {
       this.load.bitmapFont("pixelmix", "world/7px.png", "world/7px.xml");
 
       this.load.once("complete", () => {
-        this.scene.start(island?.id);
+        this.scene.start("community_island");
       });
     } catch (error) {
       errorLogger(error);
