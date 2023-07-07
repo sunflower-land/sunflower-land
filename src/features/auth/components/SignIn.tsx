@@ -11,6 +11,7 @@ import phantomIcon from "src/assets/icons/phantom.svg";
 import okxIcon from "src/assets/icons/okx.svg";
 import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { Label } from "components/ui/Label";
+import { getPromoCode } from "features/game/actions/loadSession";
 
 const OtherWallets = () => {
   const { authService } = useContext(Context);
@@ -139,6 +140,8 @@ export const SignIn = () => {
     );
   };
 
+  const isOKX = getPromoCode() === "okx";
+
   return (
     <div className="px-4">
       <div className="flex text-center items-center justify-between mb-3 mt-1">
@@ -169,8 +172,34 @@ export const SignIn = () => {
           }}
         />
       </div>
-      {page === "home" && <MainWallets />}
-      {page === "other" && <OtherWallets />}
+      {isOKX && (
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() => authService.send("CONNECT_TO_OKX")}
+        >
+          <div className="px-8">
+            <img
+              src={okxIcon}
+              alt="OKX"
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+            />
+            <Label
+              type="info"
+              className="absolute top-1/2 -translate-y-1/2 right-1"
+            >
+              Featured
+            </Label>
+            OKX Wallet
+          </div>
+        </Button>
+      )}
+      {!isOKX && (
+        <>
+          {page === "home" && <MainWallets />}
+          {page === "other" && <OtherWallets />}
+        </>
+      )}
+
       <div className="flex justify-between my-1">
         <a href="https://discord.gg/sunflowerland" className="mr-4">
           <img
