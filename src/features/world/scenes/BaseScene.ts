@@ -141,7 +141,7 @@ export abstract class BaseScene extends Phaser.Scene {
       this.load.tilemapTiledJSON(this.options.name, this.options.map.json);
     }
 
-    if (this.options.map.tilesetUrl)
+    if (this.options.map?.tilesetUrl)
       this.load.image("community-tileset", this.options.map.tilesetUrl);
   }
 
@@ -198,15 +198,23 @@ export abstract class BaseScene extends Phaser.Scene {
       key: this.options.name,
     });
 
-    const tileset = this.map.addTilesetImage(
-      "Sunnyside V3",
-      this.options.map.tilesetUrl ? "community-tileset" : "tileset",
-      16,
-      16,
-      // Extruded tileset
-      1,
-      2
-    ) as Phaser.Tilemaps.Tileset;
+    const tileset = this.options.map?.tilesetUrl
+      ? // Community tileset
+        (this.map.addTilesetImage(
+          "Sunnyside V3",
+          "community-tileset",
+          16,
+          16
+        ) as Phaser.Tilemaps.Tileset)
+      : // Standard tileset
+        (this.map.addTilesetImage(
+          "Sunnyside V3",
+          "tileset",
+          16,
+          16,
+          1,
+          2
+        ) as Phaser.Tilemaps.Tileset);
 
     // Set up collider layers
     this.customColliders = this.add.group();
