@@ -42,7 +42,7 @@ const NAME_TAG_OFFSET_PX = 12;
 type BaseSceneOptions = {
   name: RoomId;
   map: {
-    tilesetUrl: string;
+    tilesetUrl?: string;
     json: any;
   };
   mmo?: {
