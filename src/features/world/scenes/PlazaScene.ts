@@ -73,6 +73,15 @@ export class PlazaScene extends BaseScene {
     super({ name: "plaza", map: { json: mapJson } });
   }
 
+  preload() {
+    this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
+      frameWidth: 15,
+      frameHeight: 18,
+    });
+
+    super.preload();
+  }
+
   async create() {
     this.map = this.make.tilemap({
       key: "main-map",
@@ -96,5 +105,18 @@ export class PlazaScene extends BaseScene {
     decorationShopLabel.setPosition(797, 252);
     decorationShopLabel.setDepth(10000000);
     this.add.existing(decorationShopLabel);
+
+    // Plaza Bud
+    const bud = this.add.sprite(500, 420, "plaza_bud");
+    this.anims.create({
+      key: "plaza_bud_animation",
+      frames: this.anims.generateFrameNumbers("plaza_bud", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    bud.play("plaza_bud_animation", true);
   }
 }
