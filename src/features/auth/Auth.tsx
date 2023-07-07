@@ -25,6 +25,8 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { SignIn } from "./components/SignIn";
 import { CreateWallet } from "./components/CreateWallet";
 import { getOnboardingComplete } from "./actions/createGuestAccount";
+import { BuyWithPoko } from "./components/BuyWithPoko";
+import { SelectPaymentMethod } from "./components/SelectPaymentMethod";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -82,6 +84,7 @@ export const Auth: React.FC = () => {
         className="pb-1"
         bumpkinParts={
           authState.matches({ connected: "offer" }) ||
+          authState.matches({ connected: "selectPaymentMethod" }) ||
           authState.matches("createWallet") ||
           (authState.matches("signIn") && !getOnboardingComplete()) ||
           authState.matches({ connected: "funding" })
@@ -93,6 +96,12 @@ export const Auth: React.FC = () => {
         {authState.matches("welcome") && <Welcome />}
         {authState.matches("createWallet") && <CreateWallet />}
         {authState.matches({ connected: "offer" }) && <Offer />}
+        {authState.matches({ connected: "selectPaymentMethod" }) && (
+          <SelectPaymentMethod />
+        )}
+        {authState.matches({ connected: "creatingPokoFarm" }) && (
+          <BuyWithPoko />
+        )}
         {(authState.matches("idle") || authState.matches("signIn")) && (
           <SignIn />
         )}

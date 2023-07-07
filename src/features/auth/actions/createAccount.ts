@@ -4,6 +4,7 @@ import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { CharityAddress } from "../components/CreateFarm";
+import { hasFeatureAccess } from "lib/flags";
 
 type Request = {
   charity: string;
@@ -12,6 +13,7 @@ type Request = {
   transactionId: string;
   referrerId?: number;
   guestKey?: string;
+  type?: "MATIC" | "USDC";
 };
 
 const API_URL = CONFIG.API_URL;
@@ -29,6 +31,7 @@ export async function signTransaction(request: Request) {
       captcha: request.captcha,
       referrerId: request.referrerId,
       guestKey: request.guestKey,
+      type: request.type,
     }),
   });
 
@@ -48,6 +51,7 @@ export async function signTransaction(request: Request) {
     bumpkinWearableIds,
     bumpkinTokenUri,
     referrerId,
+    referrerAmount,
   } = await response.json();
 
   return {
@@ -58,6 +62,7 @@ export async function signTransaction(request: Request) {
     bumpkinWearableIds,
     bumpkinTokenUri,
     referrerId,
+    referrerAmount,
   };
 }
 
@@ -80,20 +85,39 @@ export async function createAccount({
 }: CreateFarmOptions) {
   const referrerId = getReferrerId();
 
-  const transaction = await signTransaction({
-    charity,
-    token,
-    captcha,
-    transactionId,
-    referrerId,
-    guestKey,
-  });
+  if (hasFeatureAccess({}, "MINT_ACCOUNT_WITH_POKO")) {
+    const transaction = await signTransaction({
+      charity,
+      token,
+      captcha,
+      transactionId,
+      referrerId,
+      guestKey,
+      type: "MATIC",
+    });
 
-  await createNewAccount({
-    ...transaction,
-    web3: wallet.web3Provider,
-    account,
-  });
+    await createNewAccount({
+      ...transaction,
+      web3: wallet.web3Provider,
+      account,
+      type: "MATIC",
+    });
+  } else {
+    const transaction = await signTransaction({
+      charity,
+      token,
+      captcha,
+      transactionId,
+      referrerId,
+      guestKey,
+    });
+
+    await createNewAccount({
+      ...transaction,
+      web3: wallet.web3Provider,
+      account,
+    });
+  }
 
   await getNewFarm(wallet.web3Provider, account);
 }
