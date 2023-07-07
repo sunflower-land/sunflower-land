@@ -38,7 +38,9 @@ export abstract class CommunityScene extends Phaser.Scene {
     this.load.on(
       Phaser.Loader.Events.FILE_LOAD_ERROR,
       (file: Phaser.Loader.File) => {
-        errorLogger(`File load error ${JSON.stringify(file)}`);
+        errorLogger(
+          `File load error ${JSON.stringify({ name: file.key, url: file.url })}`
+        );
       }
     );
 
