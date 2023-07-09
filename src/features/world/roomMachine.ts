@@ -44,6 +44,7 @@ export type RoomState = {
 type ChangeRoomEvent = {
   type: "CHANGE_ROOM";
   roomId: RoomId;
+  url?: string;
 };
 type SendChatMessageEvent = {
   type: "SEND_CHAT_MESSAGE";
@@ -173,15 +174,16 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
     loading: {
       invoke: {
         id: "loading",
-        src: (context) => async () => {
-          if (!CONFIG.ROOM_URL) {
+        src: (context, event) => async () => {
+          const url = (event as any).url || CONFIG.ROOM_URL;
+          if (!url) {
             return { roomId: undefined };
           }
 
           // Server connection is too fast
           await new Promise((res) => setTimeout(res, 1000));
 
-          const client = new Client(CONFIG.ROOM_URL);
+          const client = new Client(url);
 
           return { roomId: context.roomId, client };
         },
@@ -311,6 +313,18 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
     ready: {
       on: {
         CHANGE_ROOM: [
+          // Change room and provide Custom URL
+          {
+            target: "loading",
+            actions: assign({
+              previousRoomId: (context) => context.roomId,
+              roomId: (_, event) => event.roomId,
+            }),
+            cond: (_, event) => {
+              console.log({ event });
+              return !!event.url;
+            },
+          },
           {
             target: "joinRoom",
             actions: assign({
@@ -371,9 +385,22 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
     kicked: {},
     error: {
       on: {
-        CHANGE_ROOM: {
-          target: "joinRoom",
-        },
+        CHANGE_ROOM: [
+          // Change room and provide Custom URL
+          {
+            target: "loading",
+            actions: assign({
+              previousRoomId: (context) => context.roomId,
+              roomId: (_, event) => event.roomId,
+            }),
+            cond: (_, event) => {
+              return !!event.url;
+            },
+          },
+          {
+            target: "joinRoom",
+          },
+        ],
         RETRY: {
           target: "loading",
         },

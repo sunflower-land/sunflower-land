@@ -47,6 +47,8 @@ type BaseSceneOptions = {
   };
   mmo?: {
     enabled: boolean;
+    url?: string;
+    roomId?: string;
   };
   controls?: {
     enabled: boolean; // Default to true
@@ -127,7 +129,7 @@ export abstract class BaseScene extends Phaser.Scene {
       name: options.name ?? "community_island",
       audio: options.audio ?? { fx: { walk_key: "dirt_footstep" } },
       controls: options.controls ?? { enabled: true },
-      mmo: options.controls ?? { enabled: true },
+      mmo: options.mmo ?? { enabled: true },
       player: options.player ?? { spawn: { x: 0, y: 0 } },
     };
 
@@ -359,7 +361,8 @@ export abstract class BaseScene extends Phaser.Scene {
 
     // Connect to Room
     this.roomService.send("CHANGE_ROOM", {
-      roomId: this.roomId,
+      roomId: this.options.mmo.roomId ?? this.roomId,
+      url: this.options.mmo.url,
     });
   }
 
