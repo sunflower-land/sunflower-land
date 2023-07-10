@@ -59,6 +59,7 @@ import { SeasonPassName } from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
+  getSeasonPassRead,
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
@@ -74,6 +75,7 @@ import { getSessionId } from "lib/blockchain/Session";
 import { depositBumpkin } from "../actions/deposit";
 import { mintAuctionItem } from "../actions/mintAuctionItem";
 import { BumpkinItem } from "../types/bumpkin";
+import { hasFeatureAccess } from "lib/flags";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -644,12 +646,16 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
-            // {
-            //   target: "promoting",
-            //   cond: (context) =>
-            //     !getSeasonPassRead() &&
-            //     (context.state.bumpkin?.experience ?? 0) > 0,
-            // },
+            {
+              target: "promoting",
+              cond: (context) =>
+                !getSeasonPassRead() &&
+                hasFeatureAccess(
+                  context.state.inventory,
+                  "NEW_SEASON_BANNER"
+                ) &&
+                (context.state.bumpkin?.experience ?? 0) > 0,
+            },
             {
               target: "playing",
             },
