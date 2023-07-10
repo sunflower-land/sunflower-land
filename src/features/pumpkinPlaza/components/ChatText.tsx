@@ -119,7 +119,7 @@ export const ChatText: React.FC<Props> = ({
             .slice(0, 1000)
             .reverse()
             .map((message, i) => {
-              if (!message.sessionId)
+              if (!message.farmId)
                 return (
                   <p key={`${i}-${message.text}`} className="text-amber-300">
                     {message.text}
@@ -128,7 +128,7 @@ export const ChatText: React.FC<Props> = ({
 
               return (
                 <p
-                  key={`${i}-${message.sessionId}`}
+                  key={`${i}-${message.farmId}`}
                   className="pt-0.5 -indent-6 pl-6"
                 >
                   {`[${message.farmId}]`}: {message.text}

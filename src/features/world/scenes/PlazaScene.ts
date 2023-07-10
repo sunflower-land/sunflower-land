@@ -86,6 +86,15 @@ export class PlazaScene extends BaseScene {
     super.preload();
   }
 
+  preload() {
+    // Shut down the sound when the scene changes
+    this.events.on("shutdown", () => {
+      this.sound.getAllPlaying().forEach((sound) => {
+        sound.destroy();
+      });
+    });
+  }
+
   async create() {
     this.map = this.make.tilemap({
       key: "main-map",

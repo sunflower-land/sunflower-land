@@ -7,7 +7,11 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Sofia } from "./dawn/Sofia";
 import { Bella } from "./dawn/Bella";
+<<<<<<< HEAD
 import { CommunityIslands } from "./community/CommunityIslands";
+=======
+import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
+>>>>>>> b75d46d84 ([FEAT] SFX update)
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -58,11 +62,15 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
           <SpeakingModal
             onClose={closeModal}
             bumpkinParts={NPC_WEARABLES["pumpkin'pete"]}
-            message={[]}
+            message={[
+              { text: "Hello, I'm Pumpkin'Pete!" },
+              { text: "Welcome to the Plaza!" },
+            ]}
           />
         )}
         {npc === "sofia" && <Sofia onClose={closeModal} />}
         {npc === "bella" && <Bella onClose={closeModal} />}
+        {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
         {npc === "stella" && (
           <CloseButtonPanel
             onClose={closeModal}

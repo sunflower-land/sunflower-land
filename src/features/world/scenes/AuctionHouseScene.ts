@@ -23,7 +23,6 @@ export class AuctionScene extends BaseScene {
 
     // Shut down the sound when the scene changes
     this.events.on("shutdown", () => {
-      // door.play({ volume: 0.1 });
       this.sound.getAllPlaying().forEach((sound) => {
         sound.destroy();
       });
