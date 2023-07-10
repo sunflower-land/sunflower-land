@@ -31,7 +31,6 @@ import { getCreatedAt } from "lib/blockchain/AccountMinter";
 import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { analytics } from "lib/analytics";
 import { savePromoCode } from "features/game/actions/loadSession";
-import { hasFeatureAccess } from "lib/flags";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -627,17 +626,10 @@ export const authMachine = createMachine<
           offer: {
             entry: () => analytics.logEvent("offer_seen"),
             on: {
-              CONTINUE: [
-                {
-                  target: "selectPaymentMethod",
-                  actions: () => analytics.logEvent("offer_accepted"),
-                  cond: () => hasFeatureAccess({}, "MINT_ACCOUNT_WITH_POKO"),
-                },
-                {
-                  target: "funding",
-                  actions: () => analytics.logEvent("offer_accepted"),
-                },
-              ],
+              CONTINUE: {
+                target: "selectPaymentMethod",
+                actions: () => analytics.logEvent("offer_accepted"),
+              },
             },
           },
           readyToStart: {
