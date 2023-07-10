@@ -7,11 +7,8 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Sofia } from "./dawn/Sofia";
 import { Bella } from "./dawn/Bella";
-<<<<<<< HEAD
 import { CommunityIslands } from "./community/CommunityIslands";
-=======
 import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
->>>>>>> b75d46d84 ([FEAT] SFX update)
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;

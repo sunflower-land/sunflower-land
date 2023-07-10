@@ -27,7 +27,7 @@ export class MarcusHomeScene extends BaseScene {
     door.play({ volume: 0.1 });
 
     // Shut down the sound when the scene changes
-    this.events.on("shutdown", () => {
+    this.events.once("shutdown", () => {
       door.play({ volume: 0.1 });
       if (door.isPaused) {
         this.sound.getAllPlaying().forEach((sound) => {
