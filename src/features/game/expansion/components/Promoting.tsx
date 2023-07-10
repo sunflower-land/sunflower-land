@@ -15,7 +15,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { hasFeatureAccess } from "lib/flags";
-import Decimal from "decimal.js-light";
 import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
 
 const isPromoting = (state: MachineState) => state.matches("promoting");
@@ -26,15 +25,13 @@ export const Promoting: React.FC = () => {
   const promoting = useSelector(gameService, isPromoting);
   const inventory = useSelector(gameService, _inventory);
 
-  const hasPreviousSeasonBanner = (
-    inventory["Dawn Breaker Banner"] ?? new Decimal(0)
-  ).gt(0);
+  const hasPreviousSeasonBanner = !!inventory["Dawn Breaker Banner"];
 
   return (
     <PromotingModal
       isOpen={promoting}
       discountAvailable={hasPreviousSeasonBanner}
-      hasPurchased={(inventory["Witch Season Banner"] ?? new Decimal(0)).gt(0)}
+      hasPurchased={!!inventory["Witch Season Banner"]}
       onClose={() => {
         acknowledgeSeasonPass();
         gameService.send("ACKNOWLEDGE");

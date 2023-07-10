@@ -15,7 +15,7 @@ interface Props {
   offset: number;
 }
 
-export const DawnTeaser: React.FC<Props> = ({ offset }) => {
+export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
   const [showModal, setShowModal] = useState(false);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -24,6 +24,9 @@ export const DawnTeaser: React.FC<Props> = ({ offset }) => {
     <>
       <PromotingModal
         hasPurchased={
+          !!gameState.context.state.inventory["Witch Season Banner"]
+        }
+        discountAvailable={
           !!gameState.context.state.inventory["Dawn Breaker Banner"]
         }
         isOpen={showModal}
@@ -48,15 +51,6 @@ export const DawnTeaser: React.FC<Props> = ({ offset }) => {
             parts={NPC_WEARABLES.grubnuk}
             onClick={() => setShowModal(true)}
           />
-          {/* <img
-            src={SUNNYSIDE.icons.expression_chat}
-            className="relative z-50"
-            style={{
-              width: `${PIXEL_SCALE * 9}px`,
-              top: `${PIXEL_SCALE * -2}px`,
-              left: `${PIXEL_SCALE * 5}px`,
-            }}
-          /> */}
         </div>
       </MapPlacement>
     </>

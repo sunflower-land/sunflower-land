@@ -23,7 +23,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Pirate } from "./Pirate";
 import { DailyReward } from "./dailyReward/DailyReward";
 import { PartyIsland } from "./PartyIsland";
-import { DawnTeaser } from "./DawnTeaser";
+import { SeasonTeaser } from "./SeasonTeaser";
 import { LAND_WIDTH } from "../Land";
 
 interface Props {
@@ -144,7 +144,7 @@ export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
       </MapPlacement>
 
       {/* Bottom island */}
-      <DawnTeaser offset={offset} />
+      <SeasonTeaser offset={offset} />
 
       {/* Bottom right island */}
       <MapPlacement x={7 + offset} y={-2 - offset} width={6}>
