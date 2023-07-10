@@ -4,7 +4,6 @@ import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { CharityAddress } from "../components/CreateFarm";
-import { hasFeatureAccess } from "lib/flags";
 
 type Request = {
   charity: string;
@@ -85,39 +84,22 @@ export async function createAccount({
 }: CreateFarmOptions) {
   const referrerId = getReferrerId();
 
-  if (hasFeatureAccess({}, "MINT_ACCOUNT_WITH_POKO")) {
-    const transaction = await signTransaction({
-      charity,
-      token,
-      captcha,
-      transactionId,
-      referrerId,
-      guestKey,
-      type: "MATIC",
-    });
+  const transaction = await signTransaction({
+    charity,
+    token,
+    captcha,
+    transactionId,
+    referrerId,
+    guestKey,
+    type: "MATIC",
+  });
 
-    await createNewAccount({
-      ...transaction,
-      web3: wallet.web3Provider,
-      account,
-      type: "MATIC",
-    });
-  } else {
-    const transaction = await signTransaction({
-      charity,
-      token,
-      captcha,
-      transactionId,
-      referrerId,
-      guestKey,
-    });
-
-    await createNewAccount({
-      ...transaction,
-      web3: wallet.web3Provider,
-      account,
-    });
-  }
+  await createNewAccount({
+    ...transaction,
+    web3: wallet.web3Provider,
+    account,
+    type: "MATIC",
+  });
 
   await getNewFarm(wallet.web3Provider, account);
 }
