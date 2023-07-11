@@ -2138,6 +2138,10 @@ export const ITEM_DETAILS: Items = {
     image: dawnBreakerBanner,
     description: "?",
   },
+  "Witches' Eve Banner": {
+    image: dawnBreakerBanner,
+    description: "?",
+  },
   "Luminous Lantern": {
     image: luminousLantern,
     description: "A bright paper lantern that illuminates the way.",

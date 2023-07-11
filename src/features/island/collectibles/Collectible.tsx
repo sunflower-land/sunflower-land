@@ -173,6 +173,7 @@ import { GoblinLantern } from "./components/GoblinLantern";
 import { DawnFlower } from "./components/DawnFlower";
 import { LaurieTheChuckleCrow } from "./components/LaurieTheChuckelCrow";
 import { FreyaFox } from "./components/FreyaFox";
+import { WitchesEveBanner } from "./components/WitchesEveBanner";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -356,6 +357,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Beach Ball": BeachBall,
   "Palm Tree": PalmTree,
   Karkinos: Karkinos,
+  "Witches' Eve Banner": WitchesEveBanner,
   "Dawn Breaker Banner": DawnBreakerBanner,
   "Solar Flare Banner": SolarFlareBanner,
   "Human War Banner": HumanBanner,

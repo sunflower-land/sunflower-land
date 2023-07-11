@@ -585,6 +585,7 @@ const lanterns: Record<LanternName, boolean> = {
 };
 
 const purchasables: Record<SeasonPassName, boolean> = {
+  "Witches' Eve Banner": false,
   "Dawn Breaker Banner": false,
   "Solar Flare Banner": false,
 };

@@ -1137,6 +1137,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Karkinos: { height: 2, width: 2 },
 
   // Banners
+  "Witches' Eve Banner": { width: 1, height: 2 },
   "Dawn Breaker Banner": { width: 1, height: 2 },
   "Solar Flare Banner": { width: 1, height: 2 },
   "Human War Banner": { width: 1, height: 2 },
