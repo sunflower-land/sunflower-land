@@ -2,11 +2,9 @@ import { Button } from "components/ui/Button";
 import React, { useContext } from "react";
 
 import { NPC_WEARABLES } from "lib/npcs";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
-
+import goldPass from "assets/announcements/gold_pass.png";
+import { Panel } from "components/ui/Panel";
 interface Props {
   onClose: () => void;
 }
@@ -14,25 +12,20 @@ interface Props {
 export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
 
+  const price = 4.99;
   const Content = () => {
     return (
       <>
         <div className="flex flex-col p-2">
-          <div className="flex items-center">
-            <img
-              src={ITEM_DETAILS["Gold Pass"].image}
-              className="rounded-md my-2 img-highlight mr-2"
-              style={{
-                height: `${PIXEL_SCALE * 16}px`,
-              }}
-            />
-            <p className="text-sm">1 x Gold Pass</p>
-          </div>
-          <p className="text-sm">Includes:</p>
+          <img
+            src={goldPass}
+            className="w-full rounded-md my-2 img-highlight mr-2"
+          />
+          <p className="text-sm mb-1">Unlock the power of the Gold Pass:</p>
           <ul className="list-disc">
             <li className="text-xs ml-4">Craft rare NFTs</li>
             <li className="text-xs ml-4">Trade with other players</li>
-            <li className="text-xs ml-4">Participate in Auction Drops.</li>
+            <li className="text-xs ml-4">Participate in Auction Drops</li>
             <li className="text-xs ml-4">Withdraw & Transfer NFTs</li>
             <li className="text-xs ml-4">Access to restricted areas</li>
           </ul>
@@ -58,15 +51,18 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
               onClose();
             }}
           >
-            {`Buy now $4.99`}
+            {`Buy now $${price}`}
           </Button>
+        </div>
+        <div className="flex justify-center">
+          <span className="text-xxs italic">{`Price is paid in $MATIC equivalent of $${price} USD`}</span>
         </div>
       </>
     );
   };
   return (
-    <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk} onClose={onClose}>
+    <Panel bumpkinParts={NPC_WEARABLES.grubnuk}>
       <Content />
-    </CloseButtonPanel>
+    </Panel>
   );
 };
