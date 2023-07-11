@@ -56,13 +56,9 @@ export const SPAWNS: SpawnLocation = {
     },
   },
   dawn_breaker: {
-    // default: {
-    //   x: 241,
-    //   y: 423,
-    // },
     default: {
-      x: 250,
-      y: 250,
+      x: 241,
+      y: 423,
     },
     marcus_home: {
       x: 490,
