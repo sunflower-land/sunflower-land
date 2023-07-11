@@ -50,6 +50,7 @@ export const WanderLeaf: React.FC<Props> = ({ onClose }) => {
                 text: "OK",
                 cb: () => {
                   gameService.send("traveller.found");
+                  gameService.send("SAVE");
                   onClose();
                 },
               },
