@@ -11,7 +11,6 @@ import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
-  PurchasableItems,
   SoldOutCollectibleName,
 } from "./collectibles";
 import { BoostTreasure } from "./treasure";
@@ -190,7 +189,8 @@ export type CollectibleName =
   | GoblinBlacksmithItemName
   | SoldOutCollectibleName
   | GoblinPirateItemName
-  | PurchasableItems
+  | "Dawn Breaker Banner"
+  | "Solar Flare Banner"
   | BoostTreasure
   | WarBanner
   | LanternName

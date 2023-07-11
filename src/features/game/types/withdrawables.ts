@@ -589,6 +589,7 @@ const purchasables: Record<PurchasableItems, boolean> = {
   "Witches' Eve Banner": false,
   "Dawn Breaker Banner": false,
   "Solar Flare Banner": false,
+  "Gold Pass": false,
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, boolean> = {

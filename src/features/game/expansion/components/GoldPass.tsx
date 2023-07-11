@@ -38,7 +38,7 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
           </ul>
 
           <a
-            href="https://docs.sunflower-land.com/player-guides/X"
+            href="https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#gold-pass"
             target="_blank"
             rel="noopener noreferrer"
             className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"

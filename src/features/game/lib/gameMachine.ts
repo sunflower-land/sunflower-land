@@ -316,7 +316,6 @@ export type BlockchainState = {
     | "syncing"
     | "synced"
     | "minting"
-    | "missingPass"
     | "purchasing"
     | "buyingSFL"
     | "revealing"

@@ -114,7 +114,7 @@ export const AuctioneerModal: React.FC<Props> = ({
         >
           <div className="flex flex-col">
             {!gameState.inventory["Gold Pass"] && (
-              <div className="flex items-center justify-between ">
+              <div className="flex items-center justify-between px-1">
                 <div className="flex items-center">
                   <img
                     src={ITEM_DETAILS["Gold Pass"].image}
