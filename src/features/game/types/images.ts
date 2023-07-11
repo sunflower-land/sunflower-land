@@ -2263,4 +2263,9 @@ export const ITEM_DETAILS: Items = {
     description:
       "Embrace the radiant beauty of the Dawn Flower as its delicate petals shimmer with the first light of day",
   },
+  "Gold Pass": {
+    image: solarFlareTicket,
+    description:
+      "An exlusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content",
+  },
 };

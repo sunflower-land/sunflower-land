@@ -29,7 +29,7 @@ import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
-  SeasonPassName,
+  PurchasableItems,
   SoldOutCollectibleName,
 } from "./collectibles";
 import { CommodityName, ResourceName } from "./resources";
@@ -585,7 +585,7 @@ const lanterns: Record<LanternName, boolean> = {
   "Goblin Lantern": false,
 };
 
-const purchasables: Record<SeasonPassName, boolean> = {
+const purchasables: Record<PurchasableItems, boolean> = {
   "Witches' Eve Banner": false,
   "Dawn Breaker Banner": false,
   "Solar Flare Banner": false,

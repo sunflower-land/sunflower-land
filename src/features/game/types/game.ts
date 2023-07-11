@@ -20,7 +20,7 @@ import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
-  SeasonPassName,
+  PurchasableItems,
   SoldOutCollectibleName,
 } from "./collectibles";
 import { TreasureToolName } from "./tools";
@@ -227,7 +227,7 @@ export type InventoryItemName =
   | SoldOutCollectibleName
   | GoblinBlacksmithItemName
   | GoblinPirateItemName
-  | SeasonPassName
+  | PurchasableItems
   | TreasureToolName
   | LanternName
   | "Basic Land";

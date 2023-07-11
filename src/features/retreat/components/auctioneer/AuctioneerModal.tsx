@@ -15,6 +15,9 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { Button } from "components/ui/Button";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 interface Props {
   gameState: GameState;
@@ -33,6 +36,8 @@ export const AuctioneerModal: React.FC<Props> = ({
   onMint,
   deviceTrackerId,
 }) => {
+  const { openModal } = useContext(ModalContext);
+
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
@@ -108,6 +113,29 @@ export const AuctioneerModal: React.FC<Props> = ({
           }}
         >
           <div className="flex flex-col">
+            {!gameState.inventory["Gold Pass"] && (
+              <div className="flex items-center justify-between ">
+                <div className="flex items-center">
+                  <img
+                    src={ITEM_DETAILS["Gold Pass"].image}
+                    className="h-4 mr-1"
+                  />
+                  <span className="text-xs">
+                    A Gold Pass is required to mint rare NFTs.
+                  </span>
+                </div>
+                <Button
+                  onClick={() => {
+                    onClose();
+                    openModal("GOLD_PASS");
+                  }}
+                  className="text-xxs w-16 p-0 h-8"
+                >
+                  Buy
+                </Button>
+              </div>
+            )}
+
             <>
               <AuctioneerContent
                 auctionService={auctionService}
