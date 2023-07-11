@@ -9,6 +9,7 @@ import { Sofia } from "./dawn/Sofia";
 import { Bella } from "./dawn/Bella";
 import { CommunityIslands } from "./community/CommunityIslands";
 import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
+import { WanderLeaf } from "./dawn/WanderLeaf";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -67,6 +68,7 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
         )}
         {npc === "sofia" && <Sofia onClose={closeModal} />}
         {npc === "bella" && <Bella onClose={closeModal} />}
+        {npc === "wanderleaf" && <WanderLeaf onClose={closeModal} />}
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
         {npc === "stella" && (
           <CloseButtonPanel

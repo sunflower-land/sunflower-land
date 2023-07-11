@@ -20,14 +20,21 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private idleAnimationKey: string | undefined;
   private walkingAnimationKey: string | undefined;
 
-  constructor(
-    scene: Phaser.Scene,
-    x: number,
-    y: number,
-    clothing: BumpkinParts,
-    onClick?: () => void,
-    name?: string
-  ) {
+  constructor({
+    scene,
+    x,
+    y,
+    clothing,
+    onClick,
+    name,
+  }: {
+    scene: Phaser.Scene;
+    x: number;
+    y: number;
+    clothing: BumpkinParts;
+    onClick?: () => void;
+    name?: string;
+  }) {
     super(scene, x, y);
     this.scene = scene;
     this.clothing = clothing;
