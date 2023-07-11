@@ -46,6 +46,7 @@ const _messages = (state: MachineState) => {
   const messages = state.context.rooms[
     state.context.roomId
   ]?.state.messages.map((m) => ({
+    farmId: m.farmId ?? 0,
     sessionId: m.sessionId ?? "",
     text: m.text,
   }));

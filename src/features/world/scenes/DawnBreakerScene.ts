@@ -39,7 +39,11 @@ export class DawnBreakerScene extends BaseScene {
   roomId: RoomId = "dawn_breaker";
 
   constructor() {
-    super({ name: "dawn_breaker", map: { json: dawnBreakerJSON } });
+    super({
+      name: "dawn_breaker",
+      map: { json: dawnBreakerJSON },
+      audio: { fx: { walk_key: "dirt_footstep" } },
+    });
   }
 
   preload() {
@@ -148,12 +152,12 @@ export class DawnBreakerScene extends BaseScene {
 
     // Boat
     if (!this.sound.get("boat")) {
-      const boatSopund = this.sound.add("boat") as Sound;
-      boatSopund.play({ loop: true, volume: 0, rate: 0.6 });
+      const boatSound = this.sound.add("boat") as Sound;
+      boatSound.play({ loop: true, volume: 0, rate: 0.6 });
 
       this.soundEffects.push(
         new AudioController({
-          sound: boatSopund,
+          sound: boatSound,
           distanceThreshold: 80,
           coordinates: boatCoords,
           maxVolume: 0.2,
@@ -188,13 +192,6 @@ export class DawnBreakerScene extends BaseScene {
         })
       );
     }
-    // Shut down all sounds on scene change
-    this.events.on("shutdown", () => {
-      this.sound.getAllPlaying().forEach((sound) => {
-        sound.destroy();
-      });
-      this.soundEffects = [];
-    });
   }
 
   async create() {

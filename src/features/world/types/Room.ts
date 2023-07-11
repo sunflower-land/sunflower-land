@@ -20,7 +20,8 @@ export interface Player extends Schema {
 
 export interface Message extends Schema {
   text: string;
-  sessionId?: string;
+  farmId?: number;
+  sessionId: string;
   sentAt: number;
 }
 

@@ -10,7 +10,7 @@ import { Label } from "components/ui/Label";
 
 interface Props {
   game: GameState;
-  messages: { sessionId: string; text: string }[];
+  messages: { farmId: number; sessionId: string; text: string }[];
   onMessage: (content: { text?: string; reaction?: ReactionName }) => void;
   onChatStarted: () => void;
   onChatClose: () => void;
