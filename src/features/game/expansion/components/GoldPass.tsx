@@ -54,7 +54,7 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
             {`Buy now $${price}`}
           </Button>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center my-0.5">
           <span className="text-xxs italic">{`Price is paid in $MATIC equivalent of $${price} USD`}</span>
         </div>
       </>
