@@ -33,6 +33,8 @@ export type NPCBumpkin = {
   x: number;
   y: number;
   npc: NPCName;
+  clothing?: BumpkinParts;
+  onClick?: () => void;
 };
 
 // 3 Times per second send position to server
@@ -133,6 +135,7 @@ export abstract class BaseScene extends Phaser.Scene {
       player: options.player ?? { spawn: { x: 0, y: 0 } },
     };
 
+    console.log({ defaultedOptions: defaultedOptions.name });
     super(defaultedOptions.name);
 
     this.options = defaultedOptions;
@@ -690,23 +693,25 @@ export abstract class BaseScene extends Phaser.Scene {
 
   initialiseNPCs(npcs: NPCBumpkin[]) {
     npcs.forEach((bumpkin, index) => {
+      const defaultClick = () => {
+        const distance = Phaser.Math.Distance.BetweenPoints(
+          container,
+          this.currentPlayer as BumpkinContainer
+        );
+
+        if (distance > 50) {
+          container.speak("You are too far away");
+          return;
+        }
+        npcModalManager.open(bumpkin.npc);
+      };
+
       const container = new BumpkinContainer(
         this,
         bumpkin.x,
         bumpkin.y,
-        NPC_WEARABLES[bumpkin.npc],
-        () => {
-          const distance = Phaser.Math.Distance.BetweenPoints(
-            container,
-            this.currentPlayer as BumpkinContainer
-          );
-
-          if (distance > 50) {
-            container.speak("You are too far away");
-            return;
-          }
-          npcModalManager.open(bumpkin.npc);
-        },
+        bumpkin.clothing ?? NPC_WEARABLES[bumpkin.npc],
+        bumpkin.onClick ?? defaultClick,
         bumpkin.npc
       );
 

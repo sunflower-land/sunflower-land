@@ -39,6 +39,7 @@ import { Label } from "components/ui/Label";
 import { MarcusHomeScene } from "./scenes/MarcusHomeScene";
 import { WorldIntroduction } from "./ui/WorldIntroduction";
 import { CommunityScene } from "./scenes/CommunityScene";
+import { CommunityModals } from "./ui/CommunityModalManager";
 
 const _roomState = (state: MachineState) => state.value;
 const _messages = (state: MachineState) => {
@@ -78,7 +79,6 @@ export const PhaserComponent: React.FC<Props> = ({ scene, isCommunity }) => {
   const roomState = useSelector(roomService, _roomState);
   const messages = JSON.parse(useSelector(roomService, _messages));
 
-  console.log({ isCommunity });
   const scenes = isCommunity
     ? [CommunityScene]
     : [
@@ -227,6 +227,7 @@ export const PhaserComponent: React.FC<Props> = ({ scene, isCommunity }) => {
         messages={messages ?? []}
       />
       <NPCModals onClose={resumeInput} onOpen={pauseInput} />
+      <CommunityModals onClose={resumeInput} onOpen={pauseInput} />
       <InteractableModals
         id={authState.context.user.farmId as number}
         onClose={resumeInput}

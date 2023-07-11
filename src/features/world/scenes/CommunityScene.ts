@@ -5,6 +5,7 @@ import { createErrorLogger } from "lib/errorLogger";
 import { MachineInterpreter } from "../roomMachine";
 import { BaseScene } from "./BaseScene";
 import { COMMUNITY_ISLANDS } from "../ui/community/CommunityIslands";
+import { communityModalManager } from "../ui/CommunityModalManager";
 
 export async function getgit(owner: string, repo: string, path: string) {
   // A function to fetch files from github using the api
@@ -47,6 +48,7 @@ export abstract class CommunityScene extends Phaser.Scene {
     try {
       // Expose API/SDK for usage
       (window as any).BaseScene = BaseScene;
+      (window as any).openModal = communityModalManager.open;
 
       const sceneName = this.registry.get("initialScene");
       let island = COMMUNITY_ISLANDS.find((island) => island.id === sceneName);
