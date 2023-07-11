@@ -128,6 +128,7 @@ type PurchaseEvent = {
   type: "PURCHASE_ITEM";
   name: SeasonPassName;
   amount: number;
+  hasDiscount?: boolean;
 };
 
 type BuyBlockBucksEvent = {
@@ -652,7 +653,7 @@ export function startGame(authContext: AuthContext) {
                 !getSeasonPassRead() &&
                 hasFeatureAccess(
                   context.state.inventory,
-                  "NEW_SEASON_BANNER"
+                  "WITCHES_EVE_BANNER"
                 ) &&
                 (context.state.bumpkin?.experience ?? 0) > 0,
             },
@@ -1006,6 +1007,7 @@ export function startGame(authContext: AuthContext) {
                 transactionId: context.transactionId as string,
                 item: (event as PurchaseEvent).name,
                 amount: (event as PurchaseEvent).amount,
+                hasDiscount: (event as PurchaseEvent).hasDiscount,
               });
 
               return {

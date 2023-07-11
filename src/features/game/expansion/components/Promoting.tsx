@@ -30,8 +30,8 @@ export const Promoting: React.FC = () => {
   return (
     <PromotingModal
       isOpen={promoting}
-      discountAvailable={hasPreviousSeasonBanner}
-      hasPurchased={!!inventory["Witch Season Banner"]}
+      hasDiscount={hasPreviousSeasonBanner}
+      hasPurchased={!!inventory["Witches' Eve Banner"]}
       onClose={() => {
         acknowledgeSeasonPass();
         gameService.send("ACKNOWLEDGE");
@@ -42,7 +42,7 @@ export const Promoting: React.FC = () => {
 
 interface Props {
   hasPurchased?: boolean;
-  discountAvailable: boolean;
+  hasDiscount: boolean;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -51,7 +51,7 @@ export const PromotingModal: React.FC<Props> = ({
   isOpen,
   onClose,
   hasPurchased,
-  discountAvailable,
+  hasDiscount,
 }) => {
   // Goes live on 17th of July.
   // $3.99 for Dawn Breaker Holders, otherwise $5.99.
@@ -63,13 +63,13 @@ export const PromotingModal: React.FC<Props> = ({
     ? new Date("2023-08-01")
     : new Date("2023-09-01");
 
-  const price = discountAvailable ? 3.99 : 5.99;
+  const price = hasDiscount ? 3.99 : 5.99;
 
   const { gameService } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
 
   const Content = () => {
-    if (!hasFeatureAccess(inventory, "NEW_SEASON_BANNER")) {
+    if (!hasFeatureAccess(inventory, "WITCHES_EVE_BANNER")) {
       return (
         <>
           <div className="p-2">
@@ -134,7 +134,7 @@ export const PromotingModal: React.FC<Props> = ({
                 height: `${PIXEL_SCALE * 16}px`,
               }}
             />
-            <p className="text-sm">1 x Witch Season Banner</p>
+            <p className="text-sm">{`1 x Witches' Eve Banner`}</p>
           </div>
           <p className="text-sm">Includes:</p>
           <ul className="list-disc">
@@ -160,7 +160,7 @@ export const PromotingModal: React.FC<Props> = ({
             </Label>
           )}
 
-          {isPreSeason && discountAvailable && (
+          {isPreSeason && hasDiscount && (
             <>
               <div className="flex items-center mt-2">
                 <p className="text-sm mr-2">Dawn Breaker Discount</p>
@@ -214,7 +214,8 @@ export const PromotingModal: React.FC<Props> = ({
           <Button
             onClick={() => {
               gameService.send("PURCHASE_ITEM", {
-                name: "Witch Season Banner",
+                name: "Witches' Eve Banner",
+                hasDiscount: hasDiscount,
               });
               onClose();
             }}
