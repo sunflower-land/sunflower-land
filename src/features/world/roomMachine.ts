@@ -71,6 +71,7 @@ export type ChatMessageReceived = {
   roomId: RoomId;
   text: string;
   sessionId: string;
+  farmId: number;
 };
 
 export type PlayerJoined = {
@@ -208,18 +209,15 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
             throw new Error("You must initialise the client first");
           }
 
-          if (context.rooms[context.roomId]) {
-            await context.rooms[context.roomId]?.leave();
-          }
-
           const available = await context.client.getAvailableRooms();
-          console.log({ available });
-
           const roomId = chooseRoom(context.roomId as RoomId, available);
 
           if (!roomId) {
             throw new Error("No room available");
           }
+
+          // Leave all rooms when joining a new one
+          Object.values(context.rooms).forEach((room) => room?.leave());
 
           const room = await context.client.joinOrCreate<PlazaRoomState>(
             roomId,
@@ -245,12 +243,13 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
               return;
             }
 
-            if (message.sessionId && String(message.sessionId).length > 4) {
+            if (message.farmId) {
               cb({
                 type: "CHAT_MESSAGE_RECEIVED",
                 roomId: roomId as RoomId,
 
                 text: message.text,
+                farmId: message.farmId,
                 sessionId: message.sessionId,
               });
             }
@@ -299,7 +298,6 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
         onDone: {
           target: "ready",
           actions: assign({
-            roomId: (_, event) => event.data.roomId,
             rooms: (context, event) => {
               return {
                 ...context.rooms,

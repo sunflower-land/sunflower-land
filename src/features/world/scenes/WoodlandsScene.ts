@@ -9,7 +9,15 @@ export class WoodlandsScene extends BaseScene {
   roomId: RoomId = "woodlands";
 
   constructor() {
-    super({ name: "woodlands", map: { json: woodlandsJSON } });
+    super({
+      name: "woodlands",
+      map: { json: woodlandsJSON },
+      audio: { fx: { walk_key: "dirt_footstep" } },
+    });
+  }
+
+  preload() {
+    super.preload();
   }
 
   async create() {

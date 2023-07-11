@@ -70,7 +70,11 @@ export class PlazaScene extends BaseScene {
   roomId: RoomId = "plaza";
 
   constructor() {
-    super({ name: "plaza", map: { json: mapJson } });
+    super({
+      name: "plaza",
+      map: { json: mapJson },
+      audio: { fx: { walk_key: "dirt_footstep" } },
+    });
   }
 
   preload() {
