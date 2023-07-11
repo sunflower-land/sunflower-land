@@ -32,8 +32,6 @@ type SeasonalBanner =
 export function getCurrentSeason(): SeasonName {
   const now = new Date();
 
-  console.log({ now });
-
   const seasons = Object.keys(SEASONS) as SeasonName[];
 
   const currentSeason = seasons.find((season) => {
