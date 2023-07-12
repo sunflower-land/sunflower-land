@@ -579,10 +579,7 @@ export const authMachine = createMachine<
               REFRESH: {
                 target: "#reconnecting",
               },
-            },
-          },
-          selectPaymentMethod: {
-            on: {
+
               BACK: {
                 target: "offer",
               },
@@ -590,12 +587,27 @@ export const authMachine = createMachine<
                 target: "creatingPokoFarm",
                 actions: () => analytics.logEvent("select_poko"),
               },
-              SELECT_MATIC: {
-                target: "funding",
-                actions: () => analytics.logEvent("select_matic"),
-              },
+              // SELECT_MATIC: {
+              //   target: "funding",
+              //   actions: () => analytics.logEvent("select_matic"),
+              // },
             },
           },
+          // selectPaymentMethod: {
+          //   on: {
+          //     BACK: {
+          //       target: "offer",
+          //     },
+          //     SELECT_POKO: {
+          //       target: "creatingPokoFarm",
+          //       actions: () => analytics.logEvent("select_poko"),
+          //     },
+          //     SELECT_MATIC: {
+          //       target: "funding",
+          //       actions: () => analytics.logEvent("select_matic"),
+          //     },
+          //   },
+          // },
           creatingPokoFarm: {
             on: {
               CONTINUE: {
@@ -627,7 +639,8 @@ export const authMachine = createMachine<
             entry: () => analytics.logEvent("offer_seen"),
             on: {
               CONTINUE: {
-                target: "selectPaymentMethod",
+                // target: "selectPaymentMethod",
+                target: "funding",
                 actions: () => analytics.logEvent("offer_accepted"),
               },
             },

@@ -7,26 +7,13 @@ import sparkle from "assets/fx/sparkle2.gif";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
-import { ErrorMessage } from "./ErrorMessage";
 import { Panel } from "components/ui/Panel";
-import { CreatingFarm, Loading, CreateFarm, VisitFarm } from "./components";
+import { CreateFarm } from "./components";
 
-import { Signing } from "./components/Signing";
-import { ErrorCode } from "lib/errors";
-import { Countdown } from "./components/Countdown";
-import { Blacklisted } from "features/game/components/Blacklisted";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ConnectedToWallet } from "./components/ConnectedToWallet";
-import { Verifying } from "./components/Verifying";
-import { Welcome } from "./components/Welcome";
-import { Offer } from "./components/Offer";
 import classNames from "classnames";
 import { NPC_WEARABLES } from "lib/npcs";
-import { SignIn } from "./components/SignIn";
-import { CreateWallet } from "./components/CreateWallet";
 import { getOnboardingComplete } from "./actions/createGuestAccount";
-import { BuyWithPoko } from "./components/BuyWithPoko";
-import { SelectPaymentMethod } from "./components/SelectPaymentMethod";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -88,11 +75,12 @@ export const Auth: React.FC = () => {
           authState.matches("createWallet") ||
           (authState.matches("signIn") && !getOnboardingComplete()) ||
           authState.matches({ connected: "funding" })
-            ? NPC_WEARABLES.grimbly
+            ? NPC_WEARABLES.jake
             : undefined
         }
       >
-        {loading && <Loading />}
+        <CreateFarm />
+        {/* {loading && <Loading />}
         {authState.matches("welcome") && <Welcome />}
         {authState.matches("createWallet") && <CreateWallet />}
         {authState.matches({ connected: "offer" }) && <Offer />}
@@ -123,7 +111,7 @@ export const Auth: React.FC = () => {
         {authState.matches("exploring") && <VisitFarm />}
         {authState.matches("unauthorised") && (
           <ErrorMessage errorCode={authState.context.errorCode as ErrorCode} />
-        )}
+        )} */}
       </Panel>
     </Modal>
   );
