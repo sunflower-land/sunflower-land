@@ -79,8 +79,7 @@ export const Auth: React.FC = () => {
             : undefined
         }
       >
-        <CreateFarm />
-        {/* {loading && <Loading />}
+        {loading && <Loading />}
         {authState.matches("welcome") && <Welcome />}
         {authState.matches("createWallet") && <CreateWallet />}
         {authState.matches({ connected: "offer" }) && <Offer />}
@@ -111,7 +110,7 @@ export const Auth: React.FC = () => {
         {authState.matches("exploring") && <VisitFarm />}
         {authState.matches("unauthorised") && (
           <ErrorMessage errorCode={authState.context.errorCode as ErrorCode} />
-        )} */}
+        )}
       </Panel>
     </Modal>
   );

@@ -127,7 +127,7 @@ export const CreateFarm: React.FC = () => {
     <div className="p-1">
       <div className="flex flex-col">
         <p className="text-sm mb-2">
-          {`To create an NFT, a network fee is required to secure it on the Blockchain.`}
+          {`To secure an NFT on the Blockchain, a small network fee is required.`}
         </p>
       </div>
       <div className="flex space-x-1 mb-2 items-center">
@@ -202,7 +202,7 @@ export const CreateFarm: React.FC = () => {
           >
             Fill in your details
           </a>{" "}
-          and we will send a free NFT to play.
+          and we will send a free NFT to play. (This will take us 3-7 days)
         </p>
       </div>
 

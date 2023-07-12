@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
+import { OfferItems } from "./Offer";
 
 export const CreateWallet = () => {
   const { authService } = useContext(Context);
@@ -15,12 +16,12 @@ export const CreateWallet = () => {
       <div className="p-2">
         <p className="mb-3">Welcome to decentralized gaming!</p>
         <p className="text-sm text-white mb-2">
-          {`In Sunflower Land you will craft and collect rare NFTs. To keep these secure you'll need a Web3 wallet.`}
+          {`In your travels, you will earn rare NFTs that need to be protected. To keep these secure you'll need a Web3 wallet.`}
         </p>
         <p className="text-sm text-white mt-2 mb-2">
-          {`Setting up a wallet is easy - you can manage one yourself or
-          set up with email.`}
+          {`To begin your journey, you will receive`}
         </p>
+        <OfferItems />
       </div>
       <Button
         onClick={() => {

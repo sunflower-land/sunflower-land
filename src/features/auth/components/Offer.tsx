@@ -6,6 +6,50 @@ import React, { useContext } from "react";
 import { Context } from "../lib/Provider";
 import { getPromoCode } from "features/game/actions/loadSession";
 
+export const OfferItems: React.FC = () => {
+  const promo = getPromoCode();
+  if (promo === "okx") {
+    return (
+      <div className="flex flex-wrap">
+        <div className="flex mb-2 items-center w-1/2">
+          <div className="w-8">
+            <img src={ITEM_DETAILS["Block Buck"].image} className="h-5 mr-2" />
+          </div>
+          <p className="text-sm">10 Block Bucks</p>
+        </div>
+        <div className="flex mb-2 items-center w-1/2">
+          <div className="w-8">
+            <img src={chest} className="h-6 mr-2  animate-pulsate" />
+          </div>
+          <p className="text-sm">Starter Pack</p>
+        </div>
+        <div className="flex mb-2 items-center w-1/2">
+          <div className="w-8">
+            <img src={sfl} className="h-6 mr-2  animate-pulsate" />
+          </div>
+          <p className="text-sm">30 SFL</p>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="flex flex-wrap">
+      <div className="flex mb-2 items-center w-1/2">
+        <div className="w-8">
+          <img src={ITEM_DETAILS["Block Buck"].image} className="h-5 mr-2" />
+        </div>
+        <p className="text-sm">5 Block Bucks</p>
+      </div>
+      <div className="flex mb-2 items-center w-1/2">
+        <div className="w-8">
+          <img src={chest} className="h-6 mr-2  animate-pulsate" />
+        </div>
+        <p className="text-sm">1 Starter Pack</p>
+      </div>
+    </div>
+  );
+};
+
 export const Offer: React.FC = () => {
   const { authService } = useContext(Context);
   const promo = getPromoCode();
@@ -22,29 +66,7 @@ export const Offer: React.FC = () => {
             <span className="underline">free</span> Farm NFT. This will include:
           </p>
 
-          <div className="flex flex-wrap">
-            <div className="flex mb-2 items-center w-1/2">
-              <div className="w-8">
-                <img
-                  src={ITEM_DETAILS["Block Buck"].image}
-                  className="h-5 mr-2"
-                />
-              </div>
-              <p className="text-sm">10 Block Bucks</p>
-            </div>
-            <div className="flex mb-2 items-center w-1/2">
-              <div className="w-8">
-                <img src={chest} className="h-6 mr-2  animate-pulsate" />
-              </div>
-              <p className="text-sm">Starter Pack</p>
-            </div>
-            <div className="flex mb-2 items-center w-1/2">
-              <div className="w-8">
-                <img src={sfl} className="h-6 mr-2  animate-pulsate" />
-              </div>
-              <p className="text-sm">30 SFL</p>
-            </div>
-          </div>
+          <OfferItems />
         </div>
         <Button onClick={() => authService.send("CONTINUE")}>
           Get Starter Pack Now
@@ -62,23 +84,7 @@ export const Offer: React.FC = () => {
           <span className="underline">free</span> Farm NFT. This will include:
         </p>
 
-        <div className="flex flex-wrap">
-          <div className="flex mb-2 items-center w-1/2">
-            <div className="w-8">
-              <img
-                src={ITEM_DETAILS["Block Buck"].image}
-                className="h-5 mr-2"
-              />
-            </div>
-            <p className="text-sm">5 Block Bucks</p>
-          </div>
-          <div className="flex mb-2 items-center w-1/2">
-            <div className="w-8">
-              <img src={chest} className="h-6 mr-2  animate-pulsate" />
-            </div>
-            <p className="text-sm">1 Starter Pack</p>
-          </div>
-        </div>
+        <OfferItems />
       </div>
       <Button onClick={() => authService.send("CONTINUE")}>
         Get Started Now
