@@ -87,7 +87,7 @@ export const PromotingModal: React.FC<Props> = ({
           <div className="flex flex-col p-2">
             <div className="flex items-center">
               <img
-                src={ITEM_DETAILS["Dawn Breaker Banner"].image}
+                src={ITEM_DETAILS["Witches' Eve Banner"].image}
                 className="rounded-md my-2 img-highlight mr-2"
                 style={{
                   height: `${PIXEL_SCALE * 16}px`,
@@ -101,8 +101,8 @@ export const PromotingModal: React.FC<Props> = ({
                 25% SFL discount on seasonal items
               </li>
               <li className="text-xs ml-4">Free Seasonal Banner</li>
-              <li className="text-xs ml-4">1 x Mystery Airdrop</li>
-              <li className="text-xs ml-4">Bonus tickets from chores</li>
+              <li className="text-xs ml-4">Seasonal Wearable Airdrop</li>
+              <li className="text-xs ml-4">Bonus Seasonal Tickets</li>
             </ul>
 
             <a
@@ -128,7 +128,7 @@ export const PromotingModal: React.FC<Props> = ({
         <div className="flex flex-col p-2">
           <div className="flex items-center">
             <img
-              src={ITEM_DETAILS["Dawn Breaker Banner"].image}
+              src={ITEM_DETAILS["Witches' Eve Banner"].image}
               className="rounded-md my-2 img-highlight mr-2"
               style={{
                 height: `${PIXEL_SCALE * 16}px`,
@@ -140,8 +140,8 @@ export const PromotingModal: React.FC<Props> = ({
           <ul className="list-disc">
             <li className="text-xs ml-4">25% SFL discount on seasonal items</li>
             <li className="text-xs ml-4">Free Seasonal Banner</li>
-            <li className="text-xs ml-4">1 x Mystery Airdrop</li>
-            <li className="text-xs ml-4">Bonus tickets from chores</li>
+            <li className="text-xs ml-4">Seasonal Wearable Airdrop</li>
+            <li className="text-xs ml-4">Bonus Seasonal Tickets</li>
           </ul>
           {!isPreSeason && (
             <Label
@@ -215,7 +215,6 @@ export const PromotingModal: React.FC<Props> = ({
             onClick={() => {
               gameService.send("PURCHASE_ITEM", {
                 name: "Witches' Eve Banner",
-                hasDiscount: hasDiscount,
               });
               onClose();
             }}

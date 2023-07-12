@@ -9,7 +9,6 @@ type Request = {
   item: SeasonPassName;
   token: string;
   amount?: number;
-  hasDiscount?: boolean;
   transactionId: string;
 };
 
@@ -28,7 +27,6 @@ export async function purchaseItem(request: Request) {
       body: JSON.stringify({
         item: request.item,
         amount: request.amount,
-        hasDiscount: request.hasDiscount,
       }),
     }
   );

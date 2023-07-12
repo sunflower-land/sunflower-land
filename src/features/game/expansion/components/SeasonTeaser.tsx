@@ -1,7 +1,7 @@
 import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 
-import island from "assets/land/dawn_teaser.png";
+import island from "assets/land/witches_eve_teaser.webp";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";

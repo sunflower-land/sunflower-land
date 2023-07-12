@@ -128,7 +128,6 @@ type PurchaseEvent = {
   type: "PURCHASE_ITEM";
   name: SeasonPassName;
   amount: number;
-  hasDiscount?: boolean;
 };
 
 type BuyBlockBucksEvent = {
@@ -677,6 +676,9 @@ export function startGame(authContext: AuthContext) {
             ACKNOWLEDGE: {
               target: "notifying",
             },
+            PURCHASE_ITEM: {
+              target: "purchasing",
+            },
           },
         },
         noTownCenter: {
@@ -1007,7 +1009,6 @@ export function startGame(authContext: AuthContext) {
                 transactionId: context.transactionId as string,
                 item: (event as PurchaseEvent).name,
                 amount: (event as PurchaseEvent).amount,
-                hasDiscount: (event as PurchaseEvent).hasDiscount,
               });
 
               return {
