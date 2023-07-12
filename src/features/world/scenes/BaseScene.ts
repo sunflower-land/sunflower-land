@@ -135,7 +135,6 @@ export abstract class BaseScene extends Phaser.Scene {
       player: options.player ?? { spawn: { x: 0, y: 0 } },
     };
 
-    console.log({ defaultedOptions: defaultedOptions.name });
     super(defaultedOptions.name);
 
     this.options = defaultedOptions;
@@ -336,8 +335,9 @@ export abstract class BaseScene extends Phaser.Scene {
       }
 
       if (event.type === "PLAYER_JOINED") {
-        const { farmId, sessionId, x, y, clothing, roomId } =
+        const { farmId, sessionId, x, y, clothing, roomId, npc } =
           event as PlayerJoined;
+
         if (roomId !== this.roomId) return;
 
         const room = this.roomService.state.context.rooms[roomId];
@@ -352,6 +352,7 @@ export abstract class BaseScene extends Phaser.Scene {
             farmId,
             clothing,
             isCurrentPlayer: sessionId === room.sessionId,
+            npc,
           });
 
           this.playerEntities[sessionId] = player;
@@ -436,20 +437,49 @@ export abstract class BaseScene extends Phaser.Scene {
     farmId,
     isCurrentPlayer,
     clothing,
+    npc,
   }: {
     isCurrentPlayer: boolean;
     x: number;
     y: number;
     farmId: number;
     clothing: BumpkinParts;
+    npc?: NPCName;
   }): BumpkinContainer {
-    const entity = new BumpkinContainer(this, x, y, clothing);
-    const nameTag = this.createPlayerText({
-      x: 0,
-      y: 0,
-      text: `#${farmId}`,
+    const defaultClick = () => {
+      const distance = Phaser.Math.Distance.BetweenPoints(
+        entity,
+        this.currentPlayer as BumpkinContainer
+      );
+
+      if (distance > 50) {
+        entity.speak("You are too far away");
+        return;
+      }
+
+      if (npc) {
+        npcModalManager.open(npc);
+      }
+
+      // TODO - open player modals
+    };
+
+    const entity = new BumpkinContainer({
+      scene: this,
+      x,
+      y,
+      clothing,
+      name: npc,
+      onClick: defaultClick,
     });
-    entity.add(nameTag);
+    if (!npc) {
+      const nameTag = this.createPlayerText({
+        x: 0,
+        y: 0,
+        text: `#${farmId}`,
+      });
+      entity.add(nameTag);
+    }
 
     // Is current player
     if (isCurrentPlayer) {
@@ -714,14 +744,14 @@ export abstract class BaseScene extends Phaser.Scene {
         npcModalManager.open(bumpkin.npc);
       };
 
-      const container = new BumpkinContainer(
-        this,
-        bumpkin.x,
-        bumpkin.y,
-        bumpkin.clothing ?? NPC_WEARABLES[bumpkin.npc],
-        bumpkin.onClick ?? defaultClick,
-        bumpkin.npc
-      );
+      const container = new BumpkinContainer({
+        scene: this,
+        x: bumpkin.x,
+        y: bumpkin.y,
+        clothing: bumpkin.clothing ?? NPC_WEARABLES[bumpkin.npc],
+        onClick: bumpkin.onClick ?? defaultClick,
+        name: bumpkin.npc,
+      });
 
       container.setDepth(bumpkin.y);
       (container.body as Phaser.Physics.Arcade.Body)

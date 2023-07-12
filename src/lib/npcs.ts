@@ -29,10 +29,21 @@ export type NPCName =
   | "raven" // TO ADD
   | "birdie"
   | "old salty"
-  | "cornwell";
+  | "cornwell"
+  | "wanderleaf";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  wanderleaf: {
+    background: "Farm Background",
+    body: "Beige Farmer Potion",
+    hair: "Sun Spots",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+    pants: "Traveller's Pants",
+    shirt: "Traveller's Shirt",
+    wings: "Traveller's Backpack",
+  },
   betty: {
     body: "Beige Farmer Potion",
     hair: "Rancher Hair",

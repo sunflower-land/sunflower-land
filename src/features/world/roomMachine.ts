@@ -9,6 +9,7 @@ import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SPAWNS } from "./lib/spawn";
 import { chooseRoom } from "./lib/availableRooms";
+import { NPCName } from "lib/npcs";
 
 export type Rooms = {
   plaza: Room<PlazaRoomState> | undefined;
@@ -82,6 +83,7 @@ export type PlayerJoined = {
   x: number;
   y: number;
   clothing: BumpkinParts;
+  npc?: NPCName;
 };
 
 export type ClothingChangedEvent = {
@@ -190,7 +192,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
         },
         onDone: [
           {
-            target: "joinRoom",
+            target: "ready",
             actions: assign({
               client: (_, event) => event.data.client,
             }),
@@ -264,6 +266,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
               x: player.x,
               y: player.y,
               clothing: player.clothing,
+              npc: player.npc,
             });
 
             let clothingChangedAt = 0;
@@ -319,7 +322,6 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
               roomId: (_, event) => event.roomId,
             }),
             cond: (_, event) => {
-              console.log({ event });
               return !!event.url;
             },
           },
@@ -329,7 +331,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
               previousRoomId: (context) => context.roomId,
               roomId: (_, event) => event.roomId,
             }),
-            cond: (context, event) => !context.roomId.startsWith(event.roomId),
+            // cond: (context, event) => !context.roomId.startsWith(event.roomId),
           },
         ],
         ROOM_DISCONNECTED: {

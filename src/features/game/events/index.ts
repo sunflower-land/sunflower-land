@@ -166,6 +166,10 @@ import {
   prepareParty,
   PreparePartyAction,
 } from "./landExpansion/prepareDawnParty";
+import {
+  findTraveller,
+  FindTravellerAction,
+} from "./landExpansion/findTraveller";
 
 export type PlayingEvent =
   | TradeAction
@@ -219,7 +223,8 @@ export type PlayingEvent =
   | RefundBidAction
   | MixPotionAction
   | TendDawnFlowerAction
-  | PreparePartyAction;
+  | PreparePartyAction
+  | FindTravellerAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -323,6 +328,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "potion.mixed": mixPotion,
   "dawnFlower.tended": tendDawnFlower,
   "dawnParty.prepared": prepareParty,
+  "traveller.found": findTraveller,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

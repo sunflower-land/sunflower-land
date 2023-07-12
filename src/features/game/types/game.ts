@@ -480,6 +480,10 @@ export type DawnBreaker = {
     tendedCount: number;
   };
   party?: Party;
+  traveller?: {
+    discoveredAt: number;
+    discoveredCount: number;
+  };
 };
 
 export type Order = {
