@@ -673,7 +673,11 @@ export const authMachine = createMachine<
                 if (window.location.hash.includes("world")) return;
 
                 if (!ART_MODE) {
-                  window.location.href = `${window.location.pathname}#/land/${context.user.farmId}`;
+                  window.history.replaceState(
+                    null,
+                    "",
+                    `${window.location.pathname}#/land/${context.user.farmId}`
+                  );
                 }
               },
               (context) =>
