@@ -7,13 +7,25 @@ import sparkle from "assets/fx/sparkle2.gif";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
+import { ErrorMessage } from "./ErrorMessage";
 import { Panel } from "components/ui/Panel";
-import { CreateFarm } from "./components";
+import { CreatingFarm, Loading, CreateFarm, VisitFarm } from "./components";
 
+import { Signing } from "./components/Signing";
+import { ErrorCode } from "lib/errors";
+import { Countdown } from "./components/Countdown";
+import { Blacklisted } from "features/game/components/Blacklisted";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ConnectedToWallet } from "./components/ConnectedToWallet";
+import { Verifying } from "./components/Verifying";
+import { Welcome } from "./components/Welcome";
+import { Offer } from "./components/Offer";
 import classNames from "classnames";
 import { NPC_WEARABLES } from "lib/npcs";
+import { SignIn } from "./components/SignIn";
+import { CreateWallet } from "./components/CreateWallet";
 import { getOnboardingComplete } from "./actions/createGuestAccount";
+import { BuyWithPoko } from "./components/BuyWithPoko";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -83,9 +95,9 @@ export const Auth: React.FC = () => {
         {authState.matches("welcome") && <Welcome />}
         {authState.matches("createWallet") && <CreateWallet />}
         {authState.matches({ connected: "offer" }) && <Offer />}
-        {authState.matches({ connected: "selectPaymentMethod" }) && (
+        {/* {authState.matches({ connected: "selectPaymentMethod" }) && (
           <SelectPaymentMethod />
-        )}
+        )} */}
         {authState.matches({ connected: "creatingPokoFarm" }) && (
           <BuyWithPoko />
         )}

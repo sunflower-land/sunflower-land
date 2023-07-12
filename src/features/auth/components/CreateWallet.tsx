@@ -19,7 +19,7 @@ export const CreateWallet = () => {
           {`In your travels, you will earn rare NFTs that need to be protected. To keep these secure you'll need a Web3 wallet.`}
         </p>
         <p className="text-sm text-white mt-2 mb-2">
-          {`To begin your journey, you will receive`}
+          {`To begin your journey, your wallet will receive`}
         </p>
         <OfferItems />
       </div>
