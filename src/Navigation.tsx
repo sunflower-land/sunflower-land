@@ -69,7 +69,11 @@ export const Navigation: React.FC = () => {
   useEffect(() => {
     if (provider) {
       if (provider.on) {
-        provider.on("chainChanged", () => {
+        provider.on("chainChanged", (chain: any) => {
+          if (parseInt(chain) === CONFIG.POLYGON_CHAIN_ID) {
+            return;
+          }
+
           // Phantom handles this internally
           if (provider.isPhantom) return;
 
