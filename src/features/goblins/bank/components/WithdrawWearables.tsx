@@ -117,6 +117,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
                   count={new Decimal(wardrobeCount ?? 0)}
                   key={itemName}
                   onClick={() => onAdd(itemName)}
+                  disabled={itemName === "Mushroom Hat"}
                   image={getImageUrl(ITEM_IDS[itemName])}
                 />
               );
