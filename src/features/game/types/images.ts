@@ -193,6 +193,7 @@ import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
 import supporterTicket from "assets/icons/supporter_ticket.png";
 import solarFlareBanner from "assets/decorations/solar_flare_banner.png";
 import dawnBreakerBanner from "assets/decorations/dawn_breaker_banner.png";
+import witchesEveBanner from "assets/decorations/witches_eve_banner.webp";
 // Banners
 import goblinBanner from "assets/sfts/goblin_banner.png";
 import humanBanner from "assets/sfts/human_banner.png";
@@ -2139,7 +2140,7 @@ export const ITEM_DETAILS: Items = {
     description: "?",
   },
   "Witches' Eve Banner": {
-    image: dawnBreakerBanner,
+    image: witchesEveBanner,
     description: "?",
   },
   "Luminous Lantern": {

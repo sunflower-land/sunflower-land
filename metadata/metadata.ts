@@ -3524,10 +3524,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Witches' Eve Banner": {
     description:
-      "The season of the Witch has begun. The mark of a participant in our inaugral season.",
+      "The season of the witch has begun. The mark of a participant in our inaugral season.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/722.png",
+    image_url: "../public/erc1155/images/724.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Luminous Lantern": {
