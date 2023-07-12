@@ -3349,6 +3349,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/720.png",
     attributes: [],
   },
+  "Witches' Eve Ticket": {
+    description: "A ticket used during the Witches' Eve Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "",
+    attributes: [],
+  },
   "Sunflower Supporter": {
     description: "A true supporter of the project",
     decimals: 0,

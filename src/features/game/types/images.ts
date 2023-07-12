@@ -2035,6 +2035,10 @@ export const ITEM_DETAILS: Items = {
     image: dawnBreakerTicket,
     description: "A ticket used during the Dawn Breaker Season",
   },
+  "Witches' Eve Ticket": {
+    image: "",
+    description: "A ticket used during the Witches' Eve Ticket Season",
+  },
 
   "Sunflower Supporter": {
     image: supporterTicket,

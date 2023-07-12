@@ -29,6 +29,7 @@ import { ConversationName } from "./conversations";
 import { Week } from "features/dawnBreaker/lib/characters";
 import { Riddle } from "./riddles";
 import { NPCName } from "lib/npcs";
+import { SeasonalTicket } from "./seasons";
 
 export type Reward = {
   sfl?: Decimal;
@@ -120,7 +121,6 @@ export type MutantChicken =
 
 export type Coupons =
   | "Trading Ticket"
-  | "Solar Flare Ticket"
   | "War Bond"
   | "Jack-o-lantern"
   | "Golden Crop"
@@ -128,8 +128,8 @@ export type Coupons =
   | "Red Envelope"
   | "Love Letter"
   | "Block Buck"
-  | "Dawn Breaker Ticket"
-  | "Sunflower Supporter";
+  | "Sunflower Supporter"
+  | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
@@ -162,6 +162,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Dawn Breaker Ticket": {
     description: "A ticket used during the Dawn Breaker Season",
+  },
+  "Witches' Eve Ticket": {
+    description: "A ticket used during the Witches' Eve Season",
   },
   "Sunflower Supporter": {
     description: "A community and social media supporter of the project",
