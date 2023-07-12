@@ -3515,7 +3515,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Dawn Breaker Banner": {
     description:
-      "A mysterious darkness is plaguing Sunflower Land. The mark of a participant in the Dawn Breaker Season",
+      "A mysterious darkness is plaguing Sunflower Land. The mark of a participant in the Dawn Breaker Season.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/723.png",
@@ -3531,7 +3531,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Witches' Eve Banner": {
     description:
-      "The season of the witch has begun. The mark of a participant in our inaugural season.",
+      "The season of the witch has begun. The mark of a participant in the Witches' Eve Season.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/724.png",
