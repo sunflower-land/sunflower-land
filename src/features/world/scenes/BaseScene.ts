@@ -346,13 +346,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
         // Current player
         if (sessionId !== room.sessionId) {
-          if (
-            npc === "wanderleaf" &&
-            !this.gameService.state.context.state.inventory["Beta Pass"]
-          ) {
-            return;
-          }
-
           const player = this.createPlayer({
             x,
             y,
