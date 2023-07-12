@@ -12,12 +12,12 @@ export const CreateWallet = () => {
 
   return (
     <>
-      <p className="text-center mb-3">Welcome to decentralized gaming!</p>
-      <p className="text-sm text-white mb-2 text-center">
+      <p className="mb-3 text-center">Welcome to decentralized gaming!</p>
+      <p className="text-sm text-white mb-2">
         {`To ensure the security of your valuable NFTs, it's essential to create
           a Web3 wallet.`}
       </p>
-      <p className="text-sm text-white mt-2 mb-2 text-center">
+      <p className="text-sm text-white mt-2 mb-2">
         {`Setting up a wallet is easy - you can either manage your own wallet or
           quickly set one up with your email.`}
       </p>
