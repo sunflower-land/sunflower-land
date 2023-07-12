@@ -8,7 +8,6 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { Loading } from "features/auth/components";
 import { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
-import { screenTracker } from "lib/utils/screen";
 import { Refreshing } from "features/auth/components/Refreshing";
 import { AddingSFL } from "features/auth/components/AddingSFL";
 import { Context } from "../GameProvider";
@@ -179,12 +178,9 @@ export const Game: React.FC = () => {
 
     window.addEventListener("blur", save);
 
-    screenTracker.start(authService);
-
     // cleanup on every gameState update
     return () => {
       window.removeEventListener("blur", save);
-      screenTracker.pause();
     };
   }, []);
 
