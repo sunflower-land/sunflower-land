@@ -2,10 +2,10 @@ import React, { useContext, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
-import { metamaskIcon } from "./WalletIcons";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
+import metamaskIcon from "src/assets/icons/metamask_pixel.png";
 import walletIcon from "src/assets/icons/wallet.png";
 import phantomIcon from "src/assets/icons/phantom.svg";
 import okxIcon from "src/assets/icons/okx.svg";
@@ -97,11 +97,14 @@ export const SignIn = () => {
     return (
       <>
         <Button
-          className="mb-2 py-2 text-sm relative"
+          className="mb-2 py-2 text-sm relative justify-start"
           onClick={connectToMetaMask}
         >
-          <div className="px-8">
-            {metamaskIcon}
+          <div className="px-8 mr-2 flex ">
+            <img
+              src={metamaskIcon}
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
+            />
             Metamask
           </div>
         </Button>
@@ -118,12 +121,6 @@ export const SignIn = () => {
           </div>
         </Button>
 
-        <div className="bg-white b-1 w-full h-[1px] my-4" />
-        <div className="flex justify-center relative pb-1">
-          <span className="text-xs text-center bg-[#c28669] px-2 absolute top-[-34px] italic ">
-            Connect with an email or social login
-          </span>
-        </div>
         <Button
           className="mb-2 py-2 text-sm relative"
           onClick={() => authService.send("CONNECT_TO_SEQUENCE")}
@@ -133,7 +130,7 @@ export const SignIn = () => {
               src="https://sequence.app/static/images/sequence-logo.7c854742a6b8b4969004.svg"
               className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
             />
-            Sequence
+            Email & social login
           </div>
         </Button>
       </>
@@ -143,35 +140,24 @@ export const SignIn = () => {
   const isOKX = getPromoCode() === "okx";
 
   return (
-    <div className="px-4">
-      <div className="flex text-center items-center justify-between mb-3 mt-1">
-        <div
-          className="flex items-center"
+    <div className="px-2">
+      <div className="flex items-center mb-2">
+        <img
+          src={SUNNYSIDE.icons.arrow_left}
+          className="cursor-pointer mr-2"
+          onClick={handleBack}
           style={{
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
-        >
-          {(page === "other" || getOnboardingComplete()) && (
-            <img
-              src={SUNNYSIDE.icons.arrow_left}
-              className="cursor-pointer"
-              onClick={handleBack}
-              style={{
-                width: `${PIXEL_SCALE * 8}px`,
-              }}
-            />
-          )}
-        </div>
-        <p className="text-xs text-white mt-2 mb-2 text-center italic leading-3">
-          Connect your Web3 wallet to play
-        </p>
-        <div
-          className="flex-none"
-          style={{
-            width: `${PIXEL_SCALE * 11}px`,
+            width: `${PIXEL_SCALE * 8}px`,
           }}
         />
+        {!getOnboardingComplete() && (
+          <div className="flex items-center">
+            <img src={SUNNYSIDE.ui.green_bar_4} className="h-5 mr-2" />
+            <span className="text-xs">Step 2/3 (Create a wallet)</span>
+          </div>
+        )}
       </div>
+
       {isOKX && (
         <Button
           className="mb-2 py-2 text-sm relative"

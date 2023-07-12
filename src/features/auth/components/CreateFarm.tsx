@@ -124,10 +124,25 @@ export const CreateFarm: React.FC = () => {
   const addFunds = async () => setShowAddFunds(true);
 
   return (
-    <div className="p-1">
+    <div className="p-2">
+      <div className="flex items-center mb-2">
+        <img
+          src={SUNNYSIDE.icons.arrow_left}
+          className="cursor-pointer mr-2"
+          onClick={() => authService.send("BACK")}
+          style={{
+            width: `${PIXEL_SCALE * 8}px`,
+          }}
+        />
+        <div className="flex items-center">
+          <img src={SUNNYSIDE.ui.green_bar_5} className="h-5 mr-2" />
+          <span className="text-xs">Step 3/3 (Create your NFT)</span>
+        </div>
+      </div>
       <div className="flex flex-col">
+        <p className="text-sm mb-2">{`You're almost there!`}</p>
         <p className="text-sm mb-2">
-          {`To secure an NFT on the Blockchain, a small network fee is required.`}
+          {`To secure your NFTs on the Blockchain, a small network fee is required.`}
         </p>
       </div>
       <div className="flex space-x-1 mb-2 items-center">

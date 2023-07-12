@@ -542,7 +542,7 @@ export const authMachine = createMachine<
                   cond: "hasFarm",
                 },
 
-                { target: "offer" },
+                { target: "funding" },
               ],
               onError: [
                 {
@@ -581,7 +581,7 @@ export const authMachine = createMachine<
               },
 
               BACK: {
-                target: "offer",
+                target: "#signIn",
               },
               SELECT_POKO: {
                 target: "creatingPokoFarm",

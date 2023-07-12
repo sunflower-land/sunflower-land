@@ -38,6 +38,66 @@ export async function getCreatedAt(
   }
 }
 
+export async function estimateAccountGas({
+  web3,
+  account,
+  signature,
+  charity,
+  deadline,
+  fee,
+  bumpkinWearableIds,
+  bumpkinTokenUri,
+  referrerId,
+  referrerAmount,
+  type,
+}: {
+  web3: Web3;
+  account: string;
+  signature: string;
+  charity: string;
+  deadline: number;
+  fee: string;
+  bumpkinWearableIds: number[];
+  bumpkinTokenUri: string;
+  referrerId: number;
+  referrerAmount: string;
+  type?: "MATIC" | "USDC";
+}): Promise<string> {
+  const gasPrice = await estimateGasPrice(web3);
+
+  let mintAccountFn: PayableTransactionObject<void>;
+
+  return new Promise((res, rej) => {
+    const estimate = (
+      new web3.eth.Contract(
+        PokoMinterABI as AbiItem[],
+        CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string
+      ) as unknown as IPokoAccountMinter
+    ).methods
+      .mintAccount(
+        signature,
+        deadline,
+        fee,
+        bumpkinWearableIds,
+        bumpkinTokenUri,
+        referrerId,
+        referrerAmount,
+        account
+      )
+      .estimateGas(
+        { from: account, value: fee, gasPrice },
+        function (err, estimatedGas) {
+          console.log({ err, estimatedGas });
+          if (err) {
+            rej(err);
+          }
+
+          res(estimatedGas);
+        }
+      );
+  });
+}
+
 export async function createNewAccount({
   web3,
   account,

@@ -5,6 +5,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useContext } from "react";
 import { Context } from "../lib/Provider";
 import { getPromoCode } from "features/game/actions/loadSession";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const OfferItems: React.FC = () => {
   const promo = getPromoCode();
@@ -34,6 +35,18 @@ export const OfferItems: React.FC = () => {
   }
   return (
     <div className="flex flex-wrap">
+      <div className="flex mb-2 items-center w-1/2">
+        <div className="w-8">
+          <img src={SUNNYSIDE.icons.plant} className="h-6" />
+        </div>
+        <p className="text-sm">1 Farm NFT</p>
+      </div>
+      <div className="flex mb-2 items-center w-1/2">
+        <div className="w-8">
+          <img src={SUNNYSIDE.icons.player} className="h-6" />
+        </div>
+        <p className="text-sm">1 Bumpkin NFT</p>
+      </div>
       <div className="flex mb-2 items-center w-1/2">
         <div className="w-8">
           <img src={ITEM_DETAILS["Block Buck"].image} className="h-5 mr-2" />
