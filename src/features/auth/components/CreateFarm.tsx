@@ -1,18 +1,19 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 import shuffle from "lodash.shuffle";
 
 import { Button } from "components/ui/Button";
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 
 import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import classNames from "classnames";
 import { Loading } from "./Loading";
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import maticToken from "assets/icons/polygon-token.png";
 import card from "assets/icons/credit_card.png";
+import { MachineInterpreter } from "../lib/createFarmMachine";
+import { fromWei, toBN } from "web3-utils";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -44,64 +45,20 @@ const CHARITIES: Charity[] = shuffle([
   },
 ]);
 
-interface CharityDetailProps extends Charity {
-  selected: boolean;
-  onClick: () => void;
-}
-
-const CharityDetail = ({
-  url,
-  name,
-  info,
-  selected,
-  onClick,
-}: CharityDetailProps) => {
-  return (
-    <InnerPanel
-      className={classNames(
-        "flex flex-col items-center w-full justify-between",
-        {
-          "img-highlight": selected,
-        }
-      )}
-    >
-      <div className="w-full p-1 space-y-2 cursor-pointer" onClick={onClick}>
-        <a
-          href={url}
-          className="underline text-xs hover:text-blue-500 mb-2 text-center"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {name}
-        </a>
-        <p className="text-xs mb-1">{info}</p>
-      </div>
-    </InnerPanel>
-  );
-};
-
 export const CreateFarm: React.FC = () => {
   const { authService } = useContext(Context);
 
-  const [showHowTo, setShowHowTo] = useState(false);
+  const child = authService.state.children
+    .createFarmMachine as MachineInterpreter;
 
-  // const child = authService.state.children
-  //   .createFarmMachine as MachineInterpreter;
-
-  // const [createFarmState] = useActor(child);
+  const [createFarmState] = useActor(child);
 
   const charity = useRef(
     CHARITIES[Math.floor(Math.random() * CHARITIES.length)]
   );
-  const [paymentConfirmed] = useState(false);
-  const [screen, setScreen] = useState<"intro" | "create">("intro");
-  const [showAddFunds, setShowAddFunds] = useState(false);
 
-  // const isLoading = createFarmState.matches("loading");
-  // const hasEnoughMatic = createFarmState.matches("hasEnoughMatic");
-
-  const isLoading = false;
-  const hasEnoughMatic = false;
+  const isLoading = createFarmState.matches("loading");
+  const hasEnoughMatic = createFarmState.matches("hasEnoughMatic");
 
   if (isLoading) {
     return (
@@ -111,8 +68,8 @@ export const CreateFarm: React.FC = () => {
     );
   }
 
-  // const maticFee = fromWei(toBN(createFarmState.context.maticFee ?? 0));
-  const maticFee = "0.09";
+  const maticFee = fromWei(toBN(createFarmState.context.maticFee ?? 0));
+  const usdFee = createFarmState.context.estimatedGasUSD ?? 0;
 
   // $5 USD farm
   // 4% to cover gas fee of farm mint
@@ -120,8 +77,6 @@ export const CreateFarm: React.FC = () => {
   const maticFeePlusGas = new Decimal(maticFee)
     .mul(1.24)
     .toDecimalPlaces(2, Decimal.ROUND_UP);
-
-  const addFunds = async () => setShowAddFunds(true);
 
   return (
     <div className="p-2">
@@ -154,7 +109,7 @@ export const CreateFarm: React.FC = () => {
           }}
         />
         <span className="text-xxs">{maticFeePlusGas.toNumber()} Matic</span>
-        <span className="text-xxs italic">($0.10 USD)</span>
+        <span className="text-xxs italic">{`($${usdFee.toFixed(2)} USD)`}</span>
       </div>
       <div className="flex flex-col flex-grow items-stretch justify-around space-y-2 sm:space-y-0 sm:space-x-3 sm:flex-row">
         <OuterPanel className="w-full md:w-1/2 flex flex-col items-center relative">
@@ -170,7 +125,13 @@ export const CreateFarm: React.FC = () => {
           </div>
           <Button
             className="mb-1"
-            onClick={() => authService.send("SELECT_MATIC")}
+            onClick={() => {
+              authService.send("CREATE_FARM", {
+                charityAddress: charity.current.address,
+                donation: 10,
+                captcha: "0x",
+              });
+            }}
           >
             Mint
           </Button>
@@ -196,7 +157,7 @@ export const CreateFarm: React.FC = () => {
           </div>
           <Button
             className="mb-1"
-            onClick={() => authService.send("SELECT_MATIC")}
+            onClick={() => authService.send("SELECT_POKO")}
           >
             Pay with Card/Cash
           </Button>

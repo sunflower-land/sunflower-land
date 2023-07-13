@@ -62,39 +62,38 @@ export async function estimateAccountGas({
   referrerId: number;
   referrerAmount: string;
   type?: "MATIC" | "USDC";
-}): Promise<string> {
+}): Promise<number> {
   const gasPrice = await estimateGasPrice(web3);
 
-  let mintAccountFn: PayableTransactionObject<void>;
-
   return new Promise((res, rej) => {
-    const estimate = (
-      new web3.eth.Contract(
-        PokoMinterABI as AbiItem[],
-        CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string
-      ) as unknown as IPokoAccountMinter
-    ).methods
-      .mintAccount(
+    (
+      (
+        new web3.eth.Contract(
+          PokoMinterABI as AbiItem[],
+          CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string
+        ) as unknown as IPokoAccountMinter
+      ).methods.mintAccount(
         signature,
         deadline,
         fee,
         bumpkinWearableIds,
         bumpkinTokenUri,
         referrerId,
-        referrerAmount,
+        referrerAmount ?? "0",
         account
-      )
-      .estimateGas(
-        { from: account, value: fee, gasPrice },
-        function (err, estimatedGas) {
-          console.log({ err, estimatedGas });
-          if (err) {
-            rej(err);
-          }
-
-          res(estimatedGas);
+      ) as any
+    ).estimateGas(
+      { from: account, value: 0 },
+      function (err: any, estimatedGas: string) {
+        console.log({ err, estimatedGas });
+        if (err) {
+          rej(err);
         }
-      );
+
+        const transactionCost = Number(gasPrice) * Number(estimatedGas);
+        res(transactionCost);
+      }
+    );
   });
 }
 

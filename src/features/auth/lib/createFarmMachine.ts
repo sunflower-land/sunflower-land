@@ -5,11 +5,14 @@ import { escalate } from "xstate/lib/actions";
 import { signTransaction } from "../actions/createAccount";
 import { CharityAddress } from "../components";
 import { analytics } from "lib/analytics";
+import { estimateAccountGas } from "lib/blockchain/AccountMinter";
 
 export interface Context {
   token?: string;
   transactionId?: string;
   maticFee?: number;
+  estimatedGas?: number;
+  estimatedGasUSD?: number;
   maticBalance?: number;
 }
 
@@ -105,16 +108,27 @@ export const createFarmMachine = createMachine<
   {
     services: {
       loadBalance: async (context) => {
-        const { fee } = await signTransaction({
+        const { fee, conversionRate, ...transaction } = await signTransaction({
           charity: CharityAddress.TheWaterProject,
           token: context.token as string,
           captcha: context.transactionId as string,
           transactionId: context.transactionId as string,
+          type: "MATIC",
         });
-        const maticFee = Number(fee);
         const maticBalance = await wallet.getMaticBalance();
 
-        return { maticFee, maticBalance };
+        const estimatedGas = await estimateAccountGas({
+          ...transaction,
+          fee,
+          web3: wallet.web3Provider,
+          account: wallet.myAccount as string,
+        });
+
+        const maticFee = Number(estimatedGas);
+        const estimatedGasUSD = Number(estimatedGas) / Number(conversionRate);
+        console.log({ estimatedGas, estimatedGasUSD, conversionRate });
+
+        return { maticFee, maticBalance, estimatedGasUSD };
       },
       updateBalance: async () => {
         const maticBalance = await wallet.getMaticBalance();
@@ -125,6 +139,7 @@ export const createFarmMachine = createMachine<
     actions: {
       assignFee: assign<Context, any>({
         maticFee: (_, event) => event.data.maticFee,
+        estimatedGasUSD: (_, event) => event.data.estimatedGasUSD,
       }),
       setTransactionId: assign<Context, any>({
         transactionId: () => randomID(),
