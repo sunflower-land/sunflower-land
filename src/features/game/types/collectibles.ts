@@ -4,7 +4,10 @@ import { SEASONS } from "./seasons";
 import { marketRate } from "../lib/halvening";
 import { SFLDiscount } from "../lib/SFLDiscount";
 
-export type SeasonPassName = "Dawn Breaker Banner" | "Solar Flare Banner";
+export type SeasonPassName =
+  | "Dawn Breaker Banner"
+  | "Solar Flare Banner"
+  | "Witches' Eve Banner";
 
 export type HeliosBlacksmithItem =
   | "Immortal Pear"
@@ -263,20 +266,6 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
 
 export type Purchasable = CraftableCollectible & {
   usd: number;
-};
-
-export const SEASON_PASS_ITEMS: Record<SeasonPassName, Purchasable> = {
-  "Solar Flare Banner": {
-    description: "?",
-    ingredients: {},
-    usd: 3.99,
-  },
-  "Dawn Breaker Banner": {
-    description: "?",
-    ingredients: {},
-    boost: "?",
-    usd: 3.99,
-  },
 };
 
 // TODO - add all other boosts

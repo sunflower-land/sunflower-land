@@ -123,8 +123,12 @@ export function getAvailableGameState({
   const availableItems = {
     ...chestItems,
     ...basketItems,
+    // This is necessary because the season banner is a requirement for some items in Goblin Retreat so we need to see that you have one even if it's placed.
     ...(offChain.inventory["Dawn Breaker Banner"] && {
       "Dawn Breaker Banner": offChain.inventory["Dawn Breaker Banner"],
+    }),
+    ...(offChain.inventory["Witches' Eve Banner"] && {
+      "Witches' Eve Banner": offChain.inventory["Witches' Eve Banner"],
     }),
   };
 

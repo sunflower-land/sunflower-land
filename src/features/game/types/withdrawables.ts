@@ -270,6 +270,7 @@ const coupons: Record<Coupons, boolean> = {
   "Solar Flare Ticket": false,
   "Dawn Breaker Ticket": false,
   "Sunflower Supporter": false,
+  "Witches' Eve Ticket": false,
 };
 
 const buildings: Record<BuildingName, boolean> = {
@@ -585,6 +586,7 @@ const lanterns: Record<LanternName, boolean> = {
 };
 
 const purchasables: Record<SeasonPassName, boolean> = {
+  "Witches' Eve Banner": false,
   "Dawn Breaker Banner": false,
   "Solar Flare Banner": false,
 };

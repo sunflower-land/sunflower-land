@@ -193,6 +193,7 @@ import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
 import supporterTicket from "assets/icons/supporter_ticket.png";
 import solarFlareBanner from "assets/decorations/solar_flare_banner.png";
 import dawnBreakerBanner from "assets/decorations/dawn_breaker_banner.png";
+import witchesEveBanner from "assets/decorations/witches_eve_banner.webp";
 // Banners
 import goblinBanner from "assets/sfts/goblin_banner.png";
 import humanBanner from "assets/sfts/human_banner.png";
@@ -2034,6 +2035,10 @@ export const ITEM_DETAILS: Items = {
     image: dawnBreakerTicket,
     description: "A ticket used during the Dawn Breaker Season",
   },
+  "Witches' Eve Ticket": {
+    image: "",
+    description: "A ticket used during the Witches' Eve Ticket Season",
+  },
 
   "Sunflower Supporter": {
     image: supporterTicket,
@@ -2136,6 +2141,10 @@ export const ITEM_DETAILS: Items = {
   },
   "Dawn Breaker Banner": {
     image: dawnBreakerBanner,
+    description: "?",
+  },
+  "Witches' Eve Banner": {
+    image: witchesEveBanner,
     description: "?",
   },
   "Luminous Lantern": {
