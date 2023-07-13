@@ -1033,7 +1033,7 @@ export const authMachine = createMachine<
 
         const secondsElapsed =
           Date.now() / 1000 - (event.data as Farm).createdAt;
-        return secondsElapsed < 60;
+        return secondsElapsed < 30;
       },
       hasFarm: (context: Context, event: any) => {
         // If coming from the loadingFarm transition the farmId with show up on the event
