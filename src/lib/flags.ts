@@ -25,7 +25,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
   POTION_HOUSE: testnetFeatureFlag,
-  WITCHES_EVE_BANNER: testnetFeatureFlag,
+  WITCHES_EVE_BANNER: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (
