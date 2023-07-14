@@ -87,8 +87,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   transacting: true,
   minting: true,
   auctionResults: false,
-  claimAuction: true,
-  refundAuction: true,
+  claimAuction: false,
+  refundAuction: false,
 };
 
 // State change selectors
