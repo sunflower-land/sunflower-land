@@ -26,7 +26,7 @@ export const WanderLeaf: React.FC<Props> = ({ onClose }) => {
           message={[
             {
               text: `Hey friend, don't be greedy. You are a well-travelled Bumpkin! You now have ${
-                discoveredCount + 1
+                discoveredCount
               } entries into my prize giveaway`,
             },
             {
