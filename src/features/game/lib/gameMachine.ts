@@ -76,6 +76,8 @@ import { depositBumpkin } from "../actions/deposit";
 import { mintAuctionItem } from "../actions/mintAuctionItem";
 import { BumpkinItem } from "../types/bumpkin";
 import { hasFeatureAccess } from "lib/flags";
+import { getAuctionResults } from "../actions/getAuctionResults";
+import { AuctionResults } from "./auctionMachine";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -103,6 +105,7 @@ export interface Context {
   announcements: Announcements;
   bumpkins: OnChainBumpkin[];
   transaction?: { type: "withdraw_bumpkin"; expiresAt: number };
+  auctionResults?: AuctionResults;
 }
 
 type MintEvent = {
@@ -332,6 +335,9 @@ export type BlockchainState = {
     | "coolingDown"
     | "upgradingGuestGame"
     | "buyingBlockBucks"
+    | "auctionResults"
+    | "claimAuction"
+    | "refundAuction"
     | "randomising"; // TEST ONLY
   context: Context;
 };
@@ -657,6 +663,12 @@ export function startGame(authContext: AuthContext) {
                 (context.state.bumpkin?.experience ?? 0) > 0,
             },
             {
+              // auctionResults needs to be the last check as it transitions directly
+              // to playing. It does not target notifying.
+              target: "auctionResults",
+              cond: (context: Context) => !!context.state.auctioneer.bid,
+            },
+            {
               target: "playing",
             },
           ],
@@ -699,6 +711,66 @@ export function startGame(authContext: AuthContext) {
           on: {
             ACKNOWLEDGE: {
               target: "notifying",
+            },
+          },
+        },
+        auctionResults: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context: Context) => {
+              const { farmId, rawToken } = authContext.user;
+
+              const auctionResults = await getAuctionResults({
+                farmId: Number(farmId),
+                token: rawToken as string,
+                auctionId: context.state.auctioneer.bid?.auctionId as string,
+                transactionId: context.transactionId as string,
+              });
+
+              return { auctionResults };
+            },
+            onDone: [
+              {
+                target: "claimAuction",
+                cond: (_, event) =>
+                  event.data.auctionResults.status === "winner",
+                actions: assign((_, event) => ({
+                  auctionResults: event.data.auctionResults,
+                })),
+              },
+              {
+                target: "refundAuction",
+                cond: (_, event) =>
+                  event.data.auctionResults.status === "loser" ||
+                  event.data.auctionResults.status === "tiebreaker",
+                actions: assign((_, event) => ({
+                  auctionResults: event.data.auctionResults,
+                })),
+              },
+              {
+                target: "playing",
+              },
+            ],
+            onError: {
+              target: "playing",
+            },
+          },
+        },
+        claimAuction: {
+          on: {
+            MINT: {
+              target: "minting",
+            },
+            CLOSE: {
+              target: "playing",
+            },
+          },
+        },
+        refundAuction: {
+          on: {
+            "bid.refunded": (GAME_EVENT_HANDLERS as any)["bid.refunded"],
+            CLOSE: {
+              target: "autosaving",
             },
           },
         },

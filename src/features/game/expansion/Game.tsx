@@ -48,6 +48,8 @@ import { Purchasing } from "../components/Purchasing";
 import { DawnBreaker } from "features/dawnBreaker/DawnBreaker";
 import { Transacting } from "../components/Transacting";
 import { Minting } from "../components/Minting";
+import { ClaimAuction } from "../components/auctionResults/ClaimAuction";
+import { RefundAuction } from "../components/auctionResults/RefundAuction";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -84,6 +86,9 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   promoting: false,
   transacting: true,
   minting: true,
+  auctionResults: false,
+  claimAuction: true,
+  refundAuction: true,
 };
 
 // State change selectors
@@ -120,6 +125,10 @@ const getActions = (state: MachineState) => state.context.actions;
 const isUpgradingGuestGame = (state: MachineState) =>
   state.matches("upgradingGuestGame");
 const isTransacting = (state: MachineState) => state.matches("transacting");
+const isClaimAuction = (state: MachineState) => state.matches("claimAuction");
+const isRefundingAuction = (state: MachineState) =>
+  state.matches("refundAuction");
+
 export const Game: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
@@ -150,6 +159,8 @@ export const Game: React.FC = () => {
   const upgradingGuestGame = useSelector(gameService, isUpgradingGuestGame);
   const transacting = useSelector(gameService, isTransacting);
   const minting = useSelector(gameService, isMinting);
+  const claimingAuction = useSelector(gameService, isClaimAuction);
+  const refundAuction = useSelector(gameService, isRefundingAuction);
 
   useInterval(() => {
     gameService.send("SAVE");
@@ -312,6 +323,9 @@ export const Game: React.FC = () => {
       </Modal>
 
       {upgradingGuestGame && <WalletOnboarding />}
+      {claimingAuction && <ClaimAuction />}
+      {refundAuction && <RefundAuction />}
+
       <Promoting />
       <Introduction />
 
