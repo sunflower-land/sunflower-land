@@ -114,9 +114,14 @@ export const SPAWNS: SpawnLocation = {
     },
   },
   woodlands: {
+    // default: {
+    //   x: 10,
+    //   y: 290,
+    // },
+    // DEBUG CODE REMOVE
     default: {
-      x: 10,
-      y: 290,
+      x: 100,
+      y: 100,
     },
   },
   corn_maze: {

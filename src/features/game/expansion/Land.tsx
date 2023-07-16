@@ -32,9 +32,7 @@ import { Mushroom } from "features/island/mushrooms/Mushroom";
 import { useFirstRender } from "lib/utils/hooks/useFirstRender";
 import { MUSHROOM_DIMENSIONS } from "../types/resources";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
-import { PotionHouse } from "./components/potions/PotionHouse";
 import ocean from "assets/decorations/ocean.webp";
-import { hasFeatureAccess } from "lib/flags";
 
 export const LAND_WIDTH = 6;
 
@@ -497,12 +495,6 @@ export const Land: React.FC = () => {
         </>
       ) : (
         <Hud isFarming={!visiting} />
-      )}
-
-      {hasFeatureAccess(inventory, "POTION_HOUSE") && (
-        <MapPlacement x={1} y={2}>
-          <PotionHouse />
-        </MapPlacement>
       )}
     </>
   );
