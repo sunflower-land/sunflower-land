@@ -262,6 +262,7 @@ export abstract class BaseScene extends Phaser.Scene {
     interactablesPolygons.forEach((polygon) => {
       polygon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
         const id = polygon.data.list.id;
+        console.log(id);
         interactableModalManager.open(id);
       });
     });
