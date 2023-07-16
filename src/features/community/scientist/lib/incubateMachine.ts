@@ -10,7 +10,6 @@ import {
 import { ErrorCode } from "lib/errors";
 import { CONFIG } from "lib/config";
 
-const frogAddress = CONFIG.FROG_CONTRACT;
 const incubatorAddress = CONFIG.INCUBATOR_CONTRACT;
 
 export interface Context {
@@ -73,10 +72,6 @@ export type MachineInterpreter = Interpreter<
   TadpoleEvent,
   TadpoleState
 >;
-
-const assignTadpoleState = assign<Context, any>({
-  state: (_, event) => event.data.state,
-});
 
 const assignErrorMessage = assign<Context, any>({
   errorCode: (_: Context, event: any) => event.data.message,

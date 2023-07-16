@@ -87,7 +87,6 @@ const CharityDetail = ({
 
 export const CreateFarm: React.FC = () => {
   const { authService } = useContext(Context);
-  const [authState] = useActor(authService);
 
   const child = authService.state.children
     .createFarmMachine as MachineInterpreter;
@@ -97,7 +96,7 @@ export const CreateFarm: React.FC = () => {
   const charity = useRef(
     CHARITIES[Math.floor(Math.random() * CHARITIES.length)]
   );
-  const [paymentConfirmed, setPaymentConfirmed] = useState(false);
+  const [paymentConfirmed] = useState(false);
   const [screen, setScreen] = useState<"intro" | "create">("intro");
   const [showAddFunds, setShowAddFunds] = useState(false);
 

@@ -4,8 +4,7 @@ import { CONFIG } from "lib/config";
 const defaultFeatureFlag = (inventory: GameState["inventory"]) =>
   CONFIG.NETWORK === "mumbai" || !!inventory["Beta Pass"]?.gt(0);
 
-const testnetFeatureFlag = (inventory: GameState["inventory"]) =>
-  CONFIG.NETWORK === "mumbai";
+const testnetFeatureFlag = () => CONFIG.NETWORK === "mumbai";
 /*
  * How to Use:
  * Add the feature name to this list when working on a new feature.

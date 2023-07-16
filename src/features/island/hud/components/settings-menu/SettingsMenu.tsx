@@ -261,12 +261,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
               }}
             />
 
-            <CloudFlareCaptcha
-              onDone={onCaptchaSolved}
-              onError={() => setShowCaptcha(false)}
-              onExpire={() => setShowCaptcha(false)}
-              action="sync"
-            />
+            <CloudFlareCaptcha onDone={onCaptchaSolved} action="sync" />
           </Panel>
         </Modal>
       )}

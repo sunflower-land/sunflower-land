@@ -7,7 +7,6 @@ interface Props {
   messages: { farmId: number; sessionId: string; text: string }[];
   onMessage: (text: string) => void;
   onChatStarted: () => void;
-  isChatOpen: boolean;
 }
 
 const MAX_CHARACTERS = 48;
@@ -24,7 +23,6 @@ export const ChatText: React.FC<Props> = ({
   messages,
   onMessage,
   onChatStarted,
-  isChatOpen,
 }) => {
   const ref = useRef<HTMLInputElement>();
   const [text, setText] = useState("");

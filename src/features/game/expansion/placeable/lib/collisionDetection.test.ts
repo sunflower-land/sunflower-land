@@ -197,7 +197,6 @@ describe("isWithinAOE", () => {
 
   const firstCropId = Object.keys(GAME_STATE.crops)[0];
 
-  const dateNow = Date.now();
   const plotDimensions: Dimensions = {
     height: GAME_STATE.crops[firstCropId].height,
     width: GAME_STATE.crops[firstCropId].width,

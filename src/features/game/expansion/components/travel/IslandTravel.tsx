@@ -4,7 +4,6 @@ import boat from "assets/npcs/island_boat_pirate.png";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Bumpkin, Inventory } from "features/game/types/game";
 import { IslandTravelModal } from "./IslandTravelModal";
-import { useLocation } from "react-router-dom";
 import classNames from "classnames";
 
 interface IslandTravelProps {
@@ -27,7 +26,6 @@ export const IslandTravel: React.FC<IslandTravelProps> = ({
   onTravelDialogOpened,
 }) => {
   const [openIslandList, setOpenIslandList] = useState(false);
-  const location = useLocation();
 
   return (
     <>

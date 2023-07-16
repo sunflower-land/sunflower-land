@@ -364,8 +364,6 @@ export class DawnBreakerScene extends BaseScene {
 
     this.initialiseNPCs(BUMPKINS);
 
-    const camera = this.cameras.main;
-
     const dawnFlower =
       this.gameService.state.context.state.dawnBreaker?.dawnFlower;
     const stage = dawnFlower?.tendedCount ?? 0;

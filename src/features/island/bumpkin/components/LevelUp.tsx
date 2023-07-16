@@ -79,8 +79,6 @@ const LEVEL_UP_MESSAGES: Record<number, string> = {
   60: " Level 60, you're a true farming superstar!",
 };
 
-const IMAGE_WIDTH = 160;
-
 interface Props {
   level: number;
   onClose: () => void;
