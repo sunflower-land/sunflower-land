@@ -77,10 +77,6 @@ export async function getRecipes(
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
   try {
-    const contract = new web3.eth.Contract(
-      GameABI as AbiItem[],
-      address as string
-    );
     const recipes: Recipe[] = await new web3.eth.Contract(
       GameABI as AbiItem[],
       address as string

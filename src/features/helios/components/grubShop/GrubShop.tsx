@@ -36,8 +36,6 @@ export const GrubShop: React.FC = () => {
     setShowModal(false);
   };
 
-  const isClosed = !state.grubShop || state.grubShop.closesAt < Date.now();
-
   const ordersFulfilled = state.grubOrdersFulfilled ?? [];
   let lastFulfilledItemName: ConsumableName | undefined;
   if (ordersFulfilled.length > 0) {

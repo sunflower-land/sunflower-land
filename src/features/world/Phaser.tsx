@@ -7,7 +7,6 @@ import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-p
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { ChatUI } from "features/pumpkinPlaza/components/ChatUI";
-import { OFFLINE_FARM } from "features/game/lib/landData";
 
 import { PlazaScene } from "./scenes/PlazaScene";
 import { AuctionScene } from "./scenes/AuctionHouseScene";
@@ -214,7 +213,6 @@ export const PhaserComponent: React.FC<Props> = ({ scene, isCommunity }) => {
       <div id="game-content" ref={ref} />
       <img id="imageTest" />
       <ChatUI
-        game={OFFLINE_FARM}
         onMessage={(m) => {
           roomService.send("SEND_CHAT_MESSAGE", { text: m.text ?? "?" });
           resumeInput(); // Focus on game again

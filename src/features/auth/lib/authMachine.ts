@@ -933,14 +933,12 @@ export const authMachine = createMachine<
       login: async (context): Promise<{ token: string | null }> => {
         let token: string | null = null;
 
-        console.log("Try it", wallet.myAccount);
         if (wallet.myAccount) {
           ({ token } = await login(
             context.transactionId as string,
             wallet.myAccount
           ));
         }
-        console.log({ token });
 
         return { token };
       },

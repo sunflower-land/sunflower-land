@@ -25,9 +25,7 @@ export const WanderLeaf: React.FC<Props> = ({ onClose }) => {
           bumpkinParts={NPC_WEARABLES["wanderleaf"]}
           message={[
             {
-              text: `Hey friend, don't be greedy. You are a well-travelled Bumpkin! You now have ${
-                discoveredCount + 1
-              } entries into my prize giveaway`,
+              text: `Hey friend, don't be greedy. You are a well-travelled Bumpkin! You now have ${discoveredCount} entries into my prize giveaway`,
             },
             {
               text: "Come back tomorrow and try find me.",

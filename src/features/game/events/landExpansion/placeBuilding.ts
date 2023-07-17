@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 // import { randomUUID } from "crypto";
 import cloneDeep from "lodash.clonedeep";
-import { BuildingName, BUILDINGS } from "../../types/buildings";
+import { BuildingName } from "../../types/buildings";
 import { GameState, PlacedItem } from "../../types/game";
 
 export enum PLACE_BUILDING_ERRORS {
@@ -32,7 +32,6 @@ export function placeBuilding({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const building = BUILDINGS()[action.name];
   const bumpkin = stateCopy.bumpkin;
 
   if (bumpkin === undefined) {

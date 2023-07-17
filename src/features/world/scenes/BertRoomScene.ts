@@ -21,7 +21,5 @@ export class BertScene extends BaseScene {
     super.create();
 
     this.initialiseNPCs(BUMPKINS);
-
-    const camera = this.cameras.main;
   }
 }

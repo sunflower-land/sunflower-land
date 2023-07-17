@@ -18,6 +18,7 @@ export async function getAuctionResults(request: Request): Promise<{
   leaderboard: LeaderboardBid[];
   participantCount: number;
   supply: number;
+  endAt: number;
 }> {
   const response = await window.fetch(
     `${API_URL}/auction/${request.auctionId}/results/${request.farmId}`,
@@ -39,8 +40,8 @@ export async function getAuctionResults(request: Request): Promise<{
     throw new Error(ERRORS.MINT_COLLECTIBLE_SERVER_ERROR);
   }
 
-  const { status, leaderboard, supply, participantCount } =
+  const { status, leaderboard, supply, participantCount, endAt } =
     await response.json();
 
-  return { status, leaderboard, supply, participantCount };
+  return { status, leaderboard, supply, participantCount, endAt };
 }

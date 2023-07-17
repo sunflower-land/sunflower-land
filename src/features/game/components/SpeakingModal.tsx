@@ -14,7 +14,6 @@ export interface PanelTabs {
 
 interface Props {
   onClose: () => void;
-  onBack?: () => void;
   bumpkinParts?: Partial<Equipped>;
   className?: string;
   message: { text: string; actions?: { text: string; cb: () => void }[] }[];
@@ -25,7 +24,6 @@ interface Props {
  */
 export const SpeakingModal: React.FC<Props> = ({
   onClose,
-  onBack,
   bumpkinParts,
   className,
   message,

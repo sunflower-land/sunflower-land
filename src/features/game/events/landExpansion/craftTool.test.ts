@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { WORKBENCH_TOOLS } from "features/game/types/tools";
-import { TEST_FARM, INITIAL_BUMPKIN } from "../../lib/constants";
+import { TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import { craftTool } from "./craftTool";
 
@@ -106,10 +106,6 @@ describe("craftTool", () => {
 });
 
 it("increments Axe Crafted activity by 1 when 1 axe is crafted", () => {
-  const createdAt = Date.now();
-  const bumpkin = {
-    ...INITIAL_BUMPKIN,
-  };
   const state = craftTool({
     state: {
       ...GAME_STATE,
@@ -126,10 +122,6 @@ it("increments Axe Crafted activity by 1 when 1 axe is crafted", () => {
 });
 
 it("increments SFL spent when axe is crafted", () => {
-  const createdAt = Date.now();
-  const bumpkin = {
-    ...INITIAL_BUMPKIN,
-  };
   const state = craftTool({
     state: {
       ...GAME_STATE,

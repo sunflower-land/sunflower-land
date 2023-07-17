@@ -94,10 +94,6 @@ export const Salesman: React.FC = () => {
     }
 
     if (modalState === "intro") {
-      const endDateLocale = new Date(
-        state.tradeOffer?.endAt as string
-      ).toLocaleDateString();
-
       const secondsLeft =
         (new Date(state.tradeOffer?.endAt as string).getTime() - Date.now()) /
         1000;
