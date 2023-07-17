@@ -11,14 +11,9 @@ export type EquipBumpkinAction = {
 type Options = {
   state: Readonly<GameState>;
   action: EquipBumpkinAction;
-  createdAt?: number;
 };
 
-export function equip({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function equip({ state, action }: Options): GameState {
   const game = cloneDeep(state);
   const { bumpkin } = game;
 
