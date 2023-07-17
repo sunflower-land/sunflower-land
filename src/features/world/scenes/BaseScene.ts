@@ -723,7 +723,7 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   initialiseNPCs(npcs: NPCBumpkin[]) {
-    npcs.forEach((bumpkin, index) => {
+    npcs.forEach((bumpkin) => {
       const defaultClick = () => {
         const distance = Phaser.Math.Distance.BetweenPoints(
           container,
