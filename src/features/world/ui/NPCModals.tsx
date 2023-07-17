@@ -35,7 +35,7 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
   const [npc, setNpc] = useState<NPCName>();
 
   useEffect(() => {
-    npcModalManager.listen((npc, open) => {
+    npcModalManager.listen((npc) => {
       setNpc(npc);
       setTimeout(onOpen, 100); // Lag the pause of movement to give natural effect
     });
