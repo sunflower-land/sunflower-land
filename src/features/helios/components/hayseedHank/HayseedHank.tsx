@@ -14,6 +14,7 @@ import { Panel } from "components/ui/Panel";
 import { Conversation } from "features/farming/mail/components/Conversation";
 import { Chore } from "./components/Chore";
 import { NPC_WEARABLES } from "lib/npcs";
+import { HayseedHankAchievements } from "./components/HayseedHankAchievements";
 
 export const HayseedHank: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -21,7 +22,7 @@ export const HayseedHank: React.FC = () => {
   const [isSkipping, setIsSkipping] = useState(false);
   const [canSkip, setCanSkip] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleClick = () => {
     // Trigger an autosave in case they have changes so user can sync right away
@@ -150,7 +151,18 @@ export const HayseedHank: React.FC = () => {
         )}
       </div>
       <Modal centered show={isOpen} onHide={close}>
-        {conversationId ? (
+        <Panel
+          bumpkinParts={{
+            body: "Light Brown Farmer Potion",
+            shirt: "Red Farmer Shirt",
+            pants: "Brown Suspenders",
+            hair: "Sun Spots",
+            tool: "Farmer Pitchfork",
+          }}
+        >
+          <HayseedHankAchievements />
+        </Panel>
+        {/* {conversationId ? (
           <Panel
             bumpkinParts={{
               body: "Light Brown Farmer Potion",
@@ -182,7 +194,7 @@ export const HayseedHank: React.FC = () => {
 
             {!(isSaving && isSkipping) && Content()}
           </CloseButtonPanel>
-        )}
+        )} */}
       </Modal>
     </>
   );
