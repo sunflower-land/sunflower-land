@@ -85,7 +85,7 @@ export const SpeakingModal: React.FC<Props> = ({
             onMessageEnd={() => setCurrentTextEnded(true)}
             forceShowFullMessage={forceShowFullMessage}
           />
-          {message[currentMessage].jsx}
+          {currentTextEnded && message[currentMessage].jsx}
         </div>
         {currentMessage !== message.length - 1 && (
           <p className="text-xxs italic float-right">(Tap to continue)</p>
