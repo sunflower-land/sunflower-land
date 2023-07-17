@@ -40,7 +40,7 @@ export const Room: React.FC<Props> = ({
   roomId,
 }) => {
   const { authService } = useContext(AuthProvider.Context);
-  const [authState, send] = useActor(authService);
+  const authState = useActor(authService)[0];
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
