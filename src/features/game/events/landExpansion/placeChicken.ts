@@ -17,10 +17,7 @@ type Options = {
   action: PlaceChickenAction;
 };
 
-export function placeChicken({
-  state,
-  action,
-}: Options): GameState {
+export function placeChicken({ state, action }: Options): GameState {
   const stateCopy = cloneDeep(state);
   const bumpkin = stateCopy.bumpkin;
 

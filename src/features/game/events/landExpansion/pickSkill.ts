@@ -15,7 +15,6 @@ export type PickSkillAction = {
 type Options = {
   state: GameState;
   action: PickSkillAction;
-  createdAt?: number;
 };
 
 export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
@@ -34,7 +33,7 @@ export const getAvailableBumpkinSkillPoints = (bumpkin?: Bumpkin) => {
   return totalSkillPoints - allocatedSkillPoints;
 };
 
-export function pickSkill({ state, action, createdAt = Date.now() }: Options) {
+export function pickSkill({ state, action }: Options) {
   const stateCopy = cloneDeep(state);
   const { bumpkin } = stateCopy;
   if (bumpkin == undefined) {

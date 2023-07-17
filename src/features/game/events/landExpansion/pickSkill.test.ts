@@ -10,7 +10,6 @@ describe("PickSkill", () => {
       pickSkill({
         state: { ...TEST_FARM, bumpkin: undefined },
         action: { type: "skill.picked", skill: "Green Thumb" },
-        createdAt: dateNow,
       });
     }).toThrow("You do not have a Bumpkin");
   });
@@ -27,7 +26,6 @@ describe("PickSkill", () => {
           },
         },
         action: { type: "skill.picked", skill: "Green Thumb" },
-        createdAt: dateNow,
       });
     }).toThrow("You do not have enough skill points");
   });
@@ -44,7 +42,6 @@ describe("PickSkill", () => {
           },
         },
         action: { type: "skill.picked", skill: "Cultivator" },
-        createdAt: dateNow,
       });
     }).toThrow("You do not have enough skill points");
   });
@@ -61,7 +58,6 @@ describe("PickSkill", () => {
           },
         },
         action: { type: "skill.picked", skill: "Master Farmer" },
-        createdAt: dateNow,
       });
     }).toThrow("You do not have enough skill points");
   });
@@ -78,7 +74,6 @@ describe("PickSkill", () => {
           },
         },
         action: { type: "skill.picked", skill: "Master Farmer" },
-        createdAt: dateNow,
       });
     }).toThrow("Missing previous skill requirement");
   });
@@ -95,7 +90,6 @@ describe("PickSkill", () => {
           },
         },
         action: { type: "skill.picked", skill: "Green Thumb" },
-        createdAt: dateNow,
       });
     }).toThrow("You already have this skill");
   });
@@ -111,7 +105,6 @@ describe("PickSkill", () => {
         },
       },
       action: { type: "skill.picked", skill: "Green Thumb" },
-      createdAt: dateNow,
     });
 
     expect(result.bumpkin?.skills).toEqual({ "Green Thumb": 1 });
@@ -128,7 +121,6 @@ describe("PickSkill", () => {
         },
       },
       action: { type: "skill.picked", skill: "Cultivator" },
-      createdAt: dateNow,
     });
 
     expect(result.bumpkin?.skills).toEqual({ Cultivator: 1, "Green Thumb": 1 });
