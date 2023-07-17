@@ -16,7 +16,6 @@ export const TRAVELLER_COOLDOWN = 4 * 60 * 60 * 1000;
 
 export function findTraveller({
   state,
-  action,
   createdAt = Date.now(),
 }: Options): GameState {
   const game = cloneDeep(state);
