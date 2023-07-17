@@ -68,8 +68,6 @@ export const DawnBreaker: React.FC = () => {
   const craftedLanternCount = lanternsCraftedByWeek[currentWeek] ?? 0;
   const weeklyChallengeAvailable = currentWeek <= CHALLENGE_WEEKS;
   const showCraftedLanterns = availableLantern && weeklyChallengeAvailable;
-  const showWeeklyLanternCount =
-    availableLantern && weeklyChallengeAvailable && !loadingLeaderboards;
   const moveHudButtonsUp = weeklyChallengeAvailable && !loadingLeaderboards;
 
   useLayoutEffect(() => {
