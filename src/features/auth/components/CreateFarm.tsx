@@ -171,7 +171,7 @@ export const CreateFarm: React.FC = () => {
         </div>
         <p className="text-xs">
           <a
-            href="https://docs.sunflower-land.com/getting-started/how-to-start#step-2-fund-your-wallet"
+            href="https://forms.gle/9khRVQvBTnsfwMuM6"
             target="_blank"
             rel="noopener noreferrer"
             className="underline text-white text-xxs text-center"
