@@ -549,15 +549,15 @@ export abstract class BaseScene extends Phaser.Scene {
     }
   }
 
-  update(time: number): void {
   //update(time: number, delta: number): void {
-      // this.elapsedTime += delta;
+  update(): void {
+    // this.elapsedTime += delta;
     // while (this.elapsedTime >= this.fixedTimeStep) {
     //   this.elapsedTime -= this.fixedTimeStep;
     //   this.fixedTick(time, this.fixedTimeStep);
     // }
 
-    this.fixedTick(time, this.fixedTimeStep);
+    this.fixedTick();
   }
 
   updatePlayer() {
@@ -758,7 +758,7 @@ export abstract class BaseScene extends Phaser.Scene {
     });
   }
 
-  fixedTick(time: number, delta: number) {
+  fixedTick() {
     this.currentTick++;
 
     this.updatePlayer();
