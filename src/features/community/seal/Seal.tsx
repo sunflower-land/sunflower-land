@@ -46,7 +46,7 @@ interface Props {
 
 export const LostSeal: React.FC<Props> = ({ left, top }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [sealImg, setSealImg] = useState(getRandomSeal());
+  const sealImg = getRandomSeal();
   const [showSeal, setShowSeal] = useState(getShowSealRandom());
 
   return (
