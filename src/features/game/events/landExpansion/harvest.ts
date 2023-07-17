@@ -48,7 +48,7 @@ export function harvest({
     throw new Error("Nothing was planted");
   }
 
-  const { name: cropName, plantedAt, amount = 1, reward } = plot.crop;
+  const { name: cropName, plantedAt, amount = 1 } = plot.crop;
 
   const { harvestSeconds } = CROPS()[cropName];
 
