@@ -391,7 +391,6 @@ export function startGoblinVillage(authContext: AuthContext) {
                 ids,
                 sfl,
                 captcha,
-                type,
                 wearableAmounts,
                 wearableIds,
                 bumpkinId,
