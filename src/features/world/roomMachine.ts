@@ -206,7 +206,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
     joinRoom: {
       invoke: {
         id: "joinRoom",
-        src: (context, event: any) => async (cb) => {
+        src: (context) => async (cb) => {
           if (!context.client) {
             throw new Error("You must initialise the client first");
           }
