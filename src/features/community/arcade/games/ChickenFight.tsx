@@ -318,10 +318,7 @@ export const ChickenFight: React.FC = () => {
     const [actorActionSetter, enemyActionSetter] = isPlayer1
       ? actionSetters
       : actionSetters.reverse();
-    const livesSetters = [setP1ChickenLives, setP2ChickenLives];
-    const [_, enemyLivesSetter] = isPlayer1
-      ? livesSetters
-      : livesSetters.reverse();
+    const enemyLivesSetter = isPlayer1 ? setP2ChickenLives : setP1ChickenLives;
     const isEnemyBlocking =
       (isPlayer1 ? p2ChickenAction : p1ChickenAction) === "block";
 
