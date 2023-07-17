@@ -3,7 +3,6 @@ import { Modal } from "react-bootstrap";
 import { useSelector } from "@xstate/react";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
-import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Loading } from "features/auth/components";
 import { ErrorCode } from "lib/errors";
@@ -130,7 +129,6 @@ const isRefundingAuction = (state: MachineState) =>
   state.matches("refundAuction");
 
 export const Game: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
 
   const loading = useSelector(gameService, isLoading);
