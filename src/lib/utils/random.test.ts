@@ -6,7 +6,7 @@ describe("random", () => {
       const min = 1.2;
       const max = 1.21;
 
-      Array.from({ length: 100 }, (_) => {
+      Array.from({ length: 100 }, () => {
         const value = randomDouble(min, max);
         expect(value).toBeGreaterThanOrEqual(min);
         expect(value).toBeLessThan(max);
@@ -16,7 +16,7 @@ describe("random", () => {
 
   describe("randomID", () => {
     it("should return values in correct format", () => {
-      Array.from({ length: 100 }, (_) => {
+      Array.from({ length: 100 }, () => {
         const value = randomID();
         expect(value).toMatch(/^([0-9]|[a-z]){7}$/);
       });
@@ -28,7 +28,7 @@ describe("random", () => {
       const min = 6;
       const max = 9;
 
-      Array.from({ length: 100 }, (_) => {
+      Array.from({ length: 100 }, () => {
         const value = randomInt(min, max);
         expect(value).toBe(Math.floor(value));
         expect(value).toBeGreaterThanOrEqual(min);
