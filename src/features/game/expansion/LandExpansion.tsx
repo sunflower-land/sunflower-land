@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { GameProvider } from "../GameProvider";
 import { Game } from "./Game";
 import { ModalProvider } from "../components/modal/ModalProvider";
@@ -11,7 +11,6 @@ export const LandExpansion: React.FC = () => {
   // catching and passing scroll container to keyboard listeners
   const container = useRef(null);
   const { id } = useParams();
-  const location = useLocation();
 
   // Load data
   return (
