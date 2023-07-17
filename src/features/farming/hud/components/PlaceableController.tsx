@@ -25,7 +25,6 @@ export const PlaceableController: React.FC = () => {
 
   const [
     {
-      value,
       context: {
         collisionDetected,
         placeable,
