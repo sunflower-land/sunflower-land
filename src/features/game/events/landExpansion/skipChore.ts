@@ -60,9 +60,6 @@ export function skipChore({
   // Automatically start next chore
   game = startChore({
     state: game,
-    action: {
-      type: "chore.started",
-    },
     createdAt,
   });
 

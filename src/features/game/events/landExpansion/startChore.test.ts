@@ -8,9 +8,6 @@ describe("chore.started", () => {
   it("requires start is not started", () => {
     expect(() => {
       startChore({
-        action: {
-          type: "chore.started",
-        },
         state: {
           ...TEST_FARM,
           hayseedHank: {
@@ -47,9 +44,6 @@ describe("chore.started", () => {
     };
     const state = startChore({
       createdAt: now,
-      action: {
-        type: "chore.started",
-      },
       state: {
         ...TEST_FARM,
         bumpkin,
@@ -84,9 +78,6 @@ describe("chore.started", () => {
       },
     };
     const state = startChore({
-      action: {
-        type: "chore.started",
-      },
       state: {
         ...TEST_FARM,
         bumpkin,

@@ -7,7 +7,6 @@ export type StartChoreAction = {
 
 type Options = {
   state: Readonly<GameState>;
-  action: StartChoreAction;
   createdAt?: number;
 };
 
@@ -17,7 +16,6 @@ const clone = (state: GameState): GameState => {
 
 export function startChore({
   state,
-  action,
   createdAt = Date.now(),
 }: Options): GameState {
   const game = clone(state);

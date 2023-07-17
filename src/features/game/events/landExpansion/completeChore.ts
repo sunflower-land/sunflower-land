@@ -103,9 +103,6 @@ export function completeChore({
   if (!CONFIG.API_URL) {
     game = startChore({
       state: game,
-      action: {
-        type: "chore.started",
-      },
     });
   }
 
