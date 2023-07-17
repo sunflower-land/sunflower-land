@@ -14,7 +14,6 @@ import { getEntries, getKeys } from "features/game/types/craftables";
 import shadow from "assets/npcs/shadow.png";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
-import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import { InventoryItemName, PotionName } from "features/game/types/game";
@@ -24,9 +23,6 @@ import { Potion } from "./lib/types";
 interface Props {
   onClose: () => void;
 }
-
-const _isGameOver = (state: GameMachineState) =>
-  !state.matches("playing") && !state.matches("rules");
 
 type Potions = [
   PotionName | null,
