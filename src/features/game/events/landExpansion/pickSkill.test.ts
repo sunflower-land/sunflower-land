@@ -4,7 +4,6 @@ import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { pickSkill } from "./pickSkill";
 
 describe("PickSkill", () => {
-  const dateNow = Date.now();
   it("requires bumpkin", () => {
     expect(() => {
       pickSkill({
