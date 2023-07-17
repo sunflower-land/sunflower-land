@@ -17,7 +17,7 @@ export const ListView: React.FC<{
   state: GameState;
   onClick: (name: BuildingName) => void;
 }> = ({ state, onClick }) => {
-  const { bumpkin, inventory } = state;
+  const { inventory } = state;
 
   const buildings = getKeys(BUILDINGS()).sort((a, b) =>
     BUILDINGS()[a][0].unlocksAtLevel > BUILDINGS()[b][0].unlocksAtLevel ? 1 : -1
