@@ -15,13 +15,11 @@ export type PlaceChickenAction = {
 type Options = {
   state: Readonly<GameState>;
   action: PlaceChickenAction;
-  createdAt?: number;
 };
 
 export function placeChicken({
   state,
   action,
-  createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
   const bumpkin = stateCopy.bumpkin;
