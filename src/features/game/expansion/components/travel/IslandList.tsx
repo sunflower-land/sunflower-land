@@ -46,7 +46,6 @@ interface IslandListProps {
   showVisitList: boolean;
   inventory: Inventory;
   travelAllowed: boolean;
-  hasBetaAccess?: boolean;
   onClose: () => void;
 }
 
@@ -162,7 +161,6 @@ export const IslandList: React.FC<IslandListProps> = ({
   showVisitList,
   travelAllowed,
   inventory,
-  hasBetaAccess = false,
   onClose,
 }) => {
   const { authService } = useContext(Auth.Context);

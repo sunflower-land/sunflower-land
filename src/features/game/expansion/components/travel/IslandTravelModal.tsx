@@ -57,7 +57,6 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
       </Modal>
     );
   }
-  const hasBetaAccess = !!inventory["Beta Pass"];
   return (
     <Modal centered show={isOpen} onHide={onClose} onShow={onShow}>
       <CloseButtonPanel
@@ -75,7 +74,6 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
             showVisitList={isVisiting}
             inventory={inventory}
             travelAllowed={travelAllowed}
-            hasBetaAccess={hasBetaAccess}
             onClose={onClose}
           />
         </div>
