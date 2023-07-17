@@ -130,7 +130,7 @@ export const craftingMachine = createMachine<
   },
   {
     services: {
-      createTimer: (_) => (cb) => {
+      createTimer: () => (cb) => {
         cb("TICK");
         const interval = setInterval(() => {
           cb("TICK");
