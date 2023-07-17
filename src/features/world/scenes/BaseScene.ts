@@ -549,8 +549,9 @@ export abstract class BaseScene extends Phaser.Scene {
     }
   }
 
-  update(time: number, delta: number): void {
-    // this.elapsedTime += delta;
+  update(time: number): void {
+  //update(time: number, delta: number): void {
+      // this.elapsedTime += delta;
     // while (this.elapsedTime >= this.fixedTimeStep) {
     //   this.elapsedTime -= this.fixedTimeStep;
     //   this.fixedTick(time, this.fixedTimeStep);
