@@ -399,7 +399,6 @@ export function startGoblinVillage(authContext: AuthContext) {
               if (Number(sfl) > 0) {
                 const { sessionId } = await withdrawSFL({
                   farmId: Number(user.farmId),
-                  sessionId: context.sessionId as string,
                   token: user.rawToken as string,
                   sfl,
                   captcha,
@@ -414,7 +413,6 @@ export function startGoblinVillage(authContext: AuthContext) {
               if (ids.length > 0) {
                 const { sessionId } = await withdrawItems({
                   farmId: Number(user.farmId),
-                  sessionId: context.sessionId as string,
                   token: user.rawToken as string,
                   amounts,
                   ids,

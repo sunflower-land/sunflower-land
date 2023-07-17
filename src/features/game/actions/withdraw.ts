@@ -12,7 +12,6 @@ const API_URL = CONFIG.API_URL;
 
 type SFLOptions = {
   farmId: number;
-  sessionId: string;
   sfl: number;
   token: string;
   captcha: string;
@@ -21,7 +20,6 @@ type SFLOptions = {
 
 export async function withdrawSFL({
   farmId,
-  sessionId,
   sfl,
   token,
   transactionId,
@@ -59,7 +57,6 @@ export async function withdrawSFL({
 
 type ItemsOptions = {
   farmId: number;
-  sessionId: string;
   ids: number[];
   amounts: string[];
   token: string;
@@ -69,7 +66,6 @@ type ItemsOptions = {
 
 export async function withdrawItems({
   farmId,
-  sessionId,
   ids,
   amounts,
   token,
