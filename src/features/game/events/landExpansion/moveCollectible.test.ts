@@ -12,7 +12,6 @@ const GAME_STATE: GameState = {
 };
 
 describe("moveCollectible", () => {
-  const dateNow = Date.now();
   it("throws if player has no Bumpkin", () => {
     expect(() =>
       moveCollectible({
