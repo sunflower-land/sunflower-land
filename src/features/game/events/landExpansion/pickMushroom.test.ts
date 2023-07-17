@@ -29,7 +29,6 @@ describe("pickMushroom", () => {
           type: "mushroom.picked",
           id: errorId,
         },
-        createdAt: Date.now(),
       })
     ).toThrow(`Mushroom not found: ${errorId}`);
   });
@@ -43,7 +42,6 @@ describe("pickMushroom", () => {
         type: "mushroom.picked",
         id,
       },
-      createdAt: Date.now(),
     });
 
     expect(() =>
@@ -53,7 +51,6 @@ describe("pickMushroom", () => {
           type: "mushroom.picked",
           id,
         },
-        createdAt: Date.now(),
       })
     ).toThrow(`Mushroom not found: ${id}`);
   });
@@ -67,7 +64,6 @@ describe("pickMushroom", () => {
         type: "mushroom.picked",
         id,
       },
-      createdAt: Date.now(),
     });
 
     expect(newState.mushrooms?.mushrooms[id]).toBeUndefined();
@@ -82,7 +78,6 @@ describe("pickMushroom", () => {
         type: "mushroom.picked",
         id,
       },
-      createdAt: Date.now(),
     });
 
     expect(newState.inventory["Wild Mushroom"]).toStrictEqual(new Decimal(1));
@@ -97,7 +92,6 @@ describe("pickMushroom", () => {
         type: "mushroom.picked",
         id,
       },
-      createdAt: Date.now(),
     });
 
     const newState2 = pickMushroom({
@@ -106,7 +100,6 @@ describe("pickMushroom", () => {
         type: "mushroom.picked",
         id: "2",
       },
-      createdAt: Date.now(),
     });
 
     expect(newState2.inventory["Wild Mushroom"]).toStrictEqual(new Decimal(2));

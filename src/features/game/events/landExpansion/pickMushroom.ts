@@ -10,14 +10,9 @@ export type PickMushroomAction = {
 type Options = {
   state: Readonly<GameState>;
   action: PickMushroomAction;
-  createdAt?: number;
 };
 
-export function pickMushroom({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options) {
+export function pickMushroom({ state, action }: Options) {
   const copy = cloneDeep<GameState>(state);
   const mushrooms = copy.mushrooms?.mushrooms;
 
