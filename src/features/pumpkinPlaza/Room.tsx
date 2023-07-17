@@ -47,7 +47,7 @@ export const Room: React.FC<Props> = ({
 
   const [restrictedHelper, setRestrictedHelper] = useState<Coordinates>();
 
-  const [testArea, setTestArea] = useState<Coordinates[]>([]);
+  const testArea = useState<Coordinates[]>([])[0];
 
   const navigate = useNavigate();
   const { id } = useParams();
