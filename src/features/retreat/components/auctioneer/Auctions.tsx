@@ -19,7 +19,7 @@ interface Props {
   onSelect: (id: string) => void;
 }
 export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
-  const [auctioneerState, send] = useActor(auctionService);
+  const auctioneerState = useActor(auctionService)[0];
 
   const { auctions, auctionId } = auctioneerState.context;
 
