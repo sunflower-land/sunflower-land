@@ -9,7 +9,7 @@ interface Props {
 }
 export const BumpkinModerate: React.FC<Props> = ({ accountId }) => {
   const { authService } = useContext(AuthProvider.Context);
-  const [authState, send] = useActor(authService);
+  const authState = useActor(authService)[0];
 
   const [kicked, setKicked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
