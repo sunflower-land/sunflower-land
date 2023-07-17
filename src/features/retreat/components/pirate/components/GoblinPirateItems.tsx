@@ -29,7 +29,7 @@ export const GoblinPirateItems: React.FC<Props> = ({ onClose }) => {
   const { goblinService } = useContext(Context);
   const [
     {
-      context: { state, mintedAtTimes },
+      context: { state },
     },
   ] = useActor(goblinService);
   const [isLoading, setIsLoading] = useState(true);
