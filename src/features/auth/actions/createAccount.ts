@@ -51,6 +51,7 @@ export async function signTransaction(request: Request) {
     bumpkinTokenUri,
     referrerId,
     referrerAmount,
+    conversionRate,
   } = await response.json();
 
   return {
@@ -62,6 +63,7 @@ export async function signTransaction(request: Request) {
     bumpkinTokenUri,
     referrerId,
     referrerAmount,
+    conversionRate,
   };
 }
 

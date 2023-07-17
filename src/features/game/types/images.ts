@@ -186,6 +186,7 @@ import fruitPlatter from "assets/achievements/fruit_platter.png";
 // Coupons
 import ticket from "assets/icons/ticket.png";
 import blockBuck from "assets/icons/block_buck.png";
+import goldPass from "assets/icons/gold-pass.png";
 import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
 import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
@@ -2262,5 +2263,10 @@ export const ITEM_DETAILS: Items = {
     image: dawnFlower,
     description:
       "Embrace the radiant beauty of the Dawn Flower as its delicate petals shimmer with the first light of day",
+  },
+  "Gold Pass": {
+    image: goldPass,
+    description:
+      "An exlusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content",
   },
 };

@@ -9,6 +9,12 @@ export type SeasonPassName =
   | "Solar Flare Banner"
   | "Witches' Eve Banner";
 
+export type PurchasableItems =
+  | "Dawn Breaker Banner"
+  | "Solar Flare Banner"
+  | "Gold Pass"
+  | "Witches' Eve Banner";
+
 export type HeliosBlacksmithItem =
   | "Immortal Pear"
   | "Treasure Map"

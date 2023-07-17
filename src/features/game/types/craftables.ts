@@ -191,6 +191,8 @@ export type CollectibleName =
   | SoldOutCollectibleName
   | GoblinPirateItemName
   | SeasonPassName
+  | "Dawn Breaker Banner"
+  | "Solar Flare Banner"
   | BoostTreasure
   | WarBanner
   | LanternName

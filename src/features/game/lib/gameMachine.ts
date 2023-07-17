@@ -55,7 +55,7 @@ import { randomID } from "lib/utils/random";
 import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 
 import { buySFL } from "../actions/buySFL";
-import { SeasonPassName } from "../types/collectibles";
+import { PurchasableItems } from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
@@ -128,7 +128,7 @@ type SyncEvent = {
 
 type PurchaseEvent = {
   type: "PURCHASE_ITEM";
-  name: SeasonPassName;
+  name: PurchasableItems;
   amount: number;
 };
 

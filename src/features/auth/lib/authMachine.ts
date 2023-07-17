@@ -542,7 +542,7 @@ export const authMachine = createMachine<
                   cond: "hasFarm",
                 },
 
-                { target: "offer" },
+                { target: "funding" },
               ],
               onError: [
                 {
@@ -579,23 +579,35 @@ export const authMachine = createMachine<
               REFRESH: {
                 target: "#reconnecting",
               },
-            },
-          },
-          selectPaymentMethod: {
-            on: {
+
               BACK: {
-                target: "offer",
+                target: "#signIn",
               },
               SELECT_POKO: {
                 target: "creatingPokoFarm",
                 actions: () => analytics.logEvent("select_poko"),
               },
-              SELECT_MATIC: {
-                target: "funding",
-                actions: () => analytics.logEvent("select_matic"),
-              },
+              // SELECT_MATIC: {
+              //   target: "funding",
+              //   actions: () => analytics.logEvent("select_matic"),
+              // },
             },
           },
+          // selectPaymentMethod: {
+          //   on: {
+          //     BACK: {
+          //       target: "offer",
+          //     },
+          //     SELECT_POKO: {
+          //       target: "creatingPokoFarm",
+          //       actions: () => analytics.logEvent("select_poko"),
+          //     },
+          //     SELECT_MATIC: {
+          //       target: "funding",
+          //       actions: () => analytics.logEvent("select_matic"),
+          //     },
+          //   },
+          // },
           creatingPokoFarm: {
             on: {
               CONTINUE: {
@@ -627,7 +639,8 @@ export const authMachine = createMachine<
             entry: () => analytics.logEvent("offer_seen"),
             on: {
               CONTINUE: {
-                target: "selectPaymentMethod",
+                // target: "selectPaymentMethod",
+                target: "funding",
                 actions: () => analytics.logEvent("offer_accepted"),
               },
             },
@@ -1020,7 +1033,7 @@ export const authMachine = createMachine<
 
         const secondsElapsed =
           Date.now() / 1000 - (event.data as Farm).createdAt;
-        return secondsElapsed < 60;
+        return secondsElapsed < 30;
       },
       hasFarm: (context: Context, event: any) => {
         // If coming from the loadingFarm transition the farmId with show up on the event

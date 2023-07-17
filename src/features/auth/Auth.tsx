@@ -21,12 +21,9 @@ import { Verifying } from "./components/Verifying";
 import { Welcome } from "./components/Welcome";
 import { Offer } from "./components/Offer";
 import classNames from "classnames";
-import { NPC_WEARABLES } from "lib/npcs";
 import { SignIn } from "./components/SignIn";
 import { CreateWallet } from "./components/CreateWallet";
-import { getOnboardingComplete } from "./actions/createGuestAccount";
 import { BuyWithPoko } from "./components/BuyWithPoko";
-import { SelectPaymentMethod } from "./components/SelectPaymentMethod";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -59,12 +56,7 @@ export const Auth: React.FC = () => {
     >
       <div
         className={classNames(
-          "relative flex items-center justify-center mb-4 -mt-44 w-full max-w-xl transition-opacity duration-500 opacity-0",
-          {
-            "opacity-100":
-              authState.matches("welcome") ||
-              (authState.matches("signIn") && getOnboardingComplete()),
-          }
+          "relative flex items-center justify-center mb-4 w-full -mt-12 max-w-xl transition-opacity duration-500 opacity-100"
         )}
       >
         <div className="w-[90%] relative">
@@ -80,25 +72,14 @@ export const Auth: React.FC = () => {
           <img id="logo" src={logo} className="w-full" />
         </div>
       </div>
-      <Panel
-        className="pb-1"
-        bumpkinParts={
-          authState.matches({ connected: "offer" }) ||
-          authState.matches({ connected: "selectPaymentMethod" }) ||
-          authState.matches("createWallet") ||
-          (authState.matches("signIn") && !getOnboardingComplete()) ||
-          authState.matches({ connected: "funding" })
-            ? NPC_WEARABLES.grimbly
-            : undefined
-        }
-      >
+      <Panel className="pb-1">
         {loading && <Loading />}
         {authState.matches("welcome") && <Welcome />}
         {authState.matches("createWallet") && <CreateWallet />}
         {authState.matches({ connected: "offer" }) && <Offer />}
-        {authState.matches({ connected: "selectPaymentMethod" }) && (
+        {/* {authState.matches({ connected: "selectPaymentMethod" }) && (
           <SelectPaymentMethod />
-        )}
+        )} */}
         {authState.matches({ connected: "creatingPokoFarm" }) && (
           <BuyWithPoko />
         )}
