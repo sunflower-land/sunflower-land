@@ -1,37 +1,44 @@
 import React, { useContext } from "react";
 import { Context } from "features/game/GameProvider";
-import { NPC_WEARABLES } from "lib/npcs";
+import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Message, SpeakingModal } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
+import { defaultDialogue, npcDialogues } from "./dialogues";
 
 interface Props {
   onClose: () => void;
+  npc: NPCName;
 }
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
-export const Grimbly: React.FC<Props> = ({ onClose }) => {
+export const DeliveryModal: React.FC<Props> = ({ npc, onClose }) => {
   const { gameService } = useContext(Context);
 
   const delivery = useSelector(gameService, _delivery);
   const inventory = useSelector(gameService, _inventory);
 
   // Get order from grimbly
-  const order = delivery.orders.filter(
-    (order) => order.from === "grimbly"
-  )?.[0];
+  const order = delivery.orders.filter((order) => order.from === npc)?.[0];
+  const dialogue = npcDialogues[npc] || defaultDialogue;
 
   if (!order) {
     return (
       <SpeakingModal
-        bumpkinParts={NPC_WEARABLES.grimbly}
+        bumpkinParts={NPC_WEARABLES[npc]}
         onClose={onClose}
-        message={[{ text: "I don't have any orders for you right now." }]}
+        message={[
+          {
+            text: dialogue.noOrder[
+              Math.floor(Math.random() * dialogue.noOrder.length)
+            ],
+          },
+        ]}
       />
     );
   }
@@ -51,13 +58,23 @@ export const Grimbly: React.FC<Props> = ({ onClose }) => {
   };
 
   const createMessages = () => {
-    const message: Message[] = [
-      { text: "Oh its you... I thought you would never get here!" },
-    ];
+    // Randomised dialogue
+    const intro =
+      dialogue.intro[Math.floor(Math.random() * dialogue.intro.length)];
+    const positive =
+      dialogue.positiveDelivery[
+        Math.floor(Math.random() * dialogue.positiveDelivery.length)
+      ];
+    const negative =
+      dialogue.negativeDelivery[
+        Math.floor(Math.random() * dialogue.negativeDelivery.length)
+      ];
+
+    const message: Message[] = [{ text: intro }];
 
     if (!hasRequirements()) {
       message.push({
-        text: "It looks like you're wasting my time. Come back when you have the items I need!",
+        text: negative,
         jsx: (
           <div className="flex flex-col space-y-1 mt-3">
             {getKeys(order.items).map((itemName) => (
@@ -79,7 +96,7 @@ export const Grimbly: React.FC<Props> = ({ onClose }) => {
     }
 
     message.push({
-      text: "Great! It looks like you have everything I need. Are you ready to deliver?",
+      text: positive,
       jsx: (
         <div className="flex flex-col space-y-1 mt-3">
           {getKeys(order.items).map((itemName) => (

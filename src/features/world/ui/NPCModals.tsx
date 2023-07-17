@@ -1,7 +1,5 @@
-import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { HeliosBlacksmithItems } from "features/helios/components/blacksmith/component/HeliosBlacksmithItems";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
@@ -10,7 +8,7 @@ import { Bella } from "./dawn/Bella";
 import { CommunityIslands } from "./community/CommunityIslands";
 import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
 import { WanderLeaf } from "./dawn/WanderLeaf";
-import { Grimbly } from "./deliveries/Grimbly";
+import { DeliveryModal } from "./deliveries/DeliveryModal";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -56,16 +54,6 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
         centered
         onHide={closeModal}
       >
-        {npc === "pumpkin'pete" && (
-          <SpeakingModal
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES["pumpkin'pete"]}
-            message={[
-              { text: "Hello, I'm Pumpkin'Pete!" },
-              { text: "Welcome to the Plaza!" },
-            ]}
-          />
-        )}
         {npc === "sofia" && <Sofia onClose={closeModal} />}
         {npc === "bella" && <Bella onClose={closeModal} />}
         {npc === "wanderleaf" && <WanderLeaf onClose={closeModal} />}
@@ -88,20 +76,6 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
             <CommunityIslands />
           </CloseButtonPanel>
         )}
-        {npc === "timmy" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.timmy}
-          >
-            <div className="p-2">
-              <p className="mb-2">Howdy Stranger!</p>
-              <p className="mb-2">
-                {`Whaaaaat....you've been to Sunflower Land?!?`}
-              </p>
-              <p className="mb-2">{`Huh, you don't look that old...`}</p>
-            </div>
-          </CloseButtonPanel>
-        )}
         {npc === "lily" && (
           <CloseButtonPanel
             onClose={closeModal}
@@ -110,15 +84,6 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
             <div className="p-2">
               <p className="mb-2">Mum told me not to talk to the Goblins...</p>
             </div>
-          </CloseButtonPanel>
-        )}
-        {npc === "igor" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.igor}
-            tabs={[{ icon: SUNNYSIDE.icons.hammer, name: "Craft" }]}
-          >
-            <HeliosBlacksmithItems />
           </CloseButtonPanel>
         )}
         {npc === "hammerin' harry" && (
@@ -140,17 +105,6 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
               },
             ]}
           />
-        )}
-        {npc === "grimbly" && <Grimbly onClose={closeModal} />}
-        {npc === "grimtooth" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.grimtooth}
-          >
-            <div className="p-2">
-              <p className="mb-2">Aaaa</p>
-            </div>
-          </CloseButtonPanel>
         )}
         {npc === "craig" && (
           <CloseButtonPanel
@@ -177,6 +131,26 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
             </div>
           </CloseButtonPanel>
         )}
+        {/* Delivery NPC's */}
+        {npc === "pumpkin'pete" && (
+          <DeliveryModal npc={npc} onClose={closeModal} />
+        )}
+        {/* Change to Blacksmith */}
+        {npc === "igor" && <DeliveryModal npc={npc} onClose={closeModal} />}
+        {/* Add to map */}
+        {npc === "raven" && <DeliveryModal npc={npc} onClose={closeModal} />}
+        {/* Add to map */}
+        {npc === "tywin" && <DeliveryModal npc={npc} onClose={closeModal} />}
+        {npc === "grimbly" && <DeliveryModal npc={npc} onClose={closeModal} />}
+        {npc === "grimtooth" && (
+          <DeliveryModal npc={npc} onClose={closeModal} />
+        )}
+        {npc === "bert" && <DeliveryModal npc={npc} onClose={closeModal} />}
+        {npc === "timmy" && <DeliveryModal npc={npc} onClose={closeModal} />}
+        {npc === "old salty" && (
+          <DeliveryModal npc={npc} onClose={closeModal} />
+        )}
+        {npc === "betty" && <DeliveryModal npc={npc} onClose={closeModal} />}
       </Modal>
     </>
   );
