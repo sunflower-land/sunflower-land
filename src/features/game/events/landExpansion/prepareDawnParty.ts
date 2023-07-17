@@ -10,7 +10,6 @@ export type PreparePartyAction = {
 
 type Options = {
   state: Readonly<GameState>;
-  action: PreparePartyAction;
   createdAt?: number;
 };
 
@@ -19,7 +18,6 @@ export const PARTY_COOLDOWN = 12 * 60 * 60 * 1000;
 
 export function prepareParty({
   state,
-  action,
   createdAt = Date.now(),
 }: Options): GameState {
   const game = cloneDeep(state);
