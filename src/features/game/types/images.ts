@@ -1361,11 +1361,11 @@ export const ITEM_DETAILS: Items = {
   },
   Toolshed: {
     image: toolshed,
-    description: "Increase your tool stocks",
+    description: "Increase your tool stocks by 50%",
   },
   Warehouse: {
     image: warehouse,
-    description: "Increase your seed stocks",
+    description: "Increase your seed stocks by 20%",
   },
 
   "Sunflower Amulet": {
