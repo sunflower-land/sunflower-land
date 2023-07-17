@@ -31,7 +31,6 @@ export const PlaceableController: React.FC = () => {
         requirements,
         coordinates,
         maximum,
-        action,
       },
     },
     send,
