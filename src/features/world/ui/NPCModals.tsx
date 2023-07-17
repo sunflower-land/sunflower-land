@@ -10,6 +10,7 @@ import { Bella } from "./dawn/Bella";
 import { CommunityIslands } from "./community/CommunityIslands";
 import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
 import { WanderLeaf } from "./dawn/WanderLeaf";
+import { Grimbly } from "./deliveries/Grimbly";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -31,6 +32,7 @@ interface Props {
   onClose: () => void;
   onOpen: () => void;
 }
+
 export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
   const [npc, setNpc] = useState<NPCName>();
 
@@ -139,16 +141,7 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
             ]}
           />
         )}
-        {npc === "grimbly" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.grimbly}
-          >
-            <div className="p-2">
-              <p className="mb-2">Aaccckkkk!</p>
-            </div>
-          </CloseButtonPanel>
-        )}
+        {npc === "grimbly" && <Grimbly onClose={closeModal} />}
         {npc === "grimtooth" && (
           <CloseButtonPanel
             onClose={closeModal}

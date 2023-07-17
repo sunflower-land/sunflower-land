@@ -6,17 +6,17 @@ import classNames from "classnames";
 import { TypingMessage } from "features/world/ui/TypingMessage";
 import { Button } from "components/ui/Button";
 
-export interface PanelTabs {
-  icon: string;
-  name: string;
-  unread?: boolean;
-}
+export type Message = {
+  text: string;
+  jsx?: JSX.Element;
+  actions?: { text: string; cb: () => void }[];
+};
 
 interface Props {
   onClose: () => void;
   bumpkinParts?: Partial<Equipped>;
   className?: string;
-  message: { text: string; actions?: { text: string; cb: () => void }[] }[];
+  message: Message[];
 }
 
 /**
@@ -78,35 +78,36 @@ export const SpeakingModal: React.FC<Props> = ({
         style={{ minHeight: "100px" }}
         onClick={handleClick}
       >
-        <div className="flex-1  pb-2">
+        <div className="flex-1 pb-2">
           <TypingMessage
             message={message[currentMessage].text}
             key={currentMessage}
             onMessageEnd={() => setCurrentTextEnded(true)}
             forceShowFullMessage={forceShowFullMessage}
           />
-          {showActions && (
-            <div className="flex mt-2 justify-start ">
-              {message[currentMessage].actions?.map((action) => (
-                <Button
-                  key={action.text}
-                  className="w-auto px-4 mr-2"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    action.cb();
-                  }}
-                >
-                  {action.text}
-                </Button>
-              ))}
-            </div>
-          )}
+          {message[currentMessage].jsx}
         </div>
         {currentMessage !== message.length - 1 && (
           <p className="text-xxs italic float-right">(Tap to continue)</p>
         )}
       </div>
+      {showActions && (
+        <div className="flex space-x-1">
+          {message[currentMessage].actions?.map((action) => (
+            <Button
+              key={action.text}
+              className="w-full"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                action.cb();
+              }}
+            >
+              {action.text}
+            </Button>
+          ))}
+        </div>
+      )}
     </Panel>
   );
 };
