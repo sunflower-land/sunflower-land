@@ -24,9 +24,6 @@ describe("tendDawnFlower", () => {
   it("throws an error if bumpkin is not wearing an Eggplant oneise", () => {
     expect(() =>
       tendDawnFlower({
-        action: {
-          type: "dawnFlower.tended",
-        },
         state: {
           ...farm,
           bumpkin: INITIAL_BUMPKIN,
@@ -38,9 +35,6 @@ describe("tendDawnFlower", () => {
   it("plants dawn flower", () => {
     const now = Date.now();
     const state = tendDawnFlower({
-      action: {
-        type: "dawnFlower.tended",
-      },
       state: {
         ...farm,
         bumpkin: eggplantBumpkin,
@@ -58,9 +52,6 @@ describe("tendDawnFlower", () => {
   it("throws an error if tended in last 24 hours", () => {
     expect(() =>
       tendDawnFlower({
-        action: {
-          type: "dawnFlower.tended",
-        },
         state: {
           ...farm,
           dawnBreaker: {
@@ -79,9 +70,6 @@ describe("tendDawnFlower", () => {
   it("tends flower once", () => {
     const now = Date.now();
     const state = tendDawnFlower({
-      action: {
-        type: "dawnFlower.tended",
-      },
       state: {
         ...farm,
         dawnBreaker: {
@@ -106,9 +94,6 @@ describe("tendDawnFlower", () => {
   it("tends flower 9 times", () => {
     const now = Date.now();
     const state = tendDawnFlower({
-      action: {
-        type: "dawnFlower.tended",
-      },
       state: {
         ...farm,
         dawnBreaker: {
@@ -133,9 +118,6 @@ describe("tendDawnFlower", () => {
   it("harvests dawn flower on 10th turn", () => {
     const now = Date.now();
     const state = tendDawnFlower({
-      action: {
-        type: "dawnFlower.tended",
-      },
       state: {
         ...farm,
         dawnBreaker: {
@@ -160,9 +142,6 @@ describe("tendDawnFlower", () => {
   it("throws error if already harvested", () => {
     expect(() =>
       tendDawnFlower({
-        action: {
-          type: "dawnFlower.tended",
-        },
         state: {
           ...farm,
           dawnBreaker: {

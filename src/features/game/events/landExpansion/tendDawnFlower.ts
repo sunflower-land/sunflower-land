@@ -8,7 +8,6 @@ export type TendDawnFlowerAction = {
 
 type Options = {
   state: Readonly<GameState>;
-  action: TendDawnFlowerAction;
   createdAt?: number;
 };
 
@@ -16,7 +15,6 @@ export const DAWN_FLOWER_COOLDOWN = 24 * 60 * 60 * 1000;
 
 export function tendDawnFlower({
   state,
-  action,
   createdAt = Date.now(),
 }: Options): GameState {
   const game = cloneDeep(state);
