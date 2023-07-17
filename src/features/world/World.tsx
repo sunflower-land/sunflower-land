@@ -34,8 +34,6 @@ const _isMinting = (state: MachineState) => state.matches("minting");
 const _isSynced = (state: MachineState) => state.matches("synced");
 const _isErrored = (state: MachineState) => state.matches("error");
 const _refreshing = (state: MachineState) => state.matches("refreshing");
-const _hasAccess = (state: MachineState) =>
-  !!state.context.state.inventory["Beta Pass"];
 
 export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
   const { gameService } = useContext(Context);
@@ -44,7 +42,6 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
   const synced = useSelector(gameService, _isSynced);
   const errored = useSelector(gameService, _isErrored);
   const refreshing = useSelector(gameService, _refreshing);
-  const hasPass = useSelector(gameService, _hasAccess);
   const { name } = useParams();
 
   return (
