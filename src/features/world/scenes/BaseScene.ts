@@ -257,7 +257,7 @@ export abstract class BaseScene extends Phaser.Scene {
       "Building Layer 3",
       "Building Layer 4",
     ];
-    this.map.layers.forEach((layerData, idx) => {
+    this.map.layers.forEach((layerData) => {
       const layer = this.map.createLayer(layerData.name, tileset, 0, 0);
       if (TOP_LAYERS.includes(layerData.name)) {
         layer?.setDepth(1000000);
