@@ -148,7 +148,6 @@ const VisitFriendListItem: React.FC<{ onClick: () => void }> = ({
   );
 };
 
-const userTypeSelector = (state: AuthMachineState) => state.context.user.type;
 const farmIdSelector = (state: AuthMachineState) =>
   state.context.user.farmId ?? "guest";
 const stateSelector = (state: AuthMachineState) => ({
