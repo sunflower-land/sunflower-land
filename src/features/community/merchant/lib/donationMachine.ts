@@ -72,7 +72,7 @@ export const donationMachine = createMachine<Context, Event, DonationState>({
         },
         onDone: {
           target: "donated",
-          actions: assign({ hasDonated: (_event) => true }),
+          actions: assign({ hasDonated: () => true }),
         },
         onError: {
           target: "error",
