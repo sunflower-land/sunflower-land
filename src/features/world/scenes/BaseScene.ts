@@ -147,14 +147,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
     if (this.options.map?.tilesetUrl)
       this.load.image("community-tileset", this.options.map.tilesetUrl);
-
-    // Shut down the sound when the scene changes
-    const event = this.events.once("shutdown", () => {
-      this.sound.getAllPlaying().forEach((sound) => {
-        sound.destroy();
-      });
-      this.soundEffects = [];
-    });
   }
 
   init(data: SceneTransitionData) {
