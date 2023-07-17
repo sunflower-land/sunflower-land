@@ -6,7 +6,6 @@ export type DetectBotAction = {
 
 type Options = {
   state: Readonly<GameState>;
-  createdAt?: number;
 };
 
 const host = window.location.host.replace(/^www\./, "");
@@ -39,7 +38,7 @@ export function isSwarming() {
   return Date.now() < time.getTime();
 }
 
-export function detectBot({ state, createdAt = Date.now() }: Options) {
+export function detectBot({ state }: Options) {
   setGoblinSwarm();
 
   return state;
