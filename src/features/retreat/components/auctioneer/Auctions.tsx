@@ -21,7 +21,7 @@ interface Props {
 export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
   const auctioneerState = useActor(auctionService)[0];
 
-  const { auctions, auctionId } = auctioneerState.context;
+  const { auctions } = auctioneerState.context;
 
   const currentAuctions = auctions.filter(
     (auction) => auction.endAt > Date.now()
