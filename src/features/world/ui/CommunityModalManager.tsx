@@ -45,7 +45,7 @@ export const CommunityModals: React.FC<Props> = ({ onClose, onOpen }) => {
   const [modal, setModal] = useState<CommunityModal>();
 
   useEffect(() => {
-    communityModalManager.listen((modal, open) => {
+    communityModalManager.listen((modal) => {
       console.log("OPENED", { modal });
       setModal(modal);
       setTimeout(onOpen, 100); // Lag the pause of movement to give natural effect
