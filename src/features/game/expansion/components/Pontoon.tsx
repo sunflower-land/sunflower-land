@@ -17,7 +17,7 @@ interface Props {
  * Goblins working hard constructing a piece of land
  */
 export const Pontoon: React.FC<Props> = ({ expansion }) => {
-  const { gameService, showTimers } = useContext(Context);
+  const { showTimers } = useContext(Context);
 
   const [showPopover, setShowPopover] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(
