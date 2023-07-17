@@ -37,8 +37,6 @@ export function completeChore({ state }: Options): GameState {
     throw new Error("Not the same Bumpkin");
   }
 
-  const activity = game.hayseedHank.chore.activity;
-
   const progress = getProgress(game);
 
   if (progress < game.hayseedHank.chore.requirement) {
