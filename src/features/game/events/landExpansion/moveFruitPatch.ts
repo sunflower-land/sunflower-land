@@ -16,14 +16,9 @@ export type MoveFruitPatchAction = {
 type Options = {
   state: Readonly<GameState>;
   action: MoveFruitPatchAction;
-  createdAt?: number;
 };
 
-export function moveFruitPatch({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function moveFruitPatch({ state, action }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
   const fruitPatch = stateCopy.fruitPatches;
 
