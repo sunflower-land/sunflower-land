@@ -68,9 +68,7 @@ export const PotionHouse: React.FC = () => {
             {page === "intro" && (
               <IntroPage onClose={() => setPage("playing")} />
             )}
-            {page === "playing" && (
-              <Experiment onClose={() => setIsOpen(false)} />
-            )}
+            {page === "playing" && <Experiment />}
             {page === "rules" && <Rules onDone={() => setPage("playing")} />}
           </div>
         </div>

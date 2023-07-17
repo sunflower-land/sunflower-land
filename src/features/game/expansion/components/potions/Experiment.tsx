@@ -20,10 +20,6 @@ import { InventoryItemName, PotionName } from "features/game/types/game";
 import { calculateScore } from "features/game/events/landExpansion/mixPotion";
 import { Potion } from "./lib/types";
 
-interface Props {
-  onClose: () => void;
-}
-
 type Potions = [
   PotionName | null,
   PotionName | null,
@@ -106,7 +102,7 @@ const gameHandler = (state: PotionState, action: PotionAction): PotionState => {
   }
 };
 
-export const Experiment: React.FC<Props> = ({ onClose }) => {
+export const Experiment: React.FC = () => {
   const { gameService } = useContext(Context);
 
   const potionHouse = gameService.state.context.state.potionHouse;
