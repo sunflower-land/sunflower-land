@@ -63,7 +63,7 @@ export const InteractableModals: React.FC<Props> = ({
   const [interactable, setInteractable] = useState<InteractableName>();
 
   useEffect(() => {
-    interactableModalManager.listen((interactable, open) => {
+    interactableModalManager.listen((interactable) => {
       setInteractable(interactable);
       onOpen();
     });
