@@ -7,8 +7,13 @@ import { SFLDiscount } from "../lib/SFLDiscount";
 export type SeasonPassName =
   | "Dawn Breaker Banner"
   | "Solar Flare Banner"
-  | "Witches' Eve Banner"
-  | "Gold Pass";
+  | "Witches' Eve Banner";
+
+export type PurchasableItems =
+  | "Dawn Breaker Banner"
+  | "Solar Flare Banner"
+  | "Gold Pass"
+  | "Witches' Eve Banner";
 
 export type HeliosBlacksmithItem =
   | "Immortal Pear"
