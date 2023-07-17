@@ -4,7 +4,6 @@ import Decimal from "decimal.js-light";
 import { POTIONS } from "features/game/expansion/components/potions/lib/potions";
 
 describe("mixPotion", () => {
-  const now = Date.now();
   const GAME_STATE = {
     ...TEST_FARM,
     bumpkin: INITIAL_BUMPKIN,
