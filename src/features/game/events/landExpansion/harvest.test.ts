@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import cloneDeep from "lodash.clonedeep";
 import { GameState, CropPlot } from "../../types/game";
 import { harvest } from "./harvest";
 
@@ -12,12 +11,6 @@ const GAME_STATE: GameState = {
 };
 
 describe("harvest", () => {
-  let gameState: GameState;
-
-  beforeEach(() => {
-    gameState = cloneDeep(GAME_STATE);
-  });
-
   const dateNow = Date.now();
 
   it("does not harvest on non-existent plot", () => {
