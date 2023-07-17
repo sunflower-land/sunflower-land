@@ -13,11 +13,10 @@ export type ExpandLandAction = {
 
 type Options = {
   state: Readonly<GameState>;
-  action: ExpandLandAction;
   createdAt?: number;
 };
 
-export function expandLand({ state, action, createdAt = Date.now() }: Options) {
+export function expandLand({ state, createdAt = Date.now() }: Options) {
   const game = cloneDeep(state) as GameState;
   const bumpkin = game.bumpkin;
 
