@@ -20,14 +20,9 @@ export type MoveCollectibleAction = {
 type Options = {
   state: Readonly<GameState>;
   action: MoveCollectibleAction;
-  createdAt?: number;
 };
 
-export function moveCollectible({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function moveCollectible({ state, action }: Options): GameState {
   console.log({ action });
   const stateCopy = cloneDeep(state) as GameState;
   const collectibleGroup = stateCopy.collectibles[action.name];

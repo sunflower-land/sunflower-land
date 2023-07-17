@@ -174,7 +174,6 @@ describe("moveCollectible", () => {
         id: "123",
         coordinates: { x: 2, y: 2 },
       },
-      createdAt: dateNow,
     });
 
     expect(gameState.collectibles["Nancy"]).toEqual([
@@ -232,7 +231,6 @@ describe("moveCollectible", () => {
           id: "123",
           coordinates: { x: 2, y: 2 },
         },
-        createdAt: dateNow,
       })
     ).toThrow("Chickens are fed");
   });
