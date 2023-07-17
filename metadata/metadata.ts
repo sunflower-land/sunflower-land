@@ -2275,7 +2275,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   Toolshed: {
     name: "Toolshed",
-    description: "A Toolshed increases your tool stocks",
+    description: "A Toolshed increases your tool stocks by 50%",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1011.png",
@@ -2283,7 +2283,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   Warehouse: {
     name: "Warehouse",
-    description: "A Warehouse increases your seed stocks",
+    description: "A Warehouse increases your seed stocks by 20%",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1012.png",
