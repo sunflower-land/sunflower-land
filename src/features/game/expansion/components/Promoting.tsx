@@ -14,7 +14,6 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { hasFeatureAccess } from "lib/flags";
 import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
 
 const isPromoting = (state: MachineState) => state.matches("promoting");
@@ -69,18 +68,6 @@ export const PromotingModal: React.FC<Props> = ({
   const inventory = useSelector(gameService, _inventory);
 
   const Content = () => {
-    if (!hasFeatureAccess(inventory, "WITCHES_EVE_BANNER")) {
-      return (
-        <>
-          <div className="p-2">
-            <p className="text-sm">
-              {`You will need to wait until next season for my exclusive deals.`}
-            </p>
-          </div>
-        </>
-      );
-    }
-
     if (hasPurchased) {
       return (
         <>

@@ -75,7 +75,6 @@ import { getSessionId } from "lib/blockchain/Session";
 import { depositBumpkin } from "../actions/deposit";
 import { mintAuctionItem } from "../actions/mintAuctionItem";
 import { BumpkinItem } from "../types/bumpkin";
-import { hasFeatureAccess } from "lib/flags";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -650,10 +649,6 @@ export function startGame(authContext: AuthContext) {
               target: "promoting",
               cond: (context) =>
                 !getSeasonPassRead() &&
-                hasFeatureAccess(
-                  context.state.inventory,
-                  "WITCHES_EVE_BANNER"
-                ) &&
                 (context.state.bumpkin?.experience ?? 0) > 0,
             },
             {
