@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { SealModal } from "features/community/seal/SealModal";
 
@@ -47,7 +47,7 @@ interface Props {
 export const LostSeal: React.FC<Props> = ({ left, top }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const sealImg = getRandomSeal();
-  const [showSeal, setShowSeal] = useState(getShowSealRandom());
+  const showSeal = getShowSealRandom();
 
   return (
     <div
