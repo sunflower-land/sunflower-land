@@ -16,14 +16,9 @@ export type MoveTreeAction = {
 type Options = {
   state: Readonly<GameState>;
   action: MoveTreeAction;
-  createdAt?: number;
 };
 
-export function moveTree({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function moveTree({ state, action }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
   const trees = stateCopy.trees;
 
