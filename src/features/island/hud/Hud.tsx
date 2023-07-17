@@ -56,7 +56,6 @@ const HudComponent: React.FC<{
   const farmAddress = isFullUser ? user.farmAddress : undefined;
 
   const isDawnBreakerIsland = location.pathname.includes("dawn-breaker");
-  const isHelios = location.pathname.includes("helios");
 
   return (
     <>
