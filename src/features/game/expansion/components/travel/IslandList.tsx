@@ -164,7 +164,6 @@ export const IslandList: React.FC<IslandListProps> = ({
   onClose,
 }) => {
   const { authService } = useContext(Auth.Context);
-  const userType = useSelector(authService, userTypeSelector);
   const farmId = useSelector(authService, farmIdSelector);
   const state = useSelector(authService, stateSelector);
 
