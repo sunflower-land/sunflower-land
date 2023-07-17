@@ -66,7 +66,7 @@ export function startCommunityMachine(authContext: AuthContext) {
                 id: farmId,
               });
               const sessionIdFn = getSessionId(wallet.web3Provider, farmId);
-              const [onChainState, sessionId] = await Promise.all([
+              const [, sessionId] = await Promise.all([
                 onChainStateFn,
                 sessionIdFn,
               ]);
