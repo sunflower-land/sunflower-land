@@ -16,17 +16,13 @@ export type CompleteChoreAction = {
 type Options = {
   state: Readonly<GameState>;
   action: CompleteChoreAction;
-  createdAt?: number;
 };
 
 const clone = (state: GameState): GameState => {
   return cloneDeep(state);
 };
 
-export function completeChore({
-  state,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function completeChore({ state }: Options): GameState {
   let game = clone(state);
 
   if (!game.bumpkin) {
