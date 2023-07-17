@@ -25,8 +25,6 @@ interface Props {
   onClose: () => void;
 }
 
-const _isPlaying = (state: GameMachineState) =>
-  state.matches("playing") || state.matches("rules");
 const _isGameOver = (state: GameMachineState) =>
   !state.matches("playing") && !state.matches("rules");
 
