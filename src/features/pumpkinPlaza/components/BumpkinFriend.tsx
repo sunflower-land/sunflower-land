@@ -22,7 +22,7 @@ export const BumpkinFriend: React.FC<Props> = ({
 }) => {
   const [tab, setTab] = useState(0);
   const { authService } = useContext(AuthProvider.Context);
-  const [authState, send] = useActor(authService);
+  const authState = useActor(authService)[0];
 
   const tabs = [
     {
