@@ -19,14 +19,9 @@ export type MoveBuildingAction = {
 type Options = {
   state: Readonly<GameState>;
   action: MoveBuildingAction;
-  createdAt?: number;
 };
 
-export function moveBuilding({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function moveBuilding({ state, action }: Options): GameState {
   console.log({ move: action });
   const stateCopy = cloneDeep(state) as GameState;
   const buildings = stateCopy.buildings[action.name];
