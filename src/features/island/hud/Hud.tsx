@@ -51,8 +51,6 @@ const HudComponent: React.FC<{
     gameService.send("DEPOSIT", args);
   };
 
-  const landId = gameState.context.state.id;
-
   const user = authService.state.context.user;
   const isFullUser = user.type === "FULL";
   const farmAddress = isFullUser ? user.farmAddress : undefined;
