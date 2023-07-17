@@ -37,7 +37,7 @@ class ScreenTracker {
 
   private clicks: number[] = [];
 
-  private clicked(event: MouseEvent) {
+  private clicked() {
     this.clicks.push(Date.now());
 
     // Only store clicks in the last second
