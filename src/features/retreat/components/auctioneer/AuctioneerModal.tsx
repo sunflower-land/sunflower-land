@@ -51,7 +51,7 @@ export const AuctioneerModal: React.FC<Props> = ({
     },
   }) as unknown as MachineInterpreter;
 
-  const [auctioneerState, send] = useActor(auctionService);
+  const auctioneerState = useActor(auctionService)[0];
 
   console.log({ state: auctioneerState.value });
   useEffect(() => {
