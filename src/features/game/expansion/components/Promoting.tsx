@@ -65,7 +65,6 @@ export const PromotingModal: React.FC<Props> = ({
   const price = hasDiscount ? 3.99 : 5.99;
 
   const { gameService } = useContext(Context);
-  const inventory = useSelector(gameService, _inventory);
 
   const Content = () => {
     if (hasPurchased) {
