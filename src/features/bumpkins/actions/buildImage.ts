@@ -51,7 +51,7 @@ export async function buildImage(request: Request): Promise<string> {
   const img = new Image();
   img.src = url;
 
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     // Check if image already loaded
     if (img.complete) {
       res(url);
