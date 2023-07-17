@@ -141,7 +141,6 @@ describe("fruitTreeRemoved", () => {
         state: {
           ...GAME_STATE,
         },
-        createdAt: Date.now(),
         action: {
           type: "fruitTree.removed",
           selectedItem: "Sunflower Statue",
@@ -155,7 +154,6 @@ describe("fruitTreeRemoved", () => {
     expect(() =>
       removeFruitTree({
         state: { ...GAME_STATE, inventory: { Axe: new Decimal(0) } },
-        createdAt: Date.now(),
         action: {
           type: "fruitTree.removed",
           selectedItem: "Axe",
@@ -248,7 +246,6 @@ describe("fruitTreeRemoved", () => {
             ],
           },
         },
-        createdAt: Date.now(),
         action: {
           type: "fruitTree.removed",
           selectedItem: "Axe",
