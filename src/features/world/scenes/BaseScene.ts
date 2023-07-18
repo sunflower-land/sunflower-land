@@ -1,5 +1,4 @@
 import Phaser, { Physics } from "phaser";
-import { Room } from "colyseus.js";
 
 import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
@@ -7,14 +6,6 @@ import { MachineInterpreter as GameMachineInterpreter } from "features/game/lib/
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
-import {
-  ChatMessageReceived,
-  ClothingChangedEvent,
-  MachineInterpreter,
-  PlayerJoined,
-  PlayerQuit,
-  RoomId,
-} from "../roomMachine";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { npcModalManager } from "../ui/NPCModals";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
@@ -25,9 +16,13 @@ import { AudioController, WalkAudioController } from "../lib/AudioController";
 import { createErrorLogger } from "lib/errorLogger";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { Footsteps } from "assets/sound-effects/soundEffects";
+import {
+  MachineInterpreter as MMOMachineInterpreter,
+  SceneId,
+} from "../mmoMachine";
 
 type SceneTransitionData = {
-  previousSceneId: RoomId;
+  previousSceneId: SceneId;
 };
 
 export type NPCBumpkin = {
@@ -44,7 +39,7 @@ const SEND_PACKET_RATE = 10;
 const NAME_TAG_OFFSET_PX = 12;
 
 type BaseSceneOptions = {
-  name: RoomId;
+  name: SceneId;
   map: {
     tilesetUrl?: string;
     json: any;
@@ -52,7 +47,7 @@ type BaseSceneOptions = {
   mmo?: {
     enabled: boolean;
     url?: string;
-    roomId?: string;
+    sceneId?: string;
   };
   controls?: {
     enabled: boolean; // Default to true
@@ -68,7 +63,7 @@ type BaseSceneOptions = {
 };
 
 export abstract class BaseScene extends Phaser.Scene {
-  abstract roomId: RoomId;
+  abstract sceneId: SceneId;
   eventListener?: (event: EventObject) => void;
 
   private joystick?: VirtualJoystick;
@@ -76,7 +71,8 @@ export abstract class BaseScene extends Phaser.Scene {
   private options: Required<BaseSceneOptions>;
 
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
-  room: Room | undefined;
+
+  private initialised = false;
 
   currentPlayer: BumpkinContainer | undefined;
   serverPosition: { x: number; y: number } = { x: 0, y: 0 };
@@ -167,35 +163,39 @@ export abstract class BaseScene extends Phaser.Scene {
   async create() {
     const errorLogger = createErrorLogger(
       "phaser_base_scene",
-      this.roomService.state.context.farmId
+      Number(this.gameService.state.context.state.id)
     );
 
     try {
       this.initialiseMap();
       this.initialiseSounds();
 
-      if (this.options.mmo.enabled) {
+      if (this.options.mmo.enabled && !this.initialised) {
         this.initialiseMMO();
+        this.initialised = true;
       }
 
       if (this.options.controls.enabled) {
         this.initialiseControls();
       }
 
-      const from = this.sceneTransitionData?.previousSceneId as RoomId;
+      const from = this.sceneTransitionData?.previousSceneId as SceneId;
 
       let spawn = this.options.player.spawn;
 
-      if (SPAWNS[this.roomId]) {
-        spawn = SPAWNS[this.roomId][from] ?? SPAWNS[this.roomId].default;
+      if (SPAWNS[this.sceneId]) {
+        spawn = SPAWNS[this.sceneId][from] ?? SPAWNS[this.sceneId].default;
       }
 
       this.createPlayer({
         x: spawn.x ?? 0,
         y: spawn.y ?? 0,
-        farmId: this.roomService.state.context.farmId,
+        // gameService
+        farmId: Number(this.gameService.state.context.state.id),
         isCurrentPlayer: true,
-        clothing: this.roomService.state.context.bumpkin.equipped,
+        // gameService
+        clothing: this.gameService.state.context.state.bumpkin
+          ?.equipped as BumpkinParts,
       });
 
       this.initialiseCamera();
@@ -305,80 +305,64 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   public initialiseMMO() {
-    this.eventListener = (event) => {
-      if (event.type === "CHAT_MESSAGE_RECEIVED") {
-        const { sessionId, text, roomId } = event as ChatMessageReceived;
+    const server = this.mmoService.state.context.server;
+    if (!server) return;
 
-        const room = this.roomService.state.context.rooms[roomId];
-
-        if (
-          sessionId &&
-          String(sessionId).length > 4 &&
-          this.playerEntities[sessionId]
-        ) {
-          this.playerEntities[sessionId].speak(text);
-        } else if (sessionId === room?.sessionId) {
-          this.currentPlayer?.speak(text);
-        }
+    const removeMessageListener = server.state.messages.onAdd((message) => {
+      // Old message
+      if (message.sentAt < Date.now() - 5000) {
+        return;
       }
 
-      if (event.type === "CLOTHING_CHANGED") {
-        const { sessionId, clothing, roomId } = event as ClothingChangedEvent;
-
-        const room = this.roomService.state.context.rooms[roomId];
-
-        if (
-          sessionId &&
-          String(sessionId).length > 4 &&
-          this.playerEntities[sessionId]
-        ) {
-          this.playerEntities[sessionId].changeClothing(clothing);
-        } else if (sessionId === room?.sessionId) {
-          this.currentPlayer?.changeClothing(clothing);
-        }
+      if (this.playerEntities[message.sessionId]) {
+        this.playerEntities[message.sessionId].speak(message.text);
+      } else if (message.sessionId === server.sessionId) {
+        this.currentPlayer?.speak(message.text);
       }
+    });
 
-      if (event.type === "PLAYER_JOINED") {
-        const { farmId, sessionId, x, y, clothing, roomId, npc } =
-          event as PlayerJoined;
-
-        if (roomId !== this.roomId) return;
-
-        const room = this.roomService.state.context.rooms[roomId];
-
-        if (!room) return;
-
-        // Current player
-        if (sessionId !== room.sessionId) {
-          const player = this.createPlayer({
-            x,
-            y,
-            farmId,
-            clothing,
-            isCurrentPlayer: false,
-            npc,
+    const removeCreatePlayerListener = server.state.players.onAdd(
+      (player, sessionId: string) => {
+        if (sessionId !== server.sessionId) {
+          this.playerEntities[sessionId] = this.createPlayer({
+            x: player.x,
+            y: player.y,
+            farmId: player.farmId,
+            clothing: player.clothing,
+            isCurrentPlayer: sessionId === server.sessionId,
+            npc: player.npc,
           });
-
-          this.playerEntities[sessionId] = player;
         }
+
+        let clothingChangedAt = 0;
+        const removeChangeClothingListener = player.onChange(() => {
+          if (clothingChangedAt !== player.clothing.updatedAt) {
+            clothingChangedAt = player.clothing.updatedAt;
+
+            if (this.playerEntities[sessionId]) {
+              this.playerEntities[sessionId].changeClothing(player.clothing);
+            } else if (sessionId === server.sessionId) {
+              this.currentPlayer?.changeClothing(player.clothing);
+            }
+          }
+        });
+
+        this.events.on("shutdown", () => {
+          removeChangeClothingListener();
+        });
       }
+    );
 
-      if (event.type === "PLAYER_QUIT") {
-        const { sessionId, roomId } = event as PlayerQuit;
+    server.state.players.onRemove((_player: any, sessionId: string) => {
+      this.destroyPlayer(sessionId);
+    });
 
-        if (roomId !== this.roomService.state.context.roomId) return;
+    // send the scene player is in
+    // this.room.send()
 
-        this.destroyPlayer(sessionId);
-      }
-    };
-
-    this.roomService.off(this.eventListener);
-    this.roomService.onEvent(this.eventListener);
-
-    // Connect to Room
-    this.roomService.send("CHANGE_ROOM", {
-      roomId: this.options.mmo.roomId ?? this.roomId,
-      url: this.options.mmo.url,
+    this.events.on("shutdown", () => {
+      removeMessageListener();
+      removeCreatePlayerListener();
     });
   }
 
@@ -426,8 +410,8 @@ export abstract class BaseScene extends Phaser.Scene {
     this.input.setTopOnly(true);
   }
 
-  public get roomService() {
-    return this.registry.get("roomService") as MachineInterpreter;
+  public get mmoService() {
+    return this.registry.get("mmoService") as MMOMachineInterpreter;
   }
 
   public get gameService() {
@@ -525,8 +509,9 @@ export abstract class BaseScene extends Phaser.Scene {
               "camerafadeoutcomplete",
               () => {
                 const data: SceneTransitionData = {
-                  previousSceneId: this.roomService.state.context.roomId,
+                  previousSceneId: this.sceneId,
                 };
+
                 this.scene.start(warpTo, data);
               },
               this
@@ -657,7 +642,10 @@ export abstract class BaseScene extends Phaser.Scene {
 
       this.packetSentAt = Date.now();
 
-      this.roomService.send("SEND_POSITION", this.serverPosition);
+      const server = this.mmoService.state.context.server;
+      if (server) {
+        server.send(0, this.serverPosition);
+      }
     }
 
     const isMoving =
@@ -695,22 +683,19 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   updateOtherPlayers() {
-    const room =
-      this.roomService.state.context.rooms[
-        this.roomService.state.context.roomId
-      ];
-    if (!room) return;
+    const server = this.mmoService.state.context.server;
+    if (!server) return;
 
     // Destroy any dereferenced players
     Object.keys(this.playerEntities).forEach((sessionId) => {
-      if (!room.state.players.get(sessionId)) {
+      if (!server.state.players.get(sessionId)) {
         this.destroyPlayer(sessionId);
       }
     });
 
     // Render current players
-    room?.state.players.forEach((player, sessionId) => {
-      if (sessionId === room.sessionId) return;
+    server.state.players.forEach((player, sessionId) => {
+      if (sessionId === server.sessionId) return;
 
       const entity = this.playerEntities[sessionId];
 

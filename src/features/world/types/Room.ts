@@ -1,4 +1,5 @@
 import { Schema, MapSchema, ArraySchema } from "@colyseus/schema";
+import { NPCName } from "lib/npcs";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export interface InputData {
@@ -13,7 +14,8 @@ export interface Player extends Schema {
   x: number;
   y: number;
   tick: number;
-  clothing: BumpkinParts;
+  clothing: BumpkinParts & { updatedAt: number };
+  npc: NPCName;
 
   inputQueue: InputData[];
 }

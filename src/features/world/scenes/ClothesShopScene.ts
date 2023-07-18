@@ -1,6 +1,6 @@
 import clothesShopJson from "assets/map/clothe_shop.json";
 
-import { RoomId } from "../roomMachine";
+import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
 const BUMPKINS: NPCBumpkin[] = [
@@ -12,7 +12,7 @@ const BUMPKINS: NPCBumpkin[] = [
 ];
 
 export class ClothesShopScene extends BaseScene {
-  roomId: RoomId = "clothes_shop";
+  sceneId: SceneId = "clothes_shop";
 
   constructor() {
     super({ name: "clothes_shop", map: { json: clothesShopJson } });

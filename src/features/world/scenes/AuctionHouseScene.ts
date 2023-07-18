@@ -1,6 +1,6 @@
 import auctionJson from "assets/map/auction.json";
 
-import { RoomId } from "../roomMachine";
+import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
 const BUMPKINS: NPCBumpkin[] = [
@@ -12,7 +12,7 @@ const BUMPKINS: NPCBumpkin[] = [
 ];
 
 export class AuctionScene extends BaseScene {
-  roomId: RoomId = "auction_house";
+  sceneId: SceneId = "auction_house";
 
   constructor() {
     super({ name: "auction_house", map: { json: auctionJson } });

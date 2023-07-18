@@ -7,8 +7,9 @@ import classNames from "classnames";
 import { ChatText } from "./ChatText";
 import { Label } from "components/ui/Label";
 
+export type Message = { farmId: number; sessionId: string; text: string };
 interface Props {
-  messages: { farmId: number; sessionId: string; text: string }[];
+  messages: Message[];
   onMessage: (content: { text?: string; reaction?: ReactionName }) => void;
   onChatStarted: () => void;
   onChatClose: () => void;

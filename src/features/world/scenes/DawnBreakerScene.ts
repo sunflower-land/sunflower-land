@@ -2,7 +2,7 @@ import dawnBreakerJSON from "assets/map/dawn_breaker.json";
 
 import { DawnFlower } from "../containers/DawnFlower";
 import { Label } from "../containers/Label";
-import { RoomId } from "../roomMachine";
+import { SceneId } from "../mmoMachine";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { AudioController, Sound } from "../lib/AudioController";
@@ -36,7 +36,7 @@ const turtleCoords = { x: 555, y: 117 };
 const boatCoords = { x: 195, y: 460 };
 
 export class DawnBreakerScene extends BaseScene {
-  roomId: RoomId = "dawn_breaker";
+  sceneId: SceneId = "dawn_breaker";
 
   constructor() {
     super({
