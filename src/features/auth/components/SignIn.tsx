@@ -12,6 +12,7 @@ import okxIcon from "src/assets/icons/okx.svg";
 import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { Label } from "components/ui/Label";
 import { hasFeatureAccess } from "lib/flags";
+import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 
 const OtherWallets = () => {
   const { authService } = useContext(Context);
@@ -22,7 +23,11 @@ const OtherWallets = () => {
         <>
           <Button
             className="mb-2 py-2 text-sm relative"
-            onClick={() => authService.send("CONNECT_TO_OKX")}
+            onClick={() =>
+              authService.send("CONNECT_TO_WALLET", {
+                chosenProvider: Web3SupportedProviders.OKX,
+              })
+            }
           >
             <div className="px-8">
               <img
@@ -41,7 +46,11 @@ const OtherWallets = () => {
           </Button>
           <Button
             className="mb-2 py-2 text-sm relative"
-            onClick={() => authService.send("CONNECT_TO_PHANTOM")}
+            onClick={() =>
+              authService.send("CONNECT_TO_WALLET", {
+                chosenProvider: Web3SupportedProviders.PHANTOM,
+              })
+            }
           >
             <div className="px-8">
               <img
@@ -57,7 +66,11 @@ const OtherWallets = () => {
         <>
           <Button
             className="mb-2 py-2 text-sm relative"
-            onClick={() => authService.send("CONNECT_TO_PHANTOM")}
+            onClick={() =>
+              authService.send("CONNECT_TO_WALLET", {
+                chosenProvider: Web3SupportedProviders.PHANTOM,
+              })
+            }
           >
             <div className="px-8">
               <img
@@ -79,7 +92,11 @@ const OtherWallets = () => {
       <div className="bg-white b-1 mx-auto w-2/3 h-[1px] my-3" />
       <Button
         className="mb-2 py-2 text-sm relative"
-        onClick={() => authService.send("CONNECT_TO_WALLET_CONNECT")}
+        onClick={() =>
+          authService.send("CONNECT_TO_WALLET", {
+            chosenProvider: Web3SupportedProviders.WALLET_CONNECT,
+          })
+        }
       >
         <div className="px-8">
           <svg
@@ -106,7 +123,9 @@ export const SignIn = () => {
   const [page, setPage] = useState<"home" | "other">("home");
 
   const connectToMetaMask = () => {
-    authService.send("CONNECT_TO_METAMASK");
+    authService.send("CONNECT_TO_WALLET", {
+      chosenProvider: Web3SupportedProviders.METAMASK,
+    });
   };
 
   const handleBack = () => {
@@ -150,7 +169,11 @@ export const SignIn = () => {
         </div>
         <Button
           className="mb-2 py-2 text-sm relative"
-          onClick={() => authService.send("CONNECT_TO_SEQUENCE")}
+          onClick={() =>
+            authService.send("CONNECT_TO_WALLET", {
+              chosenProvider: Web3SupportedProviders.SEQUENCE,
+            })
+          }
         >
           <div className="px-8">
             <img

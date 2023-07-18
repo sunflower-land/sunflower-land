@@ -1,20 +1,18 @@
 import React, { useContext, useState } from "react";
-import { sequence } from "0xsequence";
-import { SEQUENCE_CONNECT_OPTIONS } from "features/auth/lib/sequence";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CONFIG } from "lib/config";
-import { ERRORS } from "lib/errors";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import { Context as GameContext } from "features/game/GameProvider";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { login } from "features/auth/actions/login";
 import { wallet } from "lib/blockchain/wallet";
+import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { useSelector } from "@xstate/react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
 
 import walletIcon from "src/assets/icons/wallet.png";
+import { web3ConnectStrategyFactory } from "features/auth/lib/web3-connect-strategy/web3ConnectStrategy.factory";
 
 type Step = 1 | 2 | 3;
 
@@ -125,21 +123,19 @@ export const WalletOnboarding: React.FC = () => {
 
   const initSequence = async () => {
     setLoading(true);
-    const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
+    const sequenceStrategy = web3ConnectStrategyFactory(
+      Web3SupportedProviders.SEQUENCE
+    );
 
-    const sequenceWallet = await sequence.initWallet(network);
-    await sequenceWallet.connect(SEQUENCE_CONNECT_OPTIONS);
-
-    if (!sequenceWallet.isConnected()) {
-      throw Error(ERRORS.SEQUENCE_NOT_CONNECTED);
-    }
-
-    const provider = sequenceWallet.getProvider();
-
-    await wallet.initialise(provider, "SEQUENCE");
+    await sequenceStrategy.initialize();
 
     authService.send("SET_WALLET", {
-      data: { web3: { provider, wallet: "SEQUENCE" } },
+      data: {
+        web3: {
+          provider: sequenceStrategy.getProvider(),
+          wallet: Web3SupportedProviders.SEQUENCE,
+        },
+      },
     });
     setLoading(false);
     setCurrentStep(2);

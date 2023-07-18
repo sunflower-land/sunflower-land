@@ -10,7 +10,7 @@ import {
   setUserProperties,
 } from "firebase/analytics";
 
-type GameAnalyticEvent =
+export type GameAnalyticEvent =
   | EventNameString
   | "connect_wallet"
   | "connect_to_metamask"
