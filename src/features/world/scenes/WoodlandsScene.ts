@@ -3,7 +3,13 @@ import woodlandsJSON from "assets/map/woodlands.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
-const BUMPKINS: NPCBumpkin[] = [];
+const BUMPKINS: NPCBumpkin[] = [
+  {
+    x: 150,
+    y: 80,
+    npc: "eins",
+  },
+];
 
 export class WoodlandsScene extends BaseScene {
   sceneId: SceneId = "woodlands";

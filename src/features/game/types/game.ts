@@ -519,7 +519,7 @@ export type PotionName =
   | "Flower Power"
   | "Organic Oasis"
   | "Dream Drip"
-  | "Golden Syrup";
+  | "Silver Syrup";
 
 export type PotionStatus =
   | "pending"
