@@ -1,13 +1,111 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "features/game/GameProvider";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { Message, SpeakingModal } from "features/game/components/SpeakingModal";
+import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import { defaultDialogue, npcDialogues } from "./dialogues";
+import { Inventory, Order } from "features/game/types/game";
+import { OuterPanel } from "components/ui/Panel";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+
+import selectBoxBL from "assets/ui/select/selectbox_bl.png";
+import selectBoxBR from "assets/ui/select/selectbox_br.png";
+import selectBoxTL from "assets/ui/select/selectbox_tl.png";
+import selectBoxTR from "assets/ui/select/selectbox_tr.png";
+import { useRandomItem } from "lib/utils/hooks/useRandomItem";
+
+const Orders: React.FC<{
+  orders: Order[];
+  inventory: Inventory;
+  selectedOrderId?: string;
+  onSelectOrder: (id: string) => void;
+}> = ({ orders, inventory, selectedOrderId, onSelectOrder }) => {
+  const hasRequirements = (order: Order) => {
+    return getKeys(order.items).every((name) => {
+      const count = inventory[name] || new Decimal(0);
+      const amount = order.items[name] || new Decimal(0);
+
+      return count.gte(amount);
+    });
+  };
+
+  useEffect(() => {
+    const firstFillableOrder = orders.find((order) => hasRequirements(order));
+
+    if (firstFillableOrder) {
+      onSelectOrder(firstFillableOrder.id);
+    }
+  }, [orders.length]);
+
+  return (
+    <>
+      <div className="flex flex-col md:flex-row md:flex-wrap gap-2 mt-3">
+        {orders.map((order) => (
+          <OuterPanel
+            key={order.id}
+            className="flex flex-1 p-2 flex-col space-y-1 relative"
+            onClick={() => onSelectOrder(order.id)}
+          >
+            {getKeys(order.items).map((itemName) => (
+              <RequirementLabel
+                key={itemName}
+                type="item"
+                item={itemName}
+                balance={inventory[itemName] ?? new Decimal(0)}
+                showLabel
+                requirement={new Decimal(order?.items[itemName] ?? 0)}
+              />
+            ))}
+            {order.id === String(selectedOrderId) && (
+              <>
+                <img
+                  className="absolute pointer-events-none"
+                  src={selectBoxBL}
+                  style={{
+                    bottom: `${PIXEL_SCALE * -3}px`,
+                    left: `${PIXEL_SCALE * -3}px`,
+                    width: `${PIXEL_SCALE * 8}px`,
+                  }}
+                />
+                <img
+                  className="absolute pointer-events-none"
+                  src={selectBoxBR}
+                  style={{
+                    bottom: `${PIXEL_SCALE * -3}px`,
+                    right: `${PIXEL_SCALE * -3}px`,
+                    width: `${PIXEL_SCALE * 8}px`,
+                  }}
+                />
+                <img
+                  className="absolute pointer-events-none"
+                  src={selectBoxTL}
+                  style={{
+                    top: `${PIXEL_SCALE * -5}px`,
+                    left: `${PIXEL_SCALE * -3}px`,
+                    width: `${PIXEL_SCALE * 8}px`,
+                  }}
+                />
+                <img
+                  className="absolute pointer-events-none"
+                  src={selectBoxTR}
+                  style={{
+                    top: `${PIXEL_SCALE * -5}px`,
+                    right: `${PIXEL_SCALE * -3}px`,
+                    width: `${PIXEL_SCALE * 8}px`,
+                  }}
+                />
+              </>
+            )}
+          </OuterPanel>
+        ))}
+      </div>
+    </>
+  );
+};
 
 interface Props {
   onClose: () => void;
@@ -23,11 +121,15 @@ export const DeliveryModal: React.FC<Props> = ({ npc, onClose }) => {
   const delivery = useSelector(gameService, _delivery);
   const inventory = useSelector(gameService, _inventory);
 
-  // Get order from grimbly
-  const order = delivery.orders.filter((order) => order.from === npc)?.[0];
+  const orders = delivery.orders.filter((order) => order.from === npc);
   const dialogue = npcDialogues[npc] || defaultDialogue;
+  const intro = useRandomItem(dialogue.intro);
+  const positive = useRandomItem(dialogue.positiveDelivery);
+  const negative = useRandomItem(dialogue.negativeDelivery);
 
-  if (!order) {
+  const [selectedOrderId, setSelectedOrderId] = useState<string | undefined>();
+
+  if (!orders.length) {
     return (
       <SpeakingModal
         bumpkinParts={NPC_WEARABLES[npc]}
@@ -44,11 +146,20 @@ export const DeliveryModal: React.FC<Props> = ({ npc, onClose }) => {
   }
 
   const handleDeliver = () => {
-    gameService.send("order.delivered", { id: order.id });
-    onClose();
+    if (!selectedOrderId) return;
+
+    const state = gameService.send("order.delivered", { id: selectedOrderId });
+
+    const remainingOrders = state.context.state.delivery.orders.filter(
+      (order) => order.from === npc
+    );
+
+    if (!remainingOrders.length) {
+      onClose();
+    }
   };
 
-  const hasRequirements = () => {
+  const hasRequirements = (order: Order) => {
     return getKeys(order.items).every((name) => {
       const count = inventory[name] || new Decimal(0);
       const amount = order.items[name] || new Decimal(0);
@@ -57,74 +168,32 @@ export const DeliveryModal: React.FC<Props> = ({ npc, onClose }) => {
     });
   };
 
-  const createMessages = () => {
-    // Randomised dialogue
-    const intro =
-      dialogue.intro[Math.floor(Math.random() * dialogue.intro.length)];
-    const positive =
-      dialogue.positiveDelivery[
-        Math.floor(Math.random() * dialogue.positiveDelivery.length)
-      ];
-    const negative =
-      dialogue.negativeDelivery[
-        Math.floor(Math.random() * dialogue.negativeDelivery.length)
-      ];
-
-    const message: Message[] = [{ text: intro }];
-
-    if (!hasRequirements()) {
-      message.push({
-        text: negative,
-        jsx: (
-          <div className="flex flex-col space-y-1 mt-3">
-            {getKeys(order.items).map((itemName) => (
-              <RequirementLabel
-                key={itemName}
-                type="item"
-                item={itemName}
-                balance={inventory[itemName] ?? new Decimal(0)}
-                showLabel
-                requirement={new Decimal(order?.items[itemName] ?? 0)}
-              />
-            ))}
-          </div>
-        ),
-        actions: [{ text: "Close", cb: onClose }],
-      });
-
-      return message;
-    }
-
-    message.push({
-      text: positive,
-      jsx: (
-        <div className="flex flex-col space-y-1 mt-3">
-          {getKeys(order.items).map((itemName) => (
-            <RequirementLabel
-              key={itemName}
-              type="item"
-              item={itemName}
-              balance={inventory[itemName] ?? new Decimal(0)}
-              showLabel
-              requirement={new Decimal(order?.items[itemName] ?? 0)}
-            />
-          ))}
-        </div>
-      ),
-      actions: [
-        { text: "Not now", cb: onClose },
-        { text: "Deliver", cb: handleDeliver },
-      ],
-    });
-
-    return message;
-  };
+  const canFulfillAnOrder = orders.some(hasRequirements);
 
   return (
     <SpeakingModal
       bumpkinParts={NPC_WEARABLES.grimbly}
       onClose={onClose}
-      message={createMessages()}
+      message={[
+        { text: intro },
+        {
+          text: canFulfillAnOrder ? positive : negative,
+          jsx: (
+            <Orders
+              orders={orders}
+              inventory={inventory}
+              selectedOrderId={selectedOrderId}
+              onSelectOrder={(id: string) => setSelectedOrderId(id)}
+            />
+          ),
+          actions: [
+            { text: canFulfillAnOrder ? "Not now" : "Close", cb: onClose },
+            ...(canFulfillAnOrder
+              ? [{ text: "Deliver", cb: handleDeliver }]
+              : []),
+          ],
+        },
+      ]}
     />
   );
 };
