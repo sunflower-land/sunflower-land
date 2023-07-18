@@ -17,6 +17,7 @@ import selectBoxBR from "assets/ui/select/selectbox_br.png";
 import selectBoxTL from "assets/ui/select/selectbox_tl.png";
 import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import { useRandomItem } from "lib/utils/hooks/useRandomItem";
+import classNames from "classnames";
 
 const Orders: React.FC<{
   orders: Order[];
@@ -24,6 +25,14 @@ const Orders: React.FC<{
   selectedOrderId?: string;
   onSelectOrder: (id: string) => void;
 }> = ({ orders, inventory, selectedOrderId, onSelectOrder }) => {
+  useEffect(() => {
+    const firstFillableOrder = orders.find((order) => hasRequirements(order));
+
+    if (firstFillableOrder) {
+      onSelectOrder(firstFillableOrder.id);
+    }
+  }, [orders.length]);
+
   const hasRequirements = (order: Order) => {
     return getKeys(order.items).every((name) => {
       const count = inventory[name] || new Decimal(0);
@@ -33,75 +42,77 @@ const Orders: React.FC<{
     });
   };
 
-  useEffect(() => {
-    const firstFillableOrder = orders.find((order) => hasRequirements(order));
-
-    if (firstFillableOrder) {
-      onSelectOrder(firstFillableOrder.id);
-    }
-  }, [orders.length]);
-
   return (
     <>
       <div className="flex flex-col md:flex-row md:flex-wrap gap-2 mt-3">
-        {orders.map((order) => (
-          <OuterPanel
-            key={order.id}
-            className="flex flex-1 p-2 flex-col space-y-1 relative"
-            onClick={() => onSelectOrder(order.id)}
-          >
-            {getKeys(order.items).map((itemName) => (
-              <RequirementLabel
-                key={itemName}
-                type="item"
-                item={itemName}
-                balance={inventory[itemName] ?? new Decimal(0)}
-                showLabel
-                requirement={new Decimal(order?.items[itemName] ?? 0)}
-              />
-            ))}
-            {order.id === String(selectedOrderId) && (
-              <>
-                <img
-                  className="absolute pointer-events-none"
-                  src={selectBoxBL}
-                  style={{
-                    bottom: `${PIXEL_SCALE * -3}px`,
-                    left: `${PIXEL_SCALE * -3}px`,
-                    width: `${PIXEL_SCALE * 8}px`,
-                  }}
+        {orders.map((order) => {
+          const canDeliver = hasRequirements(order);
+
+          return (
+            <OuterPanel
+              key={order.id}
+              className={classNames(
+                "flex flex-1 p-2 flex-col space-y-1 relative",
+                {
+                  "opacity-50 cursor-default": !canDeliver,
+                  "cursor-pointer": canDeliver,
+                }
+              )}
+              onClick={canDeliver ? () => onSelectOrder(order.id) : undefined}
+            >
+              {getKeys(order.items).map((itemName) => (
+                <RequirementLabel
+                  key={itemName}
+                  type="item"
+                  item={itemName}
+                  balance={inventory[itemName] ?? new Decimal(0)}
+                  showLabel
+                  requirement={new Decimal(order?.items[itemName] ?? 0)}
                 />
-                <img
-                  className="absolute pointer-events-none"
-                  src={selectBoxBR}
-                  style={{
-                    bottom: `${PIXEL_SCALE * -3}px`,
-                    right: `${PIXEL_SCALE * -3}px`,
-                    width: `${PIXEL_SCALE * 8}px`,
-                  }}
-                />
-                <img
-                  className="absolute pointer-events-none"
-                  src={selectBoxTL}
-                  style={{
-                    top: `${PIXEL_SCALE * -5}px`,
-                    left: `${PIXEL_SCALE * -3}px`,
-                    width: `${PIXEL_SCALE * 8}px`,
-                  }}
-                />
-                <img
-                  className="absolute pointer-events-none"
-                  src={selectBoxTR}
-                  style={{
-                    top: `${PIXEL_SCALE * -5}px`,
-                    right: `${PIXEL_SCALE * -3}px`,
-                    width: `${PIXEL_SCALE * 8}px`,
-                  }}
-                />
-              </>
-            )}
-          </OuterPanel>
-        ))}
+              ))}
+              {order.id === String(selectedOrderId) && canDeliver && (
+                <>
+                  <img
+                    className="absolute pointer-events-none"
+                    src={selectBoxBL}
+                    style={{
+                      bottom: `${PIXEL_SCALE * -3}px`,
+                      left: `${PIXEL_SCALE * -3}px`,
+                      width: `${PIXEL_SCALE * 8}px`,
+                    }}
+                  />
+                  <img
+                    className="absolute pointer-events-none"
+                    src={selectBoxBR}
+                    style={{
+                      bottom: `${PIXEL_SCALE * -3}px`,
+                      right: `${PIXEL_SCALE * -3}px`,
+                      width: `${PIXEL_SCALE * 8}px`,
+                    }}
+                  />
+                  <img
+                    className="absolute pointer-events-none"
+                    src={selectBoxTL}
+                    style={{
+                      top: `${PIXEL_SCALE * -5}px`,
+                      left: `${PIXEL_SCALE * -3}px`,
+                      width: `${PIXEL_SCALE * 8}px`,
+                    }}
+                  />
+                  <img
+                    className="absolute pointer-events-none"
+                    src={selectBoxTR}
+                    style={{
+                      top: `${PIXEL_SCALE * -5}px`,
+                      right: `${PIXEL_SCALE * -3}px`,
+                      width: `${PIXEL_SCALE * 8}px`,
+                    }}
+                  />
+                </>
+              )}
+            </OuterPanel>
+          );
+        })}
       </div>
     </>
   );
