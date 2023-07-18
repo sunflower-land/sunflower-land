@@ -2,7 +2,6 @@ import { Context, GameProvider } from "features/game/GameProvider";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import React, { useContext } from "react";
 import { PhaserComponent } from "./Phaser";
-import { useSelector } from "@xstate/react";
 import { useActor, useInterpret, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "react-bootstrap";

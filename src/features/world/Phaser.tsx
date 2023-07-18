@@ -136,7 +136,6 @@ export const PhaserComponent: React.FC<Props> = ({
     });
 
     mmoService.state.context.server?.state.messages.onChange(() => {
-      console.log("SET");
       setMessages(
         mmoService.state.context.server?.state.messages.map((m) => ({
           farmId: m.farmId ?? 0,
@@ -203,7 +202,9 @@ export const PhaserComponent: React.FC<Props> = ({
       <div id="game-content" ref={ref} />
       <ChatUI
         onMessage={(m) => {
-          mmoService.state.context.server?.send(0, { text: m.text ?? "?" });
+          mmoService.state.context.server?.send(0, {
+            text: m.text ?? "?",
+          });
           resumeInput(); // Focus on game again
         }}
         onChatStarted={() => {

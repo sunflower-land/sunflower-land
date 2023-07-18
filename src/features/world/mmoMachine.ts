@@ -177,6 +177,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
               farmId: context.farmId,
               x: SPAWNS.plaza.default.x,
               y: SPAWNS.plaza.default.y,
+              sceneId: "plaza",
             }
           );
 

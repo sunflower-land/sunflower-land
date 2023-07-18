@@ -74,8 +74,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
 
-  private initialised = false;
-
   currentPlayer: BumpkinContainer | undefined;
   serverPosition: { x: number; y: number } = { x: 0, y: 0 };
   packetSentAt = 0;
@@ -172,9 +170,8 @@ export abstract class BaseScene extends Phaser.Scene {
       this.initialiseMap();
       this.initialiseSounds();
 
-      if (this.options.mmo.enabled && !this.initialised) {
+      if (this.options.mmo.enabled) {
         this.initialiseMMO();
-        this.initialised = true;
       }
 
       if (this.options.controls.enabled) {
@@ -722,6 +719,7 @@ export abstract class BaseScene extends Phaser.Scene {
     if (this.switchToScene) {
       const warpTo = this.switchToScene;
       this.switchToScene = undefined;
+      this.mmoService.state.context.server?.send(0, { sceneId: warpTo });
       this.scene.start(warpTo, { previousSceneId: this.sceneId });
     }
   }
