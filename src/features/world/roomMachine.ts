@@ -8,6 +8,8 @@ import { Bumpkin } from "features/game/types/game";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SPAWNS } from "./lib/spawn";
+import { chooseRoom } from "./lib/availableRooms";
+import { NPCName } from "lib/npcs";
 
 export type Rooms = {
   plaza: Room<PlazaRoomState> | undefined;
@@ -43,6 +45,7 @@ export type RoomState = {
 type ChangeRoomEvent = {
   type: "CHANGE_ROOM";
   roomId: RoomId;
+  url?: string;
 };
 type SendChatMessageEvent = {
   type: "SEND_CHAT_MESSAGE";
@@ -69,15 +72,18 @@ export type ChatMessageReceived = {
   roomId: RoomId;
   text: string;
   sessionId: string;
+  farmId: number;
 };
 
 export type PlayerJoined = {
   type: "PLAYER_JOINED";
+  farmId: number;
   roomId: RoomId;
   sessionId: string;
   x: number;
   y: number;
   clothing: BumpkinParts;
+  npc?: NPCName;
 };
 
 export type ClothingChangedEvent = {
@@ -143,6 +149,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
     },
     bumpkin: INITIAL_BUMPKIN,
   },
+  exit: (context) => context.rooms[context.roomId]?.leave(),
   states: {
     initialising: {
       always: [
@@ -170,21 +177,22 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
     loading: {
       invoke: {
         id: "loading",
-        src: (context) => async () => {
-          if (!CONFIG.ROOM_URL) {
+        src: (context, event) => async () => {
+          const url = (event as any).url || CONFIG.ROOM_URL;
+          if (!url) {
             return { roomId: undefined };
           }
 
           // Server connection is too fast
           await new Promise((res) => setTimeout(res, 1000));
 
-          const client = new Client(CONFIG.ROOM_URL);
+          const client = new Client(url);
 
           return { roomId: context.roomId, client };
         },
         onDone: [
           {
-            target: "joinRoom",
+            target: "ready",
             actions: assign({
               client: (_, event) => event.data.client,
             }),
@@ -203,16 +211,20 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
             throw new Error("You must initialise the client first");
           }
 
-          if (context.rooms[context.roomId]) {
-            await context.rooms[context.roomId]?.leave();
+          const available = await context.client.getAvailableRooms();
+          const roomId = chooseRoom(context.roomId as RoomId, available);
+
+          if (!roomId) {
+            throw new Error("No room available");
           }
 
-          const roomId = context.roomId as RoomId;
+          // Leave all rooms when joining a new one
+          Object.values(context.rooms).forEach((room) => room?.leave());
 
           const room = await context.client.joinOrCreate<PlazaRoomState>(
             roomId,
             {
-              previousRoomId: context.roomId,
+              jwt: context.jwt,
               bumpkin: context.bumpkin,
               farmId: context.farmId,
               x: SPAWNS[context.roomId]?.default.x ?? 0,
@@ -223,7 +235,7 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
           room.onLeave(() => {
             cb({
               type: "ROOM_DISCONNECTED",
-              roomId,
+              roomId: roomId as RoomId,
             });
           });
 
@@ -233,11 +245,13 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
               return;
             }
 
-            if (message.sessionId && String(message.sessionId).length > 4) {
+            if (message.farmId) {
               cb({
                 type: "CHAT_MESSAGE_RECEIVED",
-                roomId,
+                roomId: roomId as RoomId,
+
                 text: message.text,
+                farmId: message.farmId,
                 sessionId: message.sessionId,
               });
             }
@@ -246,11 +260,13 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
           room.state.players.onAdd((player: any, sessionId: string) => {
             cb({
               type: "PLAYER_JOINED",
-              roomId,
+              roomId: roomId as RoomId,
+              farmId: player.farmId,
               sessionId: sessionId,
               x: player.x,
               y: player.y,
               clothing: player.clothing,
+              npc: player.npc,
             });
 
             let clothingChangedAt = 0;
@@ -259,7 +275,8 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
                 clothingChangedAt = player.clothing.updatedAt;
                 cb({
                   type: "CLOTHING_CHANGED",
-                  roomId,
+                  roomId: roomId as RoomId,
+
                   clothing: player.clothing,
                   sessionId: sessionId,
                 });
@@ -270,7 +287,8 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
           room.state.players.onRemove((_player: any, sessionId: string) => {
             cb({
               type: "PLAYER_QUIT",
-              roomId,
+              roomId: roomId as RoomId,
+
               sessionId: sessionId,
             });
           });
@@ -283,7 +301,6 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
         onDone: {
           target: "ready",
           actions: assign({
-            roomId: (_, event) => event.data.roomId,
             rooms: (context, event) => {
               return {
                 ...context.rooms,
@@ -297,13 +314,24 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
     ready: {
       on: {
         CHANGE_ROOM: [
+          // Change room and provide Custom URL
+          {
+            target: "loading",
+            actions: assign({
+              previousRoomId: (context) => context.roomId,
+              roomId: (_, event) => event.roomId,
+            }),
+            cond: (_, event) => {
+              return !!event.url;
+            },
+          },
           {
             target: "joinRoom",
             actions: assign({
               previousRoomId: (context) => context.roomId,
               roomId: (_, event) => event.roomId,
             }),
-            cond: (context, event) => !context.roomId.startsWith(event.roomId),
+            // cond: (context, event) => !context.roomId.startsWith(event.roomId),
           },
         ],
         ROOM_DISCONNECTED: {
@@ -357,9 +385,22 @@ export const roomMachine = createMachine<ChatContext, RoomEvent, RoomState>({
     kicked: {},
     error: {
       on: {
-        CHANGE_ROOM: {
-          target: "joinRoom",
-        },
+        CHANGE_ROOM: [
+          // Change room and provide Custom URL
+          {
+            target: "loading",
+            actions: assign({
+              previousRoomId: (context) => context.roomId,
+              roomId: (_, event) => event.roomId,
+            }),
+            cond: (_, event) => {
+              return !!event.url;
+            },
+          },
+          {
+            target: "joinRoom",
+          },
+        ],
         RETRY: {
           target: "loading",
         },

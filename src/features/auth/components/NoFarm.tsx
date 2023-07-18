@@ -15,10 +15,6 @@ export const NoFarm: React.FC = () => {
     authService.send("CHOOSE_CHARITY");
   };
 
-  const connect = () => {
-    authService.send("CONNECT_TO_DISCORD");
-  };
-
   return (
     <div className="px-4 py-2">
       <Button onClick={create} className="overflow-hidden mb-2">

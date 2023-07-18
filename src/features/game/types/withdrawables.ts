@@ -29,7 +29,7 @@ import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
-  SeasonPassName,
+  PurchasableItems,
   SoldOutCollectibleName,
 } from "./collectibles";
 import { CommodityName, ResourceName } from "./resources";
@@ -270,6 +270,7 @@ const coupons: Record<Coupons, boolean> = {
   "Solar Flare Ticket": false,
   "Dawn Breaker Ticket": false,
   "Sunflower Supporter": false,
+  "Witches' Eve Ticket": false,
 };
 
 const buildings: Record<BuildingName, boolean> = {
@@ -483,6 +484,7 @@ const soldOut: Record<SoldOutCollectibleName, boolean> = {
   "Pablo The Bunny": true,
   "Easter Bush": true,
   "Giant Carrot": true,
+  "Freya Fox": false,
 
   Hoot: true,
 };
@@ -524,7 +526,7 @@ const goblinPirate: Record<GoblinPirateItemName, boolean> = {
   "Iron Idol": true,
   "Heart of Davy Jones": true,
   Karkinos: true,
-  "Emerald Turtle": false,
+  "Emerald Turtle": true,
   "Tin Turtle": false,
 };
 
@@ -583,9 +585,11 @@ const lanterns: Record<LanternName, boolean> = {
   "Goblin Lantern": false,
 };
 
-const purchasables: Record<SeasonPassName, boolean> = {
+const purchasables: Record<PurchasableItems, boolean> = {
+  "Witches' Eve Banner": false,
   "Dawn Breaker Banner": false,
   "Solar Flare Banner": false,
+  "Gold Pass": false,
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, boolean> = {

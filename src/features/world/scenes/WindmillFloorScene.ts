@@ -1,3 +1,5 @@
+import windmillFloorJSON from "assets/map/windmill_floor.json";
+
 import { RoomId } from "../roomMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
@@ -7,7 +9,7 @@ export class WindmillFloorScene extends BaseScene {
   roomId: RoomId = "windmill_floor";
 
   constructor() {
-    super("windmill_floor");
+    super({ name: "windmill_floor", map: { json: windmillFloorJSON } });
   }
 
   async create() {

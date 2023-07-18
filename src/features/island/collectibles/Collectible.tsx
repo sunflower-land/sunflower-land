@@ -172,6 +172,8 @@ import { EggplantBear } from "./components/EggplantBear";
 import { GoblinLantern } from "./components/GoblinLantern";
 import { DawnFlower } from "./components/DawnFlower";
 import { LaurieTheChuckleCrow } from "./components/LaurieTheChuckelCrow";
+import { FreyaFox } from "./components/FreyaFox";
+import { WitchesEveBanner } from "./components/WitchesEveBanner";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -238,6 +240,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Cabbage Girl": CabbageGirl,
   "Peeled Potato": PeeledPotato,
   "Wood Nymph Wendy": WoodNymphWendy,
+  "Freya Fox": FreyaFox,
 
   // Moles
   "Rocky the Mole": RockyTheMole,
@@ -354,6 +357,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Beach Ball": BeachBall,
   "Palm Tree": PalmTree,
   Karkinos: Karkinos,
+  "Witches' Eve Banner": WitchesEveBanner,
   "Dawn Breaker Banner": DawnBreakerBanner,
   "Solar Flare Banner": SolarFlareBanner,
   "Human War Banner": HumanBanner,

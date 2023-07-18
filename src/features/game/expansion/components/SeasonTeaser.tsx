@@ -1,7 +1,7 @@
 import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 
-import island from "assets/land/dawn_teaser.png";
+import island from "assets/land/witches_eve_teaser.webp";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
@@ -15,7 +15,7 @@ interface Props {
   offset: number;
 }
 
-export const DawnTeaser: React.FC<Props> = ({ offset }) => {
+export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
   const [showModal, setShowModal] = useState(false);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -24,8 +24,9 @@ export const DawnTeaser: React.FC<Props> = ({ offset }) => {
     <>
       <PromotingModal
         hasPurchased={
-          !!gameState.context.state.inventory["Dawn Breaker Banner"]
+          !!gameState.context.state.inventory["Witches' Eve Banner"]
         }
+        hasDiscount={!!gameState.context.state.inventory["Dawn Breaker Banner"]}
         isOpen={showModal}
         onClose={() => setShowModal(false)}
       />
@@ -48,15 +49,6 @@ export const DawnTeaser: React.FC<Props> = ({ offset }) => {
             parts={NPC_WEARABLES.grubnuk}
             onClick={() => setShowModal(true)}
           />
-          {/* <img
-            src={SUNNYSIDE.icons.expression_chat}
-            className="relative z-50"
-            style={{
-              width: `${PIXEL_SCALE * 9}px`,
-              top: `${PIXEL_SCALE * -2}px`,
-              left: `${PIXEL_SCALE * 5}px`,
-            }}
-          /> */}
         </div>
       </MapPlacement>
     </>

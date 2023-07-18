@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { IntroPage } from "./Intro";
 import { Experiment } from "./Experiment";
@@ -8,15 +8,20 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelRoomBorderStyle } from "features/game/lib/style";
 import { Rules } from "./Rules";
 import { getPotionHouseIntroRead } from "./lib/introStorage";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
 
 export const PotionHouse: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
   const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState<"intro" | "playing" | "rules">(
     getPotionHouseIntroRead() ? "playing" : "intro"
   );
 
   // Temporarily show text to open the page
-  if (!isOpen) {
+  if (!isOpen && gameState.context.state.inventory["Beta Pass"]) {
     return <button onClick={() => setIsOpen(true)}>Potion House</button>;
   }
 

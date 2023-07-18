@@ -1,3 +1,5 @@
+import dawnBreakerJSON from "assets/map/dawn_breaker.json";
+
 import { DawnFlower } from "../containers/DawnFlower";
 import { Label } from "../containers/Label";
 import { RoomId } from "../roomMachine";
@@ -29,12 +31,19 @@ const BUMPKINS: NPCBumpkin[] = [
 
 const fireCoords = { x: 352, y: 435 };
 const drummerCoords = { x: 255, y: 365 };
+const frogCoords = { x: 335, y: 246 };
+const turtleCoords = { x: 555, y: 117 };
+const boatCoords = { x: 195, y: 460 };
 
 export class DawnBreakerScene extends BaseScene {
   roomId: RoomId = "dawn_breaker";
 
   constructor() {
-    super("dawn_breaker");
+    super({
+      name: "dawn_breaker",
+      map: { json: dawnBreakerJSON },
+      audio: { fx: { walk_key: "dirt_footstep" } },
+    });
   }
 
   preload() {
@@ -43,13 +52,8 @@ export class DawnBreakerScene extends BaseScene {
     this.load.image("dawn_flower", "world/dawn_flower.png");
     this.load.image("dawn_flower_sprout", CROP_LIFECYCLE.Sunflower.seedling);
     this.load.image("dawn_flower_growing", CROP_LIFECYCLE.Sunflower.almost);
-    this.load.image("progress_0", SUNNYSIDE.ui.green_bar_0);
-    this.load.image("progress_1", SUNNYSIDE.ui.green_bar_1);
-    this.load.image("progress_2", SUNNYSIDE.ui.green_bar_2);
-    this.load.image("progress_3", SUNNYSIDE.ui.green_bar_3);
-    this.load.image("progress_4", SUNNYSIDE.ui.green_bar_4);
-    this.load.image("progress_5", SUNNYSIDE.ui.green_bar_5);
-    this.load.image("progress_6", SUNNYSIDE.ui.green_bar_6);
+
+    this.load.image("water", SUNNYSIDE.icons.water);
 
     this.load.spritesheet("homeless_man", "world/homeless_man.png", {
       frameWidth: 32,
@@ -81,38 +85,113 @@ export class DawnBreakerScene extends BaseScene {
       frameHeight: 27,
     });
 
-    // SFX
+    this.load.spritesheet("bumpkin_roaster_1", "world/roasting_bumpkin_1.png", {
+      frameWidth: 21,
+      frameHeight: 21,
+    });
+
+    this.load.spritesheet("bumpkin_roaster_2", "world/roasting_bumpkin_2.png", {
+      frameWidth: 20,
+      frameHeight: 19,
+    });
+
+    this.load.spritesheet("dawn_flag", "world/dawn_flag.png", {
+      frameWidth: 16,
+      frameHeight: 20,
+    });
+
+    this.load.spritesheet("dragonfly", "world/dragonfly_1.png", {
+      frameWidth: 13,
+      frameHeight: 4,
+    });
+
+    this.load.spritesheet("dragonfly_2", "world/dragonfly_2.png", {
+      frameWidth: 13,
+      frameHeight: 4,
+    });
 
     // Ambience
-    const nature1 = this.sound.add("nature_1") as Sound;
-    const nature2 = this.sound.add("nature_2") as Sound;
-    nature1.play({ loop: true, volume: 0.02 });
-    nature2.play({ loop: true, volume: 0.02 });
+    if (!this.sound.get("nature_1")) {
+      const nature1 = this.sound.add("nature_1") as Sound;
+      nature1.play({ loop: true, volume: 0.01 });
+    }
+    if (!this.sound.get("nature_2")) {
+      const nature2 = this.sound.add("nature_2") as Sound;
+      nature2.play({ loop: true, volume: 0.01 });
+    }
 
     // Fogueira
-    const fireSound = this.sound.add("fire") as Sound;
-    fireSound.play({ loop: true, volume: 0 });
+    if (!this.sound.get("fire")) {
+      const fireSound = this.sound.add("fire") as Sound;
+      fireSound.play({ loop: true, volume: 0 });
 
-    this.soundEffects.push(
-      new AudioController({
-        sound: fireSound,
-        distanceThreshold: 100,
-        coordinates: fireCoords,
-        maxVolume: 0.1,
-      })
-    );
+      this.soundEffects.push(
+        new AudioController({
+          sound: fireSound,
+          distanceThreshold: 100,
+          coordinates: fireCoords,
+          maxVolume: 0.2,
+        })
+      );
+    }
+
+    // Frog
+    if (!this.sound.get("toad")) {
+      const frogSound = this.sound.add("toad") as Sound;
+      frogSound.play({ loop: true, volume: 0, rate: 1.02, delay: 0.7 });
+
+      this.soundEffects.push(
+        new AudioController({
+          sound: frogSound,
+          distanceThreshold: 60,
+          coordinates: frogCoords,
+          maxVolume: 0.1,
+        })
+      );
+    }
+
+    // Boat
+    if (!this.sound.get("boat")) {
+      const boatSound = this.sound.add("boat") as Sound;
+      boatSound.play({ loop: true, volume: 0, rate: 0.6 });
+
+      this.soundEffects.push(
+        new AudioController({
+          sound: boatSound,
+          distanceThreshold: 80,
+          coordinates: boatCoords,
+          maxVolume: 0.2,
+        })
+      );
+    }
+
+    if (!this.sound.get("shoreline")) {
+      const shorelineSopund = this.sound.add("shoreline") as Sound;
+      shorelineSopund.play({ loop: true, volume: 0 });
+
+      this.soundEffects.push(
+        new AudioController({
+          sound: shorelineSopund,
+          distanceThreshold: 80,
+          coordinates: { x: boatCoords.x + 20, y: boatCoords.y },
+          maxVolume: 0.1,
+        })
+      );
+    }
 
     // Music
-    const music = this.sound.add("royal_farms") as Sound;
-    music.play({ loop: true, volume: 0 });
-    this.soundEffects.push(
-      new AudioController({
-        sound: music,
-        distanceThreshold: 150,
-        coordinates: drummerCoords,
-        maxVolume: 0.8,
-      })
-    );
+    if (!this.sound.get("royal_farms")) {
+      const music = this.sound.add("royal_farms") as Sound;
+      music.play({ loop: true, volume: 0 });
+      this.soundEffects.push(
+        new AudioController({
+          sound: music,
+          distanceThreshold: 150,
+          coordinates: drummerCoords,
+          maxVolume: 1,
+        })
+      );
+    }
   }
 
   async create() {
@@ -135,6 +214,9 @@ export class DawnBreakerScene extends BaseScene {
     });
     sprite.play("homeless_animation", true);
     sprite.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      // play sound
+      this.sound.add("howdy");
+      this.sound.play("howdy", { volume: 0.5 });
       interactableModalManager.open("homeless_man");
     });
 
@@ -190,7 +272,7 @@ export class DawnBreakerScene extends BaseScene {
     fire.setDepth(100000);
 
     // Turtle
-    const turtle = this.add.sprite(555, 117, "turtle");
+    const turtle = this.add.sprite(turtleCoords.x, turtleCoords.y, "turtle");
     this.anims.create({
       key: "turtle_animation",
       frames: this.anims.generateFrameNumbers("turtle", {
@@ -203,7 +285,6 @@ export class DawnBreakerScene extends BaseScene {
     turtle.play("turtle_animation", true);
 
     // Frog
-    const frogCoords = { x: 335, y: 246 };
     const frog = this.add.sprite(frogCoords.x, frogCoords.y, "frog");
     this.anims.create({
       key: "frog_animation",
@@ -216,14 +297,81 @@ export class DawnBreakerScene extends BaseScene {
     });
     frog.play("frog_animation", true);
 
+    const flag = this.add.sprite(260, 435, "dawn_flag");
+    this.anims.create({
+      key: "dawn_flag_animation",
+      frames: this.anims.generateFrameNumbers("dawn_flag", {
+        start: 0,
+        end: 10,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    flag.play("dawn_flag_animation", true);
+    flag.setDepth(100000);
+
+    const roaster = this.add.sprite(329, 445, "bumpkin_roaster_1");
+    this.anims.create({
+      key: "bumpkin_roaster_animation",
+      frames: this.anims.generateFrameNumbers("bumpkin_roaster_1", {
+        start: 0,
+        end: 18,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    roaster.play("bumpkin_roaster_animation", true);
+    roaster.setDepth(100000);
+
+    const roaster2 = this.add.sprite(374, 442, "bumpkin_roaster_2");
+    this.anims.create({
+      key: "bumpkin_roaster_animation_2",
+      frames: this.anims.generateFrameNumbers("bumpkin_roaster_2", {
+        start: 0,
+        end: 18,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    roaster2.play("bumpkin_roaster_animation_2", true);
+    roaster2.setDepth(100000);
+
+    const dragonfly = this.add.sprite(430, 475, "dragonfly");
+    this.anims.create({
+      key: "dragonfly_animation",
+      frames: this.anims.generateFrameNumbers("dragonfly", {
+        start: 0,
+        end: 2,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    dragonfly.play("dragonfly_animation", true);
+    dragonfly.setDepth(100000);
+
+    const dragonfly2 = this.add.sprite(32, 220, "dragonfly_2");
+    this.anims.create({
+      key: "dragonfly_2_animation",
+      frames: this.anims.generateFrameNumbers("dragonfly_2", {
+        start: 0,
+        end: 2,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    dragonfly2.play("dragonfly_2_animation", true);
+    dragonfly2.setDepth(100000);
+
     this.initialiseNPCs(BUMPKINS);
 
-    const camera = this.cameras.main;
+    const dawnFlower =
+      this.gameService.state.context.state.dawnBreaker?.dawnFlower;
+    const stage = dawnFlower?.tendedCount ?? 0;
 
-    const stage =
-      this.gameService.state.context.state.dawnBreaker?.dawnFlower
-        ?.tendedCount ?? 0;
-    const flower = new DawnFlower(this, 280, 143.5, stage, () =>
+    const isReady =
+      Date.now() - (dawnFlower?.tendedAt ?? 0) > 24 * 60 * 60 * 1000;
+
+    const flower = new DawnFlower(this, 280, 143.5, stage, isReady, () =>
       npcModalManager.open("sofia")
     );
 
@@ -232,7 +380,8 @@ export class DawnBreakerScene extends BaseScene {
         console.log("UPDATE!");
         flower.update(
           this.gameService.state.context.state.dawnBreaker?.dawnFlower
-            ?.tendedCount ?? 0
+            ?.tendedCount ?? 0,
+          false
         );
       }
     });

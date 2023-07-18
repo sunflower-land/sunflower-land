@@ -129,6 +129,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sir Goldensnout": 466,
   "Scary Mike": 467,
   "Laurie the Chuckle Crow": 468,
+  "Freya Fox": 469,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -226,6 +227,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunflower Supporter": 721,
   "Solar Flare Banner": 722,
   "Dawn Breaker Banner": 723,
+  "Witches' Eve Banner": 724,
+  "Witches' Eve Ticket": 725,
+  "Gold Pass": 726,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,

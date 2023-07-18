@@ -186,6 +186,7 @@ import fruitPlatter from "assets/achievements/fruit_platter.png";
 // Coupons
 import ticket from "assets/icons/ticket.png";
 import blockBuck from "assets/icons/block_buck.png";
+import goldPass from "assets/icons/gold-pass.png";
 import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
 import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
@@ -193,6 +194,7 @@ import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
 import supporterTicket from "assets/icons/supporter_ticket.png";
 import solarFlareBanner from "assets/decorations/solar_flare_banner.png";
 import dawnBreakerBanner from "assets/decorations/dawn_breaker_banner.png";
+import witchesEveBanner from "assets/decorations/witches_eve_banner.webp";
 // Banners
 import goblinBanner from "assets/sfts/goblin_banner.png";
 import humanBanner from "assets/sfts/human_banner.png";
@@ -394,6 +396,7 @@ import obie from "assets/sfts/obie.png";
 import maximus from "assets/sfts/maximus.png";
 import hoot from "assets/sfts/hoot.png";
 import sirGoldenSnout from "assets/sfts/sir_goldensnout.png";
+import freyaFox from "assets/sfts/freya_fox.png";
 
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
@@ -1359,11 +1362,11 @@ export const ITEM_DETAILS: Items = {
   },
   Toolshed: {
     image: toolshed,
-    description: "Increase your tool stocks",
+    description: "Increase your tool stocks by 50%",
   },
   Warehouse: {
     image: warehouse,
-    description: "Increase your seed stocks",
+    description: "Increase your seed stocks by 20%",
   },
 
   "Sunflower Amulet": {
@@ -2014,10 +2017,14 @@ export const ITEM_DETAILS: Items = {
     description: HELIOS_BLACKSMITH_ITEMS["Scary Mike"].description,
     image: scaryMike,
   },
-
   "Laurie the Chuckle Crow": {
     description: HELIOS_BLACKSMITH_ITEMS["Laurie the Chuckle Crow"].description,
     image: laurie,
+  },
+  "Freya Fox": {
+    image: freyaFox,
+    description:
+      "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
   },
 
   // Season tickets
@@ -2028,6 +2035,10 @@ export const ITEM_DETAILS: Items = {
   "Dawn Breaker Ticket": {
     image: dawnBreakerTicket,
     description: "A ticket used during the Dawn Breaker Season",
+  },
+  "Witches' Eve Ticket": {
+    image: "",
+    description: "A ticket used during the Witches' Eve Ticket Season",
   },
 
   "Sunflower Supporter": {
@@ -2131,6 +2142,10 @@ export const ITEM_DETAILS: Items = {
   },
   "Dawn Breaker Banner": {
     image: dawnBreakerBanner,
+    description: "?",
+  },
+  "Witches' Eve Banner": {
+    image: witchesEveBanner,
     description: "?",
   },
   "Luminous Lantern": {
@@ -2248,5 +2263,10 @@ export const ITEM_DETAILS: Items = {
     image: dawnFlower,
     description:
       "Embrace the radiant beauty of the Dawn Flower as its delicate petals shimmer with the first light of day",
+  },
+  "Gold Pass": {
+    image: goldPass,
+    description:
+      "An exlusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content",
   },
 };

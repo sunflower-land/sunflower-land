@@ -372,6 +372,10 @@ export function getCropYieldAmount({
     }
   }
 
+  if (crop === "Pumpkin" && isCollectibleBuilt("Freya Fox", collectibles)) {
+    amount += 0.5;
+  }
+
   return Number(setPrecision(new Decimal(amount)));
 }
 

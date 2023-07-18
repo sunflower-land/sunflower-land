@@ -1,3 +1,5 @@
+import decorationShopJSON from "assets/map/decorations.json";
+
 import { RoomId } from "../roomMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
@@ -18,7 +20,7 @@ export class DecorationShopScene extends BaseScene {
     y: 157,
   };
   constructor() {
-    super("decorations_shop");
+    super({ name: "decorations_shop", map: { json: decorationShopJSON } });
   }
 
   async create() {
@@ -26,8 +28,6 @@ export class DecorationShopScene extends BaseScene {
     this.map = this.make.tilemap({
       key: "decorations-shop",
     });
-
-    const camera = this.cameras.main;
 
     super.create();
 

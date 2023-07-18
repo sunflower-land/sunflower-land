@@ -68,7 +68,8 @@ export type BumpkinShirt =
   | "Striped Red Shirt"
   | "Striped Yellow Shirt"
   | "Trial Tee"
-  | "Bidder's Brocade";
+  | "Bidder's Brocade"
+  | "Traveller's Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -145,7 +146,8 @@ export type BumpkinPant =
   | "Beach Trunks"
   | "Wavy Pants"
   | "Mushroom Pants"
-  | "Auctioneer Slacks";
+  | "Auctioneer Slacks"
+  | "Traveller's Pants";
 
 export type BumpkinDress = "Cupid Dress" | "Beach Sarong" | "Tropical Sarong";
 export type BumpkinSecondaryTool =
@@ -166,7 +168,11 @@ export type BumpkinOnesie =
 // Goes over clothes
 export type BumpkinSuit = "Reindeer Suit";
 
-export type BumpkinWings = "Angel Wings" | "Devil Wings" | "Love Quiver";
+export type BumpkinWings =
+  | "Angel Wings"
+  | "Devil Wings"
+  | "Love Quiver"
+  | "Traveller's Backpack";
 export type BumpkinItem =
   | BumpkinBody
   | BumpkinHair
@@ -331,6 +337,9 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Leather Shoes": 149,
   "Tangerine Hair": 150,
   "Straw Hat": 151,
+  "Traveller's Backpack": 152,
+  "Traveller's Pants": 153,
+  "Traveller's Shirt": 154,
 };
 
 // The reverse of above
@@ -539,6 +548,9 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Leather Shoes": "shoes",
   "Tangerine Hair": "hair",
   "Straw Hat": "hat",
+  "Traveller's Backpack": "wings",
+  "Traveller's Pants": "pants",
+  "Traveller's Shirt": "shirt",
 };
 
 export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
@@ -549,4 +561,9 @@ export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
   "Eggplant Onesie": "+0.1 Eggplant",
   "Golden Spatula": "+10% EXP",
   "Mushroom Hat": "+0.1 Mushrooms",
+  Parsnip: "+20% Parsnip",
+  "Sunflower Amulet": "+10% Sunflower",
+  "Carrot Amulet": "-20% Carrot growth time",
+  "Beetroot Amulet": "+20% Beetroot",
+  "Green Amulet": "Chance for 10x crops",
 };

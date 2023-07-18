@@ -1,3 +1,5 @@
+import clothesShopJson from "assets/map/clothe_shop.json";
+
 import { RoomId } from "../roomMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
@@ -13,7 +15,7 @@ export class ClothesShopScene extends BaseScene {
   roomId: RoomId = "clothes_shop";
 
   constructor() {
-    super("clothes_shop");
+    super({ name: "clothes_shop", map: { json: clothesShopJson } });
   }
 
   async create() {

@@ -1,12 +1,8 @@
-import React, { useContext, useState } from "react";
-import { useActor, useMachine } from "@xstate/react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
-import * as AuthProvider from "features/auth/lib/Provider";
-import { Context } from "features/community/lib/CommunityProvider";
-import { incubateMachine } from "./lib/incubateMachine";
 
 // images
 import tadpole_icon from "../assets/icons/tadpole.png";
@@ -23,13 +19,6 @@ interface Props {
 }
 
 export const ScientistModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
-  const { communityService } = useContext(Context);
-  const [communityState] = useActor(communityService);
-  const [machine, send] = useMachine(incubateMachine);
-  const { state, errorCode } = machine.context;
-
   const handleClose = () => onClose();
 
   const [tab, setTab] = useState<"inventory" | "incubator">("inventory");

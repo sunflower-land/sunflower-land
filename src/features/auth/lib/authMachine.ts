@@ -27,6 +27,7 @@ import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { analytics } from "lib/analytics";
 import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectStrategy.factory";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
+import { savePromoCode } from "features/game/actions/loadSession";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -44,6 +45,12 @@ const getDiscordCode = () => {
 
 const getReferrerID = () => {
   const code = new URLSearchParams(window.location.search).get("ref");
+
+  return code;
+};
+
+const getPromoCode = () => {
+  const code = new URLSearchParams(window.location.search).get("promo");
 
   return code;
 };
@@ -156,7 +163,9 @@ export type BlockchainEvent =
   | { type: "SET_WALLET" }
   | { type: "SET_TOKEN" }
   | { type: "BUY_FULL_ACCOUNT" }
-  | { type: "SIGN_IN" };
+  | { type: "SIGN_IN" }
+  | { type: "SELECT_POKO" }
+  | { type: "SELECT_MATIC" };
 
 export type BlockchainState = {
   value:
@@ -179,10 +188,12 @@ export type BlockchainState = {
     | { connected: "loadingFarm" }
     | { connected: "farmLoaded" }
     | { connected: "offer" }
+    | { connected: "selectPaymentMethod" }
+    | { connected: "creatingPokoFarm" }
     | { connected: "creatingFarm" }
+    | { connected: "funding" }
     | { connected: "countdown" }
     | { connected: "readyToStart" }
-    | { connected: "funding" }
     | { connected: "authorised" }
     | { connected: "blacklisted" }
     | "exploring"
@@ -225,6 +236,11 @@ export const authMachine = createMachine<
 
           if (referrerId) {
             saveReferrerId(referrerId);
+          }
+
+          const promoCode = getPromoCode();
+          if (promoCode) {
+            savePromoCode(promoCode);
           }
         },
         always: [
@@ -428,7 +444,7 @@ export const authMachine = createMachine<
                   cond: "hasFarm",
                 },
 
-                { target: "offer" },
+                { target: "funding" },
               ],
               onError: [
                 {
@@ -465,6 +481,40 @@ export const authMachine = createMachine<
               REFRESH: {
                 target: "#reconnecting",
               },
+
+              BACK: {
+                target: "#signIn",
+              },
+              SELECT_POKO: {
+                target: "creatingPokoFarm",
+                actions: () => analytics.logEvent("select_poko"),
+              },
+              // SELECT_MATIC: {
+              //   target: "funding",
+              //   actions: () => analytics.logEvent("select_matic"),
+              // },
+            },
+          },
+          // selectPaymentMethod: {
+          //   on: {
+          //     BACK: {
+          //       target: "offer",
+          //     },
+          //     SELECT_POKO: {
+          //       target: "creatingPokoFarm",
+          //       actions: () => analytics.logEvent("select_poko"),
+          //     },
+          //     SELECT_MATIC: {
+          //       target: "funding",
+          //       actions: () => analytics.logEvent("select_matic"),
+          //     },
+          //   },
+          // },
+          creatingPokoFarm: {
+            on: {
+              CONTINUE: {
+                target: "#reconnecting",
+              },
             },
           },
           creatingFarm: {
@@ -491,6 +541,7 @@ export const authMachine = createMachine<
             entry: () => analytics.logEvent("offer_seen"),
             on: {
               CONTINUE: {
+                // target: "selectPaymentMethod",
                 target: "funding",
                 actions: () => analytics.logEvent("offer_accepted"),
               },
@@ -537,7 +588,11 @@ export const authMachine = createMachine<
                 if (window.location.hash.includes("world")) return;
 
                 if (!ART_MODE) {
-                  window.location.href = `${window.location.pathname}#/land/${context.user.farmId}`;
+                  window.history.replaceState(
+                    null,
+                    "",
+                    `${window.location.pathname}#/land/${context.user.farmId}`
+                  );
                 }
               },
               (context) =>
@@ -722,14 +777,12 @@ export const authMachine = createMachine<
       login: async (context): Promise<{ token: string | null }> => {
         let token: string | null = null;
 
-        console.log("Try it", wallet.myAccount);
         if (wallet.myAccount) {
           ({ token } = await login(
             context.transactionId as string,
             wallet.myAccount
           ));
         }
-        console.log({ token });
 
         return { token };
       },
@@ -811,7 +864,7 @@ export const authMachine = createMachine<
 
         const secondsElapsed =
           Date.now() / 1000 - (event.data as Farm).createdAt;
-        return secondsElapsed < 60;
+        return secondsElapsed < 30;
       },
       hasFarm: (context: Context, event: any) => {
         // If coming from the loadingFarm transition the farmId with show up on the event

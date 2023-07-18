@@ -4,10 +4,9 @@ import Filter from "bad-words";
 import classNames from "classnames";
 
 interface Props {
-  messages: { sessionId: string; text: string }[];
+  messages: { farmId: number; sessionId: string; text: string }[];
   onMessage: (text: string) => void;
   onChatStarted: () => void;
-  isChatOpen: boolean;
 }
 
 const MAX_CHARACTERS = 48;
@@ -24,7 +23,6 @@ export const ChatText: React.FC<Props> = ({
   messages,
   onMessage,
   onChatStarted,
-  isChatOpen,
 }) => {
   const ref = useRef<HTMLInputElement>();
   const [text, setText] = useState("");
@@ -119,7 +117,7 @@ export const ChatText: React.FC<Props> = ({
             .slice(0, 1000)
             .reverse()
             .map((message, i) => {
-              if (!message.sessionId)
+              if (!message.farmId)
                 return (
                   <p key={`${i}-${message.text}`} className="text-amber-300">
                     {message.text}
@@ -128,10 +126,10 @@ export const ChatText: React.FC<Props> = ({
 
               return (
                 <p
-                  key={`${i}-${message.sessionId}`}
+                  key={`${i}-${message.farmId}`}
                   className="pt-0.5 -indent-6 pl-6"
                 >
-                  {`[${message.sessionId}]`}: {message.text}
+                  {`[${message.farmId}]`}: {message.text}
                 </p>
               );
             })}

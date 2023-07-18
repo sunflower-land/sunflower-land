@@ -9,6 +9,7 @@ export interface InputData {
 }
 
 export interface Player extends Schema {
+  farmId: number;
   x: number;
   y: number;
   tick: number;
@@ -19,7 +20,8 @@ export interface Player extends Schema {
 
 export interface Message extends Schema {
   text: string;
-  sessionId?: string;
+  farmId?: number;
+  sessionId: string;
   sentAt: number;
 }
 

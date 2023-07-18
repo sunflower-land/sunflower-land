@@ -4,7 +4,16 @@ import { SEASONS } from "./seasons";
 import { marketRate } from "../lib/halvening";
 import { SFLDiscount } from "../lib/SFLDiscount";
 
-export type SeasonPassName = "Dawn Breaker Banner" | "Solar Flare Banner";
+export type SeasonPassName =
+  | "Dawn Breaker Banner"
+  | "Solar Flare Banner"
+  | "Witches' Eve Banner";
+
+export type PurchasableItems =
+  | "Dawn Breaker Banner"
+  | "Solar Flare Banner"
+  | "Gold Pass"
+  | "Witches' Eve Banner";
 
 export type HeliosBlacksmithItem =
   | "Immortal Pear"
@@ -36,7 +45,8 @@ export type SoldOutCollectibleName =
   | "Squirrel Monkey"
   | "Black Bearry"
   | "Hoot"
-  | "Lady Bug";
+  | "Lady Bug"
+  | "Freya Fox";
 
 export type GoblinBlacksmithItemName =
   | "Purple Trail"
@@ -264,21 +274,8 @@ export type Purchasable = CraftableCollectible & {
   usd: number;
 };
 
-export const SEASON_PASS_ITEMS: Record<SeasonPassName, Purchasable> = {
-  "Solar Flare Banner": {
-    description: "?",
-    ingredients: {},
-    usd: 3.99,
-  },
-  "Dawn Breaker Banner": {
-    description: "?",
-    ingredients: {},
-    boost: "?",
-    usd: 3.99,
-  },
-};
-
 // TODO - add all other boosts
 export const COLLECTIBLE_BUFF: Partial<Record<InventoryItemName, string>> = {
   "Sir Goldensnout": "+0.5 Surrounding Crops",
+  "Freya Fox": "+0.5 Pumpkin",
 };

@@ -2,9 +2,8 @@ import { useSelector } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 
 import { Button } from "components/ui/Button";
-import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
 import { Context } from "features/game/GameProvider";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import { MachineState } from "features/game/lib/gameMachine";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -15,16 +14,23 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
 
 const isPromoting = (state: MachineState) => state.matches("promoting");
+const _inventory = (state: MachineState) => state.context.state.inventory;
 
 export const Promoting: React.FC = () => {
   const { gameService } = useContext(Context);
   const promoting = useSelector(gameService, isPromoting);
+  const inventory = useSelector(gameService, _inventory);
+
+  const hasPreviousSeasonBanner = !!inventory["Dawn Breaker Banner"];
 
   return (
     <PromotingModal
       isOpen={promoting}
+      hasDiscount={hasPreviousSeasonBanner}
+      hasPurchased={!!inventory["Witches' Eve Banner"]}
       onClose={() => {
         acknowledgeSeasonPass();
         gameService.send("ACKNOWLEDGE");
@@ -35,6 +41,7 @@ export const Promoting: React.FC = () => {
 
 interface Props {
   hasPurchased?: boolean;
+  hasDiscount: boolean;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -43,17 +50,22 @@ export const PromotingModal: React.FC<Props> = ({
   isOpen,
   onClose,
   hasPurchased,
+  hasDiscount,
 }) => {
-  const [page, setPage] = useState(0);
+  // Goes live on 17th of July.
+  // $3.99 for Dawn Breaker Holders, otherwise $5.99.
+  // Discounts on seasonal items, 1 Mystery Airdrop + Bonus Tickets completing chores.
+  // At 1st of August, price changes to $5.99 for everyone and available for 1 month.
 
-  const isPreSeason = Date.now() < new Date("2023-05-01").getTime();
+  const isPreSeason = Date.now() < new Date("2023-08-01").getTime();
   const expiresOn = isPreSeason
-    ? new Date("2023-05-01")
-    : new Date("2023-05-07");
+    ? new Date("2023-08-01")
+    : new Date("2023-09-01");
 
-  const price = isPreSeason ? 3.99 : 6.99;
+  const price = hasDiscount ? 3.99 : 5.99;
 
   const { gameService } = useContext(Context);
+  const inventory = useSelector(gameService, _inventory);
 
   const Content = () => {
     if (hasPurchased) {
@@ -62,7 +74,7 @@ export const PromotingModal: React.FC<Props> = ({
           <div className="flex flex-col p-2">
             <div className="flex items-center">
               <img
-                src={ITEM_DETAILS["Dawn Breaker Banner"].image}
+                src={ITEM_DETAILS["Witches' Eve Banner"].image}
                 className="rounded-md my-2 img-highlight mr-2"
                 style={{
                   height: `${PIXEL_SCALE * 16}px`,
@@ -77,11 +89,11 @@ export const PromotingModal: React.FC<Props> = ({
               </li>
               <li className="text-xs ml-4">Free Seasonal Banner</li>
               <li className="text-xs ml-4">Seasonal Wearable Airdrop</li>
-              <li className="text-xs ml-4">Access to exclusive cosmetics</li>
+              <li className="text-xs ml-4">Bonus Seasonal Tickets</li>
             </ul>
 
             <a
-              href="https://docs.sunflower-land.com/player-guides/seasons/dawn-breaker#dawn-breaker-banner"
+              href="https://docs.sunflower-land.com/player-guides/seasons/witches-eve#witches-eve-banner"
               target="_blank"
               rel="noopener noreferrer"
               className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
@@ -98,41 +110,25 @@ export const PromotingModal: React.FC<Props> = ({
       );
     }
 
-    if (page === 0) {
-      return (
-        <>
-          <div className="p-2">
-            {/* <p className="mb-2 text-sm">
-              {`Step right up and take a gander at Grubnuk's fabulous selection of items!`}
-            </p> */}
-            <p className="mb-2 text-sm">
-              {`You will need to wait until next season for my exclusive deals.`}
-            </p>
-          </div>
-          {/* <Button onClick={() => setPage(1)}>Continue</Button> */}
-        </>
-      );
-    }
-
     return (
       <>
         <div className="flex flex-col p-2">
           <div className="flex items-center">
             <img
-              src={ITEM_DETAILS["Dawn Breaker Banner"].image}
+              src={ITEM_DETAILS["Witches' Eve Banner"].image}
               className="rounded-md my-2 img-highlight mr-2"
               style={{
                 height: `${PIXEL_SCALE * 16}px`,
               }}
             />
-            <p className="text-sm">1 x Dawn Breaker Banner</p>
+            <p className="text-sm">{`1 x Witches' Eve Banner`}</p>
           </div>
           <p className="text-sm">Includes:</p>
           <ul className="list-disc">
             <li className="text-xs ml-4">25% SFL discount on seasonal items</li>
             <li className="text-xs ml-4">Free Seasonal Banner</li>
             <li className="text-xs ml-4">Seasonal Wearable Airdrop</li>
-            <li className="text-xs ml-4">Access to exclusive cosmetics</li>
+            <li className="text-xs ml-4">Bonus Seasonal Tickets</li>
           </ul>
           {!isPreSeason && (
             <Label
@@ -150,16 +146,17 @@ export const PromotingModal: React.FC<Props> = ({
               <span className="ml-1">Limited time only!</span>
             </Label>
           )}
-          {isPreSeason && (
+
+          {isPreSeason && hasDiscount && (
             <>
               <div className="flex items-center mt-2">
-                <p className="text-sm mr-2">Solar Flare Discount</p>
+                <p className="text-sm mr-2">Dawn Breaker Discount</p>
                 <img src={SUNNYSIDE.icons.confirm} className="h-6" />
               </div>
 
               <ul className="list-disc mb-2">
                 <li className="text-xs ml-4">
-                  On May 1st prices increase to $6.99
+                  On August 1st prices increase to $5.99
                 </li>
                 <li className="text-xs ml-4 mt-0.5">
                   <Label
@@ -189,7 +186,7 @@ export const PromotingModal: React.FC<Props> = ({
           )}
 
           <a
-            href="https://docs.sunflower-land.com/player-guides/seasons/dawn-breaker"
+            href="https://docs.sunflower-land.com/player-guides/seasons/witches-eve#witches-eve-banner"
             target="_blank"
             rel="noopener noreferrer"
             className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
@@ -204,7 +201,7 @@ export const PromotingModal: React.FC<Props> = ({
           <Button
             onClick={() => {
               gameService.send("PURCHASE_ITEM", {
-                name: "Dawn Breaker Banner",
+                name: "Witches' Eve Banner",
               });
               onClose();
             }}

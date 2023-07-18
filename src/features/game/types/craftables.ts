@@ -191,6 +191,8 @@ export type CollectibleName =
   | SoldOutCollectibleName
   | GoblinPirateItemName
   | SeasonPassName
+  | "Dawn Breaker Banner"
+  | "Solar Flare Banner"
   | BoostTreasure
   | WarBanner
   | LanternName
@@ -1137,6 +1139,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Karkinos: { height: 2, width: 2 },
 
   // Banners
+  "Witches' Eve Banner": { width: 1, height: 2 },
   "Dawn Breaker Banner": { width: 1, height: 2 },
   "Solar Flare Banner": { width: 1, height: 2 },
   "Human War Banner": { width: 1, height: 2 },
@@ -1156,6 +1159,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Obie: { width: 1, height: 1 },
   Maximus: { width: 2, height: 2 },
   Hoot: { width: 1, height: 1 },
+
+  "Freya Fox": { width: 1, height: 1 },
 
   // AoE items
   "Emerald Turtle": { height: 1, width: 1 },

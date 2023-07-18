@@ -19,7 +19,7 @@ export const Welcome: React.FC = () => {
             src={walletIcon}
             className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
           />
-          Connect Wallet
+          Login
         </div>
       </Button>
       <Button

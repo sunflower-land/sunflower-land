@@ -107,8 +107,6 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
           {withdrawableItems
             .filter((name) => !!wardrobe[name])
             .map((itemName) => {
-              const gameState = goblinState.context.state;
-
               // The wardrobe amount that is not placed
               const wardrobeCount = wardrobe[itemName];
 
@@ -117,6 +115,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
                   count={new Decimal(wardrobeCount ?? 0)}
                   key={itemName}
                   onClick={() => onAdd(itemName)}
+                  disabled={itemName === "Mushroom Hat"}
                   image={getImageUrl(ITEM_IDS[itemName])}
                 />
               );

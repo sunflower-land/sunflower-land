@@ -2,11 +2,11 @@ import { syncProgress } from "lib/blockchain/Game";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { SeasonPassName } from "../types/collectibles";
+import { PurchasableItems } from "../types/collectibles";
 
 type Request = {
   farmId: number;
-  item: SeasonPassName;
+  item: PurchasableItems;
   token: string;
   amount?: number;
   transactionId: string;

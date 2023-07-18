@@ -7,7 +7,6 @@ import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-p
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { ChatUI } from "features/pumpkinPlaza/components/ChatUI";
-import { OFFLINE_FARM } from "features/game/lib/landData";
 
 import { PlazaScene } from "./scenes/PlazaScene";
 import { AuctionScene } from "./scenes/AuctionHouseScene";
@@ -38,12 +37,15 @@ import { DawnBreakerScene } from "./scenes/DawnBreakerScene";
 import { Label } from "components/ui/Label";
 import { MarcusHomeScene } from "./scenes/MarcusHomeScene";
 import { WorldIntroduction } from "./ui/WorldIntroduction";
+import { CommunityScene } from "./scenes/CommunityScene";
+import { CommunityModals } from "./ui/CommunityModalManager";
 
 const _roomState = (state: MachineState) => state.value;
 const _messages = (state: MachineState) => {
   const messages = state.context.rooms[
     state.context.roomId
   ]?.state.messages.map((m) => ({
+    farmId: m.farmId ?? 0,
     sessionId: m.sessionId ?? "",
     text: m.text,
   }));
@@ -54,8 +56,10 @@ const _messages = (state: MachineState) => {
 
 interface Props {
   scene: RoomId;
+  isCommunity: boolean;
 }
-export const PhaserComponent: React.FC<Props> = ({ scene }) => {
+
+export const PhaserComponent: React.FC<Props> = ({ scene, isCommunity }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
@@ -74,6 +78,24 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
 
   const roomState = useSelector(roomService, _roomState);
   const messages = JSON.parse(useSelector(roomService, _messages));
+
+  const scenes = isCommunity
+    ? [CommunityScene]
+    : [
+        Preloader,
+        DawnBreakerScene,
+        PlazaScene,
+        AuctionScene,
+        WoodlandsScene,
+        BettyHomeScene,
+        TimmyHomeScene,
+        BertScene,
+        IgorHomeScene,
+        WindmillFloorScene,
+        ClothesShopScene,
+        DecorationShopScene,
+        MarcusHomeScene,
+      ];
 
   useEffect(() => {
     const config: Phaser.Types.Core.GameConfig = {
@@ -112,21 +134,7 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
           gravity: { y: 0 },
         },
       },
-      scene: [
-        Preloader,
-        DawnBreakerScene,
-        PlazaScene,
-        AuctionScene,
-        WoodlandsScene,
-        BettyHomeScene,
-        TimmyHomeScene,
-        BertScene,
-        IgorHomeScene,
-        WindmillFloorScene,
-        ClothesShopScene,
-        DecorationShopScene,
-        MarcusHomeScene,
-      ],
+      scene: scenes,
       loader: {
         crossOrigin: "anonymous",
       },
@@ -205,7 +213,6 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
       <div id="game-content" ref={ref} />
       <img id="imageTest" />
       <ChatUI
-        game={OFFLINE_FARM}
         onMessage={(m) => {
           roomService.send("SEND_CHAT_MESSAGE", { text: m.text ?? "?" });
           resumeInput(); // Focus on game again
@@ -219,6 +226,7 @@ export const PhaserComponent: React.FC<Props> = ({ scene }) => {
         messages={messages ?? []}
       />
       <NPCModals onClose={resumeInput} onOpen={pauseInput} />
+      <CommunityModals onClose={resumeInput} onOpen={pauseInput} />
       <InteractableModals
         id={authState.context.user.farmId as number}
         onClose={resumeInput}

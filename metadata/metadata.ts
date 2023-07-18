@@ -2275,7 +2275,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   Toolshed: {
     name: "Toolshed",
-    description: "A Toolshed increases your tool stocks",
+    description: "A Toolshed increases your tool stocks by 50%",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1011.png",
@@ -2283,7 +2283,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   Warehouse: {
     name: "Warehouse",
-    description: "A Warehouse increases your seed stocks",
+    description: "A Warehouse increases your seed stocks by 20%",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1012.png",
@@ -3349,6 +3349,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/720.png",
     attributes: [],
   },
+  "Witches' Eve Ticket": {
+    description: "A ticket used during the Witches' Eve Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "",
+    attributes: [],
+  },
   "Sunflower Supporter": {
     description: "A true supporter of the project",
     decimals: 0,
@@ -3508,7 +3515,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Dawn Breaker Banner": {
     description:
-      "A mysterious darkness is plaguing Sunflower Land. The mark of a participant in the Dawn Breaker Season",
+      "A mysterious darkness is plaguing Sunflower Land. The mark of a participant in the Dawn Breaker Season.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/723.png",
@@ -3516,10 +3523,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Solar Flare Banner": {
     description:
-      "The temperature is rising in Sunflower Land. The mark of a participant in our inaugral season.",
+      "The temperature is rising in Sunflower Land. The mark of a participant in our inaugural season.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/722.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Witches' Eve Banner": {
+    description:
+      "The season of the witch has begun. The mark of a participant in the Witches' Eve Season.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/724.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Luminous Lantern": {
@@ -3818,6 +3833,22 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/468.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Freya Fox": {
+    description:
+      "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/469.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Gold Pass": {
+    description:
+      "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/725.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
 };

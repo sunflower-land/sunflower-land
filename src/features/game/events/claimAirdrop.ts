@@ -11,14 +11,9 @@ export type ClaimAirdropAction = {
 type Options = {
   state: Readonly<GameState>;
   action: ClaimAirdropAction;
-  createdAt?: number;
 };
 
-export function claimAirdrop({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function claimAirdrop({ state, action }: Options): GameState {
   const game = cloneDeep(state);
 
   if (!game.airdrops || game.airdrops.length === 0) {

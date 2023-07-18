@@ -39,7 +39,7 @@ export const Sofia: React.FC<Props> = ({ onClose }) => {
               text: "Hey friend, I love your outfit!",
             },
             {
-              text: `Those Eggplant soliders left some magical seeds when they escaped. Do you want to grow a special plant with me?`,
+              text: `Those Eggplant soldiers left some magical seeds when they escaped. Do you want to grow a special plant with me?`,
               actions: [
                 {
                   text: "No",
@@ -77,18 +77,22 @@ export const Sofia: React.FC<Props> = ({ onClose }) => {
 
   const timeLeft = flower.tendedAt + DAWN_FLOWER_COOLDOWN - Date.now();
   if (timeLeft > 0) {
+    const daysLeft = 10 - flower.tendedCount;
     return (
       <SpeakingModal
         onClose={onClose}
         bumpkinParts={NPC_WEARABLES["sofia"]}
         message={[
           {
-            text: "Patience friend! Dawn Flowers take a long time to grow.",
+            text: "Patience friend! Dawn Flowers take a long time to grow. After 10 days, your gift will show!",
           },
           {
-            text: `Come back in ${secondsToString(timeLeft / 1000, {
-              length: "full",
-            })}`,
+            text: `${daysLeft} days left. Come back in ${secondsToString(
+              timeLeft / 1000,
+              {
+                length: "full",
+              }
+            )}`,
           },
         ]}
       />

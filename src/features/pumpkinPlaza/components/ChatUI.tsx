@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import { GameState } from "features/game/types/game";
 import { ReactionName } from "../lib/reactions";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -9,8 +8,7 @@ import { ChatText } from "./ChatText";
 import { Label } from "components/ui/Label";
 
 interface Props {
-  game: GameState;
-  messages: { sessionId: string; text: string }[];
+  messages: { farmId: number; sessionId: string; text: string }[];
   onMessage: (content: { text?: string; reaction?: ReactionName }) => void;
   onChatStarted: () => void;
   onChatClose: () => void;
@@ -18,7 +16,6 @@ interface Props {
 
 export const ChatUI: React.FC<Props> = ({
   onMessage,
-  game,
   messages,
   onChatStarted,
   onChatClose,
@@ -51,7 +48,7 @@ export const ChatUI: React.FC<Props> = ({
     <>
       <div
         className={classNames(
-          "w-full fixed top-48 left-3 transition-transform origin-top-left ease-in-out duration-300",
+          "fixed top-48 left-3 transition-transform origin-top-left ease-in-out duration-300",
           { "scale-0": !showChat, "scale-100": showChat }
         )}
         onClick={console.log}
@@ -59,7 +56,6 @@ export const ChatUI: React.FC<Props> = ({
         <ChatText
           messages={messages}
           onMessage={(text) => onMessage({ text })}
-          isChatOpen={showChat}
           onChatStarted={onChatStarted}
         />
       </div>

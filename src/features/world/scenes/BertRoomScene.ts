@@ -1,3 +1,5 @@
+import bertHomeJSON from "assets/map/bert_home.json";
+
 import { RoomId } from "../roomMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
@@ -7,7 +9,7 @@ export class BertScene extends BaseScene {
   roomId: RoomId = "bert_home";
 
   constructor() {
-    super("bert_home");
+    super({ name: "bert_home", map: { json: bertHomeJSON } });
   }
 
   async create() {
@@ -19,7 +21,5 @@ export class BertScene extends BaseScene {
     super.create();
 
     this.initialiseNPCs(BUMPKINS);
-
-    const camera = this.cameras.main;
   }
 }

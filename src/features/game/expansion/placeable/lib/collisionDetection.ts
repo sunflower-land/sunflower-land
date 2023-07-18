@@ -23,26 +23,6 @@ import {
 type BoundingBox = Position;
 
 /**
- * Extracts the bounding box for a collection of resources e.g. Shrubs.
- * @param resource
- * @param expansionIndex
- * @returns Array of bounding boxes
- */
-const extractBoundingBox = <T extends Record<number, BoundingBox>>(
-  resource: T,
-  expansionIndex: number
-): BoundingBox[] => {
-  const { x: xOffset, y: yOffset } = EXPANSION_ORIGINS[expansionIndex];
-
-  return Object.values(resource).map(({ x, y, height, width }) => ({
-    x: x + xOffset,
-    y: y + yOffset,
-    height,
-    width,
-  }));
-};
-
-/**
  * Axis aligned bounding box collision detection
  * https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
  */

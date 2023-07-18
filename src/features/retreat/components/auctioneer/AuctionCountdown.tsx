@@ -9,7 +9,6 @@ import { Label } from "components/ui/Label";
 import { Auction } from "features/game/lib/auctionMachine";
 import { createPortal } from "react-dom";
 import { Context } from "features/game/GameProvider";
-import { hasFeatureAccess } from "lib/flags";
 
 const Countdown: React.FC<{ auction: Auction }> = ({ auction }) => {
   const start = useCountdown(auction?.startAt);
@@ -64,9 +63,7 @@ export const AuctionCountdown: React.FC = () => {
       }
     };
 
-    if (hasFeatureAccess(gameState.context.state.inventory, "AUCTION")) {
-      load();
-    }
+    load();
   }, []);
 
   if (!auction) {

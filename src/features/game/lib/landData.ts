@@ -288,7 +288,7 @@ export const OFFLINE_FARM: GameState = {
     dawnFlower: {
       plantedAt: 0,
       tendedAt: 0,
-      tendedCount: 9,
+      tendedCount: 7,
     },
     party: {
       requirements: {
@@ -386,7 +386,8 @@ export const OFFLINE_FARM: GameState = {
     "Cabbage Girl": new Decimal(1),
     "Cabbage Boy": new Decimal(1),
 
-    "Beta Pass": new Decimal(1),
+    // "Beta Pass": new Decimal(1),
+    "Dawn Breaker Banner": new Decimal(1),
 
     Kitchen: new Decimal(1),
 
@@ -427,6 +428,7 @@ export const OFFLINE_FARM: GameState = {
     Maximus: new Decimal(1),
     Hoot: new Decimal(1),
     "Sir Goldensnout": new Decimal(1),
+    "Freya Fox": new Decimal(1),
   },
 
   ...INITIAL_RESOURCES,

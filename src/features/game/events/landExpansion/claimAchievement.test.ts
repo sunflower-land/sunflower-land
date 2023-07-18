@@ -7,7 +7,6 @@ import { claimAchievement } from "./claimAchievement";
 const GAME_STATE: GameState = TEST_FARM;
 
 describe("claim achievements", () => {
-  const date = Date.now();
   it("throws an error if bumpkin does not exist", () => {
     expect(() =>
       claimAchievement({

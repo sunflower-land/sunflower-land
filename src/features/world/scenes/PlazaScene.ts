@@ -1,3 +1,5 @@
+import mapJson from "assets/map/plaza.json";
+
 import { RoomId } from "../roomMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
@@ -34,11 +36,6 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "grimtooth",
   },
   {
-    x: 631,
-    y: 422,
-    npc: "craig",
-  },
-  {
     x: 120,
     y: 170,
     npc: "gabi",
@@ -63,12 +60,30 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     y: 321,
     npc: "old salty",
   },
+  {
+    x: 840,
+    y: 291,
+    npc: "grubnuk",
+  },
 ];
 export class PlazaScene extends BaseScene {
   roomId: RoomId = "plaza";
 
   constructor() {
-    super("plaza");
+    super({
+      name: "plaza",
+      map: { json: mapJson },
+      audio: { fx: { walk_key: "dirt_footstep" } },
+    });
+  }
+
+  preload() {
+    this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
+      frameWidth: 15,
+      frameHeight: 18,
+    });
+
+    super.preload();
   }
 
   async create() {
@@ -94,5 +109,18 @@ export class PlazaScene extends BaseScene {
     decorationShopLabel.setPosition(797, 252);
     decorationShopLabel.setDepth(10000000);
     this.add.existing(decorationShopLabel);
+
+    // Plaza Bud
+    const bud = this.add.sprite(500, 420, "plaza_bud");
+    this.anims.create({
+      key: "plaza_bud_animation",
+      frames: this.anims.generateFrameNumbers("plaza_bud", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    bud.play("plaza_bud_animation", true);
   }
 }

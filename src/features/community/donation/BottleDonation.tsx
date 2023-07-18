@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { useActor, useMachine } from "@xstate/react";
+import { useMachine } from "@xstate/react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
@@ -12,15 +12,12 @@ import seal from "../assets/seal.png";
 import team from "assets/npcs/project_dignity.png";
 import humanDeath from "assets/npcs/human_death.gif";
 import { beggarAudio } from "lib/utils/sfx";
-import { Context } from "../lib/CommunityProvider";
 import { donationMachine } from "../merchant/lib/donationMachine";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 export const BottleDonation: React.FC = () => {
   const [state, send] = useMachine(donationMachine);
-  const { communityService } = useContext(Context);
-  const [communityState] = useActor(communityService);
   const [donation, setDonation] = useState(1);
 
   const onDonationChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -4,8 +4,9 @@ import { createContext } from "react";
 import { Modal } from "react-bootstrap";
 import { BlockBucksModal } from "./components/BlockBucksModal";
 import { StoreOnChainModal } from "./components/StoreOnChainModal";
+import { GoldPassModal } from "features/game/expansion/components/GoldPass";
 
-type GlobalModal = "BUY_BLOCK_BUCKS" | "STORE_ON_CHAIN";
+type GlobalModal = "BUY_BLOCK_BUCKS" | "STORE_ON_CHAIN" | "GOLD_PASS";
 
 export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;
@@ -38,6 +39,10 @@ export const ModalProvider: FC = ({ children }) => {
 
       <Modal centered show={opened === "STORE_ON_CHAIN"} onHide={handleClose}>
         <StoreOnChainModal onClose={handleClose} />
+      </Modal>
+
+      <Modal centered show={opened === "GOLD_PASS"} onHide={handleClose}>
+        <GoldPassModal onClose={handleClose} />
       </Modal>
     </ModalContext.Provider>
   );

@@ -7,6 +7,9 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Sofia } from "./dawn/Sofia";
 import { Bella } from "./dawn/Bella";
+import { CommunityIslands } from "./community/CommunityIslands";
+import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
+import { WanderLeaf } from "./dawn/WanderLeaf";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -23,8 +26,6 @@ class NpcModalManager {
 }
 
 export const npcModalManager = new NpcModalManager();
-
-type NpcModals = Partial<Record<NPCName, boolean>>;
 
 interface Props {
   onClose: () => void;
@@ -57,19 +58,32 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
           <SpeakingModal
             onClose={closeModal}
             bumpkinParts={NPC_WEARABLES["pumpkin'pete"]}
-            message={[]}
+            message={[
+              { text: "Hello, I'm Pumpkin'Pete!" },
+              { text: "Welcome to the Plaza!" },
+            ]}
           />
         )}
         {npc === "sofia" && <Sofia onClose={closeModal} />}
         {npc === "bella" && <Bella onClose={closeModal} />}
+        {npc === "wanderleaf" && <WanderLeaf onClose={closeModal} />}
+        {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
         {npc === "stella" && (
           <CloseButtonPanel
             onClose={closeModal}
             bumpkinParts={NPC_WEARABLES.stella}
           >
             <div className="p-2">
-              <p className="mb-2">I am opening </p>
+              <p className="mb-2">Coming soon... </p>
             </div>
+          </CloseButtonPanel>
+        )}
+        {npc === "grubnuk" && (
+          <CloseButtonPanel
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES.grubnuk}
+          >
+            <CommunityIslands />
           </CloseButtonPanel>
         )}
         {npc === "timmy" && (
@@ -118,7 +132,11 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
           <SpeakingModal
             onClose={closeModal}
             bumpkinParts={NPC_WEARABLES["marcus"]}
-            message={[{ text: "Hey! You are not allowed to go in my house." }]}
+            message={[
+              {
+                text: "Hey! You are not allowed to go in my house. Don't you dare touch my things!",
+              },
+            ]}
           />
         )}
         {npc === "grimbly" && (

@@ -178,7 +178,7 @@ export const HayseedHank: React.FC = () => {
             bumpkinParts={NPC_WEARABLES.hank}
             onClose={close}
           >
-            <Chore skipping={isSaving && isSkipping} onClose={close} />
+            <Chore skipping={isSaving && isSkipping} />
 
             {!(isSaving && isSkipping) && Content()}
           </CloseButtonPanel>
