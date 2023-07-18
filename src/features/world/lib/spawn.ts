@@ -120,7 +120,7 @@ export const SPAWNS: SpawnLocation = {
     // },
     // DEBUG CODE REMOVE
     default: {
-      x: 100,
+      x: 150,
       y: 100,
     },
   },

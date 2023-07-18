@@ -37,7 +37,8 @@ export type NPCName =
   | "billy"
   | "phantom face"
   | "farmer flesh"
-  | "boneyard betty";
+  | "boneyard betty"
+  | "eins";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -408,6 +409,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Parsnip",
     shoes: "Black Farmer Boots",
     background: "Cemetery Background",
+  },
+  eins: {
+    body: "Beige Farmer Potion",
+    coat: "Chef Apron",
+    hair: "Sun Spots",
+    pants: "Blue Suspenders",
+    shirt: "Yellow Farmer Shirt",
+    tool: "Farmer Pitchfork",
+    background: "Farm Background",
+    shoes: "Brown Boots",
   },
 };
 

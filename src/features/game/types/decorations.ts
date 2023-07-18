@@ -68,13 +68,19 @@ export type EventDecorationName =
   | "Eggplant Bear"
   | "Dawn Flower";
 
+export type PotionHouseDecorationName =
+  | "Giant Potato"
+  | "Giant Pumpkin"
+  | "Giant Cabbage";
+
 export type DecorationName =
   | AchievementDecorationName
   | ShopDecorationName
   | EventDecorationName
   | DecorationTreasure
   | BoostTreasure
-  | SeasonalDecorationName;
+  | SeasonalDecorationName
+  | PotionHouseDecorationName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Dawn Flower": {
@@ -579,5 +585,29 @@ export const SEASONAL_DECORATIONS: (
     ingredients: {
       "Crow Feather": new Decimal(500),
     },
+  },
+});
+
+export const POTION_HOUSE_DECORATIONS: () => Record<
+  PotionHouseDecorationName,
+  Decoration
+> = () => ({
+  "Giant Potato": {
+    name: "Giant Potato",
+    description: "A giant potato.",
+    sfl: new Decimal(0),
+    ingredients: {},
+  },
+  "Giant Pumpkin": {
+    name: "Giant Pumpkin",
+    description: "A giant pumpkin.",
+    sfl: new Decimal(0),
+    ingredients: {},
+  },
+  "Giant Cabbage": {
+    name: "Giant Cabbage",
+    description: "A giant cabbage.",
+    sfl: new Decimal(0),
+    ingredients: {},
   },
 });

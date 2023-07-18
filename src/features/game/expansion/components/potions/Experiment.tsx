@@ -10,14 +10,11 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { SpeechBubble } from "./SpeechBubble";
 import { POTIONS } from "./lib/potions";
 import { Box } from "./Box";
-import { getEntries, getKeys } from "features/game/types/craftables";
 import shadow from "assets/npcs/shadow.png";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
-import { RequirementLabel } from "components/ui/RequirementsLabel";
-import Decimal from "decimal.js-light";
-import { InventoryItemName, PotionName } from "features/game/types/game";
+import { PotionName } from "features/game/types/game";
 import { calculateScore } from "features/game/events/landExpansion/mixPotion";
 import { Potion } from "./lib/types";
 
@@ -163,17 +160,6 @@ export const Experiment: React.FC<Props> = ({ onClose }) => {
       type: "ADD_GUESS",
       guessSpot: guessSpot,
       potion: selectedPotion.name,
-    });
-  };
-
-  const hasRequirementsForPotion = () => {
-    const { ingredients } = selectedPotion;
-    const entries = getEntries(ingredients) as [InventoryItemName, Decimal][];
-
-    return entries.every(([ingredient, amount]) => {
-      const inventoryAmount = inventory[ingredient] ?? new Decimal(0);
-
-      return inventoryAmount?.gte(amount) ?? false;
     });
   };
 
@@ -331,7 +317,7 @@ export const Experiment: React.FC<Props> = ({ onClose }) => {
         >
           <h2 className="mb-1">Potions</h2>
           <InnerPanel>
-            <div className="p-1 flex flex-col space-y-1">
+            <div className="p-1 flex flex-col space-y-1 pb-2">
               {selectedPotion && (
                 <>
                   <span className="text-[18px]">{selectedPotion.name}</span>
@@ -339,29 +325,12 @@ export const Experiment: React.FC<Props> = ({ onClose }) => {
                   <span className="text-xxs sm:mt-1 whitespace-pre-line">
                     {selectedPotion.description}
                   </span>
-
-                  <div className="border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap">
-                    {getKeys(selectedPotion.ingredients).map((item, index) => {
-                      return (
-                        <RequirementLabel
-                          key={index}
-                          type="item"
-                          item={item}
-                          balance={inventory[item] ?? new Decimal(0)}
-                          requirement={
-                            (selectedPotion.ingredients ?? {})[item] ??
-                            new Decimal(0)
-                          }
-                        />
-                      );
-                    })}
-                  </div>
                 </>
               )}
             </div>
             <Button
               className="h-9"
-              disabled={!hasRequirementsForPotion() || guessSpot < 0}
+              disabled={guessSpot < 0}
               onClick={onPotionButtonClick}
             >
               {currentGuess[guessSpot] ? "Remove from mix" : "Add to mix"}
