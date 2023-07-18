@@ -93,7 +93,7 @@ export const PromotingModal: React.FC<Props> = ({
             </ul>
 
             <a
-              href="https://docs.sunflower-land.com/player-guides/seasons/dawn-breaker#dawn-breaker-banner"
+              href="https://docs.sunflower-land.com/player-guides/seasons/witches-eve#witches-eve-banner"
               target="_blank"
               rel="noopener noreferrer"
               className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
