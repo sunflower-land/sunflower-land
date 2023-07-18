@@ -25,16 +25,19 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 
 import { NPC_WEARABLES } from "lib/npcs";
 import { secondsToString } from "lib/utils/time";
-import { acknowledgeOrders, generateDeliveryMessage } from "../lib/delivery";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
-import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
+import {
+  acknowledgeOrders,
+  generateDeliveryMessage,
+} from "features/island/delivery/lib/delivery";
 
 interface Props {
   selectedId?: string;
   onSelect: (id?: string) => void;
 }
-export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
+
+export const Orders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -50,11 +53,6 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   if (!previewOrder) {
     previewOrder = orders[0];
   }
-
-  const deliver = () => {
-    gameService.send("order.delivered", { id: previewOrder?.id });
-    onSelect(undefined);
-  };
 
   const hasRequirements = (order?: Order) => {
     if (!order) {
@@ -83,16 +81,14 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     );
   }
 
-  const canFulfill = hasRequirements(previewOrder as Order);
-
   const slots = getDeliverySlots(gameState.context.state);
   let emptySlots = slots - orders.length - (nextOrder ? 1 : 0);
   emptySlots = Math.max(0, emptySlots);
 
   return (
-    <div className="flex md:flex-row flex-col-reverse">
+    <div className="flex flex-col md:flex-row">
       <div
-        className={classNames("md:flex flex-col w-full md:w-2/3", {
+        className={classNames("md:flex flex-col w-full  md:w-2/3", {
           hidden: selectedId,
         })}
       >
@@ -218,38 +214,33 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               <OuterPanel
                 className="w-full py-2 relative"
                 style={{ height: "80px" }}
-              ></OuterPanel>
+              />
             </div>
           ))}
         </div>
-        {nextOrder && (
-          <div className="px-1 mb-1 flex-1 flex items-end">
-            <div>
-              <div className="flex">
-                <img src={SUNNYSIDE.icons.timer} className="h-4 mr-2" />
-                <p className="text-xxs mr-2">Next Order: </p>
-                {/* TEMP */}
-                <p className="text-xxs">
-                  {secondsToString((nextOrder.readyAt - Date.now()) / 1000, {
-                    length: "medium",
-                  })}
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
       {previewOrder && (
         <OuterPanel
           className={classNames(
-            "md:flex md:flex-col items-center flex-1 relative",
+            "mt-[24px] md:mt-0 md:flex md:flex-col items-center flex-1 relative",
             {
               hidden: !selectedId,
             }
           )}
         >
+          <img
+            src={SUNNYSIDE.icons.arrow_left}
+            className={classNames(
+              "absolute -top-9 left-0 h-6 w-6 cursor-pointer md:hidden z-10",
+              {
+                hidden: !selectedId,
+                block: !!selectedId,
+              }
+            )}
+            onClick={() => onSelect(undefined)}
+          />
           <div
-            className="mb-1 mx-auto w-full col-start-1 row-start-1 overflow-hidden z-0 rounded-lg relative"
+            className="mb-1 mx-auto w-full col-start-1 row-start-1 overflow-hidden z-0 rounded-lg relative m:mt-0"
             style={{
               height: `${PIXEL_SCALE * 50}px`,
               background:
@@ -275,29 +266,32 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               />
             </div>
           </div>
-          <div className="flex-1 p-1">
-            <p className="text-xs mb-2" style={{ height: "60px" }}>
-              {generateDeliveryMessage({
-                from: previewOrder?.from,
-                id: previewOrder.id,
-              })}
-            </p>
-            {getKeys(previewOrder.items).map((itemName) => (
-              <RequirementLabel
-                key={itemName}
-                type="item"
-                item={itemName}
-                balance={
-                  gameState.context.state.inventory[itemName] ?? new Decimal(0)
-                }
-                showLabel
-                requirement={new Decimal(previewOrder?.items[itemName] ?? 0)}
-              />
-            ))}
+          <div className="flex-1 space-y-2 p-1">
+            <div className="text-xs space-y-2">
+              <p>
+                {generateDeliveryMessage({
+                  from: previewOrder?.from,
+                  id: previewOrder.id,
+                })}
+              </p>
+              <p>{`I'll be waiting for you in the Plaza.`}</p>
+            </div>
+            <div className="pt-1 pb-2">
+              {getKeys(previewOrder.items).map((itemName) => (
+                <RequirementLabel
+                  key={itemName}
+                  type="item"
+                  item={itemName}
+                  balance={
+                    gameState.context.state.inventory[itemName] ??
+                    new Decimal(0)
+                  }
+                  showLabel
+                  requirement={new Decimal(previewOrder?.items[itemName] ?? 0)}
+                />
+              ))}
+            </div>
           </div>
-          <Button disabled={!canFulfill} onClick={deliver}>
-            Deliver
-          </Button>
         </OuterPanel>
       )}
     </div>

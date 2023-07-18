@@ -22,6 +22,7 @@ import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { createPortal } from "react-dom";
 import { HalveningCountdown } from "./components/HalveningCountdown";
 import { Deliveries } from "./components/deliveries/Deliveries";
+import { hasFeatureAccess } from "lib/flags";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -139,12 +140,14 @@ const HudComponent: React.FC<{
             }
             isFullUser={isFullUser}
           />
-          <div className="fixed z-50 bottom-0 left-0">
-            <Deliveries />
-          </div>
-          {/* {landId && !isDawnBreakerIsland && !isHelios && (
-            <LandId landId={landId} />
-          )} */}
+          {hasFeatureAccess(
+            gameState.context.state.inventory,
+            "NEW_DELIVERIES"
+          ) && (
+            <div className="fixed z-50 bottom-0 left-0">
+              <Deliveries />
+            </div>
+          )}
           <HalveningCountdown />
           <div
             className="fixed z-50 flex flex-col justify-between"
