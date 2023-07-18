@@ -9,12 +9,15 @@ import React, { useContext, useState } from "react";
 
 import welcome from "assets/tutorials/welcome.png";
 import locals from "assets/tutorials/locals.png";
+import { SpeakingText } from "features/game/components/SpeakingModal";
+import { NPC_WEARABLES } from "lib/npcs";
 
 export const Introduction: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState, send] = useActor(gameService);
 
   const [page, setPage] = useState(0);
+
   const Content = () => {
     if (page === 0) {
       return (
@@ -56,8 +59,33 @@ export const Introduction: React.FC = () => {
   };
   return (
     <Modal centered show={gameState.matches("introduction")}>
-      <Panel bumpkinParts={gameState.context.state.bumpkin?.equipped}>
-        <Content />
+      <Panel bumpkinParts={NPC_WEARABLES.hank}>
+        {/* <Content /> */}
+        <SpeakingText
+          message={[
+            {
+              text: "Howdy Bumpkin! I've been working this land for near fifty years. But alas, my bones are tiring and I need some help.",
+            },
+            {
+              text: "With a little hard work and some seeds, we can turn this land into a farming paradise!",
+            },
+            {
+              text: "You look like a strong Bumpkin. Are you able to help me?",
+            },
+            {
+              text: "Great! Let's waste no time. Chop down these trees and let's expand our island",
+              actions: [
+                {
+                  text: "Ok",
+                  cb: () => {
+                    acknowledgeIntroduction();
+                    send("ACKNOWLEDGE");
+                  },
+                },
+              ],
+            },
+          ]}
+        />
       </Panel>
     </Modal>
   );
