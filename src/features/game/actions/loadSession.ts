@@ -5,6 +5,7 @@ import { sanitizeHTTPResponse } from "lib/network";
 import { makeGame } from "../lib/transforms";
 import { GameState, InventoryItemName } from "../types/game";
 import { Announcements } from "../types/conversations";
+import { getReferrerId } from "features/auth/actions/createAccount";
 
 type Request = {
   sessionId: string;
@@ -38,6 +39,7 @@ export async function loadSession(
   if (!API_URL) return;
 
   const promoCode = getPromoCode();
+  const referrerId = getReferrerId();
 
   const response = await window.fetch(`${API_URL}/session/${request.farmId}`, {
     method: "POST",
@@ -54,6 +56,7 @@ export async function loadSession(
       wallet: request.wallet,
       guestKey: request.guestKey,
       promoCode,
+      referrerId,
     }),
   });
 

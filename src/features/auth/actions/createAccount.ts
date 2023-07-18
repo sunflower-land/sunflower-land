@@ -113,7 +113,7 @@ export function saveReferrerId(id: string) {
   localStorage.setItem(REFERRER_LS_KEY, id);
 }
 
-function getReferrerId() {
+export function getReferrerId() {
   const item = localStorage.getItem(REFERRER_LS_KEY);
 
   if (!item) {
