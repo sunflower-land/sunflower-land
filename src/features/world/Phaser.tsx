@@ -135,6 +135,17 @@ export const PhaserComponent: React.FC<Props> = ({
       }
     });
 
+    mmoService.state.context.server?.state.messages.onChange(() => {
+      console.log("SET");
+      setMessages(
+        mmoService.state.context.server?.state.messages.map((m) => ({
+          farmId: m.farmId ?? 0,
+          text: m.text,
+          sessionId: m.sessionId,
+        })) ?? []
+      );
+    });
+
     return () => {
       game.current?.destroy(true);
     };
@@ -165,15 +176,6 @@ export const PhaserComponent: React.FC<Props> = ({
     }
   };
 
-  mmoService.state.context.server?.state.messages.onChange(() => {
-    setMessages(
-      mmoService.state.context.server?.state.messages.map((m) => ({
-        farmId: m.farmId ?? 0,
-        text: m.text,
-        sessionId: m.sessionId,
-      })) ?? []
-    );
-  });
   // Prevent Phaser events firing when interacting with HTML UI
   useEffect(() => {
     function handleClickOutside(event: any) {

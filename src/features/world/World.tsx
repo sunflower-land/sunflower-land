@@ -83,7 +83,8 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   // Initiatilise Machine
 
   // If state is x, y or z then return Travel Screen
-  const isTraveling = isInitialising || isConnecting || isConnected || isKicked;
+  const isTraveling =
+    isInitialising || isConnecting || isConnected || isKicked || isJoining;
 
   if (isTraveling) {
     return <TravelScreen mmoService={mmoService} />;
