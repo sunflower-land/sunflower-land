@@ -122,6 +122,7 @@ export const SpeakingText: React.FC<Pick<Props, "message" | "onClose">> = ({
   const handleClick = useCallback(() => {
     // Cannot accidentally click through last message
     if (currentTextEnded && currentMessage === message.length - 1) {
+      onClose();
       return;
     }
 
@@ -181,7 +182,7 @@ export const SpeakingText: React.FC<Pick<Props, "message" | "onClose">> = ({
           </div>
         )}
       </div>
-      {currentMessage !== message.length - 1 && (
+      {!showActions && (
         <p className="text-xxs italic float-right">(Tap to continue)</p>
       )}
     </div>

@@ -4,25 +4,35 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import Decimal from "decimal.js-light";
 import { AchievementDetails } from "features/bumpkins/components/AchievementDetails";
 import { Context } from "features/game/GameProvider";
-import { ACHIEVEMENTS } from "features/game/types/achievements";
+import {
+  ACHIEVEMENTS,
+  AchievementName,
+} from "features/game/types/achievements";
 import { setPrecision } from "lib/utils/formatNumber";
 import React, { useContext } from "react";
 import chest from "assets/icons/chest.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { GuidePath } from "../lib/guide";
+import { GameState } from "features/game/types/game";
 
-export const Task: React.FC = () => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+interface Props {
+  onOpenGuide: (guide: GuidePath) => void;
+}
 
-  const achievement = ACHIEVEMENTS()["20/20 Vision"];
-  const progress = achievement.progress(gameState.context.state);
+interface GuideTaskProps {
+  state: GameState;
+  task: AchievementName;
+}
+export const GuideTask: React.FC<GuideTaskProps> = ({ state, task }) => {
+  const achievement = ACHIEVEMENTS()[task];
+  const progress = achievement.progress(state);
   const isComplete = progress >= achievement.requirement;
 
   const progressPercentage =
     Math.min(1, progress / achievement.requirement) * 100;
 
   return (
-    <div className="p-2">
+    <>
       <div className="flex">
         <img
           src={CROP_LIFECYCLE.Carrot.crop}
@@ -55,7 +65,22 @@ export const Task: React.FC = () => {
           </div>
         </Button>
       </div>
-      <span className="underline text-xxs cursor-pointer">Need help?</span>
+    </>
+  );
+};
+export const Task: React.FC<Props> = ({ onOpenGuide }) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  return (
+    <div className="p-2">
+      <GuideTask state={gameState.context.state} task="Explorer" />
+      <span
+        onClick={() => onOpenGuide("gathering")}
+        className="underline text-xxs cursor-pointer"
+      >
+        Need help?
+      </span>
     </div>
   );
 };

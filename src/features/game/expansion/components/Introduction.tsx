@@ -62,27 +62,28 @@ export const Introduction: React.FC = () => {
       <Panel bumpkinParts={NPC_WEARABLES.hank}>
         {/* <Content /> */}
         <SpeakingText
+          onClose={() => {
+            acknowledgeIntroduction();
+            send("ACKNOWLEDGE");
+          }}
           message={[
             {
-              text: "Howdy Bumpkin! I've been working this land for near fifty years. But alas, my bones are tiring and I need some help.",
+              text: "Howdy there, partner! Welcome to Sunflower Land, the bountiful farming paradise!",
             },
             {
-              text: "With a little hard work and some seeds, we can turn this land into a farming paradise!",
+              text: "I'm Hayseed Hank, an old Bumpkin farmer who's been tending to these lands for longer than I can remember. But, truth be told, I could use a little help from a fresh face like you.",
             },
             {
-              text: "You look like a strong Bumpkin. Are you able to help me?",
+              text: "You see, our little island has so much potential, and with your determination and hard work, we can transform it into a thriving empire!",
             },
             {
-              text: "Great! Let's waste no time. Chop down these trees and let's expand our island",
-              actions: [
-                {
-                  text: "Ok",
-                  cb: () => {
-                    acknowledgeIntroduction();
-                    send("ACKNOWLEDGE");
-                  },
-                },
-              ],
+              text: "Together, we'll learn the ropes of this game and make Sunflower Land bloom like never before.",
+            },
+            {
+              text: "Looks like our little island is getting crowded. If we want to craft buildings and rare NFTs, we'll need more space.",
+            },
+            {
+              text: "Let's first chop down these trees, gather some wood and expand the island.",
             },
           ]}
         />

@@ -51,6 +51,7 @@ export type AchievementName =
 
 export type Achievement = {
   description: string;
+  dialogue?: string;
   progress: (game: GameState) => number;
   requirement: number;
   sfl: Decimal;
@@ -111,6 +112,8 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   Explorer: {
+    dialogue:
+      "Looks like our little island is getting crowded. If we want to craft buildings and rare NFTs, we'll need more space. Let's gather some wood by chopping down these trees and expanding the island. Go ahead and figure out the best way to do it.",
     description: "Expand your land 5 times",
     progress: (gameState: GameState) =>
       gameState.inventory["Basic Land"]?.toNumber() ?? 0,
