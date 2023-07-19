@@ -9,10 +9,13 @@ import metamaskIcon from "src/assets/icons/metamask_pixel.png";
 import walletIcon from "src/assets/icons/wallet.png";
 import phantomIcon from "src/assets/icons/phantom.svg";
 import okxIcon from "src/assets/icons/okx.svg";
+import cryptoComIcon from "src/assets/icons/crypto-com-logo.svg";
+
 import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { Label } from "components/ui/Label";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { getPromoCode } from "features/game/actions/loadSession";
+import { hasFeatureAccess } from "lib/flags";
 
 const OtherWallets = () => {
   const { authService } = useContext(Context);
@@ -20,6 +23,27 @@ const OtherWallets = () => {
   return (
     <>
       <>
+        {hasFeatureAccess({}, "CRYPTO_COM_WALLET") && (
+          <Button
+            className="mb-2 py-2 text-sm relative"
+            onClick={() => authService.send("CONNECT_TO_CRYPTO_COM")}
+          >
+            <div className="px-8">
+              <img
+                src={cryptoComIcon}
+                alt="Crypto.com"
+                className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+              />
+              <Label
+                type="info"
+                className="absolute top-1/2 -translate-y-1/2 right-1"
+              >
+                Featured
+              </Label>
+              Crypto.com Wallet
+            </div>
+          </Button>
+        )}
         <Button
           className="mb-2 py-2 text-sm relative"
           onClick={() =>
@@ -34,12 +58,14 @@ const OtherWallets = () => {
               alt="OKX"
               className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
-            <Label
-              type="info"
-              className="absolute top-1/2 -translate-y-1/2 right-1"
-            >
-              Featured
-            </Label>
+            {!hasFeatureAccess({}, "CRYPTO_COM_WALLET") && (
+              <Label
+                type="info"
+                className="absolute top-1/2 -translate-y-1/2 right-1"
+              >
+                Featured
+              </Label>
+            )}
             OKX Wallet
           </div>
         </Button>
@@ -203,6 +229,7 @@ export const SignIn = () => {
           </div>
         </Button>
       )}
+
       {!isOKX && (
         <>
           {page === "home" && <MainWallets />}
