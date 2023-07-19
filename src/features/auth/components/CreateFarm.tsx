@@ -58,7 +58,7 @@ export const CreateFarm: React.FC = () => {
   );
 
   const isLoading = createFarmState.matches("loading");
-  const hasEnoughMatic = createFarmState.matches("hasEnoughMatic");
+  //const hasEnoughMatic = createFarmState.matches("hasEnoughMatic");
 
   if (isLoading) {
     return (
