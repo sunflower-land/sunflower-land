@@ -102,10 +102,6 @@ export const HayseedHank: React.FC = () => {
     }
   }, [isOpen, gameState.context.state.hayseedHank.progress]);
 
-  const conversationId = gameState.context.state.conversations.find(
-    (id) => CONVERSATIONS[id]?.from === "hank"
-  );
-
   return (
     <>
       <div
@@ -126,17 +122,6 @@ export const HayseedHank: React.FC = () => {
           }}
           onClick={handleClick}
         />
-        {conversationId && (
-          <img
-            src={SUNNYSIDE.icons.expression_chat}
-            className="absolute animate-float pointer-events-none"
-            style={{
-              width: `${PIXEL_SCALE * 9}px`,
-              top: `${PIXEL_SCALE * -5}px`,
-              right: `${PIXEL_SCALE * 1}px`,
-            }}
-          />
-        )}
         {isTaskComplete(gameState.context.state) && (
           <img
             src={SUNNYSIDE.icons.confirm}
@@ -152,60 +137,24 @@ export const HayseedHank: React.FC = () => {
       </div>
       <Modal centered show={isOpen} onHide={close}>
         <CloseButtonPanel
-          tabs={[
-            {
-              icon: SUNNYSIDE.icons.hammer,
-              name: "Task",
-            },
-            {
-              icon: SUNNYSIDE.icons.expression_confused,
-              name: "Guide",
-            },
-          ]}
-          bumpkinParts={{
-            body: "Light Brown Farmer Potion",
-            shirt: "Red Farmer Shirt",
-            pants: "Brown Suspenders",
-            hair: "Sun Spots",
-            tool: "Farmer Pitchfork",
-          }}
+          title={
+            isTaskComplete(gameState.context.state) ? (
+              <div className="flex justify-center">
+                <p>Well done</p>
+              </div>
+            ) : (
+              <div className="flex justify-center">
+                <p>Lend a hand?</p>
+              </div>
+            )
+          }
+          bumpkinParts={NPC_WEARABLES.hank}
           onClose={close}
         >
-          <Guide />
-        </CloseButtonPanel>
-        {/* {conversationId ? (
-          <Panel
-            bumpkinParts={{
-              body: "Light Brown Farmer Potion",
-              shirt: "Red Farmer Shirt",
-              pants: "Brown Suspenders",
-              hair: "Sun Spots",
-              tool: "Farmer Pitchfork",
-            }}
-          >
-            <Conversation conversationId={conversationId} />
-          </Panel>
-        ) : (
-          <CloseButtonPanel
-            title={
-              isTaskComplete(gameState.context.state) ? (
-                <div className="flex justify-center">
-                  <p>Well done</p>
-                </div>
-              ) : (
-                <div className="flex justify-center">
-                  <p>Lend a hand?</p>
-                </div>
-              )
-            }
-            bumpkinParts={NPC_WEARABLES.hank}
-            onClose={close}
-          >
-            <Chore skipping={isSaving && isSkipping} />
+          <Chore skipping={isSaving && isSkipping} />
 
-            {!(isSaving && isSkipping) && Content()}
-          </CloseButtonPanel>
-        )} */}
+          {!(isSaving && isSkipping) && Content()}
+        </CloseButtonPanel>
       </Modal>
     </>
   );
