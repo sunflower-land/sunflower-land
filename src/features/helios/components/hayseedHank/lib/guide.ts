@@ -1,5 +1,4 @@
 import { SUNNYSIDE } from "assets/sunnyside";
-import chefHat from "assets/icons/chef_hat.png";
 import { AchievementName } from "features/game/types/achievements";
 import { ITEM_DETAILS } from "features/game/types/images";
 

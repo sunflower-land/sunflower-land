@@ -17,7 +17,6 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { GuidePath, WALKTHROUGH } from "./lib/guide";
 import {
   ACHIEVEMENTS,
-  Achievement,
   AchievementName,
 } from "features/game/types/achievements";
 

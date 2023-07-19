@@ -4,7 +4,6 @@ import { OuterPanel } from "components/ui/Panel";
 import { ACHIEVEMENTS } from "features/game/types/achievements";
 import { getKeys } from "features/game/types/craftables";
 import { Context } from "features/game/GameProvider";
-import chest from "assets/icons/chest.png";
 import { useActor } from "@xstate/react";
 import { GUIDE_PATHS, GuidePath } from "../lib/guide";
 import { GuideTask } from "./Task";
@@ -47,7 +46,7 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
             </p>
           </div>
           {GUIDE_PATHS[selected].achievements.map((name) => (
-            <OuterPanel className="mt-2 p-1">
+            <OuterPanel className="mt-2 p-1" key={name}>
               <GuideTask state={state} task={name} />
             </OuterPanel>
           ))}
@@ -71,6 +70,7 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
           return (
             <OuterPanel
               className="flex mb-2 p-1 w-full cursor-pointer  hover:bg-brown-200"
+              key={name}
               onClick={() => onSelect(path)}
             >
               <div className="flex-1">
@@ -91,12 +91,17 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
                           <img
                             src={SUNNYSIDE.icons.confirm}
                             className="h-3 mr-1"
+                            key={name}
                           />
                         );
                       }
 
                       return (
-                        <img src={SUNNYSIDE.ui.dot} className="h-3 mr-1" />
+                        <img
+                          src={SUNNYSIDE.ui.dot}
+                          className="h-3 mr-1"
+                          key={name}
+                        />
                       );
                     })}
                   </div>

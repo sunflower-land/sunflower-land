@@ -1,18 +1,12 @@
-import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { ResizableBar } from "components/ui/ProgressBar";
 import Decimal from "decimal.js-light";
-import { AchievementDetails } from "features/bumpkins/components/AchievementDetails";
-import { Context } from "features/game/GameProvider";
 import {
   ACHIEVEMENTS,
-  Achievement,
   AchievementName,
 } from "features/game/types/achievements";
 import { setPrecision } from "lib/utils/formatNumber";
-import React, { useContext } from "react";
-import chest from "assets/icons/chest.png";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import React from "react";
 import { GUIDE_PATHS, GuidePath } from "../lib/guide";
 import { GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
@@ -101,7 +95,7 @@ export const Task: React.FC<Props> = ({ onOpenGuide, state, task }) => {
   if (!task) {
     return (
       <div className="p-2">
-        <p>Wow, you've mastered all of your tasks!</p>
+        <p>{`Wow, you've mastered all of your tasks!`}</p>
       </div>
     );
   }

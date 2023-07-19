@@ -9,12 +9,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { isTaskComplete } from "./lib/HayseedHankTask";
-import { CONVERSATIONS } from "features/game/types/conversations";
-import { Panel } from "components/ui/Panel";
-import { Conversation } from "features/farming/mail/components/Conversation";
 import { Chore } from "./components/Chore";
 import { NPC_WEARABLES } from "lib/npcs";
-import { Guide } from "./components/Guide";
 
 export const HayseedHank: React.FC = () => {
   const { gameService } = useContext(Context);
