@@ -491,7 +491,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Pirate General Coat": "coat",
   "Pirate Pants": "pants",
   "Pirate Leather Polo": "shirt",
-  "Crab Claw": "tool",
+  "Crab Claw": "secondaryTool",
   "Pirate Scimitar": "tool",
   "Cupid Hair": "hair",
   "Cupid Dress": "dress",
