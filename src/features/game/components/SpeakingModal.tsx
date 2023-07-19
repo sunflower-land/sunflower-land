@@ -119,6 +119,9 @@ export const SpeakingText: React.FC<Pick<Props, "message" | "onClose">> = ({
   const [currentTextEnded, setCurrentTextEnded] = useState(false);
   const [forceShowFullMessage, setForceShowFullMessage] = useState(false);
 
+  const maxLength = Math.max(...message.map((m) => m.text.length));
+  const lines = maxLength / 30;
+  console.log({ maxLength, lines });
   const handleClick = useCallback(() => {
     // Cannot accidentally click through last message
     if (currentTextEnded && currentMessage === message.length - 1) {
@@ -156,7 +159,13 @@ export const SpeakingText: React.FC<Pick<Props, "message" | "onClose">> = ({
     (currentTextEnded || forceShowFullMessage) &&
     message[currentMessage].actions;
   return (
-    <div className="p-1 flex flex-col cursor-pointer" onClick={handleClick}>
+    <div
+      className="p-1 flex flex-col cursor-pointer"
+      onClick={handleClick}
+      style={{
+        minHeight: `${lines * 25}px`,
+      }}
+    >
       <div className="flex-1  pb-2">
         <TypingMessage
           message={message[currentMessage].text}

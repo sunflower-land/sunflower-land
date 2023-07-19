@@ -470,7 +470,7 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    Market: [
+    Workbench: [
       {
         coordinates: { x: 3, y: 0 },
         createdAt: 0,
