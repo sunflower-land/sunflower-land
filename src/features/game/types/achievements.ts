@@ -73,10 +73,10 @@ export type Achievement = {
 export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   // Crops
   "Bread Winner": {
-    description: "Earn 0.1 SFL",
+    description: "Earn 0.01 SFL",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Earned"] || 0,
-    requirement: 0.1,
+    requirement: 0.01,
     sfl: new Decimal(0),
     introduction: [
       "Well, well, well, partner... It looks like you need some SFL!",
@@ -235,7 +235,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     sfl: marketRate(10),
     rewards: {},
     introduction: [
-      "Howdy, my ambitious friend! To unlock new expansions, buildings and skills you will need to level up.",
+      "Howdy, my ambitious friend! To unlock new crops, expansions, buildings and much more you will need to level up.",
       "Head over to the Fire Pit, cook up a delicious recipe and feed it to your Bumpkin",
     ],
   },

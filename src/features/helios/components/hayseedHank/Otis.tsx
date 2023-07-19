@@ -62,6 +62,7 @@ export const Otis: React.FC = () => {
 
   const handleClick = () => {
     setShowIntro(!!task?.introduction);
+    setGuide(undefined);
     setIsOpen(true);
     console.log({ activeTask });
     if (activeTask) {
