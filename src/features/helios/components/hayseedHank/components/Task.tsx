@@ -62,7 +62,10 @@ export const GuideTask: React.FC<GuideTaskProps> = ({
           )}/${achievement.requirement}`}</span>
         </div>
         {onNeedHelp && (
-          <Button className="w-32 h-8" onClick={() => onNeedHelp("gathering")}>
+          <Button
+            className="w-32 h-8"
+            onClick={() => onNeedHelp(guide as GuidePath)}
+          >
             <div className="flex items-center">
               <span className="text-xs">Need help</span>
               <img

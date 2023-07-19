@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
+import videoThumbnail from "assets/tutorials/video_thumbnail.png";
+import playIcon from "assets/icons/play.png";
 import { OuterPanel } from "components/ui/Panel";
 import { ACHIEVEMENTS } from "features/game/types/achievements";
 import { getKeys } from "features/game/types/craftables";
@@ -40,11 +42,13 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
               </a>
             )}
           </div>
-          <div className="p-2">
-            <p className="text-sm whitespace-pre-line">
-              {GUIDE_PATHS[selected].description}
-            </p>
-          </div>
+          {GUIDE_PATHS[selected].description.map(({ text, image }, index) => (
+            <div className="p-2" key={index}>
+              {image && <img src={image} className="w-full rounded-md mb-1" />}
+              <p className="text-sm whitespace-pre-line">{text}</p>
+            </div>
+          ))}
+
           {GUIDE_PATHS[selected].achievements.map((name) => (
             <OuterPanel className="mt-2 p-1" key={name}>
               <GuideTask state={state} task={name} />
@@ -56,11 +60,25 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
 
     return (
       <>
-        <div className="p-1">
-          <p className="text-sm">
-            From humble beginnings to expert farming, this guide has got you
-            covered!
-          </p>
+        <div className="p-1 mb-1">
+          <div className="flex">
+            <p className="text-xs flex-1 pr-2">
+              From humble beginnings to expert farming, this guide has got you
+              covered!
+            </p>
+            <a
+              href="https://youtu.be/L9yCxAUCYhI"
+              target="_blank"
+              className="cursor-pointer relative w-16 flex justify-center items-center"
+              rel="noreferrer"
+            >
+              <img
+                src={videoThumbnail}
+                className="absolute w-full img-highlight-heavy rounded-md"
+              />
+              <img src={playIcon} className="h-5 z-20" />
+            </a>
+          </div>
         </div>
         {getKeys(GUIDE_PATHS).map((path) => {
           const achievements = GUIDE_PATHS[path].achievements;
