@@ -32,9 +32,9 @@ function lastAcknowledgedTask() {
   return localStorage.getItem(LOCAL_STORAGE_KEY);
 }
 
-export const HayseedHank: React.FC = () => {
+export const Otis: React.FC = () => {
   const [tab, setTab] = useState(0);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [guide, setGuide] = useState<GuidePath>();
 
   const { gameService } = useContext(Context);
@@ -91,15 +91,7 @@ export const HayseedHank: React.FC = () => {
             transform: "scaleX(-1)",
           }}
         >
-          <NPC
-            parts={{
-              body: "Light Brown Farmer Potion",
-              shirt: "Red Farmer Shirt",
-              pants: "Brown Suspenders",
-              hair: "Sun Spots",
-            }}
-            onClick={handleClick}
-          />
+          <NPC parts={NPC_WEARABLES.otis} onClick={handleClick} />
         </div>
         {lastAcknowledgedTask() !== activeTask && (
           <img
@@ -115,7 +107,7 @@ export const HayseedHank: React.FC = () => {
       </div>
       <Modal centered show={isOpen} onHide={close}>
         {showIntro && task?.introduction && (
-          <Panel bumpkinParts={NPC_WEARABLES["hank"]}>
+          <Panel bumpkinParts={NPC_WEARABLES["otis"]}>
             <SpeakingText
               onClose={() => {
                 console.log("CLOSE");
@@ -142,13 +134,7 @@ export const HayseedHank: React.FC = () => {
                 name: "Guide",
               },
             ]}
-            bumpkinParts={{
-              body: "Light Brown Farmer Potion",
-              shirt: "Red Farmer Shirt",
-              pants: "Brown Suspenders",
-              hair: "Sun Spots",
-              tool: "Farmer Pitchfork",
-            }}
+            bumpkinParts={NPC_WEARABLES.otis}
             onClose={close}
           >
             {tab === 0 && (

@@ -42,11 +42,13 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
             )}
           </div>
           <div className="p-2">
-            <p className="text-sm">{GUIDE_PATHS[selected].description}</p>
+            <p className="text-sm whitespace-pre-line">
+              {GUIDE_PATHS[selected].description}
+            </p>
           </div>
           {GUIDE_PATHS[selected].achievements.map((name) => (
             <OuterPanel className="mt-2 p-1">
-              <GuideTask state={state} task={name} guide={selected} />
+              <GuideTask state={state} task={name} />
             </OuterPanel>
           ))}
         </div>

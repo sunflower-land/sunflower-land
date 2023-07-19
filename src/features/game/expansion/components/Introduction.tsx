@@ -59,7 +59,7 @@ export const Introduction: React.FC = () => {
   };
   return (
     <Modal centered show={gameState.matches("introduction")}>
-      <Panel bumpkinParts={NPC_WEARABLES.hank}>
+      <Panel bumpkinParts={NPC_WEARABLES["otis"]}>
         {/* <Content /> */}
         <SpeakingText
           onClose={() => {
@@ -71,13 +71,10 @@ export const Introduction: React.FC = () => {
               text: "Howdy there, partner! Welcome to Sunflower Land, the bountiful farming paradise!",
             },
             {
-              text: "I'm Hayseed Hank, an old Bumpkin farmer who's been tending to these lands for longer than I can remember. But, truth be told, I could use a little help from a fresh face like you.",
+              text: "I'm Otis, an old Bumpkin farmer who's been tending to these lands for longer than I can remember. Truth be told, I could use a little help from a fresh face like you.",
             },
             {
               text: "You see, our little island has so much potential, and with your determination and hard work, we can transform it into a thriving empire!",
-            },
-            {
-              text: "Together, we'll learn the ropes of this game and make Sunflower Land bloom like never before.",
             },
             {
               text: "Looks like our little island is getting crowded. If we want to craft buildings and rare NFTs, we'll need more space.",

@@ -22,7 +22,6 @@ interface Props {
   onOpenGuide: (guide: GuidePath) => void;
   state: GameState;
   task?: AchievementName;
-  guide: GuidePath;
 }
 
 interface GuideTaskProps {

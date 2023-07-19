@@ -78,6 +78,11 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       gameState.bumpkin?.activity?.["SFL Earned"] || 0,
     requirement: 0.1,
     sfl: new Decimal(0),
+    introduction: [
+      "Well, well, well, partner... It looks like you need some SFL!",
+      "In Sunflower Land, a healthy stash of SFL is the key to crafting tools, buildings and rare NFTs",
+      "The quickest way to earn SFL is by planting and selling crops.",
+    ],
   },
   "Sun Seeker": {
     description: "Harvest Sunflower 100 times",
@@ -229,6 +234,10 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     requirement: 3,
     sfl: marketRate(10),
     rewards: {},
+    introduction: [
+      "Howdy, my ambitious friend! To unlock new expansions, buildings and skills you will need to level up.",
+      "Head over to the Fire Pit, cook up a delicious recipe and feed it to your Bumpkin",
+    ],
   },
   "Kiss the Cook": {
     description: "Cook 20 meals",
@@ -307,6 +316,10 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       gameState.collectibles["Basic Scarecrow"]?.length ?? 0,
     requirement: 1,
     sfl: marketRate(0),
+    introduction: [
+      "Howdy, partner! It is time you learn the art of crafting and boosted your farming abilities",
+      "Travel to the Pumpkin Plaza, visit the Blacksmith and craft a Scarecrow",
+    ],
   },
   "Big Spender": {
     description: "Spend 10 SFL",
@@ -490,6 +503,10 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     requirement: 1,
     sfl: marketRate(0),
     rewards: {},
+    introduction: [
+      "Well, well, well, what do we have here?",
+      "It looks like your crops are thirsty. To support more crops you must first build a well.",
+    ],
   },
   Contractor: {
     description: "Have 10 buildings constructed on your land",
@@ -524,6 +541,10 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     requirement: 50,
     sfl: marketRate(0),
     rewards: {},
+    introduction: [
+      "Hey there, fruit gatherer! Fruits are nature's sweetest gifts, and they bring a burst of flavor to your farm.",
+      "By collecting different fruits, such as apples, oranges, and blueberries, you'll unlock unique recipes, boost your cooking skills, and create delightful treats",
+    ],
   },
   "Orange Squeeze": {
     description: "Harvest Orange 100 times",
@@ -575,6 +596,10 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     requirement: 3,
     sfl: marketRate(0),
     rewards: {},
+    introduction: [
+      "Howdy, reliable farmer! Bumpkins from all around need your help with deliveries.",
+      "By completing deliveries, you'll make them happy and earn some fantastic SFL rewards in return ",
+    ],
   },
   "Crowd Favourite": {
     description: "Complete 100 deliveries",
@@ -588,13 +613,18 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
 
   // Seasons
   "Seasoned Farmer": {
-    description: "Collect 50 Seasonal Tickets",
+    description: "Collect 50 Seasonal Resources",
     progress: (gameState: GameState) => {
       return gameState.inventory[getSeasonalTicket()]?.toNumber() ?? 0;
     },
     requirement: 50,
     sfl: marketRate(0),
     rewards: {},
+    introduction: [
+      "Howdy, seasonal adventurer! Sunflower Land is known for its special seasons filled with unique items and surprises.",
+      "By collecting Seasonal resources, you'll gain access to limited-time rewards, exclusive crafts, and rare treasures. It's like having a front-row ticket to the wonders of each season.",
+      "So complete tasks, participate in events, and gather those Seasonal Tickets to enjoy the best that Sunflower Land has to offer!",
+    ],
   },
 
   // Scavenger
@@ -606,6 +636,10 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     requirement: 10,
     sfl: marketRate(0),
     rewards: {},
+    introduction: [
+      "Ahoy, treasure hunter! Sunflower Land is full of hidden treasures waiting to be discovered.",
+      "Grab your shovel and head to Treasure Island, where you can dig for valuable items and rare surprises.",
+    ],
   },
 
   // Animals
@@ -617,5 +651,9 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     requirement: 10,
     sfl: marketRate(0),
     rewards: {},
+    introduction: [
+      "Howdy, egg collector! Chickens are wonderful farm companions that provide us with delicious eggs.",
+      "By collecting eggs, you'll have a fresh supply of ingredients for cooking, and you'll also unlock special recipes and bonuses.",
+    ],
   },
 });
