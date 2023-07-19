@@ -11,7 +11,6 @@ import {
   isMaxLevel,
 } from "features/game/lib/level";
 import { AchievementsModal } from "./Achievements";
-import { AchievementBadges } from "./AchievementBadges";
 import { SkillsModal } from "features/bumpkins/components/Skills";
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -22,6 +21,7 @@ import { Bumpkin, Inventory } from "features/game/types/game";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { BumpkinEquip } from "./BumpkinEquip";
+import { AchievementBadges } from "./AchievementBadges";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -152,7 +152,7 @@ export const BumpkinModal: React.FC<Props> = ({
                 bumpkinParts={bumpkin?.equipped as BumpkinParts}
               />
             </div>
-            {isFullUser && (
+            {/* {isFullUser && (
               <div className="ml-1">
                 <a
                   href={getVisitBumpkinUrl()}
@@ -163,7 +163,7 @@ export const BumpkinModal: React.FC<Props> = ({
                   Visit Bumpkin
                 </a>
               </div>
-            )}
+            )} */}
           </div>
 
           <div className="flex-1">

@@ -4,7 +4,7 @@ import townCenter from "assets/buildings/town_center.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
-import { HayseedHank } from "features/helios/components/hayseedHank/HayseedHank";
+import { Otis } from "features/helios/components/hayseedHank/Otis";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Airdrop } from "features/game/expansion/components/Airdrop";
@@ -66,7 +66,7 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         />
       </BuildingImageWrapper>
 
-      <HayseedHank />
+      <Otis />
 
       <DeliveryBoard />
 

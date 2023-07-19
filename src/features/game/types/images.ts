@@ -1616,6 +1616,20 @@ export const ITEM_DETAILS: Items = {
     image: museum,
     description: ACHIEVEMENTS().Museum.description,
   },
+
+  // No longer needed - placeholders for achievement refactor
+  "Crowd Favourite": { image: null, description: "" },
+  "Delivery Dynamo": { image: null, description: "" },
+  "Egg-cellent Collection": { image: null, description: "" },
+  "Fruit Aficionado": { image: null, description: "" },
+  "Land Baron": { image: null, description: "" },
+  "Land Expansion Enthusiast": { image: null, description: "" },
+  "Land Expansion Extraordinaire": { image: null, description: "" },
+  "Scarecrow Maestro": { image: null, description: "" },
+  "Seasoned Farmer": { image: null, description: "" },
+  "Treasure Hunter": { image: null, description: "" },
+  "Well of Prosperity": { image: null, description: "" },
+
   "White Tulips": {
     image: whiteTulips,
     description: "Keep the smell of goblins away.",

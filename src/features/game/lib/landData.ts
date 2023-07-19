@@ -229,7 +229,7 @@ export const INITIAL_EXPANSIONS = 3;
 
 const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 300000,
+  experience: 0,
   tokenUri: "bla",
   equipped: {
     body: "Beige Farmer Potion",
@@ -360,7 +360,7 @@ export const OFFLINE_FARM: GameState = {
     "Fire Pit": new Decimal(1),
     "Town Center": new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(5),
+    "Basic Land": new Decimal(3),
     "Crop Plot": new Decimal(getKeys(INITIAL_RESOURCES.crops).length),
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
@@ -470,15 +470,7 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    "Hen House": [
-      {
-        coordinates: { x: 6, y: 0 },
-        createdAt: 0,
-        id: "123",
-        readyAt: 0,
-      },
-    ],
-    Tent: [
+    Workbench: [
       {
         coordinates: { x: 3, y: 0 },
         createdAt: 0,

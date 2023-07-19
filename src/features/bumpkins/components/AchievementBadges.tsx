@@ -4,6 +4,7 @@ import { Bumpkin } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setImageWidth } from "lib/images";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const AchievementBadges: React.FC<{
   achievements?: Bumpkin["achievements"];
@@ -12,7 +13,7 @@ export const AchievementBadges: React.FC<{
     return (
       <img
         key={name}
-        src={ITEM_DETAILS[name].image}
+        src={ITEM_DETAILS[name].image ?? SUNNYSIDE.icons.expression_confused}
         alt={name}
         style={{
           opacity: 0,

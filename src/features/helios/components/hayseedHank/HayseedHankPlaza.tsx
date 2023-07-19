@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Modal } from "react-bootstrap";
 import { NPC } from "features/island/bumpkin/components/NPC";
@@ -9,9 +9,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { isTaskComplete } from "./lib/HayseedHankTask";
-import { CONVERSATIONS } from "features/game/types/conversations";
-import { Panel } from "components/ui/Panel";
-import { Conversation } from "features/farming/mail/components/Conversation";
 import { Chore } from "./components/Chore";
 import { NPC_WEARABLES } from "lib/npcs";
 
@@ -101,18 +98,15 @@ export const HayseedHank: React.FC = () => {
     }
   }, [isOpen, gameState.context.state.hayseedHank.progress]);
 
-  const conversationId = gameState.context.state.conversations.find(
-    (id) => CONVERSATIONS[id]?.from === "hank"
-  );
-
   return (
     <>
       <div
+        id="hank"
         className="absolute z-10"
         style={{
           width: `${PIXEL_SCALE * 16}px`,
-          right: `${PIXEL_SCALE * 4}px`,
-          bottom: `${PIXEL_SCALE * 32}px`,
+          right: `${GRID_WIDTH_PX * 20}px`,
+          bottom: `${GRID_WIDTH_PX * 10}px`,
           transform: "scaleX(-1)",
         }}
       >
@@ -125,17 +119,6 @@ export const HayseedHank: React.FC = () => {
           }}
           onClick={handleClick}
         />
-        {conversationId && (
-          <img
-            src={SUNNYSIDE.icons.expression_chat}
-            className="absolute animate-float pointer-events-none"
-            style={{
-              width: `${PIXEL_SCALE * 9}px`,
-              top: `${PIXEL_SCALE * -5}px`,
-              right: `${PIXEL_SCALE * 1}px`,
-            }}
-          />
-        )}
         {isTaskComplete(gameState.context.state) && (
           <img
             src={SUNNYSIDE.icons.confirm}
@@ -150,39 +133,25 @@ export const HayseedHank: React.FC = () => {
         )}
       </div>
       <Modal centered show={isOpen} onHide={close}>
-        {conversationId ? (
-          <Panel
-            bumpkinParts={{
-              body: "Light Brown Farmer Potion",
-              shirt: "Red Farmer Shirt",
-              pants: "Brown Suspenders",
-              hair: "Sun Spots",
-              tool: "Farmer Pitchfork",
-            }}
-          >
-            <Conversation conversationId={conversationId} />
-          </Panel>
-        ) : (
-          <CloseButtonPanel
-            title={
-              isTaskComplete(gameState.context.state) ? (
-                <div className="flex justify-center">
-                  <p>Well done</p>
-                </div>
-              ) : (
-                <div className="flex justify-center">
-                  <p>Lend a hand?</p>
-                </div>
-              )
-            }
-            bumpkinParts={NPC_WEARABLES.hank}
-            onClose={close}
-          >
-            <Chore skipping={isSaving && isSkipping} />
+        <CloseButtonPanel
+          title={
+            isTaskComplete(gameState.context.state) ? (
+              <div className="flex justify-center">
+                <p>Well done</p>
+              </div>
+            ) : (
+              <div className="flex justify-center">
+                <p>Lend a hand?</p>
+              </div>
+            )
+          }
+          bumpkinParts={NPC_WEARABLES.hank}
+          onClose={close}
+        >
+          <Chore skipping={isSaving && isSkipping} />
 
-            {!(isSaving && isSkipping) && Content()}
-          </CloseButtonPanel>
-        )}
+          {!(isSaving && isSkipping) && Content()}
+        </CloseButtonPanel>
       </Modal>
     </>
   );
