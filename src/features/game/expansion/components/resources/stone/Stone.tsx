@@ -18,11 +18,8 @@ import { canMine } from "features/game/expansion/lib/utils";
 const HITS = 3;
 const tool = "Pickaxe";
 
-const HasTool = (
-  inventory: Partial<Record<InventoryItemName, Decimal>>,
-  selectedItem?: string
-) => {
-  return selectedItem === tool && (inventory[tool] ?? new Decimal(0)).gte(1);
+const HasTool = (inventory: Partial<Record<InventoryItemName, Decimal>>) => {
+  return (inventory[tool] ?? new Decimal(0)).gte(1);
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
@@ -36,7 +33,7 @@ interface Props {
 }
 
 export const Stone: React.FC<Props> = ({ id }) => {
-  const { gameService, selectedItem } = useContext(Context);
+  const { gameService } = useContext(Context);
 
   const [touchCount, setTouchCount] = useState(0);
 
@@ -68,11 +65,11 @@ export const Stone: React.FC<Props> = ({ id }) => {
     gameService,
     selectInventory,
     (prev, next) =>
-      HasTool(prev, selectedItem) === HasTool(next, selectedItem) &&
+      HasTool(prev) === HasTool(next) &&
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0))
   );
 
-  const hasTool = HasTool(inventory, selectedItem);
+  const hasTool = HasTool(inventory);
   const timeLeft = getTimeLeft(resource.stone.minedAt, STONE_RECOVERY_TIME);
   const mined = !canMine(resource, STONE_RECOVERY_TIME);
 

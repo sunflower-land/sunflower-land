@@ -41,19 +41,6 @@ const GAME_STATE: GameState = {
 describe("chop", () => {
   const dateNow = Date.now();
 
-  it("throws an error if axe is not selected", () => {
-    expect(() =>
-      chop({
-        state: GAME_STATE,
-        action: {
-          type: "timber.chopped",
-          item: "Sunflower Statue",
-          index: "0",
-        },
-      })
-    ).toThrow(CHOP_ERRORS.MISSING_AXE);
-  });
-
   it("throws an error if no axes are left", () => {
     expect(() =>
       chop({
