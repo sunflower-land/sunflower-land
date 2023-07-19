@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Modal } from "react-bootstrap";
 import { NPC } from "features/island/bumpkin/components/NPC";
@@ -18,7 +18,7 @@ export const HayseedHank: React.FC = () => {
   const [isSkipping, setIsSkipping] = useState(false);
   const [canSkip, setCanSkip] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
     // Trigger an autosave in case they have changes so user can sync right away
@@ -101,11 +101,12 @@ export const HayseedHank: React.FC = () => {
   return (
     <>
       <div
+        id="hank"
         className="absolute z-10"
         style={{
           width: `${PIXEL_SCALE * 16}px`,
-          right: `${PIXEL_SCALE * 4}px`,
-          bottom: `${PIXEL_SCALE * 32}px`,
+          right: `${GRID_WIDTH_PX * 20}px`,
+          bottom: `${GRID_WIDTH_PX * 10}px`,
           transform: "scaleX(-1)",
         }}
       >

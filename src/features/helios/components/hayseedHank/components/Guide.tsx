@@ -56,6 +56,12 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
 
     return (
       <>
+        <div className="p-1">
+          <p className="text-sm">
+            From humble beginnings to expert farming, this guide has got you
+            covered!
+          </p>
+        </div>
         {getKeys(GUIDE_PATHS).map((path) => {
           const achievements = GUIDE_PATHS[path].achievements;
 

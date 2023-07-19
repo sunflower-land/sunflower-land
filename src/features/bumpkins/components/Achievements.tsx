@@ -124,7 +124,10 @@ export const Achievements: React.FC<Props> = ({
                     }}
                   />
                   <img
-                    src={ITEM_DETAILS[name].image}
+                    src={
+                      ITEM_DETAILS[name].image ??
+                      SUNNYSIDE.icons.expression_confused
+                    }
                     className="absolute"
                     style={{
                       opacity: 0,

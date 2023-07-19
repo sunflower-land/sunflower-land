@@ -22,6 +22,7 @@ import { SeasonalNPC } from "./components/seasonalNPC/SeasonalNPC";
 import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
 import { HeliosAuction } from "./components/heliosAuction/HeliosAuction";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
+import { HayseedHank } from "./components/hayseedHank/HayseedHankPlaza";
 
 const spawn = [
   [30, 15],
@@ -85,6 +86,7 @@ export const Helios: React.FC = () => {
           onTravelDialogOpened={() => gameService.send("SAVE")}
           travelAllowed={!autosaving}
         />
+        <HayseedHank />
       </div>
       <Hud isFarming={false} />
       <AuctionCountdown />

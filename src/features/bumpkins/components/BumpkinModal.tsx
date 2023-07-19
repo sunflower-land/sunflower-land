@@ -21,6 +21,7 @@ import { Bumpkin, Inventory } from "features/game/types/game";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { BumpkinEquip } from "./BumpkinEquip";
+import { AchievementBadges } from "./AchievementBadges";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -209,7 +210,7 @@ export const BumpkinModal: React.FC<Props> = ({
                 />
               </InnerPanel>
             </div>
-            {/* 
+
             <div
               className="mb-2 cursor-pointer"
               onClick={() => setView("achievements")}
@@ -223,7 +224,7 @@ export const BumpkinModal: React.FC<Props> = ({
                 </div>
                 <AchievementBadges achievements={bumpkin?.achievements} />
               </InnerPanel>
-            </div> */}
+            </div>
           </div>
         </div>
       )}
