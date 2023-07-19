@@ -14,69 +14,114 @@ import { Task } from "./components/Task";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
-import { GuidePath } from "./lib/guide";
+import { GuidePath, WALKTHROUGH } from "./lib/guide";
+import {
+  ACHIEVEMENTS,
+  Achievement,
+  AchievementName,
+} from "features/game/types/achievements";
+
+const host = window.location.host.replace(/^www\./, "");
+const LOCAL_STORAGE_KEY = `last-task.${host}-${window.location.pathname}`;
+
+function acknowledgeTask(task: AchievementName) {
+  localStorage.setItem(LOCAL_STORAGE_KEY, task);
+}
+
+function lastAcknowledgedTask() {
+  return localStorage.getItem(LOCAL_STORAGE_KEY);
+}
 
 export const HayseedHank: React.FC = () => {
   const [tab, setTab] = useState(0);
   const [isOpen, setIsOpen] = useState(true);
-  const [showIntro, setShowIntro] = useState(true);
   const [guide, setGuide] = useState<GuidePath>();
 
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  const activeTaskIndex = WALKTHROUGH.findIndex((name) => {
+    const achievement = ACHIEVEMENTS()[name];
+    const progress = achievement.progress(gameState.context.state);
+    const isComplete = progress >= achievement.requirement;
+
+    return !isComplete;
+  });
+
+  const [activeTask, setActiveTask] = useState<AchievementName>();
+
+  useEffect(() => {
+    if (activeTaskIndex >= 0) {
+      const activeTaskName = WALKTHROUGH[activeTaskIndex];
+      setActiveTask(activeTaskName);
+    }
+  }, [isOpen, activeTaskIndex]);
+
+  const task = activeTask ? ACHIEVEMENTS()[activeTask] : undefined;
+
+  const [showIntro, setShowIntro] = useState(!!task?.introduction);
+
   const handleClick = () => {
-    setShowIntro(true);
+    setShowIntro(!!task?.introduction);
     setIsOpen(true);
+    console.log({ activeTask });
+    if (activeTask) {
+      acknowledgeTask(activeTask);
+    }
   };
 
   const close = () => {
     setIsOpen(false);
   };
 
+  console.log({ activeTask, lsat: lastAcknowledgedTask() });
+
   return (
     <>
       <div
         className="absolute z-10"
         style={{
-          width: `${PIXEL_SCALE * 16}px`,
           right: `${PIXEL_SCALE * 4}px`,
           bottom: `${PIXEL_SCALE * 32}px`,
-          transform: "scaleX(-1)",
         }}
       >
-        <NPC
-          parts={{
-            body: "Light Brown Farmer Potion",
-            shirt: "Red Farmer Shirt",
-            pants: "Brown Suspenders",
-            hair: "Sun Spots",
+        <div
+          style={{
+            width: `${PIXEL_SCALE * 16}px`,
+            transform: "scaleX(-1)",
           }}
-          onClick={handleClick}
-        />
-        {/* <img
-            src={SUNNYSIDE.icons.expression_chat}
-            className="absolute animate-float pointer-events-none"
-            style={{
-              width: `${PIXEL_SCALE * 9}px`,
-              top: `${PIXEL_SCALE * -5}px`,
-              right: `${PIXEL_SCALE * 1}px`,
+        >
+          <NPC
+            parts={{
+              body: "Light Brown Farmer Potion",
+              shirt: "Red Farmer Shirt",
+              pants: "Brown Suspenders",
+              hair: "Sun Spots",
             }}
-          /> */}
+            onClick={handleClick}
+          />
+        </div>
+        {lastAcknowledgedTask() !== activeTask && (
+          <img
+            src={SUNNYSIDE.icons.expression_confused}
+            className="absolute animate-float pointer-events-none img-highlight-heavy"
+            style={{
+              width: `${PIXEL_SCALE * 6}px`,
+              top: `${PIXEL_SCALE * -4}px`,
+              right: `${PIXEL_SCALE * 5}px`,
+            }}
+          />
+        )}
       </div>
       <Modal centered show={isOpen} onHide={close}>
-        {showIntro && (
+        {showIntro && task?.introduction && (
           <Panel bumpkinParts={NPC_WEARABLES["hank"]}>
             <SpeakingText
               onClose={() => {
                 console.log("CLOSE");
                 setShowIntro(false);
               }}
-              message={[
-                {
-                  text: "Looks like our little island is getting crowded. If we want to craft buildings and rare NFTs, we'll need more space.",
-                },
-                {
-                  text: "Let's first chop down these trees, gather some wood and expand the island.",
-                },
-              ]}
+              message={task?.introduction.map((text) => ({ text }))}
             />
           </Panel>
         )}
@@ -112,6 +157,8 @@ export const HayseedHank: React.FC = () => {
                   setGuide(g);
                   setTab(1);
                 }}
+                task={activeTask}
+                state={gameState.context.state}
               />
             )}
             {tab === 1 && <Guide selected={guide} onSelect={setGuide} />}

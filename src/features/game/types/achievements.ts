@@ -58,11 +58,12 @@ export type AchievementName =
   | "Treasure Hunter"
   | "Egg-cellent Collection"
   | "Land Expansion Extraordinaire"
-  | "Fruit Aficionado";
+  | "Fruit Aficionado"
+  | "Crowd Favourite";
 
 export type Achievement = {
   description: string;
-  introduction?: string;
+  introduction?: string[];
   progress: (game: GameState) => number;
   requirement: number;
   sfl: Decimal;
@@ -72,10 +73,10 @@ export type Achievement = {
 export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   // Crops
   "Bread Winner": {
-    description: "Earn 1 SFL",
+    description: "Earn 0.1 SFL",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Earned"] || 0,
-    requirement: 1,
+    requirement: 0.1,
     sfl: new Decimal(0),
   },
   "Sun Seeker": {
@@ -441,34 +442,16 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       "Classy Bear": new Decimal(1),
     },
   },
-
-  // Building
   Explorer: {
-    introduction:
-      "Looks like our little island is getting crowded. If we want to craft buildings and rare NFTs, we'll need more space. Let's gather some wood by chopping down these trees and expanding the island. Go ahead and figure out the best way to do it.",
+    introduction: [
+      "Looks like our little island is getting crowded. If we want to craft buildings and rare NFTs, we'll need more space.",
+      "Let's gather some wood by chopping down these trees and expanding the island. Go ahead and figure out the best way to do it.",
+    ],
     description: "Expand your land",
     progress: (gameState: GameState) =>
       gameState.inventory["Basic Land"]?.toNumber() ?? 0,
     requirement: 4,
     sfl: new Decimal(0),
-  },
-  "Well of Prosperity": {
-    description: "Build a well",
-    progress: (gameState: GameState) => {
-      return gameState.buildings["Water Well"]?.length ?? 0;
-    },
-    requirement: 1,
-    sfl: marketRate(0),
-    rewards: {},
-  },
-  "Land Baron": {
-    description: "Expand your land to new horizons.",
-    progress: (gameState: GameState) => {
-      return gameState.inventory["Basic Land"]?.toNumber() ?? 0;
-    },
-    requirement: 5,
-    sfl: marketRate(0),
-    rewards: {},
   },
   "Land Expansion Enthusiast": {
     description: "Expand your land to new horizons.",
@@ -485,6 +468,26 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       return gameState.inventory["Basic Land"]?.toNumber() ?? 0;
     },
     requirement: 7,
+    sfl: marketRate(0),
+    rewards: {},
+  },
+  "Land Baron": {
+    description: "Expand your land to new horizons.",
+    progress: (gameState: GameState) => {
+      return gameState.inventory["Basic Land"]?.toNumber() ?? 0;
+    },
+    requirement: 5,
+    sfl: marketRate(0),
+    rewards: {},
+  },
+
+  // Building
+  "Well of Prosperity": {
+    description: "Build a well",
+    progress: (gameState: GameState) => {
+      return gameState.buildings["Water Well"]?.length ?? 0;
+    },
+    requirement: 1,
     sfl: marketRate(0),
     rewards: {},
   },
@@ -570,6 +573,15 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       return gameState.delivery.fulfilledCount;
     },
     requirement: 3,
+    sfl: marketRate(0),
+    rewards: {},
+  },
+  "Crowd Favourite": {
+    description: "Complete 100 deliveries",
+    progress: (gameState: GameState) => {
+      return gameState.delivery.fulfilledCount;
+    },
+    requirement: 100,
     sfl: marketRate(0),
     rewards: {},
   },

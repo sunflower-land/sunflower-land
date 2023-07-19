@@ -1,20 +1,11 @@
 import React, { useContext } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
-import { ResizableBar } from "components/ui/ProgressBar";
-import {
-  ACHIEVEMENTS,
-  Achievement,
-  AchievementName,
-} from "features/game/types/achievements";
+import { ACHIEVEMENTS } from "features/game/types/achievements";
 import { getKeys } from "features/game/types/craftables";
 import { Context } from "features/game/GameProvider";
+import chest from "assets/icons/chest.png";
 import { useActor } from "@xstate/react";
-import { setPrecision } from "lib/utils/formatNumber";
-import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
-import { SpeakingText } from "features/game/components/SpeakingModal";
 import { GUIDE_PATHS, GuidePath } from "../lib/guide";
 import { GuideTask } from "./Task";
 
@@ -32,20 +23,30 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
     if (selected) {
       return (
         <div>
-          <div className="flex items-center">
-            <img
-              src={SUNNYSIDE.icons.arrow_left}
-              className="h-6 mr-2 cursor-pointer"
-              onClick={() => onSelect(undefined)}
-            />
-            <span className="text-sm capitalize">{selected}</span>
+          <div className="flex justify-between">
+            <div className="flex items-center">
+              <img
+                src={SUNNYSIDE.icons.arrow_left}
+                className="h-6 mr-2 cursor-pointer"
+                onClick={() => onSelect(undefined)}
+              />
+              <span className="text-sm capitalize">{selected}</span>
+            </div>
+            {GUIDE_PATHS[selected].docs && (
+              <a
+                href={GUIDE_PATHS[selected].docs}
+                className="text-sm underline pr-2"
+              >
+                Docs
+              </a>
+            )}
           </div>
           <div className="p-2">
             <p className="text-sm">{GUIDE_PATHS[selected].description}</p>
           </div>
           {GUIDE_PATHS[selected].achievements.map((name) => (
             <OuterPanel className="mt-2 p-1">
-              <GuideTask state={state} task={name} />
+              <GuideTask state={state} task={name} guide={selected} />
             </OuterPanel>
           ))}
         </div>
@@ -78,7 +79,7 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
                   </div>
                 </div>
                 <div className="flex justify-between">
-                  <div className="flex">
+                  <div className="flex items-center">
                     {achievements.map((name) => {
                       const achievement = ACHIEVEMENTS()[name];
                       const progress = achievement.progress(state);
@@ -91,14 +92,16 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
                           />
                         );
                       }
+
                       return (
                         <img src={SUNNYSIDE.ui.dot} className="h-3 mr-1" />
                       );
                     })}
                   </div>
-                  <p className="text-xs underline mr-1 capitalize ">
-                    Read more
-                  </p>
+                  <div className="flex items-center">
+                    <p className="text-xs  mr-1  ">Read more</p>
+                    <img src={SUNNYSIDE.icons.chevron_right} className="h-4" />
+                  </div>
                 </div>
 
                 {/* 
