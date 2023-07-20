@@ -39,7 +39,16 @@ export const Otis: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const activeTaskIndex = WALKTHROUGH.findIndex((name) => {
+  const lastTask = lastAcknowledgedTask();
+  const lastTaskIndex = WALKTHROUGH.findIndex((name) => name === lastTask);
+
+  console.log({ lastTask, lastTaskIndex });
+  const activeTaskIndex = WALKTHROUGH.findIndex((name, index) => {
+    // Already completed these tasks
+    if (index < lastTaskIndex) {
+      return false;
+    }
+
     const achievement = ACHIEVEMENTS()[name];
     const progress = achievement.progress(gameState.context.state);
     const isComplete = progress >= achievement.requirement;
@@ -73,8 +82,6 @@ export const Otis: React.FC = () => {
   const close = () => {
     setIsOpen(false);
   };
-
-  console.log({ activeTask, lsat: lastAcknowledgedTask() });
 
   return (
     <>

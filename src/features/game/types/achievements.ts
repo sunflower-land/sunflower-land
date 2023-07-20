@@ -458,7 +458,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   Explorer: {
     introduction: [
       "Looks like our little island is getting crowded. If we want to craft buildings and rare NFTs, we'll need more space.",
-      "Let's gather some wood by chopping down these trees and expanding the island. Go ahead and figure out the best way to do it.",
+      "Let's gather some wood by chopping down these trees and expand the island. Go ahead and figure out the best way to do it.",
     ],
     description: "Expand your land",
     progress: (gameState: GameState) =>
