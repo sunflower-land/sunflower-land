@@ -317,7 +317,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 })}
               </p>
               {hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
-                <p>{`I'll be waiting for you in the ${order.location}.`}</p>
+                <p>{`I'll be waiting for you in the Plaza.`}</p>
               )}
             </div>
             <div className="pt-1 pb-2">

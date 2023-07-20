@@ -510,11 +510,8 @@ type QuestNPCName =
   | "tywin"
   | "cornwell";
 
-export type LocationName = "plaza";
-
 export type Quest = Order & {
   from: QuestNPCName;
-  location: LocationName;
 };
 
 export type Delivery = {
