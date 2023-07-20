@@ -1,16 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "features/game/GameProvider";
-import { NPCName, NPC_WEARABLES } from "lib/npcs";
+import { NPCName } from "lib/npcs";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { SpeakingModal } from "features/game/components/SpeakingModal";
+import { SpeakingText } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import { defaultDialogue, npcDialogues } from "./dialogues";
-import { Inventory, Order } from "features/game/types/game";
+import { Bumpkin, Inventory, Order } from "features/game/types/game";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import sfl from "assets/icons/token_2.png";
 
 import selectBoxBL from "assets/ui/select/selectbox_bl.png";
 import selectBoxBR from "assets/ui/select/selectbox_br.png";
@@ -18,18 +19,25 @@ import selectBoxTL from "assets/ui/select/selectbox_tl.png";
 import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 import classNames from "classnames";
+import { getOrderSellPrice } from "features/game/events/landExpansion/deliver";
+import { getSeasonalTicket } from "features/game/types/seasons";
+import { ITEM_DETAILS } from "features/game/types/images";
 
-const OrderCards: React.FC<{
+interface OrderCardsProps {
   orders: Order[];
   balance: Decimal;
+  bumpkin: Bumpkin;
   inventory: Inventory;
   selectedOrderId?: string;
   onSelectOrder: (id: string) => void;
   hasRequirementsCheck: (order: Order) => boolean;
-}> = ({
+}
+
+const OrderCards: React.FC<OrderCardsProps> = ({
   orders,
   inventory,
   balance,
+  bumpkin,
   selectedOrderId,
   onSelectOrder,
   hasRequirementsCheck,
@@ -85,6 +93,28 @@ const OrderCards: React.FC<{
                   />
                 );
               })}
+              <div className="flex flex-col justify-center">
+                {order.reward.sfl && (
+                  <div className="flex items-center mt-1">
+                    <img src={sfl} className="h-5 mr-1" />
+                    <span className="text-xs">
+                      {getOrderSellPrice(bumpkin, order).toFixed(2)}
+                    </span>
+                  </div>
+                )}
+                {order.reward.tickets && (
+                  <div
+                    className="flex items-center mt-1"
+                    key={getSeasonalTicket()}
+                  >
+                    <img
+                      src={ITEM_DETAILS[getSeasonalTicket()].image}
+                      className="h-5 mr-1"
+                    />
+                    <span className="text-xs">{order.reward.tickets}</span>
+                  </div>
+                )}
+              </div>
               {order.id === String(selectedOrderId) && canDeliver && (
                 <>
                   <img
@@ -141,13 +171,16 @@ interface Props {
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _balance = (state: MachineState) => state.context.state.balance;
+const _bumpkin = (state: MachineState) =>
+  state.context.state.bumpkin as Bumpkin;
 
-export const DeliveryModal: React.FC<Props> = ({ npc, onClose }) => {
+export const DeliveryPanelContent: React.FC<Props> = ({ npc, onClose }) => {
   const { gameService } = useContext(Context);
 
   const delivery = useSelector(gameService, _delivery);
   const inventory = useSelector(gameService, _inventory);
   const balance = useSelector(gameService, _balance);
+  const bumpkin = useSelector(gameService, _bumpkin);
 
   const orders = delivery.orders.filter((order) => order.from === npc);
   const dialogue = npcDialogues[npc] || defaultDialogue;
@@ -173,8 +206,7 @@ export const DeliveryModal: React.FC<Props> = ({ npc, onClose }) => {
 
   if (!orders.length) {
     return (
-      <SpeakingModal
-        bumpkinParts={NPC_WEARABLES[npc]}
+      <SpeakingText
         onClose={onClose}
         message={[
           {
@@ -204,8 +236,7 @@ export const DeliveryModal: React.FC<Props> = ({ npc, onClose }) => {
   const canFulfillAnOrder = orders.some(hasRequirements);
 
   return (
-    <SpeakingModal
-      bumpkinParts={NPC_WEARABLES[npc]}
+    <SpeakingText
       onClose={onClose}
       message={[
         { text: intro },
@@ -216,6 +247,7 @@ export const DeliveryModal: React.FC<Props> = ({ npc, onClose }) => {
               orders={orders}
               inventory={inventory}
               balance={balance}
+              bumpkin={bumpkin}
               selectedOrderId={selectedOrderId}
               onSelectOrder={(id: string) => setSelectedOrderId(id)}
               hasRequirementsCheck={hasRequirements}

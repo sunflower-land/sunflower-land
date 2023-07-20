@@ -141,7 +141,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                         />
                       ))}
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex flex-col justify-center">
                       {order.reward.sfl && (
                         <div className="flex items-center mt-1">
                           <img src={sfl} className="h-5 mr-1" />
@@ -153,7 +153,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                           </span>
                         </div>
                       )}
-                      {order.reward.items &&
+                      {/* {order.reward.items &&
                         getKeys(order.reward.items ?? {}).map((name) => (
                           <div className="flex items-center mt-1" key={name}>
                             <img
@@ -164,7 +164,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                               {order.reward.items?.[name]}
                             </span>
                           </div>
-                        ))}
+                        ))} */}
                       {order.reward.tickets && (
                         <div
                           className="flex items-center mt-1"
