@@ -23,7 +23,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
     x: 380,
     y: 130,
-    npc: "igor",
+    npc: "blacksmith",
   },
   {
     x: 760,
@@ -64,6 +64,16 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     x: 840,
     y: 291,
     npc: "grubnuk",
+  },
+  {
+    x: 800,
+    y: 291,
+    npc: "tywin",
+  },
+  {
+    x: 820,
+    y: 291,
+    npc: "raven",
   },
 ];
 export class PlazaScene extends BaseScene {

@@ -492,8 +492,9 @@ export type DawnBreaker = {
 export type Order = {
   id: string;
   from: NPCName;
-  items: Partial<Record<InventoryItemName, number>>;
+  items: Partial<Record<InventoryItemName | "sfl", number>>;
   reward: {
+    tickets?: number;
     sfl?: number;
     items?: Partial<Record<InventoryItemName, number>>;
   };
@@ -501,8 +502,20 @@ export type Order = {
   readyAt: number;
 };
 
+type QuestNPCName =
+  | "pumpkin'pete"
+  | "bert"
+  | "raven"
+  | "timmy"
+  | "tywin"
+  | "cornwell";
+
+export type Quest = Order & {
+  from: QuestNPCName;
+};
+
 export type Delivery = {
-  orders: Order[];
+  orders: (Order | Quest)[];
   fulfilledCount: number;
 
   milestone: {
@@ -551,6 +564,12 @@ export type PotionHouse = {
   };
 };
 
+export type NPCS = Partial<Record<NPCName, NPCData>>;
+
+export type NPCData = {
+  deliveryCount: number;
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -584,6 +603,7 @@ export interface GameState {
   buildings: Buildings;
   collectibles: Collectibles;
   delivery: Delivery;
+  npcs?: NPCS;
   grubShop?: GrubShop;
   grubOrdersFulfilled?: {
     id: string;

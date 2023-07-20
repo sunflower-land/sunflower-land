@@ -19,34 +19,36 @@ import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 import classNames from "classnames";
 
-const Orders: React.FC<{
+const OrderCards: React.FC<{
   orders: Order[];
+  balance: Decimal;
   inventory: Inventory;
   selectedOrderId?: string;
   onSelectOrder: (id: string) => void;
-}> = ({ orders, inventory, selectedOrderId, onSelectOrder }) => {
+  hasRequirementsCheck: (order: Order) => boolean;
+}> = ({
+  orders,
+  inventory,
+  balance,
+  selectedOrderId,
+  onSelectOrder,
+  hasRequirementsCheck,
+}) => {
   useEffect(() => {
-    const firstFillableOrder = orders.find((order) => hasRequirements(order));
+    const firstFillableOrder = orders.find((order) =>
+      hasRequirementsCheck(order)
+    );
 
     if (firstFillableOrder) {
       onSelectOrder(firstFillableOrder.id);
     }
   }, [orders.length]);
 
-  const hasRequirements = (order: Order) => {
-    return getKeys(order.items).every((name) => {
-      const count = inventory[name] || new Decimal(0);
-      const amount = order.items[name] || new Decimal(0);
-
-      return count.gte(amount);
-    });
-  };
-
   return (
     <>
-      <div className="flex flex-col md:flex-row md:flex-wrap gap-2 mt-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3">
         {orders.map((order) => {
-          const canDeliver = hasRequirements(order);
+          const canDeliver = hasRequirementsCheck(order);
 
           return (
             <OuterPanel
@@ -60,16 +62,29 @@ const Orders: React.FC<{
               )}
               onClick={canDeliver ? () => onSelectOrder(order.id) : undefined}
             >
-              {getKeys(order.items).map((itemName) => (
-                <RequirementLabel
-                  key={itemName}
-                  type="item"
-                  item={itemName}
-                  balance={inventory[itemName] ?? new Decimal(0)}
-                  showLabel
-                  requirement={new Decimal(order?.items[itemName] ?? 0)}
-                />
-              ))}
+              {getKeys(order.items).map((itemName) => {
+                if (itemName === "sfl") {
+                  return (
+                    <RequirementLabel
+                      type="sfl"
+                      balance={balance}
+                      requirement={new Decimal(order?.items[itemName] ?? 0)}
+                      showLabel
+                    />
+                  );
+                }
+
+                return (
+                  <RequirementLabel
+                    key={itemName}
+                    type="item"
+                    item={itemName}
+                    balance={inventory[itemName] ?? new Decimal(0)}
+                    showLabel
+                    requirement={new Decimal(order?.items[itemName] ?? 0)}
+                  />
+                );
+              })}
               {order.id === String(selectedOrderId) && canDeliver && (
                 <>
                   <img
@@ -125,12 +140,14 @@ interface Props {
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _balance = (state: MachineState) => state.context.state.balance;
 
 export const DeliveryModal: React.FC<Props> = ({ npc, onClose }) => {
   const { gameService } = useContext(Context);
 
   const delivery = useSelector(gameService, _delivery);
   const inventory = useSelector(gameService, _inventory);
+  const balance = useSelector(gameService, _balance);
 
   const orders = delivery.orders.filter((order) => order.from === npc);
   const dialogue = npcDialogues[npc] || defaultDialogue;
@@ -138,7 +155,23 @@ export const DeliveryModal: React.FC<Props> = ({ npc, onClose }) => {
   const positive = useRandomItem(dialogue.positiveDelivery);
   const negative = useRandomItem(dialogue.negativeDelivery);
 
+  const hasRequirements = (order?: Order) => {
+    if (!order) return false;
+
+    return getKeys(order.items).every((name) => {
+      const amount = order.items[name] || new Decimal(0);
+
+      if (name === "sfl") return balance.gte(amount);
+
+      const count = inventory[name] || new Decimal(0);
+
+      return count.gte(amount);
+    });
+  };
+
   const [selectedOrderId, setSelectedOrderId] = useState<string | undefined>();
+
+  console.log(npc, NPC_WEARABLES[npc]);
 
   if (!orders.length) {
     return (
@@ -170,31 +203,24 @@ export const DeliveryModal: React.FC<Props> = ({ npc, onClose }) => {
     }
   };
 
-  const hasRequirements = (order: Order) => {
-    return getKeys(order.items).every((name) => {
-      const count = inventory[name] || new Decimal(0);
-      const amount = order.items[name] || new Decimal(0);
-
-      return count.gte(amount);
-    });
-  };
-
   const canFulfillAnOrder = orders.some(hasRequirements);
 
   return (
     <SpeakingModal
-      bumpkinParts={NPC_WEARABLES.grimbly}
+      bumpkinParts={NPC_WEARABLES[npc]}
       onClose={onClose}
       message={[
         { text: intro },
         {
           text: canFulfillAnOrder ? positive : negative,
           jsx: (
-            <Orders
+            <OrderCards
               orders={orders}
               inventory={inventory}
+              balance={balance}
               selectedOrderId={selectedOrderId}
               onSelectOrder={(id: string) => setSelectedOrderId(id)}
+              hasRequirementsCheck={hasRequirements}
             />
           ),
           actions: [

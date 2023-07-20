@@ -158,7 +158,7 @@ export const npcDialogues: Partial<Record<NPCName, DeliveryNPCDialogue>> = {
     intro: [
       "Ah, another commoner gracing my presence. Do you have what I want? Speak quickly.",
       "Oh, great, another one from the peasantry. What's your business with someone of my stature? Do you have what I need?",
-      "Greetings, young one. Seeking wisdom, are you? Step into my windmill, Do you have everything I asked for?.",
+      "Greetings, commoner. Seeking wisdom, are you? Do you have everything I asked for?",
       "What do you want? Speak quickly; time is money. You have what I need, I assume?",
     ],
     positiveDelivery: [
@@ -229,7 +229,35 @@ export const npcDialogues: Partial<Record<NPCName, DeliveryNPCDialogue>> = {
       "No specific order for me to fulfill at the moment, but that won't stop me from being curious! Do you have any interesting stories about your travels? Maybe you've encountered a rare bear or discovered a hidden gem in Sunflorea? Let's chat!",
     ],
   },
-  // cornwell: {},
+  cornwell: {
+    intro: [
+      "Greetings, young adventurer! Have you come bearing the items I seek?",
+      "Ah, welcome, seeker of knowledge and relics! Do you have the items I requested? Show me what you've got.",
+      "Step into the realm of ancient secrets and wisdom. Have you acquired the items I desire? Share your discoveries with me, young one.",
+      "Ah, it's you! The one on a noble quest. Have you found the items I seek? Come, show me what you've uncovered in Sunflower Land's vast lands.",
+      "Greetings, young traveler! The winds of curiosity have brought you here. Do you have the items I require to enrich my collection?",
+    ],
+    positiveDelivery: [
+      "Marvelous! You've brought the very relics I desired. Your efforts in preserving Sunflower Land's history will be remembered.",
+      "Ah, splendid! Your findings align perfectly with the relics I sought. These treasures shall add great wisdom to my collection.",
+      "Impressive! The items you've acquired are just what I was looking for. Sunflower Land's history will shine through them.",
+      "Ah, young adventurer, you've surpassed my expectations! The items you've brought will be invaluable to my research.",
+      "Ah, well done, my keen-eyed friend! The items you've delivered will find a place of honor in my windmill's collection.",
+    ],
+    negativeDelivery: [
+      "Oh, it seems you haven't found the items I seek. Fear not; the journey of discovery continues. Keep exploring Sunflower Land's mysteries.",
+      "Hmm, not quite the relics I was expecting. But do not despair! Keep searching, and the treasures of Sunflower Land will reveal themselves to you.",
+      "Oh, it appears the items I desired elude you. No matter; your curiosity will lead you to the right discoveries eventually.",
+      "Ah, I see you haven't found the specific items I need. Fret not; the history of Sunflower Land holds many secrets waiting to be unearthed.",
+      "Oh, my dear traveler, it seems you didn't bring the exact items I sought. But your dedication to Sunflower Land's history is commendable.",
+    ],
+    noOrder: [
+      "Ah, it appears there are no quest items for you to deliver at the moment. But do not be disheartened! Your journey in Sunflower Land is filled with untold adventures waiting to be discovered.",
+      "Oh, it seems I have no need for your services at the moment. But don't fret; the pages of Sunflower Land's history turn endlessly, and new quests will surely present themselves.",
+      "Ah, my apologies, but I have nothing for you to fulfill right now. Fear not, though; your path as a seeker of knowledge is bound to lead you to new quests in due time.",
+      "Ah, it seems you haven't received any quest orders from me at the moment. But do not lose hope; your inquisitive nature will soon guide you to exciting new quests in Sunflower Land.",
+    ],
+  },
   "pumpkin'pete": {
     intro: [
       "I have been waiting for you, my friend! Do you have my order ready?",

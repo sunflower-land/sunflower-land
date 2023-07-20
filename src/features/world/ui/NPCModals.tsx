@@ -136,7 +136,9 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
           <DeliveryModal npc={npc} onClose={closeModal} />
         )}
         {/* Change to Blacksmith */}
-        {npc === "igor" && <DeliveryModal npc={npc} onClose={closeModal} />}
+        {npc === "blacksmith" && (
+          <DeliveryModal npc={npc} onClose={closeModal} />
+        )}
         {/* Add to map */}
         {npc === "raven" && <DeliveryModal npc={npc} onClose={closeModal} />}
         {/* Add to map */}
