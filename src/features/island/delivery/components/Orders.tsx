@@ -1,4 +1,4 @@
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import React, { useContext, useEffect } from "react";
 import classNames from "classnames";
@@ -29,17 +29,31 @@ import { acknowledgeOrders, generateDeliveryMessage } from "../lib/delivery";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
+import { hasFeatureAccess } from "lib/flags";
+import { MachineState } from "features/game/lib/gameMachine";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 interface Props {
   selectedId?: string;
   onSelect: (id?: string) => void;
 }
+
+const _delivery = (state: MachineState) => state.context.state.delivery;
+const _inventory = (state: MachineState) => state.context.state.inventory;
+const _balance = (state: MachineState) => state.context.state.balance;
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+
 export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
 
-  const delivery = gameState.context.state.delivery;
-  const orders = delivery.orders.filter((order) => Date.now() >= order.readyAt);
+  const delivery = useSelector(gameService, _delivery);
+  const inventory = useSelector(gameService, _inventory);
+  const balance = useSelector(gameService, _balance);
+  const bumpkin = useSelector(gameService, _bumpkin);
+
+  const orders = delivery.orders
+    .filter((order) => Date.now() >= order.readyAt)
+    .sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1));
 
   useEffect(() => {
     acknowledgeOrders(delivery);
@@ -57,12 +71,14 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   };
 
   const hasRequirements = (order?: Order) => {
-    if (!order) {
-      return false;
-    }
+    if (!order) return false;
+
     return getKeys(order.items).every((name) => {
-      const count = gameState.context.state.inventory[name] || new Decimal(0);
       const amount = order.items[name] || new Decimal(0);
+
+      if (name === "sfl") return balance.gte(amount);
+
+      const count = inventory[name] || new Decimal(0);
 
       return count.gte(amount);
     });
@@ -85,18 +101,18 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
   const canFulfill = hasRequirements(previewOrder as Order);
 
-  const slots = getDeliverySlots(gameState.context.state);
+  const slots = getDeliverySlots(inventory);
   let emptySlots = slots - orders.length - (nextOrder ? 1 : 0);
   emptySlots = Math.max(0, emptySlots);
 
   return (
-    <div className="flex md:flex-row flex-col-reverse">
+    <div className="flex md:flex-row flex-col-reverse md:mr-1">
       <div
         className={classNames("md:flex flex-col w-full md:w-2/3", {
           hidden: selectedId,
         })}
       >
-        <div className="flex flex-row w-full flex-wrap">
+        <div className="flex flex-row w-full flex-wrap max-h-80 scrollable overflow-y-auto">
           {orders.map((order) => (
             <div className="w-1/2 sm:w-1/3 p-1" key={order.id}>
               <OuterPanel
@@ -117,13 +133,19 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   </div>
                   <div className="flex-1">
                     <div className="flex justify-start ml-2 h-8 items-center">
-                      {getKeys(order.items).map((name) => (
-                        <img
-                          key={name}
-                          src={ITEM_DETAILS[name].image}
-                          className="w-6 img-highlight -ml-2"
-                        />
-                      ))}
+                      {getKeys(order.items).map((name) => {
+                        console.log({ from: order, name });
+
+                        return (
+                          <img
+                            key={name}
+                            src={
+                              name === "sfl" ? sfl : ITEM_DETAILS[name].image
+                            }
+                            className="w-6 img-highlight -ml-2"
+                          />
+                        );
+                      })}
                     </div>
                     <div className="flex items-center">
                       {order.reward.sfl && (
@@ -131,23 +153,38 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                           <img src={sfl} className="h-5 mr-1" />
                           <span className="text-xs">
                             {getOrderSellPrice(
-                              gameState.context.state.bumpkin as Bumpkin,
+                              bumpkin as Bumpkin,
                               order
                             ).toFixed(2)}
                           </span>
                         </div>
                       )}
-                      {/* {getKeys(order.reward.items ?? {}).map((name) => (
-                        <div className="flex items-center mt-1" key={name}>
+                      {order.reward.items &&
+                        getKeys(order.reward.items ?? {}).map((name) => (
+                          <div className="flex items-center mt-1" key={name}>
+                            <img
+                              src={ITEM_DETAILS[name].image}
+                              className="h-5 mr-1"
+                            />
+                            <span className="text-xs">
+                              {order.reward.items?.[name]}
+                            </span>
+                          </div>
+                        ))}
+                      {order.reward.tickets && (
+                        <div
+                          className="flex items-center mt-1"
+                          key={getSeasonalTicket()}
+                        >
                           <img
-                            src={ITEM_DETAILS[name].image}
+                            src={ITEM_DETAILS[getSeasonalTicket()].image}
                             className="h-5 mr-1"
                           />
                           <span className="text-xs">
-                            {order.reward.items?.[name]}
+                            {order.reward.tickets}
                           </span>
                         </div>
-                      ))} */}
+                      )}
                     </div>
                   </div>
                 </div>
@@ -213,41 +250,43 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               </OuterPanel>
             </div>
           )}
-          {new Array(emptySlots).fill(null).map((_, i) => (
-            <div className="w-1/2 sm:w-1/3 p-1" key={i}>
-              <OuterPanel
-                className="w-full py-2 relative"
-                style={{ height: "80px" }}
-              ></OuterPanel>
-            </div>
-          ))}
-        </div>
-        {nextOrder && (
-          <div className="px-1 mb-1 flex-1 flex items-end">
-            <div>
-              <div className="flex">
-                <img src={SUNNYSIDE.icons.timer} className="h-4 mr-2" />
-                <p className="text-xxs mr-2">Next Order: </p>
-                {/* TEMP */}
-                <p className="text-xxs">
-                  {secondsToString((nextOrder.readyAt - Date.now()) / 1000, {
-                    length: "medium",
-                  })}
-                </p>
+          {!hasFeatureAccess(inventory, "NEW_DELIVERIES") &&
+            new Array(emptySlots).fill(null).map((_, i) => (
+              <div className="w-1/2 sm:w-1/3 p-1" key={i}>
+                <OuterPanel
+                  className="w-full py-2 relative"
+                  style={{ height: "80px" }}
+                ></OuterPanel>
               </div>
-            </div>
-          </div>
-        )}
+            ))}
+        </div>
       </div>
       {previewOrder && (
         <OuterPanel
           className={classNames(
-            "md:flex md:flex-col items-center flex-1 relative",
+            "ml-1 md:flex md:flex-col items-center flex-1 relative",
             {
               hidden: !selectedId,
+              "mt-[24px] md:mt-0": hasFeatureAccess(
+                inventory,
+                "NEW_DELIVERIES"
+              ),
             }
           )}
         >
+          {hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
+            <img
+              src={SUNNYSIDE.icons.arrow_left}
+              className={classNames(
+                "absolute -top-9 left-0 h-6 w-6 cursor-pointer md:hidden z-10",
+                {
+                  hidden: !selectedId,
+                  block: !!selectedId,
+                }
+              )}
+              onClick={() => onSelect(undefined)}
+            />
+          )}
           <div
             className="mb-1 mx-auto w-full col-start-1 row-start-1 overflow-hidden z-0 rounded-lg relative"
             style={{
@@ -275,29 +314,53 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               />
             </div>
           </div>
-          <div className="flex-1 p-1">
-            <p className="text-xs mb-2" style={{ height: "60px" }}>
-              {generateDeliveryMessage({
-                from: previewOrder?.from,
-                id: previewOrder.id,
-              })}
-            </p>
-            {getKeys(previewOrder.items).map((itemName) => (
-              <RequirementLabel
-                key={itemName}
-                type="item"
-                item={itemName}
-                balance={
-                  gameState.context.state.inventory[itemName] ?? new Decimal(0)
+          <div className="flex-1 space-y-2 p-1">
+            <div className="text-xs space-y-2">
+              <p>
+                {generateDeliveryMessage({
+                  from: previewOrder?.from,
+                  id: previewOrder.id,
+                })}
+              </p>
+              {hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
+                <p>{`I'll be waiting for you in the Plaza.`}</p>
+              )}
+            </div>
+            <div className="pt-1 pb-2">
+              {getKeys(previewOrder.items).map((itemName) => {
+                if (itemName === "sfl") {
+                  return (
+                    <RequirementLabel
+                      type="sfl"
+                      balance={balance}
+                      requirement={
+                        new Decimal(previewOrder?.items[itemName] ?? 0)
+                      }
+                      showLabel
+                    />
+                  );
                 }
-                showLabel
-                requirement={new Decimal(previewOrder?.items[itemName] ?? 0)}
-              />
-            ))}
+
+                return (
+                  <RequirementLabel
+                    key={itemName}
+                    type="item"
+                    item={itemName}
+                    balance={inventory[itemName] ?? new Decimal(0)}
+                    showLabel
+                    requirement={
+                      new Decimal(previewOrder?.items[itemName] ?? 0)
+                    }
+                  />
+                );
+              })}
+            </div>
           </div>
-          <Button disabled={!canFulfill} onClick={deliver}>
-            Deliver
-          </Button>
+          {!hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
+            <Button disabled={!canFulfill} onClick={deliver}>
+              Deliver
+            </Button>
+          )}
         </OuterPanel>
       )}
     </div>

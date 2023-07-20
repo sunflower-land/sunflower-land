@@ -10,7 +10,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { DeliveryHelp } from "features/island/delivery/components/DeliveryHelp";
 import { hasNewOrders } from "features/island/delivery/lib/delivery";
-import { Orders } from "./Orders";
+import { DeliveryOrders } from "features/island/delivery/components/Orders";
 
 const Board: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -80,7 +80,7 @@ export const DeliveryModal: React.FC<Props> = ({ isOpen, onClose }) => {
           setCurrentTab={setTab}
         >
           {tab === 0 && (
-            <Orders
+            <DeliveryOrders
               selectedId={selectedOrderId}
               onSelect={setSelectedOrderId}
             />
