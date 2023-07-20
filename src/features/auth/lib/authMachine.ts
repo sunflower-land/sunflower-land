@@ -16,6 +16,7 @@ import {
   decodeToken,
   removeSession,
   saveSession,
+  hasValidSession,
 } from "../actions/login";
 import { oauthorise } from "../actions/oauth";
 import { CharityAddress } from "../components/CreateFarm";
@@ -343,6 +344,16 @@ export const authMachine = createMachine<
                 visitingFarmId: (_context) => getFarmIdFromUrl(),
               }),
             },
+            // This enables pop ups to load during the sequence signing flow
+            {
+              target: "connectedToWallet",
+              cond: (context) =>
+                context.user.web3?.wallet === Web3SupportedProviders.SEQUENCE,
+              actions: (context) =>
+                analytics.logEvent("wallet_connected", {
+                  wallet: context.user.web3?.wallet,
+                }),
+            },
             {
               target: "signing",
               actions: (context) =>
@@ -350,20 +361,16 @@ export const authMachine = createMachine<
                   wallet: context.user.web3?.wallet,
                 }),
             },
-            // TODO check with sequence if we need intermediate state
-            // {
-            //   target: "connectedToWallet",
-            //   actions: (context) =>
-            //     analytics.logEvent("wallet_connected", {
-            //       wallet: context.user.web3?.wallet,
-            //     }),
-            // },
           ],
           onError: {
             target: "unauthorised",
             actions: "assignErrorMessage",
           },
         },
+      },
+      connectedToWallet: {
+        always: { target: "signing", cond: () => hasValidSession() },
+        on: { SIGN: { target: "signing" } },
       },
       signing: {
         entry: "setTransactionId",
@@ -705,10 +712,16 @@ export const authMachine = createMachine<
   },
   {
     services: {
-      initWallet: async (_, event: any) => {
-        const { chosenProvider } = event as ConnectWalletEvent;
+      initWallet: async (context, event: any) => {
+        const _event = event as ConnectWalletEvent | undefined;
 
-        const web3ConnectStrategy = web3ConnectStrategyFactory(chosenProvider);
+        const wallet = _event?.chosenProvider ?? context.user.web3?.wallet;
+
+        if (!wallet) {
+          throw new Error("Could not determine wallet provider.");
+        }
+
+        const web3ConnectStrategy = web3ConnectStrategyFactory(wallet);
 
         analytics.logEvent(web3ConnectStrategy.getConnectEventType());
 
@@ -722,7 +735,7 @@ export const authMachine = createMachine<
 
         return {
           web3: {
-            wallet: chosenProvider,
+            wallet: wallet,
             provider: web3ConnectStrategy.getProvider(),
           },
         };
