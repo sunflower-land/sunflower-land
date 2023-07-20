@@ -740,26 +740,6 @@ export const authMachine = createMachine<
           },
         };
       },
-      initCryptoCom: async () => {
-        analytics.logEvent("connect_to_crypto_com");
-        const _window = window as any;
-
-        if (typeof _window.deficonnectProvider !== "undefined") {
-          const provider = _window.deficonnectProvider;
-
-          try {
-            await provider.request({
-              method: "eth_requestAccounts",
-            });
-          } catch (e) {
-            throw new Error(ERRORS.WALLET_INITIALISATION_FAILED);
-          }
-
-          return { web3: { wallet: "Crypto.com", provider } };
-        } else {
-          throw new Error(ERRORS.NO_WEB3_CRYPTO_COM);
-        }
-      },
       loadFarm: async (context): Promise<Farm | undefined> => {
         if (!wallet.myAccount) return;
 
