@@ -12,7 +12,7 @@ interface Props {
 export const WorldIntroduction: React.FC<Props> = ({ roomService }) => {
   return (
     <CloseButtonPanel
-      bumpkinParts={NPC_WEARABLES["pumpkin'pete"]}
+      bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
       onClose={() => roomService.send("CONTINUE")}
     >
       <div className="p-2">

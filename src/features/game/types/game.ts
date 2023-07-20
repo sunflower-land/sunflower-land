@@ -503,15 +503,18 @@ export type Order = {
 };
 
 type QuestNPCName =
-  | "pumpkin'pete"
+  | "pumpkin' pete"
   | "bert"
   | "raven"
   | "timmy"
   | "tywin"
   | "cornwell";
 
+export type LocationName = "plaza";
+
 export type Quest = Order & {
   from: QuestNPCName;
+  location: LocationName;
 };
 
 export type Delivery = {

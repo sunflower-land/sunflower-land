@@ -8,7 +8,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
     x: 400,
     y: 400,
-    npc: "pumpkin'pete",
+    npc: "pumpkin' pete",
   },
   {
     x: 625,
