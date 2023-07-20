@@ -125,6 +125,8 @@ export abstract class BaseScene extends Phaser.Scene {
 
   currentTick = 0;
 
+  zoom = window.innerWidth < 500 ? 3 : 4;
+
   constructor(options: BaseSceneOptions) {
     const defaultedOptions: Required<BaseSceneOptions> = {
       ...options,
@@ -289,7 +291,8 @@ export abstract class BaseScene extends Phaser.Scene {
       this.map.width * SQUARE_WIDTH,
       this.map.height * SQUARE_WIDTH
     );
-    camera.setZoom(4);
+
+    camera.setZoom(this.zoom);
 
     // Center it on canvas
     const offsetX = (window.innerWidth - this.map.width * 4 * SQUARE_WIDTH) / 2;
@@ -388,10 +391,9 @@ export abstract class BaseScene extends Phaser.Scene {
     if (isTouchDevice()) {
       // Initialise joystick
       const { x, y, centerX, centerY, width, height } = this.cameras.main;
-      const zoom = 4;
       this.joystick = new VirtualJoystick(this, {
         x: centerX,
-        y: centerY - 35 + height / zoom / 2,
+        y: centerY - 35 + height / this.zoom / 2,
         radius: 15,
         base: this.add.circle(0, 0, 15, 0x000000, 0.2).setDepth(1000000000),
         thumb: this.add.circle(0, 0, 7, 0xffffff, 0.2).setDepth(1000000000),
