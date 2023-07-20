@@ -40,12 +40,10 @@ export function getDeliverySlots(inventory: Inventory) {
   }
 
   if (inventory["Basic Land"]?.gte(8)) {
-    // 3 quests
     return 5;
   }
 
   if (inventory["Basic Land"]?.gte(5)) {
-    // 2 quests
     return 4;
   }
 
