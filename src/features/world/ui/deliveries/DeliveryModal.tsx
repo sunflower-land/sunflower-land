@@ -171,8 +171,6 @@ export const DeliveryModal: React.FC<Props> = ({ npc, onClose }) => {
 
   const [selectedOrderId, setSelectedOrderId] = useState<string | undefined>();
 
-  console.log(npc, NPC_WEARABLES[npc]);
-
   if (!orders.length) {
     return (
       <SpeakingModal

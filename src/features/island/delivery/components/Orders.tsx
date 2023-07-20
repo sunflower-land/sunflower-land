@@ -133,19 +133,13 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   </div>
                   <div className="flex-1">
                     <div className="flex justify-start ml-2 h-8 items-center">
-                      {getKeys(order.items).map((name) => {
-                        console.log({ from: order, name });
-
-                        return (
-                          <img
-                            key={name}
-                            src={
-                              name === "sfl" ? sfl : ITEM_DETAILS[name].image
-                            }
-                            className="w-6 img-highlight -ml-2"
-                          />
-                        );
-                      })}
+                      {getKeys(order.items).map((name) => (
+                        <img
+                          key={name}
+                          src={name === "sfl" ? sfl : ITEM_DETAILS[name].image}
+                          className="w-6 img-highlight -ml-2"
+                        />
+                      ))}
                     </div>
                     <div className="flex items-center">
                       {order.reward.sfl && (
@@ -323,7 +317,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 })}
               </p>
               {hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
-                <p>{`I'll be waiting for you in the Plaza.`}</p>
+                <p>{`I'll be waiting for you in the ${order.location}.`}</p>
               )}
             </div>
             <div className="pt-1 pb-2">
