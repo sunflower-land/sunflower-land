@@ -7,8 +7,8 @@ import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
 import Decimal from "decimal.js-light";
+import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 
-export type WalletType = "METAMASK" | "SEQUENCE" | "PHANTOM" | string;
 const UNISWAP_ROUTER = CONFIG.QUICKSWAP_ROUTER_CONTRACT;
 const WMATIC_ADDRESS = CONFIG.WMATIC_CONTRACT;
 const SFL_TOKEN_ADDRESS = CONFIG.TOKEN_CONTRACT;
@@ -25,7 +25,7 @@ export class Wallet {
 
   private account: string | null = null;
 
-  private type: WalletType | null = null;
+  private type: Web3SupportedProviders | null = null;
   private rawProvider: any | null = null;
 
   private async initialiseContracts() {
@@ -90,7 +90,7 @@ export class Wallet {
 
   public async initialise(
     provider: any,
-    type: WalletType,
+    type: Web3SupportedProviders,
     retryCount = 0
   ): Promise<void> {
     this.type = type;
@@ -134,7 +134,7 @@ export class Wallet {
 
       let web3;
 
-      if (this.type === "METAMASK") {
+      if (this.type === Web3SupportedProviders.METAMASK) {
         web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC);
       } else {
         web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC, {
