@@ -191,6 +191,7 @@ import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
 import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
 import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
+import crowFeather from "assets/icons/crow_feather.webp";
 import supporterTicket from "assets/icons/supporter_ticket.png";
 import solarFlareBanner from "assets/decorations/solar_flare_banner.png";
 import dawnBreakerBanner from "assets/decorations/dawn_breaker_banner.png";
@@ -2050,8 +2051,8 @@ export const ITEM_DETAILS: Items = {
     image: dawnBreakerTicket,
     description: "A ticket used during the Dawn Breaker Season",
   },
-  "Witches' Eve Ticket": {
-    image: "",
+  "Crow Feather": {
+    image: crowFeather,
     description: "A ticket used during the Witches' Eve Ticket Season",
   },
 

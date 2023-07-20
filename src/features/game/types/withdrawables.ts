@@ -270,7 +270,7 @@ const coupons: Record<Coupons, boolean> = {
   "Solar Flare Ticket": false,
   "Dawn Breaker Ticket": false,
   "Sunflower Supporter": false,
-  "Witches' Eve Ticket": false,
+  "Crow Feather": false,
 };
 
 const buildings: Record<BuildingName, boolean> = {

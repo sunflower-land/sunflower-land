@@ -163,7 +163,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Dawn Breaker Ticket": {
     description: "A ticket used during the Dawn Breaker Season",
   },
-  "Witches' Eve Ticket": {
+  "Crow Feather": {
     description: "A ticket used during the Witches' Eve Season",
   },
   "Sunflower Supporter": {
