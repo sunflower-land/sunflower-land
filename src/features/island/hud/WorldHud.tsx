@@ -16,7 +16,7 @@ import { createPortal } from "react-dom";
 import { Save } from "./components/Save";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Settings } from "./components/Settings";
-import { Deliveries } from "./components/deliveries/Deliveries";
+import { DeliveryButton } from "./components/deliveries/DeliveryButton";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -86,7 +86,7 @@ const HudComponent: React.FC = () => {
             isFullUser={isFullUser}
           />
           <div className="fixed z-50 bottom-0 left-0">
-            <Deliveries />
+            <DeliveryButton />
           </div>
           <BumpkinProfile isFullUser={isFullUser} />
 

@@ -150,6 +150,7 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
           <DeliveryModal npc={npc} onClose={closeModal} />
         )}
         {npc === "betty" && <DeliveryModal npc={npc} onClose={closeModal} />}
+        {npc === "cornwell" && <DeliveryModal npc={npc} onClose={closeModal} />}
       </Modal>
     </>
   );
