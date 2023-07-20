@@ -21,6 +21,7 @@ interface SFLProps {
   type: "sfl";
   balance: Decimal;
   requirement: Decimal;
+  showLabel?: boolean;
 }
 
 /**
@@ -112,7 +113,7 @@ type Props = (
   defaultProps;
 
 /**
- * The reqirement label that consists of an icon and a requirement description.
+ * The requirement label that consists of an icon and a requirement description.
  * This component is used when displaying individual crafting requirements in a crafting recipe.
  * @props The component props.
  */
@@ -137,6 +138,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
   const getText = () => {
     switch (props.type) {
       case "sfl":
+        return `${props.requirement.toNumber()}`;
       case "sellForSfl": {
         return `${props.requirement.toNumber()}`;
       }
@@ -166,6 +168,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
   const isRequirementMet = () => {
     switch (props.type) {
       case "sfl":
+        return props.balance.greaterThanOrEqualTo(props.requirement);
       case "item":
         return props.balance.greaterThanOrEqualTo(props.requirement);
       case "level":
@@ -183,8 +186,11 @@ export const RequirementLabel: React.FC<Props> = (props) => {
     <div className={props.className ?? "flex justify-between"}>
       <div className="flex items-center">
         <SquareIcon icon={getIcon()} width={7} />
-        {(props as ItemProps).showLabel && (
-          <span className="text-xs ml-1">{(props as ItemProps).item}</span>
+        {props.type === "sfl" && props.showLabel && (
+          <span className="text-xs ml-1">SFL</span>
+        )}
+        {props.type === "item" && props.showLabel && (
+          <span className="text-xs ml-1">{props.item}</span>
         )}
       </div>
 
