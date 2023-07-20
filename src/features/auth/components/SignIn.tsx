@@ -26,7 +26,11 @@ const OtherWallets = () => {
         {hasFeatureAccess({}, "CRYPTO_COM_WALLET") && (
           <Button
             className="mb-2 py-2 text-sm relative"
-            onClick={() => authService.send("CONNECT_TO_CRYPTO_COM")}
+            onClick={() =>
+              authService.send("CONNECT_TO_WALLET", {
+                chosenProvider: Web3SupportedProviders.CRYPTO_COM,
+              })
+            }
           >
             <div className="px-8">
               <img
