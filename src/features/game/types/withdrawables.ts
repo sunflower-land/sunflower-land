@@ -61,6 +61,7 @@ const cropSeeds: Record<CropSeedName, boolean> = {
   "Sunflower Seed": false,
   "Parsnip Seed": false,
   "Eggplant Seed": false,
+  "Corn Seed": false,
   "Radish Seed": false,
   "Wheat Seed": false,
 };
@@ -81,6 +82,7 @@ const crops: Record<CropName, boolean> = {
   Sunflower: true,
   Parsnip: true,
   Eggplant: false,
+  Corn: false,
   Radish: true,
   Wheat: true,
 };
