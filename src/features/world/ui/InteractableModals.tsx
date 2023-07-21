@@ -26,7 +26,13 @@ type InteractableName =
   | "dawn_book_1"
   | "dawn_book_2"
   | "dawn_book_3"
-  | "dawn_book_4";
+  | "dawn_book_4"
+  | "betty_home"
+  | "igor_home"
+  | "windmill"
+  | "guild_house"
+  | "timmy_home"
+  | "bert_home";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -205,6 +211,90 @@ export const InteractableModals: React.FC<Props> = ({
             },
             {
               text: "Alas, even the eggplant soldiers couldn't guard against the temptation. But I will not falter. One day, I will claim the power I rightfully deserve​.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "timmy_home"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["timmy"]}
+          message={[
+            {
+              text: "Oh, gee, I really want you to explore my house, but Mom told me not to talk to strangers, maybe it's for the best.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "windmill"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["cornwell"]}
+          message={[
+            {
+              text: "Ah, my windmill is under repair, can't have anyone snooping around while I fix it up, come back later.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "igor_home"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["igor"]}
+          message={[
+            {
+              text: "Get lost! I'm in no mood for visitors, especially nosy ones like you!",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "guild_house"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["pumpkin'pete"]}
+          message={[
+            {
+              text: "This is my Guild House, and it's not ready for outsiders yet, gotta finish the preparations first.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "guild_house"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["pumpkin'pete"]}
+          message={[
+            {
+              text: "This is my Guild House, and it's not ready for outsiders yet, gotta finish the preparations first.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "betty_home"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["betty"]}
+          message={[
+            {
+              text: "Oh, sweetie, as much as I love my crops, my house is a private space, not open to visitors right now.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "bert_home"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["bert"]}
+          message={[
+            {
+              text: "Intruders! They must be after my collection of rare items and secrets, I can't let them in!",
             },
           ]}
         />
