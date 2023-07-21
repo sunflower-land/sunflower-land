@@ -102,12 +102,19 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     description: "Sun-kissed kernels of delight, nature's summer treasure.",
     bumpkinLevel: 5,
 <<<<<<< HEAD
+<<<<<<< HEAD
     disabled:
       CONFIG.NETWORK === "mainnet"
         ? new Date() < SEASONS["Witches' Eve"].startDate
         : false,
 =======
 >>>>>>> cb2403296 ([FEAT] Add corn)
+=======
+    disabled:
+      CONFIG.NETWORK === "mumbai"
+        ? new Date() < SEASONS["Witches' Eve"].startDate
+        : false,
+>>>>>>> a7edf48cd ([FEAT] Hide disabled crops)
   },
   Radish: {
     sellPrice: marketRate(9.5),
@@ -203,12 +210,18 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
     ingredients: [],
     bumpkinLevel: 5,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a7edf48cd ([FEAT] Hide disabled crops)
     disabled:
       CONFIG.NETWORK === "mainnet"
         ? new Date() < SEASONS["Witches' Eve"].startDate
         : false,
+<<<<<<< HEAD
 =======
 >>>>>>> cb2403296 ([FEAT] Add corn)
+=======
+>>>>>>> a7edf48cd ([FEAT] Hide disabled crops)
   },
   "Radish Seed": {
     name: "Radish Seed",
