@@ -111,7 +111,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
 >>>>>>> cb2403296 ([FEAT] Add corn)
 =======
     disabled:
-      CONFIG.NETWORK === "mumbai"
+      CONFIG.NETWORK === "mainnet"
         ? new Date() < SEASONS["Witches' Eve"].startDate
         : false,
 >>>>>>> a7edf48cd ([FEAT] Hide disabled crops)
