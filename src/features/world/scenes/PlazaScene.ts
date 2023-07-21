@@ -11,6 +11,16 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "pumpkin'pete",
   },
   {
+    x: 815,
+    y: 213,
+    npc: "frankie",
+  },
+  {
+    x: 312,
+    y: 245,
+    npc: "stella",
+  },
+  {
     x: 625,
     y: 110,
     npc: "timmy",
@@ -18,11 +28,11 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
     x: 313,
     y: 71,
-    npc: "lily",
+    npc: "raven",
   },
   {
-    x: 380,
-    y: 130,
+    x: 364,
+    y: 120,
     npc: "igor",
   },
   {
@@ -100,15 +110,15 @@ export class PlazaScene extends BaseScene {
     auctionLabel.setDepth(10000000);
     this.add.existing(auctionLabel);
 
-    const clotheShopLabel = new Label(this, "STYLIST", "brown");
-    clotheShopLabel.setPosition(256, 264);
-    clotheShopLabel.setDepth(10000000);
-    this.add.existing(clotheShopLabel);
+    // const clotheShopLabel = new Label(this, "STYLIST", "brown");
+    // clotheShopLabel.setPosition(256, 264);
+    // clotheShopLabel.setDepth(10000000);
+    // this.add.existing(clotheShopLabel);
 
-    const decorationShopLabel = new Label(this, "DECORATIONS", "brown");
-    decorationShopLabel.setPosition(797, 252);
-    decorationShopLabel.setDepth(10000000);
-    this.add.existing(decorationShopLabel);
+    // const decorationShopLabel = new Label(this, "DECORATIONS", "brown");
+    // decorationShopLabel.setPosition(802, 229);
+    // decorationShopLabel.setDepth(10000000);
+    // this.add.existing(decorationShopLabel);
 
     // Plaza Bud
     const bud = this.add.sprite(500, 420, "plaza_bud");
