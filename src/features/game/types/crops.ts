@@ -12,6 +12,7 @@ export type CropName =
   | "Cauliflower"
   | "Parsnip"
   | "Eggplant"
+  | "Corn"
   | "Radish"
   | "Wheat"
   | "Kale";
@@ -89,6 +90,13 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     harvestSeconds: 16 * 60 * 60,
     name: "Eggplant",
     description: "Nature's edible work of art.",
+    bumpkinLevel: 5,
+  },
+  Corn: {
+    sellPrice: marketRate(9),
+    harvestSeconds: 20 * 60 * 60,
+    name: "Corn",
+    description: "Sun-kissed kernels of delight, nature's summer treasure.",
     bumpkinLevel: 5,
   },
   Radish: {
@@ -175,6 +183,13 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
     name: "Eggplant Seed",
     description: "Nature's edible work of art.",
     tokenAmount: marketRate(6),
+    ingredients: [],
+    bumpkinLevel: 5,
+  },
+  "Corn Seed": {
+    name: "Corn Seed",
+    description: "Sun-kissed kernels of delight, nature's summer treasure.",
+    tokenAmount: marketRate(7),
     ingredients: [],
     bumpkinLevel: 5,
   },
