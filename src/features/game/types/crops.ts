@@ -102,7 +102,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     description: "Sun-kissed kernels of delight, nature's summer treasure.",
     bumpkinLevel: 5,
     disabled:
-      CONFIG.NETWORK === "mumbai"
+      CONFIG.NETWORK === "mainnet"
         ? new Date() < SEASONS["Witches' Eve"].startDate
         : false,
   },
