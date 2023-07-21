@@ -93,6 +93,16 @@ export class PlazaScene extends BaseScene {
       frameHeight: 18,
     });
 
+    this.load.spritesheet("plaza_bud_2", "world/plaza_bud_2.png", {
+      frameWidth: 15,
+      frameHeight: 18,
+    });
+
+    this.load.spritesheet("plaza_bud_3", "world/plaza_bud_3.png", {
+      frameWidth: 15,
+      frameHeight: 18,
+    });
+
     super.preload();
   }
 
@@ -132,5 +142,31 @@ export class PlazaScene extends BaseScene {
       frameRate: 10,
     });
     bud.play("plaza_bud_animation", true);
+
+    // Plaza Bud
+    const bud2 = this.add.sprite(601, 200, "plaza_bud_2");
+    this.anims.create({
+      key: "plaza_bud_animation_2",
+      frames: this.anims.generateFrameNumbers("plaza_bud_2", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    bud2.play("plaza_bud_animation_2", true);
+    bud2.setDepth(100000000000);
+
+    const bud3 = this.add.sprite(206, 266, "plaza_bud_3");
+    this.anims.create({
+      key: "plaza_bud_animation_3",
+      frames: this.anims.generateFrameNumbers("plaza_bud_3", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    bud3.play("plaza_bud_animation_3", true);
   }
 }
