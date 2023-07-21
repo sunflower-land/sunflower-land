@@ -33,7 +33,7 @@ interface Props {
 }
 
 export const Stone: React.FC<Props> = ({ id }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, shortcutItem } = useContext(Context);
 
   const [touchCount, setTouchCount] = useState(0);
 
@@ -79,6 +79,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
     if (!hasTool) return;
 
     setTouchCount((count) => count + 1);
+    shortcutItem(tool);
 
     // need to hit enough times to collect resource
     if (touchCount < HITS - 1) return;

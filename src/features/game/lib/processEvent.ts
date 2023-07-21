@@ -100,7 +100,7 @@ export const maxItems: Inventory = {
   Starfish: new Decimal(50),
   Seaweed: new Decimal(50),
   "Sea Cucumber": new Decimal(50),
-  Crab: new Decimal(50),
+  Crab: new Decimal(100),
 
   // Max of 1000 food item
   ...(Object.keys(FOODS()) as InventoryItemName[]).reduce(

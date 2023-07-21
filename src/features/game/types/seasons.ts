@@ -22,12 +22,18 @@ export const SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER = 10;
 export type SeasonalTicket =
   | "Solar Flare Ticket"
   | "Dawn Breaker Ticket"
-  | "Witches' Eve Ticket";
+  | "Crow Feather";
 
 type SeasonalBanner =
   | "Solar Flare Banner"
   | "Dawn Breaker Banner"
   | "Witches' Eve Banner";
+
+const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
+  "Solar Flare": "Solar Flare Ticket",
+  "Dawn Breaker": "Dawn Breaker Ticket",
+  "Witches' Eve": "Crow Feather",
+};
 
 export function getCurrentSeason(): SeasonName {
   const now = new Date();
@@ -50,7 +56,7 @@ export function getCurrentSeason(): SeasonName {
 export function getSeasonalTicket(): SeasonalTicket {
   const currentSeason = getCurrentSeason();
 
-  return `${currentSeason} Ticket`;
+  return SEASON_TICKET_NAME[currentSeason];
 }
 
 export function getSeasonalBanner(): SeasonalBanner {
