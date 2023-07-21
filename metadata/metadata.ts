@@ -107,7 +107,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "A seed used to grow corn.\n\nYou can buy corn seeds in game at the market.",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/109.png",
+    image_url: "../public/erc1155/images/119.png",
     attributes: [{ trait_type: "Purpose", value: "Seed" }],
   },
   "Kale Seed": {
@@ -361,7 +361,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "A crop grown at Sunflower Land.\n\nGolden corn, a gift from celestial lands, bestowed bountiful harvests upon humankind",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/209.png",
+    image_url: "../public/erc1155/images/215.png",
     attributes: [
       { trait_type: "Purpose", value: "Crop" },
       { value: "Tradable" },

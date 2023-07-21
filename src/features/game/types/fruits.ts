@@ -53,6 +53,7 @@ export type Fruit = {
   sellPrice: Decimal;
   seed: FruitSeedName;
   bumpkinLevel: number;
+  disabled?: boolean;
 };
 
 export const FRUIT: () => Record<FruitName, Fruit> = () => ({

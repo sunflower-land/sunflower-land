@@ -78,7 +78,9 @@ export const Crops: React.FC = () => {
     return `Sell ${cropAmount}`;
   };
 
-  const cropsAndFruits = Object.values({ ...CROPS(), ...FRUIT() });
+  const cropsAndFruits = Object.values({ ...CROPS(), ...FRUIT() }).filter(
+    (value) => !value.disabled
+  );
 
   return (
     <>

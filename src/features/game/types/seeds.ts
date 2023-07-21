@@ -2,6 +2,8 @@ import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
 import { CropName, CropSeedName } from "./crops";
 import { FruitName, FruitSeedName, FRUIT_SEEDS } from "./fruits";
+import { CONFIG } from "lib/config";
+import { SEASONS } from "./seasons";
 
 export type SeedName = CropSeedName | FruitSeedName;
 
@@ -11,6 +13,7 @@ export type Seed = {
   plantSeconds: number;
   bumpkinLevel: number;
   yield: CropName | FruitName;
+  disabled?: boolean;
 };
 
 export const SEEDS: () => Record<SeedName, Seed> = () => ({
@@ -83,6 +86,10 @@ export const SEEDS: () => Record<SeedName, Seed> = () => ({
     bumpkinLevel: 5,
     plantSeconds: 20 * 60 * 60,
     yield: "Corn",
+    disabled:
+      CONFIG.NETWORK === "mainnet"
+        ? new Date() < SEASONS["Witches' Eve"].startDate
+        : false,
   },
   "Radish Seed": {
     description: "Takes time but is worth the wait!",
