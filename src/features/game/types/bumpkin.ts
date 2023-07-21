@@ -171,7 +171,8 @@ export type BumpkinOnesie =
   | "Tiger Onesie"
   | "Frog Onesie"
   | "Bunny Onesie"
-  | "Eggplant Onesie";
+  | "Eggplant Onesie"
+  | "Imp Costume";
 
 // Goes over clothes
 export type BumpkinSuit = "Reindeer Suit";
@@ -352,6 +353,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Witch's Broom": 156,
   "Infernal Bumpkin Potion": 157,
   "Infernal Goblin Potion": 158,
+  "Imp Costume": 159,
 };
 
 // The reverse of above
@@ -567,6 +569,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Witch's Broom": "tool",
   "Infernal Bumpkin Potion": "body",
   "Infernal Goblin Potion": "body",
+  "Imp Costume": "onsie",
 };
 
 export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
