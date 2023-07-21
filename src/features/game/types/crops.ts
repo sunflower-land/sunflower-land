@@ -101,10 +101,13 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     name: "Corn",
     description: "Sun-kissed kernels of delight, nature's summer treasure.",
     bumpkinLevel: 5,
+<<<<<<< HEAD
     disabled:
       CONFIG.NETWORK === "mainnet"
         ? new Date() < SEASONS["Witches' Eve"].startDate
         : false,
+=======
+>>>>>>> cb2403296 ([FEAT] Add corn)
   },
   Radish: {
     sellPrice: marketRate(9.5),
@@ -199,10 +202,13 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
     tokenAmount: marketRate(7),
     ingredients: [],
     bumpkinLevel: 5,
+<<<<<<< HEAD
     disabled:
       CONFIG.NETWORK === "mainnet"
         ? new Date() < SEASONS["Witches' Eve"].startDate
         : false,
+=======
+>>>>>>> cb2403296 ([FEAT] Add corn)
   },
   "Radish Seed": {
     name: "Radish Seed",
