@@ -136,7 +136,8 @@ export type BumpkinHat =
   | "Straw Hat"
   | "Luna's Hat"
   | "Infernal Horns"
-  | "Cattle Grim";
+  | "Cattle Grim"
+  | "Crumple Crown";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -365,6 +366,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Infernal Pitchfork": 162,
   "Infernal Horns": 163,
   "Cattle Grim": 164,
+  "Crumple Crown": 165,
 };
 
 // The reverse of above
@@ -586,6 +588,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Infernal Pitchfork": "tool",
   "Infernal Horns": "hat",
   "Cattle Grim": "hat",
+  "Crumple Crown": "hat",
 };
 
 export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
