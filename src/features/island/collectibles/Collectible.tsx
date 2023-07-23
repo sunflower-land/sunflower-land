@@ -178,6 +178,7 @@ import { ElPolloVeloz } from "./components/ElPolloVeloz";
 import { Poppy } from "./components/Poppy";
 import { GrainGrinder } from "./components/GrainGrinder";
 import { Kernaldo } from "./components/Kernaldo";
+import { QueenCornelia } from "./components/QueenCornelia";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -273,6 +274,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Bale: Bale,
   "Scary Mike": ScaryMike,
   "Laurie the Chuckle Crow": LaurieTheChuckleCrow,
+  "Queen Cornelia": QueenCornelia,
 
   "Carrot Sword": CarrotSword,
 
@@ -490,6 +492,34 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
           height: `${PIXEL_SCALE * 16 * 3}px`,
           left: `${PIXEL_SCALE * -12}px`,
           top: `${PIXEL_SCALE * 16 * 2 - 13}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  "Queen Cornelia": () => (
+    <div
+      id="cornelia"
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 16}px` }}
+    >
+      <img src={ITEM_DETAILS["Queen Cornelia"].image} className="w-full" />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -16}px`,
+          top: `${PIXEL_SCALE * 32}px`,
         }}
       >
         <img

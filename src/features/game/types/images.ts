@@ -66,6 +66,7 @@ import tinTurtle from "assets/sfts/aoe/tin_turtle.webp";
 import bale from "assets/sfts/aoe/bale.png";
 import scaryMike from "assets/sfts/aoe/scary_mike.png";
 import laurie from "assets/sfts/aoe/laurie.png";
+import queenCornelia from "assets/sfts/aoe/queen_cornelia.png";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
@@ -2053,6 +2054,11 @@ export const ITEM_DETAILS: Items = {
     image: freyaFox,
     description:
       "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
+  },
+  "Queen Cornelia": {
+    image: queenCornelia,
+    description:
+      "Command the regal power of Queen Cornelia and experience a magnificent Area of Effect boost to your corn production. +1 Corn.",
   },
 
   // Season tickets

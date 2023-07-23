@@ -3920,4 +3920,12 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
     ],
   },
+  "Queen Cornelia": {
+    description:
+      "Command the regal power of Queen Cornelia and experience a magnificent Area of Effect boost to your corn production. +1 Corn.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/474.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
 };
