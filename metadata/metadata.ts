@@ -3906,4 +3906,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { display_type: "boost_percentage", trait_type: "Cake XP", value: 20 },
     ],
   },
+  Kernaldo: {
+    description: "The magical corn whisperer.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/473.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Corn Growth Speed",
+        value: 25,
+      },
+    ],
+  },
 };

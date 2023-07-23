@@ -57,6 +57,7 @@ import bumpkinLantern from "assets/sfts/bumpkin_lantern.png";
 import bettyLantern from "assets/sfts/betty_lantern.png";
 import goblinLantern from "assets/sfts/goblin_lantern.png";
 import poppy from "assets/sfts/poppy.png";
+import kernaldo from "assets/sfts/kernaldo.png";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -2053,11 +2054,6 @@ export const ITEM_DETAILS: Items = {
     description:
       "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
   },
-  "Grain Grinder": {
-    image: grainGrinder,
-    description:
-      "Grind your grain and experience a delectable surge in Cake XP.",
-  },
 
   // Season tickets
   "Solar Flare Ticket": {
@@ -2307,5 +2303,14 @@ export const ITEM_DETAILS: Items = {
   "El Pollo Veloz": {
     image: elPolloVeloz,
     description: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
+  },
+  "Grain Grinder": {
+    image: grainGrinder,
+    description:
+      "Grind your grain and experience a delectable surge in Cake XP.",
+  },
+  Kernaldo: {
+    image: kernaldo,
+    description: "The magical corn whisperer. +20% Corn Growth Speed.",
   },
 };

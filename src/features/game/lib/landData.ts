@@ -431,6 +431,8 @@ export const OFFLINE_FARM: GameState = {
     "Freya Fox": new Decimal(1),
     Poppy: new Decimal(1),
     "El Pollo Veloz": new Decimal(1),
+    "Grain Grinder": new Decimal(1),
+    Kernaldo: new Decimal(1),
   },
 
   createdAt: new Date("2022-03-04").getTime(),

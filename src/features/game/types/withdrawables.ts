@@ -492,6 +492,7 @@ const soldOut: Record<SoldOutCollectibleName, boolean> = {
   "Freya Fox": false,
   Poppy: false,
   "Grain Grinder": false,
+  Kernaldo: false,
 };
 
 const achievementDecoration: Record<AchievementDecorationName, boolean> = {
