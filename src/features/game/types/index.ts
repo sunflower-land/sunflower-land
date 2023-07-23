@@ -132,6 +132,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Scary Mike": 467,
   "Laurie the Chuckle Crow": 468,
   "Freya Fox": 469,
+  "El Pollo Veloz": 470,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,

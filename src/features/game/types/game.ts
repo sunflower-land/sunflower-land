@@ -117,7 +117,8 @@ export type MutantChicken =
   | "Speed Chicken"
   | "Rich Chicken"
   | "Fat Chicken"
-  | "Ayam Cemani";
+  | "Ayam Cemani"
+  | "El Pollo Veloz";
 
 export type Coupons =
   | "Trading Ticket"

@@ -178,6 +178,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
 > = {
   "Undead Rooster": (game) => areAnyChickensFed(game),
   "Ayam Cemani": (game) => areAnyChickensFed(game),
+  "El Pollo Veloz": (game) => areAnyChickensFed(game),
   "Fat Chicken": (game) => areAnyChickensFed(game),
   "Rich Chicken": (game) => areAnyChickensFed(game),
   "Speed Chicken": (game) => areAnyChickensFed(game),

@@ -174,6 +174,7 @@ import { DawnFlower } from "./components/DawnFlower";
 import { LaurieTheChuckleCrow } from "./components/LaurieTheChuckelCrow";
 import { FreyaFox } from "./components/FreyaFox";
 import { WitchesEveBanner } from "./components/WitchesEveBanner";
+import { ElPolloVeloz } from "./components/ElPolloVeloz";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -322,6 +323,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Squirrel Monkey": SquirrelMonkey,
   "Black Bearry": BlackBearry,
   "Ayam Cemani": AyamCemani,
+  "El Pollo Veloz": ElPolloVeloz,
   "Collectible Bear": CollectibleBear,
   "Cyborg Bear": CyborgBear,
   "Maneki Neko": ManekiNeko,

@@ -1814,6 +1814,10 @@ export const ITEM_DETAILS: Items = {
     image: ayamCemani,
     description: "The rarest chicken alive!",
   },
+  "El Pollo Veloz": {
+    image: ayamCemani,
+    description: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
+  },
   "Collectible Bear": {
     image: collectibleBear,
     description: "A prized bear, still in mint condition!",
