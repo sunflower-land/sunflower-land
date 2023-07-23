@@ -57,7 +57,9 @@ export const Chest: React.FC<Props> = ({
   onDepositClick,
 }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
+  console.log({ state });
   const chestMap = getChestItems(state);
+  console.log({ chestMap });
 
   const collectibles = getKeys(chestMap)
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])

@@ -56,6 +56,7 @@ import solarLantern from "assets/sfts/solar_lantern.png";
 import bumpkinLantern from "assets/sfts/bumpkin_lantern.png";
 import bettyLantern from "assets/sfts/betty_lantern.png";
 import goblinLantern from "assets/sfts/goblin_lantern.png";
+import poppy from "assets/sfts/poppy.png";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -69,6 +70,8 @@ import laurie from "assets/sfts/aoe/laurie.png";
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
 import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 import richChicken from "assets/animals/chickens/rich_chicken.gif";
+import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.png";
+import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
 
 // Foods
 import roastedCauliflower from "assets/sfts/roasted_cauliflower.png";
@@ -321,7 +324,6 @@ import rainbowArtistBear from "src/assets/sfts/bears/rainbow_artist_bear.png";
 import cyborgBear from "src/assets/sfts/cyborg_bear.png";
 import collectibleBear from "src/assets/sfts/collectible_bear.png";
 import manekiNeko from "src/assets/sfts/maneki_neko.gif";
-import ayamCemani from "src/assets/sfts/ayam_cemani.gif";
 import redEnvelope from "src/assets/icons/red_envelope.png";
 import loveLetter from "src/assets/icons/love_letter.png";
 import tikiTotem from "src/assets/sfts/tiki_totem.webp";
@@ -1814,10 +1816,6 @@ export const ITEM_DETAILS: Items = {
     image: ayamCemani,
     description: "The rarest chicken alive!",
   },
-  "El Pollo Veloz": {
-    image: ayamCemani,
-    description: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
-  },
   "Collectible Bear": {
     image: collectibleBear,
     description: "A prized bear, still in mint condition!",
@@ -2199,7 +2197,6 @@ export const ITEM_DETAILS: Items = {
     description:
       "A paper lantern that transforms any space into a magical wonderland.",
   },
-
   "Bonnie's Tombstone": {
     image: bonniesTombstone,
     description: HELIOS_DECORATIONS()["Bonnie's Tombstone"].description,
@@ -2296,5 +2293,13 @@ export const ITEM_DETAILS: Items = {
     image: goldPass,
     description:
       "An exlusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content",
+  },
+  Poppy: {
+    image: poppy,
+    description: "The mystical corn kernel. +0.1 Corn per harvest.",
+  },
+  "El Pollo Veloz": {
+    image: elPolloVeloz,
+    description: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
   },
 };

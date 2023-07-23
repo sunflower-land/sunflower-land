@@ -3325,6 +3325,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/454.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
+  Poppy: {
+    description: "The mystical corn kernel. +0.1 Corn per harvest.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/454.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
   "Bumpkin Roast": {
     description:
       "A traditional Bumpkin dish. You can cook this at the Kitchen.",

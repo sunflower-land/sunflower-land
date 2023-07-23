@@ -206,6 +206,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Peeled Potato": (game) => cropIsPlanted({ item: "Potato", game }),
   "Victoria Sisters": (game) => cropIsPlanted({ item: "Pumpkin", game }),
   "Freya Fox": (game) => cropIsPlanted({ item: "Pumpkin", game }),
+  Poppy: (game) => cropIsPlanted({ game, item: "Corn" }),
 
   "Squirrel Monkey": (game) => areFruitsGrowing(game, "Orange"),
   "Black Bearry": (game) => areFruitsGrowing(game, "Blueberry"),
