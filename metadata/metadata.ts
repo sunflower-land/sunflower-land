@@ -2998,19 +2998,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/445.gif",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
-  "El Pollo Veloz": {
-    description: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
-    decimals: 0,
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/445.gif",
-    attributes: [
-      { trait_type: "Purpose", value: "Boost" },
-      {
-        trait_type: "Reduced time to lay eggs (hours)",
-        value: 4,
-      },
-    ],
-  },
   "Maneki Neko": {
     description:
       "The beckoning cat. Pull its arm and good luck will come. A special event item from Lunar New Year!",
@@ -3320,13 +3307,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Iron Idol": {
     description: "The Idol adds 1 iron every time you mine iron.",
-    decimals: 0,
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/454.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
-  },
-  Poppy: {
-    description: "The mystical corn kernel. +0.1 Corn per harvest.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/454.png",
@@ -3886,10 +3866,44 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Gold Pass": {
     description:
-      "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content",
+      "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/725.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "El Pollo Veloz": {
+    description: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/445.gif",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        trait_type: "Reduced time to lay eggs (hours)",
+        value: 4,
+      },
+    ],
+  },
+  Poppy: {
+    description: "The mystical corn kernel. +0.1 Corn per harvest.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/471.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Increase Corn Drops", value: 0.1 },
+    ],
+  },
+  "Grain Grinder": {
+    description:
+      "Grind your grain and experience a delectable surge in Cake XP.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/472.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      { display_type: "boost_percentage", trait_type: "Cake XP", value: 20 },
+    ],
   },
 };

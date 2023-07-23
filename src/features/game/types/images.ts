@@ -400,6 +400,7 @@ import maximus from "assets/sfts/maximus.png";
 import hoot from "assets/sfts/hoot.png";
 import sirGoldenSnout from "assets/sfts/sir_goldensnout.png";
 import freyaFox from "assets/sfts/freya_fox.png";
+import grainGrinder from "assets/sfts/grain_grinder.png";
 
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
@@ -2051,6 +2052,11 @@ export const ITEM_DETAILS: Items = {
     image: freyaFox,
     description:
       "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
+  },
+  "Grain Grinder": {
+    image: grainGrinder,
+    description:
+      "Grind your grain and experience a delectable surge in Cake XP.",
   },
 
   // Season tickets

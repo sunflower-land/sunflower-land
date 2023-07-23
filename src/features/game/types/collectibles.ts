@@ -47,7 +47,8 @@ export type SoldOutCollectibleName =
   | "Hoot"
   | "Lady Bug"
   | "Freya Fox"
-  | "Poppy";
+  | "Poppy"
+  | "Grain Grinder";
 
 export type GoblinBlacksmithItemName =
   | "Purple Trail"
@@ -279,4 +280,6 @@ export type Purchasable = CraftableCollectible & {
 export const COLLECTIBLE_BUFF: Partial<Record<InventoryItemName, string>> = {
   "Sir Goldensnout": "+0.5 Surrounding Crops",
   "Freya Fox": "+0.5 Pumpkin",
+  Poppy: "+0.1 Corn",
+  "Grain Grinder": "+20% Cake XP",
 };

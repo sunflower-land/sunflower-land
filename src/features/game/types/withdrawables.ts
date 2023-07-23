@@ -488,9 +488,10 @@ const soldOut: Record<SoldOutCollectibleName, boolean> = {
   "Pablo The Bunny": true,
   "Easter Bush": true,
   "Giant Carrot": true,
+  Hoot: true,
   "Freya Fox": false,
   Poppy: false,
-  Hoot: true,
+  "Grain Grinder": false,
 };
 
 const achievementDecoration: Record<AchievementDecorationName, boolean> = {

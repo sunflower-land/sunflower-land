@@ -176,6 +176,7 @@ import { FreyaFox } from "./components/FreyaFox";
 import { WitchesEveBanner } from "./components/WitchesEveBanner";
 import { ElPolloVeloz } from "./components/ElPolloVeloz";
 import { Poppy } from "./components/Poppy";
+import { GrainGrinder } from "./components/GrainGrinder";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -244,6 +245,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Wood Nymph Wendy": WoodNymphWendy,
   "Freya Fox": FreyaFox,
   Poppy: Poppy,
+  "Grain Grinder": GrainGrinder,
 
   // Moles
   "Rocky the Mole": RockyTheMole,

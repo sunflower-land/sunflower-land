@@ -1,26 +1,27 @@
 import React from "react";
 
-import freyaFox from "assets/sfts/freya_fox.png";
+import grainGrinder from "assets/sfts/grain_grinder.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-export const FreyaFox: React.FC = () => {
+export const GrainGrinder: React.FC = () => {
   return (
     <div
       className="absolute"
       style={{
-        width: `${PIXEL_SCALE * 21}px`,
+        width: `${PIXEL_SCALE * 26}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * -3}px`,
+        left: `50%`,
+        transform: `translateX(-50%)`,
       }}
     >
       <img
-        src={freyaFox}
+        src={grainGrinder}
         style={{
-          width: `${PIXEL_SCALE * 21}px`,
+          width: `${PIXEL_SCALE * 26}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute"
-        alt="Freya Fox"
+        alt="Grain Grinder"
       />
     </div>
   );
