@@ -20,7 +20,9 @@ export type BumpkinBody =
   | "Pirate Potion"
   | "Light Brown Worried Farmer Potion"
   | "Sunburst Potion"
-  | "Infected Potion";
+  | "Infected Potion"
+  | "Infernal Bumpkin Potion"
+  | "Infernal Goblin Potion";
 
 export type BumpkinHair =
   | "Basic Hair"
@@ -92,7 +94,9 @@ export type BumpkinTool =
   | "Dawn Lamp"
   | "Water Gun"
   | "Grave Diggers Shovel"
-  | "Auction Megaphone";
+  | "Auction Megaphone"
+  | "Witch's Broom"
+  | "Infernal Pitchfork";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -129,7 +133,11 @@ export type BumpkinHat =
   | "Fox Hat"
   | "Mushroom Hat"
   | "Harry's Hat"
-  | "Straw Hat";
+  | "Straw Hat"
+  | "Luna's Hat"
+  | "Infernal Horns"
+  | "Cattlegrim"
+  | "Crumple Crown";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -149,7 +157,12 @@ export type BumpkinPant =
   | "Auctioneer Slacks"
   | "Traveller's Pants";
 
-export type BumpkinDress = "Cupid Dress" | "Beach Sarong" | "Tropical Sarong";
+export type BumpkinDress =
+  | "Cupid Dress"
+  | "Beach Sarong"
+  | "Tropical Sarong"
+  | "Witching Wardrobe";
+
 export type BumpkinSecondaryTool =
   | "Sunflower Shield"
   | "Crab Claw"
@@ -163,7 +176,9 @@ export type BumpkinOnesie =
   | "Tiger Onesie"
   | "Frog Onesie"
   | "Bunny Onesie"
-  | "Eggplant Onesie";
+  | "Eggplant Onesie"
+  | "Imp Costume"
+  | "Ox Costume";
 
 // Goes over clothes
 export type BumpkinSuit = "Reindeer Suit";
@@ -173,6 +188,7 @@ export type BumpkinWings =
   | "Devil Wings"
   | "Love Quiver"
   | "Traveller's Backpack";
+
 export type BumpkinItem =
   | BumpkinBody
   | BumpkinHair
@@ -340,6 +356,17 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Traveller's Backpack": 152,
   "Traveller's Pants": 153,
   "Traveller's Shirt": 154,
+  "Witching Wardrobe": 155,
+  "Witch's Broom": 156,
+  "Infernal Bumpkin Potion": 157,
+  "Infernal Goblin Potion": 158,
+  "Imp Costume": 159,
+  "Ox Costume": 160,
+  "Luna's Hat": 161,
+  "Infernal Pitchfork": 162,
+  "Infernal Horns": 163,
+  Cattlegrim: 164,
+  "Crumple Crown": 165,
 };
 
 // The reverse of above
@@ -551,6 +578,17 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Traveller's Backpack": "wings",
   "Traveller's Pants": "pants",
   "Traveller's Shirt": "shirt",
+  "Witching Wardrobe": "dress",
+  "Witch's Broom": "tool",
+  "Infernal Bumpkin Potion": "body",
+  "Infernal Goblin Potion": "body",
+  "Imp Costume": "onesie",
+  "Ox Costume": "onesie",
+  "Luna's Hat": "hat",
+  "Infernal Pitchfork": "tool",
+  "Infernal Horns": "hat",
+  Cattlegrim: "hat",
+  "Crumple Crown": "hat",
 };
 
 export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
