@@ -29,6 +29,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     y,
     clothing,
     onClick,
+    onCollide,
     name,
     direction,
   }: {
@@ -37,6 +38,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     y: number;
     clothing: Player["clothing"];
     onClick?: () => void;
+    onCollide?: () => void;
     name?: string;
     direction?: "left" | "right";
   }) {

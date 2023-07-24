@@ -119,4 +119,10 @@ export const SPAWNS: SpawnLocation = {
       y: 290,
     },
   },
+  corn_example: {
+    default: {
+      x: 800,
+      y: 833,
+    },
+  },
 };

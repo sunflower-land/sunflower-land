@@ -34,6 +34,8 @@ import { WorldIntroduction } from "./ui/WorldIntroduction";
 import { CommunityScene } from "./scenes/CommunityScene";
 import { CommunityModals } from "./ui/CommunityModalManager";
 import { SceneId } from "./mmoMachine";
+import { CornScene } from "./scenes/CornScene";
+import { useNavigate } from "react-router-dom";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -53,6 +55,8 @@ export const PhaserComponent: React.FC<Props> = ({
 
   const [messages, setMessages] = useState<Message[]>([]);
   const { gameService } = useContext(Context);
+
+  const navigate = useNavigate();
 
   const game = useRef<Game>();
 
@@ -74,6 +78,7 @@ export const PhaserComponent: React.FC<Props> = ({
         ClothesShopScene,
         DecorationShopScene,
         MarcusHomeScene,
+        CornScene,
       ];
 
   useEffect(() => {
@@ -172,7 +177,12 @@ export const PhaserComponent: React.FC<Props> = ({
         }}
         messages={messages ?? []}
       />
-      <NPCModals />
+      <NPCModals
+        onNavigate={(roomId: RoomId) => {
+          game.current?.scene.start(roomId);
+          navigate(`/world/${roomId}`);
+        }}
+      />
       <CommunityModals />
       <InteractableModals id={authState.context.user.farmId as number} />
       <Modal

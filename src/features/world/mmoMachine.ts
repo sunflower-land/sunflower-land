@@ -21,6 +21,7 @@ export type Scenes = {
   woodlands: Room<PlazaRoomState> | undefined;
   dawn_breaker: Room<PlazaRoomState> | undefined;
   marcus_home: Room<PlazaRoomState> | undefined;
+  corn_maze: Room<PlazaRoomState> | undefined;
 };
 export type SceneId = keyof Scenes;
 

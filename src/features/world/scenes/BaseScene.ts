@@ -261,7 +261,7 @@ export abstract class BaseScene extends Phaser.Scene {
     });
 
     // Debugging purposes - display colliders in pink
-    this.physics.world.drawDebug = false;
+    this.physics.world.drawDebug = true;
 
     // Set up the Z layers to draw in correct order
     const TOP_LAYERS = [
@@ -275,6 +275,8 @@ export abstract class BaseScene extends Phaser.Scene {
       "Building Layer 4",
     ];
     this.map.layers.forEach((layerData, idx) => {
+      if (layerData.name === "Corn") return;
+
       const layer = this.map.createLayer(layerData.name, tileset, 0, 0);
       if (TOP_LAYERS.includes(layerData.name)) {
         layer?.setDepth(1000000);
@@ -432,6 +434,19 @@ export abstract class BaseScene extends Phaser.Scene {
       name: npc,
       onClick: defaultClick,
     });
+
+    if (this.currentPlayer && npc) {
+      (entity.body as Phaser.Physics.Arcade.Body)
+        .setSize(16, 20)
+        .setOffset(0, 0)
+        .setImmovable(true)
+        .setCollideWorldBounds(true);
+
+      this.physics.add.overlap(this.currentPlayer, entity, () => {
+        console.log("hit");
+      });
+    }
+
     if (!npc) {
       const nameTag = this.createPlayerText({
         x: 0,
