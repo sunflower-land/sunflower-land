@@ -78,16 +78,16 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
             onClose={closeModal}
             bumpkinParts={NPC_WEARABLES.grubnuk}
             tabs={[
-              { icon: SUNNYSIDE.icons.expression_chat, name: "Delivery" },
               { icon: SUNNYSIDE.icons.heart, name: "Community Island" },
+              { icon: SUNNYSIDE.icons.expression_chat, name: "Delivery" },
             ]}
             setCurrentTab={setTab}
             currentTab={tab}
           >
-            {tab === 0 && (
+            {tab === 0 && <CommunityIslands />}
+            {tab === 1 && (
               <DeliveryPanelContent npc={npc} onClose={closeModal} />
             )}
-            {tab === 1 && <CommunityIslands />}
           </CloseButtonPanel>
         )}
         {npc === "lily" && (
@@ -154,16 +154,16 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
             onClose={closeModal}
             bumpkinParts={NPC_WEARABLES.blacksmith}
             tabs={[
-              { icon: SUNNYSIDE.icons.expression_chat, name: "Delivery" },
               { icon: SUNNYSIDE.icons.hammer, name: "Craft" },
+              { icon: SUNNYSIDE.icons.expression_chat, name: "Delivery" },
             ]}
             setCurrentTab={setTab}
             currentTab={tab}
           >
-            {tab === 0 && (
+            {tab === 0 && <HeliosBlacksmithItems />}
+            {tab === 1 && (
               <DeliveryPanelContent npc={npc} onClose={closeModal} />
             )}
-            {tab === 1 && <HeliosBlacksmithItems />}
           </CloseButtonPanel>
         )}
         {npc === "raven" && <DeliveryPanel npc={npc} onClose={closeModal} />}
