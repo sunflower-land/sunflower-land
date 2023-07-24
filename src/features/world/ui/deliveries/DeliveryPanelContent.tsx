@@ -68,7 +68,14 @@ const OrderCards: React.FC<OrderCardsProps> = ({
                   "cursor-pointer": canDeliver,
                 }
               )}
-              onClick={canDeliver ? () => onSelectOrder(order.id) : undefined}
+              onClick={
+                canDeliver
+                  ? (e) => {
+                      e.stopPropagation();
+                      onSelectOrder(order.id);
+                    }
+                  : undefined
+              }
             >
               {getKeys(order.items).map((itemName) => {
                 if (itemName === "sfl") {
