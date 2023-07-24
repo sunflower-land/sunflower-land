@@ -176,12 +176,10 @@ export type BumpkinOnesie =
   | "Tiger Onesie"
   | "Frog Onesie"
   | "Bunny Onesie"
-  | "Eggplant Onesie"
-  | "Imp Costume"
-  | "Ox Costume";
+  | "Eggplant Onesie";
 
 // Goes over clothes
-export type BumpkinSuit = "Reindeer Suit";
+export type BumpkinSuit = "Reindeer Suit" | "Imp Costume" | "Ox Costume";
 
 export type BumpkinWings =
   | "Angel Wings"
@@ -582,8 +580,8 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Witch's Broom": "tool",
   "Infernal Bumpkin Potion": "body",
   "Infernal Goblin Potion": "body",
-  "Imp Costume": "onesie",
-  "Ox Costume": "onesie",
+  "Imp Costume": "suit",
+  "Ox Costume": "suit",
   "Luna's Hat": "hat",
   "Infernal Pitchfork": "tool",
   "Infernal Horns": "hat",
