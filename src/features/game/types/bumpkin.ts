@@ -179,9 +179,7 @@ export type BumpkinOnesie =
   | "Eggplant Onesie";
 
 // Goes over clothes
-export type BumpkinSuit = "Reindeer Suit" 
-  | "Imp Costume"
-  | "Ox Costume";
+export type BumpkinSuit = "Reindeer Suit" | "Imp Costume" | "Ox Costume";
 
 export type BumpkinWings =
   | "Angel Wings"
