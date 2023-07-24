@@ -253,7 +253,7 @@ export const PhaserComponent: React.FC<Props> = ({ scene, isCommunity }) => {
 
       {roomState === "error" && (
         <InnerPanel
-          className="fixed bottom-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer"
+          className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer"
           onClick={() => roomService.send("RETRY")}
         >
           <img src={SUNNYSIDE.icons.sad} className="h-4 mr-1" />
