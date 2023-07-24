@@ -36,6 +36,7 @@ import { Refreshing } from "features/auth/components/Refreshing";
 import { RetreatPirate } from "./components/pirate/RetreatPirate";
 import { GameBoard } from "components/GameBoard";
 import { Auctioneer } from "./components/auctioneer/Auctioneer";
+import { PersonhoodContent } from "./components/personhood/PersonhoodContent";
 
 const spawn = [
   [35, 15],
@@ -103,6 +104,22 @@ export const Game = () => {
           {goblinState.matches("refreshing") && <Refreshing />}
         </Panel>
       </Modal>
+
+      {/*Anima iframe has zIndex 1000, set this componenet to 9999*/}
+      {goblinState.matches("provingPersonhood") && (
+        <Modal
+          className="z-[999]"
+          show={true}
+          centered
+          backdrop={false}
+          onHide={() => goblinService.send("PERSONHOOD_CANCELLED")}
+        >
+          <Panel className="text-shadow">
+            <PersonhoodContent />
+          </Panel>
+        </Modal>
+      )}
+
       <ScrollContainer
         className="bg-blue-300 overflow-scroll relative w-full h-full overscroll-none"
         innerRef={container}
