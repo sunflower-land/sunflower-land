@@ -37,6 +37,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     y,
     clothing,
     onClick,
+    onCollide,
     name,
     direction,
   }: {
