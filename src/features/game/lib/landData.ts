@@ -420,6 +420,9 @@ export const OFFLINE_FARM: GameState = {
     "Eggplant Grill": new Decimal(1),
     "Giant Dawn Mushroom": new Decimal(1),
     "Shroom Glow": new Decimal(1),
+    Candles: new Decimal(1),
+    "Haunted Stump": new Decimal(1),
+    "Spooky Tree": new Decimal(1),
 
     Chicken: new Decimal(5),
 

@@ -336,6 +336,9 @@ import ironIdol from "src/assets/sfts/iron_idol.webp";
 import genieBear from "src/assets/sfts/bears/genie_bear.png";
 import eggplantBear from "src/assets/sfts/bears/eggplant_bear.png";
 import dawnFlower from "src/assets/sfts/dawn_flower.png";
+import candles from "src/assets/decorations/candles.png";
+import spookyTree from "src/assets/decorations/spooky_tree.png";
+import hauntedStump from "src/assets/decorations/haunted_stump.png";
 
 import pineTree from "src/assets/decorations/pine_tree.png";
 import fieldMaple from "src/assets/decorations/field_maple.webp";
@@ -2318,5 +2321,18 @@ export const ITEM_DETAILS: Items = {
   Kernaldo: {
     image: kernaldo,
     description: "The magical corn whisperer. +20% Corn Growth Speed.",
+  },
+  Candles: {
+    image: candles,
+    description:
+      "Enchant your farm with flickering spectral flames during Witches' Eve.",
+  },
+  "Haunted Stump": {
+    image: hauntedStump,
+    description: "Summon spirits and add eerie charm to your farm.",
+  },
+  "Spooky Tree": {
+    image: spookyTree,
+    description: "A hauntingly fun addition to your farm's decor!",
   },
 };

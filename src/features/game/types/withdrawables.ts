@@ -391,6 +391,9 @@ const seasonalDecorations: Record<SeasonalDecorationName, boolean> = {
   "Eggplant Grill": false,
   "Giant Dawn Mushroom": false,
   "Shroom Glow": false,
+  Candles: false,
+  "Haunted Stump": false,
+  "Spooky Tree": false,
 };
 
 const mutantCrop: Record<MutantCropName, boolean> = {

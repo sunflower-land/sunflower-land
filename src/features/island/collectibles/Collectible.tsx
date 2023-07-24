@@ -179,6 +179,9 @@ import { Poppy } from "./components/Poppy";
 import { GrainGrinder } from "./components/GrainGrinder";
 import { Kernaldo } from "./components/Kernaldo";
 import { QueenCornelia } from "./components/QueenCornelia";
+import { SpookyTree } from "./components/SpookyTree";
+import { Candles } from "./components/Candles";
+import { HauntedStump } from "./components/HauntedStump";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -246,9 +249,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Peeled Potato": PeeledPotato,
   "Wood Nymph Wendy": WoodNymphWendy,
   "Freya Fox": FreyaFox,
-  Poppy: Poppy,
-  "Grain Grinder": GrainGrinder,
-  Kernaldo: Kernaldo,
 
   // Moles
   "Rocky the Mole": RockyTheMole,
@@ -400,6 +400,14 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Eggplant Bear": EggplantBear,
   "Goblin Lantern": GoblinLantern,
   "Dawn Flower": DawnFlower,
+
+  // Witches' Eve Items
+  Poppy: Poppy,
+  "Grain Grinder": GrainGrinder,
+  Kernaldo: Kernaldo,
+  "Spooky Tree": SpookyTree,
+  Candles: Candles,
+  "Haunted Stump": HauntedStump,
 };
 
 // Need readonly versions for some troublesome components while in design mode

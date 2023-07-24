@@ -3928,4 +3928,26 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/474.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
+  Candles: {
+    description:
+      "Enchant your farm with flickering spectral flames during Witches' Eve.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1278.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Haunted Stump": {
+    description: "Summon spirits and add eerie charm to your farm.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1279.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Spooky Tree": {
+    description: "A hauntingly fun addition to your farm's decor!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1280.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
 };
