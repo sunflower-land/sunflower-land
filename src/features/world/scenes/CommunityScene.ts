@@ -67,7 +67,10 @@ export abstract class CommunityScene extends Phaser.Scene {
       }
 
       this.load.sceneFile("ExternalScene", `${island?.url}/Scene.js`);
-      this.load.tilemapTiledJSON("community_island", `${island?.url}/map.json`);
+      this.load.tilemapTiledJSON(
+        island?.id as string,
+        `${island?.url}/map.json`
+      );
 
       // Load Sound Effects
       this.load.audio("dirt_footstep", SOUNDS.footsteps.dirt);
@@ -106,7 +109,7 @@ export abstract class CommunityScene extends Phaser.Scene {
       this.load.bitmapFont("pixelmix", "world/7px.png", "world/7px.xml");
 
       this.load.once("complete", () => {
-        this.scene.start("community_island");
+        this.scene.start(island?.id);
       });
     } catch (error) {
       errorLogger(error);
