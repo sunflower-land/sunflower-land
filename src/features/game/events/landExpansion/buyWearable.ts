@@ -65,7 +65,7 @@ export function buyWearable({ state, action }: Options) {
   if (wearable.ingredients["Block Buck"]) {
     // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#spend_virtual_currency
     analytics.logEvent("spend_virtual_currency", {
-      value: wearable.ingredients["Block Buck"].toNumber() ?? 1,
+      value: wearable.ingredients["Block Buck"] ?? 1,
       virtual_currency_name: "Block Buck",
       item_name: `${name}`,
     });
