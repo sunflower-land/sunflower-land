@@ -115,7 +115,9 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         return displayInformation();
       }
 
-      shortcutItem("Axe");
+      if (!isCollectibleBuilt("Foreman Beaver", collectibles) ||
+          (fruit?.name === "Blueberry"))
+        shortcutItem("Axe");
 
       const newState = gameService.send("fruitTree.removed", {
         index: id,
