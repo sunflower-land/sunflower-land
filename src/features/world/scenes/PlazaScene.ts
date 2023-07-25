@@ -1,6 +1,6 @@
 import mapJson from "assets/map/plaza.json";
 
-import { RoomId } from "../roomMachine";
+import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 
@@ -8,12 +8,13 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
     x: 400,
     y: 400,
-    npc: "pumpkin'pete",
+    npc: "pumpkin' pete",
   },
   {
     x: 815,
     y: 213,
     npc: "frankie",
+    direction: "left",
   },
   {
     x: 312,
@@ -26,14 +27,15 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "timmy",
   },
   {
-    x: 313,
-    y: 71,
+    x: 307,
+    y: 72,
     npc: "raven",
+    direction: "left",
   },
   {
     x: 364,
     y: 120,
-    npc: "igor",
+    npc: "blacksmith",
   },
   {
     x: 760,
@@ -44,6 +46,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     x: 810,
     y: 380,
     npc: "grimtooth",
+    direction: "left",
   },
   {
     x: 120,
@@ -59,11 +62,12 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     x: 795,
     y: 118,
     npc: "bert",
+    direction: "left",
   },
   {
     x: 513,
     y: 288,
-    npc: "birdie",
+    npc: "betty",
   },
   {
     x: 33,
@@ -74,10 +78,16 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     x: 840,
     y: 291,
     npc: "grubnuk",
+    direction: "left",
+  },
+  {
+    x: 90,
+    y: 70,
+    npc: "tywin",
   },
 ];
 export class PlazaScene extends BaseScene {
-  roomId: RoomId = "plaza";
+  sceneId: SceneId = "plaza";
 
   constructor() {
     super({

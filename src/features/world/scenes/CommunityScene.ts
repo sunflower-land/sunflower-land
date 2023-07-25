@@ -2,10 +2,12 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { createErrorLogger } from "lib/errorLogger";
-import { MachineInterpreter } from "../roomMachine";
 import { BaseScene } from "./BaseScene";
 import { COMMUNITY_ISLANDS } from "../ui/community/CommunityIslands";
 import { communityModalManager } from "../ui/CommunityModalManager";
+import { Room } from "colyseus.js";
+import { PlazaRoomState } from "../types/Room";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
 
 export async function getgit(owner: string, repo: string, path: string) {
   // A function to fetch files from github using the api
@@ -26,14 +28,17 @@ export async function getgit(owner: string, repo: string, path: string) {
 export const COMMUNITY_TEST_ISLAND = "local";
 
 export abstract class CommunityScene extends Phaser.Scene {
-  public get roomService() {
-    return this.registry.get("roomService") as MachineInterpreter;
+  public get room() {
+    return this.registry.get("room") as Room<PlazaRoomState>;
   }
 
+  public get gameService() {
+    return this.registry.get("gameService") as MachineInterpreter;
+  }
   preload() {
     const errorLogger = createErrorLogger(
       "phaser_preloader_scene",
-      this.roomService.state.context.farmId
+      Number(this.gameService.state.context.state.id)
     );
 
     this.load.on(

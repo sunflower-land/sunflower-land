@@ -1,12 +1,12 @@
 import woodlandsJSON from "assets/map/woodlands.json";
 
-import { RoomId } from "../roomMachine";
+import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
 const BUMPKINS: NPCBumpkin[] = [];
 
 export class WoodlandsScene extends BaseScene {
-  roomId: RoomId = "woodlands";
+  sceneId: SceneId = "woodlands";
 
   constructor() {
     super({

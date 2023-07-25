@@ -1,6 +1,6 @@
 import decorationShopJSON from "assets/map/decorations.json";
 
-import { RoomId } from "../roomMachine";
+import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
@@ -13,7 +13,7 @@ const BUMPKINS: NPCBumpkin[] = [
 ];
 
 export class DecorationShopScene extends BaseScene {
-  roomId: RoomId = "decorations_shop";
+  sceneId: SceneId = "decorations_shop";
 
   spawn: Coordinates = {
     x: 55,
@@ -24,7 +24,6 @@ export class DecorationShopScene extends BaseScene {
   }
 
   async create() {
-    console.log("Create decoration shop");
     this.map = this.make.tilemap({
       key: "decorations-shop",
     });

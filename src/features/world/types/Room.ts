@@ -1,5 +1,7 @@
 import { Schema, MapSchema, ArraySchema } from "@colyseus/schema";
+import { NPCName } from "lib/npcs";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import { SceneId } from "../mmoMachine";
 
 export interface InputData {
   x: number;
@@ -13,7 +15,9 @@ export interface Player extends Schema {
   x: number;
   y: number;
   tick: number;
-  clothing: BumpkinParts;
+  clothing: BumpkinParts & { updatedAt: number };
+  npc: NPCName;
+  sceneId: SceneId;
 
   inputQueue: InputData[];
 }
@@ -22,6 +26,7 @@ export interface Message extends Schema {
   text: string;
   farmId?: number;
   sessionId: string;
+  sceneId: SceneId;
   sentAt: number;
 }
 

@@ -80,7 +80,7 @@ const crops: Record<CropName, boolean> = {
   Pumpkin: true,
   Sunflower: true,
   Parsnip: true,
-  Eggplant: false,
+  Eggplant: true,
   Radish: true,
   Wheat: true,
 };

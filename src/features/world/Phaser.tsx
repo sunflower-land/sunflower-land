@@ -1,24 +1,18 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Game, AUTO } from "phaser";
 import { useActor, useSelector } from "@xstate/react";
-import { useInterpret } from "@xstate/react";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 
 import * as AuthProvider from "features/auth/lib/Provider";
-import { ChatUI } from "features/pumpkinPlaza/components/ChatUI";
+import { ChatUI, Message } from "features/pumpkinPlaza/components/ChatUI";
 
 import { PlazaScene } from "./scenes/PlazaScene";
 import { AuctionScene } from "./scenes/AuctionHouseScene";
 
 import { InteractableModals } from "./ui/InteractableModals";
 import { NPCModals } from "./ui/NPCModals";
-import {
-  MachineInterpreter,
-  MachineState,
-  RoomId,
-  roomMachine,
-} from "./roomMachine";
+import { MachineInterpreter, MachineState } from "./mmoMachine";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
 import { InnerPanel, Panel } from "components/ui/Panel";
@@ -39,45 +33,30 @@ import { MarcusHomeScene } from "./scenes/MarcusHomeScene";
 import { WorldIntroduction } from "./ui/WorldIntroduction";
 import { CommunityScene } from "./scenes/CommunityScene";
 import { CommunityModals } from "./ui/CommunityModalManager";
+import { SceneId } from "./mmoMachine";
 
 const _roomState = (state: MachineState) => state.value;
-const _messages = (state: MachineState) => {
-  const messages = state.context.rooms[
-    state.context.roomId
-  ]?.state.messages.map((m) => ({
-    farmId: m.farmId ?? 0,
-    sessionId: m.sessionId ?? "",
-    text: m.text,
-  }));
-
-  // Pass so we are comparing a primitive in re-render
-  return JSON.stringify(messages ?? []);
-};
 
 interface Props {
-  scene: RoomId;
+  scene: SceneId;
   isCommunity: boolean;
+  mmoService: MachineInterpreter;
 }
 
-export const PhaserComponent: React.FC<Props> = ({ scene, isCommunity }) => {
+export const PhaserComponent: React.FC<Props> = ({
+  scene,
+  isCommunity,
+  mmoService,
+}) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
+  const [messages, setMessages] = useState<Message[]>([]);
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
 
   const game = useRef<Game>();
-  const roomService = useInterpret(roomMachine, {
-    context: {
-      jwt: authState.context.user.rawToken,
-      farmId: authState.context.user.farmId,
-      bumpkin: gameState.context.state.bumpkin,
-      roomId: scene,
-    },
-  }) as unknown as MachineInterpreter;
 
-  const roomState = useSelector(roomService, _roomState);
-  const messages = JSON.parse(useSelector(roomService, _messages));
+  const mmoState = useSelector(mmoService, _roomState);
 
   const scenes = isCommunity
     ? [CommunityScene]
@@ -145,15 +124,40 @@ export const PhaserComponent: React.FC<Props> = ({ scene, isCommunity }) => {
       parent: "game-content",
     });
 
-    game.current.registry.set("roomService", roomService);
+    game.current.registry.set("mmoService", mmoService);
     game.current.registry.set("gameService", gameService);
     game.current.registry.set("initialScene", scene);
     gameService.onEvent((e) => {
       if (e.type === "bumpkin.equipped") {
-        roomService.send("CHANGE_CLOTHING", {
+        mmoService.state.context.server?.send(0, {
           clothing: (e as EquipBumpkinAction).equipment,
         });
       }
+    });
+
+    mmoService.state.context.server?.state.messages.onChange(() => {
+      console.log("on message change");
+      // Load active scene in Phaser, otherwise fallback to route
+      const currentScene =
+        game.current?.scene.getScenes(true)[0]?.scene.key ?? scene;
+
+      console.log({
+        currentScene,
+        messages: mmoService.state.context.server?.state.messages,
+      });
+      const sceneMessages =
+        mmoService.state.context.server?.state.messages.filter(
+          (m) => m.sceneId === currentScene
+        ) as Message[];
+
+      setMessages(
+        sceneMessages.map((m) => ({
+          farmId: m.farmId ?? 0,
+          text: m.text,
+          sessionId: m.sessionId,
+          sceneId: m.sceneId,
+        })) ?? []
+      );
     });
 
     return () => {
@@ -211,10 +215,11 @@ export const PhaserComponent: React.FC<Props> = ({ scene, isCommunity }) => {
   return (
     <div>
       <div id="game-content" ref={ref} />
-      <img id="imageTest" />
       <ChatUI
         onMessage={(m) => {
-          roomService.send("SEND_CHAT_MESSAGE", { text: m.text ?? "?" });
+          mmoService.state.context.server?.send(0, {
+            text: m.text ?? "?",
+          });
           resumeInput(); // Focus on game again
         }}
         onChatStarted={() => {
@@ -233,7 +238,7 @@ export const PhaserComponent: React.FC<Props> = ({ scene, isCommunity }) => {
         onOpen={pauseInput}
       />
       <Modal
-        show={roomState === "loading" || roomState === "initialising"}
+        show={mmoState === "loading" || mmoState === "initialising"}
         centered
       >
         <Panel>
@@ -241,20 +246,20 @@ export const PhaserComponent: React.FC<Props> = ({ scene, isCommunity }) => {
         </Panel>
       </Modal>
 
-      <Modal show={roomState === "introduction"} centered>
-        <WorldIntroduction roomService={roomService} />
+      <Modal show={mmoState === "introduction"} centered>
+        <WorldIntroduction onClose={() => mmoService.send("CONTINUE")} />
       </Modal>
 
-      <Modal show={roomState === "joinRoom"} centered>
+      <Modal show={mmoState === "joinRoom"} centered>
         <Panel>
           <p className="loading">Loading</p>
         </Panel>
       </Modal>
 
-      {roomState === "error" && (
+      {mmoState === "error" && (
         <InnerPanel
-          className="fixed bottom-2 left-2 flex items-center cursor-pointer"
-          onClick={() => roomService.send("RETRY")}
+          className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer"
+          onClick={() => mmoService.send("RETRY")}
         >
           <img src={SUNNYSIDE.icons.sad} className="h-4 mr-1" />
           <div className="mb-0.5">

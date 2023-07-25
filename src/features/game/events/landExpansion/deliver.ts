@@ -1,8 +1,16 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { CAKES, getKeys } from "features/game/types/craftables";
-import { Bumpkin, GameState, Order } from "features/game/types/game";
+import {
+  Bumpkin,
+  GameState,
+  Inventory,
+  NPCData,
+  Order,
+} from "features/game/types/game";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { hasFeatureAccess } from "lib/flags";
+import { NPCName } from "lib/npcs";
 import cloneDeep from "lodash.clonedeep";
 
 export type DeliverOrderAction = {
@@ -15,20 +23,65 @@ type Options = {
   action: DeliverOrderAction;
 };
 
-export function getDeliverySlots(game: GameState) {
-  if (game.inventory["Basic Land"]?.gte(14)) {
+export function getTotalSlots(inventory: Inventory) {
+  // If feature access then return the total number of slots from both delivery and quest
+  // else just delivery
+
+  if (hasFeatureAccess(inventory, "NEW_DELIVERIES")) {
+    return getDeliverySlots(inventory) + getQuestSlots(inventory);
+  }
+
+  return getDeliverySlots(inventory);
+}
+
+export function getDeliverySlots(inventory: Inventory) {
+  if (inventory["Basic Land"]?.gte(12)) {
     return 6;
   }
 
-  if (game.inventory["Basic Land"]?.gte(8)) {
+  if (inventory["Basic Land"]?.gte(8)) {
     return 5;
   }
 
-  if (game.inventory["Basic Land"]?.gte(5)) {
+  if (inventory["Basic Land"]?.gte(5)) {
     return 4;
   }
 
   return 3;
+}
+
+export function getQuestSlots(inventory: Inventory) {
+  if (inventory["Basic Land"]?.gte(14)) {
+    return 5;
+  }
+
+  if (inventory["Basic Land"]?.gte(12)) {
+    return 4;
+  }
+
+  if (inventory["Basic Land"]?.gte(8)) {
+    return 3;
+  }
+
+  if (inventory["Basic Land"]?.gte(5)) {
+    return 2;
+  }
+
+  return 1;
+}
+
+export type QuestNPCName =
+  | "pumpkin' pete"
+  | "bert"
+  | "raven"
+  | "timmy"
+  | "tywin"
+  | "cornwell";
+
+const QUEST_NPC_NAMES = ["pumpkin' pete", "raven", "bert", "timmy", "tywin"];
+
+export function isOfQuestNPCType(value: string): value is QuestNPCName {
+  return (QUEST_NPC_NAMES as string[]).includes(value);
 }
 
 export function populateOrders(
@@ -36,7 +89,7 @@ export function populateOrders(
   createdAt: number = Date.now()
 ) {
   const orders = game.delivery.orders;
-  const slots = getDeliverySlots(game);
+  const slots = getTotalSlots(game.inventory);
 
   while (orders.length < slots) {
     const upcomingOrderTimes = game.delivery.orders.map(
@@ -47,7 +100,8 @@ export function populateOrders(
     // Orders are generated on backend - use this just to show the next readyAt
     const fakeOrder: Order = {
       createdAt: Date.now(),
-      readyAt: baseTime + (24 / getDeliverySlots(game)) * 60 * 60 * 1000,
+      readyAt:
+        baseTime + (24 / getDeliverySlots(game.inventory)) * 60 * 60 * 1000,
       from: "betty",
       id: Date.now().toString(),
       items: {},
@@ -103,14 +157,25 @@ export function deliverOrder({ state, action }: Options): GameState {
   }
 
   getKeys(order.items).forEach((name) => {
-    const count = game.inventory[name] || new Decimal(0);
-    const amount = order.items[name] || new Decimal(0);
+    if (name === "sfl") {
+      const balance = game.balance;
+      const amount = order.items[name] || new Decimal(0);
 
-    if (count.lessThan(amount)) {
-      throw new Error(`Insufficient ingredient: ${name}`);
+      if (balance.lessThan(amount)) {
+        throw new Error(`Insufficient ingredient: ${name}`);
+      }
+
+      game.balance = balance.sub(amount);
+    } else {
+      const count = game.inventory[name] || new Decimal(0);
+      const amount = order.items[name] || new Decimal(0);
+
+      if (count.lessThan(amount)) {
+        throw new Error(`Insufficient ingredient: ${name}`);
+      }
+
+      game.inventory[name] = count.sub(amount);
     }
-
-    game.inventory[name] = count.sub(amount);
   });
 
   if (order.reward.sfl) {
@@ -120,17 +185,26 @@ export function deliverOrder({ state, action }: Options): GameState {
     bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sfl);
   }
 
+  if (order.reward.tickets) {
+    const seasonalTicket = getSeasonalTicket();
+
+    const count = game.inventory[seasonalTicket] || new Decimal(0);
+    const amount = order.reward.tickets || new Decimal(0);
+
+    game.inventory[seasonalTicket] = count.add(amount);
+  }
+
   // Always give a seasonal ticket
-  const items = {
+  const rewardItems = {
     ...(order.reward.items ?? {}),
     [getSeasonalTicket()]: 5,
   };
 
-  if (items) {
-    getKeys(items).forEach((name) => {
+  if (rewardItems) {
+    getKeys(rewardItems).forEach((name) => {
       const previousAmount = game.inventory[name] || new Decimal(0);
 
-      game.inventory[name] = previousAmount.add(items[name] || 0);
+      game.inventory[name] = previousAmount.add(rewardItems[name] || 0);
     });
   }
 
@@ -139,6 +213,20 @@ export function deliverOrder({ state, action }: Options): GameState {
   );
 
   game.delivery.fulfilledCount += 1;
+
+  // TODO: REPLACE WITH SEASON START DATE WHEN BETA IS OVER
+  if (hasFeatureAccess(game.inventory, "NEW_DELIVERIES")) {
+    const npcs = game.npcs ?? ({} as Partial<Record<NPCName, NPCData>>);
+    const npc = npcs[order.from] ?? ({} as NPCData);
+    const completedDeliveries = npcs[order.from]?.deliveryCount ?? 0;
+
+    npc.deliveryCount = completedDeliveries + 1;
+
+    game.npcs = {
+      ...npcs,
+      [order.from]: npc,
+    };
+  }
 
   // bumpkin.activity = trackActivity(`${order.from} Delivered`, 1);
 

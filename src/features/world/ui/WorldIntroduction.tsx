@@ -1,19 +1,18 @@
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React from "react";
-import { MachineInterpreter } from "../roomMachine";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
-  roomService: MachineInterpreter;
+  onClose: () => void;
 }
 
-export const WorldIntroduction: React.FC<Props> = ({ roomService }) => {
+export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel
-      bumpkinParts={NPC_WEARABLES["pumpkin'pete"]}
-      onClose={() => roomService.send("CONTINUE")}
+      bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
+      onClose={onClose}
     >
       <div className="p-2">
         <p className="text-sm mb-2">
@@ -60,7 +59,7 @@ export const WorldIntroduction: React.FC<Props> = ({ roomService }) => {
           </p>
         </div>
       </div>
-      <Button onClick={() => roomService.send("CONTINUE")}>Continue</Button>
+      <Button onClick={onClose}>Continue</Button>
       <div className="w-full flex justify-center">
         <a
           href="https://docs.sunflower-land.com/support/terms-of-service"

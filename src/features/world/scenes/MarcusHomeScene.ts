@@ -1,13 +1,13 @@
 import marcusHomeJSON from "assets/map/marcus_home.json";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { RoomId } from "../roomMachine";
+import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
 const BUMPKINS: NPCBumpkin[] = [];
 
 export class MarcusHomeScene extends BaseScene {
-  roomId: RoomId = "marcus_home";
+  sceneId: SceneId = "marcus_home";
 
   constructor() {
     super({
