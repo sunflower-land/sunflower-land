@@ -15,7 +15,6 @@ export type NPCName =
   | "adam"
   | "buttons"
   | "timmy"
-  | "lily"
   | "misty marvel"
   | "igor"
   | "hammerin' harry"
@@ -179,16 +178,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Yellow Boots",
     tool: "Goblin Puppet",
   },
-  // Curious young girl - loves goblins
-  lily: {
-    body: "Light Brown Farmer Potion",
-    background: "Cemetery Background",
-    hair: "Brown Long Hair",
-    shirt: "Striped Yellow Shirt",
-    pants: "Farmer Overalls",
-    shoes: "Yellow Boots",
-    tool: "Bumpkin Puppet",
-  },
   // Auctioneer who collects rare items and sells them off
   "hammerin' harry": {
     body: "Beige Farmer Potion",
@@ -234,6 +223,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     body: "Light Brown Farmer Potion",
     background: "Farm Background",
     hair: "Explorer Hair",
+    hat: "Pumpkin Hat",
     shirt: "Yellow Farmer Shirt",
     pants: "Lumberjack Overalls",
     shoes: "Black Farmer Boots",
@@ -243,10 +233,10 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   bert: {
     body: "Beige Farmer Potion",
     background: "Farm Background",
-    hair: "Buzz Cut",
-    shirt: "Mushroom Sweater",
-    pants: "Mushroom Pants",
-    shoes: "Black Farmer Boots",
+    hair: "Greyed Glory",
+    shirt: "Tattered Jacket",
+    pants: "Tattered Slacks",
+    shoes: "Old Shoes",
     tool: "Farmer Pitchfork",
   },
   // Announces news
@@ -274,11 +264,11 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   frankie: {
     body: "Dark Brown Farmer Potion",
     background: "Farm Background",
-    hair: "Luscious Hair",
-    shirt: "Pineapple Shirt",
-    pants: "Farmer Pants",
+    hair: "Ash Ponytail",
+    shirt: "Club Polo",
+    pants: "Brown Suspenders",
     shoes: "Black Farmer Boots",
-    tool: "Farmer Pitchfork",
+    tool: "Hammer",
   },
   // Chunky Bumpin
   gordy: {
@@ -300,23 +290,24 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     shoes: "Brown Boots",
   },
-  // Goth - TODO
   raven: {
-    body: "Light Brown Farmer Potion",
-    hair: "Blacksmith Hair",
-    pants: "Lumberjack Overalls",
-    shirt: "Blue Farmer Shirt",
-    tool: "Hammer",
+    body: "Pale Potion",
+    hair: "Goth Hair",
+    dress: "Gothic Twilight",
+    tool: "Dawn Lamp",
     background: "Farm Background",
     shoes: "Brown Boots",
+    wings: "Bat Wings",
+    hat: "Victorian Hat",
   },
   // Clothes shop stylist
   stella: {
     body: "Beige Farmer Potion",
-    hair: "Blondie",
-    pants: "Maiden Skirt",
-    shirt: "Maiden Top",
-    tool: "Hammer",
+    hair: "Pink Ponytail",
+    // hat: "Boater Hat",
+    pants: "Crimson Skirt",
+    shirt: "Chic Gala Blouse",
+    tool: "Merch Coffee Mug",
     background: "Farm Background",
     shoes: "Brown Boots",
   },
@@ -343,10 +334,12 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   cornwell: {
     body: "Beige Farmer Potion",
-    hair: "Sun Spots",
-    pants: "Blue Suspenders",
-    shirt: "Yellow Farmer Shirt",
-    tool: "Farmer Pitchfork",
+    hair: "Wise Hair",
+    beard: "Wise Beard",
+    pants: "Wise Slacks",
+    shirt: "Wise Robes",
+    tool: "Wise Staff",
+    secondaryTool: "Wise Book",
     background: "Farm Background",
     shoes: "Brown Boots",
   },

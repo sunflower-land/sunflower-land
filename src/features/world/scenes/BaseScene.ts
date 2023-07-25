@@ -34,6 +34,7 @@ export type NPCBumpkin = {
   x: number;
   y: number;
   npc: NPCName;
+  direction?: "left" | "rigth";
   clothing?: BumpkinParts;
   onClick?: () => void;
 };
@@ -759,6 +760,7 @@ export abstract class BaseScene extends Phaser.Scene {
         clothing: bumpkin.clothing ?? NPC_WEARABLES[bumpkin.npc],
         onClick: bumpkin.onClick ?? defaultClick,
         name: bumpkin.npc,
+        direction: bumpkin.direction ?? "right",
       });
 
       container.setDepth(bumpkin.y);

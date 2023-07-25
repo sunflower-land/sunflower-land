@@ -14,6 +14,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     x: 815,
     y: 213,
     npc: "frankie",
+    direction: "left",
   },
   {
     x: 312,
@@ -26,9 +27,10 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "timmy",
   },
   {
-    x: 313,
-    y: 71,
+    x: 307,
+    y: 72,
     npc: "raven",
+    direction: "left",
   },
   {
     x: 364,
@@ -44,6 +46,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     x: 810,
     y: 380,
     npc: "grimtooth",
+    direction: "left",
   },
   {
     x: 120,
@@ -59,12 +62,13 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     x: 795,
     y: 118,
     npc: "bert",
+    direction: "left",
   },
-  {
-    x: 513,
-    y: 288,
-    npc: "birdie",
-  },
+  // {
+  //   x: 513,
+  //   y: 288,
+  //   npc: "birdie",
+  // },
   {
     x: 33,
     y: 321,
@@ -74,16 +78,12 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     x: 840,
     y: 291,
     npc: "grubnuk",
+    direction: "left",
   },
   {
-    x: 800,
-    y: 291,
+    x: 90,
+    y: 70,
     npc: "tywin",
-  },
-  {
-    x: 820,
-    y: 291,
-    npc: "raven",
   },
 ];
 export class PlazaScene extends BaseScene {

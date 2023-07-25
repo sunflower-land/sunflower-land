@@ -20,6 +20,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private idleAnimationKey: string | undefined;
   private walkingAnimationKey: string | undefined;
 
+  private direction: "left" | "right" = "right";
+
   constructor({
     scene,
     x,
@@ -27,6 +29,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     clothing,
     onClick,
     name,
+    direction,
   }: {
     scene: Phaser.Scene;
     x: number;
@@ -34,11 +37,12 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     clothing: BumpkinParts;
     onClick?: () => void;
     name?: string;
+    direction?: "left" | "right";
   }) {
     super(scene, x, y);
     this.scene = scene;
     this.clothing = clothing;
-
+    this.direction = direction ?? "right";
     scene.physics.add.existing(this);
 
     this.silhoutte = scene.add.sprite(0, 0, "silhouette");
@@ -86,6 +90,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.add(idle);
       this.sprite = idle;
 
+      if (this.direction === "left") {
+        this.faceLeft();
+      }
+
       this.sprite.play(this.idleAnimationKey, true);
 
       this.silhoutte?.destroy();
@@ -112,6 +120,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           .setOrigin(0.5);
         this.add(idle);
         this.sprite = idle;
+
+        if (this.direction === "left") {
+          this.faceLeft();
+        }
 
         scene.anims.create({
           key: this.idleAnimationKey,
@@ -192,6 +204,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   public faceLeft() {
     this.sprite?.setScale(-1, 1);
 
+    console.log("Face left");
     if (this.speech) {
       this.speech.changeDirection("left");
     }
