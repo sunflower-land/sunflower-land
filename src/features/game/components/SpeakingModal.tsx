@@ -76,7 +76,7 @@ export const SpeakingModal: React.FC<Props> = ({
     >
       <div
         className="p-1 flex flex-col cursor-pointer"
-        style={{ minHeight: "100px" }}
+        style={{ minHeight: `${lines * 25}px` }}
         onClick={handleClick}
       >
         <div className="flex-1 pb-2">
