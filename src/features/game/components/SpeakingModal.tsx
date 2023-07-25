@@ -66,6 +66,9 @@ export const SpeakingModal: React.FC<Props> = ({
     return () => window.removeEventListener("keydown", handleKeyPressed);
   }, [handleClick]);
 
+  const maxLength = Math.max(...message.map((m) => m.text.length));
+  const lines = maxLength / 30;
+
   const showActions =
     (currentTextEnded || forceShowFullMessage) &&
     message[currentMessage].actions;
@@ -164,7 +167,7 @@ export const SpeakingText: React.FC<Pick<Props, "message" | "onClose">> = ({
     <>
       <div
         className="p-1 flex flex-col cursor-pointer"
-        style={{ minHeight: "100px" }}
+        style={{ minHeight: `${lines * 25}px` }}
         onClick={handleClick}
       >
         <div className="flex-1 pb-2">
