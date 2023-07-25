@@ -136,11 +136,21 @@ export const PhaserComponent: React.FC<Props> = ({
     });
 
     mmoService.state.context.server?.state.messages.onChange(() => {
+      // Load active scene in Phaser, otherwise fallback to route
+      const currentScene =
+        game.current?.scene.getScenes(true)[0]?.scene.key ?? scene;
+
+      const sceneMessages =
+        mmoService.state.context.server?.state.messages.filter(
+          (m) => m.sceneId === currentScene
+        ) as Message[];
+
       setMessages(
-        mmoService.state.context.server?.state.messages.map((m) => ({
+        sceneMessages.map((m) => ({
           farmId: m.farmId ?? 0,
           text: m.text,
           sessionId: m.sessionId,
+          sceneId: m.sceneId,
         })) ?? []
       );
     });

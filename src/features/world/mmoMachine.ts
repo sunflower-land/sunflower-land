@@ -42,8 +42,8 @@ const SERVERS: Server[] = [
   { name: "Bliss", id: "sunflorea_bliss", population: 0 },
   { name: "Dream", id: "sunflorea_dream", population: 0 },
   { name: "Oasis", id: "sunflorea_oasis", population: 0 },
-  { name: "Haven", id: "sunflorea_haven", population: 0 },
-  { name: "Magic", id: "sunflorea_magic", population: 0 },
+  // { name: "Haven", id: "sunflorea_haven", population: 0 },
+  // { name: "Magic", id: "sunflorea_magic", population: 0 },
 ];
 
 export interface MMOContext {
@@ -164,6 +164,8 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
       invoke: {
         id: "joining",
         src: (context, event) => async () => {
+          await new Promise((r) => setTimeout(r, 1000));
+
           // Join server based on what was selected
           const server = await context.client?.joinOrCreate<PlazaRoomState>(
             context.serverId,

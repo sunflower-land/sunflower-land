@@ -6,8 +6,14 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { ChatText } from "./ChatText";
 import { Label } from "components/ui/Label";
+import { SceneId } from "features/world/mmoMachine";
 
-export type Message = { farmId: number; sessionId: string; text: string };
+export type Message = {
+  farmId: number;
+  sessionId: string;
+  text: string;
+  sceneId: SceneId;
+};
 interface Props {
   messages: Message[];
   onMessage: (content: { text?: string; reaction?: ReactionName }) => void;
