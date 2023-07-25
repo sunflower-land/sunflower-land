@@ -16,6 +16,7 @@ import {
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import Decimal from "decimal.js-light";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const StylistWearables: React.FC = () => {
   const [selected, setSelected] = useState<BumpkinItem>("Red Farmer Shirt");
@@ -75,9 +76,16 @@ export const StylistWearables: React.FC = () => {
               />
             ))}
           </div>
-          <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>
-            Craft
-          </Button>
+          {state.wardrobe[selected] ? (
+            <div className="flex justify-center items-center">
+              <span className="text-xs">Already crafted</span>
+              <img src={SUNNYSIDE.icons.confirm} className="h-4 ml-1" />
+            </div>
+          ) : (
+            <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>
+              Craft
+            </Button>
+          )}
         </div>
       }
       content={
