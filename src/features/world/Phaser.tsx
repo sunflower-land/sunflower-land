@@ -178,9 +178,9 @@ export const PhaserComponent: React.FC<Props> = ({
         messages={messages ?? []}
       />
       <NPCModals
-        onNavigate={(roomId: RoomId) => {
-          game.current?.scene.start(roomId);
-          navigate(`/world/${roomId}`);
+        onNavigate={(sceneId: SceneId) => {
+          game.current?.scene.start(sceneId);
+          navigate(`/world/${sceneId}`);
         }}
       />
       <CommunityModals />

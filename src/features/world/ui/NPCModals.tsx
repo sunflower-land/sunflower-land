@@ -14,6 +14,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { DeliveryPanelContent } from "./deliveries/DeliveryPanelContent";
 import { Stylist } from "./stylist/Stylist";
 import { Button } from "components/ui/Button";
+import { SceneId } from "../mmoMachine";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -32,7 +33,7 @@ class NpcModalManager {
 export const npcModalManager = new NpcModalManager();
 
 interface Props {
-  onNavigate: (name: string) => void;
+  onNavigate: (sceneId: SceneId) => void;
 }
 export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
   const [npc, setNpc] = useState<NPCName>();
@@ -168,7 +169,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
               <p className="mb-2">Hey wanna maze?</p>
               <Button
                 onClick={() => {
-                  onNavigate("corn_example");
+                  onNavigate("corn_maze");
                   closeModal();
                 }}
               >
