@@ -651,7 +651,11 @@ export abstract class BaseScene extends Phaser.Scene {
 
     // Destroy any dereferenced players
     Object.keys(this.playerEntities).forEach((sessionId) => {
-      if (!server.state.players.get(sessionId)) this.destroyPlayer(sessionId);
+      if (
+        !server.state.players.get(sessionId) ||
+        server.state.players.get(sessionId)?.sceneId !== this.scene.key
+      )
+        this.destroyPlayer(sessionId);
       if (!this.playerEntities[sessionId].active) this.destroyPlayer(sessionId);
     });
 
@@ -659,6 +663,8 @@ export abstract class BaseScene extends Phaser.Scene {
     server.state.players.forEach((player, sessionId) => {
       // Skip the current player
       if (sessionId === server.sessionId) return;
+
+      if (player.sceneId !== this.scene.key) return;
 
       if (!this.playerEntities[sessionId]) {
         this.playerEntities[sessionId] = this.createPlayer({
