@@ -57,7 +57,7 @@ interface Props {
 }
 
 export const Tree: React.FC<Props> = ({ id }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, shortcutItem } = useContext(Context);
 
   const [touchCount, setTouchCount] = useState(0);
   const [reward, setReward] = useState<Reward>();
@@ -109,6 +109,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
     if (!hasTool) return;
 
     setTouchCount((count) => count + 1);
+    shortcutItem(tool);
 
     // need to hit enough times to collect resource
     if (touchCount < HITS - 1) return;

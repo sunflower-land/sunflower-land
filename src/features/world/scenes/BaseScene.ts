@@ -506,6 +506,12 @@ export abstract class BaseScene extends Phaser.Scene {
         this.customColliders as Phaser.GameObjects.Group,
         // Read custom Tiled Properties
         async (obj1, obj2) => {
+          const id = (obj2 as any).data?.list?.id;
+          if (id) {
+            interactableModalManager.open(id);
+            return;
+          }
+
           // Change scenes
           const warpTo = (obj2 as any).data?.list?.warp;
           if (warpTo) {

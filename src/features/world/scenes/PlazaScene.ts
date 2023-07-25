@@ -11,6 +11,16 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "pumpkin' pete",
   },
   {
+    x: 815,
+    y: 213,
+    npc: "frankie",
+  },
+  {
+    x: 312,
+    y: 245,
+    npc: "stella",
+  },
+  {
     x: 625,
     y: 110,
     npc: "timmy",
@@ -18,11 +28,11 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
     x: 313,
     y: 71,
-    npc: "lily",
+    npc: "raven",
   },
   {
-    x: 380,
-    y: 130,
+    x: 364,
+    y: 120,
     npc: "blacksmith",
   },
   {
@@ -93,6 +103,16 @@ export class PlazaScene extends BaseScene {
       frameHeight: 18,
     });
 
+    this.load.spritesheet("plaza_bud_2", "world/plaza_bud_2.png", {
+      frameWidth: 15,
+      frameHeight: 18,
+    });
+
+    this.load.spritesheet("plaza_bud_3", "world/plaza_bud_3.png", {
+      frameWidth: 15,
+      frameHeight: 18,
+    });
+
     super.preload();
   }
 
@@ -110,15 +130,15 @@ export class PlazaScene extends BaseScene {
     auctionLabel.setDepth(10000000);
     this.add.existing(auctionLabel);
 
-    const clotheShopLabel = new Label(this, "STYLIST", "brown");
-    clotheShopLabel.setPosition(256, 264);
-    clotheShopLabel.setDepth(10000000);
-    this.add.existing(clotheShopLabel);
+    // const clotheShopLabel = new Label(this, "STYLIST", "brown");
+    // clotheShopLabel.setPosition(256, 264);
+    // clotheShopLabel.setDepth(10000000);
+    // this.add.existing(clotheShopLabel);
 
-    const decorationShopLabel = new Label(this, "DECORATIONS", "brown");
-    decorationShopLabel.setPosition(797, 252);
-    decorationShopLabel.setDepth(10000000);
-    this.add.existing(decorationShopLabel);
+    // const decorationShopLabel = new Label(this, "DECORATIONS", "brown");
+    // decorationShopLabel.setPosition(802, 229);
+    // decorationShopLabel.setDepth(10000000);
+    // this.add.existing(decorationShopLabel);
 
     // Plaza Bud
     const bud = this.add.sprite(500, 420, "plaza_bud");
@@ -132,5 +152,31 @@ export class PlazaScene extends BaseScene {
       frameRate: 10,
     });
     bud.play("plaza_bud_animation", true);
+
+    // Plaza Bud
+    const bud2 = this.add.sprite(601, 200, "plaza_bud_2");
+    this.anims.create({
+      key: "plaza_bud_animation_2",
+      frames: this.anims.generateFrameNumbers("plaza_bud_2", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    bud2.play("plaza_bud_animation_2", true);
+    bud2.setDepth(100000000000);
+
+    const bud3 = this.add.sprite(206, 266, "plaza_bud_3");
+    this.anims.create({
+      key: "plaza_bud_animation_3",
+      frames: this.anims.generateFrameNumbers("plaza_bud_3", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    bud3.play("plaza_bud_animation_3", true);
   }
 }
