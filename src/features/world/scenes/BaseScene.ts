@@ -316,6 +316,10 @@ export abstract class BaseScene extends Phaser.Scene {
         return;
       }
 
+      if (message.sceneId !== this.scene.key) {
+        return;
+      }
+
       if (this.playerEntities[message.sessionId]) {
         this.playerEntities[message.sessionId].speak(message.text);
       } else if (message.sessionId === server.sessionId) {
@@ -465,6 +469,7 @@ export abstract class BaseScene extends Phaser.Scene {
           // Change scenes
           const warpTo = (obj2 as any).data?.list?.warp;
           if (warpTo) {
+            this.currentPlayer?.stopSpeaking();
             this.cameras.main.fadeOut(1000);
 
             this.cameras.main.on(

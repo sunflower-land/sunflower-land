@@ -219,15 +219,22 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
    * Use a debouncer to allow players new messages not to be destroyed by old timeouts
    */
   destroySpeechBubble = debounce(() => {
+    this.stopSpeaking();
+  }, 5000);
+
+  public stopSpeaking() {
     this.speech?.destroy();
     this.speech = undefined;
-  }, 5000);
+
+    this.destroySpeechBubble.cancel();
+  }
 
   public speak(text: string) {
     if (this.speech) {
       this.speech.destroy();
     }
 
+    console.log("SPEAK IT!", text);
     this.speech = new SpeechBubble(
       this.scene,
       text,
