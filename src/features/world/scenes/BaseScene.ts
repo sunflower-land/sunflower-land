@@ -30,7 +30,7 @@ export type NPCBumpkin = {
   x: number;
   y: number;
   npc: NPCName;
-  direction?: "left" | "rigth";
+  direction?: "left" | "right";
   clothing?: BumpkinParts;
   onClick?: () => void;
 };
