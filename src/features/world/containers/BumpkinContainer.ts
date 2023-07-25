@@ -194,6 +194,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public faceRight() {
+    if (this.direction === "right") return;
+    this.direction = "right";
     this.sprite?.setScale(1, 1);
 
     if (this.speech) {
@@ -203,9 +205,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public faceLeft() {
+    if (this.direction === "left") return;
+
+    this.direction = "left";
     this.sprite?.setScale(-1, 1);
 
-    console.log("Face left");
     if (this.speech) {
       this.speech.changeDirection("left");
     }
