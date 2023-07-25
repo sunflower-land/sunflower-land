@@ -109,8 +109,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
     if (!hasTool) return;
 
     setTouchCount((count) => count + 1);
-    if (!isCollectibleBuilt("Foreman Beaver", collectibles))
-      shortcutItem(tool);
+    if (!isCollectibleBuilt("Foreman Beaver", collectibles)) shortcutItem(tool);
 
     // need to hit enough times to collect resource
     if (touchCount < HITS - 1) return;
