@@ -12,7 +12,7 @@ import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 import { HeliosBlacksmithItems } from "features/helios/components/blacksmith/component/HeliosBlacksmithItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { DeliveryPanelContent } from "./deliveries/DeliveryPanelContent";
-import { StylistWearables } from "./stylist/StylistWearables";
+import { Stylist } from "./stylist/Stylist";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -64,15 +64,7 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
         {npc === "bella" && <Bella onClose={closeModal} />}
         {npc === "wanderleaf" && <WanderLeaf onClose={closeModal} />}
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
-        {npc === "stella" && (
-          <CloseButtonPanel
-            bumpkinParts={NPC_WEARABLES.stella}
-            tabs={[{ icon: SUNNYSIDE.icons.heart, name: "Wearables" }]}
-            onClose={onClose}
-          >
-            <StylistWearables />
-          </CloseButtonPanel>
-        )}
+        {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && (
           <CloseButtonPanel
             onClose={closeModal}

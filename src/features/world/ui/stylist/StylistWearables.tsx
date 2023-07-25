@@ -10,7 +10,9 @@ import { Button } from "components/ui/Button";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import {
+  LIMITED_WEARABLES,
   STYLIST_WEARABLES,
+  ShopWearables,
   StylistWearable,
 } from "features/game/types/stylist";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
@@ -18,9 +20,12 @@ import Decimal from "decimal.js-light";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-export const StylistWearables: React.FC = () => {
-  const [selected, setSelected] = useState<BumpkinItem>("Red Farmer Shirt");
-  const { gameService, shortcutItem } = useContext(Context);
+interface Props {
+  wearables: ShopWearables;
+}
+export const StylistWearables: React.FC<Props> = ({ wearables }) => {
+  const [selected, setSelected] = useState<BumpkinItem>(getKeys(wearables)[0]);
+  const { gameService } = useContext(Context);
   const [
     {
       context: { state },
@@ -40,13 +45,37 @@ export const StylistWearables: React.FC = () => {
 
   const lessIngredients = () =>
     getKeys(wearable.ingredients).some((name) =>
-      wearable.ingredients[name]?.greaterThan(inventory[name] || 0)
+      (inventory[name] || new Decimal(0))?.lt(wearable.ingredients[name] ?? 0)
     );
 
   const buy = () => {
     gameService.send("wearable.bought", {
       name: selected,
     });
+  };
+
+  const Action = () => {
+    if (selected in LIMITED_WEARABLES) {
+      return (
+        <div className="flex justify-center">
+          <span className="text-center text-xs">Coming soon...</span>
+        </div>
+      );
+    }
+
+    if (state.wardrobe[selected])
+      return (
+        <div className="flex justify-center items-center">
+          <span className="text-xs">Already crafted</span>
+          <img src={SUNNYSIDE.icons.confirm} className="h-4 ml-1" />
+        </div>
+      );
+
+    return (
+      <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>
+        Craft
+      </Button>
+    );
   };
 
   return (
@@ -71,26 +100,17 @@ export const StylistWearables: React.FC = () => {
                 item={ingredientName}
                 balance={state.inventory[ingredientName] ?? new Decimal(0)}
                 requirement={
-                  (wearable.ingredients ?? {})[ingredientName] ?? new Decimal(0)
+                  new Decimal(wearable.ingredients?.[ingredientName] ?? 0)
                 }
               />
             ))}
           </div>
-          {state.wardrobe[selected] ? (
-            <div className="flex justify-center items-center">
-              <span className="text-xs">Already crafted</span>
-              <img src={SUNNYSIDE.icons.confirm} className="h-4 ml-1" />
-            </div>
-          ) : (
-            <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>
-              Craft
-            </Button>
-          )}
+          <Action />
         </div>
       }
       content={
         <>
-          {getKeys(STYLIST_WEARABLES).map((item) => (
+          {getKeys(wearables).map((item) => (
             <Box
               isSelected={selected === item}
               key={item}
