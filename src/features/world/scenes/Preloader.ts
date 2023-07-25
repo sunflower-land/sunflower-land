@@ -2,17 +2,17 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { createErrorLogger } from "lib/errorLogger";
-import { MachineInterpreter } from "../roomMachine";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
 
 export abstract class Preloader extends Phaser.Scene {
-  public get roomService() {
-    return this.registry.get("roomService") as MachineInterpreter;
+  public get gameService() {
+    return this.registry.get("gameService") as MachineInterpreter;
   }
 
   preload() {
     const errorLogger = createErrorLogger(
       "phaser_preloader_scene",
-      this.roomService.state.context.farmId
+      Number(this.gameService.state.context.state.id)
     );
 
     this.load.on(

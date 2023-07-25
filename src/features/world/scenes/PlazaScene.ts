@@ -1,6 +1,6 @@
 import mapJson from "assets/map/plaza.json";
 
-import { RoomId } from "../roomMachine";
+import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 
@@ -87,7 +87,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   },
 ];
 export class PlazaScene extends BaseScene {
-  roomId: RoomId = "plaza";
+  sceneId: SceneId = "plaza";
 
   constructor() {
     super({

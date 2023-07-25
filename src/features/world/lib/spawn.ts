@@ -1,9 +1,9 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { RoomId } from "../roomMachine";
+import { SceneId } from "../mmoMachine";
 
-type SpawnLocation = Record<
-  RoomId,
-  { default: Coordinates } & Partial<Record<RoomId, Coordinates>>
+export type SpawnLocation = Record<
+  SceneId,
+  { default: Coordinates } & Partial<Record<SceneId, Coordinates>>
 >;
 
 export const SPAWNS: SpawnLocation = {

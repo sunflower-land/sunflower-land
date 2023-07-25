@@ -1,9 +1,10 @@
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { SpeechBubble } from "./SpeechBubble";
 import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
-import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
+import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Label } from "./Label";
 import debounce from "lodash.debounce";
+import { Player } from "../types/Room";
 
 export class BumpkinContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
@@ -11,7 +12,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
   public speech: SpeechBubble | undefined;
 
-  private clothing: BumpkinParts;
+  private clothing: Player["clothing"];
   private ready = false;
 
   // Animation Keys
@@ -34,7 +35,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     scene: Phaser.Scene;
     x: number;
     y: number;
-    clothing: BumpkinParts;
+    clothing: Player["clothing"];
     onClick?: () => void;
     name?: string;
     direction?: "left" | "right";
@@ -97,6 +98,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.sprite.play(this.idleAnimationKey, true);
 
       this.silhoutte?.destroy();
+
+      this.ready = true;
     } else {
       const idleLoader = scene.load.spritesheet(
         this.idleSpriteKey,
@@ -176,14 +179,12 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     scene.load.start();
   }
 
-  public changeClothing(clothing: BumpkinParts) {
-    if (tokenUriBuilder(clothing) === tokenUriBuilder(this.clothing)) {
-      return;
-    }
+  public changeClothing(clothing: Player["clothing"]) {
+    if (!this.ready) return;
+    if (this.clothing.updatedAt === clothing.updatedAt) return;
+    this.clothing.updatedAt = clothing.updatedAt;
 
-    if (!this.ready) {
-      return;
-    }
+    if (tokenUriBuilder(clothing) === tokenUriBuilder(this.clothing)) return;
 
     this.ready = false;
     this.sprite?.destroy();
