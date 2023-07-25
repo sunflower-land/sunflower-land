@@ -189,7 +189,9 @@ export const DeliveryPanelContent: React.FC<Props> = ({ npc, onClose }) => {
   const balance = useSelector(gameService, _balance);
   const bumpkin = useSelector(gameService, _bumpkin);
 
-  const orders = delivery.orders.filter((order) => order.from === npc);
+  const orders = delivery.orders.filter(
+    (order) => order.from === npc && Date.now() >= order.readyAt
+  );
   const dialogue = npcDialogues[npc] || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);
   const positive = useRandomItem(dialogue.positiveDelivery);
@@ -232,7 +234,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({ npc, onClose }) => {
     const state = gameService.send("order.delivered", { id: selectedOrderId });
 
     const remainingOrders = state.context.state.delivery.orders.filter(
-      (order) => order.from === npc
+      (order) => order.from === npc && Date.now() >= order.readyAt
     );
 
     if (!remainingOrders.length) {
