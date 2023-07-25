@@ -10,7 +10,7 @@ import { Success } from "features/game/components/Success";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
 import { Refreshing } from "features/auth/components/Refreshing";
 import { WorldHud } from "features/island/hud/WorldHud";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { SceneId } from "./mmoMachine";
 import { ToastProvider } from "features/game/toast/ToastProvider";
 import { ToastPanel } from "features/game/toast/ToastPanel";
@@ -22,6 +22,7 @@ import {
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Ocean } from "./ui/Ocean";
 import { PickServer } from "./ui/PickServer";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   isCommunity?: boolean;
@@ -79,7 +80,14 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const isJoined = useSelector(mmoService, _isJoined);
   const isKicked = useSelector(mmoService, _isKicked);
 
-  // Initiatilise Machine
+  const navigate = useNavigate();
+
+  if (
+    name === "plaza" &&
+    !hasFeatureAccess(gameState.context.state.inventory, "PUMPKIN_PLAZA")
+  ) {
+    navigate("/");
+  }
 
   // If state is x, y or z then return Travel Screen
   const isTraveling =
