@@ -6,17 +6,17 @@ import classNames from "classnames";
 import { TypingMessage } from "features/world/ui/TypingMessage";
 import { Button } from "components/ui/Button";
 
-export interface PanelTabs {
-  icon: string;
-  name: string;
-  unread?: boolean;
-}
+export type Message = {
+  text: string;
+  jsx?: JSX.Element;
+  actions?: { text: string; cb: () => void }[];
+};
 
 interface Props {
   onClose: () => void;
   bumpkinParts?: Partial<Equipped>;
   className?: string;
-  message: { text: string; actions?: { text: string; cb: () => void }[] }[];
+  message: Message[];
 }
 
 /**
@@ -35,6 +35,7 @@ export const SpeakingModal: React.FC<Props> = ({
   const handleClick = useCallback(() => {
     // Cannot accidentally click through last message
     if (currentTextEnded && currentMessage === message.length - 1) {
+      onClose();
       return;
     }
 
@@ -65,6 +66,9 @@ export const SpeakingModal: React.FC<Props> = ({
     return () => window.removeEventListener("keydown", handleKeyPressed);
   }, [handleClick]);
 
+  const maxLength = Math.max(...message.map((m) => m.text.length));
+  const lines = maxLength / 30;
+
   const showActions =
     (currentTextEnded || forceShowFullMessage) &&
     message[currentMessage].actions;
@@ -75,38 +79,39 @@ export const SpeakingModal: React.FC<Props> = ({
     >
       <div
         className="p-1 flex flex-col cursor-pointer"
-        style={{ minHeight: "100px" }}
+        style={{ minHeight: `${lines * 25}px` }}
         onClick={handleClick}
       >
-        <div className="flex-1  pb-2">
+        <div className="flex-1 pb-2">
           <TypingMessage
             message={message[currentMessage].text}
             key={currentMessage}
             onMessageEnd={() => setCurrentTextEnded(true)}
             forceShowFullMessage={forceShowFullMessage}
           />
-          {showActions && (
-            <div className="flex mt-2 justify-start ">
-              {message[currentMessage].actions?.map((action) => (
-                <Button
-                  key={action.text}
-                  className="w-auto px-4 mr-2"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    action.cb();
-                  }}
-                >
-                  {action.text}
-                </Button>
-              ))}
-            </div>
-          )}
+          {currentTextEnded && message[currentMessage].jsx}
         </div>
-        {currentMessage !== message.length - 1 && (
+        {!showActions && (
           <p className="text-xxs italic float-right">(Tap to continue)</p>
         )}
       </div>
+      {showActions && (
+        <div className="flex space-x-1">
+          {message[currentMessage].actions?.map((action) => (
+            <Button
+              key={action.text}
+              className="w-full"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                action.cb();
+              }}
+            >
+              {action.text}
+            </Button>
+          ))}
+        </div>
+      )}
     </Panel>
   );
 };
@@ -159,41 +164,42 @@ export const SpeakingText: React.FC<Pick<Props, "message" | "onClose">> = ({
     (currentTextEnded || forceShowFullMessage) &&
     message[currentMessage].actions;
   return (
-    <div
-      className="p-1 flex flex-col cursor-pointer"
-      onClick={handleClick}
-      style={{
-        minHeight: `${lines * 25}px`,
-      }}
-    >
-      <div className="flex-1  pb-2">
-        <TypingMessage
-          message={message[currentMessage].text}
-          key={currentMessage}
-          onMessageEnd={() => setCurrentTextEnded(true)}
-          forceShowFullMessage={forceShowFullMessage}
-        />
-        {showActions && (
-          <div className="flex mt-2 justify-start ">
-            {message[currentMessage].actions?.map((action) => (
-              <Button
-                key={action.text}
-                className="w-auto px-4 mr-2"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
-                  action.cb();
-                }}
-              >
-                {action.text}
-              </Button>
-            ))}
-          </div>
+    <>
+      <div
+        className="p-1 flex flex-col cursor-pointer"
+        style={{ minHeight: `${lines * 25}px` }}
+        onClick={handleClick}
+      >
+        <div className="flex-1 pb-2">
+          <TypingMessage
+            message={message[currentMessage].text}
+            key={currentMessage}
+            onMessageEnd={() => setCurrentTextEnded(true)}
+            forceShowFullMessage={forceShowFullMessage}
+          />
+          {currentTextEnded && message[currentMessage].jsx}
+        </div>
+        {!showActions && (
+          <p className="text-xxs italic float-right">(Tap to continue)</p>
         )}
       </div>
-      {!showActions && (
-        <p className="text-xxs italic float-right">(Tap to continue)</p>
+      {showActions && (
+        <div className="flex space-x-1">
+          {message[currentMessage].actions?.map((action) => (
+            <Button
+              key={action.text}
+              className="w-full"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                action.cb();
+              }}
+            >
+              {action.text}
+            </Button>
+          ))}
+        </div>
       )}
-    </div>
+    </>
   );
 };

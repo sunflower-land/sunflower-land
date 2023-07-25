@@ -21,6 +21,8 @@ import { useLocation } from "react-router-dom";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { createPortal } from "react-dom";
 import { HalveningCountdown } from "./components/HalveningCountdown";
+import { DeliveryButton } from "./components/deliveries/DeliveryButton";
+import { hasFeatureAccess } from "lib/flags";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -51,14 +53,11 @@ const HudComponent: React.FC<{
     gameService.send("DEPOSIT", args);
   };
 
-  const landId = gameState.context.state.id;
-
   const user = authService.state.context.user;
   const isFullUser = user.type === "FULL";
   const farmAddress = isFullUser ? user.farmAddress : undefined;
 
   const isDawnBreakerIsland = location.pathname.includes("dawn-breaker");
-  const isHelios = location.pathname.includes("helios");
 
   return (
     <>
@@ -138,9 +137,14 @@ const HudComponent: React.FC<{
             }
             isFullUser={isFullUser}
           />
-          {/* {landId && !isDawnBreakerIsland && !isHelios && (
-            <LandId landId={landId} />
-          )} */}
+          {hasFeatureAccess(
+            gameState.context.state.inventory,
+            "NEW_DELIVERIES"
+          ) && (
+            <div className="fixed z-50 bottom-0 left-0">
+              <DeliveryButton />
+            </div>
+          )}
           <HalveningCountdown />
           <div
             className="fixed z-50 flex flex-col justify-between"
