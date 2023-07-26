@@ -81,7 +81,6 @@ export const PhaserComponent: React.FC<Props> = ({
         ClothesShopScene,
         DecorationShopScene,
         MarcusHomeScene,
-        CornScene,
       ];
 
   useEffect(() => {
