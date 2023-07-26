@@ -678,6 +678,7 @@ export abstract class BaseScene extends Phaser.Scene {
           farmId: player.farmId,
           clothing: player.clothing,
           isCurrentPlayer: sessionId === server.sessionId,
+          npc: player.npc,
         });
       }
     });
