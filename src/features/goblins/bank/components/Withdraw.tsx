@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
@@ -10,8 +10,6 @@ import { WithdrawTokens } from "./WithdrawTokens";
 import { WithdrawItems } from "./WithdrawItems";
 
 import { Context } from "features/game/GoblinProvider";
-import { loadBanDetails } from "features/game/actions/bans";
-import { Jigger, JiggerStatus } from "features/game/components/Jigger";
 import { WithdrawWearables } from "./WithdrawWearables";
 import { WithdrawBumpkin } from "./WithdrawBumpkin";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -26,33 +24,10 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
   const [authState] = useActor(authService);
+
   const [page, setPage] = useState<
     "tokens" | "items" | "wearables" | "bumpkin"
   >();
-
-  const [jiggerState, setJiggerState] =
-    useState<{ url: string; status: JiggerStatus }>();
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const load = async () => {
-      const check = await loadBanDetails(
-        authState.context.user.farmId?.toString() as string,
-        authState.context.user.rawToken as string,
-        authState.context.transactionId as string
-      );
-
-      if (check.verificationUrl) {
-        setJiggerState({
-          url: check.verificationUrl,
-          status: check.botStatus as JiggerStatus,
-        });
-      }
-      setIsLoading(false);
-    };
-
-    load();
-  }, []);
 
   const withdrawAmount = useRef({
     ids: [] as number[],
@@ -126,28 +101,22 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  if (isLoading) {
-    return <span className="loading">Loading</span>;
-  }
+  const proovePersonhood = async () => {
+    goblinService.send("PROVE_PERSONHOOD");
+    onClose();
+  };
 
-  if (jiggerState) {
+  if (!goblinState.context.verified) {
     return (
-      <Jigger
-        onClose={onClose}
-        status={jiggerState.status}
-        verificationUrl={jiggerState.url}
-      />
-    );
-  }
-
-  const isBlacklisted = authState.context.blacklistStatus !== "OK";
-
-  if (isBlacklisted) {
-    return (
-      <div className="p-2 text-sm">
-        Withdrawing is temporarily restricted while your humanity is being
-        verified. Thanks for your patience!
-      </div>
+      <>
+        <p className="text-sm p-1 m-1">
+          Proof of humanity is needed for this feature. Please take a quick
+          selfie.
+        </p>
+        <Button className="mr-1" onClick={proovePersonhood}>
+          Start Verification
+        </Button>
+      </>
     );
   }
 
