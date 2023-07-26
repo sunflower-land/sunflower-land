@@ -27,11 +27,7 @@ interface Props {
   hasSoldBefore?: boolean;
 }
 
-export const ShopItems: React.FC<Props> = ({
-  onClose,
-  conversation,
-  hasSoldBefore,
-}) => {
+export const ShopItems: React.FC<Props> = ({ onClose, hasSoldBefore }) => {
   const [tab, setTab] = useState(0);
   const [showIntro, setShowIntro] = React.useState(!hasRead());
 

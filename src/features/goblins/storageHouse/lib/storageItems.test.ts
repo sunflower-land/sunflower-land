@@ -1,3 +1,4 @@
+import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { getBankItems, getDeliverableItems } from "./storageItems";
 
