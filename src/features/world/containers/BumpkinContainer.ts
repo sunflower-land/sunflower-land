@@ -194,7 +194,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public faceRight() {
-    if (this.direction === "right") return;
+    if (this.sprite?.scaleX === 1) return;
+
     this.direction = "right";
     this.sprite?.setScale(1, 1);
 
@@ -205,7 +206,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public faceLeft() {
-    if (this.direction === "left") return;
+    if (this.sprite?.scaleX === -1) return;
 
     this.direction = "left";
     this.sprite?.setScale(-1, 1);
@@ -234,7 +235,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.speech.destroy();
     }
 
-    console.log("SPEAK IT!", text);
     this.speech = new SpeechBubble(
       this.scene,
       text,

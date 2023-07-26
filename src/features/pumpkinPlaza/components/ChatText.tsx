@@ -6,7 +6,6 @@ import classNames from "classnames";
 interface Props {
   messages: { farmId: number; sessionId: string; text: string }[];
   onMessage: (text: string) => void;
-  onChatStarted: () => void;
 }
 
 const MAX_CHARACTERS = 48;
@@ -19,11 +18,7 @@ const URL_REGEX = new RegExp(
 
 const ALPHA_REGEX = new RegExp(/^[\w*?!, '-]+$/);
 
-export const ChatText: React.FC<Props> = ({
-  messages,
-  onMessage,
-  onChatStarted,
-}) => {
+export const ChatText: React.FC<Props> = ({ messages, onMessage }) => {
   const ref = useRef<HTMLInputElement>();
   const [text, setText] = useState("");
   const [valid, setValid] = useState(true);
@@ -143,12 +138,10 @@ export const ChatText: React.FC<Props> = ({
           ref={(r) => (ref.current = r as HTMLInputElement)}
           onClick={() => {
             ref.current?.focus();
-            onChatStarted();
           }}
           onInput={(e: ChangeEvent<HTMLInputElement>) => {
             setText(e.target.value);
             isValid();
-            onChatStarted();
             e.preventDefault();
           }}
           placeholder="Type here..."

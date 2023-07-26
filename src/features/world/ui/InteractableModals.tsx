@@ -32,7 +32,11 @@ type InteractableName =
   | "windmill"
   | "guild_house"
   | "timmy_home"
-  | "bert_home";
+  | "bert_home"
+  | "woodlands"
+  | "castle"
+  | "port"
+  | "beach";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -52,14 +56,8 @@ export const interactableModalManager = new InteractableModalManager();
 
 interface Props {
   id: number;
-  onClose: () => void;
-  onOpen: () => void;
 }
-export const InteractableModals: React.FC<Props> = ({
-  id,
-  onOpen,
-  onClose,
-}) => {
+export const InteractableModals: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
@@ -71,13 +69,11 @@ export const InteractableModals: React.FC<Props> = ({
   useEffect(() => {
     interactableModalManager.listen((interactable, open) => {
       setInteractable(interactable);
-      onOpen();
     });
   }, []);
 
   const closeModal = () => {
     setInteractable(undefined);
-    onClose();
   };
 
   const navigate = useNavigate();
@@ -295,6 +291,57 @@ export const InteractableModals: React.FC<Props> = ({
           message={[
             {
               text: "Intruders! They must be after my collection of rare items and secrets, I can't let them in!",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "beach"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["old salty"]}
+          message={[
+            {
+              text: "Have you been to the beach?",
+            },
+            {
+              text: "Rumour has that it is filled with luxurious treasures! Unfortunately it is under construction.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "castle"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["tywin"]}
+          message={[
+            {
+              text: "Hold it there peasant! There is no way I'm letting you visit the castle",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "woodlands"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["bert"]}
+          message={[
+            {
+              text: "Are you travelling to the woodlands? Make sure you pick up some delicious mushrooms!",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "port"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["grubnuk"]}
+          message={[
+            {
+              text: "Hold it there! The Goblin's are still building the port. It will be ready for travel and fishing soon.",
             },
           ]}
         />

@@ -29,26 +29,19 @@ class NpcModalManager {
 
 export const npcModalManager = new NpcModalManager();
 
-interface Props {
-  onClose: () => void;
-  onOpen: () => void;
-}
-
-export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
+export const NPCModals: React.FC = () => {
   const [npc, setNpc] = useState<NPCName>();
   const [tab, setTab] = useState(0);
 
   useEffect(() => {
     npcModalManager.listen((npc, open) => {
       setNpc(npc);
-      setTimeout(onOpen, 100); // Lag the pause of movement to give natural effect
     });
   }, []);
 
   const closeModal = () => {
     setNpc(undefined);
     setTab(0);
-    onClose();
   };
 
   return (
