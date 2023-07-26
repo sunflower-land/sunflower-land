@@ -341,7 +341,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 </p>
                 {canSkip && (
                   <>
-                    <p>Choose wisely!</p>
+                    <p className="text-xs">Choose wisely!</p>
                     <Button onClick={() => setShowSkipDialog(false)}>
                       Not Right Now
                     </Button>
