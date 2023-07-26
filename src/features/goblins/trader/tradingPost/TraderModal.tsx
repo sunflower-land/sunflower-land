@@ -58,7 +58,8 @@ export const TraderModal: React.FC<TraderModalProps> = ({
       return (
         <>
           <p className="text-sm p-1 m-1">
-            You must verify your identity to use this feature.
+            Proof of humanity is needed for this feature. Please take a quick
+            selfie.
           </p>
           <Button className="mr-1" onClick={proovePersonhood}>
             Start Verification
