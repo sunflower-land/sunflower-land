@@ -203,6 +203,7 @@ export const TEST_FARM: GameState = {
   stock: INITIAL_STOCK(),
   chickens: {},
   wardrobe: {},
+  createdAt: new Date().getTime(),
   conversations: [],
   mailbox: {
     read: [],

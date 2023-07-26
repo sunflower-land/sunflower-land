@@ -10,7 +10,6 @@ import { Button } from "components/ui/Button";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import {
-  LIMITED_WEARABLES,
   STYLIST_WEARABLES,
   ShopWearables,
   StylistWearable,
@@ -19,7 +18,28 @@ import { getImageUrl } from "features/goblins/tailor/TabContent";
 import Decimal from "decimal.js-light";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { formatDateRange } from "lib/utils/time";
+import { Label } from "components/ui/Label";
 
+function isNotReady(name: BumpkinItem, farmCreatedAt: number) {
+  const wearable = STYLIST_WEARABLES[name] as StylistWearable;
+
+  if (wearable.hoursPlayed) {
+    console.log({ hours: wearable.hoursPlayed });
+    const hoursPlayed = (Date.now() - farmCreatedAt) / 1000 / 60 / 60;
+
+    if (hoursPlayed < wearable.hoursPlayed) {
+      return true;
+    }
+  }
+
+  return (
+    wearable.from &&
+    wearable.to &&
+    (wearable.from.getTime() < Date.now() || wearable.to.getTime() > Date.now())
+  );
+}
 interface Props {
   wearables: ShopWearables;
 }
@@ -55,14 +75,6 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
   };
 
   const Action = () => {
-    if (selected in LIMITED_WEARABLES) {
-      return (
-        <div className="flex justify-center">
-          <span className="text-center text-xs">Coming soon...</span>
-        </div>
-      );
-    }
-
     if (state.wardrobe[selected])
       return (
         <div className="flex justify-center items-center">
@@ -71,8 +83,18 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
         </div>
       );
 
+    console.log({ selected });
+    console.log({ selectedRead: isNotReady(selected, state.createdAt) });
+
     return (
-      <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>
+      <Button
+        disabled={
+          isNotReady(selected, state.createdAt) ||
+          lessFunds() ||
+          lessIngredients()
+        }
+        onClick={buy}
+      >
         Craft
       </Button>
     );
@@ -81,13 +103,25 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
   return (
     <SplitScreenView
       panel={
-        <div>
+        <div className="flex flex-col justify-center">
+          {wearable.from && (
+            <Label type="warning" className="my-1 mx-auto">
+              <div className="flex items-center">
+                <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
+                <span className="text-xs">
+                  {" "}
+                  {formatDateRange(wearable.from, wearable.to as Date)}
+                </span>
+              </div>
+            </Label>
+          )}
           <p className="text-sm text-center">{selected}</p>
+
           <img
             src={getImageUrl(ITEM_IDS[selected])}
             className="w-4/5 mx-auto my-2 rounded-lg"
           />
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center mb-1">
             <RequirementLabel
               type="sfl"
               balance={state.balance}
@@ -110,15 +144,33 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
       }
       content={
         <>
-          {getKeys(wearables).map((item) => (
-            <Box
-              isSelected={selected === item}
-              key={item}
-              onClick={() => setSelected(item)}
-              image={getImageUrl(ITEM_IDS[item])}
-              count={new Decimal(state.wardrobe[item] ?? 0)}
-            />
-          ))}
+          {getKeys(wearables).map((item) => {
+            const timeLimited = isNotReady(item, state.createdAt);
+
+            return (
+              <Box
+                isSelected={selected === item}
+                key={item}
+                onClick={() => setSelected(item)}
+                image={getImageUrl(ITEM_IDS[item])}
+                count={new Decimal(state.wardrobe[item] ?? 0)}
+                showOverlay={timeLimited}
+                overlayIcon={
+                  <img
+                    src={SUNNYSIDE.icons.stopwatch}
+                    id="confirm"
+                    alt="confirm"
+                    className="object-contain absolute"
+                    style={{
+                      width: `${PIXEL_SCALE * 8}px`,
+                      top: `${PIXEL_SCALE * -4}px`,
+                      right: `${PIXEL_SCALE * -4}px`,
+                    }}
+                  />
+                }
+              />
+            );
+          })}
         </>
       }
     />

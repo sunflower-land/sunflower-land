@@ -50,6 +50,7 @@ export function makeGame(farm: any): GameState {
       }),
       {} as Record<InventoryItemName, Decimal>
     ),
+    createdAt: farm.createdAt,
     chickens: farm.chickens || {},
     stockExpiry: farm.stockExpiry || {},
     balance: new Decimal(farm.balance),
