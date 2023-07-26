@@ -90,10 +90,7 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
   );
 };
 
-const HasWheat = (
-  inventoryWheatCount: Decimal,
-  collectibles: Collectibles,
-) => {
+const HasWheat = (inventoryWheatCount: Decimal, collectibles: Collectibles) => {
   const wheatRequired = getWheatRequiredToFeed(collectibles);
 
   // has enough wheat to feed chickens
@@ -148,8 +145,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
     gameService,
     selectInventoryWheatCount,
     (prev: Decimal, next: Decimal) =>
-      HasWheat(prev, collectibles) ===
-      HasWheat(next, collectibles)
+      HasWheat(prev, collectibles) === HasWheat(next, collectibles)
   );
 
   const percentageComplete = getPercentageComplete(chicken?.fedAt);
@@ -216,7 +212,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    shortcutItem('Wheat')
+    shortcutItem("Wheat");
 
     const {
       context: {
