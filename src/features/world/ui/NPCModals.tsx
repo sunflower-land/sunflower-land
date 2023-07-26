@@ -36,7 +36,7 @@ interface Props {
 }
 
 export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
-  const [npc, setNpc] = useState<NPCName>("stella");
+  const [npc, setNpc] = useState<NPCName>();
   const [tab, setTab] = useState(0);
 
   useEffect(() => {
