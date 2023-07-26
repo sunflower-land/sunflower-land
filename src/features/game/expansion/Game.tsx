@@ -288,6 +288,9 @@ export const GameWrapper: React.FC = ({ children }) => {
     // cleanup on every gameState update
     return () => {
       window.removeEventListener("blur", save);
+
+      // Do a final save
+      save();
     };
   }, []);
 
