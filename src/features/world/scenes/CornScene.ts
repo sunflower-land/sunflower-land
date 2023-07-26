@@ -1,9 +1,9 @@
 import cornExampleJSON from "assets/map/corn_example.json";
 import { mazeManager } from "features/world/ui/MazeHud";
 
-import { RoomId } from "../roomMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { CONFIG } from "lib/config";
+import { SceneId } from "../mmoMachine";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -14,13 +14,13 @@ const BUMPKINS: NPCBumpkin[] = [
 ];
 
 export class CornScene extends BaseScene {
-  roomId: RoomId = "corn_example";
+  sceneId: SceneId = "corn_maze";
   score = 0;
   health = 3;
 
   constructor() {
     super({
-      name: "corn_example",
+      name: "corn_maze",
       map: {
         json: CONFIG.API_URL ? `${CONFIG.API_URL}/maps/corn` : cornExampleJSON,
       },
