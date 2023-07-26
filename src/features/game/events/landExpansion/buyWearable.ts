@@ -16,9 +16,14 @@ export type BuyWearableAction = {
 type Options = {
   state: Readonly<GameState>;
   action: BuyWearableAction;
+  createdAt?: number;
 };
 
-export function buyWearable({ state, action }: Options) {
+export function buyWearable({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options) {
   const stateCopy = cloneDeep(state);
   const { name } = action;
   const wearable = STYLIST_WEARABLES[name];
@@ -31,6 +36,14 @@ export function buyWearable({ state, action }: Options) {
 
   if (!bumpkin) {
     throw new Error("Bumpkin not found");
+  }
+
+  if (wearable.from && wearable.from?.getTime() > createdAt) {
+    throw new Error("Too early");
+  }
+
+  if (wearable.to && wearable.to?.getTime() < createdAt) {
+    throw new Error("Too late");
   }
 
   const totalExpenses = new Decimal(wearable.sfl);

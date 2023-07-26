@@ -34,6 +34,38 @@ describe("buyWearable", () => {
     ).toThrow("Insufficient tokens");
   });
 
+  it("does not craft wearable too early", () => {
+    expect(() =>
+      buyWearable({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(400),
+        },
+        action: {
+          type: "wearable.bought",
+          name: "Infernal Bumpkin Potion",
+        },
+        createdAt: new Date("2023-07-31").getTime(),
+      })
+    ).toThrow("Too early");
+  });
+
+  it("does not craft wearable too late", () => {
+    expect(() =>
+      buyWearable({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(400),
+        },
+        action: {
+          type: "wearable.bought",
+          name: "Infernal Bumpkin Potion",
+        },
+        createdAt: new Date("2023-09-02").getTime(),
+      })
+    ).toThrow("Too late");
+  });
+
   // it("does not craft decoration if requirements are not met", () => {
   //   expect(() =>
   //     buyWearable({
