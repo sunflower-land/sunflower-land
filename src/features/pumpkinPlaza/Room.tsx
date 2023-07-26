@@ -255,7 +255,6 @@ export const Room: React.FC<Props> = ({
               reaction,
             });
           }}
-          onChatStarted={console.log}
           messages={[]}
         />
       )}
