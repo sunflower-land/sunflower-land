@@ -18,6 +18,10 @@ export const BASIC_WEARABLES: ShopWearables = {
     sfl: 10,
     ingredients: {},
   },
+  "Light Brown Farmer Potion": {
+    sfl: 10,
+    ingredients: {},
+  },
   "Dark Brown Farmer Potion": {
     sfl: 10,
     ingredients: {},
@@ -26,28 +30,47 @@ export const BASIC_WEARABLES: ShopWearables = {
     sfl: 50,
     ingredients: {},
   },
-  "Red Farmer Shirt": {
-    sfl: 10,
-    ingredients: {},
-  },
-  "Blue Farmer Shirt": {
-    sfl: 10,
-    ingredients: {},
-  },
-  "Yellow Farmer Shirt": {
-    sfl: 10,
-    ingredients: {},
-  },
+
   "Rancher Hair": {
-    sfl: 15,
+    sfl: 10,
     ingredients: {},
   },
   "Basic Hair": {
+    sfl: 10,
+    ingredients: {},
+  },
+  "Buzz Cut": {
     sfl: 15,
     ingredients: {},
   },
   "Explorer Hair": {
     sfl: 15,
+    ingredients: {},
+  },
+
+  "Red Farmer Shirt": {
+    sfl: 5,
+    ingredients: {},
+  },
+  "Blue Farmer Shirt": {
+    sfl: 5,
+    ingredients: {},
+  },
+  "Yellow Farmer Shirt": {
+    sfl: 5,
+    ingredients: {},
+  },
+
+  "Farmer Pants": {
+    sfl: 5,
+    ingredients: {},
+  },
+  "Farmer Overalls": {
+    sfl: 5,
+    ingredients: {},
+  },
+  "Lumberjack Overalls": {
+    sfl: 10,
     ingredients: {},
   },
   "Streamer Helmet": {

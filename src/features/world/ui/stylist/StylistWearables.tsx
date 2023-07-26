@@ -134,7 +134,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
           )}
           <p className="text-sm text-center">{selected}</p>
 
-          <div className="relative w-4/5 mx-auto my-2 rounded-lg">
+          <div className="relative w-4/5 mx-auto my-1 rounded-lg">
             <img
               src={getImageUrl(ITEM_IDS[selected])}
               className="w-4/5 mx-auto my-2 rounded-lg"
@@ -151,7 +151,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
             </div>
           </div>
 
-          <div className="flex flex-col items-center mb-1">
+          <div className="flex flex-wrap justify-center items-center mb-1 gap-x-3 gap-y-0.5">
             <RequirementLabel
               type="sfl"
               balance={state.balance}
@@ -173,35 +173,48 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
         </div>
       }
       content={
-        <>
-          {getKeys(wearables).map((item) => {
-            const timeLimited = isNotReady(item, state.createdAt);
+        <div
+          className="overflow-y-auto scrollable pr-1"
+          style={{ height: "270px" }}
+        >
+          <div className="flex flex-wrap">
+            {getKeys(wearables).map((item) => {
+              const timeLimited = isNotReady(item, state.createdAt);
 
-            return (
-              <Box
-                isSelected={selected === item}
-                key={item}
-                onClick={() => setSelected(item)}
-                image={getImageUrl(ITEM_IDS[item])}
-                count={new Decimal(state.wardrobe[item] ?? 0)}
-                showOverlay={timeLimited}
-                overlayIcon={
-                  <img
-                    src={SUNNYSIDE.icons.stopwatch}
-                    id="confirm"
-                    alt="confirm"
-                    className="object-contain absolute"
-                    style={{
-                      width: `${PIXEL_SCALE * 8}px`,
-                      top: `${PIXEL_SCALE * -4}px`,
-                      right: `${PIXEL_SCALE * -4}px`,
-                    }}
-                  />
-                }
-              />
-            );
-          })}
-        </>
+              return (
+                <Box
+                  isSelected={selected === item}
+                  key={item}
+                  onClick={() => setSelected(item)}
+                  image={getImageUrl(ITEM_IDS[item])}
+                  count={new Decimal(state.wardrobe[item] ?? 0)}
+                  showOverlay={timeLimited}
+                  overlayIcon={
+                    <img
+                      src={SUNNYSIDE.icons.stopwatch}
+                      id="confirm"
+                      alt="confirm"
+                      className="object-contain absolute"
+                      style={{
+                        width: `${PIXEL_SCALE * 8}px`,
+                        top: `${PIXEL_SCALE * -4}px`,
+                        right: `${PIXEL_SCALE * -4}px`,
+                      }}
+                    />
+                  }
+                />
+              );
+            })}
+          </div>
+          <a
+            href="https://opensea.io/collection/bumpkin-wearables"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-white text-xs"
+          >
+            View sold out wearables
+          </a>
+        </div>
       }
     />
   );
