@@ -431,6 +431,7 @@ export const OFFLINE_FARM: GameState = {
     "Freya Fox": new Decimal(1),
   },
 
+  createdAt: new Date("2022-03-04").getTime(),
   ...INITIAL_RESOURCES,
 
   bumpkin: INITIAL_BUMPKIN,

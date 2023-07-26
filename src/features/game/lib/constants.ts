@@ -203,6 +203,7 @@ export const TEST_FARM: GameState = {
   stock: INITIAL_STOCK(),
   chickens: {},
   wardrobe: {},
+  createdAt: new Date().getTime(),
   conversations: [],
   mailbox: {
     read: [],
@@ -378,6 +379,7 @@ export const TEST_FARM: GameState = {
 
 export const EMPTY: GameState = {
   balance: new Decimal(fromWei("0")),
+  createdAt: new Date().getTime(),
   inventory: {
     "Chicken Coop": new Decimal(1),
     Wood: new Decimal(50),

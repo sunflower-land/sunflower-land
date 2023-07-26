@@ -170,6 +170,7 @@ import {
   findTraveller,
   FindTravellerAction,
 } from "./landExpansion/findTraveller";
+import { buyWearable, BuyWearableAction } from "./landExpansion/buyWearable";
 
 export type PlayingEvent =
   | TradeAction
@@ -224,7 +225,8 @@ export type PlayingEvent =
   | MixPotionAction
   | TendDawnFlowerAction
   | PreparePartyAction
-  | FindTravellerAction;
+  | FindTravellerAction
+  | BuyWearableAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -329,6 +331,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "dawnFlower.tended": tendDawnFlower,
   "dawnParty.prepared": prepareParty,
   "traveller.found": findTraveller,
+  "wearable.bought": buyWearable,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
