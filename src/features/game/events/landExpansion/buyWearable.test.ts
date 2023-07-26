@@ -66,6 +66,40 @@ describe("buyWearable", () => {
     ).toThrow("Too late");
   });
 
+  it("does not craft a party hat", () => {
+    expect(() =>
+      buyWearable({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(400),
+          createdAt: new Date().getTime() - 364 * 24 * 60 * 60 * 1000,
+        },
+        action: {
+          type: "wearable.bought",
+          name: "Birthday Hat",
+        },
+        createdAt: new Date("2023-07-31").getTime(),
+      })
+    ).toThrow("Not available");
+  });
+
+  it("crafts a party hat", () => {
+    const state = buyWearable({
+      state: {
+        ...GAME_STATE,
+        balance: new Decimal(400),
+        createdAt: new Date().getTime() - 366 * 24 * 60 * 60 * 1000,
+      },
+      action: {
+        type: "wearable.bought",
+        name: "Birthday Hat",
+      },
+      createdAt: new Date("2023-07-31").getTime(),
+    });
+
+    expect(state.wardrobe["Birthday Hat"]).toEqual(1);
+  });
+
   // it("does not craft decoration if requirements are not met", () => {
   //   expect(() =>
   //     buyWearable({

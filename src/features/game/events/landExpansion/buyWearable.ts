@@ -46,6 +46,15 @@ export function buyWearable({
     throw new Error("Too late");
   }
 
+  if (wearable.hoursPlayed) {
+    const hoursPlayed = (Date.now() - stateCopy.createdAt) / 1000 / 60 / 60;
+    console.log({ hours: wearable.hoursPlayed, hoursPlayed });
+
+    if (hoursPlayed < wearable.hoursPlayed) {
+      throw new Error("Not available");
+    }
+  }
+
   const totalExpenses = new Decimal(wearable.sfl);
 
   if (totalExpenses && stateCopy.balance.lessThan(totalExpenses)) {

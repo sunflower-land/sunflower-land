@@ -8,7 +8,11 @@ import { getKeys } from "features/game/types/craftables";
 
 import { Button } from "components/ui/Button";
 import { SplitScreenView } from "components/ui/SplitScreenView";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import {
+  BUMPKIN_ITEM_PART,
+  BumpkinItem,
+  ITEM_IDS,
+} from "features/game/types/bumpkin";
 import {
   STYLIST_WEARABLES,
   ShopWearables,
@@ -21,6 +25,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { formatDateRange } from "lib/utils/time";
 import { Label } from "components/ui/Label";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { NPC } from "features/island/bumpkin/components/NPC";
 
 function isNotReady(name: BumpkinItem, farmCreatedAt: number) {
   const wearable = STYLIST_WEARABLES[name] as StylistWearable;
@@ -37,7 +43,7 @@ function isNotReady(name: BumpkinItem, farmCreatedAt: number) {
   return (
     wearable.from &&
     wearable.to &&
-    (wearable.from.getTime() < Date.now() || wearable.to.getTime() > Date.now())
+    (wearable.from.getTime() > Date.now() || wearable.to.getTime() < Date.now())
   );
 }
 interface Props {
@@ -83,8 +89,19 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
         </div>
       );
 
-    console.log({ selected });
-    console.log({ selectedRead: isNotReady(selected, state.createdAt) });
+    if (wearable.requiresItem && !state.inventory[wearable.requiresItem]) {
+      return (
+        <Label type="danger">
+          <div className="flex items-center justify-center">
+            <img
+              src={ITEM_DETAILS[wearable.requiresItem].image}
+              className="h-6 mr-1 img-highlight"
+            />
+            <span className="text-center">{`Requires ${wearable.requiresItem}`}</span>
+          </div>
+        </Label>
+      );
+    }
 
     return (
       <Button
@@ -117,10 +134,23 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
           )}
           <p className="text-sm text-center">{selected}</p>
 
-          <img
-            src={getImageUrl(ITEM_IDS[selected])}
-            className="w-4/5 mx-auto my-2 rounded-lg"
-          />
+          <div className="relative w-4/5 mx-auto my-2 rounded-lg">
+            <img
+              src={getImageUrl(ITEM_IDS[selected])}
+              className="w-4/5 mx-auto my-2 rounded-lg"
+            />
+            <div className="absolute bottom-14 w-4 h-4 right-8">
+              <NPC
+                key={selected}
+                parts={{
+                  body: "Beige Farmer Potion",
+                  hair: "Sun Spots",
+                  [BUMPKIN_ITEM_PART[selected]]: selected,
+                }}
+              />
+            </div>
+          </div>
+
           <div className="flex flex-col items-center mb-1">
             <RequirementLabel
               type="sfl"
