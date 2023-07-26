@@ -660,7 +660,8 @@ export abstract class BaseScene extends Phaser.Scene {
         server.state.players.get(sessionId)?.sceneId !== this.scene.key
       )
         this.destroyPlayer(sessionId);
-      if (!this.playerEntities[sessionId].active) this.destroyPlayer(sessionId);
+      if (!this.playerEntities[sessionId]?.active)
+        this.destroyPlayer(sessionId);
     });
 
     // Create new players
