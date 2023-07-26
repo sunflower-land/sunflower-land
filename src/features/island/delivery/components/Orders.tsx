@@ -1,6 +1,6 @@
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
@@ -51,9 +51,15 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const balance = useSelector(gameService, _balance);
   const bumpkin = useSelector(gameService, _bumpkin);
 
+  const [showSkipDialog, setShowSkipDialog] = useState(false);
+
   const orders = delivery.orders
     .filter((order) => Date.now() >= order.readyAt)
     .sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1));
+
+  const skippedAt = delivery.skippedAt ?? 0;
+  const nextSkippedAt = skippedAt + 24 * 60 * 60 * 1000;
+  const canSkip = nextSkippedAt < Date.now();
 
   useEffect(() => {
     acknowledgeOrders(delivery);
@@ -68,6 +74,12 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const deliver = () => {
     gameService.send("order.delivered", { id: previewOrder?.id });
     onSelect(undefined);
+  };
+
+  const skip = () => {
+    setShowSkipDialog(false);
+    gameService.send("order.skipped", { id: previewOrder?.id });
+    gameService.send("SAVE");
   };
 
   const hasRequirements = (order?: Order) => {
@@ -89,6 +101,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   };
 
   const nextOrder = delivery.orders.find((order) => order.readyAt > Date.now());
+  const skippedOrder = delivery.orders.find((order) => order.id === "skipping");
 
   if (orders.length === 0 && !nextOrder) {
     return (
@@ -129,7 +142,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
                 <div className="flex">
                   <div className="relative bottom-4 h-14 w-12 mr-2 ml-0.5">
-                    <NPC parts={NPC_WEARABLES[order.from]} />
+                    <NPC parts={NPC_WEARABLES[order.from]} preventZoom={true} />
                   </div>
                   <div className="flex-1">
                     <div className="flex justify-start ml-2 h-8 items-center">
@@ -226,7 +239,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               </OuterPanel>
             </div>
           ))}
-          {nextOrder && (
+          {nextOrder && !skippedOrder && (
             <div className="w-1/2 sm:w-1/3 p-1">
               <OuterPanel
                 className="w-full py-2 relative"
@@ -241,6 +254,18 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                     })}
                   </p>
                 </div>
+              </OuterPanel>
+            </div>
+          )}
+          {skippedOrder && (
+            <div className="w-1/2 sm:w-1/3 p-1">
+              <OuterPanel
+                className="w-full py-2 relative"
+                style={{ height: "80px" }}
+              >
+                <p className="text-center mb-0.5 mt-1 text-sm loading">
+                  Skipping
+                </p>
               </OuterPanel>
             </div>
           )}
@@ -309,46 +334,90 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
             </div>
           </div>
           <div className="flex-1 space-y-2 p-1">
-            <div className="text-xs space-y-2">
-              <p>
-                {generateDeliveryMessage({
-                  from: previewOrder?.from,
-                  id: previewOrder.id,
-                })}
-              </p>
-              {hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
-                <p>{`I'll be waiting for you in the Plaza.`}</p>
-              )}
-            </div>
-            <div className="pt-1 pb-2">
-              {getKeys(previewOrder.items).map((itemName) => {
-                if (itemName === "sfl") {
-                  return (
-                    <RequirementLabel
-                      type="sfl"
-                      balance={balance}
-                      requirement={
-                        new Decimal(previewOrder?.items[itemName] ?? 0)
-                      }
-                      showLabel
-                    />
-                  );
-                }
-
-                return (
-                  <RequirementLabel
-                    key={itemName}
-                    type="item"
-                    item={itemName}
-                    balance={inventory[itemName] ?? new Decimal(0)}
-                    showLabel
-                    requirement={
-                      new Decimal(previewOrder?.items[itemName] ?? 0)
+            {showSkipDialog && (
+              <>
+                <p className="text-xs">
+                  {"You're only able to skip one order every 24 hours!"}
+                </p>
+                {canSkip && (
+                  <>
+                    <p>Choose wisely!</p>
+                    <Button onClick={() => setShowSkipDialog(false)}>
+                      Not Right Now
+                    </Button>
+                    <Button onClick={skip}>Skip Order</Button>
+                  </>
+                )}
+                {!canSkip && (
+                  <>
+                    <p className="text-xs">Next skip in:</p>
+                    <div className="flex-1">
+                      <RequirementLabel
+                        type="time"
+                        waitSeconds={Math.ceil(
+                          (nextSkippedAt - Date.now()) / 1000
+                        )}
+                      />
+                    </div>
+                    <Button onClick={() => setShowSkipDialog(false)}>
+                      Back
+                    </Button>
+                  </>
+                )}
+              </>
+            )}
+            {!showSkipDialog && (
+              <>
+                <div className="text-xs space-y-2">
+                  <p>
+                    {generateDeliveryMessage({
+                      from: previewOrder?.from,
+                      id: previewOrder.id,
+                    })}
+                  </p>
+                  {hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
+                    <p>{`I'll be waiting for you in the Plaza.`}</p>
+                  )}
+                </div>
+                <div className="pt-1 pb-2">
+                  {getKeys(previewOrder.items).map((itemName) => {
+                    if (itemName === "sfl") {
+                      return (
+                        <RequirementLabel
+                          type="sfl"
+                          balance={balance}
+                          requirement={
+                            new Decimal(previewOrder?.items[itemName] ?? 0)
+                          }
+                          showLabel
+                        />
+                      );
                     }
-                  />
-                );
-              })}
-            </div>
+
+                    return (
+                      <RequirementLabel
+                        key={itemName}
+                        type="item"
+                        item={itemName}
+                        balance={inventory[itemName] ?? new Decimal(0)}
+                        showLabel
+                        requirement={
+                          new Decimal(previewOrder?.items[itemName] ?? 0)
+                        }
+                      />
+                    );
+                  })}
+                </div>
+                {hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
+                  <p
+                    className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
+                    onClick={() => setShowSkipDialog(true)}
+                  >
+                    Cannot complete this order?
+                  </p>
+                )}
+              </>
+            )}
           </div>
           {!hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
             <Button disabled={!canFulfill} onClick={deliver}>

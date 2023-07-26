@@ -86,7 +86,8 @@ export function isOfQuestNPCType(value: string): value is QuestNPCName {
 
 export function populateOrders(
   game: GameState,
-  createdAt: number = Date.now()
+  createdAt: number = Date.now(),
+  isSkipped = false
 ) {
   const orders = game.delivery.orders;
   const slots = getTotalSlots(game.inventory);
@@ -103,7 +104,7 @@ export function populateOrders(
       readyAt:
         baseTime + (24 / getDeliverySlots(game.inventory)) * 60 * 60 * 1000,
       from: "betty",
-      id: Date.now().toString(),
+      id: isSkipped ? "skipping" : Date.now().toString(),
       items: {},
       reward: {},
     };
