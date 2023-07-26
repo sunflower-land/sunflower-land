@@ -4,12 +4,30 @@ import { mazeManager } from "features/world/ui/MazeHud";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { CONFIG } from "lib/config";
 import { SceneId } from "../mmoMachine";
+import { NPC_WEARABLES } from "lib/npcs";
+import { BumpkinContainer } from "../containers/BumpkinContainer";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
-const BUMPKINS: NPCBumpkin[] = [
+type Enemy = NPCBumpkin & {
+  target: {
+    x: number;
+    y: number;
+    direction: "vertical" | "horizontal";
+    duration: number;
+  };
+};
+
+const ENEMIES: Enemy[] = [
   {
-    x: 112,
-    y: 60,
-    npc: "frankie",
+    x: 104,
+    y: 328,
+    npc: "dreadhorn",
+    target: {
+      x: 104,
+      y: 471,
+      direction: "vertical",
+      duration: 2000,
+    },
   },
 ];
 
@@ -17,6 +35,7 @@ export class CornScene extends BaseScene {
   sceneId: SceneId = "corn_maze";
   score = 0;
   health = 3;
+  enemies?: Phaser.GameObjects.Group;
 
   constructor() {
     super({
@@ -30,21 +49,26 @@ export class CornScene extends BaseScene {
   preload() {
     super.preload();
 
-    this.load.image("corn", "world/dawn_flower.png");
+    this.load.image("corn", CROP_LIFECYCLE.Corn.crop);
   }
 
   async create() {
+    // this.load.json()
     console.log("Create corn example");
     this.map = this.make.tilemap({
-      key: "corn_example",
+      key: "corn_maze",
     });
 
     super.create();
-
-    this.initialiseNPCs(BUMPKINS);
+    // this.setUpEnemies();
+    this.setUpCorn();
+    this.setUpEnemies();
+    this.setUpEnemyColliders();
 
     // Get x,y coordinates of
+  }
 
+  setUpCorn() {
     const cornLayer = this.map.getLayer("Corn");
     if (cornLayer) {
       // Access the tile data from the layer
@@ -80,6 +104,65 @@ export class CornScene extends BaseScene {
         }
       }
     }
+  }
+
+  setUpEnemies() {
+    this.enemies = this.add.group();
+    ENEMIES.forEach((bumpkin) => {
+      const enemy = new BumpkinContainer({
+        scene: this,
+        x: bumpkin.x,
+        y: bumpkin.y,
+        clothing: {
+          ...(bumpkin.clothing ?? NPC_WEARABLES[bumpkin.npc]),
+          updatedAt: 0,
+        },
+        direction: bumpkin.direction ?? "right",
+      });
+
+      enemy.setDepth(bumpkin.y);
+      (enemy.body as Phaser.Physics.Arcade.Body)
+        .setSize(16, 20)
+        .setOffset(0, 0)
+        .setCollideWorldBounds(true);
+
+      this.physics.world.enable(enemy);
+      this.enemies?.add(enemy);
+
+      // Create a tween configuration object
+      const tweenConfig: Phaser.Types.Tweens.TweenBuilderConfig = {
+        targets: enemy,
+        x: bumpkin.target.x,
+        y: bumpkin.target.y,
+        duration: bumpkin.target.duration,
+        ease: "Linear",
+        repeat: -1,
+        yoyo: true,
+        onUpdate: (_, target) => {
+          if (bumpkin.target.direction === "horizontal") {
+            if (target.x === bumpkin.target.x && target.direction === "right") {
+              target.faceLeft();
+            } else if (target.x === bumpkin.x && target.direction === "left") {
+              target.faceRight();
+            }
+          }
+        },
+      };
+
+      // Create the tween
+      this.tweens.add(tweenConfig);
+    });
+  }
+
+  setUpEnemyColliders() {
+    if (!this.currentPlayer || !this.enemies) return;
+
+    this.physics.add.overlap(this.currentPlayer, this.enemies, () => {
+      if (!this.currentPlayer?.invincible) {
+        mazeManager.hit();
+        this.currentPlayer?.hitPlayer();
+      }
+    });
   }
 
   collect(id: string) {

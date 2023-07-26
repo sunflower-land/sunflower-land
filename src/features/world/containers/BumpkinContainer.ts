@@ -11,6 +11,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   public silhoutte: Phaser.GameObjects.Sprite | undefined;
 
   public speech: SpeechBubble | undefined;
+  public invincible = false;
 
   private clothing: Player["clothing"];
   private ready = false;
@@ -20,7 +21,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private walkingSpriteKey: string | undefined;
   private idleAnimationKey: string | undefined;
   private walkingAnimationKey: string | undefined;
-
   private direction: "left" | "right" = "right";
 
   constructor({
@@ -29,7 +29,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     y,
     clothing,
     onClick,
-    onCollide,
     name,
     direction,
   }: {
@@ -75,6 +74,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         onClick();
       });
     }
+  }
+
+  get directionFacing() {
+    return this.direction;
   }
 
   private async loadSprites(scene: Phaser.Scene) {
@@ -265,5 +268,25 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     ) {
       this.sprite.anims.play(this.idleAnimationKey as string, true);
     }
+  }
+
+  public hitPlayer() {
+    console.log("hit player");
+    this.invincible = true;
+
+    // make sprite flash opacity
+    const tween = this.scene.tweens.add({
+      targets: this.sprite,
+      alpha: 0.5,
+      duration: 100,
+      ease: "Linear",
+      repeat: -1,
+      yoyo: true,
+    });
+
+    setTimeout(() => {
+      this.invincible = false;
+      tween.remove();
+    }, 2000);
   }
 }

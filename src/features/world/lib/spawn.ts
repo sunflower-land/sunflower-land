@@ -121,8 +121,8 @@ export const SPAWNS: SpawnLocation = {
   },
   corn_maze: {
     default: {
-      x: 290,
-      y: 320,
+      x: 315,
+      y: 347,
     },
   },
 };

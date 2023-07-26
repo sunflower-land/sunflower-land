@@ -56,6 +56,8 @@ export const PhaserComponent: React.FC<Props> = ({
   const [messages, setMessages] = useState<Message[]>([]);
   const { gameService } = useContext(Context);
 
+  const [loaded, setLoaded] = useState(false);
+
   const navigate = useNavigate();
 
   const game = useRef<Game>();
@@ -66,6 +68,7 @@ export const PhaserComponent: React.FC<Props> = ({
     ? [CommunityScene]
     : [
         Preloader,
+        CornScene,
         DawnBreakerScene,
         PlazaScene,
         AuctionScene,
@@ -78,7 +81,6 @@ export const PhaserComponent: React.FC<Props> = ({
         ClothesShopScene,
         DecorationShopScene,
         MarcusHomeScene,
-        CornScene,
       ];
 
   useEffect(() => {
@@ -159,10 +161,29 @@ export const PhaserComponent: React.FC<Props> = ({
       );
     });
 
+    setLoaded(true);
+
+    console.log("GAME PHASER");
+
     return () => {
       game.current?.destroy(true);
     };
   }, []);
+
+  useEffect(() => {
+    if (!loaded) return;
+
+    console.log("SCENE", scene);
+    console.log("current", game.current);
+    const activeScene = game.current?.scene.getScenes()[0];
+
+    if (activeScene) {
+      activeScene.scene.start(scene);
+      mmoService.state.context.server?.send(0, { sceneId: scene });
+    }
+
+    // game.current?.scene.start(scene);
+  }, [scene]);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -179,7 +200,6 @@ export const PhaserComponent: React.FC<Props> = ({
       />
       <NPCModals
         onNavigate={(sceneId: SceneId) => {
-          game.current?.scene.start(sceneId);
           navigate(`/world/${sceneId}`);
         }}
       />

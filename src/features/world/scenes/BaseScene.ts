@@ -435,18 +435,6 @@ export abstract class BaseScene extends Phaser.Scene {
       onClick: defaultClick,
     });
 
-    if (this.currentPlayer && npc) {
-      (entity.body as Phaser.Physics.Arcade.Body)
-        .setSize(16, 20)
-        .setOffset(0, 0)
-        .setImmovable(true)
-        .setCollideWorldBounds(true);
-
-      this.physics.add.overlap(this.currentPlayer, entity, () => {
-        console.log("hit");
-      });
-    }
-
     if (!npc) {
       const nameTag = this.createPlayerText({
         x: 0,
