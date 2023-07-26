@@ -68,6 +68,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     x: 513,
     y: 288,
     npc: "betty",
+    direction: "left",
   },
   {
     x: 33,

@@ -130,82 +130,11 @@ const isRefundingAuction = (state: MachineState) =>
   state.matches("refundAuction");
 
 export const Game: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
 
-  const loading = useSelector(gameService, isLoading);
-  const refreshing = useSelector(gameService, isRefreshing);
-  const buyingSFL = useSelector(gameService, isBuyingSFL);
-  const deposited = useSelector(gameService, isDeposited);
-  const error = useSelector(gameService, isError);
-  const synced = useSelector(gameService, isSynced);
-  const syncing = useSelector(gameService, isSyncing);
-  const purchasing = useSelector(gameService, isPurchasing);
-  const hoarding = useSelector(gameService, isHoarding);
-  const swarming = useSelector(gameService, isSwarming);
-  const noBumpkinFound = useSelector(gameService, isNoBumpkinFound);
-  const noTownCenter = useSelector(gameService, isNoTownCenter);
-  const coolingDown = useSelector(gameService, isCoolingDown);
-  const gameRules = useSelector(gameService, isGameRules);
-  const depositing = useSelector(gameService, isDepositing);
   const visiting = useSelector(gameService, isVisiting);
-  const loadingLandToVisit = useSelector(gameService, isLoadingLandToVisit);
-  const loadingSession = useSelector(gameService, isLoadingSession);
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const level = useSelector(gameService, bumpkinLevel);
-  const state = useSelector(gameService, currentState);
-  const errorCode = useSelector(gameService, getErrorCode);
-  const actions = useSelector(gameService, getActions);
-  const upgradingGuestGame = useSelector(gameService, isUpgradingGuestGame);
-  const transacting = useSelector(gameService, isTransacting);
-  const minting = useSelector(gameService, isMinting);
-  const claimingAuction = useSelector(gameService, isClaimAuction);
-  const refundAuction = useSelector(gameService, isRefundingAuction);
-
-  useInterval(() => {
-    gameService.send("SAVE");
-  }, AUTO_SAVE_INTERVAL);
-
-  useEffect(() => {
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (actions.length === 0) return;
-
-      event.preventDefault();
-      event.returnValue = "";
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    // cleanup on every gameState update
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [actions]);
-
-  useEffect(() => {
-    const save = () => {
-      gameService.send("SAVE");
-    };
-
-    window.addEventListener("blur", save);
-
-    // cleanup on every gameState update
-    return () => {
-      window.removeEventListener("blur", save);
-    };
-  }, []);
-
-  if (loadingSession || loadingLandToVisit) {
-    return (
-      <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
-        <Modal show centered backdrop={false}>
-          <Panel>
-            <Loading />
-          </Panel>
-        </Modal>
-      </div>
-    );
-  }
 
   const GameContent = () => {
     if (landToVisitNotFound) {
@@ -296,6 +225,85 @@ export const Game: React.FC = () => {
     );
   };
 
+  return <GameWrapper>{GameContent()}</GameWrapper>;
+};
+
+export const GameWrapper: React.FC = ({ children }) => {
+  const { authService } = useContext(AuthProvider.Context);
+  const { gameService } = useContext(Context);
+
+  const loading = useSelector(gameService, isLoading);
+  const refreshing = useSelector(gameService, isRefreshing);
+  const buyingSFL = useSelector(gameService, isBuyingSFL);
+  const deposited = useSelector(gameService, isDeposited);
+  const error = useSelector(gameService, isError);
+  const synced = useSelector(gameService, isSynced);
+  const syncing = useSelector(gameService, isSyncing);
+  const purchasing = useSelector(gameService, isPurchasing);
+  const hoarding = useSelector(gameService, isHoarding);
+  const swarming = useSelector(gameService, isSwarming);
+  const noBumpkinFound = useSelector(gameService, isNoBumpkinFound);
+  const noTownCenter = useSelector(gameService, isNoTownCenter);
+  const coolingDown = useSelector(gameService, isCoolingDown);
+  const gameRules = useSelector(gameService, isGameRules);
+  const depositing = useSelector(gameService, isDepositing);
+  const loadingLandToVisit = useSelector(gameService, isLoadingLandToVisit);
+  const loadingSession = useSelector(gameService, isLoadingSession);
+  const state = useSelector(gameService, currentState);
+  const errorCode = useSelector(gameService, getErrorCode);
+  const actions = useSelector(gameService, getActions);
+  const upgradingGuestGame = useSelector(gameService, isUpgradingGuestGame);
+  const transacting = useSelector(gameService, isTransacting);
+  const minting = useSelector(gameService, isMinting);
+  const claimingAuction = useSelector(gameService, isClaimAuction);
+  const refundAuction = useSelector(gameService, isRefundingAuction);
+
+  useInterval(() => {
+    gameService.send("SAVE");
+  }, AUTO_SAVE_INTERVAL);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (actions.length === 0) return;
+
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // cleanup on every gameState update
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [actions]);
+
+  useEffect(() => {
+    const save = () => {
+      gameService.send("SAVE");
+    };
+
+    window.addEventListener("blur", save);
+
+    // cleanup on every gameState update
+    return () => {
+      window.removeEventListener("blur", save);
+    };
+  }, []);
+
+  if (loadingSession || loadingLandToVisit) {
+    console.log("Inner loading");
+    return (
+      <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
+        <Modal show centered backdrop={false}>
+          <Panel>
+            <Loading />
+          </Panel>
+        </Modal>
+      </div>
+    );
+  }
+
   return (
     <ToastProvider>
       <ToastPanel />
@@ -329,7 +337,7 @@ export const Game: React.FC = () => {
       <Promoting />
       <Introduction />
 
-      {GameContent()}
+      {children}
     </ToastProvider>
   );
 };
