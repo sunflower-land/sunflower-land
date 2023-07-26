@@ -7,7 +7,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelRoomBorderStyle } from "features/game/lib/style";
 import { Rules } from "./Rules";
-import { getPotionHouseIntroRead } from "./lib/introStorage";
+import {
+  acknowledgePotionHouseIntro,
+  getPotionHouseIntroRead,
+} from "./lib/introStorage";
 
 interface Props {
   onClose: () => void;
@@ -59,7 +62,12 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
           </div>
           <div className="flex flex-col grow mb-1">
             {page === "intro" && (
-              <IntroPage onClose={() => setPage("playing")} />
+              <IntroPage
+                onClose={() => {
+                  acknowledgePotionHouseIntro();
+                  setPage("playing");
+                }}
+              />
             )}
             {page === "playing" && <Experiment onClose={onClose} />}
             {page === "rules" && <Rules onDone={() => setPage("playing")} />}
