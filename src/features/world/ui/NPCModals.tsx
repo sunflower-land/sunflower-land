@@ -12,6 +12,7 @@ import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 import { HeliosBlacksmithItems } from "features/helios/components/blacksmith/component/HeliosBlacksmithItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { DeliveryPanelContent } from "./deliveries/DeliveryPanelContent";
+import { Stylist } from "./stylist/Stylist";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -29,26 +30,19 @@ class NpcModalManager {
 
 export const npcModalManager = new NpcModalManager();
 
-interface Props {
-  onClose: () => void;
-  onOpen: () => void;
-}
-
-export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
+export const NPCModals: React.FC = () => {
   const [npc, setNpc] = useState<NPCName>();
   const [tab, setTab] = useState(0);
 
   useEffect(() => {
     npcModalManager.listen((npc, open) => {
       setNpc(npc);
-      setTimeout(onOpen, 100); // Lag the pause of movement to give natural effect
     });
   }, []);
 
   const closeModal = () => {
     setNpc(undefined);
     setTab(0);
-    onClose();
   };
 
   return (
@@ -63,16 +57,7 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
         {npc === "bella" && <Bella onClose={closeModal} />}
         {npc === "wanderleaf" && <WanderLeaf onClose={closeModal} />}
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
-        {npc === "stella" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.stella}
-          >
-            <div className="p-2">
-              <p className="mb-2">Coming soon... </p>
-            </div>
-          </CloseButtonPanel>
-        )}
+        {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && (
           <CloseButtonPanel
             onClose={closeModal}

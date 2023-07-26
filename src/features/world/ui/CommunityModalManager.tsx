@@ -37,24 +37,18 @@ class CommunityModalManager {
 
 export const communityModalManager = new CommunityModalManager();
 
-interface Props {
-  onClose: () => void;
-  onOpen: () => void;
-}
-export const CommunityModals: React.FC<Props> = ({ onClose, onOpen }) => {
+export const CommunityModals: React.FC = () => {
   const [modal, setModal] = useState<CommunityModal>();
 
   useEffect(() => {
     communityModalManager.listen((modal, open) => {
       console.log("OPENED", { modal });
       setModal(modal);
-      setTimeout(onOpen, 100); // Lag the pause of movement to give natural effect
     });
   }, []);
 
   const closeModal = () => {
     setModal(undefined);
-    onClose();
   };
 
   return (

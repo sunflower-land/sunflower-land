@@ -576,6 +576,8 @@ export interface GameState {
   airdrops?: Airdrop[];
   farmAddress?: string;
 
+  createdAt: number;
+
   tradedAt?: string;
   tradeOffer?: TradeOffer;
   warCollectionOffer?: WarCollectionOffer;

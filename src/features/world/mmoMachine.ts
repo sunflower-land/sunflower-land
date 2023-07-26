@@ -54,6 +54,7 @@ export interface MMOContext {
   availableServers: Server[];
   server?: Room<PlazaRoomState> | undefined;
   serverId: ServerId;
+  initialSceneId: SceneId;
 }
 
 export type MMOState = {
@@ -97,6 +98,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     bumpkin: INITIAL_BUMPKIN,
     availableServers: SERVERS,
     serverId: "sunflorea_bliss",
+    initialSceneId: "plaza",
   },
   exit: (context) => context.server?.leave(),
   states: {
@@ -137,6 +139,10 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
         },
         onDone: [
           {
+            target: "joined",
+            cond: (_) => !CONFIG.ROOM_URL,
+          },
+          {
             target: "connected",
             actions: assign({
               client: (_, event) => event.data.client,
@@ -175,7 +181,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
               farmId: context.farmId,
               x: SPAWNS.plaza.default.x,
               y: SPAWNS.plaza.default.y,
-              sceneId: "plaza",
+              sceneId: context.initialSceneId,
             }
           );
 

@@ -194,6 +194,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public faceRight() {
+    if (this.sprite?.scaleX === 1) return;
+
+    this.direction = "right";
     this.sprite?.setScale(1, 1);
 
     if (this.speech) {
@@ -203,9 +206,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public faceLeft() {
+    if (this.sprite?.scaleX === -1) return;
+
+    this.direction = "left";
     this.sprite?.setScale(-1, 1);
 
-    console.log("Face left");
     if (this.speech) {
       this.speech.changeDirection("left");
     }
@@ -215,9 +220,15 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
    * Use a debouncer to allow players new messages not to be destroyed by old timeouts
    */
   destroySpeechBubble = debounce(() => {
+    this.stopSpeaking();
+  }, 5000);
+
+  public stopSpeaking() {
     this.speech?.destroy();
     this.speech = undefined;
-  }, 5000);
+
+    this.destroySpeechBubble.cancel();
+  }
 
   public speak(text: string) {
     if (this.speech) {

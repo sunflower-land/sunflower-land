@@ -154,7 +154,7 @@ export function saveSession(farmId: number) {
   return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newSessions));
 }
 
-const PROMO_LS_KEY = `sb_wiz.promo-key.v.${host}-${window.location.pathname}`;
+const PROMO_LS_KEY = `sb_wiz.promo-key.v.${host}`;
 
 export function savePromoCode(id: string) {
   localStorage.setItem(PROMO_LS_KEY, id);

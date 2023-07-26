@@ -125,9 +125,13 @@ export abstract class BaseScene extends Phaser.Scene {
   zoom = window.innerWidth < 500 ? 3 : 4;
 
   constructor(options: BaseSceneOptions) {
+    if (!options.name) {
+      throw new Error("Missing name in config");
+    }
+
     const defaultedOptions: Required<BaseSceneOptions> = {
       ...options,
-      name: options.name ?? "community_island",
+      name: options.name,
       audio: options.audio ?? { fx: { walk_key: "wood_footstep" } },
       controls: options.controls ?? { enabled: true },
       mmo: options.mmo ?? { enabled: true },
@@ -316,6 +320,10 @@ export abstract class BaseScene extends Phaser.Scene {
         return;
       }
 
+      if (message.sceneId !== this.options.name) {
+        return;
+      }
+
       if (this.playerEntities[message.sessionId]) {
         this.playerEntities[message.sessionId].speak(message.text);
       } else if (message.sessionId === server.sessionId) {
@@ -465,6 +473,7 @@ export abstract class BaseScene extends Phaser.Scene {
           // Change scenes
           const warpTo = (obj2 as any).data?.list?.warp;
           if (warpTo) {
+            this.currentPlayer?.stopSpeaking();
             this.cameras.main.fadeOut(1000);
 
             this.cameras.main.on(
@@ -646,14 +655,21 @@ export abstract class BaseScene extends Phaser.Scene {
 
     // Destroy any dereferenced players
     Object.keys(this.playerEntities).forEach((sessionId) => {
-      if (!server.state.players.get(sessionId)) this.destroyPlayer(sessionId);
-      if (!this.playerEntities[sessionId].active) this.destroyPlayer(sessionId);
+      if (
+        !server.state.players.get(sessionId) ||
+        server.state.players.get(sessionId)?.sceneId !== this.scene.key
+      )
+        this.destroyPlayer(sessionId);
+      if (!this.playerEntities[sessionId]?.active)
+        this.destroyPlayer(sessionId);
     });
 
     // Create new players
     server.state.players.forEach((player, sessionId) => {
       // Skip the current player
       if (sessionId === server.sessionId) return;
+
+      if (player.sceneId !== this.scene.key) return;
 
       if (!this.playerEntities[sessionId]) {
         this.playerEntities[sessionId] = this.createPlayer({
@@ -662,6 +678,7 @@ export abstract class BaseScene extends Phaser.Scene {
           farmId: player.farmId,
           clothing: player.clothing,
           isCurrentPlayer: sessionId === server.sessionId,
+          npc: player.npc,
         });
       }
     });

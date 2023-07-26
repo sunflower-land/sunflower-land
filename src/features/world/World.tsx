@@ -6,14 +6,11 @@ import { useActor, useInterpret, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
-import { Success } from "features/game/components/Success";
-import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
-import { Refreshing } from "features/auth/components/Refreshing";
 import { WorldHud } from "features/island/hud/WorldHud";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { SceneId } from "./mmoMachine";
-import { ToastProvider } from "features/game/toast/ToastProvider";
-import { ToastPanel } from "features/game/toast/ToastPanel";
+import ocean from "assets/decorations/ocean.webp";
+
 import {
   MachineInterpreter as MMOMachineInterpreter,
   mmoMachine,
@@ -22,6 +19,9 @@ import {
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Ocean } from "./ui/Ocean";
 import { PickServer } from "./ui/PickServer";
+import { hasFeatureAccess } from "lib/flags";
+import { GameWrapper } from "features/game/expansion/Game";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   isCommunity?: boolean;
@@ -37,12 +37,6 @@ export const World: React.FC<Props> = ({ isCommunity = false }) => {
 };
 
 const _isLoading = (state: MachineState) => state.matches("loading");
-const _isMinting = (state: MachineState) => state.matches("minting");
-const _isSynced = (state: MachineState) => state.matches("synced");
-const _isErrored = (state: MachineState) => state.matches("error");
-const _refreshing = (state: MachineState) => state.matches("refreshing");
-const _hasAccess = (state: MachineState) =>
-  !!state.context.state.inventory["Beta Pass"];
 
 // MMO Machine
 const _isConnecting = (state: MMOMachineState) => state.matches("connecting");
@@ -69,6 +63,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       jwt: authState.context.user.rawToken,
       farmId: authState.context.user.farmId,
       bumpkin: gameState.context.state.bumpkin,
+      initialSceneId: name as SceneId,
     },
   }) as unknown as MMOMachineInterpreter;
 
@@ -79,7 +74,14 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const isJoined = useSelector(mmoService, _isJoined);
   const isKicked = useSelector(mmoService, _isKicked);
 
-  // Initiatilise Machine
+  const navigate = useNavigate();
+
+  if (
+    name === "plaza" &&
+    !hasFeatureAccess(gameState.context.state.inventory, "PUMPKIN_PLAZA")
+  ) {
+    navigate("/");
+  }
 
   // If state is x, y or z then return Travel Screen
   const isTraveling =
@@ -137,62 +139,21 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
 export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
   const { gameService } = useContext(Context);
   const isLoading = useSelector(gameService, _isLoading);
-  const isMinting = useSelector(gameService, _isMinting);
-  const synced = useSelector(gameService, _isSynced);
-  const errored = useSelector(gameService, _isErrored);
-  const refreshing = useSelector(gameService, _refreshing);
-  const hasPass = useSelector(gameService, _hasAccess);
 
-  // Show The "Travel" or the "Plaza Screen"
-
+  console.log({ isLoading });
   return (
-    <>
-      <ToastProvider>
-        <ToastPanel />
+    <div
+      className="bg-blue-600 w-full bg-repeat h-full flex relative items-center justify-center"
+      style={{
+        backgroundImage: `url(${ocean})`,
+        backgroundSize: `${64 * PIXEL_SCALE}px`,
+        imageRendering: "pixelated",
+      }}
+    >
+      <GameWrapper>
         {!isLoading && <MMO isCommunity={isCommunity} />}
-        {/* <PhaserComponent
-          mmoService={mmoService}
-          scene={name as SceneId}
-          isCommunity={isCommunity}
-        /> */}
-
         <WorldHud />
-
-        <Modal show={isLoading} centered>
-          <Panel>
-            <p className="loading">Loading</p>
-          </Panel>
-        </Modal>
-
-        <Modal show={isMinting} centered>
-          <Panel>
-            <p className="loading">Minting</p>
-          </Panel>
-        </Modal>
-
-        <Modal show={synced} centered>
-          <Panel>
-            <Success />
-          </Panel>
-        </Modal>
-
-        <Modal show={errored} centered>
-          <Panel>
-            <SomethingWentWrong />
-          </Panel>
-        </Modal>
-
-        <Modal show={refreshing} centered>
-          <Panel>
-            <Refreshing />
-          </Panel>
-        </Modal>
-      </ToastProvider>
-      <Modal show={refreshing} centered>
-        <Panel>
-          <Refreshing />
-        </Panel>
-      </Modal>
-    </>
+      </GameWrapper>
+    </div>
   );
 };

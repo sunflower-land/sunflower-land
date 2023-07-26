@@ -16,6 +16,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
+import { BUMPKIN_WITHDRAWABLES } from "features/game/types/withdrawables";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: number[]) => void;
@@ -115,7 +116,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
                   count={new Decimal(wardrobeCount ?? 0)}
                   key={itemName}
                   onClick={() => onAdd(itemName)}
-                  disabled={itemName === "Mushroom Hat"}
+                  disabled={!BUMPKIN_WITHDRAWABLES[itemName]()}
                   image={getImageUrl(ITEM_IDS[itemName])}
                 />
               );
