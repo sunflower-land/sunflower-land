@@ -1,10 +1,9 @@
-import React, { useContext, useReducer } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelTableBorderStyle } from "features/game/lib/style";
 import tableTop from "assets/ui/table_top.webp";
 import plant from "assets/decorations/planter_box.webp";
 import { InnerPanel } from "components/ui/Panel";
-import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Button } from "components/ui/Button";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SpeechBubble } from "./SpeechBubble";
@@ -13,20 +12,20 @@ import { Box } from "./Box";
 import shadow from "assets/npcs/shadow.png";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
-import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { PotionName } from "features/game/types/game";
 import { calculateScore } from "features/game/events/landExpansion/mixPotion";
 import { Potion } from "./lib/types";
+import { getFeedbackText } from "./lib/helpers";
+import { DesiredAnimation, MixingPotion } from "./MixingPotion";
 
 interface Props {
   onClose: () => void;
 }
 
-const _inventory = (state: GameMachineState) => state.context.state.inventory;
-const _isPlaying = (state: GameMachineState) =>
-  state.matches("playing") || state.matches("rules");
-const _isGameOver = (state: GameMachineState) =>
-  !state.matches("playing") && !state.matches("rules");
+const EMPTY_ATTEMPT = new Array<{ potion: null; status: undefined }>(4).fill({
+  potion: null,
+  status: undefined,
+});
 
 type Potions = [
   PotionName | null,
@@ -39,8 +38,6 @@ type PotionState = {
   guessSpot: number;
   selectedPotion: Potion;
   currentGuess: Potions;
-  feedbackText: string;
-  isPrizeRevealed: boolean;
   isNewGame: boolean;
 };
 
@@ -52,17 +49,14 @@ type PotionAction =
   | { type: "RESET_GAME" }
   | { type: "REMOVE_GUESS"; guessSpot: number }
   | { type: "ADD_GUESS"; guessSpot: number; potion: PotionName }
-  | { type: "REVEAL_PRIZE" }
   | { type: "NEW_GAME" }
   | { type: "UPDATE_POTION"; potion: PotionName };
 
-const resetGame = (isGameFinished: boolean): PotionState => ({
+const resetGame = (isNewGame: boolean): PotionState => ({
   guessSpot: 0,
   selectedPotion: Object.values(POTIONS)[0],
   currentGuess: [null, null, null, null],
-  feedbackText: "Select your potions and unveil the secrets of the plants!",
-  isPrizeRevealed: isGameFinished,
-  isNewGame: false,
+  isNewGame,
 });
 
 const gameHandler = (state: PotionState, action: PotionAction): PotionState => {
@@ -89,11 +83,6 @@ const gameHandler = (state: PotionState, action: PotionAction): PotionState => {
         guessSpot: newGuess.indexOf(null),
       };
     }
-    case "REVEAL_PRIZE":
-      return {
-        ...state,
-        isPrizeRevealed: true,
-      };
     case "NEW_GAME": {
       return {
         ...state,
@@ -112,42 +101,44 @@ const gameHandler = (state: PotionState, action: PotionAction): PotionState => {
 
 export const Experiment: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
+  const [desiredAnimation, setDesiredAnimation] =
+    useState<DesiredAnimation>("static");
+  const [feedbackText, setFeedbackText] = useState<string>(
+    "Select your potions and unveil the secrets of the plants!"
+  );
 
   const potionHouse = gameService.state.context.state.potionHouse;
-  const inventory = gameService.state.context.state.inventory;
-
+  const previousAttempts = potionHouse?.game.attempts ?? [];
+  const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
   const isFinished = potionHouse?.game.status === "finished";
 
   const [potionState, dispatch] = useReducer(
     gameHandler,
     resetGame(isFinished)
   );
-
-  const {
-    isNewGame,
-    currentGuess,
-    feedbackText,
-    guessSpot,
-    isPrizeRevealed,
-    selectedPotion,
-  } = potionState;
+  const { isNewGame, currentGuess, guessSpot, selectedPotion } = potionState;
 
   const isEndScreen = isFinished && !isNewGame;
-
-  const previousAttempts = potionHouse?.game.attempts ?? [];
-  const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
-
-  const emptyAttempt = new Array<{ potion: null; status: undefined }>(4).fill({
-    potion: null,
-    status: undefined,
-  });
+  const isGuessing = lastAttempt.some((potion) => potion.status === "pending");
+  const isBombed = lastAttempt.some((potion) => potion.status === "bomb");
 
   const attempts = isNewGame
-    ? new Array<{ potion: null; status: undefined }[]>(3).fill(emptyAttempt)
-    : previousAttempts.concat(new Array(3).fill(emptyAttempt)).slice(0, 3);
-
+    ? new Array<{ potion: null; status: undefined }[]>(3).fill(EMPTY_ATTEMPT)
+    : previousAttempts.concat(new Array(3).fill(EMPTY_ATTEMPT)).slice(0, 3);
   const guessRow = isNewGame ? 0 : potionHouse?.game.attempts.length ?? 0;
   const score = isNewGame ? 0 : calculateScore(lastAttempt);
+
+  useEffect(() => {
+    if (isGuessing) {
+      setDesiredAnimation("mixing");
+      return;
+    }
+
+    if (desiredAnimation === "mixing") {
+      setFeedbackText(getFeedbackText(score));
+      score > 0 ? setDesiredAnimation("success") : setDesiredAnimation("boom");
+    }
+  }, [isGuessing]);
 
   const onPotionButtonClick = () => {
     // REMOVE
@@ -164,6 +155,7 @@ export const Experiment: React.FC<Props> = ({ onClose }) => {
   };
 
   const onSubmit = () => {
+    console.log("SUBMIT");
     dispatch({ type: "RESET_GAME" });
 
     gameService.send("potion.mixed", {
@@ -175,15 +167,10 @@ export const Experiment: React.FC<Props> = ({ onClose }) => {
 
   return (
     <>
-      {isEndScreen && !isPrizeRevealed && (
-        <Button onClick={() => dispatch({ type: "REVEAL_PRIZE" })}>
-          Reveal Prize
-        </Button>
-      )}
-      {isEndScreen && isPrizeRevealed && (
+      {isEndScreen && (
         <div>
           {potionHouse?.game.reward
-            ? `Congratulations! You won a ${[potionHouse?.game.reward]}!`
+            ? `Congratulations! You won ${[potionHouse?.game.reward]} points!`
             : "Whoops! better luck next time!"}
         </div>
       )}
@@ -223,8 +210,8 @@ export const Experiment: React.FC<Props> = ({ onClose }) => {
                       />
                       {/* <Prog */}
                       <ResizableBar
-                        percentage={score}
-                        type="health"
+                        percentage={isBombed ? 100 : score}
+                        type={isBombed ? "error" : "health"}
                         outerDimensions={{
                           width: 28,
                           height: 7,
@@ -281,24 +268,13 @@ export const Experiment: React.FC<Props> = ({ onClose }) => {
           {/* Right Side */}
           <div className="flex flex-col items-center w-full grow justify-center">
             <div className="flex flex-col items-center justify-between">
-              <div className="ml-3 flex flex-col items-center sm:max-w-[70%]">
-                <SpeechBubble text={feedbackText} className="w-4/5" />
-                <div
-                  className="relative w-full mb-2 max-w-[190px]"
-                  style={{ transform: "scale(-1, 1)" }}
-                >
-                  <DynamicNFT
-                    bumpkinParts={{
-                      body: "Beige Farmer Potion",
-                      hair: "Blacksmith Hair",
-                      pants: "Farmer Overalls",
-                      shirt: "Yellow Farmer Shirt",
-                      tool: "Hammer",
-                      background: "Farm Background",
-                      shoes: "Black Farmer Boots",
-                    }}
-                  />
+              <div className="flex flex-col items-center sm:max-w-[70%]">
+                <div className="min-h-[80px]">
+                  {!isGuessing && (
+                    <SpeechBubble text={feedbackText} className="w-4/5" />
+                  )}
                 </div>
+                <MixingPotion desiredAnimation={desiredAnimation} />
               </div>
             </div>
           </div>

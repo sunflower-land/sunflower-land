@@ -392,13 +392,12 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   eins: {
     body: "Beige Farmer Potion",
-    coat: "Chef Apron",
-    hair: "Sun Spots",
-    pants: "Blue Suspenders",
+    hair: "Blacksmith Hair",
+    pants: "Farmer Overalls",
     shirt: "Yellow Farmer Shirt",
-    tool: "Farmer Pitchfork",
+    tool: "Hammer",
     background: "Farm Background",
-    shoes: "Brown Boots",
+    shoes: "Black Farmer Boots",
   },
 };
 

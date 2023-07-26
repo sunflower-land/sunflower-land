@@ -536,7 +536,7 @@ export type PotionHouse = {
   game: {
     status: "in_progress" | "finished";
     attempts: Attempt[];
-    reward?: InventoryItemName;
+    reward?: number;
   };
   history: {
     [score: number]: number;
