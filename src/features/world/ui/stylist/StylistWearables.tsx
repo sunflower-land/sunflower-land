@@ -32,7 +32,6 @@ function isNotReady(name: BumpkinItem, farmCreatedAt: number) {
   const wearable = STYLIST_WEARABLES[name] as StylistWearable;
 
   if (wearable.hoursPlayed) {
-    console.log({ hours: wearable.hoursPlayed });
     const hoursPlayed = (Date.now() - farmCreatedAt) / 1000 / 60 / 60;
 
     if (hoursPlayed < wearable.hoursPlayed) {
