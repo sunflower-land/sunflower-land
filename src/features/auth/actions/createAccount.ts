@@ -107,7 +107,7 @@ export async function createAccount({
 }
 
 const host = window.location.host.replace(/^www\./, "");
-const REFERRER_LS_KEY = `sb_wiz.ref-key.v.${host}-${window.location.pathname}`;
+const REFERRER_LS_KEY = `sb_wiz.ref-key.v.${host}`;
 
 export function saveReferrerId(id: string) {
   localStorage.setItem(REFERRER_LS_KEY, id);
