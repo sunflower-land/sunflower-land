@@ -90,18 +90,14 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
   );
 };
 
-const HasWheat = (
-  inventoryWheatCount: Decimal,
-  collectibles: Collectibles,
-  selectedItem?: string
-) => {
+const HasWheat = (inventoryWheatCount: Decimal, collectibles: Collectibles) => {
   const wheatRequired = getWheatRequiredToFeed(collectibles);
 
   // has enough wheat to feed chickens
 
   if (wheatRequired.lte(0)) return true;
 
-  return selectedItem === "Wheat" && inventoryWheatCount.gte(wheatRequired);
+  return inventoryWheatCount.gte(wheatRequired);
 };
 
 const isHungry = (state: ChickenMachineState) => state.matches("hungry");
@@ -133,7 +129,7 @@ interface Props {
 
 const PlaceableChicken: React.FC<Props> = ({ id }) => {
   const { scale } = useContext(ZoomContext);
-  const { gameService, selectedItem, showTimers } = useContext(Context);
+  const { gameService, shortcutItem, showTimers } = useContext(Context);
 
   const chicken = useSelector(
     gameService,
@@ -149,8 +145,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
     gameService,
     selectInventoryWheatCount,
     (prev: Decimal, next: Decimal) =>
-      HasWheat(prev, collectibles, selectedItem) ===
-      HasWheat(next, collectibles, selectedItem)
+      HasWheat(prev, collectibles) === HasWheat(next, collectibles)
   );
 
   const percentageComplete = getPercentageComplete(chicken?.fedAt);
@@ -208,7 +203,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
   };
 
   const feed = async () => {
-    const hasWheat = HasWheat(inventoryWheatCount, collectibles, selectedItem);
+    const hasWheat = HasWheat(inventoryWheatCount, collectibles);
 
     if (!hasWheat) {
       setShowPopover(true);
@@ -216,6 +211,8 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
       setShowPopover(false);
       return;
     }
+
+    shortcutItem("Wheat");
 
     const {
       context: {

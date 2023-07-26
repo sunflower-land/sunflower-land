@@ -45,7 +45,7 @@ export const DeadTree = ({
   const axeAmount = inventory.Axe || new Decimal(0);
 
   // Has enough axes to chop the tree
-  const hasAxes = axesNeeded.eq(0) && axeAmount.gte(axesNeeded);
+  const hasAxes = axeAmount.gte(axesNeeded);
 
   const handleHover = () => {
     if (!hasAxes) {
