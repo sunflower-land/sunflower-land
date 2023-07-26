@@ -136,15 +136,10 @@ export const PhaserComponent: React.FC<Props> = ({
     });
 
     mmoService.state.context.server?.state.messages.onChange(() => {
-      console.log("on message change");
       // Load active scene in Phaser, otherwise fallback to route
       const currentScene =
         game.current?.scene.getScenes(true)[0]?.scene.key ?? scene;
 
-      console.log({
-        currentScene,
-        messages: mmoService.state.context.server?.state.messages,
-      });
       const sceneMessages =
         mmoService.state.context.server?.state.messages.filter(
           (m) => m.sceneId === currentScene
@@ -167,51 +162,6 @@ export const PhaserComponent: React.FC<Props> = ({
 
   const ref = useRef<HTMLDivElement>(null);
 
-  const pauseInput = () => {
-    if (!game.current) {
-      return;
-    }
-    game.current.input.enabled = false;
-    if (game.current.input.keyboard) {
-      game.current.input.keyboard.enabled = false;
-      game.current.input.keyboard.clearCaptures();
-    }
-  };
-
-  const resumeInput = () => {
-    if (!game.current) {
-      return;
-    }
-
-    game.current.input.enabled = true;
-    if (game.current.input.keyboard) {
-      game.current.input.keyboard.enabled = true;
-      game.current.input.keyboard.clearCaptures();
-    }
-  };
-
-  // Prevent Phaser events firing when interacting with HTML UI
-  useEffect(() => {
-    function handleClickOutside(event: any) {
-      if (!ref.current || !game.current) {
-        return;
-      }
-
-      if (!ref.current.contains(event.target)) {
-        pauseInput();
-      } else {
-        resumeInput();
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("touchstart", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("touchstart", handleClickOutside);
-    };
-  }, [ref]);
-
   return (
     <div>
       <div id="game-content" ref={ref} />
@@ -220,23 +170,12 @@ export const PhaserComponent: React.FC<Props> = ({
           mmoService.state.context.server?.send(0, {
             text: m.text ?? "?",
           });
-          resumeInput(); // Focus on game again
-        }}
-        onChatStarted={() => {
-          pauseInput();
-        }}
-        onChatClose={() => {
-          resumeInput();
         }}
         messages={messages ?? []}
       />
-      <NPCModals onClose={resumeInput} onOpen={pauseInput} />
-      <CommunityModals onClose={resumeInput} onOpen={pauseInput} />
-      <InteractableModals
-        id={authState.context.user.farmId as number}
-        onClose={resumeInput}
-        onOpen={pauseInput}
-      />
+      <NPCModals />
+      <CommunityModals />
+      <InteractableModals id={authState.context.user.farmId as number} />
       <Modal
         show={mmoState === "loading" || mmoState === "initialising"}
         centered

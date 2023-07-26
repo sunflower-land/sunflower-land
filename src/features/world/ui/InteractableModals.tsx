@@ -52,14 +52,8 @@ export const interactableModalManager = new InteractableModalManager();
 
 interface Props {
   id: number;
-  onClose: () => void;
-  onOpen: () => void;
 }
-export const InteractableModals: React.FC<Props> = ({
-  id,
-  onOpen,
-  onClose,
-}) => {
+export const InteractableModals: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
@@ -71,13 +65,11 @@ export const InteractableModals: React.FC<Props> = ({
   useEffect(() => {
     interactableModalManager.listen((interactable, open) => {
       setInteractable(interactable);
-      onOpen();
     });
   }, []);
 
   const closeModal = () => {
     setInteractable(undefined);
-    onClose();
   };
 
   const navigate = useNavigate();

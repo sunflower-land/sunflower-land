@@ -17,16 +17,9 @@ export type Message = {
 interface Props {
   messages: Message[];
   onMessage: (content: { text?: string; reaction?: ReactionName }) => void;
-  onChatStarted: () => void;
-  onChatClose: () => void;
 }
 
-export const ChatUI: React.FC<Props> = ({
-  onMessage,
-  messages,
-  onChatStarted,
-  onChatClose,
-}) => {
+export const ChatUI: React.FC<Props> = ({ onMessage, messages }) => {
   const [showChat, setShowChat] = useState(false);
   const [messageCountOnChatClose, setMessageCountOnChatClose] = useState(0);
   const [newMessageCount, setNewMessageCount] = useState(0);
@@ -48,7 +41,6 @@ export const ChatUI: React.FC<Props> = ({
   const handleChatClose = () => {
     setShowChat(false);
     setMessageCountOnChatClose(messages.length);
-    onChatClose();
   };
 
   return (
@@ -63,7 +55,6 @@ export const ChatUI: React.FC<Props> = ({
         <ChatText
           messages={messages}
           onMessage={(text) => onMessage({ text })}
-          onChatStarted={onChatStarted}
         />
       </div>
       <div
