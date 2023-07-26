@@ -1,6 +1,6 @@
+import { SUNNYSIDE } from "assets/sunnyside";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import React, { useEffect, useState } from "react";
-
-type InteractableName = "collect_corn";
 
 type Listener = {
   collectCorn: (id: string) => void;
@@ -46,8 +46,19 @@ export const MazeHud: React.FC = () => {
 
   return (
     <div className="fixed inset-0">
-      <div className="absolute top-2 right-2 text-xl">{score}</div>
-      <div className="absolute top-2 left-2 text-xl">{health}</div>
+      <div className="absolute top-2 right-2 text-[2.5rem] md:text-xl flex space-x-2 items-center">
+        <img
+          src={CROP_LIFECYCLE.Corn.crop}
+          alt="Collected Corn"
+          className="w-10 md:w-14"
+        />
+        <span>{score}</span>
+      </div>
+      <div className="absolute top-2 left-2 flex space-x-2 items-center">
+        {new Array(health).fill(null).map((_, i) => (
+          <img key={i} src={SUNNYSIDE.icons.heart} className="w-10 md:w-14" />
+        ))}
+      </div>
     </div>
   );
 };

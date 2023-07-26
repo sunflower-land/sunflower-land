@@ -1,4 +1,4 @@
-import cornExampleJSON from "assets/map/corn_example.json";
+import cornMazeJSON from "assets/map/corn_maze.json";
 import { mazeManager } from "features/world/ui/MazeHud";
 
 import { BaseScene, NPCBumpkin } from "./BaseScene";
@@ -22,7 +22,7 @@ export class CornScene extends BaseScene {
     super({
       name: "corn_maze",
       map: {
-        json: CONFIG.API_URL ? `${CONFIG.API_URL}/maps/corn` : cornExampleJSON,
+        json: CONFIG.API_URL ? `${CONFIG.API_URL}/maps/corn` : cornMazeJSON,
       },
     });
   }
