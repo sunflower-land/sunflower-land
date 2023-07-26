@@ -20,6 +20,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { Ocean } from "./ui/Ocean";
 import { PickServer } from "./ui/PickServer";
 import { hasFeatureAccess } from "lib/flags";
+import { MazeHud } from "./ui/MazeHud";
 import { GameWrapper } from "features/game/expansion/Game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -139,6 +140,7 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
 export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
   const { gameService } = useContext(Context);
   const isLoading = useSelector(gameService, _isLoading);
+  const name = useParams().name as SceneId;
 
   console.log({ isLoading });
   return (
@@ -152,7 +154,7 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
     >
       <GameWrapper>
         {!isLoading && <MMO isCommunity={isCommunity} />}
-        <WorldHud />
+        {name === "corn_maze" ? <MazeHud /> : <WorldHud />}
       </GameWrapper>
     </div>
   );

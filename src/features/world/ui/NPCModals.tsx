@@ -13,6 +13,8 @@ import { HeliosBlacksmithItems } from "features/helios/components/blacksmith/com
 import { SUNNYSIDE } from "assets/sunnyside";
 import { DeliveryPanelContent } from "./deliveries/DeliveryPanelContent";
 import { Stylist } from "./stylist/Stylist";
+import { Button } from "components/ui/Button";
+import { SceneId } from "../mmoMachine";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -30,7 +32,10 @@ class NpcModalManager {
 
 export const npcModalManager = new NpcModalManager();
 
-export const NPCModals: React.FC = () => {
+interface Props {
+  onNavigate: (sceneId: SceneId) => void;
+}
+export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
   const [npc, setNpc] = useState<NPCName>();
   const [tab, setTab] = useState(0);
 
@@ -155,6 +160,24 @@ export const NPCModals: React.FC = () => {
         )}
         {npc === "betty" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "cornwell" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "luna" && (
+          <CloseButtonPanel
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES.luna}
+          >
+            <div className="p-2">
+              <p className="mb-2">Hey wanna maze?</p>
+              <Button
+                onClick={() => {
+                  onNavigate("corn_maze");
+                  closeModal();
+                }}
+              >
+                Go
+              </Button>
+            </div>
+          </CloseButtonPanel>
+        )}
       </Modal>
     </>
   );
