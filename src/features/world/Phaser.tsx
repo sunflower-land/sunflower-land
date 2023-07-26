@@ -80,8 +80,7 @@ export const PhaserComponent: React.FC<Props> = ({
     const config: Phaser.Types.Core.GameConfig = {
       type: AUTO,
       fps: {
-        target: 60,
-        forceSetTimeOut: true,
+        target: 30,
         smoothStep: true,
       },
       backgroundColor: "#000000",
