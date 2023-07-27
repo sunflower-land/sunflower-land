@@ -64,7 +64,7 @@ export const Airdrop: React.FC = () => {
                 </div>
               ))}
 
-            {getKeys(airdrop.wearables).length > 0 &&
+            {getKeys(airdrop.wearables ?? {}).length > 0 &&
               getKeys(airdrop.wearables).map((name) => (
                 <div
                   className="flex items-center justify-center mb-2"
