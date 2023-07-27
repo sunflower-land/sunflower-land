@@ -124,7 +124,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
             <Label type="warning" className="my-1 mx-auto">
               <div className="flex items-center">
                 <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
-                <span className="text-xs">
+                <span className="text-xxs">
                   {" "}
                   {formatDateRange(wearable.from, wearable.to as Date)}
                 </span>

@@ -52,6 +52,14 @@ export function craftCollectible({
     throw new Error("You do not have a Bumpkin");
   }
 
+  if (item.from && item.from?.getTime() > createdAt) {
+    throw new Error("Too early");
+  }
+
+  if (item.to && item.to?.getTime() < createdAt) {
+    throw new Error("Too late");
+  }
+
   const subtractedInventory = getKeys(item.ingredients).reduce(
     (inventory, ingredientName) => {
       const count = inventory[ingredientName] || new Decimal(0);

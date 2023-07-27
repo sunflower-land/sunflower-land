@@ -11,10 +11,21 @@ import { Button } from "components/ui/Button";
 import {
   HeliosBlacksmithItem,
   HELIOS_BLACKSMITH_ITEMS,
+  CraftableCollectible,
 } from "features/game/types/collectibles";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
+function isNotReady(collectible: CraftableCollectible) {
+  return (
+    collectible.from &&
+    collectible.to &&
+    (collectible.from.getTime() > Date.now() ||
+      collectible.to.getTime() < Date.now())
+  );
+}
 export const HeliosBlacksmithItems: React.FC = () => {
   const [selectedName, setSelectedName] =
     useState<HeliosBlacksmithItem>("Immortal Pear");
@@ -49,6 +60,8 @@ export const HeliosBlacksmithItems: React.FC = () => {
           gameState={state}
           details={{
             item: selectedName,
+            from: selectedItem.from,
+            to: selectedItem.to,
           }}
           boost={selectedItem.boost}
           requirements={{
@@ -58,7 +71,10 @@ export const HeliosBlacksmithItems: React.FC = () => {
             isAlreadyCrafted ? (
               <p className="text-xxs text-center mb-1">Already crafted!</p>
             ) : (
-              <Button disabled={lessIngredients()} onClick={craft}>
+              <Button
+                disabled={lessIngredients() || isNotReady(selectedItem)}
+                onClick={craft}
+              >
                 Craft
               </Button>
             )
@@ -68,15 +84,33 @@ export const HeliosBlacksmithItems: React.FC = () => {
       content={
         <>
           {getKeys(HELIOS_BLACKSMITH_ITEMS).map(
-            (name: HeliosBlacksmithItem) => (
-              <Box
-                isSelected={selectedName === name}
-                key={name}
-                onClick={() => setSelectedName(name)}
-                image={ITEM_DETAILS[name].image}
-                count={inventory[name]}
-              />
-            )
+            (name: HeliosBlacksmithItem) => {
+              const isTimeLimited = isNotReady(HELIOS_BLACKSMITH_ITEMS[name]);
+
+              return (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => setSelectedName(name)}
+                  image={ITEM_DETAILS[name].image}
+                  count={inventory[name]}
+                  showOverlay={isTimeLimited}
+                  overlayIcon={
+                    <img
+                      src={SUNNYSIDE.icons.stopwatch}
+                      id="confirm"
+                      alt="confirm"
+                      className="object-contain absolute"
+                      style={{
+                        width: `${PIXEL_SCALE * 8}px`,
+                        top: `${PIXEL_SCALE * -4}px`,
+                        right: `${PIXEL_SCALE * -4}px`,
+                      }}
+                    />
+                  }
+                />
+              );
+            }
           )}
         </>
       }

@@ -352,6 +352,8 @@ export type Decoration = {
   // If no SFL it is not available for purchase
   sfl?: Decimal;
   limit?: number;
+  from?: Date;
+  to?: Date;
 };
 
 export const HELIOS_DECORATIONS: () => Record<
@@ -539,6 +541,8 @@ export const SEASONAL_DECORATIONS: (
     ingredients: {
       "Dawn Breaker Ticket": new Decimal(20),
     },
+    from: new Date("2023-05-01"),
+    to: new Date("2023-08-01"),
     description:
       "Keep those Eggplants dry during those rainy days with the Dawn Umbrella Seat.",
   },
@@ -553,6 +557,8 @@ export const SEASONAL_DECORATIONS: (
       Eggplant: new Decimal(50),
       "Dawn Breaker Ticket": new Decimal(100),
     },
+    from: new Date("2023-05-01"),
+    to: new Date("2023-08-01"),
     limit: 1,
   },
   "Giant Dawn Mushroom": {
@@ -564,6 +570,8 @@ export const SEASONAL_DECORATIONS: (
       "Wild Mushroom": new Decimal(10),
       Eggplant: new Decimal(30),
     },
+    from: new Date("2023-05-01"),
+    to: new Date("2023-08-01"),
     limit: 5,
   },
   ...(!state?.inventory || !!state?.inventory["Dawn Breaker Banner"]
@@ -577,6 +585,8 @@ export const SEASONAL_DECORATIONS: (
             Gold: new Decimal(5),
             "Wild Mushroom": new Decimal(20),
           },
+          from: new Date("2023-05-01"),
+          to: new Date("2023-08-01"),
           limit: 1,
         },
         Cobalt: {
@@ -586,6 +596,8 @@ export const SEASONAL_DECORATIONS: (
             Gold: new Decimal(2),
             "Wild Mushroom": new Decimal(10),
           },
+          from: new Date("2023-05-01"),
+          to: new Date("2023-08-01"),
           description:
             "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
           limit: 1,
@@ -595,12 +607,45 @@ export const SEASONAL_DECORATIONS: (
   "Shroom Glow": {
     name: "Shroom Glow",
     sfl: SFLDiscount(state, new Decimal(10)),
+    from: new Date("2023-05-01"),
+    to: new Date("2023-08-01"),
     description:
       "Illuminate your farm with the enchanting glow of Shroom Glow.",
     ingredients: {
       Gold: new Decimal(5),
       Wood: new Decimal(70),
       "Wild Mushroom": new Decimal(30),
+    },
+  },
+  Candles: {
+    name: "Candles",
+    sfl: SFLDiscount(state, new Decimal(5)),
+    from: new Date("2023-08-01"),
+    to: new Date("2023-11-01"),
+    description:
+      "Enchant your farm with flickering spectral flames during Witches' Eve.",
+    ingredients: {
+      "Crow Feather": new Decimal(5),
+    },
+  },
+  "Haunted Stump": {
+    name: "Haunted Stump",
+    sfl: new Decimal(0),
+    from: new Date("2023-08-01"),
+    to: new Date("2023-09-01"),
+    description: "Summon spirits and add eerie charm to your farm.",
+    ingredients: {
+      "Crow Feather": new Decimal(100),
+    },
+  },
+  "Spooky Tree": {
+    name: "Spooky Tree",
+    sfl: SFLDiscount(state, new Decimal(50)),
+    from: new Date("2023-09-01"),
+    to: new Date("2023-10-01"),
+    description: "A hauntingly fun addition to your farm's decor!",
+    ingredients: {
+      "Crow Feather": new Decimal(250),
     },
   },
 });

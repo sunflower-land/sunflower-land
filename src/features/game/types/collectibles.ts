@@ -21,7 +21,10 @@ export type HeliosBlacksmithItem =
   | "Basic Scarecrow"
   | "Bale"
   | "Scary Mike"
-  | "Laurie the Chuckle Crow";
+  | "Laurie the Chuckle Crow"
+  | "Poppy"
+  | "Kernaldo"
+  | "Grain Grinder";
 
 export type SoldOutCollectibleName =
   | "Sir Goldensnout"
@@ -70,38 +73,14 @@ export type CraftableCollectible = {
   description: string;
   boost?: string;
   sfl?: Decimal;
+  from?: Date;
+  to?: Date;
 };
 
 export const HELIOS_BLACKSMITH_ITEMS: Record<
   HeliosBlacksmithItem,
   CraftableCollectible
 > = {
-  "Immortal Pear": {
-    description: "A long-lived pear that makes fruit trees last longer.",
-    ingredients: {
-      Gold: new Decimal(5),
-      Apple: new Decimal(10),
-      Blueberry: new Decimal(10),
-      Orange: new Decimal(10),
-    },
-    boost: "+1 harvest",
-  },
-  "Treasure Map": {
-    description: "X marks the spot!",
-    ingredients: {
-      Gold: new Decimal(5),
-      "Wooden Compass": new Decimal(2),
-    },
-    boost: "+20% SFL on Treasure Bounty",
-  },
-  "Basic Scarecrow": {
-    description: "Choosy defender of your farm's VIP (Very Important Plants)",
-    ingredients: {
-      Wood: new Decimal(3),
-    },
-    boost: "20% faster Sunflowers, Potatoes and Pumpkins",
-    sfl: new Decimal(0),
-  },
   Bale: {
     description:
       "A poultry's favorite neighbor, providing a cozy retreat for chickens",
@@ -114,6 +93,15 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     sfl: new Decimal(5),
     boost: "Adjacent chickens produce +0.2 Eggs",
   },
+  "Basic Scarecrow": {
+    description: "Choosy defender of your farm's VIP (Very Important Plants)",
+    ingredients: {
+      Wood: new Decimal(3),
+    },
+    boost: "20% faster Sunflowers, Potatoes and Pumpkins",
+    sfl: new Decimal(0),
+  },
+
   "Scary Mike": {
     description:
       "The veggie whisperer and champion of frightfully good harvests!",
@@ -138,6 +126,56 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     },
     sfl: new Decimal(45),
     boost: "+0.2 yield on Eggplants, Radishes, Wheat and Kale",
+  },
+  "Immortal Pear": {
+    description: "A long-lived pear that makes fruit trees last longer.",
+    ingredients: {
+      Gold: new Decimal(5),
+      Apple: new Decimal(10),
+      Blueberry: new Decimal(10),
+      Orange: new Decimal(10),
+    },
+    boost: "+1 harvest",
+  },
+  "Treasure Map": {
+    description: "X marks the spot!",
+    ingredients: {
+      Gold: new Decimal(5),
+      "Wooden Compass": new Decimal(2),
+    },
+    boost: "+20% SFL on Treasure Bounty",
+  },
+  // TODO DISCOUNTS!!!
+  Poppy: {
+    description: "The mystical corn kernel.",
+    ingredients: {
+      Gold: new Decimal(5),
+      "Crow Feather": new Decimal(100),
+    },
+    boost: "+0.1 Corn",
+    from: new Date("2023-08-01"),
+    to: new Date("2023-09-01"),
+  },
+  Kernaldo: {
+    description: "The magical corn whisperer.",
+    ingredients: {
+      "Crow Feather": new Decimal(500),
+    },
+    sfl: new Decimal(50),
+    boost: "+25% Corn Speed",
+    from: new Date("2023-09-01"),
+    to: new Date("2023-10-01"),
+  },
+  "Grain Grinder": {
+    description:
+      "Grind your grain and experience a delectable surge in Cake XP.",
+    ingredients: {
+      "Crow Feather": new Decimal(750),
+    },
+    sfl: new Decimal(100),
+    boost: "+20% Cake XP",
+    from: new Date("2023-10-01"),
+    to: new Date("2023-11-01"),
   },
 };
 

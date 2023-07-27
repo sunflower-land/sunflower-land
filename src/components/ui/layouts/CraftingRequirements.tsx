@@ -11,6 +11,8 @@ import React from "react";
 import { Label } from "../Label";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
+import { formatDateRange } from "lib/utils/time";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 /**
  * The props for the details for items.
@@ -21,6 +23,8 @@ import { SquareIcon } from "../SquareIcon";
 interface ItemDetailsProps {
   item: InventoryItemName;
   quantity?: Decimal;
+  from?: Date;
+  to?: Date;
 }
 
 /**
@@ -230,6 +234,17 @@ export const CraftingRequirements: React.FC<Props> = ({
     <div className="flex flex-col h-full justify-between">
       <div className="flex flex-col justify-center px-1 py-0">
         {getStock()}
+        {details.from && (
+          <Label type="warning" className="my-1 mx-auto">
+            <div className="flex items-center">
+              <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
+              <span className="text-xxs">
+                {" "}
+                {formatDateRange(details.from, details.to as Date)}
+              </span>
+            </div>
+          </Label>
+        )}
         {getItemDetail({ hideDescription })}
         {limit && (
           <p className="my-1 text-xs text-left sm:text-center">{`Max ${limit} per player`}</p>
