@@ -49,6 +49,7 @@
     "lodash.isempty": "^4.4.0",
     "lodash.omit": "^4.5.0",
     "lodash.shuffle": "^4.2.0",
+    "mitt": "^3.0.1",
     "phaser": "^3.60.0",
     "phaser3-rex-plugins": "^1.60.1",
     "process": "^0.11.10",

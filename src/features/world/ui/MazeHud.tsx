@@ -1,7 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { CountdownLabel } from "components/ui/CountdownLabel";
-import { Panel } from "components/ui/Panel";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import React, { useEffect, useState } from "react";
@@ -10,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 import crowWithoutShadow from "assets/decorations/crow_without_shadow.png";
 import classNames from "classnames";
+import eventBus from "../lib/eventBus";
 
 type Listener = {
   collectCrow: (id: string) => void;
@@ -84,10 +84,7 @@ export const MazeHud: React.FC = () => {
   useEffect(() => {
     if (health <= 0 || timeElapsed >= TIME_LIMIT_SECONDS) {
       setGameOver("lost");
-      return;
-    }
-
-    if (score === 50) {
+    } else if (score === 50) {
       setGameOver("won");
     }
   }, [health, timeElapsed, score]);
@@ -98,6 +95,7 @@ export const MazeHud: React.FC = () => {
     const interval = setInterval(() => {
       if (gameOver) {
         clearInterval(interval);
+        eventBus.emit("corn_maze:gameOver");
         return;
       }
 
@@ -154,30 +152,43 @@ export const MazeHud: React.FC = () => {
           <CountdownLabel timeLeft={TIME_LIMIT_SECONDS - timeElapsed} />
         </div>
       </div>
-      <Modal centered>
-        <Panel>
-          <div className="p-1 mb-2">
-            {`Oh no! You lost all your health! You can try again, but for now it's a
-          one way ticket back to the Plaza for you.`}
+      <Modal show={!!gameOver} centered>
+        <CloseButtonPanel title="Game Over" bumpkinParts={NPC_WEARABLES.luna}>
+          <div className="p-1 -mt-2 text-xs md:text-sm space-y-2 mb-2">
+            <p>
+              Oh no! My poor crows! It seems you have been outwitted by the
+              cunning enemies. For now, you shall return to whence you came.
+            </p>
+            <p>
+              The magical corn maze bids you farewell, brave adventurer. Until
+              next time!
+            </p>
           </div>
-          <Button onClick={() => setHealth(3)}>Go back</Button>
-        </Panel>
+          <Button
+            onClick={() => {
+              navigate("/world/plaza");
+            }}
+          >
+            Go back
+          </Button>
+        </CloseButtonPanel>
       </Modal>
       {/* Welcome Modal */}
       <Modal centered show={showIntro}>
         <CloseButtonPanel
-          onClose={() => setShowIntro(false)}
           title="Welcome to the Corn Maze!"
           bumpkinParts={NPC_WEARABLES.luna}
         >
           <>
             <div className="p-1 -mt-2 text-xs md:text-sm space-y-2 mb-2">
               <p>
-                You have entered the Corn Maze. Do you have what it takes to
-                collect all the missing crows and make it out alive?
+                My adorable crows have disappeared, and I need your help. Find
+                them, but beware of cunning enemies. Your bravery shall be
+                rewarded, dear adventurer.
               </p>
               <p>
-                Time is of the essence, so navigate the twisting paths of the
+                Now, venture forth, and remember, time is of the essence. You
+                only have three minutes, so navigate the twisting paths of the
                 maze with speed and agility.
               </p>
               <div className="space-y-2 flex flex-col mt-3">
@@ -199,7 +210,7 @@ export const MazeHud: React.FC = () => {
                     alt="timer"
                     className="h-6"
                   />
-                  <p>Make it back to the portal before your time runs out</p>
+                  <p>Make it back to the portal before the time runs out!</p>
                 </div>
               </div>
             </div>

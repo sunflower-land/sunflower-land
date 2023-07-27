@@ -6,6 +6,7 @@ import { CONFIG } from "lib/config";
 import { SceneId } from "../mmoMachine";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
+import eventBus from "../lib/eventBus";
 
 type Enemy = NPCBumpkin & {
   target: {
@@ -111,6 +112,10 @@ export class CornScene extends BaseScene {
     this.setUpEnemies();
     this.setUpEnemyColliders();
     mazeManager.sceneLoaded();
+
+    eventBus.on("corn_maze:gameOver", () => {
+      this.scene.pause();
+    });
   }
 
   setUpCrows() {

@@ -142,7 +142,6 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
   const isLoading = useSelector(gameService, _isLoading);
   const name = useParams().name as SceneId;
 
-  console.log({ isLoading });
   return (
     <div
       className="bg-blue-600 w-full bg-repeat h-full flex relative items-center justify-center"
