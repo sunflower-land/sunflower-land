@@ -15,6 +15,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import shadow from "assets/npcs/shadow.png";
 import silhouette from "assets/npcs/silhouette.webp";
 import { ZoomContext } from "components/ZoomProvider";
+import { SpringValue } from "react-spring";
 
 const FRAME_WIDTH = 180 / 9;
 const FRAME_HEIGHT = 19;
@@ -35,6 +36,7 @@ export interface NPCProps {
   parts: Partial<NPCParts>;
   flip?: boolean;
   hideShadow?: boolean;
+  preventZoom?: boolean;
 }
 
 export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
@@ -42,6 +44,7 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
   flip,
   hideShadow,
   onClick,
+  preventZoom,
 }) => {
   const { scale } = useContext(ZoomContext);
   const [sheetSrc, setSheetSrc] = useState<string>();
@@ -109,7 +112,7 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
               image={sheetSrc}
               widthFrame={FRAME_WIDTH}
               heightFrame={FRAME_HEIGHT}
-              zoomScale={scale}
+              zoomScale={preventZoom ? new SpringValue(1) : scale}
               steps={STEPS}
               fps={14}
               autoplay={true}
