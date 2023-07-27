@@ -35,6 +35,38 @@ describe("craftCollectible", () => {
     ).toThrow("Insufficient ingredient: Gold");
   });
 
+  it("does not craft too early", () => {
+    expect(() =>
+      craftCollectible({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(400),
+        },
+        action: {
+          type: "collectible.crafted",
+          name: "Poppy",
+        },
+        createdAt: new Date("2023-07-31").getTime(),
+      })
+    ).toThrow("Too early");
+  });
+
+  it("does not craft too late", () => {
+    expect(() =>
+      craftCollectible({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(400),
+        },
+        action: {
+          type: "collectible.crafted",
+          name: "Poppy",
+        },
+        createdAt: new Date("2023-09-02").getTime(),
+      })
+    ).toThrow("Too late");
+  });
+
   it("crafts item with sufficient ingredients", () => {
     const state = craftCollectible({
       state: {

@@ -50,6 +50,41 @@ describe("buyDecoration", () => {
     ).toThrow("Insufficient ingredient: Sunflower");
   });
 
+  it("does not craft too early", () => {
+    expect(() =>
+      buyDecoration({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(400),
+          inventory: {
+            "Crow Feather": new Decimal(100),
+          },
+        },
+        action: {
+          type: "decoration.bought",
+          name: "Candles",
+        },
+        createdAt: new Date("2023-07-31").getTime(),
+      })
+    ).toThrow("Too early");
+  });
+
+  it("does not craft too late", () => {
+    expect(() =>
+      buyDecoration({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(400),
+        },
+        action: {
+          type: "decoration.bought",
+          name: "Candles",
+        },
+        createdAt: new Date("2023-11-02").getTime(),
+      })
+    ).toThrow("Too late");
+  });
+
   it("burns the SFL on purchase", () => {
     const balance = new Decimal(140);
     const state = buyDecoration({

@@ -30,6 +30,7 @@ export type buyDecorationAction = {
 type Options = {
   state: Readonly<GameState>;
   action: buyDecorationAction;
+  createdAt?: number;
 };
 
 const DECORATIONS = (state: GameState) => {
@@ -39,7 +40,11 @@ const DECORATIONS = (state: GameState) => {
     ...SEASONAL_DECORATIONS(state),
   };
 };
-export function buyDecoration({ state, action }: Options) {
+export function buyDecoration({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options) {
   const stateCopy = cloneDeep(state);
   const { name } = action;
   const desiredItem = DECORATIONS(stateCopy)[name];
@@ -52,6 +57,14 @@ export function buyDecoration({ state, action }: Options) {
 
   if (!bumpkin) {
     throw new Error("Bumpkin not found");
+  }
+
+  if (desiredItem.from && desiredItem.from?.getTime() > createdAt) {
+    throw new Error("Too early");
+  }
+
+  if (desiredItem.to && desiredItem.to?.getTime() < createdAt) {
+    throw new Error("Too late");
   }
 
   const totalExpenses = desiredItem.sfl;
