@@ -15,7 +15,8 @@ type Enemy = NPCBumpkin & {
     direction: "vertical" | "horizontal";
     duration: number;
     hold?: boolean;
-    startFacing?: "left" | "right";
+    startFacingLeft?: boolean;
+    pause?: boolean;
   };
 };
 
@@ -29,6 +30,7 @@ const ENEMIES: Enemy[] = [
       y: 471,
       direction: "vertical",
       duration: 2000,
+      pause: true,
     },
   },
   {
@@ -40,7 +42,6 @@ const ENEMIES: Enemy[] = [
       y: 56,
       direction: "horizontal",
       duration: 3500,
-      startFacing: "right",
     },
   },
   {
@@ -53,7 +54,29 @@ const ENEMIES: Enemy[] = [
       direction: "horizontal",
       duration: 1800,
       hold: true,
-      startFacing: "left",
+      startFacingLeft: true,
+    },
+  },
+  {
+    x: 585,
+    y: 506,
+    npc: "dreadhorn",
+    target: {
+      x: 585,
+      y: 217,
+      direction: "vertical",
+      duration: 1000,
+    },
+  },
+  {
+    x: 171,
+    y: 123,
+    npc: "dreadhorn",
+    target: {
+      x: 171,
+      y: 275,
+      direction: "vertical",
+      duration: 2000,
     },
   },
 ];
@@ -134,7 +157,7 @@ export class CornScene extends BaseScene {
   }
 
   handleDirectionChange(enemy: Enemy, container: BumpkinContainer) {
-    const startDirection = enemy.target.startFacing ?? "right";
+    const startDirection = enemy.target.startFacingLeft ? "left" : "right";
     if (startDirection === "right") {
       if (
         container.x === enemy.target.x &&
@@ -204,7 +227,7 @@ export class CornScene extends BaseScene {
           ...(enemy.clothing ?? NPC_WEARABLES[enemy.npc]),
           updatedAt: 0,
         },
-        direction: enemy.target.startFacing ?? "right",
+        direction: enemy.target.startFacingLeft ? "left" : "right",
       });
 
       container.setDepth(enemy.y);
