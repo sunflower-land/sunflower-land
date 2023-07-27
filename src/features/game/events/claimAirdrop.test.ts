@@ -28,6 +28,7 @@ describe("claimAirdrop", () => {
               id: "123",
               createdAt: Date.now(),
               items: {},
+              wearables: {},
               sfl: 5,
             },
           ],
@@ -48,6 +49,7 @@ describe("claimAirdrop", () => {
           {
             id: "123",
             items: {},
+            wearables: {},
             createdAt: Date.now(),
             sfl: 5,
           },
@@ -71,6 +73,7 @@ describe("claimAirdrop", () => {
           {
             id: "123",
             createdAt: Date.now(),
+            wearables: {},
             items: {
               Gold: 5,
             },
@@ -91,6 +94,41 @@ describe("claimAirdrop", () => {
     expect(state.airdrops).toEqual([]);
   });
 
+  it("claims a wearable reward", () => {
+    const state = claimAirdrop({
+      state: {
+        ...TEST_FARM,
+        inventory: {},
+        wardrobe: {
+          "Red Farmer Shirt": 1,
+        },
+        airdrops: [
+          {
+            id: "123",
+            createdAt: Date.now(),
+            items: {},
+            wearables: {
+              "Red Farmer Shirt": 4,
+              "Farmer Overalls": 1,
+            },
+            sfl: 0,
+          },
+        ],
+      },
+      action: {
+        type: "airdrop.claimed",
+        id: "123",
+      },
+    });
+
+    expect(state.wardrobe).toEqual({
+      "Red Farmer Shirt": 5,
+      "Farmer Overalls": 1,
+    });
+
+    expect(state.airdrops).toEqual([]);
+  });
+
   it("claims a reward of multiple items", () => {
     const state = claimAirdrop({
       state: {
@@ -102,6 +140,7 @@ describe("claimAirdrop", () => {
           {
             id: "123",
             createdAt: Date.now(),
+            wearables: {},
             items: {
               Gold: 5,
               Wood: 20,
@@ -135,6 +174,7 @@ describe("claimAirdrop", () => {
           {
             id: "123",
             createdAt: Date.now(),
+            wearables: {},
             items: {
               Gold: 5,
               Wood: 20,
@@ -145,6 +185,7 @@ describe("claimAirdrop", () => {
             id: "68",
             createdAt: Date.now(),
             sfl: 5,
+            wearables: {},
             items: {
               Sunflower: 5,
             },

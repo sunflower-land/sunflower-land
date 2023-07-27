@@ -389,6 +389,7 @@ export type Airdrop = {
   id: string;
   createdAt: number;
   items: Partial<Record<InventoryItemName, number>>;
+  wearables: Partial<Record<BumpkinItem, number>>;
   sfl: number;
   message?: string;
 };

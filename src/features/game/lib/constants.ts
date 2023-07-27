@@ -283,6 +283,7 @@ export const TEST_FARM: GameState = {
       items: {
         "Rapid Growth": 5,
       },
+      wearables: {},
       sfl: 3,
       message: "You are a legend!",
     },
