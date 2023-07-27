@@ -14,6 +14,8 @@ type Enemy = NPCBumpkin & {
     y: number;
     direction: "vertical" | "horizontal";
     duration: number;
+    hold?: boolean;
+    startFacing?: "left" | "right";
   };
 };
 
@@ -31,13 +33,27 @@ const ENEMIES: Enemy[] = [
   },
   {
     x: 57,
-    y: 72,
+    y: 56,
     npc: "dreadhorn",
     target: {
       x: 294,
-      y: 72,
+      y: 56,
       direction: "horizontal",
-      duration: 4000,
+      duration: 3500,
+      startFacing: "right",
+    },
+  },
+  {
+    x: 355,
+    y: 458,
+    npc: "dreadhorn",
+    target: {
+      x: 260,
+      y: 458,
+      direction: "horizontal",
+      duration: 1800,
+      hold: true,
+      startFacing: "left",
     },
   },
 ];
@@ -117,45 +133,109 @@ export class CornScene extends BaseScene {
     }
   }
 
+  handleDirectionChange(enemy: Enemy, container: BumpkinContainer) {
+    const startDirection = enemy.target.startFacing ?? "right";
+    if (startDirection === "right") {
+      if (
+        container.x === enemy.target.x &&
+        container.directionFacing === "right"
+      ) {
+        container.faceLeft();
+      } else if (
+        container.x === enemy.x &&
+        container.directionFacing === "left"
+      ) {
+        container.faceRight();
+      }
+    } else {
+      if (
+        container.x === enemy.target.x &&
+        container.directionFacing === "left"
+      ) {
+        container.faceRight();
+      } else if (
+        container.x === enemy.x &&
+        container.directionFacing === "right"
+      ) {
+        container.faceLeft();
+      }
+    }
+  }
+
+  handleRandomEnemyHold(
+    tween: Phaser.Tweens.Tween,
+    enemy: Enemy,
+    container: BumpkinContainer
+  ) {
+    // Generate a random hold time between 500ms and 2000ms (adjust as needed)
+    const minHoldTime = 1; // Minimum hold time in milliseconds
+    const maxHoldTime = 1500; // Maximum hold time in milliseconds
+    const randomHoldTime = Phaser.Math.Between(minHoldTime, maxHoldTime);
+
+    if (
+      enemy.target.direction === "horizontal" &&
+      container.x === enemy.target.x
+    ) {
+      tween.pause();
+
+      setTimeout(() => {
+        tween.resume();
+      }, randomHoldTime);
+    } else if (
+      enemy.target.direction === "vertical" &&
+      container.y === enemy.target.y
+    ) {
+      tween.pause();
+
+      setTimeout(() => {
+        tween.resume();
+      }, randomHoldTime);
+    }
+  }
+
   setUpEnemies() {
     this.enemies = this.add.group();
-    ENEMIES.forEach((bumpkin) => {
-      const enemy = new BumpkinContainer({
+    ENEMIES.forEach((enemy) => {
+      const container = new BumpkinContainer({
         scene: this,
-        x: bumpkin.x,
-        y: bumpkin.y,
+        x: enemy.x,
+        y: enemy.y,
         clothing: {
-          ...(bumpkin.clothing ?? NPC_WEARABLES[bumpkin.npc]),
+          ...(enemy.clothing ?? NPC_WEARABLES[enemy.npc]),
           updatedAt: 0,
         },
-        direction: bumpkin.direction ?? "right",
+        direction: enemy.target.startFacing ?? "right",
       });
 
-      enemy.setDepth(bumpkin.y);
-      (enemy.body as Phaser.Physics.Arcade.Body)
+      container.setDepth(enemy.y);
+      (container.body as Phaser.Physics.Arcade.Body)
         .setSize(16, 20)
         .setOffset(0, 0)
         .setCollideWorldBounds(true);
 
-      this.physics.world.enable(enemy);
-      this.enemies?.add(enemy);
+      this.physics.world.enable(container);
+      this.enemies?.add(container);
 
       // Create a tween configuration object
       const tweenConfig: Phaser.Types.Tweens.TweenBuilderConfig = {
-        targets: enemy,
-        x: bumpkin.target.x,
-        y: bumpkin.target.y,
-        duration: bumpkin.target.duration,
+        targets: container,
+        x: enemy.target.x,
+        y: enemy.target.y,
+        duration: enemy.target.duration,
         ease: "Linear",
         repeat: -1,
         yoyo: true,
-        onUpdate: (_, target) => {
-          if (bumpkin.target.direction === "horizontal") {
-            if (target.x === bumpkin.target.x && target.direction === "right") {
-              target.faceLeft();
-            } else if (target.x === bumpkin.x && target.direction === "left") {
-              target.faceRight();
-            }
+        onUpdate: (tween, target) => {
+          if (enemy.target.direction === "horizontal") {
+            this.handleDirectionChange(enemy, target as BumpkinContainer);
+          }
+
+          if (enemy.target.hold) {
+            this.handleRandomEnemyHold(
+              tween,
+              enemy,
+              target as BumpkinContainer
+            );
           }
         },
       };

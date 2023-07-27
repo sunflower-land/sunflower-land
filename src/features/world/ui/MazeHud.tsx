@@ -80,30 +80,27 @@ export const MazeHud: React.FC = () => {
           <span>{score}</span>
         </div>
         <div className="absolute top-2 left-2 flex space-x-2 items-center">
+          {new Array(3).fill(null).map((_, i) => (
+            <img
+              key={i}
+              src={SUNNYSIDE.icons.heart}
+              className="w-10 md:w-14 grayscale opacity-50"
+            />
+          ))}
+        </div>
+        <div className="absolute top-2 left-2 flex space-x-2 items-center">
           {new Array(health).fill(null).map((_, i) => (
             <img key={i} src={SUNNYSIDE.icons.heart} className="w-10 md:w-14" />
           ))}
         </div>
       </div>
-      <Modal
-        show={gameOver}
-        onClose={() => {
-          navigate("/world/plaza");
-        }}
-        centered
-      >
+      <Modal centered>
         <Panel>
           <div className="p-1 mb-2">
             {`Oh no! You lost all your health! You can try again, but for now it's a
           one way ticket back to the Plaza for you.`}
           </div>
-          <Button
-            onClick={() => {
-              navigate("/world/plaza");
-            }}
-          >
-            Go back
-          </Button>
+          <Button onClick={() => setHealth(3)}>Go back</Button>
         </Panel>
       </Modal>
     </>
