@@ -97,7 +97,7 @@ export const Deli: React.FC<Props> = ({
             src={artisianDoing}
             className="absolute pointer-events-none"
             style={{
-              width: `${PIXEL_SCALE * 20}px`,
+              width: `${PIXEL_SCALE * 17}px`,
               right: `${PIXEL_SCALE * 1}px`,
               bottom: `${PIXEL_SCALE * 17}px`,
               transform: "scaleX(-1)",
@@ -108,7 +108,7 @@ export const Deli: React.FC<Props> = ({
             src={artisian}
             className="absolute pointer-events-none"
             style={{
-              width: `${PIXEL_SCALE * 16}px`,
+              width: `${PIXEL_SCALE * 15}px`,
               right: `${PIXEL_SCALE * 1}px`,
               bottom: `${PIXEL_SCALE * 17}px`,
               transform: "scaleX(-1)",
