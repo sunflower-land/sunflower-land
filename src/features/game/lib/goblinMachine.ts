@@ -42,7 +42,6 @@ export interface Context {
   farmAddress?: string;
   deviceTrackerId?: string;
   mintedAtTimes: Partial<Record<InventoryItemName, number>>;
-  verified?: boolean;
 }
 
 type MintEvent = {
@@ -115,16 +114,6 @@ export type BlockchainEvent =
   | {
       type: "RESET";
     }
-  | {
-      type: "PROVE_PERSONHOOD";
-    }
-  | {
-      type: "PERSONHOOD_FINISHED";
-      verified: boolean;
-    }
-  | {
-      type: "PERSONHOOD_CANCELLED";
-    }
   | WithdrawEvent
   | MintEvent
   | OpeningWishingWellEvent
@@ -146,8 +135,7 @@ export type GoblinMachineState = {
     | "depositing"
     | "refreshing"
     | "levelRequirementNotReached"
-    | "error"
-    | "provingPersonhood";
+    | "error";
   context: Context;
 };
 
@@ -227,7 +215,6 @@ export function startGoblinVillage(authContext: AuthContext) {
                 mintedAtTimes: onChainState.mintedAtTimes,
                 sessionId,
                 deviceTrackerId: response?.deviceTrackerId,
-                verified: response?.verified,
               };
             },
             onDone: [
@@ -250,7 +237,6 @@ export function startGoblinVillage(authContext: AuthContext) {
                   sessionId: (_, event) => event.data.sessionId,
                   deviceTrackerId: (_, event) => event.data.deviceTrackerId,
                   mintedAtTimes: (_, event) => event.data.mintedAtTimes,
-                  verified: (_, event) => event.data.verified,
                 }),
               },
             ],
@@ -278,19 +264,6 @@ export function startGoblinVillage(authContext: AuthContext) {
             },
             DEPOSIT: {
               target: "depositing",
-            },
-          },
-        },
-        provingPersonhood: {
-          on: {
-            PERSONHOOD_FINISHED: {
-              actions: assign({
-                verified: (_context, event) => event.verified,
-              }),
-              target: "playing",
-            },
-            PERSONHOOD_CANCELLED: {
-              target: "playing",
             },
           },
         },
@@ -564,11 +537,6 @@ export function startGoblinVillage(authContext: AuthContext) {
           },
         },
         error: {},
-      },
-      on: {
-        PROVE_PERSONHOOD: {
-          target: "provingPersonhood",
-        },
       },
     },
     {

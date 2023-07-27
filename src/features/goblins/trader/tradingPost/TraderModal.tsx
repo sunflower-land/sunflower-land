@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 
@@ -11,7 +11,8 @@ import { MachineInterpreter } from "./lib/tradingPostMachine";
 import { Selling } from "../selling/Selling";
 import { Buying } from "../buying/Buying";
 import { Tabs } from "./components/Tabs";
-import { Button } from "components/ui/Button";
+import { Jigger, JiggerStatus } from "features/game/components/Jigger";
+import { loadBanDetails } from "features/game/actions/bans";
 
 interface TraderModalProps {
   isOpen: boolean;
@@ -35,10 +36,30 @@ export const TraderModal: React.FC<TraderModalProps> = ({
 
   const [isSelling, setIsSelling] = useState(initialTab === "selling");
 
-  const proovePersonhood = async () => {
-    goblinService.send("PROVE_PERSONHOOD");
-    onClose();
-  };
+  const [jiggerState, setJiggerState] =
+    useState<{ url: string; status: JiggerStatus }>();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const load = async () => {
+      setIsLoading(true);
+      const check = await loadBanDetails(
+        authState.context.user.farmId?.toString() as string,
+        authState.context.user.rawToken as string,
+        authState.context.transactionId as string
+      );
+
+      if (check.verificationUrl) {
+        setJiggerState({
+          url: check.verificationUrl,
+          status: check.botStatus as JiggerStatus,
+        });
+      }
+      setIsLoading(false);
+    };
+
+    load();
+  }, []);
 
   const handleClose = () => {
     onClose();
@@ -54,17 +75,17 @@ export const TraderModal: React.FC<TraderModalProps> = ({
     machine.matches("purchasing");
 
   const Content = () => {
-    if (!goblinState.context.verified) {
+    if (isLoading) {
+      return <span className="loading">Loading</span>;
+    }
+
+    if (isTrading && isSelling && jiggerState) {
       return (
-        <>
-          <p className="text-sm p-1 m-1">
-            Proof of humanity is needed for this feature. Please take a quick
-            selfie.
-          </p>
-          <Button className="mr-1" onClick={proovePersonhood}>
-            Start Verification
-          </Button>
-        </>
+        <Jigger
+          onClose={onClose}
+          status={jiggerState.status}
+          verificationUrl={jiggerState.url}
+        />
       );
     }
 
