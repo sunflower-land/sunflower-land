@@ -492,7 +492,7 @@ const soldOut: Record<SoldOutCollectibleName, boolean> = {
   "Easter Bush": true,
   "Giant Carrot": true,
   Hoot: true,
-  "Freya Fox": false,
+  "Freya Fox": true,
   Poppy: false,
   "Grain Grinder": false,
   Kernaldo: false,
