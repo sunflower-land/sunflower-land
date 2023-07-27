@@ -1,9 +1,10 @@
+import Decimal from "decimal.js-light";
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
 
 export type StylistWearable = {
   sfl: number;
-  ingredients: Partial<Record<InventoryItemName, number>>;
+  ingredients: Partial<Record<InventoryItemName, Decimal>>;
   disabled?: boolean;
   hoursPlayed?: number;
   from?: Date;
@@ -76,7 +77,7 @@ export const BASIC_WEARABLES: ShopWearables = {
   "Streamer Helmet": {
     sfl: 10,
     ingredients: {
-      "Sunflower Supporter": 50,
+      "Sunflower Supporter": new Decimal(50),
     },
     disabled: true,
   },
@@ -98,8 +99,8 @@ export const LIMITED_WEARABLES: ShopWearables = {
   "Witching Wardrobe": {
     sfl: 0,
     ingredients: {
-      Gold: 5,
-      "Crow Feather": 50,
+      Gold: new Decimal(5),
+      "Crow Feather": new Decimal(50),
     },
     from: new Date("2023-08-01"),
     to: new Date("2023-11-01"),
@@ -107,8 +108,8 @@ export const LIMITED_WEARABLES: ShopWearables = {
   "Witch's Broom": {
     sfl: 0,
     ingredients: {
-      Gold: 5,
-      "Crow Feather": 50,
+      Gold: new Decimal(5),
+      "Crow Feather": new Decimal(50),
     },
     from: new Date("2023-08-01"),
     to: new Date("2023-11-01"),
@@ -130,7 +131,7 @@ export const LIMITED_WEARABLES: ShopWearables = {
   "Imp Costume": {
     sfl: 0,
     ingredients: {
-      "Crow Feather": 1000,
+      "Crow Feather": new Decimal(1000),
     },
     from: new Date("2023-09-01"),
     to: new Date("2023-10-01"),
@@ -138,7 +139,7 @@ export const LIMITED_WEARABLES: ShopWearables = {
   "Ox Costume": {
     sfl: 50,
     ingredients: {
-      "Crow Feather": 500,
+      "Crow Feather": new Decimal(500),
     },
     from: new Date("2023-08-01"),
     to: new Date("2023-11-01"),

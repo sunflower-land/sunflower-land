@@ -36,7 +36,7 @@ interface Props {
   onNavigate: (sceneId: SceneId) => void;
 }
 export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
-  const [npc, setNpc] = useState<NPCName>();
+  const [npc, setNpc] = useState<NPCName>("stella");
   const [tab, setTab] = useState(0);
 
   useEffect(() => {

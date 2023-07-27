@@ -8,11 +8,7 @@ import { getKeys } from "features/game/types/craftables";
 
 import { Button } from "components/ui/Button";
 import { SplitScreenView } from "components/ui/SplitScreenView";
-import {
-  BUMPKIN_ITEM_PART,
-  BumpkinItem,
-  ITEM_IDS,
-} from "features/game/types/bumpkin";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import {
   STYLIST_WEARABLES,
   ShopWearables,
@@ -20,13 +16,11 @@ import {
 } from "features/game/types/stylist";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import Decimal from "decimal.js-light";
-import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { formatDateRange } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 
 function isNotReady(name: BumpkinItem, farmCreatedAt: number) {
   const wearable = STYLIST_WEARABLES[name] as StylistWearable;
@@ -119,63 +113,22 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
   return (
     <SplitScreenView
       panel={
-        <div className="flex flex-col justify-center">
-          {wearable.from && (
-            <Label type="warning" className="my-1 mx-auto">
-              <div className="flex items-center">
-                <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
-                <span className="text-xxs">
-                  {" "}
-                  {formatDateRange(wearable.from, wearable.to as Date)}
-                </span>
-              </div>
-            </Label>
-          )}
-          <p className="text-sm text-center">{selected}</p>
-
-          <div className="relative w-4/5 mx-auto my-1 rounded-lg">
-            <img
-              src={getImageUrl(ITEM_IDS[selected])}
-              className="w-4/5 mx-auto my-2 rounded-lg"
-            />
-            <div className="absolute bottom-14 w-4 h-4 right-8">
-              <NPC
-                key={selected}
-                parts={{
-                  body: "Beige Farmer Potion",
-                  hair: "Sun Spots",
-                  [BUMPKIN_ITEM_PART[selected]]: selected,
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-wrap justify-center items-center mb-1 gap-x-3 gap-y-0.5">
-            <RequirementLabel
-              type="sfl"
-              balance={state.balance}
-              requirement={new Decimal(wearable.sfl)}
-            />
-            {getKeys(wearable.ingredients).map((ingredientName, index) => (
-              <RequirementLabel
-                key={index}
-                type="item"
-                item={ingredientName}
-                balance={state.inventory[ingredientName] ?? new Decimal(0)}
-                requirement={
-                  new Decimal(wearable.ingredients?.[ingredientName] ?? 0)
-                }
-              />
-            ))}
-          </div>
-          <Action />
-        </div>
+        <CraftingRequirements
+          gameState={state}
+          details={{
+            wearable: selected,
+            from: wearable.from,
+            to: wearable.to,
+          }}
+          // boost={selectedItem.boost}
+          requirements={{
+            resources: wearable.ingredients,
+          }}
+          actionView={Action()}
+        />
       }
       content={
-        <div
-          className="overflow-y-auto scrollable pr-1"
-          style={{ height: "270px" }}
-        >
+        <>
           <div className="flex flex-wrap">
             {getKeys(wearables).map((item) => {
               const timeLimited = isNotReady(item, state.createdAt);
@@ -213,7 +166,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
           >
             View sold out wearables
           </a>
-        </div>
+        </>
       }
     />
   );

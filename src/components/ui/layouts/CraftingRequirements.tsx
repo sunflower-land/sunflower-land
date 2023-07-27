@@ -13,6 +13,13 @@ import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
 import { formatDateRange } from "lib/utils/time";
 import { SUNNYSIDE } from "assets/sunnyside";
+import {
+  BUMPKIN_ITEM_PART,
+  BumpkinItem,
+  ITEM_IDS,
+} from "features/game/types/bumpkin";
+import { getImageUrl } from "features/goblins/tailor/TabContent";
+import { NPC } from "features/island/bumpkin/components/NPC";
 
 /**
  * The props for the details for items.
@@ -20,12 +27,20 @@ import { SUNNYSIDE } from "assets/sunnyside";
  * @param item The item.
  * @param quantity The item quantity. Leave it undefined if quantity is not displayed.
  */
-interface ItemDetailsProps {
-  item: InventoryItemName;
+type BaseProps = {
   quantity?: Decimal;
   from?: Date;
   to?: Date;
-}
+  item?: InventoryItemName;
+  wearable?: BumpkinItem;
+};
+type InventoryDetailsProps = BaseProps & {
+  item: InventoryItemName;
+};
+type WearableDetailsProps = BaseProps & {
+  wearable: BumpkinItem;
+};
+type ItemDetailsProps = InventoryDetailsProps | WearableDetailsProps;
 
 /**
  * The props for harvests requirement label.
@@ -79,6 +94,45 @@ interface Props {
   hideDescription?: boolean;
 }
 
+function getDetails(
+  game: GameState,
+  details: ItemDetailsProps
+): {
+  limit: Decimal;
+  count: Decimal;
+  isSeed: boolean;
+  image: string;
+  name: string;
+  description: string;
+} {
+  if (details.item) {
+    const inventoryCount = game.inventory[details.item] ?? new Decimal(0);
+    const limit = INITIAL_STOCK(game)[details.item];
+    const isSeed =
+      details.item in FRUIT_SEEDS() || details.item in CROP_SEEDS();
+
+    return {
+      count: inventoryCount,
+      description: ITEM_DETAILS[details.item].description,
+      image: ITEM_DETAILS[details.item].image,
+      isSeed,
+      name: details.item,
+      limit: limit as Decimal,
+    };
+  }
+
+  const wardrobeCount = game.wardrobe[details.wearable] ?? 0;
+
+  return {
+    count: new Decimal(wardrobeCount),
+    limit: new Decimal(1),
+    description: "?",
+    image: getImageUrl(ITEM_IDS[details.wearable]),
+    isSeed: false,
+    name: details.wearable,
+  };
+}
+
 /**
  * The view for displaying item name, details, crafting requirements and action.
  * @props The component props.
@@ -105,13 +159,10 @@ export const CraftingRequirements: React.FC<Props> = ({
       );
     }
 
-    const inventoryCount = gameState.inventory[details.item] ?? new Decimal(0);
-    const limit = INITIAL_STOCK(gameState)[details.item];
-    const isSeed =
-      details.item in FRUIT_SEEDS() || details.item in CROP_SEEDS();
+    const { count, limit, isSeed } = getDetails(gameState, details);
+
     const isInventoryFull =
-      isSeed &&
-      (limit === undefined ? false : inventoryCount.greaterThan(limit));
+      isSeed && (limit === undefined ? false : count.greaterThan(limit));
 
     return (
       <div className="flex justify-center mt-0 sm:mb-1">
@@ -127,19 +178,32 @@ export const CraftingRequirements: React.FC<Props> = ({
   }: {
     hideDescription?: boolean;
   }) => {
-    const item = ITEM_DETAILS[details.item];
-    const icon = item.image;
+    const { image: icon, description, name } = getDetails(gameState, details);
     const title = details.quantity
       ? `${details.quantity} x ${details.item}`
-      : details.item;
-    const description = item.description;
+      : name;
 
     return (
       <>
         <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
-          {icon && (
+          {icon && !!details.item && (
             <div className="sm:mt-2">
               <SquareIcon icon={icon} width={14} />
+            </div>
+          )}
+          {details.wearable && (
+            <div className="relative sm:w-4/5 my-1  flex">
+              <img src={icon} className="sm:w-full w-14 my-2 rounded-lg" />
+              <div className="sm:absolute -ml-4 bottom-16 w-10 h-4 right-0">
+                <NPC
+                  key={details.wearable}
+                  parts={{
+                    body: "Beige Farmer Potion",
+                    hair: "Sun Spots",
+                    [BUMPKIN_ITEM_PART[details.wearable]]: details.wearable,
+                  }}
+                />
+              </div>
             </div>
           )}
           <span className="sm:text-center">{title}</span>
