@@ -519,6 +519,8 @@ export type Quest = Order & {
 export type Delivery = {
   orders: (Order | Quest)[];
   fulfilledCount: number;
+  skippedCount?: number;
+  skippedAt?: number;
 
   milestone: {
     goal: number;

@@ -171,6 +171,7 @@ import {
   FindTravellerAction,
 } from "./landExpansion/findTraveller";
 import { buyWearable, BuyWearableAction } from "./landExpansion/buyWearable";
+import { skipOrder, SkipOrderAction } from "./landExpansion/skipOrder";
 
 export type PlayingEvent =
   | TradeAction
@@ -226,7 +227,8 @@ export type PlayingEvent =
   | TendDawnFlowerAction
   | PreparePartyAction
   | FindTravellerAction
-  | BuyWearableAction;
+  | BuyWearableAction
+  | SkipOrderAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -325,6 +327,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "chicken.removed": removeChicken,
   "lantern.crafted": craftLantern,
   "order.delivered": deliverOrder,
+  "order.skipped": skipOrder,
   "bumpkin.equipped": equip,
   "bid.refunded": refundBid,
   "potion.mixed": mixPotion,
