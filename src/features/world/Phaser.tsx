@@ -190,14 +190,16 @@ export const PhaserComponent: React.FC<Props> = ({
   return (
     <div>
       <div id="game-content" ref={ref} />
-      <ChatUI
-        onMessage={(m) => {
-          mmoService.state.context.server?.send(0, {
-            text: m.text ?? "?",
-          });
-        }}
-        messages={messages ?? []}
-      />
+      {scene !== "corn_maze" && (
+        <ChatUI
+          onMessage={(m) => {
+            mmoService.state.context.server?.send(0, {
+              text: m.text ?? "?",
+            });
+          }}
+          messages={messages ?? []}
+        />
+      )}
       <NPCModals
         onNavigate={(sceneId: SceneId) => {
           navigate(`/world/${sceneId}`);
