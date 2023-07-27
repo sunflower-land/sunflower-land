@@ -153,7 +153,13 @@ export const MazeHud: React.FC = () => {
         </div>
       </div>
       <Modal show={!!gameOver} centered>
-        <CloseButtonPanel title="Game Over" bumpkinParts={NPC_WEARABLES.luna}>
+        <CloseButtonPanel
+          title="Game Over"
+          bumpkinParts={{
+            ...NPC_WEARABLES.luna,
+            body: "Light Brown Worried Farmer Potion",
+          }}
+        >
           <div className="p-1 -mt-2 text-xs md:text-sm space-y-2 mb-2">
             <p>
               Oh no! My poor crows! It seems you have been outwitted by the
@@ -177,7 +183,10 @@ export const MazeHud: React.FC = () => {
       <Modal centered show={showIntro}>
         <CloseButtonPanel
           title="Welcome to the Corn Maze!"
-          bumpkinParts={NPC_WEARABLES.luna}
+          bumpkinParts={{
+            ...NPC_WEARABLES.luna,
+            body: "Light Brown Worried Farmer Potion",
+          }}
         >
           <>
             <div className="p-1 -mt-2 text-xs md:text-sm space-y-2 mb-2">
