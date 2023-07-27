@@ -235,7 +235,7 @@ export const DraftBid: React.FC<Props> = ({
         <img src={SUNNYSIDE.icons.neutral} className="h-6 mr-2" />
         <div>
           <p className="text-sm mb-1">
-            Participants who are unsuccesful will be refunded their resources.
+            Participants who are unsuccessful will be refunded their resources.
           </p>
         </div>
       </div>
