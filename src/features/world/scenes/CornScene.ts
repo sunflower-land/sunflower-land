@@ -29,6 +29,17 @@ const ENEMIES: Enemy[] = [
       duration: 2000,
     },
   },
+  {
+    x: 57,
+    y: 72,
+    npc: "dreadhorn",
+    target: {
+      x: 294,
+      y: 72,
+      direction: "horizontal",
+      duration: 4000,
+    },
+  },
 ];
 
 export class CornScene extends BaseScene {
