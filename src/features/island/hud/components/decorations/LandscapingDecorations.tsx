@@ -2,9 +2,9 @@ import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import {
-  ShopDecorationName,
-  HELIOS_DECORATIONS,
   Decoration,
+  LandscapingDecorationName,
+  LANDSCAPING_DECORATIONS,
 } from "features/game/types/decorations";
 
 import { Box } from "components/ui/Box";
@@ -21,11 +21,11 @@ interface Props {
   onClose: () => void;
 }
 
-export const Decorations: React.FC<Props> = ({ onClose }) => {
+export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] =
-    useState<ShopDecorationName>("Basic Bear");
+    useState<LandscapingDecorationName>("Bush");
 
-  const selected = HELIOS_DECORATIONS()[selectedName];
+  const selected = LANDSCAPING_DECORATIONS()[selectedName];
   const { gameService } = useContext(Context);
   const [
     {
@@ -86,14 +86,19 @@ export const Decorations: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {Object.values(HELIOS_DECORATIONS()).map((item: Decoration) => (
+          {Object.values(LANDSCAPING_DECORATIONS()).map((item: Decoration) => (
             <Box
               isSelected={selected.name === item.name}
               key={item.name}
-              onClick={() => setSelectedName(item.name as ShopDecorationName)}
+              onClick={() =>
+                setSelectedName(item.name as LandscapingDecorationName)
+              }
               image={ITEM_DETAILS[item.name].image}
             />
           ))}
+          <span className="text-xxs mt-2">
+            Travel to the plaza to craft rare decorations!
+          </span>
         </>
       }
     />

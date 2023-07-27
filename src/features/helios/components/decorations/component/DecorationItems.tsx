@@ -39,7 +39,7 @@ interface Props {
 }
 export const DecorationItems: React.FC<Props> = ({ items }) => {
   const [selected, setSelected] = useState<Decoration>(
-    items[getKeys(items)[0]]
+    items[getKeys(items)[0]] as Decoration
   );
   const { gameService, shortcutItem } = useContext(Context);
   const [
@@ -101,7 +101,7 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
           {Object.values(items)
             .filter((item) => !ADVANCED_DECORATIONS.includes(item.name))
             .map((item: Decoration) => {
-              const isTimeLimited = isNotReady(items[item.name]);
+              const isTimeLimited = isNotReady(items[item.name] as Decoration);
 
               return (
                 <Box

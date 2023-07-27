@@ -19,19 +19,21 @@ export type AchievementDecorationName =
   | "Rainbow Artist Bear"
   | "Devil Bear";
 
-export type ShopDecorationName =
+export type BasicDecorationName =
   | "White Tulips"
   | "Potted Sunflower"
   | "Potted Potato"
   | "Potted Pumpkin"
   | "Cactus"
   | "Basic Bear"
+  | "Bonnie's Tombstone"
+  | "Grubnash's Tombstone";
+
+export type LandscapingDecorationName =
   | "Dirt Path"
   | "Bush"
   | "Shrub"
   | "Fence"
-  | "Bonnie's Tombstone"
-  | "Grubnash's Tombstone"
   | "Crimson Cap"
   | "Toadstool Seat"
   | "Chestnut Fungi Stool"
@@ -41,6 +43,10 @@ export type ShopDecorationName =
   | "Field Maple"
   | "Red Maple"
   | "Golden Maple";
+
+export type ShopDecorationName =
+  | BasicDecorationName
+  | LandscapingDecorationName;
 
 export type SeasonalDecorationName =
   | "Clementine"
@@ -356,8 +362,8 @@ export type Decoration = {
   to?: Date;
 };
 
-export const HELIOS_DECORATIONS: () => Record<
-  ShopDecorationName,
+export const BASIC_DECORATIONS: () => Record<
+  BasicDecorationName,
   Decoration
 > = () => ({
   "White Tulips": {
@@ -402,6 +408,32 @@ export const HELIOS_DECORATIONS: () => Record<
     ingredients: {},
     description: "A basic bear. Use this at Goblin Retreat to build a bear!",
   },
+
+  "Bonnie's Tombstone": {
+    name: "Bonnie's Tombstone",
+    sfl: marketRate(0),
+    ingredients: {
+      Stone: new Decimal(10),
+    },
+    description:
+      "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
+  },
+
+  "Grubnash's Tombstone": {
+    name: "Grubnash's Tombstone",
+    sfl: marketRate(0),
+    ingredients: {
+      Stone: new Decimal(20),
+      Iron: new Decimal(10),
+    },
+    description: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
+  },
+});
+
+export const LANDSCAPING_DECORATIONS: () => Record<
+  LandscapingDecorationName,
+  Decoration
+> = () => ({
   "Dirt Path": {
     name: "Dirt Path",
     sfl: new Decimal(0.625),
@@ -475,15 +507,6 @@ export const HELIOS_DECORATIONS: () => Record<
     },
     description: "Radiating brilliance with its shimmering golden leaves.",
   },
-  "Bonnie's Tombstone": {
-    name: "Bonnie's Tombstone",
-    sfl: marketRate(0),
-    ingredients: {
-      Stone: new Decimal(10),
-    },
-    description:
-      "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
-  },
   "Crimson Cap": {
     name: "Crimson Cap",
     sfl: new Decimal(50),
@@ -492,15 +515,6 @@ export const HELIOS_DECORATIONS: () => Record<
     },
     description:
       "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
-  },
-  "Grubnash's Tombstone": {
-    name: "Grubnash's Tombstone",
-    sfl: marketRate(0),
-    ingredients: {
-      Stone: new Decimal(20),
-      Iron: new Decimal(10),
-    },
-    description: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
   },
   "Toadstool Seat": {
     name: "Toadstool Seat",

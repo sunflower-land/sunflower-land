@@ -6,7 +6,9 @@ import {
   getKeys,
 } from "features/game/types/craftables";
 import {
-  HELIOS_DECORATIONS,
+  BASIC_DECORATIONS,
+  LANDSCAPING_DECORATIONS,
+  LandscapingDecorationName,
   SEASONAL_DECORATIONS,
   SeasonalDecorationName,
   ShopDecorationName,
@@ -17,7 +19,7 @@ import cloneDeep from "lodash.clonedeep";
 
 export type buyDecorationAction = {
   type: "decoration.bought";
-  name: ShopDecorationName | SeasonalDecorationName;
+  name: ShopDecorationName | SeasonalDecorationName | LandscapingDecorationName;
   id?: string;
   coordinates?: {
     x: number;
@@ -31,7 +33,11 @@ type Options = {
 };
 
 const DECORATIONS = (state: GameState) => {
-  return { ...HELIOS_DECORATIONS(), ...SEASONAL_DECORATIONS(state) };
+  return {
+    ...BASIC_DECORATIONS(),
+    ...LANDSCAPING_DECORATIONS(),
+    ...SEASONAL_DECORATIONS(state),
+  };
 };
 export function buyDecoration({ state, action }: Options) {
   const stateCopy = cloneDeep(state);

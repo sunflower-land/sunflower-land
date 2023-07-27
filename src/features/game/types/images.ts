@@ -431,7 +431,11 @@ import { COMMODITIES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
-import { HELIOS_DECORATIONS, SEASONAL_DECORATIONS } from "./decorations";
+import {
+  BASIC_DECORATIONS,
+  LANDSCAPING_DECORATIONS,
+  SEASONAL_DECORATIONS,
+} from "./decorations";
 import { BEANS } from "./beans";
 import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
@@ -1671,7 +1675,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Basic Bear": {
     image: basicBear,
-    description: HELIOS_DECORATIONS()["Basic Bear"].description,
+    description: BASIC_DECORATIONS()["Basic Bear"].description,
   },
   "Chef Bear": {
     image: chefBear,
@@ -1768,7 +1772,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Potted Pumpkin": {
     image: pottedPumpkin,
-    description: HELIOS_DECORATIONS()["Potted Pumpkin"].description,
+    description: BASIC_DECORATIONS()["Potted Pumpkin"].description,
   },
   "Golden Crop": {
     image: goldenCrop,
@@ -2210,15 +2214,15 @@ export const ITEM_DETAILS: Items = {
   },
   "Bonnie's Tombstone": {
     image: bonniesTombstone,
-    description: HELIOS_DECORATIONS()["Bonnie's Tombstone"].description,
+    description: BASIC_DECORATIONS()["Bonnie's Tombstone"].description,
   },
   "Chestnut Fungi Stool": {
     image: chestnutStool,
-    description: HELIOS_DECORATIONS()["Chestnut Fungi Stool"].description,
+    description: LANDSCAPING_DECORATIONS()["Chestnut Fungi Stool"].description,
   },
   "Crimson Cap": {
     image: crimsonCap,
-    description: HELIOS_DECORATIONS()["Crimson Cap"].description,
+    description: LANDSCAPING_DECORATIONS()["Crimson Cap"].description,
   },
   "Dawn Umbrella Seat": {
     image: dawnUmbrellaSeat,
@@ -2236,11 +2240,11 @@ export const ITEM_DETAILS: Items = {
   },
   "Grubnash's Tombstone": {
     image: grubnashTombstone,
-    description: HELIOS_DECORATIONS()["Grubnash's Tombstone"].description,
+    description: BASIC_DECORATIONS()["Grubnash's Tombstone"].description,
   },
   "Mahogany Cap": {
     image: mahoganyCap,
-    description: HELIOS_DECORATIONS()["Mahogany Cap"].description,
+    description: LANDSCAPING_DECORATIONS()["Mahogany Cap"].description,
   },
   "Shroom Glow": {
     image: shroomGlow,
@@ -2248,7 +2252,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Toadstool Seat": {
     image: toadstoolSeat,
-    description: HELIOS_DECORATIONS()["Toadstool Seat"].description,
+    description: LANDSCAPING_DECORATIONS()["Toadstool Seat"].description,
   },
   Clementine: {
     image: clementine,

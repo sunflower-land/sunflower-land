@@ -1,9 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
-import {
-  HELIOS_DECORATIONS,
-  ShopDecorationName,
-} from "../../types/decorations";
+import { BASIC_DECORATIONS, ShopDecorationName } from "../../types/decorations";
 import { GameState } from "../../types/game";
 import { buyDecoration } from "./buyDecoration";
 
@@ -70,7 +67,7 @@ describe("buyDecoration", () => {
     });
 
     expect(state.balance).toEqual(
-      balance.minus(HELIOS_DECORATIONS()["Potted Sunflower"].sfl as Decimal)
+      balance.minus(BASIC_DECORATIONS()["Potted Sunflower"].sfl as Decimal)
     );
   });
 
@@ -126,7 +123,7 @@ describe("buyDecoration", () => {
       },
     });
     expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
-      HELIOS_DECORATIONS()["Potted Sunflower"].sfl?.toNumber()
+      BASIC_DECORATIONS()["Potted Sunflower"].sfl?.toNumber()
     );
   });
 

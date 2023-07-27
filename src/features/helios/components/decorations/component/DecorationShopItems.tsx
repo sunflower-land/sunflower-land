@@ -5,7 +5,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import {
-  HELIOS_DECORATIONS,
+  BASIC_DECORATIONS,
   SEASONAL_DECORATIONS,
 } from "features/game/types/decorations";
 import { Context } from "features/game/GameProvider";
@@ -33,7 +33,7 @@ export const DecorationShopItems: React.FC<Props> = ({ onClose }) => {
       currentTab={tab}
       setCurrentTab={setTab}
     >
-      {tab === 0 && <DecorationItems items={HELIOS_DECORATIONS()} />}
+      {tab === 0 && <DecorationItems items={BASIC_DECORATIONS()} />}
       {tab === 1 && <DecorationItems items={SEASONAL_DECORATIONS(state)} />}
     </CloseButtonPanel>
   );
