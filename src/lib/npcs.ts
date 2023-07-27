@@ -357,11 +357,11 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   luna: {
     body: "Beige Farmer Potion",
-    hair: "Blondie",
-    pants: "Maiden Skirt",
-    shirt: "Maiden Top",
-    tool: "Hammer",
-    background: "Farm Background",
+    hair: "White Long Hair",
+    hat: "Luna's Hat",
+    dress: "Witching Wardrobe",
+    tool: "Witch's Broom",
+    background: "Cemetery Background",
     shoes: "Brown Boots",
   },
 };

@@ -22,8 +22,8 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "stella",
   },
   {
-    x: 625,
-    y: 110,
+    x: 631,
+    y: 98,
     npc: "timmy",
   },
   {
@@ -65,8 +65,8 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
   {
-    x: 513,
-    y: 288,
+    x: 534,
+    y: 88,
     npc: "betty",
     direction: "left",
   },
@@ -87,9 +87,10 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "tywin",
   },
   {
-    x: 430,
-    y: 350,
+    x: 480,
+    y: 235,
     npc: "luna",
+    direction: "left",
   },
 ];
 export class PlazaScene extends BaseScene {
@@ -119,6 +120,8 @@ export class PlazaScene extends BaseScene {
       frameHeight: 18,
     });
 
+    this.load.image("portal", "world/portal.png");
+
     super.preload();
   }
 
@@ -145,6 +148,8 @@ export class PlazaScene extends BaseScene {
     // decorationShopLabel.setPosition(802, 229);
     // decorationShopLabel.setDepth(10000000);
     // this.add.existing(decorationShopLabel);
+
+    const portal = this.add.sprite(505, 215, "portal");
 
     // Plaza Bud
     const bud = this.add.sprite(500, 420, "plaza_bud");
