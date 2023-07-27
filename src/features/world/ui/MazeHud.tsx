@@ -8,6 +8,8 @@ import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import crowWithoutShadow from "assets/decorations/crow_without_shadow.png";
+import redEyedCrow from "assets/decorations/red_eye_crow.png";
+import crowFeather from "assets/decorations/crow_feather_large.png";
 import classNames from "classnames";
 import eventBus from "../lib/eventBus";
 
@@ -83,9 +85,9 @@ export const MazeHud: React.FC = () => {
 
   useEffect(() => {
     if (health <= 0 || timeElapsed >= TIME_LIMIT_SECONDS) {
-      setGameOver("lost");
-    } else if (score === 50) {
       setGameOver("won");
+    } else if (score === 50) {
+      setGameOver("lost");
     }
   }, [health, timeElapsed, score]);
 
@@ -152,7 +154,7 @@ export const MazeHud: React.FC = () => {
           <CountdownLabel timeLeft={TIME_LIMIT_SECONDS - timeElapsed} />
         </div>
       </div>
-      <Modal show={!!gameOver} centered>
+      <Modal show={gameOver === "lost"} centered>
         <CloseButtonPanel
           title="Game Over"
           bumpkinParts={{
@@ -160,29 +162,58 @@ export const MazeHud: React.FC = () => {
             body: "Light Brown Worried Farmer Potion",
           }}
         >
-          <div className="p-1 -mt-2 text-xs md:text-sm space-y-2 mb-2">
-            <p>
-              Oh no! My poor crows! It seems you have been outwitted by the
-              cunning enemies. For now, you shall return to whence you came.
-            </p>
-            <p>
-              The magical corn maze bids you farewell, brave adventurer. Until
-              next time!
-            </p>
+          <div className="p-1 -mt-2 text-xs md:text-sm space-y-2 mb-2 flex flex-col">
+            <img src={redEyedCrow} className="w-10 mx-auto" />
+            <div className="space-y-2">
+              <p>
+                Oh no! My poor crows! It seems you have been outwitted by the
+                cunning enemies. For now, you shall return to whence you came.
+              </p>
+              <p>
+                The magical corn maze bids you farewell, brave adventurer. Until
+                next time!
+              </p>
+            </div>
           </div>
           <Button
             onClick={() => {
               navigate("/world/plaza");
             }}
           >
-            Go back
+            Back to Plaza
+          </Button>
+        </CloseButtonPanel>
+      </Modal>
+      <Modal show={gameOver === "won"} centered>
+        <CloseButtonPanel title="Game Over" bumpkinParts={NPC_WEARABLES.luna}>
+          <div className="p-1 -mt-2 text-xs md:text-sm space-y-2 mb-2 flex flex-col">
+            <img src={crowFeather} className="w-10 mx-auto" />
+            <div className="space-y-2">
+              <p>
+                {`Ah, you've done it! You found all my mischievous crows hidden in
+                the corn maze! I am absolutely delighted! As a token of my
+                appreciation, I bestow upon you these valuable crow feathers,
+                shimmering with magic to bless your future journeys.`}
+              </p>
+              <p>
+                Farewell for now, until we meet again. May the magic of these
+                feathers be your guiding light.
+              </p>
+            </div>
+          </div>
+          <Button
+            onClick={() => {
+              navigate("/world/plaza");
+            }}
+          >
+            Claim Crow Feathers
           </Button>
         </CloseButtonPanel>
       </Modal>
       {/* Welcome Modal */}
       <Modal centered show={showIntro}>
         <CloseButtonPanel
-          title="Welcome to the Corn Maze!"
+          title="Welcome to the Corn Maze."
           bumpkinParts={{
             ...NPC_WEARABLES.luna,
             body: "Light Brown Worried Farmer Potion",
@@ -191,7 +222,7 @@ export const MazeHud: React.FC = () => {
           <>
             <div className="p-1 -mt-2 text-xs md:text-sm space-y-2 mb-2">
               <p>
-                My adorable crows have disappeared, and I need your help. Find
+                My adorable crows have disappeared, and I need your help to find
                 them, but beware of cunning enemies. Your bravery shall be
                 rewarded, dear adventurer.
               </p>
