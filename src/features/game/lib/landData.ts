@@ -420,6 +420,9 @@ export const OFFLINE_FARM: GameState = {
     "Eggplant Grill": new Decimal(1),
     "Giant Dawn Mushroom": new Decimal(1),
     "Shroom Glow": new Decimal(1),
+    Candles: new Decimal(1),
+    "Haunted Stump": new Decimal(1),
+    "Spooky Tree": new Decimal(1),
 
     Chicken: new Decimal(5),
 
@@ -429,6 +432,13 @@ export const OFFLINE_FARM: GameState = {
     Hoot: new Decimal(1),
     "Sir Goldensnout": new Decimal(1),
     "Freya Fox": new Decimal(1),
+    Poppy: new Decimal(1),
+    "El Pollo Veloz": new Decimal(1),
+    "Grain Grinder": new Decimal(1),
+    Kernaldo: new Decimal(1),
+    "Fat Chicken": new Decimal(1),
+    "Queen Cornelia": new Decimal(1),
+    "Scary Mike": new Decimal(1),
   },
 
   createdAt: new Date("2022-03-04").getTime(),

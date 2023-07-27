@@ -48,7 +48,10 @@ export type SeasonalDecorationName =
   | "Dawn Umbrella Seat"
   | "Eggplant Grill"
   | "Giant Dawn Mushroom"
-  | "Shroom Glow";
+  | "Shroom Glow"
+  | "Candles"
+  | "Haunted Stump"
+  | "Spooky Tree";
 
 export type EventDecorationName =
   | "Valentine Bear"
@@ -327,6 +330,18 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Genie Bear": {
     width: 1,
     height: 1,
+  },
+  Candles: {
+    width: 1,
+    height: 1,
+  },
+  "Haunted Stump": {
+    width: 1,
+    height: 1,
+  },
+  "Spooky Tree": {
+    width: 1,
+    height: 2,
   },
 };
 

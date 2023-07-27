@@ -132,6 +132,11 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Scary Mike": 467,
   "Laurie the Chuckle Crow": 468,
   "Freya Fox": 469,
+  "El Pollo Veloz": 470,
+  Poppy: 471,
+  "Grain Grinder": 472,
+  Kernaldo: 473,
+  "Queen Cornelia": 474,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -415,6 +420,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Eggplant Bear": 1275,
   "Goblin Lantern": 1276,
   "Dawn Flower": 1277,
+  Candles: 1278,
+  "Haunted Stump": 1279,
+  "Spooky Tree": 1280,
 
   //Beach Bounty
   "Pirate Bounty": 1301,

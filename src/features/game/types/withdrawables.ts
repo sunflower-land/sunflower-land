@@ -188,6 +188,7 @@ const mutantChickens: Record<MutantChicken, boolean> = {
   "Fat Chicken": true,
   "Rich Chicken": true,
   "Speed Chicken": true,
+  "El Pollo Veloz": true,
 };
 
 const flags: Record<Flag, boolean> = {
@@ -390,6 +391,9 @@ const seasonalDecorations: Record<SeasonalDecorationName, boolean> = {
   "Eggplant Grill": false,
   "Giant Dawn Mushroom": false,
   "Shroom Glow": false,
+  Candles: false,
+  "Haunted Stump": false,
+  "Spooky Tree": false,
 };
 
 const mutantCrop: Record<MutantCropName, boolean> = {
@@ -487,9 +491,12 @@ const soldOut: Record<SoldOutCollectibleName, boolean> = {
   "Pablo The Bunny": true,
   "Easter Bush": true,
   "Giant Carrot": true,
-  "Freya Fox": false,
-
   Hoot: true,
+  "Freya Fox": false,
+  Poppy: false,
+  "Grain Grinder": false,
+  Kernaldo: false,
+  "Queen Cornelia": false,
 };
 
 const achievementDecoration: Record<AchievementDecorationName, boolean> = {

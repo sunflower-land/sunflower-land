@@ -2985,14 +2985,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Devil Bear": {
-    description: "Better the Devil you know than the Devil you don't",
+    description: "Better the Devil you know than the Devil you don't.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1220.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Ayam Cemani": {
-    description: "The rarest chicken in Sunflower Land",
+    description: "The rarest chicken in Sunflower Land.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/445.gif",
@@ -3866,10 +3866,88 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Gold Pass": {
     description:
-      "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content",
+      "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/725.png",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "El Pollo Veloz": {
+    description: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/445.gif",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        trait_type: "Reduced time to lay eggs (hours)",
+        value: 4,
+      },
+    ],
+  },
+  Poppy: {
+    description: "The mystical corn kernel. +0.1 Corn per harvest.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/471.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Increase Corn Drops", value: 0.1 },
+    ],
+  },
+  "Grain Grinder": {
+    description:
+      "Grind your grain and experience a delectable surge in Cake XP.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/472.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      { display_type: "boost_percentage", trait_type: "Cake XP", value: 20 },
+    ],
+  },
+  Kernaldo: {
+    description: "The magical corn whisperer.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/473.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Corn Growth Speed",
+        value: 25,
+      },
+    ],
+  },
+  "Queen Cornelia": {
+    description:
+      "Command the regal power of Queen Cornelia and experience a magnificent Area of Effect boost to your corn production. +1 Corn.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/474.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  Candles: {
+    description:
+      "Enchant your farm with flickering spectral flames during Witches' Eve.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1278.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Haunted Stump": {
+    description: "Summon spirits and add eerie charm to your farm.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1279.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Spooky Tree": {
+    description: "A hauntingly fun addition to your farm's decor!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1280.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
 };

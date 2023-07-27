@@ -27,6 +27,10 @@ const mutants: Record<MutantChicken, Record<string, string>> = {
     description: "The rarest chicken in existence!",
     image: ayamCemani,
   },
+  "El Pollo Veloz": {
+    description: "Your chickens will lay eggs 4 hours faster!",
+    image: ayamCemani,
+  },
 };
 
 interface Props {
