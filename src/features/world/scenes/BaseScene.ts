@@ -275,7 +275,7 @@ export abstract class BaseScene extends Phaser.Scene {
       "Building Layer 4",
     ];
     this.map.layers.forEach((layerData, idx) => {
-      if (layerData.name === "Corn") return;
+      if (layerData.name === "Crows") return;
 
       const layer = this.map.createLayer(layerData.name, tileset, 0, 0);
       if (TOP_LAYERS.includes(layerData.name)) {

@@ -6,7 +6,6 @@ import { CONFIG } from "lib/config";
 import { SceneId } from "../mmoMachine";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
 type Enemy = NPCBumpkin & {
   target: {
@@ -65,7 +64,7 @@ const ENEMIES: Enemy[] = [
       x: 585,
       y: 217,
       direction: "vertical",
-      duration: 1000,
+      duration: 3000,
     },
   },
   {
@@ -99,30 +98,26 @@ export class CornScene extends BaseScene {
   preload() {
     super.preload();
 
-    this.load.image("corn", CROP_LIFECYCLE.Corn.crop);
+    this.load.image("crow", "world/crow.png");
   }
 
   async create() {
-    // this.load.json()
-    console.log("Create corn example");
     this.map = this.make.tilemap({
       key: "corn_maze",
     });
 
     super.create();
-    // this.setUpEnemies();
-    this.setUpCorn();
+    this.setUpCrows();
     this.setUpEnemies();
     this.setUpEnemyColliders();
-
-    // Get x,y coordinates of
+    mazeManager.sceneLoaded();
   }
 
-  setUpCorn() {
-    const cornLayer = this.map.getLayer("Corn");
-    if (cornLayer) {
+  setUpCrows() {
+    const crowsLayer = this.map.getLayer("Crows");
+    if (crowsLayer) {
       // Access the tile data from the layer
-      const tileData = cornLayer.data;
+      const tileData = crowsLayer.data;
 
       // Assuming the tilemap has a fixed tile width and height
       const tileWidth = this.map.tileWidth;
@@ -139,15 +134,12 @@ export class CornScene extends BaseScene {
             const spriteX = x * tileWidth + tileWidth / 2;
             const spriteY = y * tileHeight + tileHeight / 2;
 
-            // Now you have the position of the sprite at (spriteX, spriteY)
-            // You can use this information to create or manipulate sprites as needed
-            // render dawn_flower.png at spriteX, spriteY
-            const corn = this.physics.add.sprite(spriteX, spriteY, "corn");
-            // on collision with player, collect corn
+            const crow = this.physics.add.sprite(spriteX, spriteY, "crow");
+            // on collision with player, collect crow
             if (this.currentPlayer) {
-              this.physics.add.overlap(this.currentPlayer, corn, () => {
+              this.physics.add.overlap(this.currentPlayer, crow, () => {
                 this.collect(`${spriteX}-${spriteY}`);
-                corn.destroy();
+                crow.destroy();
               });
             }
           }

@@ -3,28 +3,37 @@ import { Button } from "components/ui/Button";
 import { CountdownLabel } from "components/ui/CountdownLabel";
 import { Panel } from "components/ui/Panel";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { NPC_WEARABLES } from "lib/npcs";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
+import crowWithoutShadow from "assets/decorations/crow_without_shadow.png";
+import classNames from "classnames";
+
 type Listener = {
-  collectCorn: (id: string) => void;
+  collectCrow: (id: string) => void;
   hit: () => void;
+  sceneLoaded: () => void;
 };
 class MazeManager {
   private listener?: Listener;
 
   public collect(id: string) {
     if (this.listener) {
-      this.listener.collectCorn(id);
+      this.listener.collectCrow(id);
     }
   }
 
   public hit() {
     if (this.listener) {
       this.listener.hit();
+    }
+  }
+
+  public sceneLoaded() {
+    if (this.listener) {
+      this.listener.sceneLoaded();
     }
   }
 
@@ -36,13 +45,13 @@ class MazeManager {
 export const mazeManager = new MazeManager();
 
 const TIME_LIMIT_SECONDS = 60 * 3;
+const TOTAL_LOST_CROWS = 50;
 
 export const MazeHud: React.FC = () => {
   const [score, setScore] = useState(0);
   const [health, setHealth] = useState(3);
   const [gameOver, setGameOver] = useState<"won" | "lost">();
-  const [collectedCorn, setCollectedCorn] = useState<string[]>([]);
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(false);
   const [startedAt, setStartedAt] = useState<number>(0);
   const [timeElapsed, setTimeElapsed] = useState<number>(0);
 
@@ -50,8 +59,7 @@ export const MazeHud: React.FC = () => {
 
   useEffect(() => {
     mazeManager.listen({
-      collectCorn: (id) => {
-        setCollectedCorn((c) => [...c, id]);
+      collectCrow: () => {
         setScore((s) => {
           if (gameOver) return s;
 
@@ -66,6 +74,9 @@ export const MazeHud: React.FC = () => {
 
           return 0;
         });
+      },
+      sceneLoaded: () => {
+        setShowIntro(true);
       },
     });
   }, []);
@@ -111,11 +122,11 @@ export const MazeHud: React.FC = () => {
       <div className="fixed inset-0">
         <div className="absolute top-2 right-2 text-[2.5rem] md:text-xl flex space-x-2 items-center">
           <img
-            src={CROP_LIFECYCLE.Corn.crop}
-            alt="Collected Corn"
+            src={crowWithoutShadow}
+            alt="Collected Crows"
             className="w-10 md:w-14"
           />
-          <span>{score}</span>
+          <span className="mb-2">{`${score}/${TOTAL_LOST_CROWS}`}</span>
         </div>
         <div className="absolute top-2 left-2 flex space-x-2 items-center">
           {new Array(3).fill(null).map((_, i) => (
@@ -131,11 +142,17 @@ export const MazeHud: React.FC = () => {
             <img key={i} src={SUNNYSIDE.icons.heart} className="w-10 md:w-14" />
           ))}
         </div>
-        {startedAt > 0 && (
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 scale-150">
-            <CountdownLabel timeLeft={TIME_LIMIT_SECONDS - timeElapsed} />
-          </div>
-        )}
+        <div
+          className={classNames(
+            "absolute left-1/2 bottom-0 -translate-x-1/2 scale-150 md:scale-[2] transition-transform duration-500",
+            {
+              "translate-y-10": startedAt === 0,
+              "-translate-y-4 md:-translate-y-6": startedAt > 0,
+            }
+          )}
+        >
+          <CountdownLabel timeLeft={TIME_LIMIT_SECONDS - timeElapsed} />
+        </div>
       </div>
       <Modal centered>
         <Panel>
@@ -157,20 +174,16 @@ export const MazeHud: React.FC = () => {
             <div className="p-1 -mt-2 text-xs md:text-sm space-y-2 mb-2">
               <p>
                 You have entered the Corn Maze. Do you have what it takes to
-                collect all the corn and make it out alive?
+                collect all the missing crows and make it out alive?
               </p>
               <p>
                 Time is of the essence, so navigate the twisting paths of the
                 maze with speed and agility.
               </p>
-              <div className="space-y-2 flex flex-col">
+              <div className="space-y-2 flex flex-col mt-3">
                 <div className="flex items-center space-x-2">
-                  <img
-                    src={CROP_LIFECYCLE.Corn.crop}
-                    alt="Corn"
-                    className="w-6"
-                  />
-                  <p>Collect all the missing corn.</p>
+                  <img src={crowWithoutShadow} alt="Corn" className="w-6" />
+                  <p>Collect all the missing crows.</p>
                 </div>
                 <div className="flex items-center space-x-2">
                   <img
@@ -182,9 +195,9 @@ export const MazeHud: React.FC = () => {
                 </div>
                 <div className="flex items-center space-x-2">
                   <img
-                    src={SUNNYSIDE.icons.timer}
-                    alt="Timer"
-                    className="w-6"
+                    src={SUNNYSIDE.icons.stopwatch}
+                    alt="timer"
+                    className="h-6"
                   />
                   <p>Make it back to the portal before your time runs out</p>
                 </div>
