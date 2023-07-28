@@ -213,24 +213,14 @@ export const MazeHud: React.FC = () => {
       {/* Welcome Modal */}
       <Modal centered show={showIntro}>
         <CloseButtonPanel
-          title="Welcome to the Corn Maze."
+          title="Welcome to the Corn Maze"
           bumpkinParts={{
             ...NPC_WEARABLES.luna,
             body: "Light Brown Worried Farmer Potion",
           }}
         >
           <>
-            <div className="p-1 -mt-2 text-xs md:text-sm space-y-2 mb-2">
-              <p>
-                My adorable crows have disappeared, and I need your help to find
-                them, but beware of cunning enemies. Your bravery shall be
-                rewarded, dear adventurer.
-              </p>
-              <p>
-                Now, venture forth, and remember, time is of the essence. You
-                only have three minutes, so navigate the twisting paths of the
-                maze with speed and agility.
-              </p>
+            <div className="p-1 -mt-1 text-xs md:text-sm space-y-2 mb-2">
               <div className="space-y-2 flex flex-col mt-3">
                 <div className="flex items-center space-x-2">
                   <img src={crowWithoutShadow} alt="Corn" className="w-6" />
