@@ -81,7 +81,7 @@ export const CommunityModals: React.FC = () => {
           onClose={closeModal}
           bumpkinParts={modal?.npc?.clothing}
         >
-          <div className="py-2">{modal?.jsx}</div>
+          <div className="p-2">{modal?.jsx}</div>
           <div className="d-flex justify-content-end">
             {modal?.okBtn && (
               <Button onClick={() => ok()}>{modal.okBtn}</Button>
