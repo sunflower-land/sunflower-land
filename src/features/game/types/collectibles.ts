@@ -77,10 +77,9 @@ export type CraftableCollectible = {
   to?: Date;
 };
 
-export const HELIOS_BLACKSMITH_ITEMS: Record<
-  HeliosBlacksmithItem,
-  CraftableCollectible
-> = {
+export const HELIOS_BLACKSMITH_ITEMS: (
+  game: GameState
+) => Record<HeliosBlacksmithItem, CraftableCollectible> = (state) => ({
   Bale: {
     description:
       "A poultry's favorite neighbor, providing a cozy retreat for chickens",
@@ -161,7 +160,7 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     ingredients: {
       "Crow Feather": new Decimal(500),
     },
-    sfl: new Decimal(50),
+    sfl: SFLDiscount(state, new Decimal(50)),
     boost: "+25% Corn Speed",
     from: new Date("2023-09-01"),
     to: new Date("2023-10-01"),
@@ -172,12 +171,12 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     ingredients: {
       "Crow Feather": new Decimal(750),
     },
-    sfl: new Decimal(100),
+    sfl: SFLDiscount(state, new Decimal(100)),
     boost: "+20% Cake XP",
     from: new Date("2023-10-01"),
     to: new Date("2023-11-01"),
   },
-};
+});
 
 export type GoblinBlacksmithCraftable = CraftableCollectible & {
   supply?: number;

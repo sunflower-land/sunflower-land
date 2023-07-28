@@ -17,12 +17,12 @@ import {
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 
 function isNotReady(name: BumpkinItem, farmCreatedAt: number) {
-  const wearable = STYLIST_WEARABLES[name] as StylistWearable;
+  const wearable = STYLIST_WEARABLES(TEST_FARM)[name] as StylistWearable;
 
   if (wearable.hoursPlayed) {
     const hoursPlayed = (Date.now() - farmCreatedAt) / 1000 / 60 / 60;
@@ -51,7 +51,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
   ] = useActor(gameService);
   const inventory = state.inventory;
 
-  const wearable = STYLIST_WEARABLES[selected] as StylistWearable;
+  const wearable = STYLIST_WEARABLES(state)[selected] as StylistWearable;
 
   const price = wearable.sfl;
 
