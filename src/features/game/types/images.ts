@@ -1785,8 +1785,7 @@ export const ITEM_DETAILS: Items = {
 
   "Immortal Pear": {
     image: immortalPear,
-    description: HELIOS_BLACKSMITH_ITEMS({} as any)["Immortal Pear"]
-      .description,
+    description: HELIOS_BLACKSMITH_ITEMS()["Immortal Pear"].description,
   },
   "Lady Bug": {
     image: ladybug,
@@ -2038,12 +2037,11 @@ export const ITEM_DETAILS: Items = {
     description: GOBLIN_PIRATE_ITEMS["Tin Turtle"].description,
   },
   "Basic Scarecrow": {
-    description: HELIOS_BLACKSMITH_ITEMS({} as any)["Basic Scarecrow"]
-      .description,
+    description: HELIOS_BLACKSMITH_ITEMS()["Basic Scarecrow"].description,
     image: basicScarecrow,
   },
   Bale: {
-    description: HELIOS_BLACKSMITH_ITEMS({} as any)["Bale"].description,
+    description: HELIOS_BLACKSMITH_ITEMS()["Bale"].description,
     image: bale,
   },
   "Sir Goldensnout": {
@@ -2052,12 +2050,12 @@ export const ITEM_DETAILS: Items = {
       "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
   },
   "Scary Mike": {
-    description: HELIOS_BLACKSMITH_ITEMS({} as any)["Scary Mike"].description,
+    description: HELIOS_BLACKSMITH_ITEMS()["Scary Mike"].description,
     image: scaryMike,
   },
   "Laurie the Chuckle Crow": {
-    description: HELIOS_BLACKSMITH_ITEMS({} as any)["Laurie the Chuckle Crow"]
-      .description,
+    description:
+      HELIOS_BLACKSMITH_ITEMS()["Laurie the Chuckle Crow"].description,
     image: laurie,
   },
   "Freya Fox": {

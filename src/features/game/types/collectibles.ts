@@ -78,7 +78,7 @@ export type CraftableCollectible = {
 };
 
 export const HELIOS_BLACKSMITH_ITEMS: (
-  game: GameState
+  game?: GameState
 ) => Record<HeliosBlacksmithItem, CraftableCollectible> = (state) => ({
   Bale: {
     description:

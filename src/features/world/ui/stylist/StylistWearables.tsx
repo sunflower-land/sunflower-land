@@ -120,6 +120,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
           // boost={selectedItem.boost}
           requirements={{
             resources: wearable.ingredients,
+            sfl: wearable.sfl,
           }}
           actionView={Action()}
         />
