@@ -23,6 +23,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { analytics } from "lib/analytics";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { hasFeatureAccess } from "lib/flags";
+import { SEASONS } from "features/game/types/seasons";
 
 interface Island {
   name: string;
@@ -180,19 +182,36 @@ export const IslandList: React.FC<IslandListProps> = ({
       levelRequired: 1,
       path: `/land/${farmId}`,
     },
+    ...(hasFeatureAccess(inventory, "PUMPKIN_PLAZA") ||
+    Date.now() > SEASONS["Witches' Eve"].startDate.getTime()
+      ? [
+          {
+            name: "Pumpkin Plaza",
+            levelRequired: 1 as BumpkinLevel,
+            image: CROP_LIFECYCLE.Pumpkin.ready,
+            path: `/world/plaza`,
+            beta: true,
+          },
+        ]
+      : []),
     {
       name: "Helios",
       levelRequired: 1 as BumpkinLevel,
       image: SUNNYSIDE.icons.helios,
       path: `/land/${farmId}/helios`,
     },
-    {
-      name: "Dawn Breaker",
-      image: dawnBreakerBanner,
-      levelRequired: 2 as BumpkinLevel,
-      path: `/world/dawn_breaker`,
-      beta: true,
-    },
+    ...(Date.now() < SEASONS["Witches' Eve"].startDate.getTime()
+      ? [
+          {
+            name: "Dawn Breaker",
+            image: dawnBreakerBanner,
+            levelRequired: 2 as BumpkinLevel,
+            path: `/world/dawn_breaker`,
+            beta: true,
+          },
+        ]
+      : []),
+
     {
       name: "Goblin Retreat",
       levelRequired: 1 as BumpkinLevel,
