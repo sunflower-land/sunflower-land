@@ -365,9 +365,8 @@ describe("deliver", () => {
     expect(nextUp.readyAt).toBeGreaterThan(Date.now());
   });
 
-  // WITH BETA PASS ONLY
-  // TODO: REMOVE BETA PASS REQUIREMENT WHEN SEASON STARTS
-  it("increments npc delivery count", () => {
+  // TODO: UNSKIP WHEN NEW SEASON STARTS
+  it.skip("increments npc delivery count", () => {
     const state = deliverOrder({
       state: {
         ...TEST_FARM,
