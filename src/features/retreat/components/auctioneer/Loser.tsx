@@ -31,7 +31,7 @@ export const Loser: React.FC<Props> = ({ farmId, onRefund, results }) => {
         status="loser"
       />
       <div className="my-2">
-        <Label type="danger">You were unsuccesful</Label>
+        <Label type="danger">You were unsuccessful</Label>
       </div>
       <Button className="mt-2" onClick={refund}>
         Refund resources
