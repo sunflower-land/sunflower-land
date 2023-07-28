@@ -24,7 +24,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
   POTION_HOUSE: testnetFeatureFlag,
-  NEW_DELIVERIES: defaultFeatureFlag,
+  NEW_DELIVERIES: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (
