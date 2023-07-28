@@ -47,7 +47,8 @@ export type BumpkinHair =
   | "Goth Hair"
   | "Ash Ponytail"
   | "Pink Ponytail"
-  | "Silver Streaks";
+  | "Silver Streaks"
+  | "Brown Rancher Hair";
 
 export type BumpkinShirt =
   | "Red Farmer Shirt"
@@ -162,7 +163,9 @@ export type BumpkinHat =
   | "Pumpkin Hat"
   | "Victorian Hat"
   | "Boater Hat"
-  | "Crumple Crown";
+  | "Crumple Crown"
+  | "Whale Hat"
+  | "Parsnip Horns";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -213,7 +216,11 @@ export type BumpkinOnesie =
   | "Corn Onesie";
 
 // Goes over clothes
-export type BumpkinSuit = "Reindeer Suit" | "Imp Costume" | "Ox Costume";
+export type BumpkinSuit =
+  | "Reindeer Suit"
+  | "Imp Costume"
+  | "Ox Costume"
+  | "Potato Suit";
 
 export type BumpkinWings =
   | "Angel Wings"
@@ -442,6 +449,10 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Ash Ponytail": 201,
   "Pink Ponytail": 202,
   "Silver Streaks": 203,
+  "Brown Rancher Hair": 204,
+  "Parsnip Horns": 205,
+  "Potato Suit": 206,
+  "Whale Hat": 207,
 };
 
 // The reverse of above
@@ -704,6 +715,10 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Ash Ponytail": "hair",
   "Pink Ponytail": "hair",
   "Silver Streaks": "hair",
+  "Brown Rancher Hair": "hair",
+  "Parsnip Horns": "hat",
+  "Potato Suit": "suit",
+  "Whale Hat": "hat",
 };
 
 export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {

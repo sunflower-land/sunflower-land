@@ -848,5 +848,9 @@ export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
   "Chic Gala Blouse": () => false, // Not Launched
   "Ash Ponytail": () => false, // Not Launched
   "Pink Ponytail": () => false, // Not Launched
-  "Silver Streaks": () => false, // Not Launched
+  "Silver Streaks": () => false, // Not Launched,
+  "Brown Rancher Hair": () => false,
+  "Parsnip Horns": () => false,
+  "Potato Suit": () => false,
+  "Whale Hat": () => false, // AUCTION
 };
