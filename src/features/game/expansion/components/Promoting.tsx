@@ -110,25 +110,49 @@ export const PromotingModal: React.FC<Props> = ({
       );
     }
 
+    const msLeft = new Date("2023-08-01").getTime() - Date.now();
+    const secondsLeft = msLeft / 1000;
+
     return (
       <>
         <div className="flex flex-col p-2">
+          <p className="text-base">Exclusive offer!</p>
+
           <div className="flex items-center">
             <img
               src={ITEM_DETAILS["Witches' Eve Banner"].image}
               className="rounded-md my-2 img-highlight mr-2"
               style={{
-                height: `${PIXEL_SCALE * 16}px`,
+                height: `${PIXEL_SCALE * 32}px`,
               }}
             />
-            <p className="text-sm">{`1 x Witches' Eve Banner`}</p>
+            <div>
+              <p className="text-sm">{`1 x Witches' Eve Banner`}</p>
+              {secondsLeft > 0 ? (
+                <>
+                  <div className="flex my-1">
+                    <p className="line-through">$7.99</p>
+                    <p className="ml-2">{`$${price}`}</p>
+                  </div>
+                  <Label type="danger">
+                    {`${secondsToString(secondsLeft, {
+                      length: "medium",
+                    })} left!`}
+                  </Label>
+                </>
+              ) : (
+                <div className="flex my-1">
+                  <p>$7.99</p>
+                </div>
+              )}
+            </div>
           </div>
           <p className="text-sm">Includes:</p>
           <ul className="list-disc">
-            <li className="text-xs ml-4">25% SFL discount on seasonal items</li>
-            <li className="text-xs ml-4">Free Seasonal Banner</li>
-            <li className="text-xs ml-4">Seasonal Wearable Airdrop</li>
-            <li className="text-xs ml-4">Bonus Seasonal Tickets</li>
+            <li className="text-sm ml-4">Decorative Banner</li>
+            <li className="text-sm ml-4">Mystery Airdrop</li>
+            <li className="text-sm ml-4">25% SFL discount on seasonal items</li>
+            <li className="text-sm ml-4">Bonus Crow Feathers</li>
           </ul>
           {!isPreSeason && (
             <Label
@@ -145,44 +169,6 @@ export const PromotingModal: React.FC<Props> = ({
               />
               <span className="ml-1">Limited time only!</span>
             </Label>
-          )}
-
-          {isPreSeason && hasDiscount && (
-            <>
-              <div className="flex items-center mt-2">
-                <p className="text-sm mr-2">Dawn Breaker Discount</p>
-                <img src={SUNNYSIDE.icons.confirm} className="h-6" />
-              </div>
-
-              <ul className="list-disc mb-2">
-                <li className="text-xs ml-4">
-                  On August 1st prices increase to $5.99
-                </li>
-                <li className="text-xs ml-4 mt-0.5">
-                  <Label
-                    type="info"
-                    style={{
-                      width: "fit-content",
-                    }}
-                  >
-                    <SquareIcon
-                      icon={SUNNYSIDE.icons.timer}
-                      width={5}
-                      className="-mb-0.5"
-                    />
-                    <span className="ml-1">
-                      {secondsToString(
-                        (expiresOn.getTime() - Date.now()) / 1000,
-                        {
-                          length: "medium",
-                        }
-                      )}{" "}
-                      left
-                    </span>
-                  </Label>
-                </li>
-              </ul>
-            </>
           )}
 
           <a

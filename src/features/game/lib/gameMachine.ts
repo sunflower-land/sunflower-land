@@ -655,6 +655,8 @@ export function startGame(authContext: AuthContext) {
               target: "promoting",
               cond: (context) =>
                 !getSeasonPassRead() &&
+                Date.now() < new Date("2023-08-01").getTime() &&
+                !context.state.inventory["Witches' Eve Banner"] &&
                 (context.state.bumpkin?.experience ?? 0) > 0,
             },
             {

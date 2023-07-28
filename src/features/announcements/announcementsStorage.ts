@@ -35,12 +35,15 @@ export function acknowledgeIntroduction() {
 }
 
 export function getSeasonPassRead(): Date | null {
-  const value = localStorage.getItem("witchSeasonPassPromo");
+  const value = localStorage.getItem("witchSeasonPassPromov2");
   if (!value) return null;
 
   return new Date(value);
 }
 
 export function acknowledgeSeasonPass() {
-  return localStorage.setItem("witchSeasonPassPromo", new Date().toISOString());
+  return localStorage.setItem(
+    "witchSeasonPassPromov2",
+    new Date().toISOString()
+  );
 }
