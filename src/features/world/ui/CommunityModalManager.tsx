@@ -4,17 +4,21 @@ import { Modal } from "react-bootstrap";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { Button } from "components/ui/Button";
 
+type ButtonInfo = {
+  id: string;
+  text: string;
+  closeModal?: boolean;
+};
+
 type CommunityModal = {
   npc: {
     clothing: BumpkinParts;
     name: string;
   };
   jsx: JSX.Element;
-  okBtn?: string;
-  cancelBtn?: string;
+  buttons?: ButtonInfo[];
   onClose?: (modal: CommunityModal) => void;
-  onOk?: (modal: CommunityModal) => void;
-  onCancel?: (modal: CommunityModal) => void;
+  onButtonClick?: (buttonId: string) => void;
 };
 
 class CommunityModalManager {
@@ -29,6 +33,7 @@ class CommunityModalManager {
   }
   public open = (modal: CommunityModal) => {
     console.log("YEEET", this, this.listener);
+
     if (this.listener) {
       console.log("INSIDE");
       this.listener(modal, true);
@@ -60,18 +65,19 @@ export const CommunityModals: React.FC = () => {
     setModal(undefined);
   };
 
-  const ok = () => {
-    if (modal && modal.onOk) {
-      modal.onOk(modal);
-    }
-    setModal(undefined);
-  };
+  const handleButtonClick = (buttonId: string) => {
+    const clickedButton = modal?.buttons?.find(
+      (button) => button.id === buttonId
+    );
+    if (clickedButton) {
+      if (clickedButton.closeModal) {
+        setModal(undefined);
+      }
 
-  const cancel = () => {
-    if (modal && modal.onCancel) {
-      modal.onCancel(modal);
+      if (modal && modal.onButtonClick) {
+        modal.onButtonClick(buttonId);
+      }
     }
-    setModal(undefined);
   };
 
   return (
@@ -83,12 +89,15 @@ export const CommunityModals: React.FC = () => {
         >
           <div className="p-2">{modal?.jsx}</div>
           <div className="d-flex justify-content-end">
-            {modal?.okBtn && (
-              <Button onClick={() => ok()}>{modal.okBtn}</Button>
-            )}
-            {modal?.cancelBtn && (
-              <Button onClick={() => cancel()}>{modal.cancelBtn}</Button>
-            )}
+            {modal?.buttons?.map((button) => (
+              <Button
+                key={button.id}
+                className="m-2"
+                onClick={() => handleButtonClick(button.id)}
+              >
+                {button.text}
+              </Button>
+            ))}
           </div>
         </CloseButtonPanel>
       </Modal>
