@@ -18,7 +18,6 @@ import { getImageUrl } from "features/goblins/tailor/TabContent";
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 
@@ -84,15 +83,13 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
 
     if (wearable.requiresItem && !state.inventory[wearable.requiresItem]) {
       return (
-        <Label type="danger">
-          <div className="flex items-center justify-center">
-            <img
-              src={ITEM_DETAILS[wearable.requiresItem].image}
-              className="h-6 mr-1 img-highlight"
-            />
-            <span className="text-center">{`Requires ${wearable.requiresItem}`}</span>
-          </div>
-        </Label>
+        <div className="flex items-center justify-center">
+          <img
+            src={ITEM_DETAILS[wearable.requiresItem].image}
+            className="h-6 mr-1 img-highlight"
+          />
+          <span className="text-center text-xs">{`Requires ${wearable.requiresItem}`}</span>
+        </div>
       );
     }
 
