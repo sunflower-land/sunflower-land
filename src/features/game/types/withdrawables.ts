@@ -853,4 +853,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
   "Parsnip Horns": () => false,
   "Potato Suit": () => false,
   "Whale Hat": () => false, // AUCTION
+  "Pumpkin Shirt": () => false,
+  Halo: () => false,
+  Kama: () => false,
 };
