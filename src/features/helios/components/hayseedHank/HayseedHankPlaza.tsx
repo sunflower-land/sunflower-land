@@ -11,6 +11,9 @@ import { Context } from "features/game/GameProvider";
 import { isTaskComplete } from "./lib/HayseedHankTask";
 import { Chore } from "./components/Chore";
 import { NPC_WEARABLES } from "lib/npcs";
+import { Label } from "components/ui/Label";
+import { secondsToString } from "lib/utils/time";
+import { SEASONS } from "features/game/types/seasons";
 
 export const HayseedHank: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -28,6 +31,10 @@ export const HayseedHank: React.FC = () => {
   };
 
   const isSaving = gameState.matches("autosaving");
+
+  const resetSeconds = Math.round(
+    (SEASONS["Witches' Eve"].startDate.getTime() - new Date().getTime()) / 1000
+  );
 
   const skip = () => {
     setIsSkipping(true);
@@ -151,6 +158,24 @@ export const HayseedHank: React.FC = () => {
           <Chore skipping={isSaving && isSkipping} />
 
           {!(isSaving && isSkipping) && Content()}
+
+          {resetSeconds && (
+            <Label type="warning" className="my-1 mx-auto w-full">
+              <div className="flex-col space-y-1 w-full items-start">
+                <p>{"Chores will reset for the Witches' Eve season."}</p>
+                <div className="flex items-center">
+                  <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
+                  <span>
+                    {"Reset in "}
+                    {secondsToString(resetSeconds, {
+                      length: "medium",
+                      removeTrailingZeros: true,
+                    })}
+                  </span>
+                </div>
+              </div>
+            </Label>
+          )}
         </CloseButtonPanel>
       </Modal>
     </>
