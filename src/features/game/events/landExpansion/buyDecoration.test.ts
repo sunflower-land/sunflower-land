@@ -1,9 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
-import {
-  HELIOS_DECORATIONS,
-  ShopDecorationName,
-} from "../../types/decorations";
+import { BASIC_DECORATIONS, ShopDecorationName } from "../../types/decorations";
 import { GameState } from "../../types/game";
 import { buyDecoration } from "./buyDecoration";
 
@@ -53,6 +50,41 @@ describe("buyDecoration", () => {
     ).toThrow("Insufficient ingredient: Sunflower");
   });
 
+  it("does not craft too early", () => {
+    expect(() =>
+      buyDecoration({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(400),
+          inventory: {
+            "Crow Feather": new Decimal(100),
+          },
+        },
+        action: {
+          type: "decoration.bought",
+          name: "Candles",
+        },
+        createdAt: new Date("2023-07-31").getTime(),
+      })
+    ).toThrow("Too early");
+  });
+
+  it("does not craft too late", () => {
+    expect(() =>
+      buyDecoration({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(400),
+        },
+        action: {
+          type: "decoration.bought",
+          name: "Candles",
+        },
+        createdAt: new Date("2023-11-02").getTime(),
+      })
+    ).toThrow("Too late");
+  });
+
   it("burns the SFL on purchase", () => {
     const balance = new Decimal(140);
     const state = buyDecoration({
@@ -70,7 +102,7 @@ describe("buyDecoration", () => {
     });
 
     expect(state.balance).toEqual(
-      balance.minus(HELIOS_DECORATIONS()["Potted Sunflower"].sfl as Decimal)
+      balance.minus(BASIC_DECORATIONS()["Potted Sunflower"].sfl as Decimal)
     );
   });
 
@@ -126,7 +158,7 @@ describe("buyDecoration", () => {
       },
     });
     expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
-      HELIOS_DECORATIONS()["Potted Sunflower"].sfl?.toNumber()
+      BASIC_DECORATIONS()["Potted Sunflower"].sfl?.toNumber()
     );
   });
 

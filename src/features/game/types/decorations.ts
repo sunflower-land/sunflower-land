@@ -19,19 +19,21 @@ export type AchievementDecorationName =
   | "Rainbow Artist Bear"
   | "Devil Bear";
 
-export type ShopDecorationName =
+export type BasicDecorationName =
   | "White Tulips"
   | "Potted Sunflower"
   | "Potted Potato"
   | "Potted Pumpkin"
   | "Cactus"
   | "Basic Bear"
+  | "Bonnie's Tombstone"
+  | "Grubnash's Tombstone";
+
+export type LandscapingDecorationName =
   | "Dirt Path"
   | "Bush"
   | "Shrub"
   | "Fence"
-  | "Bonnie's Tombstone"
-  | "Grubnash's Tombstone"
   | "Crimson Cap"
   | "Toadstool Seat"
   | "Chestnut Fungi Stool"
@@ -41,6 +43,10 @@ export type ShopDecorationName =
   | "Field Maple"
   | "Red Maple"
   | "Golden Maple";
+
+export type ShopDecorationName =
+  | BasicDecorationName
+  | LandscapingDecorationName;
 
 export type SeasonalDecorationName =
   | "Clementine"
@@ -352,10 +358,12 @@ export type Decoration = {
   // If no SFL it is not available for purchase
   sfl?: Decimal;
   limit?: number;
+  from?: Date;
+  to?: Date;
 };
 
-export const HELIOS_DECORATIONS: () => Record<
-  ShopDecorationName,
+export const BASIC_DECORATIONS: () => Record<
+  BasicDecorationName,
   Decoration
 > = () => ({
   "White Tulips": {
@@ -400,6 +408,32 @@ export const HELIOS_DECORATIONS: () => Record<
     ingredients: {},
     description: "A basic bear. Use this at Goblin Retreat to build a bear!",
   },
+
+  "Bonnie's Tombstone": {
+    name: "Bonnie's Tombstone",
+    sfl: marketRate(0),
+    ingredients: {
+      Stone: new Decimal(10),
+    },
+    description:
+      "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
+  },
+
+  "Grubnash's Tombstone": {
+    name: "Grubnash's Tombstone",
+    sfl: marketRate(0),
+    ingredients: {
+      Stone: new Decimal(20),
+      Iron: new Decimal(10),
+    },
+    description: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
+  },
+});
+
+export const LANDSCAPING_DECORATIONS: () => Record<
+  LandscapingDecorationName,
+  Decoration
+> = () => ({
   "Dirt Path": {
     name: "Dirt Path",
     sfl: new Decimal(0.625),
@@ -473,15 +507,6 @@ export const HELIOS_DECORATIONS: () => Record<
     },
     description: "Radiating brilliance with its shimmering golden leaves.",
   },
-  "Bonnie's Tombstone": {
-    name: "Bonnie's Tombstone",
-    sfl: marketRate(0),
-    ingredients: {
-      Stone: new Decimal(10),
-    },
-    description:
-      "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
-  },
   "Crimson Cap": {
     name: "Crimson Cap",
     sfl: new Decimal(50),
@@ -490,15 +515,6 @@ export const HELIOS_DECORATIONS: () => Record<
     },
     description:
       "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
-  },
-  "Grubnash's Tombstone": {
-    name: "Grubnash's Tombstone",
-    sfl: marketRate(0),
-    ingredients: {
-      Stone: new Decimal(20),
-      Iron: new Decimal(10),
-    },
-    description: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
   },
   "Toadstool Seat": {
     name: "Toadstool Seat",
@@ -539,6 +555,8 @@ export const SEASONAL_DECORATIONS: (
     ingredients: {
       "Dawn Breaker Ticket": new Decimal(20),
     },
+    from: new Date("2023-05-01"),
+    to: new Date("2023-08-01"),
     description:
       "Keep those Eggplants dry during those rainy days with the Dawn Umbrella Seat.",
   },
@@ -553,6 +571,8 @@ export const SEASONAL_DECORATIONS: (
       Eggplant: new Decimal(50),
       "Dawn Breaker Ticket": new Decimal(100),
     },
+    from: new Date("2023-05-01"),
+    to: new Date("2023-08-01"),
     limit: 1,
   },
   "Giant Dawn Mushroom": {
@@ -564,6 +584,8 @@ export const SEASONAL_DECORATIONS: (
       "Wild Mushroom": new Decimal(10),
       Eggplant: new Decimal(30),
     },
+    from: new Date("2023-05-01"),
+    to: new Date("2023-08-01"),
     limit: 5,
   },
   ...(!state?.inventory || !!state?.inventory["Dawn Breaker Banner"]
@@ -577,6 +599,8 @@ export const SEASONAL_DECORATIONS: (
             Gold: new Decimal(5),
             "Wild Mushroom": new Decimal(20),
           },
+          from: new Date("2023-05-01"),
+          to: new Date("2023-08-01"),
           limit: 1,
         },
         Cobalt: {
@@ -586,6 +610,8 @@ export const SEASONAL_DECORATIONS: (
             Gold: new Decimal(2),
             "Wild Mushroom": new Decimal(10),
           },
+          from: new Date("2023-05-01"),
+          to: new Date("2023-08-01"),
           description:
             "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
           limit: 1,
@@ -595,12 +621,45 @@ export const SEASONAL_DECORATIONS: (
   "Shroom Glow": {
     name: "Shroom Glow",
     sfl: SFLDiscount(state, new Decimal(10)),
+    from: new Date("2023-05-01"),
+    to: new Date("2023-08-01"),
     description:
       "Illuminate your farm with the enchanting glow of Shroom Glow.",
     ingredients: {
       Gold: new Decimal(5),
       Wood: new Decimal(70),
       "Wild Mushroom": new Decimal(30),
+    },
+  },
+  Candles: {
+    name: "Candles",
+    sfl: SFLDiscount(state, new Decimal(5)),
+    from: new Date("2023-08-01"),
+    to: new Date("2023-11-01"),
+    description:
+      "Enchant your farm with flickering spectral flames during Witches' Eve.",
+    ingredients: {
+      "Crow Feather": new Decimal(5),
+    },
+  },
+  "Haunted Stump": {
+    name: "Haunted Stump",
+    sfl: new Decimal(0),
+    from: new Date("2023-08-01"),
+    to: new Date("2023-09-01"),
+    description: "Summon spirits and add eerie charm to your farm.",
+    ingredients: {
+      "Crow Feather": new Decimal(100),
+    },
+  },
+  "Spooky Tree": {
+    name: "Spooky Tree",
+    sfl: SFLDiscount(state, new Decimal(50)),
+    from: new Date("2023-09-01"),
+    to: new Date("2023-10-01"),
+    description: "A hauntingly fun addition to your farm's decor!",
+    ingredients: {
+      "Crow Feather": new Decimal(250),
     },
   },
 });

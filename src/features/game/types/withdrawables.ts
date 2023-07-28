@@ -155,6 +155,9 @@ const heliosBlacksmith: Record<HeliosBlacksmithItem, boolean> = {
   Bale: false,
   "Scary Mike": false,
   "Laurie the Chuckle Crow": false,
+  Poppy: false, // TODO,
+  "Grain Grinder": false, // TODO,
+  Kernaldo: false, // TODO
 };
 
 const commodities: Record<CommodityName, boolean> = {
