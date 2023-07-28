@@ -85,9 +85,9 @@ export const MazeHud: React.FC = () => {
 
   useEffect(() => {
     if (health <= 0 || timeElapsed >= TIME_LIMIT_SECONDS) {
-      setGameOver("won");
-    } else if (score === 50) {
       setGameOver("lost");
+    } else if (score === 50) {
+      setGameOver("won");
     }
   }, [health, timeElapsed, score]);
 

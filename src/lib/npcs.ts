@@ -359,7 +359,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Brown Boots",
   },
   luna: {
-    body: "Beige Farmer Potion",
+    body: "Light Brown Farmer Potion",
     hair: "White Long Hair",
     hat: "Luna's Hat",
     dress: "Witching Wardrobe",
