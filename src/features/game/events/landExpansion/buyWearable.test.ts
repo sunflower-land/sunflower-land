@@ -189,7 +189,7 @@ describe("buyWearable", () => {
       },
     });
     expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
-      STYLIST_WEARABLES(state)["Red Farmer Shirt"]?.sfl ?? 0
+      STYLIST_WEARABLES(state)["Red Farmer Shirt"]?.sfl.toNumber() ?? 0
     );
   });
 });

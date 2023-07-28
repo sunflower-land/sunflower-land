@@ -163,5 +163,5 @@ export const STYLIST_WEARABLES: (game: GameState) => ShopWearables = (
   game
 ) => ({
   ...BASIC_WEARABLES,
-  ...LIMITED_WEARABLES,
+  ...LIMITED_WEARABLES(game),
 });
