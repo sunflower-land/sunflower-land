@@ -23,6 +23,7 @@ import Spritesheet, {
 import { Bumpkin } from "features/game/types/game";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { SpringValue } from "@react-spring/web";
 
 const DIMENSIONS = {
   original: 80,
@@ -102,6 +103,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
         className={classNames(`grid fixed -left-4 z-50 top-0`, {
           "cursor-pointer hover:img-highlight": !!onClick,
         })}
+        style={{ height: "80px" }}
         onClick={onClick}
       >
         <img
@@ -128,7 +130,11 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
                 marginLeft: `${DIMENSIONS.bumpkin.marginLeft}px`,
               }}
             >
-              <DynamicNFT bumpkinParts={bumpkin.equipped} showTools={false} />
+              <DynamicNFT
+                key={JSON.stringify(bumpkin.equipped)}
+                bumpkinParts={bumpkin.equipped}
+                showTools={false}
+              />
             </div>
           )}
         </div>
@@ -141,6 +147,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
           image={progressBarSprite}
           widthFrame={DIMENSIONS.original}
           heightFrame={DIMENSIONS.original}
+          zoomScale={new SpringValue(1)}
           fps={10}
           steps={SPRITE_STEPS}
           autoplay={false}
@@ -176,7 +183,9 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
   );
 };
 
-export const BumpkinProfile: React.FC = () => {
+export const BumpkinProfile: React.FC<{
+  isFullUser: boolean;
+}> = ({ isFullUser }) => {
   const progressBarEl = useRef<SpriteSheetInstance>();
   const [viewSkillsPage, setViewSkillsPage] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -234,6 +243,7 @@ export const BumpkinProfile: React.FC = () => {
           readonly={gameState.matches("visiting")}
           bumpkin={gameState.context.state.bumpkin as Bumpkin}
           inventory={gameState.context.state.inventory}
+          isFullUser={isFullUser}
         />
       </Modal>
 

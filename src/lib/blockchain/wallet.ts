@@ -7,8 +7,8 @@ import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
 import Decimal from "decimal.js-light";
+import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 
-export type WalletType = "METAMASK" | "WALLET_CONNECT" | "SEQUENCE";
 const UNISWAP_ROUTER = CONFIG.QUICKSWAP_ROUTER_CONTRACT;
 const WMATIC_ADDRESS = CONFIG.WMATIC_CONTRACT;
 const SFL_TOKEN_ADDRESS = CONFIG.TOKEN_CONTRACT;
@@ -17,11 +17,15 @@ const SFL_TOKEN_ADDRESS = CONFIG.TOKEN_CONTRACT;
  * A wrapper of Web3 which handles retries and other common errors.
  */
 export class Wallet {
-  private web3: Web3 | null = null;
+  private web3: Web3 = new Web3(
+    CONFIG.NETWORK === "mainnet"
+      ? "https://rpc-mainnet.maticvigil.com"
+      : "https://rpc-mumbai.maticvigil.com"
+  );
 
   private account: string | null = null;
 
-  private type: WalletType | null = null;
+  private type: Web3SupportedProviders | null = null;
   private rawProvider: any | null = null;
 
   private async initialiseContracts() {
@@ -86,7 +90,7 @@ export class Wallet {
 
   public async initialise(
     provider: any,
-    type: WalletType,
+    type: Web3SupportedProviders,
     retryCount = 0
   ): Promise<void> {
     this.type = type;
@@ -100,7 +104,7 @@ export class Wallet {
       const chainId = await this.web3?.eth.getChainId();
 
       if (!(chainId === CONFIG.POLYGON_CHAIN_ID)) {
-        throw new Error(ERRORS.WRONG_CHAIN);
+        await this.initialiseNetwork();
       }
 
       await this.initialiseContracts();
@@ -130,7 +134,7 @@ export class Wallet {
 
       let web3;
 
-      if (this.type === "METAMASK") {
+      if (this.type === Web3SupportedProviders.METAMASK) {
         web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC);
       } else {
         web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC, {
@@ -207,7 +211,7 @@ export class Wallet {
           symbol: "MATIC",
           decimals: 18,
         },
-        rpcUrls: ["https://matic-mumbai.chainstacklabs.com"],
+        rpcUrls: ["https://rpc.ankr.com/polygon_mumbai"],
         blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
       };
     }
@@ -275,7 +279,7 @@ export class Wallet {
   }
 
   public get myAccount() {
-    return this.account as string;
+    return this.account;
   }
 
   public async getBlockNumber() {
@@ -320,7 +324,7 @@ export class Wallet {
   }
 
   public get web3Provider() {
-    return this.web3 as Web3;
+    return this.web3;
   }
 
   public async getSFLForMatic(matic: string) {

@@ -1,6 +1,8 @@
-import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useLayoutEffect } from "react";
+
+import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { GoblinProvider } from "features/game/GoblinProvider";
+
 import { Game } from "./Game";
 
 export const Retreat: React.FC = () => {

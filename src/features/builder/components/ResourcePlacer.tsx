@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 
 import Draggable from "react-draggable";
@@ -11,15 +11,16 @@ import ironStone from "assets/resources/iron_small.png";
 import { FruitPatch } from "features/island/fruit/FruitPatch";
 import { ResourceBUttons } from "./ResourceButtons";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { Stone } from "features/game/expansion/components/resources/Stone";
-import { Iron } from "features/game/expansion/components/resources/Iron";
-import { Gold } from "features/game/expansion/components/resources/Gold";
+import { Stone } from "features/game/expansion/components/resources/stone/Stone";
+import { Iron } from "features/game/expansion/components/resources/iron/Iron";
+import { Gold } from "features/game/expansion/components/resources/gold/Gold";
 import { Plot } from "features/island/plots/Plot";
-import { Tree } from "features/game/expansion/components/resources/Tree";
+import { Tree } from "features/game/expansion/components/resources/tree/Tree";
 import { Layout } from "../lib/layouts";
 import { Boulder } from "features/island/boulder/Boulder";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { ZoomContext } from "components/ZoomProvider";
 
 export const RESOURCES: Record<
   keyof Layout,
@@ -30,7 +31,7 @@ export const RESOURCES: Record<
   }
 > = {
   trees: {
-    component: () => <Tree expansionIndex={0} treeIndex={0} />,
+    component: () => <Tree id="0" />,
     icon: SUNNYSIDE.resource.tree,
     dimensions: {
       height: 2,
@@ -38,7 +39,7 @@ export const RESOURCES: Record<
     },
   },
   fruitPatches: {
-    component: () => <FruitPatch expansionIndex={0} fruitPatchIndex={0} />,
+    component: () => <FruitPatch id="0" />,
     icon: fruitPatch,
     dimensions: {
       height: 2,
@@ -46,7 +47,7 @@ export const RESOURCES: Record<
     },
   },
   stones: {
-    component: () => <Stone expansionIndex={0} rockIndex={0} />,
+    component: () => <Stone id="0" />,
     dimensions: {
       height: 1,
       width: 1,
@@ -54,7 +55,7 @@ export const RESOURCES: Record<
     icon: SUNNYSIDE.resource.small_stone,
   },
   iron: {
-    component: () => <Iron expansionIndex={0} ironIndex={0} />,
+    component: () => <Iron id="0" />,
     dimensions: {
       height: 1,
       width: 1,
@@ -62,7 +63,7 @@ export const RESOURCES: Record<
     icon: ironStone,
   },
   gold: {
-    component: () => <Gold expansionIndex={0} rockIndex={0} />,
+    component: () => <Gold id="0" />,
     dimensions: {
       height: 1,
       width: 1,
@@ -70,7 +71,7 @@ export const RESOURCES: Record<
     icon: goldStone,
   },
   plots: {
-    component: () => <Plot expansionIndex={0} plotIndex={0} />,
+    component: () => <Plot id="0" />,
     dimensions: {
       height: 1,
       width: 1,
@@ -102,6 +103,8 @@ export const ResourcePlacer: React.FC<Props> = ({
   onCancel,
   onPlace,
 }) => {
+  const { scale } = useContext(ZoomContext);
+
   const nodeRef = useRef(null);
 
   const [isDragging, setIsDragging] = useState(false);
@@ -126,13 +129,10 @@ export const ResourcePlacer: React.FC<Props> = ({
       >
         <Draggable
           nodeRef={nodeRef}
-          grid={[GRID_WIDTH_PX, GRID_WIDTH_PX]}
+          grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
+          scale={scale.get()}
           onStart={() => {
             setIsDragging(true);
-          }}
-          onDrag={(_, data) => {
-            const x = Math.round(data.x / GRID_WIDTH_PX);
-            const y = Math.round((data.y / GRID_WIDTH_PX) * -1);
           }}
           onStop={(_, data) => {
             const x = Math.round(data.x / GRID_WIDTH_PX);

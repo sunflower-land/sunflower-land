@@ -115,8 +115,10 @@ const TOKEN_BUFFER_MS = 1000 * 60 * 60 * 4;
 
 export function hasValidSession(): boolean {
   const address = wallet.myAccount as string;
+  console.log({ address });
   const session = getSession(address);
 
+  console.log({ address, session });
   if (session) {
     const token = decodeToken(session.token);
     const isFresh = token.exp * 1000 > Date.now() + TOKEN_BUFFER_MS;
@@ -129,8 +131,10 @@ export function hasValidSession(): boolean {
   return false;
 }
 
-export async function login(transactionId: string): Promise<{ token: string }> {
-  const address = wallet.myAccount as string;
+export async function login(
+  transactionId: string,
+  address: string
+): Promise<{ token: string }> {
   const session = getSession(address);
 
   if (session) {

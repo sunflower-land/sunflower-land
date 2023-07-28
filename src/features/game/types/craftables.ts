@@ -1,15 +1,21 @@
 import Decimal from "decimal.js-light";
 import { CropSeedName } from "../types/crops";
-import { InventoryItemName } from "../types/game";
+import { InventoryItemName, LanternName } from "../types/game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
 import { marketRate } from "../lib/halvening";
 import { LimitedItemType } from ".";
 import { DecorationName, DECORATION_DIMENSIONS } from "./decorations";
 import { BeanName, MutantCropName } from "./beans";
-import { GoblinBlacksmithItemName, HeliosBlacksmithItem } from "./collectibles";
-import { AuctioneerItemName } from "./auctioneer";
+import {
+  GoblinBlacksmithItemName,
+  GoblinPirateItemName,
+  HeliosBlacksmithItem,
+  SeasonPassName,
+  SoldOutCollectibleName,
+} from "./collectibles";
 import { BoostTreasure } from "./treasure";
+import { RESOURCE_DIMENSIONS } from "./resources";
 
 export { FLAGS };
 
@@ -81,7 +87,8 @@ export type MutantChicken =
   | "Speed Chicken"
   | "Rich Chicken"
   | "Fat Chicken"
-  | "Ayam Cemani";
+  | "Ayam Cemani"
+  | "El Pollo Veloz";
 
 export interface LimitedItem extends CraftableItem {
   maxSupply?: number;
@@ -179,11 +186,17 @@ export type CollectibleName =
   | MutantChicken
   | MutantCropName
   | DecorationName
-  | AuctioneerItemName
   | BeanName
   | HeliosBlacksmithItem
   | GoblinBlacksmithItemName
+  | SoldOutCollectibleName
+  | GoblinPirateItemName
+  | SeasonPassName
+  | "Dawn Breaker Banner"
+  | "Solar Flare Banner"
   | BoostTreasure
+  | WarBanner
+  | LanternName
   | "Observatory"
   | "War Skull"
   | "War Tombstone"
@@ -197,7 +210,7 @@ export type ToolName =
   | "Hammer"
   | "Rod";
 
-export type Shovel = "Rusty Shovel" | "Shovel" | "Power Shovel";
+export type Shovel = "Rusty Shovel" | "Shovel";
 
 export type Food =
   | "Pumpkin Soup"
@@ -573,22 +586,6 @@ export const SHOVELS: Record<Shovel, CraftableItem> = {
       },
     ],
   },
-  "Power Shovel": {
-    name: "Power Shovel",
-    description: "Used for landscaping",
-    tokenAmount: new Decimal(5),
-    ingredients: [
-      {
-        item: "Diamond",
-        amount: new Decimal(2),
-      },
-      {
-        item: "Gold",
-        amount: new Decimal(5),
-      },
-    ],
-    disabled: true,
-  },
 };
 
 export const QUEST_ITEMS: Record<QuestItem, LimitedItem> = {
@@ -740,6 +737,11 @@ export const MUTANT_CHICKENS: Record<MutantChicken, LimitedItem> = {
   "Ayam Cemani": {
     name: "Ayam Cemani",
     description: "The rarest chicken in Sunflower Land.",
+    type: LimitedItemType.MutantChicken,
+  },
+  "El Pollo Veloz": {
+    name: "El Pollo Veloz",
+    description: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
     type: LimitedItemType.MutantChicken,
   },
 };
@@ -1044,6 +1046,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
 
   ...DECORATION_DIMENSIONS,
 
+  ...RESOURCE_DIMENSIONS,
+
   // Blacksmith Items
   "Sunflower Statue": { width: 3, height: 4 },
   "Potato Statue": { width: 2, height: 2 },
@@ -1079,13 +1083,13 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Farm Dog": { width: 1, height: 1 },
   "Chicken Coop": { width: 2, height: 2 },
   "Gold Egg": { width: 1, height: 1 },
-  "Easter Bunny": { width: 2, height: 1 },
   Rooster: { width: 1, height: 1 },
   "Egg Basket": { width: 1, height: 1 },
   "Fat Chicken": { width: 1, height: 1 },
   "Rich Chicken": { width: 1, height: 1 },
   "Speed Chicken": { width: 1, height: 1 },
   "Ayam Cemani": { width: 1, height: 1 },
+  "El Pollo Veloz": { width: 1, height: 1 },
   // War Tent Items
   "War Skull": { width: 1, height: 1 },
   "War Tombstone": { width: 1, height: 1 },
@@ -1095,7 +1099,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Victoria Sisters": { width: 2, height: 2 },
   "Basic Bear": { width: 1, height: 1 },
   "Peeled Potato": { width: 1, height: 1 },
-  "Wood Nymph Wendy": { width: 1, height: 2 },
+  "Wood Nymph Wendy": { width: 1, height: 1 },
   "Cabbage Boy": { width: 1, height: 1 },
   "Cabbage Girl": { width: 1, height: 1 },
 
@@ -1113,10 +1117,19 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Lady Bug": { width: 1, height: 1 },
   "Squirrel Monkey": { width: 2, height: 2 },
   "Black Bearry": { width: 1, height: 1 },
+  "Iron Idol": { height: 2, width: 2 },
 
   "Maneki Neko": { width: 1, height: 1 },
   "Collectible Bear": { width: 2, height: 2 },
   "Cyborg Bear": { width: 1, height: 1 },
+  "Beta Bear": { width: 1, height: 1 },
+
+  //Easter Event Items
+  "Easter Bunny": { width: 2, height: 1 },
+  "Pablo The Bunny": { width: 1, height: 1 },
+  "Easter Bear": { width: 1, height: 1 },
+  "Giant Carrot": { width: 2, height: 2 },
+  "Easter Bush": { width: 2, height: 1 },
 
   // Treasure Island SFTs
   "Tiki Totem": { height: 1, width: 1 },
@@ -1126,6 +1139,47 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Heart Balloons": { height: 1, width: 1 },
   Flamingo: { height: 2, width: 2 },
   "Blossom Tree": { height: 2, width: 2 },
+
+  // Solar Flare SFTs
+  "Palm Tree": { height: 2, width: 2 },
+  "Beach Ball": { height: 1, width: 1 },
+  Karkinos: { height: 2, width: 2 },
+
+  // Banners
+  "Witches' Eve Banner": { width: 1, height: 2 },
+  "Dawn Breaker Banner": { width: 1, height: 2 },
+  "Solar Flare Banner": { width: 1, height: 2 },
+  "Human War Banner": { width: 1, height: 2 },
+  "Goblin War Banner": { width: 1, height: 2 },
+  // Dawn Breaker SFTs
+  "Mushroom House": { height: 3, width: 2 },
+  "Luminous Lantern": { height: 2, width: 1 },
+  "Aurora Lantern": { height: 2, width: 1 },
+  "Radiance Lantern": { height: 2, width: 1 },
+  "Ocean Lantern": { height: 2, width: 1 },
+  "Solar Lantern": { height: 2, width: 1 },
+  "Goblin Lantern": { height: 2, width: 1 },
+  "Bumpkin Lantern": { height: 2, width: 1 },
+  "Betty Lantern": { height: 2, width: 1 },
+
+  "Purple Trail": { width: 1, height: 1 },
+  Obie: { width: 1, height: 1 },
+  Maximus: { width: 2, height: 2 },
+  Hoot: { width: 1, height: 1 },
+  "Freya Fox": { width: 1, height: 1 },
+  Poppy: { width: 1, height: 1 },
+  "Grain Grinder": { width: 2, height: 1 },
+  Kernaldo: { width: 1, height: 1 },
+
+  // AoE items
+  "Emerald Turtle": { height: 1, width: 1 },
+  "Tin Turtle": { height: 1, width: 1 },
+  "Basic Scarecrow": { width: 1, height: 2 },
+  Bale: { width: 2, height: 2 },
+  "Sir Goldensnout": { width: 2, height: 2 },
+  "Scary Mike": { width: 1, height: 2 },
+  "Laurie the Chuckle Crow": { width: 1, height: 2 },
+  "Queen Cornelia": { width: 1, height: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

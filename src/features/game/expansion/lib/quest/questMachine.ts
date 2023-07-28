@@ -2,6 +2,7 @@ import { createMachine, Interpreter, assign } from "xstate";
 import { QuestName } from "features/game/types/quests";
 import { loadQuests } from "./actions/loadQuests";
 import { mintQuestItem } from "./actions/mintQuestItem";
+import { wallet } from "lib/blockchain/wallet";
 
 export interface Context {
   jwt: string;
@@ -56,9 +57,12 @@ export const questMachine = createMachine<
     loading: {
       invoke: {
         src: async (context) => {
+          if (!wallet.myAccount) throw new Error("No account");
+
           const completedQuests = await loadQuests(
             context.quests,
-            context.bumpkinId
+            context.bumpkinId,
+            wallet.myAccount
           );
 
           const currentQuest = completedQuests.find(
@@ -99,10 +103,13 @@ export const questMachine = createMachine<
     minting: {
       invoke: {
         src: async (context) => {
+          if (!wallet.myAccount) throw new Error("No account");
+
           await mintQuestItem({
             quest: context.currentQuest as QuestName,
             jwt: context.jwt,
             farmId: context.farmId,
+            account: wallet.myAccount,
           });
         },
         onDone: {

@@ -1,7 +1,4 @@
-import { ValentineBear } from "features/island/collectibles/components/ValentineBear";
 import React, { useContext, useState } from "react";
-import classNames from "classnames";
-import Modal from "react-bootstrap/Modal";
 
 import { CollectibleName } from "features/game/types/craftables";
 import { MysteriousHead } from "./components/MysteriousHead";
@@ -66,15 +63,11 @@ import { BadassBear } from "./components/BadassBear";
 import { VictoriaSisters } from "./components/VictoriaSisters";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { Bar } from "components/ui/ProgressBar";
-import { RemovePlaceableModal } from "../../game/expansion/placeable/RemovePlaceableModal";
-import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Bean, getBeanStates } from "./components/Bean";
+import { Bean } from "./components/Bean";
 import { PottedPumpkin } from "features/island/collectibles/components/PottedPumpkin";
-import { Context } from "features/game/GameProvider";
 import { PottedPotato } from "features/island/collectibles/components/PottedPotato";
-import { isBean } from "features/game/types/beans";
 import { ChristmasBear } from "./components/ChristmasBear";
 import { RainbowArtistBear } from "./components/RainbowArtistBear";
 import { Observatory } from "./components/Observatory";
@@ -85,7 +78,7 @@ import { CollectibleBear } from "./components/CollectibleBear";
 import { CyborgBear } from "./components/CyborgBear";
 import { ManekiNeko } from "./components/ManekiNeko";
 import { LadyBug } from "./components/LadyBug";
-import { BlackBear } from "./components/BlackBear";
+import { BlackBearry } from "./components/BlackBearry";
 import { SquirrelMonkey } from "./components/SquirrelMonkey";
 import { TikiTotem } from "./components/TikiTotem";
 import { LunarCalendar } from "./components/LunarCalendar";
@@ -110,13 +103,99 @@ import { WhaleBear } from "./components/WhaleBear";
 import { HeartBalloons } from "./components/HeartBalloons";
 import { Flamingo } from "./components/Flamingo";
 import { BlossomTree } from "./components/BlossomTree";
+import { IronIdol } from "./components/IronIdol";
+import { ValentineBear } from "./components/ValentineBear";
+import { BeachBall } from "./components/BeachBall";
+import { PalmTree } from "./components/PalmTree";
+import { Karkinos } from "./components/Karkinos";
+import { PabloBunny } from "features/island/collectibles/components/PabloBunny";
+import { EasterBear } from "features/island/collectibles/components/EasterBear";
+import { EasterBush } from "features/island/collectibles/components/EasterBush";
+import { GiantCarrot } from "features/island/collectibles/components/GiantCarrot";
+import { MushroomHouse } from "./components/MushroomHouse";
+import { Bush } from "./components/Bush";
+import { Shrub } from "./components/Shrub";
+import { PineTree } from "./components/PineTree";
+import { Fence } from "./components/Fence";
+import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
+import { useSelector } from "@xstate/react";
+import { MoveableComponent } from "./MovableComponent";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { DawnBreakerBanner } from "./components/DawnBreakerBanner";
+import { SolarFlareBanner } from "./components/SolarFlareBanner";
+import { HumanBanner } from "./components/HumanBanner";
+import { GoblinBanner } from "./components/GoblinBanner";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { BonniesTombstone } from "./components/BonniesTombstone";
+import { ChestnutFungiStool } from "./components/ChestnutFungiStool";
+import { CrimsonCap } from "./components/CrimsonCap";
+import { DawnUmbreallSeat } from "./components/DawnUmbrellaSeat";
+import { EggplantGrill } from "./components/EggplantGrill";
+import { GiantDawnMushroom } from "./components/GiantDawnMushroom";
+import { GrubnashTombstone } from "./components/GrubnashTombstone";
+import { MahoganyCap } from "./components/MahoganyCap";
+import { ShroomGlow } from "./components/ShroomGlow";
+import { ToadstoolSeat } from "./components/ToadstoolSeat";
+import { Clementine } from "./components/Clementine";
+import { Cobalt } from "./components/Cobalt";
+import { PurpleTrail } from "./components/PurpleTrail";
+import { Obie } from "./components/Obie";
+import { Maximus } from "./components/Maximus";
+import { GenieLamp } from "./components/GenieLamp";
+import { LuminousLantern } from "./components/LuminousLantern";
+import { AuroraLantern } from "./components/AuroraLantern";
+import { RadianceLantern } from "./components/RadianceLantern";
+import { Hoot } from "./components/Hoot";
+import { GenieBear } from "./components/GenieBear";
+import { BasicScarecrow } from "./components/BasicScarecrow";
+import lightning from "assets/icons/lightning.png";
+import { EmeraldTurtle } from "./components/EmeraldTurtle";
+import { TinTurtle } from "./components/TinTurtle";
+import { StoneFence } from "./components/StoneFence";
+import { FieldMaple } from "./components/FieldMaple";
+import { GoldenMaple } from "./components/GoldenMaple";
+import { RedMaple } from "./components/RedMaple";
+import { OceanLantern } from "./components/OceanLantern";
+import { BetaBear } from "./components/BetaBear";
+import { SirGoldenSnout } from "./components/SirGoldenSnout";
+import { Bale } from "./components/Bale";
+import { InnerPanel } from "components/ui/Panel";
+import classNames from "classnames";
+import lockIcon from "assets/skills/lock.png";
+import { SolarLantern } from "./components/SolarLantern";
+import { hasMoveRestriction } from "features/game/types/removeables";
+import { ScaryMike } from "./components/ScaryMike";
+import { BettyLantern } from "./components/BettyLantern";
+import { BumpkinLantern } from "./components/BumpkinLantern";
+import { EggplantBear } from "./components/EggplantBear";
+import { GoblinLantern } from "./components/GoblinLantern";
+import { DawnFlower } from "./components/DawnFlower";
+import { LaurieTheChuckleCrow } from "./components/LaurieTheChuckelCrow";
+import { FreyaFox } from "./components/FreyaFox";
+import { WitchesEveBanner } from "./components/WitchesEveBanner";
+import { ElPolloVeloz } from "./components/ElPolloVeloz";
+import { Poppy } from "./components/Poppy";
+import { GrainGrinder } from "./components/GrainGrinder";
+import { Kernaldo } from "./components/Kernaldo";
+import { QueenCornelia } from "./components/QueenCornelia";
+import { SpookyTree } from "./components/SpookyTree";
+import { Candles } from "./components/Candles";
+import { HauntedStump } from "./components/HauntedStump";
 
-export interface CollectibleProps {
+export type CollectibleProps = {
   name: CollectibleName;
   id: string;
   readyAt: number;
   createdAt: number;
-}
+  x: number;
+  y: number;
+  grid: GameGrid;
+};
+
+type Props = CollectibleProps & {
+  showTimers: boolean;
+};
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 export const COLLECTIBLE_COMPONENTS: Record<
@@ -147,6 +226,15 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Rooster,
   "Undead Rooster": UndeadRooster,
 
+  "Dirt Path": () => null,
+  Fence: Fence,
+  Bush: Bush,
+  Shrub: Shrub,
+  "Pine Tree": PineTree,
+  "Field Maple": FieldMaple,
+  "Red Maple": RedMaple,
+  "Golden Maple": GoldenMaple,
+  "Stone Fence": StoneFence,
   "Goblin Crown": GoblinCrown,
   "Gold Egg": GoldEgg,
   "Golden Bonsai": GoldenBonsai,
@@ -160,6 +248,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Cabbage Girl": CabbageGirl,
   "Peeled Potato": PeeledPotato,
   "Wood Nymph Wendy": WoodNymphWendy,
+  "Freya Fox": FreyaFox,
 
   // Moles
   "Rocky the Mole": RockyTheMole,
@@ -177,6 +266,16 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Nancy,
   Scarecrow,
   Kuebiko,
+
+  // AoE
+  "Basic Scarecrow": BasicScarecrow,
+  "Emerald Turtle": EmeraldTurtle,
+  "Tin Turtle": TinTurtle,
+  Bale: Bale,
+  "Scary Mike": ScaryMike,
+  "Laurie the Chuckle Crow": LaurieTheChuckleCrow,
+  "Queen Cornelia": QueenCornelia,
+
   "Carrot Sword": CarrotSword,
 
   // Flags
@@ -193,6 +292,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Angel Bear": AngelBear,
   "Badass Bear": BadassBear,
   "Bear Trap": BearTrap,
+  "Beta Bear": BetaBear,
   "Brilliant Bear": BrilliantBear,
   "Classy Bear": ClassyBear,
   "Farmer Bear": FarmerBear,
@@ -202,7 +302,16 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Rainbow Artist Bear": RainbowArtistBear,
   "Victoria Sisters": VictoriaSisters,
   "Devil Bear": DevilBear,
+  "Valentine Bear": ValentineBear,
+  "Easter Bear": EasterBear,
+  "Easter Bush": EasterBush,
+  "Giant Carrot": GiantCarrot,
   Observatory,
+  "Luminous Lantern": LuminousLantern,
+  "Aurora Lantern": AuroraLantern,
+  "Radiance Lantern": RadianceLantern,
+  "Ocean Lantern": OceanLantern,
+  "Solar Lantern": SolarLantern,
 
   "Golden Bean": Bean,
   "Magic Bean": Bean,
@@ -220,11 +329,13 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Immortal Pear": ImmortalPear,
   "Lady Bug": LadyBug,
   "Squirrel Monkey": SquirrelMonkey,
-  "Black Bearry": BlackBear,
+  "Black Bearry": BlackBearry,
   "Ayam Cemani": AyamCemani,
+  "El Pollo Veloz": ElPolloVeloz,
   "Collectible Bear": CollectibleBear,
   "Cyborg Bear": CyborgBear,
   "Maneki Neko": ManekiNeko,
+  "Pablo The Bunny": PabloBunny,
 
   // Treasure
   "Abandoned Bear": AbandonedBear,
@@ -250,126 +361,552 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Heart Balloons": HeartBalloons,
   Flamingo: Flamingo,
   "Blossom Tree": BlossomTree,
-  "Valentine Bear": ValentineBear,
+  "Iron Idol": IronIdol,
+
+  // Solar Flare Items
+  "Beach Ball": BeachBall,
+  "Palm Tree": PalmTree,
+  Karkinos: Karkinos,
+  "Witches' Eve Banner": WitchesEveBanner,
+  "Dawn Breaker Banner": DawnBreakerBanner,
+  "Solar Flare Banner": SolarFlareBanner,
+  "Human War Banner": HumanBanner,
+  "Goblin War Banner": GoblinBanner,
+
+  "Bonnie's Tombstone": BonniesTombstone,
+  "Chestnut Fungi Stool": ChestnutFungiStool,
+  "Crimson Cap": CrimsonCap,
+  "Dawn Umbrella Seat": DawnUmbreallSeat,
+  "Eggplant Grill": EggplantGrill,
+  "Giant Dawn Mushroom": GiantDawnMushroom,
+  "Grubnash's Tombstone": GrubnashTombstone,
+  "Mahogany Cap": MahoganyCap,
+  "Shroom Glow": ShroomGlow,
+  "Toadstool Seat": ToadstoolSeat,
+  Clementine: Clementine,
+  Cobalt: Cobalt,
+
+  // Dawn Breaker items
+  "Mushroom House": MushroomHouse,
+  "Purple Trail": PurpleTrail,
+  Obie: Obie,
+  Maximus: Maximus,
+  "Genie Lamp": GenieLamp,
+  Hoot: Hoot,
+  "Genie Bear": GenieBear,
+  "Sir Goldensnout": SirGoldenSnout,
+  "Betty Lantern": BettyLantern,
+  "Bumpkin Lantern": BumpkinLantern,
+  "Eggplant Bear": EggplantBear,
+  "Goblin Lantern": GoblinLantern,
+  "Dawn Flower": DawnFlower,
+
+  // Witches' Eve Items
+  Poppy: Poppy,
+  "Grain Grinder": GrainGrinder,
+  Kernaldo: Kernaldo,
+  "Spooky Tree": SpookyTree,
+  Candles: Candles,
+  "Haunted Stump": HauntedStump,
 };
 
-export const Collectible: React.FC<CollectibleProps> = ({
+// Need readonly versions for some troublesome components while in design mode
+export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
+  ...COLLECTIBLE_COMPONENTS,
+  Observatory: () => (
+    <img
+      src={ITEM_DETAILS["Observatory"].image}
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 31}px` }}
+    />
+  ),
+  "Maneki Neko": () => (
+    <img
+      src={ITEM_DETAILS["Maneki Neko"].image}
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 16}px` }}
+    />
+  ),
+
+  "Basic Scarecrow": () => (
+    <div
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 22}px`, right: `${PIXEL_SCALE * -3}px` }}
+    >
+      <img src={ITEM_DETAILS["Basic Scarecrow"].image} className="w-full " />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * 16 * 2 - 2}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+
+  "Scary Mike": () => (
+    <div
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 22}px`, right: `${PIXEL_SCALE * -3}px` }}
+    >
+      <img src={ITEM_DETAILS["Scary Mike"].image} className="w-full" />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * 16 * 2 - 7.5}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+
+  "Laurie the Chuckle Crow": () => (
+    <div
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 25}px`, right: `${PIXEL_SCALE * -5}px` }}
+    >
+      <img
+        src={ITEM_DETAILS["Laurie the Chuckle Crow"].image}
+        className="w-full"
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -12}px`,
+          top: `${PIXEL_SCALE * 16 * 2 - 13}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  "Queen Cornelia": () => (
+    <div
+      id="cornelia"
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 16}px` }}
+    >
+      <img src={ITEM_DETAILS["Queen Cornelia"].image} className="w-full" />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -16}px`,
+          top: `${PIXEL_SCALE * 32}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  "Emerald Turtle": () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 22}px`,
+        top: `${PIXEL_SCALE * -5}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Emerald Turtle"].image}
+        className="w-full"
+        style={{
+          width: `${PIXEL_SCALE * 22}px`,
+          left: `${PIXEL_SCALE * -3}px`,
+        }}
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * -10 - 2}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  "Sir Goldensnout": () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 24}px`,
+        top: `${PIXEL_SCALE * -5}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Sir Goldensnout"].image}
+        className="w-full absolute"
+        style={{
+          width: `${PIXEL_SCALE * 24}px`,
+          bottom: `${PIXEL_SCALE * 2}px`,
+          left: `${PIXEL_SCALE * 7}px`,
+        }}
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 4}px`,
+          height: `${PIXEL_SCALE * 16 * 4}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * -10 - 2}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 27}px`,
+            top: `${PIXEL_SCALE * 24}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  "Tin Turtle": () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 22}px`,
+        top: `${PIXEL_SCALE * -4}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Tin Turtle"].image}
+        className="w-full"
+        style={{
+          width: `${PIXEL_SCALE * 22}px`,
+          left: `${PIXEL_SCALE * -3}px`,
+        }}
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * -10 - 2}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  Bale: () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 28}px`,
+        top: `${PIXEL_SCALE * -5}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Bale"].image}
+        className=" absolute w-full"
+        style={{
+          width: `${PIXEL_SCALE * 28}px`,
+          left: `${PIXEL_SCALE * 3}px`,
+          top: `${PIXEL_SCALE * 5}px`,
+        }}
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 4}px`,
+          height: `${PIXEL_SCALE * 16 * 4}px`,
+          left: `${PIXEL_SCALE * -12.8}px`,
+          top: `${PIXEL_SCALE * -10 - 2}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 27}px`,
+            top: `${PIXEL_SCALE * 25}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  "Nyon Statue": () => (
+    <img
+      src={ITEM_DETAILS["Nyon Statue"].image}
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 32}px` }}
+    />
+  ),
+  "Rock Golem": () => (
+    <img
+      src={ITEM_DETAILS["Rock Golem"].image}
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 34}px` }}
+    />
+  ),
+  "Wicker Man": () => (
+    <div
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 19}px` }}
+    >
+      <img src={ITEM_DETAILS["Wicker Man"].image} className="w-full" />
+    </div>
+  ),
+  "Genie Lamp": () => (
+    <div
+      className="absolute"
+      style={{ left: `${PIXEL_SCALE * 4}px`, width: `${PIXEL_SCALE * 22}px` }}
+    >
+      <img
+        src={ITEM_DETAILS["Genie Lamp"].image}
+        className="absolute w-full cursor-pointer hover:img-highlight"
+        alt="Genie Lamp"
+      />
+    </div>
+  ),
+};
+
+const InProgressCollectible: React.FC<Props> = ({
   name,
   id,
   readyAt,
   createdAt,
+  showTimers,
+  x,
+  y,
+  grid,
 }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
-  const { showTimers } = useContext(Context);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [showRemoveModal, setShowRemoveModal] = useState(false);
 
-  const inProgress = readyAt > Date.now();
-
-  useUiRefresher({ active: inProgress });
-
-  if (inProgress) {
-    const totalSeconds = (readyAt - createdAt) / 1000;
-    const secondsLeft = Math.floor((readyAt - Date.now()) / 1000);
-
-    return (
-      <>
-        <div
-          className="w-full h-full cursor-pointer"
-          onMouseEnter={() => setShowTooltip(true)}
-          onMouseLeave={() => setShowTooltip(false)}
-        >
-          <div
-            className={classNames("w-full h-full pointer-events-none", {
-              "opacity-50": inProgress,
-            })}
-          >
-            <CollectiblePlaced
-              key={id}
-              createdAt={createdAt}
-              id={id}
-              name={name}
-              readyAt={readyAt}
-            />
-          </div>
-          {showTimers && (
-            <div
-              className="absolute bottom-0 left-1/2"
-              style={{
-                marginLeft: `${PIXEL_SCALE * -8}px`,
-              }}
-            >
-              <Bar
-                percentage={(1 - secondsLeft / totalSeconds) * 100}
-                type="progress"
-              />
-            </div>
-          )}
-        </div>
-        <div
-          className="flex justify-center absolute w-full pointer-events-none"
-          style={{
-            top: `${PIXEL_SCALE * -20}px`,
-          }}
-        >
-          <TimeLeftPanel
-            text="Ready in:"
-            timeLeft={secondsLeft}
-            showTimeLeft={showTooltip}
-          />
-        </div>
-      </>
-    );
-  }
-
-  const shortcuts = getShortcuts();
-  const isBeanAndFullyGrown =
-    isBean(name) && getBeanStates(name, createdAt).isReady;
-  const canRemoveOnClick =
-    shortcuts[0] === "Rusty Shovel" && !isBeanAndFullyGrown;
-
-  const handleOnClick = () => {
-    if (!canRemoveOnClick) return;
-
-    setShowRemoveModal(true);
-  };
+  const totalSeconds = (readyAt - createdAt) / 1000;
+  const secondsLeft = Math.floor((readyAt - Date.now()) / 1000);
 
   return (
     <>
       <div
-        className={classNames("h-full", {
-          "cursor-pointer hover:img-highlight": canRemoveOnClick,
-        })}
-        onClick={canRemoveOnClick ? handleOnClick : undefined}
+        className="h-full cursor-pointer"
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
       >
-        <div
-          className={classNames("h-full", {
-            "pointer-events-none": canRemoveOnClick,
-          })}
-        >
+        <div className="w-full h-full pointer-events-none opacity-50">
           <CollectiblePlaced
             key={id}
             createdAt={createdAt}
             id={id}
             name={name}
             readyAt={readyAt}
+            x={x}
+            y={y}
+            grid={grid}
           />
         </div>
-      </div>
-      <Modal
-        show={showRemoveModal}
-        centered
-        onHide={() => setShowRemoveModal(false)}
-      >
-        {showRemoveModal && (
-          <RemovePlaceableModal
-            type="collectible"
-            placeableId={id}
-            name={name}
-            onClose={() => setShowRemoveModal(false)}
-          />
+        {showTimers && (
+          <div
+            className="absolute bottom-0 left-1/2"
+            style={{
+              marginLeft: `${PIXEL_SCALE * -8}px`,
+            }}
+          >
+            <Bar
+              percentage={(1 - secondsLeft / totalSeconds) * 100}
+              type="progress"
+            />
+          </div>
         )}
-      </Modal>
+      </div>
+      <div
+        className="flex justify-center absolute w-full pointer-events-none"
+        style={{
+          top: `${PIXEL_SCALE * -20}px`,
+        }}
+      >
+        <TimeLeftPanel
+          text="Ready in:"
+          timeLeft={secondsLeft}
+          showTimeLeft={showTooltip}
+        />
+      </div>
     </>
   );
+};
+
+const CollectibleComponent: React.FC<Props> = ({
+  name,
+  id,
+  readyAt,
+  createdAt,
+  x,
+  y,
+  showTimers,
+  grid,
+}) => {
+  const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
+
+  const inProgress = readyAt > Date.now();
+
+  useUiRefresher({ active: inProgress });
+
+  return (
+    <div className="h-full">
+      {inProgress ? (
+        <InProgressCollectible
+          key={id}
+          name={name}
+          id={id}
+          createdAt={createdAt}
+          readyAt={readyAt}
+          x={x}
+          y={y}
+          showTimers={showTimers}
+          grid={grid}
+        />
+      ) : (
+        <CollectiblePlaced
+          key={id}
+          name={name}
+          id={id}
+          createdAt={createdAt}
+          readyAt={readyAt}
+          x={x}
+          y={y}
+          grid={grid}
+        />
+      )}
+    </div>
+  );
+};
+
+const isLandscaping = (state: MachineState) => state.matches("landscaping");
+
+const MemorizedCollectibleComponent = React.memo(CollectibleComponent);
+
+export const Collectible: React.FC<Props> = (props) => {
+  const { gameService } = useContext(Context);
+  const [showPopover, setShowPopover] = useState(false);
+  const landscaping = useSelector(gameService, isLandscaping);
+
+  const handleMouseEnter = () => {
+    // set state to show details
+    setShowPopover(true);
+  };
+
+  const handleMouseLeave = () => {
+    // set state to hide details
+    setShowPopover(false);
+  };
+
+  if (landscaping) {
+    const CollectiblePlaced = READONLY_COLLECTIBLES[props.name];
+
+    const [isRestricted, restrictionReason] = hasMoveRestriction(
+      props.name,
+      props.id,
+      gameService.state.context.state
+    );
+    if (isRestricted) {
+      return (
+        <div
+          className="relative w-full h-full"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <InnerPanel
+            className={classNames(
+              "transition-opacity absolute whitespace-nowrap sm:opacity-0 w-fit z-50",
+              {
+                "opacity-100": showPopover,
+                "opacity-0": !showPopover,
+              }
+            )}
+            style={{
+              top: `${PIXEL_SCALE * -10}px`,
+              left: `${PIXEL_SCALE * 16}px`,
+            }}
+          >
+            <div className="flex flex-col text-xxs text-white text-shadow mx-2">
+              <div className="flex flex-1 items-center justify-center">
+                <img src={lockIcon} className="w-4 mr-1" />
+                <span>{restrictionReason}</span>
+              </div>
+            </div>
+          </InnerPanel>
+          <CollectiblePlaced {...props} />
+        </div>
+      );
+    }
+    return (
+      <MoveableComponent {...(props as any)}>
+        <CollectiblePlaced {...props} />
+      </MoveableComponent>
+    );
+  }
+
+  return <MemorizedCollectibleComponent {...props} />;
 };

@@ -13,7 +13,8 @@ import { useLocation } from "react-router-dom";
 
 interface Props {
   state: GameState;
-  selectedItem: InventoryItemName;
+  selectedItem?: InventoryItemName;
+  isFullUser: boolean;
   shortcutItem?: (item: InventoryItemName) => void;
   onPlace?: (item: InventoryItemName) => void;
   onDepositClick?: () => void;
@@ -25,6 +26,7 @@ export const Inventory: React.FC<Props> = ({
   state,
   selectedItem: selectedBasketItem,
   shortcutItem,
+  isFullUser,
   isFarming,
   isSaving,
   onPlace,
@@ -34,7 +36,9 @@ export const Inventory: React.FC<Props> = ({
   const { pathname } = useLocation();
   // The actions included in this more buttons should not be shown if the player is in goblin retreat or visiting another farm
   const limitedInventory =
-    pathname.includes("retreat") || pathname.includes("visit");
+    pathname.includes("retreat") ||
+    pathname.includes("visit") ||
+    pathname.includes("dawn-breaker");
 
   const [selectedChestItem, setSelectedChestItem] = useState<InventoryItemName>(
     getKeys(getChestItems(state)).sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])[0]
@@ -54,7 +58,7 @@ export const Inventory: React.FC<Props> = ({
         className="flex flex-col items-center fixed z-50"
         style={{
           right: `${PIXEL_SCALE * 3}px`,
-          top: `${PIXEL_SCALE * 38}px`,
+          top: `${PIXEL_SCALE * (isFarming ? 64 : 36)}px`,
         }}
       >
         <div
@@ -119,6 +123,7 @@ export const Inventory: React.FC<Props> = ({
         onDepositClick={onDepositClick}
         isSaving={isSaving}
         isFarming={isFarming}
+        isFullUser={isFullUser}
       />
     </>
   );

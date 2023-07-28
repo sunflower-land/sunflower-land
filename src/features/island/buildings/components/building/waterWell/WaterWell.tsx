@@ -24,9 +24,9 @@ export const WaterWell: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
       <img
         src={well}
         style={{
-          width: `${PIXEL_SCALE * 28}px`,
+          width: `${PIXEL_SCALE * 25}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * 4}px`,
         }}
         className="absolute pointer-events-none"
       />

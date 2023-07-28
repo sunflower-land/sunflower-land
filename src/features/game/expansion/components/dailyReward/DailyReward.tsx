@@ -12,13 +12,17 @@ import { Revealed } from "features/game/components/Revealed";
 import { rewardChestMachine } from "./rewardChestMachine";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
-import { secondsToString } from "lib/utils/time";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { hasFeatureAccess } from "lib/flags";
+import { Loading } from "features/auth/components";
+import { CountdownLabel } from "components/ui/CountdownLabel";
+import { Equipped } from "features/game/types/bumpkin";
+import { Label } from "components/ui/Label";
 
 export const DailyReward: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+
+  const isGuest = gameState.matches("playingGuestGame");
 
   const [showModal, setShowModal] = useState(false);
 
@@ -29,10 +33,6 @@ export const DailyReward: React.FC = () => {
       bumpkinLevel: getBumpkinLevel(
         gameState.context.state.bumpkin?.experience ?? 0
       ),
-      hasAccess: hasFeatureAccess(
-        gameState.context.state.inventory,
-        "DAILY_REWARD"
-      ),
     },
   });
 
@@ -41,6 +41,11 @@ export const DailyReward: React.FC = () => {
   const openModal = () => {
     setShowModal(true);
     chestService.send("LOAD");
+  };
+
+  const onUpgrade = () => {
+    gameService.send("UPGRADE");
+    setShowModal(true);
   };
 
   const reveal = () => {
@@ -54,7 +59,61 @@ export const DailyReward: React.FC = () => {
     chestService.send("OPEN");
   };
 
+  const pirateBumpkin: Equipped = {
+    body: "Goblin Potion",
+    hair: "White Long Hair",
+    hat: "Pirate Hat",
+    shirt: "Fancy Top",
+    pants: "Pirate Pants",
+    tool: "Pirate Scimitar",
+    background: "Seashore Background",
+    shoes: "Black Farmer Boots",
+  };
+
+  const streaks = gameState.context.state.dailyRewards?.streaks ?? 0;
+  const collectedAt =
+    gameState.context.state.dailyRewards?.chest?.collectedAt ?? 0;
+
+  const collectedDate = new Date(collectedAt).toISOString().substring(0, 10);
+  const currentDate = new Date().toISOString().substring(0, 10);
+
+  const missedADay =
+    (new Date(currentDate).getTime() - new Date(collectedDate).getTime()) /
+      (1000 * 60 * 60 * 24) >
+    1;
+
+  const streakRemainder = streaks % 5;
+  const getNextBonus = streaks + (5 - streakRemainder);
+
   const ModalContent = () => {
+    if (isGuest) {
+      return (
+        <CloseButtonPanel
+          title="Daily Reward"
+          onClose={() => setShowModal(false)}
+          bumpkinParts={pirateBumpkin}
+        >
+          <>
+            <div className="flex flex-col items-center p-2 pt-0 space-y-2 mb-1 text-sm w-full">
+              <img
+                src={SUNNYSIDE.decorations.treasure_chest}
+                className="mb-2"
+                style={{
+                  width: `${PIXEL_SCALE * 16}px`,
+                }}
+              />
+              <span>Want to take your farm game to the next level?</span>
+              <span>
+                Upgrade to a full farm account and unlock all the daily rewards
+                waiting for you.
+              </span>
+            </div>
+            <Button onClick={onUpgrade}>Upgrade now!</Button>
+          </>
+        </CloseButtonPanel>
+      );
+    }
+
     if (chestState.matches("opened")) {
       const now = new Date();
       const nextRefreshInSeconds =
@@ -66,9 +125,12 @@ export const DailyReward: React.FC = () => {
       return (
         <CloseButtonPanel onClose={() => setShowModal(false)}>
           <div className="flex flex-col items-center p-2 w-full">
+            <Label type="info" className="px-0.5 text-xs">
+              {streaks} day streak
+            </Label>
             <img
               src={SUNNYSIDE.decorations.treasure_chest_opened}
-              className="mb-2"
+              className="mb-2 mt-2"
               style={{
                 width: `${PIXEL_SCALE * 16}px`,
               }}
@@ -76,18 +138,7 @@ export const DailyReward: React.FC = () => {
             <span className="text-center mb-4">
               Come back later for more rewards
             </span>
-            <div className="flex items-center justify-center bg-blue-600 text-white text-xxs px-1.5 pb-1 pt-0.5 border rounded-md">
-              <img
-                src={SUNNYSIDE.icons.stopwatch}
-                className="w-3 left-0 mr-1"
-              />
-              <span>
-                {`${secondsToString(nextRefreshInSeconds as number, {
-                  length: "medium",
-                  isShortFormat: true,
-                })}`}
-              </span>
-            </div>
+            <CountdownLabel timeLeft={nextRefreshInSeconds} />
           </div>
         </CloseButtonPanel>
       );
@@ -99,10 +150,20 @@ export const DailyReward: React.FC = () => {
           title="Daily Reward"
           onClose={() => setShowModal(false)}
         >
-          <div className="flex flex-col items-center p-2">
+          <div className="flex flex-col items-center px-2">
+            {streaks > 1 && !missedADay && (
+              <>
+                <Label type="info" className="px-0.5 text-xs">
+                  {streaks} day streak
+                </Label>
+                <p className="text-xxs mt-2">
+                  Next bonus: {getNextBonus} Day Streak
+                </p>
+              </>
+            )}
             <img
               src={SUNNYSIDE.decorations.treasure_chest}
-              className="mb-2"
+              className="mb-2 mt-2"
               style={{
                 width: `${PIXEL_SCALE * 24}px`,
               }}
@@ -156,18 +217,6 @@ export const DailyReward: React.FC = () => {
     }
 
     if (chestState.matches("comingSoon")) {
-      // Temp
-      if (
-        !hasFeatureAccess(gameState.context.state.inventory, "DAILY_REWARD")
-      ) {
-        return (
-          <CloseButtonPanel title="Oh oh!" onClose={() => setShowModal(false)}>
-            <div className="px-2 pb-2 w-full flex flex-col items-center">
-              <p className="text-sm">Daily Rewards coming soon!</p>
-            </div>
-          </CloseButtonPanel>
-        );
-      }
       return (
         <CloseButtonPanel title="Oh oh!" onClose={() => setShowModal(false)}>
           <div className="px-2 pb-2 w-full flex flex-col items-center">
@@ -183,7 +232,10 @@ export const DailyReward: React.FC = () => {
     if (chestState.matches("opening") && gameState.matches("revealed")) {
       return (
         <Panel>
-          <Revealed onAcknowledged={() => chestService.send("ACKNOWLEDGE")} />
+          <Revealed
+            onAcknowledged={() => chestService.send("ACKNOWLEDGE")}
+            streaks={true}
+          />
         </Panel>
       );
     }
@@ -199,9 +251,7 @@ export const DailyReward: React.FC = () => {
     if (chestState.matches("unlocking")) {
       return (
         <Panel>
-          <div className=" p-2">
-            <p className="loading">Unlocking</p>
-          </div>
+          <Loading text="Unlocking" />
         </Panel>
       );
     }
@@ -209,9 +259,7 @@ export const DailyReward: React.FC = () => {
     if (chestState.matches("loading")) {
       return (
         <Panel>
-          <div className=" p-2">
-            <p className="loading">Loading</p>
-          </div>
+          <Loading />
         </Panel>
       );
     }

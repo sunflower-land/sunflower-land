@@ -3,39 +3,83 @@ import classNames from "classnames";
 
 import fruitPatch from "assets/fruit/fruit_patch.png";
 
-import { POPOVER_TIME_MS } from "features/game/lib/constants";
+import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { plantAudio, harvestAudio, treeFallAudio } from "lib/utils/sfx";
 import { FruitName } from "features/game/types/fruits";
 import { FruitTree } from "./FruitTree";
 import Decimal from "decimal.js-light";
 import { getRequiredAxeAmount } from "features/game/events/landExpansion/fruitTreeRemoved";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import {
+  Collectibles,
+  InventoryItemName,
+  PlantedFruit,
+} from "features/game/types/game";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+
+const HasAxes = (
+  inventory: Partial<Record<InventoryItemName, Decimal>>,
+  collectibles: Collectibles,
+  fruit?: PlantedFruit
+) => {
+  const axesNeeded = getRequiredAxeAmount(
+    fruit?.name as FruitName,
+    inventory,
+    collectibles
+  );
+
+  // has enough axes to chop the tree
+
+  if (axesNeeded.lte(0)) return true;
+
+  return (inventory.Axe ?? new Decimal(0)).gte(axesNeeded);
+};
+
+const isPlaying = (state: MachineState) =>
+  state.matches("playingGuestGame") ||
+  state.matches("playingFullGame") ||
+  state.matches("autosaving");
+const selectInventory = (state: MachineState) => state.context.state.inventory;
+const selectCollectibles = (state: MachineState) =>
+  state.context.state.collectibles;
+
+const compareFruit = (prev?: PlantedFruit, next?: PlantedFruit) => {
+  return JSON.stringify(prev) === JSON.stringify(next);
+};
+const compareCollectibles = (prev: Collectibles, next: Collectibles) =>
+  isCollectibleBuilt("Foreman Beaver", prev) ===
+  isCollectibleBuilt("Foreman Beaver", next);
 
 interface Props {
-  fruitPatchIndex: number;
-  expansionIndex: number;
+  id: string;
 }
 
-export const FruitPatch: React.FC<Props> = ({
-  fruitPatchIndex,
-  expansionIndex,
-}) => {
-  const { gameService, selectedItem } = useContext(Context);
-  const [game] = useActor(gameService);
-  const { setToast } = useContext(ToastContext);
+export const FruitPatch: React.FC<Props> = ({ id }) => {
+  const { gameService, selectedItem, shortcutItem } = useContext(Context);
   const [infoToShow, setInfoToShow] = useState<"error" | "info">("error");
   const [showInfo, setShowInfo] = useState(false);
   const [playAnimation, setPlayAnimation] = useState(false);
-  const expansion = game.context.state.expansions[expansionIndex];
-  const patch = expansion.fruitPatches?.[fruitPatchIndex];
 
-  const fruit = patch && patch.fruit;
-
-  const playing = game.matches("playing") || game.matches("autosaving");
+  const fruit = useSelector(
+    gameService,
+    (state) => state.context.state.fruitPatches[id]?.fruit,
+    compareFruit
+  );
+  const collectibles = useSelector(
+    gameService,
+    selectCollectibles,
+    compareCollectibles
+  );
+  const inventory = useSelector(
+    gameService,
+    selectInventory,
+    (prev, next) =>
+      HasAxes(prev, collectibles, fruit) === HasAxes(next, collectibles, fruit)
+  );
+  const playing = useSelector(gameService, isPlaying);
 
   const displayInformation = async () => {
     // First click show error
@@ -51,17 +95,12 @@ export const FruitPatch: React.FC<Props> = ({
     if (!fruit) return;
     try {
       const newState = gameService.send("fruit.harvested", {
-        index: fruitPatchIndex,
-        expansionIndex,
+        index: id,
       });
 
       if (!newState.matches("hoarding")) {
         harvestAudio.play();
         setPlayAnimation(true);
-        setToast({
-          icon: ITEM_DETAILS[fruit.name].image,
-          content: `+${fruit.amount || 1}`,
-        });
       }
     } catch (e: any) {
       displayInformation();
@@ -70,42 +109,26 @@ export const FruitPatch: React.FC<Props> = ({
 
   const removeTree = () => {
     try {
-      const { inventory, collectibles } = game.context.state;
-
-      const axesNeeded = getRequiredAxeAmount(
-        fruit?.name as FruitName,
-        inventory,
-        collectibles
-      );
-      const axeAmount = inventory.Axe || new Decimal(0);
-
-      // Has enough axes to chop the tree
-      const hasAxes =
-        (selectedItem === "Axe" || axesNeeded.eq(0)) &&
-        axeAmount.gte(axesNeeded);
+      const hasAxes = HasAxes(inventory, collectibles, fruit);
 
       if (!hasAxes) {
         return displayInformation();
       }
 
+      if (
+        !isCollectibleBuilt("Foreman Beaver", collectibles) ||
+        fruit?.name === "Blueberry"
+      )
+        shortcutItem("Axe");
+
       const newState = gameService.send("fruitTree.removed", {
-        index: fruitPatchIndex,
-        expansionIndex,
-        selectedItem: selectedItem,
+        index: id,
+        selectedItem: "Axe",
       });
 
       if (!newState.matches("hoarding")) {
         treeFallAudio.play();
         setPlayAnimation(true);
-
-        setToast({
-          icon: ITEM_DETAILS.Axe.image,
-          content: `-1`,
-        });
-        setToast({
-          icon: ITEM_DETAILS.Wood.image,
-          content: `+1`,
-        });
       }
     } catch (e: any) {
       displayInformation();
@@ -115,17 +138,11 @@ export const FruitPatch: React.FC<Props> = ({
   const plantTree = () => {
     try {
       gameService.send("fruit.planted", {
-        index: fruitPatchIndex,
-        expansionIndex,
+        index: id,
         seed: selectedItem,
       });
 
       plantAudio.play();
-
-      setToast({
-        icon: ITEM_DETAILS[selectedItem as FruitName].image,
-        content: `-1`,
-      });
     } catch (e: any) {
       // TODO - catch more elaborate errors
       displayInformation();
@@ -137,7 +154,14 @@ export const FruitPatch: React.FC<Props> = ({
   return (
     <div className="w-full h-full relative flex justify-center items-center">
       <div className="absolute w-full h-full flex justify-center">
-        <img src={fruitPatch} className="h-full absolute" />
+        <img
+          src={fruitPatch}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 30}px`,
+            top: `${PIXEL_SCALE * 2}px`,
+          }}
+        />
         <FruitTree
           plantedFruit={fruit}
           plantTree={plantTree}

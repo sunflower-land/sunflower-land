@@ -2,10 +2,10 @@ import Decimal from "decimal.js-light";
 import { fromWei } from "web3-utils";
 import {
   Bumpkin,
-  ChickenPosition,
   GameState,
   Inventory,
-  LandExpansion,
+  ExpansionConstruction,
+  PlacedItem,
 } from "../types/game";
 
 // Our "zoom" factor
@@ -23,61 +23,96 @@ export const CHICKEN_COOP_MULTIPLIER = 1.5;
 
 export const POPOVER_TIME_MS = 1000;
 
-export const CHICKEN_POSITIONS: ChickenPosition[] = [
-  { top: GRID_WIDTH_PX * 1.2, right: GRID_WIDTH_PX * 1.9 },
-  { top: GRID_WIDTH_PX * 1.4, right: GRID_WIDTH_PX * 3.3 },
-  { top: GRID_WIDTH_PX * 1.7, right: GRID_WIDTH_PX * 0.88 },
-  { top: GRID_WIDTH_PX * 2.47, right: GRID_WIDTH_PX * 3 },
-  { top: GRID_WIDTH_PX * 2.66, right: GRID_WIDTH_PX * 1.9 },
-  { top: GRID_WIDTH_PX * 1.6, right: GRID_WIDTH_PX * 4.6 },
-  { top: GRID_WIDTH_PX * 1.72, right: GRID_WIDTH_PX * 5.7 },
-  { top: GRID_WIDTH_PX * 1.28, right: GRID_WIDTH_PX * 6.7 },
-  { top: GRID_WIDTH_PX * 1.8, right: GRID_WIDTH_PX * 7.7 },
-  { top: GRID_WIDTH_PX * 1.44, right: GRID_WIDTH_PX * 8.7 },
-  { top: GRID_WIDTH_PX * 1.95, right: GRID_WIDTH_PX * 9.8 },
-  { top: GRID_WIDTH_PX * 1.17, right: GRID_WIDTH_PX * 10.6 },
-  { top: GRID_WIDTH_PX * 1.78, right: GRID_WIDTH_PX * 11.5 },
-  { top: GRID_WIDTH_PX * 1.85, right: GRID_WIDTH_PX * 12.8 },
-  { top: GRID_WIDTH_PX * 1.59, right: GRID_WIDTH_PX * 14.12 },
-];
+function isBuildingReady(building: PlacedItem[]) {
+  return building.some((b) => b.readyAt <= Date.now());
+}
 
-export const INITIAL_STOCK: Inventory = {
-  "Sunflower Seed": new Decimal(400),
-  "Potato Seed": new Decimal(200),
-  "Pumpkin Seed": new Decimal(150),
-  "Carrot Seed": new Decimal(100),
-  "Cabbage Seed": new Decimal(90),
-  "Beetroot Seed": new Decimal(80),
-  "Cauliflower Seed": new Decimal(80),
-  "Parsnip Seed": new Decimal(60),
-  "Radish Seed": new Decimal(40),
-  "Wheat Seed": new Decimal(40),
-  "Kale Seed": new Decimal(30),
+export const INITIAL_STOCK = (state?: GameState): Inventory => {
+  let tools = {
+    Axe: new Decimal(200),
+    Pickaxe: new Decimal(60),
+    "Stone Pickaxe": new Decimal(20),
+    "Iron Pickaxe": new Decimal(5),
+  };
 
-  "Apple Seed": new Decimal(10),
-  "Orange Seed": new Decimal(10),
-  "Blueberry Seed": new Decimal(10),
+  // increase in 50% tool stock if you have a toolshed
+  if (
+    state?.buildings["Toolshed"] &&
+    isBuildingReady(state.buildings["Toolshed"])
+  ) {
+    tools = {
+      Axe: new Decimal(300),
+      Pickaxe: new Decimal(90),
+      "Stone Pickaxe": new Decimal(30),
+      "Iron Pickaxe": new Decimal(8),
+    };
+  }
 
-  Axe: new Decimal(125),
-  Pickaxe: new Decimal(50),
-  "Stone Pickaxe": new Decimal(10),
-  "Iron Pickaxe": new Decimal(5),
-  Shovel: new Decimal(1),
-  "Rusty Shovel": new Decimal(10),
-  "Power Shovel": new Decimal(5),
-  "Sand Shovel": new Decimal(25),
-  "Sand Drill": new Decimal(5),
+  let seeds = {
+    "Sunflower Seed": new Decimal(400),
+    "Potato Seed": new Decimal(200),
+    "Pumpkin Seed": new Decimal(150),
+    "Carrot Seed": new Decimal(100),
+    "Cabbage Seed": new Decimal(90),
+    "Beetroot Seed": new Decimal(80),
+    "Cauliflower Seed": new Decimal(80),
+    "Parsnip Seed": new Decimal(60),
+    "Eggplant Seed": new Decimal(50),
+    "Corn Seed": new Decimal(50),
+    "Radish Seed": new Decimal(40),
+    "Wheat Seed": new Decimal(40),
+    "Kale Seed": new Decimal(30),
 
-  Chicken: new Decimal(5),
+    "Apple Seed": new Decimal(10),
+    "Orange Seed": new Decimal(10),
+    "Blueberry Seed": new Decimal(10),
+  };
 
-  "Magic Bean": new Decimal(5),
-  "Shiny Bean": new Decimal(5),
-  "Golden Bean": new Decimal(5),
+  if (
+    state?.buildings["Warehouse"] &&
+    isBuildingReady(state.buildings["Warehouse"])
+  ) {
+    seeds = {
+      "Sunflower Seed": new Decimal(480),
+      "Potato Seed": new Decimal(240),
+      "Pumpkin Seed": new Decimal(180),
+      "Carrot Seed": new Decimal(120),
+      "Cabbage Seed": new Decimal(108),
+      "Beetroot Seed": new Decimal(96),
+      "Cauliflower Seed": new Decimal(96),
+      "Parsnip Seed": new Decimal(72),
+      "Eggplant Seed": new Decimal(60),
+      "Corn Seed": new Decimal(60),
+      "Radish Seed": new Decimal(48),
+      "Wheat Seed": new Decimal(48),
+      "Kale Seed": new Decimal(36),
+      "Apple Seed": new Decimal(12),
+      "Orange Seed": new Decimal(12),
+      "Blueberry Seed": new Decimal(12),
+    };
+  }
 
-  "Immortal Pear": new Decimal(1),
+  return {
+    // Tools
+    ...tools,
+    // Seeds
+    ...seeds,
+
+    Shovel: new Decimal(1),
+    "Rusty Shovel": new Decimal(100),
+    "Sand Shovel": new Decimal(25),
+    "Sand Drill": new Decimal(5),
+    Chicken: new Decimal(5),
+
+    "Magic Bean": new Decimal(5),
+    "Shiny Bean": new Decimal(5),
+    "Golden Bean": new Decimal(5),
+
+    "Immortal Pear": new Decimal(1),
+  };
 };
 
-export const INITIAL_GOLD_MINES: LandExpansion["gold"] = {
+export const INITIAL_GOLD_MINES: GameState["gold"] = {
   0: {
     stone: {
       amount: 0.1,
@@ -90,7 +125,7 @@ export const INITIAL_GOLD_MINES: LandExpansion["gold"] = {
   },
 };
 
-export const INITIAL_EXPANSION_IRON: LandExpansion["iron"] = {
+export const INITIAL_EXPANSION_IRON: GameState["iron"] = {
   0: {
     stone: {
       amount: 0.1,
@@ -103,180 +138,24 @@ export const INITIAL_EXPANSION_IRON: LandExpansion["iron"] = {
   },
 };
 
-export const GENESIS_LAND_EXPANSION: LandExpansion = {
+export const GENESIS_LAND_EXPANSION: ExpansionConstruction = {
   createdAt: 1,
   readyAt: 0,
-
-  // gold: INITIAL_GOLD_MINES,
-  iron: INITIAL_EXPANSION_IRON,
 };
 
-export const INITIAL_EXPANSIONS: LandExpansion[] = [
+export const INITIAL_EXPANSIONS: ExpansionConstruction[] = [
   {
     createdAt: 2,
     readyAt: 0,
-
-    plots: {
-      0: {
-        x: -2,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      1: {
-        x: -1,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      2: {
-        x: 0,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      3: {
-        crop: { name: "Sunflower", plantedAt: 0 },
-        x: -2,
-        y: 0,
-        height: 1,
-        width: 1,
-      },
-      4: {
-        crop: { name: "Sunflower", plantedAt: 0 },
-        x: -1,
-        y: 0,
-        height: 1,
-        width: 1,
-      },
-      5: {
-        crop: { name: "Sunflower", plantedAt: 0 },
-        x: 0,
-        y: 0,
-        height: 1,
-        width: 1,
-      },
-      6: {
-        x: -2,
-        y: 1,
-        height: 1,
-        width: 1,
-      },
-      7: {
-        x: -1,
-        y: 1,
-        height: 1,
-        width: 1,
-      },
-      8: {
-        x: 0,
-        y: 1,
-        height: 1,
-        width: 1,
-      },
-    },
-
-    trees: {
-      0: {
-        wood: {
-          amount: 3,
-          choppedAt: 0,
-        },
-        x: -3,
-        y: 3,
-        height: 2,
-        width: 2,
-      },
-    },
-    stones: {
-      0: {
-        x: 0,
-        y: 3,
-        width: 1,
-        height: 1,
-        stone: {
-          amount: 1,
-          minedAt: 0,
-        },
-      },
-    },
   },
 
   {
     createdAt: 3,
     readyAt: 0,
-
-    plots: {},
-
-    trees: {
-      0: {
-        wood: {
-          amount: 3,
-          choppedAt: 0,
-        },
-        x: 1,
-        y: 1,
-        height: 2,
-        width: 2,
-      },
-    },
-
-    stones: {
-      0: {
-        x: 1,
-        y: -2,
-        width: 1,
-        height: 1,
-        stone: {
-          amount: 1,
-          minedAt: 0,
-        },
-      },
-    },
   },
   {
     createdAt: 4,
     readyAt: 0,
-
-    plots: {
-      0: {
-        x: -2,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      1: {
-        x: -1,
-        y: -1,
-        height: 1,
-        width: 1,
-      },
-      2: {
-        x: -2,
-        y: -2,
-        height: 1,
-        width: 1,
-      },
-      3: {
-        x: -1,
-        y: -2,
-        height: 1,
-        width: 1,
-      },
-    },
-
-    trees: {
-      0: {
-        wood: {
-          amount: 3,
-          choppedAt: 0,
-        },
-        x: 1,
-        y: 1,
-        height: 2,
-        width: 2,
-      },
-    },
   },
 ];
 
@@ -318,15 +197,26 @@ export const TEST_FARM: GameState = {
     "Iron Pickaxe": new Decimal(5),
     "Trading Ticket": new Decimal(50),
     "Chef Hat": new Decimal(1),
-    "Human War Banner": new Decimal(1),
     "Boiled Eggs": new Decimal(3),
     "Sunflower Cake": new Decimal(1),
+    "Basic Land": new Decimal(1),
   },
-  stock: INITIAL_STOCK,
+  stock: INITIAL_STOCK(),
   chickens: {},
-  skills: {
-    farming: new Decimal(0),
-    gathering: new Decimal(0),
+  wardrobe: {},
+  createdAt: new Date().getTime(),
+  conversations: [],
+  mailbox: {
+    read: [],
+  },
+  crops: {
+    1: {
+      height: 1,
+      width: 1,
+      x: 1,
+      y: 1,
+      createdAt: Date.now(),
+    },
   },
   mysteryPrizes: {},
   stockExpiry: {
@@ -342,7 +232,15 @@ export const TEST_FARM: GameState = {
     "Wheat Cake": "1970-01-01T00:00:00.000Z",
   },
   pumpkinPlaza: {},
-  expansions: INITIAL_EXPANSIONS,
+  delivery: {
+    fulfilledCount: 0,
+    orders: [],
+    milestone: {
+      goal: 10,
+      total: 10,
+    },
+  },
+  auctioneer: {},
   buildings: {
     "Fire Pit": [
       {
@@ -385,6 +283,7 @@ export const TEST_FARM: GameState = {
       items: {
         "Rapid Growth": 5,
       },
+      wearables: {},
       sfl: 3,
       message: "You are a legend!",
     },
@@ -402,6 +301,17 @@ export const TEST_FARM: GameState = {
     ],
   },
   bumpkin: INITIAL_BUMPKIN,
+  hayseedHank: {
+    choresCompleted: 0,
+    chore: {
+      activity: "Sunflower Harvested",
+      requirement: 10,
+      reward: {
+        items: { "Solar Flare Ticket": 1 },
+      },
+      description: "Harvest 10 Sunflowers",
+    },
+  },
 
   grubShop: {
     opensAt: new Date("2022-10-05").getTime(),
@@ -451,20 +361,27 @@ export const TEST_FARM: GameState = {
   },
   expansionRequirements: {
     bumpkinLevel: 20,
-    resources: [
-      {
-        amount: new Decimal(10),
-        item: "Wood",
-      },
-    ],
+    resources: {
+      Wood: 10,
+    },
     seconds: 60,
-    sfl: new Decimal(0),
   },
-  dailyRewards: {},
+  dailyRewards: { streaks: 0 },
+
+  fruitPatches: {},
+  gold: {},
+  iron: {},
+  stones: {},
+  trees: {},
+  mushrooms: {
+    spawnedAt: 0,
+    mushrooms: {},
+  },
 };
 
 export const EMPTY: GameState = {
   balance: new Decimal(fromWei("0")),
+  createdAt: new Date().getTime(),
   inventory: {
     "Chicken Coop": new Decimal(1),
     Wood: new Decimal(50),
@@ -473,24 +390,53 @@ export const EMPTY: GameState = {
   },
   chickens: {},
   stock: {},
-  skills: {
-    farming: new Decimal(0),
-    gathering: new Decimal(0),
-  },
   stockExpiry: {},
-  expansions: INITIAL_EXPANSIONS,
-
+  wardrobe: {},
+  conversations: [],
+  mailbox: {
+    read: [],
+  },
+  delivery: {
+    fulfilledCount: 0,
+    orders: [],
+    milestone: {
+      goal: 10,
+      total: 10,
+    },
+  },
   buildings: {},
   collectibles: {},
   mysteryPrizes: {},
   pumpkinPlaza: {},
-  dailyRewards: {},
+  dailyRewards: { streaks: 0 },
+  auctioneer: {},
+  hayseedHank: {
+    choresCompleted: 0,
+    dawnBreakerChoresCompleted: 0,
+    dawnBreakerChoresSkipped: 0,
+    chore: {
+      activity: "Sunflower Harvested",
+      requirement: 10,
+      reward: {
+        items: { "Solar Flare Ticket": 1 },
+      },
+      description: "Harvest 10 Sunflowers",
+    },
+  },
+
+  fruitPatches: {},
+  gold: {},
+  iron: {},
+  crops: {},
+  stones: {},
+  trees: {},
+  mushrooms: {
+    spawnedAt: 0,
+    mushrooms: {},
+  },
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;
 export const STONE_RECOVERY_TIME = 4 * 60 * 60;
-// This can be deleted once all players are on the Sunflower Isles
-// @c-py 08/12/2022
-export const FARM_IRON_RECOVERY_TIME = 12 * 60 * 60;
 export const IRON_RECOVERY_TIME = 8 * 60 * 60;
 export const GOLD_RECOVERY_TIME = 24 * 60 * 60;

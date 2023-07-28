@@ -5,7 +5,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Quest } from "./Quest";
 import { Equipped } from "features/game/types/bumpkin";
-import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
+import { NPC } from "features/island/bumpkin/components/NPC";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { MapPlacement } from "./MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -77,7 +77,7 @@ export const PirateQuest: React.FC = () => {
           />
         )}
         <div className="-scale-x-100">
-          <NPC onClick={openQuest} {...bumpkin} />
+          <NPC onClick={openQuest} parts={bumpkin} />
         </div>
       </MapPlacement>
 

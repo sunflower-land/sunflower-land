@@ -35,7 +35,6 @@ import {
 
 import { GameState } from "../types/game";
 import { trade, TradeAction } from "./trade";
-import { reveal, RevealAction } from "./revealExpansion";
 import { claimAirdrop, ClaimAirdropAction } from "./claimAirdrop";
 import {
   placeBuilding,
@@ -118,10 +117,61 @@ import {
 } from "./landExpansion/craftCollectible";
 import { sellTreasure, SellTreasureAction } from "./landExpansion/treasureSold";
 import { restock, RestockAction } from "./landExpansion/restock";
+import { sellGarbage, SellGarbageAction } from "./landExpansion/garbageSold";
+import { startChore, StartChoreAction } from "./landExpansion/startChore";
 import {
-  feedValentineFood,
-  feedValentineFoodAction,
-} from "./landExpansion/valentineFoodFeed";
+  completeChore,
+  CompleteChoreAction,
+} from "./landExpansion/completeChore";
+import { placeTree, PlaceTreeAction } from "./landExpansion/placeTree";
+import { expandLand, ExpandLandAction } from "./landExpansion/expandLand";
+import { placePlot, PlacePlotAction } from "./landExpansion/placePlot";
+import { placeStone, PlaceStoneAction } from "./landExpansion/placeStone";
+import { placeGold, PlaceGoldAction } from "./landExpansion/placeGold";
+import { placeIron, PlaceIronAction } from "./landExpansion/placeIron";
+import {
+  placeFruitPatch,
+  PlaceFruitPatchAction,
+} from "./landExpansion/placeFruitPatch";
+import { ConversationEnded, endConversation } from "./landExpansion/converse";
+import { MessageRead, readMessage } from "./landExpansion/readMessage";
+import {
+  moveCollectible,
+  MoveCollectibleAction,
+} from "./landExpansion/moveCollectible";
+import { moveBuilding, MoveBuildingAction } from "./landExpansion/moveBuilding";
+import { moveTree, MoveTreeAction } from "./landExpansion/moveTree";
+import { moveCrop, MoveCropAction } from "./landExpansion/moveCrop";
+import {
+  moveFruitPatch,
+  MoveFruitPatchAction,
+} from "./landExpansion/moveFruitPatch";
+import { moveIron, MoveIronAction } from "./landExpansion/moveIron";
+import { moveStone, MoveStoneAction } from "./landExpansion/moveStone";
+import { moveGold, MoveGoldAction } from "./landExpansion/moveGold";
+import { pickMushroom, PickMushroomAction } from "./landExpansion/pickMushroom";
+import { moveChicken, MoveChickenAction } from "./landExpansion/moveChicken";
+import { craftLantern, CraftLanternAction } from "./landExpansion/craftLantern";
+import { Announcements } from "../types/conversations";
+import { skipChore, SkipChoreAction } from "./landExpansion/skipChore";
+import { deliverOrder, DeliverOrderAction } from "./landExpansion/deliver";
+import { equip, EquipBumpkinAction } from "./landExpansion/equip";
+import { refundBid, RefundBidAction } from "./landExpansion/refundBid";
+import { mixPotion, MixPotionAction } from "./landExpansion/mixPotion";
+import {
+  tendDawnFlower,
+  TendDawnFlowerAction,
+} from "./landExpansion/tendDawnFlower";
+import {
+  prepareParty,
+  PreparePartyAction,
+} from "./landExpansion/prepareDawnParty";
+import {
+  findTraveller,
+  FindTravellerAction,
+} from "./landExpansion/findTraveller";
+import { buyWearable, BuyWearableAction } from "./landExpansion/buyWearable";
+import { skipOrder, SkipOrderAction } from "./landExpansion/skipOrder";
 
 export type PlayingEvent =
   | TradeAction
@@ -133,8 +183,6 @@ export type PlayingEvent =
   | LandExpansionStoneMineAction
   | LandExpansionIronMineAction
   | LandExpansionMineGoldAction
-  | TradeAction
-  | RevealAction
   | ClaimAirdropAction
   | RecipeCookedAction
   | CollectRecipeAction
@@ -148,9 +196,6 @@ export type PlayingEvent =
   | CraftToolAction
   | buyDecorationAction
   | SellCropAction
-  | RemoveBuildingAction
-  | RemoveCollectibleAction
-  | RemoveChickenAction
   | BeanBoughtAction
   | CollectCropRewardAction
   | CollectTreeRewardAction
@@ -161,17 +206,66 @@ export type PlayingEvent =
   | CraftCollectibleAction
   | SellTreasureAction
   | RestockAction
-  | feedValentineFoodAction;
+  | SellGarbageAction
+  // Chores
+  | StartChoreAction
+  | CompleteChoreAction
+  | SkipChoreAction
+  | ExpandLandAction
+  | ConversationEnded
+  | MessageRead
+  | PickMushroomAction
+  // TODO - remove once landscaping is released
+  | RemoveBuildingAction
+  | RemoveCollectibleAction
+  | RemoveChickenAction
+  | CraftLanternAction
+  | DeliverOrderAction
+  | EquipBumpkinAction
+  | RefundBidAction
+  | MixPotionAction
+  | TendDawnFlowerAction
+  | PreparePartyAction
+  | FindTravellerAction
+  | BuyWearableAction
+  | SkipOrderAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
   | PlaceBuildingAction
   | PlaceCollectibleAction
   | BuyChickenAction
-  | PlaceChickenAction;
+  | PlaceChickenAction
+  | PlaceTreeAction
+  | PlacePlotAction
+  | PlaceStoneAction
+  | PlaceGoldAction
+  | PlaceIronAction
+  | PlaceFruitPatchAction
+  | buyDecorationAction
+  | CraftCollectibleAction
+  | MoveCollectibleAction
+  | MoveBuildingAction
+  | MoveCropAction
+  | MoveFruitPatchAction
+  | MoveTreeAction
+  | MoveIronAction
+  | MoveStoneAction
+  | MoveGoldAction
+  | MoveChickenAction
+  | RemoveBuildingAction
+  | RemoveCollectibleAction
+  | RemoveChickenAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
+
+export function isEventType<T extends PlayingEvent>(
+  action: PlayingEvent,
+  typeName: T["type"]
+): action is T {
+  return action.type === typeName;
+}
 
 /**
  * Type which enables us to map the event name to the payload containing that event name
@@ -181,6 +275,7 @@ type Handlers<T> = {
     state: GameState;
     // Extract the correct event payload from the list of events
     action: Extract<GameEventName<T>, { type: Name }>;
+    announcements?: Announcements;
   }) => GameState;
 };
 
@@ -196,7 +291,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "stoneRock.mined": landExpansionMineStone,
   "ironRock.mined": landExpansionIronMine,
   "goldRock.mined": landExpansionMineGold,
-  "expansion.revealed": reveal,
   "timber.chopped": landExpansionChop,
   "recipe.cooked": cook,
   "recipe.collected": collectRecipe,
@@ -209,9 +303,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "tool.crafted": craftTool,
   "decoration.bought": buyDecoration,
   "crop.sold": sellCrop,
-  "building.removed": removeBuilding,
-  "collectible.removed": removeCollectible,
-  "chicken.removed": removeChicken,
+
   "bean.bought": beanBought,
   "cropReward.collected": collectCropReward,
   "treeReward.collected": collectTreeReward,
@@ -221,7 +313,28 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "collectible.crafted": craftCollectible,
   "treasure.sold": sellTreasure,
   "shops.restocked": restock,
-  "valentineFood.feed": feedValentineFood,
+  "garbage.sold": sellGarbage,
+  "chore.completed": completeChore,
+  "chore.started": startChore,
+  "chore.skipped": skipChore,
+  "land.expanded": expandLand,
+  "conversation.ended": endConversation,
+  "message.read": readMessage,
+  "mushroom.picked": pickMushroom,
+  // TODO - remove once landscaping is released
+  "building.removed": removeBuilding,
+  "collectible.removed": removeCollectible,
+  "chicken.removed": removeChicken,
+  "lantern.crafted": craftLantern,
+  "order.delivered": deliverOrder,
+  "order.skipped": skipOrder,
+  "bumpkin.equipped": equip,
+  "bid.refunded": refundBid,
+  "potion.mixed": mixPotion,
+  "dawnFlower.tended": tendDawnFlower,
+  "dawnParty.prepared": prepareParty,
+  "traveller.found": findTraveller,
+  "wearable.bought": buyWearable,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
@@ -230,6 +343,26 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "collectible.placed": placeCollectible,
   "chicken.bought": buyChicken,
   "chicken.placed": placeChicken,
+  "tree.placed": placeTree,
+  "plot.placed": placePlot,
+  "stone.placed": placeStone,
+  "gold.placed": placeGold,
+  "iron.placed": placeIron,
+  "fruitPatch.placed": placeFruitPatch,
+  "decoration.bought": buyDecoration,
+  "collectible.crafted": craftCollectible,
+  "collectible.moved": moveCollectible,
+  "building.moved": moveBuilding,
+  "fruitPatch.moved": moveFruitPatch,
+  "tree.moved": moveTree,
+  "crop.moved": moveCrop,
+  "iron.moved": moveIron,
+  "stone.moved": moveStone,
+  "gold.moved": moveGold,
+  "chicken.moved": moveChicken,
+  "building.removed": removeBuilding,
+  "collectible.removed": removeCollectible,
+  "chicken.removed": removeChicken,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

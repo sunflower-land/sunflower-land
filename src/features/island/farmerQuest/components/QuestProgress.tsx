@@ -1,8 +1,5 @@
 import React, { useContext } from "react";
 
-import progressBarEdge from "assets/ui/progress/transparent_bar_edge.png";
-import progressBar from "assets/ui/progress/transparent_bar_long.png";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { QuestName, QUESTS } from "features/game/types/quests";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
@@ -11,19 +8,8 @@ import { Button } from "components/ui/Button";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { setPrecision } from "lib/utils/formatNumber";
-import { secondsToString } from "lib/utils/time";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { Label } from "components/ui/Label";
-
-const PROGRESS_BAR_DIMENSIONS = {
-  width: 80,
-  height: 10,
-  innerWidth: 76,
-  innerHeight: 5,
-  innerTop: 2,
-  innerLeft: 2,
-  innerRight: 2,
-};
+import { CountdownLabel } from "components/ui/CountdownLabel";
+import { ResizableBar } from "components/ui/ProgressBar";
 
 interface Props {
   questName: QuestName;
@@ -47,25 +33,12 @@ export const QuestProgress: React.FC<Props> = ({
 
   const bumpkinWearableId = ITEM_IDS[quest.wearable];
 
-  const progressWidth = Math.min(
-    Math.floor(
-      (PROGRESS_BAR_DIMENSIONS.innerWidth * progress) / quest.requirement
-    ),
-    PROGRESS_BAR_DIMENSIONS.innerWidth
-  );
+  const progressPercentage = Math.min(1, progress / quest.requirement) * 100;
 
   return (
     <div className="flex flex-col justify-center items-center">
       {secondsLeft ? (
-        <Label type="info" className="flex">
-          <img src={SUNNYSIDE.icons.timer} className="w-3 left-0 -top-4 mr-1" />
-          <span className="mt-[2px]">{`${secondsToString(
-            secondsLeft as number,
-            {
-              length: "medium",
-            }
-          )} left`}</span>
-        </Label>
+        <CountdownLabel timeLeft={secondsLeft} endText="left" />
       ) : null}
 
       <img
@@ -77,77 +50,17 @@ export const QuestProgress: React.FC<Props> = ({
 
       <div className="flex items-center justify-center pt-1 w-full mb-2">
         <div className="flex items-center mt-2 mb-1">
-          <div
-            className="absolute"
-            style={{
-              width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width}px`,
-              height: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height}px`,
+          <ResizableBar
+            percentage={progressPercentage}
+            type="progress"
+            outerDimensions={{
+              width: 80,
+              height: 10,
             }}
-          >
-            {/* Progress bar frame */}
-            <img
-              src={progressBar}
-              className="absolute"
-              style={{
-                left: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft}px`,
-                width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth}px`,
-                height: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height}px`,
-              }}
-            />
-            <img
-              src={progressBarEdge}
-              className="absolute"
-              style={{
-                left: `0px`,
-                width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft}px`,
-                height: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height}px`,
-              }}
-            />
-            <img
-              src={progressBarEdge}
-              className="absolute"
-              style={{
-                right: `0px`,
-                width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft}px`,
-                height: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.height}px`,
-                transform: "scaleX(-1)",
-              }}
-            />
-            <div
-              className="absolute bg-[#193c3e]"
-              style={{
-                top: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop}px`,
-                left: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft}px`,
-                width: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerWidth}px`,
-                height: `${
-                  PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight
-                }px`,
-              }}
-            />
-
-            {/* Progress */}
-            <div
-              className="absolute bg-[#63c74d]"
-              style={{
-                top: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerTop}px`,
-                left: `${PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerLeft}px`,
-                width: `${PIXEL_SCALE * progressWidth}px`,
-                height: `${
-                  PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.innerHeight
-                }px`,
-              }}
-            />
-          </div>
-          <span
-            className="text-xxs"
-            style={{
-              marginLeft: `${
-                PIXEL_SCALE * PROGRESS_BAR_DIMENSIONS.width + 8
-              }px`,
-            }}
-          >{`${setPrecision(new Decimal(progress))}/${
-            quest.requirement
-          }`}</span>
+          />
+          <span className="text-xxs ml-2">{`${setPrecision(
+            new Decimal(progress)
+          )}/${quest.requirement}`}</span>
         </div>
       </div>
 

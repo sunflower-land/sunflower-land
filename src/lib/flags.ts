@@ -4,8 +4,7 @@ import { CONFIG } from "lib/config";
 const defaultFeatureFlag = (inventory: GameState["inventory"]) =>
   CONFIG.NETWORK === "mumbai" || !!inventory["Beta Pass"]?.gt(0);
 
-const testnetFeatureFlag = (inventory: GameState["inventory"]) =>
-  CONFIG.NETWORK === "mumbai";
+const testnetFeatureFlag = () => CONFIG.NETWORK === "mumbai";
 /*
  * How to Use:
  * Add the feature name to this list when working on a new feature.
@@ -15,17 +14,17 @@ const testnetFeatureFlag = (inventory: GameState["inventory"]) =>
  */
 type FeatureName =
   | "JEST_TEST"
-  | "FRUIT_QUEST"
   | "PUMPKIN_PLAZA"
-  | "DAILY_REWARD";
+  | "POTION_HOUSE"
+  | "NEW_DELIVERIES";
 
 type FeatureFlag = (inventory: GameState["inventory"]) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
-  FRUIT_QUEST: testnetFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
-  DAILY_REWARD: defaultFeatureFlag,
+  POTION_HOUSE: testnetFeatureFlag,
+  NEW_DELIVERIES: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (

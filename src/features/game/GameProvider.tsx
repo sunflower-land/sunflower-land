@@ -13,7 +13,6 @@ import {
 
 import { startGame, MachineInterpreter } from "./lib/gameMachine";
 import { InventoryItemName } from "./types/game";
-import { useParams } from "react-router-dom";
 import {
   cacheShowTimersSetting,
   getShowTimersSetting,
@@ -33,16 +32,7 @@ export const GameProvider: React.FC = ({ children }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
 
-  const { id } = useParams();
-  const [gameMachine] = useState(
-    startGame({
-      ...authState.context,
-      farmId: id ? Number(id) : authState.context.farmId,
-      // If the last event was a create farm, walk them through the tutorial
-      // For now hide the tutorial until we can figure out an approach that is maintainable
-      isNoob: false, //authState.history?.event.type === "CREATE_FARM",
-    }) as any
-  );
+  const [gameMachine] = useState(startGame(authState.context) as any);
 
   // TODO - Typescript error
   const gameService = useInterpret(gameMachine) as MachineInterpreter;
@@ -52,6 +42,14 @@ export const GameProvider: React.FC = ({ children }) => {
   const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
+    const originalShortcuts = getShortcuts();
+    const originalSelectedItem =
+      originalShortcuts.length > 0 ? originalShortcuts[0] : undefined;
+
+    // skip shortcut logic if selected item is the same
+    // to avoid unnecessary rerenders for components using useContext(Context)
+    if (originalSelectedItem === item) return;
+
     const items = cacheShortcuts(item);
 
     setShortcuts(items);

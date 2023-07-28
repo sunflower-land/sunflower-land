@@ -1,6 +1,8 @@
 import { CROPS } from "features/game/types/crops";
+import { FRUIT } from "features/game/types/fruits";
 import { Inventory, InventoryItemName } from "features/game/types/game";
-import { RESOURCES } from "features/game/types/resources";
+import { COMMODITIES } from "features/game/types/resources";
+import { WITHDRAWABLES } from "features/game/types/withdrawables";
 
 /**
  * Items for the storage house
@@ -8,10 +10,12 @@ import { RESOURCES } from "features/game/types/resources";
 export function getDeliverableItems(inventory: Inventory) {
   return (Object.keys(inventory) as InventoryItemName[]).reduce(
     (acc, itemName) => {
-      if (
+      const isDeliverable =
         itemName in CROPS() ||
-        (itemName in RESOURCES && itemName !== "Chicken")
-      ) {
+        itemName in FRUIT() ||
+        (itemName in COMMODITIES && itemName !== "Chicken");
+
+      if (isDeliverable && WITHDRAWABLES[itemName]) {
         return {
           ...acc,
           [itemName]: inventory[itemName],
@@ -32,7 +36,8 @@ export function getBankItems(inventory: Inventory) {
     (acc, itemName) => {
       if (
         itemName in CROPS() ||
-        (itemName in RESOURCES && itemName !== "Chicken")
+        itemName in FRUIT() ||
+        (itemName in COMMODITIES && itemName !== "Chicken")
       ) {
         return acc;
       }

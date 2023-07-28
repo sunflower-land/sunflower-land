@@ -1,4 +1,4 @@
-import { useActor, useInterpret, useSelector } from "@xstate/react";
+import { useInterpret, useSelector } from "@xstate/react";
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
@@ -18,7 +18,6 @@ import {
   PIXEL_SCALE,
   POPOVER_TIME_MS,
 } from "features/game/lib/constants";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import Decimal from "decimal.js-light";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
@@ -27,19 +26,21 @@ import { MutantChicken } from "features/game/types/craftables";
 import {
   ChickenContext,
   chickenMachine,
-  MachineInterpreter,
-  MachineState,
+  MachineInterpreter as ChickenMachineInterpreter,
+  MachineState as ChickenMachineState,
 } from "features/farming/animals/chickenMachine";
 import { MutantChickenModal } from "features/farming/animals/components/MutantChickenModal";
-import { Modal } from "react-bootstrap";
-import { RemoveChickenModal } from "features/farming/animals/components/RemoveChickenModal";
-import { getShortcuts } from "features/farming/hud/lib/shortcuts";
 import { getWheatRequiredToFeed } from "features/game/events/landExpansion/feedChicken";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
-interface Props {
-  id: string;
-}
+import { Collectibles, Chicken as ChickenType } from "features/game/types/game";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
+import { MoveableComponent } from "../collectibles/MovableComponent";
+import { ZoomContext } from "components/ZoomProvider";
+import { isLocked } from "features/game/events/landExpansion/moveChicken";
+import lockIcon from "assets/skills/lock.png";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 const getPercentageComplete = (fedAt?: number) => {
   if (!fedAt) return 0;
@@ -51,13 +52,18 @@ const getPercentageComplete = (fedAt?: number) => {
   return Math.ceil((timePassedSinceFed / CHICKEN_TIME_TO_EGG) * 100);
 };
 
+const selectTimeToEgg = (state: ChickenMachineState) => state.context.timeToEgg;
+const selectTimeElapsed = (state: ChickenMachineState) =>
+  state.context.timeElapsed;
+
 interface TimeToEggProps {
-  service: MachineInterpreter;
+  service: ChickenMachineInterpreter;
   showTimeToEgg: boolean;
 }
 
 const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
-  const [{ context }] = useActor(service);
+  const timeToEgg = useSelector(service, selectTimeToEgg);
+  const timeElapsed = useSelector(service, selectTimeElapsed);
 
   return (
     <InnerPanel
@@ -69,13 +75,13 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
         }
       )}
     >
-      <div className="flex flex-col text-xxs text-white text-shadow ml-2 mr-2">
+      <div className="flex flex-col text-xxs ml-2 mr-2">
         <div className="flex flex-1 items-center justify-center">
           <img src={SUNNYSIDE.resource.egg} className="w-4 mr-1" />
           <span>Egg</span>
         </div>
         <span className="flex-1">
-          {secondsToString(context.timeToEgg - context.timeElapsed, {
+          {secondsToString(timeToEgg - timeElapsed, {
             length: "medium",
           })}
         </span>
@@ -84,24 +90,63 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
   );
 };
 
-const isHungry = (state: MachineState) => state.matches("hungry");
-const isEating = (state: MachineState) => state.matches("eating");
-const isSleeping = (state: MachineState) => state.matches({ fed: "sleeping" });
-const isHappy = (state: MachineState) => state.matches({ fed: "happy" });
-const isEggReady = (state: MachineState) => state.matches("eggReady");
-const isEggLaid = (state: MachineState) => state.matches("eggLaid");
+const HasWheat = (inventoryWheatCount: Decimal, collectibles: Collectibles) => {
+  const wheatRequired = getWheatRequiredToFeed(collectibles);
 
-export const Chicken: React.FC<Props> = ({ id }) => {
-  const { gameService, selectedItem, showTimers } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  // has enough wheat to feed chickens
 
-  const { setToast } = useContext(ToastContext);
+  if (wheatRequired.lte(0)) return true;
 
-  const chicken = state.chickens[id];
+  return inventoryWheatCount.gte(wheatRequired);
+};
+
+const isHungry = (state: ChickenMachineState) => state.matches("hungry");
+const isEating = (state: ChickenMachineState) => state.matches("eating");
+const isSleeping = (state: ChickenMachineState) =>
+  state.matches({ fed: "sleeping" });
+const isHappy = (state: ChickenMachineState) => state.matches({ fed: "happy" });
+const isEggReady = (state: ChickenMachineState) => state.matches("eggReady");
+const isEggLaid = (state: ChickenMachineState) => state.matches("eggLaid");
+const selectInventoryWheatCount = (state: GameMachineState) =>
+  state.context.state.inventory.Wheat ?? new Decimal(0);
+const selectCollectibles = (state: GameMachineState) =>
+  state.context.state.collectibles;
+
+const compareChicken = (prev: ChickenType, next: ChickenType) => {
+  return JSON.stringify(prev) === JSON.stringify(next);
+};
+const compareCollectibles = (prev: Collectibles, next: Collectibles) =>
+  isCollectibleBuilt("Gold Egg", prev) ===
+    isCollectibleBuilt("Gold Egg", next) &&
+  isCollectibleBuilt("Fat Chicken", prev) ===
+    isCollectibleBuilt("Fat Chicken", next);
+
+interface Props {
+  id: string;
+  x: number;
+  y: number;
+}
+
+const PlaceableChicken: React.FC<Props> = ({ id }) => {
+  const { scale } = useContext(ZoomContext);
+  const { gameService, shortcutItem, showTimers } = useContext(Context);
+
+  const chicken = useSelector(
+    gameService,
+    (state) => state.context.state.chickens[id],
+    compareChicken
+  );
+  const collectibles = useSelector(
+    gameService,
+    selectCollectibles,
+    compareCollectibles
+  );
+  const inventoryWheatCount = useSelector(
+    gameService,
+    selectInventoryWheatCount,
+    (prev: Decimal, next: Decimal) =>
+      HasWheat(prev, collectibles) === HasWheat(next, collectibles)
+  );
 
   const percentageComplete = getPercentageComplete(chicken?.fedAt);
 
@@ -111,7 +156,7 @@ export const Chicken: React.FC<Props> = ({ id }) => {
   const chickenService = useInterpret(chickenMachine, {
     // If chicken is already brewing an egg then add that to the chicken machine context
     context: chickenContext,
-  }) as unknown as MachineInterpreter;
+  }) as unknown as ChickenMachineInterpreter;
 
   // As per xstate docs:
   // To use a piece of state from the service inside a render, use the useSelector(...) hook to subscribe to it
@@ -132,10 +177,6 @@ export const Chicken: React.FC<Props> = ({ id }) => {
   const [showTimeToEgg, setShowTimeToEgg] = useState(false);
   const [showMutantModal, setShowMutantModal] = useState(false);
 
-  const shortcuts = getShortcuts();
-  const hasRustyShovelSelected = shortcuts[0] === "Rusty Shovel";
-  const [showRemoveModal, setShowRemoveModal] = useState(false);
-
   const handleMouseEnter = () => {
     eggIsBrewing && setShowTimeToEgg(true);
   };
@@ -155,11 +196,6 @@ export const Chicken: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    if (hasRustyShovelSelected) {
-      setShowRemoveModal(true);
-      return;
-    }
-
     if (hungry) {
       feed();
       return;
@@ -167,18 +203,16 @@ export const Chicken: React.FC<Props> = ({ id }) => {
   };
 
   const feed = async () => {
-    const currentWheatAmount = state.inventory.Wheat ?? new Decimal(0);
-    const wheatRequired = getWheatRequiredToFeed(state.collectibles);
+    const hasWheat = HasWheat(inventoryWheatCount, collectibles);
 
-    if (
-      (wheatRequired.gt(0) && selectedItem !== "Wheat") ||
-      currentWheatAmount.lt(wheatRequired)
-    ) {
+    if (!hasWheat) {
       setShowPopover(true);
       await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
       setShowPopover(false);
       return;
     }
+
+    shortcutItem("Wheat");
 
     const {
       context: {
@@ -192,11 +226,6 @@ export const Chicken: React.FC<Props> = ({ id }) => {
 
     chickenService.send("FEED", {
       fedAt: chicken.fedAt,
-    });
-
-    setToast({
-      icon: CROP_LIFECYCLE.Wheat.crop,
-      content: `-${wheatRequired}`,
     });
   };
 
@@ -221,11 +250,6 @@ export const Chicken: React.FC<Props> = ({ id }) => {
 
     if (!newState.matches("hoarding")) {
       chickenService.send("COLLECT");
-
-      setToast({
-        icon: SUNNYSIDE.resource.egg,
-        content: `+${chicken.multiplier}`,
-      });
     }
   };
 
@@ -233,8 +257,7 @@ export const Chicken: React.FC<Props> = ({ id }) => {
     <>
       <div
         className={classNames("w-full h-full relative", {
-          "cursor-pointer hover:img-highlight":
-            interactible || hasRustyShovelSelected,
+          "cursor-pointer hover:img-highlight": interactible,
         })}
         onClick={handleClick}
         onMouseEnter={handleMouseEnter}
@@ -310,6 +333,7 @@ export const Chicken: React.FC<Props> = ({ id }) => {
                 image={walkingChickenSheet}
                 widthFrame={32}
                 heightFrame={32}
+                zoomScale={scale}
                 fps={10}
                 steps={50}
                 direction={`forward`}
@@ -388,6 +412,7 @@ export const Chicken: React.FC<Props> = ({ id }) => {
                 image={layingEggSheet}
                 widthFrame={17}
                 heightFrame={31}
+                zoomScale={scale}
                 fps={3}
                 steps={21}
                 endAt={7}
@@ -419,6 +444,7 @@ export const Chicken: React.FC<Props> = ({ id }) => {
                 }}
                 widthFrame={17}
                 heightFrame={31}
+                zoomScale={scale}
                 fps={20}
                 steps={21}
                 direction={`forward`}
@@ -447,25 +473,76 @@ export const Chicken: React.FC<Props> = ({ id }) => {
           show={showMutantModal}
           type={chicken.reward?.items?.[0].name as MutantChicken}
           onContinue={handleContinue}
-          inventory={state.inventory}
         />
-      )}
-
-      {showRemoveModal && (
-        <Modal
-          show={showRemoveModal}
-          centered
-          onHide={() => setShowRemoveModal(false)}
-        >
-          {showRemoveModal && (
-            <RemoveChickenModal
-              id={id}
-              canRemove={hungry}
-              onClose={() => setShowRemoveModal(false)}
-            />
-          )}
-        </Modal>
       )}
     </>
   );
 };
+
+const isLandscaping = (state: GameMachineState) => state.matches("landscaping");
+const _collectibles = (state: GameMachineState) =>
+  state.context.state.collectibles;
+const _chickens = (state: GameMachineState) => state.context.state.chickens;
+
+const LockedChicken: React.FC<Props> = (props) => {
+  const [showPopover, setShowPopover] = useState(false);
+
+  return (
+    <div
+      className="relative w-full h-full"
+      onMouseEnter={() => setShowPopover(true)}
+      onMouseLeave={() => setShowPopover(false)}
+    >
+      {showPopover && (
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            top: `${PIXEL_SCALE * -15}px`,
+          }}
+        >
+          <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
+            <div className="flex items-center space-x-2 mx-1 p-1">
+              <SquareIcon icon={lockIcon} width={5} />
+              <span className="text-xxs mb-0.5">AoE Locked</span>
+            </div>
+          </InnerPanel>
+        </div>
+      )}
+      <div className="relative">
+        <PlaceableChicken {...props} />
+      </div>
+    </div>
+  );
+};
+
+const MoveableChicken: React.FC<Props> = (props) => {
+  return (
+    <MoveableComponent name="Chicken" x={props.x} y={props.y} id={props.id}>
+      <PlaceableChicken {...props} />
+    </MoveableComponent>
+  );
+};
+
+const LandscapingChicken: React.FC<Props> = (props) => {
+  const { gameService } = useContext(Context);
+
+  const collectibles = useSelector(gameService, _collectibles);
+  const chickens = useSelector(gameService, _chickens);
+
+  if (isLocked(chickens[props.id], collectibles, Date.now())) {
+    return <LockedChicken {...props} />;
+  }
+
+  return <MoveableChicken {...props} />;
+};
+
+const ChickenComponent: React.FC<Props> = (props) => {
+  const { gameService } = useContext(Context);
+  const landscaping = useSelector(gameService, isLandscaping);
+
+  if (landscaping) return <LandscapingChicken {...props} />;
+
+  return <PlaceableChicken {...props} />;
+};
+
+export const Chicken = React.memo(ChickenComponent);

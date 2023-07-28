@@ -4,6 +4,7 @@ import boat from "assets/npcs/island_boat_pirate.png";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Bumpkin, Inventory } from "features/game/types/game";
 import { IslandTravelModal } from "./IslandTravelModal";
+import classNames from "classnames";
 
 interface IslandTravelProps {
   bumpkin: Bumpkin | undefined;
@@ -37,7 +38,9 @@ export const IslandTravel: React.FC<IslandTravelProps> = ({
           <img
             src={boat}
             onClick={() => setOpenIslandList(true)}
-            className="relative cursor-pointer hover:img-highlight"
+            className={classNames(
+              "relative cursor-pointer hover:img-highlight"
+            )}
             style={{
               width: `${68 * PIXEL_SCALE}px`,
             }}

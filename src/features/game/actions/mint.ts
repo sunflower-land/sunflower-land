@@ -1,14 +1,13 @@
-import { mintCollectible } from "lib/blockchain/Sessions";
+import { mintCollectible } from "lib/blockchain/Game";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { AuctioneerItemName } from "../types/auctioneer";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
 
 type Request = {
   farmId: number;
   sessionId: string;
-  item: GoblinBlacksmithItemName | AuctioneerItemName;
+  item: GoblinBlacksmithItemName;
   token: string;
   captcha: string;
   transactionId: string;

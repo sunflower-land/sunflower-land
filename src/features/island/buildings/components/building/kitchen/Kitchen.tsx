@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 
 import kitchen from "assets/buildings/kitchen.png";
@@ -8,14 +8,13 @@ import shadow from "assets/npcs/shadow.png";
 
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
-import { InventoryItemName } from "features/game/types/game";
 import { CraftingMachineChildProps } from "../WithCraftingMachine";
 import { BuildingProps } from "../Building";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { KitchenModal } from "./KitchenModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
+import { bakeryAudio } from "lib/utils/sfx";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -30,7 +29,6 @@ export const Kitchen: React.FC<Props> = ({
   onRemove,
 }) => {
   const [showModal, setShowModal] = useState(false);
-  const { setToast } = useContext(ToastContext);
 
   const handleCook = (item: CookableName) => {
     craftingService?.send({
@@ -49,11 +47,6 @@ export const Kitchen: React.FC<Props> = ({
       item: name,
       event: "recipe.collected",
     });
-
-    setToast({
-      icon: ITEM_DETAILS[name as InventoryItemName].image,
-      content: "+1",
-    });
   };
 
   const handleClick = () => {
@@ -65,6 +58,7 @@ export const Kitchen: React.FC<Props> = ({
     if (isBuilt) {
       // Add future on click actions here
       if (idle || crafting) {
+        bakeryAudio.play();
         setShowModal(true);
         return;
       }
@@ -119,7 +113,7 @@ export const Kitchen: React.FC<Props> = ({
         )}
         <img
           src={shadow}
-          className="absolute"
+          className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             bottom: `${PIXEL_SCALE * 6}px`,
@@ -129,7 +123,7 @@ export const Kitchen: React.FC<Props> = ({
         {crafting ? (
           <img
             src={doing}
-            className="absolute"
+            className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 16}px`,
               bottom: `${PIXEL_SCALE * 7}px`,
@@ -139,7 +133,7 @@ export const Kitchen: React.FC<Props> = ({
         ) : (
           <img
             src={npc}
-            className="absolute"
+            className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 15}px`,
               bottom: `${PIXEL_SCALE * 8}px`,

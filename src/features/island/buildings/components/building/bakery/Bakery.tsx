@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 
 import bakery from "assets/buildings/bakery.png";
@@ -9,14 +9,13 @@ import shadow from "assets/npcs/shadow.png";
 
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { CraftingMachineChildProps } from "../WithCraftingMachine";
 import { BuildingProps } from "../Building";
 import { BakeryModal } from "./BakeryModal";
-import { InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
+import { bakeryAudio } from "lib/utils/sfx";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -31,7 +30,6 @@ export const Bakery: React.FC<Props> = ({
   onRemove,
 }) => {
   const [showModal, setShowModal] = useState(false);
-  const { setToast } = useContext(ToastContext);
 
   const handleCook = (item: CookableName) => {
     craftingService?.send({
@@ -50,11 +48,6 @@ export const Bakery: React.FC<Props> = ({
       item: name,
       event: "recipe.collected",
     });
-
-    setToast({
-      icon: ITEM_DETAILS[name as InventoryItemName].image,
-      content: "+1",
-    });
   };
 
   const handleClick = () => {
@@ -66,6 +59,7 @@ export const Bakery: React.FC<Props> = ({
     if (isBuilt) {
       // Add future on click actions here
       if (idle || crafting) {
+        bakeryAudio.play();
         setShowModal(true);
         return;
       }
@@ -82,7 +76,7 @@ export const Bakery: React.FC<Props> = ({
       <BuildingImageWrapper onClick={handleClick} ready={ready}>
         <img
           src={bakery}
-          className={classNames("absolute bottom-0", {
+          className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
           })}
@@ -97,7 +91,7 @@ export const Bakery: React.FC<Props> = ({
           className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
-            left: `${PIXEL_SCALE * 28}px`,
+            left: `${PIXEL_SCALE * 30}px`,
           }}
         />
         {crafting ? (
@@ -117,7 +111,7 @@ export const Bakery: React.FC<Props> = ({
             className="absolute pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 22}px`,
-              left: `${PIXEL_SCALE * 27}px`,
+              left: `${PIXEL_SCALE * 29}px`,
               bottom: `${PIXEL_SCALE * 3}px`,
               transform: "scaleX(-1)",
             }}
@@ -158,7 +152,7 @@ export const Bakery: React.FC<Props> = ({
             }}
             style={{
               opacity: 0,
-              bottom: `${PIXEL_SCALE * 4}px`,
+              bottom: `${PIXEL_SCALE * 5}px`,
             }}
           />
         )}

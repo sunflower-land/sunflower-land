@@ -7,15 +7,16 @@ import {
   COUPONS,
   Bumpkin,
   GameState,
+  EASTER_EGG,
 } from "features/game/types/game";
 import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
 import { getCropTime } from "features/game/events/landExpansion/plant";
 import { getKeys } from "features/game/types/craftables";
 import { getBasketItems } from "./utils/inventory";
-import { RESOURCES } from "features/game/types/resources";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import { COMMODITIES } from "features/game/types/resources";
 import { BEANS } from "features/game/types/beans";
-import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
+import { FRUIT, FruitSeedName, FRUIT_SEEDS } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
@@ -24,12 +25,13 @@ import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { BEACH_BOUNTY_TREASURE } from "features/game/types/treasure";
+import { SELLABLE_TREASURE } from "features/game/types/treasure";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
+import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
 
 interface Prop {
   gameState: GameState;
-  selected: InventoryItemName;
+  selected?: InventoryItemName;
   onSelect: (name: InventoryItemName) => void;
 }
 
@@ -55,15 +57,20 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     );
   }
 
-  const isFruitSeed = (selected: InventoryItemName) =>
-    selected in FRUIT_SEEDS();
-  const isSeed = (selected: InventoryItemName) =>
+  const selectedItem = selected ?? getKeys(basketMap)[0] ?? "Sunflower Seed";
+
+  console.log({ selectedItem });
+
+  const isFruitSeed = (
+    selected: InventoryItemName
+  ): selected is FruitSeedName => selected in FRUIT_SEEDS();
+  const isSeed = (selected: InventoryItemName): selected is SeedName =>
     isFruitSeed(selected) || selected in CROP_SEEDS();
   const isFood = (selected: InventoryItemName) => selected in CONSUMABLES;
 
   const getHarvestTime = (seedName: SeedName) => {
-    if (isFruitSeed(selected)) {
-      return SEEDS()[seedName].plantSeconds;
+    if (isFruitSeed(seedName)) {
+      return getFruitTime(seedName, collectibles);
     }
 
     const crop = SEEDS()[seedName].yield as CropName;
@@ -89,11 +96,12 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const workbenchTools = getItems(WORKBENCH_TOOLS());
   const treasureTools = getItems(TREASURE_TOOLS);
   const exotic = getItems(BEANS());
-  const resources = getItems(RESOURCES);
+  const resources = getItems(COMMODITIES);
   const consumables = getItems(CONSUMABLES);
   const fertilisers = getItems(FERTILISERS);
   const coupons = getItems(COUPONS);
-  const bounty = getItems(BEACH_BOUNTY_TREASURE);
+  const easterEggs = getItems(EASTER_EGG);
+  const bounty = getItems(SELLABLE_TREASURE);
 
   const allSeeds = [...seeds, ...fruitSeeds];
   const allTools = [...workbenchTools, ...treasureTools];
@@ -110,7 +118,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           {items.map((item) => (
             <Box
               count={inventory[item]}
-              isSelected={selected === item}
+              isSelected={selectedItem === item}
               key={item}
               onClick={() => handleItemClick(item)}
               image={ITEM_DETAILS[item].image}
@@ -127,31 +135,31 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       divRef={divRef}
       tallMobileContent={true}
       wideModal={true}
-      showHeader={!!selected}
-      header={
-        selected && (
+      showPanel={!!selectedItem}
+      panel={
+        selectedItem && (
           <InventoryItemDetails
             details={{
-              item: selected,
+              item: selectedItem,
             }}
             properties={{
-              harvests: isFruitSeed(selected)
+              harvests: isFruitSeed(selectedItem)
                 ? {
                     minHarvest: harvestCounts[0],
                     maxHarvest: harvestCounts[1],
                   }
                 : undefined,
-              xp: isFood(selected)
+              xp: isFood(selectedItem)
                 ? new Decimal(
                     getFoodExpBoost(
-                      CONSUMABLES[selected as ConsumableName],
+                      CONSUMABLES[selectedItem as ConsumableName],
                       gameState.bumpkin as Bumpkin,
                       gameState.collectibles
                     )
                   )
                 : undefined,
-              timeSeconds: isSeed(selected)
-                ? getHarvestTime(selected as SeedName)
+              timeSeconds: isSeed(selectedItem)
+                ? getHarvestTime(selectedItem)
                 : undefined,
               showOpenSeaLink: true,
             }}
@@ -168,6 +176,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           {itemsSection("Exotic", exotic)}
           {itemsSection("Foods", consumables)}
           {itemsSection("Fertilisers", fertilisers)}
+          {itemsSection("Easter Eggs", easterEggs)}
           {itemsSection("Bounty", bounty)}
           {itemsSection("Coupons", coupons)}
         </>

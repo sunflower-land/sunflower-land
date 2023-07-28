@@ -14,12 +14,11 @@ import { Box } from "components/ui/Box";
 
 import { toWei } from "web3-utils";
 import { wallet } from "lib/blockchain/wallet";
-import { canWithdraw } from "../lib/bankUtils";
 
-import { CollectibleName, getKeys } from "features/game/types/craftables";
-import { isNeverWithdrawable } from "features/game/types/withdrawables";
+import { getKeys } from "features/game/types/craftables";
 import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { WITHDRAWABLES } from "features/game/types/withdrawables";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -35,12 +34,12 @@ export function transferInventoryItem(
     React.SetStateAction<Partial<Record<InventoryItemName, Decimal>>>
   >
 ) {
-  let amount = 1;
+  let amount = new Decimal(1);
 
   // Subtract 1 or remaining
   setFrom((prev) => {
-    const remaining = prev[itemName]!.toNumber();
-    if (remaining < 1) {
+    const remaining = prev[itemName] ?? new Decimal(0);
+    if (remaining.lessThan(1)) {
       amount = remaining;
     }
     return {
@@ -52,7 +51,7 @@ export function transferInventoryItem(
   // Add 1 or remaining
   setTo((prev) => ({
     ...prev,
-    [itemName]: (prev[itemName] || new Decimal(0)).add(amount),
+    [itemName]: (prev[itemName] ?? new Decimal(0)).add(amount),
   }));
 }
 
@@ -102,39 +101,12 @@ export const WithdrawItems: React.FC<Props> = ({
   };
 
   const withdrawableItems = getKeys(inventory)
-    .filter((item) => !isNeverWithdrawable(item) && inventory[item]?.gt(0))
+    .filter((itemName) => WITHDRAWABLES[itemName])
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
 
   const selectedItems = getKeys(selected)
     .filter((item) => selected[item]?.gt(0))
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
-
-  const getTotalNumberOfItemType = (itemName: InventoryItemName) => {
-    const state = goblinState.context.state;
-    // Return the number of chickens minus the ones that are currently laying eggs
-    if (itemName === "Chicken" && inventory["Chicken"]) {
-      const totalChicksLayingEggs = Object.keys(state.chickens).length;
-      // Only hungry (unfed) chickens can be withdrawn
-      const totalHungryChicks = inventory["Chicken"].sub(totalChicksLayingEggs);
-
-      return new Decimal(totalHungryChicks);
-    }
-
-    const { collectibles } = state;
-
-    if (
-      itemName in collectibles &&
-      collectibles[itemName as CollectibleName]?.length
-    ) {
-      const numberInInventory = inventory[itemName as CollectibleName];
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const numberPlaced = collectibles[itemName as CollectibleName]!.length;
-
-      return numberInInventory?.minus(numberPlaced) || new Decimal(0);
-    }
-
-    return inventory[itemName] || new Decimal(0);
-  };
 
   return (
     <>
@@ -148,7 +120,7 @@ export const WithdrawItems: React.FC<Props> = ({
               href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline"
+              className="underline hover:text-blue-500"
             >
               {"in use"}
             </a>
@@ -157,7 +129,7 @@ export const WithdrawItems: React.FC<Props> = ({
               href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline"
+              className="underline hover:text-blue-500"
             >
               {"still being built"}
             </a>
@@ -168,25 +140,17 @@ export const WithdrawItems: React.FC<Props> = ({
         <div className="flex flex-wrap h-fit -ml-1.5">
           {withdrawableItems.map((itemName) => {
             const details = makeItemDetails(itemName);
-            const gameState = goblinState.context.state;
 
-            const withdrawable = canWithdraw({
-              item: itemName,
-              game: gameState,
-            });
-
-            // This amount is used to block withdrawal of chickens who are in the process of laying eggs.
-            const totalCountOfItemType = getTotalNumberOfItemType(itemName);
-            // Once all the chickens that are available have been added the rest will be locked
-            const locked = !withdrawable || totalCountOfItemType.eq(0);
+            // The inventory amount that is not placed
+            const inventoryCount = inventory[itemName] ?? new Decimal(0);
 
             return (
               <Box
-                count={totalCountOfItemType}
+                count={inventoryCount}
                 key={itemName}
+                disabled={inventoryCount.lessThanOrEqualTo(0)}
                 onClick={() => onAdd(itemName)}
                 image={details.image}
-                locked={locked}
                 canBeLongPressed={allowLongpressWithdrawal}
               />
             );
@@ -234,7 +198,7 @@ export const WithdrawItems: React.FC<Props> = ({
         <span className="text-sm mb-4">
           Once withdrawn, you will be able to view your items on OpenSea.{" "}
           <a
-            className="underline"
+            className="underline hover:text-blue-500"
             href="https://docs.sunflower-land.com/fundamentals/withdrawing"
             target="_blank"
             rel="noopener noreferrer"

@@ -2,7 +2,7 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Bumpkin } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
+import { NPC } from "features/island/bumpkin/components/NPC";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
@@ -182,7 +182,7 @@ export const Bumpkins: React.FC<Props> = ({
           {myMessage && <Message {...myMessage} />}
           {myDiscovery && <Discovery {...myDiscovery} />}
 
-          <NPC {...bumpkin.equipped} />
+          <NPC parts={bumpkin.equipped} />
 
           <div
             className="absolute text-center"
@@ -234,7 +234,7 @@ export const Bumpkins: React.FC<Props> = ({
               {discovery && <Discovery {...discovery} />}
 
               <NPC
-                {...otherBumpkin.bumpkin.equipped}
+                parts={otherBumpkin.bumpkin.equipped}
                 onClick={() => setSelectedBumpkin(otherBumpkin)}
               />
               <div

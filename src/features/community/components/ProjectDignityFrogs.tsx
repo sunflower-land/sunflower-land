@@ -29,7 +29,7 @@ export const ProjectDignityFrogs: React.FC<Props> = ({ left, top }) => {
   return (
     <FrogContainer
       frogs={frogData}
-      farmId={authState.context.farmId}
+      farmId={authState.context.user.farmId}
       position={{
         left: `${GRID_WIDTH_PX * left}px`,
         top: `${GRID_WIDTH_PX * top}px`,

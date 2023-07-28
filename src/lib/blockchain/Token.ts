@@ -11,19 +11,28 @@ import Decimal from "decimal.js-light";
  */
 export async function sflBalanceOf(
   web3: Web3,
-  account: string,
-  address: string
-) {
-  const balance = await (
-    new web3.eth.Contract(
-      TokenJSON as AbiItem[],
-      CONFIG.TOKEN_CONTRACT as string
-    ) as unknown as SunflowerLandToken
-  ).methods
-    .balanceOf(address)
-    .call({ from: account });
+  address: string,
+  attempts = 0
+): Promise<string> {
+  try {
+    const balance = await (
+      new web3.eth.Contract(
+        TokenJSON as AbiItem[],
+        CONFIG.TOKEN_CONTRACT as string
+      ) as unknown as SunflowerLandToken
+    ).methods
+      .balanceOf(address)
+      .call();
 
-  return balance;
+    return balance;
+  } catch (e) {
+    const error = parseMetamaskError(e);
+    if (attempts < 3) {
+      return await sflBalanceOf(web3, address, attempts + 1);
+    }
+
+    throw error;
+  }
 }
 
 /**

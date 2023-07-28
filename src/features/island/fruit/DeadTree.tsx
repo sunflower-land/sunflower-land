@@ -32,7 +32,7 @@ export const DeadTree = ({
   playAnimation,
   showOnClickInfo,
 }: Props) => {
-  const { gameService, selectedItem } = useContext(Context);
+  const { gameService } = useContext(Context);
   const [game] = useActor(gameService);
   const [isMobile] = useIsMobile();
   const { isBush } = FRUIT()[fruit];
@@ -45,8 +45,7 @@ export const DeadTree = ({
   const axeAmount = inventory.Axe || new Decimal(0);
 
   // Has enough axes to chop the tree
-  const hasAxes =
-    (selectedItem === "Axe" || axesNeeded.eq(0)) && axeAmount.gte(axesNeeded);
+  const hasAxes = axeAmount.gte(axesNeeded);
 
   const handleHover = () => {
     if (!hasAxes) {

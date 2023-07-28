@@ -3,7 +3,6 @@ import Decimal from "decimal.js-light";
 import { CookableName, COOKABLES } from "features/game/types/consumables";
 import { Bumpkin, GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
-import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 
 export type RecipeCookedAction = {
@@ -91,8 +90,6 @@ export function cook({
   };
 
   // stateCopy.stock[action.item] = stockAmount.minus(new Decimal(1));
-
-  bumpkin.activity = trackActivity(`${action.item} Cooked`, bumpkin.activity);
 
   return stateCopy;
 }

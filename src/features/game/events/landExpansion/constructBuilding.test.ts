@@ -68,6 +68,7 @@ describe("Construct building", () => {
           },
           inventory: {
             "Water Well": new Decimal(4),
+            "Basic Land": new Decimal(20),
           },
           buildings: {
             "Water Well": [
@@ -111,6 +112,34 @@ describe("Construct building", () => {
     ).toThrow(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
   });
 
+  it("does not construct if max building limit is reached in inventory", () => {
+    expect(() =>
+      constructBuilding({
+        state: {
+          ...GAME_STATE,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            experience: LEVEL_EXPERIENCE[20],
+          },
+          inventory: {
+            "Water Well": new Decimal(4),
+            "Basic Land": new Decimal(20),
+          },
+          buildings: {},
+        },
+        action: {
+          id: "123",
+          type: "building.constructed",
+          name: "Water Well",
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+        },
+      })
+    ).toThrow(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
+  });
+
   it("does not construct if not enough SFL", () => {
     expect(() =>
       constructBuilding({
@@ -123,6 +152,7 @@ describe("Construct building", () => {
           inventory: {
             Wood: new Decimal(100),
             Stone: new Decimal(100),
+            "Basic Land": new Decimal(10),
           },
           balance: new Decimal(0),
         },
@@ -151,6 +181,7 @@ describe("Construct building", () => {
           inventory: {
             Wood: new Decimal(0.1),
             Stone: new Decimal(0.1),
+            "Basic Land": new Decimal(10),
           },
           balance: new Decimal(100),
         },
@@ -183,6 +214,7 @@ describe("Construct building", () => {
         inventory: {
           Wood: initialWood,
           Stone: initialStone,
+          "Basic Land": new Decimal(10),
         },
         balance: initialSFL,
       },
@@ -223,6 +255,7 @@ describe("Construct building", () => {
           Wood: new Decimal(100),
           Stone: new Decimal(100),
           Radish: new Decimal(50),
+          "Basic Land": new Decimal(10),
         },
       },
       action: {
@@ -246,7 +279,11 @@ describe("Construct building", () => {
         ...GAME_STATE,
         balance: new Decimal(100),
         buildings: {},
-        inventory: { Wood: new Decimal(20), Stone: new Decimal(100) },
+        inventory: {
+          Wood: new Decimal(20),
+          Stone: new Decimal(100),
+          "Basic Land": new Decimal(10),
+        },
       },
       action: {
         id: "123",
@@ -282,6 +319,7 @@ describe("Construct building", () => {
           Wood: new Decimal(20),
           Stone: new Decimal(15),
           "Water Well": new Decimal(1),
+          "Basic Land": new Decimal(10),
         },
         buildings: {
           "Water Well": [
@@ -342,6 +380,7 @@ describe("Construct building", () => {
         inventory: {
           Wood: new Decimal(20),
           Stone: new Decimal(15),
+          "Basic Land": new Decimal(10),
         },
         buildings: {
           ...buildings,
@@ -419,6 +458,7 @@ describe("Construct building", () => {
         Gold: initialGold,
         Egg: initialEggs,
         "Hen House": new Decimal(1),
+        "Basic Land": new Decimal(20),
       },
       balance: initialSFL,
     };

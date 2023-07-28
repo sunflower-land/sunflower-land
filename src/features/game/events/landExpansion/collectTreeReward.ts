@@ -6,8 +6,7 @@ import { canChop, CHOP_ERRORS } from "features/game/events/landExpansion/chop";
 
 export type CollectTreeRewardAction = {
   type: "treeReward.collected";
-  expansionIndex: number;
-  treeIndex: number;
+  treeIndex: string;
 };
 
 type Options = {
@@ -22,8 +21,7 @@ export function collectTreeReward({
   createdAt = Date.now(),
 }: Options) {
   const stateCopy = cloneDeep(state);
-  const tree =
-    stateCopy.expansions[action.expansionIndex]?.trees?.[action.treeIndex];
+  const tree = stateCopy.trees[action.treeIndex];
 
   if (!tree) {
     throw new Error("Tree does not exist");

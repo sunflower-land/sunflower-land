@@ -9,12 +9,15 @@ import { getKeys } from "../types/craftables";
 import { EMPTY } from "../lib/constants";
 import { CONFIG } from "lib/config";
 import { KNOWN_IDS, KNOWN_ITEMS } from "../types";
-import { getMintedAtBatch, Recipe } from "lib/blockchain/Sessions";
+import { getMintedAtBatch, Recipe } from "lib/blockchain/Game";
 import { loadBumpkins, OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 import { sflBalanceOf } from "lib/blockchain/Token";
 import { getInventoryBalances } from "lib/blockchain/Inventory";
 import { getFarm } from "lib/blockchain/Farm";
-import { GOBLIN_BLACKSMITH_ITEMS } from "../types/collectibles";
+import {
+  GOBLIN_BLACKSMITH_ITEMS,
+  GOBLIN_PIRATE_ITEMS,
+} from "../types/collectibles";
 
 const API_URL = CONFIG.API_URL;
 
@@ -35,6 +38,7 @@ async function loadMetadata(id: number) {
 
 type GetStateArgs = {
   farmAddress: string;
+  account: string;
   id: number;
 };
 
@@ -43,10 +47,12 @@ export async function isFarmBlacklisted(id: number) {
 
   return metadata.image.includes("banned");
 }
-
-const RECIPES_IDS = getKeys(GOBLIN_BLACKSMITH_ITEMS).map(
+const blacksmithItems = getKeys(GOBLIN_BLACKSMITH_ITEMS).map(
   (name) => KNOWN_IDS[name]
 );
+const pirateItems = getKeys(GOBLIN_PIRATE_ITEMS).map((name) => KNOWN_IDS[name]);
+
+const RECIPES_IDS = [...blacksmithItems, ...pirateItems];
 
 export type LimitedItemRecipeWithMintedAt = Recipe & {
   mintedAt: number;
@@ -54,26 +60,19 @@ export type LimitedItemRecipeWithMintedAt = Recipe & {
 
 export async function getGameOnChainState({
   farmAddress,
-  id,
+  account,
 }: GetStateArgs): Promise<{
   game: GameState;
   bumpkin?: OnChainBumpkin;
+  bumpkins: OnChainBumpkin[];
 }> {
   if (!CONFIG.API_URL) {
-    return { game: EMPTY };
+    return { game: EMPTY, bumpkins: [] };
   }
 
-  const balance = await sflBalanceOf(
-    wallet.web3Provider,
-    wallet.myAccount,
-    farmAddress
-  );
-  const balances = await getInventoryBalances(
-    wallet.web3Provider,
-    wallet.myAccount,
-    farmAddress
-  );
-  const bumpkins = await loadBumpkins(wallet.web3Provider, wallet.myAccount);
+  const balance = await sflBalanceOf(wallet.web3Provider, farmAddress);
+  const balances = await getInventoryBalances(wallet.web3Provider, farmAddress);
+  const bumpkins = await loadBumpkins(wallet.web3Provider, account);
 
   const inventory = balancesToInventory(balances);
 
@@ -85,11 +84,13 @@ export async function getGameOnChainState({
       inventory,
     },
     bumpkin: bumpkins[0],
+    bumpkins,
   };
 }
 
 export async function getOnChainState({
   farmAddress,
+  account,
   id,
 }: GetStateArgs): Promise<{
   game: GameState;
@@ -101,25 +102,12 @@ export async function getOnChainState({
     return { game: EMPTY, owner: "", mintedAtTimes: {} };
   }
 
-  const balanceFn = sflBalanceOf(
-    wallet.web3Provider,
-    wallet.myAccount,
-    farmAddress
-  );
-  const balancesFn = getInventoryBalances(
-    wallet.web3Provider,
-    wallet.myAccount,
-    farmAddress
-  );
-  const farmFn = getFarm(wallet.web3Provider, wallet.myAccount, id);
-  const bumpkinFn = loadBumpkins(wallet.web3Provider, wallet.myAccount);
+  const balanceFn = sflBalanceOf(wallet.web3Provider, farmAddress);
+  const balancesFn = getInventoryBalances(wallet.web3Provider, farmAddress);
+  const farmFn = getFarm(wallet.web3Provider, id);
+  const bumpkinFn = loadBumpkins(wallet.web3Provider, account);
 
-  const mintedAtsFn = getMintedAtBatch(
-    wallet.web3Provider,
-    wallet.myAccount,
-    id,
-    RECIPES_IDS
-  );
+  const mintedAtsFn = getMintedAtBatch(wallet.web3Provider, id, RECIPES_IDS);
 
   // Promise all
   const [balance, balances, farm, mintedAts, bumpkins] = await Promise.all([
@@ -157,7 +145,6 @@ export async function getTreasuryItems() {
 
   const treasuryItems = await getInventoryBalances(
     wallet.web3Provider,
-    wallet.myAccount,
     CONFIG.TREASURY_ADDRESS
   );
 

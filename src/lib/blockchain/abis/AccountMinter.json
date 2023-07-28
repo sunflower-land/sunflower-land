@@ -10,7 +10,13 @@
         "internalType": "contract BumpkinMinter",
         "name": "_bumpkinMinter",
         "type": "address"
-      }
+      },
+      {
+        "internalType": "contract SunflowerLandInventory",
+        "name": "_inventory",
+        "type": "address"
+      },
+      { "internalType": "address", "name": "_signer", "type": "address" }
     ],
     "stateMutability": "payable",
     "type": "constructor"
@@ -33,6 +39,13 @@
     ],
     "name": "OwnershipTransferred",
     "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "charityFee",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
@@ -82,7 +95,8 @@
         "name": "bumpkinItemIds",
         "type": "uint256[]"
       },
-      { "internalType": "string", "name": "bumpkinTokenUri", "type": "string" }
+      { "internalType": "string", "name": "bumpkinTokenUri", "type": "string" },
+      { "internalType": "uint256", "name": "referrerId", "type": "uint256" }
     ],
     "name": "mintAccount",
     "outputs": [],
@@ -98,7 +112,23 @@
   },
   {
     "inputs": [],
+    "name": "referrerFee",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_fee", "type": "uint256" }
+    ],
+    "name": "setCharityFee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -108,6 +138,15 @@
       { "internalType": "uint256", "name": "_supply", "type": "uint256" }
     ],
     "name": "setMaxSupply",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_fee", "type": "uint256" }
+    ],
+    "name": "setReferrerFee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

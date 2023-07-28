@@ -3,16 +3,13 @@
  */
 
 import Decimal from "decimal.js-light";
-import { marketRate } from "../lib/halvening";
 import { Inventory } from "./game";
 
 export type WorkbenchToolName =
   | "Axe"
   | "Pickaxe"
   | "Stone Pickaxe"
-  | "Iron Pickaxe"
-  | "Rusty Shovel"
-  | "Power Shovel";
+  | "Iron Pickaxe";
 
 export type TreasureToolName = "Sand Shovel" | "Sand Drill";
 
@@ -29,7 +26,7 @@ export const WORKBENCH_TOOLS: () => Record<WorkbenchToolName, Tool> = () => ({
     name: "Axe",
     description: "Used to collect wood",
     ingredients: {},
-    sfl: marketRate(5),
+    sfl: new Decimal(0.0625),
   },
   Pickaxe: {
     name: "Pickaxe",
@@ -37,7 +34,7 @@ export const WORKBENCH_TOOLS: () => Record<WorkbenchToolName, Tool> = () => ({
     ingredients: {
       Wood: new Decimal(3),
     },
-    sfl: marketRate(5),
+    sfl: new Decimal(0.0625),
   },
   "Stone Pickaxe": {
     name: "Stone Pickaxe",
@@ -46,7 +43,7 @@ export const WORKBENCH_TOOLS: () => Record<WorkbenchToolName, Tool> = () => ({
       Wood: new Decimal(3),
       Stone: new Decimal(5),
     },
-    sfl: marketRate(5),
+    sfl: new Decimal(0.0625),
   },
   "Iron Pickaxe": {
     name: "Iron Axe",
@@ -55,22 +52,7 @@ export const WORKBENCH_TOOLS: () => Record<WorkbenchToolName, Tool> = () => ({
       Wood: new Decimal(3),
       Iron: new Decimal(5),
     },
-    sfl: marketRate(20),
-  },
-  "Rusty Shovel": {
-    name: "Rusty Shovel",
-    description: "Used to move buildings and collectibles",
-    ingredients: {},
-    sfl: marketRate(5),
-  },
-  "Power Shovel": {
-    name: "Power Shovel",
-    description: "Used for landscaping",
-    ingredients: {
-      Diamond: new Decimal(5),
-      Gold: new Decimal(5),
-    },
-    sfl: marketRate(5),
+    sfl: new Decimal(0.25),
   },
 });
 
@@ -82,14 +64,15 @@ export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
       Wood: new Decimal(2),
       Stone: new Decimal(1),
     },
-    sfl: marketRate(5),
+    sfl: new Decimal(0.0625),
   },
   "Sand Drill": {
     name: "Sand Drill",
-    description: "Drill deep for rare treasure",
+    description: "Drill deep for uncommon or rare treasure",
     ingredients: {
       Gold: new Decimal(1),
+      Iron: new Decimal(3),
     },
-    sfl: marketRate(10),
+    sfl: new Decimal(0.125),
   },
 };

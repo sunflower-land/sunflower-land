@@ -1,49 +1,6 @@
-import { ANNOUNCEMENTS as ANN } from "features/announcements";
-
-// Sort announcements latest first
-const SORTED_ANNOUNCEMENTS = ANN.sort(
-  (a, b) => b.date.getTime() - a.date.getTime()
-);
-
-export const PAST_ANNOUNCEMENTS = SORTED_ANNOUNCEMENTS.filter(
-  (announcement) => announcement.date < new Date()
-);
-
-export function hasAnnouncements() {
-  const lastRead = getAnnouncementLastRead();
-
-  if (lastRead) {
-    return new Date(lastRead) < PAST_ANNOUNCEMENTS[0].date;
-  } else return true;
-}
-
-export function getAnnouncements() {
-  const storedDate = getAnnouncementLastRead();
-
-  // Filter out announcements already read
-  return storedDate
-    ? PAST_ANNOUNCEMENTS.filter(
-        (announcement) => announcement.date > new Date(storedDate)
-      )
-    : PAST_ANNOUNCEMENTS;
-}
-
-export function getAnnouncementLastRead() {
-  return localStorage.getItem("announcementLastRead");
-}
-
-export function acknowledgeRead() {
-  return localStorage.setItem(
-    "announcementLastRead",
-    PAST_ANNOUNCEMENTS[0].date.toISOString()
-  );
-}
-
 export function getGameRulesLastRead(): Date | null {
   const value = localStorage.getItem("gameRulesLastRead");
-  if (!value) {
-    return null;
-  }
+  if (!value) return null;
 
   return new Date(value);
 }
@@ -54,9 +11,7 @@ export function acknowledgeGameRules() {
 
 export function getCodeOfConductLastRead(): Date | null {
   const value = localStorage.getItem("codeOfConductLastRead");
-  if (!value) {
-    return null;
-  }
+  if (!value) return null;
 
   return new Date(value);
 }
@@ -64,6 +19,31 @@ export function getCodeOfConductLastRead(): Date | null {
 export function acknowledgeCodeOfConduct() {
   return localStorage.setItem(
     "codeOfConductLastRead",
+    new Date().toISOString()
+  );
+}
+
+export function getIntroductionRead(): Date | null {
+  const value = localStorage.getItem("islesIntroduction");
+  if (!value) return null;
+
+  return new Date(value);
+}
+
+export function acknowledgeIntroduction() {
+  return localStorage.setItem("islesIntroduction", new Date().toISOString());
+}
+
+export function getSeasonPassRead(): Date | null {
+  const value = localStorage.getItem("witchSeasonPassPromov2");
+  if (!value) return null;
+
+  return new Date(value);
+}
+
+export function acknowledgeSeasonPass() {
+  return localStorage.setItem(
+    "witchSeasonPassPromov2",
     new Date().toISOString()
   );
 }

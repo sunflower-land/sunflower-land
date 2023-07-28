@@ -14,6 +14,8 @@
 /build
 /dist
 
+tilesheet.png
+
 # misc
 .DS_Store
 .env

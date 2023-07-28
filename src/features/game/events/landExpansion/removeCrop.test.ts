@@ -1,7 +1,8 @@
+import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 
 import { TEST_FARM } from "../../lib/constants";
-import { GameState, LandExpansionPlot } from "../../types/game";
+import { GameState, CropPlot } from "../../types/game";
 import { removeCrop, REMOVE_CROP_ERRORS } from "./removeCrop";
 
 const GAME_STATE: GameState = {
@@ -14,42 +15,9 @@ const GAME_STATE: GameState = {
 
 describe("removeCrop", () => {
   const dateNow = Date.now();
-  const { inventory } = GAME_STATE;
-  const expansions = [...GAME_STATE.expansions];
-  const expansion = expansions[0];
-  const { plots } = expansion;
-  const plot = (plots as Record<number, LandExpansionPlot>)[0];
-  it("does not remove on a non existent expansion", () => {
-    expect(() =>
-      removeCrop({
-        state: {
-          ...GAME_STATE,
-        },
-        action: {
-          type: "crop.removed",
-          item: "Shovel",
-          index: 0,
-          expansionIndex: -1,
-        },
-      })
-    ).toThrow(REMOVE_CROP_ERRORS.EMPTY_EXPANSION);
-  });
-  it("does not remove on an expansion with no plots", () => {
-    expect(() =>
-      removeCrop({
-        state: {
-          ...GAME_STATE,
-          expansions: [{ createdAt: 0, readyAt: 0 }],
-        },
-        action: {
-          type: "crop.removed",
-          item: "Shovel",
-          index: 0,
-          expansionIndex: 0,
-        },
-      })
-    ).toThrow(REMOVE_CROP_ERRORS.EXPANSION_NO_PLOTS);
-  });
+  const { inventory, crops: plots } = GAME_STATE;
+  const plot = (plots as Record<number, CropPlot>)[0];
+
   it("does not remove on plot with negative plot index", () => {
     expect(() =>
       removeCrop({
@@ -60,7 +28,6 @@ describe("removeCrop", () => {
           type: "crop.removed",
           item: "Shovel",
           index: -1,
-          expansionIndex: 0,
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.EMPTY_PLOT);
@@ -75,7 +42,6 @@ describe("removeCrop", () => {
           type: "crop.removed",
           item: "Shovel",
           index: 1.2,
-          expansionIndex: 0,
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.EMPTY_PLOT);
@@ -90,7 +56,6 @@ describe("removeCrop", () => {
           type: "crop.removed",
           item: "Shovel",
           index: 200000,
-          expansionIndex: 0,
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.EMPTY_PLOT);
@@ -100,25 +65,20 @@ describe("removeCrop", () => {
       removeCrop({
         state: {
           ...GAME_STATE,
-          expansions: [
-            {
-              ...expansion,
-              plots: {
-                0: {
-                  x: 1,
-                  y: 1,
-                  height: 1,
-                  width: 1,
-                },
-              },
+          crops: {
+            0: {
+              createdAt: Date.now(),
+              x: 1,
+              y: 1,
+              height: 1,
+              width: 1,
             },
-          ],
+          },
         },
         action: {
           type: "crop.removed",
           item: "Shovel",
           index: 0,
-          expansionIndex: 0,
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.EMPTY_CROP);
@@ -132,26 +92,20 @@ describe("removeCrop", () => {
             ...inventory,
             "Rusty Shovel": new Decimal(1),
           },
-          expansions: [
-            {
-              ...expansion,
-              plots: {
-                0: {
-                  ...plot,
-                  crop: {
-                    name: "Sunflower",
-                    plantedAt: dateNow - 40 * 1000,
-                  },
-                },
+          crops: {
+            0: {
+              ...plot,
+              crop: {
+                name: "Sunflower",
+                plantedAt: dateNow - 40 * 1000,
               },
             },
-          ],
+          },
         },
         action: {
           type: "crop.removed",
           item: "Rusty Shovel",
           index: 0,
-          expansionIndex: 0,
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.NO_VALID_SHOVEL_SELECTED);
@@ -161,25 +115,19 @@ describe("removeCrop", () => {
       removeCrop({
         state: {
           ...GAME_STATE,
-          expansions: [
-            {
-              ...expansion,
-              plots: {
-                0: {
-                  ...plot,
-                  crop: {
-                    name: "Sunflower",
-                    plantedAt: dateNow - 40 * 1000,
-                  },
-                },
+          crops: {
+            0: {
+              ...plot,
+              crop: {
+                name: "Sunflower",
+                plantedAt: dateNow - 40 * 1000,
               },
             },
-          ],
+          },
         },
         action: {
           type: "crop.removed",
           index: 0,
-          expansionIndex: 0,
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.NO_VALID_SHOVEL_SELECTED);
@@ -193,26 +141,20 @@ describe("removeCrop", () => {
             ...inventory,
             Shovel: new Decimal(0),
           },
-          expansions: [
-            {
-              ...expansion,
-              plots: {
-                0: {
-                  ...plot,
-                  crop: {
-                    name: "Sunflower",
-                    plantedAt: dateNow - 40 * 1000,
-                  },
-                },
+          crops: {
+            0: {
+              ...plot,
+              crop: {
+                name: "Sunflower",
+                plantedAt: dateNow - 40 * 1000,
               },
             },
-          ],
+          },
         },
         action: {
           type: "crop.removed",
           item: "Shovel",
           index: 0,
-          expansionIndex: 0,
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.NO_SHOVEL_AVAILABLE);
@@ -222,26 +164,20 @@ describe("removeCrop", () => {
       removeCrop({
         state: {
           ...GAME_STATE,
-          expansions: [
-            {
-              ...expansion,
-              plots: {
-                0: {
-                  ...plot,
-                  crop: {
-                    name: "Sunflower",
-                    plantedAt: dateNow - 120 * 1000,
-                  },
-                },
+          crops: {
+            0: {
+              ...plot,
+              crop: {
+                name: "Sunflower",
+                plantedAt: dateNow - 120 * 1000,
               },
             },
-          ],
+          },
         },
         action: {
           type: "crop.removed",
           item: "Shovel",
           index: 0,
-          expansionIndex: 0,
         },
       })
     ).toThrow(REMOVE_CROP_ERRORS.READY_TO_HARVEST);
@@ -250,32 +186,26 @@ describe("removeCrop", () => {
     const gameState = removeCrop({
       state: {
         ...GAME_STATE,
-        expansions: [
-          {
-            ...expansion,
-            plots: {
-              0: {
-                ...plot,
-                crop: {
-                  name: "Sunflower",
-                  plantedAt: dateNow - 40 * 1000,
-                },
-              },
+        crops: {
+          0: {
+            ...plot,
+            crop: {
+              name: "Sunflower",
+              plantedAt: dateNow - 40 * 1000,
             },
           },
-        ],
+        },
       },
       action: {
         type: "crop.removed",
         item: "Shovel",
         index: 0,
-        expansionIndex: 0,
       },
     });
 
     expect(gameState.inventory.Sunflower).toBeFalsy();
     expect(gameState.inventory["Sunflower Seed"]).toBeFalsy();
-    const newPlots = gameState.expansions[0].plots;
-    expect((newPlots as Record<number, LandExpansionPlot>)[0].crop).toBeFalsy();
+    const newPlots = gameState.crops;
+    expect((newPlots as Record<number, CropPlot>)[0].crop).toBeFalsy();
   });
 });

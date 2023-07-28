@@ -57,7 +57,7 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
       </Modal>
     );
   }
-
+  const hasBetaAccess = !!inventory["Beta Pass"];
   return (
     <Modal centered show={isOpen} onHide={onClose} onShow={onShow}>
       <CloseButtonPanel
@@ -65,20 +65,20 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
         bumpkinParts={bumpkinParts}
         onClose={onClose}
       >
-        {travelAllowed && (
-          <div
-            style={{ maxHeight: CONTENT_HEIGHT }}
-            className="w-full pr-1 pt-2.5 overflow-y-auto scrollable"
-          >
-            <IslandList
-              bumpkin={bumpkin}
-              showVisitList={isVisiting}
-              inventory={inventory}
-            />
-          </div>
-        )}
-
-        {!travelAllowed && <span className="loading">Loading</span>}
+        <div
+          style={{ maxHeight: CONTENT_HEIGHT }}
+          className="w-full pr-1 pt-2.5 overflow-y-auto scrollable"
+        >
+          {!travelAllowed && <span className="loading">Saving</span>}
+          <IslandList
+            bumpkin={bumpkin}
+            showVisitList={isVisiting}
+            inventory={inventory}
+            travelAllowed={travelAllowed}
+            hasBetaAccess={hasBetaAccess}
+            onClose={onClose}
+          />
+        </div>
       </CloseButtonPanel>
     </Modal>
   );

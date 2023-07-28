@@ -6,6 +6,7 @@ type Request = {
   farmId: number;
   token: string;
   receiver: string;
+  account: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -29,7 +30,7 @@ export async function transferAccount(request: Request) {
 
   await transfer({
     web3: wallet.web3Provider,
-    account: wallet.myAccount,
+    account: request.account,
     to: request.receiver,
     tokenId: request.farmId,
   });

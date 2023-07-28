@@ -74,6 +74,15 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/108.png",
     attributes: [{ trait_type: "Purpose", value: "Seed" }],
   },
+  "Eggplant Seed": {
+    name: "Eggplant Seed",
+    description:
+      "A seed used to grow eggplant.\n\nYou can buy eggplant seeds in game at the market.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/118.png",
+    attributes: [{ trait_type: "Purpose", value: "Seed" }],
+  },
   "Wheat Seed": {
     name: "Wheat Seed",
     description:
@@ -90,6 +99,15 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/109.png",
+    attributes: [{ trait_type: "Purpose", value: "Seed" }],
+  },
+  "Corn Seed": {
+    name: "Cord Seed",
+    description:
+      "A seed used to grow corn.\n\nYou can buy corn seeds in game at the market.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/119.png",
     attributes: [{ trait_type: "Purpose", value: "Seed" }],
   },
   "Kale Seed": {
@@ -219,6 +237,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { value: "Tradable" },
     ],
   },
+  Eggplant: {
+    name: "Eggplant",
+    description:
+      "A crop grown at Sunflower Land.\n\nNature's edible work of art.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/208.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { value: "Tradable" },
+    ],
+  },
   Wheat: {
     name: "Wheat",
     description:
@@ -325,6 +355,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { value: "Tradable" },
     ],
   },
+  Corn: {
+    name: "Corn",
+    description:
+      "A crop grown at Sunflower Land.\n\nGolden corn, a gift from celestial lands, bestowed bountiful harvests upon humankind",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/215.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { value: "Tradable" },
+    ],
+  },
   "Stone Pickaxe": {
     name: "Stone Pickaxe",
     description:
@@ -387,15 +429,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Decoration" },
       { value: "Tradable" },
     ],
-  },
-  "Power Shovel": {
-    name: "Power Shovel",
-    description:
-      "Used for landscaping\n\nYou can craft a power shovel at the Workbench in the game.",
-    decimals: 18,
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/309.png",
-    attributes: [{ trait_type: "Purpose", value: "Tool" }],
   },
   "Christmas Tree": {
     name: "Christmas Tree",
@@ -504,7 +537,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "A golden egg. What lays inside is known to be the bearer of good fortune.\n\n\n\nFeed chickens without wheat.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/409.png",
+    image_url: "../public/erc1155/images/409.gif",
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
       {
@@ -1405,6 +1438,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/713.png",
     attributes: [{ trait_type: "Purpose", value: "Coupon" }],
   },
+
   "Beta Pass": {
     name: "Beta Pass",
     description: "Gain early access to features for testing.",
@@ -2195,6 +2229,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/921.png",
     attributes: [],
   },
+  "Town Center": {
+    name: "Town Center",
+    description: "Gather round the town center and hear the latest news!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1013.png",
+    attributes: [],
+  },
   Bakery: {
     name: "Bakery",
     description: "A bakery used to cook recipes in Sunflower Land.",
@@ -2250,6 +2292,22 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1010.png",
+    attributes: [],
+  },
+  Toolshed: {
+    name: "Toolshed",
+    description: "A Toolshed increases your tool stocks by 50%",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1011.png",
+    attributes: [],
+  },
+  Warehouse: {
+    name: "Warehouse",
+    description: "A Warehouse increases your seed stocks by 20%",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1012.png",
     attributes: [],
   },
 
@@ -2817,7 +2875,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Cast an enchantment to entice the wood fairies.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/436.png",
+    image_url: "../public/erc1155/images/436.gif",
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
       {
@@ -2915,7 +2973,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around. 1/2 Orange Tree grow time.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/443.png",
+    image_url: "../public/erc1155/images/443.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Black Bearry": {
@@ -2923,18 +2981,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful! +1 Blueberry each Harvest",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/444.png",
+    image_url: "../public/erc1155/images/444.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Devil Bear": {
-    description: "Better the Devil you know than the Devil you don't",
+    description: "Better the Devil you know than the Devil you don't.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1220.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Ayam Cemani": {
-    description: "The rarest chicken in Sunflower Land",
+    description: "The rarest chicken in Sunflower Land.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/445.gif",
@@ -3118,7 +3176,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Use them as decorations for romantic occasions.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "",
+    image_url: "../public/erc1155/images/451.png",
     attributes: [],
   },
   Flamingo: {
@@ -3126,7 +3184,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "Represents a symbol of love's beauty standing tall and confident.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "",
+    image_url: "../public/erc1155/images/452.png",
     attributes: [],
   },
   "Blossom Tree": {
@@ -3134,14 +3192,22 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "Its delicate petals symbolizes the beauty and fragility of love.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "",
+    image_url: "../public/erc1155/images/453.png",
     attributes: [],
+  },
+  "Genie Lamp": {
+    description:
+      "A magical lamp that contains a genie who will grant you three wishes.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/460.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Love Letter": {
     description: "Convey feelings of love",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "",
+    image_url: "../public/erc1155/images/717.png",
     attributes: [],
   },
   "Treasure Map": {
@@ -3195,7 +3261,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [],
   },
   "Sand Drill": {
-    description: "Drill deep for rare treasure",
+    description: "Drill deep for uncommon or rare treasure",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/311.png",
@@ -3216,5 +3282,672 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1240.png",
     attributes: [],
+  },
+  "Easter Bear": {
+    description: "A bear with bunny ears?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1236.png",
+    attributes: [],
+  },
+  "Easter Bush": {
+    description: "What is inside?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1243.png",
+    attributes: [],
+  },
+  "Giant Carrot": {
+    description:
+      "A giant carrot stood, casting fun shadows, as rabbits gazed in wonder.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1244.png",
+    attributes: [],
+  },
+  "Iron Idol": {
+    description: "The Idol adds 1 iron every time you mine iron.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/454.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Bumpkin Roast": {
+    description:
+      "A traditional Bumpkin dish. You can cook this at the Kitchen.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/541.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Goblin Brunch": {
+    description: "A traditional Goblin dish. You can cook this at the Kitchen.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/542.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Fruit Salad": {
+    description: "Fruit Salad. You can cook this at the Kitchen.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/543.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Kale Omelette": {
+    description: "A healthy breakfast. You can can cook this at the Fire Pit.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/544.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Cabbers n Mash": {
+    description:
+      "Cabbages and Mashed Potatoes. You can can cook this at the Fire Pit.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/545.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Fancy Fries": {
+    description: "Fantastic Fries. You can cook this at the Deli.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/546.png",
+    attributes: [{ trait_type: "Purpose", value: "Food" }],
+  },
+  "Solar Flare Ticket": {
+    description: "A ticket used during the Solar Flare Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/719.png",
+    attributes: [],
+  },
+  "Dawn Breaker Ticket": {
+    description: "A ticket used during the Dawn Breaker Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/720.png",
+    attributes: [],
+  },
+  "Crow Feather": {
+    description: "A ticket used during the Witches' Eve Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "",
+    attributes: [],
+  },
+  "Sunflower Supporter": {
+    description: "A true supporter of the project",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/721.png",
+    attributes: [],
+  },
+  "Palm Tree": {
+    description: "Tall, beachy, shady and chic, palm trees make waves sashay.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1241.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Beach Ball": {
+    description: "Bouncy ball brings beachy vibes, blows boredom away.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1242.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  Karkinos: {
+    description:
+      "Pinchy but kind, the crabby cabbage-boosting addition to your farm!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/455.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Pablo The Bunny": {
+    description: "The magical bunny that increases your carrot harvests",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/926.gif",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Crop Plot": {
+    description: "A precious piece of soil used to plant crops.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/622.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  "Fruit Patch": {
+    description: "A bountiful piece of land used to plant fruit",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/623.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  "Gold Rock": {
+    description: "A scarce resource that can be used to mine gold",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/621.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  "Iron Rock": {
+    description: "Wow, a shiny iron rock. Used to mine iron ore",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/620.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  "Stone Rock": {
+    description: "A staple mineral for your mining journey",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/619.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  Boulder: {
+    description: "???",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  Tree: {
+    description: "Nature's most precious resource. Used to collect wood",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/618.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  "Basic Land": {
+    description: "Build your farming empire with this basic piece of land",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/625.png",
+    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+  },
+  "Dirt Path": {
+    description: "Keep your farmer boots clean and travel on paths!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1245.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  Bush: {
+    description: "Keep your Bumpkins happy with these bushy bushes.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1246.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  Fence: {
+    description: "Those cheeky chickens won't be escaping anymore!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1247.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  Shrub: {
+    description:
+      "It aint much, but it adds some green to your beautiful island",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1248.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Pine Tree": {
+    description: "Standing tall and mighty, a needle-clad dream.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1265.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Stone Fence": {
+    description: "Embrace the timeless elegance of a stone fence.",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1266.png",
+  },
+  "Field Maple": {
+    description:
+      "A petite charmer that spreads its leaves like a delicate green canopy.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1267.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Red Maple": {
+    description: "Fiery foliage and a heart full of autumnal warmth.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1268.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Golden Maple": {
+    description: "Radiating brilliance with its shimmering golden leaves.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1269.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Dawn Breaker Banner": {
+    description:
+      "A mysterious darkness is plaguing Sunflower Land. The mark of a participant in the Dawn Breaker Season.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/723.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Solar Flare Banner": {
+    description:
+      "The temperature is rising in Sunflower Land. The mark of a participant in our inaugural season.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/722.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Witches' Eve Banner": {
+    description:
+      "The season of the witch has begun. The mark of a participant in the Witches' Eve Season.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/724.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Luminous Lantern": {
+    description: "A bright paper lantern that illuminates the way.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1249.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Radiance Lantern": {
+    description: "A radiant paper lantern that shines with a powerful light.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1250.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Ocean Lantern": {
+    description:
+      "A wavy paper lantern that sways with the bobbing of the tide.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1265.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Aurora Lantern": {
+    description:
+      "A paper lantern that transforms any space into a magical wonderland.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1251.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Solar Lantern": {
+    description:
+      "Harnessing the vibrant essence of sunflowers, the Solar Lantern emanates a warm and radiant glow, reminiscent of a blossoming field under the golden sun.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1272.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Bonnie's Tombstone": {
+    description:
+      "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1252.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Chestnut Fungi Stool": {
+    description:
+      "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1253.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Crimson Cap": {
+    description:
+      "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1254.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Dawn Umbrella Seat": {
+    description:
+      "Keep those Eggplants dry during those rainy days with the Dawn Umbrella Seat.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1255.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Eggplant Grill": {
+    description:
+      "Get cooking with the Eggplant Grill, perfect for any outdoor meal.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1256.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Giant Dawn Mushroom": {
+    description:
+      "The Giant Dawn Mushroom is a majestic and magical addition to any farm.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1257.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Grubnash's Tombstone": {
+    description: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1258.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Mahogany Cap": {
+    description:
+      "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1259.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+
+  "Shroom Glow": {
+    description:
+      "Illuminate your farm with the enchanting glow of Shroom Glow.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1263.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Toadstool Seat": {
+    description: "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1260.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  Clementine: {
+    description:
+      "The Clementine Gnome is a cheerful companion for your farming adventures.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1261.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  Cobalt: {
+    description:
+      "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1262.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Mushroom House": {
+    description:
+      "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/456.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Purple Trail": {
+    description:
+      "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/457.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  Obie: {
+    description: "A fierce eggplant soldier",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/458.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  Maximus: {
+    description: "Squash the competition with plump Maximus",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/459.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  Hoot: {
+    description: "Hoot hoot! Have you solved my riddle yet?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/461.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Genie Bear": {
+    description: "Exactly what I wished for!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1264.png",
+    attributes: [],
+  },
+  "Basic Scarecrow": {
+    description: "Choosy defender of your farm's VIP (Very Important Plants)",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/462.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Crop Growth Speed",
+        value: 20,
+      },
+    ],
+  },
+  "Iron Compass": {
+    description:
+      "Iron out your path to treasure! This compass is 'attract'-ive, and not just to the magnetic North!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/927.png",
+    attributes: [],
+  },
+  "Emerald Turtle": {
+    description:
+      "The Emerald Turtle gives +0.5 to any minerals you mine within its Area of Effect.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/463.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Tin Turtle": {
+    description:
+      "The Tin Turtle gives +0.1 to Stones you mine within its Area of Effect.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/464.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Old Bottle": {
+    description: "Antique pirate bottle, echoing tales of high seas adventure.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/928.png",
+    attributes: [],
+  },
+  "Beta Bear": {
+    description: "A bear found during special testing events",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1266.png",
+    attributes: [],
+  },
+  Bale: {
+    description:
+      "A poultry's favorite neighbor, providing a cozy retreat for chickens",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/465.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Sir Goldensnout": {
+    description:
+      "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/466.png",
+    attributes: [],
+  },
+  "Scary Mike": {
+    description:
+      "The veggie whisperer and champion of frightfully good harvests!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/467.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Betty Lantern": {
+    description: "It looks so real! I wonder how they crafted this.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1273.png",
+    attributes: [],
+  },
+  "Goblin Lantern": {
+    description: "A scary looking lantern",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1276.png",
+    attributes: [],
+  },
+  "Bumpkin Lantern": {
+    description: "Moving closer you hear murmurs of a living Bumpkin...creepy!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1274.png",
+    attributes: [],
+  },
+  "Eggplant Bear": {
+    description: "The mark of a generous eggplant whale.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1275.png",
+    attributes: [],
+  },
+  "Dawn Flower": {
+    description:
+      "Embrace the radiant beauty of the Dawn Flower as its delicate petals shimmer with the first light of day.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1277.png",
+    attributes: [],
+  },
+  "Laurie the Chuckle Crow": {
+    description:
+      "With her disconcerting chuckle, she shooes peckers away from your crops!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/468.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Freya Fox": {
+    description:
+      "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/469.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "Gold Pass": {
+    description:
+      "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/725.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  "El Pollo Veloz": {
+    description: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/445.gif",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        trait_type: "Reduced time to lay eggs (hours)",
+        value: 4,
+      },
+    ],
+  },
+  Poppy: {
+    description: "The mystical corn kernel. +0.1 Corn per harvest.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/471.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Increase Corn Drops", value: 0.1 },
+    ],
+  },
+  "Grain Grinder": {
+    description:
+      "Grind your grain and experience a delectable surge in Cake XP.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/472.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      { display_type: "boost_percentage", trait_type: "Cake XP", value: 20 },
+    ],
+  },
+  Kernaldo: {
+    description: "The magical corn whisperer.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/473.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Corn Growth Speed",
+        value: 25,
+      },
+    ],
+  },
+  "Queen Cornelia": {
+    description:
+      "Command the regal power of Queen Cornelia and experience a magnificent Area of Effect boost to your corn production. +1 Corn.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/474.png",
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+  },
+  Candles: {
+    description:
+      "Enchant your farm with flickering spectral flames during Witches' Eve.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1278.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Haunted Stump": {
+    description: "Summon spirits and add eerie charm to your farm.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1279.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Spooky Tree": {
+    description: "A hauntingly fun addition to your farm's decor!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1280.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
 };

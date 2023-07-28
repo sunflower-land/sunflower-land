@@ -1,6 +1,10 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 
-import { Inventory, InventoryItemName } from "features/game/types/game";
+import {
+  Inventory,
+  InventoryItemName,
+  Wardrobe,
+} from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { wallet } from "lib/blockchain/wallet";
 import { getInventoryBalances } from "lib/blockchain/Inventory";
@@ -21,13 +25,20 @@ import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { DepositArgs } from "lib/blockchain/Deposit";
 import { sflBalanceOf } from "lib/blockchain/Token";
 import { CopyAddress } from "components/ui/CopyAddress";
+import { getItemUnit } from "features/game/lib/conversion";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { getImageUrl } from "features/goblins/tailor/TabContent";
+import { loadWardrobe } from "lib/blockchain/BumpkinItems";
 
 type Status = "loading" | "loaded" | "error";
 
 interface Props {
   farmAddress: string;
   onDeposit: (
-    args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
+    args: Pick<
+      DepositArgs,
+      "sfl" | "itemIds" | "itemAmounts" | "wearableIds" | "wearableAmounts"
+    >
   ) => void;
   onClose: () => void;
   onLoaded?: (loaded: boolean) => void;
@@ -46,34 +57,49 @@ export const Deposit: React.FC<Props> = ({
   // These are the balances of the user's personal wallet
   const [sflBalance, setSflBalance] = useState<Decimal>(new Decimal(0));
   const [inventoryBalance, setInventoryBalance] = useState<Inventory>({});
+  const [wardrobeBalance, setWardrobeBalance] = useState<Wardrobe>({});
   const [sflDepositAmount, setSflDepositAmount] = useState(0);
   const [inventoryToDeposit, setInventoryToDeposit] = useState<Inventory>({});
+  const [wearablesToDeposit, setWearablesToDeposit] = useState<Wardrobe>({});
   const [isMobile] = useIsMobile();
 
   useEffect(() => {
     if (status !== "loading") return;
     // Load balances from the user's personal wallet
     const loadBalances = async () => {
+      if (!wallet.myAccount) {
+        setStatus("error");
+        // Notify parent that we're done loading
+        onLoaded && onLoaded(false);
+        return;
+      }
+
       try {
         const sflBalanceFn = sflBalanceOf(
           wallet.web3Provider,
-          wallet.myAccount,
           wallet.myAccount
         );
 
         const inventoryBalanceFn = getInventoryBalances(
           wallet.web3Provider,
-          wallet.myAccount,
           wallet.myAccount
         );
 
-        const [sflBalance, inventoryBalance] = await Promise.all([
-          sflBalanceFn,
-          inventoryBalanceFn,
-        ]);
+        const wearableBalanceFn = loadWardrobe(
+          wallet.web3Provider,
+          wallet.myAccount
+        );
+
+        const [sflBalance, inventoryBalance, wearableBalance] =
+          await Promise.all([
+            sflBalanceFn,
+            inventoryBalanceFn,
+            wearableBalanceFn,
+          ]);
 
         setSflBalance(new Decimal(fromWei(sflBalance)));
         setInventoryBalance(balancesToInventory(inventoryBalance));
+        setWardrobeBalance(wearableBalance);
         setStatus("loaded");
         // Notify parent that we're done loading
         onLoaded && onLoaded(true);
@@ -112,6 +138,32 @@ export const Deposit: React.FC<Props> = ({
     transferInventoryItem(itemName, setInventoryBalance, setInventoryToDeposit);
   };
 
+  const onAddWearable = (itemName: BumpkinItem) => {
+    // Transfer from inventory to selected
+    setWardrobeBalance((prev) => ({
+      ...prev,
+      [itemName]: (prev[itemName] ?? 0) - 1,
+    }));
+
+    setWearablesToDeposit((prev) => ({
+      ...prev,
+      [itemName]: (prev[itemName] ?? 0) + 1,
+    }));
+  };
+
+  const onRemoveWearable = (itemName: BumpkinItem) => {
+    // Transfer from inventory to selected
+    setWardrobeBalance((prev) => ({
+      ...prev,
+      [itemName]: (prev[itemName] ?? 0) + 1,
+    }));
+
+    setWearablesToDeposit((prev) => ({
+      ...prev,
+      [itemName]: (prev[itemName] ?? 0) - 1,
+    }));
+  };
+
   const onRemoveItem = (itemName: InventoryItemName) => {
     // Transfer from selected to inventory
     transferInventoryItem(itemName, setInventoryToDeposit, setInventoryBalance);
@@ -119,14 +171,21 @@ export const Deposit: React.FC<Props> = ({
 
   const handleDeposit = async () => {
     const itemIds = selectedItems.map((item) => KNOWN_IDS[item]);
-    const itemAmounts = selectedItems.map(
-      (item) => inventoryToDeposit[item]?.toNumber() as number
+    const itemAmounts = selectedItems.map((item) =>
+      toWei(inventoryToDeposit[item]?.toString() as string, getItemUnit(item))
     );
+
+    const wearableIds = selectedWearables.map((item) => ITEM_IDS[item]);
+    const wearableAmounts = selectedWearables.map(
+      (item) => wearablesToDeposit[item]
+    ) as number[];
 
     onDeposit({
       sfl: toWei(sflDepositAmount.toString()),
       itemIds,
       itemAmounts,
+      wearableIds,
+      wearableAmounts,
     });
 
     onClose();
@@ -145,22 +204,38 @@ export const Deposit: React.FC<Props> = ({
     .filter((item) => inventoryBalance[item]?.gt(0))
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
 
+  const depositableWearables = getKeys(wardrobeBalance)
+    .filter((item) => !!wardrobeBalance[item])
+    .sort((a, b) => ITEM_IDS[a] - ITEM_IDS[b]);
+
   const selectedItems = getKeys(inventoryToDeposit)
     .filter((item) => inventoryToDeposit[item]?.gt(0))
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
 
+  const selectedWearables = getKeys(wearablesToDeposit)
+    .filter((item) => !!wearablesToDeposit[item])
+    .sort((a, b) => ITEM_IDS[a] - ITEM_IDS[b]);
+
   const hasItemsToDeposit = selectedItems.length > 0;
+  const hasWearablesToDeposit = selectedWearables.length > 0;
   const hasItemsInInventory = depositableItems.length > 0;
+  const hasItemsInWardrobe = depositableWearables.length > 0;
   const emptyWallet =
-    getKeys(inventoryBalance).length === 0 && sflBalance.eq(0);
+    getKeys(wardrobeBalance).length === 0 &&
+    getKeys(inventoryBalance).length === 0 &&
+    sflBalance.eq(0);
   const validDepositAmount = sflDepositAmount > 0 && !amountGreaterThanBalance;
 
   return (
     <>
       {status === "loading" && <Loading />}
       {status === "loaded" && emptyWallet && (
-        <div className="p-2">
+        <div className="p-2 space-y-2">
           <p>No SFL or Collectibles Found!</p>
+          <div className="flex text-[12px] sm:text-xs mb-3 space-x-1">
+            <span className="whitespace-nowrap">Farm address:</span>
+            <CopyAddress address={farmAddress} />
+          </div>
         </div>
       )}
       {status === "loaded" && !emptyWallet && (
@@ -197,6 +272,7 @@ export const Deposit: React.FC<Props> = ({
                     </div>
                   </>
                 )}
+
                 {hasItemsInInventory && (
                   <>
                     <p className="text-sm">Collectibles</p>
@@ -215,29 +291,65 @@ export const Deposit: React.FC<Props> = ({
                     </div>
                   </>
                 )}
-              </div>
-              <div className="pt-3">
-                <p className="mb-1">Your farm will receive:</p>
-                <div className="text-[11px] sm:text-xs mb-3">
-                  <CopyAddress address={farmAddress} />
-                </div>
-                <div className="space-y-3">
-                  {validDepositAmount && <p>{sflDepositAmount} SFL</p>}
-                  {hasItemsToDeposit && (
-                    <div className="flex flex-wrap h-fit -ml-1.5">
-                      {selectedItems.map((item) => {
+                {hasItemsInWardrobe && (
+                  <>
+                    <p className="text-sm">Wearables</p>
+                    <div
+                      className="flex flex-wrap h-fit -ml-1.5 overflow-y-auto scrollable pr-1"
+                      style={{ maxHeight: "200px" }}
+                    >
+                      {depositableWearables.map((item) => {
                         return (
                           <Box
-                            count={inventoryToDeposit[item]}
+                            count={new Decimal(wardrobeBalance[item] ?? 0)}
                             key={item}
-                            onClick={() => onRemoveItem(item)}
-                            image={ITEM_DETAILS[item].image}
-                            canBeLongPressed
+                            onClick={() => onAddWearable(item)}
+                            image={getImageUrl(ITEM_IDS[item])}
                           />
                         );
                       })}
                     </div>
-                  )}
+                  </>
+                )}
+                <div className="pt-3">
+                  <p className="mb-1">Your farm will receive:</p>
+                  <div className="text-[11px] sm:text-xs mb-3">
+                    <CopyAddress address={farmAddress} />
+                  </div>
+                  <div className="space-y-3">
+                    {validDepositAmount && <p>{sflDepositAmount} SFL</p>}
+                    {hasItemsToDeposit && (
+                      <div className="flex flex-wrap h-fit -ml-1.5">
+                        {selectedItems.map((item) => {
+                          return (
+                            <Box
+                              count={inventoryToDeposit[item]}
+                              key={item}
+                              onClick={() => onRemoveItem(item)}
+                              image={ITEM_DETAILS[item].image}
+                              canBeLongPressed
+                            />
+                          );
+                        })}
+                      </div>
+                    )}
+                    {hasWearablesToDeposit && (
+                      <div className="flex flex-wrap h-fit -ml-1.5">
+                        {selectedWearables.map((item) => {
+                          console.log({ item });
+                          return (
+                            <Box
+                              count={new Decimal(wearablesToDeposit[item] ?? 0)}
+                              key={item}
+                              onClick={() => onRemoveWearable(item)}
+                              image={getImageUrl(ITEM_IDS[item])}
+                              canBeLongPressed
+                            />
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

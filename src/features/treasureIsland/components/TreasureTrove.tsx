@@ -7,8 +7,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getEntries } from "features/game/types/craftables";
 import { Label } from "components/ui/Label";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { secondsToString } from "lib/utils/time";
 import {
   BOOST_TREASURE,
   isBoostTreasure,
@@ -16,12 +14,13 @@ import {
   isDecorationTreasure,
   TreasureName,
   SEASONAL_REWARDS,
-  TreasureDetail,
+  Treasure,
   REWARDS,
 } from "features/game/types/treasure";
-import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
+import { NPC } from "features/island/bumpkin/components/NPC";
 import { Equipped } from "features/game/types/bumpkin";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { CountdownLabel } from "components/ui/CountdownLabel";
 
 enum RarityOrder {
   "rare",
@@ -30,10 +29,8 @@ enum RarityOrder {
 }
 
 const TREASURE_TROVE_ITEMS = (
-  getEntries(REWARDS) as [TreasureName, TreasureDetail][]
+  getEntries(REWARDS()) as [TreasureName, Treasure][]
 )
-  // Skip the seasonal rewards as these are displayed separately
-  .filter(([name]) => !(name in SEASONAL_REWARDS.rewards))
   // Sort by name first
   .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
   // Then sort by rarity
@@ -52,7 +49,7 @@ const getTreasurePurpose = (treasureName: TreasureName) => {
 };
 
 const TreasureTroveItem: React.FC<{
-  treasureName: keyof typeof REWARDS;
+  treasureName: TreasureName;
   rarity: "good" | "average" | "rare";
 }> = ({ treasureName, rarity }) => (
   <div key={treasureName} className="flex">
@@ -96,17 +93,15 @@ const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   useUiRefresher();
 
   const SEASONAL_ITEMS = (
-    getEntries(REWARDS) as [TreasureName, TreasureDetail][]
+    getEntries(SEASONAL_REWARDS().rewards) as [TreasureName, Treasure][]
   )
     .filter(([name]) => {
-      const item = SEASONAL_REWARDS.rewards[name];
-      if (!item) {
-        return false;
-      }
+      const item = SEASONAL_REWARDS().rewards[name];
+      if (!item) return false;
 
       return (
-        Date.now() > SEASONAL_REWARDS.startDate &&
-        Date.now() < SEASONAL_REWARDS.endDate
+        Date.now() > SEASONAL_REWARDS().startDate &&
+        Date.now() < SEASONAL_REWARDS().endDate
       );
     })
     // Sort by name first
@@ -117,7 +112,7 @@ const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         RarityOrder[treasureA.type] - RarityOrder[treasureB.type]
     );
 
-  const secondsLeftInSeason = (SEASONAL_REWARDS.endDate - Date.now()) / 1000;
+  const secondsLeftInSeason = (SEASONAL_REWARDS().endDate - Date.now()) / 1000;
 
   return (
     <CloseButtonPanel
@@ -131,23 +126,12 @@ const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       >
         {secondsLeftInSeason > 0 && (
           <div className="pb-2">
-            <div className="flex items-start justify-between pb-2">
+            <div className="flex flex-wrap gap-y-1 items-start justify-between pb-2">
               <div>
                 <p className="pb-0.5">Seasonal Treasure</p>
                 <p className="text-xs">Limited time only!</p>
               </div>
-              <Label
-                type="info"
-                className="flex items-center whitespace-nowrap"
-              >
-                <img
-                  src={SUNNYSIDE.icons.stopwatch}
-                  className="w-3 left-0 mr-1"
-                />
-                {`${secondsToString(secondsLeftInSeason, {
-                  length: "medium",
-                })} left`}
-              </Label>
+              <CountdownLabel timeLeft={secondsLeftInSeason} endText="left" />
             </div>
 
             <div className="pt-2 space-y-3">
@@ -183,7 +167,7 @@ export const TreasureTrove: React.FC = () => {
 
   return (
     <MapPlacement x={-5} y={1} height={1} width={1}>
-      <NPC onClick={() => setShowModal(true)} {...bumpkin} />
+      <NPC onClick={() => setShowModal(true)} parts={bumpkin} />
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <TreasureTroveModal onClose={() => setShowModal(false)} />
       </Modal>

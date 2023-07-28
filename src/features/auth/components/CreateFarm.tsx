@@ -1,24 +1,19 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef } from "react";
 import shuffle from "lodash.shuffle";
-import ReCAPTCHA from "react-google-recaptcha";
 
 import { Button } from "components/ui/Button";
-import { InnerPanel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 
 import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
-import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { MachineInterpreter } from "../lib/createFarmMachine";
-import classNames from "classnames";
 import { Loading } from "./Loading";
 import Decimal from "decimal.js-light";
-import { fromWei, toBN } from "web3-utils";
-import { sequence } from "0xsequence";
-import { OpenWalletIntent } from "@0xsequence/provider";
-import { SEQUENCE_CONNECT_OPTIONS } from "../lib/sequence";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
+import maticToken from "assets/icons/polygon-token.png";
+import card from "assets/icons/credit_card.png";
+import { MachineInterpreter } from "../lib/createFarmMachine";
+import { fromWei, toBN } from "web3-utils";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -50,65 +45,31 @@ const CHARITIES: Charity[] = shuffle([
   },
 ]);
 
-interface CharityDetailProps extends Charity {
-  selected: boolean;
-  onClick: () => void;
-}
-
-const CharityDetail = ({
-  url,
-  name,
-  info,
-  selected,
-  onClick,
-}: CharityDetailProps) => {
-  return (
-    <InnerPanel
-      className={classNames(
-        "flex flex-col items-center w-full justify-between",
-        {
-          "img-highlight": selected,
-        }
-      )}
-    >
-      <div className="w-full p-1 space-y-2 cursor-pointer" onClick={onClick}>
-        <a
-          href={url}
-          className="underline text-xs hover:text-blue-500 mb-2 text-center"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {name}
-        </a>
-        <p className="text-xs mb-1">{info}</p>
-      </div>
-    </InnerPanel>
-  );
-};
-
 export const CreateFarm: React.FC = () => {
   const { authService } = useContext(Context);
-  const [authState] = useActor(authService);
 
   const child = authService.state.children
     .createFarmMachine as MachineInterpreter;
 
   const [createFarmState] = useActor(child);
 
-  const [showCaptcha, setShowCaptcha] = useState(false);
-  const [charity, setCharity] = useState<CharityAddress | null>(null);
-  const [paymentConfirmed, setPaymentConfirmed] = useState(false);
-  const [screen, setScreen] = useState<"intro" | "create">("intro");
+  const charity = useRef(
+    CHARITIES[Math.floor(Math.random() * CHARITIES.length)]
+  );
 
   const isLoading = createFarmState.matches("loading");
   const hasEnoughMatic = createFarmState.matches("hasEnoughMatic");
-  const hasCharitySelected = charity !== null;
 
   if (isLoading) {
-    return <Loading />;
+    return (
+      <div className="h-32">
+        <Loading />
+      </div>
+    );
   }
 
   const maticFee = fromWei(toBN(createFarmState.context.maticFee ?? 0));
+  const usdFee = createFarmState.context.estimatedGasUSD ?? 0;
 
   // $5 USD farm
   // 4% to cover gas fee of farm mint
@@ -117,164 +78,127 @@ export const CreateFarm: React.FC = () => {
     .mul(1.24)
     .toDecimalPlaces(2, Decimal.ROUND_UP);
 
-  const onCaptchaSolved = async (token: string | null) => {
-    await new Promise((res) => setTimeout(res, 1000));
-
-    authService.send("CREATE_FARM", {
-      charityAddress: charity,
-      donation: 10,
-      captcha: token,
-    });
-  };
-
-  const addFunds = async () => {
-    // Temporarily link to sequence when adding funds. Until Wyre is ready.
-    if (authState.context.wallet === "SEQUENCE") {
-      const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
-
-      const sequenceWallet = await sequence.initWallet(network);
-
-      const intent: OpenWalletIntent = {
-        type: "openWithOptions",
-        options: SEQUENCE_CONNECT_OPTIONS,
-      };
-
-      const path = "wallet/add-funds";
-      sequenceWallet.openWallet(path, intent);
-    } else {
-      window.open(
-        "https://docs.sunflower-land.com/getting-started/web3-wallets#usdmatic",
-        "_blank"
-      );
-    }
-
-    // await onramp(
-    //   {
-    //     token: authService.state.context.rawToken as string,
-    //     transactionId: randomID(),
-    //   },
-    //   () => setPaymentConfirmed(true)
-    // );
-  };
-
-  if (showCaptcha) {
-    return (
-      <ReCAPTCHA
-        sitekey={CONFIG.RECAPTCHA_SITEKEY}
-        onChange={onCaptchaSolved}
-        onExpired={() => setShowCaptcha(false)}
-        className="w-full flex items-center justify-center min-h-[78px]"
-      />
-    );
-  }
-
   return (
-    <div className="flex flex-col items-center">
-      <h1 className="text-center mb-1">Getting Started</h1>
-      <img
-        src={CROP_LIFECYCLE.Sunflower.crop}
-        className="my-1"
-        style={{
-          width: `${PIXEL_SCALE * 13}px`,
-        }}
-      />
-      {screen === "intro" && (
-        <>
-          <div className="flex flex-col space-y-2 text-xs p-2 pt-1 mb-2">
-            <p>
-              {`Sunflower Land is powered by the Polygon blockchain and requires
-              Polygon's Matic token to play.`}
-            </p>
-            <p>
-              {`Creating an account requires ${maticFeePlusGas.toNumber()} Matic (~$5 USD). 50 cents will
-              be donated to a charity of your choice.`}
-            </p>
-            <p>You will also receive a free Bumpkin NFT (worth $5 USD).</p>
-            <p>This Bumpkin will be your guide in Sunflower Land.</p>
+    <div className="p-2">
+      <div className="flex items-center mb-2">
+        <img
+          src={SUNNYSIDE.icons.arrow_left}
+          className="cursor-pointer mr-2"
+          onClick={() => authService.send("BACK")}
+          style={{
+            width: `${PIXEL_SCALE * 8}px`,
+          }}
+        />
+        <div className="flex items-center">
+          <img src={SUNNYSIDE.ui.green_bar_5} className="h-5 mr-2" />
+          <span className="text-xs">Step 3/3 (Create your NFT)</span>
+        </div>
+      </div>
+      <div className="flex flex-col">
+        <p className="text-sm mb-2">{`You're almost there!`}</p>
+        <p className="text-sm mb-2">
+          {`To secure your NFTs on the Blockchain, a small network fee is required.`}
+        </p>
+      </div>
+      <div className="flex space-x-1 mb-2 items-center">
+        <p className="text-xxs">Estimated fee:</p>
+        <img
+          src={maticToken}
+          style={{
+            width: `${PIXEL_SCALE * 6}px`,
+          }}
+        />
+        <span className="text-xxs">{maticFeePlusGas.toNumber()} Matic</span>
+        <span className="text-xxs italic">{`($${usdFee.toFixed(2)} USD)`}</span>
+      </div>
+      <div className="flex flex-col flex-grow items-stretch justify-around space-y-2 sm:space-y-0 sm:space-x-3 sm:flex-row">
+        <OuterPanel className="w-full md:w-1/2 flex flex-col items-center relative">
+          <div className="flex w-full h-full items-center justify-center px-2">
+            <p className="mr-2 mb-1 text-xs">Matic</p>
+            <img
+              src={maticToken}
+              style={{
+                height: `${PIXEL_SCALE * 13}px`,
+                imageRendering: "pixelated",
+              }}
+            />
           </div>
-          <Button onClick={() => setScreen("create")}>Continue</Button>
-        </>
-      )}
+          <Button
+            className="mb-1"
+            onClick={() => {
+              authService.send("CREATE_FARM", {
+                charityAddress: charity.current.address,
+                donation: 10,
+                captcha: "0x",
+              });
+            }}
+          >
+            Mint
+          </Button>
+          <a
+            href="https://docs.sunflower-land.com/getting-started/how-to-start#step-2-fund-your-wallet"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-white text-xxs text-center mb-1"
+          >
+            How do I get MATIC?
+          </a>
+        </OuterPanel>
+        <OuterPanel className="w-full md:w-1/2 flex flex-col items-center relative">
+          <div className="flex w-full h-full items-center justify-center py-2 px-2">
+            <p className="mr-2 mb-1 text-xs">Card/Cash</p>
+            <img
+              src={card}
+              style={{
+                height: `${PIXEL_SCALE * 13}px`,
+                imageRendering: "pixelated",
+              }}
+            />
+          </div>
+          <Button
+            className="mb-1"
+            onClick={() => authService.send("SELECT_POKO")}
+          >
+            Pay with Card/Cash
+          </Button>
+          <span className="text-xxs mb-1">*Credit card fees apply</span>
+        </OuterPanel>
+      </div>
+      <div>
+        <div className="flex items-center w-full my-1">
+          <img src={SUNNYSIDE.icons.heart} className="h-5 mr-1" />
+          <p className="text-xs">Short on cash?</p>
+        </div>
+        <p className="text-xs">
+          <a
+            href="https://forms.gle/9khRVQvBTnsfwMuM6"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-white text-xxs text-center"
+          >
+            Fill in your details
+          </a>{" "}
+          and we will send a free NFT to play. (This will take us 3-7 days)
+        </p>
+      </div>
 
-      {screen === "create" && (
-        <>
-          <ol className="p-2 space-y-3 text-xs">
-            <li>
-              <div>
-                <div className="flex space-x-1 mb-2 items-center">
-                  {!hasEnoughMatic && <span>1.</span>}
-                  {hasEnoughMatic && (
-                    <img
-                      src={SUNNYSIDE.icons.confirm}
-                      style={{
-                        width: `${PIXEL_SCALE * 6}px`,
-                      }}
-                    />
-                  )}
-                  <span>
-                    Add Matic ({maticFeePlusGas.toNumber()} Matic required)
-                  </span>
-                </div>
-                {!hasEnoughMatic && (
-                  <>
-                    <Button disabled={paymentConfirmed} onClick={addFunds}>
-                      Buy Matic
-                    </Button>
-                    {paymentConfirmed && (
-                      <p
-                        className="text-xxs italic"
-                        style={{ lineHeight: 1.1 }}
-                      >
-                        Waiting for crypto to be sent to your wallet. This
-                        usually takes 20-30 seconds
-                        <span className="loading2" />
-                      </p>
-                    )}
-                  </>
-                )}
-              </div>
-            </li>
-            <li>
-              <div className="flex flex-col space-y-2">
-                <div className="flex space-x-1 mb-1 items-center">
-                  {!hasCharitySelected && <span>2.</span>}
-                  {hasCharitySelected && (
-                    <img
-                      src={SUNNYSIDE.icons.confirm}
-                      style={{
-                        width: `${PIXEL_SCALE * 6}px`,
-                      }}
-                    />
-                  )}
-                  <span>Pick your charity</span>
-                </div>
-                <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 justify-evenly">
-                  {CHARITIES.map((_charity) => (
-                    <CharityDetail
-                      {..._charity}
-                      selected={charity === _charity.address}
-                      onClick={() => setCharity(_charity.address)}
-                      key={_charity.address}
-                    />
-                  ))}
-                </div>
-              </div>
-            </li>
-
-            <li>
-              <div className="flex flex-col space-y-2">
-                <span>3. Create your account</span>
-                <Button
-                  disabled={!hasEnoughMatic || !hasCharitySelected}
-                  onClick={() => setShowCaptcha(true)}
-                >
-                  Start your adventure!
-                </Button>
-              </div>
-            </li>
-          </ol>
-        </>
+      {/* {!hasEnoughMatic && (
+        <Button className="mb-2" onClick={() => setShowHowTo(true)}>
+          How do I get $MATIC?
+        </Button>
       )}
+      <Button
+        disabled={!hasEnoughMatic}
+        onClick={() => {
+          authService.send("CREATE_FARM", {
+            charityAddress: charity.current.address,
+            donation: 10,
+            captcha: "0x",
+          });
+        }}
+      >
+        Start your adventure!
+      </Button> */}
     </div>
   );
 };

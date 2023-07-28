@@ -1,41 +1,89 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { ChatText } from "./ChatText";
-import { ChatReactions } from "./ChatReactions";
-import { GameState } from "features/game/types/game";
 import { ReactionName } from "../lib/reactions";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import classNames from "classnames";
+import { ChatText } from "./ChatText";
+import { Label } from "components/ui/Label";
+import { SceneId } from "features/world/mmoMachine";
 
+export type Message = {
+  farmId: number;
+  sessionId: string;
+  text: string;
+  sceneId: SceneId;
+};
 interface Props {
-  game: GameState;
+  messages: Message[];
   onMessage: (content: { text?: string; reaction?: ReactionName }) => void;
 }
-export const ChatUI: React.FC<Props> = ({ onMessage, game }) => {
-  const [tab, setTab] = useState(0);
+
+export const ChatUI: React.FC<Props> = ({ onMessage, messages }) => {
+  const [showChat, setShowChat] = useState(false);
+  const [messageCountOnChatClose, setMessageCountOnChatClose] = useState(0);
+  const [newMessageCount, setNewMessageCount] = useState(0);
+
+  useEffect(() => {
+    if (!showChat) {
+      const newMessageCount = messages.length - messageCountOnChatClose;
+
+      setNewMessageCount(newMessageCount);
+    }
+  }, [messages.length]);
+
+  const handleChatOpen = () => {
+    setMessageCountOnChatClose(0);
+    setNewMessageCount(0);
+    setShowChat(true);
+  };
+
+  const handleChatClose = () => {
+    setShowChat(false);
+    setMessageCountOnChatClose(messages.length);
+  };
 
   return (
-    <div
-      className="w-full flex justify-center fixed bottom-14 md:bottom-4 pl-2 pr-[73.5px] md:pr-2 z-40"
-      onClick={console.log}
-    >
-      <CloseButtonPanel
-        className="w-full sm:w-[30rem]"
-        tabs={[
-          { icon: SUNNYSIDE.icons.expression_chat, name: "Chat" },
-          { icon: SUNNYSIDE.icons.heart, name: "Reactions" },
-        ]}
-        currentTab={tab}
-        setCurrentTab={setTab}
-      >
-        {tab === 0 && <ChatText onMessage={(text) => onMessage({ text })} />}
-        {tab === 1 && (
-          <ChatReactions
-            onReact={(reaction) => onMessage({ reaction })}
-            game={game}
-          />
+    <>
+      <div
+        className={classNames(
+          "fixed top-48 left-3 transition-transform origin-top-left ease-in-out duration-300",
+          { "scale-0": !showChat, "scale-100": showChat }
         )}
-      </CloseButtonPanel>
-    </div>
+        onClick={console.log}
+      >
+        <ChatText
+          messages={messages}
+          onMessage={(text) => onMessage({ text })}
+        />
+      </div>
+      <div
+        className={classNames(
+          "fixed top-36 left-3 cursor-pointer transition-transform origin-top-left ease-in-out duration-300",
+          {
+            "scale-50": showChat,
+          }
+        )}
+        style={{ width: `${PIXEL_SCALE * 22}px`, zIndex: 51 }}
+        onClick={showChat ? handleChatClose : handleChatOpen}
+      >
+        <img
+          src={SUNNYSIDE.icons.disc}
+          style={{ width: `${PIXEL_SCALE * 22}px` }}
+        />
+        <img
+          src={SUNNYSIDE.icons.expression_chat}
+          style={{ width: `${PIXEL_SCALE * 9}px` }}
+          className="top-1/2 left-1/2 absolute -translate-x-1/2 -translate-y-1/2"
+        />
+        {newMessageCount > 0 && (
+          <div className="absolute -top-[3px] -right-[3px]">
+            <Label type="info" className="px-0.5 text-xxs">
+              {newMessageCount}
+            </Label>
+          </div>
+        )}
+      </div>
+    </>
   );
 };

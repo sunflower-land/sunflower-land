@@ -1,5 +1,4 @@
 // CROPS
-
 import magicBean from "assets/crops/magic_bean.png";
 import shinyBean from "assets/crops/shiny_bean.png";
 import goldenBean from "assets/crops/golden_bean.png";
@@ -12,7 +11,7 @@ import chickenCoop from "assets/sfts/chicken_coop.png";
 import christmasTree from "assets/sfts/christmas_tree.png";
 import farmCat from "assets/sfts/farm_cat.gif";
 import farmDog from "assets/sfts/farm_dog.gif";
-import gnome from "assets/sfts/gnome.png";
+import gnome from "assets/decorations/scarlet.png";
 import goldEgg from "assets/sfts/gold_egg.png";
 import potatoStatue from "assets/sfts/potato_statue.png";
 import scarecrow from "assets/sfts/scarecrow.png";
@@ -42,18 +41,39 @@ import rooster from "assets/sfts/rooster.gif";
 import undeadChicken from "assets/sfts/undead_chicken.gif";
 import wickerMan from "assets/sfts/wicker_man.png";
 import wendy from "assets/sfts/wood_nymph_wendy.gif";
-import cabbageBoy from "assets/sfts/cabbage_boy.png";
-import cabbageGirl from "assets/sfts/cabbage_girl.png";
+import cabbageBoy from "assets/sfts/cabbage_boy.gif";
+import cabbageGirl from "assets/sfts/cabbage_girl.gif";
 import prizedPotato from "assets/sfts/peeled_potato.gif";
-import immortalPear from "assets/sfts/immortal_pear.gif";
+import immortalPear from "assets/sfts/immortal_pear.webp";
 import ladybug from "assets/sfts/ladybug.gif";
 import blackBear from "assets/sfts/black_bear.gif";
 import squirrelMonkey from "assets/sfts/squirrel_monkey.gif";
+import luminousLantern from "assets/sfts/luminous_lantern.webp";
+import auroraLantern from "assets/sfts/aurora_lantern.webp";
+import radianceLantern from "assets/sfts/radiance_lantern.webp";
+import oceanLantern from "assets/sfts/ocean_lantern.png";
+import solarLantern from "assets/sfts/solar_lantern.png";
+import bumpkinLantern from "assets/sfts/bumpkin_lantern.png";
+import bettyLantern from "assets/sfts/betty_lantern.png";
+import goblinLantern from "assets/sfts/goblin_lantern.png";
+import poppy from "assets/sfts/poppy.png";
+import kernaldo from "assets/sfts/kernaldo.png";
+
+// AoE items
+import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
+import emeraldTurtle from "assets/sfts/aoe/emerald_turtle.webp";
+import tinTurtle from "assets/sfts/aoe/tin_turtle.webp";
+import bale from "assets/sfts/aoe/bale.png";
+import scaryMike from "assets/sfts/aoe/scary_mike.png";
+import laurie from "assets/sfts/aoe/laurie.png";
+import queenCornelia from "assets/sfts/aoe/queen_cornelia.png";
 
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
 import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 import richChicken from "assets/animals/chickens/rich_chicken.gif";
+import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.png";
+import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
 
 // Foods
 import roastedCauliflower from "assets/sfts/roasted_cauliflower.png";
@@ -171,9 +191,16 @@ import fruitPlatter from "assets/achievements/fruit_platter.png";
 // Coupons
 import ticket from "assets/icons/ticket.png";
 import blockBuck from "assets/icons/block_buck.png";
+import goldPass from "assets/icons/gold-pass.png";
 import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
-
+import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
+import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
+import crowFeather from "assets/icons/crow_feather.webp";
+import supporterTicket from "assets/icons/supporter_ticket.png";
+import solarFlareBanner from "assets/decorations/solar_flare_banner.png";
+import dawnBreakerBanner from "assets/decorations/dawn_breaker_banner.png";
+import witchesEveBanner from "assets/decorations/witches_eve_banner.webp";
 // Banners
 import goblinBanner from "assets/sfts/goblin_banner.png";
 import humanBanner from "assets/sfts/human_banner.png";
@@ -188,6 +215,9 @@ import orangeEgg from "src/assets/sfts/easter/orange_egg.png";
 import pinkEgg from "src/assets/sfts/easter/pink_egg.png";
 import easterBasket from "src/assets/sfts/easter/basket.png";
 import easterBunny from "src/assets/sfts/easter/easter_bunny.gif";
+import pabloBunny from "src/assets/sfts/pablo_bunny.gif";
+import easterBush from "src/assets/sfts/easter_bush.gif";
+import giantCarrot from "assets/sfts/giant_carrot.png";
 
 //MOM Event
 import momCoreEngine from "src/assets/sfts/mom/engine_core.png";
@@ -233,6 +263,12 @@ import orangeJuice from "assets/food/orange_juice.png";
 import purpleSmoothie from "assets/food/purple_smoothie.png";
 import bumpkinDetox from "assets/food/bumpkin_detox.png";
 import powerSmoothie from "assets/food/power_smoothie.png";
+import bumpkinRoast from "assets/food/bumpkin_roast.png";
+import goblinBrunch from "assets/food/goblin_brunch.png";
+import fruitSalad from "assets/food/fruit_salad.png";
+import kaleOmelette from "assets/food/kale_omelette.png";
+import cabbersNMash from "assets/food/cabbers_n_mash.png";
+import fancyFries from "assets/food/fancy_fries.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -246,6 +282,7 @@ import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
 import firePit from "src/assets/buildings/fire_pit.png";
 import kitchen from "src/assets/buildings/kitchen.png";
 import market from "src/assets/buildings/market.png";
+import townCenter from "src/assets/buildings/town_center.png";
 import workbench from "src/assets/buildings/workbench.png";
 import tent from "src/assets/buildings/tent.png";
 import well from "src/assets/buildings/well1.png";
@@ -253,19 +290,11 @@ import chickenHouse from "src/assets/buildings/hen_house.png";
 import bakery from "src/assets/buildings/bakery.png";
 import deli from "src/assets/buildings/deli.png";
 import smoothieShack from "src/assets/buildings/smoothie_shack.webp";
+import toolshed from "src/assets/buildings/toolshed.png";
+import warehouse from "src/assets/buildings/warehouse.png";
 
 // Clothing
 import chefHat from "src/assets/icons/chef_hat.png";
-import chefApron from "src/assets/bumpkins/shop/shirts/chef_apron.png";
-import sunflowerAmulet from "src/assets/bumpkins/shop/necklaces/sunflower_amulet.png";
-import carrotAmulet from "src/assets/bumpkins/shop/necklaces/carrot_amulet.png";
-import beetrootAmulet from "src/assets/bumpkins/shop/necklaces/beetroot_amulet.png";
-import greenAmulet from "src/assets/bumpkins/shop/necklaces/green_amulet.png";
-import warriorShirt from "src/assets/bumpkins/shop/shirts/warrior_top.png";
-import warriorPants from "src/assets/bumpkins/shop/pants/warrior_pants.png";
-import warriorHelmet from "src/assets/bumpkins/shop/hats/warrior_helmet.png";
-import skullHat from "src/assets/bumpkins/shop/hats/skull_hat.png";
-import sunflowerShield from "src/assets/bumpkins/shop/tools/sunflower_shield.png";
 
 import skull from "src/assets/decorations/war_skulls.png";
 import warTombstone from "src/assets/decorations/war_tombstone.png";
@@ -292,16 +321,29 @@ import farmerBear from "src/assets/sfts/bears/farmer_bear.png";
 import richBear from "src/assets/sfts/bears/rich_bear.png";
 import bearTrap from "src/assets/sfts/bears/bear_trap.png";
 import christmasBear from "src/assets/sfts/bears/christmas_bear.png";
+import betaBear from "src/assets/sfts/bears/sfl_bear.png";
 import rainbowArtistBear from "src/assets/sfts/bears/rainbow_artist_bear.png";
 import cyborgBear from "src/assets/sfts/cyborg_bear.png";
 import collectibleBear from "src/assets/sfts/collectible_bear.png";
 import manekiNeko from "src/assets/sfts/maneki_neko.gif";
-import ayamCemani from "src/assets/sfts/ayam_cemani.gif";
 import redEnvelope from "src/assets/icons/red_envelope.png";
 import loveLetter from "src/assets/icons/love_letter.png";
 import tikiTotem from "src/assets/sfts/tiki_totem.webp";
 import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
 import valentineBear from "src/assets/sfts/bears/love_bear.png";
+import easterBear from "src/assets/sfts/bears/easter_bear.png";
+import ironIdol from "src/assets/sfts/iron_idol.webp";
+import genieBear from "src/assets/sfts/bears/genie_bear.png";
+import eggplantBear from "src/assets/sfts/bears/eggplant_bear.png";
+import dawnFlower from "src/assets/sfts/dawn_flower.png";
+import candles from "src/assets/decorations/candles.png";
+import spookyTree from "src/assets/decorations/spooky_tree.png";
+import hauntedStump from "src/assets/decorations/haunted_stump.png";
+
+import pineTree from "src/assets/decorations/pine_tree.png";
+import fieldMaple from "src/assets/decorations/field_maple.webp";
+import redMaple from "src/assets/decorations/red_maple.webp";
+import goldenMaple from "src/assets/decorations/golden_maple.webp";
 
 // Treasure
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
@@ -323,6 +365,7 @@ import sunflowerCoin from "assets/sfts/sunflower_coin.webp";
 import galleon from "assets/sfts/galleon.webp";
 import treasureMap from "assets/sfts/treasure/treasure_map.webp";
 import woodenCompass from "assets/sfts/treasure/wooden_compass.webp";
+import ironCompass from "assets/sfts/treasure/iron_compass.webp";
 import heartOfDavyJones from "assets/sfts/heart_of_davy_jones.gif";
 import heartBalloons from "assets/events/valentine/sfts/heart_balloons.png";
 import flamingo from "assets/events/valentine/sfts/flamingo.webp";
@@ -332,6 +375,41 @@ import foliant from "assets/sfts/foliant.webp";
 import dinosaurBone from "assets/sfts/dinosaur_bone.webp";
 import pirateCake from "assets/sfts/cakes/pirate_cake.webp";
 import drill from "assets/icons/drill.png";
+import karkinos from "assets/seasons/solar-flare/karkinos.png";
+import palmTree from "assets/seasons/solar-flare/palm_tree.webp";
+import beachBall from "assets/seasons/solar-flare/beach_ball.webp";
+import dirt from "assets/sfts/dirt_path.png";
+import bush from "assets/decorations/bush.png";
+import shrub from "assets/decorations/shrub.png";
+import fence from "assets/decorations/fence.png";
+import stoneFence from "assets/decorations/stone_fence.png";
+import mushroomHouse from "assets/seasons/dawn-breaker/mushroom_house.png";
+import genieLamp from "assets/sfts/genie_lamp.png";
+import oldBottle from "assets/sfts/treasure/old_bottle.png";
+
+import bonniesTombstone from "assets/decorations/bonnies_tombstone.png";
+import grubnashTombstone from "assets/decorations/grubnash_tombstone.png";
+import crimsonCap from "assets/decorations/crimson_cap.png";
+import toadstoolSeat from "assets/decorations/toadstool_seat.png";
+import chestnutStool from "assets/decorations/chestnut_fungi_stool.png";
+import mahoganyCap from "assets/decorations/mahogony_cap.png";
+import clementine from "assets/decorations/clementine.png";
+import cobalt from "assets/decorations/cobalt.png";
+import dawnUmbrellaSeat from "assets/decorations/dawn_umbrella_seat.png";
+import eggplantGrill from "assets/decorations/eggplant_grill.png";
+import giantDawnMushroom from "assets/decorations/giant_dawn_mushroom.png";
+import shroomGlow from "assets/decorations/shroom_glow.png";
+import purpleTrail from "assets/sfts/purple_trail.png";
+import obie from "assets/sfts/obie.png";
+import maximus from "assets/sfts/maximus.png";
+import hoot from "assets/sfts/hoot.png";
+import sirGoldenSnout from "assets/sfts/sir_goldensnout.png";
+import freyaFox from "assets/sfts/freya_fox.png";
+import grainGrinder from "assets/sfts/grain_grinder.png";
+
+import goldRock from "assets/resources/gold_small.png";
+import ironRock from "assets/resources/iron_small.png";
+import stoneRock from "assets/resources/stone_small.png";
 
 import { FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -349,11 +427,15 @@ import {
   SALESMAN_ITEMS,
 } from "./craftables";
 import { CROPS, CROP_SEEDS } from "./crops";
-import { RESOURCES } from "./resources";
+import { COMMODITIES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
-import { HELIOS_DECORATIONS } from "./decorations";
+import {
+  BASIC_DECORATIONS,
+  LANDSCAPING_DECORATIONS,
+  SEASONAL_DECORATIONS,
+} from "./decorations";
 import { BEANS } from "./beans";
 import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
@@ -361,9 +443,10 @@ import { CONSUMABLES } from "./consumables";
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
 import {
   GOBLIN_BLACKSMITH_ITEMS,
+  GOBLIN_PIRATE_ITEMS,
   HELIOS_BLACKSMITH_ITEMS,
 } from "./collectibles";
-import { AUCTIONEER_ITEMS } from "./auctioneer";
+
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
@@ -411,6 +494,14 @@ export const ITEM_DETAILS: Items = {
   Parsnip: {
     ...crops.Parsnip,
     image: CROP_LIFECYCLE.Parsnip.crop,
+  },
+  Eggplant: {
+    ...crops.Eggplant,
+    image: CROP_LIFECYCLE.Eggplant.crop,
+  },
+  Corn: {
+    ...crops.Corn,
+    image: CROP_LIFECYCLE.Corn.crop,
   },
   Radish: {
     ...crops.Radish,
@@ -465,6 +556,16 @@ export const ITEM_DETAILS: Items = {
     ...seeds["Parsnip Seed"],
     image: CROP_LIFECYCLE.Parsnip.seed,
     secondaryImage: CROP_LIFECYCLE.Parsnip.crop,
+  },
+  "Eggplant Seed": {
+    ...seeds["Eggplant Seed"],
+    image: CROP_LIFECYCLE.Eggplant.seed,
+    secondaryImage: CROP_LIFECYCLE.Eggplant.crop,
+  },
+  "Corn Seed": {
+    ...seeds["Corn Seed"],
+    image: CROP_LIFECYCLE.Corn.seed,
+    secondaryImage: CROP_LIFECYCLE.Corn.crop,
   },
   "Radish Seed": {
     ...seeds["Radish Seed"],
@@ -543,11 +644,11 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Magic Mushroom": {
-    description: RESOURCES["Magic Mushroom"].description,
+    description: COMMODITIES["Magic Mushroom"].description,
     image: SUNNYSIDE.resource.magic_mushroom,
   },
   "Wild Mushroom": {
-    description: RESOURCES["Wild Mushroom"].description,
+    description: COMMODITIES["Wild Mushroom"].description,
     image: SUNNYSIDE.resource.wild_mushroom,
   },
   Apple: {
@@ -563,7 +664,7 @@ export const ITEM_DETAILS: Items = {
     image: orange,
   },
   Honey: {
-    description: RESOURCES["Honey"].description,
+    description: COMMODITIES["Honey"].description,
     image: honey,
   },
   "Apple Juice": {
@@ -586,46 +687,70 @@ export const ITEM_DETAILS: Items = {
     description: CONSUMABLES["Power Smoothie"].description,
     image: powerSmoothie,
   },
+  "Bumpkin Roast": {
+    description: CONSUMABLES["Bumpkin Roast"].description,
+    image: bumpkinRoast,
+  },
+  "Goblin Brunch": {
+    description: CONSUMABLES["Goblin Brunch"].description,
+    image: goblinBrunch,
+  },
+  "Fruit Salad": {
+    description: CONSUMABLES["Fruit Salad"].description,
+    image: fruitSalad,
+  },
+  "Kale Omelette": {
+    description: CONSUMABLES["Kale Omelette"].description,
+    image: kaleOmelette,
+  },
+  "Cabbers n Mash": {
+    description: CONSUMABLES["Cabbers n Mash"].description,
+    image: cabbersNMash,
+  },
+  "Fancy Fries": {
+    description: CONSUMABLES["Fancy Fries"].description,
+    image: fancyFries,
+  },
 
   // Resources
   Wood: {
-    ...RESOURCES["Wood"],
+    ...COMMODITIES["Wood"],
     image: SUNNYSIDE.resource.wood,
   },
   Stone: {
-    ...RESOURCES["Stone"],
+    ...COMMODITIES["Stone"],
     image: SUNNYSIDE.resource.stone,
   },
   Iron: {
-    ...RESOURCES["Iron"],
+    ...COMMODITIES["Iron"],
     image: iron,
   },
   Gold: {
-    ...RESOURCES["Gold"],
+    ...COMMODITIES["Gold"],
     image: gold,
   },
   Diamond: {
-    ...RESOURCES["Diamond"],
+    ...COMMODITIES["Diamond"],
     image: SUNNYSIDE.resource.diamond,
   },
   Egg: {
-    ...RESOURCES["Egg"],
+    ...COMMODITIES["Egg"],
     image: SUNNYSIDE.resource.egg,
   },
   Chicken: {
-    ...RESOURCES["Chicken"],
+    ...COMMODITIES["Chicken"],
     image: SUNNYSIDE.resource.chicken,
   },
   Cow: {
-    ...RESOURCES["Chicken"],
+    ...COMMODITIES["Chicken"],
     image: SUNNYSIDE.icons.expression_confused,
   },
   Sheep: {
-    ...RESOURCES["Chicken"],
+    ...COMMODITIES["Chicken"],
     image: SUNNYSIDE.icons.expression_confused,
   },
   Pig: {
-    ...RESOURCES["Chicken"],
+    ...COMMODITIES["Chicken"],
     image: SUNNYSIDE.icons.expression_confused,
   },
 
@@ -664,18 +789,15 @@ export const ITEM_DETAILS: Items = {
     ...SHOVELS["Shovel"],
     image: SUNNYSIDE.tools.shovel,
   },
-  "Power Shovel": {
-    ...SHOVELS["Power Shovel"],
-    image: SUNNYSIDE.tools.power_shovel,
-  },
   "Sand Shovel": {
     description: "Used for digging treasure",
     image: SUNNYSIDE.tools.sand_shovel,
   },
   "Sand Drill": {
-    description: "Drill deep for rare treasure",
+    description: "Drill deep for uncommon or rare treasure",
     image: drill,
   },
+
   "Block Buck": {
     description:
       "A voucher used for restocking and enhancing your Blockchain experience!",
@@ -703,6 +825,7 @@ export const ITEM_DETAILS: Items = {
     ...MARKET_ITEMS["Kuebiko"],
     image: kuebiko,
   },
+
   "Christmas Tree": {
     ...BLACKSMITH_ITEMS["Christmas Tree"],
     image: christmasTree,
@@ -927,6 +1050,7 @@ export const ITEM_DETAILS: Items = {
     description: "Free trades! Woohoo!",
     image: ticket,
   },
+
   "Beta Pass": {
     description: "Gain early access to features for testing.",
     image: betaPass,
@@ -1133,6 +1257,10 @@ export const ITEM_DETAILS: Items = {
     description: "A rare Easter item",
     image: easterBunny,
   },
+  "Pablo The Bunny": {
+    description: "A magical Easter bunny",
+    image: pabloBunny,
+  },
   "Blue Egg": {
     description: "A blue easter egg",
     image: blueEgg,
@@ -1196,7 +1324,7 @@ export const ITEM_DETAILS: Items = {
   "Rich Chicken": { ...MUTANT_CHICKENS["Rich Chicken"], image: richChicken },
 
   "Chef Apron": {
-    image: chefApron,
+    image: SUNNYSIDE.icons.expression_confused,
     description: "Cakes yield an additional 20% SFL",
   },
   "Chef Hat": {
@@ -1216,6 +1344,10 @@ export const ITEM_DETAILS: Items = {
   Market: {
     image: market,
     description: "Buy and sell at the Farmer's Market",
+  },
+  "Town Center": {
+    image: townCenter,
+    description: "Gather around the town center for the latest news",
   },
   Kitchen: {
     image: kitchen,
@@ -1250,41 +1382,58 @@ export const ITEM_DETAILS: Items = {
     image: smoothieShack,
     description: "Freshly squeezed!",
   },
+  Toolshed: {
+    image: toolshed,
+    description: "Increase your tool stocks by 50%",
+  },
+  Warehouse: {
+    image: warehouse,
+    description: "Increase your seed stocks by 20%",
+  },
 
   "Sunflower Amulet": {
-    image: sunflowerAmulet,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "10% increased Sunflower yield",
   },
   "Carrot Amulet": {
-    image: carrotAmulet,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "Carrots grow 20% faster",
   },
   "Beetroot Amulet": {
-    image: beetrootAmulet,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "20% increased Beetroot yield",
   },
   "Green Amulet": {
-    image: greenAmulet,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "Chance for 10x crop yield",
   },
   "Warrior Shirt": {
-    image: warriorShirt,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "A mark of a true warrior",
   },
   "Warrior Pants": {
-    image: warriorPants,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "Protect your thighs!",
   },
   "Warrior Helmet": {
-    image: warriorHelmet,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "Immune to arrows",
   },
   "Sunflower Shield": {
-    image: sunflowerShield,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "A hero of Sunflower Land. Free Sunflower Seeds!",
   },
   "Skull Hat": {
-    image: skullHat,
+    image: SUNNYSIDE.icons.expression_confused,
+
     description: "A reward for your war efforts",
   },
   "War Skull": {
@@ -1489,6 +1638,20 @@ export const ITEM_DETAILS: Items = {
     image: museum,
     description: ACHIEVEMENTS().Museum.description,
   },
+
+  // No longer needed - placeholders for achievement refactor
+  "Crowd Favourite": { image: null, description: "" },
+  "Delivery Dynamo": { image: null, description: "" },
+  "Egg-cellent Collection": { image: null, description: "" },
+  "Fruit Aficionado": { image: null, description: "" },
+  "Land Baron": { image: null, description: "" },
+  "Land Expansion Enthusiast": { image: null, description: "" },
+  "Land Expansion Extraordinaire": { image: null, description: "" },
+  "Scarecrow Maestro": { image: null, description: "" },
+  "Seasoned Farmer": { image: null, description: "" },
+  "Treasure Hunter": { image: null, description: "" },
+  "Well of Prosperity": { image: null, description: "" },
+
   "White Tulips": {
     image: whiteTulips,
     description: "Keep the smell of goblins away.",
@@ -1512,7 +1675,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Basic Bear": {
     image: basicBear,
-    description: HELIOS_DECORATIONS()["Basic Bear"].description,
+    description: BASIC_DECORATIONS()["Basic Bear"].description,
   },
   "Chef Bear": {
     image: chefBear,
@@ -1558,6 +1721,10 @@ export const ITEM_DETAILS: Items = {
     ...SALESMAN_ITEMS["Christmas Bear"],
     image: christmasBear,
   },
+  "Beta Bear": {
+    image: betaBear,
+    description: "A bear found through special testing events",
+  },
   "Rainbow Artist Bear": {
     image: rainbowArtistBear,
     description: "The owner is a beautiful bear artist!",
@@ -1565,22 +1732,22 @@ export const ITEM_DETAILS: Items = {
 
   "Cabbage Boy": {
     image: cabbageBoy,
-    description: AUCTIONEER_ITEMS["Cabbage Boy"].description,
+    description: "Don't wake the baby!",
   },
 
   "Cabbage Girl": {
     image: cabbageGirl,
-    description: AUCTIONEER_ITEMS["Cabbage Girl"].description,
+    description: "Shhh it's sleeping",
   },
 
   "Wood Nymph Wendy": {
     image: wendy,
-    description: AUCTIONEER_ITEMS["Wood Nymph Wendy"].description,
+    description: "Cast an enchantment to entice the wood fairies.",
   },
 
   "Peeled Potato": {
     image: prizedPotato,
-    description: AUCTIONEER_ITEMS["Peeled Potato"].description,
+    description: "A precious potato, encourages bonus potatoes on harvest.",
   },
 
   "Colossal Crop": {
@@ -1605,7 +1772,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Potted Pumpkin": {
     image: pottedPumpkin,
-    description: HELIOS_DECORATIONS()["Potted Pumpkin"].description,
+    description: BASIC_DECORATIONS()["Potted Pumpkin"].description,
   },
   "Golden Crop": {
     image: goldenCrop,
@@ -1622,15 +1789,18 @@ export const ITEM_DETAILS: Items = {
   },
   "Lady Bug": {
     image: ladybug,
-    description: GOBLIN_BLACKSMITH_ITEMS["Lady Bug"].description,
+    description:
+      "An incredible bug that feeds on aphids. Improves Apple quality.",
   },
   "Squirrel Monkey": {
     image: squirrelMonkey,
-    description: GOBLIN_BLACKSMITH_ITEMS["Squirrel Monkey"].description,
+    description:
+      "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around.",
   },
   "Black Bearry": {
     image: blackBear,
-    description: GOBLIN_BLACKSMITH_ITEMS["Black Bearry"].description,
+    description:
+      "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful!",
   },
   "Devil Bear": {
     image: devilBear,
@@ -1771,6 +1941,15 @@ export const ITEM_DETAILS: Items = {
       "It may not be high-tech, but it will always steer you in the right direction, wood you believe it?",
     image: woodenCompass,
   },
+  "Iron Compass": {
+    description:
+      "Iron out your path to treasure! This compass is 'attract'-ive, and not just to the magnetic North!",
+    image: ironCompass,
+  },
+  "Old Bottle": {
+    description: "Antique pirate bottle, echoing tales of high seas adventure.",
+    image: oldBottle,
+  },
   "Tiki Totem": {
     description: "The Tiki Totem adds 0.1 wood to every tree you chop.",
     image: tikiTotem,
@@ -1824,5 +2003,340 @@ export const ITEM_DETAILS: Items = {
   "Valentine Bear": {
     description: "For those who love.",
     image: valentineBear,
+  },
+  "Easter Bear": {
+    description: "How can a Bunny lay eggs?",
+    image: easterBear,
+  },
+  "Easter Bush": {
+    description: "What is inside?",
+    image: easterBush,
+  },
+  "Giant Carrot": {
+    description:
+      "A giant carrot stood, casting fun shadows, as rabbits gazed in wonder.",
+    image: giantCarrot,
+  },
+  "Iron Idol": {
+    image: ironIdol,
+    description: GOBLIN_PIRATE_ITEMS["Iron Idol"].description,
+  },
+  "Genie Lamp": {
+    image: genieLamp,
+    description:
+      "A magical lamp that contains a genie who will grant you three wishes.",
+  },
+
+  // AoE items
+  "Emerald Turtle": {
+    image: emeraldTurtle,
+    description: GOBLIN_PIRATE_ITEMS["Emerald Turtle"].description,
+  },
+  "Tin Turtle": {
+    image: tinTurtle,
+    description: GOBLIN_PIRATE_ITEMS["Tin Turtle"].description,
+  },
+  "Basic Scarecrow": {
+    description: HELIOS_BLACKSMITH_ITEMS["Basic Scarecrow"].description,
+    image: basicScarecrow,
+  },
+  Bale: {
+    description: HELIOS_BLACKSMITH_ITEMS["Bale"].description,
+    image: bale,
+  },
+  "Sir Goldensnout": {
+    image: sirGoldenSnout,
+    description:
+      "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
+  },
+  "Scary Mike": {
+    description: HELIOS_BLACKSMITH_ITEMS["Scary Mike"].description,
+    image: scaryMike,
+  },
+  "Laurie the Chuckle Crow": {
+    description: HELIOS_BLACKSMITH_ITEMS["Laurie the Chuckle Crow"].description,
+    image: laurie,
+  },
+  "Freya Fox": {
+    image: freyaFox,
+    description:
+      "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
+  },
+  "Queen Cornelia": {
+    image: queenCornelia,
+    description:
+      "Command the regal power of Queen Cornelia and experience a magnificent Area of Effect boost to your corn production. +1 Corn.",
+  },
+
+  // Season tickets
+  "Solar Flare Ticket": {
+    image: solarFlareTicket,
+    description: "A ticket used during the Solar Flare Season",
+  },
+  "Dawn Breaker Ticket": {
+    image: dawnBreakerTicket,
+    description: "A ticket used during the Dawn Breaker Season",
+  },
+  "Crow Feather": {
+    image: crowFeather,
+    description: "A ticket used during the Witches' Eve Ticket Season",
+  },
+
+  "Sunflower Supporter": {
+    image: supporterTicket,
+    description: "The mark of a true supporter of the game!",
+  },
+
+  // Solar Flare Season
+  "Beach Ball": {
+    image: beachBall,
+    description: "Bouncy ball brings beachy vibes, blows boredom away.",
+  },
+  "Palm Tree": {
+    image: palmTree,
+    description: "Tall, beachy, shady and chic, palm trees make waves sashay.",
+  },
+  Karkinos: {
+    image: karkinos,
+    description: GOBLIN_PIRATE_ITEMS["Karkinos"].description,
+  },
+
+  // Dawn Breaker Season
+  "Mushroom House": {
+    image: mushroomHouse,
+    description: GOBLIN_BLACKSMITH_ITEMS()["Mushroom House"].description,
+  },
+
+  "Basic Land": {
+    image: SUNNYSIDE.resource.land,
+    description: "A basic piece of land",
+  },
+
+  "Crop Plot": {
+    image: SUNNYSIDE.resource.plot,
+    description: "An empty plot to plant crops on",
+  },
+  "Gold Rock": {
+    image: goldRock,
+    description: "A mineable rock to collect gold",
+  },
+  "Iron Rock": {
+    image: ironRock,
+    description: "A mineable rock to collect iron",
+  },
+  "Stone Rock": {
+    image: stoneRock,
+    description: "A mineable rock to collect stone",
+  },
+  Tree: {
+    image: SUNNYSIDE.resource.tree,
+    description: "A choppable tree to collect wood",
+  },
+  "Fruit Patch": {
+    image: SUNNYSIDE.resource.fruitPatch,
+    description: "An empty plot to plant fruit on",
+  },
+  Boulder: {
+    image: SUNNYSIDE.resource.boulder,
+    description: "A mythical rock that can drop rare minerals",
+  },
+  "Dirt Path": {
+    image: dirt,
+    description: "Keep your farmer boots clean with a well trodden path.",
+  },
+  Bush: {
+    image: bush,
+    description: "What's lurking in the bushes?",
+  },
+  Fence: {
+    image: fence,
+    description: "Add a touch of rustic charm to your farm.",
+  },
+  "Stone Fence": {
+    image: stoneFence,
+    description: "Embrace the timeless elegance of a stone fence.",
+  },
+  Shrub: {
+    image: shrub,
+    description: "Enhance your in-game landscaping with a beautiful shrub",
+  },
+  "Pine Tree": {
+    image: pineTree,
+    description: "Standing tall and mighty, a needle-clad dream.",
+  },
+  "Field Maple": {
+    image: fieldMaple,
+    description:
+      "A petite charmer that spreads its leaves like a delicate green canopy.",
+  },
+  "Red Maple": {
+    image: redMaple,
+    description: "Fiery foliage and a heart full of autumnal warmth.",
+  },
+  "Golden Maple": {
+    image: goldenMaple,
+    description: "Radiating brilliance with its shimmering golden leaves.",
+  },
+  "Solar Flare Banner": {
+    image: solarFlareBanner,
+    description: "?",
+  },
+  "Dawn Breaker Banner": {
+    image: dawnBreakerBanner,
+    description: "?",
+  },
+  "Witches' Eve Banner": {
+    image: witchesEveBanner,
+    description: "?",
+  },
+  "Luminous Lantern": {
+    image: luminousLantern,
+    description: "A bright paper lantern that illuminates the way.",
+  },
+  "Radiance Lantern": {
+    image: radianceLantern,
+    description: "A radiant paper lantern that shines with a powerful light.",
+  },
+  "Ocean Lantern": {
+    image: oceanLantern,
+    description:
+      "A wavy paper lantern that sways with the bobbing of the tide.",
+  },
+  "Solar Lantern": {
+    image: solarLantern,
+    description:
+      "Harnessing the vibrant essence of sunflowers, the Solar Lantern emanates a warm and radiant glow.",
+  },
+  "Aurora Lantern": {
+    image: auroraLantern,
+    description:
+      "A paper lantern that transforms any space into a magical wonderland.",
+  },
+  "Bonnie's Tombstone": {
+    image: bonniesTombstone,
+    description: BASIC_DECORATIONS()["Bonnie's Tombstone"].description,
+  },
+  "Chestnut Fungi Stool": {
+    image: chestnutStool,
+    description: LANDSCAPING_DECORATIONS()["Chestnut Fungi Stool"].description,
+  },
+  "Crimson Cap": {
+    image: crimsonCap,
+    description: LANDSCAPING_DECORATIONS()["Crimson Cap"].description,
+  },
+  "Dawn Umbrella Seat": {
+    image: dawnUmbrellaSeat,
+    description:
+      SEASONAL_DECORATIONS()["Dawn Umbrella Seat"]?.description ?? "",
+  },
+  "Eggplant Grill": {
+    image: eggplantGrill,
+    description: SEASONAL_DECORATIONS()["Eggplant Grill"]?.description ?? "",
+  },
+  "Giant Dawn Mushroom": {
+    image: giantDawnMushroom,
+    description:
+      SEASONAL_DECORATIONS()["Giant Dawn Mushroom"]?.description ?? "",
+  },
+  "Grubnash's Tombstone": {
+    image: grubnashTombstone,
+    description: BASIC_DECORATIONS()["Grubnash's Tombstone"].description,
+  },
+  "Mahogany Cap": {
+    image: mahoganyCap,
+    description: LANDSCAPING_DECORATIONS()["Mahogany Cap"].description,
+  },
+  "Shroom Glow": {
+    image: shroomGlow,
+    description: SEASONAL_DECORATIONS()["Shroom Glow"]?.description ?? "",
+  },
+  "Toadstool Seat": {
+    image: toadstoolSeat,
+    description: LANDSCAPING_DECORATIONS()["Toadstool Seat"].description,
+  },
+  Clementine: {
+    image: clementine,
+    description: SEASONAL_DECORATIONS()["Clementine"]?.description ?? "",
+  },
+  Cobalt: {
+    image: cobalt,
+    description: SEASONAL_DECORATIONS()["Cobalt"]?.description ?? "",
+  },
+  "Purple Trail": {
+    image: purpleTrail,
+    description:
+      "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
+  },
+  Maximus: {
+    image: maximus,
+    description: "Squash the competition with plump Maximus",
+  },
+  Obie: {
+    image: obie,
+    description: "A fierce eggplant soldier",
+  },
+  Hoot: {
+    image: hoot,
+    description: "Hoot hoot! Have you solved my riddle yet?",
+  },
+  "Genie Bear": {
+    image: genieBear,
+    description: "Exactly what I wished for!",
+  },
+  "Betty Lantern": {
+    image: bettyLantern,
+    description: "It looks so real! I wonder how they crafted this.",
+  },
+  "Bumpkin Lantern": {
+    image: bumpkinLantern,
+    description: "Moving closer you hear murmurs of a living Bumpkin...creepy!",
+  },
+  "Eggplant Bear": {
+    image: eggplantBear,
+    description: "The mark of a generous eggplant whale.",
+  },
+  "Goblin Lantern": {
+    image: goblinLantern,
+    description: "A scary looking lantern",
+  },
+  "Dawn Flower": {
+    image: dawnFlower,
+    description:
+      "Embrace the radiant beauty of the Dawn Flower as its delicate petals shimmer with the first light of day",
+  },
+  "Gold Pass": {
+    image: goldPass,
+    description:
+      "An exlusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content",
+  },
+  Poppy: {
+    image: poppy,
+    description: "The mystical corn kernel. +0.1 Corn per harvest.",
+  },
+  "El Pollo Veloz": {
+    image: elPolloVeloz,
+    description: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
+  },
+  "Grain Grinder": {
+    image: grainGrinder,
+    description:
+      "Grind your grain and experience a delectable surge in Cake XP.",
+  },
+  Kernaldo: {
+    image: kernaldo,
+    description: "The magical corn whisperer. +20% Corn Growth Speed.",
+  },
+  Candles: {
+    image: candles,
+    description:
+      "Enchant your farm with flickering spectral flames during Witches' Eve.",
+  },
+  "Haunted Stump": {
+    image: hauntedStump,
+    description: "Summon spirits and add eerie charm to your farm.",
+  },
+  "Spooky Tree": {
+    image: spookyTree,
+    description: "A hauntingly fun addition to your farm's decor!",
   },
 };

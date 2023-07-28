@@ -4,11 +4,10 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/craftables";
 import { Chicken, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
-import { getSupportedChickens, removeItem } from "./utils";
+import { getSupportedChickens } from "./utils";
 
 export enum REMOVE_BUILDING_ERRORS {
   INVALID_BUILDING = "This building does not exist",
-  NO_RUSTY_SHOVEL_AVAILABLE = "No Rusty Shovel available!",
   NO_BUMPKIN = "You do not have a Bumpkin",
   BUILDING_UNDER_CONSTRUCTION = "Cannot remove a building while it's under construction",
   WATER_WELL_REMOVE_CROPS = "Cannot remove Water Well that causes crops to uproot",
@@ -17,7 +16,7 @@ export enum REMOVE_BUILDING_ERRORS {
 
 export type RemoveBuildingAction = {
   type: "building.removed";
-  building: BuildingName;
+  name: BuildingName;
   id: string;
 };
 
@@ -43,20 +42,9 @@ const getUnSupportedPlotCount = (gameState: GameState): number => {
   const supportedPlots =
     activeWells * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
 
-  const plotCount = gameState.expansions.reduce((count, expansion) => {
-    if (!expansion.plots) return count;
-
-    count += getKeys(expansion.plots).length;
-
-    return count;
-  }, 0);
+  const plotCount = getKeys(gameState.crops).length;
 
   return Math.max(plotCount - supportedPlots, 0);
-};
-
-export const areUnsupportedPlotsGrowing = (gameState: GameState) => {
-  const unsupportedChickens = Object.values(getUnsupportedChickens(gameState));
-  return unsupportedChickens.some((chicken) => !!chicken.fedAt);
 };
 
 /**
@@ -68,38 +56,29 @@ export const areUnsupportedPlotsGrowing = (gameState: GameState) => {
  */
 export const removeUnsupportedCrops = (gameState: GameState) => {
   const unsupportedPlotCount = getUnSupportedPlotCount(gameState);
-  const { expansions = [] } = gameState;
+  const { crops: plots } = gameState;
 
   let count = 0;
   let hasUnsupportedCrops = false;
 
-  for (let expIndex = expansions.length - 1; expIndex >= 0; expIndex--) {
+  const reversedPlotKeys = getKeys({
+    plots,
+  }).reverse();
+
+  for (let plotKeyIdx = 0; plotKeyIdx < reversedPlotKeys.length; plotKeyIdx++) {
     if (count === unsupportedPlotCount) break;
-    if (!expansions[expIndex].plots) continue;
 
-    const reversedPlotKeys = getKeys({
-      ...expansions[expIndex].plots,
-    }).reverse();
+    const plot = plots?.[reversedPlotKeys[plotKeyIdx]];
 
-    for (
-      let plotKeyIdx = 0;
-      plotKeyIdx < reversedPlotKeys.length;
-      plotKeyIdx++
-    ) {
-      if (count === unsupportedPlotCount) break;
-
-      const plot = expansions[expIndex].plots?.[reversedPlotKeys[plotKeyIdx]];
-
-      if (plot?.crop) {
-        hasUnsupportedCrops = true;
-        delete plot.crop;
-      }
-
-      count++;
+    if (plot?.crop) {
+      hasUnsupportedCrops = true;
+      delete plot.crop;
     }
+
+    count++;
   }
 
-  return { expansions, hasUnsupportedCrops };
+  return { plots, hasUnsupportedCrops };
 };
 
 export const getUnsupportedChickens = (gameState: GameState) => {
@@ -147,7 +126,7 @@ export function removeBuilding({
 }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
   const { buildings, inventory, bumpkin } = stateCopy;
-  const buildingGroup = buildings[action.building];
+  const buildingGroup = buildings[action.name];
 
   if (bumpkin === undefined) {
     throw new Error(REMOVE_BUILDING_ERRORS.NO_BUMPKIN);
@@ -157,42 +136,38 @@ export function removeBuilding({
     throw new Error(REMOVE_BUILDING_ERRORS.INVALID_BUILDING);
   }
 
-  const buildingIndex = buildingGroup?.findIndex(
-    (building) => building.id == action.id
+  const buildingToRemove = buildingGroup.find(
+    (building) => building.id === action.id
   );
 
-  if (buildingIndex === -1) {
+  if (!buildingToRemove) {
     throw new Error(REMOVE_BUILDING_ERRORS.INVALID_BUILDING);
   }
-
-  const buildingToRemove = buildingGroup[buildingIndex];
 
   if (buildingToRemove.readyAt > createdAt) {
     throw new Error(REMOVE_BUILDING_ERRORS.BUILDING_UNDER_CONSTRUCTION);
   }
 
+  // TODO - remove once landscaping is launched
   const shovelAmount = inventory["Rusty Shovel"] || new Decimal(0);
-
-  if (shovelAmount.lessThan(1)) {
-    throw new Error(REMOVE_BUILDING_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
+  if (shovelAmount.gte(1)) {
+    inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
   }
 
-  stateCopy.buildings[action.building] = removeItem(
-    buildingGroup,
-    buildingGroup[buildingIndex]
+  stateCopy.buildings[action.name] = buildingGroup.filter(
+    (building) => building.id !== buildingToRemove.id
   );
 
-  if (action.building === "Water Well") {
-    const { expansions, hasUnsupportedCrops } =
-      removeUnsupportedCrops(stateCopy);
+  if (action.name === "Water Well") {
+    const { plots, hasUnsupportedCrops } = removeUnsupportedCrops(stateCopy);
     if (hasUnsupportedCrops) {
       throw new Error(REMOVE_BUILDING_ERRORS.WATER_WELL_REMOVE_CROPS);
     }
 
-    stateCopy.expansions = expansions;
+    stateCopy.crops = plots;
   }
 
-  if (action.building === "Hen House") {
+  if (action.name === "Hen House") {
     if (areUnsupportedChickensBrewing(stateCopy)) {
       throw new Error(REMOVE_BUILDING_ERRORS.HEN_HOUSE_REMOVE_BREWING_CHICKEN);
     }
@@ -201,8 +176,6 @@ export function removeBuilding({
   }
 
   bumpkin.activity = trackActivity("Building Removed", bumpkin.activity);
-
-  inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
 
   return stateCopy;
 }

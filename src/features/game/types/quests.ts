@@ -1,5 +1,5 @@
-import { GameState } from "../types/game";
 import { BumpkinItem } from "./bumpkin";
+import { GameState } from "./game";
 
 export type QuestName =
   | "Farmer Quest 1"
@@ -9,11 +9,7 @@ export type QuestName =
   | "Pirate Quest 1"
   | "Pirate Quest 2"
   | "Pirate Quest 3"
-  | "Pirate Quest 4"
-  | "Cupid Quest 1"
-  | "Cupid Quest 2"
-  | "Cupid Quest 3"
-  | "Cupid Quest 4";
+  | "Pirate Quest 4";
 
 export type Quest = {
   description: string;
@@ -88,38 +84,6 @@ export const QUESTS: Record<QuestName, Quest> = {
     wearable: "Pirate Hat",
     deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
-  "Cupid Quest 1": {
-    description: "Collect 5 Love Letters",
-    progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Love Letter Collected"] || 0,
-    requirement: 5,
-    wearable: "Cupid Hair",
-    deadline: new Date("2023-02-21").toISOString(),
-  },
-  "Cupid Quest 2": {
-    description: "Collect 25 Love Letters",
-    progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Love Letter Collected"] || 0,
-    requirement: 25,
-    wearable: "Cupid Dress",
-    deadline: new Date("2023-02-21").toISOString(),
-  },
-  "Cupid Quest 3": {
-    description: "Collect 100 Love Letters",
-    progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Love Letter Collected"] || 0,
-    requirement: 100,
-    wearable: "Cupid Sandals",
-    deadline: new Date("2023-02-21").toISOString(),
-  },
-  "Cupid Quest 4": {
-    description: "Collect 500 Love Letters",
-    progress: (gameState: GameState) =>
-      gameState.bumpkin?.activity?.["Love Letter Collected"] || 0,
-    requirement: 500,
-    wearable: "Love Quiver",
-    deadline: new Date("2023-02-21").toISOString(),
-  },
 };
 
 type CompletedQuestName =
@@ -127,7 +91,13 @@ type CompletedQuestName =
   | "Reindeer Quest 2"
   | "Reindeer Quest 3"
   | "Lunar New Year Quest 1"
-  | "Lunar New Year Quest 2";
+  | "Lunar New Year Quest 2"
+  | "Cupid Quest 1"
+  | "Cupid Quest 2"
+  | "Cupid Quest 3"
+  | "Cupid Quest 4"
+  | "Leprechaun Quest 1"
+  | "Easter Quest 1";
 
 export const BUMPKIN_QUEST_IDS: Record<QuestName | CompletedQuestName, number> =
   {
@@ -148,4 +118,6 @@ export const BUMPKIN_QUEST_IDS: Record<QuestName | CompletedQuestName, number> =
     "Cupid Quest 2": 100016,
     "Cupid Quest 3": 100017,
     "Cupid Quest 4": 100018,
+    "Leprechaun Quest 1": 100019,
+    "Easter Quest 1": 100020,
   };

@@ -6,12 +6,12 @@ import shadow from "assets/npcs/shadow.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
-import { TreasureShopBuy as TreasureShopItems } from "./TreasureShopBuy";
+import { TreasureShopBuy } from "./TreasureShopBuy";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { TreasureShopSell } from "./TreasureShopSell";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { NPC } from "features/island/bumpkin/components/DynamicMiniNFT";
+import { NPC } from "features/island/bumpkin/components/NPC";
 
 export const TreasureShop: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -46,11 +46,13 @@ export const TreasureShop: React.FC = () => {
           }}
         >
           <NPC
-            body="Pirate Potion"
-            hair="Teal Mohawk"
+            parts={{
+              body: "Pirate Potion",
+              hair: "Teal Mohawk",
+              pants: "Blue Suspenders",
+              shirt: "Red Farmer Shirt",
+            }}
             onClick={() => setShowModal(true)}
-            pants="Blue Suspenders"
-            shirt="Red Farmer Shirt"
           />
         </div>
       </div>
@@ -80,9 +82,7 @@ export const TreasureShop: React.FC = () => {
             },
           ]}
         >
-          {tab === 0 && (
-            <TreasureShopItems onClose={() => setShowModal(false)} />
-          )}
+          {tab === 0 && <TreasureShopBuy onClose={() => setShowModal(false)} />}
           {tab === 1 && <TreasureShopSell />}
         </CloseButtonPanel>
       </Modal>

@@ -12,7 +12,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { setPrecision } from "lib/utils/formatNumber";
 
 /**
- * The props for SFL requirement label.
+ * The props for SFL requirement label. Use this when the item costs SFL.
  * @param type The type is SFL.
  * @param balance The SFL balance of the player.
  * @param requirement The SFL requirement.
@@ -21,10 +21,11 @@ interface SFLProps {
   type: "sfl";
   balance: Decimal;
   requirement: Decimal;
+  showLabel?: boolean;
 }
 
 /**
- * The props for sell for SFL requirement label.
+ * The props for sell for SFL requirement label. Use this when selling the item gives players SFL.
  * @param type The type is sell for SFL.
  * @param requirement The SFL requirement.
  */
@@ -45,6 +46,7 @@ interface ItemProps {
   item: InventoryItemName;
   balance: Decimal;
   requirement: Decimal;
+  showLabel?: boolean;
 }
 
 /**
@@ -111,7 +113,7 @@ type Props = (
   defaultProps;
 
 /**
- * The reqirement label that consists of an icon and a requirement description.
+ * The requirement label that consists of an icon and a requirement description.
  * This component is used when displaying individual crafting requirements in a crafting recipe.
  * @props The component props.
  */
@@ -132,13 +134,11 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return SUNNYSIDE.icons.seedling;
     }
   };
+
   const getText = () => {
     switch (props.type) {
-      case "sfl": {
-        return props.requirement.equals(0)
-          ? "Free"
-          : `${props.requirement.toNumber()}`;
-      }
+      case "sfl":
+        return `${props.requirement.toNumber()}`;
       case "sellForSfl": {
         return `${props.requirement.toNumber()}`;
       }
@@ -168,6 +168,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
   const isRequirementMet = () => {
     switch (props.type) {
       case "sfl":
+        return props.balance.greaterThanOrEqualTo(props.requirement);
       case "item":
         return props.balance.greaterThanOrEqualTo(props.requirement);
       case "level":
@@ -183,7 +184,16 @@ export const RequirementLabel: React.FC<Props> = (props) => {
 
   return (
     <div className={props.className ?? "flex justify-between"}>
-      <SquareIcon icon={getIcon()} width={7} />
+      <div className="flex items-center">
+        <SquareIcon icon={getIcon()} width={7} />
+        {props.type === "sfl" && props.showLabel && (
+          <span className="text-xs ml-1">SFL</span>
+        )}
+        {props.type === "item" && props.showLabel && (
+          <span className="text-xs ml-1">{props.item}</span>
+        )}
+      </div>
+
       <Label
         className={classNames("whitespace-nowrap", { "ml-1": !requirementMet })}
         type={requirementMet ? "transparent" : "danger"}

@@ -32,6 +32,8 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
     },
   ] = useActor(gameService);
 
+  const autosaving = gameState.matches("autosaving");
+
   const inventory = state.inventory;
 
   // V1 may have ones without coords
@@ -65,22 +67,32 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
   >(canPlaceLazyChicken ? "lazy" : canBuyChicken ? "buy" : "working");
 
   const handleBuy = () => {
-    gameService.send("EDIT", {
+    gameService.send("LANDSCAPE", {
       placeable: "Chicken",
       action: "chicken.bought",
+      // Not used yet
+      requirements: {
+        sfl: price,
+        ingredients: {},
+      },
+      maximum: availableSpots,
+      multiple: true,
     });
     onClose();
   };
 
   const handlePlace = () => {
-    gameService.send("EDIT", {
+    gameService.send("LANDSCAPE", {
       placeable: "Chicken",
       action: "chicken.placed",
+      // Not used yet
+      requirements: {
+        sfl: new Decimal(0),
+        ingredients: {},
+      },
     });
     onClose();
   };
-
-  const isSaving = gameState.matches("autosaving");
 
   const Details = () => {
     if (selectedChicken === "buy") {
@@ -109,11 +121,11 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
               </div>
             </div>
             <Button
-              disabled={!canBuyChicken || isSaving}
+              disabled={!canBuyChicken || autosaving}
               className="text-xs mt-3 whitespace-nowrap"
               onClick={handleBuy}
             >
-              {isSaving ? "Saving..." : "Buy"}
+              {autosaving ? "Saving..." : "Buy"}
             </Button>
           </>
         </div>
@@ -138,9 +150,9 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
           <Button
             className="text-xs mt-3 whitespace-nowrap"
             onClick={handlePlace}
-            disabled={!canPlaceLazyChicken || isSaving}
+            disabled={!canPlaceLazyChicken || autosaving}
           >
-            {isSaving ? "Saving..." : "Place"}
+            {autosaving ? "Saving..." : "Place"}
           </Button>
         </div>
       );

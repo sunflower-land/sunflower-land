@@ -1,3 +1,4 @@
+import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
@@ -7,6 +8,7 @@ import {
   removeCollectible,
   REMOVE_COLLECTIBLE_ERRORS,
 } from "./removeCollectible";
+import { SEEDS } from "features/game/types/seeds";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -35,7 +37,7 @@ describe("removeCollectible", () => {
         },
         action: {
           type: "collectible.removed",
-          collectible: "Algerian Flag",
+          name: "Algerian Flag",
           id: "1",
         },
       })
@@ -60,39 +62,11 @@ describe("removeCollectible", () => {
         },
         action: {
           type: "collectible.removed",
-          collectible: "Nugget",
+          name: "Nugget",
           id: "1",
         },
       })
     ).toThrow(REMOVE_COLLECTIBLE_ERRORS.INVALID_COLLECTIBLE);
-  });
-
-  it("does not remove if not enough Rusty Shovel in inventory", () => {
-    expect(() =>
-      removeCollectible({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            "Rusty Shovel": new Decimal(0),
-          },
-          collectibles: {
-            Nugget: [
-              {
-                id: "123",
-                createdAt: 0,
-                coordinates: { x: 1, y: 1 },
-                readyAt: 0,
-              },
-            ],
-          },
-        },
-        action: {
-          type: "collectible.removed",
-          collectible: "Nugget",
-          id: "123",
-        },
-      })
-    ).toThrow(REMOVE_COLLECTIBLE_ERRORS.NO_RUSTY_SHOVEL_AVAILABLE);
   });
 
   it("removes a collectible and does not affect collectibles of the same type", () => {
@@ -127,7 +101,7 @@ describe("removeCollectible", () => {
       },
       action: {
         type: "collectible.removed",
-        collectible: "Nugget",
+        name: "Nugget",
         id: "123",
       },
     });
@@ -168,7 +142,7 @@ describe("removeCollectible", () => {
       },
       action: {
         type: "collectible.removed",
-        collectible: "Nugget",
+        name: "Nugget",
         id: "123",
       },
     });
@@ -210,7 +184,7 @@ describe("removeCollectible", () => {
         state: gameState,
         action: {
           type: "collectible.removed",
-          collectible: "Chicken Coop",
+          name: "Chicken Coop",
           id: "123",
         },
       })
@@ -248,7 +222,7 @@ describe("removeCollectible", () => {
       },
       action: {
         type: "collectible.removed",
-        collectible: "Chicken Coop",
+        name: "Chicken Coop",
         id: "123",
       },
     });
@@ -293,7 +267,7 @@ describe("removeCollectible", () => {
       },
       action: {
         type: "collectible.removed",
-        collectible: "Chicken Coop",
+        name: "Chicken Coop",
         id: "123",
       },
     });
@@ -322,11 +296,72 @@ describe("removeCollectible", () => {
       },
       action: {
         type: "collectible.removed",
-        collectible: "Rock Golem",
+        name: "Rock Golem",
         id: "123",
       },
     });
 
     expect(gameState.collectibles["Rock Golem"]).toBeUndefined();
+  });
+
+  it("it prevents a genie lamp from being removed if it is in use", () => {
+    expect(() =>
+      removeCollectible({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Rusty Shovel": new Decimal(2),
+          },
+          collectibles: {
+            "Genie Lamp": [
+              {
+                id: "123",
+                createdAt: 0,
+                coordinates: { x: 1, y: 1 },
+                readyAt: 0,
+                rubbedCount: 1,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "collectible.removed",
+          name: "Genie Lamp",
+          id: "123",
+        },
+      })
+    ).toThrow("Genie Lamp is in use");
+  });
+
+  it("burns all seeds if a Kuebiko is removed", () => {
+    const gameState = removeCollectible({
+      state: {
+        ...GAME_STATE,
+        crops: {},
+        inventory: {
+          Kuebiko: new Decimal(1),
+          ...Object.fromEntries(
+            Object.entries(SEEDS()).map(([name]) => [name, new Decimal(1)])
+          ),
+        },
+        collectibles: {
+          Kuebiko: [
+            {
+              id: "123",
+              createdAt: 0,
+              coordinates: { x: 1, y: 1 },
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "collectible.removed",
+        name: "Kuebiko",
+        id: "123",
+      },
+    });
+
+    expect(gameState.inventory).toStrictEqual({ Kuebiko: new Decimal(1) });
   });
 });

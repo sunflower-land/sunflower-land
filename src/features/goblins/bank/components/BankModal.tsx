@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 
-import token from "assets/icons/token_2.png";
+import chest from "assets/icons/chest.png";
+import wallet from "assets/icons/wallet.png";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
@@ -38,11 +39,11 @@ export const BankModal: React.FC<Props> = ({ onClose, farmAddress }) => {
         }}
       >
         <Tab isActive={tab === "deposit"} onClick={() => setTab("deposit")}>
-          <img src={token} className="h-5 mr-2" />
+          <img src={chest} className="h-5 mr-2" />
           <span className="text-sm">Deposit</span>
         </Tab>
         <Tab isActive={tab === "withdraw"} onClick={() => setTab("withdraw")}>
-          <img src={token} className="h-5 mr-2" />
+          <img src={wallet} className="h-5 mr-2" />
           <span className="text-sm">Withdraw</span>
         </Tab>
         <img

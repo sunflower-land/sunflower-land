@@ -6,6 +6,7 @@ import {
   ONE_HR,
   ONE_MIN,
   ONE_SEC,
+  getRelativeTime,
 } from "./time";
 
 describe("time", () => {
@@ -586,6 +587,42 @@ describe("time", () => {
 
     afterAll(() => {
       global.Date = RealDate;
+    });
+  });
+
+  describe("getRelativeTime", () => {
+    it('returns "now" for the current timestamp', () => {
+      const now = new Date();
+      const result = getRelativeTime(now.getTime());
+      expect(result).toEqual("now");
+    });
+
+    it("returns a string indicating the number of seconds ago for timestamps within the past minute", () => {
+      const now = new Date();
+      const pastTimestamp = now.getTime() - 5000; // 5 seconds ago
+      const result = getRelativeTime(pastTimestamp);
+      expect(result).toMatch(/^5 seconds ago$/);
+    });
+
+    it("returns a string indicating the number of minutes ago for timestamps within the past hour", () => {
+      const now = new Date();
+      const pastTimestamp = now.getTime() - 300000; // 5 minutes ago
+      const result = getRelativeTime(pastTimestamp);
+      expect(result).toMatch(/^5 minutes ago$/);
+    });
+
+    it("returns a string indicating the number of hours ago for timestamps within the past day", () => {
+      const now = new Date();
+      const pastTimestamp = now.getTime() - 7200000; // 2 hours ago
+      const result = getRelativeTime(pastTimestamp);
+      expect(result).toMatch(/^2 hours ago$/);
+    });
+
+    it("returns a string indicating the number of days ago for timestamps older than a day", () => {
+      const now = new Date();
+      const pastTimestamp = now.getTime() - 604800000; // 7 days ago
+      const result = getRelativeTime(pastTimestamp);
+      expect(result).toMatch(/^7 days ago$/);
     });
   });
 });

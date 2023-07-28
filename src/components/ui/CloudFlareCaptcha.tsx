@@ -3,25 +3,15 @@ import React, { useLayoutEffect } from "react";
 
 interface Props {
   onDone: (token: string) => void;
-  onExpire: () => void;
-  onError: () => void;
   action: string;
 }
-export const CloudFlareCaptcha: React.FC<Props> = ({
-  onDone,
-  onExpire,
-  onError,
-  action,
-}) => {
+export const CloudFlareCaptcha: React.FC<Props> = ({ onDone, action }) => {
   useLayoutEffect(() => {
     const options = {
       sitekey: CONFIG.CLOUDFLARE_CAPTCHA_SITEKEY,
       action,
       "error-callback": () => onDone(""),
       "expired-callback": () => onDone(""),
-      // TODO
-      // "expired-callback": onExpire,
-      // "error-callback": onError,
       callback: onDone,
     };
 

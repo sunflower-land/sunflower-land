@@ -1,42 +1,38 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 
 import auctioneer from "assets/npcs/trivia.gif";
 import shadow from "assets/npcs/shadow.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
-import { AuctioneerModal } from "./AuctioneerModal";
-import { Context } from "features/game/GoblinProvider";
-import { useActor } from "@xstate/react";
-import { Item } from "./actions/auctioneerItems";
-import { ITEM_DETAILS } from "features/game/types/images";
+//import { Context } from "features/game/GoblinProvider";
+//import { useActor } from "@xstate/react";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
-import { setImageWidth } from "lib/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Auctioneer: React.FC = () => {
-  const { goblinService } = useContext(Context);
-  const [goblinState] = useActor(goblinService);
+  //const { goblinService } = useContext(Context);
+  //const [goblinState] = useActor(goblinService);
 
-  const upcomingItem: Item | undefined = goblinState.context.auctioneerItems
-    .filter((item) => item.releases.some(({ endDate }) => endDate > Date.now()))
-    .sort((a, b) => a.releases[0].endDate - b.releases[0].endDate)[0];
+  const [showModal, setShowModal] = useState(false);
 
-  const isPlaying = goblinState.matches("auctioneer");
+  // Show their current bid item, or the upcoming item
+  // goblinState.context.state.auctioneer.bid?.item ??
+  // getValidAuctionItems(goblinState.context.auctioneerItems)[0]?.name;
 
-  const openAuctioneer = () => {
-    goblinService.send("OPEN_AUCTIONEER");
-  };
+  // const openAuctioneer = () => {
+  //   goblinService.send("OPEN_AUCTIONEER");
+  // };
 
-  const closeAuctioneer = () => {
-    goblinService.send("CLOSE_AUCTIONEER");
-  };
+  // const closeAuctioneer = () => {
+  //   goblinService.send("CLOSE_AUCTIONEER");
+  // };
 
   return (
     <MapPlacement x={-5} y={-6} height={6} width={5}>
       <div
         className="relative w-full h-full cursor-pointer hover:img-highlight"
-        onClick={openAuctioneer}
+        onClick={() => setShowModal(true)}
       >
         <img
           src={auctioneer}
@@ -48,32 +44,6 @@ export const Auctioneer: React.FC = () => {
             left: `${PIXEL_SCALE * 23}px`,
           }}
         />
-        {upcomingItem && (
-          <img
-            className="absolute"
-            src={ITEM_DETAILS[upcomingItem.name].image}
-            onLoad={(e) => {
-              const img = e.currentTarget;
-              if (
-                !img ||
-                !img.complete ||
-                !img.naturalWidth ||
-                !img.naturalHeight
-              ) {
-                return;
-              }
-
-              const left = Math.floor((80 - img.naturalWidth) / 2);
-              const bottom = Math.floor((80 - img.naturalHeight) / 2);
-              img.style.left = `${PIXEL_SCALE * left}px`;
-              img.style.bottom = `${PIXEL_SCALE * bottom}px`;
-              setImageWidth(img);
-            }}
-            style={{
-              opacity: 0,
-            }}
-          />
-        )}
         <div
           className="flex justify-center absolute w-full pointer-events-none"
           style={{
@@ -87,9 +57,12 @@ export const Auctioneer: React.FC = () => {
           />
         </div>
       </div>
-      {isPlaying && (
-        <AuctioneerModal isOpen={isPlaying} onClose={closeAuctioneer} />
-      )}
+      {/* <AuctioneerModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        gameState={goblinState.context.state}
+        onUpdate={(state) => {}}
+      /> */}
 
       {/* Interested Goblins */}
       <img

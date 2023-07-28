@@ -7,11 +7,11 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { secondsToString } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Revealed } from "features/game/components/Revealed";
 import { MapPlacement } from "./MapPlacement";
 import { Revealing } from "features/game/components/Revealing";
+import { CountdownLabel } from "components/ui/CountdownLabel";
 
 export const PirateChest: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -74,10 +74,11 @@ export const PirateChest: React.FC = () => {
         {canOpen && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className="w-2 absolute animate-float"
+            className="absolute animate-float"
             style={{
               top: `${PIXEL_SCALE * -13}px`,
               left: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 4}px`,
             }}
           />
         )}
@@ -100,7 +101,7 @@ export const PirateChest: React.FC = () => {
         centered
       >
         <CloseButtonPanel onClose={() => setShowCollectedModal(false)}>
-          <div className="flex flex-col items-center p-2">
+          <div className="flex flex-col items-center p-2 w-full">
             <img
               src={SUNNYSIDE.decorations.treasure_chest_opened}
               className="mb-2"
@@ -112,20 +113,9 @@ export const PirateChest: React.FC = () => {
               Ahoy matey! Set sail and come back later for a chest full of
               swashbuckling rewards!
             </span>
-            <div className="flex justify-center mt-4 items-center">
-              <p className="text-xxs mr-2">Chest Refreshes in: </p>
-              <div className="flex items-center justify-center bg-blue-600 text-white text-xxs px-1.5 pb-1 pt-0.5 border rounded-md">
-                <img
-                  src={SUNNYSIDE.icons.stopwatch}
-                  className="w-3 left-0 mr-1"
-                />
-                <span>
-                  {`${secondsToString(nextRefreshInSeconds as number, {
-                    length: "medium",
-                    isShortFormat: true,
-                  })}`}
-                </span>
-              </div>
+            <div className="flex flex-wrap gap-y-1 justify-center mt-4 items-center">
+              <p className="text-xxs mr-2">Chest Refreshes in:</p>
+              <CountdownLabel timeLeft={nextRefreshInSeconds} />
             </div>
           </div>
         </CloseButtonPanel>
@@ -137,7 +127,7 @@ export const PirateChest: React.FC = () => {
         centered
       >
         <CloseButtonPanel onClose={() => setShowNotPirateModal(false)}>
-          <div className="flex flex-col items-center p-2">
+          <div className="flex flex-col items-center p-2 w-full">
             <img
               src={SUNNYSIDE.decorations.treasure_chest}
               className="mb-2"
@@ -145,7 +135,7 @@ export const PirateChest: React.FC = () => {
                 width: `${PIXEL_SCALE * 16}px`,
               }}
             />
-            <span className="text-center mb-2 text-sm">
+            <span className="mb-2 text-sm">
               Ahoy there! This chest be filled with treasures fit for a pirate
               king, but beware, only those with a pirate skin can open it and
               claim the booty within!

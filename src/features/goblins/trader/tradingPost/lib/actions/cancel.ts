@@ -1,4 +1,4 @@
-import { cancelTrade } from "lib/blockchain/Sessions";
+import { cancelTrade } from "lib/blockchain/Game";
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -10,6 +10,7 @@ type Request = {
   farmId: number;
   token: string;
   transactionId: string;
+  account: string;
 };
 
 type Payload = {
@@ -66,6 +67,6 @@ export async function cancel(request: Request) {
     ...response.payload,
     signature: response.signature,
     web3: wallet.web3Provider,
-    account: wallet.myAccount,
+    account: request.account,
   });
 }

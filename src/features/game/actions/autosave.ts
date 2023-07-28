@@ -21,7 +21,6 @@ type Request = {
 const API_URL = CONFIG.API_URL;
 
 const EXCLUDED_EVENTS: GameEventName<PlayingEvent | PlacementEvent>[] = [
-  "expansion.revealed",
   "bot.detected",
 ];
 
@@ -29,7 +28,7 @@ const EXCLUDED_EVENTS: GameEventName<PlayingEvent | PlacementEvent>[] = [
  * Squashes similar events into a single event
  * Filters out UI only events
  */
-function squashEvents(events: PastAction[]): PastAction[] {
+export function squashEvents(events: PastAction[]): PastAction[] {
   return events.reduce((items, event, index) => {
     if (EXCLUDED_EVENTS.includes(event.type)) {
       return items;
@@ -59,7 +58,7 @@ function squashEvents(events: PastAction[]): PastAction[] {
   }, [] as PastAction[]);
 }
 
-function serialize(events: PastAction[]) {
+export function serialize(events: PastAction[]) {
   return events.map((action) => ({
     ...action,
     createdAt: new Date(action.createdAt.getTime()).toISOString(),

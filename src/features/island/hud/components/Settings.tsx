@@ -7,7 +7,7 @@ import settings from "assets/icons/settings.png";
 import sound_on from "assets/icons/sound_on.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Bar } from "components/ui/ProgressBar";
+import { ResizableBar } from "components/ui/ProgressBar";
 import { SettingsMenu } from "./settings-menu/SettingsMenu";
 import { AudioMenu } from "features/game/components/AudioMenu";
 import {
@@ -21,8 +21,6 @@ import { useLocation } from "react-router-dom";
 
 const buttonWidth = PIXEL_SCALE * 22;
 const buttonHeight = PIXEL_SCALE * 23;
-const buttonBottom = PIXEL_SCALE * 3;
-const buttonRight = PIXEL_SCALE * 3;
 
 interface Props {
   isFarming: boolean;
@@ -68,8 +66,12 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
   const [songIndex, setSongIndex] = useState<number>(0);
   const musicPlayer = useRef<any>(null);
 
+  const getSongCount = () => {
+    return isFarming ? getFarmingSongCount() : getGoblinSongCount();
+  };
+
   const handlePreviousSong = () => {
-    const songCount = isFarming ? getFarmingSongCount() : getGoblinSongCount();
+    const songCount = getSongCount();
     if (songIndex === 0) {
       setSongIndex(songCount - 1);
     } else {
@@ -78,7 +80,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
   };
 
   const handleNextSong = () => {
-    const songCount = isFarming ? getFarmingSongCount() : getGoblinSongCount();
+    const songCount = getSongCount();
     if (songCount === songIndex + 1) {
       setSongIndex(0);
     } else {
@@ -86,7 +88,11 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
     }
   };
 
-  const song = isFarming ? getFarmingSong(songIndex) : getGoblinSong(songIndex);
+  const getSong = () => {
+    return isFarming ? getFarmingSong(songIndex) : getGoblinSong(songIndex);
+  };
+
+  const song = getSong();
 
   // buttons
 
@@ -95,20 +101,20 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
     onClick: () => void,
     children: JSX.Element
   ) => {
+    const rightMargin = 8;
+
     return (
       <div
         key={`button-${index}`}
         onClick={onClick}
-        className="fixed z-50 cursor-pointer hover:img-highlight"
+        className="absolute z-50 mb-2 cursor-pointer hover:img-highlight"
         style={{
-          right: `${buttonRight}px`,
-          bottom: `${buttonBottom}px`,
           width: `${buttonWidth}px`,
           height: `${buttonHeight}px`,
           transition: "transform 250ms ease",
           transform: "translateX(0)",
           ...(showMoreButtons && {
-            transform: `translateX(-${(buttonWidth + buttonRight) * index}px)`,
+            transform: `translateX(-${(buttonWidth + rightMargin) * index}px)`,
           }),
         }}
       >
@@ -165,7 +171,10 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
           left: `${PIXEL_SCALE * 3.5}px`,
         }}
       >
-        <Bar percentage={70} type={showTimers ? "progress" : "error"} />
+        <ResizableBar
+          percentage={70}
+          type={showTimers ? "progress" : "error"}
+        />
       </div>
     );
 
@@ -216,7 +225,11 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
         show={openAudioMenu}
         onClose={handleCloseAudioMenu}
       />
-      <div ref={cogRef}>
+      <div
+        className="relative"
+        style={{ height: `${buttonHeight}px`, width: `${buttonWidth}px` }}
+        ref={cogRef}
+      >
         {buttons.map((item, index) => item(index)).reverse()}
       </div>
     </>

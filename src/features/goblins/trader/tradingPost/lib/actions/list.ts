@@ -6,7 +6,7 @@ import { ERRORS } from "lib/errors";
 
 import { Draft } from "../../../selling/lib/sellingMachine";
 import { getItemUnit } from "features/game/lib/conversion";
-import { listTrade } from "lib/blockchain/Sessions";
+import { listTrade } from "lib/blockchain/Game";
 
 const API_URL = CONFIG.API_URL;
 
@@ -16,6 +16,7 @@ type Request = {
   token: string;
   draft: Draft;
   transactionId: string;
+  account: string;
 };
 
 type Payload = {
@@ -82,6 +83,6 @@ export async function list(request: Request) {
     ...response.payload,
     signature: response.signature,
     web3: wallet.web3Provider,
-    account: wallet.myAccount,
+    account: request.account,
   });
 }

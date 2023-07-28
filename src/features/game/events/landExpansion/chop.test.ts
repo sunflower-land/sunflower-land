@@ -4,7 +4,7 @@ import {
   TEST_FARM,
   TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
-import { GameState, LandExpansionTree } from "features/game/types/game";
+import { GameState, Tree } from "features/game/types/game";
 import {
   chop,
   getChoppedAt,
@@ -14,78 +14,32 @@ import {
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
-  expansions: [
-    {
-      ...TEST_FARM.expansions[0],
-      trees: {
-        0: {
-          wood: {
-            choppedAt: 0,
-            amount: 3,
-          },
-          x: 1,
-          y: 1,
-          height: 2,
-          width: 2,
-        },
-        1: {
-          wood: {
-            choppedAt: 0,
-            amount: 4,
-          },
-          x: 4,
-          y: 1,
-          height: 2,
-          width: 2,
-        },
+  trees: {
+    0: {
+      wood: {
+        choppedAt: 0,
+        amount: 3,
       },
+      x: 1,
+      y: 1,
+      height: 2,
+      width: 2,
     },
-  ],
+    1: {
+      wood: {
+        choppedAt: 0,
+        amount: 4,
+      },
+      x: 4,
+      y: 1,
+      height: 2,
+      width: 2,
+    },
+  },
 };
 
 describe("chop", () => {
   const dateNow = Date.now();
-  it("throws an error if expansion does not exist", () => {
-    expect(() =>
-      chop({
-        state: GAME_STATE,
-        action: {
-          type: "timber.chopped",
-          item: "Sunflower Statue",
-          expansionIndex: -1,
-          index: 0,
-        },
-      })
-    ).toThrow("Expansion does not exist");
-  });
-
-  it("throws an error if expansion has no trees", () => {
-    expect(() =>
-      chop({
-        state: { ...GAME_STATE, expansions: [{ createdAt: 0, readyAt: 0 }] },
-        action: {
-          type: "timber.chopped",
-          item: "Sunflower Statue",
-          expansionIndex: 0,
-          index: 0,
-        },
-      })
-    ).toThrow("Expansion has no trees");
-  });
-
-  it("throws an error if axe is not selected", () => {
-    expect(() =>
-      chop({
-        state: GAME_STATE,
-        action: {
-          type: "timber.chopped",
-          item: "Sunflower Statue",
-          expansionIndex: 0,
-          index: 0,
-        },
-      })
-    ).toThrow(CHOP_ERRORS.MISSING_AXE);
-  });
 
   it("throws an error if no axes are left", () => {
     expect(() =>
@@ -94,8 +48,7 @@ describe("chop", () => {
         action: {
           type: "timber.chopped",
           item: "Axe",
-          expansionIndex: 0,
-          index: 0,
+          index: "0",
         },
       })
     ).toThrow(CHOP_ERRORS.NO_AXES);
@@ -112,8 +65,7 @@ describe("chop", () => {
       action: {
         type: "timber.chopped",
         item: "Axe",
-        expansionIndex: 0,
-        index: 0,
+        index: "0",
       } as LandExpansionChopAction,
     };
 
@@ -139,16 +91,14 @@ describe("chop", () => {
       action: {
         type: "timber.chopped",
         item: "Axe",
-        expansionIndex: 0,
-        index: 0,
+        index: "0",
       } as LandExpansionChopAction,
     };
 
     const game = chop(payload);
 
-    const { expansions } = game;
-    const trees = expansions[0].trees;
-    const tree = (trees as Record<number, LandExpansionTree>)[0];
+    const { trees } = game;
+    const tree = (trees as Record<number, Tree>)[0];
 
     expect(game.inventory.Axe).toEqual(new Decimal(0));
     expect(game.inventory.Wood).toEqual(new Decimal(3));
@@ -166,8 +116,7 @@ describe("chop", () => {
       action: {
         type: "timber.chopped",
         item: "Axe",
-        expansionIndex: 0,
-        index: 0,
+        index: "0",
       } as LandExpansionChopAction,
     });
 
@@ -176,15 +125,13 @@ describe("chop", () => {
       action: {
         type: "timber.chopped",
         item: "Axe",
-        expansionIndex: 0,
-        index: 1,
+        index: "1",
       } as LandExpansionChopAction,
     });
 
-    const { expansions } = game;
-    const trees = expansions[0].trees;
-    const tree1 = (trees as Record<number, LandExpansionTree>)[0];
-    const tree2 = (trees as Record<number, LandExpansionTree>)[1];
+    const { trees } = game;
+    const tree1 = (trees as Record<number, Tree>)[0];
+    const tree2 = (trees as Record<number, Tree>)[1];
 
     expect(game.inventory.Axe).toEqual(new Decimal(1));
     expect(game.inventory.Wood).toEqual(new Decimal(7));
@@ -207,14 +154,12 @@ describe("chop", () => {
       action: {
         type: "timber.chopped",
         item: "Axe",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
       } as LandExpansionChopAction,
     });
 
-    const { expansions } = game;
-    const trees = expansions[0].trees;
-    const tree = (trees as Record<number, LandExpansionTree>)[0];
+    const { trees } = game;
+    const tree = (trees as Record<number, Tree>)[0];
 
     expect(game.inventory.Wood).toEqual(new Decimal(3));
     expect(tree.wood.amount).toBeGreaterThan(0);
@@ -234,14 +179,12 @@ describe("chop", () => {
       action: {
         type: "timber.chopped",
         item: "Axe",
-        expansionIndex: 0,
-        index: 0,
+        index: "0",
       } as LandExpansionChopAction,
     });
 
-    const { expansions } = game;
-    const trees = expansions[0].trees;
-    const tree = (trees as Record<number, LandExpansionTree>)[0];
+    const { trees } = game;
+    const tree = (trees as Record<number, Tree>)[0];
 
     // Should be set to now - add 5 ms to account for any CPU clock speed
     expect(tree.wood.choppedAt).toBeGreaterThan(dateNow - 5);
@@ -270,14 +213,12 @@ describe("chop", () => {
       action: {
         type: "timber.chopped",
         item: "Axe",
-        expansionIndex: 0,
-        index: 0,
+        index: "0",
       } as LandExpansionChopAction,
     });
 
-    const { expansions } = game;
-    const trees = expansions[0].trees;
-    const tree = (trees as Record<number, LandExpansionTree>)[0];
+    const { trees } = game;
+    const tree = (trees as Record<number, Tree>)[0];
 
     expect(tree.wood.choppedAt).toBe(dateNow);
   });
@@ -306,14 +247,12 @@ describe("chop", () => {
       action: {
         type: "timber.chopped",
         item: "Axe",
-        expansionIndex: 0,
-        index: 0,
+        index: "0",
       } as LandExpansionChopAction,
     });
 
-    const { expansions } = game;
-    const trees = expansions[0].trees;
-    const tree = (trees as Record<number, LandExpansionTree>)[0];
+    const { trees } = game;
+    const tree = (trees as Record<number, Tree>)[0];
 
     // Should be set to now - add 5 ms to account for any CPU clock speed
     const ONE_HOUR = 60 * 60 * 1000;
@@ -341,14 +280,12 @@ describe("chop", () => {
       action: {
         type: "timber.chopped",
         item: "Axe",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
       } as LandExpansionChopAction,
     });
 
-    const { expansions } = game;
-    const trees = expansions[0].trees;
-    const tree = (trees as Record<number, LandExpansionTree>)[0];
+    const { trees } = game;
+    const tree = (trees as Record<number, Tree>)[0];
 
     expect(game.inventory.Wood).toEqual(new Decimal(3));
     expect(tree.wood.amount).toBeGreaterThan(0);
@@ -367,8 +304,7 @@ describe("chop", () => {
         action: {
           type: "timber.chopped",
           item: "Axe",
-          expansionIndex: 0,
-          index: 0,
+          index: "0",
         } as LandExpansionChopAction,
       })
     ).toThrow("You do not have a Bumpkin");
@@ -392,8 +328,7 @@ describe("chop", () => {
         action: {
           type: "timber.chopped",
           item: "Axe",
-          expansionIndex: 0,
-          index: 0,
+          index: "0",
         } as LandExpansionChopAction,
       });
 
@@ -416,8 +351,7 @@ describe("chop", () => {
         action: {
           type: "timber.chopped",
           item: "Axe",
-          expansionIndex: 0,
-          index: 0,
+          index: "0",
         } as LandExpansionChopAction,
       });
       const game = chop({
@@ -428,8 +362,7 @@ describe("chop", () => {
         action: {
           type: "timber.chopped",
           item: "Axe",
-          expansionIndex: 0,
-          index: 1,
+          index: "1",
         } as LandExpansionChopAction,
       });
 

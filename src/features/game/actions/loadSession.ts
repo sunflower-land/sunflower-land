@@ -4,13 +4,16 @@ import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
 import { makeGame } from "../lib/transforms";
 import { GameState, InventoryItemName } from "../types/game";
+import { Announcements } from "../types/conversations";
+import { getReferrerId } from "features/auth/actions/createAccount";
 
 type Request = {
   sessionId: string;
-  bumpkinTokenUri?: string;
   farmId: number;
   token: string;
   transactionId: string;
+  wallet: string;
+  guestKey?: string;
 };
 
 export type MintedAt = Partial<Record<InventoryItemName, number>>;
@@ -21,6 +24,11 @@ type Response = {
   itemsMintedAt?: MintedAt;
   deviceTrackerId: string;
   status?: "COOL_DOWN";
+  announcements: Announcements;
+  transaction?: {
+    type: "withdraw_bumpkin";
+    expiresAt: number;
+  };
 };
 
 const API_URL = CONFIG.API_URL;
@@ -29,6 +37,9 @@ export async function loadSession(
   request: Request
 ): Promise<Response | undefined> {
   if (!API_URL) return;
+
+  const promoCode = getPromoCode();
+  const referrerId = getReferrerId();
 
   const response = await window.fetch(`${API_URL}/session/${request.farmId}`, {
     method: "POST",
@@ -41,8 +52,11 @@ export async function loadSession(
     },
     body: JSON.stringify({
       sessionId: request.sessionId,
-      bumpkinTokenUri: request.bumpkinTokenUri,
       clientVersion: CONFIG.CLIENT_VERSION as string,
+      wallet: request.wallet,
+      guestKey: request.guestKey,
+      promoCode,
+      referrerId,
     }),
   });
 
@@ -64,12 +78,13 @@ export async function loadSession(
 
   const {
     farm,
-    startedAt,
     isBlacklisted,
     whitelistedAt,
     itemsMintedAt,
     deviceTrackerId,
     status,
+    announcements,
+    transaction,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -78,6 +93,8 @@ export async function loadSession(
     itemsMintedAt: MintedAt;
     deviceTrackerId: string;
     status?: "COOL_DOWN";
+    announcements: Announcements;
+    transaction: { type: "withdraw_bumpkin"; expiresAt: number };
   }>(response);
 
   saveSession(request.farmId);
@@ -89,6 +106,8 @@ export async function loadSession(
     itemsMintedAt,
     deviceTrackerId,
     status,
+    announcements,
+    transaction,
   };
 }
 
@@ -133,4 +152,20 @@ export function saveSession(farmId: number) {
   };
 
   return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newSessions));
+}
+
+const PROMO_LS_KEY = `sb_wiz.promo-key.v.${host}`;
+
+export function savePromoCode(id: string) {
+  localStorage.setItem(PROMO_LS_KEY, id);
+}
+
+export function getPromoCode() {
+  const item = localStorage.getItem(PROMO_LS_KEY);
+
+  if (!item) {
+    return undefined;
+  }
+
+  return item;
 }

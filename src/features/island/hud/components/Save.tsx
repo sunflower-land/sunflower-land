@@ -14,7 +14,9 @@ export const Save: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const playing = gameState.matches("playing");
+  const playing =
+    gameState.matches("playingGuestGame") ||
+    gameState.matches("playingFullGame");
   const autoSaving = gameState.matches("autosaving");
   const hasUnsavedProgress = gameState.context.actions.length > 0;
   const savedWithoutError = playing && !hasUnsavedProgress;
@@ -56,12 +58,12 @@ export const Save: React.FC = () => {
   return (
     <div
       onClick={enableButton ? save : undefined}
-      className={classNames("fixed z-50", {
+      className={classNames({
         "cursor-pointer hover:img-highlight":
           enableButton && buttonState === "unsaved",
       })}
       style={{
-        right: `${PIXEL_SCALE * 3}px`,
+        // right: `${PIXEL_SCALE * 3}px`,
         bottom: `${PIXEL_SCALE * 52}px`,
         width: `${PIXEL_SCALE * 22}px`,
       }}

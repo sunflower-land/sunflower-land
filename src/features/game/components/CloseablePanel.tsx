@@ -11,6 +11,7 @@ import classNames from "classnames";
 export interface PanelTabs {
   icon: string;
   name: string;
+  unread?: boolean;
 }
 
 interface Props {
@@ -18,6 +19,7 @@ interface Props {
   currentTab?: number;
   setCurrentTab?: React.Dispatch<React.SetStateAction<number>>;
   title?: string | JSX.Element;
+  secondaryAction?: JSX.Element;
   onClose?: () => void;
   onBack?: () => void;
   bumpkinParts?: Partial<Equipped>;
@@ -44,6 +46,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
   onClose,
   onBack,
   bumpkinParts,
+  secondaryAction,
   className,
   children,
 }) => {
@@ -74,22 +77,43 @@ export const CloseButtonPanel: React.FC<Props> = ({
             {tabs.map((tab, index) => (
               <Tab
                 key={`tab-${index}`}
-                className="flex items-center"
+                isFirstTab={index === 0}
+                className="flex items-center relative"
                 isActive={currentTab === index}
                 onClick={() => handleTabClick(index)}
               >
                 <SquareIcon icon={tab.icon} width={7} />
-                <span className="text-xs sm:text-sm text-ellipsis ml-2">
+                <span
+                  className={classNames(
+                    "text-xs sm:text-sm text-ellipsis ml-2",
+                    {
+                      pulse: currentTab !== index && tab.unread,
+                    }
+                  )}
+                >
                   {tab.name}
                 </span>
               </Tab>
             ))}
           </div>
           <div className="grow" />
+          {secondaryAction && (
+            <div
+              className="flex-none cursor-pointer float-right"
+              style={{
+                height: `${PIXEL_SCALE * 11}px`,
+                marginTop: `${PIXEL_SCALE * 1}px`,
+                marginLeft: `${PIXEL_SCALE * 2}px`,
+                marginRight: `${PIXEL_SCALE * 3}px`,
+              }}
+            >
+              {secondaryAction}
+            </div>
+          )}
           {showCloseButton && (
             <img
               src={SUNNYSIDE.icons.close}
-              className="flex-none cursor-pointer"
+              className="flex-none cursor-pointer float-right"
               onClick={onClose}
               style={{
                 width: `${PIXEL_SCALE * 11}px`,

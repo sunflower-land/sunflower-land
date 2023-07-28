@@ -14,7 +14,7 @@ import { ChestCaptcha } from "features/island/common/chest-reward/ChestCaptcha";
 import { Loading } from "features/auth/components";
 
 interface Props {
-  reward: Reward | null;
+  reward?: Reward;
   onCollected: (success: boolean) => void;
   onOpen: () => void;
 }
@@ -36,7 +36,7 @@ export const ChestReward: React.FC<Props> = ({
   useEffect(() => {
     if (reward) {
       setLoading(true);
-      setTimeout(() => setLoading(false), 750);
+      setTimeout(() => setLoading(false), 500);
     }
   }, [reward]);
 

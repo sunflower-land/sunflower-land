@@ -8,6 +8,7 @@ module.exports = {
       body: ['"Paytone One"'],
       game: '"Sigmar One", cursive, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
       error: `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;`,
+      speech: `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;`,
       // body: '"Paytone One", cursive, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
     },
     fontSize: {
@@ -101,17 +102,6 @@ module.exports = {
           500: "#8b9bb4",
         },
         error: "#e43b44",
-      },
-
-      // This is the height and width of the gameboard
-      // background image. Only change here when larger size is added.
-      height: {
-        gameboard: "4200px",
-        goblinGameboard: "1600px",
-      },
-      width: {
-        gameboard: "4200px",
-        goblinGameboard: "3200px",
       },
       animation: {
         float: "floating 3s ease-in-out infinite",

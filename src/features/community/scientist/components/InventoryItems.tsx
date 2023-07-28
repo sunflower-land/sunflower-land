@@ -1,9 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useActor } from "@xstate/react";
+import React, { useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
-
-import * as AuthProvider from "features/auth/lib/Provider";
-import { Context } from "features/community/lib/CommunityProvider";
 
 import { Box } from "components/ui/Box";
 import { CONFIG } from "lib/config";
@@ -22,10 +18,6 @@ import token from "features/community/assets/icons/token.png";
 import { setPrecision } from "lib/utils/formatNumber";
 
 export const InventoryItems: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
-  const { communityService } = useContext(Context);
-
   const [tadpoleData, setTadpoleData] = useState<Tadpole[]>([]);
   const [frogData, setFrogData] = useState<Frog[]>([]);
   const [whitelistTokenData, setWhitelistTokenData] = useState<Token>({
@@ -56,13 +48,12 @@ export const InventoryItems: React.FC = () => {
   // links
   const tadpoleLink =
     CONFIG.NETWORK == "mainnet"
-      ? "https://opensea.io/collection/project-dignity-x-sfl-tadpole-collection"
+      ? "https://opensea.io/collection/project-dignity-tadpole-collection"
       : "https://testnets.opensea.io/collection/project-dignity-tadpoles-v1";
   const frogLink =
     CONFIG.NETWORK == "mainnet"
-      ? "https://opensea.io/collection/sunflower-land-frogs-collection"
+      ? "https://opensea.io/collection/project-dignity-frogs-collection"
       : "https://testnets.opensea.io/collection/sunflower-land-frogs-collection-testnet";
-  const projectDignity = "https://www.projectdignity.work";
   console.log("tadpole", tadpoleData);
   return (
     <>

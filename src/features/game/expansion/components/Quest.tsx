@@ -17,6 +17,8 @@ import { Loading } from "features/auth/components";
 import { Panel } from "components/ui/Panel";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
 import { Minting } from "features/game/components/Minting";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
@@ -45,13 +47,47 @@ export const Quest: React.FC<Props> = ({
     context: {
       quests,
       bumpkinId: gameState.context.state.bumpkin?.id as number,
-      jwt: authState.context.rawToken,
-      farmId: authState.context.farmId,
+      jwt: authState.context.user.rawToken,
+      farmId: authState.context.user.farmId,
     },
   }) as unknown as MachineInterpreter;
 
   const [state, send] = useActor(questService);
   const quest = QUESTS[state.context.currentQuest as QuestName];
+
+  const isGuest = gameState.matches("playingGuestGame");
+
+  const onUpgrade = () => {
+    gameService.send("UPGRADE");
+    onClose();
+  };
+
+  if (isGuest) {
+    return (
+      <CloseButtonPanel
+        title={questTitle}
+        bumpkinParts={bumpkinParts}
+        onClose={onClose}
+      >
+        <>
+          <div className="flex flex-col p-2 pt-0 space-y-2 mb-1 text-sm w-full">
+            <img
+              src={SUNNYSIDE.icons.heart}
+              className="mx-auto mb-1"
+              style={{
+                width: `${PIXEL_SCALE * 16}px`,
+              }}
+            />
+            <span>Want to be the top bumpkin in town?</span>
+            <span>
+              Upgrade to a full account and complete all the quests like a boss!
+            </span>
+          </div>
+          <Button onClick={onUpgrade}>Upgrade now!</Button>
+        </>
+      </CloseButtonPanel>
+    );
+  }
 
   if (state.matches("loading")) {
     return (
@@ -124,26 +160,28 @@ export const Quest: React.FC<Props> = ({
           : `https://testnet.bumpkins.io/#/bumpkins/${gameState.context.state.bumpkin?.id}`;
 
       return (
-        <div className="p-2 flex flex-col items-center">
-          <img
-            src={getImageUrl(ITEM_IDS[quest.wearable])}
-            className="w-1/3 my-2 rounded-lg"
-          />
-          <p className="text-sm mb-3">{`Congratulations, you have minted a ${quest.wearable}`}</p>
-          <p className="text-sm mb-3">
-            Go to{" "}
-            <a
-              href={bumpkinUrl}
-              target="_blank"
-              className="underline"
-              rel="noreferrer"
-            >
-              Bumpkins.io
-            </a>{" "}
-            to equip this item
-          </p>
+        <>
+          <div className="p-2 flex flex-col items-center">
+            <img
+              src={getImageUrl(ITEM_IDS[quest.wearable])}
+              className="w-1/3 my-2 rounded-lg"
+            />
+            <p className="text-sm mb-3">{`Congratulations, you have minted a ${quest.wearable}`}</p>
+            <p className="text-sm mb-3">
+              Go to{" "}
+              <a
+                href={bumpkinUrl}
+                target="_blank"
+                className="underline"
+                rel="noreferrer"
+              >
+                Bumpkins.io
+              </a>{" "}
+              to equip this item
+            </p>
+          </div>
           <Button onClick={() => send("CONTINUE")}>Continue</Button>
-        </div>
+        </>
       );
     }
 

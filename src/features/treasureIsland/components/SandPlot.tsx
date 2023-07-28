@@ -7,7 +7,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 
 import shadow from "assets/npcs/shadow.png";
 import drillingGoblin from "assets/npcs/drilling.gif";
@@ -36,6 +35,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getKeys } from "features/game/types/craftables";
 import { Panel } from "components/ui/Panel";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { ZoomContext } from "components/ZoomProvider";
 
 const Reward: React.FC<{ reward?: TreasureHole }> = ({ reward }) => {
   if (!reward || !reward.discovered) return null;
@@ -138,8 +138,9 @@ export const SandPlot: React.FC<{
   shownMissingShovelModal: boolean;
   onMissingShovelAcknowledge: () => void;
 }> = ({ id, shownMissingShovelModal, onMissingShovelAcknowledge }) => {
+  const { scale } = useContext(ZoomContext);
+
   const goblinDiggingRef = useRef<SpriteSheetInstance>();
-  const { setToast } = useContext(ToastContext);
 
   const { gameService, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -211,6 +212,10 @@ export const SandPlot: React.FC<{
 
   const handleDig = () => {
     const holes = gameState.context.state.treasureIsland?.holes ?? {};
+
+    // do not allow digging the same hole twice
+    if (!canDig(holes[id]?.dugAt)) return;
+
     const holesDug = getKeys(holes).filter(
       (holeId) => !canDig(holes[holeId]?.dugAt)
     ).length;
@@ -250,11 +255,6 @@ export const SandPlot: React.FC<{
 
   const handleAcknowledgeTreasureFound = () => {
     if (!newReward?.discovered) return;
-
-    setToast({
-      icon: ITEM_DETAILS[newReward.discovered].image,
-      content: `+1`,
-    });
 
     sandPlotService.send("ACKNOWLEDGE");
     // Modal prevents hover state from resetting
@@ -376,14 +376,23 @@ export const SandPlot: React.FC<{
         <Panel>
           <div className="flex flex-col items-center mt-2">
             <p className="text-center loading">Drilling</p>
-            <img className="w-1/3 mx-auto my-2" src={drillingGoblin} />
+            <img
+              className="mx-auto my-2"
+              style={{
+                width: `${PIXEL_SCALE * 36}px`,
+              }}
+              src={drillingGoblin}
+            />
           </div>
         </Panel>
       </Modal>
     );
   }
 
-  const gameMachinePlaying = gameState.matches("playing");
+  const gameMachinePlaying =
+    gameState.matches("playingGuestGame") ||
+    gameState.matches("playingFullGame");
+
   const showShovelGoblin = !idle && !dug && !noShovel;
   const showSelectBox =
     showHoverState &&
@@ -433,7 +442,7 @@ export const SandPlot: React.FC<{
               style={{
                 width: `${PIXEL_SCALE * 33}px`,
                 imageRendering: "pixelated",
-                bottom: "19px",
+                top: "-50px",
                 left: "-56px",
               }}
               getInstance={(spritesheet) => {
@@ -442,6 +451,7 @@ export const SandPlot: React.FC<{
               image={SUNNYSIDE.npcs.goblin_treasure_sheet}
               widthFrame={33}
               heightFrame={28}
+              zoomScale={scale}
               fps={14}
               steps={13}
               endAt={13}

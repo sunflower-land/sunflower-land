@@ -1,11 +1,13 @@
 import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
-import { Dimensions, CollectibleName } from "./craftables";
+import { CollectibleName } from "./craftables";
 import { InventoryItemName } from "./game";
+import { ResourceName } from "./resources";
 
 export type BuildingName =
   | "Fire Pit"
   | "Market"
+  | "Town Center"
   | "Workbench"
   | "Kitchen"
   | "Tent"
@@ -13,7 +15,9 @@ export type BuildingName =
   | "Bakery"
   | "Hen House"
   | "Deli"
-  | "Smoothie Shack";
+  | "Smoothie Shack"
+  | "Toolshed"
+  | "Warehouse";
 
 export type Ingredient = {
   item: InventoryItemName;
@@ -27,7 +31,11 @@ export type BuildingBluePrint = {
   constructionSeconds: number;
 };
 
-export type PlaceableName = CollectibleName | BuildingName | "Chicken";
+export type PlaceableName =
+  | CollectibleName
+  | BuildingName
+  | "Chicken"
+  | ResourceName;
 
 export const UPGRADABLES: Partial<Record<BuildingName, BuildingName>> = {};
 
@@ -35,9 +43,17 @@ export const BUILDINGS: () => Record<
   BuildingName,
   BuildingBluePrint[]
 > = () => ({
+  "Town Center": [
+    {
+      unlocksAtLevel: 3,
+      ingredients: [],
+      sfl: new Decimal(0),
+      constructionSeconds: 30,
+    },
+  ],
   Market: [
     {
-      unlocksAtLevel: 1,
+      unlocksAtLevel: 3,
       ingredients: [],
       sfl: new Decimal(0),
       constructionSeconds: 30,
@@ -45,7 +61,7 @@ export const BUILDINGS: () => Record<
   ],
   "Fire Pit": [
     {
-      unlocksAtLevel: 1,
+      unlocksAtLevel: 3,
       ingredients: [],
       sfl: new Decimal(0),
       constructionSeconds: 30,
@@ -76,7 +92,7 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 5,
     },
     {
-      unlocksAtLevel: 8,
+      unlocksAtLevel: 6,
       ingredients: [
         { item: "Wood", amount: new Decimal(5) },
         {
@@ -88,7 +104,7 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 5,
     },
     {
-      unlocksAtLevel: 13,
+      unlocksAtLevel: 10,
       ingredients: [
         { item: "Wood", amount: new Decimal(5) },
         {
@@ -100,7 +116,7 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 5,
     },
     {
-      unlocksAtLevel: 18,
+      unlocksAtLevel: 12,
       ingredients: [
         { item: "Wood", amount: new Decimal(5) },
         {
@@ -131,7 +147,7 @@ export const BUILDINGS: () => Record<
   ],
   Tent: [
     {
-      unlocksAtLevel: 7,
+      unlocksAtLevel: 9,
       ingredients: [
         {
           item: "Wood",
@@ -144,7 +160,7 @@ export const BUILDINGS: () => Record<
   ],
   "Hen House": [
     {
-      unlocksAtLevel: 9,
+      unlocksAtLevel: 7,
       ingredients: [
         {
           item: "Wood",
@@ -164,7 +180,7 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 60 * 2,
     },
     {
-      unlocksAtLevel: 21,
+      unlocksAtLevel: 13,
       ingredients: [
         {
           item: "Wood",
@@ -189,7 +205,7 @@ export const BUILDINGS: () => Record<
   ],
   Bakery: [
     {
-      unlocksAtLevel: 11,
+      unlocksAtLevel: 8,
       ingredients: [
         {
           item: "Wood",
@@ -210,7 +226,7 @@ export const BUILDINGS: () => Record<
   ],
   Deli: [
     {
-      unlocksAtLevel: 13,
+      unlocksAtLevel: 12,
       ingredients: [
         {
           item: "Wood",
@@ -231,7 +247,7 @@ export const BUILDINGS: () => Record<
   ],
   "Smoothie Shack": [
     {
-      unlocksAtLevel: 15,
+      unlocksAtLevel: 14,
       ingredients: [
         {
           item: "Wood",
@@ -250,11 +266,77 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 60 * 12,
     },
   ],
+
+  Toolshed: [
+    {
+      unlocksAtLevel: 15,
+      ingredients: [
+        {
+          item: "Wood",
+          amount: new Decimal(500),
+        },
+        {
+          item: "Iron",
+          amount: new Decimal(30),
+        },
+        {
+          item: "Gold",
+          amount: new Decimal(25),
+        },
+        {
+          item: "Axe",
+          amount: new Decimal(100),
+        },
+        {
+          item: "Pickaxe",
+          amount: new Decimal(50),
+        },
+      ],
+      sfl: new Decimal(0),
+      constructionSeconds: 60 * 60 * 2,
+    },
+  ],
+  Warehouse: [
+    {
+      unlocksAtLevel: 14,
+      ingredients: [
+        {
+          item: "Wood",
+          amount: new Decimal(250),
+        },
+        {
+          item: "Stone",
+          amount: new Decimal(150),
+        },
+        {
+          item: "Potato",
+          amount: new Decimal(5000),
+        },
+        {
+          item: "Pumpkin",
+          amount: new Decimal(2000),
+        },
+        {
+          item: "Wheat",
+          amount: new Decimal(500),
+        },
+        {
+          item: "Kale",
+          amount: new Decimal(100),
+        },
+      ],
+      sfl: new Decimal(0),
+      constructionSeconds: 60 * 60 * 2,
+    },
+  ],
 });
+
+export type Dimensions = { width: number; height: number };
 
 export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Market: { height: 2, width: 3 },
   "Fire Pit": { height: 2, width: 3 },
+  "Town Center": { height: 3, width: 4 },
   Workbench: { height: 2, width: 3 },
   Kitchen: { height: 3, width: 4 },
   Bakery: { height: 3, width: 4 },
@@ -263,4 +345,6 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   "Hen House": { height: 3, width: 4 },
   Deli: { height: 3, width: 4 },
   "Smoothie Shack": { height: 2, width: 3 },
+  Toolshed: { height: 3, width: 2 },
+  Warehouse: { height: 2, width: 3 },
 };

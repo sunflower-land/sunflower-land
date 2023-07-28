@@ -9,6 +9,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { BumpkinProfile } from "./components/BumpkinProfile";
 import { InventoryItemName } from "features/game/types/game";
 import { Settings } from "./components/Settings";
+import { createPortal } from "react-dom";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -18,7 +19,7 @@ export const VisitingHud: React.FC = () => {
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  return (
+  return createPortal(
     <>
       {!gameState.matches("landToVisitNotFound") && (
         <InnerPanel className="fixed px-2 pt-1 pb-2 bottom-2 left-2 z-50">
@@ -32,10 +33,12 @@ export const VisitingHud: React.FC = () => {
           shortcutItem={shortcutItem}
           selectedItem={selectedItem as InventoryItemName}
           isFarming={false}
+          isFullUser={false}
         />
-        <BumpkinProfile />
+        <BumpkinProfile isFullUser={false} />
         <Settings isFarming={false} />
       </div>
-    </>
+    </>,
+    document.body
   );
 };

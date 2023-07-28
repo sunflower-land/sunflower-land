@@ -4,25 +4,27 @@ import { marketRate } from "../lib/halvening";
 import { CONSUMABLES } from "./consumables";
 import { DECORATION_DIMENSIONS } from "./decorations";
 import { RESOURCES } from "./resources";
+import { getCurrentSeason, SeasonName, SEASONS } from "./seasons";
 
 export type BeachBountyTreasure =
   | "Pirate Bounty"
   | "Pearl"
   | "Coral"
   | "Clam Shell"
-  | "Pipi"
   | "Starfish"
   | "Seaweed"
-  | "Sea Cucumber"
   | "Crab"
-  | "Wooden Compass";
+  | "Pipi"
+  | "Sea Cucumber"
+  | "Wooden Compass"
+  | "Iron Compass"
+  | "Old Bottle";
 
 export type ConsumableTreasure =
   | "Pirate Cake"
-  | "Sunflower Cake"
-  | "Radish Cake"
-  | "Carrot Cake"
-  | "Cauliflower Cake"
+  | "Purple Smoothie"
+  | "Blueberry Jam"
+  | "Fancy Fries"
   | "Club Sandwich"
   | "Sunflower Crunch"
   | "Pumpkin Soup"
@@ -36,7 +38,6 @@ export type DecorationTreasure =
   | "Turtle Bear"
   | "T-Rex Skull"
   | "Sunflower Coin"
-  | "Foliant"
   | "Skeleton King Staff"
   | "Lifeguard Bear"
   | "Snorkel Bear"
@@ -49,7 +50,11 @@ export type DecorationTreasure =
   | "Dinosaur Bone"
   | "Human Bear";
 
-export type BoostTreasure = "Tiki Totem" | "Lunar Calendar";
+export type BoostTreasure =
+  | "Tiki Totem"
+  | "Lunar Calendar"
+  | "Foliant"
+  | "Genie Lamp";
 export type ResourceTreasure = "Gold" | "Stone" | "Iron";
 export type ToolTreasure = "Sand Drill";
 
@@ -61,85 +66,95 @@ export type TreasureName =
   | ResourceTreasure
   | ToolTreasure;
 
-export interface TreasureDetail {
+export interface Treasure {
   description?: string;
   type: "average" | "good" | "rare";
 }
 
-export type BeachBounty = {
+export type SellableTreasure = {
   sellPrice: Decimal;
-} & TreasureDetail;
+} & Treasure;
 
-export const BEACH_BOUNTY_TREASURE: Record<BeachBountyTreasure, BeachBounty> = {
-  "Clam Shell": {
-    sellPrice: marketRate(375),
-    description: "A clam shell.",
-    type: "good",
-  },
-  Coral: {
-    sellPrice: marketRate(1500),
-    description: "A piece of coral, it's pretty",
-    type: "good",
-  },
-  Crab: {
-    sellPrice: marketRate(15),
-    description: "A crab, watch out for it's claws!",
-    type: "average",
-  },
-  Pearl: {
-    sellPrice: marketRate(3750),
-    description: "Shimmers in the sun.",
-    type: "rare",
-  },
-  Pipi: {
-    sellPrice: marketRate(187.5),
-    description: "Plebidonax deltoides, found in the Pacific Ocean.",
-    type: "good",
-  },
-  "Pirate Bounty": {
-    sellPrice: marketRate(7500),
-    description: "A bounty for a pirate. It's worth a lot of money.",
-    type: "rare",
-  },
-  "Sea Cucumber": {
-    sellPrice: marketRate(22.5),
-    description: "A sea cucumber.",
-    type: "average",
-  },
-  Seaweed: {
-    sellPrice: marketRate(75),
-    description: "Seaweed.",
-    type: "average",
-  },
-  Starfish: {
-    sellPrice: marketRate(112.5),
-    description: "The star of the sea.",
-    type: "average",
-  },
-  "Wooden Compass": {
-    sellPrice: marketRate(131.25),
-    description: "?",
-    type: "good",
-  },
-};
+export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
+  {
+    "Clam Shell": {
+      sellPrice: marketRate(375),
+      description: "A clam shell.",
+      type: "good",
+    },
+    Coral: {
+      sellPrice: marketRate(1500),
+      description: "A piece of coral, it's pretty",
+      type: "good",
+    },
+    Crab: {
+      sellPrice: marketRate(15),
+      description: "A crab, watch out for it's claws!",
+      type: "average",
+    },
+    Pearl: {
+      sellPrice: marketRate(3750),
+      description: "Shimmers in the sun.",
+      type: "rare",
+    },
+    "Pirate Bounty": {
+      sellPrice: marketRate(7500),
+      description: "A bounty for a pirate. It's worth a lot of money.",
+      type: "rare",
+    },
+    Seaweed: {
+      sellPrice: marketRate(75),
+      description: "Seaweed.",
+      type: "average",
+    },
+    Starfish: {
+      sellPrice: marketRate(112.5),
+      description: "The star of the sea.",
+      type: "average",
+    },
+    "Wooden Compass": {
+      sellPrice: marketRate(131.25),
+      description: "?",
+      type: "good",
+    },
+    "Iron Compass": {
+      sellPrice: marketRate(187.5),
+      description:
+        "Iron out your path to treasure! This compass is 'attract'-ive, and not just to the magnetic North!",
+      type: "good",
+    },
+    "Old Bottle": {
+      sellPrice: marketRate(22.5),
+      description:
+        "Antique pirate bottle, echoing tales of high seas adventure.",
+      type: "average",
+    },
+    "Sea Cucumber": {
+      sellPrice: marketRate(22.5),
+      description: "A sea cucumber.",
+      type: "average",
+    },
+    Pipi: {
+      sellPrice: marketRate(187.5),
+      description: "Plebidonax deltoides, found in the Pacific Ocean.",
+      type: "good",
+    },
+  };
 
-export const REWARDS: Partial<Record<TreasureName, TreasureDetail>> = {
-  "Whale Bear": {
-    type: "rare",
-  },
+export const REWARDS = (): Partial<Record<TreasureName, Treasure>> => ({
   "Pirate Cake": {
     type: "good",
   },
-  "Carrot Cake": {
+  Pipi: {
     type: "good",
   },
-  "Sunflower Cake": {
+  "Purple Smoothie": {
     type: "good",
   },
-  "Radish Cake": {
+  "Blueberry Jam": {
     type: "good",
   },
-  "Cauliflower Cake": {
+  "Fancy Fries": {
     type: "good",
   },
   "Club Sandwich": {
@@ -151,19 +166,7 @@ export const REWARDS: Partial<Record<TreasureName, TreasureDetail>> = {
   "Pumpkin Soup": {
     type: "average",
   },
-  "Lunar Calendar": {
-    type: "rare",
-  },
-  "Tiki Totem": {
-    type: "rare",
-  },
-  "T-Rex Skull": {
-    type: "rare",
-  },
   "Sunflower Coin": {
-    type: "rare",
-  },
-  "Pirate Bear": {
     type: "rare",
   },
   "Boiled Eggs": {
@@ -190,33 +193,117 @@ export const REWARDS: Partial<Record<TreasureName, TreasureDetail>> = {
   Stone: {
     type: "average",
   },
+  "Clam Shell": {
+    type: "good",
+  },
+  Coral: {
+    type: "good",
+  },
+  Crab: {
+    type: "average",
+  },
+  Pearl: {
+    type: "rare",
+  },
+  "Pirate Bounty": {
+    type: "rare",
+  },
+  Seaweed: {
+    type: "average",
+  },
+  Starfish: {
+    type: "average",
+  },
+  "Wooden Compass": {
+    type: "good",
+  },
+  "Iron Compass": {
+    type: "good",
+  },
+  "Old Bottle": {
+    type: "average",
+  },
+});
 
-  ...BEACH_BOUNTY_TREASURE,
-};
+export const SOLAR_FLARE_REWARDS = (): Partial<
+  Record<TreasureName, Treasure>
+> => ({
+  "Tiki Totem": {
+    type: "rare",
+  },
+  "Lunar Calendar": {
+    type: "rare",
+  },
+  "Pirate Bear": {
+    type: "rare",
+  },
+  "Whale Bear": {
+    type: "rare",
+  },
+  "T-Rex Skull": {
+    type: "rare",
+  },
+});
+
+export const DAWN_BREAKER_REWARDS = (): Partial<
+  Record<TreasureName, Treasure>
+> => ({
+  Foliant: {
+    type: "rare",
+  },
+  "Dinosaur Bone": {
+    type: "rare",
+  },
+  "Lifeguard Bear": {
+    type: "rare",
+  },
+  "Snorkel Bear": {
+    type: "rare",
+  },
+  "Turtle Bear": {
+    type: "rare",
+  },
+  "Genie Lamp": {
+    type: "rare",
+  },
+});
 
 type SeasonalRewards = {
   startDate: number;
   endDate: number;
-  rewards: Partial<Record<TreasureName, unknown>>;
+  rewards: Partial<Record<TreasureName, Treasure>>;
 };
 
-export const SEASONAL_REWARDS: SeasonalRewards = {
-  startDate: new Date("2023-01-01T00:00:00.000Z").getTime(),
-  endDate: new Date("2023-05-01T00:00:00.000Z").getTime(),
-  rewards: {
-    "Pirate Bear": {},
-    "Tiki Totem": {},
-    "Lunar Calendar": {},
-    "Turtle Bear": {},
-    "Whale Bear": {},
-    "T-Rex Skull": {},
-    "Sunflower Coin": {},
-  },
+const getSeasonRewards = (
+  season: SeasonName
+): Partial<Record<TreasureName, Treasure>> => {
+  if (season === "Dawn Breaker") {
+    return DAWN_BREAKER_REWARDS();
+  }
+
+  if (season === "Solar Flare") {
+    return SOLAR_FLARE_REWARDS();
+  }
+
+  return {};
+};
+
+export const SEASONAL_REWARDS: () => SeasonalRewards = () => {
+  const currentSeason = getCurrentSeason();
+  const seasonDates = SEASONS[currentSeason];
+
+  return {
+    startDate: seasonDates.startDate.getTime(),
+    endDate: seasonDates.endDate.getTime(),
+    rewards: getSeasonRewards(currentSeason),
+  };
 };
 
 export const BOOST_TREASURE: Record<BoostTreasure, string> = {
   "Tiki Totem": "+0.1 wood per tree",
   "Lunar Calendar": "10% faster crop growth",
+  Foliant: "+0.2 Kale per harvest",
+  "Genie Lamp": "Grants 3 wishes",
 };
 
 export function isBoostTreasure(
@@ -228,7 +315,7 @@ export function isBoostTreasure(
 export function isBeachBountyTreasure(
   treasure: TreasureName
 ): treasure is BeachBountyTreasure {
-  return treasure in BEACH_BOUNTY_TREASURE;
+  return treasure in SELLABLE_TREASURE;
 }
 
 export function isConsumableTreasure(

@@ -81,7 +81,7 @@ export const Box: React.FC<BoxProps> = ({
   const canClick = !locked && !disabled;
 
   const longPressEvents = useLongPress(
-    (e) => (canClick ? onClick?.() : undefined),
+    () => (canClick ? onClick?.() : undefined),
     precisionCount,
     {
       delay: 500,
@@ -150,7 +150,7 @@ export const Box: React.FC<BoxProps> = ({
     >
       <div
         className={classNames("bg-brown-600 cursor-pointer relative", {
-          "bg-brown-600 cursor-not-allowed": disabled,
+          "bg-brown-600 cursor-not-allowed opacity-75": disabled,
           "opacity-75": locked,
           "cursor-pointer": canClick,
         })}

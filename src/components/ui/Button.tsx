@@ -1,12 +1,16 @@
 import React from "react";
 import classnames from "classnames";
 import { pixelLightBorderStyle } from "features/game/lib/style";
+import { useLongPress } from "lib/utils/hooks/useLongPress";
+import Decimal from "decimal.js-light";
 
 interface Props {
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   disabled?: boolean;
   className?: string;
   type?: "button" | "submit" | undefined;
+  longPress?: boolean;
+  longPressInterval?: number;
 }
 export const Button: React.FC<Props> = ({
   children,
@@ -14,7 +18,25 @@ export const Button: React.FC<Props> = ({
   disabled,
   className,
   type,
+  longPress = false,
+  longPressInterval = 50,
 }) => {
+  const longPressEvents = useLongPress(
+    (e) =>
+      !disabled
+        ? onClick?.(e as React.MouseEvent<HTMLButtonElement, MouseEvent>)
+        : undefined,
+    new Decimal(1000000),
+    {
+      delay: 500,
+      interval: longPressInterval,
+    }
+  );
+
+  const clickEvents = longPress
+    ? longPressEvents
+    : { onClick: !disabled ? onClick : undefined };
+
   return (
     <button
       className={classnames(
@@ -23,8 +45,8 @@ export const Button: React.FC<Props> = ({
       )}
       type={type}
       disabled={disabled}
-      onClick={onClick}
       style={pixelLightBorderStyle}
+      {...clickEvents}
     >
       <div className="mb-1">{children}</div>
     </button>

@@ -8,8 +8,8 @@ import { getOnChainState } from "features/game/actions/onchain";
 import { loadSession } from "features/game/actions/loadSession";
 import { Bumpkin } from "features/game/types/game";
 import { randomID } from "lib/utils/random";
-import { getSessionId } from "lib/blockchain/Sessions";
 import { sflBalanceOf } from "lib/blockchain/Token";
+import { getSessionId } from "lib/blockchain/Session";
 
 export interface Context {
   balance: Decimal;
@@ -47,23 +47,25 @@ export function startCommunityMachine(authContext: AuthContext) {
           entry: "setTransactionId",
           invoke: {
             src: async (context) => {
+              if (!wallet.myAccount) throw new Error("No account");
+
+              const user = authContext.user;
+              const isFullUser = user.type === "FULL";
+              if (!isFullUser) throw new Error("Not a full user");
+
               const balance = await sflBalanceOf(
                 wallet.web3Provider,
-                wallet.myAccount,
-                wallet.myAccount as string
+                wallet.myAccount
               );
 
-              const farmId = authContext.farmId as number;
+              const farmId = authContext.user.farmId as number;
 
               const onChainStateFn = await getOnChainState({
-                farmAddress: authContext.address as string,
-                id: Number(authContext.farmId),
+                farmAddress: user.farmAddress as string,
+                account: wallet.myAccount,
+                id: farmId,
               });
-              const sessionIdFn = getSessionId(
-                wallet.web3Provider,
-                wallet.myAccount,
-                farmId
-              );
+              const sessionIdFn = getSessionId(wallet.web3Provider, farmId);
               const [onChainState, sessionId] = await Promise.all([
                 onChainStateFn,
                 sessionIdFn,
@@ -72,8 +74,8 @@ export function startCommunityMachine(authContext: AuthContext) {
               const response = await loadSession({
                 farmId,
                 sessionId,
-                token: authContext.rawToken as string,
-                bumpkinTokenUri: onChainState.bumpkin?.tokenURI,
+                token: authContext.user.rawToken as string,
+                wallet: authContext.user.web3?.wallet as string,
                 transactionId: context.transactionId as string,
               });
 

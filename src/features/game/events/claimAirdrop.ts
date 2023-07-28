@@ -11,14 +11,9 @@ export type ClaimAirdropAction = {
 type Options = {
   state: Readonly<GameState>;
   action: ClaimAirdropAction;
-  createdAt?: number;
 };
 
-export function claimAirdrop({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function claimAirdrop({ state, action }: Options): GameState {
   const game = cloneDeep(state);
 
   if (!game.airdrops || game.airdrops.length === 0) {
@@ -40,10 +35,20 @@ export function claimAirdrop({
     };
   }, game.inventory);
 
+  const wardrobe = getKeys(airdrop.wearables ?? {}).reduce((acc, itemName) => {
+    const previous = acc[itemName] || 0;
+
+    return {
+      ...acc,
+      [itemName]: previous + (airdrop.wearables[itemName] || 0),
+    };
+  }, game.wardrobe);
+
   return {
     ...game,
     balance: game.balance.add(airdrop.sfl),
     airdrops: game.airdrops.filter((item) => item.id !== action.id),
     inventory,
+    wardrobe,
   };
 }

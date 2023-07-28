@@ -5,17 +5,17 @@ import { Modal } from "react-bootstrap";
 
 import token from "src/assets/icons/token_2.png";
 import { Context } from "features/game/GameProvider";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { getImageUrl } from "features/goblins/tailor/TabContent";
+import { ITEM_IDS } from "features/game/types/bumpkin";
 
 export const Airdrop: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const { setToast } = useContext(ToastContext);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -32,20 +32,6 @@ export const Airdrop: React.FC = () => {
     gameService.send("airdrop.claimed", {
       id: airdrop.id,
     });
-
-    itemNames.forEach((name) => {
-      setToast({
-        icon: ITEM_DETAILS[name].image,
-        content: `+${airdrop.items[name]?.toString()}`,
-      });
-    });
-
-    if (airdrop.sfl) {
-      setToast({
-        icon: token,
-        content: `+${airdrop.sfl.toString()}`,
-      });
-    }
 
     setShowModal(false);
   };
@@ -74,6 +60,22 @@ export const Airdrop: React.FC = () => {
                   <img src={ITEM_DETAILS[name].image} className="w-6 mr-2" />
                   <span>
                     {airdrop.items[name]} {name}
+                  </span>
+                </div>
+              ))}
+
+            {getKeys(airdrop.wearables ?? {}).length > 0 &&
+              getKeys(airdrop.wearables).map((name) => (
+                <div
+                  className="flex items-center justify-center mb-2"
+                  key={name}
+                >
+                  <img
+                    src={getImageUrl(ITEM_IDS[name])}
+                    className="w-12 mr-2"
+                  />
+                  <span>
+                    {airdrop.wearables[name]} {name}
                   </span>
                 </div>
               ))}

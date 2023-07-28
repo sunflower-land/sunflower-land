@@ -1,65 +1,33 @@
+import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { CROPS } from "features/game/types/crops";
-import {
-  GENESIS_LAND_EXPANSION,
-  INITIAL_BUMPKIN,
-  TEST_FARM,
-} from "../../lib/constants";
-import { GameState, LandExpansionPlot } from "../../types/game";
-import { getCropTime, isPlotFertile, plant } from "./plant";
+import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
+import { GameState, CropPlot } from "../../types/game";
+import { getCropTime, getCropYieldAmount, isPlotFertile, plant } from "./plant";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
   balance: new Decimal(0),
   inventory: {},
+  crops: {
+    0: {
+      createdAt: Date.now(),
+      height: 1,
+      width: 1,
+      x: 0,
+      y: 0,
+      crop: {
+        name: "Sunflower",
+        plantedAt: 0,
+      },
+    },
+  },
 };
+
+const firstCropId = Object.keys(GAME_STATE.crops)[0];
 
 describe("plant", () => {
   const dateNow = Date.now();
-  it("does not plant on a non existent expansion", () => {
-    const { inventory } = GAME_STATE;
-    expect(() =>
-      plant({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            ...inventory,
-            "Water Well": new Decimal(1),
-          },
-        },
-        action: {
-          type: "seed.planted",
-          cropId: "123",
-          index: 0,
-          expansionIndex: -1,
-          item: "Sunflower Seed",
-        },
-      })
-    ).toThrow("Expansion does not exist");
-  });
-
-  it("does not plant on a an expansion with no plots", () => {
-    const { inventory } = GAME_STATE;
-    expect(() =>
-      plant({
-        state: {
-          ...GAME_STATE,
-          expansions: [{ createdAt: 0, readyAt: 0 }],
-          inventory: {
-            ...inventory,
-            "Water Well": new Decimal(1),
-          },
-        },
-        action: {
-          type: "seed.planted",
-          cropId: "123",
-          index: 0,
-          expansionIndex: 0,
-          item: "Sunflower Seed",
-        },
-      })
-    ).toThrow("Expansion does not have any plots");
-  });
 
   it("does not plant on non-existent plot", () => {
     const { inventory } = GAME_STATE;
@@ -75,8 +43,8 @@ describe("plant", () => {
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: -1,
-          expansionIndex: 0,
+          index: "-1",
+
           item: "Sunflower Seed",
         },
       })
@@ -97,8 +65,8 @@ describe("plant", () => {
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: 1.2,
-          expansionIndex: 0,
+          index: "1.2",
+
           item: "Sunflower Seed",
         },
       })
@@ -115,8 +83,8 @@ describe("plant", () => {
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: 1,
-          expansionIndex: 0,
+          index: "1",
+
           item: "Sunflower Seed",
         },
       })
@@ -137,8 +105,8 @@ describe("plant", () => {
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: 200000,
-          expansionIndex: 0,
+          index: "200000",
+
           item: "Sunflower Seed",
         },
       })
@@ -146,11 +114,8 @@ describe("plant", () => {
   });
 
   it("does not plant if crop already exists", () => {
-    const { inventory } = GAME_STATE;
-    const expansions = [...GAME_STATE.expansions];
-    const expansion = expansions[0];
-    const { plots } = expansion;
-    const plot = (plots as Record<number, LandExpansionPlot>)[0];
+    const { inventory, crops: plots } = GAME_STATE;
+    const plot = (plots as Record<number, CropPlot>)[0];
 
     expect(() =>
       plant({
@@ -160,26 +125,21 @@ describe("plant", () => {
             ...inventory,
             "Water Well": new Decimal(1),
           },
-          expansions: [
-            {
-              ...expansion,
-              plots: {
-                0: {
-                  ...plot,
-                  crop: {
-                    name: "Sunflower",
-                    plantedAt: dateNow,
-                  },
-                },
+          crops: {
+            0: {
+              ...plot,
+              crop: {
+                name: "Sunflower",
+                plantedAt: dateNow,
               },
             },
-          ],
+          },
         },
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: 0,
-          expansionIndex: 0,
+          index: "0",
+
           item: "Sunflower Seed",
         },
       })
@@ -200,8 +160,8 @@ describe("plant", () => {
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: 0,
-          expansionIndex: 0,
+          index: "0",
+
           item: "Pickaxe",
         },
       })
@@ -222,8 +182,8 @@ describe("plant", () => {
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: 0,
-          expansionIndex: 0,
+          index: "0",
+
           item: "Sunflower Seed",
         },
       })
@@ -244,17 +204,17 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Sunflower Seed",
       },
     });
 
-    const plots = state.expansions[0].plots;
+    const plots = state.crops;
 
     expect(state.inventory["Sunflower Seed"]).toEqual(seedsAmount.minus(1));
     expect(plots).toBeDefined();
-    expect((plots as Record<number, LandExpansionPlot>)[0]).toEqual(
+    expect((plots as Record<number, CropPlot>)[0]).toEqual(
       expect.objectContaining({
         crop: expect.objectContaining({
           name: "Sunflower",
@@ -277,16 +237,16 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Cauliflower Seed",
       },
     });
 
-    const plots = state.expansions[0].plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
-    expect((plots as Record<number, LandExpansionPlot>)[0].crop).toEqual(
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
       expect.objectContaining({
         name: "Cauliflower",
         plantedAt: expect.any(Number),
@@ -319,16 +279,16 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Cauliflower Seed",
       },
     });
 
-    const plots = state.expansions[0].plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
-    expect((plots as Record<number, LandExpansionPlot>)[0].crop).toEqual(
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
       expect.objectContaining({
         name: "Cauliflower",
         plantedAt: expect.any(Number),
@@ -349,16 +309,16 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Parsnip Seed",
       },
     });
 
-    const plots = state.expansions[0].plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
-    expect((plots as Record<number, LandExpansionPlot>)[0].crop).toEqual(
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
       expect.objectContaining({
         name: "Parsnip",
         plantedAt: expect.any(Number),
@@ -391,8 +351,8 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Parsnip Seed",
       },
       createdAt: dateNow,
@@ -401,12 +361,11 @@ describe("plant", () => {
     // Should be twice as fast! (Planted in the past)
     const parsnipTime = CROPS().Parsnip.harvestSeconds * 1000;
 
-    const plots = state.expansions[0].plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
     const plantedAt =
-      (plots as Record<number, LandExpansionPlot>)[0].crop?.plantedAt || 0;
-    console.log(plantedAt);
+      (plots as Record<number, CropPlot>)[0].crop?.plantedAt || 0;
 
     expect(plantedAt).toBe(dateNow - parsnipTime * 0.5);
   });
@@ -422,6 +381,15 @@ describe("plant", () => {
     const state = plant({
       state: {
         ...PARSNIP_STATE,
+        crops: {
+          "0": {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 1,
+            y: 1,
+          },
+        },
         inventory: {
           "Parsnip Seed": new Decimal(1),
           "Water Well": new Decimal(1),
@@ -431,25 +399,32 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Parsnip Seed",
       },
       createdAt: dateNow,
     });
 
-    const plots = state.expansions[0].plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
 
-    expect(
-      (plots as Record<number, LandExpansionPlot>)[0].crop?.amount
-    ).toEqual(1.2);
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
   });
 
   it("yields 10% more with bumpkin skill Master Farmer", () => {
     const SKILL_STATE: GameState = {
       ...TEST_FARM,
+      crops: {
+        "0": {
+          createdAt: Date.now(),
+          height: 1,
+          width: 1,
+          x: 1,
+          y: 1,
+        },
+      },
       bumpkin: {
         ...INITIAL_BUMPKIN,
         skills: { ...INITIAL_BUMPKIN.skills, "Master Farmer": 1 },
@@ -468,20 +443,18 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Sunflower Seed",
       },
       createdAt: dateNow,
     });
 
-    const plots = state.expansions[0].plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
 
-    expect(
-      (plots as Record<number, LandExpansionPlot>)[0].crop?.amount
-    ).toEqual(1.1);
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.1);
   });
   it("grows faster with a Nancy placed and ready", () => {
     const state = plant({
@@ -507,8 +480,8 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Carrot Seed",
       },
       createdAt: dateNow,
@@ -517,10 +490,10 @@ describe("plant", () => {
     // Should be twice as fast! (Planted in the past)
     const carrotTime = CROPS().Carrot.harvestSeconds * 1000;
 
-    const plots = state.expansions[0].plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
-    const plantedAt = (plots as LandExpansionPlot[])[0].crop?.plantedAt || 0;
+    const plantedAt = plots[0].crop?.plantedAt || 0;
 
     expect(plantedAt).toBe(dateNow - carrotTime * 0.15);
   });
@@ -549,19 +522,19 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Sunflower Seed",
       },
     });
 
     const sunflowerTime = CROPS().Sunflower.harvestSeconds * 1000;
 
-    const plots = state.expansions[0].plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
     const plantedAt =
-      (plots as Record<number, LandExpansionPlot>)[0].crop?.plantedAt || 0;
+      (plots as Record<number, CropPlot>)[0].crop?.plantedAt || 0;
 
     expect(plantedAt).toBe(dateNow - sunflowerTime * 0.1);
   });
@@ -590,19 +563,17 @@ describe("plant", () => {
       action: {
         type: "seed.planted",
         cropId: "123",
-        index: 0,
-        expansionIndex: 0,
+        index: "0",
+
         item: "Carrot Seed",
       },
     });
 
-    const plots = state.expansions[0].plots;
+    const plots = state.crops;
 
     expect(plots).toBeDefined();
 
-    expect(
-      (plots as Record<number, LandExpansionPlot>)[0].crop?.amount
-    ).toEqual(1.2);
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
   });
 
   it("throws an error if the player doesnt have a bumpkin", async () => {
@@ -619,22 +590,648 @@ describe("plant", () => {
         action: {
           type: "seed.planted",
           cropId: "123",
-          index: 0,
-          expansionIndex: 0,
+          index: "0",
+
           item: "Carrot Seed",
         },
       })
     ).toThrow("You do not have a Bumpkin");
   });
+
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Carrot", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Carrot Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Carrot Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Cabbage", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Cabbage Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Cabbage Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Beetroot", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Beetroot Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Beetroot Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Cauliflower", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Cauliflower Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Cauliflower Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Parsnip", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Parsnip Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Parsnip Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("does not give boost if Scary Mike is placed, plot is within AoE and planting Sunflower", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Sunflower Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("does not give boost if Scary Mike is placed, plot is NOT within AoE and planting Cauliflower", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Cauliflower Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -6,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Cauliflower Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("yields +0.2 if Laurie the Chuckle Crow is placed, plot is within AoE and planting Eggplant", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Eggplant Seed": new Decimal(1),
+          "Laurie the Chuckle Crow": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Laurie the Chuckle Crow": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Eggplant Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Laurie the Chuckle Crow is placed, plot is within AoE and planting Radish", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Radish Seed": new Decimal(1),
+          "Laurie the Chuckle Crow": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Laurie the Chuckle Crow": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Radish Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Laurie the Chuckle Crow is placed, plot is within AoE and planting Wheat", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Wheat Seed": new Decimal(1),
+          "Laurie the Chuckle Crow": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Laurie the Chuckle Crow": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Wheat Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Laurie the Chuckle Crow is placed, plot is within AoE and planting Kale", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Kale Seed": new Decimal(1),
+          "Laurie the Chuckle Crow": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Laurie the Chuckle Crow": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Kale Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("does not give boost if Laurie the Chuckle Crow is placed, plot is within AoE and planting Cauliflower", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+          "Laurie the Chuckle Crow": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Laurie the Chuckle Crow": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Sunflower Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("does not give boost if Laurie the Chuckle Crow is placed, plot is NOT within AoE and planting Cauliflower", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Cauliflower Seed": new Decimal(1),
+          "Laurie the Chuckle Crow": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -6,
+          },
+        },
+        collectibles: {
+          "Laurie the Chuckle Crow": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Cauliflower Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("yields +0.5 pumpkin with Freya Fox placed", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Pumpkin Seed": new Decimal(1),
+          "Freya Fox": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        collectibles: {
+          "Freya Fox": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              // ready at < now
+              readyAt: dateNow - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+
+        item: "Pumpkin Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.5);
+  });
 });
 
 describe("getCropTime", () => {
+  const dateNow = Date.now();
+  const plot = GAME_STATE.crops[firstCropId];
+
   it("applies a 5% speed boost with Cultivator skill", () => {
     const time = getCropTime(
       "Carrot",
       {},
       {},
-      { ...INITIAL_BUMPKIN, skills: { Cultivator: 1 } }
+      { ...INITIAL_BUMPKIN, skills: { Cultivator: 1 } },
+      plot
     );
 
     expect(time).toEqual(57 * 60);
@@ -648,7 +1245,8 @@ describe("getCropTime", () => {
       {
         ...INITIAL_BUMPKIN,
         equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Carrot Amulet" },
-      }
+      },
+      plot
     );
 
     expect(time).toEqual(60 * 60 * 0.8);
@@ -664,141 +1262,285 @@ describe("getCropTime", () => {
           {
             id: "123",
             coordinates: { x: -1, y: -1 },
-            createdAt: Date.now() - 100,
-            readyAt: Date.now() - 100,
+            createdAt: dateNow - 100,
+            readyAt: dateNow - 100,
           },
         ],
       },
-      { ...INITIAL_BUMPKIN }
+      { ...INITIAL_BUMPKIN },
+      plot
     );
 
     expect(time).toEqual(carrotHarvestSeconds * 0.9);
+  });
+
+  it("grows cabbage twice as fast with Cabbage Girl placed.", () => {
+    const cabbageHarvestSeconds = CROPS()["Cabbage"].harvestSeconds;
+    const time = getCropTime(
+      "Cabbage",
+      {},
+      {
+        "Cabbage Girl": [
+          {
+            id: "123",
+            coordinates: { x: -1, y: -1 },
+            createdAt: dateNow - 100,
+            readyAt: dateNow - 100,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN },
+      plot
+    );
+
+    expect(time).toEqual(cabbageHarvestSeconds * 0.5);
+  });
+
+  it("applies a 25% speed boost with Obie placed", () => {
+    const eggplantHarvestSeconds = CROPS()["Eggplant"].harvestSeconds;
+    const time = getCropTime(
+      "Eggplant",
+      {},
+      {
+        Obie: [
+          {
+            id: "123",
+            coordinates: { x: -1, y: -1 },
+            createdAt: dateNow - 100,
+            readyAt: dateNow - 100,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN },
+      plot
+    );
+
+    expect(time).toEqual(eggplantHarvestSeconds * 0.75);
+  });
+
+  it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Sunflower", () => {
+    const sunflowerHarvestSeconds = CROPS()["Sunflower"].harvestSeconds;
+
+    const time = getCropTime(
+      "Sunflower",
+      {},
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: dateNow - 100,
+            readyAt: dateNow - 100,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN },
+      { ...plot, x: 0, y: -2 }
+    );
+
+    expect(time).toEqual(sunflowerHarvestSeconds * 0.8);
+  });
+
+  it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Potato", () => {
+    const potatoHarvestSeconds = CROPS()["Potato"].harvestSeconds;
+
+    const time = getCropTime(
+      "Potato",
+      {},
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: dateNow - 100,
+            readyAt: dateNow - 100,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN },
+      { ...plot, x: 0, y: -2 }
+    );
+
+    expect(time).toEqual(potatoHarvestSeconds * 0.8);
+  });
+
+  it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Pumpkin", () => {
+    const pumpkinHarvestSeconds = CROPS()["Pumpkin"].harvestSeconds;
+
+    const time = getCropTime(
+      "Pumpkin",
+      {},
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: dateNow - 100,
+            readyAt: dateNow - 100,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN },
+      { ...plot, x: 0, y: -2 }
+    );
+
+    expect(time).toEqual(pumpkinHarvestSeconds * 0.8);
+  });
+
+  it("does not apply boost with Basic Scarecrow if not basic crop", () => {
+    const beetrootHarvestSeconds = CROPS()["Beetroot"].harvestSeconds;
+
+    const time = getCropTime(
+      "Beetroot",
+      {},
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: dateNow - 100,
+            readyAt: dateNow - 100,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN },
+      { ...plot, x: 0, y: -2 }
+    );
+
+    expect(time).toEqual(beetrootHarvestSeconds);
+  });
+
+  it("does not apply boost with Basic Scarecrow placed, if plot is outside AOE", () => {
+    const sunflowerHarvestSeconds = CROPS()["Sunflower"].harvestSeconds;
+
+    const time = getCropTime(
+      "Sunflower",
+      {},
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: dateNow - 100,
+            readyAt: dateNow - 100,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN },
+      { ...plot, x: 2, y: -2 }
+    );
+
+    expect(time).toEqual(sunflowerHarvestSeconds);
+  });
+
+  it("does not apply boost with Basic Scarecrow placed, if it was moved within 10min", () => {
+    const sunflowerHarvestSeconds = CROPS()["Sunflower"].harvestSeconds;
+
+    const time = getCropTime(
+      "Sunflower",
+      {},
+      {
+        "Basic Scarecrow": [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: dateNow,
+            readyAt: dateNow + 600000,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN },
+      { ...plot, x: 0, y: -3 }
+    );
+
+    expect(time).toEqual(sunflowerHarvestSeconds);
   });
 });
 
 describe("isPlotFertile", () => {
   it("cannot plant on 16th field if a well is not available", () => {
-    const fakePlot = {
+    let counter = 1;
+    const fakePlot = () => ({
+      createdAt: Date.now() + counter++,
       x: 1,
       y: 1,
       height: 1,
       width: 1,
-    };
+    });
     const isFertile = isPlotFertile({
-      gameState: {
-        ...TEST_FARM,
-        buildings: {},
-        expansions: [
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-              4: fakePlot,
-              5: fakePlot,
-              6: fakePlot,
-              7: fakePlot, //16th
-              8: fakePlot, // 17th
-            },
-          },
-        ],
+      buildings: {},
+      crops: {
+        0: fakePlot(),
+        1: fakePlot(),
+        2: fakePlot(),
+        3: fakePlot(),
+        4: fakePlot(),
+        5: fakePlot(),
+        6: fakePlot(),
+        7: fakePlot(),
+        8: fakePlot(),
+        21: fakePlot(),
+        32: fakePlot(),
+        43: fakePlot(),
+        54: fakePlot(),
+        65: fakePlot(),
+        76: fakePlot(),
+        87: fakePlot(), //16th
+        98: fakePlot(), // 17th
       },
-      expansionIndex: 2,
-      plotIndex: 7,
+      plotIndex: "87",
     });
 
     expect(isFertile).toBeFalsy();
   });
 
   it("cannot plant on 23rd field if 2 wells are not avilable", () => {
-    const fakePlot = {
+    let counter = 1;
+    const fakePlot = () => ({
+      createdAt: Date.now() + counter++,
       x: 1,
       y: 1,
       height: 1,
       width: 1,
-    };
+    });
     const isFertile = isPlotFertile({
-      gameState: {
-        ...TEST_FARM,
-        buildings: {
-          "Water Well": [
-            {
-              coordinates: { x: 1, y: 1 },
-              createdAt: 0,
-              id: "123",
-              readyAt: 0,
-            },
-          ],
-        },
-        expansions: [
+      buildings: {
+        "Water Well": [
           {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot, //11th
-              3: fakePlot, // 12th
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-              4: fakePlot,
-              5: fakePlot,
-              6: fakePlot,
-              7: fakePlot,
-              8: fakePlot,
-              9: fakePlot,
-              10: fakePlot,
-              11: fakePlot, // 24th
-            },
+            coordinates: { x: 1, y: 1 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
           },
         ],
       },
-      expansionIndex: 3,
-      plotIndex: 11,
+      crops: {
+        0: fakePlot(),
+        1: fakePlot(),
+        2: fakePlot(),
+        3: fakePlot(),
+        4: fakePlot(),
+        5: fakePlot(),
+        6: fakePlot(),
+        7: fakePlot(),
+        8: fakePlot(),
+        9: fakePlot(),
+        10: fakePlot(), //11th
+        11: fakePlot(), // 12th
+        12: fakePlot(),
+        13: fakePlot(),
+        14: fakePlot(),
+        15: fakePlot(),
+        16: fakePlot(),
+        17: fakePlot(),
+        18: fakePlot(),
+        19: fakePlot(),
+        20: fakePlot(),
+        21: fakePlot(),
+        22: fakePlot(),
+        23: fakePlot(), // 24th
+      },
+      plotIndex: "23",
     });
 
     expect(isFertile).toBeFalsy();
@@ -806,105 +1548,113 @@ describe("isPlotFertile", () => {
 
   it("can plant on 6th field without a well", () => {
     const fakePlot = {
+      createdAt: Date.now(),
       x: 1,
       y: 1,
       height: 1,
       width: 1,
     };
     const isFertile = isPlotFertile({
-      gameState: {
-        ...TEST_FARM,
-        buildings: {},
-        expansions: [
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot, //6th
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-        ],
+      buildings: {},
+      crops: {
+        0: fakePlot,
+        1: fakePlot,
+        2: fakePlot,
+        3: fakePlot,
+        4: fakePlot,
+        5: fakePlot, //6th
+        6: fakePlot,
+        7: fakePlot,
+        8: fakePlot,
+        9: fakePlot,
+        10: fakePlot,
+        11: fakePlot,
       },
-      expansionIndex: 1,
-      plotIndex: 1,
+      plotIndex: "5",
     });
     expect(isFertile).toBeTruthy();
   });
 
   it("can plant on 11th field if they have well", () => {
     const fakePlot = {
+      createdAt: Date.now(),
       x: 1,
       y: 1,
       height: 1,
       width: 1,
     };
     const isFertile = isPlotFertile({
-      gameState: {
-        ...TEST_FARM,
-        buildings: {
-          "Water Well": [
-            {
-              coordinates: { x: 1, y: 1 },
-              createdAt: 0,
-              id: "123",
-              readyAt: 0,
-            },
-          ],
-        },
-        expansions: [
+      buildings: {
+        "Water Well": [
           {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot,
-              3: fakePlot,
-            },
-          },
-          {
-            ...GENESIS_LAND_EXPANSION,
-            plots: {
-              0: fakePlot,
-              1: fakePlot,
-              2: fakePlot, //11th
-              3: fakePlot, // 12th
-            },
+            coordinates: { x: 1, y: 1 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
           },
         ],
       },
-      expansionIndex: 2,
-      plotIndex: 2,
+      crops: {
+        0: fakePlot,
+        1: fakePlot,
+        2: fakePlot,
+        3: fakePlot,
+        4: fakePlot,
+        5: fakePlot,
+        6: fakePlot,
+        7: fakePlot,
+        8: fakePlot,
+        9: fakePlot,
+        10: fakePlot, //11th
+        11: fakePlot, // 12th
+      },
+      plotIndex: "8",
     });
 
     expect(isFertile).toBeTruthy();
+  });
+});
+
+describe("getCropYield", () => {
+  it("does not apply sir goldensnout boost outside AOE", () => {
+    const amount = getCropYieldAmount({
+      crop: "Sunflower",
+      bumpkin: INITIAL_BUMPKIN,
+      collectibles: {
+        "Sir Goldensnout": [
+          {
+            coordinates: { x: 6, y: 6 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+          },
+        ],
+      },
+      inventory: {},
+      plot: { createdAt: 0, height: 1, width: 1, x: 2, y: 3 },
+    });
+
+    expect(amount).toEqual(1);
+  });
+
+  it("applies sir goldensnout boost inside AOE", () => {
+    const amount = getCropYieldAmount({
+      crop: "Sunflower",
+      bumpkin: INITIAL_BUMPKIN,
+      collectibles: {
+        "Sir Goldensnout": [
+          {
+            coordinates: { x: 6, y: 6 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+          },
+        ],
+      },
+      inventory: {},
+      plot: { createdAt: 0, height: 1, width: 1, x: 5, y: 6 },
+    });
+
+    expect(amount).toEqual(1.5);
   });
 });

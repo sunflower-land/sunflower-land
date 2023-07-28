@@ -9,8 +9,6 @@ import { beanBought } from "./buyBean";
 const GAME_STATE: GameState = TEST_FARM;
 
 describe("beanBought", () => {
-  const dateNow = Date.now();
-
   it("throws an error if item is not a bean", () => {
     expect(() =>
       beanBought({

@@ -36,6 +36,8 @@ export interface AccountMinter extends BaseContract {
   ): AccountMinter;
   clone(): AccountMinter;
   methods: {
+    charityFee(): NonPayableTransactionObject<string>;
+
     createdAt(arg0: string): NonPayableTransactionObject<string>;
 
     deposit(): PayableTransactionObject<void>;
@@ -52,15 +54,26 @@ export interface AccountMinter extends BaseContract {
       deadline: number | string | BN,
       mintFee: number | string | BN,
       bumpkinItemIds: (number | string | BN)[],
-      bumpkinTokenUri: string
+      bumpkinTokenUri: string,
+      referrerId: number | string | BN
     ): PayableTransactionObject<void>;
 
     owner(): NonPayableTransactionObject<string>;
 
+    referrerFee(): NonPayableTransactionObject<string>;
+
     renounceOwnership(): NonPayableTransactionObject<void>;
+
+    setCharityFee(
+      _fee: number | string | BN
+    ): NonPayableTransactionObject<void>;
 
     setMaxSupply(
       _supply: number | string | BN
+    ): NonPayableTransactionObject<void>;
+
+    setReferrerFee(
+      _fee: number | string | BN
     ): NonPayableTransactionObject<void>;
 
     transferFeeWallet(_wallet: string): NonPayableTransactionObject<void>;

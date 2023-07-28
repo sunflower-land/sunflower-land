@@ -1,6 +1,6 @@
 import {
+  Collectibles,
   GameState,
-  LandExpansion,
   PlacedItem,
   Position,
 } from "features/game/types/game";
@@ -11,70 +11,16 @@ import {
   COLLECTIBLES_DIMENSIONS,
   getKeys,
 } from "features/game/types/craftables";
-import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
-import { BUMPKIN_POSITION } from "features/island/bumpkin/types/character";
+import {
+  BUILDINGS_DIMENSIONS,
+  Dimensions,
+} from "features/game/types/buildings";
+import {
+  MUSHROOM_DIMENSIONS,
+  RESOURCE_DIMENSIONS,
+} from "features/game/types/resources";
 
 type BoundingBox = Position;
-
-/**
- * Extracts the bounding box for a collection of resources e.g. Shrubs.
- * @param resource
- * @param expansionIndex
- * @returns Array of bounding boxes
- */
-const extractBoundingBox = <T extends Record<number, BoundingBox>>(
-  resource: T,
-  expansionIndex: number
-): BoundingBox[] => {
-  const { x: xOffset, y: yOffset } = EXPANSION_ORIGINS[expansionIndex];
-
-  return Object.values(resource).map(({ x, y, height, width }) => ({
-    x: x + xOffset,
-    y: y + yOffset,
-    height,
-    width,
-  }));
-};
-
-type Resources = Required<Omit<LandExpansion, "createdAt" | "readyAt">>;
-
-const getAllResources = (expansions: LandExpansion[]): Resources[] => {
-  return expansions.map((expansion) => ({
-    trees: expansion.trees ?? {},
-    iron: expansion.iron ?? {},
-    stones: expansion.stones ?? {},
-    plots: expansion.plots ?? {},
-    gold: expansion.gold ?? {},
-    fruitPatches: expansion.fruitPatches ?? {},
-    boulders: expansion.boulders ?? {},
-  }));
-};
-
-export const getBoundingBoxes = (
-  expansionResources: Resources,
-  expansionIndex: number
-) => {
-  const resources = Object.values(expansionResources);
-
-  const boundingBoxes = resources.flatMap((resource) => {
-    return extractBoundingBox(resource, expansionIndex);
-  });
-
-  return boundingBoxes;
-};
-
-/**
- * Extracts the bounding boxes for all resources on all land expansions.
- * @param expansions
- * @returns Array of all bounding boxes
- */
-export function extractResourceBoundingBoxes(
-  expansions: LandExpansion[]
-): BoundingBox[] {
-  const allResources = getAllResources(expansions);
-
-  return allResources.flatMap(getBoundingBoxes);
-}
 
 /**
  * Axis aligned bounding box collision detection
@@ -110,28 +56,15 @@ const splitBoundingBox = (boundingBox: BoundingBox) => {
   }));
 };
 
-function detectResourceCollision(state: GameState, boundingBox: BoundingBox) {
-  const { expansions } = state;
-
-  const resourceBoundingBoxes = extractResourceBoundingBoxes(expansions);
-
-  return resourceBoundingBoxes.some((resourceBoundingBox) =>
-    isOverlapping(boundingBox, resourceBoundingBox)
-  );
-}
-
-function detectWaterCollision(
-  expansions: LandExpansion[],
-  boundingBox: BoundingBox
-) {
-  const expansionBoundingBoxes: BoundingBox[] = expansions.map(
-    (_, expansionIndex) => ({
+function detectWaterCollision(expansions: number, boundingBox: BoundingBox) {
+  const expansionBoundingBoxes: BoundingBox[] = new Array(expansions)
+    .fill(null)
+    .map((_, expansionIndex) => ({
       x: EXPANSION_ORIGINS[expansionIndex].x - LAND_SIZE / 2,
       y: EXPANSION_ORIGINS[expansionIndex].y + LAND_SIZE / 2,
       width: LAND_SIZE,
       height: LAND_SIZE,
-    })
-  );
+    }));
 
   /**
    * A bounding box may overlap multiple land expansions.
@@ -154,17 +87,27 @@ function detectWaterCollision(
 const PLACEABLE_DIMENSIONS = {
   ...BUILDINGS_DIMENSIONS,
   ...COLLECTIBLES_DIMENSIONS,
+  ...RESOURCE_DIMENSIONS,
 };
 
 function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
-  const { collectibles, buildings } = state;
+  const {
+    collectibles,
+    buildings,
+    crops,
+    trees,
+    stones,
+    gold,
+    iron,
+    fruitPatches,
+  } = state;
 
   const placed = {
     ...collectibles,
     ...buildings,
   };
 
-  const boundingBoxes = getKeys(placed).flatMap((name) => {
+  const placeableBounds = getKeys(placed).flatMap((name) => {
     const items = placed[name] as PlacedItem[];
     const dimensions = PLACEABLE_DIMENSIONS[name];
 
@@ -175,6 +118,24 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
       width: dimensions.width,
     }));
   });
+
+  const resources = [
+    ...Object.values(trees),
+    ...Object.values(stones),
+    ...Object.values(iron),
+    ...Object.values(gold),
+    ...Object.values(crops),
+    ...Object.values(fruitPatches),
+  ];
+
+  const resourceBoundingBoxes = resources.map((item) => ({
+    x: item.x,
+    y: item.y,
+    height: item.height,
+    width: item.width,
+  }));
+
+  const boundingBoxes = [...placeableBounds, ...resourceBoundingBoxes];
 
   return boundingBoxes.some((resourceBoundingBox) =>
     isOverlapping(boundingBox, resourceBoundingBox)
@@ -191,6 +152,27 @@ function detectChickenCollision(state: GameState, boundingBox: BoundingBox) {
     return {
       x: chicken.coordinates?.x ?? -999,
       y: chicken.coordinates?.y ?? -999,
+      height: dimensions.height,
+      width: dimensions.width,
+    };
+  });
+
+  return boundingBoxes.some((resourceBoundingBox) =>
+    isOverlapping(boundingBox, resourceBoundingBox)
+  );
+}
+
+function detectMushroomCollision(state: GameState, boundingBox: BoundingBox) {
+  const { mushrooms } = state;
+  if (!mushrooms) return false;
+
+  const boundingBoxes = getKeys(mushrooms.mushrooms).flatMap((id) => {
+    const mushroom = mushrooms.mushrooms[id];
+    const dimensions = MUSHROOM_DIMENSIONS;
+
+    return {
+      x: mushroom.x,
+      y: mushroom.y,
       height: dimensions.height,
       width: dimensions.width,
     };
@@ -219,13 +201,13 @@ enum Direction {
  * @returns boolean
  */
 function detectLandCornerCollision(
-  expansions: LandExpansion[],
+  expansions: number,
   boundingBox: BoundingBox
 ) {
   // Mid point coordinates for all land expansions
-  const originCoordinatesForExpansions: Coordinates[] = expansions.map(
-    (_, i) => EXPANSION_ORIGINS[i]
-  );
+  const originCoordinatesForExpansions: Coordinates[] = new Array(expansions)
+    .fill(null)
+    .map((_, i) => EXPANSION_ORIGINS[i]);
 
   /**
    *
@@ -314,28 +296,174 @@ function detectLandCornerCollision(
   });
 }
 
-function detectBumpkinCollision(boundingBox: BoundingBox) {
-  return isOverlapping(boundingBox, {
-    x: BUMPKIN_POSITION.x,
-    y: BUMPKIN_POSITION.y,
-    height: 2,
-    width: 2,
-  });
-}
 export function detectCollision(state: GameState, position: Position) {
-  const { expansions } = state;
-  const latestLand = expansions[expansions.length - 1];
-  const completedExpansions = [
-    ...expansions.slice(0, expansions.length - 1),
-    ...(latestLand.readyAt <= Date.now() ? [latestLand] : []),
-  ];
+  const expansions = state.inventory["Basic Land"]?.toNumber() ?? 3;
 
   return (
-    detectWaterCollision(completedExpansions, position) ||
-    detectResourceCollision(state, position) ||
+    detectWaterCollision(expansions, position) ||
     detectPlaceableCollision(state, position) ||
-    detectLandCornerCollision(completedExpansions, position) ||
+    detectLandCornerCollision(expansions, position) ||
     detectChickenCollision(state, position) ||
-    detectBumpkinCollision(position)
+    detectMushroomCollision(state, position)
   );
+}
+
+export type AOEItemName =
+  | "Basic Scarecrow"
+  | "Emerald Turtle"
+  | "Tin Turtle"
+  | "Sir Goldensnout"
+  | "Bale"
+  | "Scary Mike"
+  | "Laurie the Chuckle Crow";
+
+/**
+ * Detects whether an item is within the area of effect of a placeable with AOE.
+ * @param AOEItem Item which has an area of effect
+ * @param item Item to check if it is within the area of effect
+ * @returns boolean
+ *
+ **/
+export function isWithinAOE(
+  AOEItemName: AOEItemName,
+  AOEItem: Position,
+  effectItem: Position
+): boolean {
+  const AOEItemCoordinates: Coordinates = { x: AOEItem.x, y: AOEItem.y };
+
+  const AOEItemDimensions: Dimensions = {
+    height: AOEItem.height,
+    width: AOEItem.width,
+  };
+
+  if (AOEItemCoordinates) {
+    if (AOEItemName === "Basic Scarecrow") {
+      const topLeft = {
+        x: AOEItemCoordinates.x - 1,
+        y: AOEItemCoordinates.y - AOEItem.height,
+      };
+
+      const bottomRight = {
+        x: AOEItemCoordinates.x + 1,
+        y: AOEItemCoordinates.y - AOEItemDimensions.height - 2,
+      };
+
+      if (
+        effectItem.x >= topLeft.x &&
+        effectItem.x <= bottomRight.x &&
+        effectItem.y <= topLeft.y &&
+        effectItem.y >= bottomRight.y
+      ) {
+        return true;
+      }
+    }
+    // AoE for the Scary Mike
+    if (AOEItemName === "Scary Mike") {
+      const topLeft = {
+        x: AOEItemCoordinates.x - 1,
+        y: AOEItemCoordinates.y - AOEItem.height,
+      };
+
+      const bottomRight = {
+        x: AOEItemCoordinates.x + 1,
+        y: AOEItemCoordinates.y - AOEItemDimensions.height - 2,
+      };
+
+      if (
+        effectItem.x >= topLeft.x &&
+        effectItem.x <= bottomRight.x &&
+        effectItem.y <= topLeft.y &&
+        effectItem.y >= bottomRight.y
+      ) {
+        return true;
+      }
+    }
+    // AoE for the Laurie the Chuckle Crow
+    if (AOEItemName === "Laurie the Chuckle Crow") {
+      const topLeft = {
+        x: AOEItemCoordinates.x - 1,
+        y: AOEItemCoordinates.y - AOEItem.height,
+      };
+
+      const bottomRight = {
+        x: AOEItemCoordinates.x + 1,
+        y: AOEItemCoordinates.y - AOEItemDimensions.height - 2,
+      };
+
+      if (
+        effectItem.x >= topLeft.x &&
+        effectItem.x <= bottomRight.x &&
+        effectItem.y <= topLeft.y &&
+        effectItem.y >= bottomRight.y
+      ) {
+        return true;
+      }
+    }
+
+    // AoE surrounding the turtle
+    if (AOEItemName === "Emerald Turtle" || AOEItemName === "Tin Turtle") {
+      const dx = Math.abs(AOEItemCoordinates.x - effectItem.x);
+      const dy = Math.abs(AOEItemCoordinates.y - effectItem.y);
+
+      if (dx <= 1 && dy <= 1 && (dx != 0 || dy != 0)) {
+        return true;
+      }
+    }
+    // AoE surrounding the bale
+    if (AOEItemName === "Sir Goldensnout") {
+      const dx = effectItem.x - AOEItemCoordinates.x;
+      const dy = effectItem.y - AOEItemCoordinates.y;
+
+      if (
+        dx >= -1 &&
+        dx <= AOEItemDimensions.width && // Covers the width of the bale and one tile around it
+        dy <= 1 &&
+        dy >= -AOEItemDimensions.height // Covers the height of the bale and one tile around it
+      ) {
+        return true;
+      }
+    }
+
+    if (AOEItemName === "Bale") {
+      const dx = effectItem.x - AOEItemCoordinates.x;
+      const dy = effectItem.y - AOEItemCoordinates.y;
+
+      if (
+        dx >= -1 &&
+        dx <= AOEItemDimensions.width && // Covers the width of the bale and one tile around it
+        dy <= 1 &&
+        dy >= -AOEItemDimensions.height // Covers the height of the bale and one tile around it
+      ) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+export function isAOEImpacted(
+  collectibles: Collectibles,
+  resourcePosition: Position,
+  collectibleNames: AOEItemName[]
+) {
+  return collectibleNames.some((name) => {
+    if (collectibles[name]?.[0]) {
+      const coordinates = collectibles[name]?.[0].coordinates;
+
+      if (!coordinates) return false;
+
+      const dimensions = COLLECTIBLES_DIMENSIONS[name];
+
+      const itemPosition: Position = {
+        x: coordinates.x,
+        y: coordinates.y,
+        height: dimensions.height,
+        width: dimensions.width,
+      };
+
+      if (isWithinAOE(name, itemPosition, resourcePosition)) {
+        return true;
+      }
+    }
+  });
 }

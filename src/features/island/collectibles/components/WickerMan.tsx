@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 
 import Spritesheet, {
   SpriteSheetInstance,
@@ -7,8 +7,10 @@ import { burningSound } from "lib/utils/sfx";
 
 import wickerManFire from "assets/sfts/wicker_man_fire.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ZoomContext } from "components/ZoomProvider";
 
 export const WickerMan: React.FC = () => {
+  const { scale } = useContext(ZoomContext);
   const wickerManGif = useRef<SpriteSheetInstance>();
 
   const burn = () => {
@@ -29,7 +31,7 @@ export const WickerMan: React.FC = () => {
         className="absolute group-hover:img-highlight pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 48}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
+          bottom: 0,
           left: `${PIXEL_SCALE * -14}px`,
           imageRendering: "pixelated",
         }}
@@ -39,6 +41,7 @@ export const WickerMan: React.FC = () => {
         image={wickerManFire}
         widthFrame={48}
         heightFrame={58}
+        zoomScale={scale}
         fps={12}
         endAt={32}
         steps={32}

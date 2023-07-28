@@ -1,9 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
-import {
-  HELIOS_DECORATIONS,
-  ShopDecorationName,
-} from "../../types/decorations";
+import { BASIC_DECORATIONS, ShopDecorationName } from "../../types/decorations";
 import { GameState } from "../../types/game";
 import { buyDecoration } from "./buyDecoration";
 
@@ -16,7 +13,7 @@ describe("buyDecoration", () => {
         state: GAME_STATE,
         action: {
           type: "decoration.bought",
-          item: "Goblin Key" as ShopDecorationName,
+          name: "Goblin Key" as ShopDecorationName,
         },
       })
     ).toThrow("This item is not a decoration");
@@ -31,7 +28,7 @@ describe("buyDecoration", () => {
         },
         action: {
           type: "decoration.bought",
-          item: "Potted Sunflower",
+          name: "Potted Sunflower",
         },
       })
     ).toThrow("Insufficient tokens");
@@ -47,10 +44,45 @@ describe("buyDecoration", () => {
         },
         action: {
           type: "decoration.bought",
-          item: "Potted Sunflower",
+          name: "Potted Sunflower",
         },
       })
     ).toThrow("Insufficient ingredient: Sunflower");
+  });
+
+  it("does not craft too early", () => {
+    expect(() =>
+      buyDecoration({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(400),
+          inventory: {
+            "Crow Feather": new Decimal(100),
+          },
+        },
+        action: {
+          type: "decoration.bought",
+          name: "Candles",
+        },
+        createdAt: new Date("2023-07-31").getTime(),
+      })
+    ).toThrow("Too early");
+  });
+
+  it("does not craft too late", () => {
+    expect(() =>
+      buyDecoration({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(400),
+        },
+        action: {
+          type: "decoration.bought",
+          name: "Candles",
+        },
+        createdAt: new Date("2023-11-02").getTime(),
+      })
+    ).toThrow("Too late");
   });
 
   it("burns the SFL on purchase", () => {
@@ -65,12 +97,12 @@ describe("buyDecoration", () => {
       },
       action: {
         type: "decoration.bought",
-        item: "Potted Sunflower",
+        name: "Potted Sunflower",
       },
     });
 
     expect(state.balance).toEqual(
-      balance.minus(HELIOS_DECORATIONS()["Potted Sunflower"].sfl as Decimal)
+      balance.minus(BASIC_DECORATIONS()["Potted Sunflower"].sfl as Decimal)
     );
   });
 
@@ -86,7 +118,7 @@ describe("buyDecoration", () => {
         },
       },
       action: {
-        item,
+        name: item,
         type: "decoration.bought",
       },
     });
@@ -105,7 +137,7 @@ describe("buyDecoration", () => {
         },
         action: {
           type: "decoration.bought",
-          item: "Potted Sunflower",
+          name: "Potted Sunflower",
         },
       })
     ).toThrow("Bumpkin not found");
@@ -122,11 +154,11 @@ describe("buyDecoration", () => {
       },
       action: {
         type: "decoration.bought",
-        item: "Potted Sunflower",
+        name: "Potted Sunflower",
       },
     });
     expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
-      HELIOS_DECORATIONS()["Potted Sunflower"].sfl?.toNumber()
+      BASIC_DECORATIONS()["Potted Sunflower"].sfl?.toNumber()
     );
   });
 
@@ -141,9 +173,177 @@ describe("buyDecoration", () => {
       },
       action: {
         type: "decoration.bought",
-        item: "Potted Sunflower",
+        name: "Potted Sunflower",
       },
     });
     expect(state.bumpkin?.activity?.["Potted Sunflower Bought"]).toEqual(1);
+  });
+
+  it("requires ID does not exist", () => {
+    expect(() =>
+      buyDecoration({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(1),
+          inventory: {
+            Sunflower: new Decimal(150),
+            "Basic Land": new Decimal(10),
+          },
+          buildings: {},
+          collectibles: {
+            "Potted Sunflower": [
+              {
+                id: "123",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "decoration.bought",
+          name: "Potted Sunflower",
+          coordinates: { x: 0, y: 5 },
+          id: "123",
+        },
+      })
+    ).toThrow("ID already exists");
+  });
+
+  it("requires decoration does not collide", () => {
+    expect(() =>
+      buyDecoration({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(1),
+          inventory: {
+            Sunflower: new Decimal(150),
+            "Basic Land": new Decimal(10),
+          },
+          buildings: {},
+          collectibles: {
+            "Potted Sunflower": [
+              {
+                id: "123",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "decoration.bought",
+          name: "Potted Sunflower",
+          coordinates: { x: 0, y: 0 },
+          id: "456",
+        },
+      })
+    ).toThrow("Decoration collides");
+  });
+
+  it("places decoration", () => {
+    const state = buyDecoration({
+      state: {
+        ...GAME_STATE,
+        balance: new Decimal(1),
+        inventory: {
+          Sunflower: new Decimal(150),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {},
+        collectibles: {},
+      },
+      action: {
+        type: "decoration.bought",
+        name: "Potted Sunflower",
+        coordinates: { x: 0, y: 5 },
+        id: "456",
+      },
+    });
+
+    expect(state.collectibles["Potted Sunflower"]?.[0]?.coordinates).toEqual({
+      x: 0,
+      y: 5,
+    });
+  });
+
+  it("throws an error if max limit reached", () => {
+    expect(() =>
+      buyDecoration({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(100),
+          inventory: {
+            Gold: new Decimal(150),
+            "Basic Land": new Decimal(10),
+            Eggplant: new Decimal(30),
+            "Wild Mushroom": new Decimal(10),
+            "Giant Dawn Mushroom": new Decimal(5),
+          },
+          buildings: {},
+          collectibles: {},
+        },
+        action: {
+          type: "decoration.bought",
+          name: "Giant Dawn Mushroom",
+          coordinates: { x: 0, y: 5 },
+          id: "123",
+        },
+      })
+    ).toThrow("Max limit reached");
+  });
+
+  it("throws an error if player tries to place a limited decoration without a seasonal banner", () => {
+    expect(() =>
+      buyDecoration({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(100),
+          inventory: {
+            Gold: new Decimal(150),
+            "Basic Land": new Decimal(10),
+            "Wild Mushroom": new Decimal(50),
+          },
+          buildings: {},
+          collectibles: {},
+        },
+        action: {
+          type: "decoration.bought",
+          name: "Clementine",
+          coordinates: { x: 0, y: 5 },
+          id: "123",
+        },
+      })
+    ).toThrow("This item is not a decoration");
+  });
+
+  it("places a limited decoration when the player has a seasonal banner", () => {
+    const state = buyDecoration({
+      state: {
+        ...GAME_STATE,
+        balance: new Decimal(100),
+        inventory: {
+          Gold: new Decimal(150),
+          "Basic Land": new Decimal(10),
+          "Wild Mushroom": new Decimal(50),
+          "Dawn Breaker Banner": new Decimal(1),
+        },
+        buildings: {},
+        collectibles: {},
+      },
+      action: {
+        type: "decoration.bought",
+        name: "Clementine",
+        coordinates: { x: 0, y: 5 },
+        id: "123",
+      },
+    });
+
+    expect(state.collectibles["Clementine"]?.[0]?.coordinates).toEqual({
+      x: 0,
+      y: 5,
+    });
   });
 });

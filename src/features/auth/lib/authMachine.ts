@@ -1,30 +1,36 @@
-import { sequence } from "0xsequence";
-import { createMachine, Interpreter, assign } from "xstate";
-import WalletConnectProvider from "@walletconnect/web3-provider";
-
+import { createMachine, Interpreter, State, assign } from "xstate";
 import { loadBanDetails } from "features/game/actions/bans";
 import { isFarmBlacklisted } from "features/game/actions/onchain";
 import { CONFIG } from "lib/config";
 import { ErrorCode, ERRORS } from "lib/errors";
 
-import { wallet, WalletType } from "../../../lib/blockchain/wallet";
+import { wallet } from "../../../lib/blockchain/wallet";
 import { communityContracts } from "features/community/lib/communityContracts";
-import { createAccount as createFarmAction } from "../actions/createAccount";
+import {
+  createAccount as createFarmAction,
+  saveReferrerId,
+} from "../actions/createAccount";
 import {
   login,
   Token,
   decodeToken,
   removeSession,
-  hasValidSession,
   saveSession,
+  hasValidSession,
 } from "../actions/login";
-import { oauthorise, redirectOAuth } from "../actions/oauth";
+import { oauthorise } from "../actions/oauth";
 import { CharityAddress } from "../components/CreateFarm";
 import { randomID } from "lib/utils/random";
 import { createFarmMachine } from "./createFarmMachine";
-import { SEQUENCE_CONNECT_OPTIONS } from "./sequence";
 import { getFarm, getFarms } from "lib/blockchain/Farm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
+import { getOnboardingComplete } from "../actions/createGuestAccount";
+import { analytics } from "lib/analytics";
+import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectStrategy.factory";
+import { Web3SupportedProviders } from "lib/web3SupportedProviders";
+import { savePromoCode } from "features/game/actions/loadSession";
+
+export const ART_MODE = !CONFIG.API_URL;
 
 const getFarmIdFromUrl = () => {
   const paths = window.location.href.split("/visit/");
@@ -38,8 +44,27 @@ const getDiscordCode = () => {
   return code;
 };
 
+const getReferrerID = () => {
+  const code = new URLSearchParams(window.location.search).get("ref");
+
+  return code;
+};
+
+const getPromoCode = () => {
+  const code = new URLSearchParams(window.location.search).get("promo");
+
+  return code;
+};
+
 const deleteFarmUrl = () =>
   window.history.pushState({}, "", window.location.pathname);
+
+const isPassiveFailureMessage = (failureMessage: string): boolean => {
+  return (
+    failureMessage === "User closed modal" ||
+    failureMessage === ERRORS.SEQUENCE_NOT_CONNECTED
+  );
+};
 
 type Farm = {
   farmId: number;
@@ -49,26 +74,32 @@ type Farm = {
   verificationUrl?: string;
 };
 
-export interface Context {
-  errorCode?: ErrorCode;
-  transactionId?: string;
-  farmId?: number;
-  hash?: string;
-  address?: string;
+interface Authentication {
   token?: Token;
   rawToken?: string;
-  captcha?: string;
-  blacklistStatus?: "OK" | "VERIFY" | "PENDING" | "REJECTED";
-  verificationUrl?: string;
-  wallet?: WalletType;
-  provider?: any;
+  web3?: {
+    wallet: Web3SupportedProviders;
+    provider: any;
+  };
+  farmId?: number;
 }
 
-export type Screen = "land" | "farm";
+export interface FullUser extends Authentication {
+  type: "FULL";
+  farmAddress?: string;
+}
+
+export interface Context {
+  user: FullUser;
+  errorCode?: ErrorCode;
+  transactionId?: string;
+  blacklistStatus?: "OK" | "VERIFY" | "PENDING" | "REJECTED";
+  verificationUrl?: string;
+  visitingFarmId?: number;
+}
 
 type StartEvent = Farm & {
   type: "START_GAME";
-  screen: Screen;
 };
 
 type ExploreEvent = {
@@ -95,6 +126,11 @@ type LoadFarmEvent = {
   type: "LOAD_FARM";
 };
 
+type ConnectWalletEvent = {
+  type: "CONNECT_TO_WALLET";
+  chosenProvider: Web3SupportedProviders;
+};
+
 export type BlockchainEvent =
   | StartEvent
   | ExploreEvent
@@ -102,6 +138,7 @@ export type BlockchainEvent =
   | ReturnEvent
   | CreateFarmEvent
   | LoadFarmEvent
+  | ConnectWalletEvent
   | {
       type: "CHAIN_CHANGED";
     }
@@ -117,23 +154,30 @@ export type BlockchainEvent =
   | {
       type: "CHOOSE_CHARITY";
     }
+  | { type: "CONTINUE" }
+  | { type: "BACK" }
   | { type: "CONNECT_TO_DISCORD" }
   | { type: "CONFIRM" }
   | { type: "SKIP" }
-  | { type: "CONNECT_TO_METAMASK" }
-  | { type: "CONNECT_TO_WALLET_CONNECT" }
-  | { type: "CONNECT_TO_SEQUENCE" }
   | { type: "SIGN" }
-  | { type: "VERIFIED" };
+  | { type: "VERIFIED" }
+  | { type: "SET_WALLET" }
+  | { type: "SET_TOKEN" }
+  | { type: "BUY_FULL_ACCOUNT" }
+  | { type: "SIGN_IN" }
+  | { type: "SELECT_POKO" }
+  | { type: "SELECT_MATIC" };
 
 export type BlockchainState = {
   value:
     | "idle"
+    | "welcome"
+    | "createWallet"
+    | "signIn"
     | "initialising"
     | "visiting"
-    | "connectingToMetamask"
-    | "connectingToWalletConnect"
-    | "connectingToSequence"
+    | "connectingToWallet"
+    | "connectingAsGuest"
     | "setupContracts"
     | "connectedToWallet"
     | "reconnecting"
@@ -144,21 +188,20 @@ export type BlockchainState = {
     | "blacklisted"
     | { connected: "loadingFarm" }
     | { connected: "farmLoaded" }
-    | { connected: "noFarmLoaded" }
+    | { connected: "offer" }
+    | { connected: "selectPaymentMethod" }
+    | { connected: "creatingPokoFarm" }
     | { connected: "creatingFarm" }
+    | { connected: "funding" }
     | { connected: "countdown" }
     | { connected: "readyToStart" }
-    | { connected: "donating" }
     | { connected: "authorised" }
     | { connected: "blacklisted" }
-    | { connected: "visitingContributor" }
     | "exploring"
     | "checkFarm"
     | "unauthorised";
   context: Context;
 };
-
-const API_URL = CONFIG.API_URL;
 
 export type MachineInterpreter = Interpreter<
   Context,
@@ -167,6 +210,8 @@ export type MachineInterpreter = Interpreter<
   BlockchainState
 >;
 
+export type AuthMachineState = State<Context, BlockchainEvent, BlockchainState>;
+
 export const authMachine = createMachine<
   Context,
   BlockchainEvent,
@@ -174,19 +219,76 @@ export const authMachine = createMachine<
 >(
   {
     id: "authMachine",
-    initial: API_URL ? "idle" : "connected",
+    initial: ART_MODE ? "connected" : "idle",
+    context: {
+      user: ART_MODE
+        ? {
+            type: "FULL",
+            // Random ID
+            farmId: Math.floor(Math.random() * (500 + 1)),
+          }
+        : { type: "FULL" },
+    },
     states: {
       idle: {
         id: "idle",
+        entry: () => {
+          const referrerId = getReferrerID();
+
+          if (referrerId) {
+            saveReferrerId(referrerId);
+          }
+
+          const promoCode = getPromoCode();
+          if (promoCode) {
+            savePromoCode(promoCode);
+          }
+        },
+        always: [
+          {
+            target: "welcome",
+            cond: () => !getOnboardingComplete(),
+          },
+          {
+            target: "signIn",
+          },
+        ],
         on: {
-          CONNECT_TO_METAMASK: {
-            target: "connectingToMetamask",
+          SIGN_IN: {
+            target: "signIn",
           },
-          CONNECT_TO_WALLET_CONNECT: {
-            target: "connectingToWalletConnect",
+        },
+      },
+      welcome: {
+        on: {
+          SIGN_IN: {
+            target: "signIn",
+            actions: () => analytics.logEvent("connect_wallet"),
           },
-          CONNECT_TO_SEQUENCE: {
-            target: "connectingToSequence",
+          CONTINUE: {
+            target: "createWallet",
+            actions: () => analytics.logEvent("create_account"),
+          },
+        },
+      },
+
+      createWallet: {
+        on: {
+          CONTINUE: {
+            target: "signIn",
+            actions: () => analytics.logEvent("connect_wallet"),
+          },
+        },
+      },
+
+      signIn: {
+        id: "signIn",
+        on: {
+          CONNECT_TO_WALLET: {
+            target: "connectingToWallet",
+          },
+          BACK: {
+            target: "welcome",
           },
         },
       },
@@ -194,67 +296,26 @@ export const authMachine = createMachine<
         id: "reconnecting",
         always: [
           {
-            target: "connectingToMetamask",
-            cond: (context) => context.wallet === "METAMASK",
-          },
-          {
-            target: "connectingToWalletConnect",
-            cond: (context) => context.wallet === "WALLET_CONNECT",
-          },
-          {
-            target: "connectingToSequence",
-            cond: (context) => context.wallet === "SEQUENCE",
+            target: "connectingToWallet",
+            cond: (context) => !!context.user.web3?.wallet,
           },
           { target: "idle" },
         ],
       },
-      connectingToMetamask: {
-        id: "connectingToMetamask",
+      connectingToWallet: {
+        id: "connectingToWallet",
         invoke: {
-          src: "initMetamask",
-          onDone: {
-            target: "setupContracts",
-            actions: "assignWallet",
-          },
-          onError: {
-            target: "unauthorised",
-            actions: "assignErrorMessage",
-          },
-        },
-      },
-      connectingToWalletConnect: {
-        id: "connectingToWalletConnect",
-        invoke: {
-          src: "initWalletConnect",
-          onDone: {
-            target: "setupContracts",
-            actions: "assignWallet",
-          },
-          onError: [
+          src: "initWallet",
+          onDone: [
             {
-              target: "idle",
-              cond: (_, event) => event.data.message === "User closed modal",
-            },
-            {
-              target: "unauthorised",
-              actions: "assignErrorMessage",
+              target: "setupContracts",
+              actions: "assignUser",
             },
           ],
-        },
-      },
-      connectingToSequence: {
-        id: "connectingToSequence",
-        invoke: {
-          src: "initSequence",
-          onDone: {
-            target: "setupContracts",
-            actions: "assignWallet",
-          },
           onError: [
             {
               target: "idle",
-              cond: (_, event) =>
-                event.data.message === ERRORS.SEQUENCE_NOT_CONNECTED,
+              cond: (_, event) => isPassiveFailureMessage(event.data.message),
             },
             {
               target: "unauthorised",
@@ -265,22 +326,40 @@ export const authMachine = createMachine<
       },
       setupContracts: {
         invoke: {
-          src: async (context, event) => {
-            const type: WalletType = (event as any).data?.wallet ?? "METAMASK";
-            await wallet.initialise(context.provider, type);
-            await communityContracts.initialise(context.provider);
+          src: async (context) => {
+            console.log({ isWeb3: context.user.web3 });
+            if (context.user.web3) {
+              await wallet.initialise(
+                context.user.web3.provider,
+                context.user.web3.wallet
+              );
+              await communityContracts.initialise(context.user.web3.provider);
+            }
           },
           onDone: [
             {
               target: "checkFarm",
               cond: "isVisitingUrl",
+              actions: assign({
+                visitingFarmId: (_context) => getFarmIdFromUrl(),
+              }),
+            },
+            // This enables pop ups to load during the sequence signing flow
+            {
+              target: "connectedToWallet",
+              cond: (context) =>
+                context.user.web3?.wallet === Web3SupportedProviders.SEQUENCE,
+              actions: (context) =>
+                analytics.logEvent("wallet_connected", {
+                  wallet: context.user.web3?.wallet,
+                }),
             },
             {
               target: "signing",
-              cond: (context) => context.wallet === "METAMASK",
-            },
-            {
-              target: "connectedToWallet",
+              actions: (context) =>
+                analytics.logEvent("wallet_connected", {
+                  wallet: context.user.web3?.wallet,
+                }),
             },
           ],
           onError: {
@@ -326,7 +405,7 @@ export const authMachine = createMachine<
             actions: [
               "assignToken",
               (_, event) =>
-                saveSession(wallet.myAccount, {
+                saveSession((event as any).data.account, {
                   token: (event as any).data.token,
                 }),
             ],
@@ -348,7 +427,7 @@ export const authMachine = createMachine<
         },
       },
       connected: {
-        initial: API_URL ? "loadingFarm" : "authorised",
+        initial: ART_MODE ? "authorised" : "loadingFarm",
         states: {
           loadingFarm: {
             id: "loadingFarm",
@@ -363,17 +442,16 @@ export const authMachine = createMachine<
                 {
                   // event.data can be undefined if the player has no farms
                   cond: (_, event) => event.data?.blacklistStatus === "BANNED",
-                  actions: "assignFarm",
+                  actions: "assignFullUser",
                   target: "blacklisted",
                 },
-
                 {
                   target: "authorised",
-                  actions: "assignFarm",
+                  actions: "assignFullUser",
                   cond: "hasFarm",
                 },
 
-                { target: "noFarmLoaded" },
+                { target: "funding" },
               ],
               onError: [
                 {
@@ -390,28 +468,12 @@ export const authMachine = createMachine<
               ],
             },
           },
-          visitingContributor: {
-            on: {
-              RETURN: [
-                // When returning to this state the original authorised player's data exists in the authMachine context
-                {
-                  target: "authorised",
-                  actions: (context) => {
-                    window.location.href = `${window.location.pathname}#/land/${context.farmId}`;
-                  },
-                  cond: "hasFarm",
-                },
-                { target: "readyToStart" },
-              ],
-            },
-          },
-
-          donating: {
+          funding: {
             invoke: {
               id: "createFarmMachine",
               src: createFarmMachine,
               data: {
-                token: (context: Context) => context.rawToken,
+                token: (context: Context) => context.user.rawToken,
               },
               onError: {
                 target: "#unauthorised",
@@ -421,8 +483,43 @@ export const authMachine = createMachine<
             on: {
               CREATE_FARM: {
                 target: "creatingFarm",
+                actions: () => analytics.logEvent("mint_farm"),
               },
               REFRESH: {
+                target: "#reconnecting",
+              },
+
+              BACK: {
+                target: "#signIn",
+              },
+              SELECT_POKO: {
+                target: "creatingPokoFarm",
+                actions: () => analytics.logEvent("select_poko"),
+              },
+              // SELECT_MATIC: {
+              //   target: "funding",
+              //   actions: () => analytics.logEvent("select_matic"),
+              // },
+            },
+          },
+          // selectPaymentMethod: {
+          //   on: {
+          //     BACK: {
+          //       target: "offer",
+          //     },
+          //     SELECT_POKO: {
+          //       target: "creatingPokoFarm",
+          //       actions: () => analytics.logEvent("select_poko"),
+          //     },
+          //     SELECT_MATIC: {
+          //       target: "funding",
+          //       actions: () => analytics.logEvent("select_matic"),
+          //     },
+          //   },
+          // },
+          creatingPokoFarm: {
+            on: {
+              CONTINUE: {
                 target: "#reconnecting",
               },
             },
@@ -447,24 +544,14 @@ export const authMachine = createMachine<
               },
             },
           },
-          noFarmLoaded: {
+          offer: {
+            entry: () => analytics.logEvent("offer_seen"),
             on: {
-              CHOOSE_CHARITY: {
-                target: "donating",
+              CONTINUE: {
+                // target: "selectPaymentMethod",
+                target: "funding",
+                actions: () => analytics.logEvent("offer_accepted"),
               },
-              CONNECT_TO_DISCORD: {
-                // Redirects to Discord OAuth so no need for a state change
-                target: "noFarmLoaded",
-                actions: redirectOAuth,
-              },
-              EXPLORE: {
-                target: "#exploring",
-              },
-            },
-          },
-          farmLoaded: {
-            always: {
-              target: "readyToStart",
             },
           },
           readyToStart: {
@@ -503,17 +590,25 @@ export const authMachine = createMachine<
             id: "authorised",
             entry: [
               "clearTransactionId",
-              (context, event) => {
+              (context) => {
                 if (window.location.hash.includes("retreat")) return;
+                if (window.location.hash.includes("world")) return;
 
-                const defaultScreen = "land";
-
-                const { screen = defaultScreen } = event as StartEvent;
-
-                if (CONFIG.API_URL) {
-                  window.location.href = `${window.location.pathname}#/${screen}/${context.farmId}`;
+                if (!ART_MODE) {
+                  window.history.replaceState(
+                    null,
+                    "",
+                    `${window.location.pathname}#/land/${context.user.farmId}`
+                  );
                 }
               },
+              (context) =>
+                analytics.initialise({
+                  id: context.user.farmId as number,
+                  type: context.user.type,
+                  wallet: context.user.web3?.wallet as string,
+                }),
+              () => analytics.logEvent("login"),
             ],
             on: {
               RETURN: {
@@ -526,12 +621,27 @@ export const authMachine = createMachine<
               EXPLORE: {
                 target: "#exploring",
               },
-              VISIT: {
-                target: "visitingContributor",
-              },
               LOGOUT: {
                 target: "#idle",
                 actions: ["clearSession", "refreshFarm"],
+              },
+              SET_WALLET: {
+                actions: "assignUser",
+              },
+              SET_TOKEN: {
+                actions: [
+                  "assignToken",
+                  (_, event) =>
+                    saveSession((event as any).data.account, {
+                      token: (event as any).data.token,
+                    }),
+                ],
+              },
+              BUY_FULL_ACCOUNT: {
+                target: "funding",
+              },
+              SIGN_IN: {
+                target: "#signIn",
               },
             },
           },
@@ -549,6 +659,7 @@ export const authMachine = createMachine<
           },
           VISIT: {
             target: "checkFarm",
+            actions: assign({ visitingFarmId: (_, event) => event.farmId }),
           },
         },
       },
@@ -560,12 +671,9 @@ export const authMachine = createMachine<
             {
               target: "blacklisted",
               cond: (_, event) => event.data.blacklistStatus !== "OK",
-              actions: "assignFarm",
             },
             {
               target: "visiting",
-              actions: "assignFarm",
-              cond: "hasFarm",
             },
           ],
           onError: {
@@ -577,7 +685,7 @@ export const authMachine = createMachine<
       blacklisted: {},
       visiting: {
         entry: (context) => {
-          window.location.href = `${window.location.pathname}#/visit/${context.farmId}`;
+          window.location.href = `${window.location.pathname}#/visit/${context.visitingFarmId}`;
         },
         on: {
           RETURN: {
@@ -604,61 +712,43 @@ export const authMachine = createMachine<
   },
   {
     services: {
-      initMetamask: async () => {
-        const _window = window as any;
+      initWallet: async (context, event: any) => {
+        const _event = event as ConnectWalletEvent | undefined;
 
-        // TODO add type support
-        if (_window.ethereum) {
-          const provider = _window.ethereum;
+        const wallet = _event?.chosenProvider ?? context.user.web3?.wallet;
 
-          if (provider.isPhantom) {
-            throw new Error(ERRORS.PHANTOM_WALLET_NOT_SUPPORTED);
-          }
-          await provider.request({
-            method: "eth_requestAccounts",
-          });
-
-          return { wallet: "METAMASK", provider };
-        } else {
-          throw new Error(ERRORS.NO_WEB3);
+        if (!wallet) {
+          throw new Error("Could not determine wallet provider.");
         }
-      },
-      initWalletConnect: async () => {
-        // TODO abstract RPC constants
-        const provider = new WalletConnectProvider({
-          rpc: {
-            80001: "https://matic-mumbai.chainstacklabs.com",
-            137: "https://polygon-rpc.com/",
+
+        const web3ConnectStrategy = web3ConnectStrategyFactory(wallet);
+
+        analytics.logEvent(web3ConnectStrategy.getConnectEventType());
+
+        if (!web3ConnectStrategy.isAvailable()) {
+          web3ConnectStrategy.whenUnavailableAction();
+          return;
+        }
+
+        await web3ConnectStrategy.initialize();
+        await web3ConnectStrategy.requestAccounts();
+
+        return {
+          web3: {
+            wallet: wallet,
+            provider: web3ConnectStrategy.getProvider(),
           },
-        });
-        //  Enable session (triggers QR Code modal)
-        await provider.enable();
-
-        return { wallet: "WALLET_CONNECT", provider };
-      },
-      initSequence: async () => {
-        const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
-
-        const sequenceWallet = await sequence.initWallet(network);
-        await sequenceWallet.connect(SEQUENCE_CONNECT_OPTIONS);
-
-        if (!sequenceWallet.isConnected()) {
-          throw Error(ERRORS.SEQUENCE_NOT_CONNECTED);
-        }
-
-        const provider = sequenceWallet.getProvider();
-
-        return { wallet: "SEQUENCE", provider };
+        };
       },
       loadFarm: async (context): Promise<Farm | undefined> => {
+        if (!wallet.myAccount) return;
+
         const farmAccounts = await getFarms(
           wallet.web3Provider,
           wallet.myAccount
         );
 
-        if (farmAccounts?.length === 0) {
-          return;
-        }
+        if (farmAccounts?.length === 0) return;
 
         const createdAt = await getCreatedAt(
           wallet.web3Provider,
@@ -669,9 +759,9 @@ export const authMachine = createMachine<
         // V1 just support 1 farm per account - in future let them choose between the NFTs they hold
         const farmAccount = farmAccounts[0];
 
-        const { verificationUrl, botStatus, isBanned } = await loadBanDetails(
+        const { verificationUrl, isBanned } = await loadBanDetails(
           farmAccount.tokenId,
-          context.rawToken as string,
+          context.user.rawToken as string,
           context.transactionId as string
         );
 
@@ -683,50 +773,53 @@ export const authMachine = createMachine<
           verificationUrl,
         };
       },
-      createFarm: async (context: Context, event: any): Promise<Context> => {
-        const { charityAddress, donation, captcha } = event as CreateFarmEvent;
+      createFarm: async (context: Context, event: any) => {
+        if (!context.user.rawToken) throw new Error("No token");
+        if (!wallet.myAccount) throw new Error("No account");
 
-        const newFarm = await createFarmAction({
+        const { charityAddress, captcha } = event as CreateFarmEvent;
+
+        await createFarmAction({
           charity: charityAddress,
-          token: context.rawToken as string,
-          captcha: captcha,
+          token: context.user.rawToken,
+          captcha,
           transactionId: context.transactionId as string,
+          account: wallet.myAccount,
         });
-
-        return {
-          farmId: parseInt(newFarm.tokenId),
-          address: newFarm.account,
-        };
       },
-      login: async (context): Promise<{ token: string }> => {
-        const { token } = await login(context.transactionId as string);
+      login: async (context): Promise<{ token: string | null }> => {
+        let token: string | null = null;
 
-        return {
-          token,
-        };
+        if (wallet.myAccount) {
+          ({ token } = await login(
+            context.transactionId as string,
+            wallet.myAccount
+          ));
+        }
+
+        return { token };
       },
       oauthorise: async (context) => {
+        if (!wallet.myAccount) throw new Error("No account");
+
         const code = getDiscordCode() as string;
         // Navigates to Discord OAuth Flow
         const { token } = await oauthorise(
           code,
-          context.transactionId as string
+          context.transactionId as string,
+          wallet.myAccount
         );
 
         return { token };
       },
-      visitFarm: async (
-        _context: Context,
-        event: any
-      ): Promise<Farm | undefined> => {
-        const farmId = getFarmIdFromUrl() || (event as VisitEvent).farmId;
+      visitFarm: async (context: Context): Promise<Farm> => {
+        if (!context.visitingFarmId) throw new Error("No Visiting Farm ID");
+
         const farmAccount = await getFarm(
           wallet.web3Provider,
-          wallet.myAccount,
-          farmId
+          context.visitingFarmId
         );
-
-        const isBlacklisted = await isFarmBlacklisted(farmId);
+        const isBlacklisted = await isFarmBlacklisted(context.visitingFarmId);
 
         return {
           farmId: parseInt(farmAccount.tokenId),
@@ -737,28 +830,35 @@ export const authMachine = createMachine<
       },
     },
     actions: {
-      assignFarm: assign<Context, any>({
-        farmId: (_context, event) => event.data.farmId,
-        address: (_context, event) => event.data.address,
-        blacklistStatus: (_context, event) => event.data.blacklistStatus,
-        verificationUrl: (_context, event) => event.data.verificationUrl,
+      assignFullUser: assign<Context, any>({
+        user: (context, event) => ({
+          ...context.user,
+          type: "FULL",
+          web3: context.user.web3,
+          farmId: event.data.farmId,
+          farmAddress: event.data.address,
+        }),
+        blacklistStatus: (_, event) => event.data.blacklistStatus,
+        verificationUrl: (_, event) => event.data.verificationUrl,
       }),
       assignToken: assign<Context, any>({
-        token: (_context, event) => decodeToken(event.data.token),
-        rawToken: (_context, event) => event.data.token,
+        user: (context, event) => ({
+          ...context.user,
+          token: decodeToken(event.data.token),
+          rawToken: event.data.token,
+        }),
       }),
       assignErrorMessage: assign<Context, any>({
         errorCode: (_context, event) => event.data.message,
       }),
-      assignWallet: assign<Context, any>({
-        wallet: (_context, event) => event.data.wallet,
-        provider: (_context: any, event: any) => event.data.provider,
+      assignUser: assign<Context, any>({
+        user: (_context, event) => ({
+          type: "FULL",
+          web3: event.data.web3,
+        }),
       }),
       refreshFarm: assign<Context, any>({
-        farmId: () => undefined,
-        address: () => undefined,
-        token: () => undefined,
-        rawToken: () => undefined,
+        visitingFarmId: undefined,
       }),
       clearSession: () => removeSession(wallet.myAccount as string),
       deleteFarmIdUrl: deleteFarmUrl,
@@ -777,7 +877,7 @@ export const authMachine = createMachine<
 
         const secondsElapsed =
           Date.now() / 1000 - (event.data as Farm).createdAt;
-        return secondsElapsed < 60;
+        return secondsElapsed < 30;
       },
       hasFarm: (context: Context, event: any) => {
         // If coming from the loadingFarm transition the farmId with show up on the event
@@ -788,7 +888,9 @@ export const authMachine = createMachine<
           return !!farmId;
         }
 
-        return !!context.farmId;
+        if (context.user.type === "FULL") return !!context.user.farmId;
+
+        return false;
       },
       isVisitingUrl: () => window.location.href.includes("visit"),
       hasDiscordCode: () => !!getDiscordCode(),

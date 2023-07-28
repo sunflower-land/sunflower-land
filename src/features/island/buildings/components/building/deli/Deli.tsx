@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 
 import deli from "assets/buildings/deli.png";
@@ -8,14 +8,13 @@ import shadow from "assets/npcs/shadow.png";
 
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { CraftingMachineChildProps } from "../WithCraftingMachine";
 import { BuildingProps } from "../Building";
-import { InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { DeliModal } from "./DeliModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
+import { bakeryAudio } from "lib/utils/sfx";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -30,7 +29,6 @@ export const Deli: React.FC<Props> = ({
   onRemove,
 }) => {
   const [showModal, setShowModal] = useState(false);
-  const { setToast } = useContext(ToastContext);
 
   const handleCook = (item: CookableName) => {
     craftingService?.send({
@@ -49,11 +47,6 @@ export const Deli: React.FC<Props> = ({
       item: name,
       event: "recipe.collected",
     });
-
-    setToast({
-      icon: ITEM_DETAILS[name as InventoryItemName].image,
-      content: "+1",
-    });
   };
 
   const handleClick = () => {
@@ -64,6 +57,7 @@ export const Deli: React.FC<Props> = ({
 
     if (isBuilt) {
       if (idle || crafting) {
+        bakeryAudio.play();
         setShowModal(true);
         return;
       }
@@ -80,7 +74,7 @@ export const Deli: React.FC<Props> = ({
       <BuildingImageWrapper onClick={handleClick} ready={ready}>
         <img
           src={deli}
-          className={classNames("absolute bottom-0", {
+          className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
           })}
@@ -103,7 +97,7 @@ export const Deli: React.FC<Props> = ({
             src={artisianDoing}
             className="absolute pointer-events-none"
             style={{
-              width: `${PIXEL_SCALE * 20}px`,
+              width: `${PIXEL_SCALE * 17}px`,
               right: `${PIXEL_SCALE * 1}px`,
               bottom: `${PIXEL_SCALE * 17}px`,
               transform: "scaleX(-1)",
@@ -114,7 +108,7 @@ export const Deli: React.FC<Props> = ({
             src={artisian}
             className="absolute pointer-events-none"
             style={{
-              width: `${PIXEL_SCALE * 16}px`,
+              width: `${PIXEL_SCALE * 15}px`,
               right: `${PIXEL_SCALE * 1}px`,
               bottom: `${PIXEL_SCALE * 17}px`,
               transform: "scaleX(-1)",

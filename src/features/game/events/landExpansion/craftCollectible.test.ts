@@ -35,6 +35,38 @@ describe("craftCollectible", () => {
     ).toThrow("Insufficient ingredient: Gold");
   });
 
+  it("does not craft too early", () => {
+    expect(() =>
+      craftCollectible({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(400),
+        },
+        action: {
+          type: "collectible.crafted",
+          name: "Poppy",
+        },
+        createdAt: new Date("2023-07-31").getTime(),
+      })
+    ).toThrow("Too early");
+  });
+
+  it("does not craft too late", () => {
+    expect(() =>
+      craftCollectible({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(400),
+        },
+        action: {
+          type: "collectible.crafted",
+          name: "Poppy",
+        },
+        createdAt: new Date("2023-09-02").getTime(),
+      })
+    ).toThrow("Too late");
+  });
+
   it("crafts item with sufficient ingredients", () => {
     const state = craftCollectible({
       state: {
@@ -97,5 +129,101 @@ describe("craftCollectible", () => {
     });
 
     expect(state.bumpkin?.activity?.["Immortal Pear Crafted"]).toBe(1);
+  });
+
+  it("requires ID does not exist", () => {
+    expect(() =>
+      craftCollectible({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(1),
+          inventory: {
+            Sunflower: new Decimal(150),
+            "Basic Land": new Decimal(10),
+            Gold: new Decimal(100),
+            "Wooden Compass": new Decimal(50),
+          },
+          buildings: {},
+          collectibles: {
+            "Treasure Map": [
+              {
+                id: "123",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "collectible.crafted",
+          name: "Treasure Map",
+          coordinates: { x: 0, y: 5 },
+          id: "123",
+        },
+      })
+    ).toThrow("ID already exists");
+  });
+
+  it("requires decoration does not collide", () => {
+    expect(() =>
+      craftCollectible({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(1),
+          inventory: {
+            Sunflower: new Decimal(150),
+            "Basic Land": new Decimal(10),
+            Gold: new Decimal(100),
+            "Wooden Compass": new Decimal(50),
+          },
+          buildings: {},
+          collectibles: {
+            "Treasure Map": [
+              {
+                id: "123",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "collectible.crafted",
+          name: "Treasure Map",
+          coordinates: { x: 0, y: 0 },
+          id: "456",
+        },
+      })
+    ).toThrow("Decoration collides");
+  });
+
+  it("places decoration", () => {
+    const state = craftCollectible({
+      state: {
+        ...GAME_STATE,
+        balance: new Decimal(1),
+        inventory: {
+          Sunflower: new Decimal(150),
+          "Basic Land": new Decimal(10),
+          Gold: new Decimal(100),
+          "Wooden Compass": new Decimal(50),
+        },
+        buildings: {},
+        collectibles: {},
+      },
+      action: {
+        type: "collectible.crafted",
+        name: "Treasure Map",
+        coordinates: { x: 0, y: 5 },
+        id: "456",
+      },
+    });
+
+    expect(state.collectibles["Treasure Map"]?.[0]?.coordinates).toEqual({
+      x: 0,
+      y: 5,
+    });
   });
 });

@@ -5,6 +5,7 @@ import {
 } from "features/game/types/achievements";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
+import { analytics } from "lib/analytics";
 import cloneDeep from "lodash.clonedeep";
 
 export type ClaimAchievementAction = {
@@ -55,6 +56,11 @@ export function claimAchievement({ state, action }: Options): GameState {
       );
     });
   }
+
+  // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#unlock_achievement
+  analytics.logEvent("unlock_achievement", {
+    achievement_id: action.achievement,
+  });
 
   return stateCopy;
 }

@@ -5,7 +5,6 @@ import { Context as AuthContext } from "features/auth/lib/authMachine";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { mint } from "../actions/mint";
 
-import { withdraw } from "../actions/withdraw";
 import { getOnChainState } from "../actions/onchain";
 import { ErrorCode, ERRORS } from "lib/errors";
 import { EMPTY } from "./constants";
@@ -17,16 +16,19 @@ import { tradingPostMachine } from "features/goblins/trader/tradingPost/lib/trad
 import Decimal from "decimal.js-light";
 import { CONFIG } from "lib/config";
 import { getAvailableGameState } from "./transforms";
-import { Item } from "features/retreat/components/auctioneer/actions/auctioneerItems";
-import { fetchAuctioneerDrops } from "../actions/auctioneer";
-import { auctioneerMachine } from "features/retreat/auctioneer/auctioneerMachine";
 import { getBumpkinLevel } from "./level";
 import { randomID } from "lib/utils/random";
 import { OFFLINE_FARM } from "./landData";
-import { getSessionId } from "lib/blockchain/Sessions";
 import { GoblinBlacksmithItemName } from "../types/collectibles";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import { reset } from "features/farming/hud/actions/reset";
+import { getSessionId } from "lib/blockchain/Session";
+import {
+  withdrawBumpkin,
+  withdrawItems,
+  withdrawSFL,
+  withdrawWearables,
+} from "../actions/withdraw";
 
 const API_URL = CONFIG.API_URL;
 
@@ -39,8 +41,6 @@ export interface Context {
   transactionId?: string;
   farmAddress?: string;
   deviceTrackerId?: string;
-  auctioneerItems: Item[];
-  auctioneerId: string;
   mintedAtTimes: Partial<Record<InventoryItemName, number>>;
 }
 
@@ -60,6 +60,9 @@ type WithdrawEvent = {
   sfl: number;
   ids: number[];
   amounts: string[];
+  bumpkinId?: number;
+  wearableIds: number[];
+  wearableAmounts: number[];
   captcha: string;
 };
 
@@ -90,7 +93,9 @@ type DepositEvent = {
   type: "DEPOSIT";
   sfl: string;
   itemIds: number[];
-  itemAmounts: number[];
+  itemAmounts: string[];
+  wearableIds: number[];
+  wearableAmounts: number[];
 };
 
 export type BlockchainEvent =
@@ -106,8 +111,6 @@ export type BlockchainEvent =
   | {
       type: "OPEN_TRADING_POST";
     }
-  | { type: "OPEN_AUCTIONEER" }
-  | { type: "CLOSE_AUCTIONEER" }
   | {
       type: "RESET";
     }
@@ -131,7 +134,6 @@ export type GoblinMachineState = {
     | "trading"
     | "depositing"
     | "refreshing"
-    | "auctioneer"
     | "levelRequirementNotReached"
     | "error";
   context: Context;
@@ -147,9 +149,14 @@ export type MachineInterpreter = Interpreter<
   GoblinMachineState
 >;
 
-export const RETREAT_LEVEL_REQUIREMENT = 5;
+export const RETREAT_LEVEL_REQUIREMENT = 1;
 
 export function startGoblinVillage(authContext: AuthContext) {
+  // You can not enter the goblin village if you do not have a farm on chain
+  if (authContext.user.type !== "FULL") throw new Error("Not a full user");
+
+  const user = authContext.user;
+
   return createMachine<Context, BlockchainEvent, GoblinMachineState>(
     {
       id: "goblinMachine",
@@ -157,8 +164,6 @@ export function startGoblinVillage(authContext: AuthContext) {
       context: {
         state: API_URL ? EMPTY : OFFLINE_FARM,
         sessionId: INITIAL_SESSION,
-        auctioneerId: "",
-        auctioneerItems: [],
         mintedAtTimes: {},
       },
       states: {
@@ -166,38 +171,30 @@ export function startGoblinVillage(authContext: AuthContext) {
           entry: "setTransactionId",
           invoke: {
             src: async (context) => {
-              const farmId = authContext.farmId as number;
+              if (!wallet.myAccount) throw new Error("No account");
+
+              const farmId = user.farmId as number;
 
               const onChainStateFn = getOnChainState({
-                farmAddress: authContext.address as string,
-                id: Number(authContext.farmId),
+                farmAddress: user.farmAddress as string,
+                account: wallet.myAccount,
+                id: farmId,
               });
 
-              const auctioneerItemsFn = fetchAuctioneerDrops(
-                authContext.rawToken as string,
-                context.transactionId as string
-              );
-
               // Get session id
-              const sessionIdFn = getSessionId(
-                wallet.web3Provider,
-                wallet.myAccount,
-                farmId
-              );
+              const sessionIdFn = getSessionId(wallet.web3Provider, farmId);
 
-              const [onChainState, { id, items }, sessionId] =
-                await Promise.all([
-                  onChainStateFn,
-                  auctioneerItemsFn,
-                  sessionIdFn,
-                ]);
+              const [onChainState, sessionId] = await Promise.all([
+                onChainStateFn,
+                sessionIdFn,
+              ]);
 
               const response = await loadSession({
                 farmId,
                 sessionId,
-                token: authContext.rawToken as string,
-                bumpkinTokenUri: onChainState.bumpkin?.tokenURI,
+                token: user.rawToken as string,
                 transactionId: context.transactionId as string,
+                wallet: user.web3?.wallet as string,
               });
 
               const game = response?.game as GameState;
@@ -218,8 +215,6 @@ export function startGoblinVillage(authContext: AuthContext) {
                 mintedAtTimes: onChainState.mintedAtTimes,
                 sessionId,
                 deviceTrackerId: response?.deviceTrackerId,
-                auctioneerItems: items,
-                auctioneerId: id,
               };
             },
             onDone: [
@@ -241,9 +236,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                   state: (_, event) => event.data.state,
                   sessionId: (_, event) => event.data.sessionId,
                   deviceTrackerId: (_, event) => event.data.deviceTrackerId,
-                  auctioneerItems: (_, event) => event.data.auctioneerItems,
                   mintedAtTimes: (_, event) => event.data.mintedAtTimes,
-                  auctioneerId: (_, event) => event.data.auctioneerId,
                 }),
               },
             ],
@@ -269,44 +262,8 @@ export function startGoblinVillage(authContext: AuthContext) {
             OPEN_TRADING_POST: {
               target: "trading",
             },
-            OPEN_AUCTIONEER: {
-              target: "auctioneer",
-            },
             DEPOSIT: {
               target: "depositing",
-            },
-          },
-        },
-        auctioneer: {
-          invoke: {
-            id: "auctioneer",
-            autoForward: true,
-            src: auctioneerMachine,
-            data: {
-              token: () => authContext.rawToken,
-              farmId: () => authContext.farmId,
-              sessionId: (context: Context) => context.sessionId,
-              auctioneerItems: (context: Context) => context.auctioneerItems,
-              auctioneerId: (context: Context) => context.auctioneerId,
-            },
-            onDone: {
-              target: "loading",
-            },
-            onError: [
-              {
-                target: "playing",
-                cond: (_, event: any) =>
-                  event.data.message === ERRORS.REJECTED_TRANSACTION,
-              },
-              {
-                target: "error",
-                actions: "assignErrorMessage",
-              },
-            ],
-          },
-          on: {
-            CLOSE_AUCTIONEER: {
-              target: "playing",
             },
           },
         },
@@ -316,12 +273,13 @@ export function startGoblinVillage(authContext: AuthContext) {
             autoForward: true,
             src: wishingWellMachine,
             data: {
-              farmId: () => authContext.farmId,
+              farmId: () => user.farmId,
               bumpkinTokenUri: (context: Context) =>
                 context.state.bumpkin?.tokenUri,
-              farmAddress: () => authContext.address,
+              farmAddress: () => user.farmAddress,
               sessionId: (context: Context) => context.sessionId,
-              token: () => authContext.rawToken,
+              token: () => user.rawToken,
+              wallet: () => user.web3?.wallet as string,
               balance: (context: Context) => context.state.balance,
             },
             onDone: {
@@ -351,10 +309,11 @@ export function startGoblinVillage(authContext: AuthContext) {
             autoForward: true,
             src: tradingPostMachine,
             data: {
-              farmId: () => authContext.farmId,
-              farmAddress: () => authContext.address,
-              token: () => authContext.rawToken,
+              farmId: () => user.farmId,
+              farmAddress: () => user.farmAddress,
+              token: () => user.rawToken,
               deviceTrackerId: (context: Context) => context.deviceTrackerId,
+              wallet: () => user.web3?.wallet,
             },
             onDone: {
               target: "playing",
@@ -392,9 +351,9 @@ export function startGoblinVillage(authContext: AuthContext) {
               const { item, captcha } = event as MintEvent;
 
               const { sessionId } = await mint({
-                farmId: Number(authContext.farmId),
+                farmId: Number(user.farmId),
                 sessionId: context.sessionId as string,
-                token: authContext.rawToken as string,
+                token: user.rawToken as string,
                 item,
                 captcha,
                 transactionId: context.transactionId as string,
@@ -427,22 +386,76 @@ export function startGoblinVillage(authContext: AuthContext) {
           entry: "setTransactionId",
           invoke: {
             src: async (context, event) => {
-              const { amounts, ids, sfl, captcha } = event as WithdrawEvent;
-
-              const { sessionId } = await withdraw({
-                farmId: Number(authContext.farmId),
-                sessionId: context.sessionId as string,
-                token: authContext.rawToken as string,
+              const {
                 amounts,
                 ids,
                 sfl,
                 captcha,
-                transactionId: context.transactionId as string,
-              });
+                type,
+                wearableAmounts,
+                wearableIds,
+                bumpkinId,
+              } = event as WithdrawEvent;
 
-              return {
-                sessionId,
-              };
+              if (Number(sfl) > 0) {
+                const { sessionId } = await withdrawSFL({
+                  farmId: Number(user.farmId),
+                  sessionId: context.sessionId as string,
+                  token: user.rawToken as string,
+                  sfl,
+                  captcha,
+                  transactionId: context.transactionId as string,
+                });
+
+                return {
+                  sessionId,
+                };
+              }
+
+              if (ids.length > 0) {
+                const { sessionId } = await withdrawItems({
+                  farmId: Number(user.farmId),
+                  sessionId: context.sessionId as string,
+                  token: user.rawToken as string,
+                  amounts,
+                  ids,
+                  captcha,
+                  transactionId: context.transactionId as string,
+                });
+
+                return {
+                  sessionId,
+                };
+              }
+
+              if (wearableIds.length > 0) {
+                const { sessionId } = await withdrawWearables({
+                  farmId: Number(user.farmId),
+                  sessionId: context.sessionId as string,
+                  token: user.rawToken as string,
+                  amounts: wearableAmounts,
+                  ids: wearableIds,
+                  captcha,
+                  transactionId: context.transactionId as string,
+                });
+
+                return {
+                  sessionId,
+                };
+              }
+
+              if (bumpkinId) {
+                const { sessionId } = await withdrawBumpkin({
+                  farmId: Number(user.farmId),
+                  token: user.rawToken as string,
+                  transactionId: context.transactionId as string,
+                  bumpkinId: bumpkinId,
+                });
+
+                return {
+                  sessionId,
+                };
+              }
             },
             onDone: {
               target: "withdrawn",
@@ -473,6 +486,8 @@ export function startGoblinVillage(authContext: AuthContext) {
         depositing: {
           invoke: {
             src: async (context, event) => {
+              if (!wallet.myAccount) throw new Error("No account");
+
               await depositToFarm({
                 web3: wallet.web3Provider,
                 account: wallet.myAccount,
@@ -480,6 +495,8 @@ export function startGoblinVillage(authContext: AuthContext) {
                 sfl: (event as DepositEvent).sfl,
                 itemIds: (event as DepositEvent).itemIds,
                 itemAmounts: (event as DepositEvent).itemAmounts,
+                wearableAmounts: (event as DepositEvent).wearableAmounts,
+                wearableIds: (event as DepositEvent).wearableIds,
               });
             },
             onDone: {
@@ -498,8 +515,8 @@ export function startGoblinVillage(authContext: AuthContext) {
               const fingerprint = "X";
 
               const { success } = await reset({
-                farmId: Number(authContext.farmId),
-                token: authContext.rawToken as string,
+                farmId: Number(user.farmId),
+                token: user.rawToken as string,
                 fingerprint,
                 transactionId: context.transactionId as string,
               });

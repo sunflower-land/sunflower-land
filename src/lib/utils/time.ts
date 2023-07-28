@@ -157,3 +157,66 @@ export function getSecondsToTomorrow() {
   const diff = tomorrow.getTime() - now.getTime(); // difference in ms
   return Math.round(diff / 1000); // convert to seconds
 }
+
+export function getRelativeTime(timestamp: number): string {
+  const now = new Date();
+  const secondsAgo = Math.floor((now.getTime() - timestamp) / 1000);
+
+  if (secondsAgo === 0) {
+    return "now";
+  } else if (secondsAgo < 60) {
+    return `${secondsAgo} seconds ago`;
+  } else if (secondsAgo < 3600) {
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    return `${minutesAgo} minute${minutesAgo !== 1 ? "s" : ""} ago`;
+  } else if (secondsAgo < 86400) {
+    const hoursAgo = Math.floor(secondsAgo / 3600);
+    return `${hoursAgo} hour${hoursAgo !== 1 ? "s" : ""} ago`;
+  } else {
+    const daysAgo = Math.floor(secondsAgo / 86400);
+    return `${daysAgo} day${daysAgo !== 1 ? "s" : ""} ago`;
+  }
+}
+
+export function formatDateRange(fromDate: Date, toDate: Date): string {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const fromMonth = months[fromDate.getMonth()];
+  const toMonth = months[toDate.getMonth()];
+
+  const fromDay = fromDate.getDate();
+  const toDay = toDate.getDate();
+
+  return `${fromMonth} ${fromDay}${getOrdinalSuffix(
+    fromDay
+  )} - ${toMonth} ${toDay}${getOrdinalSuffix(toDay)}`;
+}
+
+function getOrdinalSuffix(day: number): string {
+  if (day >= 11 && day <= 13) {
+    return "th";
+  }
+  switch (day % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+}

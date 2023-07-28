@@ -9,13 +9,14 @@ import classNames from "classnames";
 import { FirePitModal } from "./FirePitModal";
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ToastContext } from "features/game/toast/ToastQueueProvider";
 import { CraftingMachineChildProps } from "../WithCraftingMachine";
 import { BuildingProps } from "../Building";
-import { InventoryItemName } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
+import { bakeryAudio } from "lib/utils/sfx";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -30,7 +31,9 @@ export const FirePit: React.FC<Props> = ({
   onRemove,
 }) => {
   const [showModal, setShowModal] = useState(false);
-  const { setToast } = useContext(ToastContext);
+
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
 
   const handleCook = (item: CookableName) => {
     craftingService?.send({
@@ -49,11 +52,6 @@ export const FirePit: React.FC<Props> = ({
       item: name,
       event: "recipe.collected",
     });
-
-    setToast({
-      icon: ITEM_DETAILS[name as InventoryItemName].image,
-      content: "+1",
-    });
   };
 
   const handleClick = () => {
@@ -65,6 +63,7 @@ export const FirePit: React.FC<Props> = ({
     if (isBuilt) {
       // Add future on click actions here
       if (idle || crafting) {
+        bakeryAudio.play();
         setShowModal(true);
         return;
       }
@@ -81,7 +80,7 @@ export const FirePit: React.FC<Props> = ({
       <BuildingImageWrapper onClick={handleClick} ready={ready}>
         <img
           src={firePit}
-          className={classNames("absolute bottom-0", {
+          className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
           })}

@@ -9,6 +9,8 @@ export const IslandTravelWrapper = () => {
   const { state } = gameState.context;
   const { bumpkin } = state;
 
+  const autosaving = gameState.matches("autosaving");
+
   return (
     <IslandTravel
       inventory={gameState.context.state.inventory}
@@ -16,7 +18,7 @@ export const IslandTravelWrapper = () => {
       x={-2}
       y={-14}
       onTravelDialogOpened={() => gameService.send("SAVE")}
-      travelAllowed={!gameState.matches("autosaving")}
+      travelAllowed={!autosaving}
     />
   );
 };
