@@ -57,6 +57,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       .sprite(0.5, 8, "shadow")
       .setSize(SQUARE_WIDTH, SQUARE_WIDTH);
 
+    const chat = this.scene.add.sprite(-6, -13, "alert").setSize(4, 10);
+    this.add(chat);
+
     this.add(shadow);
 
     this.setSize(SQUARE_WIDTH, SQUARE_WIDTH);

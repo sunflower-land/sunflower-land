@@ -505,7 +505,7 @@ export type Order = {
 };
 
 type QuestNPCName =
-  | "pumpkin' pete"
+  | "pumpkin pete"
   | "bert"
   | "raven"
   | "timmy"

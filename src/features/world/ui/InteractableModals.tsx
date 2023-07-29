@@ -251,7 +251,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
       <Modal centered show={interactable === "guild_house"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
-          bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
+          bumpkinParts={NPC_WEARABLES["pumpkin pete"]}
           message={[
             {
               text: "This is my Guild House, and it's not ready for outsiders yet, gotta finish the preparations first.",
@@ -263,7 +263,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
       <Modal centered show={interactable === "guild_house"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
-          bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
+          bumpkinParts={NPC_WEARABLES["pumpkin pete"]}
           message={[
             {
               text: "This is my Guild House, and it's not ready for outsiders yet, gotta finish the preparations first.",

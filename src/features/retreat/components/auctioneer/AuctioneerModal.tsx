@@ -67,7 +67,7 @@ export const AuctioneerModal: React.FC<Props> = ({
   if (auctioneerState.matches("loading")) {
     return (
       <Modal centered show={isOpen} onHide={onClose}>
-        <Panel bumpkinParts={NPC_WEARABLES["hammerin' harry"]}>
+        <Panel bumpkinParts={NPC_WEARABLES["hammerin harry"]}>
           <span className="loading">Loading</span>
         </Panel>
       </Modal>
@@ -83,7 +83,7 @@ export const AuctioneerModal: React.FC<Props> = ({
       <CloseButtonPanel
         onClose={onClose}
         tabs={[{ icon: SUNNYSIDE.icons.stopwatch, name: "Auctions & Drops" }]}
-        bumpkinParts={NPC_WEARABLES["hammerin' harry"]}
+        bumpkinParts={NPC_WEARABLES["hammerin harry"]}
         secondaryAction={
           <a
             href="https://docs.sunflower-land.com/player-guides/auctions"

@@ -11,7 +11,7 @@ interface Props {
 export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel
-      bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
+      bumpkinParts={NPC_WEARABLES["pumpkin pete"]}
       onClose={onClose}
     >
       <div className="p-2">

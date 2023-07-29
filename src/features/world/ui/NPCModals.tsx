@@ -81,10 +81,10 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
           </CloseButtonPanel>
         )}
 
-        {npc === "hammerin' harry" && (
+        {npc === "hammerin harry" && (
           <SpeakingModal
             onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES["hammerin' harry"]}
+            bumpkinParts={NPC_WEARABLES["hammerin harry"]}
             message={[
               { text: "Gather round Bumpkins, an auction is about to begin." },
             ]}
@@ -127,7 +127,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
           </CloseButtonPanel>
         )}
         {/* Delivery NPC's */}
-        {npc === "pumpkin' pete" && (
+        {npc === "pumpkin pete" && (
           <DeliveryPanel npc={npc} onClose={closeModal} />
         )}
         {npc === "blacksmith" && (

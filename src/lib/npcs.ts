@@ -17,12 +17,12 @@ export type NPCName =
   | "timmy"
   | "misty marvel"
   | "igor"
-  | "hammerin' harry"
+  | "hammerin harry"
   | "frankie"
   | "stella"
   | "gabi"
   | "tywin"
-  | "pumpkin' pete"
+  | "pumpkin pete"
   | "gordy" // TO ADD
   | "bert"
   | "craig"
@@ -191,7 +191,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Goblin Puppet",
   },
   // Auctioneer who collects rare items and sells them off
-  "hammerin' harry": {
+  "hammerin harry": {
     body: "Beige Farmer Potion",
     background: "Dawn Breaker Background",
     hair: "Tangerine Hair",
@@ -231,7 +231,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Dawn Lamp",
   },
   // Local farmer in Plaza
-  "pumpkin' pete": {
+  "pumpkin pete": {
     body: "Light Brown Farmer Potion",
     background: "Farm Background",
     hair: "Explorer Hair",
