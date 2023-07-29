@@ -5,6 +5,7 @@ import { ITEM_DETAILS } from "../../game/types/images";
 import { InventoryItemName } from "../../game/types/game";
 
 const PIXEL_SCALE = 2.625;
+const MAX_TOAST = 6;
 type ToastItem = InventoryItemName;
 
 const getToastIcon = (item: ToastItem) => {
@@ -50,7 +51,13 @@ export const CommunityToasts: React.FC = () => {
         id: Date.now().toString(),
       };
 
-      setToasts((prevToasts) => [...prevToasts, newToast]);
+      setToasts((prevToasts) => {
+        if (prevToasts.length >= MAX_TOAST) {
+          prevToasts.shift();
+        }
+
+        return [...prevToasts, newToast];
+      });
 
       // Automatically remove the toast after 5 seconds
       setTimeout(() => {
