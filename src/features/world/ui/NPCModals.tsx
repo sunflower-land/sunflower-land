@@ -14,7 +14,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { DeliveryPanelContent } from "./deliveries/DeliveryPanelContent";
 import { Stylist } from "./stylist/Stylist";
 import { SceneId } from "../mmoMachine";
-import { Luna } from "./Luna";
+import { Luna } from "./npcs/Luna";
+import { Pete } from "./npcs/Pete";
+import { Birdie } from "./npcs/Birdie";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -126,10 +128,9 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
             </div>
           </CloseButtonPanel>
         )}
+        {npc === "birdie" && <Birdie onClose={closeModal} />}
         {/* Delivery NPC's */}
-        {npc === "pumpkin pete" && (
-          <DeliveryPanel npc={npc} onClose={closeModal} />
-        )}
+        {npc === "pete" && <Pete onClose={closeModal} />}
         {npc === "blacksmith" && (
           <CloseButtonPanel
             onClose={closeModal}

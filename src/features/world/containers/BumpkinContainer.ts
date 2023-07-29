@@ -5,9 +5,17 @@ import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Label } from "./Label";
 import debounce from "lodash.debounce";
 import { Player } from "../types/Room";
+import { NPCName, acknowedlgedNPCs } from "lib/npcs";
+
+const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
+  pete: true,
+  luna: true,
+  birdie: true,
+};
 
 export class BumpkinContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
+  public alert: Phaser.GameObjects.Sprite | undefined;
   public silhoutte: Phaser.GameObjects.Sprite | undefined;
 
   public speech: SpeechBubble | undefined;
@@ -57,9 +65,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       .sprite(0.5, 8, "shadow")
       .setSize(SQUARE_WIDTH, SQUARE_WIDTH);
 
-    const chat = this.scene.add.sprite(-6, -13, "alert").setSize(4, 10);
-    this.add(chat);
-
     this.add(shadow);
 
     this.setSize(SQUARE_WIDTH, SQUARE_WIDTH);
@@ -68,6 +73,13 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       const label = new Label(this.scene, name.toUpperCase());
       this.add(label);
       label.setPosition(label.width / 2, -16);
+      if (
+        !!NPCS_WITH_ALERTS[name as NPCName] &&
+        !acknowedlgedNPCs()[name as NPCName]
+      ) {
+        this.alert = this.scene.add.sprite(1, -23, "alert").setSize(4, 10);
+        this.add(this.alert);
+      }
     }
 
     this.scene.add.existing(this);
@@ -75,6 +87,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     if (onClick) {
       this.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
         onClick();
+
+        if (name) {
+          this.alert?.destroy();
+        }
       });
     }
   }

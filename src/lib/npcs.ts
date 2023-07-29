@@ -22,7 +22,7 @@ export type NPCName =
   | "stella"
   | "gabi"
   | "tywin"
-  | "pumpkin pete"
+  | "pete"
   | "gordy" // TO ADD
   | "bert"
   | "craig"
@@ -231,7 +231,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Dawn Lamp",
   },
   // Local farmer in Plaza
-  "pumpkin pete": {
+  pete: {
     body: "Light Brown Farmer Potion",
     background: "Farm Background",
     hair: "Explorer Hair",
@@ -253,13 +253,15 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   // Announces news
   birdie: {
-    body: "Light Brown Farmer Potion",
+    body: "Beige Farmer Potion",
     background: "Farm Background",
-    hair: "Rancher Hair",
-    shirt: "Blue Farmer Shirt",
-    pants: "Lumberjack Overalls",
+    hair: "Brown Long Hair",
+    shirt: "Witches' Eve Tee",
+    pants: "Peasant Skirt",
     shoes: "Black Farmer Boots",
-    tool: "Farmer Pitchfork",
+    tool: "Auction Megaphone",
+    wings: "Crow Wings",
+    hat: "Boater Hat",
   },
   // Old loving grandma of the game
   buttons: {
@@ -365,3 +367,26 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Brown Boots",
   },
 };
+
+type AcknowledgedNPCs = Partial<Record<NPCName, number>>;
+export function acknowedlgedNPCs(): AcknowledgedNPCs {
+  const item = localStorage.getItem("acknowledgedNPCs");
+
+  if (!item) {
+    return {};
+  }
+
+  return JSON.parse(item as any) as AcknowledgedNPCs;
+}
+
+export function acknowledgeNPC(npcName: NPCName) {
+  const previous = acknowedlgedNPCs();
+
+  localStorage.setItem(
+    "acknowledgedNPCs",
+    JSON.stringify({
+      ...previous,
+      [npcName]: Date.now().toString(),
+    })
+  );
+}
