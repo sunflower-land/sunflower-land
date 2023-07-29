@@ -33,6 +33,7 @@ import { MarcusHomeScene } from "./scenes/MarcusHomeScene";
 import { WorldIntroduction } from "./ui/WorldIntroduction";
 import { CommunityScene } from "./scenes/CommunityScene";
 import { CommunityModals } from "./ui/CommunityModalManager";
+import { CommunityToasts } from "./ui/CommunityToastManager";
 import { SceneId } from "./mmoMachine";
 import { CornScene } from "./scenes/CornScene";
 import { useNavigate } from "react-router-dom";
@@ -204,6 +205,7 @@ export const PhaserComponent: React.FC<Props> = ({
         }}
       />
       <CommunityModals />
+      <CommunityToasts />
       <InteractableModals id={authState.context.user.farmId as number} />
       <Modal
         show={mmoState === "loading" || mmoState === "initialising"}
