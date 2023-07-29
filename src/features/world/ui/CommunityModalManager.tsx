@@ -102,11 +102,10 @@ export const CommunityModals: React.FC = () => {
           bumpkinParts={modal?.npc?.clothing}
         >
           <div className="p-2">{modal?.jsx}</div>
-          <div className="d-flex justify-content-end">
+          <div className="p-2 grid grid-cols-2 gap-2">
             {modal?.buttons?.map((button) => (
               <Button
                 key={button.id}
-                className="m-2"
                 onClick={() => handleButtonClick(button.id)}
               >
                 {button.text}
