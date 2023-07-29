@@ -2,21 +2,25 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { CountdownLabel } from "components/ui/CountdownLabel";
 import { NPC_WEARABLES } from "lib/npcs";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import crowWithoutShadow from "assets/decorations/crow_without_shadow.png";
 import crowFeather from "assets/decorations/crow_feather_large.png";
 import classNames from "classnames";
-import eventBus from "../lib/eventBus";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
+import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
+import { useInterpret, useSelector } from "@xstate/react";
 import { calculateFeathersEarned } from "features/game/events/landExpansion/attemptMaze";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
-import { MazeMetadata } from "features/game/types/game";
+import { MazeMetadata, WitchesEve } from "features/game/types/game";
 import { Panel } from "components/ui/Panel";
+import {
+  MachineInterpreter,
+  MachineState,
+  cornMazeMachine,
+} from "../lib/cornmazeMachine";
 
 type Listener = {
   collectCrow: (id: string) => void;
@@ -59,118 +63,99 @@ class MazeManager {
 export const mazeManager = new MazeManager();
 
 const TIME_LIMIT_SECONDS = 60 * 3;
+const DEFAULT_HEALTH = 3;
 
-const _witchesEve = (state: MachineState) => state.context.state.witchesEve;
+const _witchesEve = (state: GameMachineState) =>
+  state.context.state.witchesEve as WitchesEve;
+
+const _sceneLoaded = (state: MachineState) => state.context.sceneLoaded;
+const _score = (state: MachineState) => state.context.score;
+const _health = (state: MachineState) => state.context.health;
+const _timeElapsed = (state: MachineState) => state.context.timeElapsed;
+const _startedAt = (state: MachineState) => state.context.startedAt;
+
+const _playing = (state: MachineState) => state.matches("playing");
+const _paused = (state: MachineState) => state.matches("paused");
+const _wonGame = (state: MachineState) => state.matches("wonGame");
+const _lostGame = (state: MachineState) => state.matches("lostGame");
+const _showingTips = (state: MachineState) => state.matches("showingTips");
 
 export const MazeHud: React.FC = () => {
   const { gameService } = useContext(Context);
   const currentWeek = getSeasonWeek(Date.now());
   const witchesEve = useSelector(gameService, _witchesEve);
 
+  const { weeklyLostCrowCount } = witchesEve;
   const { claimedFeathers, highestScore } = witchesEve?.maze[
     currentWeek
   ] as MazeMetadata;
 
-  const [score, setScore] = useState(0);
-  const [health, setHealth] = useState(3);
-  const [totalLostCrows, setTotalLostCrowCount] = useState(0);
-  const [gameOver, setGameOver] = useState<"won" | "lost">();
-  const [sceneLoaded, setSceneLoaded] = useState(false);
-  const [showTips, setShowTips] = useState(false);
-  const [startedAt, setStartedAt] = useState<number>(0);
-  const [timeElapsed, setTimeElapsed] = useState<number>(0);
-  const [paused, setPaused] = useState(false);
-  const [pausedAt, setPausedAt] = useState(0);
+  // const [score, setScore] = useState(0);
+  // const [health, setHealth] = useState(3);
+  // const [totalLostCrows, setTotalLostCrowCount] = useState(0);
+  // const [gameOver, setGameOver] = useState<"won" | "lost">();
+  // const [sceneLoaded, setSceneLoaded] = useState(false);
+  // const [showTips, setShowTips] = useState(false);
+  // const [startedAt, setStartedAt] = useState<number>(0);
+  // const [timeElapsed, setTimeElapsed] = useState<number>(0);
+  // const [paused, setPaused] = useState(false);
+  // const [pausedAt, setPausedAt] = useState(0);
 
   const navigate = useNavigate();
+
+  const cornMazeService = useInterpret(cornMazeMachine, {
+    context: {
+      score: 0,
+      health: DEFAULT_HEALTH,
+      totalLostCrows: weeklyLostCrowCount,
+      gameOver: undefined,
+      sceneLoaded: false,
+      startedAt: 0,
+      timeElapsed: 0,
+      pausedAt: 0,
+    },
+  }) as unknown as MachineInterpreter;
+
+  const sceneLoaded = useSelector(cornMazeService, _sceneLoaded);
+  const score = useSelector(cornMazeService, _score);
+  const health = useSelector(cornMazeService, _health);
+  const timeElapsed = useSelector(cornMazeService, _timeElapsed);
+  const startedAt = useSelector(cornMazeService, _startedAt);
+  const paused = useSelector(cornMazeService, _paused);
+  const wonGame = useSelector(cornMazeService, _wonGame);
+  const lostGame = useSelector(cornMazeService, _lostGame);
+  const showingTips = useSelector(cornMazeService, _showingTips);
 
   useEffect(() => {
     mazeManager.listen({
       collectCrow: () => {
-        setScore((s) => {
-          if (gameOver) return s;
-
-          return s + 1;
-        });
+        // setScore((s) => s + 1);
+        cornMazeService.send("COLLECT_CROW");
       },
       hit: () => {
-        setHealth((h) => {
-          if (gameOver) return 0;
-
-          if (h > 1) return h - 1;
-
-          return 0;
-        });
+        // setHealth((h) => h - 1);
+        cornMazeService.send("HIT");
       },
       sceneLoaded: (crowCount: number) => {
-        setTotalLostCrowCount(crowCount);
-        setSceneLoaded(true);
-        setShowTips(true);
+        // setTotalLostCrowCount(crowCount);
+        cornMazeService.send("SCENE_LOADED");
       },
       handlePortalHit: () => {
-        setPaused(true);
-        setPausedAt(Date.now());
+        // setGameOver("won");
+        cornMazeService.send("PORTAL_HIT");
       },
     });
   }, []);
 
-  useEffect(() => {
-    // Handle game ending conditions
-    if (health <= 0 || timeElapsed >= TIME_LIMIT_SECONDS) {
-      setGameOver("lost");
-    }
-  }, [health, timeElapsed]);
-
-  useEffect(() => {
-    if (paused && score === totalLostCrows) {
-      setGameOver("won");
-      return;
-    }
-
-    if (startedAt && !paused) {
-      const timeDiff = Date.now() - pausedAt;
-
-      setStartedAt((s) => s + timeDiff);
-    }
-    console.log("paused", paused);
-  }, [paused]);
-
-  useEffect(() => {
-    if (startedAt === 0) return;
-
-    const interval = setInterval(() => {
-      if (gameOver) {
-        clearInterval(interval);
-        eventBus.emit("corn_maze:pauseScene");
-        return;
-      }
-
-      if (paused) {
-        clearInterval(interval);
-        return;
-      }
-
-      const now = Date.now();
-
-      const elapsed = Math.floor((+now - startedAt) / 1000);
-
-      setTimeElapsed(elapsed);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [startedAt, gameOver, paused]);
-
   const handleStart = () => {
-    const now = Date.now();
-    // start timer
-    setShowTips(false);
-    setStartedAt(now);
+    // setStartedAt(Date.now());
+    cornMazeService.send("START_GAME");
   };
 
   const handleResume = () => {
-    setPaused(false);
-    eventBus.emit("corn_maze:resumeScene");
-    if (showTips) setShowTips(false);
+    // setPaused(false);
+    // setTimeElapsed((e) => e + Date.now() - pausedAt);
+    cornMazeService.send("RESUME_GAME");
   };
 
   const getFeathersEarned = () => {
@@ -180,7 +165,7 @@ export const MazeHud: React.FC = () => {
 
     const { claimedFeathers } = weeklyMazeData;
 
-    return calculateFeathersEarned(totalLostCrows, score, claimedFeathers);
+    return calculateFeathersEarned(weeklyLostCrowCount, score, claimedFeathers);
   };
 
   const handleMazeComplete = () => {
@@ -200,10 +185,8 @@ export const MazeHud: React.FC = () => {
   };
 
   const handleShowTips = () => {
-    setShowTips(true);
-    setPaused(true);
-    setPausedAt(Date.now());
-    eventBus.emit("corn_maze:pauseScene");
+    // setShowTips(true);
+    cornMazeService.send("SHOW_TIPS");
   };
 
   if (!sceneLoaded) return null;
@@ -219,7 +202,7 @@ export const MazeHud: React.FC = () => {
             alt="Collected Crows"
             className="w-10 md:w-14"
           />
-          <span className="mb-2">{`${score}/${totalLostCrows}`}</span>
+          <span className="mb-2">{`${score}/${weeklyLostCrowCount}`}</span>
         </div>
         <div className="absolute top-2 left-2 flex space-x-2 items-center">
           {new Array(3).fill(null).map((_, i) => (
@@ -259,7 +242,7 @@ export const MazeHud: React.FC = () => {
       </div>
       {/* Lost */}
       {/* Call action and go back to plaza */}
-      <Modal show={gameOver === "lost"} centered>
+      <Modal show={lostGame} centered>
         <LosingModalContent
           timeRemaining={TIME_LIMIT_SECONDS - timeElapsed}
           onClick={handleReturnToPlaza}
@@ -267,7 +250,7 @@ export const MazeHud: React.FC = () => {
       </Modal>
       {/* Won: Found all crows */}
       {/* Call action and go back to plaza */}
-      <Modal show={gameOver === "won"} centered>
+      <Modal show={wonGame} centered>
         <WinningModalContent
           claimedFeathers={claimedFeathers}
           feathersEarned={getFeathersEarned()}
@@ -305,7 +288,7 @@ export const MazeHud: React.FC = () => {
         />
       </Modal>
       {/* Welcome Modal */}
-      <Modal onHide={handleResume} centered show={showTips}>
+      <Modal onHide={handleResume} centered show={showingTips}>
         <TipsModalContent
           gameActive={startedAt > 0}
           onStart={handleStart}
