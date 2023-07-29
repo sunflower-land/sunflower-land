@@ -55,7 +55,7 @@ export abstract class CommunityScene extends Phaser.Scene {
       // Expose API/SDK for usage
       (window as any).BaseScene = BaseScene;
       (window as any).openModal = communityModalManager.open;
-      (window as any).toast = communityToastManager.toast;
+      (window as any).createToast = communityToastManager.toast;
 
       const sceneName = this.registry.get("initialScene");
       let island = COMMUNITY_ISLANDS.find((island) => island.id === sceneName);
