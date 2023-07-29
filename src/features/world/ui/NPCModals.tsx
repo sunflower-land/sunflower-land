@@ -114,6 +114,23 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
             </div>
           </CloseButtonPanel>
         )}
+        {npc === "billy" && (
+          <SpeakingModal
+            bumpkinParts={NPC_WEARABLES.billy}
+            onClose={closeModal}
+            message={[
+              {
+                text: "Howdy, y'all! Name's Billy.",
+              },
+              {
+                text: "I found these baby seedlings but for the life of me I cannot figure out what to do with them.",
+              },
+              {
+                text: "I bet they have something to do with the worm buds that have been appearing around the plaza.",
+              },
+            ]}
+          />
+        )}
         {npc === "gabi" && (
           <CloseButtonPanel
             onClose={closeModal}

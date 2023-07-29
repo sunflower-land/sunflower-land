@@ -3,6 +3,7 @@ import mapJson from "assets/map/plaza.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
+import { interactableModalManager } from "../ui/InteractableModals";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -98,6 +99,11 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "birdie",
     direction: "left",
   },
+  {
+    x: 208,
+    y: 402,
+    npc: "billy",
+  },
 ];
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
@@ -124,6 +130,11 @@ export class PlazaScene extends BaseScene {
     this.load.spritesheet("plaza_bud_3", "world/plaza_bud_3.png", {
       frameWidth: 15,
       frameHeight: 18,
+    });
+
+    this.load.spritesheet("fat_chicken", "world/fat_chicken.png", {
+      frameWidth: 17,
+      frameHeight: 21,
     });
 
     this.load.image("portal", "world/portal.png");
@@ -156,6 +167,22 @@ export class PlazaScene extends BaseScene {
     // this.add.existing(decorationShopLabel);
 
     const portal = this.add.sprite(505, 215, "portal");
+
+    // Plaza Bud
+    const fatChicken = this.add.sprite(106, 352, "fat_chicken");
+    this.anims.create({
+      key: "fat_chicken_animation",
+      frames: this.anims.generateFrameNumbers("fat_chicken", {
+        start: 0,
+        end: 9,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    fatChicken.play("fat_chicken_animation", true);
+    fatChicken.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("fat_chicken");
+    });
 
     // Plaza Bud
     const bud = this.add.sprite(500, 420, "plaza_bud");

@@ -33,6 +33,7 @@ type InteractableName =
   | "guild_house"
   | "timmy_home"
   | "bert_home"
+  | "fat_chicken"
   | "woodlands"
   | "castle"
   | "port"
@@ -122,6 +123,17 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         >
           <Donations />
         </CloseButtonPanel>
+      </Modal>
+
+      <Modal centered show={interactable === "fat_chicken"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          message={[
+            {
+              text: "Why won't these farmers leave me alone, I just want to relax.",
+            },
+          ]}
+        />
       </Modal>
 
       <Modal centered show={interactable === "fan_art_1"} onHide={closeModal}>

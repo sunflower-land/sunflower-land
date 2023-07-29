@@ -33,7 +33,8 @@ export type NPCName =
   | "wanderleaf"
   | "otis"
   | "dreadhorn"
-  | "luna";
+  | "luna"
+  | "billy";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -363,6 +364,15 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     hat: "Luna's Hat",
     dress: "Witching Wardrobe",
     tool: "Witch's Broom",
+    background: "Cemetery Background",
+    shoes: "Brown Boots",
+  },
+  billy: {
+    body: "Beige Farmer Potion",
+    hair: "Basic Hair",
+    shirt: "Red Farmer Shirt",
+    pants: "Farmer Overalls",
+    tool: "Farmer Pitchfork",
     background: "Cemetery Background",
     shoes: "Brown Boots",
   },
