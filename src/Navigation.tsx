@@ -17,7 +17,6 @@ import { Forbidden } from "features/auth/components/Forbidden";
 import { useImagePreloader } from "features/auth/useImagePreloader";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
 import { CONFIG } from "lib/config";
-import { Community } from "features/community/Community";
 import { Retreat } from "features/retreat/Retreat";
 import { Builder } from "features/builder/Builder";
 import { wallet } from "lib/blockchain/wallet";
@@ -152,10 +151,6 @@ export const Navigation: React.FC = () => {
               {CONFIG.NETWORK === "mumbai" && (
                 <Route path="/builder" element={<Builder key="builder" />} />
               )}
-              <Route
-                path="/community-garden/:id"
-                element={<Community key="community" />}
-              />
             </Routes>
           </HashRouter>
         </ZoomProvider>
