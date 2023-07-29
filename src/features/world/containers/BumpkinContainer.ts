@@ -75,7 +75,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       label.setPosition(label.width / 2, -16);
       if (
         !!NPCS_WITH_ALERTS[name as NPCName] &&
-        !acknowedlgedNPCs()[name as NPCName]
+        !acknowedlgedNPCs()[name as NPCName] &&
+        this.scene.textures.exists("alert")
       ) {
         this.alert = this.scene.add.sprite(1, -23, "alert").setSize(4, 10);
         this.add(this.alert);
