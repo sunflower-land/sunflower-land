@@ -135,7 +135,7 @@ export class PlazaScene extends BaseScene {
     this.initialiseNPCs(PLAZA_BUMPKINS);
 
     const auctionLabel = new Label(this, "AUCTIONS", "brown");
-    auctionLabel.setPosition(591, 260);
+    auctionLabel.setPosition(601, 260);
     auctionLabel.setDepth(10000000);
     this.add.existing(auctionLabel);
 
