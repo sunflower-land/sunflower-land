@@ -14,7 +14,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { DeliveryPanelContent } from "./deliveries/DeliveryPanelContent";
 import { Stylist } from "./stylist/Stylist";
 import { SceneId } from "../mmoMachine";
-import { Luna } from "./Luna";
+import { Luna } from "./npcs/Luna";
+import { Pete } from "./npcs/Pete";
+import { Birdie } from "./npcs/Birdie";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -81,10 +83,10 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
           </CloseButtonPanel>
         )}
 
-        {npc === "hammerin' harry" && (
+        {npc === "hammerin harry" && (
           <SpeakingModal
             onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES["hammerin' harry"]}
+            bumpkinParts={NPC_WEARABLES["hammerin harry"]}
             message={[
               { text: "Gather round Bumpkins, an auction is about to begin." },
             ]}
@@ -112,6 +114,23 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
             </div>
           </CloseButtonPanel>
         )}
+        {npc === "billy" && (
+          <SpeakingModal
+            bumpkinParts={NPC_WEARABLES.billy}
+            onClose={closeModal}
+            message={[
+              {
+                text: "Howdy, y'all! Name's Billy.",
+              },
+              {
+                text: "I found these baby seedlings but for the life of me I cannot figure out what to do with them.",
+              },
+              {
+                text: "I bet they have something to do with the worm buds that have been appearing around the plaza.",
+              },
+            ]}
+          />
+        )}
         {npc === "gabi" && (
           <CloseButtonPanel
             onClose={closeModal}
@@ -126,10 +145,9 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
             </div>
           </CloseButtonPanel>
         )}
+        {npc === "birdie" && <Birdie onClose={closeModal} />}
         {/* Delivery NPC's */}
-        {npc === "pumpkin' pete" && (
-          <DeliveryPanel npc={npc} onClose={closeModal} />
-        )}
+        {npc === "pete" && <Pete onClose={closeModal} />}
         {npc === "blacksmith" && (
           <CloseButtonPanel
             onClose={closeModal}

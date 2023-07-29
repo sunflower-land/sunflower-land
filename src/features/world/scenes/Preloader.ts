@@ -46,6 +46,7 @@ export abstract class Preloader extends Phaser.Scene {
         `${CONFIG.PROTECTED_IMAGE_URL}/world/map-extruded.png`
       );
       this.load.image("speech_bubble", "world/speech_bubble.png");
+      this.load.image("alert", SUNNYSIDE.icons.expression_alerted);
       this.load.image("label", "world/label.png");
       this.load.image("brown_label", "world/brown_label.png");
       this.load.image("hammer", SUNNYSIDE.icons.hammer);
@@ -57,9 +58,9 @@ export abstract class Preloader extends Phaser.Scene {
         frameHeight: 18,
       });
       this.load.bitmapFont(
-        "Small 5x3",
-        "world/small_3x5.png",
-        "world/small_3x5.xml"
+        "Teeny Tiny Pixls",
+        "world/Teeny Tiny Pixls5.png",
+        "world/Teeny Tiny Pixls5.xml"
       );
       this.load.bitmapFont("pixelmix", "world/7px.png", "world/7px.xml");
 

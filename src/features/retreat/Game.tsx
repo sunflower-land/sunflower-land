@@ -28,7 +28,6 @@ import { Withdrawn } from "features/game/components/Withdrawn";
 import { getBumpkinLevel } from "features/game/lib/level";
 // random seal spawn spots
 import { randomInt } from "lib/utils/random";
-import { LostSeal } from "features/community/seal/Seal";
 
 import { Hud } from "./Hud";
 import { Minting } from "features/game/components/Minting";
@@ -133,7 +132,6 @@ export const Game = () => {
               <Resale />
               <RetreatWishingWell />
               <IslandTravelWrapper />
-              <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
             </div>
           )}
           {!hasRequiredLevel && !goblinState.matches("loading") && (

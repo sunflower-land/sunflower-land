@@ -17,12 +17,12 @@ export type NPCName =
   | "timmy"
   | "misty marvel"
   | "igor"
-  | "hammerin' harry"
+  | "hammerin harry"
   | "frankie"
   | "stella"
   | "gabi"
   | "tywin"
-  | "pumpkin' pete"
+  | "pete"
   | "gordy" // TO ADD
   | "bert"
   | "craig"
@@ -33,7 +33,8 @@ export type NPCName =
   | "wanderleaf"
   | "otis"
   | "dreadhorn"
-  | "luna";
+  | "luna"
+  | "billy";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -191,7 +192,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Goblin Puppet",
   },
   // Auctioneer who collects rare items and sells them off
-  "hammerin' harry": {
+  "hammerin harry": {
     body: "Beige Farmer Potion",
     background: "Dawn Breaker Background",
     hair: "Tangerine Hair",
@@ -231,7 +232,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Dawn Lamp",
   },
   // Local farmer in Plaza
-  "pumpkin' pete": {
+  pete: {
     body: "Light Brown Farmer Potion",
     background: "Farm Background",
     hair: "Explorer Hair",
@@ -253,13 +254,15 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   // Announces news
   birdie: {
-    body: "Light Brown Farmer Potion",
+    body: "Beige Farmer Potion",
     background: "Farm Background",
-    hair: "Rancher Hair",
-    shirt: "Blue Farmer Shirt",
-    pants: "Lumberjack Overalls",
+    hair: "Brown Long Hair",
+    shirt: "Witches' Eve Tee",
+    pants: "Peasant Skirt",
     shoes: "Black Farmer Boots",
-    tool: "Farmer Pitchfork",
+    tool: "Auction Megaphone",
+    wings: "Crow Wings",
+    hat: "Boater Hat",
   },
   // Old loving grandma of the game
   buttons: {
@@ -364,4 +367,36 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Cemetery Background",
     shoes: "Brown Boots",
   },
+  billy: {
+    body: "Beige Farmer Potion",
+    hair: "Basic Hair",
+    shirt: "Red Farmer Shirt",
+    pants: "Farmer Overalls",
+    tool: "Farmer Pitchfork",
+    background: "Cemetery Background",
+    shoes: "Brown Boots",
+  },
 };
+
+type AcknowledgedNPCs = Partial<Record<NPCName, number>>;
+export function acknowedlgedNPCs(): AcknowledgedNPCs {
+  const item = localStorage.getItem("acknowledgedNPCs");
+
+  if (!item) {
+    return {};
+  }
+
+  return JSON.parse(item as any) as AcknowledgedNPCs;
+}
+
+export function acknowledgeNPC(npcName: NPCName) {
+  const previous = acknowedlgedNPCs();
+
+  localStorage.setItem(
+    "acknowledgedNPCs",
+    JSON.stringify({
+      ...previous,
+      [npcName]: Date.now().toString(),
+    })
+  );
+}
