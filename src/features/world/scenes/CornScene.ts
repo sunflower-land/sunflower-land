@@ -1,5 +1,5 @@
 import cornMazeJSON from "assets/map/corn_maze.json";
-import { mazeManager } from "features/world/ui/MazeHud";
+import { mazeManager } from "features/world/ui/cornMaze/MazeHud";
 
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { CONFIG } from "lib/config";
@@ -112,7 +112,7 @@ export class CornScene extends BaseScene {
     this.setUpCrows();
     this.setUpEnemies();
     this.setUpEnemyColliders();
-    mazeManager.sceneLoaded(this.lostCrowCount);
+    mazeManager.sceneLoaded();
 
     eventBus.on("corn_maze:pauseScene", () => {
       this.scene.pause();

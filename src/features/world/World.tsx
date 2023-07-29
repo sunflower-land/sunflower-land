@@ -20,7 +20,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { Ocean } from "./ui/Ocean";
 import { PickServer } from "./ui/PickServer";
 import { hasFeatureAccess } from "lib/flags";
-import { MazeHud } from "./ui/MazeHud";
+import { MazeHud } from "./ui/cornMaze/MazeHud";
 import { GameWrapper } from "features/game/expansion/Game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 

@@ -21,7 +21,7 @@ import {
   SceneId,
 } from "../mmoMachine";
 import { Player } from "../types/Room";
-import { mazeManager } from "../ui/MazeHud";
+import { mazeManager } from "../ui/cornMaze/MazeHud";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
