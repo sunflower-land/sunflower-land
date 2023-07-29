@@ -9,10 +9,10 @@ export const SEASONS: Record<SeasonName, SeasonDates> = {
   },
   "Dawn Breaker": {
     startDate: new Date("2023-05-01T00:00:00.000Z"),
-    endDate: new Date("2023-08-01T00:00:00.000Z"),
+    endDate: new Date("2023-07-27T00:00:00.000Z"),
   },
   "Witches' Eve": {
-    startDate: new Date("2023-08-01T00:00:00.000Z"),
+    startDate: new Date("2023-07-28T00:00:00.000Z"),
     endDate: new Date("2023-11-01T00:00:00.000Z"),
   },
 };

@@ -377,6 +377,10 @@ export const TEST_FARM: GameState = {
     spawnedAt: 0,
     mushrooms: {},
   },
+  witchesEve: {
+    weeklyLostCrowCount: 25,
+    maze: {},
+  },
 };
 
 export const EMPTY: GameState = {

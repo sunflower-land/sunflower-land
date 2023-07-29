@@ -85,6 +85,7 @@ export class CornScene extends BaseScene {
   sceneId: SceneId = "corn_maze";
   score = 0;
   health = 3;
+  lostCrowCount = 0;
   enemies?: Phaser.GameObjects.Group;
 
   constructor() {
@@ -111,14 +112,19 @@ export class CornScene extends BaseScene {
     this.setUpCrows();
     this.setUpEnemies();
     this.setUpEnemyColliders();
-    mazeManager.sceneLoaded();
+    mazeManager.sceneLoaded(this.lostCrowCount);
 
-    eventBus.on("corn_maze:gameOver", () => {
+    eventBus.on("corn_maze:pauseScene", () => {
       this.scene.pause();
+    });
+
+    eventBus.on("corn_maze:resumeScene", () => {
+      this.scene.resume();
     });
   }
 
   setUpCrows() {
+    let count = 0;
     const crowsLayer = this.map.getLayer("Crows");
     if (crowsLayer) {
       // Access the tile data from the layer
@@ -140,6 +146,7 @@ export class CornScene extends BaseScene {
             const spriteY = y * tileHeight + tileHeight / 2;
 
             const crow = this.physics.add.sprite(spriteX, spriteY, "crow");
+            count++;
             // on collision with player, collect crow
             if (this.currentPlayer) {
               this.physics.add.overlap(this.currentPlayer, crow, () => {
@@ -151,6 +158,7 @@ export class CornScene extends BaseScene {
         }
       }
     }
+    this.lostCrowCount = count;
   }
 
   handleDirectionChange(enemy: Enemy, container: BumpkinContainer) {

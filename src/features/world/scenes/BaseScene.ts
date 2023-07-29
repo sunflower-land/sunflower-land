@@ -21,6 +21,7 @@ import {
   SceneId,
 } from "../mmoMachine";
 import { Player } from "../types/Room";
+import { mazeManager } from "../ui/MazeHud";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -469,8 +470,14 @@ export abstract class BaseScene extends Phaser.Scene {
         async (obj1, obj2) => {
           const id = (obj2 as any).data?.list?.id;
           if (id) {
-            interactableModalManager.open(id);
-            return;
+            if (id === "maze_portal_exit") {
+              // pause scene to have player confirm action
+              mazeManager.handlePortalHit();
+              this.scene.pause();
+            } else {
+              interactableModalManager.open(id);
+              return;
+            }
           }
 
           // Change scenes
