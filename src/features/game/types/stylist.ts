@@ -144,6 +144,14 @@ export const LIMITED_WEARABLES: ShopWearables = {
     from: new Date("2023-08-01"),
     to: new Date("2023-11-01"),
   },
+  "Crow Wings": {
+    sfl: 0,
+    ingredients: {
+      "Crow Feather": new Decimal(3000),
+    },
+    from: new Date("2023-08-01"),
+    to: new Date("2023-11-01"),
+  },
 };
 
 export const STYLIST_WEARABLES: ShopWearables = {
