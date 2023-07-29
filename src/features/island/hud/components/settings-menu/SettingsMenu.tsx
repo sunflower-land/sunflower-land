@@ -14,7 +14,6 @@ import { useIsNewFarm } from "features/farming/hud/lib/onboarding";
 import { HowToPlay } from "./howToPlay/HowToPlay";
 import { SubSettings } from "./sub-settings/SubSettings";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
-import { CommunityGardenModal } from "features/community/components/CommunityGardenModal";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Discord } from "./DiscordModal";
 import { AddSFL } from "../AddSFL";
@@ -265,10 +264,6 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
           </Panel>
         </Modal>
       )}
-      <CommunityGardenModal
-        isOpen={showCommunityGardenModal}
-        onClose={() => setShowCommunityGardenModal(false)}
-      />
     </>
   );
 };

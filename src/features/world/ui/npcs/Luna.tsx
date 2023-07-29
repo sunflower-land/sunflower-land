@@ -1,12 +1,16 @@
 import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { NPC_WEARABLES } from "lib/npcs";
-import React from "react";
+import { NPC_WEARABLES, acknowledgeNPC } from "lib/npcs";
+import React, { useEffect } from "react";
 
 interface Props {
   onClose: () => void;
   onNavigate: () => void;
 }
 export const Luna: React.FC<Props> = ({ onClose, onNavigate }) => {
+  useEffect(() => {
+    acknowledgeNPC("luna");
+  }, []);
+
   return (
     <SpeakingModal
       onClose={onClose}
