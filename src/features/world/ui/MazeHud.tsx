@@ -108,11 +108,6 @@ export const MazeHud: React.FC = () => {
         setShowTips(true);
       },
       handlePortalHit: () => {
-        if (score === totalLostCrows) {
-          setGameOver("won");
-          return;
-        }
-
         setPaused(true);
         setPausedAt(Date.now());
       },
@@ -127,11 +122,17 @@ export const MazeHud: React.FC = () => {
   }, [health, timeElapsed]);
 
   useEffect(() => {
+    if (paused && score === totalLostCrows) {
+      setGameOver("won");
+      return;
+    }
+
     if (startedAt && !paused) {
       const timeDiff = Date.now() - pausedAt;
 
       setStartedAt((s) => s + timeDiff);
     }
+    console.log("paused", paused);
   }, [paused]);
 
   useEffect(() => {
@@ -167,8 +168,8 @@ export const MazeHud: React.FC = () => {
   };
 
   const handleResume = () => {
-    eventBus.emit("corn_maze:resumeScene");
     setPaused(false);
+    eventBus.emit("corn_maze:resumeScene");
     if (showTips) setShowTips(false);
   };
 
