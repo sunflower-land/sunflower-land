@@ -17,7 +17,7 @@ type CommunityModal = {
   };
   jsx: JSX.Element;
   buttons?: ButtonInfo[];
-  onClose?: (modal: CommunityModal) => void;
+  onClose?: () => void;
   onButtonClick?: (buttonId: string) => void;
 };
 
@@ -54,13 +54,27 @@ export const CommunityModals: React.FC = () => {
   useEffect(() => {
     communityModalManager.listen((modal, open) => {
       console.log("OPENED", { modal });
+
+      if (modal.buttons) {
+        const ids = modal.buttons.map((button) => button.id);
+        const uniqueIds = [...new Set(ids)];
+        if (ids.length !== uniqueIds.length) {
+          console.warn(
+            "Duplicate button ids detected. To prevent this, please make sure all buttons have unique ids."
+          );
+          modal.buttons = modal.buttons.filter(
+            (button, index) => ids.indexOf(button.id) === index
+          );
+        }
+      }
+
       setModal(modal);
     });
   }, []);
 
   const closeModal = () => {
     if (modal && modal.onClose) {
-      modal.onClose(modal);
+      modal.onClose();
     }
     setModal(undefined);
   };
