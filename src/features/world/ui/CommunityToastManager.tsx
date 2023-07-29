@@ -44,7 +44,11 @@ export const CommunityToasts: React.FC = () => {
 
   useEffect(() => {
     communityToastManager.listen((toast, isShown) => {
-      console.log("OPENED", { toast });
+      if (!toast.text) {
+        return console.warn("Toast text is empty");
+      }
+
+      console.log("TOAST", { toast, isShown });
 
       const newToast: CommunityToast = {
         ...toast,
