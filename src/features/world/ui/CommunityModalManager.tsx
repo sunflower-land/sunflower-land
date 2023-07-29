@@ -66,6 +66,7 @@ export const CommunityModals: React.FC = () => {
             (button, index) => ids.indexOf(button.id) === index
           );
         }
+        modal.buttons = modal.buttons.filter((button) => !!button.id);
       }
 
       setModal(modal);
