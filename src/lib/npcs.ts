@@ -34,7 +34,8 @@ export type NPCName =
   | "otis"
   | "dreadhorn"
   | "luna"
-  | "billy";
+  | "billy"
+  | "phantom face";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -52,11 +53,12 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     body: "Beige Farmer Potion",
     hair: "Sun Spots",
+    hat: "Cattlegrim",
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
     pants: "Traveller's Pants",
     shirt: "Traveller's Shirt",
-    wings: "Traveller's Backpack",
+    suit: "Ox Costume",
   },
   jake: {
     body: "Beige Farmer Potion",
@@ -375,6 +377,17 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Farmer Pitchfork",
     background: "Cemetery Background",
     shoes: "Brown Boots",
+  },
+  "phantom face": {
+    body: "Dark Brown Farmer Potion",
+    hair: "Buzz Cut",
+    hat: "Crumple Crown",
+    pants: "Farmer Overalls",
+    shirt: "Red Farmer Shirt",
+    suit: "Imp Costume",
+    tool: "Farmer Pitchfork",
+    shoes: "Black Farmer Boots",
+    background: "Cemetery Background",
   },
 };
 

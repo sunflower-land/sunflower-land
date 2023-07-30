@@ -16,7 +16,6 @@ type Enemy = NPCBumpkin & {
     duration: number;
     hold?: boolean;
     startFacingLeft?: boolean;
-    pause?: boolean;
   };
 };
 
@@ -30,16 +29,15 @@ const ENEMIES: Enemy[] = [
       y: 471,
       direction: "vertical",
       duration: 2000,
-      pause: true,
     },
   },
   {
     x: 57,
-    y: 56,
+    y: 63,
     npc: "dreadhorn",
     target: {
       x: 294,
-      y: 56,
+      y: 60,
       direction: "horizontal",
       duration: 3500,
     },
@@ -65,18 +63,69 @@ const ENEMIES: Enemy[] = [
       x: 585,
       y: 217,
       direction: "vertical",
-      duration: 3000,
+      duration: 3500,
     },
   },
   {
-    x: 171,
-    y: 123,
+    x: 89,
+    y: 500,
+    npc: "phantom face",
+    target: {
+      x: 46,
+      y: 500,
+      direction: "horizontal",
+      duration: 1200,
+      hold: true,
+      startFacingLeft: true,
+    },
+  },
+  {
+    x: 518,
+    y: 583,
+    npc: "phantom face",
+    target: {
+      x: 483,
+      y: 590,
+      direction: "horizontal",
+      duration: 900,
+      hold: true,
+      startFacingLeft: true,
+    },
+  },
+  {
+    x: 130,
+    y: 137,
+    npc: "phantom face",
+    target: {
+      x: 185,
+      y: 137,
+      direction: "horizontal",
+      duration: 1200,
+      hold: true,
+    },
+  },
+  {
+    x: 342,
+    y: 72,
+    npc: "phantom face",
+    target: {
+      x: 440,
+      y: 72,
+      direction: "horizontal",
+      duration: 1800,
+      hold: true,
+    },
+  },
+  {
+    x: 412,
+    y: 545,
     npc: "dreadhorn",
     target: {
-      x: 171,
-      y: 275,
-      direction: "vertical",
-      duration: 2000,
+      x: 435,
+      y: 545,
+      direction: "horizontal",
+      duration: 800,
+      hold: true,
     },
   },
 ];
@@ -197,7 +246,7 @@ export class CornScene extends BaseScene {
   ) {
     // Generate a random hold time between 500ms and 2000ms (adjust as needed)
     const minHoldTime = 1; // Minimum hold time in milliseconds
-    const maxHoldTime = 1500; // Maximum hold time in milliseconds
+    const maxHoldTime = enemy.target.duration + 1000; // Maximum hold time in milliseconds
     const randomHoldTime = Phaser.Math.Between(minHoldTime, maxHoldTime);
 
     if (
@@ -205,18 +254,20 @@ export class CornScene extends BaseScene {
       container.x === enemy.target.x
     ) {
       tween.pause();
-
+      container.idle();
       setTimeout(() => {
         tween.resume();
+        container.walk();
       }, randomHoldTime);
     } else if (
       enemy.target.direction === "vertical" &&
       container.y === enemy.target.y
     ) {
       tween.pause();
-
+      container.idle();
       setTimeout(() => {
         tween.resume();
+        container.walk();
       }, randomHoldTime);
     }
   }
@@ -240,6 +291,8 @@ export class CornScene extends BaseScene {
         .setSize(16, 20)
         .setOffset(0, 0)
         .setCollideWorldBounds(true);
+
+      container.walk();
 
       this.physics.world.enable(container);
       this.enemies?.add(container);

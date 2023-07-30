@@ -132,6 +132,12 @@ export const MazeHud: React.FC = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (!startedAt) return;
+
+    handleMazeComplete();
+  }, [lostGame]);
+
   const handleStart = () => {
     cornMazeService.send("START_GAME");
   };
@@ -142,14 +148,13 @@ export const MazeHud: React.FC = () => {
 
   const handleMazeComplete = () => {
     // All game stats are recorded so action is always called when leaving
+    console.log("action sent");
     gameService.send("maze.attempted", {
       crowsFound: score,
       health,
       timeRemaining: TIME_LIMIT_SECONDS - timeElapsed,
     });
     gameService.send("SAVE");
-
-    navigate("/world/plaza");
   };
 
   const handleReturnToPlaza = () => {
