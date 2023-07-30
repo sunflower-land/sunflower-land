@@ -311,6 +311,44 @@ describe("feed chickens", () => {
     expect(newState.chickens["0"].fedAt).toEqual(createdAt);
   });
 
+  it("chickens produce goods 4 hours faster with El Pollo Veloz", () => {
+    const newDate = Date.now();
+    const state = {
+      ...GAME_STATE,
+      inventory: {
+        Chicken: new Decimal(1),
+        Wheat: new Decimal(1),
+        ["El Pollo Veloz"]: new Decimal(1),
+      },
+      collectibles: {
+        "El Pollo Veloz": [
+          {
+            id: "123",
+            createdAt: dateNow,
+            coordinates: { x: 1, y: 1 },
+            // ready at < now
+            readyAt: dateNow - 5 * 60 * 1000,
+          },
+        ],
+      },
+      chickens: {
+        "0": {
+          multiplier: 1,
+          coordinates: { x: 1, y: 1 },
+          fedAt: 0,
+        },
+      },
+    };
+
+    const newState = feedChicken({
+      state,
+      action: { type: "chicken.fed", id: "0" },
+    });
+    const savedMilliseconds = 1000 * 60 * 60 * 4;
+    const createdAt = newDate - savedMilliseconds;
+    expect(newState.chickens["0"].fedAt).toEqual(createdAt);
+  });
+
   it("does not stack Fat Chicken boost when a user has more than one", () => {
     const state = {
       ...GAME_STATE,

@@ -43,6 +43,11 @@ const makeFedAt = (
   if (skills["Stable Hand"]) {
     milliseconds *= 0.9;
   }
+
+  if (isCollectibleBuilt("El Pollo Veloz", collectibles)) {
+    milliseconds -= 1000 * 60 * 60 * 4;
+  }
+
   //Return default values if no boost applied
 
   const chickenTime = CHICKEN_TIME_TO_EGG - milliseconds;
