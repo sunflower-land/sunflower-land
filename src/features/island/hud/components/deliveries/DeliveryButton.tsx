@@ -30,7 +30,6 @@ export const Deliveries: React.FC = () => {
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
-          console.log("click");
           setShowModal(true);
         }}
       >
