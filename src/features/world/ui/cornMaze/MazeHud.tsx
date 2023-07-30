@@ -1,9 +1,7 @@
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CountdownLabel } from "components/ui/CountdownLabel";
 import React, { useContext, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { useInterpret, useSelector } from "@xstate/react";
@@ -20,8 +18,10 @@ import crowWithoutShadow from "assets/decorations/crow_without_shadow.png";
 import {
   MachineInterpreter,
   MachineState,
+  TIME_LIMIT_SECONDS,
   cornMazeMachine,
 } from "features/world/lib/cornMazeMachine";
+import { TimerDisplay } from "./TimerDisplay";
 
 type Listener = {
   collectCrow: (id: string) => void;
@@ -63,7 +63,6 @@ class MazeManager {
 
 export const mazeManager = new MazeManager();
 
-const TIME_LIMIT_SECONDS = 60 * 3;
 const DEFAULT_HEALTH = 3;
 
 const _witchesEve = (state: GameMachineState) =>
@@ -204,7 +203,7 @@ export const MazeHud: React.FC = () => {
           ))}
         </div>
         <div
-          className="absolute bottom-2 right-2 cursor-pointer"
+          className="absolute bottom-2 left-2 cursor-pointer"
           onClick={handleShowTips}
         >
           <img
@@ -212,18 +211,10 @@ export const MazeHud: React.FC = () => {
             className="h-10 md:h-14"
           />
         </div>
-        <div
-          className={classNames(
-            "absolute left-1/2 bottom-0 -translate-x-1/2 scale-150 md:scale-[2] transition-transform duration-500",
-            {
-              "translate-y-10": startedAt === 0,
-              "-translate-y-4 md:-translate-y-6": startedAt > 0,
-              scaling: TIME_LIMIT_SECONDS - timeElapsed <= 10,
-            }
-          )}
-        >
-          <CountdownLabel timeLeft={TIME_LIMIT_SECONDS - timeElapsed} />
-        </div>
+        <TimerDisplay
+          startedAt={startedAt}
+          timeLeft={TIME_LIMIT_SECONDS - timeElapsed}
+        />
       </div>
       {/* Lost */}
       {/* Call action and go back to plaza */}

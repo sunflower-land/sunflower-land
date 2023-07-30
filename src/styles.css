@@ -509,6 +509,10 @@ img {
   animation: pulse 1s infinite;
 }
 
+.warn-pulse {
+  animation: subtle-pulse 1s infinite;
+}
+
 .npc-loading {
   animation: subtle-pulse 2s infinite;
 }

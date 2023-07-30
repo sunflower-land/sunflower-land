@@ -48,6 +48,7 @@ export type MachineInterpreter = Interpreter<
 >;
 
 export const TIME_LIMIT_SECONDS = 60 * 3;
+const HIT_PENALTY_SECONDS = 5;
 
 // Define the state machine
 export const cornMazeMachine = createMachine<
@@ -70,9 +71,6 @@ export const cornMazeMachine = createMachine<
       },
     },
     playing: {
-      entry: () => {
-        console.log("entered playing");
-      },
       invoke: {
         src: () => (cb) => {
           const interval = setInterval(() => {
@@ -119,6 +117,8 @@ export const cornMazeMachine = createMachine<
           cond: (context) => !context.gameOver,
           actions: assign({
             health: (context) => (context.health > 0 ? context.health - 1 : 0),
+            startedAt: (context) =>
+              context.startedAt - HIT_PENALTY_SECONDS * 1000,
           }),
         },
         PORTAL_HIT: {

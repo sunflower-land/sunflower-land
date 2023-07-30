@@ -34,7 +34,7 @@ export const TipsModalContent: React.FC<Props> = ({
             </div>
             <div className="flex items-center space-x-2">
               <img src={SUNNYSIDE.icons.heart} alt="Health" className="w-6" />
-              <p>Avoid all the enemies.</p>
+              <p>Avoid all the enemies. Lose 5s each hit!</p>
             </div>
             <div className="flex items-center space-x-2">
               <img
