@@ -11,7 +11,6 @@ import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import { Loading } from "features/auth/components";
-import { getProgress, isTaskComplete } from "../lib/HayseedHankTask";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -20,29 +19,49 @@ import { OuterPanel } from "components/ui/Panel";
 interface Props {
   skipping: boolean;
 }
-export const Chore: React.FC<Props> = ({ skipping }) => {
+export const ChoreV2: React.FC<Props> = ({ skipping }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const hayseedHank = gameState.context.state.hayseedHank;
-  const chore = hayseedHank?.chore;
+  const chores = gameState.context.state.chores;
+
+  if (!chores) {
+    return (
+      <div className="p-2 text-sm">
+        <p>{`Sorry, I don't have any chores that need doing right now.`}</p>
+      </div>
+    );
+  }
+  const choreKey = getKeys(chores).find((key) => !chores[key].completedAt);
+
+  if (!choreKey) {
+    return (
+      <div className="p-2 text-sm">
+        <p>{`Come back tomorrow for another chore!`}</p>
+      </div>
+    );
+  }
+  const chore = chores[choreKey];
+
   const bumpkin = gameState.context.state.bumpkin as Bumpkin;
+
+  const progress =
+    (bumpkin?.activity?.[chore.activity] ?? 0) - chore.startCount;
+  const isTaskComplete = progress > chore.requirement;
 
   const start = () => {
     gameService.send("chore.started");
   };
 
   const complete = () => {
-    gameService.send("chore.completed");
+    gameService.send("chore.completed", { id: choreKey });
 
     gameService.send("SAVE");
   };
 
-  if (!hayseedHank || !chore || !hayseedHank.progress) return <Loading />;
-
   if (skipping) return <Loading text="Skipping" />;
 
-  if (hayseedHank.progress?.bumpkinId !== bumpkin.id) {
+  if (chore.bumpkinId !== bumpkin.id) {
     return (
       <>
         <div className="p-2 text-sm">
@@ -53,7 +72,7 @@ export const Chore: React.FC<Props> = ({ skipping }) => {
     );
   }
 
-  if (isTaskComplete(gameState.context.state)) {
+  if (isTaskComplete) {
     return (
       <div className="flex flex-col items-center">
         <img
@@ -83,17 +102,11 @@ export const Chore: React.FC<Props> = ({ skipping }) => {
     );
   }
 
-  const progress = getProgress(gameState.context.state);
-
   const progressPercentage = Math.min(1, progress / chore.requirement) * 100;
 
   return (
     <>
       <div className="px-2 flex flex-col w-full relative mb-2">
-        <p className="text-sm mb-2">{chore.introduction}</p>
-        {chore.image && (
-          <img src={chore.image} className="w-full rounded-lg my-1" />
-        )}
         <OuterPanel className="w-full mt-1">
           <div className="pt-1">
             <p className="text-sm text-center">{`Task: ${chore.description}`}</p>

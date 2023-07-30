@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { CHORES } from "features/game/types/chores";
 import { getKeys } from "features/game/types/craftables";
-import { GameState } from "features/game/types/game";
+import { ChoreV2Name, GameState } from "features/game/types/game";
 import { getProgress } from "features/helios/components/hayseedHank/lib/HayseedHankTask";
 import { CONFIG } from "lib/config";
 import { analytics } from "lib/analytics";
@@ -11,6 +11,7 @@ import { startChore } from "./startChore";
 
 export type CompleteChoreAction = {
   type: "chore.completed";
+  id?: number;
 };
 
 type Options = {
@@ -23,50 +24,55 @@ const clone = (state: GameState): GameState => {
   return cloneDeep(state);
 };
 
-export function completeChore({
+function completeDawnBreakerChore({
   state,
   createdAt = Date.now(),
 }: Options): GameState {
   let game = clone(state);
+  const { hayseedHank } = game;
 
   if (!game.bumpkin) {
     throw new Error("No Bumpkin Found");
   }
 
-  if (!game.hayseedHank.progress) {
+  if (!hayseedHank) {
+    throw new Error("No Hayseed Hank Found");
+  }
+
+  if (!hayseedHank.progress) {
     throw new Error("Chore has not started");
   }
 
-  if (game.bumpkin.id !== game.hayseedHank.progress?.bumpkinId) {
+  if (game.bumpkin.id !== hayseedHank.progress?.bumpkinId) {
     throw new Error("Not the same Bumpkin");
   }
 
-  const activity = game.hayseedHank.chore.activity;
+  const activity = hayseedHank.chore.activity;
 
   const progress = getProgress(game);
 
-  if (progress < game.hayseedHank.chore.requirement) {
+  if (progress < hayseedHank.chore.requirement) {
     throw new Error("Chore is not completed");
   }
 
   // Add rewards
-  getKeys(game.hayseedHank.chore.reward.items ?? {}).forEach((name) => {
+  getKeys(hayseedHank.chore.reward.items ?? {}).forEach((name) => {
     const previous = game.inventory[name] ?? new Decimal(0);
     game.inventory[name] = previous.add(
-      game.hayseedHank.chore.reward.items?.[name] ?? 0
+      hayseedHank.chore.reward.items?.[name] ?? 0
     );
   });
 
-  const choreIndex = (game.hayseedHank.choresCompleted + 1) % CHORES.length;
+  const choreIndex = (hayseedHank.choresCompleted + 1) % CHORES.length;
   const nextChore = CHORES[choreIndex + 1];
 
   // Front-end testing only - real chore is hidden as a surpise on the backend
   if (!CONFIG.API_URL) {
-    game.hayseedHank.chore = nextChore;
+    hayseedHank.chore = nextChore;
   }
 
-  game.hayseedHank.choresCompleted += 1;
-  delete game.hayseedHank.progress;
+  hayseedHank.choresCompleted += 1;
+  delete hayseedHank.progress;
 
   // Increment activity
   game.bumpkin.activity = trackActivity(
@@ -74,19 +80,19 @@ export function completeChore({
     game.bumpkin.activity
   );
 
-  if (game.hayseedHank.choresCompleted === 1) {
+  if (hayseedHank.choresCompleted === 1) {
     game.conversations.push("betty-intro");
   }
 
-  if (game.hayseedHank.choresCompleted === 2) {
+  if (hayseedHank.choresCompleted === 2) {
     game.conversations.push("bruce-intro");
   }
 
-  if (game.hayseedHank.choresCompleted === 3) {
+  if (hayseedHank.choresCompleted === 3) {
     game.conversations.push("blacksmith-intro");
   }
 
-  if (game.hayseedHank.choresCompleted === 4) {
+  if (hayseedHank.choresCompleted === 4) {
     // TODO - once scarecrow gets crafted
     // game.conversations.push("hank-crafting");
   }
@@ -114,4 +120,71 @@ export function completeChore({
   });
 
   return game;
+}
+
+const isChoreId = (id: number): id is ChoreV2Name => id in ChoreV2Name;
+
+function completeWitchesEveChore({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
+  const game = cloneDeep<GameState>(state);
+  const { id } = action;
+  const { chores, bumpkin } = game;
+
+  if (id === undefined) {
+    throw new Error("Chore ID not supplied");
+  }
+
+  if (!chores) {
+    throw new Error("No chores found");
+  }
+
+  if (!bumpkin) {
+    throw new Error("No bumpkin found");
+  }
+
+  if (!isChoreId(id)) {
+    throw new Error("Invalid chore ID");
+  }
+
+  const chore = chores[id as ChoreV2Name];
+
+  if ((chore.completedAt ?? 0) > 0) {
+    throw new Error("Chore is already completed");
+  }
+
+  if (bumpkin.id !== chore.bumpkinId) {
+    throw new Error("Not the same bumpkin");
+  }
+
+  const progress = bumpkin?.activity?.[chore.activity] ?? 0 - chore.startCount;
+
+  if (progress < chore.requirement) {
+    throw new Error("Chore is not completed");
+  }
+
+  getKeys(chore.reward.items ?? {}).forEach((name) => {
+    const previous = game.inventory[name] ?? new Decimal(0);
+    game.inventory[name] = previous.add(chore.reward.items?.[name] ?? 0);
+  });
+
+  game.balance = game.balance.add(chore.reward.sfl ?? 0);
+
+  chore.completedAt = createdAt;
+
+  return game;
+}
+
+export function completeChore({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
+  if (action.id !== undefined) {
+    return completeWitchesEveChore({ state, action, createdAt });
+  }
+
+  return completeDawnBreakerChore({ state, action, createdAt });
 }

@@ -8,20 +8,29 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { isTaskComplete } from "./lib/HayseedHankTask";
-import { Chore } from "./components/Chore";
 import { NPC_WEARABLES } from "lib/npcs";
-import { Label } from "components/ui/Label";
-import { secondsToString } from "lib/utils/time";
-import { SEASONS } from "features/game/types/seasons";
+import { ChoreV2 } from "./components/ChoreV2";
+import { getKeys } from "features/game/types/craftables";
 
-export const HayseedHank: React.FC = () => {
+export const HayseedHankV2: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [isSkipping, setIsSkipping] = useState(false);
   const [canSkip, setCanSkip] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  const { chores, bumpkin } = gameState.context.state;
+
+  const choreKey =
+    chores && getKeys(chores).find((key) => !chores[key].completedAt);
+  const chore = choreKey !== undefined ? chores?.[choreKey] : undefined;
+  const startedAt = chore?.createdAt;
+
+  const isTaskComplete = chore
+    ? (bumpkin?.activity?.[chore.activity] ?? 0) - chore.startCount >
+      chore.requirement
+    : false;
 
   const handleClick = () => {
     // Trigger an autosave in case they have changes so user can sync right away
@@ -31,11 +40,6 @@ export const HayseedHank: React.FC = () => {
   };
 
   const isSaving = gameState.matches("autosaving");
-
-  const resetSeconds = Math.round(
-    (SEASONS["Witches' Eve"].startDate.getTime() - new Date().getTime()) / 1000
-  );
-  const hasReset = resetSeconds < 0;
 
   const skip = () => {
     setIsSkipping(true);
@@ -52,9 +56,8 @@ export const HayseedHank: React.FC = () => {
   };
 
   const getTimeToChore = () => {
-    const twentyFourHrsInMilliseconds = 86400000;
-    const startedAt = gameState.context.state.hayseedHank?.progress?.startedAt;
     if (!startedAt) return;
+    const twentyFourHrsInMilliseconds = 86400000;
 
     // if startedAt is more than 24hrs ago, can skip
     if (new Date().getTime() > startedAt + twentyFourHrsInMilliseconds) {
@@ -115,7 +118,7 @@ export const HayseedHank: React.FC = () => {
           }}
           onClick={handleClick}
         />
-        {isTaskComplete(gameState.context.state) && (
+        {isTaskComplete && (
           <img
             src={SUNNYSIDE.icons.confirm}
             className="absolute img-highlight-heavy pointer-events-none z-10"
@@ -131,7 +134,7 @@ export const HayseedHank: React.FC = () => {
       <Modal centered show={isOpen} onHide={close}>
         <CloseButtonPanel
           title={
-            isTaskComplete(gameState.context.state) ? (
+            isTaskComplete ? (
               <div className="flex justify-center">
                 <p>Well done</p>
               </div>
@@ -144,27 +147,9 @@ export const HayseedHank: React.FC = () => {
           bumpkinParts={NPC_WEARABLES.hank}
           onClose={close}
         >
-          <Chore skipping={isSaving && isSkipping} />
+          <ChoreV2 skipping={isSaving && isSkipping} />
 
-          {!(isSaving && isSkipping) && Content()}
-
-          {!hasReset && resetSeconds && (
-            <Label type="warning" className="my-1 mx-auto w-full">
-              <div className="flex-col space-y-1 w-full items-start">
-                <p>{"Chores will reset for the Witches' Eve season."}</p>
-                <div className="flex items-center">
-                  <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
-                  <span>
-                    {"Reset in "}
-                    {secondsToString(resetSeconds, {
-                      length: "medium",
-                      removeTrailingZeros: true,
-                    })}
-                  </span>
-                </div>
-              </div>
-            </Label>
-          )}
+          {!(isSaving && isSkipping) && !!chore && Content()}
         </CloseButtonPanel>
       </Modal>
     </>

@@ -20,6 +20,8 @@ import { AddSFL } from "../AddSFL";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { PokoOnRamp } from "../PokoOnRamp";
+import { createPortal } from "react-dom";
+import { DEV_TimeMachine } from "./DEV_TimeMachine";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -45,6 +47,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
     useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(useIsNewFarm());
   const [showCaptcha, setShowCaptcha] = useState(false);
+  const [showTimeMachine, setShowTimeMachine] = useState(true);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const { openModal } = useContext(ModalContext);
 
@@ -118,6 +121,13 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
               <>
                 {CONFIG.NETWORK === "mumbai" && (
                   <>
+                    <li className="p-1">
+                      <Button
+                        onClick={() => setShowTimeMachine(!showTimeMachine)}
+                      >
+                        Time Machine
+                      </Button>
+                    </li>
                     <li className="p-1">
                       <DEV_GenerateLandButton />
                     </li>
@@ -264,6 +274,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
           </Panel>
         </Modal>
       )}
+      {showTimeMachine && createPortal(<DEV_TimeMachine />, document.body)}
     </>
   );
 };

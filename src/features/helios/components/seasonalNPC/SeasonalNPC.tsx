@@ -44,7 +44,7 @@ export const SeasonalNPC: React.FC = () => {
               hair: "Brown Long Hair",
             }}
           />
-          {!gameState.context.state.hayseedHank.progress && (
+          {!gameState.context.state.chores && (
             <img
               src={SUNNYSIDE.icons.expression_chat}
               className="absolute animate-float"
