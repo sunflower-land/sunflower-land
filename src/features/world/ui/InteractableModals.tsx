@@ -37,7 +37,11 @@ type InteractableName =
   | "woodlands"
   | "castle"
   | "port"
-  | "beach";
+  | "beach"
+  | "lazy_bud"
+  | "plaza_blue_book"
+  | "plaza_orange_book"
+  | "plaza_green_book";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -130,7 +134,75 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           onClose={closeModal}
           message={[
             {
-              text: "Why won't these farmers leave me alone, I just want to relax.",
+              text: "Why won't these Bumpkins leave me alone, I just want to relax.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "lazy_bud"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          message={[
+            {
+              text: "Eeeep! So tired.....",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "plaza_blue_book"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.raven}
+          message={[
+            {
+              text: "To summon the seekers, we must gather the essence of the land - pumpkins, nurtured by the earth, and eggs, the promise of new beginnings. ",
+            },
+            {
+              text: "As dusk falls and the moon casts its silvery glow, we offer our humble gifts, hoping to awaken their watchful eyes once more.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "plaza_orange_book"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.cornwell}
+          message={[
+            {
+              text: "Our brave defenders fought valiantly, but alas, we lost the great war, and the Moonseekers drove us from our homeland. Yet, we hold onto hope, for one day we shall reclaim what was once ours.",
+            },
+            {
+              text: "Until then, we will keep Sunflower Land alive in our hearts and dreams, waiting for the day of our triumphant return",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "plaza_green_book"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.grimbly}
+          message={[
+            {
+              text: "The Bumpkins control these islands, leaving us goblins with scarce work and even scarcer food.",
+            },
+            {
+              text: "We strive for equality, a place to call our own, where we can live and thrive",
             },
           ]}
         />
