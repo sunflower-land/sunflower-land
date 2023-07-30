@@ -19,6 +19,13 @@ type Enemy = NPCBumpkin & {
   };
 };
 
+const LUNA: NPCBumpkin = {
+  x: 333,
+  y: 330,
+  npc: "luna",
+  direction: "left",
+};
+
 const ENEMIES: Enemy[] = [
   {
     x: 104,
@@ -135,6 +142,8 @@ export class CornScene extends BaseScene {
   score = 0;
   health = 3;
   lostCrowCount = 0;
+  // Don't allow portal hit to be triggered multiple times
+  canHandlePortalHit = true;
   enemies?: Phaser.GameObjects.Group;
 
   constructor() {
@@ -159,8 +168,10 @@ export class CornScene extends BaseScene {
 
     super.create();
     this.setUpCrows();
+    this.setUpLuna();
     this.setUpEnemies();
     this.setUpEnemyColliders();
+
     mazeManager.sceneLoaded();
 
     eventBus.on("corn_maze:pauseScene", () => {
@@ -169,7 +180,35 @@ export class CornScene extends BaseScene {
 
     eventBus.on("corn_maze:resumeScene", () => {
       this.scene.resume();
+      setTimeout(() => {
+        this.canHandlePortalHit = true;
+      }, 2000);
     });
+  }
+
+  setUpLuna() {
+    const container = new BumpkinContainer({
+      scene: this,
+      x: LUNA.x,
+      y: LUNA.y,
+      clothing: { ...NPC_WEARABLES.luna, updatedAt: 0 },
+      direction: "left",
+    });
+
+    // container.setDepth(LUNA.y);
+    (container.body as Phaser.Physics.Arcade.Body)
+      .setSize(16, 20)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
+
+    this.physics.world.enable(container);
+
+    if (this.currentPlayer) {
+      this.physics.add.collider(container, this.currentPlayer, () => {
+        this.handlePortalHit();
+      });
+    }
   }
 
   setUpCrows() {

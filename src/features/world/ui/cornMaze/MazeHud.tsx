@@ -10,11 +10,6 @@ import { useInterpret, useSelector } from "@xstate/react";
 import { calculateFeathersEarned } from "features/game/events/landExpansion/attemptMaze";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { MazeMetadata, WitchesEve } from "features/game/types/game";
-import {
-  MachineInterpreter,
-  MachineState,
-  cornMazeMachine,
-} from "../../lib/cornmazeMachine";
 import { LosingModalContent } from "./LosingModalContent";
 import { PausedHighScoreModalContent } from "./PausedHighScoreModalContent";
 import { PausedLowScoreModalContent } from "./PausedLowScoreModalContent";
@@ -22,6 +17,11 @@ import { TipsModalContent } from "./TipsModalContent";
 import { WinningModalContent } from "./WinningModalContent";
 
 import crowWithoutShadow from "assets/decorations/crow_without_shadow.png";
+import {
+  MachineInterpreter,
+  MachineState,
+  cornMazeMachine,
+} from "features/world/lib/cornMazeMachine";
 
 type Listener = {
   collectCrow: (id: string) => void;
@@ -148,7 +148,6 @@ export const MazeHud: React.FC = () => {
 
   const handleMazeComplete = () => {
     // All game stats are recorded so action is always called when leaving
-    console.log("action sent");
     gameService.send("maze.attempted", {
       crowsFound: score,
       health,
@@ -162,7 +161,6 @@ export const MazeHud: React.FC = () => {
   };
 
   const handleShowTips = () => {
-    // setShowTips(true);
     cornMazeService.send("SHOW_TIPS");
   };
 

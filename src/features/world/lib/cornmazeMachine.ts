@@ -57,6 +57,7 @@ export const cornMazeMachine = createMachine<
 >({
   id: "cornMazeMachine",
   initial: "loading",
+  preserveActionOrder: true,
   states: {
     loading: {
       on: {
@@ -69,6 +70,9 @@ export const cornMazeMachine = createMachine<
       },
     },
     playing: {
+      entry: () => {
+        console.log("entered playing");
+      },
       invoke: {
         src: () => (cb) => {
           const interval = setInterval(() => {
@@ -99,7 +103,9 @@ export const cornMazeMachine = createMachine<
             timeElapsed: (context) => {
               const now = Date.now();
 
-              return Math.floor((+now - context.startedAt) / 1000);
+              const elapsed = Math.floor((+now - context.startedAt) / 1000);
+
+              return Math.max(0, elapsed);
             },
           }),
         },
@@ -156,17 +162,19 @@ export const cornMazeMachine = createMachine<
         RESUME_GAME: {
           target: "playing",
           actions: [
+            () => {
+              eventBus.emit("corn_maze:resumeScene");
+            },
             assign({
               startedAt: (context) => {
                 const timeDiff = Date.now() - context.pausedAt;
 
                 return context.startedAt + timeDiff;
               },
-              pausedAt: (_) => 0,
+              pausedAt: (_) => {
+                return 0;
+              },
             }),
-            () => {
-              eventBus.emit("corn_maze:resumeScene");
-            },
           ],
         },
       },
@@ -176,16 +184,17 @@ export const cornMazeMachine = createMachine<
         RESUME_GAME: {
           target: "playing",
           actions: [
+            () => {
+              eventBus.emit("corn_maze:resumeScene");
+            },
             assign({
               startedAt: (context) => {
                 const timeDiff = Date.now() - context.pausedAt;
 
                 return context.startedAt + timeDiff;
               },
+              pausedAt: (_) => 0,
             }),
-            () => {
-              eventBus.emit("corn_maze:resumeScene");
-            },
           ],
         },
       },
