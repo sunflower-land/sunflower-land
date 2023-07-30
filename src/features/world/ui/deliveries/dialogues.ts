@@ -10,9 +10,9 @@ interface DeliveryNPCDialogue {
 export const npcDialogues: Partial<Record<NPCName, DeliveryNPCDialogue>> = {
   blacksmith: {
     intro: [
-      "What do you want? Speak quickly; time is money. You have what I need, I assume?",
-      "What brings you to my workshop? My order, I presume?",
-      "Welcome to my humble abode. Got something for me? Speak up, or leave me to my work.",
+      "What do you want? Speak quickly; time is money.",
+      "What brings you to my workshop? I'm busy, so make it quick.",
+      "Welcome to my humble abode. What brings you here?",
       "State your purpose. I'm busy, and I don't have time for idle chatter. What brings you to my workshop?",
     ],
     positiveDelivery: [
