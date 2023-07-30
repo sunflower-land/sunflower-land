@@ -203,6 +203,8 @@ export const DeliveryPanelContent: React.FC<Props> = ({
   const positive = useRandomItem(dialogue.positiveDelivery);
   const negative = useRandomItem(dialogue.negativeDelivery);
 
+  const [selectedOrderId, setSelectedOrderId] = useState<string | undefined>();
+
   const hasRequirements = (order?: Order) => {
     if (!order) return false;
 
@@ -216,8 +218,6 @@ export const DeliveryPanelContent: React.FC<Props> = ({
       return count.gte(amount);
     });
   };
-
-  const [selectedOrderId, setSelectedOrderId] = useState<string | undefined>();
 
   if (!orders.length) {
     return (
@@ -235,7 +235,10 @@ export const DeliveryPanelContent: React.FC<Props> = ({
   }
 
   const handleDeliver = () => {
-    if (!selectedOrderId) return;
+    if (!selectedOrderId) {
+      console.log("Delivery: No order selected");
+      return;
+    }
 
     const state = gameService.send("order.delivered", { id: selectedOrderId });
 
