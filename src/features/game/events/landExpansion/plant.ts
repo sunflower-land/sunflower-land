@@ -134,6 +134,11 @@ export const getCropTime = (
     seconds = seconds * 0.75;
   }
 
+  // If Kernaldo: 25% reduction
+  if (crop === "Corn" && isCollectibleBuilt("Kernaldo", collectibles)) {
+    seconds = seconds * 0.75;
+  }
+
   const isBasicCrop =
     crop === "Sunflower" || crop === "Potato" || crop === "Pumpkin";
 

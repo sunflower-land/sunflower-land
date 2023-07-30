@@ -1297,7 +1297,7 @@ describe("getCropTime", () => {
   });
 
   it("applies a 25% speed boost with Obie placed", () => {
-    const eggplantHarvestSeconds = CROPS()["Eggplant"].harvestSeconds;
+    const baseHarvestSeconds = CROPS()["Eggplant"].harvestSeconds;
     const time = getCropTime(
       "Eggplant",
       {},
@@ -1315,7 +1315,29 @@ describe("getCropTime", () => {
       plot
     );
 
-    expect(time).toEqual(eggplantHarvestSeconds * 0.75);
+    expect(time).toEqual(baseHarvestSeconds * 0.75);
+  });
+
+  it("applies a 25% speed boost with Kernaldo placed", () => {
+    const baseHarvestSeconds = CROPS()["Corn"].harvestSeconds;
+    const time = getCropTime(
+      "Corn",
+      {},
+      {
+        Kernaldo: [
+          {
+            id: "123",
+            coordinates: { x: -1, y: -1 },
+            createdAt: dateNow - 100,
+            readyAt: dateNow - 100,
+          },
+        ],
+      },
+      { ...INITIAL_BUMPKIN },
+      plot
+    );
+
+    expect(time).toEqual(baseHarvestSeconds * 0.75);
   });
 
   it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Sunflower", () => {
