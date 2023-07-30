@@ -137,7 +137,10 @@ export class PlazaScene extends BaseScene {
       frameHeight: 21,
     });
 
-    this.load.image("portal", "world/portal.png");
+    this.load.spritesheet("portal", "world/portal.png", {
+      frameWidth: 30,
+      frameHeight: 30,
+    });
 
     super.preload();
   }
@@ -167,6 +170,16 @@ export class PlazaScene extends BaseScene {
     // this.add.existing(decorationShopLabel);
 
     const portal = this.add.sprite(505, 215, "portal");
+    this.anims.create({
+      key: "portal_anim",
+      frames: this.anims.generateFrameNumbers("portal", {
+        start: 0,
+        end: 12,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    portal.play("portal_anim", true);
 
     // Plaza Bud
     const fatChicken = this.add.sprite(106, 352, "fat_chicken");
