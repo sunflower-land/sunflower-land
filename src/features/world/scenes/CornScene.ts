@@ -141,7 +141,6 @@ export class CornScene extends BaseScene {
   sceneId: SceneId = "corn_maze";
   score = 0;
   health = 3;
-  lostCrowCount = 0;
   // Don't allow portal hit to be triggered multiple times
   canHandlePortalHit = true;
   enemies?: Phaser.GameObjects.Group;
@@ -253,7 +252,6 @@ export class CornScene extends BaseScene {
   }
 
   setUpCrows() {
-    let count = 0;
     const crowsLayer = this.map.getLayer("Crows");
     if (crowsLayer) {
       // Access the tile data from the layer
@@ -275,7 +273,6 @@ export class CornScene extends BaseScene {
             const spriteY = y * tileHeight + tileHeight / 2;
 
             const crow = this.physics.add.sprite(spriteX, spriteY, "crow");
-            count++;
             // on collision with player, collect crow
             if (this.currentPlayer) {
               this.physics.add.overlap(this.currentPlayer, crow, () => {
@@ -287,7 +284,75 @@ export class CornScene extends BaseScene {
         }
       }
     }
-    this.lostCrowCount = count;
+  }
+
+  setUpEnemies() {
+    this.enemies = this.add.group();
+    ENEMIES.forEach((enemy) => {
+      const container = new BumpkinContainer({
+        scene: this,
+        x: enemy.x,
+        y: enemy.y,
+        clothing: {
+          ...(enemy.clothing ?? NPC_WEARABLES[enemy.npc]),
+          updatedAt: 0,
+        },
+        direction: enemy.target.startFacingLeft ? "left" : "right",
+      });
+
+      container.setDepth(enemy.y);
+      (container.body as Phaser.Physics.Arcade.Body)
+        .setSize(16, 20)
+        .setOffset(0, 0)
+        .setCollideWorldBounds(true);
+
+      this.physics.world.enable(container);
+
+      container.walk();
+      this.enemies?.add(container);
+
+      // Create a tween configuration object
+      const tweenConfig: Phaser.Types.Tweens.TweenBuilderConfig = {
+        targets: container,
+        x: enemy.target.x,
+        y: enemy.target.y,
+        duration: enemy.target.duration,
+        ease: "Linear",
+        repeat: -1,
+        yoyo: true,
+        onUpdate: (tween, target) => {
+          if (enemy.target.direction === "horizontal") {
+            this.handleDirectionChange(enemy, target as BumpkinContainer);
+          }
+
+          if (enemy.target.hold) {
+            this.handleRandomEnemyHold(
+              tween,
+              enemy,
+              target as BumpkinContainer
+            );
+          }
+
+          if (!target.isWalking && !enemy.target.hold) {
+            target.walk();
+          }
+        },
+      };
+
+      // Create the tween
+      this.tweens.add(tweenConfig);
+    });
+  }
+
+  setUpEnemyColliders() {
+    if (!this.currentPlayer || !this.enemies) return;
+
+    this.physics.add.overlap(this.currentPlayer, this.enemies, () => {
+      if (!this.currentPlayer?.invincible) {
+        mazeManager.hit();
+        this.currentPlayer?.hitPlayer();
+      }
+    });
   }
 
   handleDirectionChange(enemy: Enemy, container: BumpkinContainer) {
@@ -350,71 +415,6 @@ export class CornScene extends BaseScene {
         container.walk();
       }, randomHoldTime);
     }
-  }
-
-  setUpEnemies() {
-    this.enemies = this.add.group();
-    ENEMIES.forEach((enemy) => {
-      const container = new BumpkinContainer({
-        scene: this,
-        x: enemy.x,
-        y: enemy.y,
-        clothing: {
-          ...(enemy.clothing ?? NPC_WEARABLES[enemy.npc]),
-          updatedAt: 0,
-        },
-        direction: enemy.target.startFacingLeft ? "left" : "right",
-      });
-
-      container.setDepth(enemy.y);
-      (container.body as Phaser.Physics.Arcade.Body)
-        .setSize(16, 20)
-        .setOffset(0, 0)
-        .setCollideWorldBounds(true);
-
-      container.walk();
-
-      this.physics.world.enable(container);
-      this.enemies?.add(container);
-
-      // Create a tween configuration object
-      const tweenConfig: Phaser.Types.Tweens.TweenBuilderConfig = {
-        targets: container,
-        x: enemy.target.x,
-        y: enemy.target.y,
-        duration: enemy.target.duration,
-        ease: "Linear",
-        repeat: -1,
-        yoyo: true,
-        onUpdate: (tween, target) => {
-          if (enemy.target.direction === "horizontal") {
-            this.handleDirectionChange(enemy, target as BumpkinContainer);
-          }
-
-          if (enemy.target.hold) {
-            this.handleRandomEnemyHold(
-              tween,
-              enemy,
-              target as BumpkinContainer
-            );
-          }
-        },
-      };
-
-      // Create the tween
-      this.tweens.add(tweenConfig);
-    });
-  }
-
-  setUpEnemyColliders() {
-    if (!this.currentPlayer || !this.enemies) return;
-
-    this.physics.add.overlap(this.currentPlayer, this.enemies, () => {
-      if (!this.currentPlayer?.invincible) {
-        mazeManager.hit();
-        this.currentPlayer?.hitPlayer();
-      }
-    });
   }
 
   collect(id: string) {

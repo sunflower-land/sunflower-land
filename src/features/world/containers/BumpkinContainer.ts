@@ -20,6 +20,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
   public speech: SpeechBubble | undefined;
   public invincible = false;
+  public isWalking = false;
 
   private clothing: Player["clothing"];
   private ready = false;
@@ -277,6 +278,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.sprite?.anims.getName() !== this.walkingAnimationKey
     ) {
       this.sprite.anims.play(this.walkingAnimationKey as string, true);
+      this.isWalking = true;
     }
   }
 
@@ -287,6 +289,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.sprite?.anims.getName() !== this.idleAnimationKey
     ) {
       this.sprite.anims.play(this.idleAnimationKey as string, true);
+      if (this.isWalking) {
+        this.isWalking = false;
+      }
     }
   }
 
