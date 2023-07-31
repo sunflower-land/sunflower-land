@@ -593,7 +593,7 @@ export type MazeAttempt = {
   completedAt?: number;
   crowsFound: number;
   health: number;
-  timeRemaining: number;
+  time: number;
 };
 
 export type MazeMetadata = {

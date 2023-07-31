@@ -54,7 +54,7 @@ export function startMaze({ state, action, createdAt = Date.now() }: Options) {
     startedAt: createdAt,
     crowsFound: 0,
     health: 3,
-    timeRemaining: MAZE_TIME_LIMIT_SECONDS,
+    time: 0,
   };
 
   currentWeekMazeData.attempts.push(newAttempt);

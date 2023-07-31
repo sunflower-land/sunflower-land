@@ -172,7 +172,8 @@ import {
 } from "./landExpansion/findTraveller";
 import { buyWearable, BuyWearableAction } from "./landExpansion/buyWearable";
 import { skipOrder, SkipOrderAction } from "./landExpansion/skipOrder";
-import { AttemptMazeAction, mazeAttempted } from "./landExpansion/attemptMaze";
+import { SaveMazeAction, saveMaze } from "./landExpansion/saveMaze";
+import { StartMazeAction, startMaze } from "./landExpansion/startMaze";
 
 export type PlayingEvent =
   | TradeAction
@@ -230,7 +231,8 @@ export type PlayingEvent =
   | FindTravellerAction
   | BuyWearableAction
   | SkipOrderAction
-  | AttemptMazeAction;
+  | SaveMazeAction
+  | StartMazeAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -337,7 +339,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "dawnParty.prepared": prepareParty,
   "traveller.found": findTraveller,
   "wearable.bought": buyWearable,
-  "maze.attempted": mazeAttempted,
+  "maze.started": startMaze,
+  "maze.saved": saveMaze,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

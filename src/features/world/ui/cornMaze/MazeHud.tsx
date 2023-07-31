@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "features/game/GameProvider";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { useInterpret, useSelector } from "@xstate/react";
-import { calculateFeathersEarned } from "features/game/events/landExpansion/attemptMaze";
+import { calculateFeathersEarned } from "features/game/events/landExpansion/saveMaze";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { MazeMetadata, WitchesEve } from "features/game/types/game";
 import { LosingModalContent } from "./LosingModalContent";
