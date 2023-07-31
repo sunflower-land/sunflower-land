@@ -267,8 +267,7 @@ export const OFFLINE_FARM: GameState = {
       1: {
         highestScore: 0,
         claimedFeathers: 0,
-        wins: [],
-        losses: [],
+        attempts: [],
       },
     },
   },
