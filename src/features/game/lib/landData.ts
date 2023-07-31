@@ -497,7 +497,7 @@ export const OFFLINE_FARM: GameState = {
       [ChoreV2Name.EASY_2]: {
         activity: "Sunflower Harvested",
         bumpkinId: 1,
-        createdAt: 0,
+        createdAt: Date.now() - 25 * 60 * 60 * 1000,
         description: "Harvest 3 Sunflowers in long text",
         requirement: 5,
         tickets: 2,
@@ -507,7 +507,7 @@ export const OFFLINE_FARM: GameState = {
       [ChoreV2Name.MEDIUM_1]: {
         activity: "Sunflower Harvested",
         bumpkinId: 1,
-        createdAt: 0,
+        createdAt: Date.now() - 100,
         description: "Harvest 3 Sunflowers in long text",
         requirement: 5,
         tickets: 2,

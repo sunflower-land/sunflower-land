@@ -1,5 +1,5 @@
 import { useActor } from "@xstate/react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
@@ -13,6 +13,16 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { OuterPanel } from "components/ui/Panel";
 import { getSeasonalTicket } from "features/game/types/seasons";
 
+const isDateOnSameDayAsToday = (date: Date) => {
+  const today = new Date();
+
+  return (
+    date.getUTCFullYear() === today.getUTCFullYear() &&
+    date.getUTCMonth() === today.getUTCMonth() &&
+    date.getUTCDate() === today.getUTCDate()
+  );
+};
+
 interface Props {
   id: ChoreV2Name;
   chore: ChoreV2;
@@ -22,6 +32,13 @@ export const DailyChore: React.FC<Props> = ({ id, chore }) => {
   const [gameState] = useActor(gameService);
 
   const [isSkipping, setIsSkipping] = useState(false);
+
+  useEffect(() => {
+    if (isSkipping && !gameState.matches("autosaving")) {
+      console.log("FIRE AGAIN");
+      gameService.send("SAVE");
+    }
+  }, [isSkipping, gameState.context.state]);
 
   const complete = (id: ChoreV2Name) => {
     gameService.send("chore.completed", { id: Number(id) });
@@ -50,7 +67,7 @@ export const DailyChore: React.FC<Props> = ({ id, chore }) => {
 
   const progressPercentage = Math.min(1, progress / chore.requirement) * 100;
 
-  const isTaskComplete = progress > chore.requirement;
+  const isTaskComplete = progress >= chore.requirement;
 
   return (
     <OuterPanel className="p-2 mb-2">
@@ -59,7 +76,7 @@ export const DailyChore: React.FC<Props> = ({ id, chore }) => {
           {chore.description}
         </span>
         <div className="flex items-start mr-1">
-          <span className="text-xs mr-1">2 x </span>
+          <span className="text-xs mr-1">{`${chore.tickets} x`}</span>
           <img src={ITEM_DETAILS[getSeasonalTicket()].image} className="h-5" />
         </div>
       </div>
@@ -84,9 +101,15 @@ export const DailyChore: React.FC<Props> = ({ id, chore }) => {
           </div>
         ) : (
           <div className="flex mt-1">
-            <Button className="text-sm w-24 h-8 mr-2" onClick={() => skip(id)}>
-              Skip
-            </Button>
+            {!isDateOnSameDayAsToday(new Date(chore.createdAt)) && (
+              <Button
+                className="text-sm w-24 h-8 mr-2"
+                onClick={() => skip(id)}
+              >
+                Skip
+              </Button>
+            )}
+
             <Button
               disabled={!isTaskComplete}
               className="text-sm w-24 h-8"
