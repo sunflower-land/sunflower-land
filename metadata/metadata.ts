@@ -3950,4 +3950,32 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1280.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
+  "Bumpkin ganoush": {
+    description: "Zesty roasted eggplant spread.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/547.png",
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
+  },
+  Cornbread: {
+    description: "Hearty golden farm-fresh bread.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/548.png",
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
+  },
+  "Eggplant Cake": {
+    description: "Sweet farm-fresh dessert surprise.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/549.png",
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
+  },
+  Popcorn: {
+    description: "Classic homegrown crunchy snack.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/550.png",
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
+  },
 };
