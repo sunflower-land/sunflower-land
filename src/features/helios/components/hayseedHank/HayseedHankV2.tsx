@@ -105,7 +105,7 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
       onClose={close}
     >
       <div
-        style={{ maxHeight: CONTENT_HEIGHT }}
+        style={{ maxHeight: "200px" }}
         className="overflow-y-auto p-2 divide-brown-600 scrollable"
       >
         <div className="p-1 mb-2">

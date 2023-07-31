@@ -481,24 +481,49 @@ export const OFFLINE_FARM: GameState = {
   },
 
   chores: {
-    [ChoreV2Name.EASY_1]: {
-      activity: "Corn Harvested",
-      bumpkinId: 1,
-      createdAt: 0,
-      description: "Harvest 2 Corn",
-      requirement: 5,
-      reward: { items: { "Crow Feather": 2 } },
-      completedAt: 100,
-      startCount: 0,
-    },
-    [ChoreV2Name.EASY_2]: {
-      activity: "Sunflower Harvested",
-      bumpkinId: 1,
-      createdAt: 0,
-      description: "Harvest 3 Sunflowers in long text",
-      requirement: 5,
-      reward: { items: { "Crow Feather": 2 } },
-      startCount: 0,
+    choresCompleted: 0,
+    choresSkipped: 2,
+    chores: {
+      [ChoreV2Name.EASY_1]: {
+        activity: "Corn Harvested",
+        bumpkinId: 1,
+        createdAt: 0,
+        description: "Harvest 2 Corn",
+        requirement: 5,
+        tickets: 2,
+        completedAt: 100,
+        startCount: 0,
+      },
+      [ChoreV2Name.EASY_2]: {
+        activity: "Sunflower Harvested",
+        bumpkinId: 1,
+        createdAt: 0,
+        description: "Harvest 3 Sunflowers in long text",
+        requirement: 5,
+        tickets: 2,
+
+        startCount: 0,
+      },
+      [ChoreV2Name.MEDIUM_1]: {
+        activity: "Sunflower Harvested",
+        bumpkinId: 1,
+        createdAt: 0,
+        description: "Harvest 3 Sunflowers in long text",
+        requirement: 5,
+        tickets: 2,
+
+        startCount: 0,
+      },
+      [ChoreV2Name.MEDIUM_2]: {
+        activity: "Sunflower Harvested",
+        bumpkinId: 1,
+        createdAt: 0,
+        description: "Harvest 3 Sunflowers in long text",
+        requirement: 5,
+        tickets: 2,
+
+        startCount: 0,
+      },
     },
   },
 
