@@ -23,8 +23,8 @@ interface CornMazeContext {
   sceneLoaded: boolean;
   startedAt: number;
   timeElapsed: number;
+  previousTimElapsed: number;
   pausedAt: number;
-  timeLimitInSeconds: number;
   gameService?: MachineInterpreter;
 }
 
@@ -104,7 +104,7 @@ export const cornMazeMachine = createMachine<
 
               const elapsed = Math.floor((+now - context.startedAt) / 1000);
 
-              return Math.max(0, elapsed);
+              return Math.max(0, context.previousTimElapsed + elapsed);
             },
           }),
         },

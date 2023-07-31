@@ -17,14 +17,12 @@ import { WinningModalContent } from "./WinningModalContent";
 import crowWithoutShadow from "assets/decorations/crow_without_shadow.png";
 
 import { TimerDisplay } from "./TimerDisplay";
-import { hasFeatureAccess } from "lib/flags";
 import {
   MachineInterpreter,
   MachineState,
   TIME_LIMIT_SECONDS,
   cornMazeMachine,
 } from "features/world/lib/cornmazeMachine";
-import { MAZE_TIME_LIMIT_SECONDS } from "features/game/events/landExpansion/startMaze";
 
 type Listener = {
   collectCrow: (id: string) => void;
@@ -76,7 +74,6 @@ const _score = (state: MachineState) => state.context.score;
 const _health = (state: MachineState) => state.context.health;
 const _timeElapsed = (state: MachineState) => state.context.timeElapsed;
 const _startedAt = (state: MachineState) => state.context.startedAt;
-
 const _paused = (state: MachineState) => state.matches("paused");
 const _wonGame = (state: MachineState) => state.matches("wonGame");
 const _lostGame = (state: MachineState) => state.matches("lostGame");
@@ -84,9 +81,7 @@ const _showingTips = (state: MachineState) => state.matches("showingTips");
 
 export const MazeHud: React.FC = () => {
   const { gameService } = useContext(Context);
-  const currentWeek = hasFeatureAccess({}, "CORN_MAZE")
-    ? 1
-    : getSeasonWeek(Date.now());
+  const currentWeek = getSeasonWeek(Date.now());
   const witchesEve = useSelector(gameService, _witchesEve);
 
   const { weeklyLostCrowCount } = witchesEve;
@@ -107,10 +102,8 @@ export const MazeHud: React.FC = () => {
       gameOver: undefined,
       sceneLoaded: false,
       startedAt: 0,
-      timeElapsed: 0,
-      timeLimitInSeconds: activeAttempt?.time
-        ? MAZE_TIME_LIMIT_SECONDS - activeAttempt.time
-        : MAZE_TIME_LIMIT_SECONDS,
+      timeElapsed: activeAttempt?.time ? activeAttempt.time : 0,
+      previousTimElapsed: activeAttempt?.time ? activeAttempt.time : 0,
       pausedAt: 0,
     },
   }) as unknown as MachineInterpreter;
@@ -141,19 +134,26 @@ export const MazeHud: React.FC = () => {
       },
     });
 
-    function handleBrowserRefresh() {
-      console.log("unload event fired");
+    const saveGameState = (event: BeforeUnloadEvent) => {
       gameService.send("maze.saved", {
-        crowsFound: score,
+        crowsFound: cornMazeService.state.context.score,
         health,
-        timeRemaining: TIME_LIMIT_SECONDS - timeElapsed,
+        timeRemaining:
+          TIME_LIMIT_SECONDS - cornMazeService.state.context.timeElapsed,
       });
       gameService.send("SAVE");
-    }
-    // Save maze progress if a player refreshes the browser
-    window.addEventListener("beforeunload", handleBrowserRefresh);
 
-    return window.removeEventListener("beforeunload", handleBrowserRefresh);
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    // Save maze progress if a player refreshes the browser
+    window.addEventListener("beforeunload", saveGameState);
+
+    // unmount the save call
+    return () => {
+      window.removeEventListener("beforeunload", saveGameState);
+    };
   }, []);
 
   useEffect(() => {
@@ -176,6 +176,7 @@ export const MazeHud: React.FC = () => {
   };
 
   const handleMazeComplete = () => {
+    console.log("Maze Complete");
     // All game stats are recorded so action is always called when leaving
     gameService.send("maze.saved", {
       crowsFound: score,

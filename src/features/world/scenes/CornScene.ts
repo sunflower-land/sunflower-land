@@ -192,6 +192,8 @@ export class CornScene extends BaseScene {
         this.canHandlePortalHit = true;
       }, 2000);
     });
+
+    this.canHandlePortalHit = true;
   }
 
   setUpSpotlight() {

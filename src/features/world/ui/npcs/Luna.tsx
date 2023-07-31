@@ -3,7 +3,6 @@ import { Context } from "features/game/GameProvider";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { MachineState } from "features/game/lib/gameMachine";
 import { MazeMetadata, WitchesEve } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
 import { NPC_WEARABLES, acknowledgeNPC, isNPCAcknowledged } from "lib/npcs";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import React, { useContext, useEffect } from "react";
@@ -18,9 +17,7 @@ const _witchesEve = (state: MachineState) =>
 
 export const Luna: React.FC<Props> = ({ onClose, onNavigate }) => {
   const { gameService } = useContext(Context);
-  const currentWeek = hasFeatureAccess({}, "CORN_MAZE")
-    ? 1
-    : getSeasonWeek(Date.now());
+  const currentWeek = getSeasonWeek(Date.now());
 
   const witchesEve = useSelector(gameService, _witchesEve);
   const { attempts } = witchesEve?.maze[currentWeek] as MazeMetadata;
