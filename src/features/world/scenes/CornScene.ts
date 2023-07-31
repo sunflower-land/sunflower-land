@@ -156,21 +156,39 @@ export class CornScene extends BaseScene {
   }
 
   preload() {
-    super.preload();
-
+    this.load.spritesheet("maze_portal", "world/maze_portal.png", {
+      frameWidth: 12,
+      frameHeight: 12,
+    });
     this.load.image("crow", "world/crow.png");
+
+    super.preload();
   }
 
   async create() {
-    this.map = this.make.tilemap({
-      key: "corn_maze",
-    });
-
     super.create();
+
+    const maze_portal = this.add.sprite(320, 319, "maze_portal");
+
+    this.anims.create({
+      key: "maze_portal_anim",
+      frames: this.anims.generateFrameNumbers("maze_portal", {
+        start: 0,
+        end: 12,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    maze_portal.play("maze_portal_anim", true);
+
     this.setUpCrows();
     this.setUpLuna();
     this.setUpEnemies();
     this.setUpEnemyColliders();
+
+    this.map = this.make.tilemap({
+      key: "corn_maze",
+    });
 
     mazeManager.sceneLoaded();
 
