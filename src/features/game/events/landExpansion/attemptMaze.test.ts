@@ -89,7 +89,13 @@ describe("mazeAttempted", () => {
 
   it("does not reward crow feathers they player loses (health 0 || timeRemaining 0)", () => {
     const state = mazeAttempted({
-      state: GAME_STATE,
+      state: {
+        ...GAME_STATE,
+        witchesEve: {
+          weeklyLostCrowCount: 25,
+          maze: {},
+        },
+      },
       action: {
         type: "maze.attempted",
         crowsFound: 0,
@@ -109,7 +115,13 @@ describe("mazeAttempted", () => {
     const timeRemaining = 30;
 
     const state = mazeAttempted({
-      state: GAME_STATE,
+      state: {
+        ...GAME_STATE,
+        witchesEve: {
+          weeklyLostCrowCount: 25,
+          maze: {},
+        },
+      },
       action: {
         type: "maze.attempted",
         crowsFound,
@@ -134,7 +146,13 @@ describe("mazeAttempted", () => {
     const feathersPerCrow = MAX_FEATHERS_PER_WEEK / lostCrowCount; // 4
 
     const state = mazeAttempted({
-      state: GAME_STATE,
+      state: {
+        ...GAME_STATE,
+        witchesEve: {
+          weeklyLostCrowCount: 25,
+          maze: {},
+        },
+      },
       action: {
         type: "maze.attempted",
         crowsFound,
@@ -291,7 +309,13 @@ describe("mazeAttempted", () => {
     const timeRemaining = 30;
 
     const state = mazeAttempted({
-      state: GAME_STATE,
+      state: {
+        ...GAME_STATE,
+        witchesEve: {
+          weeklyLostCrowCount: 25,
+          maze: {},
+        },
+      },
       action: {
         type: "maze.attempted",
         crowsFound,
