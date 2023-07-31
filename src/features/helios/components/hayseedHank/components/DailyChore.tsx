@@ -35,7 +35,6 @@ export const DailyChore: React.FC<Props> = ({ id, chore }) => {
 
   useEffect(() => {
     if (isSkipping && !gameState.matches("autosaving")) {
-      console.log("FIRE AGAIN");
       gameService.send("SAVE");
     }
   }, [isSkipping, gameState.context.state]);
@@ -72,7 +71,7 @@ export const DailyChore: React.FC<Props> = ({ id, chore }) => {
   return (
     <OuterPanel className="p-2 mb-2">
       <div className="flex justify-between">
-        <span className="text-sm mb-1 flex-1 whitespace-normal">
+        <span className="text-sm mb-1 flex-1 whitespace-normal pr-2">
           {chore.description}
         </span>
         <div className="flex items-start mr-1">
