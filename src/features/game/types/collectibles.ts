@@ -320,5 +320,5 @@ export const COLLECTIBLE_BUFF: Partial<Record<InventoryItemName, string>> = {
   "Freya Fox": "+0.5 Pumpkin",
   Poppy: "+0.1 Corn",
   "Grain Grinder": "+20% Cake XP",
-  Kernaldo: "+20% Corn Growth Speed",
+  Kernaldo: "+25% Corn Growth Speed",
 };

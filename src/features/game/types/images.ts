@@ -2325,7 +2325,7 @@ export const ITEM_DETAILS: Items = {
   },
   Kernaldo: {
     image: kernaldo,
-    description: "The magical corn whisperer. +20% Corn Growth Speed.",
+    description: "The magical corn whisperer. +25% Corn Growth Speed.",
   },
   Candles: {
     image: candles,
