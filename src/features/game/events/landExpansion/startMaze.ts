@@ -15,7 +15,7 @@ type Options = {
 };
 
 export const MAZE_TIME_LIMIT_SECONDS = 3 * 60;
-export const MAZE_SFL_FEE = new Decimal(5);
+export const MAZE_SFL_FEE = new Decimal(0);
 
 export function startMaze({ state, action, createdAt = Date.now() }: Options) {
   const copy = cloneDeep(state) as GameState;

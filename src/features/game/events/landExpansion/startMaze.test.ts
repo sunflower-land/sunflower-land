@@ -129,7 +129,7 @@ describe("startMaze", () => {
     expect(state.balance).toEqual(balance);
   });
 
-  it("throws an error if the player doesn't have 5 SFL", () => {
+  it.skip("throws an error if the player doesn't have 5 SFL", () => {
     expect(() =>
       startMaze({
         state: {
@@ -153,7 +153,7 @@ describe("startMaze", () => {
     ).toThrow("Insufficient SFL balance");
   });
 
-  it("takes 5 SFL game fee if there is no maze in progress", () => {
+  it.skip("takes 5 SFL game fee if there is no maze in progress", () => {
     const balance = new Decimal(10);
 
     const state = startMaze({
