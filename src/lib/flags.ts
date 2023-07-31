@@ -43,7 +43,7 @@ export const hasFeatureAccess = (
     return true;
   }
 
-  if (featureName === "CORN_MAZE" && Date.now() > isWitchesEve) {
+  if (featureName === "CORN_MAZE" && isWitchesEve) {
     return true;
   }
   return featureFlags[featureName](inventory);
