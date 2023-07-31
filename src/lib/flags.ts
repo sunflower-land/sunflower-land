@@ -1,4 +1,5 @@
 import { GameState } from "features/game/types/game";
+import { SEASONS } from "features/game/types/seasons";
 import { CONFIG } from "lib/config";
 
 const defaultFeatureFlag = (inventory: GameState["inventory"]) =>
@@ -32,4 +33,18 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
 export const hasFeatureAccess = (
   inventory: GameState["inventory"],
   featureName: FeatureName
-) => featureFlags[featureName](inventory);
+) => {
+  const isWitchesEve = Date.now() > SEASONS["Witches' Eve"].startDate.getTime();
+  if (featureName === "NEW_DELIVERIES" && isWitchesEve) {
+    return true;
+  }
+
+  if (featureName === "PUMPKIN_PLAZA" && isWitchesEve) {
+    return true;
+  }
+
+  if (featureName === "CORN_MAZE" && Date.now() > isWitchesEve) {
+    return true;
+  }
+  return featureFlags[featureName](inventory);
+};
