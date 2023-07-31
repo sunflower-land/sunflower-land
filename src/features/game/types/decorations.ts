@@ -659,7 +659,7 @@ export const SEASONAL_DECORATIONS: (
     to: new Date("2023-10-01"),
     description: "A hauntingly fun addition to your farm's decor!",
     ingredients: {
-      "Crow Feather": new Decimal(250),
+      "Crow Feather": new Decimal(500),
     },
   },
 });

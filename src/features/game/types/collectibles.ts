@@ -144,12 +144,11 @@ export const HELIOS_BLACKSMITH_ITEMS: (
     },
     boost: "+20% SFL on Treasure Bounty",
   },
-  // TODO DISCOUNTS!!!
   Poppy: {
     description: "The mystical corn kernel.",
     ingredients: {
       Gold: new Decimal(5),
-      "Crow Feather": new Decimal(100),
+      "Crow Feather": new Decimal(250),
     },
     boost: "+0.1 Corn",
     from: new Date("2023-08-01"),
