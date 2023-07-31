@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "features/game/GameProvider";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { useInterpret, useSelector } from "@xstate/react";
-import { calculateFeathersEarned } from "features/game/events/landExpansion/attemptMaze";
+import { calculateFeathersEarned } from "features/game/events/landExpansion/saveMaze";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { MazeMetadata, WitchesEve } from "features/game/types/game";
 import { LosingModalContent } from "./LosingModalContent";
@@ -17,7 +17,6 @@ import { WinningModalContent } from "./WinningModalContent";
 import crowWithoutShadow from "assets/decorations/crow_without_shadow.png";
 
 import { TimerDisplay } from "./TimerDisplay";
-import { hasFeatureAccess } from "lib/flags";
 import {
   MachineInterpreter,
   MachineState,
@@ -75,7 +74,6 @@ const _score = (state: MachineState) => state.context.score;
 const _health = (state: MachineState) => state.context.health;
 const _timeElapsed = (state: MachineState) => state.context.timeElapsed;
 const _startedAt = (state: MachineState) => state.context.startedAt;
-
 const _paused = (state: MachineState) => state.matches("paused");
 const _wonGame = (state: MachineState) => state.matches("wonGame");
 const _lostGame = (state: MachineState) => state.matches("lostGame");
@@ -83,27 +81,29 @@ const _showingTips = (state: MachineState) => state.matches("showingTips");
 
 export const MazeHud: React.FC = () => {
   const { gameService } = useContext(Context);
-  const currentWeek = hasFeatureAccess({}, "CORN_MAZE")
-    ? 1
-    : getSeasonWeek(Date.now());
+  const currentWeek = getSeasonWeek(Date.now());
   const witchesEve = useSelector(gameService, _witchesEve);
 
   const { weeklyLostCrowCount } = witchesEve;
-  const { claimedFeathers, highestScore } = witchesEve?.maze[
+  const { claimedFeathers, highestScore, attempts } = witchesEve?.maze[
     currentWeek
   ] as MazeMetadata;
+
+  // Attempt is added to game start when Luna is paid
+  const activeAttempt = attempts?.find((attempt) => !attempt.completedAt);
 
   const navigate = useNavigate();
 
   const cornMazeService = useInterpret(cornMazeMachine, {
     context: {
-      score: 0,
-      health: DEFAULT_HEALTH,
+      score: activeAttempt?.crowsFound ?? 0,
+      health: activeAttempt?.health ?? DEFAULT_HEALTH,
       totalLostCrows: weeklyLostCrowCount,
       gameOver: undefined,
       sceneLoaded: false,
       startedAt: 0,
-      timeElapsed: 0,
+      timeElapsed: activeAttempt?.time ? activeAttempt.time : 0,
+      previousTimElapsed: activeAttempt?.time ? activeAttempt.time : 0,
       pausedAt: 0,
     },
   }) as unknown as MachineInterpreter;
@@ -133,6 +133,27 @@ export const MazeHud: React.FC = () => {
         cornMazeService.send("PORTAL_HIT");
       },
     });
+
+    const saveGameState = (event: BeforeUnloadEvent) => {
+      gameService.send("maze.saved", {
+        crowsFound: cornMazeService.state.context.score,
+        health,
+        timeRemaining:
+          TIME_LIMIT_SECONDS - cornMazeService.state.context.timeElapsed,
+      });
+      gameService.send("SAVE");
+
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    // Save maze progress if a player refreshes the browser
+    window.addEventListener("beforeunload", saveGameState);
+
+    // unmount the save call
+    return () => {
+      window.removeEventListener("beforeunload", saveGameState);
+    };
   }, []);
 
   useEffect(() => {
@@ -140,6 +161,11 @@ export const MazeHud: React.FC = () => {
 
     handleMazeComplete();
   }, [lostGame]);
+
+  if (!activeAttempt) {
+    navigate("/world/plaza");
+    return null;
+  }
 
   const handleStart = () => {
     cornMazeService.send("START_GAME");
@@ -150,11 +176,13 @@ export const MazeHud: React.FC = () => {
   };
 
   const handleMazeComplete = () => {
+    console.log("Maze Complete");
     // All game stats are recorded so action is always called when leaving
-    gameService.send("maze.attempted", {
+    gameService.send("maze.saved", {
       crowsFound: score,
       health,
       timeRemaining: TIME_LIMIT_SECONDS - timeElapsed,
+      completedAt: Date.now(),
     });
     gameService.send("SAVE");
   };
