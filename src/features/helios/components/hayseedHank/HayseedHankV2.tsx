@@ -7,6 +7,8 @@ import { NPC_WEARABLES, acknowedlgedNPCs, acknowledgeNPC } from "lib/npcs";
 import { ChoreV2 } from "./components/ChoreV2";
 import { getKeys } from "features/game/types/craftables";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
+import { ChoreV2Name } from "features/game/types/game";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
@@ -28,21 +30,11 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
   const chore = choreKey !== undefined ? chores?.chores[choreKey] : undefined;
   const startedAt = chore?.createdAt;
 
-  const isTaskComplete = chore
-    ? (bumpkin?.activity?.[chore.activity] ?? 0) - chore.startCount >
-      chore.requirement
-    : false;
-
   const isSaving = gameState.matches("autosaving");
 
-  const finishIntro = () => {
-    acknowledgeNPC("hank");
-    setIntroDone(true);
-  };
-
-  const skip = () => {
+  const skip = (id: ChoreV2Name) => {
     setIsSkipping(true);
-    gameService.send("chore.skipped", { id: Number(choreKey) });
+    gameService.send("chore.skipped", { id: Number(id) });
     gameService.send("SAVE");
     setIsDialogOpen(false);
     setCanSkip(false);
@@ -52,22 +44,6 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
     onClose();
     setIsSkipping(false);
     setIsDialogOpen(false);
-  };
-
-  const getTimeToChore = () => {
-    if (!startedAt) return;
-    const twentyFourHrsInMilliseconds = 86400000;
-
-    // if startedAt is more than 24hrs ago, can skip
-    if (new Date().getTime() > startedAt + twentyFourHrsInMilliseconds) {
-      setCanSkip(true);
-      return;
-    }
-
-    const now = new Date().getTime();
-    const timeToChore = new Date(startedAt + twentyFourHrsInMilliseconds - now);
-
-    return `${timeToChore.getUTCHours()}hrs ${timeToChore.getUTCMinutes()}min`;
   };
 
   if (!introDone) {
@@ -96,45 +72,61 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  const Content = () => {
-    return (
-      <div className="px-2">
-        <p
-          className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
-          onClick={() => setIsDialogOpen(!isDialogOpen)}
-        >
-          Cannot complete this chore?
-        </p>
-        {isDialogOpen && canSkip && (
-          <p
-            className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
-            onClick={skip}
-          >
-            Skip chore
-          </p>
-        )}
-        {isDialogOpen && !canSkip && (
-          <p className="text-xxs pb-1 pt-0.5">
-            You can skip this chore in {getTimeToChore()}
-          </p>
-        )}
-      </div>
-    );
-  };
+  // const Content = () => {
+  //   return (
+  //     <div className="px-2">
+  //       {/* <p
+  //         className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
+  //         onClick={() => setIsDialogOpen(!isDialogOpen)}
+  //       >
+  //         Cannot complete this chore?
+  //       </p> */}
+  //       {isDialogOpen && canSkip && (
+  //         <p
+  //           className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
+  //           onClick={skip}
+  //         >
+  //           Skip chore
+  //         </p>
+  //       )}
+  //       {isDialogOpen && !canSkip && (
+  //         <p className="text-xxs pb-1 pt-0.5">
+  //           You can skip this chore in {getTimeToChore()}
+  //         </p>
+  //       )}
+  //     </div>
+  //   );
+  // };
 
   return (
     <CloseButtonPanel
-      title={
-        <div className="">
-          <p>Daily Chores</p>
-        </div>
-      }
+      title="Daily Chores"
       bumpkinParts={NPC_WEARABLES.hank}
       onClose={close}
     >
-      <ChoreV2 skipping={isSaving && isSkipping} />
+      <div
+        style={{ maxHeight: CONTENT_HEIGHT }}
+        className="overflow-y-auto p-2 divide-brown-600 scrollable"
+      >
+        <div className="p-1 mb-2">
+          <div className="flex items-center mb-1">
+            <div className="w-6">
+              <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
+            </div>
+            <span className="text-xs">New chores available in X hours.</span>
+          </div>
+          <div className="flex items-center ">
+            <div className="w-6">
+              <img src={SUNNYSIDE.icons.heart} className="h-4 mx-auto" />
+            </div>
+            <span className="text-xs">You can skip chores each new day.</span>
+          </div>
+        </div>
 
-      {!(isSaving && isSkipping) && !!chore && Content()}
+        <ChoreV2 skipping={isSaving && isSkipping} />
+      </div>
+
+      {/* {!(isSaving && isSkipping) && !!chore && Content()} */}
     </CloseButtonPanel>
   );
 };
