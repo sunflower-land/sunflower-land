@@ -428,18 +428,6 @@ export type HayseedHank = {
   };
 };
 
-export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-
-export type MazeAttempt = { crowsFound: number; health: number; time: number };
-
-export type MazeMetadata = {
-  completedAt?: number;
-  highestScore: number;
-  claimedFeathers: number;
-  losses: MazeAttempt[];
-  wins: MazeAttempt[];
-};
-
 export type MazeAttempts = Partial<Record<SeasonWeek, MazeMetadata>>;
 
 export type WitchesEve = {
@@ -596,6 +584,22 @@ export type ChoreV2 = {
   bumpkinId: number;
   startCount: number;
   tickets: number;
+};
+
+export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+
+export type MazeAttempt = {
+  startedAt: number;
+  completedAt?: number;
+  crowsFound: number;
+  health: number;
+  timeRemaining: number;
+};
+
+export type MazeMetadata = {
+  highestScore: number;
+  claimedFeathers: number;
+  attempts: MazeAttempt[];
 };
 
 export enum ChoreV2Name {
