@@ -133,7 +133,7 @@ describe("buyWearable", () => {
     });
 
     expect(state.balance).toEqual(
-      balance.minus(STYLIST_WEARABLES["Red Farmer Shirt"]?.sfl ?? 0)
+      balance.minus(STYLIST_WEARABLES(state)["Red Farmer Shirt"]?.sfl ?? 0)
     );
   });
 
@@ -189,7 +189,7 @@ describe("buyWearable", () => {
       },
     });
     expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
-      STYLIST_WEARABLES["Red Farmer Shirt"]?.sfl ?? 0
+      STYLIST_WEARABLES(state)["Red Farmer Shirt"]?.sfl.toNumber() ?? 0
     );
   });
 });

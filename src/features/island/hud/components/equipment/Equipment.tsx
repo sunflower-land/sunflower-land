@@ -37,7 +37,7 @@ export const Equipment: React.FC<Props> = ({ onClose }) => {
   ] = useActor(gameService);
   const inventory = state.inventory;
 
-  const selectedItem = HELIOS_BLACKSMITH_ITEMS[selectedName];
+  const selectedItem = HELIOS_BLACKSMITH_ITEMS(state)[selectedName];
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
 
   //const landCount = state.inventory["Basic Land"] ?? new Decimal(0);
@@ -119,6 +119,7 @@ export const Equipment: React.FC<Props> = ({ onClose }) => {
           boost={selectedItem.boost}
           requirements={{
             resources: selectedItem.ingredients,
+            sfl: selectedItem.sfl,
           }}
           actionView={action()}
           hideDescription
