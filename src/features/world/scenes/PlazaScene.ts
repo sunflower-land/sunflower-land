@@ -4,6 +4,7 @@ import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 import { interactableModalManager } from "../ui/InteractableModals";
+import { AudioController } from "../lib/AudioController";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -148,6 +149,42 @@ export class PlazaScene extends BaseScene {
     });
 
     super.preload();
+
+    // Ambience SFX
+    if (!this.sound.get("nature_1")) {
+      const nature1 = this.sound.add("nature_1");
+      nature1.play({ loop: true, volume: 0.01 });
+    }
+    if (!this.sound.get("nature_2")) {
+      const nature2 = this.sound.add("nature_2");
+      nature2.play({ loop: true, volume: 0.01 });
+    }
+    if (!this.sound.get("nature_3")) {
+      const nature3 = this.sound.add("nature_3");
+      nature3.play({ loop: true, volume: 0.01 });
+    }
+
+    // Boat SFX
+    if (!this.sound.get("boat")) {
+      const boatSound = this.sound.add("boat");
+      boatSound.play({ loop: true, volume: 0, rate: 0.6 });
+
+      this.soundEffects.push(
+        new AudioController({
+          sound: boatSound,
+          distanceThreshold: 130,
+          coordinates: { x: 352, y: 462 },
+          maxVolume: 0.2,
+        })
+      );
+    }
+
+    // Shut down the sound when the scene changes
+    this.events.once("shutdown", () => {
+      this.sound.getAllPlaying().forEach((sound) => {
+        sound.destroy();
+      });
+    });
   }
 
   async create() {
