@@ -413,3 +413,9 @@ export function acknowledgeNPC(npcName: NPCName) {
     })
   );
 }
+
+export function isNPCAcknowledged(npcName: NPCName) {
+  const acknowledged = acknowedlgedNPCs();
+
+  return acknowledged[npcName] != null;
+}
