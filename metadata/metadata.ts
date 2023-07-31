@@ -3957,7 +3957,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/547.png",
     attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
-  "Corn Bread": {
+  Cornbread: {
     description: "Hearty golden farm-fresh bread.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",

@@ -363,7 +363,7 @@ const consumables: Record<ConsumableName, boolean> = {
   "Fancy Fries": false,
   "Pirate Cake": false,
   "Bumpkin ganoush": false,
-  "Corn Bread": false,
+  Cornbread: false,
   "Eggplant Cake": false,
   Popcorn: false,
 };

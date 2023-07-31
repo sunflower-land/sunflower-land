@@ -185,7 +185,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Cabbers n Mash": 545,
   "Fancy Fries": 546,
   "Bumpkin ganoush": 547,
-  "Corn Bread": 548,
+  Cornbread: 548,
   "Eggplant Cake": 549,
   Popcorn: 550,
 

@@ -43,7 +43,7 @@ export type CookableName =
   | "Fancy Fries"
   | "Bumpkin ganoush"
   | "Eggplant Cake"
-  | "Corn Bread"
+  | "Cornbread"
   | "Popcorn";
 
 export type ConsumableName = CookableName | "Pirate Cake";
@@ -616,8 +616,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     },
     marketRate: 800,
   },
-  "Corn Bread": {
-    name: "Corn Bread",
+  Cornbread: {
+    name: "Cornbread",
     description: "Hearty golden farm-fresh bread.",
     building: "Bakery",
     cookingSeconds: 60 * 60 * 24,

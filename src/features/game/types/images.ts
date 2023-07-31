@@ -2352,7 +2352,7 @@ export const ITEM_DETAILS: Items = {
     image: eggplantCake,
     description: "Sweet farm-fresh dessert surprise.",
   },
-  "Corn Bread": {
+  Cornbread: {
     image: cornBread,
     description: "Hearty golden farm-fresh bread.",
   },

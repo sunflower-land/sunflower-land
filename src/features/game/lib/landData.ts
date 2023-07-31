@@ -478,7 +478,7 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    Workbench: [
+    Bakery: [
       {
         coordinates: { x: 3, y: 0 },
         createdAt: 0,
