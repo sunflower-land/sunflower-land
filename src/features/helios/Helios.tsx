@@ -82,7 +82,7 @@ export const Helios: React.FC = () => {
           onTravelDialogOpened={() => gameService.send("SAVE")}
           travelAllowed={!autosaving}
         />
-        {Date.now() < new Date("2023-08-01").getTime() && <HayseedHank />}
+        {gameState.context.state.hayseedHank && <HayseedHank />}
       </div>
       <Hud isFarming={false} />
       <AuctionCountdown />
