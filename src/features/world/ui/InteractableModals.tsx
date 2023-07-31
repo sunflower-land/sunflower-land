@@ -41,7 +41,8 @@ type InteractableName =
   | "lazy_bud"
   | "plaza_blue_book"
   | "plaza_orange_book"
-  | "plaza_green_book";
+  | "plaza_green_book"
+  | "potion_house";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -339,6 +340,25 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           message={[
             {
               text: "This is my Guild House, and it's not ready for outsiders yet, gotta finish the preparations first.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "potion_house"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["pete"]}
+          message={[
+            {
+              text: "Watch out friend, the crazy scientist lives in there!",
+            },
+            {
+              text: "Rumour has it they are searching for Bumpkin apprentices to grow mutant crops with them.",
             },
           ]}
         />
