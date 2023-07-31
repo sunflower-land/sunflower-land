@@ -273,6 +273,7 @@ export class CornScene extends BaseScene {
             const spriteY = y * tileHeight + tileHeight / 2;
 
             const crow = this.physics.add.sprite(spriteX, spriteY, "crow");
+            crow.setDepth(100000);
             // on collision with player, collect crow
             if (this.currentPlayer) {
               this.physics.add.overlap(this.currentPlayer, crow, () => {
