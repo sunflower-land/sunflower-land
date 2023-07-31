@@ -1,13 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { useActor } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
 import { NPC_WEARABLES, acknowedlgedNPCs, acknowledgeNPC } from "lib/npcs";
 import { ChoreV2 } from "./components/ChoreV2";
-import { getKeys } from "features/game/types/craftables";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { ChoreV2Name } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getSecondsToTomorrow, secondsToString } from "lib/utils/time";
 
@@ -29,36 +25,10 @@ interface Props {
   onClose: () => void;
 }
 export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const [isSkipping, setIsSkipping] = useState(false);
-  const [canSkip, setCanSkip] = useState(false);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
   const [introDone, setIntroDone] = useState(!!acknowedlgedNPCs()["hank"]);
-
-  const { chores, bumpkin } = gameState.context.state;
-
-  const choreKey =
-    chores &&
-    getKeys(chores.chores).find((key) => !chores.chores[key].completedAt);
-  const chore = choreKey !== undefined ? chores?.chores[choreKey] : undefined;
-  const startedAt = chore?.createdAt;
-
-  const isSaving = gameState.matches("autosaving");
-
-  const skip = (id: ChoreV2Name) => {
-    setIsSkipping(true);
-    gameService.send("chore.skipped", { id: Number(id) });
-    gameService.send("SAVE");
-    setIsDialogOpen(false);
-    setCanSkip(false);
-  };
 
   const close = () => {
     onClose();
-    setIsSkipping(false);
-    setIsDialogOpen(false);
   };
 
   if (!introDone) {
@@ -115,7 +85,7 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
           </div>
         </div>
 
-        <ChoreV2 skipping={isSaving && isSkipping} />
+        <ChoreV2 />
       </div>
 
       {/* {!(isSaving && isSkipping) && !!chore && Content()} */}

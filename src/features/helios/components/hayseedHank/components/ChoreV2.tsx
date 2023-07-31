@@ -6,10 +6,7 @@ import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { DailyChore } from "./DailyChore";
 
-interface Props {
-  skipping: boolean;
-}
-export const ChoreV2: React.FC<Props> = ({ skipping }) => {
+export const ChoreV2: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
