@@ -137,8 +137,9 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
   const name = useParams().name as SceneId;
 
   if (
-    (name === "plaza" && !hasFeatureAccess(inventory, "PUMPKIN_PLAZA")) ||
-    (name === "corn_maze" && !hasFeatureAccess(inventory, "CORN_MAZE"))
+    !isLoading &&
+    ((name === "plaza" && !hasFeatureAccess(inventory, "PUMPKIN_PLAZA")) ||
+      (name === "corn_maze" && !hasFeatureAccess(inventory, "CORN_MAZE")))
   ) {
     // Block access to world for players that don't have feature access
     return null;
