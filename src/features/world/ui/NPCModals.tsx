@@ -18,6 +18,7 @@ import { SceneId } from "../mmoMachine";
 import { Luna } from "./npcs/Luna";
 import { Pete } from "./npcs/Pete";
 import { Birdie } from "./npcs/Birdie";
+import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHankV2";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -132,6 +133,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
             ]}
           />
         )}
+        {npc === "hank" && <HayseedHankV2 onClose={closeModal} />}
         {npc === "gabi" && (
           <CloseButtonPanel
             onClose={closeModal}

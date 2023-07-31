@@ -21,23 +21,28 @@ export function startChore({
   createdAt = Date.now(),
 }: Options): GameState {
   const game = clone(state);
+  const { hayseedHank } = game;
 
   if (!game.bumpkin) {
     throw new Error("No Bumpkin Found");
   }
 
-  if (game.hayseedHank.progress?.bumpkinId === game.bumpkin.id) {
+  if (!hayseedHank) {
+    throw new Error("No Hayseed Hank Found");
+  }
+
+  if (hayseedHank.progress?.bumpkinId === game.bumpkin.id) {
     throw new Error("Chore already in progress");
   }
 
   let startCount = 0;
 
-  if (game.hayseedHank.chore.activity) {
-    startCount = game.bumpkin.activity?.[game.hayseedHank.chore.activity] ?? 0;
+  if (hayseedHank.chore.activity) {
+    startCount = game.bumpkin.activity?.[hayseedHank.chore.activity] ?? 0;
   }
 
   // Start the next chore
-  game.hayseedHank.progress = {
+  hayseedHank.progress = {
     bumpkinId: game.bumpkin.id,
     startCount,
     startedAt: createdAt,

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -35,6 +35,7 @@ export const HayseedHank: React.FC = () => {
   const resetSeconds = Math.round(
     (SEASONS["Witches' Eve"].startDate.getTime() - new Date().getTime()) / 1000
   );
+  const hasReset = resetSeconds < 0;
 
   const skip = () => {
     setIsSkipping(true);
@@ -52,7 +53,7 @@ export const HayseedHank: React.FC = () => {
 
   const getTimeToChore = () => {
     const twentyFourHrsInMilliseconds = 86400000;
-    const startedAt = gameState.context.state.hayseedHank.progress?.startedAt;
+    const startedAt = gameState.context.state.hayseedHank?.progress?.startedAt;
     if (!startedAt) return;
 
     // if startedAt is more than 24hrs ago, can skip
@@ -92,18 +93,6 @@ export const HayseedHank: React.FC = () => {
       </div>
     );
   };
-
-  useEffect(() => {
-    // First ever chore
-    if (
-      isOpen &&
-      !gameState.context.state.hayseedHank.progress &&
-      gameState.context.state.hayseedHank.choresCompleted === 0
-    ) {
-      gameService.send("chore.started");
-      gameService.send("SAVE");
-    }
-  }, [isOpen, gameState.context.state.hayseedHank.progress]);
 
   return (
     <>
@@ -159,7 +148,7 @@ export const HayseedHank: React.FC = () => {
 
           {!(isSaving && isSkipping) && Content()}
 
-          {resetSeconds && (
+          {!hasReset && resetSeconds && (
             <Label type="warning" className="my-1 mx-auto w-full">
               <div className="flex-col space-y-1 w-full items-start">
                 <p>{"Chores will reset for the Witches' Eve season."}</p>
