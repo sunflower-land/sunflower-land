@@ -5,13 +5,9 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Sofia } from "./dawn/Sofia";
 import { Bella } from "./dawn/Bella";
-import { CommunityIslands } from "./community/CommunityIslands";
 import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
 import { WanderLeaf } from "./dawn/WanderLeaf";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
-import { HeliosBlacksmithItems } from "features/helios/components/blacksmith/component/HeliosBlacksmithItems";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { DeliveryPanelContent } from "./deliveries/DeliveryPanelContent";
 import { Stylist } from "./stylist/Stylist";
 import { SceneId } from "../mmoMachine";
 
@@ -19,6 +15,8 @@ import { Luna } from "./npcs/Luna";
 import { Pete } from "./npcs/Pete";
 import { Birdie } from "./npcs/Birdie";
 import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHankV2";
+import { Grubnuk } from "./npcs/Grubnuk";
+import { Blacksmith } from "./npcs/Blacksmith";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -41,7 +39,6 @@ interface Props {
 }
 export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
   const [npc, setNpc] = useState<NPCName>();
-  const [tab, setTab] = useState(0);
 
   useEffect(() => {
     npcModalManager.listen((npc, open) => {
@@ -51,7 +48,6 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
 
   const closeModal = () => {
     setNpc(undefined);
-    setTab(0);
   };
 
   return (
@@ -67,23 +63,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
         {npc === "wanderleaf" && <WanderLeaf onClose={closeModal} />}
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
         {npc === "stella" && <Stylist onClose={closeModal} />}
-        {npc === "grubnuk" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.grubnuk}
-            tabs={[
-              { icon: SUNNYSIDE.icons.heart, name: "Community Island" },
-              { icon: SUNNYSIDE.icons.expression_chat, name: "Delivery" },
-            ]}
-            setCurrentTab={setTab}
-            currentTab={tab}
-          >
-            {tab === 0 && <CommunityIslands />}
-            {tab === 1 && (
-              <DeliveryPanelContent npc={npc} onClose={closeModal} />
-            )}
-          </CloseButtonPanel>
-        )}
+        {npc === "grubnuk" && <Grubnuk onClose={closeModal} />}
 
         {npc === "hammerin harry" && (
           <SpeakingModal
@@ -151,23 +131,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
         {npc === "birdie" && <Birdie onClose={closeModal} />}
         {/* Delivery NPC's */}
         {npc === "pete" && <Pete onClose={closeModal} />}
-        {npc === "blacksmith" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.blacksmith}
-            tabs={[
-              { icon: SUNNYSIDE.icons.hammer, name: "Craft" },
-              { icon: SUNNYSIDE.icons.expression_chat, name: "Delivery" },
-            ]}
-            setCurrentTab={setTab}
-            currentTab={tab}
-          >
-            {tab === 0 && <HeliosBlacksmithItems />}
-            {tab === 1 && (
-              <DeliveryPanelContent npc={npc} onClose={closeModal} />
-            )}
-          </CloseButtonPanel>
-        )}
+        {npc === "blacksmith" && <Blacksmith onClose={closeModal} />}
         {npc === "raven" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "tywin" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "grimbly" && <DeliveryPanel npc={npc} onClose={closeModal} />}

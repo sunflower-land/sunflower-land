@@ -173,6 +173,8 @@ const OrderCards: React.FC<OrderCardsProps> = ({
 interface Props {
   onClose: () => void;
   npc: NPCName;
+  // Skip intro if the npc has two potential actions ie. Craft/Delivery. The intro would have already happened.
+  skipIntro?: boolean;
 }
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
@@ -181,7 +183,11 @@ const _balance = (state: MachineState) => state.context.state.balance;
 const _bumpkin = (state: MachineState) =>
   state.context.state.bumpkin as Bumpkin;
 
-export const DeliveryPanelContent: React.FC<Props> = ({ npc, onClose }) => {
+export const DeliveryPanelContent: React.FC<Props> = ({
+  npc,
+  skipIntro,
+  onClose,
+}) => {
   const { gameService } = useContext(Context);
 
   const delivery = useSelector(gameService, _delivery);
@@ -197,6 +203,8 @@ export const DeliveryPanelContent: React.FC<Props> = ({ npc, onClose }) => {
   const positive = useRandomItem(dialogue.positiveDelivery);
   const negative = useRandomItem(dialogue.negativeDelivery);
 
+  const [selectedOrderId, setSelectedOrderId] = useState<string | undefined>();
+
   const hasRequirements = (order?: Order) => {
     if (!order) return false;
 
@@ -210,8 +218,6 @@ export const DeliveryPanelContent: React.FC<Props> = ({ npc, onClose }) => {
       return count.gte(amount);
     });
   };
-
-  const [selectedOrderId, setSelectedOrderId] = useState<string | undefined>();
 
   if (!orders.length) {
     return (
@@ -229,7 +235,10 @@ export const DeliveryPanelContent: React.FC<Props> = ({ npc, onClose }) => {
   }
 
   const handleDeliver = () => {
-    if (!selectedOrderId) return;
+    if (!selectedOrderId) {
+      console.log("Delivery: No order selected");
+      return;
+    }
 
     const state = gameService.send("order.delivered", { id: selectedOrderId });
 
@@ -248,7 +257,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({ npc, onClose }) => {
     <SpeakingText
       onClose={onClose}
       message={[
-        { text: intro },
+        ...(!skipIntro ? [{ text: intro }] : []),
         {
           text: canFulfillAnOrder ? positive : negative,
           jsx: (

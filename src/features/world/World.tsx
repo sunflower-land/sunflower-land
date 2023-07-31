@@ -22,7 +22,6 @@ import { PickServer } from "./ui/PickServer";
 import { MazeHud } from "./ui/cornMaze/MazeHud";
 import { GameWrapper } from "features/game/expansion/Game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   isCommunity?: boolean;
@@ -135,15 +134,6 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
   const isLoading = useSelector(gameService, _isLoading);
   const inventory = useSelector(gameService, _inventory);
   const name = useParams().name as SceneId;
-
-  if (
-    !isLoading &&
-    ((name === "plaza" && !hasFeatureAccess(inventory, "PUMPKIN_PLAZA")) ||
-      (name === "corn_maze" && !hasFeatureAccess(inventory, "CORN_MAZE")))
-  ) {
-    // Block access to world for players that don't have feature access
-    return null;
-  }
 
   return (
     <div
