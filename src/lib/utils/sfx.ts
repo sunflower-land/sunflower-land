@@ -38,6 +38,7 @@ import greedyGoblinPick from "../../assets/community/arcade/greedy_goblin/audio/
 import chickenFightPlaying from "../../assets/community/arcade/chicken_fight/audio/playing.mp3";
 import chickenFightPunch from "../../assets/community/arcade/chicken_fight/audio/punch.mp3";
 import chickenFightHit from "../../assets/community/arcade/chicken_fight/audio/hit.mp3";
+import { SOUNDS } from "assets/sound-effects/soundEffects";
 
 export const harvestAudio = new Howl({
   src: [harvestMp3],
@@ -196,3 +197,9 @@ export const chickenFightAudio = {
     volume: 0.2,
   }),
 };
+
+// Plaza
+export const mazeOver = new Howl({
+  src: [SOUNDS.notifications.maze_over],
+  volume: 0.2,
+});

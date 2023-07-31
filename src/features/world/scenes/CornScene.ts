@@ -302,7 +302,7 @@ export class CornScene extends BaseScene {
               this.physics.add.overlap(this.currentPlayer, crow, () => {
                 this.collect(`${spriteX}-${spriteY}`);
                 const collected = this.sound.add("crow_collected");
-                collected.play({ volume: 0.5 });
+                collected.play({ volume: 0.7 });
                 crow.destroy();
               });
             }

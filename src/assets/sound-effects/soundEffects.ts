@@ -30,6 +30,7 @@ export const SOUNDS = {
     chime: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Notifications/Farm_Game_Notification_Alert_Magic_New_Order_Task_Alert_Chime_Tone.mp3`,
     crow_collected: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Notifications/crow_collected.mp3`,
     portal_travel: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Notifications/Farm_Game_Notification_Alert_Farming_Tool_Power_Charge_Up_Ding_2_Heavy_Flow_Transition.mp3`,
+    maze_over: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Fishing/Notification/Farm_Game_Fishing_Notification_Negative_Unsuccessful_Catch_3_Fail_Capture_Sad_Complete_Fish.mp3`,
   },
   voices: {
     howdy: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Human/Farm_Game_Animal_Vocal_Human_Character_Voice_Farmer_Howdy.mp3`,
