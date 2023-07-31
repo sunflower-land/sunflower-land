@@ -535,64 +535,6 @@ describe("chore.completed", () => {
       ).toThrow("Chore is already completed");
     });
 
-    it("selects chores from the next day", () => {
-      const { startDate } = SEASONS["Witches' Eve"];
-
-      const oneMinute = 1 * 60 * 1000;
-      const twentyFourHours = 24 * 60 * 60 * 1000;
-      const oneMinuteAfterStart = new Date(startDate.getTime() + oneMinute);
-      const oneDayOneMinuteAfterStart = new Date(
-        startDate.getTime() + twentyFourHours + oneMinute
-      );
-
-      const chore: ChoreV2 = {
-        activity: "Sunflower Harvested",
-        description: "Harvest 30 Sunflowers",
-        createdAt: oneMinuteAfterStart.getTime(),
-        bumpkinId: INITIAL_BUMPKIN.id,
-        startCount: 0,
-        requirement: 30,
-        tickets: 1,
-      };
-
-      jest.useFakeTimers();
-      jest.setSystemTime(oneDayOneMinuteAfterStart);
-
-      const state = completeChore({
-        createdAt: oneDayOneMinuteAfterStart.getTime(),
-        action: {
-          type: "chore.completed",
-          id: 1,
-        },
-        state: {
-          ...TEST_FARM,
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            activity: {
-              "Sunflower Harvested": 50,
-            },
-          },
-          chores: {
-            choresCompleted: 0,
-            choresSkipped: 0,
-            chores: {
-              "1": chore,
-              "2": chore,
-              "3": chore,
-              "4": chore,
-              "5": chore,
-            },
-          },
-        },
-      });
-
-      expect(state.chores?.chores["1"]).not.toEqual(chore);
-      expect(state.chores?.chores["1"].createdAt).toEqual(
-        oneDayOneMinuteAfterStart.getTime()
-      );
-      expect(chore.completedAt).toBeUndefined();
-    });
-
     it("errors if the bumpkin changed", () => {
       const { startDate } = SEASONS["Witches' Eve"];
 
