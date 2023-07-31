@@ -195,39 +195,22 @@ export function deliverOrder({ state, action }: Options): GameState {
     game.inventory[seasonalTicket] = count.add(amount);
   }
 
-  // Always give a seasonal ticket
-  const rewardItems = {
-    ...(order.reward.items ?? {}),
-    [getSeasonalTicket()]: 5,
-  };
-
-  if (rewardItems) {
-    getKeys(rewardItems).forEach((name) => {
-      const previousAmount = game.inventory[name] || new Decimal(0);
-
-      game.inventory[name] = previousAmount.add(rewardItems[name] || 0);
-    });
-  }
-
   game.delivery.orders = game.delivery.orders.filter(
     (order) => order.id !== action.id
   );
 
   game.delivery.fulfilledCount += 1;
 
-  // TODO: REPLACE WITH SEASON START DATE WHEN BETA IS OVER
-  if (hasFeatureAccess(game.inventory, "NEW_DELIVERIES")) {
-    const npcs = game.npcs ?? ({} as Partial<Record<NPCName, NPCData>>);
-    const npc = npcs[order.from] ?? ({} as NPCData);
-    const completedDeliveries = npcs[order.from]?.deliveryCount ?? 0;
+  const npcs = game.npcs ?? ({} as Partial<Record<NPCName, NPCData>>);
+  const npc = npcs[order.from] ?? ({} as NPCData);
+  const completedDeliveries = npcs[order.from]?.deliveryCount ?? 0;
 
-    npc.deliveryCount = completedDeliveries + 1;
+  npc.deliveryCount = completedDeliveries + 1;
 
-    game.npcs = {
-      ...npcs,
-      [order.from]: npc,
-    };
-  }
+  game.npcs = {
+    ...npcs,
+    [order.from]: npc,
+  };
 
   // bumpkin.activity = trackActivity(`${order.from} Delivered`, 1);
 

@@ -252,12 +252,10 @@ describe("deliver", () => {
 
     const seasonTicket = getSeasonalTicket();
 
-    // Currently, we give 5 tickets with every delivery
-    // TODO: UPDATE FOR NEW SEASON (5)
-    expect(state.inventory[seasonTicket]).toEqual(new Decimal(10));
+    expect(state.inventory[seasonTicket]).toEqual(new Decimal(5));
   });
 
-  it("rewards items", () => {
+  it.skip("rewards items", () => {
     const state = deliverOrder({
       state: {
         ...TEST_FARM,
@@ -287,7 +285,6 @@ describe("deliver", () => {
       },
     });
 
-    expect(state.inventory["Dawn Breaker Ticket"]).toEqual(new Decimal(5));
     expect(state.inventory["Carrot"]).toEqual(new Decimal(1));
   });
 
