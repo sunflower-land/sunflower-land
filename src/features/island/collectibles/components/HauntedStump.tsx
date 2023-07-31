@@ -9,7 +9,7 @@ export const HauntedStump: React.FC = () => {
       <img
         src={hauntedStump}
         style={{
-          width: `${PIXEL_SCALE * 16}px`,
+          width: `${PIXEL_SCALE * 18}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute left-1/2 -translate-x-1/2"
