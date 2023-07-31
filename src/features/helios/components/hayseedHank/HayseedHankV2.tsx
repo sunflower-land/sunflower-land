@@ -3,9 +3,10 @@ import React, { useContext, useState } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { NPC_WEARABLES } from "lib/npcs";
+import { NPC_WEARABLES, acknowedlgedNPCs, acknowledgeNPC } from "lib/npcs";
 import { ChoreV2 } from "./components/ChoreV2";
 import { getKeys } from "features/game/types/craftables";
+import { SpeakingModal } from "features/game/components/SpeakingModal";
 
 interface Props {
   onClose: () => void;
@@ -16,6 +17,8 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
   const [isSkipping, setIsSkipping] = useState(false);
   const [canSkip, setCanSkip] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const [introDone, setIntroDone] = useState(!!acknowedlgedNPCs()["hank"]);
 
   const { chores, bumpkin } = gameState.context.state;
 
@@ -30,6 +33,11 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
     : false;
 
   const isSaving = gameState.matches("autosaving");
+
+  const finishIntro = () => {
+    acknowledgeNPC("hank");
+    setIntroDone(true);
+  };
 
   const skip = () => {
     setIsSkipping(true);
@@ -61,6 +69,32 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
     return `${timeToChore.getUTCHours()}hrs ${timeToChore.getUTCMinutes()}min`;
   };
 
+  if (!introDone) {
+    return (
+      <SpeakingModal
+        bumpkinParts={NPC_WEARABLES["hank"]}
+        message={[
+          {
+            text: "Well, howdy there, young whippersnappers! I'm Hayseed Hank, a seasoned ol' Bumpkin farmer, tendin' to the land like it's still the good ol' days.",
+          },
+          {
+            text: "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with Crow Feathers.",
+            actions: [
+              {
+                text: "Let's do it",
+                cb: () => {
+                  setIntroDone(true);
+                  acknowledgeNPC("hank");
+                },
+              },
+            ],
+          },
+        ]}
+        onClose={onClose}
+      />
+    );
+  }
+
   const Content = () => {
     return (
       <div className="px-2">
@@ -90,15 +124,9 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel
       title={
-        isTaskComplete ? (
-          <div className="flex justify-center">
-            <p>Well done</p>
-          </div>
-        ) : (
-          <div className="flex justify-center">
-            <p>Lend a hand?</p>
-          </div>
-        )
+        <div className="">
+          <p>Daily Chores</p>
+        </div>
       }
       bumpkinParts={NPC_WEARABLES.hank}
       onClose={close}

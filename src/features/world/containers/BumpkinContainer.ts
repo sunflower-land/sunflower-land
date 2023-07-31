@@ -11,6 +11,7 @@ const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
   pete: true,
   luna: true,
   birdie: true,
+  hank: true,
 };
 
 export class BumpkinContainer extends Phaser.GameObjects.Container {
