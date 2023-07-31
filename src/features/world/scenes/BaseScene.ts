@@ -21,6 +21,7 @@ import {
   SceneId,
 } from "../mmoMachine";
 import { Player } from "../types/Room";
+import { mazeManager } from "../ui/cornMaze/MazeHud";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -73,6 +74,8 @@ export abstract class BaseScene extends Phaser.Scene {
   private options: Required<BaseSceneOptions>;
 
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
+
+  canHandlePortalHit = true;
 
   currentPlayer: BumpkinContainer | undefined;
   serverPosition: { x: number; y: number } = { x: 0, y: 0 };
@@ -275,7 +278,7 @@ export abstract class BaseScene extends Phaser.Scene {
       "Building Layer 4",
     ];
     this.map.layers.forEach((layerData, idx) => {
-      if (layerData.name === "Corn") return;
+      if (layerData.name === "Crows") return;
 
       const layer = this.map.createLayer(layerData.name, tileset, 0, 0);
       if (TOP_LAYERS.includes(layerData.name)) {
@@ -469,6 +472,12 @@ export abstract class BaseScene extends Phaser.Scene {
         async (obj1, obj2) => {
           const id = (obj2 as any).data?.list?.id;
           if (id) {
+            // Handled in corn scene
+            if (id === "maze_portal_exit") {
+              this.handlePortalHit();
+              return;
+            }
+
             interactableModalManager.open(id);
             return;
           }
@@ -497,6 +506,15 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     return entity;
+  }
+
+  handlePortalHit() {
+    if (this.canHandlePortalHit) {
+      mazeManager.handlePortalHit();
+      this.scene.pause();
+
+      this.canHandlePortalHit = false;
+    }
   }
 
   createPlayerText({ x, y, text }: { x: number; y: number; text: string }) {

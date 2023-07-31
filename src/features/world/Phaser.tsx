@@ -173,16 +173,15 @@ export const PhaserComponent: React.FC<Props> = ({
   useEffect(() => {
     if (!loaded) return;
 
-    console.log("SCENE", scene);
-    console.log("current", game.current);
-    const activeScene = game.current?.scene.getScenes()[0];
+    const activeScene = game.current?.scene
+      .getScenes(false)
+      // Corn maze pauses when game is over so we need to filter for active and paused scenes.
+      .filter((s) => s.scene.isActive() || s.scene.isPaused())[0];
 
     if (activeScene) {
       activeScene.scene.start(scene);
       mmoService.state.context.server?.send(0, { sceneId: scene });
     }
-
-    // game.current?.scene.start(scene);
   }, [scene]);
 
   const ref = useRef<HTMLDivElement>(null);
@@ -190,14 +189,16 @@ export const PhaserComponent: React.FC<Props> = ({
   return (
     <div>
       <div id="game-content" ref={ref} />
-      <ChatUI
-        onMessage={(m) => {
-          mmoService.state.context.server?.send(0, {
-            text: m.text ?? "?",
-          });
-        }}
-        messages={messages ?? []}
-      />
+      {scene !== "corn_maze" && (
+        <ChatUI
+          onMessage={(m) => {
+            mmoService.state.context.server?.send(0, {
+              text: m.text ?? "?",
+            });
+          }}
+          messages={messages ?? []}
+        />
+      )}
       <NPCModals
         onNavigate={(sceneId: SceneId) => {
           navigate(`/world/${sceneId}`);

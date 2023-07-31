@@ -26,7 +26,7 @@ export function buyWearable({
 }: Options) {
   const stateCopy = cloneDeep(state);
   const { name } = action;
-  const wearable = STYLIST_WEARABLES[name];
+  const wearable = STYLIST_WEARABLES(state)[name];
 
   if (!wearable) {
     throw new Error("This item is not available");

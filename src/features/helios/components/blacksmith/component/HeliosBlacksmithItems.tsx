@@ -37,7 +37,7 @@ export const HeliosBlacksmithItems: React.FC = () => {
   ] = useActor(gameService);
   const inventory = state.inventory;
 
-  const selectedItem = HELIOS_BLACKSMITH_ITEMS[selectedName];
+  const selectedItem = HELIOS_BLACKSMITH_ITEMS(state)[selectedName];
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
 
   const lessIngredients = () =>
@@ -66,6 +66,7 @@ export const HeliosBlacksmithItems: React.FC = () => {
           boost={selectedItem.boost}
           requirements={{
             resources: selectedItem.ingredients,
+            sfl: selectedItem.sfl,
           }}
           actionView={
             isAlreadyCrafted ? (
@@ -83,9 +84,11 @@ export const HeliosBlacksmithItems: React.FC = () => {
       }
       content={
         <>
-          {getKeys(HELIOS_BLACKSMITH_ITEMS).map(
+          {getKeys(HELIOS_BLACKSMITH_ITEMS(state)).map(
             (name: HeliosBlacksmithItem) => {
-              const isTimeLimited = isNotReady(HELIOS_BLACKSMITH_ITEMS[name]);
+              const isTimeLimited = isNotReady(
+                HELIOS_BLACKSMITH_ITEMS(state)[name]
+              );
 
               return (
                 <Box

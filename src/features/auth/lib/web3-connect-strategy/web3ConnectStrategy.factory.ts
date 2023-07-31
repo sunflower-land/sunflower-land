@@ -5,6 +5,7 @@ import { OKXStrategy } from "./okx.strategy";
 import { PhantomStrategy } from "./phantom.strategy";
 import { SequenceStrategy } from "./sequence.strategy";
 import { WalletConnectStrategy } from "./walletConnect.strategy";
+import { CryptoComStrategy } from "./cryptoCom.strategy";
 
 export function web3ConnectStrategyFactory(
   providerName: Web3SupportedProviders
@@ -20,5 +21,7 @@ export function web3ConnectStrategyFactory(
       return new SequenceStrategy();
     case Web3SupportedProviders.WALLET_CONNECT:
       return new WalletConnectStrategy();
+    case Web3SupportedProviders.CRYPTO_COM:
+      return new CryptoComStrategy();
   }
 }

@@ -255,6 +255,17 @@ const INITIAL_BUMPKIN: Bumpkin = {
 
 export const OFFLINE_FARM: GameState = {
   id: 4,
+  witchesEve: {
+    weeklyLostCrowCount: 25,
+    maze: {
+      1: {
+        highestScore: 0,
+        claimedFeathers: 0,
+        wins: [],
+        losses: [],
+      },
+    },
+  },
   dawnBreaker: {
     currentWeek: 8,
     availableLantern: {
@@ -387,7 +398,7 @@ export const OFFLINE_FARM: GameState = {
     "Cabbage Boy": new Decimal(1),
 
     // "Beta Pass": new Decimal(1),
-    // "Dawn Breaker Banner": new Decimal(1),
+    "Witches' Eve Banner": new Decimal(1),
 
     Kitchen: new Decimal(1),
 
@@ -478,7 +489,7 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    Workbench: [
+    Bakery: [
       {
         coordinates: { x: 3, y: 0 },
         createdAt: 0,

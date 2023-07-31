@@ -103,6 +103,7 @@ export function makeGame(farm: any): GameState {
     },
     mushrooms: farm.mushrooms,
     dawnBreaker: makeDawnbreaker(farm.dawnBreaker),
+    witchesEve: farm.witchesEve,
     delivery: farm.delivery,
     potionHouse: farm.potionHouse,
     npcs: farm.npcs,

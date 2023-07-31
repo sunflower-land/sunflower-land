@@ -16,6 +16,7 @@ export type GameAnalyticEvent =
   | "connect_to_metamask"
   | "connect_to_phantom"
   | "connect_to_okx"
+  | "connect_to_crypto_com"
   | "connect_to_sequence"
   | "connect_to_walletconnect"
   | "create_account"

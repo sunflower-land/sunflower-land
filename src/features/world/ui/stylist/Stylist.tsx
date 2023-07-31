@@ -7,6 +7,7 @@ import {
   BASIC_WEARABLES,
   LIMITED_WEARABLES,
 } from "features/game/types/stylist";
+import { TEST_FARM } from "features/game/lib/constants";
 
 interface Props {
   onClose: () => void;
@@ -26,7 +27,9 @@ export const Stylist: React.FC<Props> = ({ onClose }) => {
       setCurrentTab={setTab}
     >
       {tab === 0 && <StylistWearables wearables={BASIC_WEARABLES} />}
-      {tab === 1 && <StylistWearables wearables={LIMITED_WEARABLES} />}
+      {tab === 1 && (
+        <StylistWearables wearables={LIMITED_WEARABLES(TEST_FARM)} />
+      )}
     </CloseButtonPanel>
   );
 };
