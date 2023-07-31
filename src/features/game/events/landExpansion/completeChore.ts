@@ -122,7 +122,7 @@ function completeDawnBreakerChore({
   return game;
 }
 
-const isChoreId = (id: number): id is ChoreV2Name => id in ChoreV2Name;
+export const isChoreId = (id: number): id is ChoreV2Name => id in ChoreV2Name;
 
 function completeWitchesEveChore({
   state,
@@ -182,7 +182,7 @@ export function completeChore({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  if (action.id !== undefined) {
+  if (state.chores) {
     return completeWitchesEveChore({ state, action, createdAt });
   }
 

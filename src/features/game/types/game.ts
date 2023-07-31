@@ -568,6 +568,30 @@ export type NPCData = {
   deliveryCount: number;
 };
 
+export type ChoreV2 = {
+  activity: BumpkinActivityName;
+  description: string;
+  createdAt: number;
+  completedAt?: number;
+  requirement: number;
+  bumpkinId: number;
+  startCount: number;
+  reward: {
+    items?: Partial<Record<InventoryItemName, number>>;
+    sfl?: number;
+  };
+};
+
+export enum ChoreV2Name {
+  EASY_1 = 1,
+  EASY_2,
+  MEDIUM_1,
+  MEDIUM_2,
+  HARD_1,
+}
+
+export type ChoresV2 = Record<ChoreV2Name, ChoreV2>;
+
 export interface GameState {
   id?: number;
   balance: Decimal;

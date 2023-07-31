@@ -69,7 +69,7 @@ describe("chore.started", () => {
       },
     });
 
-    expect(state.hayseedHank.progress).toEqual({
+    expect(state.hayseedHank?.progress).toEqual({
       bumpkinId: bumpkin.id,
       startedAt: now,
       startCount: bumpkin.activity["Sunflower Harvested"],
@@ -111,7 +111,7 @@ describe("chore.started", () => {
       },
     });
 
-    expect(state.hayseedHank.progress).toEqual({
+    expect(state.hayseedHank?.progress).toEqual({
       bumpkinId: bumpkin.id,
       startedAt: expect.any(Number),
       startCount: bumpkin.activity["Sunflower Harvested"],

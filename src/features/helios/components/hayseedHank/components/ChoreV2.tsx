@@ -54,7 +54,7 @@ export const ChoreV2: React.FC<Props> = ({ skipping }) => {
   };
 
   const complete = () => {
-    gameService.send("chore.completed", { id: choreKey });
+    gameService.send("chore.completed", { id: Number(choreKey) });
 
     gameService.send("SAVE");
   };

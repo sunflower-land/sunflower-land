@@ -160,7 +160,7 @@ describe("chore.completed", () => {
       },
     });
 
-    expect(state.hayseedHank.choresCompleted).toEqual(1);
+    expect(state.hayseedHank?.choresCompleted).toEqual(1);
   });
 
   it("claims the reward", () => {

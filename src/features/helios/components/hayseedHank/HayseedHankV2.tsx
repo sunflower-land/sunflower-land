@@ -43,7 +43,7 @@ export const HayseedHankV2: React.FC = () => {
 
   const skip = () => {
     setIsSkipping(true);
-    gameService.send("chore.skipped");
+    gameService.send("chore.skipped", { id: Number(choreKey) });
     gameService.send("SAVE");
     setIsDialogOpen(false);
     setCanSkip(false);
