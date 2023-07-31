@@ -9,15 +9,15 @@ export const SpookyTree: React.FC = () => {
       <div
         className="absolute"
         style={{
-          width: `${PIXEL_SCALE * 23}px`,
+          width: `${PIXEL_SCALE * 26}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
-          right: -3,
+          right: `-${PIXEL_SCALE * 4}px`,
         }}
       >
         <img
           src={spookyTree}
           style={{
-            width: `${PIXEL_SCALE * 23}px`,
+            width: `${PIXEL_SCALE * 26}px`,
             bottom: `${PIXEL_SCALE * 0}px`,
           }}
           className="absolute"
