@@ -95,7 +95,7 @@ export const MazeHud: React.FC = () => {
   ] as MazeMetadata;
 
   // Attempt is added to game start when Luna is paid
-  const activeAttempt = attempts.find((attempt) => !attempt.completedAt);
+  const activeAttempt = attempts?.find((attempt) => !attempt.completedAt);
 
   const navigate = useNavigate();
 
@@ -162,14 +162,9 @@ export const MazeHud: React.FC = () => {
     handleMazeComplete();
   }, [lostGame]);
 
-  function handleBrowserRefresh() {
-    console.log("unload event fired");
-    gameService.send("maze.saved", {
-      crowsFound: score,
-      health,
-      timeRemaining: TIME_LIMIT_SECONDS - timeElapsed,
-    });
-    gameService.send("SAVE");
+  if (!activeAttempt) {
+    navigate("/world/plaza");
+    return null;
   }
 
   const handleStart = () => {
