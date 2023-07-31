@@ -81,7 +81,7 @@ export const CommunityToasts: React.FC = () => {
           <InnerPanel
             className="flex flex-col items-start fixed z-[99999] pointer-events-none"
             style={{
-              top: `${PIXEL_SCALE * 54}px`,
+              top: `${PIXEL_SCALE * 85}px`,
               left: `${PIXEL_SCALE * 3}px`,
             }}
           >
