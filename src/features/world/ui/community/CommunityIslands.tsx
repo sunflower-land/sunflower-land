@@ -1,5 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { OuterPanel } from "components/ui/Panel";
+import { CONFIG } from "lib/config";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -23,6 +24,21 @@ export const CommunityIslands: React.FC = () => {
     navigate(`/community/${island.id}`);
   };
 
+  if (CONFIG.NETWORK === "mainnet") {
+    return (
+      <div className="p-2">
+        <p className="mb-2">Travel to community built islands</p>
+        <a
+          href="https://docs.sunflower-land.com/contributing/community-islands"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline text-white text-xs"
+        >
+          Read more
+        </a>
+      </div>
+    );
+  }
   return (
     <>
       <div className="p-2">
