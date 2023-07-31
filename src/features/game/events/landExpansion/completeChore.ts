@@ -8,6 +8,7 @@ import { CONFIG } from "lib/config";
 import { analytics } from "lib/analytics";
 import cloneDeep from "lodash.clonedeep";
 import { startChore } from "./startChore";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 export type CompleteChoreAction = {
   type: "chore.completed";
@@ -149,7 +150,7 @@ function completeWitchesEveChore({
     throw new Error("Invalid chore ID");
   }
 
-  const chore = chores[id as ChoreV2Name];
+  const chore = chores.chores[id];
 
   if ((chore.completedAt ?? 0) > 0) {
     throw new Error("Chore is already completed");
@@ -165,14 +166,12 @@ function completeWitchesEveChore({
     throw new Error("Chore is not completed");
   }
 
-  getKeys(chore.reward.items ?? {}).forEach((name) => {
-    const previous = game.inventory[name] ?? new Decimal(0);
-    game.inventory[name] = previous.add(chore.reward.items?.[name] ?? 0);
-  });
-
-  game.balance = game.balance.add(chore.reward.sfl ?? 0);
+  const ticket = getSeasonalTicket();
+  const previous = game.inventory[ticket] ?? new Decimal(0);
+  game.inventory[ticket] = previous.add(chore.tickets);
 
   chore.completedAt = createdAt;
+  chores.choresCompleted += 1;
 
   return game;
 }

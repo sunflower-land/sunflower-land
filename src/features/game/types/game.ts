@@ -576,10 +576,7 @@ export type ChoreV2 = {
   requirement: number;
   bumpkinId: number;
   startCount: number;
-  reward: {
-    items?: Partial<Record<InventoryItemName, number>>;
-    sfl?: number;
-  };
+  tickets: number;
 };
 
 export enum ChoreV2Name {
@@ -590,7 +587,11 @@ export enum ChoreV2Name {
   HARD_1,
 }
 
-export type ChoresV2 = Record<ChoreV2Name, ChoreV2>;
+export type ChoresV2 = {
+  chores: Record<ChoreV2Name, ChoreV2>;
+  choresCompleted: number;
+  choresSkipped: number;
+};
 
 export interface GameState {
   id?: number;

@@ -23,8 +23,9 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
   const { chores, bumpkin } = gameState.context.state;
 
   const choreKey =
-    chores && getKeys(chores).find((key) => !chores[key].completedAt);
-  const chore = choreKey !== undefined ? chores?.[choreKey] : undefined;
+    chores &&
+    getKeys(chores.chores).find((key) => !chores.chores[key].completedAt);
+  const chore = choreKey !== undefined ? chores?.chores[choreKey] : undefined;
   const startedAt = chore?.createdAt;
 
   const isTaskComplete = chore

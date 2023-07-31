@@ -47,7 +47,7 @@ export function skipWitchesEveChore({
     throw new Error("Invalid chore ID");
   }
 
-  const chore = chores[id];
+  const chore = chores.chores[id];
 
   if ((chore.completedAt ?? 0) > 0) {
     throw new Error("Chore is already completed");

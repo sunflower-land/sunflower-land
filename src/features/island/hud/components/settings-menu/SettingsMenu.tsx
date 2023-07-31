@@ -47,7 +47,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
     useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(useIsNewFarm());
   const [showCaptcha, setShowCaptcha] = useState(false);
-  const [showTimeMachine, setShowTimeMachine] = useState(true);
+  const [showTimeMachine, setShowTimeMachine] = useState(false);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const { openModal } = useContext(ModalContext);
 
