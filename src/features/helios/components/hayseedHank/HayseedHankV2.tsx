@@ -9,7 +9,22 @@ import { getKeys } from "features/game/types/craftables";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { ChoreV2Name } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { getSecondsToTomorrow, secondsToString } from "lib/utils/time";
 
+// UTC
+function secondsTillTomorrow() {
+  const currentTime = Date.now();
+
+  // Calculate the time until the next day in milliseconds
+  const nextDay = new Date(currentTime);
+  nextDay.setUTCHours(24, 0, 0, 0);
+  const timeUntilNextDay = nextDay.getTime() - currentTime;
+
+  // Convert milliseconds to seconds
+  const secondsUntilNextDay = Math.floor(timeUntilNextDay / 1000);
+
+  return secondsUntilNextDay;
+}
 interface Props {
   onClose: () => void;
 }
@@ -72,32 +87,6 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
     );
   }
 
-  // const Content = () => {
-  //   return (
-  //     <div className="px-2">
-  //       {/* <p
-  //         className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
-  //         onClick={() => setIsDialogOpen(!isDialogOpen)}
-  //       >
-  //         Cannot complete this chore?
-  //       </p> */}
-  //       {isDialogOpen && canSkip && (
-  //         <p
-  //           className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
-  //           onClick={skip}
-  //         >
-  //           Skip chore
-  //         </p>
-  //       )}
-  //       {isDialogOpen && !canSkip && (
-  //         <p className="text-xxs pb-1 pt-0.5">
-  //           You can skip this chore in {getTimeToChore()}
-  //         </p>
-  //       )}
-  //     </div>
-  //   );
-  // };
-
   return (
     <CloseButtonPanel
       title="Daily Chores"
@@ -105,15 +94,18 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
       onClose={close}
     >
       <div
-        style={{ maxHeight: "200px" }}
-        className="overflow-y-auto p-2 divide-brown-600 scrollable"
+        style={{ maxHeight: "300px" }}
+        className="overflow-y-auto pr-1  divide-brown-600 scrollable"
       >
         <div className="p-1 mb-2">
           <div className="flex items-center mb-1">
             <div className="w-6">
               <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
             </div>
-            <span className="text-xs">New chores available in X hours.</span>
+            <span className="text-xs">{`New chores available in ${secondsToString(
+              getSecondsToTomorrow(),
+              { length: "full" }
+            )}.`}</span>
           </div>
           <div className="flex items-center ">
             <div className="w-6">

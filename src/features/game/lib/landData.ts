@@ -492,7 +492,7 @@ export const OFFLINE_FARM: GameState = {
         requirement: 5,
         tickets: 2,
         completedAt: 100,
-        startCount: 0,
+        startCount: -200,
       },
       [ChoreV2Name.EASY_2]: {
         activity: "Sunflower Harvested",
@@ -502,7 +502,7 @@ export const OFFLINE_FARM: GameState = {
         requirement: 5,
         tickets: 2,
 
-        startCount: 0,
+        startCount: -50,
       },
       [ChoreV2Name.MEDIUM_1]: {
         activity: "Sunflower Harvested",

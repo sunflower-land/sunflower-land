@@ -23,23 +23,6 @@ export const ChoreV2: React.FC<Props> = ({ skipping }) => {
     );
   }
 
-  // const start = () => {
-  //   gameService.send("chore.started");
-  // };
-
-  // if (skipping) return <Loading text="Skipping" />;
-
-  // if (chore.bumpkinId !== bumpkin.id) {
-  //   return (
-  //     <>
-  //       <div className="p-2 text-sm">
-  //         <p>{`You aren't the same Bumpkin I last spoke with!`}</p>
-  //       </div>
-  //       <Button onClick={start}>Restart Chores</Button>
-  //     </>
-  //   );
-  // }
-
   return (
     <>
       {getKeys(chores.chores).map((choreId) => {

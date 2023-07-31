@@ -31,8 +31,8 @@ export const DailyChore: React.FC<Props> = ({ id, chore }) => {
 
   const skip = (id: ChoreV2Name) => {
     setIsSkipping(true);
-    // gameService.send("chore.skipped", { id: Number(id) });
-    // gameService.send("SAVE");
+    gameService.send("chore.skipped", { id: Number(id) });
+    gameService.send("SAVE");
   };
 
   if (isSkipping && gameState.matches("autosaving")) {
