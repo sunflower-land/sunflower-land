@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
 import { hasFeatureAccess } from "lib/flags";
 import fanArt from "assets/fanArt/dawn_breaker.png";
+import fanArt2 from "assets/fanArt/vergels.png";
 import { Donations } from "./donations/Donations";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -21,6 +22,7 @@ type InteractableName =
   | "boat_modal"
   | "homeless_man"
   | "potion_table"
+  | "fan_art"
   | "fan_art_1"
   | "fan_art_2"
   | "dawn_book_1"
@@ -217,6 +219,26 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
               competition
             </p>
             <img src={fanArt} className="w-2/3 mx-auto rounded-lg" />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal centered show={interactable === "fan_art"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal} title="Congratulations">
+          <div className="p-2 flex flex-col items-center">
+            <p className="text-sm mb-2 text-center">
+              Congratulations Vergelsxtn, the winner of the Dawn Breaker Party
+              Fan Art competition
+            </p>
+            <img src={fanArt2} className="w-4/5 mx-auto rounded-lg mb-1" />
+            <a
+              href=" https://github.com/sunflower-land/sunflower-land/discussions/2638"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-white text-xs mb-2 text-center"
+            >
+              View more
+            </a>
           </div>
         </CloseButtonPanel>
       </Modal>
