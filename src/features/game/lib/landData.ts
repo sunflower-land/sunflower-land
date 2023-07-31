@@ -255,6 +255,17 @@ const INITIAL_BUMPKIN: Bumpkin = {
 
 export const OFFLINE_FARM: GameState = {
   id: 4,
+  witchesEve: {
+    weeklyLostCrowCount: 25,
+    maze: {
+      1: {
+        highestScore: 0,
+        claimedFeathers: 0,
+        wins: [],
+        losses: [],
+      },
+    },
+  },
   dawnBreaker: {
     currentWeek: 8,
     availableLantern: {

@@ -568,6 +568,25 @@ export type NPCData = {
   deliveryCount: number;
 };
 
+export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+
+export type MazeAttempt = { crowsFound: number; health: number; time: number };
+
+export type MazeMetadata = {
+  completedAt?: number;
+  highestScore: number;
+  claimedFeathers: number;
+  losses: MazeAttempt[];
+  wins: MazeAttempt[];
+};
+
+export type MazeAttempts = Partial<Record<SeasonWeek, MazeMetadata>>;
+
+export type WitchesEve = {
+  weeklyLostCrowCount: number;
+  maze: MazeAttempts;
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -641,6 +660,7 @@ export interface GameState {
   hayseedHank: HayseedHank;
   mushrooms: Mushrooms;
   dawnBreaker?: DawnBreaker;
+  witchesEve?: WitchesEve;
   potionHouse?: PotionHouse;
 }
 
