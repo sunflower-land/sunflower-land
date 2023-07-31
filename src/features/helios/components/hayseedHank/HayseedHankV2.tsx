@@ -5,10 +5,10 @@ import { NPC_WEARABLES, acknowedlgedNPCs, acknowledgeNPC } from "lib/npcs";
 import { ChoreV2 } from "./components/ChoreV2";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getSecondsToTomorrow, secondsToString } from "lib/utils/time";
+import { secondsToString } from "lib/utils/time";
 
 // UTC
-function secondsTillTomorrow() {
+function secondsTillReset() {
   const currentTime = Date.now();
 
   // Calculate the time until the next day in milliseconds
@@ -73,7 +73,7 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
               <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
             </div>
             <span className="text-xs">{`New chores available in ${secondsToString(
-              getSecondsToTomorrow(),
+              secondsTillReset(),
               { length: "full" }
             )}.`}</span>
           </div>
