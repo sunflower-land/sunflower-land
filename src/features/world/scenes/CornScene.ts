@@ -145,6 +145,7 @@ export class CornScene extends BaseScene {
   // Don't allow portal hit to be triggered multiple times
   canHandlePortalHit = true;
   enemies?: Phaser.GameObjects.Group;
+  spotlight?: Phaser.GameObjects.Image;
 
   constructor() {
     super({
@@ -161,6 +162,7 @@ export class CornScene extends BaseScene {
       frameHeight: 12,
     });
     this.load.image("crow", "world/crow.png");
+    this.load.image("spotlight", "world/spotlight.webp");
 
     super.preload();
   }
@@ -168,19 +170,8 @@ export class CornScene extends BaseScene {
   async create() {
     super.create();
 
-    const maze_portal = this.add.sprite(320, 319, "maze_portal");
-
-    this.anims.create({
-      key: "maze_portal_anim",
-      frames: this.anims.generateFrameNumbers("maze_portal", {
-        start: 0,
-        end: 12,
-      }),
-      repeat: -1,
-      frameRate: 10,
-    });
-    maze_portal.play("maze_portal_anim", true);
-
+    this.setUpSpotlight();
+    this.setUpPortal();
     this.setUpCrows();
     this.setUpLuna();
     this.setUpEnemies();
@@ -202,6 +193,38 @@ export class CornScene extends BaseScene {
         this.canHandlePortalHit = true;
       }, 2000);
     });
+  }
+
+  setUpSpotlight() {
+    // add spot light image to cover the whole scene
+    this.spotlight = this.add.image(0, 0, "spotlight");
+    this.spotlight.setOrigin(0, 0);
+    this.spotlight.setDepth(100000000000);
+
+    this.updateSpotlightPosition();
+  }
+
+  updateSpotlightPosition() {
+    if (this.currentPlayer && this.spotlight) {
+      // have the center of the spotlight be the center of the currentPlayer
+      this.spotlight.x = this.currentPlayer.x - this.spotlight.width / 2;
+      this.spotlight.y = this.currentPlayer.y - this.spotlight.height / 2;
+    }
+  }
+
+  setUpPortal() {
+    const maze_portal = this.add.sprite(320, 319, "maze_portal");
+
+    this.anims.create({
+      key: "maze_portal_anim",
+      frames: this.anims.generateFrameNumbers("maze_portal", {
+        start: 0,
+        end: 12,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    maze_portal.play("maze_portal_anim", true);
   }
 
   setUpLuna() {
@@ -396,5 +419,11 @@ export class CornScene extends BaseScene {
 
   collect(id: string) {
     mazeManager.collect(id);
+  }
+
+  update(time: number, delta: number): void {
+    super.update(time, delta);
+
+    this.updateSpotlightPosition();
   }
 }

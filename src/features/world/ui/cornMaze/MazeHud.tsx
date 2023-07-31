@@ -15,13 +15,15 @@ import { TipsModalContent } from "./TipsModalContent";
 import { WinningModalContent } from "./WinningModalContent";
 
 import crowWithoutShadow from "assets/decorations/crow_without_shadow.png";
+
+import { TimerDisplay } from "./TimerDisplay";
+import { hasFeatureAccess } from "lib/flags";
 import {
   MachineInterpreter,
   MachineState,
   TIME_LIMIT_SECONDS,
   cornMazeMachine,
-} from "features/world/lib/cornMazeMachine";
-import { TimerDisplay } from "./TimerDisplay";
+} from "features/world/lib/cornmazeMachine";
 
 type Listener = {
   collectCrow: (id: string) => void;
@@ -81,7 +83,9 @@ const _showingTips = (state: MachineState) => state.matches("showingTips");
 
 export const MazeHud: React.FC = () => {
   const { gameService } = useContext(Context);
-  const currentWeek = getSeasonWeek(Date.now());
+  const currentWeek = hasFeatureAccess({}, "CORN_MAZE")
+    ? 1
+    : getSeasonWeek(Date.now());
   const witchesEve = useSelector(gameService, _witchesEve);
 
   const { weeklyLostCrowCount } = witchesEve;
