@@ -297,7 +297,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public hitPlayer() {
-    console.log("hit player");
     this.invincible = true;
 
     // make sprite flash opacity

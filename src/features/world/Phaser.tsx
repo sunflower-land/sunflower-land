@@ -163,8 +163,6 @@ export const PhaserComponent: React.FC<Props> = ({
 
     setLoaded(true);
 
-    console.log("GAME PHASER");
-
     return () => {
       game.current?.destroy(true);
     };

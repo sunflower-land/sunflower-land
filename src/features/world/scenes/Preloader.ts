@@ -30,12 +30,15 @@ export abstract class Preloader extends Phaser.Scene {
       // Load Sound Effects
       this.load.audio("dirt_footstep", SOUNDS.footsteps.dirt);
       this.load.audio("wood_footstep", SOUNDS.footsteps.wood);
+      this.load.audio("sand_footstep", SOUNDS.footsteps.sand);
       this.load.audio("fire", SOUNDS.loops.fire);
       this.load.audio("nature_1", SOUNDS.loops.nature_1);
       this.load.audio("nature_2", SOUNDS.loops.nature_2);
+      this.load.audio("nature_3", SOUNDS.loops.nature_3);
       this.load.audio("royal_farms", SOUNDS.songs.royal_farms);
       this.load.audio("door_open", SOUNDS.doors.open);
       this.load.audio("howdy", SOUNDS.voices.howdy);
+      this.load.audio("portal_travel", SOUNDS.notifications.portal_travel);
       this.load.audio("toad", SOUNDS.animals.toad);
       this.load.audio("boat", SOUNDS.loops.engine);
       this.load.audio("shoreline", SOUNDS.loops.shoreline);

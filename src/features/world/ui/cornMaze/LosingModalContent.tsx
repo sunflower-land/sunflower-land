@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
+import { mazeOver } from "lib/utils/sfx";
 
 interface Props {
   timeRemaining: number;
@@ -12,6 +13,10 @@ export const LosingModalContent: React.FC<Props> = ({
   timeRemaining,
   onClick,
 }) => {
+  useEffect(() => {
+    mazeOver.play();
+  }, []);
+
   return (
     <Panel
       bumpkinParts={{

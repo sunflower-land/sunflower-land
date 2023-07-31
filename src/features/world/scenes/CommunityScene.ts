@@ -75,6 +75,7 @@ export abstract class CommunityScene extends Phaser.Scene {
       // Load Sound Effects
       this.load.audio("dirt_footstep", SOUNDS.footsteps.dirt);
       this.load.audio("wood_footstep", SOUNDS.footsteps.wood);
+      this.load.audio("sand_footstep", SOUNDS.footsteps.sand);
       this.load.audio("fire", SOUNDS.loops.fire);
       this.load.audio("nature_1", SOUNDS.loops.nature_1);
       this.load.audio("nature_2", SOUNDS.loops.nature_2);

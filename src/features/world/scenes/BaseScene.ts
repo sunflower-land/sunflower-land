@@ -512,7 +512,9 @@ export abstract class BaseScene extends Phaser.Scene {
     if (this.canHandlePortalHit) {
       mazeManager.handlePortalHit();
       this.scene.pause();
-
+      this.sound.getAllPlaying().forEach((sound) => {
+        if (sound.key == "sand_footstep") sound.pause();
+      });
       this.canHandlePortalHit = false;
     }
   }

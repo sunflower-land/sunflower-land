@@ -7,6 +7,7 @@ import { SceneId } from "../mmoMachine";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import eventBus from "../lib/eventBus";
+import { SOUNDS } from "assets/sound-effects/soundEffects";
 
 type Enemy = NPCBumpkin & {
   target: {
@@ -152,10 +153,12 @@ export class CornScene extends BaseScene {
       map: {
         json: CONFIG.API_URL ? `${CONFIG.API_URL}/maps/corn` : cornMazeJSON,
       },
+      audio: { fx: { walk_key: "sand_footstep" } },
     });
   }
 
   preload() {
+    super.preload();
     this.load.spritesheet("maze_portal", "world/maze_portal.png", {
       frameWidth: 12,
       frameHeight: 12,
@@ -163,7 +166,27 @@ export class CornScene extends BaseScene {
     this.load.image("crow", "world/crow.png");
     this.load.image("spotlight", "world/spotlight.webp");
 
-    super.preload();
+    // SFX
+    this.load.audio("ouph", SOUNDS.voices.ouph);
+    this.load.audio("crow_collected", SOUNDS.notifications.crow_collected);
+
+    if (!this.sound.get("nature_3")) {
+      const nature = this.sound.add("nature_3");
+      nature.play({ loop: true, volume: 0.05 });
+    }
+
+    const portal_travel = this.sound.add("portal_travel");
+    portal_travel.play({ volume: 0.5 });
+
+    // Shut down the sound when the scene changes
+    this.events.once("shutdown", () => {
+      portal_travel.play({ volume: 0.5 });
+      if (portal_travel.isPaused) {
+        this.sound.getAllPlaying().forEach((sound) => {
+          sound.destroy();
+        });
+      }
+    });
   }
 
   async create() {
@@ -278,6 +301,8 @@ export class CornScene extends BaseScene {
             if (this.currentPlayer) {
               this.physics.add.overlap(this.currentPlayer, crow, () => {
                 this.collect(`${spriteX}-${spriteY}`);
+                const collected = this.sound.add("crow_collected");
+                collected.play({ volume: 0.7 });
                 crow.destroy();
               });
             }
@@ -351,6 +376,8 @@ export class CornScene extends BaseScene {
     this.physics.add.overlap(this.currentPlayer, this.enemies, () => {
       if (!this.currentPlayer?.invincible) {
         mazeManager.hit();
+        const hit = this.sound.add("ouph");
+        hit.play({ volume: 0.5 });
         this.currentPlayer?.hitPlayer();
       }
     });
