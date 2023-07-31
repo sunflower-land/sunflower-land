@@ -23,6 +23,7 @@ import { MazeHud } from "./ui/cornMaze/MazeHud";
 import { GameWrapper } from "features/game/expansion/Game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { hasFeatureAccess } from "lib/flags";
+import { SEASONS } from "features/game/types/seasons";
 
 interface Props {
   isCommunity?: boolean;
@@ -136,10 +137,14 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
   const inventory = useSelector(gameService, _inventory);
   const name = useParams().name as SceneId;
 
+  const seasonAccess =
+    hasFeatureAccess(inventory, "PUMPKIN_PLAZA") ||
+    Date.now() > SEASONS["Witches' Eve"].startDate.getTime();
+
   if (
     !isLoading &&
-    ((name === "plaza" && !hasFeatureAccess(inventory, "PUMPKIN_PLAZA")) ||
-      (name === "corn_maze" && !hasFeatureAccess(inventory, "CORN_MAZE")))
+    ((name === "plaza" && seasonAccess) ||
+      (name === "corn_maze" && seasonAccess))
   ) {
     // Block access to world for players that don't have feature access
     return null;
