@@ -48,7 +48,11 @@ export function startMaze({ state, action, createdAt = Date.now() }: Options) {
   const { attempts } = currentWeekMazeData;
   const inProgressAttempt = attempts.find((attempt) => !attempt.completedAt);
 
-  if (inProgressAttempt) return copy;
+  if (inProgressAttempt) {
+    copy.witchesEve.maze[currentWeek] = currentWeekMazeData;
+
+    return copy;
+  }
 
   const newAttempt: MazeAttempt = {
     startedAt: createdAt,

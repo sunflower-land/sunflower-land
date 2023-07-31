@@ -24,6 +24,7 @@ import {
   TIME_LIMIT_SECONDS,
   cornMazeMachine,
 } from "features/world/lib/cornmazeMachine";
+import { MAZE_TIME_LIMIT_SECONDS } from "features/game/events/landExpansion/startMaze";
 
 type Listener = {
   collectCrow: (id: string) => void;
@@ -89,21 +90,27 @@ export const MazeHud: React.FC = () => {
   const witchesEve = useSelector(gameService, _witchesEve);
 
   const { weeklyLostCrowCount } = witchesEve;
-  const { claimedFeathers, highestScore } = witchesEve?.maze[
+  const { claimedFeathers, highestScore, attempts } = witchesEve?.maze[
     currentWeek
   ] as MazeMetadata;
+
+  // Attempt is added to game start when Luna is paid
+  const activeAttempt = attempts.find((attempt) => !attempt.completedAt);
 
   const navigate = useNavigate();
 
   const cornMazeService = useInterpret(cornMazeMachine, {
     context: {
-      score: 0,
-      health: DEFAULT_HEALTH,
+      score: activeAttempt?.crowsFound ?? 0,
+      health: activeAttempt?.health ?? DEFAULT_HEALTH,
       totalLostCrows: weeklyLostCrowCount,
       gameOver: undefined,
       sceneLoaded: false,
       startedAt: 0,
       timeElapsed: 0,
+      timeLimitInSeconds: activeAttempt?.time
+        ? MAZE_TIME_LIMIT_SECONDS - activeAttempt.time
+        : MAZE_TIME_LIMIT_SECONDS,
       pausedAt: 0,
     },
   }) as unknown as MachineInterpreter;
@@ -133,6 +140,20 @@ export const MazeHud: React.FC = () => {
         cornMazeService.send("PORTAL_HIT");
       },
     });
+
+    function handleBrowserRefresh() {
+      console.log("unload event fired");
+      gameService.send("maze.saved", {
+        crowsFound: score,
+        health,
+        timeRemaining: TIME_LIMIT_SECONDS - timeElapsed,
+      });
+      gameService.send("SAVE");
+    }
+    // Save maze progress if a player refreshes the browser
+    window.addEventListener("beforeunload", handleBrowserRefresh);
+
+    return window.removeEventListener("beforeunload", handleBrowserRefresh);
   }, []);
 
   useEffect(() => {
@@ -140,6 +161,16 @@ export const MazeHud: React.FC = () => {
 
     handleMazeComplete();
   }, [lostGame]);
+
+  function handleBrowserRefresh() {
+    console.log("unload event fired");
+    gameService.send("maze.saved", {
+      crowsFound: score,
+      health,
+      timeRemaining: TIME_LIMIT_SECONDS - timeElapsed,
+    });
+    gameService.send("SAVE");
+  }
 
   const handleStart = () => {
     cornMazeService.send("START_GAME");
@@ -151,10 +182,11 @@ export const MazeHud: React.FC = () => {
 
   const handleMazeComplete = () => {
     // All game stats are recorded so action is always called when leaving
-    gameService.send("maze.attempted", {
+    gameService.send("maze.saved", {
       crowsFound: score,
       health,
       timeRemaining: TIME_LIMIT_SECONDS - timeElapsed,
+      completedAt: Date.now(),
     });
     gameService.send("SAVE");
   };

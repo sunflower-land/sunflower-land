@@ -24,6 +24,7 @@ interface CornMazeContext {
   startedAt: number;
   timeElapsed: number;
   pausedAt: number;
+  timeLimitInSeconds: number;
   gameService?: MachineInterpreter;
 }
 

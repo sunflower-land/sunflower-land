@@ -1,15 +1,23 @@
+import { Context } from "features/game/GameProvider";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES, acknowledgeNPC } from "lib/npcs";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 
 interface Props {
   onClose: () => void;
   onNavigate: () => void;
 }
 export const Luna: React.FC<Props> = ({ onClose, onNavigate }) => {
+  const { gameService } = useContext(Context);
   useEffect(() => {
     acknowledgeNPC("luna");
   }, []);
+
+  const handleStartMaze = () => {
+    gameService.send("maze.started");
+    onNavigate();
+    onClose();
+  };
 
   return (
     <SpeakingModal
@@ -33,16 +41,11 @@ export const Luna: React.FC<Props> = ({ onClose, onNavigate }) => {
           actions: [
             {
               text: "No thanks",
-              cb: () => {
-                onClose();
-              },
+              cb: onClose,
             },
             {
               text: "Let's do it! (Pay 5 SFL)",
-              cb: () => {
-                onNavigate();
-                onClose();
-              },
+              cb: handleStartMaze,
             },
           ],
         },
