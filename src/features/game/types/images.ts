@@ -269,6 +269,10 @@ import fruitSalad from "assets/food/fruit_salad.png";
 import kaleOmelette from "assets/food/kale_omelette.png";
 import cabbersNMash from "assets/food/cabbers_n_mash.png";
 import fancyFries from "assets/food/fancy_fries.png";
+import bumpkinGhanoush from "assets/food/bumpkin_ghanoush.png";
+import eggplantCake from "assets/food/eggplant_cake.png";
+import cornBread from "assets/food/corn_bread.png";
+import popcorn from "assets/food/popcorn.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -2338,5 +2342,22 @@ export const ITEM_DETAILS: Items = {
   "Spooky Tree": {
     image: spookyTree,
     description: "A hauntingly fun addition to your farm's decor!",
+  },
+
+  "Bumpkin ganoush": {
+    image: bumpkinGhanoush,
+    description: "Zesty roasted eggplant spread.",
+  },
+  "Eggplant Cake": {
+    image: eggplantCake,
+    description: "Sweet farm-fresh dessert surprise.",
+  },
+  "Corn Bread": {
+    image: cornBread,
+    description: "Hearty golden farm-fresh bread.",
+  },
+  Popcorn: {
+    image: popcorn,
+    description: "Classic homegrown crunchy snack.",
   },
 };

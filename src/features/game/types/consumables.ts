@@ -40,7 +40,11 @@ export type CookableName =
   | "Fruit Salad"
   | "Kale Omelette"
   | "Cabbers n Mash"
-  | "Fancy Fries";
+  | "Fancy Fries"
+  | "Bumpkin ganoush"
+  | "Eggplant Cake"
+  | "Corn Bread"
+  | "Popcorn";
 
 export type ConsumableName = CookableName | "Pirate Cake";
 
@@ -599,6 +603,55 @@ export const COOKABLES: Record<CookableName, Cookable> = {
       Potato: new Decimal(500),
     },
     marketRate: 400,
+  },
+  "Bumpkin ganoush": {
+    name: "Bumpkin ganoush",
+    description: "Zesty roasted eggplant spread.",
+    building: "Deli",
+    cookingSeconds: 60 * 60 * 24,
+    experience: 1600,
+    ingredients: {
+      Eggplant: new Decimal(30),
+      Potato: new Decimal(50),
+    },
+    marketRate: 800,
+  },
+  "Corn Bread": {
+    name: "Corn Bread",
+    description: "Hearty golden farm-fresh bread.",
+    building: "Bakery",
+    cookingSeconds: 60 * 60 * 24,
+    experience: 1600,
+    ingredients: {
+      Corn: new Decimal(10),
+      Wheat: new Decimal(5),
+      Egg: new Decimal(5),
+    },
+    marketRate: 1200,
+  },
+  "Eggplant Cake": {
+    name: "Eggplant Cake",
+    description: "Sweet farm-fresh dessert surprise.",
+    building: "Bakery",
+    cookingSeconds: 60 * 60 * 24,
+    experience: 1700,
+    ingredients: {
+      Eggplant: new Decimal(30),
+      Wheat: new Decimal(10),
+      Egg: new Decimal(15),
+    },
+    marketRate: 1200,
+  },
+  Popcorn: {
+    name: "Popcorn",
+    description: "Classic homegrown crunchy snack",
+    building: "Fire Pit",
+    cookingSeconds: 30,
+    experience: 75,
+    ingredients: {
+      Corn: new Decimal(5),
+    },
+    marketRate: 120,
   },
 };
 
