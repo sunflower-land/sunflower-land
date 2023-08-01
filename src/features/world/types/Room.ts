@@ -14,6 +14,7 @@ export interface Player extends Schema {
   farmId: number;
   x: number;
   y: number;
+  experience: number;
   tick: number;
   clothing: BumpkinParts & { updatedAt: number };
   npc: NPCName;

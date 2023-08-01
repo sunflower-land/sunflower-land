@@ -22,6 +22,7 @@ import {
 } from "../mmoMachine";
 import { Player } from "../types/Room";
 import { mazeManager } from "../ui/cornMaze/MazeHud";
+import { playerModalManager } from "../ui/PlayerModals";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -205,6 +206,7 @@ export abstract class BaseScene extends Phaser.Scene {
             ?.equipped as BumpkinParts),
           updatedAt: 0,
         },
+        experience: 0,
       });
 
       this.initialiseCamera();
@@ -403,6 +405,7 @@ export abstract class BaseScene extends Phaser.Scene {
     isCurrentPlayer,
     clothing,
     npc,
+    experience = 0,
   }: {
     isCurrentPlayer: boolean;
     x: number;
@@ -410,6 +413,7 @@ export abstract class BaseScene extends Phaser.Scene {
     farmId: number;
     clothing: Player["clothing"];
     npc?: NPCName;
+    experience?: number;
   }): BumpkinContainer {
     const defaultClick = () => {
       const distance = Phaser.Math.Distance.BetweenPoints(
@@ -424,6 +428,12 @@ export abstract class BaseScene extends Phaser.Scene {
 
       if (npc) {
         npcModalManager.open(npc);
+      } else {
+        playerModalManager.open({
+          id: farmId,
+          clothing,
+          experience,
+        });
       }
 
       // TODO - open player modals
@@ -695,6 +705,7 @@ export abstract class BaseScene extends Phaser.Scene {
       if (player.sceneId !== this.scene.key) return;
 
       if (!this.playerEntities[sessionId]) {
+        console.log({ player });
         this.playerEntities[sessionId] = this.createPlayer({
           x: player.x,
           y: player.y,
@@ -702,6 +713,7 @@ export abstract class BaseScene extends Phaser.Scene {
           clothing: player.clothing,
           isCurrentPlayer: sessionId === server.sessionId,
           npc: player.npc,
+          experience: player.experience,
         });
       }
     });

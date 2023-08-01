@@ -64,6 +64,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       farmId: authState.context.user.farmId,
       bumpkin: gameState.context.state.bumpkin,
       initialSceneId: name as SceneId,
+      experience: gameState.context.state.bumpkin?.experience ?? 0,
     },
   }) as unknown as MMOMachineInterpreter;
 

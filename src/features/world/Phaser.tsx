@@ -36,6 +36,7 @@ import { CommunityModals } from "./ui/CommunityModalManager";
 import { SceneId } from "./mmoMachine";
 import { CornScene } from "./scenes/CornScene";
 import { useNavigate } from "react-router-dom";
+import { PlayerModals } from "./ui/PlayerModals";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -202,6 +203,7 @@ export const PhaserComponent: React.FC<Props> = ({
           navigate(`/world/${sceneId}`);
         }}
       />
+      <PlayerModals />
       <CommunityModals />
       <InteractableModals id={authState.context.user.farmId as number} />
       <Modal
