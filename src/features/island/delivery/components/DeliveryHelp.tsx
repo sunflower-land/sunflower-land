@@ -11,7 +11,7 @@ export const DeliveryHelp: React.FC = () => {
           <img src={ITEM_DETAILS["Pumpkin Soup"].image} className="h-7" />
         </div>
         <p className="text-sm flex-1 justify-center">
-          Gather ingredients and take a boat ride to Sunflorea to deliver orders
+          Gather ingredients and take a boat ride to Pumpkin Plaza to deliver orders
           to Bumpkins for a reward!
         </p>
       </div>
