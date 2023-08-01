@@ -705,7 +705,6 @@ export abstract class BaseScene extends Phaser.Scene {
       if (player.sceneId !== this.scene.key) return;
 
       if (!this.playerEntities[sessionId]) {
-        console.log({ player });
         this.playerEntities[sessionId] = this.createPlayer({
           x: player.x,
           y: player.y,
