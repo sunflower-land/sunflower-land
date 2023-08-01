@@ -381,6 +381,10 @@ export function getCropYieldAmount({
     amount += 0.5;
   }
 
+  if (crop === "Corn" && isCollectibleBuilt("Poppy", collectibles)) {
+    amount += 0.1;
+  }
+
   return Number(setPrecision(new Decimal(amount)));
 }
 
