@@ -62,7 +62,7 @@ export const PromotingModal: React.FC<Props> = ({
     ? new Date("2023-08-01")
     : new Date("2023-09-01");
 
-  const price = hasDiscount ? 3.99 : 5.99;
+  const price = 7.99;
 
   const { gameService } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
