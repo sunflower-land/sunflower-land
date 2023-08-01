@@ -8,7 +8,7 @@ import { Player } from "../types/Room";
 import { NPCName, acknowedlgedNPCs } from "lib/npcs";
 
 const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
-  pete: true,
+  "pumpkin' pete": true,
   luna: true,
   birdie: true,
   hank: true,

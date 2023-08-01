@@ -511,7 +511,13 @@ export type Order = {
   readyAt: number;
 };
 
-type QuestNPCName = "pete" | "bert" | "raven" | "timmy" | "tywin" | "cornwell";
+type QuestNPCName =
+  | "pumpkin' pete"
+  | "bert"
+  | "raven"
+  | "timmy"
+  | "tywin"
+  | "cornwell";
 
 export type Quest = Order & {
   from: QuestNPCName;

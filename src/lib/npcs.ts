@@ -22,7 +22,7 @@ export type NPCName =
   | "stella"
   | "gabi"
   | "tywin"
-  | "pete"
+  | "pumpkin' pete"
   | "gordy" // TO ADD
   | "bert"
   | "craig"
@@ -234,7 +234,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Dawn Lamp",
   },
   // Local farmer in Plaza
-  pete: {
+  "pumpkin' pete": {
     body: "Light Brown Farmer Potion",
     background: "Farm Background",
     hair: "Explorer Hair",

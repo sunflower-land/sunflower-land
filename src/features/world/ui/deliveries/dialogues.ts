@@ -258,7 +258,7 @@ export const npcDialogues: Partial<Record<NPCName, DeliveryNPCDialogue>> = {
       "Ah, it seems you haven't received any quest orders from me at the moment. But do not lose hope; your inquisitive nature will soon guide you to exciting new quests in Sunflower Land.",
     ],
   },
-  pete: {
+  "pumpkin' pete": {
     intro: [
       "I have been waiting for you, my friend! Do you have my order ready?",
       "Hey there, pumpkin! I have been busy guiding Bumpkins around the plaza? Did you get my order?",

@@ -71,14 +71,14 @@ export function getQuestSlots(inventory: Inventory) {
 }
 
 export type QuestNPCName =
-  | "pete"
+  | "pumpkin' pete"
   | "bert"
   | "raven"
   | "timmy"
   | "tywin"
   | "cornwell";
 
-const QUEST_NPC_NAMES = ["pete", "raven", "bert", "timmy", "tywin"];
+const QUEST_NPC_NAMES = ["pumpkin' pete", "raven", "bert", "timmy", "tywin"];
 
 export function isOfQuestNPCType(value: string): value is QuestNPCName {
   return (QUEST_NPC_NAMES as string[]).includes(value);

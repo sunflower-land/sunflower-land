@@ -75,7 +75,7 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
     <SpeakingModal
       onClose={() => {
         onClose();
-        acknowledgeNPC("pete");
+        acknowledgeNPC("pumpkin' pete");
       }}
       bumpkinParts={NPC_WEARABLES.birdie}
       message={[

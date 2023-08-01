@@ -7,14 +7,14 @@ interface Props {
   onClose: () => void;
 }
 export const Pete: React.FC<Props> = ({ onClose }) => {
-  if (!acknowedlgedNPCs()["pete"]) {
+  if (!acknowedlgedNPCs()["pumpkin' pete"]) {
     return (
       <SpeakingModal
         onClose={() => {
           onClose();
-          acknowledgeNPC("pete");
+          acknowledgeNPC("pumpkin' pete");
         }}
-        bumpkinParts={NPC_WEARABLES.pete}
+        bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
         message={[
           {
             text: "Welcome to the Pumpkin Plaza! I'm Pumpkin Pete.",
@@ -32,5 +32,5 @@ export const Pete: React.FC<Props> = ({ onClose }) => {
       />
     );
   }
-  return <DeliveryPanel npc={"pete"} onClose={onClose} />;
+  return <DeliveryPanel npc={"pumpkin' pete"} onClose={onClose} />;
 };

@@ -130,7 +130,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
         )}
         {npc === "birdie" && <Birdie onClose={closeModal} />}
         {/* Delivery NPC's */}
-        {npc === "pete" && <Pete onClose={closeModal} />}
+        {npc === "pumpkin' pete" && <Pete onClose={closeModal} />}
         {npc === "blacksmith" && <Blacksmith onClose={closeModal} />}
         {npc === "raven" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "tywin" && <DeliveryPanel npc={npc} onClose={closeModal} />}

@@ -565,17 +565,14 @@ export const OFFLINE_FARM: GameState = {
       {
         id: "123",
         createdAt: Date.now(),
-        readyAt: Date.now(),
-        from: "betty",
+        readyAt: 1690855045072,
+        from: "pumpkin' pete",
         items: {
           Sunflower: 5,
           Pumpkin: 5,
         },
         reward: {
-          sfl: 5,
-          items: {
-            "Dawn Breaker Ticket": 2,
-          },
+          tickets: 2,
         },
       },
       {
