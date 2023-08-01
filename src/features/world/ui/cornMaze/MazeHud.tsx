@@ -23,6 +23,7 @@ import {
   cornMazeMachine,
 } from "features/world/lib/cornmazeMachine";
 import { MAZE_TIME_LIMIT_SECONDS } from "features/game/events/landExpansion/startMaze";
+import { createPortal } from "react-dom";
 
 type Listener = {
   collectCrow: (id: string) => void;
@@ -218,45 +219,43 @@ export const MazeHud: React.FC = () => {
 
   const hasNewHighScore = score > highestScore;
 
-  return (
+  return createPortal(
     <>
-      <div className="fixed inset-0">
-        <div className="absolute top-2 right-2 text-[2.5rem] md:text-xl flex space-x-2 items-center">
+      <div className="absolute top-2 right-2 text-[2.5rem] md:text-xl flex space-x-2 items-center">
+        <img
+          src={crowWithoutShadow}
+          alt="Collected Crows"
+          className="w-10 md:w-14"
+        />
+        <span className="mb-2">{`${score}/${weeklyLostCrowCount}`}</span>
+      </div>
+      <div className="absolute top-2 left-2 flex space-x-2 items-center">
+        {new Array(3).fill(null).map((_, i) => (
           <img
-            src={crowWithoutShadow}
-            alt="Collected Crows"
-            className="w-10 md:w-14"
+            key={i}
+            src={SUNNYSIDE.icons.heart}
+            className="w-10 md:w-14 grayscale opacity-90"
           />
-          <span className="mb-2">{`${score}/${weeklyLostCrowCount}`}</span>
-        </div>
-        <div className="absolute top-2 left-2 flex space-x-2 items-center">
-          {new Array(3).fill(null).map((_, i) => (
-            <img
-              key={i}
-              src={SUNNYSIDE.icons.heart}
-              className="w-10 md:w-14 grayscale opacity-90"
-            />
-          ))}
-        </div>
-        <div className="absolute top-2 left-2 flex space-x-2 items-center">
-          {new Array(health).fill(null).map((_, i) => (
-            <img key={i} src={SUNNYSIDE.icons.heart} className="w-10 md:w-14" />
-          ))}
-        </div>
-        <div
-          className="absolute bottom-2 left-2 cursor-pointer"
-          onClick={handleShowTips}
-        >
-          <img
-            src={SUNNYSIDE.icons.expression_confused}
-            className="h-10 md:h-14"
-          />
-        </div>
-        <TimerDisplay
-          startedAt={startedAt}
-          timeLeft={MAZE_TIME_LIMIT_SECONDS - timeElapsed}
+        ))}
+      </div>
+      <div className="absolute top-2 left-2 flex space-x-2 items-center">
+        {new Array(health).fill(null).map((_, i) => (
+          <img key={i} src={SUNNYSIDE.icons.heart} className="w-10 md:w-14" />
+        ))}
+      </div>
+      <div
+        className="absolute bottom-2 left-2 cursor-pointer"
+        onClick={handleShowTips}
+      >
+        <img
+          src={SUNNYSIDE.icons.expression_confused}
+          className="h-10 md:h-14"
         />
       </div>
+      <TimerDisplay
+        startedAt={startedAt}
+        timeLeft={MAZE_TIME_LIMIT_SECONDS - timeElapsed}
+      />
       {/* Lost */}
       {/* Call action and go back to plaza */}
       <Modal show={lostGame} centered>
@@ -312,6 +311,7 @@ export const MazeHud: React.FC = () => {
           onResume={handleResume}
         />
       </Modal>
-    </>
+    </>,
+    document.body
   );
 };
