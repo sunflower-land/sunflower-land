@@ -22,7 +22,6 @@ import {
 } from "../mmoMachine";
 import { Player } from "../types/Room";
 import { mazeManager } from "../ui/cornMaze/MazeHud";
-import { playerModalManager } from "../ui/PlayerModals";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -429,11 +428,11 @@ export abstract class BaseScene extends Phaser.Scene {
       if (npc) {
         npcModalManager.open(npc);
       } else {
-        playerModalManager.open({
-          id: farmId,
-          clothing,
-          experience,
-        });
+        // playerModalManager.open({
+        //   id: farmId,
+        //   clothing,
+        //   experience,
+        // });
       }
 
       // TODO - open player modals
