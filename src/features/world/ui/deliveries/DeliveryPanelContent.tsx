@@ -202,6 +202,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({
   const intro = useRandomItem(dialogue.intro);
   const positive = useRandomItem(dialogue.positiveDelivery);
   const negative = useRandomItem(dialogue.negativeDelivery);
+  const noOrder = useRandomItem(dialogue.noOrder);
 
   const [selectedOrderId, setSelectedOrderId] = useState<string | undefined>();
 
@@ -225,9 +226,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({
         onClose={onClose}
         message={[
           {
-            text: dialogue.noOrder[
-              Math.floor(Math.random() * dialogue.noOrder.length)
-            ],
+            text: noOrder,
           },
         ]}
       />
