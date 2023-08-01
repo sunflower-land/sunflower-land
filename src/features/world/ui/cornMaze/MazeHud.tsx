@@ -20,9 +20,9 @@ import { TimerDisplay } from "./TimerDisplay";
 import {
   MachineInterpreter,
   MachineState,
+  TIME_LIMIT_SECONDS,
   cornMazeMachine,
 } from "features/world/lib/cornmazeMachine";
-import { MAZE_TIME_LIMIT_SECONDS } from "features/game/events/landExpansion/startMaze";
 
 type Listener = {
   collectCrow: (id: string) => void;
@@ -139,7 +139,7 @@ export const MazeHud: React.FC = () => {
         crowsFound: cornMazeService.state.context.score,
         health,
         timeRemaining:
-          MAZE_TIME_LIMIT_SECONDS - cornMazeService.state.context.timeElapsed,
+          TIME_LIMIT_SECONDS - cornMazeService.state.context.timeElapsed,
       });
       gameService.send("SAVE");
 
@@ -162,10 +162,10 @@ export const MazeHud: React.FC = () => {
     handleMazeComplete();
   }, [lostGame]);
 
-  // if (!activeAttempt) {
-  //   navigate("/world/plaza");
-  //   return null;
-  // }
+  if (!activeAttempt) {
+    navigate("/world/plaza");
+    return null;
+  }
 
   const handleStart = () => {
     cornMazeService.send("START_GAME");
@@ -181,22 +181,13 @@ export const MazeHud: React.FC = () => {
     gameService.send("maze.saved", {
       crowsFound: score,
       health,
-      timeRemaining: MAZE_TIME_LIMIT_SECONDS - timeElapsed,
-      // completedAt: Date.now(),
+      timeRemaining: TIME_LIMIT_SECONDS - timeElapsed,
+      completedAt: Date.now(),
     });
     gameService.send("SAVE");
   };
 
   const handleReturnToPlaza = () => {
-    console.log("Maze Complete");
-    // All game stats are recorded so action is always called when leaving
-    gameService.send("maze.saved", {
-      crowsFound: score,
-      health,
-      timeRemaining: MAZE_TIME_LIMIT_SECONDS - timeElapsed,
-      completedAt: Date.now(),
-    });
-    gameService.send("SAVE");
     navigate("/world/plaza");
   };
 
@@ -254,14 +245,14 @@ export const MazeHud: React.FC = () => {
         </div>
         <TimerDisplay
           startedAt={startedAt}
-          timeLeft={MAZE_TIME_LIMIT_SECONDS - timeElapsed}
+          timeLeft={TIME_LIMIT_SECONDS - timeElapsed}
         />
       </div>
       {/* Lost */}
       {/* Call action and go back to plaza */}
       <Modal show={lostGame} centered>
         <LosingModalContent
-          timeRemaining={MAZE_TIME_LIMIT_SECONDS - timeElapsed}
+          timeRemaining={TIME_LIMIT_SECONDS - timeElapsed}
           onClick={handleReturnToPlaza}
         />
       </Modal>

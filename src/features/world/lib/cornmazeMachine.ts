@@ -1,6 +1,5 @@
 import { createMachine, assign, State, Interpreter } from "xstate";
 import eventBus from "./eventBus";
-import { MAZE_TIME_LIMIT_SECONDS } from "features/game/events/landExpansion/startMaze";
 
 // Define the events for the machine
 type CornMazeEvent =
@@ -49,6 +48,7 @@ export type MachineInterpreter = Interpreter<
   CornMazeState
 >;
 
+export const TIME_LIMIT_SECONDS = 60 * 3;
 const HIT_PENALTY_SECONDS = 5;
 
 // Define the state machine
@@ -87,8 +87,7 @@ export const cornMazeMachine = createMachine<
         {
           target: "lostGame",
           cond: (context) =>
-            context.health <= 0 ||
-            context.timeElapsed >= MAZE_TIME_LIMIT_SECONDS,
+            context.health <= 0 || context.timeElapsed >= TIME_LIMIT_SECONDS,
           actions: () => eventBus.emit("corn_maze:pauseScene"),
         },
         {
