@@ -79,6 +79,11 @@ export const getCookingTime = (
     reducedSecs = reducedSecs.mul(0.9);
   }
 
+  // Luna's Hat - 50% reduction
+  if (bumpkin?.equipped.hat === "Luna's Hat") {
+    reducedSecs = reducedSecs.mul(0.5);
+  }
+
   return reducedSecs.toNumber();
 };
 
