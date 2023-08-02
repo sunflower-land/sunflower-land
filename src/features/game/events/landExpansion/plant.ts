@@ -385,6 +385,10 @@ export function getCropYieldAmount({
     amount += 0.1;
   }
 
+  if (bumpkin.equipped.tool === "Infernal Pitchfork") {
+    amount += 3;
+  }
+
   return Number(setPrecision(new Decimal(amount)));
 }
 
