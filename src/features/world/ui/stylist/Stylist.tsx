@@ -8,6 +8,7 @@ import {
   LIMITED_WEARABLES,
 } from "features/game/types/stylist";
 import { TEST_FARM } from "features/game/lib/constants";
+import { Merch } from "./Merch";
 
 interface Props {
   onClose: () => void;
@@ -19,8 +20,9 @@ export const Stylist: React.FC<Props> = ({ onClose }) => {
     <CloseButtonPanel
       bumpkinParts={NPC_WEARABLES.stella}
       tabs={[
-        { icon: SUNNYSIDE.icons.heart, name: "Wearables" },
+        { icon: SUNNYSIDE.icons.wardrobe, name: "Wearables" },
         { icon: SUNNYSIDE.icons.timer, name: "Limited" },
+        { icon: SUNNYSIDE.icons.heart, name: "Merch" },
       ]}
       onClose={onClose}
       currentTab={tab}
@@ -30,6 +32,7 @@ export const Stylist: React.FC<Props> = ({ onClose }) => {
       {tab === 1 && (
         <StylistWearables wearables={LIMITED_WEARABLES(TEST_FARM)} />
       )}
+      {tab === 2 && <Merch />}
     </CloseButtonPanel>
   );
 };
