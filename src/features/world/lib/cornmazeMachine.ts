@@ -53,7 +53,7 @@ export type MachineInterpreter = Interpreter<
   CornMazeState
 >;
 
-const HIT_PENALTY_SECONDS = 5;
+export const HIT_PENALTY_SECONDS = 5;
 
 // Define the state machine
 export const cornMazeMachine = createMachine<

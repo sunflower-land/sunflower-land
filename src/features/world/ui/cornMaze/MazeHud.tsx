@@ -1,5 +1,5 @@
 import { SUNNYSIDE } from "assets/sunnyside";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Context } from "features/game/GameProvider";
@@ -21,6 +21,7 @@ import crowWithoutShadow from "assets/decorations/crow_without_shadow.png";
 
 import { TimerDisplay } from "./TimerDisplay";
 import {
+  HIT_PENALTY_SECONDS,
   MachineInterpreter,
   MachineState,
   cornMazeMachine,
@@ -29,6 +30,7 @@ import { MAZE_TIME_LIMIT_SECONDS } from "features/game/events/landExpansion/star
 import { createPortal } from "react-dom";
 import { NoActiveAttemptContent } from "./NoAttemptModalContent";
 import { Label } from "components/ui/Label";
+import classNames from "classnames";
 
 type Listener = {
   collectCrow: (id: string) => void;
@@ -133,6 +135,8 @@ export const MazeHud: React.FC = () => {
   const noActiveAttempt = useSelector(cornMazeService, _noActiveAttempt);
   const attemptCompletedAt = useSelector(cornMazeService, _attemptCompletedAt);
 
+  const [showTimePenalty, setShowTimePenalty] = useState(false);
+
   useEffect(() => {
     mazeManager.listen({
       collectCrow: () => {
@@ -140,6 +144,11 @@ export const MazeHud: React.FC = () => {
       },
       hit: () => {
         cornMazeService.send("HIT");
+        setShowTimePenalty(true);
+
+        setTimeout(() => {
+          setShowTimePenalty(false);
+        }, 2000);
       },
       sceneLoaded: () => {
         cornMazeService.send("SCENE_LOADED");
@@ -192,18 +201,7 @@ export const MazeHud: React.FC = () => {
     cornMazeService.send("RESUME_GAME");
   };
 
-  const handleMazeComplete = () => {
-    // gameService.send("maze.saved", {
-    //   crowsFound: score,
-    //   health,
-    //   timeRemaining: MAZE_TIME_LIMIT_SECONDS - timeElapsed,
-    //   // completedAt: Date.now(),
-    // });
-    // gameService.send("SAVE");
-  };
-
   const handleSaveAttempt = (attempt: Omit<SaveMazeAction, "type">) => {
-    console.log("saved attempt", attempt);
     gameService.send("maze.saved", attempt);
     gameService.send("SAVE");
   };
@@ -259,6 +257,16 @@ export const MazeHud: React.FC = () => {
           <img key={i} src={SUNNYSIDE.icons.heart} className="w-10 md:w-14" />
         ))}
       </div>
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 flex items-center">
+        <span
+          className={classNames("pulsating transition-opacity duration-300", {
+            "opacity-0": !showTimePenalty,
+            "opacity-100": showTimePenalty,
+          })}
+        >
+          {`-${HIT_PENALTY_SECONDS} secs`}
+        </span>
+      </div>
       <div
         className="absolute bottom-2 left-2 cursor-pointer"
         onClick={handleShowTips}
@@ -278,7 +286,7 @@ export const MazeHud: React.FC = () => {
         <LosingModalContent
           timeRemaining={MAZE_TIME_LIMIT_SECONDS - timeElapsed}
           onClick={() => {
-            // If attempt has not been finalized, save the attempt with the completed at time
+            // If active attempt has not been "completed", save the attempt again with the completed at time
             if (activeAttempt) {
               handleSaveAttempt({
                 crowsFound: score,

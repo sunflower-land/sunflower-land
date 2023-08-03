@@ -37,10 +37,7 @@ export const Luna: React.FC<Props> = ({ onClose, onNavigate }) => {
     if (activeAttempt) {
       return [
         {
-          text: "Hey there, looks like you haven't finished looking for my crows.",
-        },
-        {
-          text: "I wish I could wave my wand and make it so, but maintaining that mystical power takes a bit of coin, you know? Usually, it'd cost you just 5 SFL, but because i'm feeling nice this week, I'll let you in for free!",
+          text: "Hey there, looks like you haven't finished looking for my crows. Your last attempt was saved.",
           actions: [
             {
               text: "Send me back!",
