@@ -11,14 +11,23 @@ export class CryptoComStrategy implements IWeb3ConnectStrategy {
 
   public async initialize(): Promise<void> {
     const _window: any = window;
-    this._provider =
-      typeof _window.deficonnectProvider !== "undefined"
-        ? _window.deficonnectProvider
-        : undefined;
+
+    this._provider = undefined;
+
+    if (typeof _window.deficonnectProvider !== "undefined") {
+      this._provider = _window.deficonnectProvider;
+    }
+
+    if (navigator?.userAgent?.includes("DeFiWallet") && window.ethereum) {
+      this._provider = window.ethereum;
+    }
   }
 
   public isAvailable(): boolean {
-    return typeof (window as any).deficonnectProvider !== "undefined";
+    return (
+      typeof (window as any).deficonnectProvider !== "undefined" ||
+      (navigator?.userAgent?.includes("DeFiWallet") && window.ethereum)
+    );
   }
 
   public getProvider(): any {
