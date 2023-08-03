@@ -27,9 +27,7 @@ import { WoodlandsScene } from "./scenes/WoodlandsScene";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Preloader } from "./scenes/Preloader";
 import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
-import { DawnBreakerScene } from "./scenes/DawnBreakerScene";
 import { Label } from "components/ui/Label";
-import { MarcusHomeScene } from "./scenes/MarcusHomeScene";
 import { WorldIntroduction } from "./ui/WorldIntroduction";
 import { CommunityScene } from "./scenes/CommunityScene";
 import { CommunityModals } from "./ui/CommunityModalManager";
@@ -71,7 +69,6 @@ export const PhaserComponent: React.FC<Props> = ({
     : [
         Preloader,
         CornScene,
-        DawnBreakerScene,
         PlazaScene,
         AuctionScene,
         WoodlandsScene,
@@ -82,7 +79,6 @@ export const PhaserComponent: React.FC<Props> = ({
         WindmillFloorScene,
         ClothesShopScene,
         DecorationShopScene,
-        MarcusHomeScene,
       ];
 
   useEffect(() => {
