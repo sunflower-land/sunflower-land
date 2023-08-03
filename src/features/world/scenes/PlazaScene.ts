@@ -155,14 +155,6 @@ export class PlazaScene extends BaseScene {
       const nature1 = this.sound.add("nature_1");
       nature1.play({ loop: true, volume: 0.01 });
     }
-    if (!this.sound.get("nature_2")) {
-      const nature2 = this.sound.add("nature_2");
-      nature2.play({ loop: true, volume: 0.01 });
-    }
-    if (!this.sound.get("nature_3")) {
-      const nature3 = this.sound.add("nature_3");
-      nature3.play({ loop: true, volume: 0.01 });
-    }
 
     // Boat SFX
     if (!this.sound.get("boat")) {

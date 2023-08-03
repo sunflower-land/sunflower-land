@@ -45,7 +45,6 @@ import { Introduction } from "./components/Introduction";
 import { NoTownCenter } from "../components/NoTownCenter";
 import { SpecialOffer } from "./components/SpecialOffer";
 import { Purchasing } from "../components/Purchasing";
-import { DawnBreaker } from "features/dawnBreaker/DawnBreaker";
 import { Transacting } from "../components/Transacting";
 import { Minting } from "../components/Minting";
 import { ClaimAuction } from "../components/auctionResults/ClaimAuction";
@@ -195,10 +194,6 @@ export const Game: React.FC = () => {
             <Route path="/snow" element={<SnowKingdom key="snow" />} />
             <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
             <Route path="/beach" element={<BeachParty key="beach-party" />} />
-            <Route
-              path="/dawn-breaker"
-              element={<DawnBreaker key="dawn-breaker" />}
-            />
             <Route
               path="/headquarters"
               element={<HeadQuarters key="headquarters" />}
