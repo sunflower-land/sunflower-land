@@ -170,8 +170,8 @@ export class CornScene extends BaseScene {
     this.load.audio("ouph", SOUNDS.voices.ouph);
     this.load.audio("crow_collected", SOUNDS.notifications.crow_collected);
 
-    if (!this.sound.get("nature_3")) {
-      const nature = this.sound.add("nature_3");
+    if (!this.sound.get("nature_1")) {
+      const nature = this.sound.add("nature_1");
       nature.play({ loop: true, volume: 0.05 });
     }
 
