@@ -140,13 +140,12 @@ const ENEMIES: Enemy[] = [
 
 export class CornScene extends BaseScene {
   sceneId: SceneId = "corn_maze";
-  score = 0;
-  health = 3;
   // Don't allow portal hit to be triggered multiple times
   canHandlePortalHit = true;
   enemies?: Phaser.GameObjects.Group;
   spotlight?: Phaser.GameObjects.Image;
   mazePortal?: Phaser.GameObjects.Sprite;
+  portalTravelSound?: Phaser.Sound.BaseSound;
 
   constructor() {
     super({
@@ -171,23 +170,7 @@ export class CornScene extends BaseScene {
     this.load.audio("ouph", SOUNDS.voices.ouph);
     this.load.audio("crow_collected", SOUNDS.notifications.crow_collected);
 
-    if (!this.sound.get("nature_1")) {
-      const nature = this.sound.add("nature_1");
-      nature.play({ loop: true, volume: 0.05 });
-    }
-
-    const portal_travel = this.sound.add("portal_travel");
-    portal_travel.play({ volume: 0.5 });
-
-    // Shut down the sound when the scene changes
-    this.events.once("shutdown", () => {
-      portal_travel.play({ volume: 0.5 });
-      if (portal_travel.isPaused) {
-        this.sound.getAllPlaying().forEach((sound) => {
-          sound.destroy();
-        });
-      }
-    });
+    this.setUpSound();
   }
 
   async create() {
@@ -223,6 +206,25 @@ export class CornScene extends BaseScene {
     });
 
     this.canHandlePortalHit = true;
+  }
+
+  setUpSound() {
+    this.portalTravelSound = this.sound.add("portal_travel");
+
+    // Shut down the sound when the scene changes
+    // this.events.once("shutdown", () => {
+    //   this.portalTravelSound?.play({ volume: 0.5 });
+    //   if (!this.portalTravelSound || this.portalTravelSound.isPaused) {
+    //     this.sound.getAllPlaying().forEach((sound) => {
+    //       sound.destroy();
+    //     });
+    //   }
+    // });
+
+    if (!this.sound.get("nature_3")) {
+      const nature = this.sound.add("nature_3");
+      nature.play({ loop: true, volume: 0.05 });
+    }
   }
 
   setUpSpotlight() {
@@ -437,8 +439,10 @@ export class CornScene extends BaseScene {
       tween.pause();
       container.idle();
       setTimeout(() => {
-        tween.resume();
-        container.walk();
+        if (tween && tween.isPaused()) {
+          tween.resume();
+          container.walk();
+        }
       }, randomHoldTime);
     } else if (
       enemy.target.direction === "vertical" &&

@@ -321,7 +321,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     setTimeout(() => {
       this.invincible = false;
-      tween.remove();
+
+      if (tween && tween.isPlaying()) {
+        tween.remove();
+      }
     }, 2000);
   }
 }

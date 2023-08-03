@@ -28,6 +28,7 @@ interface CornMazeContext {
   previousTimElapsed: number;
   pausedAt: number;
   activeAttempt?: MazeAttempt;
+  attemptCompletedAt?: number;
 }
 
 export type CornMazeState = {
@@ -101,7 +102,12 @@ export const cornMazeMachine = createMachine<
           cond: (context) =>
             context.health <= 0 ||
             context.timeElapsed >= MAZE_TIME_LIMIT_SECONDS,
-          actions: () => eventBus.emit("corn_maze:pauseScene"),
+          actions: [
+            () => eventBus.emit("corn_maze:pauseScene"),
+            assign({
+              attemptCompletedAt: (_) => Date.now(),
+            }),
+          ],
         },
         {
           target: "wonGame",

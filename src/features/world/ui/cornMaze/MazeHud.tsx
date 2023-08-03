@@ -80,6 +80,8 @@ const _score = (state: MachineState) => state.context.score;
 const _health = (state: MachineState) => state.context.health;
 const _timeElapsed = (state: MachineState) => state.context.timeElapsed;
 const _startedAt = (state: MachineState) => state.context.startedAt;
+const _attemptCompletedAt = (state: MachineState) =>
+  state.context.attemptCompletedAt;
 const _paused = (state: MachineState) => state.matches("paused");
 const _wonGame = (state: MachineState) => state.matches("wonGame");
 const _lostGame = (state: MachineState) => state.matches("lostGame");
@@ -128,6 +130,7 @@ export const MazeHud: React.FC = () => {
   const lostGame = useSelector(cornMazeService, _lostGame);
   const showingTips = useSelector(cornMazeService, _showingTips);
   const noActiveAttempt = useSelector(cornMazeService, _noActiveAttempt);
+  const attemptCompletedAt = useSelector(cornMazeService, _attemptCompletedAt);
 
   useEffect(() => {
     mazeManager.listen({
@@ -155,13 +158,16 @@ export const MazeHud: React.FC = () => {
     // If a player wins then send off the data to the server, show modal, go back to plaza
 
     const saveGameState = (event: BeforeUnloadEvent) => {
-      gameService.send("maze.saved", {
+      // Save attempt information if the player refreshes the browser
+      handleSaveAttempt({
         crowsFound: cornMazeService.state.context.score,
         health,
         timeRemaining:
           MAZE_TIME_LIMIT_SECONDS - cornMazeService.state.context.timeElapsed,
+        ...(cornMazeService.state.context.attemptCompletedAt && {
+          completedAt: cornMazeService.state.context.attemptCompletedAt,
+        }),
       });
-      gameService.send("SAVE");
 
       event.preventDefault();
       event.returnValue = "";
@@ -179,7 +185,11 @@ export const MazeHud: React.FC = () => {
   useEffect(() => {
     if (!startedAt) return;
 
-    handleMazeComplete();
+    handleSaveAttempt({
+      crowsFound: score,
+      health,
+      timeRemaining: MAZE_TIME_LIMIT_SECONDS - timeElapsed,
+    });
   }, [lostGame]);
 
   const handleStart = () => {
@@ -191,28 +201,20 @@ export const MazeHud: React.FC = () => {
   };
 
   const handleMazeComplete = () => {
-    // All game stats are recorded so action is always called when leaving
-    gameService.send("maze.saved", {
-      crowsFound: score,
-      health,
-      timeRemaining: MAZE_TIME_LIMIT_SECONDS - timeElapsed,
-      // completedAt: Date.now(),
-    });
-    gameService.send("SAVE");
+    // gameService.send("maze.saved", {
+    //   crowsFound: score,
+    //   health,
+    //   timeRemaining: MAZE_TIME_LIMIT_SECONDS - timeElapsed,
+    //   // completedAt: Date.now(),
+    // });
+    // gameService.send("SAVE");
   };
 
   const handleSaveAttempt = (attempt: Omit<SaveMazeAction, "type">) => {
+    console.log("saved attempt", attempt);
     gameService.send("maze.saved", attempt);
     gameService.send("SAVE");
   };
-
-  //     gameService.send("maze.saved", {
-  //   crowsFound: score,
-  //   health,
-  //   timeRemaining: MAZE_TIME_LIMIT_SECONDS - timeElapsed,
-  //   completedAt: Date.now(),
-  // });
-  gameService.send("SAVE");
 
   const handleReturnToPlaza = () => {
     navigate("/world/plaza");
@@ -238,7 +240,7 @@ export const MazeHud: React.FC = () => {
 
   return createPortal(
     <>
-      <div className="absolute top-2 right-2 text-[2.5rem] md:text-xl flex flex-col items-end space-y-2 items-center">
+      <div className="absolute top-2 right-2 text-[2.5rem] md:text-xl flex flex-col items-end space-y-2">
         <div className="flex space-x-1 items-center">
           <img
             src={crowWithoutShadow}
@@ -283,7 +285,19 @@ export const MazeHud: React.FC = () => {
       <Modal show={lostGame} centered>
         <LosingModalContent
           timeRemaining={MAZE_TIME_LIMIT_SECONDS - timeElapsed}
-          onClick={handleReturnToPlaza}
+          onClick={() => {
+            // If attempt has not been finalized, save the attempt with the completed at time
+            if (activeAttempt) {
+              handleSaveAttempt({
+                crowsFound: score,
+                health,
+                timeRemaining: MAZE_TIME_LIMIT_SECONDS - timeElapsed,
+                completedAt: attemptCompletedAt,
+              });
+            }
+
+            handleReturnToPlaza();
+          }}
         />
       </Modal>
       {/* Won: Found all crows */}
@@ -334,7 +348,7 @@ export const MazeHud: React.FC = () => {
         />
       </Modal>
       {/* No active attempt modal */}
-      <Modal onHide={handleResume} centered show={noActiveAttempt}>
+      <Modal onHide={handleReturnToPlaza} centered show={noActiveAttempt}>
         <NoActiveAttemptContent onClick={handleReturnToPlaza} />
       </Modal>
     </>,
