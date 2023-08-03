@@ -224,8 +224,6 @@ export const MazeHud: React.FC = () => {
     return calculateFeathersEarned(weeklyLostCrowCount, score, claimedFeathers);
   };
 
-  if (!sceneLoaded) return null;
-
   const hasNewHighScore = score > highestScore;
 
   return createPortal(

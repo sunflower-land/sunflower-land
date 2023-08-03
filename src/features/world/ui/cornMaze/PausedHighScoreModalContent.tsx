@@ -25,7 +25,7 @@ export const PausedHighScoreModalContent: React.FC<Props> = ({
           {`You found ${score} of my mischievous crows! That's a new high score! If you end now, I will bestow upon you ${feathersEarned} valuable crow feathers.`}
         </p>
         <p className="mb-1">Are you sure you want to end now?</p>
-        <p className="text-xxs italic">{`Feathers earned this week: ${claimedFeathers}/100`}</p>
+        <p className="text-xxs italic">{`Feathers already earned this week: ${claimedFeathers}/100`}</p>
       </div>
       <div className="flex flex-col-reverse space-y-1 space-y-reverse md:flex-row md:space-y-0 md:space-x-1">
         <Button onClick={onContinue}>Keep Playing</Button>
