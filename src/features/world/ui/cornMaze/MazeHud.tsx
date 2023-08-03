@@ -28,6 +28,7 @@ import {
 import { MAZE_TIME_LIMIT_SECONDS } from "features/game/events/landExpansion/startMaze";
 import { createPortal } from "react-dom";
 import { NoActiveAttemptContent } from "./NoAttemptModalContent";
+import { Label } from "components/ui/Label";
 
 type Listener = {
   collectCrow: (id: string) => void;
@@ -237,13 +238,18 @@ export const MazeHud: React.FC = () => {
 
   return createPortal(
     <>
-      <div className="absolute top-2 right-2 text-[2.5rem] md:text-xl flex space-x-2 items-center">
-        <img
-          src={crowWithoutShadow}
-          alt="Collected Crows"
-          className="w-10 md:w-14"
-        />
-        <span className="mb-2">{`${score}/${weeklyLostCrowCount}`}</span>
+      <div className="absolute top-2 right-2 text-[2.5rem] md:text-xl flex flex-col items-end space-y-2 items-center">
+        <div className="flex space-x-1 items-center">
+          <img
+            src={crowWithoutShadow}
+            alt="Collected Crows"
+            className="w-10 md:w-14"
+          />
+          <span className="mb-2">{`${score}/${weeklyLostCrowCount}`}</span>
+        </div>
+        {highestScore > 0 && (
+          <Label type="info">{`Highest score: ${highestScore}`}</Label>
+        )}
       </div>
       <div className="absolute top-2 left-2 flex space-x-2 items-center">
         {new Array(3).fill(null).map((_, i) => (
