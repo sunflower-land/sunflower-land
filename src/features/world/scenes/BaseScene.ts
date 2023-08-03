@@ -314,6 +314,13 @@ export abstract class BaseScene extends Phaser.Scene {
     camera.setPosition(Math.max(offsetX, 0), Math.max(offsetY, 0));
 
     camera.fadeIn();
+
+    camera.once("camerafadeincomplete", () => {
+      if (this.sceneId === "corn_maze") {
+        // Start the corn maze pauses so players can't move around before starting
+        this.scene.pause();
+      }
+    });
   }
 
   public initialiseMMO() {
@@ -500,6 +507,7 @@ export abstract class BaseScene extends Phaser.Scene {
             this.cameras.main.on(
               "camerafadeoutcomplete",
               () => {
+                console.log("fade out complete in base scene");
                 this.switchToScene = warpTo;
               },
               this

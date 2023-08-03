@@ -146,6 +146,7 @@ export class CornScene extends BaseScene {
   canHandlePortalHit = true;
   enemies?: Phaser.GameObjects.Group;
   spotlight?: Phaser.GameObjects.Image;
+  mazePortal?: Phaser.GameObjects.Sprite;
 
   constructor() {
     super({
@@ -209,6 +210,11 @@ export class CornScene extends BaseScene {
       this.scene.pause();
     });
 
+    eventBus.on("corn_maze:startScene", () => {
+      this.scene.resume();
+      this.mazePortal?.play("maze_portal_anim", true);
+    });
+
     eventBus.on("corn_maze:resumeScene", () => {
       this.scene.resume();
       setTimeout(() => {
@@ -237,7 +243,7 @@ export class CornScene extends BaseScene {
   }
 
   setUpPortal() {
-    const maze_portal = this.add.sprite(320, 319, "maze_portal");
+    this.mazePortal = this.add.sprite(320, 319, "maze_portal");
 
     this.anims.create({
       key: "maze_portal_anim",
@@ -248,7 +254,6 @@ export class CornScene extends BaseScene {
       repeat: -1,
       frameRate: 10,
     });
-    maze_portal.play("maze_portal_anim", true);
   }
 
   setUpLuna() {
