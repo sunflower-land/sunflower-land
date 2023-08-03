@@ -7,6 +7,10 @@ import { buyDecoration } from "./buyDecoration";
 const GAME_STATE: GameState = TEST_FARM;
 
 describe("buyDecoration", () => {
+  beforeEach(() => {
+    jest.useRealTimers();
+  });
+
   it("throws an error if item is not a decoration", () => {
     expect(() =>
       buyDecoration({
@@ -270,6 +274,11 @@ describe("buyDecoration", () => {
   });
 
   it("throws an error if max limit reached", () => {
+    const timers = jest.useFakeTimers();
+
+    // Dawn breaker time
+    timers.setSystemTime(new Date("2023-07-31"));
+
     expect(() =>
       buyDecoration({
         state: {
@@ -320,6 +329,10 @@ describe("buyDecoration", () => {
   });
 
   it("places a limited decoration when the player has a seasonal banner", () => {
+    const timers = jest.useFakeTimers();
+
+    timers.setSystemTime(new Date("2023-07-30T00:00:00.000Z"));
+
     const state = buyDecoration({
       state: {
         ...GAME_STATE,

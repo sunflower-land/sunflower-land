@@ -326,6 +326,7 @@ export class CornScene extends BaseScene {
           updatedAt: 0,
         },
         direction: enemy.target.startFacingLeft ? "left" : "right",
+        isEnemy: true,
       });
 
       container.setDepth(enemy.y);
