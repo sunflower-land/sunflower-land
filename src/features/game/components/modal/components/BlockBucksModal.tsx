@@ -273,7 +273,7 @@ export const BlockBucksModal: React.FC<Props> = ({
       <>
         <div
           className="overflow-y-auto scrollable "
-          style={{ maxHeight: "250px" }}
+          style={{ maxHeight: "280px" }}
         >
           <p className="text-xxs italic text-center pt-2">
             *Prices exclude transaction fees.
