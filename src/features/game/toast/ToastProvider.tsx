@@ -17,7 +17,7 @@ export type ToastItem = InventoryItemName | "SFL" | "XP";
  * @param id The toast ID.
  * @param hidden Whether the toast is visible or not.
  */
-interface Toast {
+export interface Toast {
   item: ToastItem;
   difference: Decimal;
   id: string;
@@ -96,6 +96,8 @@ export const ToastProvider: FC = ({ children }) => {
   const addToast = (toast: Omit<Toast, "id" | "difference" | "hidden">) => {
     const id = `${Date.now()}-${randomID()}-${toast.item}`;
     const difference = getDifference(toast.item);
+
+    if (difference.equals(0)) return;
 
     setToastsList((toastList) => {
       // do not add new toast if the quantity difference of the toast is the same as that of existing toasts with the matching item

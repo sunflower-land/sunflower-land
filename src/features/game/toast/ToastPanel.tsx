@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { ToastContext, ToastItem } from "./ToastProvider";
+import { Toast, ToastContext, ToastItem } from "./ToastProvider";
 import { Context } from "../GameProvider";
 import { PIXEL_SCALE } from "../lib/constants";
 import { InnerPanel } from "components/ui/Panel";
@@ -28,6 +28,7 @@ export const ToastPanel: React.FC = () => {
   const { gameService } = useContext(Context);
   const { toastsList, setInventory, setBalance, setExperience } =
     useContext(ToastContext);
+  const [visibleToasts, setVisibleToasts] = useState<Toast[]>([]);
   const [showToasts, setShowToasts] = useState<boolean>(false);
 
   const oldInventory = useRef<Partial<Record<InventoryItemName, Decimal>>>();
@@ -84,7 +85,10 @@ export const ToastPanel: React.FC = () => {
 
   // show toast only if there are toasts in the toast list
   useEffect(() => {
-    setShowToasts(toastsList.length >= 1);
+    const visibleToasts = toastsList.filter((toast) => !toast.hidden);
+    setVisibleToasts(visibleToasts);
+
+    setShowToasts(visibleToasts.length >= 1);
   }, [toastsList]);
 
   return (
@@ -99,14 +103,13 @@ export const ToastPanel: React.FC = () => {
             }}
           >
             {/* show visible toasts only */}
-            {toastsList
+            {visibleToasts
               .slice(0, MAX_TOAST)
-              .filter((toast) => !toast.hidden)
               .map(({ item, difference, id }) => (
                 <div className="flex items-center justify-center" key={id}>
                   <img className="h-6" src={getToastIcon(item)} />
                   <span className="text-sm mx-1 mb-0.5">{`${
-                    difference.greaterThanOrEqualTo(0) ? "+" : ""
+                    difference.greaterThan(0) ? "+" : ""
                   }${setPrecision(difference)}`}</span>
                 </div>
               ))}
