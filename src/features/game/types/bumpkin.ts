@@ -730,7 +730,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Pumpkin Shirt": "shirt",
   Halo: "hat",
   Kama: "tool",
-  "Grey Merch Hoodie":"shirt",
+  "Grey Merch Hoodie": "shirt",
 };
 
 export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
