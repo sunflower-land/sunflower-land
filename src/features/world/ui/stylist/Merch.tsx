@@ -11,6 +11,7 @@ const MERCH_ITEMS: BumpkinItem[] = [
   "Merch Bucket Hat",
   "Merch Coffee Mug",
   "Merch Hoodie",
+  "Grey Merch Hoodie",
   "Merch Tee",
   "Witches' Eve Tee",
 ];
