@@ -43,13 +43,14 @@ import { StoneHaven } from "features/pumpkinPlaza/StoneHaven";
 import { WalletOnboarding } from "features/tutorials/wallet/WalletOnboarding";
 import { Introduction } from "./components/Introduction";
 import { NoTownCenter } from "../components/NoTownCenter";
-import { Promoting } from "./components/Promoting";
+import { SpecialOffer } from "./components/SpecialOffer";
 import { Purchasing } from "../components/Purchasing";
 import { DawnBreaker } from "features/dawnBreaker/DawnBreaker";
 import { Transacting } from "../components/Transacting";
 import { Minting } from "../components/Minting";
 import { ClaimAuction } from "../components/auctionResults/ClaimAuction";
 import { RefundAuction } from "../components/auctionResults/RefundAuction";
+import { Promo } from "./components/Promo";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -83,12 +84,13 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   depositing: true,
   upgradingGuestGame: false,
   introduction: false,
-  promoting: false,
+  specialOffer: false,
   transacting: true,
   minting: true,
   auctionResults: false,
   claimAuction: false,
   refundAuction: false,
+  promo: true,
 };
 
 // State change selectors
@@ -128,6 +130,7 @@ const isTransacting = (state: MachineState) => state.matches("transacting");
 const isClaimAuction = (state: MachineState) => state.matches("claimAuction");
 const isRefundingAuction = (state: MachineState) =>
   state.matches("refundAuction");
+const isPromoing = (state: MachineState) => state.matches("promo");
 
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -257,6 +260,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const minting = useSelector(gameService, isMinting);
   const claimingAuction = useSelector(gameService, isClaimAuction);
   const refundAuction = useSelector(gameService, isRefundingAuction);
+  const promo = useSelector(gameService, isPromoing);
 
   useInterval(() => {
     gameService.send("SAVE");
@@ -330,6 +334,7 @@ export const GameWrapper: React.FC = ({ children }) => {
           {transacting && <Transacting />}
           {depositing && <Loading text="Depositing" />}
           {minting && <Minting />}
+          {promo && <Promo />}
         </Panel>
       </Modal>
 
@@ -337,7 +342,7 @@ export const GameWrapper: React.FC = ({ children }) => {
       {claimingAuction && <ClaimAuction />}
       {refundAuction && <RefundAuction />}
 
-      <Promoting />
+      <SpecialOffer />
       <Introduction />
 
       {children}

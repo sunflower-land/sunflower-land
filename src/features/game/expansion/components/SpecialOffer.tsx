@@ -16,19 +16,19 @@ import { secondsToString } from "lib/utils/time";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
 
-const isPromoting = (state: MachineState) => state.matches("promoting");
+const isPromoting = (state: MachineState) => state.matches("specialOffer");
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
-export const Promoting: React.FC = () => {
+export const SpecialOffer: React.FC = () => {
   const { gameService } = useContext(Context);
-  const promoting = useSelector(gameService, isPromoting);
+  const specialOffer = useSelector(gameService, isPromoting);
   const inventory = useSelector(gameService, _inventory);
 
   const hasPreviousSeasonBanner = !!inventory["Dawn Breaker Banner"];
 
   return (
     <PromotingModal
-      isOpen={promoting}
+      isOpen={specialOffer}
       hasDiscount={hasPreviousSeasonBanner}
       hasPurchased={!!inventory["Witches' Eve Banner"]}
       onClose={() => {

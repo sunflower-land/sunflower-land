@@ -27,7 +27,7 @@ import {
   InventoryItemName,
   PlacedLamp,
 } from "../types/game";
-import { loadSession, MintedAt } from "../actions/loadSession";
+import { getPromoCode, loadSession, MintedAt } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { CollectibleName } from "../types/craftables";
@@ -328,7 +328,8 @@ export type BlockchainState = {
     | "transacting"
     | "depositing"
     | "landscaping"
-    | "promoting"
+    | "specialOffer"
+    | "promo"
     | "noBumpkinFound"
     | "noTownCenter"
     | "coolingDown"
@@ -651,8 +652,9 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
+
             {
-              target: "promoting",
+              target: "specialOffer",
               cond: (context) =>
                 !getSeasonPassRead() &&
                 Date.now() < new Date("2023-08-01").getTime() &&
@@ -664,6 +666,15 @@ export function startGame(authContext: AuthContext) {
               // to playing. It does not target notifying.
               target: "auctionResults",
               cond: (context: Context) => !!context.state.auctioneer.bid,
+            },
+            {
+              target: "promo",
+              cond: (context) => {
+                return (
+                  context.state.bumpkin?.experience === 0 &&
+                  getPromoCode() === "crypto-com"
+                );
+              },
             },
             {
               target: "playing",
@@ -680,13 +691,20 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-        promoting: {
+        specialOffer: {
           on: {
             ACKNOWLEDGE: {
               target: "notifying",
             },
             PURCHASE_ITEM: {
               target: "purchasing",
+            },
+          },
+        },
+        promo: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "playing",
             },
           },
         },
