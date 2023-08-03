@@ -8,16 +8,18 @@ import crowWithoutShadow from "assets/decorations/crow_without_shadow.png";
 import crowFeather from "assets/decorations/crow_feather_large.png";
 
 interface Props {
-  gameActive: boolean;
+  hasSavedProgress: boolean;
   onStart: () => void;
-  onResume: () => void;
 }
 
 export const TipsModalContent: React.FC<Props> = ({
-  gameActive,
+  hasSavedProgress,
   onStart,
-  onResume,
 }) => {
+  const buttonText = hasSavedProgress
+    ? "Resume Incomplete Attempt"
+    : "Let's Go!";
+
   return (
     <Panel
       bumpkinParts={{
@@ -34,7 +36,7 @@ export const TipsModalContent: React.FC<Props> = ({
             </div>
             <div className="flex items-center space-x-2">
               <img src={SUNNYSIDE.icons.heart} alt="Health" className="w-6" />
-              <p>Avoid all the enemies. Lose 5s each hit!</p>
+              <p>Avoid all the enemies. Lose 5 secs time each hit!</p>
             </div>
             <div className="flex items-center space-x-2">
               <img
@@ -46,12 +48,11 @@ export const TipsModalContent: React.FC<Props> = ({
             </div>
             <div className="flex items-center space-x-2">
               <img src={crowFeather} alt="feather" className="h-6" />
-              <p>{`Earn up to 100 feathers each week.`}</p>
+              <p>{`Earn up to 100 feathers per week`}</p>
             </div>
           </div>
         </div>
-        {!gameActive && <Button onClick={onStart}>{`Let's Go!`}</Button>}
-        {gameActive && <Button onClick={onResume}>{`Got it`}</Button>}
+        <Button onClick={onStart}>{buttonText}</Button>
       </>
     </Panel>
   );

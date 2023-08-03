@@ -82,6 +82,7 @@ const _timeElapsed = (state: MachineState) => state.context.timeElapsed;
 const _startedAt = (state: MachineState) => state.context.startedAt;
 const _attemptCompletedAt = (state: MachineState) =>
   state.context.attemptCompletedAt;
+const _pausedAt = (state: MachineState) => state.context.pausedAt;
 const _paused = (state: MachineState) => state.matches("paused");
 const _wonGame = (state: MachineState) => state.matches("wonGame");
 const _lostGame = (state: MachineState) => state.matches("lostGame");
@@ -117,7 +118,6 @@ export const MazeHud: React.FC = () => {
       pausedAt: 0,
       activeAttempt,
     },
-    devTools: true,
   }) as unknown as MachineInterpreter;
 
   const sceneLoaded = useSelector(cornMazeService, _sceneLoaded);
@@ -126,6 +126,7 @@ export const MazeHud: React.FC = () => {
   const timeElapsed = useSelector(cornMazeService, _timeElapsed);
   const startedAt = useSelector(cornMazeService, _startedAt);
   const paused = useSelector(cornMazeService, _paused);
+  const pausedAt = useSelector(cornMazeService, _pausedAt);
   const wonGame = useSelector(cornMazeService, _wonGame);
   const lostGame = useSelector(cornMazeService, _lostGame);
   const showingTips = useSelector(cornMazeService, _showingTips);
@@ -147,15 +148,6 @@ export const MazeHud: React.FC = () => {
         cornMazeService.send("PORTAL_HIT");
       },
     });
-
-    // Enter the maze
-    // Look for active attempt
-    // If no active attempt, show modal that explains you need to head back to the plaza to start a new attempt
-    // If active attempt, start the maze
-    // If player loses then send off the data to the server, show modal
-    // Need to find a solution to the completed at issue
-    // If a player hits the portal, show a modal, on confirmation send off the data to the server, return to plaza
-    // If a player wins then send off the data to the server, show modal, go back to plaza
 
     const saveGameState = (event: BeforeUnloadEvent) => {
       // Save attempt information if the player refreshes the browser
@@ -301,19 +293,24 @@ export const MazeHud: React.FC = () => {
         />
       </Modal>
       {/* Won: Found all crows */}
-      {/* Call action and go back to plaza */}
+      {/* Complete attempt and go back to plaza */}
       <Modal show={wonGame} centered>
         <WinningModalContent
           claimedFeathers={claimedFeathers}
           feathersEarned={getFeathersEarned()}
           onClick={() => {
-            handleMazeComplete();
+            handleSaveAttempt({
+              crowsFound: score,
+              health,
+              timeRemaining: MAZE_TIME_LIMIT_SECONDS - timeElapsed,
+              completedAt: attemptCompletedAt,
+            });
             handleReturnToPlaza();
           }}
         />
       </Modal>
       {/* Paused: New high score */}
-      {/* Either all action and go back to plaza or continue playing */}
+      {/* Either complete attempt and go back to plaza or continue playing */}
       <Modal show={paused && hasNewHighScore} centered>
         <PausedHighScoreModalContent
           feathersEarned={getFeathersEarned()}
@@ -321,30 +318,29 @@ export const MazeHud: React.FC = () => {
           claimedFeathers={claimedFeathers}
           onContinue={handleResume}
           onEnd={() => {
-            handleMazeComplete();
+            handleSaveAttempt({
+              crowsFound: score,
+              health,
+              timeRemaining: MAZE_TIME_LIMIT_SECONDS - timeElapsed,
+              completedAt: pausedAt,
+            });
             handleReturnToPlaza();
           }}
         />
       </Modal>
       {/* Paused: Continue */}
-      {/* Either continue playing or call action and go back to the plaza */}
+      {/* Need to find more crows */}
       <Modal show={paused && !hasNewHighScore} centered>
         <PausedLowScoreModalContent
           highestScore={highestScore}
-          claimedFeathers={claimedFeathers}
           onContinue={handleResume}
-          onEnd={() => {
-            handleMazeComplete();
-            handleReturnToPlaza();
-          }}
         />
       </Modal>
       {/* Welcome Modal */}
-      <Modal onHide={handleResume} centered show={showingTips}>
+      <Modal centered show={showingTips}>
         <TipsModalContent
-          gameActive={startedAt > 0}
+          hasSavedProgress={!!activeAttempt?.time}
           onStart={handleStart}
-          onResume={handleResume}
         />
       </Modal>
       {/* No active attempt modal */}

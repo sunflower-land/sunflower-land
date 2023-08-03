@@ -12,7 +12,6 @@ type CornMazeEvent =
   | { type: "PORTAL_HIT" }
   | { type: "START_GAME" }
   | { type: "RESUME_GAME" }
-  | { type: "PAUSE_GAME" }
   | { type: "END_GAME" }
   | { type: "TICK" };
 
@@ -28,6 +27,7 @@ interface CornMazeContext {
   previousTimElapsed: number;
   pausedAt: number;
   activeAttempt?: MazeAttempt;
+  hasSavedProgress: boolean;
   attemptCompletedAt?: number;
 }
 
@@ -37,6 +37,7 @@ export type CornMazeState = {
     | "noActiveAttempt"
     | "playing"
     | "showingTips"
+    | "hasPreviousAttempt"
     | "paused"
     | "wonGame"
     | "lostGame";
@@ -112,7 +113,12 @@ export const cornMazeMachine = createMachine<
         {
           target: "wonGame",
           cond: (context) => context.score === context.totalLostCrows,
-          actions: () => eventBus.emit("corn_maze:pauseScene"),
+          actions: [
+            () => eventBus.emit("corn_maze:pauseScene"),
+            assign({
+              attemptCompletedAt: (_) => Date.now(),
+            }),
+          ],
         },
       ],
       on: {
@@ -146,17 +152,6 @@ export const cornMazeMachine = createMachine<
           actions: assign({
             pausedAt: (_) => Date.now(),
           }),
-        },
-        PAUSE_GAME: {
-          target: "paused",
-          actions: [
-            assign({
-              pausedAt: (_) => Date.now(),
-            }),
-            () => {
-              eventBus.emit("corn_maze:pauseScene");
-            },
-          ],
         },
         SHOW_TIPS: {
           target: "showingTips",
