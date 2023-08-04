@@ -341,6 +341,7 @@ export function getCropYieldAmount({
 
   const isAdvancedLevelCrop =
     crop === "Eggplant" ||
+    crop === "Corn" ||
     crop === "Radish" ||
     crop === "Wheat" ||
     crop === "Kale";

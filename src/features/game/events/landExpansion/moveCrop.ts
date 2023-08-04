@@ -130,6 +130,7 @@ export function isLocked(
 
   const isAdvancedLevelCrop =
     cropName === "Eggplant" ||
+    cropName === "Corn" ||
     cropName === "Radish" ||
     cropName === "Wheat" ||
     cropName === "Kale";
