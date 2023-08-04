@@ -11,6 +11,7 @@ import { useSelector } from "@xstate/react";
 import { WitchesEve } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
+import classNames from "classnames";
 
 interface Props {
   hasSavedProgress: boolean;
@@ -103,10 +104,19 @@ const Stats: React.FC = () => {
     );
   }
 
-  const completedAttempts =
-    weeklyData?.attempts
-      .filter((attempt) => !!attempt.completedAt)
-      .sort((a, b) => b.crowsFound - a.crowsFound) ?? [];
+  const completedAttempts = weeklyData?.attempts
+    .filter((attempt) => !!attempt.completedAt)
+    // sort by health then crows found then time
+    .sort((a, b) => {
+      if (a.health > b.health) return -1;
+      if (a.health < b.health) return 1;
+      if (a.crowsFound > b.crowsFound) return -1;
+      if (a.crowsFound < b.crowsFound) return 1;
+      if (a.time < b.time) return -1;
+      if (a.time > b.time) return 1;
+
+      return 0;
+    });
 
   return (
     <div className="flex flex-col space-y-2">
@@ -135,7 +145,12 @@ const Stats: React.FC = () => {
           </thead>
           <tbody>
             {completedAttempts.map(({ crowsFound, health, time }, index) => (
-              <tr key={index}>
+              <tr
+                key={index}
+                className={classNames({
+                  "bg-red-500": health === 0,
+                })}
+              >
                 <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
                   {crowsFound}
                 </td>

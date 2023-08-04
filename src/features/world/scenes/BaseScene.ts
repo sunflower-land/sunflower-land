@@ -167,7 +167,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.sceneTransitionData = data;
   }
 
-  async create() {
+  create() {
     const errorLogger = createErrorLogger(
       "phaser_base_scene",
       Number(this.gameService.state.context.state.id)

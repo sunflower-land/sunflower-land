@@ -119,7 +119,6 @@ export const MazeHud: React.FC = () => {
       pausedAt: 0,
       activeAttempt,
     },
-    devTools: true,
   }) as unknown as MachineInterpreter;
 
   const score = useSelector(cornMazeService, _score);
@@ -160,12 +159,14 @@ export const MazeHud: React.FC = () => {
     });
 
     const saveGameState = (event: BeforeUnloadEvent) => {
-      // Save attempt information if the player refreshes the browser
+      console.log("active attempt in save, ", activeAttempt);
       handleSaveAttempt({
         crowsFound: cornMazeService.state.context.score,
         health: cornMazeService.state.context.health,
-        timeRemaining:
+        timeRemaining: Math.max(
           MAZE_TIME_LIMIT_SECONDS - cornMazeService.state.context.timeElapsed,
+          0
+        ),
         ...(cornMazeService.state.context.attemptCompletedAt && {
           completedAt: cornMazeService.state.context.attemptCompletedAt,
         }),
@@ -188,10 +189,12 @@ export const MazeHud: React.FC = () => {
   useEffect(() => {
     if (!startedAt) return;
 
+    // If lost game, persist attempt
     handleSaveAttempt({
       crowsFound: score,
       health,
       timeRemaining: MAZE_TIME_LIMIT_SECONDS - timeElapsed,
+      completedAt: attemptCompletedAt,
     });
   }, [lostGame]);
 
@@ -286,16 +289,6 @@ export const MazeHud: React.FC = () => {
         <LosingModalContent
           timeRemaining={MAZE_TIME_LIMIT_SECONDS - timeElapsed}
           onClick={() => {
-            // If active attempt has not been "completed", save the attempt again with the completed at time
-            if (activeAttempt) {
-              handleSaveAttempt({
-                crowsFound: score,
-                health,
-                timeRemaining: MAZE_TIME_LIMIT_SECONDS - timeElapsed,
-                completedAt: attemptCompletedAt,
-              });
-            }
-
             handleReturnToPlaza();
           }}
         />

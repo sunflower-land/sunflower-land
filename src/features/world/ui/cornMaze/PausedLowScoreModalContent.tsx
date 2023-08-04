@@ -20,7 +20,11 @@ export const PausedLowScoreModalContent: React.FC<Props> = ({
       }}
     >
       <div className="p-1 space-y-2 mb-2 flex flex-col">
-        <p>{`Oh no! Last time you found ${highestScore} crows! You need to find more than that if you want more feathers from me!`}</p>
+        {highestScore === 0 ? (
+          <p>{`Oh no! You haven't found any crows! You need to find more than that if you want more feathers from me!`}</p>
+        ) : (
+          <p>{`Oh no! Last time you found ${highestScore} crows! You need to find more than that if you want more feathers from me!`}</p>
+        )}
       </div>
       <div className="flex flex-col-reverse space-y-1 space-y-reverse md:flex-row md:space-y-0 md:space-x-1">
         <Button onClick={onContinue}>Keep Playing</Button>

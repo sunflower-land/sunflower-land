@@ -37,7 +37,7 @@ export const Luna: React.FC<Props> = ({ onClose, onNavigate }) => {
     if (activeAttempt) {
       return [
         {
-          text: "Hey there, looks like you haven't finished looking for my crows. Your last attempt was saved.",
+          text: "Hey there, looks like you haven't completed your search for my crows from your previous attempt.",
           actions: [
             {
               text: "Send me back!",

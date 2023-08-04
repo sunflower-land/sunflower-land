@@ -7,14 +7,6 @@ import * as Auth from "features/auth/lib/Provider";
 import ErrorBoundary from "features/auth/components/ErrorBoundary";
 import { Navigation } from "./Navigation";
 
-import { inspect } from "@xstate/inspect";
-
-inspect({
-  // options
-  // url: 'https://stately.ai/viz?inspect', // (default)
-  iframe: false, // open in new window
-});
-
 // Initialise Global Settings
 initialise();
 
