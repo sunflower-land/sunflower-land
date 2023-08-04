@@ -77,7 +77,6 @@ const DEFAULT_HEALTH = 3;
 const _witchesEve = (state: GameMachineState) =>
   state.context.state.witchesEve as WitchesEve;
 
-const _sceneLoaded = (state: MachineState) => state.context.sceneLoaded;
 const _score = (state: MachineState) => state.context.score;
 const _health = (state: MachineState) => state.context.health;
 const _timeElapsed = (state: MachineState) => state.context.timeElapsed;
@@ -122,7 +121,6 @@ export const MazeHud: React.FC = () => {
     },
   }) as unknown as MachineInterpreter;
 
-  const sceneLoaded = useSelector(cornMazeService, _sceneLoaded);
   const score = useSelector(cornMazeService, _score);
   const health = useSelector(cornMazeService, _health);
   const timeElapsed = useSelector(cornMazeService, _timeElapsed);
