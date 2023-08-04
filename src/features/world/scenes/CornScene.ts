@@ -187,15 +187,17 @@ export class CornScene extends BaseScene {
       key: "corn_maze",
     });
 
-    mazeManager.sceneLoaded();
+    this.scene.pause();
 
-    eventBus.on("corn_maze:pauseScene", () => {
-      this.scene.pause();
-    });
+    mazeManager.sceneLoaded();
 
     eventBus.on("corn_maze:startScene", () => {
       this.scene.resume();
       this.mazePortal?.play("maze_portal_anim", true);
+    });
+
+    eventBus.on("corn_maze:pauseScene", () => {
+      this.scene.pause();
     });
 
     eventBus.on("corn_maze:resumeScene", () => {

@@ -119,6 +119,7 @@ export const MazeHud: React.FC = () => {
       pausedAt: 0,
       activeAttempt,
     },
+    devTools: true,
   }) as unknown as MachineInterpreter;
 
   const score = useSelector(cornMazeService, _score);
@@ -136,6 +137,8 @@ export const MazeHud: React.FC = () => {
   const [showTimePenalty, setShowTimePenalty] = useState(false);
 
   useEffect(() => {
+    let timeout: NodeJS.Timeout;
+
     mazeManager.listen({
       collectCrow: () => {
         cornMazeService.send("COLLECT_CROW");
@@ -144,7 +147,7 @@ export const MazeHud: React.FC = () => {
         cornMazeService.send("HIT");
         setShowTimePenalty(true);
 
-        setTimeout(() => {
+        timeout = setTimeout(() => {
           setShowTimePenalty(false);
         }, 2000);
       },
@@ -160,7 +163,7 @@ export const MazeHud: React.FC = () => {
       // Save attempt information if the player refreshes the browser
       handleSaveAttempt({
         crowsFound: cornMazeService.state.context.score,
-        health,
+        health: cornMazeService.state.context.health,
         timeRemaining:
           MAZE_TIME_LIMIT_SECONDS - cornMazeService.state.context.timeElapsed,
         ...(cornMazeService.state.context.attemptCompletedAt && {
@@ -177,6 +180,7 @@ export const MazeHud: React.FC = () => {
 
     // unmount the save call
     return () => {
+      clearTimeout(timeout);
       window.removeEventListener("beforeunload", saveGameState);
     };
   }, []);
