@@ -97,51 +97,59 @@ const Stats: React.FC = () => {
   const witchesEve = useSelector(gameService, _witchesEve);
   const weeklyData = witchesEve?.maze[currentWeek];
 
-  if (!weeklyData && true) {
-    return <div className="text-center text-white">No data for this week!</div>;
+  if (!weeklyData) {
+    return (
+      <div className="text-sm text-white h-24">No data for this week!</div>
+    );
   }
 
-  const completedAttempts = weeklyData.attempts
-    .filter((attempt) => !!attempt.completedAt)
-    .sort((a, b) => b.crowsFound - a.crowsFound);
+  const completedAttempts =
+    weeklyData?.attempts
+      .filter((attempt) => !!attempt.completedAt)
+      .sort((a, b) => b.crowsFound - a.crowsFound) ?? [];
 
   return (
     <div className="flex flex-col space-y-2">
       <div className="flex flex-col space-y-1 text-xs">
-        <p>{`Total Feathers Earned: ${weeklyData.claimedFeathers}`}</p>
+        <p>{`Total Feathers Earned: ${weeklyData?.claimedFeathers}`}</p>
         <p>{`Total Attempts: ${completedAttempts.length}`}</p>
-        <p>{`Highest Score: ${weeklyData.highestScore}`}</p>
+        <p>{`Highest Score: ${weeklyData?.highestScore}`}</p>
       </div>
-      <table className="w-full text-xs table-fixed border-collapse p-">
-        <thead>
-          <tr>
-            <th style={{ border: "1px solid #b96f50" }} className="p-1.5 ">
-              <p>Crows Found</p>
-            </th>
-            <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
-              <p>Health</p>
-            </th>
-            <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
-              <p>Time</p>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {completedAttempts.map(({ crowsFound, health, time }, index) => (
-            <tr key={index}>
-              <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
-                {crowsFound}
-              </td>
-              <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
-                {health}
-              </td>
-              <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
-                {`${time} ${time > 1 ? "seconds" : "second"}`}
-              </td>
+      {completedAttempts.length === 0 && (
+        <div className="text-sm text-white h-24">No attempts this week.</div>
+      )}
+      {completedAttempts.length > 0 && (
+        <table className="w-full text-xs table-fixed border-collapse p-">
+          <thead>
+            <tr>
+              <th style={{ border: "1px solid #b96f50" }} className="p-1.5 ">
+                <p>Crows Found</p>
+              </th>
+              <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
+                <p>Health</p>
+              </th>
+              <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
+                <p>Time</p>
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {completedAttempts.map(({ crowsFound, health, time }, index) => (
+              <tr key={index}>
+                <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
+                  {crowsFound}
+                </td>
+                <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
+                  {health}
+                </td>
+                <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
+                  {`${time} ${time > 1 ? "seconds" : "second"}`}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };
