@@ -622,6 +622,19 @@ export type ChoresV2 = {
   choresSkipped: number;
 };
 
+export type CommunityIsland = {
+  metadata: string;
+  updatedAt: number;
+  mints?: {
+    items: Partial<Record<InventoryItemName, number>>;
+    wearables: Wardrobe;
+  };
+  burns?: {
+    sfl: number;
+    items: Partial<Record<InventoryItemName, number>>;
+  };
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -633,6 +646,8 @@ export interface GameState {
   tradedAt?: string;
   tradeOffer?: TradeOffer;
   warCollectionOffer?: WarCollectionOffer;
+
+  islands?: Record<string, CommunityIsland>;
 
   chickens: Record<string, Chicken>;
   inventory: Inventory;
