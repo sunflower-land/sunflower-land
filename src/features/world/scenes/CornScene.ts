@@ -8,17 +8,9 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import eventBus from "../lib/eventBus";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
-
-type Enemy = NPCBumpkin & {
-  target: {
-    x: number;
-    y: number;
-    direction: "vertical" | "horizontal";
-    duration: number;
-    hold?: boolean;
-    startFacingLeft?: boolean;
-  };
-};
+import { SeasonWeek } from "features/game/types/game";
+import { ENEMIES, Enemy } from "../ui/cornMaze/lib/enemies";
+import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 
 const LUNA: NPCBumpkin = {
   x: 333,
@@ -27,123 +19,11 @@ const LUNA: NPCBumpkin = {
   direction: "left",
 };
 
-const ENEMIES: Enemy[] = [
-  {
-    x: 104,
-    y: 328,
-    npc: "dreadhorn",
-    target: {
-      x: 104,
-      y: 471,
-      direction: "vertical",
-      duration: 2000,
-    },
-  },
-  {
-    x: 57,
-    y: 63,
-    npc: "dreadhorn",
-    target: {
-      x: 294,
-      y: 60,
-      direction: "horizontal",
-      duration: 3500,
-    },
-  },
-  {
-    x: 355,
-    y: 458,
-    npc: "dreadhorn",
-    target: {
-      x: 260,
-      y: 458,
-      direction: "horizontal",
-      duration: 1800,
-      hold: true,
-      startFacingLeft: true,
-    },
-  },
-  {
-    x: 585,
-    y: 506,
-    npc: "dreadhorn",
-    target: {
-      x: 585,
-      y: 217,
-      direction: "vertical",
-      duration: 3500,
-    },
-  },
-  {
-    x: 89,
-    y: 500,
-    npc: "phantom face",
-    target: {
-      x: 46,
-      y: 500,
-      direction: "horizontal",
-      duration: 1200,
-      hold: true,
-      startFacingLeft: true,
-    },
-  },
-  {
-    x: 518,
-    y: 583,
-    npc: "phantom face",
-    target: {
-      x: 483,
-      y: 590,
-      direction: "horizontal",
-      duration: 900,
-      hold: true,
-      startFacingLeft: true,
-    },
-  },
-  {
-    x: 130,
-    y: 137,
-    npc: "phantom face",
-    target: {
-      x: 185,
-      y: 137,
-      direction: "horizontal",
-      duration: 1200,
-      hold: true,
-    },
-  },
-  {
-    x: 342,
-    y: 72,
-    npc: "phantom face",
-    target: {
-      x: 440,
-      y: 72,
-      direction: "horizontal",
-      duration: 1800,
-      hold: true,
-    },
-  },
-  {
-    x: 412,
-    y: 545,
-    npc: "dreadhorn",
-    target: {
-      x: 435,
-      y: 545,
-      direction: "horizontal",
-      duration: 800,
-      hold: true,
-    },
-  },
-];
-
 export class CornScene extends BaseScene {
   sceneId: SceneId = "corn_maze";
-  score = 0;
-  health = 3;
   // Don't allow portal hit to be triggered multiple times
   canHandlePortalHit = true;
+  currentWeek: SeasonWeek = 1;
   enemies?: Phaser.GameObjects.Group;
   spotlight?: Phaser.GameObjects.Image;
 
@@ -151,10 +31,13 @@ export class CornScene extends BaseScene {
     super({
       name: "corn_maze",
       map: {
+        // Copy json from the backend for the week you're looking for if running in art mode
         json: CONFIG.API_URL ? `${CONFIG.API_URL}/maps/corn` : cornMazeJSON,
       },
       audio: { fx: { walk_key: "sand_footstep" } },
     });
+
+    this.currentWeek = getSeasonWeek(Date.now());
   }
 
   preload() {
@@ -298,7 +181,6 @@ export class CornScene extends BaseScene {
             const spriteY = y * tileHeight + tileHeight / 2;
 
             const crow = this.physics.add.sprite(spriteX, spriteY, "crow");
-            crow.setDepth(100000);
             // on collision with player, collect crow
             if (this.currentPlayer) {
               this.physics.add.overlap(this.currentPlayer, crow, () => {
@@ -316,7 +198,7 @@ export class CornScene extends BaseScene {
 
   setUpEnemies() {
     this.enemies = this.add.group();
-    ENEMIES.forEach((enemy) => {
+    ENEMIES[this.currentWeek].forEach((enemy) => {
       const container = new BumpkinContainer({
         scene: this,
         x: enemy.x,
