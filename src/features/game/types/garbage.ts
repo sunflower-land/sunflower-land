@@ -4,6 +4,7 @@ import { marketRate } from "../lib/halvening";
 
 export type GarbageName =
   | "Solar Flare Ticket"
+  | "Dawn Breaker Ticket"
   | "War Bond"
   | "Love Letter"
   | "Red Envelope"
@@ -22,6 +23,9 @@ export type Garbage = {
 
 export const GARBAGE: Record<GarbageName, Garbage> = {
   "Solar Flare Ticket": {
+    sellPrice: marketRate(0.1),
+  },
+  "Dawn Breaker Ticket": {
     sellPrice: marketRate(0.1),
   },
   "Jack-o-lantern": {
