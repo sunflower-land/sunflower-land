@@ -22,11 +22,17 @@ export const ChoreV2: React.FC = () => {
 
   return (
     <>
-      {getKeys(chores.chores).map((choreId) => {
+      {getKeys(chores.chores).map((choreId, index) => {
         const chore = chores.chores[choreId];
 
         // Use createdAt key, so a skip will render a new chore
-        return <DailyChore chore={chore} id={choreId} key={chore.createdAt} />;
+        return (
+          <DailyChore
+            chore={chore}
+            id={choreId}
+            key={chore.createdAt + index}
+          />
+        );
       })}
     </>
   );
