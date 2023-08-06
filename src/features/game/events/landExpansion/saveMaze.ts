@@ -10,6 +10,7 @@ export type SaveMazeAction = {
   crowsFound: number;
   health: number;
   timeRemaining: number;
+  crowIds?: string[];
   completedAt?: number;
 };
 
@@ -75,6 +76,7 @@ export function saveMaze({ state, action, createdAt = Date.now() }: Options) {
   attempts[attemptIdx].crowsFound = action.crowsFound;
   attempts[attemptIdx].health = action.health;
   attempts[attemptIdx].time = MAZE_TIME_LIMIT_SECONDS - action.timeRemaining;
+  attempts[attemptIdx].crowIds = action.crowIds;
 
   if (!action.completedAt) {
     return copy;

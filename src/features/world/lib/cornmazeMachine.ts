@@ -5,7 +5,7 @@ import { MazeAttempt } from "features/game/types/game";
 
 // Define the events for the machine
 type CornMazeEvent =
-  | { type: "COLLECT_CROW" }
+  | { type: "COLLECT_CROW"; id: string }
   | { type: "HIT" }
   | { type: "SHOW_TIPS" }
   | { type: "SCENE_LOADED" }
@@ -19,6 +19,7 @@ type CornMazeEvent =
 interface CornMazeContext {
   score: number;
   health: number;
+  crowIds: string[];
   totalLostCrows: number;
   gameOver: "wonGame" | "lostGame" | undefined;
   sceneLoaded: boolean;
@@ -137,6 +138,7 @@ export const cornMazeMachine = createMachine<
           cond: (context) => !context.gameOver,
           actions: assign({
             score: (context) => context.score + 1,
+            crowIds: (context, event) => [...context.crowIds, event.id],
           }),
         },
         HIT: {
