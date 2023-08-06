@@ -377,8 +377,43 @@ export function getCropYieldAmount({
     }
   }
 
+  if (crop === "Corn" && collectibles["Queen Cornelia"]?.[0] && plot) {
+    const scarecrowCoordinates =
+      collectibles["Queen Cornelia"]?.[0].coordinates;
+    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Queen Cornelia"];
+
+    const scarecrowPosition: Position = {
+      x: scarecrowCoordinates.x,
+      y: scarecrowCoordinates.y,
+      height: scarecrowDimensions.height,
+      width: scarecrowDimensions.width,
+    };
+
+    const plotPosition: Position = {
+      x: plot?.x,
+      y: plot?.y,
+      height: plot.height,
+      width: plot.width,
+    };
+
+    if (
+      isCollectibleBuilt("Queen Cornelia", collectibles) &&
+      isWithinAOE("Queen Cornelia", scarecrowPosition, plotPosition)
+    ) {
+      amount = amount + 1;
+    }
+  }
+
   if (crop === "Pumpkin" && isCollectibleBuilt("Freya Fox", collectibles)) {
     amount += 0.5;
+  }
+
+  if (crop === "Corn" && isCollectibleBuilt("Poppy", collectibles)) {
+    amount += 0.1;
+  }
+
+  if (bumpkin.equipped.tool === "Infernal Pitchfork") {
+    amount += 3;
   }
 
   return Number(setPrecision(new Decimal(amount)));

@@ -1183,6 +1183,141 @@ describe("plant", () => {
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
   });
 
+  it("yields +1 if Queen Cornelia is placed, plot is within AoE and planting Corn", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Corn Seed": new Decimal(1),
+          "Queen Cornelia": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Queen Cornelia": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Corn Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(2);
+  });
+
+  it("does not boost crop if Queen Cornelia is placed, plot is within AoE but planting Radish", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Radish Seed": new Decimal(1),
+          "Queen Cornelia": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Queen Cornelia": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Radish Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("does not give boost if Queen Cornelia is placed, plot is NOT within AoE and planting Corn", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Corn Seed": new Decimal(1),
+          "Queen Cornelia": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -6,
+          },
+        },
+        collectibles: {
+          "Queen Cornelia": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Corn Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
   it("yields +0.5 pumpkin with Freya Fox placed", () => {
     const state = plant({
       state: {
@@ -1218,6 +1353,54 @@ describe("plant", () => {
     expect(plots).toBeDefined();
 
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.5);
+  });
+
+  it("yields +0.1 Corn with Poppy placed", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Corn Seed": new Decimal(1),
+          Poppy: new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          Poppy: [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              // ready at < now
+              readyAt: dateNow - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Corn Seed",
+      },
+      createdAt: dateNow,
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.1);
   });
 });
 
@@ -1678,5 +1861,48 @@ describe("getCropYield", () => {
     });
 
     expect(amount).toEqual(1.5);
+  });
+
+  it("yields +3 when wearing Infernal Pitchfork", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            tool: "Infernal Pitchfork",
+          },
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Sunflower Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(4);
   });
 });
