@@ -68,7 +68,7 @@ export function saveMaze({ state, action, createdAt = Date.now() }: Options) {
   const attemptIdx = attempts.findIndex((attempt) => !attempt.completedAt);
 
   if (attemptIdx < 0) {
-    throw new Error("No in progress maze attempt found");
+    return copy;
   }
 
   // Update attempt values
@@ -76,10 +76,12 @@ export function saveMaze({ state, action, createdAt = Date.now() }: Options) {
   attempts[attemptIdx].health = action.health;
   attempts[attemptIdx].time = MAZE_TIME_LIMIT_SECONDS - action.timeRemaining;
 
-  // End attempt
-  if (action.completedAt) {
-    attempts[attemptIdx].completedAt = action.completedAt;
+  if (!action.completedAt) {
+    return copy;
   }
+
+  // End attempt
+  attempts[attemptIdx].completedAt = action.completedAt;
 
   // Don't give any feather if the player died or ran out of time
   if (action.health <= 0 || action.timeRemaining <= 0) {
@@ -87,7 +89,7 @@ export function saveMaze({ state, action, createdAt = Date.now() }: Options) {
   }
 
   // Return if the player didn't beat their highest score
-  if (action.crowsFound < maze.highestScore) {
+  if (action.crowsFound <= maze.highestScore) {
     return copy;
   }
 

@@ -163,6 +163,10 @@ img {
   }
 }
 
+.pulsating {
+  animation: pulsate 1s infinite;
+}
+
 .two-line-ellipsis {
   text-overflow: ellipsis;
   overflow: hidden;

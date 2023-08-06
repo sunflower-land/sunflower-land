@@ -1,6 +1,7 @@
 import { createMachine, assign, State, Interpreter } from "xstate";
 import eventBus from "./eventBus";
 import { MAZE_TIME_LIMIT_SECONDS } from "features/game/events/landExpansion/startMaze";
+import { MazeAttempt } from "features/game/types/game";
 
 // Define the events for the machine
 type CornMazeEvent =
@@ -11,7 +12,6 @@ type CornMazeEvent =
   | { type: "PORTAL_HIT" }
   | { type: "START_GAME" }
   | { type: "RESUME_GAME" }
-  | { type: "PAUSE_GAME" }
   | { type: "END_GAME" }
   | { type: "TICK" };
 
@@ -26,14 +26,18 @@ interface CornMazeContext {
   timeElapsed: number;
   previousTimElapsed: number;
   pausedAt: number;
-  gameService?: MachineInterpreter;
+  activeAttempt?: MazeAttempt;
+  hasSavedProgress: boolean;
+  attemptCompletedAt?: number;
 }
 
 export type CornMazeState = {
   value:
     | "loading"
+    | "noActiveAttempt"
     | "playing"
     | "showingTips"
+    | "hasPreviousAttempt"
     | "paused"
     | "wonGame"
     | "lostGame";
@@ -49,7 +53,7 @@ export type MachineInterpreter = Interpreter<
   CornMazeState
 >;
 
-const HIT_PENALTY_SECONDS = 5;
+export const HIT_PENALTY_SECONDS = 5;
 
 // Define the state machine
 export const cornMazeMachine = createMachine<
@@ -63,14 +67,24 @@ export const cornMazeMachine = createMachine<
   states: {
     loading: {
       on: {
-        SCENE_LOADED: {
-          target: "showingTips",
-          actions: assign({
-            sceneLoaded: (_) => true,
-          }),
-        },
+        SCENE_LOADED: [
+          {
+            target: "showingTips",
+            actions: assign({
+              sceneLoaded: (_) => true,
+            }),
+            cond: (context) => !!context.activeAttempt,
+          },
+          {
+            target: "noActiveAttempt",
+            actions: assign({
+              sceneLoaded: (_) => true,
+            }),
+          },
+        ],
       },
     },
+    noActiveAttempt: {},
     playing: {
       invoke: {
         src: () => (cb) => {
@@ -89,12 +103,22 @@ export const cornMazeMachine = createMachine<
           cond: (context) =>
             context.health <= 0 ||
             context.timeElapsed >= MAZE_TIME_LIMIT_SECONDS,
-          actions: () => eventBus.emit("corn_maze:pauseScene"),
+          actions: [
+            () => eventBus.emit("corn_maze:pauseScene"),
+            assign({
+              attemptCompletedAt: (_) => Date.now(),
+            }),
+          ],
         },
         {
           target: "wonGame",
           cond: (context) => context.score === context.totalLostCrows,
-          actions: () => eventBus.emit("corn_maze:pauseScene"),
+          actions: [
+            () => eventBus.emit("corn_maze:pauseScene"),
+            assign({
+              attemptCompletedAt: (_) => Date.now(),
+            }),
+          ],
         },
       ],
       on: {
@@ -129,17 +153,6 @@ export const cornMazeMachine = createMachine<
             pausedAt: (_) => Date.now(),
           }),
         },
-        PAUSE_GAME: {
-          target: "paused",
-          actions: [
-            assign({
-              pausedAt: (_) => Date.now(),
-            }),
-            () => {
-              eventBus.emit("corn_maze:pauseScene");
-            },
-          ],
-        },
         SHOW_TIPS: {
           target: "showingTips",
           actions: [
@@ -157,9 +170,14 @@ export const cornMazeMachine = createMachine<
       on: {
         START_GAME: {
           target: "playing",
-          actions: assign({
-            startedAt: (_) => Date.now(),
-          }),
+          actions: [
+            () => {
+              eventBus.emit("corn_maze:startScene");
+            },
+            assign({
+              startedAt: (_) => Date.now(),
+            }),
+          ],
         },
         RESUME_GAME: {
           target: "playing",

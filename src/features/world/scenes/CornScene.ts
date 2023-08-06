@@ -140,12 +140,12 @@ const ENEMIES: Enemy[] = [
 
 export class CornScene extends BaseScene {
   sceneId: SceneId = "corn_maze";
-  score = 0;
-  health = 3;
   // Don't allow portal hit to be triggered multiple times
   canHandlePortalHit = true;
   enemies?: Phaser.GameObjects.Group;
   spotlight?: Phaser.GameObjects.Image;
+  mazePortal?: Phaser.GameObjects.Sprite;
+  portalTravelSound?: Phaser.Sound.BaseSound;
 
   constructor() {
     super({
@@ -157,8 +157,10 @@ export class CornScene extends BaseScene {
     });
   }
 
-  preload() {
+  async preload() {
     super.preload();
+
+    console.log("Loading maze portal");
     this.load.spritesheet("maze_portal", "world/maze_portal.png", {
       frameWidth: 12,
       frameHeight: 12,
@@ -170,26 +172,10 @@ export class CornScene extends BaseScene {
     this.load.audio("ouph", SOUNDS.voices.ouph);
     this.load.audio("crow_collected", SOUNDS.notifications.crow_collected);
 
-    if (!this.sound.get("nature_1")) {
-      const nature = this.sound.add("nature_1");
-      nature.play({ loop: true, volume: 0.05 });
-    }
-
-    const portal_travel = this.sound.add("portal_travel");
-    portal_travel.play({ volume: 0.5 });
-
-    // Shut down the sound when the scene changes
-    this.events.once("shutdown", () => {
-      portal_travel.play({ volume: 0.5 });
-      if (portal_travel.isPaused) {
-        this.sound.getAllPlaying().forEach((sound) => {
-          sound.destroy();
-        });
-      }
-    });
+    this.setUpSound();
   }
 
-  async create() {
+  create() {
     super.create();
 
     this.setUpSpotlight();
@@ -203,7 +189,14 @@ export class CornScene extends BaseScene {
       key: "corn_maze",
     });
 
+    this.scene.pause();
+
     mazeManager.sceneLoaded();
+
+    eventBus.on("corn_maze:startScene", () => {
+      this.scene.resume();
+      this.mazePortal?.play("maze_portal_anim", true);
+    });
 
     eventBus.on("corn_maze:pauseScene", () => {
       this.scene.pause();
@@ -217,6 +210,25 @@ export class CornScene extends BaseScene {
     });
 
     this.canHandlePortalHit = true;
+  }
+
+  setUpSound() {
+    this.portalTravelSound = this.sound.add("portal_travel");
+
+    // Shut down the sound when the scene changes
+    // this.events.once("shutdown", () => {
+    //   this.portalTravelSound?.play({ volume: 0.5 });
+    //   if (!this.portalTravelSound || this.portalTravelSound.isPaused) {
+    //     this.sound.getAllPlaying().forEach((sound) => {
+    //       sound.destroy();
+    //     });
+    //   }
+    // });
+
+    if (!this.sound.get("nature_1")) {
+      const nature = this.sound.add("nature_1");
+      nature.play({ loop: true, volume: 0.05 });
+    }
   }
 
   setUpSpotlight() {
@@ -237,7 +249,7 @@ export class CornScene extends BaseScene {
   }
 
   setUpPortal() {
-    const maze_portal = this.add.sprite(320, 319, "maze_portal");
+    this.mazePortal = this.add.sprite(320, 319, "maze_portal");
 
     this.anims.create({
       key: "maze_portal_anim",
@@ -248,7 +260,6 @@ export class CornScene extends BaseScene {
       repeat: -1,
       frameRate: 10,
     });
-    maze_portal.play("maze_portal_anim", true);
   }
 
   setUpLuna() {
@@ -298,7 +309,6 @@ export class CornScene extends BaseScene {
             const spriteY = y * tileHeight + tileHeight / 2;
 
             const crow = this.physics.add.sprite(spriteX, spriteY, "crow");
-            crow.setDepth(100000);
             // on collision with player, collect crow
             if (this.currentPlayer) {
               this.physics.add.overlap(this.currentPlayer, crow, () => {
@@ -432,8 +442,10 @@ export class CornScene extends BaseScene {
       tween.pause();
       container.idle();
       setTimeout(() => {
-        tween.resume();
-        container.walk();
+        if (tween && tween.isPaused()) {
+          tween.resume();
+          container.walk();
+        }
       }, randomHoldTime);
     } else if (
       enemy.target.direction === "vertical" &&
