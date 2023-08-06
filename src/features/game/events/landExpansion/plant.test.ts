@@ -1183,12 +1183,12 @@ describe("plant", () => {
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
   });
 
-  it("yields +1 if Queen Cornelia is placed, plot is within AoE and planting Eggplant", () => {
+  it("yields +1 if Queen Cornelia is placed, plot is within AoE and planting Corn", () => {
     const state: GameState = plant({
       state: {
         ...GAME_STATE,
         inventory: {
-          "Eggplant Seed": new Decimal(1),
+          "Corn Seed": new Decimal(1),
           "Queen Cornelia": new Decimal(1),
           "Water Well": new Decimal(1),
         },
@@ -1217,7 +1217,7 @@ describe("plant", () => {
         type: "seed.planted",
         cropId: "1",
         index: "0",
-        item: "Eggplant Seed",
+        item: "Corn Seed",
       },
     });
 
@@ -1228,7 +1228,7 @@ describe("plant", () => {
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(2);
   });
 
-  it("yields +1 if Queen Cornelia is placed, plot is within AoE and planting Radish", () => {
+  it("does not boost crop if Queen Cornelia is placed, plot is within AoE but planting Radish", () => {
     const state: GameState = plant({
       state: {
         ...GAME_STATE,
@@ -1270,142 +1270,7 @@ describe("plant", () => {
 
     expect(plots).toBeDefined();
 
-    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(2);
-  });
-
-  it("yields +1 if Queen Cornelia is placed, plot is within AoE and planting Wheat", () => {
-    const state: GameState = plant({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          "Wheat Seed": new Decimal(1),
-          "Queen Cornelia": new Decimal(1),
-          "Water Well": new Decimal(1),
-        },
-        crops: {
-          0: {
-            createdAt: Date.now(),
-            height: 1,
-            width: 1,
-            x: 0,
-            y: -2,
-          },
-        },
-        collectibles: {
-          "Queen Cornelia": [
-            {
-              id: "123",
-              createdAt: dateNow,
-              coordinates: { x: 0, y: 0 },
-              // ready at < now
-              readyAt: dateNow - 12 * 60 * 1000,
-            },
-          ],
-        },
-      },
-      action: {
-        type: "seed.planted",
-        cropId: "1",
-        index: "0",
-        item: "Wheat Seed",
-      },
-    });
-
-    const plots = state.crops;
-
-    expect(plots).toBeDefined();
-
-    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(2);
-  });
-
-  it("yields +1 if Queen Cornelia is placed, plot is within AoE and planting Kale", () => {
-    const state: GameState = plant({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          "Kale Seed": new Decimal(1),
-          "Queen Cornelia": new Decimal(1),
-          "Water Well": new Decimal(1),
-        },
-        crops: {
-          0: {
-            createdAt: Date.now(),
-            height: 1,
-            width: 1,
-            x: 0,
-            y: -2,
-          },
-        },
-        collectibles: {
-          "Queen Cornelia": [
-            {
-              id: "123",
-              createdAt: dateNow,
-              coordinates: { x: 0, y: 0 },
-              // ready at < now
-              readyAt: dateNow - 12 * 60 * 1000,
-            },
-          ],
-        },
-      },
-      action: {
-        type: "seed.planted",
-        cropId: "1",
-        index: "0",
-        item: "Kale Seed",
-      },
-    });
-
-    const plots = state.crops;
-
-    expect(plots).toBeDefined();
-
-    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(2);
-  });
-
-  it("yields +1 if Queen Cornelia is placed, plot is within AoE and planting Cauliflower", () => {
-    const state: GameState = plant({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          "Sunflower Seed": new Decimal(1),
-          "Queen Cornelia": new Decimal(1),
-          "Water Well": new Decimal(1),
-        },
-        crops: {
-          0: {
-            createdAt: Date.now(),
-            height: 1,
-            width: 1,
-            x: 0,
-            y: -2,
-          },
-        },
-        collectibles: {
-          "Queen Cornelia": [
-            {
-              id: "123",
-              createdAt: dateNow,
-              coordinates: { x: 0, y: 0 },
-              // ready at < now
-              readyAt: dateNow - 12 * 60 * 1000,
-            },
-          ],
-        },
-      },
-      action: {
-        type: "seed.planted",
-        cropId: "1",
-        index: "0",
-        item: "Sunflower Seed",
-      },
-    });
-
-    const plots = state.crops;
-
-    expect(plots).toBeDefined();
-
-    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(2);
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
   });
 
   it("does not give boost if Queen Cornelia is placed, plot is NOT within AoE and planting Cauliflower", () => {

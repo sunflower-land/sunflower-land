@@ -377,7 +377,7 @@ export function getCropYieldAmount({
     }
   }
 
-  if (collectibles["Queen Cornelia"]?.[0] && plot) {
+  if (crop === "Corn" && collectibles["Queen Cornelia"]?.[0] && plot) {
     const scarecrowCoordinates =
       collectibles["Queen Cornelia"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Queen Cornelia"];
