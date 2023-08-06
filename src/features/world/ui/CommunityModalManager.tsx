@@ -5,8 +5,8 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { Button } from "components/ui/Button";
 
 type ButtonInfo = {
-  id: string;
   text: string;
+  cb: () => void;
   closeModal?: boolean;
 };
 
@@ -27,22 +27,16 @@ class CommunityModalManager {
   private id = 0;
 
   constructor() {
-    console.log("CINIT");
     this.id = Date.now();
-    console.log({ id: this.id });
   }
   public open = (modal: CommunityModal) => {
-    console.log("YEEET", this, this.listener);
-
     if (this.listener) {
-      console.log("INSIDE");
       this.listener(modal, true);
     }
   };
 
   public listen(cb: (npc: CommunityModal, isOpen: boolean) => void) {
     this.listener = cb;
-    console.log("Listn now", this.listener);
   }
 }
 
@@ -53,22 +47,6 @@ export const CommunityModals: React.FC = () => {
 
   useEffect(() => {
     communityModalManager.listen((modal, open) => {
-      console.log("OPENED", { modal });
-
-      if (modal.buttons) {
-        const ids = modal.buttons.map((button) => button.id);
-        const uniqueIds = [...new Set(ids)];
-        if (ids.length !== uniqueIds.length) {
-          console.warn(
-            "Duplicate button ids detected. To prevent this, please make sure all buttons have unique ids."
-          );
-          modal.buttons = modal.buttons.filter(
-            (button, index) => ids.indexOf(button.id) === index
-          );
-        }
-        modal.buttons = modal.buttons.filter((button) => !!button.id);
-      }
-
       setModal(modal);
     });
   }, []);
@@ -80,21 +58,7 @@ export const CommunityModals: React.FC = () => {
     setModal(undefined);
   };
 
-  const handleButtonClick = (buttonId: string) => {
-    const clickedButton = modal?.buttons?.find(
-      (button) => button.id === buttonId
-    );
-    if (clickedButton) {
-      if (clickedButton.closeModal) {
-        setModal(undefined);
-      }
-
-      if (modal && modal.onButtonClick) {
-        modal.onButtonClick(buttonId);
-      }
-    }
-  };
-
+  console.log({ modal });
   return (
     <>
       <Modal show={!!modal} centered onHide={closeModal}>
@@ -104,10 +68,16 @@ export const CommunityModals: React.FC = () => {
         >
           <div className="p-2">{modal?.jsx}</div>
           <div className="p-2 grid grid-cols-2 gap-2">
-            {modal?.buttons?.map((button) => (
+            {modal?.buttons?.map((button, index) => (
               <Button
-                key={button.id}
-                onClick={() => handleButtonClick(button.id)}
+                key={index}
+                onClick={() => {
+                  button.cb();
+
+                  if (button.closeModal) {
+                    setModal(undefined);
+                  }
+                }}
               >
                 {button.text}
               </Button>

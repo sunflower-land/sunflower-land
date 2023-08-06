@@ -229,7 +229,10 @@ export abstract class BaseScene extends Phaser.Scene {
           "Sunnyside V3",
           "community-tileset",
           16,
-          16
+          16,
+          // TODO - dynamic based if they applied padding
+          1,
+          2
         ) as Phaser.Tilemaps.Tileset)
       : // Standard tileset
         (this.map.addTilesetImage(

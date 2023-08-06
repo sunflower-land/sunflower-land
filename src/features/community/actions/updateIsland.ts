@@ -1,14 +1,15 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { Wardrobe } from "features/game/types/game";
+import { GameState, Wardrobe } from "features/game/types/game";
 import { InventoryItemName } from "../types/community";
+import { makeGame } from "features/game/lib/transforms";
 
 type Request = {
   token: string;
   islandId: string;
   farmId: number;
   apiKey: string;
-  metadata: string;
+  metadata?: string;
   mintItems?: Partial<Record<InventoryItemName, number>>;
   mintWearables?: Wardrobe;
   burnItems?: Partial<Record<InventoryItemName, number>>;
@@ -18,6 +19,7 @@ type Request = {
 
 type Response = {
   updatedAt: number;
+  game: GameState;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -70,9 +72,12 @@ export async function updateIsland(
     throw new Error(ERRORS.SESSION_SERVER_ERROR);
   }
 
-  const { updatedAt } = await response.json();
+  const { updatedAt, farm } = await response.json();
+
+  const game = makeGame(farm);
 
   return {
     updatedAt,
+    game,
   };
 }

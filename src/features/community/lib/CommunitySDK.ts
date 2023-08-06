@@ -1,0 +1,110 @@
+import { CommunityIsland, Wardrobe } from "features/game/types/game";
+import { loadIsland } from "../actions/loadIsland";
+import { updateIsland } from "../actions/updateIsland";
+import { InventoryItemName } from "../types/community";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
+
+/**
+ * Injects some player values for use in the API.
+ */
+export function prepareAPI({
+  jwt,
+  farmId,
+  gameService,
+}: {
+  jwt: string;
+  farmId: number;
+  gameService: MachineInterpreter;
+}) {
+  class CommunityAPI {
+    private islandId: string;
+
+    private apiKey: string;
+
+    constructor({ id, apiKey }: { id: string; apiKey: string }) {
+      this.islandId = id;
+      this.apiKey = apiKey;
+    }
+
+    public get game() {
+      return gameService.state.context.state;
+    }
+
+    public async loadIsland(): Promise<CommunityIsland | null> {
+      const response = await loadIsland({
+        farmId,
+        islandId: this.islandId,
+      });
+
+      if (!response) {
+        return null;
+      }
+
+      return response.island;
+    }
+
+    public async saveProgress({ metadata }: { metadata: string }) {
+      const response = await updateIsland({
+        apiKey: this.apiKey,
+        farmId: farmId,
+        token: jwt,
+        islandId: this.islandId,
+        metadata,
+      });
+
+      // TODO - update game machine with state;
+
+      return { updatedAt: response?.updatedAt };
+    }
+
+    public async mint({
+      metadata,
+      items,
+      wearables,
+    }: {
+      metadata?: string;
+      items: Partial<Record<InventoryItemName, number>>;
+      wearables: Wardrobe;
+    }) {
+      const response = await updateIsland({
+        apiKey: this.apiKey,
+        farmId: farmId,
+        token: jwt,
+        islandId: this.islandId,
+        metadata,
+        mintItems: items,
+        mintWearables: wearables,
+      });
+
+      gameService.send("COMMUNITY_UPDATE", { state: response?.game });
+
+      return { updatedAt: response?.updatedAt };
+    }
+
+    public async burn({
+      metadata,
+      items,
+      sfl,
+    }: {
+      metadata?: string;
+      items: Partial<Record<InventoryItemName, number>>;
+      sfl: number;
+    }) {
+      const response = await updateIsland({
+        apiKey: this.apiKey,
+        farmId: farmId,
+        token: jwt,
+        islandId: this.islandId,
+        metadata,
+        burnItems: items,
+        burnSFL: sfl,
+      });
+
+      gameService.send("COMMUNITY_UPDATE", { state: response?.game });
+
+      return { updatedAt: response?.updatedAt };
+    }
+  }
+
+  return CommunityAPI;
+}

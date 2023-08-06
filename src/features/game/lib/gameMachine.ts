@@ -126,6 +126,11 @@ type SyncEvent = {
   blockBucks: number;
 };
 
+type CommunityEvent = {
+  type: "COMMUNITY_UPDATE";
+  game: GameState;
+};
+
 type PurchaseEvent = {
   type: "PURCHASE_ITEM";
   name: PurchasableItems;
@@ -187,6 +192,7 @@ export type BlockchainEvent =
     }
   | SyncEvent
   | PurchaseEvent
+  | CommunityEvent
   | {
       type: "REFRESH";
     }
@@ -1431,6 +1437,13 @@ export function startGame(authContext: AuthContext) {
         },
         upgradingGuestGame: {
           on: { CLOSE: { target: "playing" } },
+        },
+      },
+      on: {
+        COMMUNITY_UPDATE: {
+          actions: assign({
+            state: (_, event) => event.game,
+          }),
         },
       },
     },

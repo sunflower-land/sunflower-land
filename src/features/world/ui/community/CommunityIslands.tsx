@@ -4,17 +4,21 @@ import { CONFIG } from "lib/config";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import unicorn from "assets/icons/unicorn.png";
+
 type CommunityIsland = {
   url: string;
   name: string;
   id: string;
+  icon: string;
 };
 
-export const COMMUNITY_ISLANDS = [
+export const COMMUNITY_ISLANDS: CommunityIsland[] = [
   {
     url: "https://sunflower-land.github.io/community-island-example/public",
-    name: "Test Island",
-    id: "test_island",
+    name: "Unicorn Island",
+    id: "unicorn_island",
+    icon: unicorn,
   },
 ];
 
