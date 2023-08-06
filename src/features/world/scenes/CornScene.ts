@@ -8,8 +8,6 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import eventBus from "../lib/eventBus";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
-import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
-import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
 
 type Enemy = NPCBumpkin & {
   target: {
@@ -162,22 +160,6 @@ export class CornScene extends BaseScene {
   async preload() {
     super.preload();
 
-    console.log("preload corn scene");
-
-    const asyncLoader = (loaderPlugin: Phaser.Loader.LoaderPlugin) => {
-      return new Promise<void>((resolve) => {
-        loaderPlugin
-          .on("filecomplete", () => {
-            console.log("filecomplete");
-            resolve();
-          })
-          .on("loaderror", () => resolve());
-        loaderPlugin.start();
-      });
-    };
-
-    this.preloadEnemySprites(asyncLoader);
-
     console.log("Loading maze portal");
     this.load.spritesheet("maze_portal", "world/maze_portal.png", {
       frameWidth: 12,
@@ -228,41 +210,6 @@ export class CornScene extends BaseScene {
     });
 
     this.canHandlePortalHit = true;
-  }
-
-  async preloadEnemySprites(
-    loaderFunction: (loaderPlugin: Phaser.Loader.LoaderPlugin) => Promise<void>
-  ) {
-    for (const enemy of ENEMIES) {
-      const clothing = NPC_WEARABLES[enemy.npc];
-      const keyName = tokenUriBuilder(NPC_WEARABLES[enemy.npc]);
-
-      const idleSpriteKey = `${keyName}-bumpkin-idle-sheet`;
-      const walkingSpriteKey = `${keyName}-bumpkin-walking-sheet`;
-
-      const { sheets } = await buildNPCSheets({
-        parts: clothing,
-      });
-
-      // check if the sprite is already loaded
-      if (!this.textures.exists(walkingSpriteKey)) {
-        await loaderFunction(
-          this.load.spritesheet(walkingSpriteKey, sheets.walking, {
-            frameWidth: 20,
-            frameHeight: 19,
-          })
-        );
-      }
-
-      if (!this.textures.exists(idleSpriteKey)) {
-        await loaderFunction(
-          this.load.spritesheet(idleSpriteKey, sheets.idle, {
-            frameWidth: 20,
-            frameHeight: 19,
-          })
-        );
-      }
-    }
   }
 
   setUpSound() {
