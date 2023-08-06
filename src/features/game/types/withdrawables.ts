@@ -535,8 +535,8 @@ const market: Record<MarketItem, boolean> = {
 const boostTreasure: Record<BoostTreasure, boolean> = {
   "Lunar Calendar": true,
   "Tiki Totem": true,
-  "Genie Lamp": false,
-  Foliant: false,
+  "Genie Lamp": true,
+  Foliant: true,
 };
 
 const goblinPirate: Record<GoblinPirateItemName, boolean> = {
