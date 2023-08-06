@@ -11,6 +11,7 @@ const HAYSEED_HANK: GameState["hayseedHank"] = {
     startedAt: 1,
     startCount: 10,
   },
+  choresCompleted: 0,
   chore: {
     activity: "Sunflower Harvested" as BumpkinActivityName,
     description: "Harvest 20 Sunflowers",

@@ -12,6 +12,7 @@ import { MachineInterpreter } from "../mmoMachine";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import brazilFlag from "assets/sfts/flags/brazil_flag.gif";
 
 interface Props {
   mmoService: MachineInterpreter;
@@ -22,7 +23,7 @@ const ICONS = [
   CROP_LIFECYCLE.Sunflower.crop,
   SUNNYSIDE.icons.heart,
   SUNNYSIDE.icons.water,
-  SUNNYSIDE.icons.seedling,
+  brazilFlag,
   CROP_LIFECYCLE.Pumpkin.crop,
 ];
 

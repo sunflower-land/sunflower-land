@@ -1,6 +1,12 @@
 import Decimal from "decimal.js-light";
 import { CHORES } from "../types/chores";
-import { Bumpkin, GameState, Inventory } from "../types/game";
+import {
+  Bumpkin,
+  ChoreV2Name,
+  ChoresV2,
+  GameState,
+  Inventory,
+} from "../types/game";
 import { getKeys } from "../types/craftables";
 
 const INITIAL_STOCK: Inventory = {
@@ -255,6 +261,16 @@ const INITIAL_BUMPKIN: Bumpkin = {
 
 export const OFFLINE_FARM: GameState = {
   id: 4,
+  witchesEve: {
+    weeklyLostCrowCount: 25,
+    maze: {
+      1: {
+        highestScore: 0,
+        claimedFeathers: 0,
+        attempts: [],
+      },
+    },
+  },
   dawnBreaker: {
     currentWeek: 8,
     availableLantern: {
@@ -387,7 +403,7 @@ export const OFFLINE_FARM: GameState = {
     "Cabbage Boy": new Decimal(1),
 
     // "Beta Pass": new Decimal(1),
-    // "Dawn Breaker Banner": new Decimal(1),
+    "Witches' Eve Banner": new Decimal(1),
 
     Kitchen: new Decimal(1),
 
@@ -469,6 +485,53 @@ export const OFFLINE_FARM: GameState = {
     ],
   },
 
+  chores: {
+    choresCompleted: 0,
+    choresSkipped: 2,
+    chores: {
+      [ChoreV2Name.EASY_1]: {
+        activity: "Corn Harvested",
+        bumpkinId: 1,
+        createdAt: 0,
+        description: "Harvest 2 Corn",
+        requirement: 5,
+        tickets: 2,
+        completedAt: 100,
+        startCount: -200,
+      },
+      [ChoreV2Name.EASY_2]: {
+        activity: "Sunflower Harvested",
+        bumpkinId: 1,
+        createdAt: Date.now() - 25 * 60 * 60 * 1000,
+        description: "Harvest 3 Sunflowers in long text",
+        requirement: 5,
+        tickets: 2,
+
+        startCount: -50,
+      },
+      [ChoreV2Name.MEDIUM_1]: {
+        activity: "Sunflower Harvested",
+        bumpkinId: 1,
+        createdAt: Date.now() - 100,
+        description: "Harvest 3 Sunflowers in long text",
+        requirement: 5,
+        tickets: 2,
+
+        startCount: 0,
+      },
+      [ChoreV2Name.MEDIUM_2]: {
+        activity: "Sunflower Harvested",
+        bumpkinId: 1,
+        createdAt: 0,
+        description: "Harvest 3 Sunflowers in long text",
+        requirement: 5,
+        tickets: 2,
+
+        startCount: 0,
+      },
+    } as ChoresV2["chores"],
+  },
+
   buildings: {
     "Town Center": [
       {
@@ -478,7 +541,7 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    Workbench: [
+    Market: [
       {
         coordinates: { x: 3, y: 0 },
         createdAt: 0,
@@ -502,17 +565,14 @@ export const OFFLINE_FARM: GameState = {
       {
         id: "123",
         createdAt: Date.now(),
-        readyAt: Date.now(),
-        from: "betty",
+        readyAt: 1690855045072,
+        from: "pumpkin' pete",
         items: {
           Sunflower: 5,
           Pumpkin: 5,
         },
         reward: {
-          sfl: 5,
-          items: {
-            "Dawn Breaker Ticket": 2,
-          },
+          tickets: 2,
         },
       },
       {

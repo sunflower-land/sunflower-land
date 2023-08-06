@@ -21,6 +21,7 @@ import {
   SceneId,
 } from "../mmoMachine";
 import { Player } from "../types/Room";
+import { mazeManager } from "../ui/cornMaze/MazeHud";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -73,6 +74,8 @@ export abstract class BaseScene extends Phaser.Scene {
   private options: Required<BaseSceneOptions>;
 
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
+
+  canHandlePortalHit = true;
 
   currentPlayer: BumpkinContainer | undefined;
   serverPosition: { x: number; y: number } = { x: 0, y: 0 };
@@ -202,6 +205,7 @@ export abstract class BaseScene extends Phaser.Scene {
             ?.equipped as BumpkinParts),
           updatedAt: 0,
         },
+        experience: 0,
       });
 
       this.initialiseCamera();
@@ -275,7 +279,7 @@ export abstract class BaseScene extends Phaser.Scene {
       "Building Layer 4",
     ];
     this.map.layers.forEach((layerData, idx) => {
-      if (layerData.name === "Corn") return;
+      if (layerData.name === "Crows") return;
 
       const layer = this.map.createLayer(layerData.name, tileset, 0, 0);
       if (TOP_LAYERS.includes(layerData.name)) {
@@ -400,6 +404,7 @@ export abstract class BaseScene extends Phaser.Scene {
     isCurrentPlayer,
     clothing,
     npc,
+    experience = 0,
   }: {
     isCurrentPlayer: boolean;
     x: number;
@@ -407,6 +412,7 @@ export abstract class BaseScene extends Phaser.Scene {
     farmId: number;
     clothing: Player["clothing"];
     npc?: NPCName;
+    experience?: number;
   }): BumpkinContainer {
     const defaultClick = () => {
       const distance = Phaser.Math.Distance.BetweenPoints(
@@ -421,6 +427,12 @@ export abstract class BaseScene extends Phaser.Scene {
 
       if (npc) {
         npcModalManager.open(npc);
+      } else {
+        // playerModalManager.open({
+        //   id: farmId,
+        //   clothing,
+        //   experience,
+        // });
       }
 
       // TODO - open player modals
@@ -469,6 +481,12 @@ export abstract class BaseScene extends Phaser.Scene {
         async (obj1, obj2) => {
           const id = (obj2 as any).data?.list?.id;
           if (id) {
+            // Handled in corn scene
+            if (id === "maze_portal_exit") {
+              this.handlePortalHit();
+              return;
+            }
+
             interactableModalManager.open(id);
             return;
           }
@@ -499,6 +517,17 @@ export abstract class BaseScene extends Phaser.Scene {
     return entity;
   }
 
+  handlePortalHit() {
+    if (this.canHandlePortalHit) {
+      mazeManager.handlePortalHit();
+      this.scene.pause();
+      this.sound.getAllPlaying().forEach((sound) => {
+        if (sound.key == "sand_footstep") sound.pause();
+      });
+      this.canHandlePortalHit = false;
+    }
+  }
+
   createPlayerText({ x, y, text }: { x: number; y: number; text: string }) {
     const textObject = this.add.text(x, y + NAME_TAG_OFFSET_PX, text, {
       fontSize: "4px",
@@ -516,7 +545,7 @@ export abstract class BaseScene extends Phaser.Scene {
   destroyPlayer(sessionId: string) {
     const entity = this.playerEntities[sessionId];
     if (entity) {
-      entity.destroy();
+      entity.setVisible(false);
       delete this.playerEntities[sessionId];
     }
   }
@@ -682,6 +711,7 @@ export abstract class BaseScene extends Phaser.Scene {
           clothing: player.clothing,
           isCurrentPlayer: sessionId === server.sessionId,
           npc: player.npc,
+          experience: player.experience,
         });
       }
     });

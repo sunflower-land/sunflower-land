@@ -17,7 +17,6 @@ import { IslandTravel } from "features/game/expansion/components/travel/IslandTr
 import { randomInt } from "lib/utils/random";
 import { Hud } from "features/island/hud/Hud";
 import { GarbageCollector } from "./components/garbageCollector/GarbageCollector";
-import { SeasonalNPC } from "./components/seasonalNPC/SeasonalNPC";
 import { HeliosAuction } from "./components/heliosAuction/HeliosAuction";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 import { HayseedHank } from "./components/hayseedHank/HayseedHankPlaza";
@@ -72,7 +71,6 @@ export const Helios: React.FC = () => {
         <ExoticShop />
         <HeliosSunflower />
         <LostSunflorian />
-        <SeasonalNPC />
         <HeliosAuction />
         <IslandTravel
           bumpkin={bumpkin}
@@ -82,7 +80,7 @@ export const Helios: React.FC = () => {
           onTravelDialogOpened={() => gameService.send("SAVE")}
           travelAllowed={!autosaving}
         />
-        <HayseedHank />
+        {gameState.context.state.hayseedHank && <HayseedHank />}
       </div>
       <Hud isFarming={false} />
       <AuctionCountdown />

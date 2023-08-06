@@ -4,12 +4,13 @@ import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 import { interactableModalManager } from "../ui/InteractableModals";
+import { AudioController } from "../lib/AudioController";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
     x: 400,
     y: 400,
-    npc: "pete",
+    npc: "pumpkin' pete",
   },
   {
     x: 815,
@@ -49,11 +50,11 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "grimtooth",
     direction: "left",
   },
-  {
-    x: 120,
-    y: 170,
-    npc: "gabi",
-  },
+  // {
+  //   x: 120,
+  //   y: 170,
+  //   npc: "gabi",
+  // },
   {
     x: 480,
     y: 140,
@@ -104,6 +105,11 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     y: 402,
     npc: "billy",
   },
+  {
+    x: 165,
+    y: 293,
+    npc: "hank",
+  },
 ];
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
@@ -137,9 +143,40 @@ export class PlazaScene extends BaseScene {
       frameHeight: 21,
     });
 
-    this.load.image("portal", "world/portal.png");
+    this.load.spritesheet("portal", "world/portal.png", {
+      frameWidth: 30,
+      frameHeight: 30,
+    });
 
     super.preload();
+
+    // Ambience SFX
+    if (!this.sound.get("nature_1")) {
+      const nature1 = this.sound.add("nature_1");
+      nature1.play({ loop: true, volume: 0.01 });
+    }
+
+    // Boat SFX
+    if (!this.sound.get("boat")) {
+      const boatSound = this.sound.add("boat");
+      boatSound.play({ loop: true, volume: 0, rate: 0.6 });
+
+      this.soundEffects.push(
+        new AudioController({
+          sound: boatSound,
+          distanceThreshold: 130,
+          coordinates: { x: 352, y: 462 },
+          maxVolume: 0.2,
+        })
+      );
+    }
+
+    // Shut down the sound when the scene changes
+    this.events.once("shutdown", () => {
+      this.sound.getAllPlaying().forEach((sound) => {
+        sound.destroy();
+      });
+    });
   }
 
   async create() {
@@ -167,6 +204,16 @@ export class PlazaScene extends BaseScene {
     // this.add.existing(decorationShopLabel);
 
     const portal = this.add.sprite(505, 215, "portal");
+    this.anims.create({
+      key: "portal_anim",
+      frames: this.anims.generateFrameNumbers("portal", {
+        start: 0,
+        end: 12,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    portal.play("portal_anim", true);
 
     // Plaza Bud
     const fatChicken = this.add.sprite(106, 352, "fat_chicken");

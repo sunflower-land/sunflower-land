@@ -27,15 +27,15 @@ import { WoodlandsScene } from "./scenes/WoodlandsScene";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Preloader } from "./scenes/Preloader";
 import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
-import { DawnBreakerScene } from "./scenes/DawnBreakerScene";
 import { Label } from "components/ui/Label";
-import { MarcusHomeScene } from "./scenes/MarcusHomeScene";
 import { WorldIntroduction } from "./ui/WorldIntroduction";
 import { CommunityScene } from "./scenes/CommunityScene";
 import { CommunityModals } from "./ui/CommunityModalManager";
+import { CommunityToasts } from "./ui/CommunityToastManager";
 import { SceneId } from "./mmoMachine";
 import { CornScene } from "./scenes/CornScene";
 import { useNavigate } from "react-router-dom";
+import { PlayerModals } from "./ui/PlayerModals";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -69,7 +69,6 @@ export const PhaserComponent: React.FC<Props> = ({
     : [
         Preloader,
         CornScene,
-        DawnBreakerScene,
         PlazaScene,
         AuctionScene,
         WoodlandsScene,
@@ -80,7 +79,6 @@ export const PhaserComponent: React.FC<Props> = ({
         WindmillFloorScene,
         ClothesShopScene,
         DecorationShopScene,
-        MarcusHomeScene,
       ];
 
   useEffect(() => {
@@ -163,8 +161,6 @@ export const PhaserComponent: React.FC<Props> = ({
 
     setLoaded(true);
 
-    console.log("GAME PHASER");
-
     return () => {
       game.current?.destroy(true);
     };
@@ -173,16 +169,15 @@ export const PhaserComponent: React.FC<Props> = ({
   useEffect(() => {
     if (!loaded) return;
 
-    console.log("SCENE", scene);
-    console.log("current", game.current);
-    const activeScene = game.current?.scene.getScenes()[0];
+    const activeScene = game.current?.scene
+      .getScenes(false)
+      // Corn maze pauses when game is over so we need to filter for active and paused scenes.
+      .filter((s) => s.scene.isActive() || s.scene.isPaused())[0];
 
     if (activeScene) {
       activeScene.scene.start(scene);
       mmoService.state.context.server?.send(0, { sceneId: scene });
     }
-
-    // game.current?.scene.start(scene);
   }, [scene]);
 
   const ref = useRef<HTMLDivElement>(null);
@@ -190,20 +185,24 @@ export const PhaserComponent: React.FC<Props> = ({
   return (
     <div>
       <div id="game-content" ref={ref} />
-      <ChatUI
-        onMessage={(m) => {
-          mmoService.state.context.server?.send(0, {
-            text: m.text ?? "?",
-          });
-        }}
-        messages={messages ?? []}
-      />
+      {scene !== "corn_maze" && (
+        <ChatUI
+          onMessage={(m) => {
+            mmoService.state.context.server?.send(0, {
+              text: m.text ?? "?",
+            });
+          }}
+          messages={messages ?? []}
+        />
+      )}
       <NPCModals
         onNavigate={(sceneId: SceneId) => {
           navigate(`/world/${sceneId}`);
         }}
       />
+      <PlayerModals />
       <CommunityModals />
+      <CommunityToasts />
       <InteractableModals id={authState.context.user.farmId as number} />
       <Modal
         show={mmoState === "loading" || mmoState === "initialising"}

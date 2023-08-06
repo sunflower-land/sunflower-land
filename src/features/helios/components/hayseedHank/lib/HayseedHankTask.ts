@@ -2,7 +2,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { GameState } from "features/game/types/game";
 
 export const getProgress = (game: GameState) => {
-  if (!game.hayseedHank.progress) return 0;
+  if (!game.hayseedHank?.progress) return 0;
 
   const chore = game.hayseedHank.chore;
   if (chore.activity) {
@@ -28,5 +28,8 @@ export const getProgress = (game: GameState) => {
 };
 
 export const isTaskComplete = (game: GameState) => {
-  return getProgress(game) >= game.hayseedHank.chore.requirement;
+  return (
+    getProgress(game) >=
+    (game.hayseedHank?.chore.requirement ?? Number.MAX_SAFE_INTEGER)
+  );
 };

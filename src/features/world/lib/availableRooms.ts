@@ -1,6 +1,6 @@
 import { Server, ServerId } from "../mmoMachine";
 
-export const MAX_PLAYERS = 200;
+export const MAX_PLAYERS = 150 - 10;
 
 export const serverCurrentPopulation = (
   servers: Server[],

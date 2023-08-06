@@ -8,18 +8,21 @@ import { Player } from "../types/Room";
 import { NPCName, acknowedlgedNPCs } from "lib/npcs";
 
 const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
-  pete: true,
+  "pumpkin' pete": true,
   luna: true,
   birdie: true,
+  hank: true,
 };
 
 export class BumpkinContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
   public alert: Phaser.GameObjects.Sprite | undefined;
   public silhoutte: Phaser.GameObjects.Sprite | undefined;
+  public skull: Phaser.GameObjects.Sprite | undefined;
 
   public speech: SpeechBubble | undefined;
   public invincible = false;
+  public isWalking = false;
 
   private clothing: Player["clothing"];
   private ready = false;
@@ -39,6 +42,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     onClick,
     name,
     direction,
+    isEnemy,
   }: {
     scene: Phaser.Scene;
     x: number;
@@ -48,6 +52,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     onCollide?: () => void;
     name?: string;
     direction?: "left" | "right";
+    isEnemy?: boolean;
   }) {
     super(scene, x, y);
     this.scene = scene;
@@ -75,11 +80,19 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       label.setPosition(label.width / 2, -16);
       if (
         !!NPCS_WITH_ALERTS[name as NPCName] &&
-        !acknowedlgedNPCs()[name as NPCName]
+        !acknowedlgedNPCs()[name as NPCName] &&
+        this.scene.textures.exists("alert")
       ) {
         this.alert = this.scene.add.sprite(1, -23, "alert").setSize(4, 10);
         this.add(this.alert);
       }
+    }
+
+    if (isEnemy && this.scene.textures.exists("skull")) {
+      this.skull = this.scene.add
+        .sprite(this.sprite.x / 2, -11, "skull")
+        .setDisplaySize(6, 6);
+      this.add(this.skull);
     }
 
     this.scene.add.existing(this);
@@ -276,6 +289,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.sprite?.anims.getName() !== this.walkingAnimationKey
     ) {
       this.sprite.anims.play(this.walkingAnimationKey as string, true);
+      this.isWalking = true;
     }
   }
 
@@ -286,11 +300,13 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.sprite?.anims.getName() !== this.idleAnimationKey
     ) {
       this.sprite.anims.play(this.idleAnimationKey as string, true);
+      if (this.isWalking) {
+        this.isWalking = false;
+      }
     }
   }
 
   public hitPlayer() {
-    console.log("hit player");
     this.invincible = true;
 
     // make sprite flash opacity

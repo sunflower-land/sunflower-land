@@ -25,8 +25,9 @@ import { AchievementBadges } from "./AchievementBadges";
 
 type ViewState = "home" | "achievements" | "skills";
 
-export const BumpkinLevel: React.FC<{ bumpkin: Bumpkin }> = ({ bumpkin }) => {
-  const experience = bumpkin?.experience ?? 0;
+export const BumpkinLevel: React.FC<{ experience?: number }> = ({
+  experience = 0,
+}) => {
   const maxLevel = isMaxLevel(experience);
   const { currentExperienceProgress, experienceToNextLevel } =
     getExperienceToNextLevel(experience);
@@ -182,7 +183,7 @@ export const BumpkinModal: React.FC<Props> = ({
                     {maxLevel ? " (Max)" : ""}
                   </p>
                   {/* Progress bar */}
-                  <BumpkinLevel bumpkin={bumpkin} />
+                  <BumpkinLevel experience={bumpkin.experience} />
                 </div>
               </div>
             </div>

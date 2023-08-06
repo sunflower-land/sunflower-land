@@ -9,6 +9,8 @@ import metamaskIcon from "src/assets/icons/metamask_pixel.png";
 import walletIcon from "src/assets/icons/wallet.png";
 import phantomIcon from "src/assets/icons/phantom.svg";
 import okxIcon from "src/assets/icons/okx.svg";
+import cryptoComIcon from "src/assets/icons/crypto-com-logo.svg";
+
 import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { Label } from "components/ui/Label";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
@@ -24,6 +26,29 @@ const OtherWallets = () => {
           className="mb-2 py-2 text-sm relative"
           onClick={() =>
             authService.send("CONNECT_TO_WALLET", {
+              chosenProvider: Web3SupportedProviders.CRYPTO_COM,
+            })
+          }
+        >
+          <div className="px-8">
+            <img
+              src={cryptoComIcon}
+              alt="Crypto.com"
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+            />
+            <Label
+              type="info"
+              className="absolute top-1/2 -translate-y-1/2 right-1"
+            >
+              Featured
+            </Label>
+            Crypto.com Wallet
+          </div>
+        </Button>
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() =>
+            authService.send("CONNECT_TO_WALLET", {
               chosenProvider: Web3SupportedProviders.OKX,
             })
           }
@@ -34,12 +59,6 @@ const OtherWallets = () => {
               alt="OKX"
               className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
-            <Label
-              type="info"
-              className="absolute top-1/2 -translate-y-1/2 right-1"
-            >
-              Featured
-            </Label>
             OKX Wallet
           </div>
         </Button>
@@ -157,7 +176,7 @@ export const SignIn = () => {
     );
   };
 
-  const isOKX = getPromoCode() === "okx";
+  const isCryptoCom = getPromoCode() === "crypto-com";
 
   return (
     <div className="px-2">
@@ -178,19 +197,19 @@ export const SignIn = () => {
         )}
       </div>
 
-      {isOKX && (
+      {isCryptoCom && (
         <Button
           className="mb-2 py-2 text-sm relative"
           onClick={() =>
             authService.send("CONNECT_TO_WALLET", {
-              chosenProvider: Web3SupportedProviders.OKX,
+              chosenProvider: Web3SupportedProviders.CRYPTO_COM,
             })
           }
         >
           <div className="px-8">
             <img
-              src={okxIcon}
-              alt="OKX"
+              src={cryptoComIcon}
+              alt="Crypto.com"
               className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
             <Label
@@ -199,11 +218,12 @@ export const SignIn = () => {
             >
               Featured
             </Label>
-            OKX Wallet
+            Crypto.com Wallet
           </div>
         </Button>
       )}
-      {!isOKX && (
+
+      {!isCryptoCom && (
         <>
           {page === "home" && <MainWallets />}
           {page === "other" && <OtherWallets />}

@@ -362,6 +362,10 @@ const consumables: Record<ConsumableName, boolean> = {
   "Cabbers n Mash": false,
   "Fancy Fries": false,
   "Pirate Cake": false,
+  "Bumpkin ganoush": false,
+  Cornbread: false,
+  "Eggplant Cake": false,
+  Popcorn: false,
 };
 
 const decorations: Record<ShopDecorationName, boolean> = {
@@ -859,4 +863,5 @@ export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
   "Pumpkin Shirt": () => false,
   Halo: () => false,
   Kama: () => false,
+  "Grey Merch Hoodie": () => false,
 };

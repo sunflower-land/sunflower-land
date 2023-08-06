@@ -38,7 +38,7 @@ export function craftCollectible({
   const stateCopy = cloneDeep(state);
   const bumpkin = stateCopy.bumpkin;
 
-  const item = HELIOS_BLACKSMITH_ITEMS[action.name];
+  const item = HELIOS_BLACKSMITH_ITEMS(state)[action.name];
 
   if (!item) {
     throw new Error("Item does not exist");

@@ -29,10 +29,10 @@ export type ServerId =
   | "sunflorea_bliss"
   | "sunflorea_dream"
   | "sunflorea_oasis"
-  | "sunflorea_haven"
+  | "sunflorea_brazil"
   | "sunflorea_magic";
 
-type ServerName = "Bliss" | "Dream" | "Oasis" | "Haven" | "Magic";
+type ServerName = "Bliss" | "Dream" | "Oasis" | "Brazil" | "Magic";
 
 export type Server = {
   name: ServerName;
@@ -43,7 +43,7 @@ const SERVERS: Server[] = [
   { name: "Bliss", id: "sunflorea_bliss", population: 0 },
   { name: "Dream", id: "sunflorea_dream", population: 0 },
   { name: "Oasis", id: "sunflorea_oasis", population: 0 },
-  // { name: "Haven", id: "sunflorea_haven", population: 0 },
+  { name: "Brazil", id: "sunflorea_brazil", population: 0 },
   // { name: "Magic", id: "sunflorea_magic", population: 0 },
 ];
 
@@ -56,6 +56,7 @@ export interface MMOContext {
   server?: Room<PlazaRoomState> | undefined;
   serverId: ServerId;
   initialSceneId: SceneId;
+  experience: number;
 }
 
 export type MMOState = {
@@ -100,6 +101,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     availableServers: SERVERS,
     serverId: "sunflorea_bliss",
     initialSceneId: "plaza",
+    experience: 0,
   },
   exit: (context) => context.server?.leave(),
   states: {
@@ -183,6 +185,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
               x: SPAWNS.plaza.default.x,
               y: SPAWNS.plaza.default.y,
               sceneId: context.initialSceneId,
+              experience: context.experience,
             }
           );
 

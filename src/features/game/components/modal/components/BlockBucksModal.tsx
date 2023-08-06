@@ -41,6 +41,22 @@ const PRICES: {
     amount: 20,
     usd: 2.99, // $0.1495 each
   },
+  {
+    amount: 100,
+    usd: 14.5, // $0.145 each
+  },
+  {
+    amount: 500,
+    usd: 65, // $0.13 each
+  },
+  {
+    amount: 1000,
+    usd: 125, // $0.125 each
+  },
+  {
+    amount: 10000,
+    usd: 1000, // $0.10 each
+  },
 ];
 
 interface PokoConfig {
@@ -255,31 +271,36 @@ export const BlockBucksModal: React.FC<Props> = ({
 
     return (
       <>
-        <div className="flex flex-wrap">
-          {PRICES.map((price) => (
-            <div key={price.amount} className="w-1/2 p-1">
-              <OuterPanel className="h-full flex flex-col items-center relative">
-                <div className="flex w-full items-center justify-center py-2 px-2">
-                  <p className="mr-2 mb-1">{`${price.amount} x`}</p>
-                  <img
-                    src={ticket}
-                    style={{
-                      width: `${PIXEL_SCALE * 19}px`,
-                    }}
-                  />
-                </div>
-                <Button
-                  onClick={() => setPrice(price)}
-                >{`$${price.usd} USD`}</Button>
-              </OuterPanel>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex flex-col">
+        <div
+          className="overflow-y-auto scrollable "
+          style={{ maxHeight: "280px" }}
+        >
           <p className="text-xxs italic text-center pt-2">
             *Prices exclude transaction fees.
           </p>
+          <div className="flex flex-wrap">
+            {PRICES.map((price) => (
+              <div key={price.amount} className="w-1/2 p-1">
+                <OuterPanel className="h-full flex flex-col items-center relative">
+                  <div className="flex w-full items-center justify-center py-2 px-2">
+                    <p className="mr-2 mb-1">{`${price.amount} x`}</p>
+                    <img
+                      src={ticket}
+                      style={{
+                        width: `${PIXEL_SCALE * 19}px`,
+                      }}
+                    />
+                  </div>
+                  <Button
+                    onClick={() => setPrice(price)}
+                  >{`$${price.usd} USD`}</Button>
+                </OuterPanel>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col">
           <a
             href="https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks"
             className="mx-auto text-xxs underline text-center pb-2 pt-2"

@@ -78,6 +78,8 @@ export function makeGame(farm: any): GameState {
     expansionConstruction: farm.expansionConstruction,
     expansionRequirements: farm.expansionRequirements,
 
+    islands: farm.islands,
+
     bumpkin: farm.bumpkin,
     buildings: farm.buildings,
     airdrops: farm.airdrops,
@@ -89,6 +91,7 @@ export function makeGame(farm: any): GameState {
     dailyRewards: farm.dailyRewards,
     auctioneer: farm.auctioneer ?? {},
     hayseedHank: farm.hayseedHank,
+    chores: farm.chores,
     tradedAt: farm.tradedAt,
     trees: farm.trees ?? {},
     stones: farm.stones ?? {},
@@ -103,6 +106,7 @@ export function makeGame(farm: any): GameState {
     },
     mushrooms: farm.mushrooms,
     dawnBreaker: makeDawnbreaker(farm.dawnBreaker),
+    witchesEve: farm.witchesEve,
     delivery: farm.delivery,
     potionHouse: farm.potionHouse,
     npcs: farm.npcs,

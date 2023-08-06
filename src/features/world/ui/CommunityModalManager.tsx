@@ -2,6 +2,13 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import { Button } from "components/ui/Button";
+
+type ButtonInfo = {
+  id: string;
+  text: string;
+  closeModal?: boolean;
+};
 
 type CommunityModal = {
   npc: {
@@ -9,6 +16,9 @@ type CommunityModal = {
     name: string;
   };
   jsx: JSX.Element;
+  buttons?: ButtonInfo[];
+  onClose?: () => void;
+  onButtonClick?: (buttonId: string) => void;
 };
 
 class CommunityModalManager {
@@ -23,6 +33,7 @@ class CommunityModalManager {
   }
   public open = (modal: CommunityModal) => {
     console.log("YEEET", this, this.listener);
+
     if (this.listener) {
       console.log("INSIDE");
       this.listener(modal, true);
@@ -43,12 +54,45 @@ export const CommunityModals: React.FC = () => {
   useEffect(() => {
     communityModalManager.listen((modal, open) => {
       console.log("OPENED", { modal });
+
+      if (modal.buttons) {
+        const ids = modal.buttons.map((button) => button.id);
+        const uniqueIds = [...new Set(ids)];
+        if (ids.length !== uniqueIds.length) {
+          console.warn(
+            "Duplicate button ids detected. To prevent this, please make sure all buttons have unique ids."
+          );
+          modal.buttons = modal.buttons.filter(
+            (button, index) => ids.indexOf(button.id) === index
+          );
+        }
+        modal.buttons = modal.buttons.filter((button) => !!button.id);
+      }
+
       setModal(modal);
     });
   }, []);
 
   const closeModal = () => {
+    if (modal && modal.onClose) {
+      modal.onClose();
+    }
     setModal(undefined);
+  };
+
+  const handleButtonClick = (buttonId: string) => {
+    const clickedButton = modal?.buttons?.find(
+      (button) => button.id === buttonId
+    );
+    if (clickedButton) {
+      if (clickedButton.closeModal) {
+        setModal(undefined);
+      }
+
+      if (modal && modal.onButtonClick) {
+        modal.onButtonClick(buttonId);
+      }
+    }
   };
 
   return (
@@ -58,7 +102,17 @@ export const CommunityModals: React.FC = () => {
           onClose={closeModal}
           bumpkinParts={modal?.npc?.clothing}
         >
-          {modal?.jsx}
+          <div className="p-2">{modal?.jsx}</div>
+          <div className="p-2 grid grid-cols-2 gap-2">
+            {modal?.buttons?.map((button) => (
+              <Button
+                key={button.id}
+                onClick={() => handleButtonClick(button.id)}
+              >
+                {button.text}
+              </Button>
+            ))}
+          </div>
         </CloseButtonPanel>
       </Modal>
     </>

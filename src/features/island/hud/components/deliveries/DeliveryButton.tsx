@@ -27,8 +27,9 @@ export const Deliveries: React.FC = () => {
           left: `${PIXEL_SCALE * 3}px`,
           bottom: `${PIXEL_SCALE * 3}px`,
         }}
-        onClick={() => {
-          console.log("click");
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
           setShowModal(true);
         }}
       >

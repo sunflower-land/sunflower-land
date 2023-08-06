@@ -8,7 +8,7 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 import { Context } from "features/game/GameProvider";
 
 import { MapPlacement } from "./MapPlacement";
-import { PromotingModal } from "./Promoting";
+import { PromotingModal } from "./SpecialOffer";
 import { NPC_WEARABLES } from "lib/npcs";
 
 interface Props {

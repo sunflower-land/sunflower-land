@@ -428,6 +428,13 @@ export type HayseedHank = {
   };
 };
 
+export type MazeAttempts = Partial<Record<SeasonWeek, MazeMetadata>>;
+
+export type WitchesEve = {
+  weeklyLostCrowCount: number;
+  maze: MazeAttempts;
+};
+
 export type Mushroom = {
   name: MushroomName;
   amount: number;
@@ -504,7 +511,13 @@ export type Order = {
   readyAt: number;
 };
 
-type QuestNPCName = "pete" | "bert" | "raven" | "timmy" | "tywin" | "cornwell";
+type QuestNPCName =
+  | "pumpkin' pete"
+  | "bert"
+  | "raven"
+  | "timmy"
+  | "tywin"
+  | "cornwell";
 
 export type Quest = Order & {
   from: QuestNPCName;
@@ -568,6 +581,60 @@ export type NPCData = {
   deliveryCount: number;
 };
 
+export type ChoreV2 = {
+  activity: BumpkinActivityName;
+  description: string;
+  createdAt: number;
+  completedAt?: number;
+  requirement: number;
+  bumpkinId: number;
+  startCount: number;
+  tickets: number;
+};
+
+export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+
+export type MazeAttempt = {
+  startedAt: number;
+  completedAt?: number;
+  crowsFound: number;
+  health: number;
+  time: number;
+};
+
+export type MazeMetadata = {
+  highestScore: number;
+  claimedFeathers: number;
+  attempts: MazeAttempt[];
+};
+
+export enum ChoreV2Name {
+  EASY_1 = 1,
+  EASY_2,
+  MEDIUM_1,
+  MEDIUM_2,
+  HARD_1,
+}
+
+export type ChoresV2 = {
+  chores: Record<ChoreV2Name, ChoreV2>;
+  choresCompleted: number;
+  choresSkipped: number;
+};
+
+export type CommunityIsland = {
+  metadata: string;
+  updatedAt: number;
+  mints?: {
+    items: Partial<Record<InventoryItemName, number>>;
+    wearables: Wardrobe;
+  };
+  burns?: {
+    sfl: number;
+    items: Partial<Record<InventoryItemName, number>>;
+  };
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -579,6 +646,8 @@ export interface GameState {
   tradedAt?: string;
   tradeOffer?: TradeOffer;
   warCollectionOffer?: WarCollectionOffer;
+
+  islands?: Record<string, CommunityIsland>;
 
   chickens: Record<string, Chicken>;
   inventory: Inventory;
@@ -638,9 +707,11 @@ export interface GameState {
   auctioneer: {
     bid?: Bid;
   };
-  hayseedHank: HayseedHank;
+  hayseedHank?: HayseedHank;
+  chores?: ChoresV2;
   mushrooms: Mushrooms;
   dawnBreaker?: DawnBreaker;
+  witchesEve?: WitchesEve;
   potionHouse?: PotionHouse;
 }
 

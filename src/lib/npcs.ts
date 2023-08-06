@@ -22,7 +22,7 @@ export type NPCName =
   | "stella"
   | "gabi"
   | "tywin"
-  | "pete"
+  | "pumpkin' pete"
   | "gordy" // TO ADD
   | "bert"
   | "craig"
@@ -34,7 +34,8 @@ export type NPCName =
   | "otis"
   | "dreadhorn"
   | "luna"
-  | "billy";
+  | "billy"
+  | "phantom face";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -52,11 +53,12 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     body: "Beige Farmer Potion",
     hair: "Sun Spots",
+    hat: "Cattlegrim",
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
     pants: "Traveller's Pants",
     shirt: "Traveller's Shirt",
-    wings: "Traveller's Backpack",
+    suit: "Ox Costume",
   },
   jake: {
     body: "Beige Farmer Potion",
@@ -111,7 +113,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     hair: "Sun Spots",
     tool: "Farmer Pitchfork",
     background: "Farm Background",
-    shoes: "Black Farmer Boots",
+    shoes: "Old Shoes",
   },
   grimbly: {
     body: "Goblin Potion",
@@ -232,7 +234,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Dawn Lamp",
   },
   // Local farmer in Plaza
-  pete: {
+  "pumpkin' pete": {
     body: "Light Brown Farmer Potion",
     background: "Farm Background",
     hair: "Explorer Hair",
@@ -359,7 +361,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Brown Boots",
   },
   luna: {
-    body: "Beige Farmer Potion",
+    body: "Light Brown Farmer Potion",
     hair: "White Long Hair",
     hat: "Luna's Hat",
     dress: "Witching Wardrobe",
@@ -375,6 +377,17 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Farmer Pitchfork",
     background: "Cemetery Background",
     shoes: "Brown Boots",
+  },
+  "phantom face": {
+    body: "Dark Brown Farmer Potion",
+    hair: "Buzz Cut",
+    hat: "Crumple Crown",
+    pants: "Farmer Overalls",
+    shirt: "Red Farmer Shirt",
+    suit: "Imp Costume",
+    tool: "Farmer Pitchfork",
+    shoes: "Black Farmer Boots",
+    background: "Cemetery Background",
   },
 };
 
@@ -399,4 +412,10 @@ export function acknowledgeNPC(npcName: NPCName) {
       [npcName]: Date.now().toString(),
     })
   );
+}
+
+export function isNPCAcknowledged(npcName: NPCName) {
+  const acknowledged = acknowedlgedNPCs();
+
+  return acknowledged[npcName] != null;
 }

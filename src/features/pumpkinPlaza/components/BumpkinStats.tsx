@@ -49,7 +49,7 @@ export const BumpkinStats: React.FC<Props> = ({ bumpkin }) => {
             Level {getBumpkinLevel(bumpkin.experience)}
           </p>
           {/* Progress bar */}
-          <BumpkinLevel bumpkin={bumpkin} />
+          <BumpkinLevel experience={bumpkin.experience} />
         </div>
       </div>
       <div className="mb-2 cursor-pointer" onClick={() => setView("skills")}>

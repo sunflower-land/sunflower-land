@@ -23,6 +23,7 @@
   "dependencies": {
     "0xsequence": "^0.43.2",
     "@alch/alchemy-web3": "^1.4.7",
+    "@deficonnect/web3-connector": "^2.0.3",
     "@metamask/onboarding": "^1.0.1",
     "@react-spring/web": "^9.7.2",
     "@types/uuid": "^9.0.0",
@@ -48,6 +49,7 @@
     "lodash.isempty": "^4.4.0",
     "lodash.omit": "^4.5.0",
     "lodash.shuffle": "^4.2.0",
+    "mitt": "^3.0.1",
     "phaser": "^3.60.0",
     "phaser3-rex-plugins": "^1.60.1",
     "process": "^0.11.10",

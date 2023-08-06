@@ -29,10 +29,10 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
             text: "The most common method to earn Crow Feathers is by gathering resources and delivering them to Bumpkins in the Plaza.",
           },
           {
-            text: "You can also earn feathers by completing chores for Hank, claiming daily rewards and hidden inside your planted crops!",
+            text: "You can also earn feathers by completing chores for Hank & claiming daily rewards!",
           },
           {
-            text: "Gather enough feathers and you will be able to craft some wings like me. Good luck!",
+            text: "Gather enough feathers and you will be able to craft some wings like me. ",
           },
         ]}
       />
@@ -75,7 +75,7 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
     <SpeakingModal
       onClose={() => {
         onClose();
-        acknowledgeNPC("pete");
+        acknowledgeNPC("pumpkin' pete");
       }}
       bumpkinParts={NPC_WEARABLES.birdie}
       message={[

@@ -7,7 +7,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { WorldHud } from "features/island/hud/WorldHud";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { SceneId } from "./mmoMachine";
 import ocean from "assets/decorations/ocean.webp";
 
@@ -19,8 +19,7 @@ import {
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Ocean } from "./ui/Ocean";
 import { PickServer } from "./ui/PickServer";
-import { hasFeatureAccess } from "lib/flags";
-import { MazeHud } from "./ui/MazeHud";
+import { MazeHud } from "./ui/cornMaze/MazeHud";
 import { GameWrapper } from "features/game/expansion/Game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -65,6 +64,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       farmId: authState.context.user.farmId,
       bumpkin: gameState.context.state.bumpkin,
       initialSceneId: name as SceneId,
+      experience: gameState.context.state.bumpkin?.experience ?? 0,
     },
   }) as unknown as MMOMachineInterpreter;
 
@@ -74,15 +74,6 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const isJoining = useSelector(mmoService, _isJoining);
   const isJoined = useSelector(mmoService, _isJoined);
   const isKicked = useSelector(mmoService, _isKicked);
-
-  const navigate = useNavigate();
-
-  if (
-    name === "plaza" &&
-    !hasFeatureAccess(gameState.context.state.inventory, "PUMPKIN_PLAZA")
-  ) {
-    navigate("/");
-  }
 
   // If state is x, y or z then return Travel Screen
   const isTraveling =
@@ -137,12 +128,14 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
   return <Ocean>{content()}</Ocean>;
 };
 
+const _inventory = (state: MachineState) => state.context.state.inventory;
+
 export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
   const { gameService } = useContext(Context);
   const isLoading = useSelector(gameService, _isLoading);
+  const inventory = useSelector(gameService, _inventory);
   const name = useParams().name as SceneId;
 
-  console.log({ isLoading });
   return (
     <div
       className="bg-blue-600 w-full bg-repeat h-full flex relative items-center justify-center"

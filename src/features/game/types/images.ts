@@ -269,6 +269,10 @@ import fruitSalad from "assets/food/fruit_salad.png";
 import kaleOmelette from "assets/food/kale_omelette.png";
 import cabbersNMash from "assets/food/cabbers_n_mash.png";
 import fancyFries from "assets/food/fancy_fries.png";
+import bumpkinGhanoush from "assets/food/bumpkin_ghanoush.png";
+import eggplantCake from "assets/food/eggplant_cake.png";
+import cornBread from "assets/food/corn_bread.png";
+import popcorn from "assets/food/popcorn.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -1785,7 +1789,7 @@ export const ITEM_DETAILS: Items = {
 
   "Immortal Pear": {
     image: immortalPear,
-    description: HELIOS_BLACKSMITH_ITEMS["Immortal Pear"].description,
+    description: HELIOS_BLACKSMITH_ITEMS()["Immortal Pear"].description,
   },
   "Lady Bug": {
     image: ladybug,
@@ -2037,11 +2041,11 @@ export const ITEM_DETAILS: Items = {
     description: GOBLIN_PIRATE_ITEMS["Tin Turtle"].description,
   },
   "Basic Scarecrow": {
-    description: HELIOS_BLACKSMITH_ITEMS["Basic Scarecrow"].description,
+    description: HELIOS_BLACKSMITH_ITEMS()["Basic Scarecrow"].description,
     image: basicScarecrow,
   },
   Bale: {
-    description: HELIOS_BLACKSMITH_ITEMS["Bale"].description,
+    description: HELIOS_BLACKSMITH_ITEMS()["Bale"].description,
     image: bale,
   },
   "Sir Goldensnout": {
@@ -2050,11 +2054,12 @@ export const ITEM_DETAILS: Items = {
       "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
   },
   "Scary Mike": {
-    description: HELIOS_BLACKSMITH_ITEMS["Scary Mike"].description,
+    description: HELIOS_BLACKSMITH_ITEMS()["Scary Mike"].description,
     image: scaryMike,
   },
   "Laurie the Chuckle Crow": {
-    description: HELIOS_BLACKSMITH_ITEMS["Laurie the Chuckle Crow"].description,
+    description:
+      HELIOS_BLACKSMITH_ITEMS()["Laurie the Chuckle Crow"].description,
     image: laurie,
   },
   "Freya Fox": {
@@ -2324,7 +2329,7 @@ export const ITEM_DETAILS: Items = {
   },
   Kernaldo: {
     image: kernaldo,
-    description: "The magical corn whisperer. +20% Corn Growth Speed.",
+    description: "The magical corn whisperer. +25% Corn Growth Speed.",
   },
   Candles: {
     image: candles,
@@ -2338,5 +2343,22 @@ export const ITEM_DETAILS: Items = {
   "Spooky Tree": {
     image: spookyTree,
     description: "A hauntingly fun addition to your farm's decor!",
+  },
+
+  "Bumpkin ganoush": {
+    image: bumpkinGhanoush,
+    description: "Zesty roasted eggplant spread.",
+  },
+  "Eggplant Cake": {
+    image: eggplantCake,
+    description: "Sweet farm-fresh dessert surprise.",
+  },
+  Cornbread: {
+    image: cornBread,
+    description: "Hearty golden farm-fresh bread.",
+  },
+  Popcorn: {
+    image: popcorn,
+    description: "Classic homegrown crunchy snack.",
   },
 };
