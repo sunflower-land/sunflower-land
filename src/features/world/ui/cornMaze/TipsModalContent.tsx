@@ -113,8 +113,8 @@ const Stats: React.FC = () => {
     .sort((a, b) => b.crowsFound - a.crowsFound);
 
   return (
-    <div className="flex flex-col space-y-2 max-h-96 overflow-y-auto scrollable">
-      <div className="flex flex-col space-y-1 text-xs">
+    <div className="flex flex-col space-y-2 -mt-[3px] max-h-96 overflow-y-auto scrollable">
+      <div className="flex flex-col space-y-1 text-xs p-1">
         <p>{`Total Feathers Earned: ${weeklyData?.claimedFeathers}`}</p>
         <p>{`Total Attempts: ${completedAttempts.length}`}</p>
         <p>{`Highest Score: ${weeklyData?.highestScore}`}</p>
@@ -124,7 +124,7 @@ const Stats: React.FC = () => {
       )}
       {completedAttempts.length > 0 && (
         <table className="w-full text-xs table-fixed border-collapse p-">
-          <thead>
+          <thead className="sticky top-0 bg-brown-300">
             <tr>
               <th style={{ border: "1px solid #b96f50" }} className="p-1.5 ">
                 <p>Crows Found</p>
