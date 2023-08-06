@@ -340,8 +340,9 @@ export const MazeHud: React.FC = () => {
       {/* Welcome Modal */}
       <Modal centered show={showingTips}>
         <TipsModalContent
-          hasSavedProgress={!!activeAttempt?.time}
-          onStart={handleStart}
+          isIncompleteAttempt={!!activeAttempt?.time}
+          isPaused={startedAt > 0}
+          onClick={startedAt > 0 ? handleResume : handleStart}
         />
       </Modal>
       {/* No active attempt modal */}

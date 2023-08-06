@@ -14,17 +14,19 @@ import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import classNames from "classnames";
 
 interface Props {
-  hasSavedProgress: boolean;
-  onStart: () => void;
+  isIncompleteAttempt: boolean;
+  isPaused: boolean;
+  onClick: () => void;
 }
 
 export const TipsModalContent: React.FC<Props> = ({
-  hasSavedProgress,
-  onStart,
+  isIncompleteAttempt: isIncomleteAttempt,
+  isPaused,
+  onClick,
 }) => {
   const [tab, setTab] = useState(0);
 
-  const buttonText = hasSavedProgress
+  const buttonText = isIncomleteAttempt
     ? "Resume Incomplete Attempt"
     : "Let's Go!";
 
@@ -34,6 +36,7 @@ export const TipsModalContent: React.FC<Props> = ({
         ...NPC_WEARABLES.luna,
         body: "Light Brown Worried Farmer Potion",
       }}
+      onClose={isPaused ? onClick : undefined}
       tabs={[
         { name: "Tips", icon: SUNNYSIDE.icons.expression_confused },
         { name: "Weekly Stats", icon: crowFeather },
@@ -80,7 +83,7 @@ export const TipsModalContent: React.FC<Props> = ({
                 Read more
               </a>
             </div>
-            <Button onClick={onStart}>{buttonText}</Button>
+            {!isPaused && <Button onClick={onClick}>{buttonText}</Button>}
           </>
         )}
         {tab === 1 && <Stats />}
@@ -106,20 +109,11 @@ const Stats: React.FC = () => {
 
   const completedAttempts = weeklyData?.attempts
     .filter((attempt) => !!attempt.completedAt)
-    // sort by health then crows found then time
-    .sort((a, b) => {
-      if (a.health > b.health) return -1;
-      if (a.health < b.health) return 1;
-      if (a.crowsFound > b.crowsFound) return -1;
-      if (a.crowsFound < b.crowsFound) return 1;
-      if (a.time < b.time) return -1;
-      if (a.time > b.time) return 1;
-
-      return 0;
-    });
+    // sort by crows found. most crows at the top
+    .sort((a, b) => b.crowsFound - a.crowsFound);
 
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="flex flex-col space-y-2 max-h-96 overflow-y-auto scrollable">
       <div className="flex flex-col space-y-1 text-xs">
         <p>{`Total Feathers Earned: ${weeklyData?.claimedFeathers}`}</p>
         <p>{`Total Attempts: ${completedAttempts.length}`}</p>
