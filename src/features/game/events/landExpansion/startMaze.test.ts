@@ -237,4 +237,39 @@ describe("startMaze", () => {
       })
     );
   });
+
+  it("allows a player to enter the maze for free if they have already claimed all feathers for the week", () => {
+    const now = Date.now();
+
+    const state = startMaze({
+      state: {
+        ...TEST_FARM,
+        balance: new Decimal(10),
+        witchesEve: {
+          weeklyLostCrowCount,
+          maze: {
+            [week]: {
+              highestScore: 25,
+              claimedFeathers: 100,
+              attempts: [
+                {
+                  startedAt: 0,
+                  crowsFound: 25,
+                  health: 3,
+                  timeRemaining: 10,
+                  completedAt: 123456,
+                },
+              ],
+            },
+          },
+        },
+      },
+      action: {
+        type: "maze.started",
+      },
+      createdAt: now,
+    });
+
+    expect(state.balance).toEqual(new Decimal(10));
+  });
 });

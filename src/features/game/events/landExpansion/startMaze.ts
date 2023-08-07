@@ -3,6 +3,7 @@ import { GameState, MazeAttempt } from "features/game/types/game";
 import { SEASONS } from "features/game/types/seasons";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import cloneDeep from "lodash.clonedeep";
+import { MAX_FEATHERS_PER_WEEK } from "./saveMaze";
 
 export type StartMazeAction = {
   type: "maze.started";
@@ -45,7 +46,7 @@ export function startMaze({ state, action, createdAt = Date.now() }: Options) {
     };
   }
 
-  const { attempts } = currentWeekMazeData;
+  const { attempts, claimedFeathers } = currentWeekMazeData;
   const inProgressAttempt = attempts?.find((attempt) => !attempt.completedAt);
 
   if (inProgressAttempt) {
@@ -63,6 +64,13 @@ export function startMaze({ state, action, createdAt = Date.now() }: Options) {
 
   attempts.push(newAttempt);
 
+  copy.witchesEve.maze[currentWeek] = currentWeekMazeData;
+
+  if (claimedFeathers === MAX_FEATHERS_PER_WEEK) {
+    // Don't charge entry if players have already claimed the max feathers
+    return copy;
+  }
+
   const { balance } = copy;
 
   if (balance.lessThan(MAZE_SFL_FEE)) {
@@ -70,8 +78,6 @@ export function startMaze({ state, action, createdAt = Date.now() }: Options) {
   }
 
   copy.balance = balance.minus(MAZE_SFL_FEE);
-
-  copy.witchesEve.maze[currentWeek] = currentWeekMazeData;
 
   return copy;
 }
