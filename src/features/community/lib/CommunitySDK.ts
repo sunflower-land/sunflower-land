@@ -52,8 +52,6 @@ export function prepareAPI({
         metadata,
       });
 
-      // TODO - update game machine with state;
-
       return { updatedAt: response?.updatedAt };
     }
 
@@ -76,7 +74,7 @@ export function prepareAPI({
         mintWearables: wearables,
       });
 
-      gameService.send("COMMUNITY_UPDATE", { state: response?.game });
+      gameService.send("COMMUNITY_UPDATE", { game: response?.game });
 
       return { updatedAt: response?.updatedAt };
     }
