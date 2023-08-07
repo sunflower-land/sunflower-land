@@ -82,3 +82,43 @@ export async function updateIsland(
     game,
   };
 }
+
+/**
+ * Testnet only
+ */
+export async function resetIsland(request: Request) {
+  if (!API_URL || CONFIG.NETWORK === "mainnet") return;
+
+  const response = await window.fetch(
+    `${API_URL}/island/${request.islandId}/farm/${request.farmId}/reset`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        Authorization: `Bearer ${request.token}`,
+        accept: "application/json",
+        "X-Transaction-ID": request.transactionId ?? "",
+      },
+    }
+  );
+
+  if (response.status === 503) {
+    throw new Error(ERRORS.MAINTENANCE);
+  }
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
+
+  if (response.status === 401) {
+    throw new Error(ERRORS.SESSION_EXPIRED);
+  }
+
+  if (response.status >= 400) {
+    throw new Error(ERRORS.SESSION_SERVER_ERROR);
+  }
+
+  return {
+    success: true,
+  };
+}

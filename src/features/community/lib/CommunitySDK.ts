@@ -1,8 +1,9 @@
 import { CommunityIsland, Wardrobe } from "features/game/types/game";
 import { loadIsland } from "../actions/loadIsland";
-import { updateIsland } from "../actions/updateIsland";
+import { resetIsland, updateIsland } from "../actions/updateIsland";
 import { InventoryItemName } from "../types/community";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
+import { CONFIG } from "lib/config";
 
 /**
  * Injects some player values for use in the API.
@@ -101,6 +102,18 @@ export function prepareAPI({
       gameService.send("COMMUNITY_UPDATE", { game: response?.game });
 
       return { updatedAt: response?.updatedAt };
+    }
+
+    public async reset() {
+      console.log("SEND IT");
+      if (CONFIG.NETWORK !== "mumbai") return;
+
+      await resetIsland({
+        apiKey: this.apiKey,
+        farmId: farmId,
+        token: jwt,
+        islandId: this.islandId,
+      });
     }
   }
 

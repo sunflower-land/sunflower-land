@@ -15,7 +15,7 @@ type CommunityIsland = {
 
 export const COMMUNITY_ISLANDS: CommunityIsland[] = [
   {
-    url: "https://sunflower-land.github.io/community-island-example/public",
+    url: "https://sunflower-land.github.io/crypto-unicorn-community-island/",
     name: "Unicorn Island",
     id: "unicorn_island",
     icon: unicorn,
