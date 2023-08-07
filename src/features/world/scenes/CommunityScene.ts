@@ -66,6 +66,8 @@ export abstract class CommunityScene extends Phaser.Scene {
           id: "local",
           name: "Test Island",
           url: localStorage.getItem("community-tools-url") as string,
+          icon: "",
+          project: "",
         };
       }
 
