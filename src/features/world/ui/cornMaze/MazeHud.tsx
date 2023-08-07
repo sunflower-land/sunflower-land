@@ -336,12 +336,26 @@ export const MazeHud: React.FC = () => {
           }}
         />
       </Modal>
-      {/* Paused: Continue */}
-      {/* Need to find more crows */}
+      {/* Paused: Lower score than last highest score */}
+      {/* If found all crows again, save and leave or need to find more crows or leave and come back later */}
       <Modal show={paused && !hasNewHighScore} centered>
         <PausedLowScoreModalContent
+          score={score}
+          totalLostCrows={weeklyLostCrowCount}
           highestScore={highestScore}
           onContinue={handleResume}
+          onEnd={() => {
+            handleSaveAttempt({
+              crowsFound: score,
+              health,
+              crowIds,
+              timeRemaining: MAZE_TIME_LIMIT_SECONDS - timeElapsed,
+              ...(score === weeklyLostCrowCount && {
+                completedAt: pausedAt,
+              }),
+            });
+            handleReturnToPlaza();
+          }}
         />
       </Modal>
       {/* Welcome Modal */}
