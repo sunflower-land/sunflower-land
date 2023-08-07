@@ -105,6 +105,7 @@ export interface Context {
   bumpkins: OnChainBumpkin[];
   transaction?: { type: "withdraw_bumpkin"; expiresAt: number };
   auctionResults?: AuctionResults;
+  promoCode?: string;
 }
 
 type MintEvent = {
@@ -497,7 +498,10 @@ export function startGame(authContext: AuthContext) {
                   status,
                   announcements,
                   transaction,
+                  promoCode,
                 } = response;
+
+                console.log({ promoCode });
 
                 return {
                   state: {
@@ -516,6 +520,7 @@ export function startGame(authContext: AuthContext) {
                   announcements,
                   bumpkins,
                   transaction,
+                  promoCode,
                 };
               }
 
@@ -1472,6 +1477,7 @@ export function startGame(authContext: AuthContext) {
           announcements: (_, event) => event.data.announcements,
           bumpkins: (_, event) => event.data.bumpkins,
           transaction: (_, event) => event.data.transaction,
+          promoCode: (_, event) => event.data.promoCode,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),
