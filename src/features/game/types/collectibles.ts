@@ -124,7 +124,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
       Wheat: new Decimal(20),
     },
     sfl: new Decimal(45),
-    boost: "+0.2 yield on Eggplants, Radishes, Wheat and Kale",
+    boost: "+0.2 yield on Eggplants, Corn, Radishes, Wheat and Kale",
   },
   "Immortal Pear": {
     description: "A long-lived pear that makes fruit trees last longer.",

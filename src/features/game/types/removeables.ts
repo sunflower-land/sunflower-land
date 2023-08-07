@@ -82,6 +82,7 @@ function areAnyAdvancedCropsPlanted(game: GameState): Restriction {
   const cropsPlanted = Object.values(game.crops ?? {}).some(
     (plot) =>
       plot.crop?.name === "Eggplant" ||
+      plot.crop?.name === "Corn" ||
       plot.crop?.name === "Radish" ||
       plot.crop?.name === "Wheat" ||
       plot.crop?.name === "Kale"
