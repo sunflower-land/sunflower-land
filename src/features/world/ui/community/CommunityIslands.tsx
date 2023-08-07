@@ -8,6 +8,7 @@ import unicorn from "assets/icons/unicorn.png";
 
 type CommunityIsland = {
   url: string;
+  project: string;
   name: string;
   id: string;
   icon: string;
@@ -15,10 +16,12 @@ type CommunityIsland = {
 
 export const COMMUNITY_ISLANDS: CommunityIsland[] = [
   {
-    url: "https://sunflower-land.github.io/crypto-unicorn-community-island/",
+    // url: "https://sunflower-land.github.io/crypto-unicorn-community-island/",
+    url: "http://localhost:3003/",
     name: "Unicorn Island",
     id: "unicorn_island",
     icon: unicorn,
+    project: "Crypto Unicorns",
   },
 ];
 
