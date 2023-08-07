@@ -1448,7 +1448,6 @@ export function startGame(authContext: AuthContext) {
         COMMUNITY_UPDATE: {
           actions: assign({
             state: (_, event) => {
-              console.log({ inner: event });
               return event.game;
             },
           }),
