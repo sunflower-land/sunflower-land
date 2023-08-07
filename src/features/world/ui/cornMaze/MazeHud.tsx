@@ -43,6 +43,7 @@ class MazeManager {
 
   public collect(id: string) {
     if (this.listener) {
+      console.log("id in collect", id);
       this.listener.collectCrow(id);
     }
   }
@@ -83,6 +84,7 @@ const _timeElapsed = (state: MachineState) => state.context.timeElapsed;
 const _startedAt = (state: MachineState) => state.context.startedAt;
 const _attemptCompletedAt = (state: MachineState) =>
   state.context.attemptCompletedAt;
+const _crowIds = (state: MachineState) => state.context.crowIds;
 const _pausedAt = (state: MachineState) => state.context.pausedAt;
 const _paused = (state: MachineState) => state.matches("paused");
 const _wonGame = (state: MachineState) => state.matches("wonGame");
@@ -110,6 +112,7 @@ export const MazeHud: React.FC = () => {
     context: {
       score: activeAttempt?.crowsFound ?? 0,
       health: activeAttempt?.health ?? DEFAULT_HEALTH,
+      crowIds: activeAttempt?.crowIds ?? [],
       totalLostCrows: weeklyLostCrowCount,
       gameOver: undefined,
       sceneLoaded: false,
@@ -123,6 +126,7 @@ export const MazeHud: React.FC = () => {
 
   const score = useSelector(cornMazeService, _score);
   const health = useSelector(cornMazeService, _health);
+  const crowIds = useSelector(cornMazeService, _crowIds);
   const timeElapsed = useSelector(cornMazeService, _timeElapsed);
   const startedAt = useSelector(cornMazeService, _startedAt);
   const paused = useSelector(cornMazeService, _paused);
@@ -139,8 +143,8 @@ export const MazeHud: React.FC = () => {
     let timeout: NodeJS.Timeout;
 
     mazeManager.listen({
-      collectCrow: () => {
-        cornMazeService.send("COLLECT_CROW");
+      collectCrow: (id: string) => {
+        cornMazeService.send("COLLECT_CROW", { id });
       },
       hit: () => {
         cornMazeService.send("HIT");
@@ -159,9 +163,9 @@ export const MazeHud: React.FC = () => {
     });
 
     const saveGameState = (event: BeforeUnloadEvent) => {
-      console.log("active attempt in save, ", activeAttempt);
       handleSaveAttempt({
         crowsFound: cornMazeService.state.context.score,
+        crowIds: cornMazeService.state.context.crowIds,
         health: cornMazeService.state.context.health,
         timeRemaining: Math.max(
           MAZE_TIME_LIMIT_SECONDS - cornMazeService.state.context.timeElapsed,
@@ -193,6 +197,7 @@ export const MazeHud: React.FC = () => {
     handleSaveAttempt({
       crowsFound: score,
       health,
+      crowIds,
       timeRemaining: MAZE_TIME_LIMIT_SECONDS - timeElapsed,
       completedAt: attemptCompletedAt,
     });
@@ -303,6 +308,7 @@ export const MazeHud: React.FC = () => {
             handleSaveAttempt({
               crowsFound: score,
               health,
+              crowIds,
               timeRemaining: MAZE_TIME_LIMIT_SECONDS - timeElapsed,
               completedAt: attemptCompletedAt,
             });
@@ -322,6 +328,7 @@ export const MazeHud: React.FC = () => {
             handleSaveAttempt({
               crowsFound: score,
               health,
+              crowIds,
               timeRemaining: MAZE_TIME_LIMIT_SECONDS - timeElapsed,
               completedAt: pausedAt,
             });

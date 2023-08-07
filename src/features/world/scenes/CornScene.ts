@@ -10,6 +10,7 @@ import eventBus from "../lib/eventBus";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { SeasonWeek } from "features/game/types/game";
 import { ENEMIES, Enemy } from "../ui/cornMaze/lib/enemies";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 
 const LUNA: NPCBumpkin = {
@@ -45,7 +46,6 @@ export class CornScene extends BaseScene {
   async preload() {
     super.preload();
 
-    console.log("Loading maze portal");
     this.load.spritesheet("maze_portal", "world/maze_portal.png", {
       frameWidth: 12,
       frameHeight: 12,
@@ -172,9 +172,27 @@ export class CornScene extends BaseScene {
     }
   }
 
+  getFoundCrowIds() {
+    const gameService = this.registry.get("gameService") as MachineInterpreter;
+    const currentWeek = getSeasonWeek(Date.now());
+    const witchesEve = gameService.state.context.state.witchesEve;
+    const weekData = witchesEve?.maze[currentWeek];
+
+    // Attempt is added to game start when Luna is paid
+    const activeAttempt = weekData?.attempts?.find(
+      (attempt) => !attempt.completedAt
+    );
+
+    if (!activeAttempt) return;
+
+    return activeAttempt.crowIds ?? [];
+  }
+
   setUpCrows() {
     const crowsLayer = this.map.getLayer("Crows");
     if (crowsLayer) {
+      const foundCrowIds = this.getFoundCrowIds();
+
       // Access the tile data from the layer
       const tileData = crowsLayer.data;
 
@@ -193,15 +211,20 @@ export class CornScene extends BaseScene {
             const spriteX = x * tileWidth + tileWidth / 2;
             const spriteY = y * tileHeight + tileHeight / 2;
 
-            const crow = this.physics.add.sprite(spriteX, spriteY, "crow");
-            // on collision with player, collect crow
-            if (this.currentPlayer) {
-              this.physics.add.overlap(this.currentPlayer, crow, () => {
-                this.collect(`${spriteX}-${spriteY}`);
-                const collected = this.sound.add("crow_collected");
-                collected.play({ volume: 0.7 });
-                crow.destroy();
-              });
+            const crowId = `${spriteX}-${spriteY}`;
+
+            // Only add the crow if it hasn't already been found
+            if (!foundCrowIds?.includes(crowId)) {
+              const crow = this.physics.add.sprite(spriteX, spriteY, "crow");
+              // on collision with player, collect crow
+              if (this.currentPlayer) {
+                this.physics.add.overlap(this.currentPlayer, crow, () => {
+                  this.collect(crowId);
+                  const collected = this.sound.add("crow_collected");
+                  collected.play({ volume: 0.7 });
+                  crow.destroy();
+                });
+              }
             }
           }
         }

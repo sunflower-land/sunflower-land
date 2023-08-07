@@ -600,6 +600,7 @@ export type MazeAttempt = {
   crowsFound: number;
   health: number;
   time: number;
+  crowIds?: string[];
 };
 
 export type MazeMetadata = {
