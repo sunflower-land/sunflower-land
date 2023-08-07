@@ -36,6 +36,7 @@ import { SceneId } from "./mmoMachine";
 import { CornScene } from "./scenes/CornScene";
 import { useNavigate } from "react-router-dom";
 import { PlayerModals } from "./ui/PlayerModals";
+import { prepareAPI } from "features/community/lib/CommunitySDK";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -80,6 +81,15 @@ export const PhaserComponent: React.FC<Props> = ({
         ClothesShopScene,
         DecorationShopScene,
       ];
+
+  useEffect(() => {
+    // Set up community APIs
+    (window as any).CommunityAPI = prepareAPI({
+      farmId: authState.context.user.farmId as number,
+      jwt: authState.context.user.rawToken as string,
+      gameService: gameService,
+    });
+  }, []);
 
   useEffect(() => {
     const config: Phaser.Types.Core.GameConfig = {

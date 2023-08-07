@@ -1,24 +1,17 @@
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { Button } from "components/ui/Button";
-
-type ButtonInfo = {
-  text: string;
-  cb: () => void;
-  closeModal?: boolean;
-};
+import { Message, SpeakingModal } from "features/game/components/SpeakingModal";
+import { Panel } from "components/ui/Panel";
 
 type CommunityModal = {
   npc: {
     clothing: BumpkinParts;
     name: string;
   };
-  jsx: JSX.Element;
-  buttons?: ButtonInfo[];
+  messages: Message[];
+  type: "speaking" | "loading";
   onClose?: () => void;
-  onButtonClick?: (buttonId: string) => void;
 };
 
 class CommunityModalManager {
@@ -35,6 +28,12 @@ class CommunityModalManager {
     }
   };
 
+  public close = () => {
+    if (this.listener) {
+      this.listener({} as any, false);
+    }
+  };
+
   public listen(cb: (npc: CommunityModal, isOpen: boolean) => void) {
     this.listener = cb;
   }
@@ -47,7 +46,11 @@ export const CommunityModals: React.FC = () => {
 
   useEffect(() => {
     communityModalManager.listen((modal, open) => {
-      setModal(modal);
+      if (open) {
+        setModal(modal);
+      } else {
+        setModal(undefined);
+      }
     });
   }, []);
 
@@ -58,32 +61,21 @@ export const CommunityModals: React.FC = () => {
     setModal(undefined);
   };
 
-  console.log({ modal });
   return (
     <>
       <Modal show={!!modal} centered onHide={closeModal}>
-        <CloseButtonPanel
-          onClose={closeModal}
-          bumpkinParts={modal?.npc?.clothing}
-        >
-          <div className="p-2">{modal?.jsx}</div>
-          <div className="p-2 grid grid-cols-2 gap-2">
-            {modal?.buttons?.map((button, index) => (
-              <Button
-                key={index}
-                onClick={() => {
-                  button.cb();
-
-                  if (button.closeModal) {
-                    setModal(undefined);
-                  }
-                }}
-              >
-                {button.text}
-              </Button>
-            ))}
-          </div>
-        </CloseButtonPanel>
+        {modal?.type === "speaking" && (
+          <SpeakingModal
+            onClose={closeModal}
+            bumpkinParts={modal?.npc?.clothing}
+            message={modal?.messages ?? []}
+          />
+        )}
+        {modal?.type === "loading" && (
+          <Panel>
+            <span className="loading">Loading</span>
+          </Panel>
+        )}
       </Modal>
     </>
   );

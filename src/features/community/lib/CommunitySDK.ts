@@ -100,7 +100,7 @@ export function prepareAPI({
         burnSFL: sfl,
       });
 
-      gameService.send("COMMUNITY_UPDATE", { state: response?.game });
+      gameService.send("COMMUNITY_UPDATE", { game: response?.game });
 
       return { updatedAt: response?.updatedAt };
     }

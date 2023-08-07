@@ -9,7 +9,6 @@ import { communityToastManager } from "../ui/CommunityToastManager";
 import { Room } from "colyseus.js";
 import { PlazaRoomState } from "../types/Room";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
-import { prepareAPI } from "features/community/lib/CommunitySDK";
 
 export async function getgit(owner: string, repo: string, path: string) {
   // A function to fetch files from github using the api
@@ -56,14 +55,8 @@ export abstract class CommunityScene extends Phaser.Scene {
       // Expose API/SDK for usage
       (window as any).BaseScene = BaseScene;
       (window as any).openModal = communityModalManager.open;
+      (window as any).closeModal = communityModalManager.close;
       (window as any).createToast = communityToastManager.toast;
-
-      // TODO
-      (window as any).CommunityAPI = prepareAPI({
-        farmId: 1,
-        jwt: "",
-        gameService: this.gameService,
-      });
 
       const sceneName = this.registry.get("initialScene");
       let island = COMMUNITY_ISLANDS.find((island) => island.id === sceneName);
@@ -106,10 +99,11 @@ export abstract class CommunityScene extends Phaser.Scene {
         frameWidth: 14,
         frameHeight: 18,
       });
+
       this.load.bitmapFont(
-        "Small 5x3",
-        "world/small_3x5.png",
-        "world/small_3x5.xml"
+        "Teeny Tiny Pixls",
+        "world/Teeny Tiny Pixls5.png",
+        "world/Teeny Tiny Pixls5.xml"
       );
       this.load.bitmapFont("pixelmix", "world/7px.png", "world/7px.xml");
 

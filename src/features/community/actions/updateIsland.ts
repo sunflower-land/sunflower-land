@@ -76,6 +76,7 @@ export async function updateIsland(
 
   const game = makeGame(farm);
 
+  console.log({ game });
   return {
     updatedAt,
     game,
