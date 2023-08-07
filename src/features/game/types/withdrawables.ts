@@ -392,12 +392,13 @@ const decorations: Record<ShopDecorationName, boolean> = {
   "Golden Maple": false,
 };
 const seasonalDecorations: Record<SeasonalDecorationName, boolean> = {
-  Clementine: false,
-  Cobalt: false,
-  "Dawn Umbrella Seat": false,
-  "Eggplant Grill": false,
-  "Giant Dawn Mushroom": false,
-  "Shroom Glow": false,
+  Clementine: true,
+  Cobalt: true,
+  "Dawn Umbrella Seat": true,
+  "Eggplant Grill": true,
+  "Giant Dawn Mushroom": true,
+  "Shroom Glow": true,
+  
   Candles: false,
   "Haunted Stump": false,
   "Spooky Tree": false,
@@ -425,7 +426,7 @@ const points: Record<Points, boolean> = {
 const goblinBlacksmith: Record<GoblinBlacksmithItemName, boolean> = {
   "Mushroom House": true,
   Obie: true,
-  "Purple Trail": false,
+  "Purple Trail": true,
   Maximus: true,
 };
 
@@ -552,17 +553,17 @@ const treasureDecoration: Record<DecorationTreasure, boolean> = {
   "Sunflower Coin": true,
   "Pirate Bear": true,
   "Whale Bear": true,
-
+  "Lifeguard Bear": true,
+  "Snorkel Bear": true,
+  "Turtle Bear": true,
+  
   "Abandoned Bear": false,
   "Dinosaur Bone": false,
   Galleon: false,
   "Golden Bear Head": false,
   "Human Bear": false,
-  "Lifeguard Bear": false,
   "Parasaur Skull": false,
   "Skeleton King Staff": false,
-  "Snorkel Bear": false,
-  "Turtle Bear": false,
   "Goblin Bear": false,
 };
 
@@ -586,20 +587,20 @@ const eventDecoration: Record<EventDecorationName, boolean> = {
   "Easter Bear": true,
   "Easter Bush": true,
   "Giant Carrot": true,
-  "Genie Bear": false,
+  "Genie Bear": true,
   "Eggplant Bear": true,
-  "Dawn Flower": false,
+  "Dawn Flower": true,
 };
 
 const lanterns: Record<LanternName, boolean> = {
-  "Luminous Lantern": false,
-  "Radiance Lantern": false,
-  "Aurora Lantern": false,
-  "Ocean Lantern": false,
-  "Solar Lantern": false,
-  "Betty Lantern": false,
-  "Bumpkin Lantern": false,
-  "Goblin Lantern": false,
+  "Luminous Lantern": true,
+  "Radiance Lantern": true,
+  "Aurora Lantern": true,
+  "Ocean Lantern": true,
+  "Solar Lantern": true,
+  "Betty Lantern": true,
+  "Bumpkin Lantern": true,
+  "Goblin Lantern": true,
 };
 
 const purchasables: Record<PurchasableItems, boolean> = {
