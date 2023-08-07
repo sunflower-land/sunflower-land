@@ -170,7 +170,8 @@ export type BumpkinHat =
   | "Whale Hat"
   | "Parsnip Horns"
   | "Halo"
-  | "Unicorn Horn";
+  | "Unicorn Horn"
+  | "Unicorn Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -463,6 +464,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   Kama: 210,
   "Grey Merch Hoodie": 211,
   "Unicorn Horn": 212,
+  "Unicorn Hat": 213,
 };
 
 // The reverse of above
@@ -734,6 +736,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   Kama: "tool",
   "Grey Merch Hoodie": "shirt",
   "Unicorn Horn": "hat",
+  "Unicorn Hat": "hat",
 };
 
 export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
