@@ -1,6 +1,6 @@
 import React from "react";
-import { RankData } from "../actions/leaderboards";
 import classNames from "classnames";
+import { RankData } from "./actions/leaderboard";
 
 interface Props {
   rankings: RankData[];

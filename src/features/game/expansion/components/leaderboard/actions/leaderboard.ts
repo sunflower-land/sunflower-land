@@ -1,7 +1,7 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import {
-  LeaderboardsType,
+  LeaderboardType,
   cacheLeaderboardData,
   getCachedLeaderboardData,
 } from "./cache";
@@ -53,7 +53,7 @@ export async function getLeaderboard({
 
 export async function fetchLeaderboardData(
   farmId: number
-): Promise<LeaderboardsType | null> {
+): Promise<LeaderboardType | null> {
   const cachedLeaderboardData = getCachedLeaderboardData();
 
   if (cachedLeaderboardData) return cachedLeaderboardData;
@@ -74,7 +74,7 @@ export async function fetchLeaderboardData(
       fetchTicketsFn,
     ]);
 
-    // Leaderboards are created at the same time, so if one is missing, the other is too
+    // Leaderboard are created at the same time, so if one is missing, the other is too
     if (!lanternLeaderboard || !ticketLeaderboard) return null;
 
     // Likewise, their lastUpdated timestamps should be the same

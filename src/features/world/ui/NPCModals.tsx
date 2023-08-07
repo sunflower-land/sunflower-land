@@ -3,10 +3,7 @@ import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { Sofia } from "./dawn/Sofia";
-import { Bella } from "./dawn/Bella";
 import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
-import { WanderLeaf } from "./dawn/WanderLeaf";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 import { Stylist } from "./stylist/Stylist";
 import { SceneId } from "../mmoMachine";
@@ -58,9 +55,6 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
         centered
         onHide={closeModal}
       >
-        {npc === "sofia" && <Sofia onClose={closeModal} />}
-        {npc === "bella" && <Bella onClose={closeModal} />}
-        {npc === "wanderleaf" && <WanderLeaf onClose={closeModal} />}
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <Grubnuk onClose={closeModal} />}

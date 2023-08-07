@@ -151,25 +151,12 @@ import { moveStone, MoveStoneAction } from "./landExpansion/moveStone";
 import { moveGold, MoveGoldAction } from "./landExpansion/moveGold";
 import { pickMushroom, PickMushroomAction } from "./landExpansion/pickMushroom";
 import { moveChicken, MoveChickenAction } from "./landExpansion/moveChicken";
-import { craftLantern, CraftLanternAction } from "./landExpansion/craftLantern";
 import { Announcements } from "../types/conversations";
 import { skipChore, SkipChoreAction } from "./landExpansion/skipChore";
 import { deliverOrder, DeliverOrderAction } from "./landExpansion/deliver";
 import { equip, EquipBumpkinAction } from "./landExpansion/equip";
 import { refundBid, RefundBidAction } from "./landExpansion/refundBid";
 import { mixPotion, MixPotionAction } from "./landExpansion/mixPotion";
-import {
-  tendDawnFlower,
-  TendDawnFlowerAction,
-} from "./landExpansion/tendDawnFlower";
-import {
-  prepareParty,
-  PreparePartyAction,
-} from "./landExpansion/prepareDawnParty";
-import {
-  findTraveller,
-  FindTravellerAction,
-} from "./landExpansion/findTraveller";
 import { buyWearable, BuyWearableAction } from "./landExpansion/buyWearable";
 import { skipOrder, SkipOrderAction } from "./landExpansion/skipOrder";
 import { SaveMazeAction, saveMaze } from "./landExpansion/saveMaze";
@@ -221,14 +208,10 @@ export type PlayingEvent =
   | RemoveBuildingAction
   | RemoveCollectibleAction
   | RemoveChickenAction
-  | CraftLanternAction
   | DeliverOrderAction
   | EquipBumpkinAction
   | RefundBidAction
   | MixPotionAction
-  | TendDawnFlowerAction
-  | PreparePartyAction
-  | FindTravellerAction
   | BuyWearableAction
   | SkipOrderAction
   | SaveMazeAction
@@ -329,15 +312,11 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "building.removed": removeBuilding,
   "collectible.removed": removeCollectible,
   "chicken.removed": removeChicken,
-  "lantern.crafted": craftLantern,
   "order.delivered": deliverOrder,
   "order.skipped": skipOrder,
   "bumpkin.equipped": equip,
   "bid.refunded": refundBid,
   "potion.mixed": mixPotion,
-  "dawnFlower.tended": tendDawnFlower,
-  "dawnParty.prepared": prepareParty,
-  "traveller.found": findTraveller,
   "wearable.bought": buyWearable,
   "maze.started": startMaze,
   "maze.saved": saveMaze,
