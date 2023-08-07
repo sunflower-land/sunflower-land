@@ -445,11 +445,7 @@ import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
 //Golden Crop Event
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
-import {
-  GOBLIN_BLACKSMITH_ITEMS,
-  GOBLIN_PIRATE_ITEMS,
-  HELIOS_BLACKSMITH_ITEMS,
-} from "./collectibles";
+import { GOBLIN_PIRATE_ITEMS, HELIOS_BLACKSMITH_ITEMS } from "./collectibles";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -2109,7 +2105,8 @@ export const ITEM_DETAILS: Items = {
   // Dawn Breaker Season
   "Mushroom House": {
     image: mushroomHouse,
-    description: GOBLIN_BLACKSMITH_ITEMS()["Mushroom House"].description,
+    description:
+      "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
   },
 
   "Basic Land": {
