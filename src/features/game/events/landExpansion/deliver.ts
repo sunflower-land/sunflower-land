@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { CAKES, getKeys } from "features/game/types/craftables";
+import { COOKABLE_CAKES } from "features/game/types/consumables";
+import { getKeys } from "features/game/types/craftables";
 import {
   Bumpkin,
   GameState,
@@ -130,7 +131,7 @@ export function getOrderSellPrice(bumpkin: Bumpkin, order: Order) {
 
   const items = getKeys(order.items);
   if (
-    items.some((name) => name in CAKES()) &&
+    items.some((name) => name in COOKABLE_CAKES) &&
     bumpkin.equipped.coat == "Chef Apron"
   ) {
     mul += 0.2;
