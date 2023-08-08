@@ -65,6 +65,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       bumpkin: gameState.context.state.bumpkin,
       initialSceneId: name as SceneId,
       experience: gameState.context.state.bumpkin?.experience ?? 0,
+      isCommunity,
     },
   }) as unknown as MMOMachineInterpreter;
 
@@ -102,12 +103,6 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
   const isJoining = useSelector(mmoService, _isJoining);
   const isKicked = useSelector(mmoService, _isKicked);
 
-  console.log({
-    isConnecting,
-    isConnected,
-    isJoining,
-    state: mmoService.state?.value,
-  });
   // Return kicked
   if (isKicked) {
     return (
