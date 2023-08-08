@@ -81,12 +81,11 @@ export const SpeakingModal: React.FC<Props> = ({
       className={classNames("relative w-full", className)}
       bumpkinParts={bumpkinParts}
     >
-      <div
-        className="p-1 flex flex-col cursor-pointer"
-        style={{ minHeight: `${lines * 25}px` }}
-        onClick={handleClick}
-      >
-        <div className="flex-1 pb-2">
+      <div style={{ minHeight: `${lines * 25}px` }} className="flex flex-col">
+        <div
+          className="flex-1 p-1  flex flex-col cursor-pointer"
+          onClick={handleClick}
+        >
           <TypingMessage
             message={message[currentMessage].text}
             key={currentMessage}
@@ -96,26 +95,26 @@ export const SpeakingModal: React.FC<Props> = ({
           {currentTextEnded && message[currentMessage].jsx}
         </div>
         {!showActions && (
-          <p className="text-xxs italic float-right">(Tap to continue)</p>
+          <p className="text-xxs italic float-right p-1">(Tap to continue)</p>
+        )}
+        {showActions && (
+          <div className="flex flex-col-reverse space-y-1 space-y-reverse md:flex-row md:space-y-0 md:space-x-1">
+            {message[currentMessage].actions?.map((action) => (
+              <Button
+                key={action.text}
+                className="w-full"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  action.cb();
+                }}
+              >
+                {action.text}
+              </Button>
+            ))}
+          </div>
         )}
       </div>
-      {showActions && (
-        <div className="flex flex-col-reverse space-y-1 space-y-reverse md:flex-row md:space-y-0 md:space-x-1">
-          {message[currentMessage].actions?.map((action) => (
-            <Button
-              key={action.text}
-              className="w-full"
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                action.cb();
-              }}
-            >
-              {action.text}
-            </Button>
-          ))}
-        </div>
-      )}
     </Panel>
   );
 };
