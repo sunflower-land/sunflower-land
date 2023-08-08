@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 
+import * as Auth from "features/auth/lib/Provider";
 import { OuterPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
@@ -18,7 +19,8 @@ import { COMMUNITY_ISLANDS } from "./community/CommunityIslands";
 import { useNavigate } from "react-router-dom";
 import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 interface Props {
   mmoService: MachineInterpreter;
@@ -33,8 +35,12 @@ const ICONS = [
   CROP_LIFECYCLE.Pumpkin.crop,
 ];
 
+const farmIdSelector = (state: AuthMachineState) => state.context.user.farmId;
 export const PickServer: React.FC<Props> = ({ mmoService }) => {
   const [tab, setTab] = useState(0);
+  const { authService } = useContext(Auth.Context);
+
+  const farmId = useSelector(authService, farmIdSelector);
 
   const navigate = useNavigate();
   const { gameService } = useContext(Context);
@@ -74,7 +80,7 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
       currentTab={tab}
       setCurrentTab={setTab}
       onClose={() => {
-        console.log("TODO: Go back");
+        navigate(`/land/${farmId}`);
       }}
       tabs={[
         {
@@ -153,11 +159,13 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
                     )}
                     key={island.id}
                     onClick={() => {
-                      // Default to first server
-                      mmoService.send("PICK_SERVER", { serverId: "bliss" });
-
                       // Set IslandID in route
                       navigate(`/community/${island.id}`);
+
+                      // Default to first server
+                      mmoService.send("PICK_SERVER", {
+                        serverId: "sunflorea_bliss",
+                      });
                     }}
                   >
                     <div className="flex items-center">

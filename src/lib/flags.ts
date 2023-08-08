@@ -29,7 +29,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   POTION_HOUSE: testnetFeatureFlag,
   NEW_DELIVERIES: testnetFeatureFlag,
   CORN_MAZE: testnetFeatureFlag,
-  UNICORN_ISLAND: testnetFeatureFlag,
+  UNICORN_ISLAND: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (
