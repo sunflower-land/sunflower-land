@@ -67,7 +67,11 @@ export const SpeakingModal: React.FC<Props> = ({
   }, [handleClick]);
 
   const maxLength = Math.max(...message.map((m) => m.text.length));
-  const lines = maxLength / 30;
+  let lines = maxLength / 30;
+  const hasButton = message.find((m) => !!m.actions);
+  if (hasButton) {
+    lines += 1;
+  }
 
   const showActions =
     (currentTextEnded || forceShowFullMessage) &&

@@ -141,7 +141,7 @@ describe("deliver", () => {
     expect(state.balance).toEqual(new Decimal(0.1));
   });
 
-  it("rewards apron boost", () => {
+  it("rewards apron boost with Sunflower Cake", () => {
     const state = deliverOrder({
       state: {
         ...TEST_FARM,
@@ -166,6 +166,86 @@ describe("deliver", () => {
               from: "betty",
               items: {
                 "Sunflower Cake": 1,
+              },
+              reward: { sfl: 1 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.balance).toEqual(new Decimal(1.2));
+  });
+
+  it("rewards apron boost with Eggplant Cake", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            coat: "Chef Apron",
+          },
+        },
+        inventory: {
+          "Eggplant Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                "Eggplant Cake": 1,
+              },
+              reward: { sfl: 1 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.balance).toEqual(new Decimal(1.2));
+  });
+
+  it("rewards apron boost with Orange Cake", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            coat: "Chef Apron",
+          },
+        },
+        inventory: {
+          "Orange Cake": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "betty",
+              items: {
+                "Orange Cake": 1,
               },
               reward: { sfl: 1 },
             },

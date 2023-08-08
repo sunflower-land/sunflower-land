@@ -1,5 +1,5 @@
 import { GameState, PlantedCrop } from "../../types/game";
-import { Crop, CROPS } from "../../types/crops";
+import { Crop, CropName, CROPS } from "../../types/crops";
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 import {
@@ -16,6 +16,25 @@ type Options = {
   state: GameState;
   action: LandExpansionHarvestAction;
   createdAt?: number;
+};
+
+export const isBasicCrop = (cropName: CropName) => {
+  const cropDetails = CROPS()[cropName];
+  return cropDetails.harvestSeconds <= CROPS()["Pumpkin"].harvestSeconds;
+};
+
+export const isMediumCrop = (cropName: CropName) => {
+  return !(isBasicCrop(cropName) || isAdvancedCrop(cropName));
+};
+
+export const isAdvancedCrop = (cropName: CropName) => {
+  const cropDetails = CROPS()[cropName];
+  return cropDetails.harvestSeconds >= CROPS()["Eggplant"].harvestSeconds;
+};
+
+export const isOvernightCrop = (cropName: CropName) => {
+  const cropDetails = CROPS()[cropName];
+  return cropDetails.harvestSeconds >= CROPS()["Radish"].harvestSeconds;
 };
 
 export const isReadyToHarvest = (

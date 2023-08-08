@@ -45,6 +45,7 @@ type BaseSceneOptions = {
   map: {
     tilesetUrl?: string;
     json: any;
+    padding?: [number, number];
   };
   mmo?: {
     enabled: boolean;
@@ -229,7 +230,8 @@ export abstract class BaseScene extends Phaser.Scene {
           "Sunnyside V3",
           "community-tileset",
           16,
-          16
+          16,
+          ...(this.options.map.padding ?? [0, 0])
         ) as Phaser.Tilemaps.Tileset)
       : // Standard tileset
         (this.map.addTilesetImage(

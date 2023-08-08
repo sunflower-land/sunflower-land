@@ -105,6 +105,7 @@ export interface Context {
   bumpkins: OnChainBumpkin[];
   transaction?: { type: "withdraw_bumpkin"; expiresAt: number };
   auctionResults?: AuctionResults;
+  promoCode?: string;
 }
 
 type MintEvent = {
@@ -124,6 +125,11 @@ type SyncEvent = {
   captcha: string;
   type: "SYNC";
   blockBucks: number;
+};
+
+type CommunityEvent = {
+  type: "COMMUNITY_UPDATE";
+  game: GameState;
 };
 
 type PurchaseEvent = {
@@ -187,6 +193,7 @@ export type BlockchainEvent =
     }
   | SyncEvent
   | PurchaseEvent
+  | CommunityEvent
   | {
       type: "REFRESH";
     }
@@ -491,7 +498,10 @@ export function startGame(authContext: AuthContext) {
                   status,
                   announcements,
                   transaction,
+                  promoCode,
                 } = response;
+
+                console.log({ promoCode });
 
                 return {
                   state: {
@@ -510,6 +520,7 @@ export function startGame(authContext: AuthContext) {
                   announcements,
                   bumpkins,
                   transaction,
+                  promoCode,
                 };
               }
 
@@ -1433,6 +1444,15 @@ export function startGame(authContext: AuthContext) {
           on: { CLOSE: { target: "playing" } },
         },
       },
+      on: {
+        COMMUNITY_UPDATE: {
+          actions: assign({
+            state: (_, event) => {
+              return event.game;
+            },
+          }),
+        },
+      },
     },
     {
       actions: {
@@ -1456,6 +1476,7 @@ export function startGame(authContext: AuthContext) {
           announcements: (_, event) => event.data.announcements,
           bumpkins: (_, event) => event.data.bumpkins,
           transaction: (_, event) => event.data.transaction,
+          promoCode: (_, event) => event.data.promoCode,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

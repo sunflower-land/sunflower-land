@@ -21,6 +21,12 @@ import { setPrecision } from "lib/utils/formatNumber";
 import { SEEDS } from "features/game/types/seeds";
 import { BuildingName } from "features/game/types/buildings";
 import { isWithinAOE } from "features/game/expansion/placeable/lib/collisionDetection";
+import {
+  isBasicCrop,
+  isMediumCrop,
+  isAdvancedCrop,
+  isOvernightCrop,
+} from "./harvest";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -139,11 +145,8 @@ export const getCropTime = (
     seconds = seconds * 0.75;
   }
 
-  const isBasicCrop =
-    crop === "Sunflower" || crop === "Potato" || crop === "Pumpkin";
-
   // If within Basic Scarecrow AOE: 20% reduction
-  if (collectibles["Basic Scarecrow"]?.[0] && isBasicCrop) {
+  if (collectibles["Basic Scarecrow"]?.[0] && isBasicCrop(crop)) {
     if (!plot) return seconds;
 
     const basicScarecrowCoordinates =
@@ -278,14 +281,7 @@ export function getCropYieldAmount({
     amount *= 1.1;
   }
 
-  const isMediumLevelCrop =
-    crop === "Carrot" ||
-    crop === "Cabbage" ||
-    crop === "Beetroot" ||
-    crop === "Cauliflower" ||
-    crop === "Parsnip";
-
-  if (collectibles["Scary Mike"]?.[0] && isMediumLevelCrop && plot) {
+  if (collectibles["Scary Mike"]?.[0] && isMediumCrop(crop) && plot) {
     const scarecrowCoordinates = collectibles["Scary Mike"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Scary Mike"];
 
@@ -328,27 +324,17 @@ export function getCropYieldAmount({
     }
   }
 
-  const isOvernightCrop =
-    crop === "Radish" || crop === "Wheat" || crop === "Kale";
-
   if (
-    isOvernightCrop &&
+    isOvernightCrop(crop) &&
     collectibles["Hoot"] &&
     isCollectibleBuilt("Hoot", collectibles)
   ) {
     amount = amount + 0.5;
   }
 
-  const isAdvancedLevelCrop =
-    crop === "Eggplant" ||
-    crop === "Corn" ||
-    crop === "Radish" ||
-    crop === "Wheat" ||
-    crop === "Kale";
-
   if (
     collectibles["Laurie the Chuckle Crow"]?.[0] &&
-    isAdvancedLevelCrop &&
+    isAdvancedCrop(crop) &&
     plot
   ) {
     const scarecrowCoordinates =
