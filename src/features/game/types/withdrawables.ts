@@ -398,7 +398,7 @@ const seasonalDecorations: Record<SeasonalDecorationName, boolean> = {
   "Eggplant Grill": true,
   "Giant Dawn Mushroom": true,
   "Shroom Glow": true,
-  
+
   Candles: false,
   "Haunted Stump": false,
   "Spooky Tree": false,
@@ -556,7 +556,7 @@ const treasureDecoration: Record<DecorationTreasure, boolean> = {
   "Lifeguard Bear": true,
   "Snorkel Bear": true,
   "Turtle Bear": true,
-  
+
   "Abandoned Bear": false,
   "Dinosaur Bone": false,
   Galleon: false,
