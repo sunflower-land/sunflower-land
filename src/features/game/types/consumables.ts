@@ -239,7 +239,6 @@ export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
 };
 
 export const COOKABLES: Record<CookableName, Cookable> = {
-  ...COOKABLE_CAKES,
   "Mashed Potato": {
     name: "Mashed Potato",
     description: "My life is potato.",
@@ -661,6 +660,7 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     },
     marketRate: 120,
   },
+  ...COOKABLE_CAKES,
 };
 
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
