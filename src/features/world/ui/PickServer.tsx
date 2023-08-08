@@ -159,11 +159,11 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
                     )}
                     key={island.id}
                     onClick={() => {
-                      // Default to first server
-                      mmoService.send("PICK_SERVER", { serverId: "bliss" });
-
                       // Set IslandID in route
                       navigate(`/community/${island.id}`);
+
+                      // Default to first server
+                      mmoService.send("PICK_SERVER", { serverId: "bliss" });
                     }}
                   >
                     <div className="flex items-center">
