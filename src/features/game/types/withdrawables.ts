@@ -525,7 +525,6 @@ const achievementDecoration: Record<AchievementDecorationName, boolean> = {
 const market: Record<MarketItem, boolean> = {
   // TODO add rule when beans are introduced
   "Carrot Sword": true,
-
   "Golden Cauliflower": true,
   "Mysterious Parsnip": true,
   Nancy: true,
@@ -556,9 +555,9 @@ const treasureDecoration: Record<DecorationTreasure, boolean> = {
   "Lifeguard Bear": true,
   "Snorkel Bear": true,
   "Turtle Bear": true,
+  "Dinosaur Bone": true,
 
   "Abandoned Bear": false,
-  "Dinosaur Bone": false,
   Galleon: false,
   "Golden Bear Head": false,
   "Human Bear": false,
@@ -792,7 +791,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
   "Squid Hat": () => true,
   "Striped Red Shirt": () => false, // Not Launched
   "Striped Yellow Shirt": () => false, // Not Launched
-  "Summer Top": () => false, // Auctioned
+  "Summer Top": () => true, // Auctioned // Auction over
   "Sunburst Potion": () => true,
   "Water Gun": () => false, // Not Launched
   "Wavy Pants": () => false, // Not Launched
