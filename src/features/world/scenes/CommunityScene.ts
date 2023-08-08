@@ -55,6 +55,7 @@ export abstract class CommunityScene extends Phaser.Scene {
       // Expose API/SDK for usage
       (window as any).BaseScene = BaseScene;
       (window as any).openModal = communityModalManager.open;
+      (window as any).closeModal = communityModalManager.close;
       (window as any).createToast = communityToastManager.toast;
 
       const sceneName = this.registry.get("initialScene");
@@ -65,6 +66,8 @@ export abstract class CommunityScene extends Phaser.Scene {
           id: "local",
           name: "Test Island",
           url: localStorage.getItem("community-tools-url") as string,
+          icon: "",
+          project: "",
         };
       }
 
@@ -98,10 +101,11 @@ export abstract class CommunityScene extends Phaser.Scene {
         frameWidth: 14,
         frameHeight: 18,
       });
+
       this.load.bitmapFont(
-        "Small 5x3",
-        "world/small_3x5.png",
-        "world/small_3x5.xml"
+        "Teeny Tiny Pixls",
+        "world/Teeny Tiny Pixls5.png",
+        "world/Teeny Tiny Pixls5.xml"
       );
       this.load.bitmapFont("pixelmix", "world/7px.png", "world/7px.xml");
 

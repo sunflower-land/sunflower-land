@@ -24,6 +24,7 @@
     "0xsequence": "^0.43.2",
     "@alch/alchemy-web3": "^1.4.7",
     "@deficonnect/web3-connector": "^2.0.3",
+    "@anima-protocol/personhood-sdk-react": "^0.4.6",
     "@metamask/onboarding": "^1.0.1",
     "@react-spring/web": "^9.7.2",
     "@types/uuid": "^9.0.0",

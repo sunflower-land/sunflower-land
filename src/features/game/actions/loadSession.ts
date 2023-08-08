@@ -29,6 +29,8 @@ type Response = {
     type: "withdraw_bumpkin";
     expiresAt: number;
   };
+  verified: boolean;
+  promoCode?: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -85,6 +87,8 @@ export async function loadSession(
     status,
     announcements,
     transaction,
+    verified,
+    promoCode: promo,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -95,6 +99,8 @@ export async function loadSession(
     status?: "COOL_DOWN";
     announcements: Announcements;
     transaction: { type: "withdraw_bumpkin"; expiresAt: number };
+    verified: boolean;
+    promoCode?: string;
   }>(response);
 
   saveSession(request.farmId);
@@ -108,6 +114,8 @@ export async function loadSession(
     status,
     announcements,
     transaction,
+    verified,
+    promoCode: promo,
   };
 }
 

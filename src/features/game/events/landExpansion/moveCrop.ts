@@ -10,6 +10,7 @@ import {
 import cloneDeep from "lodash.clonedeep";
 import { isReadyToHarvest } from "./harvest";
 import { CROPS } from "features/game/types/crops";
+import { isBasicCrop, isMediumCrop, isAdvancedCrop } from "./harvest";
 
 export enum MOVE_CROP_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -44,19 +45,9 @@ export function isLocked(
   const cropName = crop.name;
   const cropDetails = CROPS()[cropName];
 
-  const isBasicCrop =
-    cropName === "Sunflower" || cropName === "Potato" || cropName === "Pumpkin";
-
-  const isMediumLevelCrop =
-    cropName === "Carrot" ||
-    cropName === "Cabbage" ||
-    cropName === "Beetroot" ||
-    cropName === "Cauliflower" ||
-    cropName === "Parsnip";
-
   if (isReadyToHarvest(createdAt, crop, cropDetails)) return false;
 
-  if (isBasicCrop && collectibles["Basic Scarecrow"]?.[0]) {
+  if (isBasicCrop(cropName) && collectibles["Basic Scarecrow"]?.[0]) {
     const basicScarecrowCoordinates =
       collectibles["Basic Scarecrow"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Basic Scarecrow"];
@@ -80,7 +71,7 @@ export function isLocked(
     }
   }
 
-  if (isMediumLevelCrop && collectibles["Scary Mike"]?.[0]) {
+  if (isMediumCrop(cropName) && collectibles["Scary Mike"]?.[0]) {
     const basicScarecrowCoordinates =
       collectibles["Scary Mike"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Scary Mike"];
@@ -128,14 +119,10 @@ export function isLocked(
     }
   }
 
-  const isAdvancedLevelCrop =
-    cropName === "Eggplant" ||
-    cropName === "Corn" ||
-    cropName === "Radish" ||
-    cropName === "Wheat" ||
-    cropName === "Kale";
-
-  if (isAdvancedLevelCrop && collectibles["Laurie the Chuckle Crow"]?.[0]) {
+  if (
+    isAdvancedCrop(cropName) &&
+    collectibles["Laurie the Chuckle Crow"]?.[0]
+  ) {
     const ScarecrowCoordinates =
       collectibles["Laurie the Chuckle Crow"]?.[0].coordinates;
     const scarecrowDimensions =
