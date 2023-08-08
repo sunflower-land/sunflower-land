@@ -95,6 +95,13 @@ export function isLocked(
     }
   }
 
+  const gnome = collectibles["Gnome"]?.[0];
+  if (gnome) {
+    if (gnome.coordinates.x === plot.x && gnome.coordinates.y === plot.y + 1) {
+      return true;
+    }
+  }
+
   if (collectibles["Sir Goldensnout"]?.[0]) {
     const basicScarecrowCoordinates =
       collectibles["Sir Goldensnout"]?.[0].coordinates;
