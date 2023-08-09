@@ -17,7 +17,6 @@ import brazilFlag from "assets/sfts/flags/brazil_flag.gif";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { COMMUNITY_ISLANDS } from "./community/CommunityIslands";
 import { useNavigate } from "react-router-dom";
-import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
 import { AuthMachineState } from "features/auth/lib/authMachine";
@@ -146,52 +145,38 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
       {tab === 1 && (
         <div className="p-2">
           <p className="text-xs mb-2">Explore custom project islands.</p>
-          {hasFeatureAccess(
-            gameState.context.state.inventory,
-            "UNICORN_ISLAND"
-          ) ? (
-            <>
-              {COMMUNITY_ISLANDS.map((island) => {
-                return (
-                  <OuterPanel
-                    className={classNames(
-                      "flex relative items-center justify-between p-2 mb-1 cursor-pointer hover:bg-brown-200"
-                    )}
-                    key={island.id}
-                    onClick={() => {
-                      // Set IslandID in route
-                      navigate(`/community/${island.id}`);
-
-                      // Default to first server
-                      mmoService.send("PICK_SERVER", {
-                        serverId: "sunflorea_bliss",
-                      });
-                    }}
-                  >
-                    <div className="flex items-center">
-                      <img src={island.icon} className="w-7 mr-2" />
-                      <div>
-                        <p className="text-sm break-words -mb-2">
-                          {island.name}
-                        </p>
-                        <Label type="info" className="-mt-2">
-                          Special Event
-                        </Label>
-                      </div>
+          <>
+            {COMMUNITY_ISLANDS.map((island) => {
+              return (
+                <OuterPanel
+                  className={classNames(
+                    "flex relative items-center justify-between p-2 mb-1 cursor-pointer hover:bg-brown-200"
+                  )}
+                  key={island.id}
+                  onClick={() => {
+                    // Set IslandID in route
+                    navigate(`/community/${island.id}`);
+                  }}
+                >
+                  <div className="flex items-center">
+                    <img src={island.icon} className="w-7 mr-2" />
+                    <div>
+                      <p className="text-sm break-words -mb-2">{island.name}</p>
+                      <Label type="info" className="-mt-2">
+                        Special Event
+                      </Label>
                     </div>
-                    <div className="flex-1 flex items-center justify-end">
-                      <img
-                        src={SUNNYSIDE.icons.chevron_right}
-                        className="h-5 ml-2"
-                      />
-                    </div>
-                  </OuterPanel>
-                );
-              })}
-            </>
-          ) : (
-            <p className="text-sm">Coming soon...</p>
-          )}
+                  </div>
+                  <div className="flex-1 flex items-center justify-end">
+                    <img
+                      src={SUNNYSIDE.icons.chevron_right}
+                      className="h-5 ml-2"
+                    />
+                  </div>
+                </OuterPanel>
+              );
+            })}
+          </>
 
           <a
             href="https://docs.sunflower-land.com/contributing/community-islands"

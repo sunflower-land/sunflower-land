@@ -1,21 +1,20 @@
-import { Leaderboard } from "./leaderboards";
-
+import { Leaderboard } from "./leaderboard";
 // Leaderboard data is updated every 4 hours
 const CACHE_DURATION_IN_MS = 4 * 60 * 60 * 1000;
 
 const CACHE_KEY = "leaderboardData";
 
-export type LeaderboardsType = {
+export type LeaderboardType = {
   lanterns: Leaderboard;
   tickets: Leaderboard;
   lastUpdated: number;
 };
 
-export function cacheLeaderboardData(data: LeaderboardsType): void {
+export function cacheLeaderboardData(data: LeaderboardType): void {
   localStorage.setItem(CACHE_KEY, JSON.stringify(data));
 }
 
-export function getCachedLeaderboardData(): LeaderboardsType | null {
+export function getCachedLeaderboardData(): LeaderboardType | null {
   const cachedData = localStorage.getItem(CACHE_KEY);
   if (!cachedData) return null;
 

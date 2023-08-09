@@ -263,62 +263,7 @@ export const OFFLINE_FARM: GameState = {
   id: 4,
   witchesEve: {
     weeklyLostCrowCount: 25,
-    maze: {
-      1: {
-        sflFee: 0,
-        paidEntryFee: false,
-        highestScore: 0,
-        claimedFeathers: 0,
-        attempts: [],
-      },
-      2: {
-        sflFee: 0,
-        paidEntryFee: false,
-        highestScore: 0,
-        claimedFeathers: 0,
-        attempts: [],
-      },
-    },
-  },
-  dawnBreaker: {
-    currentWeek: 8,
-    availableLantern: {
-      name: "Solar Lantern",
-      startAt: "2023-05-08T00:00:00.000Z",
-      endAt: "2023-05-15T00:00:00.000Z",
-      ingredients: {
-        Carrot: new Decimal(50),
-        Cauliflower: new Decimal(7),
-        Beetroot: new Decimal(10),
-        Cabbage: new Decimal(10),
-        Wood: new Decimal(3),
-      },
-    },
-    lanternsCraftedByWeek: {
-      1: 4,
-      2: 3,
-    },
-    answeredRiddleIds: [],
-    riddle: {
-      hint: "Tester",
-      endAt: 0,
-      startAt: 0,
-      id: "test-id",
-      reward: {
-        items: {
-          "Dawn Breaker Ticket": 50,
-        },
-      },
-    },
-    dawnFlower: {
-      plantedAt: 0,
-      tendedAt: 0,
-      tendedCount: 7,
-    },
-    party: {
-      requirements: {
-        Wood: 50,
-      },
+    maze: {},
     },
   },
   balance: new Decimal(100),

@@ -110,12 +110,22 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
       {interactable === "potion_table" &&
         hasFeatureAccess(state.inventory, "POTION_HOUSE") && <PotionHouse />}
 
-      <Modal centered show={interactable === "boat_modal"} onHide={closeModal}>
+      <Modal
+        centered
+        show={interactable === "boat_modal"}
+        onHide={closeModal}
+        onShow={() => gameService.send("SAVE")}
+      >
         <CloseButtonPanel onClose={closeModal}>
           <div className="p-2">
             <p className="mb-3">Would you like to return home?</p>
           </div>
-          <Button onClick={() => navigate(`/land/${id}`)}>Go home</Button>
+          <Button
+            onClick={() => navigate(`/land/${id}`)}
+            disabled={gameState.matches("autosaving")}
+          >
+            {gameState.matches("autosaving") ? "Saving..." : "Go home"}
+          </Button>
         </CloseButtonPanel>
       </Modal>
 

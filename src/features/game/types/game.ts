@@ -26,8 +26,6 @@ import {
 import { TreasureToolName } from "./tools";
 import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
-import { Week } from "features/dawnBreaker/lib/characters";
-import { Riddle } from "./riddles";
 import { NPCName } from "lib/npcs";
 import { SeasonalTicket } from "./seasons";
 
@@ -462,40 +460,10 @@ export type LanternName =
   | "Betty Lantern"
   | "Bumpkin Lantern";
 
-export type LanternIngredients = Partial<Record<InventoryItemName, Decimal>>;
-
-export type LanternOffering = {
-  name: LanternName;
-  startAt: string;
-  endAt: string;
-  sfl?: Decimal;
-  ingredients: LanternIngredients;
-};
-
-export type LanternsCraftedByWeek = Partial<Record<Week, number>>;
-
 export type Party = {
   fulfilledAt?: number;
   fulfilledCount?: number;
   requirements?: Partial<Record<InventoryItemName, number>>;
-};
-
-export type DawnBreaker = {
-  currentWeek: Week;
-  availableLantern?: LanternOffering;
-  lanternsCraftedByWeek: LanternsCraftedByWeek;
-  riddle?: Riddle & { id: string };
-  answeredRiddleIds: string[];
-  dawnFlower?: {
-    tendedAt: number;
-    plantedAt: number;
-    tendedCount: number;
-  };
-  party?: Party;
-  traveller?: {
-    discoveredAt: number;
-    discoveredCount: number;
-  };
 };
 
 export type Order = {
@@ -713,7 +681,6 @@ export interface GameState {
   hayseedHank?: HayseedHank;
   chores?: ChoresV2;
   mushrooms: Mushrooms;
-  dawnBreaker?: DawnBreaker;
   witchesEve?: WitchesEve;
   potionHouse?: PotionHouse;
 }

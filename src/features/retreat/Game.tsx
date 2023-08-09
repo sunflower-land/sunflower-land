@@ -109,9 +109,9 @@ export const Game = () => {
       {goblinState.matches("provingPersonhood") && (
         <Modal
           className="z-[999]"
+          backdropClassName="z-[999]"
           show={true}
           centered
-          backdrop={false}
           onHide={() => goblinService.send("PERSONHOOD_CANCELLED")}
         >
           <Panel className="text-shadow">

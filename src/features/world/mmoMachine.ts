@@ -57,6 +57,7 @@ export interface MMOContext {
   serverId: ServerId;
   initialSceneId: SceneId;
   experience: number;
+  isCommunity?: boolean;
 }
 
 export type MMOState = {
@@ -102,6 +103,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     serverId: "sunflorea_bliss",
     initialSceneId: "plaza",
     experience: 0,
+    isCommunity: false,
   },
   exit: (context) => context.server?.leave(),
   states: {
@@ -144,6 +146,14 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
           {
             target: "joined",
             cond: (_) => !CONFIG.ROOM_URL,
+          },
+          {
+            target: "joining",
+            cond: (context) => !!context.isCommunity,
+            // Community always uses bliss
+            actions: assign({
+              serverId: (_, event) => "sunflorea_bliss",
+            }),
           },
           {
             target: "connected",

@@ -42,7 +42,6 @@ export const Otis: React.FC = () => {
   const lastTask = lastAcknowledgedTask();
   const lastTaskIndex = WALKTHROUGH.findIndex((name) => name === lastTask);
 
-  console.log({ lastTask, lastTaskIndex });
   const activeTaskIndex = WALKTHROUGH.findIndex((name, index) => {
     // Already completed these tasks
     if (index < lastTaskIndex) {

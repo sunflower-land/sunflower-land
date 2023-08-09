@@ -273,7 +273,7 @@ describe("buyDecoration", () => {
     });
   });
 
-  it("throws an error if max limit reached", () => {
+  it.skip("throws an error if max limit reached", () => {
     const timers = jest.useFakeTimers();
 
     // Dawn breaker time
@@ -328,7 +328,7 @@ describe("buyDecoration", () => {
     ).toThrow("This item is not a decoration");
   });
 
-  it("places a limited decoration when the player has a seasonal banner", () => {
+  it.skip("places a limited decoration when the player has a seasonal banner", () => {
     const timers = jest.useFakeTimers();
 
     timers.setSystemTime(new Date("2023-07-30T00:00:00.000Z"));

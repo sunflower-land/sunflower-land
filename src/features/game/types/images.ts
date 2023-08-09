@@ -435,21 +435,13 @@ import { COMMODITIES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
-import {
-  BASIC_DECORATIONS,
-  LANDSCAPING_DECORATIONS,
-  SEASONAL_DECORATIONS,
-} from "./decorations";
+import { BASIC_DECORATIONS, LANDSCAPING_DECORATIONS } from "./decorations";
 import { BEANS } from "./beans";
 import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
 //Golden Crop Event
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
-import {
-  GOBLIN_BLACKSMITH_ITEMS,
-  GOBLIN_PIRATE_ITEMS,
-  HELIOS_BLACKSMITH_ITEMS,
-} from "./collectibles";
+import { GOBLIN_PIRATE_ITEMS, HELIOS_BLACKSMITH_ITEMS } from "./collectibles";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -2109,7 +2101,8 @@ export const ITEM_DETAILS: Items = {
   // Dawn Breaker Season
   "Mushroom House": {
     image: mushroomHouse,
-    description: GOBLIN_BLACKSMITH_ITEMS()["Mushroom House"].description,
+    description:
+      "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
   },
 
   "Basic Land": {
@@ -2232,16 +2225,17 @@ export const ITEM_DETAILS: Items = {
   "Dawn Umbrella Seat": {
     image: dawnUmbrellaSeat,
     description:
-      SEASONAL_DECORATIONS()["Dawn Umbrella Seat"]?.description ?? "",
+      "Keep those Eggplants dry during those rainy days with the Dawn Umbrella Seat.",
   },
   "Eggplant Grill": {
     image: eggplantGrill,
-    description: SEASONAL_DECORATIONS()["Eggplant Grill"]?.description ?? "",
+    description:
+      "Get cooking with the Eggplant Grill, perfect for any outdoor meal.",
   },
   "Giant Dawn Mushroom": {
     image: giantDawnMushroom,
     description:
-      SEASONAL_DECORATIONS()["Giant Dawn Mushroom"]?.description ?? "",
+      "The Giant Dawn Mushroom is a majestic and magical addition to any farm.",
   },
   "Grubnash's Tombstone": {
     image: grubnashTombstone,
@@ -2253,7 +2247,8 @@ export const ITEM_DETAILS: Items = {
   },
   "Shroom Glow": {
     image: shroomGlow,
-    description: SEASONAL_DECORATIONS()["Shroom Glow"]?.description ?? "",
+    description:
+      "Illuminate your farm with the enchanting glow of Shroom Glow.",
   },
   "Toadstool Seat": {
     image: toadstoolSeat,
@@ -2261,11 +2256,13 @@ export const ITEM_DETAILS: Items = {
   },
   Clementine: {
     image: clementine,
-    description: SEASONAL_DECORATIONS()["Clementine"]?.description ?? "",
+    description:
+      "The Clementine Gnome is a cheerful companion for your farming adventures.",
   },
   Cobalt: {
     image: cobalt,
-    description: SEASONAL_DECORATIONS()["Cobalt"]?.description ?? "",
+    description:
+      "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
   },
   "Purple Trail": {
     image: purpleTrail,
