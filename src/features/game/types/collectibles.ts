@@ -247,6 +247,7 @@ export const GOBLIN_PIRATE_ITEMS: Record<
     },
     supply: 7500,
     boost: "+0.1 Cabbage",
+    disabled: true,
   },
 };
 
