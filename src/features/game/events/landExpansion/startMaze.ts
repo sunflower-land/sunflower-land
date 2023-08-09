@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { GameState, MazeAttempt } from "features/game/types/game";
 import { SEASONS } from "features/game/types/seasons";
 import { CORN_MAZES } from "features/world/ui/cornMaze/lib/mazes";
@@ -66,16 +67,14 @@ export function startMaze({ state, action, createdAt = Date.now() }: Options) {
 
   attempts.push(newAttempt);
 
-  console.log("attempts", attempts);
-
   if (!paidEntryFee) {
     const { balance } = copy;
 
-    if (balance.lessThan(sflFee)) {
+    if (balance.lessThan(new Decimal(sflFee))) {
       throw new Error("Insufficient SFL balance");
     }
 
-    copy.balance = balance.minus(sflFee);
+    copy.balance = balance.minus(new Decimal(sflFee));
     currentWeekMazeData.paidEntryFee = true;
   }
 

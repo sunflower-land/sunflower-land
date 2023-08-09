@@ -265,14 +265,14 @@ export const OFFLINE_FARM: GameState = {
     weeklyLostCrowCount: 25,
     maze: {
       1: {
-        sflFee: new Decimal(0),
+        sflFee: 0,
         paidEntryFee: false,
         highestScore: 0,
         claimedFeathers: 0,
         attempts: [],
       },
       2: {
-        sflFee: new Decimal(0),
+        sflFee: 0,
         paidEntryFee: false,
         highestScore: 0,
         claimedFeathers: 0,
