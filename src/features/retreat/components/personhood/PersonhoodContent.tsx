@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
-import "@anima-protocol/personhood-sdk-react/style.css";
+import personhoodStyle from "@anima-protocol/personhood-sdk-react/style.css?inline";
+
 import { Personhood } from "@anima-protocol/personhood-sdk-react";
 import { wallet } from "lib/blockchain/wallet";
 import {
@@ -109,11 +110,14 @@ export const PersonhoodContent: React.FC = () => {
   }
 
   return (
-    <Personhood
-      onFinish={() => onFinish()}
-      sessionId={personHoodDetails.sessionId}
-      signCallback={sign}
-      walletAddress={wallet.myAccount as string}
-    />
+    <>
+      <style>{personhoodStyle}</style>
+      <Personhood
+        onFinish={() => onFinish()}
+        sessionId={personHoodDetails.sessionId}
+        signCallback={sign}
+        walletAddress={wallet.myAccount as string}
+      />
+    </>
   );
 };
