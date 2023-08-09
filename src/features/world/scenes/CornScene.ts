@@ -40,7 +40,7 @@ export class CornScene extends BaseScene {
       audio: { fx: { walk_key: "sand_footstep" } },
     });
 
-    this.currentWeek = getSeasonWeek(Date.now());
+    this.currentWeek = getSeasonWeek();
   }
 
   async preload() {
@@ -174,7 +174,7 @@ export class CornScene extends BaseScene {
 
   getFoundCrowIds() {
     const gameService = this.registry.get("gameService") as MachineInterpreter;
-    const currentWeek = getSeasonWeek(Date.now());
+    const currentWeek = getSeasonWeek();
     const witchesEve = gameService.state.context.state.witchesEve;
     const weekData = witchesEve?.maze[currentWeek];
 

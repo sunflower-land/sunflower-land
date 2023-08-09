@@ -97,7 +97,7 @@ const _witchesEve = (state: GameMachineState) =>
 
 const Stats: React.FC = () => {
   const { gameService } = useContext(Context);
-  const currentWeek = getSeasonWeek(Date.now());
+  const currentWeek = getSeasonWeek();
   const witchesEve = useSelector(gameService, _witchesEve);
   const weeklyData = witchesEve?.maze[currentWeek];
 

@@ -95,7 +95,7 @@ const _noActiveAttempt = (state: MachineState) =>
 
 export const MazeHud: React.FC = () => {
   const { gameService } = useContext(Context);
-  const currentWeek = getSeasonWeek(Date.now());
+  const currentWeek = getSeasonWeek();
   const witchesEve = useSelector(gameService, _witchesEve);
 
   const { weeklyLostCrowCount } = witchesEve;

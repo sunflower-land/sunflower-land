@@ -46,7 +46,7 @@ export function saveMaze({ state, action, createdAt = Date.now() }: Options) {
   }
 
   const { startDate } = SEASONS["Witches' Eve"];
-  const currentWeek = getSeasonWeek(createdAt);
+  const currentWeek = getSeasonWeek();
 
   if (createdAt < startDate.getTime() && process.env.NETWORK === "mainnet") {
     throw new Error("Witches eve has not started");
