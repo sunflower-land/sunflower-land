@@ -21,7 +21,9 @@ export const Luna: React.FC<Props> = ({ onClose, onNavigate }) => {
   const currentWeek = getSeasonWeek();
 
   const witchesEve = useSelector(gameService, _witchesEve);
-  const { attempts } = witchesEve?.maze[currentWeek] as MazeMetadata;
+  const { attempts, paidEntryFee } = witchesEve?.maze[
+    currentWeek
+  ] as MazeMetadata;
 
   const { sflFee } = CORN_MAZES[currentWeek];
 
@@ -37,6 +39,10 @@ export const Luna: React.FC<Props> = ({ onClose, onNavigate }) => {
   };
 
   const getMessage = () => {
+    const startText = paidEntryFee
+      ? `Let's do it! Pay ${sflFee} SFL`
+      : "Let's do it!";
+
     if (activeAttempt) {
       return [
         {
@@ -64,7 +70,7 @@ export const Luna: React.FC<Props> = ({ onClose, onNavigate }) => {
               cb: onClose,
             },
             {
-              text: `Let's do it! (Pay ${sflFee} SFL)`,
+              text: startText,
               cb: handleStartMaze,
             },
           ],
@@ -93,7 +99,7 @@ export const Luna: React.FC<Props> = ({ onClose, onNavigate }) => {
             cb: onClose,
           },
           {
-            text: `Let's do it! (Pay ${sflFee} SFL)`,
+            text: startText,
             cb: handleStartMaze,
           },
         ],
