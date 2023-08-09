@@ -63,6 +63,14 @@ describe("withdrawables", () => {
       const enabled = BUMPKIN_WITHDRAWABLES["Whale Hat"]();
       expect(enabled).toBeFalsy();
     });
+
+    it("prevents a seasonal non timebased item from being withdrawn before season has ended", () => {
+      const timers = jest.useFakeTimers();
+      timers.setSystemTime(new Date("Thu July 7 2023 10:01:00 GMT+1000"));
+
+      const enabled = WITHDRAWABLES["Dinosaur Bone"]();
+      expect(enabled).toBeFalsy();
+    });
   });
 
   describe("enables", () => {
@@ -116,6 +124,14 @@ describe("withdrawables", () => {
     timers.setSystemTime(new Date("Thu August 9 2023 10:01:00 GMT+1000"));
 
     const enabled = BUMPKIN_WITHDRAWABLES["Whale Hat"]();
+    expect(enabled).toBeTruthy();
+  });
+
+  it("prevents a seasonal non timebased item from being withdrawn before season has ended", () => {
+    const timers = jest.useFakeTimers();
+    timers.setSystemTime(new Date("Thu August 7 2023 10:01:00 GMT+1000"));
+
+    const enabled = WITHDRAWABLES["Dinosaur Bone"]();
     expect(enabled).toBeTruthy();
   });
 });

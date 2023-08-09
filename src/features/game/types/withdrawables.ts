@@ -50,6 +50,7 @@ import {
 } from "./treasure";
 import { WorkbenchToolName } from "./tools";
 import { BumpkinItem } from "./bumpkin";
+import { hasSeasonEnded } from "./seasons";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
@@ -562,7 +563,7 @@ const treasureDecoration: Record<DecorationTreasure, () => boolean> = {
   "Whale Bear": () => true,
 
   "Abandoned Bear": () => false,
-  "Dinosaur Bone": () => false,
+  "Dinosaur Bone": () => hasSeasonEnded("Dawn Breaker"),
   Galleon: () => false,
   "Golden Bear Head": () => false,
   "Human Bear": () => false,
