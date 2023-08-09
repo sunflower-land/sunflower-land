@@ -17,7 +17,7 @@ describe("mazeSaved", () => {
 
     timers.setSystemTime(new Date(INSIDE_WITCHES_EVE_DATE));
 
-    week = getSeasonWeek(Date.now());
+    week = getSeasonWeek();
   });
 
   afterAll(() => {

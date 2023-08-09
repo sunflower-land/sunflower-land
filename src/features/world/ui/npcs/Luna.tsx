@@ -17,7 +17,7 @@ const _witchesEve = (state: MachineState) =>
 
 export const Luna: React.FC<Props> = ({ onClose, onNavigate }) => {
   const { gameService } = useContext(Context);
-  const currentWeek = getSeasonWeek(Date.now());
+  const currentWeek = getSeasonWeek();
 
   const witchesEve = useSelector(gameService, _witchesEve);
   const { attempts } = witchesEve?.maze[currentWeek] as MazeMetadata;

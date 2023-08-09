@@ -1,6 +1,6 @@
-import Decimal from "decimal.js-light";
 import { GameState, MazeAttempt } from "features/game/types/game";
 import { SEASONS } from "features/game/types/seasons";
+import { CORN_MAZES } from "features/world/ui/cornMaze/lib/mazes";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import cloneDeep from "lodash.clonedeep";
 
@@ -15,7 +15,6 @@ type Options = {
 };
 
 export const MAZE_TIME_LIMIT_SECONDS = 3 * 60;
-export const MAZE_SFL_FEE = new Decimal(0);
 
 export function startMaze({ state, action, createdAt = Date.now() }: Options) {
   const copy = cloneDeep(state) as GameState;
@@ -25,7 +24,7 @@ export function startMaze({ state, action, createdAt = Date.now() }: Options) {
   }
 
   const { startDate } = SEASONS["Witches' Eve"];
-  const currentWeek = getSeasonWeek(createdAt);
+  const currentWeek = getSeasonWeek();
 
   if (createdAt < startDate.getTime()) {
     throw new Error("Witches eve has not started");
@@ -35,17 +34,21 @@ export function startMaze({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("Witches eve not found on game state");
   }
 
+  const { sflFee } = CORN_MAZES[currentWeek];
+
   let currentWeekMazeData = copy.witchesEve.maze[currentWeek];
 
   if (!currentWeekMazeData) {
     currentWeekMazeData = {
+      sflFee,
+      paidEntryFee: false,
       highestScore: 0,
       claimedFeathers: 0,
       attempts: [],
     };
   }
 
-  const { attempts } = currentWeekMazeData;
+  const { attempts, paidEntryFee } = currentWeekMazeData;
   const inProgressAttempt = attempts?.find((attempt) => !attempt.completedAt);
 
   if (inProgressAttempt) {
@@ -63,13 +66,18 @@ export function startMaze({ state, action, createdAt = Date.now() }: Options) {
 
   attempts.push(newAttempt);
 
-  const { balance } = copy;
+  console.log("attempts", attempts);
 
-  if (balance.lessThan(MAZE_SFL_FEE)) {
-    throw new Error("Insufficient SFL balance");
+  if (!paidEntryFee) {
+    const { balance } = copy;
+
+    if (balance.lessThan(sflFee)) {
+      throw new Error("Insufficient SFL balance");
+    }
+
+    copy.balance = balance.minus(sflFee);
+    currentWeekMazeData.paidEntryFee = true;
   }
-
-  copy.balance = balance.minus(MAZE_SFL_FEE);
 
   copy.witchesEve.maze[currentWeek] = currentWeekMazeData;
 

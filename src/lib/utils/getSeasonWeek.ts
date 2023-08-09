@@ -3,10 +3,10 @@ import { SEASONS } from "features/game/types/seasons";
 
 /**
  * Helper function to get the week number of the season
- * @param now number representing the current time
  * @returns week number of the season 1-12
  */
-export function getSeasonWeek(now: number): SeasonWeek {
+export function getSeasonWeek(): SeasonWeek {
+  const now = Date.now();
   const { startDate, endDate } = SEASONS["Witches' Eve"];
   const endTime = endDate.getTime();
   const startTime = startDate.getTime();

@@ -604,6 +604,8 @@ export type MazeAttempt = {
 };
 
 export type MazeMetadata = {
+  sflFee: Decimal;
+  paidEntryFee: boolean;
   highestScore: number;
   claimedFeathers: number;
   attempts: MazeAttempt[];

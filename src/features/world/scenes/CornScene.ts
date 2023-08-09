@@ -40,7 +40,7 @@ export class CornScene extends BaseScene {
       audio: { fx: { walk_key: "sand_footstep" } },
     });
 
-    this.currentWeek = getSeasonWeek(Date.now());
+    this.currentWeek = getSeasonWeek();
   }
 
   async preload() {
