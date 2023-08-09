@@ -39,7 +39,7 @@ export const Luna: React.FC<Props> = ({ onClose, onNavigate }) => {
   };
 
   const getMessage = () => {
-    const startText = paidEntryFee
+    const startText = !paidEntryFee
       ? `Let's do it! Pay ${sflFee} SFL`
       : "Let's do it!";
 
