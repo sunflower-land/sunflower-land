@@ -174,7 +174,7 @@ export class CornScene extends BaseScene {
 
   getFoundCrowIds() {
     const gameService = this.registry.get("gameService") as MachineInterpreter;
-    const currentWeek = getSeasonWeek(Date.now());
+    const currentWeek = getSeasonWeek();
     const witchesEve = gameService.state.context.state.witchesEve;
     const weekData = witchesEve?.maze[currentWeek];
 
