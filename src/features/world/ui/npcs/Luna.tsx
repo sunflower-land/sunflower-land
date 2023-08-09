@@ -6,6 +6,7 @@ import { MazeMetadata, WitchesEve } from "features/game/types/game";
 import { NPC_WEARABLES, acknowledgeNPC, isNPCAcknowledged } from "lib/npcs";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import React, { useContext, useEffect } from "react";
+import { CORN_MAZES } from "../cornMaze/lib/mazes";
 
 interface Props {
   onClose: () => void;
@@ -21,6 +22,8 @@ export const Luna: React.FC<Props> = ({ onClose, onNavigate }) => {
 
   const witchesEve = useSelector(gameService, _witchesEve);
   const { attempts } = witchesEve?.maze[currentWeek] as MazeMetadata;
+
+  const { sflFee } = CORN_MAZES[currentWeek];
 
   useEffect(() => {
     acknowledgeNPC("luna");
@@ -61,7 +64,7 @@ export const Luna: React.FC<Props> = ({ onClose, onNavigate }) => {
               cb: onClose,
             },
             {
-              text: "Let's do it! (Pay 0 SFL)",
+              text: `Let's do it! (Pay ${sflFee} SFL)`,
               cb: handleStartMaze,
             },
           ],
@@ -83,14 +86,14 @@ export const Luna: React.FC<Props> = ({ onClose, onNavigate }) => {
         text: "Now, before you dash off all gung-ho, I've got to be honest with you – the portal that takes you into the maze isn't free. ",
       },
       {
-        text: "I wish I could wave my wand and make it so, but maintaining that mystical power takes a bit of coin, you know? Usually, it'd cost you just 5 SFL, but because i'm feeling nice this week, I'll let you in for free!",
+        text: `I wish I could wave my wand and make it so, but maintaining that mystical power takes a bit of coin, you know? This week it will cost you ${sflFee} SFL for unlimited attempts.`,
         actions: [
           {
             text: "No thanks",
             cb: onClose,
           },
           {
-            text: "Let's do it! (Pay 0 SFL)",
+            text: `Let's do it! (Pay ${sflFee} SFL)`,
             cb: handleStartMaze,
           },
         ],
