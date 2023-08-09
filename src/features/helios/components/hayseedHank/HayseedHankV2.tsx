@@ -8,7 +8,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 
 // UTC
-function secondsTillReset() {
+export function secondsTillReset() {
   const currentTime = Date.now();
 
   // Calculate the time until the next day in milliseconds

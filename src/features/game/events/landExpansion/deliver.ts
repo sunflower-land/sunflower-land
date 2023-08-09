@@ -24,6 +24,31 @@ type Options = {
   action: DeliverOrderAction;
 };
 
+export const BETA_DELIVERY_END_DATE = new Date("08-14-2023");
+export const DELIVERY_END_DATE = new Date("08-08-2023");
+export function canGenerateDeliveries({
+  game,
+  now,
+}: {
+  game: GameState;
+  now: number;
+}) {
+  // Monday 14th August (Beta Testers)
+  if (
+    !!game.inventory["Beta Pass"] &&
+    now >= BETA_DELIVERY_END_DATE.getTime()
+  ) {
+    return false;
+  }
+
+  // Wednesday 16th August
+  if (now >= DELIVERY_END_DATE.getTime()) {
+    return false;
+  }
+
+  return true;
+}
+
 export function getTotalSlots(inventory: Inventory) {
   // If feature access then return the total number of slots from both delivery and quest
   // else just delivery
@@ -196,10 +221,6 @@ export function deliverOrder({ state, action }: Options): GameState {
     game.inventory[seasonalTicket] = count.add(amount);
   }
 
-  game.delivery.orders = game.delivery.orders.filter(
-    (order) => order.id !== action.id
-  );
-
   game.delivery.fulfilledCount += 1;
 
   const npcs = game.npcs ?? ({} as Partial<Record<NPCName, NPCData>>);
@@ -215,7 +236,18 @@ export function deliverOrder({ state, action }: Options): GameState {
 
   // bumpkin.activity = trackActivity(`${order.from} Delivered`, 1);
 
-  game.delivery.orders = populateOrders(game);
+  const generateMore = canGenerateDeliveries({ game, now: Date.now() });
+
+  if (generateMore) {
+    game.delivery.orders = game.delivery.orders.filter(
+      (order) => order.id !== action.id
+    );
+
+    game.delivery.orders = populateOrders(game, Date.now());
+  } else {
+    // Mark as complete
+    order.completedAt = Date.now();
+  }
 
   return game;
 }

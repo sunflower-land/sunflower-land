@@ -198,6 +198,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({
   const orders = delivery.orders.filter(
     (order) => order.from === npc && Date.now() >= order.readyAt
   );
+
   const dialogue = npcDialogues[npc] || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);
   const positive = useRandomItem(dialogue.positiveDelivery);

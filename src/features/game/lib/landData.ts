@@ -565,6 +565,7 @@ export const OFFLINE_FARM: GameState = {
       {
         id: "123",
         createdAt: Date.now(),
+        completedAt: Date.now(),
         readyAt: 1690855045072,
         from: "pumpkin' pete",
         items: {
