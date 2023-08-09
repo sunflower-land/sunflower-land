@@ -389,11 +389,16 @@ export const Land: React.FC = () => {
 
   const isFirstRender = useFirstRender();
 
-  const boatCoordinates = {
-    x: expansionCount >= 7 ? -9 : -2,
-    y: expansionCount >= 7 ? -10.5 : -4.5,
+  const boatCoordinates = () => {
+    if (expansionCount < 7) {
+      return { x: -2, y: -4.5 };
+    }
+    if (expansionCount >= 7 && expansionCount < 21) {
+      return { x: -9, y: -10.5 };
+    } else {
+      return { x: -16, y: -16.5 };
+    }
   };
-
   const gameGrid = getGameGrid({
     crops,
     collectibles,
@@ -469,8 +474,8 @@ export const Land: React.FC = () => {
             inventory={inventory}
             travelAllowed={!autosaving}
             onTravelDialogOpened={() => gameService.send("SAVE")}
-            x={boatCoordinates.x}
-            y={boatCoordinates.y}
+            x={boatCoordinates().x}
+            y={boatCoordinates().y}
           />
         )}
 
