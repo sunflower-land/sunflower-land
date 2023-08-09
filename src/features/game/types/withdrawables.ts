@@ -50,92 +50,99 @@ import {
 } from "./treasure";
 import { WorkbenchToolName } from "./tools";
 import { BumpkinItem } from "./bumpkin";
+import { hasSeasonEnded } from "./seasons";
 
-const cropSeeds: Record<CropSeedName, boolean> = {
-  "Beetroot Seed": false,
-  "Cabbage Seed": false,
-  "Carrot Seed": false,
-  "Cauliflower Seed": false,
-  "Kale Seed": false,
-  "Potato Seed": false,
-  "Pumpkin Seed": false,
-  "Sunflower Seed": false,
-  "Parsnip Seed": false,
-  "Eggplant Seed": false,
-  "Corn Seed": false,
-  "Radish Seed": false,
-  "Wheat Seed": false,
+const canWithdrawTimebasedItem = (availableAt: Date) => {
+  const now = new Date();
+
+  return now >= availableAt;
 };
 
-const fruitSeed: Record<FruitSeedName, boolean> = {
-  "Apple Seed": false,
-  "Blueberry Seed": false,
-  "Orange Seed": false,
-};
-const crops: Record<CropName, boolean> = {
-  Beetroot: true,
-  Cabbage: true,
-  Carrot: true,
-  Cauliflower: true,
-  Kale: true,
-  Potato: true,
-  Pumpkin: true,
-  Sunflower: true,
-  Parsnip: true,
-  Corn: false,
-  Eggplant: true,
-  Radish: true,
-  Wheat: true,
+const cropSeeds: Record<CropSeedName, () => boolean> = {
+  "Beetroot Seed": () => false,
+  "Cabbage Seed": () => false,
+  "Carrot Seed": () => false,
+  "Cauliflower Seed": () => false,
+  "Kale Seed": () => false,
+  "Potato Seed": () => false,
+  "Pumpkin Seed": () => false,
+  "Sunflower Seed": () => false,
+  "Parsnip Seed": () => false,
+  "Eggplant Seed": () => false,
+  "Corn Seed": () => false,
+  "Radish Seed": () => false,
+  "Wheat Seed": () => false,
 };
 
-const fruits: Record<FruitName, boolean> = {
-  Apple: true,
-  Blueberry: true,
-  Orange: true,
+const fruitSeed: Record<FruitSeedName, () => boolean> = {
+  "Apple Seed": () => false,
+  "Blueberry Seed": () => false,
+  "Orange Seed": () => false,
+};
+const crops: Record<CropName, () => boolean> = {
+  Beetroot: () => true,
+  Cabbage: () => true,
+  Carrot: () => true,
+  Cauliflower: () => true,
+  Kale: () => true,
+  Potato: () => true,
+  Pumpkin: () => true,
+  Sunflower: () => true,
+  Parsnip: () => true,
+  Eggplant: () => true,
+  Corn: () => false,
+  Radish: () => true,
+  Wheat: () => true,
 };
 
-const beans: Record<BeanName, boolean> = {
-  "Golden Bean": false,
-  "Magic Bean": false,
-  "Shiny Bean": false,
+const fruits: Record<FruitName, () => boolean> = {
+  Apple: () => true,
+  Blueberry: () => true,
+  Orange: () => true,
 };
 
-const questItems: Record<QuestItem, boolean> = {
-  "Ancient Goblin Sword": false,
-  "Ancient Human Warhammer": false,
-  "Goblin Key": false,
-  "Sunflower Key": false,
+const beans: Record<BeanName, () => boolean> = {
+  "Golden Bean": () => false,
+  "Magic Bean": () => false,
+  "Shiny Bean": () => false,
 };
 
-const warTentItems: Record<WarTentItem, boolean> = {
-  "Beetroot Amulet": false,
-  "Carrot Amulet": false,
-  "Sunflower Amulet": false,
-  "Green Amulet": false,
-  "Skull Hat": false,
-  "Sunflower Shield": false,
-  "Undead Rooster": true,
-  "War Skull": true,
-  "War Tombstone": true,
-  "Warrior Helmet": false,
-  "Warrior Pants": false,
-  "Warrior Shirt": false,
+const questItems: Record<QuestItem, () => boolean> = {
+  "Ancient Goblin Sword": () => false,
+  "Ancient Human Warhammer": () => false,
+  "Goblin Key": () => false,
+  "Sunflower Key": () => false,
 };
 
-const tools: Record<ToolName | WorkbenchToolName | Shovel, boolean> = {
-  Axe: false,
-  Hammer: false,
-  Pickaxe: false,
-  "Rusty Shovel": false,
-  "Iron Pickaxe": false,
-  "Stone Pickaxe": false,
-  Rod: false,
-  Shovel: false,
+const warTentItems: Record<WarTentItem, () => boolean> = {
+  "Beetroot Amulet": () => false,
+  "Carrot Amulet": () => false,
+  "Sunflower Amulet": () => false,
+  "Green Amulet": () => false,
+  "Skull Hat": () => false,
+  "Sunflower Shield": () => false,
+  "Undead Rooster": () => true,
+  "War Skull": () => true,
+  "War Tombstone": () => true,
+  "Warrior Helmet": () => false,
+  "Warrior Pants": () => false,
+  "Warrior Shirt": () => false,
 };
 
-const treasureTools: Record<TreasureToolName, boolean> = {
-  "Sand Drill": false,
-  "Sand Shovel": false,
+const tools: Record<ToolName | WorkbenchToolName | Shovel, () => boolean> = {
+  Axe: () => false,
+  Hammer: () => false,
+  Pickaxe: () => false,
+  "Rusty Shovel": () => false,
+  "Iron Pickaxe": () => false,
+  "Stone Pickaxe": () => false,
+  Rod: () => false,
+  Shovel: () => false,
+};
+
+const treasureTools: Record<TreasureToolName, () => boolean> = {
+  "Sand Drill": () => false,
+  "Sand Shovel": () => false,
 };
 
 /* TODO - Split TOOLS into TOOLS and SHOVELS
@@ -144,472 +151,474 @@ const treasureTools: Record<TreasureToolName, boolean> = {
  */
 
 const warBanners = {
-  "Human War Banner": false,
-  "Goblin War Banner": false,
+  "Human War Banner": () => false,
+  "Goblin War Banner": () => false,
 };
 
-const heliosBlacksmith: Record<HeliosBlacksmithItem, boolean> = {
-  "Immortal Pear": false,
-  "Treasure Map": false,
-  "Basic Scarecrow": false,
-  Bale: false,
-  "Scary Mike": false,
-  "Laurie the Chuckle Crow": false,
-  Poppy: false, // TODO,
-  "Grain Grinder": false, // TODO,
-  Kernaldo: false, // TODO
+const heliosBlacksmith: Record<HeliosBlacksmithItem, () => boolean> = {
+  "Immortal Pear": () => false,
+  "Treasure Map": () => false,
+  "Basic Scarecrow": () => false,
+  Bale: () => false,
+  "Scary Mike": () => false,
+  "Laurie the Chuckle Crow": () => false,
+  "Grain Grinder": () => false,
+  Kernaldo: () => false,
+  Poppy: () => false,
 };
 
-const commodities: Record<CommodityName, boolean> = {
+const commodities: Record<CommodityName, () => boolean> = {
   // Mushrooms
-  "Magic Mushroom": false,
-  "Wild Mushroom": false,
+  "Magic Mushroom": () => false,
+  "Wild Mushroom": () => false,
 
-  Chicken: false,
-  Wood: true,
-  Stone: true,
-  Iron: true,
-  Gold: true,
-  Diamond: false,
+  Chicken: () => false,
+  Wood: () => true,
+  Stone: () => true,
+  Iron: () => true,
+  Gold: () => true,
+  Diamond: () => false,
 
-  Honey: false,
-  Egg: true,
+  Honey: () => false,
+  Egg: () => true,
 };
 
-const resources: Record<ResourceName, boolean> = {
-  Tree: false,
-  "Stone Rock": false,
-  "Iron Rock": false,
-  "Gold Rock": false,
-  "Crop Plot": false,
-  "Fruit Patch": false,
-  Boulder: false,
+const resources: Record<ResourceName, () => boolean> = {
+  Tree: () => false,
+  "Stone Rock": () => false,
+  "Iron Rock": () => false,
+  "Gold Rock": () => false,
+  "Crop Plot": () => false,
+  "Fruit Patch": () => false,
+  Boulder: () => false,
 };
 
-const mutantChickens: Record<MutantChicken, boolean> = {
-  "Ayam Cemani": true,
-  "Fat Chicken": true,
-  "Rich Chicken": true,
-  "Speed Chicken": true,
-  "El Pollo Veloz": true,
+const mutantChickens: Record<MutantChicken, () => boolean> = {
+  "Ayam Cemani": () => true,
+  "Fat Chicken": () => true,
+  "Rich Chicken": () => true,
+  "Speed Chicken": () => true,
+  "El Pollo Veloz": () => true,
 };
 
-const flags: Record<Flag, boolean> = {
-  "Australian Flag": true,
-  "Belgian Flag": true,
-  "Brazilian Flag": true,
-  "Chinese Flag": true,
-  "Finnish Flag": true,
-  "French Flag": true,
-  "German Flag": true,
-  "Indonesian Flag": true,
-  "Indian Flag": true,
-  "Iranian Flag": true,
-  "Italian Flag": true,
-  "Japanese Flag": true,
-  "Moroccan Flag": true,
-  "Dutch Flag": true,
-  "Philippine Flag": true,
-  "Polish Flag": true,
-  "Portuguese Flag": true,
-  "Russian Flag": true,
-  "Saudi Arabian Flag": true,
-  "South Korean Flag": true,
-  "Spanish Flag": true,
-  "Sunflower Flag": true,
-  "Thai Flag": true,
-  "Turkish Flag": true,
-  "Ukrainian Flag": true,
-  "American Flag": true,
-  "Vietnamese Flag": true,
-  "Canadian Flag": true,
-  "Singaporean Flag": true,
-  "British Flag": true,
-  "Sierra Leone Flag": true,
-  "Romanian Flag": true,
-  "Rainbow Flag": true,
-  "Goblin Flag": true,
-  "Pirate Flag": true,
-  "Algerian Flag": true,
-  "Mexican Flag": true,
-  "Dominican Republic Flag": true,
-  "Argentinian Flag": true,
-  "Lithuanian Flag": true,
-  "Malaysian Flag": true,
-  "Colombian Flag": true,
+const flags: Record<Flag, () => boolean> = {
+  "Australian Flag": () => true,
+  "Belgian Flag": () => true,
+  "Brazilian Flag": () => true,
+  "Chinese Flag": () => true,
+  "Finnish Flag": () => true,
+  "French Flag": () => true,
+  "German Flag": () => true,
+  "Indonesian Flag": () => true,
+  "Indian Flag": () => true,
+  "Iranian Flag": () => true,
+  "Italian Flag": () => true,
+  "Japanese Flag": () => true,
+  "Moroccan Flag": () => true,
+  "Dutch Flag": () => true,
+  "Philippine Flag": () => true,
+  "Polish Flag": () => true,
+  "Portuguese Flag": () => true,
+  "Russian Flag": () => true,
+  "Saudi Arabian Flag": () => true,
+  "South Korean Flag": () => true,
+  "Spanish Flag": () => true,
+  "Sunflower Flag": () => true,
+  "Thai Flag": () => true,
+  "Turkish Flag": () => true,
+  "Ukrainian Flag": () => true,
+  "American Flag": () => true,
+  "Vietnamese Flag": () => true,
+  "Canadian Flag": () => true,
+  "Singaporean Flag": () => true,
+  "British Flag": () => true,
+  "Sierra Leone Flag": () => true,
+  "Romanian Flag": () => true,
+  "Rainbow Flag": () => true,
+  "Goblin Flag": () => true,
+  "Pirate Flag": () => true,
+  "Algerian Flag": () => true,
+  "Mexican Flag": () => true,
+  "Dominican Republic Flag": () => true,
+  "Argentinian Flag": () => true,
+  "Lithuanian Flag": () => true,
+  "Malaysian Flag": () => true,
+  "Colombian Flag": () => true,
 };
 
-const easterEggs: Record<EasterEgg, boolean> = {
-  "Blue Egg": false,
-  "Green Egg": false,
-  "Orange Egg": false,
-  "Pink Egg": false,
-  "Purple Egg": false,
-  "Red Egg": false,
-  "Yellow Egg": false,
+const easterEggs: Record<EasterEgg, () => boolean> = {
+  "Blue Egg": () => false,
+  "Green Egg": () => false,
+  "Orange Egg": () => false,
+  "Pink Egg": () => false,
+  "Purple Egg": () => false,
+  "Red Egg": () => false,
+  "Yellow Egg": () => false,
 };
 
-const skills: Record<SkillName, boolean> = {
-  "Green Thumb": false,
-  "Barn Manager": false,
-  "Seed Specialist": false,
-  Wrangler: false,
-  Lumberjack: false,
-  Prospector: false,
-  Logger: false,
-  "Gold Rush": false,
-  Artist: false,
-  Coder: false,
-  "Liquidity Provider": false,
-  "Discord Mod": false,
-  Warrior: false,
+const skills: Record<SkillName, () => boolean> = {
+  "Green Thumb": () => false,
+  "Barn Manager": () => false,
+  "Seed Specialist": () => false,
+  Wrangler: () => false,
+  Lumberjack: () => false,
+  Prospector: () => false,
+  Logger: () => false,
+  "Gold Rush": () => false,
+  Artist: () => false,
+  Coder: () => false,
+  "Liquidity Provider": () => false,
+  "Discord Mod": () => false,
+  Warrior: () => false,
 };
 
-const coupons: Record<Coupons, boolean> = {
-  "Trading Ticket": false,
-  "War Bond": false,
-  "Jack-o-lantern": false,
-  "Golden Crop": false,
-  "Beta Pass": false,
-  "Red Envelope": false,
-  "Love Letter": false,
-  "Block Buck": false,
-  "Solar Flare Ticket": false,
-  "Dawn Breaker Ticket": false,
-  "Sunflower Supporter": false,
-  "Crow Feather": false,
+const coupons: Record<Coupons, () => boolean> = {
+  "Trading Ticket": () => false,
+  "War Bond": () => false,
+  "Jack-o-lantern": () => false,
+  "Golden Crop": () => false,
+  "Beta Pass": () => false,
+  "Red Envelope": () => false,
+  "Love Letter": () => false,
+  "Block Buck": () => false,
+  "Solar Flare Ticket": () => false,
+  "Dawn Breaker Ticket": () => false,
+  "Sunflower Supporter": () => false,
+  "Crow Feather": () => false,
 };
 
-const buildings: Record<BuildingName, boolean> = {
-  "Town Center": false,
-  "Fire Pit": false,
-  Market: false,
-  Workbench: false,
-  Kitchen: false,
-  Tent: false,
-  "Water Well": false,
-  Bakery: false,
-  "Hen House": false,
-  Deli: false,
-  "Smoothie Shack": false,
-  Toolshed: false,
-  Warehouse: false,
+const buildings: Record<BuildingName, () => boolean> = {
+  "Town Center": () => false,
+  "Fire Pit": () => false,
+  Market: () => false,
+  Workbench: () => false,
+  Kitchen: () => false,
+  Tent: () => false,
+  "Water Well": () => false,
+  Bakery: () => false,
+  "Hen House": () => false,
+  Deli: () => false,
+  "Smoothie Shack": () => false,
+  Toolshed: () => false,
+  Warehouse: () => false,
 };
 
-const fertilisers: Record<FertiliserName, boolean> = {
-  "Rapid Growth": false,
+const fertilisers: Record<FertiliserName, () => boolean> = {
+  "Rapid Growth": () => false,
 };
 
-const food: Record<Food, boolean> = {
-  "Beetroot Cake": false,
-  "Cabbage Cake": false,
-  "Carrot Cake": false,
-  "Cauliflower Cake": false,
-  "Potato Cake": false,
-  "Pumpkin Cake": false,
-  "Sunflower Cake": false,
-  "Parsnip Cake": false,
-  "Radish Cake": false,
-  "Wheat Cake": false,
-  "Pumpkin Soup": false,
-  "Radish Pie": false,
-  "Roasted Cauliflower": false,
-  Sauerkraut: false,
+const food: Record<Food, () => boolean> = {
+  "Beetroot Cake": () => false,
+  "Cabbage Cake": () => false,
+  "Carrot Cake": () => false,
+  "Cauliflower Cake": () => false,
+  "Potato Cake": () => false,
+  "Pumpkin Cake": () => false,
+  "Sunflower Cake": () => false,
+  "Parsnip Cake": () => false,
+  "Radish Cake": () => false,
+  "Wheat Cake": () => false,
+  "Pumpkin Soup": () => false,
+  "Radish Pie": () => false,
+  "Roasted Cauliflower": () => false,
+  Sauerkraut: () => false,
 };
 
-const consumables: Record<ConsumableName, boolean> = {
-  "Mashed Potato": false,
-  "Pumpkin Soup": false,
-  "Bumpkin Broth": false,
-  "Boiled Eggs": false,
-  "Mushroom Soup": false,
-  "Roast Veggies": false,
-  "Bumpkin Salad": false,
-  "Cauliflower Burger": false,
-  "Mushroom Jacket Potatoes": false,
-  "Goblin's Treat": false,
-  "Club Sandwich": false,
-  "Kale Stew": false,
-  Pancakes: false,
-  "Kale & Mushroom Pie": false,
-  "Fermented Carrots": false,
-  Sauerkraut: false,
-  "Blueberry Jam": false,
-  "Apple Pie": false,
-  "Orange Cake": false,
-  "Honey Cake": false,
-  "Sunflower Crunch": false,
-  "Reindeer Carrot": false,
-  "Sunflower Cake": false,
-  "Potato Cake": false,
-  "Pumpkin Cake": false,
-  "Carrot Cake": false,
-  "Cabbage Cake": false,
-  "Beetroot Cake": false,
-  "Cauliflower Cake": false,
-  "Parsnip Cake": false,
-  "Radish Cake": false,
-  "Wheat Cake": false,
-  "Apple Juice": false,
-  "Orange Juice": false,
-  "Purple Smoothie": false,
-  "Power Smoothie": false,
-  "Bumpkin Detox": false,
-  "Bumpkin Roast": false,
-  "Goblin Brunch": false,
-  "Fruit Salad": false,
-  "Kale Omelette": false,
-  "Cabbers n Mash": false,
-  "Fancy Fries": false,
-  "Pirate Cake": false,
-  "Bumpkin ganoush": false,
-  Cornbread: false,
-  "Eggplant Cake": false,
-  Popcorn: false,
+const consumables: Record<ConsumableName, () => boolean> = {
+  "Mashed Potato": () => false,
+  "Pumpkin Soup": () => false,
+  "Bumpkin Broth": () => false,
+  "Boiled Eggs": () => false,
+  "Mushroom Soup": () => false,
+  "Roast Veggies": () => false,
+  "Bumpkin Salad": () => false,
+  "Cauliflower Burger": () => false,
+  "Mushroom Jacket Potatoes": () => false,
+  "Goblin's Treat": () => false,
+  "Club Sandwich": () => false,
+  "Kale Stew": () => false,
+  Pancakes: () => false,
+  "Kale & Mushroom Pie": () => false,
+  "Fermented Carrots": () => false,
+  Sauerkraut: () => false,
+  "Blueberry Jam": () => false,
+  "Apple Pie": () => false,
+  "Orange Cake": () => false,
+  "Honey Cake": () => false,
+  "Sunflower Crunch": () => false,
+  "Reindeer Carrot": () => false,
+  "Sunflower Cake": () => false,
+  "Potato Cake": () => false,
+  "Pumpkin Cake": () => false,
+  "Carrot Cake": () => false,
+  "Cabbage Cake": () => false,
+  "Beetroot Cake": () => false,
+  "Cauliflower Cake": () => false,
+  "Parsnip Cake": () => false,
+  "Radish Cake": () => false,
+  "Wheat Cake": () => false,
+  "Apple Juice": () => false,
+  "Orange Juice": () => false,
+  "Purple Smoothie": () => false,
+  "Power Smoothie": () => false,
+  "Bumpkin Detox": () => false,
+  "Bumpkin Roast": () => false,
+  "Goblin Brunch": () => false,
+  "Fruit Salad": () => false,
+  "Kale Omelette": () => false,
+  "Cabbers n Mash": () => false,
+  "Fancy Fries": () => false,
+  "Pirate Cake": () => false,
+  "Bumpkin ganoush": () => false,
+  Cornbread: () => false,
+  "Eggplant Cake": () => false,
+  Popcorn: () => false,
 };
 
-const decorations: Record<ShopDecorationName, boolean> = {
-  "White Tulips": false,
-  "Potted Sunflower": false,
-  "Potted Potato": false,
-  "Potted Pumpkin": false,
-  Cactus: false,
-  "Basic Bear": false,
-  "Dirt Path": false,
-  Bush: false,
-  Shrub: false,
-  Fence: false,
-  "Bonnie's Tombstone": false,
-  "Grubnash's Tombstone": false,
-  "Crimson Cap": false,
-  "Toadstool Seat": false,
-  "Chestnut Fungi Stool": false,
-  "Mahogany Cap": false,
-  "Pine Tree": false,
-  "Stone Fence": false,
-  "Field Maple": false,
-  "Red Maple": false,
-  "Golden Maple": false,
-};
-const seasonalDecorations: Record<SeasonalDecorationName, boolean> = {
-  Clementine: true,
-  Cobalt: true,
-  "Dawn Umbrella Seat": true,
-  "Eggplant Grill": true,
-  "Giant Dawn Mushroom": true,
-  "Shroom Glow": true,
-
-  Candles: false,
-  "Haunted Stump": false,
-  "Spooky Tree": false,
+const decorations: Record<ShopDecorationName, () => boolean> = {
+  "White Tulips": () => false,
+  "Potted Sunflower": () => false,
+  "Potted Potato": () => false,
+  "Potted Pumpkin": () => false,
+  Cactus: () => false,
+  "Basic Bear": () => false,
+  "Dirt Path": () => false,
+  Bush: () => false,
+  Shrub: () => false,
+  Fence: () => false,
+  "Bonnie's Tombstone": () => false,
+  "Grubnash's Tombstone": () => false,
+  "Crimson Cap": () => false,
+  "Toadstool Seat": () => false,
+  "Chestnut Fungi Stool": () => false,
+  "Mahogany Cap": () => false,
+  "Pine Tree": () => false,
+  "Stone Fence": () => false,
+  "Field Maple": () => false,
+  "Red Maple": () => false,
+  "Golden Maple": () => false,
 };
 
-const mutantCrop: Record<MutantCropName, boolean> = {
-  "Stellar Sunflower": false,
-  "Peaceful Potato": false,
-  "Perky Pumpkin": false,
-  "Colossal Crop": false,
+const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
+  Clementine: () => true,
+  Cobalt: () => true,
+  "Dawn Umbrella Seat": () => true,
+  "Eggplant Grill": () => true,
+  "Giant Dawn Mushroom": () => true,
+  "Shroom Glow": () => true,
+  Candles: () => canWithdrawTimebasedItem(new Date("2023-11-02")),
+  "Haunted Stump": () => canWithdrawTimebasedItem(new Date("2023-09-02")),
+  "Spooky Tree": () => canWithdrawTimebasedItem(new Date("2023-09-02")),
 };
 
-const specialEvents: Record<SpecialEvent | MOMEventItem, boolean> = {
-  "Chef Apron": false,
-  "Chef Hat": false,
-  "Engine Core": false,
-  Observatory: true,
+const mutantCrop: Record<MutantCropName, () => boolean> = {
+  "Stellar Sunflower": () => false,
+  "Peaceful Potato": () => false,
+  "Perky Pumpkin": () => false,
+  "Colossal Crop": () => false,
 };
 
-const points: Record<Points, boolean> = {
-  "Human War Point": false,
-  "Goblin War Point": false,
+const specialEvents: Record<SpecialEvent | MOMEventItem, () => boolean> = {
+  "Chef Apron": () => false,
+  "Chef Hat": () => false,
+  "Engine Core": () => false,
+  Observatory: () => true,
 };
 
-const goblinBlacksmith: Record<GoblinBlacksmithItemName, boolean> = {
-  "Mushroom House": true,
-  Obie: true,
-  "Purple Trail": true,
-  Maximus: true,
+const points: Record<Points, () => boolean> = {
+  "Human War Point": () => false,
+  "Goblin War Point": () => false,
 };
 
-const animals: Record<Animal, boolean> = {
-  Cow: false,
-  Pig: false,
-  Sheep: false,
-  Chicken: false,
+const goblinBlacksmith: Record<GoblinBlacksmithItemName, () => boolean> = {
+  "Mushroom House": () => true,
+  Obie: () => true,
+  "Purple Trail": () => true,
+  Maximus: () => true,
 };
 
-const barnItems: Record<BarnItem, boolean> = {
-  "Chicken Coop": true,
-  "Easter Bunny": true,
-  "Farm Cat": true,
-  "Farm Dog": true,
-  "Gold Egg": true,
-  Rooster: true,
+const animals: Record<Animal, () => boolean> = {
+  Cow: () => false,
+  Pig: () => false,
+  Sheep: () => false,
+  Chicken: () => false,
 };
 
-const blacksmithItems: Record<LegacyItem, boolean> = {
-  "Sunflower Statue": true,
-  "Potato Statue": true,
-  "Christmas Tree": true,
-  Gnome: true,
-  "Sunflower Tombstone": true,
-  "Sunflower Rock": true,
-  "Goblin Crown": true,
-  Fountain: true,
-  "Egg Basket": false,
-
-  "Woody the Beaver": true,
-  "Apprentice Beaver": true,
-  "Foreman Beaver": true,
-  "Nyon Statue": true,
-  "Homeless Tent": true,
-  "Farmer Bath": true,
-  "Mysterious Head": true,
-  "Rock Golem": true,
-  "Tunnel Mole": true,
-  "Rocky the Mole": true,
-  Nugget: true,
+const barnItems: Record<BarnItem, () => boolean> = {
+  "Chicken Coop": () => true,
+  "Easter Bunny": () => true,
+  "Farm Cat": () => true,
+  "Farm Dog": () => true,
+  "Gold Egg": () => true,
+  Rooster: () => true,
 };
 
-const travelingSalesmanItems: Record<TravelingSalesmanItem, boolean> = {
-  "Christmas Bear": true,
-  "Golden Bonsai": true,
-  "Victoria Sisters": true,
-  "Wicker Man": true,
+const blacksmithItems: Record<LegacyItem, () => boolean> = {
+  "Sunflower Statue": () => true,
+  "Potato Statue": () => true,
+  "Christmas Tree": () => true,
+  Gnome: () => true,
+  "Sunflower Tombstone": () => true,
+  "Sunflower Rock": () => true,
+  "Goblin Crown": () => true,
+  Fountain: () => true,
+  "Egg Basket": () => false,
+  "Woody the Beaver": () => true,
+  "Apprentice Beaver": () => true,
+  "Foreman Beaver": () => true,
+  "Nyon Statue": () => true,
+  "Homeless Tent": () => true,
+  "Farmer Bath": () => true,
+  "Mysterious Head": () => true,
+  "Rock Golem": () => true,
+  "Tunnel Mole": () => true,
+  "Rocky the Mole": () => true,
+  Nugget: () => true,
 };
 
-const soldOut: Record<SoldOutCollectibleName, boolean> = {
-  "Sir Goldensnout": true,
-  "Peeled Potato": true,
-  "Christmas Snow Globe": true,
-  "Beta Bear": true,
-  "Cyborg Bear": true,
-  "Wood Nymph Wendy": true,
-  "Squirrel Monkey": true,
-  "Black Bearry": true,
-  "Lady Bug": true,
-  "Cabbage Boy": true,
-  "Cabbage Girl": true,
-  "Maneki Neko": true,
-  "Heart Balloons": true,
-  Flamingo: true,
-  "Blossom Tree": true,
-  "Palm Tree": true,
-  "Beach Ball": true,
-  "Collectible Bear": true,
-  "Pablo The Bunny": true,
-  "Easter Bush": true,
-  "Giant Carrot": true,
-  Hoot: true,
-  "Freya Fox": true,
-  Poppy: false,
-  "Grain Grinder": false,
-  Kernaldo: false,
-  "Queen Cornelia": false,
+const travelingSalesmanItems: Record<TravelingSalesmanItem, () => boolean> = {
+  "Christmas Bear": () => true,
+  "Golden Bonsai": () => true,
+  "Victoria Sisters": () => true,
+  "Wicker Man": () => true,
 };
 
-const achievementDecoration: Record<AchievementDecorationName, boolean> = {
-  "Chef Bear": true,
-  "Construction Bear": true,
-  "Angel Bear": true,
-  "Badass Bear": true,
-  "Bear Trap": true,
-  "Brilliant Bear": true,
-  "Classy Bear": true,
-  "Farmer Bear": true,
-  "Sunflower Bear": true,
-  "Rich Bear": true,
-  "Rainbow Artist Bear": true,
-  "Devil Bear": true,
+const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
+  "Peeled Potato": () => true,
+  "Christmas Snow Globe": () => true,
+  "Beta Bear": () => true,
+  "Cyborg Bear": () => true,
+  "Wood Nymph Wendy": () => true,
+  "Squirrel Monkey": () => true,
+  "Black Bearry": () => true,
+  "Lady Bug": () => true,
+  "Cabbage Boy": () => true,
+  "Cabbage Girl": () => true,
+  "Maneki Neko": () => true,
+  "Heart Balloons": () => true,
+  Flamingo: () => true,
+  "Blossom Tree": () => true,
+  "Palm Tree": () => true,
+  "Beach Ball": () => true,
+  "Collectible Bear": () => true,
+  "Pablo The Bunny": () => true,
+  "Easter Bush": () => true,
+  "Giant Carrot": () => true,
+  Hoot: () => true,
+  "Sir Goldensnout": () => true,
+  "Freya Fox": () => true,
+  Poppy: () => canWithdrawTimebasedItem(new Date("2023-09-02")),
+  "Grain Grinder": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
+  Kernaldo: () => canWithdrawTimebasedItem(new Date("2023-10-02")),
+  "Queen Cornelia": () =>
+    canWithdrawTimebasedItem(new Date("Thu August 16 2023 10:00:00 GMT+1000")),
 };
 
-const market: Record<MarketItem, boolean> = {
+const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
+  {
+    "Chef Bear": () => true,
+    "Construction Bear": () => true,
+    "Angel Bear": () => true,
+    "Badass Bear": () => true,
+    "Bear Trap": () => true,
+    "Brilliant Bear": () => true,
+    "Classy Bear": () => true,
+    "Farmer Bear": () => true,
+    "Sunflower Bear": () => true,
+    "Rich Bear": () => true,
+    "Rainbow Artist Bear": () => true,
+    "Devil Bear": () => true,
+  };
+
+const market: Record<MarketItem, () => boolean> = {
   // TODO add rule when beans are introduced
-  "Carrot Sword": true,
-  "Golden Cauliflower": true,
-  "Mysterious Parsnip": true,
-  Nancy: true,
-  Scarecrow: true,
-  Kuebiko: true,
+  "Carrot Sword": () => true,
+
+  "Golden Cauliflower": () => true,
+  "Mysterious Parsnip": () => true,
+  Nancy: () => true,
+  Scarecrow: () => true,
+  Kuebiko: () => true,
 };
 
-const boostTreasure: Record<BoostTreasure, boolean> = {
-  "Lunar Calendar": true,
-  "Tiki Totem": true,
-  "Genie Lamp": true,
-  Foliant: true,
+const boostTreasure: Record<BoostTreasure, () => boolean> = {
+  "Lunar Calendar": () => true,
+  "Tiki Totem": () => true,
+  "Genie Lamp": () => true,
+  Foliant: () => true,
 };
 
-const goblinPirate: Record<GoblinPirateItemName, boolean> = {
-  "Iron Idol": true,
-  "Heart of Davy Jones": true,
-  Karkinos: true,
-  "Emerald Turtle": true,
-  "Tin Turtle": false,
+const goblinPirate: Record<GoblinPirateItemName, () => boolean> = {
+  "Iron Idol": () => true,
+  "Heart of Davy Jones": () => true,
+  Karkinos: () => true,
+  "Emerald Turtle": () => true,
+  "Tin Turtle": () => false,
 };
 
-const treasureDecoration: Record<DecorationTreasure, boolean> = {
-  "T-Rex Skull": true,
-  "Sunflower Coin": true,
-  "Pirate Bear": true,
-  "Whale Bear": true,
-  "Lifeguard Bear": true,
-  "Snorkel Bear": true,
-  "Turtle Bear": true,
-  "Dinosaur Bone": true,
+const treasureDecoration: Record<DecorationTreasure, () => boolean> = {
+  "T-Rex Skull": () => true,
+  "Sunflower Coin": () => true,
+  "Pirate Bear": () => true,
+  "Whale Bear": () => true,
 
-  "Abandoned Bear": false,
-  Galleon: false,
-  "Golden Bear Head": false,
-  "Human Bear": false,
-  "Parasaur Skull": false,
-  "Skeleton King Staff": false,
-  "Goblin Bear": false,
+  "Abandoned Bear": () => false,
+  "Dinosaur Bone": () => hasSeasonEnded("Dawn Breaker"),
+  Galleon: () => false,
+  "Golden Bear Head": () => false,
+  "Human Bear": () => false,
+  "Lifeguard Bear": () => true,
+  "Parasaur Skull": () => false,
+  "Skeleton King Staff": () => false,
+  "Snorkel Bear": () => true,
+  "Turtle Bear": () => true,
+  "Goblin Bear": () => false,
 };
 
-const beachBounty: Record<BeachBountyTreasure, boolean> = {
-  "Pirate Bounty": false,
-  Pearl: false,
-  Coral: false,
-  "Clam Shell": false,
-  Pipi: false,
-  Starfish: false,
-  Seaweed: false,
-  "Sea Cucumber": false,
-  Crab: false,
-  "Wooden Compass": false,
-  "Iron Compass": false,
-  "Old Bottle": false,
+const beachBounty: Record<BeachBountyTreasure, () => boolean> = {
+  "Pirate Bounty": () => false,
+  Pearl: () => false,
+  Coral: () => false,
+  "Clam Shell": () => false,
+  Pipi: () => false,
+  Starfish: () => false,
+  Seaweed: () => false,
+  "Sea Cucumber": () => false,
+  Crab: () => false,
+  "Wooden Compass": () => false,
+  "Iron Compass": () => false,
+  "Old Bottle": () => false,
 };
 
-const eventDecoration: Record<EventDecorationName, boolean> = {
-  "Valentine Bear": true,
-  "Easter Bear": true,
-  "Easter Bush": true,
-  "Giant Carrot": true,
-  "Genie Bear": true,
-  "Eggplant Bear": true,
-  "Dawn Flower": true,
+const eventDecoration: Record<EventDecorationName, () => boolean> = {
+  "Valentine Bear": () => true,
+  "Easter Bear": () => true,
+  "Easter Bush": () => true,
+  "Giant Carrot": () => true,
+  "Genie Bear": () => true,
+  "Eggplant Bear": () => true,
+  "Dawn Flower": () => true,
 };
 
-const lanterns: Record<LanternName, boolean> = {
-  "Luminous Lantern": true,
-  "Radiance Lantern": true,
-  "Aurora Lantern": true,
-  "Ocean Lantern": true,
-  "Solar Lantern": true,
-  "Betty Lantern": true,
-  "Bumpkin Lantern": true,
-  "Goblin Lantern": true,
+const lanterns: Record<LanternName, () => boolean> = {
+  "Luminous Lantern": () => true,
+  "Radiance Lantern": () => true,
+  "Aurora Lantern": () => true,
+  "Ocean Lantern": () => true,
+  "Solar Lantern": () => true,
+  "Betty Lantern": () => true,
+  "Bumpkin Lantern": () => true,
+  "Goblin Lantern": () => true,
 };
 
-const purchasables: Record<PurchasableItems, boolean> = {
-  "Witches' Eve Banner": false,
-  "Dawn Breaker Banner": false,
-  "Solar Flare Banner": false,
-  "Gold Pass": false,
+const purchasables: Record<PurchasableItems, () => boolean> = {
+  "Witches' Eve Banner": () => false,
+  "Dawn Breaker Banner": () => false,
+  "Solar Flare Banner": () => false,
+  "Gold Pass": () => false,
 };
 
-export const WITHDRAWABLES: Record<InventoryItemName, boolean> = {
+export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...crops,
   ...fruits,
   ...cropSeeds,
@@ -645,7 +654,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, boolean> = {
   ...beachBounty,
   ...resources,
   ...purchasables,
-  "Basic Land": false,
+  "Basic Land": () => false,
   ...lanterns,
 
   // non-withdrawables
@@ -779,7 +788,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
   "Eggplant Onesie": () => true,
   "Fox Hat": () => false, // Not Launched
   "Grave Diggers Shovel": () => true,
-  "Infected Potion": () => false, // Auctioned
+  "Infected Potion": () =>
+    canWithdrawTimebasedItem(new Date("Thu August 12 2023 10:00:00 GMT+1000")), // Auctioned
   "Mushroom Hat": () => true,
   "Mushroom Lamp": () => false, // Not Launched
   "Mushroom Lights Background": () => false, // Not Launched
@@ -791,12 +801,13 @@ export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
   "Squid Hat": () => true,
   "Striped Red Shirt": () => false, // Not Launched
   "Striped Yellow Shirt": () => false, // Not Launched
-  "Summer Top": () => true, // Auctioned // Auction over
+  "Summer Top": () =>
+    canWithdrawTimebasedItem(new Date("Thu August 6 2023 10:00:00 GMT+1000")), // Auctioned
   "Sunburst Potion": () => true,
   "Water Gun": () => false, // Not Launched
   "Wavy Pants": () => false, // Not Launched
   "White Turtle Neck": () => true,
-  "Trial Tee": () => true,
+  "Trial Tee": () => false,
   "Auction Megaphone": () => false, // Not Launched
   "Auctioneer Slacks": () => false, // Not Launched
   "Bidder's Brocade": () => false, // Not Launched
@@ -813,11 +824,17 @@ export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
   "Infernal Goblin Potion": () => false, // Seasonal
   "Imp Costume": () => false, // Seasonal
   "Ox Costume": () => false, // Seasonal
-  "Luna's Hat": () => false, // Auction
+  "Luna's Hat": () =>
+    canWithdrawTimebasedItem(new Date("Thu August 26 2023 10:00:00 GMT+1000")), // Auction
   "Infernal Pitchfork": () => false, // Auction
-  "Infernal Horns": () => false, // Auction
-  Cattlegrim: () => false, // Auction
-  "Crumple Crown": () => false, // Auction
+  "Infernal Horns": () =>
+    canWithdrawTimebasedItem(new Date("Thu August 31 2023 10:00:00 GMT+1000")), // Auction
+  Cattlegrim: () =>
+    canWithdrawTimebasedItem(
+      new Date("Thu September 13 2023 10:00:00 GMT+1000")
+    ), // Auction
+  "Crumple Crown": () =>
+    canWithdrawTimebasedItem(new Date("Thu August 19 2023 10:00:00 GMT+1000")), // Auction
   "Merch Bucket Hat": () => false,
   "Merch Coffee Mug": () => false,
   "Dawn Breaker Tee": () => false,
@@ -859,7 +876,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
   "Brown Rancher Hair": () => false,
   "Parsnip Horns": () => false,
   "Potato Suit": () => false,
-  "Whale Hat": () => true, // AUCTION // Auction Over
+  "Whale Hat": () =>
+    canWithdrawTimebasedItem(new Date("Thu August 9 2023 10:00:00 GMT+1000")), // AUCTION
   "Pumpkin Shirt": () => false,
   Halo: () => false,
   Kama: () => false,

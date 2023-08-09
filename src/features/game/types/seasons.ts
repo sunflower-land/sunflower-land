@@ -74,3 +74,11 @@ export function secondsLeftInSeason() {
 
   return secondsLeft;
 }
+
+export function hasSeasonStarted(season: SeasonName, now = Date.now()) {
+  return now >= SEASONS[season].startDate.getTime();
+}
+
+export function hasSeasonEnded(season: SeasonName, now = Date.now()) {
+  return now >= SEASONS[season].endDate.getTime();
+}
