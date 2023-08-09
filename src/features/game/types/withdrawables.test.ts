@@ -1,7 +1,11 @@
-import { WITHDRAWABLES } from "./withdrawables";
+import { BUMPKIN_WITHDRAWABLES, WITHDRAWABLES } from "./withdrawables";
 
 describe("withdrawables", () => {
   describe("prevents", () => {
+    beforeEach(() => {
+      jest.useRealTimers();
+    });
+
     it("prevents users from withdrawing seeds", () => {
       const enabled = WITHDRAWABLES["Sunflower Seed"];
       expect(enabled).toBeFalsy();
@@ -51,9 +55,21 @@ describe("withdrawables", () => {
       const enabled = WITHDRAWABLES["Chicken"];
       expect(enabled).toBeFalsy();
     });
+
+    it("prevents a time based item from being withdrawn when before the available time", () => {
+      const timers = jest.useFakeTimers();
+      timers.setSystemTime(new Date("Thu August 7 2023 10:01:00 GMT+1000"));
+
+      const enabled = BUMPKIN_WITHDRAWABLES["Whale Hat"]();
+      expect(enabled).toBeFalsy();
+    });
   });
 
   describe("enables", () => {
+    beforeEach(() => {
+      jest.useRealTimers();
+    });
+
     it("enables users to withdraw crops", () => {
       const enabled = WITHDRAWABLES["Sunflower"];
       expect(enabled).toBeTruthy();
@@ -92,6 +108,14 @@ describe("withdrawables", () => {
 
   it("allows users from withdrawing bears other than basic bear", () => {
     const enabled = WITHDRAWABLES["Chef Bear"];
+    expect(enabled).toBeTruthy();
+  });
+
+  it("enables a time based item to be withdrawn when the time has passed", () => {
+    const timers = jest.useFakeTimers();
+    timers.setSystemTime(new Date("Thu August 9 2023 10:01:00 GMT+1000"));
+
+    const enabled = BUMPKIN_WITHDRAWABLES["Whale Hat"]();
     expect(enabled).toBeTruthy();
   });
 });
