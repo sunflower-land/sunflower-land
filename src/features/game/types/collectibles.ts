@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { GameState, Inventory, InventoryItemName } from "./game";
-import { SEASONS } from "./seasons";
+import { getCurrentSeason } from "./seasons";
 import { marketRate } from "../lib/halvening";
 import { SFLDiscount } from "../lib/SFLDiscount";
 
@@ -247,6 +247,7 @@ export const GOBLIN_PIRATE_ITEMS: Record<
     },
     supply: 7500,
     boost: "+0.1 Cabbage",
+    disabled: true,
   },
 };
 
@@ -266,7 +267,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
       sfl: SFLDiscount(state, new Decimal(50)),
       boost: "+0.2 Wild Mushroom",
       // only available when SEASONS["DAWN_BREAKER"] starts
-      disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
+      disabled: getCurrentSeason() !== "Dawn Breaker",
     },
     Maximus: {
       description: "Squash the competition with plump Maximus",
@@ -279,7 +280,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
       // 50 Team Supply + giveaways
       supply: 350 + 50,
       boost: "+1 Eggplant",
-      disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
+      disabled: getCurrentSeason() !== "Dawn Breaker",
     },
     Obie: {
       description: "A fierce eggplant soldier",
@@ -292,7 +293,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
       // 100 Team Supply + Giveaways
       supply: 2500 + 100,
       boost: "25% faster eggplants",
-      disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
+      disabled: getCurrentSeason() !== "Dawn Breaker",
     },
     "Purple Trail": {
       description:
@@ -305,7 +306,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
       sfl: SFLDiscount(state, marketRate(800)),
       supply: 10000,
       boost: "+0.2 Eggplant",
-      disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
+      disabled: getCurrentSeason() !== "Dawn Breaker",
     },
   };
 };

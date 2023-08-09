@@ -6,31 +6,31 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import lanternIcon from "assets/icons/lantern.webp";
 import dawnbreakerTicket from "assets/icons/dawn_breaker_ticket.png";
 import { getRelativeTime } from "lib/utils/time";
-import { LeaderboardsType } from "../actions/cache";
+import { LeaderboardType } from "./actions/cache";
 
 interface Props {
   farmId: number;
-  leaderboards?: LeaderboardsType;
+  leaderboard?: LeaderboardType;
   onClose: () => void;
 }
 
-export const Leaderboards: React.FC<Props> = ({
+export const Leaderboard: React.FC<Props> = ({
   farmId,
-  leaderboards,
+  leaderboard,
   onClose,
 }) => {
   const [leaderboardTab, setLeaderboardTab] = useState(0);
 
-  if (!leaderboards)
+  if (!leaderboard)
     return (
       <CloseButtonPanel onClose={onClose}>
         <div className="p-2 text-sm">
-          <p>Leaderboards coming soon..</p>
+          <p>Leaderboard coming soon..</p>
         </div>
       </CloseButtonPanel>
     );
 
-  const { lanterns, tickets, lastUpdated } = leaderboards;
+  const { lanterns, tickets, lastUpdated } = leaderboard;
 
   return (
     <CloseButtonPanel
