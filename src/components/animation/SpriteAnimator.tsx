@@ -114,6 +114,7 @@ class Spritesheet extends React.Component<Props> {
   }
 
   componentWillUnmount() {
+    clearInterval(this.intervalSprite);
     window.removeEventListener("resize", this.resize);
   }
 
@@ -302,6 +303,7 @@ class Spritesheet extends React.Component<Props> {
       } else {
         this.frame += 1;
       }
+
       if (onEachFrame) onEachFrame(this.setInstance());
     }
 
@@ -356,10 +358,10 @@ class Spritesheet extends React.Component<Props> {
     return this.endAt;
   };
 
-  setFps(fps) {
+  setFps = (fps) => {
     this.fps = fps;
     this.setIntervalPlayFunctions();
-  }
+  };
 
   setDirection = (direction) => {
     this.direction = direction === "rewind" ? "rewind" : "forward";
