@@ -74,12 +74,19 @@ export const MixingPotion: React.FC<{
 
   const settings = SETTINGS[currentAnimation];
 
+  console.log("desired", desiredAnimation);
+
   const onPlay = () => {
+    console.log("onPlay", desiredAnimation);
     setPaused(false);
   };
 
   const onPause = () => {
     setPaused(true);
+    setCurrentAnimation(desiredAnimation);
+  };
+
+  const onLoopComplete = () => {
     setCurrentAnimation(desiredAnimation);
   };
 
@@ -116,16 +123,20 @@ export const MixingPotion: React.FC<{
           startAt={settings.startAt}
           endAt={settings.endAt}
           steps={settings.endAt - settings.startAt}
-          fps={11}
+          fps={getFPS(0)}
           direction={`forward`}
           autoplay={settings.autoplay}
           loop={settings.loop}
           onEachFrame={(spritesheet) => {
             const frame = spritesheet.getInfo("frame");
-            spritesheet.setFps(getFPS(frame));
+            const frameFps = getFPS(frame);
+            if (frameFps !== spritesheet.getInfo("fps")) {
+              spritesheet.setFps(frameFps);
+            }
           }}
           onPlay={onPlay}
           onPause={onPause}
+          onLoopComplete={onLoopComplete}
         />
       )}
     </div>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer, useState } from "react";
+import React, { useContext } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelTableBorderStyle } from "features/game/lib/style";
 import tableTop from "assets/ui/table_top.webp";
@@ -13,10 +13,10 @@ import shadow from "assets/npcs/shadow.png";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
 import { PotionName } from "features/game/types/game";
-import { calculateScore } from "features/game/events/landExpansion/mixPotion";
 import { Potion } from "./lib/types";
-import { getFeedbackText } from "./lib/helpers";
-import { DesiredAnimation, MixingPotion } from "./MixingPotion";
+import { MixingPotion } from "./MixingPotion";
+import { useActor, useInterpret } from "@xstate/react";
+import { potionHouseMachine } from "./lib/potionHouseMachine";
 
 interface Props {
   onClose: () => void;
@@ -101,69 +101,83 @@ const gameHandler = (state: PotionState, action: PotionAction): PotionState => {
 
 export const Experiment: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
-  const [desiredAnimation, setDesiredAnimation] =
-    useState<DesiredAnimation>("static");
-  const [feedbackText, setFeedbackText] = useState<string>(
-    "Select your potions and unveil the secrets of the plants!"
-  );
+  const potionService = useInterpret(potionHouseMachine, {
+    context: {
+      gameService,
+    },
+  });
+  const [potionState] = useActor(potionService);
 
-  const potionHouse = gameService.state.context.state.potionHouse;
-  const previousAttempts = potionHouse?.game.attempts ?? [];
-  const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
-  const isFinished = potionHouse?.game.status === "finished";
+  const { currentGuess, guessSpot, selectedPotion } = potionState.context;
 
-  const [potionState, dispatch] = useReducer(
-    gameHandler,
-    resetGame(isFinished)
-  );
-  const { isNewGame, currentGuess, guessSpot, selectedPotion } = potionState;
+  const isEndScreen = potionState.matches("endScreen");
+  const isMixing =
+    potionState.matches("playing.startMixing") ||
+    potionState.matches("playing.loopMixing");
 
-  const isEndScreen = isFinished && !isNewGame;
-  const isGuessing = lastAttempt.some((potion) => potion.status === "pending");
-  const isBombed = lastAttempt.some((potion) => potion.status === "bomb");
+  // const [desiredAnimation, setDesiredAnimation] =
+  //   useState<DesiredAnimation>("static");
+  // const [feedbackText, setFeedbackText] = useState<string>(
+  //   "Select your potions and unveil the secrets of the plants!"
+  // );
 
-  const attempts = isNewGame
-    ? new Array<{ potion: null; status: undefined }[]>(3).fill(EMPTY_ATTEMPT)
-    : previousAttempts.concat(new Array(3).fill(EMPTY_ATTEMPT)).slice(0, 3);
-  const guessRow = isNewGame ? 0 : potionHouse?.game.attempts.length ?? 0;
-  const score = isNewGame ? 0 : calculateScore(lastAttempt);
+  // const potionHouse = gameService.state.context.state.potionHouse;
+  // const previousAttempts = potionHouse?.game.attempts ?? [];
+  // const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
+  // const isFinished = potionHouse?.game.status === "finished";
 
-  useEffect(() => {
-    if (isGuessing) {
-      setDesiredAnimation("mixing");
-      return;
-    }
+  // const [potionState, dispatch] = useReducer(
+  //   gameHandler,
+  //   resetGame(isFinished)
+  // );
+  // const { isNewGame, currentGuess, guessSpot, selectedPotion } = potionState;
 
-    if (desiredAnimation === "mixing") {
-      setFeedbackText(getFeedbackText(score));
-      score > 0 ? setDesiredAnimation("success") : setDesiredAnimation("boom");
-    }
-  }, [isGuessing]);
+  // const isEndScreen = isFinished && !isNewGame;
+  // const isGuessing = lastAttempt.some((potion) => potion.status === "pending");
+  // const isBombed = lastAttempt.some((potion) => potion.status === "bomb");
 
-  const onPotionButtonClick = () => {
-    // REMOVE
-    if (currentGuess[guessSpot]) {
-      dispatch({ type: "REMOVE_GUESS", guessSpot: guessSpot });
-      return;
-    }
+  // const attempts = isNewGame
+  //   ? new Array<{ potion: null; status: undefined }[]>(3).fill(EMPTY_ATTEMPT)
+  //   : previousAttempts.concat(new Array(3).fill(EMPTY_ATTEMPT)).slice(0, 3);
+  // const guessRow = isNewGame ? 0 : potionHouse?.game.attempts.length ?? 0;
+  // const score = isNewGame ? 0 : calculateScore(lastAttempt);
 
-    dispatch({
-      type: "ADD_GUESS",
-      guessSpot: guessSpot,
-      potion: selectedPotion.name,
-    });
-  };
+  // useEffect(() => {
+  //   if (isGuessing) {
+  //     setDesiredAnimation("mixing");
+  //     return;
+  //   }
 
-  const onSubmit = () => {
-    console.log("SUBMIT");
-    dispatch({ type: "RESET_GAME" });
+  //   if (desiredAnimation === "mixing") {
+  //     setFeedbackText(getFeedbackText(score));
+  //     score > 0 ? setDesiredAnimation("success") : setDesiredAnimation("boom");
+  //   }
+  // }, [isGuessing]);
 
-    gameService.send("potion.mixed", {
-      attemptNumber: guessRow + 1,
-      potions: currentGuess,
-    });
-    gameService.send("SAVE");
-  };
+  // const onPotionButtonClick = () => {
+  //   // REMOVE
+  //   if (currentGuess[guessSpot]) {
+  //     dispatch({ type: "REMOVE_GUESS", guessSpot: guessSpot });
+  //     return;
+  //   }
+
+  //   dispatch({
+  //     type: "ADD_GUESS",
+  //     guessSpot: guessSpot,
+  //     potion: selectedPotion.name,
+  //   });
+  // };
+
+  // const onSubmit = () => {
+  //   console.log("SUBMIT");
+  //   dispatch({ type: "RESET_GAME" });
+
+  //   gameService.send("potion.mixed", {
+  //     attemptNumber: guessRow + 1,
+  //     potions: currentGuess,
+  //   });
+  //   gameService.send("SAVE");
+  // };
 
   return (
     <>

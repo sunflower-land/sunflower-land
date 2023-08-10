@@ -279,11 +279,8 @@ export const authMachine = createMachine<
           },
         },
       },
-
       signIn: {
         id: "signIn",
-        // DEBUG CODE REMOVE
-        always: [{ target: "connectingToMetamask" }],
         on: {
           CONNECT_TO_WALLET: {
             target: "connectingToWallet",

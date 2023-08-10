@@ -1,14 +1,10 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 
-import { Box } from "components/ui/Box";
-
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
-import { ITEM_DETAILS } from "features/game/types/images";
 import {
   Decoration,
-  HELIOS_DECORATIONS,
   POTION_HOUSE_DECORATIONS,
 } from "features/game/types/decorations";
 import { Button } from "components/ui/Button";
@@ -69,7 +65,7 @@ export const PotionHouseItems: React.FC = () => {
       }
       content={
         <>
-          {Object.values(HELIOS_DECORATIONS())
+          {/* {Object.values(HELIOS_DECORATIONS())
             .filter((item) => !ADVANCED_DECORATIONS.includes(item.name))
             .map((item: Decoration) => (
               <Box
@@ -79,7 +75,7 @@ export const PotionHouseItems: React.FC = () => {
                 image={ITEM_DETAILS[item.name].image}
                 count={inventory[item.name]}
               />
-            ))}
+            ))} */}
         </>
       }
     />
