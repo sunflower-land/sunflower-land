@@ -1,7 +1,11 @@
-import { assign, createMachine } from "xstate";
+import { State, assign, createMachine } from "xstate";
 import { Potion } from "./types";
 import { Potions } from "features/game/events/landExpansion/mixPotion";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
+import {
+  acknowledgePotionHouseIntro,
+  getPotionHouseIntroRead,
+} from "./introStorage";
 
 export interface PotionHouseContext {
   guessSpot: number;
@@ -13,28 +17,51 @@ export interface PotionHouseContext {
 
 type PotionHouseEvent =
   | { type: "MIX_POTION" }
-  | { type: "UPDATE_GUESS_SPOT"; guessSpot: number };
+  | { type: "UPDATE_GUESS_SPOT"; guessSpot: number }
+  | { type: "ACKNOWLEDGE" }
+  | { type: "OPEN_RULES" };
 
 export type PotionHouseState = {
   value:
-    | "introScreen"
+    | "introduction"
+    | "rules"
+    | "playing"
     | "playing.idle"
     | "playing.startMixing"
     | "playing.loopMixing"
     | "playing.success"
-    | "playing.bomb"
-    | "endScreen";
+    | "playing.bomb";
   context: PotionHouseContext;
 };
+
+export type PotionMachineState = State<
+  PotionHouseContext,
+  PotionHouseEvent,
+  PotionHouseState
+>;
 
 export const potionHouseMachine = createMachine<
   PotionHouseContext,
   PotionHouseEvent,
   PotionHouseState
 >({
-  initial: "introScreen",
+  initial: "introduction",
   states: {
-    introScreen: {},
+    introduction: {
+      always: {
+        target: "playing",
+        cond: () => !!getPotionHouseIntroRead(),
+      },
+      on: {
+        ACKNOWLEDGE: {
+          actions: () => acknowledgePotionHouseIntro(),
+          target: "playing",
+        },
+      },
+    },
+    rules: {
+      on: { ACKNOWLEDGE: "playing" },
+    },
     playing: {
       initial: "idle",
       states: {
@@ -57,4 +84,5 @@ export const potionHouseMachine = createMachine<
     },
     endScreen: {},
   },
+  on: { OPEN_RULES: "rules" },
 });
