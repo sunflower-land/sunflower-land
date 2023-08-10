@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { IntroPage } from "./Intro";
 import { Experiment } from "./Experiment";
@@ -7,19 +7,16 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelRoomBorderStyle } from "features/game/lib/style";
 import { Rules } from "./Rules";
-import {
-  acknowledgePotionHouseIntro,
-  getPotionHouseIntroRead,
-} from "./lib/introStorage";
+import { potionHouseMachine } from "./lib/potionHouseMachine";
+import { useActor, useInterpret } from "@xstate/react";
 
 interface Props {
   onClose: () => void;
 }
 
 export const PotionHouse: React.FC<Props> = ({ onClose }) => {
-  const [page, setPage] = useState<"intro" | "playing" | "rules">(
-    getPotionHouseIntroRead() ? "playing" : "intro"
-  );
+  const potionHouseService = useInterpret(potionHouseMachine);
+  const [state, send] = useActor(potionHouseService);
 
   return (
     <Modal show={true} centered onHide={onClose}>
@@ -35,7 +32,7 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
           {/* Header */}
           <div className="flex mb-3 w-full justify-center">
             <div
-              onClick={() => setPage("rules")}
+              onClick={() => send("OPEN_RULES")}
               style={{
                 height: `${PIXEL_SCALE * 11}px`,
                 width: `${PIXEL_SCALE * 11}px`,
@@ -49,7 +46,7 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
               )}
             </div>
             <h1 className="grow text-center text-lg">
-              {page === "rules" ? "How to play" : "Potion Room"}
+              {state.matches("rules") ? "How to play" : "Potion Room"}
             </h1>
             <img
               src={SUNNYSIDE.icons.close}
@@ -61,16 +58,18 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
             />
           </div>
           <div className="flex flex-col grow mb-1">
-            {page === "intro" && (
-              <IntroPage
-                onClose={() => {
-                  acknowledgePotionHouseIntro();
-                  setPage("playing");
-                }}
+            {state.matches("introduction") && (
+              <IntroPage onClose={() => send("ACKNOWLEDGE")} />
+            )}
+            {state.matches("playing") && (
+              <Experiment
+                onClose={onClose}
+                potionHouseService={potionHouseService}
               />
             )}
-            {page === "playing" && <Experiment onClose={onClose} />}
-            {page === "rules" && <Rules onDone={() => setPage("playing")} />}
+            {state.matches("rules") && (
+              <Rules onDone={() => send("ACKNOWLEDGE")} />
+            )}
           </div>
         </div>
       </div>
