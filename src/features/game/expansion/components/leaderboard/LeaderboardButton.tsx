@@ -2,23 +2,20 @@ import React from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { createPortal } from "react-dom";
 
 import trophy from "assets/icons/trophy.png";
 
 export const LeaderboardButton: React.FC<{
   loaded: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }> = ({ loaded = false, onClick }) => {
-  return createPortal(
+  return (
     <div
       onClick={loaded ? onClick : undefined}
-      className={classNames("fixed", {
+      className={classNames("relative", {
         "cursor-pointer hover:img-highlight": loaded,
       })}
       style={{
-        right: `${PIXEL_SCALE * 3}px`,
-        top: `${PIXEL_SCALE * 61}px`,
         width: `${PIXEL_SCALE * 22}px`,
         height: `${PIXEL_SCALE * 22}px`,
       }}
@@ -44,7 +41,6 @@ export const LeaderboardButton: React.FC<{
           transition: "opacity 0.5s",
         }}
       />
-    </div>,
-    document.body
+    </div>
   );
 };
