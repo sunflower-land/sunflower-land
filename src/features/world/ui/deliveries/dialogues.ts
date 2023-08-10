@@ -180,10 +180,10 @@ export const npcDialogues: Partial<Record<NPCName, DeliveryNPCDialogue>> = {
   },
   bert: {
     intro: [
-      "Psst! Come closer. I've uncovered some mind-boggling secrets about Sunflorea. Care to know more? Do you have what I need?",
-      "Hey, you! Yes, you! I'm close to revealing the hidden truths of Sunflorea. Care to deliver the ingredients I need?",
-      "Greetings, seeker of the unknown. I possess rare knowledge about the Sunflorea Metaverse. Did you get my order?",
-      "Welcome, curious traveler. What do you have for me?",
+      "Psst! Explorer of the arcane! Sunflorea's secrets aren't just beneath the ground. Some hang in wardrobes, some lie hidden in bags! Are you here with my Delivery or is it a Discovery you seek to unveil?",
+      "Ah, kindred spirit! The real treasures of Sunflorea sometimes hang around our necks or sit snugly in our pockets. Deliveries aid my quest, but Discoveries... oh, they tantalize my soul! Which journey beckons you today?",
+      "Greetings, bearer of the mysterious! In Sunflorea, items aren't just items. They're whispers of tales long forgotten. Is it a Delivery you bring, or do you tread the path of Discovery?",
+      "Hello, seeker of the concealed! In the heart of Sunflorea, hidden treasures await in the most unassuming places. Are you here with a Delivery, or shall we dive into the thrilling world of Discoveries?",
     ],
     positiveDelivery: [
       "Incredible! You've brought me everything I need. I am on the cusp of revealing secrets that'll blow your mind!",

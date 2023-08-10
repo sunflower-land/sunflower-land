@@ -14,6 +14,7 @@ import { Birdie } from "./npcs/Birdie";
 import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { Grubnuk } from "./npcs/Grubnuk";
 import { Blacksmith } from "./npcs/Blacksmith";
+import { Bert } from "./npcs/Bert";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -132,7 +133,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
         {npc === "grimtooth" && (
           <DeliveryPanel npc={npc} onClose={closeModal} />
         )}
-        {npc === "bert" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "bert" && <Bert onClose={closeModal} />}
         {npc === "timmy" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "old salty" && (
           <DeliveryPanel npc={npc} onClose={closeModal} />
