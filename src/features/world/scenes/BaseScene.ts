@@ -260,10 +260,14 @@ export abstract class BaseScene extends Phaser.Scene {
       {}
     );
     interactablesPolygons.forEach((polygon) => {
-      polygon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        const id = polygon.data.list.id;
-        interactableModalManager.open(id);
-      });
+      polygon
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", (p: Phaser.Input.Pointer) => {
+          if (p.downElement.nodeName === "CANVAS") {
+            const id = polygon.data.list.id;
+            interactableModalManager.open(id);
+          }
+        });
     });
 
     // Debugging purposes - display colliders in pink
