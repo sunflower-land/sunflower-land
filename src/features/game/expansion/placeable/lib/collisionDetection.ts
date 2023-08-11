@@ -316,7 +316,8 @@ export type AOEItemName =
   | "Bale"
   | "Scary Mike"
   | "Laurie the Chuckle Crow"
-  | "Queen Cornelia";
+  | "Queen Cornelia"
+  | "Gnome";
 
 /**
  * Detects whether an item is within the area of effect of a placeable with AOE.
@@ -460,7 +461,17 @@ export function isWithinAOE(
         return true;
       }
     }
+
+    if (AOEItemName === "Gnome") {
+      if (
+        effectItem.x == AOEItemCoordinates.x &&
+        effectItem.y == AOEItemCoordinates.y - 1
+      ) {
+        return true;
+      }
+    }
   }
+
   return false;
 }
 
