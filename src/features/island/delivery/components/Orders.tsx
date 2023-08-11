@@ -271,8 +271,9 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
             </div>
           )}
           {(!!inventory["Beta Pass"] &&
-            Date.now() > BETA_DELIVERY_END_DATE.getTime()) ||
-            (Date.now() > DELIVERY_END_DATE.getTime() && (
+            Date.now() >
+              BETA_DELIVERY_END_DATE.getTime() - 24 * 60 * 60 * 1000) ||
+            (Date.now() > DELIVERY_END_DATE.getTime() - 24 * 60 * 60 * 1000 && (
               <div className="flex items-center mb-1 mt-2">
                 <div className="w-6">
                   <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />

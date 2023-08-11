@@ -196,7 +196,8 @@ export const DeliveryPanelContent: React.FC<Props> = ({
   const bumpkin = useSelector(gameService, _bumpkin);
 
   const orders = delivery.orders.filter(
-    (order) => order.from === npc && Date.now() >= order.readyAt
+    (order) =>
+      order.from === npc && Date.now() >= order.readyAt && !order.completedAt
   );
 
   const dialogue = npcDialogues[npc] || defaultDialogue;
