@@ -985,7 +985,7 @@ describe("isWithinAOE", () => {
     expect(cropPlot14).toBe(false);
   });
 
-  it.only("returns true if the crop is within the Gnome AOE", () => {
+  it("returns true if the crop is within the Gnome AOE", () => {
     const plot: Position = { x: 0, y: -1, ...plotDimensions };
 
     const cropPlot = isWithinAOE(
