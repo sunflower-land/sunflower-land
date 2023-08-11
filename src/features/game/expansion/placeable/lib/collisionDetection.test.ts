@@ -989,7 +989,7 @@ describe("isWithinAOE", () => {
     const plot: Position = { x: 0, y: -1, ...plotDimensions };
 
     const cropPlot = isWithinAOE(
-      "Queen Cornelia",
+      "Gnome",
       { x: 0, y: 0, height: 1, width: 1 },
       plot
     );
