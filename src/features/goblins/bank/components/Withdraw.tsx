@@ -137,38 +137,39 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   }
 
   return (
-    <div className="p-2 flex flex-col justify-center">
-      <span className="text-shadow text-sm pb-2">
-        You can only withdraw items that you have synced to the blockchain.
-      </span>
-
-      <div className="flex mb-1">
-        <Button className="mr-1" onClick={() => setPage("tokens")}>
-          <div className="flex">
-            <img src={token} className="h-4 mr-1" />
-            SFL
-          </div>
-        </Button>
-        <Button className="ml-1" onClick={() => setPage("items")}>
-          <div className="flex">
-            <img src={chest} className="h-4 mr-1" />
-            Collectibles
-          </div>
-        </Button>
-      </div>
-      <div className="flex">
-        <Button onClick={() => setPage("wearables")}>
-          <div className="flex">
-            <img src={SUNNYSIDE.icons.wardrobe} className="h-4 mr-1" />
-            Wearables
-          </div>
-        </Button>
-        <Button className="ml-1" onClick={() => setPage("bumpkin")}>
-          <div className="flex">
-            <img src={SUNNYSIDE.icons.player} className="h-4 mr-1" />
-            Bumpkin
-          </div>
-        </Button>
+    <>
+      <div className="p-2 flex flex-col justify-center space-y-1">
+        <span className="text-shadow text-sm mb-1">
+          You can only withdraw items that you have synced to the blockchain.
+        </span>
+        <div className="flex space-x-1">
+          <Button onClick={() => setPage("tokens")}>
+            <div className="flex">
+              <img src={token} className="h-4 mr-1" />
+              SFL
+            </div>
+          </Button>
+          <Button onClick={() => setPage("items")}>
+            <div className="flex">
+              <img src={chest} className="h-4 mr-1" />
+              Collectibles
+            </div>
+          </Button>
+        </div>
+        <div className="flex space-x-1">
+          <Button onClick={() => setPage("wearables")}>
+            <div className="flex">
+              <img src={SUNNYSIDE.icons.wardrobe} className="h-4 mr-1" />
+              Wearables
+            </div>
+          </Button>
+          <Button onClick={() => setPage("bumpkin")}>
+            <div className="flex">
+              <img src={SUNNYSIDE.icons.player} className="h-4 mr-1" />
+              Bumpkin
+            </div>
+          </Button>
+        </div>
       </div>
       {page === "tokens" && <WithdrawTokens onWithdraw={onWithdrawTokens} />}
       {page === "items" && <WithdrawItems onWithdraw={onWithdrawItems} />}
@@ -176,6 +177,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
         <WithdrawWearables onWithdraw={onWithdrawWearables} />
       )}
       {page === "bumpkin" && <WithdrawBumpkin onWithdraw={onWithdrawBumpkin} />}
-    </div>
+    </>
   );
 };

@@ -66,10 +66,12 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   // TODO - Filter out currently equipped items!
+  const bumpkin = goblinState.context.state.bumpkin!;
+  const { equipped } = bumpkin;
 
-  const withdrawableItems = [...new Set([...getKeys(wardrobe)])].sort(
-    (a, b) => ITEM_IDS[a] - ITEM_IDS[b]
-  );
+  const withdrawableItems = [...new Set([...getKeys(wardrobe)])]
+    .sort((a, b) => ITEM_IDS[a] - ITEM_IDS[b])
+    .filter((item) => !Object.values(equipped).includes(item));
 
   const selectedItems = getKeys(selected)
     .filter((item) => !!selected[item])
@@ -77,7 +79,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
 
   return (
     <>
-      <div className="mt-3">
+      <div className="p-2 mt-3">
         <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
           <span className="text-xs">
             {
