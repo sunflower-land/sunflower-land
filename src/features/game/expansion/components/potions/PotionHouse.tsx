@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { IntroPage } from "./Intro";
 import { Experiment } from "./Experiment";
@@ -7,15 +7,27 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelRoomBorderStyle } from "features/game/lib/style";
 import { Rules } from "./Rules";
-import { potionHouseMachine } from "./lib/potionHouseMachine";
+import {
+  PotionHouseMachineInterpreter,
+  potionHouseMachine,
+} from "./lib/potionHouseMachine";
 import { useActor, useInterpret } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
   onClose: () => void;
 }
 
 export const PotionHouse: React.FC<Props> = ({ onClose }) => {
-  const potionHouseService = useInterpret(potionHouseMachine);
+  const { gameService } = useContext(Context);
+
+  const potionHouse = gameService.state.context.state.potionHouse;
+  const isNewGame = potionHouse?.game.status === "finished";
+
+  const potionHouseService = useInterpret(potionHouseMachine, {
+    context: { isNewGame },
+  }) as unknown as PotionHouseMachineInterpreter;
+
   const [state, send] = useActor(potionHouseService);
 
   return (
