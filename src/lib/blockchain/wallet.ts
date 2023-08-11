@@ -31,13 +31,11 @@ export class Wallet {
   private async initialiseContracts() {
     try {
       // TODO - initialise a test contract???
-
-      const isHealthy = await this.healthCheck();
-
+      // const isHealthy = await this.healthCheck();
       // Maintainers of package typed incorrectly
-      if (!isHealthy) {
-        throw new Error("Unable to reach Polygon");
-      }
+      // if (!isHealthy) {
+      //   throw new Error("Unable to reach Polygon");
+      // }
     } catch (e: any) {
       // Timeout, retry
       if (e.code === "-32005") {
