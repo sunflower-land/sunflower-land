@@ -5,7 +5,6 @@ import { CONFIG } from "lib/config";
 import { ErrorCode, ERRORS } from "lib/errors";
 
 import { wallet } from "../../../lib/blockchain/wallet";
-import { communityContracts } from "features/community/lib/communityContracts";
 import {
   createAccount as createFarmAction,
   saveReferrerId,
@@ -333,7 +332,7 @@ export const authMachine = createMachine<
                 context.user.web3.provider,
                 context.user.web3.wallet
               );
-              await communityContracts.initialise(context.user.web3.provider);
+              // await communityContracts.initialise(context.user.web3.provider);
             }
           },
           onDone: [
