@@ -35,6 +35,47 @@ describe("craftCollectible", () => {
     ).toThrow("Insufficient ingredient: Gold");
   });
 
+  it("does not craft item if there is insufficient SFL", () => {
+    expect(() =>
+      craftCollectible({
+        state: {
+          ...GAME_STATE,
+          balance: new Decimal(0),
+          inventory: {
+            Wood: new Decimal(100),
+            Radish: new Decimal(60),
+            Kale: new Decimal(40),
+            Wheat: new Decimal(20),
+          },
+        },
+        action: {
+          type: "collectible.crafted",
+          name: "Laurie the Chuckle Crow",
+        },
+      })
+    ).toThrow("Insufficient SFL");
+  });
+
+  it("crafts item if there is sufficient ingredients and no SFL requirement", () => {
+    const result = craftCollectible({
+      state: {
+        ...GAME_STATE,
+        balance: new Decimal(0),
+        inventory: {
+          Gold: new Decimal(5),
+          Apple: new Decimal(10),
+          Blueberry: new Decimal(10),
+          Orange: new Decimal(10),
+        },
+      },
+      action: {
+        type: "collectible.crafted",
+        name: "Immortal Pear",
+      },
+    });
+    expect(result.inventory["Immortal Pear"]).toEqual(new Decimal(1));
+  });
+
   it("does not craft too early", () => {
     expect(() =>
       craftCollectible({
