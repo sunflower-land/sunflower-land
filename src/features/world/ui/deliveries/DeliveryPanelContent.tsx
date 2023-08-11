@@ -244,7 +244,8 @@ export const DeliveryPanelContent: React.FC<Props> = ({
     const state = gameService.send("order.delivered", { id: selectedOrderId });
 
     const remainingOrders = state.context.state.delivery.orders.filter(
-      (order) => order.from === npc && Date.now() >= order.readyAt
+      (order) =>
+        order.from === npc && Date.now() >= order.readyAt && !order.completedAt
     );
 
     if (!remainingOrders.length) {
