@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelTableBorderStyle } from "features/game/lib/style";
 import tableTop from "assets/ui/table_top.webp";
@@ -15,11 +15,13 @@ import { Context } from "features/game/GameProvider";
 import { PotionName } from "features/game/types/game";
 import { Potion } from "./lib/types";
 import { MixingPotion } from "./MixingPotion";
-import { useActor, useInterpret } from "@xstate/react";
-import { potionHouseMachine } from "./lib/potionHouseMachine";
+import { useActor } from "@xstate/react";
+import { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";
+import { calculateScore } from "features/game/events/landExpansion/mixPotion";
 
 interface Props {
   onClose: () => void;
+  potionHouseService: PotionHouseMachineInterpreter;
 }
 
 const EMPTY_ATTEMPT = new Array<{ potion: null; status: undefined }>(4).fill({
@@ -99,98 +101,88 @@ const gameHandler = (state: PotionState, action: PotionAction): PotionState => {
   }
 };
 
-export const Experiment: React.FC<Props> = ({ onClose }) => {
+export const Experiment: React.FC<Props> = ({
+  onClose,
+  potionHouseService,
+}) => {
   const { gameService } = useContext(Context);
-  const potionService = useInterpret(potionHouseMachine, {
+  const [potionState] = useActor(potionHouseService);
+
+  const {
     context: {
-      gameService,
+      selectedPotion,
+      guessSpot,
+      currentGuess,
+      isNewGame,
+      feedbackText,
     },
-  });
-  const [potionState] = useActor(potionService);
+  } = potionState;
 
-  const { currentGuess, guessSpot, selectedPotion } = potionState.context;
+  const potionHouse = gameService.state.context.state.potionHouse;
+  const previousAttempts = potionHouse?.game.attempts ?? [];
+  const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
 
-  const isEndScreen = potionState.matches("endScreen");
-  const isMixing =
-    potionState.matches("playing.startMixing") ||
-    potionState.matches("playing.loopMixing");
+  const guessRow = isNewGame ? 0 : potionHouse?.game.attempts.length ?? 0;
+  const attempts = isNewGame
+    ? new Array<{ potion: null; status: undefined }[]>(3).fill(EMPTY_ATTEMPT)
+    : previousAttempts.concat(new Array(3).fill(EMPTY_ATTEMPT)).slice(0, 3);
 
-  // const [desiredAnimation, setDesiredAnimation] =
-  //   useState<DesiredAnimation>("static");
-  // const [feedbackText, setFeedbackText] = useState<string>(
-  //   "Select your potions and unveil the secrets of the plants!"
-  // );
+  const isBombed =
+    !isNewGame && lastAttempt.some((potion) => potion.status === "bomb");
+  const isFinished = !isNewGame && potionHouse?.game.status === "finished";
+  const isGuessing = lastAttempt.some((potion) => potion.status === "pending");
+  const reward = potionHouse?.game.reward;
 
-  // const potionHouse = gameService.state.context.state.potionHouse;
-  // const previousAttempts = potionHouse?.game.attempts ?? [];
-  // const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
-  // const isFinished = potionHouse?.game.status === "finished";
+  const [score, setScore] = useState(
+    isNewGame ? 0 : calculateScore(lastAttempt)
+  );
 
-  // const [potionState, dispatch] = useReducer(
-  //   gameHandler,
-  //   resetGame(isFinished)
-  // );
-  // const { isNewGame, currentGuess, guessSpot, selectedPotion } = potionState;
+  useEffect(() => {
+    if (isNewGame || isGuessing) {
+      return;
+    }
 
-  // const isEndScreen = isFinished && !isNewGame;
-  // const isGuessing = lastAttempt.some((potion) => potion.status === "pending");
-  // const isBombed = lastAttempt.some((potion) => potion.status === "bomb");
+    const score = calculateScore(lastAttempt);
 
-  // const attempts = isNewGame
-  //   ? new Array<{ potion: null; status: undefined }[]>(3).fill(EMPTY_ATTEMPT)
-  //   : previousAttempts.concat(new Array(3).fill(EMPTY_ATTEMPT)).slice(0, 3);
-  // const guessRow = isNewGame ? 0 : potionHouse?.game.attempts.length ?? 0;
-  // const score = isNewGame ? 0 : calculateScore(lastAttempt);
+    setScore(score);
+  }, [isNewGame, isGuessing]);
 
-  // useEffect(() => {
-  //   if (isGuessing) {
-  //     setDesiredAnimation("mixing");
-  //     return;
-  //   }
+  const onPotionButtonClick = () => {
+    // REMOVE
+    if (currentGuess[guessSpot]) {
+      potionHouseService.send("REMOVE_GUESS", { guessSpot });
+      return;
+    }
 
-  //   if (desiredAnimation === "mixing") {
-  //     setFeedbackText(getFeedbackText(score));
-  //     score > 0 ? setDesiredAnimation("success") : setDesiredAnimation("boom");
-  //   }
-  // }, [isGuessing]);
+    // ADD
+    potionHouseService.send("ADD_GUESS", {
+      guessSpot,
+      potion: selectedPotion.name,
+    });
+  };
 
-  // const onPotionButtonClick = () => {
-  //   // REMOVE
-  //   if (currentGuess[guessSpot]) {
-  //     dispatch({ type: "REMOVE_GUESS", guessSpot: guessSpot });
-  //     return;
-  //   }
-
-  //   dispatch({
-  //     type: "ADD_GUESS",
-  //     guessSpot: guessSpot,
-  //     potion: selectedPotion.name,
-  //   });
-  // };
-
-  // const onSubmit = () => {
-  //   console.log("SUBMIT");
-  //   dispatch({ type: "RESET_GAME" });
-
-  //   gameService.send("potion.mixed", {
-  //     attemptNumber: guessRow + 1,
-  //     potions: currentGuess,
-  //   });
-  //   gameService.send("SAVE");
-  // };
+  const onSubmit = () => {
+    gameService.send("potion.mixed", {
+      attemptNumber: guessRow + 1,
+      potions: currentGuess,
+    });
+    gameService.send("SAVE");
+    potionHouseService.send("MIX_POTION");
+  };
 
   return (
     <>
-      {isEndScreen && (
+      {isFinished && (
         <div>
-          {potionHouse?.game.reward
-            ? `Congratulations! You won ${[potionHouse?.game.reward]} points!`
+          {reward
+            ? `Congratulations! You won ${[reward]} points!`
             : "Whoops! better luck next time!"}
         </div>
       )}
+
       <div
         className={classNames("transition-all ease-in duration-300", {
-          "translate-y-28": isEndScreen,
+          "translate-y-28": isFinished,
         })}
       >
         <div className="flex w-full">
@@ -224,7 +216,7 @@ export const Experiment: React.FC<Props> = ({ onClose }) => {
                       />
                       {/* <Prog */}
                       <ResizableBar
-                        percentage={isBombed ? 100 : score}
+                        percentage={isBombed ? 100 : score ?? 0}
                         type={isBombed ? "error" : "health"}
                         outerDimensions={{
                           width: 28,
@@ -242,10 +234,12 @@ export const Experiment: React.FC<Props> = ({ onClose }) => {
                                   className="relative"
                                   key={`select-${columnIndex}`}
                                   onClick={() =>
-                                    dispatch({
-                                      type: "UPDATE_GUESS_SPOT",
-                                      guessSpot: columnIndex,
-                                    })
+                                    potionHouseService.send(
+                                      "SELECT_GUESS_SPOT",
+                                      {
+                                        guessSpot: columnIndex,
+                                      }
+                                    )
                                   }
                                 >
                                   <Box
@@ -269,10 +263,13 @@ export const Experiment: React.FC<Props> = ({ onClose }) => {
                       .reverse()}
                     <Button
                       className="mt-2"
-                      disabled={currentGuess.some((potion) => potion === null)}
+                      disabled={
+                        currentGuess.some((potion) => potion === null) ||
+                        isGuessing
+                      }
                       onClick={() => onSubmit()}
                     >
-                      Mix potion
+                      {isGuessing ? "Mixing..." : "Mix potion"}
                     </Button>
                   </div>
                 </div>
@@ -284,11 +281,11 @@ export const Experiment: React.FC<Props> = ({ onClose }) => {
             <div className="flex flex-col items-center justify-between">
               <div className="flex flex-col items-center sm:max-w-[70%]">
                 <div className="min-h-[80px]">
-                  {!isGuessing && (
+                  {feedbackText && (
                     <SpeechBubble text={feedbackText} className="w-4/5" />
                   )}
                 </div>
-                <MixingPotion desiredAnimation={desiredAnimation} />
+                <MixingPotion potionHouseService={potionHouseService} />
               </div>
             </div>
           </div>
@@ -301,7 +298,7 @@ export const Experiment: React.FC<Props> = ({ onClose }) => {
           className={classNames(
             "flex flex-col justify-end grow transition-all scale-y-1 origin-bottom ease-in duration-300",
             {
-              "scale-y-0": isEndScreen,
+              "scale-y-0": isFinished,
             }
           )}
         >
@@ -334,7 +331,7 @@ export const Experiment: React.FC<Props> = ({ onClose }) => {
                   "img-highlight": potion.name === selectedPotion?.name,
                 })}
                 onClick={() =>
-                  dispatch({ type: "UPDATE_POTION", potion: potion.name })
+                  potionHouseService.send("SELECT_POTION", { potion })
                 }
               >
                 <img src={shadow} alt="" className="absolute -bottom-1 w-8" />
@@ -343,8 +340,8 @@ export const Experiment: React.FC<Props> = ({ onClose }) => {
             ))}
           </div>
         </div>
-        {isEndScreen && (
-          <Button onClick={() => dispatch({ type: "NEW_GAME" })}>
+        {isFinished && (
+          <Button onClick={() => potionHouseService.send("NEW_GAME")}>
             Play again
           </Button>
         )}

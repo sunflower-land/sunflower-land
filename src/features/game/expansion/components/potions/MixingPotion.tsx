@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import Spritesheet, {
@@ -7,8 +7,17 @@ import Spritesheet, {
 
 import potionMasterSheet from "assets/npcs/potion_master_sheet.png";
 import { SpringValue } from "react-spring";
+import { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";
+import { useActor } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
+import { calculateScore } from "features/game/events/landExpansion/mixPotion";
 
-export type DesiredAnimation = "static" | "mixing" | "success" | "boom";
+export type DesiredAnimation =
+  | "idle"
+  | "startMixing"
+  | "loopMixing"
+  | "success"
+  | "bomb";
 type AnimationSettings = {
   autoplay: boolean;
   startAt: number;
@@ -17,17 +26,23 @@ type AnimationSettings = {
 };
 
 const SETTINGS: Record<DesiredAnimation, AnimationSettings> = {
-  static: {
+  idle: {
     autoplay: true,
     startAt: 0,
     endAt: 8,
     loop: true,
   },
-  mixing: {
+  startMixing: {
     autoplay: true,
     startAt: 9,
-    endAt: 44,
+    endAt: 18,
     loop: false,
+  },
+  loopMixing: {
+    autoplay: true,
+    startAt: 19,
+    endAt: 44,
+    loop: true,
   },
   success: {
     autoplay: true,
@@ -35,7 +50,7 @@ const SETTINGS: Record<DesiredAnimation, AnimationSettings> = {
     endAt: 113,
     loop: false,
   },
-  boom: {
+  bomb: {
     autoplay: true,
     startAt: 45,
     endAt: 81,
@@ -60,40 +75,73 @@ const getFPS = (frameNumber: number): number => {
 };
 
 export const MixingPotion: React.FC<{
-  desiredAnimation: DesiredAnimation;
-}> = ({ desiredAnimation }) => {
+  potionHouseService: PotionHouseMachineInterpreter;
+}> = ({ potionHouseService }) => {
   // Hack for spritesheet to display correctly
   const [loaded, setLoaded] = useState(false);
 
-  const [paused, setPaused] = useState(true);
-
-  const [currentAnimation, setCurrentAnimation] =
-    React.useState<DesiredAnimation>(desiredAnimation);
+  const { gameService } = useContext(Context);
+  const [potionState] = useActor(potionHouseService);
 
   const potionMasterGif = useRef<SpriteSheetInstance>();
 
+  const getCurrentAnimation = (): DesiredAnimation => {
+    if (potionState.matches("playing.idle")) return "idle";
+    if (potionState.matches("playing.startMixing")) return "startMixing";
+    if (potionState.matches("playing.loopMixing")) return "loopMixing";
+    if (potionState.matches("playing.success")) return "success";
+    if (potionState.matches("playing.bomb")) return "bomb";
+
+    return "idle";
+  };
+
+  const currentAnimation = getCurrentAnimation();
   const settings = SETTINGS[currentAnimation];
 
-  console.log("desired", desiredAnimation);
+  const potionHouse = gameService.state.context.state.potionHouse;
+  const previousAttempts = potionHouse?.game.attempts ?? [];
+  const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
 
-  const onPlay = () => {
-    console.log("onPlay", desiredAnimation);
-    setPaused(false);
-  };
+  useEffect(() => {
+    const isGuessing = lastAttempt.some(
+      (potion) => potion.status === "pending"
+    );
+    const score = isGuessing ? null : calculateScore(lastAttempt);
 
-  const onPause = () => {
-    setPaused(true);
-    setCurrentAnimation(desiredAnimation);
-  };
+    if (score === null) return;
 
-  const onLoopComplete = () => {
-    setCurrentAnimation(desiredAnimation);
+    if (score > 0) {
+      potionHouseService.send("SUCCESS");
+    } else {
+      potionHouseService.send("BOMB");
+    }
+
+    console.log(potionState.context.animationQueue);
+  }, [lastAttempt]);
+  // const [paused, setPaused] = useState(true);
+
+  // const [currentAnimation, setCurrentAnimation] =
+  //   React.useState<DesiredAnimation>(desiredAnimation);
+
+  // console.log("desired", desiredAnimation);
+
+  const handleNextAnimation = () => {
+    const potionHouse = gameService.state.context.state.potionHouse;
+    const previousAttempts = potionHouse?.game.attempts ?? [];
+    const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
+
+    const isGuessing = lastAttempt.some(
+      (potion) => potion.status === "pending"
+    );
+    const score = isGuessing ? null : calculateScore(lastAttempt);
+
+    potionHouseService.send("NEXT_ANIMATION", { score });
   };
 
   useEffect(() => {
     setLoaded(true);
-    if (paused) setCurrentAnimation(desiredAnimation);
-  }, [desiredAnimation]);
+    // if (paused) setCurrentAnimation(desiredAnimation);
+  }, []);
 
   return (
     <div
@@ -122,8 +170,8 @@ export const MixingPotion: React.FC<{
           zoomScale={new SpringValue(1)}
           startAt={settings.startAt}
           endAt={settings.endAt}
-          steps={settings.endAt - settings.startAt}
-          fps={getFPS(0)}
+          steps={113}
+          fps={getFPS(settings.startAt)}
           direction={`forward`}
           autoplay={settings.autoplay}
           loop={settings.loop}
@@ -134,9 +182,8 @@ export const MixingPotion: React.FC<{
               spritesheet.setFps(frameFps);
             }
           }}
-          onPlay={onPlay}
-          onPause={onPause}
-          onLoopComplete={onLoopComplete}
+          onPause={handleNextAnimation}
+          onLoopComplete={handleNextAnimation}
         />
       )}
     </div>
