@@ -156,6 +156,32 @@ export function isLocked(
     }
   }
 
+  if (
+    (isMediumCrop(cropName) || isAdvancedCrop(cropName)) &&
+    collectibles["Gnome"]?.[0]
+  ) {
+    const gnomeCoordinates = collectibles["Gnome"]?.[0].coordinates;
+    const gnomeDimensions = COLLECTIBLES_DIMENSIONS["Gnome"];
+
+    const gnomePosition: Position = {
+      x: gnomeCoordinates.x,
+      y: gnomeCoordinates.y,
+      height: gnomeDimensions.height,
+      width: gnomeDimensions.width,
+    };
+
+    const plotPosition: Position = {
+      x: plot?.x,
+      y: plot?.y,
+      height: plot.height,
+      width: plot.width,
+    };
+
+    if (isWithinAOE("Gnome", gnomePosition, plotPosition)) {
+      return true;
+    }
+  }
+
   return false;
 }
 

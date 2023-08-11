@@ -984,4 +984,16 @@ describe("isWithinAOE", () => {
     expect(cropPlot13).toBe(false);
     expect(cropPlot14).toBe(false);
   });
+
+  it.only("returns true if the crop is within the Gnome AOE", () => {
+    const plot: Position = { x: 0, y: -1, ...plotDimensions };
+
+    const cropPlot = isWithinAOE(
+      "Queen Cornelia",
+      { x: 0, y: 0, height: 1, width: 1 },
+      plot
+    );
+
+    expect(cropPlot).toBe(true);
+  });
 });
