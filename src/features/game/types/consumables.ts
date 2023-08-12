@@ -41,7 +41,7 @@ export type CookableName =
   | "Kale Omelette"
   | "Cabbers n Mash"
   | "Fancy Fries"
-  | "Bumpkin ganoush"
+  | "Bumpkin Ganoush"
   | "Eggplant Cake"
   | "Cornbread"
   | "Popcorn";
@@ -622,8 +622,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     },
     marketRate: 400,
   },
-  "Bumpkin ganoush": {
-    name: "Bumpkin ganoush",
+  "Bumpkin Ganoush": {
+    name: "Bumpkin Ganoush",
     description: "Zesty roasted eggplant spread.",
     building: "Kitchen",
     cookingSeconds: 60 * 60 * 5,
