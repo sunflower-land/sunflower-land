@@ -7,8 +7,7 @@ export type Potion = {
   image: string;
 };
 
-export const FeedbackIcons: Record<PotionStatus, string> = {
-  pending: SUNNYSIDE.icons.neutral,
+export const FeedbackIcons: Omit<Record<PotionStatus, string>, "pending"> = {
   correct: SUNNYSIDE.icons.happy,
   almost: SUNNYSIDE.icons.neutral,
   incorrect: SUNNYSIDE.icons.sad,

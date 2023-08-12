@@ -102,10 +102,9 @@ export const MixingPotion: React.FC<{
   const previousAttempts = potionHouse?.game.attempts ?? [];
   const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
 
+  const isGuessing = lastAttempt.some((potion) => potion.status === "pending");
+
   useEffect(() => {
-    const isGuessing = lastAttempt.some(
-      (potion) => potion.status === "pending"
-    );
     const score = isGuessing ? null : calculateScore(lastAttempt);
 
     if (score === null) return;
@@ -115,15 +114,7 @@ export const MixingPotion: React.FC<{
     } else {
       potionHouseService.send("BOMB");
     }
-
-    console.log(potionState.context.animationQueue);
-  }, [lastAttempt]);
-  // const [paused, setPaused] = useState(true);
-
-  // const [currentAnimation, setCurrentAnimation] =
-  //   React.useState<DesiredAnimation>(desiredAnimation);
-
-  // console.log("desired", desiredAnimation);
+  }, [isGuessing]);
 
   const handleNextAnimation = () => {
     const potionHouse = gameService.state.context.state.potionHouse;
@@ -140,7 +131,6 @@ export const MixingPotion: React.FC<{
 
   useEffect(() => {
     setLoaded(true);
-    // if (paused) setCurrentAnimation(desiredAnimation);
   }, []);
 
   return (
