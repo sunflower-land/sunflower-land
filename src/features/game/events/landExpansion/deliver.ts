@@ -24,7 +24,7 @@ type Options = {
   action: DeliverOrderAction;
 };
 
-export const BETA_DELIVERY_END_DATE = new Date("2023-08-14");
+export const BETA_DELIVERY_END_DATE = new Date("2023-08-15");
 export const DELIVERY_END_DATE = new Date("2023-08-16");
 export function canGenerateDeliveries({
   game,
