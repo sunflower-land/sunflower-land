@@ -13,7 +13,7 @@ export const PotionHouseShopItems: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel
       bumpkinParts={NPC_WEARABLES.garth}
-      tabs={[{ icon: SUNNYSIDE.icons.water, name: "Potion Shop" }]}
+      tabs={[{ icon: SUNNYSIDE.icons.water, name: "Reward Shop" }]}
       onClose={onClose}
     >
       <PotionHouseItems />
