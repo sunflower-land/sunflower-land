@@ -5,11 +5,13 @@ import { NPC_WEARABLES } from "lib/npcs";
 
 interface Props {
   highestScore: number;
+  onEnd: () => void;
   onContinue: () => void;
 }
 
 export const PausedLowScoreModalContent: React.FC<Props> = ({
   highestScore,
+  onEnd,
   onContinue,
 }) => {
   return (
@@ -27,6 +29,7 @@ export const PausedLowScoreModalContent: React.FC<Props> = ({
         )}
       </div>
       <div className="flex flex-col-reverse space-y-1 space-y-reverse md:flex-row md:space-y-0 md:space-x-1">
+        <Button onClick={onEnd}>Return to Plaza</Button>
         <Button onClick={onContinue}>Keep Playing</Button>
       </div>
     </Panel>

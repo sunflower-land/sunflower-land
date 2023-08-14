@@ -342,6 +342,7 @@ export const MazeHud: React.FC = () => {
         <PausedLowScoreModalContent
           highestScore={highestScore}
           onContinue={handleResume}
+          onEnd={handleReturnToPlaza}
         />
       </Modal>
       {/* Welcome Modal */}
