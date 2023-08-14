@@ -97,13 +97,18 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.scene.add.existing(this);
 
     if (onClick) {
-      this.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        onClick();
+      this.setInteractive({ cursor: "pointer" }).on(
+        "pointerdown",
+        (p: Phaser.Input.Pointer) => {
+          if (p.downElement.nodeName === "CANVAS") {
+            onClick();
 
-        if (name) {
-          this.alert?.destroy();
+            if (name) {
+              this.alert?.destroy();
+            }
+          }
         }
-      });
+      );
     }
   }
 
