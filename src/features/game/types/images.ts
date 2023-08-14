@@ -2342,7 +2342,7 @@ export const ITEM_DETAILS: Items = {
     description: "A hauntingly fun addition to your farm's decor!",
   },
 
-  "Bumpkin Ganoush": {
+  "Bumpkin ganoush": {
     image: bumpkinGanoush,
     description: "Zesty roasted eggplant spread.",
   },
