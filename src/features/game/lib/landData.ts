@@ -267,9 +267,16 @@ export const OFFLINE_FARM: GameState = {
       3: {
         claimedFeathers: 0,
         sflFee: 5,
-        paidEntryFee: false,
+        paidEntryFee: true,
         highestScore: 0,
-        attempts: [],
+        attempts: [
+          {
+            startedAt: 0,
+            crowsFound: 0,
+            health: 3,
+            time: 2,
+          },
+        ],
       },
     },
   },
