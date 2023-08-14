@@ -420,6 +420,9 @@ import stoneRock from "assets/resources/stone_small.png";
 import giantCabbage from "assets/sfts/giant_cabbage.png";
 import giantPumpkin from "assets/sfts/giant_pumpkin.png";
 import giantPotato from "assets/sfts/giant_potato.png";
+import labGrownCarrot from "assets/sfts/lab_grown_carrot.gif";
+import labGrownPumpkin from "assets/sfts/lab_grown_pumpkin.gif";
+import labGrownRadish from "assets/sfts/lab_grown_radish.gif";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -2385,15 +2388,15 @@ export const ITEM_DETAILS: Items = {
     description: COUPONS["Potion Point"].description,
   },
   "Lab Grown Carrot": {
-    image: giantCabbage,
+    image: labGrownCarrot,
     description: POTION_HOUSE_DECORATIONS()["Lab Grown Carrot"].description,
   },
   "Lab Grown Pumpkin": {
-    image: giantCabbage,
+    image: labGrownPumpkin,
     description: POTION_HOUSE_DECORATIONS()["Lab Grown Pumpkin"].description,
   },
   "Lab Grown Radish": {
-    image: giantCabbage,
+    image: labGrownRadish,
     description: POTION_HOUSE_DECORATIONS()["Lab Grown Radish"].description,
   },
 };

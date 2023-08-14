@@ -10,6 +10,8 @@ import {
 import { Button } from "components/ui/Button";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
+import { Box } from "components/ui/Box";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export const PotionHouseItems: React.FC = () => {
   const [selected, setSelected] = useState<Decoration>(
@@ -65,17 +67,15 @@ export const PotionHouseItems: React.FC = () => {
       }
       content={
         <>
-          {/* {Object.values(HELIOS_DECORATIONS())
-            .filter((item) => !ADVANCED_DECORATIONS.includes(item.name))
-            .map((item: Decoration) => (
-              <Box
-                isSelected={selected.name === item.name}
-                key={item.name}
-                onClick={() => setSelected(item)}
-                image={ITEM_DETAILS[item.name].image}
-                count={inventory[item.name]}
-              />
-            ))} */}
+          {Object.values(POTION_HOUSE_DECORATIONS()).map((item: Decoration) => (
+            <Box
+              isSelected={selected.name === item.name}
+              key={item.name}
+              onClick={() => setSelected(item)}
+              image={ITEM_DETAILS[item.name].image}
+              count={inventory[item.name]}
+            />
+          ))}
         </>
       }
     />
