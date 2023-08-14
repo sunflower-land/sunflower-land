@@ -3959,7 +3959,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1280.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
-  "Bumpkin Ganoush": {
+  "Bumpkin ganoush": {
     description: "Zesty roasted eggplant spread.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
