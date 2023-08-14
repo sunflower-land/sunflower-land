@@ -369,7 +369,7 @@ const consumables: Record<ConsumableName, () => boolean> = {
   "Cabbers n Mash": () => false,
   "Fancy Fries": () => false,
   "Pirate Cake": () => false,
-  "Bumpkin ganoush": () => false,
+  "Bumpkin Ganoush": () => false,
   Cornbread: () => false,
   "Eggplant Cake": () => false,
   Popcorn: () => false,

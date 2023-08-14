@@ -269,7 +269,7 @@ import fruitSalad from "assets/food/fruit_salad.png";
 import kaleOmelette from "assets/food/kale_omelette.png";
 import cabbersNMash from "assets/food/cabbers_n_mash.png";
 import fancyFries from "assets/food/fancy_fries.png";
-import bumpkinGhanoush from "assets/food/bumpkin_ghanoush.png";
+import bumpkinGanoush from "assets/food/bumpkin_ganoush.png";
 import eggplantCake from "assets/food/eggplant_cake.png";
 import cornBread from "assets/food/corn_bread.png";
 import popcorn from "assets/food/popcorn.png";
@@ -2342,8 +2342,8 @@ export const ITEM_DETAILS: Items = {
     description: "A hauntingly fun addition to your farm's decor!",
   },
 
-  "Bumpkin ganoush": {
-    image: bumpkinGhanoush,
+  "Bumpkin Ganoush": {
+    image: bumpkinGanoush,
     description: "Zesty roasted eggplant spread.",
   },
   "Eggplant Cake": {
