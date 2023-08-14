@@ -69,9 +69,14 @@ const nextValidAnimationIndex = (
   animationQueue: DesiredAnimation[],
   validAnimations: DesiredAnimation[]
 ) => {
-  return animationQueue.findLastIndex((animation) =>
-    validAnimations.includes(animation)
-  );
+  // iterate backwards through the animation queue and find the last valid animation
+  for (let i = animationQueue.length - 1; i >= 0; i--) {
+    if (validAnimations.includes(animationQueue[i])) {
+      return i;
+    }
+  }
+  // If no valid animation is found, return -1
+  return -1;
 };
 
 export const potionHouseMachine = createMachine<
@@ -289,7 +294,7 @@ export const potionHouseMachine = createMachine<
         },
         NEW_GAME: {
           target: "playing",
-          actions: assign({
+          actions: assign((context) => ({
             guessSpot: 0,
             selectedPotion: Object.values(POTIONS)[0],
             currentGuess: [null, null, null, null],
@@ -298,7 +303,7 @@ export const potionHouseMachine = createMachine<
             feedbackText:
               "Select your potions and unveil the secrets of the plants!",
             animationQueue: [],
-          }),
+          })),
         },
         BOMB: {
           actions: assign((context) => {

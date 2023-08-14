@@ -59,7 +59,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <Grubnuk onClose={closeModal} />}
-        {npc === "eins" && <PotionHouseShopItems onClose={closeModal} />}
+        {npc === "garth" && <PotionHouseShopItems onClose={closeModal} />}
         {npc === "hammerin harry" && (
           <SpeakingModal
             onClose={closeModal}

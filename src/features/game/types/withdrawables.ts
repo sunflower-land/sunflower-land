@@ -40,6 +40,7 @@ import { ConsumableName } from "./consumables";
 import {
   AchievementDecorationName,
   EventDecorationName,
+  PotionHouseItemName,
   SeasonalDecorationName,
   ShopDecorationName,
 } from "./decorations";
@@ -285,6 +286,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Dawn Breaker Ticket": () => false,
   "Sunflower Supporter": () => false,
   "Crow Feather": () => false,
+  "Potion Point": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {
@@ -618,6 +620,15 @@ const purchasables: Record<PurchasableItems, () => boolean> = {
   "Gold Pass": () => false,
 };
 
+const potionHouse: Record<PotionHouseItemName, () => boolean> = {
+  "Giant Cabbage": () => false,
+  "Giant Potato": () => false,
+  "Giant Pumpkin": () => false,
+  "Lab Grown Carrot": () => false,
+  "Lab Grown Pumpkin": () => false,
+  "Lab Grown Radish": () => false,
+};
+
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...crops,
   ...fruits,
@@ -664,6 +675,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...fertilisers,
   ...consumables,
   ...decorations,
+  ...potionHouse,
 };
 
 export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {

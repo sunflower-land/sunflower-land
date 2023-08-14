@@ -120,8 +120,8 @@ export const SPAWNS: SpawnLocation = {
     // },
     // DEBUG CODE REMOVE
     default: {
-      x: 150,
-      y: 100,
+      x: 350,
+      y: 70,
     },
   },
   corn_maze: {
