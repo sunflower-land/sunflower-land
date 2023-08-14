@@ -9,6 +9,12 @@ const BUMPKINS: NPCBumpkin[] = [
     y: 80,
     npc: "eins",
   },
+  {
+    x: 380,
+    y: 60,
+    npc: "garth",
+    direction: "left",
+  },
 ];
 
 export class WoodlandsScene extends BaseScene {

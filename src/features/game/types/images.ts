@@ -196,6 +196,7 @@ import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
 import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
 import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
+import potionPoint from "assets/icons/potion_point.png";
 import crowFeather from "assets/icons/crow_feather.webp";
 import supporterTicket from "assets/icons/supporter_ticket.png";
 import solarFlareBanner from "assets/decorations/solar_flare_banner.png";
@@ -415,7 +416,12 @@ import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
 import stoneRock from "assets/resources/stone_small.png";
 
-import { FERTILISERS, InventoryItemName } from "./game";
+// Potion House
+import giantCabbage from "assets/sfts/giant_cabbage.png";
+import giantPumpkin from "assets/sfts/giant_pumpkin.png";
+import giantPotato from "assets/sfts/giant_potato.png";
+
+import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
   CAKES,
@@ -435,7 +441,11 @@ import { COMMODITIES } from "./resources";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SKILL_TREE } from "./skills";
 import { AchievementName, ACHIEVEMENTS } from "./achievements";
-import { BASIC_DECORATIONS, LANDSCAPING_DECORATIONS } from "./decorations";
+import {
+  BASIC_DECORATIONS,
+  LANDSCAPING_DECORATIONS,
+  POTION_HOUSE_DECORATIONS,
+} from "./decorations";
 import { BEANS } from "./beans";
 import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
@@ -2357,5 +2367,33 @@ export const ITEM_DETAILS: Items = {
   Popcorn: {
     image: popcorn,
     description: "Classic homegrown crunchy snack.",
+  },
+  "Giant Cabbage": {
+    image: giantCabbage,
+    description: POTION_HOUSE_DECORATIONS()["Giant Cabbage"].description,
+  },
+  "Giant Potato": {
+    image: giantPotato,
+    description: POTION_HOUSE_DECORATIONS()["Giant Potato"].description,
+  },
+  "Giant Pumpkin": {
+    image: giantPumpkin,
+    description: POTION_HOUSE_DECORATIONS()["Giant Pumpkin"].description,
+  },
+  "Potion Point": {
+    image: potionPoint,
+    description: COUPONS["Potion Point"].description,
+  },
+  "Lab Grown Carrot": {
+    image: giantCabbage,
+    description: POTION_HOUSE_DECORATIONS()["Lab Grown Carrot"].description,
+  },
+  "Lab Grown Pumpkin": {
+    image: giantCabbage,
+    description: POTION_HOUSE_DECORATIONS()["Lab Grown Pumpkin"].description,
+  },
+  "Lab Grown Radish": {
+    image: giantCabbage,
+    description: POTION_HOUSE_DECORATIONS()["Lab Grown Radish"].description,
   },
 };

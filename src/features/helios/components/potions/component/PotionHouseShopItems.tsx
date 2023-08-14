@@ -12,7 +12,7 @@ interface Props {
 export const PotionHouseShopItems: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel
-      bumpkinParts={NPC_WEARABLES.eins}
+      bumpkinParts={NPC_WEARABLES.garth}
       tabs={[{ icon: SUNNYSIDE.icons.water, name: "Potion Shop" }]}
       onClose={onClose}
     >

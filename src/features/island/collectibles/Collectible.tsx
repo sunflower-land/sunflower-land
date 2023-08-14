@@ -408,6 +408,13 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Spooky Tree": SpookyTree,
   Candles: Candles,
   "Haunted Stump": HauntedStump,
+
+  "Giant Cabbage": HauntedStump,
+  "Giant Potato": HauntedStump,
+  "Giant Pumpkin": HauntedStump,
+  "Lab Grown Carrot": HauntedStump,
+  "Lab Grown Pumpkin": HauntedStump,
+  "Lab Grown Radish": HauntedStump,
 };
 
 // Need readonly versions for some troublesome components while in design mode
