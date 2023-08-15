@@ -79,6 +79,21 @@ const nextValidAnimationIndex = (
   return -1;
 };
 
+function findNextGuessSpot(guess: Potions, currentGuessSpot: number): number {
+  for (let i = currentGuessSpot + 1; i < guess.length; i++) {
+    if (guess[i] === null) {
+      return i;
+    }
+  }
+  for (let i = 0; i < guess.length; i++) {
+    if (guess[i] === null) {
+      return i;
+    }
+  }
+
+  return currentGuessSpot;
+}
+
 export const potionHouseMachine = createMachine<
   PotionHouseContext,
   PotionHouseEvent,
@@ -244,6 +259,7 @@ export const potionHouseMachine = createMachine<
           actions: assign((context, event) => {
             const newGuess: Potions = [...context.currentGuess];
             newGuess[event.guessSpot] = null;
+
             return {
               ...context,
               currentGuess: newGuess,
@@ -254,13 +270,13 @@ export const potionHouseMachine = createMachine<
           actions: assign((context, event) => {
             const newGuess: Potions = [...context.currentGuess];
             newGuess[event.guessSpot] = event.potion;
+
+            const guessSpot = findNextGuessSpot(newGuess, event.guessSpot);
+
             return {
               ...context,
               currentGuess: newGuess,
-              guessSpot:
-                newGuess.indexOf(null) < 0
-                  ? context.guessSpot
-                  : newGuess.indexOf(null),
+              guessSpot,
             };
           }),
         },
@@ -294,7 +310,7 @@ export const potionHouseMachine = createMachine<
         },
         NEW_GAME: {
           target: "playing",
-          actions: assign((context) => ({
+          actions: assign((_) => ({
             guessSpot: 0,
             selectedPotion: Object.values(POTIONS)[0],
             currentGuess: [null, null, null, null],
