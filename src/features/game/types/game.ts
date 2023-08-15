@@ -477,6 +477,7 @@ export type Order = {
   };
   createdAt: number;
   readyAt: number;
+  completedAt?: number;
 };
 
 type QuestNPCName =

@@ -60,6 +60,12 @@ export function craftCollectible({
     throw new Error("Too late");
   }
 
+  const totalExpenses = item.sfl || new Decimal(0);
+
+  if (stateCopy.balance.lessThan(totalExpenses)) {
+    throw new Error("Insufficient SFL");
+  }
+
   const subtractedInventory = getKeys(item.ingredients).reduce(
     (inventory, ingredientName) => {
       const count = inventory[ingredientName] || new Decimal(0);

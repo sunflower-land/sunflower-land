@@ -268,6 +268,10 @@ export class CornScene extends BaseScene {
         repeat: -1,
         yoyo: true,
         onUpdate: (tween, target) => {
+          if (!target.isWalking && !enemy.target.hold) {
+            target.walk();
+          }
+
           if (enemy.target.direction === "horizontal") {
             this.handleDirectionChange(enemy, target as BumpkinContainer);
           }
@@ -278,10 +282,6 @@ export class CornScene extends BaseScene {
               enemy,
               target as BumpkinContainer
             );
-          }
-
-          if (!target.isWalking && !enemy.target.hold) {
-            target.walk();
           }
         },
       };

@@ -263,7 +263,22 @@ export const OFFLINE_FARM: GameState = {
   id: 4,
   witchesEve: {
     weeklyLostCrowCount: 25,
-    maze: {},
+    maze: {
+      3: {
+        claimedFeathers: 0,
+        sflFee: 5,
+        paidEntryFee: true,
+        highestScore: 0,
+        attempts: [
+          {
+            startedAt: 0,
+            crowsFound: 0,
+            health: 3,
+            time: 2,
+          },
+        ],
+      },
+    },
   },
   balance: new Decimal(100),
   wardrobe: {
@@ -309,6 +324,7 @@ export const OFFLINE_FARM: GameState = {
     "Crab Claw": 95,
   },
   inventory: {
+    Gnome: new Decimal(1),
     "Sunflower Cake": new Decimal(15),
     Carrot: new Decimal(80),
     Cauliflower: new Decimal(70),
@@ -518,6 +534,7 @@ export const OFFLINE_FARM: GameState = {
       {
         id: "123",
         createdAt: Date.now(),
+        completedAt: Date.now(),
         readyAt: 1690855045072,
         from: "pumpkin' pete",
         items: {

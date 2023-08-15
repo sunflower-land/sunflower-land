@@ -101,7 +101,7 @@ export const WithdrawItems: React.FC<Props> = ({
   };
 
   const withdrawableItems = getKeys(inventory)
-    .filter((itemName) => WITHDRAWABLES[itemName])
+    .filter((itemName) => WITHDRAWABLES[itemName]())
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
 
   const selectedItems = getKeys(selected)
