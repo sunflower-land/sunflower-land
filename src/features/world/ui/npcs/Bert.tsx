@@ -15,17 +15,18 @@ import { InventoryItemName } from "features/game/types/game";
 import bg from "assets/ui/brown_background.png";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
+import { secondsToString } from "lib/utils/time";
 
 interface Props {
   onClose: () => void;
 }
 
 const obsessionDialogues = (itemName: string) => [
-  `Ah, the ${itemName}! Such a fascinating item. I don't wish to own it, merely to admire. Share it with me, and Crow Feathers will be your reward.`,
-  `So you've come with the ${itemName}? I've longed to see one up close. Show it to me, and Crow Feathers shall be yours in gratitude.`,
-  `Embarking on an adventure with the ${itemName}, are we? Just a glimpse is all I ask. In return, you'll receive a handful of Crow Feathers.`,
-  `The ${itemName}! A marvel to behold. Let me just take a moment to admire its beauty. And for your patience, I offer Crow Feathers.`,
-  `You've chosen to share the ${itemName} with me? Wise decision! I won't keep it, just a fleeting look. And in thanks, Crow Feathers will be bestowed upon you.`,
+  `Ah, the ${itemName}! I only wish to see it, not possess. Show it to me, and 3 Crow Feathers will be your reward.`,
+  `You've brought the ${itemName}? I merely want to gaze upon it. Let me see, and 3 Crow Feathers shall be yours.`,
+  `Is that the ${itemName} you have? A mere glance is all I desire. For this, you'll receive 3 Crow Feathers.`,
+  `The ${itemName}! I don't want to keep it, just to behold it. Show it to me, and 3 Crow Feathers are yours.`,
+  `You offer a view of the ${itemName}? All I ask is to see it briefly. For your generosity, 3 Crow Feathers will be granted to you.`,
 ];
 
 export const Bert: React.FC<Props> = ({ onClose }) => {
@@ -41,18 +42,13 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
   const currentObsession = game.bertObsession;
   const obsessionCompletedAt = game.npcs?.bert?.questCompletedAt;
 
-  const isObsessionCollectible = !!game.bertObsession?.collectibleName;
+  const isObsessionCollectible = game.bertObsession?.type === "collectible";
 
   const obsessionDialogue = useRandomItem(
-    obsessionDialogues(
-      (currentObsession?.collectibleName ??
-        currentObsession?.wearableName) as string
-    )
+    obsessionDialogues(currentObsession?.name as string)
   );
 
-  const obsessionName = isObsessionCollectible
-    ? currentObsession?.collectibleName
-    : currentObsession?.wearableName;
+  const obsessionName = game.bertObsession?.name;
 
   const image = isObsessionCollectible
     ? ITEM_DETAILS[obsessionName as InventoryItemName].image
@@ -63,34 +59,25 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
     : game.wardrobe[obsessionName as BumpkinItem];
 
   const canCompleteObsession = () => {
-    const { npcs } = game;
-    const questCompletedAt = npcs?.bert?.questCompletedAt;
-
     if (!hasItem) return false;
     if (!currentObsession) return false;
 
-    if (!questCompletedAt) return true;
+    if (!obsessionCompletedAt) return true;
 
-    return (
-      questCompletedAt >= currentObsession.startDate &&
-      questCompletedAt <= currentObsession.endDate
-    );
+    return obsessionCompletedAt < currentObsession.startDate;
   };
 
   const completeObsession = () => {
+    if (!currentObsession) {
+      return null;
+    }
+
     if (
-      currentObsession &&
       obsessionCompletedAt &&
-      currentObsession.startDate &&
-      currentObsession.endDate &&
       obsessionCompletedAt >= currentObsession.startDate &&
       obsessionCompletedAt <= currentObsession.endDate
     ) {
       return <Label type="info">Already completed</Label>;
-    }
-
-    if (!currentObsession) {
-      return null;
     }
 
     return (
@@ -98,10 +85,13 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
         disabled={!canCompleteObsession()}
         onClick={() => gameService.send("bertObsession.completed")}
       >
-        Complete obsession
+        Claim 3 feathers
       </Button>
     );
   };
+
+  const endDate = !currentObsession ? 0 : currentObsession.endDate;
+  const resetSeconds = Math.round((endDate - new Date().getTime()) / 1000);
 
   const handleConfirm = (tab: number) => {
     setConfirmAction(true);
@@ -148,19 +138,36 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
       )}
       {tab === 1 && (
         <div className="w-full flex flex-col items-center">
-          <div className="w-full flex flex-col items-center mx-auto">
-            <p className="text-center text-sm mb-3">{obsessionDialogue}</p>
+          {!currentObsession && (
+            <p className="text-center text-sm mb-3">No Obssesions</p>
+          )}
+          {currentObsession && (
+            <div className="w-full flex flex-col items-center mx-auto">
+              <p className="text-center text-sm mb-3">{obsessionDialogue}</p>
 
-            <div className="relative mb-2">
-              <img src={bg} className="w-48 object-contain rounded-md" />
-              <div className="absolute inset-0">
-                <img
-                  src={image}
-                  className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                />
+              <div className="relative mb-2">
+                <img src={bg} className="w-48 object-contain rounded-md" />
+                <div className="absolute inset-0">
+                  <img
+                    src={image}
+                    className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                  />
+                </div>
               </div>
+              <Label type="warning" className="my-1 mx-auto">
+                <div className="flex items-center">
+                  <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
+                  <span>
+                    {"Reset in "}
+                    {secondsToString(resetSeconds, {
+                      length: "medium",
+                      removeTrailingZeros: true,
+                    })}
+                  </span>
+                </div>
+              </Label>
             </div>
-          </div>
+          )}
 
           {completeObsession()}
         </div>

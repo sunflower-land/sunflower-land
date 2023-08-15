@@ -180,10 +180,10 @@ export const npcDialogues: Partial<Record<NPCName, DeliveryNPCDialogue>> = {
   },
   bert: {
     intro: [
-      "Psst! Explorer of the arcane! Sunflorea's secrets aren't just beneath the ground. Some hang in wardrobes, some lie hidden in bags! Are you here with my Delivery or is it a Discovery you seek to unveil?",
-      "Ah, kindred spirit! The real treasures of Sunflorea sometimes hang around our necks or sit snugly in our pockets. Deliveries aid my quest, but Discoveries... oh, they tantalize my soul! Which journey beckons you today?",
-      "Greetings, bearer of the mysterious! In Sunflorea, items aren't just items. They're whispers of tales long forgotten. Is it a Delivery you bring, or do you tread the path of Discovery?",
-      "Hello, seeker of the concealed! In the heart of Sunflorea, hidden treasures await in the most unassuming places. Are you here with a Delivery, or shall we dive into the thrilling world of Discoveries?",
+      "Psst! Explorer of the arcane! Sunflorea's vast secrets are manifold. Some need Delivering right to me, but then there are my Obsessions. Every 3 days, a new item captures my imagination, and I yearn to merely gaze upon it. Which brings you here: a Delivery or one of Bert's ever-changing Obsessions?",
+      "Ah, kindred spirit! Sunflorea is home to countless treasures. Some are tangible, requiring Deliveries straight to my hands. Others... well, they're part of Bert's Obsessions. Every third day, I am ensnared by a new artifact's allure. I don't wish to own it, just to see it. Do you come to fulfill a Delivery or to indulge one of my fleeting Obsessions?",
+      "Greetings, bearer of the mysterious! In Sunflorea, some items demand Delivery. But then, there's the curious matter of my Obsessions. Every 3 days, a novel item seizes my attention, and I desire nothing more than a brief moment with it. What's your intent today? A regular Delivery or to join me in my current Obsession?",
+      "Hello, seeker of the concealed! Sunflorea's enchantments can be categorized into two: the routine Deliveries and Bert's whimsical Obsessions. These Obsessions of mine shift every three days, drawing me to a new piece I wish to marvel at. So, tell me, which path has piqued your interest? A Delivery or an exploration into today's Obsession?",
     ],
     positiveDelivery: [
       "Incredible! You've brought me everything I need. I am on the cusp of revealing secrets that'll blow your mind!",

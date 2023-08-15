@@ -262,8 +262,8 @@ export type TradeOffer = {
 };
 
 export interface CurrentObsession {
-  collectibleName?: InventoryItemName;
-  wearableName?: BumpkinItem;
+  type: "collectible" | "wearable";
+  name: InventoryItemName | BumpkinItem;
   startDate: number;
   endDate: number;
 }

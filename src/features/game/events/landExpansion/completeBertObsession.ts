@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
-import { GameState, NPCData } from "features/game/types/game";
+import { BumpkinItem } from "features/game/types/bumpkin";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type CompleteBertObsessionAction = {
@@ -14,7 +15,7 @@ type Options = {
 
 export function completeBertObsession({
   state,
-  createdAt,
+  createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
   const { bumpkin } = stateCopy;
@@ -23,55 +24,47 @@ export function completeBertObsession({
     throw new Error("You do not have a Bumpkin");
   }
 
-  const currentObsession = stateCopy.bertObsession;
+  if (!stateCopy.npcs || !stateCopy.npcs?.bert) {
+    throw new Error("Bert does not exist");
+  }
 
+  const currentObsession = stateCopy.bertObsession;
   if (!currentObsession) {
     throw new Error("No discovery available");
   }
 
-  if (currentObsession.collectibleName) {
-    const isItemInInventory =
-      stateCopy.inventory[currentObsession.collectibleName];
-
-    if (!isItemInInventory) {
-      throw new Error("You do not have the collectible required");
-    }
-  }
-
-  if (currentObsession.wearableName) {
-    const isWearableInWardrobe =
-      stateCopy.wardrobe[currentObsession.wearableName];
-
-    if (!isWearableInWardrobe) {
-      throw new Error("You do not have the wearable required");
-    }
-  }
-
-  if (stateCopy.npcs?.bert?.questCompletedAt) {
+  if (stateCopy.npcs.bert.questCompletedAt) {
     const obsessionAlreadyCompleted =
-      stateCopy.npcs?.bert?.questCompletedAt >= currentObsession.startDate &&
-      stateCopy.npcs?.bert?.questCompletedAt <= currentObsession.endDate;
+      stateCopy.npcs.bert.questCompletedAt >= currentObsession.startDate &&
+      stateCopy.npcs.bert.questCompletedAt <= currentObsession.endDate;
 
     if (obsessionAlreadyCompleted) {
       throw new Error("This obsession is already completed");
     }
   }
 
+  if (currentObsession.type === "collectible") {
+    const isItemInInventory =
+      stateCopy.inventory[currentObsession.name as InventoryItemName];
+
+    if (!isItemInInventory) {
+      throw new Error("You do not have the collectible required");
+    }
+  }
+
+  if (currentObsession.type === "wearable") {
+    const isWearableInWardrobe =
+      stateCopy.wardrobe[currentObsession.name as BumpkinItem];
+
+    if (!isWearableInWardrobe) {
+      throw new Error("You do not have the wearable required");
+    }
+  }
+
   const currentFeathers = stateCopy.inventory["Crow Feather"] || new Decimal(0);
   stateCopy.inventory["Crow Feather"] = currentFeathers.add(3);
 
-  const updatedBert: NPCData = {
-    questCompletedAt: createdAt,
-    deliveryCount: stateCopy.npcs?.bert?.deliveryCount || 0,
-  };
+  stateCopy.npcs.bert.questCompletedAt = createdAt;
 
-  const updatedNpcs = {
-    ...stateCopy.npcs,
-    bert: updatedBert,
-  };
-
-  return {
-    ...stateCopy,
-    npcs: updatedNpcs,
-  };
+  return stateCopy;
 }
