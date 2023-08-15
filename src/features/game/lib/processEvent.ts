@@ -14,7 +14,7 @@ export const maxItems: Inventory = {
   Beetroot: new Decimal("1500"),
   Cauliflower: new Decimal("1000"),
   Parsnip: new Decimal("850"),
-  Eggplant: new Decimal("600"),
+  Eggplant: new Decimal("800"),
   Corn: new Decimal("500"),
   Radish: new Decimal("500"),
   Wheat: new Decimal("500"),
