@@ -621,26 +621,26 @@ export const POTION_HOUSE_DECORATIONS: () => Record<
 > = () => ({
   "Lab Grown Carrot": {
     name: "Lab Grown Carrot",
-    description: "+0.1 Carrot Yield",
+    description: "+0.2 Carrot Yield",
     sfl: new Decimal(0),
     ingredients: {
-      "Potion Point": new Decimal(1),
+      "Potion Point": new Decimal(6000),
     },
   },
   "Lab Grown Radish": {
     name: "Lab Grown Radish",
-    description: "+0.1 Radish Yield",
+    description: "+0.4 Radish Yield",
     sfl: new Decimal(0),
     ingredients: {
-      "Potion Point": new Decimal(1),
+      "Potion Point": new Decimal(8000),
     },
   },
   "Lab Grown Pumpkin": {
     name: "Lab Grown Pumpkin",
-    description: "+0.1 Pumpkin Yield",
+    description: "+0.3 Pumpkin Yield",
     sfl: new Decimal(0),
     ingredients: {
-      "Potion Point": new Decimal(1),
+      "Potion Point": new Decimal(7000),
     },
   },
   "Magic Bean": {
@@ -648,7 +648,7 @@ export const POTION_HOUSE_DECORATIONS: () => Record<
     description: "What will grow?",
     sfl: new Decimal(0),
     ingredients: {
-      "Potion Point": new Decimal(1),
+      "Potion Point": new Decimal(2000),
     },
   },
   "Giant Potato": {
@@ -656,7 +656,7 @@ export const POTION_HOUSE_DECORATIONS: () => Record<
     description: "A giant potato.",
     sfl: new Decimal(0),
     ingredients: {
-      "Potion Point": new Decimal(250),
+      "Potion Point": new Decimal(500),
     },
   },
   "Giant Pumpkin": {
@@ -664,7 +664,7 @@ export const POTION_HOUSE_DECORATIONS: () => Record<
     description: "A giant pumpkin.",
     sfl: new Decimal(0),
     ingredients: {
-      "Potion Point": new Decimal(500),
+      "Potion Point": new Decimal(750),
     },
   },
   "Giant Cabbage": {
