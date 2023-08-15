@@ -31,13 +31,7 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
   const [potionState] = useActor(potionHouseService);
 
   const {
-    context: {
-      selectedPotion,
-      guessSpot,
-      currentGuess,
-      isNewGame,
-      feedbackText,
-    },
+    context: { selectedPotion, guessSpot, currentGuess, isNewGame },
   } = potionState;
 
   const potionHouse = gameService.state.context.state.potionHouse;
@@ -192,10 +186,7 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
         </div>
         {/* Right Side */}
         <div className="flex flex-col justify-center items-center w-full sm:w-[70%]">
-          <MixingPotion
-            feedbackText={feedbackText}
-            potionHouseService={potionHouseService}
-          />
+          <MixingPotion potionHouseService={potionHouseService} />
         </div>
       </div>
 
