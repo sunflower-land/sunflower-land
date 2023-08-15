@@ -15,6 +15,7 @@ import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHan
 import { Grubnuk } from "./npcs/Grubnuk";
 import { Blacksmith } from "./npcs/Blacksmith";
 import { PotionHouseShopItems } from "features/helios/components/potions/component/PotionHouseShopItems";
+import { hasFeatureAccess } from "lib/flags";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -59,7 +60,10 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <Grubnuk onClose={closeModal} />}
-        {npc === "garth" && <PotionHouseShopItems onClose={closeModal} />}
+
+        {npc === "garth" && hasFeatureAccess({}, "POTION_HOUSE") && (
+          <PotionHouseShopItems onClose={closeModal} />
+        )}
         {npc === "hammerin harry" && (
           <SpeakingModal
             onClose={closeModal}
