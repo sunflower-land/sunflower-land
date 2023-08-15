@@ -6,18 +6,15 @@ import plant from "assets/decorations/planter_box.webp";
 import { InnerPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { ResizableBar } from "components/ui/ProgressBar";
-import { SpeechBubble } from "./SpeechBubble";
 import { POTIONS } from "./lib/potions";
 import { Box } from "./Box";
 import shadow from "assets/npcs/shadow.png";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
-import { PotionName } from "features/game/types/game";
-import { Potion } from "./lib/types";
-import { MixingPotion } from "./MixingPotion";
 import { useActor } from "@xstate/react";
 import { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";
 import { calculateScore } from "features/game/events/landExpansion/mixPotion";
+import { MixingPotion } from "./MixingPotion";
 
 interface Props {
   onClose: () => void;
@@ -29,82 +26,7 @@ const EMPTY_ATTEMPT = new Array<{ potion: null; status: undefined }>(4).fill({
   status: undefined,
 });
 
-type Potions = [
-  PotionName | null,
-  PotionName | null,
-  PotionName | null,
-  PotionName | null
-];
-
-type PotionState = {
-  guessSpot: number;
-  selectedPotion: Potion;
-  currentGuess: Potions;
-  isNewGame: boolean;
-};
-
-type PotionAction =
-  | {
-      type: "UPDATE_GUESS_SPOT";
-      guessSpot: number;
-    }
-  | { type: "RESET_GAME" }
-  | { type: "REMOVE_GUESS"; guessSpot: number }
-  | { type: "ADD_GUESS"; guessSpot: number; potion: PotionName }
-  | { type: "NEW_GAME" }
-  | { type: "UPDATE_POTION"; potion: PotionName };
-
-const resetGame = (isNewGame: boolean): PotionState => ({
-  guessSpot: 0,
-  selectedPotion: Object.values(POTIONS)[0],
-  currentGuess: [null, null, null, null],
-  isNewGame,
-});
-
-const gameHandler = (state: PotionState, action: PotionAction): PotionState => {
-  switch (action.type) {
-    case "UPDATE_GUESS_SPOT":
-      return {
-        ...state,
-        guessSpot: action.guessSpot,
-      };
-    case "REMOVE_GUESS": {
-      const newGuess: Potions = [...state.currentGuess];
-      newGuess[action.guessSpot] = null;
-      return {
-        ...state,
-        currentGuess: newGuess,
-      };
-    }
-    case "ADD_GUESS": {
-      const newGuess: Potions = [...state.currentGuess];
-      newGuess[action.guessSpot] = action.potion;
-      return {
-        ...state,
-        currentGuess: newGuess,
-        guessSpot: newGuess.indexOf(null),
-      };
-    }
-    case "NEW_GAME": {
-      return {
-        ...state,
-        isNewGame: true,
-      };
-    }
-    case "UPDATE_POTION":
-      return {
-        ...state,
-        selectedPotion: POTIONS[action.potion],
-      };
-    case "RESET_GAME":
-      return resetGame(false);
-  }
-};
-
-export const Experiment: React.FC<Props> = ({
-  onClose,
-  potionHouseService,
-}) => {
+export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
   const { gameService } = useContext(Context);
   const [potionState] = useActor(potionHouseService);
 
@@ -173,179 +95,160 @@ export const Experiment: React.FC<Props> = ({
   return (
     <>
       {isFinished && (
-        <div>
+        <div className="text-center mb-3">
           {reward
             ? `Congratulations! You won ${[reward]} points!`
             : "Whoops! better luck next time!"}
         </div>
       )}
 
-      <div
-        className={classNames("transition-all ease-in duration-300", {
-          "translate-y-28": isFinished,
-        })}
-      >
-        <div className="flex w-full">
-          {/* Left Side */}
-          <div className="flex w-3/5">
-            <div className="flex flex-col items-center">
-              {/* Table */}
-              <div className="w-full flex relative mb-3">
+      <div className="flex w-full gap-1">
+        {/* Left Side */}
+        <div className="flex items-center w-3/5">
+          <div className="flex flex-col items-center">
+            {/* Table */}
+            <div className="w-full flex relative">
+              <div
+                className="w-full"
+                style={{
+                  ...pixelTableBorderStyle,
+                }}
+              >
+                {/* Grid */}
                 <div
-                  className="w-full"
+                  className="h-full w-full p-1"
                   style={{
-                    ...pixelTableBorderStyle,
+                    backgroundImage: `url(${tableTop})`,
+                    backgroundRepeat: "repeat",
+                    backgroundSize: `${PIXEL_SCALE * 16}px`,
                   }}
                 >
-                  {/* Grid */}
-                  <div
-                    className="h-full w-full p-1"
-                    style={{
-                      backgroundImage: `url(${tableTop})`,
-                      backgroundRepeat: "repeat",
-                      backgroundSize: `${PIXEL_SCALE * 16}px`,
-                    }}
-                  >
-                    {/* Plant */}
-                    <div className="flex items-center mb-2 flex-col">
-                      <img
-                        src={plant}
-                        alt="Plant"
-                        className="mb-1"
-                        style={{ width: `${PIXEL_SCALE * 28}px` }}
-                      />
-                      {/* <Prog */}
-                      <ResizableBar
-                        percentage={isBombed ? 100 : score ?? 0}
-                        type={isBombed ? "error" : "health"}
-                        outerDimensions={{
-                          width: 28,
-                          height: 7,
-                        }}
-                      />
-                    </div>
-                    {attempts
-                      .map((attempt, rowIndex) => (
-                        <div className="flex items-center mb-2" key={rowIndex}>
-                          {attempt.map(({ potion, status }, columnIndex) => {
-                            if (rowIndex === guessRow) {
-                              return (
-                                <div
-                                  className="relative"
-                                  key={`select-${columnIndex}`}
-                                  onClick={() =>
-                                    potionHouseService.send(
-                                      "SELECT_GUESS_SPOT",
-                                      {
-                                        guessSpot: columnIndex,
-                                      }
-                                    )
-                                  }
-                                >
-                                  <Box
-                                    potionName={currentGuess[columnIndex]}
-                                    selected={guessSpot === columnIndex}
-                                  />
-                                </div>
-                              );
-                            }
-
-                            return (
-                              <Box
-                                key={`${rowIndex}-${columnIndex}`}
-                                potionName={potion}
-                                potionStatus={status}
-                              />
-                            );
-                          })}
-                        </div>
-                      ))
-                      .reverse()}
-                    <Button
-                      className="mt-2"
-                      disabled={
-                        currentGuess.some((potion) => potion === null) ||
-                        isGuessing
-                      }
-                      onClick={() => onSubmit()}
-                    >
-                      {isGuessing ? "Mixing..." : "Mix potion"}
-                    </Button>
+                  {/* Plant */}
+                  <div className="flex items-center mb-2 flex-col">
+                    <img
+                      src={plant}
+                      alt="Plant"
+                      className="mb-1"
+                      style={{ width: `${PIXEL_SCALE * 28}px` }}
+                    />
+                    {/* <Prog */}
+                    <ResizableBar
+                      percentage={isBombed ? 100 : score ?? 0}
+                      type={isBombed ? "error" : "health"}
+                      outerDimensions={{
+                        width: 28,
+                        height: 7,
+                      }}
+                    />
                   </div>
+                  {attempts
+                    .map((attempt, rowIndex) => (
+                      <div className="flex items-center mb-2" key={rowIndex}>
+                        {attempt.map(({ potion, status }, columnIndex) => {
+                          if (rowIndex === guessRow) {
+                            return (
+                              <div
+                                className="relative"
+                                key={`select-${columnIndex}`}
+                                onClick={() =>
+                                  potionHouseService.send("SELECT_GUESS_SPOT", {
+                                    guessSpot: columnIndex,
+                                  })
+                                }
+                              >
+                                <Box
+                                  potionName={currentGuess[columnIndex]}
+                                  selected={guessSpot === columnIndex}
+                                />
+                              </div>
+                            );
+                          }
+
+                          return (
+                            <Box
+                              key={`${rowIndex}-${columnIndex}`}
+                              potionName={potion}
+                              potionStatus={status}
+                            />
+                          );
+                        })}
+                      </div>
+                    ))
+                    .reverse()}
+                  <Button
+                    className="mt-2"
+                    disabled={
+                      currentGuess.some((potion) => potion === null) ||
+                      isGuessing
+                    }
+                    onClick={() => onSubmit()}
+                  >
+                    {isGuessing ? "Mixing..." : "Mix potion"}
+                  </Button>
                 </div>
-              </div>
-            </div>
-          </div>
-          {/* Right Side */}
-          <div className="flex flex-col items-center w-full grow justify-center">
-            <div className="flex flex-col items-center justify-between">
-              <div className="flex flex-col items-center sm:max-w-[70%]">
-                <div className="min-h-[80px]">
-                  {feedbackText && (
-                    <SpeechBubble text={feedbackText} className="w-4/5" />
-                  )}
-                </div>
-                <MixingPotion potionHouseService={potionHouseService} />
               </div>
             </div>
           </div>
         </div>
+        {/* Right Side */}
+        <div className="flex flex-col justify-center items-center w-full sm:w-[70%]">
+          <MixingPotion
+            feedbackText={feedbackText}
+            potionHouseService={potionHouseService}
+          />
+        </div>
       </div>
+
       {/* Bottom Section */}
       <div className="flex flex-col grow space-y-1">
         {/* Potions */}
-        <div
-          className={classNames(
-            "flex flex-col justify-end grow transition-all scale-y-1 origin-bottom ease-in duration-300",
-            {
-              "scale-y-0": isFinished,
-            }
-          )}
-        >
-          <h2 className="mb-1">Potions</h2>
-          <InnerPanel>
-            <div className="p-1 flex flex-col space-y-1 pb-2">
-              {selectedPotion && (
-                <>
-                  <span className="text-[18px]">{selectedPotion.name}</span>
+        {!isFinished && (
+          <div className="flex flex-col justify-end grow">
+            <h2 className="mb-1">Potions</h2>
+            <InnerPanel>
+              <div className="p-1 flex flex-col space-y-1 pb-2">
+                {selectedPotion && (
+                  <>
+                    <span className="text-[18px]">{selectedPotion.name}</span>
 
-                  <span className="text-xxs sm:mt-1 whitespace-pre-line">
-                    {selectedPotion.description}
-                  </span>
-                </>
-              )}
-            </div>
-            <Button
-              className="h-9"
-              disabled={guessSpot < 0}
-              onClick={onPotionButtonClick}
-            >
-              {currentGuess[guessSpot] ? "Remove from mix" : "Add to mix"}
-            </Button>
-          </InnerPanel>
-          <div className="flex flex-wrap justify-center gap-2 mt-3 mb-2">
-            {Object.values(POTIONS).map((potion) => (
-              <div
-                key={potion.name}
-                className={classNames("relative cursor-pointer", {
-                  "img-highlight": potion.name === selectedPotion?.name,
-                })}
-                onClick={() =>
-                  potionHouseService.send("SELECT_POTION", { potion })
-                }
-              >
-                <img src={shadow} alt="" className="absolute -bottom-1 w-8" />
-                <img src={potion.image} alt="" className="w-8 relative" />
+                    <span className="text-xxs sm:mt-1 whitespace-pre-line">
+                      {selectedPotion.description}
+                    </span>
+                  </>
+                )}
               </div>
-            ))}
+              <Button
+                className="h-9"
+                disabled={guessSpot < 0}
+                onClick={onPotionButtonClick}
+              >
+                {currentGuess[guessSpot] ? "Remove from mix" : "Add to mix"}
+              </Button>
+            </InnerPanel>
+            <div className="flex flex-wrap justify-center gap-2 mt-3 mb-2">
+              {Object.values(POTIONS).map((potion) => (
+                <div
+                  key={potion.name}
+                  className={classNames("relative cursor-pointer", {
+                    "img-highlight": potion.name === selectedPotion?.name,
+                  })}
+                  onClick={() =>
+                    potionHouseService.send("SELECT_POTION", { potion })
+                  }
+                >
+                  <img src={shadow} alt="" className="absolute -bottom-1 w-8" />
+                  <img src={potion.image} alt="" className="w-8 relative" />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-        {isFinished && (
-          <Button onClick={() => potionHouseService.send("NEW_GAME")}>
-            Play again
-          </Button>
         )}
       </div>
+      {isFinished && (
+        <Button onClick={() => potionHouseService.send("NEW_GAME")}>
+          Play again
+        </Button>
+      )}
     </>
   );
 };
