@@ -161,6 +161,10 @@ import { buyWearable, BuyWearableAction } from "./landExpansion/buyWearable";
 import { skipOrder, SkipOrderAction } from "./landExpansion/skipOrder";
 import { SaveMazeAction, saveMaze } from "./landExpansion/saveMaze";
 import { StartMazeAction, startMaze } from "./landExpansion/startMaze";
+import {
+  completeBertObsession,
+  CompleteBertObsessionAction,
+} from "./landExpansion/completeBertObsession";
 
 export type PlayingEvent =
   | TradeAction
@@ -215,7 +219,8 @@ export type PlayingEvent =
   | BuyWearableAction
   | SkipOrderAction
   | SaveMazeAction
-  | StartMazeAction;
+  | StartMazeAction
+  | CompleteBertObsessionAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -320,6 +325,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "wearable.bought": buyWearable,
   "maze.started": startMaze,
   "maze.saved": saveMaze,
+  "bertObsession.completed": completeBertObsession,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

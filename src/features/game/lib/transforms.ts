@@ -39,6 +39,8 @@ export function makeGame(farm: any): GameState {
           })),
         }
       : undefined,
+
+    bertObsession: farm.bertObsession,
     grubOrdersFulfilled: farm.grubOrdersFulfilled,
     grubShop: farm.grubShop
       ? {
