@@ -102,7 +102,7 @@ export class Wallet {
       const chainId = await this.web3?.eth.getChainId();
 
       if (!(chainId === CONFIG.POLYGON_CHAIN_ID)) {
-        await this.initialiseNetwork();
+        await this.initialiseNetwork(provider);
       }
 
       await this.initialiseContracts();
@@ -220,8 +220,8 @@ export class Wallet {
     return chainId === CONFIG.POLYGON_CHAIN_ID;
   }
 
-  public async switchNetwork() {
-    await window.ethereum.request({
+  public async switchNetwork(provider: any) {
+    await provider.request({
       method: "wallet_switchEthereumChain",
       params: [
         { chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}` },
@@ -229,10 +229,10 @@ export class Wallet {
     });
   }
 
-  public async addNetwork() {
+  public async addNetwork(provider: any) {
     try {
       const defaultChainParam = this.getDefaultChainParam();
-      await window.ethereum.request({
+      await provider.request({
         method: "wallet_addEthereumChain",
         params: [
           {
@@ -245,12 +245,12 @@ export class Wallet {
     }
   }
 
-  public async initialiseNetwork() {
+  public async initialiseNetwork(provider: any) {
     try {
-      await this.switchNetwork();
+      await this.switchNetwork(provider);
     } catch (e: any) {
       if (e.code === 4902) {
-        await this.addNetwork();
+        await this.addNetwork(provider);
       }
       throw e;
     }
