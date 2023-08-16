@@ -261,6 +261,13 @@ export type TradeOffer = {
   }[];
 };
 
+export interface CurrentObsession {
+  type: "collectible" | "wearable";
+  name: InventoryItemName | BumpkinItem;
+  startDate: number;
+  endDate: number;
+}
+
 export type WarCollectionOffer = {
   warBonds: number;
   startAt: string;
@@ -548,6 +555,7 @@ export type NPCS = Partial<Record<NPCName, NPCData>>;
 
 export type NPCData = {
   deliveryCount: number;
+  questCompletedAt?: number;
 };
 
 export type ChoreV2 = {
@@ -617,6 +625,8 @@ export interface GameState {
 
   tradedAt?: string;
   tradeOffer?: TradeOffer;
+  bertObsession?: CurrentObsession;
+  bertObsessionCompletedAt?: Date;
   warCollectionOffer?: WarCollectionOffer;
 
   islands?: Record<string, CommunityIsland>;
