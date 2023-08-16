@@ -60,8 +60,12 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
   );
 
   useEffect(() => {
-    if (isNewGame || isGuessing) {
+    if (isGuessing) {
       return;
+    }
+
+    if (isNewGame) {
+      setScore(0);
     }
 
     const score = calculateScore(lastAttempt);
@@ -102,7 +106,7 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
         </div>
       )}
 
-      <div className="flex w-full gap-1">
+      <div className="flex w-full gap-1 mb-3">
         {/* Left Side */}
         <div className="flex items-center w-3/5">
           <div className="flex flex-col items-center">

@@ -31,7 +31,7 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
   const [state, send] = useActor(potionHouseService);
 
   return (
-    <Modal show={true} centered onHide={onClose}>
+    <Modal show centered onHide={onClose}>
       <div
         className="bg-brown-600 text-white relative"
         style={{
@@ -50,12 +50,10 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
                 width: `${PIXEL_SCALE * 11}px`,
               }}
             >
-              {true && (
-                <img
-                  src={SUNNYSIDE.icons.expression_confused}
-                  className="cursor-pointer h-full"
-                />
-              )}
+              <img
+                src={SUNNYSIDE.icons.expression_confused}
+                className="cursor-pointer h-full"
+              />
             </div>
             <h1 className="grow text-center text-lg">
               {state.matches("rules") ? "How to play" : "Potion Room"}

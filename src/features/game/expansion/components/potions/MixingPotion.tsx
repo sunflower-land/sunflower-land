@@ -1,9 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import Spritesheet, {
-  SpriteSheetInstance,
-} from "components/animation/SpriteAnimator";
+import Spritesheet from "components/animation/SpriteAnimator";
 
 import potionMasterSheet from "assets/npcs/potion_master_sheet.png";
 import { SpringValue } from "react-spring";
@@ -11,6 +8,7 @@ import { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { calculateScore } from "features/game/events/landExpansion/mixPotion";
+import { SpeechBubble } from "./SpeechBubble";
 
 export type DesiredAnimation =
   | "idle"
@@ -76,14 +74,13 @@ const getFPS = (frameNumber: number): number => {
 
 export const MixingPotion: React.FC<{
   potionHouseService: PotionHouseMachineInterpreter;
-}> = ({ potionHouseService }) => {
+  feedbackText: string | null;
+}> = ({ potionHouseService, feedbackText }) => {
   // Hack for spritesheet to display correctly
   const [loaded, setLoaded] = useState(false);
 
   const { gameService } = useContext(Context);
   const [potionState] = useActor(potionHouseService);
-
-  const potionMasterGif = useRef<SpriteSheetInstance>();
 
   const getCurrentAnimation = (): DesiredAnimation => {
     if (potionState.matches("playing.idle")) return "idle";
@@ -134,25 +131,16 @@ export const MixingPotion: React.FC<{
   }, []);
 
   return (
-    <div
-      className="relative"
-      style={{
-        width: `${PIXEL_SCALE * 100}px`,
-        height: `${PIXEL_SCALE * 100}px`,
-        overflow: "hidden",
-      }}
-    >
+    <div className="flex flex-col items-center justify-evenly relative w-full h-full">
+      <div className="min-h-[120px] sm:min-h-[80px] flex flex-col items-center">
+        {feedbackText && <SpeechBubble text={feedbackText} className="w-4/5" />}
+      </div>
       {loaded && (
         <Spritesheet
           key={currentAnimation}
-          className="absolute"
+          className="w-full h-full"
           style={{
             imageRendering: "pixelated",
-            width: `${PIXEL_SCALE * 100}px`,
-            height: `${PIXEL_SCALE * 100}px`,
-          }}
-          getInstance={(spritesheet) => {
-            potionMasterGif.current = spritesheet;
           }}
           image={potionMasterSheet}
           widthFrame={100}

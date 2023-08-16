@@ -41,7 +41,6 @@ export class WoodlandsScene extends BaseScene {
   }
 
   create() {
-    console.log("Create woodlands shop");
     this.map = this.make.tilemap({
       key: "woodlands",
     });

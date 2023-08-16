@@ -41,7 +41,6 @@ export function calculateScore(attempt: Attempt): number {
 }
 
 export function mixPotion({ state, action }: Options): GameState {
-  console.log("MIX", action, state);
   const stateCopy = cloneDeep<GameState>(state);
 
   const potions = action.potions;
