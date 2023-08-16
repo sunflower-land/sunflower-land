@@ -24,11 +24,9 @@ export function skipOrder({
 
   if (!order) throw new Error(`Order ${action.id} not found`);
 
-  const skippedAt = game.delivery.skippedAt ?? 0;
-
-  if (createdAt - skippedAt < 24 * 60 * 60 * 1000) {
+  if (createdAt - order.createdAt < 24 * 60 * 60 * 1000) {
     throw new Error(
-      `Order skipped within 24 hours; time now ${createdAt}, time of last skip ${skippedAt}`
+      `Order skipped within 24 hours; time now ${createdAt}, time of last skip ${order.createdAt}`
     );
   }
 
