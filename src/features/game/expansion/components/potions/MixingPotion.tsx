@@ -2,7 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 
 import Spritesheet from "components/animation/SpriteAnimator";
 
-import potionMasterSheet from "assets/npcs/potion_master_sheet.png";
+import potionMasterIdleSheet from "assets/npcs/potion_master_sheet_idle.png";
+import potionMasterStartMixingSheet from "assets/npcs/potion_master_sheet_start_mixing.png";
+import potionMasterLoopMixingSheet from "assets/npcs/potion_master_sheet_loop_mixing.png";
+import potionMasterBombSheet from "assets/npcs/potion_master_sheet_bomb.png";
+import potionMasterSuccessSheet from "assets/npcs/potion_master_sheet_success.png";
 import { SpringValue } from "react-spring";
 import { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";
 import { useActor } from "@xstate/react";
@@ -18,58 +22,64 @@ export type DesiredAnimation =
   | "bomb";
 type AnimationSettings = {
   autoplay: boolean;
-  startAt: number;
   endAt: number;
+  sheet: string;
   loop: boolean;
 };
 
 const SETTINGS: Record<DesiredAnimation, AnimationSettings> = {
   idle: {
     autoplay: true,
-    startAt: 0,
     endAt: 8,
+    sheet: potionMasterIdleSheet,
     loop: true,
   },
   startMixing: {
     autoplay: true,
-    startAt: 9,
-    endAt: 18,
+    endAt: 9,
+    sheet: potionMasterStartMixingSheet,
     loop: false,
   },
   loopMixing: {
     autoplay: true,
-    startAt: 19,
-    endAt: 44,
+    endAt: 25,
+    sheet: potionMasterLoopMixingSheet,
     loop: true,
   },
   success: {
     autoplay: true,
-    startAt: 82,
-    endAt: 113,
+    endAt: 31,
+    sheet: potionMasterSuccessSheet,
     loop: false,
   },
   bomb: {
     autoplay: true,
-    startAt: 45,
-    endAt: 81,
+    endAt: 36,
+    sheet: potionMasterBombSheet,
     loop: false,
   },
 };
 
-const getFPS = (frameNumber: number): number => {
-  if (frameNumber < 9) return Math.round(1000 / 240);
-  if (frameNumber < 19) return Math.round(1000 / 90);
-  if (frameNumber < 45) return Math.round(1000 / 70);
-  if (frameNumber < 55) return Math.round(1000 / 120);
-  if (frameNumber < 56) return Math.round(1000 / 1000);
-  if (frameNumber < 82) return Math.round(1000 / 90);
-  if (frameNumber < 93) return Math.round(1000 / 120);
-  if (frameNumber < 94) return Math.round(1000 / 100);
-  if (frameNumber < 95) return Math.round(1000 / 120);
-  if (frameNumber < 97) return Math.round(1000 / 1000);
-  if (frameNumber < 108) return Math.round(1000 / 120);
-
-  return Math.round(1000 / 90);
+const getFPS = (animation: DesiredAnimation, frameNumber: number): number => {
+  switch (animation) {
+    case "idle":
+      return Math.round(1000 / 240);
+    case "startMixing":
+      return Math.round(1000 / 90);
+    case "loopMixing":
+      return Math.round(1000 / 70);
+    case "bomb":
+      if (frameNumber < 10) return Math.round(1000 / 120);
+      if (frameNumber === 11) return Math.round(1000 / 1000);
+      return Math.round(1000 / 90);
+    case "success":
+      if (frameNumber < 11) return Math.round(1000 / 120);
+      if (frameNumber === 11) return Math.round(1000 / 100);
+      if (frameNumber === 12) return Math.round(1000 / 120);
+      if (frameNumber < 15) return Math.round(1000 / 1000);
+      if (frameNumber < 26) return Math.round(1000 / 120);
+      return Math.round(1000 / 90);
+  }
 };
 
 export const MixingPotion: React.FC<{
@@ -135,27 +145,138 @@ export const MixingPotion: React.FC<{
       <div className="min-h-[120px] sm:min-h-[80px] flex flex-col items-center">
         {feedbackText && <SpeechBubble text={feedbackText} className="w-4/5" />}
       </div>
-      {loaded && (
+      {loaded && currentAnimation === "idle" && (
         <Spritesheet
           key={currentAnimation}
           className="w-full h-full"
           style={{
             imageRendering: "pixelated",
           }}
-          image={potionMasterSheet}
+          image={settings.sheet}
           widthFrame={100}
           heightFrame={100}
           zoomScale={new SpringValue(1)}
-          startAt={settings.startAt}
-          endAt={settings.endAt}
-          steps={113}
-          fps={getFPS(settings.startAt)}
+          startAt={0}
+          steps={settings.endAt}
+          fps={getFPS(currentAnimation, 0)}
           direction={`forward`}
           autoplay={settings.autoplay}
           loop={settings.loop}
           onEachFrame={(spritesheet) => {
             const frame = spritesheet.getInfo("frame");
-            const frameFps = getFPS(frame);
+            const frameFps = getFPS(currentAnimation, frame);
+            if (frameFps !== spritesheet.getInfo("fps")) {
+              spritesheet.setFps(frameFps);
+            }
+          }}
+          onPause={handleNextAnimation}
+          onLoopComplete={handleNextAnimation}
+        />
+      )}
+      {loaded && currentAnimation === "startMixing" && (
+        <Spritesheet
+          key={currentAnimation}
+          className="w-full h-full"
+          style={{
+            imageRendering: "pixelated",
+          }}
+          image={settings.sheet}
+          widthFrame={100}
+          heightFrame={100}
+          zoomScale={new SpringValue(1)}
+          startAt={0}
+          steps={settings.endAt}
+          fps={getFPS(currentAnimation, 0)}
+          direction={`forward`}
+          autoplay={settings.autoplay}
+          loop={settings.loop}
+          onEachFrame={(spritesheet) => {
+            const frame = spritesheet.getInfo("frame");
+            const frameFps = getFPS(currentAnimation, frame);
+            if (frameFps !== spritesheet.getInfo("fps")) {
+              spritesheet.setFps(frameFps);
+            }
+          }}
+          onPause={handleNextAnimation}
+          onLoopComplete={handleNextAnimation}
+        />
+      )}
+      {loaded && currentAnimation === "loopMixing" && (
+        <Spritesheet
+          key={currentAnimation}
+          className="w-full h-full"
+          style={{
+            imageRendering: "pixelated",
+          }}
+          image={settings.sheet}
+          widthFrame={100}
+          heightFrame={100}
+          zoomScale={new SpringValue(1)}
+          startAt={0}
+          steps={settings.endAt}
+          fps={getFPS(currentAnimation, 0)}
+          direction={`forward`}
+          autoplay={settings.autoplay}
+          loop={settings.loop}
+          onEachFrame={(spritesheet) => {
+            const frame = spritesheet.getInfo("frame");
+            const frameFps = getFPS(currentAnimation, frame);
+            if (frameFps !== spritesheet.getInfo("fps")) {
+              spritesheet.setFps(frameFps);
+            }
+          }}
+          onPause={handleNextAnimation}
+          onLoopComplete={handleNextAnimation}
+        />
+      )}
+      {loaded && currentAnimation === "bomb" && (
+        <Spritesheet
+          key={currentAnimation}
+          className="w-full h-full"
+          style={{
+            imageRendering: "pixelated",
+          }}
+          image={settings.sheet}
+          widthFrame={100}
+          heightFrame={100}
+          zoomScale={new SpringValue(1)}
+          startAt={0}
+          steps={settings.endAt}
+          fps={getFPS(currentAnimation, 0)}
+          direction={`forward`}
+          autoplay={settings.autoplay}
+          loop={settings.loop}
+          onEachFrame={(spritesheet) => {
+            const frame = spritesheet.getInfo("frame");
+            const frameFps = getFPS(currentAnimation, frame);
+            if (frameFps !== spritesheet.getInfo("fps")) {
+              spritesheet.setFps(frameFps);
+            }
+          }}
+          onPause={handleNextAnimation}
+          onLoopComplete={handleNextAnimation}
+        />
+      )}
+      {loaded && currentAnimation === "success" && (
+        <Spritesheet
+          key={currentAnimation}
+          className="w-full h-full"
+          style={{
+            imageRendering: "pixelated",
+          }}
+          image={settings.sheet}
+          widthFrame={100}
+          heightFrame={100}
+          zoomScale={new SpringValue(1)}
+          startAt={0}
+          steps={settings.endAt}
+          fps={getFPS(currentAnimation, 0)}
+          direction={`forward`}
+          autoplay={settings.autoplay}
+          loop={settings.loop}
+          onEachFrame={(spritesheet) => {
+            const frame = spritesheet.getInfo("frame");
+            const frameFps = getFPS(currentAnimation, frame);
             if (frameFps !== spritesheet.getInfo("fps")) {
               spritesheet.setFps(frameFps);
             }
