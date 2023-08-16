@@ -69,9 +69,26 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
   const bumpkin = goblinState.context.state.bumpkin!;
   const { equipped } = bumpkin;
 
+  const isCurrentObsession = (itemName: BumpkinItem) => {
+    const obsessionCompletedAt =
+      goblinState.context.state.npcs?.bert?.questCompletedAt;
+    const currentObsession = goblinState.context.state.bertObsession;
+
+    if (!obsessionCompletedAt || !currentObsession) return false;
+    if (currentObsession.name !== itemName) return false;
+
+    return (
+      obsessionCompletedAt >= currentObsession.startDate &&
+      obsessionCompletedAt <= currentObsession.endDate
+    );
+  };
+
   const withdrawableItems = [...new Set([...getKeys(wardrobe)])]
     .sort((a, b) => ITEM_IDS[a] - ITEM_IDS[b])
-    .filter((item) => !Object.values(equipped).includes(item));
+    .filter(
+      (item) =>
+        !Object.values(equipped).includes(item) && !isCurrentObsession(item)
+    );
 
   const selectedItems = getKeys(selected)
     .filter((item) => !!selected[item])

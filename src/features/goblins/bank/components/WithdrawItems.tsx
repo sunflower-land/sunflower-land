@@ -100,8 +100,24 @@ export const WithdrawItems: React.FC<Props> = ({
     };
   };
 
+  const isCurrentObsession = (itemName: InventoryItemName) => {
+    const obsessionCompletedAt =
+      goblinState.context.state.npcs?.bert?.questCompletedAt;
+    const currentObsession = goblinState.context.state.bertObsession;
+
+    if (!obsessionCompletedAt || !currentObsession) return false;
+    if (currentObsession.name !== itemName) return false;
+
+    return (
+      obsessionCompletedAt >= currentObsession.startDate &&
+      obsessionCompletedAt <= currentObsession.endDate
+    );
+  };
+
   const withdrawableItems = getKeys(inventory)
-    .filter((itemName) => WITHDRAWABLES[itemName]())
+    .filter(
+      (itemName) => WITHDRAWABLES[itemName]() && !isCurrentObsession(itemName)
+    )
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
 
   const selectedItems = getKeys(selected)
