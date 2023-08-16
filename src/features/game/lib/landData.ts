@@ -533,7 +533,7 @@ export const OFFLINE_FARM: GameState = {
     orders: [
       {
         id: "123",
-        createdAt: Date.now(),
+        createdAt: Date.now() - 23 * 60 * 60 * 1000,
         completedAt: Date.now(),
         readyAt: 1690855045072,
         from: "pumpkin' pete",
@@ -547,7 +547,7 @@ export const OFFLINE_FARM: GameState = {
       },
       {
         id: "124",
-        createdAt: Date.now(),
+        createdAt: Date.now() - 25 * 60 * 60 * 1000,
         readyAt: Date.now(),
         from: "blacksmith",
         items: {

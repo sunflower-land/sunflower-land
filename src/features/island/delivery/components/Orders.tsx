@@ -26,7 +26,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC } from "features/island/bumpkin/components/NPC";
 
 import { NPC_WEARABLES } from "lib/npcs";
-import { secondsToString } from "lib/utils/time";
+import { getDayOfYear, secondsToString } from "lib/utils/time";
 import { acknowledgeOrders, generateDeliveryMessage } from "../lib/delivery";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
@@ -61,8 +61,6 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     .sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1));
 
   const skippedAt = delivery.skippedAt ?? 0;
-  const nextSkippedAt = skippedAt + 24 * 60 * 60 * 1000;
-  const canSkip = nextSkippedAt < Date.now();
 
   useEffect(() => {
     acknowledgeOrders(delivery);
@@ -73,6 +71,9 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   if (!previewOrder) {
     previewOrder = orders[0];
   }
+
+  const canSkip =
+    getDayOfYear(new Date()) !== getDayOfYear(new Date(previewOrder.createdAt));
 
   const deliver = () => {
     gameService.send("order.delivered", { id: previewOrder?.id });
@@ -100,6 +101,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   };
 
   const select = (id: string) => {
+    setShowSkipDialog(false);
     onSelect(id);
   };
 
@@ -343,18 +345,16 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
             <>
               <div className="flex-1 space-y-2 p-1">
                 <p className="text-xs">
-                  {"You're only able to skip one order every 24 hours!"}
+                  {"You're only able to skip an order after 24 hours!"}
                 </p>
                 {canSkip && <p className="text-xs">Choose wisely!</p>}
                 {!canSkip && (
                   <>
-                    <p className="text-xs">Next skip in:</p>
+                    <p className="text-xs">Skip in:</p>
                     <div className="flex-1">
                       <RequirementLabel
                         type="time"
-                        waitSeconds={Math.ceil(
-                          (nextSkippedAt - Date.now()) / 1000
-                        )}
+                        waitSeconds={secondsTillReset()}
                       />
                     </div>
                   </>
@@ -365,7 +365,9 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   <Button onClick={() => setShowSkipDialog(false)}>
                     Not Right Now
                   </Button>
-                  <Button onClick={skip}>Skip Order</Button>
+                  <Button onClick={skip} className="mt-1">
+                    Skip Order
+                  </Button>
                 </>
               )}
               {!canSkip && (
@@ -425,7 +427,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
                   onClick={() => setShowSkipDialog(true)}
                 >
-                  Cannot complete this order?
+                  Skip order?
                 </p>
               )}
             </div>
