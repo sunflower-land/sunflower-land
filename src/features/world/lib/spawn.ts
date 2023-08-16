@@ -1,5 +1,6 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { SceneId } from "../mmoMachine";
+import { hasFeatureAccess } from "lib/flags";
 
 export type SpawnLocation = Record<
   SceneId,
@@ -113,12 +114,19 @@ export const SPAWNS: SpawnLocation = {
       y: 140,
     },
   },
-  woodlands: {
-    default: {
-      x: 10,
-      y: 290,
-    },
-  },
+  woodlands: hasFeatureAccess({}, "POTION_HOUSE")
+    ? {
+        default: {
+          x: 350,
+          y: 70,
+        },
+      }
+    : {
+        default: {
+          x: 10,
+          y: 290,
+        },
+      },
   corn_maze: {
     default: {
       x: 315,

@@ -279,7 +279,6 @@ export const authMachine = createMachine<
           },
         },
       },
-
       signIn: {
         id: "signIn",
         on: {

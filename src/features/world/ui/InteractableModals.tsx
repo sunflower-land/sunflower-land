@@ -108,7 +108,9 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
       )}
 
       {interactable === "potion_table" &&
-        hasFeatureAccess(state.inventory, "POTION_HOUSE") && <PotionHouse />}
+        hasFeatureAccess(state.inventory, "POTION_HOUSE") && (
+          <PotionHouse onClose={closeModal} />
+        )}
 
       <Modal
         centered
