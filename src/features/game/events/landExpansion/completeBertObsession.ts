@@ -24,8 +24,12 @@ export function completeBertObsession({
     throw new Error("You do not have a Bumpkin");
   }
 
-  if (!stateCopy.npcs || !stateCopy.npcs?.bert) {
-    throw new Error("Bert does not exist");
+  if (!stateCopy.npcs) {
+    throw new Error("NPCs does not exist");
+  }
+
+  if (!stateCopy.npcs?.bert) {
+    stateCopy.npcs.bert = { deliveryCount: 0 };
   }
 
   const currentObsession = stateCopy.bertObsession;
