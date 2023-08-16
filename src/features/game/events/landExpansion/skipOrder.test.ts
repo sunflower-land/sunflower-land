@@ -56,13 +56,13 @@ describe("skipOrder", () => {
   });
 
   it("prevents skipping an within 24 hours", () => {
-    const createdAt = Date.now();
+    const createdAt = new Date("2023-08-08T21:00:00").getTime();
 
     const id1 = "ORDER1";
 
     const order1: Order = {
       from: "betty",
-      createdAt: createdAt - 23 * 60 * 60 * 1000,
+      createdAt: createdAt - 1 * 60 * 60 * 1000,
       id: id1,
       items: {},
       readyAt: 0,

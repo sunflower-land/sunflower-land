@@ -220,3 +220,15 @@ function getOrdinalSuffix(day: number): string {
       return "th";
   }
 }
+
+/**
+ * A function that gives your the day of the year.
+ * @param date JS Date object
+ * @returns Day of the calendar year eg: 182
+ */
+export function getDayOfYear(date: Date): number {
+  const startOfYear = new Date(date.getFullYear(), 0, 0);
+  const diff = date.getTime() - startOfYear.getTime();
+  const oneDay = 1000 * 60 * 60 * 24;
+  return Math.floor(diff / oneDay);
+}

@@ -1,6 +1,7 @@
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { populateOrders } from "./deliver";
+import { getDayOfYear } from "lib/utils/time";
 
 export type SkipOrderAction = {
   type: "order.skipped";
@@ -24,7 +25,10 @@ export function skipOrder({
 
   if (!order) throw new Error(`Order ${action.id} not found`);
 
-  if (createdAt - order.createdAt < 24 * 60 * 60 * 1000) {
+  if (
+    getDayOfYear(new Date(createdAt)) ===
+    getDayOfYear(new Date(order.createdAt))
+  ) {
     throw new Error(
       `Order skipped within 24 hours; time now ${createdAt}, time of last skip ${order.createdAt}`
     );

@@ -26,7 +26,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC } from "features/island/bumpkin/components/NPC";
 
 import { NPC_WEARABLES } from "lib/npcs";
-import { secondsToString } from "lib/utils/time";
+import { getDayOfYear, secondsToString } from "lib/utils/time";
 import { acknowledgeOrders, generateDeliveryMessage } from "../lib/delivery";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
@@ -72,8 +72,8 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     previewOrder = orders[0];
   }
 
-  const nextSkippedAt = previewOrder.createdAt + 24 * 60 * 60 * 1000;
-  const canSkip = Date.now() - previewOrder.createdAt > 24 * 60 * 60 * 1000;
+  const canSkip =
+    getDayOfYear(new Date()) !== getDayOfYear(new Date(previewOrder.createdAt));
 
   const deliver = () => {
     gameService.send("order.delivered", { id: previewOrder?.id });
@@ -353,9 +353,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                     <div className="flex-1">
                       <RequirementLabel
                         type="time"
-                        waitSeconds={Math.ceil(
-                          (nextSkippedAt - Date.now()) / 1000
-                        )}
+                        waitSeconds={secondsTillReset()}
                       />
                     </div>
                   </>
