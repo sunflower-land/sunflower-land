@@ -81,12 +81,17 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
     }
 
     return (
-      <Button
-        disabled={!canCompleteObsession()}
-        onClick={() => gameService.send("bertObsession.completed")}
-      >
-        Claim 3 feathers
-      </Button>
+      <>
+        <Button
+          disabled={!canCompleteObsession()}
+          onClick={() => gameService.send("bertObsession.completed")}
+        >
+          Claim 3 feathers
+        </Button>
+        <span className="text-xs">
+          You cannot withdraw this item for 3 days after claiming feathers.
+        </span>
+      </>
     );
   };
 
@@ -170,10 +175,6 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
           )}
 
           {completeObsession()}
-          <span className="text-xs">
-            After claiming feathers, this item is non-withdrawable during the
-            Obsession period.
-          </span>
         </div>
       )}
     </CloseButtonPanel>
