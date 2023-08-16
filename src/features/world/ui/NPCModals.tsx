@@ -142,15 +142,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
         {npc === "grimtooth" && (
           <DeliveryPanel npc={npc} onClose={closeModal} />
         )}
-        {npc === "bert" &&
-          (hasFeatureAccess(
-            gameState.context.state.inventory,
-            "BERT_OBSESSIONS"
-          ) ? (
-            <Bert onClose={closeModal} />
-          ) : (
-            <DeliveryPanel npc={npc} onClose={closeModal} />
-          ))}
+        {npc === "bert" && <Bert onClose={closeModal} />}
         {npc === "timmy" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "old salty" && (
           <DeliveryPanel npc={npc} onClose={closeModal} />
