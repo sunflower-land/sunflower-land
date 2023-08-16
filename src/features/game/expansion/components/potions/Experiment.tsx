@@ -60,12 +60,11 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
   );
 
   useEffect(() => {
-    if (isGuessing) {
-      return;
-    }
+    if (isGuessing) return;
 
     if (isNewGame) {
       setScore(0);
+      return;
     }
 
     const score = calculateScore(lastAttempt);
