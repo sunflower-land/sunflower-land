@@ -101,6 +101,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   };
 
   const select = (id: string) => {
+    setShowSkipDialog(false);
     onSelect(id);
   };
 
