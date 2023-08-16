@@ -170,6 +170,10 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
           )}
 
           {completeObsession()}
+          <span className="text-xs">
+            After claiming feathers, this item is non-withdrawable during the
+            Obsession period.
+          </span>
         </div>
       )}
     </CloseButtonPanel>
