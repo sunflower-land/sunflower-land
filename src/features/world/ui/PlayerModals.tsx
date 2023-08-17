@@ -92,7 +92,9 @@ export const PlayerModals: React.FC = () => {
               </div>
             </>
           )}
-          {tab === 1 && <PlayerTrade farmId={player?.id as number} />}
+          {tab === 1 && (
+            <PlayerTrade onClose={closeModal} farmId={player?.id as number} />
+          )}
         </CloseButtonPanel>
       </Modal>
     </>

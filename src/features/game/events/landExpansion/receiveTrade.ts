@@ -19,7 +19,7 @@ export function receiveTrade({
 }: Options) {
   const game = cloneDeep(state) as GameState;
 
-  const trade = game.trades.listings[action.tradeId];
+  const trade = game.trades.listings?.[action.tradeId];
 
   if (!trade) {
     throw new Error(`Trade #${action.tradeId} does not exist`);
@@ -33,7 +33,7 @@ export function receiveTrade({
   game.balance = game.balance.add(trade.sfl);
 
   // Remove trade
-  delete game.trades.listings[action.tradeId];
+  delete game.trades.listings?.[action.tradeId];
 
   return game;
 }

@@ -78,6 +78,7 @@ import { BumpkinItem } from "../types/bumpkin";
 import { getAuctionResults } from "../actions/getAuctionResults";
 import { AuctionResults } from "./auctionMachine";
 import { trade } from "../actions/trade";
+import { mmoBus } from "features/world/mmoMachine";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -1298,15 +1299,26 @@ export function startGame(authContext: AuthContext) {
 
               return {
                 farm,
+                buyerId: Number(authContext.user.farmId),
+                sellerId,
+                tradeId,
               };
             },
             onDone: [
               {
                 target: "playing",
-                actions: assign((_, event) => ({
-                  actions: [],
-                  state: event.data.farm,
-                })),
+                actions: [
+                  assign((_, event) => ({
+                    actions: [],
+                    state: event.data.farm,
+                  })),
+                  (_, event) =>
+                    mmoBus.send({
+                      buyerId: event.data.buyerId,
+                      sellerId: event.data.sellerId,
+                      tradeId: event.data.tradeId,
+                    }),
+                ],
               },
             ],
             onError: {

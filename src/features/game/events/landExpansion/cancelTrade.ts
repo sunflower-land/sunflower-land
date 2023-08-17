@@ -21,20 +21,24 @@ export function cancelTrade({
 }: Options) {
   const game = cloneDeep(state) as GameState;
 
-  const trade = game.trades.listings[action.tradeId];
+  const trade = game.trades.listings?.[action.tradeId];
 
   if (!trade) {
     throw new Error(`Trade #${action.tradeId} does not exist`);
   }
 
+  if (trade.boughtAt) {
+    throw new Error(`Trade #${action.tradeId} already bought`);
+  }
+
   // Add items
-  getKeys(game.inventory).forEach((name) => {
+  getKeys(trade.items).forEach((name) => {
     const previous = game.inventory[name] ?? new Decimal(0);
-    game.inventory[name] = previous.add(game.inventory[name] ?? 0);
+    game.inventory[name] = previous.add(trade.items[name] ?? 0);
   });
 
   // Remove Trade
-  delete game.trades.listings[action.tradeId];
+  delete game.trades.listings?.[action.tradeId];
 
   return game;
 }

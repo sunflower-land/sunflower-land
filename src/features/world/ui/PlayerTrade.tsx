@@ -12,8 +12,9 @@ import { useActor } from "@xstate/react";
 
 interface Props {
   farmId: number;
+  onClose: () => void;
 }
-export const PlayerTrade: React.FC<Props> = ({ farmId }) => {
+export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -25,7 +26,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId }) => {
       const farm = await loadGameStateForVisit(farmId);
 
       const trades = farm.state.trades?.listings;
-      if (trades) {
+      if (trades && getKeys(trades).length > 0) {
         const firstTrade = getKeys(trades)[0];
 
         const trade = trades[firstTrade];
@@ -45,10 +46,6 @@ export const PlayerTrade: React.FC<Props> = ({ farmId }) => {
     return <p className="loading">Loading</p>;
   }
 
-  if (gameState.matches("trading")) {
-    return <p className="loading">Trading</p>;
-  }
-
   if (!listing) return <div>No trades available</div>;
 
   const trade = listing.trade;
@@ -60,6 +57,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId }) => {
             image={ITEM_DETAILS[name].image}
             count={new Decimal(trade.items[name] ?? 0)}
             disabled
+            key={name}
           />
         ))}
         <Box
@@ -73,11 +71,12 @@ export const PlayerTrade: React.FC<Props> = ({ farmId }) => {
         </div>
       </div>
       <Button
-        onClick={() =>
-          gameService.send("TRADE", { sellerId: farmId, tradeId: listing.id })
-        }
+        onClick={() => {
+          gameService.send("TRADE", { sellerId: farmId, tradeId: listing.id });
+          onClose();
+        }}
       >
-        Trade
+        Buy
       </Button>
     </div>
   );

@@ -75,13 +75,6 @@ export function listTrade({ state, action, createdAt = Date.now() }: Options) {
     game.inventory[ingredient] = inventoryCount.sub(count);
   });
 
-  // Remove SFL
-  if (game.balance.lt(action.sfl)) {
-    throw new Error(`Insufficient SFL`);
-  }
-
-  game.balance = game.balance.sub(action.sfl);
-
   // Will be replaced anyway
   const tradeId = uuidv4().slice(0, 8);
   game.trades.listings = {

@@ -3,7 +3,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
-import { OuterPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { TRADE_LIMITS } from "features/game/events/landExpansion/listTrade";
 import { getKeys } from "features/game/types/craftables";
@@ -47,6 +46,7 @@ const ListTrade: React.FC<{
               image={ITEM_DETAILS[name].image}
               count={inventory[name]}
               onClick={() => select(name)}
+              key={name}
             />
           ))}
       </div>
@@ -54,7 +54,7 @@ const ListTrade: React.FC<{
       {getKeys(selected).length > 0 && (
         <>
           {getKeys(selected).map((item) => (
-            <div className="flex items-center relative">
+            <div key={item} className="flex items-center relative">
               <Box
                 image={ITEM_DETAILS[item].image}
                 count={inventory[item]}
@@ -148,11 +148,7 @@ const TradeDetails: React.FC<{
   onCancel: () => void;
   onClaim: () => void;
 }> = ({ trade, onCancel, onClaim }) => {
-  if (!trade) {
-    return null;
-  }
-
-  if (!!trade.boughtAt) {
+  if (trade.boughtAt) {
     return (
       <div>
         <p className="mb-1 ml-1">
@@ -164,6 +160,7 @@ const TradeDetails: React.FC<{
               image={ITEM_DETAILS[name].image}
               count={new Decimal(trade.items[name] ?? 0)}
               disabled
+              key={name}
             />
           ))}
           <div className="flex items-center">
@@ -189,6 +186,7 @@ const TradeDetails: React.FC<{
             image={ITEM_DETAILS[name].image}
             count={new Decimal(trade.items[name] ?? 0)}
             disabled
+            key={name}
           />
         ))}
         <div className="flex items-center">
@@ -197,7 +195,7 @@ const TradeDetails: React.FC<{
         </div>
       </div>
 
-      <Button onClick={onCancel}>Cancel</Button>
+      <Button onClick={onCancel}>Remove listing</Button>
     </div>
   );
 };
@@ -208,7 +206,7 @@ export const Trade: React.FC = () => {
   const [showListing, setShowListing] = useState(false);
 
   // Show listings
-  const trades = gameState.context.state.trades?.listings;
+  const trades = gameState.context.state.trades?.listings ?? {};
 
   if (showListing) {
     return (
@@ -217,13 +215,14 @@ export const Trade: React.FC = () => {
         onCancel={() => setShowListing(false)}
         onList={(items, sfl) => {
           gameService.send("trade.listed", { items, sfl });
+          gameService.send("SAVE");
           setShowListing(false);
         }}
       />
     );
   }
 
-  if (getKeys(trades ?? {}).length === 0) {
+  if (getKeys(trades).length === 0) {
     return (
       <div>
         <div className="p-1">
@@ -237,12 +236,18 @@ export const Trade: React.FC = () => {
   // Only 1 trade supported at the moment
   const firstTrade = getKeys(trades)[0];
   const trade = trades[firstTrade];
+
+  if (!trade) {
+    return null;
+  }
+
   // Cancel Trade
   return (
     <TradeDetails
-      onCancel={() =>
-        gameService.send("trade.cancelled", { tradeId: firstTrade })
-      }
+      onCancel={() => {
+        gameService.send("trade.cancelled", { tradeId: firstTrade });
+        gameService.send("SAVE");
+      }}
       onClaim={() =>
         gameService.send("trade.received", { tradeId: firstTrade })
       }

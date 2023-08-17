@@ -12,7 +12,7 @@ import { AuctionScene } from "./scenes/AuctionHouseScene";
 
 import { InteractableModals } from "./ui/InteractableModals";
 import { NPCModals } from "./ui/NPCModals";
-import { MachineInterpreter, MachineState } from "./mmoMachine";
+import { MachineInterpreter, MachineState, mmoBus } from "./mmoMachine";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
 import { InnerPanel, Panel } from "components/ui/Panel";
@@ -159,6 +159,8 @@ export const PhaserComponent: React.FC<Props> = ({
           (m) => m.sceneId === currentScene
         ) as Message[];
 
+      // TODO - trigger 'TRADED' state
+
       setMessages(
         sceneMessages.map((m) => ({
           farmId: m.farmId ?? 0,
@@ -190,6 +192,14 @@ export const PhaserComponent: React.FC<Props> = ({
     }
   }, [scene]);
 
+  useEffect(() => {
+    mmoBus.listen((message) => {
+      mmoService.state.context.server?.send(0, message);
+    });
+  }, []);
+
+  // Listen to state change from trading -> playing
+
   const ref = useRef<HTMLDivElement>(null);
 
   return (
@@ -211,6 +221,7 @@ export const PhaserComponent: React.FC<Props> = ({
         }}
       />
       <PlayerModals />
+
       <CommunityModals />
       <CommunityToasts />
       <InteractableModals id={authState.context.user.farmId as number} />
