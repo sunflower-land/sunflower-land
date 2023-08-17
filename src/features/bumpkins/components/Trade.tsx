@@ -210,7 +210,6 @@ export const Trade: React.FC = () => {
   // Show listings
   const trades = gameState.context.state.trades?.listings;
 
-  console.log({ trades });
   if (showListing) {
     return (
       <ListTrade

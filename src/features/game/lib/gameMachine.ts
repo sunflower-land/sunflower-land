@@ -77,6 +77,7 @@ import { mintAuctionItem } from "../actions/mintAuctionItem";
 import { BumpkinItem } from "../types/bumpkin";
 import { getAuctionResults } from "../actions/getAuctionResults";
 import { AuctionResults } from "./auctionMachine";
+import { trade } from "../actions/trade";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -187,6 +188,12 @@ type UpdateEvent = {
   state: GameState;
 };
 
+type TradeEvent = {
+  type: "TRADE";
+  sellerId: number;
+  tradeId: string;
+};
+
 export type BlockchainEvent =
   | {
       type: "SAVE";
@@ -194,6 +201,7 @@ export type BlockchainEvent =
   | SyncEvent
   | PurchaseEvent
   | CommunityEvent
+  | TradeEvent
   | {
       type: "REFRESH";
     }
@@ -337,6 +345,7 @@ export type BlockchainState = {
     | "landscaping"
     | "specialOffer"
     | "promo"
+    | "trading"
     | "noBumpkinFound"
     | "noTownCenter"
     | "coolingDown"
@@ -903,6 +912,9 @@ export function startGame(authContext: AuthContext) {
             BUY_SFL: {
               target: "buyingSFL",
             },
+            TRADE: {
+              target: "trading",
+            },
             UPDATE_BLOCK_BUCKS: {
               actions: assign((context, event) => ({
                 state: {
@@ -1254,6 +1266,52 @@ export function startGame(authContext: AuthContext) {
                   },
                 };
               }),
+            },
+          },
+        },
+
+        trading: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context, event) => {
+              const { sellerId, tradeId } = event as TradeEvent;
+
+              if (context.actions.length > 0) {
+                await autosave({
+                  farmId: Number(authContext.user.farmId),
+                  sessionId: context.sessionId as string,
+                  actions: context.actions,
+                  token: authContext.user.rawToken as string,
+                  fingerprint: context.fingerprint as string,
+                  deviceTrackerId: context.deviceTrackerId as string,
+                  transactionId: context.transactionId as string,
+                });
+              }
+
+              const { farm } = await trade({
+                buyerId: Number(authContext.user.farmId),
+                sellerId,
+                tradeId,
+                token: authContext.user.rawToken as string,
+                transactionId: context.transactionId as string,
+              });
+
+              return {
+                farm,
+              };
+            },
+            onDone: [
+              {
+                target: "playing",
+                actions: assign((_, event) => ({
+                  actions: [],
+                  state: event.data.farm,
+                })),
+              },
+            ],
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
             },
           },
         },

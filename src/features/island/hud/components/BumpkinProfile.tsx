@@ -188,7 +188,7 @@ export const BumpkinProfile: React.FC<{
 }> = ({ isFullUser }) => {
   const progressBarEl = useRef<SpriteSheetInstance>();
   const [viewSkillsPage, setViewSkillsPage] = useState(false);
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
