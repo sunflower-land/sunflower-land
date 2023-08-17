@@ -165,6 +165,7 @@ import {
   completeBertObsession,
   CompleteBertObsessionAction,
 } from "./landExpansion/completeBertObsession";
+import { StartPotionAction, startPotion } from "./landExpansion/startPotion";
 
 export type PlayingEvent =
   | TradeAction
@@ -220,7 +221,8 @@ export type PlayingEvent =
   | SkipOrderAction
   | SaveMazeAction
   | StartMazeAction
-  | CompleteBertObsessionAction;
+  | CompleteBertObsessionAction
+  | StartPotionAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -326,6 +328,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "maze.started": startMaze,
   "maze.saved": saveMaze,
   "bertObsession.completed": completeBertObsession,
+  "potion.started": startPotion,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
