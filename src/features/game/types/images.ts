@@ -72,7 +72,7 @@ import queenCornelia from "assets/sfts/aoe/queen_cornelia.png";
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
 import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 import richChicken from "assets/animals/chickens/rich_chicken.gif";
-import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.png";
+import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
 
 // Foods

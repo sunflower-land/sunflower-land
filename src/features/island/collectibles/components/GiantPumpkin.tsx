@@ -1,19 +1,19 @@
 import React from "react";
 
-import hauntedStump from "assets/decorations/haunted_stump.png";
+import giantPumpkin from "assets/sfts/giant_pumpkin.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-export const HauntedStump: React.FC = () => {
+export const GiantPumpkin: React.FC = () => {
   return (
     <>
       <img
-        src={hauntedStump}
+        src={giantPumpkin}
         style={{
-          width: `${PIXEL_SCALE * 18}px`,
+          width: `${PIXEL_SCALE * 26}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute left-1/2 -translate-x-1/2"
-        alt="Haunted Stump"
+        alt="Giant Pumpkin"
       />
     </>
   );

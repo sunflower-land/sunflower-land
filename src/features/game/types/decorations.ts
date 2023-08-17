@@ -363,7 +363,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 2,
   },
   "Giant Potato": {
-    width: 2,
+    width: 1,
     height: 2,
   },
   "Giant Pumpkin": {
@@ -371,16 +371,16 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 2,
   },
   "Lab Grown Carrot": {
-    width: 2,
-    height: 2,
+    width: 1,
+    height: 1,
   },
   "Lab Grown Pumpkin": {
-    width: 2,
-    height: 2,
+    width: 1,
+    height: 1,
   },
   "Lab Grown Radish": {
-    width: 2,
-    height: 2,
+    width: 1,
+    height: 1,
   },
 };
 
