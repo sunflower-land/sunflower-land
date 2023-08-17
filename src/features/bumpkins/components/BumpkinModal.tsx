@@ -24,6 +24,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { BumpkinEquip } from "./BumpkinEquip";
 import { AchievementBadges } from "./AchievementBadges";
 import { Trade } from "./Trade";
+import { hasFeatureAccess } from "lib/flags";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -84,7 +85,7 @@ export const BumpkinModal: React.FC<Props> = ({
 }) => {
   const [view, setView] = useState<ViewState>(initialView);
 
-  const [tab, setTab] = useState(2);
+  const [tab, setTab] = useState(0);
 
   const getVisitBumpkinUrl = () => {
     if (readonly) {
@@ -144,10 +145,14 @@ export const BumpkinModal: React.FC<Props> = ({
           icon: SUNNYSIDE.icons.wardrobe,
           name: "Equip",
         },
-        {
-          icon: SUNNYSIDE.icons.heart,
-          name: "Trades",
-        },
+        ...(hasFeatureAccess(inventory, "TRADING")
+          ? [
+              {
+                icon: SUNNYSIDE.icons.heart,
+                name: "Trades",
+              },
+            ]
+          : []),
       ]}
     >
       {tab === 0 && (
