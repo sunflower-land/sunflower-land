@@ -10,6 +10,7 @@ import {
   getExperienceToNextLevel,
   isMaxLevel,
 } from "features/game/lib/level";
+
 import { AchievementsModal } from "./Achievements";
 import { SkillsModal } from "features/bumpkins/components/Skills";
 import { CONFIG } from "lib/config";
@@ -22,6 +23,7 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { BumpkinEquip } from "./BumpkinEquip";
 import { AchievementBadges } from "./AchievementBadges";
+import { Trade } from "./Trade";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -82,7 +84,7 @@ export const BumpkinModal: React.FC<Props> = ({
 }) => {
   const [view, setView] = useState<ViewState>(initialView);
 
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState(2);
 
   const getVisitBumpkinUrl = () => {
     if (readonly) {
@@ -141,6 +143,10 @@ export const BumpkinModal: React.FC<Props> = ({
         {
           icon: SUNNYSIDE.icons.wardrobe,
           name: "Equip",
+        },
+        {
+          icon: SUNNYSIDE.icons.heart,
+          name: "Trades",
         },
       ]}
     >
@@ -230,6 +236,7 @@ export const BumpkinModal: React.FC<Props> = ({
         </div>
       )}
       {tab === 1 && <BumpkinEquip />}
+      {tab === 2 && <Trade />}
     </CloseButtonPanel>
   );
 };

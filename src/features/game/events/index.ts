@@ -166,6 +166,9 @@ import {
   CompleteBertObsessionAction,
 } from "./landExpansion/completeBertObsession";
 import { StartPotionAction, startPotion } from "./landExpansion/startPotion";
+import { receiveTrade, ReceiveTradeAction } from "./landExpansion/receiveTrade";
+import { listTrade, ListTradeAction } from "./landExpansion/listTrade";
+import { cancelTrade, CancelTradeAction } from "./landExpansion/cancelTrade";
 
 export type PlayingEvent =
   | TradeAction
@@ -222,7 +225,10 @@ export type PlayingEvent =
   | SaveMazeAction
   | StartMazeAction
   | CompleteBertObsessionAction
-  | StartPotionAction;
+  | StartPotionAction
+  | ReceiveTradeAction
+  | ListTradeAction
+  | CancelTradeAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -329,6 +335,9 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "maze.saved": saveMaze,
   "bertObsession.completed": completeBertObsession,
   "potion.started": startPotion,
+  "trade.cancelled": cancelTrade,
+  "trade.listed": listTrade,
+  "trade.received": receiveTrade,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
