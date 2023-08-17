@@ -171,7 +171,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Potion Point": {
     description:
-      "A reward from the Potion House. Use this to buy items from Gart.",
+      "A reward from the Potion House. Use this to buy items from Garth.",
   },
 };
 

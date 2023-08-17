@@ -47,10 +47,7 @@ export function mixPotion({ state, action }: Options): GameState {
   const attemptIndex = action.attemptNumber - 1;
 
   if (!stateCopy.potionHouse) {
-    stateCopy.potionHouse = {
-      game: { status: "in_progress", attempts: [] },
-      history: {},
-    };
+    throw new Error("You cannot mix potions without a potion house");
   }
 
   if (
@@ -58,10 +55,6 @@ export function mixPotion({ state, action }: Options): GameState {
     action.attemptNumber !== 1
   ) {
     throw new Error("Cannot mix potion on a finished game");
-  }
-
-  if (stateCopy.potionHouse.game.status === "finished") {
-    stateCopy.potionHouse.game = { status: "in_progress", attempts: [] };
   }
 
   if (action.attemptNumber > MAX_ATTEMPTS) {
