@@ -9,6 +9,7 @@ import {
   BASIC_DECORATIONS,
   LANDSCAPING_DECORATIONS,
   LandscapingDecorationName,
+  POTION_HOUSE_DECORATIONS,
   SEASONAL_DECORATIONS,
   SeasonalDecorationName,
   ShopDecorationName,
@@ -38,6 +39,7 @@ const DECORATIONS = (state: GameState) => {
     ...BASIC_DECORATIONS(),
     ...LANDSCAPING_DECORATIONS(),
     ...SEASONAL_DECORATIONS(state),
+    ...POTION_HOUSE_DECORATIONS(),
   };
 };
 export function buyDecoration({

@@ -95,6 +95,14 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
     potionHouseService.send("MIX_POTION");
   };
 
+  const handleStart = () => {
+    gameService.send("potion.started");
+    potionHouseService.send("NEW_GAME");
+  };
+
+  const showStartButton =
+    !potionHouse || potionHouse?.game.status === "finished";
+
   return (
     <>
       {isFinished && (
@@ -205,7 +213,7 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
       {/* Bottom Section */}
       <div className="flex flex-col grow space-y-1">
         {/* Potions */}
-        {!isFinished && (
+        {!isFinished && !showStartButton && (
           <div className="flex flex-col justify-end grow">
             <h2 className="mb-1">Potions</h2>
             <InnerPanel>
@@ -247,10 +255,8 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
           </div>
         )}
       </div>
-      {isFinished && (
-        <Button onClick={() => potionHouseService.send("NEW_GAME")}>
-          Play again
-        </Button>
+      {showStartButton && (
+        <Button onClick={handleStart}>{`Start game (1 SFL)`}</Button>
       )}
     </>
   );

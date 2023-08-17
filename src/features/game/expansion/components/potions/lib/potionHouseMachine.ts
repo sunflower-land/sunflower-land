@@ -21,6 +21,7 @@ export interface PotionHouseContext {
   selectedPotion: Potion;
   currentGuess: Potions;
   isNewGame: boolean;
+  isFinished: boolean;
   animationQueue: DesiredAnimation[];
   score: number | null;
   feedbackText: string | null;
@@ -104,6 +105,7 @@ export const potionHouseMachine = createMachine<
     guessSpot: 0,
     selectedPotion: Object.values(POTIONS)[0],
     currentGuess: [null, null, null, null],
+    isFinished: false,
     isNewGame: false,
     animationQueue: [],
     score: null,

@@ -95,6 +95,16 @@ export const maxItems: Inventory = {
   "Dawn Breaker Ticket": new Decimal(750),
   "Crow Feather": new Decimal(750),
 
+  // Potion House
+  "Potion Point": new Decimal(75000),
+  "Giant Cabbage": new Decimal(50),
+  "Giant Potato": new Decimal(50),
+  "Giant Pumpkin": new Decimal(50),
+  "Lab Grown Carrot": new Decimal(1),
+  "Lab Grown Pumpkin": new Decimal(1),
+  "Lab Grown Radish": new Decimal(1),
+  "Magic Bean": new Decimal(5),
+
   //Treasure Island Beach Bounty
   "Pirate Bounty": new Decimal(50),
   Pearl: new Decimal(50),

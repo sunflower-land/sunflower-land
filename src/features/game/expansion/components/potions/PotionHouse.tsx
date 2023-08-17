@@ -22,7 +22,7 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
 
   const potionHouse = gameService.state.context.state.potionHouse;
-  const isNewGame = potionHouse?.game.status === "finished";
+  const isNewGame = !potionHouse || potionHouse?.game.status === "finished";
 
   const potionHouseService = useInterpret(potionHouseMachine, {
     context: { isNewGame },
