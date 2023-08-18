@@ -35,7 +35,11 @@ export type NPCName =
   | "dreadhorn"
   | "luna"
   | "billy"
-  | "phantom face";
+  | "phantom face"
+  | "farmer flesh"
+  | "boneyard betty"
+  | "eins"
+  | "garth";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -388,6 +392,42 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Farmer Pitchfork",
     shoes: "Black Farmer Boots",
     background: "Cemetery Background",
+  },
+  "farmer flesh": {
+    body: "Infected Potion",
+    hair: "Sun Spots",
+    pants: "Farmer Overalls",
+    shirt: "Red Farmer Shirt",
+    tool: "Farmer Pitchfork",
+    shoes: "Black Farmer Boots",
+    background: "Cemetery Background",
+  },
+  "boneyard betty": {
+    body: "Infected Potion",
+    hair: "Rancher Hair",
+    pants: "Farmer Overalls",
+    shirt: "Red Farmer Shirt",
+    tool: "Parsnip",
+    shoes: "Black Farmer Boots",
+    background: "Cemetery Background",
+  },
+  eins: {
+    body: "Goblin Potion",
+    hair: "Blacksmith Hair",
+    pants: "Farmer Overalls",
+    shirt: "Yellow Farmer Shirt",
+    tool: "Hammer",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+  },
+  garth: {
+    body: "Infernal Goblin Potion",
+    hair: "Blacksmith Hair",
+    pants: "Brown Suspenders",
+    shirt: "Trial Tee",
+    tool: "Hammer",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
   },
 };
 

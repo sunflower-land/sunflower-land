@@ -263,7 +263,22 @@ export const OFFLINE_FARM: GameState = {
   id: 4,
   witchesEve: {
     weeklyLostCrowCount: 25,
-    maze: {},
+    maze: {
+      3: {
+        claimedFeathers: 0,
+        sflFee: 5,
+        paidEntryFee: true,
+        highestScore: 0,
+        attempts: [
+          {
+            startedAt: 0,
+            crowsFound: 0,
+            health: 3,
+            time: 2,
+          },
+        ],
+      },
+    },
   },
   balance: new Decimal(100),
   wardrobe: {
@@ -309,6 +324,8 @@ export const OFFLINE_FARM: GameState = {
     "Crab Claw": 95,
   },
   inventory: {
+    "El Pollo Veloz": new Decimal(1),
+    Gnome: new Decimal(1),
     "Sunflower Cake": new Decimal(15),
     Carrot: new Decimal(80),
     Cauliflower: new Decimal(70),
@@ -401,10 +418,10 @@ export const OFFLINE_FARM: GameState = {
     Hoot: new Decimal(1),
     "Sir Goldensnout": new Decimal(1),
     "Freya Fox": new Decimal(1),
-    "El Pollo Veloz": new Decimal(1),
     "Fat Chicken": new Decimal(1),
     "Queen Cornelia": new Decimal(1),
     "Scary Mike": new Decimal(1),
+    "Ayam Cemani": new Decimal(1),
   },
 
   createdAt: new Date("2022-03-04").getTime(),
@@ -412,6 +429,20 @@ export const OFFLINE_FARM: GameState = {
 
   bumpkin: INITIAL_BUMPKIN,
 
+  trades: {
+    listings: {
+      "123": {
+        createdAt: 0,
+        items: {
+          Apple: 2,
+          Wheat: 3,
+        },
+        sfl: 2,
+        boughtAt: 1,
+        buyerId: 1,
+      },
+    },
+  },
   chickens: {},
 
   airdrops: [],
@@ -517,7 +548,8 @@ export const OFFLINE_FARM: GameState = {
     orders: [
       {
         id: "123",
-        createdAt: Date.now(),
+        createdAt: Date.now() - 23 * 60 * 60 * 1000,
+        completedAt: Date.now(),
         readyAt: 1690855045072,
         from: "pumpkin' pete",
         items: {
@@ -530,7 +562,7 @@ export const OFFLINE_FARM: GameState = {
       },
       {
         id: "124",
-        createdAt: Date.now(),
+        createdAt: Date.now() - 25 * 60 * 60 * 1000,
         readyAt: Date.now(),
         from: "blacksmith",
         items: {

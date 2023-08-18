@@ -1,7 +1,7 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
@@ -14,6 +14,11 @@ import { Birdie } from "./npcs/Birdie";
 import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { Grubnuk } from "./npcs/Grubnuk";
 import { Blacksmith } from "./npcs/Blacksmith";
+import { PotionHouseShopItems } from "features/helios/components/potions/component/PotionHouseShopItems";
+import { hasFeatureAccess } from "lib/flags";
+import { Bert } from "./npcs/Bert";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -35,6 +40,8 @@ interface Props {
   onNavigate: (sceneId: SceneId) => void;
 }
 export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const [npc, setNpc] = useState<NPCName>();
 
   useEffect(() => {
@@ -59,6 +66,9 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <Grubnuk onClose={closeModal} />}
 
+        {npc === "garth" && hasFeatureAccess({}, "POTION_HOUSE") && (
+          <PotionHouseShopItems onClose={closeModal} />
+        )}
         {npc === "hammerin harry" && (
           <SpeakingModal
             onClose={closeModal}
@@ -132,7 +142,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
         {npc === "grimtooth" && (
           <DeliveryPanel npc={npc} onClose={closeModal} />
         )}
-        {npc === "bert" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "bert" && <Bert onClose={closeModal} />}
         {npc === "timmy" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "old salty" && (
           <DeliveryPanel npc={npc} onClose={closeModal} />

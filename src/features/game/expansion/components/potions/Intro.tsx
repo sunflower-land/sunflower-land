@@ -29,7 +29,7 @@ export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
           </div>
           <p>{`Welcome to the Potion Room, my curious apprentice!`}</p>
           <p>
-            {`I am Mad Scientist Bumpkin, here to assist you on this magical quest into the world of botanic sorcery. Get ready to uncover the secrets of Sunflower Land!`}
+            {`I am Mad Scientist Bumpkin, here to assist you on this magical quest into the world of botanic sorcery. Get ready to uncover the secrets of Sunflower Land! Each attempt will cost 1 SFL.`}
           </p>
           <p>
             {`Your mission: decipher the right combination of potions within the enchanted grid.`}

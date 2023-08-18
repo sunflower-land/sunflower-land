@@ -98,7 +98,7 @@ export const SpeakingModal: React.FC<Props> = ({
           <p className="text-xxs italic float-right p-1">(Tap to continue)</p>
         )}
         {showActions && (
-          <div className="flex flex-col-reverse space-y-1 space-y-reverse md:flex-row md:space-y-0 md:space-x-1">
+          <div className="flex flex-col-reverse space-y-1 mt-1 space-y-reverse md:flex-row md:space-y-0 md:space-x-1">
             {message[currentMessage].actions?.map((action) => (
               <Button
                 key={action.text}

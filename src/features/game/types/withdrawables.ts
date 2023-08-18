@@ -40,6 +40,7 @@ import { ConsumableName } from "./consumables";
 import {
   AchievementDecorationName,
   EventDecorationName,
+  PotionHouseItemName,
   SeasonalDecorationName,
   ShopDecorationName,
 } from "./decorations";
@@ -285,6 +286,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Dawn Breaker Ticket": () => false,
   "Sunflower Supporter": () => false,
   "Crow Feather": () => false,
+  "Potion Point": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {
@@ -511,7 +513,7 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Grain Grinder": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
   Kernaldo: () => canWithdrawTimebasedItem(new Date("2023-10-02")),
   "Queen Cornelia": () =>
-    canWithdrawTimebasedItem(new Date("Thu August 16 2023 10:00:00 GMT+1000")),
+    canWithdrawTimebasedItem(new Date("Wed October 14 2023 10:00:00 GMT+1000")),
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
@@ -618,6 +620,15 @@ const purchasables: Record<PurchasableItems, () => boolean> = {
   "Gold Pass": () => false,
 };
 
+const potionHouse: Record<PotionHouseItemName, () => boolean> = {
+  "Giant Cabbage": () => false,
+  "Giant Potato": () => false,
+  "Giant Pumpkin": () => false,
+  "Lab Grown Carrot": () => false,
+  "Lab Grown Pumpkin": () => false,
+  "Lab Grown Radish": () => false,
+};
+
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...crops,
   ...fruits,
@@ -664,6 +675,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...fertilisers,
   ...consumables,
   ...decorations,
+  ...potionHouse,
 };
 
 export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
@@ -789,7 +801,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
   "Fox Hat": () => false, // Not Launched
   "Grave Diggers Shovel": () => true,
   "Infected Potion": () =>
-    canWithdrawTimebasedItem(new Date("Thu August 12 2023 10:00:00 GMT+1000")), // Auctioned
+    canWithdrawTimebasedItem(new Date("Wed October 7 2023 10:00:00 GMT+1000")), // Auctioned
   "Mushroom Hat": () => true,
   "Mushroom Lamp": () => false, // Not Launched
   "Mushroom Lights Background": () => false, // Not Launched
@@ -825,16 +837,21 @@ export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
   "Imp Costume": () => false, // Seasonal
   "Ox Costume": () => false, // Seasonal
   "Luna's Hat": () =>
-    canWithdrawTimebasedItem(new Date("Thu August 26 2023 10:00:00 GMT+1000")), // Auction
-  "Infernal Pitchfork": () => false, // Auction
+    canWithdrawTimebasedItem(
+      new Date("Thu September 27 2023 10:00:00 GMT+1000")
+    ),
+  "Infernal Pitchfork": () =>
+    canWithdrawTimebasedItem(new Date("Sun October 4 2023 10:00:00 GMT+1000")), // Auction
   "Infernal Horns": () =>
-    canWithdrawTimebasedItem(new Date("Thu August 31 2023 10:00:00 GMT+1000")), // Auction
+    canWithdrawTimebasedItem(new Date("Sun October 11 2023 10:00:00 GMT+1000")), // Auction
   Cattlegrim: () =>
     canWithdrawTimebasedItem(
-      new Date("Thu September 13 2023 10:00:00 GMT+1000")
+      new Date("Thu September 30 2023 10:00:00 GMT+1000")
     ), // Auction
   "Crumple Crown": () =>
-    canWithdrawTimebasedItem(new Date("Thu August 19 2023 10:00:00 GMT+1000")), // Auction
+    canWithdrawTimebasedItem(
+      new Date("Thu September 20 2023 10:00:00 GMT+1000")
+    ), // Auction
   "Merch Bucket Hat": () => false,
   "Merch Coffee Mug": () => false,
   "Dawn Breaker Tee": () => false,

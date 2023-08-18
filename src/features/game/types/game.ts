@@ -128,6 +128,7 @@ export type Coupons =
   | "Love Letter"
   | "Block Buck"
   | "Sunflower Supporter"
+  | "Potion Point"
   | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
@@ -167,6 +168,10 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Sunflower Supporter": {
     description: "A community and social media supporter of the project",
+  },
+  "Potion Point": {
+    description:
+      "A reward from the Potion House. Use this to buy items from Garth.",
   },
 };
 
@@ -260,6 +265,13 @@ export type TradeOffer = {
     amount: Decimal;
   }[];
 };
+
+export interface CurrentObsession {
+  type: "collectible" | "wearable";
+  name: InventoryItemName | BumpkinItem;
+  startDate: number;
+  endDate: number;
+}
 
 export type WarCollectionOffer = {
   warBonds: number;
@@ -477,6 +489,7 @@ export type Order = {
   };
   createdAt: number;
   readyAt: number;
+  completedAt?: number;
 };
 
 type QuestNPCName =
@@ -519,7 +532,7 @@ export type PotionName =
   | "Flower Power"
   | "Organic Oasis"
   | "Dream Drip"
-  | "Golden Syrup";
+  | "Silver Syrup";
 
 export type PotionStatus =
   | "pending"
@@ -536,7 +549,7 @@ export type PotionHouse = {
   game: {
     status: "in_progress" | "finished";
     attempts: Attempt[];
-    reward?: InventoryItemName;
+    reward?: number;
   };
   history: {
     [score: number]: number;
@@ -547,6 +560,7 @@ export type NPCS = Partial<Record<NPCName, NPCData>>;
 
 export type NPCData = {
   deliveryCount: number;
+  questCompletedAt?: number;
 };
 
 export type ChoreV2 = {
@@ -606,6 +620,14 @@ export type CommunityIsland = {
   };
 };
 
+export type TradeListing = {
+  items: Partial<Record<InventoryItemName, number>>;
+  sfl: number;
+  createdAt: number;
+  boughtAt?: number;
+  buyerId?: number;
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -616,6 +638,8 @@ export interface GameState {
 
   tradedAt?: string;
   tradeOffer?: TradeOffer;
+  bertObsession?: CurrentObsession;
+  bertObsessionCompletedAt?: Date;
   warCollectionOffer?: WarCollectionOffer;
 
   islands?: Record<string, CommunityIsland>;
@@ -683,6 +707,10 @@ export interface GameState {
   mushrooms: Mushrooms;
   witchesEve?: WitchesEve;
   potionHouse?: PotionHouse;
+
+  trades: {
+    listings?: Record<string, TradeListing>;
+  };
 }
 
 export interface Context {

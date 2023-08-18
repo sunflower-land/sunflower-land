@@ -108,7 +108,9 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
       )}
 
       {interactable === "potion_table" &&
-        hasFeatureAccess(state.inventory, "POTION_HOUSE") && <PotionHouse />}
+        hasFeatureAccess(state.inventory, "POTION_HOUSE") && (
+          <PotionHouse onClose={closeModal} />
+        )}
 
       <Modal
         centered
@@ -289,7 +291,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
               text: "Eggplants, they're more than they appear. Despite their dark exterior that attracts shadowy creatures, they bring light to our dishes.",
             },
             {
-              text: "Grilled or mashed into a baba ganoush, their versatility is unmatched. The nightshade vegetables are a symbol of our resilience in the face of adversity.",
+              text: "Grilled or mashed into a Bumpkin ganoush, their versatility is unmatched. The nightshade vegetables are a symbol of our resilience in the face of adversity.",
             },
           ]}
         />

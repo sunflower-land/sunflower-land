@@ -3987,4 +3987,74 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/550.png",
     attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
+  "Giant Cabbage": {
+    description: "A giant cabbage!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1281.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Giant Potato": {
+    description: "A giant potato!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1282.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Giant Pumpkin": {
+    description: "A giant pumpkin!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1283.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Lab Grown Carrot": {
+    description: "A lab grown carrot! +0.2 Carrot Yield.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/475.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Carrot Yield Increase",
+        value: 20,
+      },
+    ],
+  },
+  "Lab Grown Pumpkin": {
+    description: "A lab grown pumpkin! +0.3 Pumpkin Yield.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/476.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Pumpkin Yield Increase",
+        value: 30,
+      },
+    ],
+  },
+  "Lab Grown Radish": {
+    description: "A lab grown radish! +0.4 Radish Yield.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/477.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Radish Yield Increase",
+        value: 40,
+      },
+    ],
+  },
+  "Potion Point": {
+    description: "A potion point!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
 };

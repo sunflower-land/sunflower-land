@@ -21,7 +21,7 @@ export const Web3Missing: React.FC<{ wallet?: "PHANTOM" | "CRYPTO_COM" }> = ({
 
   const goToCryptoComSetupDocs = () => {
     window.open(
-      "https://help.crypto.com/en/articles/5484125-wallet-extension",
+      "https://chrome.google.com/webstore/detail/cryptocom-wallet-extensio/hifafgmccdpekplomjjkcfgodnhcellj",
       "_blank"
     );
   };

@@ -209,6 +209,7 @@ export const TEST_FARM: GameState = {
   mailbox: {
     read: [],
   },
+  trades: {},
   crops: {
     1: {
       height: 1,
@@ -423,7 +424,7 @@ export const EMPTY: GameState = {
       description: "Harvest 10 Sunflowers",
     },
   },
-
+  trades: {},
   fruitPatches: {},
   gold: {},
   iron: {},

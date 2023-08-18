@@ -13,7 +13,7 @@ export const HauntedStump: React.FC = () => {
           bottom: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute left-1/2 -translate-x-1/2"
-        alt="Candles"
+        alt="Haunted Stump"
       />
     </>
   );

@@ -91,6 +91,20 @@ function areAnyAdvancedCropsPlanted(game: GameState): Restriction {
   return [cropsPlanted, "Advanced crops are planted"];
 }
 
+function areAnyAdvancedOrMediumCropsPlanted(game: GameState): Restriction {
+  const mediumCropsPlanted = areAnyMediumCropsPlanted(game)[0];
+  if (mediumCropsPlanted) {
+    return [mediumCropsPlanted, "Medium crops are planted"];
+  }
+
+  const advancedCropsPlanted = areAnyAdvancedCropsPlanted(game)[0];
+  if (advancedCropsPlanted) {
+    return [advancedCropsPlanted, "Advanced crops are planted"];
+  }
+
+  return [advancedCropsPlanted, "Medium crops are planted"];
+}
+
 function areAnyTreesChopped(game: GameState): Restriction {
   const treesChopped = Object.values(game.trees ?? {}).some(
     (tree) => !canChop(tree)
@@ -196,6 +210,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Sir Goldensnout": (game) => areAnyCropsPlanted(game),
   "Scary Mike": (game) => areAnyMediumCropsPlanted(game),
   "Laurie the Chuckle Crow": (game) => areAnyAdvancedCropsPlanted(game),
+  Gnome: (game) => areAnyAdvancedOrMediumCropsPlanted(game),
 
   "Cabbage Boy": (game) => cropIsPlanted({ item: "Cabbage", game }),
   "Cabbage Girl": (game) => cropIsPlanted({ item: "Cabbage", game }),
@@ -277,7 +292,8 @@ export const hasMoveRestriction = (
     name === "Sir Goldensnout" ||
     name === "Scary Mike" ||
     name === "Laurie the Chuckle Crow" ||
-    name === "Queen Cornelia";
+    name === "Queen Cornelia" ||
+    name === "Gnome";
 
   const [isRestricted, restrictionReason] = hasRemoveRestriction(
     name,

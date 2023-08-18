@@ -182,6 +182,12 @@ import { QueenCornelia } from "./components/QueenCornelia";
 import { SpookyTree } from "./components/SpookyTree";
 import { Candles } from "./components/Candles";
 import { HauntedStump } from "./components/HauntedStump";
+import { GiantPotato } from "./components/GiantPotato";
+import { GiantCabbage } from "./components/GiantCabbage";
+import { GiantPumpkin } from "./components/GiantPumpkin";
+import { LabGrownCarrot } from "./components/LabGrownCarrot";
+import { LabGrownPumpkin } from "./components/LabGrownPumpkin";
+import { LabGrownRadish } from "./components/LabGrownRadish";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -408,6 +414,13 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Spooky Tree": SpookyTree,
   Candles: Candles,
   "Haunted Stump": HauntedStump,
+
+  "Giant Cabbage": GiantCabbage,
+  "Giant Potato": GiantPotato,
+  "Giant Pumpkin": GiantPumpkin,
+  "Lab Grown Carrot": LabGrownCarrot,
+  "Lab Grown Pumpkin": LabGrownPumpkin,
+  "Lab Grown Radish": LabGrownRadish,
 };
 
 // Need readonly versions for some troublesome components while in design mode

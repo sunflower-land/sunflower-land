@@ -90,10 +90,12 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   claimAuction: false,
   refundAuction: false,
   promo: true,
+  trading: true,
 };
 
 // State change selectors
 const isLoading = (state: MachineState) => state.matches("loading");
+const isTrading = (state: MachineState) => state.matches("trading");
 const isRefreshing = (state: MachineState) => state.matches("refreshing");
 const isBuyingSFL = (state: MachineState) => state.matches("buyingSFL");
 const isDeposited = (state: MachineState) => state.matches("deposited");
@@ -231,6 +233,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const { gameService } = useContext(Context);
 
   const loading = useSelector(gameService, isLoading);
+  const trading = useSelector(gameService, isTrading);
   const refreshing = useSelector(gameService, isRefreshing);
   const buyingSFL = useSelector(gameService, isBuyingSFL);
   const deposited = useSelector(gameService, isDeposited);
@@ -328,6 +331,7 @@ export const GameWrapper: React.FC = ({ children }) => {
           {gameRules && <Rules />}
           {transacting && <Transacting />}
           {depositing && <Loading text="Depositing" />}
+          {trading && <Loading text="Trading" />}
           {minting && <Minting />}
           {promo && <Promo />}
         </Panel>

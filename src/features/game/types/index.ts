@@ -137,6 +137,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Grain Grinder": 472,
   Kernaldo: 473,
   "Queen Cornelia": 474,
+  "Lab Grown Carrot": 475,
+  "Lab Grown Pumpkin": 476,
+  "Lab Grown Radish": 477,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -241,6 +244,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Witches' Eve Banner": 724,
   "Crow Feather": 725,
   "Gold Pass": 726,
+  "Potion Point": 727,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -427,6 +431,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Candles: 1278,
   "Haunted Stump": 1279,
   "Spooky Tree": 1280,
+  "Giant Cabbage": 1281,
+  "Giant Potato": 1282,
+  "Giant Pumpkin": 1283,
 
   //Beach Bounty
   "Pirate Bounty": 1301,
