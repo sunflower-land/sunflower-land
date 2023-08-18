@@ -1,8 +1,5 @@
-import { purchaseTrade } from "lib/blockchain/Game";
-import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { toWei } from "web3-utils";
 import { GameState } from "../types/game";
 import { makeGame } from "../lib/transforms";
 
