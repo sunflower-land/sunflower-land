@@ -1314,9 +1314,11 @@ export function startGame(authContext: AuthContext) {
                   })),
                   (_, event) =>
                     mmoBus.send({
-                      buyerId: event.data.buyerId,
-                      sellerId: event.data.sellerId,
-                      tradeId: event.data.tradeId,
+                      trade: {
+                        buyerId: event.data.buyerId,
+                        sellerId: event.data.sellerId,
+                        tradeId: event.data.tradeId,
+                      },
                     }),
                 ],
               },

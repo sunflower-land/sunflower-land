@@ -31,6 +31,16 @@ export interface Message extends Schema {
   sentAt: number;
 }
 
+export interface Trade extends Schema {
+  text: string;
+  sellerId: number;
+  createdAt: number;
+  buyerId?: number;
+  boughtAt?: number;
+  sceneId?: string;
+  tradeId: string;
+}
+
 export interface PlazaRoomState extends Schema {
   mapWidth: number;
   mapHeight: number;
@@ -38,4 +48,5 @@ export interface PlazaRoomState extends Schema {
   players: MapSchema<Player>;
 
   messages: ArraySchema<Message>;
+  trades: ArraySchema<Trade>;
 }

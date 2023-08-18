@@ -255,6 +255,7 @@ class MMOBus {
   private listener?: (message: any) => void;
 
   public send(message: any) {
+    console.log({ message });
     if (this.listener) {
       this.listener(message);
     }

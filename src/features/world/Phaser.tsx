@@ -37,6 +37,7 @@ import { CornScene } from "./scenes/CornScene";
 import { useNavigate } from "react-router-dom";
 import { PlayerModals } from "./ui/PlayerModals";
 import { prepareAPI } from "features/community/lib/CommunitySDK";
+import { TradeCompleted } from "./ui/TradeCompleted";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -159,8 +160,6 @@ export const PhaserComponent: React.FC<Props> = ({
           (m) => m.sceneId === currentScene
         ) as Message[];
 
-      // TODO - trigger 'TRADED' state
-
       setMessages(
         sceneMessages.map((m) => ({
           farmId: m.farmId ?? 0,
@@ -221,6 +220,10 @@ export const PhaserComponent: React.FC<Props> = ({
         }}
       />
       <PlayerModals />
+      <TradeCompleted
+        mmoService={mmoService}
+        farmId={authState.context.user.farmId as number}
+      />
 
       <CommunityModals />
       <CommunityToasts />

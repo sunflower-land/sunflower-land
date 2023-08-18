@@ -51,6 +51,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   const trade = listing.trade;
   return (
     <div>
+      <p className="text-sm">For sale:</p>
       <div className="flex flex-wrap">
         {getKeys(trade.items).map((name) => (
           <Box
@@ -60,14 +61,16 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
             key={name}
           />
         ))}
-        <Box
-          image={ITEM_DETAILS["Block Buck"].image}
-          count={new Decimal(1)}
-          disabled
-        />
+      </div>
+      <p className="text-sm">Price:</p>
+      <div className="flex flex-wrap">
         <div className="flex items-center">
-          <img src={token} className="h-8 mr-2" />
-          <p>{`${trade.sfl} SFL`}</p>
+          <img src={token} className="h-6 mr-2" />
+          <p className="text-sm">{`${trade.sfl} SFL`}</p>
+        </div>
+        <div className="flex items-center">
+          <img src={ITEM_DETAILS["Block Buck"].image} className="h-6 mr-2" />
+          <p className="text-sm">{`1 x Block Buck`}</p>
         </div>
       </div>
       <Button
