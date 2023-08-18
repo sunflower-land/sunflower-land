@@ -20,12 +20,10 @@ export const Deliveries: React.FC = () => {
     <div>
       <div
         id="deliveries"
-        className="fixed flex z-50 justify-center cursor-pointer hover:img-highlight"
+        className="flex relative z-50 justify-center cursor-pointer hover:img-highlight"
         style={{
           width: `${PIXEL_SCALE * 22}px`,
           height: `${PIXEL_SCALE * 22}px`,
-          left: `${PIXEL_SCALE * 3}px`,
-          bottom: `${PIXEL_SCALE * 3}px`,
         }}
         onClick={(e) => {
           e.stopPropagation();

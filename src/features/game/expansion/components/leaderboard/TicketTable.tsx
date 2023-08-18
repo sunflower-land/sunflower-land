@@ -8,7 +8,7 @@ interface Props {
   farmId: number;
 }
 
-export const LeaderboardTable: React.FC<Props> = ({
+export const TicketTable: React.FC<Props> = ({
   rankings,
   farmId,
   showHeader = true,
