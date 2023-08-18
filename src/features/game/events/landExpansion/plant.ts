@@ -403,6 +403,27 @@ export function getCropYieldAmount({
     amount += 3;
   }
 
+  if (
+    crop === "Carrot" &&
+    isCollectibleBuilt("Lab Grown Carrot", collectibles)
+  ) {
+    amount += 0.2;
+  }
+
+  if (
+    crop === "Pumpkin" &&
+    isCollectibleBuilt("Lab Grown Pumpkin", collectibles)
+  ) {
+    amount += 0.3;
+  }
+
+  if (
+    crop === "Radish" &&
+    isCollectibleBuilt("Lab Grown Radish", collectibles)
+  ) {
+    amount += 0.4;
+  }
+
   return Number(setPrecision(new Decimal(amount)));
 }
 

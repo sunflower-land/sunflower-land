@@ -256,7 +256,7 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
         )}
       </div>
       {showStartButton && (
-        <Button onClick={handleStart}>{`Start game (1 SFL)`}</Button>
+        <Button onClick={handleStart}>{`Start new game (1 SFL)`}</Button>
       )}
     </>
   );
