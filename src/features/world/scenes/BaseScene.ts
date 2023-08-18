@@ -22,6 +22,8 @@ import {
 } from "../mmoMachine";
 import { Player } from "../types/Room";
 import { mazeManager } from "../ui/cornMaze/MazeHud";
+import { playerModalManager } from "../ui/PlayerModals";
+import { hasFeatureAccess } from "lib/flags";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -434,11 +436,18 @@ export abstract class BaseScene extends Phaser.Scene {
       if (npc) {
         npcModalManager.open(npc);
       } else {
-        // playerModalManager.open({
-        //   id: farmId,
-        //   clothing,
-        //   experience,
-        // });
+        if (
+          hasFeatureAccess(
+            this.gameService.state.context.state.inventory,
+            "TRADING"
+          )
+        ) {
+          playerModalManager.open({
+            id: farmId,
+            clothing,
+            experience,
+          });
+        }
       }
 
       // TODO - open player modals

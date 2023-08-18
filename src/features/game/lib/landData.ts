@@ -429,6 +429,20 @@ export const OFFLINE_FARM: GameState = {
 
   bumpkin: INITIAL_BUMPKIN,
 
+  trades: {
+    listings: {
+      "123": {
+        createdAt: 0,
+        items: {
+          Apple: 2,
+          Wheat: 3,
+        },
+        sfl: 2,
+        boughtAt: 1,
+        buyerId: 1,
+      },
+    },
+  },
   chickens: {},
 
   airdrops: [],

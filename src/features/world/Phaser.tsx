@@ -12,7 +12,7 @@ import { AuctionScene } from "./scenes/AuctionHouseScene";
 
 import { InteractableModals } from "./ui/InteractableModals";
 import { NPCModals } from "./ui/NPCModals";
-import { MachineInterpreter, MachineState } from "./mmoMachine";
+import { MachineInterpreter, MachineState, mmoBus } from "./mmoMachine";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
 import { InnerPanel, Panel } from "components/ui/Panel";
@@ -37,6 +37,7 @@ import { CornScene } from "./scenes/CornScene";
 import { useNavigate } from "react-router-dom";
 import { PlayerModals } from "./ui/PlayerModals";
 import { prepareAPI } from "features/community/lib/CommunitySDK";
+import { TradeCompleted } from "./ui/TradeCompleted";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -190,6 +191,14 @@ export const PhaserComponent: React.FC<Props> = ({
     }
   }, [scene]);
 
+  useEffect(() => {
+    mmoBus.listen((message) => {
+      mmoService.state.context.server?.send(0, message);
+    });
+  }, []);
+
+  // Listen to state change from trading -> playing
+
   const ref = useRef<HTMLDivElement>(null);
 
   return (
@@ -211,6 +220,11 @@ export const PhaserComponent: React.FC<Props> = ({
         }}
       />
       <PlayerModals />
+      <TradeCompleted
+        mmoService={mmoService}
+        farmId={authState.context.user.farmId as number}
+      />
+
       <CommunityModals />
       <CommunityToasts />
       <InteractableModals id={authState.context.user.farmId as number} />

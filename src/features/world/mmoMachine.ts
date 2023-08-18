@@ -247,3 +247,23 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     },
   },
 });
+
+/**
+ * Simple bus to send MMO events from game
+ */
+class MMOBus {
+  private listener?: (message: any) => void;
+
+  public send(message: any) {
+    console.log({ message });
+    if (this.listener) {
+      this.listener(message);
+    }
+  }
+
+  public listen(cb: (message: any) => void) {
+    this.listener = cb;
+  }
+}
+
+export const mmoBus = new MMOBus();
