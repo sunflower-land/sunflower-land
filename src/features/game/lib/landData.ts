@@ -324,6 +324,7 @@ export const OFFLINE_FARM: GameState = {
     "Crab Claw": 95,
   },
   inventory: {
+    "El Pollo Veloz": new Decimal(1),
     Gnome: new Decimal(1),
     "Sunflower Cake": new Decimal(15),
     Carrot: new Decimal(80),
@@ -417,10 +418,10 @@ export const OFFLINE_FARM: GameState = {
     Hoot: new Decimal(1),
     "Sir Goldensnout": new Decimal(1),
     "Freya Fox": new Decimal(1),
-    "El Pollo Veloz": new Decimal(1),
     "Fat Chicken": new Decimal(1),
     "Queen Cornelia": new Decimal(1),
     "Scary Mike": new Decimal(1),
+    "Ayam Cemani": new Decimal(1),
   },
 
   createdAt: new Date("2022-03-04").getTime(),
