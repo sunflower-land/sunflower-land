@@ -620,6 +620,14 @@ export type CommunityIsland = {
   };
 };
 
+export type TradeListing = {
+  items: Partial<Record<InventoryItemName, number>>;
+  sfl: number;
+  createdAt: number;
+  boughtAt?: number;
+  buyerId?: number;
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -699,6 +707,10 @@ export interface GameState {
   mushrooms: Mushrooms;
   witchesEve?: WitchesEve;
   potionHouse?: PotionHouse;
+
+  trades: {
+    listings?: Record<string, TradeListing>;
+  };
 }
 
 export interface Context {
