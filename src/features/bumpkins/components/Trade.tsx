@@ -15,6 +15,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import React, { ChangeEvent, useContext, useState } from "react";
 import token from "assets/icons/token_2.png";
 import Decimal from "decimal.js-light";
+import { OuterPanel } from "components/ui/Panel";
 
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const INPUT_MAX_CHAR = 10;
@@ -178,25 +179,30 @@ const TradeDetails: React.FC<{
   }
 
   return (
-    <div>
-      <p className="ml-1.5 my-1">You have listed:</p>
-      <div className="flex flex-wrap">
-        {getKeys(trade.items).map((name) => (
-          <Box
-            image={ITEM_DETAILS[name].image}
-            count={new Decimal(trade.items[name] ?? 0)}
-            disabled
-            key={name}
-          />
-        ))}
-        <div className="flex items-center">
-          <img src={token} className="h-8 mr-2" />
-          <p>{`${trade.sfl} SFL`}</p>
+    <OuterPanel>
+      <div className="flex justify-between">
+        <div className="flex flex-wrap">
+          {getKeys(trade.items).map((name) => (
+            <Box
+              image={ITEM_DETAILS[name].image}
+              count={new Decimal(trade.items[name] ?? 0)}
+              disabled
+              key={name}
+            />
+          ))}
+        </div>
+        <div className="flex flex-col justify-between h-full">
+          <Button className="mb-1" onClick={onCancel}>
+            Cancel
+          </Button>
+
+          <div className="flex items-center">
+            <img src={token} className="h-6 mr-2" />
+            <p className="text-xs">{`${trade.sfl} SFL`}</p>
+          </div>
         </div>
       </div>
-
-      <Button onClick={onCancel}>Remove listing</Button>
-    </div>
+    </OuterPanel>
   );
 };
 export const Trade: React.FC = () => {
@@ -225,8 +231,12 @@ export const Trade: React.FC = () => {
   if (getKeys(trades).length === 0) {
     return (
       <div>
-        <div className="p-1">
-          <span>You have no trades listed</span>
+        <div className="p-1 flex flex-col items-center">
+          <img src={SUNNYSIDE.icons.sad} className="w-1/5 mx-auto my-2" />
+          <p className="text-sm">You have no trades listed.</p>
+          <p className="text-xs mb-2">
+            Sell your resources to other players for SFL.
+          </p>
         </div>
         <Button onClick={() => setShowListing(true)}>List trade</Button>
       </div>
@@ -243,15 +253,24 @@ export const Trade: React.FC = () => {
 
   // Cancel Trade
   return (
-    <TradeDetails
-      onCancel={() => {
-        gameService.send("trade.cancelled", { tradeId: firstTrade });
-        gameService.send("SAVE");
-      }}
-      onClaim={() =>
-        gameService.send("trade.received", { tradeId: firstTrade })
-      }
-      trade={trade}
-    />
+    <div>
+      <p className="ml-1.5 my-1 text-xs">Pending Sales</p>
+      <TradeDetails
+        onCancel={() => {
+          gameService.send("trade.cancelled", { tradeId: firstTrade });
+          gameService.send("SAVE");
+        }}
+        onClaim={() =>
+          gameService.send("trade.received", { tradeId: firstTrade })
+        }
+        trade={trade}
+      />
+      <div className="flex items-center">
+        <img src={SUNNYSIDE.icons.heart} className="h-4 mr-1" />
+        <p className="text-xs  my-1">
+          Travel to the plaza so players can trade with you
+        </p>
+      </div>
+    </div>
   );
 };

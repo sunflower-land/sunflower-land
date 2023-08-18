@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import levelIcon from "assets/icons/level_up.png";
+import token from "assets/icons/token_2.png";
 
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";
@@ -148,7 +149,7 @@ export const BumpkinModal: React.FC<Props> = ({
         ...(hasFeatureAccess(inventory, "TRADING")
           ? [
               {
-                icon: SUNNYSIDE.icons.heart,
+                icon: token,
                 name: "Trades",
               },
             ]
