@@ -6,12 +6,14 @@ import { TradeListing } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useContext, useEffect, useState } from "react";
 import token from "assets/icons/token_2.png";
+import lock from "assets/skills/lock.png";
 import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { useActor } from "@xstate/react";
 import { OuterPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import * as AuthProvider from "features/auth/lib/Provider";
+import { hasMaxItems } from "features/game/lib/processEvent";
 
 interface Props {
   farmId: number;
@@ -23,6 +25,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
+  const [warning, setWarning] = useState<"pendingTransaction" | "hoarding">();
   const [isLoading, setIsLoading] = useState(true);
   const [listing, setListing] = useState<{ id: string; trade: TradeListing }>();
   const [showConfirm, setShowConfirm] = useState(false);
@@ -61,7 +64,67 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
       </div>
     );
 
+  if (warning === "hoarding") {
+    return (
+      <div className="p-1 flex flex-col items-center">
+        <img src={lock} className="w-1/5 mb-2" />
+        <p className="text-sm mb-1 text-center">
+          {`Oh no! You've reached your max items.`}
+        </p>
+        <p className="text-xs mb-1 text-center">
+          Please store your progress on chain before continuing.
+        </p>
+      </div>
+    );
+  }
+
+  if (warning === "pendingTransaction") {
+    return (
+      <div className="p-1 flex flex-col items-center">
+        <img src={SUNNYSIDE.icons.timer} className="w-1/6 mb-2" />
+        <p className="text-sm mb-1 text-center">
+          Oh oh! It looks like you have a transaction in progress.
+        </p>
+        <p className="text-xs mb-1 text-center">
+          Please allow 5 minutes before continuing.
+        </p>
+      </div>
+    );
+  }
+
   const trade = listing.trade;
+
+  const confirm = () => {
+    // Check hoard
+    const inventory = gameState.context.state.inventory;
+    const updatedInventory = getKeys(trade.items).reduce(
+      (acc, name) => ({
+        ...acc,
+        [name]: (inventory[name] ?? new Decimal(0)).add(trade.items[name] ?? 0),
+      }),
+      inventory
+    );
+
+    const hasMaxedOut = hasMaxItems({
+      current: updatedInventory,
+      old: gameState.context.onChain.inventory,
+    });
+
+    if (hasMaxedOut) {
+      setWarning("hoarding");
+      return;
+    }
+
+    if (
+      gameState.context.transaction &&
+      gameState.context.transaction.expiresAt > Date.now()
+    ) {
+      setWarning("pendingTransaction");
+      return;
+    }
+
+    setShowConfirm(true);
+  };
 
   const Action = () => {
     if (trade.boughtAt) {
@@ -96,7 +159,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
     return (
       <Button
         onClick={() => {
-          setShowConfirm(true);
+          confirm();
         }}
       >
         Buy
@@ -118,7 +181,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
               />
             ))}
           </div>
-          <div className="">
+          <div className="w-28">
             {Action()}
 
             <div className="flex items-center mt-1  justify-end mr-0.5">

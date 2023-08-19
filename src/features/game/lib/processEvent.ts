@@ -190,6 +190,36 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
   return { valid: validProgress, maxedItem };
 }
 
+export function hasMaxItems({
+  current,
+  old,
+}: {
+  current: Inventory;
+  old: Inventory;
+}) {
+  let maxedItem: InventoryItemName | undefined = undefined;
+
+  // Check inventory amounts
+  const validProgress = getKeys(current).every((name) => {
+    const oldAmount = old[name] || new Decimal(0);
+
+    const diff = current[name]?.minus(oldAmount) || new Decimal(0);
+
+    const max = maxItems[name] || new Decimal(0);
+
+    if (max.eq(0)) return true;
+
+    if (diff.gt(max)) {
+      maxedItem = name;
+
+      return false;
+    }
+
+    return true;
+  });
+
+  return !validProgress;
+}
 type ProcessEventArgs = {
   state: GameState;
   action: GameEvent;
