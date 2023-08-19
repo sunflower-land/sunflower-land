@@ -24,9 +24,10 @@ const INPUT_MAX_CHAR = 10;
 type Items = Partial<Record<InventoryItemName, number>>;
 const ListTrade: React.FC<{
   inventory: Inventory;
+  balance: Decimal;
   onList: (items: Items, sfl: number) => void;
   onCancel: () => void;
-}> = ({ inventory, onList, onCancel }) => {
+}> = ({ inventory, balance, onList, onCancel }) => {
   const [selected, setSelected] = useState<Items>({});
   const [sfl, setSFL] = useState(1);
   const select = (name: InventoryItemName) => {
@@ -35,6 +36,10 @@ const ListTrade: React.FC<{
       [name]: 1,
     }));
   };
+
+  const hasResources = getKeys(selected).every((name) =>
+    inventory[name]?.gte(selected[name] ?? 0)
+  );
 
   return (
     <div>
@@ -83,7 +88,7 @@ const ListTrade: React.FC<{
                 className={classNames(
                   "text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10",
                   {
-                    "text-error": false,
+                    "text-error": inventory[item]?.lt(selected[item] ?? 0),
                   }
                 )}
               />
@@ -121,10 +126,7 @@ const ListTrade: React.FC<{
                 }
               }}
               className={classNames(
-                "text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10",
-                {
-                  "text-error": false,
-                }
+                "text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10"
               )}
             />
           </div>
@@ -140,7 +142,7 @@ const ListTrade: React.FC<{
           Cancel
         </Button>
         <Button
-          disabled={getKeys(selected).length === 0}
+          disabled={getKeys(selected).length === 0 || !hasResources}
           onClick={() => onList(selected, sfl)}
         >
           List
@@ -250,6 +252,7 @@ export const Trade: React.FC = () => {
     return (
       <ListTrade
         inventory={gameState.context.state.inventory}
+        balance={gameState.context.state.balance}
         onCancel={() => setShowListing(false)}
         onList={(items, sfl) => {
           gameService.send("trade.listed", { items, sfl });
