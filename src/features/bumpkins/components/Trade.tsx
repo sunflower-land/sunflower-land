@@ -291,9 +291,10 @@ export const Trade: React.FC = () => {
           gameService.send("trade.cancelled", { tradeId: firstTrade });
           gameService.send("SAVE");
         }}
-        onClaim={() =>
-          gameService.send("trade.received", { tradeId: firstTrade })
-        }
+        onClaim={() => {
+          gameService.send("trade.received", { tradeId: firstTrade });
+          gameService.send("SAVE");
+        }}
         trade={trade}
       />
     </div>

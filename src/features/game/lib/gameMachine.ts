@@ -632,6 +632,7 @@ export function startGame(authContext: AuthContext) {
               target: "transacting",
               cond: (context: Context) =>
                 !!context.transaction &&
+                context.transaction.type === "withdraw_bumpkin" &&
                 context.transaction.expiresAt > Date.now(),
             },
 

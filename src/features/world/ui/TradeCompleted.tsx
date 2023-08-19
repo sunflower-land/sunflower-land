@@ -70,6 +70,8 @@ export const TradeCompleted: React.FC<Props> = ({ mmoService, farmId }) => {
                     gameService.send("trade.received", {
                       tradeId: trade?.tradeId,
                     });
+                    gameService.send("SAVE");
+
                     setTrade(undefined);
                   }}
                 >
