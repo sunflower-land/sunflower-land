@@ -12,6 +12,7 @@ import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import token from "assets/icons/token_2.png";
 import { Button } from "components/ui/Button";
+import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   farmId: number;
@@ -44,34 +45,44 @@ export const TradeCompleted: React.FC<Props> = ({ mmoService, farmId }) => {
         title={"Congratulations, your listing was purchased"}
       >
         {sold && (
-          <div>
-            <div className="flex flex-wrap">
-              {getKeys(sold.items).map((name) => (
-                <Box
-                  image={ITEM_DETAILS[name].image}
-                  count={new Decimal(sold.items[name] ?? 0)}
-                  disabled
-                  key={name}
-                />
-              ))}
-              <div className="flex items-center">
-                <img src={token} className="h-8 mr-2" />
-                <p>{`${sold.sfl} SFL`}</p>
+          <OuterPanel>
+            <div className="flex justify-between">
+              <div>
+                <div className="flex flex-wrap">
+                  {getKeys(sold.items).map((name) => (
+                    <Box
+                      image={ITEM_DETAILS[name].image}
+                      count={new Decimal(sold.items[name] ?? 0)}
+                      disabled
+                      key={name}
+                    />
+                  ))}
+                </div>
+                <div className="flex items-center ml-1 mb-1">
+                  <img src={SUNNYSIDE.icons.player} className="h-5 mr-1" />
+                  <p className="text-xs">{`Bought by #${trade?.buyerId}`}</p>
+                </div>
+              </div>
+              <div className="flex flex-col justify-between h-full">
+                <Button
+                  className="mb-1"
+                  onClick={() => {
+                    gameService.send("trade.received", {
+                      tradeId: trade?.tradeId,
+                    });
+                    setTrade(undefined);
+                  }}
+                >
+                  Claim
+                </Button>
+
+                <div className="flex items-center mt-3 mr-0.5">
+                  <img src={token} className="h-6 mr-1" />
+                  <p className="text-xs">{`${sold.sfl} SFL`}</p>
+                </div>
               </div>
             </div>
-            <div className="flex mb-2 ml-1">
-              <img src={SUNNYSIDE.icons.player} className="h-6 mr-1" />
-              <p>{`Bought by #${trade?.buyerId}`}</p>
-            </div>
-            <Button
-              onClick={() => {
-                gameService.send("trade.received", { tradeId: trade?.tradeId });
-                setTrade(undefined);
-              }}
-            >
-              Claim
-            </Button>
-          </div>
+          </OuterPanel>
         )}
       </CloseButtonPanel>
     </Modal>

@@ -15,6 +15,7 @@ type Request = {
 
 type Response = {
   farm: GameState;
+  error?: "ALREADY_BOUGHT";
 };
 
 export async function trade(request: Request): Promise<Response> {
@@ -48,5 +49,5 @@ export async function trade(request: Request): Promise<Response> {
 
   const farm = makeGame(data.farm);
 
-  return { farm };
+  return { farm, error: data.error };
 }

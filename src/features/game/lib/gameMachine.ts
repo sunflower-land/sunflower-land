@@ -347,6 +347,8 @@ export type BlockchainState = {
     | "specialOffer"
     | "promo"
     | "trading"
+    | "traded"
+    | "sniped"
     | "noBumpkinFound"
     | "noTownCenter"
     | "coolingDown"
@@ -1289,7 +1291,7 @@ export function startGame(authContext: AuthContext) {
                 });
               }
 
-              const { farm } = await trade({
+              const { farm, error } = await trade({
                 buyerId: Number(authContext.user.farmId),
                 sellerId,
                 tradeId,
@@ -1302,11 +1304,16 @@ export function startGame(authContext: AuthContext) {
                 buyerId: Number(authContext.user.farmId),
                 sellerId,
                 tradeId,
+                error,
               };
             },
             onDone: [
               {
-                target: "playing",
+                target: "sniped",
+                cond: (_, event) => event.data.error === "ALREADY_BOUGHT",
+              },
+              {
+                target: "traded",
                 actions: [
                   assign((_, event) => ({
                     actions: [],
@@ -1327,6 +1334,16 @@ export function startGame(authContext: AuthContext) {
               target: "error",
               actions: "assignErrorMessage",
             },
+          },
+        },
+        traded: {
+          on: {
+            CONTINUE: "playing",
+          },
+        },
+        sniped: {
+          on: {
+            CONTINUE: "playing",
           },
         },
         depositing: {

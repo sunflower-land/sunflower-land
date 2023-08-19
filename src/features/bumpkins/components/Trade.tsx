@@ -16,6 +16,7 @@ import React, { ChangeEvent, useContext, useState } from "react";
 import token from "assets/icons/token_2.png";
 import Decimal from "decimal.js-light";
 import { OuterPanel } from "components/ui/Panel";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const INPUT_MAX_CHAR = 10;
@@ -37,7 +38,7 @@ const ListTrade: React.FC<{
 
   return (
     <div>
-      <p className="mb-2">What would you like to list?</p>
+      <p className="mb-1 p-1 text-sm">What would you like to list?</p>
 
       <div className="flex flex-wrap">
         {getKeys(TRADE_LIMITS)
@@ -127,6 +128,11 @@ const ListTrade: React.FC<{
               )}
             />
           </div>
+
+          {/* <div className="flex mb-2 mx-1.5">
+            <img src={ITEM_DETAILS["Block Buck"].image} className="h-4 mr-1" />
+            <span className="text-xs">A listing requires 1 x Block Buck</span>
+          </div> */}
         </>
       )}
       <div className="flex">
@@ -152,57 +158,79 @@ const TradeDetails: React.FC<{
   if (trade.boughtAt) {
     return (
       <div>
-        <p className="mb-1 ml-1">
-          Congratulations, your listing was purchased!
-        </p>
-        <div className="flex flex-wrap">
-          {getKeys(trade.items).map((name) => (
-            <Box
-              image={ITEM_DETAILS[name].image}
-              count={new Decimal(trade.items[name] ?? 0)}
-              disabled
-              key={name}
-            />
-          ))}
-          <div className="flex items-center">
-            <img src={token} className="h-8 mr-2" />
-            <p>{`${trade.sfl} SFL`}</p>
+        <div className="flex items-center   mb-2 mt-1 mx-1">
+          <img src={SUNNYSIDE.icons.heart} className="h-4 mr-1" />
+          <p className="text-xs">
+            Congratulations, your listing was purchased!
+          </p>
+        </div>
+        <OuterPanel>
+          <div className="flex justify-between">
+            <div>
+              <div className="flex flex-wrap">
+                {getKeys(trade.items).map((name) => (
+                  <Box
+                    image={ITEM_DETAILS[name].image}
+                    count={new Decimal(trade.items[name] ?? 0)}
+                    disabled
+                    key={name}
+                  />
+                ))}
+              </div>
+              <div className="flex items-center ml-1 mb-1">
+                <img src={SUNNYSIDE.icons.player} className="h-5 mr-1" />
+                <p className="text-xs">{`Bought by #${trade.buyerId}`}</p>
+              </div>
+            </div>
+            <div className="flex flex-col justify-between h-full">
+              <Button className="mb-1" onClick={onClaim}>
+                Claim
+              </Button>
+
+              <div className="flex items-center mt-3 mr-0.5">
+                <img src={token} className="h-6 mr-1" />
+                <p className="text-xs">{`${trade.sfl} SFL`}</p>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="flex mb-2 ml-1">
-          <img src={SUNNYSIDE.icons.player} className="h-6 mr-1" />
-          <p>{`Bought by #${trade.buyerId}`}</p>
-        </div>
-        <Button onClick={onClaim}>Claim</Button>
+        </OuterPanel>
       </div>
     );
   }
 
   return (
-    <OuterPanel>
-      <div className="flex justify-between">
-        <div className="flex flex-wrap">
-          {getKeys(trade.items).map((name) => (
-            <Box
-              image={ITEM_DETAILS[name].image}
-              count={new Decimal(trade.items[name] ?? 0)}
-              disabled
-              key={name}
-            />
-          ))}
-        </div>
-        <div className="flex flex-col justify-between h-full">
-          <Button className="mb-1" onClick={onCancel}>
-            Cancel
-          </Button>
+    <>
+      <div className="flex items-center   mb-2 mt-1 mx-1">
+        <img src={CROP_LIFECYCLE.Pumpkin.crop} className="h-4 mr-1" />
+        <p className="text-xs">
+          Travel to the plaza so players can trade with you
+        </p>
+      </div>
+      <OuterPanel>
+        <div className="flex justify-between">
+          <div className="flex flex-wrap">
+            {getKeys(trade.items).map((name) => (
+              <Box
+                image={ITEM_DETAILS[name].image}
+                count={new Decimal(trade.items[name] ?? 0)}
+                disabled
+                key={name}
+              />
+            ))}
+          </div>
+          <div className="flex flex-col justify-between h-full">
+            <Button className="mb-1" onClick={onCancel}>
+              Cancel
+            </Button>
 
-          <div className="flex items-center">
-            <img src={token} className="h-6 mr-2" />
-            <p className="text-xs">{`${trade.sfl} SFL`}</p>
+            <div className="flex items-center">
+              <img src={token} className="h-6 mr-2" />
+              <p className="text-xs">{`${trade.sfl} SFL`}</p>
+            </div>
           </div>
         </div>
-      </div>
-    </OuterPanel>
+      </OuterPanel>
+    </>
   );
 };
 export const Trade: React.FC = () => {
@@ -213,6 +241,10 @@ export const Trade: React.FC = () => {
 
   // Show listings
   const trades = gameState.context.state.trades?.listings ?? {};
+
+  if (gameState.matches("autosaving")) {
+    return <p className="m-1 loading">Saving</p>;
+  }
 
   if (showListing) {
     return (
@@ -232,7 +264,7 @@ export const Trade: React.FC = () => {
     return (
       <div>
         <div className="p-1 flex flex-col items-center">
-          <img src={SUNNYSIDE.icons.sad} className="w-1/5 mx-auto my-2" />
+          <img src={token} className="w-1/5 mx-auto my-2 img-highlight-heavy" />
           <p className="text-sm">You have no trades listed.</p>
           <p className="text-xs mb-2">
             Sell your resources to other players for SFL.
@@ -254,7 +286,6 @@ export const Trade: React.FC = () => {
   // Cancel Trade
   return (
     <div>
-      <p className="ml-1.5 my-1 text-xs">Pending Sales</p>
       <TradeDetails
         onCancel={() => {
           gameService.send("trade.cancelled", { tradeId: firstTrade });
@@ -265,12 +296,6 @@ export const Trade: React.FC = () => {
         }
         trade={trade}
       />
-      <div className="flex items-center">
-        <img src={SUNNYSIDE.icons.heart} className="h-4 mr-1" />
-        <p className="text-xs  my-1">
-          Travel to the plaza so players can trade with you
-        </p>
-      </div>
     </div>
   );
 };

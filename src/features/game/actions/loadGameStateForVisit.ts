@@ -16,7 +16,10 @@ type VisitGameState = Omit<
   | "grubOrdersFulfilled"
 >;
 
-export async function loadGameStateForVisit(id: number): Promise<{
+export async function loadGameStateForVisit(
+  id: number,
+  token?: string
+): Promise<{
   state: VisitGameState;
   isBanned: boolean;
 }> {
@@ -26,6 +29,7 @@ export async function loadGameStateForVisit(id: number): Promise<{
     method: "GET",
     headers: {
       "content-type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${token}`,
     },
   });
 

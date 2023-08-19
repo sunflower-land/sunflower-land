@@ -50,6 +50,8 @@ import { Minting } from "../components/Minting";
 import { ClaimAuction } from "../components/auctionResults/ClaimAuction";
 import { RefundAuction } from "../components/auctionResults/RefundAuction";
 import { Promo } from "./components/Promo";
+import { Traded } from "../components/Traded";
+import { Sniped } from "../components/Sniped";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -91,11 +93,15 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   refundAuction: false,
   promo: true,
   trading: true,
+  sniped: true,
+  traded: true,
 };
 
 // State change selectors
 const isLoading = (state: MachineState) => state.matches("loading");
 const isTrading = (state: MachineState) => state.matches("trading");
+const isTraded = (state: MachineState) => state.matches("traded");
+const isSniped = (state: MachineState) => state.matches("sniped");
 const isRefreshing = (state: MachineState) => state.matches("refreshing");
 const isBuyingSFL = (state: MachineState) => state.matches("buyingSFL");
 const isDeposited = (state: MachineState) => state.matches("deposited");
@@ -234,6 +240,8 @@ export const GameWrapper: React.FC = ({ children }) => {
 
   const loading = useSelector(gameService, isLoading);
   const trading = useSelector(gameService, isTrading);
+  const traded = useSelector(gameService, isTraded);
+  const sniped = useSelector(gameService, isSniped);
   const refreshing = useSelector(gameService, isRefreshing);
   const buyingSFL = useSelector(gameService, isBuyingSFL);
   const deposited = useSelector(gameService, isDeposited);
@@ -332,6 +340,8 @@ export const GameWrapper: React.FC = ({ children }) => {
           {transacting && <Transacting />}
           {depositing && <Loading text="Depositing" />}
           {trading && <Loading text="Trading" />}
+          {traded && <Traded />}
+          {sniped && <Sniped />}
           {minting && <Minting />}
           {promo && <Promo />}
         </Panel>
