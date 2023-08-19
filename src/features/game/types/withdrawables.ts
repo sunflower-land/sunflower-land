@@ -12,6 +12,7 @@ import {
   Shovel,
   ToolName,
   TravelingSalesmanItem,
+  getKeys,
 } from "./craftables";
 import {
   Coupons,
@@ -52,6 +53,7 @@ import {
 import { WorkbenchToolName } from "./tools";
 import { BumpkinItem } from "./bumpkin";
 import { hasSeasonEnded } from "./seasons";
+import { GoblinState } from "../lib/goblinMachine";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
@@ -678,7 +680,10 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...potionHouse,
 };
 
-export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
+export const BUMPKIN_WITHDRAWABLES: Record<
+  BumpkinItem,
+  (state?: GoblinState) => boolean
+> = {
   "Beige Farmer Potion": () => false,
   "Dark Brown Farmer Potion": () => false,
   "Light Brown Farmer Potion": () => false,
@@ -759,7 +764,13 @@ export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
   "China Town Background": () => true,
   "Lion Dance Mask": () => true,
   "Fruit Picker Shirt": () => true,
-  "Fruit Picker Apron": () => true,
+  "Fruit Picker Apron": (state) => {
+    if (!state) return false;
+
+    return getKeys(state.fruitPatches).every(
+      (id) => state.fruitPatches[id].fruit === undefined
+    );
+  },
   "Fruit Bowl": () => true,
   "Striped Blue Shirt": () => true,
   "Peg Leg": () => true,
