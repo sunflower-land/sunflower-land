@@ -41,6 +41,10 @@ const ListTrade: React.FC<{
     inventory[name]?.gte(selected[name] ?? 0)
   );
 
+  const exceedsMax = getKeys(selected).some(
+    (name) => (selected[name] ?? 0) > (TRADE_LIMITS[name] ?? 0)
+  );
+
   return (
     <div>
       <p className="mb-1 p-1 text-sm">What would you like to list?</p>
@@ -67,6 +71,9 @@ const ListTrade: React.FC<{
                 count={inventory[item]}
                 onClick={() => select(item)}
               />
+              <span className="text-xxs absolute right-[10px] top-[-5px]">{`Max: ${
+                TRADE_LIMITS[item] ?? 0
+              }`}</span>
               <input
                 style={{
                   boxShadow: "#b96e50 0px 1px 1px 1px inset",
@@ -88,7 +95,9 @@ const ListTrade: React.FC<{
                 className={classNames(
                   "text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10",
                   {
-                    "text-error": inventory[item]?.lt(selected[item] ?? 0),
+                    "text-error":
+                      inventory[item]?.lt(selected[item] ?? 0) ||
+                      (selected[item] ?? 0) > (TRADE_LIMITS[item] ?? 0),
                   }
                 )}
               />
@@ -142,7 +151,9 @@ const ListTrade: React.FC<{
           Cancel
         </Button>
         <Button
-          disabled={getKeys(selected).length === 0 || !hasResources}
+          disabled={
+            exceedsMax || getKeys(selected).length === 0 || !hasResources
+          }
           onClick={() => onList(selected, sfl)}
         >
           List
@@ -236,6 +247,7 @@ const TradeDetails: React.FC<{
   );
 };
 export const Trade: React.FC = () => {
+  console.log("Render trade");
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 

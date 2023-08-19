@@ -437,6 +437,7 @@ export abstract class BaseScene extends Phaser.Scene {
         npcModalManager.open(npc);
       } else {
         if (
+          farmId !== this.gameService.state.context.state.id &&
           hasFeatureAccess(
             this.gameService.state.context.state.inventory,
             "TRADING"
