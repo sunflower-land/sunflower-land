@@ -24,7 +24,9 @@ export const WithdrawBumpkin: React.FC<Props> = ({ onWithdraw }) => {
   const basicWearables = getKeys(BASIC_WEARABLES);
 
   const nonWithdrawableItems = Object.values(equipped).filter(
-    (item) => !BUMPKIN_WITHDRAWABLES[item]() && !basicWearables.includes(item)
+    (item) =>
+      !BUMPKIN_WITHDRAWABLES[item](goblinState.context.state) &&
+      !basicWearables.includes(item)
   );
 
   const getText = () => {
