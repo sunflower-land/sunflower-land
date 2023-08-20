@@ -156,8 +156,13 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
       );
     }
 
+    const hasSFL = gameState.context.state.balance.gte(trade.sfl);
+    const disabled =
+      !hasSFL || !gameState.context.state.inventory["Block Buck"];
+
     return (
       <Button
+        disabled={disabled}
         onClick={() => {
           confirm();
         }}
@@ -180,6 +185,12 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
                 key={name}
               />
             ))}
+            <Box
+              image={ITEM_DETAILS["Block Buck"].image}
+              count={new Decimal(1)}
+              disabled
+              key={"Block"}
+            />
           </div>
           <div className="w-28">
             {Action()}
