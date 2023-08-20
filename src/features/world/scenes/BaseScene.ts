@@ -23,7 +23,7 @@ import {
 import { Player } from "../types/Room";
 import { mazeManager } from "../ui/cornMaze/MazeHud";
 import { playerModalManager } from "../ui/PlayerModals";
-import { hasFeatureAccess } from "lib/flags";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -438,10 +438,9 @@ export abstract class BaseScene extends Phaser.Scene {
       } else {
         if (
           farmId !== this.gameService.state.context.state.id &&
-          hasFeatureAccess(
-            this.gameService.state.context.state.inventory,
-            "TRADING"
-          )
+          getBumpkinLevel(
+            this.gameService.state.context.state.bumpkin?.experience ?? 0
+          ) >= 30
         ) {
           playerModalManager.open({
             id: farmId,

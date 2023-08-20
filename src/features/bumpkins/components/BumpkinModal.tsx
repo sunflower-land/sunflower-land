@@ -25,7 +25,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { BumpkinEquip } from "./BumpkinEquip";
 import { AchievementBadges } from "./AchievementBadges";
 import { Trade } from "./Trade";
-import { hasFeatureAccess } from "lib/flags";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -146,7 +145,7 @@ export const BumpkinModal: React.FC<Props> = ({
           icon: SUNNYSIDE.icons.wardrobe,
           name: "Equip",
         },
-        ...(hasFeatureAccess(inventory, "TRADING")
+        ...(level >= 30
           ? [
               {
                 icon: token,

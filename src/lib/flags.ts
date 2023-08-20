@@ -18,7 +18,6 @@ type FeatureName =
   | "PUMPKIN_PLAZA"
   | "POTION_HOUSE"
   | "NEW_DELIVERIES"
-  | "TRADING"
   | "CORN_MAZE";
 
 type FeatureFlag = (inventory: GameState["inventory"]) => boolean;
