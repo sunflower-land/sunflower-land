@@ -17,6 +17,7 @@ import token from "assets/icons/token_2.png";
 import Decimal from "decimal.js-light";
 import { OuterPanel } from "components/ui/Panel";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { Label } from "components/ui/Label";
 
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const INPUT_MAX_CHAR = 10;
@@ -247,7 +248,6 @@ const TradeDetails: React.FC<{
   );
 };
 export const Trade: React.FC = () => {
-  console.log("Render trade");
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -277,7 +277,10 @@ export const Trade: React.FC = () => {
 
   if (getKeys(trades).length === 0) {
     return (
-      <div>
+      <div className="relative">
+        <Label type="info" className="absolute top-2 right-2">
+          Beta
+        </Label>
         <div className="p-1 flex flex-col items-center">
           <img src={token} className="w-1/5 mx-auto my-2 img-highlight-heavy" />
           <p className="text-sm">You have no trades listed.</p>

@@ -14,6 +14,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { hasMaxItems } from "features/game/lib/processEvent";
+import { Label } from "components/ui/Label";
 
 interface Props {
   farmId: number;
@@ -173,7 +174,10 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   };
   return (
     <div>
-      <p className="text-xs mb-1">For sale:</p>
+      <div className="flex justify-between items-center mb-1">
+        <p className="text-xs mb-1 ml-0.5">For sale:</p>
+        <Label type="info">Beta</Label>
+      </div>
       <OuterPanel>
         <div className="flex justify-between">
           <div className="flex flex-wrap">
