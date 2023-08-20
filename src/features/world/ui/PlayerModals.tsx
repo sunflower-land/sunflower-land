@@ -73,7 +73,6 @@ export const PlayerModals: React.FC = () => {
         >
           {tab === 0 && (
             <>
-              <p>{`# ${player?.id}`}</p>
               <div className="flex items-center ml-1 mt-2 mb-4">
                 <img
                   src={levelIcon}
