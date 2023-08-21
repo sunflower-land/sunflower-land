@@ -130,10 +130,10 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   const Action = () => {
     if (trade.boughtAt) {
       return (
-        <div className="flex items-center">
+        <div className="flex items-center justify-end">
           <img src={SUNNYSIDE.icons.neutral} className="h-4 mr-1"></img>
 
-          <span className="text-xs">Already sold</span>
+          <span className="text-xs">Sold</span>
         </div>
       );
     }
@@ -159,7 +159,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
 
     const hasSFL = gameState.context.state.balance.gte(trade.sfl);
     const disabled =
-      !hasSFL || !gameState.context.state.inventory["Block Buck"];
+      !hasSFL || !gameState.context.state.inventory["Block Buck"]?.gte(1);
 
     return (
       <Button
@@ -189,19 +189,20 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
                 key={name}
               />
             ))}
-            <Box
-              image={ITEM_DETAILS["Block Buck"].image}
-              count={new Decimal(1)}
-              disabled
-              key={"Block"}
-            />
           </div>
           <div className="w-28">
             {Action()}
 
             <div className="flex items-center mt-1  justify-end mr-0.5">
-              <img src={token} className="h-6 mr-2" />
               <p className="text-xs">{`${trade.sfl} SFL`}</p>
+              <img src={token} className="h-6 ml-1" />
+            </div>
+            <div className="flex items-center mt-1  justify-end mr-0.5">
+              <p className="text-xs">{`1 x`}</p>
+              <img
+                src={ITEM_DETAILS["Block Buck"].image}
+                className="h-6 ml-1"
+              />
             </div>
           </div>
         </div>
