@@ -78,6 +78,7 @@ describe("completeBertObsession", () => {
             type: "collectible",
             startDate: now.getTime() - 10000,
             endDate: now.getTime() + 10000,
+            reward: 3,
           },
         },
         action: {
@@ -101,6 +102,7 @@ describe("completeBertObsession", () => {
             type: "wearable",
             startDate: now.getTime() - 10000,
             endDate: now.getTime() + 10000,
+            reward: 3,
           },
         },
 
@@ -124,6 +126,7 @@ describe("completeBertObsession", () => {
           type: "collectible",
           startDate: now.getTime() - 10000,
           endDate: now.getTime() + 10000,
+          reward: 3,
         },
         inventory: {
           Bale: new Decimal(1),
@@ -147,6 +150,7 @@ describe("completeBertObsession", () => {
           type: "wearable",
           startDate: now.getTime() - 10000,
           endDate: now.getTime() + 10000,
+          reward: 3,
         },
         ...TEST_FARM,
         npcs: { bert: { deliveryCount: 1 } },
@@ -174,6 +178,7 @@ describe("completeBertObsession", () => {
           type: "wearable",
           startDate: now.getTime() - 10000,
           endDate: now.getTime() + 10000,
+          reward: 3,
         },
         ...TEST_FARM,
         npcs: { bert: { deliveryCount: 1 } },
@@ -204,6 +209,7 @@ describe("completeBertObsession", () => {
             type: "wearable",
             startDate: now.getTime() - 10000,
             endDate: now.getTime() + 10000,
+            reward: 3,
           },
           wardrobe: {
             Halo: 1,

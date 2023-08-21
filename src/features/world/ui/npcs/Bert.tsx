@@ -49,6 +49,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
   );
 
   const obsessionName = game.bertObsession?.name;
+  const reward = game.bertObsession?.reward;
 
   const image = isObsessionCollectible
     ? ITEM_DETAILS[obsessionName as InventoryItemName].image
@@ -86,7 +87,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
           disabled={!canCompleteObsession()}
           onClick={() => gameService.send("bertObsession.completed")}
         >
-          Claim 3 feathers
+          Claim {reward} feathers
         </Button>
         <span className="text-xs">
           You cannot withdraw this item for 3 days after claiming feathers.
