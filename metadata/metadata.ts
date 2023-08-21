@@ -2828,17 +2828,17 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [{ trait_type: "Purpose", value: "Tool" }],
   },
   "Radical Radish": {
-    description: "Coming Soon",
+    description: "Radical! Grants a 4% chance to get +10 radishes on harvest.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/439.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Potent Potato": {
-    description: "Coming Soon",
+    description: "Potent! Grants a 4% chance to get +10 potatoes on harvest.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/438.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Peeled Potato": {
@@ -2850,10 +2850,11 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Stellar Sunflower": {
-    description: "Coming Soon",
+    description:
+      "Stellar! Grants a 4% chance to get +10 sunflowers on harvest.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/437.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Wood Nymph Wendy": {
