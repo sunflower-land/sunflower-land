@@ -12,6 +12,7 @@ import {
   Shovel,
   ToolName,
   TravelingSalesmanItem,
+  getKeys,
 } from "./craftables";
 import {
   Coupons,
@@ -52,6 +53,7 @@ import {
 import { WorkbenchToolName } from "./tools";
 import { BumpkinItem } from "./bumpkin";
 import { hasSeasonEnded } from "./seasons";
+import { GoblinState } from "../lib/goblinMachine";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
@@ -678,7 +680,68 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...potionHouse,
 };
 
-export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
+const canWithdrawBoostedWearable = (
+  wearable: BumpkinItem,
+  state?: GoblinState
+) => {
+  if (!state) return false;
+
+  if (wearable === "Fruit Picker Apron") {
+    return getKeys(state.fruitPatches).every(
+      (id) => state.fruitPatches[id].fruit === undefined
+    );
+  }
+
+  if (wearable === "Eggplant Onesie") {
+    return getKeys(state.crops).every(
+      (id) => state.crops[id].crop?.name !== "Eggplant"
+    );
+  }
+
+  if (wearable === "Parsnip") {
+    return getKeys(state.crops).every(
+      (id) => state.crops[id].crop?.name !== "Parsnip"
+    );
+  }
+
+  if (wearable === "Sunflower Amulet") {
+    return getKeys(state.crops).every(
+      (id) => state.crops[id].crop?.name !== "Sunflower"
+    );
+  }
+
+  if (wearable === "Carrot Amulet") {
+    return getKeys(state.crops).every(
+      (id) => state.crops[id].crop?.name !== "Carrot"
+    );
+  }
+
+  if (wearable === "Beetroot Amulet") {
+    return getKeys(state.crops).every(
+      (id) => state.crops[id].crop?.name !== "Beetroot"
+    );
+  }
+
+  if (wearable === "Green Amulet") {
+    return getKeys(state.crops).every((id) => !state.crops[id].crop);
+  }
+
+  if (wearable === "Cattlegrim") {
+    return getKeys(state.chickens).every((id) => !state.chickens[id].fedAt);
+  }
+
+  if (wearable === "Infernal Pitchfork") {
+    return getKeys(state.crops).every((id) => !state.crops[id].crop);
+  }
+
+  // Safety check
+  return false;
+};
+
+export const BUMPKIN_WITHDRAWABLES: Record<
+  BumpkinItem,
+  (state?: GoblinState) => boolean
+> = {
   "Beige Farmer Potion": () => false,
   "Dark Brown Farmer Potion": () => false,
   "Light Brown Farmer Potion": () => false,
@@ -700,10 +763,13 @@ export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
   "Farmer Hat": () => true,
   "Chef Hat": () => true,
   "Warrior Helmet": () => true,
-  "Sunflower Amulet": () => true,
-  "Carrot Amulet": () => true,
-  "Beetroot Amulet": () => true,
-  "Green Amulet": () => true,
+  "Sunflower Amulet": (state) =>
+    canWithdrawBoostedWearable("Sunflower Amulet", state),
+  "Carrot Amulet": (state) =>
+    canWithdrawBoostedWearable("Carrot Amulet", state),
+  "Beetroot Amulet": (state) =>
+    canWithdrawBoostedWearable("Beetroot Amulet", state),
+  "Green Amulet": (state) => canWithdrawBoostedWearable("Green Amulet", state),
   "Sunflower Shield": () => true,
   "Farm Background": () => true,
   "Fancy Top": () => true,
@@ -729,7 +795,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
   "Cemetery Background": () => true,
   "Teal Mohawk": () => true,
   "Space Background": () => true,
-  Parsnip: () => true,
+  Parsnip: (state) => canWithdrawBoostedWearable("Parsnip", state),
   "Jail Background": () => true,
   "Golden Spatula": () => true,
   "Artist Scarf": () => true,
@@ -759,7 +825,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
   "China Town Background": () => true,
   "Lion Dance Mask": () => true,
   "Fruit Picker Shirt": () => true,
-  "Fruit Picker Apron": () => true,
+  "Fruit Picker Apron": (state) =>
+    canWithdrawBoostedWearable("Fruit Picker Apron", state),
   "Fruit Bowl": () => true,
   "Striped Blue Shirt": () => true,
   "Peg Leg": () => true,
@@ -797,7 +864,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
   "Club Polo": () => true,
   "Dawn Breaker Background": () => true,
   "Dawn Lamp": () => true,
-  "Eggplant Onesie": () => true,
+  "Eggplant Onesie": (state) =>
+    canWithdrawBoostedWearable("Eggplant Onesie", state),
   "Fox Hat": () => false, // Not Launched
   "Grave Diggers Shovel": () => true,
   "Infected Potion": () =>
@@ -840,14 +908,16 @@ export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {
     canWithdrawTimebasedItem(
       new Date("Thu September 27 2023 10:00:00 GMT+1000")
     ),
-  "Infernal Pitchfork": () =>
-    canWithdrawTimebasedItem(new Date("Sun October 4 2023 10:00:00 GMT+1000")), // Auction
+  "Infernal Pitchfork": (state) =>
+    canWithdrawTimebasedItem(
+      new Date("Sun October 4 2023 10:00:00 GMT+1000")
+    ) && canWithdrawBoostedWearable("Infernal Pitchfork", state), // Auction
   "Infernal Horns": () =>
     canWithdrawTimebasedItem(new Date("Sun October 11 2023 10:00:00 GMT+1000")), // Auction
-  Cattlegrim: () =>
+  Cattlegrim: (state) =>
     canWithdrawTimebasedItem(
       new Date("Thu September 30 2023 10:00:00 GMT+1000")
-    ), // Auction
+    ) && canWithdrawBoostedWearable("Cattlegrim", state), // Auction
   "Crumple Crown": () =>
     canWithdrawTimebasedItem(
       new Date("Thu September 20 2023 10:00:00 GMT+1000")
