@@ -135,7 +135,9 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
                   count={new Decimal(wardrobeCount ?? 0)}
                   key={itemName}
                   onClick={() => onAdd(itemName)}
-                  disabled={!BUMPKIN_WITHDRAWABLES[itemName]()}
+                  disabled={
+                    !BUMPKIN_WITHDRAWABLES[itemName](goblinState.context.state)
+                  }
                   image={getImageUrl(ITEM_IDS[itemName])}
                 />
               );
