@@ -2384,9 +2384,9 @@ export const ITEM_DETAILS: Items = {
     image: giantPumpkin,
     description: POTION_HOUSE_DECORATIONS()["Giant Pumpkin"].description,
   },
-  "Potion Point": {
+  "Potion Ticket": {
     image: potionPoint,
-    description: COUPONS["Potion Point"].description,
+    description: COUPONS["Potion Ticket"].description,
   },
   "Lab Grown Carrot": {
     image: labGrownCarrot,

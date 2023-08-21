@@ -244,7 +244,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Witches' Eve Banner": 724,
   "Crow Feather": 725,
   "Gold Pass": 726,
-  "Potion Point": 727,
+  "Potion Ticket": 727,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,

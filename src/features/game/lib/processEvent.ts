@@ -97,8 +97,8 @@ export const maxItems: Inventory = {
   "Crow Feather": new Decimal(750),
 
   // Potion House
-  // "Potion Point": new Decimal(750),
-  "Potion Point": new Decimal(1000000),
+  // "Potion Ticket": new Decimal(750),
+  "Potion Ticket": new Decimal(1000000),
   "Giant Cabbage": new Decimal(50),
   "Giant Potato": new Decimal(50),
   "Giant Pumpkin": new Decimal(50),

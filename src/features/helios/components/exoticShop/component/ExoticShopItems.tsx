@@ -24,7 +24,7 @@ export const ExoticShopItems: React.FC<Props> = ({ onClose }) => {
           Our bean shop is closing as our beans embark on a new journey with a
           mad scientist.
         </p>
-        <p className="mb-4">{`Thank you for being part of our bean-loving community.`}</p>
+        <p className="mb-4">{`Thank you for being part of our legume-loving community.`}</p>
         <p>Best regards,</p>
         <p>The Bean Team</p>
       </div>
