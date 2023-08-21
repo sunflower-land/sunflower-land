@@ -271,6 +271,7 @@ export interface CurrentObsession {
   name: InventoryItemName | BumpkinItem;
   startDate: number;
   endDate: number;
+  reward: number;
 }
 
 export type WarCollectionOffer = {

@@ -66,7 +66,9 @@ export function completeBertObsession({
   }
 
   const currentFeathers = stateCopy.inventory["Crow Feather"] || new Decimal(0);
-  stateCopy.inventory["Crow Feather"] = currentFeathers.add(3);
+  stateCopy.inventory["Crow Feather"] = currentFeathers.add(
+    currentObsession.reward
+  );
 
   stateCopy.npcs.bert.questCompletedAt = createdAt;
 
