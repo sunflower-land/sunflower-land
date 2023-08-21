@@ -1400,24 +1400,6 @@
           "y": 271.501956553246
         },
         {
-          "height": 16.7266813799512,
-          "id": 142,
-          "name": "",
-          "properties": [
-            {
-              "name": "id",
-              "type": "string",
-              "value": "potion_house"
-            }
-          ],
-          "rotation": 0,
-          "type": "",
-          "visible": true,
-          "width": 32.0594726449065,
-          "x": 191.892205831107,
-          "y": 144.267626902079
-        },
-        {
           "height": 124.985480311302,
           "id": 143,
           "name": "",
@@ -1945,7 +1927,6 @@
           "x": 278.522284545882,
           "y": 117.432510845238
         },
-
         {
           "height": 16.3023956232212,
           "id": 212,
@@ -1957,6 +1938,7 @@
           "x": 118.537758006134,
           "y": 22.3812550081512
         },
+
         {
           "height": 15.473460252549,
           "id": 213,
@@ -1967,6 +1949,28 @@
           "width": 31.7758558757702,
           "x": 80.683042745434,
           "y": 22.6575667983753
+        },
+        {
+          "height": 16.125,
+          "id": 216,
+          "name": "",
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 4.5,
+          "x": 187.5,
+          "y": 144
+        },
+        {
+          "height": 15.625,
+          "id": 217,
+          "name": "",
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 4.375,
+          "x": 224.125,
+          "y": 144.5
         }
       ],
       "opacity": 1,
@@ -2021,16 +2025,16 @@
     }
   ],
   "nextlayerid": 65,
-  "nextobjectid": 214,
+  "nextobjectid": 218,
   "orientation": "orthogonal",
   "renderorder": "right-down",
-  "tiledversion": "1.8.4",
+  "tiledversion": "1.10.1",
   "tileheight": 16,
   "tilesets": [
     {
       "columns": 64,
       "firstgid": 1,
-      "image": "tilesheet.png",
+      "image": "../../../../images/assets/world/map.png",
       "imageheight": 1024,
       "imagewidth": 1024,
       "margin": 0,
@@ -2130,6 +2134,6 @@
   ],
   "tilewidth": 16,
   "type": "map",
-  "version": "1.8",
+  "version": "1.10",
   "width": 50
 }

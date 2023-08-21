@@ -3,7 +3,7 @@ import { ConsumableName, CookableName } from "../types/consumables";
 import { Animal, Food, ToolName } from "../types/craftables";
 import { CropName } from "../types/crops";
 import { Bumpkin, LanternName } from "../types/game";
-import { BeanName } from "./beans";
+import { BeanName, ExoticCropName } from "./beans";
 import { HeliosBlacksmithItem, PotionHouseItemName } from "./collectibles";
 import { DecorationName } from "./decorations";
 import { FruitName, FruitSeedName } from "./fruits";
@@ -19,7 +19,8 @@ type SellableName =
   | FruitName
   | BeachBountyTreasure
   | FruitName
-  | GarbageName;
+  | GarbageName
+  | ExoticCropName;
 
 type Recipes = Food | CookableName;
 type Edibles = Food | ConsumableName;

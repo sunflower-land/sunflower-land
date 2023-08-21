@@ -421,6 +421,13 @@ import giantPotato from "assets/sfts/giant_potato.png";
 import labGrownCarrot from "assets/sfts/lab_grown_carrot.gif";
 import labGrownPumpkin from "assets/sfts/lab_grown_pumpkin.gif";
 import labGrownRadish from "assets/sfts/lab_grown_radish.gif";
+import adirondackPotato from "assets/potion_house/adirondack_potato.png";
+import goldenHelios from "assets/potion_house/golden_helios.png";
+import chiogga from "assets/potion_house/chiogga.png";
+import blackMagic from "assets/potion_house/black_magic.png";
+import purpleCauliflower from "assets/potion_house/purple_cauliflower.png";
+import whiteCarrot from "assets/potion_house/white_carrot.png";
+import wartyGoblinPumpkin from "assets/potion_house/warty_goblin_pumpkin.png";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -2391,38 +2398,31 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Adirondack Potato": {
-    // image: adirondackPotato,
-    image: SUNNYSIDE.icons.expression_confused,
+    image: adirondackPotato,
     description: EXOTIC_CROPS["Adirondack Potato"].description,
   },
   "Black Magic": {
-    // image: blackMagic,
-    image: SUNNYSIDE.icons.expression_confused,
+    image: blackMagic,
     description: EXOTIC_CROPS["Black Magic"].description,
   },
   Chiogga: {
-    // image: blackMagic,
-    image: SUNNYSIDE.icons.expression_confused,
+    image: chiogga,
     description: EXOTIC_CROPS["Chiogga"].description,
   },
   "Golden Helios": {
-    // image: goldenHelios,
-    image: SUNNYSIDE.icons.expression_confused,
+    image: goldenHelios,
     description: EXOTIC_CROPS["Golden Helios"].description,
   },
   "Purple Cauliflower": {
-    // image: purpleCauliflower,
-    image: SUNNYSIDE.icons.expression_confused,
+    image: purpleCauliflower,
     description: EXOTIC_CROPS["Purple Cauliflower"].description,
   },
   "Warty Goblin Pumpkin": {
-    // image: wartyGoblinPumpkin,
-    image: SUNNYSIDE.icons.expression_confused,
+    image: wartyGoblinPumpkin,
     description: EXOTIC_CROPS["Warty Goblin Pumpkin"].description,
   },
   "White Carrot": {
-    // image: whiteCarrot,
-    image: SUNNYSIDE.icons.expression_confused,
+    image: whiteCarrot,
     description: EXOTIC_CROPS["White Carrot"].description,
   },
 };

@@ -44,6 +44,8 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
   const [gameState] = useActor(gameService);
   const [npc, setNpc] = useState<NPCName>();
 
+  const inventory = gameState.context.state.inventory;
+
   useEffect(() => {
     npcModalManager.listen((npc, open) => {
       setNpc(npc);
@@ -66,7 +68,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <Grubnuk onClose={closeModal} />}
 
-        {npc === "garth" && hasFeatureAccess({}, "POTION_HOUSE") && (
+        {npc === "garth" && hasFeatureAccess(inventory, "POTION_HOUSE") && (
           <PotionHouseShopItems onClose={closeModal} />
         )}
         {npc === "hammerin harry" && (
