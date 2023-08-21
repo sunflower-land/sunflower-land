@@ -84,6 +84,10 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     return <TravelScreen mmoService={mmoService} />;
   }
 
+  if (!mmoService.state) {
+    return null;
+  }
+
   // Otherwsie if connected, return Plaza Screen
   return (
     <PhaserComponent

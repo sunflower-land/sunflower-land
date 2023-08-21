@@ -52,6 +52,7 @@ type BaseSceneOptions = {
   mmo?: {
     enabled: boolean;
     url?: string;
+    serverId?: string;
     sceneId?: string;
   };
   controls?: {
@@ -325,6 +326,13 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   public initialiseMMO() {
+    if (this.options.mmo.url && this.options.mmo.serverId) {
+      this.mmoService.send("CONNECT", {
+        url: this.options.mmo.url,
+        serverId: this.options.mmo.serverId,
+      });
+    }
+
     const server = this.mmoService.state.context.server;
     if (!server) return;
 
