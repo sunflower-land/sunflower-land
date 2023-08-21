@@ -609,7 +609,7 @@ export const POTION_HOUSE_DECORATIONS: () => Record<
     description: "What will grow?",
     sfl: new Decimal(0),
     ingredients: {
-      "Potion Point": new Decimal(2000),
+      "Potion Ticket": new Decimal(2000),
     },
   },
   "Giant Potato": {
@@ -617,7 +617,7 @@ export const POTION_HOUSE_DECORATIONS: () => Record<
     description: "A giant potato.",
     sfl: new Decimal(0),
     ingredients: {
-      "Potion Point": new Decimal(500),
+      "Potion Ticket": new Decimal(500),
     },
   },
   "Giant Pumpkin": {
@@ -625,7 +625,7 @@ export const POTION_HOUSE_DECORATIONS: () => Record<
     description: "A giant pumpkin.",
     sfl: new Decimal(0),
     ingredients: {
-      "Potion Point": new Decimal(750),
+      "Potion Ticket": new Decimal(750),
     },
   },
   "Giant Cabbage": {
@@ -633,7 +633,7 @@ export const POTION_HOUSE_DECORATIONS: () => Record<
     description: "A giant cabbage.",
     sfl: new Decimal(0),
     ingredients: {
-      "Potion Point": new Decimal(1000),
+      "Potion Ticket": new Decimal(1000),
     },
   },
 });

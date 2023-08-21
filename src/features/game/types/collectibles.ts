@@ -327,7 +327,7 @@ export const POTION_HOUSE_ITEMS: Record<PotionHouseItemName, PotionHouseItem> =
       description: "+0.2 Carrot Yield",
       sfl: new Decimal(0),
       ingredients: {
-        "Potion Point": new Decimal(6000),
+        "Potion Ticket": new Decimal(6000),
       },
     },
     "Lab Grown Radish": {
@@ -335,7 +335,7 @@ export const POTION_HOUSE_ITEMS: Record<PotionHouseItemName, PotionHouseItem> =
       description: "+0.4 Radish Yield",
       sfl: new Decimal(0),
       ingredients: {
-        "Potion Point": new Decimal(8000),
+        "Potion Ticket": new Decimal(8000),
       },
     },
     "Lab Grown Pumpkin": {
@@ -343,7 +343,7 @@ export const POTION_HOUSE_ITEMS: Record<PotionHouseItemName, PotionHouseItem> =
       description: "+0.3 Pumpkin Yield",
       sfl: new Decimal(0),
       ingredients: {
-        "Potion Point": new Decimal(7000),
+        "Potion Ticket": new Decimal(7000),
       },
     },
   };
