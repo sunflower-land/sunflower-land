@@ -1,7 +1,5 @@
 // CROPS
 import magicBean from "assets/crops/magic_bean.png";
-import shinyBean from "assets/crops/shiny_bean.png";
-import goldenBean from "assets/crops/golden_bean.png";
 import appleSeed from "assets/fruit/apple/apple_seed.png";
 import orangeSeed from "assets/fruit/orange/orange_seed.png";
 import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
@@ -449,12 +447,16 @@ import {
   LANDSCAPING_DECORATIONS,
   POTION_HOUSE_DECORATIONS,
 } from "./decorations";
-import { BEANS } from "./beans";
+import { BEANS, EXOTIC_CROPS } from "./beans";
 import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
 //Golden Crop Event
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
-import { GOBLIN_PIRATE_ITEMS, HELIOS_BLACKSMITH_ITEMS } from "./collectibles";
+import {
+  GOBLIN_PIRATE_ITEMS,
+  HELIOS_BLACKSMITH_ITEMS,
+  POTION_HOUSE_ITEMS,
+} from "./collectibles";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -586,17 +588,9 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Wheat.seed,
     secondaryImage: CROP_LIFECYCLE.Wheat.crop,
   },
-  "Golden Bean": {
-    description: BEANS()["Golden Bean"].description,
-    image: goldenBean,
-  },
   "Magic Bean": {
     description: BEANS()["Magic Bean"].description,
     image: magicBean,
-  },
-  "Shiny Bean": {
-    description: BEANS()["Shiny Bean"].description,
-    image: shinyBean,
   },
   "Kale Seed": {
     description: CROP_SEEDS()["Kale Seed"].description,
@@ -1759,15 +1753,11 @@ export const ITEM_DETAILS: Items = {
     description: "A precious potato, encourages bonus potatoes on harvest.",
   },
 
-  "Colossal Crop": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "As big as the Empire State building",
-  },
-  "Peaceful Potato": {
+  "Potent Potato": {
     image: SUNNYSIDE.icons.expression_confused,
     description: "Practicioner of spud Yoga",
   },
-  "Perky Pumpkin": {
+  "Radical Radish": {
     image: SUNNYSIDE.icons.expression_confused,
     description: "???",
   },
@@ -2389,14 +2379,50 @@ export const ITEM_DETAILS: Items = {
   },
   "Lab Grown Carrot": {
     image: labGrownCarrot,
-    description: POTION_HOUSE_DECORATIONS()["Lab Grown Carrot"].description,
+    description: POTION_HOUSE_ITEMS["Lab Grown Carrot"].description,
   },
   "Lab Grown Pumpkin": {
     image: labGrownPumpkin,
-    description: POTION_HOUSE_DECORATIONS()["Lab Grown Pumpkin"].description,
+    description: POTION_HOUSE_ITEMS["Lab Grown Pumpkin"].description,
   },
   "Lab Grown Radish": {
     image: labGrownRadish,
-    description: POTION_HOUSE_DECORATIONS()["Lab Grown Radish"].description,
+    description: POTION_HOUSE_ITEMS["Lab Grown Radish"].description,
+  },
+
+  "Adirondack Potato": {
+    // image: adirondackPotato,
+    image: SUNNYSIDE.icons.expression_confused,
+    description: EXOTIC_CROPS["Adirondack Potato"].description,
+  },
+  "Black Magic": {
+    // image: blackMagic,
+    image: SUNNYSIDE.icons.expression_confused,
+    description: EXOTIC_CROPS["Black Magic"].description,
+  },
+  Chiogga: {
+    // image: blackMagic,
+    image: SUNNYSIDE.icons.expression_confused,
+    description: EXOTIC_CROPS["Chiogga"].description,
+  },
+  "Golden Helios": {
+    // image: goldenHelios,
+    image: SUNNYSIDE.icons.expression_confused,
+    description: EXOTIC_CROPS["Golden Helios"].description,
+  },
+  "Purple Cauliflower": {
+    // image: purpleCauliflower,
+    image: SUNNYSIDE.icons.expression_confused,
+    description: EXOTIC_CROPS["Purple Cauliflower"].description,
+  },
+  "Warty Goblin Pumpkin": {
+    // image: wartyGoblinPumpkin,
+    image: SUNNYSIDE.icons.expression_confused,
+    description: EXOTIC_CROPS["Warty Goblin Pumpkin"].description,
+  },
+  "White Carrot": {
+    // image: whiteCarrot,
+    image: SUNNYSIDE.icons.expression_confused,
+    description: EXOTIC_CROPS["White Carrot"].description,
   },
 };

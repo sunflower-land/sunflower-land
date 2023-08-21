@@ -68,6 +68,11 @@ export type GoblinPirateItemName =
   | "Emerald Turtle"
   | "Tin Turtle";
 
+export type PotionHouseItemName =
+  | "Lab Grown Carrot"
+  | "Lab Grown Radish"
+  | "Lab Grown Pumpkin";
+
 export type CraftableCollectible = {
   ingredients: Inventory;
   description: string;
@@ -310,6 +315,38 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
     },
   };
 };
+
+export type PotionHouseItem = CraftableCollectible & {
+  name: PotionHouseItemName;
+};
+
+export const POTION_HOUSE_ITEMS: Record<PotionHouseItemName, PotionHouseItem> =
+  {
+    "Lab Grown Carrot": {
+      name: "Lab Grown Carrot",
+      description: "+0.2 Carrot Yield",
+      sfl: new Decimal(0),
+      ingredients: {
+        "Potion Point": new Decimal(6000),
+      },
+    },
+    "Lab Grown Radish": {
+      name: "Lab Grown Radish",
+      description: "+0.4 Radish Yield",
+      sfl: new Decimal(0),
+      ingredients: {
+        "Potion Point": new Decimal(8000),
+      },
+    },
+    "Lab Grown Pumpkin": {
+      name: "Lab Grown Pumpkin",
+      description: "+0.3 Pumpkin Yield",
+      sfl: new Decimal(0),
+      ingredients: {
+        "Potion Point": new Decimal(7000),
+      },
+    },
+  };
 
 export type Purchasable = CraftableCollectible & {
   usd: number;

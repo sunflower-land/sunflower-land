@@ -89,7 +89,6 @@ import {
   removeCollectible,
   RemoveCollectibleAction,
 } from "./landExpansion/removeCollectible";
-import { beanBought, BeanBoughtAction } from "./landExpansion/buyBean";
 import {
   collectCropReward,
   CollectCropRewardAction,
@@ -193,7 +192,6 @@ export type PlayingEvent =
   | CraftToolAction
   | buyDecorationAction
   | SellCropAction
-  | BeanBoughtAction
   | CollectCropRewardAction
   | CollectTreeRewardAction
   | LandExpansionCollectEggsAction
@@ -304,7 +302,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "decoration.bought": buyDecoration,
   "crop.sold": sellCrop,
 
-  "bean.bought": beanBought,
   "cropReward.collected": collectCropReward,
   "treeReward.collected": collectTreeReward,
   "fruit.planted": plantFruit,

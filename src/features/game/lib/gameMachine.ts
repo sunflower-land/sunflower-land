@@ -338,6 +338,7 @@ export type BlockchainState = {
     | "revealing"
     | "revealed"
     | "genieRevealed"
+    | "beanRevealed"
     | "error"
     | "refreshing"
     | "swarming"
@@ -1191,6 +1192,25 @@ export function startGame(authContext: AuthContext) {
             },
             onDone: [
               {
+                target: "beanRevealed",
+                cond: (_, event) => event.data.event.type === "bean.harvested",
+                actions: assign((context, event) => {
+                  return {
+                    // Remove events
+                    actions: [],
+                    // Update immediately with state from server except for collectibles
+                    state: {
+                      ...event.data.farm,
+                      collectibles: {
+                        ...event.data.farm.collectibles,
+                        "Magic Bean": context.state.collectibles["Magic Bean"],
+                      },
+                    },
+                    revealed: event.data.changeset,
+                  };
+                }),
+              },
+              {
                 target: "genieRevealed",
                 cond: (_, event) =>
                   event.data.event.type === "genieLamp.rubbed",
@@ -1267,6 +1287,30 @@ export function startGame(authContext: AuthContext) {
                     collectibles: {
                       ...context.state.collectibles,
                       "Genie Lamp": newLamps,
+                    },
+                  },
+                };
+              }),
+            },
+          },
+        },
+        beanRevealed: {
+          on: {
+            CONTINUE: {
+              target: "playing",
+              actions: assign((context, event) => {
+                // Delete the Bean from the collectibles
+                const beans = context.state.collectibles["Magic Bean"];
+                const newBeans = beans?.filter(
+                  (bean) => !(bean.id === event.id)
+                );
+
+                return {
+                  state: {
+                    ...context.state,
+                    collectibles: {
+                      ...context.state.collectibles,
+                      "Magic Bean": newBeans,
                     },
                   },
                 };

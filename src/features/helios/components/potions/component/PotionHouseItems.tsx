@@ -12,9 +12,13 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  POTION_HOUSE_ITEMS,
+  PotionHouseItem,
+} from "features/game/types/collectibles";
 
 export const PotionHouseItems: React.FC = () => {
-  const [selected, setSelected] = useState<Decoration>(
+  const [selected, setSelected] = useState<Decoration | PotionHouseItem>(
     POTION_HOUSE_DECORATIONS()["Giant Potato"]
   );
   const { gameService, shortcutItem } = useContext(Context);
@@ -39,11 +43,28 @@ export const PotionHouseItems: React.FC = () => {
     );
 
   const buy = () => {
-    gameService.send("decoration.bought", {
-      name: selected.name,
-    });
+    if (selected.name in POTION_HOUSE_ITEMS) {
+      gameService.send("collectible.crafted", {
+        name: selected.name,
+      });
+    } else {
+      gameService.send("decoration.bought", {
+        name: selected.name,
+      });
+    }
 
     shortcutItem(selected.name);
+  };
+
+  const Action = () => {
+    if (selected.name in POTION_HOUSE_ITEMS && inventory[selected.name])
+      return <span className="text-xxs text-center my-1">Already minted!</span>;
+
+    return (
+      <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>
+        Buy
+      </Button>
+    );
   };
 
   return (
@@ -58,16 +79,15 @@ export const PotionHouseItems: React.FC = () => {
             resources: selected.ingredients,
             sfl: price,
           }}
-          actionView={
-            <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>
-              Buy
-            </Button>
-          }
+          actionView={Action()}
         />
       }
       content={
         <>
-          {Object.values(POTION_HOUSE_DECORATIONS()).map((item: Decoration) => (
+          {Object.values({
+            ...POTION_HOUSE_DECORATIONS(),
+            ...POTION_HOUSE_ITEMS,
+          }).map((item) => (
             <Box
               isSelected={selected.name === item.name}
               key={item.name}

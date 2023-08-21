@@ -13,13 +13,14 @@ import { BumpkinSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
-import { BeanName, MutantCropName } from "./beans";
+import { BeanName, ExoticCropName, MutantCropName } from "./beans";
 import { FruitName, FruitSeedName } from "./fruits";
 import { TreasureName } from "./treasure";
 import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
+  PotionHouseItemName,
   PurchasableItems,
   SoldOutCollectibleName,
 } from "./collectibles";
@@ -234,6 +235,8 @@ export type InventoryItemName =
   | PurchasableItems
   | TreasureToolName
   | LanternName
+  | ExoticCropName
+  | PotionHouseItemName
   | "Basic Land";
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;

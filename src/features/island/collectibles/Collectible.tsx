@@ -319,17 +319,14 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Ocean Lantern": OceanLantern,
   "Solar Lantern": SolarLantern,
 
-  "Golden Bean": Bean,
   "Magic Bean": Bean,
-  "Shiny Bean": Bean,
 
   "Egg Basket": () => null,
 
   // TODO
   "Potted Potato": PottedPotato,
-  "Colossal Crop": () => null,
-  "Peaceful Potato": () => null,
-  "Perky Pumpkin": () => null,
+  "Potent Potato": () => null,
+  "Radical Radish": () => null,
   "Stellar Sunflower": () => null,
   "Christmas Snow Globe": SnowGlobe,
   "Immortal Pear": ImmortalPear,

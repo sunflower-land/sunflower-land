@@ -68,13 +68,10 @@ export type EventDecorationName =
   | "Eggplant Bear"
   | "Dawn Flower";
 
-export type PotionHouseItemName =
+export type PotionHouseDecorationName =
   | "Giant Potato"
   | "Giant Pumpkin"
-  | "Giant Cabbage"
-  | "Lab Grown Carrot"
-  | "Lab Grown Radish"
-  | "Lab Grown Pumpkin";
+  | "Giant Cabbage";
 
 export type DecorationName =
   | AchievementDecorationName
@@ -83,7 +80,7 @@ export type DecorationName =
   | DecorationTreasure
   | BoostTreasure
   | SeasonalDecorationName
-  | PotionHouseItemName;
+  | PotionHouseDecorationName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Dawn Flower": {
@@ -370,18 +367,6 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 2,
     height: 2,
   },
-  "Lab Grown Carrot": {
-    width: 1,
-    height: 1,
-  },
-  "Lab Grown Pumpkin": {
-    width: 1,
-    height: 1,
-  },
-  "Lab Grown Radish": {
-    width: 1,
-    height: 1,
-  },
 };
 
 export type Decoration = {
@@ -616,33 +601,9 @@ export const SEASONAL_DECORATIONS: (
 });
 
 export const POTION_HOUSE_DECORATIONS: () => Record<
-  PotionHouseItemName,
+  PotionHouseDecorationName,
   Decoration
 > = () => ({
-  "Lab Grown Carrot": {
-    name: "Lab Grown Carrot",
-    description: "+0.2 Carrot Yield",
-    sfl: new Decimal(0),
-    ingredients: {
-      "Potion Point": new Decimal(6000),
-    },
-  },
-  "Lab Grown Radish": {
-    name: "Lab Grown Radish",
-    description: "+0.4 Radish Yield",
-    sfl: new Decimal(0),
-    ingredients: {
-      "Potion Point": new Decimal(8000),
-    },
-  },
-  "Lab Grown Pumpkin": {
-    name: "Lab Grown Pumpkin",
-    description: "+0.3 Pumpkin Yield",
-    sfl: new Decimal(0),
-    ingredients: {
-      "Potion Point": new Decimal(7000),
-    },
-  },
   "Magic Bean": {
     name: "Magic Bean",
     description: "What will grow?",

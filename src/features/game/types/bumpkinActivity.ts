@@ -4,7 +4,7 @@ import { Animal, Food, ToolName } from "../types/craftables";
 import { CropName } from "../types/crops";
 import { Bumpkin, LanternName } from "../types/game";
 import { BeanName } from "./beans";
-import { HeliosBlacksmithItem } from "./collectibles";
+import { HeliosBlacksmithItem, PotionHouseItemName } from "./collectibles";
 import { DecorationName } from "./decorations";
 import { FruitName, FruitSeedName } from "./fruits";
 import { GarbageName } from "./garbage";
@@ -34,6 +34,7 @@ export type CraftedEvent = `${
   | WorkbenchToolName
   | TreasureToolName
   | HeliosBlacksmithItem
+  | PotionHouseItemName
   | LanternName} Crafted`;
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;

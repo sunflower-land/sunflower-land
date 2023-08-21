@@ -22,13 +22,14 @@ import {
   Points,
   SpecialEvent,
 } from "./game";
-import { BeanName, MutantCropName } from "./beans";
+import { BeanName, ExoticCropName, MutantCropName } from "./beans";
 import { WarTentItem } from "./craftables";
 import { TreasureToolName } from "./tools";
 import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
+  PotionHouseItemName,
   PurchasableItems,
   SoldOutCollectibleName,
 } from "./collectibles";
@@ -40,7 +41,7 @@ import { ConsumableName } from "./consumables";
 import {
   AchievementDecorationName,
   EventDecorationName,
-  PotionHouseItemName,
+  PotionHouseDecorationName,
   SeasonalDecorationName,
   ShopDecorationName,
 } from "./decorations";
@@ -103,9 +104,7 @@ const fruits: Record<FruitName, () => boolean> = {
 };
 
 const beans: Record<BeanName, () => boolean> = {
-  "Golden Bean": () => false,
   "Magic Bean": () => false,
-  "Shiny Bean": () => false,
 };
 
 const questItems: Record<QuestItem, () => boolean> = {
@@ -415,9 +414,8 @@ const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
 
 const mutantCrop: Record<MutantCropName, () => boolean> = {
   "Stellar Sunflower": () => false,
-  "Peaceful Potato": () => false,
-  "Perky Pumpkin": () => false,
-  "Colossal Crop": () => false,
+  "Potent Potato": () => false,
+  "Radical Radish": () => false,
 };
 
 const specialEvents: Record<SpecialEvent | MOMEventItem, () => boolean> = {
@@ -620,13 +618,26 @@ const purchasables: Record<PurchasableItems, () => boolean> = {
   "Gold Pass": () => false,
 };
 
-const potionHouse: Record<PotionHouseItemName, () => boolean> = {
+const potionHouse: Record<
+  PotionHouseDecorationName | PotionHouseItemName,
+  () => boolean
+> = {
   "Giant Cabbage": () => false,
   "Giant Potato": () => false,
   "Giant Pumpkin": () => false,
   "Lab Grown Carrot": () => false,
   "Lab Grown Pumpkin": () => false,
   "Lab Grown Radish": () => false,
+};
+
+const exoticCrops: Record<ExoticCropName, () => boolean> = {
+  "Adirondack Potato": () => false,
+  "Black Magic": () => false,
+  "Golden Helios": () => false,
+  "Purple Cauliflower": () => false,
+  "Warty Goblin Pumpkin": () => false,
+  "White Carrot": () => false,
+  Chiogga: () => false,
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
@@ -676,6 +687,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...consumables,
   ...decorations,
   ...potionHouse,
+  ...exoticCrops,
 };
 
 export const BUMPKIN_WITHDRAWABLES: Record<BumpkinItem, () => boolean> = {

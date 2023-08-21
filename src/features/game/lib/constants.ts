@@ -105,9 +105,6 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     Chicken: new Decimal(5),
 
     "Magic Bean": new Decimal(5),
-    "Shiny Bean": new Decimal(5),
-    "Golden Bean": new Decimal(5),
-
     "Immortal Pear": new Decimal(1),
   };
 };

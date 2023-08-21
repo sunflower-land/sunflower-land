@@ -1,13 +1,9 @@
-import Decimal from "decimal.js-light";
-import { marketRate } from "../lib/halvening";
-import { Inventory, InventoryItemName } from "./game";
+import { InventoryItemName } from "./game";
 
-export type BeanName = "Magic Bean" | "Shiny Bean" | "Golden Bean";
+export type BeanName = "Magic Bean";
 
 export type Bean = {
   name: BeanName;
-  sfl: Decimal;
-  ingredients: Inventory;
   description: string;
   plantSeconds: number;
 };
@@ -15,33 +11,8 @@ export type Bean = {
 export const BEANS: () => Record<BeanName, Bean> = () => ({
   "Magic Bean": {
     name: "Magic Bean",
-    sfl: marketRate(5),
-    ingredients: {
-      Wood: new Decimal(30),
-      Stone: new Decimal(10),
-    },
     description: "What will grow?",
     plantSeconds: 2 * 24 * 60 * 60,
-  },
-  "Shiny Bean": {
-    name: "Shiny Bean",
-    sfl: marketRate(10),
-    ingredients: {
-      Wood: new Decimal(30),
-      Iron: new Decimal(10),
-    },
-    description: "What will grow?",
-    plantSeconds: 3 * 24 * 60 * 60,
-  },
-  "Golden Bean": {
-    name: "Golden Bean",
-    sfl: marketRate(15),
-    ingredients: {
-      Wood: new Decimal(30),
-      Gold: new Decimal(10),
-    },
-    description: "What will grow?",
-    plantSeconds: 4 * 24 * 60 * 60,
   },
 });
 
@@ -51,6 +22,24 @@ export function isBean(item: InventoryItemName): item is BeanName {
 
 export type MutantCropName =
   | "Stellar Sunflower"
-  | "Peaceful Potato"
-  | "Perky Pumpkin"
-  | "Colossal Crop";
+  | "Potent Potato"
+  | "Radical Radish";
+
+export type ExoticCropName =
+  | "Black Magic"
+  | "Golden Helios"
+  | "Chiogga"
+  | "Purple Cauliflower"
+  | "Adirondack Potato"
+  | "Warty Goblin Pumpkin"
+  | "White Carrot";
+
+export const EXOTIC_CROPS: Record<ExoticCropName, { description: string }> = {
+  "Black Magic": { description: "A dark and mysterious flower!" },
+  "Golden Helios": { description: "Sun-kissed grandeur!" },
+  Chiogga: { description: "A rainbow beet!" },
+  "Purple Cauliflower": { description: "A regal purple cauliflower" },
+  "Adirondack Potato": { description: "A rugged spud, Adirondack style!" },
+  "Warty Goblin Pumpkin": { description: "A whimsical, wart-covered pumpkin" },
+  "White Carrot": { description: "A pale carrot with pale roots" },
+};
