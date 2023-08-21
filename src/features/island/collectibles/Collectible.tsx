@@ -188,6 +188,9 @@ import { GiantPumpkin } from "./components/GiantPumpkin";
 import { LabGrownCarrot } from "./components/LabGrownCarrot";
 import { LabGrownPumpkin } from "./components/LabGrownPumpkin";
 import { LabGrownRadish } from "./components/LabGrownRadish";
+import { RadicalRadish } from "./components/RadicalRadish";
+import { PotentPotato } from "./components/PotentPotato";
+import { StellarSunflower } from "./components/StellarSunflower";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -325,9 +328,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
 
   // TODO
   "Potted Potato": PottedPotato,
-  "Potent Potato": () => null,
-  "Radical Radish": () => null,
-  "Stellar Sunflower": () => null,
+  "Potent Potato": PotentPotato,
+  "Radical Radish": RadicalRadish,
+  "Stellar Sunflower": StellarSunflower,
   "Christmas Snow Globe": SnowGlobe,
   "Immortal Pear": ImmortalPear,
   "Lady Bug": LadyBug,

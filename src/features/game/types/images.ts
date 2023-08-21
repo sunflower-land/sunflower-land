@@ -428,6 +428,9 @@ import blackMagic from "assets/potion_house/black_magic.png";
 import purpleCauliflower from "assets/potion_house/purple_cauliflower.png";
 import whiteCarrot from "assets/potion_house/white_carrot.png";
 import wartyGoblinPumpkin from "assets/potion_house/warty_goblin_pumpkin.png";
+import potatoMutant from "assets/sfts/potato_mutant.gif";
+import radishMutant from "assets/sfts/radish_mutant.gif";
+import sunflowerMutant from "assets/sfts/sunflower_mutant.gif";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1761,16 +1764,17 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Potent Potato": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "Practicioner of spud Yoga",
+    image: potatoMutant,
+    description: "Potent! Grants a 4% chance to get +10 potatoes on harvest.",
   },
   "Radical Radish": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "???",
+    image: radishMutant,
+    description: "Radical! Grants a 4% chance to get +10 radishes on harvest.",
   },
   "Stellar Sunflower": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "???",
+    image: sunflowerMutant,
+    description:
+      "Stellar! Grants a 4% chance to get +10 sunflowers on harvest.",
   },
   "Potted Potato": {
     image: pottedPotato,
