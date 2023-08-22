@@ -29,7 +29,7 @@ export function startPotion({ state }: Options): GameState {
 
   stateCopy.potionHouse = {
     game: { status: "in_progress", attempts: [] },
-    history: {},
+    history: stateCopy.potionHouse?.history ?? {},
   };
 
   return stateCopy;
