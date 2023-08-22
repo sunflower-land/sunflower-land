@@ -4,6 +4,7 @@ import { FOODS, getKeys } from "../types/craftables";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { SKILL_TREE } from "../types/skills";
 import { Announcements } from "../types/conversations";
+import { EXOTIC_CROPS } from "../types/beans";
 
 export const maxItems: Inventory = {
   Sunflower: new Decimal("9000"),
@@ -96,7 +97,8 @@ export const maxItems: Inventory = {
   "Crow Feather": new Decimal(750),
 
   // Potion House
-  "Potion Point": new Decimal(750),
+  // "Potion Ticket": new Decimal(750),
+  "Potion Ticket": new Decimal(1000000),
   "Giant Cabbage": new Decimal(50),
   "Giant Potato": new Decimal(50),
   "Giant Pumpkin": new Decimal(50),
@@ -115,6 +117,14 @@ export const maxItems: Inventory = {
   Seaweed: new Decimal(50),
   "Sea Cucumber": new Decimal(50),
   Crab: new Decimal(100),
+
+  ...(Object.keys(EXOTIC_CROPS) as InventoryItemName[]).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(50),
+    }),
+    {}
+  ),
 
   // Max of 1000 food item
   ...(Object.keys(FOODS()) as InventoryItemName[]).reduce(

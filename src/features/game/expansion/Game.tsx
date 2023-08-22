@@ -81,6 +81,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   revealing: false,
   revealed: false,
   genieRevealed: false,
+  beanRevealed: false,
   buyingSFL: true,
   depositing: true,
   upgradingGuestGame: false,

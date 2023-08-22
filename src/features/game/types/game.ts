@@ -13,13 +13,14 @@ import { BumpkinSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
-import { BeanName, MutantCropName } from "./beans";
+import { BeanName, ExoticCropName, MutantCropName } from "./beans";
 import { FruitName, FruitSeedName } from "./fruits";
 import { TreasureName } from "./treasure";
 import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
+  PotionHouseItemName,
   PurchasableItems,
   SoldOutCollectibleName,
 } from "./collectibles";
@@ -128,7 +129,7 @@ export type Coupons =
   | "Love Letter"
   | "Block Buck"
   | "Sunflower Supporter"
-  | "Potion Point"
+  | "Potion Ticket"
   | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
@@ -169,7 +170,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Sunflower Supporter": {
     description: "A community and social media supporter of the project",
   },
-  "Potion Point": {
+  "Potion Ticket": {
     description:
       "A reward from the Potion House. Use this to buy items from Garth.",
   },
@@ -234,6 +235,8 @@ export type InventoryItemName =
   | PurchasableItems
   | TreasureToolName
   | LanternName
+  | ExoticCropName
+  | PotionHouseItemName
   | "Basic Land";
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;

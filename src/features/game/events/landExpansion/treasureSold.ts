@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { EXOTIC_CROPS, ExoticCropName } from "features/game/types/beans";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { Collectibles, GameState } from "features/game/types/game";
 import {
@@ -12,7 +13,7 @@ import cloneDeep from "lodash.clonedeep";
 
 export type SellTreasureAction = {
   type: "treasure.sold";
-  item: BeachBountyTreasure;
+  item: BeachBountyTreasure | ExoticCropName;
   amount: number;
 };
 
@@ -34,6 +35,12 @@ export const getSellPrice = (
   return price;
 };
 
+export const isExoticCrop = (
+  item: BeachBountyTreasure | ExoticCropName
+): item is ExoticCropName => {
+  return item in EXOTIC_CROPS;
+};
+
 export function sellTreasure({ state, action }: Options) {
   const statecopy = cloneDeep(state);
   const { item, amount } = action;
@@ -43,7 +50,9 @@ export function sellTreasure({ state, action }: Options) {
   if (!bumpkin) {
     throw new Error("You do not have a Bumpkin");
   }
-  if (!(item in SELLABLE_TREASURE)) {
+
+  const SELLABLES = { ...SELLABLE_TREASURE, ...EXOTIC_CROPS };
+  if (!(item in SELLABLES)) {
     throw new Error("Not for sale");
   }
 
@@ -57,7 +66,9 @@ export function sellTreasure({ state, action }: Options) {
     throw new Error("Insufficient quantity to sell");
   }
 
-  const price = getSellPrice(SELLABLE_TREASURE[item], collectibles);
+  const price = isExoticCrop(item)
+    ? EXOTIC_CROPS[item].sellPrice
+    : getSellPrice(SELLABLES[item], collectibles);
   const sflEarned = price.mul(amount);
   bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sflEarned);
   bumpkin.activity = trackActivity(

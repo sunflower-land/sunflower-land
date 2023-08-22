@@ -15,7 +15,7 @@ import { getKeys } from "features/game/types/craftables";
 import { getBasketItems } from "./utils/inventory";
 import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { COMMODITIES } from "features/game/types/resources";
-import { BEANS } from "features/game/types/beans";
+import { BEANS, EXOTIC_CROPS } from "features/game/types/beans";
 import { FRUIT, FruitSeedName, FRUIT_SEEDS } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -102,6 +102,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const coupons = getItems(COUPONS);
   const easterEggs = getItems(EASTER_EGG);
   const bounty = getItems(SELLABLE_TREASURE);
+  const exotics = getItems(EXOTIC_CROPS);
 
   const allSeeds = [...seeds, ...fruitSeeds];
   const allTools = [...workbenchTools, ...treasureTools];
@@ -177,7 +178,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           {itemsSection("Foods", consumables)}
           {itemsSection("Fertilisers", fertilisers)}
           {itemsSection("Easter Eggs", easterEggs)}
-          {itemsSection("Bounty", bounty)}
+          {itemsSection("Bounty", [...bounty, ...exotics])}
           {itemsSection("Coupons", coupons)}
         </>
       }

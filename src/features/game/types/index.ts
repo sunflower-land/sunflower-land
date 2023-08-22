@@ -29,8 +29,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Blueberry Seed": 113,
   "Orange Seed": 114,
   "Magic Bean": 115,
-  "Shiny Bean": 116,
-  "Golden Bean": 117,
+  // "Shiny Bean": 116,
+  // "Golden Bean": 117,
   "Eggplant Seed": 118,
   "Corn Seed": 119,
 
@@ -100,9 +100,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Cabbage Girl": 435,
   "Wood Nymph Wendy": 436,
   "Stellar Sunflower": 437,
-  "Peaceful Potato": 438,
-  "Perky Pumpkin": 439,
-  "Colossal Crop": 440,
+  "Potent Potato": 438,
+  "Radical Radish": 439,
+  // "Colossal Crop": 440,
   "Immortal Pear": 441,
   "Lady Bug": 442,
   "Squirrel Monkey": 443,
@@ -244,7 +244,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Witches' Eve Banner": 724,
   "Crow Feather": 725,
   "Gold Pass": 726,
-  "Potion Point": 727,
+  "Potion Ticket": 727,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -445,6 +445,14 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Seaweed: 1307,
   "Sea Cucumber": 1308,
   Crab: 1309,
+  // Exotic Crops
+  "Black Magic": 1401,
+  "Golden Helios": 1402,
+  Chiogga: 1403,
+  "Purple Cauliflower": 1404,
+  "Adirondack Potato": 1405,
+  "Warty Goblin Pumpkin": 1406,
+  "White Carrot": 1407,
 };
 
 // The reverse of above

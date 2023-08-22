@@ -52,8 +52,6 @@ const INITIAL_STOCK: Inventory = {
 
   "Boiled Eggs": new Decimal(1),
   "Magic Bean": new Decimal(5),
-  "Shiny Bean": new Decimal(5),
-  "Golden Bean": new Decimal(5),
 
   "Immortal Pear": new Decimal(1),
 };

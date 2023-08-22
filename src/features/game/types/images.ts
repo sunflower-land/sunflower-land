@@ -1,7 +1,5 @@
 // CROPS
 import magicBean from "assets/crops/magic_bean.png";
-import shinyBean from "assets/crops/shiny_bean.png";
-import goldenBean from "assets/crops/golden_bean.png";
 import appleSeed from "assets/fruit/apple/apple_seed.png";
 import orangeSeed from "assets/fruit/orange/orange_seed.png";
 import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
@@ -423,6 +421,16 @@ import giantPotato from "assets/sfts/giant_potato.png";
 import labGrownCarrot from "assets/sfts/lab_grown_carrot.gif";
 import labGrownPumpkin from "assets/sfts/lab_grown_pumpkin.gif";
 import labGrownRadish from "assets/sfts/lab_grown_radish.gif";
+import adirondackPotato from "assets/potion_house/adirondack_potato.png";
+import goldenHelios from "assets/potion_house/golden_helios.png";
+import chiogga from "assets/potion_house/chiogga.png";
+import blackMagic from "assets/potion_house/black_magic.png";
+import purpleCauliflower from "assets/potion_house/purple_cauliflower.png";
+import whiteCarrot from "assets/potion_house/white_carrot.png";
+import wartyGoblinPumpkin from "assets/potion_house/warty_goblin_pumpkin.png";
+import potatoMutant from "assets/sfts/potato_mutant.gif";
+import radishMutant from "assets/sfts/radish_mutant.gif";
+import sunflowerMutant from "assets/sfts/sunflower_mutant.gif";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -449,12 +457,16 @@ import {
   LANDSCAPING_DECORATIONS,
   POTION_HOUSE_DECORATIONS,
 } from "./decorations";
-import { BEANS } from "./beans";
+import { BEANS, EXOTIC_CROPS } from "./beans";
 import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
 //Golden Crop Event
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
-import { GOBLIN_PIRATE_ITEMS, HELIOS_BLACKSMITH_ITEMS } from "./collectibles";
+import {
+  GOBLIN_PIRATE_ITEMS,
+  HELIOS_BLACKSMITH_ITEMS,
+  POTION_HOUSE_ITEMS,
+} from "./collectibles";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -586,17 +598,9 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Wheat.seed,
     secondaryImage: CROP_LIFECYCLE.Wheat.crop,
   },
-  "Golden Bean": {
-    description: BEANS()["Golden Bean"].description,
-    image: goldenBean,
-  },
   "Magic Bean": {
     description: BEANS()["Magic Bean"].description,
     image: magicBean,
-  },
-  "Shiny Bean": {
-    description: BEANS()["Shiny Bean"].description,
-    image: shinyBean,
   },
   "Kale Seed": {
     description: CROP_SEEDS()["Kale Seed"].description,
@@ -1759,21 +1763,18 @@ export const ITEM_DETAILS: Items = {
     description: "A precious potato, encourages bonus potatoes on harvest.",
   },
 
-  "Colossal Crop": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "As big as the Empire State building",
+  "Potent Potato": {
+    image: potatoMutant,
+    description: "Potent! Grants a 4% chance to get +10 potatoes on harvest.",
   },
-  "Peaceful Potato": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "Practicioner of spud Yoga",
-  },
-  "Perky Pumpkin": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "???",
+  "Radical Radish": {
+    image: radishMutant,
+    description: "Radical! Grants a 4% chance to get +10 radishes on harvest.",
   },
   "Stellar Sunflower": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "???",
+    image: sunflowerMutant,
+    description:
+      "Stellar! Grants a 4% chance to get +10 sunflowers on harvest.",
   },
   "Potted Potato": {
     image: pottedPotato,
@@ -2383,20 +2384,49 @@ export const ITEM_DETAILS: Items = {
     image: giantPumpkin,
     description: POTION_HOUSE_DECORATIONS()["Giant Pumpkin"].description,
   },
-  "Potion Point": {
+  "Potion Ticket": {
     image: potionPoint,
-    description: COUPONS["Potion Point"].description,
+    description: COUPONS["Potion Ticket"].description,
   },
   "Lab Grown Carrot": {
     image: labGrownCarrot,
-    description: POTION_HOUSE_DECORATIONS()["Lab Grown Carrot"].description,
+    description: POTION_HOUSE_ITEMS["Lab Grown Carrot"].description,
   },
   "Lab Grown Pumpkin": {
     image: labGrownPumpkin,
-    description: POTION_HOUSE_DECORATIONS()["Lab Grown Pumpkin"].description,
+    description: POTION_HOUSE_ITEMS["Lab Grown Pumpkin"].description,
   },
   "Lab Grown Radish": {
     image: labGrownRadish,
-    description: POTION_HOUSE_DECORATIONS()["Lab Grown Radish"].description,
+    description: POTION_HOUSE_ITEMS["Lab Grown Radish"].description,
+  },
+
+  "Adirondack Potato": {
+    image: adirondackPotato,
+    description: EXOTIC_CROPS["Adirondack Potato"].description,
+  },
+  "Black Magic": {
+    image: blackMagic,
+    description: EXOTIC_CROPS["Black Magic"].description,
+  },
+  Chiogga: {
+    image: chiogga,
+    description: EXOTIC_CROPS["Chiogga"].description,
+  },
+  "Golden Helios": {
+    image: goldenHelios,
+    description: EXOTIC_CROPS["Golden Helios"].description,
+  },
+  "Purple Cauliflower": {
+    image: purpleCauliflower,
+    description: EXOTIC_CROPS["Purple Cauliflower"].description,
+  },
+  "Warty Goblin Pumpkin": {
+    image: wartyGoblinPumpkin,
+    description: EXOTIC_CROPS["Warty Goblin Pumpkin"].description,
+  },
+  "White Carrot": {
+    image: whiteCarrot,
+    description: EXOTIC_CROPS["White Carrot"].description,
   },
 };
