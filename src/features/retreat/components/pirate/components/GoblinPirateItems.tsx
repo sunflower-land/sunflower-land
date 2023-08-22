@@ -58,6 +58,7 @@ export const GoblinPirateItems: React.FC<Props> = ({ onClose }) => {
   }, []);
 
   const inventory = state.inventory;
+  const collectibles = state.collectibles;
 
   const selectedItem = GOBLIN_PIRATE_ITEMS[selectedName];
 
@@ -93,6 +94,12 @@ export const GoblinPirateItems: React.FC<Props> = ({ onClose }) => {
 
   const soldOut = amountLeft <= 0;
 
+  const itemAmount = (name: GoblinPirateItemName) => {
+    const inventoryAmount = inventory[name] ?? new Decimal(0);
+
+    return inventoryAmount?.add(collectibles[name]?.length ?? 0);
+  };
+
   const Action = () => {
     if (soldOut) return <></>;
 
@@ -100,7 +107,7 @@ export const GoblinPirateItems: React.FC<Props> = ({ onClose }) => {
       return <span className="text-xxs text-center my-1">Coming soon</span>;
     }
 
-    if (inventory[selectedName])
+    if (inventory[selectedName] || collectibles[selectedName])
       return <span className="text-xxs text-center my-1">Already minted!</span>;
 
     return (
@@ -143,7 +150,7 @@ export const GoblinPirateItems: React.FC<Props> = ({ onClose }) => {
                 key={name}
                 onClick={() => setSelectedName(name)}
                 image={ITEM_DETAILS[name].image}
-                count={inventory[name]}
+                count={itemAmount(name)}
               />
             ))}
         </>

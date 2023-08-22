@@ -43,8 +43,6 @@ export type DecorationTreasure =
   | "Lifeguard Bear"
   | "Snorkel Bear"
   | "Whale Bear"
-  | "Parasaur Skull"
-  | "Golden Bear Head"
   | "Pirate Bear"
   | "Goblin Bear"
   | "Galleon"

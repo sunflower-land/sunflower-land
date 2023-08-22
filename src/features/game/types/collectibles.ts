@@ -260,6 +260,7 @@ export const GOBLIN_PIRATE_ITEMS: Record<
     description: "A skull from a parasaur!",
     ingredients: {
       "Emerald Compass": new Decimal(20),
+      "Block Buck": new Decimal(1),
     },
     supply: 1000,
   },
@@ -267,6 +268,7 @@ export const GOBLIN_PIRATE_ITEMS: Record<
     description: "Spooky, but cool.",
     ingredients: {
       "Emerald Compass": new Decimal(60),
+      "Block Buck": new Decimal(1),
     },
     supply: 200,
   },
