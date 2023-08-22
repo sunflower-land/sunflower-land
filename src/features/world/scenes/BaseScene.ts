@@ -345,6 +345,10 @@ export abstract class BaseScene extends Phaser.Scene {
         return;
       }
 
+      if (!this.scene?.isActive()) {
+        return;
+      }
+
       if (this.playerEntities[message.sessionId]) {
         this.playerEntities[message.sessionId].speak(message.text);
       } else if (message.sessionId === server.sessionId) {
