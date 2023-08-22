@@ -22,11 +22,11 @@ interface Props {
 }
 
 const obsessionDialogues = (itemName: string) => [
-  `Ah, the ${itemName}! I only wish to see it, not possess. Show it to me, and 3 Crow Feathers will be your reward.`,
-  `You've brought the ${itemName}? I merely want to gaze upon it. Let me see, and 3 Crow Feathers shall be yours.`,
-  `Is that the ${itemName} you have? A mere glance is all I desire. For this, you'll receive 3 Crow Feathers.`,
-  `The ${itemName}! I don't want to keep it, just to behold it. Show it to me, and 3 Crow Feathers are yours.`,
-  `You offer a view of the ${itemName}? All I ask is to see it briefly. For your generosity, 3 Crow Feathers will be granted to you.`,
+  `Ah, the ${itemName}! I only wish to see it, not possess. Show it to me, and Crow Feathers will be your reward.`,
+  `You've brought the ${itemName}? I merely want to gaze upon it. Let me see, and Crow Feathers shall be yours.`,
+  `Is that the ${itemName} you have? A mere glance is all I desire. For this, you'll receive Crow Feathers.`,
+  `The ${itemName}! I don't want to keep it, just to behold it. Show it to me, and Crow Feathers are yours.`,
+  `You offer a view of the ${itemName}? All I ask is to see it briefly. For your generosity, Crow Feathers will be granted to you.`,
 ];
 
 export const Bert: React.FC<Props> = ({ onClose }) => {
