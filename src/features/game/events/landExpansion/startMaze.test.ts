@@ -1,9 +1,10 @@
 import { TEST_FARM } from "features/game/lib/constants";
-import { MAZE_TIME_LIMIT_SECONDS, startMaze } from "./startMaze";
+import { startMaze } from "./startMaze";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { SeasonWeek } from "features/game/types/game";
 import { jest } from "@jest/globals";
 import Decimal from "decimal.js-light";
+import { CORN_MAZES } from "features/world/ui/cornMaze/lib/mazes";
 
 const WITCHES_EVE_ACTIVE_DATE = new Date("2023-08-5");
 
@@ -11,15 +12,15 @@ describe("startMaze", () => {
   const weeklyLostCrowCount = 25;
   let week: SeasonWeek;
 
-  beforeAll(() => {
+  beforeEach(() => {
     const timers = jest.useFakeTimers();
 
     timers.setSystemTime(new Date(WITCHES_EVE_ACTIVE_DATE));
 
-    week = getSeasonWeek(Date.now());
+    week = getSeasonWeek();
   });
 
-  afterAll(() => {
+  afterEach(() => {
     jest.useRealTimers();
   });
 
@@ -96,8 +97,9 @@ describe("startMaze", () => {
     expect(state.witchesEve?.maze[week]?.attempts.length).toEqual(1);
   });
 
-  it("doesn't take 5 SFL game fee if there is a maze in progress", () => {
+  it("doesn't take the SFL entry game fee if the player has already paid for the week", () => {
     const balance = new Decimal(10);
+    const sflFee = new Decimal(5);
 
     const state = startMaze({
       state: {
@@ -107,16 +109,11 @@ describe("startMaze", () => {
           weeklyLostCrowCount,
           maze: {
             [week]: {
+              sflFee,
+              paidEntryFee: true,
               highestScore: 0,
               claimedFeathers: 0,
-              attempts: [
-                {
-                  startedAt: Date.now() - 1 * 60 * 1000, // 1 minute ago
-                  crowsFound: 0,
-                  health: 3,
-                  timeRemaining: 120,
-                },
-              ],
+              attempts: [],
             },
           },
         },
@@ -126,19 +123,30 @@ describe("startMaze", () => {
       },
     });
 
-    expect(state.balance).toEqual(balance);
+    expect(state.balance).toEqual(new Decimal(10));
   });
 
-  it.skip("throws an error if the player doesn't have 5 SFL", () => {
+  it("throws an error if the player doesn't have enough SFL", () => {
+    const WEEK_3_DATE = new Date("2023-08-19");
+
+    const timers = jest.useFakeTimers();
+    timers.setSystemTime(new Date(WEEK_3_DATE));
+
+    const week = getSeasonWeek();
+    const balance = new Decimal(2);
+    const { sflFee } = CORN_MAZES[week];
+
     expect(() =>
       startMaze({
         state: {
           ...TEST_FARM,
-          balance: new Decimal(4),
+          balance,
           witchesEve: {
             weeklyLostCrowCount,
             maze: {
               [week]: {
+                sflFee,
+                paidEntryFee: false,
                 highestScore: 0,
                 claimedFeathers: 0,
                 attempts: [],
@@ -153,8 +161,15 @@ describe("startMaze", () => {
     ).toThrow("Insufficient SFL balance");
   });
 
-  it.skip("takes 5 SFL game fee if there is no maze in progress", () => {
+  it("takes SFL entry fee if the fee is greater than 0 and the player hasn't already paid it", () => {
+    const WEEK_3_DATE = new Date("2023-08-19");
+
+    const timers = jest.useFakeTimers();
+    timers.setSystemTime(new Date(WEEK_3_DATE));
+
+    const week = getSeasonWeek();
     const balance = new Decimal(10);
+    const { sflFee } = CORN_MAZES[week];
 
     const state = startMaze({
       state: {
@@ -164,6 +179,8 @@ describe("startMaze", () => {
           weeklyLostCrowCount,
           maze: {
             [week]: {
+              sflFee,
+              paidEntryFee: false,
               highestScore: 0,
               claimedFeathers: 0,
               attempts: [],
@@ -176,14 +193,23 @@ describe("startMaze", () => {
       },
     });
 
-    expect(state.balance).toEqual(balance.minus(5));
+    expect(state.balance).toEqual(balance.minus(sflFee));
   });
 
   it("initializes a new week if there is no weekly data for the current recorded", () => {
+    const WEEK_3_DATE = new Date("2023-08-19");
+
+    const timers = jest.useFakeTimers();
+    timers.setSystemTime(new Date(WEEK_3_DATE));
+
+    const week = getSeasonWeek();
+    const balance = new Decimal(10);
+    const { sflFee } = CORN_MAZES[week];
+
     const state = startMaze({
       state: {
         ...TEST_FARM,
-        balance: new Decimal(10),
+        balance,
         witchesEve: {
           weeklyLostCrowCount,
           maze: {},
@@ -196,6 +222,8 @@ describe("startMaze", () => {
 
     expect(state.witchesEve?.maze[week]).toEqual(
       expect.objectContaining({
+        sflFee,
+        paidEntryFee: true,
         highestScore: 0,
         claimedFeathers: 0,
         attempts: expect.any(Array),
@@ -203,7 +231,7 @@ describe("startMaze", () => {
     );
   });
 
-  it.skip("starts a new attempt if there is no maze in progress", () => {
+  it("starts a new attempt if there is no maze in progress", () => {
     const now = Date.now();
 
     const state = startMaze({
@@ -233,7 +261,7 @@ describe("startMaze", () => {
         startedAt: now,
         crowsFound: 0,
         health: 3,
-        timeRemaining: MAZE_TIME_LIMIT_SECONDS,
+        time: 0,
       })
     );
   });

@@ -37,7 +37,7 @@ export const TypingMessage: React.FC<Props> = ({
   });
 
   return (
-    <div>
+    <div className="leading-[1]">
       {forceShowFullMessage && <span>{message}</span>}
       {!forceShowFullMessage &&
         transitions((styles, { item, key }) => (

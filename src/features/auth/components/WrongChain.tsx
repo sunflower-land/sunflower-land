@@ -26,7 +26,7 @@ export const WrongChain: React.FC = () => {
   }, []);
 
   const initialiseNetwork = async () => {
-    await wallet.initialiseNetwork();
+    await wallet.initialiseNetwork(wallet.web3Provider);
   };
 
   return (

@@ -22,7 +22,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
   public speech: SpeechBubble | undefined;
   public invincible = false;
-  public isWalking = false;
 
   private clothing: Player["clothing"];
   private ready = false;
@@ -98,18 +97,27 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.scene.add.existing(this);
 
     if (onClick) {
-      this.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        onClick();
+      this.setInteractive({ cursor: "pointer" }).on(
+        "pointerdown",
+        (p: Phaser.Input.Pointer) => {
+          if (p.downElement.nodeName === "CANVAS") {
+            onClick();
 
-        if (name) {
-          this.alert?.destroy();
+            if (name) {
+              this.alert?.destroy();
+            }
+          }
         }
-      });
+      );
     }
   }
 
   get directionFacing() {
     return this.direction;
+  }
+
+  get isWalking() {
+    return !!this.sprite?.anims?.currentAnim?.key?.includes("bumpkin-walking");
   }
 
   private async loadSprites(scene: Phaser.Scene) {
@@ -165,19 +173,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           this.faceLeft();
         }
 
-        scene.anims.create({
-          key: this.idleAnimationKey,
-          frames: scene.anims.generateFrameNumbers(
-            this.idleSpriteKey as string,
-            {
-              start: 0,
-              end: 8,
-            }
-          ),
-          repeat: -1,
-          frameRate: 10,
-        });
-
+        this.createIdleAnimation();
         this.sprite.play(this.idleAnimationKey as string, true);
 
         this.ready = true;
@@ -187,7 +183,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       });
     }
 
-    if (!scene.textures.exists(this.walkingSpriteKey)) {
+    if (scene.textures.exists(this.walkingSpriteKey)) {
+      this.createWalkingAnimation();
+    } else {
       const walkingLoader = scene.load.spritesheet(
         this.walkingSpriteKey,
         sheets.walking,
@@ -198,22 +196,46 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       );
 
       walkingLoader.on(Phaser.Loader.Events.COMPLETE, () => {
-        scene.anims.create({
-          key: this.walkingAnimationKey,
-          frames: scene.anims.generateFrameNumbers(
-            this.walkingSpriteKey as string,
-            {
-              start: 0,
-              end: 7,
-            }
-          ),
-          repeat: -1,
-          frameRate: 10,
-        });
+        this.createWalkingAnimation();
+        walkingLoader.removeAllListeners();
       });
     }
 
     scene.load.start();
+  }
+
+  private createIdleAnimation() {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.idleAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(
+        this.idleSpriteKey as string,
+        {
+          start: 0,
+          end: 8,
+        }
+      ),
+      repeat: -1,
+      frameRate: 10,
+    });
+  }
+
+  private createWalkingAnimation() {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.walkingAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(
+        this.walkingSpriteKey as string,
+        {
+          start: 0,
+          end: 7,
+        }
+      ),
+      repeat: -1,
+      frameRate: 10,
+    });
   }
 
   public changeClothing(clothing: Player["clothing"]) {
@@ -288,8 +310,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.scene?.anims.exists(this.walkingAnimationKey as string) &&
       this.sprite?.anims.getName() !== this.walkingAnimationKey
     ) {
-      this.sprite.anims.play(this.walkingAnimationKey as string, true);
-      this.isWalking = true;
+      try {
+        this.sprite.anims.play(this.walkingAnimationKey as string, true);
+      } catch (e) {
+        console.log("Bumpkin Container: Error playing walk animation: ", e);
+      }
     }
   }
 
@@ -299,9 +324,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.scene?.anims.exists(this.idleAnimationKey as string) &&
       this.sprite?.anims.getName() !== this.idleAnimationKey
     ) {
-      this.sprite.anims.play(this.idleAnimationKey as string, true);
-      if (this.isWalking) {
-        this.isWalking = false;
+      try {
+        this.sprite.anims.play(this.idleAnimationKey as string, true);
+      } catch (e) {
+        console.log("Bumpkin Container: Error playing idle animation: ", e);
       }
     }
   }
@@ -321,7 +347,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     setTimeout(() => {
       this.invincible = false;
-      tween.remove();
+
+      if (tween && tween.isPlaying()) {
+        tween.remove();
+      }
     }, 2000);
   }
 }

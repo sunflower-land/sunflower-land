@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import planted from "assets/crops/bean_planted.png";
 import ready from "assets/crops/bean_ready.png";
 import growing from "assets/crops/bean_growing.png";
+import magicBean from "assets/crops/magic_bean.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
@@ -19,6 +20,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
+import { Panel } from "components/ui/Panel";
 
 export const getBeanStates = (name: InventoryItemName, createdAt: number) => {
   const plantSeconds = BEANS()[name as BeanName].plantSeconds;
@@ -38,12 +40,14 @@ export const Bean: React.FC<CollectibleProps> = ({
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showModal, setShowModal] = useState(false);
+  const [isRevealing, setIsRevealing] = useState(false);
 
   useUiRefresher();
 
   const { isReady, timeLeft, plantSeconds } = getBeanStates(name, createdAt);
 
   const harvest = () => {
+    setIsRevealing(true);
     gameService.send("REVEAL", {
       event: {
         type: "bean.harvested",
@@ -54,40 +58,50 @@ export const Bean: React.FC<CollectibleProps> = ({
     });
   };
 
-  if (gameState.matches("revealing")) {
-    return <Revealing icon={ready} />;
-  }
-
-  if (gameState.matches("revealed")) {
-    return <Revealed />;
-  }
-
   if (isReady) {
     return (
-      <div
-        className="absolute w-full h-full hover:img-highlight cursor-pointer"
-        onClick={harvest}
-      >
-        <img
-          src={SUNNYSIDE.icons.expression_alerted}
-          className="animate-float z-10 absolute"
-          style={{
-            width: `${PIXEL_SCALE * 4}px`,
-            left: `${PIXEL_SCALE * 14}px`,
-            bottom: `${PIXEL_SCALE * 26}px`,
-          }}
-        />
-        <img
-          src={ready}
-          style={{
-            width: `${PIXEL_SCALE * 30}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-            bottom: `${PIXEL_SCALE * 2}px`,
-          }}
-          className="absolute pointer-events-none"
-          alt="Bean"
-        />
-      </div>
+      <>
+        <div
+          className="absolute w-full h-full hover:img-highlight cursor-pointer"
+          onClick={harvest}
+        >
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            className="animate-float z-10 absolute"
+            style={{
+              width: `${PIXEL_SCALE * 4}px`,
+              left: `${PIXEL_SCALE * 14}px`,
+              bottom: `${PIXEL_SCALE * 26}px`,
+            }}
+          />
+          <img
+            src={ready}
+            style={{
+              width: `${PIXEL_SCALE * 30}px`,
+              left: `${PIXEL_SCALE * 1}px`,
+              bottom: `${PIXEL_SCALE * 2}px`,
+            }}
+            className="absolute pointer-events-none"
+            alt="Bean"
+          />
+        </div>
+
+        {gameState.matches("revealing") && isRevealing && (
+          <Modal show centered backdrop="static">
+            <Panel className="z-10">
+              <Revealing icon={magicBean} />
+            </Panel>
+          </Modal>
+        )}
+
+        {gameState.matches("beanRevealed") && isRevealing && (
+          <Modal show centered backdrop="static">
+            <Panel className="z-10">
+              <Revealed id={id} onAcknowledged={() => setIsRevealing(false)} />
+            </Panel>
+          </Modal>
+        )}
+      </>
     );
   }
 

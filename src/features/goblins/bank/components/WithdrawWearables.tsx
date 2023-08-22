@@ -66,10 +66,29 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   // TODO - Filter out currently equipped items!
+  const bumpkin = goblinState.context.state.bumpkin!;
+  const { equipped } = bumpkin;
 
-  const withdrawableItems = [...new Set([...getKeys(wardrobe)])].sort(
-    (a, b) => ITEM_IDS[a] - ITEM_IDS[b]
-  );
+  const isCurrentObsession = (itemName: BumpkinItem) => {
+    const obsessionCompletedAt =
+      goblinState.context.state.npcs?.bert?.questCompletedAt;
+    const currentObsession = goblinState.context.state.bertObsession;
+
+    if (!obsessionCompletedAt || !currentObsession) return false;
+    if (currentObsession.name !== itemName) return false;
+
+    return (
+      obsessionCompletedAt >= currentObsession.startDate &&
+      obsessionCompletedAt <= currentObsession.endDate
+    );
+  };
+
+  const withdrawableItems = [...new Set([...getKeys(wardrobe)])]
+    .sort((a, b) => ITEM_IDS[a] - ITEM_IDS[b])
+    .filter(
+      (item) =>
+        !Object.values(equipped).includes(item) && !isCurrentObsession(item)
+    );
 
   const selectedItems = getKeys(selected)
     .filter((item) => !!selected[item])
@@ -77,7 +96,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
 
   return (
     <>
-      <div className="mt-3">
+      <div className="p-2 mt-3">
         <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
           <span className="text-xs">
             {
@@ -116,7 +135,9 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
                   count={new Decimal(wardrobeCount ?? 0)}
                   key={itemName}
                   onClick={() => onAdd(itemName)}
-                  disabled={!BUMPKIN_WITHDRAWABLES[itemName]()}
+                  disabled={
+                    !BUMPKIN_WITHDRAWABLES[itemName](goblinState.context.state)
+                  }
                   image={getImageUrl(ITEM_IDS[itemName])}
                 />
               );

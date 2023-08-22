@@ -17,7 +17,7 @@ describe("mazeSaved", () => {
 
     timers.setSystemTime(new Date(INSIDE_WITCHES_EVE_DATE));
 
-    week = getSeasonWeek(Date.now());
+    week = getSeasonWeek();
   });
 
   afterAll(() => {
@@ -98,32 +98,6 @@ describe("mazeSaved", () => {
     ).toThrow("Maze data not found for current week");
   });
 
-  it("throws an error if the player has not started an attempt", () => {
-    expect(() =>
-      saveMaze({
-        state: {
-          ...TEST_FARM,
-          witchesEve: {
-            weeklyLostCrowCount,
-            maze: {
-              [week]: {
-                highestScore: 0,
-                claimedFeathers: 0,
-                attempts: [],
-              },
-            },
-          },
-        },
-        action: {
-          type: "maze.saved",
-          crowsFound: 0,
-          health: 0,
-          timeRemaining: 0,
-        },
-      })
-    ).toThrow("No in progress maze attempt found");
-  });
-
   it("updates values an active attempt", () => {
     const crowsFound = 5;
     const health = 3;
@@ -162,6 +136,76 @@ describe("mazeSaved", () => {
     expect(
       state.witchesEve?.maze?.[week]?.attempts[0].completedAt
     ).toBeUndefined();
+  });
+
+  it("returns the same state if the player has no active attempt", () => {
+    const state = saveMaze({
+      state: {
+        ...TEST_FARM,
+        witchesEve: {
+          weeklyLostCrowCount,
+          maze: {
+            [week]: {
+              highestScore: 0,
+              claimedFeathers: 0,
+              attempts: [],
+            },
+          },
+        },
+      },
+      action: {
+        type: "maze.saved",
+        crowsFound: 0,
+        health: 0,
+        timeRemaining: 0,
+      },
+    });
+
+    expect(state).toEqual({
+      ...TEST_FARM,
+      witchesEve: {
+        weeklyLostCrowCount,
+        maze: {
+          [week]: {
+            highestScore: 0,
+            claimedFeathers: 0,
+            attempts: [],
+          },
+        },
+      },
+    });
+  });
+
+  it("doesn't reward feathers if attempt is not completed", () => {
+    const crowsFound = 5;
+    const health = 3;
+    const timeRemaining = 30;
+
+    const state = saveMaze({
+      state: {
+        ...TEST_FARM,
+        witchesEve: {
+          weeklyLostCrowCount,
+          maze: {
+            [week]: {
+              highestScore: 0,
+              claimedFeathers: 0,
+              attempts: [{ crowsFound: 1, health: 3, timeRemaining: 60 }],
+            },
+          },
+        },
+      },
+      action: {
+        type: "maze.saved",
+        crowsFound,
+        health,
+        timeRemaining,
+      },
+    });
+
+    expect(state.inventory["Crow Feather"] ?? new Decimal(0)).toEqual(
+      new Decimal(0)
+    );
   });
 
   it("sets completedAt on an attempt that has ended", () => {
@@ -228,6 +272,7 @@ describe("mazeSaved", () => {
         crowsFound,
         health,
         timeRemaining,
+        completedAt: Date.now(),
       },
     });
 
@@ -419,6 +464,7 @@ describe("mazeSaved", () => {
         crowsFound,
         health,
         timeRemaining,
+        completedAt: Date.now(),
       },
     });
 

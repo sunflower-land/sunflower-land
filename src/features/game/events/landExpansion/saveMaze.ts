@@ -10,6 +10,7 @@ export type SaveMazeAction = {
   crowsFound: number;
   health: number;
   timeRemaining: number;
+  crowIds?: string[];
   completedAt?: number;
 };
 
@@ -45,7 +46,7 @@ export function saveMaze({ state, action, createdAt = Date.now() }: Options) {
   }
 
   const { startDate } = SEASONS["Witches' Eve"];
-  const currentWeek = getSeasonWeek(createdAt);
+  const currentWeek = getSeasonWeek();
 
   if (createdAt < startDate.getTime() && process.env.NETWORK === "mainnet") {
     throw new Error("Witches eve has not started");
@@ -68,18 +69,21 @@ export function saveMaze({ state, action, createdAt = Date.now() }: Options) {
   const attemptIdx = attempts.findIndex((attempt) => !attempt.completedAt);
 
   if (attemptIdx < 0) {
-    throw new Error("No in progress maze attempt found");
+    return copy;
   }
 
   // Update attempt values
   attempts[attemptIdx].crowsFound = action.crowsFound;
   attempts[attemptIdx].health = action.health;
   attempts[attemptIdx].time = MAZE_TIME_LIMIT_SECONDS - action.timeRemaining;
+  attempts[attemptIdx].crowIds = action.crowIds;
+
+  if (!action.completedAt) {
+    return copy;
+  }
 
   // End attempt
-  if (action.completedAt) {
-    attempts[attemptIdx].completedAt = action.completedAt;
-  }
+  attempts[attemptIdx].completedAt = action.completedAt;
 
   // Don't give any feather if the player died or ran out of time
   if (action.health <= 0 || action.timeRemaining <= 0) {
@@ -87,7 +91,7 @@ export function saveMaze({ state, action, createdAt = Date.now() }: Options) {
   }
 
   // Return if the player didn't beat their highest score
-  if (action.crowsFound < maze.highestScore) {
+  if (action.crowsFound <= maze.highestScore) {
     return copy;
   }
 

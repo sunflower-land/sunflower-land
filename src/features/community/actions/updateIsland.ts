@@ -1,14 +1,15 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { Wardrobe } from "features/game/types/game";
+import { GameState, Wardrobe } from "features/game/types/game";
 import { InventoryItemName } from "../types/community";
+import { makeGame } from "features/game/lib/transforms";
 
 type Request = {
   token: string;
   islandId: string;
   farmId: number;
   apiKey: string;
-  metadata: string;
+  metadata?: string;
   mintItems?: Partial<Record<InventoryItemName, number>>;
   mintWearables?: Wardrobe;
   burnItems?: Partial<Record<InventoryItemName, number>>;
@@ -18,6 +19,7 @@ type Request = {
 
 type Response = {
   updatedAt: number;
+  game: GameState;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -70,9 +72,53 @@ export async function updateIsland(
     throw new Error(ERRORS.SESSION_SERVER_ERROR);
   }
 
-  const { updatedAt } = await response.json();
+  const { updatedAt, farm } = await response.json();
 
+  const game = makeGame(farm);
+
+  console.log({ game });
   return {
     updatedAt,
+    game,
+  };
+}
+
+/**
+ * Testnet only
+ */
+export async function resetIsland(request: Request) {
+  if (!API_URL || CONFIG.NETWORK === "mainnet") return;
+
+  const response = await window.fetch(
+    `${API_URL}/island/${request.islandId}/farm/${request.farmId}/reset`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        Authorization: `Bearer ${request.token}`,
+        accept: "application/json",
+        "X-Transaction-ID": request.transactionId ?? "",
+      },
+    }
+  );
+
+  if (response.status === 503) {
+    throw new Error(ERRORS.MAINTENANCE);
+  }
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
+
+  if (response.status === 401) {
+    throw new Error(ERRORS.SESSION_EXPIRED);
+  }
+
+  if (response.status >= 400) {
+    throw new Error(ERRORS.SESSION_SERVER_ERROR);
+  }
+
+  return {
+    success: true,
   };
 }

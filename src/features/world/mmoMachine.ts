@@ -57,6 +57,7 @@ export interface MMOContext {
   serverId: ServerId;
   initialSceneId: SceneId;
   experience: number;
+  isCommunity?: boolean;
 }
 
 export type MMOState = {
@@ -67,7 +68,8 @@ export type MMOState = {
     | "connecting"
     | "connected"
     | "kicked"
-    | "reconnecting";
+    | "reconnecting"
+    | "exploring"; // Community island
   context: MMOContext;
 };
 
@@ -76,11 +78,18 @@ export type PickServer = {
   serverId: ServerId;
 };
 
+export type ConnectEvent = {
+  type: "CONNECT";
+  url: string;
+  serverId: string;
+};
+
 export type MMOEvent =
   | PickServer
   | { type: "CONTINUE" }
   | { type: "DISCONNECTED" }
-  | { type: "RETRY" };
+  | { type: "RETRY" }
+  | ConnectEvent;
 
 export type MachineState = State<MMOContext, MMOEvent, MMOState>;
 
@@ -102,16 +111,27 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     serverId: "sunflorea_bliss",
     initialSceneId: "plaza",
     experience: 0,
+    isCommunity: false,
   },
   exit: (context) => context.server?.leave(),
   states: {
     initialising: {
       always: [
         {
+          target: "idle",
+          cond: (context) => !!context.isCommunity,
+        },
+        {
           target: "connecting",
         },
       ],
     },
+    idle: {
+      on: {
+        CONNECT: "exploring",
+      },
+    },
+
     connecting: {
       invoke: {
         id: "connecting",
@@ -137,8 +157,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             return { ...server, population };
           });
 
-          console.log({ servers });
-          return { client, servers };
+          return { client, servers, serverId: (event as any).serverId };
         },
         onDone: [
           {
@@ -150,6 +169,45 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             actions: assign({
               client: (_, event) => event.data.client,
               availableServers: (_, event) => event.data.servers,
+            }),
+          },
+        ],
+        onError: {
+          target: "error",
+        },
+      },
+    },
+
+    // Connect to URL and room in same call (community island)
+    exploring: {
+      invoke: {
+        id: "exploring",
+        src: (context, event) => async () => {
+          const { url, serverId } = event as ConnectEvent;
+
+          const client = new Client(url);
+
+          // Join server based on what was selected
+          const server = await client?.joinOrCreate<PlazaRoomState>(serverId, {
+            jwt: context.jwt,
+            bumpkin: context.bumpkin,
+            farmId: context.farmId,
+            x: SPAWNS.plaza.default.x,
+            y: SPAWNS.plaza.default.y,
+            sceneId: context.initialSceneId,
+            experience: context.experience,
+          });
+
+          console.log({ server, client, serverId });
+          return { server, client, serverId };
+        },
+        onDone: [
+          {
+            target: "joined",
+            actions: assign({
+              server: (_, event) => event.data.server,
+              client: (_, event) => event.data.client,
+              serverId: (_, event) => event.data.serverId,
             }),
           },
         ],
@@ -237,3 +295,23 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     },
   },
 });
+
+/**
+ * Simple bus to send MMO events from game
+ */
+class MMOBus {
+  private listener?: (message: any) => void;
+
+  public send(message: any) {
+    console.log({ message });
+    if (this.listener) {
+      this.listener(message);
+    }
+  }
+
+  public listen(cb: (message: any) => void) {
+    this.listener = cb;
+  }
+}
+
+export const mmoBus = new MMOBus();

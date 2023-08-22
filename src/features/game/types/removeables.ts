@@ -82,12 +82,27 @@ function areAnyAdvancedCropsPlanted(game: GameState): Restriction {
   const cropsPlanted = Object.values(game.crops ?? {}).some(
     (plot) =>
       plot.crop?.name === "Eggplant" ||
+      plot.crop?.name === "Corn" ||
       plot.crop?.name === "Radish" ||
       plot.crop?.name === "Wheat" ||
       plot.crop?.name === "Kale"
   );
 
   return [cropsPlanted, "Advanced crops are planted"];
+}
+
+function areAnyAdvancedOrMediumCropsPlanted(game: GameState): Restriction {
+  const mediumCropsPlanted = areAnyMediumCropsPlanted(game)[0];
+  if (mediumCropsPlanted) {
+    return [mediumCropsPlanted, "Medium crops are planted"];
+  }
+
+  const advancedCropsPlanted = areAnyAdvancedCropsPlanted(game)[0];
+  if (advancedCropsPlanted) {
+    return [advancedCropsPlanted, "Advanced crops are planted"];
+  }
+
+  return [advancedCropsPlanted, "Medium crops are planted"];
 }
 
 function areAnyTreesChopped(game: GameState): Restriction {
@@ -195,6 +210,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Sir Goldensnout": (game) => areAnyCropsPlanted(game),
   "Scary Mike": (game) => areAnyMediumCropsPlanted(game),
   "Laurie the Chuckle Crow": (game) => areAnyAdvancedCropsPlanted(game),
+  Gnome: (game) => areAnyAdvancedOrMediumCropsPlanted(game),
 
   "Cabbage Boy": (game) => cropIsPlanted({ item: "Cabbage", game }),
   "Cabbage Girl": (game) => cropIsPlanted({ item: "Cabbage", game }),
@@ -209,6 +225,8 @@ export const REMOVAL_RESTRICTIONS: Partial<
   Poppy: (game) => cropIsPlanted({ game, item: "Corn" }),
   Kernaldo: (game) => cropIsPlanted({ game, item: "Corn" }),
   "Queen Cornelia": (game) => cropIsPlanted({ game, item: "Corn" }),
+  Maximus: (game) => cropIsPlanted({ item: "Eggplant", game }),
+  "Purple Trail": (game) => cropIsPlanted({ item: "Eggplant", game }),
 
   "Squirrel Monkey": (game) => areFruitsGrowing(game, "Orange"),
   "Black Bearry": (game) => areFruitsGrowing(game, "Blueberry"),
@@ -276,7 +294,8 @@ export const hasMoveRestriction = (
     name === "Sir Goldensnout" ||
     name === "Scary Mike" ||
     name === "Laurie the Chuckle Crow" ||
-    name === "Queen Cornelia";
+    name === "Queen Cornelia" ||
+    name === "Gnome";
 
   const [isRestricted, restrictionReason] = hasRemoveRestriction(
     name,

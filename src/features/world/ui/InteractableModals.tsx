@@ -108,14 +108,26 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
       )}
 
       {interactable === "potion_table" &&
-        hasFeatureAccess(state.inventory, "POTION_HOUSE") && <PotionHouse />}
+        hasFeatureAccess(state.inventory, "POTION_HOUSE") && (
+          <PotionHouse onClose={closeModal} />
+        )}
 
-      <Modal centered show={interactable === "boat_modal"} onHide={closeModal}>
+      <Modal
+        centered
+        show={interactable === "boat_modal"}
+        onHide={closeModal}
+        onShow={() => gameService.send("SAVE")}
+      >
         <CloseButtonPanel onClose={closeModal}>
           <div className="p-2">
             <p className="mb-3">Would you like to return home?</p>
           </div>
-          <Button onClick={() => navigate(`/land/${id}`)}>Go home</Button>
+          <Button
+            onClick={() => navigate(`/land/${id}`)}
+            disabled={gameState.matches("autosaving")}
+          >
+            {gameState.matches("autosaving") ? "Saving..." : "Go home"}
+          </Button>
         </CloseButtonPanel>
       </Modal>
 
@@ -279,7 +291,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
               text: "Eggplants, they're more than they appear. Despite their dark exterior that attracts shadowy creatures, they bring light to our dishes.",
             },
             {
-              text: "Grilled or mashed into a baba ganoush, their versatility is unmatched. The nightshade vegetables are a symbol of our resilience in the face of adversity.",
+              text: "Grilled or mashed into a Bumpkin ganoush, their versatility is unmatched. The nightshade vegetables are a symbol of our resilience in the face of adversity.",
             },
           ]}
         />

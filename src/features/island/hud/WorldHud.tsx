@@ -17,6 +17,7 @@ import { Save } from "./components/Save";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Settings } from "./components/Settings";
 import { DeliveryButton } from "./components/deliveries/DeliveryButton";
+import { Leaderboard } from "features/game/expansion/components/leaderboard/Leaderboard";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -29,6 +30,8 @@ const HudComponent: React.FC = () => {
 
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
+
+  const farmId = Number(authService.state.context.user.farmId);
 
   const autosaving = gameState.matches("autosaving");
 
@@ -85,7 +88,16 @@ const HudComponent: React.FC = () => {
             }
             isFullUser={isFullUser}
           />
-          <div className="fixed z-50 bottom-0 left-0">
+          <div
+            className="fixed z-50 flex flex-col justify-between"
+            style={{
+              left: `${PIXEL_SCALE * 3}px`,
+              bottom: `${PIXEL_SCALE * 3}px`,
+              width: `${PIXEL_SCALE * 22}px`,
+              height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
+            }}
+          >
+            <Leaderboard farmId={farmId} />
             <DeliveryButton />
           </div>
           <BumpkinProfile isFullUser={isFullUser} />

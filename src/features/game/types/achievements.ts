@@ -233,7 +233,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       getBumpkinLevel(gameState.bumpkin?.experience || 0),
     requirement: 3,
     sfl: marketRate(10),
-    rewards: {},
     introduction: [
       "Howdy, my ambitious friend! To unlock new crops, expansions, buildings and much more you will need to level up.",
       "Head over to the Fire Pit, cook up a delicious recipe and feed it to your Bumpkin",
@@ -473,7 +472,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
     requirement: 6,
     sfl: marketRate(0),
-    rewards: {},
   },
   "Land Expansion Extraordinaire": {
     description: "Expand your land to new horizons.",
@@ -482,7 +480,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
     requirement: 7,
     sfl: marketRate(0),
-    rewards: {},
   },
   "Land Baron": {
     description: "Expand your land to new horizons.",
@@ -491,7 +488,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
     requirement: 5,
     sfl: marketRate(0),
-    rewards: {},
   },
 
   // Building
@@ -502,7 +498,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
     requirement: 1,
     sfl: marketRate(0),
-    rewards: {},
     introduction: [
       "Well, well, well, what do we have here?",
       "It looks like your crops are thirsty. To support more crops you must first build a well.",
@@ -540,7 +535,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
     requirement: 50,
     sfl: marketRate(0),
-    rewards: {},
     introduction: [
       "Hey there, fruit gatherer! Fruits are nature's sweetest gifts, and they bring a burst of flavor to your farm.",
       "By collecting different fruits, such as apples, oranges, and blueberries, you'll unlock unique recipes, boost your cooking skills, and create delightful treats",
@@ -595,7 +589,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
     requirement: 3,
     sfl: marketRate(0),
-    rewards: {},
     introduction: [
       "Howdy, reliable farmer! Bumpkins from all around need your help with deliveries.",
       "By completing deliveries, you'll make them happy and earn some fantastic SFL rewards in return ",
@@ -608,7 +601,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
     requirement: 100,
     sfl: marketRate(0),
-    rewards: {},
   },
 
   // Seasons
@@ -619,7 +611,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
     requirement: 50,
     sfl: marketRate(0),
-    rewards: {},
     introduction: [
       "Howdy, seasonal adventurer! Sunflower Land is known for its special seasons filled with unique items and surprises.",
       "By collecting Seasonal resources, you'll gain access to limited-time rewards, exclusive crafts, and rare treasures. It's like having a front-row ticket to the wonders of each season.",
@@ -635,7 +626,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
     requirement: 10,
     sfl: marketRate(0),
-    rewards: {},
     introduction: [
       "Ahoy, treasure hunter! Sunflower Land is full of hidden treasures waiting to be discovered.",
       "Grab your shovel and head to Treasure Island, where you can dig for valuable items and rare surprises.",
@@ -650,7 +640,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
     requirement: 10,
     sfl: marketRate(0),
-    rewards: {},
     introduction: [
       "Howdy, egg collector! Chickens are wonderful farm companions that provide us with delicious eggs.",
       "By collecting eggs, you'll have a fresh supply of ingredients for cooking, and you'll also unlock special recipes and bonuses.",

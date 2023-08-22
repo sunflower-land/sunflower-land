@@ -1094,4 +1094,46 @@ describe("canremove", () => {
 
     expect(restricted).toBe(true);
   });
+
+  it("prevents a user from removing Maximus when Eggplant is planted", () => {
+    const [restricted] = hasRemoveRestriction("Maximus", "1", {
+      ...TEST_FARM,
+      crops: {
+        0: {
+          createdAt: Date.now(),
+          x: -2,
+          y: -1,
+          height: 1,
+          width: 1,
+          crop: { name: "Eggplant", plantedAt: Date.now(), amount: 1 },
+        },
+      },
+      inventory: {
+        Maximus: new Decimal(1),
+      },
+    });
+
+    expect(restricted).toBe(true);
+  });
+
+  it("prevents a user from removing Purple Trail when Eggplant is planted", () => {
+    const [restricted] = hasRemoveRestriction("Purple Trail", "1", {
+      ...TEST_FARM,
+      crops: {
+        0: {
+          createdAt: Date.now(),
+          x: -2,
+          y: -1,
+          height: 1,
+          width: 1,
+          crop: { name: "Eggplant", plantedAt: Date.now(), amount: 1 },
+        },
+      },
+      inventory: {
+        Maximus: new Decimal(1),
+      },
+    });
+
+    expect(restricted).toBe(true);
+  });
 });

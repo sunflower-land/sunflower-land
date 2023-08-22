@@ -27,7 +27,6 @@ export const Rules: React.FC<Props> = ({ onDone }) => {
             <li>Choose a combination of potions and attempt to mix them.</li>
             <li>Adjust your next combination based on the feedback given.</li>
             <li>{`If you add the "chaos" potion your score for that attempt will be 0.`}</li>
-            <li>{`The Golden Syrup is a special potion that is guaranteed to always be correct.`}</li>
             <li>
               When the game is complete, the score for your last attempt will
               determine help to determine your reward.

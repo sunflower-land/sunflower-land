@@ -3,32 +3,7 @@ import {
   getBasketItems,
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
-import { getKeys } from "../types/craftables";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
-
-const makeDawnbreaker = (dawnBreaker: any) => {
-  if (!dawnBreaker) return undefined;
-
-  return {
-    ...dawnBreaker,
-    currentWeek: Number(dawnBreaker.currentWeek),
-    availableLantern: dawnBreaker.availableLantern
-      ? {
-          ...dawnBreaker.availableLantern,
-          sfl: new Decimal(dawnBreaker.availableLantern.sfl ?? 0),
-          ingredients: getKeys(dawnBreaker.availableLantern.ingredients).reduce(
-            (ingredients, name) => ({
-              ...ingredients,
-              [name]: new Decimal(
-                dawnBreaker.availableLantern.ingredients[name]
-              ),
-            }),
-            {}
-          ),
-        }
-      : undefined,
-  };
-};
 
 /**
  * Converts API response into a game state
@@ -55,6 +30,7 @@ export function makeGame(farm: any): GameState {
     stockExpiry: farm.stockExpiry || {},
     balance: new Decimal(farm.balance),
     id: farm.id,
+    trades: farm.trades,
     tradeOffer: farm.tradeOffer
       ? {
           ...farm.tradeOffer,
@@ -64,6 +40,8 @@ export function makeGame(farm: any): GameState {
           })),
         }
       : undefined,
+
+    bertObsession: farm.bertObsession,
     grubOrdersFulfilled: farm.grubOrdersFulfilled,
     grubShop: farm.grubShop
       ? {
@@ -105,7 +83,6 @@ export function makeGame(farm: any): GameState {
       unread: [],
     },
     mushrooms: farm.mushrooms,
-    dawnBreaker: makeDawnbreaker(farm.dawnBreaker),
     witchesEve: farm.witchesEve,
     delivery: farm.delivery,
     potionHouse: farm.potionHouse,

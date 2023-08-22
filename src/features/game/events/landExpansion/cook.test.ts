@@ -272,4 +272,24 @@ describe("getReadyAt", () => {
 
     expect(time).toEqual(readyAt);
   });
+
+  it("applies 10% speed boost with Rush Hour skill", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      item: "Boiled Eggs",
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Luna's Hat" },
+      },
+      createdAt: now,
+    });
+
+    const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.5;
+
+    const readyAt =
+      now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
 });

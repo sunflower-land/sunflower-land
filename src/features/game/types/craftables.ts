@@ -11,6 +11,7 @@ import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
+  PotionHouseItemName,
   SeasonPassName,
   SoldOutCollectibleName,
 } from "./collectibles";
@@ -200,7 +201,8 @@ export type CollectibleName =
   | "Observatory"
   | "War Skull"
   | "War Tombstone"
-  | "Undead Rooster";
+  | "Undead Rooster"
+  | PotionHouseItemName;
 
 export type ToolName =
   | "Axe"
@@ -1104,13 +1106,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Cabbage Girl": { width: 1, height: 1 },
 
   "Magic Bean": { width: 2, height: 2 },
-  "Shiny Bean": { width: 2, height: 2 },
-  "Golden Bean": { width: 2, height: 2 },
 
   "Stellar Sunflower": { width: 1, height: 1 },
-  "Peaceful Potato": { width: 1, height: 1 },
-  "Perky Pumpkin": { width: 1, height: 1 },
-  "Colossal Crop": { width: 1, height: 1 },
+  "Potent Potato": { width: 1, height: 1 },
+  "Radical Radish": { width: 1, height: 1 },
 
   "Christmas Bear": { width: 1, height: 1 },
   "Christmas Snow Globe": { width: 2, height: 2 },
@@ -1180,6 +1179,11 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Scary Mike": { width: 1, height: 2 },
   "Laurie the Chuckle Crow": { width: 1, height: 2 },
   "Queen Cornelia": { width: 1, height: 2 },
+
+  // Potion House Items
+  "Lab Grown Carrot": { width: 1, height: 1 },
+  "Lab Grown Radish": { width: 1, height: 1 },
+  "Lab Grown Pumpkin": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

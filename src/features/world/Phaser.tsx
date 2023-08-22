@@ -12,7 +12,7 @@ import { AuctionScene } from "./scenes/AuctionHouseScene";
 
 import { InteractableModals } from "./ui/InteractableModals";
 import { NPCModals } from "./ui/NPCModals";
-import { MachineInterpreter, MachineState } from "./mmoMachine";
+import { MachineInterpreter, MachineState, mmoBus } from "./mmoMachine";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
 import { InnerPanel, Panel } from "components/ui/Panel";
@@ -36,6 +36,8 @@ import { SceneId } from "./mmoMachine";
 import { CornScene } from "./scenes/CornScene";
 import { useNavigate } from "react-router-dom";
 import { PlayerModals } from "./ui/PlayerModals";
+import { prepareAPI } from "features/community/lib/CommunitySDK";
+import { TradeCompleted } from "./ui/TradeCompleted";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -80,6 +82,15 @@ export const PhaserComponent: React.FC<Props> = ({
         ClothesShopScene,
         DecorationShopScene,
       ];
+
+  useEffect(() => {
+    // Set up community APIs
+    (window as any).CommunityAPI = prepareAPI({
+      farmId: authState.context.user.farmId as number,
+      jwt: authState.context.user.rawToken as string,
+      gameService: gameService,
+    });
+  }, []);
 
   useEffect(() => {
     const config: Phaser.Types.Core.GameConfig = {
@@ -139,26 +150,6 @@ export const PhaserComponent: React.FC<Props> = ({
       }
     });
 
-    mmoService.state.context.server?.state.messages.onChange(() => {
-      // Load active scene in Phaser, otherwise fallback to route
-      const currentScene =
-        game.current?.scene.getScenes(true)[0]?.scene.key ?? scene;
-
-      const sceneMessages =
-        mmoService.state.context.server?.state.messages.filter(
-          (m) => m.sceneId === currentScene
-        ) as Message[];
-
-      setMessages(
-        sceneMessages.map((m) => ({
-          farmId: m.farmId ?? 0,
-          text: m.text,
-          sessionId: m.sessionId,
-          sceneId: m.sceneId,
-        })) ?? []
-      );
-    });
-
     setLoaded(true);
 
     return () => {
@@ -180,6 +171,39 @@ export const PhaserComponent: React.FC<Props> = ({
     }
   }, [scene]);
 
+  useEffect(() => {
+    mmoService.state.context.server?.state.messages.onChange(() => {
+      // Load active scene in Phaser, otherwise fallback to route
+      const currentScene =
+        game.current?.scene.getScenes(true)[0]?.scene.key ?? scene;
+
+      console.log({
+        currentScene,
+        messages: mmoService.state.context.server?.state.messages,
+      });
+      const sceneMessages =
+        mmoService.state.context.server?.state.messages.filter(
+          (m) => m.sceneId === currentScene
+        ) as Message[];
+
+      setMessages(
+        sceneMessages.map((m) => ({
+          farmId: m.farmId ?? 0,
+          text: m.text,
+          sessionId: m.sessionId,
+          sceneId: m.sceneId,
+          sentAt: m.sentAt,
+        })) ?? []
+      );
+    });
+
+    mmoBus.listen((message) => {
+      mmoService.state.context.server?.send(0, message);
+    });
+  }, [mmoService.state.context.server]);
+
+  // Listen to state change from trading -> playing
+
   const ref = useRef<HTMLDivElement>(null);
 
   return (
@@ -187,6 +211,7 @@ export const PhaserComponent: React.FC<Props> = ({
       <div id="game-content" ref={ref} />
       {scene !== "corn_maze" && (
         <ChatUI
+          farmId={authState.context.user.farmId as number}
           onMessage={(m) => {
             mmoService.state.context.server?.send(0, {
               text: m.text ?? "?",
@@ -201,6 +226,11 @@ export const PhaserComponent: React.FC<Props> = ({
         }}
       />
       <PlayerModals />
+      <TradeCompleted
+        mmoService={mmoService}
+        farmId={authState.context.user.farmId as number}
+      />
+
       <CommunityModals />
       <CommunityToasts />
       <InteractableModals id={authState.context.user.farmId as number} />

@@ -2827,25 +2827,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/310.png",
     attributes: [{ trait_type: "Purpose", value: "Tool" }],
   },
-  "Peaceful Potato": {
-    description: "Coming Soon",
+  "Radical Radish": {
+    description: "Radical! Grants a 4% chance to get +10 radishes on harvest.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/439.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
-  "Colossal Crop": {
-    description: "Coming Soon",
+  "Potent Potato": {
+    description: "Potent! Grants a 4% chance to get +10 potatoes on harvest.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
-  },
-  "Golden Bean": {
-    description: "Coming Soon",
-    decimals: 0,
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/438.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Peeled Potato": {
@@ -2856,19 +2849,12 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/433.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
-  "Perky Pumpkin": {
-    description: "Coming Soon",
-    decimals: 0,
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
-  },
-
   "Stellar Sunflower": {
-    description: "Coming Soon",
+    description:
+      "Stellar! Grants a 4% chance to get +10 sunflowers on harvest.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/437.gif",
     attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Wood Nymph Wendy": {
@@ -2885,13 +2871,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
       { value: "Tradable" },
     ],
-  },
-  "Shiny Bean": {
-    description: "Coming Soon",
-    decimals: 0,
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Magic Bean": {
     description:
@@ -3986,5 +3965,124 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/550.png",
     attributes: [{ trait_type: "Purpose", value: "Consumable" }],
+  },
+  "Giant Cabbage": {
+    description: "A giant cabbage!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1281.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Giant Potato": {
+    description: "A giant potato!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1282.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Giant Pumpkin": {
+    description: "A giant pumpkin!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1283.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Lab Grown Carrot": {
+    description: "A lab grown carrot! +0.2 Carrot Yield.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/475.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Carrot Yield Increase",
+        value: 20,
+      },
+    ],
+  },
+  "Lab Grown Pumpkin": {
+    description: "A lab grown pumpkin! +0.3 Pumpkin Yield.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/476.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Pumpkin Yield Increase",
+        value: 30,
+      },
+    ],
+  },
+  "Lab Grown Radish": {
+    description: "A lab grown radish! +0.4 Radish Yield.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/477.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Radish Yield Increase",
+        value: 40,
+      },
+    ],
+  },
+  "Potion Ticket": {
+    description: "A Potion Ticket!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/727.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Adirondack Potato": {
+    description: "A rugged spud, Adirondack style!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1405.png",
+    attributes: [],
+  },
+  "Black Magic": {
+    description: "A dark and mysterious flower!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1401.png",
+    attributes: [],
+  },
+  "Golden Helios": {
+    description: "Sun-kissed grandeur!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1402.png",
+    attributes: [],
+  },
+  Chiogga: {
+    description: "A rainbow beet!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1403.png",
+    attributes: [],
+  },
+  "Purple Cauliflower": {
+    description: "A regal purple cauliflower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1404.png",
+    attributes: [],
+  },
+  "Warty Goblin Pumpkin": {
+    description: "A whimsical, wart-covered pumpkin",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1406.png",
+    attributes: [],
+  },
+  "White Carrot": {
+    description: "A pale carrot with pale roots",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1407.png",
+    attributes: [],
   },
 };

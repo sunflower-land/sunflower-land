@@ -65,6 +65,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       bumpkin: gameState.context.state.bumpkin,
       initialSceneId: name as SceneId,
       experience: gameState.context.state.bumpkin?.experience ?? 0,
+      isCommunity,
     },
   }) as unknown as MMOMachineInterpreter;
 
@@ -81,6 +82,10 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
 
   if (isTraveling) {
     return <TravelScreen mmoService={mmoService} />;
+  }
+
+  if (!mmoService.state) {
+    return null;
   }
 
   // Otherwsie if connected, return Plaza Screen
@@ -102,30 +107,39 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
   const isJoining = useSelector(mmoService, _isJoining);
   const isKicked = useSelector(mmoService, _isKicked);
 
-  const content = () => {
-    // Return connecting
-    if (isConnecting || isJoining) {
-      return <p className="loading">Loading</p>;
-    }
-
-    if (isConnected) {
-      return <PickServer mmoService={mmoService} />;
-    }
-  };
-
   // Return kicked
   if (isKicked) {
     return (
-      <Modal centered>
-        <Panel>
-          {/* Kicked reasons */}
-          <p className="">Kicked</p>
-        </Panel>
-      </Modal>
+      <Ocean>
+        <Modal show centered>
+          <Panel>
+            {/* Kicked reasons */}
+            <p className="">Kicked</p>
+          </Panel>
+        </Modal>
+      </Ocean>
     );
   }
 
-  return <Ocean>{content()}</Ocean>;
+  if (isConnected) {
+    return (
+      <Ocean>
+        <Modal show centered>
+          <PickServer mmoService={mmoService} />
+        </Modal>
+      </Ocean>
+    );
+  }
+
+  return (
+    <Ocean>
+      <Modal show centered>
+        <Panel>
+          <p className="loading">Loading</p>
+        </Panel>
+      </Modal>
+    </Ocean>
+  );
 };
 
 const _inventory = (state: MachineState) => state.context.state.inventory;

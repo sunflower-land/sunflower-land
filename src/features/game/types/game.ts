@@ -13,21 +13,20 @@ import { BumpkinSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
-import { BeanName, MutantCropName } from "./beans";
+import { BeanName, ExoticCropName, MutantCropName } from "./beans";
 import { FruitName, FruitSeedName } from "./fruits";
 import { TreasureName } from "./treasure";
 import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
+  PotionHouseItemName,
   PurchasableItems,
   SoldOutCollectibleName,
 } from "./collectibles";
 import { TreasureToolName } from "./tools";
 import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
-import { Week } from "features/dawnBreaker/lib/characters";
-import { Riddle } from "./riddles";
 import { NPCName } from "lib/npcs";
 import { SeasonalTicket } from "./seasons";
 
@@ -130,6 +129,7 @@ export type Coupons =
   | "Love Letter"
   | "Block Buck"
   | "Sunflower Supporter"
+  | "Potion Ticket"
   | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
@@ -169,6 +169,10 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Sunflower Supporter": {
     description: "A community and social media supporter of the project",
+  },
+  "Potion Ticket": {
+    description:
+      "A reward from the Potion House. Use this to buy items from Garth.",
   },
 };
 
@@ -231,6 +235,8 @@ export type InventoryItemName =
   | PurchasableItems
   | TreasureToolName
   | LanternName
+  | ExoticCropName
+  | PotionHouseItemName
   | "Basic Land";
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
@@ -262,6 +268,14 @@ export type TradeOffer = {
     amount: Decimal;
   }[];
 };
+
+export interface CurrentObsession {
+  type: "collectible" | "wearable";
+  name: InventoryItemName | BumpkinItem;
+  startDate: number;
+  endDate: number;
+  reward: number;
+}
 
 export type WarCollectionOffer = {
   warBonds: number;
@@ -462,40 +476,10 @@ export type LanternName =
   | "Betty Lantern"
   | "Bumpkin Lantern";
 
-export type LanternIngredients = Partial<Record<InventoryItemName, Decimal>>;
-
-export type LanternOffering = {
-  name: LanternName;
-  startAt: string;
-  endAt: string;
-  sfl?: Decimal;
-  ingredients: LanternIngredients;
-};
-
-export type LanternsCraftedByWeek = Partial<Record<Week, number>>;
-
 export type Party = {
   fulfilledAt?: number;
   fulfilledCount?: number;
   requirements?: Partial<Record<InventoryItemName, number>>;
-};
-
-export type DawnBreaker = {
-  currentWeek: Week;
-  availableLantern?: LanternOffering;
-  lanternsCraftedByWeek: LanternsCraftedByWeek;
-  riddle?: Riddle & { id: string };
-  answeredRiddleIds: string[];
-  dawnFlower?: {
-    tendedAt: number;
-    plantedAt: number;
-    tendedCount: number;
-  };
-  party?: Party;
-  traveller?: {
-    discoveredAt: number;
-    discoveredCount: number;
-  };
 };
 
 export type Order = {
@@ -509,6 +493,7 @@ export type Order = {
   };
   createdAt: number;
   readyAt: number;
+  completedAt?: number;
 };
 
 type QuestNPCName =
@@ -551,7 +536,7 @@ export type PotionName =
   | "Flower Power"
   | "Organic Oasis"
   | "Dream Drip"
-  | "Golden Syrup";
+  | "Silver Syrup";
 
 export type PotionStatus =
   | "pending"
@@ -568,7 +553,7 @@ export type PotionHouse = {
   game: {
     status: "in_progress" | "finished";
     attempts: Attempt[];
-    reward?: InventoryItemName;
+    reward?: number;
   };
   history: {
     [score: number]: number;
@@ -579,6 +564,7 @@ export type NPCS = Partial<Record<NPCName, NPCData>>;
 
 export type NPCData = {
   deliveryCount: number;
+  questCompletedAt?: number;
 };
 
 export type ChoreV2 = {
@@ -600,9 +586,12 @@ export type MazeAttempt = {
   crowsFound: number;
   health: number;
   time: number;
+  crowIds?: string[];
 };
 
 export type MazeMetadata = {
+  sflFee: number;
+  paidEntryFee: boolean;
   highestScore: number;
   claimedFeathers: number;
   attempts: MazeAttempt[];
@@ -635,6 +624,14 @@ export type CommunityIsland = {
   };
 };
 
+export type TradeListing = {
+  items: Partial<Record<InventoryItemName, number>>;
+  sfl: number;
+  createdAt: number;
+  boughtAt?: number;
+  buyerId?: number;
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -645,6 +642,8 @@ export interface GameState {
 
   tradedAt?: string;
   tradeOffer?: TradeOffer;
+  bertObsession?: CurrentObsession;
+  bertObsessionCompletedAt?: Date;
   warCollectionOffer?: WarCollectionOffer;
 
   islands?: Record<string, CommunityIsland>;
@@ -710,9 +709,12 @@ export interface GameState {
   hayseedHank?: HayseedHank;
   chores?: ChoresV2;
   mushrooms: Mushrooms;
-  dawnBreaker?: DawnBreaker;
   witchesEve?: WitchesEve;
   potionHouse?: PotionHouse;
+
+  trades: {
+    listings?: Record<string, TradeListing>;
+  };
 }
 
 export interface Context {

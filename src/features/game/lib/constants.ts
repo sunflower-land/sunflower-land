@@ -105,9 +105,6 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     Chicken: new Decimal(5),
 
     "Magic Bean": new Decimal(5),
-    "Shiny Bean": new Decimal(5),
-    "Golden Bean": new Decimal(5),
-
     "Immortal Pear": new Decimal(1),
   };
 };
@@ -209,6 +206,7 @@ export const TEST_FARM: GameState = {
   mailbox: {
     read: [],
   },
+  trades: {},
   crops: {
     1: {
       height: 1,
@@ -423,7 +421,7 @@ export const EMPTY: GameState = {
       description: "Harvest 10 Sunflowers",
     },
   },
-
+  trades: {},
   fruitPatches: {},
   gold: {},
   iron: {},

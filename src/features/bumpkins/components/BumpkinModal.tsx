@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import levelIcon from "assets/icons/level_up.png";
+import token from "assets/icons/token_2.png";
 
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";
@@ -10,6 +11,7 @@ import {
   getExperienceToNextLevel,
   isMaxLevel,
 } from "features/game/lib/level";
+
 import { AchievementsModal } from "./Achievements";
 import { SkillsModal } from "features/bumpkins/components/Skills";
 import { CONFIG } from "lib/config";
@@ -22,6 +24,7 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { BumpkinEquip } from "./BumpkinEquip";
 import { AchievementBadges } from "./AchievementBadges";
+import { Trade } from "./Trade";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -142,6 +145,10 @@ export const BumpkinModal: React.FC<Props> = ({
           icon: SUNNYSIDE.icons.wardrobe,
           name: "Equip",
         },
+        {
+          icon: token,
+          name: "Trades",
+        },
       ]}
     >
       {tab === 0 && (
@@ -230,6 +237,7 @@ export const BumpkinModal: React.FC<Props> = ({
         </div>
       )}
       {tab === 1 && <BumpkinEquip />}
+      {tab === 2 && <Trade />}
     </CloseButtonPanel>
   );
 };

@@ -52,8 +52,6 @@ const INITIAL_STOCK: Inventory = {
 
   "Boiled Eggs": new Decimal(1),
   "Magic Bean": new Decimal(5),
-  "Shiny Bean": new Decimal(5),
-  "Golden Bean": new Decimal(5),
 
   "Immortal Pear": new Decimal(1),
 };
@@ -264,51 +262,19 @@ export const OFFLINE_FARM: GameState = {
   witchesEve: {
     weeklyLostCrowCount: 25,
     maze: {
-      1: {
-        highestScore: 0,
+      3: {
         claimedFeathers: 0,
-        attempts: [],
-      },
-    },
-  },
-  dawnBreaker: {
-    currentWeek: 8,
-    availableLantern: {
-      name: "Solar Lantern",
-      startAt: "2023-05-08T00:00:00.000Z",
-      endAt: "2023-05-15T00:00:00.000Z",
-      ingredients: {
-        Carrot: new Decimal(50),
-        Cauliflower: new Decimal(7),
-        Beetroot: new Decimal(10),
-        Cabbage: new Decimal(10),
-        Wood: new Decimal(3),
-      },
-    },
-    lanternsCraftedByWeek: {
-      1: 4,
-      2: 3,
-    },
-    answeredRiddleIds: [],
-    riddle: {
-      hint: "Tester",
-      endAt: 0,
-      startAt: 0,
-      id: "test-id",
-      reward: {
-        items: {
-          "Dawn Breaker Ticket": 50,
-        },
-      },
-    },
-    dawnFlower: {
-      plantedAt: 0,
-      tendedAt: 0,
-      tendedCount: 7,
-    },
-    party: {
-      requirements: {
-        Wood: 50,
+        sflFee: 5,
+        paidEntryFee: true,
+        highestScore: 0,
+        attempts: [
+          {
+            startedAt: 0,
+            crowsFound: 0,
+            health: 3,
+            time: 2,
+          },
+        ],
       },
     },
   },
@@ -356,6 +322,8 @@ export const OFFLINE_FARM: GameState = {
     "Crab Claw": 95,
   },
   inventory: {
+    "El Pollo Veloz": new Decimal(1),
+    Gnome: new Decimal(1),
     "Sunflower Cake": new Decimal(15),
     Carrot: new Decimal(80),
     Cauliflower: new Decimal(70),
@@ -448,10 +416,10 @@ export const OFFLINE_FARM: GameState = {
     Hoot: new Decimal(1),
     "Sir Goldensnout": new Decimal(1),
     "Freya Fox": new Decimal(1),
-    "El Pollo Veloz": new Decimal(1),
     "Fat Chicken": new Decimal(1),
     "Queen Cornelia": new Decimal(1),
     "Scary Mike": new Decimal(1),
+    "Ayam Cemani": new Decimal(1),
   },
 
   createdAt: new Date("2022-03-04").getTime(),
@@ -459,6 +427,20 @@ export const OFFLINE_FARM: GameState = {
 
   bumpkin: INITIAL_BUMPKIN,
 
+  trades: {
+    listings: {
+      "123": {
+        createdAt: 0,
+        items: {
+          Apple: 2,
+          Wheat: 3,
+        },
+        sfl: 2,
+        boughtAt: 1,
+        buyerId: 1,
+      },
+    },
+  },
   chickens: {},
 
   airdrops: [],
@@ -564,7 +546,8 @@ export const OFFLINE_FARM: GameState = {
     orders: [
       {
         id: "123",
-        createdAt: Date.now(),
+        createdAt: Date.now() - 23 * 60 * 60 * 1000,
+        completedAt: Date.now(),
         readyAt: 1690855045072,
         from: "pumpkin' pete",
         items: {
@@ -577,7 +560,7 @@ export const OFFLINE_FARM: GameState = {
       },
       {
         id: "124",
-        createdAt: Date.now(),
+        createdAt: Date.now() - 25 * 60 * 60 * 1000,
         readyAt: Date.now(),
         from: "blacksmith",
         items: {

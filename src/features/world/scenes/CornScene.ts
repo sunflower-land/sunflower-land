@@ -8,17 +8,10 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import eventBus from "../lib/eventBus";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
-
-type Enemy = NPCBumpkin & {
-  target: {
-    x: number;
-    y: number;
-    direction: "vertical" | "horizontal";
-    duration: number;
-    hold?: boolean;
-    startFacingLeft?: boolean;
-  };
-};
+import { SeasonWeek } from "features/game/types/game";
+import { ENEMIES, Enemy } from "../ui/cornMaze/lib/enemies";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
+import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 
 const LUNA: NPCBumpkin = {
   x: 333,
@@ -27,138 +20,32 @@ const LUNA: NPCBumpkin = {
   direction: "left",
 };
 
-const ENEMIES: Enemy[] = [
-  {
-    x: 104,
-    y: 328,
-    npc: "dreadhorn",
-    target: {
-      x: 104,
-      y: 471,
-      direction: "vertical",
-      duration: 2000,
-    },
-  },
-  {
-    x: 57,
-    y: 63,
-    npc: "dreadhorn",
-    target: {
-      x: 294,
-      y: 60,
-      direction: "horizontal",
-      duration: 3500,
-    },
-  },
-  {
-    x: 355,
-    y: 458,
-    npc: "dreadhorn",
-    target: {
-      x: 260,
-      y: 458,
-      direction: "horizontal",
-      duration: 1800,
-      hold: true,
-      startFacingLeft: true,
-    },
-  },
-  {
-    x: 585,
-    y: 506,
-    npc: "dreadhorn",
-    target: {
-      x: 585,
-      y: 217,
-      direction: "vertical",
-      duration: 3500,
-    },
-  },
-  {
-    x: 89,
-    y: 500,
-    npc: "phantom face",
-    target: {
-      x: 46,
-      y: 500,
-      direction: "horizontal",
-      duration: 1200,
-      hold: true,
-      startFacingLeft: true,
-    },
-  },
-  {
-    x: 518,
-    y: 583,
-    npc: "phantom face",
-    target: {
-      x: 483,
-      y: 590,
-      direction: "horizontal",
-      duration: 900,
-      hold: true,
-      startFacingLeft: true,
-    },
-  },
-  {
-    x: 130,
-    y: 137,
-    npc: "phantom face",
-    target: {
-      x: 185,
-      y: 137,
-      direction: "horizontal",
-      duration: 1200,
-      hold: true,
-    },
-  },
-  {
-    x: 342,
-    y: 72,
-    npc: "phantom face",
-    target: {
-      x: 440,
-      y: 72,
-      direction: "horizontal",
-      duration: 1800,
-      hold: true,
-    },
-  },
-  {
-    x: 412,
-    y: 545,
-    npc: "dreadhorn",
-    target: {
-      x: 435,
-      y: 545,
-      direction: "horizontal",
-      duration: 800,
-      hold: true,
-    },
-  },
-];
-
 export class CornScene extends BaseScene {
   sceneId: SceneId = "corn_maze";
-  score = 0;
-  health = 3;
   // Don't allow portal hit to be triggered multiple times
   canHandlePortalHit = true;
+  currentWeek: SeasonWeek = 1;
   enemies?: Phaser.GameObjects.Group;
   spotlight?: Phaser.GameObjects.Image;
+  mazePortal?: Phaser.GameObjects.Sprite;
+  portalTravelSound?: Phaser.Sound.BaseSound;
 
   constructor() {
     super({
       name: "corn_maze",
       map: {
+        // Copy json from the backend for the week you're looking for if running in art mode
         json: CONFIG.API_URL ? `${CONFIG.API_URL}/maps/corn` : cornMazeJSON,
       },
       audio: { fx: { walk_key: "sand_footstep" } },
     });
+
+    this.currentWeek = getSeasonWeek();
   }
 
-  preload() {
+  async preload() {
     super.preload();
+
     this.load.spritesheet("maze_portal", "world/maze_portal.png", {
       frameWidth: 12,
       frameHeight: 12,
@@ -170,26 +57,10 @@ export class CornScene extends BaseScene {
     this.load.audio("ouph", SOUNDS.voices.ouph);
     this.load.audio("crow_collected", SOUNDS.notifications.crow_collected);
 
-    if (!this.sound.get("nature_1")) {
-      const nature = this.sound.add("nature_1");
-      nature.play({ loop: true, volume: 0.05 });
-    }
-
-    const portal_travel = this.sound.add("portal_travel");
-    portal_travel.play({ volume: 0.5 });
-
-    // Shut down the sound when the scene changes
-    this.events.once("shutdown", () => {
-      portal_travel.play({ volume: 0.5 });
-      if (portal_travel.isPaused) {
-        this.sound.getAllPlaying().forEach((sound) => {
-          sound.destroy();
-        });
-      }
-    });
+    this.setUpSound();
   }
 
-  async create() {
+  create() {
     super.create();
 
     this.setUpSpotlight();
@@ -203,7 +74,14 @@ export class CornScene extends BaseScene {
       key: "corn_maze",
     });
 
+    this.scene.pause();
+
     mazeManager.sceneLoaded();
+
+    eventBus.on("corn_maze:startScene", () => {
+      this.scene.resume();
+      this.mazePortal?.play("maze_portal_anim", true);
+    });
 
     eventBus.on("corn_maze:pauseScene", () => {
       this.scene.pause();
@@ -217,6 +95,25 @@ export class CornScene extends BaseScene {
     });
 
     this.canHandlePortalHit = true;
+  }
+
+  setUpSound() {
+    this.portalTravelSound = this.sound.add("portal_travel");
+
+    // Shut down the sound when the scene changes
+    // this.events.once("shutdown", () => {
+    //   this.portalTravelSound?.play({ volume: 0.5 });
+    //   if (!this.portalTravelSound || this.portalTravelSound.isPaused) {
+    //     this.sound.getAllPlaying().forEach((sound) => {
+    //       sound.destroy();
+    //     });
+    //   }
+    // });
+
+    if (!this.sound.get("nature_1")) {
+      const nature = this.sound.add("nature_1");
+      nature.play({ loop: true, volume: 0.05 });
+    }
   }
 
   setUpSpotlight() {
@@ -237,7 +134,7 @@ export class CornScene extends BaseScene {
   }
 
   setUpPortal() {
-    const maze_portal = this.add.sprite(320, 319, "maze_portal");
+    this.mazePortal = this.add.sprite(320, 319, "maze_portal");
 
     this.anims.create({
       key: "maze_portal_anim",
@@ -248,7 +145,6 @@ export class CornScene extends BaseScene {
       repeat: -1,
       frameRate: 10,
     });
-    maze_portal.play("maze_portal_anim", true);
   }
 
   setUpLuna() {
@@ -276,9 +172,27 @@ export class CornScene extends BaseScene {
     }
   }
 
+  getFoundCrowIds() {
+    const gameService = this.registry.get("gameService") as MachineInterpreter;
+    const currentWeek = getSeasonWeek();
+    const witchesEve = gameService.state.context.state.witchesEve;
+    const weekData = witchesEve?.maze[currentWeek];
+
+    // Attempt is added to game start when Luna is paid
+    const activeAttempt = weekData?.attempts?.find(
+      (attempt) => !attempt.completedAt
+    );
+
+    if (!activeAttempt) return;
+
+    return activeAttempt.crowIds ?? [];
+  }
+
   setUpCrows() {
     const crowsLayer = this.map.getLayer("Crows");
     if (crowsLayer) {
+      const foundCrowIds = this.getFoundCrowIds();
+
       // Access the tile data from the layer
       const tileData = crowsLayer.data;
 
@@ -297,16 +211,20 @@ export class CornScene extends BaseScene {
             const spriteX = x * tileWidth + tileWidth / 2;
             const spriteY = y * tileHeight + tileHeight / 2;
 
-            const crow = this.physics.add.sprite(spriteX, spriteY, "crow");
-            crow.setDepth(100000);
-            // on collision with player, collect crow
-            if (this.currentPlayer) {
-              this.physics.add.overlap(this.currentPlayer, crow, () => {
-                this.collect(`${spriteX}-${spriteY}`);
-                const collected = this.sound.add("crow_collected");
-                collected.play({ volume: 0.7 });
-                crow.destroy();
-              });
+            const crowId = `${spriteX}-${spriteY}`;
+
+            // Only add the crow if it hasn't already been found
+            if (!foundCrowIds?.includes(crowId)) {
+              const crow = this.physics.add.sprite(spriteX, spriteY, "crow");
+              // on collision with player, collect crow
+              if (this.currentPlayer) {
+                this.physics.add.overlap(this.currentPlayer, crow, () => {
+                  this.collect(crowId);
+                  const collected = this.sound.add("crow_collected");
+                  collected.play({ volume: 0.7 });
+                  crow.destroy();
+                });
+              }
             }
           }
         }
@@ -316,7 +234,7 @@ export class CornScene extends BaseScene {
 
   setUpEnemies() {
     this.enemies = this.add.group();
-    ENEMIES.forEach((enemy) => {
+    ENEMIES[this.currentWeek].forEach((enemy) => {
       const container = new BumpkinContainer({
         scene: this,
         x: enemy.x,
@@ -350,6 +268,10 @@ export class CornScene extends BaseScene {
         repeat: -1,
         yoyo: true,
         onUpdate: (tween, target) => {
+          if (!target.isWalking && !enemy.target.hold) {
+            target.walk();
+          }
+
           if (enemy.target.direction === "horizontal") {
             this.handleDirectionChange(enemy, target as BumpkinContainer);
           }
@@ -360,10 +282,6 @@ export class CornScene extends BaseScene {
               enemy,
               target as BumpkinContainer
             );
-          }
-
-          if (!target.isWalking && !enemy.target.hold) {
-            target.walk();
           }
         },
       };
@@ -432,8 +350,10 @@ export class CornScene extends BaseScene {
       tween.pause();
       container.idle();
       setTimeout(() => {
-        tween.resume();
-        container.walk();
+        if (tween && tween.isPaused()) {
+          tween.resume();
+          container.walk();
+        }
       }, randomHoldTime);
     } else if (
       enemy.target.direction === "vertical" &&

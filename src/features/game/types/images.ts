@@ -1,7 +1,5 @@
 // CROPS
 import magicBean from "assets/crops/magic_bean.png";
-import shinyBean from "assets/crops/shiny_bean.png";
-import goldenBean from "assets/crops/golden_bean.png";
 import appleSeed from "assets/fruit/apple/apple_seed.png";
 import orangeSeed from "assets/fruit/orange/orange_seed.png";
 import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
@@ -72,7 +70,7 @@ import queenCornelia from "assets/sfts/aoe/queen_cornelia.png";
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
 import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 import richChicken from "assets/animals/chickens/rich_chicken.gif";
-import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.png";
+import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
 
 // Foods
@@ -196,6 +194,7 @@ import warBond from "assets/icons/warBond.png";
 import betaPass from "assets/icons/beta_pass.png";
 import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
 import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
+import potionPoint from "assets/icons/potion_point.png";
 import crowFeather from "assets/icons/crow_feather.webp";
 import supporterTicket from "assets/icons/supporter_ticket.png";
 import solarFlareBanner from "assets/decorations/solar_flare_banner.png";
@@ -269,7 +268,7 @@ import fruitSalad from "assets/food/fruit_salad.png";
 import kaleOmelette from "assets/food/kale_omelette.png";
 import cabbersNMash from "assets/food/cabbers_n_mash.png";
 import fancyFries from "assets/food/fancy_fries.png";
-import bumpkinGhanoush from "assets/food/bumpkin_ghanoush.png";
+import bumpkinGanoush from "assets/food/bumpkin_ganoush.png";
 import eggplantCake from "assets/food/eggplant_cake.png";
 import cornBread from "assets/food/corn_bread.png";
 import popcorn from "assets/food/popcorn.png";
@@ -415,7 +414,25 @@ import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
 import stoneRock from "assets/resources/stone_small.png";
 
-import { FERTILISERS, InventoryItemName } from "./game";
+// Potion House
+import giantCabbage from "assets/sfts/giant_cabbage.png";
+import giantPumpkin from "assets/sfts/giant_pumpkin.png";
+import giantPotato from "assets/sfts/giant_potato.png";
+import labGrownCarrot from "assets/sfts/lab_grown_carrot.gif";
+import labGrownPumpkin from "assets/sfts/lab_grown_pumpkin.gif";
+import labGrownRadish from "assets/sfts/lab_grown_radish.gif";
+import adirondackPotato from "assets/potion_house/adirondack_potato.png";
+import goldenHelios from "assets/potion_house/golden_helios.png";
+import chiogga from "assets/potion_house/chiogga.png";
+import blackMagic from "assets/potion_house/black_magic.png";
+import purpleCauliflower from "assets/potion_house/purple_cauliflower.png";
+import whiteCarrot from "assets/potion_house/white_carrot.png";
+import wartyGoblinPumpkin from "assets/potion_house/warty_goblin_pumpkin.png";
+import potatoMutant from "assets/sfts/potato_mutant.gif";
+import radishMutant from "assets/sfts/radish_mutant.gif";
+import sunflowerMutant from "assets/sfts/sunflower_mutant.gif";
+
+import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
   CAKES,
@@ -438,17 +455,17 @@ import { AchievementName, ACHIEVEMENTS } from "./achievements";
 import {
   BASIC_DECORATIONS,
   LANDSCAPING_DECORATIONS,
-  SEASONAL_DECORATIONS,
+  POTION_HOUSE_DECORATIONS,
 } from "./decorations";
-import { BEANS } from "./beans";
+import { BEANS, EXOTIC_CROPS } from "./beans";
 import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
 //Golden Crop Event
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
 import {
-  GOBLIN_BLACKSMITH_ITEMS,
   GOBLIN_PIRATE_ITEMS,
   HELIOS_BLACKSMITH_ITEMS,
+  POTION_HOUSE_ITEMS,
 } from "./collectibles";
 
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -581,17 +598,9 @@ export const ITEM_DETAILS: Items = {
     image: CROP_LIFECYCLE.Wheat.seed,
     secondaryImage: CROP_LIFECYCLE.Wheat.crop,
   },
-  "Golden Bean": {
-    description: BEANS()["Golden Bean"].description,
-    image: goldenBean,
-  },
   "Magic Bean": {
     description: BEANS()["Magic Bean"].description,
     image: magicBean,
-  },
-  "Shiny Bean": {
-    description: BEANS()["Shiny Bean"].description,
-    image: shinyBean,
   },
   "Kale Seed": {
     description: CROP_SEEDS()["Kale Seed"].description,
@@ -1754,21 +1763,18 @@ export const ITEM_DETAILS: Items = {
     description: "A precious potato, encourages bonus potatoes on harvest.",
   },
 
-  "Colossal Crop": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "As big as the Empire State building",
+  "Potent Potato": {
+    image: potatoMutant,
+    description: "Potent! Grants a 4% chance to get +10 potatoes on harvest.",
   },
-  "Peaceful Potato": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "Practicioner of spud Yoga",
-  },
-  "Perky Pumpkin": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "???",
+  "Radical Radish": {
+    image: radishMutant,
+    description: "Radical! Grants a 4% chance to get +10 radishes on harvest.",
   },
   "Stellar Sunflower": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "???",
+    image: sunflowerMutant,
+    description:
+      "Stellar! Grants a 4% chance to get +10 sunflowers on harvest.",
   },
   "Potted Potato": {
     image: pottedPotato,
@@ -2109,7 +2115,8 @@ export const ITEM_DETAILS: Items = {
   // Dawn Breaker Season
   "Mushroom House": {
     image: mushroomHouse,
-    description: GOBLIN_BLACKSMITH_ITEMS()["Mushroom House"].description,
+    description:
+      "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
   },
 
   "Basic Land": {
@@ -2232,16 +2239,17 @@ export const ITEM_DETAILS: Items = {
   "Dawn Umbrella Seat": {
     image: dawnUmbrellaSeat,
     description:
-      SEASONAL_DECORATIONS()["Dawn Umbrella Seat"]?.description ?? "",
+      "Keep those Eggplants dry during those rainy days with the Dawn Umbrella Seat.",
   },
   "Eggplant Grill": {
     image: eggplantGrill,
-    description: SEASONAL_DECORATIONS()["Eggplant Grill"]?.description ?? "",
+    description:
+      "Get cooking with the Eggplant Grill, perfect for any outdoor meal.",
   },
   "Giant Dawn Mushroom": {
     image: giantDawnMushroom,
     description:
-      SEASONAL_DECORATIONS()["Giant Dawn Mushroom"]?.description ?? "",
+      "The Giant Dawn Mushroom is a majestic and magical addition to any farm.",
   },
   "Grubnash's Tombstone": {
     image: grubnashTombstone,
@@ -2253,7 +2261,8 @@ export const ITEM_DETAILS: Items = {
   },
   "Shroom Glow": {
     image: shroomGlow,
-    description: SEASONAL_DECORATIONS()["Shroom Glow"]?.description ?? "",
+    description:
+      "Illuminate your farm with the enchanting glow of Shroom Glow.",
   },
   "Toadstool Seat": {
     image: toadstoolSeat,
@@ -2261,11 +2270,13 @@ export const ITEM_DETAILS: Items = {
   },
   Clementine: {
     image: clementine,
-    description: SEASONAL_DECORATIONS()["Clementine"]?.description ?? "",
+    description:
+      "The Clementine Gnome is a cheerful companion for your farming adventures.",
   },
   Cobalt: {
     image: cobalt,
-    description: SEASONAL_DECORATIONS()["Cobalt"]?.description ?? "",
+    description:
+      "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
   },
   "Purple Trail": {
     image: purpleTrail,
@@ -2346,7 +2357,7 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Bumpkin ganoush": {
-    image: bumpkinGhanoush,
+    image: bumpkinGanoush,
     description: "Zesty roasted eggplant spread.",
   },
   "Eggplant Cake": {
@@ -2360,5 +2371,62 @@ export const ITEM_DETAILS: Items = {
   Popcorn: {
     image: popcorn,
     description: "Classic homegrown crunchy snack.",
+  },
+  "Giant Cabbage": {
+    image: giantCabbage,
+    description: POTION_HOUSE_DECORATIONS()["Giant Cabbage"].description,
+  },
+  "Giant Potato": {
+    image: giantPotato,
+    description: POTION_HOUSE_DECORATIONS()["Giant Potato"].description,
+  },
+  "Giant Pumpkin": {
+    image: giantPumpkin,
+    description: POTION_HOUSE_DECORATIONS()["Giant Pumpkin"].description,
+  },
+  "Potion Ticket": {
+    image: potionPoint,
+    description: COUPONS["Potion Ticket"].description,
+  },
+  "Lab Grown Carrot": {
+    image: labGrownCarrot,
+    description: POTION_HOUSE_ITEMS["Lab Grown Carrot"].description,
+  },
+  "Lab Grown Pumpkin": {
+    image: labGrownPumpkin,
+    description: POTION_HOUSE_ITEMS["Lab Grown Pumpkin"].description,
+  },
+  "Lab Grown Radish": {
+    image: labGrownRadish,
+    description: POTION_HOUSE_ITEMS["Lab Grown Radish"].description,
+  },
+
+  "Adirondack Potato": {
+    image: adirondackPotato,
+    description: EXOTIC_CROPS["Adirondack Potato"].description,
+  },
+  "Black Magic": {
+    image: blackMagic,
+    description: EXOTIC_CROPS["Black Magic"].description,
+  },
+  Chiogga: {
+    image: chiogga,
+    description: EXOTIC_CROPS["Chiogga"].description,
+  },
+  "Golden Helios": {
+    image: goldenHelios,
+    description: EXOTIC_CROPS["Golden Helios"].description,
+  },
+  "Purple Cauliflower": {
+    image: purpleCauliflower,
+    description: EXOTIC_CROPS["Purple Cauliflower"].description,
+  },
+  "Warty Goblin Pumpkin": {
+    image: wartyGoblinPumpkin,
+    description: EXOTIC_CROPS["Warty Goblin Pumpkin"].description,
+  },
+  "White Carrot": {
+    image: whiteCarrot,
+    description: EXOTIC_CROPS["White Carrot"].description,
   },
 };

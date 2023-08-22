@@ -103,8 +103,8 @@ export const Deposit: React.FC<Props> = ({
         setStatus("loaded");
         // Notify parent that we're done loading
         onLoaded && onLoaded(true);
-      } catch (error: any) {
-        console.error(error.message);
+      } catch (error: unknown) {
+        console.error(error instanceof Error ? error.message : error);
         setStatus("error");
         // Notify parent that we're done loading
         onLoaded && onLoaded(false);
@@ -367,7 +367,12 @@ export const Deposit: React.FC<Props> = ({
           <Button
             onClick={handleDeposit}
             className="w-full"
-            disabled={amountGreaterThanBalance}
+            disabled={
+              (sflDepositAmount <= 0 &&
+                !hasWearablesToDeposit &&
+                !hasItemsToDeposit) ||
+              amountGreaterThanBalance
+            }
           >
             Send to farm
           </Button>

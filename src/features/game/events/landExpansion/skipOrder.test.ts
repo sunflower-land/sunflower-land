@@ -55,114 +55,38 @@ describe("skipOrder", () => {
     ).toBeUndefined();
   });
 
-  it("prevents skipping two orders within 24 hours", () => {
-    const createdAt = Date.now();
+  it("prevents skipping an within 24 hours", () => {
+    const createdAt = new Date("2023-08-08T21:00:00").getTime();
 
     const id1 = "ORDER1";
-    const id2 = "ORDER2";
 
     const order1: Order = {
       from: "betty",
-      createdAt: 0,
+      createdAt: createdAt - 1 * 60 * 60 * 1000,
       id: id1,
       items: {},
       readyAt: 0,
       reward: {},
     };
 
-    const order2: Order = {
-      from: "betty",
-      createdAt: 0,
-      id: id2,
-      items: {},
-      readyAt: 0,
-      reward: {},
-    };
-
-    const state = skipOrder({
-      state: {
-        ...GAME_STATE,
-        delivery: {
-          ...GAME_STATE.delivery,
-          orders: [order1, order2],
-        },
-      },
-      action: {
-        type: "order.skipped",
-        id: id1,
-      },
-      createdAt,
-    });
-
     expect(() =>
       skipOrder({
-        state,
+        state: {
+          ...GAME_STATE,
+          delivery: {
+            ...GAME_STATE.delivery,
+            orders: [order1],
+          },
+        },
         action: {
           type: "order.skipped",
-          id: id2,
+          id: id1,
         },
         createdAt,
       })
     ).toThrow(
-      `Order skipped within 24 hours; time now ${createdAt}, time of last skip ${createdAt}`
+      `Order skipped within 24 hours; time now ${createdAt}, time of last skip ${order1.createdAt}`
     );
-  });
-
-  it("allows skipping two orders after 24 hours", () => {
-    const createdAt = Date.now();
-    const twentyFourHours = 24 * 60 * 60 * 1000;
-
-    const id1 = "ORDER1";
-    const id2 = "ORDER2";
-
-    const order1: Order = {
-      from: "betty",
-      createdAt: 0,
-      id: id1,
-      items: {},
-      readyAt: 0,
-      reward: {},
-    };
-
-    const order2: Order = {
-      from: "betty",
-      createdAt: 0,
-      id: id2,
-      items: {},
-      readyAt: 0,
-      reward: {},
-    };
-
-    const state = skipOrder({
-      state: {
-        ...GAME_STATE,
-        delivery: {
-          ...GAME_STATE.delivery,
-          orders: [order1, order2],
-        },
-      },
-      action: {
-        type: "order.skipped",
-        id: id1,
-      },
-      createdAt,
-    });
-
-    const newState = skipOrder({
-      state,
-      action: {
-        type: "order.skipped",
-        id: id2,
-      },
-      createdAt: createdAt + twentyFourHours,
-    });
-
-    expect(
-      newState.delivery.orders.find((order) => order.id === id1)
-    ).toBeUndefined();
-    expect(
-      newState.delivery.orders.find((order) => order.id === id2)
-    ).toBeUndefined();
   });
 
   it("only skips one order", () => {

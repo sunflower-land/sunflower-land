@@ -22,6 +22,7 @@ import {
 } from "../mmoMachine";
 import { Player } from "../types/Room";
 import { mazeManager } from "../ui/cornMaze/MazeHud";
+import { playerModalManager } from "../ui/PlayerModals";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -45,10 +46,12 @@ type BaseSceneOptions = {
   map: {
     tilesetUrl?: string;
     json: any;
+    padding?: [number, number];
   };
   mmo?: {
     enabled: boolean;
     url?: string;
+    serverId?: string;
     sceneId?: string;
   };
   controls?: {
@@ -167,7 +170,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.sceneTransitionData = data;
   }
 
-  async create() {
+  create() {
     const errorLogger = createErrorLogger(
       "phaser_base_scene",
       Number(this.gameService.state.context.state.id)
@@ -229,7 +232,8 @@ export abstract class BaseScene extends Phaser.Scene {
           "Sunnyside V3",
           "community-tileset",
           16,
-          16
+          16,
+          ...(this.options.map.padding ?? [0, 0])
         ) as Phaser.Tilemaps.Tileset)
       : // Standard tileset
         (this.map.addTilesetImage(
@@ -258,10 +262,14 @@ export abstract class BaseScene extends Phaser.Scene {
       {}
     );
     interactablesPolygons.forEach((polygon) => {
-      polygon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        const id = polygon.data.list.id;
-        interactableModalManager.open(id);
-      });
+      polygon
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", (p: Phaser.Input.Pointer) => {
+          if (p.downElement.nodeName === "CANVAS") {
+            const id = polygon.data.list.id;
+            interactableModalManager.open(id);
+          }
+        });
     });
 
     // Debugging purposes - display colliders in pink
@@ -317,6 +325,13 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   public initialiseMMO() {
+    if (this.options.mmo.url && this.options.mmo.serverId) {
+      this.mmoService.send("CONNECT", {
+        url: this.options.mmo.url,
+        serverId: this.options.mmo.serverId,
+      });
+    }
+
     const server = this.mmoService.state.context.server;
     if (!server) return;
 
@@ -327,6 +342,10 @@ export abstract class BaseScene extends Phaser.Scene {
       }
 
       if (message.sceneId !== this.options.name) {
+        return;
+      }
+
+      if (!this.scene?.isActive()) {
         return;
       }
 
@@ -428,11 +447,13 @@ export abstract class BaseScene extends Phaser.Scene {
       if (npc) {
         npcModalManager.open(npc);
       } else {
-        // playerModalManager.open({
-        //   id: farmId,
-        //   clothing,
-        //   experience,
-        // });
+        if (farmId !== this.gameService.state.context.state.id) {
+          playerModalManager.open({
+            id: farmId,
+            clothing,
+            experience,
+          });
+        }
       }
 
       // TODO - open player modals
@@ -500,6 +521,7 @@ export abstract class BaseScene extends Phaser.Scene {
             this.cameras.main.on(
               "camerafadeoutcomplete",
               () => {
+                console.log("fade out complete in base scene");
                 this.switchToScene = warpTo;
               },
               this

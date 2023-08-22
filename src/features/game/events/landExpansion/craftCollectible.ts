@@ -11,12 +11,14 @@ import { GameState } from "../../types/game";
 import {
   HeliosBlacksmithItem,
   HELIOS_BLACKSMITH_ITEMS,
+  POTION_HOUSE_ITEMS,
+  PotionHouseItemName,
 } from "features/game/types/collectibles";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 
 export type CraftCollectibleAction = {
   type: "collectible.crafted";
-  name: HeliosBlacksmithItem;
+  name: HeliosBlacksmithItem | PotionHouseItemName;
   id?: string;
   coordinates?: {
     x: number;
@@ -30,6 +32,12 @@ type Options = {
   createdAt?: number;
 };
 
+const isPotionHouseItem = (
+  name: HeliosBlacksmithItem | PotionHouseItemName
+): name is PotionHouseItemName => {
+  return name in POTION_HOUSE_ITEMS;
+};
+
 export function craftCollectible({
   state,
   action,
@@ -38,7 +46,9 @@ export function craftCollectible({
   const stateCopy = cloneDeep(state);
   const bumpkin = stateCopy.bumpkin;
 
-  const item = HELIOS_BLACKSMITH_ITEMS(state)[action.name];
+  const item = isPotionHouseItem(action.name)
+    ? POTION_HOUSE_ITEMS[action.name]
+    : HELIOS_BLACKSMITH_ITEMS(state)[action.name];
 
   if (!item) {
     throw new Error("Item does not exist");
@@ -58,6 +68,12 @@ export function craftCollectible({
 
   if (item.to && item.to?.getTime() < createdAt) {
     throw new Error("Too late");
+  }
+
+  const totalExpenses = item.sfl || new Decimal(0);
+
+  if (stateCopy.balance.lessThan(totalExpenses)) {
+    throw new Error("Insufficient SFL");
   }
 
   const subtractedInventory = getKeys(item.ingredients).reduce(

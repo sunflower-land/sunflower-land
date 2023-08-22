@@ -27,7 +27,7 @@ export const WinningModalContent: React.FC<Props> = ({
           }, shimmering
           with magic to bless your future journeys.`}
         </p>
-        <p className="text-xxs pb-1 italic">{`Feathers earned this week: ${claimedFeathers}/100`}</p>
+        <p className="text-xxs pb-1 italic">{`Feathers already earned this week: ${claimedFeathers}/100`}</p>
       </div>
       <Button onClick={onClick}>Claim Crow Feathers</Button>
     </Panel>
