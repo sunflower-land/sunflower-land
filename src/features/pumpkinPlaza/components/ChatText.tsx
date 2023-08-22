@@ -2,10 +2,13 @@ import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
 import Filter from "bad-words";
 import classNames from "classnames";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 interface Props {
   messages: { farmId: number; sessionId: string; text: string }[];
   onMessage: (text: string) => void;
+  cooledDownAt?: number;
 }
 
 const MAX_CHARACTERS = 48;
@@ -18,10 +21,16 @@ const URL_REGEX = new RegExp(
 
 const ALPHA_REGEX = new RegExp(/^[\w*?!, '-]+$/);
 
-export const ChatText: React.FC<Props> = ({ messages, onMessage }) => {
+export const ChatText: React.FC<Props> = ({
+  messages,
+  onMessage,
+  cooledDownAt,
+}) => {
   const ref = useRef<HTMLInputElement>();
   const [text, setText] = useState("");
   const [valid, setValid] = useState(true);
+
+  const cooldown = useCountdown(cooledDownAt ?? 0);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -91,6 +100,8 @@ export const ChatText: React.FC<Props> = ({ messages, onMessage }) => {
 
   const hasMessages = messages.length > 0;
 
+  const showCooldown = cooldown?.minutes > 0 || cooldown?.seconds > 0;
+
   return (
     <form onSubmit={send}>
       <div
@@ -129,8 +140,16 @@ export const ChatText: React.FC<Props> = ({ messages, onMessage }) => {
               );
             })}
         </div>
+        {showCooldown && (
+          <Label type="warning" className="flex p-1 m-1 mx-2">
+            <img src={SUNNYSIDE.icons.timer} className="h-4 pr-1" />
+            <p className="text-xs">{`Cooldown - ${cooldown.minutes} mins ${cooldown.seconds} secs`}</p>
+          </Label>
+        )}
+
         <input
           maxLength={MAX_CHARACTERS * 2}
+          disabled={showCooldown}
           data-prevent-drag-scroll
           name="message"
           autoComplete="off"

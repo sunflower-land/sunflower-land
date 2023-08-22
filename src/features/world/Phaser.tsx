@@ -192,6 +192,7 @@ export const PhaserComponent: React.FC<Props> = ({
           text: m.text,
           sessionId: m.sessionId,
           sceneId: m.sceneId,
+          sentAt: m.sentAt,
         })) ?? []
       );
     });
@@ -210,6 +211,7 @@ export const PhaserComponent: React.FC<Props> = ({
       <div id="game-content" ref={ref} />
       {scene !== "corn_maze" && (
         <ChatUI
+          farmId={authState.context.user.farmId as number}
           onMessage={(m) => {
             mmoService.state.context.server?.send(0, {
               text: m.text ?? "?",

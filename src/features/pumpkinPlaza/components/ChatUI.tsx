@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import stringSimilarity from "string-similarity";
 import { ReactionName } from "../lib/reactions";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -13,14 +13,17 @@ export type Message = {
   sessionId: string;
   text: string;
   sceneId: SceneId;
+  sentAt: number;
 };
 interface Props {
+  farmId: number;
   messages: Message[];
   onMessage: (content: { text?: string; reaction?: ReactionName }) => void;
 }
 
-export const ChatUI: React.FC<Props> = ({ onMessage, messages }) => {
+export const ChatUI: React.FC<Props> = ({ farmId, onMessage, messages }) => {
   const [showChat, setShowChat] = useState(false);
+  const [cooldown, setCooldown] = useState<number>(0);
   const [messageCountOnChatClose, setMessageCountOnChatClose] = useState(0);
   const [newMessageCount, setNewMessageCount] = useState(0);
 
@@ -43,6 +46,31 @@ export const ChatUI: React.FC<Props> = ({ onMessage, messages }) => {
     setMessageCountOnChatClose(messages.length);
   };
 
+  const sendMessage = (text: string) => {
+    const duplicates = messages.filter((message) => {
+      if (message.farmId !== farmId) {
+        return false;
+      }
+
+      // Longer than 1 minute ago
+      if (message.sentAt && message.sentAt < Date.now() - 60 * 1000) {
+        return false;
+      }
+
+      const similarity = stringSimilarity.compareTwoStrings(
+        message.text.toLowerCase(),
+        text.toLowerCase()
+      );
+
+      return similarity > 0.85;
+    });
+
+    if (duplicates.length >= 3) {
+      setCooldown(Date.now() + 90 * 1000);
+    }
+    onMessage({ text });
+  };
+
   return (
     <>
       <div
@@ -54,7 +82,8 @@ export const ChatUI: React.FC<Props> = ({ onMessage, messages }) => {
       >
         <ChatText
           messages={messages}
-          onMessage={(text) => onMessage({ text })}
+          onMessage={sendMessage}
+          cooledDownAt={cooldown}
         />
       </div>
       <div

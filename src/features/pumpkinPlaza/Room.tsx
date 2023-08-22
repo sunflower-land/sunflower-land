@@ -249,6 +249,7 @@ export const Room: React.FC<Props> = ({
       ))}
       {chatState.matches("connected") && (
         <ChatUI
+          farmId={0}
           onMessage={({ reaction, text }) => {
             websocketService.send("SEND_CHAT_MESSAGE", {
               text,
