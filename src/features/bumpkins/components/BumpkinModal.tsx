@@ -145,14 +145,10 @@ export const BumpkinModal: React.FC<Props> = ({
           icon: SUNNYSIDE.icons.wardrobe,
           name: "Equip",
         },
-        ...(level >= 30
-          ? [
-              {
-                icon: token,
-                name: "Trades",
-              },
-            ]
-          : []),
+        {
+          icon: token,
+          name: "Trades",
+        },
       ]}
     >
       {tab === 0 && (

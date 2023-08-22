@@ -14,10 +14,12 @@ import {
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { ChangeEvent, useContext, useState } from "react";
 import token from "assets/icons/token_2.png";
+import lock from "assets/skills/lock.png";
 import Decimal from "decimal.js-light";
 import { OuterPanel } from "components/ui/Panel";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { Label } from "components/ui/Label";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const INPUT_MAX_CHAR = 10;
@@ -255,6 +257,25 @@ export const Trade: React.FC = () => {
 
   // Show listings
   const trades = gameState.context.state.trades?.listings ?? {};
+
+  const level = getBumpkinLevel(
+    gameState.context.state.bumpkin?.experience ?? 0
+  );
+
+  if (level < 10) {
+    return (
+      <div className="relative">
+        <Label type="info" className="absolute top-2 right-2">
+          Beta
+        </Label>
+        <div className="p-1 flex flex-col items-center">
+          <img src={lock} className="w-1/5 mx-auto my-2 img-highlight-heavy" />
+          <p className="text-sm">You must be level 10 to trade</p>
+          <p className="text-xs mb-2">Feed your Bumpkin to level up</p>
+        </div>
+      </div>
+    );
+  }
 
   if (gameState.matches("autosaving")) {
     return <p className="m-1 loading">Saving</p>;

@@ -23,7 +23,6 @@ import {
 import { Player } from "../types/Room";
 import { mazeManager } from "../ui/cornMaze/MazeHud";
 import { playerModalManager } from "../ui/PlayerModals";
-import { getBumpkinLevel } from "features/game/lib/level";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -444,12 +443,7 @@ export abstract class BaseScene extends Phaser.Scene {
       if (npc) {
         npcModalManager.open(npc);
       } else {
-        if (
-          farmId !== this.gameService.state.context.state.id &&
-          getBumpkinLevel(
-            this.gameService.state.context.state.bumpkin?.experience ?? 0
-          ) >= 30
-        ) {
+        if (farmId !== this.gameService.state.context.state.id) {
           playerModalManager.open({
             id: farmId,
             clothing,
