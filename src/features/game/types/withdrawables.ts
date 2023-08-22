@@ -556,6 +556,8 @@ const goblinPirate: Record<GoblinPirateItemName, () => boolean> = {
   Karkinos: () => true,
   "Emerald Turtle": () => true,
   "Tin Turtle": () => false,
+  "Golden Bear Head": () => false,
+  "Parasaur Skull": () => false,
 };
 
 const treasureDecoration: Record<DecorationTreasure, () => boolean> = {
@@ -590,6 +592,7 @@ const beachBounty: Record<BeachBountyTreasure, () => boolean> = {
   "Wooden Compass": () => false,
   "Iron Compass": () => false,
   "Old Bottle": () => false,
+  "Emerald Compass": () => false,
 };
 
 const eventDecoration: Record<EventDecorationName, () => boolean> = {
