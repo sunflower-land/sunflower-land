@@ -81,6 +81,8 @@ export abstract class BaseScene extends Phaser.Scene {
   canHandlePortalHit = true;
 
   currentPlayer: BumpkinContainer | undefined;
+  isFacingLeft = false;
+  movementAngle: number | undefined;
   serverPosition: { x: number; y: number } = { x: 0, y: 0 };
   packetSentAt = 0;
 
@@ -95,15 +97,6 @@ export abstract class BaseScene extends Phaser.Scene {
   soundEffects: AudioController[] = [];
   walkAudioController?: WalkAudioController;
 
-  joystickKeys:
-    | {
-        up: Phaser.Input.Keyboard.Key;
-        down: Phaser.Input.Keyboard.Key;
-        left: Phaser.Input.Keyboard.Key;
-        right: Phaser.Input.Keyboard.Key;
-      }
-    | undefined;
-
   cursorKeys:
     | {
         up: Phaser.Input.Keyboard.Key;
@@ -116,14 +109,6 @@ export abstract class BaseScene extends Phaser.Scene {
         d?: Phaser.Input.Keyboard.Key;
       }
     | undefined;
-
-  inputPayload = {
-    left: false,
-    right: false,
-    up: false,
-    down: false,
-    // tick: undefined,
-  };
 
   // Advanced server timing - not used
   elapsedTime = 0;
@@ -419,11 +404,8 @@ export abstract class BaseScene extends Phaser.Scene {
         radius: 15,
         base: this.add.circle(0, 0, 15, 0x000000, 0.2).setDepth(1000000000),
         thumb: this.add.circle(0, 0, 7, 0xffffff, 0.2).setDepth(1000000000),
-        dir: "8dir",
-        // fixed: true,
-        forceMin: 3,
+        forceMin: 2,
       });
-      this.joystickKeys = this.joystick.createCursorKeys();
     }
     // Initialise Keyboard
     this.cursorKeys = this.input.keyboard?.createCursorKeys();
@@ -645,72 +627,73 @@ export abstract class BaseScene extends Phaser.Scene {
     this.fixedTick(time, this.fixedTimeStep);
   }
 
+  keysToAngle(
+    left: boolean,
+    right: boolean,
+    up: boolean,
+    down: boolean
+  ): number | undefined {
+    // calculate the x and y components based on key states
+    const x = (right ? 1 : 0) - (left ? 1 : 0);
+    const y = (down ? 1 : 0) - (up ? 1 : 0);
+
+    if (x === 0 && y === 0) {
+      return undefined;
+    }
+
+    return (Math.atan2(y, x) * 180) / Math.PI;
+  }
+
   public walkingSpeed = 50;
+
   updatePlayer() {
     if (!this.currentPlayer?.body) {
       return;
     }
 
-    this.inputPayload.left =
-      (this.cursorKeys?.left.isDown ||
-        this.cursorKeys?.a?.isDown ||
-        this.joystickKeys?.left.isDown) ??
-      false;
-    this.inputPayload.right =
-      (this.cursorKeys?.right.isDown ||
-        this.cursorKeys?.d?.isDown ||
-        this.joystickKeys?.right.isDown) ??
-      false;
-    this.inputPayload.up =
-      (this.cursorKeys?.up.isDown ||
-        this.cursorKeys?.w?.isDown ||
-        this.joystickKeys?.up.isDown) ??
-      false;
-    this.inputPayload.down =
-      (this.cursorKeys?.down.isDown ||
-        this.cursorKeys?.s?.isDown ||
-        this.joystickKeys?.down.isDown) ??
-      false;
+    // joystick is active if force is greater than zero
+    this.movementAngle = this.joystick?.force
+      ? this.joystick?.angle
+      : undefined;
 
-    if (!this.game.input.enabled) {
-      this.input.keyboard?.resetKeys();
+    // use keyboard control if joystick is not active
+    if (this.movementAngle === undefined) {
+      const left =
+        (this.cursorKeys?.left.isDown || this.cursorKeys?.a?.isDown) ?? false;
+      const right =
+        (this.cursorKeys?.right.isDown || this.cursorKeys?.d?.isDown) ?? false;
+      const up =
+        (this.cursorKeys?.up.isDown || this.cursorKeys?.w?.isDown) ?? false;
+      const down =
+        (this.cursorKeys?.down.isDown || this.cursorKeys?.s?.isDown) ?? false;
+
+      this.movementAngle = this.keysToAngle(left, right, up, down);
     }
 
-    // Horizontal movements
-    if (this.inputPayload.left) {
-      // Flip sprite
-      this.currentPlayer.faceLeft();
-      // Move character
-      (this.currentPlayer.body as Phaser.Physics.Arcade.Body)
-        .setVelocityX(-this.walkingSpeed)
-        .setSize(10, 10)
-        .setOffset(2, 10);
-    } else if (this.inputPayload.right) {
-      this.currentPlayer.faceRight();
-      (this.currentPlayer.body as Phaser.Physics.Arcade.Body)
-        .setVelocityX(this.walkingSpeed)
-        .setOffset(3, 10);
-    } else {
-      (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityX(0);
+    // change player direction if angle is changed from left to right or vise versa
+    if (
+      this.movementAngle !== undefined &&
+      Math.abs(this.movementAngle) !== 90
+    ) {
+      this.isFacingLeft = Math.abs(this.movementAngle) > 90;
+      this.isFacingLeft
+        ? this.currentPlayer.faceLeft()
+        : this.currentPlayer.faceRight();
     }
 
-    const isMovingHorizontally =
-      this.inputPayload.left || this.inputPayload.right;
-
-    // Vertical movements - bonus calculation to ensure correct diagonal speed
-    const baseSpeed = isMovingHorizontally ? 0.7 : 1;
-    if (this.inputPayload.up) {
-      (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityY(
-        -this.walkingSpeed * baseSpeed
-      );
-    } else if (this.inputPayload.down) {
-      (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityY(
-        this.walkingSpeed * baseSpeed
+    // set player velocity
+    const currentPlayerBody = this.currentPlayer
+      .body as Phaser.Physics.Arcade.Body;
+    if (this.movementAngle !== undefined) {
+      currentPlayerBody.setVelocity(
+        this.walkingSpeed * Math.cos((this.movementAngle * Math.PI) / 180),
+        this.walkingSpeed * Math.sin((this.movementAngle * Math.PI) / 180)
       );
     } else {
-      (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityY(0);
+      currentPlayerBody.setVelocity(0, 0);
     }
 
+    // sync player position to server
     if (
       // Hasn't sent to server recently
       Date.now() - this.packetSentAt > 1000 / SEND_PACKET_RATE &&
@@ -731,11 +714,7 @@ export abstract class BaseScene extends Phaser.Scene {
       }
     }
 
-    const isMoving =
-      this.inputPayload.left ||
-      this.inputPayload.right ||
-      this.inputPayload.up ||
-      this.inputPayload.down;
+    const isMoving = this.movementAngle !== undefined;
 
     if (this.soundEffects) {
       this.soundEffects.forEach((audio) =>
