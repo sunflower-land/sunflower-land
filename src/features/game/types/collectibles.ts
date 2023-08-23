@@ -66,7 +66,9 @@ export type GoblinPirateItemName =
   | "Heart of Davy Jones"
   | "Karkinos"
   | "Emerald Turtle"
-  | "Tin Turtle";
+  | "Tin Turtle"
+  | "Parasaur Skull"
+  | "Golden Bear Head";
 
 export type PotionHouseItemName =
   | "Lab Grown Carrot"
@@ -253,6 +255,22 @@ export const GOBLIN_PIRATE_ITEMS: Record<
     supply: 7500,
     boost: "+0.1 Cabbage",
     disabled: true,
+  },
+  "Parasaur Skull": {
+    description: "A skull from a parasaur!",
+    ingredients: {
+      "Emerald Compass": new Decimal(20),
+      "Block Buck": new Decimal(1),
+    },
+    supply: 1000,
+  },
+  "Golden Bear Head": {
+    description: "Spooky, but cool.",
+    ingredients: {
+      "Emerald Compass": new Decimal(60),
+      "Block Buck": new Decimal(1),
+    },
+    supply: 200,
   },
 };
 

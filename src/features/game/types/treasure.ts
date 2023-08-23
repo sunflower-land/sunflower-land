@@ -18,7 +18,8 @@ export type BeachBountyTreasure =
   | "Sea Cucumber"
   | "Wooden Compass"
   | "Iron Compass"
-  | "Old Bottle";
+  | "Old Bottle"
+  | "Emerald Compass";
 
 export type ConsumableTreasure =
   | "Pirate Cake"
@@ -42,8 +43,6 @@ export type DecorationTreasure =
   | "Lifeguard Bear"
   | "Snorkel Bear"
   | "Whale Bear"
-  | "Parasaur Skull"
-  | "Golden Bear Head"
   | "Pirate Bear"
   | "Goblin Bear"
   | "Galleon"
@@ -139,6 +138,12 @@ export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
       description: "Plebidonax deltoides, found in the Pacific Ocean.",
       type: "good",
     },
+    "Emerald Compass": {
+      sellPrice: marketRate(187.5),
+      description:
+        "Guide your way through the lush mysteries of life! This compass doesn't just point North, it points towards opulence and grandeur!",
+      type: "good",
+    },
   };
 
 export const REWARDS = (): Partial<Record<TreasureName, Treasure>> => ({
@@ -222,6 +227,9 @@ export const REWARDS = (): Partial<Record<TreasureName, Treasure>> => ({
   },
   "Old Bottle": {
     type: "average",
+  },
+  "Emerald Compass": {
+    type: "good",
   },
 });
 
