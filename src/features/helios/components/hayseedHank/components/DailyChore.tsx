@@ -26,8 +26,9 @@ const isDateOnSameDayAsToday = (date: Date) => {
 interface Props {
   id: ChoreV2Name;
   chore: ChoreV2;
+  isReadOnly?: boolean;
 }
-export const DailyChore: React.FC<Props> = ({ id, chore }) => {
+export const DailyChore: React.FC<Props> = ({ id, chore, isReadOnly }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -93,31 +94,32 @@ export const DailyChore: React.FC<Props> = ({ id, chore }) => {
             new Decimal(progress)
           )}/${chore.requirement}`}</span>
         </div>
-        {chore.completedAt ? (
-          <div className="flex">
-            <span className="text-xs mr-1">Completed</span>
-            <img src={SUNNYSIDE.icons.confirm} className="h-4" />
-          </div>
-        ) : (
-          <div className="flex mt-1">
-            {!isDateOnSameDayAsToday(new Date(chore.createdAt)) && (
-              <Button
-                className="text-sm w-24 h-8 mr-2"
-                onClick={() => skip(id)}
-              >
-                Skip
-              </Button>
-            )}
+        {!isReadOnly &&
+          (chore.completedAt ? (
+            <div className="flex">
+              <span className="text-xs mr-1">Completed</span>
+              <img src={SUNNYSIDE.icons.confirm} className="h-4" />
+            </div>
+          ) : (
+            <div className="flex mt-1">
+              {!isDateOnSameDayAsToday(new Date(chore.createdAt)) && (
+                <Button
+                  className="text-sm w-24 h-8 mr-2"
+                  onClick={() => skip(id)}
+                >
+                  Skip
+                </Button>
+              )}
 
-            <Button
-              disabled={!isTaskComplete}
-              className="text-sm w-24 h-8"
-              onClick={() => complete(id)}
-            >
-              Complete
-            </Button>
-          </div>
-        )}
+              <Button
+                disabled={!isTaskComplete}
+                className="text-sm w-24 h-8"
+                onClick={() => complete(id)}
+              >
+                Complete
+              </Button>
+            </div>
+          ))}
       </div>
     </OuterPanel>
   );
