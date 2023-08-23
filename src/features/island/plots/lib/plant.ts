@@ -7,6 +7,7 @@ import beetrootProcSprite from "assets/crops/beetroot/proc_sprite.png";
 import cauliflowerProcSprite from "assets/crops/cauliflower/proc_sprite.png";
 import parsnipProcSprite from "assets/crops/parsnip/proc_sprite.png";
 import eggplantProcSprite from "assets/crops/eggplant/proc_sprite.png";
+import cornProcSprite from "assets/crops/corn/proc_sprite.png";
 import radishProcSprite from "assets/crops/radish/proc_sprite.png";
 import wheatProcSprite from "assets/crops/wheat/proc_sprite.png";
 import kaleProcSprite from "assets/crops/kale/proc_sprite.png";
@@ -25,6 +26,7 @@ const HARVEST_PROC_SPRITES: Record<CropName, any> = {
   Cauliflower: cauliflowerProcSprite,
   Parsnip: parsnipProcSprite,
   Eggplant: eggplantProcSprite,
+  Corn: cornProcSprite,
   Radish: radishProcSprite,
   Wheat: wheatProcSprite,
   Kale: kaleProcSprite,
@@ -58,6 +60,7 @@ export const IMAGES: Record<CropName, string> = {
   Cauliflower: "cauliflower",
   Parsnip: "parsnip",
   Eggplant: "eggplant",
+  Corn: "corn",
   Radish: "radish",
   Wheat: "wheat",
   Kale: "kale",

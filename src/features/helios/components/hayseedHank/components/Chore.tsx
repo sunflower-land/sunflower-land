@@ -18,15 +18,14 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
-  onClose: () => void;
   skipping: boolean;
 }
-export const Chore: React.FC<Props> = ({ onClose, skipping }) => {
+export const Chore: React.FC<Props> = ({ skipping }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const hayseedHank = gameState.context.state.hayseedHank;
-  const chore = hayseedHank.chore;
+  const chore = hayseedHank?.chore;
   const bumpkin = gameState.context.state.bumpkin as Bumpkin;
 
   const start = () => {
@@ -39,7 +38,7 @@ export const Chore: React.FC<Props> = ({ onClose, skipping }) => {
     gameService.send("SAVE");
   };
 
-  if (!chore || !hayseedHank.progress) return <Loading />;
+  if (!hayseedHank || !chore || !hayseedHank.progress) return <Loading />;
 
   if (skipping) return <Loading text="Skipping" />;
 

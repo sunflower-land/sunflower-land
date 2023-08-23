@@ -2,84 +2,93 @@ import React, { useContext, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
-import { metamaskIcon } from "./WalletIcons";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
+import metamaskIcon from "src/assets/icons/metamask_pixel.png";
 import walletIcon from "src/assets/icons/wallet.png";
 import phantomIcon from "src/assets/icons/phantom.svg";
 import okxIcon from "src/assets/icons/okx.svg";
+import cryptoComIcon from "src/assets/icons/crypto-com-logo.svg";
+
 import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { Label } from "components/ui/Label";
-import { hasFeatureAccess } from "lib/flags";
+import { Web3SupportedProviders } from "lib/web3SupportedProviders";
+import { getPromoCode } from "features/game/actions/loadSession";
 
 const OtherWallets = () => {
   const { authService } = useContext(Context);
 
   return (
     <>
-      {hasFeatureAccess({}, "OKX_WALLET") ? (
-        <>
-          <Button
-            className="mb-2 py-2 text-sm relative"
-            onClick={() => authService.send("CONNECT_TO_OKX")}
-          >
-            <div className="px-8">
-              <img
-                src={okxIcon}
-                alt="OKX"
-                className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
-              />
-              <Label
-                type="info"
-                className="absolute top-1/2 -translate-y-1/2 right-1"
-              >
-                Featured
-              </Label>
-              OKX Wallet
-            </div>
-          </Button>
-          <Button
-            className="mb-2 py-2 text-sm relative"
-            onClick={() => authService.send("CONNECT_TO_PHANTOM")}
-          >
-            <div className="px-8">
-              <img
-                src={phantomIcon}
-                alt="Phantom"
-                className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
-              />
-              Phantom
-            </div>
-          </Button>
-        </>
-      ) : (
-        <>
-          <Button
-            className="mb-2 py-2 text-sm relative"
-            onClick={() => authService.send("CONNECT_TO_PHANTOM")}
-          >
-            <div className="px-8">
-              <img
-                src={phantomIcon}
-                alt="Phantom"
-                className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
-              />
-              <Label
-                type="info"
-                className="absolute top-1/2 -translate-y-1/2 right-1"
-              >
-                Featured
-              </Label>
-              Phantom
-            </div>
-          </Button>
-        </>
-      )}
+      <>
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() =>
+            authService.send("CONNECT_TO_WALLET", {
+              chosenProvider: Web3SupportedProviders.CRYPTO_COM,
+            })
+          }
+        >
+          <div className="px-8">
+            <img
+              src={cryptoComIcon}
+              alt="Crypto.com"
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+            />
+            <Label
+              type="info"
+              className="absolute top-1/2 -translate-y-1/2 right-1"
+            >
+              Featured
+            </Label>
+            Crypto.com Wallet
+          </div>
+        </Button>
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() =>
+            authService.send("CONNECT_TO_WALLET", {
+              chosenProvider: Web3SupportedProviders.OKX,
+            })
+          }
+        >
+          <div className="px-8">
+            <img
+              src={okxIcon}
+              alt="OKX"
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+            />
+            OKX Wallet
+          </div>
+        </Button>
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() =>
+            authService.send("CONNECT_TO_WALLET", {
+              chosenProvider: Web3SupportedProviders.PHANTOM,
+            })
+          }
+        >
+          <div className="px-8">
+            <img
+              src={phantomIcon}
+              alt="Phantom"
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
+            />
+            Phantom
+          </div>
+        </Button>
+      </>
+
       <div className="bg-white b-1 mx-auto w-2/3 h-[1px] my-3" />
       <Button
         className="mb-2 py-2 text-sm relative"
-        onClick={() => authService.send("CONNECT_TO_WALLET_CONNECT")}
+        onClick={() =>
+          authService.send("CONNECT_TO_WALLET", {
+            chosenProvider: Web3SupportedProviders.WALLET_CONNECT,
+          })
+        }
       >
         <div className="px-8">
           <svg
@@ -106,7 +115,9 @@ export const SignIn = () => {
   const [page, setPage] = useState<"home" | "other">("home");
 
   const connectToMetaMask = () => {
-    authService.send("CONNECT_TO_METAMASK");
+    authService.send("CONNECT_TO_WALLET", {
+      chosenProvider: Web3SupportedProviders.METAMASK,
+    });
   };
 
   const handleBack = () => {
@@ -121,11 +132,14 @@ export const SignIn = () => {
     return (
       <>
         <Button
-          className="mb-2 py-2 text-sm relative"
+          className="mb-2 py-2 text-sm relative justify-start"
           onClick={connectToMetaMask}
         >
-          <div className="px-8">
-            {metamaskIcon}
+          <div className="px-8 mr-2 flex ">
+            <img
+              src={metamaskIcon}
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
+            />
             Metamask
           </div>
         </Button>
@@ -142,60 +156,80 @@ export const SignIn = () => {
           </div>
         </Button>
 
-        <div className="bg-white b-1 w-full h-[1px] my-4" />
-        <div className="flex justify-center relative pb-1">
-          <span className="text-xs text-center bg-[#c28669] px-2 absolute top-[-34px] italic ">
-            Connect with an email or social login
-          </span>
-        </div>
         <Button
           className="mb-2 py-2 text-sm relative"
-          onClick={() => authService.send("CONNECT_TO_SEQUENCE")}
+          onClick={() =>
+            authService.send("CONNECT_TO_WALLET", {
+              chosenProvider: Web3SupportedProviders.SEQUENCE,
+            })
+          }
         >
           <div className="px-8">
             <img
               src="https://sequence.app/static/images/sequence-logo.7c854742a6b8b4969004.svg"
               className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
             />
-            Sequence
+            Email & social login
           </div>
         </Button>
       </>
     );
   };
 
+  const isCryptoCom = getPromoCode() === "crypto-com";
+
   return (
-    <div className="px-4">
-      <div className="flex text-center items-center justify-between mb-3 mt-1">
-        <div
-          className="flex items-center"
+    <div className="px-2">
+      <div className="flex items-center mb-2">
+        <img
+          src={SUNNYSIDE.icons.arrow_left}
+          className="cursor-pointer mr-2"
+          onClick={handleBack}
           style={{
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
-        >
-          {(page === "other" || getOnboardingComplete()) && (
-            <img
-              src={SUNNYSIDE.icons.arrow_left}
-              className="cursor-pointer"
-              onClick={handleBack}
-              style={{
-                width: `${PIXEL_SCALE * 8}px`,
-              }}
-            />
-          )}
-        </div>
-        <p className="text-xs text-white mt-2 mb-2 text-center italic leading-3">
-          Connect your Web3 wallet to play
-        </p>
-        <div
-          className="flex-none"
-          style={{
-            width: `${PIXEL_SCALE * 11}px`,
+            width: `${PIXEL_SCALE * 8}px`,
           }}
         />
+        {!getOnboardingComplete() && (
+          <div className="flex items-center">
+            <img src={SUNNYSIDE.ui.green_bar_4} className="h-5 mr-2" />
+            <span className="text-xs">Step 2/3 (Create a wallet)</span>
+          </div>
+        )}
       </div>
-      {page === "home" && <MainWallets />}
-      {page === "other" && <OtherWallets />}
+
+      {isCryptoCom && (
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() =>
+            authService.send("CONNECT_TO_WALLET", {
+              chosenProvider: Web3SupportedProviders.CRYPTO_COM,
+            })
+          }
+        >
+          <div className="px-8">
+            <img
+              src={cryptoComIcon}
+              alt="Crypto.com"
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+            />
+            <Label
+              type="info"
+              className="absolute top-1/2 -translate-y-1/2 right-1"
+            >
+              Featured
+            </Label>
+            Crypto.com Wallet
+          </div>
+        </Button>
+      )}
+
+      {!isCryptoCom && (
+        <>
+          {page === "home" && <MainWallets />}
+          {page === "other" && <OtherWallets />}
+        </>
+      )}
+
       <div className="flex justify-between my-1">
         <a href="https://discord.gg/sunflowerland" className="mr-4">
           <img

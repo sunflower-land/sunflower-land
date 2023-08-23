@@ -1,6 +1,12 @@
 import Decimal from "decimal.js-light";
 import { CHORES } from "../types/chores";
-import { Bumpkin, GameState, Inventory } from "../types/game";
+import {
+  Bumpkin,
+  ChoreV2Name,
+  ChoresV2,
+  GameState,
+  Inventory,
+} from "../types/game";
 import { getKeys } from "../types/craftables";
 
 const INITIAL_STOCK: Inventory = {
@@ -46,8 +52,6 @@ const INITIAL_STOCK: Inventory = {
 
   "Boiled Eggs": new Decimal(1),
   "Magic Bean": new Decimal(5),
-  "Shiny Bean": new Decimal(5),
-  "Golden Bean": new Decimal(5),
 
   "Immortal Pear": new Decimal(1),
 };
@@ -229,7 +233,7 @@ export const INITIAL_EXPANSIONS = 3;
 
 const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 300000,
+  experience: 10000,
   tokenUri: "bla",
   equipped: {
     body: "Beige Farmer Potion",
@@ -255,44 +259,22 @@ const INITIAL_BUMPKIN: Bumpkin = {
 
 export const OFFLINE_FARM: GameState = {
   id: 4,
-  dawnBreaker: {
-    currentWeek: 8,
-    availableLantern: {
-      name: "Solar Lantern",
-      startAt: "2023-05-08T00:00:00.000Z",
-      endAt: "2023-05-15T00:00:00.000Z",
-      ingredients: {
-        Carrot: new Decimal(50),
-        Cauliflower: new Decimal(7),
-        Beetroot: new Decimal(10),
-        Cabbage: new Decimal(10),
-        Wood: new Decimal(3),
-      },
-    },
-    lanternsCraftedByWeek: {
-      1: 4,
-      2: 3,
-    },
-    answeredRiddleIds: [],
-    riddle: {
-      hint: "Tester",
-      endAt: 0,
-      startAt: 0,
-      id: "test-id",
-      reward: {
-        items: {
-          "Dawn Breaker Ticket": 50,
-        },
-      },
-    },
-    dawnFlower: {
-      plantedAt: 0,
-      tendedAt: 0,
-      tendedCount: 7,
-    },
-    party: {
-      requirements: {
-        Wood: 50,
+  witchesEve: {
+    weeklyLostCrowCount: 25,
+    maze: {
+      3: {
+        claimedFeathers: 0,
+        sflFee: 5,
+        paidEntryFee: true,
+        highestScore: 0,
+        attempts: [
+          {
+            startedAt: 0,
+            crowsFound: 0,
+            health: 3,
+            time: 2,
+          },
+        ],
       },
     },
   },
@@ -340,6 +322,8 @@ export const OFFLINE_FARM: GameState = {
     "Crab Claw": 95,
   },
   inventory: {
+    "El Pollo Veloz": new Decimal(1),
+    Gnome: new Decimal(1),
     "Sunflower Cake": new Decimal(15),
     Carrot: new Decimal(80),
     Cauliflower: new Decimal(70),
@@ -360,7 +344,7 @@ export const OFFLINE_FARM: GameState = {
     "Fire Pit": new Decimal(1),
     "Town Center": new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(5),
+    "Basic Land": new Decimal(3),
     "Crop Plot": new Decimal(getKeys(INITIAL_RESOURCES.crops).length),
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
@@ -387,6 +371,7 @@ export const OFFLINE_FARM: GameState = {
     "Cabbage Boy": new Decimal(1),
 
     // "Beta Pass": new Decimal(1),
+    "Witches' Eve Banner": new Decimal(1),
 
     Kitchen: new Decimal(1),
 
@@ -419,6 +404,9 @@ export const OFFLINE_FARM: GameState = {
     "Eggplant Grill": new Decimal(1),
     "Giant Dawn Mushroom": new Decimal(1),
     "Shroom Glow": new Decimal(1),
+    Candles: new Decimal(1),
+    "Haunted Stump": new Decimal(1),
+    "Spooky Tree": new Decimal(1),
 
     Chicken: new Decimal(5),
 
@@ -427,12 +415,32 @@ export const OFFLINE_FARM: GameState = {
     Maximus: new Decimal(1),
     Hoot: new Decimal(1),
     "Sir Goldensnout": new Decimal(1),
+    "Freya Fox": new Decimal(1),
+    "Fat Chicken": new Decimal(1),
+    "Queen Cornelia": new Decimal(1),
+    "Scary Mike": new Decimal(1),
+    "Ayam Cemani": new Decimal(1),
   },
 
+  createdAt: new Date("2022-03-04").getTime(),
   ...INITIAL_RESOURCES,
 
   bumpkin: INITIAL_BUMPKIN,
 
+  trades: {
+    listings: {
+      "123": {
+        createdAt: 0,
+        items: {
+          Apple: 2,
+          Wheat: 3,
+        },
+        sfl: 2,
+        boughtAt: 1,
+        buyerId: 1,
+      },
+    },
+  },
   chickens: {},
 
   airdrops: [],
@@ -459,6 +467,53 @@ export const OFFLINE_FARM: GameState = {
     ],
   },
 
+  chores: {
+    choresCompleted: 0,
+    choresSkipped: 2,
+    chores: {
+      [ChoreV2Name.EASY_1]: {
+        activity: "Corn Harvested",
+        bumpkinId: 1,
+        createdAt: 0,
+        description: "Harvest 2 Corn",
+        requirement: 5,
+        tickets: 2,
+        completedAt: 100,
+        startCount: -200,
+      },
+      [ChoreV2Name.EASY_2]: {
+        activity: "Sunflower Harvested",
+        bumpkinId: 1,
+        createdAt: Date.now() - 25 * 60 * 60 * 1000,
+        description: "Harvest 3 Sunflowers in long text",
+        requirement: 5,
+        tickets: 2,
+
+        startCount: -50,
+      },
+      [ChoreV2Name.MEDIUM_1]: {
+        activity: "Sunflower Harvested",
+        bumpkinId: 1,
+        createdAt: Date.now() - 100,
+        description: "Harvest 3 Sunflowers in long text",
+        requirement: 5,
+        tickets: 2,
+
+        startCount: 0,
+      },
+      [ChoreV2Name.MEDIUM_2]: {
+        activity: "Sunflower Harvested",
+        bumpkinId: 1,
+        createdAt: 0,
+        description: "Harvest 3 Sunflowers in long text",
+        requirement: 5,
+        tickets: 2,
+
+        startCount: 0,
+      },
+    } as ChoresV2["chores"],
+  },
+
   buildings: {
     "Town Center": [
       {
@@ -468,15 +523,7 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    "Hen House": [
-      {
-        coordinates: { x: 6, y: 0 },
-        createdAt: 0,
-        id: "123",
-        readyAt: 0,
-      },
-    ],
-    Tent: [
+    Market: [
       {
         coordinates: { x: 3, y: 0 },
         createdAt: 0,
@@ -499,23 +546,21 @@ export const OFFLINE_FARM: GameState = {
     orders: [
       {
         id: "123",
-        createdAt: Date.now(),
-        readyAt: Date.now(),
-        from: "betty",
+        createdAt: Date.now() - 23 * 60 * 60 * 1000,
+        completedAt: Date.now(),
+        readyAt: 1690855045072,
+        from: "pumpkin' pete",
         items: {
           Sunflower: 5,
           Pumpkin: 5,
         },
         reward: {
-          sfl: 5,
-          items: {
-            "Dawn Breaker Ticket": 2,
-          },
+          tickets: 2,
         },
       },
       {
         id: "124",
-        createdAt: Date.now(),
+        createdAt: Date.now() - 25 * 60 * 60 * 1000,
         readyAt: Date.now(),
         from: "blacksmith",
         items: {

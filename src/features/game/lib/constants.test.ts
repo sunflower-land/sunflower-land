@@ -67,6 +67,7 @@ describe("INITIAL_STOCK", () => {
     expect(INITIAL_STOCK(state)["Cauliflower Seed"]).toEqual(new Decimal(80));
     expect(INITIAL_STOCK(state)["Parsnip Seed"]).toEqual(new Decimal(60));
     expect(INITIAL_STOCK(state)["Eggplant Seed"]).toEqual(new Decimal(50));
+    expect(INITIAL_STOCK(state)["Corn Seed"]).toEqual(new Decimal(50));
     expect(INITIAL_STOCK(state)["Radish Seed"]).toEqual(new Decimal(40));
     expect(INITIAL_STOCK(state)["Wheat Seed"]).toEqual(new Decimal(40));
     expect(INITIAL_STOCK(state)["Kale Seed"]).toEqual(new Decimal(30));
@@ -99,6 +100,7 @@ describe("INITIAL_STOCK", () => {
     expect(INITIAL_STOCK(state)["Cauliflower Seed"]).toEqual(new Decimal(96));
     expect(INITIAL_STOCK(state)["Parsnip Seed"]).toEqual(new Decimal(72));
     expect(INITIAL_STOCK(state)["Eggplant Seed"]).toEqual(new Decimal(60));
+    expect(INITIAL_STOCK(state)["Corn Seed"]).toEqual(new Decimal(60));
     expect(INITIAL_STOCK(state)["Radish Seed"]).toEqual(new Decimal(48));
     expect(INITIAL_STOCK(state)["Wheat Seed"]).toEqual(new Decimal(48));
     expect(INITIAL_STOCK(state)["Kale Seed"]).toEqual(new Decimal(36));
@@ -135,6 +137,7 @@ describe("INVENTORY_LIMIT", () => {
     );
     expect(INVENTORY_LIMIT(state)["Parsnip Seed"]).toEqual(new Decimal(150));
     expect(INVENTORY_LIMIT(state)["Eggplant Seed"]).toEqual(new Decimal(120));
+    expect(INVENTORY_LIMIT(state)["Corn Seed"]).toEqual(new Decimal(120));
     expect(INVENTORY_LIMIT(state)["Radish Seed"]).toEqual(new Decimal(100));
     expect(INVENTORY_LIMIT(state)["Wheat Seed"]).toEqual(new Decimal(100));
     expect(INVENTORY_LIMIT(state)["Kale Seed"]).toEqual(new Decimal(80));
@@ -169,6 +172,7 @@ describe("INVENTORY_LIMIT", () => {
     );
     expect(INVENTORY_LIMIT(state)["Parsnip Seed"]).toEqual(new Decimal(180));
     expect(INVENTORY_LIMIT(state)["Eggplant Seed"]).toEqual(new Decimal(144));
+    expect(INVENTORY_LIMIT(state)["Corn Seed"]).toEqual(new Decimal(144));
     expect(INVENTORY_LIMIT(state)["Radish Seed"]).toEqual(new Decimal(120));
     expect(INVENTORY_LIMIT(state)["Wheat Seed"]).toEqual(new Decimal(120));
     expect(INVENTORY_LIMIT(state)["Kale Seed"]).toEqual(new Decimal(96));

@@ -89,7 +89,6 @@ import {
   removeCollectible,
   RemoveCollectibleAction,
 } from "./landExpansion/removeCollectible";
-import { beanBought, BeanBoughtAction } from "./landExpansion/buyBean";
 import {
   collectCropReward,
   CollectCropRewardAction,
@@ -151,21 +150,24 @@ import { moveStone, MoveStoneAction } from "./landExpansion/moveStone";
 import { moveGold, MoveGoldAction } from "./landExpansion/moveGold";
 import { pickMushroom, PickMushroomAction } from "./landExpansion/pickMushroom";
 import { moveChicken, MoveChickenAction } from "./landExpansion/moveChicken";
-import { craftLantern, CraftLanternAction } from "./landExpansion/craftLantern";
 import { Announcements } from "../types/conversations";
 import { skipChore, SkipChoreAction } from "./landExpansion/skipChore";
 import { deliverOrder, DeliverOrderAction } from "./landExpansion/deliver";
 import { equip, EquipBumpkinAction } from "./landExpansion/equip";
 import { refundBid, RefundBidAction } from "./landExpansion/refundBid";
 import { mixPotion, MixPotionAction } from "./landExpansion/mixPotion";
+import { buyWearable, BuyWearableAction } from "./landExpansion/buyWearable";
+import { skipOrder, SkipOrderAction } from "./landExpansion/skipOrder";
+import { SaveMazeAction, saveMaze } from "./landExpansion/saveMaze";
+import { StartMazeAction, startMaze } from "./landExpansion/startMaze";
 import {
-  tendDawnFlower,
-  TendDawnFlowerAction,
-} from "./landExpansion/tendDawnFlower";
-import {
-  prepareParty,
-  PreparePartyAction,
-} from "./landExpansion/prepareDawnParty";
+  completeBertObsession,
+  CompleteBertObsessionAction,
+} from "./landExpansion/completeBertObsession";
+import { StartPotionAction, startPotion } from "./landExpansion/startPotion";
+import { receiveTrade, ReceiveTradeAction } from "./landExpansion/receiveTrade";
+import { listTrade, ListTradeAction } from "./landExpansion/listTrade";
+import { cancelTrade, CancelTradeAction } from "./landExpansion/cancelTrade";
 
 export type PlayingEvent =
   | TradeAction
@@ -190,7 +192,6 @@ export type PlayingEvent =
   | CraftToolAction
   | buyDecorationAction
   | SellCropAction
-  | BeanBoughtAction
   | CollectCropRewardAction
   | CollectTreeRewardAction
   | LandExpansionCollectEggsAction
@@ -213,13 +214,19 @@ export type PlayingEvent =
   | RemoveBuildingAction
   | RemoveCollectibleAction
   | RemoveChickenAction
-  | CraftLanternAction
   | DeliverOrderAction
   | EquipBumpkinAction
   | RefundBidAction
   | MixPotionAction
-  | TendDawnFlowerAction
-  | PreparePartyAction;
+  | BuyWearableAction
+  | SkipOrderAction
+  | SaveMazeAction
+  | StartMazeAction
+  | CompleteBertObsessionAction
+  | StartPotionAction
+  | ReceiveTradeAction
+  | ListTradeAction
+  | CancelTradeAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -295,7 +302,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "decoration.bought": buyDecoration,
   "crop.sold": sellCrop,
 
-  "bean.bought": beanBought,
   "cropReward.collected": collectCropReward,
   "treeReward.collected": collectTreeReward,
   "fruit.planted": plantFruit,
@@ -316,13 +322,19 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "building.removed": removeBuilding,
   "collectible.removed": removeCollectible,
   "chicken.removed": removeChicken,
-  "lantern.crafted": craftLantern,
   "order.delivered": deliverOrder,
+  "order.skipped": skipOrder,
   "bumpkin.equipped": equip,
   "bid.refunded": refundBid,
   "potion.mixed": mixPotion,
-  "dawnFlower.tended": tendDawnFlower,
-  "dawnParty.prepared": prepareParty,
+  "wearable.bought": buyWearable,
+  "maze.started": startMaze,
+  "maze.saved": saveMaze,
+  "bertObsession.completed": completeBertObsession,
+  "potion.started": startPotion,
+  "trade.cancelled": cancelTrade,
+  "trade.listed": listTrade,
+  "trade.received": receiveTrade,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

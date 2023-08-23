@@ -21,6 +21,10 @@ import dawnBreakerBanner from "assets/decorations/dawn_breaker_banner.png";
 import land from "assets/land/islands/island.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { analytics } from "lib/analytics";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { hasFeatureAccess } from "lib/flags";
+import { SEASONS } from "features/game/types/seasons";
 
 interface Island {
   name: string;
@@ -29,12 +33,14 @@ interface Island {
   image?: string;
   comingSoon?: boolean;
   beta?: boolean;
+  passRequired?: boolean;
 }
 
 interface IslandProps extends Island {
   bumpkin: Bumpkin | undefined;
   currentPath: string;
   disabled: boolean;
+  onClose: () => void;
 }
 
 interface IslandListProps {
@@ -43,6 +49,7 @@ interface IslandListProps {
   inventory: Inventory;
   travelAllowed: boolean;
   hasBetaAccess?: boolean;
+  onClose: () => void;
 }
 
 const IslandListItem: React.FC<IslandProps> = ({
@@ -54,8 +61,11 @@ const IslandListItem: React.FC<IslandProps> = ({
   comingSoon,
   currentPath,
   disabled,
+  passRequired,
   beta,
+  onClose,
 }) => {
+  const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const onSameIsland = path === currentPath;
   const notEnoughLevel =
@@ -64,6 +74,11 @@ const IslandListItem: React.FC<IslandProps> = ({
     notEnoughLevel || onSameIsland || comingSoon || disabled;
 
   const onClick = () => {
+    if (passRequired) {
+      openModal("GOLD_PASS");
+      onClose();
+      return;
+    }
     if (!cannotNavigate) {
       navigate(path);
       analytics.logEvent("select_content", {
@@ -107,6 +122,12 @@ const IslandListItem: React.FC<IslandProps> = ({
           {/* Coming soon */}
           {comingSoon && <Label type="warning">Coming soon</Label>}
           {beta && <Label type="info">Beta</Label>}
+          {passRequired && (
+            <Label type="warning" className="flex gap-2 items-center">
+              <img src={ITEM_DETAILS["Gold Pass"].image} className="h-4" />
+              Pass Required
+            </Label>
+          )}
         </div>
       </div>
     </OuterPanel>
@@ -142,7 +163,9 @@ export const IslandList: React.FC<IslandListProps> = ({
   bumpkin,
   showVisitList,
   travelAllowed,
+  inventory,
   hasBetaAccess = false,
+  onClose,
 }) => {
   const { authService } = useContext(Auth.Context);
   const userType = useSelector(authService, userTypeSelector);
@@ -159,24 +182,42 @@ export const IslandList: React.FC<IslandListProps> = ({
       levelRequired: 1,
       path: `/land/${farmId}`,
     },
+    ...(hasFeatureAccess(inventory, "PUMPKIN_PLAZA") ||
+    Date.now() > SEASONS["Witches' Eve"].startDate.getTime()
+      ? [
+          {
+            name: "Pumpkin Plaza",
+            levelRequired: 1 as BumpkinLevel,
+            image: CROP_LIFECYCLE.Pumpkin.ready,
+            path: `/world/plaza`,
+            beta: true,
+          },
+        ]
+      : []),
     {
       name: "Helios",
       levelRequired: 1 as BumpkinLevel,
       image: SUNNYSIDE.icons.helios,
       path: `/land/${farmId}/helios`,
     },
-    {
-      name: "Dawn Breaker",
-      image: dawnBreakerBanner,
-      levelRequired: 2 as BumpkinLevel,
-      path: `/world/dawn_breaker`,
-      beta: true,
-    },
+    ...(Date.now() < SEASONS["Witches' Eve"].startDate.getTime()
+      ? [
+          {
+            name: "Dawn Breaker",
+            image: dawnBreakerBanner,
+            levelRequired: 2 as BumpkinLevel,
+            path: `/world/dawn_breaker`,
+            beta: true,
+          },
+        ]
+      : []),
+
     {
       name: "Goblin Retreat",
       levelRequired: 1 as BumpkinLevel,
       image: goblin,
       path: `/retreat/${farmId}`,
+      passRequired: true,
     },
     {
       name: "Treasure Island",
@@ -232,6 +273,7 @@ export const IslandList: React.FC<IslandListProps> = ({
             bumpkin={bumpkin}
             currentPath={location.pathname}
             disabled={!travelAllowed}
+            onClose={onClose}
           />
         )}
         <VisitFriendListItem onClick={() => setView("visitForm")} />
@@ -248,9 +290,11 @@ export const IslandList: React.FC<IslandListProps> = ({
         <IslandListItem
           key={item.name}
           {...item}
+          onClose={onClose}
           bumpkin={bumpkin}
           currentPath={location.pathname}
           disabled={!travelAllowed}
+          passRequired={item.passRequired && !inventory["Gold Pass"]}
         />
       ))}
       {!hideVisitOption && (

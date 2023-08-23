@@ -24,7 +24,15 @@ function getHalveningRate() {
     return 0.025;
   }
 
-  return 0.0125;
+  /**
+   * Estimated Block number + timestamp
+   * (Monday, 10 July 2023)
+   */
+  if (now < 1688947200000) {
+    return 0.0125;
+  }
+
+  return 0.00625;
 }
 
 /**

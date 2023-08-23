@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
@@ -10,8 +10,6 @@ import { WithdrawTokens } from "./WithdrawTokens";
 import { WithdrawItems } from "./WithdrawItems";
 
 import { Context } from "features/game/GoblinProvider";
-import { loadBanDetails } from "features/game/actions/bans";
-import { Jigger, JiggerStatus } from "features/game/components/Jigger";
 import { WithdrawWearables } from "./WithdrawWearables";
 import { WithdrawBumpkin } from "./WithdrawBumpkin";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -26,33 +24,10 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
   const [authState] = useActor(authService);
+
   const [page, setPage] = useState<
     "tokens" | "items" | "wearables" | "bumpkin"
   >();
-
-  const [jiggerState, setJiggerState] =
-    useState<{ url: string; status: JiggerStatus }>();
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const load = async () => {
-      const check = await loadBanDetails(
-        authState.context.user.farmId?.toString() as string,
-        authState.context.user.rawToken as string,
-        authState.context.transactionId as string
-      );
-
-      if (check.verificationUrl) {
-        setJiggerState({
-          url: check.verificationUrl,
-          status: check.botStatus as JiggerStatus,
-        });
-      }
-      setIsLoading(false);
-    };
-
-    load();
-  }, []);
 
   const withdrawAmount = useRef({
     ids: [] as number[],
@@ -126,28 +101,22 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  if (isLoading) {
-    return <span className="loading">Loading</span>;
-  }
+  const proovePersonhood = async () => {
+    goblinService.send("PROVE_PERSONHOOD");
+    onClose();
+  };
 
-  if (jiggerState) {
+  if (!goblinState.context.verified) {
     return (
-      <Jigger
-        onClose={onClose}
-        status={jiggerState.status}
-        verificationUrl={jiggerState.url}
-      />
-    );
-  }
-
-  const isBlacklisted = authState.context.blacklistStatus !== "OK";
-
-  if (isBlacklisted) {
-    return (
-      <div className="p-2 text-sm">
-        Withdrawing is temporarily restricted while your humanity is being
-        verified. Thanks for your patience!
-      </div>
+      <>
+        <p className="text-sm p-1 m-1">
+          Proof of humanity is needed for this feature. Please take a quick
+          selfie.
+        </p>
+        <Button className="mr-1" onClick={proovePersonhood}>
+          Start Verification
+        </Button>
+      </>
     );
   }
 
@@ -168,38 +137,39 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   }
 
   return (
-    <div className="p-2 flex flex-col justify-center">
-      <span className="text-shadow text-sm pb-2">
-        You can only withdraw items that you have synced to the blockchain.
-      </span>
-
-      <div className="flex mb-1">
-        <Button className="mr-1" onClick={() => setPage("tokens")}>
-          <div className="flex">
-            <img src={token} className="h-4 mr-1" />
-            SFL
-          </div>
-        </Button>
-        <Button className="ml-1" onClick={() => setPage("items")}>
-          <div className="flex">
-            <img src={chest} className="h-4 mr-1" />
-            Collectibles
-          </div>
-        </Button>
-      </div>
-      <div className="flex">
-        <Button onClick={() => setPage("wearables")}>
-          <div className="flex">
-            <img src={SUNNYSIDE.icons.wardrobe} className="h-4 mr-1" />
-            Wearables
-          </div>
-        </Button>
-        <Button className="ml-1" onClick={() => setPage("bumpkin")}>
-          <div className="flex">
-            <img src={SUNNYSIDE.icons.player} className="h-4 mr-1" />
-            Bumpkin
-          </div>
-        </Button>
+    <>
+      <div className="p-2 flex flex-col justify-center space-y-1">
+        <span className="text-shadow text-sm mb-1">
+          You can only withdraw items that you have synced to the blockchain.
+        </span>
+        <div className="flex space-x-1">
+          <Button onClick={() => setPage("tokens")}>
+            <div className="flex">
+              <img src={token} className="h-4 mr-1" />
+              SFL
+            </div>
+          </Button>
+          <Button onClick={() => setPage("items")}>
+            <div className="flex">
+              <img src={chest} className="h-4 mr-1" />
+              Collectibles
+            </div>
+          </Button>
+        </div>
+        <div className="flex space-x-1">
+          <Button onClick={() => setPage("wearables")}>
+            <div className="flex">
+              <img src={SUNNYSIDE.icons.wardrobe} className="h-4 mr-1" />
+              Wearables
+            </div>
+          </Button>
+          <Button onClick={() => setPage("bumpkin")}>
+            <div className="flex">
+              <img src={SUNNYSIDE.icons.player} className="h-4 mr-1" />
+              Bumpkin
+            </div>
+          </Button>
+        </div>
       </div>
       {page === "tokens" && <WithdrawTokens onWithdraw={onWithdrawTokens} />}
       {page === "items" && <WithdrawItems onWithdraw={onWithdrawItems} />}
@@ -207,6 +177,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
         <WithdrawWearables onWithdraw={onWithdrawWearables} />
       )}
       {page === "bumpkin" && <WithdrawBumpkin onWithdraw={onWithdrawBumpkin} />}
-    </div>
+    </>
   );
 };

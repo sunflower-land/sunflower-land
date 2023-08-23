@@ -28,16 +28,15 @@ import { Withdrawn } from "features/game/components/Withdrawn";
 import { getBumpkinLevel } from "features/game/lib/level";
 // random seal spawn spots
 import { randomInt } from "lib/utils/random";
-import { LostSeal } from "features/community/seal/Seal";
 
 import { Hud } from "./Hud";
 import { Minting } from "features/game/components/Minting";
 import { Minted } from "features/game/components/Minted";
 import { Refreshing } from "features/auth/components/Refreshing";
 import { RetreatPirate } from "./components/pirate/RetreatPirate";
-import { ZoomContext } from "components/ZoomProvider";
 import { GameBoard } from "components/GameBoard";
 import { Auctioneer } from "./components/auctioneer/Auctioneer";
+import { PersonhoodContent } from "./components/personhood/PersonhoodContent";
 
 const spawn = [
   [35, 15],
@@ -72,8 +71,6 @@ export const Game = () => {
   const [retreatLoaded, setRetreatLoaded] = useState(false);
   const [sealSpawn] = useState(getRandomSpawn());
 
-  const { scale } = useContext(ZoomContext);
-
   useLayoutEffect(() => {
     if (retreatLoaded) {
       scrollIntoView(Section.RetreatBackground, "auto");
@@ -107,11 +104,27 @@ export const Game = () => {
           {goblinState.matches("refreshing") && <Refreshing />}
         </Panel>
       </Modal>
+
+      {/*Anima iframe has zIndex 1000, set this componenet to 999*/}
+      {goblinState.matches("provingPersonhood") && (
+        <Modal
+          className="z-[999]"
+          backdropClassName="z-[999]"
+          show={true}
+          centered
+          onHide={() => goblinService.send("PERSONHOOD_CANCELLED")}
+        >
+          <Panel className="text-shadow">
+            <PersonhoodContent />
+          </Panel>
+        </Modal>
+      )}
+
       <ScrollContainer
         className="bg-blue-300 overflow-scroll relative w-full h-full overscroll-none"
         innerRef={container}
       >
-        <GameBoard isDawnBreaker={false}>
+        <GameBoard>
           {hasRequiredLevel && !goblinState.matches("loading") && (
             <div
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -136,7 +149,6 @@ export const Game = () => {
               <Resale />
               <RetreatWishingWell />
               <IslandTravelWrapper />
-              <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
             </div>
           )}
           {!hasRequiredLevel && !goblinState.matches("loading") && (

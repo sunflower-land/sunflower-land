@@ -16,9 +16,23 @@ import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import lock from "assets/skills/lock.png";
+import {
+  EXOTIC_CROPS,
+  ExoticCrop,
+  ExoticCropName,
+} from "features/game/types/beans";
+import { getKeys } from "features/game/types/craftables";
+
+export const isExoticCrop = (
+  item: Crop | Fruit | ExoticCrop
+): item is ExoticCrop => {
+  return item.name in EXOTIC_CROPS;
+};
 
 export const Crops: React.FC = () => {
-  const [selected, setSelected] = useState<Crop | Fruit>(CROPS().Sunflower);
+  const [selected, setSelected] = useState<Crop | Fruit | ExoticCrop>(
+    CROPS().Sunflower
+  );
   const [isSellAllModalOpen, showSellAllModal] = useState(false);
   const { gameService } = useContext(Context);
   const [
@@ -32,17 +46,26 @@ export const Crops: React.FC = () => {
   const divRef = useRef<HTMLDivElement>(null);
 
   const sell = (amount: Decimal) => {
-    gameService.send("crop.sold", {
-      crop: selected.name,
-      amount: setPrecision(amount),
-    });
+    if (isExoticCrop(selected)) {
+      gameService.send("treasure.sold", {
+        item: selected.name,
+        amount,
+      });
+    } else {
+      gameService.send("crop.sold", {
+        crop: selected.name,
+        amount: setPrecision(amount),
+      });
+    }
   };
 
   const bumpkinLevel = getBumpkinLevel(state.bumpkin?.experience ?? 0);
   const cropAmount = setPrecision(new Decimal(inventory[selected.name] || 0));
   const noCrop = cropAmount.lessThanOrEqualTo(0);
-  const displaySellPrice = (crop: Crop | Fruit) =>
-    getSellPrice(crop, inventory, state.bumpkin as Bumpkin);
+  const displaySellPrice = (crop: Crop | Fruit | ExoticCrop) =>
+    isExoticCrop(crop)
+      ? crop.sellPrice
+      : getSellPrice(crop, inventory, state.bumpkin as Bumpkin);
 
   const handleSellOneOrLess = () => {
     const sellAmount = cropAmount.gte(1) ? new Decimal(1) : cropAmount;
@@ -78,7 +101,27 @@ export const Crops: React.FC = () => {
     return `Sell ${cropAmount}`;
   };
 
-  const cropsAndFruits = Object.values({ ...CROPS(), ...FRUIT() });
+  const exotics = getKeys(EXOTIC_CROPS)
+    // sort by sell price
+    .sort((a, b) =>
+      EXOTIC_CROPS[a].sellPrice.sub(EXOTIC_CROPS[b].sellPrice).toNumber()
+    )
+    .reduce(
+      (acc, key) => ({
+        ...acc,
+        [key]: { ...EXOTIC_CROPS[key], disabled: false, bumpkinLevel: 0 },
+      }),
+      {} as Record<
+        ExoticCropName,
+        ExoticCrop & { disabled: false; bumpkinLevel: 0 }
+      >
+    );
+
+  const cropsAndFruits = Object.values({
+    ...CROPS(),
+    ...FRUIT(),
+    ...exotics,
+  }).filter((value) => !value.disabled);
 
   return (
     <>

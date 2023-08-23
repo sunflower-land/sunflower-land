@@ -43,7 +43,7 @@ export const HeliosAuction: React.FC = () => {
           >
             <NPC
               // onClick={() => setIsOpen(true)}
-              parts={NPC_WEARABLES["hammerin' harry"]}
+              parts={NPC_WEARABLES["hammerin harry"]}
             />
           </div>
         </div>

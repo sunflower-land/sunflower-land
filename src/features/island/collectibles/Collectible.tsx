@@ -172,6 +172,25 @@ import { EggplantBear } from "./components/EggplantBear";
 import { GoblinLantern } from "./components/GoblinLantern";
 import { DawnFlower } from "./components/DawnFlower";
 import { LaurieTheChuckleCrow } from "./components/LaurieTheChuckelCrow";
+import { FreyaFox } from "./components/FreyaFox";
+import { WitchesEveBanner } from "./components/WitchesEveBanner";
+import { ElPolloVeloz } from "./components/ElPolloVeloz";
+import { Poppy } from "./components/Poppy";
+import { GrainGrinder } from "./components/GrainGrinder";
+import { Kernaldo } from "./components/Kernaldo";
+import { QueenCornelia } from "./components/QueenCornelia";
+import { SpookyTree } from "./components/SpookyTree";
+import { Candles } from "./components/Candles";
+import { HauntedStump } from "./components/HauntedStump";
+import { GiantPotato } from "./components/GiantPotato";
+import { GiantCabbage } from "./components/GiantCabbage";
+import { GiantPumpkin } from "./components/GiantPumpkin";
+import { LabGrownCarrot } from "./components/LabGrownCarrot";
+import { LabGrownPumpkin } from "./components/LabGrownPumpkin";
+import { LabGrownRadish } from "./components/LabGrownRadish";
+import { RadicalRadish } from "./components/RadicalRadish";
+import { PotentPotato } from "./components/PotentPotato";
+import { StellarSunflower } from "./components/StellarSunflower";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -238,6 +257,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Cabbage Girl": CabbageGirl,
   "Peeled Potato": PeeledPotato,
   "Wood Nymph Wendy": WoodNymphWendy,
+  "Freya Fox": FreyaFox,
 
   // Moles
   "Rocky the Mole": RockyTheMole,
@@ -263,6 +283,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Bale: Bale,
   "Scary Mike": ScaryMike,
   "Laurie the Chuckle Crow": LaurieTheChuckleCrow,
+  "Queen Cornelia": QueenCornelia,
 
   "Carrot Sword": CarrotSword,
 
@@ -301,24 +322,22 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Ocean Lantern": OceanLantern,
   "Solar Lantern": SolarLantern,
 
-  "Golden Bean": Bean,
   "Magic Bean": Bean,
-  "Shiny Bean": Bean,
 
   "Egg Basket": () => null,
 
   // TODO
   "Potted Potato": PottedPotato,
-  "Colossal Crop": () => null,
-  "Peaceful Potato": () => null,
-  "Perky Pumpkin": () => null,
-  "Stellar Sunflower": () => null,
+  "Potent Potato": PotentPotato,
+  "Radical Radish": RadicalRadish,
+  "Stellar Sunflower": StellarSunflower,
   "Christmas Snow Globe": SnowGlobe,
   "Immortal Pear": ImmortalPear,
   "Lady Bug": LadyBug,
   "Squirrel Monkey": SquirrelMonkey,
   "Black Bearry": BlackBearry,
   "Ayam Cemani": AyamCemani,
+  "El Pollo Veloz": ElPolloVeloz,
   "Collectible Bear": CollectibleBear,
   "Cyborg Bear": CyborgBear,
   "Maneki Neko": ManekiNeko,
@@ -354,6 +373,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Beach Ball": BeachBall,
   "Palm Tree": PalmTree,
   Karkinos: Karkinos,
+  "Witches' Eve Banner": WitchesEveBanner,
   "Dawn Breaker Banner": DawnBreakerBanner,
   "Solar Flare Banner": SolarFlareBanner,
   "Human War Banner": HumanBanner,
@@ -386,6 +406,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Eggplant Bear": EggplantBear,
   "Goblin Lantern": GoblinLantern,
   "Dawn Flower": DawnFlower,
+
+  // Witches' Eve Items
+  Poppy: Poppy,
+  "Grain Grinder": GrainGrinder,
+  Kernaldo: Kernaldo,
+  "Spooky Tree": SpookyTree,
+  Candles: Candles,
+  "Haunted Stump": HauntedStump,
+
+  "Giant Cabbage": GiantCabbage,
+  "Giant Potato": GiantPotato,
+  "Giant Pumpkin": GiantPumpkin,
+  "Lab Grown Carrot": LabGrownCarrot,
+  "Lab Grown Pumpkin": LabGrownPumpkin,
+  "Lab Grown Radish": LabGrownRadish,
 };
 
 // Need readonly versions for some troublesome components while in design mode
@@ -478,6 +513,34 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
           height: `${PIXEL_SCALE * 16 * 3}px`,
           left: `${PIXEL_SCALE * -12}px`,
           top: `${PIXEL_SCALE * 16 * 2 - 13}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 19}px`,
+            top: `${PIXEL_SCALE * 17}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  "Queen Cornelia": () => (
+    <div
+      id="cornelia"
+      className="absolute bottom-0"
+      style={{ width: `${PIXEL_SCALE * 16}px` }}
+    >
+      <img src={ITEM_DETAILS["Queen Cornelia"].image} className="w-full" />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 3}px`,
+          height: `${PIXEL_SCALE * 16 * 3}px`,
+          left: `${PIXEL_SCALE * -16}px`,
+          top: `${PIXEL_SCALE * 32}px`,
         }}
       >
         <img

@@ -1,4 +1,4 @@
-export type SeasonName = "Solar Flare" | "Dawn Breaker";
+export type SeasonName = "Solar Flare" | "Dawn Breaker" | "Witches' Eve";
 
 type SeasonDates = { startDate: Date; endDate: Date };
 
@@ -11,11 +11,29 @@ export const SEASONS: Record<SeasonName, SeasonDates> = {
     startDate: new Date("2023-05-01T00:00:00.000Z"),
     endDate: new Date("2023-08-01T00:00:00.000Z"),
   },
+  "Witches' Eve": {
+    startDate: new Date("2023-08-01T00:00:00.000Z"),
+    endDate: new Date("2023-11-01T00:00:00.000Z"),
+  },
 };
 
 export const SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER = 10;
 
-type SeasonalTicket = "Solar Flare Ticket" | "Dawn Breaker Ticket";
+export type SeasonalTicket =
+  | "Solar Flare Ticket"
+  | "Dawn Breaker Ticket"
+  | "Crow Feather";
+
+type SeasonalBanner =
+  | "Solar Flare Banner"
+  | "Dawn Breaker Banner"
+  | "Witches' Eve Banner";
+
+const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
+  "Solar Flare": "Solar Flare Ticket",
+  "Dawn Breaker": "Dawn Breaker Ticket",
+  "Witches' Eve": "Crow Feather",
+};
 
 export function getCurrentSeason(): SeasonName {
   const now = new Date();
@@ -38,7 +56,13 @@ export function getCurrentSeason(): SeasonName {
 export function getSeasonalTicket(): SeasonalTicket {
   const currentSeason = getCurrentSeason();
 
-  return `${currentSeason} Ticket`;
+  return SEASON_TICKET_NAME[currentSeason];
+}
+
+export function getSeasonalBanner(): SeasonalBanner {
+  const currentSeason = getCurrentSeason();
+
+  return `${currentSeason} Banner`;
 }
 
 export function secondsLeftInSeason() {
@@ -49,4 +73,12 @@ export function secondsLeftInSeason() {
   const secondsLeft = (times.endDate.getTime() - Date.now()) / 1000;
 
   return secondsLeft;
+}
+
+export function hasSeasonStarted(season: SeasonName, now = Date.now()) {
+  return now >= SEASONS[season].startDate.getTime();
+}
+
+export function hasSeasonEnded(season: SeasonName, now = Date.now()) {
+  return now >= SEASONS[season].endDate.getTime();
 }

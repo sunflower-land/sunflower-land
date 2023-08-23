@@ -44,7 +44,10 @@ export const Achievements: React.FC<Props> = ({
 
   useEffect(() => {
     const bumpkinAchievements = state.bumpkin?.achievements || {};
-    const achievementKeys = getKeys(achievements);
+    const achievementKeys = getKeys(achievements).filter((achievement) => {
+      const item = ACHIEVEMENTS()[achievement];
+      return item.rewards || item.sfl.greaterThan(0);
+    });
 
     const firstUnclaimedAchievementName = achievementKeys.find((name) => {
       const achievement = achievements[name];
@@ -87,100 +90,110 @@ export const Achievements: React.FC<Props> = ({
           style={{ maxHeight: CONTENT_HEIGHT }}
           className="overflow-y-auto scrollable flex flex-wrap pt-1"
         >
-          {getKeys(achievements).map((name) => {
-            const achievement = achievements[name];
+          {getKeys(achievements)
+            .filter((achievement) => {
+              const item = ACHIEVEMENTS()[achievement];
+              return item.rewards || item.sfl.greaterThan(0);
+            })
+            .map((name) => {
+              const achievement = achievements[name];
 
-            const progress = achievement.progress(state);
-            const isComplete = progress >= achievement.requirement;
+              const progress = achievement.progress(state);
+              const isComplete = progress >= achievement.requirement;
 
-            const bumpkinAchievements = state.bumpkin?.achievements || {};
-            const isAlreadyClaimed = !!bumpkinAchievements[name];
+              const bumpkinAchievements = state.bumpkin?.achievements || {};
+              const isAlreadyClaimed = !!bumpkinAchievements[name];
 
-            return (
-              <div
-                className="flex flex-col items-center mb-1 w-1/3 sm:w-1/4"
-                key={name}
-              >
-                {/* Achievement icon */}
+              return (
                 <div
-                  style={{
-                    width: `${PIXEL_SCALE * 22}px`,
-                    height: `${PIXEL_SCALE * 23}px`,
-                  }}
-                  onClick={() => setSelected(name)}
-                  className={classNames(
-                    "flex justify-center items-center p-1 rounded-md relative cursor-pointer hover:img-highlight",
-                    {
-                      "opacity-50": !isAlreadyClaimed && !isComplete,
-                      "img-highlight": selected === name,
-                    }
-                  )}
+                  className="flex flex-col items-center mb-1 w-1/3 sm:w-1/4"
+                  key={name}
                 >
-                  <img
-                    src={SUNNYSIDE.icons.disc}
-                    className="absolute"
+                  {/* Achievement icon */}
+                  <div
                     style={{
                       width: `${PIXEL_SCALE * 22}px`,
+                      height: `${PIXEL_SCALE * 23}px`,
                     }}
-                  />
-                  <img
-                    src={ITEM_DETAILS[name].image}
-                    className="absolute"
-                    style={{
-                      opacity: 0,
-                      marginBottom: `${PIXEL_SCALE * 0.5}px`,
-                    }}
-                    onLoad={(e) => setImageWidth(e.currentTarget)}
-                  />
+                    onClick={() => setSelected(name)}
+                    className={classNames(
+                      "flex justify-center items-center p-1 rounded-md relative cursor-pointer hover:img-highlight",
+                      {
+                        "opacity-50": !isAlreadyClaimed && !isComplete,
+                        "img-highlight": selected === name,
+                      }
+                    )}
+                  >
+                    <img
+                      src={SUNNYSIDE.icons.disc}
+                      className="absolute"
+                      style={{
+                        width: `${PIXEL_SCALE * 22}px`,
+                      }}
+                    />
+                    <img
+                      src={
+                        ITEM_DETAILS[name].image ??
+                        SUNNYSIDE.icons.expression_confused
+                      }
+                      className="absolute"
+                      style={{
+                        opacity: 0,
+                        marginBottom: `${PIXEL_SCALE * 0.5}px`,
+                      }}
+                      onLoad={(e) => setImageWidth(e.currentTarget)}
+                    />
+                  </div>
+
+                  {/* Achievement indicator */}
+                  <div
+                    className="h-12 cursor-pointer"
+                    onClick={() => setSelected(name)}
+                  >
+                    {/* Ready to claim */}
+                    {isComplete && !isAlreadyClaimed && (
+                      <div className="flex flex-1 mt-1.5 text-xs flex-wrap justify-center">
+                        <img
+                          src={SUNNYSIDE.icons.expression_alerted}
+                          style={{
+                            width: `${PIXEL_SCALE * 4}px`,
+                          }}
+                        />
+                      </div>
+                    )}
+
+                    {/* Claimed */}
+                    {isAlreadyClaimed && (
+                      <div className="flex flex-1 mt-1.5 text-xs flex-wrap justify-center">
+                        <img
+                          src={SUNNYSIDE.icons.confirm}
+                          style={{
+                            width: `${PIXEL_SCALE * 12}px`,
+                          }}
+                        />
+                      </div>
+                    )}
+
+                    {/* In progress */}
+                    {!isComplete && !isAlreadyClaimed && (
+                      <div className="flex flex-col flex-1 mt-1.5 items-center justify-center">
+                        <p className="mb-1 text-xxs text-center">{`${shortenCount(
+                          new Decimal(progress)
+                        )}/${shortenCount(
+                          new Decimal(achievement.requirement)
+                        )}`}</p>
+                        <ResizableBar
+                          percentage={
+                            (progress / achievement.requirement) * 100
+                          }
+                          type="progress"
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
-
-                {/* Achievement indicator */}
-                <div
-                  className="h-12 cursor-pointer"
-                  onClick={() => setSelected(name)}
-                >
-                  {/* Ready to claim */}
-                  {isComplete && !isAlreadyClaimed && (
-                    <div className="flex flex-1 mt-1.5 text-xs flex-wrap justify-center">
-                      <img
-                        src={SUNNYSIDE.icons.expression_alerted}
-                        style={{
-                          width: `${PIXEL_SCALE * 4}px`,
-                        }}
-                      />
-                    </div>
-                  )}
-
-                  {/* Claimed */}
-                  {isAlreadyClaimed && (
-                    <div className="flex flex-1 mt-1.5 text-xs flex-wrap justify-center">
-                      <img
-                        src={SUNNYSIDE.icons.confirm}
-                        style={{
-                          width: `${PIXEL_SCALE * 12}px`,
-                        }}
-                      />
-                    </div>
-                  )}
-
-                  {/* In progress */}
-                  {!isComplete && !isAlreadyClaimed && (
-                    <div className="flex flex-col flex-1 mt-1.5 items-center justify-center">
-                      <p className="mb-1 text-xxs text-center">{`${shortenCount(
-                        new Decimal(progress)
-                      )}/${shortenCount(
-                        new Decimal(achievement.requirement)
-                      )}`}</p>
-                      <ResizableBar
-                        percentage={(progress / achievement.requirement) * 100}
-                        type="progress"
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </div>
     </>

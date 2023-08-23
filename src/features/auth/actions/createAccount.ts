@@ -12,6 +12,7 @@ type Request = {
   transactionId: string;
   referrerId?: number;
   guestKey?: string;
+  type?: "MATIC" | "USDC";
 };
 
 const API_URL = CONFIG.API_URL;
@@ -29,6 +30,7 @@ export async function signTransaction(request: Request) {
       captcha: request.captcha,
       referrerId: request.referrerId,
       guestKey: request.guestKey,
+      type: request.type,
     }),
   });
 
@@ -48,6 +50,8 @@ export async function signTransaction(request: Request) {
     bumpkinWearableIds,
     bumpkinTokenUri,
     referrerId,
+    referrerAmount,
+    conversionRate,
   } = await response.json();
 
   return {
@@ -58,6 +62,8 @@ export async function signTransaction(request: Request) {
     bumpkinWearableIds,
     bumpkinTokenUri,
     referrerId,
+    referrerAmount,
+    conversionRate,
   };
 }
 
@@ -87,25 +93,27 @@ export async function createAccount({
     transactionId,
     referrerId,
     guestKey,
+    type: "MATIC",
   });
 
   await createNewAccount({
     ...transaction,
     web3: wallet.web3Provider,
     account,
+    type: "MATIC",
   });
 
   await getNewFarm(wallet.web3Provider, account);
 }
 
 const host = window.location.host.replace(/^www\./, "");
-const REFERRER_LS_KEY = `sb_wiz.ref-key.v.${host}-${window.location.pathname}`;
+const REFERRER_LS_KEY = `sb_wiz.ref-key.v.${host}`;
 
 export function saveReferrerId(id: string) {
   localStorage.setItem(REFERRER_LS_KEY, id);
 }
 
-function getReferrerId() {
+export function getReferrerId() {
   const item = localStorage.getItem(REFERRER_LS_KEY);
 
   if (!item) {

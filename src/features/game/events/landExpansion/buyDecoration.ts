@@ -6,7 +6,10 @@ import {
   getKeys,
 } from "features/game/types/craftables";
 import {
-  HELIOS_DECORATIONS,
+  BASIC_DECORATIONS,
+  LANDSCAPING_DECORATIONS,
+  LandscapingDecorationName,
+  POTION_HOUSE_DECORATIONS,
   SEASONAL_DECORATIONS,
   SeasonalDecorationName,
   ShopDecorationName,
@@ -17,7 +20,7 @@ import cloneDeep from "lodash.clonedeep";
 
 export type buyDecorationAction = {
   type: "decoration.bought";
-  name: ShopDecorationName | SeasonalDecorationName;
+  name: ShopDecorationName | SeasonalDecorationName | LandscapingDecorationName;
   id?: string;
   coordinates?: {
     x: number;
@@ -28,12 +31,22 @@ export type buyDecorationAction = {
 type Options = {
   state: Readonly<GameState>;
   action: buyDecorationAction;
+  createdAt?: number;
 };
 
 const DECORATIONS = (state: GameState) => {
-  return { ...HELIOS_DECORATIONS(), ...SEASONAL_DECORATIONS(state) };
+  return {
+    ...BASIC_DECORATIONS(),
+    ...LANDSCAPING_DECORATIONS(),
+    ...SEASONAL_DECORATIONS(state),
+    ...POTION_HOUSE_DECORATIONS(),
+  };
 };
-export function buyDecoration({ state, action }: Options) {
+export function buyDecoration({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options) {
   const stateCopy = cloneDeep(state);
   const { name } = action;
   const desiredItem = DECORATIONS(stateCopy)[name];
@@ -46,6 +59,14 @@ export function buyDecoration({ state, action }: Options) {
 
   if (!bumpkin) {
     throw new Error("Bumpkin not found");
+  }
+
+  if (desiredItem.from && desiredItem.from?.getTime() > createdAt) {
+    throw new Error("Too early");
+  }
+
+  if (desiredItem.to && desiredItem.to?.getTime() < createdAt) {
+    throw new Error("Too late");
   }
 
   const totalExpenses = desiredItem.sfl;

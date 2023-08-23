@@ -15,7 +15,7 @@ export function getDeliverableItems(inventory: Inventory) {
         itemName in FRUIT() ||
         (itemName in COMMODITIES && itemName !== "Chicken");
 
-      if (isDeliverable && WITHDRAWABLES[itemName]) {
+      if (isDeliverable && WITHDRAWABLES[itemName]()) {
         return {
           ...acc,
           [itemName]: inventory[itemName],

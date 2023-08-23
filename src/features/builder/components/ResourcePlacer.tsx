@@ -134,10 +134,6 @@ export const ResourcePlacer: React.FC<Props> = ({
           onStart={() => {
             setIsDragging(true);
           }}
-          onDrag={(_, data) => {
-            const x = Math.round(data.x / GRID_WIDTH_PX);
-            const y = Math.round((data.y / GRID_WIDTH_PX) * -1);
-          }}
           onStop={(_, data) => {
             const x = Math.round(data.x / GRID_WIDTH_PX);
             const y = Math.round((data.y / GRID_WIDTH_PX) * -1);

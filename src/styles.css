@@ -163,6 +163,10 @@ img {
   }
 }
 
+.pulsating {
+  animation: pulsate 1s infinite;
+}
+
 .two-line-ellipsis {
   text-overflow: ellipsis;
   overflow: hidden;
@@ -507,6 +511,10 @@ img {
 
 .pulse {
   animation: pulse 1s infinite;
+}
+
+.warn-pulse {
+  animation: subtle-pulse 1s infinite;
 }
 
 .npc-loading {

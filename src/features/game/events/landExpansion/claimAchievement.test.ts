@@ -1,3 +1,4 @@
+import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { ACHIEVEMENTS } from "features/game/types/achievements";
@@ -7,7 +8,6 @@ import { claimAchievement } from "./claimAchievement";
 const GAME_STATE: GameState = TEST_FARM;
 
 describe("claim achievements", () => {
-  const date = Date.now();
   it("throws an error if bumpkin does not exist", () => {
     expect(() =>
       claimAchievement({

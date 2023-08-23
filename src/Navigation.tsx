@@ -17,13 +17,13 @@ import { Forbidden } from "features/auth/components/Forbidden";
 import { useImagePreloader } from "features/auth/useImagePreloader";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
 import { CONFIG } from "lib/config";
-import { Community } from "features/community/Community";
 import { Retreat } from "features/retreat/Retreat";
 import { Builder } from "features/builder/Builder";
 import { wallet } from "lib/blockchain/wallet";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { ZoomProvider } from "components/ZoomProvider";
 import { World } from "features/world/World";
+import { CommunityTools } from "features/world/ui/CommunityTools";
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
@@ -68,7 +68,11 @@ export const Navigation: React.FC = () => {
   useEffect(() => {
     if (provider) {
       if (provider.on) {
-        provider.on("chainChanged", () => {
+        provider.on("chainChanged", (chain: any) => {
+          if (parseInt(chain) === CONFIG.POLYGON_CHAIN_ID) {
+            return;
+          }
+
           // Phantom handles this internally
           if (provider.isPhantom) return;
 
@@ -121,6 +125,17 @@ export const Navigation: React.FC = () => {
                 />
               )}
               <Route path="/world/:name" element={<World key="world" />} />
+              <Route
+                path="/community/:name"
+                element={<World key="community" isCommunity />}
+              />
+              {CONFIG.NETWORK === "mumbai" && (
+                <Route
+                  path="/community-tools"
+                  element={<CommunityTools key="community-tools" />}
+                />
+              )}
+
               <Route path="/visit/*" element={<LandExpansion key="visit" />} />
               <Route
                 path="/land/:id?/*"
@@ -136,10 +151,6 @@ export const Navigation: React.FC = () => {
               {CONFIG.NETWORK === "mumbai" && (
                 <Route path="/builder" element={<Builder key="builder" />} />
               )}
-              <Route
-                path="/community-garden/:id"
-                element={<Community key="community" />}
-              />
             </Routes>
           </HashRouter>
         </ZoomProvider>

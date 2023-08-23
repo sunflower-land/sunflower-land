@@ -13,22 +13,22 @@ import { BumpkinSkillName } from "./bumpkinSkills";
 import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
-import { BeanName, MutantCropName } from "./beans";
+import { BeanName, ExoticCropName, MutantCropName } from "./beans";
 import { FruitName, FruitSeedName } from "./fruits";
 import { TreasureName } from "./treasure";
 import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
-  SeasonPassName,
+  PotionHouseItemName,
+  PurchasableItems,
   SoldOutCollectibleName,
 } from "./collectibles";
 import { TreasureToolName } from "./tools";
 import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
-import { Week } from "features/dawnBreaker/lib/characters";
-import { Riddle } from "./riddles";
 import { NPCName } from "lib/npcs";
+import { SeasonalTicket } from "./seasons";
 
 export type Reward = {
   sfl?: Decimal;
@@ -116,11 +116,11 @@ export type MutantChicken =
   | "Speed Chicken"
   | "Rich Chicken"
   | "Fat Chicken"
-  | "Ayam Cemani";
+  | "Ayam Cemani"
+  | "El Pollo Veloz";
 
 export type Coupons =
   | "Trading Ticket"
-  | "Solar Flare Ticket"
   | "War Bond"
   | "Jack-o-lantern"
   | "Golden Crop"
@@ -128,8 +128,9 @@ export type Coupons =
   | "Red Envelope"
   | "Love Letter"
   | "Block Buck"
-  | "Dawn Breaker Ticket"
-  | "Sunflower Supporter";
+  | "Sunflower Supporter"
+  | "Potion Ticket"
+  | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Trading Ticket": {
@@ -163,8 +164,15 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Dawn Breaker Ticket": {
     description: "A ticket used during the Dawn Breaker Season",
   },
+  "Crow Feather": {
+    description: "A ticket used during the Witches' Eve Season",
+  },
   "Sunflower Supporter": {
     description: "A community and social media supporter of the project",
+  },
+  "Potion Ticket": {
+    description:
+      "A reward from the Potion House. Use this to buy items from Garth.",
   },
 };
 
@@ -224,9 +232,11 @@ export type InventoryItemName =
   | SoldOutCollectibleName
   | GoblinBlacksmithItemName
   | GoblinPirateItemName
-  | SeasonPassName
+  | PurchasableItems
   | TreasureToolName
   | LanternName
+  | ExoticCropName
+  | PotionHouseItemName
   | "Basic Land";
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
@@ -258,6 +268,14 @@ export type TradeOffer = {
     amount: Decimal;
   }[];
 };
+
+export interface CurrentObsession {
+  type: "collectible" | "wearable";
+  name: InventoryItemName | BumpkinItem;
+  startDate: number;
+  endDate: number;
+  reward: number;
+}
 
 export type WarCollectionOffer = {
   warBonds: number;
@@ -385,6 +403,7 @@ export type Airdrop = {
   id: string;
   createdAt: number;
   items: Partial<Record<InventoryItemName, number>>;
+  wearables: Partial<Record<BumpkinItem, number>>;
   sfl: number;
   message?: string;
 };
@@ -423,6 +442,13 @@ export type HayseedHank = {
   };
 };
 
+export type MazeAttempts = Partial<Record<SeasonWeek, MazeMetadata>>;
+
+export type WitchesEve = {
+  weeklyLostCrowCount: number;
+  maze: MazeAttempts;
+};
+
 export type Mushroom = {
   name: MushroomName;
   amount: number;
@@ -450,53 +476,43 @@ export type LanternName =
   | "Betty Lantern"
   | "Bumpkin Lantern";
 
-export type LanternIngredients = Partial<Record<InventoryItemName, Decimal>>;
-
-export type LanternOffering = {
-  name: LanternName;
-  startAt: string;
-  endAt: string;
-  sfl?: Decimal;
-  ingredients: LanternIngredients;
-};
-
-export type LanternsCraftedByWeek = Partial<Record<Week, number>>;
-
 export type Party = {
   fulfilledAt?: number;
   fulfilledCount?: number;
   requirements?: Partial<Record<InventoryItemName, number>>;
 };
 
-export type DawnBreaker = {
-  currentWeek: Week;
-  availableLantern?: LanternOffering;
-  lanternsCraftedByWeek: LanternsCraftedByWeek;
-  riddle?: Riddle & { id: string };
-  answeredRiddleIds: string[];
-  dawnFlower?: {
-    tendedAt: number;
-    plantedAt: number;
-    tendedCount: number;
-  };
-  party?: Party;
-};
-
 export type Order = {
   id: string;
   from: NPCName;
-  items: Partial<Record<InventoryItemName, number>>;
+  items: Partial<Record<InventoryItemName | "sfl", number>>;
   reward: {
+    tickets?: number;
     sfl?: number;
     items?: Partial<Record<InventoryItemName, number>>;
   };
   createdAt: number;
   readyAt: number;
+  completedAt?: number;
+};
+
+type QuestNPCName =
+  | "pumpkin' pete"
+  | "bert"
+  | "raven"
+  | "timmy"
+  | "tywin"
+  | "cornwell";
+
+export type Quest = Order & {
+  from: QuestNPCName;
 };
 
 export type Delivery = {
-  orders: Order[];
+  orders: (Order | Quest)[];
   fulfilledCount: number;
+  skippedCount?: number;
+  skippedAt?: number;
 
   milestone: {
     goal: number;
@@ -520,7 +536,7 @@ export type PotionName =
   | "Flower Power"
   | "Organic Oasis"
   | "Dream Drip"
-  | "Golden Syrup";
+  | "Silver Syrup";
 
 export type PotionStatus =
   | "pending"
@@ -537,11 +553,83 @@ export type PotionHouse = {
   game: {
     status: "in_progress" | "finished";
     attempts: Attempt[];
-    reward?: InventoryItemName;
+    reward?: number;
   };
   history: {
     [score: number]: number;
   };
+};
+
+export type NPCS = Partial<Record<NPCName, NPCData>>;
+
+export type NPCData = {
+  deliveryCount: number;
+  questCompletedAt?: number;
+};
+
+export type ChoreV2 = {
+  activity: BumpkinActivityName;
+  description: string;
+  createdAt: number;
+  completedAt?: number;
+  requirement: number;
+  bumpkinId: number;
+  startCount: number;
+  tickets: number;
+};
+
+export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+
+export type MazeAttempt = {
+  startedAt: number;
+  completedAt?: number;
+  crowsFound: number;
+  health: number;
+  time: number;
+  crowIds?: string[];
+};
+
+export type MazeMetadata = {
+  sflFee: number;
+  paidEntryFee: boolean;
+  highestScore: number;
+  claimedFeathers: number;
+  attempts: MazeAttempt[];
+};
+
+export enum ChoreV2Name {
+  EASY_1 = 1,
+  EASY_2,
+  MEDIUM_1,
+  MEDIUM_2,
+  HARD_1,
+}
+
+export type ChoresV2 = {
+  chores: Record<ChoreV2Name, ChoreV2>;
+  choresCompleted: number;
+  choresSkipped: number;
+};
+
+export type CommunityIsland = {
+  metadata: string;
+  updatedAt: number;
+  mints?: {
+    items: Partial<Record<InventoryItemName, number>>;
+    wearables: Wardrobe;
+  };
+  burns?: {
+    sfl: number;
+    items: Partial<Record<InventoryItemName, number>>;
+  };
+};
+
+export type TradeListing = {
+  items: Partial<Record<InventoryItemName, number>>;
+  sfl: number;
+  createdAt: number;
+  boughtAt?: number;
+  buyerId?: number;
 };
 
 export interface GameState {
@@ -550,9 +638,15 @@ export interface GameState {
   airdrops?: Airdrop[];
   farmAddress?: string;
 
+  createdAt: number;
+
   tradedAt?: string;
   tradeOffer?: TradeOffer;
+  bertObsession?: CurrentObsession;
+  bertObsessionCompletedAt?: Date;
   warCollectionOffer?: WarCollectionOffer;
+
+  islands?: Record<string, CommunityIsland>;
 
   chickens: Record<string, Chicken>;
   inventory: Inventory;
@@ -577,6 +671,7 @@ export interface GameState {
   buildings: Buildings;
   collectibles: Collectibles;
   delivery: Delivery;
+  npcs?: NPCS;
   grubShop?: GrubShop;
   grubOrdersFulfilled?: {
     id: string;
@@ -611,10 +706,15 @@ export interface GameState {
   auctioneer: {
     bid?: Bid;
   };
-  hayseedHank: HayseedHank;
+  hayseedHank?: HayseedHank;
+  chores?: ChoresV2;
   mushrooms: Mushrooms;
-  dawnBreaker?: DawnBreaker;
+  witchesEve?: WitchesEve;
   potionHouse?: PotionHouse;
+
+  trades: {
+    listings?: Record<string, TradeListing>;
+  };
 }
 
 export interface Context {

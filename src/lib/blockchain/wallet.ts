@@ -7,8 +7,8 @@ import { CONFIG } from "lib/config";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { createAlchemyWeb3 } from "@alch/alchemy-web3";
 import Decimal from "decimal.js-light";
+import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 
-export type WalletType = "METAMASK" | "SEQUENCE" | "PHANTOM" | string;
 const UNISWAP_ROUTER = CONFIG.QUICKSWAP_ROUTER_CONTRACT;
 const WMATIC_ADDRESS = CONFIG.WMATIC_CONTRACT;
 const SFL_TOKEN_ADDRESS = CONFIG.TOKEN_CONTRACT;
@@ -25,19 +25,17 @@ export class Wallet {
 
   private account: string | null = null;
 
-  private type: WalletType | null = null;
+  private type: Web3SupportedProviders | null = null;
   private rawProvider: any | null = null;
 
   private async initialiseContracts() {
     try {
       // TODO - initialise a test contract???
-
-      const isHealthy = await this.healthCheck();
-
+      // const isHealthy = await this.healthCheck();
       // Maintainers of package typed incorrectly
-      if (!isHealthy) {
-        throw new Error("Unable to reach Polygon");
-      }
+      // if (!isHealthy) {
+      //   throw new Error("Unable to reach Polygon");
+      // }
     } catch (e: any) {
       // Timeout, retry
       if (e.code === "-32005") {
@@ -90,7 +88,7 @@ export class Wallet {
 
   public async initialise(
     provider: any,
-    type: WalletType,
+    type: Web3SupportedProviders,
     retryCount = 0
   ): Promise<void> {
     this.type = type;
@@ -104,7 +102,7 @@ export class Wallet {
       const chainId = await this.web3?.eth.getChainId();
 
       if (!(chainId === CONFIG.POLYGON_CHAIN_ID)) {
-        await this.initialiseNetwork();
+        await this.initialiseNetwork(provider);
       }
 
       await this.initialiseContracts();
@@ -134,7 +132,7 @@ export class Wallet {
 
       let web3;
 
-      if (this.type === "METAMASK") {
+      if (this.type === Web3SupportedProviders.METAMASK) {
         web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC);
       } else {
         web3 = createAlchemyWeb3(CONFIG.ALCHEMY_RPC, {
@@ -211,7 +209,7 @@ export class Wallet {
           symbol: "MATIC",
           decimals: 18,
         },
-        rpcUrls: ["https://matic-mumbai.chainstacklabs.com"],
+        rpcUrls: ["https://rpc.ankr.com/polygon_mumbai"],
         blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
       };
     }
@@ -222,8 +220,8 @@ export class Wallet {
     return chainId === CONFIG.POLYGON_CHAIN_ID;
   }
 
-  public async switchNetwork() {
-    await window.ethereum.request({
+  public async switchNetwork(provider: any) {
+    await provider.request({
       method: "wallet_switchEthereumChain",
       params: [
         { chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}` },
@@ -231,10 +229,10 @@ export class Wallet {
     });
   }
 
-  public async addNetwork() {
+  public async addNetwork(provider: any) {
     try {
       const defaultChainParam = this.getDefaultChainParam();
-      await window.ethereum.request({
+      await provider.request({
         method: "wallet_addEthereumChain",
         params: [
           {
@@ -247,12 +245,12 @@ export class Wallet {
     }
   }
 
-  public async initialiseNetwork() {
+  public async initialiseNetwork(provider: any) {
     try {
-      await this.switchNetwork();
+      await this.switchNetwork(provider);
     } catch (e: any) {
       if (e.code === 4902) {
-        await this.addNetwork();
+        await this.addNetwork(provider);
       }
       throw e;
     }

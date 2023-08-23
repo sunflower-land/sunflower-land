@@ -40,7 +40,11 @@ export type CookableName =
   | "Fruit Salad"
   | "Kale Omelette"
   | "Cabbers n Mash"
-  | "Fancy Fries";
+  | "Fancy Fries"
+  | "Bumpkin ganoush"
+  | "Eggplant Cake"
+  | "Cornbread"
+  | "Popcorn";
 
 export type ConsumableName = CookableName | "Pirate Cake";
 
@@ -60,6 +64,179 @@ export type Consumable = Omit<
   Cookable,
   "name" | "ingredients" | "cookingSeconds" | "building" | "marketRate"
 > & { name: ConsumableName };
+
+type CakeName = Cake | "Orange Cake" | "Eggplant Cake" | "Honey Cake";
+
+export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
+  "Sunflower Cake": {
+    name: "Sunflower Cake",
+    description: "Sunflower Cake",
+    building: "Bakery",
+    experience: 525,
+    cookingSeconds: 60 * 60 * 6.5,
+    ingredients: {
+      Sunflower: new Decimal(1000),
+      Wheat: new Decimal(10),
+      Egg: new Decimal(15),
+    },
+    marketRate: 440,
+  },
+  "Potato Cake": {
+    name: "Potato Cake",
+    description: "Potato Cake",
+    building: "Bakery",
+    experience: 650,
+    cookingSeconds: 60 * 60 * 10.5,
+    ingredients: {
+      Potato: new Decimal(500),
+      Wheat: new Decimal(10),
+      Egg: new Decimal(15),
+    },
+    marketRate: 560,
+  },
+  "Pumpkin Cake": {
+    name: "Pumpkin Cake",
+    description: "Pumpkin Cake",
+    building: "Bakery",
+    experience: 625,
+    cookingSeconds: 60 * 60 * 10.5,
+    ingredients: {
+      Pumpkin: new Decimal(130),
+      Wheat: new Decimal(10),
+      Egg: new Decimal(15),
+    },
+    marketRate: 520,
+  },
+  "Carrot Cake": {
+    name: "Carrot Cake",
+    description: "Carrot Cake",
+    building: "Bakery",
+    experience: 750,
+    cookingSeconds: 60 * 60 * 13,
+    ingredients: {
+      Carrot: new Decimal(120),
+      Wheat: new Decimal(10),
+      Egg: new Decimal(15),
+    },
+    marketRate: 600,
+  },
+  "Cabbage Cake": {
+    name: "Cabbage Cake",
+    description: "Cabbage Cake",
+    building: "Bakery",
+    experience: 860,
+    cookingSeconds: 60 * 60 * 15,
+    ingredients: {
+      Cabbage: new Decimal(90),
+      Wheat: new Decimal(10),
+      Egg: new Decimal(15),
+    },
+    marketRate: 720,
+  },
+  "Beetroot Cake": {
+    name: "Beetroot Cake",
+    description: "Beetroot Cake",
+    building: "Bakery",
+    experience: 1250,
+    cookingSeconds: 60 * 60 * 22,
+    ingredients: {
+      Beetroot: new Decimal(100),
+      Wheat: new Decimal(10),
+      Egg: new Decimal(15),
+    },
+    marketRate: 960,
+  },
+  "Cauliflower Cake": {
+    name: "Cauliflower Cake",
+    description: "Cauliflower Cake",
+    building: "Bakery",
+    experience: 1190,
+    cookingSeconds: 60 * 60 * 22,
+    ingredients: {
+      Cauliflower: new Decimal(60),
+      Wheat: new Decimal(10),
+      Egg: new Decimal(15),
+    },
+    marketRate: 960,
+  },
+  "Parsnip Cake": {
+    name: "Parsnip Cake",
+    description: "Parsnip Cake",
+    building: "Bakery",
+    experience: 1300,
+    cookingSeconds: 60 * 60 * 24,
+    ingredients: {
+      Parsnip: new Decimal(45),
+      Wheat: new Decimal(10),
+      Egg: new Decimal(15),
+    },
+    marketRate: 960,
+  },
+  "Radish Cake": {
+    name: "Radish Cake",
+    description: "Radish Cake",
+    building: "Bakery",
+    experience: 1200,
+    cookingSeconds: 60 * 60 * 24,
+    ingredients: {
+      Radish: new Decimal(25),
+      Wheat: new Decimal(10),
+      Egg: new Decimal(15),
+    },
+    marketRate: 880,
+  },
+  "Wheat Cake": {
+    name: "Wheat Cake",
+    description: "Wheat Cake",
+    building: "Bakery",
+    experience: 1100,
+    cookingSeconds: 60 * 60 * 24,
+    ingredients: {
+      Wheat: new Decimal(35),
+      Egg: new Decimal(15),
+    },
+    marketRate: 800,
+  },
+  "Eggplant Cake": {
+    name: "Eggplant Cake",
+    description: "Sweet farm-fresh dessert surprise.",
+    building: "Bakery",
+    cookingSeconds: 60 * 60 * 24,
+    experience: 1400,
+    ingredients: {
+      Eggplant: new Decimal(30),
+      Wheat: new Decimal(10),
+      Egg: new Decimal(15),
+    },
+    marketRate: 1200,
+  },
+  "Orange Cake": {
+    name: "Orange Cake",
+    description: "Orange you glad we aren't cooking apples",
+    building: "Bakery",
+    cookingSeconds: 240 * 60,
+    ingredients: {
+      Orange: new Decimal(5),
+      Egg: new Decimal(15),
+      Wheat: new Decimal(10),
+    },
+    experience: 730,
+    marketRate: 600,
+  },
+  "Honey Cake": {
+    name: "Honey Cake",
+    description: "A scrumptious cake!",
+    building: "Bakery",
+    experience: 760,
+    cookingSeconds: 60 * 240,
+    ingredients: {
+      Honey: new Decimal(10),
+      Wheat: new Decimal(10),
+      Egg: new Decimal(10),
+    },
+    marketRate: 550,
+  },
+};
 
 export const COOKABLES: Record<CookableName, Cookable> = {
   "Mashed Potato": {
@@ -202,135 +379,6 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     marketRate: 184,
   },
 
-  "Sunflower Cake": {
-    name: "Sunflower Cake",
-    description: "Sunflower Cake",
-    building: "Bakery",
-    experience: 525,
-    cookingSeconds: 60 * 60 * 6.5,
-    ingredients: {
-      Sunflower: new Decimal(1000),
-      Wheat: new Decimal(10),
-      Egg: new Decimal(15),
-    },
-    marketRate: 440,
-  },
-  "Potato Cake": {
-    name: "Potato Cake",
-    description: "Potato Cake",
-    building: "Bakery",
-    experience: 650,
-    cookingSeconds: 60 * 60 * 10.5,
-    ingredients: {
-      Potato: new Decimal(500),
-      Wheat: new Decimal(10),
-      Egg: new Decimal(15),
-    },
-    marketRate: 560,
-  },
-  "Pumpkin Cake": {
-    name: "Pumpkin Cake",
-    description: "Pumpkin Cake",
-    building: "Bakery",
-    experience: 625,
-    cookingSeconds: 60 * 60 * 10.5,
-    ingredients: {
-      Pumpkin: new Decimal(130),
-      Wheat: new Decimal(10),
-      Egg: new Decimal(15),
-    },
-    marketRate: 520,
-  },
-  "Carrot Cake": {
-    name: "Carrot Cake",
-    description: "Carrot Cake",
-    building: "Bakery",
-    experience: 750,
-    cookingSeconds: 60 * 60 * 13,
-    ingredients: {
-      Carrot: new Decimal(120),
-      Wheat: new Decimal(10),
-      Egg: new Decimal(15),
-    },
-    marketRate: 600,
-  },
-  "Cabbage Cake": {
-    name: "Cabbage Cake",
-    description: "Cabbage Cake",
-    building: "Bakery",
-    experience: 860,
-    cookingSeconds: 60 * 60 * 15,
-    ingredients: {
-      Cabbage: new Decimal(90),
-      Wheat: new Decimal(10),
-      Egg: new Decimal(15),
-    },
-    marketRate: 720,
-  },
-  "Beetroot Cake": {
-    name: "Beetroot Cake",
-    description: "Beetroot Cake",
-    building: "Bakery",
-    experience: 1250,
-    cookingSeconds: 60 * 60 * 22,
-    ingredients: {
-      Beetroot: new Decimal(100),
-      Wheat: new Decimal(10),
-      Egg: new Decimal(15),
-    },
-    marketRate: 960,
-  },
-  "Cauliflower Cake": {
-    name: "Cauliflower Cake",
-    description: "Cauliflower Cake",
-    building: "Bakery",
-    experience: 1190,
-    cookingSeconds: 60 * 60 * 22,
-    ingredients: {
-      Cauliflower: new Decimal(60),
-      Wheat: new Decimal(10),
-      Egg: new Decimal(15),
-    },
-    marketRate: 960,
-  },
-  "Parsnip Cake": {
-    name: "Parsnip Cake",
-    description: "Parsnip Cake",
-    building: "Bakery",
-    experience: 1300,
-    cookingSeconds: 60 * 60 * 24,
-    ingredients: {
-      Parsnip: new Decimal(45),
-      Wheat: new Decimal(10),
-      Egg: new Decimal(15),
-    },
-    marketRate: 960,
-  },
-  "Radish Cake": {
-    name: "Radish Cake",
-    description: "Radish Cake",
-    building: "Bakery",
-    experience: 1200,
-    cookingSeconds: 60 * 60 * 24,
-    ingredients: {
-      Radish: new Decimal(25),
-      Wheat: new Decimal(10),
-      Egg: new Decimal(15),
-    },
-    marketRate: 880,
-  },
-  "Wheat Cake": {
-    name: "Wheat Cake",
-    description: "Wheat Cake",
-    building: "Bakery",
-    experience: 1100,
-    cookingSeconds: 60 * 60 * 24,
-    ingredients: {
-      Wheat: new Decimal(35),
-      Egg: new Decimal(15),
-    },
-    marketRate: 800,
-  },
   "Apple Pie": {
     name: "Apple Pie",
     description: "Bumpkin Betty's famous recipe",
@@ -365,19 +413,6 @@ export const COOKABLES: Record<CookableName, Cookable> = {
       Carrot: new Decimal(20),
     },
     marketRate: 112,
-  },
-  "Honey Cake": {
-    name: "Honey Cake",
-    description: "A scrumptious cake!",
-    building: "Bakery",
-    experience: 760,
-    cookingSeconds: 60 * 240,
-    ingredients: {
-      Honey: new Decimal(10),
-      Wheat: new Decimal(10),
-      Egg: new Decimal(10),
-    },
-    marketRate: 550,
   },
   "Kale & Mushroom Pie": {
     name: "Kale & Mushroom Pie",
@@ -415,19 +450,6 @@ export const COOKABLES: Record<CookableName, Cookable> = {
       "Wild Mushroom": new Decimal(5),
     },
     marketRate: 240,
-  },
-  "Orange Cake": {
-    name: "Orange Cake",
-    description: "Orange you glad we aren't cooking apples",
-    building: "Bakery",
-    cookingSeconds: 240 * 60,
-    ingredients: {
-      Orange: new Decimal(5),
-      Egg: new Decimal(15),
-      Wheat: new Decimal(10),
-    },
-    experience: 730,
-    marketRate: 600,
   },
   "Sunflower Crunch": {
     name: "Sunflower Crunch",
@@ -600,6 +622,45 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     },
     marketRate: 400,
   },
+  "Bumpkin ganoush": {
+    name: "Bumpkin ganoush",
+    description: "Zesty roasted eggplant spread.",
+    building: "Kitchen",
+    cookingSeconds: 60 * 60 * 5,
+    experience: 1000,
+    ingredients: {
+      Eggplant: new Decimal(30),
+      Potato: new Decimal(50),
+      Parsnip: new Decimal(10),
+    },
+    marketRate: 800,
+  },
+  Cornbread: {
+    name: "Cornbread",
+    description: "Hearty golden farm-fresh bread.",
+    building: "Bakery",
+    cookingSeconds: 60 * 60 * 12,
+    experience: 600,
+    ingredients: {
+      Corn: new Decimal(15),
+      Wheat: new Decimal(5),
+      Egg: new Decimal(5),
+    },
+    marketRate: 1200,
+  },
+  Popcorn: {
+    name: "Popcorn",
+    description: "Classic homegrown crunchy snack",
+    building: "Fire Pit",
+    cookingSeconds: 12 * 60,
+    experience: 200,
+    ingredients: {
+      Sunflower: new Decimal(100),
+      Corn: new Decimal(5),
+    },
+    marketRate: 120,
+  },
+  ...COOKABLE_CAKES,
 };
 
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {

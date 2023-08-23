@@ -8,13 +8,13 @@ import * as AuthProvider from "features/auth/lib/Provider";
  * It lessens the load during high critical usage times
  */
 export const Countdown: React.FC = () => {
-  const [time, setTime] = useState("60secs");
+  const [time, setTime] = useState("30secs");
   const { authService } = useContext(AuthProvider.Context);
 
   useEffect(() => {
     const start = Date.now();
     const interval = setInterval(() => {
-      const timeLeft = 60 - (Date.now() - start) / 1000;
+      const timeLeft = 30 - (Date.now() - start) / 1000;
       setTime(secondsToString(timeLeft, { length: "full" }));
 
       if (timeLeft <= 0) {

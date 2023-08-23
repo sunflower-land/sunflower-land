@@ -20,7 +20,10 @@ export type BumpkinBody =
   | "Pirate Potion"
   | "Light Brown Worried Farmer Potion"
   | "Sunburst Potion"
-  | "Infected Potion";
+  | "Infected Potion"
+  | "Infernal Bumpkin Potion"
+  | "Infernal Goblin Potion"
+  | "Pale Potion";
 
 export type BumpkinHair =
   | "Basic Hair"
@@ -38,7 +41,14 @@ export type BumpkinHair =
   | "Fire Hair"
   | "Luscious Hair"
   | "Cupid Hair"
-  | "Tangerine Hair";
+  | "Tangerine Hair"
+  | "Wise Hair"
+  | "Greyed Glory"
+  | "Goth Hair"
+  | "Ash Ponytail"
+  | "Pink Ponytail"
+  | "Silver Streaks"
+  | "Brown Rancher Hair";
 
 export type BumpkinShirt =
   | "Red Farmer Shirt"
@@ -68,7 +78,18 @@ export type BumpkinShirt =
   | "Striped Red Shirt"
   | "Striped Yellow Shirt"
   | "Trial Tee"
-  | "Bidder's Brocade";
+  | "Bidder's Brocade"
+  | "Traveller's Shirt"
+  | "Dawn Breaker Tee"
+  | "Merch Tee"
+  | "Merch Hoodie"
+  | "Witches' Eve Tee"
+  | "Wise Robes"
+  | "Tattered Jacket"
+  | "Skull Shirt"
+  | "Chic Gala Blouse"
+  | "Pumpkin Shirt"
+  | "Grey Merch Hoodie";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -91,7 +112,12 @@ export type BumpkinTool =
   | "Dawn Lamp"
   | "Water Gun"
   | "Grave Diggers Shovel"
-  | "Auction Megaphone";
+  | "Auction Megaphone"
+  | "Witch's Broom"
+  | "Infernal Pitchfork"
+  | "Merch Coffee Mug"
+  | "Wise Staff"
+  | "Kama";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -101,7 +127,8 @@ export type BumpkinShoe =
   | "Peg Leg"
   | "Cupid Sandals"
   | "Mushroom Shoes"
-  | "Leather Shoes";
+  | "Leather Shoes"
+  | "Old Shoes";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -128,7 +155,23 @@ export type BumpkinHat =
   | "Fox Hat"
   | "Mushroom Hat"
   | "Harry's Hat"
-  | "Straw Hat";
+  | "Straw Hat"
+  | "Luna's Hat"
+  | "Infernal Horns"
+  | "Cattlegrim"
+  | "Merch Bucket Hat"
+  | "Birthday Hat"
+  | "Double Harvest Cap"
+  | "Streamer Helmet"
+  | "Pumpkin Hat"
+  | "Victorian Hat"
+  | "Boater Hat"
+  | "Crumple Crown"
+  | "Whale Hat"
+  | "Parsnip Horns"
+  | "Halo"
+  | "Unicorn Horn"
+  | "Unicorn Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -145,13 +188,27 @@ export type BumpkinPant =
   | "Beach Trunks"
   | "Wavy Pants"
   | "Mushroom Pants"
-  | "Auctioneer Slacks";
+  | "Auctioneer Slacks"
+  | "Traveller's Pants"
+  | "Wise Slacks"
+  | "Stretched Jeans"
+  | "Crimson Skirt"
+  | "Tattered Slacks";
 
-export type BumpkinDress = "Cupid Dress" | "Beach Sarong" | "Tropical Sarong";
+export type BumpkinDress =
+  | "Cupid Dress"
+  | "Beach Sarong"
+  | "Tropical Sarong"
+  | "Witching Wardrobe"
+  | "Gothic Twilight"
+  | "Dark Enchantment Gown"
+  | "Antique Dress";
+
 export type BumpkinSecondaryTool =
   | "Sunflower Shield"
   | "Crab Claw"
-  | "Mushroom Shield";
+  | "Mushroom Shield"
+  | "Wise Book";
 
 // Goes over clothes + head
 export type BumpkinOnesie =
@@ -161,12 +218,26 @@ export type BumpkinOnesie =
   | "Tiger Onesie"
   | "Frog Onesie"
   | "Bunny Onesie"
-  | "Eggplant Onesie";
+  | "Eggplant Onesie"
+  | "Corn Onesie";
 
 // Goes over clothes
-export type BumpkinSuit = "Reindeer Suit";
+export type BumpkinSuit =
+  | "Reindeer Suit"
+  | "Imp Costume"
+  | "Ox Costume"
+  | "Potato Suit";
 
-export type BumpkinWings = "Angel Wings" | "Devil Wings" | "Love Quiver";
+export type BumpkinWings =
+  | "Angel Wings"
+  | "Devil Wings"
+  | "Love Quiver"
+  | "Traveller's Backpack"
+  | "Crow Wings"
+  | "Bat Wings";
+
+export type BumpkinBeard = "Wise Beard" | "Hoary Chin";
+
 export type BumpkinItem =
   | BumpkinBody
   | BumpkinHair
@@ -182,7 +253,8 @@ export type BumpkinItem =
   | BumpkinCoat
   | BumpkinOnesie
   | BumpkinSuit
-  | BumpkinWings;
+  | BumpkinWings
+  | BumpkinBeard;
 
 export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Beige Farmer Potion": 1,
@@ -331,6 +403,68 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Leather Shoes": 149,
   "Tangerine Hair": 150,
   "Straw Hat": 151,
+  "Traveller's Backpack": 152,
+  "Traveller's Pants": 153,
+  "Traveller's Shirt": 154,
+  "Witching Wardrobe": 155,
+  "Witch's Broom": 156,
+  "Infernal Bumpkin Potion": 157,
+  "Infernal Goblin Potion": 158,
+  "Imp Costume": 159,
+  "Ox Costume": 160,
+  "Luna's Hat": 161,
+  "Infernal Pitchfork": 162,
+  "Infernal Horns": 163,
+  Cattlegrim: 164,
+  "Crumple Crown": 165,
+  "Merch Bucket Hat": 166,
+  "Merch Coffee Mug": 167,
+  "Dawn Breaker Tee": 168,
+  "Merch Tee": 169,
+  "Merch Hoodie": 170,
+  "Birthday Hat": 171,
+  "Double Harvest Cap": 172,
+  "Streamer Helmet": 173,
+  "Corn Onesie": 174,
+  "Crow Wings": 175,
+  "Witches' Eve Tee": 176,
+  "Wise Beard": 177,
+  "Pumpkin Hat": 178,
+  "Wise Book": 179,
+  "Wise Hair": 180,
+  "Wise Robes": 181,
+  "Wise Slacks": 182,
+  "Wise Staff": 183,
+  "Greyed Glory": 184,
+  "Tattered Jacket": 185,
+  "Hoary Chin": 186,
+  "Tattered Slacks": 187,
+  "Old Shoes": 188,
+  "Bat Wings": 189,
+  "Gothic Twilight": 190,
+  "Dark Enchantment Gown": 191,
+  "Goth Hair": 192,
+  "Pale Potion": 193,
+  "Stretched Jeans": 194,
+  "Skull Shirt": 195,
+  "Victorian Hat": 196,
+  "Boater Hat": 197,
+  "Antique Dress": 198,
+  "Crimson Skirt": 199,
+  "Chic Gala Blouse": 200,
+  "Ash Ponytail": 201,
+  "Pink Ponytail": 202,
+  "Silver Streaks": 203,
+  "Brown Rancher Hair": 204,
+  "Parsnip Horns": 205,
+  "Potato Suit": 206,
+  "Whale Hat": 207,
+  "Pumpkin Shirt": 208,
+  Halo: 209,
+  Kama: 210,
+  "Grey Merch Hoodie": 211,
+  "Unicorn Horn": 212,
+  "Unicorn Hat": 213,
 };
 
 // The reverse of above
@@ -358,6 +492,7 @@ export type Wallet = {
   suit: BumpkinSuit[];
   wings: BumpkinWings[];
   dress?: BumpkinDress[];
+  beard?: BumpkinBeard[];
 };
 
 export type Equipped = {
@@ -376,6 +511,7 @@ export type Equipped = {
   suit?: BumpkinSuit;
   wings?: BumpkinWings;
   dress?: BumpkinDress;
+  beard?: BumpkinBeard;
 };
 
 export type BumpkinPart = keyof Equipped;
@@ -482,7 +618,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Pirate General Coat": "coat",
   "Pirate Pants": "pants",
   "Pirate Leather Polo": "shirt",
-  "Crab Claw": "tool",
+  "Crab Claw": "secondaryTool",
   "Pirate Scimitar": "tool",
   "Cupid Hair": "hair",
   "Cupid Dress": "dress",
@@ -539,6 +675,68 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Leather Shoes": "shoes",
   "Tangerine Hair": "hair",
   "Straw Hat": "hat",
+  "Traveller's Backpack": "wings",
+  "Traveller's Pants": "pants",
+  "Traveller's Shirt": "shirt",
+  "Witching Wardrobe": "dress",
+  "Witch's Broom": "tool",
+  "Infernal Bumpkin Potion": "body",
+  "Infernal Goblin Potion": "body",
+  "Imp Costume": "suit",
+  "Ox Costume": "suit",
+  "Luna's Hat": "hat",
+  "Infernal Pitchfork": "tool",
+  "Infernal Horns": "hat",
+  Cattlegrim: "hat",
+  "Crumple Crown": "hat",
+  "Merch Bucket Hat": "hat",
+  "Merch Coffee Mug": "tool",
+  "Dawn Breaker Tee": "shirt",
+  "Merch Tee": "shirt",
+  "Merch Hoodie": "shirt",
+  "Birthday Hat": "hat",
+  "Double Harvest Cap": "hat",
+  "Streamer Helmet": "hat",
+  "Corn Onesie": "onesie",
+  "Crow Wings": "wings",
+  "Witches' Eve Tee": "shirt",
+  "Wise Beard": "beard",
+  "Pumpkin Hat": "hat",
+  "Wise Book": "secondaryTool",
+  "Wise Hair": "hair",
+  "Wise Robes": "shirt",
+  "Wise Slacks": "pants",
+  "Wise Staff": "tool",
+  "Greyed Glory": "hair",
+  "Tattered Jacket": "shirt",
+  "Hoary Chin": "beard",
+  "Tattered Slacks": "pants",
+  "Old Shoes": "shoes",
+  "Bat Wings": "wings",
+  "Gothic Twilight": "dress",
+  "Dark Enchantment Gown": "dress",
+  "Goth Hair": "hair",
+  "Pale Potion": "body",
+  "Stretched Jeans": "pants",
+  "Skull Shirt": "shirt",
+  "Victorian Hat": "hat",
+  "Boater Hat": "hat",
+  "Antique Dress": "dress",
+  "Crimson Skirt": "pants",
+  "Chic Gala Blouse": "shirt",
+  "Ash Ponytail": "hair",
+  "Pink Ponytail": "hair",
+  "Silver Streaks": "hair",
+  "Brown Rancher Hair": "hair",
+  "Parsnip Horns": "hat",
+  "Potato Suit": "suit",
+  "Whale Hat": "hat",
+  "Pumpkin Shirt": "shirt",
+  Halo: "hat",
+  Kama: "tool",
+  "Grey Merch Hoodie": "shirt",
+  "Unicorn Horn": "hat",
+  "Unicorn Hat": "hat",
 };
 
 export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {

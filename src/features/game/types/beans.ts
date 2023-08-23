@@ -1,13 +1,11 @@
 import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
-import { Inventory, InventoryItemName } from "./game";
+import { InventoryItemName } from "./game";
 
-export type BeanName = "Magic Bean" | "Shiny Bean" | "Golden Bean";
+export type BeanName = "Magic Bean";
 
 export type Bean = {
   name: BeanName;
-  sfl: Decimal;
-  ingredients: Inventory;
   description: string;
   plantSeconds: number;
 };
@@ -15,33 +13,8 @@ export type Bean = {
 export const BEANS: () => Record<BeanName, Bean> = () => ({
   "Magic Bean": {
     name: "Magic Bean",
-    sfl: marketRate(5),
-    ingredients: {
-      Wood: new Decimal(30),
-      Stone: new Decimal(10),
-    },
     description: "What will grow?",
     plantSeconds: 2 * 24 * 60 * 60,
-  },
-  "Shiny Bean": {
-    name: "Shiny Bean",
-    sfl: marketRate(10),
-    ingredients: {
-      Wood: new Decimal(30),
-      Iron: new Decimal(10),
-    },
-    description: "What will grow?",
-    plantSeconds: 3 * 24 * 60 * 60,
-  },
-  "Golden Bean": {
-    name: "Golden Bean",
-    sfl: marketRate(15),
-    ingredients: {
-      Wood: new Decimal(30),
-      Gold: new Decimal(10),
-    },
-    description: "What will grow?",
-    plantSeconds: 4 * 24 * 60 * 60,
   },
 });
 
@@ -51,6 +24,58 @@ export function isBean(item: InventoryItemName): item is BeanName {
 
 export type MutantCropName =
   | "Stellar Sunflower"
-  | "Peaceful Potato"
-  | "Perky Pumpkin"
-  | "Colossal Crop";
+  | "Potent Potato"
+  | "Radical Radish";
+
+export type ExoticCropName =
+  | "Black Magic"
+  | "Golden Helios"
+  | "Chiogga"
+  | "Purple Cauliflower"
+  | "Adirondack Potato"
+  | "Warty Goblin Pumpkin"
+  | "White Carrot";
+
+export type ExoticCrop = {
+  description: string;
+  sellPrice: Decimal;
+  name: ExoticCropName;
+};
+
+export const EXOTIC_CROPS: Record<ExoticCropName, ExoticCrop> = {
+  "Black Magic": {
+    name: "Black Magic",
+    description: "A dark and mysterious flower!",
+    sellPrice: marketRate(32000),
+  },
+  "Golden Helios": {
+    name: "Golden Helios",
+    description: "Sun-kissed grandeur!",
+    sellPrice: marketRate(16000),
+  },
+  Chiogga: {
+    name: "Chiogga",
+    description: "A rainbow beet!",
+    sellPrice: marketRate(8000),
+  },
+  "Purple Cauliflower": {
+    name: "Purple Cauliflower",
+    description: "A regal purple cauliflower",
+    sellPrice: marketRate(3200),
+  },
+  "Adirondack Potato": {
+    name: "Adirondack Potato",
+    description: "A rugged spud, Adirondack style!",
+    sellPrice: marketRate(2400),
+  },
+  "Warty Goblin Pumpkin": {
+    name: "Warty Goblin Pumpkin",
+    description: "A whimsical, wart-covered pumpkin",
+    sellPrice: marketRate(1600),
+  },
+  "White Carrot": {
+    name: "White Carrot",
+    description: "A pale carrot with pale roots",
+    sellPrice: marketRate(800),
+  },
+};

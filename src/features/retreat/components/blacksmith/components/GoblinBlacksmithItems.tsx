@@ -40,10 +40,16 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
       context: { state, mintedAtTimes },
     },
   ] = useActor(goblinService);
+
+  const itemNames = getKeys(GOBLIN_BLACKSMITH_ITEMS(state)).filter(
+    (item) => !GOBLIN_BLACKSMITH_ITEMS(state)[item].disabled
+  );
+
   const [isLoading, setIsLoading] = useState(true);
   const [supply, setSupply] = useState<ItemSupply>();
-  const [selectedName, setSelectedName] =
-    useState<GoblinBlacksmithItemName>("Mushroom House");
+  const [selectedName, setSelectedName] = useState<GoblinBlacksmithItemName>(
+    itemNames[0]
+  );
 
   useEffect(() => {
     const load = async () => {
@@ -51,9 +57,7 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
         ? await totalSupply(wallet.web3Provider)
         : ({} as ItemSupply);
 
-      console.log({ supply });
       setSupply(supply);
-
       setIsLoading(false);
     };
 
@@ -66,13 +70,19 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
   }, []);
 
   const inventory = state.inventory;
+  const selectedItem = GOBLIN_BLACKSMITH_ITEMS(state)?.[selectedName];
 
-  const selectedItem = GOBLIN_BLACKSMITH_ITEMS(state)[selectedName];
+  if (itemNames.length === 0 || !selectedItem) {
+    return (
+      <div className="p-1 min-h-[200px]">No items available to craft!</div>
+    );
+  }
 
-  const lessIngredients = () =>
+  const lessIngredients = () => {
     getKeys(selectedItem.ingredients).some((name) =>
       selectedItem.ingredients[name]?.greaterThan(inventory[name] || 0)
     );
+  };
 
   const notEnoughSFL = selectedItem.sfl?.greaterThan(state.balance);
 
@@ -137,7 +147,7 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
       content={
         <>
           {getKeys(GOBLIN_BLACKSMITH_ITEMS(state))
-            .filter((name) => !GOBLIN_BLACKSMITH_ITEMS(state)[name].disabled)
+            .filter((name) => !GOBLIN_BLACKSMITH_ITEMS(state)?.[name]?.disabled)
             .map((name) => (
               <Box
                 isSelected={selectedName === name}

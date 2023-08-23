@@ -3,32 +3,7 @@ import {
   getBasketItems,
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
-import { getKeys } from "../types/craftables";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
-
-const makeDawnbreaker = (dawnBreaker: any) => {
-  if (!dawnBreaker) return undefined;
-
-  return {
-    ...dawnBreaker,
-    currentWeek: Number(dawnBreaker.currentWeek),
-    availableLantern: dawnBreaker.availableLantern
-      ? {
-          ...dawnBreaker.availableLantern,
-          sfl: new Decimal(dawnBreaker.availableLantern.sfl ?? 0),
-          ingredients: getKeys(dawnBreaker.availableLantern.ingredients).reduce(
-            (ingredients, name) => ({
-              ...ingredients,
-              [name]: new Decimal(
-                dawnBreaker.availableLantern.ingredients[name]
-              ),
-            }),
-            {}
-          ),
-        }
-      : undefined,
-  };
-};
 
 /**
  * Converts API response into a game state
@@ -50,10 +25,12 @@ export function makeGame(farm: any): GameState {
       }),
       {} as Record<InventoryItemName, Decimal>
     ),
+    createdAt: farm.createdAt,
     chickens: farm.chickens || {},
     stockExpiry: farm.stockExpiry || {},
     balance: new Decimal(farm.balance),
     id: farm.id,
+    trades: farm.trades,
     tradeOffer: farm.tradeOffer
       ? {
           ...farm.tradeOffer,
@@ -63,6 +40,8 @@ export function makeGame(farm: any): GameState {
           })),
         }
       : undefined,
+
+    bertObsession: farm.bertObsession,
     grubOrdersFulfilled: farm.grubOrdersFulfilled,
     grubShop: farm.grubShop
       ? {
@@ -77,6 +56,8 @@ export function makeGame(farm: any): GameState {
     expansionConstruction: farm.expansionConstruction,
     expansionRequirements: farm.expansionRequirements,
 
+    islands: farm.islands,
+
     bumpkin: farm.bumpkin,
     buildings: farm.buildings,
     airdrops: farm.airdrops,
@@ -88,6 +69,7 @@ export function makeGame(farm: any): GameState {
     dailyRewards: farm.dailyRewards,
     auctioneer: farm.auctioneer ?? {},
     hayseedHank: farm.hayseedHank,
+    chores: farm.chores,
     tradedAt: farm.tradedAt,
     trees: farm.trees ?? {},
     stones: farm.stones ?? {},
@@ -101,9 +83,10 @@ export function makeGame(farm: any): GameState {
       unread: [],
     },
     mushrooms: farm.mushrooms,
-    dawnBreaker: makeDawnbreaker(farm.dawnBreaker),
+    witchesEve: farm.witchesEve,
     delivery: farm.delivery,
     potionHouse: farm.potionHouse,
+    npcs: farm.npcs,
   };
 }
 
@@ -123,8 +106,12 @@ export function getAvailableGameState({
   const availableItems = {
     ...chestItems,
     ...basketItems,
+    // This is necessary because the season banner is a requirement for some items in Goblin Retreat so we need to see that you have one even if it's placed.
     ...(offChain.inventory["Dawn Breaker Banner"] && {
       "Dawn Breaker Banner": offChain.inventory["Dawn Breaker Banner"],
+    }),
+    ...(offChain.inventory["Witches' Eve Banner"] && {
+      "Witches' Eve Banner": offChain.inventory["Witches' Eve Banner"],
     }),
   };
 

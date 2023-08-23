@@ -7,6 +7,7 @@ import richChicken from "assets/animals/chickens/rich_chicken.png";
 import fatChicken from "assets/animals/chickens/fat_chicken.png";
 import speedChicken from "assets/animals/chickens/speed_chicken.png";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.png";
+import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.png";
 
 import { Button } from "components/ui/Button";
 
@@ -26,6 +27,10 @@ const mutants: Record<MutantChicken, Record<string, string>> = {
   "Ayam Cemani": {
     description: "The rarest chicken in existence!",
     image: ayamCemani,
+  },
+  "El Pollo Veloz": {
+    description: "Your chickens will lay eggs 4 hours faster!",
+    image: elPolloVeloz,
   },
 };
 

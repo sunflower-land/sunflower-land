@@ -1,16 +1,16 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { RoomId } from "../roomMachine";
+import { SceneId } from "../mmoMachine";
 
-type SpawnLocation = Record<
-  RoomId,
-  { default: Coordinates } & Partial<Record<RoomId, Coordinates>>
+export type SpawnLocation = Record<
+  SceneId,
+  { default: Coordinates } & Partial<Record<SceneId, Coordinates>>
 >;
 
 export const SPAWNS: SpawnLocation = {
   plaza: {
     default: {
       x: 440,
-      y: 440,
+      y: 400,
     },
     windmill_floor: {
       x: 420,
@@ -117,6 +117,12 @@ export const SPAWNS: SpawnLocation = {
     default: {
       x: 10,
       y: 290,
+    },
+  },
+  corn_maze: {
+    default: {
+      x: 315,
+      y: 347,
     },
   },
 };

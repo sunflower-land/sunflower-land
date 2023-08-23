@@ -1,17 +1,46 @@
-import { RoomId } from "../roomMachine";
-import { BaseScene, NPCBumpkin } from "./BaseScene";
+import woodlandsJSON from "assets/map/woodlands.json";
 
-const BUMPKINS: NPCBumpkin[] = [];
+import { SceneId } from "../mmoMachine";
+import { BaseScene, NPCBumpkin } from "./BaseScene";
+import { npcModalManager } from "../ui/NPCModals";
+import { interactableModalManager } from "../ui/InteractableModals";
+
+const BUMPKINS: NPCBumpkin[] = [
+  {
+    x: 150,
+    y: 80,
+    npc: "eins",
+    onClick: () => {
+      interactableModalManager.open("potion_table");
+    },
+  },
+  {
+    x: 380,
+    y: 60,
+    npc: "garth",
+    direction: "left",
+    onClick: () => {
+      npcModalManager.open("garth");
+    },
+  },
+];
 
 export class WoodlandsScene extends BaseScene {
-  roomId: RoomId = "woodlands";
+  sceneId: SceneId = "woodlands";
 
   constructor() {
-    super("woodlands");
+    super({
+      name: "woodlands",
+      map: { json: woodlandsJSON },
+      audio: { fx: { walk_key: "dirt_footstep" } },
+    });
   }
 
-  async create() {
-    console.log("Create woodlands shop");
+  preload() {
+    super.preload();
+  }
+
+  create() {
     this.map = this.make.tilemap({
       key: "woodlands",
     });

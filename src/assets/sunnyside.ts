@@ -54,6 +54,7 @@ export const SUNNYSIDE = {
     plus: `${CONFIG.PROTECTED_IMAGE_URL}/icons/plus.png`,
     minus: `${CONFIG.PROTECTED_IMAGE_URL}/icons/minus.png`,
     wardrobe: `${CONFIG.PROTECTED_IMAGE_URL}/icons/wardrobe.png`,
+    chevron_right: `${CONFIG.PROTECTED_IMAGE_URL}/icons/chevron_right.png`,
   },
   npcs: {
     betty: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/betty.gif`,
@@ -131,11 +132,13 @@ export const SUNNYSIDE = {
     green_bar_4: `${CONFIG.PROTECTED_IMAGE_URL}/ui/greenbar_04.png`,
     green_bar_5: `${CONFIG.PROTECTED_IMAGE_URL}/ui/greenbar_05.png`,
     green_bar_6: `${CONFIG.PROTECTED_IMAGE_URL}/ui/greenbar_06.png`,
+    dot: `${CONFIG.PROTECTED_IMAGE_URL}/ui/select_dots.png`,
   },
   decorations: {
     treasure_chest: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/treasure_chest.png`,
     treasure_chest_opened: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/treasure_opened.png`,
     blue_bottle: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/blue_bottle.webp`,
     orange_bottle: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/orange_bottle.webp`,
+    skull: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/skull.webp`,
   },
 };

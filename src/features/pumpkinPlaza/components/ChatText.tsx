@@ -2,12 +2,13 @@ import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
 import Filter from "bad-words";
 import classNames from "classnames";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 interface Props {
-  messages: { sessionId: string; text: string }[];
+  messages: { farmId: number; sessionId: string; text: string }[];
   onMessage: (text: string) => void;
-  onChatStarted: () => void;
-  isChatOpen: boolean;
+  cooledDownAt?: number;
 }
 
 const MAX_CHARACTERS = 48;
@@ -23,12 +24,13 @@ const ALPHA_REGEX = new RegExp(/^[\w*?!, '-]+$/);
 export const ChatText: React.FC<Props> = ({
   messages,
   onMessage,
-  onChatStarted,
-  isChatOpen,
+  cooledDownAt,
 }) => {
   const ref = useRef<HTMLInputElement>();
   const [text, setText] = useState("");
   const [valid, setValid] = useState(true);
+
+  const cooldown = useCountdown(cooledDownAt ?? 0);
 
   useEffect(() => {
     const handleClickOutside = (event: any) => {
@@ -98,6 +100,8 @@ export const ChatText: React.FC<Props> = ({
 
   const hasMessages = messages.length > 0;
 
+  const showCooldown = cooldown?.minutes > 0 || cooldown?.seconds > 0;
+
   return (
     <form onSubmit={send}>
       <div
@@ -119,7 +123,7 @@ export const ChatText: React.FC<Props> = ({
             .slice(0, 1000)
             .reverse()
             .map((message, i) => {
-              if (!message.sessionId)
+              if (!message.farmId)
                 return (
                   <p key={`${i}-${message.text}`} className="text-amber-300">
                     {message.text}
@@ -128,16 +132,24 @@ export const ChatText: React.FC<Props> = ({
 
               return (
                 <p
-                  key={`${i}-${message.sessionId}`}
+                  key={`${i}-${message.farmId}`}
                   className="pt-0.5 -indent-6 pl-6"
                 >
-                  {`[${message.sessionId}]`}: {message.text}
+                  {`[${message.farmId}]`}: {message.text}
                 </p>
               );
             })}
         </div>
+        {showCooldown && (
+          <Label type="warning" className="flex p-1 m-1 mx-2">
+            <img src={SUNNYSIDE.icons.timer} className="h-4 pr-1" />
+            <p className="text-xs">{`Cooldown - ${cooldown.minutes} mins ${cooldown.seconds} secs`}</p>
+          </Label>
+        )}
+
         <input
           maxLength={MAX_CHARACTERS * 2}
+          disabled={showCooldown}
           data-prevent-drag-scroll
           name="message"
           autoComplete="off"
@@ -145,12 +157,10 @@ export const ChatText: React.FC<Props> = ({
           ref={(r) => (ref.current = r as HTMLInputElement)}
           onClick={() => {
             ref.current?.focus();
-            onChatStarted();
           }}
           onInput={(e: ChangeEvent<HTMLInputElement>) => {
             setText(e.target.value);
             isValid();
-            onChatStarted();
             e.preventDefault();
           }}
           placeholder="Type here..."

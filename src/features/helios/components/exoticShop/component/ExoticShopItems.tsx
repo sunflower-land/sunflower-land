@@ -1,6 +1,4 @@
 import React from "react";
-import { ExoticSeeds } from "./ExoticSeeds";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
@@ -19,10 +17,17 @@ export const ExoticShopItems: React.FC<Props> = ({ onClose }) => {
         background: "Farm Background",
         shoes: "Black Farmer Boots",
       }}
-      tabs={[{ icon: SUNNYSIDE.icons.seeds, name: "Exotic" }]}
       onClose={onClose}
     >
-      <ExoticSeeds onClose={onClose} />
+      <div className="p-2">
+        <p className="mb-4">
+          Our bean shop is closing as our beans embark on a new journey with a
+          mad scientist.
+        </p>
+        <p className="mb-4">{`Thank you for being part of our legume-loving community.`}</p>
+        <p>Best regards,</p>
+        <p>The Bean Team</p>
+      </div>
     </CloseButtonPanel>
   );
 };

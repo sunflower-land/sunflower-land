@@ -46,6 +46,7 @@ export type AuctionResults = {
   participantCount: number;
   rank: number;
   supply: number;
+  endAt: number;
 };
 export interface Context {
   farmId: number;
@@ -137,6 +138,7 @@ export const createAuctioneerMachine = ({
 
         // Offline testing
         results: {
+          endAt: Date.now() + 100000,
           leaderboard: [
             {
               farmId: 44,

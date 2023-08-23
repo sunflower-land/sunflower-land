@@ -4,7 +4,7 @@ import { Button } from "components/ui/Button";
 import { Bid } from "features/game/types/game";
 
 import { AuctionLeaderboardTable } from "./AuctionLeaderboardTable";
-import { Auction, AuctionResults } from "features/game/lib/auctionMachine";
+import { AuctionResults } from "features/game/lib/auctionMachine";
 import { Label } from "components/ui/Label";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "./AuctionDetails";
@@ -14,16 +14,9 @@ interface Props {
   bid: Bid;
   farmId: number;
   results: AuctionResults;
-  auction: Auction;
 }
-export const Winner: React.FC<Props> = ({
-  onMint,
-  bid,
-  farmId,
-  results,
-  auction,
-}) => {
-  const deadline = auction.endAt + 24 * 60 * 60 * 1000;
+export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
+  const deadline = results.endAt + 24 * 60 * 60 * 1000;
   const countdown = useCountdown(deadline);
 
   return (

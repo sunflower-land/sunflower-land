@@ -29,9 +29,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Blueberry Seed": 113,
   "Orange Seed": 114,
   "Magic Bean": 115,
-  "Shiny Bean": 116,
-  "Golden Bean": 117,
+  // "Shiny Bean": 116,
+  // "Golden Bean": 117,
   "Eggplant Seed": 118,
+  "Corn Seed": 119,
 
   Sunflower: 201,
   Potato: 202,
@@ -48,6 +49,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Blueberry: 213,
   Orange: 214,
   Eggplant: 215,
+  Corn: 216,
 
   Axe: 301,
   Pickaxe: 302,
@@ -98,9 +100,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Cabbage Girl": 435,
   "Wood Nymph Wendy": 436,
   "Stellar Sunflower": 437,
-  "Peaceful Potato": 438,
-  "Perky Pumpkin": 439,
-  "Colossal Crop": 440,
+  "Potent Potato": 438,
+  "Radical Radish": 439,
+  // "Colossal Crop": 440,
   "Immortal Pear": 441,
   "Lady Bug": 442,
   "Squirrel Monkey": 443,
@@ -129,6 +131,15 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sir Goldensnout": 466,
   "Scary Mike": 467,
   "Laurie the Chuckle Crow": 468,
+  "Freya Fox": 469,
+  "El Pollo Veloz": 470,
+  Poppy: 471,
+  "Grain Grinder": 472,
+  Kernaldo: 473,
+  "Queen Cornelia": 474,
+  "Lab Grown Carrot": 475,
+  "Lab Grown Pumpkin": 476,
+  "Lab Grown Radish": 477,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -176,6 +187,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Kale Omelette": 544,
   "Cabbers n Mash": 545,
   "Fancy Fries": 546,
+  "Bumpkin ganoush": 547,
+  Cornbread: 548,
+  "Eggplant Cake": 549,
+  Popcorn: 550,
 
   Wood: 601,
   Stone: 602,
@@ -226,6 +241,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunflower Supporter": 721,
   "Solar Flare Banner": 722,
   "Dawn Breaker Banner": 723,
+  "Witches' Eve Banner": 724,
+  "Crow Feather": 725,
+  "Gold Pass": 726,
+  "Potion Ticket": 727,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -299,6 +318,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Pablo The Bunny": 926,
   "Iron Compass": 927,
   "Old Bottle": 928,
+  "Emerald Compass": 929,
 
   // Buildings
   Market: 1001,
@@ -409,6 +429,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Eggplant Bear": 1275,
   "Goblin Lantern": 1276,
   "Dawn Flower": 1277,
+  Candles: 1278,
+  "Haunted Stump": 1279,
+  "Spooky Tree": 1280,
+  "Giant Cabbage": 1281,
+  "Giant Potato": 1282,
+  "Giant Pumpkin": 1283,
 
   //Beach Bounty
   "Pirate Bounty": 1301,
@@ -420,6 +446,14 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Seaweed: 1307,
   "Sea Cucumber": 1308,
   Crab: 1309,
+  // Exotic Crops
+  "Black Magic": 1401,
+  "Golden Helios": 1402,
+  Chiogga: 1403,
+  "Purple Cauliflower": 1404,
+  "Adirondack Potato": 1405,
+  "Warty Goblin Pumpkin": 1406,
+  "White Carrot": 1407,
 };
 
 // The reverse of above

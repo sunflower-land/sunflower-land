@@ -45,6 +45,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
     return <Web3Missing wallet="PHANTOM" />;
   }
 
+  if (errorCode === ERRORS.NO_WEB3_CRYPTO_COM) {
+    return <Web3Missing wallet="CRYPTO_COM" />;
+  }
+
   if (errorCode === ERRORS.NO_WEB3) {
     return <Web3Missing />;
   }

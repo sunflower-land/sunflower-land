@@ -177,3 +177,58 @@ export function getRelativeTime(timestamp: number): string {
     return `${daysAgo} day${daysAgo !== 1 ? "s" : ""} ago`;
   }
 }
+
+export function formatDateRange(fromDate: Date, toDate: Date): string {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const fromMonth = months[fromDate.getMonth()];
+  const toMonth = months[toDate.getMonth()];
+
+  const fromDay = fromDate.getDate();
+  const toDay = toDate.getDate();
+
+  return `${fromMonth} ${fromDay}${getOrdinalSuffix(
+    fromDay
+  )} - ${toMonth} ${toDay}${getOrdinalSuffix(toDay)}`;
+}
+
+function getOrdinalSuffix(day: number): string {
+  if (day >= 11 && day <= 13) {
+    return "th";
+  }
+  switch (day % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+}
+
+/**
+ * A function that gives your the day of the year.
+ * @param date JS Date object
+ * @returns Day of the calendar year eg: 182
+ */
+export function getDayOfYear(date: Date): number {
+  const startOfYear = new Date(date.getFullYear(), 0, 0);
+  const diff = date.getTime() - startOfYear.getTime();
+  const oneDay = 1000 * 60 * 60 * 24;
+  return Math.floor(diff / oneDay);
+}

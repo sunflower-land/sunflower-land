@@ -1,13 +1,15 @@
-import { RoomId } from "../roomMachine";
+import igorHomeJSON from "assets/map/blacksmith_home.json";
+
+import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
 const BUMPKINS: NPCBumpkin[] = [];
 
 export class IgorHomeScene extends BaseScene {
-  roomId: RoomId = "igor_home";
+  sceneId: SceneId = "igor_home";
 
   constructor() {
-    super("igor_home");
+    super({ name: "igor_home", map: { json: igorHomeJSON } });
   }
 
   async create() {

@@ -9,13 +9,15 @@ import {
   MachineInterpreter,
   createAuctioneerMachine,
 } from "features/game/lib/auctionMachine";
-import { Bid, GameState } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { hasFeatureAccess } from "lib/flags";
 import { NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { Button } from "components/ui/Button";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 interface Props {
   gameState: GameState;
@@ -34,6 +36,8 @@ export const AuctioneerModal: React.FC<Props> = ({
   onMint,
   deviceTrackerId,
 }) => {
+  const { openModal } = useContext(ModalContext);
+
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
@@ -43,7 +47,7 @@ export const AuctioneerModal: React.FC<Props> = ({
       token: authState.context.user.rawToken,
       bid: gameState.auctioneer.bid,
       deviceTrackerId: deviceTrackerId,
-      canAccess: hasFeatureAccess(gameState.inventory, "AUCTION"),
+      canAccess: true,
     },
   }) as unknown as MachineInterpreter;
 
@@ -63,14 +67,12 @@ export const AuctioneerModal: React.FC<Props> = ({
   if (auctioneerState.matches("loading")) {
     return (
       <Modal centered show={isOpen} onHide={onClose}>
-        <Panel bumpkinParts={NPC_WEARABLES["hammerin' harry"]}>
+        <Panel bumpkinParts={NPC_WEARABLES["hammerin harry"]}>
           <span className="loading">Loading</span>
         </Panel>
       </Modal>
     );
   }
-
-  const bid = auctioneerState.context.bid as Bid;
 
   const closeModal = () => {
     onClose();
@@ -81,7 +83,7 @@ export const AuctioneerModal: React.FC<Props> = ({
       <CloseButtonPanel
         onClose={onClose}
         tabs={[{ icon: SUNNYSIDE.icons.stopwatch, name: "Auctions & Drops" }]}
-        bumpkinParts={NPC_WEARABLES["hammerin' harry"]}
+        bumpkinParts={NPC_WEARABLES["hammerin harry"]}
         secondaryAction={
           <a
             href="https://docs.sunflower-land.com/player-guides/auctions"
@@ -111,6 +113,29 @@ export const AuctioneerModal: React.FC<Props> = ({
           }}
         >
           <div className="flex flex-col">
+            {!gameState.inventory["Gold Pass"] && (
+              <div className="flex items-center justify-between px-1">
+                <div className="flex items-center">
+                  <img
+                    src={ITEM_DETAILS["Gold Pass"].image}
+                    className="h-4 mr-1"
+                  />
+                  <span className="text-xs">
+                    A Gold Pass is required to mint rare NFTs.
+                  </span>
+                </div>
+                <Button
+                  onClick={() => {
+                    onClose();
+                    openModal("GOLD_PASS");
+                  }}
+                  className="text-xxs w-16 p-0 h-8"
+                >
+                  Buy
+                </Button>
+              </div>
+            )}
+
             <>
               <AuctioneerContent
                 auctionService={auctionService}

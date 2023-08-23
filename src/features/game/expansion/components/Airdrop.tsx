@@ -10,6 +10,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { getImageUrl } from "features/goblins/tailor/TabContent";
+import { ITEM_IDS } from "features/game/types/bumpkin";
 
 export const Airdrop: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -58,6 +60,22 @@ export const Airdrop: React.FC = () => {
                   <img src={ITEM_DETAILS[name].image} className="w-6 mr-2" />
                   <span>
                     {airdrop.items[name]} {name}
+                  </span>
+                </div>
+              ))}
+
+            {getKeys(airdrop.wearables ?? {}).length > 0 &&
+              getKeys(airdrop.wearables).map((name) => (
+                <div
+                  className="flex items-center justify-center mb-2"
+                  key={name}
+                >
+                  <img
+                    src={getImageUrl(ITEM_IDS[name])}
+                    className="w-12 mr-2"
+                  />
+                  <span>
+                    {airdrop.wearables[name]} {name}
                   </span>
                 </div>
               ))}

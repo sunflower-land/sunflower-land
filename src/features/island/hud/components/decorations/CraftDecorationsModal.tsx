@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { InventoryItemName } from "features/game/types/game";
-import sunflower from "assets/decorations/potted_sunflower.png";
+import sunflower from "assets/decorations/bush.png";
 import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "react-bootstrap";
-import { Decorations } from "./Decorations";
+import { LandscapingDecorations } from "./LandscapingDecorations";
 import { NPC_WEARABLES } from "lib/npcs";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { SeasonalDecorations } from "./SeasonalDecorations";
 
 interface Props {
   show: boolean;
@@ -23,17 +21,13 @@ export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
   return (
     <Modal size="lg" centered show={show} onHide={onHide}>
       <CloseButtonPanel
-        tabs={[
-          { icon: sunflower, name: "Decorations" },
-          { icon: SUNNYSIDE.icons.timer, name: "Limited" },
-        ]}
+        tabs={[{ icon: sunflower, name: "Landscaping" }]}
         setCurrentTab={setTab}
         currentTab={tab}
         onClose={onHide}
         bumpkinParts={NPC_WEARABLES.grimtooth}
       >
-        {tab === 0 && <Decorations onClose={onHide} />}
-        {tab === 1 && <SeasonalDecorations onClose={onHide} />}
+        {tab === 0 && <LandscapingDecorations onClose={onHide} />}
       </CloseButtonPanel>
     </Modal>
   );

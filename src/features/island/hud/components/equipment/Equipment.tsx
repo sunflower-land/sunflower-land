@@ -11,18 +11,16 @@ import { Button } from "components/ui/Button";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 
-import lock from "assets/skills/lock.png";
+//import lock from "assets/skills/lock.png";
 
 import Decimal from "decimal.js-light";
-import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Label } from "components/ui/Label";
+//import { Label } from "components/ui/Label";
 import { ITEM_ICONS } from "../inventory/Chest";
 import {
   HELIOS_BLACKSMITH_ITEMS,
   HeliosBlacksmithItem,
 } from "features/game/types/collectibles";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -39,15 +37,10 @@ export const Equipment: React.FC<Props> = ({ onClose }) => {
   ] = useActor(gameService);
   const inventory = state.inventory;
 
-  const selectedItem = HELIOS_BLACKSMITH_ITEMS[selectedName];
+  const selectedItem = HELIOS_BLACKSMITH_ITEMS(state)[selectedName];
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
 
-  const ingredients = selectedItem.ingredients;
-
-  const landCount = state.inventory["Basic Land"] ?? new Decimal(0);
-
-  const landscapingMachine = gameService.state.children
-    .landscaping as MachineInterpreter;
+  //const landCount = state.inventory["Basic Land"] ?? new Decimal(0);
 
   const lessIngredients = () =>
     getKeys(selectedItem.ingredients).some((name) =>
@@ -67,20 +60,20 @@ export const Equipment: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const landLocked = (level: number) => {
-    return (
-      <div className="flex flex-col w-full justify-center">
-        <div className="flex items-center justify-center border-t border-white w-full pt-2">
-          <img src={lock} className="h-4 mr-1" />
-          <p className="text-xxs mb-1">Unlock more land</p>
-        </div>
-        <div className="flex items-center justify-center ">
-          <img src={ITEM_DETAILS["Basic Land"].image} className="h-4 mr-1" />
-          <Label type="danger">{`${landCount.toNumber()}/${level}`}</Label>
-        </div>
-      </div>
-    );
-  };
+  // const landLocked = (level: number) => {
+  //   return (
+  //     <div className="flex flex-col w-full justify-center">
+  //       <div className="flex items-center justify-center border-t border-white w-full pt-2">
+  //         <img src={lock} className="h-4 mr-1" />
+  //         <p className="text-xxs mb-1">Unlock more land</p>
+  //       </div>
+  //       <div className="flex items-center justify-center ">
+  //         <img src={ITEM_DETAILS["Basic Land"].image} className="h-4 mr-1" />
+  //         <Label type="danger">{`${landCount.toNumber()}/${level}`}</Label>
+  //       </div>
+  //     </div>
+  //   );
+  // };
 
   const action = () => {
     // const level = BUILDINGS()[selectedName][0].unlocksAtLevel;
@@ -126,6 +119,7 @@ export const Equipment: React.FC<Props> = ({ onClose }) => {
           boost={selectedItem.boost}
           requirements={{
             resources: selectedItem.ingredients,
+            sfl: selectedItem.sfl,
           }}
           actionView={action()}
           hideDescription
@@ -133,15 +127,8 @@ export const Equipment: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {getKeys(HELIOS_BLACKSMITH_ITEMS)
-            .filter(
-              (name: HeliosBlacksmithItem) =>
-                (name !== "Scary Mike" ||
-                  hasFeatureAccess(state.inventory, "SCARY_MIKE")) &&
-                (name !== "Laurie the Chuckle Crow" ||
-                  hasFeatureAccess(state.inventory, "LAURIE"))
-            )
-            .map((name: HeliosBlacksmithItem) => {
+          {getKeys(HELIOS_BLACKSMITH_ITEMS).map(
+            (name: HeliosBlacksmithItem) => {
               // const isLocked = landCount.lt(
               //   HELIOS_BLACKSMITH_ITEMS[name].unlocksAtLevel
               // );
@@ -166,7 +153,8 @@ export const Equipment: React.FC<Props> = ({ onClose }) => {
                   showOverlay={isLocked}
                 />
               );
-            })}
+            }
+          )}
         </>
       }
     />

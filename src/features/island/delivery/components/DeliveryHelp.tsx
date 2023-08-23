@@ -5,37 +5,48 @@ import chest from "assets/icons/chest.png";
 
 export const DeliveryHelp: React.FC = () => {
   return (
-    <div className="max-w-xl mx-auto flex flex-col">
-      <div className="flex mb-2">
+    <div className="flex flex-col space-y-2 pt-3">
+      <div className="flex">
         <div className="w-12 flex justify-center">
           <img src={ITEM_DETAILS["Pumpkin Soup"].image} className="h-7" />
         </div>
-        <p className="text-sm flex-1">
-          Gather ingredients and complete orders for a reward!
+        <p className="text-sm flex-1 justify-center">
+          Gather ingredients and take a boat ride to Pumpkin Plaza to deliver
+          orders to Bumpkins for a reward!
         </p>
       </div>
-      <div className="flex mb-2">
+      <div className="flex">
         <div className="w-12 flex justify-center">
           <img src={ITEM_DETAILS["Hammer"].image} className="h-7" />
         </div>
         <p className="text-sm flex-1">
-          Expand your land to unlock more slots + quicker orders
+          Expand your land to unlock more slots + quicker delivery orders
         </p>
       </div>
-
-      <div className="flex mb-2">
+      <div className="flex">
+        <div className="w-12 flex justify-center">
+          <img src={ITEM_DETAILS["Axe"].image} className="h-7" />
+        </div>
+        <p className="text-sm flex-1">
+          Complete your chores and find Hank at the Plaza to claim your rewards.
+        </p>
+      </div>
+      <div className="flex">
         <div className="w-12 flex justify-center">
           <img src={chest} className="h-7" />
         </div>
         <p className="text-sm flex-1">
-          Complete multiple orders and unlock a bonus reward.
+          Build relationships with Bumpkins by completing multiple orders to
+          unlock bonus rewards.
+          <span className="italic text-xs ml-1">(Coming soon)</span>
         </p>
       </div>
+
       <a
         href="https://docs.sunflower-land.com/player-guides/deliveries"
         target="_blank"
         rel="noopener noreferrer"
-        className="underline mx-auto text-xxs pb-1 pt-0.5 hover:text-blue-500 mb-2"
+        className="underline text-xxs ml-[10px] pb-1 pt-0.5 hover:text-blue-500"
       >
         Read more
       </a>

@@ -147,6 +147,7 @@ export const DraftBid: React.FC<Props> = ({
           disabled={tickets === 1}
           longPress
           onClick={() => setTickets((prev) => (prev > 1 ? prev - 1 : prev))}
+          longPressInterval={10}
         >
           <img
             src={SUNNYSIDE.icons.minus}
@@ -196,6 +197,7 @@ export const DraftBid: React.FC<Props> = ({
             setTickets((prev) => (prev >= maxTickets ? prev : prev + 1))
           }
           longPress
+          longPressInterval={10}
         >
           <img
             src={SUNNYSIDE.icons.plus}
@@ -235,7 +237,7 @@ export const DraftBid: React.FC<Props> = ({
         <img src={SUNNYSIDE.icons.neutral} className="h-6 mr-2" />
         <div>
           <p className="text-sm mb-1">
-            Participants who are unsuccesful will be refunded their resources.
+            Participants who are unsuccessful will be refunded their resources.
           </p>
         </div>
       </div>

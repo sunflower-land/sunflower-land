@@ -5,9 +5,21 @@ import { Equipped } from "features/game/types/bumpkin";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Conversation } from "features/farming/mail/components/Conversation";
 import { ConversationName } from "features/game/types/conversations";
 import { NPC_WEARABLES } from "lib/npcs";
+import { SpeakingText } from "features/game/components/SpeakingModal";
+import { Panel } from "components/ui/Panel";
+
+const host = window.location.host.replace(/^www\./, "");
+const LOCAL_STORAGE_KEY = `betty-read.${host}-${window.location.pathname}`;
+
+function acknowledgeRead() {
+  localStorage.setItem(LOCAL_STORAGE_KEY, new Date().toString());
+}
+
+function hasRead() {
+  return !!localStorage.getItem(LOCAL_STORAGE_KEY);
+}
 
 interface Props {
   onClose: () => void;
@@ -15,19 +27,35 @@ interface Props {
   hasSoldBefore?: boolean;
 }
 
-export const ShopItems: React.FC<Props> = ({
-  onClose,
-  conversation,
-  hasSoldBefore,
-}) => {
+export const ShopItems: React.FC<Props> = ({ onClose, hasSoldBefore }) => {
   const [tab, setTab] = useState(0);
+  const [showIntro, setShowIntro] = React.useState(!hasRead());
 
   const bumpkinParts: Partial<Equipped> = NPC_WEARABLES.betty;
 
-  if (conversation) {
-    return <Conversation conversationId={conversation} />;
+  if (showIntro) {
+    return (
+      <Panel bumpkinParts={NPC_WEARABLES.betty}>
+        <SpeakingText
+          message={[
+            {
+              text: "Hey, hey! Welcome to my market.",
+            },
+            {
+              text: "Bring me your finest harvest, and I will give you a fair price for them!",
+            },
+            {
+              text: "You need seeds? From potatoes to parsnips, I've got you covered!",
+            },
+          ]}
+          onClose={() => {
+            acknowledgeRead();
+            setShowIntro(false);
+          }}
+        />
+      </Panel>
+    );
   }
-
   return (
     <CloseButtonPanel
       bumpkinParts={bumpkinParts}

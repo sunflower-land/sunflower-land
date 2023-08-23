@@ -28,15 +28,9 @@ export const GrubShop: React.FC = () => {
 
   const [showModal, setShowModal] = React.useState(false);
 
-  const openModal = () => {
-    setShowModal(true);
-  };
-
   const closeModal = () => {
     setShowModal(false);
   };
-
-  const isClosed = !state.grubShop || state.grubShop.closesAt < Date.now();
 
   const ordersFulfilled = state.grubOrdersFulfilled ?? [];
   let lastFulfilledItemName: ConsumableName | undefined;
@@ -59,10 +53,7 @@ export const GrubShop: React.FC = () => {
       </Modal>
 
       <MapPlacement x={2} y={1} height={5} width={5}>
-        <div
-          className="relative w-full h-full cursor-pointer hover:img-highlight"
-          onClick={openModal}
-        >
+        <div className="relative w-full h-full">
           {showDeliveries ? (
             <>
               <div

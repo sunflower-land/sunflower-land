@@ -7,7 +7,6 @@ import { getChestItems } from "./utils/inventory";
 import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import chest from "assets/npcs/synced.gif";
-import { KNOWN_IDS } from "features/game/types";
 
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -60,7 +59,7 @@ export const Chest: React.FC<Props> = ({
   const chestMap = getChestItems(state);
 
   const collectibles = getKeys(chestMap)
-    .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])
+    .sort((a, b) => a.localeCompare(b))
     .reduce((acc, item) => {
       return { ...acc, [item]: chestMap[item] };
     }, {} as Record<CollectibleName, Decimal>);

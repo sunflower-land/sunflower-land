@@ -10,12 +10,13 @@ import {
   setUserProperties,
 } from "firebase/analytics";
 
-type GameAnalyticEvent =
+export type GameAnalyticEvent =
   | EventNameString
   | "connect_wallet"
   | "connect_to_metamask"
   | "connect_to_phantom"
   | "connect_to_okx"
+  | "connect_to_crypto_com"
   | "connect_to_sequence"
   | "connect_to_walletconnect"
   | "create_account"
@@ -33,7 +34,9 @@ type GameAnalyticEvent =
   | "chore_complete"
   | "play_as_guest"
   | "wallet_connected"
-  | "wallet_funded";
+  | "wallet_funded"
+  | "select_poko"
+  | "select_matic";
 
 class GameAnalytics {
   private analytics: Analytics;

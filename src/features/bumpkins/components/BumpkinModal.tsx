@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import levelIcon from "assets/icons/level_up.png";
+import token from "assets/icons/token_2.png";
 
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";
@@ -10,8 +11,8 @@ import {
   getExperienceToNextLevel,
   isMaxLevel,
 } from "features/game/lib/level";
+
 import { AchievementsModal } from "./Achievements";
-import { AchievementBadges } from "./AchievementBadges";
 import { SkillsModal } from "features/bumpkins/components/Skills";
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -22,11 +23,14 @@ import { Bumpkin, Inventory } from "features/game/types/game";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { BumpkinEquip } from "./BumpkinEquip";
+import { AchievementBadges } from "./AchievementBadges";
+import { Trade } from "./Trade";
 
 type ViewState = "home" | "achievements" | "skills";
 
-export const BumpkinLevel: React.FC<{ bumpkin: Bumpkin }> = ({ bumpkin }) => {
-  const experience = bumpkin?.experience ?? 0;
+export const BumpkinLevel: React.FC<{ experience?: number }> = ({
+  experience = 0,
+}) => {
   const maxLevel = isMaxLevel(experience);
   const { currentExperienceProgress, experienceToNextLevel } =
     getExperienceToNextLevel(experience);
@@ -141,6 +145,10 @@ export const BumpkinModal: React.FC<Props> = ({
           icon: SUNNYSIDE.icons.wardrobe,
           name: "Equip",
         },
+        {
+          icon: token,
+          name: "Trades",
+        },
       ]}
     >
       {tab === 0 && (
@@ -152,7 +160,7 @@ export const BumpkinModal: React.FC<Props> = ({
                 bumpkinParts={bumpkin?.equipped as BumpkinParts}
               />
             </div>
-            {isFullUser && (
+            {/* {isFullUser && (
               <div className="ml-1">
                 <a
                   href={getVisitBumpkinUrl()}
@@ -163,7 +171,7 @@ export const BumpkinModal: React.FC<Props> = ({
                   Visit Bumpkin
                 </a>
               </div>
-            )}
+            )} */}
           </div>
 
           <div className="flex-1">
@@ -182,7 +190,7 @@ export const BumpkinModal: React.FC<Props> = ({
                     {maxLevel ? " (Max)" : ""}
                   </p>
                   {/* Progress bar */}
-                  <BumpkinLevel bumpkin={bumpkin} />
+                  <BumpkinLevel experience={bumpkin.experience} />
                 </div>
               </div>
             </div>
@@ -229,6 +237,7 @@ export const BumpkinModal: React.FC<Props> = ({
         </div>
       )}
       {tab === 1 && <BumpkinEquip />}
+      {tab === 2 && <Trade />}
     </CloseButtonPanel>
   );
 };

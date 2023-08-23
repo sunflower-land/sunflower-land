@@ -1,12 +1,24 @@
-import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { HeliosBlacksmithItems } from "features/helios/components/blacksmith/component/HeliosBlacksmithItems";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { Sofia } from "./dawn/Sofia";
-import { Bella } from "./dawn/Bella";
+import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
+import { DeliveryPanel } from "./deliveries/DeliveryPanel";
+import { Stylist } from "./stylist/Stylist";
+import { SceneId } from "../mmoMachine";
+
+import { Luna } from "./npcs/Luna";
+import { Pete } from "./npcs/Pete";
+import { Birdie } from "./npcs/Birdie";
+import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHankV2";
+import { Grubnuk } from "./npcs/Grubnuk";
+import { Blacksmith } from "./npcs/Blacksmith";
+import { PotionHouseShopItems } from "features/helios/components/potions/component/PotionHouseShopItems";
+import { hasFeatureAccess } from "lib/flags";
+import { Bert } from "./npcs/Bert";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -24,25 +36,24 @@ class NpcModalManager {
 
 export const npcModalManager = new NpcModalManager();
 
-type NpcModals = Partial<Record<NPCName, boolean>>;
-
 interface Props {
-  onClose: () => void;
-  onOpen: () => void;
+  onNavigate: (sceneId: SceneId) => void;
 }
-export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
+export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const [npc, setNpc] = useState<NPCName>();
+
+  const inventory = gameState.context.state.inventory;
 
   useEffect(() => {
     npcModalManager.listen((npc, open) => {
       setNpc(npc);
-      setTimeout(onOpen, 100); // Lag the pause of movement to give natural effect
     });
   }, []);
 
   const closeModal = () => {
     setNpc(undefined);
-    onClose();
   };
 
   return (
@@ -53,62 +64,17 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
         centered
         onHide={closeModal}
       >
-        {npc === "pumpkin'pete" && (
+        {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
+        {npc === "stella" && <Stylist onClose={closeModal} />}
+        {npc === "grubnuk" && <Grubnuk onClose={closeModal} />}
+
+        {npc === "garth" && hasFeatureAccess(inventory, "POTION_HOUSE") && (
+          <PotionHouseShopItems onClose={closeModal} />
+        )}
+        {npc === "hammerin harry" && (
           <SpeakingModal
             onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES["pumpkin'pete"]}
-            message={[]}
-          />
-        )}
-        {npc === "sofia" && <Sofia onClose={closeModal} />}
-        {npc === "bella" && <Bella onClose={closeModal} />}
-        {npc === "stella" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.stella}
-          >
-            <div className="p-2">
-              <p className="mb-2">I am opening </p>
-            </div>
-          </CloseButtonPanel>
-        )}
-        {npc === "timmy" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.timmy}
-          >
-            <div className="p-2">
-              <p className="mb-2">Howdy Stranger!</p>
-              <p className="mb-2">
-                {`Whaaaaat....you've been to Sunflower Land?!?`}
-              </p>
-              <p className="mb-2">{`Huh, you don't look that old...`}</p>
-            </div>
-          </CloseButtonPanel>
-        )}
-        {npc === "lily" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.lily}
-          >
-            <div className="p-2">
-              <p className="mb-2">Mum told me not to talk to the Goblins...</p>
-            </div>
-          </CloseButtonPanel>
-        )}
-        {npc === "igor" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.igor}
-            tabs={[{ icon: SUNNYSIDE.icons.hammer, name: "Craft" }]}
-          >
-            <HeliosBlacksmithItems />
-          </CloseButtonPanel>
-        )}
-        {npc === "hammerin' harry" && (
-          <SpeakingModal
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES["hammerin' harry"]}
+            bumpkinParts={NPC_WEARABLES["hammerin harry"]}
             message={[
               { text: "Gather round Bumpkins, an auction is about to begin." },
             ]}
@@ -125,26 +91,6 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
             ]}
           />
         )}
-        {npc === "grimbly" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.grimbly}
-          >
-            <div className="p-2">
-              <p className="mb-2">Aaccckkkk!</p>
-            </div>
-          </CloseButtonPanel>
-        )}
-        {npc === "grimtooth" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.grimtooth}
-          >
-            <div className="p-2">
-              <p className="mb-2">Aaaa</p>
-            </div>
-          </CloseButtonPanel>
-        )}
         {npc === "craig" && (
           <CloseButtonPanel
             onClose={closeModal}
@@ -156,6 +102,24 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
             </div>
           </CloseButtonPanel>
         )}
+        {npc === "billy" && (
+          <SpeakingModal
+            bumpkinParts={NPC_WEARABLES.billy}
+            onClose={closeModal}
+            message={[
+              {
+                text: "Howdy, y'all! Name's Billy.",
+              },
+              {
+                text: "I found these baby seedlings but for the life of me I cannot figure out what to do with them.",
+              },
+              {
+                text: "I bet they have something to do with the worm buds that have been appearing around the plaza.",
+              },
+            ]}
+          />
+        )}
+        {npc === "hank" && <HayseedHankV2 onClose={closeModal} />}
         {npc === "gabi" && (
           <CloseButtonPanel
             onClose={closeModal}
@@ -169,6 +133,31 @@ export const NPCModals: React.FC<Props> = ({ onClose, onOpen }) => {
               </p>
             </div>
           </CloseButtonPanel>
+        )}
+        {npc === "birdie" && <Birdie onClose={closeModal} />}
+        {/* Delivery NPC's */}
+        {npc === "pumpkin' pete" && <Pete onClose={closeModal} />}
+        {npc === "blacksmith" && <Blacksmith onClose={closeModal} />}
+        {npc === "raven" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "tywin" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "grimbly" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "grimtooth" && (
+          <DeliveryPanel npc={npc} onClose={closeModal} />
+        )}
+        {npc === "bert" && <Bert onClose={closeModal} />}
+        {npc === "timmy" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "old salty" && (
+          <DeliveryPanel npc={npc} onClose={closeModal} />
+        )}
+        {npc === "betty" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "cornwell" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "luna" && (
+          <Luna
+            onNavigate={() => {
+              onNavigate("corn_maze");
+            }}
+            onClose={closeModal}
+          />
         )}
       </Modal>
     </>

@@ -11,6 +11,7 @@ import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
+  PotionHouseItemName,
   SeasonPassName,
   SoldOutCollectibleName,
 } from "./collectibles";
@@ -87,7 +88,8 @@ export type MutantChicken =
   | "Speed Chicken"
   | "Rich Chicken"
   | "Fat Chicken"
-  | "Ayam Cemani";
+  | "Ayam Cemani"
+  | "El Pollo Veloz";
 
 export interface LimitedItem extends CraftableItem {
   maxSupply?: number;
@@ -191,13 +193,16 @@ export type CollectibleName =
   | SoldOutCollectibleName
   | GoblinPirateItemName
   | SeasonPassName
+  | "Dawn Breaker Banner"
+  | "Solar Flare Banner"
   | BoostTreasure
   | WarBanner
   | LanternName
   | "Observatory"
   | "War Skull"
   | "War Tombstone"
-  | "Undead Rooster";
+  | "Undead Rooster"
+  | PotionHouseItemName;
 
 export type ToolName =
   | "Axe"
@@ -736,6 +741,11 @@ export const MUTANT_CHICKENS: Record<MutantChicken, LimitedItem> = {
     description: "The rarest chicken in Sunflower Land.",
     type: LimitedItemType.MutantChicken,
   },
+  "El Pollo Veloz": {
+    name: "El Pollo Veloz",
+    description: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
+    type: LimitedItemType.MutantChicken,
+  },
 };
 
 export const WAR_BANNERS: Record<WarBanner, CraftableItem> = {
@@ -1081,6 +1091,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Rich Chicken": { width: 1, height: 1 },
   "Speed Chicken": { width: 1, height: 1 },
   "Ayam Cemani": { width: 1, height: 1 },
+  "El Pollo Veloz": { width: 1, height: 1 },
   // War Tent Items
   "War Skull": { width: 1, height: 1 },
   "War Tombstone": { width: 1, height: 1 },
@@ -1095,13 +1106,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Cabbage Girl": { width: 1, height: 1 },
 
   "Magic Bean": { width: 2, height: 2 },
-  "Shiny Bean": { width: 2, height: 2 },
-  "Golden Bean": { width: 2, height: 2 },
 
   "Stellar Sunflower": { width: 1, height: 1 },
-  "Peaceful Potato": { width: 1, height: 1 },
-  "Perky Pumpkin": { width: 1, height: 1 },
-  "Colossal Crop": { width: 1, height: 1 },
+  "Potent Potato": { width: 1, height: 1 },
+  "Radical Radish": { width: 1, height: 1 },
 
   "Christmas Bear": { width: 1, height: 1 },
   "Christmas Snow Globe": { width: 2, height: 2 },
@@ -1109,6 +1117,14 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Squirrel Monkey": { width: 2, height: 2 },
   "Black Bearry": { width: 1, height: 1 },
   "Iron Idol": { height: 2, width: 2 },
+  "Parasaur Skull": {
+    height: 2,
+    width: 2,
+  },
+  "Golden Bear Head": {
+    height: 2,
+    width: 2,
+  },
 
   "Maneki Neko": { width: 1, height: 1 },
   "Collectible Bear": { width: 2, height: 2 },
@@ -1137,6 +1153,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Karkinos: { height: 2, width: 2 },
 
   // Banners
+  "Witches' Eve Banner": { width: 1, height: 2 },
   "Dawn Breaker Banner": { width: 1, height: 2 },
   "Solar Flare Banner": { width: 1, height: 2 },
   "Human War Banner": { width: 1, height: 2 },
@@ -1156,6 +1173,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Obie: { width: 1, height: 1 },
   Maximus: { width: 2, height: 2 },
   Hoot: { width: 1, height: 1 },
+  "Freya Fox": { width: 1, height: 1 },
+  Poppy: { width: 1, height: 1 },
+  "Grain Grinder": { width: 2, height: 1 },
+  Kernaldo: { width: 1, height: 1 },
 
   // AoE items
   "Emerald Turtle": { height: 1, width: 1 },
@@ -1165,6 +1186,12 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Sir Goldensnout": { width: 2, height: 2 },
   "Scary Mike": { width: 1, height: 2 },
   "Laurie the Chuckle Crow": { width: 1, height: 2 },
+  "Queen Cornelia": { width: 1, height: 2 },
+
+  // Potion House Items
+  "Lab Grown Carrot": { width: 1, height: 1 },
+  "Lab Grown Radish": { width: 1, height: 1 },
+  "Lab Grown Pumpkin": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

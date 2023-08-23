@@ -15,13 +15,11 @@ import { IslandTravel } from "features/game/expansion/components/travel/IslandTr
 
 // random seal spawn spots
 import { randomInt } from "lib/utils/random";
-import { LostSeal } from "features/community/seal/Seal";
 import { Hud } from "features/island/hud/Hud";
 import { GarbageCollector } from "./components/garbageCollector/GarbageCollector";
-import { SeasonalNPC } from "./components/seasonalNPC/SeasonalNPC";
-import { CommunityGardenEntry } from "./components/CommunityGardenEntry";
 import { HeliosAuction } from "./components/heliosAuction/HeliosAuction";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
+import { HayseedHank } from "./components/hayseedHank/HayseedHankPlaza";
 
 const spawn = [
   [30, 15],
@@ -73,10 +71,7 @@ export const Helios: React.FC = () => {
         <ExoticShop />
         <HeliosSunflower />
         <LostSunflorian />
-        <SeasonalNPC />
-        <CommunityGardenEntry />
         <HeliosAuction />
-        <LostSeal left={sealSpawn[0]} top={sealSpawn[1]} />
         <IslandTravel
           bumpkin={bumpkin}
           inventory={gameState.context.state.inventory}
@@ -85,6 +80,7 @@ export const Helios: React.FC = () => {
           onTravelDialogOpened={() => gameService.send("SAVE")}
           travelAllowed={!autosaving}
         />
+        {gameState.context.state.hayseedHank && <HayseedHank />}
       </div>
       <Hud isFarming={false} />
       <AuctionCountdown />

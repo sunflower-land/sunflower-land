@@ -18,7 +18,6 @@ import {
 } from "features/game/types/craftables";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { ANIMAL_DIMENSIONS } from "features/game/types/craftables";
-import { ToastContext } from "features/game/toast/ToastProvider";
 
 export const PlaceableController: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -40,8 +39,6 @@ export const PlaceableController: React.FC = () => {
   ] = useActor(child);
 
   const [gameState] = useActor(gameService);
-
-  const { setBalance, setInventory } = useContext(ToastContext);
 
   if (!placeable) {
     return null;

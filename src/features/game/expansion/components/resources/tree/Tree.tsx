@@ -30,8 +30,7 @@ const tool = "Axe";
 
 const HasTool = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
-  collectibles: Collectibles,
-  selectedItem?: string
+  collectibles: Collectibles
 ) => {
   const axesNeeded = getRequiredAxeAmount(inventory, collectibles);
 
@@ -39,9 +38,7 @@ const HasTool = (
 
   if (axesNeeded.lte(0)) return true;
 
-  return (
-    selectedItem === tool && (inventory[tool] ?? new Decimal(0)).gte(axesNeeded)
-  );
+  return (inventory[tool] ?? new Decimal(0)).gte(axesNeeded);
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
@@ -60,7 +57,7 @@ interface Props {
 }
 
 export const Tree: React.FC<Props> = ({ id }) => {
-  const { gameService, selectedItem } = useContext(Context);
+  const { gameService, shortcutItem } = useContext(Context);
 
   const [touchCount, setTouchCount] = useState(0);
   const [reward, setReward] = useState<Reward>();
@@ -98,12 +95,11 @@ export const Tree: React.FC<Props> = ({ id }) => {
     gameService,
     selectInventory,
     (prev, next) =>
-      HasTool(prev, collectibles, selectedItem) ===
-        HasTool(next, collectibles, selectedItem) &&
+      HasTool(prev, collectibles) === HasTool(next, collectibles) &&
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0))
   );
 
-  const hasTool = HasTool(inventory, collectibles, selectedItem);
+  const hasTool = HasTool(inventory, collectibles);
   const timeLeft = getTimeLeft(resource.wood.choppedAt, TREE_RECOVERY_TIME);
   const chopped = !canChop(resource);
 
@@ -113,6 +109,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
     if (!hasTool) return;
 
     setTouchCount((count) => count + 1);
+    if (!isCollectibleBuilt("Foreman Beaver", collectibles)) shortcutItem(tool);
 
     // need to hit enough times to collect resource
     if (touchCount < HITS - 1) return;
@@ -139,7 +136,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
   const chop = async () => {
     const newState = gameService.send("timber.chopped", {
       index: id,
-      item: selectedItem,
+      item: "Axe",
     });
 
     if (!newState.matches("hoarding")) {

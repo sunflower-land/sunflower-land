@@ -1,11 +1,11 @@
 import { GameState } from "features/game/types/game";
+import { SEASONS } from "features/game/types/seasons";
 import { CONFIG } from "lib/config";
 
 const defaultFeatureFlag = (inventory: GameState["inventory"]) =>
   CONFIG.NETWORK === "mumbai" || !!inventory["Beta Pass"]?.gt(0);
 
-const testnetFeatureFlag = (inventory: GameState["inventory"]) =>
-  CONFIG.NETWORK === "mumbai";
+const testnetFeatureFlag = () => CONFIG.NETWORK === "mumbai";
 /*
  * How to Use:
  * Add the feature name to this list when working on a new feature.
@@ -16,25 +16,35 @@ const testnetFeatureFlag = (inventory: GameState["inventory"]) =>
 type FeatureName =
   | "JEST_TEST"
   | "PUMPKIN_PLAZA"
-  | "AUCTION"
-  | "SCARY_MIKE"
-  | "OKX_WALLET"
   | "POTION_HOUSE"
-  | "LAURIE";
+  | "NEW_DELIVERIES"
+  | "CORN_MAZE";
 
 type FeatureFlag = (inventory: GameState["inventory"]) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
-  AUCTION: () => true, // TEMP FOR TESTING defaultFeatureFlag,
-  OKX_WALLET: testnetFeatureFlag,
-  POTION_HOUSE: testnetFeatureFlag,
-  SCARY_MIKE: defaultFeatureFlag,
-  LAURIE: defaultFeatureFlag,
+  POTION_HOUSE: defaultFeatureFlag,
+  NEW_DELIVERIES: testnetFeatureFlag,
+  CORN_MAZE: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (
   inventory: GameState["inventory"],
   featureName: FeatureName
-) => featureFlags[featureName](inventory);
+) => {
+  const isWitchesEve = Date.now() > SEASONS["Witches' Eve"].startDate.getTime();
+  if (featureName === "NEW_DELIVERIES" && isWitchesEve) {
+    return true;
+  }
+
+  if (featureName === "PUMPKIN_PLAZA" && isWitchesEve) {
+    return true;
+  }
+
+  if (featureName === "CORN_MAZE" && isWitchesEve) {
+    return true;
+  }
+  return featureFlags[featureName](inventory);
+};

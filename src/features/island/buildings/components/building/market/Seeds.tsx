@@ -140,7 +140,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const harvestCount = getHarvestCount();
-  const seeds = getKeys(SEEDS());
+  const seeds = getKeys(SEEDS()).filter((seed) => !SEEDS()[seed].disabled);
 
   return (
     <SplitScreenView

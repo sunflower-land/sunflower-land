@@ -1,12 +1,8 @@
-import React, { useContext } from "react";
-import { useActor, useMachine } from "@xstate/react";
+import React from "react";
 import { Modal } from "react-bootstrap";
 
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
-import * as AuthProvider from "features/auth/lib/Provider";
-import { Context } from "features/community/lib/CommunityProvider";
-import { frogMachine } from "./lib/frogMachine";
 
 // images
 import seal_unrevealed from "features/community/assets/seals/seal_unrevealed.gif";
@@ -21,13 +17,6 @@ interface Props {
 }
 
 export const MerchantModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
-  const { communityService } = useContext(Context);
-  const [communityState] = useActor(communityService);
-  const [machine, send] = useMachine(frogMachine);
-  const { state, errorCode } = machine.context;
-
   // links
   const openseaLink =
     CONFIG.NETWORK == "mainnet"

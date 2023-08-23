@@ -1,17 +1,18 @@
-import { RoomId } from "../roomMachine";
+import timmyHomeJSON from "assets/map/timmy_home.json";
+
+import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
 const BUMPKINS: NPCBumpkin[] = [];
 
 export class TimmyHomeScene extends BaseScene {
-  roomId: RoomId = "timmy_home";
+  sceneId: SceneId = "timmy_home";
 
   constructor() {
-    super("timmy_home");
+    super({ name: "timmy_home", map: { json: timmyHomeJSON } });
   }
 
   async create() {
-    console.log("Create decoration shop");
     this.map = this.make.tilemap({
       key: "timmy-home",
     });

@@ -1,6 +1,6 @@
 import React from "react";
 
-import ayamCemani from "assets/sfts/ayam_cemani.gif";
+import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const AyamCemani: React.FC = () => {

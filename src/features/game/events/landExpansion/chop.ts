@@ -96,10 +96,6 @@ export function chop({
 
   const requiredAxes = getRequiredAxeAmount(state.inventory, collectibles);
 
-  if (action.item !== "Axe" && requiredAxes.gt(0)) {
-    throw new Error(CHOP_ERRORS.MISSING_AXE);
-  }
-
   const axeAmount = inventory.Axe || new Decimal(0);
   if (axeAmount.lessThan(requiredAxes)) {
     throw new Error(CHOP_ERRORS.NO_AXES);

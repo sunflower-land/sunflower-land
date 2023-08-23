@@ -126,7 +126,7 @@ export const AuctioneerContent: React.FC<Props> = ({
     return (
       <Loser
         farmId={authState.context.user.farmId ?? 0}
-        auctionService={auctionService}
+        onRefund={() => auctionService.send("REFUND")}
         results={auctioneerState.context.results as AuctionResults}
       />
     );
@@ -145,7 +145,6 @@ export const AuctioneerContent: React.FC<Props> = ({
         bid={auctioneerState.context.bid as Bid}
         farmId={authState.context.user.farmId ?? 0}
         results={auctioneerState.context.results as AuctionResults}
-        auction={auction}
       />
     );
   }

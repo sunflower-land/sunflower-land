@@ -4,6 +4,7 @@ export type NPCName =
   | "betty"
   | "bruce"
   | "hank"
+  | "jake"
   | "blacksmith"
   | "grimbly"
   | "grimtooth"
@@ -14,25 +15,64 @@ export type NPCName =
   | "adam"
   | "buttons"
   | "timmy"
-  | "lily"
   | "misty marvel"
   | "igor"
-  | "hammerin' harry"
+  | "hammerin harry"
   | "frankie"
   | "stella"
   | "gabi"
   | "tywin"
-  | "pumpkin'pete"
+  | "pumpkin' pete"
   | "gordy" // TO ADD
   | "bert"
   | "craig"
   | "raven" // TO ADD
   | "birdie"
   | "old salty"
-  | "cornwell";
+  | "cornwell"
+  | "wanderleaf"
+  | "otis"
+  | "dreadhorn"
+  | "luna"
+  | "billy"
+  | "phantom face"
+  | "farmer flesh"
+  | "boneyard betty"
+  | "eins"
+  | "garth";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  wanderleaf: {
+    background: "Farm Background",
+    body: "Beige Farmer Potion",
+    hair: "Sun Spots",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+    pants: "Traveller's Pants",
+    shirt: "Traveller's Shirt",
+    wings: "Traveller's Backpack",
+  },
+  dreadhorn: {
+    background: "Farm Background",
+    body: "Beige Farmer Potion",
+    hair: "Sun Spots",
+    hat: "Cattlegrim",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+    pants: "Traveller's Pants",
+    shirt: "Traveller's Shirt",
+    suit: "Ox Costume",
+  },
+  jake: {
+    body: "Beige Farmer Potion",
+    hair: "Basic Hair",
+    pants: "Farmer Overalls",
+    shirt: "Red Farmer Shirt",
+    tool: "Farmer Pitchfork",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+  },
   betty: {
     body: "Beige Farmer Potion",
     hair: "Rancher Hair",
@@ -61,6 +101,15 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     shoes: "Black Farmer Boots",
   },
+  otis: {
+    body: "Beige Farmer Potion",
+    shirt: "Red Farmer Shirt",
+    pants: "Brown Suspenders",
+    hair: "Sun Spots",
+    tool: "Farmer Pitchfork",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+  },
   hank: {
     body: "Light Brown Farmer Potion",
     shirt: "Red Farmer Shirt",
@@ -68,7 +117,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     hair: "Sun Spots",
     tool: "Farmer Pitchfork",
     background: "Farm Background",
-    shoes: "Black Farmer Boots",
+    shoes: "Old Shoes",
   },
   grimbly: {
     body: "Goblin Potion",
@@ -148,18 +197,8 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Yellow Boots",
     tool: "Goblin Puppet",
   },
-  // Curious young girl - loves goblins
-  lily: {
-    body: "Light Brown Farmer Potion",
-    background: "Cemetery Background",
-    hair: "Brown Long Hair",
-    shirt: "Striped Yellow Shirt",
-    pants: "Farmer Overalls",
-    shoes: "Yellow Boots",
-    tool: "Bumpkin Puppet",
-  },
   // Auctioneer who collects rare items and sells them off
-  "hammerin' harry": {
+  "hammerin harry": {
     body: "Beige Farmer Potion",
     background: "Dawn Breaker Background",
     hair: "Tangerine Hair",
@@ -199,10 +238,11 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Dawn Lamp",
   },
   // Local farmer in Plaza
-  "pumpkin'pete": {
+  "pumpkin' pete": {
     body: "Light Brown Farmer Potion",
     background: "Farm Background",
     hair: "Explorer Hair",
+    hat: "Pumpkin Hat",
     shirt: "Yellow Farmer Shirt",
     pants: "Lumberjack Overalls",
     shoes: "Black Farmer Boots",
@@ -212,21 +252,23 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   bert: {
     body: "Beige Farmer Potion",
     background: "Farm Background",
-    hair: "Buzz Cut",
-    shirt: "Mushroom Sweater",
-    pants: "Mushroom Pants",
-    shoes: "Black Farmer Boots",
+    hair: "Greyed Glory",
+    shirt: "Tattered Jacket",
+    pants: "Tattered Slacks",
+    shoes: "Old Shoes",
     tool: "Farmer Pitchfork",
   },
   // Announces news
   birdie: {
-    body: "Light Brown Farmer Potion",
+    body: "Beige Farmer Potion",
     background: "Farm Background",
-    hair: "Rancher Hair",
-    shirt: "Blue Farmer Shirt",
-    pants: "Lumberjack Overalls",
+    hair: "Brown Long Hair",
+    shirt: "Witches' Eve Tee",
+    pants: "Peasant Skirt",
     shoes: "Black Farmer Boots",
-    tool: "Farmer Pitchfork",
+    tool: "Auction Megaphone",
+    wings: "Crow Wings",
+    hat: "Boater Hat",
   },
   // Old loving grandma of the game
   buttons: {
@@ -243,11 +285,11 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   frankie: {
     body: "Dark Brown Farmer Potion",
     background: "Farm Background",
-    hair: "Luscious Hair",
-    shirt: "Pineapple Shirt",
-    pants: "Farmer Pants",
+    hair: "Ash Ponytail",
+    shirt: "Club Polo",
+    pants: "Brown Suspenders",
     shoes: "Black Farmer Boots",
-    tool: "Farmer Pitchfork",
+    tool: "Hammer",
   },
   // Chunky Bumpin
   gordy: {
@@ -269,23 +311,24 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     shoes: "Brown Boots",
   },
-  // Goth - TODO
   raven: {
-    body: "Light Brown Farmer Potion",
-    hair: "Blacksmith Hair",
-    pants: "Lumberjack Overalls",
-    shirt: "Blue Farmer Shirt",
-    tool: "Hammer",
+    body: "Pale Potion",
+    hair: "Goth Hair",
+    dress: "Gothic Twilight",
+    tool: "Dawn Lamp",
     background: "Farm Background",
     shoes: "Brown Boots",
+    wings: "Bat Wings",
+    hat: "Victorian Hat",
   },
   // Clothes shop stylist
   stella: {
     body: "Beige Farmer Potion",
-    hair: "Blondie",
-    pants: "Maiden Skirt",
-    shirt: "Maiden Top",
-    tool: "Hammer",
+    hair: "Pink Ponytail",
+    // hat: "Boater Hat",
+    pants: "Crimson Skirt",
+    shirt: "Chic Gala Blouse",
+    tool: "Merch Coffee Mug",
     background: "Farm Background",
     shoes: "Brown Boots",
   },
@@ -312,11 +355,107 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   cornwell: {
     body: "Beige Farmer Potion",
-    hair: "Sun Spots",
-    pants: "Blue Suspenders",
-    shirt: "Yellow Farmer Shirt",
-    tool: "Farmer Pitchfork",
+    hair: "Wise Hair",
+    beard: "Wise Beard",
+    pants: "Wise Slacks",
+    shirt: "Wise Robes",
+    tool: "Wise Staff",
+    secondaryTool: "Wise Book",
     background: "Farm Background",
     shoes: "Brown Boots",
   },
+  luna: {
+    body: "Light Brown Farmer Potion",
+    hair: "White Long Hair",
+    hat: "Luna's Hat",
+    dress: "Witching Wardrobe",
+    tool: "Witch's Broom",
+    background: "Cemetery Background",
+    shoes: "Brown Boots",
+  },
+  billy: {
+    body: "Beige Farmer Potion",
+    hair: "Basic Hair",
+    shirt: "Red Farmer Shirt",
+    pants: "Farmer Overalls",
+    tool: "Farmer Pitchfork",
+    background: "Cemetery Background",
+    shoes: "Brown Boots",
+  },
+  "phantom face": {
+    body: "Dark Brown Farmer Potion",
+    hair: "Buzz Cut",
+    hat: "Crumple Crown",
+    pants: "Farmer Overalls",
+    shirt: "Red Farmer Shirt",
+    suit: "Imp Costume",
+    tool: "Farmer Pitchfork",
+    shoes: "Black Farmer Boots",
+    background: "Cemetery Background",
+  },
+  "farmer flesh": {
+    body: "Infected Potion",
+    hair: "Sun Spots",
+    pants: "Farmer Overalls",
+    shirt: "Red Farmer Shirt",
+    tool: "Farmer Pitchfork",
+    shoes: "Black Farmer Boots",
+    background: "Cemetery Background",
+  },
+  "boneyard betty": {
+    body: "Infected Potion",
+    hair: "Rancher Hair",
+    pants: "Farmer Overalls",
+    shirt: "Red Farmer Shirt",
+    tool: "Parsnip",
+    shoes: "Black Farmer Boots",
+    background: "Cemetery Background",
+  },
+  eins: {
+    body: "Beige Farmer Potion",
+    hair: "Explorer Hair",
+    pants: "Farmer Overalls",
+    shirt: "SFL T-Shirt",
+    tool: "Hammer",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+  },
+  garth: {
+    body: "Infernal Goblin Potion",
+    hair: "Silver Streaks",
+    pants: "Brown Suspenders",
+    shirt: "Trial Tee",
+    tool: "Hammer",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+  },
 };
+
+type AcknowledgedNPCs = Partial<Record<NPCName, number>>;
+export function acknowedlgedNPCs(): AcknowledgedNPCs {
+  const item = localStorage.getItem("acknowledgedNPCs");
+
+  if (!item) {
+    return {};
+  }
+
+  return JSON.parse(item as any) as AcknowledgedNPCs;
+}
+
+export function acknowledgeNPC(npcName: NPCName) {
+  const previous = acknowedlgedNPCs();
+
+  localStorage.setItem(
+    "acknowledgedNPCs",
+    JSON.stringify({
+      ...previous,
+      [npcName]: Date.now().toString(),
+    })
+  );
+}
+
+export function isNPCAcknowledged(npcName: NPCName) {
+  const acknowledged = acknowedlgedNPCs();
+
+  return acknowledged[npcName] != null;
+}

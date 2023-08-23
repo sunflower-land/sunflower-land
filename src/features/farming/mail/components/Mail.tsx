@@ -13,10 +13,9 @@ import { getKeys } from "features/game/types/craftables";
 import chest from "assets/icons/chest.png";
 
 interface Props {
-  selected?: string;
   setSelected: (name?: string) => void;
 }
-export const Mail: React.FC<Props> = ({ selected, setSelected }) => {
+export const Mail: React.FC<Props> = ({ setSelected }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 

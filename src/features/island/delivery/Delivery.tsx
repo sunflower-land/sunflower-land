@@ -42,12 +42,14 @@ const Board: React.FC = () => {
             setShowModal(true);
           }}
         />
-        {hasNewOrders(delivery) && (
-          <img
-            src={SUNNYSIDE.icons.expression_alerted}
-            className="w-2.5 absolute top-3 right-3 pointer-events-none"
-          />
-        )}
+        {!!gameState.context.state.bumpkin?.experience &&
+          gameState.context.state.bumpkin?.experience > 5 &&
+          hasNewOrders(delivery) && (
+            <img
+              src={SUNNYSIDE.icons.expression_alerted}
+              className="w-2.5 absolute top-3 right-3 pointer-events-none"
+            />
+          )}
       </div>
 
       <DeliveryModal isOpen={showModal} onClose={() => setShowModal(false)} />

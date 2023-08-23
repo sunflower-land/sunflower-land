@@ -1,6 +1,6 @@
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
@@ -14,6 +14,8 @@ import heartBg from "assets/ui/heart_bg.png";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
 import {
+  BETA_DELIVERY_END_DATE,
+  DELIVERY_END_DATE,
   getDeliverySlots,
   getOrderSellPrice,
 } from "features/game/events/landExpansion/deliver";
@@ -24,23 +26,41 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC } from "features/island/bumpkin/components/NPC";
 
 import { NPC_WEARABLES } from "lib/npcs";
-import { secondsToString } from "lib/utils/time";
+import { getDayOfYear, secondsToString } from "lib/utils/time";
 import { acknowledgeOrders, generateDeliveryMessage } from "../lib/delivery";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
+import { hasFeatureAccess } from "lib/flags";
+import { MachineState } from "features/game/lib/gameMachine";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 
 interface Props {
   selectedId?: string;
   onSelect: (id?: string) => void;
 }
+
+const _delivery = (state: MachineState) => state.context.state.delivery;
+const _inventory = (state: MachineState) => state.context.state.inventory;
+const _balance = (state: MachineState) => state.context.state.balance;
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+
 export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
 
-  const delivery = gameState.context.state.delivery;
-  const orders = delivery.orders.filter((order) => Date.now() >= order.readyAt);
+  const delivery = useSelector(gameService, _delivery);
+  const inventory = useSelector(gameService, _inventory);
+  const balance = useSelector(gameService, _balance);
+  const bumpkin = useSelector(gameService, _bumpkin);
+
+  const [showSkipDialog, setShowSkipDialog] = useState(false);
+
+  const orders = delivery.orders
+    .filter((order) => Date.now() >= order.readyAt)
+    .sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1));
+
+  const skippedAt = delivery.skippedAt ?? 0;
 
   useEffect(() => {
     acknowledgeOrders(delivery);
@@ -52,52 +72,56 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     previewOrder = orders[0];
   }
 
+  const canSkip =
+    getDayOfYear(new Date()) !== getDayOfYear(new Date(previewOrder.createdAt));
+
   const deliver = () => {
     gameService.send("order.delivered", { id: previewOrder?.id });
     onSelect(undefined);
   };
 
+  const skip = () => {
+    setShowSkipDialog(false);
+    gameService.send("order.skipped", { id: previewOrder?.id });
+    gameService.send("SAVE");
+  };
+
   const hasRequirements = (order?: Order) => {
-    if (!order) {
-      return false;
-    }
+    if (!order) return false;
+
     return getKeys(order.items).every((name) => {
-      const count = gameState.context.state.inventory[name] || new Decimal(0);
       const amount = order.items[name] || new Decimal(0);
+
+      if (name === "sfl") return balance.gte(amount);
+
+      const count = inventory[name] || new Decimal(0);
 
       return count.gte(amount);
     });
   };
 
   const select = (id: string) => {
+    setShowSkipDialog(false);
     onSelect(id);
   };
 
   const nextOrder = delivery.orders.find((order) => order.readyAt > Date.now());
-
-  if (orders.length === 0 && !nextOrder) {
-    return (
-      <div className="flex items-center justify-center my-2">
-        <img src={SUNNYSIDE.icons.timer} className="h-6 mr-2" />
-        <span className="text-sm">More orders coming soon</span>
-      </div>
-    );
-  }
+  const skippedOrder = delivery.orders.find((order) => order.id === "skipping");
 
   const canFulfill = hasRequirements(previewOrder as Order);
 
-  const slots = getDeliverySlots(gameState.context.state);
+  const slots = getDeliverySlots(inventory);
   let emptySlots = slots - orders.length - (nextOrder ? 1 : 0);
   emptySlots = Math.max(0, emptySlots);
 
   return (
-    <div className="flex md:flex-row flex-col-reverse">
+    <div className="flex md:flex-row flex-col-reverse md:mr-1">
       <div
-        className={classNames("md:flex flex-col w-full  md:w-2/3", {
+        className={classNames("md:flex flex-col w-full md:w-2/3", {
           hidden: selectedId,
         })}
       >
-        <div className="flex flex-row w-full flex-wrap">
+        <div className="flex flex-row w-full flex-wrap max-h-80 scrollable overflow-y-auto">
           {orders.map((order) => (
             <div className="w-1/2 sm:w-1/3 p-1" key={order.id}>
               <OuterPanel
@@ -105,50 +129,72 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 className="w-full cursor-pointer hover:bg-brown-200 py-2 relative"
                 style={{ height: "80px" }}
               >
-                {hasRequirements(order) && (
+                {hasRequirements(order) && !order.completedAt && (
                   <img
                     src={SUNNYSIDE.icons.heart}
                     className="absolute top-0.5 right-0.5 w-5"
                   />
                 )}
 
+                {!!order.completedAt && (
+                  <img
+                    src={SUNNYSIDE.icons.confirm}
+                    className="absolute top-0.5 right-0.5 w-5"
+                  />
+                )}
+
                 <div className="flex">
                   <div className="relative bottom-4 h-14 w-12 mr-2 ml-0.5">
-                    <NPC parts={NPC_WEARABLES[order.from]} />
+                    <NPC parts={NPC_WEARABLES[order.from]} preventZoom={true} />
                   </div>
                   <div className="flex-1">
                     <div className="flex justify-start ml-2 h-8 items-center">
                       {getKeys(order.items).map((name) => (
                         <img
                           key={name}
-                          src={ITEM_DETAILS[name].image}
+                          src={name === "sfl" ? sfl : ITEM_DETAILS[name].image}
                           className="w-6 img-highlight -ml-2"
                         />
                       ))}
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex flex-col justify-center">
                       {order.reward.sfl && (
                         <div className="flex items-center mt-1">
                           <img src={sfl} className="h-5 mr-1" />
                           <span className="text-xs">
                             {getOrderSellPrice(
-                              gameState.context.state.bumpkin as Bumpkin,
+                              bumpkin as Bumpkin,
                               order
                             ).toFixed(2)}
                           </span>
                         </div>
                       )}
-                      {/* {getKeys(order.reward.items ?? {}).map((name) => (
-                        <div className="flex items-center mt-1" key={name}>
+                      {/* {order.reward.items &&
+                        getKeys(order.reward.items ?? {}).map((name) => (
+                          <div className="flex items-center mt-1" key={name}>
+                            <img
+                              src={ITEM_DETAILS[name].image}
+                              className="h-5 mr-1"
+                            />
+                            <span className="text-xs">
+                              {order.reward.items?.[name]}
+                            </span>
+                          </div>
+                        ))} */}
+                      {order.reward.tickets && (
+                        <div
+                          className="flex items-center mt-1"
+                          key={getSeasonalTicket()}
+                        >
                           <img
-                            src={ITEM_DETAILS[name].image}
+                            src={ITEM_DETAILS[getSeasonalTicket()].image}
                             className="h-5 mr-1"
                           />
                           <span className="text-xs">
-                            {order.reward.items?.[name]}
+                            {order.reward.tickets}
                           </span>
                         </div>
-                      ))} */}
+                      )}
                     </div>
                   </div>
                 </div>
@@ -196,8 +242,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               </OuterPanel>
             </div>
           ))}
-
-          {nextOrder && (
+          {nextOrder && !skippedOrder && (
             <div className="w-1/2 sm:w-1/3 p-1">
               <OuterPanel
                 className="w-full py-2 relative"
@@ -215,54 +260,62 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               </OuterPanel>
             </div>
           )}
-          {new Array(emptySlots).fill(null).map((_, i) => (
-            <div className="w-1/2 sm:w-1/3 p-1" key={i}>
+          {skippedOrder && (
+            <div className="w-1/2 sm:w-1/3 p-1">
               <OuterPanel
                 className="w-full py-2 relative"
                 style={{ height: "80px" }}
-              ></OuterPanel>
-            </div>
-          ))}
-        </div>
-        <div className="px-1 mb-1 flex-1 flex items-end">
-          <div>
-            <div className="flex">
-              <a
-                href="https://docs.sunflower-land.com/player-guides/seasons#seasonal-tickets"
-                target="_blank"
-                className="text-xxs underline hover:text-blue-500"
-                rel="noreferrer"
               >
-                Bonus Offer
-              </a>
-              <img src={SUNNYSIDE.icons.timer} className="h-4 ml-2" />
-              {/* TEMP */}
-              {Date.now() < new Date("2023-05-03T00:00:00").getTime() && (
-                <img
-                  src={ITEM_DETAILS[getSeasonalTicket()].image}
-                  className="h-4 ml-1"
-                />
-              )}
+                <p className="text-center mb-0.5 mt-1 text-sm loading">
+                  Skipping
+                </p>
+              </OuterPanel>
             </div>
-            <div className="flex items-center">
-              <p className="text-xxs">
-                Earn 5 Seasonal Tickets for each order.
-              </p>
+          )}
+          {((!!inventory["Beta Pass"] &&
+            Date.now() >
+              BETA_DELIVERY_END_DATE.getTime() - 24 * 60 * 60 * 1000) ||
+            Date.now() > DELIVERY_END_DATE.getTime() - 24 * 60 * 60 * 1000) && (
+            <div className="flex items-center mb-1 mt-2">
+              <div className="w-6">
+                <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
+              </div>
+              <span className="text-xs">{`New deliveries available in ${secondsToString(
+                secondsTillReset(),
+                { length: "medium" }
+              )}.`}</span>
             </div>
-          </div>
+          )}
         </div>
       </div>
       {previewOrder && (
         <OuterPanel
           className={classNames(
-            " md:flex md:flex-col items-center flex-1 relative",
+            "ml-1 md:flex md:flex-col items-center flex-1 relative",
             {
               hidden: !selectedId,
+              "mt-[24px] md:mt-0": hasFeatureAccess(
+                inventory,
+                "NEW_DELIVERIES"
+              ),
             }
           )}
         >
+          {hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
+            <img
+              src={SUNNYSIDE.icons.arrow_left}
+              className={classNames(
+                "absolute -top-9 left-0 h-6 w-6 cursor-pointer md:hidden z-10",
+                {
+                  hidden: !selectedId,
+                  block: !!selectedId,
+                }
+              )}
+              onClick={() => onSelect(undefined)}
+            />
+          )}
           <div
-            className="mb-1 mx-auto w-full col-start-1 row-start-1 overflow-hidden z-0  rounded-lg relative"
+            className="mb-1 mx-auto w-full col-start-1 row-start-1 overflow-hidden z-0 rounded-lg relative"
             style={{
               height: `${PIXEL_SCALE * 50}px`,
               background:
@@ -288,29 +341,102 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               />
             </div>
           </div>
-          <div className="flex-1 p-1">
-            <p className="text-xs mb-2" style={{ height: "60px" }}>
-              {generateDeliveryMessage({
-                from: previewOrder?.from,
-                id: previewOrder.id,
-              })}
-            </p>
-            {getKeys(previewOrder.items).map((itemName) => (
-              <RequirementLabel
-                key={itemName}
-                type="item"
-                item={itemName}
-                balance={
-                  gameState.context.state.inventory[itemName] ?? new Decimal(0)
-                }
-                showLabel
-                requirement={new Decimal(previewOrder?.items[itemName] ?? 0)}
-              />
-            ))}
-          </div>
-          <Button disabled={!canFulfill} onClick={deliver}>
-            Deliver
-          </Button>
+          {showSkipDialog && (
+            <>
+              <div className="flex-1 space-y-2 p-1">
+                <p className="text-xs">
+                  {"You're only able to skip an order after 24 hours!"}
+                </p>
+                {canSkip && <p className="text-xs">Choose wisely!</p>}
+                {!canSkip && (
+                  <>
+                    <p className="text-xs">Skip in:</p>
+                    <div className="flex-1">
+                      <RequirementLabel
+                        type="time"
+                        waitSeconds={secondsTillReset()}
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+              {canSkip && (
+                <>
+                  <Button onClick={() => setShowSkipDialog(false)}>
+                    Not Right Now
+                  </Button>
+                  <Button onClick={skip} className="mt-1">
+                    Skip Order
+                  </Button>
+                </>
+              )}
+              {!canSkip && (
+                <Button onClick={() => setShowSkipDialog(false)}>Back</Button>
+              )}
+            </>
+          )}
+          {!showSkipDialog && (
+            <div className="flex-1 space-y-2 p-1">
+              <div className="text-xs space-y-2">
+                <p>
+                  {generateDeliveryMessage({
+                    from: previewOrder?.from,
+                    id: previewOrder.id,
+                  })}
+                </p>
+                {hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
+                  <p>{`I'll be waiting for you in the Plaza.`}</p>
+                )}
+              </div>
+              <div className="pt-1 pb-2">
+                {getKeys(previewOrder.items).map((itemName) => {
+                  if (itemName === "sfl") {
+                    return (
+                      <RequirementLabel
+                        type="sfl"
+                        balance={balance}
+                        requirement={
+                          new Decimal(previewOrder?.items[itemName] ?? 0)
+                        }
+                        showLabel
+                      />
+                    );
+                  }
+
+                  return (
+                    <RequirementLabel
+                      key={itemName}
+                      type="item"
+                      item={itemName}
+                      balance={inventory[itemName] ?? new Decimal(0)}
+                      showLabel
+                      requirement={
+                        new Decimal(previewOrder?.items[itemName] ?? 0)
+                      }
+                    />
+                  );
+                })}
+              </div>
+              {previewOrder.completedAt ? (
+                <div className="flex">
+                  <img src={SUNNYSIDE.icons.confirm} className="mr-2 h-4" />
+                  <p className="text-xxs">Completed</p>
+                </div>
+              ) : (
+                <p
+                  className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
+                  onClick={() => setShowSkipDialog(true)}
+                >
+                  Skip order?
+                </p>
+              )}
+            </div>
+          )}
+          {!hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
+            <Button disabled={!canFulfill} onClick={deliver}>
+              Deliver
+            </Button>
+          )}
         </OuterPanel>
       )}
     </div>

@@ -3,7 +3,9 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "../lib/Provider";
 
-export const Web3Missing: React.FC<{ wallet?: "PHANTOM" }> = ({ wallet }) => {
+export const Web3Missing: React.FC<{ wallet?: "PHANTOM" | "CRYPTO_COM" }> = ({
+  wallet,
+}) => {
   const { authService } = useContext(Context);
 
   const goToMetamaskSetupDocs = () => {
@@ -17,8 +19,18 @@ export const Web3Missing: React.FC<{ wallet?: "PHANTOM" }> = ({ wallet }) => {
     window.open("https://phantom.app/", "_blank");
   };
 
-  const handleClick =
-    wallet === "PHANTOM" ? goToPhantomSetupDocs : goToMetamaskSetupDocs;
+  const goToCryptoComSetupDocs = () => {
+    window.open(
+      "https://chrome.google.com/webstore/detail/cryptocom-wallet-extensio/hifafgmccdpekplomjjkcfgodnhcellj",
+      "_blank"
+    );
+  };
+
+  const handleClick = () => {
+    if (wallet === "PHANTOM") return goToPhantomSetupDocs();
+    if (wallet === "CRYPTO_COM") return goToCryptoComSetupDocs();
+    return goToMetamaskSetupDocs();
+  };
 
   return (
     <>

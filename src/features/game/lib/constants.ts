@@ -57,6 +57,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     "Cauliflower Seed": new Decimal(80),
     "Parsnip Seed": new Decimal(60),
     "Eggplant Seed": new Decimal(50),
+    "Corn Seed": new Decimal(50),
     "Radish Seed": new Decimal(40),
     "Wheat Seed": new Decimal(40),
     "Kale Seed": new Decimal(30),
@@ -80,10 +81,10 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
       "Cauliflower Seed": new Decimal(96),
       "Parsnip Seed": new Decimal(72),
       "Eggplant Seed": new Decimal(60),
+      "Corn Seed": new Decimal(60),
       "Radish Seed": new Decimal(48),
       "Wheat Seed": new Decimal(48),
       "Kale Seed": new Decimal(36),
-
       "Apple Seed": new Decimal(12),
       "Orange Seed": new Decimal(16),
       "Blueberry Seed": new Decimal(20),
@@ -103,9 +104,6 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     Chicken: new Decimal(5),
 
     "Magic Bean": new Decimal(5),
-    "Shiny Bean": new Decimal(5),
-    "Golden Bean": new Decimal(5),
-
     "Immortal Pear": new Decimal(1),
   };
 };
@@ -121,6 +119,7 @@ export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
     "Cauliflower Seed": new Decimal(200),
     "Parsnip Seed": new Decimal(150),
     "Eggplant Seed": new Decimal(120),
+    "Corn Seed": new Decimal(120),
     "Radish Seed": new Decimal(100),
     "Wheat Seed": new Decimal(100),
     "Kale Seed": new Decimal(80),
@@ -144,6 +143,7 @@ export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
       "Cauliflower Seed": new Decimal(240),
       "Parsnip Seed": new Decimal(180),
       "Eggplant Seed": new Decimal(144),
+      "Corn Seed": new Decimal(144),
       "Radish Seed": new Decimal(120),
       "Wheat Seed": new Decimal(120),
       "Kale Seed": new Decimal(96),
@@ -249,10 +249,12 @@ export const TEST_FARM: GameState = {
   stock: INITIAL_STOCK(),
   chickens: {},
   wardrobe: {},
+  createdAt: new Date().getTime(),
   conversations: [],
   mailbox: {
     read: [],
   },
+  trades: {},
   crops: {
     1: {
       height: 1,
@@ -327,6 +329,7 @@ export const TEST_FARM: GameState = {
       items: {
         "Rapid Growth": 5,
       },
+      wearables: {},
       sfl: 3,
       message: "You are a legend!",
     },
@@ -424,6 +427,7 @@ export const TEST_FARM: GameState = {
 
 export const EMPTY: GameState = {
   balance: new Decimal(fromWei("0")),
+  createdAt: new Date().getTime(),
   inventory: {
     "Chicken Coop": new Decimal(1),
     Wood: new Decimal(50),
@@ -465,7 +469,7 @@ export const EMPTY: GameState = {
       description: "Harvest 10 Sunflowers",
     },
   },
-
+  trades: {},
   fruitPatches: {},
   gold: {},
   iron: {},

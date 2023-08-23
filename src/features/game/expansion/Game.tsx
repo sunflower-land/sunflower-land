@@ -8,7 +8,6 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { Loading } from "features/auth/components";
 import { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
-import { screenTracker } from "lib/utils/screen";
 import { Refreshing } from "features/auth/components/Refreshing";
 import { AddingSFL } from "features/auth/components/AddingSFL";
 import { Context } from "../GameProvider";
@@ -44,11 +43,15 @@ import { StoneHaven } from "features/pumpkinPlaza/StoneHaven";
 import { WalletOnboarding } from "features/tutorials/wallet/WalletOnboarding";
 import { Introduction } from "./components/Introduction";
 import { NoTownCenter } from "../components/NoTownCenter";
-import { Promoting } from "./components/Promoting";
+import { SpecialOffer } from "./components/SpecialOffer";
 import { Purchasing } from "../components/Purchasing";
-import { DawnBreaker } from "features/dawnBreaker/DawnBreaker";
 import { Transacting } from "../components/Transacting";
 import { Minting } from "../components/Minting";
+import { ClaimAuction } from "../components/auctionResults/ClaimAuction";
+import { RefundAuction } from "../components/auctionResults/RefundAuction";
+import { Promo } from "./components/Promo";
+import { Traded } from "../components/Traded";
+import { Sniped } from "../components/Sniped";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -78,17 +81,28 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   revealing: false,
   revealed: false,
   genieRevealed: false,
+  beanRevealed: false,
   buyingSFL: true,
   depositing: true,
   upgradingGuestGame: false,
   introduction: false,
-  promoting: false,
+  specialOffer: false,
   transacting: true,
   minting: true,
+  auctionResults: false,
+  claimAuction: false,
+  refundAuction: false,
+  promo: true,
+  trading: true,
+  sniped: true,
+  traded: true,
 };
 
 // State change selectors
 const isLoading = (state: MachineState) => state.matches("loading");
+const isTrading = (state: MachineState) => state.matches("trading");
+const isTraded = (state: MachineState) => state.matches("traded");
+const isSniped = (state: MachineState) => state.matches("sniped");
 const isRefreshing = (state: MachineState) => state.matches("refreshing");
 const isBuyingSFL = (state: MachineState) => state.matches("buyingSFL");
 const isDeposited = (state: MachineState) => state.matches("deposited");
@@ -121,84 +135,17 @@ const getActions = (state: MachineState) => state.context.actions;
 const isUpgradingGuestGame = (state: MachineState) =>
   state.matches("upgradingGuestGame");
 const isTransacting = (state: MachineState) => state.matches("transacting");
+const isClaimAuction = (state: MachineState) => state.matches("claimAuction");
+const isRefundingAuction = (state: MachineState) =>
+  state.matches("refundAuction");
+const isPromoing = (state: MachineState) => state.matches("promo");
+
 export const Game: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
 
-  const loading = useSelector(gameService, isLoading);
-  const refreshing = useSelector(gameService, isRefreshing);
-  const buyingSFL = useSelector(gameService, isBuyingSFL);
-  const deposited = useSelector(gameService, isDeposited);
-  const error = useSelector(gameService, isError);
-  const synced = useSelector(gameService, isSynced);
-  const syncing = useSelector(gameService, isSyncing);
-  const purchasing = useSelector(gameService, isPurchasing);
-  const hoarding = useSelector(gameService, isHoarding);
-  const swarming = useSelector(gameService, isSwarming);
-  const noBumpkinFound = useSelector(gameService, isNoBumpkinFound);
-  const noTownCenter = useSelector(gameService, isNoTownCenter);
-  const coolingDown = useSelector(gameService, isCoolingDown);
-  const gameRules = useSelector(gameService, isGameRules);
-  const depositing = useSelector(gameService, isDepositing);
   const visiting = useSelector(gameService, isVisiting);
-  const loadingLandToVisit = useSelector(gameService, isLoadingLandToVisit);
-  const loadingSession = useSelector(gameService, isLoadingSession);
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const level = useSelector(gameService, bumpkinLevel);
-  const state = useSelector(gameService, currentState);
-  const errorCode = useSelector(gameService, getErrorCode);
-  const actions = useSelector(gameService, getActions);
-  const upgradingGuestGame = useSelector(gameService, isUpgradingGuestGame);
-  const transacting = useSelector(gameService, isTransacting);
-  const minting = useSelector(gameService, isMinting);
-
-  useInterval(() => {
-    gameService.send("SAVE");
-  }, AUTO_SAVE_INTERVAL);
-
-  useEffect(() => {
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (actions.length === 0) return;
-
-      event.preventDefault();
-      event.returnValue = "";
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    // cleanup on every gameState update
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [actions]);
-
-  useEffect(() => {
-    const save = () => {
-      gameService.send("SAVE");
-    };
-
-    window.addEventListener("blur", save);
-
-    screenTracker.start(authService);
-
-    // cleanup on every gameState update
-    return () => {
-      window.removeEventListener("blur", save);
-      screenTracker.pause();
-    };
-  }, []);
-
-  if (loadingSession || loadingLandToVisit) {
-    return (
-      <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
-        <Modal show centered backdrop={false}>
-          <Panel>
-            <Loading />
-          </Panel>
-        </Modal>
-      </div>
-    );
-  }
 
   const GameContent = () => {
     if (landToVisitNotFound) {
@@ -257,10 +204,6 @@ export const Game: React.FC = () => {
             <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
             <Route path="/beach" element={<BeachParty key="beach-party" />} />
             <Route
-              path="/dawn-breaker"
-              element={<DawnBreaker key="dawn-breaker" />}
-            />
-            <Route
               path="/headquarters"
               element={<HeadQuarters key="headquarters" />}
             />
@@ -289,6 +232,92 @@ export const Game: React.FC = () => {
     );
   };
 
+  return <GameWrapper>{GameContent()}</GameWrapper>;
+};
+
+export const GameWrapper: React.FC = ({ children }) => {
+  const { authService } = useContext(AuthProvider.Context);
+  const { gameService } = useContext(Context);
+
+  const loading = useSelector(gameService, isLoading);
+  const trading = useSelector(gameService, isTrading);
+  const traded = useSelector(gameService, isTraded);
+  const sniped = useSelector(gameService, isSniped);
+  const refreshing = useSelector(gameService, isRefreshing);
+  const buyingSFL = useSelector(gameService, isBuyingSFL);
+  const deposited = useSelector(gameService, isDeposited);
+  const error = useSelector(gameService, isError);
+  const synced = useSelector(gameService, isSynced);
+  const syncing = useSelector(gameService, isSyncing);
+  const purchasing = useSelector(gameService, isPurchasing);
+  const hoarding = useSelector(gameService, isHoarding);
+  const swarming = useSelector(gameService, isSwarming);
+  const noBumpkinFound = useSelector(gameService, isNoBumpkinFound);
+  const noTownCenter = useSelector(gameService, isNoTownCenter);
+  const coolingDown = useSelector(gameService, isCoolingDown);
+  const gameRules = useSelector(gameService, isGameRules);
+  const depositing = useSelector(gameService, isDepositing);
+  const loadingLandToVisit = useSelector(gameService, isLoadingLandToVisit);
+  const loadingSession = useSelector(gameService, isLoadingSession);
+  const state = useSelector(gameService, currentState);
+  const errorCode = useSelector(gameService, getErrorCode);
+  const actions = useSelector(gameService, getActions);
+  const upgradingGuestGame = useSelector(gameService, isUpgradingGuestGame);
+  const transacting = useSelector(gameService, isTransacting);
+  const minting = useSelector(gameService, isMinting);
+  const claimingAuction = useSelector(gameService, isClaimAuction);
+  const refundAuction = useSelector(gameService, isRefundingAuction);
+  const promo = useSelector(gameService, isPromoing);
+
+  useInterval(() => {
+    gameService.send("SAVE");
+  }, AUTO_SAVE_INTERVAL);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (actions.length === 0) return;
+
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // cleanup on every gameState update
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [actions]);
+
+  useEffect(() => {
+    const save = () => {
+      gameService.send("SAVE");
+    };
+
+    window.addEventListener("blur", save);
+
+    // cleanup on every gameState update
+    return () => {
+      window.removeEventListener("blur", save);
+
+      // Do a final save
+      save();
+    };
+  }, []);
+
+  if (loadingSession || loadingLandToVisit) {
+    console.log("Inner loading");
+    return (
+      <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
+        <Modal show centered backdrop={false}>
+          <Panel>
+            <Loading />
+          </Panel>
+        </Modal>
+      </div>
+    );
+  }
+
   return (
     <ToastProvider>
       <ToastPanel />
@@ -311,15 +340,22 @@ export const Game: React.FC = () => {
           {gameRules && <Rules />}
           {transacting && <Transacting />}
           {depositing && <Loading text="Depositing" />}
+          {trading && <Loading text="Trading" />}
+          {traded && <Traded />}
+          {sniped && <Sniped />}
           {minting && <Minting />}
+          {promo && <Promo />}
         </Panel>
       </Modal>
 
       {upgradingGuestGame && <WalletOnboarding />}
-      <Promoting />
+      {claimingAuction && <ClaimAuction />}
+      {refundAuction && <RefundAuction />}
+
+      <SpecialOffer />
       <Introduction />
 
-      {GameContent()}
+      {children}
     </ToastProvider>
   );
 };

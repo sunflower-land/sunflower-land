@@ -21,6 +21,12 @@ import { setPrecision } from "lib/utils/formatNumber";
 import { SEEDS } from "features/game/types/seeds";
 import { BuildingName } from "features/game/types/buildings";
 import { isWithinAOE } from "features/game/expansion/placeable/lib/collisionDetection";
+import {
+  isBasicCrop,
+  isMediumCrop,
+  isAdvancedCrop,
+  isOvernightCrop,
+} from "./harvest";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -134,11 +140,13 @@ export const getCropTime = (
     seconds = seconds * 0.75;
   }
 
-  const isBasicCrop =
-    crop === "Sunflower" || crop === "Potato" || crop === "Pumpkin";
+  // If Kernaldo: 25% reduction
+  if (crop === "Corn" && isCollectibleBuilt("Kernaldo", collectibles)) {
+    seconds = seconds * 0.75;
+  }
 
   // If within Basic Scarecrow AOE: 20% reduction
-  if (collectibles["Basic Scarecrow"]?.[0] && isBasicCrop) {
+  if (collectibles["Basic Scarecrow"]?.[0] && isBasicCrop(crop)) {
     if (!plot) return seconds;
 
     const basicScarecrowCoordinates =
@@ -273,14 +281,7 @@ export function getCropYieldAmount({
     amount *= 1.1;
   }
 
-  const isMediumLevelCrop =
-    crop === "Carrot" ||
-    crop === "Cabbage" ||
-    crop === "Beetroot" ||
-    crop === "Cauliflower" ||
-    crop === "Parsnip";
-
-  if (collectibles["Scary Mike"]?.[0] && isMediumLevelCrop && plot) {
+  if (collectibles["Scary Mike"]?.[0] && isMediumCrop(crop) && plot) {
     const scarecrowCoordinates = collectibles["Scary Mike"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Scary Mike"];
 
@@ -323,26 +324,17 @@ export function getCropYieldAmount({
     }
   }
 
-  const isOvernightCrop =
-    crop === "Radish" || crop === "Wheat" || crop === "Kale";
-
   if (
-    isOvernightCrop &&
+    isOvernightCrop(crop) &&
     collectibles["Hoot"] &&
     isCollectibleBuilt("Hoot", collectibles)
   ) {
     amount = amount + 0.5;
   }
 
-  const isAdvancedLevelCrop =
-    crop === "Eggplant" ||
-    crop === "Radish" ||
-    crop === "Wheat" ||
-    crop === "Kale";
-
   if (
     collectibles["Laurie the Chuckle Crow"]?.[0] &&
-    isAdvancedLevelCrop &&
+    isAdvancedCrop(crop) &&
     plot
   ) {
     const scarecrowCoordinates =
@@ -370,6 +362,66 @@ export function getCropYieldAmount({
     ) {
       amount = amount + 0.2;
     }
+  }
+
+  if (crop === "Corn" && collectibles["Queen Cornelia"]?.[0] && plot) {
+    const scarecrowCoordinates =
+      collectibles["Queen Cornelia"]?.[0].coordinates;
+    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Queen Cornelia"];
+
+    const scarecrowPosition: Position = {
+      x: scarecrowCoordinates.x,
+      y: scarecrowCoordinates.y,
+      height: scarecrowDimensions.height,
+      width: scarecrowDimensions.width,
+    };
+
+    const plotPosition: Position = {
+      x: plot?.x,
+      y: plot?.y,
+      height: plot.height,
+      width: plot.width,
+    };
+
+    if (
+      isCollectibleBuilt("Queen Cornelia", collectibles) &&
+      isWithinAOE("Queen Cornelia", scarecrowPosition, plotPosition)
+    ) {
+      amount = amount + 1;
+    }
+  }
+
+  if (crop === "Pumpkin" && isCollectibleBuilt("Freya Fox", collectibles)) {
+    amount += 0.5;
+  }
+
+  if (crop === "Corn" && isCollectibleBuilt("Poppy", collectibles)) {
+    amount += 0.1;
+  }
+
+  if (bumpkin.equipped.tool === "Infernal Pitchfork") {
+    amount += 3;
+  }
+
+  if (
+    crop === "Carrot" &&
+    isCollectibleBuilt("Lab Grown Carrot", collectibles)
+  ) {
+    amount += 0.2;
+  }
+
+  if (
+    crop === "Pumpkin" &&
+    isCollectibleBuilt("Lab Grown Pumpkin", collectibles)
+  ) {
+    amount += 0.3;
+  }
+
+  if (
+    crop === "Radish" &&
+    isCollectibleBuilt("Lab Grown Radish", collectibles)
+  ) {
+    amount += 0.4;
   }
 
   return Number(setPrecision(new Decimal(amount)));

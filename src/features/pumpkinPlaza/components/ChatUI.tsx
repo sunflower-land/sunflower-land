@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from "react";
-
-import { GameState } from "features/game/types/game";
+import stringSimilarity from "string-similarity";
 import { ReactionName } from "../lib/reactions";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { ChatText } from "./ChatText";
 import { Label } from "components/ui/Label";
+import { SceneId } from "features/world/mmoMachine";
 
+export type Message = {
+  farmId: number;
+  sessionId: string;
+  text: string;
+  sceneId: SceneId;
+  sentAt: number;
+};
 interface Props {
-  game: GameState;
-  messages: { sessionId: string; text: string }[];
+  farmId: number;
+  messages: Message[];
   onMessage: (content: { text?: string; reaction?: ReactionName }) => void;
-  onChatStarted: () => void;
-  onChatClose: () => void;
 }
 
-export const ChatUI: React.FC<Props> = ({
-  onMessage,
-  game,
-  messages,
-  onChatStarted,
-  onChatClose,
-}) => {
+export const ChatUI: React.FC<Props> = ({ farmId, onMessage, messages }) => {
   const [showChat, setShowChat] = useState(false);
+  const [cooldown, setCooldown] = useState<number>(0);
   const [messageCountOnChatClose, setMessageCountOnChatClose] = useState(0);
   const [newMessageCount, setNewMessageCount] = useState(0);
 
@@ -44,7 +44,31 @@ export const ChatUI: React.FC<Props> = ({
   const handleChatClose = () => {
     setShowChat(false);
     setMessageCountOnChatClose(messages.length);
-    onChatClose();
+  };
+
+  const sendMessage = (text: string) => {
+    const duplicates = messages.filter((message) => {
+      if (message.farmId !== farmId) {
+        return false;
+      }
+
+      // Longer than 1 minute ago
+      if (message.sentAt && message.sentAt < Date.now() - 60 * 1000) {
+        return false;
+      }
+
+      const similarity = stringSimilarity.compareTwoStrings(
+        message.text.toLowerCase(),
+        text.toLowerCase()
+      );
+
+      return similarity > 0.6;
+    });
+
+    if (duplicates.length >= 3) {
+      setCooldown(Date.now() + 90 * 1000);
+    }
+    onMessage({ text });
   };
 
   return (
@@ -58,9 +82,8 @@ export const ChatUI: React.FC<Props> = ({
       >
         <ChatText
           messages={messages}
-          onMessage={(text) => onMessage({ text })}
-          isChatOpen={showChat}
-          onChatStarted={onChatStarted}
+          onMessage={sendMessage}
+          cooledDownAt={cooldown}
         />
       </div>
       <div

@@ -75,6 +75,22 @@ export const AudioMenu: React.FC<Props> = ({
     cacheAudioSetting(AudioLocalStorageKeys.musicPaused, musicPaused);
   }, [musicPaused]);
 
+  useEffect(() => {
+    // https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") {
+        if (!musicPaused) {
+          musicPlayer.current.play();
+          musicPlayer.current.muted = false;
+        }
+        Howler.mute(audioMuted);
+      } else {
+        musicPlayer.current.pause();
+        Howler.mute(true);
+      }
+    });
+  }, []);
+
   return (
     <Modal show={show} centered onHide={onClose}>
       <CloseButtonPanel title="Audio Settings" onClose={onClose}>

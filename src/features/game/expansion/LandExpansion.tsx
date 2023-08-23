@@ -13,8 +13,6 @@ export const LandExpansion: React.FC = () => {
   const { id } = useParams();
   const location = useLocation();
 
-  const isDawnBreaker = location.pathname.includes("dawn-breaker");
-
   // Load data
   return (
     <GameProvider key={id}>
@@ -24,7 +22,7 @@ export const LandExpansion: React.FC = () => {
           innerRef={container}
           ignoreElements={"*[data-prevent-drag-scroll]"}
         >
-          <GameBoard isDawnBreaker={isDawnBreaker}>
+          <GameBoard>
             <Game />
           </GameBoard>
         </ScrollContainer>

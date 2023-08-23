@@ -27,7 +27,7 @@ import {
   InventoryItemName,
   PlacedLamp,
 } from "../types/game";
-import { loadSession, MintedAt } from "../actions/loadSession";
+import { getPromoCode, loadSession, MintedAt } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { CollectibleName } from "../types/craftables";
@@ -55,10 +55,11 @@ import { randomID } from "lib/utils/random";
 import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 
 import { buySFL } from "../actions/buySFL";
-import { SeasonPassName } from "../types/collectibles";
+import { PurchasableItems } from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
+  getSeasonPassRead,
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
@@ -74,6 +75,11 @@ import { getSessionId } from "lib/blockchain/Session";
 import { depositBumpkin } from "../actions/deposit";
 import { mintAuctionItem } from "../actions/mintAuctionItem";
 import { BumpkinItem } from "../types/bumpkin";
+import { getAuctionResults } from "../actions/getAuctionResults";
+import { AuctionResults } from "./auctionMachine";
+import { trade } from "../actions/trade";
+import { mmoBus } from "features/world/mmoMachine";
+import { analytics } from "lib/analytics";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -101,6 +107,8 @@ export interface Context {
   announcements: Announcements;
   bumpkins: OnChainBumpkin[];
   transaction?: { type: "withdraw_bumpkin"; expiresAt: number };
+  auctionResults?: AuctionResults;
+  promoCode?: string;
 }
 
 type MintEvent = {
@@ -122,9 +130,14 @@ type SyncEvent = {
   blockBucks: number;
 };
 
+type CommunityEvent = {
+  type: "COMMUNITY_UPDATE";
+  game: GameState;
+};
+
 type PurchaseEvent = {
   type: "PURCHASE_ITEM";
-  name: SeasonPassName;
+  name: PurchasableItems;
   amount: number;
 };
 
@@ -177,12 +190,20 @@ type UpdateEvent = {
   state: GameState;
 };
 
+type TradeEvent = {
+  type: "TRADE";
+  sellerId: number;
+  tradeId: string;
+};
+
 export type BlockchainEvent =
   | {
       type: "SAVE";
     }
   | SyncEvent
   | PurchaseEvent
+  | CommunityEvent
+  | TradeEvent
   | {
       type: "REFRESH";
     }
@@ -317,6 +338,7 @@ export type BlockchainState = {
     | "revealing"
     | "revealed"
     | "genieRevealed"
+    | "beanRevealed"
     | "error"
     | "refreshing"
     | "swarming"
@@ -324,12 +346,19 @@ export type BlockchainState = {
     | "transacting"
     | "depositing"
     | "landscaping"
-    | "promoting"
+    | "specialOffer"
+    | "promo"
+    | "trading"
+    | "traded"
+    | "sniped"
     | "noBumpkinFound"
     | "noTownCenter"
     | "coolingDown"
     | "upgradingGuestGame"
     | "buyingBlockBucks"
+    | "auctionResults"
+    | "claimAuction"
+    | "refundAuction"
     | "randomising"; // TEST ONLY
   context: Context;
 };
@@ -483,7 +512,10 @@ export function startGame(authContext: AuthContext) {
                   status,
                   announcements,
                   transaction,
+                  promoCode,
                 } = response;
+
+                console.log({ promoCode });
 
                 return {
                   state: {
@@ -502,6 +534,7 @@ export function startGame(authContext: AuthContext) {
                   announcements,
                   bumpkins,
                   transaction,
+                  promoCode,
                 };
               }
 
@@ -601,6 +634,7 @@ export function startGame(authContext: AuthContext) {
               target: "transacting",
               cond: (context: Context) =>
                 !!context.transaction &&
+                context.transaction.type === "withdraw_bumpkin" &&
                 context.transaction.expiresAt > Date.now(),
             },
 
@@ -644,12 +678,30 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
-            // {
-            //   target: "promoting",
-            //   cond: (context) =>
-            //     !getSeasonPassRead() &&
-            //     (context.state.bumpkin?.experience ?? 0) > 0,
-            // },
+
+            {
+              target: "specialOffer",
+              cond: (context) =>
+                !getSeasonPassRead() &&
+                Date.now() < new Date("2023-08-01").getTime() &&
+                !context.state.inventory["Witches' Eve Banner"] &&
+                (context.state.bumpkin?.experience ?? 0) > 0,
+            },
+            {
+              // auctionResults needs to be the last check as it transitions directly
+              // to playing. It does not target notifying.
+              target: "auctionResults",
+              cond: (context: Context) => !!context.state.auctioneer.bid,
+            },
+            {
+              target: "promo",
+              cond: (context) => {
+                return (
+                  context.state.bumpkin?.experience === 0 &&
+                  getPromoCode() === "crypto-com"
+                );
+              },
+            },
             {
               target: "playing",
             },
@@ -665,10 +717,20 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-        promoting: {
+        specialOffer: {
           on: {
             ACKNOWLEDGE: {
               target: "notifying",
+            },
+            PURCHASE_ITEM: {
+              target: "purchasing",
+            },
+          },
+        },
+        promo: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "playing",
             },
           },
         },
@@ -690,6 +752,66 @@ export function startGame(authContext: AuthContext) {
           on: {
             ACKNOWLEDGE: {
               target: "notifying",
+            },
+          },
+        },
+        auctionResults: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context: Context) => {
+              const { farmId, rawToken } = authContext.user;
+
+              const auctionResults = await getAuctionResults({
+                farmId: Number(farmId),
+                token: rawToken as string,
+                auctionId: context.state.auctioneer.bid?.auctionId as string,
+                transactionId: context.transactionId as string,
+              });
+
+              return { auctionResults };
+            },
+            onDone: [
+              {
+                target: "claimAuction",
+                cond: (_, event) =>
+                  event.data.auctionResults.status === "winner",
+                actions: assign((_, event) => ({
+                  auctionResults: event.data.auctionResults,
+                })),
+              },
+              {
+                target: "refundAuction",
+                cond: (_, event) =>
+                  event.data.auctionResults.status === "loser" ||
+                  event.data.auctionResults.status === "tiebreaker",
+                actions: assign((_, event) => ({
+                  auctionResults: event.data.auctionResults,
+                })),
+              },
+              {
+                target: "playing",
+              },
+            ],
+            onError: {
+              target: "playing",
+            },
+          },
+        },
+        claimAuction: {
+          on: {
+            MINT: {
+              target: "minting",
+            },
+            CLOSE: {
+              target: "playing",
+            },
+          },
+        },
+        refundAuction: {
+          on: {
+            "bid.refunded": (GAME_EVENT_HANDLERS as any)["bid.refunded"],
+            CLOSE: {
+              target: "autosaving",
             },
           },
         },
@@ -795,6 +917,9 @@ export function startGame(authContext: AuthContext) {
             },
             BUY_SFL: {
               target: "buyingSFL",
+            },
+            TRADE: {
+              target: "trading",
             },
             UPDATE_BLOCK_BUCKS: {
               actions: assign((context, event) => ({
@@ -1067,6 +1192,25 @@ export function startGame(authContext: AuthContext) {
             },
             onDone: [
               {
+                target: "beanRevealed",
+                cond: (_, event) => event.data.event.type === "bean.harvested",
+                actions: assign((context, event) => {
+                  return {
+                    // Remove events
+                    actions: [],
+                    // Update immediately with state from server except for collectibles
+                    state: {
+                      ...event.data.farm,
+                      collectibles: {
+                        ...event.data.farm.collectibles,
+                        "Magic Bean": context.state.collectibles["Magic Bean"],
+                      },
+                    },
+                    revealed: event.data.changeset,
+                  };
+                }),
+              },
+              {
                 target: "genieRevealed",
                 cond: (_, event) =>
                   event.data.event.type === "genieLamp.rubbed",
@@ -1148,6 +1292,111 @@ export function startGame(authContext: AuthContext) {
                 };
               }),
             },
+          },
+        },
+        beanRevealed: {
+          on: {
+            CONTINUE: {
+              target: "playing",
+              actions: assign((context, event) => {
+                // Delete the Bean from the collectibles
+                const beans = context.state.collectibles["Magic Bean"];
+                const newBeans = beans?.filter(
+                  (bean) => !(bean.id === event.id)
+                );
+
+                return {
+                  state: {
+                    ...context.state,
+                    collectibles: {
+                      ...context.state.collectibles,
+                      "Magic Bean": newBeans,
+                    },
+                  },
+                };
+              }),
+            },
+          },
+        },
+
+        trading: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context, event) => {
+              const { sellerId, tradeId } = event as TradeEvent;
+
+              if (context.actions.length > 0) {
+                await autosave({
+                  farmId: Number(authContext.user.farmId),
+                  sessionId: context.sessionId as string,
+                  actions: context.actions,
+                  token: authContext.user.rawToken as string,
+                  fingerprint: context.fingerprint as string,
+                  deviceTrackerId: context.deviceTrackerId as string,
+                  transactionId: context.transactionId as string,
+                });
+              }
+
+              const { farm, error } = await trade({
+                buyerId: Number(authContext.user.farmId),
+                sellerId,
+                tradeId,
+                token: authContext.user.rawToken as string,
+                transactionId: context.transactionId as string,
+              });
+
+              return {
+                farm,
+                buyerId: Number(authContext.user.farmId),
+                sellerId,
+                tradeId,
+                error,
+              };
+            },
+            onDone: [
+              {
+                target: "sniped",
+                cond: (_, event) => event.data.error === "ALREADY_BOUGHT",
+              },
+              {
+                target: "traded",
+                actions: [
+                  assign((_, event) => ({
+                    actions: [],
+                    state: event.data.farm,
+                  })),
+                  (_, event) => {
+                    mmoBus.send({
+                      trade: {
+                        buyerId: event.data.buyerId,
+                        sellerId: event.data.sellerId,
+                        tradeId: event.data.tradeId,
+                      },
+                    });
+                    // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#spend_virtual_currency
+                    analytics.logEvent("spend_virtual_currency", {
+                      value: 1,
+                      virtual_currency_name: "Trade",
+                      item_name: "Trade",
+                    });
+                  },
+                ],
+              },
+            ],
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
+        traded: {
+          on: {
+            CONTINUE: "playing",
+          },
+        },
+        sniped: {
+          on: {
+            CONTINUE: "playing",
           },
         },
         depositing: {
@@ -1337,6 +1586,15 @@ export function startGame(authContext: AuthContext) {
           on: { CLOSE: { target: "playing" } },
         },
       },
+      on: {
+        COMMUNITY_UPDATE: {
+          actions: assign({
+            state: (_, event) => {
+              return event.game;
+            },
+          }),
+        },
+      },
     },
     {
       actions: {
@@ -1360,6 +1618,7 @@ export function startGame(authContext: AuthContext) {
           announcements: (_, event) => event.data.announcements,
           bumpkins: (_, event) => event.data.bumpkins,
           transaction: (_, event) => event.data.transaction,
+          promoCode: (_, event) => event.data.promoCode,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

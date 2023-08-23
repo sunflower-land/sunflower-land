@@ -9,7 +9,6 @@ import { Label } from "components/ui/Label";
 import { Auction } from "features/game/lib/auctionMachine";
 import { createPortal } from "react-dom";
 import { Context } from "features/game/GameProvider";
-import { hasFeatureAccess } from "lib/flags";
 
 const Countdown: React.FC<{ auction: Auction }> = ({ auction }) => {
   const start = useCountdown(auction?.startAt);
@@ -17,7 +16,7 @@ const Countdown: React.FC<{ auction: Auction }> = ({ auction }) => {
 
   if (auction.endAt < Date.now()) {
     return (
-      <div className="h-7  -mt-1">
+      <div className="h-7 flex justify-center">
         <Label type="danger">Auction has finished</Label>
       </div>
     );
@@ -26,7 +25,7 @@ const Countdown: React.FC<{ auction: Auction }> = ({ auction }) => {
   if (auction.startAt < Date.now()) {
     return (
       <div>
-        <div className="h-6 -mt-1">
+        <div className="h-6 flex justify-center">
           <Label type="info">Auction is live!</Label>
         </div>
         <TimerDisplay time={end} />
@@ -64,9 +63,7 @@ export const AuctionCountdown: React.FC = () => {
       }
     };
 
-    if (hasFeatureAccess(gameState.context.state.inventory, "AUCTION")) {
-      load();
-    }
+    load();
   }, []);
 
   if (!auction) {
@@ -74,7 +71,10 @@ export const AuctionCountdown: React.FC = () => {
   }
 
   return createPortal(
-    <InnerPanel className="fixed bottom-2 left-2" id="test-auction">
+    <InnerPanel
+      className="fixed bottom-2 left-1/2 -translate-x-1/2 flex justify-center"
+      id="test-auction"
+    >
       <Countdown auction={auction} />
     </InnerPanel>,
     document.body

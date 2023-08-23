@@ -5,6 +5,7 @@ import { sanitizeHTTPResponse } from "lib/network";
 import { makeGame } from "../lib/transforms";
 import { GameState, InventoryItemName } from "../types/game";
 import { Announcements } from "../types/conversations";
+import { getReferrerId } from "features/auth/actions/createAccount";
 
 type Request = {
   sessionId: string;
@@ -28,6 +29,8 @@ type Response = {
     type: "withdraw_bumpkin";
     expiresAt: number;
   };
+  verified: boolean;
+  promoCode?: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -36,6 +39,9 @@ export async function loadSession(
   request: Request
 ): Promise<Response | undefined> {
   if (!API_URL) return;
+
+  const promoCode = getPromoCode();
+  const referrerId = getReferrerId();
 
   const response = await window.fetch(`${API_URL}/session/${request.farmId}`, {
     method: "POST",
@@ -51,6 +57,8 @@ export async function loadSession(
       clientVersion: CONFIG.CLIENT_VERSION as string,
       wallet: request.wallet,
       guestKey: request.guestKey,
+      promoCode,
+      referrerId,
     }),
   });
 
@@ -79,6 +87,8 @@ export async function loadSession(
     status,
     announcements,
     transaction,
+    verified,
+    promoCode: promo,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -89,6 +99,8 @@ export async function loadSession(
     status?: "COOL_DOWN";
     announcements: Announcements;
     transaction: { type: "withdraw_bumpkin"; expiresAt: number };
+    verified: boolean;
+    promoCode?: string;
   }>(response);
 
   saveSession(request.farmId);
@@ -102,6 +114,8 @@ export async function loadSession(
     status,
     announcements,
     transaction,
+    verified,
+    promoCode: promo,
   };
 }
 
@@ -146,4 +160,20 @@ export function saveSession(farmId: number) {
   };
 
   return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newSessions));
+}
+
+const PROMO_LS_KEY = `sb_wiz.promo-key.v.${host}`;
+
+export function savePromoCode(id: string) {
+  localStorage.setItem(PROMO_LS_KEY, id);
+}
+
+export function getPromoCode() {
+  const item = localStorage.getItem(PROMO_LS_KEY);
+
+  if (!item) {
+    return undefined;
+  }
+
+  return item;
 }

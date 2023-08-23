@@ -31,21 +31,16 @@ type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
 };
 
 type GrantWishArgs = Pick<WishingWellTokens, "totalTokensInWell"> & {
-  onClose: () => void;
   onClick?: () => void;
 };
 
 type ZeroTokensArgs = {
-  onClose: () => void;
   onClick?: () => void;
 };
 
-type WaitingForWishArgs = Pick<WishingWellTokens, "lockedTime"> & {
-  onClose: () => void;
-};
+type WaitingForWishArgs = Pick<WishingWellTokens, "lockedTime">;
 
 type NoWishArgs = Pick<WishingWellTokens, "totalTokensInWell"> & {
-  onClose: () => void;
   onClick: () => void;
   hasLPTokens: boolean;
 };
@@ -75,7 +70,7 @@ const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => (
   </>
 );
 
-const GrantWish = ({ totalTokensInWell, onClick, onClose }: GrantWishArgs) => (
+const GrantWish = ({ totalTokensInWell, onClick }: GrantWishArgs) => (
   <>
     <div className="p-2">
       <div className="flex flex-col items-center mb-3">
@@ -97,7 +92,7 @@ const GrantWish = ({ totalTokensInWell, onClick, onClose }: GrantWishArgs) => (
   </>
 );
 
-const ZeroTokens = ({ onClick, onClose }: ZeroTokensArgs) => (
+const ZeroTokens = ({ onClick }: ZeroTokensArgs) => (
   <>
     <div className="p-2">
       <div className="flex flex-col items-center mb-3">
@@ -118,7 +113,7 @@ const ZeroTokens = ({ onClick, onClose }: ZeroTokensArgs) => (
   </>
 );
 
-const WaitingForWish = ({ lockedTime, onClose }: WaitingForWishArgs) => (
+const WaitingForWish = ({ lockedTime }: WaitingForWishArgs) => (
   <>
     <div className="p-2">
       <div className="flex flex-col items-center mb-3">
@@ -150,12 +145,7 @@ const WaitingForWish = ({ lockedTime, onClose }: WaitingForWishArgs) => (
   </>
 );
 
-const NoWish = ({
-  totalTokensInWell,
-  hasLPTokens,
-  onClick,
-  onClose,
-}: NoWishArgs) => (
+const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => (
   <>
     <div className="p-2">
       <div className="flex flex-col items-center mb-3">
@@ -297,30 +287,24 @@ export const WishingWellModal: React.FC = () => {
             totalTokensInWell={wishingWell.totalTokensInWell}
             hasLPTokens={Number(wishingWell.lpTokens) > 0}
             onClick={goToQuickSwap}
-            onClose={handleClose}
           />
         )}
         {machine.matches("zeroTokens") && (
-          <ZeroTokens onClick={() => send("WISH")} onClose={handleClose} />
+          <ZeroTokens onClick={() => send("WISH")} />
         )}
         {machine.matches("canWish") && (
           <NoWish
             totalTokensInWell={wishingWell.totalTokensInWell}
             onClick={() => send("WISH")}
             hasLPTokens={Number(wishingWell.lpTokens) > 0}
-            onClose={handleClose}
           />
         )}
         {(machine.matches("waiting") || machine.matches("wished")) && (
-          <WaitingForWish
-            lockedTime={wishingWell.lockedTime as string}
-            onClose={handleClose}
-          />
+          <WaitingForWish lockedTime={wishingWell.lockedTime as string} />
         )}
         {machine.matches("readyToGrant") && (
           <GrantWish
             totalTokensInWell={wishingWell.totalTokensInWell}
-            onClose={handleClose}
             onClick={() => send("GRANT_WISH")}
           />
         )}

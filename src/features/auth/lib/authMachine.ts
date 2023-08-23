@@ -1,15 +1,10 @@
-import MetaMaskOnboarding from "@metamask/onboarding";
-import { sequence } from "0xsequence";
 import { createMachine, Interpreter, State, assign } from "xstate";
-import { EthereumProvider } from "@walletconnect/ethereum-provider";
-
 import { loadBanDetails } from "features/game/actions/bans";
 import { isFarmBlacklisted } from "features/game/actions/onchain";
 import { CONFIG } from "lib/config";
 import { ErrorCode, ERRORS } from "lib/errors";
 
-import { wallet, WalletType } from "../../../lib/blockchain/wallet";
-import { communityContracts } from "features/community/lib/communityContracts";
+import { wallet } from "../../../lib/blockchain/wallet";
 import {
   createAccount as createFarmAction,
   saveReferrerId,
@@ -20,16 +15,19 @@ import {
   decodeToken,
   removeSession,
   saveSession,
+  hasValidSession,
 } from "../actions/login";
 import { oauthorise } from "../actions/oauth";
 import { CharityAddress } from "../components/CreateFarm";
 import { randomID } from "lib/utils/random";
 import { createFarmMachine } from "./createFarmMachine";
-import { SEQUENCE_CONNECT_OPTIONS } from "./sequence";
 import { getFarm, getFarms } from "lib/blockchain/Farm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
 import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { analytics } from "lib/analytics";
+import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectStrategy.factory";
+import { Web3SupportedProviders } from "lib/web3SupportedProviders";
+import { savePromoCode } from "features/game/actions/loadSession";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -51,8 +49,21 @@ const getReferrerID = () => {
   return code;
 };
 
+const getPromoCode = () => {
+  const code = new URLSearchParams(window.location.search).get("promo");
+
+  return code;
+};
+
 const deleteFarmUrl = () =>
   window.history.pushState({}, "", window.location.pathname);
+
+const isPassiveFailureMessage = (failureMessage: string): boolean => {
+  return (
+    failureMessage === "User closed modal" ||
+    failureMessage === ERRORS.SEQUENCE_NOT_CONNECTED
+  );
+};
 
 type Farm = {
   farmId: number;
@@ -66,7 +77,7 @@ interface Authentication {
   token?: Token;
   rawToken?: string;
   web3?: {
-    wallet: WalletType;
+    wallet: Web3SupportedProviders;
     provider: any;
   };
   farmId?: number;
@@ -114,6 +125,11 @@ type LoadFarmEvent = {
   type: "LOAD_FARM";
 };
 
+type ConnectWalletEvent = {
+  type: "CONNECT_TO_WALLET";
+  chosenProvider: Web3SupportedProviders;
+};
+
 export type BlockchainEvent =
   | StartEvent
   | ExploreEvent
@@ -121,6 +137,7 @@ export type BlockchainEvent =
   | ReturnEvent
   | CreateFarmEvent
   | LoadFarmEvent
+  | ConnectWalletEvent
   | {
       type: "CHAIN_CHANGED";
     }
@@ -141,17 +158,14 @@ export type BlockchainEvent =
   | { type: "CONNECT_TO_DISCORD" }
   | { type: "CONFIRM" }
   | { type: "SKIP" }
-  | { type: "CONNECT_TO_METAMASK" }
-  | { type: "CONNECT_TO_PHANTOM" }
-  | { type: "CONNECT_TO_WALLET_CONNECT" }
-  | { type: "CONNECT_TO_SEQUENCE" }
-  | { type: "CONNECT_TO_OKX" }
   | { type: "SIGN" }
   | { type: "VERIFIED" }
   | { type: "SET_WALLET" }
   | { type: "SET_TOKEN" }
   | { type: "BUY_FULL_ACCOUNT" }
-  | { type: "SIGN_IN" };
+  | { type: "SIGN_IN" }
+  | { type: "SELECT_POKO" }
+  | { type: "SELECT_MATIC" };
 
 export type BlockchainState = {
   value:
@@ -161,11 +175,7 @@ export type BlockchainState = {
     | "signIn"
     | "initialising"
     | "visiting"
-    | "connectingToMetamask"
-    | "connectingToPhantom"
-    | "connectingToWalletConnect"
-    | "connectingToSequence"
-    | "connectingToOkx"
+    | "connectingToWallet"
     | "connectingAsGuest"
     | "setupContracts"
     | "connectedToWallet"
@@ -178,10 +188,12 @@ export type BlockchainState = {
     | { connected: "loadingFarm" }
     | { connected: "farmLoaded" }
     | { connected: "offer" }
+    | { connected: "selectPaymentMethod" }
+    | { connected: "creatingPokoFarm" }
     | { connected: "creatingFarm" }
+    | { connected: "funding" }
     | { connected: "countdown" }
     | { connected: "readyToStart" }
-    | { connected: "funding" }
     | { connected: "authorised" }
     | { connected: "blacklisted" }
     | "exploring"
@@ -225,6 +237,11 @@ export const authMachine = createMachine<
           if (referrerId) {
             saveReferrerId(referrerId);
           }
+
+          const promoCode = getPromoCode();
+          if (promoCode) {
+            savePromoCode(promoCode);
+          }
         },
         always: [
           {
@@ -262,24 +279,11 @@ export const authMachine = createMachine<
           },
         },
       },
-
       signIn: {
         id: "signIn",
         on: {
-          CONNECT_TO_METAMASK: {
-            target: "connectingToMetamask",
-          },
-          CONNECT_TO_PHANTOM: {
-            target: "connectingToPhantom",
-          },
-          CONNECT_TO_WALLET_CONNECT: {
-            target: "connectingToWalletConnect",
-          },
-          CONNECT_TO_SEQUENCE: {
-            target: "connectingToSequence",
-          },
-          CONNECT_TO_OKX: {
-            target: "connectingToOkx",
+          CONNECT_TO_WALLET: {
+            target: "connectingToWallet",
           },
           BACK: {
             target: "welcome",
@@ -290,64 +294,16 @@ export const authMachine = createMachine<
         id: "reconnecting",
         always: [
           {
-            target: "connectingToMetamask",
-            cond: (context) => context.user.web3?.wallet === "METAMASK",
-          },
-          {
-            target: "connectingToPhantom",
-            cond: (context) => context.user.web3?.wallet === "PHANTOM",
-          },
-          {
-            target: "connectingToSequence",
-            cond: (context) => context.user.web3?.wallet === "SEQUENCE",
-          },
-          {
-            target: "connectingToOkx",
-            cond: (context) => context.user.web3?.wallet === "OKX",
-          },
-          {
-            target: "connectingToWalletConnect",
+            target: "connectingToWallet",
             cond: (context) => !!context.user.web3?.wallet,
           },
           { target: "idle" },
         ],
       },
-      connectingToPhantom: {
-        id: "connectingToPhantom",
+      connectingToWallet: {
+        id: "connectingToWallet",
         invoke: {
-          src: "initPhantom",
-          onDone: [
-            {
-              target: "setupContracts",
-              actions: "assignUser",
-            },
-          ],
-          onError: {
-            target: "unauthorised",
-            actions: "assignErrorMessage",
-          },
-        },
-      },
-      connectingToMetamask: {
-        id: "connectingToMetamask",
-        invoke: {
-          src: "initMetamask",
-          onDone: [
-            {
-              target: "setupContracts",
-              actions: "assignUser",
-            },
-          ],
-          onError: {
-            target: "unauthorised",
-            actions: "assignErrorMessage",
-          },
-        },
-      },
-      connectingToWalletConnect: {
-        id: "connectingToWalletConnect",
-        invoke: {
-          src: "initWalletConnect",
+          src: "initWallet",
           onDone: [
             {
               target: "setupContracts",
@@ -357,52 +313,13 @@ export const authMachine = createMachine<
           onError: [
             {
               target: "idle",
-              cond: (_, event) => event.data.message === "User closed modal",
+              cond: (_, event) => isPassiveFailureMessage(event.data.message),
             },
             {
               target: "unauthorised",
               actions: "assignErrorMessage",
             },
           ],
-        },
-      },
-      connectingToSequence: {
-        id: "connectingToSequence",
-        invoke: {
-          src: "initSequence",
-          onDone: [
-            {
-              target: "setupContracts",
-              actions: "assignUser",
-            },
-          ],
-          onError: [
-            {
-              target: "idle",
-              cond: (_, event) =>
-                event.data.message === ERRORS.SEQUENCE_NOT_CONNECTED,
-            },
-            {
-              target: "unauthorised",
-              actions: "assignErrorMessage",
-            },
-          ],
-        },
-      },
-      connectingToOkx: {
-        id: "connectingToOkx",
-        invoke: {
-          src: "initOkx",
-          onDone: [
-            {
-              target: "setupContracts",
-              actions: "assignUser",
-            },
-          ],
-          onError: {
-            target: "unauthorised",
-            actions: "assignErrorMessage",
-          },
         },
       },
       setupContracts: {
@@ -414,7 +331,7 @@ export const authMachine = createMachine<
                 context.user.web3.provider,
                 context.user.web3.wallet
               );
-              await communityContracts.initialise(context.user.web3.provider);
+              // await communityContracts.initialise(context.user.web3.provider);
             }
           },
           onDone: [
@@ -425,6 +342,16 @@ export const authMachine = createMachine<
                 visitingFarmId: (_context) => getFarmIdFromUrl(),
               }),
             },
+            // This enables pop ups to load during the sequence signing flow
+            {
+              target: "connectedToWallet",
+              cond: (context) =>
+                context.user.web3?.wallet === Web3SupportedProviders.SEQUENCE,
+              actions: (context) =>
+                analytics.logEvent("wallet_connected", {
+                  wallet: context.user.web3?.wallet,
+                }),
+            },
             {
               target: "signing",
               actions: (context) =>
@@ -432,20 +359,16 @@ export const authMachine = createMachine<
                   wallet: context.user.web3?.wallet,
                 }),
             },
-            // TODO check with sequence if we need intermediate state
-            // {
-            //   target: "connectedToWallet",
-            //   actions: (context) =>
-            //     analytics.logEvent("wallet_connected", {
-            //       wallet: context.user.web3?.wallet,
-            //     }),
-            // },
           ],
           onError: {
             target: "unauthorised",
             actions: "assignErrorMessage",
           },
         },
+      },
+      connectedToWallet: {
+        always: { target: "signing", cond: () => hasValidSession() },
+        on: { SIGN: { target: "signing" } },
       },
       signing: {
         entry: "setTransactionId",
@@ -526,7 +449,7 @@ export const authMachine = createMachine<
                   cond: "hasFarm",
                 },
 
-                { target: "offer" },
+                { target: "funding" },
               ],
               onError: [
                 {
@@ -563,6 +486,40 @@ export const authMachine = createMachine<
               REFRESH: {
                 target: "#reconnecting",
               },
+
+              BACK: {
+                target: "#signIn",
+              },
+              SELECT_POKO: {
+                target: "creatingPokoFarm",
+                actions: () => analytics.logEvent("select_poko"),
+              },
+              // SELECT_MATIC: {
+              //   target: "funding",
+              //   actions: () => analytics.logEvent("select_matic"),
+              // },
+            },
+          },
+          // selectPaymentMethod: {
+          //   on: {
+          //     BACK: {
+          //       target: "offer",
+          //     },
+          //     SELECT_POKO: {
+          //       target: "creatingPokoFarm",
+          //       actions: () => analytics.logEvent("select_poko"),
+          //     },
+          //     SELECT_MATIC: {
+          //       target: "funding",
+          //       actions: () => analytics.logEvent("select_matic"),
+          //     },
+          //   },
+          // },
+          creatingPokoFarm: {
+            on: {
+              CONTINUE: {
+                target: "#reconnecting",
+              },
             },
           },
           creatingFarm: {
@@ -589,6 +546,7 @@ export const authMachine = createMachine<
             entry: () => analytics.logEvent("offer_seen"),
             on: {
               CONTINUE: {
+                // target: "selectPaymentMethod",
                 target: "funding",
                 actions: () => analytics.logEvent("offer_accepted"),
               },
@@ -635,7 +593,11 @@ export const authMachine = createMachine<
                 if (window.location.hash.includes("world")) return;
 
                 if (!ART_MODE) {
-                  window.location.href = `${window.location.pathname}#/land/${context.user.farmId}`;
+                  window.history.replaceState(
+                    null,
+                    "",
+                    `${window.location.pathname}#/land/${context.user.farmId}`
+                  );
                 }
               },
               (context) =>
@@ -748,98 +710,33 @@ export const authMachine = createMachine<
   },
   {
     services: {
-      initMetamask: async () => {
-        analytics.logEvent("connect_to_metamask");
-        const _window = window as any;
+      initWallet: async (context, event: any) => {
+        const _event = event as ConnectWalletEvent | undefined;
 
-        // TODO add type support
-        if (_window.ethereum) {
-          const provider = _window.ethereum;
+        const wallet = _event?.chosenProvider ?? context.user.web3?.wallet;
 
-          await provider.request({
-            method: "eth_requestAccounts",
-          });
-
-          return { web3: { wallet: "METAMASK", provider } };
-        } else {
-          const onboarding = new MetaMaskOnboarding();
-          onboarding.startOnboarding();
+        if (!wallet) {
+          throw new Error("Could not determine wallet provider.");
         }
-      },
-      initPhantom: async () => {
-        analytics.logEvent("connect_to_phantom");
-        const _window = window as any;
 
-        if (_window.phantom) {
-          // _window.phantom doesn't seem to handle polygon atm
-          // therefore we will continue to use the provider it attaches to window.ethereum
-          const provider = _window.ethereum;
+        const web3ConnectStrategy = web3ConnectStrategyFactory(wallet);
 
-          try {
-            await provider.request({
-              method: "eth_requestAccounts",
-            });
-          } catch (e) {
-            throw new Error(ERRORS.WALLET_INITIALISATION_FAILED);
-          }
+        analytics.logEvent(web3ConnectStrategy.getConnectEventType());
 
-          return { web3: { wallet: "PHANTOM", provider } };
-        } else {
-          throw new Error(ERRORS.NO_WEB3);
+        if (!web3ConnectStrategy.isAvailable()) {
+          web3ConnectStrategy.whenUnavailableAction();
+          return;
         }
-      },
-      initWalletConnect: async () => {
-        analytics.logEvent("connect_to_walletconnect");
 
-        const provider = await EthereumProvider.init({
-          chains: [CONFIG.POLYGON_CHAIN_ID],
-          projectId: CONFIG.WALLETCONNECT_PROJECT_ID,
-          showQrModal: true,
-          qrModalOptions: {
-            themeVariables: { "--wcm-z-index": "1100" }, // Ensures modal appears above splash
+        await web3ConnectStrategy.initialize();
+        await web3ConnectStrategy.requestAccounts();
+
+        return {
+          web3: {
+            wallet: wallet,
+            provider: web3ConnectStrategy.getProvider(),
           },
-        });
-
-        await provider.enable();
-
-        return { web3: { wallet: "WALLETCONNECT", provider } };
-      },
-      initSequence: async () => {
-        analytics.logEvent("connect_to_sequence");
-        const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
-
-        const sequenceWallet = await sequence.initWallet(network);
-        await sequenceWallet.connect(SEQUENCE_CONNECT_OPTIONS);
-
-        if (!sequenceWallet.isConnected()) {
-          throw Error(ERRORS.SEQUENCE_NOT_CONNECTED);
-        }
-
-        const provider = sequenceWallet.getProvider();
-
-        return { web3: { wallet: "SEQUENCE", provider } };
-      },
-      initOkx: async () => {
-        analytics.logEvent("connect_to_okx");
-        const _window = window as any;
-
-        if (typeof _window.okxwallet !== "undefined") {
-          // _window.phantom doesn't seem to handle polygon atm
-          // therefore we will continue to use the provider it attaches to window.ethereum
-          const provider = _window.ethereum;
-
-          try {
-            await provider.request({
-              method: "eth_requestAccounts",
-            });
-          } catch (e) {
-            throw new Error(ERRORS.WALLET_INITIALISATION_FAILED);
-          }
-
-          return { web3: { wallet: "OKX", provider } };
-        } else {
-          throw new Error(ERRORS.NO_WEB3);
-        }
+        };
       },
       loadFarm: async (context): Promise<Farm | undefined> => {
         if (!wallet.myAccount) return;
@@ -891,14 +788,12 @@ export const authMachine = createMachine<
       login: async (context): Promise<{ token: string | null }> => {
         let token: string | null = null;
 
-        console.log("Try it", wallet.myAccount);
         if (wallet.myAccount) {
           ({ token } = await login(
             context.transactionId as string,
             wallet.myAccount
           ));
         }
-        console.log({ token });
 
         return { token };
       },
@@ -980,7 +875,7 @@ export const authMachine = createMachine<
 
         const secondsElapsed =
           Date.now() / 1000 - (event.data as Farm).createdAt;
-        return secondsElapsed < 60;
+        return secondsElapsed < 30;
       },
       hasFarm: (context: Context, event: any) => {
         // If coming from the loadingFarm transition the farmId with show up on the event

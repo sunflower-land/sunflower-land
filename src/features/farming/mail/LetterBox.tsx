@@ -80,7 +80,7 @@ export const LetterBox: React.FC = () => {
         currentTab={tab}
         setCurrentTab={setTab}
       >
-        <Mail selected={selected} setSelected={setSelected} />
+        <Mail setSelected={setSelected} />
         {/* {tab === 1 && (
       <div className="text-sm mt-2 text-break divide-y-2 divide-dashed divide-brown-600 max-h-[27rem] overflow-x-hidden overflow-y-auto scrollable p-1">
         {PAST_ANNOUNCEMENTS.map((announcement, index) => (

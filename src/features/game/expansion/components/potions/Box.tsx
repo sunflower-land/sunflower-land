@@ -28,7 +28,7 @@ export const Box: React.FC<Props> = ({
   return (
     <>
       <div className="relative">
-        {potionStatus && (
+        {potionStatus && potionStatus !== "pending" && (
           <img
             src={FeedbackIcons[potionStatus]}
             alt={potionStatus}

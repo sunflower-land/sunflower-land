@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import "lib/__mocks__/configMock";
 import { TEST_FARM } from "features/game/lib/constants";
 import { collectCropReward } from "./collectCropReward";
 

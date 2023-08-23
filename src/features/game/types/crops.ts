@@ -1,6 +1,8 @@
 import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
 import { CraftableItem } from "./craftables";
+import { CONFIG } from "lib/config";
+import { SEASONS } from "./seasons";
 
 export type CropName =
   | "Sunflower"
@@ -12,6 +14,7 @@ export type CropName =
   | "Cauliflower"
   | "Parsnip"
   | "Eggplant"
+  | "Corn"
   | "Radish"
   | "Wheat"
   | "Kale";
@@ -22,6 +25,7 @@ export type Crop = {
   name: CropName;
   description: string;
   bumpkinLevel: number;
+  disabled?: boolean;
 };
 
 /**
@@ -90,6 +94,17 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     name: "Eggplant",
     description: "Nature's edible work of art.",
     bumpkinLevel: 5,
+  },
+  Corn: {
+    sellPrice: marketRate(9),
+    harvestSeconds: 20 * 60 * 60,
+    name: "Corn",
+    description: "Sun-kissed kernels of delight, nature's summer treasure.",
+    bumpkinLevel: 5,
+    disabled:
+      CONFIG.NETWORK === "mainnet"
+        ? new Date() < SEASONS["Witches' Eve"].startDate
+        : false,
   },
   Radish: {
     sellPrice: marketRate(9.5),
@@ -177,6 +192,17 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
     tokenAmount: marketRate(6),
     ingredients: [],
     bumpkinLevel: 5,
+  },
+  "Corn Seed": {
+    name: "Corn Seed",
+    description: "Sun-kissed kernels of delight, nature's summer treasure.",
+    tokenAmount: marketRate(7),
+    ingredients: [],
+    bumpkinLevel: 5,
+    disabled:
+      CONFIG.NETWORK === "mainnet"
+        ? new Date() < SEASONS["Witches' Eve"].startDate
+        : false,
   },
   "Radish Seed": {
     name: "Radish Seed",

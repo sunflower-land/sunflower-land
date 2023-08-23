@@ -14,13 +14,14 @@ import { useIsNewFarm } from "features/farming/hud/lib/onboarding";
 import { HowToPlay } from "./howToPlay/HowToPlay";
 import { SubSettings } from "./sub-settings/SubSettings";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
-import { CommunityGardenModal } from "features/community/components/CommunityGardenModal";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Discord } from "./DiscordModal";
 import { AddSFL } from "../AddSFL";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { PokoOnRamp } from "../PokoOnRamp";
+import { createPortal } from "react-dom";
+import { DEV_TimeMachine } from "./DEV_TimeMachine";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -46,6 +47,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
     useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(useIsNewFarm());
   const [showCaptcha, setShowCaptcha] = useState(false);
+  const [showTimeMachine, setShowTimeMachine] = useState(false);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const { openModal } = useContext(ModalContext);
 
@@ -119,6 +121,13 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
               <>
                 {CONFIG.NETWORK === "mumbai" && (
                   <>
+                    <li className="p-1">
+                      <Button
+                        onClick={() => setShowTimeMachine(!showTimeMachine)}
+                      >
+                        Time Machine
+                      </Button>
+                    </li>
                     <li className="p-1">
                       <DEV_GenerateLandButton />
                     </li>
@@ -261,19 +270,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
               }}
             />
 
-            <CloudFlareCaptcha
-              onDone={onCaptchaSolved}
-              onError={() => setShowCaptcha(false)}
-              onExpire={() => setShowCaptcha(false)}
-              action="sync"
-            />
+            <CloudFlareCaptcha onDone={onCaptchaSolved} action="sync" />
           </Panel>
         </Modal>
       )}
-      <CommunityGardenModal
-        isOpen={showCommunityGardenModal}
-        onClose={() => setShowCommunityGardenModal(false)}
-      />
+      {showTimeMachine && createPortal(<DEV_TimeMachine />, document.body)}
     </>
   );
 };

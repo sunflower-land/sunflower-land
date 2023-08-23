@@ -1,27 +1,13 @@
-import { RoomAvailable } from "colyseus.js";
-import { RoomId } from "../roomMachine";
+import { Server, ServerId } from "../mmoMachine";
 
-const WORLD_COUNT = 5;
-const MAX_PLAYERS = 100;
+export const MAX_PLAYERS = 150 - 10;
 
-export function chooseRoom(roomId: RoomId, rooms: RoomAvailable[]) {
-  let chosenRoom: RoomId | undefined = roomId;
+export const serverCurrentPopulation = (
+  servers: Server[],
+  serverId: ServerId
+) => {
+  return servers.find((server) => server.id === serverId)?.population ?? 0;
+};
 
-  let capacity = rooms.find((r) => r.name === chosenRoom)?.clients ?? 0;
-
-  let worldId = 1;
-  while (capacity >= MAX_PLAYERS) {
-    worldId += 1;
-    if (worldId > WORLD_COUNT) {
-      chosenRoom = undefined;
-      break;
-    }
-
-    chosenRoom = `${roomId}_${worldId}` as RoomId;
-    capacity = rooms.find((r) => r.name === chosenRoom)?.clients ?? 0;
-  }
-
-  console.log({ roomId });
-
-  return chosenRoom;
-}
+export const isServerFull = (servers: Server[], serverId: ServerId) =>
+  serverCurrentPopulation(servers, serverId) >= MAX_PLAYERS;

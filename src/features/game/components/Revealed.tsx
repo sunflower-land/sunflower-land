@@ -71,8 +71,7 @@ export const Revealed: React.FC<{
                 <img
                   key={`${name}-${index}`}
                   src={getImageUrl(ITEM_IDS[name])}
-                  className="mb-2"
-                  onLoad={(e) => setImageWidth(e.currentTarget)}
+                  className="mb-2 w-full"
                   style={{
                     opacity: 0,
                   }}

@@ -1,10 +1,19 @@
 import Decimal from "decimal.js-light";
 import { GameState, Inventory, InventoryItemName } from "./game";
-import { SEASONS } from "./seasons";
+import { getCurrentSeason } from "./seasons";
 import { marketRate } from "../lib/halvening";
 import { SFLDiscount } from "../lib/SFLDiscount";
 
-export type SeasonPassName = "Dawn Breaker Banner" | "Solar Flare Banner";
+export type SeasonPassName =
+  | "Dawn Breaker Banner"
+  | "Solar Flare Banner"
+  | "Witches' Eve Banner";
+
+export type PurchasableItems =
+  | "Dawn Breaker Banner"
+  | "Solar Flare Banner"
+  | "Gold Pass"
+  | "Witches' Eve Banner";
 
 export type HeliosBlacksmithItem =
   | "Immortal Pear"
@@ -12,7 +21,10 @@ export type HeliosBlacksmithItem =
   | "Basic Scarecrow"
   | "Bale"
   | "Scary Mike"
-  | "Laurie the Chuckle Crow";
+  | "Laurie the Chuckle Crow"
+  | "Poppy"
+  | "Kernaldo"
+  | "Grain Grinder";
 
 export type SoldOutCollectibleName =
   | "Sir Goldensnout"
@@ -36,7 +48,12 @@ export type SoldOutCollectibleName =
   | "Squirrel Monkey"
   | "Black Bearry"
   | "Hoot"
-  | "Lady Bug";
+  | "Lady Bug"
+  | "Freya Fox"
+  | "Poppy"
+  | "Grain Grinder"
+  | "Kernaldo"
+  | "Queen Cornelia";
 
 export type GoblinBlacksmithItemName =
   | "Purple Trail"
@@ -49,45 +66,27 @@ export type GoblinPirateItemName =
   | "Heart of Davy Jones"
   | "Karkinos"
   | "Emerald Turtle"
-  | "Tin Turtle";
+  | "Tin Turtle"
+  | "Parasaur Skull"
+  | "Golden Bear Head";
+
+export type PotionHouseItemName =
+  | "Lab Grown Carrot"
+  | "Lab Grown Radish"
+  | "Lab Grown Pumpkin";
 
 export type CraftableCollectible = {
   ingredients: Inventory;
   description: string;
   boost?: string;
   sfl?: Decimal;
+  from?: Date;
+  to?: Date;
 };
 
-export const HELIOS_BLACKSMITH_ITEMS: Record<
-  HeliosBlacksmithItem,
-  CraftableCollectible
-> = {
-  "Immortal Pear": {
-    description: "A long-lived pear that makes fruit trees last longer.",
-    ingredients: {
-      Gold: new Decimal(5),
-      Apple: new Decimal(10),
-      Blueberry: new Decimal(10),
-      Orange: new Decimal(10),
-    },
-    boost: "+1 harvest",
-  },
-  "Treasure Map": {
-    description: "X marks the spot!",
-    ingredients: {
-      Gold: new Decimal(5),
-      "Wooden Compass": new Decimal(2),
-    },
-    boost: "+20% SFL on Treasure Bounty",
-  },
-  "Basic Scarecrow": {
-    description: "Choosy defender of your farm's VIP (Very Important Plants)",
-    ingredients: {
-      Wood: new Decimal(3),
-    },
-    boost: "20% faster Sunflowers, Potatoes and Pumpkins",
-    sfl: new Decimal(0),
-  },
+export const HELIOS_BLACKSMITH_ITEMS: (
+  game?: GameState
+) => Record<HeliosBlacksmithItem, CraftableCollectible> = (state) => ({
   Bale: {
     description:
       "A poultry's favorite neighbor, providing a cozy retreat for chickens",
@@ -100,6 +99,15 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
     sfl: new Decimal(5),
     boost: "Adjacent chickens produce +0.2 Eggs",
   },
+  "Basic Scarecrow": {
+    description: "Choosy defender of your farm's VIP (Very Important Plants)",
+    ingredients: {
+      Wood: new Decimal(3),
+    },
+    boost: "20% faster Sunflowers, Potatoes and Pumpkins",
+    sfl: new Decimal(0),
+  },
+
   "Scary Mike": {
     description:
       "The veggie whisperer and champion of frightfully good harvests!",
@@ -123,9 +131,58 @@ export const HELIOS_BLACKSMITH_ITEMS: Record<
       Wheat: new Decimal(20),
     },
     sfl: new Decimal(45),
-    boost: "+0.2 yield on Eggplants, Radishes, Wheat and Kale",
+    boost: "+0.2 yield on Eggplants, Corn, Radishes, Wheat and Kale",
   },
-};
+  "Immortal Pear": {
+    description: "A long-lived pear that makes fruit trees last longer.",
+    ingredients: {
+      Gold: new Decimal(5),
+      Apple: new Decimal(10),
+      Blueberry: new Decimal(10),
+      Orange: new Decimal(10),
+    },
+    boost: "+1 harvest",
+  },
+  "Treasure Map": {
+    description: "X marks the spot!",
+    ingredients: {
+      Gold: new Decimal(5),
+      "Wooden Compass": new Decimal(2),
+    },
+    boost: "+20% SFL on Treasure Bounty",
+  },
+  Poppy: {
+    description: "The mystical corn kernel.",
+    ingredients: {
+      Gold: new Decimal(5),
+      "Crow Feather": new Decimal(250),
+    },
+    boost: "+0.1 Corn",
+    from: new Date("2023-08-01"),
+    to: new Date("2023-09-01"),
+  },
+  Kernaldo: {
+    description: "The magical corn whisperer.",
+    ingredients: {
+      "Crow Feather": new Decimal(500),
+    },
+    sfl: SFLDiscount(state, new Decimal(50)),
+    boost: "+25% Corn Speed",
+    from: new Date("2023-09-01"),
+    to: new Date("2023-10-01"),
+  },
+  "Grain Grinder": {
+    description:
+      "Grind your grain and experience a delectable surge in Cake XP.",
+    ingredients: {
+      "Crow Feather": new Decimal(750),
+    },
+    sfl: SFLDiscount(state, new Decimal(100)),
+    boost: "+20% Cake XP",
+    from: new Date("2023-10-01"),
+    to: new Date("2023-11-01"),
+  },
+});
 
 export type GoblinBlacksmithCraftable = CraftableCollectible & {
   supply?: number;
@@ -197,6 +254,23 @@ export const GOBLIN_PIRATE_ITEMS: Record<
     },
     supply: 7500,
     boost: "+0.1 Cabbage",
+    disabled: true,
+  },
+  "Parasaur Skull": {
+    description: "A skull from a parasaur!",
+    ingredients: {
+      "Emerald Compass": new Decimal(20),
+      "Block Buck": new Decimal(1),
+    },
+    supply: 1000,
+  },
+  "Golden Bear Head": {
+    description: "Spooky, but cool.",
+    ingredients: {
+      "Emerald Compass": new Decimal(60),
+      "Block Buck": new Decimal(1),
+    },
+    supply: 200,
   },
 };
 
@@ -216,7 +290,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
       sfl: SFLDiscount(state, new Decimal(50)),
       boost: "+0.2 Wild Mushroom",
       // only available when SEASONS["DAWN_BREAKER"] starts
-      disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
+      disabled: getCurrentSeason() !== "Dawn Breaker",
     },
     Maximus: {
       description: "Squash the competition with plump Maximus",
@@ -229,7 +303,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
       // 50 Team Supply + giveaways
       supply: 350 + 50,
       boost: "+1 Eggplant",
-      disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
+      disabled: getCurrentSeason() !== "Dawn Breaker",
     },
     Obie: {
       description: "A fierce eggplant soldier",
@@ -242,7 +316,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
       // 100 Team Supply + Giveaways
       supply: 2500 + 100,
       boost: "25% faster eggplants",
-      disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
+      disabled: getCurrentSeason() !== "Dawn Breaker",
     },
     "Purple Trail": {
       description:
@@ -255,30 +329,52 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
       sfl: SFLDiscount(state, marketRate(800)),
       supply: 10000,
       boost: "+0.2 Eggplant",
-      disabled: SEASONS["Dawn Breaker"].startDate.getTime() > Date.now(),
+      disabled: getCurrentSeason() !== "Dawn Breaker",
     },
   };
 };
+
+export type PotionHouseItem = CraftableCollectible & {
+  name: PotionHouseItemName;
+};
+
+export const POTION_HOUSE_ITEMS: Record<PotionHouseItemName, PotionHouseItem> =
+  {
+    "Lab Grown Carrot": {
+      name: "Lab Grown Carrot",
+      description: "+0.2 Carrot Yield",
+      sfl: new Decimal(0),
+      ingredients: {
+        "Potion Ticket": new Decimal(6000),
+      },
+    },
+    "Lab Grown Radish": {
+      name: "Lab Grown Radish",
+      description: "+0.4 Radish Yield",
+      sfl: new Decimal(0),
+      ingredients: {
+        "Potion Ticket": new Decimal(8000),
+      },
+    },
+    "Lab Grown Pumpkin": {
+      name: "Lab Grown Pumpkin",
+      description: "+0.3 Pumpkin Yield",
+      sfl: new Decimal(0),
+      ingredients: {
+        "Potion Ticket": new Decimal(7000),
+      },
+    },
+  };
 
 export type Purchasable = CraftableCollectible & {
   usd: number;
 };
 
-export const SEASON_PASS_ITEMS: Record<SeasonPassName, Purchasable> = {
-  "Solar Flare Banner": {
-    description: "?",
-    ingredients: {},
-    usd: 3.99,
-  },
-  "Dawn Breaker Banner": {
-    description: "?",
-    ingredients: {},
-    boost: "?",
-    usd: 3.99,
-  },
-};
-
 // TODO - add all other boosts
 export const COLLECTIBLE_BUFF: Partial<Record<InventoryItemName, string>> = {
   "Sir Goldensnout": "+0.5 Surrounding Crops",
+  "Freya Fox": "+0.5 Pumpkin",
+  Poppy: "+0.1 Corn",
+  "Grain Grinder": "+20% Cake XP",
+  Kernaldo: "+25% Corn Growth Speed",
 };

@@ -12,7 +12,6 @@ interface Props {
 export const SelectBox = ({ innerCanvasWidth }: Props) => (
   <>
     <img
-      id="testing"
       className="absolute pointer-events-none"
       src={selectBoxBL}
       style={{

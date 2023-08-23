@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
 import { hasFeatureAccess } from "lib/flags";
 import fanArt from "assets/fanArt/dawn_breaker.png";
+import fanArt2 from "assets/fanArt/vergels.png";
 import { Donations } from "./donations/Donations";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -21,12 +22,29 @@ type InteractableName =
   | "boat_modal"
   | "homeless_man"
   | "potion_table"
+  | "fan_art"
   | "fan_art_1"
   | "fan_art_2"
   | "dawn_book_1"
   | "dawn_book_2"
   | "dawn_book_3"
-  | "dawn_book_4";
+  | "dawn_book_4"
+  | "betty_home"
+  | "igor_home"
+  | "windmill"
+  | "guild_house"
+  | "timmy_home"
+  | "bert_home"
+  | "fat_chicken"
+  | "woodlands"
+  | "castle"
+  | "port"
+  | "beach"
+  | "lazy_bud"
+  | "plaza_blue_book"
+  | "plaza_orange_book"
+  | "plaza_green_book"
+  | "potion_house";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -46,14 +64,8 @@ export const interactableModalManager = new InteractableModalManager();
 
 interface Props {
   id: number;
-  onClose: () => void;
-  onOpen: () => void;
 }
-export const InteractableModals: React.FC<Props> = ({
-  id,
-  onOpen,
-  onClose,
-}) => {
+export const InteractableModals: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
@@ -65,13 +77,11 @@ export const InteractableModals: React.FC<Props> = ({
   useEffect(() => {
     interactableModalManager.listen((interactable, open) => {
       setInteractable(interactable);
-      onOpen();
     });
   }, []);
 
   const closeModal = () => {
     setInteractable(undefined);
-    onClose();
   };
 
   const navigate = useNavigate();
@@ -98,14 +108,26 @@ export const InteractableModals: React.FC<Props> = ({
       )}
 
       {interactable === "potion_table" &&
-        hasFeatureAccess(state.inventory, "POTION_HOUSE") && <PotionHouse />}
+        hasFeatureAccess(state.inventory, "POTION_HOUSE") && (
+          <PotionHouse onClose={closeModal} />
+        )}
 
-      <Modal centered show={interactable === "boat_modal"} onHide={closeModal}>
+      <Modal
+        centered
+        show={interactable === "boat_modal"}
+        onHide={closeModal}
+        onShow={() => gameService.send("SAVE")}
+      >
         <CloseButtonPanel onClose={closeModal}>
           <div className="p-2">
             <p className="mb-3">Would you like to return home?</p>
           </div>
-          <Button onClick={() => navigate(`/land/${id}`)}>Go home</Button>
+          <Button
+            onClick={() => navigate(`/land/${id}`)}
+            disabled={gameState.matches("autosaving")}
+          >
+            {gameState.matches("autosaving") ? "Saving..." : "Go home"}
+          </Button>
         </CloseButtonPanel>
       </Modal>
 
@@ -122,6 +144,85 @@ export const InteractableModals: React.FC<Props> = ({
         </CloseButtonPanel>
       </Modal>
 
+      <Modal centered show={interactable === "fat_chicken"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          message={[
+            {
+              text: "Why won't these Bumpkins leave me alone, I just want to relax.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "lazy_bud"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          message={[
+            {
+              text: "Eeeep! So tired.....",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "plaza_blue_book"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.raven}
+          message={[
+            {
+              text: "To summon the seekers, we must gather the essence of the land - pumpkins, nurtured by the earth, and eggs, the promise of new beginnings. ",
+            },
+            {
+              text: "As dusk falls and the moon casts its silvery glow, we offer our humble gifts, hoping to awaken their watchful eyes once more.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "plaza_orange_book"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.cornwell}
+          message={[
+            {
+              text: "Our brave defenders fought valiantly, but alas, we lost the great war, and the Moonseekers drove us from our homeland. Yet, we hold onto hope, for one day we shall reclaim what was once ours.",
+            },
+            {
+              text: "Until then, we will keep Sunflower Land alive in our hearts and dreams, waiting for the day of our triumphant return",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "plaza_green_book"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.grimbly}
+          message={[
+            {
+              text: "The Bumpkins control these islands, leaving us goblins with scarce work and even scarcer food.",
+            },
+            {
+              text: "We strive for equality, a place to call our own, where we can live and thrive",
+            },
+          ]}
+        />
+      </Modal>
+
       <Modal centered show={interactable === "fan_art_1"} onHide={closeModal}>
         <CloseButtonPanel onClose={closeModal} title="Congratulations">
           <div className="p-2">
@@ -130,6 +231,26 @@ export const InteractableModals: React.FC<Props> = ({
               competition
             </p>
             <img src={fanArt} className="w-2/3 mx-auto rounded-lg" />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal centered show={interactable === "fan_art"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal} title="Congratulations">
+          <div className="p-2 flex flex-col items-center">
+            <p className="text-sm mb-2 text-center">
+              Congratulations Vergelsxtn, the winner of the Dawn Breaker Party
+              Fan Art competition
+            </p>
+            <img src={fanArt2} className="w-4/5 mx-auto rounded-lg mb-1" />
+            <a
+              href=" https://github.com/sunflower-land/sunflower-land/discussions/2638"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-white text-xs mb-2 text-center"
+            >
+              View more
+            </a>
           </div>
         </CloseButtonPanel>
       </Modal>
@@ -170,7 +291,7 @@ export const InteractableModals: React.FC<Props> = ({
               text: "Eggplants, they're more than they appear. Despite their dark exterior that attracts shadowy creatures, they bring light to our dishes.",
             },
             {
-              text: "Grilled or mashed into a baba ganoush, their versatility is unmatched. The nightshade vegetables are a symbol of our resilience in the face of adversity.",
+              text: "Grilled or mashed into a Bumpkin ganoush, their versatility is unmatched. The nightshade vegetables are a symbol of our resilience in the face of adversity.",
             },
           ]}
         />
@@ -205,6 +326,160 @@ export const InteractableModals: React.FC<Props> = ({
             },
             {
               text: "Alas, even the eggplant soldiers couldn't guard against the temptation. But I will not falter. One day, I will claim the power I rightfully deserve​.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "timmy_home"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["timmy"]}
+          message={[
+            {
+              text: "Oh, gee, I really want you to explore my house, but Mom told me not to talk to strangers, maybe it's for the best.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "windmill"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["cornwell"]}
+          message={[
+            {
+              text: "Ah, my windmill is under repair, can't have anyone snooping around while I fix it up, come back later.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "igor_home"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["igor"]}
+          message={[
+            {
+              text: "Get lost! I'm in no mood for visitors, especially nosy ones like you!",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "guild_house"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
+          message={[
+            {
+              text: "This is my Guild House, and it's not ready for outsiders yet, gotta finish the preparations first.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "potion_house"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
+          message={[
+            {
+              text: "Watch out friend, the crazy scientist lives in there!",
+            },
+            {
+              text: "Rumour has it they are searching for Bumpkin apprentices to grow mutant crops with them.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "guild_house"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
+          message={[
+            {
+              text: "This is my Guild House, and it's not ready for outsiders yet, gotta finish the preparations first.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "betty_home"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["betty"]}
+          message={[
+            {
+              text: "Oh, sweetie, as much as I love my crops, my house is a private space, not open to visitors right now.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "bert_home"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["bert"]}
+          message={[
+            {
+              text: "Intruders! They must be after my collection of rare items and secrets, I can't let them in!",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "beach"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["old salty"]}
+          message={[
+            {
+              text: "Have you been to the beach?",
+            },
+            {
+              text: "Rumour has that it is filled with luxurious treasures! Unfortunately it is under construction.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "castle"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["tywin"]}
+          message={[
+            {
+              text: "Hold it there peasant! There is no way I'm letting you visit the castle",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "woodlands"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["bert"]}
+          message={[
+            {
+              text: "Are you travelling to the woodlands? Make sure you pick up some delicious mushrooms!",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "port"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["grubnuk"]}
+          message={[
+            {
+              text: "Hold it there! The Goblin's are still building the port. It will be ready for travel and fishing soon.",
             },
           ]}
         />

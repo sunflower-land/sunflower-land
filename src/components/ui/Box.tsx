@@ -81,7 +81,7 @@ export const Box: React.FC<BoxProps> = ({
   const canClick = !locked && !disabled;
 
   const longPressEvents = useLongPress(
-    (e) => (canClick ? onClick?.() : undefined),
+    () => (canClick ? onClick?.() : undefined),
     precisionCount,
     {
       delay: 500,

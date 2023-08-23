@@ -4,6 +4,7 @@ import { FOODS, getKeys } from "../types/craftables";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { SKILL_TREE } from "../types/skills";
 import { Announcements } from "../types/conversations";
+import { EXOTIC_CROPS } from "../types/beans";
 
 export const maxItems: Inventory = {
   Sunflower: new Decimal("9000"),
@@ -15,6 +16,7 @@ export const maxItems: Inventory = {
   Cauliflower: new Decimal("1000"),
   Parsnip: new Decimal("850"),
   Eggplant: new Decimal("600"),
+  Corn: new Decimal("500"),
   Radish: new Decimal("500"),
   Wheat: new Decimal("500"),
   Kale: new Decimal("500"),
@@ -38,6 +40,8 @@ export const maxItems: Inventory = {
   "Beetroot Seed": new Decimal(320),
   "Cauliflower Seed": new Decimal(290),
   "Parsnip Seed": new Decimal(230),
+  "Eggplant Seed": new Decimal(200),
+  "Corn Seed": new Decimal(200),
   "Radish Seed": new Decimal(170),
   "Wheat Seed": new Decimal(170),
   "Kale Seed": new Decimal(150),
@@ -90,6 +94,18 @@ export const maxItems: Inventory = {
   // Seasonal Tickets
   "Solar Flare Ticket": new Decimal(350),
   "Dawn Breaker Ticket": new Decimal(750),
+  "Crow Feather": new Decimal(750),
+
+  // Potion House
+  // "Potion Ticket": new Decimal(750),
+  "Potion Ticket": new Decimal(1000000),
+  "Giant Cabbage": new Decimal(50),
+  "Giant Potato": new Decimal(50),
+  "Giant Pumpkin": new Decimal(50),
+  "Lab Grown Carrot": new Decimal(1),
+  "Lab Grown Pumpkin": new Decimal(1),
+  "Lab Grown Radish": new Decimal(1),
+  "Magic Bean": new Decimal(5),
 
   //Treasure Island Beach Bounty
   "Pirate Bounty": new Decimal(50),
@@ -100,7 +116,15 @@ export const maxItems: Inventory = {
   Starfish: new Decimal(50),
   Seaweed: new Decimal(50),
   "Sea Cucumber": new Decimal(50),
-  Crab: new Decimal(50),
+  Crab: new Decimal(100),
+
+  ...(Object.keys(EXOTIC_CROPS) as InventoryItemName[]).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(50),
+    }),
+    {}
+  ),
 
   // Max of 1000 food item
   ...(Object.keys(FOODS()) as InventoryItemName[]).reduce(
@@ -176,6 +200,36 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
   return { valid: validProgress, maxedItem };
 }
 
+export function hasMaxItems({
+  current,
+  old,
+}: {
+  current: Inventory;
+  old: Inventory;
+}) {
+  let maxedItem: InventoryItemName | undefined = undefined;
+
+  // Check inventory amounts
+  const validProgress = getKeys(current).every((name) => {
+    const oldAmount = old[name] || new Decimal(0);
+
+    const diff = current[name]?.minus(oldAmount) || new Decimal(0);
+
+    const max = maxItems[name] || new Decimal(0);
+
+    if (max.eq(0)) return true;
+
+    if (diff.gt(max)) {
+      maxedItem = name;
+
+      return false;
+    }
+
+    return true;
+  });
+
+  return !validProgress;
+}
 type ProcessEventArgs = {
   state: GameState;
   action: GameEvent;

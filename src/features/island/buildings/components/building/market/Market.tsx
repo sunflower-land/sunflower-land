@@ -11,10 +11,6 @@ import { ShopItems } from "./ShopItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { Conversation } from "features/farming/mail/components/Conversation";
-import { CONVERSATIONS } from "features/game/types/conversations";
-import { Panel } from "components/ui/Panel";
-import { NPC_WEARABLES } from "lib/npcs";
 import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
 import { Bumpkin } from "features/game/types/game";
@@ -35,10 +31,6 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-
-  const conversationId = gameState.context.state.conversations.find(
-    (id) => CONVERSATIONS[id]?.from === "betty"
-  );
 
   const handleClick = () => {
     if (onRemove) {
@@ -85,29 +77,12 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
             transform: "scaleX(-1)",
           }}
         />
-        {conversationId && (
-          <img
-            src={SUNNYSIDE.icons.expression_chat}
-            className="absolute animate-float pointer-events-none"
-            style={{
-              width: `${PIXEL_SCALE * 9}px`,
-              bottom: `${PIXEL_SCALE * 31}px`,
-              right: `${PIXEL_SCALE * 1}px`,
-            }}
-          />
-        )}
       </BuildingImageWrapper>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
-        {conversationId ? (
-          <Panel bumpkinParts={NPC_WEARABLES.betty}>
-            <Conversation conversationId={conversationId} />
-          </Panel>
-        ) : (
-          <ShopItems
-            onClose={() => setIsOpen(false)}
-            hasSoldBefore={hasSoldBefore}
-          />
-        )}
+        <ShopItems
+          onClose={() => setIsOpen(false)}
+          hasSoldBefore={hasSoldBefore}
+        />
       </Modal>
     </>
   );

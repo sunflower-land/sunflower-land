@@ -1,3 +1,4 @@
+import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { GameState } from "../../types/game";
 import { CropName, CROPS } from "../../types/crops";

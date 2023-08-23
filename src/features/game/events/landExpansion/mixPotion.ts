@@ -1,6 +1,3 @@
-import Decimal from "decimal.js-light";
-import { POTIONS } from "features/game/expansion/components/potions/lib/potions";
-import { getKeys } from "features/game/types/craftables";
 import {
   Attempt,
   GameState,
@@ -44,17 +41,13 @@ export function calculateScore(attempt: Attempt): number {
 }
 
 export function mixPotion({ state, action }: Options): GameState {
-  console.log("MIX", action, state);
   const stateCopy = cloneDeep<GameState>(state);
 
   const potions = action.potions;
   const attemptIndex = action.attemptNumber - 1;
 
   if (!stateCopy.potionHouse) {
-    stateCopy.potionHouse = {
-      game: { status: "in_progress", attempts: [] },
-      history: {},
-    };
+    throw new Error("You cannot mix potions without a potion house");
   }
 
   if (
@@ -62,10 +55,6 @@ export function mixPotion({ state, action }: Options): GameState {
     action.attemptNumber !== 1
   ) {
     throw new Error("Cannot mix potion on a finished game");
-  }
-
-  if (stateCopy.potionHouse.game.status === "finished") {
-    stateCopy.potionHouse.game = { status: "in_progress", attempts: [] };
   }
 
   if (action.attemptNumber > MAX_ATTEMPTS) {
@@ -79,21 +68,6 @@ export function mixPotion({ state, action }: Options): GameState {
   if (stateCopy.potionHouse.game.attempts.length !== attemptIndex) {
     throw new Error(`Attempt ${attemptIndex} has not been made yet`);
   }
-
-  potions.forEach((potionName) => {
-    const potionIngredients = POTIONS[potionName].ingredients;
-
-    getKeys(potionIngredients).forEach((ingredientName) => {
-      const count = stateCopy.inventory[ingredientName] ?? new Decimal(0);
-      const totalAmount = potionIngredients[ingredientName] ?? new Decimal(0);
-
-      if (count.lessThan(totalAmount)) {
-        throw new Error(`Insufficient ingredient: ${ingredientName}`);
-      }
-
-      stateCopy.inventory[ingredientName] = count.sub(totalAmount);
-    });
-  });
 
   const attempt: Attempt = [
     {

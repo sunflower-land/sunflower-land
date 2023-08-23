@@ -25,12 +25,6 @@ import warChantMp3 from "../../assets/sound-effects/war_chant.mp3";
 
 // Project Dignity Assets Sounds
 import frog1Mp3 from "../../assets/sound-effects/frog/frog-1.mp3";
-import frog2Mp3 from "../../assets/sound-effects/frog/frog-2.mp3";
-import frog3Mp3 from "../../assets/sound-effects/frog/frog-3.mp3";
-import frog4Mp3 from "../../assets/sound-effects/frog/frog-4.mp3";
-import frog5Mp3 from "../../assets/sound-effects/frog/frog-5.mp3";
-import frog6Mp3 from "../../assets/sound-effects/frog/frog-6.mp3";
-import sealSound from "../../assets/sound-effects/sealSound.mp3";
 
 // Arcade - Common - Game Over
 import gameOver from "../../assets/community/arcade/audio/game_over.mp3";
@@ -44,6 +38,7 @@ import greedyGoblinPick from "../../assets/community/arcade/greedy_goblin/audio/
 import chickenFightPlaying from "../../assets/community/arcade/chicken_fight/audio/playing.mp3";
 import chickenFightPunch from "../../assets/community/arcade/chicken_fight/audio/punch.mp3";
 import chickenFightHit from "../../assets/community/arcade/chicken_fight/audio/hit.mp3";
+import { SOUNDS } from "assets/sound-effects/soundEffects";
 
 export const harvestAudio = new Howl({
   src: [harvestMp3],
@@ -87,11 +82,6 @@ export const wishingWellAudio = new Howl({
 
 export const frogAudio = new Howl({
   src: [frog1Mp3],
-  volume: 0.2,
-});
-
-export const sealAudio = new Howl({
-  src: [sealSound],
   volume: 0.2,
 });
 
@@ -166,30 +156,6 @@ export const warChant = new Howl({
   volume: 0.2,
 });
 
-export const frogSounds = [
-  frogAudio,
-  new Howl({
-    src: [frog2Mp3],
-    volume: 0.2,
-  }),
-  new Howl({
-    src: [frog3Mp3],
-    volume: 0.2,
-  }),
-  new Howl({
-    src: [frog4Mp3],
-    volume: 0.2,
-  }),
-  new Howl({
-    src: [frog5Mp3],
-    volume: 0.2,
-  }),
-  new Howl({
-    src: [frog6Mp3],
-    volume: 0.2,
-  }),
-];
-
 // Arcade - Greedy Goblin
 export const greedyGoblinAudio = {
   greedyGoblinIntroAudio: new Howl({
@@ -231,3 +197,9 @@ export const chickenFightAudio = {
     volume: 0.2,
   }),
 };
+
+// Plaza
+export const mazeOver = new Howl({
+  src: [SOUNDS.notifications.maze_over],
+  volume: 0.2,
+});

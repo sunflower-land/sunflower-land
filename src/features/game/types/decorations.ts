@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
-import { Dimensions } from "./craftables";
+import { Dimensions } from "./buildings";
 import { GameState, Inventory } from "./game";
-import { BoostTreasure, DecorationTreasure } from "./treasure";
 import { SFLDiscount } from "../lib/SFLDiscount";
+import { BoostTreasure, DecorationTreasure } from "./treasure";
 
 export type AchievementDecorationName =
   | "Chef Bear"
@@ -19,19 +19,21 @@ export type AchievementDecorationName =
   | "Rainbow Artist Bear"
   | "Devil Bear";
 
-export type ShopDecorationName =
+export type BasicDecorationName =
   | "White Tulips"
   | "Potted Sunflower"
   | "Potted Potato"
   | "Potted Pumpkin"
   | "Cactus"
   | "Basic Bear"
+  | "Bonnie's Tombstone"
+  | "Grubnash's Tombstone";
+
+export type LandscapingDecorationName =
   | "Dirt Path"
   | "Bush"
   | "Shrub"
   | "Fence"
-  | "Bonnie's Tombstone"
-  | "Grubnash's Tombstone"
   | "Crimson Cap"
   | "Toadstool Seat"
   | "Chestnut Fungi Stool"
@@ -42,13 +44,20 @@ export type ShopDecorationName =
   | "Red Maple"
   | "Golden Maple";
 
+export type ShopDecorationName =
+  | BasicDecorationName
+  | LandscapingDecorationName;
+
 export type SeasonalDecorationName =
   | "Clementine"
   | "Cobalt"
   | "Dawn Umbrella Seat"
   | "Eggplant Grill"
   | "Giant Dawn Mushroom"
-  | "Shroom Glow";
+  | "Shroom Glow"
+  | "Candles"
+  | "Haunted Stump"
+  | "Spooky Tree";
 
 export type EventDecorationName =
   | "Valentine Bear"
@@ -59,15 +68,25 @@ export type EventDecorationName =
   | "Eggplant Bear"
   | "Dawn Flower";
 
+export type PotionHouseDecorationName =
+  | "Giant Potato"
+  | "Giant Pumpkin"
+  | "Giant Cabbage";
+
 export type DecorationName =
   | AchievementDecorationName
   | ShopDecorationName
   | EventDecorationName
   | DecorationTreasure
   | BoostTreasure
-  | SeasonalDecorationName;
+  | SeasonalDecorationName
+  | PotionHouseDecorationName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
+  "Dawn Flower": {
+    height: 1,
+    width: 1,
+  },
   "White Tulips": {
     height: 1,
     width: 1,
@@ -176,14 +195,6 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 1,
     width: 1,
   },
-  "Parasaur Skull": {
-    height: 2,
-    width: 2,
-  },
-  "Golden Bear Head": {
-    height: 2,
-    width: 2,
-  },
   "Pirate Bear": {
     height: 1,
     width: 1,
@@ -236,6 +247,22 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 2,
     height: 1,
   },
+  "Eggplant Bear": {
+    width: 1,
+    height: 1,
+  },
+  "Field Maple": {
+    width: 2,
+    height: 2,
+  },
+  "Red Maple": {
+    width: 2,
+    height: 2,
+  },
+  "Golden Maple": {
+    width: 2,
+    height: 2,
+  },
   Fence: {
     width: 1,
     height: 1,
@@ -251,18 +278,6 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Pine Tree": {
     width: 1,
     height: 2,
-  },
-  "Field Maple": {
-    height: 2,
-    width: 2,
-  },
-  "Red Maple": {
-    height: 2,
-    width: 2,
-  },
-  "Golden Maple": {
-    height: 2,
-    width: 2,
   },
   "Bonnie's Tombstone": {
     width: 1,
@@ -320,13 +335,29 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
     height: 1,
   },
-  "Eggplant Bear": {
+  Candles: {
     width: 1,
     height: 1,
   },
-  "Dawn Flower": {
+  "Haunted Stump": {
     width: 1,
     height: 1,
+  },
+  "Spooky Tree": {
+    width: 1,
+    height: 2,
+  },
+  "Giant Cabbage": {
+    width: 2,
+    height: 2,
+  },
+  "Giant Potato": {
+    width: 1,
+    height: 2,
+  },
+  "Giant Pumpkin": {
+    width: 2,
+    height: 2,
   },
 };
 
@@ -337,21 +368,23 @@ export type Decoration = {
   // If no SFL it is not available for purchase
   sfl?: Decimal;
   limit?: number;
+  from?: Date;
+  to?: Date;
 };
 
-export const HELIOS_DECORATIONS: () => Record<
-  ShopDecorationName,
+export const BASIC_DECORATIONS: () => Record<
+  BasicDecorationName,
   Decoration
 > = () => ({
   "White Tulips": {
     name: "White Tulips",
-    sfl: marketRate(20),
+    sfl: new Decimal(0.25),
     ingredients: {},
     description: "Keep the smell of goblins away.",
   },
   "Potted Sunflower": {
     name: "Potted Sunflower",
-    sfl: marketRate(20),
+    sfl: new Decimal(0.25),
     ingredients: {
       Sunflower: new Decimal(100),
     },
@@ -359,7 +392,7 @@ export const HELIOS_DECORATIONS: () => Record<
   },
   "Potted Potato": {
     name: "Potted Potato",
-    sfl: marketRate(50),
+    sfl: new Decimal(0.625),
     ingredients: {
       Potato: new Decimal(200),
     },
@@ -367,7 +400,7 @@ export const HELIOS_DECORATIONS: () => Record<
   },
   "Potted Pumpkin": {
     name: "Potted Pumpkin",
-    sfl: marketRate(200),
+    sfl: new Decimal(2.5),
     ingredients: {
       Pumpkin: new Decimal(200),
     },
@@ -375,89 +408,17 @@ export const HELIOS_DECORATIONS: () => Record<
   },
   Cactus: {
     name: "Cactus",
-    sfl: marketRate(20),
+    sfl: new Decimal(0.25),
     ingredients: {},
     description: "Saves water and makes your farm look stunning!",
   },
   "Basic Bear": {
     name: "Basic Bear",
-    sfl: marketRate(50),
+    sfl: new Decimal(0.625),
     ingredients: {},
     description: "A basic bear. Use this at Goblin Retreat to build a bear!",
   },
-  "Dirt Path": {
-    name: "Dirt Path",
-    sfl: marketRate(50),
-    ingredients: {},
-    description: "Keep your farmer boots clean with a well trodden path.",
-  },
-  Bush: {
-    name: "Bush",
-    sfl: marketRate(100),
-    ingredients: {
-      Wood: new Decimal(5),
-    },
-    description: "What's lurking in the bushes?",
-  },
-  Fence: {
-    name: "Fence",
-    sfl: marketRate(10),
-    ingredients: {
-      Wood: new Decimal(5),
-    },
-    description: "Add a touch of rustic charm to your farm.",
-  },
-  "Stone Fence": {
-    name: "Stone Fence",
-    sfl: marketRate(20),
-    ingredients: {
-      Stone: new Decimal(5),
-    },
-    description: "Embrace the timeless elegance of a stone fence.",
-  },
-  Shrub: {
-    name: "Shrub",
-    sfl: marketRate(50),
-    ingredients: {
-      Wood: new Decimal(3),
-    },
-    description: "Enhance your in-game landscaping with a beautiful shrub.",
-  },
-  "Pine Tree": {
-    name: "Pine Tree",
-    sfl: marketRate(100),
-    ingredients: {
-      Wood: new Decimal(5),
-    },
-    description: "Standing tall and mighty, a needle-clad dream.",
-  },
-  "Field Maple": {
-    name: "Field Maple",
-    sfl: marketRate(50),
-    ingredients: {
-      Wood: new Decimal(20),
-    },
-    description:
-      "A petite charmer that spreads its leaves like a delicate green canopy.",
-  },
-  "Red Maple": {
-    name: "Red Maple",
-    sfl: marketRate(50),
-    ingredients: {
-      Wood: new Decimal(3),
-      "Block Buck": new Decimal(1),
-    },
-    description: "Fiery foliage and a heart full of autumnal warmth.",
-  },
-  "Golden Maple": {
-    name: "Golden Maple",
-    sfl: marketRate(50),
-    ingredients: {
-      Wood: new Decimal(3),
-      "Block Buck": new Decimal(1),
-    },
-    description: "Radiating brilliance with its shimmering golden leaves.",
-  },
+
   "Bonnie's Tombstone": {
     name: "Bonnie's Tombstone",
     sfl: marketRate(0),
@@ -467,15 +428,7 @@ export const HELIOS_DECORATIONS: () => Record<
     description:
       "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
   },
-  "Crimson Cap": {
-    name: "Crimson Cap",
-    sfl: new Decimal(50),
-    ingredients: {
-      "Wild Mushroom": new Decimal(20),
-    },
-    description:
-      "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
-  },
+
   "Grubnash's Tombstone": {
     name: "Grubnash's Tombstone",
     sfl: marketRate(0),
@@ -484,6 +437,94 @@ export const HELIOS_DECORATIONS: () => Record<
       Iron: new Decimal(10),
     },
     description: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
+  },
+});
+
+export const LANDSCAPING_DECORATIONS: () => Record<
+  LandscapingDecorationName,
+  Decoration
+> = () => ({
+  "Dirt Path": {
+    name: "Dirt Path",
+    sfl: new Decimal(0.625),
+    ingredients: {},
+    description: "Keep your farmer boots clean with a well trodden path.",
+  },
+  Bush: {
+    name: "Bush",
+    sfl: new Decimal(1.25),
+    ingredients: {
+      Wood: new Decimal(5),
+    },
+    description: "What's lurking in the bushes?",
+  },
+  Fence: {
+    name: "Fence",
+    sfl: new Decimal(0.125),
+    ingredients: {
+      Wood: new Decimal(5),
+    },
+    description: "Add a touch of rustic charm to your farm.",
+  },
+  "Stone Fence": {
+    name: "Stone Fence",
+    sfl: new Decimal(0.25),
+    ingredients: {
+      Stone: new Decimal(5),
+    },
+    description: "Embrace the timeless elegance of a stone fence.",
+  },
+  "Pine Tree": {
+    name: "Pine Tree",
+    sfl: new Decimal(1.25),
+    ingredients: {
+      Wood: new Decimal(7),
+    },
+    description: "Standing tall and mighty, a needle-clad dream.",
+  },
+  Shrub: {
+    name: "Shrub",
+    sfl: new Decimal(0.625),
+    ingredients: {
+      Wood: new Decimal(3),
+    },
+    description: "Enhance your in-game landscaping with a beautiful shrub",
+  },
+  "Field Maple": {
+    name: "Field Maple",
+    sfl: new Decimal(0.625),
+    ingredients: {
+      Wood: new Decimal(20),
+    },
+    description:
+      "A petite charmer that spreads its leaves like a delicate green canopy.",
+  },
+  "Red Maple": {
+    name: "Red Maple",
+    sfl: new Decimal(0.625),
+    ingredients: {
+      Wood: new Decimal(3),
+      "Block Buck": new Decimal(1),
+    },
+    description: "Fiery foliage and a heart full of autumnal warmth.",
+  },
+  "Golden Maple": {
+    name: "Golden Maple",
+    sfl: new Decimal(0.625),
+    ingredients: {
+      Wood: new Decimal(3),
+      "Block Buck": new Decimal(1),
+    },
+    description: "Radiating brilliance with its shimmering golden leaves.",
+  },
+  "Crimson Cap": {
+    name: "Crimson Cap",
+    sfl: new Decimal(50),
+    ingredients: {
+      "Wild Mushroom": new Decimal(20),
+    },
+    description:
+      "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
   },
   "Toadstool Seat": {
     name: "Toadstool Seat",
@@ -518,75 +559,73 @@ export const HELIOS_DECORATIONS: () => Record<
 export const SEASONAL_DECORATIONS: (
   state?: GameState
 ) => Partial<Record<SeasonalDecorationName, Decoration>> = (state) => ({
-  "Dawn Umbrella Seat": {
-    name: "Dawn Umbrella Seat",
-    sfl: SFLDiscount(state, marketRate(400)),
-    ingredients: {
-      "Dawn Breaker Ticket": new Decimal(20),
-    },
+  Candles: {
+    name: "Candles",
+    sfl: SFLDiscount(state, new Decimal(5)),
+    from: new Date("2023-08-01"),
+    to: new Date("2023-11-01"),
     description:
-      "Keep those Eggplants dry during those rainy days with the Dawn Umbrella Seat.",
+      "Enchant your farm with flickering spectral flames during Witches' Eve.",
+    ingredients: {
+      "Crow Feather": new Decimal(5),
+    },
   },
-  "Eggplant Grill": {
-    name: "Eggplant Grill",
+  "Haunted Stump": {
+    name: "Haunted Stump",
     sfl: new Decimal(0),
-    description:
-      "Get cooking with the Eggplant Grill, perfect for any outdoor meal.",
+    from: new Date("2023-08-01"),
+    to: new Date("2023-09-01"),
+    description: "Summon spirits and add eerie charm to your farm.",
     ingredients: {
-      Wood: new Decimal(50),
-      Gold: new Decimal(5),
-      Eggplant: new Decimal(50),
-      "Dawn Breaker Ticket": new Decimal(100),
+      "Crow Feather": new Decimal(100),
     },
-    limit: 1,
   },
-  "Giant Dawn Mushroom": {
-    name: "Giant Dawn Mushroom",
-    sfl: SFLDiscount(state, marketRate(1600)),
-    description:
-      "The Giant Dawn Mushroom is a majestic and magical addition to any farm.",
+  "Spooky Tree": {
+    name: "Spooky Tree",
+    sfl: SFLDiscount(state, new Decimal(50)),
+    from: new Date("2023-09-01"),
+    to: new Date("2023-10-01"),
+    description: "A hauntingly fun addition to your farm's decor!",
     ingredients: {
-      "Wild Mushroom": new Decimal(10),
-      Eggplant: new Decimal(30),
+      "Crow Feather": new Decimal(500),
     },
-    limit: 5,
   },
-  ...(!state?.inventory || !!state?.inventory["Dawn Breaker Banner"]
-    ? {
-        Clementine: {
-          name: "Clementine",
-          sfl: SFLDiscount(state, marketRate(1600)),
-          description:
-            "The Clementine Gnome is a cheerful companion for your farming adventures.",
-          ingredients: {
-            Gold: new Decimal(5),
-            "Wild Mushroom": new Decimal(20),
-          },
-          limit: 1,
-        },
-        Cobalt: {
-          name: "Cobalt",
-          sfl: SFLDiscount(state, marketRate(800)),
-          ingredients: {
-            Gold: new Decimal(2),
-            "Wild Mushroom": new Decimal(10),
-          },
-          description:
-            "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
-          limit: 1,
-        },
-      }
-    : {}),
+});
 
-  "Shroom Glow": {
-    name: "Shroom Glow",
-    sfl: SFLDiscount(state, marketRate(800)),
-    description:
-      "Illuminate your farm with the enchanting glow of Shroom Glow.",
+export const POTION_HOUSE_DECORATIONS: () => Record<
+  PotionHouseDecorationName,
+  Decoration
+> = () => ({
+  "Magic Bean": {
+    name: "Magic Bean",
+    description: "What will grow?",
+    sfl: new Decimal(0),
     ingredients: {
-      Gold: new Decimal(5),
-      Wood: new Decimal(70),
-      "Wild Mushroom": new Decimal(30),
+      "Potion Ticket": new Decimal(2000),
+    },
+  },
+  "Giant Potato": {
+    name: "Giant Potato",
+    description: "A giant potato.",
+    sfl: new Decimal(0),
+    ingredients: {
+      "Potion Ticket": new Decimal(500),
+    },
+  },
+  "Giant Pumpkin": {
+    name: "Giant Pumpkin",
+    description: "A giant pumpkin.",
+    sfl: new Decimal(0),
+    ingredients: {
+      "Potion Ticket": new Decimal(750),
+    },
+  },
+  "Giant Cabbage": {
+    name: "Giant Cabbage",
+    description: "A giant cabbage.",
+    sfl: new Decimal(0),
+    ingredients: {
+      "Potion Ticket": new Decimal(1000),
     },
   },
 });

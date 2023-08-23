@@ -9,7 +9,11 @@ import {
 import { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import { CROPS } from "../../types/crops";
 import { CAKES } from "../../types/craftables";
-import { Consumable, isCookable } from "features/game/types/consumables";
+import {
+  COOKABLE_CAKES,
+  Consumable,
+  isCookable,
+} from "features/game/types/consumables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 const crops = CROPS();
@@ -75,6 +79,11 @@ export const getCookingTime = (
     reducedSecs = reducedSecs.mul(0.9);
   }
 
+  // Luna's Hat - 50% reduction
+  if (bumpkin?.equipped.hat === "Luna's Hat") {
+    reducedSecs = reducedSecs.mul(0.5);
+  }
+
   return reducedSecs.toNumber();
 };
 
@@ -112,6 +121,13 @@ export const getFoodExpBoost = (
   //Observatory is placed
   if (isCollectibleBuilt("Observatory", collectibles)) {
     boostedExp = boostedExp.mul(1.05);
+  }
+
+  if (
+    food.name in COOKABLE_CAKES &&
+    isCollectibleBuilt("Grain Grinder", collectibles)
+  ) {
+    boostedExp = boostedExp.mul(1.2);
   }
 
   return boostedExp.toNumber();

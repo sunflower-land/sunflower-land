@@ -1,3 +1,4 @@
+import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
@@ -130,6 +131,70 @@ describe("feedBumpkin", () => {
 
     expect(result.bumpkin?.experience).toBe(
       CONSUMABLES["Boiled Eggs"].experience * 1.05
+    );
+  });
+
+  it("provides 20% more experience for cakes with Grain Grinder ", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+        inventory: {
+          "Sunflower Cake": new Decimal(1),
+        },
+        collectibles: {
+          "Grain Grinder": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Sunflower Cake",
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      CONSUMABLES["Sunflower Cake"].experience * 1.2
+    );
+  });
+
+  it("does not provides experience boost with Grain Grinder if not a cake", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+        inventory: {
+          Sauerkraut: new Decimal(1),
+        },
+        collectibles: {
+          "Grain Grinder": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Sauerkraut",
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      CONSUMABLES["Sauerkraut"].experience
     );
   });
 });

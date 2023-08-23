@@ -16,14 +16,11 @@ import { SharkBumpkin } from "./water/SharkBumpkin";
 import { Arcade } from "features/community/arcade/Arcade";
 import { FruitQuest } from "features/island/farmerQuest/FruitQuest";
 
-import { ProjectDignityFrogs } from "features/community/components/ProjectDignityFrogs";
-import { ProjectDignitySeals } from "features/community/components/ProjectDignitySeals";
-import CommunityBoundary from "features/community/components/CommunityBoundary";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Pirate } from "./Pirate";
 import { DailyReward } from "./dailyReward/DailyReward";
 import { PartyIsland } from "./PartyIsland";
-import { DawnTeaser } from "./DawnTeaser";
+import { SeasonTeaser } from "./SeasonTeaser";
 import { LAND_WIDTH } from "../Land";
 
 interface Props {
@@ -144,7 +141,7 @@ export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
       </MapPlacement>
 
       {/* Bottom island */}
-      <DawnTeaser offset={offset} />
+      <SeasonTeaser offset={offset} />
 
       {/* Bottom right island */}
       <MapPlacement x={7 + offset} y={-2 - offset} width={6}>
@@ -159,15 +156,6 @@ export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
 
       {/* Right island */}
       <PartyIsland offset={offset} />
-
-      {/* community assets */}
-      <CommunityBoundary>
-        <MapPlacement x={frogCoordinates.x} y={frogCoordinates.y}>
-          <ProjectDignityFrogs left={0} top={0} />
-        </MapPlacement>
-
-        <ProjectDignitySeals isGarden={false} offset={offset} />
-      </CommunityBoundary>
     </div>
   );
 };

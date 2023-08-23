@@ -23,8 +23,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
   collectibles: Collectibles,
-  fruit?: PlantedFruit,
-  selectedItem?: string
+  fruit?: PlantedFruit
 ) => {
   const axesNeeded = getRequiredAxeAmount(
     fruit?.name as FruitName,
@@ -36,9 +35,7 @@ const HasAxes = (
 
   if (axesNeeded.lte(0)) return true;
 
-  return (
-    selectedItem === "Axe" && (inventory.Axe ?? new Decimal(0)).gte(axesNeeded)
-  );
+  return (inventory.Axe ?? new Decimal(0)).gte(axesNeeded);
 };
 
 const isPlaying = (state: MachineState) =>
@@ -61,7 +58,7 @@ interface Props {
 }
 
 export const FruitPatch: React.FC<Props> = ({ id }) => {
-  const { gameService, selectedItem } = useContext(Context);
+  const { gameService, selectedItem, shortcutItem } = useContext(Context);
   const [infoToShow, setInfoToShow] = useState<"error" | "info">("error");
   const [showInfo, setShowInfo] = useState(false);
   const [playAnimation, setPlayAnimation] = useState(false);
@@ -80,8 +77,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     gameService,
     selectInventory,
     (prev, next) =>
-      HasAxes(prev, collectibles, fruit, selectedItem) ===
-      HasAxes(next, collectibles, fruit, selectedItem)
+      HasAxes(prev, collectibles, fruit) === HasAxes(next, collectibles, fruit)
   );
   const playing = useSelector(gameService, isPlaying);
 
@@ -113,15 +109,21 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
 
   const removeTree = () => {
     try {
-      const hasAxes = HasAxes(inventory, collectibles, fruit, selectedItem);
+      const hasAxes = HasAxes(inventory, collectibles, fruit);
 
       if (!hasAxes) {
         return displayInformation();
       }
 
+      if (
+        !isCollectibleBuilt("Foreman Beaver", collectibles) ||
+        fruit?.name === "Blueberry"
+      )
+        shortcutItem("Axe");
+
       const newState = gameService.send("fruitTree.removed", {
         index: id,
-        selectedItem: selectedItem,
+        selectedItem: "Axe",
       });
 
       if (!newState.matches("hoarding")) {

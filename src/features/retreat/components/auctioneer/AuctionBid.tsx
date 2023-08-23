@@ -31,7 +31,6 @@ export const AuctionBid: React.FC<Props> = ({
     : getImageUrl(ITEM_IDS[bid.wearable as BumpkinItem]);
 
   const readyAt = auction.endAt + AUCTION_BUFFER_SECONDS * 1000;
-  const secondsLeft = !auction ? 0 : Math.floor((readyAt - Date.now()) / 1000);
 
   const ready = useCountdown(readyAt);
   return (
