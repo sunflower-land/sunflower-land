@@ -39,7 +39,11 @@ export const DeliveryModal: React.FC<Props> = ({ isOpen, onClose }) => {
               onSelect={setSelectedOrderId}
             />
           )}
-          {tab === 1 && <ChoreV2 isReadOnly />}
+          {tab === 1 && (
+            <div className="pt-1">
+              <ChoreV2 isReadOnly />
+            </div>
+          )}
           {tab === 2 && <DeliveryHelp />}
         </CloseButtonPanel>
       </Modal>
