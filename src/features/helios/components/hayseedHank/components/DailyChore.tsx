@@ -94,6 +94,12 @@ export const DailyChore: React.FC<Props> = ({ id, chore, isReadOnly }) => {
             new Decimal(progress)
           )}/${chore.requirement}`}</span>
         </div>
+        {isReadOnly && chore.completedAt && (
+          <div className="flex">
+            <span className="text-xs mr-1">Completed</span>
+            <img src={SUNNYSIDE.icons.confirm} className="h-4" />
+          </div>
+        )}
         {!isReadOnly &&
           (chore.completedAt ? (
             <div className="flex">
