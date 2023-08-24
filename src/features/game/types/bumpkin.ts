@@ -171,7 +171,8 @@ export type BumpkinHat =
   | "Parsnip Horns"
   | "Halo"
   | "Unicorn Horn"
-  | "Unicorn Hat";
+  | "Unicorn Hat"
+  | "Feather Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -465,6 +466,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Grey Merch Hoodie": 211,
   "Unicorn Horn": 212,
   "Unicorn Hat": 213,
+  "Feather Hat": 214,
 };
 
 // The reverse of above
@@ -737,6 +739,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Grey Merch Hoodie": "shirt",
   "Unicorn Horn": "hat",
   "Unicorn Hat": "hat",
+  "Feather Hat": "hat",
 };
 
 export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
@@ -752,4 +755,5 @@ export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
   "Carrot Amulet": "-20% Carrot growth time",
   "Beetroot Amulet": "+20% Beetroot",
   "Green Amulet": "Chance for 10x crops",
+  "Luna's Hat": "-50% cooking time",
 };

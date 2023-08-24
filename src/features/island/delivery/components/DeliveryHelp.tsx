@@ -7,7 +7,7 @@ export const DeliveryHelp: React.FC = () => {
   return (
     <div className="flex flex-col space-y-2 pt-3">
       <div className="flex">
-        <div className="w-12 flex">
+        <div className="w-12 flex justify-center">
           <img src={ITEM_DETAILS["Pumpkin Soup"].image} className="h-7" />
         </div>
         <p className="text-sm flex-1 justify-center">
@@ -20,7 +20,15 @@ export const DeliveryHelp: React.FC = () => {
           <img src={ITEM_DETAILS["Hammer"].image} className="h-7" />
         </div>
         <p className="text-sm flex-1">
-          Expand your land to unlock more slots + quicker orders
+          Expand your land to unlock more slots + quicker delivery orders
+        </p>
+      </div>
+      <div className="flex">
+        <div className="w-12 flex justify-center">
+          <img src={ITEM_DETAILS["Axe"].image} className="h-7" />
+        </div>
+        <p className="text-sm flex-1">
+          Complete your chores and find Hank at the Plaza to claim your rewards.
         </p>
       </div>
       <div className="flex">
@@ -33,6 +41,7 @@ export const DeliveryHelp: React.FC = () => {
           <span className="italic text-xs ml-1">(Coming soon)</span>
         </p>
       </div>
+
       <a
         href="https://docs.sunflower-land.com/player-guides/deliveries"
         target="_blank"

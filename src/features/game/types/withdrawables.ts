@@ -556,6 +556,8 @@ const goblinPirate: Record<GoblinPirateItemName, () => boolean> = {
   Karkinos: () => true,
   "Emerald Turtle": () => true,
   "Tin Turtle": () => false,
+  "Golden Bear Head": () => false,
+  "Parasaur Skull": () => false,
 };
 
 const treasureDecoration: Record<DecorationTreasure, () => boolean> = {
@@ -567,10 +569,8 @@ const treasureDecoration: Record<DecorationTreasure, () => boolean> = {
   "Abandoned Bear": () => false,
   "Dinosaur Bone": () => hasSeasonEnded("Dawn Breaker"),
   Galleon: () => false,
-  "Golden Bear Head": () => false,
   "Human Bear": () => false,
   "Lifeguard Bear": () => true,
-  "Parasaur Skull": () => false,
   "Skeleton King Staff": () => false,
   "Snorkel Bear": () => true,
   "Turtle Bear": () => true,
@@ -590,6 +590,7 @@ const beachBounty: Record<BeachBountyTreasure, () => boolean> = {
   "Wooden Compass": () => false,
   "Iron Compass": () => false,
   "Old Bottle": () => false,
+  "Emerald Compass": () => false,
 };
 
 const eventDecoration: Record<EventDecorationName, () => boolean> = {
@@ -983,4 +984,5 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Grey Merch Hoodie": () => false,
   "Unicorn Horn": () => false,
   "Unicorn Hat": () => false,
+  "Feather Hat": () => true,
 };

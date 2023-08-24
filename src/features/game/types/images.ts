@@ -369,6 +369,7 @@ import galleon from "assets/sfts/galleon.webp";
 import treasureMap from "assets/sfts/treasure/treasure_map.webp";
 import woodenCompass from "assets/sfts/treasure/wooden_compass.webp";
 import ironCompass from "assets/sfts/treasure/iron_compass.webp";
+import emeraldCompass from "assets/sfts/treasure/emerald_compass.webp";
 import heartOfDavyJones from "assets/sfts/heart_of_davy_jones.gif";
 import heartBalloons from "assets/events/valentine/sfts/heart_balloons.png";
 import flamingo from "assets/events/valentine/sfts/flamingo.webp";
@@ -1955,6 +1956,11 @@ export const ITEM_DETAILS: Items = {
     description:
       "Iron out your path to treasure! This compass is 'attract'-ive, and not just to the magnetic North!",
     image: ironCompass,
+  },
+  "Emerald Compass": {
+    description:
+      "Guide your way through the lush mysteries of life! This compass doesn't just point North, it points towards opulence and grandeur!",
+    image: emeraldCompass,
   },
   "Old Bottle": {
     description: "Antique pirate bottle, echoing tales of high seas adventure.",

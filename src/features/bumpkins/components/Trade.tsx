@@ -24,6 +24,8 @@ import { getBumpkinLevel } from "features/game/lib/level";
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const INPUT_MAX_CHAR = 10;
 
+const MAX_SFL = 150;
+
 type Items = Partial<Record<InventoryItemName, number>>;
 const ListTrade: React.FC<{
   inventory: Inventory;
@@ -47,6 +49,8 @@ const ListTrade: React.FC<{
   const exceedsMax = getKeys(selected).some(
     (name) => (selected[name] ?? 0) > (TRADE_LIMITS[name] ?? 0)
   );
+
+  const maxSFL = sfl > MAX_SFL;
 
   return (
     <div>
@@ -120,7 +124,8 @@ const ListTrade: React.FC<{
           ))}
           <p className="text-sm ml-2">Asking price:</p>
 
-          <div className="flex items-center">
+          <div className="flex items-center relative">
+            <span className="text-xxs absolute right-[10px] top-[-5px]">{`Max: ${MAX_SFL}`}</span>
             <Box image={token} />
             <input
               style={{
@@ -138,7 +143,10 @@ const ListTrade: React.FC<{
                 }
               }}
               className={classNames(
-                "text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10"
+                "text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10",
+                {
+                  "text-error": maxSFL,
+                }
               )}
             />
           </div>
@@ -155,7 +163,10 @@ const ListTrade: React.FC<{
         </Button>
         <Button
           disabled={
-            exceedsMax || getKeys(selected).length === 0 || !hasResources
+            maxSFL ||
+            exceedsMax ||
+            getKeys(selected).length === 0 ||
+            !hasResources
           }
           onClick={() => onList(selected, sfl)}
         >

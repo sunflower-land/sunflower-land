@@ -62,7 +62,7 @@ export const ChatUI: React.FC<Props> = ({ farmId, onMessage, messages }) => {
         text.toLowerCase()
       );
 
-      return similarity > 0.85;
+      return similarity > 0.6;
     });
 
     if (duplicates.length >= 3) {

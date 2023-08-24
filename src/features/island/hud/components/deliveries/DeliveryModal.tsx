@@ -4,6 +4,7 @@ import { Modal } from "react-bootstrap";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { DeliveryHelp } from "features/island/delivery/components/DeliveryHelp";
 import { DeliveryOrders } from "features/island/delivery/components/Orders";
+import { ChoreV2 } from "features/helios/components/hayseedHank/components/ChoreV2";
 
 interface Props {
   isOpen: boolean;
@@ -26,6 +27,7 @@ export const DeliveryModal: React.FC<Props> = ({ isOpen, onClose }) => {
           onClose={onClose}
           tabs={[
             { icon: SUNNYSIDE.icons.expression_chat, name: "Deliveries" },
+            { icon: SUNNYSIDE.icons.expression_chat, name: "Chores" },
             { icon: SUNNYSIDE.icons.expression_confused, name: "Help" },
           ]}
           currentTab={tab}
@@ -37,7 +39,12 @@ export const DeliveryModal: React.FC<Props> = ({ isOpen, onClose }) => {
               onSelect={setSelectedOrderId}
             />
           )}
-          {tab === 1 && <DeliveryHelp />}
+          {tab === 1 && (
+            <div className="pt-1">
+              <ChoreV2 isReadOnly />
+            </div>
+          )}
+          {tab === 2 && <DeliveryHelp />}
         </CloseButtonPanel>
       </Modal>
     </>

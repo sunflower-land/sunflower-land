@@ -6,7 +6,10 @@ import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { DailyChore } from "./DailyChore";
 
-export const ChoreV2: React.FC = () => {
+interface Props {
+  isReadOnly?: boolean;
+}
+export const ChoreV2: React.FC<Props> = ({ isReadOnly = false }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -31,6 +34,7 @@ export const ChoreV2: React.FC = () => {
             chore={chore}
             id={choreId}
             key={chore.createdAt + index}
+            isReadOnly={isReadOnly}
           />
         );
       })}

@@ -4085,4 +4085,12 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1407.png",
     attributes: [],
   },
+  "Emerald Compass": {
+    description:
+      "Guide your way through the lush mysteries of life! This compass doesn't just point North, it points towards opulence and grandeur!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/927.png",
+    attributes: [],
+  },
 };
