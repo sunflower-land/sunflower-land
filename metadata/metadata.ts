@@ -535,8 +535,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Boost" },
       {
         display_type: "boost_number",
-        trait_type: "Amount of Wheat to Feed Chickens",
-        value: 0,
+        trait_type: "Feed chickens without Wheat",
+        value: 1,
       },
       { value: "Tradable" },
     ],
@@ -2088,7 +2088,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Crop Growth Speed when applied",
-        value: 50,
+        value: -50,
       },
       { trait_type: "Purpose", value: "Fertiliser" },
     ],
@@ -2889,14 +2889,38 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/439.gif",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Radish Critical Hit Amount",
+        value: 10,
+      },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Radish Critical Hit Chance",
+        value: 4,
+      },
+    ],
   },
   "Potent Potato": {
     description: "Potent! Grants a 4% chance to get +10 potatoes on harvest.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/438.gif",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Potato Critical Hit Amount",
+        value: 10,
+      },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Potato Critical Hit Chance",
+        value: 4,
+      },
+    ],
   },
   "Peeled Potato": {
     description:
@@ -2904,7 +2928,19 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/433.gif",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Crop Critical Hit Amount",
+        value: 1,
+      },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Potato Critical Hit Chance",
+        value: 20,
+      },
+    ],
   },
   "Stellar Sunflower": {
     description:
@@ -2912,7 +2948,19 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/437.gif",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Sunflower Critical Hit Amount",
+        value: 10,
+      },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Sunflower Critical Hit Chance",
+        value: 4,
+      },
+    ],
   },
   "Wood Nymph Wendy": {
     description: "Cast an enchantment to entice the wood fairies.",
@@ -4144,7 +4192,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
       {
         display_type: "boost_number",
-        trait_type: "Plot Count",
+        trait_type: "Plots Affected",
         value: 12,
       },
       { value: "Tradable" },
@@ -4306,7 +4354,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Boost" },
       {
         display_type: "boost_percentage",
-        trait_type: "Cake XP",
+        trait_type: "Increase Cake XP",
         value: 20,
       },
     ],
