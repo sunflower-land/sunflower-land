@@ -775,7 +775,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
       {
         display_type: "boost_number",
-        trait_type: "Seed Cost",
+        trait_type: "Seed Buy Cost",
         value: 0,
       },
       { value: "Tradable" },
@@ -1174,7 +1174,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       {
         display_type: "boost_percentage",
-        trait_type: "Chicken Wheat requirement",
+        trait_type: "Amount of Wheat to Feed Chickens",
         value: -10,
       },
       { trait_type: "Purpose", value: "Boost" },
@@ -3885,10 +3885,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/462.png",
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Area of Effect", value: "Yes" },
       {
         display_type: "boost_percentage",
         trait_type: "Crop Growth Speed",
         value: -20,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Plots Affected",
+        value: 9,
       },
     ],
   },
@@ -3908,10 +3914,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/463.png",
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Area of Effect", value: "Yes" },
       {
         display_type: "boost_number",
         trait_type: "Increase Mineral Drops",
         value: 0.5,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Minerals Affected",
+        value: 8,
       },
     ],
   },
@@ -3923,10 +3935,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/464.png",
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Area of Effect", value: "Yes" },
       {
         display_type: "boost_number",
         trait_type: "Increase Stone Drops",
         value: 0.1,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Stone Affected",
+        value: 8,
       },
     ],
   },
@@ -3952,10 +3970,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/465.png",
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Area of Effect", value: "Yes" },
       {
         display_type: "boost_number",
         trait_type: "Increase Egg Yield",
         value: 0.5,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Chickens Affected",
+        value: 12,
       },
     ],
   },
@@ -3967,10 +3991,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/466.png",
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Area of Effect", value: "Yes" },
       {
         display_type: "boost_number",
         trait_type: "Increase Crop Yield",
         value: 0.5,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Plot Count",
+        value: 12,
       },
     ],
   },
@@ -3982,10 +4012,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/467.png",
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Area of Effect", value: "Yes" },
       {
         display_type: "boost_number",
         trait_type: "Increase Medium Crop Yield",
         value: 0.2,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Plots Affected",
+        value: 9,
       },
     ],
   },
@@ -4033,10 +4069,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/468.png",
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Area of Effect", value: "Yes" },
       {
         display_type: "boost_number",
         trait_type: "Increase Advanced Crop Yield",
         value: 0.2,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Plots Affected",
+        value: 9,
       },
     ],
   },
@@ -4128,11 +4170,17 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/474.png",
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Area of Effect", value: "Yes" },
       {
         display_type: "boost_number",
         trait_type: "Increase Corn Yield",
         value: 1,
       },
+      //{
+      //display_type: "boost_number",
+      //trait_type: "Plots Affected",
+      //value: 10,
+      //}, // Leaving this out until the AOE is fixed for Queen Cornelia
     ],
   },
   Candles: {
