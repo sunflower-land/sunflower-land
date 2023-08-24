@@ -768,10 +768,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Crop Yield",
         value: 20,
       },
-      { 
-        display_type: "boost_number", 
-        trait_type: "Seed Cost", 
-        value: 0 
+      {
+        display_type: "boost_number",
+        trait_type: "Seed Cost",
+        value: 0,
       },
       { value: "Tradable" },
     ],
@@ -4080,10 +4080,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/472.png",
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
-      { 
-        display_type: "boost_percentage", 
-        trait_type: "Cake XP", 
-        value: 20 
+      {
+        display_type: "boost_percentage",
+        trait_type: "Cake XP",
+        value: 20,
       },
     ],
   },
