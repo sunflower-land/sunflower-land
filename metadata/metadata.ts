@@ -1293,7 +1293,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Crop Growth Speed",
-        value: 10,
+        value: -10,
       },
     ],
   },
@@ -1309,7 +1309,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Animal produce time",
-        value: 10,
+        value: -10,
       },
     ],
   },
@@ -3023,7 +3023,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
       {
-        display_type: "boost_precentage",
+        display_type: "boost_percentage",
         trait_type: "Orange Regenaration Speed",
         value: -50,
       },
