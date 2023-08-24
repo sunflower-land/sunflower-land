@@ -878,7 +878,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/432.gif",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Pumpkin Yield Increase",
+        value: 20,
+      },
+    ],
   },
   Nugget: {
     name: "Nugget",
@@ -916,7 +923,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/502.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Pumpkin Soup": {
     name: "Pumpkin Soup",
@@ -925,7 +932,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/501.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   Sauerkraut: {
     name: "Sauerkraut",
@@ -934,7 +941,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/503.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Sunflower Cake": {
     name: "Sunflower Cake",
@@ -943,7 +950,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/505.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Radish Pie": {
     name: "Radish Pie",
@@ -952,7 +959,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/504.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Carrot Cake": {
     name: "Carrot Cake",
@@ -961,7 +968,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/508.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Potato Cake": {
     name: "Potato Cake",
@@ -970,7 +977,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/506.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Cabbage Cake": {
     name: "Cabbage Cake",
@@ -979,7 +986,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/509.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Pumpkin Cake": {
     name: "Pumpkin Cake",
@@ -988,7 +995,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/507.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Beetroot Cake": {
     name: "Beetroot Cake",
@@ -997,7 +1004,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/510.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Parsnip Cake": {
     name: "Parsnip Cake",
@@ -1006,7 +1013,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/512.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Cauliflower Cake": {
     name: "Cauliflower Cake",
@@ -1015,7 +1022,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/511.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Radish Cake": {
     name: "Radish Cake",
@@ -1024,7 +1031,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/513.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Wheat Cake": {
     name: "Wheat Cake",
@@ -1033,7 +1040,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/514.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   Stone: {
     name: "Stone",
@@ -2177,7 +2184,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1001.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Building" }],
   },
   "Jack-o-lantern": {
     name: "Jack-o-lantern",
@@ -2185,7 +2192,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/923.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Coupon" }],
   },
   "Golden Crop": {
     name: "Golden Crop",
@@ -2201,7 +2208,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1002.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Building" }],
   },
   Tent: {
     name: "Tent",
@@ -2210,7 +2217,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1004.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Building" }],
   },
   Workbench: {
     name: "Workbench",
@@ -2218,7 +2225,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1003.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Building" }],
   },
   "Goblin War Banner": {
     name: "Goblin War Banner",
@@ -2227,7 +2234,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/921.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Town Center": {
     name: "Town Center",
@@ -2235,7 +2242,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1013.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Building" }],
   },
   Bakery: {
     name: "Bakery",
@@ -2243,7 +2250,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1007.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Building" }],
   },
   Kitchen: {
     name: "Kitchen",
@@ -2251,7 +2258,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1008.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Building" }],
   },
   "Chef Apron": {
     name: "Chef Apron",
@@ -2275,7 +2282,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1005.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Building" }],
   },
   Deli: {
     name: "Deli",
@@ -2283,7 +2290,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1009.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Building" }],
   },
   "Smoothie Shack": {
     name: "Smoothie Shack",
@@ -2292,7 +2299,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1010.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Building" }],
   },
   Toolshed: {
     name: "Toolshed",
@@ -2300,7 +2307,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1011.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Building" }],
   },
   Warehouse: {
     name: "Warehouse",
@@ -2308,7 +2315,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1012.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Building" }],
   },
 
   "Sunflower Amulet": {
@@ -2440,7 +2447,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1006.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Building" }],
   },
   "Undead Rooster": {
     name: "Undead Rooster",
@@ -2478,7 +2485,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/524.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Badass Bear": {
     description:
@@ -2509,7 +2516,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/525.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Boiled Eggs": {
     description:
@@ -2517,7 +2524,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/515.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Brilliant Bear": {
     description: "Pure brilliance! Reach lvl 20 to claim this bear",
@@ -2532,7 +2539,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/516.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Bumpkin Salad": {
     description:
@@ -2540,21 +2547,40 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/517.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Cabbage Boy": {
     description: "Don't wake the baby!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/434.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Cabbage Yield",
+        value: 0.25,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Cabbage Yield with Cabbage Girl",
+        value: 0.5,
+      },
+    ],
   },
   "Cabbage Girl": {
     description: "Don't wake the baby!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/435.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Cabbage Growth Speed",
+        value: 50,
+      },
+    ],
   },
   "Cauliflower Burger": {
     description:
@@ -2562,7 +2588,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/520.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Chef Bear": {
     description:
@@ -2632,14 +2658,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/521.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Fermented Carrots": {
     description: "Got a surplus of carrots? You can cook this at the Deli.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/526.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Goblin's Treat": {
     description:
@@ -2647,14 +2673,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/518.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Honey Cake": {
     description: "A scrumptious cake! You can cook this at the Bakery",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/527.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Kale & Mushroom Pie": {
     description:
@@ -2662,7 +2688,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/528.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Kale Stew": {
     description:
@@ -2670,14 +2696,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/529.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Mashed Potato": {
     description: "My life is potato. You can cook this at the Fire Pit.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/519.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Mushroom Jacket Potatoes": {
     description:
@@ -2685,7 +2711,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/530.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Mushroom Soup": {
     description:
@@ -2693,7 +2719,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/531.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Reindeer Carrot": {
     description:
@@ -2701,7 +2727,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/534.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Roast Veggies": {
     description:
@@ -2709,7 +2735,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/522.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Sunflower Crunch": {
     description:
@@ -2717,7 +2743,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/533.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Orange Cake": {
     description:
@@ -2725,7 +2751,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/532.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   Pancakes: {
     description:
@@ -2733,7 +2759,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/523.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Apple Juice": {
     description:
@@ -2741,7 +2767,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/535.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
 
   "Orange Juice": {
@@ -2750,7 +2776,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/536.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
 
   "Purple Smoothie": {
@@ -2759,7 +2785,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/537.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Power Smoothie": {
     description:
@@ -2767,7 +2793,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/538.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
 
   "Bumpkin Detox": {
@@ -2776,7 +2802,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/539.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
 
   "Potted Potato": {
@@ -2893,35 +2919,35 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/618.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
   "Sea Cucumber": {
     description: "Find at Treasure Island ???",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/619.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
   Coral: {
     description: "Find at Treasure Island ???",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/620.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
   Crab: {
     description: "Find at Treasure Island ???",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/621.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
   Starfish: {
     description: "Find at Treasure Island ???",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/622.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
   "Immortal Pear": {
     description:
@@ -2992,7 +3018,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/446.gif",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [{ trait_type: "Purpose", value: "Boost" }],
   },
   "Collectible Bear": {
     description: "A prized bear, still in mint condition!",
@@ -3021,7 +3047,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1223.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Lunar Calendar": {
     description:
@@ -3029,77 +3055,84 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/448.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Crop Growth Speed",
+        value: 10,
+      },
+    ],
   },
   "Dinosaur Bone": {
     description: "A Dinosaur Bone! What kind of creature was this?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1237.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Parasaur Skull": {
     description: "A skull from a parasaur!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1231.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "T-Rex Skull": {
     description: "A skull from a T-Rex! Amazing!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1225.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Goblin Bear": {
     description: "A goblin bear. It's a bit scary.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1234.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Golden Bear Head": {
     description: "Spooky, but cool.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1232.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Human Bear": {
     description: "A human bear. Even scarier than a goblin bear.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1238.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Lifeguard Bear": {
     description: "Lifeguard Bear is here to save the day!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1229.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Pirate Bear": {
     description: "Argh, matey! Hug me!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1233.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Pirate Bounty": {
     description: "A bounty for a pirate. It's worth a lot of money.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1301.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
   "Pirate Cake": {
     description: "Great for Pirate themed birthday parties.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/540.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Skeleton King Staff": {
     description: "All hail the Skeleton King!",
@@ -3113,7 +3146,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1230.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Whale Bear": {
     description:
@@ -3121,14 +3154,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1239.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Sunflower Coin": {
     description: "A coin made of sunflowers.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1226.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Wooden Compass": {
     description:
@@ -3136,21 +3169,28 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/925.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
   "Turtle Bear": {
     description: "Turtley enough for the turtle club.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1224.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Tiki Totem": {
     description: "The Tiki Totem adds 0.1 wood to every tree you chop.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/447.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Wood Drops",
+        value: 0.1,
+      },
+    ],
   },
   "Heart of Davy Jones": {
     description:
@@ -3158,14 +3198,21 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/450.gif",
-    attributes: [],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Daily Digs",
+        value: 20,
+      },
+    ],
   },
   "Heart Balloons": {
     description: "Use them as decorations for romantic occasions.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/451.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   Flamingo: {
     description:
@@ -3173,7 +3220,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/452.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Blossom Tree": {
     description:
@@ -3181,7 +3228,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/453.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Genie Lamp": {
     description:
@@ -3196,7 +3243,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/717.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Coupon" }],
   },
   "Treasure Map": {
     description:
@@ -3218,42 +3265,49 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1227.png",
-    attributes: [],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Kale Yield",
+        value: 0.2,
+      },
+    ],
   },
   Galleon: {
     description: "A toy ship, still in pretty good nick.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1235.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   Pearl: {
     description: "Shimmers in the sun.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1302.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
   Pipi: {
     description: "Plebidonax deltoides, found in the Pacific Ocean.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1305.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
   Seaweed: {
     description: "Seaweed.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1307.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
   "Sand Drill": {
     description: "Drill deep for uncommon or rare treasure",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/311.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Tool" }],
   },
   "Block Buck": {
     description:
@@ -3261,7 +3315,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/718.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Coupon" }],
   },
   "Valentine Bear": {
     description:
@@ -3269,21 +3323,21 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1240.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Easter Bear": {
     description: "A bear with bunny ears?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1236.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Easter Bush": {
     description: "What is inside?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1243.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Giant Carrot": {
     description:
@@ -3291,14 +3345,21 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1244.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Iron Idol": {
     description: "The Idol adds 1 iron every time you mine iron.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/454.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Iron Drops",
+        value: 1,
+      },
+    ],
   },
   "Bumpkin Roast": {
     description:
@@ -3306,28 +3367,28 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/541.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Goblin Brunch": {
     description: "A traditional Goblin dish. You can cook this at the Kitchen.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/542.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Fruit Salad": {
     description: "Fruit Salad. You can cook this at the Kitchen.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/543.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Kale Omelette": {
     description: "A healthy breakfast. You can can cook this at the Fire Pit.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/544.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Cabbers n Mash": {
     description:
@@ -3335,42 +3396,42 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/545.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Fancy Fries": {
     description: "Fantastic Fries. You can cook this at the Deli.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/546.png",
-    attributes: [{ trait_type: "Purpose", value: "Food" }],
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
   "Solar Flare Ticket": {
     description: "A ticket used during the Solar Flare Season",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/719.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Coupon" }],
   },
   "Dawn Breaker Ticket": {
     description: "A ticket used during the Dawn Breaker Season",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/720.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Coupon" }],
   },
   "Crow Feather": {
     description: "A ticket used during the Witches' Eve Season",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Coupon" }],
   },
   "Sunflower Supporter": {
     description: "A true supporter of the project",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/721.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Coupon" }],
   },
   "Palm Tree": {
     description: "Tall, beachy, shady and chic, palm trees make waves sashay.",
@@ -3392,14 +3453,28 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/455.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Cabbage Yield",
+        value: 0.1,
+      },
+    ],
   },
   "Pablo The Bunny": {
     description: "The magical bunny that increases your carrot harvests",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/926.gif",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Carrot Yield",
+        value: 0.1,
+      },
+    ],
   },
   "Crop Plot": {
     description: "A precious piece of soil used to plant crops.",
@@ -3686,7 +3761,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/456.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Mushroom Yield",
+        value: 0.2,
+      },
+    ],
   },
   "Purple Trail": {
     description:
@@ -3694,35 +3776,63 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/457.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Eggplant Yield",
+        value: 0.2,
+      },
+    ],
   },
   Obie: {
     description: "A fierce eggplant soldier",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/458.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Eggplant Growth Speed",
+        value: 25,
+      },
+    ],
   },
   Maximus: {
     description: "Squash the competition with plump Maximus",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/459.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Eggplant Yield",
+        value: 1,
+      },
+    ],
   },
   Hoot: {
     description: "Hoot hoot! Have you solved my riddle yet?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/461.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Yield of Radish, Wheat & Kale",
+        value: 0.5,
+      },
+    ],
   },
   "Genie Bear": {
     description: "Exactly what I wished for!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1264.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Basic Scarecrow": {
     description: "Choosy defender of your farm's VIP (Very Important Plants)",
@@ -3744,7 +3854,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/927.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
   "Emerald Turtle": {
     description:
@@ -3752,7 +3862,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/463.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Mineral Drops",
+        value: 0.5,
+      },
+    ],
   },
   "Tin Turtle": {
     description:
@@ -3760,21 +3877,28 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/464.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Stone Drops",
+        value: 0.1,
+      },
+    ],
   },
   "Old Bottle": {
     description: "Antique pirate bottle, echoing tales of high seas adventure.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/928.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
   "Beta Bear": {
     description: "A bear found during special testing events",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1266.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   Bale: {
     description:
@@ -3782,7 +3906,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/465.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Egg Yield",
+        value: 0.5,
+      },
+    ],
   },
   "Sir Goldensnout": {
     description:
@@ -3790,7 +3921,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/466.png",
-    attributes: [],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Crop Yield",
+        value: 0.5,
+      },
+    ],
   },
   "Scary Mike": {
     description:
@@ -3798,35 +3936,42 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/467.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Medium Crop Yield",
+        value: 0.2,
+      },
+    ],
   },
   "Betty Lantern": {
     description: "It looks so real! I wonder how they crafted this.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1273.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Goblin Lantern": {
     description: "A scary looking lantern",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1276.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Bumpkin Lantern": {
     description: "Moving closer you hear murmurs of a living Bumpkin...creepy!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1274.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Eggplant Bear": {
     description: "The mark of a generous eggplant whale.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1275.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Dawn Flower": {
     description:
@@ -3834,7 +3979,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1277.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Laurie the Chuckle Crow": {
     description:
@@ -3842,7 +3987,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/468.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Advanced Crop Yield",
+        value: 0.2,
+      },
+    ],
   },
   "Freya Fox": {
     description:
@@ -3850,7 +4002,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/469.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Pumpkin Yield",
+        value: 0.5,
+      },
+    ],
   },
   "Gold Pass": {
     description:
@@ -3868,8 +4027,9 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
       {
-        trait_type: "Reduced time to lay eggs (hours)",
-        value: 4,
+        display_type: "boost_number",
+        trait_type: "Reduced Time to lay Eggs (hours)",
+        value: -4,
       },
     ],
   },
@@ -3880,7 +4040,11 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/471.png",
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
-      { trait_type: "Increase Corn Drops", value: 0.1 },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Corn Yield",
+        value: 0.1,
+      },
     ],
   },
   "Grain Grinder": {
@@ -3914,7 +4078,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/474.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Corn Yield",
+        value: 1,
+      },
+    ],
   },
   Candles: {
     description:
@@ -3995,9 +4166,9 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
       {
-        display_type: "boost_percentage",
-        trait_type: "Carrot Yield Increase",
-        value: 20,
+        display_type: "boost_number",
+        trait_type: "Increase Carrot Yield",
+        value: 0.2,
       },
     ],
   },
@@ -4009,9 +4180,9 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
       {
-        display_type: "boost_percentage",
-        trait_type: "Pumpkin Yield Increase",
-        value: 30,
+        display_type: "boost_number",
+        trait_type: "Increase Pumpkin Yield",
+        value: 0.3,
       },
     ],
   },
@@ -4023,9 +4194,9 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
       {
-        display_type: "boost_percentage",
-        trait_type: "Radish Yield Increase",
-        value: 40,
+        display_type: "boost_number",
+        trait_type: "Increase Radish Yield",
+        value: 0.4,
       },
     ],
   },
@@ -4034,56 +4205,56 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/727.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [{ trait_type: "Purpose", value: "Coupon" }],
   },
   "Adirondack Potato": {
     description: "A rugged spud, Adirondack style!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1405.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Crop" }],
   },
   "Black Magic": {
     description: "A dark and mysterious flower!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1401.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Crop" }],
   },
   "Golden Helios": {
     description: "Sun-kissed grandeur!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1402.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Crop" }],
   },
   Chiogga: {
     description: "A rainbow beet!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1403.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Crop" }],
   },
   "Purple Cauliflower": {
     description: "A regal purple cauliflower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1404.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Crop" }],
   },
   "Warty Goblin Pumpkin": {
     description: "A whimsical, wart-covered pumpkin",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1406.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Crop" }],
   },
   "White Carrot": {
     description: "A pale carrot with pale roots",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1407.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Crop" }],
   },
   "Emerald Compass": {
     description:
@@ -4091,6 +4262,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/927.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
 };
