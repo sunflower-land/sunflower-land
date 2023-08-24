@@ -984,4 +984,5 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Grey Merch Hoodie": () => false,
   "Unicorn Horn": () => false,
   "Unicorn Hat": () => false,
+  "Feather Hat": () => true,
 };
