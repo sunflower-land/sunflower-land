@@ -458,7 +458,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
       {
         display_type: "boost_percentage",
-        trait_type: "Crop Yield Increase",
+        trait_type: "Increase Crop Yield",
         value: 20,
       },
       { value: "Tradable" },
@@ -520,8 +520,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Boost" },
       {
         display_type: "boost_percentage",
-        trait_type: "Egg production",
-        value: 200,
+        trait_type: "Increase Egg Production",
+        value: 100,
       },
       {
         display_type: "boost_number",
@@ -571,8 +571,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Boost" },
       {
         display_type: "boost_percentage",
-        trait_type: "Cauliflower production",
-        value: 200,
+        trait_type: "Increase Cauliflower Yield",
+        value: 100,
       },
       { value: "Tradable" },
     ],
@@ -765,10 +765,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
       {
         display_type: "boost_percentage",
-        trait_type: "Crop Yield Increase",
+        trait_type: "Increase Crop Yield",
         value: 20,
       },
-      { display_type: "boost_number", trait_type: "Seed Cost", value: 0 },
+      { 
+        display_type: "boost_number", 
+        trait_type: "Seed Cost", 
+        value: 0 
+      },
       { value: "Tradable" },
     ],
   },
@@ -882,7 +886,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Boost" },
       {
         display_type: "boost_percentage",
-        trait_type: "Pumpkin Yield Increase",
+        trait_type: "Increase Pumpkin Yield",
         value: 20,
       },
     ],
@@ -1182,7 +1186,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       {
         display_type: "boost_percentage",
-        trait_type: "Extra egg yield",
+        trait_type: "Increase Egg Yield",
         value: 10,
       },
       { trait_type: "Purpose", value: "Boost" },
@@ -1262,7 +1266,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Skill" },
       {
         display_type: "boost_percentage",
-        trait_type: "Crop Profit Increase",
+        trait_type: "Increase Crop Sell Price",
         value: 5,
       },
     ],
@@ -1278,7 +1282,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Skill" },
       {
         display_type: "boost_percentage",
-        trait_type: "Animal Produce increase",
+        trait_type: "Increase Animal Yield",
         value: 5,
       },
     ],
@@ -1306,7 +1310,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Skill" },
       {
         display_type: "boost_percentage",
-        trait_type: "Crop growth speed",
+        trait_type: "Crop Growth Speed",
         value: 10,
       },
     ],
@@ -1385,7 +1389,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Skill" },
       {
         display_type: "boost_percentage",
-        trait_type: "Crop yield",
+        trait_type: "Increase Crop Yield",
         value: 10,
       },
     ],
@@ -1431,7 +1435,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Skill" },
       {
         display_type: "boost_percentage",
-        trait_type: "Wood bonus",
+        trait_type: "Increase Wood Drops",
         value: 35,
       },
     ],
@@ -2100,7 +2104,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       {
         display_type: "boost_percentage",
-        trait_type: "Crops grow quicker",
+        trait_type: "Crop Growth Speed when applied",
         value: 50,
       },
       { trait_type: "Purpose", value: "Fertiliser" },
@@ -2133,7 +2137,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       {
         display_type: "boost_percentage",
-        trait_type: "Carrot harvest",
+        trait_type: "Increase Carrot Yield",
         value: 20,
       },
       { trait_type: "Purpose", value: "Boost" },
@@ -2458,7 +2462,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       {
         display_type: "boost_percentage",
-        trait_type: "Extra egg yield",
+        trait_type: "Increase Egg Yield",
         value: 10,
       },
       { trait_type: "Purpose", value: "Boost" },
@@ -2987,7 +2991,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/444.gif",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Blueberry Yield",
+        value: 1,
+      },
+    ],
   },
   "Devil Bear": {
     description: "Better the Devil you know than the Devil you don't.",
@@ -3005,7 +3016,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       {
         display_type: "boost_number",
-        trait_type: "Extra egg yield",
+        trait_type: "Increase Egg Yield",
         value: 0.2,
       },
       { trait_type: "Purpose", value: "Boost" },
@@ -3018,7 +3029,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/446.gif",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "One free food per day",
+        value: 1,
+      },
+    ],
   },
   "Collectible Bear": {
     description: "A prized bear, still in mint condition!",
@@ -3202,7 +3220,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Boost" },
       {
         display_type: "boost_number",
-        trait_type: "Increase Daily Digs",
+        trait_type: "Increase daily digs",
         value: 20,
       },
     ],
@@ -3236,7 +3254,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/460.png",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Grants Wish",
+        value: 3,
+      },
+    ],
   },
   "Love Letter": {
     description: "Convey feelings of love",
@@ -3255,7 +3280,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Boost" },
       {
         display_type: "boost_percentage",
-        trait_type: "Profit from beach bounty items",
+        trait_type: "Increase Beach Bounty profit",
         value: 20,
       },
     ],
@@ -4055,7 +4080,11 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/472.png",
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
-      { display_type: "boost_percentage", trait_type: "Cake XP", value: 20 },
+      { 
+        display_type: "boost_percentage", 
+        trait_type: "Cake XP", 
+        value: 20 
+      },
     ],
   },
   Kernaldo: {
