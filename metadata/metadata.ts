@@ -489,8 +489,21 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/407.gif",
     attributes: [
+      { trait_type: "Purpose", value: "Boost" },
       { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Area of Effect", value: "Yes" },
       { value: "Tradable" },
+      {
+        display_type: "boost_number",
+        trait_type:
+          "Increase Crop Yield when placed between Clementine and Cobalt",
+        value: 10,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Plots Affected",
+        value: 1,
+      },
     ],
   },
   "Rusty Shovel": {
@@ -518,7 +531,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
       {
         display_type: "boost_number",
-        trait_type: "Max. chickens",
+        trait_type: "Increase Max Chickens per Hen House",
         value: 5,
       },
       { value: "Tradable" },
@@ -740,6 +753,11 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Purpose", value: "Boost" },
       { value: "Tradable" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increases chance of Mutant Crop",
+        value: 300, // clarify if this is the right number? This would mean 4x from base chance
+      },
     ],
   },
   Kuebiko: {
@@ -763,7 +781,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
       {
         display_type: "boost_number",
-        trait_type: "Seed Buy Cost",
+        trait_type: "Cost of Seeds",
         value: 0,
       },
       { value: "Tradable" },
@@ -1107,7 +1125,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/606.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Animal" }],
   },
   "Speed Chicken": {
     name: "Speed Chicken",
@@ -1133,7 +1151,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/608.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Animal" }],
   },
   Sheep: {
     name: "Sheep",
@@ -1142,7 +1160,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/609.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Animal" }],
   },
   "Fat Chicken": {
     name: "Fat Chicken",
@@ -1279,7 +1297,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/607.png",
-    attributes: [{ trait_type: "Purpose", value: "Resource" }],
+    attributes: [{ trait_type: "Purpose", value: "Animal" }],
   },
   "Seed Specialist": {
     name: "Seed Specialist",
@@ -2037,7 +2055,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       {
         display_type: "boost_percentage",
-        trait_type: "Experience Boost",
+        trait_type: "Increase XP",
         value: 5,
       },
       { trait_type: "Purpose", value: "Boost" },
@@ -2051,7 +2069,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/910.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
   },
   "Ancient Goblin Sword": {
     name: "Ancient Goblin Sword",
@@ -2059,7 +2077,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/914.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
   },
   "Ancient Human Warhammer": {
     name: "Ancient Human Warhammer",
@@ -2067,7 +2085,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/915.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
   },
   "War Bond": {
     name: "War Bond",
@@ -2099,7 +2117,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/913.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
   },
   "Human War Point": {
     name: "Human War Point",
@@ -2108,7 +2126,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/919.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
   },
   "Easter Bunny": {
     name: "Easter Bunny",
@@ -2145,7 +2163,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/912.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
   },
   "Goblin War Point": {
     name: "Goblin War Point",
@@ -2154,7 +2172,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/918.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
   },
   "Human War Banner": {
     name: "Human War Banner",
@@ -2163,7 +2181,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/920.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   Market: {
     name: "Market",
@@ -2249,7 +2267,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Chef Apron": {
     name: "Chef Apron",
-    description: "Legacy item, do not buy.",
+    description: "Legacy item, DO NOT BUY!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1101.png",
@@ -2259,7 +2277,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Price of cakes",
         value: 20,
       },
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Purpose", value: "Legacy" },
     ],
   },
   "Water Well": {
@@ -2306,7 +2324,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
 
   "Sunflower Amulet": {
     name: "Sunflower Amulet",
-    description: "10% increased Sunflower yield",
+    description: "Legacy item, DO NOT BUY!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1103.png",
@@ -2316,20 +2334,20 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Sunflower yield",
         value: 10,
       },
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Purpose", value: "Legacy" },
     ],
   },
   "Chef Hat": {
     name: "Chef Hat",
-    description: "Legacy item, do not buy.",
+    description: "Legacy item, DO NOT BUY!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1102.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
   },
   "Carrot Amulet": {
     name: "Carrot Amulet",
-    description: "Legacy item, do not buy.",
+    description: "Legacy item, DO NOT BUY!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1104.png",
@@ -2339,12 +2357,12 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Carrots grow time",
         value: 20,
       },
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Purpose", value: "Legacy" },
     ],
   },
   "Beetroot Amulet": {
     name: "Beetroot Amulet",
-    description: "Legacy item, do not buy.",
+    description: "Legacy item, DO NOT BUY!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1105.png",
@@ -2354,20 +2372,20 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Beetroot yield",
         value: 20,
       },
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Purpose", value: "Legacy" },
     ],
   },
   "Warrior Shirt": {
     name: "Warrior Shirt",
-    description: "A mark of a true warrior",
+    description: "Legacy item, DO NOT BUY!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1107.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
   },
   "Green Amulet": {
     name: "Green Amulet",
-    description: "Legacy item, do not buy.",
+    description: "Legacy item, DO NOT BUY!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1106.png",
@@ -2377,16 +2395,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Crop Critical Hit Multiplier",
         value: 10,
       },
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Purpose", value: "Legacy" },
     ],
   },
   "Warrior Pants": {
     name: "Warrior Pants",
-    description: "Protect your thighs",
+    description: "Legacy item, DO NOT BUY!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1109.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
   },
   "Skull Hat": {
     name: "Skull Hat",
@@ -2398,7 +2416,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Sunflower Shield": {
     name: "Sunflower Shield",
-    description: "A hero of Sunflower Land. Free Sunflower Seeds!",
+    description: "Legacy item, DO NOT BUY!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1110.png",
@@ -2408,7 +2426,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Sunflower Seed Cost",
         value: 0,
       },
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Purpose", value: "Legacy" },
     ],
   },
   "War Tombstone": {
@@ -2459,11 +2477,11 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Warrior Helmet": {
     name: "Warrior Helmet",
-    description: "Immune to arrows",
+    description: "Legacy item, DO NOT BUY!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1108.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
   },
   "Angel Bear": {
     description:
@@ -2898,7 +2916,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
       {
         display_type: "boost_percentage",
-        trait_type: "Radish Critical Hit Chance",
+        trait_type: "Critical Hit Chance",
         value: 4,
       },
     ],
@@ -2917,7 +2935,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
       {
         display_type: "boost_percentage",
-        trait_type: "Potato Critical Hit Chance",
+        trait_type: "Critical Hit Chance",
         value: 4,
       },
     ],
@@ -2932,12 +2950,12 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Boost" },
       {
         display_type: "boost_number",
-        trait_type: "Crop Critical Hit Amount",
+        trait_type: "Potato Critical Hit Amount",
         value: 1,
       },
       {
         display_type: "boost_percentage",
-        trait_type: "Potato Critical Hit Chance",
+        trait_type: "Critical Hit Chance",
         value: 20,
       },
     ],
@@ -2957,7 +2975,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
       {
         display_type: "boost_percentage",
-        trait_type: "Sunflower Critical Hit Chance",
+        trait_type: "Critical Hit Chance",
         value: 4,
       },
     ],
@@ -3277,7 +3295,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1228.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Snorkel Bear": {
     description: "Snorkel Bear loves to swim.",
@@ -3401,7 +3419,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Boost" },
       {
         display_type: "boost_number",
-        trait_type: "Grants Wish",
+        trait_type: "Grants Wishes",
         value: 3,
       },
       { value: "Tradable" },
@@ -4388,11 +4406,11 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         value: 1,
       },
       { value: "Tradable" },
-      //{
-      //display_type: "boost_number",
-      //trait_type: "Plots Affected",
-      //value: 10,
-      //}, // Leaving this out until the AOE is fixed for Queen Cornelia
+      {
+        display_type: "boost_number",
+        trait_type: "Plots Affected",
+        value: 10,
+      },
     ],
   },
   Candles: {
