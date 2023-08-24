@@ -438,8 +438,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/403.png",
     attributes: [
-      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Purpose", value: "Boost" },
       { value: "Tradable" },
+      {
+        display_type: "boost_number",
+        trait_type: "Free gift every Christmas",
+        value: 1,
+      },
     ],
   },
   Scarecrow: {
@@ -454,7 +459,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Crop Growth Speed",
-        value: 15,
+        value: -15,
       },
       {
         display_type: "boost_percentage",
@@ -659,7 +664,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Tree Recovery Speed",
-        value: 50,
+        value: -50,
       },
       { value: "Tradable" },
     ],
@@ -676,7 +681,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Parsnip Growth Speed",
-        value: 50,
+        value: -50,
       },
       { value: "Tradable" },
     ],
@@ -698,7 +703,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Tree Recovery Speed",
-        value: 50,
+        value: -50,
       },
       {
         display_type: "boost_number",
@@ -720,7 +725,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Crop Growth Speed",
-        value: 15,
+        value: -15,
       },
       { value: "Tradable" },
     ],
@@ -761,7 +766,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Crop Growth Speed",
-        value: 15,
+        value: -15,
       },
       {
         display_type: "boost_percentage",
@@ -1129,7 +1134,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Egg Production Speed",
-        value: 10,
+        value: -10,
       },
       { trait_type: "Purpose", value: "Boost" },
       { value: "Tradable" },
@@ -1169,8 +1174,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       {
         display_type: "boost_percentage",
-        trait_type: "Reduced wheat requirement for chickens",
-        value: 10,
+        trait_type: "Chicken Wheat requirement",
+        value: -10,
       },
       { trait_type: "Purpose", value: "Boost" },
       { value: "Tradable" },
@@ -2567,7 +2572,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
       {
         display_type: "boost_number",
-        trait_type: "Increase Cabbage Yield with Cabbage Girl",
+        trait_type: "Increase Cabbage Yield with Cabbage Girl placed",
         value: 0.5,
       },
     ],
@@ -2582,7 +2587,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Cabbage Growth Speed",
-        value: 50,
+        value: -50,
       },
     ],
   },
@@ -2959,7 +2964,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/441.gif",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_number",
+        trait_type: "Extra Fruit Harvest",
+        value: 1,
+      },
+    ],
   },
   "Lady Bug": {
     description:
@@ -2983,7 +2995,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/443.gif",
-    attributes: [{ trait_type: "Purpose", value: "Boost" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Boost" },
+      {
+        display_type: "boost_precentage",
+        trait_type: "Orange Regenaration Speed",
+        value: -50,
+      },
+    ],
   },
   "Black Bearry": {
     description:
@@ -3078,7 +3097,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Crop Growth Speed",
-        value: 10,
+        value: -10,
       },
     ],
   },
@@ -3820,7 +3839,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Eggplant Growth Speed",
-        value: 25,
+        value: -25,
       },
     ],
   },
@@ -3869,7 +3888,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Crop Growth Speed",
-        value: 20,
+        value: -20,
       },
     ],
   },
@@ -4097,7 +4116,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Increase Corn Growth Speed",
-        value: 25,
+        value: -25,
       },
     ],
   },
