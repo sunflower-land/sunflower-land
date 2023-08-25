@@ -116,7 +116,7 @@ export const AuctionDetails: React.FC<Props> = ({
             src={SUNNYSIDE.icons.arrow_left}
             className="h-8 cursor-pointer"
           />
-          <p className="-ml-5">
+          <p className="-ml-5 max-w-[80%] sm:max-w-none text-center">
             {item.type === "collectible" ? item.collectible : item.wearable}
           </p>
           <div />
