@@ -3018,35 +3018,35 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Find at Treasure Island ???",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/618.png",
+    image_url: "../public/erc1155/images/1304.png",
     attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
   "Sea Cucumber": {
     description: "Find at Treasure Island ???",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/619.png",
+    image_url: "../public/erc1155/images/1308.png",
     attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
   Coral: {
     description: "Find at Treasure Island ???",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/620.png",
+    image_url: "../public/erc1155/images/1303.png",
     attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
   Crab: {
     description: "Find at Treasure Island ???",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/621.png",
+    image_url: "../public/erc1155/images/1309.png",
     attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
   Starfish: {
     description: "Find at Treasure Island ???",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/622.png",
+    image_url: "../public/erc1155/images/1306.png",
     attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
   "Immortal Pear": {
@@ -3624,7 +3624,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A ticket used during the Witches' Eve Season",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "",
+    image_url: "../public/erc1155/images/725.png",
     attributes: [{ trait_type: "Purpose", value: "Coupon" }],
   },
   "Sunflower Supporter": {
@@ -3774,7 +3774,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Standing tall and mighty, a needle-clad dream.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/1265.png",
+    image_url: "../public/erc1155/images/1270.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Stone Fence": {
@@ -3782,7 +3782,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/1266.png",
+    image_url: "../public/erc1155/images/1271.png",
   },
   "Field Maple": {
     description:
@@ -4330,7 +4330,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/725.png",
+    image_url: "../public/erc1155/images/726.png",
     attributes: [{ trait_type: "Purpose", value: "Coupon" }],
   },
   "El Pollo Veloz": {
@@ -4587,7 +4587,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "Guide your way through the lush mysteries of life! This compass doesn't just point North, it points towards opulence and grandeur!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/927.png",
+    image_url: "../public/erc1155/images/929.png",
     attributes: [{ trait_type: "Purpose", value: "Bounty" }],
   },
 };
