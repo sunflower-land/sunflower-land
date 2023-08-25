@@ -446,7 +446,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
-        trait_type: "Crop Growth Speed",
+        trait_type: "Crop Growth Time",
         value: -15,
       },
       {
@@ -651,7 +651,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Apprentice Beaver": {
     name: "Apprentice Beaver",
     description:
-      "A well trained Beaver who has aspirations of creating a wood monopoly.\n\nIncreases wood replenishment rates.\n\nYou can craft this item at the Goblin Blacksmith in the game.\n\nIncludes boosts from [Woody the Beaver](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/415).",
+      "A well trained Beaver who has aspirations of creating a wood monopoly.\n\nIncreases wood replenishment rates.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**\n\nIncludes boosts from [Woody the Beaver](https://opensea.io/assets/matic/0x22d5f9b75c524fec1d6619787e582644cd4d7422/415).",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/416.gif",
@@ -664,7 +664,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
       {
         display_type: "boost_percentage",
-        trait_type: "Tree Recovery Speed",
+        trait_type: "Tree Recovery Time",
         value: -50,
       },
       { value: "Tradable" },
@@ -681,7 +681,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
-        trait_type: "Parsnip Growth Speed",
+        trait_type: "Parsnip Growth Time",
         value: -50,
       },
       { value: "Tradable" },
@@ -703,7 +703,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
       {
         display_type: "boost_percentage",
-        trait_type: "Tree Recovery Speed",
+        trait_type: "Tree Recovery Time",
         value: -50,
       },
       {
@@ -725,7 +725,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
-        trait_type: "Crop Growth Speed",
+        trait_type: "Crop Growth Time",
         value: -15,
       },
       { value: "Tradable" },
@@ -771,7 +771,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
-        trait_type: "Crop Growth Speed",
+        trait_type: "Crop Growth Time",
         value: -15,
       },
       {
@@ -1137,7 +1137,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       {
         display_type: "boost_percentage",
-        trait_type: "Egg Production Speed",
+        trait_type: "Egg Production Time",
         value: -10,
       },
       { trait_type: "Boost", value: "Animal" },
@@ -1318,7 +1318,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Legacy" },
       {
         display_type: "boost_percentage",
-        trait_type: "Crop Growth Speed",
+        trait_type: "Crop Growth Time",
         value: -10,
       },
       {
@@ -1340,7 +1340,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Purpose", value: "Legacy" },
       {
         display_type: "boost_percentage",
-        trait_type: "Animal produce time",
+        trait_type: "Animal Produce Time",
         value: -10,
       },
     ],
@@ -2132,7 +2132,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       {
         display_type: "boost_percentage",
-        trait_type: "Crop Growth Speed when applied",
+        trait_type: "Crop Growth Time when applied",
         value: -50,
       },
       { trait_type: "Purpose", value: "Fertiliser" },
@@ -2628,7 +2628,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
-        trait_type: "Cabbage Growth Speed",
+        trait_type: "Cabbage Growth Time",
         value: -50,
       },
       { value: "Tradable" },
@@ -3117,7 +3117,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Fruit" },
       {
         display_type: "boost_percentage",
-        trait_type: "Orange Regenaration Speed",
+        trait_type: "Orange Regenaration Time",
         value: -50,
       },
       { value: "Tradable" },
@@ -3218,7 +3218,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Lunar Calendar": {
     description:
-      "Crops now follow the lunar cycle! 10% increase to crop growth speed.",
+      "Crops now follow the lunar cycle! 10% reduction in growth time.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/448.png",
@@ -3226,7 +3226,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
-        trait_type: "Crop Growth Speed",
+        trait_type: "Crop Growth Time",
         value: -10,
       },
       { value: "Tradable" },
@@ -4065,7 +4065,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
-        trait_type: "Eggplant Growth Speed",
+        trait_type: "Eggplant Growth Time",
         value: -25,
       },
       { value: "Tradable" },
@@ -4121,7 +4121,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Area of Effect" },
       {
         display_type: "boost_percentage",
-        trait_type: "Crop Growth Speed",
+        trait_type: "Crop Growth Time",
         value: -20,
       },
       {
@@ -4369,7 +4369,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Animal" },
       {
         display_type: "boost_number",
-        trait_type: "Reduced Time to lay Eggs (hours)",
+        trait_type: "Egg Production Time (hours)",
         value: -4,
       },
       { value: "Tradable" },
@@ -4415,7 +4415,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
-        trait_type: "Increase Corn Growth Speed",
+        trait_type: "Increase Corn Growth Time",
         value: -25,
       },
       { value: "Tradable" },
