@@ -1261,28 +1261,35 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Green Thumb": {
     name: "Green Thumb",
     description:
-      "A skill that can be earned when reaching level 5 in farming.\n\nIt can be minted only through gameplay.",
+      "~~A skill that can be earned when reaching level 5 in farming.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/701.png",
     attributes: [
-      { trait_type: "Purpose", value: "Skill" },
+      { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Purpose", value: "Legacy" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Crop Sell Price",
         value: 5,
+      },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Mutant Crop Chance",
+        value: 10,
       },
     ],
   },
   "Barn Manager": {
     name: "Barn Manager",
     description:
-      "A skill that can be earned when reaching level 5 in farming.\n\nIt can be minted only through gameplay.",
+      "~~A skill that can be earned when reaching level 5 in farming.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/702.png",
     attributes: [
-      { trait_type: "Purpose", value: "Skill" },
+      { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Purpose", value: "Legacy" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Animal Yield",
@@ -1302,28 +1309,35 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Seed Specialist": {
     name: "Seed Specialist",
     description:
-      "A skill that can be earned when reaching level 10 in farming.\n\nIt can be minted only through gameplay.",
+      "~~A skill that can be earned when reaching level 10 in farming.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/703.png",
     attributes: [
-      { trait_type: "Purpose", value: "Skill" },
+      { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Purpose", value: "Legacy" },
       {
         display_type: "boost_percentage",
         trait_type: "Crop Growth Speed",
         value: -10,
+      },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Mutant Crop Chance",
+        value: 10,
       },
     ],
   },
   Wrangler: {
     name: "Wrangler",
     description:
-      "A skill that can be learnt when reaching level 10 in farming.\n\nIt can be minted only through gameplay.",
+      "~~A skill that can be learnt when reaching level 10 in farming.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/704.png",
     attributes: [
-      { trait_type: "Purpose", value: "Skill" },
+      { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Purpose", value: "Legacy" },
       {
         display_type: "boost_percentage",
         trait_type: "Animal produce time",
@@ -1334,12 +1348,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Lumberjack: {
     name: "Lumberjack",
     description:
-      "A skill that can be earned when reaching level 5 in gathering.\n\nIt can be minted only through gameplay.",
+      "~~A skill that can be earned when reaching level 5 in gathering.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/705.png",
     attributes: [
-      { trait_type: "Purpose", value: "Skill" },
+      { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Purpose", value: "Legacy" },
       {
         display_type: "boost_percentage",
         trait_type: "Wood drop increase",
@@ -1350,12 +1365,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Prospector: {
     name: "Prospector",
     description:
-      "A skill that can be earned when reaching level 5 in gathering.\n\nIt can be minted only through gameplay.",
+      "~~A skill that can be earned when reaching level 5 in gathering.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/706.png",
     attributes: [
-      { trait_type: "Purpose", value: "Skill" },
+      { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Purpose", value: "Legacy" },
       {
         display_type: "boost_percentage",
         trait_type: "Stone drop increase",
@@ -1366,12 +1382,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Gold Rush": {
     name: "Gold Rush",
     description:
-      "A skill that can be earned when reaching level 10 in gathering.\n\nIt can be minted only through gameplay.",
+      "~~A skill that can be earned when reaching level 10 in gathering.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/708.png",
     attributes: [
-      { trait_type: "Purpose", value: "Skill" },
+      { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Purpose", value: "Legacy" },
       {
         display_type: "boost_percentage",
         trait_type: "Gold Drops",
@@ -1381,12 +1398,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   Coder: {
     name: "Coder",
-    description: "A skill that can be earned by contributing code to the game.",
+    description:
+      "~~A skill that can be earned by contributing code to the game.~~ **Not Available**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/710.png",
     attributes: [
-      { trait_type: "Purpose", value: "Skill" },
+      { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Purpose", value: "Legacy" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Crop Yield",
@@ -1396,12 +1415,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   Artist: {
     name: "Artist",
-    description: "A skill that can be earned by contributing art to the game.",
+    description:
+      "~~A skill that can be earned by contributing art to the game.~~ **Not Available**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/709.png",
     attributes: [
-      { trait_type: "Purpose", value: "Skill" },
+      { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Purpose", value: "Legacy" },
       {
         display_type: "boost_percentage",
         trait_type: "Tools discount",
@@ -1412,12 +1433,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   Logger: {
     name: "Logger",
     description:
-      "A skill that can be earned when reaching level 10 in gathering.\n\nIt can be minted only through gameplay.",
+      "~~A skill that can be earned when reaching level 10 in gathering.~~\n\n~~It can be minted only through gameplay.~~ **Not Available**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/707.png",
     attributes: [
-      { trait_type: "Purpose", value: "Skill" },
+      { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Purpose", value: "Legacy" },
       {
         display_type: "boost_percentage",
         trait_type: "Axe Strength",
@@ -1427,12 +1449,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Discord Mod": {
     name: "Discord Mod",
-    description: "A skill that can be earned by moderating Discord.",
+    description:
+      "~~A skill that can be earned by moderating Discord.~~ **Not Available**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/712.png",
     attributes: [
-      { trait_type: "Purpose", value: "Skill" },
+      { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Purpose", value: "Legacy" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Wood Drops",
@@ -1460,12 +1484,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Liquidity Provider": {
     name: "Liquidity Provider",
-    description: "A skill that can be earned by providing liquidity.",
+    description:
+      "~~A skill that can be earned by providing liquidity.~~ **Not Available**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/711.png",
     attributes: [
-      { trait_type: "Purpose", value: "Skill" },
+      { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Purpose", value: "Legacy" },
       {
         display_type: "boost_percentage",
         trait_type: "Withdrawal fee discount",
@@ -1523,11 +1549,12 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   Warrior: {
     name: "Warrior",
-    description: "A skill earned by the top 10 warriors each week.",
+    description:
+      "~~A skill earned by the top 10 warriors each week.~~ **Not Available**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/714.png",
-    attributes: [{ trait_type: "Purpose", value: "Skill" }],
+    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
   },
   "French Flag": {
     name: "French Flag",
@@ -2277,7 +2304,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Price of cakes",
         value: 20,
       },
-      { trait_type: "Legacy Item - DO NOT BUY", value: "Legacy" },
+      { trait_type: "Purpose", value: "Legacy" },
     ],
   },
   "Water Well": {
@@ -2334,7 +2361,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Sunflower yield",
         value: 10,
       },
-      { trait_type: "Legacy Item - DO NOT BUY", value: "Legacy" },
+      { trait_type: "Purpose", value: "Legacy" },
     ],
   },
   "Chef Hat": {
@@ -2357,7 +2384,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Carrots grow time",
         value: 20,
       },
-      { trait_type: "Legacy Item - DO NOT BUY", value: "Legacy" },
+      { trait_type: "Purpose", value: "Legacy" },
     ],
   },
   "Beetroot Amulet": {
@@ -2372,7 +2399,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Beetroot yield",
         value: 20,
       },
-      { trait_type: "Legacy Item - DO NOT BUY", value: "Legacy" },
+      { trait_type: "Purpose", value: "Legacy" },
     ],
   },
   "Warrior Shirt": {
@@ -2395,7 +2422,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Crop Critical Hit Multiplier",
         value: 10,
       },
-      { trait_type: "Legacy Item - DO NOT BUY", value: "Legacy" },
+      { trait_type: "Purpose", value: "Legacy" },
     ],
   },
   "Warrior Pants": {
@@ -2426,7 +2453,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Sunflower Seed Cost",
         value: 0,
       },
-      { trait_type: "Legacy Item - DO NOT BUY", value: "Legacy" },
+      { trait_type: "Purpose", value: "Legacy" },
     ],
   },
   "War Tombstone": {
