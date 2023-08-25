@@ -746,7 +746,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Carrot Sword": {
     name: "Carrot Sword",
     description:
-      "Legend has it that only a true farmer can yield this sword.\n\nIncreases the chance of finding a mutant crop by 200%!\n\n~~You can craft this item at the Goblin Farmer in the game.~~ **Sold out!**",
+      "Legend has it that only a true farmer can yield this sword.\n\nIncreases the chance of finding a mutant crop by 300%!\n\n~~You can craft this item at the Goblin Farmer in the game.~~ **Sold out!**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/419.png",
