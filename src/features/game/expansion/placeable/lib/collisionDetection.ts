@@ -402,23 +402,30 @@ export function isWithinAOE(
       }
     }
 
-    // AoE for the Queen Cornelia
-    if (AOEItemName === "Queen Cornelia") {
-      const topLeft = {
-        x: AOEItemCoordinates.x - 1,
-        y: AOEItemCoordinates.y - AOEItem.height,
-      };
-
-      const bottomRight = {
-        x: AOEItemCoordinates.x + 1,
-        y: AOEItemCoordinates.y - AOEItemDimensions.height - 2,
-      };
+    // AoE for the Goldensnout
+    if (AOEItemName === "Sir Goldensnout") {
+      const dx = effectItem.x - AOEItemCoordinates.x;
+      const dy = effectItem.y - AOEItemCoordinates.y;
 
       if (
-        effectItem.x >= topLeft.x &&
-        effectItem.x <= bottomRight.x &&
-        effectItem.y <= topLeft.y &&
-        effectItem.y >= bottomRight.y
+        dx >= -1 &&
+        dx <= AOEItemDimensions.width && // Covers the width of the Goldensnout and one tile around it
+        dy <= 1 &&
+        dy >= -AOEItemDimensions.height // Covers the height of the Goldensnout and one tile around it
+      ) {
+        return true;
+      }
+    }
+
+    if (AOEItemName === "Queen Cornelia") {
+      const dx = effectItem.x - AOEItemCoordinates.x;
+      const dy = effectItem.y - AOEItemCoordinates.y;
+
+      if (
+        dx >= -2 &&
+        dx <= AOEItemDimensions.width &&
+        dy <= 1 &&
+        dy >= -AOEItemDimensions.height + 1
       ) {
         return true;
       }
@@ -433,21 +440,22 @@ export function isWithinAOE(
         return true;
       }
     }
-    // AoE surrounding the bale
+    // AoE surrounding the Sir Goldensnout
     if (AOEItemName === "Sir Goldensnout") {
       const dx = effectItem.x - AOEItemCoordinates.x;
       const dy = effectItem.y - AOEItemCoordinates.y;
 
       if (
         dx >= -1 &&
-        dx <= AOEItemDimensions.width && // Covers the width of the bale and one tile around it
+        dx <= AOEItemDimensions.width && // Covers the width of the Goldensnout and one tile around it
         dy <= 1 &&
-        dy >= -AOEItemDimensions.height // Covers the height of the bale and one tile around it
+        dy >= -AOEItemDimensions.height // Covers the height of the Goldensnout and one tile around it
       ) {
         return true;
       }
     }
 
+    // AoE surrounding the bale
     if (AOEItemName === "Bale") {
       const dx = effectItem.x - AOEItemCoordinates.x;
       const dy = effectItem.y - AOEItemCoordinates.y;
