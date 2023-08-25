@@ -57,6 +57,7 @@ import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 import { buySFL } from "../actions/buySFL";
 import { PurchasableItems } from "../types/collectibles";
 import {
+  getBudsRead,
   getGameRulesLastRead,
   getIntroductionRead,
   getSeasonPassRead,
@@ -351,6 +352,7 @@ export type BlockchainState = {
     | "trading"
     | "traded"
     | "sniped"
+    | "buds"
     | "noBumpkinFound"
     | "noTownCenter"
     | "coolingDown"
@@ -703,6 +705,22 @@ export function startGame(authContext: AuthContext) {
               },
             },
             {
+              target: "buds",
+              cond: (context) => {
+                // Don't show to noobs
+                if ((context.state.bumpkin?.experience ?? 0) <= 100) {
+                  return false;
+                }
+                const readAt = getBudsRead();
+                console.log({ readAt });
+                if (!readAt) {
+                  return true;
+                }
+
+                return readAt.getTime() < Date.now() - 7 * 24 * 60 * 1000;
+              },
+            },
+            {
               target: "playing",
             },
           ],
@@ -728,6 +746,13 @@ export function startGame(authContext: AuthContext) {
           },
         },
         promo: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "playing",
+            },
+          },
+        },
+        buds: {
           on: {
             ACKNOWLEDGE: {
               target: "playing",

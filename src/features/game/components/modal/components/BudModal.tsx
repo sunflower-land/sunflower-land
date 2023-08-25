@@ -83,16 +83,21 @@ export const BudModal: React.FC<Props> = ({ onClose }) => {
           </p>
         </div>
       </div>
-      <Button
-        onClick={() => {
-          window.open(
-            "https://docs.sunflower-land.com/player-guides/bud-nfts",
-            "_blank"
-          );
-        }}
-      >
-        Read more
-      </Button>
+      <div className="flex">
+        <Button className="mr-1" onClick={onClose}>
+          Close
+        </Button>
+        <Button
+          onClick={() => {
+            window.open(
+              "https://docs.sunflower-land.com/player-guides/bud-nfts",
+              "_blank"
+            );
+          }}
+        >
+          Read more
+        </Button>
+      </div>
     </CloseButtonPanel>
   );
 };
