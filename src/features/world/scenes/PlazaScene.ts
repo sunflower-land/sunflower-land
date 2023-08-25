@@ -138,6 +138,21 @@ export class PlazaScene extends BaseScene {
       frameHeight: 18,
     });
 
+    this.load.spritesheet("turtle_bud", "world/turtle.png", {
+      frameWidth: 15,
+      frameHeight: 17,
+    });
+
+    this.load.spritesheet("carrot_bud", "world/carrot_sunflower.png", {
+      frameWidth: 15,
+      frameHeight: 18,
+    });
+
+    this.load.spritesheet("snow_bud", "world/snow_mushroom.png", {
+      frameWidth: 15,
+      frameHeight: 15,
+    });
+
     this.load.spritesheet("fat_chicken", "world/fat_chicken.png", {
       frameWidth: 17,
       frameHeight: 21,
@@ -242,7 +257,12 @@ export class PlazaScene extends BaseScene {
       repeat: -1,
       frameRate: 10,
     });
-    bud.play("plaza_bud_animation", true);
+    bud
+      .play("plaza_bud_animation", true)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("bud");
+      });
 
     // Plaza Bud
     const bud2 = this.add.sprite(601, 200, "plaza_bud_2");
@@ -255,7 +275,12 @@ export class PlazaScene extends BaseScene {
       repeat: -1,
       frameRate: 10,
     });
-    bud2.play("plaza_bud_animation_2", true);
+    bud2
+      .play("plaza_bud_animation_2", true)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("bud");
+      });
     bud2.setDepth(100000000000);
 
     const bud3 = this.add.sprite(206, 266, "plaza_bud_3");
@@ -268,6 +293,66 @@ export class PlazaScene extends BaseScene {
       repeat: -1,
       frameRate: 10,
     });
-    bud3.play("plaza_bud_animation_3", true);
+    bud3
+      .play("plaza_bud_animation_3", true)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("bud");
+      });
+
+    const turtle = this.add.sprite(119, 293, "turtle_bud");
+    turtle.setScale(-1, 1);
+    this.anims.create({
+      key: "turtle_bud_anim",
+      frames: this.anims.generateFrameNumbers("turtle_bud", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    turtle
+      .play("turtle_bud_anim", true)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("bud");
+      });
+
+    const snowBud = this.add.sprite(133, 248, "snow_bud");
+    snowBud.setScale(-1, 1);
+    this.anims.create({
+      key: "snow_bud_anim",
+      frames: this.anims.generateFrameNumbers("snow_bud", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    snowBud.setDepth(1000000);
+    snowBud
+      .play("snow_bud_anim", true)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("bud");
+      });
+
+    const carrotBud = this.add.sprite(154, 238, "carrot_bud");
+    this.anims.create({
+      key: "carrot_bud_anim",
+      frames: this.anims.generateFrameNumbers("carrot_bud", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    carrotBud.setDepth(1000000);
+    carrotBud
+      .play("carrot_bud_anim", true)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("bud");
+      });
   }
 }

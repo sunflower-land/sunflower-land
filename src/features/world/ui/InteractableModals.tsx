@@ -13,9 +13,12 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { BudModal } from "features/game/components/modal/components/BudModal";
 
 type InteractableName =
   | "welcome_sign"
+  | "bud"
   | "plaza_statue"
   | "fan_art"
   | "auction_item"
@@ -73,6 +76,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
   } = gameState;
 
   const [interactable, setInteractable] = useState<InteractableName>();
+  const { openModal } = useContext(ModalContext);
 
   useEffect(() => {
     interactableModalManager.listen((interactable, open) => {
@@ -264,6 +268,25 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         </CloseButtonPanel>
       </Modal>
 
+      <Modal
+        centered
+        show={interactable === "plaza_statue"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          message={[
+            {
+              text: "In honor of Bumpkin Braveheart, the steadfast farmer who rallied our town against the Goblin horde during the dark days of the ancient war.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "bud"} onHide={closeModal}>
+        <BudModal onClose={closeModal} />
+      </Modal>
+
       <Modal centered show={interactable === "dawn_book_1"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -367,18 +390,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         />
       </Modal>
 
-      <Modal centered show={interactable === "guild_house"} onHide={closeModal}>
-        <SpeakingModal
-          onClose={closeModal}
-          bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
-          message={[
-            {
-              text: "This is my Guild House, and it's not ready for outsiders yet, gotta finish the preparations first.",
-            },
-          ]}
-        />
-      </Modal>
-
       <Modal
         centered
         show={interactable === "potion_house"}
@@ -404,7 +415,16 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
           message={[
             {
-              text: "This is my Guild House, and it's not ready for outsiders yet, gotta finish the preparations first.",
+              text: "Hold on Bumpkin! You need a Bud if you want to enter the Guild House.",
+              actions: [
+                {
+                  text: "Read more",
+                  cb: () => {
+                    closeModal();
+                    openModal("BUD_ANNOUNCEMENT");
+                  },
+                },
+              ],
             },
           ]}
         />

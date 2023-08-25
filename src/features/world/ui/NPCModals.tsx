@@ -19,6 +19,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { Bert } from "./npcs/Bert";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -43,6 +44,8 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [npc, setNpc] = useState<NPCName>();
+
+  const { openModal } = useContext(ModalContext);
 
   const inventory = gameState.context.state.inventory;
 
@@ -115,6 +118,15 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
               },
               {
                 text: "I bet they have something to do with the worm buds that have been appearing around the plaza.",
+                actions: [
+                  {
+                    text: "Read more",
+                    cb: () => {
+                      closeModal();
+                      openModal("BUD_ANNOUNCEMENT");
+                    },
+                  },
+                ],
               },
             ]}
           />
