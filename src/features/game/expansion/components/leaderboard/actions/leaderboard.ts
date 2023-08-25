@@ -32,7 +32,7 @@ export type TicketLeaderboard = {
 };
 
 export type MazeLeaderboard = {
-  topTen: MazeAttemptStat[];
+  topRanks: MazeAttemptStat[];
   weeklySflBurned: number;
   lastUpdated: number;
 };
