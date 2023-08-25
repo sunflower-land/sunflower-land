@@ -1766,16 +1766,16 @@ export const ITEM_DETAILS: Items = {
 
   "Potent Potato": {
     image: potatoMutant,
-    description: "Potent! Grants a 4% chance to get +10 potatoes on harvest.",
+    description: "Potent! Grants a 3% chance to get +10 potatoes on harvest.",
   },
   "Radical Radish": {
     image: radishMutant,
-    description: "Radical! Grants a 4% chance to get +10 radishes on harvest.",
+    description: "Radical! Grants a 3% chance to get +10 radishes on harvest.",
   },
   "Stellar Sunflower": {
     image: sunflowerMutant,
     description:
-      "Stellar! Grants a 4% chance to get +10 sunflowers on harvest.",
+      "Stellar! Grants a 3% chance to get +10 sunflowers on harvest.",
   },
   "Potted Potato": {
     image: pottedPotato,
