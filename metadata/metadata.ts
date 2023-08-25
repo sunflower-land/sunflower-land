@@ -491,7 +491,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Boost", value: "Crop" },
       { trait_type: "Purpose", value: "Decoration" }, // Should I put Gnome as Boost or Decoration? Or Both?
-      { trait_type: "Area of Effect", value: "Yes" },
+      { trait_type: "Boost", value: "Area of Effect" },
       { value: "Tradable" },
       {
         display_type: "boost_number",
@@ -4091,7 +4091,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/462.png",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
-      { trait_type: "Area of Effect", value: "Yes" },
+      { trait_type: "Boost", value: "Area of Effect" },
       {
         display_type: "boost_percentage",
         trait_type: "Crop Growth Speed",
@@ -4120,7 +4120,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/463.png",
     attributes: [
       { trait_type: "Boost", value: "Resource" },
-      { trait_type: "Area of Effect", value: "Yes" },
+      { trait_type: "Boost", value: "Area of Effect" },
       {
         display_type: "boost_number",
         trait_type: "Increase Mineral Drops",
@@ -4142,7 +4142,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/464.png",
     attributes: [
       { trait_type: "Boost", value: "Resource" },
-      { trait_type: "Area of Effect", value: "Yes" },
+      { trait_type: "Boost", value: "Area of Effect" },
       {
         display_type: "boost_number",
         trait_type: "Increase Stone Drops",
@@ -4181,7 +4181,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/465.png",
     attributes: [
       { trait_type: "Boost", value: "Animal" },
-      { trait_type: "Area of Effect", value: "Yes" },
+      { trait_type: "Boost", value: "Area of Effect" },
       {
         display_type: "boost_number",
         trait_type: "Increase Egg Yield",
@@ -4202,7 +4202,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/466.png",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
-      { trait_type: "Area of Effect", value: "Yes" },
+      { trait_type: "Boost", value: "Area of Effect" },
       {
         display_type: "boost_number",
         trait_type: "Increase Crop Yield",
@@ -4224,7 +4224,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/467.png",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
-      { trait_type: "Area of Effect", value: "Yes" },
+      { trait_type: "Boost", value: "Area of Effect" },
       {
         display_type: "boost_number",
         trait_type: "Increase Medium Crop Yield",
@@ -4296,7 +4296,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/468.png",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
-      { trait_type: "Area of Effect", value: "Yes" },
+      { trait_type: "Boost", value: "Area of Effect" },
       {
         display_type: "boost_number",
         trait_type: "Increase Advanced Crop Yield",
@@ -4402,7 +4402,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/474.png",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
-      { trait_type: "Area of Effect", value: "Yes" },
+      { trait_type: "Boost", value: "Area of Effect" },
       {
         display_type: "boost_number",
         trait_type: "Increase Corn Yield",
