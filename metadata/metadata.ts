@@ -756,7 +756,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Increases chance of Mutant Crop",
-        value: 200, // Means 3x the chance to get a Mutant Crop
+        value: 300, // Means 4x the chance to get a Mutant Crop
       },
     ],
   },
