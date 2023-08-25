@@ -2903,7 +2903,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [{ trait_type: "Purpose", value: "Tool" }],
   },
   "Radical Radish": {
-    description: "Radical! Grants a 4% chance to get +10 radishes on harvest.",
+    description: "Radical! Grants a 3% chance to get +10 radishes on harvest.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/439.gif",
@@ -2917,12 +2917,12 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Critical Hit Chance",
-        value: 4,
+        value: 3,
       },
     ],
   },
   "Potent Potato": {
-    description: "Potent! Grants a 4% chance to get +10 potatoes on harvest.",
+    description: "Potent! Grants a 3% chance to get +10 potatoes on harvest.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/438.gif",
@@ -2936,7 +2936,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Critical Hit Chance",
-        value: 4,
+        value: 3,
       },
     ],
   },
@@ -2962,7 +2962,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Stellar Sunflower": {
     description:
-      "Stellar! Grants a 4% chance to get +10 sunflowers on harvest.",
+      "Stellar! Grants a 3% chance to get +10 sunflowers on harvest.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/437.gif",
@@ -2976,7 +2976,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_percentage",
         trait_type: "Critical Hit Chance",
-        value: 4,
+        value: 3,
       },
     ],
   },
