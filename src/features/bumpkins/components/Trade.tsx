@@ -113,9 +113,7 @@ const ListTrade: React.FC<{
                 className="h-6 absolute top-5 right-4 cursor-pointer"
                 onClick={() =>
                   setSelected((prev) => {
-                    console.log("DEL", item, prev);
                     delete prev[item];
-                    console.log("DEL", item, prev);
                     return { ...prev };
                   })
                 }
