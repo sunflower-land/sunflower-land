@@ -4,7 +4,6 @@ import { AuctioneerModal } from "features/retreat/components/auctioneer/Auctione
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
-import { hasFeatureAccess } from "lib/flags";
 import fanArt from "assets/fanArt/dawn_breaker.png";
 import fanArt2 from "assets/fanArt/vergels.png";
 import { Donations } from "./donations/Donations";
@@ -111,10 +110,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         />
       )}
 
-      {interactable === "potion_table" &&
-        hasFeatureAccess(state.inventory, "POTION_HOUSE") && (
-          <PotionHouse onClose={closeModal} />
-        )}
+      {interactable === "potion_table" && <PotionHouse onClose={closeModal} />}
 
       <Modal
         centered
