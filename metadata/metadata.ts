@@ -426,7 +426,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/403.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Other" },
       { value: "Tradable" },
       {
         display_type: "boost_number",
@@ -443,7 +443,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/404.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
         trait_type: "Crop Growth Speed",
@@ -489,7 +489,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/407.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       { trait_type: "Purpose", value: "Decoration" }, // Should I put Gnome as Boost or Decoration? Or Both?
       { trait_type: "Area of Effect", value: "Yes" },
       { value: "Tradable" },
@@ -523,7 +523,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/408.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Animal" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Egg Production",
@@ -545,7 +545,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/409.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Animal" },
       {
         display_type: "boost_number",
         trait_type: "Feed chickens without Wheat",
@@ -574,7 +574,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/410.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Cauliflower Yield",
@@ -627,7 +627,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/415.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Resource" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Wood Drops",
@@ -656,7 +656,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/416.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Resource" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Wood Drops",
@@ -678,7 +678,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/418.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
         trait_type: "Parsnip Growth Speed",
@@ -695,7 +695,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/417.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Resource" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Wood Drops",
@@ -722,7 +722,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/420.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
         trait_type: "Crop Growth Speed",
@@ -751,7 +751,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/419.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       { value: "Tradable" },
       {
         display_type: "boost_percentage",
@@ -768,7 +768,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/421.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
         trait_type: "Crop Growth Speed",
@@ -795,7 +795,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/427.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Resource" },
       {
         display_type: "boost_number",
         trait_type: "Stone Critical Hit Multiplier",
@@ -860,7 +860,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/428.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Resource" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Stone Drops",
@@ -877,7 +877,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/429.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Resource" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Iron Drops",
@@ -894,7 +894,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/432.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Pumpkin Yield",
@@ -911,7 +911,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/430.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Resource" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Gold Drops",
@@ -1140,7 +1140,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Egg Production Speed",
         value: -10,
       },
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Animal" },
       { value: "Tradable" },
     ],
   },
@@ -1175,7 +1175,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Amount of Wheat to Feed Chickens",
         value: -10,
       },
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Animal" },
       { value: "Tradable" },
     ],
   },
@@ -1192,7 +1192,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Egg Yield",
         value: 10,
       },
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Animal" },
       { value: "Tradable" },
     ],
   },
@@ -1209,7 +1209,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Mutant Chicken chance",
         value: 100,
       },
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Animal" },
       { value: "Tradable" },
     ],
   },
@@ -2058,7 +2058,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase XP",
         value: 5,
       },
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Other" },
       { value: "Tradable" },
     ],
   },
@@ -2141,7 +2141,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Carrot Yield",
         value: 20,
       },
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       { value: "Tradable" },
     ],
   },
@@ -2277,7 +2277,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Price of cakes",
         value: 20,
       },
-      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Legacy Item - DO NOT BUY", value: "Legacy" },
     ],
   },
   "Water Well": {
@@ -2334,7 +2334,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Sunflower yield",
         value: 10,
       },
-      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Legacy Item - DO NOT BUY", value: "Legacy" },
     ],
   },
   "Chef Hat": {
@@ -2357,7 +2357,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Carrots grow time",
         value: 20,
       },
-      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Legacy Item - DO NOT BUY", value: "Legacy" },
     ],
   },
   "Beetroot Amulet": {
@@ -2372,7 +2372,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Beetroot yield",
         value: 20,
       },
-      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Legacy Item - DO NOT BUY", value: "Legacy" },
     ],
   },
   "Warrior Shirt": {
@@ -2395,7 +2395,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Crop Critical Hit Multiplier",
         value: 10,
       },
-      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Legacy Item - DO NOT BUY", value: "Legacy" },
     ],
   },
   "Warrior Pants": {
@@ -2408,11 +2408,11 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Skull Hat": {
     name: "Skull Hat",
-    description: "A rare hat for your Bumpkin.",
+    description: "Legacy item, DO NOT BUY!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1111.png",
-    attributes: [],
+    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
   },
   "Sunflower Shield": {
     name: "Sunflower Shield",
@@ -2426,7 +2426,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Sunflower Seed Cost",
         value: 0,
       },
-      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Legacy Item - DO NOT BUY", value: "Legacy" },
     ],
   },
   "War Tombstone": {
@@ -2471,7 +2471,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Egg Yield",
         value: 10,
       },
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Animal" },
       { value: "Tradable" },
     ],
   },
@@ -2578,7 +2578,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/434.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Cabbage Yield",
@@ -2598,7 +2598,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/435.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
         trait_type: "Cabbage Growth Speed",
@@ -2908,7 +2908,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/439.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Radish Critical Hit Amount",
@@ -2927,7 +2927,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/438.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Potato Critical Hit Amount",
@@ -2947,7 +2947,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/433.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Potato Critical Hit Amount",
@@ -2967,7 +2967,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/437.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Sunflower Critical Hit Amount",
@@ -2986,7 +2986,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/436.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Resource" },
       {
         display_type: "boost_number",
         trait_type: "Increase Wood Drops",
@@ -3056,7 +3056,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/441.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Fruit" },
       {
         display_type: "boost_number",
         trait_type: "Extra Fruit Harvest",
@@ -3071,7 +3071,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/442.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Fruit" },
       {
         display_type: "boost_number",
         trait_type: "Increase Apple Drops",
@@ -3087,7 +3087,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/443.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Fruit" },
       {
         display_type: "boost_percentage",
         trait_type: "Orange Regenaration Speed",
@@ -3103,7 +3103,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/444.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Fruit" },
       {
         display_type: "boost_number",
         trait_type: "Increase Blueberry Yield",
@@ -3134,7 +3134,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Egg Yield",
         value: 0.2,
       },
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Animal" },
       { value: "Tradable" },
     ],
   },
@@ -3145,7 +3145,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/446.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Other" },
       {
         display_type: "boost_number",
         trait_type: "One free food per day",
@@ -3196,7 +3196,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/448.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
         trait_type: "Crop Growth Speed",
@@ -3352,7 +3352,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/447.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Resource" },
       {
         display_type: "boost_number",
         trait_type: "Increase Wood Drops",
@@ -3368,7 +3368,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/450.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Other" },
       {
         display_type: "boost_number",
         trait_type: "Increase daily digs",
@@ -3416,7 +3416,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/460.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Other" },
       {
         display_type: "boost_number",
         trait_type: "Grants Wishes",
@@ -3439,7 +3439,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/449.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Other" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Beach Bounty profit",
@@ -3453,7 +3453,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1227.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Kale Yield",
@@ -3553,7 +3553,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/454.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Resource" },
       {
         display_type: "boost_number",
         trait_type: "Increase Iron Drops",
@@ -3661,7 +3661,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/455.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Cabbage Yield",
@@ -3676,7 +3676,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/926.gif",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Carrot Yield",
@@ -4004,7 +4004,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/456.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Resource" },
       {
         display_type: "boost_number",
         trait_type: "Increase Mushroom Yield",
@@ -4020,7 +4020,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/457.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Eggplant Yield",
@@ -4035,7 +4035,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/458.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
         trait_type: "Eggplant Growth Speed",
@@ -4050,7 +4050,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/459.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Eggplant Yield",
@@ -4065,7 +4065,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/461.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Yield of Radish, Wheat & Kale",
@@ -4090,7 +4090,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/462.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       { trait_type: "Area of Effect", value: "Yes" },
       {
         display_type: "boost_percentage",
@@ -4119,7 +4119,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/463.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Resource" },
       { trait_type: "Area of Effect", value: "Yes" },
       {
         display_type: "boost_number",
@@ -4141,7 +4141,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/464.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Resource" },
       { trait_type: "Area of Effect", value: "Yes" },
       {
         display_type: "boost_number",
@@ -4180,7 +4180,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/465.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Animal" },
       { trait_type: "Area of Effect", value: "Yes" },
       {
         display_type: "boost_number",
@@ -4201,7 +4201,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/466.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       { trait_type: "Area of Effect", value: "Yes" },
       {
         display_type: "boost_number",
@@ -4223,7 +4223,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/467.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       { trait_type: "Area of Effect", value: "Yes" },
       {
         display_type: "boost_number",
@@ -4295,7 +4295,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/468.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       { trait_type: "Area of Effect", value: "Yes" },
       {
         display_type: "boost_number",
@@ -4316,7 +4316,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/469.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Pumpkin Yield",
@@ -4339,7 +4339,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/470.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Animal" },
       {
         display_type: "boost_number",
         trait_type: "Reduced Time to lay Eggs (hours)",
@@ -4354,12 +4354,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/471.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Corn Yield",
         value: 0.1,
       },
+      { value: "Tradable" },
     ],
   },
   "Grain Grinder": {
@@ -4369,12 +4370,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/472.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Other" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Cake XP",
         value: 20,
       },
+      { value: "Tradable" },
     ],
   },
   Kernaldo: {
@@ -4383,12 +4385,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/473.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Corn Growth Speed",
         value: -25,
       },
+      { value: "Tradable" },
     ],
   },
   "Queen Cornelia": {
@@ -4398,7 +4401,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/474.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       { trait_type: "Area of Effect", value: "Yes" },
       {
         display_type: "boost_number",
@@ -4490,7 +4493,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/475.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Carrot Yield",
@@ -4504,7 +4507,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/476.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Pumpkin Yield",
@@ -4518,7 +4521,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/477.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
         trait_type: "Increase Radish Yield",
