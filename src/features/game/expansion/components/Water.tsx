@@ -35,11 +35,6 @@ export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
   const offset = Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2);
   const { openModal } = useContext(ModalContext);
 
-  const frogCoordinates = {
-    x: expansionCount >= 7 ? -2 : 5,
-    y: expansionCount >= 7 ? -11 : -5,
-  };
-
   return (
     // Container
     <div
@@ -72,8 +67,8 @@ export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
         />
       </MapPlacement>
 
-      {/* Worm Bud swimming */}
-      <MapPlacement x={-2 - offset} y={1} width={6}>
+      {/* Bear Bud */}
+      <MapPlacement x={-7 - offset} y={1} width={6}>
         <img
           src={snowBudRaft}
           className="cursor-pointer hover:img-highlight"
@@ -85,6 +80,7 @@ export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
         />
       </MapPlacement>
 
+      {/* Worm Bud */}
       <MapPlacement x={6 + offset} y={-2} width={6}>
         <img
           src={wormBudRaft}
