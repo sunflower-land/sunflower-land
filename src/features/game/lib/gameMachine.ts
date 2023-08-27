@@ -712,12 +712,11 @@ export function startGame(authContext: AuthContext) {
                   return false;
                 }
                 const readAt = getBudsRead();
-                console.log({ readAt });
                 if (!readAt) {
                   return true;
                 }
 
-                return readAt.getTime() < Date.now() - 7 * 24 * 60 * 1000;
+                return readAt.getTime() < Date.now() - 7 * 24 * 60 * 60 * 1000;
               },
             },
             {
