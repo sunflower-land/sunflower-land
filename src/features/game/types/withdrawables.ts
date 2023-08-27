@@ -411,7 +411,7 @@ const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   "Shroom Glow": () => true,
   Candles: () => canWithdrawTimebasedItem(new Date("2023-11-02")),
   "Haunted Stump": () => canWithdrawTimebasedItem(new Date("2023-09-02")),
-  "Spooky Tree": () => canWithdrawTimebasedItem(new Date("2023-09-02")),
+  "Spooky Tree": () => canWithdrawTimebasedItem(new Date("2023-10-02")), // Spooky Tree available from 01/09/2023 to 01/10/2023. Hence withdrawal date should be after that
 };
 
 const mutantCrop: Record<MutantCropName, () => boolean> = {
