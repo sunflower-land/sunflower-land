@@ -1344,7 +1344,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/614.png",
     attributes: [
       { trait_type: "Purpose", value: "Resource" },
-      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Magic Mushroom": {
@@ -1355,7 +1355,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/616.png",
     attributes: [
       { trait_type: "Purpose", value: "Resource" },
-      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Wild Mushroom": {
@@ -1366,7 +1366,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/615.png",
     attributes: [
       { trait_type: "Purpose", value: "Resource" },
-      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   Diamond: {
@@ -1378,7 +1378,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/617.png",
     attributes: [
       { trait_type: "Purpose", value: "Resource" },
-      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Green Thumb": {
@@ -1698,7 +1698,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/714.png",
-    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "French Flag": {
     name: "French Flag",
@@ -2139,7 +2142,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/901.png",
-    attributes: [{ value: "Tradable" }],
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Event" },
+    ],
   },
   "Red Egg": {
     name: "Red Egg",
@@ -2148,7 +2154,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/902.png",
-    attributes: [{ value: "Tradable" }],
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Event" },
+    ],
   },
   "Blue Egg": {
     name: "Blue Egg",
@@ -2157,7 +2166,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/903.png",
-    attributes: [{ value: "Tradable" }],
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Event" },
+    ],
   },
   "Yellow Egg": {
     name: "Yellow Egg",
@@ -2166,7 +2178,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/904.png",
-    attributes: [{ value: "Tradable" }],
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Event" },
+    ],
   },
   "Pink Egg": {
     name: "Pink Egg",
@@ -2175,7 +2190,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/905.png",
-    attributes: [{ value: "Tradable" }],
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Event" },
+    ],
   },
   "Purple Egg": {
     name: "Purple Egg",
@@ -2184,7 +2202,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/906.png",
-    attributes: [{ value: "Tradable" }],
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Event" },
+    ],
   },
   "Orange Egg": {
     name: "Orange Egg",
@@ -2193,7 +2214,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/907.png",
-    attributes: [{ value: "Tradable" }],
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Event" },
+    ],
   },
   "Lithuanian Flag": {
     name: "Lithuanian Flag",
@@ -2214,7 +2238,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/908.png",
-    attributes: [{ value: "Tradable" }],
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Purpose", value: "Event" },
+    ],
   },
   Observatory: {
     name: "Observatory",
@@ -2240,7 +2267,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/910.png",
-    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Ancient Goblin Sword": {
     name: "Ancient Goblin Sword",
@@ -2248,7 +2278,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/914.png",
-    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Ancient Human Warhammer": {
     name: "Ancient Human Warhammer",
@@ -2256,7 +2289,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/915.png",
-    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "War Bond": {
     name: "War Bond",
@@ -2283,6 +2319,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         value: -50,
       },
       { trait_type: "Purpose", value: "Fertiliser" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Sunflower Key": {
@@ -2291,7 +2328,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/913.png",
-    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Human War Point": {
     name: "Human War Point",
@@ -2300,7 +2340,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/919.png",
-    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Easter Bunny": {
     name: "Easter Bunny",
@@ -2337,7 +2380,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/912.png",
-    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Goblin War Point": {
     name: "Goblin War Point",
@@ -2346,7 +2392,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/918.png",
-    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Human War Banner": {
     name: "Human War Banner",
@@ -2355,7 +2404,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/920.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   Market: {
     name: "Market",
@@ -2431,7 +2483,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/921.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Town Center": {
     name: "Town Center",
@@ -2561,7 +2616,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1102.png",
-    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Carrot Amulet": {
     name: "Carrot Amulet",
@@ -2601,7 +2659,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1107.png",
-    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Green Amulet": {
     name: "Green Amulet",
@@ -2625,7 +2686,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1109.png",
-    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Skull Hat": {
     name: "Skull Hat",
@@ -2633,7 +2697,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1111.png",
-    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Sunflower Shield": {
     name: "Sunflower Shield",
@@ -2706,7 +2773,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1108.png",
-    attributes: [{ trait_type: "Purpose", value: "Legacy" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Legacy" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Angel Bear": {
     description:
@@ -2745,7 +2815,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1204.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Bear Trap": {
     description:
@@ -3222,6 +3295,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Critical Hit Chance",
         value: 3,
       },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Potent Potato": {
@@ -3241,6 +3315,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Critical Hit Chance",
         value: 3,
       },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Peeled Potato": {
@@ -3282,6 +3357,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Critical Hit Chance",
         value: 3,
       },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Wood Nymph Wendy": {
@@ -3513,7 +3589,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1223.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Lunar Calendar": {
     description:
@@ -3566,21 +3645,30 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1234.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Golden Bear Head": {
     description: "Spooky, but cool.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1232.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" }, //Tradable once Sold out
+    ],
   },
   "Human Bear": {
     description: "A human bear. Even scarier than a goblin bear.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1238.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Lifeguard Bear": {
     description: "Lifeguard Bear is here to save the day!",
@@ -3627,7 +3715,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1228.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Snorkel Bear": {
     description: "Snorkel Bear loves to swim.",
@@ -3806,7 +3897,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1235.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   Pearl: {
     description: "Shimmers in the sun.",
@@ -4333,7 +4427,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1252.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Chestnut Fungi Stool": {
     description:
@@ -4341,7 +4438,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1253.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Crimson Cap": {
     description:
@@ -4349,7 +4449,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1254.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Dawn Umbrella Seat": {
     description:
@@ -4389,7 +4492,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1258.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Mahogany Cap": {
     description:
@@ -4397,7 +4503,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1259.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
 
   "Shroom Glow": {
@@ -4416,7 +4525,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1260.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   Clementine: {
     description:
@@ -4538,7 +4650,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Area of Effect" },
       {
         display_type: "boost_percentage",
-        trait_type: "Crop Growth Time",
+        trait_type: "Basic Crop Growth Time",
         value: -20,
       },
       {
@@ -4817,7 +4929,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Corn Yield",
         value: 0.1,
       },
-      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Tradable", value: "Yes" }, //Tradable from 02/09/2023
     ],
   },
   "Grain Grinder": {
@@ -4833,7 +4945,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Cake XP",
         value: 20,
       },
-      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
     ],
   },
   Kernaldo: {
@@ -4848,7 +4960,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Corn Growth Time",
         value: -25,
       },
-      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Tradable", value: "Yes" }, //Tradable from 02/10/2023
     ],
   },
   "Queen Cornelia": {
@@ -4865,7 +4977,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Corn Yield",
         value: 1,
       },
-      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Tradable", value: "Yes" }, // Tradable from 14/10/2023
       {
         display_type: "boost_number",
         trait_type: "Plots Affected",
@@ -4879,21 +4991,30 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1278.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
+    ],
   },
   "Haunted Stump": {
     description: "Summon spirits and add eerie charm to your farm.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1279.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/09/2023
+    ],
   },
   "Spooky Tree": {
     description: "A hauntingly fun addition to your farm's decor!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1280.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/10/2023
+    ],
   },
   "Bumpkin ganoush": {
     description: "Zesty roasted eggplant spread.",
@@ -4940,21 +5061,30 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1281.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Giant Potato": {
     description: "A giant potato!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1282.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Giant Pumpkin": {
     description: "A giant pumpkin!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1283.png",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Lab Grown Carrot": {
     description: "A lab grown carrot! +0.2 Carrot Yield.",
@@ -4968,6 +5098,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Carrot Yield",
         value: 0.2,
       },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Lab Grown Pumpkin": {
@@ -4982,6 +5113,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Pumpkin Yield",
         value: 0.3,
       },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Lab Grown Radish": {
@@ -4996,6 +5128,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Radish Yield",
         value: 0.4,
       },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Potion Ticket": {
