@@ -418,14 +418,21 @@ export function isWithinAOE(
     }
 
     if (AOEItemName === "Queen Cornelia") {
-      const dx = effectItem.x - AOEItemCoordinates.x;
-      const dy = effectItem.y - AOEItemCoordinates.y;
+      const topLeft = {
+        x: AOEItemCoordinates.x - 1,
+        y: AOEItemCoordinates.y + 1,
+      };
+
+      const bottomRight = {
+        x: AOEItemCoordinates.x + AOEItemDimensions.width,
+        y: AOEItemCoordinates.y - AOEItemDimensions.height,
+      };
 
       if (
-        dx >= -2 &&
-        dx <= AOEItemDimensions.width &&
-        dy <= 1 &&
-        dy >= -AOEItemDimensions.height + 1
+        effectItem.x >= topLeft.x &&
+        effectItem.x <= bottomRight.x &&
+        effectItem.y <= topLeft.y &&
+        effectItem.y >= bottomRight.y
       ) {
         return true;
       }

@@ -811,16 +811,51 @@ describe("isWithinAOE", () => {
 
   it("returns true if the crop is within the Queen Cornelia AOE", () => {
     const plotPositions: Position[] = [
-      { x: 1, y: 0, ...plotDimensions },
-      { x: 1, y: -1, ...plotDimensions },
-      { x: 0, y: -1, ...plotDimensions },
-      { x: -1, y: -1, ...plotDimensions },
-      { x: -2, y: -1, ...plotDimensions },
-      { x: -2, y: 0, ...plotDimensions },
-      { x: -2, y: 1, ...plotDimensions },
-      { x: -1, y: 1, ...plotDimensions },
-      { x: 0, y: 1, ...plotDimensions },
       { x: 1, y: 1, ...plotDimensions },
+      { x: 0, y: 1, ...plotDimensions },
+      { x: -1, y: 1, ...plotDimensions },
+      { x: -1, y: 0, ...plotDimensions },
+      { x: -1, y: -1, ...plotDimensions },
+      { x: -1, y: -2, ...plotDimensions },
+      { x: 0, y: -2, ...plotDimensions },
+      { x: 1, y: -2, ...plotDimensions },
+      { x: 1, y: -1, ...plotDimensions },
+      { x: 1, y: 0, ...plotDimensions },
+    ];
+
+    const itemPosition: Position = { x: 0, y: 0, height: 2, width: 1 };
+
+    plotPositions.forEach((plotPosition, idx) => {
+      const isPlotWithinAoE = isWithinAOE(
+        "Queen Cornelia",
+        itemPosition,
+        plotPosition
+      );
+
+      expect(isPlotWithinAoE).toBe(true);
+    });
+  });
+
+  it("returns false if the crop is outside of the Queen Cornelia AOE", () => {
+    const plotPositions: Position[] = [
+      { x: 2, y: 2, ...plotDimensions },
+      { x: 1, y: 2, ...plotDimensions },
+      { x: 0, y: 2, ...plotDimensions },
+      { x: -1, y: 2, ...plotDimensions },
+      { x: -2, y: 2, ...plotDimensions },
+      { x: -2, y: 1, ...plotDimensions },
+      { x: -2, y: 0, ...plotDimensions },
+      { x: -2, y: -1, ...plotDimensions },
+      { x: -2, y: -2, ...plotDimensions },
+      { x: -2, y: -3, ...plotDimensions },
+      { x: -1, y: -3, ...plotDimensions },
+      { x: 0, y: -3, ...plotDimensions },
+      { x: 1, y: -3, ...plotDimensions },
+      { x: 2, y: -3, ...plotDimensions },
+      { x: 2, y: -2, ...plotDimensions },
+      { x: 2, y: -1, ...plotDimensions },
+      { x: 2, y: 0, ...plotDimensions },
+      { x: 2, y: 1, ...plotDimensions },
     ];
 
     const itemPosition: Position = { x: 0, y: 0, height: 2, width: 1 };
@@ -833,40 +868,6 @@ describe("isWithinAOE", () => {
       );
 
       console.log(idx, isPlotWithinAoE);
-      expect(isPlotWithinAoE).toBe(true);
-    });
-  });
-
-  it("returns false if the crop is outside of the Queen Cornelia AOE", () => {
-    const plotPositions: Position[] = [
-      { x: 2, y: 0, ...plotDimensions },
-      { x: 2, y: -1, ...plotDimensions },
-      { x: 2, y: -2, ...plotDimensions },
-      { x: 1, y: -2, ...plotDimensions },
-      { x: 0, y: -2, ...plotDimensions },
-      { x: -1, y: -2, ...plotDimensions },
-      { x: -2, y: -2, ...plotDimensions },
-      { x: -3, y: -2, ...plotDimensions },
-      { x: -3, y: -1, ...plotDimensions },
-      { x: -3, y: 0, ...plotDimensions },
-      { x: -3, y: 1, ...plotDimensions },
-      { x: -3, y: 2, ...plotDimensions },
-      { x: -2, y: 2, ...plotDimensions },
-      { x: -1, y: 2, ...plotDimensions },
-      { x: 0, y: 2, ...plotDimensions },
-      { x: 1, y: 2, ...plotDimensions },
-      { x: 2, y: 2, ...plotDimensions },
-      { x: 2, y: 1, ...plotDimensions },
-    ];
-
-    const itemPosition: Position = { x: 0, y: 0, height: 2, width: 1 };
-
-    plotPositions.forEach((plotPosition, idx) => {
-      const isPlotWithinAoE = isWithinAOE(
-        "Queen Cornelia",
-        itemPosition,
-        plotPosition
-      );
 
       expect(isPlotWithinAoE).toBe(false);
     });
