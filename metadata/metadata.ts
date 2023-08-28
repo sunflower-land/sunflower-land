@@ -565,7 +565,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_number",
         trait_type:
-          "Increase Crop Yield when placed between Clementine and Cobalt",
+          "Increase Medium and Advanced Crop Yield when placed between Clementine and Cobalt",
         value: 10,
       },
       {
