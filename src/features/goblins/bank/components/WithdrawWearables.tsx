@@ -31,7 +31,6 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
 
   useEffect(() => {
     setWardrobe(availableWardrobe(goblinState.context.state));
-    setSelected({});
   }, []);
 
   const withdraw = () => {
@@ -65,10 +64,6 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
     }));
   };
 
-  // TODO - Filter out currently equipped items!
-  const bumpkin = goblinState.context.state.bumpkin!;
-  const { equipped } = bumpkin;
-
   const isCurrentObsession = (itemName: BumpkinItem) => {
     const obsessionCompletedAt =
       goblinState.context.state.npcs?.bert?.questCompletedAt;
@@ -85,10 +80,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
 
   const withdrawableItems = [...new Set([...getKeys(wardrobe)])]
     .sort((a, b) => ITEM_IDS[a] - ITEM_IDS[b])
-    .filter(
-      (item) =>
-        !Object.values(equipped).includes(item) && !isCurrentObsession(item)
-    );
+    .filter((item) => !isCurrentObsession(item));
 
   const selectedItems = getKeys(selected)
     .filter((item) => !!selected[item])
@@ -124,24 +116,22 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
         </div>
         <h2 className="mb-3">Select items to withdraw</h2>
         <div className="flex flex-wrap h-fit -ml-1.5">
-          {withdrawableItems
-            .filter((name) => !!wardrobe[name])
-            .map((itemName) => {
-              // The wardrobe amount that is not placed
-              const wardrobeCount = wardrobe[itemName];
+          {withdrawableItems.map((itemName) => {
+            // The wardrobe amount that is not placed
+            const wardrobeCount = wardrobe[itemName];
 
-              return (
-                <Box
-                  count={new Decimal(wardrobeCount ?? 0)}
-                  key={itemName}
-                  onClick={() => onAdd(itemName)}
-                  disabled={
-                    !BUMPKIN_WITHDRAWABLES[itemName](goblinState.context.state)
-                  }
-                  image={getImageUrl(ITEM_IDS[itemName])}
-                />
-              );
-            })}
+            return (
+              <Box
+                count={new Decimal(wardrobeCount ?? 0)}
+                key={itemName}
+                onClick={() => onAdd(itemName)}
+                disabled={
+                  !BUMPKIN_WITHDRAWABLES[itemName](goblinState.context.state)
+                }
+                image={getImageUrl(ITEM_IDS[itemName])}
+              />
+            );
+          })}
           {/* Pad with empty boxes */}
           {withdrawableItems.length < 4 &&
             new Array(4 - withdrawableItems.length)
