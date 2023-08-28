@@ -223,7 +223,7 @@ export class PlazaScene extends BaseScene {
       key: "portal_anim",
       frames: this.anims.generateFrameNumbers("portal", {
         start: 0,
-        end: 12,
+        end: 11,
       }),
       repeat: -1,
       frameRate: 10,
@@ -236,7 +236,7 @@ export class PlazaScene extends BaseScene {
       key: "fat_chicken_animation",
       frames: this.anims.generateFrameNumbers("fat_chicken", {
         start: 0,
-        end: 9,
+        end: 8,
       }),
       repeat: -1,
       frameRate: 10,
