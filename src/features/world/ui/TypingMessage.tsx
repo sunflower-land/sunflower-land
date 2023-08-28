@@ -1,5 +1,4 @@
-import React, { useMemo } from "react";
-import { animated, useTransition } from "react-spring";
+import React, { useState, useEffect } from "react";
 
 interface Props {
   message: string;
@@ -7,44 +6,37 @@ interface Props {
   trail?: number;
   forceShowFullMessage?: boolean;
 }
+
 export const TypingMessage: React.FC<Props> = ({
   message,
   onMessageEnd,
   trail = 30,
   forceShowFullMessage = false,
 }) => {
-  const items = useMemo(
-    () =>
-      message
-        .trim()
-        .split("")
-        .map((letter, index) => ({
-          item: letter,
-          key: index,
-        })),
-    [message]
-  );
+  const [displayedMessage, setDisplayedMessage] = useState<string>("");
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
 
-  const transitions = useTransition(items, {
-    trail,
-    from: { display: "none" },
-    enter: { display: "" },
-    onRest: (status, controller, item) => {
-      if (item.key === items.length - 1) {
+  useEffect(() => {
+    if (forceShowFullMessage) {
+      setDisplayedMessage(message);
+      return;
+    }
+
+    const interval = setInterval(() => {
+      if (currentIndex < message.length) {
+        const newDisplayedMessage = message.substring(0, currentIndex + 1);
+        setDisplayedMessage(newDisplayedMessage);
+        setCurrentIndex(currentIndex + 1);
+      } else {
+        clearInterval(interval);
         onMessageEnd(message);
       }
-    },
-  });
+    }, trail);
 
-  return (
-    <div className="leading-[1]">
-      {forceShowFullMessage && <span>{message}</span>}
-      {!forceShowFullMessage &&
-        transitions((styles, { item, key }) => (
-          <animated.span key={key} style={styles}>
-            {item}
-          </animated.span>
-        ))}
-    </div>
-  );
+    return () => {
+      clearInterval(interval);
+    };
+  }, [message, forceShowFullMessage, trail, currentIndex, onMessageEnd]);
+
+  return <div className="leading-[1]">{displayedMessage}</div>;
 };
