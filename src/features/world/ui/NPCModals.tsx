@@ -15,10 +15,10 @@ import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHan
 import { Grubnuk } from "./npcs/Grubnuk";
 import { Blacksmith } from "./npcs/Blacksmith";
 import { PotionHouseShopItems } from "features/helios/components/potions/component/PotionHouseShopItems";
-import { hasFeatureAccess } from "lib/flags";
 import { Bert } from "./npcs/Bert";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -44,6 +44,8 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
   const [gameState] = useActor(gameService);
   const [npc, setNpc] = useState<NPCName>();
 
+  const { openModal } = useContext(ModalContext);
+
   const inventory = gameState.context.state.inventory;
 
   useEffect(() => {
@@ -68,9 +70,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <Grubnuk onClose={closeModal} />}
 
-        {npc === "garth" && hasFeatureAccess(inventory, "POTION_HOUSE") && (
-          <PotionHouseShopItems onClose={closeModal} />
-        )}
+        {npc === "garth" && <PotionHouseShopItems onClose={closeModal} />}
         {npc === "hammerin harry" && (
           <SpeakingModal
             onClose={closeModal}
@@ -115,6 +115,15 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
               },
               {
                 text: "I bet they have something to do with the worm buds that have been appearing around the plaza.",
+                actions: [
+                  {
+                    text: "Read more",
+                    cb: () => {
+                      closeModal();
+                      openModal("BUD_ANNOUNCEMENT");
+                    },
+                  },
+                ],
               },
             ]}
           />

@@ -23,6 +23,15 @@ const BUMPKINS: NPCBumpkin[] = [
       npcModalManager.open("garth");
     },
   },
+  {
+    x: 309,
+    y: 360,
+    npc: "orlin",
+    direction: "left",
+    onClick: () => {
+      npcModalManager.open("orlin");
+    },
+  },
 ];
 
 export class WoodlandsScene extends BaseScene {

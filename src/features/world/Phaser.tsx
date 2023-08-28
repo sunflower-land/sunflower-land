@@ -177,10 +177,6 @@ export const PhaserComponent: React.FC<Props> = ({
       const currentScene =
         game.current?.scene.getScenes(true)[0]?.scene.key ?? scene;
 
-      console.log({
-        currentScene,
-        messages: mmoService.state.context.server?.state.messages,
-      });
       const sceneMessages =
         mmoService.state.context.server?.state.messages.filter(
           (m) => m.sceneId === currentScene

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { COMMUNITY_TEST_ISLAND } from "../scenes/CommunityScene";
 
 export const CommunityTools: React.FC = () => {
-  const [url, setURL] = useState<string>();
+  const [url, setURL] = useState<string>("");
 
   const navigate = useNavigate();
 
