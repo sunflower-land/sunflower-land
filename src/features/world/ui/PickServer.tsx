@@ -114,15 +114,17 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
                     <img src={ICONS[index]} className="w-6 mr-2" />
                     <div>
                       <p className="text-sm break-words">{server.name}</p>
-                      <p className="text-xs break-words">{server.purpose}</p>
-                      {isServerFull(servers, server.id) && (
-                        <Label
-                          type="danger"
-                          className="flex gap-2 items-center"
-                        >
-                          FULL
-                        </Label>
-                      )}
+                      <div className="flex items-center gap-2">
+                        {isServerFull(servers, server.id) && (
+                          <Label
+                            type="danger"
+                            className="flex gap-2 items-center"
+                          >
+                            FULL
+                          </Label>
+                        )}
+                        <p className="text-xs break-words">{server.purpose}</p>
+                      </div>
                     </div>
                   </div>
                   <div className="flex-1 flex items-center justify-end">
