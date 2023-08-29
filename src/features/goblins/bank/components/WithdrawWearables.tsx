@@ -79,8 +79,8 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   const withdrawableItems = [...new Set([...getKeys(wardrobe)])]
-    .sort((a, b) => ITEM_IDS[a] - ITEM_IDS[b])
-    .filter((item) => !isCurrentObsession(item));
+    .filter((item) => wardrobe[item] && !isCurrentObsession(item))
+    .sort((a, b) => ITEM_IDS[a] - ITEM_IDS[b]);
 
   const selectedItems = getKeys(selected)
     .filter((item) => !!selected[item])

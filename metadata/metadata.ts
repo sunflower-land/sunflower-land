@@ -556,7 +556,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "A lucky gnome. Currently used for decoration purposes\n\n~~You can craft a gnome at the Goblin Blacksmith in the game.~~ **Sold out!**",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/407.gif",
+    image_url: "../public/erc1155/images/407.png",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
       { trait_type: "Purpose", value: "Decoration" }, // Should I put Gnome as Boost or Decoration? Or Both?
@@ -4359,13 +4359,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Witches' Eve Banner": {
     description:
-      "The season of the witch has begun. The mark of a participant in the Witches' Eve Season.",
+      "The season of the witch has begun. The mark of a participant in the Witches' Eve Season.\n\nGrants 2 extra crow feathers per feather delivery during Witches' Eve Season",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/724.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
       { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_number",
+        trait_type: "Extra Crow Feathers from Deliveries",
+        value: 2,
+      },
     ],
   },
   "Luminous Lantern": {

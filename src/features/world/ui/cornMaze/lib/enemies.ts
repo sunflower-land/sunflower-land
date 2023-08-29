@@ -624,8 +624,8 @@ export const ENEMIES: Record<SeasonWeek, Enemy[]> = {
       npc: "phantom face",
       target: {
         x: 536,
-        y: 241,
-        direction: "vertical",
+        y: 214,
+        direction: "horizontal",
         duration: 2000,
         hold: true,
       },
