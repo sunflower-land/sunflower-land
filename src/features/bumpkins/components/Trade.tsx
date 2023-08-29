@@ -87,6 +87,7 @@ const ListTrade: React.FC<{
                   border: "2px solid #ead4aa",
                 }}
                 type="number"
+                min={1}
                 value={selected[item]}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   if (VALID_NUMBER.test(e.target.value)) {
