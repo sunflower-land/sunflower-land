@@ -291,8 +291,6 @@ export const Trade: React.FC = () => {
     gameState.context.state.bumpkin?.experience ?? 0
   );
 
-  console.log({ showListing });
-
   if (level < 10) {
     return (
       <div className="relative">
