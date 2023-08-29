@@ -177,6 +177,7 @@ export const SignIn = () => {
   };
 
   const isCryptoCom = getPromoCode() === "crypto-com";
+  const isEarnAlliance = getPromoCode() === "EARN";
 
   return (
     <div className="px-2">
@@ -223,7 +224,22 @@ export const SignIn = () => {
         </Button>
       )}
 
-      {!isCryptoCom && (
+      {isEarnAlliance && (
+        <Button
+          className="mb-2 py-2 text-sm relative justify-start"
+          onClick={connectToMetaMask}
+        >
+          <div className="px-8 mr-2 flex ">
+            <img
+              src={metamaskIcon}
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
+            />
+            Metamask
+          </div>
+        </Button>
+      )}
+
+      {!isCryptoCom && !isEarnAlliance && (
         <>
           {page === "home" && <MainWallets />}
           {page === "other" && <OtherWallets />}
