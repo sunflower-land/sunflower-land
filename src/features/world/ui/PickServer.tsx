@@ -27,9 +27,9 @@ interface Props {
 
 // If colyseus does not return one of the servers, it means its empty
 const ICONS = [
+  SUNNYSIDE.icons.water,
   CROP_LIFECYCLE.Sunflower.crop,
   SUNNYSIDE.icons.heart,
-  SUNNYSIDE.icons.water,
   brazilFlag,
   CROP_LIFECYCLE.Pumpkin.crop,
 ];
@@ -111,9 +111,10 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
                   }
                 >
                   <div className="flex items-center">
-                    <img src={ICONS[index]} className="w-5 mr-2" />
+                    <img src={ICONS[index]} className="w-6 mr-2" />
                     <div>
                       <p className="text-sm break-words">{server.name}</p>
+                      <p className="text-xs break-words">{server.purpose}</p>
                       {isServerFull(servers, server.id) && (
                         <Label
                           type="danger"

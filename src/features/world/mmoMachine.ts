@@ -32,18 +32,46 @@ export type ServerId =
   | "sunflorea_brazil"
   | "sunflorea_magic";
 
-type ServerName = "Bliss" | "Dream" | "Oasis" | "Brazil" | "Magic";
+type ServerName =
+  | "Bliss"
+  | "Dream"
+  | "Oasis"
+  | "Brazil"
+  | "Magic"
+  | "Bumpkin Bazaar";
+type ServerPurposes = "Chill & Chat" | "Trading";
 
 export type Server = {
   name: ServerName;
   id: ServerId;
   population: number;
+  purpose: ServerPurposes;
 };
 const SERVERS: Server[] = [
-  { name: "Bliss", id: "sunflorea_bliss", population: 0 },
-  { name: "Dream", id: "sunflorea_dream", population: 0 },
-  { name: "Oasis", id: "sunflorea_oasis", population: 0 },
-  { name: "Brazil", id: "sunflorea_brazil", population: 0 },
+  {
+    name: "Bumpkin Bazaar",
+    id: "sunflorea_oasis",
+    population: 0,
+    purpose: "Trading",
+  },
+  {
+    name: "Bliss",
+    id: "sunflorea_bliss",
+    population: 0,
+    purpose: "Chill & Chat",
+  },
+  {
+    name: "Dream",
+    id: "sunflorea_dream",
+    population: 0,
+    purpose: "Chill & Chat",
+  },
+  {
+    name: "Brazil",
+    id: "sunflorea_brazil",
+    population: 0,
+    purpose: "Chill & Chat",
+  },
   // { name: "Magic", id: "sunflorea_magic", population: 0 },
 ];
 
