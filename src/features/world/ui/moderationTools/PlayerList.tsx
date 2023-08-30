@@ -17,41 +17,15 @@ type PopUpProps = {
   onClose: () => void;
 };
 
-type MuteDuration =
-  | 5
-  | 15
-  | 30
-  | 60
-  | 120
-  | 240
-  | 480
-  | 720
-  | 1440
-  | 4320
-  | 10080
-  | 43200
-  | 129600
-  | 259200
-  | 525600
-  | 0;
+type MuteDuration = 1 | 5 | 10 | 60 | 720 | 1440 | 10080;
 
 const MUTE_DURATIONS: { value: MuteDuration; label: string }[] = [
   { value: 5, label: "5 mins" },
-  { value: 15, label: "15 mins" },
-  { value: 30, label: "30 mins" },
+  { value: 10, label: "10 mins" },
   { value: 60, label: "1 hour" },
-  { value: 120, label: "2 hours" },
-  { value: 240, label: "4 hours" },
-  { value: 480, label: "8 hours" },
   { value: 720, label: "12 hours" },
   { value: 1440, label: "1 day" },
-  { value: 4320, label: "3 days" },
   { value: 10080, label: "1 week" },
-  { value: 43200, label: "1 month" },
-  { value: 129600, label: "3 months" },
-  { value: 259200, label: "6 months" },
-  { value: 525600, label: "1 year" },
-  { value: 0, label: "Forever" },
 ];
 
 const KickPopUp: React.FC<PopUpProps> = ({ player, show, onClose }) => {
