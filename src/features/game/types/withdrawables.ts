@@ -415,9 +415,9 @@ const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
 };
 
 const mutantCrop: Record<MutantCropName, () => boolean> = {
-  "Stellar Sunflower": () => false,
-  "Potent Potato": () => false,
-  "Radical Radish": () => false,
+  "Stellar Sunflower": () => true,
+  "Potent Potato": () => true,
+  "Radical Radish": () => true,
 };
 
 const specialEvents: Record<SpecialEvent | MOMEventItem, () => boolean> = {
