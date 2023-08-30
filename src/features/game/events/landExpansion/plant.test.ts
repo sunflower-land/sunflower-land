@@ -1243,7 +1243,7 @@ describe("plant", () => {
             height: 1,
             width: 1,
             x: 0,
-            y: -2,
+            y: -1,
           },
         },
         collectibles: {

@@ -538,9 +538,9 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
         className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 16 * 3}px`,
-          height: `${PIXEL_SCALE * 16 * 3}px`,
-          left: `${PIXEL_SCALE * -16}px`,
-          top: `${PIXEL_SCALE * 32}px`,
+          height: `${PIXEL_SCALE * 16 * 4}px`,
+          left: `${PIXEL_SCALE * -15.5}px`,
+          top: `${PIXEL_SCALE * -15.3}px`,
         }}
       >
         <img
@@ -549,7 +549,7 @@ export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
           style={{
             width: `${PIXEL_SCALE * 10}px`,
             left: `${PIXEL_SCALE * 19}px`,
-            top: `${PIXEL_SCALE * 17}px`,
+            top: `${PIXEL_SCALE * 24}px`,
           }}
         />
       </div>
