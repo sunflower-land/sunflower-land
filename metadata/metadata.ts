@@ -3278,7 +3278,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Radical! Grants a 3% chance to get +10 radishes on harvest.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/439.png",
+    image_url: "../public/erc1155/images/439.gif",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
       {
@@ -3298,7 +3298,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Potent! Grants a 3% chance to get +10 potatoes on harvest.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/438.png",
+    image_url: "../public/erc1155/images/438.gif",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
       {
@@ -3340,7 +3340,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "Stellar! Grants a 3% chance to get +10 sunflowers on harvest.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/437.png",
+    image_url: "../public/erc1155/images/437.gif",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
       {
