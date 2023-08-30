@@ -40,7 +40,7 @@ function cropIsPlanted({ item, game }: CanRemoveArgs): Restriction {
 }
 
 function beanIsPlanted(game: GameState): Restriction {
-  const beanPlanted = game.collectibles["Magic Bean"];
+  const beanPlanted = game.collectibles["Magic Bean"]?.length ?? 0;
 
   return [!!beanPlanted, "Magic Bean is planted"];
 }
