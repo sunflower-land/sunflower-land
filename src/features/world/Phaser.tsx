@@ -326,9 +326,9 @@ export const PhaserComponent: React.FC<Props> = ({
         </InnerPanel>
       )}
       {/* If Muted */}
-      {/* {isMuted && (
+      {/* {true && (
         <InnerPanel className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer">
-          <img src={soundOffIcon} className="h-8 mr-2 ml-1" />
+          <img src={SoundOffIcon} className="h-8 mr-2 ml-1" />
           <div className="flex flex-col p-1">
             <span className="text-sm">You are muted</span>
             <span className="text-xxs">

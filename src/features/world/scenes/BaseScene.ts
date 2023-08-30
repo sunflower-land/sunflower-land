@@ -67,10 +67,6 @@ type BaseSceneOptions = {
   };
 };
 
-let SPEED_BOOST_ACTIVE = false;
-let NO_COLLISION_ACTIVE = false;
-// let GOD_MODE_ACTIVE = false;
-
 export abstract class BaseScene extends Phaser.Scene {
   abstract sceneId: SceneId;
   eventListener?: (event: EventObject) => void;
@@ -107,13 +103,10 @@ export abstract class BaseScene extends Phaser.Scene {
 
   cursorKeys:
     | {
-        shift?: Phaser.Input.Keyboard.Key;
-        ctrl?: Phaser.Input.Keyboard.Key;
         up: Phaser.Input.Keyboard.Key;
         down: Phaser.Input.Keyboard.Key;
         left: Phaser.Input.Keyboard.Key;
         right: Phaser.Input.Keyboard.Key;
-        space?: Phaser.Input.Keyboard.Key;
         w?: Phaser.Input.Keyboard.Key;
         s?: Phaser.Input.Keyboard.Key;
         a?: Phaser.Input.Keyboard.Key;
@@ -215,7 +208,7 @@ export abstract class BaseScene extends Phaser.Scene {
             ?.equipped as BumpkinParts),
           updatedAt: 0,
         },
-        experience: 100000000,
+        experience: 0,
       });
 
       this.initialiseCamera();
@@ -593,9 +586,8 @@ export abstract class BaseScene extends Phaser.Scene {
     if (!this.currentPlayer?.body) {
       return;
     }
-    const isShiftDown = this.cursorKeys?.shift?.isDown ?? false;
 
-    const speed = SPEED_BOOST_ACTIVE && isShiftDown ? 500 : 50;
+    const speed = 50;
 
     this.inputPayload.left =
       (this.cursorKeys?.left.isDown ||
@@ -845,7 +837,10 @@ export abstract class BaseScene extends Phaser.Scene {
         .setSize(16, 20)
         .setOffset(0, 0)
         .setImmovable(true)
-        .setCollideWorldBounds(false);
+        .setCollideWorldBounds(true);
+
+      this.physics.world.enable(container);
+      this.customColliders?.add(container);
     });
   }
 
@@ -859,22 +854,5 @@ export abstract class BaseScene extends Phaser.Scene {
 
   teleportModerator(x: number, y: number) {
     this.currentPlayer?.setPosition(x, y);
-  }
-
-  toggleSpeedBoost() {
-    SPEED_BOOST_ACTIVE = !SPEED_BOOST_ACTIVE;
-  }
-
-  toggleNoCollision() {
-    NO_COLLISION_ACTIVE = !NO_COLLISION_ACTIVE;
-
-    this.physics.world.colliders.getActive().forEach((collider) => {
-      collider.active = !NO_COLLISION_ACTIVE;
-    });
-  }
-
-  toggleGodMode() {
-    console.log("god mode not implemented");
-    // GOD_MODE_ACTIVE = !GOD_MODE_ACTIVE;
   }
 }
