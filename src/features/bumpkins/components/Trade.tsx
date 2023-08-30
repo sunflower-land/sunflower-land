@@ -29,10 +29,9 @@ const MAX_SFL = 150;
 type Items = Partial<Record<InventoryItemName, number>>;
 const ListTrade: React.FC<{
   inventory: Inventory;
-  balance: Decimal;
   onList: (items: Items, sfl: number) => void;
   onCancel: () => void;
-}> = ({ inventory, balance, onList, onCancel }) => {
+}> = ({ inventory, onList, onCancel }) => {
   const [selected, setSelected] = useState<Items>({});
   const [sfl, setSFL] = useState(1);
   const select = (name: InventoryItemName) => {
@@ -51,6 +50,9 @@ const ListTrade: React.FC<{
   );
 
   const maxSFL = sfl > MAX_SFL;
+  const allListedAmtGreaterThanZero = getKeys(selected).every((name) => {
+    return selected[name] ?? 0 > 0;
+  });
 
   return (
     <div>
@@ -87,8 +89,16 @@ const ListTrade: React.FC<{
                   border: "2px solid #ead4aa",
                 }}
                 type="number"
+                min={1}
                 value={selected[item]}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  // Strip the leading zero from numbers
+                  if (
+                    /^0+(?!\.)/.test(e.target.value) &&
+                    e.target.value.length > 1
+                  ) {
+                    e.target.value = e.target.value.replace(/^0/, "");
+                  }
                   if (VALID_NUMBER.test(e.target.value)) {
                     const amount = Number(
                       e.target.value.slice(0, INPUT_MAX_CHAR)
@@ -104,7 +114,8 @@ const ListTrade: React.FC<{
                   {
                     "text-error":
                       inventory[item]?.lt(selected[item] ?? 0) ||
-                      (selected[item] ?? 0) > (TRADE_LIMITS[item] ?? 0),
+                      (selected[item] ?? 0) > (TRADE_LIMITS[item] ?? 0) ||
+                      !allListedAmtGreaterThanZero,
                   }
                 )}
               />
@@ -133,6 +144,14 @@ const ListTrade: React.FC<{
               type="number"
               value={sfl}
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                // Strip the leading zero from numbers
+                if (
+                  /^0+(?!\.)/.test(e.target.value) &&
+                  e.target.value.length > 1
+                ) {
+                  e.target.value = e.target.value.replace(/^0/, "");
+                }
+
                 if (VALID_NUMBER.test(e.target.value)) {
                   const amount = Number(
                     e.target.value.slice(0, INPUT_MAX_CHAR)
@@ -143,7 +162,7 @@ const ListTrade: React.FC<{
               className={classNames(
                 "text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10",
                 {
-                  "text-error": maxSFL,
+                  "text-error": maxSFL || sfl === 0,
                 }
               )}
             />
@@ -164,7 +183,9 @@ const ListTrade: React.FC<{
             maxSFL ||
             exceedsMax ||
             getKeys(selected).length === 0 ||
-            !hasResources
+            !hasResources ||
+            !allListedAmtGreaterThanZero ||
+            sfl === 0
           }
           onClick={() => onList(selected, sfl)}
         >
@@ -286,15 +307,10 @@ export const Trade: React.FC = () => {
     );
   }
 
-  if (gameState.matches("autosaving")) {
-    return <p className="m-1 loading">Saving</p>;
-  }
-
   if (showListing) {
     return (
       <ListTrade
         inventory={gameState.context.state.inventory}
-        balance={gameState.context.state.balance}
         onCancel={() => setShowListing(false)}
         onList={(items, sfl) => {
           gameService.send("trade.listed", { items, sfl });
