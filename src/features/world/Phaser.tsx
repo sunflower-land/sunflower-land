@@ -6,6 +6,7 @@ import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-p
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { ChatUI, Message } from "features/pumpkinPlaza/components/ChatUI";
+import { ModerationTools } from "./ui/ModerationTools";
 
 import { PlazaScene } from "./scenes/PlazaScene";
 import { AuctionScene } from "./scenes/AuctionHouseScene";
@@ -38,8 +39,17 @@ import { useNavigate } from "react-router-dom";
 import { PlayerModals } from "./ui/PlayerModals";
 import { prepareAPI } from "features/community/lib/CommunitySDK";
 import { TradeCompleted } from "./ui/TradeCompleted";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 const _roomState = (state: MachineState) => state.value;
+
+type Player = {
+  playerId: string;
+  farmId: number;
+  clothing: BumpkinParts;
+  x: number;
+  y: number;
+};
 
 interface Props {
   scene: SceneId;
@@ -56,6 +66,8 @@ export const PhaserComponent: React.FC<Props> = ({
   const [authState] = useActor(authService);
 
   const [messages, setMessages] = useState<Message[]>([]);
+  const [players, setPlayers] = useState<Player[]>([]);
+  const [isModerator, setIsModerator] = useState(false);
   const { gameService } = useContext(Context);
 
   const [loaded, setLoaded] = useState(false);
@@ -90,6 +102,14 @@ export const PhaserComponent: React.FC<Props> = ({
       jwt: authState.context.user.rawToken as string,
       gameService: gameService,
     });
+
+    // Set up moderator by looking if bumpkin has Halo hat equipped
+    const bumpkin = gameService.state.context.state.bumpkin;
+    if (bumpkin?.equipped?.hat === "Halo") {
+      setIsModerator(true);
+    } else {
+      setIsModerator(true); // TODO: remove this
+    }
   }, []);
 
   useEffect(() => {
@@ -172,8 +192,8 @@ export const PhaserComponent: React.FC<Props> = ({
   }, [scene]);
 
   useEffect(() => {
+    // Update Messages on change
     mmoService.state.context.server?.state.messages.onChange(() => {
-      // Load active scene in Phaser, otherwise fallback to route
       const currentScene =
         game.current?.scene.getScenes(true)[0]?.scene.key ?? scene;
 
@@ -191,6 +211,48 @@ export const PhaserComponent: React.FC<Props> = ({
           sentAt: m.sentAt,
         })) ?? []
       );
+    });
+
+    // Update Players on change
+    mmoService.state.context.server?.state.players.onChange(() => {
+      const playersMap = mmoService.state.context.server?.state.players;
+
+      if (playersMap) {
+        setPlayers((currentPlayers) => {
+          const updatedPlayers: Player[] = [];
+
+          playersMap.forEach((player, playerId) => {
+            const existingPlayer = currentPlayers.find(
+              (p) => p.playerId === playerId
+            );
+
+            // do we really need to update the player when they move?
+            if (existingPlayer) {
+              // Update existing player's data
+              updatedPlayers.push({
+                ...existingPlayer,
+                x: player.x,
+                y: player.y,
+                clothing: player.clothing,
+              });
+            } else {
+              // Add new player
+              updatedPlayers.push({
+                playerId,
+                farmId: player.farmId,
+                x: player.x,
+                y: player.y,
+                clothing: player.clothing,
+              });
+            }
+          });
+
+          // Remove players who left the server
+          return updatedPlayers.filter((updatedPlayer) =>
+            playersMap.has(updatedPlayer.playerId)
+          );
+        });
+      }
     });
 
     mmoBus.listen((message) => {
@@ -216,6 +278,13 @@ export const PhaserComponent: React.FC<Props> = ({
           messages={messages ?? []}
         />
       )}
+      {scene !== "corn_maze" && !isCommunity && isModerator && (
+        <ModerationTools
+          scene={game.current?.scene.getScene(scene)}
+          messages={messages ?? []}
+          players={players ?? []}
+        />
+      )}
       <NPCModals
         onNavigate={(sceneId: SceneId) => {
           navigate(`/world/${sceneId}`);
@@ -226,7 +295,6 @@ export const PhaserComponent: React.FC<Props> = ({
         mmoService={mmoService}
         farmId={authState.context.user.farmId as number}
       />
-
       <CommunityModals />
       <CommunityToasts />
       <InteractableModals id={authState.context.user.farmId as number} />
@@ -238,17 +306,14 @@ export const PhaserComponent: React.FC<Props> = ({
           <p className="loading">Loading</p>
         </Panel>
       </Modal>
-
       <Modal show={mmoState === "introduction"} centered>
         <WorldIntroduction onClose={() => mmoService.send("CONTINUE")} />
       </Modal>
-
       <Modal show={mmoState === "joinRoom"} centered>
         <Panel>
           <p className="loading">Loading</p>
         </Panel>
       </Modal>
-
       {mmoState === "error" && (
         <InnerPanel
           className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer"
@@ -260,6 +325,18 @@ export const PhaserComponent: React.FC<Props> = ({
           </div>
         </InnerPanel>
       )}
+      {/* If Muted */}
+      {/* {isMuted && (
+        <InnerPanel className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer">
+          <img src={soundOffIcon} className="h-8 mr-2 ml-1" />
+          <div className="flex flex-col p-1">
+            <span className="text-sm">You are muted</span>
+            <span className="text-xxs">
+              You will be able to chat again in 1 hour.
+            </span>
+          </div>
+        </InnerPanel>
+      )} */}
     </div>
   );
 };
