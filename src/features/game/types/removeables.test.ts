@@ -1136,4 +1136,20 @@ describe("canremove", () => {
 
     expect(restricted).toBe(true);
   });
+
+  it("prevents a user from removing Carrot Sword when Magic Bean is planted", () => {
+    const [restricted] = hasRemoveRestriction("Carrot Sword", "1", {
+      ...TEST_FARM,
+      collectibles: {
+        "Magic Bean": [
+          { coordinates: { x: 1, y: 1 }, createdAt: 0, id: "123", readyAt: 0 },
+        ],
+      },
+      inventory: {
+        Maximus: new Decimal(1),
+      },
+    });
+
+    expect(restricted).toBe(true);
+  });
 });

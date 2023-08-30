@@ -402,16 +402,15 @@ export function isWithinAOE(
       }
     }
 
-    // AoE for the Queen Cornelia
     if (AOEItemName === "Queen Cornelia") {
       const topLeft = {
         x: AOEItemCoordinates.x - 1,
-        y: AOEItemCoordinates.y - AOEItem.height,
+        y: AOEItemCoordinates.y + 1,
       };
 
       const bottomRight = {
-        x: AOEItemCoordinates.x + 1,
-        y: AOEItemCoordinates.y - AOEItemDimensions.height - 2,
+        x: AOEItemCoordinates.x + AOEItemDimensions.width,
+        y: AOEItemCoordinates.y - AOEItemDimensions.height,
       };
 
       if (
@@ -433,21 +432,23 @@ export function isWithinAOE(
         return true;
       }
     }
-    // AoE surrounding the bale
+
+    // AoE surrounding the Sir Goldensnout
     if (AOEItemName === "Sir Goldensnout") {
       const dx = effectItem.x - AOEItemCoordinates.x;
       const dy = effectItem.y - AOEItemCoordinates.y;
 
       if (
         dx >= -1 &&
-        dx <= AOEItemDimensions.width && // Covers the width of the bale and one tile around it
+        dx <= AOEItemDimensions.width && // Covers the width of the Goldensnout and one tile around it
         dy <= 1 &&
-        dy >= -AOEItemDimensions.height // Covers the height of the bale and one tile around it
+        dy >= -AOEItemDimensions.height // Covers the height of the Goldensnout and one tile around it
       ) {
         return true;
       }
     }
 
+    // AoE surrounding the bale
     if (AOEItemName === "Bale") {
       const dx = effectItem.x - AOEItemCoordinates.x;
       const dy = effectItem.y - AOEItemCoordinates.y;

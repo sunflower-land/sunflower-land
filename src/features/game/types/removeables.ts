@@ -21,7 +21,8 @@ type RESTRICTION_REASON =
   | "Paw shaken"
   | "Basic crops are planted"
   | "Medium crops are planted"
-  | "Advanced crops are planted";
+  | "Advanced crops are planted"
+  | "Magic Bean is planted";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -36,6 +37,12 @@ function cropIsPlanted({ item, game }: CanRemoveArgs): Restriction {
     (plot) => plot.crop && plot.crop.name === item
   );
   return [cropPlanted, `${item} is planted`];
+}
+
+function beanIsPlanted(game: GameState): Restriction {
+  const beanPlanted = game.collectibles["Magic Bean"]?.length ?? 0;
+
+  return [!!beanPlanted, "Magic Bean is planted"];
 }
 
 function areFruitsGrowing(game: GameState, fruit: FruitName): Restriction {
@@ -249,6 +256,8 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Heart of Davy Jones": (game) => areAnyTreasureHolesDug(game),
 
   "Maneki Neko": (game) => hasShakenManeki(game),
+
+  "Carrot Sword": (game) => beanIsPlanted(game),
 };
 
 export const hasRemoveRestriction = (
