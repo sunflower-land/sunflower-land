@@ -19,9 +19,9 @@ interface Props {
   onSelect: (id: string) => void;
 }
 export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
-  const [auctioneerState, send] = useActor(auctionService);
+  const [auctioneerState] = useActor(auctionService);
 
-  const { auctions, auctionId } = auctioneerState.context;
+  const { auctions } = auctioneerState.context;
 
   const currentAuctions = auctions.filter(
     (auction) => auction.endAt > Date.now()
@@ -52,7 +52,7 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
                 src={bg}
                 className="w-full h-full absolute inset-0 rounded-md"
               />
-              <img src={image} className="w-2/3 object-fit z-10" />
+              <img src={image} className="w-1/2 h-1/2 object-contain z-10" />
               <span
                 className="absolute bottom-1 right-1 z-20 bg-silver-500 text-xxs px-0.5 pb-0.5  rounded-md inline-flex items-center"
                 style={{ ...pixelGrayBorderStyle }}
@@ -68,12 +68,12 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
               </p>
               <div className="ml-1 hidden sm:flex my-1">
                 {auction.sfl > 0 && (
-                  <img src={sflIcon} className="h-5 img-highlight -ml-1" />
+                  <img src={sflIcon} className="h-4 img-highlight -ml-1" />
                 )}
                 {getKeys(auction.ingredients).map((name) => (
                   <img
                     src={ITEM_DETAILS[name].image}
-                    className="h-5 img-highlight -ml-1"
+                    className="h-4 img-highlight -ml-1"
                     key={name}
                   />
                 ))}
