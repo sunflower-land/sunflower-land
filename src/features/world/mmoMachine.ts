@@ -39,13 +39,13 @@ type ServerName =
   | "Brazil"
   | "Magic"
   | "Bumpkin Bazaar";
-type ServerPurposes = "Chill & Chat" | "Trading";
+type ServerPurpose = "Chill & Chat" | "Trading";
 
 export type Server = {
   name: ServerName;
   id: ServerId;
   population: number;
-  purpose: ServerPurposes;
+  purpose: ServerPurpose;
 };
 const SERVERS: Server[] = [
   {
