@@ -3291,7 +3291,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Critical Hit Chance",
         value: 3,
       },
-      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Potent Potato": {
@@ -3311,7 +3311,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Critical Hit Chance",
         value: 3,
       },
-      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Peeled Potato": {
@@ -3353,7 +3353,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Critical Hit Chance",
         value: 3,
       },
-      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Wood Nymph Wendy": {
