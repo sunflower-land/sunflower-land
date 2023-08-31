@@ -26,8 +26,8 @@ export const WithdrawBumpkin: React.FC<Props> = ({ onWithdraw }) => {
 
   const nonWithdrawableItems = Object.values(equipped).filter(
     (item) =>
-      !BUMPKIN_WITHDRAWABLES[item](goblinState.context.state) &&
-      !basicWearables.includes(item) &&
+      !BUMPKIN_WITHDRAWABLES[item](goblinState.context.state) ||
+      !basicWearables.includes(item) ||
       isCurrentObsession(item, goblinState.context.state)
   );
 
@@ -39,7 +39,7 @@ export const WithdrawBumpkin: React.FC<Props> = ({ onWithdraw }) => {
             {`Your Bumpkin is currently wearing the following item(s) that can't be withdrawn.
             You will need to unequip them before you can withdraw.`}
           </p>
-          <div className="flex items-center">
+          <div className="flex items-center flex-wrap">
             {nonWithdrawableItems.map((itemName) => (
               <Box
                 key={itemName}
