@@ -28,6 +28,7 @@ import { analytics } from "lib/analytics";
 import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectStrategy.factory";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { savePromoCode } from "features/game/actions/loadSession";
+import { hasFeatureAccess } from "lib/flags";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -119,6 +120,7 @@ type CreateFarmEvent = {
   charityAddress: CharityAddress;
   donation: number;
   captcha: string;
+  hasEnoughMatic: boolean;
 };
 
 type LoadFarmEvent = {
@@ -264,10 +266,17 @@ export const authMachine = createMachine<
             target: "signIn",
             actions: () => analytics.logEvent("connect_wallet"),
           },
-          CONTINUE: {
-            target: "createWallet",
-            actions: () => analytics.logEvent("create_account"),
-          },
+          CONTINUE: [
+            {
+              target: "signIn",
+              cond: () => hasFeatureAccess({}, "NEW_FARM_FLOW"),
+              actions: () => analytics.logEvent("create_account"),
+            },
+            {
+              target: "createWallet",
+              actions: () => analytics.logEvent("create_account"),
+            },
+          ],
         },
       },
 
@@ -775,7 +784,8 @@ export const authMachine = createMachine<
         if (!context.user.rawToken) throw new Error("No token");
         if (!wallet.myAccount) throw new Error("No account");
 
-        const { charityAddress, captcha } = event as CreateFarmEvent;
+        const { charityAddress, captcha, hasEnoughMatic } =
+          event as CreateFarmEvent;
 
         await createFarmAction({
           charity: charityAddress,
@@ -783,6 +793,7 @@ export const authMachine = createMachine<
           captcha,
           transactionId: context.transactionId as string,
           account: wallet.myAccount,
+          hasEnoughMatic,
         });
       },
       login: async (context): Promise<{ token: string | null }> => {
