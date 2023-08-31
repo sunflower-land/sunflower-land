@@ -12,6 +12,7 @@ import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { Box } from "components/ui/Box";
 import { getKeys } from "features/game/types/craftables";
 import { BASIC_WEARABLES } from "features/game/types/stylist";
+import { isCurrentObsession } from "./WithdrawWearables";
 interface Props {
   onWithdraw: () => void;
 }
@@ -26,7 +27,8 @@ export const WithdrawBumpkin: React.FC<Props> = ({ onWithdraw }) => {
   const nonWithdrawableItems = Object.values(equipped).filter(
     (item) =>
       !BUMPKIN_WITHDRAWABLES[item](goblinState.context.state) &&
-      !basicWearables.includes(item)
+      !basicWearables.includes(item) &&
+      isCurrentObsession(item, goblinState.context.state)
   );
 
   const getText = () => {
