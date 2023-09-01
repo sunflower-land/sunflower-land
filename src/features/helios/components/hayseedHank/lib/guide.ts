@@ -23,10 +23,10 @@ Walkthrough:
 
 1. Expand Land
 2. Earn X SFL
-3. Level up (3)
-4. Build a Well
-5. Craft a Scarecrow
-6. Complete X Deliveries
+3. Level up (2)
+4. Complete X Deliveries
+5. Build a Well
+6. Craft a Scarecrow
 7. Expand land
 8. Collect X Seasonal Tickets
 9. Expand Land
