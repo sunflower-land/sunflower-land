@@ -200,6 +200,8 @@ import supporterTicket from "assets/icons/supporter_ticket.png";
 import solarFlareBanner from "assets/decorations/solar_flare_banner.png";
 import dawnBreakerBanner from "assets/decorations/dawn_breaker_banner.png";
 import witchesEveBanner from "assets/decorations/witches_eve_banner.webp";
+import budTicket from "assets/icons/bud_ticket.png";
+
 // Banners
 import goblinBanner from "assets/sfts/goblin_banner.png";
 import humanBanner from "assets/sfts/human_banner.png";
@@ -2434,5 +2436,10 @@ export const ITEM_DETAILS: Items = {
   "White Carrot": {
     image: whiteCarrot,
     description: EXOTIC_CROPS["White Carrot"].description,
+  },
+  "Bud Ticket": {
+    image: budTicket,
+    description:
+      "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
   },
 };
