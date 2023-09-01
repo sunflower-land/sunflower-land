@@ -127,7 +127,7 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex-1 flex items-center justify-end">
+                  <div className="flex items-center justify-end">
                     {progressBar(
                       serverCurrentPopulation(servers, server.id),
                       serverMaxCapacity,
