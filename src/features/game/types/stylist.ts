@@ -32,7 +32,6 @@ export const BASIC_WEARABLES: ShopWearables = {
     sfl: new Decimal(50),
     ingredients: {},
   },
-
   "Rancher Hair": {
     sfl: new Decimal(10),
     ingredients: {},
@@ -62,7 +61,6 @@ export const BASIC_WEARABLES: ShopWearables = {
     sfl: new Decimal(5),
     ingredients: {},
   },
-
   "Farmer Pants": {
     sfl: new Decimal(5),
     ingredients: {},
