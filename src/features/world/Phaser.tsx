@@ -38,7 +38,7 @@ import { useNavigate } from "react-router-dom";
 import { PlayerModals } from "./ui/PlayerModals";
 import { prepareAPI } from "features/community/lib/CommunitySDK";
 import { TradeCompleted } from "./ui/TradeCompleted";
-import { handleCommand } from "./ui/chat/commands";
+import { handleCommand } from "./lib/chatCommands";
 
 const _roomState = (state: MachineState) => state.value;
 
