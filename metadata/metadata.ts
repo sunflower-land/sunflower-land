@@ -4958,7 +4958,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_percentage",
-        trait_type: "Increase Corn Growth Time",
+        trait_type: "Corn Growth Time",
         value: -25,
       },
       { trait_type: "Tradable", value: "Yes" }, //Tradable from 02/10/2023
