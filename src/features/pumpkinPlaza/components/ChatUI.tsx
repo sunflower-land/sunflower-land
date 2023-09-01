@@ -19,7 +19,7 @@ interface Props {
   farmId: number;
   messages: Message[];
   onMessage: (content: { text?: string; reaction?: ReactionName }) => void;
-  onCommand: (name: string, args: string[]) => void;
+  onCommand?: (name: string, args: string[]) => void;
 }
 
 export const ChatUI: React.FC<Props> = ({
@@ -79,7 +79,7 @@ export const ChatUI: React.FC<Props> = ({
 
   const sendCommand = (command: string) => {
     const [name, ...args] = command.split(" ");
-    onCommand(name, args);
+    onCommand?.(name, args);
   };
 
   return (
