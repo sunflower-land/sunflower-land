@@ -9,7 +9,7 @@ interface Props {
 export const RejectedSignTransaction: React.FC<Props> = ({ onTryAgain }) => {
   return (
     <>
-      <div className="flex flex-col text-center text-shadow items-center p-2">
+      <div className="flex flex-col text-shadow items-center p-2">
         <div className="flex mb-3 items-center">
           <img
             src={SUNNYSIDE.icons.expression_alerted}
@@ -17,9 +17,9 @@ export const RejectedSignTransaction: React.FC<Props> = ({ onTryAgain }) => {
             className="w-3 mr-3"
           />
         </div>
-        <p className="text-center mb-3">Transaction Rejected!</p>
+        <p className="mb-3 text-center">Transaction Rejected!</p>
 
-        <p className="text-center mb-4 text-xs">
+        <p className="mb-4 text-xs">
           {`You need to accept the transaction in the metamask popup to continue`}{" "}
           <a
             className="underline"
@@ -31,7 +31,7 @@ export const RejectedSignTransaction: React.FC<Props> = ({ onTryAgain }) => {
           </a>
           .
         </p>
-        <p className="text-center mb-4 text-xs">
+        <p className="mb-4 text-xs">
           This request will not trigger a blockchain transaction or cost any gas
           fees.
         </p>
