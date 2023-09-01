@@ -38,6 +38,7 @@ import { useNavigate } from "react-router-dom";
 import { PlayerModals } from "./ui/PlayerModals";
 import { prepareAPI } from "features/community/lib/CommunitySDK";
 import { TradeCompleted } from "./ui/TradeCompleted";
+import { handleCommand } from "./ui/chat/commands";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -55,10 +56,6 @@ export const PhaserComponent: React.FC<Props> = ({
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
-  // Initialize mutedFarmIds with the value from localStorage or an empty array
-  const mutedFarmIds = JSON.parse(
-    localStorage.getItem("plaza-settings.mutedFarmIds") ?? "[]"
-  );
   const [messages, setMessages] = useState<Message[]>([]);
   const { gameService } = useContext(Context);
 
@@ -197,7 +194,10 @@ export const PhaserComponent: React.FC<Props> = ({
       ) as Message[];
 
     const filteredMessages = sceneMessages.filter(
-      (m) => !mutedFarmIds.includes(m.farmId)
+      (m) =>
+        !JSON.parse(
+          localStorage.getItem("plaza-settings.mutedFarmIds") ?? "[]"
+        ).includes(m.farmId)
     );
 
     setMessages(
@@ -209,33 +209,6 @@ export const PhaserComponent: React.FC<Props> = ({
         sentAt: m.sentAt,
       })) ?? []
     );
-  };
-
-  const handleCommand = (name: string, args: string[]) => {
-    if (name === "/mute") {
-      const farmId = Number(args[0]);
-      if (!isNaN(farmId)) {
-        mutedFarmIds.push(farmId);
-        localStorage.setItem(
-          "plaza-settings.mutedFarmIds",
-          JSON.stringify(mutedFarmIds)
-        );
-        updateMessages();
-      }
-    } else if (name === "/unmute") {
-      const farmId = Number(args[0]);
-      if (!isNaN(farmId)) {
-        const index = mutedFarmIds.indexOf(farmId);
-        if (index !== -1) {
-          mutedFarmIds.splice(index, 1);
-          localStorage.setItem(
-            "plaza-settings.mutedFarmIds",
-            JSON.stringify(mutedFarmIds)
-          );
-          updateMessages();
-        }
-      }
-    }
   };
 
   const ref = useRef<HTMLDivElement>(null);
@@ -251,7 +224,9 @@ export const PhaserComponent: React.FC<Props> = ({
               text: m.text ?? "?",
             });
           }}
-          onCommand={handleCommand}
+          onCommand={(name, args) => {
+            handleCommand(name, args).then(updateMessages);
+          }}
           messages={messages ?? []}
         />
       )}
