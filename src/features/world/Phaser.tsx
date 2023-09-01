@@ -60,6 +60,10 @@ export const PhaserComponent: React.FC<Props> = ({
 
   const [loaded, setLoaded] = useState(false);
 
+  const [mutedFarmIds, setMutedFarmIds] = useState<number[]>(
+    JSON.parse(localStorage.getItem("plaza-settings.mutedFarmIds") ?? "[]")
+  );
+
   const navigate = useNavigate();
 
   const game = useRef<Game>();
@@ -179,7 +183,8 @@ export const PhaserComponent: React.FC<Props> = ({
 
       const sceneMessages =
         mmoService.state.context.server?.state.messages.filter(
-          (m) => m.sceneId === currentScene
+          (m) =>
+            m.sceneId === currentScene && !mutedFarmIds.includes(m.farmId ?? 0)
         ) as Message[];
 
       setMessages(
@@ -198,7 +203,27 @@ export const PhaserComponent: React.FC<Props> = ({
     });
   }, [mmoService.state.context.server]);
 
-  // Listen to state change from trading -> playing
+  const handleCommand = (name: string, args: string[]) => {
+    if (name === "/mute") {
+      const farmId = parseInt(args[0]);
+      if (!isNaN(farmId)) {
+        setMutedFarmIds([...mutedFarmIds, farmId]);
+        localStorage.setItem(
+          "plaza-settings.mutedFarmIds",
+          JSON.stringify([...mutedFarmIds, farmId])
+        );
+      }
+    } else if (name === "/unmute") {
+      const farmId = parseInt(args[0]);
+      if (!isNaN(farmId)) {
+        setMutedFarmIds(mutedFarmIds.filter((id) => id !== farmId));
+        localStorage.setItem(
+          "plaza-settings.mutedFarmIds",
+          JSON.stringify(mutedFarmIds.filter((id) => id !== farmId))
+        );
+      }
+    }
+  };
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -213,6 +238,7 @@ export const PhaserComponent: React.FC<Props> = ({
               text: m.text ?? "?",
             });
           }}
+          onCommand={handleCommand}
           messages={messages ?? []}
         />
       )}
