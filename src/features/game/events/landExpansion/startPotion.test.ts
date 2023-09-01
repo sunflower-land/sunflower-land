@@ -63,4 +63,16 @@ describe("startPotion", () => {
 
     expect(newState.balance).toEqual(new Decimal(99));
   });
+
+  it("increments the sfl spent activity", () => {
+    const newState = startPotion({
+      state: { ...GAME_STATE, balance: new Decimal(100) },
+      action: {
+        type: "potion.started",
+      },
+    });
+
+    expect(newState.balance).toEqual(new Decimal(99));
+    expect(newState.bumpkin?.activity?.["SFL Spent"]).toEqual(1);
+  });
 });
