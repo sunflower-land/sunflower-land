@@ -55,14 +55,14 @@ export const PhaserComponent: React.FC<Props> = ({
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
+  // Initialize mutedFarmIds with the value from localStorage or an empty array
+  const mutedFarmIds = JSON.parse(
+    localStorage.getItem("plaza-settings.mutedFarmIds") ?? "[]"
+  );
   const [messages, setMessages] = useState<Message[]>([]);
   const { gameService } = useContext(Context);
 
   const [loaded, setLoaded] = useState(false);
-
-  const [mutedFarmIds, setMutedFarmIds] = useState<number[]>(
-    JSON.parse(localStorage.getItem("plaza-settings.mutedFarmIds") ?? "[]")
-  );
 
   const navigate = useNavigate();
 
@@ -155,6 +155,7 @@ export const PhaserComponent: React.FC<Props> = ({
     });
 
     setLoaded(true);
+    updateMessages();
 
     return () => {
       game.current?.destroy(true);
@@ -177,25 +178,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
   useEffect(() => {
     mmoService.state.context.server?.state.messages.onChange(() => {
-      // Load active scene in Phaser, otherwise fallback to route
-      const currentScene =
-        game.current?.scene.getScenes(true)[0]?.scene.key ?? scene;
-
-      const sceneMessages =
-        mmoService.state.context.server?.state.messages.filter(
-          (m) =>
-            m.sceneId === currentScene && !mutedFarmIds.includes(m.farmId ?? 0)
-        ) as Message[];
-
-      setMessages(
-        sceneMessages.map((m) => ({
-          farmId: m.farmId ?? 0,
-          text: m.text,
-          sessionId: m.sessionId,
-          sceneId: m.sceneId,
-          sentAt: m.sentAt,
-        })) ?? []
-      );
+      updateMessages();
     });
 
     mmoBus.listen((message) => {
@@ -203,24 +186,54 @@ export const PhaserComponent: React.FC<Props> = ({
     });
   }, [mmoService.state.context.server]);
 
+  const updateMessages = () => {
+    // Load active scene in Phaser, otherwise fallback to route
+    const currentScene =
+      game.current?.scene.getScenes(true)[0]?.scene.key ?? scene;
+
+    const sceneMessages =
+      mmoService.state.context.server?.state.messages.filter(
+        (m) => m.sceneId === currentScene
+      ) as Message[];
+
+    const filteredMessages = sceneMessages.filter(
+      (m) => !mutedFarmIds.includes(m.farmId)
+    );
+
+    setMessages(
+      filteredMessages.map((m) => ({
+        farmId: m.farmId ?? 0,
+        text: m.text,
+        sessionId: m.sessionId,
+        sceneId: m.sceneId,
+        sentAt: m.sentAt,
+      })) ?? []
+    );
+  };
+
   const handleCommand = (name: string, args: string[]) => {
     if (name === "/mute") {
-      const farmId = parseInt(args[0]);
+      const farmId = Number(args[0]);
       if (!isNaN(farmId)) {
-        setMutedFarmIds([...mutedFarmIds, farmId]);
+        mutedFarmIds.push(farmId);
         localStorage.setItem(
           "plaza-settings.mutedFarmIds",
-          JSON.stringify([...mutedFarmIds, farmId])
+          JSON.stringify(mutedFarmIds)
         );
+        updateMessages();
       }
     } else if (name === "/unmute") {
-      const farmId = parseInt(args[0]);
+      const farmId = Number(args[0]);
       if (!isNaN(farmId)) {
-        setMutedFarmIds(mutedFarmIds.filter((id) => id !== farmId));
-        localStorage.setItem(
-          "plaza-settings.mutedFarmIds",
-          JSON.stringify(mutedFarmIds.filter((id) => id !== farmId))
-        );
+        const index = mutedFarmIds.indexOf(farmId);
+        if (index !== -1) {
+          mutedFarmIds.splice(index, 1);
+          localStorage.setItem(
+            "plaza-settings.mutedFarmIds",
+            JSON.stringify(mutedFarmIds)
+          );
+          updateMessages();
+        }
       }
     }
   };
