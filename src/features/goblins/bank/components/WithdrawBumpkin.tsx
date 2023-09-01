@@ -12,6 +12,7 @@ import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { Box } from "components/ui/Box";
 import { getKeys } from "features/game/types/craftables";
 import { BASIC_WEARABLES } from "features/game/types/stylist";
+import { isCurrentObsession } from "./WithdrawWearables";
 interface Props {
   onWithdraw: () => void;
 }
@@ -23,11 +24,15 @@ export const WithdrawBumpkin: React.FC<Props> = ({ onWithdraw }) => {
   const { equipped } = bumpkin;
   const basicWearables = getKeys(BASIC_WEARABLES);
 
-  const nonWithdrawableItems = Object.values(equipped).filter(
-    (item) =>
-      !BUMPKIN_WITHDRAWABLES[item](goblinState.context.state) &&
-      !basicWearables.includes(item)
-  );
+  const nonWithdrawableItems = Object.values(equipped).filter((item) => {
+    const isWithdrawable = BUMPKIN_WITHDRAWABLES[item](
+      goblinState.context.state
+    );
+    const isBasicWearables = basicWearables.includes(item);
+    const isObsession = isCurrentObsession(item, goblinState.context.state);
+
+    return (!isWithdrawable && !isBasicWearables) || isObsession;
+  });
 
   const getText = () => {
     if (nonWithdrawableItems.length > 0)
@@ -37,7 +42,7 @@ export const WithdrawBumpkin: React.FC<Props> = ({ onWithdraw }) => {
             {`Your Bumpkin is currently wearing the following item(s) that can't be withdrawn.
             You will need to unequip them before you can withdraw.`}
           </p>
-          <div className="flex items-center">
+          <div className="flex items-center flex-wrap">
             {nonWithdrawableItems.map((itemName) => (
               <Box
                 key={itemName}

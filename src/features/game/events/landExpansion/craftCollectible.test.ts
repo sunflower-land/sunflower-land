@@ -267,4 +267,23 @@ describe("craftCollectible", () => {
       y: 5,
     });
   });
+  it("crafts item with sufficient ingredients", () => {
+    const state = craftCollectible({
+      state: {
+        ...GAME_STATE,
+        balance: new Decimal(100),
+        inventory: {
+          "Crow Feather": new Decimal(500),
+        },
+      },
+      action: {
+        type: "collectible.crafted",
+        name: "Kernaldo",
+      },
+    });
+
+    expect(state.inventory["Kernaldo"]).toEqual(new Decimal(1));
+    expect(state.inventory["Crow Feather"]).toEqual(new Decimal(0));
+    expect(state.balance).toEqual(new Decimal(50));
+  });
 });

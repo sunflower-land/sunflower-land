@@ -1,3 +1,5 @@
+import Decimal from "decimal.js-light";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 import { PotionName, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
@@ -17,6 +19,12 @@ const GAME_FEE = 1;
 export function startPotion({ state }: Options): GameState {
   const stateCopy = cloneDeep<GameState>(state);
 
+  const { bumpkin } = stateCopy;
+
+  if (!bumpkin) {
+    throw new Error("Bumpkin not found");
+  }
+
   if (stateCopy.potionHouse?.game.status === "in_progress") {
     throw new Error("There is already a game in progress");
   }
@@ -26,6 +34,11 @@ export function startPotion({ state }: Options): GameState {
   }
 
   stateCopy.balance = stateCopy.balance.sub(GAME_FEE);
+  bumpkin.activity = trackActivity(
+    "SFL Spent",
+    bumpkin?.activity,
+    new Decimal(GAME_FEE)
+  );
 
   stateCopy.potionHouse = {
     game: { status: "in_progress", attempts: [] },

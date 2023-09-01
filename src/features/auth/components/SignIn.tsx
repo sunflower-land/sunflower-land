@@ -15,6 +15,7 @@ import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { Label } from "components/ui/Label";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { getPromoCode } from "features/game/actions/loadSession";
+import { hasFeatureAccess } from "lib/flags";
 
 const OtherWallets = () => {
   const { authService } = useContext(Context);
@@ -132,6 +133,22 @@ export const SignIn = () => {
     return (
       <>
         <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() =>
+            authService.send("CONNECT_TO_WALLET", {
+              chosenProvider: Web3SupportedProviders.SEQUENCE,
+            })
+          }
+        >
+          <div className="px-8">
+            <img
+              src="https://sequence.app/static/images/sequence-logo.7c854742a6b8b4969004.svg"
+              className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
+            />
+            Email & Social Login
+          </div>
+        </Button>
+        <Button
           className="mb-2 py-2 text-sm relative justify-start"
           onClick={connectToMetaMask}
         >
@@ -152,24 +169,7 @@ export const SignIn = () => {
               src={walletIcon}
               className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
             />
-            Other wallets
-          </div>
-        </Button>
-
-        <Button
-          className="mb-2 py-2 text-sm relative"
-          onClick={() =>
-            authService.send("CONNECT_TO_WALLET", {
-              chosenProvider: Web3SupportedProviders.SEQUENCE,
-            })
-          }
-        >
-          <div className="px-8">
-            <img
-              src="https://sequence.app/static/images/sequence-logo.7c854742a6b8b4969004.svg"
-              className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
-            />
-            Email & social login
+            Other Wallets
           </div>
         </Button>
       </>
@@ -190,7 +190,7 @@ export const SignIn = () => {
             width: `${PIXEL_SCALE * 8}px`,
           }}
         />
-        {!getOnboardingComplete() && (
+        {!getOnboardingComplete() && !hasFeatureAccess({}, "NEW_FARM_FLOW") && (
           <div className="flex items-center">
             <img src={SUNNYSIDE.ui.green_bar_4} className="h-5 mr-2" />
             <span className="text-xs">Step 2/3 (Create a wallet)</span>
