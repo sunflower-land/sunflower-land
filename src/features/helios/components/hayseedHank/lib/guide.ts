@@ -40,9 +40,9 @@ export const WALKTHROUGH: AchievementName[] = [
   "Explorer",
   "Bread Winner",
   "Busy Bumpkin",
+  "Delivery Dynamo",
   "Well of Prosperity",
   "Scarecrow Maestro",
-  "Delivery Dynamo",
   "Land Baron",
   "Seasoned Farmer",
   "Land Expansion Enthusiast",
@@ -189,13 +189,12 @@ Experiment with different recipes, unlock new buildings, and discover the joy of
     docs: "https://docs.sunflower-land.com/player-guides/deliveries",
     description: [
       {
-        text: `Deliveries in Sunflower Land provide an exciting opportunity to help hungry Goblins and fellow Bumpkins while earning rewards. To deliver food, head to the town center and click on the board, where you'll find a list of available orders. Choose an order and click "Deliver" to submit your resources and receive a reward. The reward system is based on the difficulty of the request, so consider prioritizing orders that offer greater rewards to maximize your gains.
+        text: `Deliveries in Sunflower Land provide an exciting opportunity to help hungry Goblins and fellow Bumpkins while earning rewards. Everyday you will be able to see all the orders you have by clicking on the delivery board on the bottom left of the screen. The orders have been placed by some local NPC's that can be found hanging around Pumpkin Plaza. To fulfill an order, you will need to take boat ride to Pumpkin Plaza and look for the NPC expecting the delivery. Once you find them, click on them to deliver the order and receive your reward.
 
-      As a new player, you start with three order slots, but as you expand your farm, you unlock three additional slots, allowing advanced players to take on more orders. New orders come in every four hours, offering a range of tasks from farming produce to cooking food and gathering resources. Completing orders will earn you milestone bonuses, including Block Bucks, SFL, delicious cakes, and other rewards. Keep an eye on the board and challenge yourself with a variety of orders, leveling up and unlocking new buildings as needed to fulfill more demanding requests.`,
+      As a new player, you start with three order slots, but as you expand your farm, you will unlock additional slots, allowing advanced players to take on more orders. New orders come in every 24 hours, offering a range of tasks from farming produce to cooking food and gathering resources. Completing orders will earn you milestone bonuses, including Block Bucks, SFL, delicious cakes, and other rewards. The reward system is based on the difficulty of the request, so consider prioritizing orders that offer greater rewards to maximize your gains. Keep an eye on the board and challenge yourself with a variety of orders, leveling up and unlocking new buildings as needed to fulfill more demanding requests.`,
       },
     ],
   },
-
   scavenger: {
     achievements: ["Treasure Hunter"],
     icon: SUNNYSIDE.resource.crab,

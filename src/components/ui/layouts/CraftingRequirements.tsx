@@ -296,7 +296,7 @@ export const CraftingRequirements: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col h-full justify-between">
-      <div className="flex flex-col justify-center px-1 py-0">
+      <div className="flex flex-col h-full px-1 py-0">
         {getStock()}
         {details.from && (
           <Label type="warning" className="my-1 mx-auto">
