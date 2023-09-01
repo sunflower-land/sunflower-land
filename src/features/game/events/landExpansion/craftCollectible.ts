@@ -126,6 +126,7 @@ export function craftCollectible({
 
   return {
     ...stateCopy,
+    balance: stateCopy.balance.sub(totalExpenses),
     inventory: {
       ...subtractedInventory,
       [action.name]: oldAmount.add(1) as Decimal,
