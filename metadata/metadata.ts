@@ -4008,6 +4008,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         value: 1,
       },
       { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Decoration", value: "Trophy" },
     ],
   },
   "Bumpkin Roast": {
