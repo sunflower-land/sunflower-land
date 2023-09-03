@@ -50,9 +50,6 @@ export type SoldOutCollectibleName =
   | "Hoot"
   | "Lady Bug"
   | "Freya Fox"
-  | "Poppy"
-  | "Grain Grinder"
-  | "Kernaldo"
   | "Queen Cornelia";
 
 export type GoblinBlacksmithItemName =
