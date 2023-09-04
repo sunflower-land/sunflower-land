@@ -108,7 +108,6 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
   },
   "Witch's Broom": {
     sfl: new Decimal(0),
-
     ingredients: {
       Gold: new Decimal(5),
       "Crow Feather": new Decimal(50),
@@ -132,7 +131,6 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
   },
   "Imp Costume": {
     sfl: new Decimal(0),
-
     ingredients: {
       "Crow Feather": new Decimal(1000),
     },
