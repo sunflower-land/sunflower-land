@@ -72,7 +72,7 @@ export const Otis: React.FC = () => {
     setShowIntro(!!task?.introduction);
     setGuide(undefined);
     setIsOpen(true);
-    console.log({ activeTask });
+
     if (activeTask) {
       acknowledgeTask(activeTask);
     }

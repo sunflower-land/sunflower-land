@@ -164,9 +164,9 @@ const heliosBlacksmith: Record<HeliosBlacksmithItem, () => boolean> = {
   Bale: () => false,
   "Scary Mike": () => false,
   "Laurie the Chuckle Crow": () => false,
-  "Grain Grinder": () => false,
-  Kernaldo: () => false,
-  Poppy: () => false,
+  "Grain Grinder": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
+  Kernaldo: () => canWithdrawTimebasedItem(new Date("2023-10-02")),
+  Poppy: () => canWithdrawTimebasedItem(new Date("2023-09-02")),
 };
 
 const commodities: Record<CommodityName, () => boolean> = {
@@ -510,9 +510,6 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   Hoot: () => true,
   "Sir Goldensnout": () => true,
   "Freya Fox": () => true,
-  Poppy: () => canWithdrawTimebasedItem(new Date("2023-09-02")),
-  "Grain Grinder": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
-  Kernaldo: () => canWithdrawTimebasedItem(new Date("2023-10-02")),
   "Queen Cornelia": () =>
     canWithdrawTimebasedItem(new Date("Wed October 14 2023 10:00:00 GMT+1000")),
 };
@@ -912,12 +909,14 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Traveller's Backpack": () => false, // Not Launched
   "Traveller's Pants": () => false, // Not Launched
   "Traveller's Shirt": () => false, // Not Launched
-  "Witching Wardrobe": () => false, // Seasonal
-  "Witch's Broom": () => false, // Seasonal
-  "Infernal Bumpkin Potion": () => false, // Seasonal
-  "Infernal Goblin Potion": () => false, // Seasonal
-  "Imp Costume": () => false, // Seasonal
-  "Ox Costume": () => false, // Seasonal
+  "Witching Wardrobe": () => canWithdrawTimebasedItem(new Date("2023-11-02")), // Seasonal
+  "Witch's Broom": () => canWithdrawTimebasedItem(new Date("2023-11-02")), // Seasonal
+  "Infernal Bumpkin Potion": () =>
+    canWithdrawTimebasedItem(new Date("2023-09-02")), // Seasonal
+  "Infernal Goblin Potion": () =>
+    canWithdrawTimebasedItem(new Date("2023-09-02")), // Seasonal
+  "Imp Costume": () => canWithdrawTimebasedItem(new Date("2023-10-02")), // Seasonal
+  "Ox Costume": () => canWithdrawTimebasedItem(new Date("2023-11-02")), // Seasonal
   "Luna's Hat": () =>
     canWithdrawTimebasedItem(
       new Date("Thu September 27 2023 10:00:00 GMT+1000")
@@ -945,7 +944,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Double Harvest Cap": () => false,
   "Streamer Helmet": () => false,
   "Corn Onesie": () => false, // Not Launched
-  "Crow Wings": () => false, // Not Launched
+  "Crow Wings": () => canWithdrawTimebasedItem(new Date("2023-11-01")), // Not Launched
   "Witches' Eve Tee": () => false,
   "Wise Beard": () => false, // Not Launched
   "Pumpkin Hat": () => false, // Not Launched
