@@ -3,18 +3,17 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelTableBorderStyle } from "features/game/lib/style";
 import tableTop from "assets/ui/table_top.webp";
 import plant from "assets/decorations/planter_box.webp";
-import { InnerPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { POTIONS } from "./lib/potions";
 import { Box } from "./Box";
 import shadow from "assets/npcs/shadow.png";
-import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";
 import { calculateScore } from "features/game/events/landExpansion/mixPotion";
 import { MixingPotion } from "./MixingPotion";
+import { PotionName } from "features/game/types/game";
 
 interface Props {
   onClose: () => void;
@@ -26,18 +25,15 @@ const EMPTY_ATTEMPT = new Array<{ potion: null; status: undefined }>(4).fill({
   status: undefined,
 });
 
-export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
+export const Experiment: React.FC<Props> = ({
+  onClose,
+  potionHouseService,
+}) => {
   const { gameService } = useContext(Context);
   const [potionState] = useActor(potionHouseService);
 
   const {
-    context: {
-      selectedPotion,
-      guessSpot,
-      currentGuess,
-      isNewGame,
-      feedbackText,
-    },
+    context: { guessSpot, currentGuess, isNewGame, feedbackText },
   } = potionState;
 
   const potionHouse = gameService.state.context.state.potionHouse;
@@ -72,17 +68,20 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
     setScore(score);
   }, [isNewGame, isGuessing]);
 
-  const onPotionButtonClick = () => {
-    // REMOVE
+  const onGuessSpotClick = (guessSpot: number) => {
+    // REMOVE GUESS
     if (currentGuess[guessSpot]) {
       potionHouseService.send("REMOVE_GUESS", { guessSpot });
-      return;
     }
 
+    potionHouseService.send("SELECT_GUESS_SPOT", { guessSpot });
+  };
+
+  const onPotionBottleClick = (potionName: PotionName) => {
     // ADD
     potionHouseService.send("ADD_GUESS", {
       guessSpot,
-      potion: selectedPotion.name,
+      potion: potionName,
     });
   };
 
@@ -161,11 +160,7 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
                               <div
                                 className="relative"
                                 key={`select-${columnIndex}`}
-                                onClick={() =>
-                                  potionHouseService.send("SELECT_GUESS_SPOT", {
-                                    guessSpot: columnIndex,
-                                  })
-                                }
+                                onClick={() => onGuessSpotClick(columnIndex)}
                               >
                                 <Box
                                   potionName={currentGuess[columnIndex]}
@@ -216,36 +211,15 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
         {!isFinished && !showStartButton && (
           <div className="flex flex-col justify-end grow">
             <h2 className="mb-1">Potions</h2>
-            <InnerPanel>
-              <div className="p-1 flex flex-col space-y-1 pb-2">
-                {selectedPotion && (
-                  <>
-                    <span className="text-[18px]">{selectedPotion.name}</span>
-
-                    <span className="text-xxs sm:mt-1 whitespace-pre-line">
-                      {selectedPotion.description}
-                    </span>
-                  </>
-                )}
-              </div>
-              <Button
-                className="h-9"
-                disabled={guessSpot < 0}
-                onClick={onPotionButtonClick}
-              >
-                {currentGuess[guessSpot] ? "Remove from mix" : "Add to mix"}
-              </Button>
-            </InnerPanel>
-            <div className="flex flex-wrap justify-center gap-2 mt-3 mb-2">
+            <span className="text-xxs italic mb-1">
+              (Click on a bottle to add to your guess)
+            </span>
+            <div className="flex flex-wrap gap-2 mt-3 mb-2">
               {Object.values(POTIONS).map((potion) => (
                 <div
                   key={potion.name}
-                  className={classNames("relative cursor-pointer", {
-                    "img-highlight": potion.name === selectedPotion?.name,
-                  })}
-                  onClick={() =>
-                    potionHouseService.send("SELECT_POTION", { potion })
-                  }
+                  className={"relative cursor-pointer"}
+                  onClick={() => onPotionBottleClick(potion.name)}
                 >
                   <img src={shadow} alt="" className="absolute -bottom-1 w-8" />
                   <img src={potion.image} alt="" className="w-8 relative" />
@@ -256,10 +230,13 @@ export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
         )}
       </div>
       {showStartButton && (
-        <Button
-          onClick={handleStart}
-          disabled={gameService.state.context.state.balance.lessThan(1)}
-        >{`Start new game (1 SFL)`}</Button>
+        <div className="flex flex-col-reverse space-y-1 sm:flex-row sm:space-y-0 sm:space-x-1 ">
+          <Button onClick={onClose}>Close</Button>
+          <Button
+            onClick={handleStart}
+            disabled={gameService.state.context.state.balance.lessThan(1)}
+          >{`Start new game (1 SFL)`}</Button>
+        </div>
       )}
     </>
   );
