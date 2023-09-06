@@ -242,6 +242,7 @@ export const authMachine = createMachine<
 
           const promoCode = getPromoCode();
           if (promoCode) {
+            analytics.logEvent(`promo_code_${promoCode}` as any);
             savePromoCode(promoCode);
           }
         },
