@@ -142,6 +142,8 @@ export async function createAccount({
     });
   }
 
+  // For new farm mints always query with alchemy
+  await wallet.overrideProvider();
   await getNewFarm(wallet.web3Provider, account);
 }
 
