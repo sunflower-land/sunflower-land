@@ -211,7 +211,7 @@ export const Experiment: React.FC<Props> = ({
         {!isFinished && !showStartButton && (
           <div className="flex flex-col justify-end grow">
             <h2 className="mb-1">Potions</h2>
-            <span className="text-xxs italic mb-1">
+            <span className="text-xxs italic">
               (Click on a bottle to add to your guess)
             </span>
             <div className="flex flex-wrap gap-2 mt-3 mb-2">
@@ -230,7 +230,7 @@ export const Experiment: React.FC<Props> = ({
         )}
       </div>
       {showStartButton && (
-        <div className="flex flex-col-reverse space-y-1 sm:flex-row sm:space-y-0 sm:space-x-1 ">
+        <div className="flex flex-col-reverse space-y-reverse space-y-1 sm:flex-row sm:space-y-0 sm:space-x-1 ">
           <Button onClick={onClose}>Close</Button>
           <Button
             onClick={handleStart}
