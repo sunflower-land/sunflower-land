@@ -1391,6 +1391,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/701.png",
     attributes: [
       { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Boost", value: "Crop" },
       { trait_type: "Purpose", value: "Legacy" },
       { trait_type: "Tradable", value: "No" },
       {
@@ -1414,6 +1415,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/702.png",
     attributes: [
       { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Boost", value: "Animal" },
       { trait_type: "Purpose", value: "Legacy" },
       { trait_type: "Tradable", value: "No" },
       {
@@ -1444,6 +1446,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/703.png",
     attributes: [
       { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Boost", value: "Crop" },
       { trait_type: "Purpose", value: "Legacy" },
       { trait_type: "Tradable", value: "No" },
       {
@@ -1467,6 +1470,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/704.png",
     attributes: [
       { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Boost", value: "Animal" },
       { trait_type: "Purpose", value: "Legacy" },
       { trait_type: "Tradable", value: "No" },
       {
@@ -1485,6 +1489,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/705.png",
     attributes: [
       { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Boost", value: "Resource" },
       { trait_type: "Purpose", value: "Legacy" },
       { trait_type: "Tradable", value: "No" },
       {
@@ -1503,6 +1508,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/706.png",
     attributes: [
       { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Boost", value: "Resource" },
       { trait_type: "Purpose", value: "Legacy" },
       { trait_type: "Tradable", value: "No" },
       {
@@ -1521,6 +1527,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/708.png",
     attributes: [
       { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Boost", value: "Resource" },
       { trait_type: "Purpose", value: "Legacy" },
       { trait_type: "Tradable", value: "No" },
       {
@@ -1539,6 +1546,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/710.png",
     attributes: [
       { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Boost", value: "Crop" },
       { trait_type: "Purpose", value: "Legacy" },
       { trait_type: "Tradable", value: "No" },
       {
@@ -1557,6 +1565,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/709.png",
     attributes: [
       { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Boost", value: "Other" },
       { trait_type: "Purpose", value: "Legacy" },
       { trait_type: "Tradable", value: "No" },
       {
@@ -1575,6 +1584,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/707.png",
     attributes: [
       { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Boost", value: "Resource" },
       { trait_type: "Purpose", value: "Legacy" },
       { trait_type: "Tradable", value: "No" },
       {
@@ -1593,6 +1603,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/712.png",
     attributes: [
       { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Boost", value: "Resource" },
       { trait_type: "Purpose", value: "Legacy" },
       { trait_type: "Tradable", value: "No" },
       {
@@ -1635,6 +1646,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/711.png",
     attributes: [
       { trait_type: "Boost", value: "Skill" },
+      { trait_type: "Boost", value: "Other" },
       { trait_type: "Purpose", value: "Legacy" },
       { trait_type: "Tradable", value: "No" },
       {
