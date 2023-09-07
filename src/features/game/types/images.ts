@@ -298,6 +298,9 @@ import deli from "src/assets/buildings/deli.png";
 import smoothieShack from "src/assets/buildings/smoothie_shack.webp";
 import toolshed from "src/assets/buildings/toolshed.png";
 import warehouse from "src/assets/buildings/warehouse.png";
+import basicComposter from "assets/sfts/aoe/composter_basic.png";
+import advancedComposter from "assets/sfts/aoe/composter_advanced.png";
+import expertComposter from "assets/sfts/aoe/composter_expert.png";
 
 // Clothing
 import chefHat from "src/assets/icons/chef_hat.png";
@@ -2087,6 +2090,20 @@ export const ITEM_DETAILS: Items = {
     image: queenCornelia,
     description:
       "Command the regal power of Queen Cornelia and experience a magnificent Area of Effect boost to your corn production. +1 Corn.",
+  },
+
+  // Composters
+  "Basic Composter": {
+    image: basicComposter,
+    description: "",
+  },
+  "Advanced Composter": {
+    image: advancedComposter,
+    description: "",
+  },
+  "Expert Composter": {
+    image: expertComposter,
+    description: "",
   },
 
   // Season tickets

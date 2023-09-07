@@ -43,6 +43,10 @@ export const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
   Toolshed: [],
   Warehouse: [],
   "Town Center": [],
+  // Composters
+  "Basic Composter": [],
+  "Advanced Composter": [],
+  "Expert Composter": [],
 };
 
 interface Props {

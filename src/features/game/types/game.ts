@@ -364,8 +364,10 @@ export type FruitPatch = {
 
 export type Mine = Position;
 
+export type ComposterProduce = "EarthWorm" | "Grub" | "Red Wiggler";
+
 export type BuildingProduct = {
-  name: CookableName;
+  name: CookableName | ComposterProduce;
   readyAt: number;
 };
 

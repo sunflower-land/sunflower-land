@@ -12,6 +12,7 @@ import { Bakery } from "./bakery/Bakery";
 
 import { Kitchen } from "./kitchen/Kitchen";
 import { Deli } from "./deli/Deli";
+import lightning from "assets/icons/lightning.png";
 
 import { SmoothieShack } from "./smoothieShack/SmoothieShack";
 import { Warehouse } from "./warehouse/Warehouse";
@@ -20,6 +21,9 @@ import { TownCenter } from "./townCenter/TownCenter";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CookableName } from "features/game/types/consumables";
+import { BasicComposter } from "./composters/BasicComposter";
+import { MediumComposter } from "./composters/MediumComposter";
+import { AdvancedComposter } from "./composters/AdvancedComposter";
 
 export interface BuildingProps {
   buildingId: string;
@@ -110,6 +114,9 @@ export const BUILDING_COMPONENTS: Record<
       <SmoothieShack buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
+  "Basic Composter": BasicComposter,
+  "Advanced Composter": MediumComposter,
+  "Expert Composter": AdvancedComposter,
 };
 
 export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
@@ -183,5 +190,120 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
       className="absolute bottom-0"
       style={{ width: `${PIXEL_SCALE * 64}px` }}
     />
+  ),
+
+  "Basic Composter": () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Basic Composter"].image}
+        className="w-full absolute"
+        style={{
+          width: `${PIXEL_SCALE * 28}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+        }}
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 4}px`,
+          height: `${PIXEL_SCALE * 16 * 4}px`,
+          left: `${PIXEL_SCALE * -17.8}px`,
+          top: `${PIXEL_SCALE * -47.7}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 27}px`,
+            top: `${PIXEL_SCALE * 24}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  "Advanced Composter": () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Advanced Composter"].image}
+        className="w-full absolute"
+        style={{
+          width: `${PIXEL_SCALE * 28}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+        }}
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 4}px`,
+          height: `${PIXEL_SCALE * 16 * 4}px`,
+          left: `${PIXEL_SCALE * -17.8}px`,
+          top: `${PIXEL_SCALE * -47.7}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 27}px`,
+            top: `${PIXEL_SCALE * 24}px`,
+          }}
+        />
+      </div>
+    </div>
+  ),
+  "Expert Composter": () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Expert Composter"].image}
+        className="w-full absolute"
+        style={{
+          width: `${PIXEL_SCALE * 28}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+        }}
+      />
+      <div
+        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 16 * 4}px`,
+          height: `${PIXEL_SCALE * 16 * 4}px`,
+          left: `${PIXEL_SCALE * -17.8}px`,
+          top: `${PIXEL_SCALE * -47.7}px`,
+        }}
+      >
+        <img
+          src={lightning}
+          className="absolute bottom-0 opacity-50 animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            left: `${PIXEL_SCALE * 27}px`,
+            top: `${PIXEL_SCALE * 24}px`,
+          }}
+        />
+      </div>
+    </div>
   ),
 };
