@@ -306,6 +306,9 @@ const buildings: Record<BuildingName, () => boolean> = {
   "Smoothie Shack": () => false,
   Toolshed: () => false,
   Warehouse: () => false,
+  "Basic Composter": () => false,
+  "Advanced Composter": () => false,
+  "Expert Composter": () => false,
 };
 
 const fertilisers: Record<FertiliserName, () => boolean> = {
