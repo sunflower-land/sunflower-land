@@ -262,7 +262,7 @@ export const OFFLINE_FARM: GameState = {
   witchesEve: {
     weeklyLostCrowCount: 25,
     maze: {
-      3: {
+      7: {
         claimedFeathers: 0,
         sflFee: 5,
         paidEntryFee: true,
