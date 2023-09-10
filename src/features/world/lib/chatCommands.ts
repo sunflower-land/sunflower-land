@@ -11,13 +11,17 @@ export const handleCommand = async (command: string, args: string[]) => {
   }
 };
 
+const isFarmIdValid = (farmId: number) => {
+  return !isNaN(farmId) && farmId >= 0 && farmId % 1 === 0;
+};
+
 const CommandeMute = (args: string[]) => {
   const farmId = Number(args[0]);
   const localMutedFarmIds = JSON.parse(
     localStorage.getItem("plaza-settings.mutedFarmIds") || "[]"
   );
 
-  if (!isNaN(farmId)) {
+  if (isFarmIdValid(farmId) && !localMutedFarmIds.includes(farmId)) {
     localMutedFarmIds.push(farmId);
     localStorage.setItem(
       "plaza-settings.mutedFarmIds",
@@ -32,7 +36,7 @@ const CommandeUnmute = (args: string[]) => {
     localStorage.getItem("plaza-settings.mutedFarmIds") || "[]"
   );
 
-  if (!isNaN(farmId)) {
+  if (isFarmIdValid(farmId)) {
     const index = localMutedFarmIds.indexOf(farmId);
     if (index !== -1) {
       localMutedFarmIds.splice(index, 1);
