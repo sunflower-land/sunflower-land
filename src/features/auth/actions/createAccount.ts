@@ -115,6 +115,9 @@ export async function createAccount({
 }: CreateFarmOptions) {
   const referrerId = getReferrerId();
 
+  // For new farm mints always query with alchemy
+  await wallet.overrideProvider();
+
   if (hasFeatureAccess({}, "NEW_FARM_FLOW") && !hasEnoughMatic) {
     await signUp({
       charity,
