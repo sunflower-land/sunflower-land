@@ -379,7 +379,7 @@ import blossomTree from "assets/events/valentine/sfts/blossom_tree.png";
 import skeletonKingStaff from "assets/sfts/skeleton_king_staff.webp";
 import foliant from "assets/sfts/foliant.webp";
 import dinosaurBone from "assets/sfts/dinosaur_bone.webp";
-import pirateCake from "assets/sfts/cakes/pirate_cake.webp";
+import pirateCake from "assets/food/cakes/pirate_cake.webp";
 import drill from "assets/icons/drill.png";
 import karkinos from "assets/seasons/solar-flare/karkinos.png";
 import palmTree from "assets/seasons/solar-flare/palm_tree.webp";
