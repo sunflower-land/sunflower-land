@@ -225,16 +225,16 @@ import momCoreEngine from "src/assets/sfts/mom/engine_core.png";
 import observatory from "src/assets/sfts/mom/observatory.gif";
 
 // Cakes
-import carrotCake from "src/assets/sfts/cakes/carrot_cake.png";
-import radishCake from "src/assets/sfts/cakes/radish_cake.png";
-import beetrootCake from "src/assets/sfts/cakes/beetroot_cake.png";
-import cabbageCake from "src/assets/sfts/cakes/cabbage_cake.png";
-import cauliflowerCake from "src/assets/sfts/cakes/cauliflower_cake.png";
-import parsnipCake from "src/assets/sfts/cakes/parsnip_cake.png";
-import potatoCake from "src/assets/sfts/cakes/potato_cake.png";
-import pumpkinCake from "src/assets/sfts/cakes/pumpkin_cake.png";
-import sunflowerCake from "src/assets/sfts/cakes/sunflower_cake.png";
-import wheatCake from "src/assets/sfts/cakes/wheat_cake.png";
+import carrotCake from "src/assets/food/cakes/carrot_cake.png";
+import radishCake from "src/assets/food/cakes/radish_cake.png";
+import beetrootCake from "src/assets/food/cakes/beetroot_cake.png";
+import cabbageCake from "src/assets/food/cakes/cabbage_cake.png";
+import cauliflowerCake from "src/assets/food/cakes/cauliflower_cake.png";
+import parsnipCake from "src/assets/food/cakes/parsnip_cake.png";
+import potatoCake from "src/assets/food/cakes/potato_cake.png";
+import pumpkinCake from "src/assets/food/cakes/pumpkin_cake.png";
+import sunflowerCake from "src/assets/food/cakes/sunflower_cake.png";
+import wheatCake from "src/assets/food/cakes/wheat_cake.png";
 
 // Food
 import mashedPotato from "assets/food/mashed_potato.png";

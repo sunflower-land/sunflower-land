@@ -1,6 +1,6 @@
 import React from "react";
 
-import goblinLantern from "src/assets/sfts/goblin_lantern.png";
+import goblinLantern from "src/assets/sfts/decorations/lanterns/goblin_lantern.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GoblinLantern: React.FC = () => {
