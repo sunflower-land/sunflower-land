@@ -222,7 +222,9 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Scary Mike": (game) => areAnyMediumCropsGrowing(game),
   "Laurie the Chuckle Crow": (game) => areAnyAdvancedCropsGrowing(game),
   Gnome: (game) => areAnyAdvancedOrMediumCropsGrowing(game),
-
+  "Basic Composter": (game) => areAnyCropsGrowing(game),
+  "Advanced Composter": (game) => areAnyCropsGrowing(game),
+  "Expert Composter": (game) => areAnyCropsGrowing(game),
   "Cabbage Boy": (game) => cropIsGrowing({ item: "Cabbage", game }),
   "Cabbage Girl": (game) => cropIsGrowing({ item: "Cabbage", game }),
   Karkinos: (game) => cropIsGrowing({ item: "Cabbage", game }),
@@ -384,7 +386,10 @@ export const hasMoveRestriction = (
     name === "Scary Mike" ||
     name === "Laurie the Chuckle Crow" ||
     name === "Queen Cornelia" ||
-    name === "Gnome";
+    name === "Gnome" ||
+    name === "Basic Composter" ||
+    name === "Advanced Composter" ||
+    name === "Expert Composter";
 
   const [isRestricted, restrictionReason] = hasRemoveRestriction(
     name,

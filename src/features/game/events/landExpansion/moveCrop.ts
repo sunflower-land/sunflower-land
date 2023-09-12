@@ -2,6 +2,7 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { isWithinAOE } from "features/game/expansion/placeable/lib/collisionDetection";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import {
+  Buildings,
   Collectibles,
   CropPlot,
   GameState,
@@ -33,6 +34,7 @@ type Options = {
 export function isLocked(
   plot: CropPlot,
   collectibles: Collectibles,
+  buildings: Buildings,
   createdAt: number
 ): boolean {
   const crop = plot.crop;
@@ -126,6 +128,76 @@ export function isLocked(
     }
   }
 
+  if (buildings["Basic Composter"]?.[0]) {
+    const composterCoordinates = buildings["Basic Composter"]?.[0].coordinates;
+    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Sir Goldensnout"];
+
+    const scarecrowPosition: Position = {
+      x: composterCoordinates.x,
+      y: composterCoordinates.y,
+      height: scarecrowDimensions.height,
+      width: scarecrowDimensions.width,
+    };
+
+    const plotPosition: Position = {
+      x: plot?.x,
+      y: plot?.y,
+      height: plot.height,
+      width: plot.width,
+    };
+
+    if (isWithinAOE("Basic Composter", scarecrowPosition, plotPosition)) {
+      return true;
+    }
+  }
+
+  if (buildings["Advanced Composter"]?.[0]) {
+    const composterCoordinates =
+      buildings["Advanced Composter"]?.[0].coordinates;
+    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Sir Goldensnout"];
+
+    const scarecrowPosition: Position = {
+      x: composterCoordinates.x,
+      y: composterCoordinates.y,
+      height: scarecrowDimensions.height,
+      width: scarecrowDimensions.width,
+    };
+
+    const plotPosition: Position = {
+      x: plot?.x,
+      y: plot?.y,
+      height: plot.height,
+      width: plot.width,
+    };
+
+    if (isWithinAOE("Advanced Composter", scarecrowPosition, plotPosition)) {
+      return true;
+    }
+  }
+
+  if (buildings["Expert Composter"]?.[0]) {
+    const composterCoordinates = buildings["Expert Composter"]?.[0].coordinates;
+    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Sir Goldensnout"];
+
+    const scarecrowPosition: Position = {
+      x: composterCoordinates.x,
+      y: composterCoordinates.y,
+      height: scarecrowDimensions.height,
+      width: scarecrowDimensions.width,
+    };
+
+    const plotPosition: Position = {
+      x: plot?.x,
+      y: plot?.y,
+      height: plot.height,
+      width: plot.width,
+    };
+
+    if (isWithinAOE("Expert Composter", scarecrowPosition, plotPosition)) {
+      return true;
+    }
+  }
+
   if (
     isAdvancedCrop(cropName) &&
     collectibles["Laurie the Chuckle Crow"]?.[0]
@@ -214,8 +286,7 @@ export function moveCrop({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
-  const crops = stateCopy.crops;
-  const collectibles = stateCopy.collectibles;
+  const { crops, collectibles, buildings } = stateCopy;
   const plot = crops[action.id];
 
   if (stateCopy.bumpkin === undefined) {
@@ -226,7 +297,7 @@ export function moveCrop({
     throw new Error(MOVE_CROP_ERRORS.CROP_NOT_PLACED);
   }
 
-  if (isLocked(plot, collectibles, createdAt)) {
+  if (isLocked(plot, collectibles, buildings, createdAt)) {
     throw new Error(MOVE_CROP_ERRORS.AOE_LOCKED);
   }
 

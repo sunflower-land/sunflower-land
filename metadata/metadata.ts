@@ -5293,4 +5293,25 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/465.png",
     attributes: [],
   },
+  Earthworm: {
+    description: "A wriggly worm used to fish.",
+    decimals: 0,
+    external_url: "",
+    image_url: "../public/erc1155/images/465.png",
+    attributes: [],
+  },
+  Grub: {
+    description: "A juicy grub used to fish.",
+    decimals: 0,
+    external_url: "",
+    image_url: "../public/erc1155/images/465.png",
+    attributes: [],
+  },
+  "Red Wiggler": {
+    description: "A red wiggler used to fish.",
+    decimals: 0,
+    external_url: "",
+    image_url: "../public/erc1155/images/465.png",
+    attributes: [],
+  },
 };

@@ -2469,4 +2469,20 @@ export const ITEM_DETAILS: Items = {
     image: sign,
     description: "Show your farm ID with pride!",
   },
+  // Composter Produce
+  Earthworm: {
+    // image: earthworm,
+    image: budTicket,
+    description: "A wriggly worm used to fish.",
+  },
+  Grub: {
+    // image: grub,
+    image: budTicket,
+    description: "A juicy grub used to fish.",
+  },
+  "Red Wiggler": {
+    // image: question,
+    image: budTicket,
+    description: "A red wiggler used to fish.",
+  },
 };
