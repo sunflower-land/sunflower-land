@@ -211,7 +211,7 @@ const LandscapingResource: React.FC<ResourceProps> = (props) => {
 
     if (isPlot) {
       const plot = crops[props.id];
-      return isPlotLocked(plot, collectibles, Date.now());
+      return isPlotLocked(plot, collectibles, buildings, Date.now());
     }
     if (isStone) {
       const stoneRock = stones[props.id];

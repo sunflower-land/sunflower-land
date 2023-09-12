@@ -40,10 +40,6 @@ export const BasicComposter: React.FC = () => {
   const ready = useSelector(composterService, isReady);
 
   const startComposter = () => {
-    console.log("idle", idle);
-    console.log("composting", composting);
-    console.log("ready", ready);
-
     composterService.send({
       type: "START_COMPOST",
       event: "basicComposter.started",
@@ -97,7 +93,7 @@ export const BasicComposter: React.FC = () => {
       </div>
       <Modal show={showModal} centered onHide={() => setShowModal(false)}>
         <Panel className="z-10">
-          {!ready && !composting && (
+          {idle && (
             <Button onClick={startComposter} disabled={!canStartComposter}>
               Start Composting
             </Button>
@@ -107,6 +103,7 @@ export const BasicComposter: React.FC = () => {
               Collect
             </Button>
           )}
+          {composting && <p>Composting...</p>}
         </Panel>
       </Modal>
     </>
