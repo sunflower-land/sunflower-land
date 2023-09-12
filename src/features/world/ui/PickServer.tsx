@@ -163,7 +163,7 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
                 >
                   <div className="flex items-center">
                     <img src={island.icon} className="w-7 mr-2" />
-                    <div className="flex">
+                    <div>
                       <p
                         className={classNames("text-sm break-words", {
                           "-mb-2": !!island.special,
