@@ -144,6 +144,7 @@ export const RESOURCE_COMPONENTS: Record<
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
 const _collectibles = (state: MachineState) => state.context.state.collectibles;
+const _buildings = (state: MachineState) => state.context.state.buildings;
 const _crops = (state: MachineState) => state.context.state.crops;
 const _stones = (state: MachineState) => state.context.state.stones;
 const _iron = (state: MachineState) => state.context.state.iron;
@@ -196,6 +197,7 @@ const LandscapingResource: React.FC<ResourceProps> = (props) => {
   const { gameService } = useContext(Context);
 
   const collectibles = useSelector(gameService, _collectibles);
+  const buildings = useSelector(gameService, _buildings);
   const crops = useSelector(gameService, _crops);
   const stones = useSelector(gameService, _stones);
   const iron = useSelector(gameService, _iron);
@@ -213,15 +215,15 @@ const LandscapingResource: React.FC<ResourceProps> = (props) => {
     }
     if (isStone) {
       const stoneRock = stones[props.id];
-      return isStoneLocked(stoneRock, collectibles, Date.now());
+      return isStoneLocked(stoneRock, collectibles, buildings, Date.now());
     }
     if (isIron) {
       const ironRock = iron[props.id];
-      return isIronLocked(ironRock, collectibles, Date.now());
+      return isIronLocked(ironRock, collectibles, buildings, Date.now());
     }
     if (isGold) {
       const goldRock = gold[props.id];
-      return isGoldLocked(goldRock, collectibles, Date.now());
+      return isGoldLocked(goldRock, collectibles, buildings, Date.now());
     }
     return false;
   };
