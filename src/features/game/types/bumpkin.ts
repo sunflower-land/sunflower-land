@@ -756,4 +756,6 @@ export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
   "Beetroot Amulet": "+20% Beetroot",
   "Green Amulet": "Chance for 10x crops",
   "Luna's Hat": "-50% cooking time",
+  "Infernal Pitchfork": "+3 crops",
+  Cattlegrim: "+0.25 animal produce",
 };
