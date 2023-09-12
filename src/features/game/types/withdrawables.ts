@@ -986,4 +986,5 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Unicorn Hat": () => false,
   "Feather Hat": () => true,
   "Valoria Wreath": () => true,
+  "Earn Alliance Sombrero": () => true,
 };
