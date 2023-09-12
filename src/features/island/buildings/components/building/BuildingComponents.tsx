@@ -22,8 +22,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CookableName } from "features/game/types/consumables";
 import { BasicComposter } from "./composters/BasicComposter";
-import { MediumComposter } from "./composters/MediumComposter";
 import { AdvancedComposter } from "./composters/AdvancedComposter";
+import { ExpertComposter } from "./composters/ExpertComposter";
 
 export interface BuildingProps {
   buildingId: string;
@@ -115,8 +115,8 @@ export const BUILDING_COMPONENTS: Record<
     </WithCraftingMachine>
   ),
   "Basic Composter": BasicComposter,
-  "Advanced Composter": MediumComposter,
-  "Expert Composter": AdvancedComposter,
+  "Advanced Composter": AdvancedComposter,
+  "Expert Composter": ExpertComposter,
 };
 
 export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
