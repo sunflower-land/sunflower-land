@@ -893,8 +893,6 @@ describe("isWithinAOE", () => {
         plotPosition
       );
 
-      console.log(idx, isPlotWithinAoE);
-
       expect(isPlotWithinAoE).toBe(false);
     });
   });
@@ -909,5 +907,70 @@ describe("isWithinAOE", () => {
     );
 
     expect(cropPlot).toBe(true);
+  });
+
+  it("returns true if the crop is within the Basic Composter AOE", () => {
+    const plotPositions: Position[] = [
+      { x: 1, y: 1, ...plotDimensions },
+      { x: 0, y: 1, ...plotDimensions },
+      { x: -1, y: 1, ...plotDimensions },
+      { x: -1, y: 0, ...plotDimensions },
+      { x: -1, y: -1, ...plotDimensions },
+      { x: -1, y: -2, ...plotDimensions },
+      { x: 0, y: -2, ...plotDimensions },
+      { x: 1, y: -2, ...plotDimensions },
+      { x: 2, y: -2, ...plotDimensions },
+      { x: 2, y: -1, ...plotDimensions },
+      { x: 2, y: 0, ...plotDimensions },
+      { x: 2, y: 1, ...plotDimensions },
+    ];
+
+    const itemPosition: Position = { x: 0, y: 0, height: 2, width: 2 };
+
+    plotPositions.forEach((plotPosition, idx) => {
+      const isPlotWithinAoE = isWithinAOE(
+        "Basic Composter",
+        itemPosition,
+        plotPosition
+      );
+
+      expect(isPlotWithinAoE).toBe(true);
+    });
+  });
+
+  it("returns false if the crop is outside of the Basic Composter AOE", () => {
+    const plotPositions: Position[] = [
+      { x: 3, y: 2, ...plotDimensions },
+      { x: 2, y: 2, ...plotDimensions },
+      { x: 1, y: 2, ...plotDimensions },
+      { x: 0, y: 2, ...plotDimensions },
+      { x: -1, y: 2, ...plotDimensions },
+      { x: -2, y: 2, ...plotDimensions },
+      { x: -2, y: 1, ...plotDimensions },
+      { x: -2, y: 0, ...plotDimensions },
+      { x: -2, y: -1, ...plotDimensions },
+      { x: -2, y: -2, ...plotDimensions },
+      { x: -2, y: -3, ...plotDimensions },
+      { x: -1, y: -3, ...plotDimensions },
+      { x: 0, y: -3, ...plotDimensions },
+      { x: 1, y: -3, ...plotDimensions },
+      { x: 2, y: -3, ...plotDimensions },
+      { x: 3, y: -3, ...plotDimensions },
+      { x: 3, y: -2, ...plotDimensions },
+      { x: 3, y: -1, ...plotDimensions },
+      { x: 3, y: 0, ...plotDimensions },
+      { x: 3, y: 1, ...plotDimensions },
+    ];
+    const itemPosition: Position = { x: 0, y: 0, height: 2, width: 2 };
+
+    plotPositions.forEach((plotPosition, idx) => {
+      const isPlotWithinAoE = isWithinAOE(
+        "Basic Composter",
+        itemPosition,
+        plotPosition
+      );
+
+      expect(isPlotWithinAoE).toBe(false);
+    });
   });
 });

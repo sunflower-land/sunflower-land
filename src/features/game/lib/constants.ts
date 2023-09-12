@@ -23,7 +23,7 @@ export const CHICKEN_COOP_MULTIPLIER = 1.5;
 
 export const POPOVER_TIME_MS = 1000;
 
-function isBuildingReady(building: PlacedItem[]) {
+export function isBuildingReady(building: PlacedItem[]) {
   return building.some((b) => b.readyAt <= Date.now());
 }
 

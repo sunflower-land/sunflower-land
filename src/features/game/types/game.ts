@@ -247,7 +247,8 @@ export type InventoryItemName =
   | LanternName
   | ExoticCropName
   | PotionHouseItemName
-  | "Basic Land";
+  | "Basic Land"
+  | ComposterProduce;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -364,10 +365,16 @@ export type FruitPatch = {
 
 export type Mine = Position;
 
-export type ComposterProduce = "EarthWorm" | "Grub" | "Red Wiggler";
+export type ComposterProduce = "Earthworm" | "Grub" | "Red Wiggler";
 
 export type BuildingProduct = {
-  name: CookableName | ComposterProduce;
+  name: CookableName;
+  readyAt: number;
+};
+
+export type BuildingProduce = {
+  name: ComposterProduce;
+  startedAt: number;
   readyAt: number;
 };
 
@@ -377,6 +384,7 @@ export type PlacedItem = {
   readyAt: number;
   createdAt: number;
 
+  producing?: BuildingProduce;
   crafting?: BuildingProduct;
 };
 

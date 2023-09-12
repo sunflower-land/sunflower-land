@@ -3,6 +3,7 @@ import Decimal from "decimal.js-light";
 
 import { CropName, CROPS } from "../../types/crops";
 import {
+  Buildings,
   Bumpkin,
   Collectibles,
   CropPlot,
@@ -19,7 +20,10 @@ import {
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { setPrecision } from "lib/utils/formatNumber";
 import { SEEDS } from "features/game/types/seeds";
-import { BuildingName } from "features/game/types/buildings";
+import {
+  BuildingName,
+  BUILDINGS_DIMENSIONS,
+} from "features/game/types/buildings";
 import { isWithinAOE } from "features/game/expansion/placeable/lib/collisionDetection";
 import {
   isBasicCrop,
@@ -29,6 +33,7 @@ import {
 } from "./harvest";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { getBudSpeedBoosts } from "features/game/lib/getBudSpeedBoosts";
+import { isBuildingReady } from "features/game/lib/constants";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -232,6 +237,7 @@ export function getCropYieldAmount({
   inventory,
   collectibles,
   buds,
+  buildings,
   bumpkin,
 }: {
   crop: CropName;
@@ -239,6 +245,7 @@ export function getCropYieldAmount({
   inventory: Inventory;
   collectibles: Collectibles;
   buds: NonNullable<GameState["buds"]>;
+  buildings: Buildings;
   bumpkin: Bumpkin;
 }): number {
   let amount = 1;
@@ -346,6 +353,23 @@ export function getCropYieldAmount({
 
     if (isWithinAOE("Sir Goldensnout", position, plot)) {
       amount = amount + 0.5;
+    }
+  }
+
+  if (
+    buildings["Basic Composter"] &&
+    isBuildingReady(buildings["Basic Composter"])
+  ) {
+    const basicComposter = buildings["Basic Composter"][0];
+
+    const position: Position = {
+      x: basicComposter.coordinates.x,
+      y: basicComposter.coordinates.y,
+      ...BUILDINGS_DIMENSIONS["Basic Composter"],
+    };
+
+    if (isWithinAOE("Basic Composter", position, plot)) {
+      amount = amount + 0.2;
     }
   }
 
@@ -460,7 +484,13 @@ export function plant({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { crops: plots, bumpkin, collectibles, inventory } = stateCopy;
+  const {
+    crops: plots,
+    bumpkin,
+    collectibles,
+    inventory,
+    buildings,
+  } = stateCopy;
   const buds = stateCopy.buds ?? {};
 
   if (bumpkin === undefined) {
@@ -515,6 +545,7 @@ export function plant({
         crop: cropName,
         inventory,
         collectibles,
+        buildings,
         bumpkin,
         plot,
         buds,
