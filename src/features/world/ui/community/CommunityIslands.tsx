@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 import dignity from "assets/icons/dignity.png";
 import unicorn from "assets/icons/unicorn.png";
 
-import { hasFeatureAccess } from "lib/flags";
-
 type CommunityIsland = {
   url: string;
   project: string;
@@ -16,29 +14,24 @@ type CommunityIsland = {
   special?: boolean;
 };
 
-export const COMMUNITY_ISLANDS: CommunityIsland[] = hasFeatureAccess(
-  {},
-  "COMMUNITY_ISLANDS"
-)
-  ? [
-      {
-        url: "https://0xsacul.github.io/valoria-isle/",
-        name: "Valoria Isle",
-        id: "valoria_isle",
-        icon: dignity,
-        project: "Valoria",
-      },
-      {
-        url: "https://sunflower-land.github.io/crypto-unicorn-community-island/",
-        // url: "http://localhost:3003/",
-        name: "Unicorn Island",
-        id: "unicorn_island",
-        icon: unicorn,
-        project: "Crypto Unicorns",
-        special: true,
-      },
-    ]
-  : [];
+export const COMMUNITY_ISLANDS: CommunityIsland[] = [
+  {
+    url: "https://0xsacul.github.io/valoria-isle/",
+    name: "Valoria Isle",
+    id: "valoria_isle",
+    icon: dignity,
+    project: "Valoria",
+  },
+  {
+    url: "https://sunflower-land.github.io/crypto-unicorn-community-island/",
+    // url: "http://localhost:3003/",
+    name: "Unicorn Island",
+    id: "unicorn_island",
+    icon: unicorn,
+    project: "Crypto Unicorns",
+    special: true,
+  },
+];
 
 export const CommunityIslands: React.FC = () => {
   const navigate = useNavigate();
