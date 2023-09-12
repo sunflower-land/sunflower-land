@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { ConsumableName, CookableName } from "../types/consumables";
 import { Animal, Food, ToolName } from "../types/craftables";
 import { CropName } from "../types/crops";
-import { Bumpkin, LanternName } from "../types/game";
+import { Bumpkin, ComposterProduce, LanternName } from "../types/game";
 import { BeanName, ExoticCropName } from "./beans";
 import { HeliosBlacksmithItem, PotionHouseItemName } from "./collectibles";
 import { DecorationName } from "./decorations";
@@ -40,6 +40,7 @@ export type CraftedEvent = `${
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
 export type TreasureEvent = `${TreasureName} Dug`;
+export type ComposterCollectEvent = `${ComposterProduce} Collected`;
 
 export type BumpkinActivityName =
   | CookEvent
@@ -75,7 +76,8 @@ export type BumpkinActivityName =
   | "Easter Egg Collected"
   | "Chore Completed"
   | "Chore Skipped"
-  | "Bud Placed";
+  | "Bud Placed"
+  | ComposterCollectEvent;
 
 export function trackActivity(
   activityName: BumpkinActivityName,

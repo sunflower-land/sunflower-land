@@ -217,6 +217,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Fruit Patch": 623,
   Boulder: 624,
   "Basic Land": 625,
+  Earthworm: 626,
+  Grub: 627,
+  "Red Wiggler": 628,
 
   "Green Thumb": 701,
   "Barn Manager": 702,

@@ -15,6 +15,7 @@ import {
   getKeys,
 } from "./craftables";
 import {
+  ComposterProduce,
   Coupons,
   EasterEgg,
   FertiliserName,
@@ -649,6 +650,12 @@ const exoticCrops: Record<ExoticCropName, () => boolean> = {
   Chiogga: () => false,
 };
 
+const composterProduce: Record<ComposterProduce, () => boolean> = {
+  Earthworm: () => false,
+  Grub: () => false,
+  "Red Wiggler": () => false,
+};
+
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...crops,
   ...fruits,
@@ -697,6 +704,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...decorations,
   ...potionHouse,
   ...exoticCrops,
+  ...composterProduce,
 };
 
 const canWithdrawBoostedWearable = (

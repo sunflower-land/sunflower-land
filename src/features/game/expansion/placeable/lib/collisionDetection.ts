@@ -1,4 +1,5 @@
 import {
+  Buildings,
   Collectibles,
   GameState,
   PlacedItem,
@@ -9,6 +10,7 @@ import { Coordinates } from "../../components/MapPlacement";
 import {
   ANIMAL_DIMENSIONS,
   COLLECTIBLES_DIMENSIONS,
+  CollectibleName,
   getKeys,
 } from "features/game/types/craftables";
 import {
@@ -331,7 +333,10 @@ export type AOEItemName =
   | "Scary Mike"
   | "Laurie the Chuckle Crow"
   | "Queen Cornelia"
-  | "Gnome";
+  | "Gnome"
+  | "Basic Composter"
+  | "Advanced Composter"
+  | "Expert Composter";
 
 /**
  * Detects whether an item is within the area of effect of a placeable with AOE.
@@ -462,6 +467,21 @@ export function isWithinAOE(
       }
     }
 
+    // AoE surrounding the Basic Composter
+    if (AOEItemName === "Basic Composter") {
+      const dx = effectItem.x - AOEItemCoordinates.x;
+      const dy = effectItem.y - AOEItemCoordinates.y;
+
+      if (
+        dx >= -1 &&
+        dx <= AOEItemDimensions.width && // Covers the width of the Goldensnout and one tile around it
+        dy <= 1 &&
+        dy >= -AOEItemDimensions.height // Covers the height of the Goldensnout and one tile around it
+      ) {
+        return true;
+      }
+    }
+
     // AoE surrounding the bale
     if (AOEItemName === "Bale") {
       const dx = effectItem.x - AOEItemCoordinates.x;
@@ -492,16 +512,35 @@ export function isWithinAOE(
 
 export function isAOEImpacted(
   collectibles: Collectibles,
+  buildings: Buildings,
   resourcePosition: Position,
-  collectibleNames: AOEItemName[]
+  aOeAffectedNames: AOEItemName[]
 ) {
-  return collectibleNames.some((name) => {
-    if (collectibles[name]?.[0]) {
-      const coordinates = collectibles[name]?.[0].coordinates;
+  return aOeAffectedNames.some((name) => {
+    if (name === "Basic Composter" && buildings["Basic Composter"]?.[0]) {
+      const coordinates = buildings["Basic Composter"]?.[0].coordinates;
 
       if (!coordinates) return false;
 
-      const dimensions = COLLECTIBLES_DIMENSIONS[name];
+      const dimensions = BUILDINGS_DIMENSIONS[name];
+
+      const itemPosition: Position = {
+        x: coordinates.x,
+        y: coordinates.y,
+        height: dimensions.height,
+        width: dimensions.width,
+      };
+
+      if (isWithinAOE(name, itemPosition, resourcePosition)) {
+        return true;
+      }
+    } else if (collectibles[name as CollectibleName]?.[0]) {
+      const coordinates =
+        collectibles[name as CollectibleName]?.[0].coordinates;
+
+      if (!coordinates) return false;
+
+      const dimensions = COLLECTIBLES_DIMENSIONS[name as CollectibleName];
 
       const itemPosition: Position = {
         x: coordinates.x,
