@@ -93,6 +93,7 @@ export const getCropTime = (
   crop: CropName,
   inventory: Inventory,
   collectibles: Collectibles,
+  buildings: Buildings,
   bumpkin: Bumpkin,
   buds: NonNullable<GameState["buds"]>,
   plot?: CropPlot
@@ -193,6 +194,7 @@ type GetPlantedAtArgs = {
   crop: CropName;
   inventory: Inventory;
   collectibles: Collectibles;
+  buildings: Buildings;
   bumpkin: Bumpkin;
   createdAt: number;
   plot: CropPlot;
@@ -206,6 +208,7 @@ export function getPlantedAt({
   crop,
   inventory,
   collectibles,
+  buildings,
   bumpkin,
   buds,
   createdAt,
@@ -218,6 +221,7 @@ export function getPlantedAt({
     crop,
     inventory,
     collectibles,
+    buildings,
     bumpkin,
     buds,
     plot
@@ -541,6 +545,7 @@ export function plant({
         crop: cropName,
         inventory,
         collectibles,
+        buildings,
         bumpkin,
         createdAt,
         plot,

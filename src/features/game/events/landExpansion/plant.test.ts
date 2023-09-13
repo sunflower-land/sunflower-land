@@ -1556,6 +1556,7 @@ describe("getCropTime", () => {
       "Carrot",
       {},
       {},
+      {},
       { ...INITIAL_BUMPKIN, skills: { Cultivator: 1 } },
       plot
     );
@@ -1566,6 +1567,7 @@ describe("getCropTime", () => {
   it("reduces in 20% carrot time when Bumpkin is wearing Carrot Amulet", () => {
     const time = getCropTime(
       "Carrot",
+      {},
       {},
       {},
       {
@@ -1593,6 +1595,7 @@ describe("getCropTime", () => {
           },
         ],
       },
+      {},
       { ...INITIAL_BUMPKIN },
       plot
     );
@@ -1615,6 +1618,7 @@ describe("getCropTime", () => {
           },
         ],
       },
+      {},
       { ...INITIAL_BUMPKIN },
       plot
     );
@@ -1637,6 +1641,7 @@ describe("getCropTime", () => {
           },
         ],
       },
+      {},
       { ...INITIAL_BUMPKIN },
       plot
     );
@@ -1699,6 +1704,7 @@ describe("getCropTime", () => {
           },
         ],
       },
+      {},
       { ...INITIAL_BUMPKIN },
       plot
     );
@@ -1722,6 +1728,7 @@ describe("getCropTime", () => {
           },
         ],
       },
+      {},
       { ...INITIAL_BUMPKIN },
       {},
       { ...plot, x: 0, y: -2 }
@@ -1746,6 +1753,7 @@ describe("getCropTime", () => {
           },
         ],
       },
+      {},
       { ...INITIAL_BUMPKIN },
       {},
       { ...plot, x: 0, y: -2 }
@@ -1770,6 +1778,7 @@ describe("getCropTime", () => {
           },
         ],
       },
+      {},
       { ...INITIAL_BUMPKIN },
       {},
       { ...plot, x: 0, y: -2 }
@@ -1794,6 +1803,7 @@ describe("getCropTime", () => {
           },
         ],
       },
+      {},
       { ...INITIAL_BUMPKIN },
       {},
       { ...plot, x: 0, y: -2 }
@@ -1818,6 +1828,7 @@ describe("getCropTime", () => {
           },
         ],
       },
+      {},
       { ...INITIAL_BUMPKIN },
       {},
       { ...plot, x: 2, y: -2 }
@@ -1842,6 +1853,7 @@ describe("getCropTime", () => {
           },
         ],
       },
+      {},
       { ...INITIAL_BUMPKIN },
       {},
       { ...plot, x: 0, y: -3 }
