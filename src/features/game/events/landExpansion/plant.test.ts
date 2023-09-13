@@ -1648,6 +1648,7 @@ describe("getCropTime", () => {
     const amount = getCropYieldAmount({
       crop: "Eggplant",
       inventory: {},
+      buildings: {},
       bumpkin: {
         ...INITIAL_BUMPKIN,
         equipped: {
@@ -1667,6 +1668,7 @@ describe("getCropTime", () => {
     const amount = getCropYieldAmount({
       crop: "Corn",
       inventory: {},
+      buildings: {},
       bumpkin: {
         ...INITIAL_BUMPKIN,
         equipped: {

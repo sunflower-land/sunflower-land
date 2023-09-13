@@ -2,12 +2,23 @@ import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { Equipped } from "features/game/types/bumpkin";
+import { isBuildingReady } from "features/game/lib/constants";
 import {
   BumpkinActivityName,
   trackActivity,
 } from "features/game/types/bumpkinActivity";
-import { FRUIT, FruitName, FRUIT_SEEDS } from "features/game/types/fruits";
-import { Collectibles, GameState } from "features/game/types/game";
+import {
+  FRUIT,
+  FruitName,
+  FRUIT_SEEDS,
+  Fruit,
+} from "features/game/types/fruits";
+import {
+  Buildings,
+  Collectibles,
+  GameState,
+  PlantedFruit,
+} from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { getTimeLeft } from "lib/utils/time";
 import { FruitPatch } from "features/game/types/game";
@@ -23,11 +34,23 @@ type Options = {
   createdAt?: number;
 };
 
+export const isFruitReadyToHarvest = (
+  createdAt: number,
+  plantedFruit: PlantedFruit,
+  fruitDetails: Fruit
+) => {
+  const { seed } = FRUIT()[fruitDetails.name];
+  const { plantSeconds } = FRUIT_SEEDS()[seed];
+
+  return createdAt - plantedFruit.plantedAt >= plantSeconds * 1000;
+};
+
 type FruitYield = {
   name: FruitName;
   collectibles: Collectibles;
   buds: NonNullable<GameState["buds"]>;
   wearables: Equipped;
+  buildings: Buildings;
 };
 
 export function isFruitGrowing(patch: FruitPatch) {
@@ -54,6 +77,7 @@ export function getFruitYield({
   buds,
   name,
   wearables,
+  buildings,
 }: FruitYield) {
   let amount = 1;
   if (name === "Apple" && isCollectibleBuilt("Lady Bug", collectibles)) {
@@ -75,6 +99,20 @@ export function getFruitYield({
   }
 
   amount += getBudYieldBoosts(buds, name);
+
+  if (
+    buildings["Advanced Composter"]?.[0] &&
+    isBuildingReady(buildings["Advanced Composter"])
+  ) {
+    const composter = buildings["Advanced Composter"]?.[0];
+
+    const isComposting =
+      composter.producing && composter.producing?.readyAt > Date.now();
+
+    if (isComposting) {
+      amount += 0.25;
+    }
+  }
 
   return amount;
 }
@@ -153,6 +191,7 @@ export function harvestFruit({
     collectibles: collectibles,
     buds: stateCopy.buds ?? {},
     wearables: bumpkin.equipped,
+    buildings: stateCopy.buildings,
   });
 
   const activityName: BumpkinActivityName = `${name} Harvested`;
