@@ -482,6 +482,36 @@ export function isWithinAOE(
       }
     }
 
+    // AoE surrounding the Advanced Composter
+    if (AOEItemName === "Advanced Composter") {
+      const dx = effectItem.x - AOEItemCoordinates.x;
+      const dy = effectItem.y - AOEItemCoordinates.y;
+
+      if (
+        dx >= -1 &&
+        dx <= AOEItemDimensions.width && // Covers the width of the composter and one tile around it
+        dy <= 1 &&
+        dy >= -AOEItemDimensions.height // Covers the height of the composter and one tile around it
+      ) {
+        return true;
+      }
+    }
+
+    // AoE surrounding the Expert Composter
+    if (AOEItemName === "Expert Composter") {
+      const dx = effectItem.x - AOEItemCoordinates.x;
+      const dy = effectItem.y - AOEItemCoordinates.y;
+
+      if (
+        dx >= -1 &&
+        dx <= AOEItemDimensions.width && // Covers the width of the composter and one tile around it
+        dy <= 1 &&
+        dy >= -AOEItemDimensions.height // Covers the height of the composter and one tile around it
+      ) {
+        return true;
+      }
+    }
+
     // AoE surrounding the bale
     if (AOEItemName === "Bale") {
       const dx = effectItem.x - AOEItemCoordinates.x;
