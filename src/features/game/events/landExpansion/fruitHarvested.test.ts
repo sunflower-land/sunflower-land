@@ -4,7 +4,7 @@ import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { FRUIT_SEEDS } from "features/game/types/fruits";
 import { GameState, CropPlot } from "features/game/types/game";
-import { harvestFruit } from "./fruitHarvested";
+import { getFruitYield, harvestFruit } from "./fruitHarvested";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -495,7 +495,6 @@ describe("fruitHarvested", () => {
       },
       action: {
         type: "fruit.harvested",
-
         index: "0",
       },
       createdAt: dateNow,
@@ -504,5 +503,170 @@ describe("fruitHarvested", () => {
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
     expect(fruit?.amount).toEqual(1.2);
+  });
+
+  it("applies Advanced Composter Boost while composting", () => {
+    const { fruitPatches } = GAME_STATE;
+    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const initialHarvest = 2;
+
+    const state = harvestFruit({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Apple: new Decimal(1),
+          "Lady Bug": new Decimal(1),
+        },
+        buildings: {
+          "Advanced Composter": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+              producing: {
+                name: "Grub",
+                readyAt: dateNow + 1000,
+                startedAt: 0,
+              },
+            },
+          ],
+        },
+        fruitPatches: {
+          0: {
+            ...fruitPatch,
+            fruit: {
+              name: "Apple",
+              plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
+              harvestsLeft: initialHarvest,
+              harvestedAt: 2,
+            },
+          },
+        },
+      },
+      action: {
+        type: "fruit.harvested",
+        index: "0",
+      },
+      createdAt: dateNow,
+    });
+
+    const { fruitPatches: fruitPatchesAfterHarvest } = state;
+    const fruit = fruitPatchesAfterHarvest?.[0].fruit;
+    expect(fruit?.amount).toEqual(1.25);
+  });
+
+  it("does not apply Advanced Composter Boost if not composting", () => {
+    const { fruitPatches } = GAME_STATE;
+    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const initialHarvest = 2;
+
+    const state = harvestFruit({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Apple: new Decimal(1),
+          "Lady Bug": new Decimal(1),
+        },
+        buildings: {
+          "Advanced Composter": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        fruitPatches: {
+          0: {
+            ...fruitPatch,
+            fruit: {
+              name: "Apple",
+              plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
+              harvestsLeft: initialHarvest,
+              harvestedAt: 2,
+            },
+          },
+        },
+      },
+      action: {
+        type: "fruit.harvested",
+        index: "0",
+      },
+      createdAt: dateNow,
+    });
+
+    const { fruitPatches: fruitPatchesAfterHarvest } = state;
+    const fruit = fruitPatchesAfterHarvest?.[0].fruit;
+    expect(fruit?.amount).toEqual(1);
+  });
+
+  describe("getFruitYield", () => {
+    it("provides no bonuses", () => {
+      const amount = getFruitYield({
+        buds: {},
+        collectibles: {},
+        name: "Apple",
+        buildings: {},
+        wearables: { ...INITIAL_BUMPKIN.equipped },
+      });
+
+      expect(amount).toEqual(1);
+    });
+
+    it("provides Advanced Composter boost while composting", () => {
+      const amount = getFruitYield({
+        buds: {},
+        buildings: {
+          "Advanced Composter": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+              producing: {
+                name: "Grub",
+                readyAt: Date.now() + 1000,
+                startedAt: 0,
+              },
+            },
+          ],
+        },
+        collectibles: {},
+        name: "Apple",
+        wearables: { ...INITIAL_BUMPKIN.equipped },
+      });
+
+      expect(amount).toEqual(1.25);
+    });
+
+    it("does not provide Advanced Composter boost if not composting", () => {
+      const amount = getFruitYield({
+        buds: {},
+        buildings: {
+          "Advanced Composter": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+              producing: {
+                name: "Grub",
+                readyAt: Date.now() - 1000,
+                startedAt: 0,
+              },
+            },
+          ],
+        },
+        collectibles: {},
+        name: "Apple",
+        wearables: { ...INITIAL_BUMPKIN.equipped },
+      });
+
+      expect(amount).toEqual(1);
+    });
   });
 });
