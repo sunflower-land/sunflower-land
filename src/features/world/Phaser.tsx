@@ -105,11 +105,9 @@ export const PhaserComponent: React.FC<Props> = ({
 
     // Set up moderator by looking if bumpkin has Halo hat equipped
     const bumpkin = gameService.state.context.state.bumpkin;
-    if (bumpkin?.equipped?.hat === "Halo") {
-      setIsModerator(true);
-    } else {
-      setIsModerator(true); // TODO: remove this
-    }
+    bumpkin?.equipped?.hat === "Halo"
+      ? setIsModerator(true)
+      : setIsModerator(false);
   }, []);
 
   useEffect(() => {
@@ -278,7 +276,7 @@ export const PhaserComponent: React.FC<Props> = ({
           messages={messages ?? []}
         />
       )}
-      {scene !== "corn_maze" && !isCommunity && isModerator && (
+      {isModerator && scene !== "corn_maze" && !isCommunity && (
         <ModerationTools
           scene={game.current?.scene.getScene(scene)}
           messages={messages ?? []}
