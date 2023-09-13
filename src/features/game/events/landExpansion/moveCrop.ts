@@ -12,6 +12,7 @@ import cloneDeep from "lodash.clonedeep";
 import { isReadyToHarvest } from "./harvest";
 import { CROPS } from "features/game/types/crops";
 import { isBasicCrop, isMediumCrop, isAdvancedCrop } from "./harvest";
+import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 
 export enum MOVE_CROP_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -129,14 +130,20 @@ export function isLocked(
   }
 
   if (buildings["Basic Composter"]?.[0]) {
-    const composterCoordinates = buildings["Basic Composter"]?.[0].coordinates;
-    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Sir Goldensnout"];
+    const basicComposter = buildings["Basic Composter"][0];
+
+    const isComposting =
+      basicComposter.producing &&
+      basicComposter.producing?.readyAt > Date.now();
+
+    const composterCoordinates = basicComposter.coordinates;
+    const composterDimensions = BUILDINGS_DIMENSIONS["Basic Composter"];
 
     const scarecrowPosition: Position = {
       x: composterCoordinates.x,
       y: composterCoordinates.y,
-      height: scarecrowDimensions.height,
-      width: scarecrowDimensions.width,
+      height: composterDimensions.height,
+      width: composterDimensions.width,
     };
 
     const plotPosition: Position = {
@@ -146,44 +153,29 @@ export function isLocked(
       width: plot.width,
     };
 
-    if (isWithinAOE("Basic Composter", scarecrowPosition, plotPosition)) {
-      return true;
-    }
-  }
-
-  if (buildings["Advanced Composter"]?.[0]) {
-    const composterCoordinates =
-      buildings["Advanced Composter"]?.[0].coordinates;
-    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Sir Goldensnout"];
-
-    const scarecrowPosition: Position = {
-      x: composterCoordinates.x,
-      y: composterCoordinates.y,
-      height: scarecrowDimensions.height,
-      width: scarecrowDimensions.width,
-    };
-
-    const plotPosition: Position = {
-      x: plot?.x,
-      y: plot?.y,
-      height: plot.height,
-      width: plot.width,
-    };
-
-    if (isWithinAOE("Advanced Composter", scarecrowPosition, plotPosition)) {
+    if (
+      isComposting &&
+      isWithinAOE("Basic Composter", scarecrowPosition, plotPosition)
+    ) {
       return true;
     }
   }
 
   if (buildings["Expert Composter"]?.[0]) {
-    const composterCoordinates = buildings["Expert Composter"]?.[0].coordinates;
-    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Sir Goldensnout"];
+    const expertComposter = buildings["Expert Composter"][0];
+
+    const isComposting =
+      expertComposter.producing &&
+      expertComposter.producing?.readyAt > Date.now();
+
+    const composterCoordinates = expertComposter.coordinates;
+    const composterDimensions = BUILDINGS_DIMENSIONS["Expert Composter"];
 
     const scarecrowPosition: Position = {
       x: composterCoordinates.x,
       y: composterCoordinates.y,
-      height: scarecrowDimensions.height,
-      width: scarecrowDimensions.width,
+      height: composterDimensions.height,
+      width: composterDimensions.width,
     };
 
     const plotPosition: Position = {
@@ -193,7 +185,10 @@ export function isLocked(
       width: plot.width,
     };
 
-    if (isWithinAOE("Expert Composter", scarecrowPosition, plotPosition)) {
+    if (
+      isComposting &&
+      isWithinAOE("Expert Composter", scarecrowPosition, plotPosition)
+    ) {
       return true;
     }
   }

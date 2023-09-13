@@ -3,6 +3,7 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { MOVE_CROP_ERRORS, moveCrop } from "./moveCrop";
 
 describe("moveCrop", () => {
+  const dateNow = Date.now();
   it("throws if player has no Bumpkin", () => {
     expect(() =>
       moveCrop({
@@ -30,7 +31,7 @@ describe("moveCrop", () => {
               width: 1,
               x: 1,
               y: 1,
-              createdAt: Date.now(),
+              createdAt: dateNow,
             },
           },
         },
@@ -96,7 +97,7 @@ describe("moveCrop", () => {
               {
                 id: "1",
                 coordinates: { x: 0, y: 0 },
-                createdAt: Date.now(),
+                createdAt: dateNow,
                 readyAt: 0,
               },
             ],
@@ -107,11 +108,11 @@ describe("moveCrop", () => {
               width: 1,
               x: 0,
               y: -2,
-              createdAt: Date.now(),
+              createdAt: dateNow,
               crop: {
                 name: "Potato",
                 amount: 1,
-                plantedAt: Date.now(),
+                plantedAt: dateNow,
               },
             },
           },
@@ -136,7 +137,7 @@ describe("moveCrop", () => {
               {
                 id: "1",
                 coordinates: { x: 0, y: 0 },
-                createdAt: Date.now(),
+                createdAt: dateNow,
                 readyAt: 0,
               },
             ],
@@ -147,11 +148,11 @@ describe("moveCrop", () => {
               width: 1,
               x: 0,
               y: -2,
-              createdAt: Date.now(),
+              createdAt: dateNow,
               crop: {
                 name: "Cauliflower",
                 amount: 1,
-                plantedAt: Date.now(),
+                plantedAt: dateNow,
               },
             },
           },
@@ -176,7 +177,7 @@ describe("moveCrop", () => {
               {
                 id: "1",
                 coordinates: { x: 0, y: 0 },
-                createdAt: Date.now(),
+                createdAt: dateNow,
                 readyAt: 0,
               },
             ],
@@ -187,11 +188,11 @@ describe("moveCrop", () => {
               width: 1,
               x: 0,
               y: -2,
-              createdAt: Date.now(),
+              createdAt: dateNow,
               crop: {
                 name: "Potato",
                 amount: 1,
-                plantedAt: Date.now(),
+                plantedAt: dateNow,
               },
             },
           },
@@ -216,7 +217,7 @@ describe("moveCrop", () => {
               {
                 id: "1",
                 coordinates: { x: 0, y: 0 },
-                createdAt: Date.now(),
+                createdAt: dateNow,
                 readyAt: 0,
               },
             ],
@@ -227,11 +228,11 @@ describe("moveCrop", () => {
               width: 1,
               x: 0,
               y: -2,
-              createdAt: Date.now(),
+              createdAt: dateNow,
               crop: {
                 name: "Eggplant",
                 amount: 1,
-                plantedAt: Date.now(),
+                plantedAt: dateNow,
               },
             },
           },
@@ -254,7 +255,7 @@ describe("moveCrop", () => {
               {
                 id: "1",
                 coordinates: { x: 0, y: 0 },
-                createdAt: Date.now(),
+                createdAt: dateNow,
                 readyAt: 0,
               },
             ],
@@ -265,11 +266,11 @@ describe("moveCrop", () => {
               width: 1,
               x: 0,
               y: -2,
-              createdAt: Date.now(),
+              createdAt: dateNow,
               crop: {
                 name: "Corn",
                 amount: 1,
-                plantedAt: Date.now(),
+                plantedAt: dateNow,
               },
             },
           },
@@ -281,5 +282,209 @@ describe("moveCrop", () => {
         },
       })
     ).toThrow(MOVE_CROP_ERRORS.AOE_LOCKED);
+  });
+
+  it("does not move locked crop by Basic Composter while composting", () => {
+    expect(() =>
+      moveCrop({
+        state: {
+          ...TEST_FARM,
+          bumpkin: INITIAL_BUMPKIN,
+          buildings: {
+            "Basic Composter": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: dateNow,
+                readyAt: 0,
+                producing: {
+                  name: "Grub",
+                  readyAt: dateNow + 10000,
+                  startedAt: dateNow - 10000,
+                },
+              },
+            ],
+          },
+          crops: {
+            1: {
+              height: 1,
+              width: 1,
+              x: 0,
+              y: -2,
+              createdAt: 0,
+              crop: {
+                name: "Potato",
+                amount: 1,
+                plantedAt: dateNow,
+              },
+            },
+          },
+        },
+        action: {
+          type: "crop.moved",
+          id: "1",
+          coordinates: { x: 2, y: 2 },
+        },
+      })
+    ).toThrow(MOVE_CROP_ERRORS.AOE_LOCKED);
+  });
+
+  it("moves a crop within Basic Composter AoE if not composting", () => {
+    const gameState = moveCrop({
+      state: {
+        ...TEST_FARM,
+        buildings: {
+          "Basic Composter": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow,
+              readyAt: 0,
+              producing: {
+                name: "Grub",
+                readyAt: dateNow - 10000,
+                startedAt: dateNow - 10000,
+              },
+            },
+          ],
+        },
+        crops: {
+          1: {
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+            createdAt: 0,
+            crop: {
+              name: "Potato",
+              amount: 1,
+              plantedAt: dateNow,
+            },
+          },
+        },
+      },
+      action: {
+        type: "crop.moved",
+        id: "1",
+        coordinates: { x: 2, y: 2 },
+      },
+    });
+
+    expect(gameState.crops).toEqual({
+      "1": {
+        height: 1,
+        width: 1,
+        x: 2,
+        y: 2,
+        createdAt: 0,
+        crop: {
+          name: "Potato",
+          amount: 1,
+          plantedAt: dateNow,
+        },
+      },
+    });
+  });
+
+  it("does not move locked crop by Expert Composter while composting", () => {
+    expect(() =>
+      moveCrop({
+        state: {
+          ...TEST_FARM,
+          bumpkin: INITIAL_BUMPKIN,
+          buildings: {
+            "Expert Composter": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: dateNow,
+                readyAt: 0,
+                producing: {
+                  name: "Grub",
+                  readyAt: dateNow + 10000,
+                  startedAt: dateNow - 10000,
+                },
+              },
+            ],
+          },
+          crops: {
+            1: {
+              height: 1,
+              width: 1,
+              x: 0,
+              y: -2,
+              createdAt: 0,
+              crop: {
+                name: "Potato",
+                amount: 1,
+                plantedAt: dateNow,
+              },
+            },
+          },
+        },
+        action: {
+          type: "crop.moved",
+          id: "1",
+          coordinates: { x: 2, y: 2 },
+        },
+      })
+    ).toThrow(MOVE_CROP_ERRORS.AOE_LOCKED);
+  });
+
+  it("moves a crop within Expert Composters AoE if not composting", () => {
+    const gameState = moveCrop({
+      state: {
+        ...TEST_FARM,
+        buildings: {
+          "Expert Composter": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow,
+              readyAt: 0,
+              producing: {
+                name: "Grub",
+                readyAt: dateNow - 10000,
+                startedAt: dateNow - 10000,
+              },
+            },
+          ],
+        },
+        crops: {
+          1: {
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+            createdAt: 0,
+            crop: {
+              name: "Potato",
+              amount: 1,
+              plantedAt: dateNow,
+            },
+          },
+        },
+      },
+      action: {
+        type: "crop.moved",
+        id: "1",
+        coordinates: { x: 2, y: 2 },
+      },
+    });
+
+    expect(gameState.crops).toEqual({
+      "1": {
+        height: 1,
+        width: 1,
+        x: 2,
+        y: 2,
+        createdAt: 0,
+        crop: {
+          name: "Potato",
+          amount: 1,
+          plantedAt: dateNow,
+        },
+      },
+    });
   });
 });
