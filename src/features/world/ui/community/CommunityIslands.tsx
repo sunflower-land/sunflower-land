@@ -1,9 +1,8 @@
-import { SUNNYSIDE } from "assets/sunnyside";
 import { OuterPanel } from "components/ui/Panel";
-import { CONFIG } from "lib/config";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import dignity from "assets/icons/dignity.png";
 import unicorn from "assets/icons/unicorn.png";
 
 type CommunityIsland = {
@@ -12,9 +11,17 @@ type CommunityIsland = {
   name: string;
   id: string;
   icon: string;
+  special?: boolean;
 };
 
 export const COMMUNITY_ISLANDS: CommunityIsland[] = [
+  {
+    url: "https://0xsacul.github.io/valoria-isle/",
+    name: "Valoria Isle",
+    id: "valoria_isle",
+    icon: dignity,
+    project: "Valoria",
+  },
   {
     url: "https://sunflower-land.github.io/crypto-unicorn-community-island/",
     // url: "http://localhost:3003/",
@@ -22,6 +29,7 @@ export const COMMUNITY_ISLANDS: CommunityIsland[] = [
     id: "unicorn_island",
     icon: unicorn,
     project: "Crypto Unicorns",
+    special: true,
   },
 ];
 
@@ -31,26 +39,10 @@ export const CommunityIslands: React.FC = () => {
     navigate(`/community/${island.id}`);
   };
 
-  if (CONFIG.NETWORK === "mainnet") {
-    return (
-      <div className="p-2">
-        <p className="mb-2">Travel to community built islands</p>
-        <a
-          href="https://docs.sunflower-land.com/contributing/community-islands"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline text-white text-xs"
-        >
-          Read more
-        </a>
-      </div>
-    );
-  }
   return (
     <>
       <div className="p-2">
-        <p>Community Islands</p>
-        <p className="text-sm">Lorem ipsum</p>
+        <p className="mb-2">Travel to community built islands</p>
       </div>
 
       {COMMUNITY_ISLANDS.map((island) => (
@@ -62,13 +54,21 @@ export const CommunityIslands: React.FC = () => {
           }
         >
           <div className="w-16 justify-center flex mr-2">
-            <img src={SUNNYSIDE.icons.happy} className="h-9" />
+            <img src={island.icon} className="h-9" />
           </div>
           <div>
             <span>{island.name}</span>
           </div>
         </OuterPanel>
       ))}
+      <a
+        href="https://docs.sunflower-land.com/contributing/community-islands"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="underline text-white text-xs"
+      >
+        Read more
+      </a>
     </>
   );
 };

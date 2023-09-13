@@ -79,8 +79,8 @@ export const ShopSellDetails: React.FC<Props> = ({
   };
 
   return (
-    <div className="flex flex-col justify-center">
-      <div className="flex flex-col justify-center px-1 py-0">
+    <div className="flex flex-col h-full justify-center">
+      <div className="flex flex-col h-full px-1 py-0">
         {getItemDetail()}
         {getProperties()}
       </div>

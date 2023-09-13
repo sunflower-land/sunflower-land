@@ -14,6 +14,7 @@ import maticToken from "assets/icons/polygon-token.png";
 import card from "assets/icons/credit_card.png";
 import { MachineInterpreter } from "../lib/createFarmMachine";
 import { fromWei, toBN } from "web3-utils";
+import { hasFeatureAccess } from "lib/flags";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -61,11 +62,7 @@ export const CreateFarm: React.FC = () => {
   const hasEnoughMatic = createFarmState.matches("hasEnoughMatic");
 
   if (isLoading) {
-    return (
-      <div className="h-32">
-        <Loading />
-      </div>
-    );
+    return <Loading />;
   }
 
   const maticFee = fromWei(toBN(createFarmState.context.maticFee ?? 0));
@@ -77,6 +74,22 @@ export const CreateFarm: React.FC = () => {
   const maticFeePlusGas = new Decimal(maticFee)
     .mul(1.24)
     .toDecimalPlaces(2, Decimal.ROUND_UP);
+
+  if (hasFeatureAccess({}, "NEW_FARM_FLOW")) {
+    return (
+      <NewFarmFlow
+        onBack={() => authService.send("BACK")}
+        onCreate={() =>
+          authService.send("CREATE_FARM", {
+            charityAddress: charity.current.address,
+            donation: 10,
+            captcha: "0x",
+            hasEnoughMatic,
+          })
+        }
+      />
+    );
+  }
 
   return (
     <div className="p-2">
@@ -199,6 +212,29 @@ export const CreateFarm: React.FC = () => {
       >
         Start your adventure!
       </Button> */}
+    </div>
+  );
+};
+
+interface NewFarmFlowProps {
+  onBack: () => void;
+  onCreate: () => void;
+}
+
+const NewFarmFlow: React.FC<NewFarmFlowProps> = ({ onBack, onCreate }) => {
+  return (
+    <div className="p-2">
+      <div className="flex items-center">
+        <img
+          src={SUNNYSIDE.icons.arrow_left}
+          className="cursor-pointer mr-2"
+          onClick={onBack}
+          style={{
+            width: `${PIXEL_SCALE * 8}px`,
+          }}
+        />
+        <Button onClick={onCreate}>Start your Adventure!</Button>
+      </div>
     </div>
   );
 };

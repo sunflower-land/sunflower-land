@@ -233,6 +233,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   Kernaldo: (game) => cropIsPlanted({ game, item: "Corn" }),
   "Queen Cornelia": (game) => cropIsPlanted({ game, item: "Corn" }),
   Maximus: (game) => cropIsPlanted({ item: "Eggplant", game }),
+  Obie: (game) => cropIsPlanted({ item: "Eggplant", game }),
   "Purple Trail": (game) => cropIsPlanted({ item: "Eggplant", game }),
 
   "Squirrel Monkey": (game) => areFruitsGrowing(game, "Orange"),
@@ -258,6 +259,10 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Maneki Neko": (game) => hasShakenManeki(game),
 
   "Carrot Sword": (game) => beanIsPlanted(game),
+
+  "Stellar Sunflower": (game) => cropIsPlanted({ item: "Sunflower", game }),
+  "Potent Potato": (game) => cropIsPlanted({ item: "Potato", game }),
+  "Radical Radish": (game) => cropIsPlanted({ item: "Radish", game }),
 };
 
 export const hasRemoveRestriction = (

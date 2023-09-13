@@ -17,7 +17,8 @@ type FeatureName =
   | "JEST_TEST"
   | "PUMPKIN_PLAZA"
   | "NEW_DELIVERIES"
-  | "CORN_MAZE";
+  | "CORN_MAZE"
+  | "NEW_FARM_FLOW";
 
 type FeatureFlag = (inventory: GameState["inventory"]) => boolean;
 
@@ -26,6 +27,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   PUMPKIN_PLAZA: defaultFeatureFlag,
   NEW_DELIVERIES: testnetFeatureFlag,
   CORN_MAZE: testnetFeatureFlag,
+  NEW_FARM_FLOW: () => true,
 };
 
 export const hasFeatureAccess = (

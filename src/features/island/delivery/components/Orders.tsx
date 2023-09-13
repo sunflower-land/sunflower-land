@@ -10,6 +10,7 @@ import selectBoxTL from "assets/ui/select/selectbox_tl.png";
 import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import sfl from "assets/icons/token_2.png";
 import heartBg from "assets/ui/heart_bg.png";
+import chest from "assets/icons/chest.png";
 
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
@@ -35,6 +36,9 @@ import { hasFeatureAccess } from "lib/flags";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
+import { ResizableBar } from "components/ui/ProgressBar";
+import { Revealing } from "features/game/components/Revealing";
+import { Revealed } from "features/game/components/Revealed";
 
 interface Props {
   selectedId?: string;
@@ -55,6 +59,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const bumpkin = useSelector(gameService, _bumpkin);
 
   const [showSkipDialog, setShowSkipDialog] = useState(false);
+  const [isRevealing, setIsRevealing] = useState(false);
 
   const orders = delivery.orders
     .filter((order) => Date.now() >= order.readyAt)
@@ -114,6 +119,30 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   let emptySlots = slots - orders.length - (nextOrder ? 1 : 0);
   emptySlots = Math.max(0, emptySlots);
 
+  const progress = Math.min(
+    delivery.milestone.goal,
+    delivery.milestone.goal -
+      (delivery.milestone.total - delivery.fulfilledCount)
+  );
+
+  const reachMilestone = () => {
+    gameService.send("REVEAL", {
+      event: {
+        type: "delivery.milestoneReached",
+        createdAt: new Date(),
+      },
+    });
+    setIsRevealing(true);
+  };
+
+  if (gameService.state.matches("revealing") && isRevealing) {
+    return <Revealing icon={chest} />;
+  }
+
+  if (gameService.state.matches("revealed") && isRevealing) {
+    return <Revealed onAcknowledged={() => setIsRevealing(false)} />;
+  }
+
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1">
       <div
@@ -121,6 +150,47 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
           hidden: selectedId,
         })}
       >
+        <div
+          className="flex relative mx-auto m-2"
+          style={{ width: "fit-content" }}
+        >
+          <ResizableBar
+            percentage={(progress / delivery.milestone.goal) * 100}
+            type="progress"
+            outerDimensions={{
+              width: 80,
+              height: 10,
+            }}
+          />
+          <span
+            className="absolute text-xs"
+            style={{
+              left: "93px",
+              top: "3px",
+              fontSize: "16px",
+            }}
+          >
+            {`${progress}/${delivery.milestone.goal}`}
+          </span>
+          <img
+            src={chest}
+            className={classNames("absolute h-8 shadow-lg", {
+              "ready cursor-pointer img-highlight-heavy":
+                progress >= delivery.milestone.goal && !isRevealing,
+            })}
+            onClick={() => {
+              if (progress < delivery.milestone.goal) {
+                return;
+              }
+
+              reachMilestone();
+            }}
+            style={{
+              right: 0,
+              top: "-4px",
+            }}
+          />
+        </div>
         <div className="flex flex-row w-full flex-wrap max-h-80 scrollable overflow-y-auto">
           {orders.map((order) => (
             <div className="w-1/2 sm:w-1/3 p-1" key={order.id}>
