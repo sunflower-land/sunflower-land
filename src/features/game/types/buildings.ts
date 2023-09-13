@@ -339,10 +339,14 @@ export const BUILDINGS: () => Record<
       ingredients: [
         {
           item: "Wood",
-          amount: new Decimal(50),
+          amount: new Decimal(5),
+        },
+        {
+          item: "Stone",
+          amount: new Decimal(5),
         },
       ],
-      sfl: marketRate(50),
+      sfl: marketRate(0),
       constructionSeconds: 60 * 60,
     },
   ],
@@ -354,8 +358,12 @@ export const BUILDINGS: () => Record<
           item: "Wood",
           amount: new Decimal(50),
         },
+        {
+          item: "Stone",
+          amount: new Decimal(25),
+        },
       ],
-      sfl: marketRate(50),
+      sfl: marketRate(0),
       constructionSeconds: 60 * 60 * 2,
     },
   ],
@@ -364,11 +372,11 @@ export const BUILDINGS: () => Record<
       unlocksAtLevel: 37,
       ingredients: [
         {
-          item: "Wood",
+          item: "Gold",
           amount: new Decimal(50),
         },
       ],
-      sfl: marketRate(50),
+      sfl: marketRate(0),
       constructionSeconds: 60 * 60 * 4,
     },
   ],

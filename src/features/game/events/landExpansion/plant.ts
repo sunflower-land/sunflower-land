@@ -357,10 +357,16 @@ export function getCropYieldAmount({
   }
 
   if (
-    buildings["Basic Composter"] &&
+    buildings["Basic Composter"]?.[0] &&
     isBuildingReady(buildings["Basic Composter"])
   ) {
     const basicComposter = buildings["Basic Composter"][0];
+
+    if (!basicComposter.producing) return amount;
+
+    const isComposting = basicComposter.producing?.readyAt > Date.now();
+
+    if (!isComposting) return amount;
 
     const position: Position = {
       x: basicComposter.coordinates.x,
