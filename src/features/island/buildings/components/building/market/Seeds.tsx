@@ -37,8 +37,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     },
   ] = useActor(gameService);
 
-  const inventory = state.inventory;
-  const collectibles = state.collectibles;
+  const { inventory, collectibles, buildings } = state;
 
   const price = getBuyPrice(
     selectedName,
@@ -129,6 +128,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       yields as CropName,
       inventory,
       collectibles,
+      buildings,
       state.bumpkin as Bumpkin,
       state.buds ?? {}
     );
