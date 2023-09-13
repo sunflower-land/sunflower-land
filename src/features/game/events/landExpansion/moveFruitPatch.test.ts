@@ -79,4 +79,49 @@ describe("moveFruitPatch", () => {
       "789": { height: 1, width: 1, x: 8, y: 8 },
     });
   });
+
+  it("does not move locked crop by Advanced Composter", () => {
+    expect(() =>
+      moveFruitPatch({
+        state: {
+          ...TEST_FARM,
+          buildings: {
+            "Advanced Composter": [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: Date.now(),
+                readyAt: 0,
+                producing: {
+                  name: "Grub",
+                  readyAt: Date.now() + 10000,
+                  startedAt: Date.now() - 10000,
+                },
+              },
+            ],
+          },
+          fruitPatches: {
+            1: {
+              height: 1,
+              width: 1,
+              x: 0,
+              y: -2,
+              fruit: {
+                name: "Orange",
+                harvestedAt: 0,
+                harvestsLeft: 1,
+                amount: 1,
+                plantedAt: Date.now(),
+              },
+            },
+          },
+        },
+        action: {
+          type: "fruitPatch.moved",
+          id: "1",
+          coordinates: { x: 2, y: 2 },
+        },
+      })
+    ).toThrow(MOVE_FRUIT_PATCH_ERRORS.AOE_LOCKED);
+  });
 });
