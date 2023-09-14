@@ -56,7 +56,7 @@ export const ChatHistory: React.FC<Props> = ({ messages }) => {
           </tbody>
         </table>
       </div>
-      <div className="flex justify-between m-1">
+      <div className="flex items-center justify-between m-1">
         <div className="flex items-center gap-1">
           <span className="text-xs">Search</span>
           <input

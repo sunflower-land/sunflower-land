@@ -21,6 +21,7 @@ export const PlayerList: React.FC<Props> = ({ scene, players }) => {
   const [showKickPopUp, setShowKickPopUp] = useState(false);
   const [showMutePopUp, setShowMutePopUp] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+  const [search, setSearch] = useState("");
 
   const toggleKickPopUp = (player: Player) => {
     setSelectedPlayer(player);
@@ -39,6 +40,14 @@ export const PlayerList: React.FC<Props> = ({ scene, players }) => {
       return false;
     }
   };
+
+  const Players = players.filter((player) => {
+    if (search.length === 0) {
+      return true;
+    } else {
+      return player.farmId.toString().includes(search.toLowerCase());
+    }
+  });
 
   return (
     <>
@@ -66,7 +75,7 @@ export const PlayerList: React.FC<Props> = ({ scene, players }) => {
             </tr>
           </thead>
           <tbody>
-            {players.map((player) => {
+            {Players.map((player) => {
               return (
                 <tr key={player.playerId}>
                   <td className="w-1/4">
@@ -113,7 +122,15 @@ export const PlayerList: React.FC<Props> = ({ scene, players }) => {
           </tbody>
         </table>
       </div>
-      <div className="flex justify-end m-1">
+      <div className="flex items-center justify-between m-1">
+        <div className="flex items-center gap-1">
+          <span className="text-xs">Search</span>
+          <input
+            className="w-1/2 text-xs text-shadow rounded-sm shadow-inner shadow-black bg-brown-200"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
         <span className="text-xs">{players.length}/150 Players Connected</span>
       </div>
     </>
