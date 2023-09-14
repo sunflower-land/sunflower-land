@@ -8,7 +8,7 @@ export const AdvancedComposter: React.FC = () => {
     <div
       className="absolute"
       style={{
-        width: `${PIXEL_SCALE * 28}px`,
+        width: `${PIXEL_SCALE * 27}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 2}px`,
       }}
@@ -16,7 +16,7 @@ export const AdvancedComposter: React.FC = () => {
       <img
         src={composter}
         style={{
-          width: `${PIXEL_SCALE * 28}px`,
+          width: `${PIXEL_SCALE * 27}px`,
           bottom: 0,
         }}
         className="absolute"

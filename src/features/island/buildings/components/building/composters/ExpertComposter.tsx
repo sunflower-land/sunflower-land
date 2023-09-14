@@ -1,6 +1,6 @@
 import React from "react";
 
-import composter from "assets/sfts/aoe/composter_advanced.png";
+import composter from "assets/sfts/aoe/composter_expert.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const ExpertComposter: React.FC = () => {
@@ -8,7 +8,7 @@ export const ExpertComposter: React.FC = () => {
     <div
       className="absolute"
       style={{
-        width: `${PIXEL_SCALE * 28}px`,
+        width: `${PIXEL_SCALE * 34}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 2}px`,
       }}
@@ -16,7 +16,7 @@ export const ExpertComposter: React.FC = () => {
       <img
         src={composter}
         style={{
-          width: `${PIXEL_SCALE * 28}px`,
+          width: `${PIXEL_SCALE * 34}px`,
           bottom: 0,
         }}
         className="absolute"

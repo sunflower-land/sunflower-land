@@ -302,6 +302,11 @@ import basicComposter from "assets/sfts/aoe/composter_basic.png";
 import advancedComposter from "assets/sfts/aoe/composter_advanced.png";
 import expertComposter from "assets/sfts/aoe/composter_expert.png";
 
+// Composter produce
+import earthworm from "assets/composters/earthworm.png";
+import grub from "assets/composters/grub.png";
+import redWiggler from "assets/composters/red_wiggler.png";
+
 // Clothing
 import chefHat from "src/assets/icons/chef_hat.png";
 
@@ -2492,18 +2497,15 @@ export const ITEM_DETAILS: Items = {
   },
   // Composter Produce
   Earthworm: {
-    // image: earthworm,
-    image: budTicket,
+    image: earthworm,
     description: "A wriggly worm used to fish.",
   },
   Grub: {
-    // image: grub,
-    image: budTicket,
+    image: grub,
     description: "A juicy grub used to fish.",
   },
   "Red Wiggler": {
-    // image: question,
-    image: budTicket,
+    image: redWiggler,
     description: "A red wiggler used to fish.",
   },
 };
