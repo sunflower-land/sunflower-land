@@ -436,6 +436,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Giant Cabbage": 1281,
   "Giant Potato": 1282,
   "Giant Pumpkin": 1283,
+  "Town Sign": 1284,
 
   //Beach Bounty
   "Pirate Bounty": 1301,

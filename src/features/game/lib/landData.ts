@@ -407,6 +407,7 @@ export const OFFLINE_FARM: GameState = {
     Candles: new Decimal(1),
     "Haunted Stump": new Decimal(1),
     "Spooky Tree": new Decimal(1),
+    "Town Sign": new Decimal(1),
 
     Chicken: new Decimal(5),
 
