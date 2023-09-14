@@ -191,6 +191,7 @@ import { LabGrownRadish } from "./components/LabGrownRadish";
 import { RadicalRadish } from "./components/RadicalRadish";
 import { PotentPotato } from "./components/PotentPotato";
 import { StellarSunflower } from "./components/StellarSunflower";
+import { Sign } from "./components/Sign";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -421,6 +422,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Lab Grown Carrot": LabGrownCarrot,
   "Lab Grown Pumpkin": LabGrownPumpkin,
   "Lab Grown Radish": LabGrownRadish,
+
+  "Town Sign": Sign,
 };
 
 // Need readonly versions for some troublesome components while in design mode

@@ -344,6 +344,7 @@ import dawnFlower from "src/assets/sfts/dawn_flower.png";
 import candles from "src/assets/decorations/candles.png";
 import spookyTree from "src/assets/decorations/spooky_tree.png";
 import hauntedStump from "src/assets/decorations/haunted_stump.png";
+import sign from "src/assets/decorations/woodsign.png";
 
 import pineTree from "src/assets/decorations/pine_tree.png";
 import fieldMaple from "src/assets/decorations/field_maple.webp";
@@ -2441,5 +2442,9 @@ export const ITEM_DETAILS: Items = {
     image: budTicket,
     description:
       "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
+  },
+  "Town Sign": {
+    image: sign,
+    description: "Show your farm ID with pride!",
   },
 };
