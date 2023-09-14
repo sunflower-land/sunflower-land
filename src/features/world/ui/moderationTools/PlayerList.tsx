@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import * as AuthProvider from "features/auth/lib/Provider";
+import { useActor } from "@xstate/react";
 import { Player } from "../ModerationTools";
 import { Button } from "components/ui/Button";
-import { Panel } from "components/ui/Panel";
-import { Modal } from "react-bootstrap";
+
+import { KickPopUp } from "./Kick";
+import { MutePopUp } from "./Mute";
 
 import HaloIcon from "assets/sfts/halo.png";
 
@@ -11,119 +14,10 @@ type Props = {
   players: Player[];
 };
 
-type PopUpProps = {
-  player: Player | null;
-  show: boolean;
-  onClose: () => void;
-};
-
-type MuteDuration = 1 | 5 | 10 | 60 | 720 | 1440 | 10080;
-
-const MUTE_DURATIONS: { value: MuteDuration; label: string }[] = [
-  { value: 5, label: "5 mins" },
-  { value: 10, label: "10 mins" },
-  { value: 60, label: "1 hour" },
-  { value: 720, label: "12 hours" },
-  { value: 1440, label: "1 day" },
-  { value: 10080, label: "1 week" },
-];
-
-const KickPopUp: React.FC<PopUpProps> = ({ player, show, onClose }) => {
-  const [reason, setReason] = useState("");
-
-  const handleKickAction = () => {
-    console.log("Kick player", player?.playerId);
-    onClose();
-  };
-
-  return (
-    <Modal show={show} onHide={onClose} centered>
-      <Panel>
-        <div className="flex flex-col">
-          <span className="text-sm text-center">
-            Kick Player {player?.playerId} of Farm {player?.farmId}
-          </span>
-          <span className="text-xs text-center">
-            Are you sure you want to kick this player?
-          </span>
-          <span className="text-xxs text-left mt-2 mb-1">
-            Kick Reason (Please note that the player will see this)
-          </span>
-          <textarea
-            className="w-full h-20 text-shadow rounded-sm shadow-inner shadow-black bg-brown-200"
-            rows={3}
-            value={reason}
-            onChange={(e) => setReason(e.target.value)}
-          />
-          <div className="flex gap-2 w-full mt-2">
-            <Button onClick={onClose}>Cancel</Button>
-            <Button onClick={handleKickAction} disabled={reason.length === 0}>
-              Confirm
-            </Button>
-          </div>
-        </div>
-      </Panel>
-    </Modal>
-  );
-};
-
-const MutePopUp: React.FC<PopUpProps> = ({ player, show, onClose }) => {
-  const [duration, setDuration] = useState<MuteDuration>(5);
-  const [reason, setReason] = useState("");
-
-  const handleMuteAction = () => {
-    console.log("Mute player", player?.playerId, "for", duration, "minutes");
-    onClose();
-  };
-
-  return (
-    <Modal show={show} onHide={onClose} centered>
-      <Panel>
-        <div className="flex flex-col">
-          <span className="text-sm text-center">
-            Mute Player {player?.playerId} of Farm {player?.farmId}
-          </span>
-          <span className="text-xs text-center">
-            Are you sure you want to mute this player?
-          </span>
-          <span className="text-xxs text-left mt-2 mb-1">
-            Mute Duration (Please note that the player will see this)
-          </span>
-          <select
-            className="w-full text-shadow rounded-sm shadow-inner shadow-black bg-brown-200"
-            onChange={(e) =>
-              setDuration(Number(e.target.value) as MuteDuration)
-            }
-            value={duration}
-          >
-            {MUTE_DURATIONS.map(({ value, label }) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
-          <span className="text-xxs text-left mt-2 mb-1">
-            Mute Reason (Please note that the player will see this)
-          </span>
-          <textarea
-            className="w-full h-20 text-shadow rounded-sm shadow-inner shadow-black bg-brown-200"
-            rows={3}
-            value={reason}
-            onChange={(e) => setReason(e.target.value)}
-          />
-          <div className="flex gap-2 w-full mt-2">
-            <Button onClick={onClose}>Cancel</Button>
-            <Button onClick={handleMuteAction} disabled={reason.length === 0}>
-              Confirm
-            </Button>
-          </div>
-        </div>
-      </Panel>
-    </Modal>
-  );
-};
-
 export const PlayerList: React.FC<Props> = ({ scene, players }) => {
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState, send] = useActor(authService);
+
   const [showKickPopUp, setShowKickPopUp] = useState(false);
   const [showMutePopUp, setShowMutePopUp] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
@@ -152,11 +46,13 @@ export const PlayerList: React.FC<Props> = ({ scene, players }) => {
         show={showKickPopUp}
         onClose={() => setShowKickPopUp(false)}
         player={selectedPlayer}
+        authState={authState.context.user}
       />
       <MutePopUp
         show={showMutePopUp}
         onClose={() => setShowMutePopUp(false)}
         player={selectedPlayer}
+        authState={authState.context.user}
       />
 
       <div className="flex items-start gap-2 ml-1 mt-2 h-96 overflow-y-scroll scrollable">
