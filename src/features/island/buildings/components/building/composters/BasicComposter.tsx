@@ -75,7 +75,7 @@ export const BasicComposter: React.FC = () => {
       <div
         className="absolute"
         style={{
-          width: `${PIXEL_SCALE * 28}px`,
+          width: `${PIXEL_SCALE * 24}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
           left: `${PIXEL_SCALE * 2}px`,
         }}
@@ -84,7 +84,8 @@ export const BasicComposter: React.FC = () => {
         <img
           src={basicComposter}
           style={{
-            width: `${PIXEL_SCALE * 28}px`,
+            width: `${PIXEL_SCALE * 24}px`,
+            left: `${PIXEL_SCALE * 2}px`,
             bottom: 0,
           }}
           className="absolute"
