@@ -60,7 +60,7 @@ export const BudModal: React.FC<Props> = ({ onClose }) => {
           <Label className="absolute top-2 right-2 text-sm" type="info">
             <div className="flex items-center">
               <img src={SUNNYSIDE.icons.timer} className="h-4 mr-1" />
-              <span className="text-sm">27th September</span>
+              <span className="text-sm">26th September</span>
             </div>
           </Label>
         </div>
