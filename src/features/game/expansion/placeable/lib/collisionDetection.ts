@@ -13,10 +13,7 @@ import {
   CollectibleName,
   getKeys,
 } from "features/game/types/craftables";
-import {
-  BUILDINGS_DIMENSIONS,
-  Dimensions,
-} from "features/game/types/buildings";
+import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import {
   MUSHROOM_DIMENSIONS,
   RESOURCE_DIMENSIONS,
@@ -350,194 +347,78 @@ export function isWithinAOE(
   AOEItem: Position,
   effectItem: Position
 ): boolean {
-  const AOEItemCoordinates: Coordinates = { x: AOEItem.x, y: AOEItem.y };
+  const { x, y, height, width } = AOEItem;
 
-  const AOEItemDimensions: Dimensions = {
-    height: AOEItem.height,
-    width: AOEItem.width,
+  const isWithinRectangle = (
+    topLeft: Position,
+    bottomRight: Position
+  ): boolean => {
+    return (
+      effectItem.x >= topLeft.x &&
+      effectItem.x <= bottomRight.x &&
+      effectItem.y <= topLeft.y &&
+      effectItem.y >= bottomRight.y
+    );
   };
 
-  if (AOEItemCoordinates) {
-    if (AOEItemName === "Basic Scarecrow") {
-      const topLeft = {
-        x: AOEItemCoordinates.x - 1,
-        y: AOEItemCoordinates.y - AOEItem.height,
-      };
+  const isWithinDistance = (
+    dx: number,
+    dy: number,
+    distance: number
+  ): boolean => {
+    return Math.abs(dx) <= distance && Math.abs(dy) <= distance;
+  };
 
-      const bottomRight = {
-        x: AOEItemCoordinates.x + 1,
-        y: AOEItemCoordinates.y - AOEItemDimensions.height - 2,
-      };
-
-      if (
-        effectItem.x >= topLeft.x &&
-        effectItem.x <= bottomRight.x &&
-        effectItem.y <= topLeft.y &&
-        effectItem.y >= bottomRight.y
-      ) {
-        return true;
-      }
-    }
-    // AoE for the Scary Mike
-    if (AOEItemName === "Scary Mike") {
-      const topLeft = {
-        x: AOEItemCoordinates.x - 1,
-        y: AOEItemCoordinates.y - AOEItem.height,
-      };
-
-      const bottomRight = {
-        x: AOEItemCoordinates.x + 1,
-        y: AOEItemCoordinates.y - AOEItemDimensions.height - 2,
-      };
-
-      if (
-        effectItem.x >= topLeft.x &&
-        effectItem.x <= bottomRight.x &&
-        effectItem.y <= topLeft.y &&
-        effectItem.y >= bottomRight.y
-      ) {
-        return true;
-      }
-    }
-    // AoE for the Laurie the Chuckle Crow
-    if (AOEItemName === "Laurie the Chuckle Crow") {
-      const topLeft = {
-        x: AOEItemCoordinates.x - 1,
-        y: AOEItemCoordinates.y - AOEItem.height,
-      };
-
-      const bottomRight = {
-        x: AOEItemCoordinates.x + 1,
-        y: AOEItemCoordinates.y - AOEItemDimensions.height - 2,
-      };
-
-      if (
-        effectItem.x >= topLeft.x &&
-        effectItem.x <= bottomRight.x &&
-        effectItem.y <= topLeft.y &&
-        effectItem.y >= bottomRight.y
-      ) {
-        return true;
-      }
+  switch (AOEItemName) {
+    case "Basic Scarecrow":
+    case "Scary Mike":
+    case "Laurie the Chuckle Crow": {
+      return isWithinRectangle(
+        { x: x - 1, y: y - height, height, width },
+        { x: x + 1, y: y - height - 2, height, width }
+      );
     }
 
-    if (AOEItemName === "Queen Cornelia") {
-      const topLeft = {
-        x: AOEItemCoordinates.x - 1,
-        y: AOEItemCoordinates.y + 1,
-      };
-
-      const bottomRight = {
-        x: AOEItemCoordinates.x + AOEItemDimensions.width,
-        y: AOEItemCoordinates.y - AOEItemDimensions.height,
-      };
-
-      if (
-        effectItem.x >= topLeft.x &&
-        effectItem.x <= bottomRight.x &&
-        effectItem.y <= topLeft.y &&
-        effectItem.y >= bottomRight.y
-      ) {
-        return true;
-      }
+    case "Emerald Turtle":
+    case "Tin Turtle": {
+      const dxTurtle = x - effectItem.x;
+      const dyTurtle = y - effectItem.y;
+      return (
+        isWithinDistance(dxTurtle, dyTurtle, 1) &&
+        (dxTurtle !== 0 || dyTurtle !== 0)
+      );
+    }
+    case "Sir Goldensnout":
+    case "Basic Composter":
+    case "Expert Composter":
+    case "Bale": {
+      const dxRect = effectItem.x - x;
+      const dyRect = effectItem.y - y;
+      return (
+        dxRect >= -1 && dxRect <= width && dyRect <= 1 && dyRect >= -height
+      );
     }
 
-    // AoE surrounding the turtle
-    if (AOEItemName === "Emerald Turtle" || AOEItemName === "Tin Turtle") {
-      const dx = Math.abs(AOEItemCoordinates.x - effectItem.x);
-      const dy = Math.abs(AOEItemCoordinates.y - effectItem.y);
-
-      if (dx <= 1 && dy <= 1 && (dx != 0 || dy != 0)) {
-        return true;
-      }
+    case "Advanced Composter": {
+      const dxAdvanced = effectItem.x - x;
+      const dyAdvanced = effectItem.y - y;
+      return isWithinDistance(dxAdvanced, dyAdvanced, 2);
     }
 
-    // AoE surrounding the Sir Goldensnout
-    if (AOEItemName === "Sir Goldensnout") {
-      const dx = effectItem.x - AOEItemCoordinates.x;
-      const dy = effectItem.y - AOEItemCoordinates.y;
-
-      if (
-        dx >= -1 &&
-        dx <= AOEItemDimensions.width && // Covers the width of the Goldensnout and one tile around it
-        dy <= 1 &&
-        dy >= -AOEItemDimensions.height // Covers the height of the Goldensnout and one tile around it
-      ) {
-        return true;
-      }
+    case "Queen Cornelia": {
+      return isWithinRectangle(
+        { x: x - 1, y: y + 1, height, width },
+        { x: x + width, y: y - height, height, width }
+      );
     }
 
-    // AoE surrounding the Basic Composter
-    if (AOEItemName === "Basic Composter") {
-      const dx = effectItem.x - AOEItemCoordinates.x;
-      const dy = effectItem.y - AOEItemCoordinates.y;
-
-      if (
-        dx >= -1 &&
-        dx <= AOEItemDimensions.width && // Covers the width of the Goldensnout and one tile around it
-        dy <= 1 &&
-        dy >= -AOEItemDimensions.height // Covers the height of the Goldensnout and one tile around it
-      ) {
-        return true;
-      }
+    case "Gnome": {
+      return effectItem.x === x && effectItem.y === y - 1;
     }
 
-    // AoE surrounding the Advanced Composter
-    if (AOEItemName === "Advanced Composter") {
-      const dx = effectItem.x - AOEItemCoordinates.x;
-      const dy = effectItem.y - AOEItemCoordinates.y;
-
-      if (
-        dx >= -1 &&
-        dx <= AOEItemDimensions.width && // Covers the width of the composter and one tile around it
-        dy <= 1 &&
-        dy >= -AOEItemDimensions.height // Covers the height of the composter and one tile around it
-      ) {
-        return true;
-      }
-    }
-
-    // AoE surrounding the Expert Composter
-    if (AOEItemName === "Expert Composter") {
-      const dx = effectItem.x - AOEItemCoordinates.x;
-      const dy = effectItem.y - AOEItemCoordinates.y;
-
-      if (
-        dx >= -1 &&
-        dx <= AOEItemDimensions.width && // Covers the width of the composter and one tile around it
-        dy <= 1 &&
-        dy >= -AOEItemDimensions.height // Covers the height of the composter and one tile around it
-      ) {
-        return true;
-      }
-    }
-
-    // AoE surrounding the bale
-    if (AOEItemName === "Bale") {
-      const dx = effectItem.x - AOEItemCoordinates.x;
-      const dy = effectItem.y - AOEItemCoordinates.y;
-
-      if (
-        dx >= -1 &&
-        dx <= AOEItemDimensions.width && // Covers the width of the bale and one tile around it
-        dy <= 1 &&
-        dy >= -AOEItemDimensions.height // Covers the height of the bale and one tile around it
-      ) {
-        return true;
-      }
-    }
-
-    if (AOEItemName === "Gnome") {
-      if (
-        effectItem.x == AOEItemCoordinates.x &&
-        effectItem.y == AOEItemCoordinates.y - 1
-      ) {
-        return true;
-      }
-    }
+    default:
+      return false;
   }
-
-  return false;
 }
 
 export function isAOEImpacted(
