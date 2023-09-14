@@ -184,6 +184,7 @@ type DepositEvent = {
   wearableIds: number[];
   wearableAmounts: number[];
   bumpkinTokenUri?: string;
+  budIds: number[];
 };
 
 type UpdateEvent = {
@@ -1435,6 +1436,7 @@ export function startGame(authContext: AuthContext) {
                 wearableIds,
                 wearableAmounts,
                 bumpkinTokenUri,
+                budIds,
               } = event as DepositEvent;
 
               if (bumpkinTokenUri) {
@@ -1454,6 +1456,7 @@ export function startGame(authContext: AuthContext) {
                   itemAmounts: itemAmounts,
                   wearableAmounts,
                   wearableIds,
+                  budIds,
                 });
               }
             },
