@@ -3,7 +3,7 @@ import { Button } from "components/ui/Button";
 import { Equipped } from "features/game/types/bumpkin";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
-import sunflowerCake from "src/assets/sfts/cakes/sunflower_cake.png";
+import sunflowerCake from "src/assets/food/cakes/sunflower_cake.png";
 
 interface Props {
   onClose: () => void;
