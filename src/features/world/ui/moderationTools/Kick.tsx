@@ -8,6 +8,7 @@ import { kickPlayer } from "features/world/lib/moderationAction";
 import { SuccessAction, ErrorAction, LoadingAction } from "./ActionStatus";
 
 type Props = {
+  scene: any;
   authState: any;
   player: Player | null;
   show: boolean;
@@ -15,6 +16,7 @@ type Props = {
 };
 
 export const KickPopUp: React.FC<Props> = ({
+  scene,
   authState,
   player,
   show,
@@ -33,11 +35,17 @@ export const KickPopUp: React.FC<Props> = ({
       token: authState.rawToken as string,
       farmId: authState.farmId as number,
       kickedId: player.farmId as number,
-      kickedReason: reason,
+      reason: reason,
     })
-      .then((r) =>
-        r.success ? setActionStatus("success") : setActionStatus("error")
-      )
+      .then((r) => {
+        r.success ? setActionStatus("success") : setActionStatus("error");
+
+        scene.mmoService.state.context.server?.send("moderation_event", {
+          type: "kick",
+          farmid: player.farmId as number,
+          reason: reason,
+        });
+      })
       .catch((e) => setActionStatus("error"));
   };
 

@@ -56,12 +56,14 @@ export const PlayerList: React.FC<Props> = ({ scene, players }) => {
         onClose={() => setShowKickPopUp(false)}
         player={selectedPlayer}
         authState={authState.context.user}
+        scene={scene}
       />
       <MutePopUp
         show={showMutePopUp}
         onClose={() => setShowMutePopUp(false)}
         player={selectedPlayer}
         authState={authState.context.user}
+        scene={scene}
       />
 
       <div className="flex items-start gap-2 ml-1 mt-2 h-96 overflow-y-scroll scrollable">
@@ -99,7 +101,7 @@ export const PlayerList: React.FC<Props> = ({ scene, players }) => {
                         TP
                       </Button>
                       <Button
-                        disabled={isModerator(player)}
+                        // disabled={isModerator(player)} RE-ADD THIS SACUL DONT FORGET
                         onClick={() => {
                           toggleKickPopUp(player);
                         }}
@@ -107,7 +109,7 @@ export const PlayerList: React.FC<Props> = ({ scene, players }) => {
                         Kick
                       </Button>
                       <Button
-                        disabled={isModerator(player)}
+                        //disabled={isModerator(player)} RE-ADD THIS SACUL DONT FORGET
                         onClick={() => {
                           toggleMutePopUp(player);
                         }}

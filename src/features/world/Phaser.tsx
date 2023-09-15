@@ -8,6 +8,9 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { ChatUI, Message } from "features/pumpkinPlaza/components/ChatUI";
 import { ModerationTools } from "./ui/ModerationTools";
 
+import { Kicked } from "./ui/moderationTools/Kicked";
+import { Muted, calculateMuteTime } from "./ui/moderationTools/Muted";
+
 import { PlazaScene } from "./scenes/PlazaScene";
 import { AuctionScene } from "./scenes/AuctionHouseScene";
 
@@ -41,6 +44,8 @@ import { prepareAPI } from "features/community/lib/CommunitySDK";
 import { TradeCompleted } from "./ui/TradeCompleted";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
+import SoundOffIcon from "assets/icons/sound_off.png";
+
 const _roomState = (state: MachineState) => state.value;
 
 type Player = {
@@ -49,6 +54,13 @@ type Player = {
   clothing: BumpkinParts;
   x: number;
   y: number;
+};
+
+export type ModerationEvent = {
+  type: "kick" | "mute";
+  farmId: number;
+  reason: string;
+  mutedUntil?: number;
 };
 
 interface Props {
@@ -69,6 +81,10 @@ export const PhaserComponent: React.FC<Props> = ({
   const [players, setPlayers] = useState<Player[]>([]);
   const [isModerator, setIsModerator] = useState(false);
   const { gameService } = useContext(Context);
+
+  const [isMuted, setIsMuted] = useState<ModerationEvent | undefined>();
+  const [MuteEvent, setMuteEvent] = useState<ModerationEvent | undefined>();
+  const [KickEvent, setKickEvent] = useState<ModerationEvent | undefined>();
 
   const [loaded, setLoaded] = useState(false);
 
@@ -108,6 +124,21 @@ export const PhaserComponent: React.FC<Props> = ({
     bumpkin?.equipped?.hat === "Halo"
       ? setIsModerator(true)
       : setIsModerator(false);
+
+    // Check if user is muted and if so, apply mute details to isMuted state
+
+    // TODO
+
+    // Debug
+    setTimeout(() => {
+      console.error("DEBUG: Muted for 10 seconds");
+      setIsMuted({
+        type: "mute",
+        farmId: 60,
+        reason: "Because I said so",
+        mutedUntil: new Date().getTime() + 10 * 60 * 10, //
+      });
+    }, 10000);
   }, []);
 
   useEffect(() => {
@@ -190,6 +221,30 @@ export const PhaserComponent: React.FC<Props> = ({
   }, [scene]);
 
   useEffect(() => {
+    // Listen to moderation events
+    mmoService.state.context.server?.onMessage(
+      "moderation_event",
+      (event: ModerationEvent) => {
+        const clientFarmId = authState.context.user.farmId as number;
+        if (!clientFarmId || clientFarmId !== event.farmId) return;
+
+        switch (event.type) {
+          case "kick":
+            // We use the kick event to dispay a modal when mute happens
+            setKickEvent(event);
+
+            // And we add the mute data to isMuted state waiting on user's state to include the muted field
+            setIsMuted(event);
+            break;
+          case "mute":
+            setMuteEvent(event);
+            break;
+          default:
+            break;
+        }
+      }
+    );
+
     // Update Messages on change
     mmoService.state.context.server?.state.messages.onChange(() => {
       const currentScene =
@@ -258,6 +313,18 @@ export const PhaserComponent: React.FC<Props> = ({
     });
   }, [mmoService.state.context.server]);
 
+  useEffect(() => {
+    if (isMuted?.mutedUntil) {
+      const interval = setInterval(() => {
+        if (new Date().getTime() > isMuted.mutedUntil!) {
+          setIsMuted(undefined);
+        }
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isMuted]);
+
   // Listen to state change from trading -> playing
 
   const ref = useRef<HTMLDivElement>(null);
@@ -265,6 +332,13 @@ export const PhaserComponent: React.FC<Props> = ({
   return (
     <div>
       <div id="game-content" ref={ref} />
+
+      {MuteEvent && (
+        <Muted event={MuteEvent} onClose={() => setMuteEvent(undefined)} />
+      )}
+
+      {KickEvent && <Kicked event={KickEvent} />}
+
       {scene !== "corn_maze" && (
         <ChatUI
           farmId={authState.context.user.farmId as number}
@@ -274,6 +348,7 @@ export const PhaserComponent: React.FC<Props> = ({
             });
           }}
           messages={messages ?? []}
+          isMuted={isMuted ? true : false}
         />
       )}
       {isModerator && scene !== "corn_maze" && !isCommunity && (
@@ -323,18 +398,21 @@ export const PhaserComponent: React.FC<Props> = ({
           </div>
         </InnerPanel>
       )}
-      {/* If Muted */}
-      {/* {true && (
+
+      {isMuted && (
         <InnerPanel className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer">
           <img src={SoundOffIcon} className="h-8 mr-2 ml-1" />
           <div className="flex flex-col p-1">
             <span className="text-sm">You are muted</span>
             <span className="text-xxs">
-              You will be able to chat again in 1 hour.
+              You will be able to chat again in{" "}
+              {isMuted.mutedUntil
+                ? calculateMuteTime(isMuted.mutedUntil, "remaining")
+                : "Unknown"}
             </span>
           </div>
         </InnerPanel>
-      )} */}
+      )}
     </div>
   );
 };

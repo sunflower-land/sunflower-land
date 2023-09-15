@@ -4,15 +4,15 @@ import { ERRORS } from "lib/errors";
 type KickRequest = {
   farmId: number;
   kickedId: number;
-  kickedReason: string;
+  reason: string;
   token: string;
 };
 
 type MuteRequest = {
   farmId: number;
   mutedId: number;
-  mutedReason: string;
-  mutedDuration: number;
+  reason: string;
+  mutedUntil: number;
   token: string;
 };
 
@@ -27,7 +27,7 @@ export async function kickPlayer(request: KickRequest) {
     },
     body: JSON.stringify({
       kickedId: request.kickedId,
-      kickedReason: request.kickedReason,
+      reason: request.reason,
     }),
   });
 
@@ -49,8 +49,8 @@ export async function mutePlayer(request: MuteRequest) {
     },
     body: JSON.stringify({
       mutedId: request.mutedId,
-      mutedReason: request.mutedReason,
-      mutedDuration: request.mutedDuration,
+      reason: request.reason,
+      mutedUntil: request.mutedUntil,
     }),
   });
 

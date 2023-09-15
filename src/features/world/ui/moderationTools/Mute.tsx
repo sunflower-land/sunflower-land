@@ -8,6 +8,7 @@ import { mutePlayer } from "features/world/lib/moderationAction";
 import { SuccessAction, ErrorAction, LoadingAction } from "./ActionStatus";
 
 type Props = {
+  scene: any;
   authState: any;
   player: Player | null;
   show: boolean;
@@ -26,6 +27,7 @@ const MUTE_DURATIONS: { value: MuteDuration; label: string }[] = [
 ];
 
 export const MutePopUp: React.FC<Props> = ({
+  scene,
   authState,
   player,
   show,
@@ -42,16 +44,25 @@ export const MutePopUp: React.FC<Props> = ({
     if (!authState || !player) return;
     setActionStatus("loading");
 
+    const until = new Date().getTime() + duration * 60 * 1000;
+
     await mutePlayer({
       token: authState.rawToken as string,
       farmId: authState.farmId as number,
       mutedId: player.farmId as number,
-      mutedReason: reason,
-      mutedDuration: duration,
+      reason: reason,
+      mutedUntil: until,
     })
-      .then((r) =>
-        r.success ? setActionStatus("success") : setActionStatus("error")
-      )
+      .then((r) => {
+        r.success ? setActionStatus("success") : setActionStatus("error");
+
+        scene.mmoService.state.context.server?.send("moderation_event", {
+          type: "mute",
+          farmId: player.farmId as number,
+          reason: reason,
+          mutedUntil: until,
+        });
+      })
       .catch((e) => setActionStatus("error"));
   };
 
