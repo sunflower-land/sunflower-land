@@ -74,7 +74,7 @@ import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
 
 // Foods
-import roastedCauliflower from "assets/sfts/roasted_cauliflower.png";
+import roastedCauliflower from "assets/food/roasted_cauliflower.png";
 import radishPie from "assets/sfts/radish_pie.png";
 
 // Flags
