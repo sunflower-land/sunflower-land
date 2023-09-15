@@ -75,7 +75,7 @@ import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
 
 // Foods
 import roastedCauliflower from "assets/food/roasted_cauliflower.png";
-import radishPie from "assets/sfts/radish_pie.png";
+import radishPie from "assets/food/radish_pie.png";
 
 // Flags
 import australiaFlag from "assets/sfts/flags/australia_flag.gif";
