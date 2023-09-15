@@ -1,10 +1,13 @@
 import { assign, createMachine, Interpreter, State } from "xstate";
 import { MachineInterpreter as GameServiceMachineInterpreter } from "src/features/game/lib/gameMachine";
 import { GameEventName, PlayingEvent } from "features/game/events";
-import { ComposterProduce } from "features/game/types/game";
+import {
+  Composter,
+  ComposterProduceName,
+} from "features/game/types/composters";
 
 export interface CompostingContext {
-  name?: ComposterProduce;
+  name?: ComposterProduceName;
   readyAt?: number;
   secondsTillReady?: number;
   gameService: GameServiceMachineInterpreter;
@@ -24,12 +27,15 @@ type CompostingState = {
 type StartComposterEvent = {
   type: "START_COMPOST";
   event: GameEventName<PlayingEvent>;
+  buildingId: string;
+  building: Composter;
 };
 
 type CollectEvent = {
   type: "COLLECT";
-  item: ComposterProduce;
   event: GameEventName<PlayingEvent>;
+  buildingId: string;
+  building: Composter;
 };
 
 type CompostingEvent = StartComposterEvent | CollectEvent | { type: "TICK" };
@@ -146,33 +152,36 @@ export const composterMachine = createMachine<
     },
     actions: {
       sendStartComposterEventToGameMachine: (context, event) => {
-        console.log("sendStartComposterEventToGameMachine");
-
-        context.gameService.send((event as StartComposterEvent).event);
+        context.gameService.send((event as StartComposterEvent).event, {
+          buildingId: (event as CollectEvent).buildingId,
+          building: (event as CollectEvent).building,
+        });
       },
-      assignCompostingDetails: assign((context) => {
-        // 6hrs in milliseconds
-        const compostingTime = 6 * 60 * 60 * 1000;
+      assignCompostingDetails: assign((context, event) => {
+        const { building } = event as StartComposterEvent;
 
-        return {
-          readyAt: Date.now() + compostingTime,
-        };
+        if (building === "Basic Composter") {
+          // 6hrs in milliseconds
+          const compostingTime = 6 * 60 * 60 * 1000;
+          return {
+            readyAt: Date.now() + compostingTime,
+          };
+        }
+        if (building === "Advanced Composter") {
+          // 8hrs in milliseconds
+          const compostingTime = 8 * 60 * 60 * 1000;
+          return {
+            readyAt: Date.now() + compostingTime,
+          };
+        } else
+          return {
+            readyAt: Date.now() + 12 * 60 * 60 * 1000,
+          };
       }),
       sendCollectEventToGameMachine: ({ gameService }, event) => {
-        const building = () => {
-          if ((event as CollectEvent).item === "Earthworm") {
-            return "Basic Composter";
-          }
-          if ((event as CollectEvent).item === "Grub") {
-            return "Advanced Composter";
-          }
-          return "Expert Composter";
-        };
-
-        const buildings = gameService.state.context.state.buildings;
         gameService?.send((event as CollectEvent).event, {
-          building: building(),
-          buildingId: buildings[building()]?.[0].id,
+          buildingId: (event as CollectEvent).buildingId,
+          building: (event as CollectEvent).building,
         });
       },
       clearCompostingDetails: assign((_) => ({

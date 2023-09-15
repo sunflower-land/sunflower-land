@@ -15,7 +15,6 @@ import {
   getKeys,
 } from "./craftables";
 import {
-  ComposterProduce,
   Coupons,
   EasterEgg,
   FertiliserName,
@@ -56,6 +55,7 @@ import { WorkbenchToolName } from "./tools";
 import { BumpkinItem } from "./bumpkin";
 import { hasSeasonEnded } from "./seasons";
 import { GoblinState } from "../lib/goblinMachine";
+import { ComposterProduceName } from "./composters";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
@@ -650,7 +650,7 @@ const exoticCrops: Record<ExoticCropName, () => boolean> = {
   Chiogga: () => false,
 };
 
-const composterProduce: Record<ComposterProduce, () => boolean> = {
+const composterProduce: Record<ComposterProduceName, () => boolean> = {
   Earthworm: () => false,
   Grub: () => false,
   "Red Wiggler": () => false,

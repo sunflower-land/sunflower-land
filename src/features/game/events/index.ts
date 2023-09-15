@@ -172,17 +172,13 @@ import { placeBud, PlaceBudAction } from "./landExpansion/placeBud";
 import { moveBud, MoveBudAction } from "./landExpansion/moveBud";
 import { removeBud, RemoveBudAction } from "./landExpansion/removeBud";
 import {
-  startBasicComposter,
-  StartBasicComposterAction,
-} from "./landExpansion/startBasicComposter";
+  startComposter,
+  StartComposterAction,
+} from "./landExpansion/startComposter";
 import {
   collectComposterProduce,
   collectComposterProduceAction,
 } from "./landExpansion/collectComposterProduce";
-import {
-  startAdvancedComposter,
-  StartAdvancedComposterAction,
-} from "./landExpansion/startAdvancedComposter";
 
 export type PlayingEvent =
   | TradeAction
@@ -242,8 +238,7 @@ export type PlayingEvent =
   | ReceiveTradeAction
   | ListTradeAction
   | CancelTradeAction
-  | StartBasicComposterAction
-  | StartAdvancedComposterAction
+  | StartComposterAction
   | collectComposterProduceAction;
 
 export type PlacementEvent =
@@ -356,8 +351,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "trade.cancelled": cancelTrade,
   "trade.listed": listTrade,
   "trade.received": receiveTrade,
-  "basicComposter.started": startBasicComposter,
-  "advancedComposter.started": startAdvancedComposter,
+  "composter.started": startComposter,
   "composterProduce.collected": collectComposterProduce,
 };
 

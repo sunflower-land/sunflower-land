@@ -335,7 +335,7 @@ export const BUILDINGS: () => Record<
   ],
   "Basic Composter": [
     {
-      unlocksAtLevel: 4,
+      unlocksAtLevel: 6,
       ingredients: [
         {
           item: "Wood",
@@ -352,7 +352,7 @@ export const BUILDINGS: () => Record<
   ],
   "Advanced Composter": [
     {
-      unlocksAtLevel: 13,
+      unlocksAtLevel: 10,
       ingredients: [
         {
           item: "Wood",
@@ -369,7 +369,7 @@ export const BUILDINGS: () => Record<
   ],
   "Expert Composter": [
     {
-      unlocksAtLevel: 37,
+      unlocksAtLevel: 18,
       ingredients: [
         {
           item: "Gold",
