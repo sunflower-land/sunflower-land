@@ -27,10 +27,14 @@ import { LAND_WIDTH } from "../Land";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 interface Props {
+  townCenterBuilt: boolean;
   expansionCount: number;
 }
 
-export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
+export const WaterComponent: React.FC<Props> = ({
+  townCenterBuilt,
+  expansionCount,
+}) => {
   // As the land gets bigger, push the water decorations out
   const offset = Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2);
   const { openModal } = useContext(ModalContext);
@@ -169,7 +173,7 @@ export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
 
       {/* Bottom right island */}
       <MapPlacement x={7 + offset} y={-2 - offset} width={6}>
-        <DailyReward />
+        {!townCenterBuilt && <DailyReward />}
         <img
           src={abandonedLand}
           style={{

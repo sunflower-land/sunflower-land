@@ -13,6 +13,7 @@ import { PlayerNPC } from "features/island/bumpkin/components/PlayerNPC";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
+import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 
 export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService } = useContext(Context);
@@ -65,6 +66,12 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         />
       </BuildingImageWrapper>
       <Otis />
+      <div
+        className="absolute"
+        style={{ left: `${PIXEL_SCALE * 10}px`, top: `${PIXEL_SCALE * -22}px` }}
+      >
+        <DailyReward />
+      </div>
       <div
         className="absolute"
         style={{
