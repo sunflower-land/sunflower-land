@@ -68,7 +68,7 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
       <Otis />
       <div
         className="absolute"
-        style={{ left: `${PIXEL_SCALE * 10}px`, top: `${PIXEL_SCALE * -22}px` }}
+        style={{ left: `${PIXEL_SCALE * 7}px`, top: `${PIXEL_SCALE * -6}px` }}
       >
         <DailyReward />
       </div>
