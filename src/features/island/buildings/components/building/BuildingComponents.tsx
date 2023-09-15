@@ -273,7 +273,7 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
     <div
       className="absolute bottom-0"
       style={{
-        width: `${PIXEL_SCALE * 28}px`,
+        width: `${PIXEL_SCALE * 34}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 2}px`,
       }}
@@ -282,8 +282,9 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
         src={ITEM_DETAILS["Expert Composter"].image}
         className="w-full absolute"
         style={{
-          width: `${PIXEL_SCALE * 28}px`,
+          width: `${PIXEL_SCALE * 34}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * -3}px`,
         }}
       />
       <div
