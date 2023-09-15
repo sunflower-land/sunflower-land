@@ -30,6 +30,7 @@ import { ConversationName } from "./conversations";
 import { NPCName } from "lib/npcs";
 import { SeasonalTicket } from "./seasons";
 import { Bud } from "./buds";
+import { ComposterProduceName } from "./composters";
 
 export type Reward = {
   sfl?: Decimal;
@@ -248,7 +249,7 @@ export type InventoryItemName =
   | ExoticCropName
   | PotionHouseItemName
   | "Basic Land"
-  | ComposterProduce;
+  | ComposterProduceName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -365,15 +366,13 @@ export type FruitPatch = {
 
 export type Mine = Position;
 
-export type ComposterProduce = "Earthworm" | "Grub" | "Red Wiggler";
-
 export type BuildingProduct = {
   name: CookableName;
   readyAt: number;
 };
 
 export type BuildingProduce = {
-  name: ComposterProduce;
+  name: ComposterProduceName;
   startedAt: number;
   readyAt: number;
 };

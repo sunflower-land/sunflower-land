@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { ConsumableName, CookableName } from "../types/consumables";
 import { Animal, Food, ToolName } from "../types/craftables";
 import { CropName } from "../types/crops";
-import { Bumpkin, ComposterProduce, LanternName } from "../types/game";
+import { Bumpkin, LanternName } from "../types/game";
 import { BeanName, ExoticCropName } from "./beans";
 import { HeliosBlacksmithItem, PotionHouseItemName } from "./collectibles";
 import { DecorationName } from "./decorations";
@@ -11,6 +11,7 @@ import { GarbageName } from "./garbage";
 import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { BeachBountyTreasure, TreasureName } from "./treasure";
+import { ComposterProduceName } from "./composters";
 
 type BuyableName = SeedName | Animal | DecorationName | BeanName;
 type SellableName =
@@ -40,7 +41,7 @@ export type CraftedEvent = `${
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
 export type TreasureEvent = `${TreasureName} Dug`;
-export type ComposterCollectEvent = `${ComposterProduce} Collected`;
+export type ComposterCollectEvent = `${ComposterProduceName} Collected`;
 
 export type BumpkinActivityName =
   | CookEvent

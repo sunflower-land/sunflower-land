@@ -13,7 +13,7 @@ import {
   composterMachine,
   MachineState,
 } from "features/island/buildings/lib/composterMachine";
-import { hasRequirements } from "features/game/events/landExpansion/startBasicComposter";
+import { hasRequirements } from "features/game/events/landExpansion/startComposter";
 
 const isIdle = (state: MachineState) => state.matches("idle");
 const isComposting = (state: MachineState) => state.matches("composting");
@@ -42,7 +42,9 @@ export const BasicComposter: React.FC = () => {
   const startComposter = () => {
     composterService.send({
       type: "START_COMPOST",
-      event: "basicComposter.started",
+      event: "composter.started",
+      buildingId: composter!.id,
+      building: "Basic Composter",
     });
   };
 
@@ -50,7 +52,8 @@ export const BasicComposter: React.FC = () => {
     composterService?.send({
       type: "COLLECT",
       event: "composterProduce.collected",
-      item: "Earthworm",
+      buildingId: composter!.id,
+      building: "Basic Composter",
     });
   };
 
@@ -68,7 +71,7 @@ export const BasicComposter: React.FC = () => {
   };
 
   const canStartComposter =
-    hasRequirements(gameState.context.state) && !composting;
+    hasRequirements(gameState.context.state, "Basic Composter") && !composting;
 
   return (
     <>

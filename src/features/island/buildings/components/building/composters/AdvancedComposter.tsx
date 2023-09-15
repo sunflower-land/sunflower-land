@@ -1,27 +1,116 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 
-import composter from "assets/sfts/aoe/composter_advanced.png";
+import advancedComposter from "assets/sfts/aoe/composter_advanced.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Modal } from "react-bootstrap";
+import { Panel } from "components/ui/Panel";
+import { Button } from "components/ui/Button";
+import { Context } from "features/game/GameProvider";
+import { useActor, useInterpret, useSelector } from "@xstate/react";
+import {
+  CompostingContext,
+  MachineInterpreter,
+  composterMachine,
+  MachineState,
+} from "features/island/buildings/lib/composterMachine";
+import { hasRequirements } from "features/game/events/landExpansion/startComposter";
+
+const isIdle = (state: MachineState) => state.matches("idle");
+const isComposting = (state: MachineState) => state.matches("composting");
+const isReady = (state: MachineState) => state.matches("ready");
 
 export const AdvancedComposter: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+  const [showModal, setShowModal] = useState(false);
+
+  const composter =
+    gameState.context.state.buildings["Advanced Composter"]?.[0];
+
+  const composterMachineContext: CompostingContext = {
+    gameService,
+    readyAt: composter && composter.producing?.readyAt,
+  };
+
+  const composterService = useInterpret(composterMachine, {
+    context: composterMachineContext,
+  }) as unknown as MachineInterpreter;
+
+  const idle = useSelector(composterService, isIdle);
+  const composting = useSelector(composterService, isComposting);
+  const ready = useSelector(composterService, isReady);
+
+  const startComposter = () => {
+    composterService.send({
+      type: "START_COMPOST",
+      event: "composter.started",
+      buildingId: composter!.id,
+      building: "Advanced Composter",
+    });
+  };
+
+  const handleCollect = () => {
+    composterService?.send({
+      type: "COLLECT",
+      event: "composterProduce.collected",
+      buildingId: composter!.id,
+      building: "Advanced Composter",
+    });
+  };
+
+  const handleClick = () => {
+    if (idle || composting) {
+      // composterAudio.play();
+      setShowModal(true);
+      return;
+    }
+
+    if (ready) {
+      handleCollect();
+      return;
+    }
+  };
+
+  const canStartComposter =
+    hasRequirements(gameState.context.state, "Advanced Composter") &&
+    !composting;
+
   return (
-    <div
-      className="absolute"
-      style={{
-        width: `${PIXEL_SCALE * 27}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 2}px`,
-      }}
-    >
-      <img
-        src={composter}
+    <>
+      <div
+        className="absolute"
         style={{
           width: `${PIXEL_SCALE * 27}px`,
-          bottom: 0,
+          bottom: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * 2}px`,
         }}
-        className="absolute"
-        alt="Advanced Composter"
-      />
-    </div>
+        onClick={handleClick}
+      >
+        <img
+          src={advancedComposter}
+          style={{
+            width: `${PIXEL_SCALE * 27}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+          }}
+          className="absolute"
+          alt="Advanced Composter"
+        />
+      </div>
+      <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+        <Panel className="z-10">
+          {idle && (
+            <Button onClick={startComposter} disabled={!canStartComposter}>
+              Start Composting
+            </Button>
+          )}
+          {ready && (
+            <Button onClick={handleCollect} disabled={!canStartComposter}>
+              Collect
+            </Button>
+          )}
+          {composting && <p>Composting...</p>}
+        </Panel>
+      </Modal>
+    </>
   );
 };
