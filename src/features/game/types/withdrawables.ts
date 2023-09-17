@@ -380,6 +380,7 @@ const consumables: Record<ConsumableName, () => boolean> = {
 };
 
 const decorations: Record<ShopDecorationName, () => boolean> = {
+  "Town Sign": () => false,
   "White Tulips": () => false,
   "Potted Sunflower": () => false,
   "Potted Potato": () => false,

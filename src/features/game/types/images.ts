@@ -46,14 +46,14 @@ import immortalPear from "assets/sfts/immortal_pear.webp";
 import ladybug from "assets/sfts/ladybug.gif";
 import blackBear from "assets/sfts/black_bear.gif";
 import squirrelMonkey from "assets/sfts/squirrel_monkey.gif";
-import luminousLantern from "assets/sfts/luminous_lantern.webp";
-import auroraLantern from "assets/sfts/aurora_lantern.webp";
-import radianceLantern from "assets/sfts/radiance_lantern.webp";
-import oceanLantern from "assets/sfts/ocean_lantern.png";
-import solarLantern from "assets/sfts/solar_lantern.png";
-import bumpkinLantern from "assets/sfts/bumpkin_lantern.png";
-import bettyLantern from "assets/sfts/betty_lantern.png";
-import goblinLantern from "assets/sfts/goblin_lantern.png";
+import luminousLantern from "assets/decorations/lanterns/luminous_lantern.webp";
+import auroraLantern from "assets/decorations/lanterns/aurora_lantern.webp";
+import radianceLantern from "assets/decorations/lanterns/radiance_lantern.webp";
+import oceanLantern from "assets/decorations/lanterns/ocean_lantern.png";
+import solarLantern from "assets/decorations/lanterns/solar_lantern.png";
+import bumpkinLantern from "assets/decorations/lanterns/bumpkin_lantern.png";
+import bettyLantern from "assets/decorations/lanterns/betty_lantern.png";
+import goblinLantern from "assets/decorations/lanterns/goblin_lantern.png";
 import poppy from "assets/sfts/poppy.png";
 import kernaldo from "assets/sfts/kernaldo.png";
 
@@ -225,16 +225,16 @@ import momCoreEngine from "src/assets/sfts/mom/engine_core.png";
 import observatory from "src/assets/sfts/mom/observatory.gif";
 
 // Cakes
-import carrotCake from "src/assets/sfts/cakes/carrot_cake.png";
-import radishCake from "src/assets/sfts/cakes/radish_cake.png";
-import beetrootCake from "src/assets/sfts/cakes/beetroot_cake.png";
-import cabbageCake from "src/assets/sfts/cakes/cabbage_cake.png";
-import cauliflowerCake from "src/assets/sfts/cakes/cauliflower_cake.png";
-import parsnipCake from "src/assets/sfts/cakes/parsnip_cake.png";
-import potatoCake from "src/assets/sfts/cakes/potato_cake.png";
-import pumpkinCake from "src/assets/sfts/cakes/pumpkin_cake.png";
-import sunflowerCake from "src/assets/sfts/cakes/sunflower_cake.png";
-import wheatCake from "src/assets/sfts/cakes/wheat_cake.png";
+import carrotCake from "src/assets/food/cakes/carrot_cake.png";
+import radishCake from "src/assets/food/cakes/radish_cake.png";
+import beetrootCake from "src/assets/food/cakes/beetroot_cake.png";
+import cabbageCake from "src/assets/food/cakes/cabbage_cake.png";
+import cauliflowerCake from "src/assets/food/cakes/cauliflower_cake.png";
+import parsnipCake from "src/assets/food/cakes/parsnip_cake.png";
+import potatoCake from "src/assets/food/cakes/potato_cake.png";
+import pumpkinCake from "src/assets/food/cakes/pumpkin_cake.png";
+import sunflowerCake from "src/assets/food/cakes/sunflower_cake.png";
+import wheatCake from "src/assets/food/cakes/wheat_cake.png";
 
 // Food
 import mashedPotato from "assets/food/mashed_potato.png";
@@ -248,10 +248,10 @@ import roastVeggies from "assets/food/roast_veggies.png";
 import clubSandwich from "assets/food/club_sandwich.png";
 import bumpkinSalad from "assets/food/bumpkin_salad.png";
 import blueberryJam from "assets/food/blueberry_jam.png";
-import honeyCake from "assets/food/honey_cake.png";
+import honeyCake from "assets/food/cakes/honey_cake.png";
 import kaleStew from "assets/food/kale_stew.png";
 import mushroomSoup from "assets/food/mushroom_soup.png";
-import orangeCake from "assets/food/orange_cake.png";
+import orangeCake from "assets/food/cakes/orange_cake.png";
 import sunflowerCrunch from "assets/food/sunflower_crunch.png";
 import applePie from "assets/food/apple_pie.png";
 import mushroomJacketPotato from "assets/food/mushroom_jacket_potato.png";
@@ -271,7 +271,7 @@ import kaleOmelette from "assets/food/kale_omelette.png";
 import cabbersNMash from "assets/food/cabbers_n_mash.png";
 import fancyFries from "assets/food/fancy_fries.png";
 import bumpkinGanoush from "assets/food/bumpkin_ganoush.png";
-import eggplantCake from "assets/food/eggplant_cake.png";
+import eggplantCake from "assets/food/cakes/eggplant_cake.png";
 import cornBread from "assets/food/corn_bread.png";
 import popcorn from "assets/food/popcorn.png";
 
@@ -344,6 +344,7 @@ import dawnFlower from "src/assets/sfts/dawn_flower.png";
 import candles from "src/assets/decorations/candles.png";
 import spookyTree from "src/assets/decorations/spooky_tree.png";
 import hauntedStump from "src/assets/decorations/haunted_stump.png";
+import sign from "src/assets/decorations/woodsign.png";
 
 import pineTree from "src/assets/decorations/pine_tree.png";
 import fieldMaple from "src/assets/decorations/field_maple.webp";
@@ -379,7 +380,7 @@ import blossomTree from "assets/events/valentine/sfts/blossom_tree.png";
 import skeletonKingStaff from "assets/sfts/skeleton_king_staff.webp";
 import foliant from "assets/sfts/foliant.webp";
 import dinosaurBone from "assets/sfts/dinosaur_bone.webp";
-import pirateCake from "assets/sfts/cakes/pirate_cake.webp";
+import pirateCake from "assets/food/cakes/pirate_cake.webp";
 import drill from "assets/icons/drill.png";
 import karkinos from "assets/seasons/solar-flare/karkinos.png";
 import palmTree from "assets/seasons/solar-flare/palm_tree.webp";
@@ -2441,5 +2442,9 @@ export const ITEM_DETAILS: Items = {
     image: budTicket,
     description:
       "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
+  },
+  "Town Sign": {
+    image: sign,
+    description: "Show your farm ID with pride!",
   },
 };

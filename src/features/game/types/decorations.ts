@@ -27,7 +27,8 @@ export type BasicDecorationName =
   | "Cactus"
   | "Basic Bear"
   | "Bonnie's Tombstone"
-  | "Grubnash's Tombstone";
+  | "Grubnash's Tombstone"
+  | "Town Sign";
 
 export type LandscapingDecorationName =
   | "Dirt Path"
@@ -359,6 +360,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 2,
     height: 2,
   },
+  "Town Sign": {
+    width: 2,
+    height: 1,
+  },
 };
 
 export type Decoration = {
@@ -437,6 +442,13 @@ export const BASIC_DECORATIONS: () => Record<
       Iron: new Decimal(10),
     },
     description: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
+  },
+  "Town Sign": {
+    name: "Town Sign",
+    sfl: marketRate(0),
+    ingredients: {},
+    description: "Show your farm ID with pride!",
+    limit: 1,
   },
 });
 
