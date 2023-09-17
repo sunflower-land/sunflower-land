@@ -110,7 +110,7 @@ export function isLocked(
       collectibles["Sir Goldensnout"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Sir Goldensnout"];
 
-    const scarecrowPosition: Position = {
+    const itemPosition: Position = {
       x: basicScarecrowCoordinates.x,
       y: basicScarecrowCoordinates.y,
       height: scarecrowDimensions.height,
@@ -124,7 +124,7 @@ export function isLocked(
       width: plot.width,
     };
 
-    if (isWithinAOE("Sir Goldensnout", scarecrowPosition, plotPosition)) {
+    if (isWithinAOE("Sir Goldensnout", itemPosition, plotPosition)) {
       return true;
     }
   }
@@ -139,7 +139,7 @@ export function isLocked(
     const composterCoordinates = basicComposter.coordinates;
     const composterDimensions = BUILDINGS_DIMENSIONS["Basic Composter"];
 
-    const scarecrowPosition: Position = {
+    const composterPosition: Position = {
       x: composterCoordinates.x,
       y: composterCoordinates.y,
       height: composterDimensions.height,
@@ -155,7 +155,7 @@ export function isLocked(
 
     if (
       isComposting &&
-      isWithinAOE("Basic Composter", scarecrowPosition, plotPosition)
+      isWithinAOE("Basic Composter", composterPosition, plotPosition)
     ) {
       return true;
     }
@@ -171,7 +171,7 @@ export function isLocked(
     const composterCoordinates = expertComposter.coordinates;
     const composterDimensions = BUILDINGS_DIMENSIONS["Expert Composter"];
 
-    const scarecrowPosition: Position = {
+    const composterPosition: Position = {
       x: composterCoordinates.x,
       y: composterCoordinates.y,
       height: composterDimensions.height,
@@ -187,7 +187,7 @@ export function isLocked(
 
     if (
       isComposting &&
-      isWithinAOE("Expert Composter", scarecrowPosition, plotPosition)
+      isWithinAOE("Expert Composter", composterPosition, plotPosition)
     ) {
       return true;
     }
