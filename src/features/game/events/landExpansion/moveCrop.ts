@@ -95,9 +95,12 @@ export function isLocked(
     }
   }
 
-  const gnome = collectibles["Gnome"]?.[0];
-  if (gnome) {
-    if (gnome.coordinates.x === plot.x && gnome.coordinates.y === plot.y + 1) {
+  const scarlet = collectibles["Scarlet"]?.[0];
+  if (scarlet) {
+    if (
+      scarlet.coordinates.x === plot.x &&
+      scarlet.coordinates.y === plot.y + 1
+    ) {
       return true;
     }
   }
@@ -158,16 +161,16 @@ export function isLocked(
 
   if (
     (isMediumCrop(cropName) || isAdvancedCrop(cropName)) &&
-    collectibles["Gnome"]?.[0]
+    collectibles["Scarlet"]?.[0]
   ) {
-    const gnomeCoordinates = collectibles["Gnome"]?.[0].coordinates;
-    const gnomeDimensions = COLLECTIBLES_DIMENSIONS["Gnome"];
+    const scarletCoordinates = collectibles["Scarlet"]?.[0].coordinates;
+    const scarletDimensions = COLLECTIBLES_DIMENSIONS["Scarlet"];
 
-    const gnomePosition: Position = {
-      x: gnomeCoordinates.x,
-      y: gnomeCoordinates.y,
-      height: gnomeDimensions.height,
-      width: gnomeDimensions.width,
+    const scarletPosition: Position = {
+      x: scarletCoordinates.x,
+      y: scarletCoordinates.y,
+      height: scarletDimensions.height,
+      width: scarletDimensions.width,
     };
 
     const plotPosition: Position = {
@@ -177,7 +180,7 @@ export function isLocked(
       width: plot.width,
     };
 
-    if (isWithinAOE("Gnome", gnomePosition, plotPosition)) {
+    if (isWithinAOE("Scarlet", scarletPosition, plotPosition)) {
       return true;
     }
   }

@@ -35,7 +35,7 @@ import { SunflowerStatue } from "./components/SunflowerStatue";
 import { SunflowerTombstone } from "./components/SunflowerTombstone";
 import { WickerMan } from "./components/WickerMan";
 import { Fountain } from "./components/Fountain";
-import { Gnome } from "./components/Gnome";
+import { Scarlet } from "./components/Scarlet";
 import { Nancy } from "./components/Nancy";
 import { Scarecrow } from "./components/Scarecrow";
 import { Kuebiko } from "./components/Kuebiko";
@@ -270,7 +270,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Sunflower Tombstone": SunflowerTombstone,
   "Wicker Man": WickerMan,
   Fountain,
-  Gnome,
+  Scarlet,
 
   // Scarecrows
   Nancy,

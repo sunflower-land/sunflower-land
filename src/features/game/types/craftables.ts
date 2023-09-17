@@ -118,7 +118,7 @@ export type LegacyItem =
   | "Sunflower Statue"
   | "Potato Statue"
   | "Christmas Tree"
-  | "Gnome"
+  | "Scarlet"
   | "Sunflower Tombstone"
   | "Sunflower Rock"
   | "Goblin Crown"
@@ -779,10 +779,10 @@ export const BLACKSMITH_ITEMS: Record<LegacyItem | "Chef Apron", LimitedItem> =
       section: Section["Christmas Tree"],
       type: LimitedItemType.BlacksmithItem,
     },
-    Gnome: {
-      name: "Gnome",
-      description: "A lucky gnome",
-      section: Section.Gnome,
+    Scarlet: {
+      name: "Scarlet",
+      description: "A Lucky Gnome",
+      section: Section.Scarlet,
       type: LimitedItemType.BlacksmithItem,
     },
     "Homeless Tent": {
@@ -1054,7 +1054,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Sunflower Statue": { width: 3, height: 4 },
   "Potato Statue": { width: 2, height: 2 },
   "Christmas Tree": { width: 2, height: 2 },
-  Gnome: { width: 1, height: 1 },
+  Scarlet: { width: 1, height: 1 },
   "Sunflower Tombstone": { width: 2, height: 2 },
   "Sunflower Rock": { width: 5, height: 4 },
   "Goblin Crown": { width: 1, height: 1 },

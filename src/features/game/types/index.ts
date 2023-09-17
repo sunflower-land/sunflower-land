@@ -69,7 +69,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Scarecrow: 404,
   "Farm Cat": 405,
   "Farm Dog": 406,
-  Gnome: 407,
+  Scarlet: 407,
   "Chicken Coop": 408,
   "Gold Egg": 409,
   "Golden Cauliflower": 410,

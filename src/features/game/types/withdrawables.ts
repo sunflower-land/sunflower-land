@@ -461,7 +461,7 @@ const blacksmithItems: Record<LegacyItem, () => boolean> = {
   "Sunflower Statue": () => true,
   "Potato Statue": () => true,
   "Christmas Tree": () => true,
-  Gnome: () => true,
+  Scarlet: () => true,
   "Sunflower Tombstone": () => true,
   "Sunflower Rock": () => true,
   "Goblin Crown": () => true,

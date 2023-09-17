@@ -9,7 +9,7 @@ import chickenCoop from "assets/sfts/chicken_coop.png";
 import christmasTree from "assets/sfts/christmas_tree.png";
 import farmCat from "assets/sfts/farm_cat.gif";
 import farmDog from "assets/sfts/farm_dog.gif";
-import gnome from "assets/decorations/scarlet.png";
+import scarlet from "assets/decorations/scarlet.png";
 import goldEgg from "assets/sfts/gold_egg.png";
 import potatoStatue from "assets/sfts/potato_statue.png";
 import scarecrow from "assets/sfts/scarecrow.png";
@@ -847,9 +847,9 @@ export const ITEM_DETAILS: Items = {
     ...BLACKSMITH_ITEMS["Christmas Tree"],
     image: christmasTree,
   },
-  Gnome: {
-    ...BLACKSMITH_ITEMS["Gnome"],
-    image: gnome,
+  Scarlet: {
+    ...BLACKSMITH_ITEMS["Scarlet"],
+    image: scarlet,
   },
   "Gold Egg": {
     ...BARN_ITEMS["Gold Egg"],

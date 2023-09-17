@@ -217,7 +217,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Sir Goldensnout": (game) => areAnyCropsPlanted(game),
   "Scary Mike": (game) => areAnyMediumCropsPlanted(game),
   "Laurie the Chuckle Crow": (game) => areAnyAdvancedCropsPlanted(game),
-  Gnome: (game) => areAnyAdvancedOrMediumCropsPlanted(game),
+  Scarlet: (game) => areAnyAdvancedOrMediumCropsPlanted(game),
 
   "Cabbage Boy": (game) => cropIsPlanted({ item: "Cabbage", game }),
   "Cabbage Girl": (game) => cropIsPlanted({ item: "Cabbage", game }),
@@ -309,7 +309,7 @@ export const hasMoveRestriction = (
     name === "Scary Mike" ||
     name === "Laurie the Chuckle Crow" ||
     name === "Queen Cornelia" ||
-    name === "Gnome";
+    name === "Scarlet";
 
   const [isRestricted, restrictionReason] = hasRemoveRestriction(
     name,

@@ -16,7 +16,7 @@ export enum Section {
   Scarecrow = "scarecrow",
   "Farm Cat" = "farm-cat",
   "Farm Dog" = "farm-dog",
-  Gnome = "gnome",
+  Scarlet = "scarlet",
   "Chicken Coop" = "chicken-coop",
   "Sunflower Tombstone" = "sunflower-tombstone",
   "Sunflower Rock" = "sunflower-rock",

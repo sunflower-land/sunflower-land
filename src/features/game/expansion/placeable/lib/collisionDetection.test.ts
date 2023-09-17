@@ -873,11 +873,11 @@ describe("isWithinAOE", () => {
     });
   });
 
-  it("returns true if the crop is within the Gnome AOE", () => {
+  it("returns true if the crop is within the Scarlet AOE", () => {
     const plot: Position = { x: 0, y: -1, ...plotDimensions };
 
     const cropPlot = isWithinAOE(
-      "Gnome",
+      "Scarlet",
       { x: 0, y: 0, height: 1, width: 1 },
       plot
     );
