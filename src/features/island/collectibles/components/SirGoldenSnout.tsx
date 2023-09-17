@@ -1,6 +1,6 @@
 import React from "react";
 
-import sirGoldenSnout from "assets/sfts/sir_goldensnout.png";
+import sirGoldenSnout from "assets/sfts/aoe/sir_goldensnout.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const SirGoldenSnout: React.FC = () => {

@@ -1,6 +1,6 @@
 import React from "react";
 
-import collectibleBear from "assets/sfts/collectible_bear.png";
+import collectibleBear from "assets/sfts/bears/collectible_bear.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const CollectibleBear: React.FC = () => {

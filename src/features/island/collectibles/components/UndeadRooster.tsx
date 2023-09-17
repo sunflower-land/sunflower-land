@@ -1,6 +1,6 @@
 import React from "react";
 
-import undeadChicken from "assets/sfts/undead_chicken.gif";
+import undeadChicken from "assets/animals/chickens/undead_chicken.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const UndeadRooster: React.FC = () => {
