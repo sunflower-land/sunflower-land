@@ -425,9 +425,9 @@ export function isAOEImpacted(
   collectibles: Collectibles,
   buildings: Buildings,
   resourcePosition: Position,
-  aOeAffectedNames: AOEItemName[]
+  AoEAffectedNames: AOEItemName[]
 ) {
-  return aOeAffectedNames.some((name) => {
+  return AoEAffectedNames.some((name) => {
     if (name === "Basic Composter" && buildings["Basic Composter"]?.[0]) {
       const coordinates = buildings["Basic Composter"]?.[0].coordinates;
 

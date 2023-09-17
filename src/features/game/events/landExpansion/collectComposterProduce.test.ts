@@ -25,7 +25,7 @@ describe("collectComposterProduce", () => {
     ).toThrow("Composter does not exist");
   });
 
-  it("throws an error if building is not cooking anything", () => {
+  it("throws an error if building is not producing anything", () => {
     expect(() =>
       collectComposterProduce({
         state: {
