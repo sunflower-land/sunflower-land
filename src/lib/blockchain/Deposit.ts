@@ -16,6 +16,7 @@ export interface DepositArgs {
   itemAmounts: string[];
   wearableIds: number[];
   wearableAmounts: number[];
+  budIds: number[];
 }
 
 export async function depositToFarm({
@@ -27,6 +28,7 @@ export async function depositToFarm({
   itemAmounts,
   wearableAmounts,
   wearableIds,
+  budIds,
 }: DepositArgs) {
   const gasPrice = await estimateGasPrice(web3);
 
@@ -44,7 +46,8 @@ export async function depositToFarm({
         itemIds,
         itemAmounts,
         wearableIds,
-        wearableAmounts
+        wearableAmounts,
+        budIds
       )
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
