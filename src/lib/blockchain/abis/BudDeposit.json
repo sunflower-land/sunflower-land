@@ -31,6 +31,7 @@
         "name": "_bumpkinWearables",
         "type": "address"
       },
+      { "internalType": "contract Buds", "name": "_buds", "type": "address" },
       { "internalType": "address", "name": "_signer", "type": "address" }
     ],
     "stateMutability": "nonpayable",
@@ -106,7 +107,8 @@
         "internalType": "uint256[]",
         "name": "wearableAmounts",
         "type": "uint256[]"
-      }
+      },
+      { "internalType": "uint256[]", "name": "budIds", "type": "uint256[]" }
     ],
     "name": "depositToFarm",
     "outputs": [],

@@ -49,6 +49,8 @@ const BUY_BLOCK_BUCKS_CONTRACT = import.meta.env
   .VITE_BUY_BLOCK_BUCKS_CONTRACT as string;
 const WMATIC_CONTRACT = import.meta.env.VITE_WMATIC_CONTRACT as string;
 const DEPOSIT_CONTRACT = import.meta.env.VITE_DEPOSIT_CONTRACT as string;
+const BUD_DEPOSIT_CONTRACT = import.meta.env
+  .VITE_BUD_DEPOSIT_CONTRACT as string;
 const AUCTION_CONTRACT = import.meta.env.VITE_AUCTION_CONTRACT as string;
 const BUD_CONTRACT = import.meta.env.VITE_BUD_CONTRACT as string;
 const SEAL_CONTRACT = import.meta.env.VITE_SEAL_CONTRACT as string;
@@ -105,6 +107,7 @@ export const CONFIG = {
   SEAL_CONTRACT,
   LOST_AND_FOUND_CONTRACT,
   DEPOSIT_CONTRACT,
+  BUD_DEPOSIT_CONTRACT,
   BUY_BLOCK_BUCKS_CONTRACT,
   ALCHEMY_RPC,
   GAME_CONTRACT,
