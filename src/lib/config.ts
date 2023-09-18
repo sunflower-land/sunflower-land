@@ -50,6 +50,7 @@ const BUY_BLOCK_BUCKS_CONTRACT = import.meta.env
 const WMATIC_CONTRACT = import.meta.env.VITE_WMATIC_CONTRACT as string;
 const DEPOSIT_CONTRACT = import.meta.env.VITE_DEPOSIT_CONTRACT as string;
 const AUCTION_CONTRACT = import.meta.env.VITE_AUCTION_CONTRACT as string;
+const BUD_CONTRACT = import.meta.env.VITE_BUD_CONTRACT as string;
 const SEAL_CONTRACT = import.meta.env.VITE_SEAL_CONTRACT as string;
 const ALCHEMY_RPC = import.meta.env.VITE_ALCHEMY_RPC as string;
 const PROTECTED_IMAGE_URL = import.meta.env.VITE_PRIVATE_IMAGE_URL as string;
@@ -109,6 +110,7 @@ export const CONFIG = {
   GAME_CONTRACT,
   WITHDRAWAL_CONTRACT,
   AUCTION_CONTRACT,
+  BUD_CONTRACT,
 
   GREEDY_GOBLIN_DONATION,
   CHICKEN_FIGHT_DONATION,

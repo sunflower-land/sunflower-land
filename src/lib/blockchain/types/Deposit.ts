@@ -54,7 +54,8 @@ export interface Deposit extends BaseContract {
       itemIds: (number | string | BN)[],
       itemAmounts: (number | string | BN)[],
       wearableIds: (number | string | BN)[],
-      wearableAmounts: (number | string | BN)[]
+      wearableAmounts: (number | string | BN)[],
+      budIds: (number | string | BN)[]
     ): NonPayableTransactionObject<void>;
 
     destroy(): NonPayableTransactionObject<void>;
