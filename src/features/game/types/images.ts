@@ -1401,7 +1401,7 @@ export const ITEM_DETAILS: Items = {
   },
   Toolshed: {
     image: toolshed,
-    description: "Increase your tool stocks by 50%",
+    description: "Increase your workbench tool stock by 50%",
   },
   Warehouse: {
     image: warehouse,
