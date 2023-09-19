@@ -7,7 +7,29 @@ const date = Date.now();
 const GAME_STATE: GameState = TEST_FARM;
 
 describe("Place Bud", () => {
-  it.only("requires the bud is not already placed", () => {
+  it("requires the bud ID is on the game state", () => {
+    expect(() =>
+      placeBud({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            Scarecrow: new Decimal(1),
+          },
+          buds: {},
+        },
+        action: {
+          id: 1,
+          type: "bud.placed",
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+        },
+      })
+    ).toThrow("This bud does not exist");
+  });
+
+  it("requires the bud is not already placed", () => {
     expect(() =>
       placeBud({
         state: {
