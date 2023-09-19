@@ -22,12 +22,14 @@ export function placeBud({
   createdAt = Date.now(),
 }: Options): GameState {
   const copy = cloneDeep(state);
-  const buds = copy.buds ?? {};
 
-  const bud = buds[action.id];
+  const bud = copy.buds?.[action.id];
 
   if (!bud) throw new Error("This bud does not exist");
 
-  throw new Error("This bud is already placed");
-  return state;
+  if (bud.coordinates) throw new Error("This bud is already placed");
+
+  copy.buds[action.id].coordinates = action.coordinates;
+
+  return copy;
 }
