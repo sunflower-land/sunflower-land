@@ -29,6 +29,7 @@ import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
 import { NPCName } from "lib/npcs";
 import { SeasonalTicket } from "./seasons";
+import { Bud } from "./buds";
 
 export type Reward = {
   sfl?: Decimal;
@@ -720,6 +721,7 @@ export interface GameState {
   trades: {
     listings?: Record<string, TradeListing>;
   };
+  buds?: Record<number, Bud>;
 }
 
 export interface Context {

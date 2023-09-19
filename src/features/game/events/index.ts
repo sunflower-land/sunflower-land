@@ -253,7 +253,8 @@ export type PlacementEvent =
   | MoveChickenAction
   | RemoveBuildingAction
   | RemoveCollectibleAction
-  | RemoveChickenAction;
+  | RemoveChickenAction
+  | PlaceBudAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];

@@ -16,6 +16,7 @@ import {
 } from "features/game/lib/gameMachine";
 import { RESOURCES } from "features/game/types/resources";
 import { ResourceName } from "features/game/types/resources";
+import { BudName, isBudName } from "features/game/types/buds";
 
 export const RESOURCE_PLACE_EVENTS: Partial<
   Record<ResourceName, GameEventName<PlacementEvent>>
@@ -29,7 +30,7 @@ export const RESOURCE_PLACE_EVENTS: Partial<
 };
 
 export function placeEvent(
-  name: InventoryItemName
+  name: InventoryItemName | BudName
 ): GameEventName<PlacementEvent> {
   if (name in RESOURCES) {
     return RESOURCE_PLACE_EVENTS[
@@ -39,6 +40,10 @@ export function placeEvent(
 
   if (name in BUILDINGS_DIMENSIONS) {
     return "building.placed";
+  }
+
+  if (isBudName(name)) {
+    return "bud.placed";
   }
 
   return "collectible.placed";
