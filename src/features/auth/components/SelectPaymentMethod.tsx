@@ -7,6 +7,7 @@ import { OuterPanel } from "components/ui/Panel";
 import creditCard from "assets/icons/credit_card.png";
 import matic from "assets/icons/polygon-token.png";
 import { Button } from "components/ui/Button";
+import { Label } from "components/ui/Label";
 
 export const SelectPaymentMethod: React.FC = () => {
   const { authService } = useContext(Context);
@@ -45,7 +46,13 @@ export const SelectPaymentMethod: React.FC = () => {
               }}
             />
           </div>
-          <Button onClick={() => authService.send("SELECT_POKO")}>
+          <Label type="info" className="mb-1">
+            Temporarily Disabled
+          </Label>
+          <Button
+            onClick={() => authService.send("SELECT_POKO")}
+            disabled={true}
+          >
             Pay with Cash
           </Button>
         </OuterPanel>
