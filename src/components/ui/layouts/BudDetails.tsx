@@ -61,15 +61,18 @@ export const BudDetails: React.FC<Props> = ({
           )}
         >
           <div className="flex flex-wrap">
-            {Object.values(bud).map((property, i) => (
-              <Label
-                key={`bud-${i}`}
-                type="info"
-                className="whitespace-nowrap mr-2 mb-1"
-              >
-                {property}
-              </Label>
-            ))}
+            {Object.values(bud)
+              // Filter out "No Aura" and "No Ears"
+              .filter((property) => !String(property).startsWith("No "))
+              .map((property, i) => (
+                <Label
+                  key={`bud-${i}`}
+                  type="info"
+                  className="whitespace-nowrap mr-2 mb-1"
+                >
+                  {property}
+                </Label>
+              ))}
           </div>
           <a
             href={`https://opensea.io/collection/sunflower-land-buds/${budId}`}
