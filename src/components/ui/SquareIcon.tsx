@@ -6,12 +6,13 @@ interface Props {
   icon: string;
   width: number;
   className?: string;
+  padding?: number;
 }
 
-const getImage = (icon: string, iconWidth: number) => (
+const getImage = (icon: string, iconWidth: number, padding = 0) => (
   <img
     src={icon}
-    className="relative"
+    className={`relative`}
     alt="item"
     style={{
       opacity: "0",
@@ -23,7 +24,7 @@ const getImage = (icon: string, iconWidth: number) => (
       if (!width || !height) {
         return;
       }
-      const maxDimension = Math.max(width, height);
+      const maxDimension = Math.max(width - padding, height);
 
       // image scale to match pixel size or fit inner box
       let scale = 1;
@@ -50,9 +51,14 @@ const getImage = (icon: string, iconWidth: number) => (
   />
 );
 
-export const SquareIcon: React.FC<Props> = ({ icon, width, className }) => {
+export const SquareIcon: React.FC<Props> = ({
+  icon,
+  width,
+  className,
+  padding = 0,
+}) => {
   const [item, setItem] = useState<JSX.Element | undefined>(
-    getImage(icon, width)
+    getImage(icon, width, padding)
   );
 
   // refreshes image when icon is changed to avoid flickering when resizing image
@@ -66,7 +72,7 @@ export const SquareIcon: React.FC<Props> = ({ icon, width, className }) => {
     if (item) {
       return;
     }
-    setItem(getImage(icon, width));
+    setItem(getImage(icon, width, padding));
   }, [item]);
 
   return (

@@ -3,7 +3,7 @@ import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { CollectibleName, getKeys } from "features/game/types/craftables";
-import { getChestItems } from "./utils/inventory";
+import { getChestBuds, getChestItems } from "./utils/inventory";
 import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import chest from "assets/npcs/synced.gif";
@@ -23,6 +23,10 @@ import smoothieIcon from "assets/buildings/smoothie_shack_icon.png";
 import toolshedIcon from "assets/buildings/toolshed_icon.png";
 import warehouseIcon from "assets/buildings/warehouse_icon.png";
 import { BudName, isBudName } from "features/game/types/buds";
+import { CONFIG } from "lib/config";
+import { BudDetails } from "components/ui/layouts/BudDetails";
+
+const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
 export const ITEM_ICONS: Partial<Record<InventoryItemName, string>> = {
   Market: marketIcon,
@@ -60,7 +64,7 @@ export const Chest: React.FC<Props> = ({
 }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
   // TODO filter placed buds
-  const buds = state.buds ?? {};
+  const buds = getChestBuds(state);
   const chestMap = getChestItems(state);
 
   const collectibles = getKeys(chestMap)
@@ -133,7 +137,22 @@ export const Chest: React.FC<Props> = ({
 
   const PanelContent: React.FC = () => {
     if (isBudName(selectedChestItem)) {
-      return <Button onClick={handlePlace}>Place</Button>;
+      const budId = Number(selected.split("-")[1]);
+      const bud = buds[budId];
+
+      return (
+        <BudDetails
+          bud={bud}
+          budId={budId}
+          actionView={
+            onPlace && (
+              <Button onClick={handlePlace} disabled={isSaving}>
+                {isSaving ? "Saving..." : "Place on map"}
+              </Button>
+            )
+          }
+        />
+      );
     }
 
     return (
@@ -164,17 +183,17 @@ export const Chest: React.FC<Props> = ({
       panel={<PanelContent />}
       content={
         <>
-          {Object.values(buds).length && (
+          {!!Object.values(buds).length && (
             <div className="flex flex-col pl-2 mb-2 w-full" key="Buds">
               <p className="mb-2">Buds</p>
               <div className="flex mb-2 flex-wrap -ml-1.5">
                 {getKeys(buds).map((budId) => (
                   <Box
-                    // TODO Select Buds
                     isSelected={selectedChestItem === `Bud-${budId}`}
                     key={`Bud-${budId}`}
                     onClick={() => handleItemClick(`Bud-${budId}`)}
-                    // image={ITEM_DETAILS[ITEM_IDS[budId]].image}
+                    image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
+                    iconClassName="scale-[1.8] origin-bottom absolute"
                   />
                 ))}
               </div>

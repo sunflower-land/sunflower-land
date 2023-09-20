@@ -30,6 +30,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { createPortal } from "react-dom";
 import { RemoveKuebikoModal } from "../collectibles/RemoveKuebikoModal";
 import { hasRemoveRestriction } from "features/game/types/removeables";
+import { BudName } from "features/game/types/buds";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -184,6 +185,13 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
                     multiple: true,
                   });
                 }}
+                onPlaceBud={(selected) => {
+                  console.log("HIIII");
+                  child.send("SELECT", {
+                    action: "bud.placed",
+                    placeable: selected,
+                  });
+                }}
               />
             </div>
           </>
@@ -271,7 +279,8 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
 
 const Chest: React.FC<{
   onPlaceChestItem: (item: InventoryItemName) => void;
-}> = ({ onPlaceChestItem }) => {
+  onPlaceBud: (bud: BudName) => void;
+}> = ({ onPlaceChestItem, onPlaceBud }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -322,6 +331,7 @@ const Chest: React.FC<{
         onHide={() => setShowChest(false)}
         show={showChest}
         onPlace={onPlaceChestItem}
+        onPlaceBud={onPlaceBud}
       />
     </>
   );

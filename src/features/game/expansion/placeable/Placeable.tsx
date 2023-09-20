@@ -26,8 +26,9 @@ import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource
 import { getGameGrid } from "./lib/makeGrid";
 import { READONLY_BUILDINGS } from "features/island/buildings/components/building/BuildingComponents";
 import { ZoomContext } from "components/ZoomProvider";
+import { isBudName } from "features/game/types/buds";
 
-export const PLACEABLES: Record<PlaceableName, React.FC<any>> = {
+export const PLACEABLES: Record<PlaceableName | "Bud", React.FC<any>> = {
   Chicken: () => <Chicken x={0} y={0} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
   ...READONLY_COLLECTIBLES,
   ...READONLY_RESOURCE_COMPONENTS,
@@ -106,7 +107,9 @@ export const Placeable: React.FC = () => {
 
   let dimensions = { width: 0, height: 0 };
 
-  if (placeable) {
+  if (isBudName(placeable)) {
+    dimensions = { width: 1, height: 1 };
+  } else if (placeable) {
     dimensions = {
       ...BUILDINGS_DIMENSIONS,
       ...COLLECTIBLES_DIMENSIONS,
@@ -145,7 +148,9 @@ export const Placeable: React.FC = () => {
     return null;
   }
 
-  const Collectible = PLACEABLES[placeable];
+  const Collectible = isBudName(placeable)
+    ? PLACEABLES["Bud"]
+    : PLACEABLES[placeable];
 
   return (
     <>
@@ -227,7 +232,11 @@ export const Placeable: React.FC = () => {
                 height: `${dimensions.height * GRID_WIDTH_PX}px`,
               }}
             >
-              <Collectible grid={grid} coordinates={coordinates} />
+              <Collectible
+                grid={grid}
+                coordinates={coordinates}
+                id={isBudName(placeable) ? placeable.split("-")[1] : undefined}
+              />
             </div>
           </div>
         </Draggable>

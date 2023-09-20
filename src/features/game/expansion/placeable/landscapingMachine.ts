@@ -30,7 +30,7 @@ export const RESOURCE_PLACE_EVENTS: Partial<
 };
 
 export function placeEvent(
-  name: InventoryItemName | BudName
+  name: InventoryItemName
 ): GameEventName<PlacementEvent> {
   if (name in RESOURCES) {
     return RESOURCE_PLACE_EVENTS[
@@ -42,10 +42,6 @@ export function placeEvent(
     return "building.placed";
   }
 
-  if (isBudName(name)) {
-    return "bud.placed";
-  }
-
   return "collectible.placed";
 }
 
@@ -53,7 +49,7 @@ export interface Context {
   action?: GameEventName<PlacementEvent>;
   coordinates: Coordinates;
   collisionDetected: boolean;
-  placeable?: BuildingName | CollectibleName | "Chicken";
+  placeable?: BuildingName | CollectibleName | "Chicken" | BudName;
 
   multiple?: boolean;
 
@@ -300,15 +296,14 @@ export const landscapingMachine = createMachine<
                   return !!context.multiple && !!e.nextOrigin;
                 },
                 actions: [
-                  sendParent(
-                    ({ placeable, action, coordinates: { x, y } }) =>
-                      ({
-                        type: action,
-                        name: placeable,
-                        coordinates: { x, y },
-                        id: uuidv4().slice(0, 8),
-                      } as PlacementEvent)
-                  ),
+                  sendParent(({ placeable, action, coordinates: { x, y } }) => {
+                    return {
+                      type: action,
+                      name: placeable,
+                      coordinates: { x, y },
+                      id: uuidv4().slice(0, 8),
+                    } as PlacementEvent;
+                  }),
                   assign({
                     collisionDetected: (_, event) => !!event.nextWillCollide,
                     origin: (_, event) => event.nextOrigin ?? { x: 0, y: 0 },
@@ -325,15 +320,14 @@ export const landscapingMachine = createMachine<
                   context.action === "collectible.crafted" ||
                   context.action === "building.constructed",
                 actions: [
-                  sendParent(
-                    ({ placeable, action, coordinates: { x, y } }) =>
-                      ({
-                        type: action,
-                        name: placeable,
-                        coordinates: { x, y },
-                        id: uuidv4().slice(0, 8),
-                      } as PlacementEvent)
-                  ),
+                  sendParent(({ placeable, action, coordinates: { x, y } }) => {
+                    return {
+                      type: action,
+                      name: placeable,
+                      coordinates: { x, y },
+                      id: uuidv4().slice(0, 8),
+                    } as PlacementEvent;
+                  }),
                   assign({
                     placeable: (_) => undefined,
                   }),
@@ -342,15 +336,21 @@ export const landscapingMachine = createMachine<
               {
                 target: ["#saving.done", "idle"],
                 actions: [
-                  sendParent(
-                    ({ placeable, action, coordinates: { x, y } }) =>
-                      ({
+                  sendParent(({ placeable, action, coordinates: { x, y } }) => {
+                    if (isBudName(placeable)) {
+                      return {
                         type: action,
-                        name: placeable,
                         coordinates: { x, y },
-                        id: uuidv4().slice(0, 8),
-                      } as PlacementEvent)
-                  ),
+                        id: placeable.split("-")[1],
+                      } as PlacementEvent;
+                    }
+                    return {
+                      type: action,
+                      name: placeable,
+                      coordinates: { x, y },
+                      id: uuidv4().slice(0, 8),
+                    } as PlacementEvent;
+                  }),
                   assign({
                     placeable: (_) => undefined,
                   }),

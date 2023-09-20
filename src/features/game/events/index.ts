@@ -168,6 +168,7 @@ import { StartPotionAction, startPotion } from "./landExpansion/startPotion";
 import { receiveTrade, ReceiveTradeAction } from "./landExpansion/receiveTrade";
 import { listTrade, ListTradeAction } from "./landExpansion/listTrade";
 import { cancelTrade, CancelTradeAction } from "./landExpansion/cancelTrade";
+import { placeBud, PlaceBudAction } from "./landExpansion/placeBud";
 
 export type PlayingEvent =
   | TradeAction
@@ -364,6 +365,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "building.removed": removeBuilding,
   "collectible.removed": removeCollectible,
   "chicken.removed": removeChicken,
+  "bud.placed": placeBud,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };
