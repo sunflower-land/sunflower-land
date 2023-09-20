@@ -221,7 +221,9 @@ Experiment with different recipes, unlock new buildings, and discover the joy of
         text: `
     Fruit plays a significant role in Sunflower Land as a valuable resource that can be sold for SFL or utilized in various recipes and crafting. Unlike crops, fruit patches have the unique ability to replenish multiple times after each harvest, providing a sustainable source of fruit for players. 
     
-    To plant fruit, you'll need to acquire larger fruit patches, which become available on the 9-10th expansion of your farm. By cultivating fruit and incorporating it into your farming strategies, you can maximize your profits, create delicious recipes, and unlock new possibilities in Sunflower Land.`,
+    To plant fruit, you'll need to acquire larger fruit patches, which become available on the 9-10th expansion of your farm. 
+    
+    By cultivating fruit and incorporating it into your farming strategies, you can maximize your profits, create delicious recipes, and unlock new possibilities in Sunflower Land.`,
       },
     ],
     docs: "https://docs.sunflower-land.com/player-guides/planting-and-harvesting#fruit",
