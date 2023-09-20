@@ -64,7 +64,7 @@ export const BudDetails: React.FC<Props> = ({
             {Object.values(bud).map((property, i) => (
               <Label
                 key={`bud-${i}`}
-                type="default"
+                type="info"
                 className="whitespace-nowrap mr-2 mb-1"
               >
                 {property}
