@@ -76,9 +76,8 @@ export const Chest: React.FC<Props> = ({
     if (isBudName(selected)) {
       const budId = Number(selected.split("-")[1]);
       const bud = buds[budId];
-
       if (bud) return selected;
-      if (buds[0]) return `Bud-${buds[0]}` as BudName;
+      if (getKeys(buds)[0]) return `Bud-${getKeys(buds)[0]}` as BudName;
       return getKeys(collectibles)[0];
     }
 
@@ -136,7 +135,7 @@ export const Chest: React.FC<Props> = ({
 
   const PanelContent: React.FC = () => {
     if (isBudName(selectedChestItem)) {
-      const budId = Number(selected.split("-")[1]);
+      const budId = Number(selectedChestItem.split("-")[1]);
       const bud = buds[budId];
 
       return (
