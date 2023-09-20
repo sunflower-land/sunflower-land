@@ -14,6 +14,7 @@ import { wallet } from "lib/blockchain/wallet";
 import { buyBlockBucks } from "features/game/actions/buyBlockBucks";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { randomID } from "lib/utils/random";
+import { Label } from "components/ui/Label";
 
 interface Props {
   closeable: boolean;
@@ -240,7 +241,12 @@ export const BlockBucksModal: React.FC<Props> = ({
                   }}
                 />
               </div>
-              <Button onClick={() => onCreditCardBuy()}>Pay with Cash</Button>
+              <Label type="info" className="mb-1">
+                Temporarily Disabled
+              </Label>
+              <Button onClick={() => onCreditCardBuy()} disabled={true}>
+                Pay with Cash
+              </Button>
             </OuterPanel>
             <OuterPanel className="w-full flex flex-col items-center relative">
               <div className="flex w-full h-full items-center justify-center py-4 px-2">

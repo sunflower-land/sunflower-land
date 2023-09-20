@@ -97,6 +97,7 @@ type DepositEvent = {
   itemAmounts: string[];
   wearableIds: number[];
   wearableAmounts: number[];
+  budIds: number[];
 };
 
 export type BlockchainEvent =
@@ -524,6 +525,7 @@ export function startGoblinVillage(authContext: AuthContext) {
                 itemAmounts: (event as DepositEvent).itemAmounts,
                 wearableAmounts: (event as DepositEvent).wearableAmounts,
                 wearableIds: (event as DepositEvent).wearableIds,
+                budIds: (event as DepositEvent).budIds,
               });
             },
             onDone: {
