@@ -100,6 +100,7 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     gold,
     iron,
     fruitPatches,
+    buds,
   } = state;
 
   const placed = {
@@ -135,7 +136,20 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     width: item.width,
   }));
 
-  const boundingBoxes = [...placeableBounds, ...resourceBoundingBoxes];
+  const budsBoundingBox = Object.values(buds ?? {})
+    .filter((bud) => !!bud.coordinates)
+    .map((item) => ({
+      x: item.coordinates!.x,
+      y: item.coordinates!.y,
+      height: 1,
+      width: 1,
+    }));
+
+  const boundingBoxes = [
+    ...placeableBounds,
+    ...resourceBoundingBoxes,
+    ...budsBoundingBox,
+  ];
 
   return boundingBoxes.some((resourceBoundingBox) =>
     isOverlapping(boundingBox, resourceBoundingBox)

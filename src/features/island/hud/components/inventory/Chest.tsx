@@ -63,7 +63,6 @@ export const Chest: React.FC<Props> = ({
   onDepositClick,
 }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
-  // TODO filter placed buds
   const buds = getChestBuds(state);
   const chestMap = getChestItems(state);
 

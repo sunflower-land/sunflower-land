@@ -33,7 +33,7 @@ import { useFirstRender } from "lib/utils/hooks/useFirstRender";
 import { MUSHROOM_DIMENSIONS } from "../types/resources";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import ocean from "assets/decorations/ocean.webp";
-import { Bud } from "features/island/collectibles/components/Bud";
+import { Bud } from "features/island/buds/Bud";
 
 export const LAND_WIDTH = 6;
 
@@ -351,7 +351,7 @@ const getIslandElements = ({
 
             return (
               <MapPlacement key={`bud-${id}`} x={x} y={y} height={1} width={1}>
-                <Bud id={String(id)} />
+                <Bud id={String(id)} x={x} y={y} />
               </MapPlacement>
             );
           })

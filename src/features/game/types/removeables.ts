@@ -266,10 +266,14 @@ export const REMOVAL_RESTRICTIONS: Partial<
 };
 
 export const hasRemoveRestriction = (
-  name: InventoryItemName,
+  name: InventoryItemName | "Bud",
   id: string,
   state: GameState
 ): Restriction => {
+  if (name === "Bud") {
+    return [false, "No restriction"];
+  }
+
   if (name === "Genie Lamp") {
     const collectibleGroup = state.collectibles[name];
     if (!collectibleGroup) return [true, "Genie Lamp rubbed"];

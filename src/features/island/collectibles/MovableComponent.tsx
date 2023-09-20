@@ -47,7 +47,9 @@ export const RESOURCE_MOVE_EVENTS: Record<
   Boulder: "tree.moved",
 };
 
-function getMoveAction(name: InventoryItemName): GameEventName<PlacementEvent> {
+function getMoveAction(
+  name: InventoryItemName | "Bud"
+): GameEventName<PlacementEvent> {
   if (name in BUILDINGS_DIMENSIONS) {
     return "building.moved";
   }
@@ -64,11 +66,15 @@ function getMoveAction(name: InventoryItemName): GameEventName<PlacementEvent> {
     return "chicken.moved";
   }
 
+  if (name === "Bud") {
+    return "bud.moved";
+  }
+
   throw new Error("No matching move event");
 }
 
 export function getRemoveAction(
-  name: InventoryItemName
+  name: InventoryItemName | "Bud"
 ): GameEventName<PlacementEvent> | null {
   if (name in BUILDINGS_DIMENSIONS) {
     return "building.removed";
@@ -86,11 +92,15 @@ export function getRemoveAction(
     return "collectible.removed";
   }
 
+  if (name === "Bud") {
+    return "bud.removed";
+  }
+
   return null;
 }
 
 export interface MovableProps {
-  name: CollectibleName | BuildingName | "Chicken";
+  name: CollectibleName | BuildingName | "Chicken" | "Bud";
   id: string;
   x: number;
   y: number;
@@ -181,6 +191,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
     ...BUILDINGS_DIMENSIONS,
     ...COLLECTIBLES_DIMENSIONS,
     ...ANIMAL_DIMENSIONS,
+    ...{ Bud: { width: 1, height: 1 } },
   }[name];
 
   const detect = ({ x, y }: Coordinates) => {

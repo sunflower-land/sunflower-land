@@ -16,7 +16,7 @@ export function removePlaceable({
 }: {
   state: GameState;
   id: string;
-  name: PlaceableName;
+  name: PlaceableName | "Bud";
 }) {
   const game = cloneDeep(state);
   if (name === "Crop Plot") {
@@ -65,6 +65,11 @@ export function removePlaceable({
 
   if (name === "Chicken") {
     delete game.chickens[id];
+    return game;
+  }
+
+  if (name === "Bud") {
+    delete game.buds?.[Number(id)].coordinates;
     return game;
   }
 
