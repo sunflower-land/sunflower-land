@@ -3,7 +3,7 @@ import cloneDeep from "lodash.clonedeep";
 
 export type PlaceBudAction = {
   type: "bud.placed";
-  id: number;
+  id: string;
   coordinates: {
     x: number;
     y: number;
@@ -24,14 +24,14 @@ export function placeBud({
   const copy = cloneDeep(state);
 
   console.log({ action });
-  const bud = copy.buds?.[action.id];
+  const bud = copy.buds?.[Number(action.id)];
   console.log({ bud });
 
   if (!bud) throw new Error("This bud does not exist");
 
   if (bud.coordinates) throw new Error("This bud is already placed");
 
-  copy.buds[action.id].coordinates = action.coordinates;
+  copy.buds[Number(action.id)].coordinates = action.coordinates;
 
   return copy;
 }

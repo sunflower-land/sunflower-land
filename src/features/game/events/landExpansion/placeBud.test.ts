@@ -18,7 +18,7 @@ describe("Place Bud", () => {
           buds: {},
         },
         action: {
-          id: 1,
+          id: "1",
           type: "bud.placed",
           coordinates: {
             x: 0,
@@ -52,7 +52,7 @@ describe("Place Bud", () => {
           },
         },
         action: {
-          id: 1,
+          id: "1",
           type: "bud.placed",
           coordinates: {
             x: 0,
@@ -81,7 +81,7 @@ describe("Place Bud", () => {
         },
       },
       action: {
-        id: 1,
+        id: "1",
         type: "bud.placed",
         coordinates: {
           x: 0,
