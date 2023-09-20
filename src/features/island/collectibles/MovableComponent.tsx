@@ -280,8 +280,8 @@ export const MoveableComponent: React.FC<MovableProps> = ({
 
         if (!collisionDetected) {
           gameService.send(getMoveAction(name), {
-            // Don't send name for resource events
-            ...(name in RESOURCE_MOVE_EVENTS ? {} : { name }),
+            // Don't send name for resource events and Bud events
+            ...(name in RESOURCE_MOVE_EVENTS || name === "Bud" ? {} : { name }),
             coordinates: {
               x: coordinatesX + xDiff,
               y: coordinatesY + yDiff,

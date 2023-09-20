@@ -17,6 +17,7 @@ import {
 import { RESOURCES } from "features/game/types/resources";
 import { ResourceName } from "features/game/types/resources";
 import { BudName, isBudName } from "features/game/types/buds";
+import { RESOURCE_MOVE_EVENTS } from "features/island/collectibles/MovableComponent";
 
 export const RESOURCE_PLACE_EVENTS: Partial<
   Record<ResourceName, GameEventName<PlacementEvent>>
@@ -261,7 +262,10 @@ export const landscapingMachine = createMachine<
                   (_context, event: RemoveEvent) =>
                     ({
                       type: event.event,
-                      name: event.name,
+                      ...(event.name in RESOURCE_MOVE_EVENTS ||
+                      event.name === "Bud"
+                        ? {}
+                        : { name: event.name }),
                       id: event.id,
                     } as PlacementEvent)
                 ),

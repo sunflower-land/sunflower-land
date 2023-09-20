@@ -186,7 +186,6 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
                   });
                 }}
                 onPlaceBud={(selected) => {
-                  console.log("HIIII");
                   child.send("SELECT", {
                     action: "bud.placed",
                     placeable: selected,
