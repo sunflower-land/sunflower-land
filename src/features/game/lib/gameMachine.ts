@@ -60,7 +60,6 @@ import {
   getBudsRead,
   getGameRulesLastRead,
   getIntroductionRead,
-  getSeasonPassRead,
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
@@ -681,14 +680,10 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
-
             {
               target: "specialOffer",
-              cond: (context) =>
-                !getSeasonPassRead() &&
-                Date.now() < new Date("2023-08-01").getTime() &&
-                !context.state.inventory["Witches' Eve Banner"] &&
-                (context.state.bumpkin?.experience ?? 0) > 0,
+              // Add special offer conditions here
+              cond: (context) => false,
             },
             {
               // auctionResults needs to be the last check as it transitions directly

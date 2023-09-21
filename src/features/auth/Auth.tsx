@@ -24,6 +24,7 @@ import classNames from "classnames";
 import { SignIn } from "./components/SignIn";
 import { CreateWallet } from "./components/CreateWallet";
 import { BuyWithPoko } from "./components/BuyWithPoko";
+import { BudCountdown } from "./components/BudCountdown";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -42,66 +43,73 @@ export const Auth: React.FC = () => {
     authState.matches("setupContracts");
 
   return (
-    <Modal
-      centered
-      show={
-        !authState.matches({ connected: "authorised" }) &&
-        !authState.matches("visiting")
-      }
-      backdrop={false}
-    >
-      <div
-        className={classNames(
-          "relative flex items-center justify-center mb-4 w-full -mt-12 max-w-xl transition-opacity duration-500 opacity-100"
-        )}
+    <>
+      <Modal
+        centered
+        show={
+          !authState.matches({ connected: "authorised" }) &&
+          !authState.matches("visiting")
+        }
+        backdrop={false}
       >
-        <div className="w-[90%] relative">
-          <img
-            src={sparkle}
-            className="absolute animate-pulse"
-            style={{
-              width: `${PIXEL_SCALE * 8}px`,
-              top: `${PIXEL_SCALE * 0}px`,
-              right: `${PIXEL_SCALE * 0}px`,
-            }}
-          />
-          <img id="logo" src={logo} className="w-full" />
+        <div
+          className={classNames(
+            "relative flex items-center justify-center mb-4 w-full -mt-12 max-w-xl transition-opacity duration-500 opacity-100"
+          )}
+        >
+          <div className="w-[90%] relative">
+            <img
+              src={sparkle}
+              className="absolute animate-pulse"
+              style={{
+                width: `${PIXEL_SCALE * 8}px`,
+                top: `${PIXEL_SCALE * 0}px`,
+                right: `${PIXEL_SCALE * 0}px`,
+              }}
+            />
+            <img id="logo" src={logo} className="w-full" />
+          </div>
         </div>
-      </div>
-      <Panel className="pb-1">
-        {loading && <Loading />}
-        {authState.matches("welcome") && <Welcome />}
-        {authState.matches("createWallet") && <CreateWallet />}
-        {authState.matches({ connected: "offer" }) && <Offer />}
-        {/* {authState.matches({ connected: "selectPaymentMethod" }) && (
+        <Panel className="pb-1">
+          {loading && <Loading />}
+          {authState.matches("welcome") && <Welcome />}
+          {authState.matches("createWallet") && <CreateWallet />}
+          {authState.matches({ connected: "offer" }) && <Offer />}
+          {/* {authState.matches({ connected: "selectPaymentMethod" }) && (
           <SelectPaymentMethod />
         )} */}
-        {authState.matches({ connected: "creatingPokoFarm" }) && (
-          <BuyWithPoko />
-        )}
-        {(authState.matches("idle") || authState.matches("signIn")) && (
-          <SignIn />
-        )}
-        {connecting && <Loading text="Connecting" />}
-        {authState.matches("connectedToWallet") && <ConnectedToWallet />}
-        {authState.matches("signing") && <Signing />}
-        {authState.matches("verifying") && <Verifying />}
-        {authState.matches("oauthorising") && <Loading />}
-        {authState.matches({ connected: "funding" }) && <CreateFarm />}
-        {authState.matches({ connected: "countdown" }) && <Countdown />}
-        {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
-        {(authState.matches({ connected: "blacklisted" }) ||
-          authState.matches("blacklisted")) && (
-          <Blacklisted
-            verificationUrl={authState.context.verificationUrl}
-            blacklistStatus={authState.context.blacklistStatus}
-          />
-        )}
-        {authState.matches("exploring") && <VisitFarm />}
-        {authState.matches("unauthorised") && (
-          <ErrorMessage errorCode={authState.context.errorCode as ErrorCode} />
-        )}
-      </Panel>
-    </Modal>
+          {authState.matches({ connected: "creatingPokoFarm" }) && (
+            <BuyWithPoko />
+          )}
+          {(authState.matches("idle") || authState.matches("signIn")) && (
+            <SignIn />
+          )}
+          {connecting && <Loading text="Connecting" />}
+          {authState.matches("connectedToWallet") && <ConnectedToWallet />}
+          {authState.matches("signing") && <Signing />}
+          {authState.matches("verifying") && <Verifying />}
+          {authState.matches("oauthorising") && <Loading />}
+          {authState.matches({ connected: "funding" }) && <CreateFarm />}
+          {authState.matches({ connected: "countdown" }) && <Countdown />}
+          {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
+          {(authState.matches({ connected: "blacklisted" }) ||
+            authState.matches("blacklisted")) && (
+            <Blacklisted
+              verificationUrl={authState.context.verificationUrl}
+              blacklistStatus={authState.context.blacklistStatus}
+            />
+          )}
+          {authState.matches("exploring") && <VisitFarm />}
+          {authState.matches("unauthorised") && (
+            <ErrorMessage
+              errorCode={authState.context.errorCode as ErrorCode}
+            />
+          )}
+        </Panel>
+        {(authState.matches("welcome") ||
+          authState.matches("idle") ||
+          authState.matches("signIn")) && <BudCountdown />}
+      </Modal>
+    </>
   );
 };
