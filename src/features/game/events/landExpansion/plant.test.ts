@@ -1546,6 +1546,42 @@ describe("getCropTime", () => {
     expect(time).toEqual(baseHarvestSeconds * 0.75);
   });
 
+  it("applies the eggplant boost when wearing the onesie", () => {
+    const amount = getCropYieldAmount({
+      crop: "Eggplant",
+      inventory: {},
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          onesie: "Eggplant Onesie",
+        },
+      },
+      collectibles: {},
+      plot,
+    });
+
+    expect(amount).toEqual(1.1);
+  });
+
+  it("applies the corn boost when wearing the corn onesie", () => {
+    const amount = getCropYieldAmount({
+      crop: "Corn",
+      inventory: {},
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          onesie: "Corn Onesie",
+        },
+      },
+      collectibles: {},
+      plot,
+    });
+
+    expect(amount).toEqual(1.1);
+  });
+
   it("applies a 25% speed boost with Kernaldo placed", () => {
     const baseHarvestSeconds = CROPS()["Corn"].harvestSeconds;
     const time = getCropTime(
