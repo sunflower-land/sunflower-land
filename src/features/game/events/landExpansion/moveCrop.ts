@@ -12,7 +12,6 @@ import cloneDeep from "lodash.clonedeep";
 import { isReadyToHarvest } from "./harvest";
 import { CROPS } from "features/game/types/crops";
 import { isBasicCrop, isMediumCrop, isAdvancedCrop } from "./harvest";
-import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 
 export enum MOVE_CROP_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -125,70 +124,6 @@ export function isLocked(
     };
 
     if (isWithinAOE("Sir Goldensnout", itemPosition, plotPosition)) {
-      return true;
-    }
-  }
-
-  if (buildings["Basic Composter"]?.[0]) {
-    const basicComposter = buildings["Basic Composter"][0];
-
-    const isComposting =
-      basicComposter.producing &&
-      basicComposter.producing?.readyAt > Date.now();
-
-    const composterCoordinates = basicComposter.coordinates;
-    const composterDimensions = BUILDINGS_DIMENSIONS["Basic Composter"];
-
-    const composterPosition: Position = {
-      x: composterCoordinates.x,
-      y: composterCoordinates.y,
-      height: composterDimensions.height,
-      width: composterDimensions.width,
-    };
-
-    const plotPosition: Position = {
-      x: plot?.x,
-      y: plot?.y,
-      height: plot.height,
-      width: plot.width,
-    };
-
-    if (
-      isComposting &&
-      isWithinAOE("Basic Composter", composterPosition, plotPosition)
-    ) {
-      return true;
-    }
-  }
-
-  if (buildings["Expert Composter"]?.[0]) {
-    const expertComposter = buildings["Expert Composter"][0];
-
-    const isComposting =
-      expertComposter.producing &&
-      expertComposter.producing?.readyAt > Date.now();
-
-    const composterCoordinates = expertComposter.coordinates;
-    const composterDimensions = BUILDINGS_DIMENSIONS["Expert Composter"];
-
-    const composterPosition: Position = {
-      x: composterCoordinates.x,
-      y: composterCoordinates.y,
-      height: composterDimensions.height,
-      width: composterDimensions.width,
-    };
-
-    const plotPosition: Position = {
-      x: plot?.x,
-      y: plot?.y,
-      height: plot.height,
-      width: plot.width,
-    };
-
-    if (
-      isComposting &&
-      isWithinAOE("Expert Composter", composterPosition, plotPosition)
-    ) {
       return true;
     }
   }

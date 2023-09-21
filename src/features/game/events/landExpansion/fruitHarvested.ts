@@ -1,10 +1,7 @@
 import Decimal from "decimal.js-light";
-import { isWithinAOE } from "features/game/expansion/placeable/lib/collisionDetection";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { Equipped } from "features/game/types/bumpkin";
-import { isBuildingReady } from "features/game/lib/constants";
-import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import {
   BumpkinActivityName,
   trackActivity,
@@ -18,10 +15,8 @@ import {
 import {
   Buildings,
   Collectibles,
-  FruitPatch,
   GameState,
   PlantedFruit,
-  Position,
 } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { getTimeLeft } from "lib/utils/time";

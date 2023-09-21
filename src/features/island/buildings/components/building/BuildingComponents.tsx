@@ -12,7 +12,6 @@ import { Bakery } from "./bakery/Bakery";
 
 import { Kitchen } from "./kitchen/Kitchen";
 import { Deli } from "./deli/Deli";
-import lightning from "assets/icons/lightning.png";
 
 import { SmoothieShack } from "./smoothieShack/SmoothieShack";
 import { Warehouse } from "./warehouse/Warehouse";
@@ -193,119 +192,35 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
   ),
 
   "Basic Composter": () => (
-    <div
-      className="absolute bottom-0"
+    <img
+      src={ITEM_DETAILS["Basic Composter"].image}
+      className="w-full absolute"
       style={{
         width: `${PIXEL_SCALE * 24}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 2}px`,
       }}
-    >
-      <img
-        src={ITEM_DETAILS["Basic Composter"].image}
-        className="w-full absolute"
-        style={{
-          width: `${PIXEL_SCALE * 24}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * 2}px`,
-        }}
-      />
-      <div
-        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
-        style={{
-          width: `${PIXEL_SCALE * 16 * 4}px`,
-          height: `${PIXEL_SCALE * 16 * 4}px`,
-          left: `${PIXEL_SCALE * -17.8}px`,
-          top: `${PIXEL_SCALE * -47.7}px`,
-        }}
-      >
-        <img
-          src={lightning}
-          className="absolute bottom-0 opacity-50 animate-pulsate"
-          style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            left: `${PIXEL_SCALE * 27}px`,
-            top: `${PIXEL_SCALE * 24}px`,
-          }}
-        />
-      </div>
-    </div>
+    />
   ),
   "Advanced Composter": () => (
-    <div
-      className="absolute bottom-0"
+    <img
+      src={ITEM_DETAILS["Advanced Composter"].image}
+      className="w-full absolute"
       style={{
         width: `${PIXEL_SCALE * 27}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 2}px`,
       }}
-    >
-      <img
-        src={ITEM_DETAILS["Advanced Composter"].image}
-        className="w-full absolute"
-        style={{
-          width: `${PIXEL_SCALE * 27}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
-        }}
-      />
-      <div
-        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
-        style={{
-          width: `${PIXEL_SCALE * 16 * 6}px`,
-          height: `${PIXEL_SCALE * 16 * 6}px`,
-          left: `${PIXEL_SCALE * -33.8}px`,
-          top: `${PIXEL_SCALE * -63.7}px`,
-        }}
-      >
-        <img
-          src={lightning}
-          className="absolute bottom-0 opacity-50 animate-pulsate"
-          style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            left: `${PIXEL_SCALE * 43}px`,
-            top: `${PIXEL_SCALE * 40}px`,
-          }}
-        />
-      </div>
-    </div>
+    />
   ),
   "Expert Composter": () => (
-    <div
-      className="absolute bottom-0"
+    <img
+      src={ITEM_DETAILS["Expert Composter"].image}
+      className="w-full absolute"
       style={{
         width: `${PIXEL_SCALE * 34}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * -3}px`,
       }}
-    >
-      <img
-        src={ITEM_DETAILS["Expert Composter"].image}
-        className="w-full absolute"
-        style={{
-          width: `${PIXEL_SCALE * 34}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * -3}px`,
-        }}
-      />
-      <div
-        className="absolute bottom-0 bg-blue-300 bg-opacity-50 animate-pulse z-50 pointer-events-none"
-        style={{
-          width: `${PIXEL_SCALE * 16 * 4}px`,
-          height: `${PIXEL_SCALE * 16 * 4}px`,
-          left: `${PIXEL_SCALE * -17.8}px`,
-          top: `${PIXEL_SCALE * -47.7}px`,
-        }}
-      >
-        <img
-          src={lightning}
-          className="absolute bottom-0 opacity-50 animate-pulsate"
-          style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            left: `${PIXEL_SCALE * 27}px`,
-            top: `${PIXEL_SCALE * 24}px`,
-          }}
-        />
-      </div>
-    </div>
+    />
   ),
 };

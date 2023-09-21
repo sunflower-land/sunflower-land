@@ -20,10 +20,7 @@ import {
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { setPrecision } from "lib/utils/formatNumber";
 import { SEEDS } from "features/game/types/seeds";
-import {
-  BuildingName,
-  BUILDINGS_DIMENSIONS,
-} from "features/game/types/buildings";
+import { BuildingName } from "features/game/types/buildings";
 import { isWithinAOE } from "features/game/expansion/placeable/lib/collisionDetection";
 import {
   isBasicCrop,
@@ -31,9 +28,12 @@ import {
   isAdvancedCrop,
   isOvernightCrop,
 } from "./harvest";
+<<<<<<< HEAD
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { getBudSpeedBoosts } from "features/game/lib/getBudSpeedBoosts";
 import { isBuildingReady } from "features/game/lib/constants";
+=======
+>>>>>>> 21b8c5110 ([FEAT] remove AoE)
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -357,29 +357,6 @@ export function getCropYieldAmount({
 
     if (isWithinAOE("Sir Goldensnout", position, plot)) {
       amount = amount + 0.5;
-    }
-  }
-
-  if (
-    buildings["Basic Composter"]?.[0] &&
-    isBuildingReady(buildings["Basic Composter"])
-  ) {
-    const basicComposter = buildings["Basic Composter"][0];
-
-    if (!basicComposter.producing) return amount;
-
-    const isComposting = basicComposter.producing?.readyAt > Date.now();
-
-    if (!isComposting) return amount;
-
-    const position: Position = {
-      x: basicComposter.coordinates.x,
-      y: basicComposter.coordinates.y,
-      ...BUILDINGS_DIMENSIONS["Basic Composter"],
-    };
-
-    if (isWithinAOE("Basic Composter", position, plot)) {
-      amount = amount + 0.2;
     }
   }
 

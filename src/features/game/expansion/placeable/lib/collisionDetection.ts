@@ -330,10 +330,7 @@ export type AOEItemName =
   | "Scary Mike"
   | "Laurie the Chuckle Crow"
   | "Queen Cornelia"
-  | "Gnome"
-  | "Basic Composter"
-  | "Advanced Composter"
-  | "Expert Composter";
+  | "Gnome";
 
 /**
  * Detects whether an item is within the area of effect of a placeable with AOE.
@@ -389,20 +386,12 @@ export function isWithinAOE(
       );
     }
     case "Sir Goldensnout":
-    case "Basic Composter":
-    case "Expert Composter":
     case "Bale": {
       const dxRect = effectItem.x - x;
       const dyRect = effectItem.y - y;
       return (
         dxRect >= -1 && dxRect <= width && dyRect <= 1 && dyRect >= -height
       );
-    }
-
-    case "Advanced Composter": {
-      const dxAdvanced = effectItem.x - x;
-      const dyAdvanced = effectItem.y - y;
-      return isWithinDistance(dxAdvanced, dyAdvanced, 2);
     }
 
     case "Queen Cornelia": {
@@ -428,24 +417,7 @@ export function isAOEImpacted(
   AoEAffectedNames: AOEItemName[]
 ) {
   return AoEAffectedNames.some((name) => {
-    if (name === "Basic Composter" && buildings["Basic Composter"]?.[0]) {
-      const coordinates = buildings["Basic Composter"]?.[0].coordinates;
-
-      if (!coordinates) return false;
-
-      const dimensions = BUILDINGS_DIMENSIONS[name];
-
-      const itemPosition: Position = {
-        x: coordinates.x,
-        y: coordinates.y,
-        height: dimensions.height,
-        width: dimensions.width,
-      };
-
-      if (isWithinAOE(name, itemPosition, resourcePosition)) {
-        return true;
-      }
-    } else if (collectibles[name as CollectibleName]?.[0]) {
+    if (collectibles[name as CollectibleName]?.[0]) {
       const coordinates =
         collectibles[name as CollectibleName]?.[0].coordinates;
 

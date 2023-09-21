@@ -1,13 +1,6 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { isWithinAOE } from "features/game/expansion/placeable/lib/collisionDetection";
-import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { FRUIT } from "features/game/types/fruits";
-import {
-  Buildings,
-  FruitPatch,
-  GameState,
-  Position,
-} from "features/game/types/game";
+import { Buildings, FruitPatch, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { isFruitReadyToHarvest } from "./fruitHarvested";
 
@@ -45,37 +38,6 @@ export function isLocked(
   const cropDetails = FRUIT()[fruitName];
 
   if (isFruitReadyToHarvest(createdAt, fruit, cropDetails)) return false;
-
-  if (buildings["Advanced Composter"]?.[0]) {
-    const composter = buildings["Advanced Composter"]?.[0];
-
-    if (!composter.producing) return false;
-
-    const isComposting = composter.producing?.readyAt > Date.now();
-
-    if (!isComposting) return false;
-
-    const composterCoordinates = composter.coordinates;
-    const scarecrowDimensions = BUILDINGS_DIMENSIONS["Advanced Composter"];
-
-    const scarecrowPosition: Position = {
-      x: composterCoordinates.x,
-      y: composterCoordinates.y,
-      height: scarecrowDimensions.height,
-      width: scarecrowDimensions.width,
-    };
-
-    const patchPosition: Position = {
-      x: patch?.x,
-      y: patch?.y,
-      height: patch.height,
-      width: patch.width,
-    };
-
-    if (isWithinAOE("Advanced Composter", scarecrowPosition, patchPosition)) {
-      return true;
-    }
-  }
 
   return false;
 }
