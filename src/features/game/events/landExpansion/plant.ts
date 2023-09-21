@@ -226,7 +226,7 @@ export function getCropYieldAmount({
 }): number {
   let amount = 1;
   const { skills, equipped } = bumpkin;
-  const { tool, necklace } = equipped;
+  const { tool, necklace, onesie } = equipped;
 
   if (
     crop === "Cauliflower" &&
@@ -279,6 +279,14 @@ export function getCropYieldAmount({
   //Bumpkin Wearable boost Sunflower Amulet
   if (crop === "Sunflower" && necklace === "Sunflower Amulet") {
     amount *= 1.1;
+  }
+
+  if (crop === "Eggplant" && onesie === "Eggplant Onesie") {
+    amount += 0.1;
+  }
+
+  if (crop === "Corn" && onesie === "Corn Onesie") {
+    amount += 0.1;
   }
 
   if (collectibles["Scary Mike"]?.[0] && isMediumCrop(crop) && plot) {
