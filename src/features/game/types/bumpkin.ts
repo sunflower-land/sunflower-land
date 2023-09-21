@@ -764,4 +764,5 @@ export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
   "Luna's Hat": "-50% cooking time",
   "Infernal Pitchfork": "+3 crops",
   Cattlegrim: "+0.25 animal produce",
+  "Corn Onesie": "+0.1 Corn",
 };
