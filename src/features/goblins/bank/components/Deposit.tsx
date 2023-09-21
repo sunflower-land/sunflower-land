@@ -30,6 +30,10 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { loadWardrobe } from "lib/blockchain/BumpkinItems";
 import { getBudsBalance } from "lib/blockchain/Buds";
+import { hasFeatureAccess } from "lib/flags";
+import { CONFIG } from "lib/config";
+
+const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
 type Status = "loading" | "loaded" | "error";
 
@@ -320,19 +324,20 @@ export const Deposit: React.FC<Props> = ({
                     </div>
                   </>
                 )}
-                {hasBuds && (
+                {hasBuds && hasFeatureAccess({}, "BUDS_REVEALED") && (
                   <>
                     <p className="text-sm">Buds</p>
                     <div
                       className="flex flex-wrap h-fit -ml-1.5 overflow-y-auto scrollable pr-1"
                       style={{ maxHeight: "200px" }}
                     >
-                      {budBalance.map((item) => {
+                      {budBalance.map((budId) => {
                         return (
                           <Box
-                            key={item}
-                            onClick={() => onAddBud(item)}
-                            image={getImageUrl(1)}
+                            key={`bud-${budId}`}
+                            onClick={() => onAddBud(budId)}
+                            image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
+                            iconClassName="scale-[1.8] origin-bottom absolute"
                           />
                         );
                       })}
@@ -400,13 +405,13 @@ export const Deposit: React.FC<Props> = ({
 
                     {hasBudsToDeposit && (
                       <div className="flex flex-wrap h-fit -ml-1.5">
-                        {budsToDeposit.map((item) => {
+                        {budsToDeposit.map((budId) => {
                           return (
                             <Box
-                              key={item}
-                              onClick={() => onRemoveBud(item)}
-                              image={getImageUrl(1)}
-                              canBeLongPressed
+                              key={`bud-${budId}`}
+                              onClick={() => onRemoveBud(budId)}
+                              image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
+                              iconClassName="scale-[1.8] origin-bottom absolute"
                             />
                           );
                         })}

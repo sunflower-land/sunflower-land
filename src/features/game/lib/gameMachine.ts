@@ -80,6 +80,7 @@ import { AuctionResults } from "./auctionMachine";
 import { trade } from "../actions/trade";
 import { mmoBus } from "features/world/mmoMachine";
 import { analytics } from "lib/analytics";
+import { BudName } from "../types/buds";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -153,7 +154,7 @@ type UpdateBlockBucksEvent = {
 };
 
 type LandscapeEvent = {
-  placeable?: BuildingName | CollectibleName;
+  placeable?: BuildingName | CollectibleName | BudName;
   action?: GameEventName<PlacementEvent>;
   type: "LANDSCAPE";
   requirements?: {

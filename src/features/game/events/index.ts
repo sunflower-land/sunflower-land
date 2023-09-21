@@ -168,6 +168,9 @@ import { StartPotionAction, startPotion } from "./landExpansion/startPotion";
 import { receiveTrade, ReceiveTradeAction } from "./landExpansion/receiveTrade";
 import { listTrade, ListTradeAction } from "./landExpansion/listTrade";
 import { cancelTrade, CancelTradeAction } from "./landExpansion/cancelTrade";
+import { placeBud, PlaceBudAction } from "./landExpansion/placeBud";
+import { moveBud, MoveBudAction } from "./landExpansion/moveBud";
+import { removeBud, RemoveBudAction } from "./landExpansion/removeBud";
 
 export type PlayingEvent =
   | TradeAction
@@ -253,7 +256,10 @@ export type PlacementEvent =
   | MoveChickenAction
   | RemoveBuildingAction
   | RemoveCollectibleAction
-  | RemoveChickenAction;
+  | RemoveChickenAction
+  | PlaceBudAction
+  | MoveBudAction
+  | RemoveBudAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -363,6 +369,9 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "building.removed": removeBuilding,
   "collectible.removed": removeCollectible,
   "chicken.removed": removeChicken,
+  "bud.placed": placeBud,
+  "bud.moved": moveBud,
+  "bud.removed": removeBud,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };
