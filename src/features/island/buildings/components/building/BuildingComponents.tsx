@@ -192,35 +192,62 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
   ),
 
   "Basic Composter": () => (
-    <img
-      src={ITEM_DETAILS["Basic Composter"].image}
-      className="w-full absolute"
+    <div
+      className="absolute bottom-0"
       style={{
         width: `${PIXEL_SCALE * 24}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 2}px`,
       }}
-    />
+    >
+      <img
+        src={ITEM_DETAILS["Basic Composter"].image}
+        className="w-full absolute"
+        style={{
+          width: `${PIXEL_SCALE * 24}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * 2}px`,
+        }}
+      />
+    </div>
   ),
   "Advanced Composter": () => (
-    <img
-      src={ITEM_DETAILS["Advanced Composter"].image}
-      className="w-full absolute"
+    <div
+      className="absolute bottom-0"
       style={{
         width: `${PIXEL_SCALE * 27}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
       }}
-    />
+    >
+      <img
+        src={ITEM_DETAILS["Advanced Composter"].image}
+        className="w-full absolute"
+        style={{
+          width: `${PIXEL_SCALE * 27}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+        }}
+      />
+    </div>
   ),
   "Expert Composter": () => (
-    <img
-      src={ITEM_DETAILS["Expert Composter"].image}
-      className="w-full absolute"
+    <div
+      className="absolute bottom-0"
       style={{
         width: `${PIXEL_SCALE * 34}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * -3}px`,
+        left: `${PIXEL_SCALE * 2}px`,
       }}
-    />
+    >
+      <img
+        src={ITEM_DETAILS["Expert Composter"].image}
+        className="w-full absolute"
+        style={{
+          width: `${PIXEL_SCALE * 34}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * -3}px`,
+        }}
+      />
+    </div>
   ),
 };
