@@ -2,9 +2,6 @@ import React, { useContext, useState } from "react";
 
 import basicComposter from "assets/sfts/aoe/composter_basic.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
-import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { useActor, useInterpret, useSelector } from "@xstate/react";
 import {
@@ -13,7 +10,8 @@ import {
   composterMachine,
   MachineState,
 } from "features/island/buildings/lib/composterMachine";
-import { hasRequirements } from "features/game/events/landExpansion/startComposter";
+import { ComposterModal } from "./ComposterModal";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const isIdle = (state: MachineState) => state.matches("idle");
 const isComposting = (state: MachineState) => state.matches("composting");
@@ -38,6 +36,12 @@ export const BasicComposter: React.FC = () => {
   const idle = useSelector(composterService, isIdle);
   const composting = useSelector(composterService, isComposting);
   const ready = useSelector(composterService, isReady);
+
+  const [
+    {
+      context: { secondsTillReady },
+    },
+  ] = useActor(composterService);
 
   const startComposter = () => {
     composterService.send({
@@ -70,9 +74,6 @@ export const BasicComposter: React.FC = () => {
     }
   };
 
-  const canStartComposter =
-    hasRequirements(gameState.context.state, "Basic Composter") && !composting;
-
   return (
     <>
       <div
@@ -95,21 +96,34 @@ export const BasicComposter: React.FC = () => {
           alt="Basic Composter"
         />
       </div>
-      <Modal show={showModal} centered onHide={() => setShowModal(false)}>
-        <Panel className="z-10">
-          {idle && (
-            <Button onClick={startComposter} disabled={!canStartComposter}>
-              Start Composting
-            </Button>
-          )}
-          {ready && (
-            <Button onClick={handleCollect} disabled={!canStartComposter}>
-              Collect
-            </Button>
-          )}
-          {composting && <p>Composting...</p>}
-        </Panel>
-      </Modal>
+      <ComposterModal
+        {...{
+          gameState: gameState.context.state,
+          composting,
+          composterName: "Basic Composter",
+          ready,
+          showModal,
+          secondsTillReady: secondsTillReady ?? 0,
+          setShowModal,
+          startComposter,
+        }}
+      />
+      {ready && (
+        <div
+          className="flex justify-center absolute w-full pointer-events-none z-30"
+          style={{
+            top: `${PIXEL_SCALE * -12}px`,
+          }}
+        >
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            className="ready"
+            style={{
+              width: `${PIXEL_SCALE * 4}px`,
+            }}
+          />
+        </div>
+      )}
     </>
   );
 };

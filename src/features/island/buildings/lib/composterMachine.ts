@@ -2,7 +2,7 @@ import { assign, createMachine, Interpreter, State } from "xstate";
 import { MachineInterpreter as GameServiceMachineInterpreter } from "src/features/game/lib/gameMachine";
 import { GameEventName, PlayingEvent } from "features/game/events";
 import {
-  Composter,
+  ComposterName,
   ComposterProduceName,
 } from "features/game/types/composters";
 
@@ -28,14 +28,14 @@ type StartComposterEvent = {
   type: "START_COMPOST";
   event: GameEventName<PlayingEvent>;
   buildingId: string;
-  building: Composter;
+  building: ComposterName;
 };
 
 type CollectEvent = {
   type: "COLLECT";
   event: GameEventName<PlayingEvent>;
   buildingId: string;
-  building: Composter;
+  building: ComposterName;
 };
 
 type CompostingEvent = StartComposterEvent | CollectEvent | { type: "TICK" };
