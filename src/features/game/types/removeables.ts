@@ -386,10 +386,7 @@ export const hasMoveRestriction = (
     name === "Scary Mike" ||
     name === "Laurie the Chuckle Crow" ||
     name === "Queen Cornelia" ||
-    name === "Gnome" ||
-    name === "Basic Composter" ||
-    name === "Advanced Composter" ||
-    name === "Expert Composter";
+    name === "Gnome";
 
   const [isRestricted, restrictionReason] = hasRemoveRestriction(
     name,
