@@ -1,14 +1,14 @@
 import Decimal from "decimal.js-light";
 import {
-  Composter,
-  composterRequirements,
+  ComposterName,
+  composterDetails,
 } from "features/game/types/composters";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type StartComposterAction = {
   type: "composter.started";
-  building: Composter;
+  building: ComposterName;
 };
 
 type Options = {
@@ -17,8 +17,11 @@ type Options = {
   createdAt?: number;
 };
 
-export const hasRequirements = (game: GameState, composterName: Composter) =>
-  Object.entries(composterRequirements[composterName].requirements).every(
+export const hasRequirements = (
+  game: GameState,
+  composterName: ComposterName
+) =>
+  Object.entries(composterDetails[composterName].requirements).every(
     ([name, amount]) => {
       const itemAmount =
         game.inventory[name as InventoryItemName] || new Decimal(0);
@@ -49,7 +52,7 @@ export function startComposter({
   }
 
   // remove the requirements from the player's inventory
-  Object.entries(composterRequirements[action.building].requirements).forEach(
+  Object.entries(composterDetails[action.building].requirements).forEach(
     ([name, amount]) => {
       const itemAmount =
         stateCopy.inventory[name as InventoryItemName] || new Decimal(0);
@@ -59,9 +62,10 @@ export function startComposter({
 
   // start the production
   stateCopy.buildings[action.building]![0].producing = {
-    name: composterRequirements[action.building].produce,
+    name: composterDetails[action.building].produce,
     startedAt: createdAt,
-    readyAt: createdAt + composterRequirements[action.building].timeToFinish,
+    readyAt:
+      createdAt + composterDetails[action.building].timeToFinishMilliseconds,
   };
 
   return stateCopy;

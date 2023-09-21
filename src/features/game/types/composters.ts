@@ -3,7 +3,7 @@ import { InventoryItemName } from "./game";
 
 export type ComposterProduceName = "Earthworm" | "Grub" | "Red Wiggler";
 
-export type Composter =
+export type ComposterName =
   | "Basic Composter"
   | "Advanced Composter"
   | "Expert Composter";
@@ -25,19 +25,13 @@ export const COMPOSTER_PRODUCE: Record<
 
 type Requirements = Partial<Record<InventoryItemName, Decimal>>;
 
-type ComposterDetails = {
+export type ComposterDetails = {
   requirements: Requirements;
-  timeToFinish: number;
+  timeToFinishMilliseconds: number;
   produce: ComposterProduceName;
 };
 
-type BasicComposterRequirements = {
-  "Basic Composter": ComposterDetails;
-  "Advanced Composter": ComposterDetails;
-  "Expert Composter": ComposterDetails;
-};
-
-export const composterRequirements: BasicComposterRequirements = {
+export const composterDetails: Record<ComposterName, ComposterDetails> = {
   "Basic Composter": {
     requirements: {
       Sunflower: new Decimal(5),
@@ -45,7 +39,7 @@ export const composterRequirements: BasicComposterRequirements = {
       Carrot: new Decimal(2),
     },
     produce: "Earthworm",
-    timeToFinish: 6 * 60 * 60 * 1000,
+    timeToFinishMilliseconds: 6 * 60 * 60 * 1000,
   },
   "Advanced Composter": {
     requirements: {
@@ -53,7 +47,7 @@ export const composterRequirements: BasicComposterRequirements = {
       Egg: new Decimal(1),
     },
     produce: "Grub",
-    timeToFinish: 8 * 60 * 60 * 1000,
+    timeToFinishMilliseconds: 8 * 60 * 60 * 1000,
   },
   "Expert Composter": {
     requirements: {
@@ -62,6 +56,6 @@ export const composterRequirements: BasicComposterRequirements = {
       Egg: new Decimal(3),
     },
     produce: "Red Wiggler",
-    timeToFinish: 12 * 60 * 60 * 1000,
+    timeToFinishMilliseconds: 12 * 60 * 60 * 1000,
   },
 };
