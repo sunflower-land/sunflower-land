@@ -8,7 +8,9 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 export const BudCountdown: React.FC = () => {
-  const start = useCountdown(new Date("2023-09-27T01:00:00").getTime());
+  const start = useCountdown(
+    new Date(Date.UTC(2023, 8, 26, 15, 0, 0, 0)).getTime()
+  );
 
   return (
     <InnerPanel className="mt-2 flex relative items-center">
