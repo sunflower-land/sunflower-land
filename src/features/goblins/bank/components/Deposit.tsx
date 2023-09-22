@@ -324,28 +324,26 @@ export const Deposit: React.FC<Props> = ({
                     </div>
                   </>
                 )}
-                {hasBuds &&
-                  (hasFeatureAccess({}, "BUDS_REVEALED") ||
-                    budBalance.some((budId) => budId < 501)) && (
-                    <>
-                      <p className="text-sm">Buds</p>
-                      <div
-                        className="flex flex-wrap h-fit -ml-1.5 overflow-y-auto scrollable pr-1"
-                        style={{ maxHeight: "200px" }}
-                      >
-                        {budBalance.map((budId) => {
-                          return (
-                            <Box
-                              key={`bud-${budId}`}
-                              onClick={() => onAddBud(budId)}
-                              image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
-                              iconClassName="scale-[1.8] origin-bottom absolute"
-                            />
-                          );
-                        })}
-                      </div>
-                    </>
-                  )}
+                {hasBuds && hasFeatureAccess({}, "BUDS_REVEALED") && (
+                  <>
+                    <p className="text-sm">Buds</p>
+                    <div
+                      className="flex flex-wrap h-fit -ml-1.5 overflow-y-auto scrollable pr-1"
+                      style={{ maxHeight: "200px" }}
+                    >
+                      {budBalance.map((budId) => {
+                        return (
+                          <Box
+                            key={`bud-${budId}`}
+                            onClick={() => onAddBud(budId)}
+                            image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
+                            iconClassName="scale-[1.8] origin-bottom absolute"
+                          />
+                        );
+                      })}
+                    </div>
+                  </>
+                )}
                 {hasItemsInWardrobe && (
                   <>
                     <p className="text-sm">Wearables</p>

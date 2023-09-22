@@ -75,7 +75,7 @@ export const BudDetails: React.FC<Props> = ({
               ))}
           </div>
           <a
-            href={`https://opensea.io/collection/sunflower-land-buds/${budId}`}
+            href={`https://opensea.io/assets/matic/0x78a0cea8f323ff80985c5f9d1f9de18bb9e35996/${budId}`}
             className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
             target="_blank"
             rel="noopener noreferrer"
