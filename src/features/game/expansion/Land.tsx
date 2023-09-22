@@ -33,6 +33,7 @@ import { useFirstRender } from "lib/utils/hooks/useFirstRender";
 import { MUSHROOM_DIMENSIONS } from "../types/resources";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import ocean from "assets/decorations/ocean.webp";
+import { Bud } from "features/island/buds/Bud";
 
 export const LAND_WIDTH = 6;
 
@@ -50,6 +51,7 @@ const getIslandElements = ({
   grid,
   mushrooms,
   isFirstRender,
+  buds,
 }: {
   expansionConstruction?: ExpansionConstruction;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
@@ -65,6 +67,7 @@ const getIslandElements = ({
   grid: GameGrid;
   mushrooms: GameState["mushrooms"]["mushrooms"];
   isFirstRender: boolean;
+  buds: GameState["buds"];
 }) => {
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -338,6 +341,23 @@ const getIslandElements = ({
       );
   }
 
+  {
+    buds &&
+      mapPlacements.push(
+        ...getKeys(buds)
+          .filter((budId) => !!buds[budId].coordinates)
+          .flatMap((id) => {
+            const { x, y } = buds[id]!.coordinates!;
+
+            return (
+              <MapPlacement key={`bud-${id}`} x={x} y={y} height={1} width={1}>
+                <Bud id={String(id)} x={x} y={y} />
+              </MapPlacement>
+            );
+          })
+      );
+  }
+
   return mapPlacements;
 };
 
@@ -363,6 +383,7 @@ export const Land: React.FC = () => {
     crops,
     fruitPatches,
     mushrooms,
+    buds,
   } = useSelector(gameService, selectGameState);
   const autosaving = useSelector(gameService, isAutosaving);
   const landscaping = useSelector(gameService, isLandscaping);
@@ -464,6 +485,7 @@ export const Land: React.FC = () => {
               grid: gameGrid,
               mushrooms: mushrooms?.mushrooms,
               isFirstRender,
+              buds,
             }).sort((a, b) => b.props.y - a.props.y)}
           </div>
 

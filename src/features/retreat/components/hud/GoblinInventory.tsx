@@ -9,6 +9,7 @@ import {
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { BudName } from "features/game/types/buds";
 
 interface Props {
   state: GameState;
@@ -19,14 +20,25 @@ export const GoblinInventory: React.FC<Props> = ({ state, onDepositClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { inventory } = state;
 
+  const buds = getKeys(state.buds ?? {}).map(
+    (budId) => `Bud-${budId}` as BudName
+  );
+
   const [selectedBasketItem, setSelectedBasketItem] =
     useState<InventoryItemName>(
       getKeys(getBasketItems(inventory)).sort(
         (a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]
       )[0]
     );
-  const [selectedChestItem, setSelectedChestItem] = useState<InventoryItemName>(
-    getKeys(getChestItems(state)).sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])[0]
+  const [selectedChestItem, setSelectedChestItem] = useState<
+    InventoryItemName | BudName
+  >(
+    [
+      ...buds,
+      ...getKeys(getChestItems(state)).sort(
+        (a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]
+      ),
+    ][0]
   );
 
   return (

@@ -631,6 +631,36 @@ export const OFFLINE_FARM: GameState = {
     spawnedAt: 0,
     mushrooms: {},
   },
+  buds: {
+    1: {
+      aura: "Basic",
+      colour: "Beige",
+      ears: "Ears",
+      stem: "3 Leaf Clover",
+      type: "Beach",
+    },
+    5: {
+      aura: "Basic",
+      colour: "Beige",
+      ears: "Ears",
+      stem: "3 Leaf Clover",
+      type: "Beach",
+    },
+    7: {
+      aura: "Basic",
+      colour: "Beige",
+      ears: "Ears",
+      stem: "3 Leaf Clover",
+      type: "Beach",
+    },
+    9: {
+      aura: "Basic",
+      colour: "Beige",
+      ears: "Ears",
+      stem: "3 Leaf Clover",
+      type: "Beach",
+    },
+  },
 };
 
 // export const MEGA_OFFLINE_FARM: GameState = makeGame({

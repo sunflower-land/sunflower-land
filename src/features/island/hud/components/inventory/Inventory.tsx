@@ -10,6 +10,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { getChestItems } from "./utils/inventory";
 import { KNOWN_IDS } from "features/game/types";
 import { useLocation } from "react-router-dom";
+import { BudName } from "features/game/types/buds";
 
 interface Props {
   state: GameState;
@@ -17,6 +18,7 @@ interface Props {
   isFullUser: boolean;
   shortcutItem?: (item: InventoryItemName) => void;
   onPlace?: (item: InventoryItemName) => void;
+  onPlaceBud?: (bud: BudName) => void;
   onDepositClick?: () => void;
   isFarming: boolean;
   isSaving?: boolean;
@@ -30,6 +32,7 @@ export const Inventory: React.FC<Props> = ({
   isFarming,
   isSaving,
   onPlace,
+  onPlaceBud,
   onDepositClick,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,8 +43,19 @@ export const Inventory: React.FC<Props> = ({
     pathname.includes("visit") ||
     pathname.includes("dawn-breaker");
 
-  const [selectedChestItem, setSelectedChestItem] = useState<InventoryItemName>(
-    getKeys(getChestItems(state)).sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b])[0]
+  const buds = getKeys(state.buds ?? {}).map(
+    (budId) => `Bud-${budId}` as BudName
+  );
+
+  const [selectedChestItem, setSelectedChestItem] = useState<
+    InventoryItemName | BudName
+  >(
+    [
+      ...buds,
+      ...getKeys(getChestItems(state)).sort(
+        (a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]
+      ),
+    ][0]
   );
 
   const shortcuts = getShortcuts();
@@ -120,6 +134,7 @@ export const Inventory: React.FC<Props> = ({
         selectedChestItem={selectedChestItem}
         onSelectChestItem={setSelectedChestItem}
         onPlace={onPlace}
+        onPlaceBud={onPlaceBud}
         onDepositClick={onDepositClick}
         isSaving={isSaving}
         isFarming={isFarming}
