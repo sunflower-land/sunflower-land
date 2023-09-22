@@ -118,6 +118,12 @@ const HudComponent: React.FC<{
                   multiple: true,
                 });
               }}
+              onPlaceBud={(selected) => {
+                gameService.send("LANDSCAPE", {
+                  action: "bud.placed",
+                  placeable: selected,
+                });
+              }}
               onDepositClick={() => setShowDepositModal(true)}
               isSaving={autosaving}
               isFarming={isFarming}

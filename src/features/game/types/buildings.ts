@@ -35,6 +35,7 @@ export type PlaceableName =
   | CollectibleName
   | BuildingName
   | "Chicken"
+  | "Bud"
   | ResourceName;
 
 export const UPGRADABLES: Partial<Record<BuildingName, BuildingName>> = {};

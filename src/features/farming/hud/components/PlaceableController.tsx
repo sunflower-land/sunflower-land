@@ -18,6 +18,7 @@ import {
 } from "features/game/types/craftables";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { ANIMAL_DIMENSIONS } from "features/game/types/craftables";
+import { isBudName } from "features/game/types/buds";
 
 export const PlaceableController: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -44,15 +45,24 @@ export const PlaceableController: React.FC = () => {
     return null;
   }
 
-  const { width, height } = {
-    ...BUILDINGS_DIMENSIONS,
-    ...COLLECTIBLES_DIMENSIONS,
-    ...ANIMAL_DIMENSIONS,
-  }[placeable];
+  let dimensions = { width: 0, height: 0 };
+
+  if (isBudName(placeable)) {
+    dimensions = { width: 1, height: 1 };
+  } else if (placeable) {
+    dimensions = {
+      ...BUILDINGS_DIMENSIONS,
+      ...COLLECTIBLES_DIMENSIONS,
+      ...ANIMAL_DIMENSIONS,
+    }[placeable];
+  }
+  const { width, height } = dimensions;
 
   const items = getChestItems(gameState.context.state);
 
-  const available = items[placeable] ?? new Decimal(0);
+  const available = isBudName(placeable)
+    ? new Decimal(1)
+    : items[placeable] ?? new Decimal(0);
 
   const handleConfirmPlacement = () => {
     // prevents multiple toasts while spam clicking place button
@@ -83,11 +93,15 @@ export const PlaceableController: React.FC = () => {
       placeMore = hasRequirements;
     }
 
-    const previous =
-      gameState.context.state.inventory[placeable] ?? new Decimal(0);
-
-    if (maximum && previous.gte(maximum - 1)) {
+    if (isBudName(placeable)) {
       placeMore = false;
+    } else {
+      const previous =
+        gameState.context.state.inventory[placeable] ?? new Decimal(0);
+
+      if (maximum && previous.gte(maximum - 1)) {
+        placeMore = false;
+      }
     }
 
     if (placeMore) {
@@ -117,14 +131,12 @@ export const PlaceableController: React.FC = () => {
     send("BACK");
   };
 
+  const image = isBudName(placeable) ? "" : ITEM_DETAILS[placeable].image;
   const Hint = () => {
     if (!requirements) {
       return (
         <div className="flex justify-center items-center mb-1">
-          <img
-            src={ITEM_DETAILS[placeable].image}
-            className="h-6 mr-2 img-highlight"
-          />
+          <img src={image} className="h-6 mr-2 img-highlight" />
           <p className="text-sm">{`${available.toNumber()} available`}</p>
         </div>
       );

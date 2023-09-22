@@ -34,6 +34,14 @@ export const getBasketItems = (inventory: Inventory) => {
     }, {} as Inventory);
 };
 
+export const getChestBuds = (
+  state: GameState
+): NonNullable<GameState["buds"]> => {
+  return Object.fromEntries(
+    Object.entries(state.buds ?? {}).filter(([, bud]) => !bud.coordinates)
+  );
+};
+
 export const getChestItems = (state: GameState) => {
   const availableItems = getKeys(state.inventory).reduce((acc, itemName) => {
     if (itemName === "Tree") {
