@@ -241,7 +241,10 @@ export const MoveableComponent: React.FC<MovableProps> = ({
       onStart={(_, data) => {
         const x = Math.round(data.x);
         const y = Math.round(-data.y);
-        origin.current = { x, y };
+
+        if (!origin.current) {
+          origin.current = { x, y };
+        }
       }}
       onDrag={(_, data) => {
         const xDiff = Math.round((origin.current.x + data.x) / GRID_WIDTH_PX);
