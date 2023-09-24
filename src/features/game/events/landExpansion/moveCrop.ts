@@ -182,6 +182,29 @@ export function isLocked(
     }
   }
 
+  if (cropName === "Corn" && collectibles["Queen Cornelia"]?.[0]) {
+    const coordinates = collectibles["Queen Cornelia"]?.[0].coordinates;
+    const dimensions = COLLECTIBLES_DIMENSIONS["Queen Cornelia"];
+
+    const position: Position = {
+      x: coordinates.x,
+      y: coordinates.y,
+      height: dimensions.height,
+      width: dimensions.width,
+    };
+
+    const plotPosition: Position = {
+      x: plot?.x,
+      y: plot?.y,
+      height: plot.height,
+      width: plot.width,
+    };
+
+    if (isWithinAOE("Queen Cornelia", position, plotPosition)) {
+      return true;
+    }
+  }
+
   return false;
 }
 
