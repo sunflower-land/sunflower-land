@@ -289,6 +289,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Crow Feather": () => false,
   "Potion Ticket": () => false,
   "Bud Ticket": () => false,
+  "Bud Seedling": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {

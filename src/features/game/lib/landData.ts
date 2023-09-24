@@ -323,6 +323,7 @@ export const OFFLINE_FARM: GameState = {
   },
   inventory: {
     "El Pollo Veloz": new Decimal(1),
+    "Bud Seedling": new Decimal(1),
     Gnome: new Decimal(1),
     "Sunflower Cake": new Decimal(15),
     Carrot: new Decimal(80),

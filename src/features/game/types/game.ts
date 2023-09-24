@@ -132,6 +132,7 @@ export type Coupons =
   | "Sunflower Supporter"
   | "Potion Ticket"
   | "Bud Ticket"
+  | "Bud Seedling"
   | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
@@ -179,6 +180,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Bud Ticket": {
     description:
       "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
+  },
+  "Bud Seedling": {
+    description: "A seedling to be exchanged for a free Bud NFT",
   },
 };
 
