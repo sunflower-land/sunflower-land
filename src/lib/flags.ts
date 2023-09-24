@@ -30,7 +30,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   NEW_DELIVERIES: testnetFeatureFlag,
   CORN_MAZE: testnetFeatureFlag,
   NEW_FARM_FLOW: () => true,
-  BUDS_DEPOSIT_FLOW: testnetFeatureFlag,
+  BUDS_DEPOSIT_FLOW: () => true,
   BUDS_REVEALED: testnetFeatureFlag,
 };
 
