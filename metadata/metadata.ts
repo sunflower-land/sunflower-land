@@ -5356,4 +5356,51 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
+  "Sprout Mix": {
+    description: "Sprout Mix increases your crop yield by +0.2",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Boost", value: "Crop" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Crop Yield",
+        value: 0.2,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+
+  "Fruitful Blend": {
+    description: "This compost boosts your fruit yield by +0.25",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Boost", value: "Fruit" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Fruit Yield",
+        value: 0.25,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+
+  "Rapid Root": {
+    description: "Sprout Mix increases your crop yield by +0.2",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Boost", value: "Crop" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Crop Yield",
+        value: 0.2,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
 };

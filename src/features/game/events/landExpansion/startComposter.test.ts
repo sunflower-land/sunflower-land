@@ -30,8 +30,7 @@ describe("start Basic Composter", () => {
                 readyAt: 0,
                 id: "0",
                 producing: {
-                  name: "Earthworm",
-                  startedAt: dateNow - 10000,
+                  name: "Sprout Mix",
                   readyAt: dateNow + 1000,
                 },
               },
@@ -56,8 +55,7 @@ describe("start Basic Composter", () => {
                 readyAt: 0,
                 id: "0",
                 producing: {
-                  name: "Earthworm",
-                  startedAt: dateNow - 10000,
+                  name: "Sprout Mix",
                   readyAt: dateNow - 1000,
                 },
               },
@@ -86,8 +84,7 @@ describe("start Basic Composter", () => {
             readyAt: 0,
             id: "0",
             producing: {
-              name: "Earthworm",
-              startedAt: dateNow - 10000,
+              name: "Sprout Mix",
               readyAt: dateNow - 1000,
             },
           },
@@ -122,8 +119,7 @@ describe("start Basic Composter", () => {
             readyAt: 0,
             id: "0",
             producing: {
-              name: "Earthworm",
-              startedAt: dateNow - 10000,
+              name: "Sprout Mix",
               readyAt: dateNow - 1000,
             },
           },
@@ -137,9 +133,6 @@ describe("start Basic Composter", () => {
       action: { type: "composter.started", building: "Basic Composter" },
     });
 
-    expect(
-      newState.buildings["Basic Composter"]?.[0].producing?.startedAt
-    ).toBe(dateNow);
     expect(newState.buildings["Basic Composter"]?.[0].producing?.readyAt).toBe(
       dateNow + 6 * 60 * 60 * 1000
     );
@@ -171,8 +164,7 @@ describe("start Advanced Composter", () => {
                 readyAt: 0,
                 id: "0",
                 producing: {
-                  name: "Grub",
-                  startedAt: dateNow - 10000,
+                  name: "Fruitful Blend",
                   readyAt: dateNow + 1000,
                 },
               },
@@ -198,8 +190,7 @@ describe("start Advanced Composter", () => {
                 readyAt: 0,
                 id: "0",
                 producing: {
-                  name: "Grub",
-                  startedAt: dateNow - 10000,
+                  name: "Fruitful Blend",
                   readyAt: dateNow - 1000,
                 },
               },
@@ -227,8 +218,7 @@ describe("start Advanced Composter", () => {
             readyAt: 0,
             id: "0",
             producing: {
-              name: "Grub",
-              startedAt: dateNow - 10000,
+              name: "Fruitful Blend",
               readyAt: dateNow - 1000,
             },
           },
@@ -261,8 +251,7 @@ describe("start Advanced Composter", () => {
             readyAt: 0,
             id: "0",
             producing: {
-              name: "Grub",
-              startedAt: dateNow - 10000,
+              name: "Fruitful Blend",
               readyAt: dateNow - 1000,
             },
           },
@@ -276,9 +265,6 @@ describe("start Advanced Composter", () => {
       action: { type: "composter.started", building: "Advanced Composter" },
     });
 
-    expect(
-      newState.buildings["Advanced Composter"]?.[0].producing?.startedAt
-    ).toBe(dateNow);
     expect(
       newState.buildings["Advanced Composter"]?.[0].producing?.readyAt
     ).toBe(dateNow + 8 * 60 * 60 * 1000);
@@ -310,8 +296,7 @@ describe("start Expert Composter", () => {
                 readyAt: 0,
                 id: "0",
                 producing: {
-                  name: "Red Wiggler",
-                  startedAt: dateNow - 10000,
+                  name: "Rapid Root",
                   readyAt: dateNow + 1000,
                 },
               },
@@ -337,8 +322,7 @@ describe("start Expert Composter", () => {
                 readyAt: 0,
                 id: "0",
                 producing: {
-                  name: "Red Wiggler",
-                  startedAt: dateNow - 10000,
+                  name: "Rapid Root",
                   readyAt: dateNow - 1000,
                 },
               },
@@ -367,8 +351,7 @@ describe("start Expert Composter", () => {
             readyAt: 0,
             id: "0",
             producing: {
-              name: "Red Wiggler",
-              startedAt: dateNow - 10000,
+              name: "Rapid Root",
               readyAt: dateNow - 1000,
             },
           },
@@ -403,8 +386,7 @@ describe("start Expert Composter", () => {
             readyAt: 0,
             id: "0",
             producing: {
-              name: "Red Wiggler",
-              startedAt: dateNow - 10000,
+              name: "Rapid Root",
               readyAt: dateNow - 1000,
             },
           },
@@ -418,9 +400,6 @@ describe("start Expert Composter", () => {
       action: { type: "composter.started", building: "Expert Composter" },
     });
 
-    expect(
-      newState.buildings["Expert Composter"]?.[0].producing?.startedAt
-    ).toBe(dateNow);
     expect(newState.buildings["Expert Composter"]?.[0].producing?.readyAt).toBe(
       dateNow + 12 * 60 * 60 * 1000
     );

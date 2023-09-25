@@ -220,6 +220,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Earthworm: 626,
   Grub: 627,
   "Red Wiggler": 628,
+  "Sprout Mix": 629,
+  "Fruitful Blend": 630,
+  "Rapid Root": 631,
 
   "Green Thumb": 701,
   "Barn Manager": 702,

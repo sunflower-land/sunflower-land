@@ -55,7 +55,7 @@ import { WorkbenchToolName } from "./tools";
 import { BumpkinItem } from "./bumpkin";
 import { hasSeasonEnded } from "./seasons";
 import { GoblinState } from "../lib/goblinMachine";
-import { ComposterProduceName } from "./composters";
+import { Bait, CompostName } from "./composters";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
@@ -650,10 +650,16 @@ const exoticCrops: Record<ExoticCropName, () => boolean> = {
   Chiogga: () => false,
 };
 
-const composterProduce: Record<ComposterProduceName, () => boolean> = {
+const bait: Record<Bait, () => boolean> = {
   Earthworm: () => false,
   Grub: () => false,
   "Red Wiggler": () => false,
+};
+
+const compost: Record<CompostName, () => boolean> = {
+  "Sprout Mix": () => false,
+  "Fruitful Blend": () => false,
+  "Rapid Root": () => false,
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
@@ -704,7 +710,8 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...decorations,
   ...potionHouse,
   ...exoticCrops,
-  ...composterProduce,
+  ...bait,
+  ...compost,
 };
 
 const canWithdrawBoostedWearable = (

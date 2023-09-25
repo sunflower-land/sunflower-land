@@ -63,7 +63,6 @@ export function startComposter({
   // start the production
   stateCopy.buildings[action.building]![0].producing = {
     name: composterDetails[action.building].produce,
-    startedAt: createdAt,
     readyAt:
       createdAt + composterDetails[action.building].timeToFinishMilliseconds,
   };

@@ -298,14 +298,19 @@ import deli from "src/assets/buildings/deli.png";
 import smoothieShack from "src/assets/buildings/smoothie_shack.webp";
 import toolshed from "src/assets/buildings/toolshed.png";
 import warehouse from "src/assets/buildings/warehouse.png";
-import basicComposter from "assets/sfts/aoe/composter_basic.png";
-import advancedComposter from "assets/sfts/aoe/composter_advanced.png";
-import expertComposter from "assets/sfts/aoe/composter_expert.png";
+import basicComposter from "assets/composters/composter_basic.png";
+import advancedComposter from "assets/composters/composter_advanced.png";
+import expertComposter from "assets/composters/composter_expert.png";
 
-// Composter produce
+// Composter Bait
 import earthworm from "assets/composters/earthworm.png";
 import grub from "assets/composters/grub.png";
 import redWiggler from "assets/composters/red_wiggler.png";
+
+// Compost
+import producePrimer from "assets/composters/produce_primer.png";
+import fruitfulBlend from "assets/composters/fruitful_blend.png";
+import sproutMix from "assets/composters/sprout_mix.png";
 
 // Clothing
 import chefHat from "src/assets/icons/chef_hat.png";
@@ -487,6 +492,7 @@ import {
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { BAIT, COMPOST } from "./composters";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -2495,17 +2501,32 @@ export const ITEM_DETAILS: Items = {
     image: whiteCrow,
     description: "A mysterious and ethereal white crow",
   },
-  // Composter Produce
+
+  // Bait
   Earthworm: {
     image: earthworm,
-    description: "A wriggly worm used to fish.",
+    description: BAIT.Earthworm.description,
   },
   Grub: {
     image: grub,
-    description: "A juicy grub used to fish.",
+    description: BAIT.Grub.description,
   },
   "Red Wiggler": {
     image: redWiggler,
-    description: "A red wiggler used to fish.",
+    description: BAIT["Red Wiggler"].description,
+  },
+
+  // Compost
+  "Sprout Mix": {
+    image: producePrimer,
+    description: COMPOST["Sprout Mix"].description,
+  },
+  "Fruitful Blend": {
+    image: fruitfulBlend,
+    description: COMPOST["Fruitful Blend"].description,
+  },
+  "Rapid Root": {
+    image: sproutMix,
+    description: COMPOST["Rapid Root"].description,
   },
 };

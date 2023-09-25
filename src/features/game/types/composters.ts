@@ -1,17 +1,16 @@
 import Decimal from "decimal.js-light";
 import { InventoryItemName } from "./game";
 
-export type ComposterProduceName = "Earthworm" | "Grub" | "Red Wiggler";
+export type Bait = "Earthworm" | "Grub" | "Red Wiggler";
+
+export type CompostName = "Sprout Mix" | "Fruitful Blend" | "Rapid Root";
 
 export type ComposterName =
   | "Basic Composter"
   | "Advanced Composter"
   | "Expert Composter";
 
-export const COMPOSTER_PRODUCE: Record<
-  ComposterProduceName,
-  { description: string }
-> = {
+export const BAIT: Record<Bait, { description: string }> = {
   Earthworm: {
     description: "A wriggly worm used to fish.",
   },
@@ -23,12 +22,25 @@ export const COMPOSTER_PRODUCE: Record<
   },
 };
 
+export const COMPOST: Record<CompostName, { description: string }> = {
+  "Sprout Mix": {
+    description: "Sprout Mix increases your crop yield by +0.2",
+  },
+  "Fruitful Blend": {
+    description: "Advanced Compost boosts your fruit yield by +0.25",
+  },
+  "Rapid Root": {
+    description: "Rapid Root boosts your crop speed by +50%",
+  },
+};
+
 type Requirements = Partial<Record<InventoryItemName, Decimal>>;
 
 export type ComposterDetails = {
   requirements: Requirements;
   timeToFinishMilliseconds: number;
-  produce: ComposterProduceName;
+  produce: CompostName;
+  bait: Bait;
 };
 
 export const composterDetails: Record<ComposterName, ComposterDetails> = {
@@ -38,7 +50,8 @@ export const composterDetails: Record<ComposterName, ComposterDetails> = {
       Pumpkin: new Decimal(3),
       Carrot: new Decimal(2),
     },
-    produce: "Earthworm",
+    bait: "Earthworm",
+    produce: "Sprout Mix",
     timeToFinishMilliseconds: 6 * 60 * 60 * 1000,
   },
   "Advanced Composter": {
@@ -46,7 +59,8 @@ export const composterDetails: Record<ComposterName, ComposterDetails> = {
       Kale: new Decimal(5),
       Egg: new Decimal(1),
     },
-    produce: "Grub",
+    produce: "Fruitful Blend",
+    bait: "Grub",
     timeToFinishMilliseconds: 8 * 60 * 60 * 1000,
   },
   "Expert Composter": {
@@ -55,7 +69,8 @@ export const composterDetails: Record<ComposterName, ComposterDetails> = {
       Blueberry: new Decimal(2),
       Egg: new Decimal(3),
     },
-    produce: "Red Wiggler",
+    produce: "Rapid Root",
+    bait: "Red Wiggler",
     timeToFinishMilliseconds: 12 * 60 * 60 * 1000,
   },
 };

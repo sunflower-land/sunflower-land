@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 
-import basicComposter from "assets/sfts/aoe/composter_basic.png";
+import basicComposter from "assets/composters/composter_basic.png";
+import basicComposterClosed from "assets/composters/composter_basic_closed.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor, useInterpret, useSelector } from "@xstate/react";
@@ -55,7 +56,7 @@ export const BasicComposter: React.FC = () => {
   const handleCollect = () => {
     composterService?.send({
       type: "COLLECT",
-      event: "composterProduce.collected",
+      event: "compost.collected",
       buildingId: composter!.id,
       building: "Basic Composter",
     });
@@ -86,7 +87,7 @@ export const BasicComposter: React.FC = () => {
         onClick={handleClick}
       >
         <img
-          src={basicComposter}
+          src={idle ? basicComposter : basicComposterClosed}
           style={{
             width: `${PIXEL_SCALE * 24}px`,
             left: `${PIXEL_SCALE * 2}px`,
@@ -100,6 +101,7 @@ export const BasicComposter: React.FC = () => {
         {...{
           gameState: gameState.context.state,
           composting,
+          idle,
           composterName: "Basic Composter",
           ready,
           showModal,
