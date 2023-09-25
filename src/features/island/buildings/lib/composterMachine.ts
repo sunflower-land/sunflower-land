@@ -1,13 +1,10 @@
 import { assign, createMachine, Interpreter, State } from "xstate";
 import { MachineInterpreter as GameServiceMachineInterpreter } from "src/features/game/lib/gameMachine";
 import { GameEventName, PlayingEvent } from "features/game/events";
-import {
-  ComposterName,
-  ComposterProduceName,
-} from "features/game/types/composters";
+import { ComposterName, Bait } from "features/game/types/composters";
 
 export interface CompostingContext {
-  name?: ComposterProduceName;
+  name?: Bait;
   readyAt?: number;
   secondsTillReady?: number;
   gameService: GameServiceMachineInterpreter;

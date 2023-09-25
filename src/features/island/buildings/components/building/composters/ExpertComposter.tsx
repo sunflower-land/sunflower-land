@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 
-import expertComposter from "assets/sfts/aoe/composter_expert.png";
+import expertComposter from "assets/composters/composter_expert.png";
+import expertComposterClosed from "assets/composters/composter_expert_closed.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor, useInterpret, useSelector } from "@xstate/react";
@@ -55,7 +56,7 @@ export const ExpertComposter: React.FC = () => {
   const handleCollect = () => {
     composterService?.send({
       type: "COLLECT",
-      event: "composterProduce.collected",
+      event: "compost.collected",
       buildingId: composter!.id,
       building: "Expert Composter",
     });
@@ -86,7 +87,7 @@ export const ExpertComposter: React.FC = () => {
         onClick={handleClick}
       >
         <img
-          src={expertComposter}
+          src={idle ? expertComposter : expertComposterClosed}
           style={{
             width: `${PIXEL_SCALE * 34}px`,
             bottom: 0,
@@ -99,6 +100,7 @@ export const ExpertComposter: React.FC = () => {
         {...{
           gameState: gameState.context.state,
           composting,
+          idle,
           composterName: "Expert Composter",
           ready,
           showModal,

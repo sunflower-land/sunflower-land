@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState, PlacedItem } from "features/game/types/game";
-import { collectComposterProduce } from "./collectComposterProduce";
+import { collectCompost } from "./collectCompost";
 
 const GAME_STATE: GameState = TEST_FARM;
 
@@ -10,13 +10,13 @@ describe("collectComposterProduce", () => {
 
   it("throws an error if building does not exist", () => {
     expect(() =>
-      collectComposterProduce({
+      collectCompost({
         state: {
           ...GAME_STATE,
           buildings: {},
         },
         action: {
-          type: "composterProduce.collected",
+          type: "compost.collected",
           building: "Basic Composter",
           buildingId: "123",
         },
@@ -27,7 +27,7 @@ describe("collectComposterProduce", () => {
 
   it("throws an error if building is not producing anything", () => {
     expect(() =>
-      collectComposterProduce({
+      collectCompost({
         state: {
           ...GAME_STATE,
           buildings: {
@@ -42,7 +42,7 @@ describe("collectComposterProduce", () => {
           },
         },
         action: {
-          type: "composterProduce.collected",
+          type: "compost.collected",
           building: "Basic Composter",
           buildingId: "123",
         },
@@ -51,9 +51,9 @@ describe("collectComposterProduce", () => {
     ).toThrow("Composter is not producing anything");
   });
 
-  it("throws an error if Produce is not ready", () => {
+  it("throws an error if Compost is not ready", () => {
     expect(() =>
-      collectComposterProduce({
+      collectCompost({
         state: {
           ...GAME_STATE,
           buildings: {
@@ -64,8 +64,7 @@ describe("collectComposterProduce", () => {
                 createdAt: 0,
                 readyAt: 0,
                 producing: {
-                  name: "Earthworm",
-                  startedAt: dateNow - 10000,
+                  name: "Sprout Mix",
                   readyAt: dateNow + 1000,
                 },
               },
@@ -73,28 +72,27 @@ describe("collectComposterProduce", () => {
           },
         },
         action: {
-          type: "composterProduce.collected",
+          type: "compost.collected",
           building: "Basic Composter",
           buildingId: "123",
         },
         createdAt: Date.now(),
       })
-    ).toThrow("Produce is not ready");
+    ).toThrow("Compost is not ready");
   });
 
-  it("removes the Produce from the building", () => {
+  it("removes the Compost from the building", () => {
     const basicComposter: PlacedItem = {
       id: "123",
       coordinates: { x: 1, y: 1 },
       createdAt: 0,
       readyAt: 0,
       producing: {
-        name: "Earthworm",
-        startedAt: dateNow - 10000,
+        name: "Sprout Mix",
         readyAt: dateNow - 1000,
       },
     };
-    const state = collectComposterProduce({
+    const state = collectCompost({
       state: {
         ...GAME_STATE,
         buildings: {
@@ -110,7 +108,7 @@ describe("collectComposterProduce", () => {
         },
       },
       action: {
-        type: "composterProduce.collected",
+        type: "compost.collected",
         building: "Basic Composter",
         buildingId: "123",
       },
@@ -135,7 +133,7 @@ describe("collectComposterProduce", () => {
   });
 
   it("adds the consumable to the inventory", () => {
-    const state = collectComposterProduce({
+    const state = collectCompost({
       state: {
         ...GAME_STATE,
         balance: new Decimal(10),
@@ -151,8 +149,7 @@ describe("collectComposterProduce", () => {
               createdAt: 0,
               readyAt: 0,
               producing: {
-                name: "Earthworm",
-                startedAt: dateNow - 10000,
+                name: "Sprout Mix",
                 readyAt: dateNow - 1000,
               },
             },
@@ -160,7 +157,7 @@ describe("collectComposterProduce", () => {
         },
       },
       action: {
-        type: "composterProduce.collected",
+        type: "compost.collected",
         building: "Basic Composter",
         buildingId: "123",
       },
@@ -169,6 +166,7 @@ describe("collectComposterProduce", () => {
 
     expect(state.balance).toEqual(new Decimal(10));
     expect(state.inventory).toEqual({
+      "Sprout Mix": new Decimal(10),
       Earthworm: new Decimal(1),
       Sunflower: new Decimal(22),
     });

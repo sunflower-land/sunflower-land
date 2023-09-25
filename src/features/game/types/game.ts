@@ -30,7 +30,7 @@ import { ConversationName } from "./conversations";
 import { NPCName } from "lib/npcs";
 import { SeasonalTicket } from "./seasons";
 import { Bud } from "./buds";
-import { ComposterProduceName } from "./composters";
+import { Bait, CompostName } from "./composters";
 
 export type Reward = {
   sfl?: Decimal;
@@ -249,7 +249,8 @@ export type InventoryItemName =
   | ExoticCropName
   | PotionHouseItemName
   | "Basic Land"
-  | ComposterProduceName;
+  | Bait
+  | CompostName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -372,8 +373,7 @@ export type BuildingProduct = {
 };
 
 export type BuildingProduce = {
-  name: ComposterProduceName;
-  startedAt: number;
+  name: CompostName;
   readyAt: number;
 };
 

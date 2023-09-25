@@ -28,7 +28,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SELLABLE_TREASURE } from "features/game/types/treasure";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
-import { COMPOSTER_PRODUCE } from "features/game/types/composters";
+import { BAIT, COMPOST } from "features/game/types/composters";
 
 interface Prop {
   gameState: GameState;
@@ -111,7 +111,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const easterEggs = getItems(EASTER_EGG);
   const bounty = getItems(SELLABLE_TREASURE);
   const exotics = getItems(EXOTIC_CROPS);
-  const composterProduce = getItems(COMPOSTER_PRODUCE);
+  const compost = getItems(COMPOST);
+  const bait = getItems(BAIT);
 
   const allSeeds = [...seeds, ...fruitSeeds];
   const allTools = [...workbenchTools, ...treasureTools];
@@ -187,8 +188,9 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           {itemsSection("Foods", consumables)}
           {itemsSection("Fertilisers", fertilisers)}
           {itemsSection("Easter Eggs", easterEggs)}
+          {itemsSection("Compost", compost)}
+          {itemsSection("Bait", bait)}
           {itemsSection("Bounty", [...bounty, ...exotics])}
-          {itemsSection("Bait", composterProduce)}
           {itemsSection("Coupons", coupons)}
         </>
       }
