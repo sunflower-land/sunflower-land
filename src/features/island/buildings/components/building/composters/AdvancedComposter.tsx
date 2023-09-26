@@ -108,6 +108,7 @@ export const AdvancedComposter: React.FC = () => {
           secondsTillReady: secondsTillReady ?? 0,
           setShowModal,
           startComposter,
+          inventory: gameState.context.state.inventory,
         }}
       />
       {ready && (

@@ -107,6 +107,7 @@ export const ExpertComposter: React.FC = () => {
           secondsTillReady: secondsTillReady ?? 0,
           setShowModal,
           startComposter,
+          inventory: gameState.context.state.inventory,
         }}
       />
       {ready && (
