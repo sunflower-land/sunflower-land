@@ -38,6 +38,8 @@ export interface Withdrawals extends BaseContract {
   methods: {
     addGameRole(_game: string): NonPayableTransactionObject<void>;
 
+    buds(): NonPayableTransactionObject<string>;
+
     bumpkin(): NonPayableTransactionObject<string>;
 
     bumpkinDetails(): NonPayableTransactionObject<string>;
@@ -112,6 +114,15 @@ export interface Withdrawals extends BaseContract {
     transferWithdrawFeeWallet(_team: string): NonPayableTransactionObject<void>;
 
     wishingWellTax(): NonPayableTransactionObject<string>;
+
+    withdrawBuds(
+      signature: string | number[],
+      sessionId: string | number[],
+      nextSessionId: string | number[],
+      deadline: number | string | BN,
+      farmId: number | string | BN,
+      budIds: (number | string | BN)[]
+    ): NonPayableTransactionObject<boolean>;
 
     withdrawBumpkin(
       signature: string | number[],
