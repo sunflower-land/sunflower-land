@@ -1,4 +1,5 @@
 import { GameState } from "features/game/types/game";
+import { hasBudRemoveRestriction } from "features/game/types/removeables";
 import cloneDeep from "lodash.clonedeep";
 
 export enum REMOVE_BUD_ERRORS {
@@ -32,6 +33,15 @@ export function removeBud({
 
   if (!bud.coordinates) {
     throw new Error(REMOVE_BUD_ERRORS.BUD_NOT_PLACED);
+  }
+
+  const [isRestricted, restrictionReason] = hasBudRemoveRestriction(
+    stateCopy,
+    bud
+  );
+
+  if (isRestricted) {
+    throw new Error(restrictionReason);
   }
 
   delete bud.coordinates;

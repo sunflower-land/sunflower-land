@@ -46,6 +46,90 @@ describe("removeBud", () => {
     ).toThrow(REMOVE_BUD_ERRORS.BUD_NOT_PLACED);
   });
 
+  it("prevents removing a bud if stem buff is active", () => {
+    expect(() =>
+      removeBud({
+        state: {
+          ...GAME_STATE,
+          crops: {
+            ["1"]: {
+              createdAt: Date.now(),
+              height: 0,
+              width: 0,
+              x: 0,
+              y: 0,
+              crop: {
+                amount: 1,
+                name: "Carrot",
+                plantedAt: Date.now(),
+                id: "1",
+              },
+            },
+          },
+          buds: {
+            1: {
+              aura: "Basic",
+              colour: "Beige",
+              ears: "Ears",
+              stem: "3 Leaf Clover",
+              type: "Beach",
+              coordinates: {
+                x: 1,
+                y: 1,
+              },
+            },
+          },
+        },
+        action: {
+          type: "bud.removed",
+          id: "1",
+        },
+      })
+    ).toThrowError("Crops are planted");
+  });
+
+  it("prevents removing a bud if type buff is active", () => {
+    expect(() =>
+      removeBud({
+        state: {
+          ...GAME_STATE,
+          fruitPatches: {
+            ["1"]: {
+              height: 0,
+              width: 0,
+              x: 0,
+              y: 0,
+              fruit: {
+                amount: 1,
+                harvestedAt: Date.now(),
+                harvestsLeft: 1,
+                name: "Apple",
+                plantedAt: Date.now(),
+              },
+            },
+          },
+          buds: {
+            1: {
+              aura: "Basic",
+              colour: "Beige",
+              ears: "Ears",
+              stem: "Axe Head",
+              type: "Beach",
+              coordinates: {
+                x: 1,
+                y: 1,
+              },
+            },
+          },
+        },
+        action: {
+          type: "bud.removed",
+          id: "1",
+        },
+      })
+    ).toThrowError("Fruits are growing");
+  });
+
   it("removes a bud", () => {
     const gameState = removeBud({
       state: {
