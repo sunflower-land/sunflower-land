@@ -36,6 +36,7 @@
         "name": "_bumpkinWearables",
         "type": "address"
       },
+      { "internalType": "contract Buds", "name": "_buds", "type": "address" },
       { "internalType": "address", "name": "_wishingWell", "type": "address" },
       {
         "internalType": "address",
@@ -78,6 +79,15 @@
     "name": "addGameRole",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "buds",
+    "outputs": [
+      { "internalType": "contract Buds", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -365,6 +375,20 @@
     "name": "wishingWellTax",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes", "name": "signature", "type": "bytes" },
+      { "internalType": "bytes32", "name": "sessionId", "type": "bytes32" },
+      { "internalType": "bytes32", "name": "nextSessionId", "type": "bytes32" },
+      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
+      { "internalType": "uint256", "name": "farmId", "type": "uint256" },
+      { "internalType": "uint256[]", "name": "budIds", "type": "uint256[]" }
+    ],
+    "name": "withdrawBuds",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
