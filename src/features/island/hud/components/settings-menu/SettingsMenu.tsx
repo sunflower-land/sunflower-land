@@ -22,6 +22,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { PokoOnRamp } from "../PokoOnRamp";
 import { createPortal } from "react-dom";
 import { DEV_TimeMachine } from "./DEV_TimeMachine";
+import { Label } from "components/ui/Label";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -171,12 +172,18 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     <li className="p-1">
                       <Button onClick={handleAddMatic} disabled={true}>
                         <span>Buy Matic</span>
+                        <Label type="info" className="mb-1">
+                          Temporarily Disabled
+                        </Label>
                       </Button>
                     </li>
 
                     <li className="p-1">
                       <Button onClick={handleAddSFL} disabled={true}>
                         <span>Buy SFL 🇧🇷🇵🇭🇮🇳</span>
+                        <Label type="info" className="mb-1">
+                          Temporarily Disabled
+                        </Label>
                       </Button>
                     </li>
 
