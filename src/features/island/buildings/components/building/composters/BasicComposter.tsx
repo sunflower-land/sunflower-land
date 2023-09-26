@@ -106,6 +106,7 @@ export const BasicComposter: React.FC = () => {
           ready,
           showModal,
           secondsTillReady: secondsTillReady ?? 0,
+          inventory: gameState.context.state.inventory,
           setShowModal,
           startComposter,
         }}
