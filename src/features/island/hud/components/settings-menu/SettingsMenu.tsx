@@ -171,7 +171,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
 
                     <li className="p-1">
                       <Button onClick={handleAddMatic} disabled={true}>
-                        <span>Buy Matic</span>
+                        <span>Buy Matic </span>
                         <Label type="info" className="mb-1">
                           Temporarily Disabled
                         </Label>
@@ -180,7 +180,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
 
                     <li className="p-1">
                       <Button onClick={handleAddSFL} disabled={true}>
-                        <span>Buy SFL 🇧🇷🇵🇭🇮🇳</span>
+                        <span>Buy SFL 🇧🇷🇵🇭🇮🇳 </span>
                         <Label type="info" className="mb-1">
                           Temporarily Disabled
                         </Label>
