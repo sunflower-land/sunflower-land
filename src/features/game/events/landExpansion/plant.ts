@@ -27,6 +27,8 @@ import {
   isAdvancedCrop,
   isOvernightCrop,
 } from "./harvest";
+import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
+import { getBudSpeedBoosts } from "features/game/lib/getBudSpeedBoosts";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -87,6 +89,7 @@ export const getCropTime = (
   inventory: Inventory,
   collectibles: Collectibles,
   bumpkin: Bumpkin,
+  buds: NonNullable<GameState["buds"]>,
   plot?: CropPlot
 ) => {
   const { skills, equipped } = bumpkin;
@@ -175,6 +178,8 @@ export const getCropTime = (
     }
   }
 
+  seconds = seconds * getBudSpeedBoosts(buds, crop);
+
   return seconds;
 };
 
@@ -185,6 +190,7 @@ type GetPlantedAtArgs = {
   bumpkin: Bumpkin;
   createdAt: number;
   plot: CropPlot;
+  buds: NonNullable<GameState["buds"]>;
 };
 
 /**
@@ -195,13 +201,21 @@ export function getPlantedAt({
   inventory,
   collectibles,
   bumpkin,
+  buds,
   createdAt,
   plot,
 }: GetPlantedAtArgs): number {
   if (!crop) return 0;
 
   const cropTime = CROPS()[crop].harvestSeconds;
-  const boostedTime = getCropTime(crop, inventory, collectibles, bumpkin, plot);
+  const boostedTime = getCropTime(
+    crop,
+    inventory,
+    collectibles,
+    bumpkin,
+    buds,
+    plot
+  );
 
   const offset = cropTime - boostedTime;
 
@@ -216,12 +230,14 @@ export function getCropYieldAmount({
   plot,
   inventory,
   collectibles,
+  buds,
   bumpkin,
 }: {
   crop: CropName;
   plot: CropPlot;
   inventory: Inventory;
   collectibles: Collectibles;
+  buds: NonNullable<GameState["buds"]>;
   bumpkin: Bumpkin;
 }): number {
   let amount = 1;
@@ -432,6 +448,8 @@ export function getCropYieldAmount({
     amount += 0.4;
   }
 
+  amount += getBudYieldBoosts(buds, crop);
+
   return Number(setPrecision(new Decimal(amount)));
 }
 
@@ -442,6 +460,7 @@ export function plant({
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
   const { crops: plots, bumpkin, collectibles, inventory } = stateCopy;
+  const buds = stateCopy.buds ?? {};
 
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
@@ -488,14 +507,16 @@ export function plant({
         bumpkin,
         createdAt,
         plot,
+        buds,
       }),
       name: cropName,
       amount: getCropYieldAmount({
         crop: cropName,
-        inventory: inventory,
+        inventory,
         collectibles,
         bumpkin,
         plot,
+        buds,
       }),
     },
   };
