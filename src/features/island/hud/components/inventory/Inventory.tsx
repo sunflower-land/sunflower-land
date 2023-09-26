@@ -11,6 +11,7 @@ import { getChestItems } from "./utils/inventory";
 import { KNOWN_IDS } from "features/game/types";
 import { useLocation } from "react-router-dom";
 import { BudName } from "features/game/types/buds";
+import { BuffsModal } from "../buffs/BuffsModal";
 
 interface Props {
   state: GameState;
@@ -36,6 +37,7 @@ export const Inventory: React.FC<Props> = ({
   onDepositClick,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showBuffs, setShowBuffs] = useState(false);
   const { pathname } = useLocation();
   // The actions included in this more buttons should not be shown if the player is in goblin retreat or visiting another farm
   const limitedInventory =
@@ -102,6 +104,33 @@ export const Inventory: React.FC<Props> = ({
           />
         </div>
 
+        <div
+          onClick={() => setShowBuffs(true)}
+          className="relative flex z-50 cursor-pointer hover:img-highlight"
+          style={{
+            marginLeft: `${PIXEL_SCALE * 2}px`,
+            marginBottom: `${PIXEL_SCALE * 25}px`,
+            width: `${PIXEL_SCALE * 22}px`,
+          }}
+        >
+          <img
+            src={SUNNYSIDE.ui.round_button}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 22}px`,
+            }}
+          />
+          <img
+            src="/src/assets/skills/land/cooking/michelin_stars.png"
+            className="absolute"
+            style={{
+              top: `${PIXEL_SCALE * 3}px`,
+              left: `${PIXEL_SCALE * 5}px`,
+              width: `${PIXEL_SCALE * 12}px`,
+            }}
+          />
+        </div>
+
         {!limitedInventory && (
           <div
             className="flex flex-col items-center"
@@ -139,6 +168,12 @@ export const Inventory: React.FC<Props> = ({
         isSaving={isSaving}
         isFarming={isFarming}
         isFullUser={isFullUser}
+      />
+
+      <BuffsModal
+        show={showBuffs}
+        onHide={() => setShowBuffs(false)}
+        state={state}
       />
     </>
   );
