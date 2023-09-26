@@ -201,6 +201,7 @@ import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png"
 import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
 import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp";
 import budTicket from "assets/icons/bud_ticket.png";
+import budSeedling from "assets/icons/bud_seedling.png";
 
 // Banners
 import goblinBanner from "assets/decorations/banners/goblin_banner.png";
@@ -2442,6 +2443,10 @@ export const ITEM_DETAILS: Items = {
     image: budTicket,
     description:
       "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
+  },
+  "Bud Seedling": {
+    image: budSeedling,
+    description: "A seedling to be exchanged for a free Bud NFT",
   },
   "Town Sign": {
     image: sign,
