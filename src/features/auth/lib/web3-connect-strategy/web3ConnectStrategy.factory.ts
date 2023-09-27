@@ -6,6 +6,7 @@ import { PhantomStrategy } from "./phantom.strategy";
 import { SequenceStrategy } from "./sequence.strategy";
 import { WalletConnectStrategy } from "./walletConnect.strategy";
 import { CryptoComStrategy } from "./cryptoCom.strategy";
+import { BitgetStrategy } from "./bitget.strategy";
 
 export function web3ConnectStrategyFactory(
   providerName: Web3SupportedProviders
@@ -23,5 +24,7 @@ export function web3ConnectStrategyFactory(
       return new WalletConnectStrategy();
     case Web3SupportedProviders.CRYPTO_COM:
       return new CryptoComStrategy();
+    case Web3SupportedProviders.BITGET:
+      return new BitgetStrategy();
   }
 }

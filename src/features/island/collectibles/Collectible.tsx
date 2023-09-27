@@ -191,6 +191,8 @@ import { LabGrownRadish } from "./components/LabGrownRadish";
 import { RadicalRadish } from "./components/RadicalRadish";
 import { PotentPotato } from "./components/PotentPotato";
 import { StellarSunflower } from "./components/StellarSunflower";
+import { Sign } from "./components/Sign";
+import { Bud } from "./components/Bud";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -208,7 +210,7 @@ type Props = CollectibleProps & {
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 export const COLLECTIBLE_COMPONENTS: Record<
-  CollectibleName,
+  CollectibleName | "Bud",
   React.FC<CollectibleProps>
 > = {
   "Mysterious Head": MysteriousHead,
@@ -421,10 +423,17 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Lab Grown Carrot": LabGrownCarrot,
   "Lab Grown Pumpkin": LabGrownPumpkin,
   "Lab Grown Radish": LabGrownRadish,
+
+  "Town Sign": Sign,
+
+  Bud: Bud,
 };
 
 // Need readonly versions for some troublesome components while in design mode
-export const READONLY_COLLECTIBLES: Record<CollectibleName, React.FC<any>> = {
+export const READONLY_COLLECTIBLES: Record<
+  CollectibleName | "Bud",
+  React.FC<any>
+> = {
   ...COLLECTIBLE_COMPONENTS,
   Observatory: () => (
     <img

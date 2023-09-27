@@ -201,6 +201,7 @@ import solarFlareBanner from "assets/decorations/solar_flare_banner.png";
 import dawnBreakerBanner from "assets/decorations/dawn_breaker_banner.png";
 import witchesEveBanner from "assets/decorations/witches_eve_banner.webp";
 import budTicket from "assets/icons/bud_ticket.png";
+import budSeedling from "assets/icons/bud_seedling.png";
 
 // Banners
 import goblinBanner from "assets/sfts/goblin_banner.png";
@@ -344,6 +345,7 @@ import dawnFlower from "src/assets/sfts/dawn_flower.png";
 import candles from "src/assets/decorations/candles.png";
 import spookyTree from "src/assets/decorations/spooky_tree.png";
 import hauntedStump from "src/assets/decorations/haunted_stump.png";
+import sign from "src/assets/decorations/woodsign.png";
 
 import pineTree from "src/assets/decorations/pine_tree.png";
 import fieldMaple from "src/assets/decorations/field_maple.webp";
@@ -1400,7 +1402,7 @@ export const ITEM_DETAILS: Items = {
   },
   Toolshed: {
     image: toolshed,
-    description: "Increase your tool stocks by 50%",
+    description: "Increase your workbench tool stock by 50%",
   },
   Warehouse: {
     image: warehouse,
@@ -2441,5 +2443,13 @@ export const ITEM_DETAILS: Items = {
     image: budTicket,
     description:
       "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
+  },
+  "Bud Seedling": {
+    image: budSeedling,
+    description: "A seedling to be exchanged for a free Bud NFT",
+  },
+  "Town Sign": {
+    image: sign,
+    description: "Show your farm ID with pride!",
   },
 };

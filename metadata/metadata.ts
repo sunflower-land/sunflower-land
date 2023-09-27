@@ -5252,4 +5252,24 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Bud Seedling": {
+    description: "A seedling that was exchanged for a bud NFT",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/729.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Town Sign": {
+    description: "Show your farm ID with pride!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1284.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Landscape" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
 };

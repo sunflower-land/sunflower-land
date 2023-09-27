@@ -289,6 +289,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Crow Feather": () => false,
   "Potion Ticket": () => false,
   "Bud Ticket": () => false,
+  "Bud Seedling": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {
@@ -380,6 +381,7 @@ const consumables: Record<ConsumableName, () => boolean> = {
 };
 
 const decorations: Record<ShopDecorationName, () => boolean> = {
+  "Town Sign": () => false,
   "White Tulips": () => false,
   "Potted Sunflower": () => false,
   "Potted Potato": () => false,
@@ -709,6 +711,12 @@ const canWithdrawBoostedWearable = (
     );
   }
 
+  if (wearable === "Corn Onesie") {
+    return getKeys(state.crops).every(
+      (id) => state.crops[id].crop?.name !== "Corn"
+    );
+  }
+
   if (wearable === "Parsnip") {
     return getKeys(state.crops).every(
       (id) => state.crops[id].crop?.name !== "Parsnip"
@@ -943,7 +951,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Birthday Hat": () => false,
   "Double Harvest Cap": () => false,
   "Streamer Helmet": () => false,
-  "Corn Onesie": () => false, // Not Launched
+  "Corn Onesie": (state) => canWithdrawBoostedWearable("Corn Onesie", state), // Not Launched
   "Crow Wings": () => canWithdrawTimebasedItem(new Date("2023-11-01")), // Not Launched
   "Witches' Eve Tee": () => false,
   "Wise Beard": () => false, // Not Launched

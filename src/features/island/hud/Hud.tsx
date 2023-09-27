@@ -118,6 +118,12 @@ const HudComponent: React.FC<{
                   multiple: true,
                 });
               }}
+              onPlaceBud={(selected) => {
+                gameService.send("LANDSCAPE", {
+                  action: "bud.placed",
+                  placeable: selected,
+                });
+              }}
               onDepositClick={() => setShowDepositModal(true)}
               isSaving={autosaving}
               isFarming={isFarming}
@@ -171,7 +177,7 @@ const HudComponent: React.FC<{
           <BumpkinProfile isFullUser={isFullUser} />
 
           {farmAddress && (
-            <Modal show={showDepositModal} centered>
+            <Modal show={showDepositModal} centered onHide={handleClose}>
               <CloseButtonPanel
                 title={depositDataLoaded ? "Deposit" : undefined}
                 onClose={depositDataLoaded ? handleClose : undefined}

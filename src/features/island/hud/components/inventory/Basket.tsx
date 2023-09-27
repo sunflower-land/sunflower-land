@@ -38,7 +38,7 @@ interface Prop {
 export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const divRef = useRef<HTMLDivElement>(null);
 
-  const { inventory, bumpkin, collectibles } = gameState;
+  const { inventory, bumpkin, collectibles, buds } = gameState;
   const basketMap = getBasketItems(inventory);
 
   const basketIsEmpty = Object.values(basketMap).length === 0;
@@ -74,7 +74,13 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     }
 
     const crop = SEEDS()[seedName].yield as CropName;
-    return getCropTime(crop, inventory, collectibles, bumpkin as Bumpkin);
+    return getCropTime(
+      crop,
+      inventory,
+      collectibles,
+      bumpkin as Bumpkin,
+      buds ?? {}
+    );
   };
 
   const harvestCounts = getFruitHarvests(gameState);

@@ -11,7 +11,7 @@ interface Props {
 const getImage = (icon: string, iconWidth: number) => (
   <img
     src={icon}
-    className="relative"
+    className={`relative`}
     alt="item"
     style={{
       opacity: "0",

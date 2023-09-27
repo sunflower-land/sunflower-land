@@ -3,7 +3,7 @@ import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { CollectibleName, getKeys } from "features/game/types/craftables";
-import { getChestItems } from "./utils/inventory";
+import { getChestBuds, getChestItems } from "./utils/inventory";
 import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import chest from "assets/npcs/synced.gif";
@@ -22,6 +22,11 @@ import deliIcon from "assets/buildings/deli_icon.png";
 import smoothieIcon from "assets/buildings/smoothie_shack_icon.png";
 import toolshedIcon from "assets/buildings/toolshed_icon.png";
 import warehouseIcon from "assets/buildings/warehouse_icon.png";
+import { BudName, isBudName } from "features/game/types/buds";
+import { CONFIG } from "lib/config";
+import { BudDetails } from "components/ui/layouts/BudDetails";
+
+const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
 export const ITEM_ICONS: Partial<Record<InventoryItemName, string>> = {
   Market: marketIcon,
@@ -38,10 +43,11 @@ export const ITEM_ICONS: Partial<Record<InventoryItemName, string>> = {
 
 interface Props {
   state: GameState;
-  selected: InventoryItemName;
-  onSelect: (name: InventoryItemName) => void;
+  selected: InventoryItemName | BudName;
+  onSelect: (name: InventoryItemName | BudName) => void;
   closeModal: () => void;
   onPlace?: (name: InventoryItemName) => void;
+  onPlaceBud?: (bud: BudName) => void;
   onDepositClick?: () => void;
   isSaving?: boolean;
 }
@@ -53,9 +59,11 @@ export const Chest: React.FC<Props> = ({
   closeModal,
   isSaving,
   onPlace,
+  onPlaceBud,
   onDepositClick,
 }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
+  const buds = getChestBuds(state);
   const chestMap = getChestItems(state);
 
   const collectibles = getKeys(chestMap)
@@ -64,18 +72,34 @@ export const Chest: React.FC<Props> = ({
       return { ...acc, [item]: chestMap[item] };
     }, {} as Record<CollectibleName, Decimal>);
 
-  // select first item in collectibles if the original selection is not in collectibles when they are all placed by the player
-  const selectedChestItem = collectibles[selected as CollectibleName]
-    ? selected
-    : getKeys(collectibles)[0];
+  const getSelectedChestItems = (): InventoryItemName | BudName => {
+    if (isBudName(selected)) {
+      const budId = Number(selected.split("-")[1]);
+      const bud = buds[budId];
+      if (bud) return selected;
+      if (getKeys(buds)[0]) return `Bud-${getKeys(buds)[0]}` as BudName;
+      return getKeys(collectibles)[0];
+    }
+
+    // select first item in collectibles if the original selection is not in collectibles when they are all placed by the player
+    const collectible = collectibles[selected as CollectibleName];
+    if (collectible) return selected;
+    return getKeys(collectibles)[0];
+  };
+
+  const selectedChestItem = getSelectedChestItems();
 
   const handlePlace = () => {
-    onPlace && onPlace(selectedChestItem);
+    if (isBudName(selectedChestItem)) {
+      onPlaceBud && onPlaceBud(selectedChestItem);
+    } else {
+      onPlace && onPlace(selectedChestItem);
+    }
 
     closeModal();
   };
 
-  const handleItemClick = (item: InventoryItemName) => {
+  const handleItemClick = (item: InventoryItemName | BudName) => {
     onSelect(item);
   };
 
@@ -109,36 +133,75 @@ export const Chest: React.FC<Props> = ({
     );
   }
 
+  const PanelContent: React.FC = () => {
+    if (isBudName(selectedChestItem)) {
+      const budId = Number(selectedChestItem.split("-")[1]);
+      const bud = buds[budId];
+
+      return (
+        <BudDetails
+          bud={bud}
+          budId={budId}
+          actionView={
+            onPlace && (
+              <Button onClick={handlePlace} disabled={isSaving}>
+                {isSaving ? "Saving..." : "Place on map"}
+              </Button>
+            )
+          }
+        />
+      );
+    }
+
+    return (
+      <InventoryItemDetails
+        details={{
+          item: selectedChestItem,
+        }}
+        properties={{
+          showOpenSeaLink: true,
+        }}
+        actionView={
+          onPlace && (
+            <Button onClick={handlePlace} disabled={isSaving}>
+              {isSaving ? "Saving..." : "Place on map"}
+            </Button>
+          )
+        }
+      />
+    );
+  };
+
   return (
     <SplitScreenView
       divRef={divRef}
       tallMobileContent={true}
       wideModal={true}
       showPanel={!!selectedChestItem}
-      panel={
-        selectedChestItem && (
-          <InventoryItemDetails
-            details={{
-              item: selectedChestItem,
-            }}
-            properties={{
-              showOpenSeaLink: true,
-            }}
-            actionView={
-              onPlace && (
-                <Button onClick={handlePlace} disabled={isSaving}>
-                  {isSaving ? "Saving..." : "Place on map"}
-                </Button>
-              )
-            }
-          />
-        )
-      }
+      panel={<PanelContent />}
       content={
         <>
+          {!!Object.values(buds).length && (
+            <div className="flex flex-col pl-2 mb-2 w-full" key="Buds">
+              <p className="mb-2">Buds</p>
+              <div className="flex mb-2 flex-wrap -ml-1.5">
+                {getKeys(buds).map((budId) => (
+                  <Box
+                    isSelected={selectedChestItem === `Bud-${budId}`}
+                    key={`Bud-${budId}`}
+                    onClick={() => handleItemClick(`Bud-${budId}`)}
+                    image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
+                    iconClassName="scale-[1.8] origin-bottom absolute"
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
           {Object.values(collectibles) && (
-            <div className="flex flex-col pl-2">
-              <div className="flex mb-2 flex-wrap -ml-1.5 pt-1">
+            <div className="flex flex-col pl-2 mb-2 w-full" key="Collectibles">
+              <p className="mb-2">Collectibles</p>
+              <div className="flex mb-2 flex-wrap -ml-1.5">
                 {getKeys(collectibles).map((item) => (
                   <Box
                     count={chestMap[item]}

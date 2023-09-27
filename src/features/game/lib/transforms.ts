@@ -87,6 +87,7 @@ export function makeGame(farm: any): GameState {
     delivery: farm.delivery,
     potionHouse: farm.potionHouse,
     npcs: farm.npcs,
+    buds: farm.buds,
   };
 }
 

@@ -20,13 +20,15 @@ interface Props {
   messages: Message[];
   onMessage: (content: { text?: string; reaction?: ReactionName }) => void;
   isMuted?: boolean;
+  onCommand?: (name: string, args: string[]) => void;
 }
 
 export const ChatUI: React.FC<Props> = ({
   farmId,
   onMessage,
-  messages,
   isMuted,
+  onCommand,
+  messages,
 }) => {
   const [showChat, setShowChat] = useState(false);
   const [cooldown, setCooldown] = useState<number>(0);
@@ -85,6 +87,11 @@ export const ChatUI: React.FC<Props> = ({
     onMessage({ text });
   };
 
+  const sendCommand = (command: string) => {
+    const [name, ...args] = command.split(" ");
+    onCommand?.(name, args);
+  };
+
   return (
     <>
       <div
@@ -97,6 +104,7 @@ export const ChatUI: React.FC<Props> = ({
         <ChatText
           messages={messages}
           onMessage={sendMessage}
+          onCommand={sendCommand}
           cooledDownAt={cooldown}
         />
       </div>
