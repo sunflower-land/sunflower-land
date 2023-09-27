@@ -57,7 +57,6 @@ import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 import { buySFL } from "../actions/buySFL";
 import { PurchasableItems } from "../types/collectibles";
 import {
-  getBudsRead,
   getGameRulesLastRead,
   getIntroductionRead,
 } from "features/announcements/announcementsStorage";
@@ -699,21 +698,6 @@ export function startGame(authContext: AuthContext) {
                   context.state.bumpkin?.experience === 0 &&
                   getPromoCode() === "crypto-com"
                 );
-              },
-            },
-            {
-              target: "buds",
-              cond: (context) => {
-                // Don't show to noobs
-                if ((context.state.bumpkin?.experience ?? 0) <= 100) {
-                  return false;
-                }
-                const readAt = getBudsRead();
-                if (!readAt) {
-                  return true;
-                }
-
-                return readAt.getTime() < Date.now() - 7 * 24 * 60 * 60 * 1000;
               },
             },
             {
