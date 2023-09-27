@@ -19,6 +19,7 @@ export type GameAnalyticEvent =
   | "connect_to_crypto_com"
   | "connect_to_sequence"
   | "connect_to_walletconnect"
+  | "connect_to_bitget"
   | "create_account"
   | "mint_farm"
   | "offer_seen"

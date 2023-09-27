@@ -5,4 +5,5 @@ export enum Web3SupportedProviders {
   SEQUENCE = "Sequence",
   WALLET_CONNECT = "Wallet Connect",
   CRYPTO_COM = "Crypto.com",
+  BITGET = "Bitkeep",
 }
