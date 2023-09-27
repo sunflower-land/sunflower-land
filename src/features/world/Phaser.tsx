@@ -127,19 +127,6 @@ export const PhaserComponent: React.FC<Props> = ({
       : setIsModerator(false);
 
     // Check if user is muted and if so, apply mute details to isMuted state
-
-    // TODO
-
-    // Debug
-    setTimeout(() => {
-      console.error("DEBUG: Muted for 10 seconds");
-      setIsMuted({
-        type: "mute",
-        farmId: 60,
-        reason: "Because I said so",
-        mutedUntil: new Date().getTime() + 10 * 60 * 10, //
-      });
-    }, 10000);
   }, []);
 
   useEffect(() => {
@@ -231,13 +218,10 @@ export const PhaserComponent: React.FC<Props> = ({
 
         switch (event.type) {
           case "kick":
-            // We use the kick event to dispay a modal when mute happens
             setKickEvent(event);
-
-            // And we add the mute data to isMuted state waiting on user's state to include the muted field
-            setIsMuted(event);
             break;
           case "mute":
+            setIsMuted(event);
             setMuteEvent(event);
             break;
           default:

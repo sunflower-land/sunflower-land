@@ -42,7 +42,7 @@ export const KickPopUp: React.FC<Props> = ({
 
         scene.mmoService.state.context.server?.send("moderation_event", {
           type: "kick",
-          farmid: player.farmId as number,
+          farmId: player.farmId as number,
           reason: reason,
         });
       })
