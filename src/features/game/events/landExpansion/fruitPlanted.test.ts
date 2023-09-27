@@ -1,3 +1,5 @@
+import "lib/__mocks__/configMock";
+
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { FruitSeedName, FRUIT_SEEDS } from "features/game/types/fruits";
@@ -489,6 +491,47 @@ describe("fruitPlanted", () => {
       },
     });
     expect(state.bumpkin?.activity?.["Apple Seed Planted"]).toEqual(amount);
+  });
+
+  it("applies a bud boost", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = "1";
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Blueberry Seed": seedAmount,
+          "Black Bearry": new Decimal(1),
+        },
+        buds: {
+          1: {
+            aura: "No Aura",
+            stem: "Hibiscus",
+            colour: "Brown",
+            ears: "No Ears",
+            type: "Beach",
+            coordinates: { x: 0, y: 0 },
+          },
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+
+        seed: "Blueberry Seed",
+      },
+      harvestsLeft: () => 3,
+    });
+
+    const fruitPatches = state.fruitPatches;
+
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
+    ).toEqual(1.2);
   });
 });
 

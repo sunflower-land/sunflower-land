@@ -1,3 +1,5 @@
+import "lib/__mocks__/configMock";
+
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { FRUIT_SEEDS } from "features/game/types/fruits";
@@ -458,5 +460,49 @@ describe("fruitHarvested", () => {
     });
 
     expect(state.bumpkin?.activity?.["Apple Harvested"]).toEqual(1);
+  });
+
+  it("applies a buds boost", () => {
+    const { fruitPatches } = GAME_STATE;
+    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const initialHarvest = 2;
+
+    const state = harvestFruit({
+      state: {
+        ...GAME_STATE,
+        buds: {
+          1: {
+            aura: "No Aura",
+            colour: "Green",
+            ears: "No Ears",
+            stem: "Hibiscus",
+            type: "Beach",
+            coordinates: { x: 0, y: 0 },
+          },
+        },
+        fruitPatches: {
+          0: {
+            ...fruitPatch,
+            fruit: {
+              name: "Blueberry",
+              plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
+              harvestsLeft: initialHarvest,
+              harvestedAt: 2,
+            },
+          },
+        },
+      },
+      action: {
+        type: "fruit.harvested",
+
+        index: "0",
+      },
+      createdAt: dateNow,
+    });
+
+    const { fruitPatches: fruitPatchesAfterHarvest } = state;
+    const fruit = fruitPatchesAfterHarvest?.[0].fruit;
+    expect(fruit?.amount).toEqual(1.2);
   });
 });
