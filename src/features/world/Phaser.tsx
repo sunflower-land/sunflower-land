@@ -363,10 +363,24 @@ export const PhaserComponent: React.FC<Props> = ({
       <div id="game-content" ref={ref} />
 
       {MuteEvent && (
-        <Muted event={MuteEvent} onClose={() => setMuteEvent(undefined)} />
+        <Muted
+          event={MuteEvent}
+          onClose={() => {
+            setMuteEvent(undefined);
+            navigate(`/land/${authState.context.user.farmId}`);
+          }}
+        />
       )}
 
-      {KickEvent && <Kicked event={KickEvent} />}
+      {KickEvent && (
+        <Kicked
+          event={KickEvent}
+          onClose={() => {
+            setKickEvent(undefined);
+            navigate(`/land/${authState.context.user.farmId}`);
+          }}
+        />
+      )}
 
       {scene !== "corn_maze" && (
         <ChatUI

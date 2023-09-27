@@ -31,35 +31,37 @@ export const calculateMuteTime = (
 };
 
 export const Muted: React.FC<{
-  event: ModerationEvent;
+  event?: ModerationEvent;
   onClose: () => void;
 }> = ({ event, onClose }) => {
+  if (!event) return null;
+
   return (
     <Modal show={true} centered backdrop="static" keyboard={false}>
       <Panel>
-        <div className="flex flex-col">
-          <div className="flex justify-center">
-            <h1 className="text-2xl font-bold">You have been muted!</h1>
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-center text-center">
+            <h1 className="text-lg font-bold">You have been muted!</h1>
           </div>
-          <div className="flex justify-center">
-            <p className="text-xl">Reason: {event.reason}</p>
+          <div className="flex flex-col justify-center text-center">
+            <p className="text-sm">Reason:</p>
+            <p className="text-sm">{event.reason}</p>
           </div>
-          <div className="flex justify-center">
+          <div className="flex flex-col justify-center text-center">
             <p className="text-sm">You are muted until</p>
-            <p className="text-xl">
+            <p className="text-sm">
               {event.mutedUntil
                 ? calculateMuteTime(event.mutedUntil, "until")
                 : "Unknown"}
             </p>
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center text-center">
             <p className="text-xxs">
-              Please note that you can rejoin, but if you continue to break the
-              rules we will take further action.
+              If you are against this decision, please contact us on Discord.
             </p>
           </div>
           <div className="flex justify-center">
-            <Button className="mt-4" onClick={() => onClose}>
+            <Button className="mt-1" onClick={onClose}>
               Accept
             </Button>
           </div>
