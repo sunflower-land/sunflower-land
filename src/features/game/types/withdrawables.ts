@@ -94,7 +94,8 @@ const crops: Record<CropName, () => boolean> = {
   Sunflower: () => true,
   Parsnip: () => true,
   Eggplant: () => true,
-  Corn: () => false,
+  Corn: () =>
+    canWithdrawTimebasedItem(new Date("Wed November 1 2023 10:00:00 GMT+1000")),
   Radish: () => true,
   Wheat: () => true,
 };
