@@ -84,6 +84,7 @@ export const PhaserComponent: React.FC<Props> = ({
   const { gameService } = useContext(Context);
 
   const [isMuted, setIsMuted] = useState<ModerationEvent | undefined>();
+
   const [MuteEvent, setMuteEvent] = useState<ModerationEvent | undefined>();
   const [KickEvent, setKickEvent] = useState<ModerationEvent | undefined>();
 
@@ -127,6 +128,20 @@ export const PhaserComponent: React.FC<Props> = ({
       : setIsModerator(false);
 
     // Check if user is muted and if so, apply mute details to isMuted state
+    const userModLogs = gameService.state.context.moderation;
+
+    if (userModLogs.muted.length > 0) {
+      userModLogs.muted.forEach((mute) => {
+        if (mute.mutedUntil > new Date().getTime()) {
+          setIsMuted({
+            type: "mute",
+            farmId: authState.context.user.farmId as number,
+            reason: mute.reason,
+            mutedUntil: mute.mutedUntil,
+          });
+        }
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -347,13 +362,7 @@ export const PhaserComponent: React.FC<Props> = ({
       <div id="game-content" ref={ref} />
 
       {MuteEvent && (
-        <Muted
-          event={MuteEvent}
-          onClose={() => {
-            setMuteEvent(undefined);
-            navigate(`/land/${authState.context.user.farmId}`);
-          }}
-        />
+        <Muted event={MuteEvent} onClose={() => setMuteEvent(undefined)} />
       )}
 
       {KickEvent && (

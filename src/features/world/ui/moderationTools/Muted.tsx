@@ -17,12 +17,30 @@ export const calculateMuteTime = (
     case "remaining": {
       const now = new Date().getTime();
       const remaining = time - now;
-      const minutes = Math.floor((remaining / 1000 / 60) % 60);
-      const seconds = Math.floor((remaining / 1000) % 60);
 
-      if (remaining <= 0) return "0m 0s";
+      if (remaining <= 0) return "0s";
 
-      return `${minutes}m ${seconds}s`;
+      const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+
+      let result = "";
+
+      if (days > 0) {
+        result += `${days}d `;
+      }
+      if (hours > 0 || days > 0) {
+        result += `${hours}h `;
+      }
+      if (minutes > 0 || hours > 0 || days > 0) {
+        result += `${minutes}m `;
+      }
+      result += `${seconds}s`;
+
+      return result;
     }
     default: {
       return "Unknown";

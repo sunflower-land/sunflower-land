@@ -16,6 +16,20 @@ type Request = {
   guestKey?: string;
 };
 
+type Moderation = {
+  muted: {
+    mutedAt: number;
+    mutedBy: number;
+    reason: string;
+    mutedUntil: number;
+  }[];
+  kicked: {
+    kickedAt: number;
+    kickedBy: number;
+    reason: string;
+  }[];
+};
+
 export type MintedAt = Partial<Record<InventoryItemName, number>>;
 type Response = {
   game: GameState;
@@ -31,6 +45,7 @@ type Response = {
   };
   verified: boolean;
   promoCode?: string;
+  moderation: Moderation;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -88,6 +103,7 @@ export async function loadSession(
     announcements,
     transaction,
     verified,
+    moderation,
     promoCode: promo,
   } = await sanitizeHTTPResponse<{
     farm: any;
@@ -100,6 +116,7 @@ export async function loadSession(
     announcements: Announcements;
     transaction: { type: "withdraw_bumpkin"; expiresAt: number };
     verified: boolean;
+    moderation: Moderation;
     promoCode?: string;
   }>(response);
 
@@ -115,6 +132,7 @@ export async function loadSession(
     announcements,
     transaction,
     verified,
+    moderation,
     promoCode: promo,
   };
 }
