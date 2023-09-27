@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 
 import { redirectOAuth } from "features/auth/actions/oauth";
 import * as Auth from "features/auth/lib/Provider";
+import budIcon from "src/assets/icons/bud.png";
 
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
@@ -47,6 +48,7 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
   >(authState.context.user.token?.discordId ? "idle" : "noDiscord");
 
   const inventory = gameState.context.state.inventory;
+  const buds = gameState.context.state.buds;
   const oauth = () => {
     redirectOAuth();
   };
@@ -132,6 +134,22 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
             </Button>
           </div>
         ))}
+        <div key="buds" className="flex justify-between w-full mt-4">
+          <div>
+            <span className="flex-1">#bud-clubhouse</span>
+            <div className="flex items-center flex-wrap">
+              <span className="text-xs mr-2">Requires a Bud</span>
+              <img src={budIcon} className="h-6 mr-2" />
+            </div>
+          </div>
+          <Button
+            className="text-xs h-8 w-20"
+            onClick={() => addRole("bud-clubhouse")}
+            disabled={Object.keys(buds ?? {}).length === 0}
+          >
+            Join
+          </Button>
+        </div>
       </span>
     );
   };

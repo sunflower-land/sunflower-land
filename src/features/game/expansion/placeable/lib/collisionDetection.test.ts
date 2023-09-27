@@ -161,6 +161,32 @@ describe("detectCollisions", () => {
 
     expect(hasCollision).toBe(true);
   });
+
+  it("returns true if a collision is detected with a bud", () => {
+    const state: GameState = cloneDeep(TEST_FARM);
+    state.buds = {
+      1: {
+        coordinates: {
+          x: 0,
+          y: 0,
+        },
+        aura: "Basic",
+        colour: "Beige",
+        ears: "Ears",
+        stem: "3 Leaf Clover",
+        type: "Beach",
+      },
+    };
+
+    const hasCollision = detectCollision(state, {
+      x: 0,
+      y: 0,
+      height: 1,
+      width: 1,
+    });
+
+    expect(hasCollision).toBe(true);
+  });
 });
 
 describe("isWithinAOE", () => {

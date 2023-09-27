@@ -114,7 +114,12 @@ export function plantFruit({
   patch.fruit = {
     name: fruitName,
     plantedAt: getPlantedAt(action.seed, stateCopy.collectibles, createdAt),
-    amount: getFruitYield(fruitName, stateCopy.collectibles),
+    amount: getFruitYield({
+      name: fruitName,
+      collectibles: stateCopy.collectibles,
+      buds: stateCopy.buds ?? {},
+      wearables: bumpkin.equipped,
+    }),
     harvestedAt: 0,
     // Value will be overridden by BE
     harvestsLeft: harvestCount,

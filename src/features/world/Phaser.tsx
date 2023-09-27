@@ -152,7 +152,6 @@ export const PhaserComponent: React.FC<Props> = ({
     });
 
     setLoaded(true);
-    updateMessages();
 
     return () => {
       game.current?.destroy(true);
