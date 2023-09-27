@@ -1,5 +1,5 @@
 import React from "react";
-import { Player } from "../ModerationTools";
+import { Player } from "../../ModerationTools";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Message } from "../ModerationTools";
+import { Message } from "../../ModerationTools";
 
 type Props = {
   messages: Message[];

@@ -1,7 +1,5 @@
-import React, { useContext, useState } from "react";
-import * as AuthProvider from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
-import { Player } from "../ModerationTools";
+import React, { useState } from "react";
+import { Player } from "../../ModerationTools";
 import { Button } from "components/ui/Button";
 
 import { KickPopUp } from "./Kick";
@@ -11,13 +9,11 @@ import HaloIcon from "assets/sfts/halo.png";
 
 type Props = {
   scene?: any;
+  authState: any;
   players: Player[];
 };
 
-export const PlayerList: React.FC<Props> = ({ scene, players }) => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState, send] = useActor(authService);
-
+export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
   const [showKickPopUp, setShowKickPopUp] = useState(false);
   const [showMutePopUp, setShowMutePopUp] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
@@ -55,14 +51,14 @@ export const PlayerList: React.FC<Props> = ({ scene, players }) => {
         show={showKickPopUp}
         onClose={() => setShowKickPopUp(false)}
         player={selectedPlayer}
-        authState={authState.context.user}
+        authState={authState}
         scene={scene}
       />
       <MutePopUp
         show={showMutePopUp}
         onClose={() => setShowMutePopUp(false)}
         player={selectedPlayer}
-        authState={authState.context.user}
+        authState={authState}
         scene={scene}
       />
 
@@ -89,7 +85,7 @@ export const PlayerList: React.FC<Props> = ({ scene, players }) => {
                     </div>
                   </td>
                   <td className="w-1/4">{player.farmId}</td>
-                  <td className="w-1/4">Not Muted</td>
+                  <td className="w-1/4">WIP</td>
                   {/* TODO: Once Mute is out, display if a player in the is muted and their time left */}
                   <td className="w-1/2">
                     <div className="flex gap-2">
@@ -101,7 +97,7 @@ export const PlayerList: React.FC<Props> = ({ scene, players }) => {
                         TP
                       </Button>
                       <Button
-                        // disabled={isModerator(player)} RE-ADD THIS SACUL DONT FORGET
+                        disabled={isModerator(player)}
                         onClick={() => {
                           toggleKickPopUp(player);
                         }}
@@ -109,7 +105,7 @@ export const PlayerList: React.FC<Props> = ({ scene, players }) => {
                         Kick
                       </Button>
                       <Button
-                        //disabled={isModerator(player)} RE-ADD THIS SACUL DONT FORGET
+                        disabled={isModerator(player)}
                         onClick={() => {
                           toggleMutePopUp(player);
                         }}

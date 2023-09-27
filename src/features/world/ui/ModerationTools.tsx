@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import * as AuthProvider from "features/auth/lib/Provider";
+import { useActor } from "@xstate/react";
+
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
@@ -7,8 +10,9 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SceneId } from "features/world/mmoMachine";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
-import { PlayerList } from "./moderationTools/PlayerList";
-import { ChatHistory } from "./moderationTools/ChatHistory";
+import { PlayerList } from "./moderationTools/playerList/PlayerList";
+import { ChatHistory } from "./moderationTools/chatHistory/ChatHistory";
+import { Actions } from "./moderationTools/actions/Actions";
 
 import discord from "assets/skills/discord.png";
 
@@ -39,6 +43,9 @@ export const ModerationTools: React.FC<Props> = ({
   messages,
   players,
 }) => {
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState, send] = useActor(authService);
+
   const [showModerationTool, setShowModerationTool] = useState(false);
   const [tab, setTab] = useState(0);
 
@@ -85,10 +92,23 @@ export const ModerationTools: React.FC<Props> = ({
               icon: SUNNYSIDE.icons.expression_chat,
               name: "Chat History",
             },
+            {
+              icon: SUNNYSIDE.icons.hammer,
+              name: "Actions",
+            },
           ]}
         >
-          {tab === 0 && <PlayerList scene={scene} players={players} />}
+          {tab === 0 && (
+            <PlayerList
+              scene={scene}
+              players={players}
+              authState={authState.context.user}
+            />
+          )}
           {tab === 1 && <ChatHistory messages={messages} />}
+          {tab === 2 && (
+            <Actions scene={scene} authState={authState.context.user} />
+          )}
         </CloseButtonPanel>
       </Modal>
     </>
