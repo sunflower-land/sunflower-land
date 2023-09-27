@@ -221,6 +221,8 @@ export abstract class BaseScene extends Phaser.Scene {
     }
   }
 
+  private roof: Phaser.Tilemaps.TilemapLayer | null = null;
+
   public initialiseMap() {
     this.map = this.make.tilemap({
       key: this.options.name,
@@ -292,6 +294,10 @@ export abstract class BaseScene extends Phaser.Scene {
       const layer = this.map.createLayer(layerData.name, tileset, 0, 0);
       if (TOP_LAYERS.includes(layerData.name)) {
         layer?.setDepth(1000000);
+      }
+
+      if (layerData.name === "Club House Roof") {
+        this.roof = layer;
       }
     });
 
@@ -508,7 +514,13 @@ export abstract class BaseScene extends Phaser.Scene {
               return;
             }
 
-            interactableModalManager.open(id);
+            if (id === "guild_house") {
+              console.log("REMOVE");
+              this.roof?.setVisible(false);
+            } else {
+              interactableModalManager.open(id);
+            }
+
             return;
           }
 
