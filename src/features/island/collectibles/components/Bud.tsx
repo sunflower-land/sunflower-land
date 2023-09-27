@@ -11,7 +11,7 @@ const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
 type Props = {
   id: string;
-  type: TypeTrait;
+  type?: TypeTrait;
 };
 
 export const Bud: React.FC<Props> = ({ id, type }) => {
