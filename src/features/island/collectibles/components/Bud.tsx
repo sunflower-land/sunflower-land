@@ -4,14 +4,17 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CONFIG } from "lib/config";
 
 import shadow from "assets/npcs/shadow.png";
+import { TypeTrait } from "features/game/types/buds";
+import classNames from "classnames";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
 type Props = {
   id: string;
+  type?: TypeTrait;
 };
 
-export const Bud: React.FC<Props> = ({ id }) => {
+export const Bud: React.FC<Props> = ({ id, type }) => {
   return (
     <div
       className="absolute"
@@ -32,7 +35,9 @@ export const Bud: React.FC<Props> = ({ id }) => {
       />
       <img
         src={`https://${imageDomain}.sunflower-land.com/images/${id}.webp`}
-        className="absolute w-full -translate-x-1/4"
+        className={classNames("absolute w-full -translate-x-1/4", {
+          "top-1": type === "Retreat",
+        })}
         alt={`Bud ${id}`}
       />
     </div>
