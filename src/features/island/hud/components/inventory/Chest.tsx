@@ -25,6 +25,7 @@ import warehouseIcon from "assets/buildings/warehouse_icon.png";
 import { BudName, isBudName } from "features/game/types/buds";
 import { CONFIG } from "lib/config";
 import { BudDetails } from "components/ui/layouts/BudDetails";
+import classNames from "classnames";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -186,15 +187,26 @@ export const Chest: React.FC<Props> = ({
             <div className="flex flex-col pl-2 mb-2 w-full" key="Buds">
               <p className="mb-2">Buds</p>
               <div className="flex mb-2 flex-wrap -ml-1.5">
-                {getKeys(buds).map((budId) => (
-                  <Box
-                    isSelected={selectedChestItem === `Bud-${budId}`}
-                    key={`Bud-${budId}`}
-                    onClick={() => handleItemClick(`Bud-${budId}`)}
-                    image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
-                    iconClassName="scale-[1.8] origin-bottom absolute"
-                  />
-                ))}
+                {getKeys(buds).map((budId) => {
+                  const type = buds[budId].type;
+
+                  return (
+                    <Box
+                      isSelected={selectedChestItem === `Bud-${budId}`}
+                      key={`Bud-${budId}`}
+                      onClick={() => handleItemClick(`Bud-${budId}`)}
+                      image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
+                      iconClassName={classNames(
+                        "scale-[1.8] origin-bottom absolute",
+                        {
+                          "top-1": type === "Retreat",
+
+                          "left-1": type === "Plaza",
+                        }
+                      )}
+                    />
+                  );
+                })}
               </div>
             </div>
           )}
