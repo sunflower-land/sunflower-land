@@ -148,10 +148,13 @@ export const getCropTime = (
     seconds = seconds * 0.75;
   }
 
+  seconds = seconds * getBudSpeedBoosts(buds, crop);
+
+  // Any boost added below this line will not be reflected in betty's shop
+  if (!plot) return seconds;
+
   // If within Basic Scarecrow AOE: 20% reduction
   if (collectibles["Basic Scarecrow"]?.[0] && isBasicCrop(crop)) {
-    if (!plot) return seconds;
-
     const basicScarecrowCoordinates =
       collectibles["Basic Scarecrow"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Basic Scarecrow"];
@@ -177,8 +180,6 @@ export const getCropTime = (
       seconds = seconds * 0.8;
     }
   }
-
-  seconds = seconds * getBudSpeedBoosts(buds, crop);
 
   return seconds;
 };
