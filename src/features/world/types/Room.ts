@@ -31,6 +31,12 @@ export interface Message extends Schema {
   sentAt: number;
 }
 
+export interface Action extends Schema {
+  farmId?: number;
+  sceneId: SceneId;
+  sentAt: number;
+  event: string;
+}
 export interface Trade extends Schema {
   text: string;
   sellerId: number;
@@ -49,4 +55,5 @@ export interface PlazaRoomState extends Schema {
 
   messages: ArraySchema<Message>;
   trades: ArraySchema<Trade>;
+  actions: ArraySchema<Action>;
 }

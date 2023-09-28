@@ -88,7 +88,8 @@ export abstract class BaseScene extends Phaser.Scene {
     [sessionId: string]: BumpkinContainer;
   } = {};
 
-  customColliders?: Phaser.GameObjects.Group;
+  colliders?: Phaser.GameObjects.Group;
+  triggerColliders?: Phaser.GameObjects.Group;
   soundEffects: AudioController[] = [];
   walkAudioController?: WalkAudioController;
 
@@ -129,6 +130,13 @@ export abstract class BaseScene extends Phaser.Scene {
   currentTick = 0;
 
   zoom = window.innerWidth < 500 ? 3 : 4;
+
+  layers: Record<string, Phaser.Tilemaps.TilemapLayer> = {};
+
+  onCollision: Record<
+    string,
+    Phaser.Types.Physics.Arcade.ArcadePhysicsCallback
+  > = {};
 
   constructor(options: BaseSceneOptions) {
     if (!options.name) {
@@ -248,12 +256,12 @@ export abstract class BaseScene extends Phaser.Scene {
         ) as Phaser.Tilemaps.Tileset);
 
     // Set up collider layers
-    this.customColliders = this.add.group();
+    this.colliders = this.add.group();
     const collisionPolygons = this.map.createFromObjects("Collision", {
       scene: this,
     });
     collisionPolygons.forEach((polygon) => {
-      this.customColliders?.add(polygon);
+      this.colliders?.add(polygon);
       this.physics.world.enable(polygon);
       (polygon.body as Physics.Arcade.Body).setImmovable(true);
     });
@@ -274,6 +282,19 @@ export abstract class BaseScene extends Phaser.Scene {
         });
     });
 
+    this.triggerColliders = this.add.group();
+
+    const triggerPolygons = this.map.createFromObjects("Trigger", {
+      scene: this,
+    });
+
+    triggerPolygons.forEach((polygon) => {
+      console.log("POLYGON SETUP");
+      this.triggerColliders?.add(polygon);
+      this.physics.world.enable(polygon);
+      (polygon.body as Physics.Arcade.Body).setImmovable(true);
+    });
+
     // Debugging purposes - display colliders in pink
     this.physics.world.drawDebug = false;
 
@@ -287,6 +308,7 @@ export abstract class BaseScene extends Phaser.Scene {
       "Building Layer 2",
       "Building Layer 3",
       "Building Layer 4",
+      "Club House Roof",
     ];
     this.map.layers.forEach((layerData, idx) => {
       if (layerData.name === "Crows") return;
@@ -296,9 +318,7 @@ export abstract class BaseScene extends Phaser.Scene {
         layer?.setDepth(1000000);
       }
 
-      if (layerData.name === "Club House Roof") {
-        this.roof = layer;
-      }
+      this.layers[layerData.name] = layer as Phaser.Tilemaps.TilemapLayer;
     });
 
     this.physics.world.setBounds(
@@ -503,25 +523,23 @@ export abstract class BaseScene extends Phaser.Scene {
       // Callback to fire on collisions
       this.physics.add.collider(
         this.currentPlayer,
-        this.customColliders as Phaser.GameObjects.Group,
+        this.colliders as Phaser.GameObjects.Group,
         // Read custom Tiled Properties
         async (obj1, obj2) => {
           const id = (obj2 as any).data?.list?.id;
+
+          // See if scene has registered any callbacks to perform
+          const cb = this.onCollision[id];
+          if (cb) {
+            cb(obj1, obj2);
+          }
+
           if (id) {
             // Handled in corn scene
             if (id === "maze_portal_exit") {
               this.handlePortalHit();
               return;
             }
-
-            if (id === "guild_house") {
-              console.log("REMOVE");
-              this.roof?.setVisible(false);
-            } else {
-              interactableModalManager.open(id);
-            }
-
-            return;
           }
 
           // Change scenes
@@ -543,6 +561,21 @@ export abstract class BaseScene extends Phaser.Scene {
           const interactable = (obj2 as any).data?.list?.open;
           if (interactable) {
             interactableModalManager.open(interactable);
+          }
+        }
+      );
+
+      this.physics.add.overlap(
+        this.currentPlayer,
+        this.triggerColliders as Phaser.GameObjects.Group,
+        (obj1, obj2) => {
+          // You can access custom properties of the trigger object here
+          const id = (obj2 as any).data?.list?.id;
+
+          // See if scene has registered any callbacks to perform
+          const cb = this.onCollision[id];
+          if (cb) {
+            cb(obj1, obj2);
           }
         }
       );
@@ -852,7 +885,8 @@ export abstract class BaseScene extends Phaser.Scene {
         .setCollideWorldBounds(true);
 
       this.physics.world.enable(container);
-      this.customColliders?.add(container);
+      this.colliders?.add(container);
+      this.triggerColliders?.add(container);
     });
   }
 
