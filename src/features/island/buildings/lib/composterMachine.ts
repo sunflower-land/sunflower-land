@@ -4,7 +4,8 @@ import { GameEventName, PlayingEvent } from "features/game/events";
 import { ComposterName, Bait } from "features/game/types/composters";
 
 export interface CompostingContext {
-  name?: Bait;
+  bait?: Bait;
+  compost?: ComposterName;
   readyAt?: number;
   secondsTillReady?: number;
   gameService: GameServiceMachineInterpreter;
@@ -184,7 +185,8 @@ export const composterMachine = createMachine<
       clearCompostingDetails: assign((_) => ({
         readyAt: undefined,
         secondsTillReady: undefined,
-        name: undefined,
+        bait: undefined,
+        compost: undefined,
       })),
       updateSecondsTillReady: assign({
         secondsTillReady: ({ readyAt }) => {
