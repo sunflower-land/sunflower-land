@@ -16,18 +16,22 @@ const testnetFeatureFlag = () => CONFIG.NETWORK === "mumbai";
 type FeatureName =
   | "JEST_TEST"
   | "PUMPKIN_PLAZA"
-  | "POTION_HOUSE"
   | "NEW_DELIVERIES"
-  | "CORN_MAZE";
+  | "CORN_MAZE"
+  | "NEW_FARM_FLOW"
+  | "BUDS_DEPOSIT_FLOW"
+  | "BITGET_WALLET";
 
 type FeatureFlag = (inventory: GameState["inventory"]) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
-  POTION_HOUSE: defaultFeatureFlag,
   NEW_DELIVERIES: testnetFeatureFlag,
   CORN_MAZE: testnetFeatureFlag,
+  NEW_FARM_FLOW: () => true,
+  BUDS_DEPOSIT_FLOW: () => true,
+  BITGET_WALLET: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (

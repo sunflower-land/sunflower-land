@@ -1243,7 +1243,7 @@ describe("plant", () => {
             height: 1,
             width: 1,
             x: 0,
-            y: -2,
+            y: -1,
           },
         },
         collectibles: {
@@ -1447,6 +1447,104 @@ describe("plant", () => {
 
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.1);
   });
+
+  it("applies a bud yield boost", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Parsnip Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        buds: {
+          1: {
+            aura: "No Aura",
+            colour: "Green",
+            type: "Castle",
+            ears: "Ears",
+            stem: "Egg Head",
+            coordinates: {
+              x: 0,
+              y: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Parsnip Seed",
+      },
+      createdAt: dateNow,
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.3);
+  });
+
+  it("applies a bud speed boost", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Parsnip Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            height: 1,
+            width: 1,
+            x: 0,
+            y: -2,
+          },
+        },
+        buds: {
+          1: {
+            aura: "No Aura",
+            colour: "Green",
+            type: "Saphiro",
+            ears: "Ears",
+            stem: "Egg Head",
+            coordinates: {
+              x: 0,
+              y: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Parsnip Seed",
+      },
+      createdAt: dateNow,
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.plantedAt).toEqual(
+      dateNow - 0.1 * CROPS().Parsnip.harvestSeconds * 1000
+    );
+  });
 });
 
 describe("getCropTime", () => {
@@ -1546,6 +1644,44 @@ describe("getCropTime", () => {
     expect(time).toEqual(baseHarvestSeconds * 0.75);
   });
 
+  it("applies the eggplant boost when wearing the onesie", () => {
+    const amount = getCropYieldAmount({
+      crop: "Eggplant",
+      inventory: {},
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          onesie: "Eggplant Onesie",
+        },
+      },
+      collectibles: {},
+      buds: {},
+      plot,
+    });
+
+    expect(amount).toEqual(1.1);
+  });
+
+  it("applies the corn boost when wearing the corn onesie", () => {
+    const amount = getCropYieldAmount({
+      crop: "Corn",
+      inventory: {},
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          onesie: "Corn Onesie",
+        },
+      },
+      collectibles: {},
+      buds: {},
+      plot,
+    });
+
+    expect(amount).toEqual(1.1);
+  });
+
   it("applies a 25% speed boost with Kernaldo placed", () => {
     const baseHarvestSeconds = CROPS()["Corn"].harvestSeconds;
     const time = getCropTime(
@@ -1585,6 +1721,7 @@ describe("getCropTime", () => {
         ],
       },
       { ...INITIAL_BUMPKIN },
+      {},
       { ...plot, x: 0, y: -2 }
     );
 
@@ -1608,6 +1745,7 @@ describe("getCropTime", () => {
         ],
       },
       { ...INITIAL_BUMPKIN },
+      {},
       { ...plot, x: 0, y: -2 }
     );
 
@@ -1631,6 +1769,7 @@ describe("getCropTime", () => {
         ],
       },
       { ...INITIAL_BUMPKIN },
+      {},
       { ...plot, x: 0, y: -2 }
     );
 
@@ -1654,6 +1793,7 @@ describe("getCropTime", () => {
         ],
       },
       { ...INITIAL_BUMPKIN },
+      {},
       { ...plot, x: 0, y: -2 }
     );
 
@@ -1677,6 +1817,7 @@ describe("getCropTime", () => {
         ],
       },
       { ...INITIAL_BUMPKIN },
+      {},
       { ...plot, x: 2, y: -2 }
     );
 
@@ -1700,6 +1841,7 @@ describe("getCropTime", () => {
         ],
       },
       { ...INITIAL_BUMPKIN },
+      {},
       { ...plot, x: 0, y: -3 }
     );
 
@@ -1881,6 +2023,7 @@ describe("getCropYield", () => {
         ],
       },
       inventory: {},
+      buds: {},
       plot: { createdAt: 0, height: 1, width: 1, x: 2, y: 3 },
     });
 
@@ -1902,6 +2045,7 @@ describe("getCropYield", () => {
         ],
       },
       inventory: {},
+      buds: {},
       plot: { createdAt: 0, height: 1, width: 1, x: 5, y: 6 },
     });
 

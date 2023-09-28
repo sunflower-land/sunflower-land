@@ -4,6 +4,7 @@ import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { CharityAddress } from "../components/CreateFarm";
+import { hasFeatureAccess } from "lib/flags";
 
 type Request = {
   charity: string;
@@ -67,12 +68,39 @@ export async function signTransaction(request: Request) {
   };
 }
 
+export async function signUp(request: Request) {
+  const response = await window.fetch(`${API_URL}/signup`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${request.token}`,
+      "X-Transaction-ID": request.transactionId,
+    },
+    body: JSON.stringify({
+      charity: request.charity,
+      captcha: request.captcha,
+      referrerId: request.referrerId,
+    }),
+  });
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
+
+  if (response.status >= 400) {
+    throw new Error(ERRORS.CREATE_ACCOUNT_SERVER_ERROR);
+  }
+
+  return await response.json();
+}
+
 type CreateFarmOptions = {
   charity: CharityAddress;
   token: string;
   captcha: string;
   transactionId: string;
   account: string;
+  hasEnoughMatic: boolean;
   guestKey?: string;
 };
 
@@ -83,25 +111,39 @@ export async function createAccount({
   transactionId,
   account,
   guestKey,
+  hasEnoughMatic,
 }: CreateFarmOptions) {
   const referrerId = getReferrerId();
 
-  const transaction = await signTransaction({
-    charity,
-    token,
-    captcha,
-    transactionId,
-    referrerId,
-    guestKey,
-    type: "MATIC",
-  });
+  // For new farm mints always query with alchemy
+  await wallet.overrideProvider();
 
-  await createNewAccount({
-    ...transaction,
-    web3: wallet.web3Provider,
-    account,
-    type: "MATIC",
-  });
+  if (hasFeatureAccess({}, "NEW_FARM_FLOW") && !hasEnoughMatic) {
+    await signUp({
+      charity,
+      captcha,
+      referrerId,
+      token,
+      transactionId,
+    });
+  } else {
+    const transaction = await signTransaction({
+      charity,
+      token,
+      captcha,
+      transactionId,
+      referrerId,
+      guestKey,
+      type: "MATIC",
+    });
+
+    await createNewAccount({
+      ...transaction,
+      web3: wallet.web3Provider,
+      account,
+      type: "MATIC",
+    });
+  }
 
   await getNewFarm(wallet.web3Provider, account);
 }

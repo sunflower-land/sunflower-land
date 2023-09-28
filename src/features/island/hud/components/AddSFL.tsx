@@ -17,8 +17,8 @@ interface Props {
   onClose: () => void;
 }
 
-const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
-const INPUT_MAX_CHAR = 10;
+export const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
+export const INPUT_MAX_CHAR = 10;
 
 export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
   const { gameService } = useContext(Context);

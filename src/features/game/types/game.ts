@@ -29,6 +29,7 @@ import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
 import { NPCName } from "lib/npcs";
 import { SeasonalTicket } from "./seasons";
+import { Bud } from "./buds";
 
 export type Reward = {
   sfl?: Decimal;
@@ -130,6 +131,8 @@ export type Coupons =
   | "Block Buck"
   | "Sunflower Supporter"
   | "Potion Ticket"
+  | "Bud Ticket"
+  | "Bud Seedling"
   | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
@@ -173,6 +176,13 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Potion Ticket": {
     description:
       "A reward from the Potion House. Use this to buy items from Garth.",
+  },
+  "Bud Ticket": {
+    description:
+      "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
+  },
+  "Bud Seedling": {
+    description: "A seedling to be exchanged for a free Bud NFT",
   },
 };
 
@@ -715,6 +725,7 @@ export interface GameState {
   trades: {
     listings?: Record<string, TradeListing>;
   };
+  buds?: Record<number, Bud>;
 }
 
 export interface Context {

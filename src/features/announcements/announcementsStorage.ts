@@ -47,3 +47,14 @@ export function acknowledgeSeasonPass() {
     new Date().toISOString()
   );
 }
+
+export function getBudsRead(): Date | null {
+  const value = localStorage.getItem("budsDrop");
+  if (!value) return null;
+
+  return new Date(value);
+}
+
+export function acknowledgeBuds() {
+  return localStorage.setItem("budsDrop", new Date().toISOString());
+}

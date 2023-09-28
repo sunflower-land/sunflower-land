@@ -3,7 +3,7 @@ import { Potion } from "./types";
 import orangeBottle from "assets/decorations/orange_bottle.webp";
 import blueBottle from "assets/decorations/blue_bottle.webp";
 import pinkBottle from "assets/decorations/pink_bottle.webp";
-import aquaBottle from "assets/decorations/aqua_bottle.webp";
+import blackBottle from "assets/decorations/black_bottle.webp";
 import greenBottle from "assets/decorations/green_bottle.webp";
 import mustardBottle from "assets/decorations/mustard_bottle.webp";
 import whiteBottle from "assets/decorations/white_bottle.webp";
@@ -27,7 +27,7 @@ export const POTIONS: Record<PotionName, Potion> = {
   },
   "Flower Power": {
     name: "Flower Power",
-    image: aquaBottle,
+    image: blackBottle,
     description: "Unleash a burst of floral energy upon your plants.",
   },
   "Silver Syrup": {

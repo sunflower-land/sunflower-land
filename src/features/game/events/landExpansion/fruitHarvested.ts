@@ -1,5 +1,7 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
+import { Equipped } from "features/game/types/bumpkin";
 import {
   BumpkinActivityName,
   trackActivity,
@@ -19,19 +21,41 @@ type Options = {
   createdAt?: number;
 };
 
-export function getFruitYield(name: FruitName, collectibles: Collectibles) {
+type FruitYield = {
+  name: FruitName;
+  collectibles: Collectibles;
+  buds: NonNullable<GameState["buds"]>;
+  wearables: Equipped;
+};
+
+export function getFruitYield({
+  collectibles,
+  buds,
+  name,
+  wearables,
+}: FruitYield) {
+  let amount = 1;
   if (name === "Apple" && isCollectibleBuilt("Lady Bug", collectibles)) {
-    return 1.25;
+    amount += 0.25;
   }
 
   if (
     name === "Blueberry" &&
     isCollectibleBuilt("Black Bearry", collectibles)
   ) {
-    return 2;
+    amount += 1;
   }
 
-  return 1;
+  if (
+    (name === "Apple" || name === "Orange" || name === "Blueberry") &&
+    wearables?.coat === "Fruit Picker Apron"
+  ) {
+    amount += 0.1;
+  }
+
+  amount += getBudYieldBoosts(buds, name);
+
+  return amount;
 }
 
 function getPlantedAt(
@@ -60,7 +84,7 @@ export function harvestFruit({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { fruitPatches, bumpkin } = stateCopy;
+  const { fruitPatches, bumpkin, collectibles } = stateCopy;
 
   if (!bumpkin) {
     throw new Error("You do not have a Bumpkin");
@@ -103,7 +127,12 @@ export function harvestFruit({
     createdAt
   );
 
-  patch.fruit.amount = getFruitYield(name, stateCopy.collectibles);
+  patch.fruit.amount = getFruitYield({
+    name,
+    collectibles: collectibles,
+    buds: stateCopy.buds ?? {},
+    wearables: bumpkin.equipped,
+  });
 
   const activityName: BumpkinActivityName = `${name} Harvested`;
 

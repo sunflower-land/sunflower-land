@@ -95,10 +95,10 @@ export const maxItems: Inventory = {
   "Solar Flare Ticket": new Decimal(350),
   "Dawn Breaker Ticket": new Decimal(750),
   "Crow Feather": new Decimal(750),
+  "Bud Ticket": new Decimal(1),
 
   // Potion House
-  // "Potion Ticket": new Decimal(750),
-  "Potion Ticket": new Decimal(1000000),
+  "Potion Ticket": new Decimal(7500),
   "Giant Cabbage": new Decimal(50),
   "Giant Potato": new Decimal(50),
   "Giant Pumpkin": new Decimal(50),

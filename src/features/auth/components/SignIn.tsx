@@ -10,11 +10,13 @@ import walletIcon from "src/assets/icons/wallet.png";
 import phantomIcon from "src/assets/icons/phantom.svg";
 import okxIcon from "src/assets/icons/okx.svg";
 import cryptoComIcon from "src/assets/icons/crypto-com-logo.svg";
+import bitgetIcon from "src/assets/icons/bitget_logo.svg";
 
 import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { Label } from "components/ui/Label";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { getPromoCode } from "features/game/actions/loadSession";
+import { hasFeatureAccess } from "lib/flags";
 
 const OtherWallets = () => {
   const { authService } = useContext(Context);
@@ -22,6 +24,29 @@ const OtherWallets = () => {
   return (
     <>
       <>
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() =>
+            authService.send("CONNECT_TO_WALLET", {
+              chosenProvider: Web3SupportedProviders.BITGET,
+            })
+          }
+        >
+          <div className="px-8">
+            <img
+              src={bitgetIcon}
+              alt="Bitget"
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+            />
+            <Label
+              type="info"
+              className="absolute top-1/2 -translate-y-1/2 right-1"
+            >
+              Featured
+            </Label>
+            Bitget Wallet
+          </div>
+        </Button>
         <Button
           className="mb-2 py-2 text-sm relative"
           onClick={() =>
@@ -36,12 +61,6 @@ const OtherWallets = () => {
               alt="Crypto.com"
               className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
-            <Label
-              type="info"
-              className="absolute top-1/2 -translate-y-1/2 right-1"
-            >
-              Featured
-            </Label>
             Crypto.com Wallet
           </div>
         </Button>
@@ -132,6 +151,22 @@ export const SignIn = () => {
     return (
       <>
         <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() =>
+            authService.send("CONNECT_TO_WALLET", {
+              chosenProvider: Web3SupportedProviders.SEQUENCE,
+            })
+          }
+        >
+          <div className="px-8">
+            <img
+              src="https://sequence.app/static/images/sequence-logo.7c854742a6b8b4969004.svg"
+              className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
+            />
+            Email & Social Login
+          </div>
+        </Button>
+        <Button
           className="mb-2 py-2 text-sm relative justify-start"
           onClick={connectToMetaMask}
         >
@@ -152,24 +187,7 @@ export const SignIn = () => {
               src={walletIcon}
               className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
             />
-            Other wallets
-          </div>
-        </Button>
-
-        <Button
-          className="mb-2 py-2 text-sm relative"
-          onClick={() =>
-            authService.send("CONNECT_TO_WALLET", {
-              chosenProvider: Web3SupportedProviders.SEQUENCE,
-            })
-          }
-        >
-          <div className="px-8">
-            <img
-              src="https://sequence.app/static/images/sequence-logo.7c854742a6b8b4969004.svg"
-              className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
-            />
-            Email & social login
+            Other Wallets
           </div>
         </Button>
       </>
@@ -177,6 +195,8 @@ export const SignIn = () => {
   };
 
   const isCryptoCom = getPromoCode() === "crypto-com";
+  const isEarnAlliance = getPromoCode() === "EARN";
+  const isBitget = getPromoCode() === "BITGET";
 
   return (
     <div className="px-2">
@@ -189,7 +209,7 @@ export const SignIn = () => {
             width: `${PIXEL_SCALE * 8}px`,
           }}
         />
-        {!getOnboardingComplete() && (
+        {!getOnboardingComplete() && !hasFeatureAccess({}, "NEW_FARM_FLOW") && (
           <div className="flex items-center">
             <img src={SUNNYSIDE.ui.green_bar_4} className="h-5 mr-2" />
             <span className="text-xs">Step 2/3 (Create a wallet)</span>
@@ -223,7 +243,48 @@ export const SignIn = () => {
         </Button>
       )}
 
-      {!isCryptoCom && (
+      {hasFeatureAccess({}, "BITGET_WALLET") && isBitget && (
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() =>
+            authService.send("CONNECT_TO_WALLET", {
+              chosenProvider: Web3SupportedProviders.CRYPTO_COM,
+            })
+          }
+        >
+          <div className="px-8">
+            <img
+              src={bitgetIcon}
+              alt="Bitget"
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+            />
+            <Label
+              type="info"
+              className="absolute top-1/2 -translate-y-1/2 right-1"
+            >
+              Featured
+            </Label>
+            Bitget Wallet
+          </div>
+        </Button>
+      )}
+
+      {isEarnAlliance && (
+        <Button
+          className="mb-2 py-2 text-sm relative justify-start"
+          onClick={connectToMetaMask}
+        >
+          <div className="px-8 mr-2 flex ">
+            <img
+              src={metamaskIcon}
+              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
+            />
+            Metamask
+          </div>
+        </Button>
+      )}
+
+      {!isCryptoCom && !isEarnAlliance && !isBitget && (
         <>
           {page === "home" && <MainWallets />}
           {page === "other" && <OtherWallets />}

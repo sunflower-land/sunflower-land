@@ -59,7 +59,6 @@ import { PurchasableItems } from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
-  getSeasonPassRead,
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
@@ -80,6 +79,7 @@ import { AuctionResults } from "./auctionMachine";
 import { trade } from "../actions/trade";
 import { mmoBus } from "features/world/mmoMachine";
 import { analytics } from "lib/analytics";
+import { BudName } from "../types/buds";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -153,7 +153,7 @@ type UpdateBlockBucksEvent = {
 };
 
 type LandscapeEvent = {
-  placeable?: BuildingName | CollectibleName;
+  placeable?: BuildingName | CollectibleName | BudName;
   action?: GameEventName<PlacementEvent>;
   type: "LANDSCAPE";
   requirements?: {
@@ -183,6 +183,7 @@ type DepositEvent = {
   wearableIds: number[];
   wearableAmounts: number[];
   bumpkinTokenUri?: string;
+  budIds: number[];
 };
 
 type UpdateEvent = {
@@ -351,6 +352,7 @@ export type BlockchainState = {
     | "trading"
     | "traded"
     | "sniped"
+    | "buds"
     | "noBumpkinFound"
     | "noTownCenter"
     | "coolingDown"
@@ -678,14 +680,10 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
-
             {
               target: "specialOffer",
-              cond: (context) =>
-                !getSeasonPassRead() &&
-                Date.now() < new Date("2023-08-01").getTime() &&
-                !context.state.inventory["Witches' Eve Banner"] &&
-                (context.state.bumpkin?.experience ?? 0) > 0,
+              // Add special offer conditions here
+              cond: (context) => false,
             },
             {
               // auctionResults needs to be the last check as it transitions directly
@@ -728,6 +726,13 @@ export function startGame(authContext: AuthContext) {
           },
         },
         promo: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "playing",
+            },
+          },
+        },
+        buds: {
           on: {
             ACKNOWLEDGE: {
               target: "playing",
@@ -1411,6 +1416,7 @@ export function startGame(authContext: AuthContext) {
                 wearableIds,
                 wearableAmounts,
                 bumpkinTokenUri,
+                budIds,
               } = event as DepositEvent;
 
               if (bumpkinTokenUri) {
@@ -1430,6 +1436,7 @@ export function startGame(authContext: AuthContext) {
                   itemAmounts: itemAmounts,
                   wearableAmounts,
                   wearableIds,
+                  budIds,
                 });
               }
             },

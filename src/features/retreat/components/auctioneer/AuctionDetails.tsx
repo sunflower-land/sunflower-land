@@ -116,7 +116,7 @@ export const AuctionDetails: React.FC<Props> = ({
             src={SUNNYSIDE.icons.arrow_left}
             className="h-8 cursor-pointer"
           />
-          <p className="-ml-5">
+          <p className="-ml-5 max-w-[80%] sm:max-w-none text-center">
             {item.type === "collectible" ? item.collectible : item.wearable}
           </p>
           <div />
@@ -146,7 +146,7 @@ export const AuctionDetails: React.FC<Props> = ({
           <div className="absolute inset-0">
             <img
               src={image}
-              className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              className="absolute w-1/2 h-1/2 z-20 object-contain mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             />
             <Label type="default" className="mb-2 absolute top-2 right-2">
               {`${item.supply} available`}
@@ -189,7 +189,7 @@ export const AuctionDetails: React.FC<Props> = ({
             TimerDisplay({ time: start })
           )}
         </div>
-        <div className="flex  flex-col  items-center  w-48  mb-2">
+        <div className="flex flex-col items-center w-48 mb-2">
           <a
             href="https://docs.sunflower-land.com/player-guides/auctions#auction-period"
             target="_blank"

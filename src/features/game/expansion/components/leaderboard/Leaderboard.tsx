@@ -102,12 +102,12 @@ export const Leaderboard: React.FC<Props> = ({ farmId }) => {
                     Last updated: {getRelativeTime(data.lastUpdated)}
                   </p>
                 </div>
-                {data.maze.topTen.length === 0 && (
+                {data.maze.topRanks.length === 0 && (
                   <p className="my-1">No maze data available</p>
                 )}
-                {data.maze.topTen.length > 0 && (
+                {data.maze.topRanks.length > 0 && (
                   <MazeTable
-                    rankings={data.maze.topTen}
+                    rankings={data.maze.topRanks}
                     farmId={Number(farmId)}
                   />
                 )}

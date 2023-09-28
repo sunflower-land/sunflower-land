@@ -129,6 +129,9 @@ export const BumpkinEquip: React.FC = () => {
     }
     return "";
   };
+  const sortedWardrobeNames = getKeys(wardrobe).sort((a, b) =>
+    a.localeCompare(b)
+  );
   return (
     <div className="p-2">
       <div className="flex justify-center">
@@ -149,7 +152,7 @@ export const BumpkinEquip: React.FC = () => {
           {warn && <Label type="warning">{warning()}</Label>}
         </div>
         <div className="flex-1 flex flex-wrap justify-center pr-1 overflow-y-auto scrollable max-h-60">
-          {getKeys(wardrobe).map((name) => (
+          {sortedWardrobeNames.map((name) => (
             <OuterPanel
               key={name}
               className={classNames("w-full flex mb-1 p-1 relative", {

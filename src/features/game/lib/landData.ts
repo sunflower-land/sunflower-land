@@ -262,7 +262,7 @@ export const OFFLINE_FARM: GameState = {
   witchesEve: {
     weeklyLostCrowCount: 25,
     maze: {
-      3: {
+      7: {
         claimedFeathers: 0,
         sflFee: 5,
         paidEntryFee: true,
@@ -323,6 +323,7 @@ export const OFFLINE_FARM: GameState = {
   },
   inventory: {
     "El Pollo Veloz": new Decimal(1),
+    "Bud Seedling": new Decimal(1),
     Gnome: new Decimal(1),
     "Sunflower Cake": new Decimal(15),
     Carrot: new Decimal(80),
@@ -407,6 +408,7 @@ export const OFFLINE_FARM: GameState = {
     Candles: new Decimal(1),
     "Haunted Stump": new Decimal(1),
     "Spooky Tree": new Decimal(1),
+    "Town Sign": new Decimal(1),
 
     Chicken: new Decimal(5),
 
@@ -629,6 +631,36 @@ export const OFFLINE_FARM: GameState = {
   mushrooms: {
     spawnedAt: 0,
     mushrooms: {},
+  },
+  buds: {
+    1: {
+      aura: "Basic",
+      colour: "Beige",
+      ears: "Ears",
+      stem: "3 Leaf Clover",
+      type: "Beach",
+    },
+    5: {
+      aura: "Basic",
+      colour: "Beige",
+      ears: "Ears",
+      stem: "3 Leaf Clover",
+      type: "Beach",
+    },
+    7: {
+      aura: "Basic",
+      colour: "Beige",
+      ears: "Ears",
+      stem: "3 Leaf Clover",
+      type: "Beach",
+    },
+    9: {
+      aura: "Basic",
+      colour: "Beige",
+      ears: "Ears",
+      stem: "3 Leaf Clover",
+      type: "Beach",
+    },
   },
 };
 

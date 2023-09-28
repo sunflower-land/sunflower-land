@@ -6,6 +6,7 @@ import { CropName } from "features/game/types/crops";
 import { canMine } from "features/game/events/landExpansion/stoneMine";
 import { CommodityName } from "features/game/types/resources";
 import { areUnsupportedChickensBrewing } from "features/game/events/landExpansion/removeBuilding";
+import { Bud, StemTrait, TypeTrait } from "./buds";
 
 type RESTRICTION_REASON =
   | "No restriction"
@@ -21,7 +22,8 @@ type RESTRICTION_REASON =
   | "Paw shaken"
   | "Basic crops are planted"
   | "Medium crops are planted"
-  | "Advanced crops are planted";
+  | "Advanced crops are planted"
+  | "Magic Bean is planted";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -38,12 +40,26 @@ function cropIsPlanted({ item, game }: CanRemoveArgs): Restriction {
   return [cropPlanted, `${item} is planted`];
 }
 
+function beanIsPlanted(game: GameState): Restriction {
+  const beanPlanted = game.collectibles["Magic Bean"]?.length ?? 0;
+
+  return [!!beanPlanted, "Magic Bean is planted"];
+}
+
 function areFruitsGrowing(game: GameState, fruit: FruitName): Restriction {
   const fruitGrowing = Object.values(game.fruitPatches ?? {}).some(
     (patch) => patch.fruit?.name === fruit
   );
 
   return [fruitGrowing, `${fruit} is growing`];
+}
+
+function areAnyFruitsGrowing(game: GameState): Restriction {
+  const fruitGrowing = Object.values(game.fruitPatches ?? {}).some(
+    (patch) => !!patch.fruit?.name
+  );
+
+  return [fruitGrowing, `Fruits are growing`];
 }
 
 function areAnyCropsPlanted(game: GameState): Restriction {
@@ -226,6 +242,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   Kernaldo: (game) => cropIsPlanted({ game, item: "Corn" }),
   "Queen Cornelia": (game) => cropIsPlanted({ game, item: "Corn" }),
   Maximus: (game) => cropIsPlanted({ item: "Eggplant", game }),
+  Obie: (game) => cropIsPlanted({ item: "Eggplant", game }),
   "Purple Trail": (game) => cropIsPlanted({ item: "Eggplant", game }),
 
   "Squirrel Monkey": (game) => areFruitsGrowing(game, "Orange"),
@@ -249,13 +266,90 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Heart of Davy Jones": (game) => areAnyTreasureHolesDug(game),
 
   "Maneki Neko": (game) => hasShakenManeki(game),
+
+  "Carrot Sword": (game) => beanIsPlanted(game),
+
+  "Stellar Sunflower": (game) => cropIsPlanted({ item: "Sunflower", game }),
+  "Potent Potato": (game) => cropIsPlanted({ item: "Potato", game }),
+  "Radical Radish": (game) => cropIsPlanted({ item: "Radish", game }),
+};
+
+export const BUD_REMOVAL_RESTRICTIONS: Record<
+  StemTrait | TypeTrait,
+  RemoveCondition
+> = {
+  // HATS
+  "3 Leaf Clover": (game) => areAnyCropsPlanted(game),
+  // TODO Fish Hat needs to be implemented
+  "Fish Hat": (game) => [false, "No restriction"],
+  "Diamond Gem": (game) => areAnyMineralsMined(game),
+  "Gold Gem": (game) => areAnyGoldsMined(game),
+  "Miner Hat": (game) => areAnyIronsMined(game),
+  "Carrot Head": (game) => cropIsPlanted({ item: "Carrot", game }),
+  "Basic Leaf": (game) => areAnyBasicCropsPlanted(game),
+  "Sunflower Hat": (game) => cropIsPlanted({ item: "Sunflower", game }),
+  "Ruby Gem": (game) => areAnyStonesMined(game),
+  Mushroom: (game) => [false, "No restriction"],
+  "Magic Mushroom": (game) => [false, "No restriction"],
+  "Acorn Hat": (game) => areAnyTreesChopped(game),
+  Banana: (game) => areAnyFruitsGrowing(game),
+  "Tree Hat": (game) => areAnyTreesChopped(game),
+  "Egg Head": (game) => areAnyChickensFed(game),
+  "Apple Head": (game) => areAnyFruitsGrowing(game),
+
+  "Axe Head": (game) => [false, "No restriction"],
+  "Rainbow Horn": (game) => [false, "No restriction"],
+  "Red Bow": (game) => [false, "No restriction"],
+  "Silver Horn": (game) => [false, "No restriction"],
+  "Sunflower Headband": (game) => [false, "No restriction"],
+  "Sunshield Foliage": (game) => [false, "No restriction"],
+  "Tender Coral": (game) => [false, "No restriction"],
+  Seashell: (game) => [false, "No restriction"],
+  Hibiscus: (game) => [false, "No restriction"],
+
+  // TYPES
+  Plaza: (game) => areAnyBasicCropsPlanted(game),
+  Woodlands: (game) => areAnyTreesChopped(game),
+  Cave: (game) => areAnyMineralsMined(game),
+  // TODO Sea needs to be implemented
+  Sea: (game) => [false, "No restriction"],
+  Castle: (game) => areAnyMediumCropsPlanted(game),
+  // TODO Port needs to be implemented
+  Port: (game) => [false, "No restriction"],
+  Retreat: (game) => areAnyChickensFed(game),
+  Saphiro: (game) => areAnyCropsPlanted(game),
+  Snow: (game) => areAnyAdvancedCropsPlanted(game),
+  Beach: (game) => areAnyFruitsGrowing(game),
+};
+
+export const hasBudRemoveRestriction = (
+  state: GameState,
+  bud: Bud
+): Restriction => {
+  const stemRemoveRestriction = BUD_REMOVAL_RESTRICTIONS[bud.stem];
+  const typeRemoveRestriction = BUD_REMOVAL_RESTRICTIONS[bud.type];
+
+  const [stemRestricted, stemReason] = stemRemoveRestriction(state);
+  if (stemRestricted) return [stemRestricted, stemReason];
+
+  const [typeRestricted, typeReason] = typeRemoveRestriction(state);
+  if (typeRestricted) return [typeRestricted, typeReason];
+
+  return [false, "No restriction"];
 };
 
 export const hasRemoveRestriction = (
-  name: InventoryItemName,
+  name: InventoryItemName | "Bud",
   id: string,
   state: GameState
 ): Restriction => {
+  if (name === "Bud") {
+    const bud = state.buds?.[Number(id)];
+    return bud
+      ? hasBudRemoveRestriction(state, bud)
+      : [false, "No restriction"];
+  }
+
   if (name === "Genie Lamp") {
     const collectibleGroup = state.collectibles[name];
     if (!collectibleGroup) return [true, "Genie Lamp rubbed"];

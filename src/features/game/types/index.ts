@@ -245,6 +245,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Crow Feather": 725,
   "Gold Pass": 726,
   "Potion Ticket": 727,
+  "Bud Ticket": 728,
+  "Bud Seedling": 729,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -435,6 +437,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Giant Cabbage": 1281,
   "Giant Potato": 1282,
   "Giant Pumpkin": 1283,
+  "Town Sign": 1284,
 
   //Beach Bounty
   "Pirate Bounty": 1301,

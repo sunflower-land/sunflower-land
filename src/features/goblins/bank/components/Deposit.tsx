@@ -29,6 +29,10 @@ import { getItemUnit } from "features/game/lib/conversion";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { loadWardrobe } from "lib/blockchain/BumpkinItems";
+import { getBudsBalance } from "lib/blockchain/Buds";
+import { CONFIG } from "lib/config";
+
+const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
 type Status = "loading" | "loaded" | "error";
 
@@ -37,7 +41,12 @@ interface Props {
   onDeposit: (
     args: Pick<
       DepositArgs,
-      "sfl" | "itemIds" | "itemAmounts" | "wearableIds" | "wearableAmounts"
+      | "sfl"
+      | "itemIds"
+      | "itemAmounts"
+      | "wearableIds"
+      | "wearableAmounts"
+      | "budIds"
     >
   ) => void;
   onClose: () => void;
@@ -58,9 +67,11 @@ export const Deposit: React.FC<Props> = ({
   const [sflBalance, setSflBalance] = useState<Decimal>(new Decimal(0));
   const [inventoryBalance, setInventoryBalance] = useState<Inventory>({});
   const [wardrobeBalance, setWardrobeBalance] = useState<Wardrobe>({});
+  const [budBalance, setBudBalance] = useState<number[]>([]);
   const [sflDepositAmount, setSflDepositAmount] = useState(0);
   const [inventoryToDeposit, setInventoryToDeposit] = useState<Inventory>({});
   const [wearablesToDeposit, setWearablesToDeposit] = useState<Wardrobe>({});
+  const [budsToDeposit, setBudsToDeposit] = useState<number[]>([]);
   const [isMobile] = useIsMobile();
 
   useEffect(() => {
@@ -90,16 +101,24 @@ export const Deposit: React.FC<Props> = ({
           wallet.myAccount
         );
 
-        const [sflBalance, inventoryBalance, wearableBalance] =
+        const budBalanceFn = getBudsBalance(
+          wallet.web3Provider,
+          wallet.myAccount
+        );
+
+        const [sflBalance, inventoryBalance, wearableBalance, budBalance] =
           await Promise.all([
             sflBalanceFn,
             inventoryBalanceFn,
             wearableBalanceFn,
+            budBalanceFn,
           ]);
 
         setSflBalance(new Decimal(fromWei(sflBalance)));
         setInventoryBalance(balancesToInventory(inventoryBalance));
         setWardrobeBalance(wearableBalance);
+        setBudBalance(budBalance);
+
         setStatus("loaded");
         // Notify parent that we're done loading
         onLoaded && onLoaded(true);
@@ -151,6 +170,16 @@ export const Deposit: React.FC<Props> = ({
     }));
   };
 
+  const onAddBud = (budId: number) => {
+    setBudBalance((prev) => prev.filter((bud) => bud !== budId));
+    setBudsToDeposit((prev) => [...prev, budId]);
+  };
+
+  const onRemoveBud = (budId: number) => {
+    setBudBalance((prev) => [...prev, budId]);
+    setBudsToDeposit((prev) => prev.filter((bud) => bud !== budId));
+  };
+
   const onRemoveWearable = (itemName: BumpkinItem) => {
     // Transfer from inventory to selected
     setWardrobeBalance((prev) => ({
@@ -186,6 +215,7 @@ export const Deposit: React.FC<Props> = ({
       itemAmounts,
       wearableIds,
       wearableAmounts,
+      budIds: budsToDeposit,
     });
 
     onClose();
@@ -218,11 +248,15 @@ export const Deposit: React.FC<Props> = ({
 
   const hasItemsToDeposit = selectedItems.length > 0;
   const hasWearablesToDeposit = selectedWearables.length > 0;
+  const hasBudsToDeposit = budsToDeposit.length > 0;
   const hasItemsInInventory = depositableItems.length > 0;
   const hasItemsInWardrobe = depositableWearables.length > 0;
+  const hasBuds = budBalance.length > 0;
   const emptyWallet =
     getKeys(wardrobeBalance).length === 0 &&
     getKeys(inventoryBalance).length === 0 &&
+    budBalance.length === 0 &&
+    budsToDeposit.length === 0 &&
     sflBalance.eq(0);
   const validDepositAmount = sflDepositAmount > 0 && !amountGreaterThanBalance;
 
@@ -291,6 +325,26 @@ export const Deposit: React.FC<Props> = ({
                     </div>
                   </>
                 )}
+                {hasBuds && (
+                  <>
+                    <p className="text-sm">Buds</p>
+                    <div
+                      className="flex flex-wrap h-fit -ml-1.5 overflow-y-auto scrollable pr-1"
+                      style={{ maxHeight: "200px" }}
+                    >
+                      {budBalance.map((budId) => {
+                        return (
+                          <Box
+                            key={`bud-${budId}`}
+                            onClick={() => onAddBud(budId)}
+                            image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
+                            iconClassName="scale-[1.8] origin-bottom absolute"
+                          />
+                        );
+                      })}
+                    </div>
+                  </>
+                )}
                 {hasItemsInWardrobe && (
                   <>
                     <p className="text-sm">Wearables</p>
@@ -349,6 +403,21 @@ export const Deposit: React.FC<Props> = ({
                         })}
                       </div>
                     )}
+
+                    {hasBudsToDeposit && (
+                      <div className="flex flex-wrap h-fit -ml-1.5">
+                        {budsToDeposit.map((budId) => {
+                          return (
+                            <Box
+                              key={`bud-${budId}`}
+                              onClick={() => onRemoveBud(budId)}
+                              image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
+                              iconClassName="scale-[1.8] origin-bottom absolute"
+                            />
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -370,7 +439,8 @@ export const Deposit: React.FC<Props> = ({
             disabled={
               (sflDepositAmount <= 0 &&
                 !hasWearablesToDeposit &&
-                !hasItemsToDeposit) ||
+                !hasItemsToDeposit &&
+                !hasBudsToDeposit) ||
               amountGreaterThanBalance
             }
           >

@@ -161,6 +161,32 @@ describe("detectCollisions", () => {
 
     expect(hasCollision).toBe(true);
   });
+
+  it("returns true if a collision is detected with a bud", () => {
+    const state: GameState = cloneDeep(TEST_FARM);
+    state.buds = {
+      1: {
+        coordinates: {
+          x: 0,
+          y: 0,
+        },
+        aura: "Basic",
+        colour: "Beige",
+        ears: "Ears",
+        stem: "3 Leaf Clover",
+        type: "Beach",
+      },
+    };
+
+    const hasCollision = detectCollision(state, {
+      x: 0,
+      y: 0,
+      height: 1,
+      width: 1,
+    });
+
+    expect(hasCollision).toBe(true);
+  });
 });
 
 describe("isWithinAOE", () => {
@@ -810,179 +836,67 @@ describe("isWithinAOE", () => {
   });
 
   it("returns true if the crop is within the Queen Cornelia AOE", () => {
-    const cropPlot1 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plot1
-    );
-    const cropPlot2 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plot2
-    );
+    const plotPositions: Position[] = [
+      { x: 1, y: 1, ...plotDimensions },
+      { x: 0, y: 1, ...plotDimensions },
+      { x: -1, y: 1, ...plotDimensions },
+      { x: -1, y: 0, ...plotDimensions },
+      { x: -1, y: -1, ...plotDimensions },
+      { x: -1, y: -2, ...plotDimensions },
+      { x: 0, y: -2, ...plotDimensions },
+      { x: 1, y: -2, ...plotDimensions },
+      { x: 1, y: -1, ...plotDimensions },
+      { x: 1, y: 0, ...plotDimensions },
+    ];
 
-    const cropPlot3 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plot3
-    );
+    const itemPosition: Position = { x: 0, y: 0, height: 2, width: 1 };
 
-    const cropPlot4 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plot4
-    );
+    plotPositions.forEach((plotPosition, idx) => {
+      const isPlotWithinAoE = isWithinAOE(
+        "Queen Cornelia",
+        itemPosition,
+        plotPosition
+      );
 
-    const cropPlot5 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plot5
-    );
-    const cropPlot6 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plot6
-    );
-    const cropPlot7 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plot7
-    );
-    const cropPlot8 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plot8
-    );
-    const cropPlot9 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plot9
-    );
-
-    expect(cropPlot1).toBe(true);
-    expect(cropPlot2).toBe(true);
-    expect(cropPlot3).toBe(true);
-    expect(cropPlot4).toBe(true);
-    expect(cropPlot5).toBe(true);
-    expect(cropPlot6).toBe(true);
-    expect(cropPlot7).toBe(true);
-    expect(cropPlot8).toBe(true);
-    expect(cropPlot9).toBe(true);
+      expect(isPlotWithinAoE).toBe(true);
+    });
   });
 
-  it("returns false if the crop is outside the Queen Cornelia AOE", () => {
-    const plotOutsideAOE1: Position = { x: -1, y: 0, ...plotDimensions };
-    const plotOutsideAOE2: Position = { x: -1, y: -1, ...plotDimensions };
-    const plotOutsideAOE3: Position = { x: 1, y: 0, ...plotDimensions };
-    const plotOutsideAOE4: Position = { x: 1, y: -1, ...plotDimensions };
-    const plotOutsideAOE5: Position = { x: -2, y: 0, ...plotDimensions };
-    const plotOutsideAOE6: Position = { x: -2, y: -1, ...plotDimensions };
-    const plotOutsideAOE7: Position = { x: -2, y: -2, ...plotDimensions };
-    const plotOutsideAOE8: Position = { x: -2, y: -3, ...plotDimensions };
-    const plotOutsideAOE9: Position = { x: -2, y: -4, ...plotDimensions };
-    const plotOutsideAOE10: Position = { x: 2, y: 0, ...plotDimensions };
-    const plotOutsideAOE11: Position = { x: 2, y: -1, ...plotDimensions };
-    const plotOutsideAOE12: Position = { x: 2, y: -2, ...plotDimensions };
-    const plotOutsideAOE13: Position = { x: 2, y: -3, ...plotDimensions };
-    const plotOutsideAOE14: Position = { x: 2, y: -4, ...plotDimensions };
+  it("returns false if the crop is outside of the Queen Cornelia AOE", () => {
+    const plotPositions: Position[] = [
+      { x: 2, y: 2, ...plotDimensions },
+      { x: 1, y: 2, ...plotDimensions },
+      { x: 0, y: 2, ...plotDimensions },
+      { x: -1, y: 2, ...plotDimensions },
+      { x: -2, y: 2, ...plotDimensions },
+      { x: -2, y: 1, ...plotDimensions },
+      { x: -2, y: 0, ...plotDimensions },
+      { x: -2, y: -1, ...plotDimensions },
+      { x: -2, y: -2, ...plotDimensions },
+      { x: -2, y: -3, ...plotDimensions },
+      { x: -1, y: -3, ...plotDimensions },
+      { x: 0, y: -3, ...plotDimensions },
+      { x: 1, y: -3, ...plotDimensions },
+      { x: 2, y: -3, ...plotDimensions },
+      { x: 2, y: -2, ...plotDimensions },
+      { x: 2, y: -1, ...plotDimensions },
+      { x: 2, y: 0, ...plotDimensions },
+      { x: 2, y: 1, ...plotDimensions },
+    ];
 
-    const cropPlot1 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE1
-    );
-    const cropPlot2 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE2
-    );
+    const itemPosition: Position = { x: 0, y: 0, height: 2, width: 1 };
 
-    const cropPlot3 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE3
-    );
+    plotPositions.forEach((plotPosition, idx) => {
+      const isPlotWithinAoE = isWithinAOE(
+        "Queen Cornelia",
+        itemPosition,
+        plotPosition
+      );
 
-    const cropPlot4 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE4
-    );
+      console.log(idx, isPlotWithinAoE);
 
-    const cropPlot5 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE5
-    );
-
-    const cropPlot6 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE6
-    );
-
-    const cropPlot7 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE7
-    );
-
-    const cropPlot8 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE8
-    );
-
-    const cropPlot9 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE9
-    );
-
-    const cropPlot10 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE10
-    );
-
-    const cropPlot11 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE11
-    );
-
-    const cropPlot12 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE12
-    );
-
-    const cropPlot13 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE13
-    );
-
-    const cropPlot14 = isWithinAOE(
-      "Queen Cornelia",
-      { x: 0, y: 0, height: 2, width: 1 },
-      plotOutsideAOE14
-    );
-
-    expect(cropPlot1).toBe(false);
-    expect(cropPlot2).toBe(false);
-    expect(cropPlot3).toBe(false);
-    expect(cropPlot4).toBe(false);
-    expect(cropPlot5).toBe(false);
-    expect(cropPlot6).toBe(false);
-    expect(cropPlot7).toBe(false);
-    expect(cropPlot8).toBe(false);
-    expect(cropPlot9).toBe(false);
-    expect(cropPlot10).toBe(false);
-    expect(cropPlot11).toBe(false);
-    expect(cropPlot12).toBe(false);
-    expect(cropPlot13).toBe(false);
-    expect(cropPlot14).toBe(false);
+      expect(isPlotWithinAoE).toBe(false);
+    });
   });
 
   it("returns true if the crop is within the Gnome AOE", () => {

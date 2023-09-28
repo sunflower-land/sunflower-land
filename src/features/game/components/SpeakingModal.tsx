@@ -33,25 +33,24 @@ export const SpeakingModal: React.FC<Props> = ({
   const [forceShowFullMessage, setForceShowFullMessage] = useState(false);
 
   const handleClick = useCallback(() => {
-    // Cannot accidentally click through last message
-    if (currentTextEnded && currentMessage === message.length - 1) {
-      onClose();
-      return;
-    }
+    if (!currentTextEnded) {
+      setCurrentTextEnded(true);
+      setForceShowFullMessage(true);
+    } else {
+      const isLast = currentMessage === message.length - 1;
+      const hasActions = message[currentMessage].actions?.length;
 
-    if (currentTextEnded) {
+      if (isLast && hasActions) {
+        return;
+      }
       setCurrentTextEnded(false);
       setForceShowFullMessage(false);
-
-      if (currentMessage < message.length - 1) {
+      if (!isLast) {
         setCurrentMessage(currentMessage + 1);
       } else {
         setCurrentMessage(0);
         onClose();
       }
-    } else {
-      setCurrentTextEnded(true);
-      setForceShowFullMessage(true);
     }
   }, [currentTextEnded, currentMessage, message.length]);
 
@@ -83,7 +82,9 @@ export const SpeakingModal: React.FC<Props> = ({
     >
       <div style={{ minHeight: `${lines * 25}px` }} className="flex flex-col">
         <div
-          className="flex-1 p-1  flex flex-col cursor-pointer mb-1"
+          className={classNames("flex-1 p-1 flex flex-col  mb-1", {
+            "cursor-pointer": !currentTextEnded || !showActions,
+          })}
           onClick={handleClick}
         >
           <TypingMessage

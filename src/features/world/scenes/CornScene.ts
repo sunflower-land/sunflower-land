@@ -63,6 +63,11 @@ export class CornScene extends BaseScene {
   create() {
     super.create();
 
+    // Increase zoom for mobile screens
+    if (window.innerWidth < 500) {
+      this.cameras.main.setZoom(2.3);
+    }
+
     this.setUpSpotlight();
     this.setUpPortal();
     this.setUpCrows();

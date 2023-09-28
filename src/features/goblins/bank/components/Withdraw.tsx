@@ -15,6 +15,7 @@ import { WithdrawBumpkin } from "./WithdrawBumpkin";
 import { SUNNYSIDE } from "assets/sunnyside";
 import chest from "assets/icons/chest.png";
 import token from "assets/icons/token_2.png";
+import { WithdrawBuds } from "./WithdrawBuds";
 
 interface Props {
   onClose: () => void;
@@ -26,7 +27,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const [authState] = useActor(authService);
 
   const [page, setPage] = useState<
-    "tokens" | "items" | "wearables" | "bumpkin"
+    "tokens" | "items" | "wearables" | "bumpkin" | "buds"
   >();
 
   const withdrawAmount = useRef({
@@ -36,6 +37,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     wearableIds: [] as number[],
     wearableAmounts: [] as number[],
     bumpkinId: undefined as number | undefined,
+    budIds: [] as number[],
   });
 
   const [showCaptcha, setShowCaptcha] = useState(false);
@@ -48,6 +50,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       wearableAmounts: [],
       wearableIds: [],
       bumpkinId: undefined,
+      budIds: [],
     };
     setShowCaptcha(true);
   };
@@ -60,6 +63,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       wearableAmounts: [],
       wearableIds: [],
       bumpkinId: undefined,
+      budIds: [],
     };
     setShowCaptcha(true);
   };
@@ -75,6 +79,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       wearableAmounts,
       wearableIds,
       bumpkinId: undefined,
+      budIds: [],
     };
     setShowCaptcha(true);
   };
@@ -87,6 +92,20 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       wearableAmounts: [],
       wearableIds: [],
       bumpkinId: goblinState.context.state.bumpkin?.id,
+      budIds: [],
+    };
+    setShowCaptcha(true);
+  };
+
+  const onWithdrawBuds = async (ids: number[]) => {
+    withdrawAmount.current = {
+      ids: [],
+      amounts: [],
+      sfl: "0",
+      wearableAmounts: [],
+      wearableIds: [],
+      bumpkinId: undefined,
+      budIds: ids,
     };
     setShowCaptcha(true);
   };
@@ -169,6 +188,12 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
               Bumpkin
             </div>
           </Button>
+          <Button onClick={() => setPage("buds")}>
+            <div className="flex">
+              <img src={SUNNYSIDE.icons.plant} className="h-4 mr-1" />
+              Buds
+            </div>
+          </Button>
         </div>
       </div>
       {page === "tokens" && <WithdrawTokens onWithdraw={onWithdrawTokens} />}
@@ -177,6 +202,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
         <WithdrawWearables onWithdraw={onWithdrawWearables} />
       )}
       {page === "bumpkin" && <WithdrawBumpkin onWithdraw={onWithdrawBumpkin} />}
+      {page === "buds" && <WithdrawBuds onWithdraw={onWithdrawBuds} />}
     </>
   );
 };

@@ -38,6 +38,7 @@ import { useNavigate } from "react-router-dom";
 import { PlayerModals } from "./ui/PlayerModals";
 import { prepareAPI } from "features/community/lib/CommunitySDK";
 import { TradeCompleted } from "./ui/TradeCompleted";
+import { handleCommand } from "./lib/chatCommands";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -173,28 +174,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
   useEffect(() => {
     mmoService.state.context.server?.state.messages.onChange(() => {
-      // Load active scene in Phaser, otherwise fallback to route
-      const currentScene =
-        game.current?.scene.getScenes(true)[0]?.scene.key ?? scene;
-
-      console.log({
-        currentScene,
-        messages: mmoService.state.context.server?.state.messages,
-      });
-      const sceneMessages =
-        mmoService.state.context.server?.state.messages.filter(
-          (m) => m.sceneId === currentScene
-        ) as Message[];
-
-      setMessages(
-        sceneMessages.map((m) => ({
-          farmId: m.farmId ?? 0,
-          text: m.text,
-          sessionId: m.sessionId,
-          sceneId: m.sceneId,
-          sentAt: m.sentAt,
-        })) ?? []
-      );
+      updateMessages();
     });
 
     mmoBus.listen((message) => {
@@ -202,7 +182,33 @@ export const PhaserComponent: React.FC<Props> = ({
     });
   }, [mmoService.state.context.server]);
 
-  // Listen to state change from trading -> playing
+  const updateMessages = () => {
+    // Load active scene in Phaser, otherwise fallback to route
+    const currentScene =
+      game.current?.scene.getScenes(true)[0]?.scene.key ?? scene;
+
+    const sceneMessages =
+      mmoService.state.context.server?.state.messages.filter(
+        (m) => m.sceneId === currentScene
+      ) as Message[];
+
+    const filteredMessages = sceneMessages.filter(
+      (m) =>
+        !JSON.parse(
+          localStorage.getItem("plaza-settings.mutedFarmIds") ?? "[]"
+        ).includes(m.farmId)
+    );
+
+    setMessages(
+      filteredMessages.map((m) => ({
+        farmId: m.farmId ?? 0,
+        text: m.text,
+        sessionId: m.sessionId,
+        sceneId: m.sceneId,
+        sentAt: m.sentAt,
+      })) ?? []
+    );
+  };
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -216,6 +222,9 @@ export const PhaserComponent: React.FC<Props> = ({
             mmoService.state.context.server?.send(0, {
               text: m.text ?? "?",
             });
+          }}
+          onCommand={(name, args) => {
+            handleCommand(name, args).then(updateMessages);
           }}
           messages={messages ?? []}
         />

@@ -32,7 +32,6 @@ export const BASIC_WEARABLES: ShopWearables = {
     sfl: new Decimal(50),
     ingredients: {},
   },
-
   "Rancher Hair": {
     sfl: new Decimal(10),
     ingredients: {},
@@ -62,7 +61,6 @@ export const BASIC_WEARABLES: ShopWearables = {
     sfl: new Decimal(5),
     ingredients: {},
   },
-
   "Farmer Pants": {
     sfl: new Decimal(5),
     ingredients: {},
@@ -110,7 +108,6 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
   },
   "Witch's Broom": {
     sfl: new Decimal(0),
-
     ingredients: {
       Gold: new Decimal(5),
       "Crow Feather": new Decimal(50),
@@ -134,7 +131,6 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
   },
   "Imp Costume": {
     sfl: new Decimal(0),
-
     ingredients: {
       "Crow Feather": new Decimal(1000),
     },
