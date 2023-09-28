@@ -11,8 +11,9 @@ export const GiantPumpkin: React.FC = () => {
         style={{
           width: `${PIXEL_SCALE * 26}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * 3}px`,
         }}
-        className="absolute left-1/2 -translate-x-1/2"
+        className="absolute pointer-events-none"
         alt="Giant Pumpkin"
       />
     </>
