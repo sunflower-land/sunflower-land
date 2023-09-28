@@ -256,6 +256,7 @@ export const Deposit: React.FC<Props> = ({
     getKeys(wardrobeBalance).length === 0 &&
     getKeys(inventoryBalance).length === 0 &&
     budBalance.length === 0 &&
+    budsToDeposit.length === 0 &&
     sflBalance.eq(0);
   const validDepositAmount = sflDepositAmount > 0 && !amountGreaterThanBalance;
 
