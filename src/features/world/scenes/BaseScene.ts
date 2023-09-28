@@ -289,7 +289,6 @@ export abstract class BaseScene extends Phaser.Scene {
     });
 
     triggerPolygons.forEach((polygon) => {
-      console.log("POLYGON SETUP");
       this.triggerColliders?.add(polygon);
       this.physics.world.enable(polygon);
       (polygon.body as Physics.Arcade.Body).setImmovable(true);

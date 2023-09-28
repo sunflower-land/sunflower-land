@@ -9,8 +9,8 @@ export type SpawnLocation = Record<
 export const SPAWNS: SpawnLocation = {
   plaza: {
     default: {
-      x: 141,
-      y: 309,
+      x: 440,
+      y: 400,
     },
     windmill_floor: {
       x: 420,
