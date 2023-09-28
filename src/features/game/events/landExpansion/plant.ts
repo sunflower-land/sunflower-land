@@ -28,12 +28,8 @@ import {
   isAdvancedCrop,
   isOvernightCrop,
 } from "./harvest";
-<<<<<<< HEAD
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { getBudSpeedBoosts } from "features/game/lib/getBudSpeedBoosts";
-import { isBuildingReady } from "features/game/lib/constants";
-=======
->>>>>>> 21b8c5110 ([FEAT] remove AoE)
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";

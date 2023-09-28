@@ -514,19 +514,6 @@ describe("fruitHarvested", () => {
         buildings: {},
         wearables: { ...INITIAL_BUMPKIN.equipped },
       });
-      describe("getFruitYield", () => {
-        it("provides no bonuses", () => {
-          const amount = getFruitYield({
-            buds: {},
-            collectibles: {},
-            name: "Apple",
-            buildings: {},
-            wearables: { ...INITIAL_BUMPKIN.equipped },
-          });
-
-          expect(amount).toEqual(1);
-        });
-      });
     });
   });
 });
