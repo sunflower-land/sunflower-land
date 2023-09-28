@@ -103,7 +103,8 @@ export const Chest: React.FC<Props> = ({
     onSelect(item);
   };
 
-  const chestIsEmpty = getKeys(collectibles).length === 0;
+  const chestIsEmpty =
+    getKeys(collectibles).length === 0 && Object.values(buds).length === 0;
 
   if (chestIsEmpty) {
     return (
