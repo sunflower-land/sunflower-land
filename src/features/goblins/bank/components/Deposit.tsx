@@ -30,7 +30,6 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { loadWardrobe } from "lib/blockchain/BumpkinItems";
 import { getBudsBalance } from "lib/blockchain/Buds";
-import { hasFeatureAccess } from "lib/flags";
 import { CONFIG } from "lib/config";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
@@ -324,7 +323,7 @@ export const Deposit: React.FC<Props> = ({
                     </div>
                   </>
                 )}
-                {hasBuds && hasFeatureAccess({}, "BUDS_REVEALED") && (
+                {hasBuds && (
                   <>
                     <p className="text-sm">Buds</p>
                     <div
