@@ -24,6 +24,7 @@ import {
   HIT_PENALTY_SECONDS,
   MachineInterpreter,
   MachineState,
+  OCTOBER_MADNESS,
   cornMazeMachine,
 } from "features/world/lib/cornmazeMachine";
 import { MAZE_TIME_LIMIT_SECONDS } from "features/game/events/landExpansion/startMaze";
@@ -31,7 +32,6 @@ import { createPortal } from "react-dom";
 import { NoActiveAttemptContent } from "./NoAttemptModalContent";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
-import { OCTOBER_MADNESS } from "features/world/scenes/CornScene";
 
 type Listener = {
   collectCrow: (id: string) => void;

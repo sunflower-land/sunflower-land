@@ -14,7 +14,7 @@ import { Context } from "features/game/GameProvider";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
-import { OCTOBER_MADNESS } from "features/world/scenes/CornScene";
+import { OCTOBER_MADNESS } from "features/world/lib/cornmazeMachine";
 
 interface Props {
   isIncompleteAttempt: boolean;

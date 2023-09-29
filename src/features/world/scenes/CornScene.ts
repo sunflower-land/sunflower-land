@@ -13,6 +13,7 @@ import { ENEMIES, Enemy } from "../ui/cornMaze/lib/enemies";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { Label } from "../containers/Label";
+import { OCTOBER_MADNESS } from "../lib/cornmazeMachine";
 
 const LUNA: NPCBumpkin = {
   x: 333,
@@ -20,9 +21,6 @@ const LUNA: NPCBumpkin = {
   npc: "luna",
   direction: "left",
 };
-
-export const OCTOBER_MADNESS =
-  CONFIG.NETWORK === "mumbai" || getSeasonWeek() >= 10;
 
 export class CornScene extends BaseScene {
   sceneId: SceneId = "corn_maze";
