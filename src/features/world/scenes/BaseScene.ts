@@ -90,6 +90,8 @@ export abstract class BaseScene extends Phaser.Scene {
 
   colliders?: Phaser.GameObjects.Group;
   triggerColliders?: Phaser.GameObjects.Group;
+  hiddenColliders?: Phaser.GameObjects.Group;
+
   soundEffects: AudioController[] = [];
   walkAudioController?: WalkAudioController;
 
@@ -290,6 +292,18 @@ export abstract class BaseScene extends Phaser.Scene {
 
     triggerPolygons.forEach((polygon) => {
       this.triggerColliders?.add(polygon);
+      this.physics.world.enable(polygon);
+      (polygon.body as Physics.Arcade.Body).setImmovable(true);
+    });
+
+    this.hiddenColliders = this.add.group();
+
+    const hiddenPolygons = this.map.createFromObjects("Hidden", {
+      scene: this,
+    });
+
+    hiddenPolygons.forEach((polygon) => {
+      this.hiddenColliders?.add(polygon);
       this.physics.world.enable(polygon);
       (polygon.body as Physics.Arcade.Body).setImmovable(true);
     });
@@ -828,6 +842,16 @@ export abstract class BaseScene extends Phaser.Scene {
       entity.y = Phaser.Math.Linear(entity.y, player.y, 0.05);
 
       entity.setDepth(entity.y);
+
+      // Hide if in club house
+      const overlap = this.physics.world.overlap(
+        this.hiddenColliders as Phaser.GameObjects.Group,
+        entity
+      );
+
+      if (overlap === entity.visible) {
+        entity.setVisible(!overlap);
+      }
     });
   }
 
