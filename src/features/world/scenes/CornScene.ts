@@ -85,7 +85,7 @@ export class CornScene extends BaseScene {
       "Crumple Crown";
 
     if (isEnemy) {
-      this.walkingSpeed = 25;
+      this.walkingSpeed = 35;
     } else {
       this.setUpCrows();
     }
