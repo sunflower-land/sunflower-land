@@ -31,6 +31,7 @@ import { createPortal } from "react-dom";
 import { NoActiveAttemptContent } from "./NoAttemptModalContent";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
+import { OCTOBER_MADNESS } from "features/world/scenes/CornScene";
 
 type Listener = {
   collectCrow: (id: string) => void;
@@ -77,8 +78,10 @@ const DEFAULT_HEALTH = 3;
 
 const _witchesEve = (state: GameMachineState) =>
   state.context.state.witchesEve as WitchesEve;
-
+const _enemy = (state: GameMachineState) =>
+  state.context.state.bumpkin?.equipped.hat === "Crumple Crown";
 const _score = (state: MachineState) => state.context.score;
+const _isEnemty = (state: MachineState) => state.context.score;
 const _health = (state: MachineState) => state.context.health;
 const _timeElapsed = (state: MachineState) => state.context.timeElapsed;
 const _startedAt = (state: MachineState) => state.context.startedAt;
@@ -97,6 +100,7 @@ export const MazeHud: React.FC = () => {
   const { gameService } = useContext(Context);
   const currentWeek = getSeasonWeek();
   const witchesEve = useSelector(gameService, _witchesEve);
+  const isEnemy = useSelector(gameService, _enemy) && OCTOBER_MADNESS;
 
   const { weeklyLostCrowCount } = witchesEve;
   const { claimedFeathers, highestScore, attempts } = witchesEve?.maze[
@@ -238,19 +242,22 @@ export const MazeHud: React.FC = () => {
 
   return createPortal(
     <>
-      <div className="absolute top-2 right-2 text-[2.5rem] md:text-xl flex flex-col items-end space-y-2">
-        <div className="flex space-x-1 items-center">
-          <img
-            src={crowWithoutShadow}
-            alt="Collected Crows"
-            className="w-10 md:w-14"
-          />
-          <span className="mb-2">{`${score}/${weeklyLostCrowCount}`}</span>
+      {!isEnemy && (
+        <div className="absolute top-2 right-2 text-[2.5rem] md:text-xl flex flex-col items-end space-y-2">
+          <div className="flex space-x-1 items-center">
+            <img
+              src={crowWithoutShadow}
+              alt="Collected Crows"
+              className="w-10 md:w-14"
+            />
+            <span className="mb-2">{`${score}/${weeklyLostCrowCount}`}</span>
+          </div>
+          {highestScore > 0 && (
+            <Label type="info">{`Highest score: ${highestScore}`}</Label>
+          )}
         </div>
-        {highestScore > 0 && (
-          <Label type="info">{`Highest score: ${highestScore}`}</Label>
-        )}
-      </div>
+      )}
+
       <div className="absolute top-2 left-2 flex space-x-2 items-center">
         {new Array(3).fill(null).map((_, i) => (
           <img
@@ -351,6 +358,7 @@ export const MazeHud: React.FC = () => {
           isIncompleteAttempt={!!activeAttempt?.time}
           isPaused={startedAt > 0}
           onClick={startedAt > 0 ? handleResume : handleStart}
+          isEnemy={isEnemy}
         />
       </Modal>
       {/* No active attempt modal */}
