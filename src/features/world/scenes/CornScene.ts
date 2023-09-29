@@ -21,7 +21,7 @@ const LUNA: NPCBumpkin = {
   direction: "left",
 };
 
-const OCTOBER_MADNESS = CONFIG.NETWORK === "mumbai";
+export const OCTOBER_MADNESS = CONFIG.NETWORK === "mumbai";
 
 export class CornScene extends BaseScene {
   sceneId: SceneId = "corn_maze";

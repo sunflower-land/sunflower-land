@@ -31,6 +31,7 @@ import { createPortal } from "react-dom";
 import { NoActiveAttemptContent } from "./NoAttemptModalContent";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
+import { OCTOBER_MADNESS } from "features/world/scenes/CornScene";
 
 type Listener = {
   collectCrow: (id: string) => void;
@@ -99,7 +100,7 @@ export const MazeHud: React.FC = () => {
   const { gameService } = useContext(Context);
   const currentWeek = getSeasonWeek();
   const witchesEve = useSelector(gameService, _witchesEve);
-  const isEnemy = useSelector(gameService, _enemy);
+  const isEnemy = useSelector(gameService, _enemy) && OCTOBER_MADNESS;
 
   const { weeklyLostCrowCount } = witchesEve;
   const { claimedFeathers, highestScore, attempts } = witchesEve?.maze[

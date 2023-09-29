@@ -14,6 +14,7 @@ import { Context } from "features/game/GameProvider";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
+import { OCTOBER_MADNESS } from "features/world/scenes/CornScene";
 
 interface Props {
   isIncompleteAttempt: boolean;
@@ -92,7 +93,12 @@ export const TipsModalContent: React.FC<Props> = ({
                     Read more
                   </a>
                 </div>
-                {!isPaused && <Button onClick={() => setPage(1)}>Next</Button>}
+                {!isPaused && !OCTOBER_MADNESS && (
+                  <Button onClick={() => setPage(1)}>Next</Button>
+                )}
+                {!isPaused && OCTOBER_MADNESS && (
+                  <Button onClick={onClick}>{buttonText}</Button>
+                )}
               </>
             )}
             {page === 1 && (
