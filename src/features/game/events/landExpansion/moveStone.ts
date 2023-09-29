@@ -1,10 +1,5 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import {
-  Buildings,
-  Collectibles,
-  GameState,
-  Rock,
-} from "features/game/types/game";
+import { Collectibles, GameState, Rock } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { canMine } from "./stoneMine";
 import { isAOEImpacted } from "features/game/expansion/placeable/lib/collisionDetection";
@@ -30,7 +25,6 @@ type Options = {
 export function isLocked(
   rock: Rock,
   collectibles: Collectibles,
-  buildings: Buildings,
   createdAt: number
 ): boolean {
   const minedAt = rock.stone.minedAt;
@@ -39,10 +33,7 @@ export function isLocked(
 
   if (canMine(rock, createdAt)) return false;
 
-  return isAOEImpacted(collectibles, buildings, rock, [
-    "Emerald Turtle",
-    "Tin Turtle",
-  ]);
+  return isAOEImpacted(collectibles, rock, ["Emerald Turtle", "Tin Turtle"]);
 }
 
 export function moveStone({
@@ -61,14 +52,7 @@ export function moveStone({
     throw new Error(MOVE_STONE_ERRORS.STONE_NOT_PLACED);
   }
 
-  if (
-    isLocked(
-      stones[action.id],
-      stateCopy.collectibles,
-      stateCopy.buildings,
-      createdAt
-    )
-  ) {
+  if (isLocked(stones[action.id], stateCopy.collectibles, createdAt)) {
     throw new Error(MOVE_STONE_ERRORS.AOE_LOCKED);
   }
 

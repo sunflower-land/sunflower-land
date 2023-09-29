@@ -511,7 +511,6 @@ describe("fruitHarvested", () => {
         buds: {},
         collectibles: {},
         name: "Apple",
-        buildings: {},
         wearables: { ...INITIAL_BUMPKIN.equipped },
       });
     });

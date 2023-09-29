@@ -1,5 +1,4 @@
 import {
-  Buildings,
   Collectibles,
   GameState,
   PlacedItem,
@@ -412,7 +411,6 @@ export function isWithinAOE(
 
 export function isAOEImpacted(
   collectibles: Collectibles,
-  buildings: Buildings,
   resourcePosition: Position,
   AoEAffectedNames: AOEItemName[]
 ) {

@@ -79,7 +79,6 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       crop,
       inventory,
       collectibles,
-      buildings,
       bumpkin as Bumpkin,
       buds ?? {}
     );

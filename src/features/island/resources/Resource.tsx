@@ -197,7 +197,6 @@ const LandscapingResource: React.FC<ResourceProps> = (props) => {
   const { gameService } = useContext(Context);
 
   const collectibles = useSelector(gameService, _collectibles);
-  const buildings = useSelector(gameService, _buildings);
   const crops = useSelector(gameService, _crops);
   const stones = useSelector(gameService, _stones);
   const iron = useSelector(gameService, _iron);
@@ -211,19 +210,19 @@ const LandscapingResource: React.FC<ResourceProps> = (props) => {
 
     if (isPlot) {
       const plot = crops[props.id];
-      return isPlotLocked(plot, collectibles, buildings, Date.now());
+      return isPlotLocked(plot, collectibles, Date.now());
     }
     if (isStone) {
       const stoneRock = stones[props.id];
-      return isStoneLocked(stoneRock, collectibles, buildings, Date.now());
+      return isStoneLocked(stoneRock, collectibles, Date.now());
     }
     if (isIron) {
       const ironRock = iron[props.id];
-      return isIronLocked(ironRock, collectibles, buildings, Date.now());
+      return isIronLocked(ironRock, collectibles, Date.now());
     }
     if (isGold) {
       const goldRock = gold[props.id];
-      return isGoldLocked(goldRock, collectibles, buildings, Date.now());
+      return isGoldLocked(goldRock, collectibles, Date.now());
     }
     return false;
   };
