@@ -592,6 +592,10 @@ export abstract class BaseScene extends Phaser.Scene {
           }
         }
       );
+    } else {
+      (entity.body as Phaser.Physics.Arcade.Body)
+        .setSize(16, 20)
+        .setOffset(0, 0);
     }
 
     return entity;
