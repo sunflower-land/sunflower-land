@@ -21,6 +21,8 @@ const LUNA: NPCBumpkin = {
   direction: "left",
 };
 
+const OCTOBER_MADNESS = CONFIG.NETWORK === "mumbai";
+
 export class CornScene extends BaseScene {
   sceneId: SceneId = "corn_maze";
   // Don't allow portal hit to be triggered multiple times
@@ -72,8 +74,12 @@ export class CornScene extends BaseScene {
       this.cameras.main.setZoom(2.3);
     }
 
-    // this.setUpSpotlight();
     this.setUpPortal();
+
+    if (!OCTOBER_MADNESS) {
+      this.setUpSpotlight();
+      return;
+    }
 
     const isEnemy =
       this.gameService.state.context.state.bumpkin?.equipped.hat ===
@@ -419,6 +425,10 @@ export class CornScene extends BaseScene {
     super.update(time, delta);
 
     this.updateSpotlightPosition();
+
+    if (!OCTOBER_MADNESS) {
+      return;
+    }
 
     const clouds = this.clouds;
 
