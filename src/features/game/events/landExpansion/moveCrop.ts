@@ -2,7 +2,6 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { isWithinAOE } from "features/game/expansion/placeable/lib/collisionDetection";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import {
-  Buildings,
   Collectibles,
   CropPlot,
   GameState,
@@ -34,7 +33,6 @@ type Options = {
 export function isLocked(
   plot: CropPlot,
   collectibles: Collectibles,
-  buildings: Buildings,
   createdAt: number
 ): boolean {
   const crop = plot.crop;
@@ -216,7 +214,7 @@ export function moveCrop({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
-  const { crops, collectibles, buildings } = stateCopy;
+  const { crops, collectibles } = stateCopy;
   const plot = crops[action.id];
 
   if (stateCopy.bumpkin === undefined) {
@@ -227,7 +225,7 @@ export function moveCrop({
     throw new Error(MOVE_CROP_ERRORS.CROP_NOT_PLACED);
   }
 
-  if (isLocked(plot, collectibles, buildings, createdAt)) {
+  if (isLocked(plot, collectibles, createdAt)) {
     throw new Error(MOVE_CROP_ERRORS.AOE_LOCKED);
   }
 

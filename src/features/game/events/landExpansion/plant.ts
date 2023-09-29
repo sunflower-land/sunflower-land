@@ -89,7 +89,6 @@ export const getCropTime = (
   crop: CropName,
   inventory: Inventory,
   collectibles: Collectibles,
-  buildings: Buildings,
   bumpkin: Bumpkin,
   buds: NonNullable<GameState["buds"]>,
   plot?: CropPlot
@@ -217,7 +216,6 @@ export function getPlantedAt({
     crop,
     inventory,
     collectibles,
-    buildings,
     bumpkin,
     buds,
     plot
@@ -237,7 +235,6 @@ export function getCropYieldAmount({
   inventory,
   collectibles,
   buds,
-  buildings,
   bumpkin,
 }: {
   crop: CropName;
@@ -245,7 +242,6 @@ export function getCropYieldAmount({
   inventory: Inventory;
   collectibles: Collectibles;
   buds: NonNullable<GameState["buds"]>;
-  buildings: Buildings;
   bumpkin: Bumpkin;
 }): number {
   let amount = 1;
@@ -529,7 +525,6 @@ export function plant({
         crop: cropName,
         inventory,
         collectibles,
-        buildings,
         bumpkin,
         plot,
         buds,

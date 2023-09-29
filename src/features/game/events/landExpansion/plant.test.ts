@@ -1556,7 +1556,6 @@ describe("getCropTime", () => {
       "Carrot",
       {},
       {},
-      {},
       { ...INITIAL_BUMPKIN, skills: { Cultivator: 1 } },
       plot
     );
@@ -1567,7 +1566,6 @@ describe("getCropTime", () => {
   it("reduces in 20% carrot time when Bumpkin is wearing Carrot Amulet", () => {
     const time = getCropTime(
       "Carrot",
-      {},
       {},
       {},
       {
@@ -1595,7 +1593,6 @@ describe("getCropTime", () => {
           },
         ],
       },
-      {},
       { ...INITIAL_BUMPKIN },
       plot
     );
@@ -1618,7 +1615,7 @@ describe("getCropTime", () => {
           },
         ],
       },
-      {},
+
       { ...INITIAL_BUMPKIN },
       plot
     );
@@ -1641,7 +1638,6 @@ describe("getCropTime", () => {
           },
         ],
       },
-      {},
       { ...INITIAL_BUMPKIN },
       plot
     );
@@ -1653,7 +1649,6 @@ describe("getCropTime", () => {
     const amount = getCropYieldAmount({
       crop: "Eggplant",
       inventory: {},
-      buildings: {},
       bumpkin: {
         ...INITIAL_BUMPKIN,
         equipped: {
@@ -1673,7 +1668,6 @@ describe("getCropTime", () => {
     const amount = getCropYieldAmount({
       crop: "Corn",
       inventory: {},
-      buildings: {},
       bumpkin: {
         ...INITIAL_BUMPKIN,
         equipped: {
@@ -1704,7 +1698,6 @@ describe("getCropTime", () => {
           },
         ],
       },
-      {},
       { ...INITIAL_BUMPKIN },
       plot
     );
@@ -1728,7 +1721,6 @@ describe("getCropTime", () => {
           },
         ],
       },
-      {},
       { ...INITIAL_BUMPKIN },
       {},
       { ...plot, x: 0, y: -2 }
@@ -1753,7 +1745,6 @@ describe("getCropTime", () => {
           },
         ],
       },
-      {},
       { ...INITIAL_BUMPKIN },
       {},
       { ...plot, x: 0, y: -2 }
@@ -1778,7 +1769,6 @@ describe("getCropTime", () => {
           },
         ],
       },
-      {},
       { ...INITIAL_BUMPKIN },
       {},
       { ...plot, x: 0, y: -2 }
@@ -1803,7 +1793,6 @@ describe("getCropTime", () => {
           },
         ],
       },
-      {},
       { ...INITIAL_BUMPKIN },
       {},
       { ...plot, x: 0, y: -2 }
@@ -1828,7 +1817,6 @@ describe("getCropTime", () => {
           },
         ],
       },
-      {},
       { ...INITIAL_BUMPKIN },
       {},
       { ...plot, x: 2, y: -2 }
@@ -1853,7 +1841,6 @@ describe("getCropTime", () => {
           },
         ],
       },
-      {},
       { ...INITIAL_BUMPKIN },
       {},
       { ...plot, x: 0, y: -3 }
@@ -1874,7 +1861,6 @@ describe("isPlotFertile", () => {
       width: 1,
     });
     const isFertile = isPlotFertile({
-      buildings: {},
       crops: {
         0: fakePlot(),
         1: fakePlot(),
@@ -1895,6 +1881,7 @@ describe("isPlotFertile", () => {
         98: fakePlot(), // 17th
       },
       plotIndex: "87",
+      buildings: {},
     });
 
     expect(isFertile).toBeFalsy();
@@ -1961,7 +1948,6 @@ describe("isPlotFertile", () => {
       width: 1,
     };
     const isFertile = isPlotFertile({
-      buildings: {},
       crops: {
         0: fakePlot,
         1: fakePlot,
@@ -1977,6 +1963,7 @@ describe("isPlotFertile", () => {
         11: fakePlot,
       },
       plotIndex: "5",
+      buildings: {},
     });
     expect(isFertile).toBeTruthy();
   });
@@ -2036,7 +2023,6 @@ describe("getCropYield", () => {
           },
         ],
       },
-      buildings: {},
       inventory: {},
       buds: {},
       plot: { createdAt: 0, height: 1, width: 1, x: 2, y: 3 },
@@ -2059,7 +2045,6 @@ describe("getCropYield", () => {
           },
         ],
       },
-      buildings: {},
       inventory: {},
       buds: {},
       plot: { createdAt: 0, height: 1, width: 1, x: 5, y: 6 },

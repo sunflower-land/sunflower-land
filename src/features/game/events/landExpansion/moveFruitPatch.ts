@@ -1,6 +1,6 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { FRUIT } from "features/game/types/fruits";
-import { Buildings, FruitPatch, GameState } from "features/game/types/game";
+import { FruitPatch, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { isFruitReadyToHarvest } from "./fruitHarvested";
 
@@ -22,11 +22,7 @@ type Options = {
   createdAt?: number;
 };
 
-export function isLocked(
-  patch: FruitPatch,
-  buildings: Buildings,
-  createdAt: number
-): boolean {
+export function isLocked(patch: FruitPatch, createdAt: number): boolean {
   const fruit = patch.fruit;
 
   const plantedAt = fruit?.plantedAt;
@@ -58,7 +54,7 @@ export function moveFruitPatch({
     throw new Error(MOVE_FRUIT_PATCH_ERRORS.FRUIT_PATCH_NOT_PLACED);
   }
 
-  if (isLocked(fruitPatch[action.id], stateCopy.buildings, createdAt)) {
+  if (isLocked(fruitPatch[action.id], createdAt)) {
     throw new Error(MOVE_FRUIT_PATCH_ERRORS.AOE_LOCKED);
   }
 

@@ -13,7 +13,6 @@ import {
   Fruit,
 } from "features/game/types/fruits";
 import {
-  Buildings,
   Collectibles,
   GameState,
   PlantedFruit,
@@ -49,7 +48,6 @@ type FruitYield = {
   collectibles: Collectibles;
   buds: NonNullable<GameState["buds"]>;
   wearables: Equipped;
-  buildings: Buildings;
 };
 
 export function isFruitGrowing(patch: FruitPatch) {
@@ -76,7 +74,6 @@ export function getFruitYield({
   buds,
   name,
   wearables,
-  buildings,
 }: FruitYield) {
   let amount = 1;
   if (name === "Apple" && isCollectibleBuilt("Lady Bug", collectibles)) {
@@ -175,7 +172,6 @@ export function harvestFruit({
     collectibles: collectibles,
     buds: stateCopy.buds ?? {},
     wearables: bumpkin.equipped,
-    buildings: stateCopy.buildings,
     name,
   });
 
