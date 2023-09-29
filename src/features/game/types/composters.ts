@@ -27,7 +27,7 @@ export const COMPOST: Record<CompostName, { description: string }> = {
     description: "Sprout Mix increases your crop yield by +0.2",
   },
   "Fruitful Blend": {
-    description: "Advanced Compost boosts your fruit yield by +0.25",
+    description: "Fruitful Blend boosts your fruit yield by +0.25",
   },
   "Rapid Root": {
     description: "Rapid Root boosts your crop speed by +50%",
