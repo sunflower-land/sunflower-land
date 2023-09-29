@@ -93,10 +93,10 @@ export const TipsModalContent: React.FC<Props> = ({
                     Read more
                   </a>
                 </div>
-                {!isPaused && !OCTOBER_MADNESS && (
+                {!isPaused && OCTOBER_MADNESS && (
                   <Button onClick={() => setPage(1)}>Next</Button>
                 )}
-                {!isPaused && OCTOBER_MADNESS && (
+                {!isPaused && !OCTOBER_MADNESS && (
                   <Button onClick={onClick}>{buttonText}</Button>
                 )}
               </>
