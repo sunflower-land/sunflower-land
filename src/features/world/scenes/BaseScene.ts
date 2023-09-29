@@ -819,6 +819,11 @@ export abstract class BaseScene extends Phaser.Scene {
     const server = this.mmoService.state.context.server;
     if (!server) return;
 
+    const playerInVIP = this.physics.world.overlap(
+      this.hiddenColliders as Phaser.GameObjects.Group,
+      this.currentPlayer
+    );
+
     // Render current players
     server.state.players.forEach((player, sessionId) => {
       if (sessionId === server.sessionId) return;
@@ -847,14 +852,17 @@ export abstract class BaseScene extends Phaser.Scene {
 
       entity.setDepth(entity.y);
 
-      // Hide if in club house
-      const overlap = this.physics.world.overlap(
-        this.hiddenColliders as Phaser.GameObjects.Group,
-        entity
-      );
+      if (!playerInVIP) {
+        // Hide if in club house
+        const overlap = this.physics.world.overlap(
+          this.hiddenColliders as Phaser.GameObjects.Group,
+          entity
+        );
 
-      if (overlap === entity.visible) {
-        entity.setVisible(!overlap);
+        // Check if player is in area as well
+        if (overlap === entity.visible) {
+          entity.setVisible(!overlap);
+        }
       }
     });
   }
