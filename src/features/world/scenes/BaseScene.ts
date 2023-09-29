@@ -852,17 +852,17 @@ export abstract class BaseScene extends Phaser.Scene {
 
       entity.setDepth(entity.y);
 
-      if (!playerInVIP) {
-        // Hide if in club house
-        const overlap = this.physics.world.overlap(
-          this.hiddenColliders as Phaser.GameObjects.Group,
-          entity
-        );
+      // Hide if in club house
+      const overlap = this.physics.world.overlap(
+        this.hiddenColliders as Phaser.GameObjects.Group,
+        entity
+      );
 
-        // Check if player is in area as well
-        if (overlap === entity.visible) {
-          entity.setVisible(!overlap);
-        }
+      const hidden = !playerInVIP && overlap;
+
+      // Check if player is in area as well
+      if (hidden === entity.visible) {
+        entity.setVisible(!hidden);
       }
     });
   }
