@@ -88,6 +88,7 @@ export class CornScene extends BaseScene {
       this.walkingSpeed = 35;
     } else {
       this.setUpCrows();
+      this.walkingSpeed = 50;
     }
     this.setUpLuna();
     this.setUpEnemies();
