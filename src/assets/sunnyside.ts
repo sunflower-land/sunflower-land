@@ -135,7 +135,7 @@ export const SUNNYSIDE = {
     dot: `${CONFIG.PROTECTED_IMAGE_URL}/ui/select_dots.png`,
   },
   decorations: {
-    treasure_chest: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/treasure_chest.png`,
+    treasure_chest: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/treasure_opened.png`,
     treasure_chest_opened: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/treasure_opened.png`,
     blue_bottle: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/blue_bottle.webp`,
     orange_bottle: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/orange_bottle.webp`,
