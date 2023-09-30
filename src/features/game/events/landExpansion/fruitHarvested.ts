@@ -9,6 +9,8 @@ import {
 import { FRUIT, FruitName, FRUIT_SEEDS } from "features/game/types/fruits";
 import { Collectibles, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import { getTimeLeft } from "lib/utils/time";
+import { FruitPatch } from "features/game/types/game";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -27,6 +29,25 @@ type FruitYield = {
   buds: NonNullable<GameState["buds"]>;
   wearables: Equipped;
 };
+
+export function isFruitGrowing(patch: FruitPatch) {
+  const fruit = patch.fruit;
+  if (!fruit) return false;
+
+  const { name, amount, harvestsLeft, harvestedAt, plantedAt } = fruit;
+  if (!harvestsLeft) return false;
+
+  const { seed } = FRUIT()[name];
+  const { plantSeconds } = FRUIT_SEEDS()[seed];
+
+  if (harvestedAt) {
+    const replenishingTimeLeft = getTimeLeft(harvestedAt, plantSeconds);
+    if (replenishingTimeLeft > 0) return true;
+  }
+
+  const growingTimeLeft = getTimeLeft(plantedAt, plantSeconds);
+  return growingTimeLeft > 0;
+}
 
 export function getFruitYield({
   collectibles,
