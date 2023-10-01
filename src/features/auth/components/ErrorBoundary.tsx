@@ -1,6 +1,6 @@
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import React, { Component, ReactNode } from "react";
-import ocean from "assets/decorations/ocean.webp";
+import ocean from "assets/decorations/ocean.gif";
 import { BoundaryError } from "./SomethingWentWrong";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
