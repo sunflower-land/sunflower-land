@@ -1,6 +1,6 @@
 import React from "react";
 
-import ocean from "assets/decorations/ocean.webp";
+import ocean from "assets/decorations/ocean.gif";
 import sandIslandOne from "assets/brand/sand_island_one.webp";
 import sandIslandOneShore from "assets/brand/sand_island_one_shore.webp";
 import sandIslandTwo from "assets/brand/sand_island_two.webp";
