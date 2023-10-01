@@ -124,7 +124,7 @@ export const getFoodExpBoost = (
   }
 
   if (
-    food.name in COOKABLE_CAKES &&
+    (food.name in COOKABLE_CAKES || food.name === "Pirate Cake") &&
     isCollectibleBuilt("Grain Grinder", collectibles)
   ) {
     boostedExp = boostedExp.mul(1.2);
