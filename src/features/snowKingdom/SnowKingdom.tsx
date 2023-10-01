@@ -3,7 +3,7 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useLayoutEffect, useRef } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
-import ocean from "assets/decorations/ocean.webp";
+import ocean from "assets/decorations/ocean.gif";
 import background from "assets/land/snow_kingdom.webp";
 import { GameProvider } from "features/game/GameProvider";
 import { IslandTravelWrapper } from "./IslandTravelWrapper";
