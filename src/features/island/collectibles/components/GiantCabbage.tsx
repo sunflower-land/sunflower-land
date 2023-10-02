@@ -11,8 +11,9 @@ export const GiantCabbage: React.FC = () => {
         style={{
           width: `${PIXEL_SCALE * 27}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * 3}px`,
         }}
-        className="absolute left-1/2 -translate-x-1/2"
+        className="absolute pointer-events-none"
         alt="Giant Cabbage"
       />
     </>
