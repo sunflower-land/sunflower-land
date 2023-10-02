@@ -49,7 +49,7 @@ export const FERTILISERS: Record<FertiliserName, { description: string }> = {
 };
 
 export type Fertilisers = {
-  name: FertiliserName;
+  name: CompostName;
   fertilisedAt: number;
 }[];
 

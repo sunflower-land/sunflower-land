@@ -139,7 +139,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
     // apply fertilisers
     if (selectedItem && selectedItem in FERTILISERS) {
       gameService.send("crop.fertilised", {
-        plotIndex: id,
+        plotID: id,
         fertiliser: selectedItem,
       });
 

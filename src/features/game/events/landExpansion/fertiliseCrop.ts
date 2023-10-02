@@ -1,15 +1,15 @@
 import Decimal from "decimal.js-light";
-import { screenTracker } from "lib/utils/screen";
 import cloneDeep from "lodash.clonedeep";
-import { CROPS } from "../../types/crops";
-import { FertiliserName, GameState, InventoryItemName } from "../../types/game";
+import { CROPS, Crop } from "../../types/crops";
+import { GameState } from "../../types/game";
 import { isReadyToHarvest } from "./harvest";
+import { CompostName } from "features/game/types/composters";
 
 export type LandExpansionFertiliseCropAction = {
   type: "crop.fertilised";
-  plotIndex: number;
+  plotID: string;
   expansionIndex: number;
-  fertiliser: FertiliserName;
+  fertiliser: CompostName;
 };
 
 type Options = {
@@ -31,13 +31,15 @@ export enum FERTILISE_CROP_ERRORS {
   INVALID_PLANT = "Invalid plant!",
 }
 
-// Seeds which are implemented
-const VALID_FERTILISERS: InventoryItemName[] = ["Rapid Growth"];
-
-const isFertiliser = (
-  fertiliser: InventoryItemName
-): fertiliser is FertiliserName => {
-  return VALID_FERTILISERS.includes(fertiliser);
+const getPlantedAt = (
+  fertiliser: CompostName,
+  plantedAt: number,
+  cropDetails: Crop
+) => {
+  if (fertiliser === "Rapid Root") {
+    return plantedAt - (cropDetails.harvestSeconds * 1000) / 2;
+  }
+  return plantedAt;
 };
 
 export function fertiliseCrop({
@@ -48,19 +50,11 @@ export function fertiliseCrop({
   const stateCopy = cloneDeep(state);
   const { crops: plots, inventory } = stateCopy;
 
-  if (action.plotIndex < 0) {
+  if (!plots[action.plotID]) {
     throw new Error(FERTILISE_CROP_ERRORS.EMPTY_PLOT);
   }
 
-  if (!Number.isInteger(action.plotIndex)) {
-    throw new Error(FERTILISE_CROP_ERRORS.EMPTY_PLOT);
-  }
-
-  if (action.plotIndex >= Object.keys(plots).length) {
-    throw new Error(FERTILISE_CROP_ERRORS.EMPTY_PLOT);
-  }
-
-  const plot = plots[action.plotIndex];
+  const plot = plots[action.plotID];
   const crop = plot && plot.crop;
 
   if (!crop) {
@@ -86,26 +80,17 @@ export function fertiliseCrop({
     throw new Error(FERTILISE_CROP_ERRORS.NO_FERTILISER_SELECTED);
   }
 
-  if (!isFertiliser(action.fertiliser)) {
-    throw new Error(FERTILISE_CROP_ERRORS.NOT_A_FERTILISER);
-  }
-
   const fertiliserAmount = inventory[action.fertiliser] || new Decimal(0);
 
   if (fertiliserAmount.lessThan(1)) {
     throw new Error(FERTILISE_CROP_ERRORS.NOT_ENOUGH_FERTILISER);
   }
 
-  if (!screenTracker.calculate()) {
-    throw new Error(FERTILISE_CROP_ERRORS.INVALID_PLANT);
-  }
-
-  plots[action.plotIndex] = {
+  plots[action.plotID] = {
     ...plot,
     crop: {
       ...crop,
-      plantedAt: crop.plantedAt - (cropDetails.harvestSeconds * 1000) / 2,
-      // Rapid Growth is the only available fertiliser right now
+      plantedAt: getPlantedAt(action.fertiliser, crop.plantedAt, cropDetails),
       fertilisers: [
         ...fertilisers,
         {
