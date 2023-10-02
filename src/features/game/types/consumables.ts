@@ -235,6 +235,7 @@ export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
       Egg: new Decimal(10),
     },
     marketRate: 550,
+    disabled: true,
   },
 };
 
@@ -363,6 +364,7 @@ export const COOKABLES: Record<CookableName, Cookable> = {
       Honey: new Decimal(10),
     },
     marketRate: 10,
+    disabled: true,
   },
 
   "Club Sandwich": {

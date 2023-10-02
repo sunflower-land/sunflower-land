@@ -7,6 +7,7 @@ import { canMine } from "features/game/events/landExpansion/stoneMine";
 import { CommodityName } from "features/game/types/resources";
 import { areUnsupportedChickensBrewing } from "features/game/events/landExpansion/removeBuilding";
 import { Bud, StemTrait, TypeTrait } from "./buds";
+import { isFruitGrowing } from "features/game/events/landExpansion/fruitHarvested";
 
 type RESTRICTION_REASON =
   | "No restriction"
@@ -48,15 +49,15 @@ function beanIsPlanted(game: GameState): Restriction {
 
 function areFruitsGrowing(game: GameState, fruit: FruitName): Restriction {
   const fruitGrowing = Object.values(game.fruitPatches ?? {}).some(
-    (patch) => patch.fruit?.name === fruit
+    (patch) => isFruitGrowing(patch) && patch.fruit?.name === fruit
   );
 
   return [fruitGrowing, `${fruit} is growing`];
 }
 
 function areAnyFruitsGrowing(game: GameState): Restriction {
-  const fruitGrowing = Object.values(game.fruitPatches ?? {}).some(
-    (patch) => !!patch.fruit?.name
+  const fruitGrowing = Object.values(game.fruitPatches ?? {}).some((patch) =>
+    isFruitGrowing(patch)
   );
 
   return [fruitGrowing, `Fruits are growing`];
