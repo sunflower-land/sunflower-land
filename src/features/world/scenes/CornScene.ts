@@ -74,22 +74,6 @@ export class CornScene extends BaseScene {
     }
 
     this.setUpPortal();
-
-    if (!OCTOBER_MADNESS) {
-      this.setUpSpotlight();
-      return;
-    }
-
-    const isEnemy =
-      this.gameService.state.context.state.bumpkin?.equipped.hat ===
-      "Crumple Crown";
-
-    if (isEnemy) {
-      this.walkingSpeed = 35;
-    } else {
-      this.setUpCrows();
-      this.walkingSpeed = 50;
-    }
     this.setUpLuna();
     this.setUpEnemies();
     this.setUpEnemyColliders();
@@ -119,6 +103,24 @@ export class CornScene extends BaseScene {
     });
 
     this.canHandlePortalHit = true;
+
+    if (!OCTOBER_MADNESS) {
+      this.setUpSpotlight();
+      this.setUpCrows();
+      return;
+    }
+
+    const isEnemy =
+      this.gameService.state.context.state.bumpkin?.equipped.hat ===
+      "Crumple Crown";
+
+    if (isEnemy) {
+      this.walkingSpeed = 35;
+    } else {
+      this.setUpCrows();
+      this.walkingSpeed = 50;
+    }
+
     // Create an array to hold the cloud sprites
     const clouds = [];
     const NUM_CLOUDS = 2;
