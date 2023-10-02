@@ -88,7 +88,10 @@ export abstract class BaseScene extends Phaser.Scene {
     [sessionId: string]: BumpkinContainer;
   } = {};
 
-  customColliders?: Phaser.GameObjects.Group;
+  colliders?: Phaser.GameObjects.Group;
+  triggerColliders?: Phaser.GameObjects.Group;
+  hiddenColliders?: Phaser.GameObjects.Group;
+
   soundEffects: AudioController[] = [];
   walkAudioController?: WalkAudioController;
 
@@ -129,6 +132,13 @@ export abstract class BaseScene extends Phaser.Scene {
   currentTick = 0;
 
   zoom = window.innerWidth < 500 ? 3 : 4;
+
+  layers: Record<string, Phaser.Tilemaps.TilemapLayer> = {};
+
+  onCollision: Record<
+    string,
+    Phaser.Types.Physics.Arcade.ArcadePhysicsCallback
+  > = {};
 
   constructor(options: BaseSceneOptions) {
     if (!options.name) {
@@ -221,6 +231,8 @@ export abstract class BaseScene extends Phaser.Scene {
     }
   }
 
+  private roof: Phaser.Tilemaps.TilemapLayer | null = null;
+
   public initialiseMap() {
     this.map = this.make.tilemap({
       key: this.options.name,
@@ -246,12 +258,12 @@ export abstract class BaseScene extends Phaser.Scene {
         ) as Phaser.Tilemaps.Tileset);
 
     // Set up collider layers
-    this.customColliders = this.add.group();
+    this.colliders = this.add.group();
     const collisionPolygons = this.map.createFromObjects("Collision", {
       scene: this,
     });
     collisionPolygons.forEach((polygon) => {
-      this.customColliders?.add(polygon);
+      this.colliders?.add(polygon);
       this.physics.world.enable(polygon);
       (polygon.body as Physics.Arcade.Body).setImmovable(true);
     });
@@ -272,6 +284,30 @@ export abstract class BaseScene extends Phaser.Scene {
         });
     });
 
+    this.triggerColliders = this.add.group();
+
+    const triggerPolygons = this.map.createFromObjects("Trigger", {
+      scene: this,
+    });
+
+    triggerPolygons.forEach((polygon) => {
+      this.triggerColliders?.add(polygon);
+      this.physics.world.enable(polygon);
+      (polygon.body as Physics.Arcade.Body).setImmovable(true);
+    });
+
+    this.hiddenColliders = this.add.group();
+
+    const hiddenPolygons = this.map.createFromObjects("Hidden", {
+      scene: this,
+    });
+
+    hiddenPolygons.forEach((polygon) => {
+      this.hiddenColliders?.add(polygon);
+      this.physics.world.enable(polygon);
+      (polygon.body as Physics.Arcade.Body).setImmovable(true);
+    });
+
     // Debugging purposes - display colliders in pink
     this.physics.world.drawDebug = false;
 
@@ -285,6 +321,7 @@ export abstract class BaseScene extends Phaser.Scene {
       "Building Layer 2",
       "Building Layer 3",
       "Building Layer 4",
+      "Club House Roof",
     ];
     this.map.layers.forEach((layerData, idx) => {
       if (layerData.name === "Crows") return;
@@ -293,6 +330,8 @@ export abstract class BaseScene extends Phaser.Scene {
       if (TOP_LAYERS.includes(layerData.name)) {
         layer?.setDepth(1000000);
       }
+
+      this.layers[layerData.name] = layer as Phaser.Tilemaps.TilemapLayer;
     });
 
     this.physics.world.setBounds(
@@ -466,6 +505,7 @@ export abstract class BaseScene extends Phaser.Scene {
       clothing,
       name: npc,
       onClick: defaultClick,
+      isEnemy: clothing.hat === "Crumple Crown" && this.sceneId === "corn_maze",
     });
 
     if (!npc) {
@@ -497,19 +537,23 @@ export abstract class BaseScene extends Phaser.Scene {
       // Callback to fire on collisions
       this.physics.add.collider(
         this.currentPlayer,
-        this.customColliders as Phaser.GameObjects.Group,
+        this.colliders as Phaser.GameObjects.Group,
         // Read custom Tiled Properties
         async (obj1, obj2) => {
           const id = (obj2 as any).data?.list?.id;
+
+          // See if scene has registered any callbacks to perform
+          const cb = this.onCollision[id];
+          if (cb) {
+            cb(obj1, obj2);
+          }
+
           if (id) {
             // Handled in corn scene
             if (id === "maze_portal_exit") {
               this.handlePortalHit();
               return;
             }
-
-            interactableModalManager.open(id);
-            return;
           }
 
           // Change scenes
@@ -534,6 +578,25 @@ export abstract class BaseScene extends Phaser.Scene {
           }
         }
       );
+
+      this.physics.add.overlap(
+        this.currentPlayer,
+        this.triggerColliders as Phaser.GameObjects.Group,
+        (obj1, obj2) => {
+          // You can access custom properties of the trigger object here
+          const id = (obj2 as any).data?.list?.id;
+
+          // See if scene has registered any callbacks to perform
+          const cb = this.onCollision[id];
+          if (cb) {
+            cb(obj1, obj2);
+          }
+        }
+      );
+    } else {
+      (entity.body as Phaser.Physics.Arcade.Body)
+        .setSize(16, 20)
+        .setOffset(0, 0);
     }
 
     return entity;
@@ -582,12 +645,11 @@ export abstract class BaseScene extends Phaser.Scene {
     this.fixedTick(time, this.fixedTimeStep);
   }
 
+  public walkingSpeed = 50;
   updatePlayer() {
     if (!this.currentPlayer?.body) {
       return;
     }
-
-    const speed = 50;
 
     this.inputPayload.left =
       (this.cursorKeys?.left.isDown ||
@@ -620,13 +682,13 @@ export abstract class BaseScene extends Phaser.Scene {
       this.currentPlayer.faceLeft();
       // Move character
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body)
-        .setVelocityX(-speed)
+        .setVelocityX(-this.walkingSpeed)
         .setSize(10, 10)
         .setOffset(2, 10);
     } else if (this.inputPayload.right) {
       this.currentPlayer.faceRight();
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body)
-        .setVelocityX(speed)
+        .setVelocityX(this.walkingSpeed)
         .setOffset(3, 10);
     } else {
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityX(0);
@@ -639,11 +701,11 @@ export abstract class BaseScene extends Phaser.Scene {
     const baseSpeed = isMovingHorizontally ? 0.7 : 1;
     if (this.inputPayload.up) {
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityY(
-        -speed * baseSpeed
+        -this.walkingSpeed * baseSpeed
       );
     } else if (this.inputPayload.down) {
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityY(
-        speed * baseSpeed
+        this.walkingSpeed * baseSpeed
       );
     } else {
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityY(0);
@@ -757,6 +819,11 @@ export abstract class BaseScene extends Phaser.Scene {
     const server = this.mmoService.state.context.server;
     if (!server) return;
 
+    const playerInVIP = this.physics.world.overlap(
+      this.hiddenColliders as Phaser.GameObjects.Group,
+      this.currentPlayer
+    );
+
     // Render current players
     server.state.players.forEach((player, sessionId) => {
       if (sessionId === server.sessionId) return;
@@ -784,6 +851,19 @@ export abstract class BaseScene extends Phaser.Scene {
       entity.y = Phaser.Math.Linear(entity.y, player.y, 0.05);
 
       entity.setDepth(entity.y);
+
+      // Hide if in club house
+      const overlap = this.physics.world.overlap(
+        this.hiddenColliders as Phaser.GameObjects.Group,
+        entity
+      );
+
+      const hidden = !playerInVIP && overlap;
+
+      // Check if player is in area as well
+      if (hidden === entity.visible) {
+        entity.setVisible(!hidden);
+      }
     });
   }
 
@@ -840,7 +920,8 @@ export abstract class BaseScene extends Phaser.Scene {
         .setCollideWorldBounds(true);
 
       this.physics.world.enable(container);
-      this.customColliders?.add(container);
+      this.colliders?.add(container);
+      this.triggerColliders?.add(container);
     });
   }
 

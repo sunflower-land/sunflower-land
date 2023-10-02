@@ -6,15 +6,20 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 export const GiantPotato: React.FC = () => {
   return (
     <div
-      className="absolute flex justify-center items-end"
+      className="absolute pointer-events-none"
       style={{
         width: `${PIXEL_SCALE * 17}px`,
-        height: `${PIXEL_SCALE * 24}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: "-1px",
+        left: `${PIXEL_SCALE * 0}px`,
       }}
     >
-      <img src={giantPotato} className="w-full h-full" alt="Giant Potato" />
+      <img
+        src={giantPotato}
+        style={{
+          width: `${PIXEL_SCALE * 17}px`,
+        }}
+        alt="Giant Potato"
+      />
     </div>
   );
 };

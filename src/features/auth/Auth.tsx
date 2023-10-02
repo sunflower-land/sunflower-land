@@ -24,7 +24,6 @@ import classNames from "classnames";
 import { SignIn } from "./components/SignIn";
 import { CreateWallet } from "./components/CreateWallet";
 import { BuyWithPoko } from "./components/BuyWithPoko";
-import { BudCountdown } from "./components/BudCountdown";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -106,9 +105,6 @@ export const Auth: React.FC = () => {
             />
           )}
         </Panel>
-        {(authState.matches("welcome") ||
-          authState.matches("idle") ||
-          authState.matches("signIn")) && <BudCountdown />}
       </Modal>
     </>
   );

@@ -17,7 +17,7 @@ type Props = {
 export const Bud: React.FC<Props> = ({ id, type }) => {
   return (
     <div
-      className="absolute"
+      className="absolute pointer-events-none"
       style={{
         width: `${PIXEL_SCALE * 32}px`,
         height: `${PIXEL_SCALE * 32}px`,

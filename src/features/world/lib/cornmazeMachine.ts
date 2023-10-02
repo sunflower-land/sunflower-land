@@ -2,6 +2,8 @@ import { createMachine, assign, State, Interpreter } from "xstate";
 import eventBus from "./eventBus";
 import { MAZE_TIME_LIMIT_SECONDS } from "features/game/events/landExpansion/startMaze";
 import { MazeAttempt } from "features/game/types/game";
+import { CONFIG } from "lib/config";
+import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 
 // Define the events for the machine
 type CornMazeEvent =
@@ -225,3 +227,6 @@ export const cornMazeMachine = createMachine<
     lostGame: {},
   },
 });
+
+export const OCTOBER_MADNESS =
+  CONFIG.NETWORK === "mumbai" || getSeasonWeek() >= 10;

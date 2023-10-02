@@ -12,6 +12,8 @@ import { SeasonWeek } from "features/game/types/game";
 import { ENEMIES, Enemy } from "../ui/cornMaze/lib/enemies";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
+import { Label } from "../containers/Label";
+import { OCTOBER_MADNESS } from "../lib/cornmazeMachine";
 
 const LUNA: NPCBumpkin = {
   x: 333,
@@ -52,6 +54,7 @@ export class CornScene extends BaseScene {
     });
     this.load.image("crow", "world/crow.png");
     this.load.image("spotlight", "world/spotlight.webp");
+    this.load.image("cloud", "world/corn_maze_clouds.png");
 
     // SFX
     this.load.audio("ouph", SOUNDS.voices.ouph);
@@ -60,6 +63,8 @@ export class CornScene extends BaseScene {
     this.setUpSound();
   }
 
+  private clouds: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody[] = [];
+  private warningLabel: Label | null = null;
   create() {
     super.create();
 
@@ -68,9 +73,7 @@ export class CornScene extends BaseScene {
       this.cameras.main.setZoom(2.3);
     }
 
-    this.setUpSpotlight();
     this.setUpPortal();
-    this.setUpCrows();
     this.setUpLuna();
     this.setUpEnemies();
     this.setUpEnemyColliders();
@@ -100,6 +103,49 @@ export class CornScene extends BaseScene {
     });
 
     this.canHandlePortalHit = true;
+
+    if (!OCTOBER_MADNESS) {
+      this.setUpSpotlight();
+      this.setUpCrows();
+      return;
+    }
+
+    const isEnemy =
+      this.gameService.state.context.state.bumpkin?.equipped.hat ===
+      "Crumple Crown";
+
+    if (isEnemy) {
+      this.walkingSpeed = 35;
+    } else {
+      this.setUpCrows();
+      this.walkingSpeed = 50;
+    }
+
+    // Create an array to hold the cloud sprites
+    const clouds = [];
+    const NUM_CLOUDS = 2;
+    // Create an array to hold the cloud sprites
+
+    for (let i = 0; i < NUM_CLOUDS; i++) {
+      const cloud = this.physics.add.sprite(
+        i * window.innerWidth, // Spread the clouds evenly across the screen
+        window.innerHeight / 2,
+        "cloud"
+      );
+
+      cloud.setScale(window.innerHeight / cloud.height); // Scale the cloud to fit the screen height
+      cloud.setVelocityX(-20);
+      cloud.setDepth(10000000000);
+
+      clouds.push(cloud);
+    }
+
+    this.clouds = clouds; // Store the cloud sprites in a scene property
+
+    this.warningLabel = new Label(this, "TOO CLOSE TO PORTAL!");
+    this.warningLabel.setPosition(320, 310);
+    this.warningLabel.setDepth(10000000);
+    this.add.existing(this.warningLabel);
   }
 
   setUpSound() {
@@ -381,5 +427,92 @@ export class CornScene extends BaseScene {
     super.update(time, delta);
 
     this.updateSpotlightPosition();
+
+    if (!OCTOBER_MADNESS) {
+      return;
+    }
+
+    const clouds = this.clouds;
+
+    clouds.forEach((cloud) => {
+      if (cloud.x + cloud.displayWidth < 0) {
+        // Reset the cloud to the right side of the screen
+        cloud.x = window.innerWidth + cloud.displayWidth / 2;
+        cloud.y = window.innerHeight / 2;
+      }
+    });
+
+    const isEnemy =
+      this.gameService.state.context.state.bumpkin?.equipped.hat ===
+      "Crumple Crown";
+
+    // Within X metres of portal change opacity + warning message
+    const distance = Phaser.Math.Distance.BetweenPoints(
+      this.currentPlayer as BumpkinContainer,
+      {
+        x: 320,
+        y: 320,
+      }
+    );
+
+    this.warningLabel?.setX(this.currentPlayer?.x);
+    this.warningLabel?.setY((this.currentPlayer?.y ?? 0) - 15);
+    this.warningLabel?.setAlpha(distance < 100 && isEnemy ? 1 : 0);
+
+    const players = Object.values(this.playerEntities);
+
+    if (isEnemy) {
+      this.currentPlayer?.setAlpha(distance < 100 ? 0.5 : 1);
+
+      // See if you hit anyone
+      const hitPlayer = players.find((player) =>
+        this.physics.world.overlap(
+          this.currentPlayer as BumpkinContainer,
+          player
+        )
+      );
+
+      if (hitPlayer) {
+        const hit = this.sound.add("ouph");
+        hit.play({ volume: 0.5 });
+        hitPlayer.hitPlayer();
+      }
+    } else {
+      // Get hit by the enemies
+      const crumpleCrowners = Object.values(this.playerEntities).filter(
+        (player) => player.clothing.hat === "Crumple Crown"
+      );
+
+      crumpleCrowners.forEach((player) => {
+        const distance = Phaser.Math.Distance.BetweenPoints(player, {
+          x: 320,
+          y: 320,
+        });
+
+        player.setAlpha(distance < 100 ? 0.5 : 1);
+      });
+
+      const active = crumpleCrowners.filter((player) => {
+        const distance = Phaser.Math.Distance.BetweenPoints(player, {
+          x: 320,
+          y: 320,
+        });
+
+        return distance > 100;
+      });
+
+      // Hide if in club house
+      const overlap = this.physics.world.overlap(
+        this.currentPlayer as BumpkinContainer,
+        active
+      );
+
+      if (overlap && !this.currentPlayer?.invincible) {
+        mazeManager.hit();
+        const hit = this.sound.add("ouph");
+        hit.play({ volume: 0.5 });
+        this.currentPlayer?.hitPlayer();
+      }
+    }
   }
 }
