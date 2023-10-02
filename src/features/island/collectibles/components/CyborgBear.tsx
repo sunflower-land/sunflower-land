@@ -1,6 +1,6 @@
 import React from "react";
 
-import cyborgBear from "assets/sfts/cyborg_bear.png";
+import cyborgBear from "assets/sfts/bears/cyborg_bear.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const CyborgBear: React.FC = () => {

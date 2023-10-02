@@ -1,7 +1,7 @@
 import React from "react";
 
 import goldEgg from "assets/sfts/gold_egg.png";
-import goldenCockerel from "assets/sfts/golden_cockerel.gif";
+import goldenCockerel from "assets/animals/chickens/golden_cockerel.gif";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";

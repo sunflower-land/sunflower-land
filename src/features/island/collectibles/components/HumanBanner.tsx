@@ -1,6 +1,6 @@
 import React from "react";
 
-import banner from "assets/sfts/human_banner.png";
+import banner from "assets/decorations/banners/human_banner.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const HumanBanner: React.FC = () => {

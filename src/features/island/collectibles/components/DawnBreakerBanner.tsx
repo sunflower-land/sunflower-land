@@ -1,6 +1,6 @@
 import React from "react";
 
-import banner from "assets/decorations/dawn_breaker_banner.png";
+import banner from "assets/decorations/banners/dawn_breaker_banner.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const DawnBreakerBanner: React.FC = () => {
