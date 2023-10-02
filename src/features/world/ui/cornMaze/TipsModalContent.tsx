@@ -4,6 +4,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 
+import crumpleCrown from "assets/icons/crumple_crown.png";
 import crowWithoutShadow from "assets/decorations/crow_without_shadow.png";
 import crowFeather from "assets/decorations/crow_feather_large.png";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -12,19 +13,24 @@ import { WitchesEve } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import classNames from "classnames";
+import { Label } from "components/ui/Label";
+import { OCTOBER_MADNESS } from "features/world/lib/cornmazeMachine";
 
 interface Props {
   isIncompleteAttempt: boolean;
   isPaused: boolean;
   onClick: () => void;
+  isEnemy: boolean;
 }
 
 export const TipsModalContent: React.FC<Props> = ({
   isIncompleteAttempt: isIncomleteAttempt,
   isPaused,
   onClick,
+  isEnemy,
 }) => {
   const [tab, setTab] = useState(0);
+  const [page, setPage] = useState(0);
 
   const buttonText = isIncomleteAttempt
     ? "Resume Incomplete Attempt"
@@ -47,43 +53,91 @@ export const TipsModalContent: React.FC<Props> = ({
       <>
         {tab === 0 && (
           <>
-            <div className="p-1 pt-2 space-y-2 mb-2">
-              <div className="space-y-2 flex flex-col">
-                <div className="flex items-center space-x-2">
-                  <img src={crowWithoutShadow} alt="Corn" className="w-6" />
-                  <p>Collect all the missing crows.</p>
+            {page === 0 && (
+              <>
+                <div className="p-1 pt-2 space-y-2 mb-2">
+                  <div className="space-y-2 flex flex-col">
+                    <div className="flex items-center space-x-2">
+                      <img src={crowWithoutShadow} alt="Corn" className="w-6" />
+                      <p>Collect all the missing crows.</p>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <img
+                        src={SUNNYSIDE.icons.heart}
+                        alt="Health"
+                        className="w-6"
+                      />
+                      <p>Avoid all the enemies. Lose 5 secs time each hit!</p>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <img
+                        src={SUNNYSIDE.icons.stopwatch}
+                        alt="timer"
+                        className="h-6"
+                      />
+                      <p>
+                        Make it back to the portal before the time runs out!
+                      </p>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <img src={crowFeather} alt="feather" className="h-6" />
+                      <p>{`Earn up to 100 feathers per week.`}</p>
+                    </div>
+                  </div>
+                  <a
+                    href="https://docs.sunflower-land.com/player-guides/seasons/witches-eve#the-witchs-maze"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline text-white text-xxs text-center my-1"
+                  >
+                    Read more
+                  </a>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <img
-                    src={SUNNYSIDE.icons.heart}
-                    alt="Health"
-                    className="w-6"
-                  />
-                  <p>Avoid all the enemies. Lose 5 secs time each hit!</p>
+                {!isPaused && OCTOBER_MADNESS && (
+                  <Button onClick={() => setPage(1)}>Next</Button>
+                )}
+                {!isPaused && !OCTOBER_MADNESS && (
+                  <Button onClick={onClick}>{buttonText}</Button>
+                )}
+              </>
+            )}
+            {page === 1 && (
+              <>
+                <div className="p-1 pt-2 space-y-2 mb-2">
+                  <Label type="danger">October Madness</Label>
+                  <div className="space-y-2 flex flex-col">
+                    <div className="flex items-center space-x-2">
+                      <img
+                        src={crumpleCrown}
+                        alt="Corn"
+                        className="w-14 img-highlight"
+                      />
+                      {isEnemy && (
+                        <p>
+                          This week you are the enemy! Catch as many Bumpkins as
+                          possible.
+                        </p>
+                      )}
+                      {!isEnemy && (
+                        <p>
+                          Watch out for players wearing the Crumple Crown. They
+                          can hurt you!
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <a
+                    href="https://docs.sunflower-land.com/player-guides/seasons/witches-eve#the-witchs-maze"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline text-white text-xxs text-center my-1"
+                  >
+                    Read more
+                  </a>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <img
-                    src={SUNNYSIDE.icons.stopwatch}
-                    alt="timer"
-                    className="h-6"
-                  />
-                  <p>Make it back to the portal before the time runs out!</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <img src={crowFeather} alt="feather" className="h-6" />
-                  <p>{`Earn up to 100 feathers per week.`}</p>
-                </div>
-              </div>
-              <a
-                href="https://docs.sunflower-land.com/player-guides/seasons/witches-eve#the-witchs-maze"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline text-white text-xxs text-center my-1"
-              >
-                Read more
-              </a>
-            </div>
-            {!isPaused && <Button onClick={onClick}>{buttonText}</Button>}
+                {!isPaused && <Button onClick={onClick}>{buttonText}</Button>}
+              </>
+            )}
           </>
         )}
         {tab === 1 && <Stats />}

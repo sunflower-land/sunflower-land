@@ -505,6 +505,7 @@ export abstract class BaseScene extends Phaser.Scene {
       clothing,
       name: npc,
       onClick: defaultClick,
+      isEnemy: clothing.hat === "Crumple Crown" && this.sceneId === "corn_maze",
     });
 
     if (!npc) {
@@ -644,12 +645,11 @@ export abstract class BaseScene extends Phaser.Scene {
     this.fixedTick(time, this.fixedTimeStep);
   }
 
+  public walkingSpeed = 50;
   updatePlayer() {
     if (!this.currentPlayer?.body) {
       return;
     }
-
-    const speed = 50;
 
     this.inputPayload.left =
       (this.cursorKeys?.left.isDown ||
@@ -682,13 +682,13 @@ export abstract class BaseScene extends Phaser.Scene {
       this.currentPlayer.faceLeft();
       // Move character
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body)
-        .setVelocityX(-speed)
+        .setVelocityX(-this.walkingSpeed)
         .setSize(10, 10)
         .setOffset(2, 10);
     } else if (this.inputPayload.right) {
       this.currentPlayer.faceRight();
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body)
-        .setVelocityX(speed)
+        .setVelocityX(this.walkingSpeed)
         .setOffset(3, 10);
     } else {
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityX(0);
@@ -701,11 +701,11 @@ export abstract class BaseScene extends Phaser.Scene {
     const baseSpeed = isMovingHorizontally ? 0.7 : 1;
     if (this.inputPayload.up) {
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityY(
-        -speed * baseSpeed
+        -this.walkingSpeed * baseSpeed
       );
     } else if (this.inputPayload.down) {
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityY(
-        speed * baseSpeed
+        this.walkingSpeed * baseSpeed
       );
     } else {
       (this.currentPlayer.body as Phaser.Physics.Arcade.Body).setVelocityY(0);
