@@ -6,6 +6,7 @@ import { makeGame } from "../lib/transforms";
 import { GameState, InventoryItemName } from "../types/game";
 import { Announcements } from "../types/conversations";
 import { getReferrerId } from "features/auth/actions/createAccount";
+import { Moderation } from "../lib/gameMachine";
 
 type Request = {
   sessionId: string;
@@ -14,20 +15,6 @@ type Request = {
   transactionId: string;
   wallet: string;
   guestKey?: string;
-};
-
-type Moderation = {
-  muted: {
-    mutedAt: number;
-    mutedBy: number;
-    reason: string;
-    mutedUntil: number;
-  }[];
-  kicked: {
-    kickedAt: number;
-    kickedBy: number;
-    reason: string;
-  }[];
 };
 
 export type MintedAt = Partial<Record<InventoryItemName, number>>;
