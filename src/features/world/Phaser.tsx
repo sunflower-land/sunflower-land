@@ -6,10 +6,13 @@ import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-p
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { ChatUI, Message } from "features/pumpkinPlaza/components/ChatUI";
-import { ModerationTools } from "./ui/ModerationTools";
+import { ModerationTools } from "./ui/moderationTools/ModerationTools";
 
-import { Kicked } from "./ui/moderationTools/Kicked";
-import { Muted, calculateMuteTime } from "./ui/moderationTools/Muted";
+import { Kicked } from "./ui/moderationTools/components/Kicked";
+import {
+  Muted,
+  calculateMuteTime,
+} from "./ui/moderationTools/components/Muted";
 
 import { PlazaScene } from "./scenes/PlazaScene";
 import { AuctionScene } from "./scenes/AuctionHouseScene";

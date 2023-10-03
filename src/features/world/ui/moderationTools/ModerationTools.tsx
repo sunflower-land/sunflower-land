@@ -10,9 +10,9 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SceneId } from "features/world/mmoMachine";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
-import { PlayerList } from "./moderationTools/playerList/PlayerList";
-import { ChatHistory } from "./moderationTools/chatHistory/ChatHistory";
-import { Actions } from "./moderationTools/actions/Actions";
+import { PlayerList } from "./tabs/PlayerList";
+import { ChatHistory } from "./tabs/ChatHistory";
+import { Actions } from "./tabs/Actions";
 
 import discord from "assets/skills/discord.png";
 

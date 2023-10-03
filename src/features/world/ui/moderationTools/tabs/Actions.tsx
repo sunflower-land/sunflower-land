@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "components/ui/Button";
 
-import { OfflineMute } from "./OfflineMute";
+import { MuteModal } from "../components/Mute";
 
 import SoundOffIcon from "assets/icons/sound_off.png";
 
@@ -15,9 +15,9 @@ export const Actions: React.FC<Props> = ({ scene, authState }) => {
 
   return (
     <>
-      <div className="flex flex-col justify-between items-start gap-2 ml-1 mt-2 h-96 overflow-y-scroll scrollable">
+      <div className="flex flex-col justify-between items-start gap-2 ml-1 mt-2 overflow-y-scroll scrollable">
         {step === "MAIN" && (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 h-96">
             <div className="flex items-center gap-2">
               <img src={SoundOffIcon} className="w-8 h-8" />
               <p className="text-sm">Mute a Player</p>
@@ -37,22 +37,11 @@ export const Actions: React.FC<Props> = ({ scene, authState }) => {
         )}
 
         {step === "MUTE" && (
-          <OfflineMute
+          <MuteModal
             scene={scene}
             authState={authState}
             onClose={() => setStep("MAIN")}
           />
-        )}
-
-        {step !== "MAIN" && step !== "LOADING" && (
-          <div className="flex items-center justify-between m-1">
-            <span
-              className="text-xs cursor-pointer underline"
-              onClick={() => setStep("MAIN")}
-            >
-              Go Back
-            </span>
-          </div>
         )}
       </div>
     </>
