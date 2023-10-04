@@ -52,8 +52,6 @@ import { RefundAuction } from "../components/auctionResults/RefundAuction";
 import { Promo } from "./components/Promo";
 import { Traded } from "../components/Traded";
 import { Sniped } from "../components/Sniped";
-import { BudModal } from "../components/modal/components/BudModal";
-import { acknowledgeBuds } from "features/announcements/announcementsStorage";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -352,15 +350,6 @@ export const GameWrapper: React.FC = ({ children }) => {
           {minting && <Minting />}
           {promo && <Promo />}
         </Panel>
-      </Modal>
-
-      <Modal show={showBuds} centered>
-        <BudModal
-          onClose={() => {
-            acknowledgeBuds();
-            gameService.send("ACKNOWLEDGE");
-          }}
-        />
       </Modal>
 
       {upgradingGuestGame && <WalletOnboarding />}
