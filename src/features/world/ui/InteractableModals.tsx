@@ -13,7 +13,6 @@ import { Button } from "components/ui/Button";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { BudModal } from "features/game/components/modal/components/BudModal";
 
 type InteractableName =
   | "welcome_sign"
@@ -295,10 +294,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
             },
           ]}
         />
-      </Modal>
-
-      <Modal centered show={interactable === "bud"} onHide={closeModal}>
-        <BudModal onClose={closeModal} />
       </Modal>
 
       <Modal centered show={interactable === "dawn_book_1"} onHide={closeModal}>
