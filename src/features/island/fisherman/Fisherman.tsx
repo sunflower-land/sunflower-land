@@ -86,24 +86,6 @@ export const Fisherman: React.FC = () => {
             bottom: `${-20 * PIXEL_SCALE}px`,
           }}
         />
-        <div
-          className="absolute z-0 fish-swimming"
-          style={{
-            right: `${-2 * PIXEL_SCALE}px`,
-            bottom: `${-2 * PIXEL_SCALE}px`,
-            transform: "translateX(-1)",
-          }}
-        >
-          <img
-            src={fishSilhoutte}
-            className="fish-swimming"
-            style={{
-              width: `${11 * PIXEL_SCALE}px`,
-              animationDelay: "1s",
-              animationDuration: "6s",
-            }}
-          />
-        </div>
       </MapPlacement>
     </>
   );
