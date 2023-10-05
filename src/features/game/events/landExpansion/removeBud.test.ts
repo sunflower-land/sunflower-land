@@ -86,7 +86,7 @@ describe("removeBud", () => {
           id: "1",
         },
       })
-    ).toThrowError("Crops are planted");
+    ).toThrowError("Crops are growing");
   });
 
   it("prevents removing a bud if type buff is active", () => {
