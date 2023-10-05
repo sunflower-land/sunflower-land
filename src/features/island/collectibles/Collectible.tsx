@@ -193,6 +193,9 @@ import { PotentPotato } from "./components/PotentPotato";
 import { StellarSunflower } from "./components/StellarSunflower";
 import { Sign } from "./components/Sign";
 import { Bud } from "./components/Bud";
+import { CrowRock } from "./components/CrowRock";
+import { MiniCornMaze } from "./components/MiniCornMaze";
+import { Observer } from "./components/Observer";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -416,6 +419,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Spooky Tree": SpookyTree,
   Candles: Candles,
   "Haunted Stump": HauntedStump,
+  Observer: Observer,
+  "Crow Rock": CrowRock,
+  "Mini Corn Maze": MiniCornMaze,
 
   "Giant Cabbage": GiantCabbage,
   "Giant Potato": GiantPotato,
