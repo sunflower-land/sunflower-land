@@ -99,7 +99,7 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
                             Kick
                           </Button>
                           <Button
-                            //disabled={isModerator(player)}
+                            disabled={isModerator(player)}
                             onClick={() => {
                               setStep("MUTE");
                               setSelectedPlayer(player);
