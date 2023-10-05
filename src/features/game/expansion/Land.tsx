@@ -34,6 +34,8 @@ import { MUSHROOM_DIMENSIONS } from "../types/resources";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import ocean from "assets/decorations/ocean.webp";
 import { Bud } from "features/island/buds/Bud";
+import { hasFeatureAccess } from "lib/flags";
+import { Fisherman } from "features/island/fisherman/Fisherman";
 
 export const LAND_WIDTH = 6;
 
@@ -492,7 +494,7 @@ export const Land: React.FC = () => {
           {landscaping && <Placeable />}
         </div>
 
-        {!landscaping && (
+        {!landscaping && !hasFeatureAccess(inventory, "FISHING") && (
           <IslandTravel
             bumpkin={bumpkin}
             isVisiting={visiting}
@@ -502,6 +504,10 @@ export const Land: React.FC = () => {
             x={boatCoordinates().x}
             y={boatCoordinates().y}
           />
+        )}
+
+        {!landscaping && hasFeatureAccess(inventory, "FISHING") && (
+          <Fisherman />
         )}
 
         {/* Background darkens in landscaping */}

@@ -40,10 +40,21 @@ export type NPCName =
   | "farmer flesh"
   | "boneyard betty"
   | "eins"
-  | "garth";
+  | "garth"
+  | "reelin roy";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  // TODO
+  "reelin roy": {
+    background: "Farm Background",
+    body: "Beige Farmer Potion",
+    hair: "Basic Hair",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+    pants: "Farmer Overalls",
+    shirt: "Red Farmer Shirt",
+  },
   wanderleaf: {
     background: "Farm Background",
     body: "Beige Farmer Potion",

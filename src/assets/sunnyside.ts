@@ -59,6 +59,7 @@ export const SUNNYSIDE = {
   npcs: {
     betty: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/betty.gif`,
     bumpkin: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/idle.gif`,
+    fisherman: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/fisherman.gif`,
     goblin_carry: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_carry.gif`,
     goblin_dig: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_dig.gif`,
     goblin_doing: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_doing.gif`,

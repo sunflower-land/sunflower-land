@@ -22,6 +22,8 @@ import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { createPortal } from "react-dom";
 import { HalveningCountdown } from "./components/HalveningCountdown";
 import { DeliveryButton } from "./components/deliveries/DeliveryButton";
+import { hasFeatureAccess } from "lib/flags";
+import { TravelButton } from "./components/deliveries/TravelButton";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -150,7 +152,11 @@ const HudComponent: React.FC<{
               bottom: `${PIXEL_SCALE * 3}px`,
             }}
           >
-            <DeliveryButton />
+            {hasFeatureAccess(gameState.context.state.inventory, "FISHING") ? (
+              <TravelButton />
+            ) : (
+              <DeliveryButton />
+            )}
           </div>
 
           <HalveningCountdown />
