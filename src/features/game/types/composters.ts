@@ -3,7 +3,10 @@ import { InventoryItemName } from "./game";
 
 export type Bait = "Earthworm" | "Grub" | "Red Wiggler";
 
-export type CompostName = "Sprout Mix" | "Fruitful Blend" | "Rapid Root";
+export type FruitCompostName = "Fruitful Blend";
+export type CropCompostName = "Sprout Mix" | "Rapid Root";
+
+export type CompostName = FruitCompostName | CropCompostName;
 
 export type ComposterName =
   | "Basic Composter"
@@ -22,12 +25,16 @@ export const BAIT: Record<Bait, { description: string }> = {
   },
 };
 
-export const COMPOST: Record<CompostName, { description: string }> = {
+export const FRUIT_COMPOST: Record<FruitCompostName, { description: string }> =
+  {
+    "Fruitful Blend": {
+      description: "Fruitful Blend boosts your fruit yield by +0.25",
+    },
+  };
+
+export const CROP_COMPOST: Record<CropCompostName, { description: string }> = {
   "Sprout Mix": {
     description: "Sprout Mix increases your crop yield by +0.2",
-  },
-  "Fruitful Blend": {
-    description: "Fruitful Blend boosts your fruit yield by +0.25",
   },
   "Rapid Root": {
     description: "Rapid Root boosts your crop speed by +50%",

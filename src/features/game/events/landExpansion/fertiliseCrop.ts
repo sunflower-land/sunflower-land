@@ -3,13 +3,13 @@ import cloneDeep from "lodash.clonedeep";
 import { CROPS, Crop } from "../../types/crops";
 import { GameState } from "../../types/game";
 import { isReadyToHarvest } from "./harvest";
-import { CompostName } from "features/game/types/composters";
+import { CropCompostName } from "features/game/types/composters";
 
 export type LandExpansionFertiliseCropAction = {
   type: "crop.fertilised";
   plotID: string;
   expansionIndex: number;
-  fertiliser: CompostName;
+  fertiliser: CropCompostName;
 };
 
 type Options = {
@@ -19,8 +19,6 @@ type Options = {
 };
 
 export enum FERTILISE_CROP_ERRORS {
-  EMPTY_EXPANSION = "Expansion does not exist!",
-  EXPANSION_NO_PLOTS = "Expansion does not have any plots!",
   EMPTY_PLOT = "Plot does not exist!",
   EMPTY_CROP = "There is no crop planted!",
   READY_TO_HARVEST = "Crop is ready to harvest!",
@@ -28,16 +26,19 @@ export enum FERTILISE_CROP_ERRORS {
   NO_FERTILISER_SELECTED = "No fertiliser selected!",
   NOT_A_FERTILISER = "Not a fertiliser!",
   NOT_ENOUGH_FERTILISER = "Not enough fertiliser!",
-  INVALID_PLANT = "Invalid plant!",
 }
 
 const getPlantedAt = (
-  fertiliser: CompostName,
+  fertiliser: CropCompostName,
   plantedAt: number,
+  fertilisedAt: number,
   cropDetails: Crop
 ) => {
+  const timeToHarvest = cropDetails.harvestSeconds * 1000;
+  const harvestTime = plantedAt + timeToHarvest;
+  const timeReduction = (harvestTime - fertilisedAt) / 2;
   if (fertiliser === "Rapid Root") {
-    return plantedAt - (cropDetails.harvestSeconds * 1000) / 2;
+    return plantedAt - timeReduction;
   }
   return plantedAt;
 };
@@ -66,13 +67,7 @@ export function fertiliseCrop({
     throw new Error(FERTILISE_CROP_ERRORS.READY_TO_HARVEST);
   }
 
-  const fertilisers = crop.fertilisers || [];
-
-  const alreadyApplied = fertilisers.find(
-    (fertiliser) => fertiliser.name === action.fertiliser
-  );
-
-  if (alreadyApplied) {
+  if (crop.fertiliser) {
     throw new Error(FERTILISE_CROP_ERRORS.CROP_ALREADY_FERTILISED);
   }
 
@@ -90,14 +85,16 @@ export function fertiliseCrop({
     ...plot,
     crop: {
       ...crop,
-      plantedAt: getPlantedAt(action.fertiliser, crop.plantedAt, cropDetails),
-      fertilisers: [
-        ...fertilisers,
-        {
-          name: action.fertiliser,
-          fertilisedAt: createdAt,
-        },
-      ],
+      plantedAt: getPlantedAt(
+        action.fertiliser,
+        crop.plantedAt,
+        createdAt,
+        cropDetails
+      ),
+      fertiliser: {
+        name: action.fertiliser,
+        fertilisedAt: createdAt,
+      },
     },
   };
 
