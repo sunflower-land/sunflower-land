@@ -1,5 +1,6 @@
 import React from "react";
 
+import { CollectibleProps } from "./Collectible";
 import { CollectibleName } from "features/game/types/craftables";
 import { MysteriousHead } from "./components/MysteriousHead";
 import { WarSkulls } from "./components/WarSkulls";
@@ -181,7 +182,9 @@ import { PotentPotato } from "./components/PotentPotato";
 import { StellarSunflower } from "./components/StellarSunflower";
 import { Sign } from "./components/Sign";
 import { Bud } from "./components/Bud";
-import { CollectibleProps } from "./Collectible";
+import { CrowRock } from "./components/CrowRock";
+import { MiniCornMaze } from "./components/MiniCornMaze";
+import { Observer } from "./components/Observer";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -392,6 +395,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Spooky Tree": SpookyTree,
   Candles: Candles,
   "Haunted Stump": HauntedStump,
+  Observer: Observer,
+  "Crow Rock": CrowRock,
+  "Mini Corn Maze": MiniCornMaze,
 
   "Giant Cabbage": GiantCabbage,
   "Giant Potato": GiantPotato,

@@ -20,7 +20,8 @@ type FeatureName =
   | "CORN_MAZE"
   | "NEW_FARM_FLOW"
   | "BUDS_DEPOSIT_FLOW"
-  | "BITGET_WALLET";
+  | "BITGET_WALLET"
+  | "FISHING";
 
 type FeatureFlag = (inventory: GameState["inventory"]) => boolean;
 
@@ -32,6 +33,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   NEW_FARM_FLOW: () => true,
   BUDS_DEPOSIT_FLOW: () => true,
   BITGET_WALLET: testnetFeatureFlag,
+  FISHING: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (

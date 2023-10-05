@@ -6,6 +6,7 @@ import { makeGame } from "../lib/transforms";
 import { GameState, InventoryItemName } from "../types/game";
 import { Announcements } from "../types/conversations";
 import { getReferrerId } from "features/auth/actions/createAccount";
+import { Moderation } from "../lib/gameMachine";
 
 type Request = {
   sessionId: string;
@@ -31,6 +32,7 @@ type Response = {
   };
   verified: boolean;
   promoCode?: string;
+  moderation: Moderation;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -88,6 +90,7 @@ export async function loadSession(
     announcements,
     transaction,
     verified,
+    moderation,
     promoCode: promo,
   } = await sanitizeHTTPResponse<{
     farm: any;
@@ -100,6 +103,7 @@ export async function loadSession(
     announcements: Announcements;
     transaction: { type: "withdraw_bumpkin"; expiresAt: number };
     verified: boolean;
+    moderation: Moderation;
     promoCode?: string;
   }>(response);
 
@@ -115,6 +119,7 @@ export async function loadSession(
     announcements,
     transaction,
     verified,
+    moderation,
     promoCode: promo,
   };
 }

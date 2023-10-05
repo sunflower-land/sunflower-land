@@ -911,4 +911,8 @@ export abstract class BaseScene extends Phaser.Scene {
     this.updatePlayer();
     this.updateOtherPlayers();
   }
+
+  teleportModerator(x: number, y: number) {
+    this.currentPlayer?.setPosition(x, y);
+  }
 }
