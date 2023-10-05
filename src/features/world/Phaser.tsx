@@ -49,6 +49,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 import SoundOffIcon from "assets/icons/sound_off.png";
 import { handleCommand } from "./lib/chatCommands";
+import { Moderation } from "features/game/lib/gameMachine";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -58,6 +59,7 @@ type Player = {
   clothing: BumpkinParts;
   x: number;
   y: number;
+  moderation?: Moderation;
 };
 
 export type ModerationEvent = {
@@ -291,6 +293,7 @@ export const PhaserComponent: React.FC<Props> = ({
                 x: player.x,
                 y: player.y,
                 clothing: player.clothing,
+                moderation: player.moderation,
               });
             } else {
               // Add new player
@@ -300,6 +303,7 @@ export const PhaserComponent: React.FC<Props> = ({
                 x: player.x,
                 y: player.y,
                 clothing: player.clothing,
+                moderation: player.moderation,
               });
             }
           });

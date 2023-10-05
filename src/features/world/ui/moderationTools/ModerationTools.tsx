@@ -15,6 +15,7 @@ import { ChatHistory } from "./tabs/ChatHistory";
 import { Actions } from "./tabs/Actions";
 
 import discord from "assets/skills/discord.png";
+import { Moderation } from "features/game/lib/gameMachine";
 
 export type Message = {
   farmId: number;
@@ -30,6 +31,7 @@ export type Player = {
   x: number;
   y: number;
   clothing: BumpkinParts;
+  moderation?: Moderation;
 };
 
 interface Props {

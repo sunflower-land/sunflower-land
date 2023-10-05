@@ -538,8 +538,6 @@ export function startGame(authContext: AuthContext) {
                   moderation,
                 } = response;
 
-                console.log("Moderation", moderation);
-
                 return {
                   state: {
                     ...game,

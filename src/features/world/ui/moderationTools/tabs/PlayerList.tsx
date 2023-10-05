@@ -6,6 +6,7 @@ import { KickModal } from "../components/Kick";
 import { MuteModal } from "../components/Mute";
 
 import HaloIcon from "assets/sfts/halo.png";
+import { calculateMuteTime } from "../components/Muted";
 
 type Props = {
   scene?: any;
@@ -51,6 +52,10 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
               </thead>
               <tbody>
                 {Players.map((player) => {
+                  const mute = (player.moderation?.muted ?? [])
+                    .filter((mute) => mute.mutedUntil > Date.now())
+                    .sort((a, b) => b.mutedUntil - a.mutedUntil)[0];
+
                   return (
                     <tr key={player.playerId}>
                       <td className="w-1/4">
@@ -62,7 +67,20 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
                         </div>
                       </td>
                       <td className="w-1/4">{player.farmId}</td>
-                      <td className="w-1/4">WIP</td>
+                      <td className="w-1/4">
+                        {!mute ? (
+                          "OK"
+                        ) : (
+                          <>
+                            <div>Reason: {mute.reason}</div>
+                            <div>
+                              Time Left:{" "}
+                              {calculateMuteTime(mute.mutedUntil, "remaining")}
+                            </div>
+                            <div>By: {mute.mutedBy}</div>
+                          </>
+                        )}
+                      </td>
                       {/* TODO: Once Mute is out, display if a player in the is muted and their time left */}
                       <td className="w-1/2">
                         <div className="flex gap-2">
