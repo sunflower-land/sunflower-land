@@ -516,6 +516,7 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Sir Goldensnout": () => true,
   "Freya Fox": () => true,
   "Queen Cornelia": () => canWithdrawTimebasedItem(new Date("2023-10-14")),
+  "White Crow": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
