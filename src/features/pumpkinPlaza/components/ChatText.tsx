@@ -115,7 +115,6 @@ export const ChatText: React.FC<Props> = ({
           { "mt-2": hasMessages }
         )}
         style={{ lineHeight: "10px" }}
-        onClick={() => console.log("text div clicked")}
       >
         <div
           className={classNames(
