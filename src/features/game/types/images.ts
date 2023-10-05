@@ -308,9 +308,9 @@ import grub from "assets/composters/grub.png";
 import redWiggler from "assets/composters/red_wiggler.png";
 
 // Compost
-import producePrimer from "assets/composters/produce_primer.png";
-import fruitfulBlend from "assets/composters/fruitful_blend.png";
 import sproutMix from "assets/composters/sprout_mix.png";
+import fruitfulBlend from "assets/composters/fruitful_blend.png";
+import rapidRoot from "assets/composters/rapid_root.png";
 
 // Clothing
 import chefHat from "src/assets/icons/chef_hat.png";
@@ -488,7 +488,7 @@ import {
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
-import { BAIT, COMPOST } from "./composters";
+import { BAIT, CROP_COMPOST, FRUIT_COMPOST } from "./composters";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -2497,15 +2497,15 @@ export const ITEM_DETAILS: Items = {
 
   // Compost
   "Sprout Mix": {
-    image: producePrimer,
-    description: COMPOST["Sprout Mix"].description,
+    image: sproutMix,
+    description: CROP_COMPOST["Sprout Mix"].description,
   },
   "Fruitful Blend": {
     image: fruitfulBlend,
-    description: COMPOST["Fruitful Blend"].description,
+    description: FRUIT_COMPOST["Fruitful Blend"].description,
   },
   "Rapid Root": {
-    image: sproutMix,
-    description: COMPOST["Rapid Root"].description,
+    image: rapidRoot,
+    description: CROP_COMPOST["Rapid Root"].description,
   },
 };

@@ -1,12 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import {
-  Reward,
-  FERTILISERS,
-  PlantedCrop,
-  PlacedItem,
-} from "features/game/types/game";
+import { Reward, PlantedCrop, PlacedItem } from "features/game/types/game";
 import { CROPS } from "features/game/types/crops";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
@@ -25,6 +20,7 @@ import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { BuildingName } from "features/game/types/buildings";
 import { ZoomContext } from "components/ZoomProvider";
+import { CROP_COMPOST } from "features/game/types/composters";
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
@@ -136,19 +132,19 @@ export const Plot: React.FC<Props> = ({ id }) => {
       return;
     }
 
+    // harvest crop when ready
+    if (readyToHarvest) {
+      harvestCrop(crop);
+    }
+
     // apply fertilisers
-    if (selectedItem && selectedItem in FERTILISERS) {
+    if (!readyToHarvest && selectedItem && selectedItem in CROP_COMPOST) {
       gameService.send("crop.fertilised", {
         plotID: id,
         fertiliser: selectedItem,
       });
 
       return;
-    }
-
-    // harvest crop when ready
-    if (readyToHarvest) {
-      harvestCrop(crop);
     }
 
     setTouchCount(0);
@@ -169,7 +165,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
         <FertilePlot
           cropName={crop?.name}
           plantedAt={crop?.plantedAt}
-          fertilisers={crop?.fertilisers}
+          fertiliser={crop?.fertiliser}
           procAnimation={procAnimation}
           touchCount={touchCount}
           showTimers={showTimers}

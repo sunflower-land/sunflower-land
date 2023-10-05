@@ -179,6 +179,10 @@ import {
   collectCompost,
   collectCompostAction,
 } from "./landExpansion/collectCompost";
+import {
+  fertiliseFruit,
+  FertiliseFruitAction,
+} from "./landExpansion/fertiliseFruit";
 
 export type PlayingEvent =
   | TradeAction
@@ -239,7 +243,8 @@ export type PlayingEvent =
   | ListTradeAction
   | CancelTradeAction
   | StartComposterAction
-  | collectCompostAction;
+  | collectCompostAction
+  | FertiliseFruitAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -353,6 +358,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "trade.received": receiveTrade,
   "composter.started": startComposter,
   "compost.collected": collectCompost,
+  "fruit.fertilised": fertiliseFruit,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
