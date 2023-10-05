@@ -5318,22 +5318,31 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
-    attributes: [],
+    image_url: "../public/erc1155/images/1014.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Building" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Advanced Composter": {
     description: "",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
-    attributes: [],
+    image_url: "../public/erc1155/images/1015.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Building" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Expert Composter": {
     description: "",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
-    attributes: [],
+    image_url: "../public/erc1155/images/1016.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Building" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   Earthworm: {
     description: "A wriggly worm used to fish.",
