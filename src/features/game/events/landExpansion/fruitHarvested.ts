@@ -175,6 +175,9 @@ export function harvestFruit({
     name,
   });
 
+  // remove fertiliser
+  delete patch.fruit.fertiliser;
+
   const activityName: BumpkinActivityName = `${name} Harvested`;
 
   bumpkin.activity = trackActivity(activityName, bumpkin.activity);

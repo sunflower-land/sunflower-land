@@ -19,6 +19,7 @@ import {
   PlantedFruit,
 } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
@@ -149,6 +150,17 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     }
   };
 
+  const fertilise = () => {
+    try {
+      gameService.send("fruit.fertilised", {
+        patchID: id,
+        fertiliser: selectedItem,
+      });
+    } catch (e: any) {
+      displayInformation();
+    }
+  };
+
   const showError = showInfo && infoToShow === "error";
 
   return (
@@ -168,12 +180,33 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
           harvestFruit={harvestFruit}
           removeTree={removeTree}
           onError={displayInformation}
+          fertilise={fertilise}
           playing={playing}
           playAnimation={playAnimation}
           showOnClickInfo={showInfo && infoToShow === "info"}
+          fertiliser={fruit?.fertiliser}
         />
       </div>
 
+      {!!fruit?.fertiliser && (
+        <div
+          className="absolute z-10 pointer-events-none"
+          style={{
+            top: `${PIXEL_SCALE * -4}px`,
+            left: `${PIXEL_SCALE * 22}px`,
+            width: `${PIXEL_SCALE * 10}px`,
+          }}
+        >
+          <img
+            key={fruit.fertiliser.name}
+            src={ITEM_DETAILS[fruit.fertiliser.name].image}
+            style={{
+              width: `${PIXEL_SCALE * 10}px`,
+              marginBottom: `${PIXEL_SCALE * 1}px`,
+            }}
+          />
+        </div>
+      )}
       {/* Error Icon */}
       <div
         className={classNames(
