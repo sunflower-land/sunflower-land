@@ -415,6 +415,9 @@ const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   Candles: () => canWithdrawTimebasedItem(new Date("2023-11-02")),
   "Haunted Stump": () => canWithdrawTimebasedItem(new Date("2023-09-02")),
   "Spooky Tree": () => canWithdrawTimebasedItem(new Date("2023-10-02")), // Spooky Tree available from 01/09/2023 to 01/10/2023. Hence withdrawal date should be after that
+  Observer: () => canWithdrawTimebasedItem(new Date("2023-11-02")),
+  "Crow Rock": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
+  "Mini Corn Maze": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
 };
 
 const mutantCrop: Record<MutantCropName, () => boolean> = {
