@@ -1,6 +1,8 @@
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import shadow from "assets/npcs/shadow.png";
+import bubbles from "assets/decorations/water_bubbles.png";
+import fishSilhoutte from "assets/decorations/fish_silhouette.png";
 import { Context } from "features/game/GameProvider";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -66,6 +68,42 @@ export const Fisherman: React.FC = () => {
             top: `${14 * PIXEL_SCALE}px`,
           }}
         />
+        <img
+          src={bubbles}
+          className="absolute z-0 skew-animation"
+          style={{
+            width: `${37 * PIXEL_SCALE}px`,
+            right: `${-20 * PIXEL_SCALE}px`,
+            bottom: `${-20 * PIXEL_SCALE}px`,
+          }}
+        />
+        <img
+          src={fishSilhoutte}
+          className="absolute z-0 fish-swimming"
+          style={{
+            width: `${11 * PIXEL_SCALE}px`,
+            right: `${0 * PIXEL_SCALE}px`,
+            bottom: `${-20 * PIXEL_SCALE}px`,
+          }}
+        />
+        <div
+          className="absolute z-0 fish-swimming"
+          style={{
+            right: `${-2 * PIXEL_SCALE}px`,
+            bottom: `${-2 * PIXEL_SCALE}px`,
+            transform: "translateX(-1)",
+          }}
+        >
+          <img
+            src={fishSilhoutte}
+            className="fish-swimming"
+            style={{
+              width: `${11 * PIXEL_SCALE}px`,
+              animationDelay: "1s",
+              animationDuration: "6s",
+            }}
+          />
+        </div>
       </MapPlacement>
     </>
   );
