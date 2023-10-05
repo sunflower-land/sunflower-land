@@ -130,7 +130,7 @@ export const PhaserComponent: React.FC<Props> = ({
     const bumpkin = gameService.state.context.state.bumpkin;
     bumpkin?.equipped?.hat === "Halo"
       ? setIsModerator(true)
-      : setIsModerator(true);
+      : setIsModerator(false);
 
     // Check if user is muted and if so, apply mute details to isMuted state
     const userModLogs = gameService.state.context.moderation;

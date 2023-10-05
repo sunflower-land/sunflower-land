@@ -311,7 +311,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   }, []);
 
   if (loadingSession || loadingLandToVisit) {
-    console.log("Inner loading");
     return (
       <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
         <Modal show centered backdrop={false}>

@@ -69,16 +69,14 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
                       <td className="w-1/4">{player.farmId}</td>
                       <td className="w-1/4">
                         {!mute ? (
-                          "OK"
+                          <span>OK</span>
                         ) : (
-                          <>
-                            <div>Reason: {mute.reason}</div>
-                            <div>
-                              Time Left:{" "}
-                              {calculateMuteTime(mute.mutedUntil, "remaining")}
-                            </div>
-                            <div>By: {mute.mutedBy}</div>
-                          </>
+                          <span
+                            title={`Reason: ${mute.reason} - By: ${mute.mutedBy}`}
+                          >
+                            Muted for{" "}
+                            {calculateMuteTime(mute.mutedUntil, "remaining")}
+                          </span>
                         )}
                       </td>
                       {/* TODO: Once Mute is out, display if a player in the is muted and their time left */}
@@ -101,7 +99,7 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
                             Kick
                           </Button>
                           <Button
-                            disabled={isModerator(player)}
+                            //disabled={isModerator(player)}
                             onClick={() => {
                               setStep("MUTE");
                               setSelectedPlayer(player);
