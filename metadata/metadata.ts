@@ -5307,21 +5307,30 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
-    attributes: [],
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
   },
   Grub: {
     description: "A juicy grub used to fish.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
-    attributes: [],
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
   },
   "Red Wiggler": {
     description: "A red wiggler used to fish.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
-    attributes: [],
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
   },
   "Sprout Mix": {
     description: "Sprout Mix increases your crop yield by +0.2",
@@ -5363,9 +5372,9 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Boost", value: "Crop" },
       {
-        display_type: "boost_number",
-        trait_type: "Increase Crop Yield",
-        value: 0.2,
+        display_type: "boost_percentage",
+        trait_type: "Crop Growth Time",
+        value: -50,
       },
       { trait_type: "Tradable", value: "No" },
     ],
