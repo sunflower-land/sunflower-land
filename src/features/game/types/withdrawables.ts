@@ -978,7 +978,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Whale Hat": () => canWithdrawTimebasedItem(new Date("2023-08-09")), // AUCTION
   "Pumpkin Shirt": () => false,
   Halo: () => false,
-  Kama: () => false,
+  Kama: () => canWithdrawTimebasedItem(new Date("2023-11-02")), // AUCTION
   "Grey Merch Hoodie": () => false,
   "Unicorn Horn": () => false,
   "Unicorn Hat": () => false,
