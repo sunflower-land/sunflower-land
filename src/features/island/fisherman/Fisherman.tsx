@@ -17,7 +17,7 @@ const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
 
 export const Fisherman: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
   const { gameService, showTimers } = useContext(Context);
 
   const expansionCount = useSelector(gameService, expansions);
@@ -70,7 +70,8 @@ export const Fisherman: React.FC = () => {
         />
         <img
           src={bubbles}
-          className="absolute z-0 skew-animation"
+          className="absolute z-0 skew-animation cursor-pointer"
+          onClick={() => setShowModal(true)}
           style={{
             width: `${37 * PIXEL_SCALE}px`,
             right: `${-20 * PIXEL_SCALE}px`,

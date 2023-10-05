@@ -1,6 +1,10 @@
 import React from "react";
 import classnames from "classnames";
-import { pixelGrayBorderStyle } from "features/game/lib/style";
+import {
+  pixelGrayBorderStyle,
+  pixelOrangeBorderStyle,
+  pixelRedBorderStyle,
+} from "features/game/lib/style";
 
 type labelType =
   | "default"
@@ -42,15 +46,53 @@ export const Label: React.FC<Props> = ({
         </div>
       )}
 
-      {type !== "default" && (
+      {type === "warning" && (
+        <div
+          className={classnames(
+            "bg-[#fdae34] text-xxs object-contain justify-center inline-flex px-1 items-center",
+            className
+          )}
+          style={{ ...pixelOrangeBorderStyle, ...style }}
+        >
+          <span
+            className="inline-flex items-center"
+            style={{
+              lineHeight: "12px",
+              height: "14px",
+            }}
+          >
+            {children}
+          </span>
+        </div>
+      )}
+
+      {type === "danger" && (
+        <div
+          className={classnames(
+            "bg-[#b65389] text-xxs object-contain justify-center inline-flex px-1 items-center",
+            className
+          )}
+          style={{ ...pixelRedBorderStyle, ...style }}
+        >
+          <span
+            className="inline-flex items-center"
+            style={{
+              lineHeight: "12px",
+              height: "14px",
+            }}
+          >
+            {children}
+          </span>
+        </div>
+      )}
+
+      {type !== "default" && type !== "warning" && type !== "danger" && (
         <span
           className={classnames(
             "text-xxs px-1.5 pb-1 pt-0.5 rounded-md inline-flex items-center",
             {
               "bg-green-600": type === "success",
               "bg-blue-600": type === "info",
-              "bg-error": type === "danger",
-              "bg-orange-400": type === "warning",
               border: type !== "transparent",
             },
             className
