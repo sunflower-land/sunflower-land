@@ -165,7 +165,8 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
     return { valid: true };
   }
 
-  const progress = newState.balance.sub(onChain.balance);
+  const auctionSFL = state.auctioneer.bid?.sfl ?? new Decimal(0);
+  const progress = newState.balance.add(auctionSFL).sub(onChain.balance);
 
   /**
    * Contract enforced SFL caps
@@ -177,25 +178,48 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
 
   let maxedItem: InventoryItemName | undefined = undefined;
 
-  // Check inventory amounts
-  const validProgress = getKeys(newState.inventory).every((name) => {
-    const onChainAmount = onChain.inventory[name] || new Decimal(0);
+  const currentInventory = state.inventory;
+  const currentAuctionBid = state.auctioneer.bid?.ingredients ?? {};
 
-    const diff =
-      newState.inventory[name]?.minus(onChainAmount) || new Decimal(0);
+  const currentlyListedItems: Partial<Record<InventoryItemName, number>> = {};
 
-    const max = maxItems[name] || new Decimal(0);
+  Object.values(state.trades.listings ?? {}).forEach((listing) => {
+    const items = listing.items;
 
-    if (max.eq(0)) return true;
-
-    if (diff.gt(max)) {
-      maxedItem = name;
-
-      return false;
-    }
-
-    return true;
+    Object.entries(items).forEach(([itemName, amount]) => {
+      currentlyListedItems[itemName as InventoryItemName] =
+        (currentlyListedItems[itemName as InventoryItemName] ?? 0) + amount;
+    });
   });
+
+  // Check inventory amounts
+  const validProgress = getKeys(currentInventory)
+    .concat(getKeys(currentAuctionBid))
+    .concat(getKeys(currentlyListedItems))
+    .every((name) => {
+      const inventoryAmount = currentInventory[name] ?? new Decimal(0);
+      const auctionAmount = currentAuctionBid[name] ?? new Decimal(0);
+      const listingAmount = currentlyListedItems[name] ?? new Decimal(0);
+
+      const onChainAmount = onChain.inventory[name] || new Decimal(0);
+
+      const diff = inventoryAmount
+        .add(auctionAmount)
+        .add(listingAmount)
+        .minus(onChainAmount);
+
+      const max = maxItems[name] || new Decimal(0);
+
+      if (max.eq(0)) return true;
+
+      if (diff.gt(max)) {
+        maxedItem = name;
+
+        return false;
+      }
+
+      return true;
+    });
 
   return { valid: validProgress, maxedItem };
 }
