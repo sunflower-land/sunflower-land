@@ -49,28 +49,6 @@ const _isMMOInitialising = (state: MMOMachineState) =>
 
 type MMOProps = { isCommunity: boolean };
 
-/* const mockupBumpkin = {
-  id: 1,
-  experience: 10000,
-  tokenUri: "bla",
-  equipped: {
-    hat: "Halo",
-    body: "Beige Farmer Potion",
-    dress: "Cupid Dress",
-    hair: "Basic Hair",
-    wings: "Angel Wings",
-  },
-  skills: {
-    "Michelin Stars": 1,
-  },
-  achievements: {
-    "Busy Bumpkin": 1,
-  },
-  activity: {
-    "Reindeer Carrot Fed": 50,
-  },
-}; */
-
 export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
