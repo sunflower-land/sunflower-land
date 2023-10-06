@@ -41,9 +41,9 @@ export const Travel: React.FC = () => {
           <img
             src={world}
             style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              left: `${PIXEL_SCALE * 6}px`,
-              top: `${PIXEL_SCALE * 5}px`,
+              width: `${PIXEL_SCALE * 12}px`,
+              left: `${PIXEL_SCALE * 5}px`,
+              top: `${PIXEL_SCALE * 4}px`,
             }}
             className="absolute"
           />
@@ -51,11 +51,11 @@ export const Travel: React.FC = () => {
         {hasNewOrders(delivery) && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className="absolute animate-float pointer-events-none"
+            className="absolute z-50 pointer-events-none"
             style={{
               width: `${PIXEL_SCALE * 4}px`,
-              top: `${PIXEL_SCALE * -13}px`,
-              left: `${PIXEL_SCALE * 9}px`,
+              top: `${PIXEL_SCALE * 1}px`,
+              right: `${PIXEL_SCALE * 3}px`,
             }}
           />
         )}
