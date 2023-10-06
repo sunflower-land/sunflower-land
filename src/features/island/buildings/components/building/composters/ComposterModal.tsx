@@ -18,6 +18,7 @@ import { secondsToString } from "lib/utils/time";
 import { ResizableBar } from "components/ui/ProgressBar";
 import Decimal from "decimal.js-light";
 import { Box } from "components/ui/Box";
+import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 
 interface Props {
   composting: boolean;
@@ -59,6 +60,16 @@ export const ComposterModal: React.FC<Props> = ({
       </>
     );
   };
+
+  const baitMessages = (itemName: string) => [
+    `While composting, you'll unearth ${itemName}s, nature's little fishing buddies ready for reel action!`,
+    `As you compost, you'll stumble upon ${itemName}s, your future fishing sidekicks!`,
+    `Composting not only enriches the soil but also unveils ${itemName}s, ready to dive into a fishing adventure with you!`,
+  ];
+
+  const randomBaitMessage = useRandomItem(
+    baitMessages(composterDetails[composterName].bait)
+  );
 
   const content = () => {
     return (
@@ -106,6 +117,8 @@ export const ComposterModal: React.FC<Props> = ({
             count={inventory[composterDetails[composterName].produce]}
           />
         </div>
+
+        <p className="text-xxs mt-4">{randomBaitMessage}</p>
       </>
     );
   };
