@@ -9,8 +9,6 @@ import cossies from "assets/decorations/cossies.png";
 import pirateIsland from "assets/land/desert_island.webp";
 import bearIsland from "assets/land/bear_island.webp";
 import abandonedLand from "assets/land/abandoned_land.webp";
-import snowBudRaft from "assets/land/snow_raft.gif";
-import wormBudRaft from "assets/land/worm_raft.gif";
 
 import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";
@@ -67,31 +65,6 @@ export const WaterComponent: React.FC<Props> = ({
           src={goblinSwimming}
           style={{
             width: `${PIXEL_SCALE * 96}px`,
-          }}
-        />
-      </MapPlacement>
-
-      {/* Bear Bud */}
-      <MapPlacement x={-7 - offset} y={1} width={6}>
-        <img
-          src={snowBudRaft}
-          className="cursor-pointer hover:img-highlight"
-          onClick={() => openModal("BUD_ANNOUNCEMENT")}
-          style={{
-            width: `${PIXEL_SCALE * 20}px`,
-            transform: "scaleX(-1)",
-          }}
-        />
-      </MapPlacement>
-
-      {/* Worm Bud */}
-      <MapPlacement x={6 + offset} y={-2} width={6}>
-        <img
-          src={wormBudRaft}
-          className="cursor-pointer hover:img-highlight"
-          onClick={() => openModal("BUD_ANNOUNCEMENT")}
-          style={{
-            width: `${PIXEL_SCALE * 20}px`,
           }}
         />
       </MapPlacement>
