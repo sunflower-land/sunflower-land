@@ -208,7 +208,7 @@ export const CraftingRequirements: React.FC<Props> = ({
           )}
           <span className="sm:text-center">{title}</span>
         </div>
-        {!hideDescription && (
+        {!hideDescription && description !== "?" && (
           <span className="text-xs sm:mt-1 whitespace-pre-line sm:text-center">
             {description}
           </span>
