@@ -15,6 +15,7 @@ import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { ITEM_ICONS } from "../inventory/Chest";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -114,6 +115,19 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     );
   };
 
+  const FILTERED_BUILDINGS = () => {
+    if (hasFeatureAccess(inventory, "COMPOSTERS")) {
+      return getKeys(BUILDINGS());
+    }
+    // filter out Basic Composter, Advanced Composter and Expert Composter
+    return getKeys(BUILDINGS()).filter((building) => {
+      if (building === "Basic Composter") return false;
+      if (building === "Advanced Composter") return false;
+      if (building === "Expert Composter") return false;
+      return true;
+    });
+  };
+
   return (
     <SplitScreenView
       panel={
@@ -139,7 +153,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {getKeys(BUILDINGS()).map((name: BuildingName) => {
+          {FILTERED_BUILDINGS().map((name: BuildingName) => {
             const blueprints = BUILDINGS()[name];
             const inventoryCount = inventory[name] || new Decimal(0);
             const nextIndex = blueprints[inventoryCount.toNumber()]
