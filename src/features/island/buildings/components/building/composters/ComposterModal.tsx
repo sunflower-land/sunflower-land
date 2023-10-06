@@ -108,7 +108,7 @@ export const ComposterModal: React.FC<Props> = ({
             </div>
           </div>
         )}
-        {composting && <p className="mb-2 w-full">Recipes</p>}
+        {composting && <p className="mb-2 w-full">Composts</p>}
         <div className="flex flex-wrap h-fit">
           <Box
             isSelected={true}

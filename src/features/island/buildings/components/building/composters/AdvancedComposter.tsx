@@ -79,7 +79,7 @@ export const AdvancedComposter: React.FC = () => {
   return (
     <>
       <div
-        className="absolute"
+        className="absolute cursor-pointer hover:img-highlight"
         style={{
           width: `${PIXEL_SCALE * 27}px`,
           bottom: `${PIXEL_SCALE * 0}px`,

@@ -5315,7 +5315,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Basic Composter": {
-    description: "",
+    description:
+      "Creates a nurturing Sprout Mix compost and unearths Earthworm bait for your fishing adventures!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1014.png",
@@ -5325,7 +5326,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Advanced Composter": {
-    description: "",
+    description:
+      "Produces a bountiful Fruitful Blend compost and discovers Grub bait eager to join you in fishing!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1015.png",
@@ -5335,7 +5337,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Expert Composter": {
-    description: "",
+    description:
+      "Generates a robust Rapid Root compost mix and reveals Red Wiggler bait for the perfect fishing expedition!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1016.png",
