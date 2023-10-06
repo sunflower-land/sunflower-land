@@ -346,6 +346,9 @@ import candles from "src/assets/decorations/candles.png";
 import spookyTree from "src/assets/decorations/spooky_tree.png";
 import hauntedStump from "src/assets/decorations/haunted_stump.png";
 import sign from "src/assets/decorations/woodsign.png";
+import observer from "src/assets/decorations/observer.webp";
+import crowRock from "src/assets/decorations/crow_rock.webp";
+import miniCornMaze from "src/assets/decorations/mini_corn_maze.webp";
 
 import pineTree from "src/assets/decorations/pine_tree.png";
 import fieldMaple from "src/assets/decorations/field_maple.webp";
@@ -2365,7 +2368,20 @@ export const ITEM_DETAILS: Items = {
     image: spookyTree,
     description: "A hauntingly fun addition to your farm's decor!",
   },
-
+  Observer: {
+    image: observer,
+    description:
+      "A perpetually roving eyeball, always vigilant and ever-watchful!",
+  },
+  "Crow Rock": {
+    image: crowRock,
+    description: "A crow perched atop a mysterious rock.",
+  },
+  "Mini Corn Maze": {
+    image: miniCornMaze,
+    description:
+      "A memento of the beloved maze from the 2023 Witches' Eve season.",
+  },
   "Bumpkin ganoush": {
     image: bumpkinGanoush,
     description: "Zesty roasted eggplant spread.",

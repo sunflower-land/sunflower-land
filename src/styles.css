@@ -651,3 +651,53 @@ img {
   transition: opacity 0.3s ease-in-out;
   pointer-events: none;
 }
+
+.skew-animation {
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate-reverse;
+  transform-origin: 50% 50%;
+  animation-name: skeOne;
+}
+
+@keyframes skeOne {
+  0% {
+    transform: skew(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: skewX(7deg);
+    opacity: 1;
+  }
+}
+
+.fish-swimming {
+  animation-duration: 10s;
+  animation-name: swimming;
+  animation-iteration-count: infinite;
+  transition-timing-function: linear;
+}
+
+@keyframes swimming {
+  0% {
+    transform: translateX(0) scaleX(1);
+    animation-timing-function: linear;
+    opacity: 0.8;
+  }
+  49% {
+    transform: translateX(50px) scaleX(1);
+    animation-timing-function: linear;
+    opacity: 0.1;
+  }
+  50% {
+    transform: translateX(50px) scaleX(-1);
+    animation-timing-function: linear;
+    opacity: 0.1;
+  }
+  100% {
+    transform: translateX(0) scaleX(-1);
+    animation-timing-function: linear;
+    opacity: 0.8;
+  }
+}

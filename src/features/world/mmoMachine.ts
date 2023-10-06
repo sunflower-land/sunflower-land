@@ -7,6 +7,7 @@ import { CONFIG } from "lib/config";
 import { Bumpkin } from "features/game/types/game";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { SPAWNS } from "./lib/spawn";
+import { Moderation } from "features/game/lib/gameMachine";
 
 export type Scenes = {
   plaza: Room<PlazaRoomState> | undefined;
@@ -86,6 +87,7 @@ export interface MMOContext {
   initialSceneId: SceneId;
   experience: number;
   isCommunity?: boolean;
+  moderation: Moderation;
 }
 
 export type MMOState = {
@@ -140,6 +142,10 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     initialSceneId: "plaza",
     experience: 0,
     isCommunity: false,
+    moderation: {
+      kicked: [],
+      muted: [],
+    },
   },
   exit: (context) => context.server?.leave(),
   states: {
@@ -224,6 +230,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             y: SPAWNS.plaza.default.y,
             sceneId: context.initialSceneId,
             experience: context.experience,
+            moderation: context.moderation,
           });
 
           console.log({ server, client, serverId });
@@ -272,6 +279,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
               y: SPAWNS.plaza.default.y,
               sceneId: context.initialSceneId,
               experience: context.experience,
+              moderation: context.moderation,
             }
           );
 

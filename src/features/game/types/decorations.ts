@@ -58,7 +58,10 @@ export type SeasonalDecorationName =
   | "Shroom Glow"
   | "Candles"
   | "Haunted Stump"
-  | "Spooky Tree";
+  | "Spooky Tree"
+  | "Observer"
+  | "Crow Rock"
+  | "Mini Corn Maze";
 
 export type EventDecorationName =
   | "Valentine Bear"
@@ -348,6 +351,18 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
     height: 2,
   },
+  "Mini Corn Maze": {
+    width: 1,
+    height: 1,
+  },
+  Observer: {
+    width: 1,
+    height: 1,
+  },
+  "Crow Rock": {
+    width: 2,
+    height: 2,
+  },
   "Giant Cabbage": {
     width: 2,
     height: 2,
@@ -600,6 +615,38 @@ export const SEASONAL_DECORATIONS: (
     description: "A hauntingly fun addition to your farm's decor!",
     ingredients: {
       "Crow Feather": new Decimal(500),
+    },
+  },
+  Observer: {
+    name: "Observer",
+    sfl: SFLDiscount(state, new Decimal(50)),
+    from: new Date("2023-10-01"),
+    to: new Date("2023-11-01"),
+    description:
+      "A perpetually roving eyeball, always vigilant and ever-watchful!",
+    ingredients: {
+      "Crow Feather": new Decimal(500),
+    },
+  },
+  "Crow Rock": {
+    name: "Crow Rock",
+    sfl: new Decimal(0),
+    from: new Date("2023-10-01"),
+    to: new Date("2023-11-01"),
+    description: "A crow perched atop a mysterious rock.",
+    ingredients: {
+      "Crow Feather": new Decimal(250),
+    },
+  },
+  "Mini Corn Maze": {
+    name: "Mini Corn Maze",
+    sfl: SFLDiscount(state, new Decimal(5)),
+    from: new Date("2023-10-01"),
+    to: new Date("2023-11-01"),
+    description:
+      "A memento of the beloved maze from the 2023 Witches' Eve season.",
+    ingredients: {
+      "Crow Feather": new Decimal(50),
     },
   },
 });
