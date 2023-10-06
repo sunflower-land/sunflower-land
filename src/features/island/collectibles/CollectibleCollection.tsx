@@ -185,6 +185,7 @@ import { Bud } from "./components/Bud";
 import { CrowRock } from "./components/CrowRock";
 import { MiniCornMaze } from "./components/MiniCornMaze";
 import { Observer } from "./components/Observer";
+import { WhiteCrow } from "./components/WhiteCrow";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -407,7 +408,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Lab Grown Radish": LabGrownRadish,
 
   "Town Sign": Sign,
-
+  "White Crow": WhiteCrow,
   Bud: Bud,
 };
 // Need readonly versions for some troublesome components while in design mode
