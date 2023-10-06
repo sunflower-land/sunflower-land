@@ -5348,7 +5348,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     ],
   },
   Earthworm: {
-    description: "A wriggly worm used to fish.",
+    description: "A wriggly worm used to catch fish.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
@@ -5358,7 +5358,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     ],
   },
   Grub: {
-    description: "A juicy grub used to fish.",
+    description: "A juicy grub used to catch fish.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
@@ -5368,7 +5368,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Red Wiggler": {
-    description: "A red wiggler used to fish.",
+    description: "A red wiggler used to catch fish.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",

@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
-import { GameState, Inventory } from "features/game/types/game";
 import { hasRequirements } from "features/game/events/landExpansion/startComposter";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
@@ -19,33 +18,34 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import Decimal from "decimal.js-light";
 import { Box } from "components/ui/Box";
 import { useRandomItem } from "lib/utils/hooks/useRandomItem";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
 
 interface Props {
   composting: boolean;
-  idle: boolean;
   showModal: boolean;
   setShowModal: (show: boolean) => void;
   startComposter: () => void;
-  gameState: GameState;
   composterName: ComposterName;
   secondsTillReady: number;
-  inventory: Inventory;
 }
 
 export const ComposterModal: React.FC<Props> = ({
   composting,
-  idle,
   showModal,
-  gameState,
   composterName,
   secondsTillReady,
-  inventory,
   setShowModal,
   startComposter,
 }) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+  const state = gameState.context.state;
+  const { inventory } = state;
+
   const composterInfo = composterDetails[composterName];
 
-  const disabled = !hasRequirements(gameState, composterName) || composting;
+  const disabled = !hasRequirements(state, composterName) || composting;
 
   const Action = () => {
     return (
@@ -126,7 +126,7 @@ export const ComposterModal: React.FC<Props> = ({
   return (
     <Modal show={showModal} centered onHide={() => setShowModal(false)}>
       <CloseButtonPanel
-        bumpkinParts={gameState.bumpkin?.equipped}
+        bumpkinParts={state.bumpkin?.equipped}
         tabs={[{ icon: chest, name: composterName }]}
         onClose={() => setShowModal(false)}
       >
@@ -134,7 +134,7 @@ export const ComposterModal: React.FC<Props> = ({
           content={content()}
           panel={
             <CraftingRequirements
-              gameState={gameState}
+              gameState={state}
               details={{
                 item: composterInfo.produce,
                 quantity: new Decimal(10),

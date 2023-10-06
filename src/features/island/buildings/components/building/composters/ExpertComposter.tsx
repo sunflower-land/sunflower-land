@@ -21,9 +21,10 @@ const isReady = (state: MachineState) => state.matches("ready");
 export const ExpertComposter: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { buildings } = gameState.context.state;
   const [showModal, setShowModal] = useState(false);
 
-  const composter = gameState.context.state.buildings["Expert Composter"]?.[0];
+  const composter = buildings["Expert Composter"]?.[0];
 
   const composterMachineContext: CompostingContext = {
     gameService,
@@ -97,18 +98,12 @@ export const ExpertComposter: React.FC = () => {
         />
       </div>
       <ComposterModal
-        {...{
-          gameState: gameState.context.state,
-          composting,
-          idle,
-          composterName: "Expert Composter",
-          ready,
-          showModal,
-          secondsTillReady: secondsTillReady ?? 0,
-          setShowModal,
-          startComposter,
-          inventory: gameState.context.state.inventory,
-        }}
+        composting={composting}
+        composterName="Expert Composter"
+        showModal={showModal}
+        secondsTillReady={secondsTillReady ?? 0}
+        setShowModal={setShowModal}
+        startComposter={startComposter}
       />
       {ready && (
         <div
