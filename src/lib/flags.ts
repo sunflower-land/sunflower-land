@@ -35,7 +35,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   BUDS_DEPOSIT_FLOW: () => true,
   BITGET_WALLET: testnetFeatureFlag,
   FISHING: testnetFeatureFlag,
-  COMPOSTERS: defaultFeatureFlag,
+  COMPOSTERS: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (
