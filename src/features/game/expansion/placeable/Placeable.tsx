@@ -16,7 +16,7 @@ import {
   ANIMAL_DIMENSIONS,
   COLLECTIBLES_DIMENSIONS,
 } from "features/game/types/craftables";
-import { READONLY_COLLECTIBLES } from "features/island/collectibles/Collectible";
+import { READONLY_COLLECTIBLES } from "features/island/collectibles/CollectibleCollection";
 import { Chicken } from "features/island/chickens/Chicken";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";

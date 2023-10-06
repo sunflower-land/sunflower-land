@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect } from "react";
+import React, { useContext, useLayoutEffect, useMemo } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 
@@ -420,10 +420,12 @@ export const Land: React.FC = () => {
       return { x: -16, y: -16.5 };
     }
   };
-  const gameGrid = getGameGrid({
-    crops,
-    collectibles,
-  });
+
+  // memorize game grid and only update it when the stringified value changes
+  const gameGridValue = getGameGrid({ crops, collectibles });
+  const gameGrid = useMemo(() => {
+    return gameGridValue;
+  }, [JSON.stringify(gameGridValue)]);
 
   return (
     <>
