@@ -11,9 +11,9 @@ interface Props {
   hasAxes: boolean;
 }
 
-const DeadTreeComponent = ({ fruitName, hasAxes }: Props) => {
+export const DeadTree = ({ fruitName, hasAxes }: Props) => {
   const { isBush } = FRUIT()[fruitName];
-  const [showNoToolWarnig, setShowNoToolWarning] = useState<boolean>(false);
+  const [showNoToolWarning, setShowNoToolWarning] = useState<boolean>(false);
 
   const handleHover = () => {
     if (!hasAxes) {
@@ -29,8 +29,8 @@ const DeadTreeComponent = ({ fruitName, hasAxes }: Props) => {
     <>
       <div
         className={classNames("absolute w-full h-full", {
-          "cursor-not-allowed": showNoToolWarnig,
-          "cursor-pointer hover:img-highlight": !showNoToolWarnig,
+          "cursor-not-allowed": showNoToolWarning,
+          "cursor-pointer hover:img-highlight": !showNoToolWarning,
         })}
         onMouseEnter={handleHover}
         onMouseLeave={handleMouseLeave}
@@ -54,7 +54,7 @@ const DeadTreeComponent = ({ fruitName, hasAxes }: Props) => {
           top: `${PIXEL_SCALE * -14}px`,
         }}
       >
-        <InfoPopover showPopover={showNoToolWarnig}>
+        <InfoPopover showPopover={showNoToolWarning}>
           <div className="flex flex-1 items-center text-xxs justify-center px-2 py-1 whitespace-nowrap">
             <img src={SUNNYSIDE.tools.axe} className="w-4 mr-1" />
             <span>No Axe Selected!</span>
@@ -64,5 +64,3 @@ const DeadTreeComponent = ({ fruitName, hasAxes }: Props) => {
     </>
   );
 };
-
-export const DeadTree = React.memo(DeadTreeComponent);

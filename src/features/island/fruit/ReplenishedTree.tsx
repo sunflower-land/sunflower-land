@@ -8,7 +8,7 @@ interface Props {
   fruitName: FruitName;
 }
 
-const ReplenishedTreeComponent: React.FC<Props> = ({ fruitName }) => {
+export const ReplenishedTree: React.FC<Props> = ({ fruitName }) => {
   const lifecycle = FRUIT_LIFECYCLE[fruitName];
 
   const { isBush } = FRUIT()[fruitName];
@@ -27,5 +27,3 @@ const ReplenishedTreeComponent: React.FC<Props> = ({ fruitName }) => {
     </div>
   );
 };
-
-export const ReplenishedTree = React.memo(ReplenishedTreeComponent);

@@ -21,7 +21,7 @@ interface Props {
   playShakeAnimation: boolean;
 }
 
-const ReplenishingTreeComponent: React.FC<Props> = ({
+export const ReplenishingTree: React.FC<Props> = ({
   fruitName,
   timeLeft,
   playShakeAnimation,
@@ -90,5 +90,3 @@ const ReplenishingTreeComponent: React.FC<Props> = ({
     </div>
   );
 };
-
-export const ReplenishingTree = React.memo(ReplenishingTreeComponent);

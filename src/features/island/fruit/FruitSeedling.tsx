@@ -28,7 +28,7 @@ export const getFruitImage = (imageSource: string) => {
   );
 };
 
-const FruitSeedlingComponent: React.FC<Props> = ({ fruitName, timeLeft }) => {
+export const FruitSeedling: React.FC<Props> = ({ fruitName, timeLeft }) => {
   const { showTimers } = useContext(Context);
   const [showPopover, setShowPopover] = useState(false);
   const { seed } = FRUIT()[fruitName];
@@ -90,5 +90,3 @@ const FruitSeedlingComponent: React.FC<Props> = ({ fruitName, timeLeft }) => {
     </div>
   );
 };
-
-export const FruitSeedling = React.memo(FruitSeedlingComponent);

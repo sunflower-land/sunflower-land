@@ -3,7 +3,7 @@ import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-const FruitSoilComponent: React.FC = () => {
+export const FruitSoil: React.FC = () => {
   return (
     <div className="absolute w-full h-full cursor-pointer hover:img-highlight">
       <img
@@ -18,5 +18,3 @@ const FruitSoilComponent: React.FC = () => {
     </div>
   );
 };
-
-export const FruitSoil = React.memo(FruitSoilComponent);
