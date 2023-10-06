@@ -35,8 +35,8 @@ import tunnelMole from "assets/sfts/tunnel_mole.gif";
 import rockyMole from "assets/sfts/rocky_mole.gif";
 import nugget from "assets/sfts/nugget.gif";
 import rockGolem from "assets/sfts/rock_golem.gif";
-import rooster from "assets/sfts/rooster.gif";
-import undeadChicken from "assets/sfts/undead_chicken.gif";
+import rooster from "assets/animals/chickens/rooster.gif";
+import undeadChicken from "assets/animals/chickens/undead_chicken.gif";
 import wickerMan from "assets/sfts/wicker_man.png";
 import wendy from "assets/sfts/wood_nymph_wendy.gif";
 import cabbageBoy from "assets/sfts/cabbage_boy.gif";
@@ -74,8 +74,8 @@ import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
 
 // Foods
-import roastedCauliflower from "assets/sfts/roasted_cauliflower.png";
-import radishPie from "assets/sfts/radish_pie.png";
+import roastedCauliflower from "assets/food/roasted_cauliflower.png";
+import radishPie from "assets/food/radish_pie.png";
 
 // Flags
 import australiaFlag from "assets/sfts/flags/australia_flag.gif";
@@ -197,15 +197,15 @@ import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
 import potionPoint from "assets/icons/potion_point.png";
 import crowFeather from "assets/icons/crow_feather.webp";
 import supporterTicket from "assets/icons/supporter_ticket.png";
-import solarFlareBanner from "assets/decorations/solar_flare_banner.png";
-import dawnBreakerBanner from "assets/decorations/dawn_breaker_banner.png";
-import witchesEveBanner from "assets/decorations/witches_eve_banner.webp";
+import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png";
+import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
+import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp";
 import budTicket from "assets/icons/bud_ticket.png";
 import budSeedling from "assets/icons/bud_seedling.png";
 
 // Banners
-import goblinBanner from "assets/sfts/goblin_banner.png";
-import humanBanner from "assets/sfts/human_banner.png";
+import goblinBanner from "assets/decorations/banners/goblin_banner.png";
+import humanBanner from "assets/decorations/banners/human_banner.png";
 
 // Egg
 import redEgg from "src/assets/sfts/easter/red_egg.png";
@@ -329,8 +329,8 @@ import bearTrap from "src/assets/sfts/bears/bear_trap.png";
 import christmasBear from "src/assets/sfts/bears/christmas_bear.png";
 import betaBear from "src/assets/sfts/bears/sfl_bear.png";
 import rainbowArtistBear from "src/assets/sfts/bears/rainbow_artist_bear.png";
-import cyborgBear from "src/assets/sfts/cyborg_bear.png";
-import collectibleBear from "src/assets/sfts/collectible_bear.png";
+import cyborgBear from "src/assets/sfts/bears/cyborg_bear.png";
+import collectibleBear from "src/assets/sfts/bears/collectible_bear.png";
 import manekiNeko from "src/assets/sfts/maneki_neko.gif";
 import redEnvelope from "src/assets/icons/red_envelope.png";
 import loveLetter from "src/assets/icons/love_letter.png";
@@ -346,6 +346,10 @@ import candles from "src/assets/decorations/candles.png";
 import spookyTree from "src/assets/decorations/spooky_tree.png";
 import hauntedStump from "src/assets/decorations/haunted_stump.png";
 import sign from "src/assets/decorations/woodsign.png";
+import observer from "src/assets/decorations/observer.webp";
+import crowRock from "src/assets/decorations/crow_rock.webp";
+import miniCornMaze from "src/assets/decorations/mini_corn_maze.webp";
+import whiteCrow from "src/assets/decorations/white_crow.webp";
 
 import pineTree from "src/assets/decorations/pine_tree.png";
 import fieldMaple from "src/assets/decorations/field_maple.webp";
@@ -411,7 +415,7 @@ import purpleTrail from "assets/sfts/purple_trail.png";
 import obie from "assets/sfts/obie.png";
 import maximus from "assets/sfts/maximus.png";
 import hoot from "assets/sfts/hoot.png";
-import sirGoldenSnout from "assets/sfts/sir_goldensnout.png";
+import sirGoldenSnout from "assets/sfts/aoe/sir_goldensnout.png";
 import freyaFox from "assets/sfts/freya_fox.png";
 import grainGrinder from "assets/sfts/grain_grinder.png";
 
@@ -2365,7 +2369,20 @@ export const ITEM_DETAILS: Items = {
     image: spookyTree,
     description: "A hauntingly fun addition to your farm's decor!",
   },
-
+  Observer: {
+    image: observer,
+    description:
+      "A perpetually roving eyeball, always vigilant and ever-watchful!",
+  },
+  "Crow Rock": {
+    image: crowRock,
+    description: "A crow perched atop a mysterious rock.",
+  },
+  "Mini Corn Maze": {
+    image: miniCornMaze,
+    description:
+      "A memento of the beloved maze from the 2023 Witches' Eve season.",
+  },
   "Bumpkin ganoush": {
     image: bumpkinGanoush,
     description: "Zesty roasted eggplant spread.",
@@ -2451,5 +2468,9 @@ export const ITEM_DETAILS: Items = {
   "Town Sign": {
     image: sign,
     description: "Show your farm ID with pride!",
+  },
+  "White Crow": {
+    image: whiteCrow,
+    description: "A mysterious and ethereal white crow",
   },
 };

@@ -57,7 +57,6 @@ import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 import { buySFL } from "../actions/buySFL";
 import { PurchasableItems } from "../types/collectibles";
 import {
-  getBudsRead,
   getGameRulesLastRead,
   getIntroductionRead,
 } from "features/announcements/announcementsStorage";
@@ -110,7 +109,22 @@ export interface Context {
   transaction?: { type: "withdraw_bumpkin"; expiresAt: number };
   auctionResults?: AuctionResults;
   promoCode?: string;
+  moderation: Moderation;
 }
+
+export type Moderation = {
+  muted: {
+    mutedAt: number;
+    mutedBy: number;
+    reason: string;
+    mutedUntil: number;
+  }[];
+  kicked: {
+    kickedAt: number;
+    kickedBy: number;
+    reason: string;
+  }[];
+};
 
 type MintEvent = {
   type: "MINT";
@@ -448,6 +462,10 @@ export function startGame(authContext: AuthContext) {
         sessionId: INITIAL_SESSION,
         announcements: {},
         bumpkins: [],
+        moderation: {
+          muted: [],
+          kicked: [],
+        },
       },
       states: {
         loading: {
@@ -516,9 +534,8 @@ export function startGame(authContext: AuthContext) {
                   announcements,
                   transaction,
                   promoCode,
+                  moderation,
                 } = response;
-
-                console.log({ promoCode });
 
                 return {
                   state: {
@@ -537,6 +554,7 @@ export function startGame(authContext: AuthContext) {
                   announcements,
                   bumpkins,
                   transaction,
+                  moderation,
                   promoCode,
                 };
               }
@@ -699,21 +717,6 @@ export function startGame(authContext: AuthContext) {
                   context.state.bumpkin?.experience === 0 &&
                   getPromoCode() === "crypto-com"
                 );
-              },
-            },
-            {
-              target: "buds",
-              cond: (context) => {
-                // Don't show to noobs
-                if ((context.state.bumpkin?.experience ?? 0) <= 100) {
-                  return false;
-                }
-                const readAt = getBudsRead();
-                if (!readAt) {
-                  return true;
-                }
-
-                return readAt.getTime() < Date.now() - 7 * 24 * 60 * 60 * 1000;
               },
             },
             {
@@ -1641,6 +1644,7 @@ export function startGame(authContext: AuthContext) {
           announcements: (_, event) => event.data.announcements,
           bumpkins: (_, event) => event.data.bumpkins,
           transaction: (_, event) => event.data.transaction,
+          moderation: (_, event) => event.data.moderation,
           promoCode: (_, event) => event.data.promoCode,
         }),
         setTransactionId: assign<Context, any>({

@@ -1,3 +1,4 @@
+import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
@@ -85,7 +86,7 @@ describe("removeBud", () => {
           id: "1",
         },
       })
-    ).toThrowError("Crops are planted");
+    ).toThrowError("Crops are growing");
   });
 
   it("prevents removing a bud if type buff is active", () => {

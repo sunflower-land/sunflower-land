@@ -165,7 +165,8 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
     return { valid: true };
   }
 
-  const progress = newState.balance.sub(onChain.balance);
+  const auctionSFL = newState.auctioneer.bid?.sfl ?? new Decimal(0);
+  const progress = newState.balance.add(auctionSFL).sub(onChain.balance);
 
   /**
    * Contract enforced SFL caps
@@ -177,25 +178,48 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
 
   let maxedItem: InventoryItemName | undefined = undefined;
 
-  // Check inventory amounts
-  const validProgress = getKeys(newState.inventory).every((name) => {
-    const onChainAmount = onChain.inventory[name] || new Decimal(0);
+  const inventory = newState.inventory;
+  const auctionBid = newState.auctioneer.bid?.ingredients ?? {};
 
-    const diff =
-      newState.inventory[name]?.minus(onChainAmount) || new Decimal(0);
+  const listedItems: Partial<Record<InventoryItemName, number>> = {};
 
-    const max = maxItems[name] || new Decimal(0);
+  Object.values(newState.trades.listings ?? {}).forEach((listing) => {
+    const items = listing.items;
 
-    if (max.eq(0)) return true;
-
-    if (diff.gt(max)) {
-      maxedItem = name;
-
-      return false;
-    }
-
-    return true;
+    Object.entries(items).forEach(([itemName, amount]) => {
+      listedItems[itemName as InventoryItemName] =
+        (listedItems[itemName as InventoryItemName] ?? 0) + amount;
+    });
   });
+
+  // Check inventory amounts
+  const validProgress = getKeys(inventory)
+    .concat(getKeys(auctionBid))
+    .concat(getKeys(listedItems))
+    .every((name) => {
+      const inventoryAmount = inventory[name] ?? new Decimal(0);
+      const auctionAmount = auctionBid[name] ?? new Decimal(0);
+      const listingAmount = listedItems[name] ?? new Decimal(0);
+
+      const onChainAmount = onChain.inventory[name] || new Decimal(0);
+
+      const diff = inventoryAmount
+        .add(auctionAmount)
+        .add(listingAmount)
+        .minus(onChainAmount);
+
+      const max = maxItems[name] || new Decimal(0);
+
+      if (max.eq(0)) return true;
+
+      if (diff.gt(max)) {
+        maxedItem = name;
+
+        return false;
+      }
+
+      return true;
+    });
 
   return { valid: validProgress, maxedItem };
 }

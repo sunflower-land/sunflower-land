@@ -19,12 +19,14 @@ interface Props {
   farmId: number;
   messages: Message[];
   onMessage: (content: { text?: string; reaction?: ReactionName }) => void;
+  isMuted?: boolean;
   onCommand?: (name: string, args: string[]) => void;
 }
 
 export const ChatUI: React.FC<Props> = ({
   farmId,
   onMessage,
+  isMuted,
   onCommand,
   messages,
 }) => {
@@ -41,7 +43,15 @@ export const ChatUI: React.FC<Props> = ({
     }
   }, [messages.length]);
 
+  useEffect(() => {
+    if (isMuted && showChat) {
+      setShowChat(false);
+    }
+  }, [isMuted]);
+
   const handleChatOpen = () => {
+    if (isMuted) return;
+
     setMessageCountOnChatClose(0);
     setNewMessageCount(0);
     setShowChat(true);
@@ -103,6 +113,8 @@ export const ChatUI: React.FC<Props> = ({
           "fixed top-36 left-3 cursor-pointer transition-transform origin-top-left ease-in-out duration-300",
           {
             "scale-50": showChat,
+            "opacity-50": isMuted,
+            "cursor-not-allowed": isMuted,
           }
         )}
         style={{ width: `${PIXEL_SCALE * 22}px`, zIndex: 51 }}

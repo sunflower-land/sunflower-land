@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect } from "react";
+import React, { useContext, useLayoutEffect, useMemo } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 
@@ -34,6 +34,8 @@ import { MUSHROOM_DIMENSIONS } from "../types/resources";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import ocean from "assets/decorations/ocean.webp";
 import { Bud } from "features/island/buds/Bud";
+import { hasFeatureAccess } from "lib/flags";
+import { Fisherman } from "features/island/fisherman/Fisherman";
 
 export const LAND_WIDTH = 6;
 
@@ -418,10 +420,12 @@ export const Land: React.FC = () => {
       return { x: -16, y: -16.5 };
     }
   };
-  const gameGrid = getGameGrid({
-    crops,
-    collectibles,
-  });
+
+  // memorize game grid and only update it when the stringified value changes
+  const gameGridValue = getGameGrid({ crops, collectibles });
+  const gameGrid = useMemo(() => {
+    return gameGridValue;
+  }, [JSON.stringify(gameGridValue)]);
 
   return (
     <>
@@ -492,7 +496,7 @@ export const Land: React.FC = () => {
           {landscaping && <Placeable />}
         </div>
 
-        {!landscaping && (
+        {!landscaping && !hasFeatureAccess(inventory, "FISHING") && (
           <IslandTravel
             bumpkin={bumpkin}
             isVisiting={visiting}
@@ -502,6 +506,10 @@ export const Land: React.FC = () => {
             x={boatCoordinates().x}
             y={boatCoordinates().y}
           />
+        )}
+
+        {!landscaping && hasFeatureAccess(inventory, "FISHING") && (
+          <Fisherman />
         )}
 
         {/* Background darkens in landscaping */}

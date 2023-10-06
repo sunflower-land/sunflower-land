@@ -6,6 +6,7 @@ import {
   BumpkinActivityName,
   trackActivity,
 } from "features/game/types/bumpkinActivity";
+import { CropPlot } from "features/game/types/game";
 
 export type LandExpansionHarvestAction = {
   type: "crop.harvested";
@@ -44,6 +45,14 @@ export const isReadyToHarvest = (
 ) => {
   return createdAt - plantedCrop.plantedAt >= cropDetails.harvestSeconds * 1000;
 };
+
+export function isCropGrowing(plot: CropPlot) {
+  const crop = plot.crop;
+  if (!crop) return false;
+
+  const cropDetails = CROPS()[crop.name];
+  return !isReadyToHarvest(Date.now(), crop, cropDetails);
+}
 
 export function harvest({
   state,

@@ -1,6 +1,6 @@
 import React from "react";
 
-import banner from "assets/sfts/goblin_banner.png";
+import banner from "assets/decorations/banners/goblin_banner.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GoblinBanner: React.FC = () => {

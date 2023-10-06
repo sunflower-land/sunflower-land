@@ -1239,7 +1239,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "A resource used to collect eggs.\n\nIt can be purchased at the barn.",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/606.png",
+    image_url: "../public/erc1155/images/606.gif",
     attributes: [
       { trait_type: "Purpose", value: "Resource" },
       { trait_type: "Tradable", value: "No" },
@@ -4925,7 +4925,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/470.png",
+    image_url: "../public/erc1155/images/470.gif",
     attributes: [
       { trait_type: "Boost", value: "Animal" },
       {
@@ -5033,6 +5033,38 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Decoration", value: "Plants" },
       { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/10/2023
+    ],
+  },
+  Observer: {
+    description:
+      "A perpetually roving eyeball, always vigilant and ever-watchful!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1285.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Creatures" },
+      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
+    ],
+  },
+  "Crow Rock": {
+    description: "A crow perched atop a mysterious rock.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1286.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
+    ],
+  },
+  "Mini Corn Maze": {
+    description:
+      "A memento of the beloved maze from the 2023 Witches' Eve season.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1287.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
     ],
   },
   "Bumpkin ganoush": {
@@ -5270,6 +5302,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Decoration", value: "Landscape" },
       { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "White Crow": {
+    description: "A mysterious and ethereal white crow.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1288.gif",
+    attributes: [
+      { trait_type: "Decoration", value: "Creatures" },
+      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
     ],
   },
 };

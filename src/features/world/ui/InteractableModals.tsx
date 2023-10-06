@@ -13,7 +13,6 @@ import { Button } from "components/ui/Button";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { BudModal } from "features/game/components/modal/components/BudModal";
 
 type InteractableName =
   | "welcome_sign"
@@ -46,7 +45,8 @@ type InteractableName =
   | "plaza_blue_book"
   | "plaza_orange_book"
   | "plaza_green_book"
-  | "potion_house";
+  | "potion_house"
+  | "clubhouse_reward";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -266,6 +266,23 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
 
       <Modal
         centered
+        show={interactable === "clubhouse_reward"}
+        onHide={closeModal}
+      >
+        <CloseButtonPanel onClose={closeModal}>
+          <div className="p-2">
+            <p className="text-sm mb-2">
+              Patience buddy, rewards are coming...
+            </p>
+            <p className="text-sm">
+              Join #bud-clubhouse on Discord for latest updates.
+            </p>
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal
+        centered
         show={interactable === "plaza_statue"}
         onHide={closeModal}
       >
@@ -277,10 +294,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
             },
           ]}
         />
-      </Modal>
-
-      <Modal centered show={interactable === "bud"} onHide={closeModal}>
-        <BudModal onClose={closeModal} />
       </Modal>
 
       <Modal centered show={interactable === "dawn_book_1"} onHide={closeModal}>

@@ -153,6 +153,14 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
     from: new Date("2023-08-01"),
     to: new Date("2023-11-01"),
   },
+  Kama: {
+    sfl: new Decimal(0),
+    ingredients: {
+      "Crow Feather": new Decimal(200),
+    },
+    from: new Date("2023-10-01"),
+    to: new Date("2023-11-01"),
+  },
 });
 
 export const STYLIST_WEARABLES: (game: GameState) => ShopWearables = (

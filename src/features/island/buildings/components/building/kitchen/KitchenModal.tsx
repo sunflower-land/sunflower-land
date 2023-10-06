@@ -30,6 +30,10 @@ export const KitchenModal: React.FC<Props> = ({
   craftingService,
 }) => {
   const kitchenRecipes = getKeys(COOKABLES).reduce((acc, name) => {
+    if (COOKABLES[name]?.disabled) {
+      return acc;
+    }
+
     if (COOKABLES[name].building !== "Kitchen") {
       return acc;
     }

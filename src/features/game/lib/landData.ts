@@ -534,16 +534,7 @@ export const OFFLINE_FARM: GameState = {
       },
     ],
   },
-  collectibles: {
-    "Genie Lamp": [
-      {
-        coordinates: { x: 3, y: -6 },
-        createdAt: 0,
-        id: "123",
-        readyAt: 0,
-      },
-    ],
-  },
+  collectibles: {},
   delivery: {
     orders: [
       {

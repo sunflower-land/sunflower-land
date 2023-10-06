@@ -7,12 +7,19 @@ import { canMine } from "features/game/events/landExpansion/stoneMine";
 import { CommodityName } from "features/game/types/resources";
 import { areUnsupportedChickensBrewing } from "features/game/events/landExpansion/removeBuilding";
 import { Bud, StemTrait, TypeTrait } from "./buds";
+import {
+  isAdvancedCrop,
+  isBasicCrop,
+  isMediumCrop,
+  isCropGrowing,
+} from "features/game/events/landExpansion/harvest";
+import { isFruitGrowing } from "features/game/events/landExpansion/fruitHarvested";
 
 type RESTRICTION_REASON =
   | "No restriction"
-  | `${CropName} is planted`
+  | `${CropName} is growing`
   | `${FruitName} is growing`
-  | "Crops are planted"
+  | "Crops are growing"
   | "Chickens are fed"
   | "Fruits are growing"
   | "Trees are chopped"
@@ -20,9 +27,9 @@ type RESTRICTION_REASON =
   | "Treasure holes are dug"
   | "Genie Lamp rubbed"
   | "Paw shaken"
-  | "Basic crops are planted"
-  | "Medium crops are planted"
-  | "Advanced crops are planted"
+  | "Basic crops are growing"
+  | "Medium crops are growing"
+  | "Advanced crops are growing"
   | "Magic Bean is planted";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
@@ -33,11 +40,11 @@ type CanRemoveArgs = {
   game: GameState;
 };
 
-function cropIsPlanted({ item, game }: CanRemoveArgs): Restriction {
-  const cropPlanted = Object.values(game.crops ?? {}).some(
-    (plot) => plot.crop && plot.crop.name === item
+function cropIsGrowing({ item, game }: CanRemoveArgs): Restriction {
+  const cropGrowing = Object.values(game.crops ?? {}).some(
+    (plot) => isCropGrowing(plot) && plot.crop?.name === item
   );
-  return [cropPlanted, `${item} is planted`];
+  return [cropGrowing, `${item} is growing`];
 }
 
 function beanIsPlanted(game: GameState): Restriction {
@@ -48,77 +55,65 @@ function beanIsPlanted(game: GameState): Restriction {
 
 function areFruitsGrowing(game: GameState, fruit: FruitName): Restriction {
   const fruitGrowing = Object.values(game.fruitPatches ?? {}).some(
-    (patch) => patch.fruit?.name === fruit
+    (patch) => isFruitGrowing(patch) && patch.fruit?.name === fruit
   );
 
   return [fruitGrowing, `${fruit} is growing`];
 }
 
 function areAnyFruitsGrowing(game: GameState): Restriction {
-  const fruitGrowing = Object.values(game.fruitPatches ?? {}).some(
-    (patch) => !!patch.fruit?.name
+  const fruitGrowing = Object.values(game.fruitPatches ?? {}).some((patch) =>
+    isFruitGrowing(patch)
   );
 
   return [fruitGrowing, `Fruits are growing`];
 }
 
-function areAnyCropsPlanted(game: GameState): Restriction {
-  const cropsPlanted = Object.values(game.crops ?? {}).some(
-    (plot) => !!plot.crop
+function areAnyCropsGrowing(game: GameState): Restriction {
+  const cropsGrowing = Object.values(game.crops ?? {}).some((plot) =>
+    isCropGrowing(plot)
   );
 
-  return [cropsPlanted, "Crops are planted"];
+  return [cropsGrowing, "Crops are growing"];
 }
 
-function areAnyBasicCropsPlanted(game: GameState): Restriction {
-  const cropsPlanted = Object.values(game.crops ?? {}).some(
+function areAnyBasicCropsGrowing(game: GameState): Restriction {
+  const cropsGrowing = Object.values(game.crops ?? {}).some(
+    (plot) => plot.crop && isBasicCrop(plot.crop?.name) && isCropGrowing(plot)
+  );
+
+  return [cropsGrowing, "Basic crops are growing"];
+}
+
+function areAnyMediumCropsGrowing(game: GameState): Restriction {
+  const cropsGrowing = Object.values(game.crops ?? {}).some(
+    (plot) => plot.crop && isMediumCrop(plot.crop?.name) && isCropGrowing(plot)
+  );
+
+  return [cropsGrowing, "Medium crops are growing"];
+}
+
+function areAnyAdvancedCropsGrowing(game: GameState): Restriction {
+  const cropsGrowing = Object.values(game.crops ?? {}).some(
     (plot) =>
-      plot.crop?.name === "Sunflower" ||
-      plot.crop?.name === "Potato" ||
-      plot.crop?.name === "Pumpkin"
+      plot.crop && isAdvancedCrop(plot.crop?.name) && isCropGrowing(plot)
   );
 
-  return [cropsPlanted, "Basic crops are planted"];
+  return [cropsGrowing, "Advanced crops are growing"];
 }
 
-function areAnyMediumCropsPlanted(game: GameState): Restriction {
-  const cropsPlanted = Object.values(game.crops ?? {}).some(
-    (plot) =>
-      plot.crop?.name === "Carrot" ||
-      plot.crop?.name === "Cabbage" ||
-      plot.crop?.name === "Beetroot" ||
-      plot.crop?.name === "Cauliflower" ||
-      plot.crop?.name === "Parsnip"
-  );
-
-  return [cropsPlanted, "Medium crops are planted"];
-}
-
-function areAnyAdvancedCropsPlanted(game: GameState): Restriction {
-  const cropsPlanted = Object.values(game.crops ?? {}).some(
-    (plot) =>
-      plot.crop?.name === "Eggplant" ||
-      plot.crop?.name === "Corn" ||
-      plot.crop?.name === "Radish" ||
-      plot.crop?.name === "Wheat" ||
-      plot.crop?.name === "Kale"
-  );
-
-  return [cropsPlanted, "Advanced crops are planted"];
-}
-
-function areAnyAdvancedOrMediumCropsPlanted(game: GameState): Restriction {
-  const mediumCropsPlanted = areAnyMediumCropsPlanted(game)[0];
-  if (mediumCropsPlanted) {
-    return [mediumCropsPlanted, "Medium crops are planted"];
+function areAnyAdvancedOrMediumCropsGrowing(game: GameState): Restriction {
+  const mediumCropsGrowing = areAnyMediumCropsGrowing(game)[0];
+  if (mediumCropsGrowing) {
+    return [mediumCropsGrowing, "Medium crops are growing"];
   }
 
-  const advancedCropsPlanted = areAnyAdvancedCropsPlanted(game)[0];
-  if (advancedCropsPlanted) {
-    return [advancedCropsPlanted, "Advanced crops are planted"];
+  const advancedCropsGrowing = areAnyAdvancedCropsGrowing(game)[0];
+  if (advancedCropsGrowing) {
+    return [advancedCropsGrowing, "Advanced crops are growing"];
   }
 
-  return [advancedCropsPlanted, "Medium crops are planted"];
+  return [advancedCropsGrowing, "Medium crops are growing"];
 }
 
 function areAnyTreesChopped(game: GameState): Restriction {
@@ -218,32 +213,32 @@ export const REMOVAL_RESTRICTIONS: Partial<
   Rooster: (game) => areAnyChickensFed(game),
   Bale: (game) => areAnyChickensFed(game),
 
-  Nancy: (game) => areAnyCropsPlanted(game),
-  Scarecrow: (game) => areAnyCropsPlanted(game),
-  Kuebiko: (game) => areAnyCropsPlanted(game),
-  "Lunar Calendar": (game) => areAnyCropsPlanted(game),
-  "Basic Scarecrow": (game) => areAnyBasicCropsPlanted(game),
-  "Sir Goldensnout": (game) => areAnyCropsPlanted(game),
-  "Scary Mike": (game) => areAnyMediumCropsPlanted(game),
-  "Laurie the Chuckle Crow": (game) => areAnyAdvancedCropsPlanted(game),
-  Gnome: (game) => areAnyAdvancedOrMediumCropsPlanted(game),
+  Nancy: (game) => areAnyCropsGrowing(game),
+  Scarecrow: (game) => areAnyCropsGrowing(game),
+  Kuebiko: (game) => areAnyCropsGrowing(game),
+  "Lunar Calendar": (game) => areAnyCropsGrowing(game),
+  "Basic Scarecrow": (game) => areAnyBasicCropsGrowing(game),
+  "Sir Goldensnout": (game) => areAnyCropsGrowing(game),
+  "Scary Mike": (game) => areAnyMediumCropsGrowing(game),
+  "Laurie the Chuckle Crow": (game) => areAnyAdvancedCropsGrowing(game),
+  Gnome: (game) => areAnyAdvancedOrMediumCropsGrowing(game),
 
-  "Cabbage Boy": (game) => cropIsPlanted({ item: "Cabbage", game }),
-  "Cabbage Girl": (game) => cropIsPlanted({ item: "Cabbage", game }),
-  Karkinos: (game) => cropIsPlanted({ item: "Cabbage", game }),
-  "Easter Bunny": (game) => cropIsPlanted({ item: "Carrot", game }),
-  "Pablo The Bunny": (game) => cropIsPlanted({ item: "Carrot", game }),
-  "Golden Cauliflower": (game) => cropIsPlanted({ item: "Cauliflower", game }),
-  "Mysterious Parsnip": (game) => cropIsPlanted({ item: "Parsnip", game }),
-  "Peeled Potato": (game) => cropIsPlanted({ item: "Potato", game }),
-  "Victoria Sisters": (game) => cropIsPlanted({ item: "Pumpkin", game }),
-  "Freya Fox": (game) => cropIsPlanted({ item: "Pumpkin", game }),
-  Poppy: (game) => cropIsPlanted({ game, item: "Corn" }),
-  Kernaldo: (game) => cropIsPlanted({ game, item: "Corn" }),
-  "Queen Cornelia": (game) => cropIsPlanted({ game, item: "Corn" }),
-  Maximus: (game) => cropIsPlanted({ item: "Eggplant", game }),
-  Obie: (game) => cropIsPlanted({ item: "Eggplant", game }),
-  "Purple Trail": (game) => cropIsPlanted({ item: "Eggplant", game }),
+  "Cabbage Boy": (game) => cropIsGrowing({ item: "Cabbage", game }),
+  "Cabbage Girl": (game) => cropIsGrowing({ item: "Cabbage", game }),
+  Karkinos: (game) => cropIsGrowing({ item: "Cabbage", game }),
+  "Easter Bunny": (game) => cropIsGrowing({ item: "Carrot", game }),
+  "Pablo The Bunny": (game) => cropIsGrowing({ item: "Carrot", game }),
+  "Golden Cauliflower": (game) => cropIsGrowing({ item: "Cauliflower", game }),
+  "Mysterious Parsnip": (game) => cropIsGrowing({ item: "Parsnip", game }),
+  "Peeled Potato": (game) => cropIsGrowing({ item: "Potato", game }),
+  "Victoria Sisters": (game) => cropIsGrowing({ item: "Pumpkin", game }),
+  "Freya Fox": (game) => cropIsGrowing({ item: "Pumpkin", game }),
+  Poppy: (game) => cropIsGrowing({ game, item: "Corn" }),
+  Kernaldo: (game) => cropIsGrowing({ game, item: "Corn" }),
+  "Queen Cornelia": (game) => cropIsGrowing({ game, item: "Corn" }),
+  Maximus: (game) => cropIsGrowing({ item: "Eggplant", game }),
+  Obie: (game) => cropIsGrowing({ item: "Eggplant", game }),
+  "Purple Trail": (game) => cropIsGrowing({ item: "Eggplant", game }),
 
   "Squirrel Monkey": (game) => areFruitsGrowing(game, "Orange"),
   "Black Bearry": (game) => areFruitsGrowing(game, "Blueberry"),
@@ -269,9 +264,9 @@ export const REMOVAL_RESTRICTIONS: Partial<
 
   "Carrot Sword": (game) => beanIsPlanted(game),
 
-  "Stellar Sunflower": (game) => cropIsPlanted({ item: "Sunflower", game }),
-  "Potent Potato": (game) => cropIsPlanted({ item: "Potato", game }),
-  "Radical Radish": (game) => cropIsPlanted({ item: "Radish", game }),
+  "Stellar Sunflower": (game) => cropIsGrowing({ item: "Sunflower", game }),
+  "Potent Potato": (game) => cropIsGrowing({ item: "Potato", game }),
+  "Radical Radish": (game) => cropIsGrowing({ item: "Radish", game }),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
@@ -279,15 +274,15 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
   RemoveCondition
 > = {
   // HATS
-  "3 Leaf Clover": (game) => areAnyCropsPlanted(game),
+  "3 Leaf Clover": (game) => areAnyCropsGrowing(game),
   // TODO Fish Hat needs to be implemented
   "Fish Hat": (game) => [false, "No restriction"],
   "Diamond Gem": (game) => areAnyMineralsMined(game),
   "Gold Gem": (game) => areAnyGoldsMined(game),
   "Miner Hat": (game) => areAnyIronsMined(game),
-  "Carrot Head": (game) => cropIsPlanted({ item: "Carrot", game }),
-  "Basic Leaf": (game) => areAnyBasicCropsPlanted(game),
-  "Sunflower Hat": (game) => cropIsPlanted({ item: "Sunflower", game }),
+  "Carrot Head": (game) => cropIsGrowing({ item: "Carrot", game }),
+  "Basic Leaf": (game) => areAnyBasicCropsGrowing(game),
+  "Sunflower Hat": (game) => cropIsGrowing({ item: "Sunflower", game }),
   "Ruby Gem": (game) => areAnyStonesMined(game),
   Mushroom: (game) => [false, "No restriction"],
   "Magic Mushroom": (game) => [false, "No restriction"],
@@ -308,17 +303,17 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
   Hibiscus: (game) => [false, "No restriction"],
 
   // TYPES
-  Plaza: (game) => areAnyBasicCropsPlanted(game),
+  Plaza: (game) => areAnyBasicCropsGrowing(game),
   Woodlands: (game) => areAnyTreesChopped(game),
   Cave: (game) => areAnyMineralsMined(game),
   // TODO Sea needs to be implemented
   Sea: (game) => [false, "No restriction"],
-  Castle: (game) => areAnyMediumCropsPlanted(game),
+  Castle: (game) => areAnyMediumCropsGrowing(game),
   // TODO Port needs to be implemented
   Port: (game) => [false, "No restriction"],
   Retreat: (game) => areAnyChickensFed(game),
-  Saphiro: (game) => areAnyCropsPlanted(game),
-  Snow: (game) => areAnyAdvancedCropsPlanted(game),
+  Saphiro: (game) => areAnyCropsGrowing(game),
+  Snow: (game) => areAnyAdvancedCropsGrowing(game),
   Beach: (game) => areAnyFruitsGrowing(game),
 };
 
