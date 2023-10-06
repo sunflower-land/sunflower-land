@@ -4,7 +4,7 @@ import { Modal } from "react-bootstrap";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { DeliveryOrders } from "features/island/delivery/components/Orders";
 import { ChoreV2 } from "features/helios/components/hayseedHank/components/ChoreV2";
-import world from "assets/icons/world.png";
+import world from "assets/icons/world_small.png";
 import { IslandList } from "features/game/expansion/components/travel/IslandList";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
