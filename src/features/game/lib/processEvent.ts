@@ -165,7 +165,7 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
     return { valid: true };
   }
 
-  const auctionSFL = state.auctioneer.bid?.sfl ?? new Decimal(0);
+  const auctionSFL = newState.auctioneer.bid?.sfl ?? new Decimal(0);
   const progress = newState.balance.add(auctionSFL).sub(onChain.balance);
 
   /**
@@ -178,28 +178,28 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
 
   let maxedItem: InventoryItemName | undefined = undefined;
 
-  const currentInventory = state.inventory;
-  const currentAuctionBid = state.auctioneer.bid?.ingredients ?? {};
+  const inventory = newState.inventory;
+  const auctionBid = newState.auctioneer.bid?.ingredients ?? {};
 
-  const currentlyListedItems: Partial<Record<InventoryItemName, number>> = {};
+  const listedItems: Partial<Record<InventoryItemName, number>> = {};
 
-  Object.values(state.trades.listings ?? {}).forEach((listing) => {
+  Object.values(newState.trades.listings ?? {}).forEach((listing) => {
     const items = listing.items;
 
     Object.entries(items).forEach(([itemName, amount]) => {
-      currentlyListedItems[itemName as InventoryItemName] =
-        (currentlyListedItems[itemName as InventoryItemName] ?? 0) + amount;
+      listedItems[itemName as InventoryItemName] =
+        (listedItems[itemName as InventoryItemName] ?? 0) + amount;
     });
   });
 
   // Check inventory amounts
-  const validProgress = getKeys(currentInventory)
-    .concat(getKeys(currentAuctionBid))
-    .concat(getKeys(currentlyListedItems))
+  const validProgress = getKeys(inventory)
+    .concat(getKeys(auctionBid))
+    .concat(getKeys(listedItems))
     .every((name) => {
-      const inventoryAmount = currentInventory[name] ?? new Decimal(0);
-      const auctionAmount = currentAuctionBid[name] ?? new Decimal(0);
-      const listingAmount = currentlyListedItems[name] ?? new Decimal(0);
+      const inventoryAmount = inventory[name] ?? new Decimal(0);
+      const auctionAmount = auctionBid[name] ?? new Decimal(0);
+      const listingAmount = listedItems[name] ?? new Decimal(0);
 
       const onChainAmount = onChain.inventory[name] || new Decimal(0);
 
