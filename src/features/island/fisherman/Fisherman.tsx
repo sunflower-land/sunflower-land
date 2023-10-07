@@ -1,6 +1,4 @@
-import { useSelector } from "@xstate/react";
-import { SUNNYSIDE } from "assets/sunnyside";
-import shadow from "assets/npcs/shadow.png";
+import { useActor, useInterpret, useSelector } from "@xstate/react";
 import bubbles from "assets/decorations/water_bubbles.png";
 import fishSilhoutte from "assets/decorations/fish_silhouette.png";
 import { Context } from "features/game/GameProvider";
@@ -12,6 +10,9 @@ import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { FishermanModal } from "./FishermanModal";
+import { FishermanNPC } from "./FishermanNPC";
+import { FishingService, fishingMachine } from "./fishingMachines";
+import { Button } from "components/ui/Button";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
@@ -19,6 +20,12 @@ const expansions = (state: MachineState) =>
 export const Fisherman: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { gameService, showTimers } = useContext(Context);
+
+  const fishingService = useInterpret(fishingMachine, {
+    context: {},
+  }) as unknown as FishingService;
+
+  const [fishingState] = useActor(fishingService);
 
   const expansionCount = useSelector(gameService, expansions);
 
@@ -33,6 +40,11 @@ export const Fisherman: React.FC = () => {
     }
   };
 
+  const cast = () => {
+    fishingService.send("CAST");
+    setShowModal(false);
+  };
+
   return (
     <>
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
@@ -40,41 +52,41 @@ export const Fisherman: React.FC = () => {
           onClose={() => setShowModal(false)}
           bumpkinParts={NPC_WEARABLES["reelin roy"]}
         >
-          <FishermanModal />
+          <FishermanModal onCast={cast} />
+        </CloseButtonPanel>
+      </Modal>
+      <Modal
+        centered
+        show={fishingState.matches("caught")}
+        onHide={() => fishingService.send("CLAIMED")}
+      >
+        <CloseButtonPanel
+          onClose={() => fishingService.send("CLAIMED")}
+          bumpkinParts={NPC_WEARABLES["reelin roy"]}
+        >
+          <p>Congrats</p>
+          <Button onClick={() => fishingService.send("CLAIMED")}>Ok</Button>
         </CloseButtonPanel>
       </Modal>
       <MapPlacement
         x={wharfCoords().x}
         y={wharfCoords().y}
-        width={2}
-        height={2}
+        width={3}
+        height={3}
       >
-        <img
-          src={SUNNYSIDE.npcs.fisherman}
-          style={{
-            width: `${28 * PIXEL_SCALE}px`,
-            left: `${0 * PIXEL_SCALE}px`,
-            bottom: `${12 * PIXEL_SCALE}px`,
-          }}
-          className="z-10 absolute cursor-pointer hover:img-highlight"
+        <FishermanNPC
           onClick={() => setShowModal(true)}
+          fishingService={fishingService}
         />
-        <img
-          src={shadow}
-          className="absolute z-0"
-          style={{
-            width: `${16 * PIXEL_SCALE}px`,
-            left: `${0 * PIXEL_SCALE}px`,
-            top: `${14 * PIXEL_SCALE}px`,
-          }}
-        />
+
         <img
           src={bubbles}
-          className="absolute z-0 skew-animation"
+          className="absolute z-0 skew-animation cursor-pointer"
+          onClick={() => setShowModal(true)}
           style={{
             width: `${37 * PIXEL_SCALE}px`,
-            right: `${-20 * PIXEL_SCALE}px`,
-            bottom: `${-20 * PIXEL_SCALE}px`,
+            right: `${-6 * PIXEL_SCALE}px`,
+            bottom: `${-6 * PIXEL_SCALE}px`,
           }}
         />
         <img
