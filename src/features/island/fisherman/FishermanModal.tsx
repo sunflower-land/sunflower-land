@@ -181,7 +181,7 @@ const BaitSelection: React.FC = () => {
           <Label type="default" className="mr-2">
             Dusk Tide
           </Label>
-          <Label type="danger">Fish Frenzy</Label>
+          <Label type="vibrant">Fish Frenzy</Label>
         </div>
       </div>
       <div>
