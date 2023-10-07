@@ -119,7 +119,10 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
                   {
                     text: "Read more",
                     cb: () => {
-                      closeModal();
+                      window.open(
+                        "https://docs.sunflower-land.com/player-guides/bud-nfts",
+                        "_blank"
+                      );
                     },
                   },
                 ],

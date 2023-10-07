@@ -429,7 +429,10 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
                 {
                   text: "Read more",
                   cb: () => {
-                    closeModal();
+                    window.open(
+                      "https://docs.sunflower-land.com/player-guides/bud-nfts",
+                      "_blank"
+                    );
                   },
                 },
               ],
