@@ -146,7 +146,7 @@ const BAIT: Record<BaitName, Bait> = {
     ],
   },
 };
-const BaitSelection: React.FC = () => {
+const BaitSelection: React.FC<{ onCast: () => void }> = ({ onCast }) => {
   const { gameService } = useContext(Context);
   const [
     {
@@ -265,6 +265,7 @@ const BaitSelection: React.FC = () => {
       )}
 
       <Button
+        onClick={onCast}
         disabled={
           missingRod || !state.inventory[bait as InventoryItemName]?.gte(1)
         }
@@ -278,7 +279,11 @@ const BaitSelection: React.FC = () => {
   );
 };
 
-export const FishermanModal: React.FC = () => {
+interface Props {
+  onCast: () => void;
+}
+
+export const FishermanModal: React.FC<Props> = ({ onCast }) => {
   const [showIntro, setShowIntro] = React.useState(!hasRead());
 
   if (showIntro) {
@@ -300,5 +305,5 @@ export const FishermanModal: React.FC = () => {
     );
   }
 
-  return <BaitSelection />;
+  return <BaitSelection onCast={onCast} />;
 };
