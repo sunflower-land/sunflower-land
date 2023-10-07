@@ -1,5 +1,8 @@
 import { PIXEL_SCALE } from "./constants";
 import grayBorder from "assets/ui/panel/gray_border.png";
+import orangeBorder from "assets/ui/panel/orange_border.png";
+import redBorder from "assets/ui/panel/danger_border.png";
+import vibrantBorder from "assets/ui/panel/vibrant_border.png";
 import lightBorder from "assets/ui/panel/light_border.png";
 import darkBorder from "assets/ui/panel/dark_border.png";
 import roomBorder from "assets/ui/panel/room_border.webp";
@@ -21,6 +24,21 @@ const pixelizedBorderStyle: React.CSSProperties = {
 
 export const pixelGrayBorderStyle: React.CSSProperties = {
   borderImage: `url(${grayBorder})`,
+  ...pixelizedBorderStyle,
+};
+
+export const pixelOrangeBorderStyle: React.CSSProperties = {
+  borderImage: `url(${orangeBorder})`,
+  ...pixelizedBorderStyle,
+};
+
+export const pixelRedBorderStyle: React.CSSProperties = {
+  borderImage: `url(${redBorder})`,
+  ...pixelizedBorderStyle,
+};
+
+export const pixelVibrantBorderStyle: React.CSSProperties = {
+  borderImage: `url(${vibrantBorder})`,
   ...pixelizedBorderStyle,
 };
 
