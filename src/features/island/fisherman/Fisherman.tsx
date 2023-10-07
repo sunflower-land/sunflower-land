@@ -17,7 +17,7 @@ const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
 
 export const Fisherman: React.FC = () => {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const { gameService, showTimers } = useContext(Context);
 
   const expansionCount = useSelector(gameService, expansions);
