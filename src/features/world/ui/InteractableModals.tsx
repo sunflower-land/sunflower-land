@@ -435,6 +435,15 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
                     );
                   },
                 },
+                {
+                  text: "Buds Collection on Opensea",
+                  cb: () => {
+                    window.open(
+                      "https://opensea.io/collection/sunflower-land-buds",
+                      "_blank"
+                    );
+                  },
+                },
               ],
             },
           ]}
