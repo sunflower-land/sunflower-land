@@ -120,7 +120,6 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
                     text: "Read more",
                     cb: () => {
                       closeModal();
-                      openModal("BUD_ANNOUNCEMENT");
                     },
                   },
                 ],

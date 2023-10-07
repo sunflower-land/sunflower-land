@@ -430,7 +430,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
                   text: "Read more",
                   cb: () => {
                     closeModal();
-                    openModal("BUD_ANNOUNCEMENT");
                   },
                 },
               ],
