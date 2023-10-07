@@ -322,6 +322,8 @@ export const OFFLINE_FARM: GameState = {
     "Crab Claw": 95,
   },
   inventory: {
+    // "Fishing Rod": new Decimal(1),
+    // "Earth Worm": new Decimal(1),
     "El Pollo Veloz": new Decimal(1),
     "Bud Seedling": new Decimal(1),
     Gnome: new Decimal(1),

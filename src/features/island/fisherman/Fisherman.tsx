@@ -71,8 +71,8 @@ export const Fisherman: React.FC = () => {
       <MapPlacement
         x={wharfCoords().x}
         y={wharfCoords().y}
-        width={2}
-        height={2}
+        width={3}
+        height={3}
       >
         <FishermanNPC
           onClick={() => setShowModal(true)}
@@ -85,8 +85,8 @@ export const Fisherman: React.FC = () => {
           onClick={() => setShowModal(true)}
           style={{
             width: `${37 * PIXEL_SCALE}px`,
-            right: `${-20 * PIXEL_SCALE}px`,
-            bottom: `${-20 * PIXEL_SCALE}px`,
+            right: `${-6 * PIXEL_SCALE}px`,
+            bottom: `${-6 * PIXEL_SCALE}px`,
           }}
         />
         <img

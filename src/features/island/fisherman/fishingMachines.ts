@@ -5,12 +5,13 @@ export interface FishingContext {
 }
 
 export type FishingState = {
-  value: "idle" | "casting" | "waiting" | "reeling" | "caught";
+  value: "idle" | "casting" | "ready" | "waiting" | "reeling" | "caught";
   context: FishingContext;
 };
 
 type FishEvent =
   | { type: "CAST" }
+  | { type: "BIT" }
   | { type: "WAIT" }
   | { type: "REEL" }
   | { type: "CAUGHT" }
@@ -43,6 +44,11 @@ export const fishingMachine = createMachine<
       },
     },
     waiting: {
+      on: {
+        BIT: { target: "ready" },
+      },
+    },
+    ready: {
       on: {
         REEL: { target: "reeling" },
       },
