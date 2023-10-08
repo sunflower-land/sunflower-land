@@ -30,6 +30,12 @@ import { ConversationName } from "./conversations";
 import { NPCName } from "lib/npcs";
 import { SeasonalTicket } from "./seasons";
 import { Bud } from "./buds";
+import {
+  Bait,
+  CompostName,
+  CropCompostName,
+  FruitCompostName,
+} from "./composters";
 
 export type Reward = {
   sfl?: Decimal;
@@ -47,10 +53,15 @@ export const FERTILISERS: Record<FertiliserName, { description: string }> = {
   },
 };
 
-export type Fertilisers = {
-  name: FertiliserName;
+export type CropFertiliser = {
+  name: CropCompostName;
   fertilisedAt: number;
-}[];
+};
+
+export type FruitFertiliser = {
+  name: FruitCompostName;
+  fertilisedAt: number;
+};
 
 export type FieldItem = {
   name: CropName;
@@ -58,7 +69,7 @@ export type FieldItem = {
   plantedAt: number;
   multiplier?: number;
   reward?: Reward;
-  fertilisers?: Fertilisers;
+  fertiliser?: CropFertiliser;
 };
 
 export type ChickenPosition = {
@@ -247,7 +258,9 @@ export type InventoryItemName =
   | LanternName
   | ExoticCropName
   | PotionHouseItemName
-  | "Basic Land";
+  | "Basic Land"
+  | Bait
+  | CompostName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -328,7 +341,7 @@ export type PlantedCrop = {
   plantedAt: number;
   amount?: number;
   reward?: Reward;
-  fertilisers?: Fertilisers;
+  fertiliser?: CropFertiliser;
 };
 
 export type PlantedFruit = {
@@ -337,6 +350,7 @@ export type PlantedFruit = {
   amount: number;
   harvestsLeft: number;
   harvestedAt: number;
+  fertiliser?: FruitFertiliser;
 };
 
 export type Tree = {
@@ -369,12 +383,18 @@ export type BuildingProduct = {
   readyAt: number;
 };
 
+export type BuildingProduce = {
+  name: CompostName;
+  readyAt: number;
+};
+
 export type PlacedItem = {
   id: string;
   coordinates: { x: number; y: number };
   readyAt: number;
   createdAt: number;
 
+  producing?: BuildingProduce;
   crafting?: BuildingProduct;
 };
 

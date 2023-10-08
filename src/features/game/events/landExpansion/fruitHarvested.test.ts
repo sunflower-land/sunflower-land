@@ -4,7 +4,7 @@ import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { FRUIT_SEEDS } from "features/game/types/fruits";
 import { GameState, CropPlot } from "features/game/types/game";
-import { harvestFruit } from "./fruitHarvested";
+import { getFruitYield, harvestFruit } from "./fruitHarvested";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -495,7 +495,6 @@ describe("fruitHarvested", () => {
       },
       action: {
         type: "fruit.harvested",
-
         index: "0",
       },
       createdAt: dateNow,
@@ -504,5 +503,16 @@ describe("fruitHarvested", () => {
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
     expect(fruit?.amount).toEqual(1.2);
+  });
+
+  describe("getFruitYield", () => {
+    it("provides no bonuses", () => {
+      const amount = getFruitYield({
+        buds: {},
+        collectibles: {},
+        name: "Apple",
+        wearables: { ...INITIAL_BUMPKIN.equipped },
+      });
+    });
   });
 });

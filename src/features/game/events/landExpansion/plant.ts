@@ -3,6 +3,7 @@ import Decimal from "decimal.js-light";
 
 import { CropName, CROPS } from "../../types/crops";
 import {
+  Buildings,
   Bumpkin,
   Collectibles,
   CropPlot,
@@ -188,6 +189,7 @@ type GetPlantedAtArgs = {
   crop: CropName;
   inventory: Inventory;
   collectibles: Collectibles;
+  buildings: Buildings;
   bumpkin: Bumpkin;
   createdAt: number;
   plot: CropPlot;
@@ -201,6 +203,7 @@ export function getPlantedAt({
   crop,
   inventory,
   collectibles,
+  buildings,
   bumpkin,
   buds,
   createdAt,
@@ -460,7 +463,13 @@ export function plant({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { crops: plots, bumpkin, collectibles, inventory } = stateCopy;
+  const {
+    crops: plots,
+    bumpkin,
+    collectibles,
+    inventory,
+    buildings,
+  } = stateCopy;
   const buds = stateCopy.buds ?? {};
 
   if (bumpkin === undefined) {
@@ -505,6 +514,7 @@ export function plant({
         crop: cropName,
         inventory,
         collectibles,
+        buildings,
         bumpkin,
         createdAt,
         plot,

@@ -1615,6 +1615,7 @@ describe("getCropTime", () => {
           },
         ],
       },
+
       { ...INITIAL_BUMPKIN },
       plot
     );
@@ -1860,7 +1861,6 @@ describe("isPlotFertile", () => {
       width: 1,
     });
     const isFertile = isPlotFertile({
-      buildings: {},
       crops: {
         0: fakePlot(),
         1: fakePlot(),
@@ -1881,6 +1881,7 @@ describe("isPlotFertile", () => {
         98: fakePlot(), // 17th
       },
       plotIndex: "87",
+      buildings: {},
     });
 
     expect(isFertile).toBeFalsy();
@@ -1947,7 +1948,6 @@ describe("isPlotFertile", () => {
       width: 1,
     };
     const isFertile = isPlotFertile({
-      buildings: {},
       crops: {
         0: fakePlot,
         1: fakePlot,
@@ -1963,6 +1963,7 @@ describe("isPlotFertile", () => {
         11: fakePlot,
       },
       plotIndex: "5",
+      buildings: {},
     });
     expect(isFertile).toBeTruthy();
   });

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { getTimeLeft } from "lib/utils/time";
 import { setImageWidth } from "lib/images";
-import { PlantedFruit } from "features/game/types/game";
+import { FruitFertiliser, PlantedFruit } from "features/game/types/game";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { FRUIT, FruitName, FRUIT_SEEDS } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
@@ -35,11 +35,13 @@ interface Props {
   harvestFruit: () => void;
   removeTree: () => void;
   onError: () => void;
+  fertilise: () => void;
   playAnimation: boolean;
   /**
    * Handles showing "hover" information on mobile or "error" on click action information
    */
   showOnClickInfo: boolean;
+  fertiliser?: FruitFertiliser;
 }
 
 export const FruitTree: React.FC<Props> = ({
@@ -48,9 +50,11 @@ export const FruitTree: React.FC<Props> = ({
   harvestFruit,
   removeTree,
   onError,
+  fertilise,
   playing,
   playAnimation,
   showOnClickInfo,
+  fertiliser,
 }) => {
   useUiRefresher({ active: !!plantedFruit });
   //UI Refresher reloads this component after a regular time intervals.
@@ -97,12 +101,14 @@ export const FruitTree: React.FC<Props> = ({
 
     if (replenishingTimeLeft > 0) {
       return (
-        <ReplenishingTree
-          onClick={onError}
-          plantedFruit={plantedFruit}
-          playAnimation={playAnimation}
-          showOnClickInfo={showOnClickInfo}
-        />
+        <>
+          <ReplenishingTree
+            onClick={fertilise}
+            plantedFruit={plantedFruit}
+            playAnimation={playAnimation}
+            showOnClickInfo={showOnClickInfo}
+          />
+        </>
       );
     }
   }
@@ -113,7 +119,7 @@ export const FruitTree: React.FC<Props> = ({
   if (growingTimeLeft > 0) {
     return (
       <Seedling
-        onClick={onError}
+        onClick={fertilise}
         playing={playing}
         plantedFruit={plantedFruit}
         showOnClickInfo={showOnClickInfo}

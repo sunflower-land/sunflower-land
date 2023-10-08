@@ -1,3 +1,4 @@
+import "lib/__mocks__/configMock";
 import { TEST_FARM } from "features/game/lib/constants";
 import { MOVE_FRUIT_PATCH_ERRORS, moveFruitPatch } from "./moveFruitPatch";
 

@@ -1,15 +1,15 @@
 import Decimal from "decimal.js-light";
-import { screenTracker } from "lib/utils/screen";
 import cloneDeep from "lodash.clonedeep";
-import { CROPS } from "../../types/crops";
-import { FertiliserName, GameState, InventoryItemName } from "../../types/game";
+import { CROPS, Crop } from "../../types/crops";
+import { GameState } from "../../types/game";
 import { isReadyToHarvest } from "./harvest";
+import { CropCompostName } from "features/game/types/composters";
 
 export type LandExpansionFertiliseCropAction = {
   type: "crop.fertilised";
-  plotIndex: number;
+  plotID: string;
   expansionIndex: number;
-  fertiliser: FertiliserName;
+  fertiliser: CropCompostName;
 };
 
 type Options = {
@@ -19,8 +19,6 @@ type Options = {
 };
 
 export enum FERTILISE_CROP_ERRORS {
-  EMPTY_EXPANSION = "Expansion does not exist!",
-  EXPANSION_NO_PLOTS = "Expansion does not have any plots!",
   EMPTY_PLOT = "Plot does not exist!",
   EMPTY_CROP = "There is no crop planted!",
   READY_TO_HARVEST = "Crop is ready to harvest!",
@@ -28,16 +26,21 @@ export enum FERTILISE_CROP_ERRORS {
   NO_FERTILISER_SELECTED = "No fertiliser selected!",
   NOT_A_FERTILISER = "Not a fertiliser!",
   NOT_ENOUGH_FERTILISER = "Not enough fertiliser!",
-  INVALID_PLANT = "Invalid plant!",
 }
 
-// Seeds which are implemented
-const VALID_FERTILISERS: InventoryItemName[] = ["Rapid Growth"];
-
-const isFertiliser = (
-  fertiliser: InventoryItemName
-): fertiliser is FertiliserName => {
-  return VALID_FERTILISERS.includes(fertiliser);
+const getPlantedAt = (
+  fertiliser: CropCompostName,
+  plantedAt: number,
+  fertilisedAt: number,
+  cropDetails: Crop
+) => {
+  const timeToHarvest = cropDetails.harvestSeconds * 1000;
+  const harvestTime = plantedAt + timeToHarvest;
+  const timeReduction = (harvestTime - fertilisedAt) / 2;
+  if (fertiliser === "Rapid Root") {
+    return plantedAt - timeReduction;
+  }
+  return plantedAt;
 };
 
 export function fertiliseCrop({
@@ -48,19 +51,11 @@ export function fertiliseCrop({
   const stateCopy = cloneDeep(state);
   const { crops: plots, inventory } = stateCopy;
 
-  if (action.plotIndex < 0) {
+  if (!plots[action.plotID]) {
     throw new Error(FERTILISE_CROP_ERRORS.EMPTY_PLOT);
   }
 
-  if (!Number.isInteger(action.plotIndex)) {
-    throw new Error(FERTILISE_CROP_ERRORS.EMPTY_PLOT);
-  }
-
-  if (action.plotIndex >= Object.keys(plots).length) {
-    throw new Error(FERTILISE_CROP_ERRORS.EMPTY_PLOT);
-  }
-
-  const plot = plots[action.plotIndex];
+  const plot = plots[action.plotID];
   const crop = plot && plot.crop;
 
   if (!crop) {
@@ -72,22 +67,12 @@ export function fertiliseCrop({
     throw new Error(FERTILISE_CROP_ERRORS.READY_TO_HARVEST);
   }
 
-  const fertilisers = crop.fertilisers || [];
-
-  const alreadyApplied = fertilisers.find(
-    (fertiliser) => fertiliser.name === action.fertiliser
-  );
-
-  if (alreadyApplied) {
+  if (crop.fertiliser) {
     throw new Error(FERTILISE_CROP_ERRORS.CROP_ALREADY_FERTILISED);
   }
 
   if (!action.fertiliser) {
     throw new Error(FERTILISE_CROP_ERRORS.NO_FERTILISER_SELECTED);
-  }
-
-  if (!isFertiliser(action.fertiliser)) {
-    throw new Error(FERTILISE_CROP_ERRORS.NOT_A_FERTILISER);
   }
 
   const fertiliserAmount = inventory[action.fertiliser] || new Decimal(0);
@@ -96,23 +81,20 @@ export function fertiliseCrop({
     throw new Error(FERTILISE_CROP_ERRORS.NOT_ENOUGH_FERTILISER);
   }
 
-  if (!screenTracker.calculate()) {
-    throw new Error(FERTILISE_CROP_ERRORS.INVALID_PLANT);
-  }
-
-  plots[action.plotIndex] = {
+  plots[action.plotID] = {
     ...plot,
     crop: {
       ...crop,
-      plantedAt: crop.plantedAt - (cropDetails.harvestSeconds * 1000) / 2,
-      // Rapid Growth is the only available fertiliser right now
-      fertilisers: [
-        ...fertilisers,
-        {
-          name: action.fertiliser,
-          fertilisedAt: createdAt,
-        },
-      ],
+      plantedAt: getPlantedAt(
+        action.fertiliser,
+        crop.plantedAt,
+        createdAt,
+        cropDetails
+      ),
+      fertiliser: {
+        name: action.fertiliser,
+        fertilisedAt: createdAt,
+      },
     },
   };
 

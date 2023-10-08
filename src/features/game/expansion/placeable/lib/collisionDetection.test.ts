@@ -893,8 +893,6 @@ describe("isWithinAOE", () => {
         plotPosition
       );
 
-      console.log(idx, isPlotWithinAoE);
-
       expect(isPlotWithinAoE).toBe(false);
     });
   });
@@ -909,5 +907,17 @@ describe("isWithinAOE", () => {
     );
 
     expect(cropPlot).toBe(true);
+  });
+
+  it("returns false if the crop is within the Gnome AOE", () => {
+    const plot: Position = { x: -1, y: -1, ...plotDimensions };
+
+    const cropPlot = isWithinAOE(
+      "Gnome",
+      { x: 0, y: 0, height: 1, width: 1 },
+      plot
+    );
+
+    expect(cropPlot).toBe(false);
   });
 });

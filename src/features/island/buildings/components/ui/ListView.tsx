@@ -10,6 +10,7 @@ import { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { hasFeatureAccess } from "lib/flags";
 
 const CONTENT_HEIGHT = 380;
 
@@ -23,12 +24,25 @@ export const ListView: React.FC<{
     BUILDINGS()[a][0].unlocksAtLevel > BUILDINGS()[b][0].unlocksAtLevel ? 1 : -1
   );
 
+  const FILTERED_BUILDINGS = () => {
+    if (hasFeatureAccess(inventory, "COMPOSTERS")) {
+      return buildings;
+    }
+    // filter out Basic Composter, Advanced Composter and Expert Composter
+    return buildings.filter((building) => {
+      if (building === "Basic Composter") return false;
+      if (building === "Advanced Composter") return false;
+      if (building === "Expert Composter") return false;
+      return true;
+    });
+  };
+
   return (
     <div
       style={{ maxHeight: CONTENT_HEIGHT }}
       className="w-full pr-1 pt-2 overflow-y-auto scrollable"
     >
-      {buildings.map((buildingName, index) => {
+      {FILTERED_BUILDINGS().map((buildingName, index) => {
         // The unlock at levels for the building
         const buildingUnlockLevels = BUILDINGS()[buildingName].map(
           ({ unlocksAtLevel }) => unlocksAtLevel
