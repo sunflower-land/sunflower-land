@@ -934,7 +934,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   Cattlegrim: (state) =>
     canWithdrawTimebasedItem(new Date("2023-09-30")) &&
     canWithdrawBoostedWearable("Cattlegrim", state), // Auction
-  "Crumple Crown": () => canWithdrawTimebasedItem(new Date("2023-09-20")), // Auction
+  "Crumple Crown": () => canWithdrawTimebasedItem(new Date("2023-10-19")), // Auction
   "Merch Bucket Hat": () => false,
   "Merch Coffee Mug": () => false,
   "Dawn Breaker Tee": () => false,
