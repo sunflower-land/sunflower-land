@@ -6,11 +6,7 @@ import { BlockBucksModal } from "./components/BlockBucksModal";
 import { StoreOnChainModal } from "./components/StoreOnChainModal";
 import { GoldPassModal } from "features/game/expansion/components/GoldPass";
 
-type GlobalModal =
-  | "BUY_BLOCK_BUCKS"
-  | "STORE_ON_CHAIN"
-  | "GOLD_PASS"
-  | "BUD_ANNOUNCEMENT";
+type GlobalModal = "BUY_BLOCK_BUCKS" | "STORE_ON_CHAIN" | "GOLD_PASS";
 
 export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;

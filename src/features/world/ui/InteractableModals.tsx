@@ -429,8 +429,19 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
                 {
                   text: "Read more",
                   cb: () => {
-                    closeModal();
-                    openModal("BUD_ANNOUNCEMENT");
+                    window.open(
+                      "https://docs.sunflower-land.com/player-guides/bud-nfts",
+                      "_blank"
+                    );
+                  },
+                },
+                {
+                  text: "Buds Collection on Opensea",
+                  cb: () => {
+                    window.open(
+                      "https://opensea.io/collection/sunflower-land-buds",
+                      "_blank"
+                    );
                   },
                 },
               ],
