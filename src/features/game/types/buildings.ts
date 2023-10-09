@@ -17,7 +17,10 @@ export type BuildingName =
   | "Deli"
   | "Smoothie Shack"
   | "Toolshed"
-  | "Warehouse";
+  | "Warehouse"
+  | "Basic Composter"
+  | "Advanced Composter"
+  | "Expert Composter";
 
 export type Ingredient = {
   item: InventoryItemName;
@@ -330,6 +333,53 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 60 * 2,
     },
   ],
+  "Basic Composter": [
+    {
+      unlocksAtLevel: 6,
+      ingredients: [
+        {
+          item: "Wood",
+          amount: new Decimal(5),
+        },
+        {
+          item: "Stone",
+          amount: new Decimal(5),
+        },
+      ],
+      sfl: marketRate(0),
+      constructionSeconds: 60 * 60,
+    },
+  ],
+  "Advanced Composter": [
+    {
+      unlocksAtLevel: 10,
+      ingredients: [
+        {
+          item: "Wood",
+          amount: new Decimal(50),
+        },
+        {
+          item: "Stone",
+          amount: new Decimal(25),
+        },
+      ],
+      sfl: marketRate(0),
+      constructionSeconds: 60 * 60 * 2,
+    },
+  ],
+  "Expert Composter": [
+    {
+      unlocksAtLevel: 18,
+      ingredients: [
+        {
+          item: "Gold",
+          amount: new Decimal(50),
+        },
+      ],
+      sfl: marketRate(0),
+      constructionSeconds: 60 * 60 * 4,
+    },
+  ],
 });
 
 export type Dimensions = { width: number; height: number };
@@ -348,4 +398,7 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   "Smoothie Shack": { height: 2, width: 3 },
   Toolshed: { height: 3, width: 2 },
   Warehouse: { height: 2, width: 3 },
+  "Basic Composter": { height: 2, width: 2 },
+  "Advanced Composter": { height: 2, width: 2 },
+  "Expert Composter": { height: 2, width: 2 },
 };

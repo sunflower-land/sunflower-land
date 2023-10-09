@@ -5314,4 +5314,114 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
     ],
   },
+  "Basic Composter": {
+    description:
+      "Creates a nurturing Sprout Mix compost and unearths Earthworm bait for your fishing adventures!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1014.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Building" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Advanced Composter": {
+    description:
+      "Produces a bountiful Fruitful Blend compost and discovers Grub bait eager to join you in fishing!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1015.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Building" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Expert Composter": {
+    description:
+      "Generates a robust Rapid Root compost mix and reveals Red Wiggler bait for the perfect fishing expedition!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1016.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Building" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  Earthworm: {
+    description: "A wriggly worm used to catch fish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  Grub: {
+    description: "A juicy grub used to catch fish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Red Wiggler": {
+    description: "A red wiggler used to catch fish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Sprout Mix": {
+    description: "Sprout Mix increases your crop yield by +0.2",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Boost", value: "Crop" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Crop Yield",
+        value: 0.2,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+
+  "Fruitful Blend": {
+    description: "This compost boosts your fruit yield by +0.25",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Boost", value: "Fruit" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Fruit Yield",
+        value: 0.25,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+
+  "Rapid Root": {
+    description: "Rapid Root boosts your crop speed by +50%",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Boost", value: "Crop" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Crop Growth Time",
+        value: -50,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
 };

@@ -8,13 +8,13 @@ import { Bar, ProgressBar } from "components/ui/ProgressBar";
 import { TimerPopover } from "../../common/TimerPopover";
 import { getTimeLeft } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { Fertilisers } from "features/game/types/game";
 import classNames from "classnames";
+import { CropFertiliser } from "features/game/types/game";
 
 interface Props {
   cropName?: CropName;
   plantedAt?: number;
-  fertilisers?: Fertilisers;
+  fertiliser?: CropFertiliser;
   procAnimation?: JSX.Element;
   touchCount: number;
   showTimers: boolean;
@@ -23,7 +23,7 @@ interface Props {
 const FertilePlotComponent: React.FC<Props> = ({
   cropName,
   plantedAt,
-  fertilisers,
+  fertiliser,
   procAnimation,
   touchCount,
   showTimers,
@@ -82,8 +82,8 @@ const FertilePlotComponent: React.FC<Props> = ({
         </div>
       </div>
 
-      {/* Fertilisers */}
-      {!!fertilisers && (
+      {/* Fertiliser */}
+      {!!fertiliser && (
         <div
           className="absolute z-10 pointer-events-none"
           style={{
@@ -92,16 +92,14 @@ const FertilePlotComponent: React.FC<Props> = ({
             width: `${PIXEL_SCALE * 10}px`,
           }}
         >
-          {fertilisers.map(({ name }) => (
-            <img
-              key={name}
-              src={ITEM_DETAILS[name].image}
-              style={{
-                width: `${PIXEL_SCALE * 10}px`,
-                marginBottom: `${PIXEL_SCALE * 1}px`,
-              }}
-            />
-          ))}
+          <img
+            key={fertiliser.name}
+            src={ITEM_DETAILS[fertiliser.name].image}
+            style={{
+              width: `${PIXEL_SCALE * 10}px`,
+              marginBottom: `${PIXEL_SCALE * 1}px`,
+            }}
+          />
         </div>
       )}
 

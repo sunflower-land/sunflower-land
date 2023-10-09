@@ -144,6 +144,7 @@ export const RESOURCE_COMPONENTS: Record<
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
 const _collectibles = (state: MachineState) => state.context.state.collectibles;
+const _buildings = (state: MachineState) => state.context.state.buildings;
 const _crops = (state: MachineState) => state.context.state.crops;
 const _stones = (state: MachineState) => state.context.state.stones;
 const _iron = (state: MachineState) => state.context.state.iron;

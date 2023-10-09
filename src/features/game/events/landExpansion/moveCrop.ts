@@ -107,7 +107,7 @@ export function isLocked(
       collectibles["Sir Goldensnout"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Sir Goldensnout"];
 
-    const scarecrowPosition: Position = {
+    const itemPosition: Position = {
       x: basicScarecrowCoordinates.x,
       y: basicScarecrowCoordinates.y,
       height: scarecrowDimensions.height,
@@ -121,7 +121,7 @@ export function isLocked(
       width: plot.width,
     };
 
-    if (isWithinAOE("Sir Goldensnout", scarecrowPosition, plotPosition)) {
+    if (isWithinAOE("Sir Goldensnout", itemPosition, plotPosition)) {
       return true;
     }
   }
@@ -214,8 +214,7 @@ export function moveCrop({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
-  const crops = stateCopy.crops;
-  const collectibles = stateCopy.collectibles;
+  const { crops, collectibles } = stateCopy;
   const plot = crops[action.id];
 
   if (stateCopy.bumpkin === undefined) {

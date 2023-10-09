@@ -217,6 +217,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Fruit Patch": 623,
   Boulder: 624,
   "Basic Land": 625,
+  Earthworm: 626,
+  Grub: 627,
+  "Red Wiggler": 628,
+  "Sprout Mix": 629,
+  "Fruitful Blend": 630,
+  "Rapid Root": 631,
 
   "Green Thumb": 701,
   "Barn Manager": 702,
@@ -336,6 +342,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Toolshed: 1011,
   Warehouse: 1012,
   "Town Center": 1013,
+  "Basic Composter": 1014,
+  "Advanced Composter": 1015,
+  "Expert Composter": 1016,
 
   // Temporary Bumpkin items
   "Chef Apron": 1101,

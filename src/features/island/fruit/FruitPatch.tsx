@@ -18,6 +18,8 @@ import {
 } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { ResourceDropAnimator } from "components/animation/ResourceDropAnimator";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { setImageWidth } from "lib/images";
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
@@ -61,7 +63,6 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   const [collectedFruitName, setCollectedFruitName] = useState<FruitName>();
   const [collectedFruitAmount, setCollectedFruitAmount] = useState<number>();
   const [collectedWoodAmount, setCollectedWoodAmount] = useState<number>();
-
   const fruit = useSelector(
     gameService,
     (state) => state.context.state.fruitPatches[id]?.fruit,
@@ -90,6 +91,17 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
       if (!newState.matches("hoarding")) {
         plantAudio.play();
       }
+    } catch {
+      undefined;
+    }
+  };
+
+  const fertilise = () => {
+    try {
+      gameService.send("fruit.fertilised", {
+        patchID: id,
+        fertiliser: selectedItem,
+      });
     } catch {
       undefined;
     }
@@ -165,9 +177,27 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         plantTree={plantTree}
         harvestFruit={harvestFruit}
         removeTree={removeTree}
+        fertilise={fertilise}
         playShakingAnimation={playShakingAnimation}
         hasAxes={hasAxes}
       />
+
+      {/* Fertiliser */}
+      {!!fruit?.fertiliser && (
+        <img
+          className="absolute z-10 pointer-events-none"
+          key={fruit.fertiliser.name}
+          src={ITEM_DETAILS[fruit.fertiliser.name].image}
+          style={{
+            opacity: 0,
+            top: `${PIXEL_SCALE * -14}px`,
+            left: `${PIXEL_SCALE * 14}px`,
+          }}
+          onLoad={(e) => {
+            setImageWidth(e.currentTarget);
+          }}
+        />
+      )}
 
       {/* Fruit drop animation */}
       {collectingFruit && (

@@ -322,6 +322,8 @@ export const OFFLINE_FARM: GameState = {
     "Crab Claw": 95,
   },
   inventory: {
+    Rod: new Decimal(1),
+    Earthworm: new Decimal(10),
     "El Pollo Veloz": new Decimal(1),
     "Bud Seedling": new Decimal(1),
     Gnome: new Decimal(1),
@@ -444,6 +446,7 @@ export const OFFLINE_FARM: GameState = {
     },
   },
   chickens: {},
+  fishing: { wharf: {} },
 
   airdrops: [],
 
@@ -525,7 +528,7 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    Market: [
+    Workbench: [
       {
         coordinates: { x: 3, y: 0 },
         createdAt: 0,

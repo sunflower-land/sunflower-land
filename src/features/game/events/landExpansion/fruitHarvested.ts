@@ -6,8 +6,17 @@ import {
   BumpkinActivityName,
   trackActivity,
 } from "features/game/types/bumpkinActivity";
-import { FRUIT, FruitName, FRUIT_SEEDS } from "features/game/types/fruits";
-import { Collectibles, GameState } from "features/game/types/game";
+import {
+  FRUIT,
+  FruitName,
+  FRUIT_SEEDS,
+  Fruit,
+} from "features/game/types/fruits";
+import {
+  Collectibles,
+  GameState,
+  PlantedFruit,
+} from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { getTimeLeft } from "lib/utils/time";
 import { FruitPatch } from "features/game/types/game";
@@ -21,6 +30,23 @@ type Options = {
   state: Readonly<GameState>;
   action: HarvestFruitAction;
   createdAt?: number;
+};
+
+export const isFruitReadyToHarvest = (
+  createdAt: number,
+  plantedFruit: PlantedFruit,
+  fruitDetails: Fruit
+) => {
+  const { seed } = FRUIT()[fruitDetails.name];
+  const { plantSeconds } = FRUIT_SEEDS()[seed];
+
+  return (
+    createdAt -
+      (plantedFruit.harvestedAt
+        ? plantedFruit.harvestedAt
+        : plantedFruit.plantedAt) >=
+    plantSeconds * 1000
+  );
 };
 
 type FruitYield = {
@@ -149,11 +175,14 @@ export function harvestFruit({
   );
 
   patch.fruit.amount = getFruitYield({
-    name,
     collectibles: collectibles,
     buds: stateCopy.buds ?? {},
     wearables: bumpkin.equipped,
+    name,
   });
+
+  // remove fertiliser
+  delete patch.fruit.fertiliser;
 
   const activityName: BumpkinActivityName = `${name} Harvested`;
 

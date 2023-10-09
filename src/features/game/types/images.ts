@@ -298,6 +298,19 @@ import deli from "src/assets/buildings/deli.png";
 import smoothieShack from "src/assets/buildings/smoothie_shack.webp";
 import toolshed from "src/assets/buildings/toolshed.png";
 import warehouse from "src/assets/buildings/warehouse.png";
+import basicComposter from "assets/composters/composter_basic.png";
+import advancedComposter from "assets/composters/composter_advanced.png";
+import expertComposter from "assets/composters/composter_expert.png";
+
+// Composter Bait
+import earthworm from "assets/composters/earthworm.png";
+import grub from "assets/composters/grub.png";
+import redWiggler from "assets/composters/red_wiggler.png";
+
+// Compost
+import sproutMix from "assets/composters/sprout_mix.png";
+import fruitfulBlend from "assets/composters/fruitful_blend.png";
+import rapidRoot from "assets/composters/rapid_root.png";
 
 // Clothing
 import chefHat from "src/assets/icons/chef_hat.png";
@@ -479,6 +492,7 @@ import {
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { BAIT, CROP_COMPOST, FRUIT_COMPOST } from "./composters";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -2093,6 +2107,23 @@ export const ITEM_DETAILS: Items = {
       "Command the regal power of Queen Cornelia and experience a magnificent Area of Effect boost to your corn production. +1 Corn.",
   },
 
+  // Composters
+  "Basic Composter": {
+    image: basicComposter,
+    description:
+      "Creates a nurturing Sprout Mix compost and unearths Earthworm bait for your fishing adventures!",
+  },
+  "Advanced Composter": {
+    image: advancedComposter,
+    description:
+      "Produces a bountiful Fruitful Blend compost and discovers Grub bait eager to join you in fishing!",
+  },
+  "Expert Composter": {
+    image: expertComposter,
+    description:
+      "Generates a robust Rapid Root compost mix and reveals Red Wiggler bait for the perfect fishing expedition!",
+  },
+
   // Season tickets
   "Solar Flare Ticket": {
     image: solarFlareTicket,
@@ -2472,5 +2503,33 @@ export const ITEM_DETAILS: Items = {
   "White Crow": {
     image: whiteCrow,
     description: "A mysterious and ethereal white crow",
+  },
+
+  // Bait
+  Earthworm: {
+    image: earthworm,
+    description: BAIT.Earthworm.description,
+  },
+  Grub: {
+    image: grub,
+    description: BAIT.Grub.description,
+  },
+  "Red Wiggler": {
+    image: redWiggler,
+    description: BAIT["Red Wiggler"].description,
+  },
+
+  // Compost
+  "Sprout Mix": {
+    image: sproutMix,
+    description: CROP_COMPOST["Sprout Mix"].description,
+  },
+  "Fruitful Blend": {
+    image: fruitfulBlend,
+    description: FRUIT_COMPOST["Fruitful Blend"].description,
+  },
+  "Rapid Root": {
+    image: rapidRoot,
+    description: CROP_COMPOST["Rapid Root"].description,
   },
 };

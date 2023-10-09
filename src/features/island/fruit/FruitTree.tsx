@@ -56,6 +56,7 @@ interface Props {
   plantTree: () => void;
   harvestFruit: () => void;
   removeTree: () => void;
+  fertilise: () => void;
   playShakingAnimation: boolean;
   hasAxes: boolean;
 }
@@ -65,6 +66,7 @@ export const FruitTree: React.FC<Props> = ({
   plantTree,
   harvestFruit,
   removeTree,
+  fertilise,
   playShakingAnimation,
   hasAxes,
 }) => {
@@ -93,17 +95,23 @@ export const FruitTree: React.FC<Props> = ({
 
   // Seedling tree
   if (treeStatus.stage === "Seedling" && !!treeStatus.timeLeft) {
-    return <FruitSeedling fruitName={name} timeLeft={treeStatus.timeLeft} />;
+    return (
+      <div className="absolute w-full h-full" onClick={fertilise}>
+        <FruitSeedling fruitName={name} timeLeft={treeStatus.timeLeft} />
+      </div>
+    );
   }
 
   // Replenishing tree
   if (treeStatus.stage === "Replenishing" && !!treeStatus.timeLeft) {
     return (
-      <ReplenishingTree
-        fruitName={name}
-        timeLeft={treeStatus.timeLeft}
-        playShakeAnimation={playShakingAnimation}
-      />
+      <div className="absolute w-full h-full" onClick={fertilise}>
+        <ReplenishingTree
+          fruitName={name}
+          timeLeft={treeStatus.timeLeft}
+          playShakeAnimation={playShakingAnimation}
+        />
+      </div>
     );
   }
 

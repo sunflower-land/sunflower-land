@@ -11,6 +11,7 @@ import { GarbageName } from "./garbage";
 import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { BeachBountyTreasure, TreasureName } from "./treasure";
+import { CompostName } from "./composters";
 
 type BuyableName = SeedName | Animal | DecorationName | BeanName;
 type SellableName =
@@ -40,6 +41,7 @@ export type CraftedEvent = `${
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
 export type TreasureEvent = `${TreasureName} Dug`;
+export type ComposterCollectEvent = `${CompostName} Collected`;
 
 export type BumpkinActivityName =
   | CookEvent
@@ -75,7 +77,8 @@ export type BumpkinActivityName =
   | "Easter Egg Collected"
   | "Chore Completed"
   | "Chore Skipped"
-  | "Bud Placed";
+  | "Bud Placed"
+  | ComposterCollectEvent;
 
 export function trackActivity(
   activityName: BumpkinActivityName,

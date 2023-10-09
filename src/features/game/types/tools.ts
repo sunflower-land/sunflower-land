@@ -3,13 +3,14 @@
  */
 
 import Decimal from "decimal.js-light";
-import { Inventory } from "./game";
+import { GameState, Inventory } from "./game";
 
 export type WorkbenchToolName =
   | "Axe"
   | "Pickaxe"
   | "Stone Pickaxe"
-  | "Iron Pickaxe";
+  | "Iron Pickaxe"
+  | "Rod";
 
 export type TreasureToolName = "Sand Shovel" | "Sand Drill";
 
@@ -21,7 +22,9 @@ export interface Tool {
   disabled?: boolean;
 }
 
-export const WORKBENCH_TOOLS: () => Record<WorkbenchToolName, Tool> = () => ({
+export const WORKBENCH_TOOLS: (
+  gameState?: GameState
+) => Record<WorkbenchToolName, Tool> = () => ({
   Axe: {
     name: "Axe",
     description: "Used to collect wood",
@@ -53,6 +56,15 @@ export const WORKBENCH_TOOLS: () => Record<WorkbenchToolName, Tool> = () => ({
       Iron: new Decimal(5),
     },
     sfl: new Decimal(0.25),
+  },
+  Rod: {
+    name: "Rod",
+    description: "Used to collect fish",
+    ingredients: {
+      Wood: new Decimal(3),
+      Stone: new Decimal(1),
+    },
+    sfl: new Decimal(0.0625),
   },
 });
 

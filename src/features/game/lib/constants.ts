@@ -23,7 +23,7 @@ export const CHICKEN_COOP_MULTIPLIER = 1.5;
 
 export const POPOVER_TIME_MS = 1000;
 
-function isBuildingReady(building: PlacedItem[]) {
+export function isBuildingReady(building: PlacedItem[]) {
   return building.some((b) => b.readyAt <= Date.now());
 }
 
@@ -33,6 +33,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     Pickaxe: new Decimal(60),
     "Stone Pickaxe": new Decimal(20),
     "Iron Pickaxe": new Decimal(5),
+    Rod: new Decimal(50),
   };
 
   // increase in 50% tool stock if you have a toolshed
@@ -45,6 +46,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
       Pickaxe: new Decimal(90),
       "Stone Pickaxe": new Decimal(30),
       "Iron Pickaxe": new Decimal(8),
+      Rod: new Decimal(100),
     };
   }
 
@@ -200,6 +202,7 @@ export const TEST_FARM: GameState = {
   },
   stock: INITIAL_STOCK(),
   chickens: {},
+  fishing: { wharf: {} },
   wardrobe: {},
   createdAt: new Date().getTime(),
   conversations: [],
@@ -428,6 +431,7 @@ export const EMPTY: GameState = {
   crops: {},
   stones: {},
   trees: {},
+  fishing: { wharf: {} },
   mushrooms: {
     spawnedAt: 0,
     mushrooms: {},
