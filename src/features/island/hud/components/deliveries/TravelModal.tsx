@@ -29,6 +29,7 @@ export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
         centered
         show={isOpen}
         onHide={onClose}
+        onShow={() => gameService.send("SAVE")}
         dialogClassName="md:max-w-3xl"
       >
         <CloseButtonPanel
