@@ -13,6 +13,10 @@ import { FishermanModal } from "./FishermanModal";
 import { FishermanNPC } from "./FishermanNPC";
 import { FishingService, fishingMachine } from "./fishingMachines";
 import { Button } from "components/ui/Button";
+import { getKeys } from "features/game/types/craftables";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { InventoryItemName } from "features/game/types/game";
+import { FishingBait } from "features/game/types/fishing";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
@@ -21,8 +25,14 @@ export const Fisherman: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { gameService, showTimers } = useContext(Context);
 
+  const [gameState] = useActor(gameService);
+  const fishing = gameState.context.state.fishing;
   const fishingService = useInterpret(fishingMachine, {
-    context: {},
+    context: {
+      castedAt: fishing.wharf.castedAt,
+      caught: fishing.wharf.caught,
+      // fish: fishing.wharf.fish,
+    },
   }) as unknown as FishingService;
 
   const [fishingState] = useActor(fishingService);
@@ -40,11 +50,13 @@ export const Fisherman: React.FC = () => {
     }
   };
 
-  const cast = () => {
+  const cast = (bait: FishingBait, chum?: InventoryItemName) => {
+    gameService.send("rod.casted", { bait, chum });
     fishingService.send("CAST");
     setShowModal(false);
   };
 
+  console.log({ fishing: fishingState.context.caught });
   return (
     <>
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
@@ -65,6 +77,12 @@ export const Fisherman: React.FC = () => {
           bumpkinParts={NPC_WEARABLES["reelin roy"]}
         >
           <p>Congrats</p>
+          {getKeys(fishingState.context.caught ?? {}).map((name) => {
+            <div className="flex" key={name}>
+              <img src={ITEM_DETAILS[name].image} className="h-6" />
+              <span className="text-sm">{name}</span>
+            </div>;
+          })}
           <Button onClick={() => fishingService.send("CLAIMED")}>Ok</Button>
         </CloseButtonPanel>
       </Modal>

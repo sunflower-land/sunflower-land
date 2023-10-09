@@ -1,7 +1,9 @@
 import { createMachine, Interpreter, State } from "xstate";
+import { InventoryItemName } from "features/game/types/game";
 
 export interface FishingContext {
-  fishedAt?: number;
+  castedAt?: number;
+  caught: Partial<Record<InventoryItemName, number>>;
 }
 
 export type FishingState = {
@@ -31,8 +33,23 @@ export const fishingMachine = createMachine<
   FishEvent,
   FishingState
 >({
-  initial: "idle",
+  initial: "initial",
   states: {
+    initial: {
+      always: [
+        {
+          target: "ready",
+          cond: (c) => !!c.caught,
+        },
+        {
+          target: "waiting",
+          cond: (c) => !!c.castedAt,
+        },
+        {
+          target: "idle",
+        },
+      ],
+    },
     idle: {
       on: {
         CAST: { target: "casting" },

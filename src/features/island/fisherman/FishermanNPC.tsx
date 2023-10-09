@@ -50,6 +50,9 @@ export const FishermanNPC: React.FC<Props> = ({ onClick, fishingService }) => {
 
   const [fishingState] = useActor(fishingService);
 
+  const state = fishingState.value as FishingState["value"];
+
+  console.log({ state: fishingState.value });
   const onIdleFinish = () => {
     console.log("Check");
     if (fishingState.matches("casting")) {
@@ -143,8 +146,8 @@ export const FishermanNPC: React.FC<Props> = ({ onClick, fishingService }) => {
         zoomScale={scale}
         fps={14}
         steps={56}
-        startAt={FISHING_FRAMES.idle.startAt}
-        endAt={FISHING_FRAMES.idle.endAt}
+        startAt={FISHING_FRAMES[state].startAt}
+        endAt={FISHING_FRAMES[state].endAt}
         direction={`forward`}
         autoplay
         loop
