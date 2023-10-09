@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
 
@@ -10,11 +10,18 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { FishingService, FishingState } from "./fishingMachines";
+import { Context } from "features/game/GameProvider";
+import { Modal } from "react-bootstrap";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { NPC_WEARABLES } from "lib/npcs";
+import { getKeys } from "features/game/types/craftables";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { Button } from "components/ui/Button";
+import { CONFIG } from "lib/config";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
-const FISHING_FRAMES: Record<FishingState["value"], SpriteFrames> = {
+const FISHING_FRAMES: Record<FishingState, SpriteFrames> = {
   idle: {
     startAt: 1,
     endAt: 9,
@@ -40,63 +47,113 @@ const FISHING_FRAMES: Record<FishingState["value"], SpriteFrames> = {
     endAt: 56,
   },
 };
+
+type FishingState =
+  | "idle"
+  | "casting"
+  | "ready"
+  | "waiting"
+  | "reeling"
+  | "caught";
+
 interface Props {
-  fishingService: FishingService;
   onClick: () => void;
 }
-export const FishermanNPC: React.FC<Props> = ({ onClick, fishingService }) => {
+
+export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const spriteRef = useRef<SpriteSheetInstance>();
+
+  const [showReelLabel, setShowReelLabel] = useState(false);
+  const [showCaughtModal, setShowCaughtModal] = useState(false);
+
+  const { gameService } = useContext(Context);
+  // TODO selectors
+  const [
+    {
+      context: {
+        state: { fishing },
+      },
+    },
+  ] = useActor(gameService);
+
+  let initialState: FishingState = "idle";
+  if (fishing.wharf.caught) {
+    initialState = "caught";
+  } else if (fishing.wharf.castedAt) {
+    initialState = "waiting";
+  }
+
   const { scale } = useContext(ZoomContext);
 
-  const [fishingState] = useActor(fishingService);
-
   const onIdleFinish = () => {
-    console.log("Check");
-    if (fishingState.matches("casting")) {
+    // CAST
+    if (fishing.wharf.castedAt && !fishing.wharf.caught) {
       spriteRef.current?.setStartAt(FISHING_FRAMES.casting.startAt);
       spriteRef.current?.setEndAt(FISHING_FRAMES.casting.endAt);
     }
   };
 
   const onCastFinish = () => {
-    fishingService.send("WAIT");
     spriteRef.current?.setStartAt(FISHING_FRAMES.waiting.startAt);
     spriteRef.current?.setEndAt(FISHING_FRAMES.waiting.endAt);
 
     // TESTING
-    setTimeout(() => fishingService.send("BIT"), 1000);
-  };
-
-  const onWaitFinish = () => {
-    if (fishingState.matches("ready")) {
-      console.log("SET THE REEEEEEL");
-      spriteRef.current?.setStartAt(FISHING_FRAMES.reeling.startAt);
-      spriteRef.current?.setEndAt(FISHING_FRAMES.reeling.endAt);
+    if (!CONFIG.API_URL) {
+      setTimeout(() => {
+        fishing.wharf = { castedAt: 10000, caught: { Gold: 2 } };
+      }, 1000);
     }
   };
 
-  const onReelFinish = () => {
-    console.log("On reel finish");
+  const onWaitFinish = () => {
+    if (fishing.wharf.caught) {
+      console.log("SET THE REEEEEEL");
+      spriteRef.current?.setStartAt(FISHING_FRAMES.reeling.startAt);
+      spriteRef.current?.setEndAt(FISHING_FRAMES.reeling.endAt);
+      setShowReelLabel(true);
+    }
   };
 
   const onCaughtFinish = () => {
-    console.log("Show modal!");
-    fishingService.send("CAUGHT");
+    setShowCaughtModal(true);
+
     spriteRef.current?.setStartAt(FISHING_FRAMES.idle.startAt);
     spriteRef.current?.setEndAt(FISHING_FRAMES.idle.endAt);
   };
 
   const reelIn = () => {
-    fishingService.send("REEL");
-
     spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
     spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
+    setShowReelLabel(false);
   };
+
+  const claim = () => {
+    gameService.send("rod.reeled");
+    setShowCaughtModal(false);
+  };
+
+  console.log("Re-render");
 
   return (
     <>
-      {fishingState.matches("ready") && (
-        <>
+      <Modal centered show={showCaughtModal} onHide={claim}>
+        <CloseButtonPanel
+          onClose={claim}
+          bumpkinParts={NPC_WEARABLES["reelin roy"]}
+        >
+          <p>Congrats</p>
+          {getKeys(fishing.wharf.caught ?? {}).map((name) => (
+            <div className="flex" key={name}>
+              <img src={ITEM_DETAILS[name].image} className="h-6" />
+              <span className="text-sm">{name}</span>
+            </div>
+          ))}
+          <Button onClick={claim}>Ok</Button>
+        </CloseButtonPanel>
+      </Modal>
+
+      {showReelLabel && (
+        <React.Fragment>
           <img
             src={SUNNYSIDE.icons.expression_alerted}
             style={{
@@ -120,11 +177,11 @@ export const FishermanNPC: React.FC<Props> = ({ onClick, fishingService }) => {
             }}
             className="absolute z-10 cursor-pointer"
           />
-        </>
+        </React.Fragment>
       )}
       <Spritesheet
         className={classNames("absolute  z-50", {
-          "hover:img-highlight cursor-pointer": fishingState.matches("idle"),
+          "hover:img-highlight cursor-pointer": !fishing.wharf.castedAt,
         })}
         style={{
           width: `${PIXEL_SCALE * 58}px`,
@@ -133,7 +190,12 @@ export const FishermanNPC: React.FC<Props> = ({ onClick, fishingService }) => {
 
           imageRendering: "pixelated",
         }}
-        onClick={onClick}
+        onClick={() => {
+          if (fishing.wharf.castedAt) {
+            return;
+          }
+          onClick();
+        }}
         getInstance={(spritesheet) => {
           spriteRef.current = spritesheet;
         }}
@@ -143,8 +205,8 @@ export const FishermanNPC: React.FC<Props> = ({ onClick, fishingService }) => {
         zoomScale={scale}
         fps={14}
         steps={56}
-        startAt={FISHING_FRAMES.idle.startAt}
-        endAt={FISHING_FRAMES.idle.endAt}
+        startAt={FISHING_FRAMES[initialState].startAt}
+        endAt={FISHING_FRAMES[initialState].endAt}
         direction={`forward`}
         autoplay
         loop
@@ -160,10 +222,6 @@ export const FishermanNPC: React.FC<Props> = ({ onClick, fishingService }) => {
           {
             frame: FISHING_FRAMES.waiting.endAt - 1,
             callback: onWaitFinish,
-          },
-          {
-            frame: FISHING_FRAMES.reeling.endAt - 1,
-            callback: onReelFinish,
           },
           {
             frame: FISHING_FRAMES.caught.endAt - 1,

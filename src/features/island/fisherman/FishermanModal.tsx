@@ -13,6 +13,7 @@ import { getKeys } from "features/game/types/craftables";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
+import { CHUM_AMOUNTS, FishingBait } from "features/game/types/fishing";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -24,27 +25,6 @@ function acknowledgeRead() {
 function hasRead() {
   return !!localStorage.getItem(LOCAL_STORAGE_KEY);
 }
-
-export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
-  Gold: 1,
-  Iron: 5,
-  Egg: 5,
-  Sunflower: 50,
-  Potato: 20,
-  Pumpkin: 20,
-  Cabbage: 10,
-  Carrot: 10,
-  Beetroot: 10,
-  Cauliflower: 5,
-  Radish: 5,
-  Eggplant: 5,
-  Parsnip: 5,
-  Wheat: 5,
-  Kale: 5,
-  Blueberry: 3,
-  Orange: 3,
-  Apple: 3,
-};
 
 const ChumSelection: React.FC<{
   inventory: Inventory;
@@ -112,11 +92,10 @@ const ChumSelection: React.FC<{
 };
 
 // TODO real types
-type BaitName = "Earth Worm" | "Red Wiggler" | "Grub" | "Lure";
 type Bait = { catches: InventoryItemName[] };
 
-const BAIT: Record<BaitName, Bait> = {
-  "Earth Worm": {
+const BAIT: Record<FishingBait, Bait> = {
+  Earthworm: {
     catches: ["Starfish", "Starfish", "Starfish"],
   },
   "Red Wiggler": {
@@ -132,21 +111,24 @@ const BAIT: Record<BaitName, Bait> = {
   Grub: {
     catches: ["Starfish", "Starfish", "Starfish"],
   },
-  Lure: {
-    catches: [
-      "Starfish",
-      "Starfish",
-      "Starfish",
-      "Starfish",
-      "Starfish",
-      "Starfish",
-      "Starfish",
-      "Starfish",
-      "Starfish",
-    ],
-  },
+  // Lure: {
+  //   catches: [
+  //     "Starfish",
+  //     "Starfish",
+  //     "Starfish",
+  //     "Starfish",
+  //     "Starfish",
+  //     "Starfish",
+  //     "Starfish",
+  //     "Starfish",
+  //     "Starfish",
+  //   ],
+  // },
 };
-const BaitSelection: React.FC<{ onCast: () => void }> = ({ onCast }) => {
+
+const BaitSelection: React.FC<{
+  onCast: (bait: FishingBait, chum?: InventoryItemName) => void;
+}> = ({ onCast }) => {
   const { gameService } = useContext(Context);
   const [
     {
@@ -156,7 +138,7 @@ const BaitSelection: React.FC<{ onCast: () => void }> = ({ onCast }) => {
 
   const [showChum, setShowChum] = useState(false);
   const [chum, setChum] = useState<InventoryItemName | undefined>();
-  const [bait, setBait] = useState<BaitName>("Earth Worm");
+  const [bait, setBait] = useState<FishingBait>("Earthworm");
 
   if (showChum) {
     return (
@@ -172,7 +154,7 @@ const BaitSelection: React.FC<{ onCast: () => void }> = ({ onCast }) => {
     );
   }
 
-  const missingRod = !state.inventory["Rod"];
+  const missingRod = !state.inventory["Rod"] || state.inventory.Rod.lt(1);
 
   return (
     <>
@@ -215,9 +197,15 @@ const BaitSelection: React.FC<{ onCast: () => void }> = ({ onCast }) => {
               </div>
             </div>
           </div>
-          <Label className="absolute -top-3 right-0" type={"danger"}>
-            0 available
-          </Label>
+          {!state.inventory[bait] ? (
+            <Label className="absolute -top-3 right-0" type={"danger"}>
+              0 available
+            </Label>
+          ) : (
+            <Label className="absolute -top-3 right-0" type={"default"}>
+              {`${state.inventory[bait]?.toNumber()} available`}
+            </Label>
+          )}
         </OuterPanel>
       </div>
       {chum ? (
@@ -265,7 +253,7 @@ const BaitSelection: React.FC<{ onCast: () => void }> = ({ onCast }) => {
       )}
 
       <Button
-        onClick={onCast}
+        onClick={() => onCast(bait, chum)}
         disabled={
           missingRod || !state.inventory[bait as InventoryItemName]?.gte(1)
         }
@@ -280,7 +268,7 @@ const BaitSelection: React.FC<{ onCast: () => void }> = ({ onCast }) => {
 };
 
 interface Props {
-  onCast: () => void;
+  onCast: (bait: FishingBait, chum?: InventoryItemName) => void;
 }
 
 export const FishermanModal: React.FC<Props> = ({ onCast }) => {

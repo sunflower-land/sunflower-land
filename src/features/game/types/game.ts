@@ -662,6 +662,14 @@ export type TradeListing = {
   buyerId?: number;
 };
 
+export type Fishing = {
+  wharf: {
+    castedAt?: number;
+    chum?: InventoryItemName;
+    caught?: Partial<Record<InventoryItemName, number>>;
+  };
+};
+
 export interface GameState {
   id?: number;
   balance: Decimal;
@@ -693,6 +701,7 @@ export interface GameState {
   iron: Record<string, Rock>;
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;
+  fishing: Fishing;
 
   expansionConstruction?: ExpansionConstruction;
   expansionRequirements?: ExpansionRequirements;
