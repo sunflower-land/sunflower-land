@@ -172,7 +172,7 @@ const BaitSelection: React.FC<{ onCast: () => void }> = ({ onCast }) => {
     );
   }
 
-  const missingRod = !state.inventory["Fishing Rod" as InventoryItemName];
+  const missingRod = !state.inventory["Rod"];
 
   return (
     <>

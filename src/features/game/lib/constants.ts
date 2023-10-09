@@ -33,6 +33,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     Pickaxe: new Decimal(60),
     "Stone Pickaxe": new Decimal(20),
     "Iron Pickaxe": new Decimal(5),
+    Rod: new Decimal(50),
   };
 
   // increase in 50% tool stock if you have a toolshed
@@ -45,6 +46,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
       Pickaxe: new Decimal(90),
       "Stone Pickaxe": new Decimal(30),
       "Iron Pickaxe": new Decimal(8),
+      Rod: new Decimal(100),
     };
   }
 
