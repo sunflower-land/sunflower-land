@@ -349,6 +349,7 @@ import sign from "src/assets/decorations/woodsign.png";
 import observer from "src/assets/decorations/observer.webp";
 import crowRock from "src/assets/decorations/crow_rock.webp";
 import miniCornMaze from "src/assets/decorations/mini_corn_maze.webp";
+import whiteCrow from "src/assets/decorations/white_crow.webp";
 
 import pineTree from "src/assets/decorations/pine_tree.png";
 import fieldMaple from "src/assets/decorations/field_maple.webp";
@@ -2467,5 +2468,9 @@ export const ITEM_DETAILS: Items = {
   "Town Sign": {
     image: sign,
     description: "Show your farm ID with pride!",
+  },
+  "White Crow": {
+    image: whiteCrow,
+    description: "A mysterious and ethereal white crow",
   },
 };

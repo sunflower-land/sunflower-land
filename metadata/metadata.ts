@@ -5304,4 +5304,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "White Crow": {
+    description: "A mysterious and ethereal white crow.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1288.gif",
+    attributes: [
+      { trait_type: "Decoration", value: "Creatures" },
+      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
+    ],
+  },
 };

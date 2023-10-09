@@ -516,6 +516,7 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Sir Goldensnout": () => true,
   "Freya Fox": () => true,
   "Queen Cornelia": () => canWithdrawTimebasedItem(new Date("2023-10-14")),
+  "White Crow": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
@@ -978,7 +979,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Whale Hat": () => canWithdrawTimebasedItem(new Date("2023-08-09")), // AUCTION
   "Pumpkin Shirt": () => false,
   Halo: () => false,
-  Kama: () => false,
+  Kama: () => canWithdrawTimebasedItem(new Date("2023-11-02")), // AUCTION
   "Grey Merch Hoodie": () => false,
   "Unicorn Horn": () => false,
   "Unicorn Hat": () => false,
