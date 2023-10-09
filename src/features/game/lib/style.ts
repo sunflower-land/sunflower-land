@@ -10,6 +10,8 @@ import tableBorder from "assets/ui/panel/table_border2.webp";
 import greenBorder from "assets/ui/panel/green_border.png";
 import tabBorderStart from "assets/ui/panel/tab_border_start.png";
 import tabBorderMiddle from "assets/ui/panel/tab_border_middle.png";
+import tabBorderVerticalStart from "assets/ui/panel/vertical_tab_border_start.png";
+import tabBorderVerticalMiddle from "assets/ui/panel/vertical_tab_border_middle.png";
 import progressBarBorder from "assets/ui/progress/progress_bar_border.png";
 import speechBubbleBorder from "assets/ui/speech_bubble.webp";
 
@@ -94,6 +96,18 @@ export const pixelTabBorderMiddleStyle: React.CSSProperties = {
   borderImage: `url(${tabBorderMiddle})`,
   ...pixelizedBorderStyle,
   borderRadius: `${PIXEL_SCALE * 5}px ${PIXEL_SCALE * 5}px 0 0`,
+};
+
+export const pixelTabBorderVerticalStartStyle: React.CSSProperties = {
+  borderImage: `url(${tabBorderVerticalStart})`,
+  ...pixelizedBorderStyle,
+  borderRadius: `${PIXEL_SCALE * 5}px 0 0 ${PIXEL_SCALE * 5}px`,
+};
+
+export const pixelTabBorderVerticalMiddleStyle: React.CSSProperties = {
+  borderImage: `url(${tabBorderVerticalMiddle})`,
+  ...pixelizedBorderStyle,
+  borderRadius: `${PIXEL_SCALE * 5}px 0 0 ${PIXEL_SCALE * 5}px`,
 };
 
 export const progressBarBorderStyle: React.CSSProperties = {
