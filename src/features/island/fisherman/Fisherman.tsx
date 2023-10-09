@@ -1,4 +1,4 @@
-import { useActor, useInterpret, useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import bubbles from "assets/decorations/water_bubbles.png";
 import fishSilhoutte from "assets/decorations/fish_silhouette.png";
 import { Context } from "features/game/GameProvider";
@@ -11,15 +11,14 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { FishermanModal } from "./FishermanModal";
 import { FishermanNPC } from "./FishermanNPC";
-import { FishingService, fishingMachine } from "./fishingMachines";
-import { Button } from "components/ui/Button";
-import { getKeys } from "features/game/types/craftables";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
 import { FishingBait } from "features/game/types/fishing";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
+
+const caughtFish = (state: MachineState) =>
+  state.context.state.fishing.wharf.caught;
 
 export const Fisherman: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -27,18 +26,8 @@ export const Fisherman: React.FC = () => {
 
   const [gameState] = useActor(gameService);
   const fishing = gameState.context.state.fishing;
-  const fishingService = useInterpret(fishingMachine, {
-    context: {
-      castedAt: fishing.wharf.castedAt,
-      caught: fishing.wharf.caught,
-      // fish: fishing.wharf.fish,
-    },
-  }) as unknown as FishingService;
-
-  const [fishingState] = useActor(fishingService);
 
   const expansionCount = useSelector(gameService, expansions);
-
   const wharfCoords = () => {
     if (expansionCount < 7) {
       return { x: -1, y: -3.5 };
@@ -52,11 +41,9 @@ export const Fisherman: React.FC = () => {
 
   const cast = (bait: FishingBait, chum?: InventoryItemName) => {
     gameService.send("rod.casted", { bait, chum });
-    fishingService.send("CAST");
     setShowModal(false);
   };
 
-  console.log({ fishing: fishingState.context.caught });
   return (
     <>
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
@@ -67,35 +54,14 @@ export const Fisherman: React.FC = () => {
           <FishermanModal onCast={cast} />
         </CloseButtonPanel>
       </Modal>
-      <Modal
-        centered
-        show={fishingState.matches("caught")}
-        onHide={() => fishingService.send("CLAIMED")}
-      >
-        <CloseButtonPanel
-          onClose={() => fishingService.send("CLAIMED")}
-          bumpkinParts={NPC_WEARABLES["reelin roy"]}
-        >
-          <p>Congrats</p>
-          {getKeys(fishingState.context.caught ?? {}).map((name) => {
-            <div className="flex" key={name}>
-              <img src={ITEM_DETAILS[name].image} className="h-6" />
-              <span className="text-sm">{name}</span>
-            </div>;
-          })}
-          <Button onClick={() => fishingService.send("CLAIMED")}>Ok</Button>
-        </CloseButtonPanel>
-      </Modal>
+
       <MapPlacement
         x={wharfCoords().x}
         y={wharfCoords().y}
         width={3}
         height={3}
       >
-        <FishermanNPC
-          onClick={() => setShowModal(true)}
-          fishingService={fishingService}
-        />
+        <FishermanNPC onClick={() => setShowModal(true)} />
 
         <img
           src={bubbles}

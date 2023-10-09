@@ -184,6 +184,7 @@ import {
   FertiliseFruitAction,
 } from "./landExpansion/fertiliseFruit";
 import { castRod, CastRodAction } from "./landExpansion/castRod";
+import { reelRod, ReelRodAction } from "./landExpansion/reelRod";
 
 export type PlayingEvent =
   | TradeAction
@@ -246,7 +247,8 @@ export type PlayingEvent =
   | StartComposterAction
   | collectCompostAction
   | FertiliseFruitAction
-  | CastRodAction;
+  | CastRodAction
+  | ReelRodAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -362,6 +364,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "compost.collected": collectCompost,
   "fruit.fertilised": fertiliseFruit,
   "rod.casted": castRod,
+  "rod.reeled": reelRod,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

@@ -154,7 +154,7 @@ const BaitSelection: React.FC<{
     );
   }
 
-  const missingRod = !state.inventory["Rod"];
+  const missingRod = !state.inventory["Rod"] || state.inventory.Rod.lt(1);
 
   return (
     <>
