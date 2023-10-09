@@ -13,6 +13,7 @@ import {
 } from "features/island/buildings/lib/composterMachine";
 import { ComposterModal } from "./ComposterModal";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { ComposterCollectModal } from "./ComposterCollectModal";
 
 const isIdle = (state: MachineState) => state.matches("idle");
 const isComposting = (state: MachineState) => state.matches("composting");
@@ -23,6 +24,7 @@ export const BasicComposter: React.FC = () => {
   const [gameState] = useActor(gameService);
   const { buildings } = gameState.context.state;
   const [showModal, setShowModal] = useState(false);
+  const [showCollectModal, setShowCollectModal] = useState(false);
 
   const composter = buildings["Basic Composter"]?.[0];
 
@@ -54,15 +56,6 @@ export const BasicComposter: React.FC = () => {
     });
   };
 
-  const handleCollect = () => {
-    composterService?.send({
-      type: "COLLECT",
-      event: "compost.collected",
-      buildingId: composter!.id,
-      building: "Basic Composter",
-    });
-  };
-
   const handleClick = () => {
     if (idle || composting) {
       // composterAudio.play();
@@ -71,7 +64,7 @@ export const BasicComposter: React.FC = () => {
     }
 
     if (ready) {
-      handleCollect();
+      setShowCollectModal(true);
       return;
     }
   };
@@ -106,11 +99,18 @@ export const BasicComposter: React.FC = () => {
         setShowModal={setShowModal}
         startComposter={startComposter}
       />
+      <ComposterCollectModal
+        showModal={showCollectModal}
+        setShowModal={setShowCollectModal}
+        composterName="Basic Composter"
+        composterId={composter!.id}
+        composter={composter!}
+      />
       {ready && (
         <div
-          className="flex justify-center absolute w-full pointer-events-none z-30"
+          className="flex justify-center animate-float absolute w-full pointer-events-none z-30"
           style={{
-            top: `${PIXEL_SCALE * -12}px`,
+            top: `${PIXEL_SCALE * -9}px`,
           }}
         >
           <img

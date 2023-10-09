@@ -57,6 +57,9 @@ export const ComposterModal: React.FC<Props> = ({
         >
           Compost
         </Button>
+        {composting && (
+          <p className="text-xxs sm:text-xs text-center my-1">Composting...</p>
+        )}
       </>
     );
   };

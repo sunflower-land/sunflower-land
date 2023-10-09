@@ -51,34 +51,35 @@ export function fertiliseCrop({
   const stateCopy = cloneDeep(state);
   const { crops: plots, inventory } = stateCopy;
 
-  if (!plots[action.plotID]) {
-    throw new Error(FERTILISE_CROP_ERRORS.EMPTY_PLOT);
+  if (!action.fertiliser) {
+    throw new Error(FERTILISE_CROP_ERRORS.NO_FERTILISER_SELECTED);
+  }
+  const fertiliserAmount = inventory[action.fertiliser] || new Decimal(0);
+
+  if (fertiliserAmount.lessThan(1)) {
+    throw new Error(FERTILISE_CROP_ERRORS.NOT_ENOUGH_FERTILISER);
   }
 
   const plot = plots[action.plotID];
-  const crop = plot && plot.crop;
+
+  if (!plot) {
+    throw new Error(FERTILISE_CROP_ERRORS.EMPTY_PLOT);
+  }
+
+  const crop = plot.crop;
 
   if (!crop) {
     throw new Error(FERTILISE_CROP_ERRORS.EMPTY_CROP);
   }
 
   const cropDetails = CROPS()[crop.name];
+
   if (isReadyToHarvest(createdAt, crop, cropDetails)) {
     throw new Error(FERTILISE_CROP_ERRORS.READY_TO_HARVEST);
   }
 
   if (crop.fertiliser) {
     throw new Error(FERTILISE_CROP_ERRORS.CROP_ALREADY_FERTILISED);
-  }
-
-  if (!action.fertiliser) {
-    throw new Error(FERTILISE_CROP_ERRORS.NO_FERTILISER_SELECTED);
-  }
-
-  const fertiliserAmount = inventory[action.fertiliser] || new Decimal(0);
-
-  if (fertiliserAmount.lessThan(1)) {
-    throw new Error(FERTILISE_CROP_ERRORS.NOT_ENOUGH_FERTILISER);
   }
 
   plots[action.plotID] = {

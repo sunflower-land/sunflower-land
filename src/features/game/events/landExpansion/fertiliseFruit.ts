@@ -30,7 +30,10 @@ type Options = {
   createdAt?: number;
 };
 
-const getYield = (fruitDetails: PlantedFruit, fertiliser: FruitCompostName) => {
+const getFruitYield = (
+  fruitDetails: PlantedFruit,
+  fertiliser: FruitCompostName
+) => {
   if (fertiliser === "Fruitful Blend") {
     return fruitDetails.amount + 0.25;
   }
@@ -52,16 +55,10 @@ export function fertiliseFruit({
     throw new Error(FERTILISE_FRUIT_ERRORS.EMPTY_PATCH);
   }
 
-  const fruit = fruitPatch && fruitPatch.fruit;
+  const fruit = fruitPatch.fruit;
 
   if (!fruit) {
     throw new Error(FERTILISE_FRUIT_ERRORS.EMPTY_FRUIT);
-  }
-
-  const fruitDetails = FRUIT()[fruit.name];
-
-  if (isFruitReadyToHarvest(createdAt, fruit, fruitDetails)) {
-    throw new Error(FERTILISE_FRUIT_ERRORS.READY_TO_HARVEST);
   }
 
   if (fruit.fertiliser) {
@@ -82,11 +79,17 @@ export function fertiliseFruit({
     throw new Error(FERTILISE_FRUIT_ERRORS.NOT_ENOUGH_FERTILISER);
   }
 
+  const fruitDetails = FRUIT()[fruit.name];
+
+  if (isFruitReadyToHarvest(createdAt, fruit, fruitDetails)) {
+    throw new Error(FERTILISE_FRUIT_ERRORS.READY_TO_HARVEST);
+  }
+
   fruitPatches[action.patchID] = {
     ...fruitPatch,
     fruit: {
       ...fruit,
-      amount: getYield(fruit, action.fertiliser),
+      amount: getFruitYield(fruit, action.fertiliser),
       fertiliser: {
         name: action.fertiliser,
         fertilisedAt: createdAt,

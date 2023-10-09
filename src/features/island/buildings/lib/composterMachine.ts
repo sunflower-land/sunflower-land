@@ -1,7 +1,11 @@
 import { assign, createMachine, Interpreter, State } from "xstate";
 import { MachineInterpreter as GameServiceMachineInterpreter } from "src/features/game/lib/gameMachine";
 import { GameEventName, PlayingEvent } from "features/game/events";
-import { ComposterName, Bait } from "features/game/types/composters";
+import {
+  ComposterName,
+  Bait,
+  composterDetails,
+} from "features/game/types/composters";
 
 export interface CompostingContext {
   bait?: Bait;
@@ -160,20 +164,24 @@ export const composterMachine = createMachine<
 
         if (building === "Basic Composter") {
           // 6hrs in milliseconds
-          const compostingTime = 6 * 60 * 60 * 1000;
+          const compostingTime =
+            composterDetails["Basic Composter"].timeToFinishMilliseconds;
           return {
             readyAt: Date.now() + compostingTime,
           };
         }
         if (building === "Advanced Composter") {
           // 8hrs in milliseconds
-          const compostingTime = 8 * 60 * 60 * 1000;
+          const compostingTime =
+            composterDetails["Advanced Composter"].timeToFinishMilliseconds;
           return {
             readyAt: Date.now() + compostingTime,
           };
         } else
           return {
-            readyAt: Date.now() + 12 * 60 * 60 * 1000,
+            readyAt:
+              Date.now() +
+              composterDetails["Expert Composter"].timeToFinishMilliseconds,
           };
       }),
       sendCollectEventToGameMachine: ({ gameService }, event) => {
