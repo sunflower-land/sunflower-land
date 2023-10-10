@@ -9,9 +9,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { analytics } from "lib/analytics";
-import { CONFIG } from "lib/config";
-import { wallet } from "lib/blockchain/wallet";
-import { buyBlockBucks } from "features/game/actions/buyBlockBucks";
+import { buyBlockBucksXsolla } from "features/game/actions/buyBlockBucks";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { randomID } from "lib/utils/random";
 import { Label } from "components/ui/Label";
@@ -77,53 +75,12 @@ interface Price {
   usd: number;
 }
 
-const PokoIFrame: React.FC<
-  PokoConfig & { onProcessing: () => void; onSuccess: () => void }
-> = ({
-  onProcessing,
-  onSuccess,
-  url,
-  network,
-  marketplaceCode,
-  itemImageURL,
-  itemName,
-  listingId,
-  apiKey,
-  extra,
-  receiverId,
-}) => {
-  useEffect(() => {
-    const handler = (
-      event: MessageEvent<{ type: string; message: string }>
-    ) => {
-      console.log({ event });
-      const origin = new URL(url).origin;
-
-      if (event.origin !== origin) return;
-
-      const data = JSON.parse(event.data as unknown as string);
-
-      if (data.eventName !== "onPokoDirectCheckoutStatusChange") return;
-      if (data.data?.status === "succeeded") {
-        onSuccess();
-      }
-      if (data.data?.status === "payment_received") {
-        onProcessing();
-      }
-    };
-
-    window.addEventListener("message", handler);
-
-    return () => window.removeEventListener("message", handler);
-  }, []);
-  // It is possible to theme this with &backgroundColorHex=c18669&textColorHex=ffffff&primaryColorHex=e7a873
-  // I wasn't able to get it looking nice though
+const XsollaIFrame: React.FC<{ url: string }> = ({ url }) => {
   return (
     <iframe
-      src={`${url}?itemName=${itemName}&itemImageURL=${itemImageURL}&network=${network}&apiKey=${apiKey}&listingId=${listingId}&type=nft&marketplaceCode=${marketplaceCode}&receiverId=${receiverId}&extra=${extra}`}
+      src={url}
+      title="Xsolla Checkout"
       className="w-full h-[85vh] sm:h-[65vh]"
-      title="Poko widget"
-      allow="accelerometer; autoplay; camera; gyroscope; payment"
     />
   );
 };
@@ -138,7 +95,7 @@ export const BlockBucksModal: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [showPoko, setShowPoko] = useState<PokoConfig>();
+  const [showXsolla, setShowXsolla] = useState<string>();
   const [loading, setLoading] = useState(false);
 
   const [price, setPrice] = useState<Price>();
@@ -156,7 +113,7 @@ export const BlockBucksModal: React.FC<Props> = ({
     try {
       const amount = price?.amount ?? 0;
 
-      const transaction = await buyBlockBucks({
+      const { url } = await buyBlockBucksXsolla({
         amount,
         farmId: gameState.context.state.id as number,
         transactionId: randomID(),
@@ -164,27 +121,7 @@ export const BlockBucksModal: React.FC<Props> = ({
         token: authState.context.user.rawToken as string,
       });
 
-      const { type, ...details } = transaction;
-
-      setShowPoko({
-        url:
-          CONFIG.NETWORK === "mumbai"
-            ? "https://dev.checkout.pokoapp.xyz/checkout"
-            : "https://checkout.pokoapp.xyz/checkout",
-        network:
-          CONFIG.NETWORK === "mumbai" ? "polygonMumbaiRealUSDC" : "polygon",
-        marketplaceCode: "sunflowerland",
-        listingId: gameState.context.state.id as number,
-        itemName: encodeURIComponent(
-          `${amount} Block Buck${amount > 1 ? "s" : ""}`
-        ),
-        itemImageURL: encodeURIComponent(
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAAAXNSR0IArs4c6QAAABhQTFRFAAAAPolIGBQkcz45Y8dN/q40JlxC93Yi51WP2wAAAAh0Uk5TAP/////////VylQyAAAAm0lEQVRYhe3X0QqAIAyFYVem7//GDQ0ZEjWLYK7zX3UR38WhkkJACCGEjpaRHIB8TywRUVR0axoHq0allBIpujanADVIlxtQbriKnIGnMzKSc95KfNGZmlfPONjMtiELTNUB68WQNhEoN/QNtk+i3PDlc2gZlEdAN+Pjr419sN2mPPU8gfqmBqWp3FB/ppgFg/m/gC9AhBBCP2kHvTwQvZ+Xte4AAAAASUVORK5CYII="
-        ),
-        apiKey: CONFIG.POKO_DIRECT_CHECKOUT_API_KEY,
-        extra: encodeURIComponent(JSON.stringify(details)),
-        receiverId: wallet.myAccount?.toLowerCase() as string,
-      });
+      setShowXsolla(url);
     } finally {
       setLoading(false);
     }
@@ -244,9 +181,7 @@ export const BlockBucksModal: React.FC<Props> = ({
               <Label type="info" className="mb-1">
                 Temporarily Disabled
               </Label>
-              <Button onClick={() => onCreditCardBuy()} disabled={true}>
-                Pay with Cash
-              </Button>
+              <Button onClick={() => onCreditCardBuy()}>Pay with Cash</Button>
             </OuterPanel>
             <OuterPanel className="w-full flex flex-col items-center relative">
               <div className="flex w-full h-full items-center justify-center py-4 px-2">
@@ -333,15 +268,7 @@ export const BlockBucksModal: React.FC<Props> = ({
         tool: "Farmer Pitchfork",
       }}
     >
-      {showPoko ? (
-        <PokoIFrame
-          {...showPoko}
-          onSuccess={onCreditCardSuccess}
-          onProcessing={onCreditCardProcessing}
-        />
-      ) : (
-        <Content />
-      )}
+      {showXsolla ? <XsollaIFrame url={showXsolla} /> : <Content />}
     </CloseButtonPanel>
   );
 };

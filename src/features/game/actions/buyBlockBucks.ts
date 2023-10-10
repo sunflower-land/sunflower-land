@@ -63,3 +63,29 @@ export async function buyBlockBucksMATIC(request: Request) {
 
   return { success: true, verified: true };
 }
+
+export async function buyBlockBucksXsolla(
+  request: Request
+): Promise<{ url: string }> {
+  const response = await window.fetch(
+    `${API_URL}/payments/create/${request.farmId}`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json;charset=UTF-8",
+        Authorization: `Bearer ${request.token}`,
+        "X-Transaction-ID": request.transactionId,
+      },
+    }
+  );
+
+  if (response.status === 429) {
+    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+  }
+
+  if (response.status !== 200 || !response.ok) {
+    throw new Error(ERRORS.MINT_COLLECTIBLE_SERVER_ERROR);
+  }
+
+  return await response.json();
+}
