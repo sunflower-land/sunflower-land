@@ -36,6 +36,7 @@ import {
   CropCompostName,
   FruitCompostName,
 } from "./composters";
+import { FishName } from "./fishing";
 
 export type Reward = {
   sfl?: Decimal;
@@ -260,7 +261,8 @@ export type InventoryItemName =
   | PotionHouseItemName
   | "Basic Land"
   | Bait
-  | CompostName;
+  | CompostName
+  | FishName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
