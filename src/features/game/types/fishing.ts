@@ -3,7 +3,31 @@ import { InventoryItemName } from "./game";
 
 export type FishingBait = Bait;
 
-export type FishName = "Sardine" | "Mackerel" | "Salmon";
+export type FishName =
+  | "Fish A"
+  | "Fish B"
+  | "Fish C"
+  | "Fish D"
+  | "Fish E"
+  | "Fish F"
+  | "Fish G"
+  | "Fish H"
+  | "Fish I"
+  | "Fish J"
+  | "Fish K"
+  | "Fish L"
+  | "Fish M"
+  | "Fish N"
+  | "Fish O"
+  | "Fish P"
+  | "Fish Q"
+  | "Fish R"
+  | "Fish S"
+  | "Fish T"
+  | "Fish U"
+  | "Fish V"
+  | "Fish W"
+  | "Fish X";
 
 export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
   Gold: 1,
@@ -24,4 +48,36 @@ export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
   Blueberry: 3,
   Orange: 3,
   Apple: 3,
+};
+
+type Fish = {
+  todo?: boolean;
+};
+
+// TODO
+export const FISH: Record<FishName, Fish> = {
+  "Fish A": {},
+  "Fish B": {},
+  "Fish C": {},
+  "Fish D": {},
+  "Fish E": {},
+  "Fish F": {},
+  "Fish G": {},
+  "Fish H": {},
+  "Fish I": {},
+  "Fish J": {},
+  "Fish K": {},
+  "Fish L": {},
+  "Fish M": {},
+  "Fish N": {},
+  "Fish O": {},
+  "Fish P": {},
+  "Fish Q": {},
+  "Fish R": {},
+  "Fish S": {},
+  "Fish T": {},
+  "Fish U": {},
+  "Fish V": {},
+  "Fish W": {},
+  "Fish X": {},
 };

@@ -470,6 +470,32 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Adirondack Potato": 1405,
   "Warty Goblin Pumpkin": 1406,
   "White Carrot": 1407,
+
+  // Fish
+  "Fish A": 1501,
+  "Fish B": 1502,
+  "Fish C": 1503,
+  "Fish D": 1504,
+  "Fish E": 1505,
+  "Fish F": 1506,
+  "Fish G": 1507,
+  "Fish H": 1508,
+  "Fish I": 1509,
+  "Fish J": 1510,
+  "Fish K": 1511,
+  "Fish L": 1512,
+  "Fish M": 1513,
+  "Fish N": 1514,
+  "Fish O": 1515,
+  "Fish P": 1516,
+  "Fish Q": 1517,
+  "Fish R": 1518,
+  "Fish S": 1519,
+  "Fish T": 1520,
+  "Fish U": 1521,
+  "Fish V": 1522,
+  "Fish W": 1523,
+  "Fish X": 1524,
 };
 
 // The reverse of above

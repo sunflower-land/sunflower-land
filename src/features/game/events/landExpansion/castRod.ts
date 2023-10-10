@@ -23,7 +23,6 @@ export function castRod({
 }: Options): GameState {
   const game = cloneDeep(state) as GameState;
 
-  console.log({ game });
   const rodCount = game.inventory.Rod ?? new Decimal(0);
   // Requires Rod
   if (rodCount.lt(1)) {
@@ -31,7 +30,8 @@ export function castRod({
   }
 
   // Requires Bait
-  if (!game.inventory[action.bait]?.gte(1)) {
+  const baitCount = game.inventory[action.bait] ?? new Decimal(0);
+  if (baitCount.lt(1)) {
     throw new Error(`Missing ${action.bait}`);
   }
 
@@ -57,6 +57,9 @@ export function castRod({
 
   // Subtracts Rod
   game.inventory.Rod = rodCount.sub(1);
+
+  // Subtracts Bait
+  game.inventory[action.bait] = baitCount.sub(1);
 
   // Casts Rod
   game.fishing = {
