@@ -5,7 +5,6 @@ import { CodexTabIndex, categories } from "./types";
 import { Modal } from "react-bootstrap";
 import { Tab } from "components/ui/Tab";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Box } from "components/ui/Box";
 import { SquareIcon } from "components/ui/SquareIcon";
 
 interface Props {
@@ -20,10 +19,13 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     setCurrentTab(index);
   };
 
+  const { component: SelectedComponent } = categories[currentTab as number];
+
   return (
-    <Modal size="lg" show={show} onHide={onHide}>
-      <div className="h-[500px]">
-        <OuterPanel>
+    <Modal centered show={show} onHide={onHide}>
+      <div className="h-[600px]">
+        {/* Header */}
+        <OuterPanel className="flex flex-col h-full">
           <div className="flex items-center pl-1 mb-2">
             <div className="grow">Sunflower Land Journal</div>
             <img
@@ -36,11 +38,12 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             />
           </div>
           <div
-            className="relative"
+            className="relative h-full"
             style={{
               paddingLeft: `${PIXEL_SCALE * 15}px`,
             }}
           >
+            {/* Tabs */}
             <div className="absolute top-0 left-0">
               <div className="flex flex-col">
                 {categories.map((tab, index) => (
@@ -57,12 +60,9 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 ))}
               </div>
             </div>
-            <InnerPanel>
-              <div className="flex mb-2 flex-wrap overflow-y-auto scrollable mx-h-80">
-                {new Array(100).fill(0).map((_, index) => (
-                  <Box key={index} />
-                ))}
-              </div>
+            {/* Content */}
+            <InnerPanel className="h-full">
+              <SelectedComponent />
             </InnerPanel>
           </div>
         </OuterPanel>
