@@ -536,6 +536,14 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
+    "Basic Composter": [
+      {
+        coordinates: { x: 3, y: 8 },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+      },
+    ],
   },
   collectibles: {},
   delivery: {
