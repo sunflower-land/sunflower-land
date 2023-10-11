@@ -1,11 +1,26 @@
 import { getKeys } from "features/game/types/craftables";
-import { MutantType, Mutants } from "./types";
+import { AssetType, MutantType, Mutants } from "./types";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import Decimal from "decimal.js-light";
+import { CONFIG } from "lib/config";
 
 export type ItemCounts = {
   available: number;
   owned: number;
+};
+
+const CONTRACTS: Record<AssetType, string> = {
+  collectible: CONFIG.INVENTORY_CONTRACT,
+  wearable: CONFIG.BUMPKIN_ITEMS_CONTRACT,
+  bud: CONFIG.BUD_CONTRACT,
+};
+
+export const getOpenSeaLink = (id: number, type: AssetType) => {
+  const network = CONFIG.NETWORK === "mainnet" ? "matic" : "mumbai";
+  const base =
+    network === "mumbai" ? `https://testnets.opensea.io` : `https://opensea.io`;
+
+  return `${base}/assets/${network}/${CONTRACTS[type]}/${id}`;
 };
 
 export const getTotalMutantCounts = (

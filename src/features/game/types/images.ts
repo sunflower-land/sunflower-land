@@ -1455,7 +1455,6 @@ export const ITEM_DETAILS: Items = {
   },
   "Warrior Helmet": {
     image: SUNNYSIDE.icons.expression_confused,
-
     description: "Immune to arrows",
   },
   "Sunflower Shield": {
