@@ -1,5 +1,4 @@
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { KNOWN_IDS } from "features/game/types";
 import { SeasonName } from "features/game/types/seasons";
 import { MutantCropName } from "features/game/types/beans";
@@ -9,6 +8,7 @@ import { Mutants } from "./pages/Mutants";
 // Section Icons
 import mutantIcon from "assets/icons/mutants.webp";
 import { MyFarm } from "./pages/MyFarm";
+import { InventoryItemName } from "features/game/types/game";
 
 export type CodexCategoryName = "My Farm" | "Fish" | "Mutants";
 
@@ -36,15 +36,18 @@ export const categories: CodexCategory[] = [
   },
 ];
 
+export type AssetType = "collectible" | "wearable" | "bud";
+
 export type CodexTabIndex = keyof typeof categories;
 
 // Extend from this type for more detailed information
 export type BaseInformation = {
   id: number;
   name: string;
-  description: string;
-  image: string;
   season?: SeasonName;
+  howToObtain: string[];
+  type: AssetType;
+  relatedItems?: InventoryItemName[];
 };
 
 export type Mutants = {
@@ -59,54 +62,72 @@ export const mutants: Mutants = {
     "Stellar Sunflower": {
       id: KNOWN_IDS["Stellar Sunflower"],
       name: "Stellar Sunflower",
-      description: ITEM_DETAILS["Stellar Sunflower"].description,
-      image: ITEM_DETAILS["Stellar Sunflower"].image,
+      howToObtain: ["Can be found when harvesting a Magic Bean.", "OpenSea"],
+      type: "collectible",
+      relatedItems: ["Magic Bean"],
     },
     "Potent Potato": {
       id: KNOWN_IDS["Potent Potato"],
       name: "Potent Potato",
-      description: ITEM_DETAILS["Potent Potato"].description,
-      image: ITEM_DETAILS["Potent Potato"].image,
+      howToObtain: ["Can be found when harvesting a Magic Bean.", "OpenSea"],
+      type: "collectible",
+      relatedItems: ["Magic Bean"],
     },
     "Radical Radish": {
       id: KNOWN_IDS["Radical Radish"],
       name: "Radical Radish",
-      description: ITEM_DETAILS["Radical Radish"].description,
-      image: ITEM_DETAILS["Radical Radish"].image,
+      howToObtain: ["Can be found when harvesting a Magic Bean.", "OpenSea"],
+      type: "collectible",
+      relatedItems: ["Magic Bean"],
     },
   },
   chickens: {
     "Speed Chicken": {
       id: KNOWN_IDS["Speed Chicken"],
       name: "Speed Chicken",
-      description: ITEM_DETAILS["Speed Chicken"].description,
-      image: ITEM_DETAILS["Speed Chicken"].image,
+      howToObtain: [
+        "Can be found when collecting eggs laid by Chickens.",
+        "OpenSea",
+      ],
+      type: "collectible",
     },
     "Rich Chicken": {
       id: KNOWN_IDS["Rich Chicken"],
       name: "Rich Chicken",
-      description: ITEM_DETAILS["Rich Chicken"].description,
-      image: ITEM_DETAILS["Rich Chicken"].image,
+      howToObtain: [
+        "Can be found when collecting eggs laid by Chickens.",
+        "OpenSea",
+      ],
+      type: "collectible",
     },
     "Fat Chicken": {
       id: KNOWN_IDS["Fat Chicken"],
       name: "Fat Chicken",
-      description: ITEM_DETAILS["Fat Chicken"].description,
-      image: ITEM_DETAILS["Fat Chicken"].image,
+      howToObtain: [
+        "Can be found when collecting eggs laid by Chickens.",
+        "OpenSea",
+      ],
+      type: "collectible",
     },
     "El Pollo Veloz": {
       id: KNOWN_IDS["El Pollo Veloz"],
       name: "El Pollo Veloz",
-      description: ITEM_DETAILS["El Pollo Veloz"].description,
-      image: ITEM_DETAILS["El Pollo Veloz"].image,
       season: "Witches' Eve",
+      howToObtain: [
+        "Can be found when collecting eggs laid by Chickens.",
+        "OpenSea",
+      ],
+      type: "collectible",
     },
     "Ayam Cemani": {
       id: KNOWN_IDS["Ayam Cemani"],
       name: "Ayam Cemani",
-      description: ITEM_DETAILS["Ayam Cemani"].description,
-      image: ITEM_DETAILS["Ayam Cemani"].image,
       season: "Dawn Breaker",
+      howToObtain: [
+        "Can be found when collecting eggs laid by Chickens.",
+        "OpenSea",
+      ],
+      type: "collectible",
     },
   },
 };

@@ -1,14 +1,16 @@
 import React, { useContext, useState } from "react";
 import { InventoryItemName } from "features/game/types/game";
-import { mutants, MutantType } from "../types";
+import { BaseInformation, mutants, MutantType } from "../types";
 import { Box } from "components/ui/Box";
-import { getKeys } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { ItemCounts, getTotalMutantCounts } from "../utils";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import { getKeys } from "features/game/types/craftables";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { CollectibleItemDetail } from "./CollectibleItemDetail";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
@@ -19,6 +21,16 @@ export const Mutants: React.FC = () => {
   const [{ available, owned }] = useState<ItemCounts>(
     getTotalMutantCounts(mutants, inventory)
   );
+  const [selected, setSelected] = useState<BaseInformation>();
+
+  if (selected) {
+    return (
+      <CollectibleItemDetail
+        onBack={() => setSelected(undefined)}
+        item={selected}
+      />
+    );
+  }
 
   return (
     <div className="flex flex-col">
@@ -35,27 +47,32 @@ export const Mutants: React.FC = () => {
         <span className="text-sm ml-1">{`${owned}/${available}`}</span>
       </div>
 
-      {getKeys(mutants).map((mutantType: MutantType) => (
-        <div key={`mutants-${mutantType}-codex`}>
-          <h3 className="ml-1.5 capitalize text-sm">{mutantType}</h3>
-          <div className="flex mb-2 flex-wrap overflow-y-auto scrollable">
-            {getKeys(mutants[mutantType]).map((name, index) => {
-              const itemName = name as InventoryItemName;
-              const { image } = mutants[mutantType][name];
-              const itemCount = inventory[itemName] ?? new Decimal(0);
+      {getKeys(mutants).map((mutantType) => {
+        const type = mutantType as MutantType;
 
-              return (
-                <Box
-                  key={index}
-                  image={image}
-                  count={itemCount}
-                  disabled={itemCount.eq(0)}
-                />
-              );
-            })}
+        return (
+          <div key={`mutants-${type}-codex`}>
+            <h3 className="ml-1.5 capitalize text-sm">{type}</h3>
+            <div className="flex mb-2 flex-wrap overflow-y-auto scrollable">
+              {getKeys(mutants[type]).map((name, index) => {
+                const itemName = name as InventoryItemName;
+                const itemCount = inventory[itemName] ?? new Decimal(0);
+
+                return (
+                  <Box
+                    key={index}
+                    image={ITEM_DETAILS[itemName].image}
+                    count={itemCount}
+                    overlayIcon={<div className="h-full w-full opacity-70" />}
+                    showOverlay={itemCount.eq(0)}
+                    onClick={() => setSelected(mutants[type][name])}
+                  />
+                );
+              })}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
