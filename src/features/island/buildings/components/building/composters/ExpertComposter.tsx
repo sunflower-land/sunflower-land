@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 
 import expertComposter from "assets/composters/composter_expert.png";
 import expertComposterClosed from "assets/composters/composter_expert_closed.png";
+import expertComposterReady from "assets/composters/composter_expert_ready.png";
+
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor, useInterpret, useSelector } from "@xstate/react";
@@ -13,6 +15,7 @@ import {
 } from "features/island/buildings/lib/composterMachine";
 import { ComposterModal } from "./ComposterModal";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { ProgressBar } from "components/ui/ProgressBar";
 
 const isIdle = (state: MachineState) => state.matches("idle");
 const isComposting = (state: MachineState) => state.matches("composting");
@@ -64,17 +67,16 @@ export const ExpertComposter: React.FC = () => {
   };
 
   const handleClick = () => {
-    if (idle || composting) {
-      // composterAudio.play();
-      setShowModal(true);
-      return;
-    }
-
-    if (ready) {
-      handleCollect();
-      return;
-    }
+    setShowModal(true);
+    return;
   };
+
+  let image = expertComposter;
+  if (ready) {
+    image = expertComposterReady;
+  } else if (composting) {
+    image = expertComposterClosed;
+  }
 
   return (
     <>
@@ -88,7 +90,7 @@ export const ExpertComposter: React.FC = () => {
         onClick={handleClick}
       >
         <img
-          src={idle ? expertComposter : expertComposterClosed}
+          src={image}
           style={{
             width: `${PIXEL_SCALE * 34}px`,
             bottom: 0,
@@ -96,14 +98,26 @@ export const ExpertComposter: React.FC = () => {
           className="absolute"
           alt="Expert Composter"
         />
+        {composting && composter?.producing?.readyAt && (
+          <ProgressBar
+            formatLength="short"
+            percentage={10}
+            seconds={(composter?.producing?.readyAt - Date.now()) / 1000}
+            type="progress"
+            style={{
+              bottom: "24px",
+              left: "17px",
+            }}
+          />
+        )}
       </div>
       <ComposterModal
-        composting={composting}
         composterName="Expert Composter"
         showModal={showModal}
-        secondsTillReady={secondsTillReady ?? 0}
         setShowModal={setShowModal}
         startComposter={startComposter}
+        readyAt={composter?.producing?.readyAt}
+        onCollect={handleCollect}
       />
       {ready && (
         <div

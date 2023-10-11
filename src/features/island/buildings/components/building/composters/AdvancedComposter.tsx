@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 
 import advancedComposter from "assets/composters/composter_advanced.png";
 import advancedComposterClosed from "assets/composters/composter_advanced_closed.png";
+import advancedComposterReady from "assets/composters/composter_advanced_ready.png";
+
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor, useInterpret, useSelector } from "@xstate/react";
@@ -13,6 +15,7 @@ import {
 } from "features/island/buildings/lib/composterMachine";
 import { ComposterModal } from "./ComposterModal";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { ProgressBar } from "components/ui/ProgressBar";
 
 const isIdle = (state: MachineState) => state.matches("idle");
 const isComposting = (state: MachineState) => state.matches("composting");
@@ -47,12 +50,17 @@ export const AdvancedComposter: React.FC = () => {
   ] = useActor(composterService);
 
   const startComposter = () => {
-    composterService.send({
-      type: "START_COMPOST",
-      event: "composter.started",
-      buildingId: composter!.id,
-      building: "Advanced Composter",
-    });
+    setShowModal(false);
+
+    // Simulate delayed closing of lid
+    setTimeout(() => {
+      composterService.send({
+        type: "START_COMPOST",
+        event: "composter.started",
+        buildingId: composter!.id,
+        building: "Advanced Composter",
+      });
+    }, 200);
   };
 
   const handleCollect = () => {
@@ -65,17 +73,16 @@ export const AdvancedComposter: React.FC = () => {
   };
 
   const handleClick = () => {
-    if (idle || composting) {
-      // composterAudio.play();
-      setShowModal(true);
-      return;
-    }
-
-    if (ready) {
-      handleCollect();
-      return;
-    }
+    setShowModal(true);
+    return;
   };
+
+  let image = advancedComposter;
+  if (ready) {
+    image = advancedComposterReady;
+  } else if (composting) {
+    image = advancedComposterClosed;
+  }
 
   return (
     <>
@@ -89,7 +96,7 @@ export const AdvancedComposter: React.FC = () => {
         onClick={handleClick}
       >
         <img
-          src={idle ? advancedComposter : advancedComposterClosed}
+          src={image}
           style={{
             width: `${PIXEL_SCALE * 27}px`,
             bottom: `${PIXEL_SCALE * 0}px`,
@@ -97,14 +104,26 @@ export const AdvancedComposter: React.FC = () => {
           className="absolute"
           alt="Advanced Composter"
         />
+        {composting && composter?.producing?.readyAt && (
+          <ProgressBar
+            formatLength="short"
+            percentage={10}
+            seconds={(composter?.producing?.readyAt - Date.now()) / 1000}
+            type="progress"
+            style={{
+              bottom: "24px",
+              left: "17px",
+            }}
+          />
+        )}
       </div>
       <ComposterModal
-        composting={composting}
         composterName="Advanced Composter"
         showModal={showModal}
-        secondsTillReady={secondsTillReady ?? 0}
         setShowModal={setShowModal}
         startComposter={startComposter}
+        readyAt={composter?.producing?.readyAt}
+        onCollect={handleCollect}
       />
       {ready && (
         <div

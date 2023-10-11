@@ -329,6 +329,7 @@ export const OFFLINE_FARM: GameState = {
     Gnome: new Decimal(1),
     "Sunflower Cake": new Decimal(15),
     Carrot: new Decimal(80),
+    "Sunflower Seed": new Decimal(80),
     Cauliflower: new Decimal(70),
     Beetroot: new Decimal(10),
     Cabbage: new Decimal(100),
@@ -542,6 +543,34 @@ export const OFFLINE_FARM: GameState = {
         createdAt: 0,
         id: "123",
         readyAt: 0,
+        producing: {
+          name: "Sprout Mix",
+          readyAt: Date.now() - 50000,
+        },
+      },
+    ],
+    "Advanced Composter": [
+      {
+        coordinates: { x: 5, y: 8 },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+        producing: {
+          name: "Rapid Root",
+          readyAt: Date.now() - 50000,
+        },
+      },
+    ],
+    "Expert Composter": [
+      {
+        coordinates: { x: 7, y: 8 },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+        producing: {
+          name: "Rapid Root",
+          readyAt: Date.now() - 50000,
+        },
       },
     ],
   },
