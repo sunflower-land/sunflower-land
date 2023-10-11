@@ -75,6 +75,10 @@ export const INITIAL_RESOURCES: Pick<
       y: -1,
       height: 1,
       width: 1,
+      fertiliser: {
+        fertilisedAt: 0,
+        name: "Rapid Root",
+      },
     },
     2: {
       createdAt: Date.now(),
@@ -83,6 +87,10 @@ export const INITIAL_RESOURCES: Pick<
       y: -1,
       height: 1,
       width: 1,
+      fertiliser: {
+        fertilisedAt: 0,
+        name: "Sprout Mix",
+      },
     },
     3: {
       createdAt: Date.now(),
@@ -154,6 +162,10 @@ export const INITIAL_RESOURCES: Pick<
       y: -1,
       height: 1,
       width: 1,
+      fertiliser: {
+        fertilisedAt: 0,
+        name: "Rapid Root",
+      },
     },
     12: {
       createdAt: Date.now(),
@@ -161,6 +173,10 @@ export const INITIAL_RESOURCES: Pick<
       y: -2,
       height: 1,
       width: 1,
+      fertiliser: {
+        fertilisedAt: 0,
+        name: "Rapid Root",
+      },
     },
     13: {
       createdAt: Date.now(),
@@ -168,6 +184,10 @@ export const INITIAL_RESOURCES: Pick<
       y: -1,
       height: 1,
       width: 1,
+      fertiliser: {
+        fertilisedAt: 0,
+        name: "Sprout Mix",
+      },
     },
   },
   trees: {
@@ -324,6 +344,8 @@ export const OFFLINE_FARM: GameState = {
   inventory: {
     Rod: new Decimal(1),
     Earthworm: new Decimal(10),
+    "Sprout Mix": new Decimal(10),
+    "Rapid Root": new Decimal(10),
     "El Pollo Veloz": new Decimal(1),
     "Bud Seedling": new Decimal(1),
     Gnome: new Decimal(1),

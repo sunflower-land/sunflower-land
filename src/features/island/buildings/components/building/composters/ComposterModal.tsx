@@ -3,11 +3,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
 import { hasRequirements } from "features/game/events/landExpansion/startComposter";
-import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 import tutorial from "src/assets/tutorials/composting.png";
+import lightning from "src/assets/icons/lightning.png";
+import powerup from "src/assets/icons/level_up.png";
+
 import basicIdle from "assets/composters/composter_basic.png";
 import basicComposting from "assets/composters/composter_basic_closed.png";
 import basicReady from "assets/composters/composter_basic_ready.png";
@@ -28,6 +30,10 @@ import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
+import { GameState, Inventory } from "features/game/types/game";
+import { getKeys } from "features/game/types/craftables";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 const COMPOSTER_IMAGES: Record<
   ComposterName,
@@ -163,7 +169,7 @@ export const ComposterModal: React.FC<Props> = ({
         <CloseButtonPanel title={<br />} onClose={() => setShowModal(false)}>
           <img
             src={SUNNYSIDE.icons.expression_confused}
-            className="absolute left-3 top-2 w-5 cursor-pointer"
+            className="absolute left-3 top-2.5 w-5 cursor-pointer"
             onClick={() => setShowHelp(true)}
           />
           <div className="flex flex-col items-center">
@@ -192,11 +198,15 @@ export const ComposterModal: React.FC<Props> = ({
             </div>
             <div className="flex justify-center text-center my-1">
               <img
-                src={SUNNYSIDE.icons.expression_confused}
+                src={
+                  composterDetails[composterName].produce === "Rapid Root"
+                    ? lightning
+                    : powerup
+                }
                 className="h-4 mr-1"
               />
               <span className="text-xs">
-                Apply your fertilisers to the soil before planting crops.
+                Apply the fertiliser to the soil to boost your crops.
               </span>
             </div>
             <Button
@@ -215,7 +225,7 @@ export const ComposterModal: React.FC<Props> = ({
         <CloseButtonPanel title={<br />} onClose={() => setShowModal(false)}>
           <img
             src={SUNNYSIDE.icons.expression_confused}
-            className="absolute left-3 top-2 w-5 cursor-pointer"
+            className="absolute left-3 top-2.5 w-5 cursor-pointer"
             onClick={() => setShowHelp(true)}
           />
           <div className="flex flex-col items-center">
@@ -256,20 +266,80 @@ export const ComposterModal: React.FC<Props> = ({
       <CloseButtonPanel title={<br />} onClose={() => setShowModal(false)}>
         <img
           src={SUNNYSIDE.icons.expression_confused}
-          className="absolute left-3 top-2 w-5 cursor-pointer"
+          className="absolute left-3 top-2.5 w-5 cursor-pointer"
           onClick={() => setShowHelp(true)}
         />
-        <CraftingRequirements
-          gameState={state}
-          details={{
-            item: composterInfo.produce,
-            quantity: new Decimal(10),
-          }}
-          requirements={{
-            resources: composterInfo.requirements,
-            timeSeconds: composterInfo.timeToFinishMilliseconds / 1000,
-          }}
-        />
+
+        <div className="flex flex-col h-full">
+          <div className="flex flex-col h-full px-1 py-0">
+            <div className="flex sm:flex-row flex-col">
+              <div className="flex space-x-2 justify-start items-center mr-4">
+                <div className="">
+                  <SquareIcon
+                    icon={
+                      ITEM_DETAILS[composterDetails[composterName].produce]
+                        .image
+                    }
+                    width={14}
+                  />
+                </div>
+                <div className="block">
+                  <p className="text-sm">
+                    10 x {composterDetails[composterName].produce}
+                  </p>
+                  <Label type="success" className="text-xs whitespace-pre-line">
+                    +0.2 Crop fertiliser
+                  </Label>
+                </div>
+              </div>
+              <div className="flex space-x-2 justify-start items-center mt-2 sm:mt-0">
+                <div className="">
+                  <SquareIcon
+                    icon={
+                      ITEM_DETAILS[composterDetails[composterName].bait].image
+                    }
+                    width={14}
+                  />
+                </div>
+                <div className="block">
+                  <p className="text-sm">
+                    1 x {composterDetails[composterName].bait}
+                  </p>
+                  <Label type="default" className="text-xs whitespace-pre-line">
+                    Fishing bait
+                  </Label>
+                </div>
+              </div>
+            </div>
+            <div className="border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap ">
+              {/* Item ingredients requirements */}
+              {!!composterInfo.requirements &&
+                getKeys(composterInfo.requirements).map(
+                  (ingredientName, index) => (
+                    <RequirementLabel
+                      key={index}
+                      type="item"
+                      item={ingredientName}
+                      balance={
+                        gameState.context.state.inventory[ingredientName] ??
+                        new Decimal(0)
+                      }
+                      requirement={
+                        (composterInfo.requirements ?? {})[ingredientName] ??
+                        new Decimal(0)
+                      }
+                    />
+                  )
+                )}
+
+              <RequirementLabel
+                type="time"
+                waitSeconds={composterInfo.timeToFinishMilliseconds / 1000}
+              />
+            </div>
+          </div>
+        </div>
+
         <Button
           disabled={disabled}
           className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
@@ -285,5 +355,96 @@ export const ComposterModal: React.FC<Props> = ({
     <Modal show={showModal} centered onHide={() => setShowModal(false)}>
       <Content />
     </Modal>
+  );
+};
+
+interface CraftingProps {
+  gameState: GameState;
+  stock?: Decimal;
+  isLimitedItem?: boolean;
+  details: any;
+  boost?: string;
+  requirements?: Inventory;
+  limit?: number;
+  actionView?: JSX.Element;
+  hideDescription?: boolean;
+  seconds: number;
+}
+export const CraftingRequirements: React.FC<CraftingProps> = ({
+  gameState,
+  stock,
+  isLimitedItem = false,
+  limit,
+  details,
+  boost,
+  requirements,
+  actionView,
+  hideDescription,
+  seconds,
+}: CraftingProps) => {
+  const getItemDetail = ({
+    hideDescription,
+  }: {
+    hideDescription?: boolean;
+  }) => {
+    const { image: icon, description, name } = details;
+    const title = details.quantity
+      ? `${details.quantity} x ${details.item}`
+      : name;
+
+    return (
+      <>
+        <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
+          {icon && !!details.item && (
+            <div className="sm:mt-2">
+              <SquareIcon icon={icon} width={14} />
+            </div>
+          )}
+          <span className="sm:text-center">{title}</span>
+        </div>
+        {!hideDescription && (
+          <span className="text-xs sm:mt-1 whitespace-pre-line sm:text-center">
+            {description}
+          </span>
+        )}
+      </>
+    );
+  };
+
+  const getRequirements = () => {
+    if (!requirements) return <></>;
+
+    return (
+      <div className="border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
+        {/* Item ingredients requirements */}
+        {!!requirements &&
+          getKeys(requirements).map((ingredientName, index) => (
+            <RequirementLabel
+              key={index}
+              type="item"
+              item={ingredientName}
+              balance={gameState.inventory[ingredientName] ?? new Decimal(0)}
+              requirement={
+                (requirements ?? {})[ingredientName] ?? new Decimal(0)
+              }
+            />
+          ))}
+
+        <RequirementLabel type="time" waitSeconds={seconds} />
+      </div>
+    );
+  };
+
+  return (
+    <div className="flex flex-col h-full justify-between">
+      <div className="flex flex-col h-full px-1 py-0">
+        {getItemDetail({ hideDescription })}
+        {limit && (
+          <p className="my-1 text-xs text-left sm:text-center">{`Max ${limit} per player`}</p>
+        )}
+        {getRequirements()}
+      </div>
+      {actionView}
+    </div>
   );
 };

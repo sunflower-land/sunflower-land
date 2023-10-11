@@ -343,7 +343,6 @@ export type PlantedCrop = {
   plantedAt: number;
   amount?: number;
   reward?: Reward;
-  fertiliser?: CropFertiliser;
 };
 
 export type PlantedFruit = {
@@ -371,6 +370,7 @@ export type Rock = {
 
 export type CropPlot = {
   crop?: PlantedCrop;
+  fertiliser?: CropFertiliser;
   createdAt: number;
 } & Position;
 

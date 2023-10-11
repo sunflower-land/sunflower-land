@@ -124,13 +124,13 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     if (yields in FRUIT())
       return getFruitTime(selectedName as FruitSeedName, collectibles);
 
-    return getCropTime(
-      yields as CropName,
+    return getCropTime({
+      crop: yields as CropName,
       inventory,
       collectibles,
-      state.bumpkin as Bumpkin,
-      state.buds ?? {}
-    );
+      bumpkin: state.bumpkin as Bumpkin,
+      buds: state.buds ?? {},
+    });
   };
 
   const getHarvestCount = () => {

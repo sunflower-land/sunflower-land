@@ -1,8 +1,6 @@
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
-import { CROPS, Crop } from "../../types/crops";
 import { GameState } from "../../types/game";
-import { isReadyToHarvest } from "./harvest";
 import { CropCompostName } from "features/game/types/composters";
 
 export type LandExpansionFertiliseCropAction = {
@@ -20,28 +18,13 @@ type Options = {
 
 export enum FERTILISE_CROP_ERRORS {
   EMPTY_PLOT = "Plot does not exist!",
-  EMPTY_CROP = "There is no crop planted!",
+  CROP_EXISTS = "There is a crop planted!",
   READY_TO_HARVEST = "Crop is ready to harvest!",
   CROP_ALREADY_FERTILISED = "Crop is already fertilised!",
   NO_FERTILISER_SELECTED = "No fertiliser selected!",
   NOT_A_FERTILISER = "Not a fertiliser!",
   NOT_ENOUGH_FERTILISER = "Not enough fertiliser!",
 }
-
-const getPlantedAt = (
-  fertiliser: CropCompostName,
-  plantedAt: number,
-  fertilisedAt: number,
-  cropDetails: Crop
-) => {
-  const timeToHarvest = cropDetails.harvestSeconds * 1000;
-  const harvestTime = plantedAt + timeToHarvest;
-  const timeReduction = (harvestTime - fertilisedAt) / 2;
-  if (fertiliser === "Rapid Root") {
-    return plantedAt - timeReduction;
-  }
-  return plantedAt;
-};
 
 export function fertiliseCrop({
   state,
@@ -58,16 +41,16 @@ export function fertiliseCrop({
   const plot = plots[action.plotID];
   const crop = plot && plot.crop;
 
-  if (!crop) {
-    throw new Error(FERTILISE_CROP_ERRORS.EMPTY_CROP);
+  if (crop) {
+    throw new Error(FERTILISE_CROP_ERRORS.CROP_EXISTS);
   }
 
-  const cropDetails = CROPS()[crop.name];
-  if (isReadyToHarvest(createdAt, crop, cropDetails)) {
-    throw new Error(FERTILISE_CROP_ERRORS.READY_TO_HARVEST);
-  }
+  // const cropDetails = CROPS()[crop.name];
+  // if (isReadyToHarvest(createdAt, crop, cropDetails)) {
+  //   throw new Error(FERTILISE_CROP_ERRORS.READY_TO_HARVEST);
+  // }
 
-  if (crop.fertiliser) {
+  if (plot.fertiliser) {
     throw new Error(FERTILISE_CROP_ERRORS.CROP_ALREADY_FERTILISED);
   }
 
@@ -83,19 +66,20 @@ export function fertiliseCrop({
 
   plots[action.plotID] = {
     ...plot,
-    crop: {
-      ...crop,
-      plantedAt: getPlantedAt(
-        action.fertiliser,
-        crop.plantedAt,
-        createdAt,
-        cropDetails
-      ),
-      fertiliser: {
-        name: action.fertiliser,
-        fertilisedAt: createdAt,
-      },
+    fertiliser: {
+      name: action.fertiliser,
+      fertilisedAt: createdAt,
     },
+    // crop: {
+    //   ...crop,
+    //   plantedAt: getPlantedAt(
+    //     action.fertiliser,
+    //     crop.plantedAt,
+    //     createdAt,
+    //     cropDetails
+    //   ),
+
+    // },
   };
 
   inventory[action.fertiliser] = fertiliserAmount.minus(1);

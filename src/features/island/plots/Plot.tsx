@@ -44,11 +44,12 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const clickedAt = useRef<number>(0);
 
   const crops = useSelector(gameService, selectCrops, (prev, next) => {
-    return JSON.stringify(prev[id].crop) === JSON.stringify(next[id].crop);
+    return JSON.stringify(prev[id]) === JSON.stringify(next[id]);
   });
   const buildings = useSelector(gameService, selectBuildings, compareBuildings);
 
   const crop = crops?.[id]?.crop;
+  const fertiliser = crops?.[id]?.fertiliser;
 
   const isFertile = isPlotFertile({
     plotIndex: id,
@@ -119,6 +120,16 @@ export const Plot: React.FC<Props> = ({ id }) => {
       return;
     }
 
+    // apply fertilisers
+    if (!crop && selectedItem && selectedItem in CROP_COMPOST) {
+      gameService.send("crop.fertilised", {
+        plotID: id,
+        fertiliser: selectedItem,
+      });
+
+      return;
+    }
+
     // plant
     if (!crop) {
       gameService.send("seed.planted", {
@@ -137,16 +148,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
       harvestCrop(crop);
     }
 
-    // apply fertilisers
-    if (!readyToHarvest && selectedItem && selectedItem in CROP_COMPOST) {
-      gameService.send("crop.fertilised", {
-        plotID: id,
-        fertiliser: selectedItem,
-      });
-
-      return;
-    }
-
     setTouchCount(0);
   };
 
@@ -159,13 +160,15 @@ export const Plot: React.FC<Props> = ({ id }) => {
     }
   };
 
+  console.log({ fertiliser });
+
   return (
     <>
       <div onClick={onClick} className="w-full h-full relative">
         <FertilePlot
           cropName={crop?.name}
           plantedAt={crop?.plantedAt}
-          fertiliser={crop?.fertiliser}
+          fertiliser={fertiliser}
           procAnimation={procAnimation}
           touchCount={touchCount}
           showTimers={showTimers}
