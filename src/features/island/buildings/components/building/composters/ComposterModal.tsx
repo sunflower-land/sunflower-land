@@ -230,7 +230,7 @@ export const ComposterModal: React.FC<Props> = ({
             className="absolute left-3 top-2.5 w-5 cursor-pointer"
             onClick={() => setShowHelp(true)}
           />
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center -mt-8">
             <img
               src={COMPOSTER_IMAGES[composterName].composting}
               className="w-32"
@@ -245,21 +245,28 @@ export const ComposterModal: React.FC<Props> = ({
                 })}
               </span>
             </div>
-            <Label type="default" className="mb-2">
-              <div className="flex items-center">
-                <span className="text-xs mr-1">10 </span>
-                <img
-                  src={ITEM_DETAILS[composterInfo.produce].image}
-                  className="h-4 mr-3"
+            <div className="flex flex-wrap justify-center space-x-2 ">
+              <div className="relative flex items-center">
+                <SquareIcon
+                  icon={ITEM_DETAILS[composterInfo.produce].image}
+                  width={12}
+                  className="mr-2 mb-1.5"
                 />
-
-                <span className="text-xs mr-1">1</span>
-                <img
-                  src={ITEM_DETAILS[composterInfo.bait].image}
-                  className="h-4 mr-3"
-                />
+                <Label type="default" className="mb-2">
+                  {`10 x ${composterInfo.produce}`}
+                </Label>
               </div>
-            </Label>
+              <div className="relative flex items-center">
+                <SquareIcon
+                  icon={ITEM_DETAILS[composterInfo.bait].image}
+                  width={12}
+                  className=" mb-1.5"
+                />
+                <Label type="default" className="mb-2">
+                  {`1 x ${composterInfo.bait}`}
+                </Label>
+              </div>
+            </div>
           </div>
         </CloseButtonPanel>
       );

@@ -593,7 +593,7 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
         producing: {
           name: "Sprout Mix",
-          readyAt: Date.now() - 50000,
+          readyAt: Date.now() + 500000,
         },
       },
     ],
