@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { InventoryItemName } from "features/game/types/game";
 import { BaseInformation, mutants, MutantType } from "../types";
-import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { ItemCounts, getTotalMutantCounts } from "../utils";
@@ -11,6 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CollectibleItemDetail } from "./CollectibleItemDetail";
+import { SimpleBox } from "../SimpleBox";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
@@ -59,12 +59,10 @@ export const Mutants: React.FC = () => {
                 const itemCount = inventory[itemName] ?? new Decimal(0);
 
                 return (
-                  <Box
+                  <SimpleBox
                     key={index}
                     image={ITEM_DETAILS[itemName].image}
-                    count={itemCount}
-                    overlayIcon={<div className="h-full w-full opacity-70" />}
-                    showOverlay={itemCount.eq(0)}
+                    hasItem={itemCount.gt(0)}
                     onClick={() => setSelected(mutants[type][name])}
                   />
                 );

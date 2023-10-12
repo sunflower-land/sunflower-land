@@ -1,16 +1,40 @@
 import React, { useState } from "react";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CodexTabIndex, categories } from "./types";
+import { CodexCategory, CodexTabIndex } from "./types";
 import { Modal } from "react-bootstrap";
 import { Tab } from "components/ui/Tab";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SquareIcon } from "components/ui/SquareIcon";
 
+// Section Icons
+import mutantIcon from "assets/icons/mutants.webp";
+import { MyFarm } from "./pages/MyFarm";
+import { Mutants } from "./pages/Mutants";
+
 interface Props {
   show: boolean;
   onHide: () => void;
 }
+
+export const categories: CodexCategory[] = [
+  {
+    name: "My Farm",
+    icon: SUNNYSIDE.icons.player_small,
+  },
+  {
+    name: "Fish",
+    icon: SUNNYSIDE.icons.heart,
+  },
+  {
+    name: "Mutants",
+    icon: mutantIcon,
+  },
+  // {
+  //   name: "Guide",
+  //   icon: SUNNYSIDE.icons.expression_confused,
+  // },
+];
 
 export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const [currentTab, setCurrentTab] = useState<CodexTabIndex>(0);
@@ -62,7 +86,9 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             </div>
             {/* Content */}
             <InnerPanel className="h-full">
-              <SelectedComponent />
+              {currentTab === 0 && <MyFarm />}
+              {currentTab === 1 && <div></div>}
+              {currentTab === 1 && <Mutants />}
             </InnerPanel>
           </div>
         </OuterPanel>
