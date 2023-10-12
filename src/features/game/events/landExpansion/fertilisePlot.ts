@@ -95,7 +95,7 @@ export function fertilisePlot({
     }
 
     if (!!crop && action.fertiliser === "Sprout Mix") {
-      crop.amount = (crop.amount ?? 1) + 0.25;
+      crop.amount = (crop.amount ?? 1) + 0.2;
     }
   }
 

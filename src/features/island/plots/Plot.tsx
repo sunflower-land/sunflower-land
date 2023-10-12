@@ -160,8 +160,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
     }
   };
 
-  console.log({ fertiliser });
-
   return (
     <>
       <div onClick={onClick} className="w-full h-full relative">
