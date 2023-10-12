@@ -351,7 +351,6 @@ export type PlantedFruit = {
   amount: number;
   harvestsLeft: number;
   harvestedAt: number;
-  fertiliser?: FruitFertiliser;
 };
 
 export type Tree = {
@@ -376,6 +375,7 @@ export type CropPlot = {
 
 export type FruitPatch = {
   fruit?: PlantedFruit;
+  fertiliser?: FruitFertiliser;
 } & Position;
 
 export type Mine = Position;

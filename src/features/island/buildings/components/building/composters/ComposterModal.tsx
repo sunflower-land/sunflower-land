@@ -146,8 +146,8 @@ export const ComposterModal: React.FC<Props> = ({
                 />
               </div>
               <p className="text-sm flex-1">
-                Each compost also has a chance of producing 3-5 worms that can
-                be used as bait for fishing.
+                Each compost also produces 3-5 worms that can be used as bait
+                for fishing.
               </p>
             </div>
           </div>
@@ -206,7 +206,9 @@ export const ComposterModal: React.FC<Props> = ({
                 className="h-4 mr-1"
               />
               <span className="text-xs">
-                Apply the fertiliser to the soil to boost your crops.
+                {composterDetails[composterName].produce === "Fruitful Blend"
+                  ? "Apply the fertiliser to patches to boost your fruit."
+                  : "Apply the fertiliser to soil to boost your crop."}
               </span>
             </div>
             <Button

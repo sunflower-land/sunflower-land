@@ -119,6 +119,7 @@ export function plantFruit({
       collectibles: stateCopy.collectibles,
       buds: stateCopy.buds ?? {},
       wearables: bumpkin.equipped,
+      fertiliser: patch.fertiliser?.name,
     }),
     harvestedAt: 0,
     // Value will be overridden by BE

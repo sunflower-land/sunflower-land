@@ -121,8 +121,8 @@ export const Plot: React.FC<Props> = ({ id }) => {
     }
 
     // apply fertilisers
-    if (!crop && selectedItem && selectedItem in CROP_COMPOST) {
-      gameService.send("crop.fertilised", {
+    if (!readyToHarvest && selectedItem && selectedItem in CROP_COMPOST) {
+      gameService.send("plot.fertilised", {
         plotID: id,
         fertiliser: selectedItem,
       });

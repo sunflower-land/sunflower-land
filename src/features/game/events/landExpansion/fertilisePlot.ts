@@ -2,9 +2,11 @@ import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 import { CropCompostName } from "features/game/types/composters";
+import { CROPS, Crop } from "features/game/types/crops";
+import { isReadyToHarvest } from "./harvest";
 
 export type LandExpansionFertiliseCropAction = {
-  type: "crop.fertilised";
+  type: "plot.fertilised";
   plotID: string;
   expansionIndex: number;
   fertiliser: CropCompostName;
@@ -26,7 +28,22 @@ export enum FERTILISE_CROP_ERRORS {
   NOT_ENOUGH_FERTILISER = "Not enough fertiliser!",
 }
 
-export function fertiliseCrop({
+const getPlantedAt = (
+  fertiliser: CropCompostName,
+  plantedAt: number,
+  fertilisedAt: number,
+  cropDetails: Crop
+) => {
+  const timeToHarvest = cropDetails.harvestSeconds * 1000;
+  const harvestTime = plantedAt + timeToHarvest;
+  const timeReduction = (harvestTime - fertilisedAt) / 2;
+  if (fertiliser === "Rapid Root") {
+    return plantedAt - timeReduction;
+  }
+  return plantedAt;
+};
+
+export function fertilisePlot({
   state,
   action,
   createdAt = Date.now(),
@@ -39,16 +56,6 @@ export function fertiliseCrop({
   }
 
   const plot = plots[action.plotID];
-  const crop = plot && plot.crop;
-
-  if (crop) {
-    throw new Error(FERTILISE_CROP_ERRORS.CROP_EXISTS);
-  }
-
-  // const cropDetails = CROPS()[crop.name];
-  // if (isReadyToHarvest(createdAt, crop, cropDetails)) {
-  //   throw new Error(FERTILISE_CROP_ERRORS.READY_TO_HARVEST);
-  // }
 
   if (plot.fertiliser) {
     throw new Error(FERTILISE_CROP_ERRORS.CROP_ALREADY_FERTILISED);
@@ -64,23 +71,33 @@ export function fertiliseCrop({
     throw new Error(FERTILISE_CROP_ERRORS.NOT_ENOUGH_FERTILISER);
   }
 
-  plots[action.plotID] = {
-    ...plot,
-    fertiliser: {
-      name: action.fertiliser,
-      fertilisedAt: createdAt,
-    },
-    // crop: {
-    //   ...crop,
-    //   plantedAt: getPlantedAt(
-    //     action.fertiliser,
-    //     crop.plantedAt,
-    //     createdAt,
-    //     cropDetails
-    //   ),
-
-    // },
+  // Apply fertiliser
+  plot.fertiliser = {
+    name: action.fertiliser,
+    fertilisedAt: createdAt,
   };
+
+  // Apply buff if already planted
+  const crop = plot.crop;
+  if (crop) {
+    const cropDetails = crop && CROPS()[crop.name];
+    if (cropDetails && isReadyToHarvest(createdAt, crop, cropDetails)) {
+      throw new Error(FERTILISE_CROP_ERRORS.READY_TO_HARVEST);
+    }
+
+    if (cropDetails && action.fertiliser === "Rapid Root") {
+      crop.plantedAt = getPlantedAt(
+        action.fertiliser,
+        crop.plantedAt,
+        createdAt,
+        cropDetails
+      );
+    }
+
+    if (!!crop && action.fertiliser === "Sprout Mix") {
+      crop.amount = (crop.amount ?? 1) + 0.25;
+    }
+  }
 
   inventory[action.fertiliser] = fertiliserAmount.minus(1);
 
