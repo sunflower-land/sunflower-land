@@ -15,6 +15,8 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import lockIcon from "assets/skills/lock.png";
 import levelUpIcon from "assets/icons/level_up.png";
 import goblin from "assets/buildings/goblin_sign.png";
+//import sunflorea from "assets/land/islands/sunflorea.png";
+//import snowman from "assets/npcs/snowman.png";
 import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
 import land from "assets/land/islands/island.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
