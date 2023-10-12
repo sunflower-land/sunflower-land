@@ -35,28 +35,32 @@ import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { SquareIcon } from "components/ui/SquareIcon";
 
-const COMPOSTER_IMAGES: Record<
+export const COMPOSTER_IMAGES: Record<
   ComposterName,
   {
     idle: string;
     composting: string;
     ready: string;
+    width: number;
   }
 > = {
   "Basic Composter": {
     composting: basicComposting,
     idle: basicIdle,
     ready: basicReady,
+    width: 24,
   },
   "Advanced Composter": {
     composting: advancedComposting,
     idle: advancedIdle,
     ready: advancedReady,
+    width: 27,
   },
   "Expert Composter": {
     composting: expertComposting,
     idle: expertIdle,
     ready: expertReady,
+    width: 34,
   },
 };
 const host = window.location.host.replace(/^www\./, "");
@@ -123,7 +127,7 @@ export const ComposterModal: React.FC<Props> = ({
                 />
               </div>
               <p className="text-sm  flex-1">
-                Place crops in the composter & wait!
+                Place crops in the composter to feed the worms
               </p>
             </div>
             <div className="flex mb-2">

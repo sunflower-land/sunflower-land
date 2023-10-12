@@ -1,56 +1,44 @@
 import React, { useContext, useState } from "react";
 
-import basicComposter from "assets/composters/composter_basic.png";
-import basicComposterClosed from "assets/composters/composter_basic_closed.png";
-import basicComposterReady from "assets/composters/composter_basic_ready.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { useActor, useInterpret, useSelector } from "@xstate/react";
-import {
-  CompostingContext,
-  MachineInterpreter,
-  composterMachine,
-  MachineState,
-} from "features/island/buildings/lib/composterMachine";
-import { ComposterModal } from "./ComposterModal";
+import { useSelector } from "@xstate/react";
+import { COMPOSTER_IMAGES, ComposterModal } from "./ComposterModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ProgressBar } from "components/ui/ProgressBar";
+import { MachineState } from "features/game/lib/gameMachine";
+import { BuildingName } from "features/game/types/buildings";
+import { ComposterName } from "features/game/types/composters";
 
-const isIdle = (state: MachineState) => state.matches("idle");
-const isComposting = (state: MachineState) => state.matches("composting");
-const isReady = (state: MachineState) => state.matches("ready");
+const getComposter = (type: BuildingName) => (state: MachineState) =>
+  state.context.state.buildings[type]?.[0];
 
-export const BasicComposter: React.FC = () => {
+const compare = (prev?: any, next?: any) => {
+  return JSON.stringify(prev) === JSON.stringify(next);
+};
+
+interface Props {
+  name: ComposterName;
+}
+export const Composter: React.FC<Props> = ({ name }) => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const { buildings } = gameState.context.state;
   const [showModal, setShowModal] = useState(false);
 
-  const composter = buildings["Basic Composter"]?.[0];
+  const composter = useSelector(gameService, getComposter(name), compare);
 
-  const composterMachineContext: CompostingContext = {
-    gameService,
-    readyAt: composter && composter.producing?.readyAt,
-  };
-
-  const composterService = useInterpret(composterMachine, {
-    context: composterMachineContext,
-  }) as unknown as MachineInterpreter;
-
-  const idle = useSelector(composterService, isIdle);
-  const composting = useSelector(composterService, isComposting);
-  const ready = useSelector(composterService, isReady);
+  const ready =
+    !!composter?.producing && composter.producing.readyAt < Date.now();
+  const composting =
+    !!composter?.producing && composter.producing.readyAt > Date.now();
 
   const startComposter = () => {
     setShowModal(false);
 
     // Simulate delayed closing of lid
     setTimeout(() => {
-      composterService.send({
-        type: "START_COMPOST",
-        event: "composter.started",
+      gameService.send("composter.started", {
         buildingId: composter!.id,
-        building: "Basic Composter",
+        building: name,
       });
     }, 200);
   };
@@ -60,41 +48,39 @@ export const BasicComposter: React.FC = () => {
   };
 
   const handleCollect = () => {
-    composterService?.send({
-      type: "COLLECT",
-      event: "compost.collected",
+    gameService.send("compost.collected", {
       buildingId: composter!.id,
-      building: "Basic Composter",
+      building: name,
     });
   };
 
-  let image = basicComposter;
+  let image = COMPOSTER_IMAGES[name].idle;
   if (ready) {
-    image = basicComposterReady;
+    image = COMPOSTER_IMAGES[name].ready;
   } else if (composting) {
-    image = basicComposterClosed;
+    image = COMPOSTER_IMAGES[name].composting;
   }
 
+  const width = COMPOSTER_IMAGES[name].width;
   return (
     <>
       <div
         className="absolute cursor-pointer hover:img-highlight"
         style={{
-          width: `${PIXEL_SCALE * 24}px`,
+          width: `${PIXEL_SCALE * width}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * 2}px`,
         }}
         onClick={handleClick}
       >
         <img
           src={image}
           style={{
-            width: `${PIXEL_SCALE * 24}px`,
-            left: `${PIXEL_SCALE * 2}px`,
-            bottom: 0,
+            width: `${PIXEL_SCALE * width}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+            left: `${PIXEL_SCALE * ((32 - width) / 2)}px`,
           }}
           className="absolute"
-          alt="Basic Composter"
+          alt={name}
         />
         {composting && composter?.producing?.readyAt && (
           <ProgressBar
@@ -110,7 +96,7 @@ export const BasicComposter: React.FC = () => {
         )}
       </div>
       <ComposterModal
-        composterName="Basic Composter"
+        composterName={name}
         showModal={showModal}
         setShowModal={setShowModal}
         startComposter={startComposter}
