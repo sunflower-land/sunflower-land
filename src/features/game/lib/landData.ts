@@ -605,7 +605,7 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
         producing: {
           name: "Rapid Root",
-          readyAt: Date.now() - 50000,
+          readyAt: Date.now() + 50000,
         },
       },
     ],
@@ -617,7 +617,7 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
         producing: {
           name: "Rapid Root",
-          readyAt: Date.now() - 50000,
+          readyAt: Date.now() + 50000,
         },
       },
     ],

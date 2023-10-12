@@ -83,16 +83,26 @@ export const Composter: React.FC<Props> = ({ name }) => {
           alt={name}
         />
         {composting && composter?.producing?.readyAt && (
-          <ProgressBar
-            formatLength="short"
-            percentage={10}
-            seconds={(composter?.producing?.readyAt - Date.now()) / 1000}
-            type="progress"
+          <div
+            className="flex justify-center absolute bg-red-500"
             style={{
               bottom: "24px",
-              left: "17px",
+              width: `${PIXEL_SCALE * width}px`,
+
+              left: `${PIXEL_SCALE * ((32 - width) / 2)}px`,
             }}
-          />
+          >
+            <ProgressBar
+              formatLength="short"
+              percentage={10}
+              seconds={(composter?.producing?.readyAt - Date.now()) / 1000}
+              type="progress"
+              className="relative"
+              style={{
+                width: `${PIXEL_SCALE * 14}px`,
+              }}
+            />
+          </div>
         )}
       </div>
       <ComposterModal

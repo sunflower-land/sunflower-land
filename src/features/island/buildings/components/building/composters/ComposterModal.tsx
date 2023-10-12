@@ -7,8 +7,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 import tutorial from "src/assets/tutorials/composting.png";
-import lightning from "src/assets/icons/lightning.png";
-import powerup from "src/assets/icons/level_up.png";
 
 import basicIdle from "assets/composters/composter_basic.png";
 import basicComposting from "assets/composters/composter_basic_closed.png";
@@ -93,7 +91,8 @@ export const ComposterModal: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const [showHelp, setShowHelp] = useState(!hasRead());
+
+  const [tab, setTab] = useState(0);
 
   const state = gameState.context.state;
 
@@ -105,199 +104,120 @@ export const ComposterModal: React.FC<Props> = ({
   const disabled = !hasRequirements(state, composterName) || composting;
 
   useEffect(() => {
-    setShowHelp(showModal && !hasRead());
+    if (showModal && !hasRead()) {
+      setTab(1);
+    }
   }, [showModal]);
 
   const Content = () => {
-    if (showHelp) {
-      return (
-        <CloseButtonPanel
-          title={"Composting Guide"}
-          onClose={() => {
-            setShowModal(false);
-          }}
-        >
-          <div className="p-2">
-            <img src={tutorial} className="w-full mx-auto rounded-lg mb-2" />
-            <div className="flex mb-2">
-              <div className="w-12 flex justify-center">
-                <img
-                  src={SUNNYSIDE.icons.timer}
-                  className="h-6 mr-2 object-contain"
-                />
-              </div>
-              <p className="text-sm  flex-1">
-                Place crops in the composter to feed the worms
-              </p>
-            </div>
-            <div className="flex mb-2">
-              <div className="w-12 flex justify-center">
-                <img
-                  src={ITEM_DETAILS["Rapid Root"].image}
-                  className="h-6 mr-2 object-contain"
-                />
-              </div>
-              <p className="text-sm  flex-1">
-                A compost produces 10 Fertilisers which can be used to boost
-                your crops & fruit
-              </p>
-            </div>
-            <div className="flex mb-2">
-              <div className="w-12 flex justify-center">
-                <img
-                  src={SUNNYSIDE.tools.fishing_rod}
-                  className="h-6 mr-2 object-contain"
-                />
-              </div>
-              <p className="text-sm flex-1">
-                Each compost also produces 3-5 worms that can be used as bait
-                for fishing.
-              </p>
-            </div>
-          </div>
-          <Button
-            className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
-            onClick={() => {
-              setShowHelp(false);
-              acknowledgeRead();
-            }}
-          >
-            Ok
-          </Button>
-        </CloseButtonPanel>
-      );
-    }
-
     if (isReady) {
       return (
-        <CloseButtonPanel title={<br />} onClose={() => setShowModal(false)}>
-          <img
-            src={SUNNYSIDE.icons.expression_confused}
-            className="absolute left-3 top-2.5 w-5 cursor-pointer"
-            onClick={() => setShowHelp(true)}
-          />
-          <div className="flex flex-col items-center">
+        <>
+          <div className="flex p-2 -mt-2">
             <img
               src={COMPOSTER_IMAGES[composterName].ready}
-              className="w-32 mb-2"
+              className="w-14 object-contain mr-2"
             />
-            <p className="text-sm">Congratulations, you found:</p>
-            <div className="flex flex-wrap  items-center my-2">
-              <div className="flex items-center mr-4">
-                <span className="text-sm mr-1">10 x</span>
-                <img
-                  src={
-                    ITEM_DETAILS[composterDetails[composterName].produce].image
-                  }
-                  className="h-6"
-                />
+            <div className="mt-2 flex-1">
+              <div className="flex flex-wrap">
+                <div className="relative flex items-center mr-1">
+                  <SquareIcon
+                    icon={ITEM_DETAILS[composterInfo.produce].image}
+                    width={12}
+                    className="mr-2 mb-1.5"
+                  />
+                  <Label type="default" className="mb-1">
+                    {`10 ${composterInfo.produce}`}
+                  </Label>
+                </div>
+                <div className="relative flex items-center">
+                  <SquareIcon
+                    icon={ITEM_DETAILS[composterInfo.bait].image}
+                    width={12}
+                    className=" mb-1.5"
+                  />
+                  <Label type="default" className="mb-1">
+                    {`1 ${composterInfo.bait}`}
+                  </Label>
+                </div>
               </div>
-              <div className="flex  items-center">
-                <span className="text-sm mr-1">1 x</span>
-                <img
-                  src={ITEM_DETAILS[composterDetails[composterName].bait].image}
-                  className="h-6"
-                />
+              <div className="flex items-center">
+                <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
+                <span className="text-xs">Compost Complete</span>
               </div>
             </div>
-            <div className="flex justify-center text-center my-1">
-              <img
-                src={
-                  composterDetails[composterName].produce === "Rapid Root"
-                    ? lightning
-                    : powerup
-                }
-                className="h-4 mr-1"
-              />
-              <span className="text-xs">
-                {composterDetails[composterName].produce === "Fruitful Blend"
-                  ? "Apply the fertiliser to patches to boost your fruit."
-                  : "Apply the fertiliser to soil to boost your crop."}
-              </span>
-            </div>
-            <Button
-              className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
-              onClick={onCollect}
-            >
-              Collect
-            </Button>
           </div>
-        </CloseButtonPanel>
+
+          <Button
+            className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
+            onClick={onCollect}
+          >
+            Collect
+          </Button>
+        </>
       );
     }
 
     if (composting) {
       return (
-        <CloseButtonPanel title={<br />} onClose={() => setShowModal(false)}>
-          <img
-            src={SUNNYSIDE.icons.expression_confused}
-            className="absolute left-3 top-2.5 w-5 cursor-pointer"
-            onClick={() => setShowHelp(true)}
-          />
-          <div className="flex flex-col items-center -mt-8">
+        <>
+          <div className="flex p-2 -mt-2">
             <img
               src={COMPOSTER_IMAGES[composterName].composting}
-              className="w-32"
+              className="w-14 object-contain mr-2"
             />
-            <p className="text-sm loading">Composting</p>
-            <div className="flex items-center mb-2">
-              <img src={SUNNYSIDE.icons.timer} className="h-4 mr-3" />
+            <div className="mt-2 flex-1">
+              <div className="flex items-center mb-2">
+                <img src={SUNNYSIDE.icons.timer} className="h-5 mr-1" />
 
-              <span className="text-xs mr-1">
-                {secondsToString((readyAt - Date.now()) / 1000, {
-                  length: "full",
-                })}
-              </span>
-            </div>
-            <div className="flex flex-wrap justify-center space-x-2 ">
-              <div className="relative flex items-center">
-                <SquareIcon
-                  icon={ITEM_DETAILS[composterInfo.produce].image}
-                  width={12}
-                  className="mr-2 mb-1.5"
-                />
-                <Label type="default" className="mb-2">
-                  {`10 x ${composterInfo.produce}`}
-                </Label>
+                <span className="text-xs mr-1">
+                  {secondsToString((readyAt - Date.now()) / 1000, {
+                    length: "full",
+                  })}
+                </span>
               </div>
-              <div className="relative flex items-center">
-                <SquareIcon
-                  icon={ITEM_DETAILS[composterInfo.bait].image}
-                  width={12}
-                  className=" mb-1.5"
-                />
-                <Label type="default" className="mb-2">
-                  {`1 x ${composterInfo.bait}`}
-                </Label>
+              <div className="flex flex-wrap">
+                <div className="relative flex items-center">
+                  <SquareIcon
+                    icon={ITEM_DETAILS[composterInfo.produce].image}
+                    width={12}
+                    className="mr-2 mb-1.5"
+                  />
+                  <Label type="default" className="mb-2">
+                    {`10 ${composterInfo.produce}`}
+                  </Label>
+                </div>
+                <div className="relative flex items-center">
+                  <SquareIcon
+                    icon={ITEM_DETAILS[composterInfo.bait].image}
+                    width={12}
+                    className=" mb-1.5"
+                  />
+                  <Label type="default" className="mb-2">
+                    {`1 ${composterInfo.bait}`}
+                  </Label>
+                </div>
               </div>
             </div>
           </div>
-        </CloseButtonPanel>
+        </>
       );
     }
-    return (
-      <CloseButtonPanel title={<br />} onClose={() => setShowModal(false)}>
-        <img
-          src={SUNNYSIDE.icons.expression_confused}
-          className="absolute left-3 top-2.5 w-5 cursor-pointer"
-          onClick={() => setShowHelp(true)}
-        />
 
+    return (
+      <>
         <div className="flex flex-col h-full">
           <div className="flex flex-col h-full px-1 py-0">
-            <div className="flex sm:flex-row flex-col">
-              <div className="flex space-x-2 justify-start items-center mr-4">
-                <div className="">
-                  <SquareIcon
-                    icon={
-                      ITEM_DETAILS[composterDetails[composterName].produce]
-                        .image
-                    }
-                    width={14}
-                  />
-                </div>
+            <div className="flex flex-wrap space-x-2">
+              <div className="flex space-x-2 justify-start items-center">
+                <SquareIcon
+                  icon={
+                    ITEM_DETAILS[composterDetails[composterName].produce].image
+                  }
+                  width={14}
+                />
                 <div className="block">
-                  <p className="text-sm">
+                  <p className="text-xs">
                     10 x {composterDetails[composterName].produce}
                   </p>
                   <Label type="success" className="text-xs whitespace-pre-line">
@@ -306,16 +226,14 @@ export const ComposterModal: React.FC<Props> = ({
                 </div>
               </div>
               <div className="flex space-x-2 justify-start items-center mt-2 sm:mt-0">
-                <div className="">
-                  <SquareIcon
-                    icon={
-                      ITEM_DETAILS[composterDetails[composterName].bait].image
-                    }
-                    width={14}
-                  />
-                </div>
+                <SquareIcon
+                  icon={
+                    ITEM_DETAILS[composterDetails[composterName].bait].image
+                  }
+                  width={14}
+                />
                 <div className="block">
-                  <p className="text-sm">
+                  <p className="text-xs">
                     1 x {composterDetails[composterName].bait}
                   </p>
                   <Label type="default" className="text-xs whitespace-pre-line">
@@ -360,13 +278,79 @@ export const ComposterModal: React.FC<Props> = ({
         >
           Compost
         </Button>
-      </CloseButtonPanel>
+      </>
     );
   };
 
   return (
     <Modal show={showModal} centered onHide={() => setShowModal(false)}>
-      <Content />
+      <CloseButtonPanel
+        onClose={() => {
+          setShowModal(false);
+        }}
+        tabs={[
+          { icon: ITEM_DETAILS["Sprout Mix"].image, name: "Composter" },
+          {
+            icon: SUNNYSIDE.icons.expression_confused,
+            name: "Guide",
+          },
+        ]}
+        currentTab={tab}
+        setCurrentTab={setTab}
+      >
+        {tab === 0 && <Content />}
+        {tab === 1 && (
+          <>
+            <div className="p-2">
+              <img src={tutorial} className="w-full mx-auto rounded-lg mb-2" />
+              <div className="flex mb-2">
+                <div className="w-12 flex justify-center">
+                  <img
+                    src={SUNNYSIDE.icons.timer}
+                    className="h-6 mr-2 object-contain"
+                  />
+                </div>
+                <p className="text-xs  flex-1">
+                  Place crops in the composter to feed the worms.
+                </p>
+              </div>
+              <div className="flex mb-2">
+                <div className="w-12 flex justify-center">
+                  <img
+                    src={ITEM_DETAILS["Rapid Root"].image}
+                    className="h-6 mr-2 object-contain"
+                  />
+                </div>
+                <p className="text-xs  flex-1">
+                  A compost produces 10 Fertilisers which can be used to boost
+                  your crops & fruit.
+                </p>
+              </div>
+              <div className="flex mb-2">
+                <div className="w-12 flex justify-center">
+                  <img
+                    src={SUNNYSIDE.tools.fishing_rod}
+                    className="h-6 mr-2 object-contain"
+                  />
+                </div>
+                <p className="text-xs flex-1">
+                  Each compost also produces 3-5 worms that can be used as bait
+                  for fishing.
+                </p>
+              </div>
+            </div>
+            <Button
+              className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
+              onClick={() => {
+                setTab(0);
+                acknowledgeRead();
+              }}
+            >
+              Ok
+            </Button>
+          </>
+        )}
+      </CloseButtonPanel>
     </Modal>
   );
 };
