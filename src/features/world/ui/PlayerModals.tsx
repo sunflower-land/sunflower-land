@@ -88,6 +88,12 @@ export const PlayerModals: React.FC = () => {
                   {/* Progress bar */}
                   <BumpkinLevel experience={player?.experience} />
                 </div>
+
+                {player?.id && (
+                  <div className="flex-auto self-start text-right text-xs mr-3 f-10">
+                    #{player?.id}
+                  </div>
+                )}
               </div>
             </>
           )}
