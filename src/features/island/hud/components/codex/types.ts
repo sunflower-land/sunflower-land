@@ -6,6 +6,7 @@ import { Mutants } from "./pages/Mutants";
 import { categories } from "./Codex";
 
 export type CodexCategoryName = "My Farm" | "Fish" | "Mutants" | "Guide";
+export type CollectionGroup = "mutants" | "fish";
 
 export interface CodexCategory {
   name: CodexCategoryName;

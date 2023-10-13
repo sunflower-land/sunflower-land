@@ -19,6 +19,7 @@ import {
   ACHIEVEMENTS,
   AchievementName,
 } from "features/game/types/achievements";
+import { GameState } from "features/game/types/game";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `last-task.${host}-${window.location.pathname}`;
@@ -31,14 +32,10 @@ function lastAcknowledgedTask() {
   return localStorage.getItem(LOCAL_STORAGE_KEY);
 }
 
-export const Otis: React.FC = () => {
-  const [tab, setTab] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
-  const [guide, setGuide] = useState<GuidePath>();
-
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
+export function getActiveTask(gameState: GameState): {
+  activeTask: AchievementName;
+  activeTaskIndex: number;
+} {
   const lastTask = lastAcknowledgedTask();
   const lastTaskIndex = WALKTHROUGH.findIndex((name) => name === lastTask);
 
@@ -49,11 +46,24 @@ export const Otis: React.FC = () => {
     }
 
     const achievement = ACHIEVEMENTS()[name];
-    const progress = achievement.progress(gameState.context.state);
+    const progress = achievement.progress(gameState);
     const isComplete = progress >= achievement.requirement;
 
     return !isComplete;
   });
+
+  return { activeTask: WALKTHROUGH[activeTaskIndex], activeTaskIndex };
+}
+
+export const Otis: React.FC = () => {
+  const [tab, setTab] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [guide, setGuide] = useState<GuidePath>();
+
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  const { activeTaskIndex } = getActiveTask(gameState.context.state);
 
   const [activeTask, setActiveTask] = useState<AchievementName>();
 
@@ -150,7 +160,6 @@ export const Otis: React.FC = () => {
                   setTab(1);
                 }}
                 task={activeTask}
-                state={gameState.context.state}
               />
             )}
             {tab === 1 && <Guide selected={guide} onSelect={setGuide} />}
