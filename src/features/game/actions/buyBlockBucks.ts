@@ -76,6 +76,9 @@ export async function buyBlockBucksXsolla(
         Authorization: `Bearer ${request.token}`,
         "X-Transaction-ID": request.transactionId,
       },
+      body: JSON.stringify({
+        amount: request.amount,
+      }),
     }
   );
 

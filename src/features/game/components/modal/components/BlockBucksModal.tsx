@@ -14,6 +14,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { randomID } from "lib/utils/random";
 import { Label } from "components/ui/Label";
 import { useSearchParams } from "react-router-dom";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   closeable: boolean;
@@ -142,7 +143,7 @@ export const BlockBucksModal: React.FC<Props> = ({
   };
 
   const onCreditCardSuccess = () => {
-    setCloseable(true);
+    onClose();
     gameService.send("UPDATE_BLOCK_BUCKS", { amount: price?.amount });
   };
 
@@ -192,14 +193,14 @@ export const BlockBucksModal: React.FC<Props> = ({
                   }}
                 />
               </div>
-              {price.amount == 1 && (
+              {price.amount === 1 && (
                 <Label type="info" className="mb-1">
                   Choose a higher amount
                 </Label>
               )}
               <Button
                 onClick={() => onCreditCardBuy()}
-                disabled={price.amount == 1}
+                disabled={price.amount === 1 || !hasFeatureAccess({}, "XSOLLA")}
               >
                 Pay with Cash
               </Button>
@@ -290,7 +291,7 @@ export const BlockBucksModal: React.FC<Props> = ({
       }}
     >
       {showXsolla ? (
-        <XsollaIFrame url={showXsolla} onSuccess={onClose} />
+        <XsollaIFrame url={showXsolla} onSuccess={onCreditCardSuccess} />
       ) : (
         <Content />
       )}
