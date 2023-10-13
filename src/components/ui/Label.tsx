@@ -10,6 +10,7 @@ import {
   pixelFormulaBorderStyle,
   pixelGreenBorderStyle,
 } from "features/game/lib/style";
+import { SquareIcon } from "./SquareIcon";
 
 type labelType =
   | "default"
@@ -95,7 +96,7 @@ export const Label: React.FC<Props> = ({
   return (
     <div
       className={classnames(
-        `w-fit justify-center inline-flex pl-1 pr-0.5 items-center uppercase relative`,
+        `w-fit justify-center inline-flex items-center uppercase relative`,
         className
       )}
       style={{
@@ -103,14 +104,17 @@ export const Label: React.FC<Props> = ({
         background: LABEL_STYLES[type].background,
         fontFamily: "TinyFont",
         textShadow: "none",
+        paddingLeft: icon ? "14px" : "2px",
+        paddingRight: secondaryIcon ? "14px" : "2px",
         // textShadow: LABEL_STYLES[type].textColour ? "#ffffff" : "none",
         color: LABEL_STYLES[type].textColour,
         ...style,
       }}
     >
       {icon && (
-        <img
-          src={icon}
+        <SquareIcon
+          icon={icon}
+          width={9}
           className="absolute"
           style={{ height: `24px`, bottom: "-3px", left: "-12px" }}
         />
@@ -118,127 +122,21 @@ export const Label: React.FC<Props> = ({
       <span
         style={{
           fontSize: `10px`,
+          textAlign: "center",
           lineHeight: "14px",
           paddingTop: "2px",
-          marginLeft: icon ? "14px" : 0,
-          marginRight: secondaryIcon ? "14px" : 0,
         }}
       >
         {children}
       </span>
       {secondaryIcon && (
-        <img
-          src={secondaryIcon}
+        <SquareIcon
+          icon={secondaryIcon}
+          width={9}
           className="absolute"
           style={{ height: `24px`, bottom: "-3px", right: "-12px" }}
         />
       )}
     </div>
-  );
-
-  return (
-    <>
-      {type === "default" && (
-        <div
-          className={classnames(
-            "bg-silver-500 text-xxs object-contain justify-center inline-flex px-1 items-center",
-            className
-          )}
-          style={{ ...pixelGrayBorderStyle, ...style }}
-        >
-          <span
-            style={{
-              lineHeight: "12px",
-              height: "14px",
-            }}
-          >
-            {children}
-          </span>
-        </div>
-      )}
-
-      {type === "warning" && (
-        <div
-          className={classnames(
-            "bg-[#fdae34] text-xxs object-contain justify-center inline-flex px-1 items-center",
-            className
-          )}
-          style={{ ...pixelOrangeBorderStyle, ...style }}
-        >
-          <span
-            className="inline-flex items-center"
-            style={{
-              lineHeight: "12px",
-              height: "auto",
-              paddingBottom: "2px",
-            }}
-          >
-            {children}
-          </span>
-        </div>
-      )}
-
-      {type === "vibrant" && (
-        <div
-          className={classnames(
-            "bg-[#b65389] text-xxs object-contain justify-center inline-flex px-1 items-center",
-            className
-          )}
-          style={{ ...pixelVibrantBorderStyle, ...style }}
-        >
-          <span
-            className="inline-flex items-center"
-            style={{
-              lineHeight: "12px",
-              height: "14px",
-              paddingBottom: "2px",
-            }}
-          >
-            {children}
-          </span>
-        </div>
-      )}
-
-      {type === "danger" && (
-        <div
-          className={classnames(
-            "bg-[#e43b44] text-xxs object-contain justify-center inline-flex px-1 items-center",
-            className
-          )}
-          style={{ ...pixelRedBorderStyle, ...style }}
-        >
-          <span
-            className="inline-flex items-center"
-            style={{
-              lineHeight: "12px",
-              height: "14px",
-              paddingBottom: "2px",
-            }}
-          >
-            {children}
-          </span>
-        </div>
-      )}
-
-      {type !== "default" &&
-        type !== "vibrant" &&
-        type !== "warning" &&
-        type !== "danger" && (
-          <span
-            className={classnames(
-              "text-xxs px-1.5 pb-1 pt-0.5 rounded-md inline-flex items-center",
-              {
-                "bg-green-600": type === "success",
-                "bg-blue-600": type === "info",
-                border: type !== "transparent",
-              },
-              className
-            )}
-            style={style}
-          >
-            {children}
-          </span>
-        )}
-    </>
   );
 };

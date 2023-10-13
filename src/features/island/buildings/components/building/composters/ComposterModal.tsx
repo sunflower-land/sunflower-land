@@ -7,6 +7,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 import tutorial from "src/assets/tutorials/composting.png";
+import powerup from "src/assets/icons/level_up.png";
 
 import basicIdle from "assets/composters/composter_basic.png";
 import basicComposting from "assets/composters/composter_basic_closed.png";
@@ -120,23 +121,21 @@ export const ComposterModal: React.FC<Props> = ({
             />
             <div className="mt-2 flex-1">
               <div className="flex flex-wrap">
-                <div className="relative flex items-center mr-1">
-                  <SquareIcon
-                    icon={ITEM_DETAILS[composterInfo.produce].image}
-                    width={12}
-                    className="mr-2 mb-1.5"
-                  />
-                  <Label type="default" className="mb-1">
+                <div className="relative flex items-center mr-3">
+                  <Label
+                    type="default"
+                    className="mb-1"
+                    secondaryIcon={ITEM_DETAILS[composterInfo.produce].image}
+                  >
                     {`10 ${composterInfo.produce}`}
                   </Label>
                 </div>
                 <div className="relative flex items-center">
-                  <SquareIcon
-                    icon={ITEM_DETAILS[composterInfo.bait].image}
-                    width={12}
-                    className=" mb-1.5"
-                  />
-                  <Label type="default" className="mb-1">
+                  <Label
+                    type="default"
+                    className="mb-1"
+                    secondaryIcon={ITEM_DETAILS[composterInfo.bait].image}
+                  >
                     {`1 ${composterInfo.bait}`}
                   </Label>
                 </div>
@@ -177,23 +176,21 @@ export const ComposterModal: React.FC<Props> = ({
                 </span>
               </div>
               <div className="flex flex-wrap">
-                <div className="relative flex items-center">
-                  <SquareIcon
-                    icon={ITEM_DETAILS[composterInfo.produce].image}
-                    width={12}
-                    className="mr-2 mb-1.5"
-                  />
-                  <Label type="default" className="mb-2">
+                <div className="relative flex items-center mr-4">
+                  <Label
+                    type="default"
+                    className="mb-2"
+                    secondaryIcon={ITEM_DETAILS[composterInfo.produce].image}
+                  >
                     {`10 ${composterInfo.produce}`}
                   </Label>
                 </div>
                 <div className="relative flex items-center">
-                  <SquareIcon
-                    icon={ITEM_DETAILS[composterInfo.bait].image}
-                    width={12}
-                    className=" mb-1.5"
-                  />
-                  <Label type="default" className="mb-2">
+                  <Label
+                    type="default"
+                    className="mb-2"
+                    secondaryIcon={ITEM_DETAILS[composterInfo.bait].image}
+                  >
                     {`1 ${composterInfo.bait}`}
                   </Label>
                 </div>
@@ -220,8 +217,12 @@ export const ComposterModal: React.FC<Props> = ({
                   <p className="text-xs">
                     10 x {composterDetails[composterName].produce}
                   </p>
-                  <Label type="success" className="text-xs whitespace-pre-line">
-                    +0.2 Crop fertiliser
+                  <Label
+                    icon={powerup}
+                    type="success"
+                    className="text-xs whitespace-pre-line"
+                  >
+                    +0.2 Crops
                   </Label>
                 </div>
               </div>
@@ -236,7 +237,11 @@ export const ComposterModal: React.FC<Props> = ({
                   <p className="text-xs">
                     1 x {composterDetails[composterName].bait}
                   </p>
-                  <Label type="default" className="text-xs whitespace-pre-line">
+                  <Label
+                    icon={SUNNYSIDE.tools.fishing_rod}
+                    type="default"
+                    className="text-xs whitespace-pre-line"
+                  >
                     Fishing bait
                   </Label>
                 </div>
