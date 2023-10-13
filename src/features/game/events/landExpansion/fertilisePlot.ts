@@ -1,12 +1,12 @@
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
-import { CROPS, Crop } from "../../types/crops";
 import { GameState } from "../../types/game";
-import { isReadyToHarvest } from "./harvest";
 import { CropCompostName } from "features/game/types/composters";
+import { CROPS, Crop } from "features/game/types/crops";
+import { isReadyToHarvest } from "./harvest";
 
 export type LandExpansionFertiliseCropAction = {
-  type: "crop.fertilised";
+  type: "plot.fertilised";
   plotID: string;
   expansionIndex: number;
   fertiliser: CropCompostName;
@@ -20,7 +20,7 @@ type Options = {
 
 export enum FERTILISE_CROP_ERRORS {
   EMPTY_PLOT = "Plot does not exist!",
-  EMPTY_CROP = "There is no crop planted!",
+  CROP_EXISTS = "There is a crop planted!",
   READY_TO_HARVEST = "Crop is ready to harvest!",
   CROP_ALREADY_FERTILISED = "Crop is already fertilised!",
   NO_FERTILISER_SELECTED = "No fertiliser selected!",
@@ -43,7 +43,7 @@ const getPlantedAt = (
   return plantedAt;
 };
 
-export function fertiliseCrop({
+export function fertilisePlot({
   state,
   action,
   createdAt = Date.now(),
@@ -56,18 +56,8 @@ export function fertiliseCrop({
   }
 
   const plot = plots[action.plotID];
-  const crop = plot && plot.crop;
 
-  if (!crop) {
-    throw new Error(FERTILISE_CROP_ERRORS.EMPTY_CROP);
-  }
-
-  const cropDetails = CROPS()[crop.name];
-  if (isReadyToHarvest(createdAt, crop, cropDetails)) {
-    throw new Error(FERTILISE_CROP_ERRORS.READY_TO_HARVEST);
-  }
-
-  if (crop.fertiliser) {
+  if (plot.fertiliser) {
     throw new Error(FERTILISE_CROP_ERRORS.CROP_ALREADY_FERTILISED);
   }
 
@@ -81,22 +71,33 @@ export function fertiliseCrop({
     throw new Error(FERTILISE_CROP_ERRORS.NOT_ENOUGH_FERTILISER);
   }
 
-  plots[action.plotID] = {
-    ...plot,
-    crop: {
-      ...crop,
-      plantedAt: getPlantedAt(
+  // Apply fertiliser
+  plot.fertiliser = {
+    name: action.fertiliser,
+    fertilisedAt: createdAt,
+  };
+
+  // Apply buff if already planted
+  const crop = plot.crop;
+  if (crop) {
+    const cropDetails = crop && CROPS()[crop.name];
+    if (cropDetails && isReadyToHarvest(createdAt, crop, cropDetails)) {
+      throw new Error(FERTILISE_CROP_ERRORS.READY_TO_HARVEST);
+    }
+
+    if (cropDetails && action.fertiliser === "Rapid Root") {
+      crop.plantedAt = getPlantedAt(
         action.fertiliser,
         crop.plantedAt,
         createdAt,
         cropDetails
-      ),
-      fertiliser: {
-        name: action.fertiliser,
-        fertilisedAt: createdAt,
-      },
-    },
-  };
+      );
+    }
+
+    if (!!crop && action.fertiliser === "Sprout Mix") {
+      crop.amount = (crop.amount ?? 1) + 0.2;
+    }
+  }
 
   inventory[action.fertiliser] = fertiliserAmount.minus(1);
 

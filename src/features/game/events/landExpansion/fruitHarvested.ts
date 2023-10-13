@@ -20,6 +20,7 @@ import {
 import cloneDeep from "lodash.clonedeep";
 import { getTimeLeft } from "lib/utils/time";
 import { FruitPatch } from "features/game/types/game";
+import { FruitCompostName } from "features/game/types/composters";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -48,6 +49,7 @@ type FruitYield = {
   collectibles: Collectibles;
   buds: NonNullable<GameState["buds"]>;
   wearables: Equipped;
+  fertiliser?: FruitCompostName;
 };
 
 export function isFruitGrowing(patch: FruitPatch) {
@@ -74,6 +76,7 @@ export function getFruitYield({
   buds,
   name,
   wearables,
+  fertiliser,
 }: FruitYield) {
   let amount = 1;
   if (name === "Apple" && isCollectibleBuilt("Lady Bug", collectibles)) {
@@ -91,6 +94,10 @@ export function getFruitYield({
     (name === "Apple" || name === "Orange" || name === "Blueberry") &&
     wearables?.coat === "Fruit Picker Apron"
   ) {
+    amount += 0.1;
+  }
+
+  if (fertiliser === "Fruitful Blend") {
     amount += 0.1;
   }
 
@@ -173,10 +180,8 @@ export function harvestFruit({
     buds: stateCopy.buds ?? {},
     wearables: bumpkin.equipped,
     name,
+    fertiliser: patch.fertiliser?.name,
   });
-
-  // remove fertiliser
-  delete patch.fruit.fertiliser;
 
   const activityName: BumpkinActivityName = `${name} Harvested`;
 

@@ -74,9 +74,9 @@ import {
 } from "./landExpansion/buyDecoration";
 import { sellCrop, SellCropAction } from "./landExpansion/sellCrop";
 import {
-  fertiliseCrop as landExpansionFertilise,
+  fertilisePlot as landExpansionFertilise,
   LandExpansionFertiliseCropAction,
-} from "./landExpansion/fertiliseCrop";
+} from "./landExpansion/fertilisePlot";
 import {
   removeCrop as landExpansionRemoveCrop,
   LandExpansionRemoveCropAction,
@@ -180,9 +180,9 @@ import {
   collectCompostAction,
 } from "./landExpansion/collectCompost";
 import {
-  fertiliseFruit,
+  fertiliseFruitPatch,
   FertiliseFruitAction,
-} from "./landExpansion/fertiliseFruit";
+} from "./landExpansion/fertiliseFruitPatch";
 import { castRod, CastRodAction } from "./landExpansion/castRod";
 import { reelRod, ReelRodAction } from "./landExpansion/reelRod";
 
@@ -308,7 +308,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "bot.detected": detectBot,
   "seed.planted": landExpansionPlant,
   "crop.harvested": landExpansionHarvest,
-  "crop.fertilised": landExpansionFertilise,
+  "plot.fertilised": landExpansionFertilise,
   "crop.removed": landExpansionRemoveCrop,
   "chicken.collectEgg": landExpansionCollectEggs,
   "stoneRock.mined": landExpansionMineStone,
@@ -362,7 +362,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "trade.received": receiveTrade,
   "composter.started": startComposter,
   "compost.collected": collectCompost,
-  "fruit.fertilised": fertiliseFruit,
+  "fruitPatch.fertilised": fertiliseFruitPatch,
   "rod.casted": castRod,
   "rod.reeled": reelRod,
 };

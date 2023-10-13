@@ -1,16 +1,14 @@
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
-import { isFruitReadyToHarvest } from "./fruitHarvested";
 import {
   FRUIT_COMPOST,
   FruitCompostName,
 } from "features/game/types/composters";
 import { GameState, PlantedFruit } from "features/game/types/game";
-import { FRUIT } from "features/game/types/fruits";
 
 export enum FERTILISE_FRUIT_ERRORS {
   EMPTY_PATCH = "Fruit Patch does not exist!",
-  EMPTY_FRUIT = "There is no fruit planted!",
+  FRUIT_EXISTS = "There no fruit planted!",
   READY_TO_HARVEST = "Fruit is ready to harvest!",
   FRUIT_ALREADY_FERTILISED = "Fruit is already fertilised!",
   NO_FERTILISER_SELECTED = "No fertiliser selected!",
@@ -19,7 +17,7 @@ export enum FERTILISE_FRUIT_ERRORS {
 }
 
 export type FertiliseFruitAction = {
-  type: "fruit.fertilised";
+  type: "fruitPatch.fertilised";
   patchID: string;
   fertiliser: FruitCompostName;
 };
@@ -38,7 +36,7 @@ const getYield = (fruitDetails: PlantedFruit, fertiliser: FruitCompostName) => {
   return fruitDetails.amount;
 };
 
-export function fertiliseFruit({
+export function fertiliseFruitPatch({
   state,
   action,
   createdAt = Date.now(),
@@ -52,19 +50,7 @@ export function fertiliseFruit({
     throw new Error(FERTILISE_FRUIT_ERRORS.EMPTY_PATCH);
   }
 
-  const fruit = fruitPatch && fruitPatch.fruit;
-
-  if (!fruit) {
-    throw new Error(FERTILISE_FRUIT_ERRORS.EMPTY_FRUIT);
-  }
-
-  const fruitDetails = FRUIT()[fruit.name];
-
-  if (isFruitReadyToHarvest(createdAt, fruit, fruitDetails)) {
-    throw new Error(FERTILISE_FRUIT_ERRORS.READY_TO_HARVEST);
-  }
-
-  if (fruit.fertiliser) {
+  if (fruitPatch.fertiliser) {
     throw new Error(FERTILISE_FRUIT_ERRORS.FRUIT_ALREADY_FERTILISED);
   }
 
@@ -82,17 +68,19 @@ export function fertiliseFruit({
     throw new Error(FERTILISE_FRUIT_ERRORS.NOT_ENOUGH_FERTILISER);
   }
 
+  // Apply fertiliser
   fruitPatches[action.patchID] = {
     ...fruitPatch,
-    fruit: {
-      ...fruit,
-      amount: getYield(fruit, action.fertiliser),
-      fertiliser: {
-        name: action.fertiliser,
-        fertilisedAt: createdAt,
-      },
+    fertiliser: {
+      name: action.fertiliser,
+      fertilisedAt: createdAt,
     },
   };
+
+  // Apply boost to already planted
+  if (fruitPatch.fruit) {
+    fruitPatch.fruit.amount += 0.1;
+  }
 
   inventory[action.fertiliser] = fertiliserAmount.minus(1);
 

@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
-import fruitPatch from "assets/fruit/fruit_patch.png";
+import fruitPatchDirt from "assets/fruit/fruit_patch.png";
+import powerup from "assets/icons/level_up.png";
 
 import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -15,11 +16,11 @@ import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
   Collectibles,
+  FruitPatch as Patch,
   InventoryItemName,
   PlantedFruit,
 } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { ITEM_DETAILS } from "features/game/types/images";
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
@@ -47,7 +48,7 @@ const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectCollectibles = (state: MachineState) =>
   state.context.state.collectibles;
 
-const compareFruit = (prev?: PlantedFruit, next?: PlantedFruit) => {
+const compareFruit = (prev?: Patch, next?: Patch) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
 const compareCollectibles = (prev: Collectibles, next: Collectibles) =>
@@ -64,11 +65,14 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   const [showInfo, setShowInfo] = useState(false);
   const [playAnimation, setPlayAnimation] = useState(false);
 
-  const fruit = useSelector(
+  const fruitPatch = useSelector(
     gameService,
-    (state) => state.context.state.fruitPatches[id]?.fruit,
+    (state) => state.context.state.fruitPatches[id],
     compareFruit
   );
+
+  const fruit = fruitPatch?.fruit;
+
   const collectibles = useSelector(
     gameService,
     selectCollectibles,
@@ -137,6 +141,11 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   };
 
   const plantTree = () => {
+    if (selectedItem === "Fruitful Blend") {
+      fertilise();
+      return;
+    }
+
     try {
       gameService.send("fruit.planted", {
         index: id,
@@ -152,7 +161,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
 
   const fertilise = () => {
     try {
-      gameService.send("fruit.fertilised", {
+      gameService.send("fruitPatch.fertilised", {
         patchID: id,
         fertiliser: selectedItem,
       });
@@ -163,11 +172,13 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
 
   const showError = showInfo && infoToShow === "error";
 
+  const fertiliser = fruitPatch.fertiliser;
+
   return (
     <div className="w-full h-full relative flex justify-center items-center">
       <div className="absolute w-full h-full flex justify-center">
         <img
-          src={fruitPatch}
+          src={fruitPatchDirt}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 30}px`,
@@ -184,28 +195,20 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
           playing={playing}
           playAnimation={playAnimation}
           showOnClickInfo={showInfo && infoToShow === "info"}
-          fertiliser={fruit?.fertiliser}
+          fertiliser={fruitPatch?.fertiliser}
         />
       </div>
 
-      {!!fruit?.fertiliser && (
-        <div
+      {!!fertiliser && (
+        <img
           className="absolute z-10 pointer-events-none"
+          src={powerup}
           style={{
-            top: `${PIXEL_SCALE * -4}px`,
-            left: `${PIXEL_SCALE * 22}px`,
-            width: `${PIXEL_SCALE * 10}px`,
+            width: `${PIXEL_SCALE * 6}px`,
+            bottom: `${PIXEL_SCALE * 14}px`,
+            right: `${PIXEL_SCALE * 4}px`,
           }}
-        >
-          <img
-            key={fruit.fertiliser.name}
-            src={ITEM_DETAILS[fruit.fertiliser.name].image}
-            style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              marginBottom: `${PIXEL_SCALE * 1}px`,
-            }}
-          />
-        </div>
+        />
       )}
       {/* Error Icon */}
       <div

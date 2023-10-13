@@ -5,6 +5,10 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { GrowthStage, Soil } from "features/island/plots/components/Soil";
 import { Bar, ProgressBar } from "components/ui/ProgressBar";
+
+import lightning from "assets/icons/lightning.png";
+import powerup from "assets/icons/level_up.png";
+
 import { TimerPopover } from "../../common/TimerPopover";
 import { getTimeLeft } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
@@ -84,23 +88,16 @@ const FertilePlotComponent: React.FC<Props> = ({
 
       {/* Fertiliser */}
       {!!fertiliser && (
-        <div
+        <img
+          key={fertiliser.name}
           className="absolute z-10 pointer-events-none"
+          src={fertiliser.name === "Rapid Root" ? lightning : powerup}
           style={{
-            top: `${PIXEL_SCALE * -6}px`,
-            left: `${PIXEL_SCALE * 9}px`,
-            width: `${PIXEL_SCALE * 10}px`,
+            width: `${PIXEL_SCALE * 6}px`,
+            bottom: `${PIXEL_SCALE * 9}px`,
+            right: `${PIXEL_SCALE * 1}px`,
           }}
-        >
-          <img
-            key={fertiliser.name}
-            src={ITEM_DETAILS[fertiliser.name].image}
-            style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              marginBottom: `${PIXEL_SCALE * 1}px`,
-            }}
-          />
-        </div>
+        />
       )}
 
       {/* Time popover */}
