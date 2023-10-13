@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CodexCategory, CodexTabIndex } from "./types";
+import { CodexCategory, CodexCategoryName, CodexTabIndex } from "./types";
 import { Modal } from "react-bootstrap";
 import { Tab } from "components/ui/Tab";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -11,6 +11,8 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import mutantIcon from "assets/icons/mutants.webp";
 import { MyFarm } from "./pages/MyFarm";
 import { Mutants } from "./pages/Mutants";
+import { Guide } from "features/helios/components/hayseedHank/components/Guide";
+import { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
 
 interface Props {
   show: boolean;
@@ -23,27 +25,35 @@ export const categories: CodexCategory[] = [
     icon: SUNNYSIDE.icons.player_small,
   },
   {
-    name: "Fish",
-    icon: SUNNYSIDE.icons.heart,
+    name: "Guide",
+    icon: SUNNYSIDE.icons.expression_confused,
   },
   {
     name: "Mutants",
     icon: mutantIcon,
   },
-  // {
-  //   name: "Guide",
-  //   icon: SUNNYSIDE.icons.expression_confused,
-  // },
+  {
+    name: "Fish",
+    icon: SUNNYSIDE.icons.heart,
+  },
 ];
+
+export function getCodexCategoryIndex(category: CodexCategoryName) {
+  return categories.findIndex((c) => c.name === category);
+}
 
 export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const [currentTab, setCurrentTab] = useState<CodexTabIndex>(0);
+  const [guide, setGuide] = useState<GuidePath>();
 
   const handleTabClick = (index: CodexTabIndex) => {
     setCurrentTab(index);
   };
 
-  const { component: SelectedComponent } = categories[currentTab as number];
+  const handleOpenGuide = (guide: GuidePath) => {
+    setCurrentTab(1);
+    setGuide(guide);
+  };
 
   return (
     <Modal centered show={show} onHide={onHide}>
@@ -62,7 +72,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             />
           </div>
           <div
-            className="relative h-full"
+            className="relative h-full overflow-hidden"
             style={{
               paddingLeft: `${PIXEL_SCALE * 15}px`,
             }}
@@ -85,10 +95,17 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               </div>
             </div>
             {/* Content */}
-            <InnerPanel className="h-full">
-              {currentTab === 0 && <MyFarm />}
-              {currentTab === 1 && <div></div>}
-              {currentTab === 1 && <Mutants />}
+            <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable">
+              {currentTab === 0 && (
+                <MyFarm
+                  onTabChange={handleTabClick}
+                  onOpenGuide={handleOpenGuide}
+                />
+              )}
+              {currentTab === 1 && (
+                <Guide onSelect={setGuide} selected={guide} />
+              )}
+              {currentTab === 2 && <Mutants />}
             </InnerPanel>
           </div>
         </OuterPanel>
