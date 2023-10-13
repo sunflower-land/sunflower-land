@@ -43,15 +43,15 @@ export const GuideTask: React.FC<GuideTaskProps> = ({
         <div className="flex items-center">
           <img
             src={guide && GUIDE_PATHS[guide].icon}
-            className="h-4 mr-1 items-center"
+            className="h-4 sm:h-5 mr-1 items-center"
           />
-          <span className="text-xs">{achievement.description}</span>
+          <span className="text-xs sm:text-sm">{achievement.description}</span>
         </div>
         {onNeedHelp && (
           <div className="w-5" onClick={() => onNeedHelp(guide as GuidePath)}>
             <img
               src={SUNNYSIDE.icons.expression_confused}
-              className="h-4 ml-1 relative top-0.5"
+              className="h-4 sm:h-5 ml-1 relative top-0.5"
             />
           </div>
         )}
@@ -66,7 +66,7 @@ export const GuideTask: React.FC<GuideTaskProps> = ({
               height: 7,
             }}
           />
-          <span className="text-xs ml-1">{`${setPrecision(
+          <span className="text-xs sm:text-sm ml-1">{`${setPrecision(
             new Decimal(progress)
           )}/${achievement.requirement}`}</span>
         </div>

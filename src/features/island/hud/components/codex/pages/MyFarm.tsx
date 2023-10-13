@@ -53,7 +53,7 @@ export const MyFarm: React.FC<Props> = ({ onOpenGuide }) => {
           </OuterPanel>
         )}
         <div className="divide-y divide-brown-600 space-y-3">
-          <div className="flex flex-col text-xxs space-y-1 mx-1.5">
+          <div className="flex flex-col text-xxs sm:text-xs space-y-1 mx-1.5">
             <p className="flex items-center gap-1">
               {`Deliveries completed`}
               <span className="ml-1">
@@ -95,10 +95,10 @@ export const MyFarm: React.FC<Props> = ({ onOpenGuide }) => {
             </p>
           </div>
           <div className="flex flex-col space-y-2 mx-1.5 pt-2">
-            <p className="text-sm">Your Collections</p>
+            <p className="text-xs sm:text-sm">Your Collections</p>
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <span className="text-xxs pb-0.5">Mutants</span>
+                <span className="text-xxs md:text-xs pb-0.5">Mutants</span>
                 <div className="flex-grow">
                   <ResizableBar
                     percentage={(mutantsOwned / mutantsAvailable) * 100}
@@ -109,10 +109,10 @@ export const MyFarm: React.FC<Props> = ({ onOpenGuide }) => {
                     }}
                   />
                 </div>
-                <span className="text-xs ml-1">{`${mutantsOwned}/${mutantsAvailable}`}</span>
+                <span className="text-xs sm:text-sm ml-1">{`${mutantsOwned}/${mutantsAvailable}`}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-xxs pb-0.5">Fish</span>
+                <span className="text-xxs sm:text-xs pb-0.5">Fish</span>
                 <div className="flex-grow">
                   <ResizableBar
                     percentage={(mutantsOwned / mutantsAvailable) * 100}
@@ -123,7 +123,7 @@ export const MyFarm: React.FC<Props> = ({ onOpenGuide }) => {
                     }}
                   />
                 </div>
-                <span className="text-xs ml-1">{`${mutantsOwned}/${mutantsAvailable}`}</span>
+                <span className="text-xs sm:text-sm ml-1">{`${mutantsOwned}/${mutantsAvailable}`}</span>
               </div>
             </div>
           </div>

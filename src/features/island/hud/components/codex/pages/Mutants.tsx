@@ -44,7 +44,7 @@ export const Mutants: React.FC = () => {
             height: 8,
           }}
         />
-        <span className="text-sm ml-1">{`${owned}/${available}`}</span>
+        <span className="text-xs sm:text-sm ml-1">{`${owned}/${available}`}</span>
       </div>
 
       {getKeys(mutants).map((mutantType) => {
@@ -52,7 +52,7 @@ export const Mutants: React.FC = () => {
 
         return (
           <div key={`mutants-${type}-codex`}>
-            <h3 className="ml-1.5 capitalize text-xs">{type}</h3>
+            <h3 className="ml-1.5 capitalize text-xs sm:text-sm">{type}</h3>
             <div className="flex mb-2 flex-wrap overflow-y-auto scrollable">
               {getKeys(mutants[type]).map((name, index) => {
                 const itemName = name as InventoryItemName;
