@@ -162,7 +162,14 @@ export const Otis: React.FC = () => {
                 task={activeTask}
               />
             )}
-            {tab === 1 && <Guide selected={guide} onSelect={setGuide} />}
+            {tab === 1 && (
+              <div
+                style={{ maxHeight: "300px" }}
+                className="scrollable overflow-y-auto"
+              >
+                <Guide selected={guide} onSelect={setGuide} />
+              </div>
+            )}
           </CloseButtonPanel>
         )}
       </Modal>
