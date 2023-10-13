@@ -17,7 +17,7 @@ export const Travel: React.FC = () => {
 
   return (
     <>
-      <div>
+      <div className="relative">
         <div
           id="deliveries"
           className="flex relative z-50 justify-center cursor-pointer hover:img-highlight"
