@@ -43,8 +43,10 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
     }
   }, [food.length]);
 
-  const feed = (food: Consumable) => {
-    onFeed(food.name);
+  const feed = (food: Consumable, count: number) => {
+    for (let i = 0; i < count; i++) {
+      onFeed(food.name);
+    }
   };
 
   if (!selected) {
@@ -86,12 +88,29 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
             ),
           }}
           actionView={
-            <Button
-              disabled={!inventory[selected.name]?.gt(0)}
-              onClick={() => feed(selected)}
-            >
-              {isJuice(selected.name) ? "Drink 1" : "Eat 1"}
-            </Button>
+            <div>
+              <Button
+                disabled={!inventory[selected.name]?.gt(0)}
+                onClick={() => feed(selected, 1)}
+              >
+                {isJuice(selected.name) ? "Drink 1" : "Eat 1"}
+              </Button>
+              <Button
+                disabled={!inventory[selected.name]?.gte(10)}
+                onClick={() => feed(selected, 10)}
+              >
+                {isJuice(selected.name) ? "Drink 10" : "Eat 10"}
+              </Button>
+              <Button
+                disabled={!inventory[selected.name]?.gt(0)}
+                onClick={() => {
+                  const count = inventory[selected.name]?.toNumber() ?? 0;
+                  feed(selected, count);
+                }}
+              >
+                {isJuice(selected.name) ? "Drink All" : "Eat All"}
+              </Button>
+            </div>
           }
         />
       }
