@@ -13,6 +13,7 @@ import { buyBlockBucksXsolla } from "features/game/actions/buyBlockBucks";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { randomID } from "lib/utils/random";
 import { Label } from "components/ui/Label";
+import { useSearchParams } from "react-router-dom";
 
 interface Props {
   closeable: boolean;
@@ -75,7 +76,20 @@ interface Price {
   usd: number;
 }
 
-const XsollaIFrame: React.FC<{ url: string }> = ({ url }) => {
+const XsollaIFrame: React.FC<{ url: string; onSuccess: () => void }> = ({
+  url,
+  onSuccess,
+}) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const status = searchParams.get("status");
+
+  useEffect(() => {
+    if (status !== null) {
+      setSearchParams(new URLSearchParams());
+      onSuccess();
+    }
+  }, [status]);
+
   return (
     <iframe
       src={url}
@@ -275,7 +289,11 @@ export const BlockBucksModal: React.FC<Props> = ({
         tool: "Farmer Pitchfork",
       }}
     >
-      {showXsolla ? <XsollaIFrame url={showXsolla} /> : <Content />}
+      {showXsolla ? (
+        <XsollaIFrame url={showXsolla} onSuccess={onClose} />
+      ) : (
+        <Content />
+      )}
     </CloseButtonPanel>
   );
 };
