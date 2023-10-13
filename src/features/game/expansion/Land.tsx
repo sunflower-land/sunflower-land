@@ -36,6 +36,7 @@ import ocean from "assets/decorations/ocean.webp";
 import { Bud } from "features/island/buds/Bud";
 import { hasFeatureAccess } from "lib/flags";
 import { Fisherman } from "features/island/fisherman/Fisherman";
+import { LabelTest } from "./components/LabelTest";
 
 export const LAND_WIDTH = 6;
 
@@ -440,6 +441,7 @@ export const Land: React.FC = () => {
           imageRendering: "pixelated",
         }}
       >
+        <LabelTest />
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div
             className={classNames("relative w-full h-full", {

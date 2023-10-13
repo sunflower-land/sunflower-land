@@ -5,6 +5,10 @@ import {
   pixelOrangeBorderStyle,
   pixelRedBorderStyle,
   pixelVibrantBorderStyle,
+  pixelBlueBorderStyle,
+  pixelCalmBorderStyle,
+  pixelFormulaBorderStyle,
+  pixelGreenBorderStyle,
 } from "features/game/lib/style";
 
 type labelType =
@@ -14,20 +18,124 @@ type labelType =
   | "info"
   | "danger"
   | "warning"
-  | "happy"
-  | "vibrant";
+  | "vibrant"
+  | "formula"
+  | "chill";
+
+const LABEL_STYLES: Record<
+  labelType,
+  { background: string; textColour: string; borderStyle: React.CSSProperties }
+> = {
+  danger: {
+    background: "#e43b44",
+    borderStyle: pixelRedBorderStyle,
+    textColour: "#ffffff",
+  },
+  default: {
+    background: "#c0cbdc",
+    borderStyle: pixelGrayBorderStyle,
+    textColour: "#181425",
+  },
+  // boost
+  info: {
+    background: "#0099db",
+    borderStyle: pixelBlueBorderStyle,
+    textColour: "#ffffff",
+  },
+  // buff
+  success: {
+    background: "#63c74d",
+    borderStyle: pixelGreenBorderStyle,
+    textColour: "#ffffff",
+  },
+  transparent: {
+    background: "none",
+    borderStyle: {},
+    textColour: "#ffffff",
+  },
+  // Special
+  vibrant: {
+    background: "#b65389",
+    borderStyle: pixelVibrantBorderStyle,
+    textColour: "#ffffff",
+  },
+  // Rare
+  warning: {
+    background: "#feae33",
+    borderStyle: pixelOrangeBorderStyle,
+    textColour: "#ffffff",
+  },
+  chill: {
+    background: "#e4a672",
+    borderStyle: pixelCalmBorderStyle,
+    textColour: "#3e2731",
+  },
+  formula: {
+    background: "#3c4665",
+    borderStyle: pixelFormulaBorderStyle,
+    textColour: "#ffffff",
+  },
+};
 
 interface Props {
   className?: string;
-  type?: labelType;
+  type: labelType;
   style?: React.CSSProperties;
+  icon?: string;
+  secondaryIcon?: string;
 }
 export const Label: React.FC<Props> = ({
   children,
   className,
   type,
   style,
+  icon,
+  secondaryIcon,
 }) => {
+  return (
+    <div
+      className={classnames(
+        `w-fit justify-center inline-flex pl-1 pr-0.5 items-center uppercase relative`,
+        className
+      )}
+      style={{
+        ...LABEL_STYLES[type].borderStyle,
+        background: LABEL_STYLES[type].background,
+        fontFamily: "TinyFont",
+        textShadow: "none",
+        // textShadow: LABEL_STYLES[type].textColour ? "#ffffff" : "none",
+        color: LABEL_STYLES[type].textColour,
+        ...style,
+      }}
+    >
+      {icon && (
+        <img
+          src={icon}
+          className="absolute"
+          style={{ height: `24px`, bottom: "-3px", left: "-12px" }}
+        />
+      )}
+      <span
+        style={{
+          fontSize: `10px`,
+          lineHeight: "14px",
+          paddingTop: "2px",
+          marginLeft: icon ? "14px" : 0,
+          marginRight: secondaryIcon ? "14px" : 0,
+        }}
+      >
+        {children}
+      </span>
+      {secondaryIcon && (
+        <img
+          src={secondaryIcon}
+          className="absolute"
+          style={{ height: `24px`, bottom: "-3px", right: "-12px" }}
+        />
+      )}
+    </div>
+  );
+
   return (
     <>
       {type === "default" && (
@@ -113,7 +221,6 @@ export const Label: React.FC<Props> = ({
       )}
 
       {type !== "default" &&
-        type !== "happy" &&
         type !== "vibrant" &&
         type !== "warning" &&
         type !== "danger" && (

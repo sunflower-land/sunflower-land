@@ -29,6 +29,11 @@
   }
 }
 
+@font-face {
+  font-family: "TinyFont";
+  src: url("https://sunflower-land.com/testnet-assets/fonts/TinyFont.otf");
+}
+
 body {
   font-family: "Paytone One", sans-serif;
   overflow: hidden;
