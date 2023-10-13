@@ -34,7 +34,7 @@ export const categories: CodexCategory[] = [
   },
   {
     name: "Fish",
-    icon: SUNNYSIDE.icons.heart,
+    icon: SUNNYSIDE.icons.fish,
   },
 ];
 
