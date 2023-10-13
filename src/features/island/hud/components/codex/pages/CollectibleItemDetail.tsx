@@ -2,11 +2,11 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItemName } from "features/game/types/game";
-import { WITHDRAWABLES } from "features/game/types/withdrawables";
 import { OPEN_SEA_ITEMS } from "metadata/metadata";
-import React from "react";
+import React, { useState } from "react";
 import { BaseInformation } from "../types";
 import { getOpenSeaLink } from "../utils";
+import classNames from "classnames";
 
 /**
  * Base Layout for Collectible Item Details Page in Codex
@@ -23,11 +23,11 @@ export const CollectibleItemDetail: React.FC<Props> = ({
   onBack,
   children,
 }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
   const name = item.name as InventoryItemName;
 
   const { image_url, description } = OPEN_SEA_ITEMS[name];
   const image = image_url.replace("..", "");
-  const withdrawable = WITHDRAWABLES[name]();
 
   return (
     <div className="p-2 relative">
@@ -39,6 +39,7 @@ export const CollectibleItemDetail: React.FC<Props> = ({
           style={{
             width: `${PIXEL_SCALE * 11}px`,
           }}
+          onLoad={() => setImageLoaded(true)}
         />
         <div className="flex-1 flex justify-center">
           <h2>{name}</h2>
@@ -53,10 +54,17 @@ export const CollectibleItemDetail: React.FC<Props> = ({
 
       <div className="flex flex-col space-y-2">
         <div className="flex">
-          <img
-            src={image}
-            className="w-2/5 rounded-md overflow-hidden shadow-md mr-2"
-          />
+          <div
+            className={classNames(
+              "w-2/5 rounded-md overflow-hidden shadow-md mr-2",
+              {
+                "h-40": !imageLoaded,
+                "h-auto": imageLoaded,
+              }
+            )}
+          >
+            <img src={image} />
+          </div>
           {item.boosts.length > 0 && (
             <div className="flex flex-col">
               <div className="flex flex-wrap gap-1">
