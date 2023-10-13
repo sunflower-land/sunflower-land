@@ -38,13 +38,13 @@ const LABEL_STYLES: Record<
   },
   // boost
   info: {
-    background: "#0099db",
+    background: "#1e6dd5",
     borderStyle: pixelBlueBorderStyle,
     textColour: "#ffffff",
   },
   // buff
   success: {
-    background: "#63c74d",
+    background: "#3e8948",
     borderStyle: pixelGreenBorderStyle,
     textColour: "#ffffff",
   },
@@ -61,7 +61,7 @@ const LABEL_STYLES: Record<
   },
   // Rare
   warning: {
-    background: "#feae33",
+    background: "#f09100",
     borderStyle: pixelOrangeBorderStyle,
     textColour: "#ffffff",
   },

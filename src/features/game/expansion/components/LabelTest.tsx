@@ -104,11 +104,25 @@ export const LabelTest: React.FC = () => {
               <Label type="formula" icon={SUNNYSIDE.icons.player}>
                 Formula
               </Label>
+              <Label
+                type="formula"
+                icon={SUNNYSIDE.icons.player}
+                secondaryIcon={SUNNYSIDE.tools.axe}
+              >
+                Formula
+              </Label>
             </div>
             <div className="flex flex-wrap justify-between w-full">
               <Label type="chill">Chill</Label>
               <Label type="chill" icon={SUNNYSIDE.icons.heart}>
                 Chill
+              </Label>
+              <Label
+                type="chill"
+                icon={SUNNYSIDE.icons.heart}
+                secondaryIcon={CROP_LIFECYCLE.Sunflower.crop}
+              >
+                Formula
               </Label>
             </div>
           </div>
