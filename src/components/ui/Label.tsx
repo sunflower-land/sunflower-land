@@ -102,13 +102,21 @@ export const Label: React.FC<Props> = ({
       style={{
         ...LABEL_STYLES[type].borderStyle,
         background: LABEL_STYLES[type].background,
-        fontFamily: "TinyFont",
-        textShadow: "none",
+
         paddingLeft: icon ? "14px" : "2px",
         paddingRight: secondaryIcon ? "14px" : "2px",
-        // textShadow: LABEL_STYLES[type].textColour ? "#ffffff" : "none",
         color: LABEL_STYLES[type].textColour,
         ...style,
+
+        // Normal font styles
+        textShadow:
+          LABEL_STYLES[type].textColour === "#ffffff"
+            ? "1px 1px #1f1f1f"
+            : "none",
+
+        // Pixel Font styles
+        // fontFamily: "TinyFont",
+        // textShadow: "none",
       }}
     >
       {icon && (
@@ -121,10 +129,14 @@ export const Label: React.FC<Props> = ({
       )}
       <span
         style={{
-          fontSize: `10px`,
           textAlign: "center",
           lineHeight: "14px",
-          paddingTop: "2px",
+          // Normal font styles
+          fontSize: "12px",
+          marginTop: "-2px",
+          // Pixel Font styles
+          // paddingTop: "2px",
+          // fontSize: `10px`,
         }}
       >
         {children}
