@@ -144,7 +144,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
           <p>Congrats</p>
           {getKeys(fishing.wharf.caught ?? {}).map((name) => (
             <div className="flex" key={name}>
-              <img src={ITEM_DETAILS[name].image} className="h-6" />
+              <img src={ITEM_DETAILS[name]?.image} className="h-6" />
               <span className="text-sm">{name}</span>
             </div>
           ))}

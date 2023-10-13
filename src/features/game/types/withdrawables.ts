@@ -56,6 +56,7 @@ import { BumpkinItem } from "./bumpkin";
 import { hasSeasonEnded } from "./seasons";
 import { GoblinState } from "../lib/goblinMachine";
 import { Bait, CompostName } from "./composters";
+import { FishName } from "./fishing";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
@@ -662,6 +663,33 @@ const compost: Record<CompostName, () => boolean> = {
   "Rapid Root": () => false,
 };
 
+const fish: Record<FishName, () => boolean> = {
+  "Fish A": () => false,
+  "Fish B": () => false,
+  "Fish C": () => false,
+  "Fish D": () => false,
+  "Fish E": () => false,
+  "Fish F": () => false,
+  "Fish G": () => false,
+  "Fish H": () => false,
+  "Fish I": () => false,
+  "Fish J": () => false,
+  "Fish K": () => false,
+  "Fish L": () => false,
+  "Fish M": () => false,
+  "Fish N": () => false,
+  "Fish O": () => false,
+  "Fish P": () => false,
+  "Fish Q": () => false,
+  "Fish R": () => false,
+  "Fish S": () => false,
+  "Fish T": () => false,
+  "Fish U": () => false,
+  "Fish V": () => false,
+  "Fish W": () => false,
+  "Fish X": () => false,
+};
+
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...crops,
   ...fruits,
@@ -712,6 +740,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...exoticCrops,
   ...bait,
   ...compost,
+  ...fish,
 };
 
 const canWithdrawBoostedWearable = (

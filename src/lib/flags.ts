@@ -20,7 +20,6 @@ type FeatureName =
   | "CORN_MAZE"
   | "NEW_FARM_FLOW"
   | "BUDS_DEPOSIT_FLOW"
-  | "BITGET_WALLET"
   | "FISHING"
   | "COMPOSTERS";
 
@@ -33,7 +32,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   CORN_MAZE: testnetFeatureFlag,
   NEW_FARM_FLOW: () => true,
   BUDS_DEPOSIT_FLOW: () => true,
-  BITGET_WALLET: testnetFeatureFlag,
   FISHING: testnetFeatureFlag,
   COMPOSTERS: testnetFeatureFlag,
 };

@@ -1,7 +1,5 @@
 import React, { useContext, useState } from "react";
 
-import fruitPatch from "assets/fruit/fruit_patch.png";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { plantAudio, harvestAudio, treeFallAudio } from "lib/utils/sfx";
@@ -13,13 +11,14 @@ import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
   Collectibles,
+  FruitPatch as Patch,
   InventoryItemName,
   PlantedFruit,
 } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { ResourceDropAnimator } from "components/animation/ResourceDropAnimator";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { setImageWidth } from "lib/images";
+import fruitPatchDirt from "assets/fruit/fruit_patch.png";
+import powerup from "assets/icons/level_up.png";
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
@@ -42,10 +41,8 @@ const HasAxes = (
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectCollectibles = (state: MachineState) =>
   state.context.state.collectibles;
-
-const compareFruit = (prev?: PlantedFruit, next?: PlantedFruit) => {
-  return JSON.stringify(prev) === JSON.stringify(next);
-};
+const compareFruit = (prev?: Patch, next?: Patch) =>
+  JSON.stringify(prev) === JSON.stringify(next);
 const compareCollectibles = (prev: Collectibles, next: Collectibles) =>
   isCollectibleBuilt("Foreman Beaver", prev) ===
   isCollectibleBuilt("Foreman Beaver", next);
@@ -63,11 +60,13 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   const [collectedFruitName, setCollectedFruitName] = useState<FruitName>();
   const [collectedFruitAmount, setCollectedFruitAmount] = useState<number>();
   const [collectedWoodAmount, setCollectedWoodAmount] = useState<number>();
-  const fruit = useSelector(
+  const fruitPatch = useSelector(
     gameService,
-    (state) => state.context.state.fruitPatches[id]?.fruit,
+    (state) => state.context.state.fruitPatches[id],
     compareFruit
   );
+  const fruit = fruitPatch?.fruit;
+  const fertiliser = fruitPatch.fertiliser;
   const collectibles = useSelector(
     gameService,
     selectCollectibles,
@@ -82,6 +81,11 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   const hasAxes = HasAxes(inventory, collectibles, fruit);
 
   const plantTree = async () => {
+    if (selectedItem === "Fruitful Blend") {
+      fertilise();
+      return;
+    }
+
     try {
       const newState = gameService.send("fruit.planted", {
         index: id,
@@ -98,7 +102,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
 
   const fertilise = () => {
     try {
-      gameService.send("fruit.fertilised", {
+      gameService.send("fruitPatch.fertilised", {
         patchID: id,
         fertiliser: selectedItem,
       });
@@ -108,7 +112,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   };
 
   const harvestFruit = async () => {
-    if (!fruit) return;
+    if (!fruitPatch) return;
 
     const newState = gameService.send("fruit.harvested", {
       index: id,
@@ -116,8 +120,8 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
 
     if (!newState.matches("hoarding")) {
       setCollectingFruit(true);
-      setCollectedFruitName(fruit.name);
-      setCollectedFruitAmount(fruit.amount);
+      setCollectedFruitName(fruit?.name);
+      setCollectedFruitAmount(fruit?.amount);
 
       harvestAudio.play();
       setPlayShakingAnimation(true);
@@ -162,7 +166,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     <div className="w-full h-full relative">
       {/* Fruit patch soil */}
       <img
-        src={fruitPatch}
+        src={fruitPatchDirt}
         className="absolute pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 30}px`,
@@ -183,18 +187,14 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
       />
 
       {/* Fertiliser */}
-      {!!fruit?.fertiliser && (
+      {!!fertiliser && (
         <img
           className="absolute z-10 pointer-events-none"
-          key={fruit.fertiliser.name}
-          src={ITEM_DETAILS[fruit.fertiliser.name].image}
+          src={powerup}
           style={{
-            opacity: 0,
-            top: `${PIXEL_SCALE * -14}px`,
-            left: `${PIXEL_SCALE * 14}px`,
-          }}
-          onLoad={(e) => {
-            setImageWidth(e.currentTarget);
+            width: `${PIXEL_SCALE * 10}px`,
+            bottom: `${PIXEL_SCALE * 16}px`,
+            right: `${PIXEL_SCALE * 2}px`,
           }}
         />
       )}

@@ -3,7 +3,7 @@ import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
-import { GameState, CropPlot } from "features/game/types/game";
+import { GameState, FruitPatch } from "features/game/types/game";
 import {
   getFruitYield,
   harvestFruit,
@@ -151,7 +151,7 @@ describe("fruitHarvested", () => {
 
   it("does not harvest if the fruit is not ripe", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
 
     expect(() =>
       harvestFruit({
@@ -181,7 +181,7 @@ describe("fruitHarvested", () => {
 
   it("does not harvest if the fruit is still replenishing", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
 
     expect(() =>
       harvestFruit({
@@ -211,7 +211,7 @@ describe("fruitHarvested", () => {
 
   it("does not harvest if no harvest left", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
 
     expect(() =>
       harvestFruit({
@@ -241,7 +241,7 @@ describe("fruitHarvested", () => {
 
   it("harvests the fruit when more than one harvest left", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
     const initialHarvest = 2;
 
     const state = harvestFruit({
@@ -283,7 +283,7 @@ describe("fruitHarvested", () => {
 
   it("harvests the fruit which has a boost applied", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
     const initialHarvest = 1;
     const boostedAmount = 77;
 
@@ -324,7 +324,7 @@ describe("fruitHarvested", () => {
 
   it("applies Lady Bug Boost", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
     const initialHarvest = 2;
 
     const state = harvestFruit({
@@ -371,7 +371,7 @@ describe("fruitHarvested", () => {
 
   it("applies the Black Bearry Boost", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
     const initialHarvest = 2;
 
     const state = harvestFruit({
@@ -417,7 +417,7 @@ describe("fruitHarvested", () => {
 
   it("includes Squirrel Monkey bonus on Oranges", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
     const initialHarvest = 2;
 
     const state = harvestFruit({
@@ -467,7 +467,7 @@ describe("fruitHarvested", () => {
 
   it("harvests the fruit when one harvest is left", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
     const initialHarvest = 1;
 
     const state = harvestFruit({
@@ -506,7 +506,7 @@ describe("fruitHarvested", () => {
 
   it("increments Apple Harvested activity by 1", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
     const initialHarvest = 1;
 
     const state = harvestFruit({
@@ -537,7 +537,7 @@ describe("fruitHarvested", () => {
 
   it("applies a buds boost", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
     const initialHarvest = 2;
 
     const state = harvestFruit({

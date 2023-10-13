@@ -20,9 +20,7 @@ import { TownCenter } from "./townCenter/TownCenter";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CookableName } from "features/game/types/consumables";
-import { BasicComposter } from "./composters/BasicComposter";
-import { AdvancedComposter } from "./composters/AdvancedComposter";
-import { ExpertComposter } from "./composters/ExpertComposter";
+import { Composter } from "./composters/Composter";
 
 export interface BuildingProps {
   buildingId: string;
@@ -113,9 +111,9 @@ export const BUILDING_COMPONENTS: Record<
       <SmoothieShack buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
-  "Basic Composter": BasicComposter,
-  "Advanced Composter": AdvancedComposter,
-  "Expert Composter": ExpertComposter,
+  "Basic Composter": () => <Composter name="Basic Composter" />,
+  "Advanced Composter": () => <Composter name="Advanced Composter" />,
+  "Expert Composter": () => <Composter name="Expert Composter" />,
 };
 
 export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {

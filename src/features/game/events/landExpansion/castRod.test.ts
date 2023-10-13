@@ -113,6 +113,25 @@ describe("castRod", () => {
 
     expect(state.inventory.Rod).toEqual(new Decimal(2));
   });
+
+  it("subtracts bait", () => {
+    const state = castRod({
+      action: {
+        bait: "Earthworm",
+        type: "rod.casted",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          Rod: new Decimal(3),
+          Earthworm: new Decimal(2),
+        },
+      },
+    });
+
+    expect(state.inventory.Earthworm).toEqual(new Decimal(1));
+  });
+
   it("subtracts chum", () => {
     const state = castRod({
       action: {

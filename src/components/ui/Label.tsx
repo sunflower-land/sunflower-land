@@ -61,7 +61,7 @@ export const Label: React.FC<Props> = ({
             className="inline-flex items-center"
             style={{
               lineHeight: "12px",
-              height: "14px",
+              height: "auto",
               paddingBottom: "2px",
             }}
           >

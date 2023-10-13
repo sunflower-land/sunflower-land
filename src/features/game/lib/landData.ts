@@ -75,6 +75,10 @@ export const INITIAL_RESOURCES: Pick<
       y: -1,
       height: 1,
       width: 1,
+      fertiliser: {
+        fertilisedAt: 0,
+        name: "Rapid Root",
+      },
     },
     2: {
       createdAt: Date.now(),
@@ -83,6 +87,10 @@ export const INITIAL_RESOURCES: Pick<
       y: -1,
       height: 1,
       width: 1,
+      fertiliser: {
+        fertilisedAt: 0,
+        name: "Sprout Mix",
+      },
     },
     3: {
       createdAt: Date.now(),
@@ -154,6 +162,10 @@ export const INITIAL_RESOURCES: Pick<
       y: -1,
       height: 1,
       width: 1,
+      fertiliser: {
+        fertilisedAt: 0,
+        name: "Rapid Root",
+      },
     },
     12: {
       createdAt: Date.now(),
@@ -161,6 +173,10 @@ export const INITIAL_RESOURCES: Pick<
       y: -2,
       height: 1,
       width: 1,
+      fertiliser: {
+        fertilisedAt: 0,
+        name: "Rapid Root",
+      },
     },
     13: {
       createdAt: Date.now(),
@@ -168,6 +184,10 @@ export const INITIAL_RESOURCES: Pick<
       y: -1,
       height: 1,
       width: 1,
+      fertiliser: {
+        fertilisedAt: 0,
+        name: "Sprout Mix",
+      },
     },
   },
   trees: {
@@ -224,7 +244,31 @@ export const INITIAL_RESOURCES: Pick<
       },
     },
   },
-  fruitPatches: {},
+  fruitPatches: {
+    1: {
+      height: 2,
+      width: 2,
+      x: 1,
+      y: 3,
+    },
+    2: {
+      height: 2,
+      width: 2,
+      x: 1,
+      y: 1,
+      fruit: {
+        amount: 1,
+        harvestedAt: 3,
+        harvestsLeft: 3,
+        name: "Apple",
+        plantedAt: 0,
+      },
+      fertiliser: {
+        fertilisedAt: 0,
+        name: "Fruitful Blend",
+      },
+    },
+  },
   gold: {},
   iron: {},
 };
@@ -324,11 +368,16 @@ export const OFFLINE_FARM: GameState = {
   inventory: {
     Rod: new Decimal(1),
     Earthworm: new Decimal(10),
+    "Sprout Mix": new Decimal(10),
+    "Rapid Root": new Decimal(10),
+    "Fruitful Blend": new Decimal(10),
     "El Pollo Veloz": new Decimal(1),
     "Bud Seedling": new Decimal(1),
     Gnome: new Decimal(1),
     "Sunflower Cake": new Decimal(15),
     Carrot: new Decimal(80),
+    "Sunflower Seed": new Decimal(80),
+    "Blueberry Seed": new Decimal(80),
     Cauliflower: new Decimal(70),
     Beetroot: new Decimal(10),
     Cabbage: new Decimal(100),
@@ -534,6 +583,42 @@ export const OFFLINE_FARM: GameState = {
         createdAt: 0,
         id: "123",
         readyAt: 0,
+      },
+    ],
+    "Basic Composter": [
+      {
+        coordinates: { x: 3, y: 8 },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+        producing: {
+          name: "Sprout Mix",
+          readyAt: Date.now() + 500000,
+        },
+      },
+    ],
+    "Advanced Composter": [
+      {
+        coordinates: { x: 5, y: 8 },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+        producing: {
+          name: "Rapid Root",
+          readyAt: Date.now() + 50000,
+        },
+      },
+    ],
+    "Expert Composter": [
+      {
+        coordinates: { x: 7, y: 8 },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+        producing: {
+          name: "Rapid Root",
+          readyAt: Date.now() + 50000,
+        },
       },
     ],
   },

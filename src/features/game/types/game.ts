@@ -36,6 +36,7 @@ import {
   CropCompostName,
   FruitCompostName,
 } from "./composters";
+import { FishName } from "./fishing";
 
 export type Reward = {
   sfl?: Decimal;
@@ -260,7 +261,8 @@ export type InventoryItemName =
   | PotionHouseItemName
   | "Basic Land"
   | Bait
-  | CompostName;
+  | CompostName
+  | FishName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -341,7 +343,6 @@ export type PlantedCrop = {
   plantedAt: number;
   amount?: number;
   reward?: Reward;
-  fertiliser?: CropFertiliser;
 };
 
 export type PlantedFruit = {
@@ -350,7 +351,6 @@ export type PlantedFruit = {
   amount: number;
   harvestsLeft: number;
   harvestedAt: number;
-  fertiliser?: FruitFertiliser;
 };
 
 export type Tree = {
@@ -369,11 +369,13 @@ export type Rock = {
 
 export type CropPlot = {
   crop?: PlantedCrop;
+  fertiliser?: CropFertiliser;
   createdAt: number;
 } & Position;
 
 export type FruitPatch = {
   fruit?: PlantedFruit;
+  fertiliser?: FruitFertiliser;
 } & Position;
 
 export type Mine = Position;

@@ -170,7 +170,7 @@ const BaitSelection: React.FC<{
         <div className="flex flex-wrap">
           {getKeys(BAIT).map((name) => (
             <Box
-              image={SUNNYSIDE.icons.expression_confused}
+              image={ITEM_DETAILS[name].image}
               isSelected={bait === name}
               count={new Decimal(0)}
               onClick={() => setBait(name)}
@@ -180,10 +180,7 @@ const BaitSelection: React.FC<{
         </div>
         <OuterPanel className="my-1 relative">
           <div className="flex p-1">
-            <img
-              src={SUNNYSIDE.icons.expression_confused}
-              className="h-10 mr-2"
-            />
+            <img src={ITEM_DETAILS[bait].image} className="h-10 mr-2" />
             <div>
               <span className="text-sm">{bait}</span>
               <div className="flex flex-wrap mb-1">

@@ -91,6 +91,8 @@ export function harvest({
   // Remove crop data for plot
   delete plot.crop;
 
+  delete plot.fertiliser;
+
   const cropCount = stateCopy.inventory[cropName] || new Decimal(0);
 
   stateCopy.inventory = {
