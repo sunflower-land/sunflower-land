@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -14,21 +14,24 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { FeedBumpkinDetails } from "components/ui/layouts/FeedBumpkinDetails";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { makeBulkFeedAmount } from "../lib/makeBulkFeedAmount";
+import { MachineState } from "features/game/lib/gameMachine";
 
 interface Props {
   food: Consumable[];
 }
 
+const _inventory = (state: MachineState) => state.context.state.inventory;
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+const _collectibles = (state: MachineState) => state.context.state.collectibles;
+
 export const Feed: React.FC<Props> = ({ food }) => {
   const [selected, setSelected] = useState<Consumable | undefined>(food[0]);
   const { gameService } = useContext(Context);
 
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-  const inventory = state.inventory;
+  const inventory = useSelector(gameService, _inventory);
+  const bumpkin = useSelector(gameService, _bumpkin);
+  const collectibles = useSelector(gameService, _collectibles);
 
   useEffect(() => {
     if (food.length) {
@@ -37,23 +40,6 @@ export const Feed: React.FC<Props> = ({ food }) => {
       setSelected(undefined);
     }
   }, [food.length]);
-
-  const feed = (amount: Decimal) => {
-    if (!selected) return;
-
-    gameService.send("bumpkin.feed", {
-      food: selected.name,
-      amount,
-    });
-  };
-
-  const handleFeedOne = () => {
-    feed(new Decimal(1));
-  };
-
-  const handleFeedTen = () => {
-    feed(new Decimal(10));
-  };
 
   if (!selected) {
     return (
@@ -77,6 +63,19 @@ export const Feed: React.FC<Props> = ({ food }) => {
     );
   }
 
+  const feed = (amount: number) => {
+    if (!selected) return;
+
+    gameService.send("bumpkin.feed", {
+      food: selected.name,
+      amount,
+    });
+  };
+
+  const inventoryFoodCount = inventory[selected.name] ?? new Decimal(0);
+  const bulkFeedAmount = makeBulkFeedAmount(inventoryFoodCount);
+  const feedVerb = isJuice(selected.name) ? "Drink" : "Eat";
+
   return (
     <SplitScreenView
       panel={
@@ -86,27 +85,22 @@ export const Feed: React.FC<Props> = ({ food }) => {
           }}
           properties={{
             xp: new Decimal(
-              getFoodExpBoost(
-                selected,
-                state.bumpkin as Bumpkin,
-                state.collectibles
-              )
+              getFoodExpBoost(selected, bumpkin as Bumpkin, collectibles)
             ),
           }}
           actionView={
-            <div className="flex space-x-1 mb-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+            <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
               <Button
-                disabled={!inventory[selected.name]?.gt(0)}
-                onClick={handleFeedOne}
+                disabled={inventoryFoodCount.lessThan(1)}
+                onClick={() => feed(1)}
               >
-                {isJuice(selected.name) ? "Drink 1" : "Eat 1"}
+                {`${feedVerb} ${1}`}
               </Button>
-              <Button
-                disabled={!inventory[selected.name]?.gte(10)} // Disable if less than 10
-                onClick={handleFeedTen}
-              >
-                {isJuice(selected.name) ? "Drink 10" : "Eat 10"}
-              </Button>
+              {bulkFeedAmount > 1 && (
+                <Button onClick={() => feed(bulkFeedAmount)}>
+                  {`${feedVerb} ${bulkFeedAmount}`}
+                </Button>
+              )}
             </div>
           }
         />
