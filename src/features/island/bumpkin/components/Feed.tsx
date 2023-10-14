@@ -5,11 +5,7 @@ import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import {
-  Consumable,
-  ConsumableName,
-  isJuice,
-} from "features/game/types/consumables";
+import { Consumable, isJuice } from "features/game/types/consumables";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 
 import firePit from "src/assets/buildings/fire_pit.png";
@@ -21,10 +17,9 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   food: Consumable[];
-  onFeed: (name: ConsumableName) => void;
 }
 
-export const Feed: React.FC<Props> = ({ food, onFeed }) => {
+export const Feed: React.FC<Props> = ({ food }) => {
   const [selected, setSelected] = useState<Consumable | undefined>(food[0]);
   const { gameService } = useContext(Context);
 
@@ -44,17 +39,18 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
   }, [food.length]);
 
   const feed = (amount: Decimal) => {
-    if (selected) {
-      gameService.send("bumpkin.feed", {
-        food: selected.name,
-        amount,
-      });
-    }
+    if (!selected) return;
+
+    gameService.send("bumpkin.feed", {
+      food: selected.name,
+      amount,
+    });
   };
 
   const handleFeedOne = () => {
     feed(new Decimal(1));
   };
+
   const handleFeedTen = () => {
     feed(new Decimal(10));
   };
@@ -98,22 +94,20 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
             ),
           }}
           actionView={
-            <>
-              <div className="flex space-x-1 mb-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-                <Button
-                  disabled={!inventory[selected.name]?.gt(0)}
-                  onClick={handleFeedOne}
-                >
-                  {isJuice(selected.name) ? "Drink 1" : "Eat 1"}
-                </Button>
-                <Button
-                  disabled={!inventory[selected.name]?.gte(10)} // Disable if less than 10
-                  onClick={handleFeedTen}
-                >
-                  {isJuice(selected.name) ? "Drink 10" : "Eat 10"}
-                </Button>
-              </div>
-            </>
+            <div className="flex space-x-1 mb-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+              <Button
+                disabled={!inventory[selected.name]?.gt(0)}
+                onClick={handleFeedOne}
+              >
+                {isJuice(selected.name) ? "Drink 1" : "Eat 1"}
+              </Button>
+              <Button
+                disabled={!inventory[selected.name]?.gte(10)} // Disable if less than 10
+                onClick={handleFeedTen}
+              >
+                {isJuice(selected.name) ? "Drink 10" : "Eat 10"}
+              </Button>
+            </div>
           }
         />
       }
