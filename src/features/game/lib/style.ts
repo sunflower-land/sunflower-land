@@ -37,7 +37,7 @@ export const pixelOrangeBorderStyle: React.CSSProperties = {
 
 export const pixelRedBorderStyle: React.CSSProperties = {
   borderImage: `url(${redBorder})`,
-  ...pixelizedBorderStyle,
+  ...{ ...pixelizedBorderStyle },
 };
 
 export const pixelVibrantBorderStyle: React.CSSProperties = {

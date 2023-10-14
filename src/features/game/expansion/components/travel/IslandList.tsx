@@ -114,8 +114,7 @@ const IslandListItem: React.FC<IslandProps> = ({
           {onSameIsland && <Label type="info">You are here</Label>}
           {/* Level requirement */}
           {notEnoughLevel && (
-            <Label type="danger" className="flex gap-2 items-center">
-              <img src={levelUpIcon} className="h-4" />
+            <Label type="danger" icon={levelUpIcon}>
               Lvl {levelRequired}
             </Label>
           )}
@@ -123,8 +122,7 @@ const IslandListItem: React.FC<IslandProps> = ({
           {comingSoon && <Label type="warning">Coming soon</Label>}
           {beta && <Label type="info">Beta</Label>}
           {passRequired && (
-            <Label type="warning" className="flex gap-2 items-center">
-              <img src={ITEM_DETAILS["Gold Pass"].image} className="h-4" />
+            <Label type="danger" icon={ITEM_DETAILS["Gold Pass"].image}>
               Pass Required
             </Label>
           )}

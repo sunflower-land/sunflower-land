@@ -95,17 +95,20 @@ export const Label: React.FC<Props> = ({
 }) => {
   return (
     <div
+      key={type}
       className={classnames(
-        `w-fit justify-center inline-flex items-center uppercase relative`,
-        className
+        className,
+        `w-fit justify-center flex items-center uppercase`,
+        { relative: !className?.includes("absolute") }
       )}
       style={{
         ...LABEL_STYLES[type].borderStyle,
         background: LABEL_STYLES[type].background,
 
         paddingLeft: icon ? "14px" : "2px",
-        paddingRight: secondaryIcon ? "14px" : "2px",
+        paddingRight: secondaryIcon ? "14px" : icon ? "4px" : "2px",
         color: LABEL_STYLES[type].textColour,
+        minWidth: "23px",
         ...style,
 
         // Normal font styles
@@ -124,7 +127,14 @@ export const Label: React.FC<Props> = ({
           icon={icon}
           width={9}
           className="absolute"
-          style={{ height: `24px`, bottom: "-3px", left: "-12px" }}
+          style={{
+            height: `24px`,
+            left: "-12px",
+            // Normal Font
+            bottom: "-5px",
+            // Pixel Font
+            // bottom: "-3px",
+          }}
         />
       )}
       <span
@@ -134,6 +144,7 @@ export const Label: React.FC<Props> = ({
           // Normal font styles
           fontSize: "12px",
           marginTop: "-2px",
+
           // Pixel Font styles
           // paddingTop: "2px",
           // fontSize: `10px`,
@@ -146,7 +157,14 @@ export const Label: React.FC<Props> = ({
           icon={secondaryIcon}
           width={9}
           className="absolute"
-          style={{ height: `24px`, bottom: "-3px", right: "-12px" }}
+          style={{
+            height: `24px`,
+            right: "-12px",
+            // Normal Font
+            bottom: "-5px",
+            // Pixel Font
+            // bottom: "-3px",
+          }}
         />
       )}
     </div>

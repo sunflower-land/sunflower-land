@@ -9,6 +9,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import tutorial from "src/assets/tutorials/composting.png";
 import powerup from "src/assets/icons/level_up.png";
 
+import compost from "assets/composters/compost.png";
 import basicIdle from "assets/composters/composter_basic.png";
 import basicComposting from "assets/composters/composter_basic_closed.png";
 import basicReady from "assets/composters/composter_basic_ready.png";
@@ -219,6 +220,7 @@ export const ComposterModal: React.FC<Props> = ({
                   </p>
                   <Label
                     icon={powerup}
+                    secondaryIcon={SUNNYSIDE.icons.plant}
                     type="success"
                     className="text-xs whitespace-pre-line"
                   >
@@ -294,7 +296,7 @@ export const ComposterModal: React.FC<Props> = ({
           setShowModal(false);
         }}
         tabs={[
-          { icon: ITEM_DETAILS["Sprout Mix"].image, name: "Composter" },
+          { icon: compost, name: "Composter" },
           {
             icon: SUNNYSIDE.icons.expression_confused,
             name: "Guide",
@@ -321,10 +323,7 @@ export const ComposterModal: React.FC<Props> = ({
               </div>
               <div className="flex mb-2">
                 <div className="w-12 flex justify-center">
-                  <img
-                    src={ITEM_DETAILS["Rapid Root"].image}
-                    className="h-6 mr-2 object-contain"
-                  />
+                  <img src={compost} className="h-6 mr-2 object-contain" />
                 </div>
                 <p className="text-xs  flex-1">
                   A compost produces 10 Fertilisers which can be used to boost

@@ -19,7 +19,6 @@ import { FruitQuest } from "features/island/farmerQuest/FruitQuest";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Pirate } from "./Pirate";
 import { DailyReward } from "./dailyReward/DailyReward";
-import { PartyIsland } from "./PartyIsland";
 import { SeasonTeaser } from "./SeasonTeaser";
 import { LAND_WIDTH } from "../Land";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
@@ -154,9 +153,6 @@ export const WaterComponent: React.FC<Props> = ({
           }}
         />
       </MapPlacement>
-
-      {/* Right island */}
-      <PartyIsland offset={offset} />
     </div>
   );
 };
