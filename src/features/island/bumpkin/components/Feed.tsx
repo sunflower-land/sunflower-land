@@ -14,7 +14,6 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { FeedBumpkinDetails } from "components/ui/layouts/FeedBumpkinDetails";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { makeBulkFeedAmount } from "../lib/makeBulkFeedAmount";
 import { MachineState } from "features/game/lib/gameMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "react-bootstrap";
@@ -76,13 +75,11 @@ export const Feed: React.FC<Props> = ({ food }) => {
   };
 
   const inventoryFoodCount = inventory[selected.name] ?? new Decimal(0);
-  const bulkFeedAmount = makeBulkFeedAmount(inventoryFoodCount);
-  const bulkFeedAmountAll = makeBulkFeedAmount(inventoryFoodCount, true);
   const feedVerb = isJuice(selected.name) ? "Drink" : "Eat";
 
   const openConfirmationModal = () => {
     if (inventoryFoodCount.lessThanOrEqualTo(1)) {
-      () => feed(1);
+      feed(1);
     } else {
       showFeedAllModal(true);
     }
@@ -114,16 +111,17 @@ export const Feed: React.FC<Props> = ({ food }) => {
                   >
                     {`${feedVerb} ${1}`}
                   </Button>
-                  {bulkFeedAmount > 1 && (
-                    <Button onClick={() => feed(bulkFeedAmount)}>
-                      {`${feedVerb} ${bulkFeedAmount}`}
-                    </Button>
-                  )}
+                  <Button
+                    disabled={inventoryFoodCount.lessThan(10)}
+                    onClick={() => feed(10)}
+                  >
+                    {`${feedVerb} 10`}
+                  </Button>
                 </div>
                 <div>
                   <Button
                     className="mt-1"
-                    disabled={inventoryFoodCount.lessThan(10)}
+                    disabled={inventoryFoodCount.lessThan(1)}
                     onClick={openConfirmationModal}
                   >
                     {`${feedVerb} All`}
@@ -162,7 +160,7 @@ export const Feed: React.FC<Props> = ({ food }) => {
             <Button
               disabled={noFood}
               onClick={() => {
-                feed(bulkFeedAmountAll);
+                feed(inventoryFoodCount.toNumber());
                 closeConfirmationModal();
               }}
             >
