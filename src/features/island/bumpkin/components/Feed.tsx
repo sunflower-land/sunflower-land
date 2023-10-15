@@ -16,6 +16,8 @@ import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { makeBulkFeedAmount } from "../lib/makeBulkFeedAmount";
 import { MachineState } from "features/game/lib/gameMachine";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { Modal } from "react-bootstrap";
 
 interface Props {
   food: Consumable[];
@@ -32,6 +34,7 @@ export const Feed: React.FC<Props> = ({ food }) => {
   const inventory = useSelector(gameService, _inventory);
   const bumpkin = useSelector(gameService, _bumpkin);
   const collectibles = useSelector(gameService, _collectibles);
+  const [isFeedAllModalOpen, showFeedAllModal] = useState(false);
 
   useEffect(() => {
     if (food.length) {
@@ -74,50 +77,100 @@ export const Feed: React.FC<Props> = ({ food }) => {
 
   const inventoryFoodCount = inventory[selected.name] ?? new Decimal(0);
   const bulkFeedAmount = makeBulkFeedAmount(inventoryFoodCount);
+  const bulkFeedAmountAll = makeBulkFeedAmount(inventoryFoodCount, true);
   const feedVerb = isJuice(selected.name) ? "Drink" : "Eat";
 
+  const openConfirmationModal = () => {
+    if (inventoryFoodCount.lessThanOrEqualTo(1)) {
+      () => feed(1);
+    } else {
+      showFeedAllModal(true);
+    }
+  };
+  const closeConfirmationModal = () => {
+    showFeedAllModal(false);
+  };
+  const noFood = inventoryFoodCount.lessThanOrEqualTo(0);
+
   return (
-    <SplitScreenView
-      panel={
-        <FeedBumpkinDetails
-          details={{
-            item: selected.name,
-          }}
-          properties={{
-            xp: new Decimal(
-              getFoodExpBoost(selected, bumpkin as Bumpkin, collectibles)
-            ),
-          }}
-          actionView={
-            <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-              <Button
-                disabled={inventoryFoodCount.lessThan(1)}
-                onClick={() => feed(1)}
-              >
-                {`${feedVerb} ${1}`}
-              </Button>
-              {bulkFeedAmount > 1 && (
-                <Button onClick={() => feed(bulkFeedAmount)}>
-                  {`${feedVerb} ${bulkFeedAmount}`}
-                </Button>
-              )}
-            </div>
-          }
-        />
-      }
-      content={
-        <>
-          {food.map((item) => (
-            <Box
-              isSelected={selected.name === item.name}
-              key={item.name}
-              onClick={() => setSelected(item)}
-              image={ITEM_DETAILS[item.name].image}
-              count={inventory[item.name]}
-            />
-          ))}
-        </>
-      }
-    />
+    <>
+      <SplitScreenView
+        panel={
+          <FeedBumpkinDetails
+            details={{
+              item: selected.name,
+            }}
+            properties={{
+              xp: new Decimal(
+                getFoodExpBoost(selected, bumpkin as Bumpkin, collectibles)
+              ),
+            }}
+            actionView={
+              <>
+                <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+                  <Button
+                    disabled={inventoryFoodCount.lessThan(1)}
+                    onClick={() => feed(1)}
+                  >
+                    {`${feedVerb} ${1}`}
+                  </Button>
+                  {bulkFeedAmount > 1 && (
+                    <Button onClick={() => feed(bulkFeedAmount)}>
+                      {`${feedVerb} ${bulkFeedAmount}`}
+                    </Button>
+                  )}
+                </div>
+                <div>
+                  <Button
+                    className="mt-1"
+                    disabled={inventoryFoodCount.lessThan(1)}
+                    onClick={openConfirmationModal}
+                  >
+                    {`${feedVerb} All`}
+                  </Button>
+                </div>
+              </>
+            }
+          />
+        }
+        content={
+          <>
+            {food.map((item) => (
+              <Box
+                isSelected={selected.name === item.name}
+                key={item.name}
+                onClick={() => setSelected(item)}
+                image={ITEM_DETAILS[item.name].image}
+                count={inventory[item.name]}
+              />
+            ))}
+          </>
+        }
+      />
+      <Modal centered show={isFeedAllModalOpen} onHide={closeConfirmationModal}>
+        <CloseButtonPanel className="sm:w-4/5 m-auto">
+          <div className="flex flex-col p-2">
+            <span className="text-sm text-center">
+              Are you sure you want to <br className="hidden sm:block" />
+              {`${feedVerb} ${inventoryFoodCount} ${selected.name}`}
+            </span>
+          </div>
+          <div className="flex justify-content-around mt-2 space-x-1">
+            <Button disabled={noFood} onClick={closeConfirmationModal}>
+              Cancel
+            </Button>
+            <Button
+              disabled={noFood}
+              onClick={() => {
+                feed(bulkFeedAmountAll);
+                closeConfirmationModal();
+              }}
+            >
+              {`${feedVerb} All`}
+            </Button>
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+    </>
   );
 };
