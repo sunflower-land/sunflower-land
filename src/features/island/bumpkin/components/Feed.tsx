@@ -78,11 +78,7 @@ export const Feed: React.FC<Props> = ({ food }) => {
   const feedVerb = isJuice(selected.name) ? "Drink" : "Eat";
 
   const openConfirmationModal = () => {
-    if (inventoryFoodCount.lessThanOrEqualTo(1)) {
-      () => feed(1);
-    } else {
-      showFeedAllModal(true);
-    }
+    showFeedAllModal(true);
   };
   const closeConfirmationModal = () => {
     showFeedAllModal(false);
