@@ -79,7 +79,7 @@ export const Feed: React.FC<Props> = ({ food }) => {
 
   const openConfirmationModal = () => {
     if (inventoryFoodCount.lessThanOrEqualTo(1)) {
-      feed(1);
+      () => feed(1);
     } else {
       showFeedAllModal(true);
     }
@@ -109,7 +109,7 @@ export const Feed: React.FC<Props> = ({ food }) => {
                     disabled={inventoryFoodCount.lessThan(1)}
                     onClick={() => feed(1)}
                   >
-                    {`${feedVerb} ${1}`}
+                    {`${feedVerb} 1`}
                   </Button>
                   <Button
                     disabled={inventoryFoodCount.lessThan(10)}
@@ -121,7 +121,7 @@ export const Feed: React.FC<Props> = ({ food }) => {
                 <div>
                   <Button
                     className="mt-1"
-                    disabled={inventoryFoodCount.lessThan(1)}
+                    disabled={inventoryFoodCount.lessThanOrEqualTo(1)}
                     onClick={openConfirmationModal}
                   >
                     {`${feedVerb} All`}
