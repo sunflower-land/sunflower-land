@@ -31,12 +31,12 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
                 className="h-6 mr-2 cursor-pointer"
                 onClick={() => onSelect(undefined)}
               />
-              <span className="text-sm capitalize">{selected}</span>
+              <span className="text-xs capitalize">{selected}</span>
             </div>
             {GUIDE_PATHS[selected].docs && (
               <a
                 href={GUIDE_PATHS[selected].docs}
-                className="text-sm underline pr-2"
+                className="text-xs underline pr-2"
               >
                 Docs
               </a>
@@ -45,7 +45,7 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
           {GUIDE_PATHS[selected].description.map(({ text, image }, index) => (
             <div className="p-2" key={index}>
               {image && <img src={image} className="w-full rounded-md mb-1" />}
-              <p className="text-sm whitespace-pre-line">{text}</p>
+              <p className="text-xs whitespace-pre-line">{text}</p>
             </div>
           ))}
 
@@ -100,7 +100,7 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
               <div className="flex-1">
                 <div className="flex items-center justify-between w-full mb-2">
                   <div className="flex">
-                    <p className="text-sm  mr-1 capitalize ">{path}</p>
+                    <p className="text-xs  mr-1 capitalize ">{path}</p>
                     <img src={GUIDE_PATHS[path].icon} className="h-5 mr-1" />
                   </div>
                 </div>
@@ -158,10 +158,7 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
     );
   };
   return (
-    <div
-      style={{ maxHeight: "300px" }}
-      className="overflow-y-auto scrollable flex flex-wrap pt-1.5 pr-0.5"
-    >
+    <div className="h-full pt-1.5 pr-0.5">
       <Content />
     </div>
   );

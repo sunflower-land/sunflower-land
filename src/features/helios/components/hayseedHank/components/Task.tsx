@@ -1,4 +1,3 @@
-import { Button } from "components/ui/Button";
 import { ResizableBar } from "components/ui/ProgressBar";
 import Decimal from "decimal.js-light";
 import {
@@ -6,15 +5,16 @@ import {
   AchievementName,
 } from "features/game/types/achievements";
 import { setPrecision } from "lib/utils/formatNumber";
-import React from "react";
+import React, { useContext } from "react";
 import { GUIDE_PATHS, GuidePath } from "../lib/guide";
 import { GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useActor } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
   onOpenGuide: (guide: GuidePath) => void;
-  state: GameState;
   task?: AchievementName;
 }
 
@@ -30,7 +30,6 @@ export const GuideTask: React.FC<GuideTaskProps> = ({
 }) => {
   const achievement = ACHIEVEMENTS()[task];
   const progress = achievement.progress(state);
-  const isComplete = progress >= achievement.requirement;
 
   const progressPercentage =
     Math.min(1, progress / achievement.requirement) * 100;
@@ -40,12 +39,22 @@ export const GuideTask: React.FC<GuideTaskProps> = ({
   );
   return (
     <>
-      <div className="flex">
-        <img
-          src={guide && GUIDE_PATHS[guide].icon}
-          className="h-6 img-highlight mr-1 items-center"
-        />
-        <span className="text-sm mb-1">{achievement.description}</span>
+      <div className="flex justify-between">
+        <div className="flex items-center">
+          <img
+            src={guide && GUIDE_PATHS[guide].icon}
+            className="h-4 sm:h-5 mr-1 items-center"
+          />
+          <span className="text-xs sm:text-sm">{achievement.description}</span>
+        </div>
+        {onNeedHelp && (
+          <div className="w-5" onClick={() => onNeedHelp(guide as GuidePath)}>
+            <img
+              src={SUNNYSIDE.icons.expression_confused}
+              className="h-4 sm:h-5 ml-1 relative top-0.5"
+            />
+          </div>
+        )}
       </div>
       <div className="mt-0.5 flex flex-warp items-center justify-between">
         <div className="flex items-center h-8">
@@ -57,24 +66,10 @@ export const GuideTask: React.FC<GuideTaskProps> = ({
               height: 7,
             }}
           />
-          <span className="text-xs ml-1">{`${setPrecision(
+          <span className="text-xs sm:text-sm ml-1">{`${setPrecision(
             new Decimal(progress)
           )}/${achievement.requirement}`}</span>
         </div>
-        {onNeedHelp && (
-          <Button
-            className="w-32 h-8"
-            onClick={() => onNeedHelp(guide as GuidePath)}
-          >
-            <div className="flex items-center">
-              <span className="text-xs">Need help</span>
-              <img
-                src={SUNNYSIDE.icons.expression_confused}
-                className="h-4 ml-1 relative top-0.5"
-              />
-            </div>
-          </Button>
-        )}
         {/* {!onNeedHelp &&
           (achievement.sfl.gt(0) ||
             getKeys(achievement.rewards ?? {}).length > 0) && (
@@ -94,7 +89,12 @@ export const GuideTask: React.FC<GuideTaskProps> = ({
     </>
   );
 };
-export const Task: React.FC<Props> = ({ onOpenGuide, state, task }) => {
+export const Task: React.FC<Props> = ({ onOpenGuide, task }) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  const state = gameState.context.state;
+
   if (!task) {
     return (
       <div className="p-2">

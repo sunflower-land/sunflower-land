@@ -69,7 +69,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
           className="absolute flex"
           style={{
             top: `${PIXEL_SCALE * 1}px`,
-            left: `${PIXEL_SCALE * 1}px`,
+            left: `0px`,
             right: `${PIXEL_SCALE * 1}px`,
           }}
         >
