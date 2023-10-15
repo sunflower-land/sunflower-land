@@ -44,19 +44,19 @@ export const COMPOSTER_IMAGES: Record<
     width: number;
   }
 > = {
-  "Basic Composter": {
+  "Compost Bin": {
     composting: basicComposting,
     idle: basicIdle,
     ready: basicReady,
     width: 24,
   },
-  "Advanced Composter": {
+  "Turbo Composter": {
     composting: advancedComposting,
     idle: advancedIdle,
     ready: advancedReady,
     width: 27,
   },
-  "Expert Composter": {
+  "Premium Composter": {
     composting: expertComposting,
     idle: expertIdle,
     ready: expertReady,
@@ -122,23 +122,21 @@ export const ComposterModal: React.FC<Props> = ({
             />
             <div className="mt-2 flex-1">
               <div className="flex flex-wrap">
-                <div className="relative flex items-center mr-3">
-                  <Label
-                    type="default"
-                    className="mb-1"
-                    secondaryIcon={ITEM_DETAILS[composterInfo.produce].image}
-                  >
-                    {`10 ${composterInfo.produce}`}
+                <div className="relative flex items-center mr-3 mb-1">
+                  <img
+                    src={ITEM_DETAILS[composterInfo.produce].image}
+                    className="h-5 mr-1"
+                  />
+                  <Label type="default">
+                    {`${composterInfo.produceAmount} ${composterInfo.produce}`}
                   </Label>
                 </div>
-                <div className="relative flex items-center">
-                  <Label
-                    type="default"
-                    className="mb-1"
-                    secondaryIcon={ITEM_DETAILS[composterInfo.bait].image}
-                  >
-                    {`1 ${composterInfo.bait}`}
-                  </Label>
+                <div className="relative flex items-center mb-1">
+                  <img
+                    src={ITEM_DETAILS[composterInfo.bait].image}
+                    className="h-5 mr-1"
+                  />
+                  <Label type="default">{`1 ${composterInfo.bait}`}</Label>
                 </div>
               </div>
               <div className="flex items-center">
@@ -176,24 +174,23 @@ export const ComposterModal: React.FC<Props> = ({
                   })}
                 </span>
               </div>
-              <div className="flex flex-wrap">
-                <div className="relative flex items-center mr-4">
-                  <Label
-                    type="default"
-                    className="mb-2"
-                    secondaryIcon={ITEM_DETAILS[composterInfo.produce].image}
-                  >
-                    {`10 ${composterInfo.produce}`}
+              <div className="flex flex-wrap my-1">
+                <div className="relative flex items-center mr-4 mb-2">
+                  <img
+                    src={ITEM_DETAILS[composterInfo.produce].image}
+                    className="h-5 mr-1"
+                  />
+
+                  <Label type="default">
+                    {`${composterInfo.produceAmount} ${composterInfo.produce}`}
                   </Label>
                 </div>
-                <div className="relative flex items-center">
-                  <Label
-                    type="default"
-                    className="mb-2"
-                    secondaryIcon={ITEM_DETAILS[composterInfo.bait].image}
-                  >
-                    {`1 ${composterInfo.bait}`}
-                  </Label>
+                <div className="relative flex items-center mb-2">
+                  <img
+                    src={ITEM_DETAILS[composterInfo.bait].image}
+                    className="h-5 mr-1"
+                  />
+                  <Label type="default">{`1 ${composterInfo.bait}`}</Label>
                 </div>
               </div>
             </div>
@@ -202,12 +199,57 @@ export const ComposterModal: React.FC<Props> = ({
       );
     }
 
+    const FertiliserLabel = () => {
+      const fertiliser = composterDetails[composterName].produce;
+
+      if (fertiliser === "Sprout Mix") {
+        return (
+          <Label
+            icon={powerup}
+            secondaryIcon={SUNNYSIDE.icons.plant}
+            type="success"
+            className="text-xs whitespace-pre-line"
+          >
+            +0.2 Crops
+          </Label>
+        );
+      }
+
+      if (fertiliser === "Fruitful Blend") {
+        return (
+          <Label
+            icon={powerup}
+            secondaryIcon={ITEM_DETAILS.Apple.image}
+            type="success"
+            className="text-xs whitespace-pre-line"
+          >
+            +0.1 Fruit
+          </Label>
+        );
+      }
+
+      if (fertiliser === "Rapid Root") {
+        return (
+          <Label
+            icon={SUNNYSIDE.icons.stopwatch}
+            secondaryIcon={SUNNYSIDE.icons.plant}
+            type="info"
+            className="text-xs whitespace-pre-line"
+          >
+            20% Speed
+          </Label>
+        );
+      }
+
+      return null;
+    };
+
     return (
       <>
         <div className="flex flex-col h-full">
           <div className="flex flex-col h-full px-1 py-0">
-            <div className="flex flex-wrap space-x-2">
-              <div className="flex space-x-2 justify-start items-center">
+            <div className="flex flex-wrap my-1">
+              <div className="flex space-x-2 justify-start mr-2">
                 <SquareIcon
                   icon={
                     ITEM_DETAILS[composterDetails[composterName].produce].image
@@ -215,20 +257,13 @@ export const ComposterModal: React.FC<Props> = ({
                   width={14}
                 />
                 <div className="block">
-                  <p className="text-xs">
-                    10 x {composterDetails[composterName].produce}
+                  <p className="text-xs mb-1">
+                    {`${composterDetails[composterName].produceAmount} x ${composterDetails[composterName].produce}`}
                   </p>
-                  <Label
-                    icon={powerup}
-                    secondaryIcon={SUNNYSIDE.icons.plant}
-                    type="success"
-                    className="text-xs whitespace-pre-line"
-                  >
-                    +0.2 Crops
-                  </Label>
+                  <FertiliserLabel />
                 </div>
               </div>
-              <div className="flex space-x-2 justify-start items-center mt-2 sm:mt-0">
+              <div className="flex space-x-1 justify-start">
                 <SquareIcon
                   icon={
                     ITEM_DETAILS[composterDetails[composterName].bait].image
@@ -236,7 +271,7 @@ export const ComposterModal: React.FC<Props> = ({
                   width={14}
                 />
                 <div className="block">
-                  <p className="text-xs">
+                  <p className="text-xs mb-1">
                     1 x {composterDetails[composterName].bait}
                   </p>
                   <Label
@@ -326,8 +361,8 @@ export const ComposterModal: React.FC<Props> = ({
                   <img src={compost} className="h-6 mr-2 object-contain" />
                 </div>
                 <p className="text-xs  flex-1">
-                  A compost produces 10 Fertilisers which can be used to boost
-                  your crops & fruit.
+                  A compost cycle produces multiple fertilisers which can be
+                  used to boost your crops & fruit.
                 </p>
               </div>
               <div className="flex mb-2">
@@ -338,8 +373,8 @@ export const ComposterModal: React.FC<Props> = ({
                   />
                 </div>
                 <p className="text-xs flex-1">
-                  Each compost also produces 3-5 worms that can be used as bait
-                  for fishing.
+                  Each compost yields worms that can be used as bait for
+                  fishing.
                 </p>
               </div>
             </div>

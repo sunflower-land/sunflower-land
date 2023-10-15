@@ -215,10 +215,8 @@ const BaitSelection: React.FC<{
       {chum ? (
         <div className="flex item-center justify-between mb-1">
           <div className="flex items-center">
-            <Label
-              secondaryIcon={ITEM_DETAILS[chum].image}
-              type="default"
-            >{`Chum - ${CHUM_AMOUNTS[chum]} ${chum}`}</Label>
+            <img src={ITEM_DETAILS[chum].image} className="h-5 mr-1" />
+            <Label type="default">{`Chum - ${CHUM_AMOUNTS[chum]} ${chum}`}</Label>
           </div>
           <img
             src={SUNNYSIDE.icons.cancel}

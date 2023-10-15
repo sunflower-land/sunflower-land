@@ -9,9 +9,9 @@ export type CropCompostName = "Sprout Mix" | "Rapid Root";
 export type CompostName = FruitCompostName | CropCompostName;
 
 export type ComposterName =
-  | "Basic Composter"
-  | "Advanced Composter"
-  | "Expert Composter";
+  | "Compost Bin"
+  | "Turbo Composter"
+  | "Premium Composter";
 
 export const BAIT: Record<Bait, { description: string }> = {
   Earthworm: {
@@ -47,11 +47,12 @@ export type ComposterDetails = {
   requirements: Requirements;
   timeToFinishMilliseconds: number;
   produce: CompostName;
+  produceAmount: number;
   bait: Bait;
 };
 
 export const composterDetails: Record<ComposterName, ComposterDetails> = {
-  "Basic Composter": {
+  "Compost Bin": {
     requirements: {
       Sunflower: new Decimal(5),
       Pumpkin: new Decimal(3),
@@ -59,24 +60,26 @@ export const composterDetails: Record<ComposterName, ComposterDetails> = {
     },
     bait: "Earthworm",
     produce: "Sprout Mix",
+    produceAmount: 10,
     timeToFinishMilliseconds: 6 * 60 * 60 * 1000,
   },
-  "Advanced Composter": {
+  "Turbo Composter": {
     requirements: {
-      Kale: new Decimal(5),
+      Cauliflower: new Decimal(3),
       Egg: new Decimal(1),
     },
-    produce: "Fruitful Blend",
+    produce: "Rapid Root",
+    produceAmount: 10,
     bait: "Grub",
     timeToFinishMilliseconds: 8 * 60 * 60 * 1000,
   },
-  "Expert Composter": {
+  "Premium Composter": {
     requirements: {
-      Orange: new Decimal(2),
-      Blueberry: new Decimal(2),
-      Egg: new Decimal(3),
+      Radish: new Decimal(2),
+      Parsnip: new Decimal(2),
     },
-    produce: "Rapid Root",
+    produce: "Fruitful Blend",
+    produceAmount: 3,
     bait: "Red Wiggler",
     timeToFinishMilliseconds: 12 * 60 * 60 * 1000,
   },

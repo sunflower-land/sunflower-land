@@ -2108,20 +2108,17 @@ export const ITEM_DETAILS: Items = {
   },
 
   // Composters
-  "Basic Composter": {
+  "Compost Bin": {
     image: basicComposter,
-    description:
-      "Creates a nurturing Sprout Mix compost and unearths Earthworm bait for your fishing adventures!",
+    description: "Produces bait & fertiliser on a regular basis.",
   },
-  "Advanced Composter": {
+  "Turbo Composter": {
     image: advancedComposter,
-    description:
-      "Produces a bountiful Fruitful Blend compost and discovers Grub bait eager to join you in fishing!",
+    description: "Produces advanced bait & fertiliser on a regular basis.",
   },
-  "Expert Composter": {
+  "Premium Composter": {
     image: expertComposter,
-    description:
-      "Generates a robust Rapid Root compost mix and reveals Red Wiggler bait for the perfect fishing expedition!",
+    description: "Produces expert bait & fertiliser on a regular basis.",
   },
 
   // Season tickets

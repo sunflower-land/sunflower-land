@@ -119,11 +119,11 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     if (hasFeatureAccess(inventory, "COMPOSTERS")) {
       return getKeys(BUILDINGS());
     }
-    // filter out Basic Composter, Advanced Composter and Expert Composter
+    // filter out Compost Bin, Turbo Composter and Premium Composter
     return getKeys(BUILDINGS()).filter((building) => {
-      if (building === "Basic Composter") return false;
-      if (building === "Advanced Composter") return false;
-      if (building === "Expert Composter") return false;
+      if (building === "Compost Bin") return false;
+      if (building === "Turbo Composter") return false;
+      if (building === "Premium Composter") return false;
       return true;
     });
   };

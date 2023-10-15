@@ -585,7 +585,7 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    "Basic Composter": [
+    "Compost Bin": [
       {
         coordinates: { x: 3, y: 8 },
         createdAt: 0,
@@ -597,7 +597,7 @@ export const OFFLINE_FARM: GameState = {
         },
       },
     ],
-    "Advanced Composter": [
+    "Turbo Composter": [
       {
         coordinates: { x: 5, y: 8 },
         createdAt: 0,
@@ -605,11 +605,11 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
         producing: {
           name: "Rapid Root",
-          readyAt: Date.now() + 50000,
+          readyAt: Date.now() - 50000,
         },
       },
     ],
-    "Expert Composter": [
+    "Premium Composter": [
       {
         coordinates: { x: 7, y: 8 },
         createdAt: 0,
@@ -617,7 +617,7 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
         producing: {
           name: "Rapid Root",
-          readyAt: Date.now() + 50000,
+          readyAt: Date.now() - 50000,
         },
       },
     ],

@@ -28,11 +28,11 @@ export const ListView: React.FC<{
     if (hasFeatureAccess(inventory, "COMPOSTERS")) {
       return buildings;
     }
-    // filter out Basic Composter, Advanced Composter and Expert Composter
+    // filter out Compost Bin, Turbo Composter and Premium Composter
     return buildings.filter((building) => {
-      if (building === "Basic Composter") return false;
-      if (building === "Advanced Composter") return false;
-      if (building === "Expert Composter") return false;
+      if (building === "Compost Bin") return false;
+      if (building === "Turbo Composter") return false;
+      if (building === "Premium Composter") return false;
       return true;
     });
   };

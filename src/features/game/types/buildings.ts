@@ -18,9 +18,9 @@ export type BuildingName =
   | "Smoothie Shack"
   | "Toolshed"
   | "Warehouse"
-  | "Basic Composter"
-  | "Advanced Composter"
-  | "Expert Composter";
+  | "Compost Bin"
+  | "Turbo Composter"
+  | "Premium Composter";
 
 export type Ingredient = {
   item: InventoryItemName;
@@ -333,7 +333,7 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 60 * 2,
     },
   ],
-  "Basic Composter": [
+  "Compost Bin": [
     {
       unlocksAtLevel: 6,
       ingredients: [
@@ -350,7 +350,7 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 60,
     },
   ],
-  "Advanced Composter": [
+  "Turbo Composter": [
     {
       unlocksAtLevel: 10,
       ingredients: [
@@ -367,7 +367,7 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 60 * 2,
     },
   ],
-  "Expert Composter": [
+  "Premium Composter": [
     {
       unlocksAtLevel: 18,
       ingredients: [
@@ -398,7 +398,7 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   "Smoothie Shack": { height: 2, width: 3 },
   Toolshed: { height: 3, width: 2 },
   Warehouse: { height: 2, width: 3 },
-  "Basic Composter": { height: 2, width: 2 },
-  "Advanced Composter": { height: 2, width: 2 },
-  "Expert Composter": { height: 2, width: 2 },
+  "Compost Bin": { height: 2, width: 2 },
+  "Turbo Composter": { height: 2, width: 2 },
+  "Premium Composter": { height: 2, width: 2 },
 };

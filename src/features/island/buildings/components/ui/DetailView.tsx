@@ -44,9 +44,9 @@ export const UNLOCKABLES: Record<BuildingName, InventoryItemName[]> = {
   Warehouse: [],
   "Town Center": [],
   // Composters
-  "Basic Composter": [],
-  "Advanced Composter": [],
-  "Expert Composter": [],
+  "Compost Bin": [],
+  "Turbo Composter": [],
+  "Premium Composter": [],
 };
 
 interface Props {

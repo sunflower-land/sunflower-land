@@ -60,7 +60,9 @@ export function collectCompost({
     bumpkin.activity
   );
 
-  stateCopy.inventory[compost.name] = compostCount.add(10);
+  stateCopy.inventory[compost.name] = compostCount.add(
+    composterDetails[action.building].produceAmount
+  );
   stateCopy.inventory[bait] = baitCount.add(1);
 
   return stateCopy;
