@@ -123,7 +123,7 @@ export const Feed: React.FC<Props> = ({ food }) => {
                 <div>
                   <Button
                     className="mt-1"
-                    disabled={inventoryFoodCount.lessThan(1)}
+                    disabled={inventoryFoodCount.lessThan(10)}
                     onClick={openConfirmationModal}
                   >
                     {`${feedVerb} All`}
