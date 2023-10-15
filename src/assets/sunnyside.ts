@@ -13,6 +13,12 @@ export const SUNNYSIDE = {
     soil_not_fertile: `${CONFIG.PROTECTED_IMAGE_URL}/crops/soil_not_fertile.png`,
     soil2: `${CONFIG.PROTECTED_IMAGE_URL}/crops/soil2.png`,
   },
+  animals: {
+    bird: `${CONFIG.PROTECTED_IMAGE_URL}/animals/bird_sheet.png`,
+  },
+  vfx: {
+    blinking: `${CONFIG.PROTECTED_IMAGE_URL}/vfx/blinking.png`,
+  },
   icons: {
     angry: `${CONFIG.PROTECTED_IMAGE_URL}/icons/angry.png`,
     arrow_down: `${CONFIG.PROTECTED_IMAGE_URL}/icons/arrow_down.png`,
