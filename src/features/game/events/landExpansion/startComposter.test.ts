@@ -207,7 +207,7 @@ describe("start Turbo Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Kale: new Decimal(5),
+        Cauliflower: new Decimal(5),
         Egg: new Decimal(1),
       },
       buildings: {
@@ -231,7 +231,7 @@ describe("start Turbo Composter", () => {
       action: { type: "composter.started", building: "Turbo Composter" },
     });
 
-    expect(newState.inventory.Kale).toStrictEqual(new Decimal(0));
+    expect(newState.inventory.Cauliflower).toStrictEqual(new Decimal(2));
     expect(newState.inventory.Egg).toStrictEqual(new Decimal(0));
   });
 
@@ -240,7 +240,7 @@ describe("start Turbo Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Kale: new Decimal(5),
+        Cauliflower: new Decimal(5),
         Egg: new Decimal(1),
       },
       buildings: {
@@ -339,9 +339,8 @@ describe("start Premium Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Orange: new Decimal(2),
-        Blueberry: new Decimal(2),
-        Egg: new Decimal(3),
+        Radish: new Decimal(2),
+        Parsnip: new Decimal(2),
       },
       buildings: {
         "Premium Composter": [
@@ -364,9 +363,8 @@ describe("start Premium Composter", () => {
       action: { type: "composter.started", building: "Premium Composter" },
     });
 
-    expect(newState.inventory.Orange).toStrictEqual(new Decimal(0));
-    expect(newState.inventory.Blueberry).toStrictEqual(new Decimal(0));
-    expect(newState.inventory.Egg).toStrictEqual(new Decimal(0));
+    expect(newState.inventory.Radish).toStrictEqual(new Decimal(0));
+    expect(newState.inventory.Parsnip).toStrictEqual(new Decimal(0));
   });
 
   it("starts ExpertComposters", () => {
@@ -374,9 +372,8 @@ describe("start Premium Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Orange: new Decimal(2),
-        Blueberry: new Decimal(2),
-        Egg: new Decimal(3),
+        Parsnip: new Decimal(2),
+        Radish: new Decimal(2),
       },
       buildings: {
         "Premium Composter": [
