@@ -4,6 +4,7 @@ import { useActor } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import plus from "assets/icons/plus.png";
+import lightning from "assets/icons/lightning.png";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -160,10 +161,16 @@ const BaitSelection: React.FC<{
     <>
       <div className="p-2">
         <div className="flex items-center">
-          <Label type="default" className="mr-2">
+          <Label
+            icon={SUNNYSIDE.icons.stopwatch}
+            type="default"
+            className="mr-2"
+          >
             Dusk Tide
           </Label>
-          <Label type="vibrant">Fish Frenzy</Label>
+          <Label icon={lightning} type="vibrant">
+            Fish Frenzy
+          </Label>
         </div>
       </div>
       <div>
@@ -208,12 +215,10 @@ const BaitSelection: React.FC<{
       {chum ? (
         <div className="flex item-center justify-between mb-1">
           <div className="flex items-center">
-            <Label type="default">{`Chum - ${CHUM_AMOUNTS[chum]} ${chum}`}</Label>
-            <img
-              src={ITEM_DETAILS[chum].image}
-              className="h-5 ml-1"
-              onClick={() => setChum(undefined)}
-            />
+            <Label
+              secondaryIcon={ITEM_DETAILS[chum].image}
+              type="default"
+            >{`Chum - ${CHUM_AMOUNTS[chum]} ${chum}`}</Label>
           </div>
           <img
             src={SUNNYSIDE.icons.cancel}

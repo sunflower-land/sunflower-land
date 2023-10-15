@@ -2,7 +2,6 @@ import React from "react";
 import { secondsToString } from "lib/utils/time";
 import { Label } from "./Label";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { SquareIcon } from "./SquareIcon";
 
 interface Props {
   timeLeft: number;
@@ -16,16 +15,9 @@ interface Props {
  */
 export const CountdownLabel: React.FC<Props> = ({ timeLeft, endText }) => {
   return (
-    <Label type="info">
-      <SquareIcon
-        icon={SUNNYSIDE.icons.stopwatch}
-        width={5}
-        className="-mb-0.5"
-      />
-      <span className="ml-1">
-        {secondsToString(timeLeft, { length: "medium" })}
-        {endText ? ` ${endText}` : ""}
-      </span>
+    <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+      {secondsToString(timeLeft, { length: "medium" })}
+      {endText ? ` ${endText}` : ""}
     </Label>
   );
 };

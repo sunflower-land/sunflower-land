@@ -5,7 +5,12 @@ import {
   pixelOrangeBorderStyle,
   pixelRedBorderStyle,
   pixelVibrantBorderStyle,
+  pixelBlueBorderStyle,
+  pixelCalmBorderStyle,
+  pixelFormulaBorderStyle,
+  pixelGreenBorderStyle,
 } from "features/game/lib/style";
+import { SquareIcon } from "./SquareIcon";
 
 type labelType =
   | "default"
@@ -14,124 +19,154 @@ type labelType =
   | "info"
   | "danger"
   | "warning"
-  | "happy"
-  | "vibrant";
+  | "vibrant"
+  | "formula"
+  | "chill";
+
+const LABEL_STYLES: Record<
+  labelType,
+  { background: string; textColour: string; borderStyle: React.CSSProperties }
+> = {
+  danger: {
+    background: "#e43b44",
+    borderStyle: pixelRedBorderStyle,
+    textColour: "#ffffff",
+  },
+  default: {
+    background: "#c0cbdc",
+    borderStyle: pixelGrayBorderStyle,
+    textColour: "#181425",
+  },
+  // boost
+  info: {
+    background: "#1e6dd5",
+    borderStyle: pixelBlueBorderStyle,
+    textColour: "#ffffff",
+  },
+  // buff
+  success: {
+    background: "#3e8948",
+    borderStyle: pixelGreenBorderStyle,
+    textColour: "#ffffff",
+  },
+  transparent: {
+    background: "none",
+    borderStyle: {},
+    textColour: "#ffffff",
+  },
+  // Special
+  vibrant: {
+    background: "#b65389",
+    borderStyle: pixelVibrantBorderStyle,
+    textColour: "#ffffff",
+  },
+  // Rare
+  warning: {
+    background: "#f09100",
+    borderStyle: pixelOrangeBorderStyle,
+    textColour: "#ffffff",
+  },
+  chill: {
+    background: "#e4a672",
+    borderStyle: pixelCalmBorderStyle,
+    textColour: "#3e2731",
+  },
+  formula: {
+    background: "#3c4665",
+    borderStyle: pixelFormulaBorderStyle,
+    textColour: "#ffffff",
+  },
+};
 
 interface Props {
   className?: string;
-  type?: labelType;
+  type: labelType;
   style?: React.CSSProperties;
+  icon?: string;
+  secondaryIcon?: string;
 }
 export const Label: React.FC<Props> = ({
   children,
   className,
   type,
   style,
+  icon,
+  secondaryIcon,
 }) => {
   return (
-    <>
-      {type === "default" && (
-        <div
-          className={classnames(
-            "bg-silver-500 text-xxs object-contain justify-center inline-flex px-1 items-center",
-            className
-          )}
-          style={{ ...pixelGrayBorderStyle, ...style }}
-        >
-          <span
-            style={{
-              lineHeight: "12px",
-              height: "14px",
-            }}
-          >
-            {children}
-          </span>
-        </div>
+    <div
+      key={type}
+      className={classnames(
+        className,
+        `w-fit justify-center flex items-center uppercase`,
+        { relative: !className?.includes("absolute") }
       )}
+      style={{
+        ...LABEL_STYLES[type].borderStyle,
+        background: LABEL_STYLES[type].background,
 
-      {type === "warning" && (
-        <div
-          className={classnames(
-            "bg-[#fdae34] text-xxs object-contain justify-center inline-flex px-1 items-center",
-            className
-          )}
-          style={{ ...pixelOrangeBorderStyle, ...style }}
-        >
-          <span
-            className="inline-flex items-center"
-            style={{
-              lineHeight: "12px",
-              height: "auto",
-              paddingBottom: "2px",
-            }}
-          >
-            {children}
-          </span>
-        </div>
+        paddingLeft: icon ? "14px" : "2px",
+        paddingRight: secondaryIcon ? "14px" : icon ? "4px" : "2px",
+        color: LABEL_STYLES[type].textColour,
+        minWidth: "23px",
+        ...style,
+
+        // Normal font styles
+        textShadow:
+          LABEL_STYLES[type].textColour === "#ffffff"
+            ? "1px 1px #1f1f1f"
+            : "none",
+
+        // Pixel Font styles
+        // fontFamily: "TinyFont",
+        // textShadow: "none",
+      }}
+    >
+      {icon && (
+        <SquareIcon
+          icon={icon}
+          width={9}
+          className="absolute"
+          style={{
+            height: `24px`,
+            left: "-12px",
+            // Normal Font
+            bottom: "-5px",
+            // Pixel Font
+            // bottom: "-3px",
+          }}
+        />
       )}
+      <span
+        style={{
+          textAlign: "center",
+          lineHeight: "14px",
+          // Normal font styles
+          fontSize: "12px",
+          marginTop: "-2px",
 
-      {type === "vibrant" && (
-        <div
-          className={classnames(
-            "bg-[#b65389] text-xxs object-contain justify-center inline-flex px-1 items-center",
-            className
-          )}
-          style={{ ...pixelVibrantBorderStyle, ...style }}
-        >
-          <span
-            className="inline-flex items-center"
-            style={{
-              lineHeight: "12px",
-              height: "14px",
-              paddingBottom: "2px",
-            }}
-          >
-            {children}
-          </span>
-        </div>
+          // Pixel Font styles
+          // paddingTop: "2px",
+          // fontSize: `10px`,
+        }}
+      >
+        {children}
+      </span>
+      {secondaryIcon && (
+        <SquareIcon
+          icon={secondaryIcon}
+          width={9}
+          className="absolute"
+          style={{
+            height: `24px`,
+            right: "-12px",
+            // Normal Font
+            bottom: "-5px",
+            // Pixel Font
+            // bottom: "-3px",
+          }}
+        />
       )}
-
-      {type === "danger" && (
-        <div
-          className={classnames(
-            "bg-[#e43b44] text-xxs object-contain justify-center inline-flex px-1 items-center",
-            className
-          )}
-          style={{ ...pixelRedBorderStyle, ...style }}
-        >
-          <span
-            className="inline-flex items-center"
-            style={{
-              lineHeight: "12px",
-              height: "14px",
-              paddingBottom: "2px",
-            }}
-          >
-            {children}
-          </span>
-        </div>
-      )}
-
-      {type !== "default" &&
-        type !== "happy" &&
-        type !== "vibrant" &&
-        type !== "warning" &&
-        type !== "danger" && (
-          <span
-            className={classnames(
-              "text-xxs px-1.5 pb-1 pt-0.5 rounded-md inline-flex items-center",
-              {
-                "bg-green-600": type === "success",
-                "bg-blue-600": type === "info",
-                border: type !== "transparent",
-              },
-              className
-            )}
-            style={style}
-          >
-            {children}
-          </span>
-        )}
-    </>
+    </div>
   );
 };

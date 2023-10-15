@@ -2,6 +2,9 @@ import { PIXEL_SCALE } from "./constants";
 import grayBorder from "assets/ui/panel/gray_border.png";
 import orangeBorder from "assets/ui/panel/orange_border.png";
 import redBorder from "assets/ui/panel/danger_border.png";
+import blueBorder from "assets/ui/panel/blue_border.png";
+import formulaBorder from "assets/ui/panel/formula_border.png";
+import calmBorder from "assets/ui/panel/calm_border.png";
 import vibrantBorder from "assets/ui/panel/vibrant_border.png";
 import lightBorder from "assets/ui/panel/light_border.png";
 import darkBorder from "assets/ui/panel/dark_border.png";
@@ -34,11 +37,26 @@ export const pixelOrangeBorderStyle: React.CSSProperties = {
 
 export const pixelRedBorderStyle: React.CSSProperties = {
   borderImage: `url(${redBorder})`,
-  ...pixelizedBorderStyle,
+  ...{ ...pixelizedBorderStyle },
 };
 
 export const pixelVibrantBorderStyle: React.CSSProperties = {
   borderImage: `url(${vibrantBorder})`,
+  ...pixelizedBorderStyle,
+};
+
+export const pixelBlueBorderStyle: React.CSSProperties = {
+  borderImage: `url(${blueBorder})`,
+  ...pixelizedBorderStyle,
+};
+
+export const pixelFormulaBorderStyle: React.CSSProperties = {
+  borderImage: `url(${formulaBorder})`,
+  ...pixelizedBorderStyle,
+};
+
+export const pixelCalmBorderStyle: React.CSSProperties = {
+  borderImage: `url(${calmBorder})`,
   ...pixelizedBorderStyle,
 };
 

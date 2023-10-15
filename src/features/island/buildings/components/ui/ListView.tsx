@@ -93,29 +93,13 @@ export const ListView: React.FC<{
               <div className="flex-1 flex flex-col justify-center">
                 <span className="text-sm mb-1">{buildingName}</span>
 
-                {allBuildingsBuilt && (
-                  <div className="flex items-center">
-                    <span
-                      className="bg-blue-600 border text-xxs p-1 rounded-md"
-                      style={{ lineHeight: "10px" }}
-                    >
-                      Building limit reached
-                    </span>
-                  </div>
-                )}
                 {!nextLockedLevel ||
                   (buildingLimitReached && (
-                    <div className="flex items-center">
-                      <img src={SUNNYSIDE.resource.land} className="h-4 mr-1" />
-                      <span
-                        className="bg-error border text-xxs p-1 rounded-md"
-                        style={{ lineHeight: "10px" }}
-                      >
-                        {`${landCount.toNumber()}/${nextLockedLevel} Expansions Required`}
-                      </span>
-
-                      <img src={lock} className="h-4 ml-1" />
-                    </div>
+                    <Label
+                      icon={lock}
+                      secondaryIcon={SUNNYSIDE.resource.land}
+                      type="danger"
+                    >{`${landCount.toNumber()}/${nextLockedLevel} Expansions Required`}</Label>
                   ))}
               </div>
             </OuterPanel>

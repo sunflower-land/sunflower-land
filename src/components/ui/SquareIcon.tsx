@@ -6,6 +6,7 @@ interface Props {
   icon: string;
   width: number;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 const getImage = (icon: string, iconWidth: number) => (
@@ -50,7 +51,12 @@ const getImage = (icon: string, iconWidth: number) => (
   />
 );
 
-export const SquareIcon: React.FC<Props> = ({ icon, width, className }) => {
+export const SquareIcon: React.FC<Props> = ({
+  icon,
+  width,
+  className,
+  style,
+}) => {
   const [item, setItem] = useState<JSX.Element | undefined>(
     getImage(icon, width)
   );
@@ -75,6 +81,7 @@ export const SquareIcon: React.FC<Props> = ({ icon, width, className }) => {
       style={{
         width: `${PIXEL_SCALE * width}px`,
         height: `${PIXEL_SCALE * width}px`,
+        ...style,
       }}
     >
       {item}
