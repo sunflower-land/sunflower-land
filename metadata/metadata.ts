@@ -4912,7 +4912,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Gold Pass": {
     description:
-      "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
+      "An exclusive pass that enables the holder to access the Goblin Retreat, bid in Auctions, and access bonus content.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/726.png",

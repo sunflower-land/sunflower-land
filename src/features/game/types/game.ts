@@ -133,6 +133,7 @@ export type MutantChicken =
   | "El Pollo Veloz";
 
 export type Coupons =
+  | "Gold Pass"
   | "Trading Ticket"
   | "War Bond"
   | "Jack-o-lantern"
@@ -148,6 +149,10 @@ export type Coupons =
   | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
+  "Gold Pass": {
+    description:
+      "An exclusive pass that enables the holder to access the Goblin Retreat, bid in Auctions, and access bonus content.",
+  },
   "Trading Ticket": {
     description: "Free Trades! Woohoo!",
   },
