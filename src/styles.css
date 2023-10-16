@@ -1,7 +1,7 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-@import "./fruitAnimations.css";
+@import "./resourceNodeAnimations.css";
 @layer utilities {
   .text-shadow {
     text-shadow: 1px 1px #1f1f1f;
