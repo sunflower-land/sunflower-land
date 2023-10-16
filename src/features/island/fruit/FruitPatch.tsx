@@ -192,7 +192,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
           className="absolute z-10 pointer-events-none"
           src={powerup}
           style={{
-            width: `${PIXEL_SCALE * 10}px`,
+            width: `${PIXEL_SCALE * 5}px`,
             bottom: `${PIXEL_SCALE * 16}px`,
             right: `${PIXEL_SCALE * 2}px`,
           }}

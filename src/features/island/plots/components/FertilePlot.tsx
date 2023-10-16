@@ -93,9 +93,9 @@ const FertilePlotComponent: React.FC<Props> = ({
           className="absolute z-10 pointer-events-none"
           src={fertiliser.name === "Rapid Root" ? lightning : powerup}
           style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            bottom: `${PIXEL_SCALE * 8}px`,
-            right: `${PIXEL_SCALE * -4}px`,
+            width: `${PIXEL_SCALE * 5}px`,
+            bottom: `${PIXEL_SCALE * 9}px`,
+            right: `${PIXEL_SCALE * 0}px`,
           }}
         />
       )}
