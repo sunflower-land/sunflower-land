@@ -5327,7 +5327,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Turbo Composter": {
     description:
-      "Produces a bountiful Fruitful Blend compost and discovers Grub bait eager to join you in fishing!",
+      "Generates a robust Rapid Root compost mix and discovers Grub bait eager to join you in fishing!", // Rapid Root has been moved here on testnet
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1015.png",
@@ -5338,7 +5338,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Premium Composter": {
     description:
-      "Generates a robust Rapid Root compost mix and reveals Red Wiggler bait for the perfect fishing expedition!",
+      "Produces a bountiful Fruitful Blend compost and reveals Red Wiggler bait for the perfect fishing expedition!", // Fruitful Blend has been moved here on testnet
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1016.png",
