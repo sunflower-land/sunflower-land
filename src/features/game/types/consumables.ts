@@ -44,7 +44,10 @@ export type CookableName =
   | "Bumpkin ganoush"
   | "Eggplant Cake"
   | "Cornbread"
-  | "Popcorn";
+  | "Popcorn"
+  | "Chowder"
+  | "Gumbo"
+  | "Fermented Fish";
 
 export type ConsumableName = CookableName | "Pirate Cake";
 
@@ -661,6 +664,33 @@ export const COOKABLES: Record<CookableName, Cookable> = {
       Corn: new Decimal(5),
     },
     marketRate: 120,
+  },
+  Chowder: {
+    name: "Chowder",
+    description: "",
+    building: "Fire Pit",
+    cookingSeconds: 12 * 60,
+    experience: 0,
+    ingredients: {},
+    marketRate: 0,
+  },
+  Gumbo: {
+    name: "Gumbo",
+    description: "",
+    building: "Kitchen",
+    cookingSeconds: 60 * 60 * 24,
+    experience: 0,
+    ingredients: {},
+    marketRate: 0,
+  },
+  "Fermented Fish": {
+    name: "Fermented Fish",
+    description: "",
+    building: "Deli",
+    cookingSeconds: 60 * 60 * 24,
+    experience: 0,
+    ingredients: {},
+    marketRate: 0,
   },
   ...COOKABLE_CAKES,
 };
