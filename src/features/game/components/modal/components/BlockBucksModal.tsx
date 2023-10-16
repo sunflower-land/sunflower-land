@@ -13,10 +13,12 @@ import { buyBlockBucksXsolla } from "features/game/actions/buyBlockBucks";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { randomID } from "lib/utils/random";
 import { Label } from "components/ui/Label";
-import { useSearchParams } from "react-router-dom";
 import { hasFeatureAccess } from "lib/flags";
+import { Modal } from "react-bootstrap";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
 interface Props {
+  show: boolean;
   closeable: boolean;
   setCloseable: (closeable: boolean) => void;
   onClose: () => void;
@@ -77,29 +79,77 @@ interface Price {
   usd: number;
 }
 
-const XsollaIFrame: React.FC<{ url: string; onSuccess: () => void }> = ({
-  url,
-  onSuccess,
-}) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const status = searchParams.get("status");
-
+const XsollaIFrame: React.FC<{
+  url: string;
+  onSuccess: () => void;
+  onClose: () => void;
+}> = ({ url, onSuccess, onClose }) => {
   useEffect(() => {
-    if (status !== null) {
-      setSearchParams(new URLSearchParams());
-      onSuccess();
-    }
-  }, [status]);
+    const listener = (event: any) => {
+      const origin = new URL(url).origin;
+
+      if (event.origin !== origin) return;
+
+      const eventData = JSON.parse(event.data);
+      console.log(eventData);
+      if (eventData.command === "close-widget") {
+        onClose();
+      }
+
+      if (eventData.command === "return") {
+        onSuccess();
+      }
+    };
+    window.addEventListener("message", listener);
+
+    return () => window.removeEventListener("message", listener);
+  }, []);
 
   return (
     <iframe
       src={url}
       title="Xsolla Checkout"
-      className="w-full h-[85vh] sm:h-[65vh]"
+      className="w-full h-full rounded-lg shadow-md absolute"
     />
   );
 };
+
+const Loading: React.FC<{ autoClose: boolean }> = ({ autoClose }) => {
+  const [closed, setClosed] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (autoClose) {
+      setTimeout(() => {
+        setClosed(true);
+      }, 10000);
+    }
+  }, [autoClose]);
+
+  if (closed) return null;
+
+  return (
+    <div className="flex items-center justify-center w-full h-full absolute">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 48 48"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="animate-[spin_2s_linear_infinite]"
+      >
+        <path
+          d="M45.5 24C45.5 28.2523 44.239 32.4091 41.8766 35.9448C39.5141 39.4804 36.1563 42.2361 32.2277 43.8634C28.2991 45.4907 23.9762 45.9165 19.8056 45.0869C15.635 44.2573 11.804 42.2096 8.7972 39.2028C5.79038 36.196 3.7427 32.365 2.91312 28.1944C2.08353 24.0239 2.50931 19.7009 4.13659 15.7723C5.76387 11.8437 8.51958 8.48585 12.0552 6.1234C15.5909 3.76095 19.7477 2.5 24 2.5"
+          stroke="#ffffff"
+          strokeWidth="5"
+          strokeLinecap="round"
+        />
+      </svg>
+    </div>
+  );
+};
+
 export const BlockBucksModal: React.FC<Props> = ({
+  show,
   closeable,
   onClose,
   setCloseable,
@@ -112,6 +162,8 @@ export const BlockBucksModal: React.FC<Props> = ({
 
   const [showXsolla, setShowXsolla] = useState<string>();
   const [loading, setLoading] = useState(false);
+
+  const [isMobile] = useIsMobile();
 
   const [price, setPrice] = useState<Price>();
 
@@ -138,6 +190,7 @@ export const BlockBucksModal: React.FC<Props> = ({
 
       setShowXsolla(url);
     } finally {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       setLoading(false);
     }
   };
@@ -147,8 +200,10 @@ export const BlockBucksModal: React.FC<Props> = ({
     gameService.send("UPDATE_BLOCK_BUCKS", { amount: price?.amount });
   };
 
-  const onCreditCardProcessing = () => {
-    setCloseable(false);
+  const onExited = () => {
+    setShowXsolla(undefined);
+    setPrice(undefined);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -159,7 +214,7 @@ export const BlockBucksModal: React.FC<Props> = ({
   }, []);
 
   const Content = () => {
-    if (gameState.matches("autosaving") || loading) {
+    if (gameState.matches("autosaving")) {
       return (
         <div className="flex justify-center">
           <p className="loading text-center">Loading</p>
@@ -278,23 +333,41 @@ export const BlockBucksModal: React.FC<Props> = ({
   };
 
   return (
-    <CloseButtonPanel
-      onBack={closeable && price ? () => setPrice(undefined) : undefined}
-      onClose={closeable ? onClose : undefined}
-      title="Buy Block Bucks"
-      bumpkinParts={{
-        body: "Light Brown Farmer Potion",
-        hair: "White Long Hair",
-        shirt: "Fancy Top",
-        pants: "Fancy Pants",
-        tool: "Farmer Pitchfork",
-      }}
+    <Modal
+      centered
+      show={show}
+      onHide={onClose}
+      fullscreen={!!showXsolla && isMobile ? true : undefined}
+      onExited={onExited}
+      size={showXsolla ? "lg" : undefined}
     >
       {showXsolla ? (
-        <XsollaIFrame url={showXsolla} onSuccess={onCreditCardSuccess} />
+        <div className="relative w-full h-full min-h-[65vh] min-w[65vw]">
+          <Loading autoClose={true} />
+          <XsollaIFrame
+            url={showXsolla}
+            onSuccess={onCreditCardSuccess}
+            onClose={onClose}
+          />
+        </div>
+      ) : loading ? (
+        <Loading autoClose={false} />
       ) : (
-        <Content />
+        <CloseButtonPanel
+          onBack={closeable && price ? () => setPrice(undefined) : undefined}
+          onClose={closeable ? onClose : undefined}
+          title="Buy Block Bucks"
+          bumpkinParts={{
+            body: "Light Brown Farmer Potion",
+            hair: "White Long Hair",
+            shirt: "Fancy Top",
+            pants: "Fancy Pants",
+            tool: "Farmer Pitchfork",
+          }}
+        >
+          <Content />
+        </CloseButtonPanel>
       )}
-    </CloseButtonPanel>
+    </Modal>
   );
 };
