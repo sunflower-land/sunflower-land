@@ -277,6 +277,7 @@ const skills: Record<SkillName, () => boolean> = {
 };
 
 const coupons: Record<Coupons, () => boolean> = {
+  "Gold Pass": () => false, // Duplicate entry but there will be error if i didn't include this here
   "Trading Ticket": () => false,
   "War Bond": () => false,
   "Jack-o-lantern": () => false,
