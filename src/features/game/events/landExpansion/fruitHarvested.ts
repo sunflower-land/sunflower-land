@@ -41,7 +41,13 @@ export const isFruitReadyToHarvest = (
   const { seed } = FRUIT()[fruitDetails.name];
   const { plantSeconds } = FRUIT_SEEDS()[seed];
 
-  return createdAt - plantedFruit.plantedAt >= plantSeconds * 1000;
+  return (
+    createdAt -
+      (plantedFruit.harvestedAt
+        ? plantedFruit.harvestedAt
+        : plantedFruit.plantedAt) >=
+    plantSeconds * 1000
+  );
 };
 
 type FruitYield = {
