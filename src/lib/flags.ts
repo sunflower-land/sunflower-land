@@ -33,7 +33,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   NEW_FARM_FLOW: () => true,
   BUDS_DEPOSIT_FLOW: () => true,
   FISHING: testnetFeatureFlag,
-  COMPOSTERS: testnetFeatureFlag,
+  COMPOSTERS: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (
