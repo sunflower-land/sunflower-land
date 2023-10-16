@@ -50,6 +50,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import SoundOffIcon from "assets/icons/sound_off.png";
 import { handleCommand } from "./lib/chatCommands";
 import { Moderation } from "features/game/lib/gameMachine";
+import { BeachScene } from "./scenes/BeachScene";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -116,6 +117,7 @@ export const PhaserComponent: React.FC<Props> = ({
         WindmillFloorScene,
         ClothesShopScene,
         DecorationShopScene,
+        BeachScene,
       ];
 
   useEffect(() => {

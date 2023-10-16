@@ -2,9 +2,13 @@ import "lib/__mocks__/configMock";
 
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { FRUIT_SEEDS } from "features/game/types/fruits";
+import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { GameState, FruitPatch } from "features/game/types/game";
-import { getFruitYield, harvestFruit } from "./fruitHarvested";
+import {
+  getFruitYield,
+  harvestFruit,
+  isFruitReadyToHarvest,
+} from "./fruitHarvested";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -34,6 +38,75 @@ const GAME_STATE: GameState = {
 
 describe("fruitHarvested", () => {
   const dateNow = Date.now();
+
+  describe("isFruitReadyToHarvest", () => {
+    const appleSeed = FRUIT_SEEDS()["Apple Seed"];
+
+    it("fruit is not ready to harvest if just planted fruit seed", () => {
+      expect(
+        isFruitReadyToHarvest(
+          appleSeed.plantSeconds + 1,
+          {
+            name: "Apple",
+            plantedAt: appleSeed.plantSeconds,
+            amount: 1,
+            harvestsLeft: 3,
+            harvestedAt: 0,
+          },
+          FRUIT().Apple
+        )
+      ).toBeFalsy();
+    });
+
+    it("fruit is not ready to harvest if just harvested fruit", () => {
+      expect(
+        isFruitReadyToHarvest(
+          appleSeed.plantSeconds + 1,
+          {
+            name: "Apple",
+            plantedAt: 99,
+            amount: 1,
+            harvestsLeft: 2,
+            harvestedAt: appleSeed.plantSeconds,
+          },
+          FRUIT().Apple
+        )
+      ).toBeFalsy();
+    });
+
+    it("fruit is ready to harvest for the first time", () => {
+      expect(
+        isFruitReadyToHarvest(
+          appleSeed.plantSeconds * 2 + 1,
+          {
+            name: "Apple",
+            plantedAt: appleSeed.plantSeconds,
+            amount: 1,
+            harvestsLeft: 3,
+            harvestedAt: 0,
+          },
+          FRUIT().Apple
+        )
+      ).toBeFalsy();
+    });
+
+    it("fruit is ready to harvest for subsequent times", () => {
+      expect(
+        isFruitReadyToHarvest(
+          appleSeed.plantSeconds * 2 + 1,
+          {
+            name: "Apple",
+            plantedAt: 99,
+            amount: 1,
+            harvestsLeft: 2,
+            harvestedAt: appleSeed.plantSeconds,
+          },
+          FRUIT().Apple
+        )
+      ).toBeFalsy();
+    });
+  });
+
   it("throws an error if the player doesn't have a bumpkin", () => {
     expect(() =>
       harvestFruit({

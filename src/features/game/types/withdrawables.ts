@@ -309,9 +309,9 @@ const buildings: Record<BuildingName, () => boolean> = {
   "Smoothie Shack": () => false,
   Toolshed: () => false,
   Warehouse: () => false,
-  "Basic Composter": () => false,
-  "Advanced Composter": () => false,
-  "Expert Composter": () => false,
+  "Compost Bin": () => false,
+  "Turbo Composter": () => false,
+  "Premium Composter": () => false,
 };
 
 const fertilisers: Record<FertiliserName, () => boolean> = {
@@ -792,7 +792,11 @@ const canWithdrawBoostedWearable = (
     );
   }
 
-  if (wearable === "Green Amulet") {
+  if (
+    wearable === "Green Amulet" ||
+    wearable === "Angel Wings" ||
+    wearable === "Devil Wings"
+  ) {
     return getKeys(state.crops).every((id) => !state.crops[id].crop);
   }
 
@@ -881,8 +885,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Reindeer Suit": () => true,
   "Shark Onesie": () => true,
   "Christmas Background": () => true,
-  "Devil Wings": () => true,
-  "Angel Wings": () => true,
+  "Devil Wings": (state) => canWithdrawBoostedWearable("Devil Wings", state),
+  "Angel Wings": (state) => canWithdrawBoostedWearable("Angel Wings", state),
   "Fire Hair": () => true,
   "Luscious Hair": () => true,
   "Ancient War Hammer": () => true,

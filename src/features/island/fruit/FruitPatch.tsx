@@ -1,17 +1,12 @@
 import React, { useContext, useState } from "react";
-import classNames from "classnames";
 
-import fruitPatchDirt from "assets/fruit/fruit_patch.png";
-import powerup from "assets/icons/level_up.png";
-
-import { PIXEL_SCALE, POPOVER_TIME_MS } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { plantAudio, harvestAudio, treeFallAudio } from "lib/utils/sfx";
 import { FruitName } from "features/game/types/fruits";
 import { FruitTree } from "./FruitTree";
 import Decimal from "decimal.js-light";
 import { getRequiredAxeAmount } from "features/game/events/landExpansion/fruitTreeRemoved";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
@@ -21,6 +16,9 @@ import {
   PlantedFruit,
 } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { ResourceDropAnimator } from "components/animation/ResourceDropAnimator";
+import fruitPatchDirt from "assets/fruit/fruit_patch.png";
+import powerup from "assets/icons/level_up.png";
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
@@ -40,17 +38,11 @@ const HasAxes = (
   return (inventory.Axe ?? new Decimal(0)).gte(axesNeeded);
 };
 
-const isPlaying = (state: MachineState) =>
-  state.matches("playingGuestGame") ||
-  state.matches("playingFullGame") ||
-  state.matches("autosaving");
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectCollectibles = (state: MachineState) =>
   state.context.state.collectibles;
-
-const compareFruit = (prev?: Patch, next?: Patch) => {
-  return JSON.stringify(prev) === JSON.stringify(next);
-};
+const compareFruit = (prev?: Patch, next?: Patch) =>
+  JSON.stringify(prev) === JSON.stringify(next);
 const compareCollectibles = (prev: Collectibles, next: Collectibles) =>
   isCollectibleBuilt("Foreman Beaver", prev) ===
   isCollectibleBuilt("Foreman Beaver", next);
@@ -61,18 +53,20 @@ interface Props {
 
 export const FruitPatch: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
-  const [infoToShow, setInfoToShow] = useState<"error" | "info">("error");
-  const [showInfo, setShowInfo] = useState(false);
-  const [playAnimation, setPlayAnimation] = useState(false);
 
+  const [playShakingAnimation, setPlayShakingAnimation] = useState(false);
+  const [collectingFruit, setCollectingFruit] = useState(false);
+  const [collectingWood, setCollectingWood] = useState(false);
+  const [collectedFruitName, setCollectedFruitName] = useState<FruitName>();
+  const [collectedFruitAmount, setCollectedFruitAmount] = useState<number>();
+  const [collectedWoodAmount, setCollectedWoodAmount] = useState<number>();
   const fruitPatch = useSelector(
     gameService,
     (state) => state.context.state.fruitPatches[id],
     compareFruit
   );
-
   const fruit = fruitPatch?.fruit;
-
+  const fertiliser = fruitPatch.fertiliser;
   const collectibles = useSelector(
     gameService,
     selectCollectibles,
@@ -84,78 +78,25 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     (prev, next) =>
       HasAxes(prev, collectibles, fruit) === HasAxes(next, collectibles, fruit)
   );
-  const playing = useSelector(gameService, isPlaying);
+  const hasAxes = HasAxes(inventory, collectibles, fruit);
 
-  const displayInformation = async () => {
-    // First click show error
-    // Second click show panel with information
-    setShowInfo(true);
-    await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
-    setShowInfo(false);
-
-    infoToShow === "error" ? setInfoToShow("info") : setInfoToShow("error");
-  };
-
-  const harvestFruit = () => {
-    if (!fruit) return;
-    try {
-      const newState = gameService.send("fruit.harvested", {
-        index: id,
-      });
-
-      if (!newState.matches("hoarding")) {
-        harvestAudio.play();
-        setPlayAnimation(true);
-      }
-    } catch (e: any) {
-      displayInformation();
-    }
-  };
-
-  const removeTree = () => {
-    try {
-      const hasAxes = HasAxes(inventory, collectibles, fruit);
-
-      if (!hasAxes) {
-        return displayInformation();
-      }
-
-      if (
-        !isCollectibleBuilt("Foreman Beaver", collectibles) ||
-        fruit?.name === "Blueberry"
-      )
-        shortcutItem("Axe");
-
-      const newState = gameService.send("fruitTree.removed", {
-        index: id,
-        selectedItem: "Axe",
-      });
-
-      if (!newState.matches("hoarding")) {
-        treeFallAudio.play();
-        setPlayAnimation(true);
-      }
-    } catch (e: any) {
-      displayInformation();
-    }
-  };
-
-  const plantTree = () => {
+  const plantTree = async () => {
     if (selectedItem === "Fruitful Blend") {
       fertilise();
       return;
     }
 
     try {
-      gameService.send("fruit.planted", {
+      const newState = gameService.send("fruit.planted", {
         index: id,
         seed: selectedItem,
       });
 
-      plantAudio.play();
-    } catch (e: any) {
-      // TODO - catch more elaborate errors
-      displayInformation();
+      if (!newState.matches("hoarding")) {
+        plantAudio.play();
+      }
+    } catch {
+      undefined;
     }
   };
 
@@ -165,63 +106,114 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         patchID: id,
         fertiliser: selectedItem,
       });
-    } catch (e: any) {
-      displayInformation();
+    } catch {
+      undefined;
     }
   };
 
-  const showError = showInfo && infoToShow === "error";
+  const harvestFruit = async () => {
+    if (!fruitPatch) return;
 
-  const fertiliser = fruitPatch.fertiliser;
+    const newState = gameService.send("fruit.harvested", {
+      index: id,
+    });
+
+    if (!newState.matches("hoarding")) {
+      setCollectingFruit(true);
+      setCollectedFruitName(fruit?.name);
+      setCollectedFruitAmount(fruit?.amount);
+
+      harvestAudio.play();
+      setPlayShakingAnimation(true);
+
+      await new Promise((res) => setTimeout(res, 3000));
+
+      setCollectingFruit(false);
+      setCollectedFruitName(undefined);
+      setCollectedFruitAmount(undefined);
+      setPlayShakingAnimation(false);
+    }
+  };
+
+  const removeTree = async () => {
+    if (!hasAxes) return;
+
+    if (
+      !isCollectibleBuilt("Foreman Beaver", collectibles) ||
+      fruit?.name === "Blueberry"
+    )
+      shortcutItem("Axe");
+
+    const newState = gameService.send("fruitTree.removed", {
+      index: id,
+      selectedItem: "Axe",
+    });
+
+    if (!newState.matches("hoarding")) {
+      setCollectingWood(true);
+      setCollectedWoodAmount(1);
+
+      treeFallAudio.play();
+
+      await new Promise((res) => setTimeout(res, 3000));
+
+      setCollectingWood(false);
+      setCollectedWoodAmount(undefined);
+    }
+  };
 
   return (
-    <div className="w-full h-full relative flex justify-center items-center">
-      <div className="absolute w-full h-full flex justify-center">
-        <img
-          src={fruitPatchDirt}
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 30}px`,
-            top: `${PIXEL_SCALE * 2}px`,
-          }}
-        />
-        <FruitTree
-          plantedFruit={fruit}
-          plantTree={plantTree}
-          harvestFruit={harvestFruit}
-          removeTree={removeTree}
-          onError={displayInformation}
-          fertilise={fertilise}
-          playing={playing}
-          playAnimation={playAnimation}
-          showOnClickInfo={showInfo && infoToShow === "info"}
-          fertiliser={fruitPatch?.fertiliser}
-        />
-      </div>
+    <div className="w-full h-full relative">
+      {/* Fruit patch soil */}
+      <img
+        src={fruitPatchDirt}
+        className="absolute pointer-events-none"
+        style={{
+          width: `${PIXEL_SCALE * 30}px`,
+          left: `${PIXEL_SCALE * 1}px`,
+          top: `${PIXEL_SCALE * 2}px`,
+        }}
+      />
 
+      {/* Fruit tree stages */}
+      <FruitTree
+        plantedFruit={fruit}
+        plantTree={plantTree}
+        harvestFruit={harvestFruit}
+        removeTree={removeTree}
+        fertilise={fertilise}
+        playShakingAnimation={playShakingAnimation}
+        hasAxes={hasAxes}
+      />
+
+      {/* Fertiliser */}
       {!!fertiliser && (
         <img
           className="absolute z-10 pointer-events-none"
           src={powerup}
           style={{
-            width: `${PIXEL_SCALE * 6}px`,
-            bottom: `${PIXEL_SCALE * 14}px`,
-            right: `${PIXEL_SCALE * 4}px`,
+            width: `${PIXEL_SCALE * 10}px`,
+            bottom: `${PIXEL_SCALE * 16}px`,
+            right: `${PIXEL_SCALE * 2}px`,
           }}
         />
       )}
-      {/* Error Icon */}
-      <div
-        className={classNames(
-          "transition-opacity absolute top-10 w-full z-40 pointer-events-none flex justify-center",
-          {
-            "opacity-100": showError,
-            "opacity-0": !showError,
-          }
-        )}
-      >
-        <img className="w-5" src={SUNNYSIDE.icons.cancel} />
-      </div>
+
+      {/* Fruit drop animation */}
+      {collectingFruit && (
+        <ResourceDropAnimator
+          resourceName={collectedFruitName}
+          resourceAmount={collectedFruitAmount}
+        />
+      )}
+
+      {/* Wood drop animation */}
+      {collectingWood && (
+        <ResourceDropAnimator
+          resourceName={"Wood"}
+          resourceAmount={collectedWoodAmount}
+        />
+      )}
     </div>
   );
 };

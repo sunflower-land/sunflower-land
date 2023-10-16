@@ -111,9 +111,9 @@ export const BUILDING_COMPONENTS: Record<
       <SmoothieShack buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
-  "Basic Composter": () => <Composter name="Basic Composter" />,
-  "Advanced Composter": () => <Composter name="Advanced Composter" />,
-  "Expert Composter": () => <Composter name="Expert Composter" />,
+  "Compost Bin": () => <Composter name="Compost Bin" />,
+  "Turbo Composter": () => <Composter name="Turbo Composter" />,
+  "Premium Composter": () => <Composter name="Premium Composter" />,
 };
 
 export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
@@ -189,7 +189,7 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
     />
   ),
 
-  "Basic Composter": () => (
+  "Compost Bin": () => (
     <div
       className="absolute bottom-0"
       style={{
@@ -199,7 +199,7 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
       }}
     >
       <img
-        src={ITEM_DETAILS["Basic Composter"].image}
+        src={ITEM_DETAILS["Compost Bin"].image}
         className="w-full absolute"
         style={{
           width: `${PIXEL_SCALE * 24}px`,
@@ -209,7 +209,7 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
       />
     </div>
   ),
-  "Advanced Composter": () => (
+  "Turbo Composter": () => (
     <div
       className="absolute bottom-0"
       style={{
@@ -219,7 +219,7 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
       }}
     >
       <img
-        src={ITEM_DETAILS["Advanced Composter"].image}
+        src={ITEM_DETAILS["Turbo Composter"].image}
         className="w-full absolute"
         style={{
           width: `${PIXEL_SCALE * 27}px`,
@@ -228,7 +228,7 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
       />
     </div>
   ),
-  "Expert Composter": () => (
+  "Premium Composter": () => (
     <div
       className="absolute bottom-0"
       style={{
@@ -238,7 +238,7 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
       }}
     >
       <img
-        src={ITEM_DETAILS["Expert Composter"].image}
+        src={ITEM_DETAILS["Premium Composter"].image}
         className="w-full absolute"
         style={{
           width: `${PIXEL_SCALE * 34}px`,

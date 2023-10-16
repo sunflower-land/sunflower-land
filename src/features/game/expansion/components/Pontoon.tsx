@@ -17,7 +17,7 @@ interface Props {
  * Goblins working hard constructing a piece of land
  */
 export const Pontoon: React.FC<Props> = ({ expansion }) => {
-  const { gameService, showTimers } = useContext(Context);
+  const { showTimers } = useContext(Context);
 
   const [showPopover, setShowPopover] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(
@@ -57,13 +57,23 @@ export const Pontoon: React.FC<Props> = ({ expansion }) => {
         }}
         className="relative max-w-none"
       />
-      <TimerPopover
-        image={island}
-        name="Next Expansion"
-        showPopover={showPopover}
-        timeLeft={secondsLeft}
-        position={{ top: 10, left: 23 }}
-      />
+
+      {/* Timer popover */}
+      <div
+        className="flex justify-center absolute w-full pointer-events-none"
+        style={{
+          top: `${PIXEL_SCALE * -2}px`,
+          left: `${PIXEL_SCALE * 7}px`,
+        }}
+      >
+        <TimerPopover
+          image={island}
+          description="Next Expansion"
+          showPopover={showPopover}
+          timeLeft={secondsLeft}
+        />
+      </div>
+
       {showTimers && (
         <ProgressBar
           seconds={secondsLeft}

@@ -13,6 +13,12 @@ export const SUNNYSIDE = {
     soil_not_fertile: `${CONFIG.PROTECTED_IMAGE_URL}/crops/soil_not_fertile.png`,
     soil2: `${CONFIG.PROTECTED_IMAGE_URL}/crops/soil2.png`,
   },
+  animals: {
+    bird: `${CONFIG.PROTECTED_IMAGE_URL}/animals/bird_sheet.png`,
+  },
+  vfx: {
+    blinking: `${CONFIG.PROTECTED_IMAGE_URL}/vfx/blinking.png`,
+  },
   icons: {
     angry: `${CONFIG.PROTECTED_IMAGE_URL}/icons/angry.png`,
     arrow_down: `${CONFIG.PROTECTED_IMAGE_URL}/icons/arrow_down.png`,
@@ -31,6 +37,7 @@ export const SUNNYSIDE = {
     expression_alerted: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_alerted.png`,
     expression_chat: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_chat.png`,
     expression_confused: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expression_confused.png`,
+    fish: `${CONFIG.PROTECTED_IMAGE_URL}/icons/fish.png`,
     hammer: `${CONFIG.PROTECTED_IMAGE_URL}/icons/hammer.png`,
     heart: `${CONFIG.PROTECTED_IMAGE_URL}/icons/heart.png`,
     helios: `${CONFIG.PROTECTED_IMAGE_URL}/icons/helios_icon.png`,

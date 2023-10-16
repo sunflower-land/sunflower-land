@@ -5314,7 +5314,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
     ],
   },
-  "Basic Composter": {
+  "Compost Bin": {
     description:
       "Creates a nurturing Sprout Mix compost and unearths Earthworm bait for your fishing adventures!",
     decimals: 0,
@@ -5325,7 +5325,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  "Advanced Composter": {
+  "Turbo Composter": {
     description:
       "Produces a bountiful Fruitful Blend compost and discovers Grub bait eager to join you in fishing!",
     decimals: 0,
@@ -5336,7 +5336,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  "Expert Composter": {
+  "Premium Composter": {
     description:
       "Generates a robust Rapid Root compost mix and reveals Red Wiggler bait for the perfect fishing expedition!",
     decimals: 0,

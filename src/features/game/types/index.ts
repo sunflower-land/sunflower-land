@@ -342,9 +342,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Toolshed: 1011,
   Warehouse: 1012,
   "Town Center": 1013,
-  "Basic Composter": 1014,
-  "Advanced Composter": 1015,
-  "Expert Composter": 1016,
+  "Compost Bin": 1014,
+  "Turbo Composter": 1015,
+  "Premium Composter": 1016,
 
   // Temporary Bumpkin items
   "Chef Apron": 1101,
