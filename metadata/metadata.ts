@@ -5314,7 +5314,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
     ],
   },
-  "Basic Composter": {
+  "Compost Bin": {
     description:
       "Creates a nurturing Sprout Mix compost and unearths Earthworm bait for your fishing adventures!",
     decimals: 0,
@@ -5325,9 +5325,9 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  "Advanced Composter": {
+  "Turbo Composter": {
     description:
-      "Produces a bountiful Fruitful Blend compost and discovers Grub bait eager to join you in fishing!",
+      "Generates a robust Rapid Root compost mix and discovers Grub bait eager to join you in fishing!", // Rapid Root has been moved here on testnet
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1015.png",
@@ -5336,9 +5336,9 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  "Expert Composter": {
+  "Premium Composter": {
     description:
-      "Generates a robust Rapid Root compost mix and reveals Red Wiggler bait for the perfect fishing expedition!",
+      "Produces a bountiful Fruitful Blend compost and reveals Red Wiggler bait for the perfect fishing expedition!", // Fruitful Blend has been moved here on testnet
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1016.png",
@@ -5351,7 +5351,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A wriggly worm used to catch fish.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/626.png",
     attributes: [
       { trait_type: "Purpose", value: "Resource" },
       { trait_type: "Tradable", value: "Yes" },
@@ -5361,7 +5361,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A juicy grub used to catch fish.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/627.png",
     attributes: [
       { trait_type: "Purpose", value: "Resource" },
       { trait_type: "Tradable", value: "Yes" },
@@ -5371,7 +5371,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A red wiggler used to catch fish.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/628.png",
     attributes: [
       { trait_type: "Purpose", value: "Resource" },
       { trait_type: "Tradable", value: "Yes" },
@@ -5381,7 +5381,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Sprout Mix increases your crop yield by +0.2",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/629.png",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
       {
@@ -5397,7 +5397,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "This compost boosts your fruit yield by +0.25",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/630.png",
     attributes: [
       { trait_type: "Boost", value: "Fruit" },
       {
@@ -5413,7 +5413,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Rapid Root boosts your crop speed by +50%",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/631.png",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
       {

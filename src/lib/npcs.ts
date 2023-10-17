@@ -41,7 +41,12 @@ export type NPCName =
   | "boneyard betty"
   | "eins"
   | "garth"
-  | "reelin roy";
+  | "reelin roy"
+  | "shelly"
+  | "finn"
+  | "tango"
+  | "mystara"
+  | "goldtooth";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -450,6 +455,51 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Hammer",
     background: "Farm Background",
     shoes: "Black Farmer Boots",
+  },
+  shelly: {
+    body: "Beige Farmer Potion",
+    hair: "Rancher Hair",
+    hat: "Lifeguard Hat",
+    shirt: "Lifeguard Shirt",
+    pants: "Lifeguard Pants",
+    tool: "Water Gun",
+    background: "Seashore Background",
+    shoes: "Black Farmer Boots",
+  },
+  // Placeholder fisherman
+  finn: {
+    body: "Light Brown Farmer Potion",
+    hair: "Buzz Cut",
+    background: "Seashore Background",
+    shoes: "Black Farmer Boots",
+    tool: "Water Gun",
+  },
+  // Placeholder monkey
+  tango: {
+    body: "Beige Farmer Potion",
+    hair: "Basic Hair",
+    background: "Seashore Background",
+    shoes: "Black Farmer Boots",
+    tool: "Water Gun",
+  },
+  // Placeholder mermaid
+  mystara: {
+    body: "Beige Farmer Potion",
+    hair: "Basic Hair",
+    background: "Seashore Background",
+    shoes: "Black Farmer Boots",
+    tool: "Water Gun",
+  },
+  goldtooth: {
+    body: "Goblin Potion",
+    hair: "Sun Spots",
+    hat: "Pirate Hat",
+    shirt: "Pirate Leather Polo",
+    coat: "Pirate General Coat",
+    pants: "Pirate Pants",
+    shoes: "Peg Leg",
+    background: "Seashore Background",
+    tool: "Pirate Scimitar",
   },
 };
 

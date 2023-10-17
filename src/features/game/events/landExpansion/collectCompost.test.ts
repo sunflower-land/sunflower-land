@@ -17,7 +17,7 @@ describe("collectComposterProduce", () => {
         },
         action: {
           type: "compost.collected",
-          building: "Basic Composter",
+          building: "Compost Bin",
           buildingId: "123",
         },
         createdAt: Date.now(),
@@ -31,7 +31,7 @@ describe("collectComposterProduce", () => {
         state: {
           ...GAME_STATE,
           buildings: {
-            "Basic Composter": [
+            "Compost Bin": [
               {
                 id: "123",
                 coordinates: { x: 1, y: 1 },
@@ -43,7 +43,7 @@ describe("collectComposterProduce", () => {
         },
         action: {
           type: "compost.collected",
-          building: "Basic Composter",
+          building: "Compost Bin",
           buildingId: "123",
         },
         createdAt: Date.now(),
@@ -57,7 +57,7 @@ describe("collectComposterProduce", () => {
         state: {
           ...GAME_STATE,
           buildings: {
-            "Basic Composter": [
+            "Compost Bin": [
               {
                 id: "123",
                 coordinates: { x: 1, y: 1 },
@@ -73,7 +73,7 @@ describe("collectComposterProduce", () => {
         },
         action: {
           type: "compost.collected",
-          building: "Basic Composter",
+          building: "Compost Bin",
           buildingId: "123",
         },
         createdAt: Date.now(),
@@ -96,7 +96,7 @@ describe("collectComposterProduce", () => {
       state: {
         ...GAME_STATE,
         buildings: {
-          "Basic Composter": [
+          "Compost Bin": [
             basicComposter,
             {
               id: "2039",
@@ -109,14 +109,14 @@ describe("collectComposterProduce", () => {
       },
       action: {
         type: "compost.collected",
-        building: "Basic Composter",
+        building: "Compost Bin",
         buildingId: "123",
       },
       createdAt: Date.now(),
     });
 
     expect(state.buildings).toEqual({
-      "Basic Composter": [
+      "Compost Bin": [
         {
           ...basicComposter,
           producing: undefined,
@@ -142,7 +142,7 @@ describe("collectComposterProduce", () => {
           Earthworm: new Decimal(0),
         },
         buildings: {
-          "Basic Composter": [
+          "Compost Bin": [
             {
               id: "123",
               coordinates: { x: 1, y: 1 },
@@ -158,7 +158,7 @@ describe("collectComposterProduce", () => {
       },
       action: {
         type: "compost.collected",
-        building: "Basic Composter",
+        building: "Compost Bin",
         buildingId: "123",
       },
       createdAt: Date.now(),

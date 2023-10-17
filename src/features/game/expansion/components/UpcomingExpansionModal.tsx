@@ -1,5 +1,5 @@
 import React from "react";
-import { GameState } from "features/game/types/game";
+import { Bumpkin, GameState } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -45,7 +45,8 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
 
   return (
     <ExpansionRequirements
-      gameState={gameState}
+      inventory={gameState.inventory}
+      bumpkin={gameState.bumpkin as Bumpkin}
       details={{
         description:
           "Each piece of land comes with unique resources to help build your farming empire!",

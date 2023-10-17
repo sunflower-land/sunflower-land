@@ -93,21 +93,28 @@ const FertilePlotComponent: React.FC<Props> = ({
           className="absolute z-10 pointer-events-none"
           src={fertiliser.name === "Rapid Root" ? lightning : powerup}
           style={{
-            width: `${PIXEL_SCALE * 6}px`,
+            width: `${PIXEL_SCALE * 5}px`,
             bottom: `${PIXEL_SCALE * 9}px`,
-            right: `${PIXEL_SCALE * 1}px`,
+            right: `${PIXEL_SCALE * 0}px`,
           }}
         />
       )}
 
       {/* Time popover */}
       {!!cropName && isGrowing && (
-        <TimerPopover
-          image={ITEM_DETAILS[cropName].image}
-          name={cropName}
-          showPopover={showTimerPopover}
-          timeLeft={timeLeft}
-        />
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            top: `${PIXEL_SCALE * -18}px`,
+          }}
+        >
+          <TimerPopover
+            image={ITEM_DETAILS[cropName].image}
+            description={cropName}
+            showPopover={showTimerPopover}
+            timeLeft={timeLeft}
+          />
+        </div>
       )}
 
       {/* Health bar for collecting rewards */}

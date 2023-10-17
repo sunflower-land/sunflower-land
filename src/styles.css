@@ -1,7 +1,7 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-@import "./fruitAnimations.css";
+@import "./resourceNodeAnimations.css";
 @layer utilities {
   .text-shadow {
     text-shadow: 1px 1px #1f1f1f;
@@ -27,6 +27,11 @@
   .separate-lines {
     word-break: break-word;
   }
+}
+
+@font-face {
+  font-family: "TinyFont";
+  src: url("https://sunflower-land.com/testnet-assets/fonts/TinyFont.otf");
 }
 
 body {
