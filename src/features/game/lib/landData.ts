@@ -378,7 +378,6 @@ export const OFFLINE_FARM: GameState = {
     Earthworm: new Decimal(10),
     "Sprout Mix": new Decimal(10),
     "Rapid Root": new Decimal(10),
-    "Rapid Growth": new Decimal(10),
     "Fruitful Blend": new Decimal(10),
     "El Pollo Veloz": new Decimal(1),
     "Bud Seedling": new Decimal(1),
