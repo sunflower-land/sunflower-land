@@ -5425,168 +5425,191 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     ],
   },
 
-  "Fish A": {
+  Anchovy: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish B": {
+  Butteryflyfish: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish C": {
+  Blowfish: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish D": {
+  Clownfish: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish E": {
+  "Sea Bass": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish F": {
+  "Sea Horse": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish G": {
+  "Horse Mackerel": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish H": {
+  Squid: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish I": {
+  "Red Snapper": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish J": {
+  "Mooray Eel": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish K": {
+  "Olive Flounder": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish L": {
+  Napoleanfish: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish M": {
+  Surgeonfish: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish N": {
+  "Zebra Turkeyfish": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish O": {
+  Ray: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish P": {
+  "Hammerhead shark": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish Q": {
+  Tuna: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish R": {
+  "Mahi Mahi": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish S": {
+  "Blue Marlin": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish T": {
+  Oarfish: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish U": {
+  "Football fish": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish V": {
+  Sunfish: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish W": {
+  Coelacanth: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Fish X": {
+  "Whale Shark": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Barred Knifejaw": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+
+  "Saw Shark": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+
+  "White Shark": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
