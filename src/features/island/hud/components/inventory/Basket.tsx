@@ -192,9 +192,12 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           {itemsSection("Resources", resources)}
           {itemsSection("Exotic", exotic)}
           {itemsSection("Foods", consumables)}
-          {itemsSection("Fertilisers", fertilisers)}
+          {itemsSection("Fertilisers", [
+            ...cropCompost,
+            ...fruitCompost,
+            ...fertilisers,
+          ])}
           {itemsSection("Easter Eggs", easterEggs)}
-          {itemsSection("Compost", [...cropCompost, ...fruitCompost])}
           {itemsSection("Bait", bait)}
           {itemsSection("Fish", fish)}
           {itemsSection("Bounty", [...bounty, ...exotics])}
