@@ -32,6 +32,7 @@ describe("start Compost Bin", () => {
                 producing: {
                   name: "Sprout Mix",
                   readyAt: dateNow + 1000,
+                  startedAt: dateNow + 1000 - 6 * 60 * 60 * 1000,
                 },
               },
             ],
@@ -57,6 +58,7 @@ describe("start Compost Bin", () => {
                 producing: {
                   name: "Sprout Mix",
                   readyAt: dateNow - 1000,
+                  startedAt: dateNow - 1000 - 6 * 60 * 60 * 1000,
                 },
               },
             ],
@@ -86,6 +88,7 @@ describe("start Compost Bin", () => {
             producing: {
               name: "Sprout Mix",
               readyAt: dateNow - 1000,
+              startedAt: dateNow - 1000 - 6 * 60 * 60 * 1000,
             },
           },
         ],
@@ -121,6 +124,7 @@ describe("start Compost Bin", () => {
             producing: {
               name: "Sprout Mix",
               readyAt: dateNow - 1000,
+              startedAt: dateNow - 1000 - 6 * 60 * 60 * 1000,
             },
           },
         ],
@@ -166,6 +170,7 @@ describe("start Turbo Composter", () => {
                 producing: {
                   name: "Fruitful Blend",
                   readyAt: dateNow + 1000,
+                  startedAt: dateNow + 1000 - 8 * 60 * 60 * 1000,
                 },
               },
             ],
@@ -192,6 +197,7 @@ describe("start Turbo Composter", () => {
                 producing: {
                   name: "Fruitful Blend",
                   readyAt: dateNow - 1000,
+                  startedAt: dateNow - 1000 - 8 * 60 * 60 * 1000,
                 },
               },
             ],
@@ -220,6 +226,7 @@ describe("start Turbo Composter", () => {
             producing: {
               name: "Fruitful Blend",
               readyAt: dateNow - 1000,
+              startedAt: dateNow - 1000 - 8 * 60 * 60 * 1000,
             },
           },
         ],
@@ -253,6 +260,7 @@ describe("start Turbo Composter", () => {
             producing: {
               name: "Fruitful Blend",
               readyAt: dateNow - 1000,
+              startedAt: dateNow - 1000 - 8 * 60 * 60 * 1000,
             },
           },
         ],
@@ -298,6 +306,7 @@ describe("start Premium Composter", () => {
                 producing: {
                   name: "Rapid Root",
                   readyAt: dateNow + 1000,
+                  startedAt: dateNow + 1000 - 12 * 60 * 60 * 1000,
                 },
               },
             ],
@@ -324,6 +333,7 @@ describe("start Premium Composter", () => {
                 producing: {
                   name: "Rapid Root",
                   readyAt: dateNow - 1000,
+                  startedAt: dateNow - 1000 - 12 * 60 * 60 * 1000,
                 },
               },
             ],
@@ -352,6 +362,7 @@ describe("start Premium Composter", () => {
             producing: {
               name: "Rapid Root",
               readyAt: dateNow - 1000,
+              startedAt: dateNow - 1000 - 12 * 60 * 60 * 1000,
             },
           },
         ],
@@ -385,6 +396,7 @@ describe("start Premium Composter", () => {
             producing: {
               name: "Rapid Root",
               readyAt: dateNow - 1000,
+              startedAt: dateNow - 1000 - 12 * 60 * 60 * 1000,
             },
           },
         ],

@@ -66,6 +66,7 @@ describe("collectComposterProduce", () => {
                 producing: {
                   name: "Sprout Mix",
                   readyAt: dateNow + 1000,
+                  startedAt: dateNow + 1000 - 6 * 60 * 60 * 1000,
                 },
               },
             ],
@@ -90,6 +91,7 @@ describe("collectComposterProduce", () => {
       producing: {
         name: "Sprout Mix",
         readyAt: dateNow - 1000,
+        startedAt: dateNow - 1000 - 6 * 60 * 60 * 1000,
       },
     };
     const state = collectCompost({
@@ -151,6 +153,7 @@ describe("collectComposterProduce", () => {
               producing: {
                 name: "Sprout Mix",
                 readyAt: dateNow - 1000,
+                startedAt: dateNow - 1000 - 6 * 60 * 60 * 1000,
               },
             },
           ],

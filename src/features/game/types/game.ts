@@ -388,6 +388,7 @@ export type BuildingProduct = {
 export type BuildingProduce = {
   name: CompostName;
   readyAt: number;
+  startedAt: number;
 };
 
 export type PlacedItem = {

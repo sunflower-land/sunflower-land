@@ -602,6 +602,7 @@ export const OFFLINE_FARM: GameState = {
         producing: {
           name: "Sprout Mix",
           readyAt: Date.now() - 500000,
+          startedAt: Date.now() - 500000 - 6 * 60 * 60 * 1000,
         },
       },
     ],
@@ -614,6 +615,7 @@ export const OFFLINE_FARM: GameState = {
         producing: {
           name: "Rapid Root",
           readyAt: Date.now() - 50000,
+          startedAt: Date.now() - 50000 - 8 * 60 * 60 * 1000,
         },
       },
     ],
@@ -626,6 +628,7 @@ export const OFFLINE_FARM: GameState = {
         producing: {
           name: "Rapid Root",
           readyAt: Date.now() - 50000,
+          startedAt: Date.now() - 50000 - 12 * 60 * 60 * 1000,
         },
       },
     ],
