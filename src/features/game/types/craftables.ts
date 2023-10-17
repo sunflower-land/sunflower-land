@@ -1207,6 +1207,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
 
   // Catch the Kraken SFTs
   Walrus: { width: 2, height: 2 },
+  Alba: { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
