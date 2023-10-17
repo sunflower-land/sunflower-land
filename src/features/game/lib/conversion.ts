@@ -1,4 +1,4 @@
-import { FERTILISERS, InventoryItemName } from "../types/game";
+import { InventoryItemName } from "../types/game";
 import { SHOVELS, TOOLS } from "../types/craftables";
 import { CROPS, CROP_SEEDS } from "../types/crops";
 import { COMMODITIES } from "../types/resources";
@@ -18,8 +18,7 @@ export function getItemUnit(name: InventoryItemName) {
     name in FRUIT_SEEDS() ||
     name in TOOLS ||
     name in TREASURE_TOOLS ||
-    name in SHOVELS ||
-    name in FERTILISERS
+    name in SHOVELS
   ) {
     return "ether";
   }

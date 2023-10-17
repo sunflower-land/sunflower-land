@@ -281,9 +281,6 @@ import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
 import ancientGoblinSword from "src/assets/sfts/quest/ancient_goblin_sword.png";
 import ancientHumanWarhammer from "src/assets/sfts/quest/ancient_human_warhammer.png";
 
-// Fertiliser
-import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
-
 // Buildings
 import firePit from "src/assets/buildings/fire_pit.png";
 import kitchen from "src/assets/buildings/kitchen.png";
@@ -311,6 +308,7 @@ import redWiggler from "assets/composters/red_wiggler.png";
 import sproutMix from "assets/composters/sprout_mix.png";
 import fruitfulBlend from "assets/composters/fruitful_blend.png";
 import rapidRoot from "assets/composters/rapid_root.png";
+import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
 
 // Clothing
 import chefHat from "src/assets/icons/chef_hat.png";
@@ -454,7 +452,7 @@ import potatoMutant from "assets/sfts/potato_mutant.gif";
 import radishMutant from "assets/sfts/radish_mutant.gif";
 import sunflowerMutant from "assets/sfts/sunflower_mutant.gif";
 
-import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
+import { COUPONS, InventoryItemName } from "./game";
 import {
   FOODS,
   CAKES,
@@ -492,7 +490,12 @@ import {
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
-import { BAIT, CROP_COMPOST, FRUIT_COMPOST } from "./composters";
+import {
+  BAIT,
+  CROP_COMPOST,
+  FRUIT_COMPOST,
+  LEGACY_FERTILISER,
+} from "./composters";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -1370,7 +1373,7 @@ export const ITEM_DETAILS: Items = {
 
   "Rapid Growth": {
     image: rapidGrowth,
-    description: FERTILISERS["Rapid Growth"].description,
+    description: LEGACY_FERTILISER["Rapid Growth"].description,
   },
 
   "Fire Pit": {

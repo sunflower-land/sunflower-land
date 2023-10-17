@@ -46,14 +46,6 @@ export type Reward = {
   }[];
 };
 
-export type FertiliserName = "Rapid Growth";
-
-export const FERTILISERS: Record<FertiliserName, { description: string }> = {
-  "Rapid Growth": {
-    description: "Apply to a crop to grow twice as fast",
-  },
-};
-
 export type CropFertiliser = {
   name: CropCompostName;
   fertilisedAt: number;
@@ -249,7 +241,6 @@ export type InventoryItemName =
   | WarItems
   | SpecialEvent
   | BuildingName
-  | FertiliserName
   | WarBanner
   | ConsumableName
   | DecorationName

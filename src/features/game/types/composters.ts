@@ -5,8 +5,12 @@ export type Bait = "Earthworm" | "Grub" | "Red Wiggler";
 
 export type FruitCompostName = "Fruitful Blend";
 export type CropCompostName = "Sprout Mix" | "Rapid Root";
+export type LegacyFertiliserName = "Rapid Growth";
 
-export type CompostName = FruitCompostName | CropCompostName;
+export type CompostName =
+  | FruitCompostName
+  | CropCompostName
+  | LegacyFertiliserName;
 
 export type ComposterName =
   | "Compost Bin"
@@ -41,6 +45,14 @@ export const CROP_COMPOST: Record<CropCompostName, { description: string }> = {
   },
 };
 
+export const LEGACY_FERTILISER: Record<
+  LegacyFertiliserName,
+  { description: string }
+> = {
+  "Rapid Growth": {
+    description: "Apply to a crop to grow twice as fast",
+  },
+};
 type Requirements = Partial<Record<InventoryItemName, Decimal>>;
 
 export type ComposterDetails = {

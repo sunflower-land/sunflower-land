@@ -3,7 +3,6 @@ import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   InventoryItemName,
-  FERTILISERS,
   COUPONS,
   Bumpkin,
   GameState,
@@ -32,6 +31,7 @@ import {
   BAIT,
   CROP_COMPOST,
   FRUIT_COMPOST,
+  LEGACY_FERTILISER,
 } from "features/game/types/composters";
 import { FISH } from "features/game/types/fishing";
 
@@ -110,13 +110,13 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const exotic = getItems(BEANS());
   const resources = getItems(COMMODITIES);
   const consumables = getItems(CONSUMABLES);
-  const fertilisers = getItems(FERTILISERS);
   const coupons = getItems(COUPONS);
   const easterEggs = getItems(EASTER_EGG);
   const bounty = getItems(SELLABLE_TREASURE);
   const exotics = getItems(EXOTIC_CROPS);
   const cropCompost = getItems(CROP_COMPOST);
   const fruitCompost = getItems(FRUIT_COMPOST);
+  const legacyFertiliser = getItems(LEGACY_FERTILISER);
   const bait = getItems(BAIT);
   const fish = getItems(FISH);
 
@@ -192,9 +192,12 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           {itemsSection("Resources", resources)}
           {itemsSection("Exotic", exotic)}
           {itemsSection("Foods", consumables)}
-          {itemsSection("Fertilisers", fertilisers)}
           {itemsSection("Easter Eggs", easterEggs)}
-          {itemsSection("Compost", [...cropCompost, ...fruitCompost])}
+          {itemsSection("Compost", [
+            ...cropCompost,
+            ...fruitCompost,
+            ...legacyFertiliser,
+          ])}
           {itemsSection("Bait", bait)}
           {itemsSection("Fish", fish)}
           {itemsSection("Bounty", [...bounty, ...exotics])}

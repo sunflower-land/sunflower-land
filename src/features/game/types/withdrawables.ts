@@ -17,7 +17,6 @@ import {
 import {
   Coupons,
   EasterEgg,
-  FertiliserName,
   InventoryItemName,
   LanternName,
   Points,
@@ -312,10 +311,6 @@ const buildings: Record<BuildingName, () => boolean> = {
   "Compost Bin": () => false,
   "Turbo Composter": () => false,
   "Premium Composter": () => false,
-};
-
-const fertilisers: Record<FertiliserName, () => boolean> = {
-  "Rapid Growth": () => false,
 };
 
 const food: Record<Food, () => boolean> = {
@@ -662,6 +657,7 @@ const compost: Record<CompostName, () => boolean> = {
   "Sprout Mix": () => false,
   "Fruitful Blend": () => false,
   "Rapid Root": () => false,
+  "Rapid Growth": () => false,
 };
 
 const fish: Record<FishName, () => boolean> = {
@@ -734,7 +730,6 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...skills,
   ...coupons,
   ...buildings,
-  ...fertilisers,
   ...consumables,
   ...decorations,
   ...potionHouse,
