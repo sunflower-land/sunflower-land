@@ -200,6 +200,7 @@ import { HideawayHerman } from "./components/HideawayHerman";
 import { ShiftySheldon } from "./components/ShiftySheldon";
 import { TikiTorch } from "./components/TikiTorch";
 import { BeachUmbrella } from "./components/BeachUmbrella";
+import { Walrus } from "./components/Walrus";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -441,6 +442,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Shifty Sheldon": ShiftySheldon,
   "Tiki Torch": TikiTorch,
   "Beach Umbrella": BeachUmbrella,
+  Walrus: Walrus,
 };
 // Need readonly versions for some troublesome components while in design mode
 
