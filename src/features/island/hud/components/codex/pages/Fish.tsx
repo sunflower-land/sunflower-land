@@ -44,7 +44,6 @@ const MILESTONES = [
     },
     reward: {
       item: "Luna's Hat",
-      type: "wearable",
     },
   },
   {
@@ -52,7 +51,6 @@ const MILESTONES = [
     percentageComplete: (analytics: any) => 100,
     reward: {
       item: "Chef Apron",
-      type: "wearable",
     },
   },
   {
@@ -63,7 +61,6 @@ const MILESTONES = [
       ),
     reward: {
       item: "Eggplant Onesie",
-      type: "wearable",
     },
   },
   {
@@ -76,7 +73,6 @@ const MILESTONES = [
       ].every((name) => (analytics[`${name} Caught`] ?? 0) >= 1),
     reward: {
       item: "Mushroom Hat",
-      type: "wearable",
     },
   },
   {
@@ -89,7 +85,6 @@ const MILESTONES = [
       ].every((name) => (analytics[`${name} Caught`] ?? 0) >= 10),
     reward: {
       item: "Green Amulet",
-      type: "wearable",
     },
   },
 ];
@@ -131,7 +126,7 @@ const Milestone: React.FC<{
   const percentageComplete = milestone.percentageComplete(analytics);
 
   const buffLabel =
-    BUMPKIN_ITEM_BUFF_LABELS[milestone.reward.item as BumpkinItem]!;
+    BUMPKIN_ITEM_BUFF_LABELS[milestone.reward.item as BumpkinItem];
 
   return (
     <OuterPanel>
@@ -143,14 +138,28 @@ const Milestone: React.FC<{
           <>
             <div className="space-y-1">
               <p className="text-xxs">{milestone.task}</p>
-              <ResizableBar
-                type="progress"
-                outerDimensions={{
-                  width: 60,
-                  height: 7,
-                }}
-                percentage={percentageComplete}
-              />
+              <div className="relative inline-block">
+                <ResizableBar
+                  type="progress"
+                  outerDimensions={{
+                    width: 60,
+                    height: 7,
+                  }}
+                  percentage={percentageComplete}
+                />
+                <img
+                  src={chest}
+                  alt="Treasure Chest"
+                  style={{
+                    width: "22px",
+                    top: "-1px",
+                    right: "-14px",
+                  }}
+                  className={classNames("absolute", {
+                    ready: percentageComplete === 100,
+                  })}
+                />
+              </div>
             </div>
             <div
               className={classNames("flex items-center", {
@@ -167,18 +176,6 @@ const Milestone: React.FC<{
             </div>
           </>
         )}
-        {percentageComplete === 100 && (
-          <>
-            <div className="flex items-center space-y-1 mb-1">
-              <p className="text-xxs">{milestone.task}</p>
-            </div>
-            <img
-              className="object-scale-down"
-              src={SUNNYSIDE.icons.confirm}
-              alt="Complete"
-            />
-          </>
-        )}
       </div>
       <Collapse isExpanded={isExpanded} className="space-y-1">
         <div className="flex pt-1">
@@ -186,15 +183,20 @@ const Milestone: React.FC<{
             src={getImageUrl(ITEM_IDS[milestone.reward.item as BumpkinItem])}
             className="w-1/3 rounded-md mr-2"
           />
-          <div>
-            <p className="text-xs mb-2">{milestone.reward.item}</p>
-            <Label
-              type={buffLabel.labelType}
-              icon={buffLabel.boostTypeIcon}
-              secondaryIcon={buffLabel.boostedItemIcon}
-            >
-              {buffLabel.shortDescription}
-            </Label>
+          <div className="space-y-2">
+            <p className="text-xs">{milestone.reward.item}</p>
+            <div className="flex flex-col space-y-1">
+              {buffLabel && (
+                <Label
+                  type={buffLabel.labelType}
+                  icon={buffLabel.boostTypeIcon}
+                  secondaryIcon={buffLabel.boostedItemIcon}
+                >
+                  {buffLabel.shortDescription}
+                </Label>
+              )}
+              <Label type="default">Wearable</Label>
+            </div>
           </div>
         </div>
         <Button>
@@ -245,27 +247,32 @@ export const Fish: React.FC = () => {
           <div key={type} className="flex flex-col mb-2">
             <h3 className="capitalize pl-1.5 text-sm">{`${type} Fish`}</h3>
             <div className="flex flex-wrap">
-              {FISH_BY_TYPE[type].map((name) => (
-                <SimpleBox
-                  onClick={console.log}
-                  key={name}
-                  image={SUNNYSIDE.icons.expression_confused}
-                >
-                  <div
-                    id="blah"
-                    className="absolute"
-                    style={{
-                      right: `${LABEL_RIGHT_SHIFT_PX}px`,
-                      top: `${LABEL_TOP_SHIFT_PX}px`,
-                      pointerEvents: "none",
-                    }}
+              {FISH_BY_TYPE[type].map((name) => {
+                const caughtCount = analytics[`${name} Caught`] ?? 0;
+
+                return (
+                  <SimpleBox
+                    onClick={console.log}
+                    key={name}
+                    image={SUNNYSIDE.icons.expression_confused}
                   >
-                    <Label type="default" className="px-0.5 text-xxs">
-                      {5}
-                    </Label>
-                  </div>
-                </SimpleBox>
-              ))}
+                    {caughtCount > 0 && (
+                      <div
+                        className="absolute"
+                        style={{
+                          right: `${LABEL_RIGHT_SHIFT_PX}px`,
+                          top: `${LABEL_TOP_SHIFT_PX}px`,
+                          pointerEvents: "none",
+                        }}
+                      >
+                        <Label type="default" className="px-0.5 text-xxs">
+                          {5}
+                        </Label>
+                      </div>
+                    )}
+                  </SimpleBox>
+                );
+              })}
             </div>
           </div>
         ))}

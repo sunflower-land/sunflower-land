@@ -4,7 +4,6 @@ import classNames from "classnames";
 import {
   pixelTabBorderStartStyle,
   pixelTabBorderMiddleStyle,
-  pixelTabBorderVerticalStartStyle,
   pixelTabBorderVerticalMiddleStyle,
 } from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -48,11 +47,7 @@ export const Tab: React.FC<Props> = ({
   }
 
   const getBorderStyle = () => {
-    if (vertical) {
-      return isFirstTab
-        ? pixelTabBorderVerticalStartStyle
-        : pixelTabBorderVerticalMiddleStyle;
-    }
+    if (vertical) return pixelTabBorderVerticalMiddleStyle;
 
     return isFirstTab ? pixelTabBorderStartStyle : pixelTabBorderMiddleStyle;
   };

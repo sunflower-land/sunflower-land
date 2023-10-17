@@ -56,7 +56,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             }}
           >
             {/* Tabs */}
-            <div className="absolute top-0 left-0">
+            <div className="absolute top-4 left-0">
               <div className="flex flex-col">
                 {categories.map((tab, index) => (
                   <Tab
