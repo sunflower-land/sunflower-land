@@ -12,7 +12,7 @@ import {
 } from "features/game/lib/style";
 import { SquareIcon } from "./SquareIcon";
 
-type labelType =
+export type LabelType =
   | "default"
   | "transparent"
   | "success"
@@ -24,7 +24,7 @@ type labelType =
   | "chill";
 
 const LABEL_STYLES: Record<
-  labelType,
+  LabelType,
   { background: string; textColour: string; borderStyle: React.CSSProperties }
 > = {
   danger: {
@@ -80,7 +80,7 @@ const LABEL_STYLES: Record<
 
 interface Props {
   className?: string;
-  type: labelType;
+  type: LabelType;
   style?: React.CSSProperties;
   icon?: string;
   secondaryIcon?: string;
@@ -126,14 +126,10 @@ export const Label: React.FC<Props> = ({
         <SquareIcon
           icon={icon}
           width={9}
-          className="absolute"
+          className="absolute top-1/2 -translate-y-1/2"
           style={{
             height: `24px`,
             left: "-12px",
-            // Normal Font
-            bottom: "-5px",
-            // Pixel Font
-            // bottom: "-3px",
           }}
         />
       )}
@@ -156,14 +152,10 @@ export const Label: React.FC<Props> = ({
         <SquareIcon
           icon={secondaryIcon}
           width={9}
-          className="absolute"
+          className="absolute top-1/2 -translate-y-1/2"
           style={{
             height: `24px`,
             right: "-12px",
-            // Normal Font
-            bottom: "-5px",
-            // Pixel Font
-            // bottom: "-3px",
           }}
         />
       )}

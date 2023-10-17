@@ -28,7 +28,6 @@ export const Tab: React.FC<Props> = ({
   className,
   onClick,
 }) => {
-  console.log({ vertical });
   if (!isActive) {
     return (
       <div

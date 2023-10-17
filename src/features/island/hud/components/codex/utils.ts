@@ -1,8 +1,7 @@
-import { getKeys } from "features/game/types/craftables";
-import { AssetType, MutantType, Mutants } from "./types";
-import { Inventory, InventoryItemName } from "features/game/types/game";
-import Decimal from "decimal.js-light";
+import { AssetType } from "./types";
 import { CONFIG } from "lib/config";
+import { FISH, FishName, FishType } from "features/game/types/fishing";
+import { getKeys } from "features/game/types/craftables";
 
 export type ItemCounts = {
   available: number;
@@ -23,22 +22,17 @@ export const getOpenSeaLink = (id: number, type: AssetType) => {
   return `${base}/assets/${network}/${CONTRACTS[type]}/${id}`;
 };
 
-export const getTotalMutantCounts = (
-  mutants: Mutants,
-  inventory: Inventory
-): ItemCounts => {
-  let available = 0;
-  let owned = 0;
+export const getFishByType = () => {
+  const fishByType: Record<FishType, FishName[]> = {
+    basic: [],
+    advanced: [],
+    expert: [],
+  };
 
-  for (const mutantType in mutants) {
-    const items = mutants[mutantType as MutantType];
+  getKeys(FISH).forEach((fishName) => {
+    const fish = FISH[fishName];
+    fishByType[fish.type].push(fishName);
+  });
 
-    available += getKeys(items).length;
-    owned += getKeys(items).reduce((total, name) => {
-      const count = inventory[name as InventoryItemName] ?? new Decimal(0);
-      return total + Number(count);
-    }, 0);
-  }
-
-  return { available, owned };
+  return fishByType;
 };

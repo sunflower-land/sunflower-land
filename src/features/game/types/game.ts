@@ -702,6 +702,7 @@ export interface GameState {
   balance: Decimal;
   airdrops?: Airdrop[];
   farmAddress?: string;
+  analytics?: Partial<Record<string, number>>;
 
   createdAt: number;
 

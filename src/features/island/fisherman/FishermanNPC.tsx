@@ -132,8 +132,6 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     setShowCaughtModal(false);
   };
 
-  console.log("Re-render");
-
   return (
     <>
       <Modal centered show={showCaughtModal} onHide={claim}>

@@ -323,6 +323,11 @@ export const OFFLINE_FARM: GameState = {
     },
   },
   balance: new Decimal(100),
+  analytics: {
+    "Fish A Caught": 2,
+    "Fish B Caught": 1,
+    "Fish C Caught": 1,
+  },
   wardrobe: {
     "Eggplant Onesie": 1,
     "Golden Spatula": 1,
