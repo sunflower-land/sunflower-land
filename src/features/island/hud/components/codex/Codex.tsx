@@ -8,11 +8,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { SquareIcon } from "components/ui/SquareIcon";
 
 // Section Icons
-import mutantIcon from "assets/icons/mutants.webp";
-import { MyFarm } from "./pages/MyFarm";
-import { Mutants } from "./pages/Mutants";
-import { Guide } from "features/helios/components/hayseedHank/components/Guide";
-import { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
+import { Fish } from "./pages/Fish";
 
 interface Props {
   show: boolean;
@@ -20,18 +16,6 @@ interface Props {
 }
 
 export const categories: CodexCategory[] = [
-  {
-    name: "My Farm",
-    icon: SUNNYSIDE.icons.player_small,
-  },
-  {
-    name: "Guide",
-    icon: SUNNYSIDE.icons.expression_confused,
-  },
-  {
-    name: "Mutants",
-    icon: mutantIcon,
-  },
   {
     name: "Fish",
     icon: SUNNYSIDE.icons.fish,
@@ -44,15 +28,9 @@ export function getCodexCategoryIndex(category: CodexCategoryName) {
 
 export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const [currentTab, setCurrentTab] = useState<CodexTabIndex>(0);
-  const [guide, setGuide] = useState<GuidePath>();
 
   const handleTabClick = (index: CodexTabIndex) => {
     setCurrentTab(index);
-  };
-
-  const handleOpenGuide = (guide: GuidePath) => {
-    setCurrentTab(1);
-    setGuide(guide);
   };
 
   return (
@@ -61,7 +39,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
         {/* Header */}
         <OuterPanel className="flex flex-col h-full">
           <div className="flex items-center pl-1 mb-2">
-            <div className="grow">Sunflower Land Journal</div>
+            <div className="grow">Sunflower Land Codex</div>
             <img
               src={SUNNYSIDE.icons.close}
               className="float-right cursor-pointer z-20 ml-3"
@@ -96,16 +74,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             </div>
             {/* Content */}
             <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable">
-              {currentTab === 0 && (
-                <MyFarm
-                  onTabChange={handleTabClick}
-                  onOpenGuide={handleOpenGuide}
-                />
-              )}
-              {currentTab === 1 && (
-                <Guide onSelect={setGuide} selected={guide} />
-              )}
-              {currentTab === 2 && <Mutants />}
+              {currentTab === 0 && <Fish />}
             </InnerPanel>
           </div>
         </OuterPanel>
