@@ -1,4 +1,5 @@
 import { InventoryItemName } from "./game";
+import { LabelType } from "components/ui/Label";
 
 export enum LimitedItemType {
   BlacksmithItem = "BlacksmithItem",
@@ -12,6 +13,13 @@ export enum LimitedItemType {
   WarTentItem = "WarTentItem",
   EasterEventItemName = "EasterEventItemName",
 }
+
+export type BuffLabel = {
+  shortDescription: string;
+  labelType: LabelType;
+  boostTypeIcon?: string;
+  boostedItemIcon?: string;
+};
 
 export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunflower Seed": 101,
