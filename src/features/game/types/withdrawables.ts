@@ -293,6 +293,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Potion Ticket": () => false,
   "Bud Ticket": () => false,
   "Bud Seedling": () => false,
+  "Kraken Tentacle": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {
@@ -628,6 +629,7 @@ const purchasables: Record<PurchasableItems, () => boolean> = {
   "Dawn Breaker Banner": () => false,
   "Solar Flare Banner": () => false,
   "Gold Pass": () => false,
+  "Catch the Kraken Banner": () => false,
 };
 
 const potionHouse: Record<

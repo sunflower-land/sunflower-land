@@ -1,4 +1,8 @@
-export type SeasonName = "Solar Flare" | "Dawn Breaker" | "Witches' Eve";
+export type SeasonName =
+  | "Solar Flare"
+  | "Dawn Breaker"
+  | "Witches' Eve"
+  | "Catch the Kraken";
 
 type SeasonDates = { startDate: Date; endDate: Date };
 
@@ -15,6 +19,10 @@ export const SEASONS: Record<SeasonName, SeasonDates> = {
     startDate: new Date("2023-08-01T00:00:00.000Z"),
     endDate: new Date("2023-11-01T00:00:00.000Z"),
   },
+  "Catch the Kraken": {
+    startDate: new Date("2023-11-01T00:00:00.000Z"),
+    endDate: new Date("2024-02-01T00:00:00.000Z"),
+  },
 };
 
 export const SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER = 10;
@@ -22,17 +30,20 @@ export const SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER = 10;
 export type SeasonalTicket =
   | "Solar Flare Ticket"
   | "Dawn Breaker Ticket"
-  | "Crow Feather";
+  | "Crow Feather"
+  | "Kraken Tentacle";
 
 type SeasonalBanner =
   | "Solar Flare Banner"
   | "Dawn Breaker Banner"
-  | "Witches' Eve Banner";
+  | "Witches' Eve Banner"
+  | "Catch the Kraken Banner";
 
-const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
+export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
   "Solar Flare": "Solar Flare Ticket",
   "Dawn Breaker": "Dawn Breaker Ticket",
   "Witches' Eve": "Crow Feather",
+  "Catch the Kraken": "Kraken Tentacle",
 };
 
 export function getCurrentSeason(): SeasonName {

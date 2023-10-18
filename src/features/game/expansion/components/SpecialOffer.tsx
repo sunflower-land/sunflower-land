@@ -15,6 +15,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
+import { SEASON_TICKET_NAME } from "features/game/types/seasons";
 
 const isPromoting = (state: MachineState) => state.matches("specialOffer");
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -57,15 +58,16 @@ export const PromotingModal: React.FC<Props> = ({
   // Discounts on seasonal items, 1 Mystery Airdrop + Bonus Tickets completing chores.
   // At 1st of August, price changes to $5.99 for everyone and available for 1 month.
 
-  const isPreSeason = Date.now() < new Date("2023-08-01").getTime();
+  const isPreSeason = Date.now() < new Date("2023-11-01").getTime();
   const expiresOn = isPreSeason
-    ? new Date("2023-08-01")
-    : new Date("2023-09-01");
-
-  const price = 7.99;
+    ? new Date("2023-11-01")
+    : new Date("2023-12-01");
 
   const { gameService } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
+  const hasPreviousSeasonBanner = !!inventory["Witches' Eve Banner"];
+
+  const price = hasPreviousSeasonBanner ? "3.99" : "5.99";
 
   const Content = () => {
     if (hasPurchased) {
@@ -74,7 +76,7 @@ export const PromotingModal: React.FC<Props> = ({
           <div className="flex flex-col p-2">
             <div className="flex items-center">
               <img
-                src={ITEM_DETAILS["Witches' Eve Banner"].image}
+                src={ITEM_DETAILS["Catch the Kraken Banner"].image}
                 className="rounded-md my-2 img-highlight mr-2"
                 style={{
                   height: `${PIXEL_SCALE * 16}px`,
@@ -110,7 +112,7 @@ export const PromotingModal: React.FC<Props> = ({
       );
     }
 
-    const msLeft = new Date("2023-08-01").getTime() - Date.now();
+    const msLeft = new Date("2023-11-01").getTime() - Date.now();
     const secondsLeft = msLeft / 1000;
 
     return (
@@ -120,14 +122,14 @@ export const PromotingModal: React.FC<Props> = ({
 
           <div className="flex items-center">
             <img
-              src={ITEM_DETAILS["Witches' Eve Banner"].image}
+              src={ITEM_DETAILS["Catch the Kraken Banner"].image}
               className="rounded-md my-2 img-highlight mr-2"
               style={{
                 height: `${PIXEL_SCALE * 32}px`,
               }}
             />
             <div>
-              <p className="text-sm">{`1 x Witches' Eve Banner`}</p>
+              <p className="text-sm">{`1 x Catch the Kraken Banner`}</p>
               {secondsLeft > 0 ? (
                 <>
                   <div className="flex my-1">
@@ -152,7 +154,9 @@ export const PromotingModal: React.FC<Props> = ({
             <li className="text-sm ml-4">Decorative Banner</li>
             <li className="text-sm ml-4">Mystery Airdrop</li>
             <li className="text-sm ml-4">25% SFL discount on seasonal items</li>
-            <li className="text-sm ml-4">Bonus Crow Feathers</li>
+            <li className="text-sm ml-4">
+              Bonus {SEASON_TICKET_NAME["Catch the Kraken"]}s
+            </li>
           </ul>
           {!isPreSeason && (
             <Label
@@ -187,7 +191,7 @@ export const PromotingModal: React.FC<Props> = ({
           <Button
             onClick={() => {
               gameService.send("PURCHASE_ITEM", {
-                name: "Witches' Eve Banner",
+                name: "Catch the Kraken Banner",
               });
               onClose();
             }}

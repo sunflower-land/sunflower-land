@@ -4115,6 +4115,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Kraken Tentacle": {
+    description: "A ticket used during the Catch the Kraken Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/731.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Sunflower Supporter": {
     description: "A true supporter of the project",
     decimals: 0,
@@ -4384,6 +4394,17 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Extra Crow Feathers from Deliveries",
         value: 2,
       },
+    ],
+  },
+  "Catch the Kraken Banner": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/730.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Banner" },
+      { trait_type: "Tradable", value: "No" },
+      // TODO Add boost
     ],
   },
   "Luminous Lantern": {

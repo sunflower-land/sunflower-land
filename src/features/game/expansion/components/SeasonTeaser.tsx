@@ -10,6 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { MapPlacement } from "./MapPlacement";
 import { PromotingModal } from "./SpecialOffer";
 import { NPC_WEARABLES } from "lib/npcs";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   offset: number;
@@ -24,9 +25,9 @@ export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
     <>
       <PromotingModal
         hasPurchased={
-          !!gameState.context.state.inventory["Witches' Eve Banner"]
+          !!gameState.context.state.inventory["Catch the Kraken Banner"]
         }
-        hasDiscount={!!gameState.context.state.inventory["Dawn Breaker Banner"]}
+        hasDiscount={!!gameState.context.state.inventory["Witches' Eve Banner"]}
         isOpen={showModal}
         onClose={() => setShowModal(false)}
       />
@@ -47,7 +48,14 @@ export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
         >
           <NPC
             parts={NPC_WEARABLES.grubnuk}
-            // onClick={() => setShowModal(true)}
+            onClick={
+              hasFeatureAccess(
+                gameState.context.state.inventory,
+                "KRAKEN_SEASONAL_BANNER"
+              )
+                ? () => setShowModal(true)
+                : undefined
+            }
           />
         </div>
       </MapPlacement>
