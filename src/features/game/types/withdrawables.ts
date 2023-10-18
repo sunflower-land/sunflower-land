@@ -666,7 +666,7 @@ const compost: Record<CompostName, () => boolean> = {
 
 const fish: Record<FishName, () => boolean> = {
   Anchovy: () => false,
-  Butteryflyfish: () => false,
+  Butterflyfish: () => false,
   Blowfish: () => false,
   Clownfish: () => false,
   "Sea Bass": () => false,
