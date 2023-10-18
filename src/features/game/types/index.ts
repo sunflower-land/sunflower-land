@@ -473,7 +473,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
 
   // Fish
   Anchovy: 1501,
-  Butteryflyfish: 1502,
+  Butterflyfish: 1502,
   Blowfish: 1503,
   Clownfish: 1504,
   "Sea Bass": 1505,
