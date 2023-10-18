@@ -2557,7 +2557,8 @@ export const ITEM_DETAILS: Items = {
   },
 
   Anchovy: { image: anchovy, description: "?" },
-  Butteryflyfish: {
+  Butterflyfish: {
+    //Typo?
     image: butterflyfish,
     description: "?",
   },
