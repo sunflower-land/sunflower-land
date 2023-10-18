@@ -14,7 +14,7 @@ import { getKeys } from "features/game/types/craftables";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
-import { CHUM_AMOUNTS, FishingBait } from "features/game/types/fishing";
+import { CHUM_AMOUNTS, FISH, FishingBait } from "features/game/types/fishing";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -92,40 +92,7 @@ const ChumSelection: React.FC<{
   );
 };
 
-// TODO real types
-type Bait = { catches: InventoryItemName[] };
-
-const BAIT: Record<FishingBait, Bait> = {
-  Earthworm: {
-    catches: ["Starfish", "Starfish", "Starfish"],
-  },
-  "Red Wiggler": {
-    catches: [
-      "Starfish",
-      "Starfish",
-      "Starfish",
-      "Starfish",
-      "Starfish",
-      "Starfish",
-    ],
-  },
-  Grub: {
-    catches: ["Starfish", "Starfish", "Starfish"],
-  },
-  // Lure: {
-  //   catches: [
-  //     "Starfish",
-  //     "Starfish",
-  //     "Starfish",
-  //     "Starfish",
-  //     "Starfish",
-  //     "Starfish",
-  //     "Starfish",
-  //     "Starfish",
-  //     "Starfish",
-  //   ],
-  // },
-};
+const BAIT: FishingBait[] = ["Earthworm", "Grub", "Red Wiggler"];
 
 const BaitSelection: React.FC<{
   onCast: (bait: FishingBait, chum?: InventoryItemName) => void;
@@ -157,6 +124,9 @@ const BaitSelection: React.FC<{
 
   const missingRod = !state.inventory["Rod"] || state.inventory.Rod.lt(1);
 
+  const catches = getKeys(FISH).filter((name) =>
+    FISH[name].baits.includes(bait)
+  );
   return (
     <>
       <div className="p-2">
@@ -175,7 +145,7 @@ const BaitSelection: React.FC<{
       </div>
       <div>
         <div className="flex flex-wrap">
-          {getKeys(BAIT).map((name) => (
+          {BAIT.map((name) => (
             <Box
               image={ITEM_DETAILS[name].image}
               isSelected={bait === name}
@@ -190,14 +160,18 @@ const BaitSelection: React.FC<{
             <img src={ITEM_DETAILS[bait].image} className="h-10 mr-2" />
             <div>
               <span className="text-sm">{bait}</span>
-              <div className="flex flex-wrap mb-1">
-                {BAIT[bait].catches.map((name) => (
+              <div className="flex flex-wrap mb-1 mt-1">
+                {catches.map((name) => (
                   <img
-                    src={SUNNYSIDE.icons.expression_confused}
-                    className="h-4 mr-1"
+                    src={ITEM_DETAILS[name].image}
+                    className="h-5 mr-1"
                     key={name}
                   />
                 ))}
+                <img
+                  src={SUNNYSIDE.icons.expression_confused}
+                  className="h-5 mr-1"
+                />
               </div>
             </div>
           </div>
