@@ -454,6 +454,33 @@ import potatoMutant from "assets/sfts/potato_mutant.gif";
 import radishMutant from "assets/sfts/radish_mutant.gif";
 import sunflowerMutant from "assets/sfts/sunflower_mutant.gif";
 
+import anchovy from "assets/fish/anchovy.png";
+import barredKnifejaw from "assets/fish/barred_knifejaw.png";
+import blowfish from "assets/fish/blowfish.png";
+import blueMarlin from "assets/fish/blue_marlin.png";
+import butterflyfish from "assets/fish/butterfly_fish.png";
+import clownfish from "assets/fish/clownfish.png";
+import coelacanth from "assets/fish/coelacanth.png";
+import footballFish from "assets/fish/football_fish.png";
+import hammerheadShark from "assets/fish/hammerhead_shark.png";
+import horseMackerel from "assets/fish/horse_mackerel.png";
+import mahiMahi from "assets/fish/mahi_mahi.png";
+import morayEel from "assets/fish/moray_eel.png";
+import napoleonfish from "assets/fish/napoleonfish.png";
+import oarfish from "assets/fish/oarfish.png";
+import oliveFlounder from "assets/fish/olive_flounder.png";
+import ray from "assets/fish/ray.png";
+import redSnapper from "assets/fish/red_snapper.png";
+import sawShark from "assets/fish/saw_shark.png";
+import seaBass from "assets/fish/sea_bass.png";
+import seahorse from "assets/fish/seahorse.png";
+import squid from "assets/fish/squid.png";
+import sunfish from "assets/fish/sunfish.png";
+import surgeonfish from "assets/fish/surgeonfish.png";
+import tuna from "assets/fish/tuna.png";
+import whaleShark from "assets/fish/whale_shark.png";
+import whiteShark from "assets/fish/white_shark.png";
+import zebraTurkeyfish from "assets/fish/zebra_turkeyfish.png";
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -2529,28 +2556,73 @@ export const ITEM_DETAILS: Items = {
     description: CROP_COMPOST["Rapid Root"].description,
   },
 
-  "Fish A": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish B": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish C": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish D": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish E": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish F": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish G": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish H": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish I": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish J": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish K": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish L": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish M": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish N": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish O": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish P": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish Q": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish R": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish S": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish T": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish U": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish V": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish W": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
-  "Fish X": { image: SUNNYSIDE.icons.expression_confused, description: "?" },
+  Anchovy: { image: anchovy, description: "?" },
+  Butterflyfish: {
+    image: butterflyfish,
+    description: "?",
+  },
+  Blowfish: { image: blowfish, description: "?" },
+  Clownfish: { image: clownfish, description: "?" },
+  "Sea Bass": { image: seaBass, description: "?" },
+  "Sea Horse": { image: seahorse, description: "?" },
+  "Horse Mackerel": {
+    image: horseMackerel,
+    description: "?",
+  },
+  Squid: { image: squid, description: "?" },
+  "Red Snapper": {
+    image: redSnapper,
+    description: "?",
+  },
+  "Mooray Eel": {
+    image: morayEel,
+    description: "?",
+  },
+  "Olive Flounder": {
+    image: oliveFlounder,
+    description: "?",
+  },
+  Napoleanfish: {
+    image: napoleonfish,
+    description: "?",
+  },
+  Surgeonfish: { image: surgeonfish, description: "?" },
+  "Zebra Turkeyfish": {
+    image: zebraTurkeyfish,
+    description: "?",
+  },
+  Ray: { image: ray, description: "?" },
+  "Hammerhead shark": {
+    image: hammerheadShark,
+    description: "?",
+  },
+  Tuna: { image: tuna, description: "?" },
+  "Mahi Mahi": { image: mahiMahi, description: "?" },
+  "Blue Marlin": {
+    image: blueMarlin,
+    description: "?",
+  },
+  Oarfish: { image: oarfish, description: "?" },
+  "Football fish": {
+    image: footballFish,
+    description: "?",
+  },
+  Sunfish: { image: sunfish, description: "?" },
+  Coelacanth: { image: coelacanth, description: "?" },
+  "Whale Shark": {
+    image: whaleShark,
+    description: "?",
+  },
+  "Barred Knifejaw": {
+    image: barredKnifejaw,
+    description: "?",
+  },
+  "Saw Shark": {
+    image: sawShark,
+    description: "?",
+  },
+  "White Shark": {
+    image: whiteShark,
+    description: "?",
+  },
 };

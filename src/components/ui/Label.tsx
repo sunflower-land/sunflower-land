@@ -105,8 +105,8 @@ export const Label: React.FC<Props> = ({
         ...LABEL_STYLES[type].borderStyle,
         background: LABEL_STYLES[type].background,
 
-        paddingLeft: icon ? "14px" : "2px",
-        paddingRight: secondaryIcon ? "14px" : icon ? "4px" : "2px",
+        paddingLeft: icon ? "14px" : "3px",
+        paddingRight: secondaryIcon ? "14px" : icon ? "4px" : "3px",
         color: LABEL_STYLES[type].textColour,
         minWidth: "23px",
         ...style,
@@ -140,9 +140,9 @@ export const Label: React.FC<Props> = ({
       <span
         style={{
           textAlign: "center",
-          lineHeight: "14px",
+          lineHeight: "15px",
           // Normal font styles
-          fontSize: "12px",
+          fontSize: "13px",
           marginTop: "-2px",
 
           // Pixel Font styles
