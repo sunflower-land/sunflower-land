@@ -455,7 +455,7 @@ import radishMutant from "assets/sfts/radish_mutant.gif";
 import sunflowerMutant from "assets/sfts/sunflower_mutant.gif";
 
 import anchovy from "assets/fish/anchovy.png";
-import barredKnifejaw from "assets/fish/barred_Knifejaw.png";
+import barredKnifejaw from "assets/fish/barred_knifejaw.png";
 import blowfish from "assets/fish/blowfish.png";
 import blueMarlin from "assets/fish/blue_marlin.png";
 import butterflyfish from "assets/fish/butterfly_fish.png";
