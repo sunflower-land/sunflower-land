@@ -89,12 +89,17 @@ export type BumpkinShirt =
   | "Skull Shirt"
   | "Chic Gala Blouse"
   | "Pumpkin Shirt"
-  | "Grey Merch Hoodie";
+  | "Grey Merch Hoodie"
+  | "Clown Shirt"
+  | "Seaside Tank Top";
 
 export type BumpkinCoat =
   | "Chef Apron"
   | "Fruit Picker Apron"
-  | "Pirate General Coat";
+  | "Pirate General Coat"
+  | "Fresh Catch Vest"
+  | "Fish Pro Vest"
+  | "Reel Fishing Vest";
 
 export type BumpkinTool =
   | "Farmer Pitchfork"
@@ -117,7 +122,14 @@ export type BumpkinTool =
   | "Infernal Pitchfork"
   | "Merch Coffee Mug"
   | "Wise Staff"
-  | "Kama";
+  | "Kama"
+  | "Harpoon"
+  | "Ancient Rod"
+  | "Trident"
+  | "Fishing Spear"
+  | "Skinning Knife"
+  | "Sunflower Rod"
+  | "Infernal Rod";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -128,7 +140,9 @@ export type BumpkinShoe =
   | "Cupid Sandals"
   | "Mushroom Shoes"
   | "Leather Shoes"
-  | "Old Shoes";
+  | "Old Shoes"
+  | "Flip Flops"
+  | "Wellies";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -174,7 +188,11 @@ export type BumpkinHat =
   | "Unicorn Hat"
   | "Feather Hat"
   | "Valoria Wreath"
-  | "Earn Alliance Sombrero";
+  | "Earn Alliance Sombrero"
+  | "Luminous Anglerfish Topper"
+  | "Abyssal Angler Hat"
+  | "Fishing Hat"
+  | "Coconut Mask";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -196,7 +214,9 @@ export type BumpkinPant =
   | "Wise Slacks"
   | "Stretched Jeans"
   | "Crimson Skirt"
-  | "Tattered Slacks";
+  | "Tattered Slacks"
+  | "Fishing Pants"
+  | "Angler Waders";
 
 export type BumpkinDress =
   | "Cupid Dress"
@@ -211,7 +231,12 @@ export type BumpkinSecondaryTool =
   | "Sunflower Shield"
   | "Crab Claw"
   | "Mushroom Shield"
-  | "Wise Book";
+  | "Wise Book"
+  | "Bucket O' Worms"
+  | "Crab Trap"
+  | "Fish Trap"
+  | "Saw Fish"
+  | "Tackle Box";
 
 // Goes over clothes + head
 export type BumpkinOnesie =
@@ -471,6 +496,31 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Feather Hat": 214,
   "Valoria Wreath": 215,
   "Earn Alliance Sombrero": 216,
+  "Fresh Catch Vest": 217,
+  "Fish Pro Vest": 218,
+  "Reel Fishing Vest": 219,
+  "Clown Shirt": 220,
+  "Luminous Anglerfish Topper": 221,
+  "Abyssal Angler Hat": 222,
+  Harpoon: 223,
+  "Ancient Rod": 224,
+  "Fishing Hat": 225,
+  Trident: 226,
+  "Infernal Rod": 227,
+  "Bucket O' Worms": 228,
+  "Coconut Mask": 229,
+  "Crab Trap": 230,
+  "Seaside Tank Top": 231,
+  "Fish Trap": 232,
+  "Fishing Pants": 233,
+  "Angler Waders": 234,
+  "Fishing Spear": 235,
+  "Flip Flops": 236,
+  Wellies: 237,
+  "Saw Fish": 238,
+  "Skinning Knife": 239,
+  "Sunflower Rod": 240,
+  "Tackle Box": 241,
 };
 
 // The reverse of above
@@ -746,6 +796,31 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Feather Hat": "hat",
   "Valoria Wreath": "hat",
   "Earn Alliance Sombrero": "hat",
+  "Fresh Catch Vest": "coat",
+  "Fish Pro Vest": "coat",
+  "Reel Fishing Vest": "coat",
+  "Clown Shirt": "shirt",
+  "Luminous Anglerfish Topper": "hat",
+  "Abyssal Angler Hat": "hat",
+  Harpoon: "tool",
+  "Ancient Rod": "tool",
+  "Fishing Hat": "hat",
+  Trident: "tool",
+  "Bucket O' Worms": "secondaryTool",
+  "Coconut Mask": "hat",
+  "Crab Trap": "secondaryTool",
+  "Seaside Tank Top": "shirt",
+  "Fish Trap": "secondaryTool",
+  "Fishing Pants": "pants",
+  "Angler Waders": "pants",
+  "Fishing Spear": "tool",
+  "Flip Flops": "shoes",
+  Wellies: "shoes",
+  "Saw Fish": "tool",
+  "Skinning Knife": "tool",
+  "Sunflower Rod": "tool",
+  "Tackle Box": "tool",
+  "Infernal Rod": "tool",
 };
 
 export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
