@@ -22,7 +22,7 @@ interface Props {
   name: ComposterName;
 }
 export const Composter: React.FC<Props> = ({ name }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showTimers } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
   const composter = useSelector(gameService, getComposter(name), compare);
@@ -92,7 +92,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
           className="absolute"
           alt={name}
         />
-        {composting && composter?.producing?.readyAt && (
+        {showTimers && composting && composter?.producing?.readyAt && (
           <div
             className="flex justify-center absolute bg-red-500"
             style={{
