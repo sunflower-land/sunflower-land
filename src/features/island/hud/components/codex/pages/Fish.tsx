@@ -1,26 +1,16 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { getFishByType } from "../utils";
 import { FishName, FishType } from "features/game/types/fishing";
 import { SimpleBox } from "../SimpleBox";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
-import { OuterPanel } from "components/ui/Panel";
-import classNames from "classnames";
-import { ResizableBar } from "components/ui/ProgressBar";
-import { GameState } from "features/game/types/game";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
-import {
-  BUMPKIN_ITEM_BUFF_LABELS,
-  BumpkinItem,
-  ITEM_IDS,
-} from "features/game/types/bumpkin";
-import { Button } from "components/ui/Button";
-import chest from "assets/icons/chest.png";
+
+import { ITEM_DETAILS } from "features/game/types/images";
+import { Milestone } from "../components/Milestone";
 
 const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
 const LABEL_TOP_SHIFT_PX = -4 * PIXEL_SCALE;
@@ -89,127 +79,6 @@ const MILESTONES = [
   },
 ];
 
-export const Collapse: React.FC<{
-  isExpanded: boolean;
-  className?: string;
-}> = ({ isExpanded, children, className }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [contentHeight, setContentHeight] = useState(0);
-
-  useEffect(() => {
-    if (ref.current) {
-      console.log("setting content height", ref.current);
-      setContentHeight(ref.current.clientHeight);
-    }
-  }, [children]);
-
-  return (
-    <div
-      className="overflow-hidden transition-all duration-500"
-      style={{
-        height: isExpanded ? contentHeight : 0,
-      }}
-    >
-      <div className={className} ref={ref}>
-        {children}
-      </div>
-    </div>
-  );
-};
-
-const Milestone: React.FC<{
-  milestone: any;
-  isExpanded: boolean;
-  analytics: GameState["analytics"];
-  onClick: () => void;
-}> = ({ milestone, analytics, isExpanded, onClick }) => {
-  const percentageComplete = milestone.percentageComplete(analytics);
-
-  const buffLabel =
-    BUMPKIN_ITEM_BUFF_LABELS[milestone.reward.item as BumpkinItem];
-
-  return (
-    <OuterPanel>
-      <div
-        className="flex p-0.5 justify-between cursor-pointer"
-        onClick={percentageComplete < 100 ? onClick : undefined}
-      >
-        {percentageComplete < 100 && (
-          <>
-            <div className="space-y-1">
-              <p className="text-xxs">{milestone.task}</p>
-              <div className="relative inline-block">
-                <ResizableBar
-                  type="progress"
-                  outerDimensions={{
-                    width: 60,
-                    height: 7,
-                  }}
-                  percentage={percentageComplete}
-                />
-                <img
-                  src={chest}
-                  alt="Treasure Chest"
-                  style={{
-                    width: "22px",
-                    top: "-1px",
-                    right: "-14px",
-                  }}
-                  className={classNames("absolute", {
-                    ready: percentageComplete === 100,
-                  })}
-                />
-              </div>
-            </div>
-            <div
-              className={classNames("flex items-center", {
-                "transform rotate-180": isExpanded,
-              })}
-            >
-              <img
-                style={{
-                  width: `${PIXEL_SCALE * 8}px`,
-                }}
-                src={SUNNYSIDE.icons.indicator}
-                alt="Collapse Controller"
-              />
-            </div>
-          </>
-        )}
-      </div>
-      <Collapse isExpanded={isExpanded} className="space-y-1">
-        <div className="flex pt-1">
-          <img
-            src={getImageUrl(ITEM_IDS[milestone.reward.item as BumpkinItem])}
-            className="w-1/3 rounded-md mr-2"
-          />
-          <div className="space-y-2">
-            <p className="text-xs">{milestone.reward.item}</p>
-            <div className="flex flex-col space-y-1">
-              {buffLabel && (
-                <Label
-                  type={buffLabel.labelType}
-                  icon={buffLabel.boostTypeIcon}
-                  secondaryIcon={buffLabel.boostedItemIcon}
-                >
-                  {buffLabel.shortDescription}
-                </Label>
-              )}
-              <Label type="default">Wearable</Label>
-            </div>
-          </div>
-        </div>
-        <Button>
-          <div className="flex items-center">
-            <img src={chest} className="mr-1" />
-            <span>Claim reward</span>
-          </div>
-        </Button>
-      </Collapse>
-    </OuterPanel>
-  );
-};
-
 const _analytics = (state: MachineState) => state.context.state.analytics ?? {};
 
 export const Fish: React.FC = () => {
@@ -229,7 +98,6 @@ export const Fish: React.FC = () => {
   return (
     <div className="space-y-2 mt-1">
       <div className="flex flex-col">
-        <h3 className="capitalize pl-1.5 mb-2 text-sm">Milestones</h3>
         <div className="space-y-1.5 px-1.5">
           {MILESTONES.map((milestone, index) => (
             <Milestone
@@ -254,7 +122,7 @@ export const Fish: React.FC = () => {
                   <SimpleBox
                     onClick={console.log}
                     key={name}
-                    image={SUNNYSIDE.icons.expression_confused}
+                    image={ITEM_DETAILS[name].image}
                   >
                     {caughtCount > 0 && (
                       <div
@@ -266,7 +134,7 @@ export const Fish: React.FC = () => {
                         }}
                       >
                         <Label type="default" className="px-0.5 text-xxs">
-                          {5}
+                          {caughtCount}
                         </Label>
                       </div>
                     )}

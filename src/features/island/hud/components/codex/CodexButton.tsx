@@ -6,7 +6,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Codex } from "./Codex";
 
 export const CodexButton: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <>
