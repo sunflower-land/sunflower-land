@@ -5327,7 +5327,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Turbo Composter": {
     description:
-      "Produces a bountiful Fruitful Blend compost and discovers Grub bait eager to join you in fishing!",
+      "Generates a robust Rapid Root compost mix and discovers Grub bait eager to join you in fishing!", // Rapid Root has been moved here on testnet
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1015.png",
@@ -5338,7 +5338,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Premium Composter": {
     description:
-      "Generates a robust Rapid Root compost mix and reveals Red Wiggler bait for the perfect fishing expedition!",
+      "Produces a bountiful Fruitful Blend compost and reveals Red Wiggler bait for the perfect fishing expedition!", // Fruitful Blend has been moved here on testnet
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1016.png",
@@ -5351,7 +5351,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A wriggly worm used to catch fish.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/626.png",
     attributes: [
       { trait_type: "Purpose", value: "Resource" },
       { trait_type: "Tradable", value: "Yes" },
@@ -5361,7 +5361,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A juicy grub used to catch fish.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/627.png",
     attributes: [
       { trait_type: "Purpose", value: "Resource" },
       { trait_type: "Tradable", value: "Yes" },
@@ -5371,7 +5371,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A red wiggler used to catch fish.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/628.png",
     attributes: [
       { trait_type: "Purpose", value: "Resource" },
       { trait_type: "Tradable", value: "Yes" },
@@ -5381,7 +5381,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Sprout Mix increases your crop yield by +0.2",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/629.png",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
       {
@@ -5397,7 +5397,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "This compost boosts your fruit yield by +0.25",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/630.png",
     attributes: [
       { trait_type: "Boost", value: "Fruit" },
       {
@@ -5413,7 +5413,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Rapid Root boosts your crop speed by +50%",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/631.png",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
       {
@@ -5425,172 +5425,195 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     ],
   },
 
-  "Fish A": {
+  Anchovy: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1501.png",
     attributes: [],
   },
-  "Fish B": {
+  Butterflyfish: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1502.png",
     attributes: [],
   },
-  "Fish C": {
+  Blowfish: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1503.png",
     attributes: [],
   },
-  "Fish D": {
+  Clownfish: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1504.png",
     attributes: [],
   },
-  "Fish E": {
+  "Sea Bass": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1505.png",
     attributes: [],
   },
-  "Fish F": {
+  "Sea Horse": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1506.png",
     attributes: [],
   },
-  "Fish G": {
+  "Horse Mackerel": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1507.png",
     attributes: [],
   },
-  "Fish H": {
+  Squid: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1508.png",
     attributes: [],
   },
-  "Fish I": {
+  "Red Snapper": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1509.png",
     attributes: [],
   },
-  "Fish J": {
+  "Mooray Eel": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1510.png",
     attributes: [],
   },
-  "Fish K": {
+  "Olive Flounder": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1511.png",
     attributes: [],
   },
-  "Fish L": {
+  Napoleanfish: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1512.png",
     attributes: [],
   },
-  "Fish M": {
+  Surgeonfish: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1513.png",
     attributes: [],
   },
-  "Fish N": {
+  "Zebra Turkeyfish": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1514.png",
     attributes: [],
   },
-  "Fish O": {
+  Ray: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1515.png",
     attributes: [],
   },
-  "Fish P": {
+  "Hammerhead shark": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1516.png",
     attributes: [],
   },
-  "Fish Q": {
+  Tuna: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1517.png",
     attributes: [],
   },
-  "Fish R": {
+  "Mahi Mahi": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1518.png",
     attributes: [],
   },
-  "Fish S": {
+  "Blue Marlin": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1519.png",
     attributes: [],
   },
-  "Fish T": {
+  Oarfish: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1520.png",
     attributes: [],
   },
-  "Fish U": {
+  "Football fish": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1521.png",
     attributes: [],
   },
-  "Fish V": {
+  Sunfish: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1522.png",
     attributes: [],
   },
-  "Fish W": {
+  Coelacanth: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1523.png",
     attributes: [],
   },
-  "Fish X": {
+  "Whale Shark": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/1524.png",
+    attributes: [],
+  },
+  "Barred Knifejaw": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1525.png",
+    attributes: [],
+  },
+
+  "Saw Shark": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1526.png",
+    attributes: [],
+  },
+
+  "White Shark": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1527.png",
     attributes: [],
   },
 };

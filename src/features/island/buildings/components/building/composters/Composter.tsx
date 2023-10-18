@@ -9,6 +9,7 @@ import { ProgressBar } from "components/ui/ProgressBar";
 import { MachineState } from "features/game/lib/gameMachine";
 import { BuildingName } from "features/game/types/buildings";
 import { ComposterName } from "features/game/types/composters";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 const getComposter = (type: BuildingName) => (state: MachineState) =>
   state.context.state.buildings[type]?.[0];
@@ -30,6 +31,8 @@ export const Composter: React.FC<Props> = ({ name }) => {
     !!composter?.producing && composter.producing.readyAt < Date.now();
   const composting =
     !!composter?.producing && composter.producing.readyAt > Date.now();
+
+  useUiRefresher({ active: composting });
 
   const startComposter = () => {
     setShowModal(false);

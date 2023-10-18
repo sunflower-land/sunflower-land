@@ -29,13 +29,13 @@ export const ModalProvider: FC = ({ children }) => {
   return (
     <ModalContext.Provider value={{ openModal }}>
       {children}
-      <Modal centered show={opened === "BUY_BLOCK_BUCKS"} onHide={handleClose}>
-        <BlockBucksModal
-          onClose={handleClose}
-          closeable={closeable}
-          setCloseable={setCloseable}
-        />
-      </Modal>
+
+      <BlockBucksModal
+        show={opened === "BUY_BLOCK_BUCKS"}
+        onClose={handleClose}
+        closeable={closeable}
+        setCloseable={setCloseable}
+      />
 
       <Modal centered show={opened === "STORE_ON_CHAIN"} onHide={handleClose}>
         <StoreOnChainModal onClose={handleClose} />

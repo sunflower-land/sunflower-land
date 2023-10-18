@@ -4,30 +4,36 @@ import { InventoryItemName } from "./game";
 export type FishingBait = Bait;
 
 export type FishName =
-  | "Fish A"
-  | "Fish B"
-  | "Fish C"
-  | "Fish D"
-  | "Fish E"
-  | "Fish F"
-  | "Fish G"
-  | "Fish H"
-  | "Fish I"
-  | "Fish J"
-  | "Fish K"
-  | "Fish L"
-  | "Fish M"
-  | "Fish N"
-  | "Fish O"
-  | "Fish P"
-  | "Fish Q"
-  | "Fish R"
-  | "Fish S"
-  | "Fish T"
-  | "Fish U"
-  | "Fish V"
-  | "Fish W"
-  | "Fish X";
+  // Basic
+  | "Anchovy"
+  | "Butterflyfish"
+  | "Blowfish"
+  | "Clownfish"
+  | "Sea Bass"
+  | "Sea Horse"
+  | "Horse Mackerel"
+  | "Squid"
+  // Advanced
+  | "Red Snapper"
+  | "Mooray Eel"
+  | "Olive Flounder"
+  | "Napoleanfish"
+  | "Surgeonfish"
+  | "Zebra Turkeyfish"
+  | "Ray"
+  | "Hammerhead shark"
+  | "Barred Knifejaw" // Coming Soon
+  // Expert
+  | "Tuna"
+  | "Mahi Mahi"
+  | "Blue Marlin"
+  | "Oarfish"
+  | "Football fish"
+  | "Sunfish"
+  | "Coelacanth"
+  | "Whale Shark"
+  | "Saw Shark" // Coming Soon
+  | "White Shark"; // Coming Soon
 
 export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
   Gold: 1,
@@ -51,33 +57,91 @@ export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
 };
 
 type Fish = {
-  todo?: boolean;
+  baits: FishingBait[];
 };
 
 // TODO
 export const FISH: Record<FishName, Fish> = {
-  "Fish A": {},
-  "Fish B": {},
-  "Fish C": {},
-  "Fish D": {},
-  "Fish E": {},
-  "Fish F": {},
-  "Fish G": {},
-  "Fish H": {},
-  "Fish I": {},
-  "Fish J": {},
-  "Fish K": {},
-  "Fish L": {},
-  "Fish M": {},
-  "Fish N": {},
-  "Fish O": {},
-  "Fish P": {},
-  "Fish Q": {},
-  "Fish R": {},
-  "Fish S": {},
-  "Fish T": {},
-  "Fish U": {},
-  "Fish V": {},
-  "Fish W": {},
-  "Fish X": {},
+  Anchovy: {
+    baits: ["Earthworm"],
+  },
+  Butterflyfish: {
+    baits: ["Earthworm"],
+  },
+  Blowfish: {
+    baits: ["Earthworm"],
+  },
+  Clownfish: {
+    baits: ["Earthworm"],
+  },
+  "Sea Bass": {
+    baits: ["Earthworm"],
+  },
+  "Sea Horse": {
+    baits: ["Earthworm"],
+  },
+  "Horse Mackerel": {
+    baits: ["Earthworm"],
+  },
+  Squid: {
+    baits: ["Earthworm"],
+  },
+  "Red Snapper": {
+    baits: ["Grub"],
+  },
+  "Mooray Eel": {
+    baits: ["Grub"],
+  },
+  "Olive Flounder": {
+    baits: ["Grub"],
+  },
+  Napoleanfish: {
+    baits: ["Grub"],
+  },
+  Surgeonfish: {
+    baits: ["Grub"],
+  },
+  "Zebra Turkeyfish": {
+    baits: ["Grub"],
+  },
+  Ray: {
+    baits: ["Grub"],
+  },
+  "Hammerhead shark": {
+    baits: ["Grub"],
+  },
+  "Barred Knifejaw": {
+    baits: [],
+  },
+
+  Tuna: {
+    baits: ["Red Wiggler"],
+  },
+  "Mahi Mahi": {
+    baits: ["Red Wiggler"],
+  },
+  "Blue Marlin": {
+    baits: ["Red Wiggler"],
+  },
+  Oarfish: {
+    baits: ["Red Wiggler"],
+  },
+  "Football fish": {
+    baits: ["Red Wiggler"],
+  },
+  Sunfish: {
+    baits: ["Red Wiggler"],
+  },
+  Coelacanth: {
+    baits: ["Red Wiggler"],
+  },
+  "Whale Shark": {
+    baits: ["Red Wiggler"],
+  },
+  "Saw Shark": {
+    baits: ["Red Wiggler"],
+  },
+  "White Shark": {
+    baits: ["Red Wiggler"],
+  },
 };
