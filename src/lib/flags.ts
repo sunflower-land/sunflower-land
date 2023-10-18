@@ -21,7 +21,8 @@ type FeatureName =
   | "NEW_FARM_FLOW"
   | "BUDS_DEPOSIT_FLOW"
   | "FISHING"
-  | "COMPOSTERS";
+  | "COMPOSTERS"
+  | "XSOLLA";
 
 type FeatureFlag = (inventory: GameState["inventory"]) => boolean;
 
@@ -34,6 +35,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   BUDS_DEPOSIT_FLOW: () => true,
   FISHING: testnetFeatureFlag,
   COMPOSTERS: defaultFeatureFlag,
+  XSOLLA: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (
