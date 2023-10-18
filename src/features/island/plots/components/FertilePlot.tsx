@@ -6,7 +6,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { GrowthStage, Soil } from "features/island/plots/components/Soil";
 import { Bar, ProgressBar } from "components/ui/ProgressBar";
 
-import lightning from "assets/icons/lightning.png";
 import powerup from "assets/icons/level_up.png";
 
 import { TimerPopover } from "../../common/TimerPopover";
@@ -14,6 +13,7 @@ import { getTimeLeft } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import classNames from "classnames";
 import { CropFertiliser } from "features/game/types/game";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   cropName?: CropName;
@@ -87,13 +87,25 @@ const FertilePlotComponent: React.FC<Props> = ({
       </div>
 
       {/* Fertiliser */}
-      {!!fertiliser && (
+      {fertiliser?.name === "Sprout Mix" && (
         <img
           key={fertiliser.name}
           className="absolute z-10 pointer-events-none"
-          src={fertiliser.name === "Rapid Root" ? lightning : powerup}
+          src={powerup}
           style={{
             width: `${PIXEL_SCALE * 5}px`,
+            bottom: `${PIXEL_SCALE * 9}px`,
+            right: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
+      )}
+      {fertiliser?.name === "Rapid Root" && (
+        <img
+          key={fertiliser.name}
+          className="absolute z-10 pointer-events-none"
+          src={SUNNYSIDE.icons.stopwatch}
+          style={{
+            width: `${PIXEL_SCALE * 6}px`,
             bottom: `${PIXEL_SCALE * 9}px`,
             right: `${PIXEL_SCALE * 0}px`,
           }}
