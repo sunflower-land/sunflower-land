@@ -22,7 +22,7 @@ interface Props {
   name: ComposterName;
 }
 export const Composter: React.FC<Props> = ({ name }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showTimers } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
   const composter = useSelector(gameService, getComposter(name), compare);
@@ -64,6 +64,13 @@ export const Composter: React.FC<Props> = ({ name }) => {
     image = COMPOSTER_IMAGES[name].composting;
   }
 
+  let progressPercentage = 0;
+  if (composter?.producing?.readyAt)
+    progressPercentage =
+      100 *
+      ((Date.now() - composter?.producing?.startedAt) /
+        (composter?.producing?.readyAt - composter?.producing?.startedAt));
+
   const width = COMPOSTER_IMAGES[name].width;
   return (
     <>
@@ -85,7 +92,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
           className="absolute"
           alt={name}
         />
-        {composting && composter?.producing?.readyAt && (
+        {showTimers && composting && composter?.producing?.readyAt && (
           <div
             className="flex justify-center absolute bg-red-500"
             style={{
@@ -97,7 +104,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
           >
             <ProgressBar
               formatLength="short"
-              percentage={10}
+              percentage={progressPercentage}
               seconds={(composter?.producing?.readyAt - Date.now()) / 1000}
               type="progress"
               className="relative"
