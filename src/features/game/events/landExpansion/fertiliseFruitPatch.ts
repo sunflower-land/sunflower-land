@@ -8,7 +8,6 @@ import { GameState, PlantedFruit } from "features/game/types/game";
 
 export enum FERTILISE_FRUIT_ERRORS {
   EMPTY_PATCH = "Fruit Patch does not exist!",
-  FRUIT_EXISTS = "There no fruit planted!",
   READY_TO_HARVEST = "Fruit is ready to harvest!",
   FRUIT_ALREADY_FERTILISED = "Fruit is already fertilised!",
   NO_FERTILISER_SELECTED = "No fertiliser selected!",
