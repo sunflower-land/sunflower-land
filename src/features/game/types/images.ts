@@ -458,7 +458,7 @@ import anchovy from "assets/fish/anchovy.png";
 import barredKnifejaw from "assets/fish/barred_knifejaw.png";
 import blowfish from "assets/fish/blowfish.png";
 import blueMarlin from "assets/fish/blue_marlin.png";
-import Butteryflyfish from "assets/fish/butterfly_fish.png";
+import butteryflyfish from "assets/fish/butterfly_fish.png";
 import clownfish from "assets/fish/clownfish.png";
 import coelacanth from "assets/fish/coelacanth.png";
 import footballFish from "assets/fish/football_fish.png";
@@ -2558,8 +2558,7 @@ export const ITEM_DETAILS: Items = {
 
   Anchovy: { image: anchovy, description: "?" },
   Butteryflyfish: {
-    //Typo?
-    image: Butteryflyfish,
+    image: butteryflyfish,
     description: "?",
   },
   Blowfish: { image: blowfish, description: "?" },
