@@ -4,30 +4,36 @@ import { InventoryItemName } from "./game";
 export type FishingBait = Bait;
 
 export type FishName =
-  | "Fish A"
-  | "Fish B"
-  | "Fish C"
-  | "Fish D"
-  | "Fish E"
-  | "Fish F"
-  | "Fish G"
-  | "Fish H"
-  | "Fish I"
-  | "Fish J"
-  | "Fish K"
-  | "Fish L"
-  | "Fish M"
-  | "Fish N"
-  | "Fish O"
-  | "Fish P"
-  | "Fish Q"
-  | "Fish R"
-  | "Fish S"
-  | "Fish T"
-  | "Fish U"
-  | "Fish V"
-  | "Fish W"
-  | "Fish X";
+  // Basic
+  | "Anchovy"
+  | "Butteryflyfish"
+  | "Blowfish"
+  | "Clownfish"
+  | "Sea Bass"
+  | "Sea Horse"
+  | "Horse Mackerel"
+  | "Squid"
+  // Advanced
+  | "Red Snapper"
+  | "Mooray Eel"
+  | "Olive Flounder"
+  | "Napoleanfish"
+  | "Surgeonfish"
+  | "Zebra Turkeyfish"
+  | "Ray"
+  | "Hammerhead shark"
+  | "Barred Knifejaw" // Coming Soon
+  // Expert
+  | "Tuna"
+  | "Mahi Mahi"
+  | "Blue Marlin"
+  | "Oarfish"
+  | "Football fish"
+  | "Sunfish"
+  | "Coelacanth"
+  | "Whale Shark"
+  | "Saw Shark" // Coming Soon
+  | "White Shark"; // Coming Soon
 
 export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
   Gold: 1,
@@ -56,28 +62,31 @@ type Fish = {
 
 // TODO
 export const FISH: Record<FishName, Fish> = {
-  "Fish A": {},
-  "Fish B": {},
-  "Fish C": {},
-  "Fish D": {},
-  "Fish E": {},
-  "Fish F": {},
-  "Fish G": {},
-  "Fish H": {},
-  "Fish I": {},
-  "Fish J": {},
-  "Fish K": {},
-  "Fish L": {},
-  "Fish M": {},
-  "Fish N": {},
-  "Fish O": {},
-  "Fish P": {},
-  "Fish Q": {},
-  "Fish R": {},
-  "Fish S": {},
-  "Fish T": {},
-  "Fish U": {},
-  "Fish V": {},
-  "Fish W": {},
-  "Fish X": {},
+  Anchovy: {},
+  Butteryflyfish: {},
+  Blowfish: {},
+  Clownfish: {},
+  "Sea Bass": {},
+  "Sea Horse": {},
+  "Horse Mackerel": {},
+  Squid: {},
+  "Red Snapper": {},
+  "Mooray Eel": {},
+  "Olive Flounder": {},
+  Napoleanfish: {},
+  Surgeonfish: {},
+  "Zebra Turkeyfish": {},
+  Ray: {},
+  "Hammerhead shark": {},
+  Tuna: {},
+  "Mahi Mahi": {},
+  "Blue Marlin": {},
+  Oarfish: {},
+  "Football fish": {},
+  Sunfish: {},
+  Coelacanth: {},
+  "Whale Shark": {},
+  "Barred Knifejaw": {},
+  "Saw Shark": {},
+  "White Shark": {},
 };
