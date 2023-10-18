@@ -5432,8 +5432,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1501.png",
     attributes: [],
   },
-  Butterflyfish: {
-    //Typo?
+  Butteryflyfish: {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",

@@ -6,7 +6,7 @@ export type FishingBait = Bait;
 export type FishName =
   // Basic
   | "Anchovy"
-  | "Butterflyfish" //Typo?
+  | "Butteryflyfish"
   | "Blowfish"
   | "Clownfish"
   | "Sea Bass"
@@ -63,7 +63,7 @@ type Fish = {
 // TODO
 export const FISH: Record<FishName, Fish> = {
   Anchovy: {},
-  Butterflyfish: {},
+  Butteryflyfish: {},
   Blowfish: {},
   Clownfish: {},
   "Sea Bass": {},
