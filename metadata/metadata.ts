@@ -5917,4 +5917,20 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
+  Walrus: {
+    description:
+      "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  Alba: {
+    description:
+      "With her keen instincts, she ensures you get a little extra splash in your catch. +0.5 fish!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
 };

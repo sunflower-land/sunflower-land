@@ -59,6 +59,8 @@ import bettyLantern from "assets/decorations/lanterns/betty_lantern.png";
 import goblinLantern from "assets/decorations/lanterns/goblin_lantern.png";
 import poppy from "assets/sfts/poppy.png";
 import kernaldo from "assets/sfts/kernaldo.png";
+import walrus from "assets/sfts/walrus.webp";
+import alba from "assets/sfts/alba.webp";
 
 import ironStone from "assets/resources/iron_small.png";
 
@@ -2844,5 +2846,15 @@ export const ITEM_DETAILS: Items = {
   Surfboard: {
     image: surfboard,
     description: "Ride the waves of wonder, beach bliss on board!",
+  },
+  Walrus: {
+    image: walrus,
+    description:
+      "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
+  },
+  Alba: {
+    image: alba,
+    description:
+      "With her keen instincts, she ensures you get a little extra splash in your catch. +0.5 fish!",
   },
 };
