@@ -6,7 +6,7 @@ export type FishingBait = Bait;
 export type FishName =
   // Basic
   | "Anchovy"
-  | "Butteryflyfish"
+  | "Butterflyfish"
   | "Blowfish"
   | "Clownfish"
   | "Sea Bass"
@@ -65,7 +65,7 @@ export const FISH: Record<FishName, Fish> = {
   Anchovy: {
     baits: ["Earthworm"],
   },
-  Butteryflyfish: {
+  Butterflyfish: {
     baits: ["Earthworm"],
   },
   Blowfish: {
