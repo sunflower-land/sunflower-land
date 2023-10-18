@@ -67,6 +67,7 @@ describe("castRod", () => {
             Axe: new Decimal(1),
           },
           fishing: {
+            weather: "Sunny",
             wharf: {
               castedAt: 1000000200,
             },

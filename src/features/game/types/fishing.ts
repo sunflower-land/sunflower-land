@@ -174,3 +174,16 @@ export const FISH: Record<FishName, Fish> = {
     type: "expert",
   },
 };
+
+export type Tide = "Dusktide" | "Dawnlight";
+
+export type FishingConditions = "Sunny" | "Windy" | "Full Moon" | "Fish Frenzy";
+
+export function getTide(utcTime: Date = new Date()): Tide {
+  const hours = new Date(utcTime).getUTCHours();
+  if (hours >= 0 && hours < 12) {
+    return "Dawnlight";
+  } else {
+    return "Dusktide";
+  }
+}

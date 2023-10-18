@@ -202,9 +202,12 @@ export const TEST_FARM: GameState = {
   },
   stock: INITIAL_STOCK(),
   chickens: {},
-  fishing: { wharf: {} },
   farmActivity: {},
   milestones: {},
+  fishing: {
+    weather: "Sunny",
+    wharf: {},
+  },
   wardrobe: {},
   createdAt: new Date().getTime(),
   conversations: [],
@@ -433,9 +436,12 @@ export const EMPTY: GameState = {
   crops: {},
   stones: {},
   trees: {},
-  fishing: { wharf: {} },
   farmActivity: {},
   milestones: {},
+  fishing: {
+    weather: "Sunny",
+    wharf: {},
+  },
   mushrooms: {
     spawnedAt: 0,
     mushrooms: {},

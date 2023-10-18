@@ -14,7 +14,12 @@ import { getKeys } from "features/game/types/craftables";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
-import { CHUM_AMOUNTS, FISH, FishingBait } from "features/game/types/fishing";
+import {
+  CHUM_AMOUNTS,
+  FISH,
+  FishingBait,
+  getTide,
+} from "features/game/types/fishing";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -127,20 +132,39 @@ const BaitSelection: React.FC<{
   const catches = getKeys(FISH).filter((name) =>
     FISH[name].baits.includes(bait)
   );
+
+  const tide = getTide();
+  const weather = state.fishing.weather;
+
   return (
     <>
       <div className="p-2">
         <div className="flex items-center">
-          <Label
-            icon={SUNNYSIDE.icons.stopwatch}
-            type="default"
-            className="mr-2"
-          >
-            Dusk Tide
-          </Label>
-          <Label icon={lightning} type="vibrant">
-            Fish Frenzy
-          </Label>
+          {tide === "Dusktide" ? (
+            <Label
+              icon={SUNNYSIDE.icons.stopwatch}
+              type="formula"
+              className="mr-2"
+            >
+              Dusktide
+            </Label>
+          ) : (
+            <Label
+              icon={SUNNYSIDE.icons.stopwatch}
+              type="default"
+              className="mr-2"
+            >
+              Dawnlight
+            </Label>
+          )}
+
+          {weather === "Fish Frenzy" || weather === "Full Moon" ? (
+            <Label icon={lightning} type="vibrant">
+              {weather}
+            </Label>
+          ) : (
+            <Label type="default">{weather}</Label>
+          )}
         </div>
       </div>
       <div>
