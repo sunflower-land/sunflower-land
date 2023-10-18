@@ -5,7 +5,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { OPEN_SEA_ITEMS } from "metadata/metadata";
 import React, { useState } from "react";
 import { BaseInformation } from "../types";
-import { getOpenSeaLink } from "../utils";
+import { getOpenSeaLink } from "../lib/utils";
 import classNames from "classnames";
 
 /**

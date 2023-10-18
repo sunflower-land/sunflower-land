@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { getFishByType } from "../utils";
+import { getFishByType } from "../lib/utils";
 import { FishName, FishType } from "features/game/types/fishing";
 import { SimpleBox } from "../SimpleBox";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -8,7 +8,6 @@ import { getKeys } from "features/game/types/craftables";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Milestone } from "../components/Milestone";
 
