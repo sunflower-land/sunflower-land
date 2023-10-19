@@ -323,11 +323,20 @@ export const OFFLINE_FARM: GameState = {
     },
   },
   balance: new Decimal(100),
-  milestones: {},
+  milestones: {
+    "Fish Encyclopedia": 1,
+    "Expert Angler": 1,
+  },
   farmActivity: {
-    "Anchovy Caught": 2,
-    "Clownfish Caught": 1,
+    "Anchovy Caught": 5,
+    "Clownfish Caught": 5,
     "Red Snapper Caught": 1,
+    "Butterflyfish Caught": 5,
+    "Blowfish Caught": 5,
+    "Sea Bass Caught": 5,
+    "Sea Horse Caught": 5,
+    "Horse Mackerel Caught": 5,
+    "Squid Caught": 5,
   },
   wardrobe: {
     "Eggplant Onesie": 1,

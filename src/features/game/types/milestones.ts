@@ -20,10 +20,10 @@ export const isInventoryItemReward = (
   return reward in KNOWN_IDS;
 };
 
-type Milestone = {
+export type Milestone = {
   task: string;
   percentageComplete: (farmActivity: GameState["farmActivity"]) => number;
-  rewards: Partial<Record<MilestoneReward, number>>;
+  reward: Partial<Record<MilestoneReward, number>>;
 };
 
 const FISH_BY_TYPE: Record<FishType, FishName[]> = getFishByType();
@@ -42,7 +42,7 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
 
       return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
     },
-    rewards: {
+    reward: {
       "Sunflower Rod": 1,
     },
   },
@@ -59,7 +59,7 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
 
       return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
     },
-    rewards: {
+    reward: {
       "Fishing Hat": 1,
     },
   },
@@ -76,7 +76,7 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
 
       return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
     },
-    rewards: {
+    reward: {
       "Angler Waders": 1,
     },
   },
@@ -93,14 +93,14 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
 
       return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
     },
-    rewards: {
+    reward: {
       "Luminous Anglerfish Topper": 1,
     },
   },
   "Master Angler": {
     task: "Catch 10 of every fish",
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
-      const totalFishRequired = getKeys(FISH).length;
+      const totalFishRequired = getKeys(FISH).length * 10;
 
       const totalFishCaught = getKeys(FISH).reduce(
         (total, name) =>
@@ -110,7 +110,7 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
 
       return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
     },
-    rewards: {
+    reward: {
       Trident: 1,
     },
   },
@@ -119,4 +119,28 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
 // All Milestones
 export const MILESTONES: Record<MilestoneName, Milestone> = {
   ...FISH_MILESTONES,
+};
+
+export type ExperienceLevel = "Novice" | "Experienced" | "Expert";
+
+/**
+ * Helper function to get the experience level of the player for a specific codex category eg. Fishing
+ * @param claimed number of milestones claimed
+ * @param totalMilestones total number of milestones
+ * @returns ExperienceLevel
+ */
+export const getExperienceLevelForMilestones = (
+  claimed: number,
+  totalMilestones: number
+) => {
+  // Calculate the thresholds as a fraction of the total milestones
+  const noviceThreshold: number = totalMilestones * 0.3; // 30% of total milestones
+  const experiencedThreshold: number = totalMilestones * 0.6; // 60% of total milestones
+
+  // Check the number of milestones and assign the label accordingly
+  if (claimed < noviceThreshold) return "Novice";
+
+  if (claimed < experiencedThreshold) return "Experienced";
+
+  return "Expert";
 };

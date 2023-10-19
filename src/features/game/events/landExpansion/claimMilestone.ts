@@ -16,14 +16,9 @@ export type ClaimMilestoneAction = {
 type Options = {
   state: Readonly<GameState>;
   action: ClaimMilestoneAction;
-  createdAt?: number;
 };
 
-export function claimMilestone({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function claimMilestone({ state, action }: Options): GameState {
   const copy = cloneDeep(state) as GameState;
 
   const milestone = MILESTONES[action.milestone];
@@ -40,10 +35,10 @@ export function claimMilestone({
 
   copy.milestones[action.milestone] = 1;
 
-  const rewards = getKeys(milestone.rewards);
+  const rewards = getKeys(milestone.reward);
 
   for (const reward of rewards) {
-    const rewardAmount = Number(milestone.rewards[reward]);
+    const rewardAmount = Number(milestone.reward[reward]);
 
     if (isInventoryItemReward(reward)) {
       const amountInInventory = copy.inventory[reward] ?? new Decimal(0);

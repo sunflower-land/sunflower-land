@@ -7,22 +7,30 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Milestone } from "../components/Milestone";
-import { MILESTONES } from "features/game/types/milestones";
+import { MilestonePanel } from "../components/Milestone";
+import { MilestoneTracker } from "../components/MilestoneTracker";
+import {
+  MILESTONES,
+  MilestoneName,
+  getExperienceLevelForMilestones,
+} from "features/game/types/milestones";
 import { getFishByType } from "../lib/utils";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
 const LABEL_TOP_SHIFT_PX = -4 * PIXEL_SCALE;
 
-const _farmActivity = (state: MachineState) =>
-  state.context.state.farmActivity ?? {};
+const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
+const _milestones = (state: MachineState) => state.context.state.milestones;
 
 const FISH_BY_TYPE = getFishByType();
 
 export const Fish: React.FC = () => {
   const { gameService } = useContext(Context);
-  const farmActivity = useSelector(gameService, _farmActivity);
   const [expandedIndex, setExpandedIndex] = useState<number>();
+
+  const farmActivity = useSelector(gameService, _farmActivity);
+  const milestones = useSelector(gameService, _milestones);
 
   const handleMilestoneExpand = (milestoneIndex: number) => {
     if (expandedIndex === milestoneIndex) {
@@ -32,17 +40,46 @@ export const Fish: React.FC = () => {
     }
   };
 
+  const handleClaimReward = (milestone: MilestoneName) => {
+    gameService.send("milestone.claimed", { milestone });
+    setExpandedIndex(undefined);
+  };
+
+  const milestoneNames = getKeys(MILESTONES);
+
+  const unclaimedMilestones = milestoneNames.filter(
+    (milestone) => !milestones[milestone]
+  );
+
+  const claimedMilestoneCount =
+    milestoneNames.length - unclaimedMilestones.length;
+
+  const experienceLevel = getExperienceLevelForMilestones(
+    claimedMilestoneCount,
+    milestoneNames.length
+  );
+
   return (
     <div className="space-y-2 mt-1">
-      <div className="flex flex-col">
+      <div className="flex flex-col space-y-2">
+        {/* Claimed Milestones */}
+        <div className="flex flex-wrap gap-1 px-1.5">
+          <MilestoneTracker
+            milestones={milestoneNames}
+            experienceLabelText={`${experienceLevel} Angler`}
+            labelType="default"
+            labelIcon={SUNNYSIDE.tools.fishing_rod}
+          />
+        </div>
         <div className="space-y-1.5 px-1.5">
-          {Object.values(MILESTONES).map((milestone, index) => (
-            <Milestone
-              key={milestone.task}
-              milestone={milestone}
+          {unclaimedMilestones.map((milestone, index) => (
+            <MilestonePanel
+              key={milestone}
+              milestone={MILESTONES[milestone]}
               isExpanded={expandedIndex === index}
               farmActivity={farmActivity}
               onClick={() => handleMilestoneExpand(index)}
+              onClaim={() => handleClaimReward(milestone)}
             />
           ))}
         </div>
