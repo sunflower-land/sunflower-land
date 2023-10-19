@@ -17,7 +17,6 @@ describe("claim milestone", () => {
           type: "milestone.claimed",
           milestone: "Novice Angler",
         },
-        createdAt: date,
       })
     ).toThrow("You do not meet the requirements");
   });
@@ -35,7 +34,6 @@ describe("claim milestone", () => {
           type: "milestone.claimed",
           milestone: "Novice Angler",
         },
-        createdAt: date,
       })
     ).toThrow("You already have this milestone");
   });
@@ -58,7 +56,6 @@ describe("claim milestone", () => {
         type: "milestone.claimed",
         milestone: "Novice Angler",
       },
-      createdAt: date,
     });
 
     expect(state.milestones["Novice Angler"]).toBe(1);
@@ -82,7 +79,6 @@ describe("claim milestone", () => {
         type: "milestone.claimed",
         milestone: "Novice Angler",
       },
-      createdAt: date,
     });
 
     expect(state.wardrobe["Sunflower Rod"]).toBe(1);

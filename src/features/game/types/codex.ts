@@ -10,7 +10,7 @@ export interface CodexCategory {
   icon: string;
 }
 
-export type AssetType = "collectible" | "wearable" | "bud" | "resource";
+export type AssetType = "collectible" | "wearable" | "bud";
 
 export type CodexTabIndex = keyof typeof categories;
 

@@ -103,7 +103,7 @@ export const MilestonePanel: React.FC<{
             </div>
           </div>
         </div>
-        <Button onClick={onClaim}>
+        <Button onClick={onClaim} disabled={percentageComplete < 100}>
           <div className="flex items-center">
             <img src={chest} className="mr-1" />
             <span>Claim reward</span>
