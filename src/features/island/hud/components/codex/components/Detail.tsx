@@ -51,7 +51,7 @@ export const Detail: React.FC<Props> = ({ name, onBack, children }) => {
         <div className="flex">
           <div
             className={classNames(
-              "w-2/5 rounded-md overflow-hidden shadow-md mr-2",
+              "w-3/5 sm:w-1/2 rounded-md overflow-hidden shadow-md mr-2",
               {
                 "h-40": !imageLoaded,
                 "h-auto": imageLoaded,
