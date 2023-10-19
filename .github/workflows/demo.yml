@@ -20,6 +20,8 @@ jobs:
         run: yarn build
         env:
           CI: false
+          NODE_OPTIONS: --max-old-space-size=6144
+          VITE_PRIVATE_IMAGE_URL: "https://sunflower-land.com/testnet-assets"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9
