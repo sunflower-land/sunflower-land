@@ -16,6 +16,8 @@ import {
 } from "features/game/types/milestones";
 import { getFishByType } from "../lib/utils";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { FishName } from "features/game/types/fishing";
+import { Detail } from "../components/Detail";
 
 const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
 const LABEL_TOP_SHIFT_PX = -4 * PIXEL_SCALE;
@@ -28,6 +30,7 @@ const FISH_BY_TYPE = getFishByType();
 export const Fish: React.FC = () => {
   const { gameService } = useContext(Context);
   const [expandedIndex, setExpandedIndex] = useState<number>();
+  const [selectedFish, setSelectedFish] = useState<FishName>();
 
   const farmActivity = useSelector(gameService, _farmActivity);
   const milestones = useSelector(gameService, _milestones);
@@ -46,18 +49,21 @@ export const Fish: React.FC = () => {
   };
 
   const milestoneNames = getKeys(MILESTONES);
-
   const unclaimedMilestones = milestoneNames.filter(
     (milestone) => !milestones[milestone]
   );
-
   const claimedMilestoneCount =
     milestoneNames.length - unclaimedMilestones.length;
-
   const experienceLevel = getExperienceLevelForMilestones(
     claimedMilestoneCount,
     milestoneNames.length
   );
+
+  if (selectedFish) {
+    return (
+      <Detail name={selectedFish} onBack={() => setSelectedFish(undefined)} />
+    );
+  }
 
   return (
     <div className="space-y-2 mt-1">
@@ -94,7 +100,7 @@ export const Fish: React.FC = () => {
 
                 return (
                   <SimpleBox
-                    onClick={console.log}
+                    onClick={() => setSelectedFish(name)}
                     key={name}
                     image={ITEM_DETAILS[name].image}
                   >

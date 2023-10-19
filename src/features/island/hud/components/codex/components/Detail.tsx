@@ -5,33 +5,28 @@ import { OPEN_SEA_ITEMS } from "metadata/metadata";
 import React, { useState } from "react";
 
 import { getOpenSeaLink } from "../lib/utils";
+import { KNOWN_IDS } from "features/game/types";
 import classNames from "classnames";
-import { BaseInformation } from "features/game/types/codex";
 
 /**
  * Base Layout for Collectible Item Details Page in Codex
  * It can be extended by passing in addition children components
  */
 type Props = {
-  item: BaseInformation;
+  name: InventoryItemName;
   children?: React.ReactNode;
   onBack: () => void;
 };
 
-export const CollectibleItemDetail: React.FC<Props> = ({
-  item,
-  onBack,
-  children,
-}) => {
+export const Detail: React.FC<Props> = ({ name, onBack, children }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const name = item.name as InventoryItemName;
 
   const { image_url, description } = OPEN_SEA_ITEMS[name];
   const image = image_url.replace("..", "");
 
   return (
     <div className="p-2 relative">
-      <div className="flex mb-1">
+      <div className="flex mb-2">
         <img
           src={SUNNYSIDE.icons.arrow_left}
           className="cursor-pointer flex-none"
@@ -91,14 +86,14 @@ export const CollectibleItemDetail: React.FC<Props> = ({
           )} */}
         </div>
         <p className="text-xs">{description}</p>
-        {item.season && (
+        {/* {item.season && (
           <div className="flex item-center">
             <span className="text-xxs mr-1">{"Season: Witches' Eve"}</span>
           </div>
-        )}
+        )} */}
 
         <div className="border-b-[1px] border-brown-600 mt-3" />
-        <div className="flex flex-col">
+        {/* <div className="flex flex-col">
           <h3 className="text-sm mb-1">How to get this item?</h3>
           <ul className="text-xxs space-y-1">
             {item.howToObtain.map((text, index) => (
@@ -108,12 +103,13 @@ export const CollectibleItemDetail: React.FC<Props> = ({
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
+
         {/* Item Metadata */}
         {children}
         <div className="flex">
           <a
-            href={getOpenSeaLink(item.id, "collectible")}
+            href={getOpenSeaLink(KNOWN_IDS[name], "collectible")}
             className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
             target="_blank"
             rel="noopener noreferrer"

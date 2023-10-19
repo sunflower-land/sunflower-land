@@ -134,8 +134,8 @@ export const getExperienceLevelForMilestones = (
   totalMilestones: number
 ) => {
   // Calculate the thresholds as a fraction of the total milestones
-  const noviceThreshold: number = totalMilestones * 0.3; // 30% of total milestones
-  const experiencedThreshold: number = totalMilestones * 0.6; // 60% of total milestones
+  const noviceThreshold: number = totalMilestones * 0.4; // 40% of total milestones
+  const experiencedThreshold: number = totalMilestones * 0.7; // 70% of total milestones
 
   // Check the number of milestones and assign the label accordingly
   if (claimed < noviceThreshold) return "Novice";
