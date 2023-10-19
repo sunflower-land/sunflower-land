@@ -56,6 +56,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
       buildingId: composter!.id,
       building: name,
     });
+    gameService.send("SAVE");
   };
 
   let image = COMPOSTER_IMAGES[name].idle;
