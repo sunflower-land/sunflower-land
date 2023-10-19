@@ -10,9 +10,10 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { BuildingName } from "features/game/types/buildings";
 import { ComposterName } from "features/game/types/composters";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { CompostBuilding } from "features/game/types/game";
 
 const getComposter = (type: BuildingName) => (state: MachineState) =>
-  state.context.state.buildings[type]?.[0];
+  state.context.state.buildings[type]?.[0] as CompostBuilding;
 
 const compare = (prev?: any, next?: any) => {
   return JSON.stringify(prev) === JSON.stringify(next);

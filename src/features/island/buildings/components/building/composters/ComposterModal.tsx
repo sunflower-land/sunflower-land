@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
-import { hasRequirements } from "features/game/events/landExpansion/startComposter";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
@@ -103,7 +102,16 @@ export const ComposterModal: React.FC<Props> = ({
   const composting = !!readyAt && readyAt > Date.now();
   const isReady = readyAt && readyAt < Date.now();
 
-  const disabled = !hasRequirements(state, composterName) || composting;
+  const requires = state.buildings[composterName]?.[0].requires ?? {};
+  const hasRequirements = getKeys(requires).every((name) => {
+    const amount = requires[name] || new Decimal(0);
+
+    const count = state.inventory[name] || new Decimal(0);
+
+    return count.gte(amount);
+  });
+
+  const disabled = !hasRequirements || composting;
 
   useEffect(() => {
     if (showModal && !hasRead()) {
@@ -152,6 +160,20 @@ export const ComposterModal: React.FC<Props> = ({
           >
             Collect
           </Button>
+        </>
+      );
+    }
+
+    if (getKeys(requires).length === 0) {
+      return (
+        <>
+          <div className="flex p-2 -mt-2">
+            <img
+              src={COMPOSTER_IMAGES[composterName].ready}
+              className="w-14 object-contain mr-2"
+            />
+            <span className="mt-2 text-sm loading">Loading</span>
+          </div>
         </>
       );
     }
@@ -286,24 +308,18 @@ export const ComposterModal: React.FC<Props> = ({
             </div>
             <div className="border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap ">
               {/* Item ingredients requirements */}
-              {!!composterInfo.requirements &&
-                getKeys(composterInfo.requirements).map(
-                  (ingredientName, index) => (
-                    <RequirementLabel
-                      key={index}
-                      type="item"
-                      item={ingredientName}
-                      balance={
-                        gameState.context.state.inventory[ingredientName] ??
-                        new Decimal(0)
-                      }
-                      requirement={
-                        (composterInfo.requirements ?? {})[ingredientName] ??
-                        new Decimal(0)
-                      }
-                    />
-                  )
-                )}
+              {getKeys(requires).map((ingredientName, index) => (
+                <RequirementLabel
+                  key={index}
+                  type="item"
+                  item={ingredientName}
+                  balance={
+                    gameState.context.state.inventory[ingredientName] ??
+                    new Decimal(0)
+                  }
+                  requirement={new Decimal(requires[ingredientName] ?? 0)}
+                />
+              ))}
 
               <RequirementLabel
                 type="time"
