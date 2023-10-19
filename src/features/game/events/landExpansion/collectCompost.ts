@@ -1,10 +1,8 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import {
-  ComposterName,
-  composterDetails,
-} from "features/game/types/composters";
-import { GameState } from "features/game/types/game";
+import { ComposterName } from "features/game/types/composters";
+import { getKeys } from "features/game/types/craftables";
+import { CompostBuilding, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type collectCompostAction = {
@@ -29,7 +27,7 @@ export function collectCompost({
 
   const building = stateCopy.buildings[action.building]?.find(
     (b) => b.id === action.buildingId
-  );
+  ) as CompostBuilding;
 
   if (!building) {
     throw new Error("Composter does not exist");
@@ -48,22 +46,20 @@ export function collectCompost({
     throw new Error("Compost is not ready");
   }
 
-  delete building.producing;
-
-  const compostCount = stateCopy.inventory[compost.name] || new Decimal(0);
-  const bait = composterDetails[action.building].bait;
-
-  const baitCount = stateCopy.inventory[bait] || new Decimal(0);
+  getKeys(compost.items).forEach((name) => {
+    const previousCount = stateCopy.inventory[name] || new Decimal(0);
+    stateCopy.inventory[name] = previousCount.add(compost.items[name] ?? 0);
+  });
 
   bumpkin.activity = trackActivity(
-    `${compost.name} Collected`,
-    bumpkin.activity
+    `${action.building} Collected`,
+    bumpkin?.activity
   );
 
-  stateCopy.inventory[compost.name] = compostCount.add(
-    composterDetails[action.building].produceAmount
-  );
-  stateCopy.inventory[bait] = baitCount.add(1);
+  // Set on backend
+  delete building.requires;
+
+  delete building.producing;
 
   return stateCopy;
 }
