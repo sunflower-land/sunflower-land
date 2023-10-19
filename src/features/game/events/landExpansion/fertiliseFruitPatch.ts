@@ -29,7 +29,7 @@ type Options = {
 
 const getYield = (fruitDetails: PlantedFruit, fertiliser: FruitCompostName) => {
   if (fertiliser === "Fruitful Blend") {
-    return fruitDetails.amount + 0.25;
+    return fruitDetails.amount + 0.1; // Not being used atm but just change it in case it's used in the future
   }
 
   return fruitDetails.amount;
@@ -47,6 +47,10 @@ export function fertiliseFruitPatch({
 
   if (!fruitPatch) {
     throw new Error(FERTILISE_FRUIT_ERRORS.EMPTY_PATCH);
+  }
+
+  if (fruitPatch.fruit?.harvestedAt) {
+    throw new Error(FERTILISE_FRUIT_ERRORS.READY_TO_HARVEST);
   }
 
   if (fruitPatch.fertiliser) {
