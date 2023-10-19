@@ -1561,6 +1561,35 @@ export const ITEM_DETAILS: Items = {
     image: reindeerCarrot,
     description: "Rudolph can't stop eating them!",
   },
+  "Bumpkin ganoush": {
+    image: bumpkinGanoush,
+    description: "Zesty roasted eggplant spread.",
+  },
+  "Eggplant Cake": {
+    image: eggplantCake,
+    description: "Sweet farm-fresh dessert surprise.",
+  },
+  Cornbread: {
+    image: cornBread,
+    description: "Hearty golden farm-fresh bread.",
+  },
+  Popcorn: {
+    image: popcorn,
+    description: "Classic homegrown crunchy snack.",
+  },
+  Chowder: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description:
+      "Sailor's delight in a bowl! Dive in, there's treasure inside!",
+  },
+  Gumbo: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
+  },
+  "Fermented Fish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Daring delicacy! Unleash the Viking within with every bite!",
+  },
 
   Explorer: {
     image: explorer,
@@ -2448,22 +2477,7 @@ export const ITEM_DETAILS: Items = {
     description:
       "A memento of the beloved maze from the 2023 Witches' Eve season.",
   },
-  "Bumpkin ganoush": {
-    image: bumpkinGanoush,
-    description: "Zesty roasted eggplant spread.",
-  },
-  "Eggplant Cake": {
-    image: eggplantCake,
-    description: "Sweet farm-fresh dessert surprise.",
-  },
-  Cornbread: {
-    image: cornBread,
-    description: "Hearty golden farm-fresh bread.",
-  },
-  Popcorn: {
-    image: popcorn,
-    description: "Classic homegrown crunchy snack.",
-  },
+
   "Giant Cabbage": {
     image: giantCabbage,
     description: POTION_HOUSE_DECORATIONS()["Giant Cabbage"].description,

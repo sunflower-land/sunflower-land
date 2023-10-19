@@ -5642,4 +5642,41 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1527.png",
     attributes: [],
   },
+
+  Chowder: {
+    description:
+      "Sailor's delight in a bowl! Dive in, there's treasure inside!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/551.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+
+  Gumbo: {
+    description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/552.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+
+  "Fermented Fish": {
+    description: "Daring delicacy! Unleash the Viking within with every bite!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/553.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
 };
