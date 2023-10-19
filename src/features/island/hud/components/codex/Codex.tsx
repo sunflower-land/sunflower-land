@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CodexCategory, CodexCategoryName, CodexTabIndex } from "./types";
+
 import { Modal } from "react-bootstrap";
 import { Tab } from "components/ui/Tab";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -9,6 +9,11 @@ import { SquareIcon } from "components/ui/SquareIcon";
 
 // Section Icons
 import { Fish } from "./pages/Fish";
+import {
+  CodexCategory,
+  CodexCategoryName,
+  CodexTabIndex,
+} from "features/game/types/codex";
 
 interface Props {
   show: boolean;

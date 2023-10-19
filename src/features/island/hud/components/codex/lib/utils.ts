@@ -1,7 +1,7 @@
-import { AssetType } from "../types";
 import { CONFIG } from "lib/config";
 import { FISH, FishName, FishType } from "features/game/types/fishing";
 import { getKeys } from "features/game/types/craftables";
+import { AssetType } from "features/game/types/codex";
 
 export type ItemCounts = {
   available: number;

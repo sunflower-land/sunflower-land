@@ -37,6 +37,8 @@ import {
   FruitCompostName,
 } from "./composters";
 import { FishName } from "./fishing";
+import { FarmActivityName } from "./farmActivity";
+import { MilestoneName } from "./milestones";
 
 export type Reward = {
   sfl?: Decimal;
@@ -702,7 +704,6 @@ export interface GameState {
   balance: Decimal;
   airdrops?: Airdrop[];
   farmAddress?: string;
-  analytics?: Partial<Record<string, number>>;
 
   createdAt: number;
 
@@ -730,6 +731,8 @@ export interface GameState {
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;
   fishing: Fishing;
+  farmActivity: Partial<Record<FarmActivityName, number>>;
+  milestones: Partial<Record<MilestoneName, number>>;
 
   expansionConstruction?: ExpansionConstruction;
   expansionRequirements?: ExpansionRequirements;

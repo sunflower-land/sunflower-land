@@ -323,7 +323,8 @@ export const OFFLINE_FARM: GameState = {
     },
   },
   balance: new Decimal(100),
-  analytics: {
+  milestones: {},
+  farmActivity: {
     "Anchovy Caught": 2,
     "Clownfish Caught": 1,
     "Red Snapper Caught": 1,

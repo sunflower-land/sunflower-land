@@ -22,5 +22,5 @@ export type BaseInformation = {
   howToObtain: string[];
   type: AssetType;
   // Leave empty if no boosts
-  buffs: BuffLabel[];
+  boosts: BuffLabel[];
 };

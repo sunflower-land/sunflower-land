@@ -20,10 +20,10 @@ import { Button } from "components/ui/Button";
 export const Milestone: React.FC<{
   milestone: any;
   isExpanded: boolean;
-  analytics: GameState["analytics"];
+  farmActivity: GameState["farmActivity"];
   onClick: () => void;
-}> = ({ milestone, analytics, isExpanded, onClick }) => {
-  const percentageComplete = milestone.percentageComplete(analytics);
+}> = ({ milestone, farmActivity, isExpanded, onClick }) => {
+  const percentageComplete = milestone.percentageComplete(farmActivity);
 
   const buffLabel =
     BUMPKIN_ITEM_BUFF_LABELS[milestone.reward.item as BumpkinItem];

@@ -1,12 +1,12 @@
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Label } from "components/ui/Label";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItemName } from "features/game/types/game";
 import { OPEN_SEA_ITEMS } from "metadata/metadata";
 import React, { useState } from "react";
-import { BaseInformation } from "../types";
+
 import { getOpenSeaLink } from "../lib/utils";
 import classNames from "classnames";
+import { BaseInformation } from "features/game/types/codex";
 
 /**
  * Base Layout for Collectible Item Details Page in Codex
@@ -65,7 +65,7 @@ export const CollectibleItemDetail: React.FC<Props> = ({
           >
             <img src={image} />
           </div>
-          {item.boosts.length > 0 && (
+          {/* {item.boosts.length > 0 && (
             <div className="flex flex-col">
               <div className="flex flex-wrap gap-1">
                 {item.boosts.map((boost) => {
@@ -88,7 +88,7 @@ export const CollectibleItemDetail: React.FC<Props> = ({
                 })}
               </div>
             </div>
-          )}
+          )} */}
         </div>
         <p className="text-xs">{description}</p>
         {item.season && (
