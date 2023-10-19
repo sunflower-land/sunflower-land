@@ -46,7 +46,7 @@ export function collectCompost({
     throw new Error("Compost is not ready");
   }
 
-  getKeys(compost.items).forEach((name) => {
+  getKeys(compost.items ?? {}).forEach((name) => {
     const previousCount = stateCopy.inventory[name] || new Decimal(0);
     stateCopy.inventory[name] = previousCount.add(compost.items[name] ?? 0);
   });
