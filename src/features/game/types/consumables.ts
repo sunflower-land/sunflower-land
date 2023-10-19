@@ -44,7 +44,10 @@ export type CookableName =
   | "Bumpkin ganoush"
   | "Eggplant Cake"
   | "Cornbread"
-  | "Popcorn";
+  | "Popcorn"
+  | "Chowder"
+  | "Gumbo"
+  | "Fermented Fish";
 
 export type ConsumableName = CookableName | "Pirate Cake";
 
@@ -661,6 +664,46 @@ export const COOKABLES: Record<CookableName, Cookable> = {
       Corn: new Decimal(5),
     },
     marketRate: 120,
+  },
+  Chowder: {
+    name: "Chowder",
+    description:
+      "Sailor's delight in a bowl! Dive in, there's treasure inside!",
+    building: "Kitchen",
+    cookingSeconds: 60 * 60 * 8,
+    experience: 1000,
+    ingredients: {
+      Beetroot: new Decimal(10),
+      Wheat: new Decimal(10),
+      Parsnip: new Decimal(5),
+      Anchovy: new Decimal(3),
+    },
+    marketRate: 0,
+  },
+  Gumbo: {
+    name: "Gumbo",
+    description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
+    building: "Fire Pit",
+    cookingSeconds: 60 * 60 * 4,
+    experience: 600,
+    ingredients: {
+      Potato: new Decimal(50),
+      Pumpkin: new Decimal(30),
+      Carrot: new Decimal(20),
+      "Red Snapper": new Decimal(3),
+    },
+    marketRate: 0,
+  },
+  "Fermented Fish": {
+    name: "Fermented Fish",
+    description: "Daring delicacy! Unleash the Viking within with every bite!",
+    building: "Deli",
+    cookingSeconds: 60 * 60 * 24,
+    experience: 3000,
+    ingredients: {
+      Tuna: new Decimal(6),
+    },
+    marketRate: 0,
   },
   ...COOKABLE_CAKES,
 };
