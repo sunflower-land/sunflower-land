@@ -3,7 +3,7 @@ name: Upload Demo Game
 on:
   push:
     branches:
-      - main
+      - feat/expo-demo
 
 jobs:
   deploy:
@@ -22,6 +22,7 @@ jobs:
           CI: false
           NODE_OPTIONS: --max-old-space-size=6144
           VITE_PRIVATE_IMAGE_URL: "https://sunflower-land.com/testnet-assets"
+          VITE_ROOM_URL: "wss://mmo.sunflower-land.com"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9
