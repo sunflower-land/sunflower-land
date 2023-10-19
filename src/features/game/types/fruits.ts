@@ -55,7 +55,7 @@ export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
     sfl: marketRate(70),
     description: "Oh Banana!",
     plantSeconds: 12 * 60 * 60,
-    bumpkinLevel: 15,
+    bumpkinLevel: 16,
     yield: "Banana",
     disabled:
       CONFIG.NETWORK === "mainnet"
