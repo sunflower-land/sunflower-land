@@ -293,6 +293,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Potion Ticket": () => false,
   "Bud Ticket": () => false,
   "Bud Seedling": () => false,
+  "Mermaid Scale": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {
@@ -384,6 +385,9 @@ const consumables: Record<ConsumableName, () => boolean> = {
   Cornbread: () => false,
   "Eggplant Cake": () => false,
   Popcorn: () => false,
+  "Fermented Fish": () => false,
+  Chowder: () => false,
+  Gumbo: () => false,
 };
 
 const decorations: Record<ShopDecorationName, () => boolean> = {
@@ -628,6 +632,7 @@ const purchasables: Record<PurchasableItems, () => boolean> = {
   "Dawn Breaker Banner": () => false,
   "Solar Flare Banner": () => false,
   "Gold Pass": () => false,
+  "Catch the Kraken Banner": () => false,
 };
 
 const potionHouse: Record<
