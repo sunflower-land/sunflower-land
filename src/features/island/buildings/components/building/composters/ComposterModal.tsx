@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
-import { hasRequirements } from "features/game/events/landExpansion/startComposter";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
@@ -21,6 +20,7 @@ import expertComposting from "assets/composters/composter_expert_closed.png";
 import expertReady from "assets/composters/composter_expert_ready.png";
 
 import {
+  BAIT,
   ComposterName,
   composterDetails,
 } from "features/game/types/composters";
@@ -103,7 +103,17 @@ export const ComposterModal: React.FC<Props> = ({
   const composting = !!readyAt && readyAt > Date.now();
   const isReady = readyAt && readyAt < Date.now();
 
-  const disabled = !hasRequirements(state, composterName) || composting;
+  const produces = state.buildings[composterName]?.[0].producing?.items ?? {};
+  const requires = state.buildings[composterName]?.[0].requires ?? {};
+  const hasRequirements = getKeys(requires).every((name) => {
+    const amount = requires[name] || new Decimal(0);
+
+    const count = state.inventory[name] || new Decimal(0);
+
+    return count.gte(amount);
+  });
+
+  const disabled = !hasRequirements || composting;
 
   useEffect(() => {
     if (showModal && !hasRead()) {
@@ -122,24 +132,14 @@ export const ComposterModal: React.FC<Props> = ({
             />
             <div className="mt-2 flex-1">
               <div className="flex flex-wrap">
-                <div className="relative flex items-center mr-3 mb-1">
-                  <img
-                    src={ITEM_DETAILS[composterInfo.produce].image}
-                    className="h-5 mr-1"
-                  />
-                  <Label type="default">
-                    {`${composterInfo.produceAmount} ${composterInfo.produce}`}
-                  </Label>
-                </div>
-                <div className="relative flex items-center mb-1">
-                  <img
-                    src={ITEM_DETAILS[composterInfo.bait].image}
-                    className="h-5 mr-1"
-                  />
-                  <Label type="default">{`1 ${composterInfo.bait}`}</Label>
-                </div>
+                {getKeys(produces).map((name) => (
+                  <div key={name} className="flex space-x-2 justify-start mr-2">
+                    <img src={ITEM_DETAILS[name].image} className="h-5" />
+                    <Label type="default">{`${produces[name]} ${name}`}</Label>
+                  </div>
+                ))}
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center mt-1">
                 <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
                 <span className="text-xs">Compost Complete</span>
               </div>
@@ -175,25 +175,32 @@ export const ComposterModal: React.FC<Props> = ({
                 </span>
               </div>
               <div className="flex flex-wrap my-1">
-                <div className="relative flex items-center mr-4 mb-2">
-                  <img
-                    src={ITEM_DETAILS[composterInfo.produce].image}
-                    className="h-5 mr-1"
-                  />
-
-                  <Label type="default">
-                    {`${composterInfo.produceAmount} ${composterInfo.produce}`}
-                  </Label>
-                </div>
-                <div className="relative flex items-center mb-2">
-                  <img
-                    src={ITEM_DETAILS[composterInfo.bait].image}
-                    className="h-5 mr-1"
-                  />
-                  <Label type="default">{`1 ${composterInfo.bait}`}</Label>
-                </div>
+                {getKeys(produces).map((name) => (
+                  <div key={name} className="flex space-x-2 justify-start mr-2">
+                    <img src={ITEM_DETAILS[name].image} className="h-5" />
+                    <Label type="default">
+                      {name in BAIT
+                        ? `? ${name}s`
+                        : `${produces[name]} ${name}`}
+                    </Label>
+                  </div>
+                ))}
               </div>
             </div>
+          </div>
+        </>
+      );
+    }
+
+    if (getKeys(requires).length === 0) {
+      return (
+        <>
+          <div className="flex p-2 -mt-2">
+            <img
+              src={COMPOSTER_IMAGES[composterName].ready}
+              className="w-14 object-contain mr-2"
+            />
+            <span className="mt-2 text-sm loading">Loading</span>
           </div>
         </>
       );
@@ -258,7 +265,7 @@ export const ComposterModal: React.FC<Props> = ({
                 />
                 <div className="block">
                   <p className="text-xs mb-1">
-                    {`${composterDetails[composterName].produceAmount} x ${composterDetails[composterName].produce}`}
+                    {`${composterDetails[composterName].produceAmount} ${composterDetails[composterName].produce}`}
                   </p>
                   <FertiliserLabel />
                 </div>
@@ -272,7 +279,7 @@ export const ComposterModal: React.FC<Props> = ({
                 />
                 <div className="block">
                   <p className="text-xs mb-1">
-                    1 x {composterDetails[composterName].bait}
+                    3-5 {composterDetails[composterName].bait}s
                   </p>
                   <Label
                     icon={SUNNYSIDE.tools.fishing_rod}
@@ -286,24 +293,18 @@ export const ComposterModal: React.FC<Props> = ({
             </div>
             <div className="border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap ">
               {/* Item ingredients requirements */}
-              {!!composterInfo.requirements &&
-                getKeys(composterInfo.requirements).map(
-                  (ingredientName, index) => (
-                    <RequirementLabel
-                      key={index}
-                      type="item"
-                      item={ingredientName}
-                      balance={
-                        gameState.context.state.inventory[ingredientName] ??
-                        new Decimal(0)
-                      }
-                      requirement={
-                        (composterInfo.requirements ?? {})[ingredientName] ??
-                        new Decimal(0)
-                      }
-                    />
-                  )
-                )}
+              {getKeys(requires).map((ingredientName, index) => (
+                <RequirementLabel
+                  key={index}
+                  type="item"
+                  item={ingredientName}
+                  balance={
+                    gameState.context.state.inventory[ingredientName] ??
+                    new Decimal(0)
+                  }
+                  requirement={new Decimal(requires[ingredientName] ?? 0)}
+                />
+              ))}
 
               <RequirementLabel
                 type="time"

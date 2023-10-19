@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { BuildingName } from "./buildings";
 import { Cake, getKeys } from "./craftables";
 import { Inventory } from "./game";
+import { FishName } from "./fishing";
 
 type JuiceName =
   | "Apple Juice"
@@ -44,9 +45,12 @@ export type CookableName =
   | "Bumpkin ganoush"
   | "Eggplant Cake"
   | "Cornbread"
-  | "Popcorn";
+  | "Popcorn"
+  | "Chowder"
+  | "Gumbo"
+  | "Fermented Fish";
 
-export type ConsumableName = CookableName | "Pirate Cake";
+export type ConsumableName = CookableName | "Pirate Cake" | FishName;
 
 export type Cookable = {
   experience: number;
@@ -662,11 +666,190 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     },
     marketRate: 120,
   },
+  Chowder: {
+    name: "Chowder",
+    description:
+      "Sailor's delight in a bowl! Dive in, there's treasure inside!",
+    building: "Kitchen",
+    cookingSeconds: 60 * 60 * 8,
+    experience: 1000,
+    ingredients: {
+      Beetroot: new Decimal(10),
+      Wheat: new Decimal(10),
+      Parsnip: new Decimal(5),
+      Anchovy: new Decimal(3),
+    },
+    marketRate: 0,
+  },
+  Gumbo: {
+    name: "Gumbo",
+    description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
+    building: "Fire Pit",
+    cookingSeconds: 60 * 60 * 4,
+    experience: 600,
+    ingredients: {
+      Potato: new Decimal(50),
+      Pumpkin: new Decimal(30),
+      Carrot: new Decimal(20),
+      "Red Snapper": new Decimal(3),
+    },
+    marketRate: 0,
+  },
+  "Fermented Fish": {
+    name: "Fermented Fish",
+    description: "Daring delicacy! Unleash the Viking within with every bite!",
+    building: "Deli",
+    cookingSeconds: 60 * 60 * 24,
+    experience: 3000,
+    ingredients: {
+      Tuna: new Decimal(6),
+    },
+    marketRate: 0,
+  },
   ...COOKABLE_CAKES,
+};
+
+const FISH: Record<FishName, Consumable> = {
+  Anchovy: {
+    description: "Tiny fish, big flavor!",
+    experience: 50,
+    name: "Anchovy",
+  },
+  Butterflyfish: {
+    description: "Swimming in colors and taste!",
+    experience: 50,
+    name: "Butterflyfish",
+  },
+  Blowfish: {
+    description: "Dine with danger, a spiky surprise!",
+    experience: 50,
+    name: "Blowfish",
+  },
+  Clownfish: {
+    description: "No jokes, just pure deliciousness!",
+    experience: 50,
+    name: "Clownfish",
+  },
+  "Sea Bass": {
+    description: "The bass-ics of seaside cuisine!",
+    experience: 50,
+    name: "Sea Bass",
+  },
+  "Sea Horse": {
+    description: "Dainty, rare, and surprisingly tasty!",
+    experience: 50,
+    name: "Sea Horse",
+  },
+  "Horse Mackerel": {
+    description: "Gallop through flavors with every bite!",
+    experience: 50,
+    name: "Horse Mackerel",
+  },
+  Squid: {
+    description: "Ink your way to exquisite tastes!",
+    experience: 50,
+    name: "Squid",
+  },
+  "Red Snapper": {
+    description: "Snap into rich, zesty oceans of flavor!",
+    experience: 50,
+    name: "Red Snapper",
+  },
+  "Mooray Eel": {
+    description: "Slippery, savory, and sensational!",
+    experience: 50,
+    name: "Mooray Eel",
+  },
+  "Olive Flounder": {
+    description: "Floundering in richness and taste!",
+    experience: 50,
+    name: "Olive Flounder",
+  },
+  Napoleanfish: {
+    description: "Conquer your hunger with this catch!",
+    experience: 50,
+    name: "Napoleanfish",
+  },
+  Surgeonfish: {
+    description: "Operate on your taste buds with precision!",
+    experience: 50,
+    name: "Surgeonfish",
+  },
+  "Zebra Turkeyfish": {
+    description: "Striped, spiky, and spectacularly scrumptious!",
+    experience: 50,
+    name: "Zebra Turkeyfish",
+  },
+  Ray: {
+    description: "Glide into a realm of rich flavors!",
+    experience: 50,
+    name: "Ray",
+  },
+  "Hammerhead shark": {
+    description: "A head-on collision with taste!",
+    experience: 50,
+    name: "Hammerhead shark",
+  },
+  "Barred Knifejaw": {
+    description: "Cut through the hunger with sharp flavors!",
+    experience: 50,
+    name: "Barred Knifejaw",
+  },
+  Tuna: {
+    description: "A titan of taste in every slice!",
+    experience: 50,
+    name: "Tuna",
+  },
+  "Mahi Mahi": {
+    description: "Double the name, double the deliciousness!",
+    experience: 50,
+    name: "Mahi Mahi",
+  },
+  "Blue Marlin": {
+    description: "Spearhead your appetite with this royal catch!",
+    experience: 50,
+    name: "Blue Marlin",
+  },
+  Oarfish: {
+    description: "Row your way into legendary flavor!",
+    experience: 50,
+    name: "Oarfish",
+  },
+  "Football fish": {
+    description: "Score a touchdown in taste!",
+    experience: 50,
+    name: "Football fish",
+  },
+  Sunfish: {
+    description: "Bask in the glow of its delectable flavor!",
+    experience: 50,
+    name: "Sunfish",
+  },
+  Coelacanth: {
+    description: "Prehistoric flavor that's stood the test of time!",
+    experience: 50,
+    name: "Coelacanth",
+  },
+  "Whale Shark": {
+    description: "A mammoth meal for monumental cravings!",
+    experience: 50,
+    name: "Whale Shark",
+  },
+  "Saw Shark": {
+    description: "Cutting-edge flavor from the deep!",
+    experience: 50,
+    name: "Saw Shark",
+  },
+  "White Shark": {
+    description: "Dive into an ocean of thrilling taste!",
+    experience: 50,
+    name: "White Shark",
+  },
 };
 
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   ...COOKABLES,
+  ...FISH,
   "Pirate Cake": {
     name: "Pirate Cake",
     description: "Great for Pirate themed birthday parties.",

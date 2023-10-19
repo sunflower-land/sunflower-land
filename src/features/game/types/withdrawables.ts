@@ -293,6 +293,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Potion Ticket": () => false,
   "Bud Ticket": () => false,
   "Bud Seedling": () => false,
+  "Mermaid Scale": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {
@@ -384,6 +385,36 @@ const consumables: Record<ConsumableName, () => boolean> = {
   Cornbread: () => false,
   "Eggplant Cake": () => false,
   Popcorn: () => false,
+  "Fermented Fish": () => false,
+  Chowder: () => false,
+  Gumbo: () => false,
+  "Barred Knifejaw": () => false,
+  "Blue Marlin": () => false,
+  "Football fish": () => false,
+  "Hammerhead shark": () => false,
+  "Horse Mackerel": () => false,
+  "Mahi Mahi": () => false,
+  "Mooray Eel": () => false,
+  "Olive Flounder": () => false,
+  "Red Snapper": () => false,
+  "Saw Shark": () => false,
+  "Sea Bass": () => false,
+  "Sea Horse": () => false,
+  "Whale Shark": () => false,
+  "White Shark": () => false,
+  "Zebra Turkeyfish": () => false,
+  Anchovy: () => false,
+  Blowfish: () => false,
+  Butterflyfish: () => false,
+  Clownfish: () => false,
+  Coelacanth: () => false,
+  Napoleanfish: () => false,
+  Oarfish: () => false,
+  Ray: () => false,
+  Squid: () => false,
+  Sunfish: () => false,
+  Surgeonfish: () => false,
+  Tuna: () => false,
 };
 
 const decorations: Record<ShopDecorationName, () => boolean> = {
@@ -628,6 +659,7 @@ const purchasables: Record<PurchasableItems, () => boolean> = {
   "Dawn Breaker Banner": () => false,
   "Solar Flare Banner": () => false,
   "Gold Pass": () => false,
+  "Catch the Kraken Banner": () => false,
 };
 
 const potionHouse: Record<

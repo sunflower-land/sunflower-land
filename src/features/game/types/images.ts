@@ -196,10 +196,12 @@ import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
 import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
 import potionPoint from "assets/icons/potion_point.png";
 import crowFeather from "assets/icons/crow_feather.webp";
+import mermaidScale from "assets/icons/mermaid_scale.webp";
 import supporterTicket from "assets/icons/supporter_ticket.png";
 import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png";
 import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
 import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp";
+import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
 import budTicket from "assets/icons/bud_ticket.png";
 import budSeedling from "assets/icons/bud_seedling.png";
 
@@ -1559,6 +1561,35 @@ export const ITEM_DETAILS: Items = {
     image: reindeerCarrot,
     description: "Rudolph can't stop eating them!",
   },
+  "Bumpkin ganoush": {
+    image: bumpkinGanoush,
+    description: "Zesty roasted eggplant spread.",
+  },
+  "Eggplant Cake": {
+    image: eggplantCake,
+    description: "Sweet farm-fresh dessert surprise.",
+  },
+  Cornbread: {
+    image: cornBread,
+    description: "Hearty golden farm-fresh bread.",
+  },
+  Popcorn: {
+    image: popcorn,
+    description: "Classic homegrown crunchy snack.",
+  },
+  Chowder: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description:
+      "Sailor's delight in a bowl! Dive in, there's treasure inside!",
+  },
+  Gumbo: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
+  },
+  "Fermented Fish": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Daring delicacy! Unleash the Viking within with every bite!",
+  },
 
   Explorer: {
     image: explorer,
@@ -2160,6 +2191,10 @@ export const ITEM_DETAILS: Items = {
     image: crowFeather,
     description: "A ticket used during the Witches' Eve Ticket Season",
   },
+  "Mermaid Scale": {
+    image: mermaidScale,
+    description: "A ticket used during the Catch the Kraken Season",
+  },
 
   "Sunflower Supporter": {
     image: supporterTicket,
@@ -2268,6 +2303,11 @@ export const ITEM_DETAILS: Items = {
   "Witches' Eve Banner": {
     image: witchesEveBanner,
     description: "?",
+  },
+  "Catch the Kraken Banner": {
+    image: catchTheKrakenBanner,
+    description:
+      "The Kraken is here! The mark of a participant in the Catch the Kraken Season.",
   },
   "Luminous Lantern": {
     image: luminousLantern,
@@ -2437,22 +2477,7 @@ export const ITEM_DETAILS: Items = {
     description:
       "A memento of the beloved maze from the 2023 Witches' Eve season.",
   },
-  "Bumpkin ganoush": {
-    image: bumpkinGanoush,
-    description: "Zesty roasted eggplant spread.",
-  },
-  "Eggplant Cake": {
-    image: eggplantCake,
-    description: "Sweet farm-fresh dessert surprise.",
-  },
-  Cornbread: {
-    image: cornBread,
-    description: "Hearty golden farm-fresh bread.",
-  },
-  Popcorn: {
-    image: popcorn,
-    description: "Classic homegrown crunchy snack.",
-  },
+
   "Giant Cabbage": {
     image: giantCabbage,
     description: POTION_HOUSE_DECORATIONS()["Giant Cabbage"].description,

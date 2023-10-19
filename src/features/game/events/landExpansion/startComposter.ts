@@ -3,7 +3,12 @@ import {
   ComposterName,
   composterDetails,
 } from "features/game/types/composters";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import { getKeys } from "features/game/types/craftables";
+import {
+  CompostBuilding,
+  GameState,
+  InventoryItemName,
+} from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type StartComposterAction = {
@@ -17,18 +22,6 @@ type Options = {
   createdAt?: number;
 };
 
-export const hasRequirements = (
-  game: GameState,
-  composterName: ComposterName
-) =>
-  Object.entries(composterDetails[composterName].requirements).every(
-    ([name, amount]) => {
-      const itemAmount =
-        game.inventory[name as InventoryItemName] || new Decimal(0);
-      return itemAmount.gte(amount);
-    }
-  );
-
 export function startComposter({
   state,
   action,
@@ -36,36 +29,46 @@ export function startComposter({
 }: Options): GameState {
   const stateCopy = cloneDeep<GameState>(state);
 
-  if (!stateCopy.buildings[action.building]) {
+  const buildings = stateCopy.buildings[action.building] as CompostBuilding[];
+  if (!buildings) {
     throw new Error("Composter does not exist");
   }
 
-  const isProducing = stateCopy.buildings[action.building]?.[0].producing;
+  const composter = buildings[0];
+  const isProducing = composter.producing;
 
   if (isProducing && isProducing.readyAt > createdAt) {
     throw new Error("Composter is already composting");
   }
 
-  // if player is missing the requirements, throw an error
-  if (!hasRequirements(stateCopy, action.building)) {
-    throw new Error("Missing requirements");
+  if (!composter.requires) {
+    throw new Error("Composter is not ready for produce");
   }
 
   // remove the requirements from the player's inventory
-  Object.entries(composterDetails[action.building].requirements).forEach(
-    ([name, amount]) => {
-      const itemAmount =
-        stateCopy.inventory[name as InventoryItemName] || new Decimal(0);
-      stateCopy.inventory[name as InventoryItemName] = itemAmount.minus(amount);
+  getKeys(composter.requires ?? {}).forEach((name) => {
+    const previous =
+      stateCopy.inventory[name as InventoryItemName] || new Decimal(0);
+
+    if (previous.lt(composter.requires?.[name] ?? 0)) {
+      throw new Error("Missing requirements");
     }
-  );
+
+    stateCopy.inventory[name as InventoryItemName] = previous.minus(
+      composter.requires?.[name] ?? 0
+    );
+  });
 
   // start the production
-  stateCopy.buildings[action.building]![0].producing = {
-    name: composterDetails[action.building].produce,
+  buildings[0].producing = {
+    items: {
+      [composterDetails[action.building].produce]: 10,
+      // Set on backend
+      [composterDetails[action.building].bait]: 1,
+    },
+    startedAt: createdAt,
     readyAt:
       createdAt + composterDetails[action.building].timeToFinishMilliseconds,
-    startedAt: createdAt,
   };
 
   return stateCopy;

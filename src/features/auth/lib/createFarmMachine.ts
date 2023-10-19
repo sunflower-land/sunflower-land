@@ -6,6 +6,7 @@ import { signTransaction } from "../actions/createAccount";
 import { CharityAddress } from "../components";
 import { analytics } from "lib/analytics";
 import { estimateAccountGas } from "lib/blockchain/AccountMinter";
+import { toWei } from "web3-utils";
 
 export interface Context {
   token?: string;
@@ -117,12 +118,16 @@ export const createFarmMachine = createMachine<
         });
         const maticBalance = await wallet.getMaticBalance();
 
-        const estimatedGas = await estimateAccountGas({
+        let estimatedGas = await estimateAccountGas({
           ...transaction,
           fee,
           web3: wallet.web3Provider,
           account: wallet.myAccount as string,
         });
+        // Hard code 1 MATIC (~0.5USD) as required gas for the transaction
+        // Somehow players are not able to mint without this in their wallet even
+        // if gas is enough
+        estimatedGas += Number(toWei("1"));
 
         const maticFee = Number(estimatedGas);
         const estimatedGasUSD = Number(estimatedGas) / Number(conversionRate);
