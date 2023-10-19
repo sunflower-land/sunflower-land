@@ -196,6 +196,7 @@ import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
 import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
 import potionPoint from "assets/icons/potion_point.png";
 import crowFeather from "assets/icons/crow_feather.webp";
+import mermaidScale from "assets/icons/mermaid_scale.webp";
 import supporterTicket from "assets/icons/supporter_ticket.png";
 import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png";
 import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
@@ -2162,7 +2163,7 @@ export const ITEM_DETAILS: Items = {
     description: "A ticket used during the Witches' Eve Ticket Season",
   },
   "Mermaid Scale": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: mermaidScale,
     description: "A ticket used during the Catch the Kraken Season",
   },
 

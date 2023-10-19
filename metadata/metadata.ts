@@ -4397,14 +4397,19 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Catch the Kraken Banner": {
-    description: "?",
+    description:
+      "The Kraken is here! The mark of a participant in the Catch the Kraken Season.\n\nGrants 2 extra mermaid scales per mermaid scale delivery during Catch the Kraken Season",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/730.png",
     attributes: [
       { trait_type: "Decoration", value: "Banner" },
       { trait_type: "Tradable", value: "No" },
-      // TODO Add boost
+      {
+        display_type: "boost_number",
+        trait_type: "Extra Mermaid Scales from Deliveries",
+        value: 2,
+      },
     ],
   },
   "Luminous Lantern": {
