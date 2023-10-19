@@ -156,20 +156,6 @@ export const ComposterModal: React.FC<Props> = ({
       );
     }
 
-    if (getKeys(requires).length === 0) {
-      return (
-        <>
-          <div className="flex p-2 -mt-2">
-            <img
-              src={COMPOSTER_IMAGES[composterName].ready}
-              className="w-14 object-contain mr-2"
-            />
-            <span className="mt-2 text-sm loading">Loading</span>
-          </div>
-        </>
-      );
-    }
-
     if (composting) {
       return (
         <>
@@ -201,6 +187,20 @@ export const ComposterModal: React.FC<Props> = ({
                 ))}
               </div>
             </div>
+          </div>
+        </>
+      );
+    }
+
+    if (getKeys(requires).length === 0) {
+      return (
+        <>
+          <div className="flex p-2 -mt-2">
+            <img
+              src={COMPOSTER_IMAGES[composterName].ready}
+              className="w-14 object-contain mr-2"
+            />
+            <span className="mt-2 text-sm loading">Loading</span>
           </div>
         </>
       );
