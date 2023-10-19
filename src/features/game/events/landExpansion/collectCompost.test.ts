@@ -122,7 +122,7 @@ describe("collectCompost", () => {
         {
           ...basicComposter,
           producing: undefined,
-          requires: expect.anything(),
+          requires: undefined,
         },
 
         {
