@@ -20,6 +20,7 @@ import expertComposting from "assets/composters/composter_expert_closed.png";
 import expertReady from "assets/composters/composter_expert_ready.png";
 
 import {
+  BAIT,
   ComposterName,
   composterDetails,
 } from "features/game/types/composters";
@@ -102,6 +103,7 @@ export const ComposterModal: React.FC<Props> = ({
   const composting = !!readyAt && readyAt > Date.now();
   const isReady = readyAt && readyAt < Date.now();
 
+  const produces = state.buildings[composterName]?.[0].producing?.items ?? {};
   const requires = state.buildings[composterName]?.[0].requires ?? {};
   const hasRequirements = getKeys(requires).every((name) => {
     const amount = requires[name] || new Decimal(0);
@@ -130,24 +132,14 @@ export const ComposterModal: React.FC<Props> = ({
             />
             <div className="mt-2 flex-1">
               <div className="flex flex-wrap">
-                <div className="relative flex items-center mr-3 mb-1">
-                  <img
-                    src={ITEM_DETAILS[composterInfo.produce].image}
-                    className="h-5 mr-1"
-                  />
-                  <Label type="default">
-                    {`${composterInfo.produceAmount} ${composterInfo.produce}`}
-                  </Label>
-                </div>
-                <div className="relative flex items-center mb-1">
-                  <img
-                    src={ITEM_DETAILS[composterInfo.bait].image}
-                    className="h-5 mr-1"
-                  />
-                  <Label type="default">{`1 ${composterInfo.bait}`}</Label>
-                </div>
+                {getKeys(produces).map((name) => (
+                  <div key={name} className="flex space-x-2 justify-start mr-2">
+                    <img src={ITEM_DETAILS[name].image} className="h-5" />
+                    <Label type="default">{`${produces[name]} ${name}`}</Label>
+                  </div>
+                ))}
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center mt-1">
                 <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
                 <span className="text-xs">Compost Complete</span>
               </div>
@@ -197,23 +189,16 @@ export const ComposterModal: React.FC<Props> = ({
                 </span>
               </div>
               <div className="flex flex-wrap my-1">
-                <div className="relative flex items-center mr-4 mb-2">
-                  <img
-                    src={ITEM_DETAILS[composterInfo.produce].image}
-                    className="h-5 mr-1"
-                  />
-
-                  <Label type="default">
-                    {`${composterInfo.produceAmount} ${composterInfo.produce}`}
-                  </Label>
-                </div>
-                <div className="relative flex items-center mb-2">
-                  <img
-                    src={ITEM_DETAILS[composterInfo.bait].image}
-                    className="h-5 mr-1"
-                  />
-                  <Label type="default">{`1 ${composterInfo.bait}`}</Label>
-                </div>
+                {getKeys(produces).map((name) => (
+                  <div key={name} className="flex space-x-2 justify-start mr-2">
+                    <img src={ITEM_DETAILS[name].image} className="h-5" />
+                    <Label type="default">
+                      {name in BAIT
+                        ? `? ${name}s`
+                        : `${produces[name]} ${name}`}
+                    </Label>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -280,7 +265,7 @@ export const ComposterModal: React.FC<Props> = ({
                 />
                 <div className="block">
                   <p className="text-xs mb-1">
-                    {`${composterDetails[composterName].produceAmount} x ${composterDetails[composterName].produce}`}
+                    {`${composterDetails[composterName].produceAmount} ${composterDetails[composterName].produce}`}
                   </p>
                   <FertiliserLabel />
                 </div>
@@ -294,7 +279,7 @@ export const ComposterModal: React.FC<Props> = ({
                 />
                 <div className="block">
                   <p className="text-xs mb-1">
-                    1 x {composterDetails[composterName].bait}
+                    3-5 {composterDetails[composterName].bait}s
                   </p>
                   <Label
                     icon={SUNNYSIDE.tools.fishing_rod}
