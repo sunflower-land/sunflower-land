@@ -5,11 +5,10 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { COMPOSTER_IMAGES, ComposterModal } from "./ComposterModal";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ProgressBar } from "components/ui/ProgressBar";
+import { LiveProgressBar } from "components/ui/ProgressBar";
 import { MachineState } from "features/game/lib/gameMachine";
 import { BuildingName } from "features/game/types/buildings";
 import { ComposterName } from "features/game/types/composters";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { CompostBuilding } from "features/game/types/game";
 
 const getComposter = (type: BuildingName) => (state: MachineState) =>
@@ -26,14 +25,14 @@ export const Composter: React.FC<Props> = ({ name }) => {
   const { gameService, showTimers } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
+  const [_, setRender] = useState<number>(0);
+
   const composter = useSelector(gameService, getComposter(name), compare);
 
   const ready =
     !!composter?.producing && composter.producing.readyAt < Date.now();
   const composting =
     !!composter?.producing && composter.producing.readyAt > Date.now();
-
-  useUiRefresher({ active: composting });
 
   const startComposter = () => {
     setShowModal(false);
@@ -66,14 +65,8 @@ export const Composter: React.FC<Props> = ({ name }) => {
     image = COMPOSTER_IMAGES[name].composting;
   }
 
-  let progressPercentage = 0;
-  if (composter?.producing?.readyAt)
-    progressPercentage =
-      100 *
-      ((Date.now() - composter?.producing?.startedAt) /
-        (composter?.producing?.readyAt - composter?.producing?.startedAt));
-
   const width = COMPOSTER_IMAGES[name].width;
+
   return (
     <>
       <div
@@ -104,15 +97,14 @@ export const Composter: React.FC<Props> = ({ name }) => {
               left: `${PIXEL_SCALE * ((32 - width) / 2)}px`,
             }}
           >
-            <ProgressBar
-              formatLength="short"
-              percentage={progressPercentage}
-              seconds={(composter?.producing?.readyAt - Date.now()) / 1000}
-              type="progress"
+            <LiveProgressBar
+              startAt={composter?.producing?.startedAt}
+              endAt={composter?.producing?.readyAt}
               className="relative"
               style={{
                 width: `${PIXEL_SCALE * 14}px`,
               }}
+              onComplete={() => setRender((r) => r + 1)}
             />
           </div>
         )}

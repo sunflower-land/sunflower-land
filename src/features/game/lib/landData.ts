@@ -615,10 +615,11 @@ export const OFFLINE_FARM: GameState = {
         createdAt: 0,
         id: "123",
         readyAt: 0,
+        requires: { Apple: 1 },
         producing: {
           items: { "Fruitful Blend": 10, "Red Wiggler": 3 },
 
-          readyAt: Date.now() - 50000,
+          readyAt: Date.now() + 3000,
           startedAt: Date.now() - 50000 - 8 * 60 * 60 * 1000,
         },
       },
