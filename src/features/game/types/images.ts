@@ -196,10 +196,12 @@ import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
 import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
 import potionPoint from "assets/icons/potion_point.png";
 import crowFeather from "assets/icons/crow_feather.webp";
+import mermaidScale from "assets/icons/mermaid_scale.webp";
 import supporterTicket from "assets/icons/supporter_ticket.png";
 import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png";
 import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
 import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp";
+import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
 import budTicket from "assets/icons/bud_ticket.png";
 import budSeedling from "assets/icons/bud_seedling.png";
 
@@ -2160,6 +2162,10 @@ export const ITEM_DETAILS: Items = {
     image: crowFeather,
     description: "A ticket used during the Witches' Eve Ticket Season",
   },
+  "Mermaid Scale": {
+    image: mermaidScale,
+    description: "A ticket used during the Catch the Kraken Season",
+  },
 
   "Sunflower Supporter": {
     image: supporterTicket,
@@ -2268,6 +2274,11 @@ export const ITEM_DETAILS: Items = {
   "Witches' Eve Banner": {
     image: witchesEveBanner,
     description: "?",
+  },
+  "Catch the Kraken Banner": {
+    image: catchTheKrakenBanner,
+    description:
+      "The Kraken is here! The mark of a participant in the Catch the Kraken Season.",
   },
   "Luminous Lantern": {
     image: luminousLantern,

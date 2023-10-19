@@ -201,6 +201,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Bud Seedling": {
     description: "A seedling to be exchanged for a free Bud NFT",
   },
+  "Mermaid Scale": {
+    description: "A ticket used during the Catch the Kraken Season",
+  },
 };
 
 export type Points = "Human War Point" | "Goblin War Point";
