@@ -5,10 +5,16 @@
 import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
 import { getKeys } from "./craftables";
+import { CONFIG } from "lib/config";
+import { SEASONS } from "./seasons";
 
-export type FruitName = "Apple" | "Blueberry" | "Orange";
+export type FruitName = "Apple" | "Blueberry" | "Orange" | "Banana";
 
-export type FruitSeedName = "Apple Seed" | "Blueberry Seed" | "Orange Seed";
+export type FruitSeedName =
+  | "Apple Seed"
+  | "Blueberry Seed"
+  | "Orange Seed"
+  | "Banana Plant";
 
 export type FruitSeed = {
   sfl: Decimal;
@@ -16,6 +22,7 @@ export type FruitSeed = {
   plantSeconds: number;
   bumpkinLevel: number;
   yield: FruitName;
+  disabled?: boolean;
 };
 
 export function isFruitSeed(seed: FruitSeedName) {
@@ -43,6 +50,17 @@ export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
     plantSeconds: 12 * 60 * 60,
     bumpkinLevel: 15,
     yield: "Apple",
+  },
+  "Banana Plant": {
+    sfl: marketRate(70),
+    description: "Oh Banana!",
+    plantSeconds: 12 * 60 * 60,
+    bumpkinLevel: 15,
+    yield: "Banana",
+    disabled:
+      CONFIG.NETWORK === "mainnet"
+        ? new Date() < SEASONS["Catch the Kraken"].startDate
+        : false,
   },
 });
 
@@ -78,5 +96,12 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
     sellPrice: marketRate(25),
     seed: "Apple Seed",
     bumpkinLevel: 15,
+  },
+  Banana: {
+    description: "Oh Banana!",
+    name: "Banana",
+    sellPrice: marketRate(25),
+    seed: "Banana Plant",
+    bumpkinLevel: 16,
   },
 });

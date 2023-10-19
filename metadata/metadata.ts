@@ -214,6 +214,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Banana Plant": {
+    name: "Banana Plant",
+    description:
+      "A plant used to grow bananas.\n\nYou can buy banana plants in game at the market.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/120.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   Beetroot: {
     name: "Beetroot",
     description:
@@ -374,6 +386,17 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/212.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  Banana: {
+    name: "Banana",
+    description: "A fruit grown at Sunflower Land.\n\nOh banana!",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/217.png",
     attributes: [
       { trait_type: "Purpose", value: "Crop" },
       { trait_type: "Tradable", value: "Yes" },

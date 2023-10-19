@@ -130,6 +130,7 @@ import honey from "assets/resources/honey.png";
 import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
 import blueberry from "assets/resources/blueberry.png";
+import banana from "assets/resources/banana.png";
 
 // Skills
 import greenThumb from "assets/skills/green_thumb.png";
@@ -675,6 +676,10 @@ export const ITEM_DETAILS: Items = {
     description: FRUIT_SEEDS()["Orange Seed"].description,
     image: orangeSeed,
   },
+  "Banana Plant": {
+    description: FRUIT_SEEDS()["Banana Plant"].description,
+    image: CROP_LIFECYCLE.Wheat.halfway,
+  },
 
   "Apple Pie": {
     description: CONSUMABLES["Apple Pie"].description,
@@ -732,6 +737,10 @@ export const ITEM_DETAILS: Items = {
   Orange: {
     description: FRUIT()["Orange"].description,
     image: orange,
+  },
+  Banana: {
+    description: FRUIT()["Orange"].description,
+    image: banana,
   },
   Honey: {
     description: COMMODITIES["Honey"].description,

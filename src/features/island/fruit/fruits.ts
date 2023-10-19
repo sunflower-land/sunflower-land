@@ -1,6 +1,7 @@
 import appleTree from "assets/fruit/apple/apple_tree.png";
 import orangeTree from "assets/fruit/orange/orange_tree.png";
 import blueberryBush from "assets/fruit/blueberry/blueberry_bush.png";
+import bananaTree from "assets/fruit/banana/banana_tree.png";
 import harvestedTree from "assets/fruit/harvested_tree.png";
 import harvestedBush from "assets/fruit/harvested_bush.png";
 import deadTree from "assets/fruit/dead_tree.webp";
@@ -45,5 +46,14 @@ export const FRUIT_LIFECYCLE: Record<FruitName, FruitLifecycle> = {
     ready: blueberryBush,
     harvested: harvestedBush,
     dead: bushShrub,
+  },
+  Banana: {
+    // TODO waiting on art for banana tree
+    seedling: CROP_LIFECYCLE.Wheat.halfway,
+    halfway: CROP_LIFECYCLE.Wheat.halfway,
+    almost: CROP_LIFECYCLE.Wheat.halfway,
+    ready: bananaTree,
+    harvested: harvestedTree,
+    dead: deadTree,
   },
 };

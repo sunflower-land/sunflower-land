@@ -13,6 +13,7 @@ const pluralisedNames: Record<FruitName, string> = {
   Orange: "Oranges",
   Blueberry: "Blueberries",
   Apple: "Apples",
+  Banana: "Bananas",
 };
 
 interface Props {
