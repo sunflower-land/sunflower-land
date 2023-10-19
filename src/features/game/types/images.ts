@@ -2277,7 +2277,8 @@ export const ITEM_DETAILS: Items = {
   },
   "Catch the Kraken Banner": {
     image: catchTheKrakenBanner,
-    description: "?",
+    description:
+      "The Kraken is here! The mark of a participant in the Catch the Kraken Season.",
   },
   "Luminous Lantern": {
     image: luminousLantern,
