@@ -1577,15 +1577,16 @@ export const ITEM_DETAILS: Items = {
   },
   Chowder: {
     image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
+    description:
+      "Sailor's delight in a bowl! Dive in, there's treasure inside!",
   },
   Gumbo: {
     image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
+    description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
   },
   "Fermented Fish": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
+    description: "Daring delicacy! Unleash the Viking within with every bite!",
   },
 
   Explorer: {
