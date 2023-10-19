@@ -186,6 +186,7 @@ import { CrowRock } from "./components/CrowRock";
 import { MiniCornMaze } from "./components/MiniCornMaze";
 import { Observer } from "./components/Observer";
 import { WhiteCrow } from "./components/WhiteCrow";
+import { CatchTheKrakenBanner } from "./components/CatchTheKrakenBanner";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -360,6 +361,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Solar Flare Banner": SolarFlareBanner,
   "Human War Banner": HumanBanner,
   "Goblin War Banner": GoblinBanner,
+  "Catch the Kraken Banner": CatchTheKrakenBanner,
 
   "Bonnie's Tombstone": BonniesTombstone,
   "Chestnut Fungi Stool": ChestnutFungiStool,

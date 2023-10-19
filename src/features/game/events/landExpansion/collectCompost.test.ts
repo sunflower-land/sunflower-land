@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
-import { TEST_FARM } from "features/game/lib/constants";
-import { GameState, PlacedItem } from "features/game/types/game";
 import { collectCompost } from "./collectCompost";
+import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import { CompostBuilding, GameState } from "features/game/types/game";
 
-const GAME_STATE: GameState = TEST_FARM;
+const GAME_STATE: GameState = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
 
-describe("collectComposterProduce", () => {
+describe("collectCompost", () => {
   const dateNow = Date.now();
 
   it("throws an error if building does not exist", () => {
@@ -64,7 +64,8 @@ describe("collectComposterProduce", () => {
                 createdAt: 0,
                 readyAt: 0,
                 producing: {
-                  name: "Sprout Mix",
+                  items: { "Sprout Mix": 10, Earthworm: 1 },
+                  startedAt: dateNow - 10000,
                   readyAt: dateNow + 1000,
                 },
               },
@@ -81,14 +82,15 @@ describe("collectComposterProduce", () => {
     ).toThrow("Compost is not ready");
   });
 
-  it("removes the Compost from the building", () => {
-    const basicComposter: PlacedItem = {
+  it("removes the Produce from the building", () => {
+    const basicComposter: CompostBuilding = {
       id: "123",
       coordinates: { x: 1, y: 1 },
       createdAt: 0,
       readyAt: 0,
       producing: {
-        name: "Sprout Mix",
+        items: { "Sprout Mix": 10, Earthworm: 1 },
+        startedAt: dateNow - 10000,
         readyAt: dateNow - 1000,
       },
     };
@@ -120,6 +122,7 @@ describe("collectComposterProduce", () => {
         {
           ...basicComposter,
           producing: undefined,
+          requires: undefined,
         },
 
         {
@@ -139,7 +142,6 @@ describe("collectComposterProduce", () => {
         balance: new Decimal(10),
         inventory: {
           Sunflower: new Decimal(22),
-          Earthworm: new Decimal(0),
         },
         buildings: {
           "Compost Bin": [
@@ -149,7 +151,9 @@ describe("collectComposterProduce", () => {
               createdAt: 0,
               readyAt: 0,
               producing: {
-                name: "Sprout Mix",
+                items: { "Sprout Mix": 10, Earthworm: 1 },
+
+                startedAt: dateNow - 10000,
                 readyAt: dateNow - 1000,
               },
             },

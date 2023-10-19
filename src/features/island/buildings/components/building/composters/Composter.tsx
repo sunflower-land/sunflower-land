@@ -5,14 +5,14 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { COMPOSTER_IMAGES, ComposterModal } from "./ComposterModal";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ProgressBar } from "components/ui/ProgressBar";
+import { LiveProgressBar } from "components/ui/ProgressBar";
 import { MachineState } from "features/game/lib/gameMachine";
 import { BuildingName } from "features/game/types/buildings";
 import { ComposterName } from "features/game/types/composters";
-import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { CompostBuilding } from "features/game/types/game";
 
 const getComposter = (type: BuildingName) => (state: MachineState) =>
-  state.context.state.buildings[type]?.[0];
+  state.context.state.buildings[type]?.[0] as CompostBuilding;
 
 const compare = (prev?: any, next?: any) => {
   return JSON.stringify(prev) === JSON.stringify(next);
@@ -22,8 +22,10 @@ interface Props {
   name: ComposterName;
 }
 export const Composter: React.FC<Props> = ({ name }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showTimers } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
+
+  const [_, setRender] = useState<number>(0);
 
   const composter = useSelector(gameService, getComposter(name), compare);
 
@@ -31,8 +33,6 @@ export const Composter: React.FC<Props> = ({ name }) => {
     !!composter?.producing && composter.producing.readyAt < Date.now();
   const composting =
     !!composter?.producing && composter.producing.readyAt > Date.now();
-
-  useUiRefresher({ active: composting });
 
   const startComposter = () => {
     setShowModal(false);
@@ -55,6 +55,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
       buildingId: composter!.id,
       building: name,
     });
+    gameService.send("SAVE");
   };
 
   let image = COMPOSTER_IMAGES[name].idle;
@@ -65,6 +66,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
   }
 
   const width = COMPOSTER_IMAGES[name].width;
+
   return (
     <>
       <div
@@ -85,7 +87,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
           className="absolute"
           alt={name}
         />
-        {composting && composter?.producing?.readyAt && (
+        {showTimers && composting && composter?.producing?.readyAt && (
           <div
             className="flex justify-center absolute bg-red-500"
             style={{
@@ -95,15 +97,14 @@ export const Composter: React.FC<Props> = ({ name }) => {
               left: `${PIXEL_SCALE * ((32 - width) / 2)}px`,
             }}
           >
-            <ProgressBar
-              formatLength="short"
-              percentage={10}
-              seconds={(composter?.producing?.readyAt - Date.now()) / 1000}
-              type="progress"
+            <LiveProgressBar
+              startAt={composter?.producing?.startedAt}
+              endAt={composter?.producing?.readyAt}
               className="relative"
               style={{
                 width: `${PIXEL_SCALE * 14}px`,
               }}
+              onComplete={() => setRender((r) => r + 1)}
             />
           </div>
         )}

@@ -201,6 +201,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Bud Seedling": {
     description: "A seedling to be exchanged for a free Bud NFT",
   },
+  "Mermaid Scale": {
+    description: "A ticket used during the Catch the Kraken Season",
+  },
 };
 
 export type Points = "Human War Point" | "Goblin War Point";
@@ -391,7 +394,8 @@ export type BuildingProduct = {
 };
 
 export type BuildingProduce = {
-  name: CompostName;
+  items: Partial<Record<InventoryItemName, number>>;
+  startedAt: number;
   readyAt: number;
 };
 
@@ -401,11 +405,8 @@ export type PlacedItem = {
   readyAt: number;
   createdAt: number;
 
-  producing?: BuildingProduce;
   crafting?: BuildingProduct;
 };
-
-export type Buildings = Partial<Record<BuildingName, PlacedItem[]>>;
 
 type PlacedManeki = PlacedItem & { shakenAt?: number };
 export type PlacedLamp = PlacedItem & { rubbedCount?: number };
@@ -424,6 +425,25 @@ type PlacedTypes<Name extends CollectibleName> = {
 };
 
 export type Collectibles = Partial<PlacedTypes<CollectibleName>>;
+
+export type CompostBuilding = PlacedItem & {
+  producing?: BuildingProduce;
+  requires?: Partial<Record<InventoryItemName, number>>;
+};
+
+type CustomBuildings = {
+  "Compost Bin": CompostBuilding[];
+  "Turbo Composter": CompostBuilding[];
+  "Premium Composter": CompostBuilding[];
+};
+
+type PlacedBuildings<Name extends BuildingName> = {
+  [key in Name]: key extends keyof CustomBuildings
+    ? CustomBuildings[key]
+    : PlacedItem[];
+};
+
+export type Buildings = Partial<PlacedBuildings<BuildingName>>;
 
 export type ExpansionConstruction = {
   createdAt: number;

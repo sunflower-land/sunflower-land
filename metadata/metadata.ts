@@ -4115,6 +4115,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Mermaid Scale": {
+    description: "A ticket used during the Catch the Kraken Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/731.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Sunflower Supporter": {
     description: "A true supporter of the project",
     decimals: 0,
@@ -4382,6 +4392,22 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_number",
         trait_type: "Extra Crow Feathers from Deliveries",
+        value: 2,
+      },
+    ],
+  },
+  "Catch the Kraken Banner": {
+    description:
+      "The Kraken is here! The mark of a participant in the Catch the Kraken Season.\n\nGrants 2 extra mermaid scales per mermaid scale delivery during Catch the Kraken Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/730.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Banner" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_number",
+        trait_type: "Extra Mermaid Scales from Deliveries",
         value: 2,
       },
     ],
@@ -5327,7 +5353,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Turbo Composter": {
     description:
-      "Generates a robust Rapid Root compost mix and discovers Grub bait eager to join you in fishing!", // Rapid Root has been moved here on testnet
+      "Produces a bountiful Fruitful Blend compost and discovers Grub bait eager to join you in fishing!", // Rapid Root has been moved here on testnet
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1015.png",
@@ -5338,7 +5364,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Premium Composter": {
     description:
-      "Produces a bountiful Fruitful Blend compost and reveals Red Wiggler bait for the perfect fishing expedition!", // Fruitful Blend has been moved here on testnet
+      "Generates a robust Rapid Root compost mix and reveals Red Wiggler bait for the perfect fishing expedition!", // Fruitful Blend has been moved here on testnet
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1016.png",
@@ -5394,7 +5420,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
 
   "Fruitful Blend": {
-    description: "This compost boosts your fruit yield by +0.25",
+    description: "This compost boosts each fruit yield by +0.1",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/630.png",
@@ -5615,5 +5641,42 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1527.png",
     attributes: [],
+  },
+
+  Chowder: {
+    description:
+      "Sailor's delight in a bowl! Dive in, there's treasure inside!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/551.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+
+  Gumbo: {
+    description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/552.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+
+  "Fermented Fish": {
+    description: "Daring delicacy! Unleash the Viking within with every bite!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/553.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
 };

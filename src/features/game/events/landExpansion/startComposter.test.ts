@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
-import { TEST_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
 import { startComposter } from "./startComposter";
+import { GameState } from "features/game/types/game";
+import { TEST_FARM } from "features/game/lib/constants";
 
 const GAME_STATE: GameState = TEST_FARM;
 
@@ -30,7 +30,8 @@ describe("start Compost Bin", () => {
                 readyAt: 0,
                 id: "0",
                 producing: {
-                  name: "Sprout Mix",
+                  items: { "Sprout Mix": 10 },
+                  startedAt: dateNow - 10000,
                   readyAt: dateNow + 1000,
                 },
               },
@@ -54,8 +55,12 @@ describe("start Compost Bin", () => {
                 createdAt: 0,
                 readyAt: 0,
                 id: "0",
+                requires: {
+                  Kale: 50,
+                },
                 producing: {
-                  name: "Sprout Mix",
+                  items: { "Sprout Mix": 10 },
+                  startedAt: dateNow - 10000,
                   readyAt: dateNow - 1000,
                 },
               },
@@ -83,8 +88,14 @@ describe("start Compost Bin", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
+            requires: {
+              Sunflower: 5,
+              Pumpkin: 3,
+              Carrot: 2,
+            },
             producing: {
-              name: "Sprout Mix",
+              items: { "Sprout Mix": 10 },
+              startedAt: dateNow - 10000,
               readyAt: dateNow - 1000,
             },
           },
@@ -118,8 +129,14 @@ describe("start Compost Bin", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
+            requires: {
+              Sunflower: 5,
+              Pumpkin: 3,
+              Carrot: 2,
+            },
             producing: {
-              name: "Sprout Mix",
+              items: { "Sprout Mix": 10 },
+              startedAt: dateNow - 10000,
               readyAt: dateNow - 1000,
             },
           },
@@ -133,6 +150,9 @@ describe("start Compost Bin", () => {
       action: { type: "composter.started", building: "Compost Bin" },
     });
 
+    expect(newState.buildings["Compost Bin"]?.[0].producing?.startedAt).toBe(
+      dateNow
+    );
     expect(newState.buildings["Compost Bin"]?.[0].producing?.readyAt).toBe(
       dateNow + 6 * 60 * 60 * 1000
     );
@@ -164,7 +184,8 @@ describe("start Turbo Composter", () => {
                 readyAt: 0,
                 id: "0",
                 producing: {
-                  name: "Fruitful Blend",
+                  items: { "Fruitful Blend": 10 },
+                  startedAt: dateNow - 10000,
                   readyAt: dateNow + 1000,
                 },
               },
@@ -189,8 +210,12 @@ describe("start Turbo Composter", () => {
                 createdAt: 0,
                 readyAt: 0,
                 id: "0",
+                requires: {
+                  Kale: 50,
+                },
                 producing: {
-                  name: "Fruitful Blend",
+                  items: { "Fruitful Blend": 10 },
+                  startedAt: dateNow - 10000,
                   readyAt: dateNow - 1000,
                 },
               },
@@ -217,8 +242,13 @@ describe("start Turbo Composter", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
+            requires: {
+              Cauliflower: 3,
+              Egg: 1,
+            },
             producing: {
-              name: "Fruitful Blend",
+              items: { "Fruitful Blend": 10 },
+              startedAt: dateNow - 10000,
               readyAt: dateNow - 1000,
             },
           },
@@ -235,7 +265,7 @@ describe("start Turbo Composter", () => {
     expect(newState.inventory.Egg).toStrictEqual(new Decimal(0));
   });
 
-  it("starts AdvancedComposters", () => {
+  it("starts Turbo Composters", () => {
     const state: GameState = {
       ...GAME_STATE,
       inventory: {
@@ -250,8 +280,13 @@ describe("start Turbo Composter", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
+            requires: {
+              Cauliflower: 5,
+              Egg: 1,
+            },
             producing: {
-              name: "Fruitful Blend",
+              items: { "Fruitful Blend": 10 },
+              startedAt: dateNow - 10000,
               readyAt: dateNow - 1000,
             },
           },
@@ -265,6 +300,9 @@ describe("start Turbo Composter", () => {
       action: { type: "composter.started", building: "Turbo Composter" },
     });
 
+    expect(
+      newState.buildings["Turbo Composter"]?.[0].producing?.startedAt
+    ).toBe(dateNow);
     expect(newState.buildings["Turbo Composter"]?.[0].producing?.readyAt).toBe(
       dateNow + 8 * 60 * 60 * 1000
     );
@@ -296,7 +334,8 @@ describe("start Premium Composter", () => {
                 readyAt: 0,
                 id: "0",
                 producing: {
-                  name: "Rapid Root",
+                  items: { "Rapid Root": 10 },
+                  startedAt: dateNow - 10000,
                   readyAt: dateNow + 1000,
                 },
               },
@@ -321,8 +360,10 @@ describe("start Premium Composter", () => {
                 createdAt: 0,
                 readyAt: 0,
                 id: "0",
+                requires: { Kale: 1 },
                 producing: {
-                  name: "Rapid Root",
+                  items: { "Rapid Root": 10 },
+                  startedAt: dateNow - 10000,
                   readyAt: dateNow - 1000,
                 },
               },
@@ -349,8 +390,13 @@ describe("start Premium Composter", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
+            requires: {
+              Radish: 2,
+              Parsnip: 2,
+            },
             producing: {
-              name: "Rapid Root",
+              items: { "Rapid Root": 10 },
+              startedAt: dateNow - 10000,
               readyAt: dateNow - 1000,
             },
           },
@@ -372,8 +418,8 @@ describe("start Premium Composter", () => {
       ...GAME_STATE,
       inventory: {
         ...GAME_STATE.inventory,
-        Parsnip: new Decimal(2),
         Radish: new Decimal(2),
+        Parsnip: new Decimal(2),
       },
       buildings: {
         "Premium Composter": [
@@ -382,8 +428,13 @@ describe("start Premium Composter", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
+            requires: {
+              Radish: 2,
+              Parsnip: 2,
+            },
             producing: {
-              name: "Rapid Root",
+              items: { "Rapid Root": 10 },
+              startedAt: dateNow - 10000,
               readyAt: dateNow - 1000,
             },
           },
@@ -397,6 +448,9 @@ describe("start Premium Composter", () => {
       action: { type: "composter.started", building: "Premium Composter" },
     });
 
+    expect(
+      newState.buildings["Premium Composter"]?.[0].producing?.startedAt
+    ).toBe(dateNow);
     expect(
       newState.buildings["Premium Composter"]?.[0].producing?.readyAt
     ).toBe(dateNow + 12 * 60 * 60 * 1000);

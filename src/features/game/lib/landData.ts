@@ -599,10 +599,14 @@ export const OFFLINE_FARM: GameState = {
         createdAt: 0,
         id: "123",
         readyAt: 0,
-        producing: {
-          name: "Sprout Mix",
-          readyAt: Date.now() - 500000,
+        requires: {
+          Sunflower: 5,
         },
+        // producing: {
+        //   items: { "Sprout Mix": 10, Earthworm: 3 },
+        //   readyAt: Date.now() - 500000,
+        //   startedAt: Date.now() - 500000 - 6 * 60 * 60 * 1000,
+        // },
       },
     ],
     "Turbo Composter": [
@@ -611,9 +615,12 @@ export const OFFLINE_FARM: GameState = {
         createdAt: 0,
         id: "123",
         readyAt: 0,
+        requires: { Apple: 1 },
         producing: {
-          name: "Rapid Root",
-          readyAt: Date.now() - 50000,
+          items: { "Fruitful Blend": 10, "Red Wiggler": 3 },
+
+          readyAt: Date.now() + 3000,
+          startedAt: Date.now() - 50000 - 8 * 60 * 60 * 1000,
         },
       },
     ],
@@ -624,8 +631,10 @@ export const OFFLINE_FARM: GameState = {
         id: "123",
         readyAt: 0,
         producing: {
-          name: "Rapid Root",
+          items: { "Rapid Root": 10, Grub: 3 },
+
           readyAt: Date.now() - 50000,
+          startedAt: Date.now() - 50000 - 12 * 60 * 60 * 1000,
         },
       },
     ],
