@@ -5,7 +5,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const CatchTheKrakenBanner: React.FC = () => {
   return (
-    <>
+    <div>
       <img
         src={banner}
         style={{
@@ -16,6 +16,6 @@ export const CatchTheKrakenBanner: React.FC = () => {
         className="absolute"
         alt="Catch the Kraken Banner"
       />
-    </>
+    </div>
   );
 };

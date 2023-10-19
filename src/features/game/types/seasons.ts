@@ -31,7 +31,7 @@ export type SeasonalTicket =
   | "Solar Flare Ticket"
   | "Dawn Breaker Ticket"
   | "Crow Feather"
-  | "Kraken Tentacle";
+  | "Mermaid Scale";
 
 type SeasonalBanner =
   | "Solar Flare Banner"
@@ -43,7 +43,7 @@ export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
   "Solar Flare": "Solar Flare Ticket",
   "Dawn Breaker": "Dawn Breaker Ticket",
   "Witches' Eve": "Crow Feather",
-  "Catch the Kraken": "Kraken Tentacle",
+  "Catch the Kraken": "Mermaid Scale",
 };
 
 export function getCurrentSeason(): SeasonName {

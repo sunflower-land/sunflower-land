@@ -2161,7 +2161,7 @@ export const ITEM_DETAILS: Items = {
     image: crowFeather,
     description: "A ticket used during the Witches' Eve Ticket Season",
   },
-  "Kraken Tentacle": {
+  "Mermaid Scale": {
     image: SUNNYSIDE.icons.expression_confused,
     description: "A ticket used during the Catch the Kraken Season",
   },

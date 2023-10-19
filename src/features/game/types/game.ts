@@ -201,7 +201,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Bud Seedling": {
     description: "A seedling to be exchanged for a free Bud NFT",
   },
-  "Kraken Tentacle": {
+  "Mermaid Scale": {
     description: "A ticket used during the Catch the Kraken Season",
   },
 };

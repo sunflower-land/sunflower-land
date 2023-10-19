@@ -293,7 +293,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Potion Ticket": () => false,
   "Bud Ticket": () => false,
   "Bud Seedling": () => false,
-  "Kraken Tentacle": () => false,
+  "Mermaid Scale": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {
