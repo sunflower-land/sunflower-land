@@ -191,6 +191,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Cornbread: 548,
   "Eggplant Cake": 549,
   Popcorn: 550,
+  Chowder: 551,
+  Gumbo: 552,
+  "Fermented Fish": 553,
 
   Wood: 601,
   Stone: 602,
@@ -253,6 +256,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Potion Ticket": 727,
   "Bud Ticket": 728,
   "Bud Seedling": 729,
+  "Catch the Kraken Banner": 730,
+  "Mermaid Scale": 731,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
