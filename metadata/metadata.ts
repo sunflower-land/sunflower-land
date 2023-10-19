@@ -5379,7 +5379,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/626.png",
     attributes: [
-      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Purpose", value: "Bait" },
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
@@ -5389,7 +5389,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/627.png",
     attributes: [
-      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Purpose", value: "Bait" },
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
@@ -5399,7 +5399,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/628.png",
     attributes: [
-      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Purpose", value: "Bait" },
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
@@ -5429,7 +5429,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_number",
         trait_type: "Increase Fruit Yield",
-        value: 0.25,
+        value: 0.1,
       },
       { trait_type: "Tradable", value: "No" },
     ],
@@ -5457,7 +5457,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1501.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5467,7 +5467,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1502.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5477,7 +5477,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1503.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5487,7 +5487,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1504.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5497,7 +5497,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1505.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5507,7 +5507,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1506.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5517,7 +5517,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1507.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5527,7 +5527,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1508.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5537,7 +5537,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1509.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5547,7 +5547,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1510.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5557,7 +5557,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1511.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5567,7 +5567,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1512.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5577,7 +5577,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1513.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5587,7 +5587,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1514.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5597,7 +5597,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1515.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5607,7 +5607,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1516.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5617,7 +5617,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1517.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5627,7 +5627,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1518.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5637,7 +5637,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1519.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5647,7 +5647,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1520.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5657,7 +5657,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1521.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5667,7 +5667,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1522.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5677,7 +5677,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1523.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5687,7 +5687,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1524.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5697,7 +5697,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1525.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5708,7 +5708,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1526.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5719,7 +5719,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1527.png",
     attributes: [
-      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Purpose", value: "Fish" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
