@@ -27,7 +27,7 @@ export const BAIT: Record<Bait, { description: string }> = {
 export const FRUIT_COMPOST: Record<FruitCompostName, { description: string }> =
   {
     "Fruitful Blend": {
-      description: "Fruitful Blend boosts your fruit yield by +0.25",
+      description: "Fruitful Blend boosts each fruit yield by +0.1",
     },
   };
 
