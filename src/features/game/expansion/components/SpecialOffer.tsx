@@ -53,10 +53,10 @@ export const PromotingModal: React.FC<Props> = ({
   hasPurchased,
   hasDiscount,
 }) => {
-  // Goes live on 17th of July.
+  // Goes live on ?? of October.
   // $3.99 for Dawn Breaker Holders, otherwise $5.99.
   // Discounts on seasonal items, 1 Mystery Airdrop + Bonus Tickets completing chores.
-  // At 1st of August, price changes to $5.99 for everyone and available for 1 month.
+  // At 1st of November, price changes to $5.99 for everyone and available for 1 month.
 
   const isPreSeason = Date.now() < new Date("2023-11-01").getTime();
   const expiresOn = isPreSeason
@@ -95,7 +95,7 @@ export const PromotingModal: React.FC<Props> = ({
             </ul>
 
             <a
-              href="https://docs.sunflower-land.com/player-guides/seasons/witches-eve#witches-eve-banner"
+              href="https://docs.sunflower-land.com/player-guides/seasons/" // To Add Catch the Kracken Season Page link once available
               target="_blank"
               rel="noopener noreferrer"
               className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
@@ -176,7 +176,7 @@ export const PromotingModal: React.FC<Props> = ({
           )}
 
           <a
-            href="https://docs.sunflower-land.com/player-guides/seasons/witches-eve#witches-eve-banner"
+            href="https://docs.sunflower-land.com/player-guides/seasons/" // To Add Catch the Kracken Season Page link once available
             target="_blank"
             rel="noopener noreferrer"
             className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
