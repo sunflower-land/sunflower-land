@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 console.log("setup");
+
 /*
  * For a detailed explanation regarding each configuration property, visit:
  * https://jestjs.io/docs/en/configuration.html
@@ -30,4 +31,6 @@ module.exports = {
   transform: {
     "^.+\\.(js|jsx|ts|tsx)$": "ts-jest",
   },
+
+  setupFiles: ["<rootDir>/test/setup.ts"],
 };

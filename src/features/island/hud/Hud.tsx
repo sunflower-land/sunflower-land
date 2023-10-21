@@ -161,7 +161,9 @@ const HudComponent: React.FC<{
                 <TravelButton />
               </>
             ) : (
-              <DeliveryButton />
+              <div className="h-full flex flex-col justify-end">
+                <DeliveryButton />
+              </div>
             )}
           </div>
 
