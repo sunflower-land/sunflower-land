@@ -46,6 +46,7 @@ export const SUNNYSIDE = {
     player_small: `${CONFIG.PROTECTED_IMAGE_URL}/icons/player_small.png`,
     player: `${CONFIG.PROTECTED_IMAGE_URL}/icons/player.png`,
     sad: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sad.png`,
+    search: `${CONFIG.PROTECTED_IMAGE_URL}/icons/search.png`,
     seedling: `${CONFIG.PROTECTED_IMAGE_URL}/icons/seedling.png`,
     seeds: `${CONFIG.PROTECTED_IMAGE_URL}/icons/seeds.png`,
     stopwatch: `${CONFIG.PROTECTED_IMAGE_URL}/icons/stopwatch.png`,

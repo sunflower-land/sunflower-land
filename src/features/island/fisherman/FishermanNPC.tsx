@@ -14,10 +14,8 @@ import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
-import { getKeys } from "features/game/types/craftables";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { Button } from "components/ui/Button";
 import { CONFIG } from "lib/config";
+import { FishCaught } from "./FishCaught";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -71,7 +69,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const [
     {
       context: {
-        state: { fishing },
+        state: { fishing, farmActivity },
       },
     },
   ] = useActor(gameService);
@@ -100,7 +98,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     // TESTING
     if (!CONFIG.API_URL) {
       setTimeout(() => {
-        fishing.wharf = { castedAt: 10000, caught: { Gold: 2 } };
+        fishing.wharf = { castedAt: 10000, caught: { Anchovy: 1 } };
       }, 1000);
     }
   };
@@ -139,14 +137,11 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
           onClose={claim}
           bumpkinParts={NPC_WEARABLES["reelin roy"]}
         >
-          <p>Congrats</p>
-          {getKeys(fishing.wharf.caught ?? {}).map((name) => (
-            <div className="flex" key={name}>
-              <img src={ITEM_DETAILS[name]?.image} className="h-6" />
-              <span className="text-sm">{name}</span>
-            </div>
-          ))}
-          <Button onClick={claim}>Ok</Button>
+          <FishCaught
+            caught={fishing.wharf.caught ?? {}}
+            onClaim={claim}
+            farmActivity={farmActivity}
+          />
         </CloseButtonPanel>
       </Modal>
 

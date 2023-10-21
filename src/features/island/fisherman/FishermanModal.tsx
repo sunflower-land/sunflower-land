@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import Decimal from "decimal.js-light";
 import { useActor } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -171,7 +170,7 @@ const BaitSelection: React.FC<{
             <Box
               image={ITEM_DETAILS[name].image}
               isSelected={bait === name}
-              count={new Decimal(0)}
+              count={state.inventory[name]}
               onClick={() => setBait(name)}
               key={name}
             />
