@@ -36,13 +36,9 @@ import {
   CropCompostName,
   FruitCompostName,
 } from "./composters";
-<<<<<<< HEAD
-import { FishName } from "./fishing";
 import { FarmActivityName } from "./farmActivity";
 import { MilestoneName } from "./milestones";
-=======
 import { FishName, FishingConditions } from "./fishing";
->>>>>>> b2c57d48f (Read weather from state)
 
 export type Reward = {
   sfl?: Decimal;

@@ -162,9 +162,7 @@ const BaitSelection: React.FC<{
             <Label icon={lightning} type="vibrant">
               {weather}
             </Label>
-          ) : (
-            <Label type="default">{weather}</Label>
-          )}
+          ) : null}
         </div>
       </div>
       <div>
