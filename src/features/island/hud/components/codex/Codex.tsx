@@ -44,7 +44,10 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
         {/* Header */}
         <OuterPanel className="flex flex-col h-full">
           <div className="flex items-center pl-1 mb-2">
-            <div className="grow">Sunflower Land Codex</div>
+            <div className="flex items-center grow">
+              <img src={SUNNYSIDE.icons.search} className="h-6 mr-3 ml-1" />
+              <p>Sunflower Land Codex</p>
+            </div>
             <img
               src={SUNNYSIDE.icons.close}
               className="float-right cursor-pointer z-20 ml-3"
