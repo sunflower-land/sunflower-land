@@ -7,8 +7,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { NPC_WEARABLES } from "lib/npcs";
 import { FishermanModal } from "./FishermanModal";
 import { FishermanNPC } from "./FishermanNPC";
 import { InventoryItemName } from "features/game/types/game";
@@ -48,12 +46,7 @@ export const Fisherman: React.FC = () => {
   return (
     <>
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-        <CloseButtonPanel
-          onClose={() => setShowModal(false)}
-          bumpkinParts={NPC_WEARABLES["reelin roy"]}
-        >
-          <FishermanModal onCast={cast} />
-        </CloseButtonPanel>
+        <FishermanModal onCast={cast} onClose={() => setShowModal(false)} />
       </Modal>
 
       <MapPlacement

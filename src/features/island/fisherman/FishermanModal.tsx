@@ -19,6 +19,9 @@ import {
   FishingBait,
   getTide,
 } from "features/game/types/fishing";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { NPC_WEARABLES } from "lib/npcs";
+import { FishingGuide } from "./FishingGuide";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -264,11 +267,12 @@ const BaitSelection: React.FC<{
 
 interface Props {
   onCast: (bait: FishingBait, chum?: InventoryItemName) => void;
+  onClose: () => void;
 }
 
-export const FishermanModal: React.FC<Props> = ({ onCast }) => {
+export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
   const [showIntro, setShowIntro] = React.useState(!hasRead());
-
+  const [tab, setTab] = useState(0);
   if (showIntro) {
     return (
       <SpeakingText
@@ -288,5 +292,23 @@ export const FishermanModal: React.FC<Props> = ({ onCast }) => {
     );
   }
 
-  return <BaitSelection onCast={onCast} />;
+  return (
+    <CloseButtonPanel
+      onClose={onClose}
+      bumpkinParts={NPC_WEARABLES["reelin roy"]}
+      tabs={[
+        { icon: SUNNYSIDE.tools.fishing_rod, name: "Fish" },
+        {
+          icon: SUNNYSIDE.icons.expression_confused,
+          name: "Guide",
+        },
+      ]}
+      currentTab={tab}
+      setCurrentTab={setTab}
+    >
+      {tab === 0 && <BaitSelection onCast={onCast} />}
+
+      {tab === 1 && <FishingGuide />}
+    </CloseButtonPanel>
+  );
 };
