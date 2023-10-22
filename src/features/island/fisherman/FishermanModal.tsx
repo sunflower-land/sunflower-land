@@ -275,20 +275,25 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
   const [tab, setTab] = useState(0);
   if (showIntro) {
     return (
-      <SpeakingText
-        message={[
-          {
-            text: "Howdy, I'm Reelin Roy!",
-          },
-          {
-            text: "Here you can fish.",
-          },
-        ]}
-        onClose={() => {
-          acknowledgeRead();
-          setShowIntro(false);
-        }}
-      />
+      <CloseButtonPanel
+        onClose={onClose}
+        bumpkinParts={NPC_WEARABLES["reelin roy"]}
+      >
+        <SpeakingText
+          message={[
+            {
+              text: "Howdy, I'm Reelin Roy!",
+            },
+            {
+              text: "Here you can fish.",
+            },
+          ]}
+          onClose={() => {
+            acknowledgeRead();
+            setShowIntro(false);
+          }}
+        />
+      </CloseButtonPanel>
     );
   }
 
