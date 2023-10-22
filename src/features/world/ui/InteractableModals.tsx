@@ -92,7 +92,9 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
 
   return (
     <>
-      <KrakenMechanic />
+      <Modal centered show onHide={closeModal}>
+        <KrakenMechanic />
+      </Modal>
 
       {/* TODO - make smoother opening */}
       {interactable === "auction_item" && (
