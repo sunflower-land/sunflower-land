@@ -617,11 +617,6 @@ export const OFFLINE_FARM: GameState = {
         requires: {
           Sunflower: 5,
         },
-        // producing: {
-        //   items: { "Sprout Mix": 10, Earthworm: 3 },
-        //   readyAt: Date.now() - 500000,
-        //   startedAt: Date.now() - 500000 - 6 * 60 * 60 * 1000,
-        // },
       },
     ],
     "Turbo Composter": [
