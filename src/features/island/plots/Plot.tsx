@@ -16,7 +16,7 @@ import { NonFertilePlot } from "./components/NonFertilePlot";
 import { FertilePlot } from "./components/FertilePlot";
 import { ChestReward } from "../common/chest-reward/ChestReward";
 import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { BuildingName } from "features/game/types/buildings";
 import { ZoomContext } from "components/ZoomProvider";
@@ -50,6 +50,17 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
   const crop = crops?.[id]?.crop;
   const fertiliser = crops?.[id]?.fertiliser;
+
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+  const inventory = state.inventory;
+  const collectibles = state.collectibles;
+  const bumpkin = state.bumpkin;
+  const buds = state.buds;
+  const plot = crops[id];
 
   const isFertile = isPlotFertile({
     plotIndex: id,
@@ -165,6 +176,11 @@ export const Plot: React.FC<Props> = ({ id }) => {
       <div onClick={onClick} className="w-full h-full relative">
         <FertilePlot
           cropName={crop?.name}
+          inventory={inventory}
+          collectibles={collectibles}
+          bumpkin={bumpkin}
+          buds={buds}
+          plot={plot}
           plantedAt={crop?.plantedAt}
           fertiliser={fertiliser}
           procAnimation={procAnimation}

@@ -100,6 +100,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
             <LiveProgressBar
               startAt={composter?.producing?.startedAt}
               endAt={composter?.producing?.readyAt}
+              formatLength="short"
               className="relative"
               style={{
                 width: `${PIXEL_SCALE * 14}px`,
