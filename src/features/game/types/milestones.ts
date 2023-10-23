@@ -144,3 +144,16 @@ export const getExperienceLevelForMilestones = (
 
   return "Expert";
 };
+
+export const MILESTONE_MESSAGES: Record<MilestoneName, string> = {
+  "Novice Angler":
+    "Congratulations, you've just reached the Novice Angler milestone! You're well on your way to becoming a fishing pro by catching 5 of each basic fish.",
+  "Advanced Angler":
+    "Impressive, you've just reached the Advanced Angler milestone! You've mastered the art of catching 5 of each advanced fish. Keep it up!",
+  "Expert Angler":
+    "Wow, you've just reached the Expert Angler milestone! You're a true fishing expert now! Catching 5 of each expert fish is no small feat.",
+  "Fish Encyclopedia":
+    "Congratulations, you've just reached the Fish Encyclopedia milestone! You've become a true fish connoisseur! Discovering all the fish is a remarkable achievement.",
+  "Master Angler":
+    "Wow, you've just reached the Master Angler milestone! Catching 10 of every fish is a testament to your fishing skills.",
+};
