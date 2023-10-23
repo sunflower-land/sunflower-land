@@ -16,8 +16,8 @@ import { getBasketItems } from "./utils/inventory";
 import {
   ConsumableName,
   CONSUMABLES,
-  COOKABLE_CAKES,
   COOKABLES,
+  PIRATECAKE,
 } from "features/game/types/consumables";
 import { COMMODITIES } from "features/game/types/resources";
 import { BEANS, EXOTIC_CROPS } from "features/game/types/beans";
@@ -114,8 +114,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const treasureTools = getItems(TREASURE_TOOLS);
   const exotic = getItems(BEANS());
   const resources = getItems(COMMODITIES);
-  const cakes = getItems(COOKABLE_CAKES);
   const foods = getItems(COOKABLES);
+  const pirateCake = getItems(PIRATECAKE);
   const fertilisers = getItems(FERTILISERS);
   const coupons = getItems(COUPONS);
   const easterEggs = getItems(EASTER_EGG);
@@ -203,7 +203,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           {itemsSection("Resources", resources)}
           {itemsSection("Bait", bait)}
           {itemsSection("Fish", fish)}
-          {itemsSection("Foods", [...cakes, ...foods])}
+          {itemsSection("Foods", [...foods, ...pirateCake])}
           {itemsSection("Exotic", exotic)}
           {itemsSection("Bounty", [...bounty, ...exotics])}
           {itemsSection("Coupons", coupons)}

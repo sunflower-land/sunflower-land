@@ -708,7 +708,13 @@ export const COOKABLES: Record<CookableName, Cookable> = {
   },
   ...COOKABLE_CAKES,
 };
-
+export const PIRATECAKE: Record<"Pirate Cake", Consumable> = {
+  "Pirate Cake": {
+    name: "Pirate Cake",
+    description: "Great for Pirate themed birthday parties.",
+    experience: 3000,
+  },
+};
 const FISH: Record<FishName, Consumable> = {
   Anchovy: {
     description: "Tiny fish, big flavor!",
@@ -850,11 +856,7 @@ const FISH: Record<FishName, Consumable> = {
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   ...COOKABLES,
   ...FISH,
-  "Pirate Cake": {
-    name: "Pirate Cake",
-    description: "Great for Pirate themed birthday parties.",
-    experience: 3000,
-  },
+  ...PIRATECAKE,
 };
 
 const Juices = getKeys(COOKABLES).filter(
