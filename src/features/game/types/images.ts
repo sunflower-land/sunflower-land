@@ -1,3 +1,5 @@
+import powerup from "assets/icons/level_up.png";
+
 // CROPS
 import magicBean from "assets/crops/magic_bean.png";
 import appleSeed from "assets/fruit/apple/apple_seed.png";
@@ -522,12 +524,14 @@ import {
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { BAIT, CROP_COMPOST, FRUIT_COMPOST } from "./composters";
+import { BuffLabel } from ".";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
   image: any;
   secondaryImage?: any;
   section?: Section;
+  buff?: BuffLabel;
 }
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
@@ -2143,6 +2147,11 @@ export const ITEM_DETAILS: Items = {
     image: sirGoldenSnout,
     description:
       "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
+    buff: {
+      shortDescription: "+0.5 Crops AoE",
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
   },
   "Scary Mike": {
     description: HELIOS_BLACKSMITH_ITEMS()["Scary Mike"].description,
@@ -2157,6 +2166,12 @@ export const ITEM_DETAILS: Items = {
     image: freyaFox,
     description:
       "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
+    buff: {
+      shortDescription: "+0.5 Pumpkin",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: CROP_LIFECYCLE.Pumpkin.crop,
+    },
   },
   "Queen Cornelia": {
     image: queenCornelia,
@@ -2436,6 +2451,12 @@ export const ITEM_DETAILS: Items = {
   Poppy: {
     image: poppy,
     description: "The mystical corn kernel. +0.1 Corn per harvest.",
+    buff: {
+      shortDescription: "+0.1 Corn",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+    },
   },
   "El Pollo Veloz": {
     image: elPolloVeloz,
@@ -2445,10 +2466,21 @@ export const ITEM_DETAILS: Items = {
     image: grainGrinder,
     description:
       "Grind your grain and experience a delectable surge in Cake XP.",
+    buff: {
+      shortDescription: "+20% Cake XP",
+      boostTypeIcon: powerup,
+      labelType: "success",
+    },
   },
   Kernaldo: {
     image: kernaldo,
     description: "The magical corn whisperer. +25% Corn Growth Speed.",
+    buff: {
+      shortDescription: "+25% Corn Growth Speed",
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+    },
   },
   Candles: {
     image: candles,

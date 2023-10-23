@@ -36,7 +36,9 @@ import {
   CropCompostName,
   FruitCompostName,
 } from "./composters";
-import { FishName } from "./fishing";
+import { FarmActivityName } from "./farmActivity";
+import { MilestoneName } from "./milestones";
+import { FishName, FishingConditions } from "./fishing";
 
 export type Reward = {
   sfl?: Decimal;
@@ -690,6 +692,7 @@ export type TradeListing = {
 };
 
 export type Fishing = {
+  weather: FishingConditions;
   wharf: {
     castedAt?: number;
     chum?: InventoryItemName;
@@ -729,6 +732,8 @@ export interface GameState {
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;
   fishing: Fishing;
+  farmActivity: Partial<Record<FarmActivityName, number>>;
+  milestones: Partial<Record<MilestoneName, number>>;
 
   expansionConstruction?: ExpansionConstruction;
   expansionRequirements?: ExpansionRequirements;

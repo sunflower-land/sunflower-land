@@ -1,7 +1,7 @@
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import {
-  BUMPKIN_ITEM_BUFF,
+  BUMPKIN_ITEM_BUFF_LABELS,
   BUMPKIN_ITEM_PART,
   BumpkinItem,
   BumpkinPart,
@@ -152,45 +152,53 @@ export const BumpkinEquip: React.FC = () => {
           {warn && <Label type="warning">{warning()}</Label>}
         </div>
         <div className="flex-1 flex flex-wrap justify-center pr-1 overflow-y-auto scrollable max-h-60">
-          {sortedWardrobeNames.map((name) => (
-            <OuterPanel
-              key={name}
-              className={classNames("w-full flex mb-1 p-1 relative", {
-                "cursor-pointer hover:bg-brown-200":
-                  !equippedItems.includes(name) ||
-                  !REQUIRED.includes(BUMPKIN_ITEM_PART[name]),
-              })}
-              onClick={() => {
-                // Already equipped
-                if (equippedItems.includes(name)) {
-                  unequipPart(name);
-                } else {
-                  equipPart(name);
-                }
-              }}
-            >
-              {equippedItems.includes(name) && (
-                <img
-                  className="absolute h-4 right-0 top-0"
-                  src={SUNNYSIDE.icons.confirm}
-                />
-              )}
-              <div className="flex-1 flex flex-col">
-                <p className="text-xs flex-1">{name}</p>
-                {BUMPKIN_ITEM_BUFF[name] && (
-                  <div className="mt-1">
-                    <Label type="info">
-                      <p className="text-xxs">{BUMPKIN_ITEM_BUFF[name]}</p>
-                    </Label>
-                  </div>
+          {sortedWardrobeNames.map((name) => {
+            const buffLabel = BUMPKIN_ITEM_BUFF_LABELS[name];
+
+            return (
+              <OuterPanel
+                key={name}
+                className={classNames("w-full flex mb-1 p-1 relative", {
+                  "cursor-pointer hover:bg-brown-200":
+                    !equippedItems.includes(name) ||
+                    !REQUIRED.includes(BUMPKIN_ITEM_PART[name]),
+                })}
+                onClick={() => {
+                  // Already equipped
+                  if (equippedItems.includes(name)) {
+                    unequipPart(name);
+                  } else {
+                    equipPart(name);
+                  }
+                }}
+              >
+                {equippedItems.includes(name) && (
+                  <img
+                    className="absolute h-4 right-0 top-0"
+                    src={SUNNYSIDE.icons.confirm}
+                  />
                 )}
-              </div>
-              <img
-                src={getImageUrl(ITEM_IDS[name])}
-                className="h-10 rounded-md"
-              />
-            </OuterPanel>
-          ))}
+                <div className="flex-1 flex flex-col">
+                  <p className="text-xs flex-1">{name}</p>
+                  {!!buffLabel && (
+                    <div className="mt-1">
+                      <Label
+                        type={buffLabel.labelType}
+                        icon={buffLabel.boostTypeIcon}
+                        secondaryIcon={buffLabel.boostedItemIcon}
+                      >
+                        <p className="text-xxs">{buffLabel.shortDescription}</p>
+                      </Label>
+                    </div>
+                  )}
+                </div>
+                <img
+                  src={getImageUrl(ITEM_IDS[name])}
+                  className="h-10 rounded-md"
+                />
+              </OuterPanel>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -222,7 +222,7 @@ export const SignIn = () => {
           className="mb-2 py-2 text-sm relative"
           onClick={() =>
             authService.send("CONNECT_TO_WALLET", {
-              chosenProvider: Web3SupportedProviders.CRYPTO_COM,
+              chosenProvider: Web3SupportedProviders.BITGET,
             })
           }
         >
