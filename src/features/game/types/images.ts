@@ -63,6 +63,7 @@ import walrus from "assets/sfts/walrus.webp";
 import alba from "assets/sfts/alba.webp";
 import knowledgeCrab from "assets/sfts/knowledge-crab.webp";
 import anchor from "assets/sfts/anchor.webp";
+import chillingBanana from "assets/sfts/chilling-banana.webp";
 
 import ironStone from "assets/resources/iron_small.png";
 
@@ -2868,5 +2869,9 @@ export const ITEM_DETAILS: Items = {
     image: anchor,
     description:
       "Drop anchor' with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
+  },
+  "Chilling Banana": {
+    image: chillingBanana,
+    description: "",
   },
 };

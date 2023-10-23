@@ -204,6 +204,7 @@ import { Walrus } from "./components/Walrus";
 import { Alba } from "./components/Alba";
 import { KnowledgeCrab } from "./components/KnowledgeCrab";
 import { Anchor } from "./components/Anchor";
+import { ChillingBanana } from "./components/ChillingBanana";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -449,6 +450,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Alba: Alba,
   "Knowledge Crab": KnowledgeCrab,
   Anchor: Anchor,
+  "Chilling Banana": ChillingBanana,
 };
 // Need readonly versions for some troublesome components while in design mode
 

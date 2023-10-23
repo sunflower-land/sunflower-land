@@ -61,7 +61,8 @@ export type SoldOutCollectibleName =
   | "Walrus"
   | "Alba"
   | "Knowledge Crab"
-  | "Anchor";
+  | "Anchor"
+  | "Chilling Banana";
 
 export type GoblinBlacksmithItemName =
   | "Purple Trail"
