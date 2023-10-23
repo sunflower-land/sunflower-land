@@ -5,6 +5,7 @@ import magicBean from "assets/crops/magic_bean.png";
 import appleSeed from "assets/fruit/apple/apple_seed.png";
 import orangeSeed from "assets/fruit/orange/orange_seed.png";
 import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
+import bananaPlant from "assets/fruit/banana/banana_plant.png";
 
 // NFTs
 import chickenCoop from "assets/sfts/chicken_coop.png";
@@ -678,7 +679,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Banana Plant": {
     description: FRUIT_SEEDS()["Banana Plant"].description,
-    image: CROP_LIFECYCLE.Wheat.halfway,
+    image: bananaPlant,
   },
 
   "Apple Pie": {
