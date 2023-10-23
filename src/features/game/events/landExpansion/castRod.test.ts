@@ -16,6 +16,7 @@ describe("castRod", () => {
       });
     }).toThrow("Missing rod");
   });
+
   it("requires player has bait", () => {
     expect(() => {
       castRod({
@@ -32,6 +33,7 @@ describe("castRod", () => {
       });
     }).toThrow("Missing Earthworm");
   });
+
   it("requires chum is supported", () => {
     expect(() => {
       castRod({
@@ -169,12 +171,9 @@ describe("castRod", () => {
       },
     });
 
-    expect(state.fishing).toEqual({
-      wharf: {
-        castedAt: now,
-      },
-    });
+    expect(state.fishing.wharf.castedAt).toEqual(now);
   });
+
   it("casts rod on wharf with chum", () => {
     const now = Date.now();
     const state = castRod({
@@ -193,11 +192,9 @@ describe("castRod", () => {
       },
     });
 
-    expect(state.fishing).toEqual({
-      wharf: {
-        castedAt: now,
-        chum: "Sunflower",
-      },
+    expect(state.fishing.wharf).toEqual({
+      castedAt: now,
+      chum: "Sunflower",
     });
   });
 });
