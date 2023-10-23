@@ -59,7 +59,8 @@ export type SoldOutCollectibleName =
   | "Queen Cornelia"
   | "White Crow"
   | "Walrus"
-  | "Alba";
+  | "Alba"
+  | "Knowledge Crab";
 
 export type GoblinBlacksmithItemName =
   | "Purple Trail"

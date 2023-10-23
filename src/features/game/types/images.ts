@@ -61,6 +61,7 @@ import poppy from "assets/sfts/poppy.png";
 import kernaldo from "assets/sfts/kernaldo.png";
 import walrus from "assets/sfts/walrus.webp";
 import alba from "assets/sfts/alba.webp";
+import knowledgeCrab from "assets/sfts/knowledge-crab.webp";
 
 import ironStone from "assets/resources/iron_small.png";
 
@@ -2856,5 +2857,10 @@ export const ITEM_DETAILS: Items = {
     image: alba,
     description:
       "With her keen instincts, she ensures you get a little extra splash in your catch. +0.5 fish!",
+  },
+  "Knowledge Crab": {
+    image: knowledgeCrab,
+    description:
+      "The Knowledge Crab doubles your compost effects, making your soil treasures as rich as sea plunder!",
   },
 };

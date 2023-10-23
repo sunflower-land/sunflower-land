@@ -564,6 +564,7 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "White Crow": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
   Walrus: () => false,
   Alba: () => false,
+  "Knowledge Crab": () => false,
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =

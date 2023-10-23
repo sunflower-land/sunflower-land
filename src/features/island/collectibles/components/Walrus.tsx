@@ -10,7 +10,7 @@ export const Walrus: React.FC = () => {
         src={walrus}
         style={{
           width: `${PIXEL_SCALE * 25}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
+          bottom: `${PIXEL_SCALE * 4}px`,
         }}
         className="absolute left-1/2 -translate-x-1/2"
         alt="Walrus"
