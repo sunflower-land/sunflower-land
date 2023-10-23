@@ -328,7 +328,7 @@ export const OFFLINE_FARM: GameState = {
     "Expert Angler": 1,
   },
   farmActivity: {
-    "Anchovy Caught": 1,
+    "Anchovy Caught": 5,
     "Clownfish Caught": 5,
     "Red Snapper Caught": 1,
     "Butterflyfish Caught": 5,

@@ -27,7 +27,11 @@ const _milestones = (state: MachineState) => state.context.state.milestones;
 
 const FISH_BY_TYPE = getFishByType();
 
-export const Fish: React.FC = () => {
+type Props = {
+  onMilestoneReached: (milestoneName: MilestoneName) => void;
+};
+
+export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
   const { gameService } = useContext(Context);
   const [expandedIndex, setExpandedIndex] = useState<number>();
   const [selectedFish, setSelectedFish] = useState<FishName>();
@@ -46,6 +50,7 @@ export const Fish: React.FC = () => {
   const handleClaimReward = (milestone: MilestoneName) => {
     gameService.send("milestone.claimed", { milestone });
     setExpandedIndex(undefined);
+    onMilestoneReached(milestone);
   };
 
   const milestoneNames = getKeys(MILESTONES);
@@ -61,70 +66,86 @@ export const Fish: React.FC = () => {
 
   if (selectedFish) {
     return (
-      <Detail name={selectedFish} onBack={() => setSelectedFish(undefined)} />
+      <Detail
+        name={selectedFish}
+        onBack={() => setSelectedFish(undefined)}
+        additionalLabels={
+          <>
+            <Label
+              type="default"
+              className="px-0.5 text-xxs"
+              icon={SUNNYSIDE.tools.fishing_rod}
+            >
+              {`${farmActivity[`${selectedFish} Caught`] ?? 0} Caught`}
+            </Label>
+          </>
+        }
+      />
     );
   }
 
   return (
-    <div className="space-y-2 mt-1">
-      <div className="flex flex-col space-y-2">
-        {/* Claimed Milestones */}
-        <div className="flex flex-wrap gap-1 px-1.5">
-          <MilestoneTracker
-            milestones={milestoneNames}
-            experienceLabelText={`${experienceLevel} Angler`}
-            labelType="default"
-            labelIcon={SUNNYSIDE.tools.fishing_rod}
-          />
-        </div>
-        <div className="space-y-1.5 px-1.5">
-          {unclaimedMilestones.map((milestone, index) => (
-            <MilestonePanel
-              key={milestone}
-              milestone={MILESTONES[milestone]}
-              isExpanded={expandedIndex === index}
-              farmActivity={farmActivity}
-              onClick={() => handleMilestoneExpand(index)}
-              onClaim={() => handleClaimReward(milestone)}
+    <>
+      <div className="space-y-2 mt-1">
+        <div className="flex flex-col space-y-2">
+          {/* Claimed Milestones */}
+          <div className="flex flex-wrap gap-1 px-1.5">
+            <MilestoneTracker
+              milestones={milestoneNames}
+              experienceLabelText={`${experienceLevel} Angler`}
+              labelType="default"
+              labelIcon={SUNNYSIDE.tools.fishing_rod}
             />
+          </div>
+          <div className="space-y-1.5 px-1.5">
+            {unclaimedMilestones.map((milestone, index) => (
+              <MilestonePanel
+                key={milestone}
+                milestone={MILESTONES[milestone]}
+                isExpanded={expandedIndex === index}
+                farmActivity={farmActivity}
+                onClick={() => handleMilestoneExpand(index)}
+                onClaim={() => handleClaimReward(milestone)}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="flex flex-col">
+          {getKeys(FISH_BY_TYPE).map((type) => (
+            <div key={type} className="flex flex-col mb-2">
+              <h3 className="capitalize pl-1.5 text-sm">{`${type} Fish`}</h3>
+              <div className="flex flex-wrap">
+                {FISH_BY_TYPE[type].map((name) => {
+                  const caughtCount = farmActivity[`${name} Caught`] ?? 0;
+
+                  return (
+                    <SimpleBox
+                      onClick={() => setSelectedFish(name)}
+                      key={name}
+                      image={ITEM_DETAILS[name].image}
+                    >
+                      {caughtCount > 0 && (
+                        <div
+                          className="absolute"
+                          style={{
+                            right: `${LABEL_RIGHT_SHIFT_PX}px`,
+                            top: `${LABEL_TOP_SHIFT_PX}px`,
+                            pointerEvents: "none",
+                          }}
+                        >
+                          <Label type="default" className="px-0.5 text-xxs">
+                            {caughtCount}
+                          </Label>
+                        </div>
+                      )}
+                    </SimpleBox>
+                  );
+                })}
+              </div>
+            </div>
           ))}
         </div>
       </div>
-      <div className="flex flex-col">
-        {getKeys(FISH_BY_TYPE).map((type) => (
-          <div key={type} className="flex flex-col mb-2">
-            <h3 className="capitalize pl-1.5 text-sm">{`${type} Fish`}</h3>
-            <div className="flex flex-wrap">
-              {FISH_BY_TYPE[type].map((name) => {
-                const caughtCount = farmActivity[`${name} Caught`] ?? 0;
-
-                return (
-                  <SimpleBox
-                    onClick={() => setSelectedFish(name)}
-                    key={name}
-                    image={ITEM_DETAILS[name].image}
-                  >
-                    {caughtCount > 0 && (
-                      <div
-                        className="absolute"
-                        style={{
-                          right: `${LABEL_RIGHT_SHIFT_PX}px`,
-                          top: `${LABEL_TOP_SHIFT_PX}px`,
-                          pointerEvents: "none",
-                        }}
-                      >
-                        <Label type="default" className="px-0.5 text-xxs">
-                          {caughtCount}
-                        </Label>
-                      </div>
-                    )}
-                  </SimpleBox>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+    </>
   );
 };

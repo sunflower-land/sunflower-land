@@ -532,6 +532,7 @@ export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   secondaryImage?: any;
   section?: Section;
   buff?: BuffLabel;
+  howToGetItem?: string[];
 }
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
@@ -2613,73 +2614,127 @@ export const ITEM_DETAILS: Items = {
     description: CROP_COMPOST["Rapid Root"].description,
   },
 
-  Anchovy: { image: anchovy, description: "?" },
+  Anchovy: {
+    image: anchovy,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
   Butterflyfish: {
     image: butterflyfish,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
-  Blowfish: { image: blowfish, description: "?" },
-  Clownfish: { image: clownfish, description: "?" },
-  "Sea Bass": { image: seaBass, description: "?" },
-  "Sea Horse": { image: seahorse, description: "?" },
+  Blowfish: {
+    image: blowfish,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
+  Clownfish: {
+    image: clownfish,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Sea Bass": {
+    image: seaBass,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Sea Horse": {
+    image: seahorse,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
   "Horse Mackerel": {
     image: horseMackerel,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
-  Squid: { image: squid, description: "?" },
+  Squid: { image: squid, description: "?", howToGetItem: ["Ocean fishing"] },
   "Red Snapper": {
     image: redSnapper,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
   "Mooray Eel": {
     image: morayEel,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
   "Olive Flounder": {
     image: oliveFlounder,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
   Napoleanfish: {
     image: napoleonfish,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
-  Surgeonfish: { image: surgeonfish, description: "?" },
+  Surgeonfish: {
+    image: surgeonfish,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
   "Zebra Turkeyfish": {
     image: zebraTurkeyfish,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
-  Ray: { image: ray, description: "?" },
+  Ray: { image: ray, description: "?", howToGetItem: ["Ocean fishing"] },
   "Hammerhead shark": {
     image: hammerheadShark,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
-  Tuna: { image: tuna, description: "?" },
-  "Mahi Mahi": { image: mahiMahi, description: "?" },
+  Tuna: { image: tuna, description: "?", howToGetItem: ["Ocean fishing"] },
+  "Mahi Mahi": {
+    image: mahiMahi,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
   "Blue Marlin": {
     image: blueMarlin,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
-  Oarfish: { image: oarfish, description: "?" },
+  Oarfish: {
+    image: oarfish,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
   "Football fish": {
     image: footballFish,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
-  Sunfish: { image: sunfish, description: "?" },
-  Coelacanth: { image: coelacanth, description: "?" },
+  Sunfish: {
+    image: sunfish,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
+  Coelacanth: {
+    image: coelacanth,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
   "Whale Shark": {
     image: whaleShark,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
   "Barred Knifejaw": {
     image: barredKnifejaw,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
   "Saw Shark": {
     image: sawShark,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
   "White Shark": {
     image: whiteShark,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
 };
