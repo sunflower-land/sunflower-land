@@ -13,7 +13,12 @@ import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
 import { getCropTime } from "features/game/events/landExpansion/plant";
 import { getKeys } from "features/game/types/craftables";
 import { getBasketItems } from "./utils/inventory";
-import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import {
+  ConsumableName,
+  CONSUMABLES,
+  COOKABLE_CAKES,
+  COOKABLES,
+} from "features/game/types/consumables";
 import { COMMODITIES } from "features/game/types/resources";
 import { BEANS, EXOTIC_CROPS } from "features/game/types/beans";
 import { FRUIT, FruitSeedName, FRUIT_SEEDS } from "features/game/types/fruits";
@@ -109,7 +114,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const treasureTools = getItems(TREASURE_TOOLS);
   const exotic = getItems(BEANS());
   const resources = getItems(COMMODITIES);
-  const consumables = getItems(CONSUMABLES);
+  const cakes = getItems(COOKABLE_CAKES);
+  const foods = getItems(COOKABLES);
   const fertilisers = getItems(FERTILISERS);
   const coupons = getItems(COUPONS);
   const easterEggs = getItems(EASTER_EGG);
@@ -197,7 +203,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           {itemsSection("Resources", resources)}
           {itemsSection("Bait", bait)}
           {itemsSection("Fish", fish)}
-          {itemsSection("Foods", consumables)}
+          {itemsSection("Foods", [...cakes, ...foods])}
           {itemsSection("Exotic", exotic)}
           {itemsSection("Bounty", [...bounty, ...exotics])}
           {itemsSection("Coupons", coupons)}
