@@ -66,7 +66,21 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
 
   if (selectedFish) {
     return (
-      <Detail name={selectedFish} onBack={() => setSelectedFish(undefined)} />
+      <Detail
+        name={selectedFish}
+        onBack={() => setSelectedFish(undefined)}
+        additionalLabels={
+          <>
+            <Label
+              type="default"
+              className="px-0.5 text-xxs"
+              icon={SUNNYSIDE.tools.fishing_rod}
+            >
+              {`${farmActivity[`${selectedFish} Caught`] ?? 0} Caught`}
+            </Label>
+          </>
+        }
+      />
     );
   }
 
