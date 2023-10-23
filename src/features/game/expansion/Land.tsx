@@ -36,7 +36,6 @@ import ocean from "assets/decorations/ocean.webp";
 import { Bud } from "features/island/buds/Bud";
 import { hasFeatureAccess } from "lib/flags";
 import { Fisherman } from "features/island/fisherman/Fisherman";
-import { KrakenMechanic } from "features/island/fisherman/KrakenMechanic";
 
 export const LAND_WIDTH = 6;
 
@@ -447,7 +446,6 @@ export const Land: React.FC = () => {
               "pointer-events-none": visiting,
             })}
           >
-            <KrakenMechanic />
             <LandBase expandedCount={expansionCount} />
             <DirtRenderer grid={gameGrid} />
 

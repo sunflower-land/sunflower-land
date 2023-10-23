@@ -8,7 +8,7 @@ const BUMPKINS: NPCBumpkin[] = [
   {
     npc: "shelly",
     x: 326,
-    y: 691,
+    y: 631,
   },
   {
     npc: "finn",
@@ -49,6 +49,8 @@ export class BeachScene extends BaseScene {
 
     this.load.image("kraken", "world/kraken.png");
 
+    this.load.image("fish_label", "world/fish_label.png");
+
     this.load.spritesheet("bird", SUNNYSIDE.animals.bird, {
       frameWidth: 16,
       frameHeight: 17,
@@ -74,7 +76,9 @@ export class BeachScene extends BaseScene {
 
     this.initialiseNPCs(BUMPKINS);
 
-    this.add.sprite(308, 750, "kraken");
+    this.add.sprite(308, 755, "kraken");
+
+    this.add.sprite(348, 740, "fish_label");
 
     const turtle = this.add.sprite(328, 520, "turtle_bud");
     turtle.setScale(-1, 1);
@@ -113,7 +117,7 @@ export class BeachScene extends BaseScene {
     });
     bird.play("bird_anim", true);
 
-    const fisher = this.add.sprite(346, 710, "fisher");
+    const fisher = this.add.sprite(316, 710, "fisher");
     this.anims.create({
       key: "fisher_waiting",
       frames: this.anims.generateFrameNumbers("fisher", {

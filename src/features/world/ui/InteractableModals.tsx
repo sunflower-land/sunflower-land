@@ -16,6 +16,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { KrakenMechanic } from "features/island/fisherman/KrakenMechanic";
 
 type InteractableName =
+  | "kraken"
   | "welcome_sign"
   | "bud"
   | "plaza_statue"
@@ -92,8 +93,8 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
 
   return (
     <>
-      <Modal centered show onHide={closeModal}>
-        <KrakenMechanic />
+      <Modal show={interactable === "kraken"} onHide={closeModal} centered>
+        <KrakenMechanic onClose={closeModal} />
       </Modal>
 
       {/* TODO - make smoother opening */}
