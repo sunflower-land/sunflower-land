@@ -6,6 +6,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { getOpenSeaLink } from "../lib/utils";
 import { KNOWN_IDS } from "features/game/types";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { Label } from "components/ui/Label";
 
 /**
  * Base Layout for Collectible Item Details Page in Codex
@@ -27,7 +28,7 @@ export const Detail: React.FC<Props> = ({
   additionalLabels,
   children,
 }) => {
-  const { image, description, howToGetItem = [] } = ITEM_DETAILS[name];
+  const { image, description, howToGetItem = [], buff } = ITEM_DETAILS[name];
   const [imageWidth, setImageWidth] = React.useState<number>(0);
 
   useLayoutEffect(() => {
@@ -83,9 +84,18 @@ export const Detail: React.FC<Props> = ({
               }}
             />
           </div>
-          <div className="flex-inline flex-wrap gap-1">
+          <div className="flex flex-1 flex-wrap gap-2 w-full">
             {additionalLabels}
             {/* Boost labels to go below */}
+            {!!buff && (
+              <Label
+                type={buff.labelType}
+                icon={buff.boostTypeIcon}
+                secondaryIcon={buff.boostedItemIcon}
+              >
+                {buff.shortDescription}
+              </Label>
+            )}
           </div>
         </div>
         <p className="text-xs">{description}</p>

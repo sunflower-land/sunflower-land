@@ -60,6 +60,9 @@ import goblinLantern from "assets/decorations/lanterns/goblin_lantern.png";
 import poppy from "assets/sfts/poppy.png";
 import kernaldo from "assets/sfts/kernaldo.png";
 
+import goldStone from "assets/resources/gold_small.png";
+import ironStone from "assets/resources/iron_small.png";
+
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
 import emeraldTurtle from "assets/sfts/aoe/emerald_turtle.webp";
@@ -2756,21 +2759,38 @@ export const ITEM_DETAILS: Items = {
   "Twilight Anglerfish": {
     image: twilightAnglerfish,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
   "Starlight Tuna": {
     image: startlightTuna,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
   "Radiant Ray": {
     image: radiantRay,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
+    buff: {
+      labelType: "success",
+      shortDescription: "+0.1 Gold",
+      boostTypeIcon: powerup,
+      boostedItemIcon: goldStone,
+    },
   },
   "Phantom Barracuda": {
     image: phantomBarracuda,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
   "Gilded Swordfish": {
     image: gildedSwordfish,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
+    buff: {
+      labelType: "success",
+      shortDescription: "+0.1 Iron",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ironStone,
+    },
   },
 };
