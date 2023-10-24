@@ -185,23 +185,23 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     type: "expert",
   },
   "Twilight Anglerfish": {
-    baits: [],
+    baits: ["Red Wiggler", "Grub"],
     type: "marine marvel",
   },
   "Starlight Tuna": {
-    baits: [],
+    baits: ["Red Wiggler"],
     type: "marine marvel",
   },
   "Radiant Ray": {
-    baits: [],
+    baits: ["Red Wiggler"],
     type: "marine marvel",
   },
   "Phantom Barracuda": {
-    baits: [],
+    baits: ["Grub"],
     type: "marine marvel",
   },
   "Gilded Swordfish": {
-    baits: [],
+    baits: ["Earthworm", "Red Wiggler"],
     type: "marine marvel",
   },
 };
