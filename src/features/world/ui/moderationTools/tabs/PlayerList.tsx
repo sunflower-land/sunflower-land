@@ -117,6 +117,7 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
                             Kick
                           </Button>
                           <Button
+                            disabled={isModerator(player)}
                             onClick={() => {
                               if (isMuted) {
                                 unMutePlayer(player);
