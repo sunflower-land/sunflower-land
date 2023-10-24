@@ -115,7 +115,9 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
         <div className="flex flex-col">
           {getKeys(FISH_BY_TYPE).map((type) => (
             <div key={type} className="flex flex-col mb-2">
-              <h3 className="capitalize pl-1.5 text-sm">{`${type} Fish`}</h3>
+              <h3 className="capitalize pl-1.5 text-sm">
+                {type !== "marine marvel" ? `${type} Fish` : "Marine Marvels"}
+              </h3>
               <div className="flex flex-wrap">
                 {FISH_BY_TYPE[type].map((name) => {
                   const caughtCount = farmActivity[`${name} Caught`] ?? 0;

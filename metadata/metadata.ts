@@ -5668,35 +5668,62 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1528.png",
-    attributes: [],
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Starlight Tuna": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1529.png",
-    attributes: [],
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Radiant Ray": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1530.png",
-    attributes: [],
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Iron Drops",
+        value: 10,
+      },
+    ],
   },
   "Phantom Barracuda": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1531.png",
-    attributes: [],
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Gilded Swordfish": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1532.png",
-    attributes: [],
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Gold Drops",
+        value: 10,
+      },
+    ],
   },
   Chowder: {
     description:
