@@ -18,9 +18,7 @@ type Props = {
 };
 
 export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
-  const [step, setStep] = useState<"MAIN" | "MUTE" | "KICK" | "UNMUTE">(
-    "UNMUTE"
-  );
+  const [step, setStep] = useState<"MAIN" | "MUTE" | "KICK" | "UNMUTE">("MAIN");
 
   const [unMuteStatus, setUnMuteStatus] = useState<
     "loading" | "success" | "error"

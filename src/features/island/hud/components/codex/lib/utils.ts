@@ -1,5 +1,10 @@
 import { CONFIG } from "lib/config";
-import { FISH, FishName, FishType } from "features/game/types/fishing";
+import {
+  FISH,
+  FishName,
+  FishType,
+  MarineMarvelName,
+} from "features/game/types/fishing";
 import { getKeys } from "features/game/types/craftables";
 import { AssetType } from "features/game/types/codex";
 
@@ -23,10 +28,11 @@ export const getOpenSeaLink = (id: number, type: AssetType) => {
 };
 
 export const getFishByType = () => {
-  const fishByType: Record<FishType, FishName[]> = {
+  const fishByType: Record<FishType, (FishName | MarineMarvelName)[]> = {
     basic: [],
     advanced: [],
     expert: [],
+    "marine marvel": [],
   };
 
   getKeys(FISH).forEach((fishName) => {

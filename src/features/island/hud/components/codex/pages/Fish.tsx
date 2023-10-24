@@ -16,7 +16,7 @@ import {
 } from "features/game/types/milestones";
 import { getFishByType } from "../lib/utils";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { FishName } from "features/game/types/fishing";
+import { FishName, MarineMarvelName } from "features/game/types/fishing";
 import { Detail } from "../components/Detail";
 
 const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
@@ -34,7 +34,9 @@ type Props = {
 export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
   const { gameService } = useContext(Context);
   const [expandedIndex, setExpandedIndex] = useState<number>();
-  const [selectedFish, setSelectedFish] = useState<FishName>();
+  const [selectedFish, setSelectedFish] = useState<
+    FishName | MarineMarvelName
+  >();
 
   const farmActivity = useSelector(gameService, _farmActivity);
   const milestones = useSelector(gameService, _milestones);
@@ -113,7 +115,9 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
         <div className="flex flex-col">
           {getKeys(FISH_BY_TYPE).map((type) => (
             <div key={type} className="flex flex-col mb-2">
-              <h3 className="capitalize pl-1.5 text-sm">{`${type} Fish`}</h3>
+              <h3 className="capitalize pl-1.5 text-sm">
+                {type !== "marine marvel" ? `${type} Fish` : "Marine Marvels"}
+              </h3>
               <div className="flex flex-wrap">
                 {FISH_BY_TYPE[type].map((name) => {
                   const caughtCount = farmActivity[`${name} Caught`] ?? 0;

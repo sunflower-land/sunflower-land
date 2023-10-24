@@ -4816,7 +4816,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_number",
         trait_type: "Increase Egg Yield",
-        value: 0.5,
+        value: 0.2,
       },
       {
         display_type: "boost_number",
@@ -5649,7 +5649,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1525.png",
     attributes: [],
   },
-
   "Saw Shark": {
     description: "?",
     decimals: 0,
@@ -5657,7 +5656,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1526.png",
     attributes: [],
   },
-
   "White Shark": {
     description: "?",
     decimals: 0,
@@ -5665,7 +5663,68 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/1527.png",
     attributes: [],
   },
-
+  "Twilight Anglerfish": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1528.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Starlight Tuna": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1529.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Radiant Ray": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1530.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Iron Drops",
+        value: 0.1,
+      },
+    ],
+  },
+  "Phantom Barracuda": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1531.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Gilded Swordfish": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1532.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Iron Drops",
+        value: 0.1,
+      },
+    ],
+  },
   Chowder: {
     description:
       "Sailor's delight in a bowl! Dive in, there's treasure inside!",
@@ -5678,7 +5737,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-
   Gumbo: {
     description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
     decimals: 0,
@@ -5690,7 +5748,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-
   "Fermented Fish": {
     description: "Daring delicacy! Unleash the Viking within with every bite!",
     decimals: 0,

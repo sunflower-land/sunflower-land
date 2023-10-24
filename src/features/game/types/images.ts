@@ -60,6 +60,8 @@ import goblinLantern from "assets/decorations/lanterns/goblin_lantern.png";
 import poppy from "assets/sfts/poppy.png";
 import kernaldo from "assets/sfts/kernaldo.png";
 
+import ironStone from "assets/resources/iron_small.png";
+
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
 import emeraldTurtle from "assets/sfts/aoe/emerald_turtle.webp";
@@ -487,6 +489,12 @@ import tuna from "assets/fish/tuna.png";
 import whaleShark from "assets/fish/whale_shark.png";
 import whiteShark from "assets/fish/white_shark.png";
 import zebraTurkeyfish from "assets/fish/zebra_turkeyfish.png";
+import twilightAnglerfish from "assets/fish/twilight_anglerfish.png";
+import startlightTuna from "assets/fish/starlight_tuna.png";
+import radiantRay from "assets/fish/radiant_ray.png";
+import phantomBarracuda from "assets/fish/phantom_barracuda.png";
+import gildedSwordfish from "assets/fish/gilded_swordfish.png";
+
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -535,6 +543,8 @@ export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   section?: Section;
   buff?: BuffLabel;
   howToGetItem?: string[];
+  // TODO: Extend this as the codex grows eg. Resource etc
+  itemType?: "collectible";
 }
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
@@ -2746,5 +2756,47 @@ export const ITEM_DETAILS: Items = {
     image: whiteShark,
     description: "?",
     howToGetItem: ["Ocean fishing"],
+  },
+  "Twilight Anglerfish": {
+    image: twilightAnglerfish,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+    itemType: "collectible",
+  },
+  "Starlight Tuna": {
+    image: startlightTuna,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+    itemType: "collectible",
+  },
+  "Radiant Ray": {
+    image: radiantRay,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+    buff: {
+      labelType: "success",
+      shortDescription: "+0.1 Iron",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ironStone,
+    },
+    itemType: "collectible",
+  },
+  "Phantom Barracuda": {
+    image: phantomBarracuda,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+    itemType: "collectible",
+  },
+  "Gilded Swordfish": {
+    image: gildedSwordfish,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+    buff: {
+      labelType: "success",
+      shortDescription: "+0.1 Gold",
+      boostTypeIcon: powerup,
+      boostedItemIcon: gold,
+    },
+    itemType: "collectible",
   },
 };

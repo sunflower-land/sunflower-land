@@ -46,7 +46,8 @@ export type NPCName =
   | "finn"
   | "tango"
   | "mystara"
-  | "goldtooth";
+  | "goldtooth"
+  | "daphne";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -469,6 +470,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   // Placeholder fisherman
   finn: {
     body: "Light Brown Farmer Potion",
+    shirt: "Club Polo",
     hair: "Buzz Cut",
     background: "Seashore Background",
     shoes: "Black Farmer Boots",
@@ -500,6 +502,15 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Peg Leg",
     background: "Seashore Background",
     tool: "Pirate Scimitar",
+  },
+  daphne: {
+    body: "Light Brown Farmer Potion",
+    shirt: "Pirate Leather Polo",
+    hair: "Ash Ponytail",
+    tool: "Mushroom Lamp",
+    pants: "Pirate Pants",
+    background: "Seashore Background",
+    shoes: "Brown Boots",
   },
 };
 
