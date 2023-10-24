@@ -95,6 +95,7 @@ export const PromotingModal: React.FC<Props> = ({
               <li className="text-xs ml-4">Free Seasonal Banner</li>
               <li className="text-xs ml-4">Seasonal Wearable Airdrop</li>
               <li className="text-xs ml-4">Bonus Seasonal Tickets</li>
+              <li className="text-xs ml-4">+10% EXP from food</li>
             </ul>
 
             <a
