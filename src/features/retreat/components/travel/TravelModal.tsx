@@ -6,7 +6,7 @@ import { DeliveryOrders } from "features/island/delivery/components/Orders";
 import { ChoreV2 } from "features/helios/components/hayseedHank/components/ChoreV2";
 import world from "assets/icons/world_small.png";
 import { IslandList } from "features/game/expansion/components/travel/IslandList";
-import { Context } from "features/game/GameProvider";
+import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Panel } from "components/ui/Panel";
@@ -34,8 +34,8 @@ export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [tab, setTab] = useState(0);
   const [selectedOrderId, setSelectedOrderId] = useState<string>();
 
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const { goblinService } = useContext(Context);
+  const [gameState] = useActor(goblinService);
 
   const [showIntro, setShowIntro] = React.useState(!hasRead());
 
@@ -45,11 +45,10 @@ export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
         centered
         show={isOpen}
         onHide={onClose}
-        onShow={() => gameService.send("SAVE")}
         dialogClassName="md:max-w-3xl"
       >
         {showIntro ? (
-          <Panel bumpkinParts={NPC_WEARABLES["daphne"]}>
+          <Panel bumpkinParts={NPC_WEARABLES["reelin roy"]}>
             <SpeakingText
               message={[
                 {

@@ -18,6 +18,8 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Settings } from "./components/Settings";
 import { DeliveryButton } from "./components/deliveries/DeliveryButton";
 import { Leaderboard } from "features/game/expansion/components/leaderboard/Leaderboard";
+import { hasFeatureAccess } from "lib/flags";
+import { TravelButton } from "./components/deliveries/TravelButton";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -98,7 +100,11 @@ const HudComponent: React.FC = () => {
             }}
           >
             <Leaderboard farmId={farmId} />
-            <DeliveryButton />
+            {hasFeatureAccess(gameState.context.state.inventory, "FISHING") ? (
+              <TravelButton />
+            ) : (
+              <DeliveryButton />
+            )}
           </div>
           <BumpkinProfile isFullUser={isFullUser} />
 

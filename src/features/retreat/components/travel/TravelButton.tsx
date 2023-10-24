@@ -2,21 +2,21 @@ import React, { useState, useContext } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
+import { Context } from "features/game/GoblinProvider";
 import world from "assets/icons/world.png";
 import { hasNewOrders } from "features/island/delivery/lib/delivery";
 import { MachineState } from "features/game/lib/gameMachine";
-import { TravelModal } from "./TravelModal";
 import { hasNewChores } from "features/helios/components/hayseedHank/lib/chores";
+import { TravelModal } from "./TravelModal";
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _chores = (state: MachineState) => state.context.state.chores;
 
 export const Travel: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const { goblinService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
-  const delivery = useSelector(gameService, _delivery);
-  const chores = useSelector(gameService, _chores);
+  const delivery = useSelector(goblinService, _delivery);
+  const chores = useSelector(goblinService, _chores);
 
   const showExpression =
     hasNewOrders(delivery) || (chores && hasNewChores(chores));

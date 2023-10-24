@@ -73,21 +73,11 @@ export const LetterBox: React.FC = () => {
     return (
       <CloseButtonPanel
         onClose={close}
-        tabs={[
-          { icon: SUNNYSIDE.icons.expression_chat, name: "Bumpkin Buzz" },
-          // { icon: SUNNYSIDE.icons.heart, name: "Announcements" },
-        ]}
+        tabs={[{ icon: SUNNYSIDE.icons.expression_chat, name: "Bumpkin Buzz" }]}
         currentTab={tab}
         setCurrentTab={setTab}
       >
         <Mail setSelected={setSelected} />
-        {/* {tab === 1 && (
-      <div className="text-sm mt-2 text-break divide-y-2 divide-dashed divide-brown-600 max-h-[27rem] overflow-x-hidden overflow-y-auto scrollable p-1">
-        {PAST_ANNOUNCEMENTS.map((announcement, index) => (
-          <Announcement key={index} announcement={announcement} />
-        ))}
-      </div>
-    )} */}
       </CloseButtonPanel>
     );
   };

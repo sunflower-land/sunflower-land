@@ -1,10 +1,11 @@
 import { useActor } from "@xstate/react";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { Context } from "features/game/GameProvider";
 
 import { getKeys } from "features/game/types/craftables";
 import { DailyChore } from "./DailyChore";
+import { acknowledgeChores } from "../lib/chores";
 
 interface Props {
   isReadOnly?: boolean;
@@ -14,6 +15,10 @@ export const ChoreV2: React.FC<Props> = ({ isReadOnly = false }) => {
   const [gameState] = useActor(gameService);
 
   const chores = gameState.context.state.chores;
+
+  useEffect(() => {
+    chores && acknowledgeChores(chores);
+  }, [chores]);
 
   if (!chores) {
     return (
