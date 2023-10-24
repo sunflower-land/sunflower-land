@@ -918,4 +918,10 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: powerup,
       boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
     },
+    "Sunflower Rod": {
+      shortDescription: "Chance +1 Fish",
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
   };
