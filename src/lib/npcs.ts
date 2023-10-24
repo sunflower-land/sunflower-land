@@ -469,6 +469,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   // Placeholder fisherman
   finn: {
     body: "Light Brown Farmer Potion",
+    shirt: "Club Polo",
     hair: "Buzz Cut",
     background: "Seashore Background",
     shoes: "Black Farmer Boots",

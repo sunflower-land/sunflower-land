@@ -100,8 +100,8 @@ const IslandListItem: React.FC<IslandProps> = ({
       )}
     >
       {image && (
-        <div className="w-16 h-auto justify-center flex mr-2">
-          <img src={image} className="h-9" />
+        <div className="w-16 min-h-[36px] h-auto justify-center flex mr-2">
+          <img src={image} className="scale-[1.8] object-contain" />
         </div>
       )}
       <div className="flex-1 flex flex-col justify-center">
@@ -251,7 +251,7 @@ export const IslandList: React.FC<IslandListProps> = ({
           {
             name: "Beach",
             levelRequired: 1 as BumpkinLevel,
-            image: SUNNYSIDE.tools.sand_shovel,
+            image: SUNNYSIDE.resource.crab,
             path: `/world/beach`,
             labels: [
               <Label
