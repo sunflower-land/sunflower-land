@@ -176,6 +176,7 @@ describe("castRod", () => {
   });
 
   it("casts rod on wharf with chum", () => {
+    const now = Date.now();
     const state = castRod({
       action: {
         bait: "Earthworm",
