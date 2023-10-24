@@ -5694,7 +5694,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Resource" },
       {
         display_type: "boost_number",
-        trait_type: "Increase Iron Drops",
+        trait_type: "Increase Iron Yield",
         value: 0.1,
       },
     ],
@@ -5720,7 +5720,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Resource" },
       {
         display_type: "boost_number",
-        trait_type: "Increase Gold Drops",
+        trait_type: "Increase Gold Yield",
         value: 0.1,
       },
     ],
