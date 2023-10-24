@@ -2775,9 +2775,9 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: ["Ocean fishing"],
     buff: {
       labelType: "success",
-      shortDescription: "+0.1 Gold",
+      shortDescription: "+0.1 Iron",
       boostTypeIcon: powerup,
-      boostedItemIcon: gold,
+      boostedItemIcon: ironStone,
     },
     itemType: "collectible",
   },
@@ -2793,9 +2793,9 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: ["Ocean fishing"],
     buff: {
       labelType: "success",
-      shortDescription: "+0.1 Iron",
+      shortDescription: "+0.1 Gold",
       boostTypeIcon: powerup,
-      boostedItemIcon: ironStone,
+      boostedItemIcon: gold,
     },
     itemType: "collectible",
   },
