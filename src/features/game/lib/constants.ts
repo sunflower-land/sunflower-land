@@ -68,6 +68,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     "Apple Seed": new Decimal(10),
     "Orange Seed": new Decimal(10),
     "Blueberry Seed": new Decimal(10),
+    "Banana Plant": new Decimal(10),
   };
 
   if (
@@ -91,6 +92,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
       "Apple Seed": new Decimal(12),
       "Orange Seed": new Decimal(12),
       "Blueberry Seed": new Decimal(12),
+      "Banana Plant": new Decimal(12),
     };
   }
 

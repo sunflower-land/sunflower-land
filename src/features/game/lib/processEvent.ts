@@ -24,6 +24,7 @@ export const maxItems: Inventory = {
   Apple: new Decimal("200"),
   Orange: new Decimal("200"),
   Blueberry: new Decimal("200"),
+  Banana: new Decimal("200"),
 
   Chicken: new Decimal("20"),
   Egg: new Decimal("400"),
@@ -48,6 +49,7 @@ export const maxItems: Inventory = {
   "Apple Seed": new Decimal(100),
   "Orange Seed": new Decimal(100),
   "Blueberry Seed": new Decimal(100),
+  "Banana Plant": new Decimal(100),
 
   Gold: new Decimal("90"),
   Iron: new Decimal("400"),
