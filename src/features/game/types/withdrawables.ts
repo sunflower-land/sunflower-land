@@ -1103,7 +1103,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Luminous Anglerfish Topper": () => false,
   "Abyssal Angler Hat": () => false,
   Harpoon: () => false,
-  "Ancient Rod": () => false,
+  "Ancient Rod": () => canWithdrawTimebasedItem(new Date("01-25-2024")),
   "Fishing Hat": () => false,
   Trident: () => false,
   "Bucket O' Worms": () => false,
