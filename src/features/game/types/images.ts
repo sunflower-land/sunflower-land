@@ -487,6 +487,12 @@ import tuna from "assets/fish/tuna.png";
 import whaleShark from "assets/fish/whale_shark.png";
 import whiteShark from "assets/fish/white_shark.png";
 import zebraTurkeyfish from "assets/fish/zebra_turkeyfish.png";
+import twilightAnglerfish from "assets/fish/twilight_anglerfish.png";
+import startlightTuna from "assets/fish/starlight_tuna.png";
+import radiantRay from "assets/fish/radiant_ray.png";
+import phantomBarracuda from "assets/fish/phantom_barracuda.png";
+import gildedSwordfish from "assets/fish/gilded_swordfish.png";
+
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -2746,5 +2752,25 @@ export const ITEM_DETAILS: Items = {
     image: whiteShark,
     description: "?",
     howToGetItem: ["Ocean fishing"],
+  },
+  "Twilight Anglerfish": {
+    image: twilightAnglerfish,
+    description: "?",
+  },
+  "Starlight Tuna": {
+    image: startlightTuna,
+    description: "?",
+  },
+  "Radiant Ray": {
+    image: radiantRay,
+    description: "?",
+  },
+  "Phantom Barracuda": {
+    image: phantomBarracuda,
+    description: "?",
+  },
+  "Gilded Swordfish": {
+    image: gildedSwordfish,
+    description: "?",
   },
 };

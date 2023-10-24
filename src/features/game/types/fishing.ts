@@ -37,7 +37,7 @@ export type FishName =
   | "White Shark"; // Coming Soon
 
 export type MarineMarvelName =
-  | "Twilight Angler"
+  | "Twilight Anglerfish"
   | "Starlight Tuna"
   | "Radiant Ray"
   | "Phantom Barracuda"
@@ -184,7 +184,7 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     baits: ["Red Wiggler"],
     type: "expert",
   },
-  "Twilight Angler": {
+  "Twilight Anglerfish": {
     baits: [],
     type: "marine marvel",
   },
