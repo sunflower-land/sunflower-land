@@ -64,9 +64,12 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
               </thead>
               <tbody>
                 {Players.map((player) => {
-                  const mute = (player.moderation?.muted ?? [])
-                    .filter((mute) => mute.mutedUntil > Date.now())
-                    .sort((a, b) => b.mutedUntil - a.mutedUntil)[0];
+                  const latestMute = player.moderation?.muted.sort(
+                    (a, b) => a.mutedUntil - b.mutedUntil
+                  )[0];
+
+                  const isMuted =
+                    latestMute && latestMute.mutedUntil > Date.now();
 
                   return (
                     <tr key={player.playerId}>
@@ -80,14 +83,17 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
                       </td>
                       <td className="w-1/4">{player.farmId}</td>
                       <td className="w-1/4">
-                        {!mute ? (
+                        {!isMuted ? (
                           <span>OK</span>
                         ) : (
                           <span
-                            title={`Reason: ${mute.reason} - By: ${mute.mutedBy}`}
+                            title={`Reason: ${latestMute.reason} - By: ${latestMute.mutedBy}`}
                           >
                             Muted for{" "}
-                            {calculateMuteTime(mute.mutedUntil, "remaining")}
+                            {calculateMuteTime(
+                              latestMute.mutedUntil,
+                              "remaining"
+                            )}
                           </span>
                         )}
                       </td>
@@ -112,7 +118,7 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
                           </Button>
                           <Button
                             onClick={() => {
-                              if (mute) {
+                              if (isMuted) {
                                 unMutePlayer(player);
                               } else {
                                 setStep("MUTE");
@@ -120,7 +126,7 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
                               }
                             }}
                           >
-                            {mute ? "Unmute" : "Mute"}
+                            {isMuted ? "Unmute" : "Mute"}
                           </Button>
                         </div>
                       </td>

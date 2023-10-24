@@ -139,7 +139,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
     if (userModLogs.muted.length > 0) {
       const latestMute = userModLogs.muted.sort(
-        (a, b) => b.mutedUntil - a.mutedUntil
+        (a, b) => a.mutedUntil - b.mutedUntil
       )[0];
 
       if (latestMute.mutedUntil > new Date().getTime()) {
