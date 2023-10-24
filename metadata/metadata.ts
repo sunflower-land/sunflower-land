@@ -4816,7 +4816,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_number",
         trait_type: "Increase Egg Yield",
-        value: 0.5,
+        value: 0.2,
       },
       {
         display_type: "boost_number",
