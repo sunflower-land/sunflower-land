@@ -1101,9 +1101,11 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Reel Fishing Vest": () => false,
   "Clown Shirt": () => false,
   "Luminous Anglerfish Topper": () => false,
-  "Abyssal Angler Hat": () => false,
+  "Abyssal Angler Hat": () =>
+    canWithdrawTimebasedItem(new Date("Thu Jan 4 2024 09:00:00 GMT+1000")),
   Harpoon: () => false,
-  "Ancient Rod": () => canWithdrawTimebasedItem(new Date("01-25-2024")),
+  "Ancient Rod": () =>
+    canWithdrawTimebasedItem(new Date("Thu Jan 25 2024 09:00:00 GMT+1000")),
   "Fishing Hat": () => false,
   Trident: () => false,
   "Bucket O' Worms": () => false,
