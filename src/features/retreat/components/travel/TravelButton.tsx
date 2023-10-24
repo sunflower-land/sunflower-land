@@ -57,10 +57,10 @@ export const Travel: React.FC = () => {
         {showExpression && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className="absolute z-50 pointer-events-none"
+            className="absolute z-50 pointer-events-none animate-float"
             style={{
               width: `${PIXEL_SCALE * 4}px`,
-              top: `${PIXEL_SCALE * 1}px`,
+              top: `${PIXEL_SCALE * 0}px`,
               right: `${PIXEL_SCALE * 3}px`,
             }}
           />
