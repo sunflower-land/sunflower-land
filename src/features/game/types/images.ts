@@ -2874,14 +2874,17 @@ export const ITEM_DETAILS: Items = {
   },
   "Chilling Banana": {
     image: chillingBanana,
-    description: "",
+    description:
+      "Soak up the sun and snag an extra +0.5 bananas! Cool vibes, cooler rewards.",
   },
   "Rubber Ducky": {
     image: rubberDucky,
-    description: "",
+    description:
+      "Float on fun with this classic quacker, bringing bubbly joy to every corner!",
   },
   "Kraken Tentacle": {
     image: krakenTentacle,
-    description: "",
+    description:
+      "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
   },
 };
