@@ -85,7 +85,7 @@ export const PromotingModal: React.FC<Props> = ({
                   height: `${PIXEL_SCALE * 16}px`,
                 }}
               />
-              <p className="text-sm">Good luck this season!</p>
+              <p className="text-sm">Good luck in the season!</p>
             </div>
             <p className="text-sm">You have access to:</p>
             <ul className="list-disc">
