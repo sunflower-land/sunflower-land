@@ -4,6 +4,7 @@ import { Button } from "components/ui/Button";
 
 import { KickModal } from "../components/Kick";
 import { MuteModal } from "../components/Mute";
+import { UnMuteModal } from "../components/Unmute";
 
 import HaloIcon from "assets/sfts/halo.png";
 import { calculateMuteTime } from "../components/Muted";
@@ -17,7 +18,13 @@ type Props = {
 };
 
 export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
-  const [step, setStep] = useState<"MAIN" | "MUTE" | "KICK">("MAIN");
+  const [step, setStep] = useState<"MAIN" | "MUTE" | "KICK" | "UNMUTE">(
+    "UNMUTE"
+  );
+
+  const [unMuteStatus, setUnMuteStatus] = useState<
+    "loading" | "success" | "error"
+  >("loading");
 
   const [selectedPlayer, setSelectedPlayer] = useState<Player | undefined>();
   const [search, setSearch] = useState("");
@@ -39,12 +46,21 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
   });
 
   const unMutePlayer = async (player: Player) => {
+    setStep("UNMUTE");
     await mutePlayer({
       token: authState.rawToken as string,
       farmId: authState.farmId as number,
       mutedId: player.farmId,
       mutedUntil: new Date().getTime() + 1000,
       reason: "UNMUTE",
+    }).then((r) => {
+      if (r.success) {
+        setSelectedPlayer(player);
+        setUnMuteStatus("success");
+      } else {
+        setUnMuteStatus("error");
+        console.log(r);
+      }
     });
   };
 
@@ -168,6 +184,17 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
           player={selectedPlayer}
           authState={authState}
           scene={scene}
+        />
+      )}
+
+      {step === "UNMUTE" && (
+        <UnMuteModal
+          onClose={() => {
+            setStep("MAIN");
+            setUnMuteStatus("loading");
+          }}
+          player={selectedPlayer}
+          status={unMuteStatus}
         />
       )}
     </>
