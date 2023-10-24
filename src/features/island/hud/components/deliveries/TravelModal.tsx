@@ -49,7 +49,7 @@ export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
         dialogClassName="md:max-w-3xl"
       >
         {showIntro ? (
-          <Panel bumpkinParts={NPC_WEARABLES.finn}>
+          <Panel bumpkinParts={NPC_WEARABLES["reelin roy"]}>
             <SpeakingText
               message={[
                 {
