@@ -22,6 +22,8 @@ import { PickServer } from "./ui/PickServer";
 import { MazeHud } from "./ui/cornMaze/MazeHud";
 import { GameWrapper } from "features/game/expansion/Game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { hasFeatureAccess } from "lib/flags";
+import { IslandNotFound } from "features/game/expansion/components/IslandNotFound";
 
 interface Props {
   isCommunity?: boolean;
@@ -151,6 +153,8 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
   const inventory = useSelector(gameService, _inventory);
   const name = useParams().name as SceneId;
 
+  const hasAccess = name !== "beach" || hasFeatureAccess(inventory, "BEACH");
+
   return (
     <div
       className="bg-blue-600 w-full bg-repeat h-full flex relative items-center justify-center"
@@ -160,10 +164,14 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
         imageRendering: "pixelated",
       }}
     >
-      <GameWrapper>
-        {!isLoading && <MMO isCommunity={isCommunity} />}
-        {name === "corn_maze" ? <MazeHud /> : <WorldHud />}
-      </GameWrapper>
+      {hasAccess ? (
+        <GameWrapper>
+          {!isLoading && <MMO isCommunity={isCommunity} />}
+          {name === "corn_maze" ? <MazeHud /> : <WorldHud />}
+        </GameWrapper>
+      ) : (
+        <IslandNotFound />
+      )}
     </div>
   );
 };
