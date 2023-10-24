@@ -59,6 +59,7 @@ import { PurchasableItems } from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
+  getSeasonPassRead,
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
@@ -80,6 +81,7 @@ import { trade } from "../actions/trade";
 import { mmoBus } from "features/world/mmoMachine";
 import { analytics } from "lib/analytics";
 import { BudName } from "../types/buds";
+import { getSeasonalBanner } from "../types/seasons";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -706,8 +708,10 @@ export function startGame(authContext: AuthContext) {
             },
             {
               target: "specialOffer",
-              // Add special offer conditions here
-              cond: (context) => false,
+              cond: (context) =>
+                (context.state.bumpkin?.experience ?? 0) > 10 &&
+                !context.state.collectibles[getSeasonalBanner()] &&
+                !getSeasonPassRead(),
             },
             {
               // auctionResults needs to be the last check as it transitions directly

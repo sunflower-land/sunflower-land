@@ -15,6 +15,7 @@ import {
   isCookable,
 } from "features/game/types/consumables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { getSeasonalBanner } from "features/game/types/seasons";
 
 const crops = CROPS();
 const cakes = CAKES();
@@ -128,6 +129,10 @@ export const getFoodExpBoost = (
     isCollectibleBuilt("Grain Grinder", collectibles)
   ) {
     boostedExp = boostedExp.mul(1.2);
+  }
+
+  if (collectibles[getSeasonalBanner()]) {
+    boostedExp = boostedExp.mul(1.1);
   }
 
   return boostedExp.toNumber();
