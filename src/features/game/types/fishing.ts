@@ -55,7 +55,11 @@ export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
   Blueberry: 3,
   Orange: 3,
   Apple: 3,
-  Banana: 3,
+  Seaweed: 1,
+  Anchovy: 1,
+  "Red Snapper": 1,
+  Tuna: 1,
+  Squid: 1,
 };
 
 type Fish = {
