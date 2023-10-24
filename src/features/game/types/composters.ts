@@ -36,7 +36,7 @@ export const CROP_COMPOST: Record<CropCompostName, { description: string }> = {
     description: "Sprout Mix increases your crop yield by +0.2",
   },
   "Rapid Root": {
-    description: "Rapid Root boosts your crop speed by +50%",
+    description: "Rapid Root reduces crop growth time by 50%",
   },
 };
 
