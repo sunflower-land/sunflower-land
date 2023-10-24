@@ -3,6 +3,10 @@ import { GameState, Inventory, InventoryItemName } from "./game";
 import { getCurrentSeason } from "./seasons";
 import { marketRate } from "../lib/halvening";
 import { SFLDiscount } from "../lib/SFLDiscount";
+import { BuffLabel } from ".";
+import powerup from "assets/icons/level_up.png";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export type SeasonPassName =
   | "Dawn Breaker Banner"
@@ -371,10 +375,35 @@ export type Purchasable = CraftableCollectible & {
 };
 
 // TODO - add all other boosts
-export const COLLECTIBLE_BUFF: Partial<Record<InventoryItemName, string>> = {
-  "Sir Goldensnout": "+0.5 Surrounding Crops",
-  "Freya Fox": "+0.5 Pumpkin",
-  Poppy: "+0.1 Corn",
-  "Grain Grinder": "+20% Cake XP",
-  Kernaldo: "+25% Corn Growth Speed",
+export const COLLECTIBLE_BUFF_LABELS: Partial<
+  Record<InventoryItemName, BuffLabel>
+> = {
+  "Sir Goldensnout": {
+    shortDescription: "+0.5 Crops (AOE)",
+    labelType: "success",
+    boostTypeIcon: powerup,
+  },
+  "Freya Fox": {
+    shortDescription: "+0.5 Pumpkin",
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: CROP_LIFECYCLE.Pumpkin.crop,
+  },
+  Poppy: {
+    shortDescription: "+0.1 Corn",
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+  },
+  "Grain Grinder": {
+    shortDescription: "+20% Cake XP",
+    boostTypeIcon: powerup,
+    labelType: "success",
+  },
+  Kernaldo: {
+    shortDescription: "+25% Corn Growth Speed",
+    labelType: "info",
+    boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+  },
 };

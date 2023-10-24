@@ -1,3 +1,5 @@
+import { getSeasonalBanner } from "features/game/types/seasons";
+
 export function getGameRulesLastRead(): Date | null {
   const value = localStorage.getItem("gameRulesLastRead");
   if (!value) return null;
@@ -35,7 +37,7 @@ export function acknowledgeIntroduction() {
 }
 
 export function getSeasonPassRead(): Date | null {
-  const value = localStorage.getItem("witchSeasonPassPromov2");
+  const value = localStorage.getItem(`${getSeasonalBanner()}Read`);
   if (!value) return null;
 
   return new Date(value);
@@ -43,7 +45,7 @@ export function getSeasonPassRead(): Date | null {
 
 export function acknowledgeSeasonPass() {
   return localStorage.setItem(
-    "witchSeasonPassPromov2",
+    `${getSeasonalBanner()}Read`,
     new Date().toISOString()
   );
 }

@@ -59,6 +59,7 @@ import { PurchasableItems } from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
+  getSeasonPassRead,
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
@@ -110,6 +111,7 @@ export interface Context {
   auctionResults?: AuctionResults;
   promoCode?: string;
   moderation: Moderation;
+  saveQueued: boolean;
 }
 
 export type Moderation = {
@@ -398,7 +400,7 @@ export const saveGame = async (
   farmId: number,
   rawToken: string
 ) => {
-  const saveAt = (event as any)?.data?.saveAt || new Date();
+  const saveAt = new Date();
 
   // Skip autosave when no actions were produced or if playing ART_MODE
   if (context.actions.length === 0 || ART_MODE) {
@@ -419,6 +421,7 @@ export const saveGame = async (
   // and when autosaving
   await new Promise((res) => setTimeout(res, 1000));
 
+  console.log({ saveAt, saveAt2: saveAt.getTime() });
   return {
     saveAt,
     verified,
@@ -431,6 +434,7 @@ const handleSuccessfulSave = (context: Context, event: any) => {
   const recentActions = context.actions.filter(
     (action) => action.createdAt.getTime() > event.data.saveAt.getTime()
   );
+  console.log("Success save", recentActions);
 
   const updatedState = recentActions.reduce((state, action) => {
     return processEvent({
@@ -443,6 +447,7 @@ const handleSuccessfulSave = (context: Context, event: any) => {
   return {
     actions: recentActions,
     state: updatedState,
+    saveQueued: false,
   };
 };
 
@@ -466,6 +471,7 @@ export function startGame(authContext: AuthContext) {
           muted: [],
           kicked: [],
         },
+        saveQueued: false,
       },
       states: {
         loading: {
@@ -701,8 +707,10 @@ export function startGame(authContext: AuthContext) {
             },
             {
               target: "specialOffer",
-              // Add special offer conditions here
-              cond: (context) => false,
+              cond: (context) =>
+                (context.state.bumpkin?.experience ?? 0) > 10 &&
+                !context.state.collectibles["Catch the Kraken Banner"] &&
+                !getSeasonPassRead(),
             },
             {
               // auctionResults needs to be the last check as it transitions directly
@@ -988,8 +996,14 @@ export function startGame(authContext: AuthContext) {
         },
         autosaving: {
           entry: "setTransactionId",
+          id: "autosaving",
           on: {
             ...GAME_EVENT_HANDLERS,
+            SAVE: {
+              actions: assign({
+                saveQueued: (c) => c.actions.length > 0,
+              }),
+            },
           },
           invoke: {
             src: async (context, event) => {
@@ -1001,6 +1015,14 @@ export function startGame(authContext: AuthContext) {
               );
             },
             onDone: [
+              {
+                target: "autosaving",
+                // If a SAVE was queued up, go back into saving
+                cond: (c) => c.saveQueued,
+                actions: assign((context: Context, event) =>
+                  handleSuccessfulSave(context, event)
+                ),
+              },
               {
                 target: "playing",
                 actions: assign((context: Context, event) =>

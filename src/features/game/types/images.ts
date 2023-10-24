@@ -1,8 +1,11 @@
+import powerup from "assets/icons/level_up.png";
+
 // CROPS
 import magicBean from "assets/crops/magic_bean.png";
 import appleSeed from "assets/fruit/apple/apple_seed.png";
 import orangeSeed from "assets/fruit/orange/orange_seed.png";
 import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
+import bananaPlant from "assets/fruit/banana/banana_plant.png";
 
 // NFTs
 import chickenCoop from "assets/sfts/chicken_coop.png";
@@ -128,6 +131,7 @@ import honey from "assets/resources/honey.png";
 import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
 import blueberry from "assets/resources/blueberry.png";
+import banana from "assets/resources/banana.png";
 
 // Skills
 import greenThumb from "assets/skills/green_thumb.png";
@@ -522,12 +526,15 @@ import {
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { BAIT, CROP_COMPOST, FRUIT_COMPOST } from "./composters";
+import { BuffLabel } from ".";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
   image: any;
   secondaryImage?: any;
   section?: Section;
+  buff?: BuffLabel;
+  howToGetItem?: string[];
 }
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
@@ -670,6 +677,10 @@ export const ITEM_DETAILS: Items = {
     description: FRUIT_SEEDS()["Orange Seed"].description,
     image: orangeSeed,
   },
+  "Banana Plant": {
+    description: FRUIT_SEEDS()["Banana Plant"].description,
+    image: bananaPlant,
+  },
 
   "Apple Pie": {
     description: CONSUMABLES["Apple Pie"].description,
@@ -727,6 +738,10 @@ export const ITEM_DETAILS: Items = {
   Orange: {
     description: FRUIT()["Orange"].description,
     image: orange,
+  },
+  Banana: {
+    description: FRUIT()["Orange"].description,
+    image: banana,
   },
   Honey: {
     description: COMMODITIES["Honey"].description,
@@ -2143,6 +2158,11 @@ export const ITEM_DETAILS: Items = {
     image: sirGoldenSnout,
     description:
       "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
+    buff: {
+      shortDescription: "+0.5 Crops AoE",
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
   },
   "Scary Mike": {
     description: HELIOS_BLACKSMITH_ITEMS()["Scary Mike"].description,
@@ -2157,6 +2177,12 @@ export const ITEM_DETAILS: Items = {
     image: freyaFox,
     description:
       "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
+    buff: {
+      shortDescription: "+0.5 Pumpkin",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: CROP_LIFECYCLE.Pumpkin.crop,
+    },
   },
   "Queen Cornelia": {
     image: queenCornelia,
@@ -2436,6 +2462,12 @@ export const ITEM_DETAILS: Items = {
   Poppy: {
     image: poppy,
     description: "The mystical corn kernel. +0.1 Corn per harvest.",
+    buff: {
+      shortDescription: "+0.1 Corn",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+    },
   },
   "El Pollo Veloz": {
     image: elPolloVeloz,
@@ -2445,10 +2477,21 @@ export const ITEM_DETAILS: Items = {
     image: grainGrinder,
     description:
       "Grind your grain and experience a delectable surge in Cake XP.",
+    buff: {
+      shortDescription: "+20% Cake XP",
+      boostTypeIcon: powerup,
+      labelType: "success",
+    },
   },
   Kernaldo: {
     image: kernaldo,
     description: "The magical corn whisperer. +25% Corn Growth Speed.",
+    buff: {
+      shortDescription: "+25% Corn Growth Speed",
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+    },
   },
   Candles: {
     image: candles,
@@ -2581,73 +2624,127 @@ export const ITEM_DETAILS: Items = {
     description: CROP_COMPOST["Rapid Root"].description,
   },
 
-  Anchovy: { image: anchovy, description: "?" },
+  Anchovy: {
+    image: anchovy,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
   Butterflyfish: {
     image: butterflyfish,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
-  Blowfish: { image: blowfish, description: "?" },
-  Clownfish: { image: clownfish, description: "?" },
-  "Sea Bass": { image: seaBass, description: "?" },
-  "Sea Horse": { image: seahorse, description: "?" },
+  Blowfish: {
+    image: blowfish,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
+  Clownfish: {
+    image: clownfish,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Sea Bass": {
+    image: seaBass,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Sea Horse": {
+    image: seahorse,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
   "Horse Mackerel": {
     image: horseMackerel,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
-  Squid: { image: squid, description: "?" },
+  Squid: { image: squid, description: "?", howToGetItem: ["Ocean fishing"] },
   "Red Snapper": {
     image: redSnapper,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
   "Mooray Eel": {
     image: morayEel,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
   "Olive Flounder": {
     image: oliveFlounder,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
   Napoleanfish: {
     image: napoleonfish,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
-  Surgeonfish: { image: surgeonfish, description: "?" },
+  Surgeonfish: {
+    image: surgeonfish,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
   "Zebra Turkeyfish": {
     image: zebraTurkeyfish,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
-  Ray: { image: ray, description: "?" },
+  Ray: { image: ray, description: "?", howToGetItem: ["Ocean fishing"] },
   "Hammerhead shark": {
     image: hammerheadShark,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
-  Tuna: { image: tuna, description: "?" },
-  "Mahi Mahi": { image: mahiMahi, description: "?" },
+  Tuna: { image: tuna, description: "?", howToGetItem: ["Ocean fishing"] },
+  "Mahi Mahi": {
+    image: mahiMahi,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
   "Blue Marlin": {
     image: blueMarlin,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
-  Oarfish: { image: oarfish, description: "?" },
+  Oarfish: {
+    image: oarfish,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
   "Football fish": {
     image: footballFish,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
-  Sunfish: { image: sunfish, description: "?" },
-  Coelacanth: { image: coelacanth, description: "?" },
+  Sunfish: {
+    image: sunfish,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
+  Coelacanth: {
+    image: coelacanth,
+    description: "?",
+    howToGetItem: ["Ocean fishing"],
+  },
   "Whale Shark": {
     image: whaleShark,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
   "Barred Knifejaw": {
     image: barredKnifejaw,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
   "Saw Shark": {
     image: sawShark,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
   "White Shark": {
     image: whiteShark,
     description: "?",
+    howToGetItem: ["Ocean fishing"],
   },
 };
