@@ -57,14 +57,14 @@ export const composterDetails: Record<ComposterName, ComposterDetails> = {
     timeToFinishMilliseconds: 6 * 60 * 60 * 1000,
   },
   "Turbo Composter": {
-    produce: "Rapid Root",
-    produceAmount: 10,
+    produce: "Fruitful Blend",
+    produceAmount: 3,
     bait: "Grub",
     timeToFinishMilliseconds: 8 * 60 * 60 * 1000,
   },
   "Premium Composter": {
-    produce: "Fruitful Blend",
-    produceAmount: 3,
+    produce: "Rapid Root",
+    produceAmount: 10,
     bait: "Red Wiggler",
     timeToFinishMilliseconds: 12 * 60 * 60 * 1000,
   },

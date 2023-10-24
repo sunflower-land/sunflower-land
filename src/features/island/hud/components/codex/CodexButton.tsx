@@ -30,10 +30,10 @@ export const CodexButton: React.FC = () => {
           }}
         />
         <img
-          src={SUNNYSIDE.icons.expression_confused}
+          src={SUNNYSIDE.icons.search}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           style={{
-            width: `${PIXEL_SCALE * 5}px`,
+            width: `${PIXEL_SCALE * 12}px`,
           }}
         />
       </div>

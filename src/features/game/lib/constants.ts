@@ -68,6 +68,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     "Apple Seed": new Decimal(10),
     "Orange Seed": new Decimal(10),
     "Blueberry Seed": new Decimal(10),
+    "Banana Plant": new Decimal(10),
   };
 
   if (
@@ -91,6 +92,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
       "Apple Seed": new Decimal(12),
       "Orange Seed": new Decimal(12),
       "Blueberry Seed": new Decimal(12),
+      "Banana Plant": new Decimal(12),
     };
   }
 
@@ -202,7 +204,12 @@ export const TEST_FARM: GameState = {
   },
   stock: INITIAL_STOCK(),
   chickens: {},
-  fishing: { wharf: {} },
+  farmActivity: {},
+  milestones: {},
+  fishing: {
+    weather: "Sunny",
+    wharf: {},
+  },
   wardrobe: {},
   createdAt: new Date().getTime(),
   conversations: [],
@@ -431,7 +438,12 @@ export const EMPTY: GameState = {
   crops: {},
   stones: {},
   trees: {},
-  fishing: { wharf: {} },
+  farmActivity: {},
+  milestones: {},
+  fishing: {
+    weather: "Sunny",
+    wharf: {},
+  },
   mushrooms: {
     spawnedAt: 0,
     mushrooms: {},

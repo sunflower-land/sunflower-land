@@ -1,3 +1,9 @@
+import powerup from "assets/icons/level_up.png";
+import lightning from "assets/icons/lightning.png";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { BuffLabel } from ".";
+
 export type BumpkinBackground =
   | "Farm Background"
   | "Seashore Background"
@@ -823,21 +829,93 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Infernal Rod": "tool",
 };
 
-export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
-  "Chef Apron": "+20% cake profit",
-  "Fruit Picker Apron": "+0.1 Apple, Orange & Blueberries",
-  "Angel Wings": "Instant Crops",
-  "Devil Wings": "Instant Crops",
-  "Eggplant Onesie": "+0.1 Eggplant",
-  "Golden Spatula": "+10% EXP",
-  "Mushroom Hat": "+0.1 Mushrooms",
-  Parsnip: "+20% Parsnip",
-  "Sunflower Amulet": "+10% Sunflower",
-  "Carrot Amulet": "-20% Carrot growth time",
-  "Beetroot Amulet": "+20% Beetroot",
-  "Green Amulet": "Chance for 10x crops",
-  "Luna's Hat": "-50% cooking time",
-  "Infernal Pitchfork": "+3 crops",
-  Cattlegrim: "+0.25 animal produce",
-  "Corn Onesie": "+0.1 Corn",
-};
+export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
+  {
+    "Chef Apron": {
+      shortDescription: "+20% Cake Profit",
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+    "Fruit Picker Apron": {
+      shortDescription: "+0.1 Fruit",
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+    "Angel Wings": {
+      shortDescription: "Instant Crops",
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+    "Devil Wings": {
+      shortDescription: "Instant Crops",
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+    "Eggplant Onesie": {
+      shortDescription: "+0.1 Eggplant",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: CROP_LIFECYCLE.Eggplant.crop,
+    },
+    "Golden Spatula": {
+      shortDescription: "+10% XP",
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+    "Mushroom Hat": {
+      shortDescription: "+0.1 Mushrooms",
+      boostTypeIcon: powerup,
+      labelType: "success",
+      boostedItemIcon: SUNNYSIDE.resource.wild_mushroom,
+    },
+    Parsnip: {
+      shortDescription: "+20% Parsnip",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: CROP_LIFECYCLE.Parsnip.crop,
+    },
+    "Sunflower Amulet": {
+      shortDescription: "+10% Sunflower",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: CROP_LIFECYCLE.Sunflower.crop,
+    },
+    "Carrot Amulet": {
+      shortDescription: "-20% Carrot growth time",
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: CROP_LIFECYCLE.Carrot.crop,
+    },
+    "Beetroot Amulet": {
+      shortDescription: "+20% Beetroot",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: CROP_LIFECYCLE.Beetroot.crop,
+    },
+    "Green Amulet": {
+      shortDescription: "Chance 10x Crops",
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+    "Luna's Hat": {
+      shortDescription: "-50% Cooking Time",
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+    "Infernal Pitchfork": {
+      shortDescription: "+3 Crops",
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+    Cattlegrim: {
+      shortDescription: "+0.25 Animal Produce",
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+    "Corn Onesie": {
+      shortDescription: "+0.1 Corn",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+    },
+  };

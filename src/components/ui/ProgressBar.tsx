@@ -238,7 +238,7 @@ export const LiveProgressBar: React.FC<LiveProgressBarProps> = ({
   return (
     <ProgressBar
       seconds={secondsLeft}
-      formatLength="medium"
+      formatLength="short"
       percentage={percentage}
       type="progress"
       {...divProps}
