@@ -2,7 +2,7 @@ import { getFishByType } from "features/island/hud/components/codex/lib/utils";
 import { KNOWN_IDS } from ".";
 import { BumpkinItem } from "./bumpkin";
 import { getKeys } from "./craftables";
-import { FishType, FishName, FISH } from "./fishing";
+import { FishType, FishName, FISH, MarineMarvelName } from "./fishing";
 import { InventoryItemName, GameState } from "./game";
 
 export type MilestoneName =
@@ -26,7 +26,8 @@ export type Milestone = {
   reward: Partial<Record<MilestoneReward, number>>;
 };
 
-const FISH_BY_TYPE: Record<FishType, FishName[]> = getFishByType();
+const FISH_BY_TYPE: Record<FishType, (FishName | MarineMarvelName)[]> =
+  getFishByType();
 
 export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
   "Novice Angler": {
