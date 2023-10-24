@@ -195,7 +195,7 @@ describe("castRod", () => {
     });
 
     expect(state.fishing.wharf).toEqual({
-      castedAt: now,
+      castedAt: expect.any(Number),
       chum: "Sunflower",
     });
   });

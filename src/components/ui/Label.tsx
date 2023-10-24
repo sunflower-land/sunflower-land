@@ -98,7 +98,7 @@ export const Label: React.FC<Props> = ({
       key={type}
       className={classnames(
         className,
-        `w-fit justify-center flex items-center `,
+        `w-fit justify-center flex items-center self-baseline`,
         { relative: !className?.includes("absolute") }
       )}
       style={{

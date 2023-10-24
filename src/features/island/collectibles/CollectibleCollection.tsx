@@ -187,6 +187,11 @@ import { MiniCornMaze } from "./components/MiniCornMaze";
 import { Observer } from "./components/Observer";
 import { WhiteCrow } from "./components/WhiteCrow";
 import { CatchTheKrakenBanner } from "./components/CatchTheKrakenBanner";
+import { TwilightAnglerfish } from "./components/TwilightAnglerfish";
+import { StarlightTuna } from "./components/StartlightTuna";
+import { RadiantRay } from "./components/RadiantRay";
+import { PhantomBarracuda } from "./components/PhantomBarracuda";
+import { GildedSwordfish } from "./components/GildedSwordfish";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -412,6 +417,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Town Sign": Sign,
   "White Crow": WhiteCrow,
   Bud: Bud,
+  "Twilight Anglerfish": TwilightAnglerfish,
+  "Starlight Tuna": StarlightTuna,
+  "Radiant Ray": RadiantRay,
+  "Phantom Barracuda": PhantomBarracuda,
+  "Gilded Swordfish": GildedSwordfish,
 };
 // Need readonly versions for some troublesome components while in design mode
 

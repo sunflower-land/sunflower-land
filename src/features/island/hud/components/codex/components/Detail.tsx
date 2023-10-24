@@ -6,6 +6,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { getOpenSeaLink } from "../lib/utils";
 import { KNOWN_IDS } from "features/game/types";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { Label } from "components/ui/Label";
 
 /**
  * Base Layout for Collectible Item Details Page in Codex
@@ -27,7 +28,13 @@ export const Detail: React.FC<Props> = ({
   additionalLabels,
   children,
 }) => {
-  const { image, description, howToGetItem = [] } = ITEM_DETAILS[name];
+  const {
+    image,
+    description,
+    howToGetItem = [],
+    buff,
+    itemType,
+  } = ITEM_DETAILS[name];
   const [imageWidth, setImageWidth] = React.useState<number>(0);
 
   useLayoutEffect(() => {
@@ -46,16 +53,24 @@ export const Detail: React.FC<Props> = ({
   return (
     <div className="p-2 relative">
       <div className="flex mb-2">
-        <img
-          src={SUNNYSIDE.icons.arrow_left}
-          className="cursor-pointer flex-none"
-          onClick={onBack}
+        <div
+          className="flex items-start"
           style={{
             width: `${PIXEL_SCALE * 11}px`,
+            height: `${PIXEL_SCALE * 11}px`,
           }}
-        />
+        >
+          <img
+            src={SUNNYSIDE.icons.arrow_left}
+            className="cursor-pointer flex-none"
+            onClick={onBack}
+            style={{
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
+          />
+        </div>
         <div className="flex-1 flex justify-center">
-          <h2>{name}</h2>
+          <h2 className="text-center">{name}</h2>
         </div>
         <div
           className="flex-none"
@@ -66,7 +81,7 @@ export const Detail: React.FC<Props> = ({
       </div>
 
       <div className="flex flex-col space-y-2">
-        <div className="flex">
+        <div className="flex gap-1">
           <div
             className="w-3/5 sm:w-1/2 rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-40"
             style={{
@@ -83,9 +98,23 @@ export const Detail: React.FC<Props> = ({
               }}
             />
           </div>
-          <div className="flex-inline flex-wrap gap-1">
+          <div className="flex content-start flex-col sm:flex-row sm:flex-wrap gap-2">
             {additionalLabels}
             {/* Boost labels to go below */}
+            {!!buff && (
+              <Label
+                type={buff.labelType}
+                icon={buff.boostTypeIcon}
+                secondaryIcon={buff.boostedItemIcon}
+              >
+                {buff.shortDescription}
+              </Label>
+            )}
+            {!!itemType && (
+              <Label type="default" className="capitalize">
+                {itemType}
+              </Label>
+            )}
           </div>
         </div>
         <p className="text-xs">{description}</p>
