@@ -60,7 +60,6 @@ import goblinLantern from "assets/decorations/lanterns/goblin_lantern.png";
 import poppy from "assets/sfts/poppy.png";
 import kernaldo from "assets/sfts/kernaldo.png";
 
-import goldStone from "assets/resources/gold_small.png";
 import ironStone from "assets/resources/iron_small.png";
 
 // AoE items
@@ -544,6 +543,8 @@ export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   section?: Section;
   buff?: BuffLabel;
   howToGetItem?: string[];
+  // TODO: Extend this as the codex grows eg. Resource etc
+  itemType?: "collectible";
 }
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
@@ -2760,11 +2761,13 @@ export const ITEM_DETAILS: Items = {
     image: twilightAnglerfish,
     description: "?",
     howToGetItem: ["Ocean fishing"],
+    itemType: "collectible",
   },
   "Starlight Tuna": {
     image: startlightTuna,
     description: "?",
     howToGetItem: ["Ocean fishing"],
+    itemType: "collectible",
   },
   "Radiant Ray": {
     image: radiantRay,
@@ -2774,13 +2777,15 @@ export const ITEM_DETAILS: Items = {
       labelType: "success",
       shortDescription: "+0.1 Gold",
       boostTypeIcon: powerup,
-      boostedItemIcon: goldStone,
+      boostedItemIcon: gold,
     },
+    itemType: "collectible",
   },
   "Phantom Barracuda": {
     image: phantomBarracuda,
     description: "?",
     howToGetItem: ["Ocean fishing"],
+    itemType: "collectible",
   },
   "Gilded Swordfish": {
     image: gildedSwordfish,
@@ -2792,5 +2797,6 @@ export const ITEM_DETAILS: Items = {
       boostTypeIcon: powerup,
       boostedItemIcon: ironStone,
     },
+    itemType: "collectible",
   },
 };

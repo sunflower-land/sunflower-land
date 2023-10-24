@@ -10,7 +10,8 @@ export type MilestoneName =
   | "Advanced Angler"
   | "Expert Angler"
   | "Fish Encyclopedia"
-  | "Master Angler";
+  | "Master Angler"
+  | "Marine Marvel Master";
 
 type MilestoneReward = InventoryItemName | BumpkinItem;
 
@@ -95,7 +96,7 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
       return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
     },
     reward: {
-      "Luminous Anglerfish Topper": 1,
+      "Bucket O' Worms": 1,
     },
   },
   "Master Angler": {
@@ -113,6 +114,23 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
     },
     reward: {
       Trident: 1,
+    },
+  },
+  "Marine Marvel Master": {
+    task: "Catch 1 of every Marine Marvel",
+    percentageComplete: (farmActivity: GameState["farmActivity"]) => {
+      const totalFishRequired = FISH_BY_TYPE["marine marvel"].length;
+
+      const totalFishCaught = FISH_BY_TYPE["marine marvel"].reduce(
+        (total, name) =>
+          total + Math.min(farmActivity[`${name} Caught`] ?? 0, 1),
+        0
+      );
+
+      return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
+    },
+    reward: {
+      "Luminous Anglerfish Topper": 1,
     },
   },
 };
@@ -157,4 +175,6 @@ export const MILESTONE_MESSAGES: Record<MilestoneName, string> = {
     "Congratulations, you've just reached the Fish Encyclopedia milestone! You've become a true fish connoisseur! Discovering all the fish is a remarkable achievement.",
   "Master Angler":
     "Wow, you've just reached the Master Angler milestone! Catching 10 of every fish is a testament to your fishing skills.",
+  "Marine Marvel Master":
+    "Congratulations, you've just reached the Marine Marvel Master milestone! You're the undisputed champion of the seas! Catching 1 of each Marvel proves your fishing prowess like no other.",
 };

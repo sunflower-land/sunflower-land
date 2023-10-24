@@ -28,7 +28,13 @@ export const Detail: React.FC<Props> = ({
   additionalLabels,
   children,
 }) => {
-  const { image, description, howToGetItem = [], buff } = ITEM_DETAILS[name];
+  const {
+    image,
+    description,
+    howToGetItem = [],
+    buff,
+    itemType,
+  } = ITEM_DETAILS[name];
   const [imageWidth, setImageWidth] = React.useState<number>(0);
 
   useLayoutEffect(() => {
@@ -84,7 +90,7 @@ export const Detail: React.FC<Props> = ({
               }}
             />
           </div>
-          <div className="flex flex-1 flex-wrap gap-2 w-full">
+          <div className="flex content-start flex-wrap gap-2">
             {additionalLabels}
             {/* Boost labels to go below */}
             {!!buff && (
@@ -94,6 +100,11 @@ export const Detail: React.FC<Props> = ({
                 secondaryIcon={buff.boostedItemIcon}
               >
                 {buff.shortDescription}
+              </Label>
+            )}
+            {!!itemType && (
+              <Label type="default" className="capitalize">
+                {itemType}
               </Label>
             )}
           </div>
