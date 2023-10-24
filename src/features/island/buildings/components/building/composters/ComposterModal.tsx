@@ -74,6 +74,32 @@ function hasRead() {
   return !!localStorage.getItem(LOCAL_STORAGE_KEY);
 }
 
+const Timer: React.FC<{ readyAt: number }> = ({ readyAt }) => {
+  const [secondsLeft, setSecondsLeft] = useState((readyAt - Date.now()) / 1000);
+
+  const active = readyAt >= Date.now();
+
+  useEffect(() => {
+    if (active) {
+      const interval = setInterval(() => {
+        setSecondsLeft((readyAt - Date.now()) / 1000);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [active]);
+
+  return (
+    <div className="flex items-center mb-2">
+      <img src={SUNNYSIDE.icons.timer} className="h-5 mr-1" />
+
+      <span className="text-xs mr-1">
+        {secondsToString(secondsLeft, {
+          length: "full",
+        })}
+      </span>
+    </div>
+  );
+};
 interface Props {
   showModal: boolean;
   setShowModal: (show: boolean) => void;
@@ -133,13 +159,16 @@ export const ComposterModal: React.FC<Props> = ({
             <div className="mt-2 flex-1">
               <div className="flex flex-wrap">
                 {getKeys(produces).map((name) => (
-                  <div key={name} className="flex space-x-2 justify-start mr-2">
+                  <div
+                    key={name}
+                    className="flex space-x-2 justify-start mr-2 mb-1"
+                  >
                     <img src={ITEM_DETAILS[name].image} className="h-5" />
                     <Label type="default">{`${produces[name]} ${name}`}</Label>
                   </div>
                 ))}
               </div>
-              <div className="flex items-center mt-1">
+              <div className="flex items-center">
                 <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
                 <span className="text-xs">Compost Complete</span>
               </div>
@@ -165,18 +194,13 @@ export const ComposterModal: React.FC<Props> = ({
               className="w-14 object-contain mr-2"
             />
             <div className="mt-2 flex-1">
-              <div className="flex items-center mb-2">
-                <img src={SUNNYSIDE.icons.timer} className="h-5 mr-1" />
-
-                <span className="text-xs mr-1">
-                  {secondsToString((readyAt - Date.now()) / 1000, {
-                    length: "full",
-                  })}
-                </span>
-              </div>
+              <Timer readyAt={readyAt} />
               <div className="flex flex-wrap my-1">
                 {getKeys(produces).map((name) => (
-                  <div key={name} className="flex space-x-2 justify-start mr-2">
+                  <div
+                    key={name}
+                    className="flex space-x-2 justify-start mr-2 mb-1"
+                  >
                     <img src={ITEM_DETAILS[name].image} className="h-5" />
                     <Label type="default">
                       {name in BAIT

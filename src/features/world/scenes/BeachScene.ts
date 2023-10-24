@@ -8,7 +8,7 @@ const BUMPKINS: NPCBumpkin[] = [
   {
     npc: "shelly",
     x: 326,
-    y: 691,
+    y: 631,
   },
   {
     npc: "finn",
@@ -49,6 +49,8 @@ export class BeachScene extends BaseScene {
 
     this.load.image("kraken", "world/kraken.png");
 
+    this.load.image("fish_label", "world/fish_label.png");
+
     this.load.spritesheet("bird", SUNNYSIDE.animals.bird, {
       frameWidth: 16,
       frameHeight: 17,
@@ -57,6 +59,11 @@ export class BeachScene extends BaseScene {
     this.load.spritesheet("blinking", SUNNYSIDE.vfx.blinking, {
       frameWidth: 16,
       frameHeight: 16,
+    });
+
+    this.load.spritesheet("fisher", SUNNYSIDE.npcs.fishing_sheet, {
+      frameWidth: 58,
+      frameHeight: 50,
     });
   }
 
@@ -69,7 +76,9 @@ export class BeachScene extends BaseScene {
 
     this.initialiseNPCs(BUMPKINS);
 
-    this.add.sprite(308, 750, "kraken");
+    this.add.sprite(308, 755, "kraken");
+
+    this.add.sprite(348, 740, "fish_label");
 
     const turtle = this.add.sprite(328, 520, "turtle_bud");
     turtle.setScale(-1, 1);
@@ -107,5 +116,75 @@ export class BeachScene extends BaseScene {
       frameRate: 5,
     });
     bird.play("bird_anim", true);
+
+    const fisher = this.add.sprite(316, 710, "fisher");
+    this.anims.create({
+      key: "fisher_waiting",
+      frames: this.anims.generateFrameNumbers("fisher", {
+        start: 24,
+        end: 32,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    this.anims.create({
+      key: "fisher_reel",
+      frames: this.anims.generateFrameNumbers("fisher", {
+        start: 33,
+        end: 45,
+      }),
+      repeat: -1,
+      frameRate: 16,
+    });
+    fisher.play("fisher_waiting", true);
+
+    beachEvents.subscribe("reel", () => {
+      fisher.play("fisher_reel", true);
+
+      fisher.on(
+        Phaser.Animations.Events.ANIMATION_UPDATE,
+        (_: any, frame: any) => {
+          if (frame.textureFrame === 45) {
+            fisher.play("fisher_waiting", true);
+          }
+        }
+      );
+
+      fisher.on("animationcomplete-fisher_reel", () => {
+        fisher.play("fisher_waiting", true);
+      });
+    });
   }
 }
+
+// PubSub.ts
+
+type Callback = (...args: any[]) => void;
+
+class BeachPubSub {
+  private events: Record<string, Callback[]> = {};
+
+  subscribe(event: string, callback: Callback): void {
+    if (!this.events[event]) {
+      this.events[event] = [];
+    }
+
+    this.events[event].push(callback);
+  }
+
+  publish(event: string, ...args: any[]): void {
+    if (this.events[event]) {
+      this.events[event].forEach((callback) => {
+        callback(...args);
+      });
+    }
+  }
+
+  unsubscribe(event: string, callback: Callback): void {
+    if (this.events[event]) {
+      this.events[event] = this.events[event].filter((cb) => cb !== callback);
+    }
+  }
+}
+
+export const beachEvents = new BeachPubSub();

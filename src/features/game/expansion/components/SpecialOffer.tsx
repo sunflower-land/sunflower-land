@@ -15,7 +15,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
-import { SEASON_TICKET_NAME } from "features/game/types/seasons";
+import {
+  SEASON_TICKET_NAME,
+  getSeasonalBanner,
+} from "features/game/types/seasons";
 
 const isPromoting = (state: MachineState) => state.matches("specialOffer");
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -25,13 +28,13 @@ export const SpecialOffer: React.FC = () => {
   const specialOffer = useSelector(gameService, isPromoting);
   const inventory = useSelector(gameService, _inventory);
 
-  const hasPreviousSeasonBanner = !!inventory["Dawn Breaker Banner"];
+  const hasPreviousSeasonBanner = !!inventory[getSeasonalBanner()];
 
   return (
     <PromotingModal
       isOpen={specialOffer}
       hasDiscount={hasPreviousSeasonBanner}
-      hasPurchased={!!inventory["Witches' Eve Banner"]}
+      hasPurchased={!!inventory["Catch the Kraken Banner"]}
       onClose={() => {
         acknowledgeSeasonPass();
         gameService.send("ACKNOWLEDGE");
@@ -67,7 +70,7 @@ export const PromotingModal: React.FC<Props> = ({
   const inventory = useSelector(gameService, _inventory);
   const hasPreviousSeasonBanner = !!inventory["Witches' Eve Banner"];
 
-  const price = hasPreviousSeasonBanner ? "3.99" : "5.99";
+  const price = hasPreviousSeasonBanner ? "4.99" : "6.99";
 
   const Content = () => {
     if (hasPurchased) {
@@ -82,7 +85,7 @@ export const PromotingModal: React.FC<Props> = ({
                   height: `${PIXEL_SCALE * 16}px`,
                 }}
               />
-              <p className="text-sm">Good luck this season!</p>
+              <p className="text-sm">Good luck in the season!</p>
             </div>
             <p className="text-sm">You have access to:</p>
             <ul className="list-disc">
@@ -92,10 +95,11 @@ export const PromotingModal: React.FC<Props> = ({
               <li className="text-xs ml-4">Free Seasonal Banner</li>
               <li className="text-xs ml-4">Seasonal Wearable Airdrop</li>
               <li className="text-xs ml-4">Bonus Seasonal Tickets</li>
+              <li className="text-xs ml-4">+10% EXP from food</li>
             </ul>
 
             <a
-              href="https://docs.sunflower-land.com/player-guides/seasons/witches-eve#witches-eve-banner"
+              href="https://docs.sunflower-land.com/player-guides/seasons/catch-the-kraken#catch-the-kraken-banner"
               target="_blank"
               rel="noopener noreferrer"
               className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
@@ -133,7 +137,7 @@ export const PromotingModal: React.FC<Props> = ({
               {secondsLeft > 0 ? (
                 <>
                   <div className="flex my-1">
-                    <p className="line-through">$7.99</p>
+                    <p className="line-through">$8.99</p>
                     <p className="ml-2">{`$${price}`}</p>
                   </div>
                   <Label type="danger">
@@ -144,7 +148,7 @@ export const PromotingModal: React.FC<Props> = ({
                 </>
               ) : (
                 <div className="flex my-1">
-                  <p>$7.99</p>
+                  <p>$8.99</p>
                 </div>
               )}
             </div>
@@ -154,6 +158,7 @@ export const PromotingModal: React.FC<Props> = ({
             <li className="text-sm ml-4">Decorative Banner</li>
             <li className="text-sm ml-4">Mystery Airdrop</li>
             <li className="text-sm ml-4">25% SFL discount on seasonal items</li>
+            <li className="text-sm ml-4">+10% EXP from food</li>
             <li className="text-sm ml-4">
               Bonus {SEASON_TICKET_NAME["Catch the Kraken"]}s
             </li>
@@ -176,7 +181,7 @@ export const PromotingModal: React.FC<Props> = ({
           )}
 
           <a
-            href="https://docs.sunflower-land.com/player-guides/seasons/witches-eve#witches-eve-banner"
+            href="https://docs.sunflower-land.com/player-guides/seasons/catch-the-kraken#catch-the-kraken-banner"
             target="_blank"
             rel="noopener noreferrer"
             className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"

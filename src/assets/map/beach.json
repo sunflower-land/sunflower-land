@@ -1278,7 +1278,26 @@
       "draworder": "topdown",
       "id": 56,
       "name": "Interactable",
-      "objects": [],
+      "objects": [
+        {
+          "height": 63.0491649339325,
+          "id": 207,
+          "name": "",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "kraken"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 106.311623851365,
+          "x": 255.885706620162,
+          "y": 720.370246160038
+        }
+      ],
       "opacity": 1,
       "tintcolor": "#00ff00",
       "type": "objectgroup",
@@ -1288,7 +1307,7 @@
     }
   ],
   "nextlayerid": 84,
-  "nextobjectid": 207,
+  "nextobjectid": 208,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.8.4",

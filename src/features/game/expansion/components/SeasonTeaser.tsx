@@ -10,7 +10,6 @@ import { Context } from "features/game/GameProvider";
 import { MapPlacement } from "./MapPlacement";
 import { PromotingModal } from "./SpecialOffer";
 import { NPC_WEARABLES } from "lib/npcs";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   offset: number;
@@ -48,14 +47,7 @@ export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
         >
           <NPC
             parts={NPC_WEARABLES.grubnuk}
-            onClick={
-              hasFeatureAccess(
-                gameState.context.state.inventory,
-                "KRAKEN_SEASONAL_BANNER"
-              )
-                ? () => setShowModal(true)
-                : undefined
-            }
+            onClick={() => setShowModal(true)}
           />
         </div>
       </MapPlacement>

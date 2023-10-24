@@ -25,6 +25,7 @@ describe("reelRod", () => {
         ...farm,
         inventory: { Seaweed: new Decimal(5) },
         fishing: {
+          weather: "Sunny",
           wharf: {
             castedAt: 10000010,
             caught: { Gold: 2, Seaweed: 1 },
@@ -45,6 +46,8 @@ describe("reelRod", () => {
       state: {
         ...farm,
         fishing: {
+          weather: "Sunny",
+
           wharf: {
             castedAt: 10000010,
             caught: { Gold: 2, Seaweed: 1 },
