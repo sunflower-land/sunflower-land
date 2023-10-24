@@ -81,7 +81,6 @@ import { trade } from "../actions/trade";
 import { mmoBus } from "features/world/mmoMachine";
 import { analytics } from "lib/analytics";
 import { BudName } from "../types/buds";
-import { getSeasonalBanner } from "../types/seasons";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -710,7 +709,7 @@ export function startGame(authContext: AuthContext) {
               target: "specialOffer",
               cond: (context) =>
                 (context.state.bumpkin?.experience ?? 0) > 10 &&
-                !context.state.collectibles[getSeasonalBanner()] &&
+                !context.state.collectibles["Catch the Kraken Banner"] &&
                 !getSeasonPassRead(),
             },
             {
