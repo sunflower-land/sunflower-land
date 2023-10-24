@@ -84,6 +84,7 @@ const fruitSeed: Record<FruitSeedName, () => boolean> = {
   "Apple Seed": () => false,
   "Blueberry Seed": () => false,
   "Orange Seed": () => false,
+  "Banana Plant": () => false,
 };
 const crops: Record<CropName, () => boolean> = {
   Beetroot: () => true,
@@ -105,6 +106,7 @@ const fruits: Record<FruitName, () => boolean> = {
   Apple: () => true,
   Blueberry: () => true,
   Orange: () => true,
+  Banana: () => canWithdrawTimebasedItem(new Date("2024-02-01")),
 };
 
 const beans: Record<BeanName, () => boolean> = {

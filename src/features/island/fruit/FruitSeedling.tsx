@@ -13,7 +13,7 @@ interface Props {
   timeLeft: number;
 }
 
-export const getFruitImage = (imageSource: string) => {
+const getFruitImage = (imageSource: string) => {
   return (
     <img
       className="absolute"
@@ -38,6 +38,11 @@ export const FruitSeedling: React.FC<Props> = ({ fruitName, timeLeft }) => {
   const growPercentage = 100 - (timeLeft / plantSeconds) * 100;
   const isAlmostReady = growPercentage >= 50;
   const isHalfway = growPercentage >= 25 && !isAlmostReady;
+
+  const isBanana = fruitName === "Banana";
+  const description = isBanana
+    ? `Bananas Growing`
+    : `${fruitName} Tree Growing`;
 
   return (
     <div
@@ -83,7 +88,7 @@ export const FruitSeedling: React.FC<Props> = ({ fruitName, timeLeft }) => {
         <TimerPopover
           showPopover={showPopover}
           image={ITEM_DETAILS[fruitName].image}
-          description={`${fruitName} Tree Growing`}
+          description={description}
           timeLeft={timeLeft}
         />
       </div>
