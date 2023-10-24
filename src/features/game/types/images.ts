@@ -65,6 +65,7 @@ import knowledgeCrab from "assets/sfts/knowledge_crab.webp";
 import anchor from "assets/sfts/anchor.webp";
 import chillingBanana from "assets/sfts/chilling_banana.webp";
 import rubberDucky from "assets/sfts/rubber_ducky.webp";
+import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
 
 import ironStone from "assets/resources/iron_small.png";
 
@@ -2859,7 +2860,7 @@ export const ITEM_DETAILS: Items = {
   Alba: {
     image: alba,
     description:
-      "With her keen instincts, she ensures you get a little extra splash in your catch. +0.5 fish!",
+      "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 fish!",
   },
   "Knowledge Crab": {
     image: knowledgeCrab,
@@ -2877,6 +2878,10 @@ export const ITEM_DETAILS: Items = {
   },
   "Rubber Ducky": {
     image: rubberDucky,
+    description: "",
+  },
+  "Kraken Tentacle": {
+    image: krakenTentacle,
     description: "",
   },
 };

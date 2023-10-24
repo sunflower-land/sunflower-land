@@ -206,6 +206,7 @@ import { KnowledgeCrab } from "./components/KnowledgeCrab";
 import { Anchor } from "./components/Anchor";
 import { ChillingBanana } from "./components/ChillingBanana";
 import { RubberDucky } from "./components/RubberDucky";
+import { KrakenTentacle } from "./components/KrakenTentacle";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -453,6 +454,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Anchor: Anchor,
   "Chilling Banana": ChillingBanana,
   "Rubber Ducky": RubberDucky,
+  "Kraken Tentacle": KrakenTentacle,
 };
 // Need readonly versions for some troublesome components while in design mode
 

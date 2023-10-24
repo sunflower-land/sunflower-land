@@ -562,12 +562,14 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Freya Fox": () => true,
   "Queen Cornelia": () => canWithdrawTimebasedItem(new Date("2023-10-14")),
   "White Crow": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
-  Walrus: () => false,
-  Alba: () => false,
-  "Knowledge Crab": () => false,
-  Anchor: () => false,
-  "Chilling Banana": () => false,
-  "Rubber Ducky": () => false,
+
+  Walrus: () => canWithdrawTimebasedItem(new Date("01-28-2024")),
+  Alba: () => canWithdrawTimebasedItem(new Date("01-19-2024")),
+  "Knowledge Crab": () => canWithdrawTimebasedItem(new Date("01-07-2024")),
+  Anchor: () => canWithdrawTimebasedItem(new Date("01-28-2024")),
+  "Chilling Banana": () => canWithdrawTimebasedItem(new Date("01-13-2024")),
+  "Rubber Ducky": () => canWithdrawTimebasedItem(new Date("01-10-2024")),
+  "Kraken Tentacle": () => canWithdrawTimebasedItem(new Date("01-22-2024")),
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
