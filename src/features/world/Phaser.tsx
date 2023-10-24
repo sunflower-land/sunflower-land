@@ -138,16 +138,18 @@ export const PhaserComponent: React.FC<Props> = ({
     const userModLogs = gameService.state.context.moderation;
 
     if (userModLogs.muted.length > 0) {
-      userModLogs.muted.forEach((mute) => {
-        if (mute.mutedUntil > new Date().getTime()) {
-          setIsMuted({
-            type: "mute",
-            farmId: authState.context.user.farmId as number,
-            reason: mute.reason,
-            mutedUntil: mute.mutedUntil,
-          });
-        }
-      });
+      const latestMute = userModLogs.muted.sort(
+        (a, b) => b.mutedUntil - a.mutedUntil
+      )[0];
+
+      if (latestMute.mutedUntil > new Date().getTime()) {
+        setIsMuted({
+          type: "mute",
+          farmId: authState.context.user.farmId as number,
+          reason: latestMute.reason,
+          mutedUntil: latestMute.mutedUntil,
+        });
+      }
     }
   }, []);
 

@@ -8,6 +8,8 @@ import { MuteModal } from "../components/Mute";
 import HaloIcon from "assets/sfts/halo.png";
 import { calculateMuteTime } from "../components/Muted";
 
+import { mutePlayer } from "features/world/lib/moderationAction";
+
 type Props = {
   scene?: any;
   authState: any;
@@ -35,6 +37,16 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
       return player.farmId.toString().includes(search.toLowerCase());
     }
   });
+
+  const unMutePlayer = async (player: Player) => {
+    await mutePlayer({
+      token: authState.rawToken as string,
+      farmId: authState.farmId as number,
+      mutedId: player.farmId,
+      mutedUntil: new Date().getTime() + 1000,
+      reason: "UNMUTE",
+    });
+  };
 
   return (
     <>
@@ -99,13 +111,16 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
                             Kick
                           </Button>
                           <Button
-                            disabled={isModerator(player)}
                             onClick={() => {
-                              setStep("MUTE");
-                              setSelectedPlayer(player);
+                              if (mute) {
+                                unMutePlayer(player);
+                              } else {
+                                setStep("MUTE");
+                                setSelectedPlayer(player);
+                              }
                             }}
                           >
-                            Mute
+                            {mute ? "Unmute" : "Mute"}
                           </Button>
                         </div>
                       </td>
