@@ -509,6 +509,24 @@ export type WitchesEve = {
   maze: MazeAttempts;
 };
 
+export type KrakenAttempt = {
+  startedAt: number;
+  completedAt?: number;
+};
+
+export type KrakenMetadata = {
+  caught: number;
+  attempts: MazeAttempt[];
+};
+
+export type KrakenAttempts = Partial<Record<SeasonWeek, KrakenMetadata>>;
+
+export type CatchTheKraken = {
+  // Total items spent attempting to catch kraken;
+  spent: Partial<Record<InventoryItemName, number>>;
+  weeks: Partial<Record<SeasonWeek, KrakenMetadata>>;
+};
+
 export type Mushroom = {
   name: MushroomName;
   amount: number;
