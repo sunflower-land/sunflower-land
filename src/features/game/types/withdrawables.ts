@@ -567,6 +567,7 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Knowledge Crab": () => false,
   Anchor: () => false,
   "Chilling Banana": () => false,
+  "Rubber Ducky": () => false,
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =

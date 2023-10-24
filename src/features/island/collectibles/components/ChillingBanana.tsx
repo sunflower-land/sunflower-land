@@ -1,6 +1,6 @@
 import React from "react";
 
-import chillingBanana from "assets/sfts/chilling-banana.webp";
+import chillingBanana from "assets/sfts/chilling_banana.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const ChillingBanana: React.FC = () => {

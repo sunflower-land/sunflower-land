@@ -61,9 +61,10 @@ import poppy from "assets/sfts/poppy.png";
 import kernaldo from "assets/sfts/kernaldo.png";
 import walrus from "assets/sfts/walrus.webp";
 import alba from "assets/sfts/alba.webp";
-import knowledgeCrab from "assets/sfts/knowledge-crab.webp";
+import knowledgeCrab from "assets/sfts/knowledge_crab.webp";
 import anchor from "assets/sfts/anchor.webp";
-import chillingBanana from "assets/sfts/chilling-banana.webp";
+import chillingBanana from "assets/sfts/chilling_banana.webp";
+import rubberDucky from "assets/sfts/rubber_ducky.webp";
 
 import ironStone from "assets/resources/iron_small.png";
 
@@ -2872,6 +2873,10 @@ export const ITEM_DETAILS: Items = {
   },
   "Chilling Banana": {
     image: chillingBanana,
+    description: "",
+  },
+  "Rubber Ducky": {
+    image: rubberDucky,
     description: "",
   },
 };
