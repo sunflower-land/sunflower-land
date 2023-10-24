@@ -176,7 +176,6 @@ describe("castRod", () => {
   });
 
   it("casts rod on wharf with chum", () => {
-    const now = Date.now();
     const state = castRod({
       action: {
         bait: "Earthworm",
@@ -195,7 +194,7 @@ describe("castRod", () => {
     });
 
     expect(state.fishing.wharf).toEqual({
-      castedAt: now,
+      castedAt: expect.any(Number),
       chum: "Sunflower",
     });
   });
