@@ -169,6 +169,7 @@ describe("castRod", () => {
           Earthworm: new Decimal(1),
         },
       },
+      createdAt: now,
     });
 
     expect(state.fishing.wharf.castedAt).toEqual(now);
@@ -190,6 +191,7 @@ describe("castRod", () => {
           Sunflower: new Decimal(500),
         },
       },
+      createdAt: now,
     });
 
     expect(state.fishing.wharf).toEqual({
