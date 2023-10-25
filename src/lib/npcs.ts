@@ -502,21 +502,19 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Sunflower Rod",
     hat: "Squid Hat",
   },
-  // Placeholder monkey
   tango: {
-    body: "Beige Farmer Potion",
+    body: "Squirrel Monkey Potion",
     hair: "Basic Hair",
     background: "Seashore Background",
     shoes: "Black Farmer Boots",
-    tool: "Water Gun",
+    tool: "Pirate Scimitar",
   },
-  // Placeholder mermaid
   corale: {
-    body: "Beige Farmer Potion",
+    body: "Mermaid Potion",
     hair: "Basic Hair",
     background: "Seashore Background",
     shoes: "Black Farmer Boots",
-    tool: "Water Gun",
+    tool: "Trident",
   },
   goldtooth: {
     body: "Goblin Potion",

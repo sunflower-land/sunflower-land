@@ -1105,4 +1105,6 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Sunflower Rod": () => false,
   "Tackle Box": () => false,
   "Infernal Rod": () => false,
+  "Mermaid Potion": () => false,
+  "Squirrel Monkey Potion": () => false,
 };
