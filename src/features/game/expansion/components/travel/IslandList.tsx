@@ -245,7 +245,7 @@ export const IslandList: React.FC<IslandListProps> = ({
           },
         ]
       : []),
-    ...(Date.now() > SEASONS["Catch the Kraken"].startDate.getTime()
+    ...(hasFeatureAccess(inventory, "BEACH")
       ? [
           {
             name: "Beach",

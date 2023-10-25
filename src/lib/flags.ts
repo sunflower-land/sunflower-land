@@ -21,6 +21,7 @@ type FeatureName =
   | "NEW_FARM_FLOW"
   | "BUDS_DEPOSIT_FLOW"
   | "FISHING"
+  | "BEACH"
   | "XSOLLA";
 
 type FeatureFlag = (inventory: GameState["inventory"]) => boolean;
@@ -34,6 +35,13 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   BUDS_DEPOSIT_FLOW: () => true,
   FISHING: defaultFeatureFlag,
   XSOLLA: testnetFeatureFlag,
+  BEACH: (inventory: GameState["inventory"]) => {
+    if (Date.now() > SEASONS["Catch the Kraken"].startDate.getTime()) {
+      return true;
+    }
+
+    return defaultFeatureFlag(inventory);
+  },
 };
 
 export const hasFeatureAccess = (
