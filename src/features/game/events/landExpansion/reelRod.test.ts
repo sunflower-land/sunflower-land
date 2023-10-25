@@ -30,6 +30,7 @@ describe("reelRod", () => {
             castedAt: 10000010,
             caught: { Gold: 2, Seaweed: 1 },
           },
+          dailyAttempts: {},
         },
       },
     });
@@ -47,7 +48,7 @@ describe("reelRod", () => {
         ...farm,
         fishing: {
           weather: "Sunny",
-
+          dailyAttempts: {},
           wharf: {
             castedAt: 10000010,
             caught: { Gold: 2, Seaweed: 1 },

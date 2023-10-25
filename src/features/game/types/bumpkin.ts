@@ -941,4 +941,10 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.icons.fish,
     },
+    "Angler Waders": {
+      shortDescription: "+10 Fish Limit",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
   };

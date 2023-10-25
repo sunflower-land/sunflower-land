@@ -209,6 +209,7 @@ export const TEST_FARM: GameState = {
   fishing: {
     weather: "Sunny",
     wharf: {},
+    dailyAttempts: {},
   },
   wardrobe: {},
   createdAt: new Date().getTime(),
@@ -443,6 +444,7 @@ export const EMPTY: GameState = {
   fishing: {
     weather: "Sunny",
     wharf: {},
+    dailyAttempts: {},
   },
   mushrooms: {
     spawnedAt: 0,
