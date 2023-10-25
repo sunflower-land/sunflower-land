@@ -17,8 +17,9 @@ import levelUpIcon from "assets/icons/level_up.png";
 import goblin from "assets/buildings/goblin_sign.png";
 //import sunflorea from "assets/land/islands/sunflorea.png";
 //import snowman from "assets/npcs/snowman.png";
-import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
 import land from "assets/land/islands/island.webp";
+import blueBottle from "assets/decorations/blue_bottle.webp";
+
 import { SUNNYSIDE } from "assets/sunnyside";
 import { analytics } from "lib/analytics";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -34,6 +35,7 @@ interface Island {
   comingSoon?: boolean;
   beta?: boolean;
   passRequired?: boolean;
+  labels: ReturnType<typeof Label>[];
 }
 
 interface IslandProps extends Island {
@@ -64,6 +66,7 @@ const IslandListItem: React.FC<IslandProps> = ({
   passRequired,
   beta,
   onClose,
+  labels,
 }) => {
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
@@ -97,8 +100,8 @@ const IslandListItem: React.FC<IslandProps> = ({
       )}
     >
       {image && (
-        <div className="w-16 justify-center flex mr-2">
-          <img src={image} className="h-9" />
+        <div className="w-16 min-h-[36px] h-auto justify-center flex mr-2">
+          <img src={image} className="scale-[1.8] object-contain" />
         </div>
       )}
       <div className="flex-1 flex flex-col justify-center">
@@ -109,7 +112,7 @@ const IslandListItem: React.FC<IslandProps> = ({
           <span className="text-sm">{name}</span>
         </div>
 
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-x-3 gap-y-1 flex-wrap">
           {/* Current island */}
           {onSameIsland && <Label type="info">You are here</Label>}
           {/* Level requirement */}
@@ -126,6 +129,7 @@ const IslandListItem: React.FC<IslandProps> = ({
               Pass Required
             </Label>
           )}
+          {labels}
         </div>
       </div>
     </OuterPanel>
@@ -179,6 +183,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       image: CROP_LIFECYCLE.Sunflower.ready,
       levelRequired: 1,
       path: `/land/${farmId}`,
+      labels: [],
     },
     ...(hasFeatureAccess(inventory, "PUMPKIN_PLAZA") ||
     Date.now() > SEASONS["Witches' Eve"].startDate.getTime()
@@ -188,7 +193,74 @@ export const IslandList: React.FC<IslandListProps> = ({
             levelRequired: 1 as BumpkinLevel,
             image: CROP_LIFECYCLE.Pumpkin.ready,
             path: `/world/plaza`,
-            beta: true,
+            labels: [
+              <Label
+                type="default"
+                key="trading"
+                icon={SUNNYSIDE.icons.player_small}
+              >
+                Trading
+              </Label>,
+              <Label
+                type="default"
+                key="deliveries"
+                icon={SUNNYSIDE.icons.heart}
+              >
+                Deliveries
+              </Label>,
+              <Label
+                type="default"
+                key="chores"
+                icon={SUNNYSIDE.icons.expression_chat}
+              >
+                Chores
+              </Label>,
+              <Label
+                type="default"
+                key="shopping"
+                icon={SUNNYSIDE.icons.basket}
+              >
+                Shopping
+              </Label>,
+              <Label type="vibrant" key="auctions" icon={SUNNYSIDE.icons.timer}>
+                Auctions
+              </Label>,
+            ],
+          },
+        ]
+      : []),
+    ...(hasFeatureAccess(inventory, "PUMPKIN_PLAZA") ||
+    Date.now() > SEASONS["Witches' Eve"].startDate.getTime()
+      ? [
+          {
+            name: "Woodlands",
+            levelRequired: 1 as BumpkinLevel,
+            image: SUNNYSIDE.resource.wild_mushroom,
+            path: `/world/woodlands`,
+            labels: [
+              <Label type="vibrant" key="potion_house" icon={blueBottle}>
+                Potion House
+              </Label>,
+            ],
+          },
+        ]
+      : []),
+    ...(hasFeatureAccess(inventory, "BEACH")
+      ? [
+          {
+            name: "Beach",
+            levelRequired: 1 as BumpkinLevel,
+            image: SUNNYSIDE.resource.crab,
+            path: `/world/beach`,
+            labels: [
+              <Label
+                type="vibrant"
+                key="treasure_island"
+                icon={SUNNYSIDE.icons.treasure}
+              >
+                Treasure Island
+              </Label>,
+            ],
           },
         ]
       : []),
@@ -197,31 +269,43 @@ export const IslandList: React.FC<IslandListProps> = ({
       levelRequired: 1 as BumpkinLevel,
       image: SUNNYSIDE.icons.helios,
       path: `/land/${farmId}/helios`,
+      labels: [
+        <Label type="default" key="shopping" icon={SUNNYSIDE.icons.basket}>
+          Shopping
+        </Label>,
+        <Label type="default" key="trash" icon={SUNNYSIDE.icons.cancel}>
+          Trash Collection
+        </Label>,
+      ],
     },
-    ...(Date.now() < SEASONS["Witches' Eve"].startDate.getTime()
-      ? [
-          {
-            name: "Dawn Breaker",
-            image: dawnBreakerBanner,
-            levelRequired: 2 as BumpkinLevel,
-            path: `/world/dawn_breaker`,
-            beta: true,
-          },
-        ]
-      : []),
-
     {
       name: "Goblin Retreat",
       levelRequired: 1 as BumpkinLevel,
       image: goblin,
       path: `/retreat/${farmId}`,
       passRequired: true,
+      labels: [
+        <Label type="default" key="trading" icon={SUNNYSIDE.icons.player_small}>
+          Trading
+        </Label>,
+        <Label
+          type="default"
+          key="withdraw"
+          icon={SUNNYSIDE.decorations.treasure_chest_opened}
+        >
+          Withdraw
+        </Label>,
+        <Label type="default" key="crafting" icon={SUNNYSIDE.icons.hammer}>
+          Crafting
+        </Label>,
+      ],
     },
     {
       name: "Treasure Island",
       levelRequired: 10 as BumpkinLevel,
       image: SUNNYSIDE.icons.treasure,
       path: `/land/${farmId}/treasure-island`,
+      labels: [],
     },
     //{
     //  name: "Stone Haven",
@@ -272,6 +356,7 @@ export const IslandList: React.FC<IslandListProps> = ({
             currentPath={location.pathname}
             disabled={!travelAllowed}
             onClose={onClose}
+            labels={[]}
           />
         )}
         <VisitFriendListItem onClick={() => setView("visitForm")} />

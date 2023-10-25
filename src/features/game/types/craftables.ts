@@ -17,6 +17,7 @@ import {
 } from "./collectibles";
 import { BoostTreasure } from "./treasure";
 import { RESOURCE_DIMENSIONS } from "./resources";
+import { MarineMarvelName } from "./fishing";
 
 export { FLAGS };
 
@@ -202,7 +203,8 @@ export type CollectibleName =
   | "War Skull"
   | "War Tombstone"
   | "Undead Rooster"
-  | PotionHouseItemName;
+  | PotionHouseItemName
+  | MarineMarvelName;
 
 export type ToolName =
   | "Axe"
@@ -1195,6 +1197,13 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Lab Grown Pumpkin": { width: 1, height: 1 },
 
   "White Crow": { width: 1, height: 1 },
+
+  // Marine Marvel Trophies
+  "Twilight Anglerfish": { width: 2, height: 2 },
+  "Starlight Tuna": { width: 2, height: 2 },
+  "Radiant Ray": { width: 2, height: 2 },
+  "Phantom Barracuda": { width: 2, height: 2 },
+  "Gilded Swordfish": { width: 2, height: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

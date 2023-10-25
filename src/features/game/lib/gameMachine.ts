@@ -60,6 +60,7 @@ import {
   getGameRulesLastRead,
   getIntroductionRead,
   getSeasonPassRead,
+  hasUnreadMail,
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
@@ -361,6 +362,7 @@ export type BlockchainState = {
     | "refreshing"
     | "swarming"
     | "hoarding"
+    | "mailbox"
     | "transacting"
     | "depositing"
     | "landscaping"
@@ -685,6 +687,11 @@ export function startGame(authContext: AuthContext) {
               },
             },
             {
+              target: "mailbox",
+              cond: (context) =>
+                hasUnreadMail(context.announcements, context.state.mailbox),
+            },
+            {
               target: "swarming",
               cond: () => isSwarming(),
             },
@@ -782,6 +789,15 @@ export function startGame(authContext: AuthContext) {
         },
         gameRules: {
           on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
+        mailbox: {
+          on: {
+            "conversation.ended": (GAME_EVENT_HANDLERS as any)["bid.refunded"],
+            "message.read": (GAME_EVENT_HANDLERS as any)["message.read"],
             ACKNOWLEDGE: {
               target: "notifying",
             },

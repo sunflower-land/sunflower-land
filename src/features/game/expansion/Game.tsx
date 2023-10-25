@@ -52,6 +52,7 @@ import { RefundAuction } from "../components/auctionResults/RefundAuction";
 import { Promo } from "./components/Promo";
 import { Traded } from "../components/Traded";
 import { Sniped } from "../components/Sniped";
+import { NewMail } from "./components/NewMail";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -97,6 +98,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   sniped: true,
   traded: true,
   buds: false,
+  mailbox: false,
 };
 
 // State change selectors
@@ -357,6 +359,7 @@ export const GameWrapper: React.FC = ({ children }) => {
 
       <SpecialOffer />
       <Introduction />
+      <NewMail />
 
       {children}
     </ToastProvider>

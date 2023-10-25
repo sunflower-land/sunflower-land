@@ -389,6 +389,11 @@ export const OFFLINE_FARM: GameState = {
     bumpkinLevel: 1,
   },
   inventory: {
+    "Twilight Anglerfish": new Decimal(1),
+    "Starlight Tuna": new Decimal(1),
+    "Radiant Ray": new Decimal(1),
+    "Phantom Barracuda": new Decimal(1),
+    "Gilded Swordfish": new Decimal(1),
     Rod: new Decimal(1),
     Earthworm: new Decimal(10),
     "Sprout Mix": new Decimal(10),

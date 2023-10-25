@@ -14,6 +14,8 @@ import Modal from "react-bootstrap/esm/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Deposit } from "features/goblins/bank/components/Deposit";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { hasFeatureAccess } from "lib/flags";
+import { TravelButton } from "./components/travel/TravelButton";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -60,7 +62,20 @@ export const Hud: React.FC = () => {
           state={goblinState.context.state as GameState}
           onDepositClick={handleDepositOpen}
         />
-        {landId && <LandId landId={landId} />}
+        {hasFeatureAccess(goblinState.context.state.inventory, "FISHING") ? (
+          <div
+            className="fixed z-50 flex flex-col justify-between"
+            style={{
+              left: `${PIXEL_SCALE * 3}px`,
+              bottom: `${PIXEL_SCALE * 3}px`,
+              width: `${PIXEL_SCALE * 22}px`,
+            }}
+          >
+            <TravelButton />
+          </div>
+        ) : (
+          landId && <LandId landId={landId} />
+        )}
         <BumpkinAvatar bumpkin={state.bumpkin} />
         <div
           className="fixed z-50 flex flex-col justify-between"

@@ -10,7 +10,6 @@ import { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { hasFeatureAccess } from "lib/flags";
 
 const CONTENT_HEIGHT = 380;
 
@@ -25,16 +24,7 @@ export const ListView: React.FC<{
   );
 
   const FILTERED_BUILDINGS = () => {
-    if (hasFeatureAccess(inventory, "COMPOSTERS")) {
-      return buildings;
-    }
-    // filter out Compost Bin, Turbo Composter and Premium Composter
-    return buildings.filter((building) => {
-      if (building === "Compost Bin") return false;
-      if (building === "Turbo Composter") return false;
-      if (building === "Premium Composter") return false;
-      return true;
-    });
+    return buildings;
   };
 
   return (

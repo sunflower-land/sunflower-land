@@ -1,4 +1,4 @@
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import bubbles from "assets/decorations/water_bubbles.png";
 import fishSilhoutte from "assets/decorations/fish_silhouette.png";
 import { Context } from "features/game/GameProvider";
@@ -15,15 +15,9 @@ import { FishingBait } from "features/game/types/fishing";
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
 
-const caughtFish = (state: MachineState) =>
-  state.context.state.fishing.wharf.caught;
-
 export const Fisherman: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-  const { gameService, showTimers } = useContext(Context);
-
-  const [gameState] = useActor(gameService);
-  const fishing = gameState.context.state.fishing;
+  const { gameService } = useContext(Context);
 
   const expansionCount = useSelector(gameService, expansions);
   const wharfCoords = () => {
