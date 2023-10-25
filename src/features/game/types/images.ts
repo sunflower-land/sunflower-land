@@ -283,6 +283,9 @@ import bumpkinGanoush from "assets/food/bumpkin_ganoush.png";
 import eggplantCake from "assets/food/cakes/eggplant_cake.png";
 import cornBread from "assets/food/corn_bread.png";
 import popcorn from "assets/food/popcorn.png";
+import chowder from "assets/food/chowder.png";
+import gumbo from "assets/food/gumbo.png";
+import fermentedFish from "assets/food/fermented_fish.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -1603,16 +1606,16 @@ export const ITEM_DETAILS: Items = {
     description: "Classic homegrown crunchy snack.",
   },
   Chowder: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: chowder,
     description:
       "Sailor's delight in a bowl! Dive in, there's treasure inside!",
   },
   Gumbo: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: gumbo,
     description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
   },
   "Fermented Fish": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: fermentedFish,
     description: "Daring delicacy! Unleash the Viking within with every bite!",
   },
 
