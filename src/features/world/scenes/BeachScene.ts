@@ -16,6 +16,12 @@ const BUMPKINS: NPCBumpkin[] = [
     y: 518,
   },
   {
+    npc: "finley",
+    x: 122,
+    y: 390,
+    direction: "left",
+  },
+  {
     npc: "tango",
     x: 416,
     y: 351,
@@ -26,9 +32,14 @@ const BUMPKINS: NPCBumpkin[] = [
     y: 255,
   },
   {
-    npc: "mystara",
+    npc: "corale",
     x: 149,
     y: 670,
+  },
+  {
+    x: 338,
+    y: 407,
+    npc: "miranda",
   },
 ];
 

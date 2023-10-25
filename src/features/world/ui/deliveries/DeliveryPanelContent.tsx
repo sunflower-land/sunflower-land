@@ -22,6 +22,7 @@ import classNames from "classnames";
 import { getOrderSellPrice } from "features/game/events/landExpansion/deliver";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { hasFeatureAccess } from "lib/flags";
 
 interface OrderCardsProps {
   orders: Order[];
@@ -195,10 +196,20 @@ export const DeliveryPanelContent: React.FC<Props> = ({
   const balance = useSelector(gameService, _balance);
   const bumpkin = useSelector(gameService, _bumpkin);
 
-  const orders = delivery.orders.filter(
+  let orders = delivery.orders.filter(
     (order) =>
       order.from === npc && Date.now() >= order.readyAt && !order.completedAt
   );
+
+  if (!hasFeatureAccess(inventory, "BEACH")) {
+    orders = orders.filter(
+      (o) =>
+        // Filter out beach NPCs
+        !(
+          ["corale", "tango", "finley", "finn", "miranda"] as NPCName[]
+        ).includes(o.from)
+    );
+  }
 
   const dialogue = npcDialogues[npc] || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);

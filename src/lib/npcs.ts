@@ -44,10 +44,12 @@ export type NPCName =
   | "reelin roy"
   | "shelly"
   | "finn"
+  | "finley"
   | "tango"
-  | "mystara"
+  | "corale"
   | "goldtooth"
-  | "daphne";
+  | "daphne"
+  | "miranda";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -381,6 +383,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     shoes: "Brown Boots",
   },
+  miranda: {
+    body: "Beige Farmer Potion",
+    hair: "Ash Ponytail",
+    shirt: "Fruit Picker Shirt",
+    coat: "Fruit Picker Apron",
+    tool: "Farmer Pitchfork",
+    background: "Seashore Background",
+    shoes: "Brown Boots",
+    hat: "Fruit Bowl",
+  },
   cornwell: {
     body: "Beige Farmer Potion",
     hair: "Wise Hair",
@@ -470,27 +482,39 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   // Placeholder fisherman
   finn: {
     body: "Light Brown Farmer Potion",
-    shirt: "Club Polo",
+    shirt: "Witches' Eve Tee",
+    coat: "Fish Pro Vest",
     hair: "Buzz Cut",
     background: "Seashore Background",
-    shoes: "Black Farmer Boots",
-    tool: "Water Gun",
+    pants: "Angler Waders",
+    shoes: "Wellies",
+    tool: "Sunflower Rod",
+    hat: "Fishing Hat",
   },
-  // Placeholder monkey
+  finley: {
+    body: "Light Brown Farmer Potion",
+    shirt: "Dawn Breaker Tee",
+    hair: "White Long Hair",
+    coat: "Reel Fishing Vest",
+    background: "Seashore Background",
+    pants: "Angler Waders",
+    shoes: "Wellies",
+    tool: "Sunflower Rod",
+    hat: "Squid Hat",
+  },
   tango: {
-    body: "Beige Farmer Potion",
+    body: "Squirrel Monkey Potion",
     hair: "Basic Hair",
     background: "Seashore Background",
     shoes: "Black Farmer Boots",
-    tool: "Water Gun",
+    tool: "Pirate Scimitar",
   },
-  // Placeholder mermaid
-  mystara: {
-    body: "Beige Farmer Potion",
+  corale: {
+    body: "Mermaid Potion",
     hair: "Basic Hair",
     background: "Seashore Background",
     shoes: "Black Farmer Boots",
-    tool: "Water Gun",
+    tool: "Trident",
   },
   goldtooth: {
     body: "Goblin Potion",
