@@ -835,23 +835,6 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Squirrel Monkey Potion": "body",
 };
 
-export const BUMPKIN_ITEM_BUFF: Partial<Record<BumpkinItem, string>> = {
-  "Chef Apron": "+20% cake profit",
-  "Fruit Picker Apron": "+0.1 Apple, Orange & Blueberries",
-  "Angel Wings": "Instant Crops",
-  "Devil Wings": "Instant Crops",
-  "Eggplant Onesie": "+0.1 Eggplant",
-  "Golden Spatula": "+10% EXP",
-  "Mushroom Hat": "+0.1 Mushrooms",
-  Parsnip: "+20% Parsnip",
-  "Sunflower Amulet": "+10% Sunflower",
-  "Carrot Amulet": "-20% Carrot growth time",
-  "Beetroot Amulet": "+20% Beetroot",
-  "Green Amulet": "Chance for 10x crops",
-  "Luna's Hat": "-50% cooking time",
-  "Corn Onesie": "+0.1 Corn",
-};
-
 export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
   {
     "Chef Apron": {
