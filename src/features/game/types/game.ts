@@ -699,6 +699,9 @@ export type Fishing = {
     chum?: InventoryItemName;
     caught?: Partial<Record<InventoryItemName, number>>;
   };
+  dailyAttempts?: {
+    [date: string]: number;
+  };
 };
 
 export interface GameState {
