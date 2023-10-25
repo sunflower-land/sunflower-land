@@ -170,6 +170,12 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
             onClose={closeModal}
           />
         )}
+
+        {npc === "corale" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "miranda" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "finn" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "tango" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
       </Modal>
     </>
   );
