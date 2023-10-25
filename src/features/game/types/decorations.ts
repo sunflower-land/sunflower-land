@@ -692,7 +692,7 @@ export const SEASONAL_DECORATIONS: (
   "Lifeguard Ring": {
     name: "Lifeguard Ring",
     sfl: SFLDiscount(state, new Decimal(10)),
-    from: new Date("2023-11-01"),
+    ffrom: new Date("2024-01-01"),
     to: new Date("2024-02-01"),
     description: "Stay afloat with style, your seaside savior!",
     ingredients: {
@@ -701,8 +701,8 @@ export const SEASONAL_DECORATIONS: (
   },
   Surfboard: {
     name: "Surfboard",
-    from: new Date("2023-11-01"),
-    to: new Date("2024-02-01"),
+    from: new Date("2023-12-01"),
+    to: new Date("2024-01-01"),
     description: "Ride the waves of wonder, beach bliss on board!",
     ingredients: {
       "Mermaid Scale": new Decimal(100),
@@ -711,7 +711,7 @@ export const SEASONAL_DECORATIONS: (
   "Hideaway Herman": {
     name: "Hideaway Herman",
     sfl: SFLDiscount(state, new Decimal(15)),
-    from: new Date("2023-11-01"),
+    from: new Date("2024-01-01"),
     to: new Date("2024-02-01"),
     description: "Herman's here to hide, but always peeks for a party!",
     ingredients: {
@@ -721,8 +721,8 @@ export const SEASONAL_DECORATIONS: (
   "Shifty Sheldon": {
     name: "Shifty Sheldon",
     sfl: SFLDiscount(state, new Decimal(50)),
-    from: new Date("2023-11-01"),
-    to: new Date("2024-02-01"),
+    from: new Date("2023-12-01"),
+    to: new Date("2024-01-01"),
     description: "Sheldon's sly, always scuttling to the next sandy surprise!",
     ingredients: {
       "Mermaid Scale": new Decimal(500),
@@ -731,7 +731,7 @@ export const SEASONAL_DECORATIONS: (
   "Tiki Torch": {
     name: "Tiki Torch",
     from: new Date("2023-11-01"),
-    to: new Date("2024-02-01"),
+    to: new Date("2024-12-01"),
     description: "Light the night, tropical vibes burning bright!",
     ingredients: {
       "Mermaid Scale": new Decimal(5),
@@ -741,7 +741,7 @@ export const SEASONAL_DECORATIONS: (
     name: "Beach Umbrella",
     sfl: SFLDiscount(state, new Decimal(20)),
     from: new Date("2023-11-01"),
-    to: new Date("2024-02-01"),
+    to: new Date("2024-12-01"),
     description: "Shade, shelter, and seaside chic in one sunny setup!",
     ingredients: {
       "Mermaid Scale": new Decimal(250),
