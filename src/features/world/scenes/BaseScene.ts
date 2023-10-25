@@ -242,6 +242,15 @@ export abstract class BaseScene extends Phaser.Scene {
           2
         ) as Phaser.Tilemaps.Tileset);
 
+    const halloween = this.map.addTilesetImage(
+      "Halloween",
+      "halloween",
+      16,
+      16,
+      1,
+      2
+    ) as Phaser.Tilemaps.Tileset;
+
     // Set up collider layers
     this.colliders = this.add.group();
     const collisionPolygons = this.map.createFromObjects("Collision", {
@@ -311,7 +320,12 @@ export abstract class BaseScene extends Phaser.Scene {
     this.map.layers.forEach((layerData, idx) => {
       if (layerData.name === "Crows") return;
 
-      const layer = this.map.createLayer(layerData.name, tileset, 0, 0);
+      const layer = this.map.createLayer(
+        layerData.name,
+        [tileset, halloween],
+        0,
+        0
+      );
       if (TOP_LAYERS.includes(layerData.name)) {
         layer?.setDepth(1000000);
       }
