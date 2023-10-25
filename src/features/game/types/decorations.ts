@@ -694,7 +694,7 @@ export const SEASONAL_DECORATIONS: (
     sfl: SFLDiscount(state, new Decimal(10)),
     from: new Date("2023-11-01"),
     to: new Date("2024-02-01"),
-    description: "",
+    description: "Stay afloat with style, your seaside savior!",
     ingredients: {
       "Mermaid Scale": new Decimal(50),
     },
@@ -703,7 +703,7 @@ export const SEASONAL_DECORATIONS: (
     name: "Surfboard",
     from: new Date("2023-11-01"),
     to: new Date("2024-02-01"),
-    description: "",
+    description: "Ride the waves of wonder, beach bliss on board!",
     ingredients: {
       "Mermaid Scale": new Decimal(100),
     },
@@ -713,7 +713,7 @@ export const SEASONAL_DECORATIONS: (
     sfl: SFLDiscount(state, new Decimal(15)),
     from: new Date("2023-11-01"),
     to: new Date("2024-02-01"),
-    description: "",
+    description: "Herman's here to hide, but always peeks for a party!",
     ingredients: {
       "Mermaid Scale": new Decimal(350),
     },
@@ -723,7 +723,7 @@ export const SEASONAL_DECORATIONS: (
     sfl: SFLDiscount(state, new Decimal(50)),
     from: new Date("2023-11-01"),
     to: new Date("2024-02-01"),
-    description: "",
+    description: "Sheldon's sly, always scuttling to the next sandy surprise!",
     ingredients: {
       "Mermaid Scale": new Decimal(500),
     },
@@ -732,7 +732,7 @@ export const SEASONAL_DECORATIONS: (
     name: "Tiki Torch",
     from: new Date("2023-11-01"),
     to: new Date("2024-02-01"),
-    description: "",
+    description: "Light the night, tropical vibes burning bright!",
     ingredients: {
       "Mermaid Scale": new Decimal(5),
     },
@@ -742,7 +742,7 @@ export const SEASONAL_DECORATIONS: (
     sfl: SFLDiscount(state, new Decimal(20)),
     from: new Date("2023-11-01"),
     to: new Date("2024-02-01"),
-    description: "",
+    description: "Shade, shelter, and seaside chic in one sunny setup!",
     ingredients: {
       "Mermaid Scale": new Decimal(250),
     },
