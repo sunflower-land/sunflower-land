@@ -36,13 +36,15 @@ export function castRod({
   const game = cloneDeep(state) as GameState;
   const now = new Date(createdAt);
   const today = new Date(now).toISOString().split("T")[0];
-  const { dailyAttempts = {} } = game.fishing;
 
   if (!game.bumpkin) {
     throw new Error("You do not have a Bumpkin");
   }
 
-  if (dailyAttempts[today] >= getDailyFishingLimit(game.bumpkin)) {
+  if (
+    (game.fishing.dailyAttempts?.[today] ?? 0) >=
+    getDailyFishingLimit(game.bumpkin)
+  ) {
     throw new Error("Daily attempts exhausted");
   }
 
@@ -94,10 +96,12 @@ export function castRod({
   };
 
   // Track daily attempts
-  if (dailyAttempts[today]) {
-    dailyAttempts[today] += 1;
+  if (game.fishing.dailyAttempts && game.fishing.dailyAttempts[today]) {
+    game.fishing.dailyAttempts[today] += 1;
   } else {
-    dailyAttempts[today] = 1;
+    game.fishing.dailyAttempts = {
+      [today]: 1,
+    };
   }
 
   return {
