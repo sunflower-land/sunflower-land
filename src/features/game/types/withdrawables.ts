@@ -457,6 +457,12 @@ const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   Observer: () => canWithdrawTimebasedItem(new Date("2023-11-02")),
   "Crow Rock": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
   "Mini Corn Maze": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
+  "Beach Umbrella": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Hideaway Herman": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Lifeguard Ring": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Shifty Sheldon": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Tiki Torch": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  Surfboard: () => canWithdrawTimebasedItem(new Date("2024-02-02")),
 };
 
 const mutantCrop: Record<MutantCropName, () => boolean> = {
