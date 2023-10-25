@@ -38,7 +38,7 @@ import {
 } from "./composters";
 import { FarmActivityName } from "./farmActivity";
 import { MilestoneName } from "./milestones";
-import { FishName, FishingConditions } from "./fishing";
+import { FishName, FishingConditions, MarineMarvelName } from "./fishing";
 
 export type Reward = {
   sfl?: Decimal;
@@ -272,7 +272,8 @@ export type InventoryItemName =
   | "Basic Land"
   | Bait
   | CompostName
-  | FishName;
+  | FishName
+  | MarineMarvelName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

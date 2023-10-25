@@ -267,7 +267,7 @@ export const ComposterModal: React.FC<Props> = ({
             type="info"
             className="text-xs whitespace-pre-line"
           >
-            20% Speed
+            -50% Crop Growth Time
           </Label>
         );
       }

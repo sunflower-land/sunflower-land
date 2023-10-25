@@ -16,6 +16,7 @@ export type ConversationName =
 
 export type Message = {
   headline: string;
+  announceAt?: number;
   content: {
     text: string;
     image?: string;

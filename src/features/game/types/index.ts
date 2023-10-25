@@ -514,6 +514,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Barred Knifejaw": 1525,
   "Saw Shark": 1526,
   "White Shark": 1527,
+
+  "Twilight Anglerfish": 1528,
+  "Starlight Tuna": 1529,
+  "Radiant Ray": 1530,
+  "Phantom Barracuda": 1531,
+  "Gilded Swordfish": 1532,
 };
 
 // The reverse of above

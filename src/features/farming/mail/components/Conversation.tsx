@@ -12,11 +12,16 @@ import React, { useContext, useState } from "react";
 interface Props {
   conversationId: ConversationName;
   read?: boolean;
+  onAcknowledge?: () => void;
 }
 
 const CONTENT_HEIGHT = 300;
 
-export const Conversation: React.FC<Props> = ({ conversationId, read }) => {
+export const Conversation: React.FC<Props> = ({
+  conversationId,
+  read,
+  onAcknowledge,
+}) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -42,6 +47,7 @@ export const Conversation: React.FC<Props> = ({ conversationId, read }) => {
     }
 
     acknowledge();
+    onAcknowledge?.();
   };
   const Content = () => {
     console.log({ showReward, conversation, read });

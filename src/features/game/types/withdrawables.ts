@@ -56,7 +56,7 @@ import { BumpkinItem } from "./bumpkin";
 import { hasSeasonEnded } from "./seasons";
 import { GoblinState } from "../lib/goblinMachine";
 import { Bait, CompostName } from "./composters";
-import { FishName } from "./fishing";
+import { FishName, MarineMarvelName } from "./fishing";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
@@ -698,7 +698,7 @@ const compost: Record<CompostName, () => boolean> = {
   "Rapid Root": () => false,
 };
 
-const fish: Record<FishName, () => boolean> = {
+const fish: Record<FishName | MarineMarvelName, () => boolean> = {
   Anchovy: () => false,
   Butterflyfish: () => false,
   Blowfish: () => false,
@@ -726,6 +726,11 @@ const fish: Record<FishName, () => boolean> = {
   "Barred Knifejaw": () => false,
   "Saw Shark": () => false,
   "White Shark": () => false,
+  "Twilight Anglerfish": () => false,
+  "Starlight Tuna": () => false,
+  "Radiant Ray": () => false,
+  "Phantom Barracuda": () => false,
+  "Gilded Swordfish": () => false,
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {

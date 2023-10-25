@@ -2,7 +2,7 @@ import { Bait } from "./composters";
 import { InventoryItemName } from "./game";
 
 export type FishingBait = Bait;
-export type FishType = "basic" | "advanced" | "expert";
+export type FishType = "basic" | "advanced" | "expert" | "marine marvel";
 
 export type FishName =
   // Basic
@@ -36,6 +36,13 @@ export type FishName =
   | "Saw Shark" // Coming Soon
   | "White Shark"; // Coming Soon
 
+export type MarineMarvelName =
+  | "Twilight Anglerfish"
+  | "Starlight Tuna"
+  | "Radiant Ray"
+  | "Phantom Barracuda"
+  | "Gilded Swordfish";
+
 export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
   Gold: 1,
   Iron: 5,
@@ -43,13 +50,14 @@ export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
   Sunflower: 50,
   Potato: 20,
   Pumpkin: 20,
-  Cabbage: 10,
   Carrot: 10,
+  Cabbage: 10,
   Beetroot: 10,
   Cauliflower: 5,
-  Radish: 5,
-  Eggplant: 5,
   Parsnip: 5,
+  Eggplant: 5,
+  // Corn?
+  Radish: 5,
   Wheat: 5,
   Kale: 5,
   Blueberry: 3,
@@ -68,7 +76,7 @@ type Fish = {
 };
 
 // TODO
-export const FISH: Record<FishName, Fish> = {
+export const FISH: Record<FishName | MarineMarvelName, Fish> = {
   Anchovy: {
     baits: ["Earthworm"],
     type: "basic",
@@ -137,7 +145,6 @@ export const FISH: Record<FishName, Fish> = {
     baits: [],
     type: "advanced",
   },
-
   Tuna: {
     baits: ["Red Wiggler"],
     type: "expert",
@@ -177,6 +184,26 @@ export const FISH: Record<FishName, Fish> = {
   "White Shark": {
     baits: ["Red Wiggler"],
     type: "expert",
+  },
+  "Twilight Anglerfish": {
+    baits: ["Red Wiggler", "Grub"],
+    type: "marine marvel",
+  },
+  "Starlight Tuna": {
+    baits: ["Red Wiggler"],
+    type: "marine marvel",
+  },
+  "Radiant Ray": {
+    baits: ["Red Wiggler"],
+    type: "marine marvel",
+  },
+  "Phantom Barracuda": {
+    baits: ["Grub"],
+    type: "marine marvel",
+  },
+  "Gilded Swordfish": {
+    baits: ["Earthworm", "Red Wiggler"],
+    type: "marine marvel",
   },
 };
 
