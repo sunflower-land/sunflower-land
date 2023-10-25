@@ -70,7 +70,9 @@ export type EventDecorationName =
   | "Giant Carrot"
   | "Genie Bear"
   | "Eggplant Bear"
-  | "Dawn Flower";
+  | "Dawn Flower"
+  | "Sapo Docuras"
+  | "Sapo Travessuras";
 
 export type PotionHouseDecorationName =
   | "Giant Potato"
@@ -87,6 +89,14 @@ export type DecorationName =
   | PotionHouseDecorationName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
+  "Sapo Docuras": {
+    height: 1,
+    width: 1,
+  },
+  "Sapo Travessuras": {
+    height: 1,
+    width: 1,
+  },
   "Dawn Flower": {
     height: 1,
     width: 1,
