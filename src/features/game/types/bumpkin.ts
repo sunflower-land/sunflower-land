@@ -935,4 +935,10 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       labelType: "success",
       boostTypeIcon: powerup,
     },
+    "Luminous Anglerfish Topper": {
+      shortDescription: "+50% Fish XP",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
   };
