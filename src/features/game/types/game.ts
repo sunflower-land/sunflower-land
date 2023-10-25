@@ -699,7 +699,7 @@ export type Fishing = {
     chum?: InventoryItemName;
     caught?: Partial<Record<InventoryItemName, number>>;
   };
-  dailyAttempts: {
+  dailyAttempts?: {
     [date: string]: number;
   };
 };

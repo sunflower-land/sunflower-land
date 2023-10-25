@@ -135,7 +135,7 @@ const BaitSelection: React.FC<{
 
   const today = new Date().toISOString().split("T")[0];
   const dailyFishingMax = getDailyFishingLimit(state.bumpkin as Bumpkin);
-  const dailyFishingCount = state.fishing.dailyAttempts[today] ?? 0;
+  const dailyFishingCount = state.fishing.dailyAttempts?.[today] ?? 0;
   const fishingLimitReached = dailyFishingCount >= dailyFishingMax;
   const missingRod = !state.inventory["Rod"] || state.inventory.Rod.lt(1);
 
