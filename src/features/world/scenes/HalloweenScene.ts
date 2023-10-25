@@ -9,6 +9,11 @@ import { CONFIG } from "lib/config";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
+    npc: "phantom face",
+    x: 726,
+    y: 280,
+  },
+  {
     x: 400,
     y: 400,
     npc: "pumpkin' pete",
