@@ -19,6 +19,7 @@ import { Bert } from "./npcs/Bert";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { Donations } from "./donations/Donations";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -42,7 +43,7 @@ interface Props {
 export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const [npc, setNpc] = useState<NPCName>();
+  const [npc, setNpc] = useState<NPCName>("phantom face");
 
   const { openModal } = useContext(ModalContext);
 
@@ -66,6 +67,16 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
         centered
         onHide={closeModal}
       >
+        {npc === "phantom face" && (
+          <CloseButtonPanel
+            title="Enjoying Halloween?"
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["phantom face"]}
+          >
+            <Donations />
+          </CloseButtonPanel>
+        )}
+
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <Grubnuk onClose={closeModal} />}
