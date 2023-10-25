@@ -924,4 +924,15 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: lightning,
       boostedItemIcon: SUNNYSIDE.icons.fish,
     },
+    Trident: {
+      shortDescription: "Chance +1 Fish",
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+    "Bucket O' Worms": {
+      shortDescription: "+1 Worm",
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
   };
