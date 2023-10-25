@@ -26,7 +26,7 @@ import { Bumpkin, Order } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC } from "features/island/bumpkin/components/NPC";
 
-import { NPC_WEARABLES } from "lib/npcs";
+import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { getDayOfYear, secondsToString } from "lib/utils/time";
 import { acknowledgeOrders, generateDeliveryMessage } from "../lib/delivery";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
@@ -61,9 +61,19 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
 
-  const orders = delivery.orders
+  let orders = delivery.orders
     .filter((order) => Date.now() >= order.readyAt)
     .sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1));
+
+  if (!hasFeatureAccess(inventory, "BEACH")) {
+    orders = orders.filter(
+      (o) =>
+        // Filter out beach NPCs
+        !(
+          ["corale", "tango", "finley", "finn", "miranda"] as NPCName[]
+        ).includes(o.from)
+    );
+  }
 
   const skippedAt = delivery.skippedAt ?? 0;
 
