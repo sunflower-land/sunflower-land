@@ -2,6 +2,7 @@ import { GameState, InventoryItemName } from "./game";
 import { SFLDiscount } from "../lib/SFLDiscount";
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "./bumpkin";
+import { hasFeatureAccess } from "lib/flags";
 
 export type StylistWearable = {
   sfl: Decimal;
@@ -161,6 +162,27 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
     from: new Date("2023-10-01"),
     to: new Date("2023-11-01"),
   },
+  ...(hasFeatureAccess(game.inventory, "HALLOWEEN")
+    ? {
+        "Pumpkin Shirt": {
+          sfl: new Decimal(0),
+          ingredients: {
+            "Crow Feather": new Decimal(100),
+            Pumpkin: new Decimal(500),
+          },
+          from: new Date("2023-10-25"),
+          to: new Date("2023-11-01"),
+        },
+        "Skull Shirt": {
+          sfl: new Decimal(0),
+          ingredients: {
+            "Block Buck": new Decimal(10),
+          },
+          from: new Date("2023-10-25"),
+          to: new Date("2023-11-01"),
+        },
+      }
+    : {}),
 });
 
 export const STYLIST_WEARABLES: (game: GameState) => ShopWearables = (
