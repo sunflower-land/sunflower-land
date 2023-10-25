@@ -60,8 +60,6 @@ import goblinLantern from "assets/decorations/lanterns/goblin_lantern.png";
 import poppy from "assets/sfts/poppy.png";
 import kernaldo from "assets/sfts/kernaldo.png";
 
-import ironStone from "assets/resources/iron_small.png";
-
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
 import emeraldTurtle from "assets/sfts/aoe/emerald_turtle.webp";
@@ -2777,7 +2775,7 @@ export const ITEM_DETAILS: Items = {
       labelType: "success",
       shortDescription: "+0.1 Iron",
       boostTypeIcon: powerup,
-      boostedItemIcon: ironStone,
+      boostedItemIcon: iron,
     },
     itemType: "collectible",
   },
