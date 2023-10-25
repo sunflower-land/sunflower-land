@@ -11,6 +11,8 @@ import { useActor } from "@xstate/react";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Panel } from "components/ui/Panel";
 import { SpeakingText } from "features/game/components/SpeakingModal";
+import { hasNewOrders } from "features/island/delivery/lib/delivery";
+import { hasNewChores } from "features/helios/components/hayseedHank/lib/chores";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `travel-read.${host}-${window.location.pathname}`;
@@ -39,6 +41,9 @@ export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const [showIntro, setShowIntro] = React.useState(!hasRead());
 
+  const delivery = gameState.context.state.delivery;
+  const chores = gameState.context.state.chores;
+
   return (
     <>
       <Modal
@@ -53,19 +58,16 @@ export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
             <SpeakingText
               message={[
                 {
-                  text: "Howdy Traveller, ready to set sail?",
+                  text: "Hey Traveller! Ready to explore?",
                 },
                 {
-                  text: "Visit the Pumpkin Plaza to complete Deliveries and Chores to gain SFL!",
+                  text: "Sunflower Land is filled with exciting islands where you can complete deliveries, craft rare NFTs and even dig for treasure!",
                 },
                 {
-                  text: "Or try your hand digging treasure at the Beach!",
+                  text: "Different locations bring different opportunities to spend your hard earned resources.",
                 },
                 {
-                  text: " Different locations bring different opportunities!",
-                },
-                {
-                  text: "At any time click the travel button to return home!",
+                  text: "At any time click the travel button to return home.",
                 },
               ]}
               onClose={() => {
@@ -79,8 +81,16 @@ export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
             onClose={onClose}
             tabs={[
               { icon: world, name: "Travel" },
-              { icon: SUNNYSIDE.icons.heart, name: "Deliveries" },
-              { icon: SUNNYSIDE.icons.expression_chat, name: "Chores" },
+              {
+                icon: SUNNYSIDE.icons.heart,
+                name: "Deliveries",
+                alert: hasNewOrders(delivery),
+              },
+              {
+                icon: SUNNYSIDE.icons.expression_chat,
+                name: "Chores",
+                alert: chores && hasNewChores(chores),
+              },
             ]}
             currentTab={tab}
             setCurrentTab={setTab}
