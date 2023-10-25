@@ -8,7 +8,24 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 
-const CONTRIBUTORS = ["Poro", "NetherZapdos"];
+const CONTRIBUTORS = [
+  "Netherzapdos",
+  "PoroTamphina",
+  "Neonlight",
+  "kohi",
+  "default",
+  "whaitte",
+  "Vergelsxtn",
+  "shinon",
+  "SFWhat",
+  "PurpleDrvnk",
+  "JCEii",
+  "Andando",
+  "Telk",
+  "frogchard",
+  "Ventin",
+  "LittleEins",
+];
 
 export const Donations: React.FC = () => {
   const [state, send] = useMachine(donationMachine);
@@ -40,8 +57,6 @@ export const Donations: React.FC = () => {
     });
   };
 
-  const isReady = false;
-
   return (
     <>
       {state.matches("idle") && (
@@ -57,7 +72,7 @@ export const Donations: React.FC = () => {
                 key={name}
                 type="chill"
                 icon={SUNNYSIDE.icons.heart}
-                className="mr-3"
+                className="mr-3 mb-1"
               >
                 {name}
               </Label>
@@ -95,17 +110,13 @@ export const Donations: React.FC = () => {
             <span className="text-xs text-shadow my-2">Amount in MATIC</span>
           </div>
 
-          {!isReady ? (
-            <p className="text-center">Coming soon...</p>
-          ) : (
-            <Button
-              className="w-full ml-1"
-              onClick={donate}
-              disabled={donation < 0.1}
-            >
-              <span className="text-xs whitespace-nowrap">Donate</span>
-            </Button>
-          )}
+          <Button
+            className="w-full ml-1"
+            onClick={donate}
+            disabled={donation < 0.1}
+          >
+            <span className="text-xs whitespace-nowrap">Donate</span>
+          </Button>
         </div>
       )}
       {state.matches("donating") && (
