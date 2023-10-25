@@ -7,8 +7,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 const BUMPKINS: NPCBumpkin[] = [
   {
     npc: "shelly",
-    x: 326,
-    y: 631,
+    x: 311,
+    y: 695,
   },
   {
     npc: "finn",
@@ -116,44 +116,6 @@ export class BeachScene extends BaseScene {
       frameRate: 5,
     });
     bird.play("bird_anim", true);
-
-    const fisher = this.add.sprite(316, 710, "fisher");
-    this.anims.create({
-      key: "fisher_waiting",
-      frames: this.anims.generateFrameNumbers("fisher", {
-        start: 24,
-        end: 32,
-      }),
-      repeat: -1,
-      frameRate: 10,
-    });
-    this.anims.create({
-      key: "fisher_reel",
-      frames: this.anims.generateFrameNumbers("fisher", {
-        start: 33,
-        end: 45,
-      }),
-      repeat: -1,
-      frameRate: 16,
-    });
-    fisher.play("fisher_waiting", true);
-
-    beachEvents.subscribe("reel", () => {
-      fisher.play("fisher_reel", true);
-
-      fisher.on(
-        Phaser.Animations.Events.ANIMATION_UPDATE,
-        (_: any, frame: any) => {
-          if (frame.textureFrame === 45) {
-            fisher.play("fisher_waiting", true);
-          }
-        }
-      );
-
-      fisher.on("animationcomplete-fisher_reel", () => {
-        fisher.play("fisher_waiting", true);
-      });
-    });
   }
 }
 
