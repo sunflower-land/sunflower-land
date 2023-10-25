@@ -43,7 +43,7 @@ interface Props {
 export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const [npc, setNpc] = useState<NPCName>("phantom face");
+  const [npc, setNpc] = useState<NPCName>();
 
   const { openModal } = useContext(ModalContext);
 

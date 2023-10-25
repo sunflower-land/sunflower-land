@@ -40,6 +40,8 @@ export const Donations: React.FC = () => {
     });
   };
 
+  const isReady = false;
+
   return (
     <>
       {state.matches("idle") && (
@@ -92,17 +94,18 @@ export const Donations: React.FC = () => {
             </div>
             <span className="text-xs text-shadow my-2">Amount in MATIC</span>
           </div>
-          <Button
-            className="w-full ml-1"
-            onClick={donate}
-            disabled={
-              // TODO - set community address
-              true
-              // donation < 0.1
-            }
-          >
-            <span className="text-xs whitespace-nowrap">Donate</span>
-          </Button>
+
+          {!isReady ? (
+            <p className="text-center">Coming soon...</p>
+          ) : (
+            <Button
+              className="w-full ml-1"
+              onClick={donate}
+              disabled={donation < 0.1}
+            >
+              <span className="text-xs whitespace-nowrap">Donate</span>
+            </Button>
+          )}
         </div>
       )}
       {state.matches("donating") && (
