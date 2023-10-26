@@ -5871,7 +5871,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1291.png",
     attributes: [
-      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Decoration", value: "Creatures" },
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
@@ -5881,7 +5881,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1292.png",
     attributes: [
-      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Decoration", value: "Creatures" },
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
@@ -5909,9 +5909,9 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A real treat this halloween!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/1295.png",
+    image_url: "../public/erc1155/images/1295.gif",
     attributes: [
-      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Decoration", value: "Creatures" },
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
@@ -5919,9 +5919,9 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Oh oh....someone was naughty!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/1296.png",
+    image_url: "../public/erc1155/images/1296.gif",
     attributes: [
-      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Decoration", value: "Creatures" },
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
@@ -5979,7 +5979,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/481.png",
-    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Decoration", value: "Monument" },
+    ],
   },
   "Chilling Banana": {
     description:
@@ -6004,7 +6007,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/483.png",
-    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Decoration", value: "Creatures" },
+    ],
   },
   "Kraken Tentacle": {
     description:
@@ -6012,6 +6018,9 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/484.png",
-    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Decoration", value: "Creatures" },
+    ],
   },
 };
