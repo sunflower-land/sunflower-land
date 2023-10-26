@@ -5837,8 +5837,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  "Sapo Docuras": {
-    description: "A real treat this halloween!",
+  "Lifeguard Ring": {
+    description: "Stay afloat with style, your seaside savior!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1289.png",
@@ -5847,13 +5847,73 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
-  "Sapo Travessuras": {
-    description: "Oh oh....someone was naughty!",
+  Surfboard: {
+    description: "Ride the waves of wonder, beach bliss on board!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/1290.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Hideaway Herman": {
+    description: "Herman's here to hide, but always peeks for a party!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1291.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Shifty Sheldon": {
+    description: "Sheldon's sly, always scuttling to the next sandy surprise!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1292.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Tiki Torch": {
+    description: "Light the night, tropical vibes burning bright!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1293.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Beach Umbrella": {
+    description: "Shade, shelter, and seaside chic in one sunny setup!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1294.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Sapo Docuras": {
+    description: "A real treat this halloween!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1295.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Sapo Travessuras": {
+    description: "Oh oh....someone was naughty!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1296.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Monument" },
       { trait_type: "Tradable", value: "Yes" },
     ],
   },

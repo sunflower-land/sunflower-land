@@ -194,6 +194,12 @@ import { PhantomBarracuda } from "./components/PhantomBarracuda";
 import { GildedSwordfish } from "./components/GildedSwordfish";
 import { SapoDocuras } from "./components/SapoDocuras";
 import { SapoTravessuras } from "./components/SapoTravessuras";
+import { LifeguardRing } from "./components/LifeguardRing";
+import { Surfboard } from "./components/Sunfboard";
+import { HideawayHerman } from "./components/HideawayHerman";
+import { ShiftySheldon } from "./components/ShiftySheldon";
+import { TikiTorch } from "./components/TikiTorch";
+import { BeachUmbrella } from "./components/BeachUmbrella";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -427,6 +433,14 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Radiant Ray": RadiantRay,
   "Phantom Barracuda": PhantomBarracuda,
   "Gilded Swordfish": GildedSwordfish,
+
+  // Catch the Kraken
+  "Lifeguard Ring": LifeguardRing,
+  Surfboard: Surfboard,
+  "Hideaway Herman": HideawayHerman,
+  "Shifty Sheldon": ShiftySheldon,
+  "Tiki Torch": TikiTorch,
+  "Beach Umbrella": BeachUmbrella,
 };
 // Need readonly versions for some troublesome components while in design mode
 

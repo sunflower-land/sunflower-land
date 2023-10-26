@@ -466,8 +466,15 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Crow Rock": 1286,
   "Mini Corn Maze": 1287,
   "White Crow": 1288,
-  "Sapo Docuras": 1289,
-  "Sapo Travessuras": 1290,
+
+  "Lifeguard Ring": 1289,
+  Surfboard: 1290,
+  "Hideaway Herman": 1291,
+  "Shifty Sheldon": 1292,
+  "Tiki Torch": 1293,
+  "Beach Umbrella": 1294,
+  "Sapo Docuras": 1295,
+  "Sapo Travessuras": 1296,
 
   //Beach Bounty
   "Pirate Bounty": 1301,
