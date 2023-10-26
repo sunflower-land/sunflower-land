@@ -6,6 +6,7 @@ import { Label } from "../containers/Label";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { AudioController } from "../lib/AudioController";
 import { CONFIG } from "lib/config";
+import { hasFeatureAccess } from "lib/flags";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -78,11 +79,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "betty",
     direction: "left",
   },
-  {
-    x: 33,
-    y: 321,
-    npc: "old salty",
-  },
+
   {
     x: 840,
     y: 291,
@@ -220,7 +217,19 @@ export class HalloweenScene extends BaseScene {
 
     super.create();
 
-    this.initialiseNPCs(PLAZA_BUMPKINS);
+    const bumpkins = PLAZA_BUMPKINS;
+
+    if (
+      !hasFeatureAccess(this.gameService.state.context.state.inventory, "BEACH")
+    ) {
+      bumpkins.push({
+        x: 20,
+        y: 318,
+        npc: "old salty",
+      });
+    }
+
+    this.initialiseNPCs(bumpkins);
 
     const auctionLabel = new Label(this, "AUCTIONS", "brown");
     auctionLabel.setPosition(601, 260);
