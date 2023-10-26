@@ -5408,7 +5408,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/626.png",
     attributes: [
       { trait_type: "Purpose", value: "Bait" },
-      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   Grub: {
@@ -5418,7 +5418,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/627.png",
     attributes: [
       { trait_type: "Purpose", value: "Bait" },
-      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Red Wiggler": {
@@ -5428,7 +5428,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/628.png",
     attributes: [
       { trait_type: "Purpose", value: "Bait" },
-      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Sprout Mix": {
