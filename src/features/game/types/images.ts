@@ -2865,7 +2865,7 @@ export const ITEM_DETAILS: Items = {
   "Knowledge Crab": {
     image: knowledgeCrab,
     description:
-      "The Knowledge Crab doubles your compost effects, making your soil treasures as rich as sea plunder!",
+      "The Knowledge Crab doubles your Sprout Mix effect, making your soil treasures as rich as sea plunder!",
   },
   Anchor: {
     image: anchor,
