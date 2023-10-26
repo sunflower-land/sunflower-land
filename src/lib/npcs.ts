@@ -511,7 +511,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   corale: {
     body: "Mermaid Potion",
-    hair: "Basic Hair",
+    hair: "White Long Hair",
     background: "Seashore Background",
     shoes: "Black Farmer Boots",
     tool: "Trident",

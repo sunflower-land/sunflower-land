@@ -2072,6 +2072,64 @@
           "width": 13.9571237159446,
           "x": 417.317999106744,
           "y": 687.807056721751
+        },
+        {
+          "height": 14.3092743500194,
+          "id": 290,
+          "name": "",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "fish_shop"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 17.2196352347691,
+          "x": 190.871168024835,
+          "y": 339.057043073341
+        },
+        {
+          "height": 23.7679472254559,
+          "id": 291,
+          "name": "",
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 24.4955374466434,
+          "x": 258.537058595266,
+          "y": 313.348855258052
+        },
+        {
+          "height": 17.2196352347692,
+          "id": 292,
+          "name": "",
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 32.0139697322468,
+          "x": 309.953434225844,
+          "y": 509.313154831199
+        },
+        {
+          "height": 46.080714008537,
+          "id": 293,
+          "name": "",
+          "properties": [
+            {
+              "name": "warp",
+              "type": "string",
+              "value": "plaza"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 9.21614280170741,
+          "x": 475.601474582848,
+          "y": 629.608071400854
         }
       ],
       "opacity": 1,
@@ -2169,7 +2227,7 @@
     }
   ],
   "nextlayerid": 84,
-  "nextobjectid": 290,
+  "nextobjectid": 294,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.8.4",
