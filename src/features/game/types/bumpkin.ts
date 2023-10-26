@@ -29,7 +29,9 @@ export type BumpkinBody =
   | "Infected Potion"
   | "Infernal Bumpkin Potion"
   | "Infernal Goblin Potion"
-  | "Pale Potion";
+  | "Pale Potion"
+  | "Squirrel Monkey Potion"
+  | "Mermaid Potion";
 
 export type BumpkinHair =
   | "Basic Hair"
@@ -527,6 +529,8 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Skinning Knife": 239,
   "Sunflower Rod": 240,
   "Tackle Box": 241,
+  "Mermaid Potion": 242,
+  "Squirrel Monkey Potion": 243,
 };
 
 // The reverse of above
@@ -827,6 +831,8 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Sunflower Rod": "tool",
   "Tackle Box": "tool",
   "Infernal Rod": "tool",
+  "Mermaid Potion": "body",
+  "Squirrel Monkey Potion": "body",
 };
 
 export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
@@ -917,5 +923,34 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+    },
+    "Sunflower Rod": {
+      shortDescription: "Chance +1 Fish",
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+    Trident: {
+      shortDescription: "Chance +1 Fish",
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+    "Bucket O' Worms": {
+      shortDescription: "+1 Worm",
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
+    "Luminous Anglerfish Topper": {
+      shortDescription: "+50% Fish XP",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+    "Angler Waders": {
+      shortDescription: "+10 Fish Limit",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
     },
   };

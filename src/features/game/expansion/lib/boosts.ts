@@ -12,6 +12,7 @@ import { CAKES } from "../../types/craftables";
 import {
   COOKABLE_CAKES,
   Consumable,
+  FISH_CONSUMABLES,
   isCookable,
 } from "features/game/types/consumables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -119,6 +120,14 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.1);
   }
 
+  if (
+    food.name in FISH_CONSUMABLES &&
+    equipped.hat === "Luminous Anglerfish Topper"
+  ) {
+    // 50% boost
+    boostedExp = boostedExp.mul(1.5);
+  }
+
   //Observatory is placed
   if (isCollectibleBuilt("Observatory", collectibles)) {
     boostedExp = boostedExp.mul(1.05);
@@ -135,7 +144,7 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.1);
   }
 
-  return boostedExp.toNumber();
+  return boostedExp.toDecimalPlaces(4).toNumber();
 };
 
 export const getOrderSellPrice = (bumpkin: Bumpkin, order: GrubShopOrder) => {

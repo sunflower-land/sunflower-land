@@ -22,6 +22,7 @@ type FeatureName =
   | "BUDS_DEPOSIT_FLOW"
   | "FISHING"
   | "BEACH"
+  | "HALLOWEEN"
   | "XSOLLA";
 
 type FeatureFlag = (inventory: GameState["inventory"]) => boolean;
@@ -35,6 +36,17 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   BUDS_DEPOSIT_FLOW: () => true,
   FISHING: defaultFeatureFlag,
   XSOLLA: testnetFeatureFlag,
+  HALLOWEEN: (inventory: GameState["inventory"]) => {
+    if (Date.now() > new Date("2023-11-01").getTime()) {
+      return false;
+    }
+
+    if (Date.now() > new Date("2023-10-27").getTime()) {
+      return true;
+    }
+
+    return defaultFeatureFlag(inventory);
+  },
   BEACH: (inventory: GameState["inventory"]) => {
     if (Date.now() > SEASONS["Catch the Kraken"].startDate.getTime()) {
       return true;

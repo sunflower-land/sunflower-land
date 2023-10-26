@@ -59,6 +59,13 @@ import bettyLantern from "assets/decorations/lanterns/betty_lantern.png";
 import goblinLantern from "assets/decorations/lanterns/goblin_lantern.png";
 import poppy from "assets/sfts/poppy.png";
 import kernaldo from "assets/sfts/kernaldo.png";
+import walrus from "assets/sfts/walrus.webp";
+import alba from "assets/sfts/alba.webp";
+import knowledgeCrab from "assets/sfts/knowledge_crab.webp";
+import anchor from "assets/sfts/anchor.webp";
+import chillingBanana from "assets/sfts/chilling_banana.webp";
+import rubberDucky from "assets/sfts/rubber_ducky.webp";
+import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
 
 import ironStone from "assets/resources/iron_small.png";
 
@@ -283,6 +290,9 @@ import bumpkinGanoush from "assets/food/bumpkin_ganoush.png";
 import eggplantCake from "assets/food/cakes/eggplant_cake.png";
 import cornBread from "assets/food/corn_bread.png";
 import popcorn from "assets/food/popcorn.png";
+import chowder from "assets/food/chowder.png";
+import gumbo from "assets/food/gumbo.png";
+import fermentedFish from "assets/food/fermented_fish.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -371,6 +381,12 @@ import observer from "src/assets/decorations/observer.webp";
 import crowRock from "src/assets/decorations/crow_rock.webp";
 import miniCornMaze from "src/assets/decorations/mini_corn_maze.webp";
 import whiteCrow from "src/assets/decorations/white_crow.webp";
+import lifeguardRing from "src/assets/decorations/lifeguard_ring.webp";
+import surfboard from "src/assets/decorations/surfboard.webp";
+import hideawayHerman from "src/assets/decorations/hideaway_herman.webp";
+import shiftySheldon from "src/assets/decorations/shifty_sheldon.webp";
+import tikiTorch from "src/assets/decorations/tiki_torch.webp";
+import beachUmbrella from "src/assets/decorations/beach_umbrella.webp";
 
 import pineTree from "src/assets/decorations/pine_tree.png";
 import fieldMaple from "src/assets/decorations/field_maple.webp";
@@ -494,6 +510,9 @@ import startlightTuna from "assets/fish/starlight_tuna.png";
 import radiantRay from "assets/fish/radiant_ray.png";
 import phantomBarracuda from "assets/fish/phantom_barracuda.png";
 import gildedSwordfish from "assets/fish/gilded_swordfish.png";
+
+import sapoDocuras from "assets/sfts/sapo_docuras.gif";
+import sapoTravessura from "assets/sfts/sapo_travessura.gif";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -1603,16 +1622,16 @@ export const ITEM_DETAILS: Items = {
     description: "Classic homegrown crunchy snack.",
   },
   Chowder: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: chowder,
     description:
       "Sailor's delight in a bowl! Dive in, there's treasure inside!",
   },
   Gumbo: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: gumbo,
     description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
   },
   "Fermented Fish": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: fermentedFish,
     description: "Daring delicacy! Unleash the Viking within with every bite!",
   },
 
@@ -2798,5 +2817,74 @@ export const ITEM_DETAILS: Items = {
       boostedItemIcon: gold,
     },
     itemType: "collectible",
+  },
+
+  "Sapo Docuras": {
+    description: "A real treat!",
+    image: sapoDocuras,
+  },
+  "Sapo Travessuras": {
+    description: "Oh oh...someone was naughty",
+    image: sapoTravessura,
+  },
+  // Catch the Kraken Season
+  "Lifeguard Ring": {
+    image: lifeguardRing,
+    description: "Stay afloat with style, your seaside savior!",
+  },
+  "Beach Umbrella": {
+    image: beachUmbrella,
+    description: "Shade, shelter, and seaside chic in one sunny setup!",
+  },
+  "Hideaway Herman": {
+    image: hideawayHerman,
+    description: "Herman's here to hide, but always peeks for a party!",
+  },
+  "Shifty Sheldon": {
+    image: shiftySheldon,
+    description: "Sheldon's sly, always scuttling to the next sandy surprise!",
+  },
+  "Tiki Torch": {
+    image: tikiTorch,
+    description: "Light the night, tropical vibes burning bright!",
+  },
+  Surfboard: {
+    image: surfboard,
+    description: "Ride the waves of wonder, beach bliss on board!",
+  },
+  Walrus: {
+    image: walrus,
+    description:
+      "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
+  },
+  Alba: {
+    image: alba,
+    description:
+      "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 fish!",
+  },
+  "Knowledge Crab": {
+    image: knowledgeCrab,
+    description:
+      "The Knowledge Crab doubles your Sprout Mix effect, making your soil treasures as rich as sea plunder!",
+  },
+  Anchor: {
+    image: anchor,
+    description:
+      "Drop anchor' with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
+  },
+  "Chilling Banana": {
+    image: chillingBanana,
+    description:
+      "Soak up the sun and snag an extra +0.5 bananas! Cool vibes, cooler rewards.",
+  },
+  "Rubber Ducky": {
+    image: rubberDucky,
+    description:
+      "Float on fun with this classic quacker, bringing bubbly joy to every corner!",
+  },
+  "Kraken Tentacle": {
+    image: krakenTentacle,
+    description:
+      "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
   },
 };

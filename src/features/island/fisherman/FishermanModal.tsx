@@ -10,7 +10,11 @@ import { Label } from "components/ui/Label";
 import { OuterPanel } from "components/ui/Panel";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
-import { Inventory, InventoryItemName } from "features/game/types/game";
+import {
+  Bumpkin,
+  Inventory,
+  InventoryItemName,
+} from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import {
@@ -22,6 +26,7 @@ import {
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
+import { getDailyFishingLimit } from "features/game/events/landExpansion/castRod";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -110,7 +115,6 @@ const BaitSelection: React.FC<{
       context: { state },
     },
   ] = useActor(gameService);
-
   const [showChum, setShowChum] = useState(false);
   const [chum, setChum] = useState<InventoryItemName | undefined>();
   const [bait, setBait] = useState<FishingBait>("Earthworm");
@@ -129,6 +133,10 @@ const BaitSelection: React.FC<{
     );
   }
 
+  const today = new Date().toISOString().split("T")[0];
+  const dailyFishingMax = getDailyFishingLimit(state.bumpkin as Bumpkin);
+  const dailyFishingCount = state.fishing.dailyAttempts?.[today] ?? 0;
+  const fishingLimitReached = dailyFishingCount >= dailyFishingMax;
   const missingRod = !state.inventory["Rod"] || state.inventory.Rod.lt(1);
 
   const catches = getKeys(FISH).filter((name) =>
@@ -234,6 +242,7 @@ const BaitSelection: React.FC<{
             </p>
           </div>
           <Button
+            disabled={fishingLimitReached}
             className={`h-[30px] w-[40px]`}
             onClick={() => setShowChum(true)}
           >
@@ -244,7 +253,13 @@ const BaitSelection: React.FC<{
         </div>
       )}
 
-      {missingRod && (
+      {fishingLimitReached && (
+        <Label className="mb-1" type="danger">
+          You have reached your daily fishing limit
+        </Label>
+      )}
+
+      {missingRod && !fishingLimitReached && (
         <Label className="mb-1" type="danger">
           You must first craft a rod
         </Label>
@@ -253,7 +268,9 @@ const BaitSelection: React.FC<{
       <Button
         onClick={() => onCast(bait, chum)}
         disabled={
-          missingRod || !state.inventory[bait as InventoryItemName]?.gte(1)
+          fishingLimitReached ||
+          missingRod ||
+          !state.inventory[bait as InventoryItemName]?.gte(1)
         }
       >
         <div className="flex items-center">

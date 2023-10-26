@@ -5811,8 +5811,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "Sailor's delight in a bowl! Dive in, there's treasure inside!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // image_url: "../public/erc1155/images/551.png",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/551.png",
     attributes: [
       { trait_type: "Purpose", value: "Consumable" },
       { trait_type: "Tradable", value: "No" },
@@ -5822,8 +5821,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // image_url: "../public/erc1155/images/552.png",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/552.png",
     attributes: [
       { trait_type: "Purpose", value: "Consumable" },
       { trait_type: "Tradable", value: "No" },
@@ -5833,11 +5831,154 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Daring delicacy! Unleash the Viking within with every bite!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // image_url: "../public/erc1155/images/553.png",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/553.png",
     attributes: [
       { trait_type: "Purpose", value: "Consumable" },
       { trait_type: "Tradable", value: "No" },
     ],
+  },
+  "Lifeguard Ring": {
+    description: "Stay afloat with style, your seaside savior!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1289.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  Surfboard: {
+    description: "Ride the waves of wonder, beach bliss on board!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1290.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Hideaway Herman": {
+    description: "Herman's here to hide, but always peeks for a party!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1291.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Shifty Sheldon": {
+    description: "Sheldon's sly, always scuttling to the next sandy surprise!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1292.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Tiki Torch": {
+    description: "Light the night, tropical vibes burning bright!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1293.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Beach Umbrella": {
+    description: "Shade, shelter, and seaside chic in one sunny setup!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1294.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Sapo Docuras": {
+    description: "A real treat this halloween!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1295.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Sapo Travessuras": {
+    description: "Oh oh....someone was naughty!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1296.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  Walrus: {
+    description:
+      "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/478.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  Alba: {
+    description:
+      "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 fish!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/479.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Knowledge Crab": {
+    description:
+      "The Knowledge Crab doubles your Sprout Mix effect, making your soil treasures as rich as sea plunder!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/480.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  Anchor: {
+    description:
+      "Drop anchor' with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/481.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Chilling Banana": {
+    description:
+      "Soak up the sun and snag an extra +0.5 bananas! Cool vibes, cooler rewards.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/482.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+
+  "Rubber Ducky": {
+    description:
+      "Float on fun with this classic quacker, bringing bubbly joy to every corner!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/483.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Kraken Tentacle": {
+    description:
+      "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/484.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
   },
 };

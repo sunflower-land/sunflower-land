@@ -3,6 +3,7 @@ import { useActor } from "@xstate/react";
 import Modal from "react-bootstrap/esm/Modal";
 
 import logo from "assets/brand/logo_v2.png";
+import halloween from "assets/brand/halloween_logo.png";
 import sparkle from "assets/fx/sparkle2.gif";
 
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -66,7 +67,12 @@ export const Auth: React.FC = () => {
                 right: `${PIXEL_SCALE * 0}px`,
               }}
             />
-            <img id="logo" src={logo} className="w-full" />
+            {Date.now() > new Date("2023-10-27").getTime() &&
+            Date.now() < new Date("2023-11-01").getTime() ? (
+              <img id="logo" src={halloween} className="w-full" />
+            ) : (
+              <img id="logo" src={logo} className="w-full" />
+            )}
           </div>
         </div>
         <Panel className="pb-1">

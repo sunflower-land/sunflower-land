@@ -523,7 +523,7 @@ export const OFFLINE_FARM: GameState = {
     },
   },
   chickens: {},
-  fishing: { weather: "Sunny", wharf: {} },
+  fishing: { weather: "Sunny", wharf: {}, dailyAttempts: {} },
 
   airdrops: [],
 
@@ -660,9 +660,8 @@ export const OFFLINE_FARM: GameState = {
       {
         id: "123",
         createdAt: Date.now() - 23 * 60 * 60 * 1000,
-        completedAt: Date.now(),
         readyAt: 1690855045072,
-        from: "pumpkin' pete",
+        from: "corale",
         items: {
           Sunflower: 5,
           Pumpkin: 5,

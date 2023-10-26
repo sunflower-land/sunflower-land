@@ -35,6 +35,11 @@ import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { SquareIcon } from "components/ui/SquareIcon";
 
+const WORM_OUTPUT: Record<ComposterName, string> = {
+  "Compost Bin": "2-4",
+  "Premium Composter": "2-3",
+  "Turbo Composter": "1-3",
+};
 export const COMPOSTER_IMAGES: Record<
   ComposterName,
   {
@@ -303,7 +308,7 @@ export const ComposterModal: React.FC<Props> = ({
                 />
                 <div className="block">
                   <p className="text-xs mb-1">
-                    3-5 {composterDetails[composterName].bait}s
+                    {`${WORM_OUTPUT[composterName]} ${composterDetails[composterName].bait}s`}
                   </p>
                   <Label
                     icon={SUNNYSIDE.tools.fishing_rod}

@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
 import fanArt from "assets/fanArt/dawn_breaker.png";
 import fanArt2 from "assets/fanArt/vergels.png";
-import { Donations } from "./donations/Donations";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
@@ -134,19 +133,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           >
             {gameState.matches("autosaving") ? "Saving..." : "Go home"}
           </Button>
-        </CloseButtonPanel>
-      </Modal>
-
-      <Modal
-        centered
-        show={interactable === "homeless_man"}
-        onHide={closeModal}
-      >
-        <CloseButtonPanel
-          title="Want to support more events like this?!"
-          onClose={closeModal}
-        >
-          <Donations />
         </CloseButtonPanel>
       </Modal>
 

@@ -97,6 +97,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       mmoService={mmoService}
       scene={name as SceneId}
       isCommunity={isCommunity}
+      inventory={gameState.context.state.inventory}
     />
   );
 };
