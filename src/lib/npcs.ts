@@ -49,7 +49,8 @@ export type NPCName =
   | "corale"
   | "goldtooth"
   | "daphne"
-  | "miranda";
+  | "miranda"
+  | "damien";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -437,8 +438,9 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   "farmer flesh": {
     body: "Infected Potion",
     hair: "Sun Spots",
+    hat: "Pumpkin Hat",
     pants: "Farmer Overalls",
-    shirt: "Red Farmer Shirt",
+    shirt: "Pumpkin Shirt",
     tool: "Farmer Pitchfork",
     shoes: "Black Farmer Boots",
     background: "Cemetery Background",
@@ -447,7 +449,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     body: "Infected Potion",
     hair: "Rancher Hair",
     pants: "Farmer Overalls",
-    shirt: "Red Farmer Shirt",
+    shirt: "Skull Shirt",
     tool: "Parsnip",
     shoes: "Black Farmer Boots",
     background: "Cemetery Background",
@@ -532,6 +534,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     body: "Light Brown Farmer Potion",
     shirt: "Pirate Leather Polo",
     hair: "Ash Ponytail",
+    tool: "Mushroom Lamp",
+    pants: "Pirate Pants",
+    background: "Seashore Background",
+    shoes: "Brown Boots",
+  },
+  damien: {
+    body: "Light Brown Farmer Potion",
+    shirt: "Pumpkin Shirt",
+    hat: "Skull Hat",
+    hair: "Sun Spots",
     tool: "Mushroom Lamp",
     pants: "Pirate Pants",
     background: "Seashore Background",
