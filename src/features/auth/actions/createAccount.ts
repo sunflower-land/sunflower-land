@@ -119,6 +119,8 @@ export async function createAccount({
   await wallet.overrideProvider();
 
   if (hasFeatureAccess({}, "NEW_FARM_FLOW") && !hasEnoughMatic) {
+    saveSignupMethod("freeMint");
+
     await signUp({
       charity,
       captcha,
@@ -127,6 +129,8 @@ export async function createAccount({
       transactionId,
     });
   } else {
+    saveSignupMethod("paidMint");
+
     const transaction = await signTransaction({
       charity,
       token,
@@ -163,4 +167,17 @@ export function getReferrerId() {
   }
 
   return Number(item);
+}
+
+const SIGN_UP_LS_KEY = `sb_wiz.signup-key.v.${host}`;
+
+type SignupMethod = "paidMint" | "freeMint";
+export function saveSignupMethod(id: SignupMethod) {
+  localStorage.setItem(SIGN_UP_LS_KEY, id);
+}
+
+export function getSignupMethod(): SignupMethod {
+  const item = localStorage.getItem(SIGN_UP_LS_KEY) as "paidMint" | "freeMint";
+
+  return item || undefined;
 }
