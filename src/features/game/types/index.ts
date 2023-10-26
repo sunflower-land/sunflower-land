@@ -150,6 +150,13 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Lab Grown Carrot": 475,
   "Lab Grown Pumpkin": 476,
   "Lab Grown Radish": 477,
+  Walrus: 478,
+  Alba: 479,
+  "Knowledge Crab": 480,
+  Anchor: 481,
+  "Chilling Banana": 482,
+  "Rubber Ducky": 483,
+  "Kraken Tentacle": 484,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,

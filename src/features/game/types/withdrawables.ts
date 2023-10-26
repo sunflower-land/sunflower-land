@@ -562,6 +562,14 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Freya Fox": () => true,
   "Queen Cornelia": () => canWithdrawTimebasedItem(new Date("2023-10-14")),
   "White Crow": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
+
+  Walrus: () => canWithdrawTimebasedItem(new Date("01-28-2024")),
+  Alba: () => canWithdrawTimebasedItem(new Date("01-19-2024")),
+  "Knowledge Crab": () => canWithdrawTimebasedItem(new Date("01-07-2024")),
+  Anchor: () => canWithdrawTimebasedItem(new Date("01-28-2024")),
+  "Chilling Banana": () => canWithdrawTimebasedItem(new Date("01-13-2024")),
+  "Rubber Ducky": () => canWithdrawTimebasedItem(new Date("01-10-2024")),
+  "Kraken Tentacle": () => canWithdrawTimebasedItem(new Date("01-22-2024")),
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
@@ -1093,9 +1101,11 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Reel Fishing Vest": () => false,
   "Clown Shirt": () => false,
   "Luminous Anglerfish Topper": () => false,
-  "Abyssal Angler Hat": () => false,
+  "Abyssal Angler Hat": () =>
+    canWithdrawTimebasedItem(new Date("Thu Jan 4 2024 09:00:00 GMT+1000")),
   Harpoon: () => false,
-  "Ancient Rod": () => false,
+  "Ancient Rod": () =>
+    canWithdrawTimebasedItem(new Date("Thu Jan 25 2024 09:00:00 GMT+1000")),
   "Fishing Hat": () => false,
   Trident: () => false,
   "Bucket O' Worms": () => false,

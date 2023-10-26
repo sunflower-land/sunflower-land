@@ -59,6 +59,13 @@ import bettyLantern from "assets/decorations/lanterns/betty_lantern.png";
 import goblinLantern from "assets/decorations/lanterns/goblin_lantern.png";
 import poppy from "assets/sfts/poppy.png";
 import kernaldo from "assets/sfts/kernaldo.png";
+import walrus from "assets/sfts/walrus.webp";
+import alba from "assets/sfts/alba.webp";
+import knowledgeCrab from "assets/sfts/knowledge_crab.webp";
+import anchor from "assets/sfts/anchor.webp";
+import chillingBanana from "assets/sfts/chilling_banana.webp";
+import rubberDucky from "assets/sfts/rubber_ducky.webp";
+import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
 
 import ironStone from "assets/resources/iron_small.png";
 
@@ -2844,5 +2851,40 @@ export const ITEM_DETAILS: Items = {
   Surfboard: {
     image: surfboard,
     description: "Ride the waves of wonder, beach bliss on board!",
+  },
+  Walrus: {
+    image: walrus,
+    description:
+      "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
+  },
+  Alba: {
+    image: alba,
+    description:
+      "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 fish!",
+  },
+  "Knowledge Crab": {
+    image: knowledgeCrab,
+    description:
+      "The Knowledge Crab doubles your Sprout Mix effect, making your soil treasures as rich as sea plunder!",
+  },
+  Anchor: {
+    image: anchor,
+    description:
+      "Drop anchor' with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
+  },
+  "Chilling Banana": {
+    image: chillingBanana,
+    description:
+      "Soak up the sun and snag an extra +0.5 bananas! Cool vibes, cooler rewards.",
+  },
+  "Rubber Ducky": {
+    image: rubberDucky,
+    description:
+      "Float on fun with this classic quacker, bringing bubbly joy to every corner!",
+  },
+  "Kraken Tentacle": {
+    image: krakenTentacle,
+    description:
+      "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
   },
 };
