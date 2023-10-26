@@ -177,7 +177,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
                     getFoodExpBoost(
                       CONSUMABLES[selectedItem as ConsumableName],
                       gameState.bumpkin as Bumpkin,
-                      gameState.collectibles
+                      gameState.collectibles,
+                      gameState.buds ?? {}
                     )
                   )
                 : undefined,

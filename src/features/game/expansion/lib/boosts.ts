@@ -3,6 +3,7 @@ import Decimal from "decimal.js-light";
 import {
   Bumpkin,
   Collectibles,
+  GameState,
   GrubShopOrder,
   Inventory,
 } from "../../types/game";
@@ -17,6 +18,7 @@ import {
 } from "features/game/types/consumables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { getSeasonalBanner } from "features/game/types/seasons";
+import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
 
 const crops = CROPS();
 const cakes = CAKES();
@@ -100,7 +102,8 @@ export const getCookingTime = (
 export const getFoodExpBoost = (
   food: Consumable,
   bumpkin: Bumpkin,
-  collectibles: Collectibles
+  collectibles: Collectibles,
+  buds: NonNullable<GameState["buds"]>
 ): number => {
   let boostedExp = new Decimal(food.experience);
   const { skills, equipped } = bumpkin;
@@ -139,6 +142,8 @@ export const getFoodExpBoost = (
   ) {
     boostedExp = boostedExp.mul(1.2);
   }
+
+  boostedExp = boostedExp.mul(1 + getBudExperienceBoosts(buds, food));
 
   if (collectibles[getSeasonalBanner()]) {
     boostedExp = boostedExp.mul(1.1);
