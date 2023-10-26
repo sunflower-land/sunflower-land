@@ -5928,7 +5928,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   Alba: {
     description:
-      "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 fish!",
+      "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 basic fish!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     // image_url: "../public/erc1155/images/479.png",

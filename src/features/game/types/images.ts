@@ -2860,7 +2860,7 @@ export const ITEM_DETAILS: Items = {
   Alba: {
     image: alba,
     description:
-      "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 fish!",
+      "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 basic fish!",
   },
   "Knowledge Crab": {
     image: knowledgeCrab,
