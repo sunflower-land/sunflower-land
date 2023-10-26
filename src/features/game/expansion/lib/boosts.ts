@@ -143,7 +143,7 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.2);
   }
 
-  boostedExp = boostedExp.mul(1 + getBudExperienceBoosts(buds, food));
+  boostedExp = boostedExp.mul(getBudExperienceBoosts(buds, food));
 
   if (collectibles[getSeasonalBanner()]) {
     boostedExp = boostedExp.mul(1.1);

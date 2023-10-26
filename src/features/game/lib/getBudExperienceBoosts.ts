@@ -12,7 +12,7 @@ const getTypeBoost = (bud: Bud, food: Consumable): number => {
 };
 
 const getBudExperienceBoost = (bud: Bud, food: Consumable): number => {
-  return getAuraBoost(bud) * getTypeBoost(bud, food);
+  return 1 + getAuraBoost(bud) * getTypeBoost(bud, food);
 };
 
 export const getBudExperienceBoosts = (
@@ -25,5 +25,5 @@ export const getBudExperienceBoosts = (
     .map((bud) => getBudExperienceBoost(bud, food));
 
   // Get the strongest boost from all the buds on the farm
-  return Number(Math.max(...boosts, 0).toFixed(4));
+  return Number(Math.max(...boosts, 1).toFixed(4));
 };

@@ -16,11 +16,11 @@ const NON_BOOSTED_TRAITS: Omit<Bud, "type"> = {
 };
 
 describe("getBudExperienceBoosts", () => {
-  it("returns 0 if no buds", () => {
-    expect(getBudExperienceBoosts({}, CONSUMABLES["Chowder"])).toEqual(0);
+  it("returns 1 if no buds", () => {
+    expect(getBudExperienceBoosts({}, CONSUMABLES["Chowder"])).toEqual(1);
   });
 
-  it("returns 0 if no port buds", () => {
+  it("returns 1 if no port buds", () => {
     expect(
       getBudExperienceBoosts(
         {
@@ -31,10 +31,10 @@ describe("getBudExperienceBoosts", () => {
         },
         CONSUMABLES["Chowder"]
       )
-    ).toEqual(0);
+    ).toEqual(1);
   });
 
-  it("returns 0.1 if Port type", () => {
+  it("returns 1.1 if Port type", () => {
     expect(
       getBudExperienceBoosts(
         {
@@ -45,10 +45,10 @@ describe("getBudExperienceBoosts", () => {
         },
         CONSUMABLES["Chowder"]
       )
-    ).toEqual(0.1);
+    ).toEqual(1.1);
   });
 
-  it("returns 0.105 if Port type and Basic Aura", () => {
+  it("returns 1.105 if Port type and Basic Aura", () => {
     expect(
       getBudExperienceBoosts(
         {
@@ -60,10 +60,10 @@ describe("getBudExperienceBoosts", () => {
         },
         CONSUMABLES["Chowder"]
       )
-    ).toEqual(0.105);
+    ).toEqual(1.105);
   });
 
-  it("returns 0.12 if Port type and Green Aura", () => {
+  it("returns 1.12 if Port type and Green Aura", () => {
     expect(
       getBudExperienceBoosts(
         {
@@ -75,10 +75,10 @@ describe("getBudExperienceBoosts", () => {
         },
         CONSUMABLES["Chowder"]
       )
-    ).toEqual(0.12);
+    ).toEqual(1.12);
   });
 
-  it("returns 0.2 if Port type and Rare Aura", () => {
+  it("returns 1.2 if Port type and Rare Aura", () => {
     expect(
       getBudExperienceBoosts(
         {
@@ -90,10 +90,10 @@ describe("getBudExperienceBoosts", () => {
         },
         CONSUMABLES["Chowder"]
       )
-    ).toEqual(0.2);
+    ).toEqual(1.2);
   });
 
-  it("returns 0.5 if Port type and Mythical Aura", () => {
+  it("returns 1.5 if Port type and Mythical Aura", () => {
     expect(
       getBudExperienceBoosts(
         {
@@ -105,7 +105,7 @@ describe("getBudExperienceBoosts", () => {
         },
         CONSUMABLES["Chowder"]
       )
-    ).toEqual(0.5);
+    ).toEqual(1.5);
   });
 
   it("returns the best boost if multiple buds", () => {
@@ -130,7 +130,7 @@ describe("getBudExperienceBoosts", () => {
         },
         CONSUMABLES["Chowder"]
       )
-    ).toEqual(0.5);
+    ).toEqual(1.5);
   });
 
   it("filters out buds that are not placed", () => {
@@ -146,6 +146,6 @@ describe("getBudExperienceBoosts", () => {
         },
         CONSUMABLES["Chowder"]
       )
-    ).toEqual(0);
+    ).toEqual(1);
   });
 });
