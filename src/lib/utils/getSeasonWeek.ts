@@ -19,5 +19,5 @@ export function getSeasonWeek(): SeasonWeek {
     throw new Error("The current date is beyond the end date");
   }
 
-  return Math.min(Math.max(totalWeeks + 1, 1), 12) as SeasonWeek; // Return the week number, minimum is 1, maximum is 12
+  return Math.min(Math.max(totalWeeks + 1, 1), 13) as SeasonWeek; // Return the week number, minimum is 1, maximum is 12
 }
