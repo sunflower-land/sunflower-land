@@ -200,6 +200,13 @@ import { HideawayHerman } from "./components/HideawayHerman";
 import { ShiftySheldon } from "./components/ShiftySheldon";
 import { TikiTorch } from "./components/TikiTorch";
 import { BeachUmbrella } from "./components/BeachUmbrella";
+import { Walrus } from "./components/Walrus";
+import { Alba } from "./components/Alba";
+import { KnowledgeCrab } from "./components/KnowledgeCrab";
+import { Anchor } from "./components/Anchor";
+import { ChillingBanana } from "./components/ChillingBanana";
+import { RubberDucky } from "./components/RubberDucky";
+import { KrakenTentacle } from "./components/KrakenTentacle";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -441,6 +448,13 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Shifty Sheldon": ShiftySheldon,
   "Tiki Torch": TikiTorch,
   "Beach Umbrella": BeachUmbrella,
+  Walrus: Walrus,
+  Alba: Alba,
+  "Knowledge Crab": KnowledgeCrab,
+  Anchor: Anchor,
+  "Chilling Banana": ChillingBanana,
+  "Rubber Ducky": RubberDucky,
+  "Kraken Tentacle": KrakenTentacle,
 };
 // Need readonly versions for some troublesome components while in design mode
 
