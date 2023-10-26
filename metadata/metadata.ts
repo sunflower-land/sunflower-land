@@ -4433,6 +4433,11 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Extra Mermaid Scales from Deliveries",
         value: 2,
       },
+      {
+        display_type: "boost_percentage",
+        trait_type: "XP increase during Catch the Kraken Season",
+        value: 10,
+      },
     ],
   },
   "Luminous Lantern": {
@@ -5433,6 +5438,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/629.png",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
+      { trait_type: "Purpose", value: "Fertiliser" },
       {
         display_type: "boost_number",
         trait_type: "Increase Crop Yield",
@@ -5449,6 +5455,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/630.png",
     attributes: [
       { trait_type: "Boost", value: "Fruit" },
+      { trait_type: "Purpose", value: "Fertiliser" },
       {
         display_type: "boost_number",
         trait_type: "Increase Fruit Yield",
@@ -5465,6 +5472,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/631.png",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
+      { trait_type: "Purpose", value: "Fertiliser" },
       {
         display_type: "boost_percentage",
         trait_type: "Crop Growth Time",
