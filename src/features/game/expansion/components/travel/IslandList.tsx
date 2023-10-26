@@ -15,8 +15,8 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import lockIcon from "assets/skills/lock.png";
 import levelUpIcon from "assets/icons/level_up.png";
 import goblin from "assets/buildings/goblin_sign.png";
-//import sunflorea from "assets/land/islands/sunflorea.png";
-//import snowman from "assets/npcs/snowman.png";
+import lightning from "assets/icons/lightning.png";
+
 import land from "assets/land/islands/island.webp";
 import blueBottle from "assets/decorations/blue_bottle.webp";
 
@@ -208,13 +208,7 @@ export const IslandList: React.FC<IslandListProps> = ({
               >
                 Deliveries
               </Label>,
-              <Label
-                type="default"
-                key="chores"
-                icon={SUNNYSIDE.icons.expression_chat}
-              >
-                Chores
-              </Label>,
+
               <Label
                 type="default"
                 key="shopping"
@@ -224,6 +218,28 @@ export const IslandList: React.FC<IslandListProps> = ({
               </Label>,
               <Label type="vibrant" key="auctions" icon={SUNNYSIDE.icons.timer}>
                 Auctions
+              </Label>,
+            ],
+          },
+        ]
+      : []),
+    ...(hasFeatureAccess(inventory, "BEACH")
+      ? [
+          {
+            name: "Beach",
+            levelRequired: 1 as BumpkinLevel,
+            image: SUNNYSIDE.resource.crab,
+            path: `/world/beach`,
+            labels: [
+              <Label
+                type="default"
+                key="treasure_island"
+                icon={SUNNYSIDE.icons.heart}
+              >
+                Deliveries
+              </Label>,
+              <Label type="vibrant" key="tentacle" icon={lightning}>
+                Catch the Kraken
               </Label>,
             ],
           },
@@ -245,25 +261,7 @@ export const IslandList: React.FC<IslandListProps> = ({
           },
         ]
       : []),
-    ...(hasFeatureAccess(inventory, "BEACH")
-      ? [
-          {
-            name: "Beach",
-            levelRequired: 1 as BumpkinLevel,
-            image: SUNNYSIDE.resource.crab,
-            path: `/world/beach`,
-            labels: [
-              <Label
-                type="vibrant"
-                key="treasure_island"
-                icon={SUNNYSIDE.icons.treasure}
-              >
-                Treasure Island
-              </Label>,
-            ],
-          },
-        ]
-      : []),
+
     {
       name: "Helios",
       levelRequired: 1 as BumpkinLevel,
