@@ -67,8 +67,6 @@ import chillingBanana from "assets/sfts/chilling_banana.webp";
 import rubberDucky from "assets/sfts/rubber_ducky.webp";
 import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
 
-import ironStone from "assets/resources/iron_small.png";
-
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
 import emeraldTurtle from "assets/sfts/aoe/emerald_turtle.webp";
@@ -2796,7 +2794,7 @@ export const ITEM_DETAILS: Items = {
       labelType: "success",
       shortDescription: "+0.1 Iron",
       boostTypeIcon: powerup,
-      boostedItemIcon: ironStone,
+      boostedItemIcon: iron,
     },
     itemType: "collectible",
   },
