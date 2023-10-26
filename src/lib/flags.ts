@@ -23,7 +23,8 @@ type FeatureName =
   | "FISHING"
   | "BEACH"
   | "HALLOWEEN"
-  | "XSOLLA";
+  | "XSOLLA"
+  | "BANANA";
 
 type FeatureFlag = (inventory: GameState["inventory"]) => boolean;
 
@@ -54,6 +55,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
 
     return defaultFeatureFlag(inventory);
   },
+  BANANA: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (
