@@ -191,7 +191,7 @@ export const IslandList: React.FC<IslandListProps> = ({
           {
             name: "Pumpkin Plaza",
             levelRequired: 1 as BumpkinLevel,
-            image: CROP_LIFECYCLE.Pumpkin.ready,
+            image: CROP_LIFECYCLE.Pumpkin.crop,
             path: `/world/plaza`,
             labels: [
               <Label

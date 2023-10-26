@@ -9,6 +9,7 @@ import selectBoxBR from "assets/ui/select/selectbox_br.png";
 import selectBoxTL from "assets/ui/select/selectbox_tl.png";
 import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import sfl from "assets/icons/token_2.png";
+import worldIcon from "assets/icons/world_small.png";
 import heartBg from "assets/ui/heart_bg.png";
 import chest from "assets/icons/chest.png";
 
@@ -39,6 +40,17 @@ import { secondsTillReset } from "features/helios/components/hayseedHank/Hayseed
 import { ResizableBar } from "components/ui/ProgressBar";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
+import { Label } from "components/ui/Label";
+
+// Bumpkins
+export const BEACH_BUMPKINS: NPCName[] = [
+  "corale",
+  "shelly",
+  "tango",
+  "finn",
+  "finley",
+  "miranda",
+];
 
 interface Props {
   selectedId?: string;
@@ -464,8 +476,15 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                     id: previewOrder.id,
                   })}
                 </p>
-                {hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
-                  <p>{`I'll be waiting for you in the Plaza.`}</p>
+
+                {BEACH_BUMPKINS.includes(previewOrder.from) ? (
+                  <Label type="default" icon={worldIcon} className="ml-1">
+                    Beach
+                  </Label>
+                ) : (
+                  <Label type="default" icon={worldIcon} className="ml-1">
+                    Pumpkin Plaza
+                  </Label>
                 )}
               </div>
               <div className="pt-1 pb-2">
