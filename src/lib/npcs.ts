@@ -472,7 +472,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   shelly: {
     body: "Beige Farmer Potion",
-    hair: "Rancher Hair",
+    hair: "White Long Hair",
     hat: "Lifeguard Hat",
     shirt: "Lifeguard Shirt",
     pants: "Lifeguard Pants",
