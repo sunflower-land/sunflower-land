@@ -5925,4 +5925,68 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
+  Walrus: {
+    description:
+      "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/478.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  Alba: {
+    description:
+      "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 fish!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/479.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Knowledge Crab": {
+    description:
+      "The Knowledge Crab doubles your Sprout Mix effect, making your soil treasures as rich as sea plunder!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/480.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  Anchor: {
+    description:
+      "Drop anchor' with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/481.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Chilling Banana": {
+    description:
+      "Soak up the sun and snag an extra +0.5 bananas! Cool vibes, cooler rewards.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/482.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+
+  "Rubber Ducky": {
+    description:
+      "Float on fun with this classic quacker, bringing bubbly joy to every corner!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/483.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Kraken Tentacle": {
+    description:
+      "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    // image_url: "../public/erc1155/images/484.png",
+    image_url: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
 };
