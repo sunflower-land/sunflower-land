@@ -42,7 +42,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
       return false;
     }
 
-    if (Date.now() > new Date("2023-10-27").getTime()) {
+    if (Date.now() > new Date("2023-10-26").getTime()) {
       return true;
     }
 

@@ -25,6 +25,8 @@ import classNames from "classnames";
 import { SignIn } from "./components/SignIn";
 import { CreateWallet } from "./components/CreateWallet";
 import { BuyWithPoko } from "./components/BuyWithPoko";
+import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -67,9 +69,18 @@ export const Auth: React.FC = () => {
                 right: `${PIXEL_SCALE * 0}px`,
               }}
             />
-            {Date.now() > new Date("2023-10-27").getTime() &&
+            {Date.now() > new Date("2023-10-26").getTime() &&
             Date.now() < new Date("2023-11-01").getTime() ? (
-              <img id="logo" src={halloween} className="w-full" />
+              <>
+                <img id="logo" src={halloween} className="w-full mb-1" />
+                <Label
+                  icon={SUNNYSIDE.icons.stopwatch}
+                  type="vibrant"
+                  className="mx-auto"
+                >
+                  Halloween event!
+                </Label>
+              </>
             ) : (
               <img id="logo" src={logo} className="w-full" />
             )}
