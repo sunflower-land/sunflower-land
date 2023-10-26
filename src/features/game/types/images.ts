@@ -374,6 +374,12 @@ import observer from "src/assets/decorations/observer.webp";
 import crowRock from "src/assets/decorations/crow_rock.webp";
 import miniCornMaze from "src/assets/decorations/mini_corn_maze.webp";
 import whiteCrow from "src/assets/decorations/white_crow.webp";
+import lifeguardRing from "src/assets/decorations/lifeguard_ring.webp";
+import surfboard from "src/assets/decorations/surfboard.webp";
+import hideawayHerman from "src/assets/decorations/hideaway_herman.webp";
+import shiftySheldon from "src/assets/decorations/shifty_sheldon.webp";
+import tikiTorch from "src/assets/decorations/tiki_torch.webp";
+import beachUmbrella from "src/assets/decorations/beach_umbrella.webp";
 
 import pineTree from "src/assets/decorations/pine_tree.png";
 import fieldMaple from "src/assets/decorations/field_maple.webp";
@@ -2813,5 +2819,30 @@ export const ITEM_DETAILS: Items = {
   "Sapo Travessuras": {
     description: "Oh oh...someone was naughty",
     image: sapoTravessura,
+  },
+  // Catch the Kraken Season
+  "Lifeguard Ring": {
+    image: lifeguardRing,
+    description: "Stay afloat with style, your seaside savior!",
+  },
+  "Beach Umbrella": {
+    image: beachUmbrella,
+    description: "Shade, shelter, and seaside chic in one sunny setup!",
+  },
+  "Hideaway Herman": {
+    image: hideawayHerman,
+    description: "Herman's here to hide, but always peeks for a party!",
+  },
+  "Shifty Sheldon": {
+    image: shiftySheldon,
+    description: "Sheldon's sly, always scuttling to the next sandy surprise!",
+  },
+  "Tiki Torch": {
+    image: tikiTorch,
+    description: "Light the night, tropical vibes burning bright!",
+  },
+  Surfboard: {
+    image: surfboard,
+    description: "Ride the waves of wonder, beach bliss on board!",
   },
 };

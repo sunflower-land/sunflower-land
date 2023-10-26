@@ -61,7 +61,13 @@ export type SeasonalDecorationName =
   | "Spooky Tree"
   | "Observer"
   | "Crow Rock"
-  | "Mini Corn Maze";
+  | "Mini Corn Maze"
+  | "Lifeguard Ring"
+  | "Surfboard"
+  | "Hideaway Herman"
+  | "Shifty Sheldon"
+  | "Tiki Torch"
+  | "Beach Umbrella";
 
 export type EventDecorationName =
   | "Valentine Bear"
@@ -389,6 +395,30 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 2,
     height: 1,
   },
+  "Lifeguard Ring": {
+    width: 1,
+    height: 1,
+  },
+  Surfboard: {
+    width: 1,
+    height: 2,
+  },
+  "Hideaway Herman": {
+    width: 1,
+    height: 1,
+  },
+  "Shifty Sheldon": {
+    width: 1,
+    height: 1,
+  },
+  "Tiki Torch": {
+    width: 1,
+    height: 1,
+  },
+  "Beach Umbrella": {
+    width: 2,
+    height: 2,
+  },
 };
 
 export type Decoration = {
@@ -657,6 +687,64 @@ export const SEASONAL_DECORATIONS: (
       "A memento of the beloved maze from the 2023 Witches' Eve season.",
     ingredients: {
       "Crow Feather": new Decimal(50),
+    },
+  },
+  "Lifeguard Ring": {
+    name: "Lifeguard Ring",
+    sfl: SFLDiscount(state, new Decimal(10)),
+    ffrom: new Date("2024-01-01"),
+    to: new Date("2024-02-01"),
+    description: "Stay afloat with style, your seaside savior!",
+    ingredients: {
+      "Mermaid Scale": new Decimal(50),
+    },
+  },
+  Surfboard: {
+    name: "Surfboard",
+    from: new Date("2023-12-01"),
+    to: new Date("2024-01-01"),
+    description: "Ride the waves of wonder, beach bliss on board!",
+    ingredients: {
+      "Mermaid Scale": new Decimal(100),
+    },
+  },
+  "Hideaway Herman": {
+    name: "Hideaway Herman",
+    sfl: SFLDiscount(state, new Decimal(15)),
+    from: new Date("2024-01-01"),
+    to: new Date("2024-02-01"),
+    description: "Herman's here to hide, but always peeks for a party!",
+    ingredients: {
+      "Mermaid Scale": new Decimal(350),
+    },
+  },
+  "Shifty Sheldon": {
+    name: "Shifty Sheldon",
+    sfl: SFLDiscount(state, new Decimal(50)),
+    from: new Date("2023-12-01"),
+    to: new Date("2024-01-01"),
+    description: "Sheldon's sly, always scuttling to the next sandy surprise!",
+    ingredients: {
+      "Mermaid Scale": new Decimal(500),
+    },
+  },
+  "Tiki Torch": {
+    name: "Tiki Torch",
+    from: new Date("2023-11-01"),
+    to: new Date("2024-12-01"),
+    description: "Light the night, tropical vibes burning bright!",
+    ingredients: {
+      "Mermaid Scale": new Decimal(5),
+    },
+  },
+  "Beach Umbrella": {
+    name: "Beach Umbrella",
+    sfl: SFLDiscount(state, new Decimal(20)),
+    from: new Date("2023-11-01"),
+    to: new Date("2024-12-01"),
+    description: "Shade, shelter, and seaside chic in one sunny setup!",
+    ingredients: {
+      "Mermaid Scale": new Decimal(250),
     },
   },
 });
