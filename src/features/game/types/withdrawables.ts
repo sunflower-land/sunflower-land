@@ -643,6 +643,8 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Genie Bear": () => true,
   "Eggplant Bear": () => true,
   "Dawn Flower": () => true,
+  "Sapo Docuras": () => true,
+  "Sapo Travessuras": () => true,
 };
 
 const lanterns: Record<LanternName, () => boolean> = {

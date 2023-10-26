@@ -192,6 +192,8 @@ import { StarlightTuna } from "./components/StartlightTuna";
 import { RadiantRay } from "./components/RadiantRay";
 import { PhantomBarracuda } from "./components/PhantomBarracuda";
 import { GildedSwordfish } from "./components/GildedSwordfish";
+import { SapoDocuras } from "./components/SapoDocuras";
+import { SapoTravessuras } from "./components/SapoTravessuras";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -199,6 +201,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
   React.FC<CollectibleProps>
 > = {
+  "Sapo Docuras": SapoDocuras,
+  "Sapo Travessuras": SapoTravessuras,
+
   "Mysterious Head": MysteriousHead,
   "War Skull": WarSkulls,
   "War Tombstone": WarTombstone,

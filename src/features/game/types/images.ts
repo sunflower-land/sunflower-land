@@ -498,6 +498,9 @@ import radiantRay from "assets/fish/radiant_ray.png";
 import phantomBarracuda from "assets/fish/phantom_barracuda.png";
 import gildedSwordfish from "assets/fish/gilded_swordfish.png";
 
+import sapoDocuras from "assets/sfts/sapo_docuras.gif";
+import sapoTravessura from "assets/sfts/sapo_travessura.gif";
+
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -2801,5 +2804,14 @@ export const ITEM_DETAILS: Items = {
       boostedItemIcon: gold,
     },
     itemType: "collectible",
+  },
+
+  "Sapo Docuras": {
+    description: "A real treat!",
+    image: sapoDocuras,
+  },
+  "Sapo Travessuras": {
+    description: "Oh oh...someone was naughty",
+    image: sapoTravessura,
   },
 };
