@@ -692,7 +692,7 @@ export const SEASONAL_DECORATIONS: (
   "Lifeguard Ring": {
     name: "Lifeguard Ring",
     sfl: SFLDiscount(state, new Decimal(10)),
-    ffrom: new Date("2024-01-01"),
+    from: new Date("2024-01-01"),
     to: new Date("2024-02-01"),
     description: "Stay afloat with style, your seaside savior!",
     ingredients: {
