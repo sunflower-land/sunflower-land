@@ -505,14 +505,14 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   tango: {
     body: "Squirrel Monkey Potion",
-    hair: "Basic Hair",
+    hair: "Buzz Cut",
     background: "Seashore Background",
     shoes: "Black Farmer Boots",
     tool: "Pirate Scimitar",
   },
   corale: {
     body: "Mermaid Potion",
-    hair: "White Long Hair",
+    hair: "Red Long Hair",
     background: "Seashore Background",
     shoes: "Black Farmer Boots",
     tool: "Trident",
