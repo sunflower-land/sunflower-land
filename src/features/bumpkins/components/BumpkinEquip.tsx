@@ -1,7 +1,6 @@
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import {
-  BUMPKIN_ITEM_BUFF_LABELS,
   BUMPKIN_ITEM_PART,
   BumpkinItem,
   BumpkinPart,
@@ -19,6 +18,7 @@ import { getKeys } from "features/game/types/craftables";
 
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
+import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 
 const REQUIRED: BumpkinPart[] = [
   "background",
