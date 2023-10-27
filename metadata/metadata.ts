@@ -6055,12 +6055,29 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image_url: "../public/erc1155/images/485.png",
     attributes: [
-      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Tradable", value: "Yes" },
       { trait_type: "Boost", value: "Other" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Fish XP",
         value: 20,
+      },
+    ],
+  },
+
+  "Soil Krabby": {
+    description:
+      "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/486.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Other" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Composter Speed",
+        value: 10,
       },
     ],
   },

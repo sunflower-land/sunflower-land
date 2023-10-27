@@ -31,7 +31,8 @@ export type HeliosBlacksmithItem =
   | "Poppy"
   | "Kernaldo"
   | "Grain Grinder"
-  | "Skill Shrimpy";
+  | "Skill Shrimpy"
+  | "Soil Krabby";
 
 export type SoldOutCollectibleName =
   | "Sir Goldensnout"
@@ -198,12 +199,23 @@ export const HELIOS_BLACKSMITH_ITEMS: (
     description:
       "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
     ingredients: {
-      "Mermaid Scale": new Decimal(775),
+      "Mermaid Scale": new Decimal(865),
     },
     sfl: SFLDiscount(state, new Decimal(115)),
     boost: "+20% Fish XP",
     from: new Date("2023-12-01"),
     to: new Date("2024-01-01"),
+  },
+  "Soil Krabby": {
+    description:
+      "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
+    ingredients: {
+      "Mermaid Scale": new Decimal(650),
+    },
+    sfl: SFLDiscount(state, new Decimal(65)),
+    boost: "+10% Composter Speed",
+    from: new Date("2023-11-01"),
+    to: new Date("2023-12-01"),
   },
 });
 

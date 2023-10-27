@@ -68,6 +68,7 @@ import rubberDucky from "assets/sfts/rubber_ducky.webp";
 import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
 import krakenHead from "assets/sfts/kraken_head.webp";
 import skillShrimpy from "assets/sfts/skill_shrimpy.png";
+import soilKrabby from "assets/sfts/soil_krabby.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -2939,5 +2940,10 @@ export const ITEM_DETAILS: Items = {
     image: skillShrimpy,
     description:
       "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
+  },
+  "Soil Krabby": {
+    image: soilKrabby,
+    description:
+      "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
   },
 };
