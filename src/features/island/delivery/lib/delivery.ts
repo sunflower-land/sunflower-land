@@ -168,3 +168,22 @@ export function acknowledgeOrders(delivery: Delivery) {
 
   localStorage.setItem(`orders.read`, JSON.stringify(ids));
 }
+
+export const DELIVERY_LEVELS: Partial<Record<NPCName, number>> = {
+  grimbly: 3,
+  betty: 3,
+  grimtooth: 3,
+  "pumpkin' pete": 3,
+  grubnuk: 5,
+  blacksmith: 5,
+  bert: 5,
+  finley: 6,
+  raven: 7,
+  miranda: 7,
+  corale: 7,
+  finn: 7,
+  timmy: 9,
+  tango: 9,
+  cornwell: 9,
+  tywin: 14,
+};

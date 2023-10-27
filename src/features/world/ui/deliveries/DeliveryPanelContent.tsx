@@ -23,6 +23,7 @@ import { getOrderSellPrice } from "features/game/events/landExpansion/deliver";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
+import { DELIVERY_LEVELS } from "features/island/delivery/lib/delivery";
 
 interface OrderCardsProps {
   orders: Order[];
@@ -239,7 +240,16 @@ export const DeliveryPanelContent: React.FC<Props> = ({
         onClose={onClose}
         message={[
           {
-            text: noOrder,
+            text: intro,
+          },
+          {
+            text: (inventory["Basic Land"] ?? new Decimal(3)).lt(
+              DELIVERY_LEVELS[npc] ?? 0
+            )
+              ? `Hmm, it doesn't look like your farm will have the resources I need. Reach ${
+                  DELIVERY_LEVELS[npc] ?? 10
+                } expansions and come back to me.`
+              : noOrder,
           },
         ]}
       />
