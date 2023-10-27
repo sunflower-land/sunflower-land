@@ -26,6 +26,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasFeatureAccess } from "lib/flags";
 import { SEASONS } from "features/game/types/seasons";
+import { Context } from "features/game/GameProvider";
 
 interface Island {
   name: string;
@@ -170,6 +171,7 @@ export const IslandList: React.FC<IslandListProps> = ({
   onClose,
 }) => {
   const { authService } = useContext(Auth.Context);
+  const { gameService } = useContext(Context);
   const userType = useSelector(authService, userTypeSelector);
   const farmId = useSelector(authService, farmIdSelector);
   const state = useSelector(authService, stateSelector);
@@ -177,6 +179,7 @@ export const IslandList: React.FC<IslandListProps> = ({
   const location = useLocation();
   const [view, setView] = useState<"list" | "visitForm">("list");
 
+  const initialState = gameService.state.context.state;
   const islands: Island[] = [
     {
       name: "Home",
@@ -185,7 +188,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       path: `/land/${farmId}`,
       labels: [],
     },
-    ...(hasFeatureAccess(inventory, "PUMPKIN_PLAZA") ||
+    ...(hasFeatureAccess(initialState, "PUMPKIN_PLAZA") ||
     Date.now() > SEASONS["Witches' Eve"].startDate.getTime()
       ? [
           {
@@ -223,7 +226,7 @@ export const IslandList: React.FC<IslandListProps> = ({
           },
         ]
       : []),
-    ...(hasFeatureAccess(inventory, "BEACH")
+    ...(hasFeatureAccess(initialState, "BEACH")
       ? [
           {
             name: "Beach",
@@ -245,7 +248,7 @@ export const IslandList: React.FC<IslandListProps> = ({
           },
         ]
       : []),
-    ...(hasFeatureAccess(inventory, "PUMPKIN_PLAZA") ||
+    ...(hasFeatureAccess(initialState, "PUMPKIN_PLAZA") ||
     Date.now() > SEASONS["Witches' Eve"].startDate.getTime()
       ? [
           {
