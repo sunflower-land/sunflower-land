@@ -27,7 +27,7 @@ export const Fisherman: React.FC = () => {
     if (expansionCount >= 7 && expansionCount < 21) {
       return { x: -8, y: -9.5 };
     } else {
-      return { x: -15, y: -15.5 };
+      return { x: -14, y: -15.5 };
     }
   };
 
