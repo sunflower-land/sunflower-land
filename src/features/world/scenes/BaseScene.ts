@@ -557,10 +557,7 @@ export abstract class BaseScene extends Phaser.Scene {
           const warpTo = (obj2 as any).data?.list?.warp;
           if (
             warpTo !== "beach" ||
-            hasFeatureAccess(
-              this.gameService.state.context.state.inventory,
-              "BEACH"
-            )
+            hasFeatureAccess(this.gameService.state.context.state, "BEACH")
           ) {
             this.currentPlayer?.stopSpeaking();
             this.cameras.main.fadeOut(1000);

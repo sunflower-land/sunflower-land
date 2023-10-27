@@ -9,7 +9,6 @@ import { IslandTravel } from "features/game/expansion/components/travel/IslandTr
 import { Hud } from "features/island/hud/Hud";
 
 import { upcomingParty } from "./lib/streaming";
-import { hasFeatureAccess } from "lib/flags";
 
 import { ALLOWED_BEACH_AREA } from "./lib/restrictedArea";
 import { Room } from "./Room";
@@ -30,10 +29,7 @@ export const BeachParty: React.FC = () => {
   }, []);
 
   const party = upcomingParty();
-  const isBetaTester = hasFeatureAccess(
-    gameState.context.state.inventory,
-    "PUMPKIN_PLAZA"
-  );
+  const isBetaTester = false;
   const isPartyActive =
     isBetaTester || (Date.now() > party.startAt && Date.now() < party.endAt);
 

@@ -219,9 +219,7 @@ export class HalloweenScene extends BaseScene {
 
     const bumpkins = PLAZA_BUMPKINS;
 
-    if (
-      !hasFeatureAccess(this.gameService.state.context.state.inventory, "BEACH")
-    ) {
+    if (!hasFeatureAccess(this.gameService.state.context.state, "BEACH")) {
       bumpkins.push({
         x: 20,
         y: 318,

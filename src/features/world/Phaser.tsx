@@ -122,7 +122,7 @@ export const PhaserComponent: React.FC<Props> = ({
         ClothesShopScene,
         DecorationShopScene,
         BeachScene,
-        ...(hasFeatureAccess(inventory, "HALLOWEEN")
+        ...(hasFeatureAccess(gameService.state.context.state, "HALLOWEEN")
           ? [HalloweenScene]
           : [PlazaScene]),
       ];

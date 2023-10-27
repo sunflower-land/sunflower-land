@@ -370,6 +370,7 @@ const isVisiting = (state: MachineState) => state.matches("visiting");
 export const Land: React.FC = () => {
   const { gameService, showTimers } = useContext(Context);
 
+  const state = useSelector(gameService, selectGameState);
   const {
     expansionConstruction,
     buildings,
@@ -385,7 +386,7 @@ export const Land: React.FC = () => {
     fruitPatches,
     mushrooms,
     buds,
-  } = useSelector(gameService, selectGameState);
+  } = state;
   const autosaving = useSelector(gameService, isAutosaving);
   const landscaping = useSelector(gameService, isLandscaping);
   const visiting = useSelector(gameService, isVisiting);
@@ -495,9 +496,7 @@ export const Land: React.FC = () => {
           {landscaping && <Placeable />}
         </div>
 
-        {!landscaping && hasFeatureAccess(inventory, "FISHING") && (
-          <Fisherman />
-        )}
+        {!landscaping && hasFeatureAccess(state, "FISHING") && <Fisherman />}
 
         {/* Background darkens in landscaping */}
         <div

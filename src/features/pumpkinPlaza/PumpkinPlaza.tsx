@@ -31,7 +31,7 @@ export const PumpkinPlaza: React.FC = () => {
 
   const party = upcomingParty();
   const isBetaTester = hasFeatureAccess(
-    gameState.context.state.inventory,
+    gameState.context.state,
     "PUMPKIN_PLAZA"
   );
   const isPartyActive =
