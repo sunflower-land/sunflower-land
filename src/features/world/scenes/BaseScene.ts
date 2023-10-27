@@ -556,7 +556,7 @@ export abstract class BaseScene extends Phaser.Scene {
           // Change scenes
           const warpTo = (obj2 as any).data?.list?.warp;
           if (
-            warpTo !== "beach" ||
+            (warpTo && warpTo !== "beach") ||
             hasFeatureAccess(
               this.gameService.state.context.state.inventory,
               "BEACH"
