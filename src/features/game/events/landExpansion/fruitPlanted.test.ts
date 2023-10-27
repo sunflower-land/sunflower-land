@@ -604,4 +604,35 @@ describe("getFruitTime", () => {
     });
     expect(time).toEqual(applePlantSeconds);
   });
+
+  it("applies a 10% speed boost with Nana placed for Banana plant", () => {
+    const seed = "Banana Plant";
+    const orangePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitTime(seed, {
+      Nana: [
+        {
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          id: "123",
+          readyAt: 0,
+        },
+      ],
+    });
+    expect(time).toEqual(orangePlantSeconds * 0.9);
+  });
+  it("does not apply a 10% speed boost with Nana placed for other seeds", () => {
+    const seed = "Apple Seed";
+    const applePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitTime(seed, {
+      Nana: [
+        {
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          id: "123",
+          readyAt: 0,
+        },
+      ],
+    });
+    expect(time).toEqual(applePlantSeconds);
+  });
 });

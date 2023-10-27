@@ -6081,4 +6081,21 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
     ],
   },
+
+  Nana: {
+    description:
+      "This rare beauty is a surefire way to boost your banana harvests.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/487.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Resources" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Banana Speed",
+        value: 10,
+      },
+    ],
+  },
 };

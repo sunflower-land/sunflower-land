@@ -1221,6 +1221,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Rubber Ducky": { width: 1, height: 1 },
   "Kraken Head": { width: 1, height: 1 },
   "Skill Shrimpy": { width: 1, height: 1 },
+  Nana: { width: 2, height: 2 },
   "Soil Krabby": { width: 1, height: 1 },
 };
 

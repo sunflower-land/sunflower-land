@@ -32,7 +32,8 @@ export type HeliosBlacksmithItem =
   | "Kernaldo"
   | "Grain Grinder"
   | "Skill Shrimpy"
-  | "Soil Krabby";
+  | "Soil Krabby"
+  | "Nana";
 
 export type SoldOutCollectibleName =
   | "Sir Goldensnout"
@@ -195,16 +196,16 @@ export const HELIOS_BLACKSMITH_ITEMS: (
     from: new Date("2023-10-01"),
     to: new Date("2023-11-01"),
   },
-  "Skill Shrimpy": {
+  Nana: {
     description:
-      "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
+      "This rare beauty is a surefire way to boost your banana harvests.",
     ingredients: {
-      "Mermaid Scale": new Decimal(865),
+      "Mermaid Scale": new Decimal(350),
     },
-    sfl: SFLDiscount(state, new Decimal(115)),
-    boost: "+20% Fish XP",
-    from: new Date("2023-12-01"),
-    to: new Date("2024-01-01"),
+    sfl: SFLDiscount(state, new Decimal(50)),
+    boost: "+10% Banana Speed",
+    from: new Date("2023-11-01"),
+    to: new Date("2023-12-01"),
   },
   "Soil Krabby": {
     description:
@@ -214,8 +215,19 @@ export const HELIOS_BLACKSMITH_ITEMS: (
     },
     sfl: SFLDiscount(state, new Decimal(65)),
     boost: "+10% Composter Speed",
-    from: new Date("2023-11-01"),
-    to: new Date("2023-12-01"),
+    from: new Date("2023-12-01"),
+    to: new Date("2024-01-01"),
+  },
+  "Skill Shrimpy": {
+    description:
+      "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
+    ingredients: {
+      "Mermaid Scale": new Decimal(865),
+    },
+    sfl: SFLDiscount(state, new Decimal(115)),
+    boost: "+20% Fish XP",
+    from: new Date("2024-01-01"),
+    to: new Date("2024-02-01"),
   },
 });
 
