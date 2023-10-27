@@ -1186,6 +1186,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Poppy: { width: 1, height: 1 },
   "Grain Grinder": { width: 2, height: 1 },
   Kernaldo: { width: 1, height: 1 },
+  "Skill Shrimpy": { width: 1, height: 1 },
 
   // AoE items
   "Emerald Turtle": { height: 1, width: 1 },

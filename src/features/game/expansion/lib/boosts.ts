@@ -19,6 +19,7 @@ import {
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { getSeasonalBanner } from "features/game/types/seasons";
 import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
+import { FISH } from "features/game/types/fishing";
 
 const crops = CROPS();
 const cakes = CAKES();
@@ -143,11 +144,18 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.2);
   }
 
-  boostedExp = boostedExp.mul(getBudExperienceBoosts(buds, food));
+  if (
+    (food.name in FISH || food.name === "Pirate Cake") &&
+    isCollectibleBuilt("Skill Shrimpy", collectibles)
+  ) {
+    boostedExp = boostedExp.mul(1.2);
+  }
 
   if (collectibles[getSeasonalBanner()]) {
     boostedExp = boostedExp.mul(1.1);
   }
+
+  boostedExp = boostedExp.mul(getBudExperienceBoosts(buds, food));
 
   return boostedExp.toDecimalPlaces(4).toNumber();
 };

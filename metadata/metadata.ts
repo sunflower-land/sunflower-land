@@ -6048,4 +6048,20 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
+  "Skill Shrimpy": {
+    description:
+      "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/485.png",
+    attributes: [
+      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Boost", value: "Other" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Fish XP",
+        value: 20,
+      },
+    ],
+  },
 };

@@ -67,6 +67,7 @@ import chillingBanana from "assets/sfts/chilling_banana.webp";
 import rubberDucky from "assets/sfts/rubber_ducky.webp";
 import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
 import krakenHead from "assets/sfts/kraken_head.webp";
+import skillShrimpy from "assets/sfts/skill_shrimpy.png";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -2933,5 +2934,10 @@ export const ITEM_DETAILS: Items = {
   "Banana Chicken": {
     image: bananaChicken,
     description: "A chicken that boosts bananas. What a world we live in.",
+  },
+  "Skill Shrimpy": {
+    image: skillShrimpy,
+    description:
+      "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
   },
 };
