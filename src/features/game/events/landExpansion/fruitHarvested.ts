@@ -97,7 +97,10 @@ export function getFruitYield({
   }
 
   if (
-    (name === "Apple" || name === "Orange" || name === "Blueberry") &&
+    (name === "Apple" ||
+      name === "Orange" ||
+      name === "Blueberry" ||
+      name === "Banana") &&
     wearables?.coat === "Fruit Picker Apron"
   ) {
     amount += 0.1;
