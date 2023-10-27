@@ -157,6 +157,48 @@ describe("start Compost Bin", () => {
       dateNow + 6 * 60 * 60 * 1000
     );
   });
+
+  it("gives a 10% speed boost if the player has the Soil Krabby", () => {
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        Sunflower: new Decimal(5),
+        Pumpkin: new Decimal(3),
+        Carrot: new Decimal(2),
+      },
+      buildings: {
+        "Compost Bin": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+            requires: {
+              Sunflower: 5,
+              Pumpkin: 3,
+              Carrot: 2,
+            },
+          },
+        ],
+      },
+      collectibles: {
+        "Soil Krabby": [
+          { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+        ],
+      },
+    };
+
+    const newState = startComposter({
+      createdAt: dateNow,
+      state,
+      action: { type: "composter.started", building: "Compost Bin" },
+    });
+
+    expect(newState.buildings["Compost Bin"]?.[0].producing?.readyAt).toBe(
+      dateNow + 5.4 * 60 * 60 * 1000
+    );
+  });
 });
 
 describe("start Turbo Composter", () => {
@@ -307,6 +349,48 @@ describe("start Turbo Composter", () => {
       dateNow + 8 * 60 * 60 * 1000
     );
   });
+
+  it("gives a 10% speed boost if the player has the Soil Krabby", () => {
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        Sunflower: new Decimal(5),
+        Pumpkin: new Decimal(3),
+        Carrot: new Decimal(2),
+      },
+      buildings: {
+        "Turbo Composter": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+            requires: {
+              Sunflower: 5,
+              Pumpkin: 3,
+              Carrot: 2,
+            },
+          },
+        ],
+      },
+      collectibles: {
+        "Soil Krabby": [
+          { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+        ],
+      },
+    };
+
+    const newState = startComposter({
+      createdAt: dateNow,
+      state,
+      action: { type: "composter.started", building: "Turbo Composter" },
+    });
+
+    expect(newState.buildings["Turbo Composter"]?.[0].producing?.readyAt).toBe(
+      dateNow + 7.2 * 60 * 60 * 1000
+    );
+  });
 });
 
 describe("start Premium Composter", () => {
@@ -454,5 +538,46 @@ describe("start Premium Composter", () => {
     expect(
       newState.buildings["Premium Composter"]?.[0].producing?.readyAt
     ).toBe(dateNow + 12 * 60 * 60 * 1000);
+  });
+  it("gives a 10% speed boost if the player has the Soil Krabby", () => {
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        Sunflower: new Decimal(5),
+        Pumpkin: new Decimal(3),
+        Carrot: new Decimal(2),
+      },
+      buildings: {
+        "Premium Composter": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+            requires: {
+              Sunflower: 5,
+              Pumpkin: 3,
+              Carrot: 2,
+            },
+          },
+        ],
+      },
+      collectibles: {
+        "Soil Krabby": [
+          { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+        ],
+      },
+    };
+
+    const newState = startComposter({
+      createdAt: dateNow,
+      state,
+      action: { type: "composter.started", building: "Premium Composter" },
+    });
+
+    expect(
+      newState.buildings["Premium Composter"]?.[0].producing?.readyAt
+    ).toBe(dateNow + 10.8 * 60 * 60 * 1000);
   });
 });

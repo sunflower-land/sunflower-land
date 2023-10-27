@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
   ComposterName,
   composterDetails,
@@ -20,6 +21,16 @@ type Options = {
   state: Readonly<GameState>;
   action: StartComposterAction;
   createdAt?: number;
+};
+
+const getReadyAt = (gameState: GameState, composter: ComposterName) => {
+  const timeToFinish = composterDetails[composter].timeToFinishMilliseconds;
+
+  // gives +10% speed boost if the player has the Soil Krabby
+  if (isCollectibleBuilt("Soil Krabby", gameState.collectibles)) {
+    return timeToFinish * 0.9;
+  }
+  return timeToFinish;
 };
 
 export function startComposter({
@@ -67,8 +78,7 @@ export function startComposter({
       [composterDetails[action.building].bait]: 1,
     },
     startedAt: createdAt,
-    readyAt:
-      createdAt + composterDetails[action.building].timeToFinishMilliseconds,
+    readyAt: createdAt + getReadyAt(stateCopy, action.building),
   };
 
   return stateCopy;

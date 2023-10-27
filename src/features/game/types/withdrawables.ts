@@ -171,7 +171,8 @@ const heliosBlacksmith: Record<HeliosBlacksmithItem, () => boolean> = {
   "Grain Grinder": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
   Kernaldo: () => canWithdrawTimebasedItem(new Date("2023-10-02")),
   Poppy: () => canWithdrawTimebasedItem(new Date("2023-09-02")),
-  "Skill Shrimpy": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
+  "Skill Shrimpy": () => canWithdrawTimebasedItem(new Date("2024-01-02")),
+  "Soil Krabby": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
 };
 
 const commodities: Record<CommodityName, () => boolean> = {
