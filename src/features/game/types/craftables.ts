@@ -489,7 +489,6 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   Axe: {
     name: "Axe",
     description: "Used to collect wood",
-    // Temporary price for weekly war challenge
     tokenAmount: new Decimal(1),
     ingredients: [],
   },
@@ -552,7 +551,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   },
   Rod: {
     name: "Rod",
-    description: "Coming soon",
+    description: "Used to catch fish",
     tokenAmount: new Decimal(5),
     ingredients: [
       {
