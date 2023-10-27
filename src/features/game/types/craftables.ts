@@ -1213,8 +1213,9 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Chilling Banana": { width: 1, height: 1 },
   "Rubber Ducky": { width: 1, height: 1 },
   "Kraken Tentacle": { width: 1, height: 1 },
-  "Skill Shrimpy": { width: 1, height: 1 },
+  Nana: { width: 2, height: 2 },
   "Soil Krabby": { width: 1, height: 1 },
+  "Skill Shrimpy": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

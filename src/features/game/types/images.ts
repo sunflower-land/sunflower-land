@@ -68,6 +68,7 @@ import rubberDucky from "assets/sfts/rubber_ducky.webp";
 import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
 import skillShrimpy from "assets/sfts/skill_shrimpy.png";
 import soilKrabby from "assets/sfts/soil_krabby.webp";
+import nana from "assets/sfts/nana.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -2896,5 +2897,10 @@ export const ITEM_DETAILS: Items = {
     image: soilKrabby,
     description:
       "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
+  },
+  Nana: {
+    image: nana,
+    description:
+      "This rare beauty is a surefire way to boost your banana harvests.",
   },
 };

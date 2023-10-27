@@ -209,6 +209,7 @@ import { RubberDucky } from "./components/RubberDucky";
 import { KrakenTentacle } from "./components/KrakenTentacle";
 import { SkillShrimpy } from "./components/SkillShrimpy";
 import { SoilKrabby } from "./components/SoilKrabby";
+import { Nana } from "./components/Nana";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -459,6 +460,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Kraken Tentacle": KrakenTentacle,
   "Skill Shrimpy": SkillShrimpy,
   "Soil Krabby": SoilKrabby,
+  Nana: Nana,
 };
 // Need readonly versions for some troublesome components while in design mode
 
