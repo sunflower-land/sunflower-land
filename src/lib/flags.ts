@@ -59,7 +59,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
 };
 
 export const hasFeatureAccess = (
-  inventory: GameState["inventory"],
+  { inventory }: GameState,
   featureName: FeatureName
 ) => {
   const isWitchesEve = Date.now() > SEASONS["Witches' Eve"].startDate.getTime();
