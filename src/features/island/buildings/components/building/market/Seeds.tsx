@@ -144,8 +144,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const seeds = getKeys(SEEDS())
     .filter((seed) => !SEEDS()[seed].disabled)
     .filter(
-      (seed) =>
-        hasFeatureAccess(state.inventory, "BANANA") || seed !== "Banana Plant"
+      (seed) => hasFeatureAccess(state, "BANANA") || seed !== "Banana Plant"
     );
 
   return (
