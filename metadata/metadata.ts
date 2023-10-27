@@ -6069,8 +6069,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Fruit" },
       {
         display_type: "boost_percentage",
-        trait_type: "Increase Banana Speed",
-        value: 10,
+        trait_type: "Banana Growth Time",
+        value: -10,
       },
     ],
   },
