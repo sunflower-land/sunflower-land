@@ -157,6 +157,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Chilling Banana": 482,
   "Rubber Ducky": 483,
   "Kraken Tentacle": 484,
+  "Skill Shrimpy": 485,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,

@@ -30,7 +30,8 @@ export type HeliosBlacksmithItem =
   | "Laurie the Chuckle Crow"
   | "Poppy"
   | "Kernaldo"
-  | "Grain Grinder";
+  | "Grain Grinder"
+  | "Skill Shrimpy";
 
 export type SoldOutCollectibleName =
   | "Sir Goldensnout"
@@ -192,6 +193,17 @@ export const HELIOS_BLACKSMITH_ITEMS: (
     boost: "+20% Cake XP",
     from: new Date("2023-10-01"),
     to: new Date("2023-11-01"),
+  },
+  "Skill Shrimpy": {
+    description:
+      "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
+    ingredients: {
+      "Mermaid Scale": new Decimal(775),
+    },
+    sfl: SFLDiscount(state, new Decimal(115)),
+    boost: "+20% Fish XP",
+    from: new Date("2023-12-01"),
+    to: new Date("2024-01-01"),
   },
 });
 
@@ -412,5 +424,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     labelType: "info",
     boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+  },
+  "Skill Shrimpy": {
+    shortDescription: "+20% Fish XP",
+    labelType: "info",
+    boostTypeIcon: powerup,
+    boostedItemIcon: "success",
   },
 };

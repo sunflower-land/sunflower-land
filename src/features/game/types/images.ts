@@ -66,6 +66,7 @@ import anchor from "assets/sfts/anchor.webp";
 import chillingBanana from "assets/sfts/chilling_banana.webp";
 import rubberDucky from "assets/sfts/rubber_ducky.webp";
 import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
+import skillShrimpy from "assets/sfts/skill_shrimpy.png";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -2884,5 +2885,10 @@ export const ITEM_DETAILS: Items = {
     image: krakenTentacle,
     description:
       "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
+  },
+  "Skill Shrimpy": {
+    image: skillShrimpy,
+    description:
+      "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
   },
 };
