@@ -5,6 +5,7 @@ import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { CharityAddress } from "../components/CreateFarm";
 import { hasFeatureAccess } from "lib/flags";
+import { TEST_FARM } from "features/game/lib/constants";
 
 type Request = {
   charity: string;
@@ -118,7 +119,7 @@ export async function createAccount({
   // For new farm mints always query with alchemy
   await wallet.overrideProvider();
 
-  if (hasFeatureAccess({}, "NEW_FARM_FLOW") && !hasEnoughMatic) {
+  if (hasFeatureAccess(TEST_FARM, "NEW_FARM_FLOW") && !hasEnoughMatic) {
     saveSignupMethod("freeMint");
 
     await signUp({
