@@ -6056,7 +6056,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/485.png",
     attributes: [
       { trait_type: "Tradable", value: "Yes" },
-      { trait_type: "Boost", value: "Other" },
+      { trait_type: "Boost", value: "Fish" },
       {
         display_type: "boost_percentage",
         trait_type: "Increase Fish XP",
@@ -6090,11 +6090,11 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/487.png",
     attributes: [
       { trait_type: "Tradable", value: "Yes" },
-      { trait_type: "Boost", value: "Resources" },
+      { trait_type: "Boost", value: "Fruit" },
       {
         display_type: "boost_percentage",
-        trait_type: "Increase Banana Speed",
-        value: 10,
+        trait_type: "Banana Growth Time",
+        value: -10,
       },
     ],
   },
