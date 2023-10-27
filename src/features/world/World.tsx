@@ -154,7 +154,9 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
   const inventory = useSelector(gameService, _inventory);
   const name = useParams().name as SceneId;
 
-  const hasAccess = name !== "beach" || hasFeatureAccess(inventory, "BEACH");
+  const hasAccess =
+    name !== "beach" ||
+    hasFeatureAccess(gameService.state.context.state, "BEACH");
 
   return (
     <div

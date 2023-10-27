@@ -6,7 +6,7 @@ import { OuterPanel } from "components/ui/Panel";
 
 import { Context } from "../lib/Provider";
 import { useActor } from "@xstate/react";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 import { Loading } from "./Loading";
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -75,7 +75,7 @@ export const CreateFarm: React.FC = () => {
     .mul(1.24)
     .toDecimalPlaces(2, Decimal.ROUND_UP);
 
-  if (hasFeatureAccess({}, "NEW_FARM_FLOW")) {
+  if (hasFeatureAccess(TEST_FARM, "NEW_FARM_FLOW")) {
     return (
       <NewFarmFlow
         onBack={() => authService.send("BACK")}

@@ -162,7 +162,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
     from: new Date("2023-10-01"),
     to: new Date("2023-11-01"),
   },
-  ...(hasFeatureAccess(game.inventory, "HALLOWEEN")
+  ...(hasFeatureAccess(game, "HALLOWEEN")
     ? {
         "Pumpkin Shirt": {
           sfl: new Decimal(0),

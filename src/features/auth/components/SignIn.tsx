@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 
 import metamaskIcon from "src/assets/icons/metamask_pixel.png";
 import walletIcon from "src/assets/icons/wallet.png";
@@ -209,12 +209,13 @@ export const SignIn = () => {
             width: `${PIXEL_SCALE * 8}px`,
           }}
         />
-        {!getOnboardingComplete() && !hasFeatureAccess({}, "NEW_FARM_FLOW") && (
-          <div className="flex items-center">
-            <img src={SUNNYSIDE.ui.green_bar_4} className="h-5 mr-2" />
-            <span className="text-xs">Step 2/3 (Create a wallet)</span>
-          </div>
-        )}
+        {!getOnboardingComplete() &&
+          !hasFeatureAccess(TEST_FARM, "NEW_FARM_FLOW") && (
+            <div className="flex items-center">
+              <img src={SUNNYSIDE.ui.green_bar_4} className="h-5 mr-2" />
+              <span className="text-xs">Step 2/3 (Create a wallet)</span>
+            </div>
+          )}
       </div>
 
       {isBitget && (

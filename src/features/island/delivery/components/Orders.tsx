@@ -73,11 +73,13 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
 
+  const gameState = gameService.state.context.state;
+
   let orders = delivery.orders
     .filter((order) => Date.now() >= order.readyAt)
     .sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1));
 
-  if (!hasFeatureAccess(inventory, "BEACH")) {
+  if (!hasFeatureAccess(gameState, "BEACH")) {
     orders = orders.filter(
       (o) =>
         // Filter out beach NPCs
@@ -387,13 +389,13 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
             {
               hidden: !selectedId,
               "mt-[24px] md:mt-0": hasFeatureAccess(
-                inventory,
+                gameState,
                 "NEW_DELIVERIES"
               ),
             }
           )}
         >
-          {hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
+          {hasFeatureAccess(gameState, "NEW_DELIVERIES") && (
             <img
               src={SUNNYSIDE.icons.arrow_left}
               className={classNames(
@@ -531,7 +533,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               )}
             </div>
           )}
-          {!hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
+          {!hasFeatureAccess(gameState, "NEW_DELIVERIES") && (
             <Button disabled={!canFulfill} onClick={deliver}>
               Deliver
             </Button>

@@ -29,6 +29,7 @@ import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectS
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { savePromoCode } from "features/game/actions/loadSession";
 import { hasFeatureAccess } from "lib/flags";
+import { TEST_FARM } from "features/game/lib/constants";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -270,7 +271,7 @@ export const authMachine = createMachine<
           CONTINUE: [
             {
               target: "signIn",
-              cond: () => hasFeatureAccess({}, "NEW_FARM_FLOW"),
+              cond: () => hasFeatureAccess(TEST_FARM, "NEW_FARM_FLOW"),
               actions: () => analytics.logEvent("create_account"),
             },
             {

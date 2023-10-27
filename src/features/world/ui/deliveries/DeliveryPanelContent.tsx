@@ -201,7 +201,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({
       order.from === npc && Date.now() >= order.readyAt && !order.completedAt
   );
 
-  if (!hasFeatureAccess(inventory, "BEACH")) {
+  if (!hasFeatureAccess(gameService.state.context.state, "BEACH")) {
     orders = orders.filter(
       (o) =>
         // Filter out beach NPCs
