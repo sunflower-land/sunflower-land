@@ -53,12 +53,10 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
     const hasBeachBud = getKeys(game.buds ?? {}).some(
       (id) => game.buds?.[id]?.type === "Beach"
     );
-    console.log({ hasBeachBud });
+
     if (hasBeachBud) {
       return true;
     }
-
-    return false;
 
     if (Date.now() > SEASONS["Catch the Kraken"].startDate.getTime()) {
       return true;
