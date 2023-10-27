@@ -21,7 +21,7 @@ import { Ocean } from "./ui/Ocean";
 import { PickServer } from "./ui/PickServer";
 import { MazeHud } from "./ui/cornMaze/MazeHud";
 import { GameWrapper } from "features/game/expansion/Game";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 import { hasFeatureAccess } from "lib/flags";
 import { IslandNotFound } from "features/game/expansion/components/IslandNotFound";
 
@@ -156,7 +156,7 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
 
   const hasAccess =
     name !== "beach" ||
-    hasFeatureAccess(gameService.state.context.state, "BEACH");
+    hasFeatureAccess(gameService?.state?.context?.state ?? TEST_FARM, "BEACH");
 
   return (
     <div
