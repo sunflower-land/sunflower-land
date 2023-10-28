@@ -255,13 +255,19 @@ const BaitSelection: React.FC<{
 
       {fishingLimitReached && (
         <Label className="mb-1" type="danger">
-          You have reached your daily fishing limit
+          You have reached your daily fishing limit of {dailyFishingMax}.
         </Label>
       )}
 
-      {missingRod && !fishingLimitReached && (
+      {!fishingLimitReached && missingRod && (
         <Label className="mb-1" type="danger">
-          You must first craft a rod
+          You must first craft a rod.
+        </Label>
+      )}
+
+      {!fishingLimitReached && !missingRod && (
+        <Label className="mb-1" type="info">
+          You have cast {dailyFishingCount} of {dailyFishingMax} for today.
         </Label>
       )}
 
