@@ -51,7 +51,7 @@ export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
   },
   "Banana Plant": {
     sfl: marketRate(70),
-    description: "Oh Banana!",
+    description: "Oh banana!",
     plantSeconds: 12 * 60 * 60,
     bumpkinLevel: 16,
     yield: "Banana",
@@ -92,7 +92,7 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
     bumpkinLevel: 15,
   },
   Banana: {
-    description: "Oh Banana!",
+    description: "Oh banana!",
     name: "Banana",
     sellPrice: marketRate(25),
     isBush: true,
