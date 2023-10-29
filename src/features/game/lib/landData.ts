@@ -303,6 +303,10 @@ const INITIAL_BUMPKIN: Bumpkin = {
 
 export const OFFLINE_FARM: GameState = {
   id: 4,
+  catchTheKraken: {
+    hunger: "Red Snapper",
+    weeklyCatches: {},
+  },
   witchesEve: {
     weeklyLostCrowCount: 25,
     maze: {

@@ -87,6 +87,7 @@ export function makeGame(farm: any): GameState {
     },
     mushrooms: farm.mushrooms,
     witchesEve: farm.witchesEve,
+    catchTheKraken: farm.catchTheKraken,
     delivery: farm.delivery,
     potionHouse: farm.potionHouse,
     npcs: farm.npcs,
