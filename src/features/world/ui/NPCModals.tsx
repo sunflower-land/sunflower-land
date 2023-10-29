@@ -50,6 +50,7 @@ function getInitialNPC(scene: SceneId): NPCName | undefined {
 
   return undefined;
 }
+
 export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);

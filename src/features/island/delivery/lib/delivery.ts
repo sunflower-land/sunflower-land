@@ -137,6 +137,16 @@ const NPC_MESSAGES: Partial<Record<NPCName, string[]>> = {
     "Fishes' freedom, that's my mission. Help me with fish, won't you?",
     "Join me in the sea's dance of life. Fish, to set my friends free!",
   ],
+  shelly: [
+    "Bumpkins are vanishing, and I fear the Kraken is the cause. Help me collect its tentacles!",
+    "Bumpkins are disappearing, and I suspect the Kraken. Can you fetch its tentacles, please?",
+    "Kraken's a threat, Bumpkins missing. Bring its tentacles to keep them safe.",
+    "Kraken's ominous, Bumpkins gone. Bring its tentacles for their safety.",
+    "Guarding the beach is tough with the Kraken. Help me protect Bumpkins, get its tentacles.",
+    "Protecting Bumpkins is my duty, but the Kraken worries me. Get its tentacles to safeguard them.",
+    "Kraken's causing panic, Bumpkins missing. Help me gather its tentacles for their safety.",
+    "Bumpkins' safety's my top priority, and I'm afraid the Kraken's involved. Tentacles can make a difference!",
+  ],
 };
 
 export function generateDeliveryMessage({ from, id }: DeliveryMessage) {
