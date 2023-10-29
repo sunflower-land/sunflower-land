@@ -16,6 +16,10 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { CONFIG } from "lib/config";
 import { FishCaught } from "./FishCaught";
+import { FishingChallenge } from "./FishingChallenge";
+import { Panel } from "components/ui/Panel";
+import { getKeys } from "features/game/types/craftables";
+import { FISH, FISH_DIFFICULTY, FishName } from "features/game/types/fishing";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -63,6 +67,8 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
   const [showReelLabel, setShowReelLabel] = useState(false);
   const [showCaughtModal, setShowCaughtModal] = useState(false);
+  const [showChallenge, setShowChallenge] = useState(false);
+  const [challengeDifficulty, setChallengeDifficulty] = useState(1);
 
   const { gameService } = useContext(Context);
   // TODO selectors
@@ -96,7 +102,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     // TESTING
     if (!CONFIG.API_URL) {
       setTimeout(() => {
-        fishing.wharf = { castedAt: 10000, caught: { Anchovy: 1 } };
+        fishing.wharf = { castedAt: 10000, caught: { "Kraken Tentacle": 1 } };
       }, 1000);
     }
   };
@@ -116,14 +122,41 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     spriteRef.current?.setEndAt(FISHING_FRAMES.idle.endAt);
   };
 
+  const fish = getKeys(fishing.wharf.caught ?? {}).find((fish) => fish in FISH);
+
   const reelIn = () => {
-    spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
-    spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
+    const fishDifficulty = FISH_DIFFICULTY[fish as FishName];
+
+    if (fishDifficulty) {
+      setChallengeDifficulty(fishDifficulty);
+      setShowChallenge(true);
+    } else {
+      spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
+      spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
+    }
+
     setShowReelLabel(false);
   };
 
+  const onChallengeWon = () => {
+    setShowChallenge(false);
+    spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
+    spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
+  };
+
+  const onChallengeLost = () => {
+    setShowChallenge(false);
+    spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
+    spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
+
+    gameService.send("fish.missed");
+    gameService.send("SAVE");
+  };
+
   const claim = () => {
-    gameService.send("rod.reeled");
+    if (fishing.wharf.caught) {
+      gameService.send("rod.reeled");
+    }
     setShowCaughtModal(false);
   };
 
@@ -140,6 +173,17 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
             farmActivity={farmActivity}
           />
         </CloseButtonPanel>
+      </Modal>
+
+      <Modal centered show={showChallenge}>
+        <Panel>
+          <FishingChallenge
+            difficulty={challengeDifficulty}
+            onCatch={onChallengeWon}
+            onMiss={onChallengeLost}
+            fishName={fish as FishName}
+          />
+        </Panel>
       </Modal>
 
       {showReelLabel && (

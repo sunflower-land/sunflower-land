@@ -12,7 +12,6 @@ import { Button } from "components/ui/Button";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { KrakenMechanic } from "features/island/fisherman/KrakenMechanic";
 
 type InteractableName =
   | "kraken"
@@ -92,10 +91,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
 
   return (
     <>
-      <Modal show={interactable === "kraken"} onHide={closeModal} centered>
-        <KrakenMechanic onClose={closeModal} />
-      </Modal>
-
       {/* TODO - make smoother opening */}
       {interactable === "auction_item" && (
         <AuctioneerModal

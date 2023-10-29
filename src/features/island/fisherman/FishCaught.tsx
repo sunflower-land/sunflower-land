@@ -18,6 +18,17 @@ export const FishCaught: React.FC<Props> = ({
   caught,
   onClaim,
 }) => {
+  if (!caught || getKeys(caught).length === 0) {
+    return (
+      <>
+        <div className="p-2">
+          <img src={SUNNYSIDE.icons.sad} className="w-20 mx-auto my-2" />
+          <p className="text-sm mb-2 text-center">Oh no! It got away</p>
+        </div>
+        <Button onClick={onClaim}>Ok</Button>
+      </>
+    );
+  }
   return (
     <>
       <div className="p-2">

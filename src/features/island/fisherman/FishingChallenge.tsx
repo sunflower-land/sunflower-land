@@ -3,10 +3,9 @@ import ringDot from "assets/icons/fish_dot.png";
 
 import React, { useRef, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { FishingBait } from "features/game/types/fishing";
+import { FishName, MarineMarvelName } from "features/game/types/fishing";
 import { Button } from "components/ui/Button";
 import { ResizableBar } from "components/ui/ProgressBar";
-import { Panel } from "components/ui/Panel";
 import { useSpring, animated } from "react-spring";
 import { SensitiveButton } from "components/ui/SensitiveButton";
 
@@ -15,36 +14,10 @@ function getRandomAngle(minDistance: number, existingAngle: number) {
   let randomAngle;
 
   do {
-    randomAngle = Math.random() * 360; // Generate a random angle between 0 and 360
+    randomAngle = Math.random() * 270; // Generate a random angle between 0 and 270
   } while (Math.abs(randomAngle - existingAngle) < minDistance);
 
   return randomAngle;
-}
-
-function getRotationAngle(element: HTMLElement): number | undefined {
-  const st = window.getComputedStyle(element, null);
-  const transform =
-    st.getPropertyValue("-webkit-transform") ||
-    st.getPropertyValue("-moz-transform") ||
-    st.getPropertyValue("-ms-transform") ||
-    st.getPropertyValue("-o-transform") ||
-    st.getPropertyValue("transform") ||
-    "FAIL";
-
-  if (transform === "FAIL") {
-    return undefined;
-  }
-
-  const values = transform.split("(")[1].split(")")[0].split(",");
-  const a = parseFloat(values[0]);
-  const b = parseFloat(values[1]);
-
-  const scale = Math.sqrt(a * a + b * b);
-
-  const sin = b / scale;
-  const angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
-
-  return angle;
 }
 
 const extractAngle = (transformString: string) => {
@@ -77,10 +50,38 @@ function getSpeed(attempts: number) {
 
   return 3000;
 }
-export const FishingBar: React.FC = () => {
-  const [state, setState] = useState<"idle" | "playing" | "caught" | "escaped">(
-    "idle"
+
+interface Props {
+  onCatch: () => void;
+  onMiss: () => void;
+  difficulty?: number;
+  fishName: FishName | MarineMarvelName;
+}
+
+export const FishingChallengeIntro: React.FC<{ onNext: () => void }> = ({
+  onNext,
+}) => {
+  return (
+    <>
+      <div className="p-2">
+        <p className="text-sm">A powerful catch awaits!</p>
+        <p className="text-sm">Use all your strength to reel it in.</p>
+        <p className="text-sm">Stop the green bar on the fish to succeed</p>
+        <p className="text-sm">Be quick - 3 wrong tries, and it escapes!</p>
+      </div>
+      <Button onClick={onNext}>Next</Button>
+    </>
   );
+};
+
+export const FishingChallenge: React.FC<Props> = ({
+  onCatch,
+  onMiss,
+  difficulty = 1,
+  fishName,
+}) => {
+  const [showIntro, setShowIntro] = useState(true);
+  const [state, setState] = useState<"idle" | "playing">("idle");
 
   const [tentacleAngle, setTentacleAngle] = useState(getRandomAngle(150, 0));
   const [attempts, setAttempts] = useState<Attempt[]>([]);
@@ -101,7 +102,14 @@ export const FishingBar: React.FC = () => {
   const greenBarProps = useSpring({
     from: { transform: `rotate(${castFrom}deg)` },
     to: { transform: `rotate(${castTo}deg)` },
-    onRest: () => changeDirection(castTo),
+    onRest: () => {
+      if (misses >= 2) {
+        onMiss();
+      }
+
+      changeDirection(castTo);
+      setAttempts((prev) => [...prev, "miss"]);
+    },
     config: {
       duration: getSpeed(attempts.length),
     },
@@ -115,9 +123,8 @@ export const FishingBar: React.FC = () => {
     from: { transform: `rotate(${tentacleAngle}deg)` },
     to: { transform: `rotate(${tentacleAngle}deg)` },
     config: {
-      duration: 3000,
+      duration: 5000,
     },
-    pause: true,
   });
 
   const barHeight = 10;
@@ -130,34 +137,30 @@ export const FishingBar: React.FC = () => {
       normaliseAngle(greenBarAngle) - normaliseAngle(tentacleAngle)
     );
 
-    console.log({ greenBarAngle, tentacleAngle, degreeDifference, barHeight });
-
     const fishBuffer = 5;
     const hit = degreeDifference < barHeight + fishBuffer;
 
     setAttempts((prev) => [...prev, hit ? "hit" : "miss"]);
 
     if (!hit) {
-      if (misses === 2) {
-        setState("escaped");
+      if (misses >= 2) {
+        onMiss();
       }
     } else {
-      if (hits === 9) {
-        setState("caught");
+      if (hits >= 9) {
+        onCatch();
       }
     }
 
-    setTentacleAngle((prev) => getRandomAngle(150, prev));
+    const minimumAngle = 150 - attempts.length * 10;
+
+    setTentacleAngle((prev) => getRandomAngle(minimumAngle, prev));
 
     changeDirection(greenBarAngle);
   };
 
-  if (state === "caught") {
-    return <p>Caught</p>;
-  }
-
-  if (state === "escaped") {
-    return <p>Escaped</p>;
+  if (showIntro) {
+    return <FishingChallengeIntro onNext={() => setShowIntro(false)} />;
   }
 
   let castIndicatorColour = "#ffffff";
@@ -298,30 +301,12 @@ export const FishingBar: React.FC = () => {
         </div>
       </div>
       {state === "idle" && (
-        <Button onClick={() => setState("playing")}>Cast</Button>
+        <Button onClick={() => setState("playing")}>Start</Button>
       )}
 
       {state === "playing" && (
         <SensitiveButton onClick={reel}>Reel</SensitiveButton>
       )}
     </div>
-  );
-};
-
-// The better the bait, the larger the 'catch' zone
-const BAIT_SIZE: Record<FishingBait, number> = {
-  Earthworm: 10,
-  Grub: 13,
-  "Red Wiggler": 16,
-};
-
-interface Props {
-  onClose: () => void;
-}
-export const KrakenMechanic: React.FC<Props> = ({ onClose }) => {
-  return (
-    <Panel>
-      <FishingBar />
-    </Panel>
   );
 };

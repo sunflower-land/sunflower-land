@@ -2,26 +2,30 @@ import cloneDeep from "lodash.clonedeep";
 
 import { GameState } from "../../types/game";
 
-export type CastKrakenAction = {
-  type: "kraken.casted";
+export type MissFishAction = {
+  type: "fish.missed";
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: CastKrakenAction;
+  action: MissFishAction;
   createdAt?: number;
 };
 
-export function catchKraken({
+export function missFish({
   state,
   action,
   createdAt = Date.now(),
 }: Options): GameState {
   const game = cloneDeep(state) as GameState;
 
-  // Store attempt
+  if (!game.fishing.wharf.castedAt) {
+    throw new Error("Nothing has been casted");
+  }
 
-  // Add tentacle
+  delete game.fishing.wharf.castedAt;
+  delete game.fishing.wharf.caught;
+  delete game.fishing.wharf.chum;
 
   return {
     ...game,

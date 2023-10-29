@@ -33,8 +33,9 @@ export type FishName =
   | "Sunfish"
   | "Coelacanth"
   | "Whale Shark"
-  | "Saw Shark" // Coming Soon
-  | "White Shark"; // Coming Soon
+  | "Saw Shark"
+  | "White Shark"
+  | "Kraken Tentacle";
 
 export type MarineMarvelName =
   | "Twilight Anglerfish"
@@ -205,6 +206,11 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     baits: ["Earthworm", "Red Wiggler"],
     type: "marine marvel",
   },
+
+  "Kraken Tentacle": {
+    baits: ["Earthworm", "Grub", "Red Wiggler"],
+    type: "expert",
+  },
 };
 
 export type Tide = "Dusktide" | "Dawnlight";
@@ -219,3 +225,28 @@ export function getTide(utcTime: Date = new Date()): Tide {
     return "Dusktide";
   }
 }
+
+/**
+ * Difficulty 1-5 how hard the challenge will be
+ */
+export const FISH_DIFFICULTY: Partial<
+  Record<FishName | MarineMarvelName, number>
+> = {
+  "Horse Mackerel": 1,
+  Squid: 1,
+  "Zebra Turkeyfish": 1,
+  Ray: 1,
+  "Hammerhead shark": 2,
+  Sunfish: 2,
+  Coelacanth: 2,
+  "Barred Knifejaw": 3,
+  "Whale Shark": 3,
+  "Gilded Swordfish": 3,
+  "Kraken Tentacle": 3,
+  "Saw Shark": 4,
+  "White Shark": 4,
+  "Radiant Ray": 4,
+  "Phantom Barracuda": 4,
+  "Starlight Tuna": 5,
+  "Twilight Anglerfish": 5,
+};

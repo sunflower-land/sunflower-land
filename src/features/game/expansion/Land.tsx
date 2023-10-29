@@ -35,8 +35,6 @@ import ocean from "assets/decorations/ocean.webp";
 import { Bud } from "features/island/buds/Bud";
 import { hasFeatureAccess } from "lib/flags";
 import { Fisherman } from "features/island/fisherman/Fisherman";
-import { KrakenMechanic } from "features/island/fisherman/KrakenMechanic";
-import { Modal } from "react-bootstrap";
 
 export const LAND_WIDTH = 6;
 
@@ -498,9 +496,6 @@ export const Land: React.FC = () => {
           {landscaping && <Placeable />}
         </div>
 
-        <Modal show centered>
-          <KrakenMechanic onClose={console.log} />
-        </Modal>
         {!landscaping && hasFeatureAccess(state, "FISHING") && <Fisherman />}
 
         {/* Background darkens in landscaping */}
