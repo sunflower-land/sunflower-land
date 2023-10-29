@@ -2,6 +2,7 @@ import React, { useLayoutEffect } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItemName } from "features/game/types/game";
+import bg from "assets/ui/brown_background.png";
 
 import { getOpenSeaLink } from "../lib/utils";
 import { KNOWN_IDS } from "features/game/types";
@@ -85,7 +86,7 @@ export const Detail: React.FC<Props> = ({
           <div
             className="w-3/5 sm:w-1/2 rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-40"
             style={{
-              backgroundImage: `url(public/erc1155/brown_background.png)`,
+              backgroundImage: `url(${bg})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
