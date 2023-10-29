@@ -8,6 +8,7 @@ import { Button } from "components/ui/Button";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { useSpring, animated } from "react-spring";
 import { SensitiveButton } from "components/ui/SensitiveButton";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 // Function to generate a random angle at least 150 degrees away from a given angle
 function getRandomAngle(minDistance: number, existingAngle: number) {
@@ -36,6 +37,14 @@ const normaliseAngle = (angle: number) => {
 type Attempt = "hit" | "miss";
 
 function getSpeed(attempts: number) {
+  if (attempts > 20) {
+    return 1000;
+  }
+
+  if (attempts > 15) {
+    return 1200;
+  }
+
   if (attempts > 10) {
     return 1500;
   }
@@ -50,6 +59,15 @@ function getSpeed(attempts: number) {
 
   return 3000;
 }
+
+// Difficult to health
+const FISH_HEALTH: Record<number, number> = {
+  1: 10,
+  2: 13,
+  3: 16,
+  4: 20,
+  5: 25,
+};
 
 interface Props {
   onCatch: () => void;
@@ -89,6 +107,8 @@ export const FishingChallenge: React.FC<Props> = ({
   const direction = useRef<"clockwise" | "anticlockwise">("clockwise");
   const [castFrom, setCastFrom] = useState(0);
   const [castTo, setCastTo] = useState(360);
+
+  const health = FISH_HEALTH[difficulty] ?? 10;
 
   const changeDirection = (fromDegrees: number) => {
     const to =
@@ -147,7 +167,7 @@ export const FishingChallenge: React.FC<Props> = ({
         onMiss();
       }
     } else {
-      if (hits >= 9) {
+      if (hits >= health) {
         onCatch();
       }
     }
@@ -174,7 +194,7 @@ export const FishingChallenge: React.FC<Props> = ({
     <div className="flex flex-col">
       <div className="flex w-full justify-center">
         <ResizableBar
-          percentage={100 - (hits / 10) * 100}
+          percentage={100 - (hits / health) * 100}
           type={"error"}
           outerDimensions={{
             width: 50,
@@ -283,7 +303,14 @@ export const FishingChallenge: React.FC<Props> = ({
         </animated.div>
 
         <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center z-50">
-          <img src={kraken} width="80px" />
+          <img
+            src={
+              fishName === "Kraken Tentacle"
+                ? kraken
+                : ITEM_DETAILS[fishName]?.image
+            }
+            width="80px"
+          />
 
           <div className="flex justify-center items-center space-x-1 mt-1">
             {new Array(3).fill(null)?.map((_, index) => {
