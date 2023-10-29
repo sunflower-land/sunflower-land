@@ -767,7 +767,7 @@ export const ITEM_DETAILS: Items = {
     image: orange,
   },
   Banana: {
-    description: FRUIT()["Orange"].description,
+    description: FRUIT()["Banana"].description,
     image: banana,
   },
   Honey: {
