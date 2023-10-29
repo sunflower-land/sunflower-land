@@ -417,13 +417,15 @@ export abstract class BaseScene extends Phaser.Scene {
 
       // add WASD keys
       this.cursorKeys.w = this.input.keyboard?.addKey(
-        layout === "QWERTY" ? "W" : "Z"
+        layout === "QWERTY" ? "W" : "Z",
+        false
       );
       this.cursorKeys.a = this.input.keyboard?.addKey(
-        layout === "QWERTY" ? "A" : "Q"
+        layout === "QWERTY" ? "A" : "Q",
+        false
       );
-      this.cursorKeys.s = this.input.keyboard?.addKey("S");
-      this.cursorKeys.d = this.input.keyboard?.addKey("D");
+      this.cursorKeys.s = this.input.keyboard?.addKey("S", false);
+      this.cursorKeys.d = this.input.keyboard?.addKey("D", false);
 
       this.input.keyboard?.removeCapture("SPACE");
     }
@@ -660,6 +662,8 @@ export abstract class BaseScene extends Phaser.Scene {
 
     // use keyboard control if joystick is not active
     if (this.movementAngle === undefined) {
+      if (document.activeElement?.tagName === "INPUT") return;
+
       const left =
         (this.cursorKeys?.left.isDown || this.cursorKeys?.a?.isDown) ?? false;
       const right =
