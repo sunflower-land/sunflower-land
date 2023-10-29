@@ -410,18 +410,20 @@ export abstract class BaseScene extends Phaser.Scene {
     // Initialise Keyboard
     this.cursorKeys = this.input.keyboard?.createCursorKeys();
     if (this.cursorKeys) {
-      // this.cursorKeys.w = this.input.keyboard?.addKey(
-      //   Phaser.Input.Keyboard.KeyCodes.W
-      // );
-      // this.cursorKeys.a = this.input.keyboard?.addKey(
-      //   Phaser.Input.Keyboard.KeyCodes.A
-      // );
-      // this.cursorKeys.s = this.input.keyboard?.addKey(
-      //   Phaser.Input.Keyboard.KeyCodes.S
-      // );
-      // this.cursorKeys.d = this.input.keyboard?.addKey(
-      //   Phaser.Input.Keyboard.KeyCodes.D
-      // );
+      const mmoLocalSettings = JSON.parse(
+        localStorage.getItem("mmo_settings") ?? "{}"
+      );
+      const layout = mmoLocalSettings.layout ?? "QWERTY";
+
+      // add WASD keys
+      this.cursorKeys.w = this.input.keyboard?.addKey(
+        layout === "QWERTY" ? "W" : "Z"
+      );
+      this.cursorKeys.a = this.input.keyboard?.addKey(
+        layout === "QWERTY" ? "A" : "Q"
+      );
+      this.cursorKeys.s = this.input.keyboard?.addKey("S");
+      this.cursorKeys.d = this.input.keyboard?.addKey("D");
 
       this.input.keyboard?.removeCapture("SPACE");
     }
