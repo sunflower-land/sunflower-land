@@ -305,7 +305,10 @@ export const OFFLINE_FARM: GameState = {
   id: 4,
   catchTheKraken: {
     hunger: "Red Snapper",
-    weeklyCatches: {},
+    weeklyCatches: {
+      1: 5,
+      13: 5,
+    },
   },
   witchesEve: {
     weeklyLostCrowCount: 25,

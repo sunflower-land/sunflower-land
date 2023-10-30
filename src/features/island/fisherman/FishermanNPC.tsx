@@ -20,6 +20,7 @@ import { FishingChallenge } from "./FishingChallenge";
 import { Panel } from "components/ui/Panel";
 import { getKeys } from "features/game/types/craftables";
 import { FISH, FISH_DIFFICULTY, FishName } from "features/game/types/fishing";
+import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -75,7 +76,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const [
     {
       context: {
-        state: { fishing, farmActivity },
+        state: { fishing, farmActivity, catchTheKraken },
       },
     },
   ] = useActor(gameService);
@@ -102,7 +103,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     // TESTING
     if (!CONFIG.API_URL) {
       setTimeout(() => {
-        fishing.wharf = { castedAt: 10000, caught: { "Phantom Barracuda": 1 } };
+        fishing.wharf = { castedAt: 10000, caught: { "Kraken Tentacle": 1 } };
       }, 1000);
     }
   };
@@ -125,7 +126,14 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const fish = getKeys(fishing.wharf.caught ?? {}).find((fish) => fish in FISH);
 
   const reelIn = () => {
-    const fishDifficulty = FISH_DIFFICULTY[fish as FishName];
+    let fishDifficulty = FISH_DIFFICULTY[fish as FishName];
+
+    // The more tentacles you catch, the harder it gets
+    if (fish === "Kraken Tentacle") {
+      const tentaclesCaught =
+        catchTheKraken.weeklyCatches[getSeasonWeek()] ?? 0;
+      fishDifficulty = Math.ceil((tentaclesCaught + 1) / 2);
+    }
 
     if (fishDifficulty) {
       setChallengeDifficulty(fishDifficulty);
