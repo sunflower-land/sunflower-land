@@ -46,7 +46,10 @@ type InteractableName =
   | "plaza_orange_book"
   | "plaza_green_book"
   | "potion_house"
-  | "clubhouse_reward";
+  | "clubhouse_reward"
+  | "beach_green_book"
+  | "beach_orange_book"
+  | "beach_blue_book";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -186,6 +189,66 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
             },
             {
               text: "Until then, we will keep Sunflower Land alive in our hearts and dreams, waiting for the day of our triumphant return",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "beach_green_book"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.finley}
+          message={[
+            {
+              text: "When you're after those coveted Red Snappers, try an unexpected twist",
+            },
+            {
+              text: "Use Apples with Red Wiggler Bait, and watch those crimson beauties practically leap into your net.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "beach_blue_book"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.finn}
+          message={[
+            {
+              text: "Don't tell Shelly, but I've been trying to bring Saw Sharks to the beach!",
+            },
+            {
+              text: "I've been experimenting with different chums lately, but the only one that seems to work is Red Snapper.",
+            },
+            {
+              text: "These oceanic hunters can smell a Red Snapper feast from miles away, so don't be surprised if they come charging. ",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "beach_orange_book"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.finley}
+          message={[
+            {
+              text: "A radiant fin appeared on the surface, I couldn't believe my eyes!",
+            },
+            {
+              text: "Luckily Tango was with me, he must be my good luck charm.",
             },
           ]}
         />

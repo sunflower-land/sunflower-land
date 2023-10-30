@@ -19,6 +19,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import {
   CHUM_AMOUNTS,
+  CHUM_DETAILS,
   FISH,
   FishingBait,
   getTide,
@@ -57,7 +58,7 @@ const ChumSelection: React.FC<{
 
   return (
     <div>
-      <p className="mb-1 p-1 text-sm">What resource would you like to chum?</p>
+      <p className="mb-1 p-1 text-xs">Select your resource:</p>
 
       <div className="flex flex-wrap">
         {getKeys(CHUM_AMOUNTS)
@@ -74,19 +75,22 @@ const ChumSelection: React.FC<{
       </div>
 
       {selected && (
-        <>
-          <div className="flex items-center p-1 relative">
-            <span className="text-sm mr-1">{`${CHUM_AMOUNTS[selected]}`}</span>
-            <img src={ITEM_DETAILS[selected].image} className="h-6 mr-1" />
-            <span className="text-sm mr-1">are needed to chum.</span>
-          </div>
-          {!hasRequirements && (
+        <div className="p-2">
+          <div className="flex justify-between">
             <Label
-              type="danger"
+              type="default"
               className="mb-1"
-            >{`You need more ${selected}`}</Label>
-          )}
-        </>
+              icon={ITEM_DETAILS[selected].image}
+            >
+              {selected}
+            </Label>
+            <Label
+              type={!hasRequirements ? "danger" : "default"}
+              className="mb-1"
+            >{`${CHUM_AMOUNTS[selected]} ${selected} required`}</Label>
+          </div>
+          <p className="text-xs">{CHUM_DETAILS[selected]}</p>
+        </div>
       )}
 
       <div className="flex">
