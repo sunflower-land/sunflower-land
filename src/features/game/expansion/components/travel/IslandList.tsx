@@ -6,7 +6,7 @@ import classNames from "classnames";
 import * as Auth from "features/auth/lib/Provider";
 import { OuterPanel } from "components/ui/Panel";
 import { BumpkinLevel, getBumpkinLevel } from "features/game/lib/level";
-import { Bumpkin, Inventory } from "features/game/types/game";
+import { Bumpkin, GameState } from "features/game/types/game";
 import { VisitLandExpansionForm } from "../VisitLandExpansionForm";
 import { Label } from "components/ui/Label";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -26,7 +26,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasFeatureAccess } from "lib/flags";
 import { SEASONS } from "features/game/types/seasons";
-import { Context } from "features/game/GameProvider";
+import { GoblinState } from "features/game/lib/goblinMachine";
 
 interface Island {
   name: string;
@@ -49,7 +49,7 @@ interface IslandProps extends Island {
 interface IslandListProps {
   bumpkin: Bumpkin | undefined;
   showVisitList: boolean;
-  inventory: Inventory;
+  gameState: GameState | GoblinState;
   travelAllowed: boolean;
   hasBetaAccess?: boolean;
   onClose: () => void;
@@ -166,12 +166,12 @@ export const IslandList: React.FC<IslandListProps> = ({
   bumpkin,
   showVisitList,
   travelAllowed,
-  inventory,
+  gameState,
   hasBetaAccess = false,
   onClose,
 }) => {
   const { authService } = useContext(Auth.Context);
-  const { gameService } = useContext(Context);
+
   const userType = useSelector(authService, userTypeSelector);
   const farmId = useSelector(authService, farmIdSelector);
   const state = useSelector(authService, stateSelector);
@@ -179,7 +179,6 @@ export const IslandList: React.FC<IslandListProps> = ({
   const location = useLocation();
   const [view, setView] = useState<"list" | "visitForm">("list");
 
-  const initialState = gameService.state.context.state;
   const islands: Island[] = [
     {
       name: "Home",
@@ -188,7 +187,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       path: `/land/${farmId}`,
       labels: [],
     },
-    ...(hasFeatureAccess(initialState, "PUMPKIN_PLAZA") ||
+    ...(hasFeatureAccess(gameState, "PUMPKIN_PLAZA") ||
     Date.now() > SEASONS["Witches' Eve"].startDate.getTime()
       ? [
           {
@@ -226,7 +225,7 @@ export const IslandList: React.FC<IslandListProps> = ({
           },
         ]
       : []),
-    ...(hasFeatureAccess(initialState, "BEACH")
+    ...(hasFeatureAccess(gameState, "BEACH")
       ? [
           {
             name: "Beach",
@@ -248,7 +247,7 @@ export const IslandList: React.FC<IslandListProps> = ({
           },
         ]
       : []),
-    ...(hasFeatureAccess(initialState, "PUMPKIN_PLAZA") ||
+    ...(hasFeatureAccess(gameState, "PUMPKIN_PLAZA") ||
     Date.now() > SEASONS["Witches' Eve"].startDate.getTime()
       ? [
           {
@@ -378,7 +377,7 @@ export const IslandList: React.FC<IslandListProps> = ({
           bumpkin={bumpkin}
           currentPath={location.pathname}
           disabled={!travelAllowed}
-          passRequired={item.passRequired && !inventory["Gold Pass"]}
+          passRequired={item.passRequired && !gameState.inventory["Gold Pass"]}
         />
       ))}
       {!hideVisitOption && (
