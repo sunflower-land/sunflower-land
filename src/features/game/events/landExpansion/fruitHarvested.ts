@@ -110,6 +110,13 @@ export function getFruitYield({
     amount += 0.1;
   }
 
+  if (
+    name === "Banana" &&
+    isCollectibleBuilt("Chilling Banana", collectibles)
+  ) {
+    amount += 0.5;
+  }
+
   amount += getBudYieldBoosts(buds, name);
 
   return amount;
