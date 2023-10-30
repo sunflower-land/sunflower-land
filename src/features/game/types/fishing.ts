@@ -17,7 +17,7 @@ export type FishName =
   | "Squid"
   // Advanced
   | "Red Snapper"
-  | "Mooray Eel"
+  | "Moray Eel"
   | "Olive Flounder"
   | "Napoleanfish"
   | "Surgeonfish"
@@ -144,7 +144,7 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     baits: ["Grub"],
     type: "advanced",
   },
-  "Mooray Eel": {
+  "Moray Eel": {
     baits: ["Grub"],
     type: "advanced",
   },
