@@ -46,7 +46,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
       Pickaxe: new Decimal(90),
       "Stone Pickaxe": new Decimal(30),
       "Iron Pickaxe": new Decimal(8),
-      Rod: new Decimal(100),
+      Rod: new Decimal(75),
     };
   }
 
