@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
 
@@ -65,6 +65,7 @@ interface Props {
 
 export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const spriteRef = useRef<SpriteSheetInstance>();
+  const didRefresh = useRef(false);
 
   const [showReelLabel, setShowReelLabel] = useState(false);
   const [showCaughtModal, setShowCaughtModal] = useState(false);
@@ -80,6 +81,11 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
       },
     },
   ] = useActor(gameService);
+
+  // Catches cases where players try reset their fishing challenge
+  useEffect(() => {
+    didRefresh.current = !!fishing.wharf.caught;
+  }, []);
 
   let initialState: FishingState = "idle";
   if (fishing.wharf.caught || fishing.wharf.castedAt) {
@@ -135,15 +141,21 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
       fishDifficulty = Math.ceil((tentaclesCaught + 1) / 2);
     }
 
-    if (fishDifficulty) {
+    if (fishDifficulty && didRefresh.current) {
+      // Player refreshed during challenge
+      onChallengeLost();
+    } else if (fishDifficulty) {
+      // Show fishing challenge
       setChallengeDifficulty(fishDifficulty);
       setShowChallenge(true);
     } else {
+      // Instantly reel in
       spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
       spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
     }
 
     setShowReelLabel(false);
+    didRefresh.current = false;
   };
 
   const onChallengeWon = () => {
