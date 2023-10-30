@@ -1,5 +1,5 @@
 import { SeasonWeek } from "features/game/types/game";
-import { SEASONS } from "features/game/types/seasons";
+import { SEASONS, getCurrentSeason } from "features/game/types/seasons";
 
 /**
  * Helper function to get the week number of the season
@@ -7,7 +7,7 @@ import { SEASONS } from "features/game/types/seasons";
  */
 export function getSeasonWeek(): SeasonWeek {
   const now = Date.now();
-  const { startDate, endDate } = SEASONS["Witches' Eve"];
+  const { startDate, endDate } = SEASONS[getCurrentSeason()];
   const endTime = endDate.getTime();
   const startTime = startDate.getTime();
 
@@ -20,4 +20,25 @@ export function getSeasonWeek(): SeasonWeek {
   }
 
   return Math.min(Math.max(totalWeeks + 1, 1), 13) as SeasonWeek; // Return the week number, minimum is 1, maximum is 12
+}
+
+/**
+ * Helps implement a preseason where tasks are 'frozen'
+ * This ensures a smooth transition and testing period.
+ */
+export function getSeasonChangeover(now = Date.now()) {
+  const season = getCurrentSeason(new Date(now));
+  const incomingSeason = getCurrentSeason(new Date(now + 24 * 60 * 60 * 1000));
+
+  const tasksCloseAt = SEASONS[season].endDate.getTime() - 24 * 60 * 60 * 1000;
+  const tasksStartAt =
+    SEASONS[incomingSeason].startDate.getTime() + 3 * 60 * 60 * 1000;
+
+  return {
+    tasksCloseAt,
+    tasksStartAt,
+    tasksAreClosing:
+      now < tasksCloseAt && now >= tasksCloseAt - 24 * 60 * 60 * 1000,
+    tasksAreFrozen: now <= tasksStartAt,
+  };
 }

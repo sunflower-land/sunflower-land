@@ -12,6 +12,7 @@ import {
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { hasFeatureAccess } from "lib/flags";
 import { NPCName } from "lib/npcs";
+import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import cloneDeep from "lodash.clonedeep";
 
 export type DeliverOrderAction = {
@@ -181,6 +182,11 @@ export function deliverOrder({ state, action }: Options): GameState {
 
   if (order.readyAt > Date.now()) {
     throw new Error("Order has not started");
+  }
+
+  const { tasksAreFrozen } = getSeasonChangeover();
+  if (tasksAreFrozen) {
+    throw new Error("Tasks are frozen");
   }
 
   getKeys(order.items).forEach((name) => {
