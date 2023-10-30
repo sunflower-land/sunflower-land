@@ -103,7 +103,7 @@ export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 <IslandList
                   bumpkin={gameState.context.state.bumpkin}
                   showVisitList={false}
-                  inventory={gameState.context.state.inventory}
+                  gameState={gameState.context.state}
                   travelAllowed={true}
                   hasBetaAccess={
                     !!gameState.context.state.inventory["Beta Pass"]

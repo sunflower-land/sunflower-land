@@ -65,7 +65,7 @@ export const BeachParty: React.FC = () => {
       {/*<Leprechaun x={40.5} y={21.3} />*/}
 
       <IslandTravel
-        inventory={gameState.context.state.inventory}
+        gameState={gameState.context.state}
         bumpkin={gameState.context.state.bumpkin}
         x={0.5}
         y={-5.5}

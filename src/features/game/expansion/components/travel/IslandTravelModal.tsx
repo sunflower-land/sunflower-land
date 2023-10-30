@@ -7,7 +7,7 @@ import { IslandList } from "./IslandList";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { Equipped } from "features/game/types/bumpkin";
 import { Tutorial } from "./Tutorial";
-import { Bumpkin, Inventory } from "features/game/types/game";
+import { Bumpkin, GameState } from "features/game/types/game";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 const CONTENT_HEIGHT = 380;
@@ -15,7 +15,7 @@ const CONTENT_HEIGHT = 380;
 interface IslandTravelModalProps {
   isOpen: boolean;
   bumpkin: Bumpkin | undefined;
-  inventory: Inventory;
+  gameState: GameState;
   isVisiting?: boolean;
   travelAllowed: boolean;
   onShow?: () => void;
@@ -24,7 +24,7 @@ interface IslandTravelModalProps {
 
 export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
   bumpkin,
-  inventory,
+  gameState,
   isVisiting = false,
   travelAllowed,
   isOpen,
@@ -57,7 +57,7 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
       </Modal>
     );
   }
-  const hasBetaAccess = !!inventory["Beta Pass"];
+  const hasBetaAccess = !!gameState.inventory["Beta Pass"];
   return (
     <Modal centered show={isOpen} onHide={onClose} onShow={onShow}>
       <CloseButtonPanel
@@ -73,7 +73,7 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
           <IslandList
             bumpkin={bumpkin}
             showVisitList={isVisiting}
-            inventory={inventory}
+            gameState={gameState}
             travelAllowed={travelAllowed}
             hasBetaAccess={hasBetaAccess}
             onClose={onClose}
