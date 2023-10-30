@@ -66,6 +66,7 @@ import anchor from "assets/sfts/anchor.webp";
 import chillingBanana from "assets/sfts/chilling_banana.webp";
 import rubberDucky from "assets/sfts/rubber_ducky.webp";
 import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
+import krakenHead from "assets/sfts/kraken_head.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -2817,6 +2818,12 @@ export const ITEM_DETAILS: Items = {
     itemType: "collectible",
   },
 
+  "Kraken Tentacle": {
+    image: krakenTentacle,
+    description:
+      "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
+  },
+
   "Sapo Docuras": {
     description: "A real treat!",
     image: sapoDocuras,
@@ -2880,9 +2887,9 @@ export const ITEM_DETAILS: Items = {
     description:
       "Float on fun with this classic quacker, bringing bubbly joy to every corner!",
   },
-  "Kraken Tentacle": {
-    image: krakenTentacle,
+  "Kraken Head": {
+    image: krakenHead,
     description:
-      "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
+      "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
   },
 };

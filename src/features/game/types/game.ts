@@ -509,6 +509,11 @@ export type WitchesEve = {
   maze: MazeAttempts;
 };
 
+export type CatchTheKraken = {
+  weeklyCatches: Partial<Record<SeasonWeek, number>>;
+  hunger: InventoryItemName;
+};
+
 export type Mushroom = {
   name: MushroomName;
   amount: number;
@@ -785,6 +790,7 @@ export interface GameState {
   chores?: ChoresV2;
   mushrooms: Mushrooms;
   witchesEve?: WitchesEve;
+  catchTheKraken: CatchTheKraken;
   potionHouse?: PotionHouse;
 
   trades: {

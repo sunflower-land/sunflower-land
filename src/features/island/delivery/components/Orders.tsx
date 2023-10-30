@@ -85,7 +85,14 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
       (o) =>
         // Filter out beach NPCs
         !(
-          ["corale", "tango", "finley", "finn", "miranda"] as NPCName[]
+          [
+            "corale",
+            "tango",
+            "finley",
+            "finn",
+            "miranda",
+            "shelly",
+          ] as NPCName[]
         ).includes(o.from)
     );
   }

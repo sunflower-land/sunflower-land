@@ -211,6 +211,10 @@ export const TEST_FARM: GameState = {
     wharf: {},
     dailyAttempts: {},
   },
+  catchTheKraken: {
+    hunger: "Sunflower",
+    weeklyCatches: {},
+  },
   wardrobe: {},
   createdAt: new Date().getTime(),
   conversations: [],
@@ -449,6 +453,10 @@ export const EMPTY: GameState = {
   mushrooms: {
     spawnedAt: 0,
     mushrooms: {},
+  },
+  catchTheKraken: {
+    hunger: "Sunflower",
+    weeklyCatches: {},
   },
 };
 
