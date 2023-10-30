@@ -6012,7 +6012,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Decoration", value: "Creatures" },
     ],
   },
-  "Kraken Tentacle": {
+  "Kraken Head": {
     description:
       "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
     decimals: 0,
@@ -6020,6 +6020,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/484.png",
     attributes: [
       { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Decoration", value: "Creatures" },
+    ],
+  },
+  "Kraken Tentacle": {
+    description: "Protect the beach and catch the Kraken!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1533.png",
+    attributes: [
+      { trait_type: "Tradable", value: "No" },
       { trait_type: "Decoration", value: "Creatures" },
     ],
   },

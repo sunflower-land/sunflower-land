@@ -35,15 +35,15 @@ export type FishName =
   | "Coelacanth"
   | "Whale Shark"
   | "Saw Shark"
-  | "White Shark"
-  | "Kraken Tentacle";
+  | "White Shark";
 
 export type MarineMarvelName =
   | "Twilight Anglerfish"
   | "Starlight Tuna"
   | "Radiant Ray"
   | "Phantom Barracuda"
-  | "Gilded Swordfish";
+  | "Gilded Swordfish"
+  | "Kraken Tentacle";
 
 export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
   Gold: 1,

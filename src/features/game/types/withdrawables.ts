@@ -417,7 +417,6 @@ const consumables: Record<ConsumableName, () => boolean> = {
   Sunfish: () => false,
   Surgeonfish: () => false,
   Tuna: () => false,
-  "Kraken Tentacle": () => false,
 };
 
 const decorations: Record<ShopDecorationName, () => boolean> = {
@@ -570,7 +569,7 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   Anchor: () => canWithdrawTimebasedItem(new Date("01-28-2024")),
   "Chilling Banana": () => canWithdrawTimebasedItem(new Date("01-13-2024")),
   "Rubber Ducky": () => canWithdrawTimebasedItem(new Date("01-10-2024")),
-  "Kraken Tentacle": () => canWithdrawTimebasedItem(new Date("01-22-2024")),
+  "Kraken Head": () => canWithdrawTimebasedItem(new Date("01-22-2024")),
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
