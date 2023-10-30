@@ -205,6 +205,7 @@ const mutantChickens: Record<MutantChicken, () => boolean> = {
   "Rich Chicken": () => true,
   "Speed Chicken": () => true,
   "El Pollo Veloz": () => true,
+  "Banana Chicken": () => true,
 };
 
 const flags: Record<Flag, () => boolean> = {

@@ -83,6 +83,7 @@ import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 import richChicken from "assets/animals/chickens/rich_chicken.gif";
 import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
+import bananaChicken from "assets/animals/chickens/banana_chicken.png";
 
 // Foods
 import roastedCauliflower from "assets/food/roasted_cauliflower.png";
@@ -2928,5 +2929,9 @@ export const ITEM_DETAILS: Items = {
     image: krakenHead,
     description:
       "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
+  },
+  "Banana Chicken": {
+    image: bananaChicken,
+    description: "A chicken that boosts bananas. What a world we live in.",
   },
 };
