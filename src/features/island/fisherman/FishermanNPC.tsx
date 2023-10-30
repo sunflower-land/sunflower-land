@@ -177,19 +177,22 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     if (fishing.wharf.caught) {
       gameService.send("rod.reeled");
     }
+  };
+
+  const close = () => {
     setShowCaughtModal(false);
   };
 
   return (
     <>
-      <Modal centered show={showCaughtModal} onHide={claim}>
+      <Modal centered show={showCaughtModal} onHide={close} onExited={claim}>
         <CloseButtonPanel
-          onClose={claim}
+          onClose={close}
           bumpkinParts={NPC_WEARABLES["reelin roy"]}
         >
           <FishCaught
             caught={fishing.wharf.caught ?? {}}
-            onClaim={claim}
+            onClaim={close}
             farmActivity={farmActivity}
           />
         </CloseButtonPanel>
