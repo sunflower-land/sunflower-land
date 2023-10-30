@@ -23,31 +23,6 @@ export function getSeasonWeek(): SeasonWeek {
 }
 
 /**
- *
- */
-export function getSeasonTasksEndAt(): number {
-  const currentSeason = getCurrentSeason();
-
-  return SEASONS[currentSeason].endDate.getTime() - 24 * 60 * 60 * 1000;
-}
-
-/**
- * When seasonal activities can commence (3 hrs after start)
- */
-export function getSeasonTasksStartAt(): number {
-  let season = getCurrentSeason();
-
-  const tasksHaveEnded = getSeasonTasksEndAt() > Date.now();
-
-  // Return next season
-  if (tasksHaveEnded) {
-    season = getCurrentSeason(new Date(Date.now() + 36 * 60 * 60 * 1000));
-  }
-
-  return SEASONS[season].startDate.getTime() + 3 * 60 * 60 * 1000;
-}
-
-/**
  * Helps implement a preseason where tasks are 'frozen'
  * This ensures a smooth transition and testing period.
  */

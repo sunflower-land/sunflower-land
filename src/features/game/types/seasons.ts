@@ -62,28 +62,6 @@ export function getCurrentSeason(now = new Date()): SeasonName {
   return currentSeason;
 }
 
-/**
- * Preseason is the period where time sensitive features pause (deliveries, chores etc.)
- * This ensures a smooth transition and testing period.
- */
-export function isPreSeason(): SeasonName {
-  const now = new Date();
-
-  const seasons = Object.keys(SEASONS) as SeasonName[];
-
-  const currentSeason = seasons.find((season) => {
-    const { startDate, endDate } = SEASONS[season];
-
-    return now >= startDate && now <= endDate;
-  });
-
-  if (!currentSeason) {
-    throw new Error("No Season found");
-  }
-
-  return currentSeason;
-}
-
 export function getSeasonalTicket(): SeasonalTicket {
   const currentSeason = getCurrentSeason();
 
