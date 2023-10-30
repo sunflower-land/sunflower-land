@@ -585,9 +585,6 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               Deliveries closed
             </Label>
           )}
-          <Button disabled={!canFulfill || tasksAreFrozen} onClick={deliver}>
-            Deliver
-          </Button>
         </OuterPanel>
       )}
     </div>
