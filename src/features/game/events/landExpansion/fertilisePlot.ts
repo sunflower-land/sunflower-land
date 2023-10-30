@@ -4,6 +4,7 @@ import { GameState } from "../../types/game";
 import { CropCompostName } from "features/game/types/composters";
 import { CROPS, Crop } from "features/game/types/crops";
 import { isReadyToHarvest } from "./harvest";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export type LandExpansionFertiliseCropAction = {
   type: "plot.fertilised";
@@ -49,7 +50,7 @@ export function fertilisePlot({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { crops: plots, inventory } = stateCopy;
+  const { crops: plots, inventory, collectibles } = stateCopy;
 
   if (!plots[action.plotID]) {
     throw new Error(FERTILISE_CROP_ERRORS.EMPTY_PLOT);
@@ -95,7 +96,9 @@ export function fertilisePlot({
     }
 
     if (!!crop && action.fertiliser === "Sprout Mix") {
-      crop.amount = (crop.amount ?? 1) + 0.2;
+      if (isCollectibleBuilt("Knowledge Crab", collectibles)) {
+        crop.amount = (crop.amount ?? 1) + 0.4;
+      } else crop.amount = (crop.amount ?? 1) + 0.2;
     }
   }
 

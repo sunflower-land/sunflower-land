@@ -81,7 +81,9 @@ export function castRod({
   }
 
   // Subtracts Rod
-  game.inventory.Rod = rodCount.sub(1);
+  if (game.bumpkin.equipped.tool !== "Ancient Rod") {
+    game.inventory.Rod = rodCount.sub(1);
+  }
 
   // Subtracts Bait
   game.inventory[action.bait] = baitCount.sub(1);
