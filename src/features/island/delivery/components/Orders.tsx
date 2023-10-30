@@ -41,6 +41,7 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Label } from "components/ui/Label";
+import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -167,6 +168,9 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     return <Revealed onAcknowledged={() => setIsRevealing(false)} />;
   }
 
+  const { tasksAreClosing, tasksStartAt, tasksCloseAt, tasksAreFrozen } =
+    getSeasonChangeover();
+
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1">
       <div
@@ -215,6 +219,38 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
             }}
           />
         </div>
+        {
+          // Give 24 hours heads up before tasks close
+          tasksAreClosing && (
+            <div className="flex flex-col items-center">
+              <p className="text-xs text-center">
+                A new season approaches, deliveries will temporarily close.
+              </p>
+              <Label type="info" icon={SUNNYSIDE.icons.timer} className="mt-1">
+                {secondsToString((tasksCloseAt - Date.now()) / 1000, {
+                  length: "full",
+                })}
+              </Label>
+            </div>
+          )
+        }
+        {tasksAreFrozen && (
+          <div className="flex flex-col items-center">
+            <p className="text-xs text-center">
+              New Seasonal Deliveries opening soon.
+            </p>
+            <Label
+              type="info"
+              icon={SUNNYSIDE.icons.stopwatch}
+              className="mt-1"
+            >
+              {secondsToString((tasksStartAt - Date.now()) / 1000, {
+                length: "full",
+              })}
+            </Label>
+          </div>
+        )}
+
         <div className="flex flex-row w-full flex-wrap max-h-80 scrollable overflow-y-auto">
           {orders.map((order) => (
             <div className="w-1/2 sm:w-1/3 p-1" key={order.id}>
@@ -533,11 +569,18 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               )}
             </div>
           )}
-          {!hasFeatureAccess(gameState, "NEW_DELIVERIES") && (
-            <Button disabled={!canFulfill} onClick={deliver}>
-              Deliver
-            </Button>
+          {tasksAreFrozen && (
+            <Label
+              type="danger"
+              className="mb-1"
+              icon={SUNNYSIDE.icons.stopwatch}
+            >
+              Deliveries closed
+            </Label>
           )}
+          <Button disabled={!canFulfill || tasksAreFrozen} onClick={deliver}>
+            Deliver
+          </Button>
         </OuterPanel>
       )}
     </div>
