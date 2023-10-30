@@ -857,6 +857,11 @@ const FISH: Record<FishName, Consumable> = {
     experience: 50,
     name: "White Shark",
   },
+  "Kraken Tentacle": {
+    description: "Hmmm, I don't think you should eat this.",
+    experience: 50,
+    name: "Kraken Tentacle",
+  },
 };
 
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
