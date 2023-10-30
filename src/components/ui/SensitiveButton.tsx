@@ -1,6 +1,7 @@
 import React from "react";
 import classnames from "classnames";
 import { pixelLightBorderStyle } from "features/game/lib/style";
+import { isTouchDevice } from "features/world/lib/device";
 
 interface Props {
   onClick?: () => void;
@@ -29,7 +30,7 @@ export const SensitiveButton: React.FC<Props> = ({
       disabled={disabled}
       style={pixelLightBorderStyle}
       // TODO only use one
-      onMouseDown={onClick}
+      onMouseDown={!isTouchDevice() ? onClick : undefined}
       onTouchStart={onClick}
     >
       <div className="mb-1">{children}</div>
