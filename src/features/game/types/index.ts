@@ -512,7 +512,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Horse Mackerel": 1507,
   Squid: 1508,
   "Red Snapper": 1509,
-  "Mooray Eel": 1510,
+  "Moray Eel": 1510,
   "Olive Flounder": 1511,
   Napoleanfish: 1512,
   Surgeonfish: 1513,

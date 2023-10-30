@@ -2692,7 +2692,7 @@ export const ITEM_DETAILS: Items = {
     description: "?",
     howToGetItem: ["Ocean fishing"],
   },
-  "Mooray Eel": {
+  "Moray Eel": {
     image: morayEel,
     description: "?",
     howToGetItem: ["Ocean fishing"],
