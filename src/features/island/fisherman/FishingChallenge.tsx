@@ -38,19 +38,19 @@ type Attempt = "hit" | "miss";
 
 function getSpeed(attempts: number) {
   if (attempts > 20) {
-    return 1000;
+    return 1300;
   }
 
   if (attempts > 15) {
-    return 1200;
+    return 1600;
   }
 
   if (attempts > 10) {
-    return 1500;
+    return 1900;
   }
 
   if (attempts > 7) {
-    return 2000;
+    return 2200;
   }
 
   if (attempts > 3) {
@@ -82,10 +82,14 @@ export const FishingChallengeIntro: React.FC<{ onNext: () => void }> = ({
   return (
     <>
       <div className="p-2">
-        <p className="text-sm">A powerful catch awaits!</p>
-        <p className="text-sm">Use all your strength to reel it in.</p>
-        <p className="text-sm">Stop the green bar on the fish to succeed</p>
-        <p className="text-sm">Be quick - 3 wrong tries, and it escapes!</p>
+        <p className="text-sm mb-1">A powerful catch awaits!</p>
+        <p className="text-sm mb-1">Use all your strength to reel it in.</p>
+        <p className="text-sm mb-1">
+          Stop the green bar on the fish to succeed
+        </p>
+        <p className="text-sm mb-1">
+          Be quick - 3 wrong tries, and it escapes!
+        </p>
       </div>
       <Button onClick={onNext}>Next</Button>
     </>
@@ -132,6 +136,9 @@ export const FishingChallenge: React.FC<Props> = ({
     },
     config: {
       duration: getSpeed(attempts.length),
+      // mass: 0,
+      // tension: 0,
+      friction: 0,
     },
     pause: state === "idle",
   });
@@ -151,15 +158,30 @@ export const FishingChallenge: React.FC<Props> = ({
 
   const reel = () => {
     const greenBarAngle = extractAngle(greenBarProps.transform.get());
-    const tentacleAngle = extractAngle(tentacleProps.transform.get());
+
+    let tentacleAngle = extractAngle(tentacleProps.transform.get());
+
+    // Bar width / Circumference = 20 / (3.14159 * 200)
+    const fishBarOffset = 3.183;
+
+    tentacleAngle += fishBarOffset;
 
     const degreeDifference = Math.abs(
-      normaliseAngle(greenBarAngle) - normaliseAngle(tentacleAngle)
+      ((normaliseAngle(greenBarAngle) - normaliseAngle(tentacleAngle) + 180) %
+        360) -
+        180
     );
 
     const fishBuffer = 5;
     const hit = degreeDifference < barHeight + fishBuffer;
 
+    console.log({
+      hit,
+      degreeDifference,
+      tentacleAngle,
+      fishBarOffset,
+      greenBarAngle,
+    });
     setAttempts((prev) => [...prev, hit ? "hit" : "miss"]);
 
     if (!hit) {
@@ -172,7 +194,7 @@ export const FishingChallenge: React.FC<Props> = ({
       }
     }
 
-    const minimumAngle = 150 - attempts.length * 10;
+    const minimumAngle = Math.max(150 - attempts.length * 5, 50);
 
     setTentacleAngle((prev) => getRandomAngle(minimumAngle, prev));
 
@@ -296,7 +318,7 @@ export const FishingChallenge: React.FC<Props> = ({
               position: "absolute",
               width: "24px",
               top: "1px",
-              left: "2px",
+              left: "-1px",
               rotate: "137deg",
             }}
           />
