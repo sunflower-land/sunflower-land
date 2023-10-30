@@ -23,8 +23,7 @@ export function getSeasonWeek(): SeasonWeek {
 }
 
 /**
- * Preseason is the period where time sensitive features pause
- * This ensures a smooth transition and testing period.
+ *
  */
 export function getSeasonTasksEndAt(): number {
   const currentSeason = getCurrentSeason();
@@ -48,24 +47,23 @@ export function getSeasonTasksStartAt(): number {
   return SEASONS[season].startDate.getTime() + 3 * 60 * 60 * 1000;
 }
 
-export function getSeasonChangeover() {
-  const season = getCurrentSeason();
-  const incomingSeason = getCurrentSeason(
-    new Date(Date.now() + 24 * 60 * 60 * 1000)
-  );
+/**
+ * Helps implement a preseason where tasks are 'frozen'
+ * This ensures a smooth transition and testing period.
+ */
+export function getSeasonChangeover(now = Date.now()) {
+  const season = getCurrentSeason(new Date(now));
+  const incomingSeason = getCurrentSeason(new Date(now + 24 * 60 * 60 * 1000));
 
   const tasksCloseAt = SEASONS[season].endDate.getTime() - 24 * 60 * 60 * 1000;
   const tasksStartAt =
     SEASONS[incomingSeason].startDate.getTime() + 3 * 60 * 60 * 1000;
 
   return {
-    season,
-    incomingSeason,
     tasksCloseAt,
     tasksStartAt,
     tasksAreClosing:
-      Date.now() < tasksCloseAt &&
-      Date.now() >= tasksCloseAt - 24 * 60 * 60 * 1000,
-    tasksAreFrozen: Date.now() >= tasksCloseAt && Date.now() <= tasksStartAt,
+      now < tasksCloseAt && now >= tasksCloseAt - 24 * 60 * 60 * 1000,
+    tasksAreFrozen: now <= tasksStartAt,
   };
 }
