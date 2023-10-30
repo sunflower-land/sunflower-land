@@ -75,9 +75,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   ] = useActor(gameService);
 
   let initialState: FishingState = "idle";
-  if (fishing.wharf.caught) {
-    initialState = "caught";
-  } else if (fishing.wharf.castedAt) {
+  if (fishing.wharf.caught || fishing.wharf.castedAt) {
     initialState = "waiting";
   }
 
@@ -105,7 +103,6 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
   const onWaitFinish = () => {
     if (fishing.wharf.caught) {
-      console.log("SET THE REEEEEEL");
       spriteRef.current?.setStartAt(FISHING_FRAMES.reeling.startAt);
       spriteRef.current?.setEndAt(FISHING_FRAMES.reeling.endAt);
       setShowReelLabel(true);
