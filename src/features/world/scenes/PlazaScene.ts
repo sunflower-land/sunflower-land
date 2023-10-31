@@ -8,8 +8,8 @@ import { AudioController } from "../lib/AudioController";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
-    x: 400,
-    y: 400,
+    x: 371,
+    y: 344,
     npc: "pumpkin' pete",
   },
   {

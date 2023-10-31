@@ -2378,6 +2378,60 @@
           "width": 25.2104026082341,
           "x": 188.414587914171,
           "y": 354.082947911138
+        },
+        {
+          "height": 22.387180393543,
+          "id": 301,
+          "name": "",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "bud"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 36.2907976905856,
+          "x": 308.000471309061,
+          "y": 506.657240485448
+        },
+        {
+          "height": 23.8011075762931,
+          "id": 302,
+          "name": "",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "bud"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 26.1576528808766,
+          "x": 405.797101449275,
+          "y": 569.341345587369
+        },
+        {
+          "height": 27.3359255331684,
+          "id": 303,
+          "name": "",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "bud"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 26.1576528808766,
+          "x": 257.570401790974,
+          "y": 311.535289265936
         }
       ],
       "opacity": 1,
@@ -2389,7 +2443,7 @@
     }
   ],
   "nextlayerid": 85,
-  "nextobjectid": 301,
+  "nextobjectid": 304,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.8.4",
