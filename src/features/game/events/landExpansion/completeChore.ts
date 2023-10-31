@@ -49,7 +49,10 @@ function completeDawnBreakerChore({
     throw new Error("Not the same Bumpkin");
   }
 
-  const { tasksAreFrozen } = getSeasonChangeover(createdAt);
+  const { tasksAreFrozen } = getSeasonChangeover({
+    id: state.id,
+    now: createdAt,
+  });
 
   if (tasksAreFrozen) {
     throw new Error("Chores are frozen");

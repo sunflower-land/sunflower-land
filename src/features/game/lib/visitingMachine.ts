@@ -107,7 +107,7 @@ export function startGame({ farmToVisitID }: { farmToVisitID: number }) {
             address: farmAccount.account,
             owner,
             isBlacklisted,
-            state: { id: farmToVisitID, ...onChain },
+            state: { ...onChain, id: farmToVisitID },
           };
         },
       },

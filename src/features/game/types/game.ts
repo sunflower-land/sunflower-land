@@ -711,7 +711,7 @@ export type Fishing = {
 };
 
 export interface GameState {
-  id?: number;
+  id: number;
   balance: Decimal;
   airdrops?: Airdrop[];
   farmAddress?: string;
