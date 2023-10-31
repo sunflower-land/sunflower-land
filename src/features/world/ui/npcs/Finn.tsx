@@ -50,9 +50,9 @@ export const Finn: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel
       onClose={onClose}
-      bumpkinParts={NPC_WEARABLES.grubnuk}
+      bumpkinParts={NPC_WEARABLES.finn}
       tabs={[
-        { icon: SUNNYSIDE.icons.heart, name: "" },
+        { icon: SUNNYSIDE.icons.heart, name: "Buy" },
         { icon: SUNNYSIDE.icons.expression_chat, name: "Delivery" },
       ]}
       setCurrentTab={setTab}
