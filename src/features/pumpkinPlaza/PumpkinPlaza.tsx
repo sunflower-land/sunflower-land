@@ -31,7 +31,7 @@ export const PumpkinPlaza: React.FC = () => {
 
   const party = upcomingParty();
   const isBetaTester = hasFeatureAccess(
-    gameState.context.state.inventory,
+    gameState.context.state,
     "PUMPKIN_PLAZA"
   );
   const isPartyActive =
@@ -68,7 +68,7 @@ export const PumpkinPlaza: React.FC = () => {
         }}
       />
       <IslandTravel
-        inventory={gameState.context.state.inventory}
+        gameState={gameState.context.state}
         bumpkin={gameState.context.state.bumpkin}
         x={1.5}
         y={-5.5}

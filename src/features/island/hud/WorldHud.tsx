@@ -16,9 +16,7 @@ import { createPortal } from "react-dom";
 import { Save } from "./components/Save";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Settings } from "./components/Settings";
-import { DeliveryButton } from "./components/deliveries/DeliveryButton";
 import { Leaderboard } from "features/game/expansion/components/leaderboard/Leaderboard";
-import { hasFeatureAccess } from "lib/flags";
 import { TravelButton } from "./components/deliveries/TravelButton";
 
 /**
@@ -100,11 +98,7 @@ const HudComponent: React.FC = () => {
             }}
           >
             <Leaderboard farmId={farmId} />
-            {hasFeatureAccess(gameState.context.state.inventory, "FISHING") ? (
-              <TravelButton />
-            ) : (
-              <DeliveryButton />
-            )}
+            <TravelButton />
           </div>
           <BumpkinProfile isFullUser={isFullUser} />
 
