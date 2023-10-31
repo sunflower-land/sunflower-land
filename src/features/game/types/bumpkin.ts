@@ -152,7 +152,8 @@ export type BumpkinNecklace =
   | "Carrot Amulet"
   | "Beetroot Amulet"
   | "Green Amulet"
-  | "Artist Scarf";
+  | "Artist Scarf"
+  | "Banana Amulet";
 
 export type BumpkinHat =
   | "Farmer Hat"
@@ -537,6 +538,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Tiki Armor": 247,
   "Tiki Mask": 248,
   "Tiki Pants": 249,
+  "Banana Amulet": 250,
 };
 
 // The reverse of above
@@ -845,4 +847,5 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Tiki Armor": "shirt",
   "Tiki Mask": "hat",
   "Tiki Pants": "pants",
+  "Banana Amulet": "necklace",
 };

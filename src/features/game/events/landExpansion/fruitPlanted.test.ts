@@ -534,7 +534,7 @@ describe("fruitPlanted", () => {
     ).toEqual(1.2);
   });
 
-  it("applies Chilling Banana bonus on Bananas", () => {
+  it("includes Banana Amulet +0.5 bonus on Bananas", () => {
     const seedAmount = new Decimal(5);
 
     const patchIndex = "1";
@@ -542,19 +542,12 @@ describe("fruitPlanted", () => {
     const state = plantFruit({
       state: {
         ...GAME_STATE,
-        bumpkin: INITIAL_BUMPKIN,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { necklace: "Banana Amulet", ...INITIAL_BUMPKIN.equipped },
+        },
         inventory: {
           "Banana Plant": seedAmount,
-        },
-        collectibles: {
-          "Chilling Banana": [
-            {
-              coordinates: { x: 0, y: 0 },
-              createdAt: 0,
-              id: "123",
-              readyAt: 0,
-            },
-          ],
         },
       },
       createdAt: dateNow,
@@ -570,6 +563,37 @@ describe("fruitPlanted", () => {
     expect(
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
     ).toEqual(1.5);
+  });
+
+  it("does not include Banana Amulet +0.5 bonus on Apples", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = "1";
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { necklace: "Banana Amulet", ...INITIAL_BUMPKIN.equipped },
+        },
+        inventory: {
+          "Apple Seed": seedAmount,
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        seed: "Apple Seed",
+      },
+    });
+
+    const fruitPatches = state.fruitPatches;
+
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
+    ).toEqual(1);
   });
 });
 

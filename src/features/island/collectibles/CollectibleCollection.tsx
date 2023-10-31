@@ -204,7 +204,6 @@ import { Walrus } from "./components/Walrus";
 import { Alba } from "./components/Alba";
 import { KnowledgeCrab } from "./components/KnowledgeCrab";
 import { Anchor } from "./components/Anchor";
-import { ChillingBanana } from "./components/ChillingBanana";
 import { RubberDucky } from "./components/RubberDucky";
 import { KrakenTentacle } from "./components/KrakenTentacle";
 import { BananaChicken } from "./components/BananaChicken";
@@ -457,7 +456,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Alba: Alba,
   "Knowledge Crab": KnowledgeCrab,
   Anchor: Anchor,
-  "Chilling Banana": ChillingBanana,
   "Rubber Ducky": RubberDucky,
   "Kraken Head": KrakenTentacle,
   "Banana Chicken": BananaChicken,

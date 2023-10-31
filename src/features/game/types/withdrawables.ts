@@ -571,7 +571,6 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   Alba: () => canWithdrawTimebasedItem(new Date("01-19-2024")),
   "Knowledge Crab": () => canWithdrawTimebasedItem(new Date("01-07-2024")),
   Anchor: () => canWithdrawTimebasedItem(new Date("01-28-2024")),
-  "Chilling Banana": () => canWithdrawTimebasedItem(new Date("01-13-2024")),
   "Rubber Ducky": () => canWithdrawTimebasedItem(new Date("01-10-2024")),
   "Kraken Head": () => canWithdrawTimebasedItem(new Date("01-22-2024")),
 };
@@ -1137,4 +1136,5 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Tiki Armor": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
   "Tiki Mask": () => canWithdrawTimebasedItem(new Date("2024-01-02")),
   "Tiki Pants": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Banana Amulet": () => canWithdrawTimebasedItem(new Date("01-13-2024")),
 };

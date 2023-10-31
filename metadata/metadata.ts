@@ -5984,22 +5984,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Decoration", value: "Monument" },
     ],
   },
-  "Chilling Banana": {
-    description:
-      "Soak up the sun and snag an extra +0.5 bananas! Cool vibes, cooler rewards.",
-    decimals: 0,
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/482.png",
-    attributes: [
-      { trait_type: "Tradable", value: "Yes" },
-      {
-        display_type: "boost_number",
-        trait_type: "Increase Banana Yield",
-        value: 0.5,
-      },
-      { trait_type: "Boost", value: "Fruit" },
-    ],
-  },
 
   "Rubber Ducky": {
     description:

@@ -65,7 +65,6 @@ export type SoldOutCollectibleName =
   | "Alba"
   | "Knowledge Crab"
   | "Anchor"
-  | "Chilling Banana"
   | "Rubber Ducky"
   | "Kraken Head";
 

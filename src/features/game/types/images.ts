@@ -63,7 +63,6 @@ import walrus from "assets/sfts/walrus.webp";
 import alba from "assets/sfts/alba.webp";
 import knowledgeCrab from "assets/sfts/knowledge_crab.webp";
 import anchor from "assets/sfts/anchor.webp";
-import chillingBanana from "assets/sfts/chilling_banana.webp";
 import rubberDucky from "assets/sfts/rubber_ducky.webp";
 import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
 import krakenHead from "assets/sfts/kraken_head.webp";
@@ -2917,11 +2916,6 @@ export const ITEM_DETAILS: Items = {
     image: anchor,
     description:
       "Drop anchor' with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
-  },
-  "Chilling Banana": {
-    image: chillingBanana,
-    description:
-      "Soak up the sun and snag an extra +0.5 bananas! Cool vibes, cooler rewards.",
   },
   "Rubber Ducky": {
     image: rubberDucky,

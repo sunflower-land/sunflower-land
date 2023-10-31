@@ -1217,7 +1217,6 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Alba: { width: 1, height: 1 },
   "Knowledge Crab": { width: 1, height: 1 },
   Anchor: { width: 2, height: 2 },
-  "Chilling Banana": { width: 1, height: 1 },
   "Rubber Ducky": { width: 1, height: 1 },
   "Kraken Head": { width: 1, height: 1 },
   "Skill Shrimpy": { width: 1, height: 1 },
