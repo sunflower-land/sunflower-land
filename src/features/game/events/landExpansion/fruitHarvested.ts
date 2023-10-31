@@ -110,10 +110,7 @@ export function getFruitYield({
     amount += 0.1;
   }
 
-  if (
-    name === "Banana" &&
-    isCollectibleBuilt("Chilling Banana", collectibles)
-  ) {
+  if (name === "Banana" && wearables.necklace === "Banana Amulet") {
     amount += 0.5;
   }
 

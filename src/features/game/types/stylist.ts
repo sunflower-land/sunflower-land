@@ -277,7 +277,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
     "Stockeye Salmon Onesie": {
       sfl: new Decimal(0),
       ingredients: {
-        "Mermaid Scale": new Decimal(1000),
+        "Mermaid Scale": new Decimal(3000),
       },
       from: new Date("2023-01-1"),
       to: new Date("2024-02-01"),
