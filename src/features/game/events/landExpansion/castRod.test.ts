@@ -1,10 +1,15 @@
-import { TEST_FARM } from "features/game/lib/constants";
+import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { castRod } from "./castRod";
 import Decimal from "decimal.js-light";
+import { Bumpkin } from "features/game/types/game";
 
 const farm = { ...TEST_FARM };
 
 describe("castRod", () => {
+  beforeEach(() => {
+    jest.useRealTimers();
+  });
+
   it("requires player has a rod", () => {
     expect(() => {
       castRod({
@@ -73,6 +78,7 @@ describe("castRod", () => {
             wharf: {
               castedAt: 1000000200,
             },
+            dailyAttempts: {},
           },
         },
       });
@@ -96,7 +102,38 @@ describe("castRod", () => {
           },
         },
       });
-    }).toThrow("Insufficent Chum: Sunflower");
+    }).toThrow("Insufficient Chum: Sunflower");
+  });
+
+  it("requires a player hasn't maxed out their daily attempts", () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2023-10-11T09:00:00Z"));
+
+    const date = new Date().toISOString().split("T")[0];
+
+    expect(() => {
+      castRod({
+        action: {
+          bait: "Earthworm",
+          type: "rod.casted",
+        },
+        state: {
+          ...farm,
+          inventory: {
+            Rod: new Decimal(1),
+            Earthworm: new Decimal(1),
+            Axe: new Decimal(1),
+          },
+          fishing: {
+            dailyAttempts: {
+              [date]: 20,
+            },
+            weather: "Sunny",
+            wharf: {},
+          },
+        },
+      });
+    }).toThrow("Daily attempts exhausted");
   });
 
   it("subtracts rod", () => {
@@ -155,6 +192,85 @@ describe("castRod", () => {
     expect(state.inventory.Sunflower).toEqual(new Decimal(450));
   });
 
+  it("applies the Angler Waders boost which increases the daily fishing limit by 10", () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2023-10-11T09:00:00Z"));
+    const now = Date.now();
+    const today = new Date(now).toISOString().split("T")[0];
+
+    const bumpkinWithAnglerWaders: Bumpkin = {
+      ...INITIAL_BUMPKIN,
+      equipped: {
+        ...INITIAL_BUMPKIN.equipped,
+        pants: "Angler Waders",
+      },
+    };
+
+    expect(() =>
+      castRod({
+        action: {
+          bait: "Earthworm",
+          type: "rod.casted",
+        },
+        state: {
+          ...farm,
+          bumpkin: bumpkinWithAnglerWaders,
+          fishing: {
+            dailyAttempts: {
+              [today]: 20,
+            },
+            weather: "Sunny",
+            wharf: {},
+          },
+          inventory: {
+            Rod: new Decimal(3),
+            Earthworm: new Decimal(1),
+          },
+        },
+      })
+    ).not.toThrow();
+  });
+
+  it("requires a player with Angler Waders boost hasn't maxed out their daily attempts", () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2023-10-11T09:00:00Z"));
+
+    const date = new Date().toISOString().split("T")[0];
+
+    const bumpkinWithAnglerWaders: Bumpkin = {
+      ...INITIAL_BUMPKIN,
+      equipped: {
+        ...INITIAL_BUMPKIN.equipped,
+        pants: "Angler Waders",
+      },
+    };
+
+    expect(() => {
+      castRod({
+        action: {
+          bait: "Earthworm",
+          type: "rod.casted",
+        },
+        state: {
+          ...farm,
+          bumpkin: bumpkinWithAnglerWaders,
+          inventory: {
+            Rod: new Decimal(1),
+            Earthworm: new Decimal(1),
+            Axe: new Decimal(1),
+          },
+          fishing: {
+            dailyAttempts: {
+              [date]: 30,
+            },
+            weather: "Sunny",
+            wharf: {},
+          },
+        },
+      });
+    }).toThrow("Daily attempts exhausted");
+  });
+
   it("casts rod on wharf", () => {
     const now = Date.now();
     const state = castRod({
@@ -198,5 +314,27 @@ describe("castRod", () => {
       castedAt: expect.any(Number),
       chum: "Sunflower",
     });
+  });
+
+  it("does not subtracts rod if wearing Ancient Rod", () => {
+    const state = castRod({
+      action: {
+        bait: "Earthworm",
+        type: "rod.casted",
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { ...INITIAL_BUMPKIN.equipped, tool: "Ancient Rod" },
+        },
+        inventory: {
+          Rod: new Decimal(3),
+          Earthworm: new Decimal(1),
+        },
+      },
+    });
+
+    expect(state.inventory.Rod).toEqual(new Decimal(3));
   });
 });

@@ -46,9 +46,7 @@ export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
   "Catch the Kraken": "Mermaid Scale",
 };
 
-export function getCurrentSeason(): SeasonName {
-  const now = new Date();
-
+export function getCurrentSeason(now = new Date()): SeasonName {
   const seasons = Object.keys(SEASONS) as SeasonName[];
 
   const currentSeason = seasons.find((season) => {

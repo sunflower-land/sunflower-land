@@ -31,6 +31,7 @@ export const maxItems: Inventory = {
   "Speed Chicken": new Decimal("5"),
   "Rich Chicken": new Decimal("5"),
   "Fat Chicken": new Decimal("5"),
+  "Banana Chicken": new Decimal("5"),
 
   // Seed limits + buffer
   "Sunflower Seed": new Decimal(1000),
@@ -73,6 +74,7 @@ export const maxItems: Inventory = {
   "Rusty Shovel": new Decimal("100"),
   "Sand Shovel": new Decimal(50),
   "Sand Drill": new Decimal(30),
+  Rod: new Decimal("200"),
 
   //Treasure Island Decorations
   "Abandoned Bear": new Decimal(50),

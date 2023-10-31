@@ -21,8 +21,6 @@ import { useLocation } from "react-router-dom";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { createPortal } from "react-dom";
 import { HalveningCountdown } from "./components/HalveningCountdown";
-import { DeliveryButton } from "./components/deliveries/DeliveryButton";
-import { hasFeatureAccess } from "lib/flags";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { CodexButton } from "./components/codex/CodexButton";
 
@@ -155,16 +153,8 @@ const HudComponent: React.FC<{
               height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
             }}
           >
-            {hasFeatureAccess(gameState.context.state.inventory, "FISHING") ? (
-              <>
-                <CodexButton />
-                <TravelButton />
-              </>
-            ) : (
-              <div className="h-full flex flex-col justify-end">
-                <DeliveryButton />
-              </div>
-            )}
+            <CodexButton />
+            <TravelButton />
           </div>
 
           <HalveningCountdown />

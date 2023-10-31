@@ -1,4 +1,5 @@
 import { Equipped } from "features/game/types/bumpkin";
+import { getCurrentSeason } from "features/game/types/seasons";
 
 export type NPCName =
   | "betty"
@@ -44,10 +45,13 @@ export type NPCName =
   | "reelin roy"
   | "shelly"
   | "finn"
+  | "finley"
   | "tango"
-  | "mystara"
+  | "corale"
   | "goldtooth"
-  | "daphne";
+  | "daphne"
+  | "miranda"
+  | "damien";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -287,17 +291,30 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Farmer Pitchfork",
   },
   // Announces news
-  birdie: {
-    body: "Beige Farmer Potion",
-    background: "Farm Background",
-    hair: "Brown Long Hair",
-    shirt: "Witches' Eve Tee",
-    pants: "Peasant Skirt",
-    shoes: "Black Farmer Boots",
-    tool: "Auction Megaphone",
-    wings: "Crow Wings",
-    hat: "Boater Hat",
-  },
+  birdie:
+    getCurrentSeason() === "Witches' Eve"
+      ? {
+          body: "Beige Farmer Potion",
+          background: "Farm Background",
+          hair: "Brown Long Hair",
+          shirt: "Witches' Eve Tee",
+          pants: "Peasant Skirt",
+          shoes: "Black Farmer Boots",
+          tool: "Auction Megaphone",
+          wings: "Crow Wings",
+          hat: "Boater Hat",
+        }
+      : {
+          body: "Beige Farmer Potion",
+          background: "Farm Background",
+          hair: "Brown Long Hair",
+          shirt: "Trial Tee",
+          coat: "Fish Pro Vest",
+          pants: "Angler Waders",
+          hat: "Normal Fish Hat",
+          tool: "Sunflower Rod",
+          shoes: "Black Farmer Boots",
+        },
   // Old loving grandma of the game
   buttons: {
     body: "Beige Farmer Potion",
@@ -354,9 +371,10 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     body: "Beige Farmer Potion",
     hair: "Pink Ponytail",
     // hat: "Boater Hat",
+    hat: "Cattlegrim",
     pants: "Crimson Skirt",
-    shirt: "Chic Gala Blouse",
-    tool: "Merch Coffee Mug",
+    shirt: "Pumpkin Shirt",
+    tool: "Infernal Pitchfork",
     background: "Farm Background",
     shoes: "Brown Boots",
   },
@@ -380,6 +398,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Pirate Scimitar",
     background: "Farm Background",
     shoes: "Brown Boots",
+  },
+  miranda: {
+    body: "Beige Farmer Potion",
+    hair: "Ash Ponytail",
+    shirt: "Fruit Picker Shirt",
+    coat: "Fruit Picker Apron",
+    tool: "Farmer Pitchfork",
+    background: "Seashore Background",
+    shoes: "Brown Boots",
+    hat: "Fruit Bowl",
   },
   cornwell: {
     body: "Beige Farmer Potion",
@@ -424,8 +452,9 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   "farmer flesh": {
     body: "Infected Potion",
     hair: "Sun Spots",
+    hat: "Pumpkin Hat",
     pants: "Farmer Overalls",
-    shirt: "Red Farmer Shirt",
+    shirt: "Pumpkin Shirt",
     tool: "Farmer Pitchfork",
     shoes: "Black Farmer Boots",
     background: "Cemetery Background",
@@ -434,7 +463,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     body: "Infected Potion",
     hair: "Rancher Hair",
     pants: "Farmer Overalls",
-    shirt: "Red Farmer Shirt",
+    shirt: "Skull Shirt",
     tool: "Parsnip",
     shoes: "Black Farmer Boots",
     background: "Cemetery Background",
@@ -459,7 +488,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   shelly: {
     body: "Beige Farmer Potion",
-    hair: "Rancher Hair",
+    hair: "White Long Hair",
     hat: "Lifeguard Hat",
     shirt: "Lifeguard Shirt",
     pants: "Lifeguard Pants",
@@ -470,27 +499,39 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   // Placeholder fisherman
   finn: {
     body: "Light Brown Farmer Potion",
-    shirt: "Club Polo",
+    shirt: "Witches' Eve Tee",
+    coat: "Fish Pro Vest",
+    hair: "Buzz Cut",
+    background: "Seashore Background",
+    pants: "Angler Waders",
+    shoes: "Wellies",
+    tool: "Sunflower Rod",
+    hat: "Fishing Hat",
+  },
+  finley: {
+    body: "Light Brown Farmer Potion",
+    shirt: "Dawn Breaker Tee",
+    hair: "White Long Hair",
+    coat: "Reel Fishing Vest",
+    background: "Seashore Background",
+    pants: "Angler Waders",
+    shoes: "Wellies",
+    tool: "Sunflower Rod",
+    hat: "Squid Hat",
+  },
+  tango: {
+    body: "Squirrel Monkey Potion",
     hair: "Buzz Cut",
     background: "Seashore Background",
     shoes: "Black Farmer Boots",
-    tool: "Water Gun",
+    tool: "Pirate Scimitar",
   },
-  // Placeholder monkey
-  tango: {
-    body: "Beige Farmer Potion",
-    hair: "Basic Hair",
+  corale: {
+    body: "Mermaid Potion",
+    hair: "Red Long Hair",
     background: "Seashore Background",
     shoes: "Black Farmer Boots",
-    tool: "Water Gun",
-  },
-  // Placeholder mermaid
-  mystara: {
-    body: "Beige Farmer Potion",
-    hair: "Basic Hair",
-    background: "Seashore Background",
-    shoes: "Black Farmer Boots",
-    tool: "Water Gun",
+    tool: "Trident",
   },
   goldtooth: {
     body: "Goblin Potion",
@@ -507,6 +548,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     body: "Light Brown Farmer Potion",
     shirt: "Pirate Leather Polo",
     hair: "Ash Ponytail",
+    tool: "Mushroom Lamp",
+    pants: "Pirate Pants",
+    background: "Seashore Background",
+    shoes: "Brown Boots",
+  },
+  damien: {
+    body: "Light Brown Farmer Potion",
+    shirt: "Pumpkin Shirt",
+    hat: "Skull Hat",
+    hair: "Sun Spots",
     tool: "Mushroom Lamp",
     pants: "Pirate Pants",
     background: "Seashore Background",

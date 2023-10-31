@@ -18,6 +18,22 @@ export const FishCaught: React.FC<Props> = ({
   caught,
   onClaim,
 }) => {
+  if (!caught || getKeys(caught).length === 0) {
+    return (
+      <>
+        <div className="p-2">
+          <div className="relative h-14">
+            <img
+              src={SUNNYSIDE.icons.sad}
+              className="w-10 my-2 absolute -top-[12%] left-1/2 -translate-x-1/2"
+            />
+          </div>
+          <p className="text-sm mb-2 text-center">Oh no! It got away</p>
+        </div>
+        <Button onClick={onClaim}>Ok</Button>
+      </>
+    );
+  }
   return (
     <>
       <div className="p-2">
@@ -36,7 +52,7 @@ export const FishCaught: React.FC<Props> = ({
                 </Label>
               )}
               <span className="text-sm mb-2">{name}</span>
-              <img src={ITEM_DETAILS[name]?.image} className="h-24 mb-2" />
+              <img src={ITEM_DETAILS[name]?.image} className="h-12 mb-2" />
               <span className="text-xs mb-2">
                 {ITEM_DETAILS[name].description}
               </span>

@@ -1,9 +1,8 @@
 import { createMachine, Interpreter, assign } from "xstate";
 
-import { communityContracts } from "features/community/lib/communityContracts";
-
 import { ErrorCode } from "lib/errors";
 import { CONFIG } from "lib/config";
+import { wallet } from "lib/blockchain/wallet";
 
 const frogDonationAddress = CONFIG.FROG_DONATION;
 
@@ -68,7 +67,7 @@ export const donationMachine = createMachine<Context, Event, DonationState>({
         src: async (_context: Context, event: any): Promise<void> => {
           const { donation, to } = event as DonateEvent;
 
-          await communityContracts.donate(donation, to || frogDonationAddress);
+          await wallet.donate(donation, to || frogDonationAddress);
         },
         onDone: {
           target: "donated",

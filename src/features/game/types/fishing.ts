@@ -1,5 +1,6 @@
 import { Bait } from "./composters";
 import { InventoryItemName } from "./game";
+import { getCurrentSeason } from "./seasons";
 
 export type FishingBait = Bait;
 export type FishType = "basic" | "advanced" | "expert" | "marine marvel";
@@ -16,7 +17,7 @@ export type FishName =
   | "Squid"
   // Advanced
   | "Red Snapper"
-  | "Mooray Eel"
+  | "Moray Eel"
   | "Olive Flounder"
   | "Napoleanfish"
   | "Surgeonfish"
@@ -33,15 +34,16 @@ export type FishName =
   | "Sunfish"
   | "Coelacanth"
   | "Whale Shark"
-  | "Saw Shark" // Coming Soon
-  | "White Shark"; // Coming Soon
+  | "Saw Shark"
+  | "White Shark";
 
 export type MarineMarvelName =
   | "Twilight Anglerfish"
   | "Starlight Tuna"
   | "Radiant Ray"
   | "Phantom Barracuda"
-  | "Gilded Swordfish";
+  | "Gilded Swordfish"
+  | "Kraken Tentacle";
 
 export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
   Gold: 1,
@@ -56,18 +58,47 @@ export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
   Cauliflower: 5,
   Parsnip: 5,
   Eggplant: 5,
-  // Corn?
   Radish: 5,
+  Corn: 5,
   Wheat: 5,
   Kale: 5,
   Blueberry: 3,
   Orange: 3,
   Apple: 3,
   Seaweed: 1,
+  Crab: 2,
   Anchovy: 1,
   "Red Snapper": 1,
   Tuna: 1,
   Squid: 1,
+};
+
+export const CHUM_DETAILS: Partial<Record<InventoryItemName, string>> = {
+  Gold: "The shimmering gold can be seen 100 miles away",
+  Iron: "A shimmering sparkle, can be seen at all angles during Dusk",
+  Egg: "Hmmm, not sure what fish would like eggs...",
+  Sunflower: "A sunny, vibrant lure for curious fish.",
+  Potato: "Potatoes make for an unusual fishy feast.",
+  Pumpkin: "Fish might be intrigued by the orange glow of pumpkins.",
+  Carrot: "Best used with Earthworms to catch Anchovies!",
+  Cabbage: "A leafy temptation for underwater herbivores.",
+  Beetroot: "Beets, the undersea delight for the bold fish.",
+  Cauliflower: "Fish may find the florets oddly enticing.",
+  Parsnip: "An earthy, rooty lure for curious fish.",
+  Eggplant: "Eggplants: the aquatic adventure for the daring fish.",
+  Corn: "Corn on the cob – an odd but intriguing treat.",
+  Radish: "Radishes, the buried treasure for aquatics.",
+  Wheat: "Wheat, a grainy delight for underwater foragers.",
+  Kale: "A leafy green surprise for the inquisitive fish.",
+  Blueberry: "Often confused by blue fish as potential mates.",
+  Orange: "Oranges, the citrusy curiosity for sea creatures.",
+  Apple: "Apples – a crunchy enigma beneath the waves.",
+  Seaweed: "A taste of the ocean in a leafy underwater snack.",
+  Anchovy: "Anchovies, mysteriously alluring to the outlaws of the sea.",
+  "Red Snapper": "A mystery hidden within the depths of the ocean.",
+  Tuna: "What is big enough to eat a tuna?",
+  Squid: "Awaken a ray with its favorite treat!",
+  Crab: "A tantalizing morsel for a curious undersea fish.",
 };
 
 type Fish = {
@@ -113,7 +144,7 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     baits: ["Grub"],
     type: "advanced",
   },
-  "Mooray Eel": {
+  "Moray Eel": {
     baits: ["Grub"],
     type: "advanced",
   },
@@ -205,6 +236,11 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     baits: ["Earthworm", "Red Wiggler"],
     type: "marine marvel",
   },
+
+  "Kraken Tentacle": {
+    baits: ["Earthworm", "Grub", "Red Wiggler"],
+    type: "expert",
+  },
 };
 
 export type Tide = "Dusktide" | "Dawnlight";
@@ -219,3 +255,36 @@ export function getTide(utcTime: Date = new Date()): Tide {
     return "Dusktide";
   }
 }
+
+/**
+ * Difficulty 1-5 how hard the challenge will be
+ */
+export const FISH_DIFFICULTY: Partial<
+  Record<FishName | MarineMarvelName, number>
+> = {
+  // TESTING ONLY
+  ...(getCurrentSeason() === "Witches' Eve"
+    ? {
+        Anchovy: 2,
+        "Red Snapper": 3,
+        Tuna: 4,
+      }
+    : {}),
+  "Horse Mackerel": 1,
+  Squid: 1,
+  "Zebra Turkeyfish": 1,
+  Ray: 1,
+  "Hammerhead shark": 2,
+  Sunfish: 2,
+  Coelacanth: 2,
+  "Barred Knifejaw": 3,
+  "Whale Shark": 3,
+  "Gilded Swordfish": 3,
+  "Kraken Tentacle": 3,
+  "Saw Shark": 4,
+  "White Shark": 4,
+  "Radiant Ray": 4,
+  "Phantom Barracuda": 4,
+  "Starlight Tuna": 5,
+  "Twilight Anglerfish": 5,
+};

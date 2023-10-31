@@ -5,8 +5,6 @@
 import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
 import { getKeys } from "./craftables";
-import { CONFIG } from "lib/config";
-import { SEASONS } from "./seasons";
 
 export type FruitName = "Apple" | "Blueberry" | "Orange" | "Banana";
 
@@ -53,14 +51,10 @@ export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
   },
   "Banana Plant": {
     sfl: marketRate(70),
-    description: "Oh Banana!",
+    description: "Oh banana!",
     plantSeconds: 12 * 60 * 60,
     bumpkinLevel: 16,
     yield: "Banana",
-    disabled:
-      CONFIG.NETWORK === "mainnet"
-        ? new Date() < SEASONS["Catch the Kraken"].startDate
-        : false,
   },
 });
 
@@ -98,7 +92,7 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
     bumpkinLevel: 15,
   },
   Banana: {
-    description: "Oh Banana!",
+    description: "Oh banana!",
     name: "Banana",
     sellPrice: marketRate(25),
     isBush: true,

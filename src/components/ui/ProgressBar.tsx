@@ -218,7 +218,7 @@ export const LiveProgressBar: React.FC<LiveProgressBarProps> = ({
   const [secondsLeft, setSecondsLeft] = useState((endAt - Date.now()) / 1000);
 
   const totalSeconds = (endAt - startAt) / 1000;
-  const percentage = secondsLeft / totalSeconds;
+  const percentage = (100 * (totalSeconds - secondsLeft)) / totalSeconds;
 
   const active = endAt >= startAt;
 

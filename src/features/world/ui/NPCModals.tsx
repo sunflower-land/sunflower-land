@@ -1,6 +1,6 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { NPCName, NPC_WEARABLES } from "lib/npcs";
+import { NPCName, NPC_WEARABLES, isNPCAcknowledged } from "lib/npcs";
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
@@ -19,6 +19,8 @@ import { Bert } from "./npcs/Bert";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { Donations } from "./donations/Donations";
+import { Shelly } from "./npcs/Shelly";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -38,17 +40,29 @@ export const npcModalManager = new NpcModalManager();
 
 interface Props {
   onNavigate: (sceneId: SceneId) => void;
+  scene: SceneId;
 }
-export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
+
+function getInitialNPC(scene: SceneId): NPCName | undefined {
+  if (scene === "beach" && !isNPCAcknowledged("shelly")) {
+    return "shelly";
+  }
+
+  return undefined;
+}
+
+export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const [npc, setNpc] = useState<NPCName>();
+  const [npc, setNpc] = useState<NPCName | undefined>(getInitialNPC(scene));
 
+  console.log({ scene });
   const { openModal } = useContext(ModalContext);
 
   const inventory = gameState.context.state.inventory;
 
   useEffect(() => {
+    console.log({ effect: scene });
     npcModalManager.listen((npc, open) => {
       setNpc(npc);
     });
@@ -66,6 +80,18 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
         centered
         onHide={closeModal}
       >
+        {npc === "phantom face" && (
+          <CloseButtonPanel
+            title="Enjoying Halloween?"
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["phantom face"]}
+          >
+            <Donations />
+          </CloseButtonPanel>
+        )}
+
+        {npc === "shelly" && <Shelly onClose={closeModal} />}
+
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <Grubnuk onClose={closeModal} />}
@@ -170,6 +196,12 @@ export const NPCModals: React.FC<Props> = ({ onNavigate }) => {
             onClose={closeModal}
           />
         )}
+
+        {npc === "corale" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "miranda" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "finn" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "tango" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
       </Modal>
     </>
   );

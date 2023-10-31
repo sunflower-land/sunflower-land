@@ -5,8 +5,27 @@ import { useMachine } from "@xstate/react";
 import { roundToOneDecimal } from "features/auth/components";
 import { CONFIG } from "lib/config";
 import { SUNNYSIDE } from "assets/sunnyside";
-import bear from "assets/sfts/bears/eggplant_bear.png";
 import { Button } from "components/ui/Button";
+import { Label } from "components/ui/Label";
+
+const CONTRIBUTORS = [
+  "Netherzapdos",
+  "PoroTamphina",
+  "Neonlight",
+  "kohi",
+  "default",
+  "whaitte",
+  "Vergelsxtn",
+  "shinon",
+  "SFWhat",
+  "PurpleDrvnk",
+  "JCEii",
+  "Andando",
+  "Telk",
+  "frogchard",
+  "Ventin",
+  "LittleEins",
+];
 
 export const Donations: React.FC = () => {
   const [state, send] = useMachine(donationMachine);
@@ -42,12 +61,22 @@ export const Donations: React.FC = () => {
     <>
       {state.matches("idle") && (
         <div className="flex flex-col mb-1 p-2 text-sm">
-          <p className="my-2">
-            Thank you for your support! Kindly choose the amount you want to
-            donate!
+          <p className="mb-2 text-center">
+            This was a community art initiative and donations are greatly
+            appreciated!
           </p>
-          <div className="flex flex-col items-center">
-            <img id="bottle" src={bear} className="w-20" />
+
+          <div className="flex flex-wrap mt-1 mb-2 justify-center">
+            {CONTRIBUTORS.map((name) => (
+              <Label
+                key={name}
+                type="chill"
+                icon={SUNNYSIDE.icons.heart}
+                className="mr-3 mb-1"
+              >
+                {name}
+              </Label>
+            ))}
           </div>
           <div className="flex flex-col items-center">
             <div className="flex">
@@ -80,6 +109,7 @@ export const Donations: React.FC = () => {
             </div>
             <span className="text-xs text-shadow my-2">Amount in MATIC</span>
           </div>
+
           <Button
             className="w-full ml-1"
             onClick={donate}

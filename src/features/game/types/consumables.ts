@@ -11,6 +11,8 @@ type JuiceName =
   | "Power Smoothie"
   | "Bumpkin Detox";
 
+type FishCookableName = "Chowder" | "Gumbo" | "Fermented Fish";
+
 export type CookableName =
   | "Mashed Potato"
   | "Pumpkin Soup"
@@ -46,9 +48,7 @@ export type CookableName =
   | "Eggplant Cake"
   | "Cornbread"
   | "Popcorn"
-  | "Chowder"
-  | "Gumbo"
-  | "Fermented Fish";
+  | FishCookableName;
 
 export type ConsumableName = CookableName | "Pirate Cake" | FishName;
 
@@ -240,6 +240,49 @@ export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
     },
     marketRate: 550,
     disabled: true,
+  },
+};
+
+export const FISH_COOKABLES: Record<FishCookableName, Cookable> = {
+  Chowder: {
+    name: "Chowder",
+    description:
+      "Sailor's delight in a bowl! Dive in, there's treasure inside!",
+    building: "Kitchen",
+    cookingSeconds: 60 * 60 * 8,
+    experience: 1000,
+    ingredients: {
+      Beetroot: new Decimal(10),
+      Wheat: new Decimal(10),
+      Parsnip: new Decimal(5),
+      Anchovy: new Decimal(3),
+    },
+    marketRate: 0,
+  },
+  Gumbo: {
+    name: "Gumbo",
+    description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
+    building: "Fire Pit",
+    cookingSeconds: 60 * 60 * 4,
+    experience: 600,
+    ingredients: {
+      Potato: new Decimal(50),
+      Pumpkin: new Decimal(30),
+      Carrot: new Decimal(20),
+      "Red Snapper": new Decimal(3),
+    },
+    marketRate: 0,
+  },
+  "Fermented Fish": {
+    name: "Fermented Fish",
+    description: "Daring delicacy! Unleash the Viking within with every bite!",
+    building: "Deli",
+    cookingSeconds: 60 * 60 * 24,
+    experience: 3000,
+    ingredients: {
+      Tuna: new Decimal(6),
+    },
+    marketRate: 0,
   },
 };
 
@@ -666,55 +709,18 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     },
     marketRate: 120,
   },
-  Chowder: {
-    name: "Chowder",
-    description:
-      "Sailor's delight in a bowl! Dive in, there's treasure inside!",
-    building: "Kitchen",
-    cookingSeconds: 60 * 60 * 8,
-    experience: 1000,
-    ingredients: {
-      Beetroot: new Decimal(10),
-      Wheat: new Decimal(10),
-      Parsnip: new Decimal(5),
-      Anchovy: new Decimal(3),
-    },
-    marketRate: 0,
-  },
-  Gumbo: {
-    name: "Gumbo",
-    description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
-    building: "Fire Pit",
-    cookingSeconds: 60 * 60 * 4,
-    experience: 600,
-    ingredients: {
-      Potato: new Decimal(50),
-      Pumpkin: new Decimal(30),
-      Carrot: new Decimal(20),
-      "Red Snapper": new Decimal(3),
-    },
-    marketRate: 0,
-  },
-  "Fermented Fish": {
-    name: "Fermented Fish",
-    description: "Daring delicacy! Unleash the Viking within with every bite!",
-    building: "Deli",
-    cookingSeconds: 60 * 60 * 24,
-    experience: 3000,
-    ingredients: {
-      Tuna: new Decimal(6),
-    },
-    marketRate: 0,
-  },
   ...COOKABLE_CAKES,
+  ...FISH_COOKABLES,
 };
-export const PIRATECAKE: Record<"Pirate Cake", Consumable> = {
+
+export const PIRATE_CAKE: Record<"Pirate Cake", Consumable> = {
   "Pirate Cake": {
     name: "Pirate Cake",
     description: "Great for Pirate themed birthday parties.",
     experience: 3000,
   },
 };
+
 const FISH: Record<FishName, Consumable> = {
   Anchovy: {
     description: "Tiny fish, big flavor!",
@@ -761,10 +767,10 @@ const FISH: Record<FishName, Consumable> = {
     experience: 50,
     name: "Red Snapper",
   },
-  "Mooray Eel": {
+  "Moray Eel": {
     description: "Slippery, savory, and sensational!",
     experience: 50,
-    name: "Mooray Eel",
+    name: "Moray Eel",
   },
   "Olive Flounder": {
     description: "Floundering in richness and taste!",
@@ -856,8 +862,14 @@ const FISH: Record<FishName, Consumable> = {
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   ...COOKABLES,
   ...FISH,
-  ...PIRATECAKE,
+  ...PIRATE_CAKE,
 };
+
+export const FISH_CONSUMABLES: Record<FishName | FishCookableName, Consumable> =
+  {
+    ...FISH_COOKABLES,
+    ...FISH,
+  };
 
 const Juices = getKeys(COOKABLES).filter(
   (name) => COOKABLES[name].building === "Smoothie Shack"
