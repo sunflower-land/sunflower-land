@@ -13,6 +13,7 @@ import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { KrakenIntro } from "./npcs/Shelly";
+import { PromotingModal } from "features/game/expansion/components/SpecialOffer";
 
 type InteractableName =
   | "kraken"
@@ -50,7 +51,9 @@ type InteractableName =
   | "clubhouse_reward"
   | "beach_green_book"
   | "beach_orange_book"
-  | "beach_blue_book";
+  | "beach_blue_book"
+  | "walrus"
+  | "kraken_banner";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -155,6 +158,36 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           message={[
             {
               text: "Eeeep! So tired.....",
+            },
+          ]}
+        />
+      </Modal>
+
+      <PromotingModal
+        isOpen={interactable === "kraken_banner"}
+        hasDiscount={!!gameState.context.state.inventory["Witches' Eve Banner"]}
+        hasPurchased={
+          !!gameState.context.state.inventory["Catch the Kraken Banner"]
+        }
+        onClose={closeModal}
+      />
+      <Modal centered show={interactable === "bud"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          message={[
+            {
+              text: "Hmmm, I better leave that bud alone. I'm sure it's owner is looking for it",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "walrus"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          message={[
+            {
+              text: "Arrr arr arrr! The fish shop ain't open 'til I get my fish.",
             },
           ]}
         />

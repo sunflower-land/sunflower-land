@@ -1,4 +1,5 @@
 import { Equipped } from "features/game/types/bumpkin";
+import { getCurrentSeason } from "features/game/types/seasons";
 
 export type NPCName =
   | "betty"
@@ -290,17 +291,30 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Farmer Pitchfork",
   },
   // Announces news
-  birdie: {
-    body: "Beige Farmer Potion",
-    background: "Farm Background",
-    hair: "Brown Long Hair",
-    shirt: "Witches' Eve Tee",
-    pants: "Peasant Skirt",
-    shoes: "Black Farmer Boots",
-    tool: "Auction Megaphone",
-    wings: "Crow Wings",
-    hat: "Boater Hat",
-  },
+  birdie:
+    getCurrentSeason() === "Witches' Eve"
+      ? {
+          body: "Beige Farmer Potion",
+          background: "Farm Background",
+          hair: "Brown Long Hair",
+          shirt: "Witches' Eve Tee",
+          pants: "Peasant Skirt",
+          shoes: "Black Farmer Boots",
+          tool: "Auction Megaphone",
+          wings: "Crow Wings",
+          hat: "Boater Hat",
+        }
+      : {
+          body: "Beige Farmer Potion",
+          background: "Farm Background",
+          hair: "Brown Long Hair",
+          shirt: "Trial Tee",
+          coat: "Fish Pro Vest",
+          pants: "Angler Waders",
+          hat: "Normal Fish Hat",
+          tool: "Sunflower Rod",
+          shoes: "Black Farmer Boots",
+        },
   // Old loving grandma of the game
   buttons: {
     body: "Beige Farmer Potion",

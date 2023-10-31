@@ -5,12 +5,11 @@ import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { AudioController } from "../lib/AudioController";
-import { hasFeatureAccess } from "lib/flags";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
-    x: 400,
-    y: 400,
+    x: 371,
+    y: 344,
     npc: "pumpkin' pete",
   },
   {
@@ -85,12 +84,6 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "tywin",
   },
   {
-    x: 480,
-    y: 235,
-    npc: "luna",
-    direction: "left",
-  },
-  {
     x: 505,
     y: 352,
     npc: "birdie",
@@ -159,11 +152,6 @@ export class PlazaScene extends BaseScene {
       frameHeight: 21,
     });
 
-    this.load.spritesheet("portal", "world/portal.png", {
-      frameWidth: 30,
-      frameHeight: 30,
-    });
-
     this.load.image("chest", "world/rare_chest.png");
 
     super.preload();
@@ -204,17 +192,7 @@ export class PlazaScene extends BaseScene {
 
     super.create();
 
-    const bumpkins = PLAZA_BUMPKINS;
-
-    if (!hasFeatureAccess(this.gameService.state.context.state, "BEACH")) {
-      bumpkins.push({
-        x: 20,
-        y: 318,
-        npc: "old salty",
-      });
-    }
-
-    this.initialiseNPCs(bumpkins);
+    this.initialiseNPCs(PLAZA_BUMPKINS);
 
     const auctionLabel = new Label(this, "AUCTIONS", "brown");
     auctionLabel.setPosition(601, 260);
@@ -225,18 +203,6 @@ export class PlazaScene extends BaseScene {
     clubHouseLabel.setPosition(152, 262);
     clubHouseLabel.setDepth(10000000);
     this.add.existing(clubHouseLabel);
-
-    const portal = this.add.sprite(505, 215, "portal");
-    this.anims.create({
-      key: "portal_anim",
-      frames: this.anims.generateFrameNumbers("portal", {
-        start: 0,
-        end: 11,
-      }),
-      repeat: -1,
-      frameRate: 10,
-    });
-    portal.play("portal_anim", true);
 
     // Plaza Bud
     const fatChicken = this.add.sprite(106, 352, "fat_chicken");

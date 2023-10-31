@@ -114,7 +114,7 @@ export class BeachScene extends BaseScene {
       this.add.sprite(350, 740, "heart");
     }
 
-    const turtle = this.add.sprite(328, 520, "beach_bud");
+    const turtle = this.add.sprite(328, 515, "beach_bud");
     turtle.setScale(-1, 1);
     this.anims.create({
       key: "turtle_bud_anim",
@@ -140,7 +140,7 @@ export class BeachScene extends BaseScene {
     });
     beachBud2.play("beach_bud_2_anim", true);
 
-    const beachBud3 = this.add.sprite(420, 578, "beach_bud_3");
+    const beachBud3 = this.add.sprite(420, 572, "beach_bud_3");
     this.anims.create({
       key: "beach_bud_3_anim",
       frames: this.anims.generateFrameNumbers("beach_bud_3", {
