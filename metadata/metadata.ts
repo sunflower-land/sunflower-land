@@ -4433,6 +4433,11 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Extra Mermaid Scales from Deliveries",
         value: 2,
       },
+      {
+        display_type: "boost_percentage",
+        trait_type: "XP increase during Catch the Kraken Season",
+        value: 10,
+      },
     ],
   },
   "Luminous Lantern": {
@@ -5403,7 +5408,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/626.png",
     attributes: [
       { trait_type: "Purpose", value: "Bait" },
-      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   Grub: {
@@ -5413,7 +5418,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/627.png",
     attributes: [
       { trait_type: "Purpose", value: "Bait" },
-      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Red Wiggler": {
@@ -5423,7 +5428,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/628.png",
     attributes: [
       { trait_type: "Purpose", value: "Bait" },
-      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Sprout Mix": {
@@ -5433,6 +5438,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/629.png",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
+      { trait_type: "Purpose", value: "Fertiliser" },
       {
         display_type: "boost_number",
         trait_type: "Increase Crop Yield",
@@ -5449,6 +5455,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/630.png",
     attributes: [
       { trait_type: "Boost", value: "Fruit" },
+      { trait_type: "Purpose", value: "Fertiliser" },
       {
         display_type: "boost_number",
         trait_type: "Increase Fruit Yield",
@@ -5465,6 +5472,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image_url: "../public/erc1155/images/631.png",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
+      { trait_type: "Purpose", value: "Fertiliser" },
       {
         display_type: "boost_percentage",
         trait_type: "Crop Growth Time",
@@ -5564,7 +5572,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  "Mooray Eel": {
+  "Moray Eel": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -5811,8 +5819,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "Sailor's delight in a bowl! Dive in, there's treasure inside!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // image_url: "../public/erc1155/images/551.png",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/551.png",
     attributes: [
       { trait_type: "Purpose", value: "Consumable" },
       { trait_type: "Tradable", value: "No" },
@@ -5822,8 +5829,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // image_url: "../public/erc1155/images/552.png",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/552.png",
     attributes: [
       { trait_type: "Purpose", value: "Consumable" },
       { trait_type: "Tradable", value: "No" },
@@ -5833,11 +5839,213 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Daring delicacy! Unleash the Viking within with every bite!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    // image_url: "../public/erc1155/images/553.png",
-    image_url: "../public/erc1155/images/question_mark.png",
+    image_url: "../public/erc1155/images/553.png",
     attributes: [
       { trait_type: "Purpose", value: "Consumable" },
       { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Lifeguard Ring": {
+    description: "Stay afloat with style, your seaside savior!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1289.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  Surfboard: {
+    description: "Ride the waves of wonder, beach bliss on board!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1290.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Hideaway Herman": {
+    description: "Herman's here to hide, but always peeks for a party!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1291.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Creatures" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Shifty Sheldon": {
+    description: "Sheldon's sly, always scuttling to the next sandy surprise!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1292.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Creatures" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Tiki Torch": {
+    description: "Light the night, tropical vibes burning bright!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1293.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Beach Umbrella": {
+    description: "Shade, shelter, and seaside chic in one sunny setup!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1294.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Monument" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Sapo Docuras": {
+    description: "A real treat this halloween!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1295.gif",
+    attributes: [
+      { trait_type: "Decoration", value: "Creatures" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Sapo Travessuras": {
+    description: "Oh oh....someone was naughty!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1296.gif",
+    attributes: [
+      { trait_type: "Decoration", value: "Creatures" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  Walrus: {
+    description:
+      "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/478.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Fish Yield",
+        value: 1,
+      },
+      { trait_type: "Boost", value: "Fish" },
+    ],
+  },
+  Alba: {
+    description:
+      "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 Basic Fish!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/479.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Chance of getting an extra Basic Fish",
+        value: 50,
+      },
+      { trait_type: "Boost", value: "Fish" },
+    ],
+  },
+  "Knowledge Crab": {
+    description:
+      "The Knowledge Crab doubles your Sprout Mix effect, making your soil treasures as rich as sea plunder!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/480.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Sprout Mix Effect",
+        value: 100,
+      },
+      { trait_type: "Boost", value: "Crop" },
+    ],
+  },
+  Anchor: {
+    description:
+      "Drop anchor' with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/481.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Decoration", value: "Monument" },
+    ],
+  },
+  "Chilling Banana": {
+    description:
+      "Soak up the sun and snag an extra +0.5 bananas! Cool vibes, cooler rewards.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/482.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Banana Yield",
+        value: 0.5,
+      },
+      { trait_type: "Boost", value: "Fruit" },
+    ],
+  },
+
+  "Rubber Ducky": {
+    description:
+      "Float on fun with this classic quacker, bringing bubbly joy to every corner!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/483.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Decoration", value: "Creatures" },
+    ],
+  },
+  "Kraken Head": {
+    description:
+      "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/484.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Decoration", value: "Creatures" },
+    ],
+  },
+  "Kraken Tentacle": {
+    description: "Protect the beach and catch the Kraken!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/1533.png",
+    attributes: [
+      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Decoration", value: "Creatures" },
+    ],
+  },
+  "Banana Chicken": {
+    description: "A chicken that boosts bananas. What a world we live in.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/488.png",
+    attributes: [
+      { trait_type: "Boost", value: "Fruit" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Banana Drops",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
 };
