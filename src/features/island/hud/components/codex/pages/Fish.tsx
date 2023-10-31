@@ -77,6 +77,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
     return (
       <Detail
         name={selectedFish}
+        caught={(farmActivity[`${selectedFish} Caught`] ?? 0) > 0}
         onBack={() => setSelectedFish(undefined)}
         additionalLabels={
           <>
@@ -148,6 +149,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
                 <div className="flex flex-wrap">
                   {FISH_BY_TYPE[type].map((name) => (
                     <SimpleBox
+                      silhouette={!farmActivity[`${name} Caught`]}
                       onClick={() => setSelectedFish(name)}
                       key={name}
                       image={ITEM_DETAILS[name].image}

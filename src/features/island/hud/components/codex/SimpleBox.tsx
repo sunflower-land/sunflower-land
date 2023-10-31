@@ -3,19 +3,20 @@ import React from "react";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SquareIcon } from "components/ui/SquareIcon";
+import classNames from "classnames";
 
 const INNER_CANVAS_WIDTH = 14;
-const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
-const LABEL_TOP_SHIFT_PX = -5 * PIXEL_SCALE;
 
 export interface BoxProps {
   image: string;
+  silhouette: boolean;
   className?: string;
   onClick: () => void;
 }
 
 export const SimpleBox: React.FC<BoxProps> = ({
   image,
+  silhouette,
   className,
   children,
   onClick,
@@ -35,7 +36,11 @@ export const SimpleBox: React.FC<BoxProps> = ({
         }}
       >
         <div className="absolute flex justify-center items-center w-full h-full">
-          <SquareIcon icon={image} width={INNER_CANVAS_WIDTH} />
+          <SquareIcon
+            icon={image}
+            width={INNER_CANVAS_WIDTH}
+            className={classNames({ silhouette: silhouette })}
+          />
         </div>
 
         {/* Label: Count or Check */}
