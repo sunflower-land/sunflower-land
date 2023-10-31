@@ -8,19 +8,18 @@ export const Nana: React.FC = () => {
     <div
       className="absolute"
       style={{
-        width: `${PIXEL_SCALE * 21}px`,
-        bottom: `${PIXEL_SCALE * 4}px`,
-        left: `${PIXEL_SCALE * 6}px`,
+        width: `${PIXEL_SCALE * 17}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
       }}
     >
       <img
         src={nana}
         style={{
-          width: `${PIXEL_SCALE * 21}px`,
+          width: `${PIXEL_SCALE * 17}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute left-1/2 -translate-x-1/2"
-        alt="nana"
+        alt="Nana"
       />
     </div>
   );

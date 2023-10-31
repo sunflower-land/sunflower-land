@@ -408,6 +408,7 @@ export const OFFLINE_FARM: GameState = {
     "Fruitful Blend": new Decimal(10),
     "El Pollo Veloz": new Decimal(1),
     "Banana Chicken": new Decimal(1),
+    Nana: new Decimal(1),
     "Bud Seedling": new Decimal(1),
     Gnome: new Decimal(1),
     "Sunflower Cake": new Decimal(15),
