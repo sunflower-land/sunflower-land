@@ -127,7 +127,7 @@ export const FishingChallenge: React.FC<Props> = ({
     from: { transform: `rotate(${castFrom}deg)` },
     to: { transform: `rotate(${castTo}deg)` },
     onRest: () => {
-      if (misses >= 2) {
+      if (misses >= 2 && hits < health) {
         onMiss();
       }
 
@@ -154,7 +154,11 @@ export const FishingChallenge: React.FC<Props> = ({
     },
   });
 
-  const barHeight = 10;
+  const greenBarPercentage = 10;
+  // Half bar (bar angle is 10% of 360deg).
+  const halfBarDegrees = 360 / greenBarPercentage / 2;
+  // Add 5% tolerance to be more forgiving
+  const halfBarDegreesWithTolerance = halfBarDegrees * 1.05;
 
   const reel = () => {
     const greenBarAngle = extractAngle(greenBarProps.transform.get());
@@ -167,8 +171,7 @@ export const FishingChallenge: React.FC<Props> = ({
         180
     );
 
-    const fishBuffer = 10;
-    const hit = degreeDifference < barHeight + fishBuffer;
+    const hit = degreeDifference < halfBarDegreesWithTolerance;
 
     console.log({
       hit,
@@ -258,8 +261,10 @@ export const FishingChallenge: React.FC<Props> = ({
             strokeWidth="12"
           />
           <circle
-            strokeDasharray={`${barHeight} ${100 - barHeight}`}
-            strokeDashoffset={25 + barHeight / 2}
+            strokeDasharray={`${greenBarPercentage} ${
+              100 - greenBarPercentage
+            }`}
+            strokeDashoffset={25 + greenBarPercentage / 2}
             cx="100"
             cy="100"
             r="90"
