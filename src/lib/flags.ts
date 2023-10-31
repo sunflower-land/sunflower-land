@@ -39,6 +39,9 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   FISHING: defaultFeatureFlag,
   XSOLLA: testnetFeatureFlag,
   HALLOWEEN: (game: GameState) => {
+    // TODO testing
+    return false;
+
     if (Date.now() > new Date("2023-11-01").getTime()) {
       return false;
     }
