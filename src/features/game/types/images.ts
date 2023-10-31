@@ -2830,8 +2830,8 @@ export const ITEM_DETAILS: Items = {
     buff: {
       labelType: "success",
       shortDescription: "+0.1 Iron",
-      boostTypeIcon: "powerup",
-      boostedItemIcon: "iron",
+      boostTypeIcon: powerup,
+      boostedItemIcon: iron,
     },
     itemType: "collectible",
   },
@@ -2850,8 +2850,8 @@ export const ITEM_DETAILS: Items = {
     buff: {
       labelType: "success",
       shortDescription: "+0.1 Gold",
-      boostTypeIcon: "powerup",
-      boostedItemIcon: "gold",
+      boostTypeIcon: powerup,
+      boostedItemIcon: gold,
     },
     itemType: "collectible",
   },
