@@ -12,6 +12,7 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { OuterPanel } from "components/ui/Panel";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 
 const isDateOnSameDayAsToday = (date: Date) => {
   const today = new Date();
@@ -69,6 +70,8 @@ export const DailyChore: React.FC<Props> = ({ id, chore, isReadOnly }) => {
 
   const isTaskComplete = progress >= chore.requirement;
 
+  const { tasksAreFrozen } = getSeasonChangeover();
+
   return (
     <OuterPanel className="p-2 mb-2">
       <div className="flex justify-between">
@@ -112,13 +115,14 @@ export const DailyChore: React.FC<Props> = ({ id, chore, isReadOnly }) => {
                 <Button
                   className="text-sm w-24 h-8 mr-2"
                   onClick={() => skip(id)}
+                  disabled={tasksAreFrozen}
                 >
                   Skip
                 </Button>
               )}
 
               <Button
-                disabled={!isTaskComplete}
+                disabled={!isTaskComplete || tasksAreFrozen}
                 className="text-sm w-24 h-8"
                 onClick={() => complete(id)}
               >

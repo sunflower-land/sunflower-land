@@ -37,8 +37,8 @@ import { SquareIcon } from "components/ui/SquareIcon";
 
 const WORM_OUTPUT: Record<ComposterName, string> = {
   "Compost Bin": "2-4",
-  "Premium Composter": "2-3",
-  "Turbo Composter": "1-3",
+  "Turbo Composter": "2-3",
+  "Premium Composter": "1-3",
 };
 export const COMPOSTER_IMAGES: Record<
   ComposterName,

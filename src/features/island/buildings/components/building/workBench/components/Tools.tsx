@@ -112,7 +112,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
         <>
           {getKeys(WORKBENCH_TOOLS())
             .filter(
-              (name) => hasFeatureAccess(inventory, "FISHING") || name !== "Rod"
+              (name) => hasFeatureAccess(state, "FISHING") || name !== "Rod"
             )
             .map((toolName) => (
               <Box

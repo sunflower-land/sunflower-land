@@ -706,3 +706,8 @@ img {
     opacity: 0.8;
   }
 }
+
+.silhouette {
+  filter: brightness(0) saturate(100%) invert(5%) sepia(21%) saturate(2001%)
+    hue-rotate(215deg) brightness(99%) contrast(93%);
+}

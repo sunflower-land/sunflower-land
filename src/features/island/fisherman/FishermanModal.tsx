@@ -19,6 +19,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import {
   CHUM_AMOUNTS,
+  CHUM_DETAILS,
   FISH,
   FishingBait,
   getTide,
@@ -57,7 +58,7 @@ const ChumSelection: React.FC<{
 
   return (
     <div>
-      <p className="mb-1 p-1 text-sm">What resource would you like to chum?</p>
+      <p className="mb-1 p-1 text-xs">Select your resource:</p>
 
       <div className="flex flex-wrap">
         {getKeys(CHUM_AMOUNTS)
@@ -74,19 +75,22 @@ const ChumSelection: React.FC<{
       </div>
 
       {selected && (
-        <>
-          <div className="flex items-center p-1 relative">
-            <span className="text-sm mr-1">{`${CHUM_AMOUNTS[selected]}`}</span>
-            <img src={ITEM_DETAILS[selected].image} className="h-6 mr-1" />
-            <span className="text-sm mr-1">are needed to chum.</span>
-          </div>
-          {!hasRequirements && (
+        <div className="p-2">
+          <div className="flex justify-between">
             <Label
-              type="danger"
+              type="default"
               className="mb-1"
-            >{`You need more ${selected}`}</Label>
-          )}
-        </>
+              icon={ITEM_DETAILS[selected].image}
+            >
+              {selected}
+            </Label>
+            <Label
+              type={!hasRequirements ? "danger" : "default"}
+              className="mb-1"
+            >{`${CHUM_AMOUNTS[selected]} ${selected} required`}</Label>
+          </div>
+          <p className="text-xs">{CHUM_DETAILS[selected]}</p>
+        </div>
       )}
 
       <div className="flex">
@@ -255,13 +259,19 @@ const BaitSelection: React.FC<{
 
       {fishingLimitReached && (
         <Label className="mb-1" type="danger">
-          You have reached your daily fishing limit
+          You have reached your daily fishing limit of {dailyFishingMax}.
         </Label>
       )}
 
-      {missingRod && !fishingLimitReached && (
+      {!fishingLimitReached && missingRod && (
         <Label className="mb-1" type="danger">
-          You must first craft a rod
+          You must first craft a rod.
+        </Label>
+      )}
+
+      {!fishingLimitReached && !missingRod && (
+        <Label className="mb-1" type="info">
+          You have cast {dailyFishingCount} of {dailyFishingMax} for today.
         </Label>
       )}
 
@@ -299,10 +309,13 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
         <SpeakingText
           message={[
             {
-              text: "Howdy, I'm Reelin Roy!",
+              text: "Ahoy, fellow islanders! I'm Reelin' Roy, your trusty island fisherman, and I've set my sights on a grand challenge – collecting every fish under the sun!",
             },
             {
-              text: "Here you can fish.",
+              text: "Fish are great for eating, delivering and claiming rewards!",
+            },
+            {
+              text: "Bring me bait and resources and we'll reel in the rarest prizes that the ocean has to offer!",
             },
           ]}
           onClose={() => {
@@ -330,7 +343,7 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
     >
       {tab === 0 && <BaitSelection onCast={onCast} />}
 
-      {tab === 1 && <FishingGuide />}
+      {tab === 1 && <FishingGuide onClose={() => setTab(0)} />}
     </CloseButtonPanel>
   );
 };

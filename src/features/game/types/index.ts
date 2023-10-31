@@ -156,7 +156,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Anchor: 481,
   "Chilling Banana": 482,
   "Rubber Ducky": 483,
-  "Kraken Tentacle": 484,
+  "Kraken Head": 484,
+
+  "Banana Chicken": 488,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -512,7 +514,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Horse Mackerel": 1507,
   Squid: 1508,
   "Red Snapper": 1509,
-  "Mooray Eel": 1510,
+  "Moray Eel": 1510,
   "Olive Flounder": 1511,
   Napoleanfish: 1512,
   Surgeonfish: 1513,
@@ -536,6 +538,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Radiant Ray": 1530,
   "Phantom Barracuda": 1531,
   "Gilded Swordfish": 1532,
+  "Kraken Tentacle": 1533,
 };
 
 // The reverse of above

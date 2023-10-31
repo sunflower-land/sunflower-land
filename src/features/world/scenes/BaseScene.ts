@@ -23,6 +23,7 @@ import {
 import { Player } from "../types/Room";
 import { mazeManager } from "../ui/cornMaze/MazeHud";
 import { playerModalManager } from "../ui/PlayerModals";
+import { hasFeatureAccess } from "lib/flags";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -554,7 +555,11 @@ export abstract class BaseScene extends Phaser.Scene {
 
           // Change scenes
           const warpTo = (obj2 as any).data?.list?.warp;
-          if (warpTo) {
+          if (
+            warpTo &&
+            (warpTo !== "beach" ||
+              hasFeatureAccess(this.gameService.state.context.state, "BEACH"))
+          ) {
             this.currentPlayer?.stopSpeaking();
             this.cameras.main.fadeOut(1000);
 

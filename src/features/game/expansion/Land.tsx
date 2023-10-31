@@ -23,7 +23,6 @@ import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { Hud } from "features/island/hud/Hud";
 import { Resource } from "features/island/resources/Resource";
-import { IslandTravel } from "./components/travel/IslandTravel";
 import { Placeable } from "./placeable/Placeable";
 import { MachineState } from "../lib/gameMachine";
 import { GameGrid, getGameGrid } from "./placeable/lib/makeGrid";
@@ -371,6 +370,7 @@ const isVisiting = (state: MachineState) => state.matches("visiting");
 export const Land: React.FC = () => {
   const { gameService, showTimers } = useContext(Context);
 
+  const state = useSelector(gameService, selectGameState);
   const {
     expansionConstruction,
     buildings,
@@ -386,7 +386,7 @@ export const Land: React.FC = () => {
     fruitPatches,
     mushrooms,
     buds,
-  } = useSelector(gameService, selectGameState);
+  } = state;
   const autosaving = useSelector(gameService, isAutosaving);
   const landscaping = useSelector(gameService, isLandscaping);
   const visiting = useSelector(gameService, isVisiting);
@@ -496,21 +496,7 @@ export const Land: React.FC = () => {
           {landscaping && <Placeable />}
         </div>
 
-        {!landscaping && !hasFeatureAccess(inventory, "FISHING") && (
-          <IslandTravel
-            bumpkin={bumpkin}
-            isVisiting={visiting}
-            inventory={inventory}
-            travelAllowed={!autosaving}
-            onTravelDialogOpened={() => gameService.send("SAVE")}
-            x={boatCoordinates().x}
-            y={boatCoordinates().y}
-          />
-        )}
-
-        {!landscaping && hasFeatureAccess(inventory, "FISHING") && (
-          <Fisherman />
-        )}
+        {!landscaping && hasFeatureAccess(state, "FISHING") && <Fisherman />}
 
         {/* Background darkens in landscaping */}
         <div

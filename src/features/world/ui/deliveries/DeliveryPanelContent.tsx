@@ -23,6 +23,8 @@ import { getOrderSellPrice } from "features/game/events/landExpansion/deliver";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
+import { DELIVERY_LEVELS } from "features/island/delivery/lib/delivery";
+import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 
 interface OrderCardsProps {
   orders: Order[];
@@ -201,7 +203,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({
       order.from === npc && Date.now() >= order.readyAt && !order.completedAt
   );
 
-  if (!hasFeatureAccess(inventory, "BEACH")) {
+  if (!hasFeatureAccess(gameService.state.context.state, "BEACH")) {
     orders = orders.filter(
       (o) =>
         // Filter out beach NPCs
@@ -239,7 +241,16 @@ export const DeliveryPanelContent: React.FC<Props> = ({
         onClose={onClose}
         message={[
           {
-            text: noOrder,
+            text: intro,
+          },
+          {
+            text: (inventory["Basic Land"] ?? new Decimal(3)).lt(
+              DELIVERY_LEVELS[npc] ?? 0
+            )
+              ? `Hmm, it doesn't look like your farm will have the resources I need. Reach ${
+                  DELIVERY_LEVELS[npc] ?? 10
+                } expansions and come back to me.`
+              : noOrder,
           },
         ]}
       />
@@ -263,6 +274,25 @@ export const DeliveryPanelContent: React.FC<Props> = ({
       onClose();
     }
   };
+
+  const { tasksAreClosing, tasksStartAt, tasksCloseAt, tasksAreFrozen } =
+    getSeasonChangeover();
+
+  if (tasksAreFrozen) {
+    return (
+      <SpeakingText
+        onClose={onClose}
+        message={[
+          {
+            text: intro,
+          },
+          {
+            text: `I am waiting for the new season to start. Come back to me then!`,
+          },
+        ]}
+      />
+    );
+  }
 
   const canFulfillAnOrder = orders.some(hasRequirements);
 

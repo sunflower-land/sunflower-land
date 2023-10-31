@@ -207,6 +207,7 @@ import { Anchor } from "./components/Anchor";
 import { ChillingBanana } from "./components/ChillingBanana";
 import { RubberDucky } from "./components/RubberDucky";
 import { KrakenTentacle } from "./components/KrakenTentacle";
+import { BananaChicken } from "./components/BananaChicken";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -440,6 +441,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Radiant Ray": RadiantRay,
   "Phantom Barracuda": PhantomBarracuda,
   "Gilded Swordfish": GildedSwordfish,
+  "Kraken Tentacle": KrakenTentacle,
 
   // Catch the Kraken
   "Lifeguard Ring": LifeguardRing,
@@ -454,7 +456,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Anchor: Anchor,
   "Chilling Banana": ChillingBanana,
   "Rubber Ducky": RubberDucky,
-  "Kraken Tentacle": KrakenTentacle,
+  "Kraken Head": KrakenTentacle,
+  "Banana Chicken": BananaChicken,
 };
 // Need readonly versions for some troublesome components while in design mode
 

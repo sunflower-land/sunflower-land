@@ -5,7 +5,6 @@ import { Balance } from "components/Balance";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GoblinProvider";
 import { BumpkinAvatar } from "features/island/hud/components/BumpkinProfile";
-import { LandId } from "features/island/hud/components/LandId";
 import { GameState } from "features/game/types/game";
 import { GoblinInventory } from "./components/hud/GoblinInventory";
 import { Settings } from "features/island/hud/components/Settings";
@@ -14,7 +13,6 @@ import Modal from "react-bootstrap/esm/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Deposit } from "features/goblins/bank/components/Deposit";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { hasFeatureAccess } from "lib/flags";
 import { TravelButton } from "./components/travel/TravelButton";
 
 /**
@@ -62,20 +60,16 @@ export const Hud: React.FC = () => {
           state={goblinState.context.state as GameState}
           onDepositClick={handleDepositOpen}
         />
-        {hasFeatureAccess(goblinState.context.state.inventory, "FISHING") ? (
-          <div
-            className="fixed z-50 flex flex-col justify-between"
-            style={{
-              left: `${PIXEL_SCALE * 3}px`,
-              bottom: `${PIXEL_SCALE * 3}px`,
-              width: `${PIXEL_SCALE * 22}px`,
-            }}
-          >
-            <TravelButton />
-          </div>
-        ) : (
-          landId && <LandId landId={landId} />
-        )}
+        <div
+          className="fixed z-50 flex flex-col justify-between"
+          style={{
+            left: `${PIXEL_SCALE * 3}px`,
+            bottom: `${PIXEL_SCALE * 3}px`,
+            width: `${PIXEL_SCALE * 22}px`,
+          }}
+        >
+          <TravelButton />
+        </div>
         <BumpkinAvatar bumpkin={state.bumpkin} />
         <div
           className="fixed z-50 flex flex-col justify-between"

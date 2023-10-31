@@ -315,4 +315,26 @@ describe("castRod", () => {
       chum: "Sunflower",
     });
   });
+
+  it("does not subtracts rod if wearing Ancient Rod", () => {
+    const state = castRod({
+      action: {
+        bait: "Earthworm",
+        type: "rod.casted",
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { ...INITIAL_BUMPKIN.equipped, tool: "Ancient Rod" },
+        },
+        inventory: {
+          Rod: new Decimal(3),
+          Earthworm: new Decimal(1),
+        },
+      },
+    });
+
+    expect(state.inventory.Rod).toEqual(new Decimal(3));
+  });
 });

@@ -205,6 +205,7 @@ const mutantChickens: Record<MutantChicken, () => boolean> = {
   "Rich Chicken": () => true,
   "Speed Chicken": () => true,
   "El Pollo Veloz": () => true,
+  "Banana Chicken": () => true,
 };
 
 const flags: Record<Flag, () => boolean> = {
@@ -396,7 +397,7 @@ const consumables: Record<ConsumableName, () => boolean> = {
   "Hammerhead shark": () => false,
   "Horse Mackerel": () => false,
   "Mahi Mahi": () => false,
-  "Mooray Eel": () => false,
+  "Moray Eel": () => false,
   "Olive Flounder": () => false,
   "Red Snapper": () => false,
   "Saw Shark": () => false,
@@ -569,7 +570,7 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   Anchor: () => canWithdrawTimebasedItem(new Date("01-28-2024")),
   "Chilling Banana": () => canWithdrawTimebasedItem(new Date("01-13-2024")),
   "Rubber Ducky": () => canWithdrawTimebasedItem(new Date("01-10-2024")),
-  "Kraken Tentacle": () => canWithdrawTimebasedItem(new Date("01-22-2024")),
+  "Kraken Head": () => canWithdrawTimebasedItem(new Date("01-22-2024")),
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
@@ -724,7 +725,7 @@ const fish: Record<FishName | MarineMarvelName, () => boolean> = {
   "Horse Mackerel": () => false,
   Squid: () => false,
   "Red Snapper": () => false,
-  "Mooray Eel": () => false,
+  "Moray Eel": () => false,
   "Olive Flounder": () => false,
   Napoleanfish: () => false,
   Surgeonfish: () => false,
@@ -747,6 +748,7 @@ const fish: Record<FishName | MarineMarvelName, () => boolean> = {
   "Radiant Ray": () => false,
   "Phantom Barracuda": () => false,
   "Gilded Swordfish": () => false,
+  "Kraken Tentacle": () => false,
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
@@ -1096,10 +1098,10 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Feather Hat": () => true,
   "Valoria Wreath": () => true,
   "Earn Alliance Sombrero": () => true,
-  "Fresh Catch Vest": () => false,
-  "Fish Pro Vest": () => false,
-  "Reel Fishing Vest": () => false,
-  "Clown Shirt": () => false,
+  "Fresh Catch Vest": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
+  "Fish Pro Vest": () => canWithdrawTimebasedItem(new Date("2024-01-02")),
+  "Reel Fishing Vest": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Clown Shirt": () => canWithdrawTimebasedItem(new Date("2024-12-02")),
   "Luminous Anglerfish Topper": () => false,
   "Abyssal Angler Hat": () =>
     canWithdrawTimebasedItem(new Date("Thu Jan 4 2024 09:00:00 GMT+1000")),
@@ -1111,18 +1113,25 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Bucket O' Worms": () => false,
   "Coconut Mask": () => false,
   "Crab Trap": () => false,
-  "Seaside Tank Top": () => false,
+  "Seaside Tank Top": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
   "Fish Trap": () => false,
-  "Fishing Pants": () => false,
+  "Fishing Pants": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
   "Angler Waders": () => false,
-  "Fishing Spear": () => false,
-  "Flip Flops": () => false,
-  Wellies: () => false,
-  "Saw Fish": () => false,
-  "Skinning Knife": () => false,
+  "Fishing Spear": () => canWithdrawTimebasedItem(new Date("2024-01-02")),
+  "Flip Flops": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  Wellies: () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Saw Fish": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Skinning Knife": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
   "Sunflower Rod": () => false,
-  "Tackle Box": () => false,
-  "Infernal Rod": () => false,
+  "Tackle Box": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Infernal Rod": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
   "Mermaid Potion": () => false,
   "Squirrel Monkey Potion": () => false,
+  "Koi Fish Hat": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
+  "Normal Fish Hat": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
+  "Stockeye Salmon Onesie": () =>
+    canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Tiki Armor": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
+  "Tiki Mask": () => canWithdrawTimebasedItem(new Date("2024-01-02")),
+  "Tiki Pants": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
 };

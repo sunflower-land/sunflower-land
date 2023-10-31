@@ -303,10 +303,17 @@ const INITIAL_BUMPKIN: Bumpkin = {
 
 export const OFFLINE_FARM: GameState = {
   id: 4,
+  catchTheKraken: {
+    hunger: "Red Snapper",
+    weeklyCatches: {
+      1: 5,
+      13: 5,
+    },
+  },
   witchesEve: {
     weeklyLostCrowCount: 25,
     maze: {
-      7: {
+      13: {
         claimedFeathers: 0,
         sflFee: 5,
         paidEntryFee: true,
@@ -400,6 +407,7 @@ export const OFFLINE_FARM: GameState = {
     "Rapid Root": new Decimal(10),
     "Fruitful Blend": new Decimal(10),
     "El Pollo Veloz": new Decimal(1),
+    "Banana Chicken": new Decimal(1),
     "Bud Seedling": new Decimal(1),
     Gnome: new Decimal(1),
     "Sunflower Cake": new Decimal(15),
@@ -523,7 +531,11 @@ export const OFFLINE_FARM: GameState = {
     },
   },
   chickens: {},
-  fishing: { weather: "Sunny", wharf: {}, dailyAttempts: {} },
+  fishing: {
+    weather: "Sunny",
+    wharf: {},
+    dailyAttempts: {},
+  },
 
   airdrops: [],
 
@@ -748,21 +760,21 @@ export const OFFLINE_FARM: GameState = {
       colour: "Beige",
       ears: "Ears",
       stem: "3 Leaf Clover",
-      type: "Beach",
+      type: "Plaza",
     },
     5: {
       aura: "Basic",
       colour: "Beige",
       ears: "Ears",
       stem: "3 Leaf Clover",
-      type: "Beach",
+      type: "Plaza",
     },
     7: {
       aura: "Basic",
       colour: "Beige",
       ears: "Ears",
       stem: "3 Leaf Clover",
-      type: "Beach",
+      type: "Plaza",
     },
     9: {
       aura: "Basic",

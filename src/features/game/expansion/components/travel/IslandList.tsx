@@ -6,7 +6,7 @@ import classNames from "classnames";
 import * as Auth from "features/auth/lib/Provider";
 import { OuterPanel } from "components/ui/Panel";
 import { BumpkinLevel, getBumpkinLevel } from "features/game/lib/level";
-import { Bumpkin, Inventory } from "features/game/types/game";
+import { Bumpkin, GameState } from "features/game/types/game";
 import { VisitLandExpansionForm } from "../VisitLandExpansionForm";
 import { Label } from "components/ui/Label";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -15,8 +15,8 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import lockIcon from "assets/skills/lock.png";
 import levelUpIcon from "assets/icons/level_up.png";
 import goblin from "assets/buildings/goblin_sign.png";
-//import sunflorea from "assets/land/islands/sunflorea.png";
-//import snowman from "assets/npcs/snowman.png";
+import lightning from "assets/icons/lightning.png";
+
 import land from "assets/land/islands/island.webp";
 import blueBottle from "assets/decorations/blue_bottle.webp";
 
@@ -26,6 +26,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasFeatureAccess } from "lib/flags";
 import { SEASONS } from "features/game/types/seasons";
+import { GoblinState } from "features/game/lib/goblinMachine";
 
 interface Island {
   name: string;
@@ -48,7 +49,7 @@ interface IslandProps extends Island {
 interface IslandListProps {
   bumpkin: Bumpkin | undefined;
   showVisitList: boolean;
-  inventory: Inventory;
+  gameState: GameState | GoblinState;
   travelAllowed: boolean;
   hasBetaAccess?: boolean;
   onClose: () => void;
@@ -165,11 +166,12 @@ export const IslandList: React.FC<IslandListProps> = ({
   bumpkin,
   showVisitList,
   travelAllowed,
-  inventory,
+  gameState,
   hasBetaAccess = false,
   onClose,
 }) => {
   const { authService } = useContext(Auth.Context);
+
   const userType = useSelector(authService, userTypeSelector);
   const farmId = useSelector(authService, farmIdSelector);
   const state = useSelector(authService, stateSelector);
@@ -185,13 +187,13 @@ export const IslandList: React.FC<IslandListProps> = ({
       path: `/land/${farmId}`,
       labels: [],
     },
-    ...(hasFeatureAccess(inventory, "PUMPKIN_PLAZA") ||
+    ...(hasFeatureAccess(gameState, "PUMPKIN_PLAZA") ||
     Date.now() > SEASONS["Witches' Eve"].startDate.getTime()
       ? [
           {
             name: "Pumpkin Plaza",
             levelRequired: 1 as BumpkinLevel,
-            image: CROP_LIFECYCLE.Pumpkin.ready,
+            image: CROP_LIFECYCLE.Pumpkin.crop,
             path: `/world/plaza`,
             labels: [
               <Label
@@ -208,13 +210,7 @@ export const IslandList: React.FC<IslandListProps> = ({
               >
                 Deliveries
               </Label>,
-              <Label
-                type="default"
-                key="chores"
-                icon={SUNNYSIDE.icons.expression_chat}
-              >
-                Chores
-              </Label>,
+
               <Label
                 type="default"
                 key="shopping"
@@ -229,7 +225,29 @@ export const IslandList: React.FC<IslandListProps> = ({
           },
         ]
       : []),
-    ...(hasFeatureAccess(inventory, "PUMPKIN_PLAZA") ||
+    ...(hasFeatureAccess(gameState, "BEACH")
+      ? [
+          {
+            name: "Beach",
+            levelRequired: 1 as BumpkinLevel,
+            image: SUNNYSIDE.resource.crab,
+            path: `/world/beach`,
+            labels: [
+              <Label
+                type="default"
+                key="treasure_island"
+                icon={SUNNYSIDE.icons.heart}
+              >
+                Deliveries
+              </Label>,
+              <Label type="vibrant" key="tentacle" icon={lightning}>
+                Catch the Kraken
+              </Label>,
+            ],
+          },
+        ]
+      : []),
+    ...(hasFeatureAccess(gameState, "PUMPKIN_PLAZA") ||
     Date.now() > SEASONS["Witches' Eve"].startDate.getTime()
       ? [
           {
@@ -245,25 +263,7 @@ export const IslandList: React.FC<IslandListProps> = ({
           },
         ]
       : []),
-    ...(hasFeatureAccess(inventory, "BEACH")
-      ? [
-          {
-            name: "Beach",
-            levelRequired: 1 as BumpkinLevel,
-            image: SUNNYSIDE.resource.crab,
-            path: `/world/beach`,
-            labels: [
-              <Label
-                type="vibrant"
-                key="treasure_island"
-                icon={SUNNYSIDE.icons.treasure}
-              >
-                Treasure Island
-              </Label>,
-            ],
-          },
-        ]
-      : []),
+
     {
       name: "Helios",
       levelRequired: 1 as BumpkinLevel,
@@ -377,7 +377,7 @@ export const IslandList: React.FC<IslandListProps> = ({
           bumpkin={bumpkin}
           currentPath={location.pathname}
           disabled={!travelAllowed}
-          passRequired={item.passRequired && !inventory["Gold Pass"]}
+          passRequired={item.passRequired && !gameState.inventory["Gold Pass"]}
         />
       ))}
       {!hideVisitOption && (

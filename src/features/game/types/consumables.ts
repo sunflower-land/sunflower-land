@@ -767,10 +767,10 @@ const FISH: Record<FishName, Consumable> = {
     experience: 50,
     name: "Red Snapper",
   },
-  "Mooray Eel": {
+  "Moray Eel": {
     description: "Slippery, savory, and sensational!",
     experience: 50,
-    name: "Mooray Eel",
+    name: "Moray Eel",
   },
   "Olive Flounder": {
     description: "Floundering in richness and taste!",

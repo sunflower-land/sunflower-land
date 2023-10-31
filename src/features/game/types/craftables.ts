@@ -90,7 +90,8 @@ export type MutantChicken =
   | "Rich Chicken"
   | "Fat Chicken"
   | "Ayam Cemani"
-  | "El Pollo Veloz";
+  | "El Pollo Veloz"
+  | "Banana Chicken";
 
 export interface LimitedItem extends CraftableItem {
   maxSupply?: number;
@@ -489,7 +490,6 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   Axe: {
     name: "Axe",
     description: "Used to collect wood",
-    // Temporary price for weekly war challenge
     tokenAmount: new Decimal(1),
     ingredients: [],
   },
@@ -552,7 +552,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   },
   Rod: {
     name: "Rod",
-    description: "Coming soon",
+    description: "Used to catch fish",
     tokenAmount: new Decimal(5),
     ingredients: [
       {
@@ -746,6 +746,11 @@ export const MUTANT_CHICKENS: Record<MutantChicken, LimitedItem> = {
   "El Pollo Veloz": {
     name: "El Pollo Veloz",
     description: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
+    type: LimitedItemType.MutantChicken,
+  },
+  "Banana Chicken": {
+    name: "Banana Chicken",
+    description: "A chicken that boosts bananas. What a world we live in.",
     type: LimitedItemType.MutantChicken,
   },
 };
@@ -1094,6 +1099,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Speed Chicken": { width: 1, height: 1 },
   "Ayam Cemani": { width: 1, height: 1 },
   "El Pollo Veloz": { width: 1, height: 1 },
+  "Banana Chicken": { width: 1, height: 2 },
   // War Tent Items
   "War Skull": { width: 1, height: 1 },
   "War Tombstone": { width: 1, height: 1 },
@@ -1204,6 +1210,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Radiant Ray": { width: 2, height: 2 },
   "Phantom Barracuda": { width: 2, height: 2 },
   "Gilded Swordfish": { width: 2, height: 2 },
+  "Kraken Tentacle": { width: 1, height: 1 },
 
   // Catch the Kraken SFTs
   Walrus: { width: 2, height: 2 },
@@ -1212,7 +1219,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Anchor: { width: 2, height: 2 },
   "Chilling Banana": { width: 1, height: 1 },
   "Rubber Ducky": { width: 1, height: 1 },
-  "Kraken Tentacle": { width: 1, height: 1 },
+  "Kraken Head": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

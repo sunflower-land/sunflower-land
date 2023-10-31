@@ -122,7 +122,7 @@ export const PhaserComponent: React.FC<Props> = ({
         ClothesShopScene,
         DecorationShopScene,
         BeachScene,
-        ...(hasFeatureAccess(inventory, "HALLOWEEN")
+        ...(hasFeatureAccess(gameService.state.context.state, "HALLOWEEN")
           ? [HalloweenScene]
           : [PlazaScene]),
       ];
@@ -416,6 +416,7 @@ export const PhaserComponent: React.FC<Props> = ({
         />
       )}
       <NPCModals
+        scene={scene}
         onNavigate={(sceneId: SceneId) => {
           navigate(`/world/${sceneId}`);
         }}

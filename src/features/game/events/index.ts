@@ -189,6 +189,7 @@ import {
   claimMilestone,
   ClaimMilestoneAction,
 } from "./landExpansion/claimMilestone";
+import { missFish, MissFishAction } from "./landExpansion/missFish";
 
 export type PlayingEvent =
   | TradeAction
@@ -253,7 +254,8 @@ export type PlayingEvent =
   | FertiliseFruitAction
   | CastRodAction
   | ReelRodAction
-  | ClaimMilestoneAction;
+  | ClaimMilestoneAction
+  | MissFishAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -371,6 +373,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "rod.casted": castRod,
   "rod.reeled": reelRod,
   "milestone.claimed": claimMilestone,
+  "fish.missed": missFish,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

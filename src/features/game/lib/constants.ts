@@ -46,7 +46,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
       Pickaxe: new Decimal(90),
       "Stone Pickaxe": new Decimal(30),
       "Iron Pickaxe": new Decimal(8),
-      Rod: new Decimal(100),
+      Rod: new Decimal(75),
     };
   }
 
@@ -210,6 +210,10 @@ export const TEST_FARM: GameState = {
     weather: "Sunny",
     wharf: {},
     dailyAttempts: {},
+  },
+  catchTheKraken: {
+    hunger: "Sunflower",
+    weeklyCatches: {},
   },
   wardrobe: {},
   createdAt: new Date().getTime(),
@@ -449,6 +453,10 @@ export const EMPTY: GameState = {
   mushrooms: {
     spawnedAt: 0,
     mushrooms: {},
+  },
+  catchTheKraken: {
+    hunger: "Sunflower",
+    weeklyCatches: {},
   },
 };
 

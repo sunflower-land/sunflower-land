@@ -9,8 +9,6 @@ import lockIcon from "assets/skills/lock.png";
 import levelUpIcon from "assets/icons/level_up.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import { hasFeatureAccess } from "lib/flags";
-
 import * as AuthProvider from "features/auth/lib/Provider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
@@ -183,9 +181,7 @@ export const PartyIsland: React.FC<Props> = ({ offset }) => {
 
   const isPartyActive = Date.now() > party.startAt && Date.now() < party.endAt;
 
-  const hasAccess =
-    isPartyActive ||
-    hasFeatureAccess(gameState.context.state.inventory, "PUMPKIN_PLAZA");
+  const hasAccess = false;
 
   const onUpgrade = () => {
     gameService.send("UPGRADE");

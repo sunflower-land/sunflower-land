@@ -97,7 +97,10 @@ export function getFruitYield({
   }
 
   if (
-    (name === "Apple" || name === "Orange" || name === "Blueberry") &&
+    (name === "Apple" ||
+      name === "Orange" ||
+      name === "Blueberry" ||
+      name === "Banana") &&
     wearables?.coat === "Fruit Picker Apron"
   ) {
     amount += 0.1;
@@ -105,6 +108,13 @@ export function getFruitYield({
 
   if (fertiliser === "Fruitful Blend") {
     amount += 0.1;
+  }
+
+  if (
+    name === "Banana" &&
+    isCollectibleBuilt("Chilling Banana", collectibles)
+  ) {
+    amount += 0.5;
   }
 
   amount += getBudYieldBoosts(buds, name);
