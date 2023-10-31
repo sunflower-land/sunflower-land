@@ -23,6 +23,7 @@ export type DeliverOrderAction = {
 type Options = {
   state: Readonly<GameState>;
   action: DeliverOrderAction;
+  createdAt?: number;
 };
 
 export const BETA_DELIVERY_END_DATE = new Date("2023-08-15");
@@ -166,7 +167,11 @@ export function getOrderSellPrice(bumpkin: Bumpkin, order: Order) {
   return new Decimal(order.reward.sfl ?? 0).mul(mul);
 }
 
-export function deliverOrder({ state, action }: Options): GameState {
+export function deliverOrder({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
   const game = clone(state);
   const bumpkin = game.bumpkin;
 
@@ -184,7 +189,7 @@ export function deliverOrder({ state, action }: Options): GameState {
     throw new Error("Order has not started");
   }
 
-  const { tasksAreFrozen } = getSeasonChangeover();
+  const { tasksAreFrozen } = getSeasonChangeover(createdAt);
   if (tasksAreFrozen) {
     throw new Error("Tasks are frozen");
   }
