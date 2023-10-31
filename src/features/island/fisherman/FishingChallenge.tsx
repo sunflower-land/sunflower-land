@@ -85,7 +85,7 @@ export const FishingChallengeIntro: React.FC<{ onNext: () => void }> = ({
         <p className="text-sm mb-1">A powerful catch awaits!</p>
         <p className="text-sm mb-1">Use all your strength to reel it in.</p>
         <p className="text-sm mb-1">
-          Stop the green bar on the fish to succeed
+          Stop the green bar on the fish to succeed.
         </p>
         <p className="text-sm mb-1">
           Be quick - 3 wrong tries, and it escapes!
