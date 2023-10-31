@@ -1182,7 +1182,7 @@ describe("canremove", () => {
     expect(restricted).toBe(true);
   });
 
-  it("does not prevents a user from removing Banana Chicken when apples are growing", () => {
+  it("does not prevent a user from removing Banana Chicken when apples are growing", () => {
     const [restricted] = hasRemoveRestriction("Banana Chicken", "1", {
       ...TEST_FARM,
       fruitPatches: {
