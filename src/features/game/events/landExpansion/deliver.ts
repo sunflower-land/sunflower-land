@@ -12,6 +12,7 @@ import {
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { hasFeatureAccess } from "lib/flags";
 import { NPCName } from "lib/npcs";
+import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import cloneDeep from "lodash.clonedeep";
 
 export type DeliverOrderAction = {
@@ -49,15 +50,15 @@ export function canGenerateDeliveries({
   return true;
 }
 
-export function getTotalSlots(inventory: Inventory) {
+export function getTotalSlots(game: GameState) {
   // If feature access then return the total number of slots from both delivery and quest
   // else just delivery
 
-  if (hasFeatureAccess(inventory, "NEW_DELIVERIES")) {
-    return getDeliverySlots(inventory) + getQuestSlots(inventory);
+  if (hasFeatureAccess(game, "NEW_DELIVERIES")) {
+    return getDeliverySlots(game.inventory) + getQuestSlots(game.inventory);
   }
 
-  return getDeliverySlots(inventory);
+  return getDeliverySlots(game.inventory);
 }
 
 export function getDeliverySlots(inventory: Inventory) {
@@ -116,7 +117,7 @@ export function populateOrders(
   isSkipped = false
 ) {
   const orders = game.delivery.orders;
-  const slots = getTotalSlots(game.inventory);
+  const slots = getTotalSlots(game);
 
   while (orders.length < slots) {
     const upcomingOrderTimes = game.delivery.orders.map(
@@ -181,6 +182,11 @@ export function deliverOrder({ state, action }: Options): GameState {
 
   if (order.readyAt > Date.now()) {
     throw new Error("Order has not started");
+  }
+
+  const { tasksAreFrozen } = getSeasonChangeover();
+  if (tasksAreFrozen) {
+    throw new Error("Tasks are frozen");
   }
 
   getKeys(order.items).forEach((name) => {

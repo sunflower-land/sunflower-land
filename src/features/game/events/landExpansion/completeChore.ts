@@ -9,6 +9,7 @@ import { analytics } from "lib/analytics";
 import cloneDeep from "lodash.clonedeep";
 import { startChore } from "./startChore";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 
 export type CompleteChoreAction = {
   type: "chore.completed";
@@ -46,6 +47,12 @@ function completeDawnBreakerChore({
 
   if (game.bumpkin.id !== hayseedHank.progress?.bumpkinId) {
     throw new Error("Not the same Bumpkin");
+  }
+
+  const { tasksAreFrozen } = getSeasonChangeover();
+
+  if (tasksAreFrozen) {
+    throw new Error("Chores are frozen");
   }
 
   const activity = hayseedHank.chore.activity;

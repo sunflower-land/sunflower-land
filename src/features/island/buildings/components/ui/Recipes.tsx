@@ -98,7 +98,8 @@ export const Recipes: React.FC<Props> = ({
               getFoodExpBoost(
                 selected,
                 state.bumpkin as Bumpkin,
-                state.collectibles
+                state.collectibles,
+                state.buds ?? {}
               )
             ),
             timeSeconds: getCookingTime(selected.cookingSeconds, state.bumpkin),
