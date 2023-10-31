@@ -789,7 +789,7 @@ const FISH: Record<FishName, Consumable> = {
   },
   "Zebra Turkeyfish": {
     description: "Striped, spiky, and spectacularly scrumptious!",
-    experience: 1900,
+    experience: 190,
     name: "Zebra Turkeyfish",
   },
   Ray: {
