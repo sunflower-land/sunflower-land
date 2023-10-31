@@ -12,6 +12,7 @@ import { Button } from "components/ui/Button";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { KrakenIntro } from "./npcs/Shelly";
 
 type InteractableName =
   | "kraken"
@@ -145,6 +146,9 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         />
       </Modal>
 
+      <Modal centered show={interactable === "kraken"} onHide={closeModal}>
+        <KrakenIntro onClose={closeModal} />
+      </Modal>
       <Modal centered show={interactable === "lazy_bud"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
