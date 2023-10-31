@@ -93,7 +93,7 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
       return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
     },
     reward: {
-      "Luminous Anglerfish Topper": 1,
+      "Bucket O' Worms": 1,
     },
   },
   "Master Angler": {
