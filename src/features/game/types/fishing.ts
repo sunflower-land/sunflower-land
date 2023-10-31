@@ -58,8 +58,8 @@ export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
   Cauliflower: 5,
   Parsnip: 5,
   Eggplant: 5,
-  Radish: 5,
   Corn: 5,
+  Radish: 5,
   Wheat: 5,
   Kale: 5,
   Blueberry: 3,
@@ -94,11 +94,11 @@ export const CHUM_DETAILS: Partial<Record<InventoryItemName, string>> = {
   Orange: "Oranges, the citrusy curiosity for sea creatures.",
   Apple: "Apples – a crunchy enigma beneath the waves.",
   Seaweed: "A taste of the ocean in a leafy underwater snack.",
+  Crab: "A tantalizing morsel for a curious undersea fish.",
   Anchovy: "Anchovies, mysteriously alluring to the outlaws of the sea.",
   "Red Snapper": "A mystery hidden within the depths of the ocean.",
   Tuna: "What is big enough to eat a tuna?",
   Squid: "Awaken a ray with its favorite treat!",
-  Crab: "A tantalizing morsel for a curious undersea fish.",
 };
 
 type Fish = {
