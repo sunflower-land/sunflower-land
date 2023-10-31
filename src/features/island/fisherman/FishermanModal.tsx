@@ -309,10 +309,13 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
         <SpeakingText
           message={[
             {
-              text: "Howdy, I'm Reelin Roy!",
+              text: "Ahoy, fellow islanders! I'm Reelin' Roy, your trusty island fisherman, and I've set my sights on a grand challenge – collecting every fish under the sun!",
             },
             {
-              text: "Here you can fish.",
+              text: "Fish are great for eating, delivering and claiming rewards!",
+            },
+            {
+              text: "Bring me bait and resources and we'll reel in the rarest prizes that the ocean has to offer!",
             },
           ]}
           onClose={() => {
@@ -340,7 +343,7 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
     >
       {tab === 0 && <BaitSelection onCast={onCast} />}
 
-      {tab === 1 && <FishingGuide />}
+      {tab === 1 && <FishingGuide onClose={() => setTab(0)} />}
     </CloseButtonPanel>
   );
 };
