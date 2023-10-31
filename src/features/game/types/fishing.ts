@@ -54,7 +54,7 @@ export const PURCHASEABLE_BAIT: Record<PurchaseableBait, Tool> = {
       "Block Buck": new Decimal(1),
     },
     sfl: new Decimal(0),
-    description: "A fishing lure! Great for catching big fish!",
+    description: "Great for catching rare fish!",
     name: "Fishing Lure",
   },
 };

@@ -2641,7 +2641,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Fishing Lure": {
     image: fishingLure,
-    description: "A fishing lure! Great for catching big fish!",
+    description: "Great for catching rare fish!",
   },
   // Compost
   "Sprout Mix": {
