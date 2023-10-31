@@ -31,6 +31,7 @@ export const maxItems: Inventory = {
   "Speed Chicken": new Decimal("5"),
   "Rich Chicken": new Decimal("5"),
   "Fat Chicken": new Decimal("5"),
+  "Banana Chicken": new Decimal("5"),
 
   // Seed limits + buffer
   "Sunflower Seed": new Decimal(1000),
