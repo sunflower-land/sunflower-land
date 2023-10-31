@@ -159,12 +159,7 @@ export const FishingChallenge: React.FC<Props> = ({
   const reel = () => {
     const greenBarAngle = extractAngle(greenBarProps.transform.get());
 
-    let tentacleAngle = extractAngle(tentacleProps.transform.get());
-
-    // Bar width / Circumference = 20 / (3.14159 * 200)
-    const fishBarOffset = 3.183;
-
-    tentacleAngle += fishBarOffset;
+    const tentacleAngle = extractAngle(tentacleProps.transform.get());
 
     const degreeDifference = Math.abs(
       ((normaliseAngle(greenBarAngle) - normaliseAngle(tentacleAngle) + 180) %
@@ -172,14 +167,13 @@ export const FishingChallenge: React.FC<Props> = ({
         180
     );
 
-    const fishBuffer = 5;
+    const fishBuffer = 10;
     const hit = degreeDifference < barHeight + fishBuffer;
 
     console.log({
       hit,
       degreeDifference,
       tentacleAngle,
-      fishBarOffset,
       greenBarAngle,
     });
     setAttempts((prev) => [...prev, hit ? "hit" : "miss"]);
@@ -248,7 +242,7 @@ export const FishingChallenge: React.FC<Props> = ({
           height="200"
           viewBox="0 0 200 200"
           id="fishing-bar"
-          className="absolute inset-0 "
+          className="absolute inset-0"
           style={greenBarProps}
           // style={{
           //   animation:
