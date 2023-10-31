@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
 
@@ -16,6 +16,11 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { CONFIG } from "lib/config";
 import { FishCaught } from "./FishCaught";
+import { FishingChallenge } from "./FishingChallenge";
+import { Panel } from "components/ui/Panel";
+import { getKeys } from "features/game/types/craftables";
+import { FISH, FISH_DIFFICULTY, FishName } from "features/game/types/fishing";
+import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -60,24 +65,30 @@ interface Props {
 
 export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const spriteRef = useRef<SpriteSheetInstance>();
+  const didRefresh = useRef(false);
 
   const [showReelLabel, setShowReelLabel] = useState(false);
   const [showCaughtModal, setShowCaughtModal] = useState(false);
+  const [showChallenge, setShowChallenge] = useState(false);
+  const [challengeDifficulty, setChallengeDifficulty] = useState(1);
 
   const { gameService } = useContext(Context);
   // TODO selectors
   const [
     {
       context: {
-        state: { fishing, farmActivity },
+        state: { fishing, farmActivity, catchTheKraken },
       },
     },
   ] = useActor(gameService);
 
+  // Catches cases where players try reset their fishing challenge
+  useEffect(() => {
+    didRefresh.current = !!fishing.wharf.caught;
+  }, []);
+
   let initialState: FishingState = "idle";
-  if (fishing.wharf.caught) {
-    initialState = "caught";
-  } else if (fishing.wharf.castedAt) {
+  if (fishing.wharf.caught || fishing.wharf.castedAt) {
     initialState = "waiting";
   }
 
@@ -105,7 +116,6 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
   const onWaitFinish = () => {
     if (fishing.wharf.caught) {
-      console.log("SET THE REEEEEEL");
       spriteRef.current?.setStartAt(FISHING_FRAMES.reeling.startAt);
       spriteRef.current?.setEndAt(FISHING_FRAMES.reeling.endAt);
       setShowReelLabel(true);
@@ -119,30 +129,84 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     spriteRef.current?.setEndAt(FISHING_FRAMES.idle.endAt);
   };
 
+  const fish = getKeys(fishing.wharf.caught ?? {}).find((fish) => fish in FISH);
+
   const reelIn = () => {
+    let fishDifficulty = FISH_DIFFICULTY[fish as FishName];
+
+    // The more tentacles you catch, the harder it gets
+    if (fish === "Kraken Tentacle") {
+      const tentaclesCaught =
+        catchTheKraken.weeklyCatches[getSeasonWeek()] ?? 0;
+      fishDifficulty = Math.ceil((tentaclesCaught + 1) / 2);
+    }
+
+    if (fishDifficulty && didRefresh.current) {
+      // Player refreshed during challenge
+      onChallengeLost();
+    } else if (fishDifficulty) {
+      // Show fishing challenge
+      setChallengeDifficulty(fishDifficulty);
+      setShowChallenge(true);
+    } else {
+      // Instantly reel in
+      spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
+      spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
+    }
+
+    setShowReelLabel(false);
+    didRefresh.current = false;
+  };
+
+  const onChallengeWon = () => {
+    setShowChallenge(false);
     spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
     spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
-    setShowReelLabel(false);
+  };
+
+  const onChallengeLost = () => {
+    setShowChallenge(false);
+    spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
+    spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
+
+    gameService.send("fish.missed");
+    gameService.send("SAVE");
   };
 
   const claim = () => {
-    gameService.send("rod.reeled");
+    if (fishing.wharf.caught) {
+      gameService.send("rod.reeled");
+    }
+  };
+
+  const close = () => {
     setShowCaughtModal(false);
   };
 
   return (
     <>
-      <Modal centered show={showCaughtModal} onHide={claim}>
+      <Modal centered show={showCaughtModal} onHide={close} onExited={claim}>
         <CloseButtonPanel
-          onClose={claim}
+          onClose={close}
           bumpkinParts={NPC_WEARABLES["reelin roy"]}
         >
           <FishCaught
             caught={fishing.wharf.caught ?? {}}
-            onClaim={claim}
+            onClaim={close}
             farmActivity={farmActivity}
           />
         </CloseButtonPanel>
+      </Modal>
+
+      <Modal centered show={showChallenge}>
+        <Panel>
+          <FishingChallenge
+            difficulty={challengeDifficulty}
+            onCatch={onChallengeWon}
+            onMiss={onChallengeLost}
+            fishName={fish as FishName}
+          />
+        </Panel>
       </Modal>
 
       {showReelLabel && (

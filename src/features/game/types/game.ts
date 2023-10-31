@@ -132,7 +132,8 @@ export type MutantChicken =
   | "Rich Chicken"
   | "Fat Chicken"
   | "Ayam Cemani"
-  | "El Pollo Veloz";
+  | "El Pollo Veloz"
+  | "Banana Chicken";
 
 export type Coupons =
   | "Gold Pass"
@@ -509,6 +510,11 @@ export type WitchesEve = {
   maze: MazeAttempts;
 };
 
+export type CatchTheKraken = {
+  weeklyCatches: Partial<Record<SeasonWeek, number>>;
+  hunger: InventoryItemName;
+};
+
 export type Mushroom = {
   name: MushroomName;
   amount: number;
@@ -638,7 +644,7 @@ export type ChoreV2 = {
   tickets: number;
 };
 
-export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
 
 export type MazeAttempt = {
   startedAt: number;
@@ -698,6 +704,9 @@ export type Fishing = {
     castedAt?: number;
     chum?: InventoryItemName;
     caught?: Partial<Record<InventoryItemName, number>>;
+  };
+  dailyAttempts?: {
+    [date: string]: number;
   };
 };
 
@@ -782,6 +791,7 @@ export interface GameState {
   chores?: ChoresV2;
   mushrooms: Mushrooms;
   witchesEve?: WitchesEve;
+  catchTheKraken: CatchTheKraken;
   potionHouse?: PotionHouse;
 
   trades: {
