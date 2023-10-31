@@ -189,7 +189,10 @@ export function deliverOrder({
     throw new Error("Order has not started");
   }
 
-  const { tasksAreFrozen } = getSeasonChangeover(createdAt);
+  const { tasksAreFrozen } = getSeasonChangeover({
+    id: state.id,
+    now: createdAt,
+  });
   if (tasksAreFrozen) {
     throw new Error("Tasks are frozen");
   }
