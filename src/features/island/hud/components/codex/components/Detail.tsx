@@ -84,7 +84,7 @@ export const Detail: React.FC<Props> = ({
       <div className="flex flex-col space-y-2">
         <div className="flex gap-1">
           <div
-            className="w-3/5 sm:w-1/2 rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-40"
+            className="w-3/5 sm:w-1/2 sm:min-w-[50%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-40"
             style={{
               backgroundImage: `url(${bg})`,
               backgroundSize: "cover",
