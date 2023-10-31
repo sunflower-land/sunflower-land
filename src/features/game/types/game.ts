@@ -702,6 +702,7 @@ export type Fishing = {
   weather: FishingConditions;
   wharf: {
     castedAt?: number;
+    bait?: FishingBait;
     chum?: InventoryItemName;
     caught?: Partial<Record<InventoryItemName, number>>;
   };
