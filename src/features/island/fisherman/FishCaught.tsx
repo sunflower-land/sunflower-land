@@ -22,7 +22,12 @@ export const FishCaught: React.FC<Props> = ({
     return (
       <>
         <div className="p-2">
-          <img src={SUNNYSIDE.icons.sad} className="w-20 mx-auto my-2" />
+          <div className="relative h-14">
+            <img
+              src={SUNNYSIDE.icons.sad}
+              className="w-10 my-2 absolute -top-[12%] left-1/2 -translate-x-1/2"
+            />
+          </div>
           <p className="text-sm mb-2 text-center">Oh no! It got away</p>
         </div>
         <Button onClick={onClaim}>Ok</Button>

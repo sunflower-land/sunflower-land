@@ -2703,7 +2703,7 @@ export const ITEM_DETAILS: Items = {
     description: "A catch worth its weight in gold, dressed in fiery crimson.",
     howToGetItem: ["Ocean fishing"],
   },
-  "Mooray Eel": {
+  "Moray Eel": {
     image: morayEel,
     description: "A slinky, sinister lurker in the ocean's shadowy corners.",
     howToGetItem: ["Ocean fishing"],
