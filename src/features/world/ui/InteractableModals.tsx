@@ -96,7 +96,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
 
   const navigate = useNavigate();
 
-  console.log(interactable);
   return (
     <>
       {/* TODO - make smoother opening */}

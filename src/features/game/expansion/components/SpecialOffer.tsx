@@ -30,7 +30,6 @@ export const SpecialOffer: React.FC = () => {
 
   const hasPreviousSeasonBanner = !!inventory[getSeasonalBanner()];
 
-  console.log("SPECIAL");
   return (
     <PromotingModal
       isOpen={specialOffer}
