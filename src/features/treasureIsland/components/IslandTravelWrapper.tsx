@@ -13,7 +13,7 @@ export const IslandTravelWrapper = () => {
 
   return (
     <IslandTravel
-      inventory={gameState.context.state.inventory}
+      gameState={gameState.context.state}
       bumpkin={bumpkin}
       x={-2}
       y={-12}

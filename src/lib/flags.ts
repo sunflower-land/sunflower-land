@@ -1,8 +1,9 @@
+import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { SEASONS } from "features/game/types/seasons";
 import { CONFIG } from "lib/config";
 
-const defaultFeatureFlag = (inventory: GameState["inventory"]) =>
+const defaultFeatureFlag = ({ inventory }: GameState) =>
   CONFIG.NETWORK === "mumbai" || !!inventory["Beta Pass"]?.gt(0);
 
 const testnetFeatureFlag = () => CONFIG.NETWORK === "mumbai";
@@ -22,9 +23,11 @@ type FeatureName =
   | "BUDS_DEPOSIT_FLOW"
   | "FISHING"
   | "BEACH"
-  | "XSOLLA";
+  | "HALLOWEEN"
+  | "XSOLLA"
+  | "BANANA";
 
-type FeatureFlag = (inventory: GameState["inventory"]) => boolean;
+type FeatureFlag = (game: GameState) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
@@ -35,19 +38,36 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   BUDS_DEPOSIT_FLOW: () => true,
   FISHING: defaultFeatureFlag,
   XSOLLA: testnetFeatureFlag,
-  BEACH: (inventory: GameState["inventory"]) => {
+  HALLOWEEN: (game: GameState) => {
+    if (Date.now() > new Date("2023-11-01").getTime()) {
+      return false;
+    }
+
+    if (Date.now() > new Date("2023-10-26").getTime()) {
+      return true;
+    }
+
+    return defaultFeatureFlag(game);
+  },
+  BEACH: (game: GameState) => {
+    const hasBeachBud = getKeys(game.buds ?? {}).some(
+      (id) => game.buds?.[id]?.type === "Beach"
+    );
+
+    if (hasBeachBud) {
+      return true;
+    }
+
     if (Date.now() > SEASONS["Catch the Kraken"].startDate.getTime()) {
       return true;
     }
 
-    return defaultFeatureFlag(inventory);
+    return defaultFeatureFlag(game);
   },
+  BANANA: defaultFeatureFlag,
 };
 
-export const hasFeatureAccess = (
-  inventory: GameState["inventory"],
-  featureName: FeatureName
-) => {
+export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
   const isWitchesEve = Date.now() > SEASONS["Witches' Eve"].startDate.getTime();
   if (featureName === "NEW_DELIVERIES" && isWitchesEve) {
     return true;
@@ -60,5 +80,5 @@ export const hasFeatureAccess = (
   if (featureName === "CORN_MAZE" && isWitchesEve) {
     return true;
   }
-  return featureFlags[featureName](inventory);
+  return featureFlags[featureName](game);
 };

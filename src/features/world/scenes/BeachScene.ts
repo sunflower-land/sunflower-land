@@ -3,22 +3,30 @@ import mapJSON from "assets/map/beach.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { InventoryItemName } from "features/game/types/game";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
     npc: "shelly",
-    x: 326,
-    y: 631,
+    x: 311,
+    y: 695,
   },
   {
     npc: "finn",
-    x: 84,
+    x: 94,
     y: 518,
+  },
+  {
+    npc: "finley",
+    x: 122,
+    y: 390,
+    direction: "left",
   },
   {
     npc: "tango",
     x: 416,
-    y: 351,
+    y: 321,
   },
   {
     npc: "goldtooth",
@@ -26,30 +34,53 @@ const BUMPKINS: NPCBumpkin[] = [
     y: 255,
   },
   {
-    npc: "mystara",
-    x: 149,
+    npc: "corale",
+    x: 135,
     y: 670,
+  },
+  {
+    x: 338,
+    y: 407,
+    npc: "miranda",
   },
 ];
 
 export class BeachScene extends BaseScene {
   sceneId: SceneId = "beach";
 
+  krakenHunger: InventoryItemName | undefined;
+
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
   }
 
   preload() {
+    this.krakenHunger =
+      this.gameService.state.context.state?.catchTheKraken?.hunger;
+
     super.preload();
 
-    this.load.spritesheet("turtle_bud", "world/turtle.png", {
+    this.load.spritesheet("beach_bud", "world/turtle.png", {
       frameWidth: 15,
       frameHeight: 17,
     });
 
+    this.load.spritesheet("beach_bud_2", "world/beach_bud_2.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
+    this.load.spritesheet("beach_bud_3", "world/beach_bud_3.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
     this.load.image("kraken", "world/kraken.png");
 
-    this.load.image("fish_label", "world/fish_label.png");
+    if (this.krakenHunger) {
+      this.load.image("kraken_hunger", ITEM_DETAILS[this.krakenHunger].image);
+      this.load.image("heart", SUNNYSIDE.icons.heart);
+    }
 
     this.load.spritesheet("bird", SUNNYSIDE.animals.bird, {
       frameWidth: 16,
@@ -78,13 +109,16 @@ export class BeachScene extends BaseScene {
 
     this.add.sprite(308, 755, "kraken");
 
-    this.add.sprite(348, 740, "fish_label");
+    if (this.krakenHunger) {
+      this.add.sprite(338, 740, "kraken_hunger");
+      this.add.sprite(350, 740, "heart");
+    }
 
-    const turtle = this.add.sprite(328, 520, "turtle_bud");
+    const turtle = this.add.sprite(328, 515, "beach_bud");
     turtle.setScale(-1, 1);
     this.anims.create({
       key: "turtle_bud_anim",
-      frames: this.anims.generateFrameNumbers("turtle_bud", {
+      frames: this.anims.generateFrameNumbers("beach_bud", {
         start: 0,
         end: 8,
       }),
@@ -92,6 +126,31 @@ export class BeachScene extends BaseScene {
       frameRate: 10,
     });
     turtle.play("turtle_bud_anim", true);
+
+    const beachBud2 = this.add.sprite(268, 317, "beach_bud_2");
+    // turtle.setScale(-1, 1);
+    this.anims.create({
+      key: "beach_bud_2_anim",
+      frames: this.anims.generateFrameNumbers("beach_bud_2", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    beachBud2.play("beach_bud_2_anim", true);
+
+    const beachBud3 = this.add.sprite(420, 572, "beach_bud_3");
+    this.anims.create({
+      key: "beach_bud_3_anim",
+      frames: this.anims.generateFrameNumbers("beach_bud_3", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    beachBud3.play("beach_bud_3_anim", true);
 
     const blinking = this.add.sprite(319, 36, "blinking");
     this.anims.create({
@@ -106,6 +165,7 @@ export class BeachScene extends BaseScene {
     blinking.play("blinking_anim", true);
 
     const bird = this.add.sprite(318, 460, "bird");
+    bird.setDepth(1000000000);
     this.anims.create({
       key: "bird_anim",
       frames: this.anims.generateFrameNumbers("bird", {
@@ -116,44 +176,6 @@ export class BeachScene extends BaseScene {
       frameRate: 5,
     });
     bird.play("bird_anim", true);
-
-    const fisher = this.add.sprite(316, 710, "fisher");
-    this.anims.create({
-      key: "fisher_waiting",
-      frames: this.anims.generateFrameNumbers("fisher", {
-        start: 24,
-        end: 32,
-      }),
-      repeat: -1,
-      frameRate: 10,
-    });
-    this.anims.create({
-      key: "fisher_reel",
-      frames: this.anims.generateFrameNumbers("fisher", {
-        start: 33,
-        end: 45,
-      }),
-      repeat: -1,
-      frameRate: 16,
-    });
-    fisher.play("fisher_waiting", true);
-
-    beachEvents.subscribe("reel", () => {
-      fisher.play("fisher_reel", true);
-
-      fisher.on(
-        Phaser.Animations.Events.ANIMATION_UPDATE,
-        (_: any, frame: any) => {
-          if (frame.textureFrame === 45) {
-            fisher.play("fisher_waiting", true);
-          }
-        }
-      );
-
-      fisher.on("animationcomplete-fisher_reel", () => {
-        fisher.play("fisher_waiting", true);
-      });
-    });
   }
 }
 

@@ -41,4 +41,7 @@ export const CORN_MAZES: Record<SeasonWeek, MazeData> = {
   12: {
     sflFee: 5,
   },
+  13: {
+    sflFee: 5,
+  },
 };

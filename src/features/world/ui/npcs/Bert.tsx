@@ -145,7 +145,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
       {tab === 1 && (
         <div className="w-full flex flex-col items-center">
           {!currentObsession && (
-            <p className="text-center text-sm mb-3">No Obssesions</p>
+            <p className="text-center text-sm mb-3">No Obsessions</p>
           )}
           {currentObsession && (
             <div className="w-full flex flex-col items-center mx-auto">

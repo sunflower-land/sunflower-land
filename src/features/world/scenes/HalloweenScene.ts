@@ -1,15 +1,22 @@
-import mapJson from "assets/map/plaza.json";
+import mapJson from "assets/map/plaza_halloween.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { AudioController } from "../lib/AudioController";
+import { CONFIG } from "lib/config";
+import { hasFeatureAccess } from "lib/flags";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
-    x: 371,
-    y: 344,
+    npc: "phantom face",
+    x: 726,
+    y: 280,
+  },
+  {
+    x: 400,
+    y: 400,
     npc: "pumpkin' pete",
   },
   {
@@ -72,6 +79,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "betty",
     direction: "left",
   },
+
   {
     x: 840,
     y: 291,
@@ -82,6 +90,12 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     x: 90,
     y: 70,
     npc: "tywin",
+  },
+  {
+    x: 480,
+    y: 235,
+    npc: "luna",
+    direction: "left",
   },
   {
     x: 505,
@@ -100,7 +114,8 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "hank",
   },
 ];
-export class PlazaScene extends BaseScene {
+
+export class HalloweenScene extends BaseScene {
   sceneId: SceneId = "plaza";
 
   constructor() {
@@ -112,6 +127,11 @@ export class PlazaScene extends BaseScene {
   }
 
   preload() {
+    this.load.image(
+      "halloween",
+      `${CONFIG.PROTECTED_IMAGE_URL}/world/halloween-extruded.png`
+    );
+
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
       frameHeight: 18,
@@ -150,6 +170,11 @@ export class PlazaScene extends BaseScene {
     this.load.spritesheet("fat_chicken", "world/fat_chicken.png", {
       frameWidth: 17,
       frameHeight: 21,
+    });
+
+    this.load.spritesheet("portal", "world/portal.png", {
+      frameWidth: 30,
+      frameHeight: 30,
     });
 
     this.load.image("chest", "world/rare_chest.png");
@@ -192,7 +217,17 @@ export class PlazaScene extends BaseScene {
 
     super.create();
 
-    this.initialiseNPCs(PLAZA_BUMPKINS);
+    const bumpkins = PLAZA_BUMPKINS;
+
+    if (!hasFeatureAccess(this.gameService.state.context.state, "BEACH")) {
+      bumpkins.push({
+        x: 20,
+        y: 318,
+        npc: "old salty",
+      });
+    }
+
+    this.initialiseNPCs(bumpkins);
 
     const auctionLabel = new Label(this, "AUCTIONS", "brown");
     auctionLabel.setPosition(601, 260);
@@ -203,6 +238,18 @@ export class PlazaScene extends BaseScene {
     clubHouseLabel.setPosition(152, 262);
     clubHouseLabel.setDepth(10000000);
     this.add.existing(clubHouseLabel);
+
+    const portal = this.add.sprite(505, 215, "portal");
+    this.anims.create({
+      key: "portal_anim",
+      frames: this.anims.generateFrameNumbers("portal", {
+        start: 0,
+        end: 11,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    portal.play("portal_anim", true);
 
     // Plaza Bud
     const fatChicken = this.add.sprite(106, 352, "fat_chicken");

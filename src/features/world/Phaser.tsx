@@ -51,6 +51,9 @@ import SoundOffIcon from "assets/icons/sound_off.png";
 import { handleCommand } from "./lib/chatCommands";
 import { Moderation } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
+import { HalloweenScene } from "./scenes/HalloweenScene";
+import { hasFeatureAccess } from "lib/flags";
+import { Inventory } from "features/game/types/game";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -74,12 +77,14 @@ interface Props {
   scene: SceneId;
   isCommunity: boolean;
   mmoService: MachineInterpreter;
+  inventory: Inventory;
 }
 
 export const PhaserComponent: React.FC<Props> = ({
   scene,
   isCommunity,
   mmoService,
+  inventory,
 }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
@@ -107,7 +112,6 @@ export const PhaserComponent: React.FC<Props> = ({
     : [
         Preloader,
         CornScene,
-        PlazaScene,
         AuctionScene,
         WoodlandsScene,
         BettyHomeScene,
@@ -118,6 +122,9 @@ export const PhaserComponent: React.FC<Props> = ({
         ClothesShopScene,
         DecorationShopScene,
         BeachScene,
+        ...(hasFeatureAccess(gameService.state.context.state, "HALLOWEEN")
+          ? [HalloweenScene]
+          : [PlazaScene]),
       ];
 
   useEffect(() => {
@@ -409,6 +416,7 @@ export const PhaserComponent: React.FC<Props> = ({
         />
       )}
       <NPCModals
+        scene={scene}
         onNavigate={(sceneId: SceneId) => {
           navigate(`/world/${sceneId}`);
         }}
