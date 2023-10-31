@@ -245,6 +245,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sprout Mix": 629,
   "Fruitful Blend": 630,
   "Rapid Root": 631,
+  "Fishing Lure": 632,
 
   "Green Thumb": 701,
   "Barn Manager": 702,

@@ -324,6 +324,7 @@ import expertComposter from "assets/composters/composter_expert.png";
 import earthworm from "assets/composters/earthworm.png";
 import grub from "assets/composters/grub.png";
 import redWiggler from "assets/composters/red_wiggler.png";
+import fishingLure from "assets/composters/fishing_lure.png";
 
 // Compost
 import sproutMix from "assets/composters/sprout_mix.png";
@@ -2638,7 +2639,10 @@ export const ITEM_DETAILS: Items = {
     image: redWiggler,
     description: BAIT["Red Wiggler"].description,
   },
-
+  "Fishing Lure": {
+    image: fishingLure,
+    description: "A fishing lure! Great for catching big fish!",
+  },
   // Compost
   "Sprout Mix": {
     image: sproutMix,

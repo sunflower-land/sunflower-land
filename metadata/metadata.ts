@@ -5431,6 +5431,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Fishing Lure": {
+    description: "A fishing lure! Great for catching big fish!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/632.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bait" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Sprout Mix": {
     description: "Sprout Mix increases your crop yield by +0.2",
     decimals: 0,

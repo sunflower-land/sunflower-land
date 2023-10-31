@@ -108,7 +108,12 @@ const ChumSelection: React.FC<{
   );
 };
 
-const BAIT: FishingBait[] = ["Earthworm", "Grub", "Red Wiggler"];
+const BAIT: FishingBait[] = [
+  "Earthworm",
+  "Grub",
+  "Red Wiggler",
+  "Fishing Lure",
+];
 
 const BaitSelection: React.FC<{
   onCast: (bait: FishingBait, chum?: InventoryItemName) => void;

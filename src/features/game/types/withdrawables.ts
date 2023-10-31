@@ -55,8 +55,8 @@ import { WorkbenchToolName } from "./tools";
 import { BumpkinItem } from "./bumpkin";
 import { hasSeasonEnded } from "./seasons";
 import { GoblinState } from "../lib/goblinMachine";
-import { Bait, CompostName } from "./composters";
-import { FishName, MarineMarvelName } from "./fishing";
+import { CompostName } from "./composters";
+import { FishName, FishingBait, MarineMarvelName } from "./fishing";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
@@ -703,10 +703,11 @@ const exoticCrops: Record<ExoticCropName, () => boolean> = {
   Chiogga: () => false,
 };
 
-const bait: Record<Bait, () => boolean> = {
+const bait: Record<FishingBait, () => boolean> = {
   Earthworm: () => false,
   Grub: () => false,
   "Red Wiggler": () => false,
+  "Fishing Lure": () => false,
 };
 
 const compost: Record<CompostName, () => boolean> = {
