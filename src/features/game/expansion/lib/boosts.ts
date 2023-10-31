@@ -19,7 +19,6 @@ import {
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { getSeasonalBanner } from "features/game/types/seasons";
 import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
-import { FISH } from "features/game/types/fishing";
 
 const crops = CROPS();
 const cakes = CAKES();
@@ -145,7 +144,7 @@ export const getFoodExpBoost = (
   }
 
   if (
-    (food.name in FISH || food.name === "Pirate Cake") &&
+    food.name in FISH_CONSUMABLES &&
     isCollectibleBuilt("Skill Shrimpy", collectibles)
   ) {
     boostedExp = boostedExp.mul(1.2);
