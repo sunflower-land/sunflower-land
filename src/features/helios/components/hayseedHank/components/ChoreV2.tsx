@@ -54,9 +54,14 @@ export const ChoreV2: React.FC<Props> = ({ isReadOnly = false }) => {
       {tasksAreFrozen && (
         <div className="flex flex-col items-center mb-2">
           <p className="text-xs text-center">
-            New Seasonal Chores opening soon.
+            New Seasonal Chores opening soon. Previous season chores & progress
+            will be reset.
           </p>
-          <Label type="info" icon={SUNNYSIDE.icons.stopwatch} className="mt-1">
+          <Label
+            type="danger"
+            icon={SUNNYSIDE.icons.stopwatch}
+            className="mt-1"
+          >
             {secondsToString((tasksStartAt - Date.now()) / 1000, {
               length: "full",
             })}
