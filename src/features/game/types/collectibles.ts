@@ -444,14 +444,14 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   },
   Kernaldo: {
     shortDescription: "+25% Corn Growth Speed",
-    labelType: "info",
+    labelType: "success",
     boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
   },
   "Skill Shrimpy": {
     shortDescription: "+20% Fish XP",
-    labelType: "info",
+    labelType: "success",
     boostTypeIcon: powerup,
-    boostedItemIcon: "success",
+    boostedItemIcon: SUNNYSIDE.icons.fish,
   },
 };
