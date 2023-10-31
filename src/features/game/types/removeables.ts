@@ -30,7 +30,8 @@ type RESTRICTION_REASON =
   | "Basic crops are growing"
   | "Medium crops are growing"
   | "Advanced crops are growing"
-  | "Magic Bean is planted";
+  | "Magic Bean is planted"
+  | "Bananas are growing";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -59,6 +60,14 @@ function areFruitsGrowing(game: GameState, fruit: FruitName): Restriction {
   );
 
   return [fruitGrowing, `${fruit} is growing`];
+}
+
+function areBananasGrowing(game: GameState): Restriction {
+  const bananaGrowing = Object.values(game.fruitPatches ?? {}).some((patch) => {
+    return patch.fruit?.name == "Banana" && isFruitGrowing(patch);
+  });
+
+  return [bananaGrowing, `Bananas are growing`];
 }
 
 function areAnyFruitsGrowing(game: GameState): Restriction {
@@ -212,6 +221,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Gold Egg": (game) => areAnyChickensFed(game),
   Rooster: (game) => areAnyChickensFed(game),
   Bale: (game) => areAnyChickensFed(game),
+  "Banana Chicken": (game) => areBananasGrowing(game),
 
   Nancy: (game) => areAnyCropsGrowing(game),
   Scarecrow: (game) => areAnyCropsGrowing(game),
