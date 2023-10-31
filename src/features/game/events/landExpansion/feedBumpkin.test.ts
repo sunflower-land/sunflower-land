@@ -282,7 +282,7 @@ describe("feedBumpkin", () => {
     );
   });
 
-  it("does not provides 20% more experience for Fish food with Skill Shrimpy", () => {
+  it("provides 20% more experience for Fish food with Skill Shrimpy", () => {
     const result = feedBumpkin({
       state: {
         ...TEST_FARM,
@@ -309,6 +309,8 @@ describe("feedBumpkin", () => {
       },
     });
 
-    expect(result.bumpkin?.experience).toBe(CONSUMABLES["Gumbo"].experience);
+    expect(result.bumpkin?.experience).toBe(
+      CONSUMABLES["Gumbo"].experience * 1.2
+    );
   });
 });
