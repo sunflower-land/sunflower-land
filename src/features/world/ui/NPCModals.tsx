@@ -21,6 +21,7 @@ import { useActor } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { Donations } from "./donations/Donations";
 import { Shelly } from "./npcs/Shelly";
+import { Finn } from "./npcs/Finn";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -199,7 +200,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
 
         {npc === "corale" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "miranda" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-        {npc === "finn" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "finn" && <Finn onClose={closeModal} />}
         {npc === "tango" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
       </Modal>

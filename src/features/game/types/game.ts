@@ -30,15 +30,15 @@ import { ConversationName } from "./conversations";
 import { NPCName } from "lib/npcs";
 import { SeasonalTicket } from "./seasons";
 import { Bud } from "./buds";
-import {
-  Bait,
-  CompostName,
-  CropCompostName,
-  FruitCompostName,
-} from "./composters";
+import { CompostName, CropCompostName, FruitCompostName } from "./composters";
 import { FarmActivityName } from "./farmActivity";
 import { MilestoneName } from "./milestones";
-import { FishName, FishingConditions, MarineMarvelName } from "./fishing";
+import {
+  FishName,
+  FishingBait,
+  FishingConditions,
+  MarineMarvelName,
+} from "./fishing";
 
 export type Reward = {
   sfl?: Decimal;
@@ -271,7 +271,7 @@ export type InventoryItemName =
   | ExoticCropName
   | PotionHouseItemName
   | "Basic Land"
-  | Bait
+  | FishingBait
   | CompostName
   | FishName
   | MarineMarvelName;

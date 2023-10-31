@@ -1,8 +1,11 @@
+import Decimal from "decimal.js-light";
 import { Bait } from "./composters";
 import { InventoryItemName } from "./game";
 import { getCurrentSeason } from "./seasons";
+import { Tool } from "./tools";
 
-export type FishingBait = Bait;
+export type PurchaseableBait = "Fishing Lure";
+export type FishingBait = Bait | PurchaseableBait;
 export type FishType = "basic" | "advanced" | "expert" | "marine marvel";
 
 export type FishName =
@@ -44,6 +47,17 @@ export type MarineMarvelName =
   | "Phantom Barracuda"
   | "Gilded Swordfish"
   | "Kraken Tentacle";
+
+export const PURCHASEABLE_BAIT: Record<PurchaseableBait, Tool> = {
+  "Fishing Lure": {
+    ingredients: {
+      "Block Buck": new Decimal(1),
+    },
+    sfl: new Decimal(0),
+    description: "A fishing lure! Great for catching big fish!",
+    name: "Fishing Lure",
+  },
+};
 
 export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
   Gold: 1,

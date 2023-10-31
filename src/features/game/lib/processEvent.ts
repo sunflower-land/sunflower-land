@@ -111,6 +111,12 @@ export const maxItems: Inventory = {
   "Lab Grown Radish": new Decimal(1),
   "Magic Bean": new Decimal(5),
 
+  // Bait
+  Earthworm: new Decimal(100),
+  Grub: new Decimal(100),
+  "Red Wiggler": new Decimal(100),
+  "Fishing Lure": new Decimal(100),
+
   //Treasure Island Beach Bounty
   "Pirate Bounty": new Decimal(50),
   Pearl: new Decimal(50),
