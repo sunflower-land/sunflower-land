@@ -91,7 +91,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
             {FISH[selectedFish].baits.map((bait) => (
               <Label
                 key={`${selectedFish}-${bait}`}
-                type="formula"
+                type="chill"
                 className="px-0.5 text-xxs whitespace-nowrap"
                 icon={ITEM_DETAILS[bait].image}
               >
