@@ -14,7 +14,7 @@ const BUMPKINS: NPCBumpkin[] = [
   },
   {
     npc: "finn",
-    x: 84,
+    x: 94,
     y: 518,
   },
   {
