@@ -5,7 +5,10 @@ import { sanitizeHTTPResponse } from "lib/network";
 import { makeGame } from "../lib/transforms";
 import { GameState, InventoryItemName } from "../types/game";
 import { Announcements } from "../types/conversations";
-import { getReferrerId } from "features/auth/actions/createAccount";
+import {
+  getReferrerId,
+  getSignupMethod,
+} from "features/auth/actions/createAccount";
 import { Moderation } from "../lib/gameMachine";
 
 type Request = {
@@ -44,6 +47,7 @@ export async function loadSession(
 
   const promoCode = getPromoCode();
   const referrerId = getReferrerId();
+  const signUpMethod = getSignupMethod();
 
   const response = await window.fetch(`${API_URL}/session/${request.farmId}`, {
     method: "POST",
@@ -61,6 +65,7 @@ export async function loadSession(
       guestKey: request.guestKey,
       promoCode,
       referrerId,
+      signUpMethod,
     }),
   });
 
