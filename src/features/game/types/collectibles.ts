@@ -30,7 +30,10 @@ export type HeliosBlacksmithItem =
   | "Laurie the Chuckle Crow"
   | "Poppy"
   | "Kernaldo"
-  | "Grain Grinder";
+  | "Grain Grinder"
+  | "Skill Shrimpy"
+  | "Soil Krabby"
+  | "Nana";
 
 export type SoldOutCollectibleName =
   | "Sir Goldensnout"
@@ -62,7 +65,6 @@ export type SoldOutCollectibleName =
   | "Alba"
   | "Knowledge Crab"
   | "Anchor"
-  | "Chilling Banana"
   | "Rubber Ducky"
   | "Kraken Head";
 
@@ -192,6 +194,39 @@ export const HELIOS_BLACKSMITH_ITEMS: (
     boost: "+20% Cake XP",
     from: new Date("2023-10-01"),
     to: new Date("2023-11-01"),
+  },
+  Nana: {
+    description:
+      "This rare beauty is a surefire way to boost your banana harvests.",
+    ingredients: {
+      "Mermaid Scale": new Decimal(350),
+    },
+    sfl: SFLDiscount(state, new Decimal(50)),
+    boost: "+10% Banana Speed",
+    from: new Date("2023-11-01"),
+    to: new Date("2023-12-01"),
+  },
+  "Soil Krabby": {
+    description:
+      "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
+    ingredients: {
+      "Mermaid Scale": new Decimal(650),
+    },
+    sfl: SFLDiscount(state, new Decimal(65)),
+    boost: "+10% Composter Speed",
+    from: new Date("2023-12-01"),
+    to: new Date("2024-01-01"),
+  },
+  "Skill Shrimpy": {
+    description:
+      "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
+    ingredients: {
+      "Mermaid Scale": new Decimal(865),
+    },
+    sfl: SFLDiscount(state, new Decimal(115)),
+    boost: "+20% Fish XP",
+    from: new Date("2024-01-01"),
+    to: new Date("2024-02-01"),
   },
 });
 
@@ -409,8 +444,14 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   },
   Kernaldo: {
     shortDescription: "+25% Corn Growth Speed",
-    labelType: "info",
+    labelType: "success",
     boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+  },
+  "Skill Shrimpy": {
+    shortDescription: "+20% Fish XP",
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.icons.fish,
   },
 };

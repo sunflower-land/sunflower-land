@@ -53,6 +53,14 @@ export const getFruitTime = (
     seconds = seconds * 0.5;
   }
 
+  // Nana: 10% reduction
+  if (
+    fruitSeedName === "Banana Plant" &&
+    isCollectibleBuilt("Nana", collectibles)
+  ) {
+    seconds = seconds * 0.9;
+  }
+
   return seconds;
 };
 
