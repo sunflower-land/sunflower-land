@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { SimpleBox } from "../SimpleBox";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -16,11 +15,9 @@ import {
 } from "features/game/types/milestones";
 import { getFishByType } from "../lib/utils";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { FishName, MarineMarvelName } from "features/game/types/fishing";
+import { FISH, FishName, MarineMarvelName } from "features/game/types/fishing";
 import { Detail } from "../components/Detail";
-
-const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
-const LABEL_TOP_SHIFT_PX = -4 * PIXEL_SCALE;
+import { GameState } from "features/game/types/game";
 
 const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
 const _milestones = (state: MachineState) => state.context.state.milestones;
@@ -31,6 +28,12 @@ type Props = {
   onMilestoneReached: (milestoneName: MilestoneName) => void;
 };
 
+function getTotalFishCaught(farmActivity: GameState["farmActivity"]) {
+  return getKeys(FISH).reduce((total, fish) => {
+    return total + (farmActivity[`${fish} Caught`] ?? 0);
+  }, 0);
+}
+
 export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
   const { gameService } = useContext(Context);
   const [expandedIndex, setExpandedIndex] = useState<number>();
@@ -40,6 +43,10 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
 
   const farmActivity = useSelector(gameService, _farmActivity);
   const milestones = useSelector(gameService, _milestones);
+
+  const [caughtFishCount] = useState<number>(() =>
+    getTotalFishCaught(farmActivity)
+  );
 
   const handleMilestoneExpand = (milestoneIndex: number) => {
     if (expandedIndex === milestoneIndex) {
@@ -113,41 +120,30 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
           </div>
         </div>
         <div className="flex flex-col">
-          {getKeys(FISH_BY_TYPE).map((type) => (
-            <div key={type} className="flex flex-col mb-2">
-              <h3 className="capitalize pl-1.5 text-sm">
-                {type !== "marine marvel" ? `${type} Fish` : "Marine Marvels"}
-              </h3>
-              <div className="flex flex-wrap">
-                {FISH_BY_TYPE[type].map((name) => {
-                  const caughtCount = farmActivity[`${name} Caught`] ?? 0;
+          {getKeys(FISH_BY_TYPE).map((type) => {
+            const typeIcon = ITEM_DETAILS[FISH_BY_TYPE[type][0]].image;
 
-                  return (
+            return (
+              <div key={type} className="flex flex-col mb-2">
+                <Label
+                  type="default"
+                  className="capitalize ml-3"
+                  icon={typeIcon}
+                >
+                  {type !== "marine marvel" ? `${type} Fish` : "Marine Marvels"}
+                </Label>
+                <div className="flex flex-wrap">
+                  {FISH_BY_TYPE[type].map((name) => (
                     <SimpleBox
                       onClick={() => setSelectedFish(name)}
                       key={name}
                       image={ITEM_DETAILS[name].image}
-                    >
-                      {caughtCount > 0 && (
-                        <div
-                          className="absolute"
-                          style={{
-                            right: `${LABEL_RIGHT_SHIFT_PX}px`,
-                            top: `${LABEL_TOP_SHIFT_PX}px`,
-                            pointerEvents: "none",
-                          }}
-                        >
-                          <Label type="default" className="px-0.5 text-xxs">
-                            {caughtCount}
-                          </Label>
-                        </div>
-                      )}
-                    </SimpleBox>
-                  );
-                })}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </>
