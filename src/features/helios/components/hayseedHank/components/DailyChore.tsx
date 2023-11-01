@@ -70,7 +70,9 @@ export const DailyChore: React.FC<Props> = ({ id, chore, isReadOnly }) => {
 
   const isTaskComplete = progress >= chore.requirement;
 
-  const { tasksAreFrozen } = getSeasonChangeover();
+  const { tasksAreFrozen } = getSeasonChangeover({
+    id: gameService.state.context.state.id,
+  });
 
   return (
     <OuterPanel className="p-2 mb-2">

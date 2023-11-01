@@ -176,7 +176,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   }
 
   const { tasksAreClosing, tasksStartAt, tasksCloseAt, tasksAreFrozen } =
-    getSeasonChangeover();
+    getSeasonChangeover({ id: gameService.state.context.state.id });
 
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1">

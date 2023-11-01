@@ -73,6 +73,8 @@ describe("deliver", () => {
           id: "123",
           type: "order.delivered",
         },
+        // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
+        createdAt: 1693526400000,
       })
     ).toThrow("Insufficient ingredient: Sunflower");
   });
@@ -104,6 +106,8 @@ describe("deliver", () => {
           id: "123",
           type: "order.delivered",
         },
+        // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
+        createdAt: 1693526400000,
       })
     ).toThrow("Insufficient ingredient: sfl");
   });
@@ -136,6 +140,8 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
+      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
+      createdAt: 1693526400000,
     });
 
     expect(state.balance).toEqual(new Decimal(0.1));
@@ -176,6 +182,8 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
+      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
+      createdAt: 1693526400000,
     });
 
     expect(state.balance).toEqual(new Decimal(1.2));
@@ -216,6 +224,8 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
+      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
+      createdAt: 1693526400000,
     });
 
     expect(state.balance).toEqual(new Decimal(1.2));
@@ -256,6 +266,8 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
+      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
+      createdAt: 1693526400000,
     });
 
     expect(state.balance).toEqual(new Decimal(1.2));
@@ -295,6 +307,8 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
+      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
+      createdAt: 1693526400000,
     });
 
     expect(state.balance).toEqual(new Decimal(1.05));
@@ -328,6 +342,8 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
+      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
+      createdAt: 1693526400000,
     });
 
     const seasonTicket = getSeasonalTicket();

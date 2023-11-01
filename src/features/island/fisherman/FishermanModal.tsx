@@ -3,6 +3,7 @@ import { useActor } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import plus from "assets/icons/plus.png";
+import worldIcon from "assets/icons/world_small.png";
 import lightning from "assets/icons/lightning.png";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -108,7 +109,12 @@ const ChumSelection: React.FC<{
   );
 };
 
-const BAIT: FishingBait[] = ["Earthworm", "Grub", "Red Wiggler"];
+const BAIT: FishingBait[] = [
+  "Earthworm",
+  "Grub",
+  "Red Wiggler",
+  "Fishing Lure",
+];
 
 const BaitSelection: React.FC<{
   onCast: (bait: FishingBait, chum?: InventoryItemName) => void;
@@ -153,30 +159,36 @@ const BaitSelection: React.FC<{
   return (
     <>
       <div className="p-2">
-        <div className="flex items-center">
-          {tide === "Dusktide" ? (
-            <Label
-              icon={SUNNYSIDE.icons.stopwatch}
-              type="formula"
-              className="mr-2"
-            >
-              Dusktide
-            </Label>
-          ) : (
-            <Label
-              icon={SUNNYSIDE.icons.stopwatch}
-              type="default"
-              className="mr-2"
-            >
-              Dawnlight
-            </Label>
-          )}
+        <div className="flex items-center justify-between flex-wrap">
+          <div className="flex items-center">
+            {tide === "Dusktide" ? (
+              <Label
+                icon={SUNNYSIDE.icons.stopwatch}
+                type="formula"
+                className="mr-2"
+              >
+                Dusktide
+              </Label>
+            ) : (
+              <Label
+                icon={SUNNYSIDE.icons.stopwatch}
+                type="default"
+                className="mr-2"
+              >
+                Dawnlight
+              </Label>
+            )}
 
-          {weather === "Fish Frenzy" || weather === "Full Moon" ? (
-            <Label icon={lightning} type="vibrant">
-              {weather}
-            </Label>
-          ) : null}
+            {weather === "Fish Frenzy" || weather === "Full Moon" ? (
+              <Label icon={lightning} type="vibrant">
+                {weather}
+              </Label>
+            ) : null}
+          </div>
+
+          <Label icon={SUNNYSIDE.tools.fishing_rod} type="default">
+            Daily Limit: {dailyFishingCount}/{dailyFishingMax}
+          </Label>
         </div>
       </div>
       <div>
@@ -195,29 +207,27 @@ const BaitSelection: React.FC<{
           <div className="flex p-1">
             <img src={ITEM_DETAILS[bait].image} className="h-10 mr-2" />
             <div>
-              <span className="text-sm">{bait}</span>
-              <div className="flex flex-wrap mb-1 mt-1">
-                {catches.map((name) => (
-                  <img
-                    src={ITEM_DETAILS[name].image}
-                    className="h-5 mr-1"
-                    key={name}
-                  />
-                ))}
-                <img
-                  src={SUNNYSIDE.icons.expression_confused}
-                  className="h-5 mr-1"
-                />
-              </div>
+              <p className="text-sm">{bait}</p>
+              <p className="text-xs">{ITEM_DETAILS[bait].description}</p>
+              {!state.inventory[bait] && bait !== "Fishing Lure" && (
+                <Label
+                  className="mt-1"
+                  icon={ITEM_DETAILS["Compost Bin"].image}
+                  type="default"
+                >
+                  Craft at Composter
+                </Label>
+              )}
+              {!state.inventory[bait] && bait === "Fishing Lure" && (
+                <Label className="mt-1" icon={worldIcon} type="default">
+                  Craft at Beach
+                </Label>
+              )}
             </div>
           </div>
-          {!state.inventory[bait] ? (
+          {!state.inventory[bait] && (
             <Label className="absolute -top-3 right-0" type={"danger"}>
               0 available
-            </Label>
-          ) : (
-            <Label className="absolute -top-3 right-0" type={"default"}>
-              {`${state.inventory[bait]?.toNumber()} available`}
             </Label>
           )}
         </OuterPanel>
@@ -266,12 +276,6 @@ const BaitSelection: React.FC<{
       {!fishingLimitReached && missingRod && (
         <Label className="mb-1" type="danger">
           You must first craft a rod.
-        </Label>
-      )}
-
-      {!fishingLimitReached && !missingRod && (
-        <Label className="mb-1" type="info">
-          You have cast {dailyFishingCount} of {dailyFishingMax} for today.
         </Label>
       )}
 

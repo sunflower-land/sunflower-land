@@ -93,6 +93,7 @@ export function castRod({
     ...game.fishing,
     wharf: {
       castedAt: createdAt,
+      bait: action.bait,
       chum: action.chum,
     },
   };

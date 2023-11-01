@@ -63,10 +63,12 @@ import walrus from "assets/sfts/walrus.webp";
 import alba from "assets/sfts/alba.webp";
 import knowledgeCrab from "assets/sfts/knowledge_crab.webp";
 import anchor from "assets/sfts/anchor.webp";
-import chillingBanana from "assets/sfts/chilling_banana.webp";
 import rubberDucky from "assets/sfts/rubber_ducky.webp";
 import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
 import krakenHead from "assets/sfts/kraken_head.webp";
+import skillShrimpy from "assets/sfts/skill_shrimpy.png";
+import soilKrabby from "assets/sfts/soil_krabby.webp";
+import nana from "assets/sfts/nana.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -324,6 +326,7 @@ import expertComposter from "assets/composters/composter_expert.png";
 import earthworm from "assets/composters/earthworm.png";
 import grub from "assets/composters/grub.png";
 import redWiggler from "assets/composters/red_wiggler.png";
+import fishingLure from "assets/composters/fishing_lure.png";
 
 // Compost
 import sproutMix from "assets/composters/sprout_mix.png";
@@ -2638,7 +2641,10 @@ export const ITEM_DETAILS: Items = {
     image: redWiggler,
     description: BAIT["Red Wiggler"].description,
   },
-
+  "Fishing Lure": {
+    image: fishingLure,
+    description: "Great for catching rare fish!",
+  },
   // Compost
   "Sprout Mix": {
     image: sproutMix,
@@ -2915,11 +2921,6 @@ export const ITEM_DETAILS: Items = {
     description:
       "Drop anchor' with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
   },
-  "Chilling Banana": {
-    image: chillingBanana,
-    description:
-      "Soak up the sun and snag an extra +0.5 bananas! Cool vibes, cooler rewards.",
-  },
   "Rubber Ducky": {
     image: rubberDucky,
     description:
@@ -2933,5 +2934,20 @@ export const ITEM_DETAILS: Items = {
   "Banana Chicken": {
     image: bananaChicken,
     description: "A chicken that boosts bananas. What a world we live in.",
+  },
+  "Skill Shrimpy": {
+    image: skillShrimpy,
+    description:
+      "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
+  },
+  "Soil Krabby": {
+    image: soilKrabby,
+    description:
+      "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
+  },
+  Nana: {
+    image: nana,
+    description:
+      "This rare beauty is a surefire way to boost your banana harvests.",
   },
 };

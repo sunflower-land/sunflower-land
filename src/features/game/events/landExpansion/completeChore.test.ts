@@ -91,6 +91,8 @@ describe("chore.completed", () => {
             },
           },
         },
+        // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
+        createdAt: 1693526400000,
       })
     ).toThrow("Chore is not completed");
   });
@@ -126,6 +128,8 @@ describe("chore.completed", () => {
             },
           },
         },
+        // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
+        createdAt: 1693526400000,
       })
     ).toThrow("Chore is not completed");
   });
@@ -160,6 +164,8 @@ describe("chore.completed", () => {
           },
         },
       },
+      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
+      createdAt: 1693526400000,
     });
 
     expect(state.hayseedHank?.choresCompleted).toEqual(1);
@@ -195,6 +201,8 @@ describe("chore.completed", () => {
           },
         },
       },
+      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
+      createdAt: 1693526400000,
     });
 
     expect(state.inventory["Solar Flare Ticket"]).toEqual(new Decimal(1));
@@ -231,6 +239,8 @@ describe("chore.completed", () => {
           },
         },
       },
+      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
+      createdAt: 1693526400000,
     });
 
     expect(state.bumpkin?.activity?.["Chore Completed"]).toEqual(1);

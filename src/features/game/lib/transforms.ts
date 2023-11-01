@@ -118,6 +118,9 @@ export function getAvailableGameState({
     ...(offChain.inventory["Witches' Eve Banner"] && {
       "Witches' Eve Banner": offChain.inventory["Witches' Eve Banner"],
     }),
+    ...(offChain.inventory["Catch the Kraken Banner"] && {
+      "Catch the Kraken Banner": offChain.inventory["Catch the Kraken Banner"],
+    }),
   };
 
   const balance = onChain.balance.lt(offChain.balance)

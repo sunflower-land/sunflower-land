@@ -731,7 +731,7 @@ export const SEASONAL_DECORATIONS: (
   "Tiki Torch": {
     name: "Tiki Torch",
     from: new Date("2023-11-01"),
-    to: new Date("2024-12-01"),
+    to: new Date("2023-12-01"),
     description: "Light the night, tropical vibes burning bright!",
     ingredients: {
       "Mermaid Scale": new Decimal(5),
@@ -741,7 +741,7 @@ export const SEASONAL_DECORATIONS: (
     name: "Beach Umbrella",
     sfl: SFLDiscount(state, new Decimal(20)),
     from: new Date("2023-11-01"),
-    to: new Date("2024-12-01"),
+    to: new Date("2023-12-01"),
     description: "Shade, shelter, and seaside chic in one sunny setup!",
     ingredients: {
       "Mermaid Scale": new Decimal(250),
