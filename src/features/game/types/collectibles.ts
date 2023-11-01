@@ -157,7 +157,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
       Blueberry: new Decimal(10),
       Orange: new Decimal(10),
     },
-    boost: "+1 harvest",
+    boost: "+1 Harvest",
   },
   "Treasure Map": {
     description: "X marks the spot!",
