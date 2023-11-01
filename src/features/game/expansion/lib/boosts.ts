@@ -143,11 +143,18 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.2);
   }
 
-  boostedExp = boostedExp.mul(getBudExperienceBoosts(buds, food));
+  if (
+    food.name in FISH_CONSUMABLES &&
+    isCollectibleBuilt("Skill Shrimpy", collectibles)
+  ) {
+    boostedExp = boostedExp.mul(1.2);
+  }
 
   if (collectibles[getSeasonalBanner()]) {
     boostedExp = boostedExp.mul(1.1);
   }
+
+  boostedExp = boostedExp.mul(getBudExperienceBoosts(buds, food));
 
   return boostedExp.toDecimalPlaces(4).toNumber();
 };

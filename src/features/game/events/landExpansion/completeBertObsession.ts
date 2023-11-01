@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { GameState, InventoryItemName } from "features/game/types/game";
+import { getSeasonalTicket } from "features/game/types/seasons";
 import cloneDeep from "lodash.clonedeep";
 
 export type CompleteBertObsessionAction = {
@@ -65,8 +66,9 @@ export function completeBertObsession({
     }
   }
 
-  const currentFeathers = stateCopy.inventory["Crow Feather"] || new Decimal(0);
-  stateCopy.inventory["Crow Feather"] = currentFeathers.add(
+  const currentTickets =
+    stateCopy.inventory[getSeasonalTicket()] || new Decimal(0);
+  stateCopy.inventory[getSeasonalTicket()] = currentTickets.add(
     currentObsession.reward
   );
 

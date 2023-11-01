@@ -1,5 +1,6 @@
 import { SeasonWeek } from "features/game/types/game";
 import { SEASONS, getCurrentSeason } from "features/game/types/seasons";
+import { ADMIN_IDS } from "lib/flags";
 
 /**
  * Helper function to get the week number of the season
@@ -26,7 +27,13 @@ export function getSeasonWeek(): SeasonWeek {
  * Helps implement a preseason where tasks are 'frozen'
  * This ensures a smooth transition and testing period.
  */
-export function getSeasonChangeover(now = Date.now()) {
+export function getSeasonChangeover({
+  id,
+  now = Date.now(),
+}: {
+  id: number;
+  now?: number;
+}) {
   const season = getCurrentSeason(new Date(now));
   const incomingSeason = getCurrentSeason(new Date(now + 24 * 60 * 60 * 1000));
 
@@ -34,11 +41,13 @@ export function getSeasonChangeover(now = Date.now()) {
   const tasksStartAt =
     SEASONS[incomingSeason].startDate.getTime() + 3 * 60 * 60 * 1000;
 
+  const isAdmin = ADMIN_IDS.includes(id);
+
   return {
     tasksCloseAt,
     tasksStartAt,
     tasksAreClosing:
       now < tasksCloseAt && now >= tasksCloseAt - 24 * 60 * 60 * 1000,
-    tasksAreFrozen: now <= tasksStartAt,
+    tasksAreFrozen: !isAdmin && now <= tasksStartAt,
   };
 }

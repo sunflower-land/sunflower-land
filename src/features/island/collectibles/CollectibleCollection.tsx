@@ -204,10 +204,12 @@ import { Walrus } from "./components/Walrus";
 import { Alba } from "./components/Alba";
 import { KnowledgeCrab } from "./components/KnowledgeCrab";
 import { Anchor } from "./components/Anchor";
-import { ChillingBanana } from "./components/ChillingBanana";
 import { RubberDucky } from "./components/RubberDucky";
 import { KrakenTentacle } from "./components/KrakenTentacle";
 import { BananaChicken } from "./components/BananaChicken";
+import { SkillShrimpy } from "./components/SkillShrimpy";
+import { SoilKrabby } from "./components/SoilKrabby";
+import { Nana } from "./components/Nana";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -454,10 +456,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Alba: Alba,
   "Knowledge Crab": KnowledgeCrab,
   Anchor: Anchor,
-  "Chilling Banana": ChillingBanana,
   "Rubber Ducky": RubberDucky,
   "Kraken Head": KrakenTentacle,
   "Banana Chicken": BananaChicken,
+  "Skill Shrimpy": SkillShrimpy,
+  "Soil Krabby": SoilKrabby,
+  Nana: Nana,
 };
 // Need readonly versions for some troublesome components while in design mode
 

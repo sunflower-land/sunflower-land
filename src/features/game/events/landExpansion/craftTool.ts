@@ -11,8 +11,15 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 
 import { GameState } from "../../types/game";
+import {
+  PURCHASEABLE_BAIT,
+  PurchaseableBait,
+} from "features/game/types/fishing";
 
-type CraftableToolName = WorkbenchToolName | TreasureToolName;
+type CraftableToolName =
+  | WorkbenchToolName
+  | TreasureToolName
+  | PurchaseableBait;
 
 export type CraftToolAction = {
   type: "tool.crafted";
@@ -23,6 +30,7 @@ export type CraftToolAction = {
 export const CRAFTABLE_TOOLS: Record<CraftableToolName, Tool> = {
   ...WORKBENCH_TOOLS(),
   ...TREASURE_TOOLS,
+  ...PURCHASEABLE_BAIT,
 };
 
 type Options = {

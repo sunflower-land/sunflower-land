@@ -182,6 +182,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
 
 export const TEST_FARM: GameState = {
   balance: new Decimal(0),
+  id: 123,
   inventory: {
     Sunflower: new Decimal(5),
     Potato: new Decimal(12),
@@ -394,6 +395,7 @@ export const TEST_FARM: GameState = {
 
 export const EMPTY: GameState = {
   balance: new Decimal(fromWei("0")),
+  id: 123,
   createdAt: new Date().getTime(),
   inventory: {
     "Chicken Coop": new Decimal(1),

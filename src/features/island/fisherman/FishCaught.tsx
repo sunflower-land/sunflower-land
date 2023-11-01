@@ -38,7 +38,10 @@ export const FishCaught: React.FC<Props> = ({
     <>
       <div className="p-2">
         {getKeys(caught).map((name) => {
-          const isNew = name in FISH && farmActivity[`${name} Caught`] === 1;
+          const isNew =
+            name in FISH &&
+            (!farmActivity[`${name} Caught`] ||
+              farmActivity[`${name} Caught`] === 0);
 
           return (
             <div

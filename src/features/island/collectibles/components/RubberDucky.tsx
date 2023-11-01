@@ -8,15 +8,15 @@ export const RubberDucky: React.FC = () => {
     <div
       className="absolute"
       style={{
-        width: `${PIXEL_SCALE * 19}px`,
+        width: `${PIXEL_SCALE * 13}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * -1}px`,
+        left: `${PIXEL_SCALE * 2}px`,
       }}
     >
       <img
         src={rubberDucky}
         style={{
-          width: `${PIXEL_SCALE * 19}px`,
+          width: `${PIXEL_SCALE * 13}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute left-1/2 -translate-x-1/2"

@@ -99,6 +99,7 @@ export const maxItems: Inventory = {
   "Solar Flare Ticket": new Decimal(350),
   "Dawn Breaker Ticket": new Decimal(750),
   "Crow Feather": new Decimal(750),
+  "Mermaid Scale": new Decimal(750),
   "Bud Ticket": new Decimal(1),
 
   // Potion House
@@ -110,6 +111,12 @@ export const maxItems: Inventory = {
   "Lab Grown Pumpkin": new Decimal(1),
   "Lab Grown Radish": new Decimal(1),
   "Magic Bean": new Decimal(5),
+
+  // Bait
+  Earthworm: new Decimal(100),
+  Grub: new Decimal(100),
+  "Red Wiggler": new Decimal(100),
+  "Fishing Lure": new Decimal(100),
 
   //Treasure Island Beach Bounty
   "Pirate Bounty": new Decimal(50),
