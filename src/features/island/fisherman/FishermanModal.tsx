@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import plus from "assets/icons/plus.png";
@@ -29,6 +29,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
 import { getDailyFishingLimit } from "features/game/events/landExpansion/castRod";
+import { MachineState } from "features/game/lib/gameMachine";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -301,8 +302,19 @@ interface Props {
   onClose: () => void;
 }
 
+const currentWeather = (state: MachineState) =>
+  state.context.state.fishing.weather;
+
 export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
+  const { gameService } = useContext(Context);
+  const weather = useSelector(gameService, currentWeather);
+
   const [showIntro, setShowIntro] = React.useState(!hasRead());
+
+  const [showFishFrenzy, setShowFishFrenzy] = React.useState(
+    weather === "Fish Frenzy"
+  );
+
   const [tab, setTab] = useState(0);
   if (showIntro) {
     return (
@@ -325,6 +337,29 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
           onClose={() => {
             acknowledgeRead();
             setShowIntro(false);
+          }}
+        />
+      </CloseButtonPanel>
+    );
+  }
+
+  if (showFishFrenzy) {
+    return (
+      <CloseButtonPanel
+        onClose={onClose}
+        bumpkinParts={NPC_WEARABLES["reelin roy"]}
+      >
+        <SpeakingText
+          message={[
+            {
+              text: "Wow, something crazy is happening......It is a fish frenzy!",
+            },
+            {
+              text: "Hurry, you will get a bonus fish for each catch!",
+            },
+          ]}
+          onClose={() => {
+            setShowFishFrenzy(false);
           }}
         />
       </CloseButtonPanel>
