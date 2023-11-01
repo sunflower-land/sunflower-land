@@ -78,7 +78,11 @@ export class BeachScene extends BaseScene {
     this.load.image("kraken", "world/kraken.png");
 
     if (this.krakenHunger) {
-      this.load.image("kraken_hunger", ITEM_DETAILS[this.krakenHunger].image);
+      try {
+        this.load.image("kraken_hunger", ITEM_DETAILS[this.krakenHunger].image);
+      } catch (error) {
+        console.error("Did not load kraken hunger", error);
+      }
       this.load.image("heart", SUNNYSIDE.icons.heart);
     }
 
