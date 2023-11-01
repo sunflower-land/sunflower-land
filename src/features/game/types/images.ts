@@ -295,6 +295,7 @@ import popcorn from "assets/food/popcorn.png";
 import chowder from "assets/food/chowder.png";
 import gumbo from "assets/food/gumbo.png";
 import fermentedFish from "assets/food/fermented_fish.png";
+import bananaBlast from "assets/food/banana_blast.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -822,6 +823,10 @@ export const ITEM_DETAILS: Items = {
   "Fancy Fries": {
     description: CONSUMABLES["Fancy Fries"].description,
     image: fancyFries,
+  },
+  "Banana Blast": {
+    description: CONSUMABLES["Banana Blast"].description,
+    image: bananaBlast,
   },
 
   // Resources
