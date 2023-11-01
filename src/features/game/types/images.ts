@@ -136,7 +136,7 @@ import sierra_leone_flag from "assets/sfts/flags/sierra_leone_flag.gif";
 import singaporean_flag from "assets/sfts/flags/singaporean_flag.gif";
 
 // Resources
-import iron from "assets/resources/iron_ore.png?url";
+import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
 import honey from "assets/resources/honey.png";
 import apple from "assets/resources/apple.png";

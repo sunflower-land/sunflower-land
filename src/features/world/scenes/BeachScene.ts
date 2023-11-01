@@ -3,7 +3,6 @@ import mapJSON from "assets/map/beach.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
 
 const BUMPKINS: NPCBumpkin[] = [
@@ -55,9 +54,6 @@ export class BeachScene extends BaseScene {
   }
 
   preload() {
-    this.krakenHunger =
-      this.gameService.state.context.state?.catchTheKraken?.hunger;
-
     super.preload();
 
     this.load.spritesheet("beach_bud", "world/turtle.png", {
@@ -76,15 +72,6 @@ export class BeachScene extends BaseScene {
     });
 
     this.load.image("kraken", "world/kraken.png");
-
-    if (this.krakenHunger) {
-      try {
-        this.load.image("kraken_hunger", ITEM_DETAILS[this.krakenHunger].image);
-      } catch (error) {
-        console.error("Did not load kraken hunger", error);
-      }
-      this.load.image("heart", SUNNYSIDE.icons.heart);
-    }
 
     this.load.spritesheet("bird", SUNNYSIDE.animals.bird, {
       frameWidth: 16,
@@ -112,11 +99,6 @@ export class BeachScene extends BaseScene {
     this.initialiseNPCs(BUMPKINS);
 
     this.add.sprite(308, 755, "kraken");
-
-    if (this.krakenHunger) {
-      this.add.sprite(338, 740, "kraken_hunger");
-      this.add.sprite(350, 740, "heart");
-    }
 
     const turtle = this.add.sprite(328, 515, "beach_bud");
     turtle.setScale(-1, 1);
