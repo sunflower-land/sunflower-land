@@ -88,10 +88,10 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
           disabled={!canCompleteObsession()}
           onClick={() => gameService.send("bertObsession.completed")}
         >
-          Claim {reward} feathers
+          Claim {reward} Mermaid Scales
         </Button>
         <span className="text-xs">
-          You cannot withdraw this item for 3 days after claiming feathers.
+          You cannot withdraw this item for 3 days after claiming scales.
         </span>
       </>
     );
