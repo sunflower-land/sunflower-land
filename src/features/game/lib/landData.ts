@@ -533,7 +533,7 @@ export const OFFLINE_FARM: GameState = {
   },
   chickens: {},
   fishing: {
-    weather: "Sunny",
+    weather: "Fish Frenzy",
     wharf: {},
     dailyAttempts: {},
   },
