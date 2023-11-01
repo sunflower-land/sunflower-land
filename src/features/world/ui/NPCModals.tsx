@@ -57,7 +57,6 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
   const [gameState] = useActor(gameService);
   const [npc, setNpc] = useState<NPCName | undefined>(getInitialNPC(scene));
 
-  console.log({ scene });
   const { openModal } = useContext(ModalContext);
 
   const inventory = gameState.context.state.inventory;
