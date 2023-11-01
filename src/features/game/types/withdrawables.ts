@@ -421,6 +421,7 @@ const consumables: Record<ConsumableName, () => boolean> = {
   Sunfish: () => false,
   Surgeonfish: () => false,
   Tuna: () => false,
+  "Banana Blast": () => false,
 };
 
 const decorations: Record<ShopDecorationName, () => boolean> = {
