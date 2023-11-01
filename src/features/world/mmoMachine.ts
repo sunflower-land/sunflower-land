@@ -139,7 +139,6 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
   context: {
     jwt: "",
     farmId: 0,
-    username: "",
     bumpkin: INITIAL_BUMPKIN,
     availableServers: SERVERS,
     serverId: "sunflorea_bliss",
