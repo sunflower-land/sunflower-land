@@ -79,6 +79,7 @@ const SERVERS: Server[] = [
 ];
 
 export interface MMOContext {
+  username?: string;
   jwt: string;
   farmId: number;
   bumpkin: Bumpkin;
@@ -138,6 +139,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
   context: {
     jwt: "",
     farmId: 0,
+    username: "",
     bumpkin: INITIAL_BUMPKIN,
     availableServers: SERVERS,
     serverId: "sunflorea_bliss",
@@ -276,7 +278,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
               jwt: context.jwt,
               bumpkin: context.bumpkin,
               farmId: context.farmId,
-              username: "Sacul",
+              username: context.username,
               x: SPAWNS.plaza.default.x,
               y: SPAWNS.plaza.default.y,
               sceneId: context.initialSceneId,
