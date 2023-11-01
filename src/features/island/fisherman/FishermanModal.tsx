@@ -3,7 +3,6 @@ import { useActor, useSelector } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import plus from "assets/icons/plus.png";
-import worldIcon from "assets/icons/world_small.png";
 import lightning from "assets/icons/lightning.png";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -211,16 +210,12 @@ const BaitSelection: React.FC<{
               <p className="text-sm">{bait}</p>
               <p className="text-xs">{ITEM_DETAILS[bait].description}</p>
               {!state.inventory[bait] && bait !== "Fishing Lure" && (
-                <Label
-                  className="mt-1"
-                  icon={ITEM_DETAILS["Compost Bin"].image}
-                  type="default"
-                >
+                <Label className="mt-1" type="default">
                   Craft at Composter
                 </Label>
               )}
               {!state.inventory[bait] && bait === "Fishing Lure" && (
-                <Label className="mt-1" icon={worldIcon} type="default">
+                <Label className="mt-1" type="default">
                   Craft at Beach
                 </Label>
               )}
