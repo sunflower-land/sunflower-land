@@ -112,7 +112,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     // TESTING
     if (!CONFIG.API_URL) {
       setTimeout(() => {
-        fishing.wharf = { castedAt: 10000, caught: { Anchovy: 1 } };
+        fishing.wharf = { castedAt: 10000, caught: { "Kraken Tentacle": 1 } };
       }, 1000);
     }
   };
