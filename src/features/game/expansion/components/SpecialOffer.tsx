@@ -10,7 +10,6 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
-import { SquareIcon } from "components/ui/SquareIcon";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -167,16 +166,12 @@ export const PromotingModal: React.FC<Props> = ({
             <Label
               type="info"
               className="mt-2"
+              icon={SUNNYSIDE.icons.timer}
               style={{
                 width: "fit-content",
               }}
             >
-              <SquareIcon
-                icon={SUNNYSIDE.icons.timer}
-                width={5}
-                className="-mb-0.5"
-              />
-              <span className="ml-1">Limited time only!</span>
+              Limited time only!
             </Label>
           )}
 
