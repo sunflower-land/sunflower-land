@@ -157,6 +157,20 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
             ]}
           />
         )}
+        {npc === "goldtooth" && (
+          <SpeakingModal
+            bumpkinParts={NPC_WEARABLES.goldtooth}
+            onClose={closeModal}
+            message={[
+              {
+                text: "Arrr, me hearties! The treasure-diggin' area be teemin' with wealth and adventure, and it be openin' its gates soon for ye daring farmers!",
+              },
+              {
+                text: "Be ready to join me crew, for the hunt for riches begins shortly!",
+              },
+            ]}
+          />
+        )}
         {npc === "hank" && <HayseedHankV2 onClose={closeModal} />}
         {npc === "gabi" && (
           <CloseButtonPanel
