@@ -279,7 +279,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
       ingredients: {
         "Mermaid Scale": new Decimal(3000),
       },
-      from: new Date("2023-01-1"),
+      from: new Date("2024-01-1"),
       to: new Date("2024-02-01"),
     },
     "Reel Fishing Vest": {
