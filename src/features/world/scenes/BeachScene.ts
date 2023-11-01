@@ -77,8 +77,6 @@ export class BeachScene extends BaseScene {
 
     this.load.image("kraken", "world/kraken.png");
 
-    console.log({ krakenHunger: this.krakenHunger });
-
     if (this.krakenHunger) {
       const image = ITEM_DETAILS[this.krakenHunger].image;
 
