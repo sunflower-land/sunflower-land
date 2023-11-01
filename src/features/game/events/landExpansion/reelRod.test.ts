@@ -62,4 +62,31 @@ describe("reelRod", () => {
     expect(state.fishing.wharf.caught).toBeUndefined();
     expect(state.fishing.wharf.chum).toBeUndefined();
   });
+
+  it("tracks fish caught", () => {
+    const state = reelRod({
+      action: {
+        type: "rod.reeled",
+      },
+      state: {
+        ...farm,
+        fishing: {
+          weather: "Sunny",
+          wharf: {
+            caught: {
+              Anchovy: 1,
+            },
+            castedAt: 100011000,
+          },
+        },
+        inventory: {
+          Rod: new Decimal(3),
+          Earthworm: new Decimal(1),
+          Sunflower: new Decimal(500),
+        },
+      },
+    });
+
+    expect(state.farmActivity[`Anchovy Caught`]).toEqual(1);
+  });
 });
