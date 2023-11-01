@@ -275,8 +275,9 @@ export const DeliveryPanelContent: React.FC<Props> = ({
     }
   };
 
-  const { tasksAreClosing, tasksStartAt, tasksCloseAt, tasksAreFrozen } =
-    getSeasonChangeover();
+  const { tasksAreFrozen } = getSeasonChangeover({
+    id: gameService.state.context.state.id,
+  });
 
   if (tasksAreFrozen) {
     return (

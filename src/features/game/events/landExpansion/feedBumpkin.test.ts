@@ -249,4 +249,68 @@ describe("feedBumpkin", () => {
       CONSUMABLES["Anchovy"].experience * 1.5
     );
   });
+
+  it("provides 20% more experience for Fish with Skill Shrimpy", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+        inventory: {
+          Anchovy: new Decimal(1),
+        },
+        collectibles: {
+          "Skill Shrimpy": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Anchovy",
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      CONSUMABLES["Anchovy"].experience * 1.2
+    );
+  });
+
+  it("provides 20% more experience for Fish food with Skill Shrimpy", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+        inventory: {
+          Gumbo: new Decimal(1),
+        },
+        collectibles: {
+          "Skill Shrimpy": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Gumbo",
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      CONSUMABLES["Gumbo"].experience * 1.2
+    );
+  });
 });

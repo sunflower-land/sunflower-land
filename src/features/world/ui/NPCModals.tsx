@@ -21,6 +21,7 @@ import { useActor } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { Donations } from "./donations/Donations";
 import { Shelly } from "./npcs/Shelly";
+import { Finn } from "./npcs/Finn";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -156,6 +157,20 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
             ]}
           />
         )}
+        {npc === "goldtooth" && (
+          <SpeakingModal
+            bumpkinParts={NPC_WEARABLES.goldtooth}
+            onClose={closeModal}
+            message={[
+              {
+                text: "Arrr, me hearties! The treasure-diggin' area be teemin' with wealth and adventure, and it be openin' its gates soon for ye daring farmers!",
+              },
+              {
+                text: "Be ready to join me crew, for the hunt for riches begins shortly!",
+              },
+            ]}
+          />
+        )}
         {npc === "hank" && <HayseedHankV2 onClose={closeModal} />}
         {npc === "gabi" && (
           <CloseButtonPanel
@@ -199,7 +214,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
 
         {npc === "corale" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "miranda" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-        {npc === "finn" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "finn" && <Finn onClose={closeModal} />}
         {npc === "tango" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
       </Modal>

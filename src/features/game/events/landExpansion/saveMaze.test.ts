@@ -1,3 +1,5 @@
+import "lib/__mocks__/configMock";
+
 import { MAX_FEATHERS_PER_WEEK, saveMaze } from "./saveMaze";
 import { jest } from "@jest/globals";
 import { Inventory, SeasonWeek } from "features/game/types/game";

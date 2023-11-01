@@ -312,6 +312,7 @@ describe("castRod", () => {
 
     expect(state.fishing.wharf).toEqual({
       castedAt: expect.any(Number),
+      bait: "Earthworm",
       chum: "Sunflower",
     });
   });

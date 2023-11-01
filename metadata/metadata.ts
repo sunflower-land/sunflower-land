@@ -5431,6 +5431,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Fishing Lure": {
+    description: "A fishing lure! Great for catching big fish!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/632.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Bait" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Sprout Mix": {
     description: "Sprout Mix increases your crop yield by +0.2",
     decimals: 0,
@@ -5984,22 +5994,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Decoration", value: "Monument" },
     ],
   },
-  "Chilling Banana": {
-    description:
-      "Soak up the sun and snag an extra +0.5 bananas! Cool vibes, cooler rewards.",
-    decimals: 0,
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image_url: "../public/erc1155/images/482.png",
-    attributes: [
-      { trait_type: "Tradable", value: "Yes" },
-      {
-        display_type: "boost_number",
-        trait_type: "Increase Banana Yield",
-        value: 0.5,
-      },
-      { trait_type: "Boost", value: "Fruit" },
-    ],
-  },
 
   "Rubber Ducky": {
     description:
@@ -6046,6 +6040,56 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         value: 0.1,
       },
       { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Skill Shrimpy": {
+    description:
+      "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/485.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Fish" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Fish XP",
+        value: 20,
+      },
+    ],
+  },
+
+  "Soil Krabby": {
+    description:
+      "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/486.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Other" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Composter Compost Time",
+        value: -10,
+      },
+    ],
+  },
+
+  Nana: {
+    description:
+      "This rare beauty is a surefire way to boost your banana harvests.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image_url: "../public/erc1155/images/487.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Fruit" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Banana Growth Time",
+        value: -10,
+      },
     ],
   },
 };

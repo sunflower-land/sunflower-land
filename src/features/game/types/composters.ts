@@ -14,13 +14,13 @@ export type ComposterName =
 
 export const BAIT: Record<Bait, { description: string }> = {
   Earthworm: {
-    description: "A wriggly worm used to fish.",
+    description: "A wriggly worm that attracts small fish.",
   },
   Grub: {
-    description: "A juicy grub used to fish.",
+    description: "A juicy grub - perfect for advanced fish.",
   },
   "Red Wiggler": {
-    description: "A red wiggler used to fish.",
+    description: "An exotic worm that entices rare fish.",
   },
 };
 

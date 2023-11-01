@@ -1,5 +1,4 @@
 import { Equipped } from "features/game/types/bumpkin";
-import { getCurrentSeason } from "features/game/types/seasons";
 
 export type NPCName =
   | "betty"
@@ -291,30 +290,17 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Farmer Pitchfork",
   },
   // Announces news
-  birdie:
-    getCurrentSeason() === "Witches' Eve"
-      ? {
-          body: "Beige Farmer Potion",
-          background: "Farm Background",
-          hair: "Brown Long Hair",
-          shirt: "Witches' Eve Tee",
-          pants: "Peasant Skirt",
-          shoes: "Black Farmer Boots",
-          tool: "Auction Megaphone",
-          wings: "Crow Wings",
-          hat: "Boater Hat",
-        }
-      : {
-          body: "Beige Farmer Potion",
-          background: "Farm Background",
-          hair: "Brown Long Hair",
-          shirt: "Trial Tee",
-          coat: "Fish Pro Vest",
-          pants: "Angler Waders",
-          hat: "Normal Fish Hat",
-          tool: "Sunflower Rod",
-          shoes: "Black Farmer Boots",
-        },
+  birdie: {
+    body: "Beige Farmer Potion",
+    background: "Farm Background",
+    hair: "Brown Long Hair",
+    shirt: "Trial Tee",
+    coat: "Fish Pro Vest",
+    pants: "Angler Waders",
+    hat: "Normal Fish Hat",
+    tool: "Sunflower Rod",
+    shoes: "Black Farmer Boots",
+  },
   // Old loving grandma of the game
   buttons: {
     body: "Beige Farmer Potion",
@@ -370,13 +356,12 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   stella: {
     body: "Beige Farmer Potion",
     hair: "Pink Ponytail",
-    // hat: "Boater Hat",
-    hat: "Cattlegrim",
+    hat: "Boater Hat",
     pants: "Crimson Skirt",
-    shirt: "Pumpkin Shirt",
-    tool: "Infernal Pitchfork",
+    shirt: "Clown Shirt",
     background: "Farm Background",
     shoes: "Brown Boots",
+    tool: "Hammer",
   },
   // Sunflorian Prince
   tywin: {

@@ -27,6 +27,9 @@ type FeatureName =
   | "XSOLLA"
   | "BANANA";
 
+// Used for testing production features
+export const ADMIN_IDS = [1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51];
+
 type FeatureFlag = (game: GameState) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
@@ -36,7 +39,13 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   CORN_MAZE: testnetFeatureFlag,
   NEW_FARM_FLOW: () => true,
   BUDS_DEPOSIT_FLOW: () => true,
-  FISHING: defaultFeatureFlag,
+  FISHING: (game: GameState) => {
+    if (ADMIN_IDS.includes(game.id ?? 0)) {
+      return true;
+    }
+
+    return Date.now() > SEASONS["Catch the Kraken"].startDate.getTime();
+  },
   XSOLLA: testnetFeatureFlag,
   HALLOWEEN: (game: GameState) => {
     if (Date.now() > new Date("2023-11-01").getTime()) {
@@ -64,7 +73,13 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
 
     return defaultFeatureFlag(game);
   },
-  BANANA: defaultFeatureFlag,
+  BANANA: (game: GameState) => {
+    if (Date.now() > SEASONS["Catch the Kraken"].startDate.getTime()) {
+      return true;
+    }
+
+    return defaultFeatureFlag(game);
+  },
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
