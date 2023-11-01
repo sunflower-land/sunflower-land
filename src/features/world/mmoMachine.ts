@@ -276,6 +276,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
               jwt: context.jwt,
               bumpkin: context.bumpkin,
               farmId: context.farmId,
+              username: "Sacul",
               x: SPAWNS.plaza.default.x,
               y: SPAWNS.plaza.default.y,
               sceneId: context.initialSceneId,

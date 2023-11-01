@@ -269,6 +269,7 @@ export const PhaserComponent: React.FC<Props> = ({
       setMessages(
         sceneMessages.map((m) => ({
           farmId: m.farmId ?? 0,
+          username: m.username,
           text: m.text,
           sessionId: m.sessionId,
           sceneId: m.sceneId,
@@ -360,6 +361,7 @@ export const PhaserComponent: React.FC<Props> = ({
     setMessages(
       filteredMessages.map((m) => ({
         farmId: m.farmId ?? 0,
+        username: m.username,
         text: m.text,
         sessionId: m.sessionId,
         sceneId: m.sceneId,

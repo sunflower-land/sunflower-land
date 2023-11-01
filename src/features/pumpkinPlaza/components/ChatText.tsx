@@ -6,7 +6,12 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 
 interface Props {
-  messages: { farmId: number; sessionId: string; text: string }[];
+  messages: {
+    farmId: number;
+    sessionId: string;
+    text: string;
+    username: string;
+  }[];
   onMessage: (text: string) => void;
   onCommand: (command: string) => void;
   cooledDownAt?: number;
@@ -131,6 +136,13 @@ export const ChatText: React.FC<Props> = ({
                 return (
                   <p key={`${i}-${message.text}`} className="text-amber-300">
                     {message.text}
+                  </p>
+                );
+
+              if (message.username)
+                return (
+                  <p key={`${i}-${message.farmId}`}>
+                    {message.username}: {message.text}
                   </p>
                 );
 

@@ -198,6 +198,7 @@ export abstract class BaseScene extends Phaser.Scene {
         y: spawn.y ?? 0,
         // gameService
         farmId: Number(this.id),
+        username: String(this.gameService.state.context.state.username),
         isCurrentPlayer: true,
         // gameService
         clothing: {
@@ -477,6 +478,7 @@ export abstract class BaseScene extends Phaser.Scene {
     x,
     y,
     farmId,
+    username,
     isCurrentPlayer,
     clothing,
     npc,
@@ -486,6 +488,7 @@ export abstract class BaseScene extends Phaser.Scene {
     x: number;
     y: number;
     farmId: number;
+    username: string;
     clothing: Player["clothing"];
     npc?: NPCName;
     experience?: number;
@@ -529,7 +532,7 @@ export abstract class BaseScene extends Phaser.Scene {
       const nameTag = this.createPlayerText({
         x: 0,
         y: 0,
-        text: `#${farmId}`,
+        text: username ? username : `#${farmId}`,
       });
       entity.add(nameTag);
     }
@@ -803,6 +806,7 @@ export abstract class BaseScene extends Phaser.Scene {
           x: player.x,
           y: player.y,
           farmId: player.farmId,
+          username: player.username,
           clothing: player.clothing,
           isCurrentPlayer: sessionId === server.sessionId,
           npc: player.npc,
