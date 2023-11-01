@@ -6,6 +6,7 @@ import { ChoreV2 } from "./components/ChoreV2";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 // UTC
 export function secondsTillReset() {
@@ -40,7 +41,7 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
             text: "Well, howdy there, young whippersnappers! I'm Hayseed Hank, a seasoned ol' Bumpkin farmer, tendin' to the land like it's still the good ol' days.",
           },
           {
-            text: "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with Crow Feathers.",
+            text: `However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with ${getSeasonalTicket()}s.`,
             actions: [
               {
                 text: "Let's do it",

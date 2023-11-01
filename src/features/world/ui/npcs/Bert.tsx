@@ -16,17 +16,18 @@ import bg from "assets/ui/brown_background.png";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { secondsToString } from "lib/utils/time";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 interface Props {
   onClose: () => void;
 }
 
 const obsessionDialogues = (itemName: string) => [
-  `Ah, the ${itemName}! I only wish to see it, not possess. Show it to me, and Crow Feathers will be your reward.`,
-  `You've brought the ${itemName}? I merely want to gaze upon it. Let me see, and Crow Feathers shall be yours.`,
-  `Is that the ${itemName} you have? A mere glance is all I desire. For this, you'll receive Crow Feathers.`,
-  `The ${itemName}! I don't want to keep it, just to behold it. Show it to me, and Crow Feathers are yours.`,
-  `You offer a view of the ${itemName}? All I ask is to see it briefly. For your generosity, Crow Feathers will be granted to you.`,
+  `Ah, the ${itemName}! I only wish to see it, not possess. Show it to me, and ${getSeasonalTicket()}s will be your reward.`,
+  `You've brought the ${itemName}? I merely want to gaze upon it. Let me see, and ${getSeasonalTicket()}s shall be yours.`,
+  `Is that the ${itemName} you have? A mere glance is all I desire. For this, you'll receive ${getSeasonalTicket()}s.`,
+  `The ${itemName}! I don't want to keep it, just to behold it. Show it to me, and ${getSeasonalTicket()}s are yours.`,
+  `You offer a view of the ${itemName}? All I ask is to see it briefly. For your generosity, ${getSeasonalTicket()}s will be granted to you.`,
 ];
 
 export const Bert: React.FC<Props> = ({ onClose }) => {
@@ -145,7 +146,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
       {tab === 1 && (
         <div className="w-full flex flex-col items-center">
           {!currentObsession && (
-            <p className="text-center text-sm mb-3">No Obssesions</p>
+            <p className="text-center text-sm mb-3">No Obsessions</p>
           )}
           {currentObsession && (
             <div className="w-full flex flex-col items-center mx-auto">

@@ -4,6 +4,7 @@ import classNames from "classnames";
 import {
   pixelTabBorderStartStyle,
   pixelTabBorderMiddleStyle,
+  pixelTabBorderVerticalMiddleStyle,
 } from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -11,6 +12,7 @@ interface Props {
   isFirstTab?: boolean;
   isActive?: boolean;
   className?: string;
+  vertical?: boolean;
   onClick?: () => void;
 }
 
@@ -19,6 +21,7 @@ interface Props {
  */
 export const Tab: React.FC<Props> = ({
   isFirstTab = true,
+  vertical = false,
   isActive,
   children,
   className,
@@ -43,11 +46,17 @@ export const Tab: React.FC<Props> = ({
     );
   }
 
+  const getBorderStyle = () => {
+    if (vertical) return pixelTabBorderVerticalMiddleStyle;
+
+    return isFirstTab ? pixelTabBorderStartStyle : pixelTabBorderMiddleStyle;
+  };
+
   return (
     <div
       className={classNames("bg-brown-300 flex items-center px-2", className)}
       style={{
-        ...(isFirstTab ? pixelTabBorderStartStyle : pixelTabBorderMiddleStyle),
+        ...getBorderStyle(),
         paddingLeft: `${PIXEL_SCALE * 2}px`,
         paddingRight: `${PIXEL_SCALE * 2}px`,
         height: `${PIXEL_SCALE * 16}px`,

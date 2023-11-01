@@ -23,7 +23,7 @@ export async function getBudsBalance(
       .tokensOfOwner(address)
       .call();
 
-    return buds.map(Number);
+    return buds.map(Number).filter((n) => n <= 5000);
   } catch (e) {
     const error = parseMetamaskError(e);
     if (attempts < 3) {

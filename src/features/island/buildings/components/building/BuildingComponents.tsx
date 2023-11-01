@@ -20,6 +20,7 @@ import { TownCenter } from "./townCenter/TownCenter";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CookableName } from "features/game/types/consumables";
+import { Composter } from "./composters/Composter";
 
 export interface BuildingProps {
   buildingId: string;
@@ -110,6 +111,9 @@ export const BUILDING_COMPONENTS: Record<
       <SmoothieShack buildingId={buildingId} isBuilt={isBuilt} />
     </WithCraftingMachine>
   ),
+  "Compost Bin": () => <Composter name="Compost Bin" />,
+  "Turbo Composter": () => <Composter name="Turbo Composter" />,
+  "Premium Composter": () => <Composter name="Premium Composter" />,
 };
 
 export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
@@ -183,5 +187,65 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
       className="absolute bottom-0"
       style={{ width: `${PIXEL_SCALE * 64}px` }}
     />
+  ),
+
+  "Compost Bin": () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 24}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Compost Bin"].image}
+        className="w-full absolute"
+        style={{
+          width: `${PIXEL_SCALE * 24}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * 2}px`,
+        }}
+      />
+    </div>
+  ),
+  "Turbo Composter": () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 27}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Turbo Composter"].image}
+        className="w-full absolute"
+        style={{
+          width: `${PIXEL_SCALE * 27}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+        }}
+      />
+    </div>
+  ),
+  "Premium Composter": () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 34}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Premium Composter"].image}
+        className="w-full absolute"
+        style={{
+          width: `${PIXEL_SCALE * 34}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * -3}px`,
+        }}
+      />
+    </div>
   ),
 };

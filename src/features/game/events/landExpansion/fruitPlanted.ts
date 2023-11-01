@@ -53,6 +53,14 @@ export const getFruitTime = (
     seconds = seconds * 0.5;
   }
 
+  // Nana: 10% reduction
+  if (
+    fruitSeedName === "Banana Plant" &&
+    isCollectibleBuilt("Nana", collectibles)
+  ) {
+    seconds = seconds * 0.9;
+  }
+
   return seconds;
 };
 
@@ -119,6 +127,7 @@ export function plantFruit({
       collectibles: stateCopy.collectibles,
       buds: stateCopy.buds ?? {},
       wearables: bumpkin.equipped,
+      fertiliser: patch.fertiliser?.name,
     }),
     harvestedAt: 0,
     // Value will be overridden by BE

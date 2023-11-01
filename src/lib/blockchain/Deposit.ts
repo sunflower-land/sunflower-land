@@ -7,6 +7,7 @@ import { Deposit as IDeposit } from "./types/Deposit";
 import { Deposit as IBudDeposit } from "./types/BudDeposit";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { hasFeatureAccess } from "lib/flags";
+import { TEST_FARM } from "features/game/lib/constants";
 
 const address = CONFIG.DEPOSIT_CONTRACT;
 const budsDepositAddress = CONFIG.BUD_DEPOSIT_CONTRACT;
@@ -36,7 +37,7 @@ export async function depositToFarm({
 }: DepositArgs) {
   const gasPrice = await estimateGasPrice(web3);
 
-  const depositFn = hasFeatureAccess({}, "BUDS_DEPOSIT_FLOW")
+  const depositFn = hasFeatureAccess(TEST_FARM, "BUDS_DEPOSIT_FLOW")
     ? (
         new web3.eth.Contract(
           BudDepositAbi as AbiItem[],

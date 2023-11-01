@@ -6,9 +6,13 @@ import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
 import { getKeys } from "./craftables";
 
-export type FruitName = "Apple" | "Blueberry" | "Orange";
+export type FruitName = "Apple" | "Blueberry" | "Orange" | "Banana";
 
-export type FruitSeedName = "Apple Seed" | "Blueberry Seed" | "Orange Seed";
+export type FruitSeedName =
+  | "Apple Seed"
+  | "Blueberry Seed"
+  | "Orange Seed"
+  | "Banana Plant";
 
 export type FruitSeed = {
   sfl: Decimal;
@@ -16,6 +20,7 @@ export type FruitSeed = {
   plantSeconds: number;
   bumpkinLevel: number;
   yield: FruitName;
+  disabled?: boolean;
 };
 
 export function isFruitSeed(seed: FruitSeedName) {
@@ -43,6 +48,13 @@ export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
     plantSeconds: 12 * 60 * 60,
     bumpkinLevel: 15,
     yield: "Apple",
+  },
+  "Banana Plant": {
+    sfl: marketRate(70),
+    description: "Oh banana!",
+    plantSeconds: 12 * 60 * 60,
+    bumpkinLevel: 16,
+    yield: "Banana",
   },
 });
 
@@ -78,5 +90,13 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
     sellPrice: marketRate(25),
     seed: "Apple Seed",
     bumpkinLevel: 15,
+  },
+  Banana: {
+    description: "Oh banana!",
+    name: "Banana",
+    sellPrice: marketRate(25),
+    isBush: true,
+    seed: "Banana Plant",
+    bumpkinLevel: 16,
   },
 });

@@ -6,11 +6,21 @@ import {
   BumpkinActivityName,
   trackActivity,
 } from "features/game/types/bumpkinActivity";
-import { FRUIT, FruitName, FRUIT_SEEDS } from "features/game/types/fruits";
-import { Collectibles, GameState } from "features/game/types/game";
+import {
+  FRUIT,
+  FruitName,
+  FRUIT_SEEDS,
+  Fruit,
+} from "features/game/types/fruits";
+import {
+  Collectibles,
+  GameState,
+  PlantedFruit,
+} from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { getTimeLeft } from "lib/utils/time";
 import { FruitPatch } from "features/game/types/game";
+import { FruitCompostName } from "features/game/types/composters";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -23,11 +33,29 @@ type Options = {
   createdAt?: number;
 };
 
+export const isFruitReadyToHarvest = (
+  createdAt: number,
+  plantedFruit: PlantedFruit,
+  fruitDetails: Fruit
+) => {
+  const { seed } = FRUIT()[fruitDetails.name];
+  const { plantSeconds } = FRUIT_SEEDS()[seed];
+
+  return (
+    createdAt -
+      (plantedFruit.harvestedAt
+        ? plantedFruit.harvestedAt
+        : plantedFruit.plantedAt) >=
+    plantSeconds * 1000
+  );
+};
+
 type FruitYield = {
   name: FruitName;
   collectibles: Collectibles;
   buds: NonNullable<GameState["buds"]>;
   wearables: Equipped;
+  fertiliser?: FruitCompostName;
 };
 
 export function isFruitGrowing(patch: FruitPatch) {
@@ -54,6 +82,7 @@ export function getFruitYield({
   buds,
   name,
   wearables,
+  fertiliser,
 }: FruitYield) {
   let amount = 1;
   if (name === "Apple" && isCollectibleBuilt("Lady Bug", collectibles)) {
@@ -68,10 +97,21 @@ export function getFruitYield({
   }
 
   if (
-    (name === "Apple" || name === "Orange" || name === "Blueberry") &&
+    (name === "Apple" ||
+      name === "Orange" ||
+      name === "Blueberry" ||
+      name === "Banana") &&
     wearables?.coat === "Fruit Picker Apron"
   ) {
     amount += 0.1;
+  }
+
+  if (fertiliser === "Fruitful Blend") {
+    amount += 0.1;
+  }
+
+  if (name === "Banana" && wearables.necklace === "Banana Amulet") {
+    amount += 0.5;
   }
 
   amount += getBudYieldBoosts(buds, name);
@@ -149,10 +189,11 @@ export function harvestFruit({
   );
 
   patch.fruit.amount = getFruitYield({
-    name,
     collectibles: collectibles,
     buds: stateCopy.buds ?? {},
     wearables: bumpkin.equipped,
+    name,
+    fertiliser: patch.fertiliser?.name,
   });
 
   const activityName: BumpkinActivityName = `${name} Harvested`;

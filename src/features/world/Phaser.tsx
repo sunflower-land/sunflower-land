@@ -50,6 +50,10 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import SoundOffIcon from "assets/icons/sound_off.png";
 import { handleCommand } from "./lib/chatCommands";
 import { Moderation } from "features/game/lib/gameMachine";
+import { BeachScene } from "./scenes/BeachScene";
+import { HalloweenScene } from "./scenes/HalloweenScene";
+import { hasFeatureAccess } from "lib/flags";
+import { Inventory } from "features/game/types/game";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -73,12 +77,14 @@ interface Props {
   scene: SceneId;
   isCommunity: boolean;
   mmoService: MachineInterpreter;
+  inventory: Inventory;
 }
 
 export const PhaserComponent: React.FC<Props> = ({
   scene,
   isCommunity,
   mmoService,
+  inventory,
 }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
@@ -106,7 +112,6 @@ export const PhaserComponent: React.FC<Props> = ({
     : [
         Preloader,
         CornScene,
-        PlazaScene,
         AuctionScene,
         WoodlandsScene,
         BettyHomeScene,
@@ -116,6 +121,10 @@ export const PhaserComponent: React.FC<Props> = ({
         WindmillFloorScene,
         ClothesShopScene,
         DecorationShopScene,
+        BeachScene,
+        ...(hasFeatureAccess(gameService.state.context.state, "HALLOWEEN")
+          ? [HalloweenScene]
+          : [PlazaScene]),
       ];
 
   useEffect(() => {
@@ -136,16 +145,18 @@ export const PhaserComponent: React.FC<Props> = ({
     const userModLogs = gameService.state.context.moderation;
 
     if (userModLogs.muted.length > 0) {
-      userModLogs.muted.forEach((mute) => {
-        if (mute.mutedUntil > new Date().getTime()) {
-          setIsMuted({
-            type: "mute",
-            farmId: authState.context.user.farmId as number,
-            reason: mute.reason,
-            mutedUntil: mute.mutedUntil,
-          });
-        }
-      });
+      const latestMute = userModLogs.muted.sort(
+        (a, b) => a.mutedUntil - b.mutedUntil
+      )[0];
+
+      if (latestMute.mutedUntil > new Date().getTime()) {
+        setIsMuted({
+          type: "mute",
+          farmId: authState.context.user.farmId as number,
+          reason: latestMute.reason,
+          mutedUntil: latestMute.mutedUntil,
+        });
+      }
     }
   }, []);
 
@@ -405,6 +416,7 @@ export const PhaserComponent: React.FC<Props> = ({
         />
       )}
       <NPCModals
+        scene={scene}
         onNavigate={(sceneId: SceneId) => {
           navigate(`/world/${sceneId}`);
         }}

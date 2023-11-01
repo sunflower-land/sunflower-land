@@ -186,6 +186,30 @@ import { CrowRock } from "./components/CrowRock";
 import { MiniCornMaze } from "./components/MiniCornMaze";
 import { Observer } from "./components/Observer";
 import { WhiteCrow } from "./components/WhiteCrow";
+import { CatchTheKrakenBanner } from "./components/CatchTheKrakenBanner";
+import { TwilightAnglerfish } from "./components/TwilightAnglerfish";
+import { StarlightTuna } from "./components/StartlightTuna";
+import { RadiantRay } from "./components/RadiantRay";
+import { PhantomBarracuda } from "./components/PhantomBarracuda";
+import { GildedSwordfish } from "./components/GildedSwordfish";
+import { SapoDocuras } from "./components/SapoDocuras";
+import { SapoTravessuras } from "./components/SapoTravessuras";
+import { LifeguardRing } from "./components/LifeguardRing";
+import { Surfboard } from "./components/Sunfboard";
+import { HideawayHerman } from "./components/HideawayHerman";
+import { ShiftySheldon } from "./components/ShiftySheldon";
+import { TikiTorch } from "./components/TikiTorch";
+import { BeachUmbrella } from "./components/BeachUmbrella";
+import { Walrus } from "./components/Walrus";
+import { Alba } from "./components/Alba";
+import { KnowledgeCrab } from "./components/KnowledgeCrab";
+import { Anchor } from "./components/Anchor";
+import { RubberDucky } from "./components/RubberDucky";
+import { KrakenTentacle } from "./components/KrakenTentacle";
+import { BananaChicken } from "./components/BananaChicken";
+import { SkillShrimpy } from "./components/SkillShrimpy";
+import { SoilKrabby } from "./components/SoilKrabby";
+import { Nana } from "./components/Nana";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -193,6 +217,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
   React.FC<CollectibleProps>
 > = {
+  "Sapo Docuras": SapoDocuras,
+  "Sapo Travessuras": SapoTravessuras,
+
   "Mysterious Head": MysteriousHead,
   "War Skull": WarSkulls,
   "War Tombstone": WarTombstone,
@@ -360,6 +387,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Solar Flare Banner": SolarFlareBanner,
   "Human War Banner": HumanBanner,
   "Goblin War Banner": GoblinBanner,
+  "Catch the Kraken Banner": CatchTheKrakenBanner,
 
   "Bonnie's Tombstone": BonniesTombstone,
   "Chestnut Fungi Stool": ChestnutFungiStool,
@@ -410,6 +438,30 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Town Sign": Sign,
   "White Crow": WhiteCrow,
   Bud: Bud,
+  "Twilight Anglerfish": TwilightAnglerfish,
+  "Starlight Tuna": StarlightTuna,
+  "Radiant Ray": RadiantRay,
+  "Phantom Barracuda": PhantomBarracuda,
+  "Gilded Swordfish": GildedSwordfish,
+  "Kraken Tentacle": KrakenTentacle,
+
+  // Catch the Kraken
+  "Lifeguard Ring": LifeguardRing,
+  Surfboard: Surfboard,
+  "Hideaway Herman": HideawayHerman,
+  "Shifty Sheldon": ShiftySheldon,
+  "Tiki Torch": TikiTorch,
+  "Beach Umbrella": BeachUmbrella,
+  Walrus: Walrus,
+  Alba: Alba,
+  "Knowledge Crab": KnowledgeCrab,
+  Anchor: Anchor,
+  "Rubber Ducky": RubberDucky,
+  "Kraken Head": KrakenTentacle,
+  "Banana Chicken": BananaChicken,
+  "Skill Shrimpy": SkillShrimpy,
+  "Soil Krabby": SoilKrabby,
+  Nana: Nana,
 };
 // Need readonly versions for some troublesome components while in design mode
 

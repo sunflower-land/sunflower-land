@@ -7,17 +7,23 @@ import world from "assets/icons/world.png";
 import { hasNewOrders } from "features/island/delivery/lib/delivery";
 import { MachineState } from "features/game/lib/gameMachine";
 import { TravelModal } from "./TravelModal";
+import { hasNewChores } from "features/helios/components/hayseedHank/lib/chores";
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
+const _chores = (state: MachineState) => state.context.state.chores;
 
 export const Travel: React.FC = () => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
   const delivery = useSelector(gameService, _delivery);
+  const chores = useSelector(gameService, _chores);
+
+  const showExpression =
+    hasNewOrders(delivery) || (chores && hasNewChores(chores));
 
   return (
     <>
-      <div>
+      <div className="relative">
         <div
           id="deliveries"
           className="flex relative z-50 justify-center cursor-pointer hover:img-highlight"
@@ -48,13 +54,13 @@ export const Travel: React.FC = () => {
             className="absolute"
           />
         </div>
-        {hasNewOrders(delivery) && (
+        {showExpression && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className="absolute z-50 pointer-events-none"
+            className="absolute z-50 pointer-events-none animate-float"
             style={{
               width: `${PIXEL_SCALE * 4}px`,
-              top: `${PIXEL_SCALE * 1}px`,
+              top: `${PIXEL_SCALE * 0}px`,
               right: `${PIXEL_SCALE * 3}px`,
             }}
           />

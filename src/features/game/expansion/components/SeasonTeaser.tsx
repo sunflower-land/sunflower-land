@@ -24,9 +24,9 @@ export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
     <>
       <PromotingModal
         hasPurchased={
-          !!gameState.context.state.inventory["Witches' Eve Banner"]
+          !!gameState.context.state.inventory["Catch the Kraken Banner"]
         }
-        hasDiscount={!!gameState.context.state.inventory["Dawn Breaker Banner"]}
+        hasDiscount={!!gameState.context.state.inventory["Witches' Eve Banner"]}
         isOpen={showModal}
         onClose={() => setShowModal(false)}
       />
@@ -47,7 +47,7 @@ export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
         >
           <NPC
             parts={NPC_WEARABLES.grubnuk}
-            // onClick={() => setShowModal(true)}
+            onClick={() => setShowModal(true)}
           />
         </div>
       </MapPlacement>

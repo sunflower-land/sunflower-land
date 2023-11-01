@@ -1552,38 +1552,40 @@ describe("getCropTime", () => {
   const plot = GAME_STATE.crops[firstCropId];
 
   it("applies a 5% speed boost with Cultivator skill", () => {
-    const time = getCropTime(
-      "Carrot",
-      {},
-      {},
-      { ...INITIAL_BUMPKIN, skills: { Cultivator: 1 } },
-      plot
-    );
+    const time = getCropTime({
+      crop: "Carrot",
+      collectibles: {},
+      buds: {},
+      bumpkin: { ...INITIAL_BUMPKIN, skills: { Cultivator: 1 } },
+      plot,
+      inventory: {},
+    });
 
     expect(time).toEqual(57 * 60);
   });
 
   it("reduces in 20% carrot time when Bumpkin is wearing Carrot Amulet", () => {
-    const time = getCropTime(
-      "Carrot",
-      {},
-      {},
-      {
+    const time = getCropTime({
+      crop: "Carrot",
+      inventory: {},
+      buds: {},
+      collectibles: {},
+      bumpkin: {
         ...INITIAL_BUMPKIN,
         equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Carrot Amulet" },
       },
-      plot
-    );
+    });
 
     expect(time).toEqual(60 * 60 * 0.8);
   });
 
   it("applies a 10% speed boost with Lunar Calendar placed.", () => {
     const carrotHarvestSeconds = CROPS()["Carrot"].harvestSeconds;
-    const time = getCropTime(
-      "Carrot",
-      {},
-      {
+    const time = getCropTime({
+      crop: "Carrot",
+      inventory: {},
+      buds: {},
+      collectibles: {
         "Lunar Calendar": [
           {
             id: "123",
@@ -1593,19 +1595,19 @@ describe("getCropTime", () => {
           },
         ],
       },
-      { ...INITIAL_BUMPKIN },
-      plot
-    );
+      bumpkin: { ...INITIAL_BUMPKIN },
+      plot,
+    });
 
     expect(time).toEqual(carrotHarvestSeconds * 0.9);
   });
 
   it("grows cabbage twice as fast with Cabbage Girl placed.", () => {
     const cabbageHarvestSeconds = CROPS()["Cabbage"].harvestSeconds;
-    const time = getCropTime(
-      "Cabbage",
-      {},
-      {
+    const time = getCropTime({
+      crop: "Cabbage",
+      buds: {},
+      collectibles: {
         "Cabbage Girl": [
           {
             id: "123",
@@ -1615,19 +1617,21 @@ describe("getCropTime", () => {
           },
         ],
       },
-      { ...INITIAL_BUMPKIN },
-      plot
-    );
+      inventory: {},
+
+      bumpkin: { ...INITIAL_BUMPKIN },
+      plot,
+    });
 
     expect(time).toEqual(cabbageHarvestSeconds * 0.5);
   });
 
   it("applies a 25% speed boost with Obie placed", () => {
     const baseHarvestSeconds = CROPS()["Eggplant"].harvestSeconds;
-    const time = getCropTime(
-      "Eggplant",
-      {},
-      {
+    const time = getCropTime({
+      crop: "Eggplant",
+      inventory: {},
+      collectibles: {
         Obie: [
           {
             id: "123",
@@ -1637,9 +1641,10 @@ describe("getCropTime", () => {
           },
         ],
       },
-      { ...INITIAL_BUMPKIN },
-      plot
-    );
+      bumpkin: { ...INITIAL_BUMPKIN },
+      buds: {},
+      plot,
+    });
 
     expect(time).toEqual(baseHarvestSeconds * 0.75);
   });
@@ -1684,10 +1689,10 @@ describe("getCropTime", () => {
 
   it("applies a 25% speed boost with Kernaldo placed", () => {
     const baseHarvestSeconds = CROPS()["Corn"].harvestSeconds;
-    const time = getCropTime(
-      "Corn",
-      {},
-      {
+    const time = getCropTime({
+      crop: "Corn",
+      inventory: {},
+      collectibles: {
         Kernaldo: [
           {
             id: "123",
@@ -1697,9 +1702,10 @@ describe("getCropTime", () => {
           },
         ],
       },
-      { ...INITIAL_BUMPKIN },
-      plot
-    );
+      bumpkin: { ...INITIAL_BUMPKIN },
+      buds: {},
+      plot,
+    });
 
     expect(time).toEqual(baseHarvestSeconds * 0.75);
   });
@@ -1707,10 +1713,11 @@ describe("getCropTime", () => {
   it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Sunflower", () => {
     const sunflowerHarvestSeconds = CROPS()["Sunflower"].harvestSeconds;
 
-    const time = getCropTime(
-      "Sunflower",
-      {},
-      {
+    const time = getCropTime({
+      crop: "Sunflower",
+      inventory: {},
+      buds: {},
+      collectibles: {
         "Basic Scarecrow": [
           {
             id: "123",
@@ -1720,10 +1727,9 @@ describe("getCropTime", () => {
           },
         ],
       },
-      { ...INITIAL_BUMPKIN },
-      {},
-      { ...plot, x: 0, y: -2 }
-    );
+      bumpkin: { ...INITIAL_BUMPKIN },
+      plot: { ...plot, x: 0, y: -2 },
+    });
 
     expect(time).toEqual(sunflowerHarvestSeconds * 0.8);
   });
@@ -1731,10 +1737,10 @@ describe("getCropTime", () => {
   it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Potato", () => {
     const potatoHarvestSeconds = CROPS()["Potato"].harvestSeconds;
 
-    const time = getCropTime(
-      "Potato",
-      {},
-      {
+    const time = getCropTime({
+      crop: "Potato",
+      inventory: {},
+      collectibles: {
         "Basic Scarecrow": [
           {
             id: "123",
@@ -1744,10 +1750,10 @@ describe("getCropTime", () => {
           },
         ],
       },
-      { ...INITIAL_BUMPKIN },
-      {},
-      { ...plot, x: 0, y: -2 }
-    );
+      bumpkin: { ...INITIAL_BUMPKIN },
+      plot: { ...plot, x: 0, y: -2 },
+      buds: {},
+    });
 
     expect(time).toEqual(potatoHarvestSeconds * 0.8);
   });
@@ -1755,10 +1761,10 @@ describe("getCropTime", () => {
   it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Pumpkin", () => {
     const pumpkinHarvestSeconds = CROPS()["Pumpkin"].harvestSeconds;
 
-    const time = getCropTime(
-      "Pumpkin",
-      {},
-      {
+    const time = getCropTime({
+      crop: "Pumpkin",
+      inventory: {},
+      collectibles: {
         "Basic Scarecrow": [
           {
             id: "123",
@@ -1768,10 +1774,10 @@ describe("getCropTime", () => {
           },
         ],
       },
-      { ...INITIAL_BUMPKIN },
-      {},
-      { ...plot, x: 0, y: -2 }
-    );
+      bumpkin: { ...INITIAL_BUMPKIN },
+      buds: {},
+      plot: { ...plot, x: 0, y: -2 },
+    });
 
     expect(time).toEqual(pumpkinHarvestSeconds * 0.8);
   });
@@ -1779,10 +1785,10 @@ describe("getCropTime", () => {
   it("does not apply boost with Basic Scarecrow if not basic crop", () => {
     const beetrootHarvestSeconds = CROPS()["Beetroot"].harvestSeconds;
 
-    const time = getCropTime(
-      "Beetroot",
-      {},
-      {
+    const time = getCropTime({
+      crop: "Beetroot",
+      inventory: {},
+      collectibles: {
         "Basic Scarecrow": [
           {
             id: "123",
@@ -1792,10 +1798,10 @@ describe("getCropTime", () => {
           },
         ],
       },
-      { ...INITIAL_BUMPKIN },
-      {},
-      { ...plot, x: 0, y: -2 }
-    );
+      bumpkin: { ...INITIAL_BUMPKIN },
+      buds: {},
+      plot: { ...plot, x: 0, y: -2 },
+    });
 
     expect(time).toEqual(beetrootHarvestSeconds);
   });
@@ -1803,10 +1809,10 @@ describe("getCropTime", () => {
   it("does not apply boost with Basic Scarecrow placed, if plot is outside AOE", () => {
     const sunflowerHarvestSeconds = CROPS()["Sunflower"].harvestSeconds;
 
-    const time = getCropTime(
-      "Sunflower",
-      {},
-      {
+    const time = getCropTime({
+      crop: "Sunflower",
+      inventory: {},
+      collectibles: {
         "Basic Scarecrow": [
           {
             id: "123",
@@ -1816,10 +1822,10 @@ describe("getCropTime", () => {
           },
         ],
       },
-      { ...INITIAL_BUMPKIN },
-      {},
-      { ...plot, x: 2, y: -2 }
-    );
+      bumpkin: { ...INITIAL_BUMPKIN },
+      buds: {},
+      plot: { ...plot, x: 2, y: -2 },
+    });
 
     expect(time).toEqual(sunflowerHarvestSeconds);
   });
@@ -1827,10 +1833,10 @@ describe("getCropTime", () => {
   it("does not apply boost with Basic Scarecrow placed, if it was moved within 10min", () => {
     const sunflowerHarvestSeconds = CROPS()["Sunflower"].harvestSeconds;
 
-    const time = getCropTime(
-      "Sunflower",
-      {},
-      {
+    const time = getCropTime({
+      crop: "Sunflower",
+      inventory: {},
+      collectibles: {
         "Basic Scarecrow": [
           {
             id: "123",
@@ -1840,10 +1846,10 @@ describe("getCropTime", () => {
           },
         ],
       },
-      { ...INITIAL_BUMPKIN },
-      {},
-      { ...plot, x: 0, y: -3 }
-    );
+      bumpkin: { ...INITIAL_BUMPKIN },
+      buds: {},
+      plot: { ...plot, x: 0, y: -3 },
+    });
 
     expect(time).toEqual(sunflowerHarvestSeconds);
   });
@@ -1860,7 +1866,6 @@ describe("isPlotFertile", () => {
       width: 1,
     });
     const isFertile = isPlotFertile({
-      buildings: {},
       crops: {
         0: fakePlot(),
         1: fakePlot(),
@@ -1881,6 +1886,7 @@ describe("isPlotFertile", () => {
         98: fakePlot(), // 17th
       },
       plotIndex: "87",
+      buildings: {},
     });
 
     expect(isFertile).toBeFalsy();
@@ -1947,7 +1953,6 @@ describe("isPlotFertile", () => {
       width: 1,
     };
     const isFertile = isPlotFertile({
-      buildings: {},
       crops: {
         0: fakePlot,
         1: fakePlot,
@@ -1963,6 +1968,7 @@ describe("isPlotFertile", () => {
         11: fakePlot,
       },
       plotIndex: "5",
+      buildings: {},
     });
     expect(isFertile).toBeTruthy();
   });

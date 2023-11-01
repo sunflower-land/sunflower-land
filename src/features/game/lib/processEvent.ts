@@ -24,12 +24,14 @@ export const maxItems: Inventory = {
   Apple: new Decimal("200"),
   Orange: new Decimal("200"),
   Blueberry: new Decimal("200"),
+  Banana: new Decimal("200"),
 
   Chicken: new Decimal("20"),
   Egg: new Decimal("400"),
   "Speed Chicken": new Decimal("5"),
   "Rich Chicken": new Decimal("5"),
   "Fat Chicken": new Decimal("5"),
+  "Banana Chicken": new Decimal("5"),
 
   // Seed limits + buffer
   "Sunflower Seed": new Decimal(1000),
@@ -48,6 +50,7 @@ export const maxItems: Inventory = {
   "Apple Seed": new Decimal(100),
   "Orange Seed": new Decimal(100),
   "Blueberry Seed": new Decimal(100),
+  "Banana Plant": new Decimal(100),
 
   Gold: new Decimal("90"),
   Iron: new Decimal("400"),
@@ -71,6 +74,7 @@ export const maxItems: Inventory = {
   "Rusty Shovel": new Decimal("100"),
   "Sand Shovel": new Decimal(50),
   "Sand Drill": new Decimal(30),
+  Rod: new Decimal("200"),
 
   //Treasure Island Decorations
   "Abandoned Bear": new Decimal(50),
@@ -95,6 +99,7 @@ export const maxItems: Inventory = {
   "Solar Flare Ticket": new Decimal(350),
   "Dawn Breaker Ticket": new Decimal(750),
   "Crow Feather": new Decimal(750),
+  "Mermaid Scale": new Decimal(750),
   "Bud Ticket": new Decimal(1),
 
   // Potion House
@@ -106,6 +111,12 @@ export const maxItems: Inventory = {
   "Lab Grown Pumpkin": new Decimal(1),
   "Lab Grown Radish": new Decimal(1),
   "Magic Bean": new Decimal(5),
+
+  // Bait
+  Earthworm: new Decimal(100),
+  Grub: new Decimal(100),
+  "Red Wiggler": new Decimal(100),
+  "Fishing Lure": new Decimal(100),
 
   //Treasure Island Beach Bounty
   "Pirate Bounty": new Decimal(50),

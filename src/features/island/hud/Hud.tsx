@@ -21,9 +21,8 @@ import { useLocation } from "react-router-dom";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { createPortal } from "react-dom";
 import { HalveningCountdown } from "./components/HalveningCountdown";
-import { DeliveryButton } from "./components/deliveries/DeliveryButton";
-import { hasFeatureAccess } from "lib/flags";
 import { TravelButton } from "./components/deliveries/TravelButton";
+import { CodexButton } from "./components/codex/CodexButton";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -146,17 +145,16 @@ const HudComponent: React.FC<{
           />
 
           <div
-            className="fixed z-50"
+            className="fixed z-50 flex flex-col justify-between"
             style={{
               left: `${PIXEL_SCALE * 3}px`,
               bottom: `${PIXEL_SCALE * 3}px`,
+              width: `${PIXEL_SCALE * 22}px`,
+              height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
             }}
           >
-            {hasFeatureAccess(gameState.context.state.inventory, "FISHING") ? (
-              <TravelButton />
-            ) : (
-              <DeliveryButton />
-            )}
+            <CodexButton />
+            <TravelButton />
           </div>
 
           <HalveningCountdown />
@@ -167,14 +165,6 @@ const HudComponent: React.FC<{
               bottom: `${PIXEL_SCALE * 3}px`,
               width: `${PIXEL_SCALE * 22}px`,
               height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
-              // Shifts buttons up to make room for weekly latern counter component
-              ...(isDawnBreakerIsland &&
-                isMobile && {
-                  transform: moveButtonsUp
-                    ? "translateY(-100px)"
-                    : "translateY(0)",
-                  transition: "transform 0.5s ease-in-out",
-                }),
             }}
           >
             <Save />

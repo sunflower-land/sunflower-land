@@ -68,9 +68,7 @@ const TreasureTroveItem: React.FC<{
         <div className="flex items-center">
           {rarity === "rare" && <Label type="warning">Rare</Label>}
           {rarity === "good" && <Label type="success">Uncommon</Label>}
-          {rarity === "average" && (
-            <Label className="bg-silver-500">Common</Label>
-          )}
+          {rarity === "average" && <Label type="default">Common</Label>}
         </div>
       </div>
     </div>

@@ -90,6 +90,7 @@ export function removeFruitTree({
   }
 
   delete patch.fruit;
+  delete patch.fertiliser;
 
   inventory.Axe = axeAmount.sub(requiredAxes);
   stateCopy.inventory.Wood = stateCopy.inventory.Wood?.add(1) || new Decimal(1);

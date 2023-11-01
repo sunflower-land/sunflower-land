@@ -8,6 +8,7 @@ import fatChicken from "assets/animals/chickens/fat_chicken.png";
 import speedChicken from "assets/animals/chickens/speed_chicken.png";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.png";
 import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.png";
+import bananaChicken from "assets/animals/chickens/banana_chicken.png";
 
 import { Button } from "components/ui/Button";
 
@@ -31,6 +32,10 @@ const mutants: Record<MutantChicken, Record<string, string>> = {
   "El Pollo Veloz": {
     description: "Your chickens will lay eggs 4 hours faster!",
     image: elPolloVeloz,
+  },
+  "Banana Chicken": {
+    description: "A chicken that boosts bananas. What a world we live in.",
+    image: bananaChicken,
   },
 };
 

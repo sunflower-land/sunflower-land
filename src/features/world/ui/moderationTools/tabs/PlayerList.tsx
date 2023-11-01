@@ -4,9 +4,12 @@ import { Button } from "components/ui/Button";
 
 import { KickModal } from "../components/Kick";
 import { MuteModal } from "../components/Mute";
+import { UnMuteModal } from "../components/Unmute";
 
 import HaloIcon from "assets/sfts/halo.png";
 import { calculateMuteTime } from "../components/Muted";
+
+import { mutePlayer } from "features/world/lib/moderationAction";
 
 type Props = {
   scene?: any;
@@ -15,7 +18,11 @@ type Props = {
 };
 
 export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
-  const [step, setStep] = useState<"MAIN" | "MUTE" | "KICK">("MAIN");
+  const [step, setStep] = useState<"MAIN" | "MUTE" | "KICK" | "UNMUTE">("MAIN");
+
+  const [unMuteStatus, setUnMuteStatus] = useState<
+    "loading" | "success" | "error"
+  >("loading");
 
   const [selectedPlayer, setSelectedPlayer] = useState<Player | undefined>();
   const [search, setSearch] = useState("");
@@ -36,6 +43,25 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
     }
   });
 
+  const unMutePlayer = async (player: Player) => {
+    setStep("UNMUTE");
+    await mutePlayer({
+      token: authState.rawToken as string,
+      farmId: authState.farmId as number,
+      mutedId: player.farmId,
+      mutedUntil: new Date().getTime() + 1000,
+      reason: "UNMUTE",
+    }).then((r) => {
+      if (r.success) {
+        setSelectedPlayer(player);
+        setUnMuteStatus("success");
+      } else {
+        setUnMuteStatus("error");
+        console.log(r);
+      }
+    });
+  };
+
   return (
     <>
       {step === "MAIN" && (
@@ -52,9 +78,12 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
               </thead>
               <tbody>
                 {Players.map((player) => {
-                  const mute = (player.moderation?.muted ?? [])
-                    .filter((mute) => mute.mutedUntil > Date.now())
-                    .sort((a, b) => b.mutedUntil - a.mutedUntil)[0];
+                  const latestMute = player.moderation?.muted.sort(
+                    (a, b) => a.mutedUntil - b.mutedUntil
+                  )[0];
+
+                  const isMuted =
+                    latestMute && latestMute.mutedUntil > Date.now();
 
                   return (
                     <tr key={player.playerId}>
@@ -68,14 +97,17 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
                       </td>
                       <td className="w-1/4">{player.farmId}</td>
                       <td className="w-1/4">
-                        {!mute ? (
+                        {!isMuted ? (
                           <span>OK</span>
                         ) : (
                           <span
-                            title={`Reason: ${mute.reason} - By: ${mute.mutedBy}`}
+                            title={`Reason: ${latestMute.reason} - By: ${latestMute.mutedBy}`}
                           >
                             Muted for{" "}
-                            {calculateMuteTime(mute.mutedUntil, "remaining")}
+                            {calculateMuteTime(
+                              latestMute.mutedUntil,
+                              "remaining"
+                            )}
                           </span>
                         )}
                       </td>
@@ -101,11 +133,15 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
                           <Button
                             disabled={isModerator(player)}
                             onClick={() => {
-                              setStep("MUTE");
-                              setSelectedPlayer(player);
+                              if (isMuted) {
+                                unMutePlayer(player);
+                              } else {
+                                setStep("MUTE");
+                                setSelectedPlayer(player);
+                              }
                             }}
                           >
-                            Mute
+                            {isMuted ? "Unmute" : "Mute"}
                           </Button>
                         </div>
                       </td>
@@ -146,6 +182,17 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
           player={selectedPlayer}
           authState={authState}
           scene={scene}
+        />
+      )}
+
+      {step === "UNMUTE" && (
+        <UnMuteModal
+          onClose={() => {
+            setStep("MAIN");
+            setUnMuteStatus("loading");
+          }}
+          player={selectedPlayer}
+          status={unMuteStatus}
         />
       )}
     </>

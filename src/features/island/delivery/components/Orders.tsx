@@ -9,6 +9,7 @@ import selectBoxBR from "assets/ui/select/selectbox_br.png";
 import selectBoxTL from "assets/ui/select/selectbox_tl.png";
 import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import sfl from "assets/icons/token_2.png";
+import worldIcon from "assets/icons/world_small.png";
 import heartBg from "assets/ui/heart_bg.png";
 import chest from "assets/icons/chest.png";
 
@@ -26,7 +27,7 @@ import { Bumpkin, Order } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC } from "features/island/bumpkin/components/NPC";
 
-import { NPC_WEARABLES } from "lib/npcs";
+import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { getDayOfYear, secondsToString } from "lib/utils/time";
 import { acknowledgeOrders, generateDeliveryMessage } from "../lib/delivery";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
@@ -39,6 +40,18 @@ import { secondsTillReset } from "features/helios/components/hayseedHank/Hayseed
 import { ResizableBar } from "components/ui/ProgressBar";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
+import { Label } from "components/ui/Label";
+import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+
+// Bumpkins
+export const BEACH_BUMPKINS: NPCName[] = [
+  "corale",
+  "shelly",
+  "tango",
+  "finn",
+  "finley",
+  "miranda",
+];
 
 interface Props {
   selectedId?: string;
@@ -61,9 +74,28 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
 
-  const orders = delivery.orders
+  const gameState = gameService.state.context.state;
+
+  let orders = delivery.orders
     .filter((order) => Date.now() >= order.readyAt)
     .sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1));
+
+  if (!hasFeatureAccess(gameState, "BEACH")) {
+    orders = orders.filter(
+      (o) =>
+        // Filter out beach NPCs
+        !(
+          [
+            "corale",
+            "tango",
+            "finley",
+            "finn",
+            "miranda",
+            "shelly",
+          ] as NPCName[]
+        ).includes(o.from)
+    );
+  }
 
   const skippedAt = delivery.skippedAt ?? 0;
 
@@ -143,6 +175,9 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     return <Revealed onAcknowledged={() => setIsRevealing(false)} />;
   }
 
+  const { tasksAreClosing, tasksStartAt, tasksCloseAt, tasksAreFrozen } =
+    getSeasonChangeover({ id: gameService.state.context.state.id });
+
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1">
       <div
@@ -191,6 +226,38 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
             }}
           />
         </div>
+        {
+          // Give 24 hours heads up before tasks close
+          tasksAreClosing && (
+            <div className="flex flex-col items-center">
+              <p className="text-xs text-center">
+                A new season approaches, deliveries will temporarily close.
+              </p>
+              <Label type="info" icon={SUNNYSIDE.icons.timer} className="mt-1">
+                {secondsToString((tasksCloseAt - Date.now()) / 1000, {
+                  length: "full",
+                })}
+              </Label>
+            </div>
+          )
+        }
+        {tasksAreFrozen && (
+          <div className="flex flex-col items-center">
+            <p className="text-xs text-center">
+              New Seasonal Deliveries opening soon.
+            </p>
+            <Label
+              type="info"
+              icon={SUNNYSIDE.icons.stopwatch}
+              className="mt-1"
+            >
+              {secondsToString((tasksStartAt - Date.now()) / 1000, {
+                length: "full",
+              })}
+            </Label>
+          </div>
+        )}
+
         <div className="flex flex-row w-full flex-wrap max-h-80 scrollable overflow-y-auto">
           {orders.map((order) => (
             <div className="w-1/2 sm:w-1/3 p-1" key={order.id}>
@@ -365,13 +432,13 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
             {
               hidden: !selectedId,
               "mt-[24px] md:mt-0": hasFeatureAccess(
-                inventory,
+                gameState,
                 "NEW_DELIVERIES"
               ),
             }
           )}
         >
-          {hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
+          {hasFeatureAccess(gameState, "NEW_DELIVERIES") && (
             <img
               src={SUNNYSIDE.icons.arrow_left}
               className={classNames(
@@ -454,8 +521,15 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                     id: previewOrder.id,
                   })}
                 </p>
-                {hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
-                  <p>{`I'll be waiting for you in the Plaza.`}</p>
+
+                {BEACH_BUMPKINS.includes(previewOrder.from) ? (
+                  <Label type="default" icon={worldIcon} className="ml-1">
+                    Beach
+                  </Label>
+                ) : (
+                  <Label type="default" icon={worldIcon} className="ml-1">
+                    Pumpkin Plaza
+                  </Label>
                 )}
               </div>
               <div className="pt-1 pb-2">
@@ -502,10 +576,14 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               )}
             </div>
           )}
-          {!hasFeatureAccess(inventory, "NEW_DELIVERIES") && (
-            <Button disabled={!canFulfill} onClick={deliver}>
-              Deliver
-            </Button>
+          {tasksAreFrozen && (
+            <Label
+              type="danger"
+              className="mb-1"
+              icon={SUNNYSIDE.icons.stopwatch}
+            >
+              Deliveries closed
+            </Label>
           )}
         </OuterPanel>
       )}

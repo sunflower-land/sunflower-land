@@ -2,9 +2,13 @@ import "lib/__mocks__/configMock";
 
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { FRUIT_SEEDS } from "features/game/types/fruits";
-import { GameState, CropPlot } from "features/game/types/game";
-import { harvestFruit } from "./fruitHarvested";
+import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
+import { GameState, FruitPatch } from "features/game/types/game";
+import {
+  getFruitYield,
+  harvestFruit,
+  isFruitReadyToHarvest,
+} from "./fruitHarvested";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -34,6 +38,75 @@ const GAME_STATE: GameState = {
 
 describe("fruitHarvested", () => {
   const dateNow = Date.now();
+
+  describe("isFruitReadyToHarvest", () => {
+    const appleSeed = FRUIT_SEEDS()["Apple Seed"];
+
+    it("fruit is not ready to harvest if just planted fruit seed", () => {
+      expect(
+        isFruitReadyToHarvest(
+          appleSeed.plantSeconds + 1,
+          {
+            name: "Apple",
+            plantedAt: appleSeed.plantSeconds,
+            amount: 1,
+            harvestsLeft: 3,
+            harvestedAt: 0,
+          },
+          FRUIT().Apple
+        )
+      ).toBeFalsy();
+    });
+
+    it("fruit is not ready to harvest if just harvested fruit", () => {
+      expect(
+        isFruitReadyToHarvest(
+          appleSeed.plantSeconds + 1,
+          {
+            name: "Apple",
+            plantedAt: 99,
+            amount: 1,
+            harvestsLeft: 2,
+            harvestedAt: appleSeed.plantSeconds,
+          },
+          FRUIT().Apple
+        )
+      ).toBeFalsy();
+    });
+
+    it("fruit is ready to harvest for the first time", () => {
+      expect(
+        isFruitReadyToHarvest(
+          appleSeed.plantSeconds * 2 + 1,
+          {
+            name: "Apple",
+            plantedAt: appleSeed.plantSeconds,
+            amount: 1,
+            harvestsLeft: 3,
+            harvestedAt: 0,
+          },
+          FRUIT().Apple
+        )
+      ).toBeFalsy();
+    });
+
+    it("fruit is ready to harvest for subsequent times", () => {
+      expect(
+        isFruitReadyToHarvest(
+          appleSeed.plantSeconds * 2 + 1,
+          {
+            name: "Apple",
+            plantedAt: 99,
+            amount: 1,
+            harvestsLeft: 2,
+            harvestedAt: appleSeed.plantSeconds,
+          },
+          FRUIT().Apple
+        )
+      ).toBeFalsy();
+    });
+  });
+
   it("throws an error if the player doesn't have a bumpkin", () => {
     expect(() =>
       harvestFruit({
@@ -78,7 +151,7 @@ describe("fruitHarvested", () => {
 
   it("does not harvest if the fruit is not ripe", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
 
     expect(() =>
       harvestFruit({
@@ -108,7 +181,7 @@ describe("fruitHarvested", () => {
 
   it("does not harvest if the fruit is still replenishing", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
 
     expect(() =>
       harvestFruit({
@@ -138,7 +211,7 @@ describe("fruitHarvested", () => {
 
   it("does not harvest if no harvest left", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
 
     expect(() =>
       harvestFruit({
@@ -168,7 +241,7 @@ describe("fruitHarvested", () => {
 
   it("harvests the fruit when more than one harvest left", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
     const initialHarvest = 2;
 
     const state = harvestFruit({
@@ -210,7 +283,7 @@ describe("fruitHarvested", () => {
 
   it("harvests the fruit which has a boost applied", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
     const initialHarvest = 1;
     const boostedAmount = 77;
 
@@ -251,7 +324,7 @@ describe("fruitHarvested", () => {
 
   it("applies Lady Bug Boost", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
     const initialHarvest = 2;
 
     const state = harvestFruit({
@@ -298,7 +371,7 @@ describe("fruitHarvested", () => {
 
   it("applies the Black Bearry Boost", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
     const initialHarvest = 2;
 
     const state = harvestFruit({
@@ -344,7 +417,7 @@ describe("fruitHarvested", () => {
 
   it("includes Squirrel Monkey bonus on Oranges", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
     const initialHarvest = 2;
 
     const state = harvestFruit({
@@ -394,7 +467,7 @@ describe("fruitHarvested", () => {
 
   it("harvests the fruit when one harvest is left", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
     const initialHarvest = 1;
 
     const state = harvestFruit({
@@ -433,7 +506,7 @@ describe("fruitHarvested", () => {
 
   it("increments Apple Harvested activity by 1", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
     const initialHarvest = 1;
 
     const state = harvestFruit({
@@ -464,7 +537,7 @@ describe("fruitHarvested", () => {
 
   it("applies a buds boost", () => {
     const { fruitPatches } = GAME_STATE;
-    const fruitPatch = (fruitPatches as Record<number, CropPlot>)[0];
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
     const initialHarvest = 2;
 
     const state = harvestFruit({
@@ -495,7 +568,6 @@ describe("fruitHarvested", () => {
       },
       action: {
         type: "fruit.harvested",
-
         index: "0",
       },
       createdAt: dateNow,
@@ -504,5 +576,16 @@ describe("fruitHarvested", () => {
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
     expect(fruit?.amount).toEqual(1.2);
+  });
+
+  describe("getFruitYield", () => {
+    it("provides no bonuses", () => {
+      const amount = getFruitYield({
+        buds: {},
+        collectibles: {},
+        name: "Apple",
+        wearables: { ...INITIAL_BUMPKIN.equipped },
+      });
+    });
   });
 });

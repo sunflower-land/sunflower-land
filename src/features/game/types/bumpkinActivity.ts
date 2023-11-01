@@ -11,6 +11,8 @@ import { GarbageName } from "./garbage";
 import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { BeachBountyTreasure, TreasureName } from "./treasure";
+import { CompostName, ComposterName } from "./composters";
+import { PurchaseableBait } from "./fishing";
 
 type BuyableName = SeedName | Animal | DecorationName | BeanName;
 type SellableName =
@@ -36,10 +38,13 @@ export type CraftedEvent = `${
   | TreasureToolName
   | HeliosBlacksmithItem
   | PotionHouseItemName
-  | LanternName} Crafted`;
+  | LanternName
+  | PurchaseableBait} Crafted`;
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
 export type TreasureEvent = `${TreasureName} Dug`;
+export type ComposterCollectEvent = `${CompostName} Collected`;
+export type CompostedEvent = `${ComposterName} Collected`;
 
 export type BumpkinActivityName =
   | CookEvent
@@ -51,6 +56,7 @@ export type BumpkinActivityName =
   | HarvestEvent
   | PlantFruitEvent
   | TreasureEvent
+  | CompostedEvent
   // Resources
   | "Tree Chopped"
   | "Stone Mined"
@@ -75,7 +81,8 @@ export type BumpkinActivityName =
   | "Easter Egg Collected"
   | "Chore Completed"
   | "Chore Skipped"
-  | "Bud Placed";
+  | "Bud Placed"
+  | ComposterCollectEvent;
 
 export function trackActivity(
   activityName: BumpkinActivityName,

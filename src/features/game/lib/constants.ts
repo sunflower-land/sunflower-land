@@ -23,7 +23,7 @@ export const CHICKEN_COOP_MULTIPLIER = 1.5;
 
 export const POPOVER_TIME_MS = 1000;
 
-function isBuildingReady(building: PlacedItem[]) {
+export function isBuildingReady(building: PlacedItem[]) {
   return building.some((b) => b.readyAt <= Date.now());
 }
 
@@ -33,6 +33,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     Pickaxe: new Decimal(60),
     "Stone Pickaxe": new Decimal(20),
     "Iron Pickaxe": new Decimal(5),
+    Rod: new Decimal(50),
   };
 
   // increase in 50% tool stock if you have a toolshed
@@ -45,6 +46,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
       Pickaxe: new Decimal(90),
       "Stone Pickaxe": new Decimal(30),
       "Iron Pickaxe": new Decimal(8),
+      Rod: new Decimal(75),
     };
   }
 
@@ -66,6 +68,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     "Apple Seed": new Decimal(10),
     "Orange Seed": new Decimal(10),
     "Blueberry Seed": new Decimal(10),
+    "Banana Plant": new Decimal(10),
   };
 
   if (
@@ -89,6 +92,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
       "Apple Seed": new Decimal(12),
       "Orange Seed": new Decimal(12),
       "Blueberry Seed": new Decimal(12),
+      "Banana Plant": new Decimal(12),
     };
   }
 
@@ -178,6 +182,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
 
 export const TEST_FARM: GameState = {
   balance: new Decimal(0),
+  id: 123,
   inventory: {
     Sunflower: new Decimal(5),
     Potato: new Decimal(12),
@@ -200,6 +205,17 @@ export const TEST_FARM: GameState = {
   },
   stock: INITIAL_STOCK(),
   chickens: {},
+  farmActivity: {},
+  milestones: {},
+  fishing: {
+    weather: "Sunny",
+    wharf: {},
+    dailyAttempts: {},
+  },
+  catchTheKraken: {
+    hunger: "Sunflower",
+    weeklyCatches: {},
+  },
   wardrobe: {},
   createdAt: new Date().getTime(),
   conversations: [],
@@ -379,6 +395,7 @@ export const TEST_FARM: GameState = {
 
 export const EMPTY: GameState = {
   balance: new Decimal(fromWei("0")),
+  id: 123,
   createdAt: new Date().getTime(),
   inventory: {
     "Chicken Coop": new Decimal(1),
@@ -428,9 +445,20 @@ export const EMPTY: GameState = {
   crops: {},
   stones: {},
   trees: {},
+  farmActivity: {},
+  milestones: {},
+  fishing: {
+    weather: "Sunny",
+    wharf: {},
+    dailyAttempts: {},
+  },
   mushrooms: {
     spawnedAt: 0,
     mushrooms: {},
+  },
+  catchTheKraken: {
+    hunger: "Sunflower",
+    weeklyCatches: {},
   },
 };
 

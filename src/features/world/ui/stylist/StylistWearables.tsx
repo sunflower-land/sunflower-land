@@ -17,15 +17,16 @@ import {
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
+import { GameState } from "features/game/types/game";
 
-function isNotReady(name: BumpkinItem, farmCreatedAt: number) {
-  const wearable = STYLIST_WEARABLES(TEST_FARM)[name] as StylistWearable;
+function isNotReady(name: BumpkinItem, state: GameState) {
+  const wearable = STYLIST_WEARABLES(state)[name] as StylistWearable;
 
   if (wearable.hoursPlayed) {
-    const hoursPlayed = (Date.now() - farmCreatedAt) / 1000 / 60 / 60;
+    const hoursPlayed = (Date.now() - state.createdAt) / 1000 / 60 / 60;
 
     if (hoursPlayed < wearable.hoursPlayed) {
       return true;
@@ -96,9 +97,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
     return (
       <Button
         disabled={
-          isNotReady(selected, state.createdAt) ||
-          lessFunds() ||
-          lessIngredients()
+          isNotReady(selected, state) || lessFunds() || lessIngredients()
         }
         onClick={buy}
       >
@@ -129,7 +128,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
         <>
           <div className="flex flex-wrap">
             {getKeys(wearables).map((item) => {
-              const timeLimited = isNotReady(item, state.createdAt);
+              const timeLimited = isNotReady(item, state);
 
               return (
                 <Box

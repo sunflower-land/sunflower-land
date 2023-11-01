@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 
 import metamaskIcon from "src/assets/icons/metamask_pixel.png";
 import walletIcon from "src/assets/icons/wallet.png";
@@ -209,46 +209,21 @@ export const SignIn = () => {
             width: `${PIXEL_SCALE * 8}px`,
           }}
         />
-        {!getOnboardingComplete() && !hasFeatureAccess({}, "NEW_FARM_FLOW") && (
-          <div className="flex items-center">
-            <img src={SUNNYSIDE.ui.green_bar_4} className="h-5 mr-2" />
-            <span className="text-xs">Step 2/3 (Create a wallet)</span>
-          </div>
-        )}
+        {!getOnboardingComplete() &&
+          !hasFeatureAccess(TEST_FARM, "NEW_FARM_FLOW") && (
+            <div className="flex items-center">
+              <img src={SUNNYSIDE.ui.green_bar_4} className="h-5 mr-2" />
+              <span className="text-xs">Step 2/3 (Create a wallet)</span>
+            </div>
+          )}
       </div>
 
-      {isCryptoCom && (
+      {isBitget && (
         <Button
           className="mb-2 py-2 text-sm relative"
           onClick={() =>
             authService.send("CONNECT_TO_WALLET", {
-              chosenProvider: Web3SupportedProviders.CRYPTO_COM,
-            })
-          }
-        >
-          <div className="px-8">
-            <img
-              src={cryptoComIcon}
-              alt="Crypto.com"
-              className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
-            />
-            <Label
-              type="info"
-              className="absolute top-1/2 -translate-y-1/2 right-1"
-            >
-              Featured
-            </Label>
-            Crypto.com Wallet
-          </div>
-        </Button>
-      )}
-
-      {hasFeatureAccess({}, "BITGET_WALLET") && isBitget && (
-        <Button
-          className="mb-2 py-2 text-sm relative"
-          onClick={() =>
-            authService.send("CONNECT_TO_WALLET", {
-              chosenProvider: Web3SupportedProviders.CRYPTO_COM,
+              chosenProvider: Web3SupportedProviders.BITGET,
             })
           }
         >
@@ -267,6 +242,17 @@ export const SignIn = () => {
             Bitget Wallet
           </div>
         </Button>
+      )}
+
+      {isCryptoCom && (
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() =>
+            authService.send("CONNECT_TO_WALLET", {
+              chosenProvider: Web3SupportedProviders.CRYPTO_COM,
+            })
+          }
+        ></Button>
       )}
 
       {isEarnAlliance && (

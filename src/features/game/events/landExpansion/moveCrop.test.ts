@@ -3,6 +3,7 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { MOVE_CROP_ERRORS, moveCrop } from "./moveCrop";
 
 describe("moveCrop", () => {
+  const dateNow = Date.now();
   it("throws if player has no Bumpkin", () => {
     expect(() =>
       moveCrop({
@@ -30,7 +31,7 @@ describe("moveCrop", () => {
               width: 1,
               x: 1,
               y: 1,
-              createdAt: Date.now(),
+              createdAt: dateNow,
             },
           },
         },
@@ -96,7 +97,7 @@ describe("moveCrop", () => {
               {
                 id: "1",
                 coordinates: { x: 0, y: 0 },
-                createdAt: Date.now(),
+                createdAt: dateNow,
                 readyAt: 0,
               },
             ],
@@ -107,11 +108,11 @@ describe("moveCrop", () => {
               width: 1,
               x: 0,
               y: -2,
-              createdAt: Date.now(),
+              createdAt: dateNow,
               crop: {
                 name: "Potato",
                 amount: 1,
-                plantedAt: Date.now(),
+                plantedAt: dateNow,
               },
             },
           },
@@ -136,7 +137,7 @@ describe("moveCrop", () => {
               {
                 id: "1",
                 coordinates: { x: 0, y: 0 },
-                createdAt: Date.now(),
+                createdAt: dateNow,
                 readyAt: 0,
               },
             ],
@@ -147,11 +148,11 @@ describe("moveCrop", () => {
               width: 1,
               x: 0,
               y: -2,
-              createdAt: Date.now(),
+              createdAt: dateNow,
               crop: {
                 name: "Cauliflower",
                 amount: 1,
-                plantedAt: Date.now(),
+                plantedAt: dateNow,
               },
             },
           },
@@ -176,7 +177,7 @@ describe("moveCrop", () => {
               {
                 id: "1",
                 coordinates: { x: 0, y: 0 },
-                createdAt: Date.now(),
+                createdAt: dateNow,
                 readyAt: 0,
               },
             ],
@@ -187,11 +188,11 @@ describe("moveCrop", () => {
               width: 1,
               x: 0,
               y: -2,
-              createdAt: Date.now(),
+              createdAt: dateNow,
               crop: {
                 name: "Potato",
                 amount: 1,
-                plantedAt: Date.now(),
+                plantedAt: dateNow,
               },
             },
           },
@@ -216,7 +217,7 @@ describe("moveCrop", () => {
               {
                 id: "1",
                 coordinates: { x: 0, y: 0 },
-                createdAt: Date.now(),
+                createdAt: dateNow,
                 readyAt: 0,
               },
             ],
@@ -227,11 +228,11 @@ describe("moveCrop", () => {
               width: 1,
               x: 0,
               y: -2,
-              createdAt: Date.now(),
+              createdAt: dateNow,
               crop: {
                 name: "Eggplant",
                 amount: 1,
-                plantedAt: Date.now(),
+                plantedAt: dateNow,
               },
             },
           },
@@ -254,7 +255,7 @@ describe("moveCrop", () => {
               {
                 id: "1",
                 coordinates: { x: 0, y: 0 },
-                createdAt: Date.now(),
+                createdAt: dateNow,
                 readyAt: 0,
               },
             ],
@@ -265,11 +266,11 @@ describe("moveCrop", () => {
               width: 1,
               x: 0,
               y: -2,
-              createdAt: Date.now(),
+              createdAt: dateNow,
               crop: {
                 name: "Corn",
                 amount: 1,
-                plantedAt: Date.now(),
+                plantedAt: dateNow,
               },
             },
           },

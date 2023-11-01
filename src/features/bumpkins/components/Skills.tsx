@@ -18,7 +18,6 @@ import { Label } from "components/ui/Label";
 import { findLevelRequiredForNextSkillPoint } from "features/game/lib/level";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { pixelGreenBorderStyle } from "features/game/lib/style";
 
 interface Props {
   onBack: () => void;
@@ -70,13 +69,7 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
     return (
       <div className="flex flex-wrap gap-1">
         {availableSkillPoints > 0 && (
-          <Label
-            type="default"
-            className="bg-green-background text-xxs px-1 whitespace-nowrap"
-            style={pixelGreenBorderStyle}
-          >
-            Skill Points: {availableSkillPoints}
-          </Label>
+          <Label type="default">Skill Points: {availableSkillPoints}</Label>
         )}
         {nextLevelWithSkillPoint && (
           <Label type="default" className="text-xxs px-1 whitespace-nowrap">

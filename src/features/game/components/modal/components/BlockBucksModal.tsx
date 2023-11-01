@@ -7,16 +7,18 @@ import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 import { analytics } from "lib/analytics";
-import { CONFIG } from "lib/config";
-import { wallet } from "lib/blockchain/wallet";
-import { buyBlockBucks } from "features/game/actions/buyBlockBucks";
+import { buyBlockBucksXsolla } from "features/game/actions/buyBlockBucks";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { randomID } from "lib/utils/random";
 import { Label } from "components/ui/Label";
+import { hasFeatureAccess } from "lib/flags";
+import { Modal } from "react-bootstrap";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
 interface Props {
+  show: boolean;
   closeable: boolean;
   setCloseable: (closeable: boolean) => void;
   onClose: () => void;
@@ -77,57 +79,77 @@ interface Price {
   usd: number;
 }
 
-const PokoIFrame: React.FC<
-  PokoConfig & { onProcessing: () => void; onSuccess: () => void }
-> = ({
-  onProcessing,
-  onSuccess,
-  url,
-  network,
-  marketplaceCode,
-  itemImageURL,
-  itemName,
-  listingId,
-  apiKey,
-  extra,
-  receiverId,
-}) => {
+const XsollaIFrame: React.FC<{
+  url: string;
+  onSuccess: () => void;
+  onClose: () => void;
+}> = ({ url, onSuccess, onClose }) => {
   useEffect(() => {
-    const handler = (
-      event: MessageEvent<{ type: string; message: string }>
-    ) => {
-      console.log({ event });
+    const listener = (event: any) => {
       const origin = new URL(url).origin;
 
       if (event.origin !== origin) return;
 
-      const data = JSON.parse(event.data as unknown as string);
+      const eventData = JSON.parse(event.data);
+      console.log(eventData);
+      if (eventData.command === "close-widget") {
+        onClose();
+      }
 
-      if (data.eventName !== "onPokoDirectCheckoutStatusChange") return;
-      if (data.data?.status === "succeeded") {
+      if (eventData.command === "return") {
         onSuccess();
       }
-      if (data.data?.status === "payment_received") {
-        onProcessing();
-      }
     };
+    window.addEventListener("message", listener);
 
-    window.addEventListener("message", handler);
-
-    return () => window.removeEventListener("message", handler);
+    return () => window.removeEventListener("message", listener);
   }, []);
-  // It is possible to theme this with &backgroundColorHex=c18669&textColorHex=ffffff&primaryColorHex=e7a873
-  // I wasn't able to get it looking nice though
+
   return (
     <iframe
-      src={`${url}?itemName=${itemName}&itemImageURL=${itemImageURL}&network=${network}&apiKey=${apiKey}&listingId=${listingId}&type=nft&marketplaceCode=${marketplaceCode}&receiverId=${receiverId}&extra=${extra}`}
-      className="w-full h-[85vh] sm:h-[65vh]"
-      title="Poko widget"
-      allow="accelerometer; autoplay; camera; gyroscope; payment"
+      src={url}
+      title="Xsolla Checkout"
+      className="w-full h-full rounded-lg shadow-md absolute"
     />
   );
 };
+
+const Loading: React.FC<{ autoClose: boolean }> = ({ autoClose }) => {
+  const [closed, setClosed] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (autoClose) {
+      setTimeout(() => {
+        setClosed(true);
+      }, 10000);
+    }
+  }, [autoClose]);
+
+  if (closed) return null;
+
+  return (
+    <div className="flex items-center justify-center w-full h-full absolute">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 48 48"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="animate-[spin_2s_linear_infinite]"
+      >
+        <path
+          d="M45.5 24C45.5 28.2523 44.239 32.4091 41.8766 35.9448C39.5141 39.4804 36.1563 42.2361 32.2277 43.8634C28.2991 45.4907 23.9762 45.9165 19.8056 45.0869C15.635 44.2573 11.804 42.2096 8.7972 39.2028C5.79038 36.196 3.7427 32.365 2.91312 28.1944C2.08353 24.0239 2.50931 19.7009 4.13659 15.7723C5.76387 11.8437 8.51958 8.48585 12.0552 6.1234C15.5909 3.76095 19.7477 2.5 24 2.5"
+          stroke="#ffffff"
+          strokeWidth="5"
+          strokeLinecap="round"
+        />
+      </svg>
+    </div>
+  );
+};
+
 export const BlockBucksModal: React.FC<Props> = ({
+  show,
   closeable,
   onClose,
   setCloseable,
@@ -138,8 +160,10 @@ export const BlockBucksModal: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [showPoko, setShowPoko] = useState<PokoConfig>();
+  const [showXsolla, setShowXsolla] = useState<string>();
   const [loading, setLoading] = useState(false);
+
+  const [isMobile] = useIsMobile();
 
   const [price, setPrice] = useState<Price>();
 
@@ -156,7 +180,7 @@ export const BlockBucksModal: React.FC<Props> = ({
     try {
       const amount = price?.amount ?? 0;
 
-      const transaction = await buyBlockBucks({
+      const { url } = await buyBlockBucksXsolla({
         amount,
         farmId: gameState.context.state.id as number,
         transactionId: randomID(),
@@ -164,39 +188,22 @@ export const BlockBucksModal: React.FC<Props> = ({
         token: authState.context.user.rawToken as string,
       });
 
-      const { type, ...details } = transaction;
-
-      setShowPoko({
-        url:
-          CONFIG.NETWORK === "mumbai"
-            ? "https://dev.checkout.pokoapp.xyz/checkout"
-            : "https://checkout.pokoapp.xyz/checkout",
-        network:
-          CONFIG.NETWORK === "mumbai" ? "polygonMumbaiRealUSDC" : "polygon",
-        marketplaceCode: "sunflowerland",
-        listingId: gameState.context.state.id as number,
-        itemName: encodeURIComponent(
-          `${amount} Block Buck${amount > 1 ? "s" : ""}`
-        ),
-        itemImageURL: encodeURIComponent(
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAAAXNSR0IArs4c6QAAABhQTFRFAAAAPolIGBQkcz45Y8dN/q40JlxC93Yi51WP2wAAAAh0Uk5TAP/////////VylQyAAAAm0lEQVRYhe3X0QqAIAyFYVem7//GDQ0ZEjWLYK7zX3UR38WhkkJACCGEjpaRHIB8TywRUVR0axoHq0allBIpujanADVIlxtQbriKnIGnMzKSc95KfNGZmlfPONjMtiELTNUB68WQNhEoN/QNtk+i3PDlc2gZlEdAN+Pjr419sN2mPPU8gfqmBqWp3FB/ppgFg/m/gC9AhBBCP2kHvTwQvZ+Xte4AAAAASUVORK5CYII="
-        ),
-        apiKey: CONFIG.POKO_DIRECT_CHECKOUT_API_KEY,
-        extra: encodeURIComponent(JSON.stringify(details)),
-        receiverId: wallet.myAccount?.toLowerCase() as string,
-      });
+      setShowXsolla(url);
     } finally {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       setLoading(false);
     }
   };
 
   const onCreditCardSuccess = () => {
-    setCloseable(true);
+    onClose();
     gameService.send("UPDATE_BLOCK_BUCKS", { amount: price?.amount });
   };
 
-  const onCreditCardProcessing = () => {
-    setCloseable(false);
+  const onExited = () => {
+    setShowXsolla(undefined);
+    setPrice(undefined);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -207,7 +214,7 @@ export const BlockBucksModal: React.FC<Props> = ({
   }, []);
 
   const Content = () => {
-    if (gameState.matches("autosaving") || loading) {
+    if (gameState.matches("autosaving")) {
       return (
         <div className="flex justify-center">
           <p className="loading text-center">Loading</p>
@@ -241,10 +248,17 @@ export const BlockBucksModal: React.FC<Props> = ({
                   }}
                 />
               </div>
-              <Label type="info" className="mb-1">
-                Temporarily Disabled
-              </Label>
-              <Button onClick={() => onCreditCardBuy()} disabled={true}>
+              {price.amount === 1 && (
+                <Label type="info" className="mb-1">
+                  Choose a higher amount
+                </Label>
+              )}
+              <Button
+                onClick={() => onCreditCardBuy()}
+                disabled={
+                  price.amount === 1 || !hasFeatureAccess(TEST_FARM, "XSOLLA")
+                }
+              >
                 Pay with Cash
               </Button>
             </OuterPanel>
@@ -321,27 +335,41 @@ export const BlockBucksModal: React.FC<Props> = ({
   };
 
   return (
-    <CloseButtonPanel
-      onBack={closeable && price ? () => setPrice(undefined) : undefined}
-      onClose={closeable ? onClose : undefined}
-      title="Buy Block Bucks"
-      bumpkinParts={{
-        body: "Light Brown Farmer Potion",
-        hair: "White Long Hair",
-        shirt: "Fancy Top",
-        pants: "Fancy Pants",
-        tool: "Farmer Pitchfork",
-      }}
+    <Modal
+      centered
+      show={show}
+      onHide={onClose}
+      fullscreen={!!showXsolla && isMobile ? true : undefined}
+      onExited={onExited}
+      size={showXsolla ? "lg" : undefined}
     >
-      {showPoko ? (
-        <PokoIFrame
-          {...showPoko}
-          onSuccess={onCreditCardSuccess}
-          onProcessing={onCreditCardProcessing}
-        />
+      {showXsolla ? (
+        <div className="relative w-full h-full min-h-[65vh] min-w[65vw]">
+          <Loading autoClose={true} />
+          <XsollaIFrame
+            url={showXsolla}
+            onSuccess={onCreditCardSuccess}
+            onClose={onClose}
+          />
+        </div>
+      ) : loading ? (
+        <Loading autoClose={false} />
       ) : (
-        <Content />
+        <CloseButtonPanel
+          onBack={closeable && price ? () => setPrice(undefined) : undefined}
+          onClose={closeable ? onClose : undefined}
+          title="Buy Block Bucks"
+          bumpkinParts={{
+            body: "Light Brown Farmer Potion",
+            hair: "White Long Hair",
+            shirt: "Fancy Top",
+            pants: "Fancy Pants",
+            tool: "Farmer Pitchfork",
+          }}
+        >
+          <Content />
+        </CloseButtonPanel>
       )}
-    </CloseButtonPanel>
+    </Modal>
   );
 };

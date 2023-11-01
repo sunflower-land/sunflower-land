@@ -12,6 +12,7 @@ import {
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { hasFeatureAccess } from "lib/flags";
 import { NPCName } from "lib/npcs";
+import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import cloneDeep from "lodash.clonedeep";
 
 export type DeliverOrderAction = {
@@ -22,6 +23,7 @@ export type DeliverOrderAction = {
 type Options = {
   state: Readonly<GameState>;
   action: DeliverOrderAction;
+  createdAt?: number;
 };
 
 export const BETA_DELIVERY_END_DATE = new Date("2023-08-15");
@@ -49,15 +51,15 @@ export function canGenerateDeliveries({
   return true;
 }
 
-export function getTotalSlots(inventory: Inventory) {
+export function getTotalSlots(game: GameState) {
   // If feature access then return the total number of slots from both delivery and quest
   // else just delivery
 
-  if (hasFeatureAccess(inventory, "NEW_DELIVERIES")) {
-    return getDeliverySlots(inventory) + getQuestSlots(inventory);
+  if (hasFeatureAccess(game, "NEW_DELIVERIES")) {
+    return getDeliverySlots(game.inventory) + getQuestSlots(game.inventory);
   }
 
-  return getDeliverySlots(inventory);
+  return getDeliverySlots(game.inventory);
 }
 
 export function getDeliverySlots(inventory: Inventory) {
@@ -116,7 +118,7 @@ export function populateOrders(
   isSkipped = false
 ) {
   const orders = game.delivery.orders;
-  const slots = getTotalSlots(game.inventory);
+  const slots = getTotalSlots(game);
 
   while (orders.length < slots) {
     const upcomingOrderTimes = game.delivery.orders.map(
@@ -165,7 +167,11 @@ export function getOrderSellPrice(bumpkin: Bumpkin, order: Order) {
   return new Decimal(order.reward.sfl ?? 0).mul(mul);
 }
 
-export function deliverOrder({ state, action }: Options): GameState {
+export function deliverOrder({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
   const game = clone(state);
   const bumpkin = game.bumpkin;
 
@@ -181,6 +187,14 @@ export function deliverOrder({ state, action }: Options): GameState {
 
   if (order.readyAt > Date.now()) {
     throw new Error("Order has not started");
+  }
+
+  const { tasksAreFrozen } = getSeasonChangeover({
+    id: state.id,
+    now: createdAt,
+  });
+  if (tasksAreFrozen) {
+    throw new Error("Tasks are frozen");
   }
 
   getKeys(order.items).forEach((name) => {

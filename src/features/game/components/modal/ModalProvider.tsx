@@ -6,11 +6,7 @@ import { BlockBucksModal } from "./components/BlockBucksModal";
 import { StoreOnChainModal } from "./components/StoreOnChainModal";
 import { GoldPassModal } from "features/game/expansion/components/GoldPass";
 
-type GlobalModal =
-  | "BUY_BLOCK_BUCKS"
-  | "STORE_ON_CHAIN"
-  | "GOLD_PASS"
-  | "BUD_ANNOUNCEMENT";
+type GlobalModal = "BUY_BLOCK_BUCKS" | "STORE_ON_CHAIN" | "GOLD_PASS";
 
 export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;
@@ -33,13 +29,13 @@ export const ModalProvider: FC = ({ children }) => {
   return (
     <ModalContext.Provider value={{ openModal }}>
       {children}
-      <Modal centered show={opened === "BUY_BLOCK_BUCKS"} onHide={handleClose}>
-        <BlockBucksModal
-          onClose={handleClose}
-          closeable={closeable}
-          setCloseable={setCloseable}
-        />
-      </Modal>
+
+      <BlockBucksModal
+        show={opened === "BUY_BLOCK_BUCKS"}
+        onClose={handleClose}
+        closeable={closeable}
+        setCloseable={setCloseable}
+      />
 
       <Modal centered show={opened === "STORE_ON_CHAIN"} onHide={handleClose}>
         <StoreOnChainModal onClose={handleClose} />

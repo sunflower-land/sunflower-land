@@ -3,6 +3,7 @@ import Decimal from "decimal.js-light";
 
 import { CropName, CROPS } from "../../types/crops";
 import {
+  Buildings,
   Bumpkin,
   Collectibles,
   CropPlot,
@@ -29,6 +30,7 @@ import {
 } from "./harvest";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { getBudSpeedBoosts } from "features/game/lib/getBudSpeedBoosts";
+import { CropCompostName } from "features/game/types/composters";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -84,14 +86,23 @@ export function isPlotFertile({
 /**
  * Based on boosts, how long a crop will take to grow
  */
-export const getCropTime = (
-  crop: CropName,
-  inventory: Inventory,
-  collectibles: Collectibles,
-  bumpkin: Bumpkin,
-  buds: NonNullable<GameState["buds"]>,
-  plot?: CropPlot
-) => {
+export const getCropTime = ({
+  crop,
+  inventory,
+  collectibles,
+  bumpkin,
+  buds,
+  plot,
+  fertiliser,
+}: {
+  crop: CropName;
+  inventory: Inventory;
+  collectibles: Collectibles;
+  bumpkin: Bumpkin;
+  buds: NonNullable<GameState["buds"]>;
+  plot?: CropPlot;
+  fertiliser?: CropCompostName;
+}) => {
   const { skills, equipped } = bumpkin;
   const { necklace } = equipped;
   let seconds = CROPS()[crop]?.harvestSeconds ?? 0;
@@ -181,6 +192,10 @@ export const getCropTime = (
     }
   }
 
+  if (fertiliser === "Rapid Root") {
+    seconds = seconds * 0.5;
+  }
+
   return seconds;
 };
 
@@ -188,10 +203,12 @@ type GetPlantedAtArgs = {
   crop: CropName;
   inventory: Inventory;
   collectibles: Collectibles;
+  buildings: Buildings;
   bumpkin: Bumpkin;
   createdAt: number;
   plot: CropPlot;
   buds: NonNullable<GameState["buds"]>;
+  fertiliser?: CropCompostName;
 };
 
 /**
@@ -201,22 +218,25 @@ export function getPlantedAt({
   crop,
   inventory,
   collectibles,
+  buildings,
   bumpkin,
   buds,
   createdAt,
   plot,
+  fertiliser,
 }: GetPlantedAtArgs): number {
   if (!crop) return 0;
 
   const cropTime = CROPS()[crop].harvestSeconds;
-  const boostedTime = getCropTime(
+  const boostedTime = getCropTime({
     crop,
     inventory,
     collectibles,
     bumpkin,
     buds,
-    plot
-  );
+    plot,
+    fertiliser,
+  });
 
   const offset = cropTime - boostedTime;
 
@@ -233,6 +253,7 @@ export function getCropYieldAmount({
   collectibles,
   buds,
   bumpkin,
+  fertiliser,
 }: {
   crop: CropName;
   plot: CropPlot;
@@ -240,6 +261,7 @@ export function getCropYieldAmount({
   collectibles: Collectibles;
   buds: NonNullable<GameState["buds"]>;
   bumpkin: Bumpkin;
+  fertiliser?: CropCompostName;
 }): number {
   let amount = 1;
   const { skills, equipped } = bumpkin;
@@ -451,6 +473,10 @@ export function getCropYieldAmount({
 
   amount += getBudYieldBoosts(buds, crop);
 
+  if (fertiliser === "Sprout Mix") {
+    amount += 0.2;
+  }
+
   return Number(setPrecision(new Decimal(amount)));
 }
 
@@ -460,7 +486,13 @@ export function plant({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { crops: plots, bumpkin, collectibles, inventory } = stateCopy;
+  const {
+    crops: plots,
+    bumpkin,
+    collectibles,
+    inventory,
+    buildings,
+  } = stateCopy;
   const buds = stateCopy.buds ?? {};
 
   if (bumpkin === undefined) {
@@ -505,10 +537,12 @@ export function plant({
         crop: cropName,
         inventory,
         collectibles,
+        buildings,
         bumpkin,
         createdAt,
         plot,
         buds,
+        fertiliser: plot.fertiliser?.name,
       }),
       name: cropName,
       amount: getCropYieldAmount({
@@ -518,6 +552,7 @@ export function plant({
         bumpkin,
         plot,
         buds,
+        fertiliser: plot.fertiliser?.name,
       }),
     },
   };
