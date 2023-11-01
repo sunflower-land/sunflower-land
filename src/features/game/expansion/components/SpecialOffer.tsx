@@ -69,7 +69,11 @@ export const PromotingModal: React.FC<Props> = ({
   const inventory = useSelector(gameService, _inventory);
   const hasPreviousSeasonBanner = !!inventory["Witches' Eve Banner"];
 
-  const price = hasPreviousSeasonBanner ? "4.99" : "6.99";
+  let price = hasPreviousSeasonBanner ? "4.99" : "6.99";
+
+  if (!isPreSeason) {
+    price = "8.99";
+  }
 
   const Content = () => {
     if (hasPurchased) {
