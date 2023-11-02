@@ -17,11 +17,6 @@ type Options = {
 };
 
 export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
-  Wood: 100,
-  Gold: 50,
-  Stone: 100,
-  Iron: 100,
-  Egg: 100,
   Sunflower: 1000,
   Potato: 1000,
   Pumpkin: 1000,
@@ -29,14 +24,19 @@ export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Carrot: 500,
   Beetroot: 500,
   Cauliflower: 500,
-  Radish: 200,
-  Eggplant: 200,
   Parsnip: 200,
+  Eggplant: 200,
+  Radish: 200,
   Wheat: 200,
   Kale: 200,
-  Blueberry: 100,
-  Orange: 100,
   Apple: 100,
+  Orange: 100,
+  Blueberry: 100,
+  Wood: 100,
+  Stone: 100,
+  Iron: 100,
+  Gold: 50,
+  Egg: 100,
 };
 
 /**
