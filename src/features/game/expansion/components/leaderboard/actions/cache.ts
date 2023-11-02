@@ -20,8 +20,6 @@ export function getCachedLeaderboardData(): Leaderboards | null {
   const parsedData = JSON.parse(cachedData);
   const now = Date.now();
 
-  console.log(parsedData);
-
   if (now - parsedData.lastUpdated > CACHE_DURATION_IN_MS) {
     localStorage.removeItem(CACHE_KEY);
     return null;
