@@ -304,7 +304,7 @@ const INITIAL_BUMPKIN: Bumpkin = {
 export const OFFLINE_FARM: GameState = {
   id: 4,
   catchTheKraken: {
-    hunger: "Red Snapper",
+    hunger: "Iron",
     weeklyCatches: {
       1: 5,
       13: 5,
@@ -533,7 +533,7 @@ export const OFFLINE_FARM: GameState = {
   },
   chickens: {},
   fishing: {
-    weather: "Sunny",
+    weather: "Fish Frenzy",
     wharf: {},
     dailyAttempts: {},
   },

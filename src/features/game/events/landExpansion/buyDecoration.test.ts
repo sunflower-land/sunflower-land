@@ -66,9 +66,9 @@ describe("buyDecoration", () => {
         },
         action: {
           type: "decoration.bought",
-          name: "Candles",
+          name: "Spooky Tree",
         },
-        createdAt: new Date("2023-07-31").getTime(),
+        createdAt: new Date("2023-08-02").getTime(),
       })
     ).toThrow("Too early");
   });
@@ -82,9 +82,9 @@ describe("buyDecoration", () => {
         },
         action: {
           type: "decoration.bought",
-          name: "Candles",
+          name: "Haunted Stump",
         },
-        createdAt: new Date("2023-11-02").getTime(),
+        createdAt: new Date("2023-09-10").getTime(),
       })
     ).toThrow("Too late");
   });

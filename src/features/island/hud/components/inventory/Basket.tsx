@@ -70,8 +70,6 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const selectedItem = selected ?? getKeys(basketMap)[0] ?? "Sunflower Seed";
 
-  console.log({ selectedItem });
-
   const isFruitSeed = (
     selected: InventoryItemName
   ): selected is FruitSeedName => selected in FRUIT_SEEDS();

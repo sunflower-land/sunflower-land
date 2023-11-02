@@ -48,7 +48,7 @@ export function craftCollectible({
 
   const item = isPotionHouseItem(action.name)
     ? POTION_HOUSE_ITEMS[action.name]
-    : HELIOS_BLACKSMITH_ITEMS(state)[action.name];
+    : HELIOS_BLACKSMITH_ITEMS(state, new Date(createdAt))[action.name];
 
   if (!item) {
     throw new Error("Item does not exist");

@@ -57,7 +57,9 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
       </Modal>
     );
   }
+
   const hasBetaAccess = !!gameState.inventory["Beta Pass"];
+
   return (
     <Modal centered show={isOpen} onHide={onClose} onShow={onShow}>
       <CloseButtonPanel
