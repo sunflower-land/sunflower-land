@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -23,17 +23,16 @@ interface Props {
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _collectibles = (state: MachineState) => state.context.state.collectibles;
+const _buds = (state: MachineState) => state.context.state.buds;
 
 export const Feed: React.FC<Props> = ({ food }) => {
   const [selected, setSelected] = useState<Consumable | undefined>(food[0]);
   const { gameService } = useContext(Context);
 
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-  const inventory = state.inventory;
+  const inventory = useSelector(gameService, _inventory);
+  const bumpkin = useSelector(gameService, _bumpkin);
+  const collectibles = useSelector(gameService, _collectibles);
+  const buds = useSelector(gameService, _buds);
 
   useEffect(() => {
     if (food.length) {
@@ -88,9 +87,9 @@ export const Feed: React.FC<Props> = ({ food }) => {
             xp: new Decimal(
               getFoodExpBoost(
                 selected,
-                state.bumpkin as Bumpkin,
-                state.collectibles,
-                state.buds ?? {}
+                bumpkin as Bumpkin,
+                collectibles,
+                buds ?? {}
               )
             ),
           }}
