@@ -201,7 +201,7 @@ export const CraftingRequirements: React.FC<Props> = ({
           )}
           <span className="sm:text-center">{title}</span>
         </div>
-        {!hideDescription && (
+        {!hideDescription && description !== "?" && (
           <span className="text-xs sm:mt-1 whitespace-pre-line sm:text-center">
             {description}
           </span>
@@ -289,17 +289,15 @@ export const CraftingRequirements: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col h-full justify-between">
-      <div className="flex flex-col justify-center px-1 py-0">
+      <div className="flex flex-col h-full px-1 py-0">
         {getStock()}
         {details.from && (
-          <Label type="warning" className="my-1 mx-auto">
-            <div className="flex items-center">
-              <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
-              <span className="text-xxs">
-                {" "}
-                {formatDateRange(details.from, details.to as Date)}
-              </span>
-            </div>
+          <Label
+            icon={SUNNYSIDE.icons.stopwatch}
+            type="warning"
+            className="my-1 mx-auto"
+          >
+            {formatDateRange(details.from, details.to as Date)}
           </Label>
         )}
         {getItemDetail({ hideDescription })}

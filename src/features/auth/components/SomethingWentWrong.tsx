@@ -36,6 +36,23 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
     errorLogger({ error, transactionId, stack, date });
   }, []);
 
+  if (error?.includes("Returned values aren't valid")) {
+    return (
+      <>
+        <div className="p-2">
+          <h1 className="mb-1 text-lg text-center">Client RPC Error</h1>
+          <div className="w-full mb-1 flex justify-center">
+            <img src={lightningAnimation} className="h-20" />
+          </div>
+          <div className="space-y-3 text-sm mb-3">
+            <p>Please try again or check your Polygon RPC settings.</p>
+          </div>
+        </div>
+        {onAcknowledge && <Button onClick={onAcknowledge}>Refresh</Button>}
+      </>
+    );
+  }
+
   return (
     <>
       <div className="p-2">

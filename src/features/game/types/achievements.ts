@@ -73,10 +73,10 @@ export type Achievement = {
 export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   // Crops
   "Bread Winner": {
-    description: "Earn 0.01 SFL",
+    description: "Earn 0.001 SFL",
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Earned"] || 0,
-    requirement: 0.01,
+    requirement: 0.001,
     sfl: new Decimal(0),
     introduction: [
       "Well, well, well, partner... It looks like you need some SFL!",
@@ -118,7 +118,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     requirement: 100,
     sfl: marketRate(70),
   },
-
   "Farm Hand": {
     description: "Harvest crops 10,000 times",
     progress: (gameState: GameState) => {
@@ -138,7 +137,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       "Farmer Bear": new Decimal(1),
     },
   },
-
   "Beetroot Beast": {
     description: "Harvest Beetroot 2,000 times",
     progress: (gameState: GameState) =>
@@ -149,7 +147,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       "Beetroot Seed": new Decimal(100),
     },
   },
-
   "My life is potato": {
     description: "Harvest Potato 5,000 times",
     progress: (gameState: GameState) =>
@@ -157,7 +154,6 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     requirement: 5000,
     sfl: marketRate(300),
   },
-
   "Rapid Radish": {
     description: "Harvest Radish 200 times",
     progress: (gameState: GameState) =>
@@ -228,14 +224,14 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
 
   // Cooking
   "Busy Bumpkin": {
-    description: "Reach level 3",
+    description: "Reach level 2",
     progress: (gameState: GameState) =>
       getBumpkinLevel(gameState.bumpkin?.experience || 0),
-    requirement: 3,
+    requirement: 2,
     sfl: marketRate(10),
     introduction: [
       "Howdy, my ambitious friend! To unlock new crops, expansions, buildings and much more you will need to level up.",
-      "Head over to the Fire Pit, cook up a delicious recipe and feed it to your Bumpkin",
+      "Head over to the Fire Pit, cook up a delicious recipe and feed it to your Bumpkin.",
     ],
   },
   "Kiss the Cook": {
@@ -310,14 +306,14 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
 
   // Crafting
   "Scarecrow Maestro": {
-    description: " Craft a scarecrow and boost your crops",
+    description: "Craft a scarecrow and boost your crops",
     progress: (gameState: GameState) =>
       gameState.collectibles["Basic Scarecrow"]?.length ?? 0,
     requirement: 1,
     sfl: marketRate(0),
     introduction: [
       "Howdy, partner! It is time you learn the art of crafting and boosted your farming abilities",
-      "Travel to the Pumpkin Plaza, visit the Blacksmith and craft a Scarecrow",
+      "Travel to the Pumpkin Plaza, visit the Blacksmith and craft a Scarecrow.",
     ],
   },
   "Big Spender": {

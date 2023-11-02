@@ -8,6 +8,7 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 interface Props {
   messages: { farmId: number; sessionId: string; text: string }[];
   onMessage: (text: string) => void;
+  onCommand: (command: string) => void;
   cooledDownAt?: number;
 }
 
@@ -24,6 +25,7 @@ const ALPHA_REGEX = new RegExp(/^[\w*?!, '-]+$/);
 export const ChatText: React.FC<Props> = ({
   messages,
   onMessage,
+  onCommand,
   cooledDownAt,
 }) => {
   const ref = useRef<HTMLInputElement>();
@@ -42,8 +44,11 @@ export const ChatText: React.FC<Props> = ({
     const keyDownListener = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
         event.preventDefault();
-        if (valid) {
+        if (valid && !text?.trim().startsWith("/")) {
           send();
+        } else {
+          onCommand(text);
+          setText("");
         }
       }
     };
@@ -110,7 +115,6 @@ export const ChatText: React.FC<Props> = ({
           { "mt-2": hasMessages }
         )}
         style={{ lineHeight: "10px" }}
-        onClick={() => console.log("text div clicked")}
       >
         <div
           className={classNames(

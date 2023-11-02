@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
 
 import { Context } from "features/game/GoblinProvider";
-import { Wardrobe } from "features/game/types/game";
+import { GameState, Wardrobe } from "features/game/types/game";
 import { shortAddress } from "lib/utils/shortAddress";
 
 import { Button } from "components/ui/Button";
@@ -18,6 +18,19 @@ import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { BUMPKIN_WITHDRAWABLES } from "features/game/types/withdrawables";
 
+export const isCurrentObsession = (itemName: BumpkinItem, game: GameState) => {
+  const obsessionCompletedAt = game.npcs?.bert?.questCompletedAt;
+  const currentObsession = game.bertObsession;
+
+  if (!obsessionCompletedAt || !currentObsession) return false;
+  if (currentObsession.name !== itemName) return false;
+
+  return (
+    obsessionCompletedAt >= currentObsession.startDate &&
+    obsessionCompletedAt <= currentObsession.endDate
+  );
+};
+
 interface Props {
   onWithdraw: (ids: number[], amounts: number[]) => void;
 }
@@ -31,7 +44,6 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
 
   useEffect(() => {
     setWardrobe(availableWardrobe(goblinState.context.state));
-    setSelected({});
   }, []);
 
   const withdraw = () => {
@@ -65,30 +77,12 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
     }));
   };
 
-  // TODO - Filter out currently equipped items!
-  const bumpkin = goblinState.context.state.bumpkin!;
-  const { equipped } = bumpkin;
-
-  const isCurrentObsession = (itemName: BumpkinItem) => {
-    const obsessionCompletedAt =
-      goblinState.context.state.npcs?.bert?.questCompletedAt;
-    const currentObsession = goblinState.context.state.bertObsession;
-
-    if (!obsessionCompletedAt || !currentObsession) return false;
-    if (currentObsession.name !== itemName) return false;
-
-    return (
-      obsessionCompletedAt >= currentObsession.startDate &&
-      obsessionCompletedAt <= currentObsession.endDate
-    );
-  };
-
   const withdrawableItems = [...new Set([...getKeys(wardrobe)])]
-    .sort((a, b) => ITEM_IDS[a] - ITEM_IDS[b])
     .filter(
       (item) =>
-        !Object.values(equipped).includes(item) && !isCurrentObsession(item)
-    );
+        wardrobe[item] && !isCurrentObsession(item, goblinState.context.state)
+    )
+    .sort((a, b) => ITEM_IDS[a] - ITEM_IDS[b]);
 
   const selectedItems = getKeys(selected)
     .filter((item) => !!selected[item])
@@ -124,24 +118,22 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
         </div>
         <h2 className="mb-3">Select items to withdraw</h2>
         <div className="flex flex-wrap h-fit -ml-1.5">
-          {withdrawableItems
-            .filter((name) => !!wardrobe[name])
-            .map((itemName) => {
-              // The wardrobe amount that is not placed
-              const wardrobeCount = wardrobe[itemName];
+          {withdrawableItems.map((itemName) => {
+            // The wardrobe amount that is not placed
+            const wardrobeCount = wardrobe[itemName];
 
-              return (
-                <Box
-                  count={new Decimal(wardrobeCount ?? 0)}
-                  key={itemName}
-                  onClick={() => onAdd(itemName)}
-                  disabled={
-                    !BUMPKIN_WITHDRAWABLES[itemName](goblinState.context.state)
-                  }
-                  image={getImageUrl(ITEM_IDS[itemName])}
-                />
-              );
-            })}
+            return (
+              <Box
+                count={new Decimal(wardrobeCount ?? 0)}
+                key={itemName}
+                onClick={() => onAdd(itemName)}
+                disabled={
+                  !BUMPKIN_WITHDRAWABLES[itemName](goblinState.context.state)
+                }
+                image={getImageUrl(ITEM_IDS[itemName])}
+              />
+            );
+          })}
           {/* Pad with empty boxes */}
           {withdrawableItems.length < 4 &&
             new Array(4 - withdrawableItems.length)

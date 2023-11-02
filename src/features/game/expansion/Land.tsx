@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect } from "react";
+import React, { useContext, useLayoutEffect, useMemo } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 
@@ -23,7 +23,6 @@ import { Chicken } from "../types/game";
 import { Chicken as ChickenElement } from "features/island/chickens/Chicken";
 import { Hud } from "features/island/hud/Hud";
 import { Resource } from "features/island/resources/Resource";
-import { IslandTravel } from "./components/travel/IslandTravel";
 import { Placeable } from "./placeable/Placeable";
 import { MachineState } from "../lib/gameMachine";
 import { GameGrid, getGameGrid } from "./placeable/lib/makeGrid";
@@ -33,6 +32,9 @@ import { useFirstRender } from "lib/utils/hooks/useFirstRender";
 import { MUSHROOM_DIMENSIONS } from "../types/resources";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import ocean from "assets/decorations/ocean.webp";
+import { Bud } from "features/island/buds/Bud";
+import { hasFeatureAccess } from "lib/flags";
+import { Fisherman } from "features/island/fisherman/Fisherman";
 
 export const LAND_WIDTH = 6;
 
@@ -50,6 +52,7 @@ const getIslandElements = ({
   grid,
   mushrooms,
   isFirstRender,
+  buds,
 }: {
   expansionConstruction?: ExpansionConstruction;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
@@ -65,6 +68,7 @@ const getIslandElements = ({
   grid: GameGrid;
   mushrooms: GameState["mushrooms"]["mushrooms"];
   isFirstRender: boolean;
+  buds: GameState["buds"];
 }) => {
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -338,6 +342,23 @@ const getIslandElements = ({
       );
   }
 
+  {
+    buds &&
+      mapPlacements.push(
+        ...getKeys(buds)
+          .filter((budId) => !!buds[budId].coordinates)
+          .flatMap((id) => {
+            const { x, y } = buds[id]!.coordinates!;
+
+            return (
+              <MapPlacement key={`bud-${id}`} x={x} y={y} height={1} width={1}>
+                <Bud id={String(id)} x={x} y={y} />
+              </MapPlacement>
+            );
+          })
+      );
+  }
+
   return mapPlacements;
 };
 
@@ -349,6 +370,7 @@ const isVisiting = (state: MachineState) => state.matches("visiting");
 export const Land: React.FC = () => {
   const { gameService, showTimers } = useContext(Context);
 
+  const state = useSelector(gameService, selectGameState);
   const {
     expansionConstruction,
     buildings,
@@ -363,7 +385,8 @@ export const Land: React.FC = () => {
     crops,
     fruitPatches,
     mushrooms,
-  } = useSelector(gameService, selectGameState);
+    buds,
+  } = state;
   const autosaving = useSelector(gameService, isAutosaving);
   const landscaping = useSelector(gameService, isLandscaping);
   const visiting = useSelector(gameService, isVisiting);
@@ -397,10 +420,12 @@ export const Land: React.FC = () => {
       return { x: -16, y: -16.5 };
     }
   };
-  const gameGrid = getGameGrid({
-    crops,
-    collectibles,
-  });
+
+  // memorize game grid and only update it when the stringified value changes
+  const gameGridValue = getGameGrid({ crops, collectibles });
+  const gameGrid = useMemo(() => {
+    return gameGridValue;
+  }, [JSON.stringify(gameGridValue)]);
 
   return (
     <>
@@ -424,7 +449,12 @@ export const Land: React.FC = () => {
             <LandBase expandedCount={expansionCount} />
             <DirtRenderer grid={gameGrid} />
 
-            {!landscaping && <Water expansionCount={expansionCount} />}
+            {!landscaping && (
+              <Water
+                expansionCount={expansionCount}
+                townCenterBuilt={(buildings["Town Center"]?.length ?? 0) >= 1}
+              />
+            )}
             {!landscaping && <UpcomingExpansion />}
 
             <div
@@ -459,23 +489,14 @@ export const Land: React.FC = () => {
               grid: gameGrid,
               mushrooms: mushrooms?.mushrooms,
               isFirstRender,
+              buds,
             }).sort((a, b) => b.props.y - a.props.y)}
           </div>
 
           {landscaping && <Placeable />}
         </div>
 
-        {!landscaping && (
-          <IslandTravel
-            bumpkin={bumpkin}
-            isVisiting={visiting}
-            inventory={inventory}
-            travelAllowed={!autosaving}
-            onTravelDialogOpened={() => gameService.send("SAVE")}
-            x={boatCoordinates().x}
-            y={boatCoordinates().y}
-          />
-        )}
+        {!landscaping && hasFeatureAccess(state, "FISHING") && <Fisherman />}
 
         {/* Background darkens in landscaping */}
         <div

@@ -13,7 +13,12 @@ import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
 import { getCropTime } from "features/game/events/landExpansion/plant";
 import { getKeys } from "features/game/types/craftables";
 import { getBasketItems } from "./utils/inventory";
-import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import {
+  ConsumableName,
+  CONSUMABLES,
+  COOKABLES,
+  PIRATE_CAKE,
+} from "features/game/types/consumables";
 import { COMMODITIES } from "features/game/types/resources";
 import { BEANS, EXOTIC_CROPS } from "features/game/types/beans";
 import { FRUIT, FruitSeedName, FRUIT_SEEDS } from "features/game/types/fruits";
@@ -28,6 +33,12 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SELLABLE_TREASURE } from "features/game/types/treasure";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
+import {
+  BAIT,
+  CROP_COMPOST,
+  FRUIT_COMPOST,
+} from "features/game/types/composters";
+import { FISH } from "features/game/types/fishing";
 
 interface Prop {
   gameState: GameState;
@@ -38,7 +49,7 @@ interface Prop {
 export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const divRef = useRef<HTMLDivElement>(null);
 
-  const { inventory, bumpkin, collectibles } = gameState;
+  const { inventory, bumpkin, collectibles, buildings, buds } = gameState;
   const basketMap = getBasketItems(inventory);
 
   const basketIsEmpty = Object.values(basketMap).length === 0;
@@ -59,8 +70,6 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const selectedItem = selected ?? getKeys(basketMap)[0] ?? "Sunflower Seed";
 
-  console.log({ selectedItem });
-
   const isFruitSeed = (
     selected: InventoryItemName
   ): selected is FruitSeedName => selected in FRUIT_SEEDS();
@@ -74,7 +83,13 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     }
 
     const crop = SEEDS()[seedName].yield as CropName;
-    return getCropTime(crop, inventory, collectibles, bumpkin as Bumpkin);
+    return getCropTime({
+      crop,
+      inventory,
+      collectibles,
+      bumpkin: bumpkin as Bumpkin,
+      buds: buds ?? {},
+    });
   };
 
   const harvestCounts = getFruitHarvests(gameState);
@@ -97,12 +112,17 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const treasureTools = getItems(TREASURE_TOOLS);
   const exotic = getItems(BEANS());
   const resources = getItems(COMMODITIES);
-  const consumables = getItems(CONSUMABLES);
+  const foods = getItems(COOKABLES);
+  const pirateCake = getItems(PIRATE_CAKE);
   const fertilisers = getItems(FERTILISERS);
   const coupons = getItems(COUPONS);
   const easterEggs = getItems(EASTER_EGG);
   const bounty = getItems(SELLABLE_TREASURE);
   const exotics = getItems(EXOTIC_CROPS);
+  const cropCompost = getItems(CROP_COMPOST);
+  const fruitCompost = getItems(FRUIT_COMPOST);
+  const bait = getItems(BAIT);
+  const fish = getItems(FISH);
 
   const allSeeds = [...seeds, ...fruitSeeds];
   const allTools = [...workbenchTools, ...treasureTools];
@@ -155,7 +175,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
                     getFoodExpBoost(
                       CONSUMABLES[selectedItem as ConsumableName],
                       gameState.bumpkin as Bumpkin,
-                      gameState.collectibles
+                      gameState.collectibles,
+                      gameState.buds ?? {}
                     )
                   )
                 : undefined,
@@ -170,16 +191,22 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       content={
         <>
           {itemsSection("Seeds", allSeeds)}
-          {itemsSection("Tools", allTools)}
+          {itemsSection("Fertilisers", [
+            ...cropCompost,
+            ...fruitCompost,
+            ...fertilisers,
+          ])}
           {itemsSection("Crops", crops)}
           {itemsSection("Fruits", fruits)}
+          {itemsSection("Tools", allTools)}
           {itemsSection("Resources", resources)}
+          {itemsSection("Bait", bait)}
+          {itemsSection("Fish", fish)}
+          {itemsSection("Foods", [...foods, ...pirateCake])}
           {itemsSection("Exotic", exotic)}
-          {itemsSection("Foods", consumables)}
-          {itemsSection("Fertilisers", fertilisers)}
-          {itemsSection("Easter Eggs", easterEggs)}
           {itemsSection("Bounty", [...bounty, ...exotics])}
           {itemsSection("Coupons", coupons)}
+          {itemsSection("Easter Eggs", easterEggs)}
         </>
       }
     />

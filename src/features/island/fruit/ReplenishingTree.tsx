@@ -2,76 +2,69 @@ import React, { useContext, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { getTimeLeft } from "lib/utils/time";
-import { PlantedFruit } from "features/game/types/game";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { TimerPopover } from "../common/TimerPopover";
 import { FRUIT, FRUIT_SEEDS, FruitName } from "features/game/types/fruits";
 import { FRUIT_LIFECYCLE } from "./fruits";
-import { setImageWidth } from "lib/images";
-import { FruitDropAnimator } from "components/animation/FruitDropAnimator";
-import { getFruitImage } from "./FruitTree";
+import classNames from "classnames";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 const pluralisedNames: Record<FruitName, string> = {
   Orange: "Oranges",
   Blueberry: "Blueberries",
   Apple: "Apples",
+  Banana: "Bananas",
 };
 
 interface Props {
-  plantedFruit: PlantedFruit;
-  onClick: () => void;
-  playAnimation: boolean;
-  /**
-   * Handles showing "hover" information on mobile or "error" on click action information
-   */
-  showOnClickInfo: boolean;
+  fruitName: FruitName;
+  timeLeft: number;
+  playShakeAnimation: boolean;
 }
 
 export const ReplenishingTree: React.FC<Props> = ({
-  plantedFruit,
-  onClick,
-  playAnimation,
-  showOnClickInfo,
+  fruitName,
+  timeLeft,
+  playShakeAnimation,
 }) => {
   const { showTimers } = useContext(Context);
-  const [showFruitDetails, setFruitDetails] = useState(false);
-  const { harvestedAt, name, amount } = plantedFruit;
-  const lifecycle = FRUIT_LIFECYCLE[name];
+  const [showPopover, setShowPopover] = useState(false);
+  const lifecycle = FRUIT_LIFECYCLE[fruitName];
 
-  const { seed, isBush } = FRUIT()[name];
+  const { seed, isBush } = FRUIT()[fruitName];
+  const isBanana = fruitName === "Banana";
+
+  const bottom = isBanana ? 8 : 5;
+  const left = isBanana ? 1.2 : isBush ? 4 : 3;
+  const width = isBanana ? 31 : isBush ? 24 : 26;
+
   const { plantSeconds } = FRUIT_SEEDS()[seed];
 
-  const replenishingTimeLeft = getTimeLeft(harvestedAt, plantSeconds);
-  const replenishPercentage = 100 - (replenishingTimeLeft / plantSeconds) * 100;
+  const replenishPercentage = 100 - (timeLeft / plantSeconds) * 100;
 
   return (
     <div
-      onMouseEnter={() => setFruitDetails(true)}
-      onMouseLeave={() => setFruitDetails(false)}
+      onMouseEnter={() => setShowPopover(true)}
+      onMouseLeave={() => setShowPopover(false)}
       className="absolute h-full w-full"
     >
-      <FruitDropAnimator
-        mainImageProps={{
-          src: lifecycle.harvested,
-          className: "absolute pointer-events-none",
-          style: {
-            bottom: `${PIXEL_SCALE * 5}px`,
-            left: `${PIXEL_SCALE * (isBush ? 4 : 3)}px`,
-          },
-          onLoad: (e) => setImageWidth(e.currentTarget),
-          onClick: onClick,
+      {/* Replenishing tree */}
+      <img
+        src={lifecycle.harvested}
+        className={classNames("absolute pointer-events-none", {
+          "resource-node-shake-animation": playShakeAnimation,
+        })}
+        style={{
+          bottom: `${PIXEL_SCALE * bottom}px`,
+          left: `${PIXEL_SCALE * left}px`,
+          width: `${PIXEL_SCALE * width}px`,
         }}
-        dropImageProps={{
-          src: getFruitImage(name),
-        }}
-        dropCount={amount}
-        playDropAnimation={playAnimation}
-        playShakeAnimation={playAnimation}
       />
+
+      {/* Progress bar */}
       {showTimers && (
         <div
-          className="absolute"
+          className="absolute pointer-events-none"
           style={{
             bottom: `${PIXEL_SCALE * 7}px`,
             left: `${PIXEL_SCALE * 8}px`,
@@ -80,20 +73,27 @@ export const ReplenishingTree: React.FC<Props> = ({
         >
           <ProgressBar
             percentage={replenishPercentage}
-            seconds={replenishingTimeLeft}
+            seconds={timeLeft}
             type="progress"
             formatLength="short"
           />
         </div>
       )}
 
-      <TimerPopover
-        showPopover={showFruitDetails || showOnClickInfo}
-        image={lifecycle.ready}
-        name={`${pluralisedNames[name]} Replenishing`}
-        timeLeft={replenishingTimeLeft}
-        position={{ top: 6, left: 30 }}
-      />
+      {/* Timer popover */}
+      <div
+        className="flex justify-center absolute w-full pointer-events-none"
+        style={{
+          top: `${PIXEL_SCALE * -16}px`,
+        }}
+      >
+        <TimerPopover
+          showPopover={showPopover}
+          image={ITEM_DETAILS[fruitName].image}
+          description={`${pluralisedNames[fruitName]} Replenishing`}
+          timeLeft={timeLeft}
+        />
+      </div>
     </div>
   );
 };

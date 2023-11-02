@@ -16,7 +16,7 @@ import { SquareIcon } from "./SquareIcon";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
-const LABEL_TOP_SHIFT_PX = -6 * PIXEL_SCALE;
+const LABEL_TOP_SHIFT_PX = -5 * PIXEL_SCALE;
 const INNER_CANVAS_WIDTH = 14;
 
 export interface BoxProps {
@@ -37,6 +37,7 @@ export interface BoxProps {
   showOverlay?: boolean;
   overlayIcon?: React.ReactNode;
   className?: string;
+  iconClassName?: string;
   /**
    * The ref for the parent div of the boxes.
    * Used for shifting the item count label if it will be outside of the parent div.
@@ -60,6 +61,7 @@ export const Box: React.FC<BoxProps> = ({
   showOverlay = false,
   overlayIcon,
   className = "",
+  iconClassName = "",
   parentDivRef,
 }) => {
   const [isHover, setIsHover] = useState(false);
@@ -166,7 +168,11 @@ export const Box: React.FC<BoxProps> = ({
         }}
       >
         <div className="absolute flex justify-center items-center w-full h-full">
-          <SquareIcon icon={image} width={INNER_CANVAS_WIDTH} />
+          <SquareIcon
+            icon={image}
+            width={INNER_CANVAS_WIDTH}
+            className={iconClassName}
+          />
           {secondaryImage && (
             <img
               src={secondaryImage}

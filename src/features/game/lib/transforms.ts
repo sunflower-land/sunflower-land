@@ -60,6 +60,9 @@ export function makeGame(farm: any): GameState {
 
     bumpkin: farm.bumpkin,
     buildings: farm.buildings,
+    fishing: farm.fishing ?? { wharf: {} },
+    farmActivity: farm.farmActivity ?? {},
+    milestones: farm.milestones ?? {},
     airdrops: farm.airdrops,
     collectibles: farm.collectibles,
     warCollectionOffer: farm.warCollectionOffer,
@@ -84,9 +87,11 @@ export function makeGame(farm: any): GameState {
     },
     mushrooms: farm.mushrooms,
     witchesEve: farm.witchesEve,
+    catchTheKraken: farm.catchTheKraken,
     delivery: farm.delivery,
     potionHouse: farm.potionHouse,
     npcs: farm.npcs,
+    buds: farm.buds,
   };
 }
 
@@ -112,6 +117,9 @@ export function getAvailableGameState({
     }),
     ...(offChain.inventory["Witches' Eve Banner"] && {
       "Witches' Eve Banner": offChain.inventory["Witches' Eve Banner"],
+    }),
+    ...(offChain.inventory["Catch the Kraken Banner"] && {
+      "Catch the Kraken Banner": offChain.inventory["Catch the Kraken Banner"],
     }),
   };
 

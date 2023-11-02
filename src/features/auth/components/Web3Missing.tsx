@@ -3,9 +3,9 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "../lib/Provider";
 
-export const Web3Missing: React.FC<{ wallet?: "PHANTOM" | "CRYPTO_COM" }> = ({
-  wallet,
-}) => {
+export const Web3Missing: React.FC<{
+  wallet?: "PHANTOM" | "CRYPTO_COM" | "BITGET";
+}> = ({ wallet }) => {
   const { authService } = useContext(Context);
 
   const goToMetamaskSetupDocs = () => {
@@ -26,9 +26,17 @@ export const Web3Missing: React.FC<{ wallet?: "PHANTOM" | "CRYPTO_COM" }> = ({
     );
   };
 
+  const goToBitgetSetupDocs = () => {
+    window.open(
+      "https://chrome.google.com/webstore/detail/bitget-wallet-formerly-bi/jiidiaalihmmhddjgbnbgdfflelocpak",
+      "_blank"
+    );
+  };
+
   const handleClick = () => {
     if (wallet === "PHANTOM") return goToPhantomSetupDocs();
     if (wallet === "CRYPTO_COM") return goToCryptoComSetupDocs();
+    if (wallet === "BITGET") return goToBitgetSetupDocs();
     return goToMetamaskSetupDocs();
   };
 

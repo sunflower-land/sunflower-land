@@ -2,7 +2,6 @@ import React from "react";
 
 import { Button } from "components/ui/Button";
 import token from "assets/icons/token_2.png";
-import lightning from "assets/icons/lightning.png";
 import bg from "assets/ui/brown_background.png";
 
 import { Label } from "components/ui/Label";
@@ -13,9 +12,9 @@ import { GoblinState } from "features/game/lib/goblinMachine";
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Auction } from "features/game/lib/auctionMachine";
-import { BUMPKIN_ITEM_BUFF, ITEM_IDS } from "features/game/types/bumpkin";
+import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
-import { COLLECTIBLE_BUFF } from "features/game/types/collectibles";
+import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 
 type Props = {
   item: Auction;
@@ -103,10 +102,10 @@ export const AuctionDetails: React.FC<Props> = ({
       ? ITEM_DETAILS[item.collectible].image
       : getImageUrl(ITEM_IDS[item.wearable]);
 
-  const buff =
+  const buffLabel =
     item.type === "collectible"
-      ? COLLECTIBLE_BUFF[item.collectible]
-      : BUMPKIN_ITEM_BUFF[item.wearable];
+      ? ITEM_DETAILS[item.collectible].buff
+      : BUMPKIN_ITEM_BUFF_LABELS[item.wearable];
   return (
     <div className="w-full flex flex-col items-center">
       <div className="w-full flex flex-col items-center mx-auto">
@@ -116,17 +115,20 @@ export const AuctionDetails: React.FC<Props> = ({
             src={SUNNYSIDE.icons.arrow_left}
             className="h-8 cursor-pointer"
           />
-          <p className="-ml-5">
+          <p className="-ml-5 max-w-[80%] sm:max-w-none text-center">
             {item.type === "collectible" ? item.collectible : item.wearable}
           </p>
           <div />
         </div>
 
-        {buff && (
-          <div className="flex">
-            <img src={lightning} className="h-6 mb-2 mr-1" />
-            <p className="text-sm">{buff}</p>
-          </div>
+        {buffLabel && (
+          <Label
+            type={buffLabel.labelType}
+            icon={buffLabel.boostTypeIcon}
+            secondaryIcon={buffLabel.boostedItemIcon}
+          >
+            {buffLabel.shortDescription}
+          </Label>
         )}
 
         <p className="text-center text-xs mb-3">
@@ -146,7 +148,7 @@ export const AuctionDetails: React.FC<Props> = ({
           <div className="absolute inset-0">
             <img
               src={image}
-              className="absolute w-1/2 z-20 object-cover mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              className="absolute w-1/2 h-1/2 z-20 object-contain mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             />
             <Label type="default" className="mb-2 absolute top-2 right-2">
               {`${item.supply} available`}
@@ -189,7 +191,7 @@ export const AuctionDetails: React.FC<Props> = ({
             TimerDisplay({ time: start })
           )}
         </div>
-        <div className="flex  flex-col  items-center  w-48  mb-2">
+        <div className="flex flex-col items-center w-48 mb-2">
           <a
             href="https://docs.sunflower-land.com/player-guides/auctions#auction-period"
             target="_blank"

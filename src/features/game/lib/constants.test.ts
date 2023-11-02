@@ -74,6 +74,7 @@ describe("INITIAL_STOCK", () => {
     expect(INITIAL_STOCK(state)["Apple Seed"]).toEqual(new Decimal(10));
     expect(INITIAL_STOCK(state)["Orange Seed"]).toEqual(new Decimal(13));
     expect(INITIAL_STOCK(state)["Blueberry Seed"]).toEqual(new Decimal(16));
+    expect(INITIAL_STOCK(state)["Banana Plant"]).toEqual(new Decimal(10));
   });
 
   it("increases stock of seeds if Warehouse is placed and ready", () => {
@@ -107,6 +108,7 @@ describe("INITIAL_STOCK", () => {
     expect(INITIAL_STOCK(state)["Apple Seed"]).toEqual(new Decimal(12));
     expect(INITIAL_STOCK(state)["Orange Seed"]).toEqual(new Decimal(16));
     expect(INITIAL_STOCK(state)["Blueberry Seed"]).toEqual(new Decimal(20));
+    expect(INITIAL_STOCK(state)["Banana Plant"]).toEqual(new Decimal(12));
   });
 });
 
@@ -144,6 +146,7 @@ describe("INVENTORY_LIMIT", () => {
     expect(INVENTORY_LIMIT(state)["Apple Seed"]).toEqual(new Decimal(25));
     expect(INVENTORY_LIMIT(state)["Orange Seed"]).toEqual(new Decimal(33));
     expect(INVENTORY_LIMIT(state)["Blueberry Seed"]).toEqual(new Decimal(40));
+    expect(INVENTORY_LIMIT(state)["Banana Plant"]).toEqual(new Decimal(25));
   });
 
   it("increases inventory limit of seeds if Warehouse is placed and ready", () => {
@@ -179,5 +182,6 @@ describe("INVENTORY_LIMIT", () => {
     expect(INVENTORY_LIMIT(state)["Apple Seed"]).toEqual(new Decimal(30));
     expect(INVENTORY_LIMIT(state)["Orange Seed"]).toEqual(new Decimal(40));
     expect(INVENTORY_LIMIT(state)["Blueberry Seed"]).toEqual(new Decimal(50));
+    expect(INVENTORY_LIMIT(state)["Banana Plant"]).toEqual(new Decimal(30));
   });
 });

@@ -20,6 +20,7 @@ export function feedBumpkin({ state, action }: Options): GameState {
 
   const bumpkin = stateCopy.bumpkin;
   const collectibles = stateCopy.collectibles;
+  const buds = stateCopy.buds;
   const inventory = stateCopy.inventory;
   const quantity = inventory[action.food] ?? new Decimal(0);
 
@@ -35,7 +36,8 @@ export function feedBumpkin({ state, action }: Options): GameState {
   bumpkin.experience += getFoodExpBoost(
     CONSUMABLES[action.food],
     bumpkin,
-    collectibles
+    collectibles,
+    buds ?? {}
   );
 
   bumpkin.activity = trackActivity(`${action.food} Fed`, bumpkin.activity);

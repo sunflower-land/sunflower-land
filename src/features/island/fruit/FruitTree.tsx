@@ -1,45 +1,64 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { getTimeLeft } from "lib/utils/time";
-import { setImageWidth } from "lib/images";
 import { PlantedFruit } from "features/game/types/game";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { FRUIT, FruitName, FRUIT_SEEDS } from "features/game/types/fruits";
-import { FRUIT_LIFECYCLE } from "./fruits";
-import { Soil } from "./Soil";
+import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
+import { FruitSoil } from "./FruitSoil";
 
-import { Seedling } from "./Seedling";
-import { ReplenishingTree } from "./ReplenishingTree";
+import { FruitSeedling } from "./FruitSeedling";
 
-import apple from "/src/assets/resources/apple.png";
-import orange from "/src/assets/resources/orange.png";
-import blueberry from "/src/assets/resources/blueberry.png";
 import { DeadTree } from "./DeadTree";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ReplenishingTree } from "./ReplenishingTree";
+import { ReplenishedTree } from "./ReplenishedTree";
 
-export const getFruitImage = (fruitName: FruitName): string => {
-  switch (fruitName) {
-    case "Apple":
-      return apple;
-    case "Orange":
-      return orange;
-    case "Blueberry":
-      return blueberry;
+type Stage = "Empty" | "Seedling" | "Replenishing" | "Replenished" | "Dead";
+
+type FruitTreeStatus = {
+  stage: Stage;
+  timeLeft?: number;
+};
+
+const getFruitTreeStatus = (plantedFruit?: PlantedFruit): FruitTreeStatus => {
+  // No fruits planted
+  if (!plantedFruit) return { stage: "Empty" };
+
+  const { name, harvestsLeft, harvestedAt, plantedAt } = plantedFruit;
+
+  // Dead tree/bush
+  if (!harvestsLeft) return { stage: "Dead" };
+
+  const { seed } = FRUIT()[name];
+  const { plantSeconds } = FRUIT_SEEDS()[seed];
+
+  if (harvestedAt) {
+    const replenishingTimeLeft = getTimeLeft(harvestedAt, plantSeconds);
+
+    // Replenishing tree
+    if (replenishingTimeLeft > 0) {
+      return { stage: "Replenishing", timeLeft: replenishingTimeLeft };
+    }
   }
+
+  const growingTimeLeft = getTimeLeft(plantedAt, plantSeconds);
+
+  // Seedling
+  if (growingTimeLeft > 0) {
+    return { stage: "Seedling", timeLeft: growingTimeLeft };
+  }
+
+  // Replenished tree
+  return { stage: "Replenished" };
 };
 
 interface Props {
   plantedFruit?: PlantedFruit;
-  playing: boolean;
   plantTree: () => void;
   harvestFruit: () => void;
   removeTree: () => void;
-  onError: () => void;
-  playAnimation: boolean;
-  /**
-   * Handles showing "hover" information on mobile or "error" on click action information
-   */
-  showOnClickInfo: boolean;
+  fertilise: () => void;
+  playShakingAnimation: boolean;
+  hasAxes: boolean;
 }
 
 export const FruitTree: React.FC<Props> = ({
@@ -47,102 +66,59 @@ export const FruitTree: React.FC<Props> = ({
   plantTree,
   harvestFruit,
   removeTree,
-  onError,
-  playing,
-  playAnimation,
-  showOnClickInfo,
+  fertilise,
+  playShakingAnimation,
+  hasAxes,
 }) => {
-  useUiRefresher({ active: !!plantedFruit });
-  //UI Refresher reloads this component after a regular time intervals.
-  //which results to pre loading of the image again and again.
-  const [alreadyPreloaded, setAlreadyPreloaded] = useState(false);
+  const treeStatus = getFruitTreeStatus(plantedFruit);
+  useUiRefresher({ active: !!treeStatus.timeLeft });
 
-  const preloadImage = (url: string) => {
-    const img = new Image();
-    img.src = url;
-    setAlreadyPreloaded(true);
-  };
-
+  // Empty plot
   if (!plantedFruit) {
     return (
-      <Soil
-        showOnClickInfo={showOnClickInfo}
-        playing={playing}
-        onClick={plantTree}
-        playAnimation={playAnimation}
-      />
+      <div className="absolute w-full h-full" onClick={plantTree}>
+        <FruitSoil />
+      </div>
     );
   }
 
-  const { name, amount, harvestsLeft, harvestedAt, plantedAt } = plantedFruit;
-  const { seed, isBush } = FRUIT()[name];
-  const { plantSeconds } = FRUIT_SEEDS()[seed];
-  const lifecycle = FRUIT_LIFECYCLE[name];
+  const { name } = plantedFruit;
 
   // Dead tree
-  if (!harvestsLeft) {
+  if (treeStatus.stage === "Dead") {
     return (
-      <DeadTree
-        fruitImage={getFruitImage(name)}
-        fruit={name}
-        showOnClickInfo={showOnClickInfo}
-        {...{ amount, playAnimation, removeTree, lifecycle }}
-      />
+      <div className="absolute w-full h-full" onClick={removeTree}>
+        <DeadTree fruitName={name} hasAxes={hasAxes} />
+      </div>
+    );
+  }
+
+  // Seedling tree
+  if (treeStatus.stage === "Seedling" && !!treeStatus.timeLeft) {
+    return (
+      <div className="absolute w-full h-full" onClick={fertilise}>
+        <FruitSeedling fruitName={name} timeLeft={treeStatus.timeLeft} />
+      </div>
     );
   }
 
   // Replenishing tree
-  if (harvestedAt) {
-    const replenishingTimeLeft = getTimeLeft(harvestedAt, plantSeconds);
-
-    if (replenishingTimeLeft > 0) {
-      return (
-        <ReplenishingTree
-          onClick={onError}
-          plantedFruit={plantedFruit}
-          playAnimation={playAnimation}
-          showOnClickInfo={showOnClickInfo}
-        />
-      );
-    }
-  }
-
-  // Seedling
-  const growingTimeLeft = getTimeLeft(plantedAt, plantSeconds);
-
-  if (growingTimeLeft > 0) {
+  if (treeStatus.stage === "Replenishing" && !!treeStatus.timeLeft) {
     return (
-      <Seedling
-        onClick={onError}
-        playing={playing}
-        plantedFruit={plantedFruit}
-        showOnClickInfo={showOnClickInfo}
-      />
+      <div className="absolute w-full h-full" onClick={fertilise}>
+        <ReplenishingTree
+          fruitName={name}
+          timeLeft={treeStatus.timeLeft}
+          playShakeAnimation={playShakingAnimation}
+        />
+      </div>
     );
-  }
-
-  //Pre loading the harvested tree image so that we get a smooth transition
-  // when the user clicks on the ready tree and it transitions to the harvest state.
-  if (!alreadyPreloaded) {
-    preloadImage(lifecycle.harvested);
-    preloadImage(getFruitImage(name));
   }
 
   // Ready tree
   return (
-    <div
-      className="absolute h-full w-full hover:img-highlight cursor-pointer"
-      onClick={harvestFruit}
-    >
-      <img
-        className="absolute pointer-events-none"
-        style={{
-          bottom: `${PIXEL_SCALE * 5}px`,
-          left: `${PIXEL_SCALE * (isBush ? 4 : 3)}px`,
-        }}
-        src={lifecycle.ready}
-        onLoad={(e) => setImageWidth(e.currentTarget)}
-      />
+    <div className="absolute w-full h-full" onClick={harvestFruit}>
+      <ReplenishedTree fruitName={name} />
     </div>
   );
 };

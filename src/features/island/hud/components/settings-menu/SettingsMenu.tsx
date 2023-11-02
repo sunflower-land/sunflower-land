@@ -167,19 +167,6 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                         <span>Discord</span>
                       </Button>
                     </li>
-
-                    <li className="p-1">
-                      <Button onClick={handleAddMatic}>
-                        <span>Buy Matic</span>
-                      </Button>
-                    </li>
-
-                    <li className="p-1">
-                      <Button onClick={handleAddSFL}>
-                        <span>Buy SFL 🇧🇷🇵🇭🇮🇳</span>
-                      </Button>
-                    </li>
-
                     <li className="p-1">
                       <Button onClick={handleSwapSFL}>
                         <span>Swap MATIC for SFL</span>

@@ -8,6 +8,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "react-bootstrap";
 import { Buildings } from "features/island/buildings/Buildings";
+import { BudName } from "features/game/types/buds";
 
 interface Props {
   show: boolean;
@@ -15,9 +16,10 @@ interface Props {
   state: GameState;
   selectedBasketItem?: InventoryItemName;
   onSelectBasketItem: (name: InventoryItemName) => void;
-  selectedChestItem: InventoryItemName;
-  onSelectChestItem: (name: InventoryItemName) => void;
+  selectedChestItem: InventoryItemName | BudName;
+  onSelectChestItem: (name: InventoryItemName | BudName) => void;
   onPlace?: (name: InventoryItemName) => void;
+  onPlaceBud?: (bud: BudName) => void;
   onDepositClick?: () => void;
   isSaving?: boolean;
   isFarming: boolean;
@@ -38,6 +40,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
   onSelectChestItem,
   onDepositClick,
   onPlace,
+  onPlaceBud,
   isSaving,
   isFarming,
   isFullUser,
@@ -72,6 +75,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
             onSelect={onSelectChestItem}
             closeModal={onHide}
             onPlace={isFarming ? onPlace : undefined}
+            onPlaceBud={isFarming ? onPlaceBud : undefined}
             onDepositClick={isFullUser ? onDepositClick : undefined}
             isSaving={isSaving}
           />

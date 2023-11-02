@@ -19,9 +19,17 @@ interface Props {
   farmId: number;
   messages: Message[];
   onMessage: (content: { text?: string; reaction?: ReactionName }) => void;
+  isMuted?: boolean;
+  onCommand?: (name: string, args: string[]) => void;
 }
 
-export const ChatUI: React.FC<Props> = ({ farmId, onMessage, messages }) => {
+export const ChatUI: React.FC<Props> = ({
+  farmId,
+  onMessage,
+  isMuted,
+  onCommand,
+  messages,
+}) => {
   const [showChat, setShowChat] = useState(false);
   const [cooldown, setCooldown] = useState<number>(0);
   const [messageCountOnChatClose, setMessageCountOnChatClose] = useState(0);
@@ -35,7 +43,15 @@ export const ChatUI: React.FC<Props> = ({ farmId, onMessage, messages }) => {
     }
   }, [messages.length]);
 
+  useEffect(() => {
+    if (isMuted && showChat) {
+      setShowChat(false);
+    }
+  }, [isMuted]);
+
   const handleChatOpen = () => {
+    if (isMuted) return;
+
     setMessageCountOnChatClose(0);
     setNewMessageCount(0);
     setShowChat(true);
@@ -71,6 +87,11 @@ export const ChatUI: React.FC<Props> = ({ farmId, onMessage, messages }) => {
     onMessage({ text });
   };
 
+  const sendCommand = (command: string) => {
+    const [name, ...args] = command.split(" ");
+    onCommand?.(name, args);
+  };
+
   return (
     <>
       <div
@@ -83,6 +104,7 @@ export const ChatUI: React.FC<Props> = ({ farmId, onMessage, messages }) => {
         <ChatText
           messages={messages}
           onMessage={sendMessage}
+          onCommand={sendCommand}
           cooledDownAt={cooldown}
         />
       </div>
@@ -91,6 +113,8 @@ export const ChatUI: React.FC<Props> = ({ farmId, onMessage, messages }) => {
           "fixed top-36 left-3 cursor-pointer transition-transform origin-top-left ease-in-out duration-300",
           {
             "scale-50": showChat,
+            "opacity-50": isMuted,
+            "cursor-not-allowed": isMuted,
           }
         )}
         style={{ width: `${PIXEL_SCALE * 22}px`, zIndex: 51 }}

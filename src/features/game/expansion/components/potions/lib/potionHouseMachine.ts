@@ -1,5 +1,4 @@
 import { Interpreter, State, assign, createMachine } from "xstate";
-import { Potion } from "./types";
 import {
   acknowledgePotionHouseIntro,
   getPotionHouseIntroRead,
@@ -18,7 +17,6 @@ type Potions = [
 
 export interface PotionHouseContext {
   guessSpot: number;
-  selectedPotion: Potion;
   currentGuess: Potions;
   isNewGame: boolean;
   isFinished: boolean;
@@ -32,7 +30,6 @@ type PotionHouseEvent =
   | { type: "OPEN_RULES" }
   | { type: "REMOVE_GUESS"; guessSpot: number }
   | { type: "ADD_GUESS"; guessSpot: number; potion: PotionName }
-  | { type: "SELECT_POTION"; potion: Potion }
   | { type: "SELECT_GUESS_SPOT"; guessSpot: number }
   | { type: "MIX_POTION" }
   | { type: "NEXT_ANIMATION"; score: number | null }
@@ -103,7 +100,6 @@ export const potionHouseMachine = createMachine<
   initial: "introduction",
   context: {
     guessSpot: 0,
-    selectedPotion: Object.values(POTIONS)[0],
     currentGuess: [null, null, null, null],
     isFinished: false,
     isNewGame: false,
@@ -279,14 +275,6 @@ export const potionHouseMachine = createMachine<
               ...context,
               currentGuess: newGuess,
               guessSpot,
-            };
-          }),
-        },
-        SELECT_POTION: {
-          actions: assign((context, event) => {
-            return {
-              ...context,
-              selectedPotion: event.potion,
             };
           }),
         },

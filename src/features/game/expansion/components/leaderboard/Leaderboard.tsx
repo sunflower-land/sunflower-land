@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { TicketTable } from "./TicketTable";
-
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-
-import crowFeather from "assets/icons/crow_feather.webp";
 import { getRelativeTime } from "lib/utils/time";
 import { Leaderboards } from "./actions/cache";
 import { LeaderboardButton } from "./LeaderboardButton";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { Modal } from "react-bootstrap";
 import { fetchLeaderboardData } from "./actions/leaderboard";
-import { MazeTable } from "./MazeTable";
+import { getSeasonalTicket } from "features/game/types/seasons";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {
   farmId: number;
@@ -46,6 +43,8 @@ export const Leaderboard: React.FC<Props> = ({ farmId }) => {
     setShowLeaderboard(false);
   };
 
+  const seasonTicket = getSeasonalTicket();
+
   return (
     <>
       <LeaderboardButton
@@ -57,8 +56,10 @@ export const Leaderboard: React.FC<Props> = ({ farmId }) => {
           <CloseButtonPanel
             onClose={handleClose}
             tabs={[
-              { icon: crowFeather, name: "Feathers" },
-              { icon: CROP_LIFECYCLE.Corn.crop, name: "Maze" },
+              {
+                icon: ITEM_DETAILS[seasonTicket].image,
+                name: `${seasonTicket}s`,
+              },
             ]}
             currentTab={leaderboardTab}
             setCurrentTab={setLeaderboardTab}
@@ -66,7 +67,7 @@ export const Leaderboard: React.FC<Props> = ({ farmId }) => {
             {leaderboardTab === 0 && (
               <div>
                 <div className="p-1 mb-1 space-y-1">
-                  <p className="text-sm">Tickets Leaderboard</p>
+                  <p className="text-sm">{`${seasonTicket} Leaderboard`}</p>
                   <p className="text-[12px]">
                     Last updated: {getRelativeTime(data.lastUpdated)}
                   </p>
@@ -88,28 +89,6 @@ export const Leaderboard: React.FC<Props> = ({ farmId }) => {
                       farmId={Number(farmId)}
                     />
                   </>
-                )}
-              </div>
-            )}
-            {leaderboardTab === 1 && (
-              <div>
-                <div className="p-1 mb-1 space-y-1 text-sm">
-                  <p>Maze Run Leaderboard</p>
-                  <p className="text-xs">
-                    Weekly SFL Burned: {data.maze.weeklySflBurned}
-                  </p>
-                  <p className="text-[12px]">
-                    Last updated: {getRelativeTime(data.lastUpdated)}
-                  </p>
-                </div>
-                {data.maze.topTen.length === 0 && (
-                  <p className="my-1">No maze data available</p>
-                )}
-                {data.maze.topTen.length > 0 && (
-                  <MazeTable
-                    rankings={data.maze.topTen}
-                    farmId={Number(farmId)}
-                  />
                 )}
               </div>
             )}

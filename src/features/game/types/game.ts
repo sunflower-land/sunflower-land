@@ -29,6 +29,16 @@ import { Chore } from "./chores";
 import { ConversationName } from "./conversations";
 import { NPCName } from "lib/npcs";
 import { SeasonalTicket } from "./seasons";
+import { Bud } from "./buds";
+import { CompostName, CropCompostName, FruitCompostName } from "./composters";
+import { FarmActivityName } from "./farmActivity";
+import { MilestoneName } from "./milestones";
+import {
+  FishName,
+  FishingBait,
+  FishingConditions,
+  MarineMarvelName,
+} from "./fishing";
 
 export type Reward = {
   sfl?: Decimal;
@@ -46,10 +56,15 @@ export const FERTILISERS: Record<FertiliserName, { description: string }> = {
   },
 };
 
-export type Fertilisers = {
-  name: FertiliserName;
+export type CropFertiliser = {
+  name: CropCompostName;
   fertilisedAt: number;
-}[];
+};
+
+export type FruitFertiliser = {
+  name: FruitCompostName;
+  fertilisedAt: number;
+};
 
 export type FieldItem = {
   name: CropName;
@@ -57,7 +72,7 @@ export type FieldItem = {
   plantedAt: number;
   multiplier?: number;
   reward?: Reward;
-  fertilisers?: Fertilisers;
+  fertiliser?: CropFertiliser;
 };
 
 export type ChickenPosition = {
@@ -117,9 +132,11 @@ export type MutantChicken =
   | "Rich Chicken"
   | "Fat Chicken"
   | "Ayam Cemani"
-  | "El Pollo Veloz";
+  | "El Pollo Veloz"
+  | "Banana Chicken";
 
 export type Coupons =
+  | "Gold Pass"
   | "Trading Ticket"
   | "War Bond"
   | "Jack-o-lantern"
@@ -130,9 +147,15 @@ export type Coupons =
   | "Block Buck"
   | "Sunflower Supporter"
   | "Potion Ticket"
+  | "Bud Ticket"
+  | "Bud Seedling"
   | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
+  "Gold Pass": {
+    description:
+      "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
+  },
   "Trading Ticket": {
     description: "Free Trades! Woohoo!",
   },
@@ -173,6 +196,16 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Potion Ticket": {
     description:
       "A reward from the Potion House. Use this to buy items from Garth.",
+  },
+  "Bud Ticket": {
+    description:
+      "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
+  },
+  "Bud Seedling": {
+    description: "A seedling to be exchanged for a free Bud NFT",
+  },
+  "Mermaid Scale": {
+    description: "A ticket used during the Catch the Kraken Season",
   },
 };
 
@@ -237,7 +270,11 @@ export type InventoryItemName =
   | LanternName
   | ExoticCropName
   | PotionHouseItemName
-  | "Basic Land";
+  | "Basic Land"
+  | FishingBait
+  | CompostName
+  | FishName
+  | MarineMarvelName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -318,7 +355,6 @@ export type PlantedCrop = {
   plantedAt: number;
   amount?: number;
   reward?: Reward;
-  fertilisers?: Fertilisers;
 };
 
 export type PlantedFruit = {
@@ -345,17 +381,25 @@ export type Rock = {
 
 export type CropPlot = {
   crop?: PlantedCrop;
+  fertiliser?: CropFertiliser;
   createdAt: number;
 } & Position;
 
 export type FruitPatch = {
   fruit?: PlantedFruit;
+  fertiliser?: FruitFertiliser;
 } & Position;
 
 export type Mine = Position;
 
 export type BuildingProduct = {
   name: CookableName;
+  readyAt: number;
+};
+
+export type BuildingProduce = {
+  items: Partial<Record<InventoryItemName, number>>;
+  startedAt: number;
   readyAt: number;
 };
 
@@ -367,8 +411,6 @@ export type PlacedItem = {
 
   crafting?: BuildingProduct;
 };
-
-export type Buildings = Partial<Record<BuildingName, PlacedItem[]>>;
 
 type PlacedManeki = PlacedItem & { shakenAt?: number };
 export type PlacedLamp = PlacedItem & { rubbedCount?: number };
@@ -387,6 +429,25 @@ type PlacedTypes<Name extends CollectibleName> = {
 };
 
 export type Collectibles = Partial<PlacedTypes<CollectibleName>>;
+
+export type CompostBuilding = PlacedItem & {
+  producing?: BuildingProduce;
+  requires?: Partial<Record<InventoryItemName, number>>;
+};
+
+type CustomBuildings = {
+  "Compost Bin": CompostBuilding[];
+  "Turbo Composter": CompostBuilding[];
+  "Premium Composter": CompostBuilding[];
+};
+
+type PlacedBuildings<Name extends BuildingName> = {
+  [key in Name]: key extends keyof CustomBuildings
+    ? CustomBuildings[key]
+    : PlacedItem[];
+};
+
+export type Buildings = Partial<PlacedBuildings<BuildingName>>;
 
 export type ExpansionConstruction = {
   createdAt: number;
@@ -447,6 +508,11 @@ export type MazeAttempts = Partial<Record<SeasonWeek, MazeMetadata>>;
 export type WitchesEve = {
   weeklyLostCrowCount: number;
   maze: MazeAttempts;
+};
+
+export type CatchTheKraken = {
+  weeklyCatches: Partial<Record<SeasonWeek, number>>;
+  hunger: InventoryItemName;
 };
 
 export type Mushroom = {
@@ -578,7 +644,7 @@ export type ChoreV2 = {
   tickets: number;
 };
 
-export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
 
 export type MazeAttempt = {
   startedAt: number;
@@ -632,8 +698,21 @@ export type TradeListing = {
   buyerId?: number;
 };
 
+export type Fishing = {
+  weather: FishingConditions;
+  wharf: {
+    castedAt?: number;
+    bait?: FishingBait;
+    chum?: InventoryItemName;
+    caught?: Partial<Record<InventoryItemName, number>>;
+  };
+  dailyAttempts?: {
+    [date: string]: number;
+  };
+};
+
 export interface GameState {
-  id?: number;
+  id: number;
   balance: Decimal;
   airdrops?: Airdrop[];
   farmAddress?: string;
@@ -663,6 +742,9 @@ export interface GameState {
   iron: Record<string, Rock>;
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;
+  fishing: Fishing;
+  farmActivity: Partial<Record<FarmActivityName, number>>;
+  milestones: Partial<Record<MilestoneName, number>>;
 
   expansionConstruction?: ExpansionConstruction;
   expansionRequirements?: ExpansionRequirements;
@@ -710,11 +792,13 @@ export interface GameState {
   chores?: ChoresV2;
   mushrooms: Mushrooms;
   witchesEve?: WitchesEve;
+  catchTheKraken: CatchTheKraken;
   potionHouse?: PotionHouse;
 
   trades: {
     listings?: Record<string, TradeListing>;
   };
+  buds?: Record<number, Bud>;
 }
 
 export interface Context {

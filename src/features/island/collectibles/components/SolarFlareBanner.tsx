@@ -1,6 +1,6 @@
 import React from "react";
 
-import banner from "assets/decorations/solar_flare_banner.png";
+import banner from "assets/decorations/banners/solar_flare_banner.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const SolarFlareBanner: React.FC = () => {

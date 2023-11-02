@@ -21,8 +21,8 @@ import { useLocation } from "react-router-dom";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { createPortal } from "react-dom";
 import { HalveningCountdown } from "./components/HalveningCountdown";
-import { DeliveryButton } from "./components/deliveries/DeliveryButton";
-import { hasFeatureAccess } from "lib/flags";
+import { TravelButton } from "./components/deliveries/TravelButton";
+import { CodexButton } from "./components/codex/CodexButton";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -119,6 +119,12 @@ const HudComponent: React.FC<{
                   multiple: true,
                 });
               }}
+              onPlaceBud={(selected) => {
+                gameService.send("LANDSCAPE", {
+                  action: "bud.placed",
+                  placeable: selected,
+                });
+              }}
               onDepositClick={() => setShowDepositModal(true)}
               isSaving={autosaving}
               isFarming={isFarming}
@@ -137,14 +143,20 @@ const HudComponent: React.FC<{
             }
             isFullUser={isFullUser}
           />
-          {hasFeatureAccess(
-            gameState.context.state.inventory,
-            "NEW_DELIVERIES"
-          ) && (
-            <div className="fixed z-50 bottom-0 left-0">
-              <DeliveryButton />
-            </div>
-          )}
+
+          <div
+            className="fixed z-50 flex flex-col justify-between"
+            style={{
+              left: `${PIXEL_SCALE * 3}px`,
+              bottom: `${PIXEL_SCALE * 3}px`,
+              width: `${PIXEL_SCALE * 22}px`,
+              height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
+            }}
+          >
+            <CodexButton />
+            <TravelButton />
+          </div>
+
           <HalveningCountdown />
           <div
             className="fixed z-50 flex flex-col justify-between"
@@ -153,14 +165,6 @@ const HudComponent: React.FC<{
               bottom: `${PIXEL_SCALE * 3}px`,
               width: `${PIXEL_SCALE * 22}px`,
               height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
-              // Shifts buttons up to make room for weekly latern counter component
-              ...(isDawnBreakerIsland &&
-                isMobile && {
-                  transform: moveButtonsUp
-                    ? "translateY(-100px)"
-                    : "translateY(0)",
-                  transition: "transform 0.5s ease-in-out",
-                }),
             }}
           >
             <Save />
@@ -169,7 +173,7 @@ const HudComponent: React.FC<{
           <BumpkinProfile isFullUser={isFullUser} />
 
           {farmAddress && (
-            <Modal show={showDepositModal} centered>
+            <Modal show={showDepositModal} centered onHide={handleClose}>
               <CloseButtonPanel
                 title={depositDataLoaded ? "Deposit" : undefined}
                 onClose={depositDataLoaded ? handleClose : undefined}

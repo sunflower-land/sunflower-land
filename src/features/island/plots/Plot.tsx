@@ -1,12 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import {
-  Reward,
-  FERTILISERS,
-  PlantedCrop,
-  PlacedItem,
-} from "features/game/types/game";
+import { Reward, PlantedCrop, PlacedItem } from "features/game/types/game";
 import { CROPS } from "features/game/types/crops";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
@@ -25,6 +20,7 @@ import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { BuildingName } from "features/game/types/buildings";
 import { ZoomContext } from "components/ZoomProvider";
+import { CROP_COMPOST } from "features/game/types/composters";
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
@@ -48,11 +44,12 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const clickedAt = useRef<number>(0);
 
   const crops = useSelector(gameService, selectCrops, (prev, next) => {
-    return JSON.stringify(prev[id].crop) === JSON.stringify(next[id].crop);
+    return JSON.stringify(prev[id]) === JSON.stringify(next[id]);
   });
   const buildings = useSelector(gameService, selectBuildings, compareBuildings);
 
   const crop = crops?.[id]?.crop;
+  const fertiliser = crops?.[id]?.fertiliser;
 
   const isFertile = isPlotFertile({
     plotIndex: id,
@@ -123,6 +120,16 @@ export const Plot: React.FC<Props> = ({ id }) => {
       return;
     }
 
+    // apply fertilisers
+    if (!readyToHarvest && selectedItem && selectedItem in CROP_COMPOST) {
+      gameService.send("plot.fertilised", {
+        plotID: id,
+        fertiliser: selectedItem,
+      });
+
+      return;
+    }
+
     // plant
     if (!crop) {
       gameService.send("seed.planted", {
@@ -132,16 +139,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
       });
 
       plantAudio.play();
-
-      return;
-    }
-
-    // apply fertilisers
-    if (selectedItem && selectedItem in FERTILISERS) {
-      gameService.send("crop.fertilised", {
-        plotIndex: id,
-        fertiliser: selectedItem,
-      });
 
       return;
     }
@@ -169,7 +166,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
         <FertilePlot
           cropName={crop?.name}
           plantedAt={crop?.plantedAt}
-          fertilisers={crop?.fertilisers}
+          fertiliser={fertiliser}
           procAnimation={procAnimation}
           touchCount={touchCount}
           showTimers={showTimers}

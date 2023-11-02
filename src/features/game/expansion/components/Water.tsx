@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -19,22 +19,22 @@ import { FruitQuest } from "features/island/farmerQuest/FruitQuest";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Pirate } from "./Pirate";
 import { DailyReward } from "./dailyReward/DailyReward";
-import { PartyIsland } from "./PartyIsland";
 import { SeasonTeaser } from "./SeasonTeaser";
 import { LAND_WIDTH } from "../Land";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 interface Props {
+  townCenterBuilt: boolean;
   expansionCount: number;
 }
 
-export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
+export const WaterComponent: React.FC<Props> = ({
+  townCenterBuilt,
+  expansionCount,
+}) => {
   // As the land gets bigger, push the water decorations out
   const offset = Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2);
-
-  const frogCoordinates = {
-    x: expansionCount >= 7 ? -2 : 5,
-    y: expansionCount >= 7 ? -11 : -5,
-  };
+  const { openModal } = useContext(ModalContext);
 
   return (
     // Container
@@ -145,7 +145,7 @@ export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
 
       {/* Bottom right island */}
       <MapPlacement x={7 + offset} y={-2 - offset} width={6}>
-        <DailyReward />
+        {!townCenterBuilt && <DailyReward />}
         <img
           src={abandonedLand}
           style={{
@@ -153,9 +153,6 @@ export const WaterComponent: React.FC<Props> = ({ expansionCount }) => {
           }}
         />
       </MapPlacement>
-
-      {/* Right island */}
-      <PartyIsland offset={offset} />
     </div>
   );
 };

@@ -1,12 +1,26 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
+import { Equipped } from "features/game/types/bumpkin";
 import {
   BumpkinActivityName,
   trackActivity,
 } from "features/game/types/bumpkinActivity";
-import { FRUIT, FruitName, FRUIT_SEEDS } from "features/game/types/fruits";
-import { Collectibles, GameState } from "features/game/types/game";
+import {
+  FRUIT,
+  FruitName,
+  FRUIT_SEEDS,
+  Fruit,
+} from "features/game/types/fruits";
+import {
+  Collectibles,
+  GameState,
+  PlantedFruit,
+} from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import { getTimeLeft } from "lib/utils/time";
+import { FruitPatch } from "features/game/types/game";
+import { FruitCompostName } from "features/game/types/composters";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -19,19 +33,90 @@ type Options = {
   createdAt?: number;
 };
 
-export function getFruitYield(name: FruitName, collectibles: Collectibles) {
+export const isFruitReadyToHarvest = (
+  createdAt: number,
+  plantedFruit: PlantedFruit,
+  fruitDetails: Fruit
+) => {
+  const { seed } = FRUIT()[fruitDetails.name];
+  const { plantSeconds } = FRUIT_SEEDS()[seed];
+
+  return (
+    createdAt -
+      (plantedFruit.harvestedAt
+        ? plantedFruit.harvestedAt
+        : plantedFruit.plantedAt) >=
+    plantSeconds * 1000
+  );
+};
+
+type FruitYield = {
+  name: FruitName;
+  collectibles: Collectibles;
+  buds: NonNullable<GameState["buds"]>;
+  wearables: Equipped;
+  fertiliser?: FruitCompostName;
+};
+
+export function isFruitGrowing(patch: FruitPatch) {
+  const fruit = patch.fruit;
+  if (!fruit) return false;
+
+  const { name, amount, harvestsLeft, harvestedAt, plantedAt } = fruit;
+  if (!harvestsLeft) return false;
+
+  const { seed } = FRUIT()[name];
+  const { plantSeconds } = FRUIT_SEEDS()[seed];
+
+  if (harvestedAt) {
+    const replenishingTimeLeft = getTimeLeft(harvestedAt, plantSeconds);
+    if (replenishingTimeLeft > 0) return true;
+  }
+
+  const growingTimeLeft = getTimeLeft(plantedAt, plantSeconds);
+  return growingTimeLeft > 0;
+}
+
+export function getFruitYield({
+  collectibles,
+  buds,
+  name,
+  wearables,
+  fertiliser,
+}: FruitYield) {
+  let amount = 1;
   if (name === "Apple" && isCollectibleBuilt("Lady Bug", collectibles)) {
-    return 1.25;
+    amount += 0.25;
   }
 
   if (
     name === "Blueberry" &&
     isCollectibleBuilt("Black Bearry", collectibles)
   ) {
-    return 2;
+    amount += 1;
   }
 
-  return 1;
+  if (
+    (name === "Apple" ||
+      name === "Orange" ||
+      name === "Blueberry" ||
+      name === "Banana") &&
+    wearables?.coat === "Fruit Picker Apron"
+  ) {
+    amount += 0.1;
+  }
+
+  if (fertiliser === "Fruitful Blend") {
+    amount += 0.1;
+  }
+
+  if (name === "Banana" && wearables.necklace === "Banana Amulet") {
+    amount += 0.5;
+  }
+
+  amount += getBudYieldBoosts(buds, name);
+
+  return amount;
 }
 
 function getPlantedAt(
@@ -60,7 +145,7 @@ export function harvestFruit({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { fruitPatches, bumpkin } = stateCopy;
+  const { fruitPatches, bumpkin, collectibles } = stateCopy;
 
   if (!bumpkin) {
     throw new Error("You do not have a Bumpkin");
@@ -103,7 +188,13 @@ export function harvestFruit({
     createdAt
   );
 
-  patch.fruit.amount = getFruitYield(name, stateCopy.collectibles);
+  patch.fruit.amount = getFruitYield({
+    collectibles: collectibles,
+    buds: stateCopy.buds ?? {},
+    wearables: bumpkin.equipped,
+    name,
+    fertiliser: patch.fertiliser?.name,
+  });
 
   const activityName: BumpkinActivityName = `${name} Harvested`;
 

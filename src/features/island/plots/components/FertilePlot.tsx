@@ -5,16 +5,20 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { GrowthStage, Soil } from "features/island/plots/components/Soil";
 import { Bar, ProgressBar } from "components/ui/ProgressBar";
+
+import powerup from "assets/icons/level_up.png";
+
 import { TimerPopover } from "../../common/TimerPopover";
 import { getTimeLeft } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { Fertilisers } from "features/game/types/game";
 import classNames from "classnames";
+import { CropFertiliser } from "features/game/types/game";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   cropName?: CropName;
   plantedAt?: number;
-  fertilisers?: Fertilisers;
+  fertiliser?: CropFertiliser;
   procAnimation?: JSX.Element;
   touchCount: number;
   showTimers: boolean;
@@ -23,7 +27,7 @@ interface Props {
 const FertilePlotComponent: React.FC<Props> = ({
   cropName,
   plantedAt,
-  fertilisers,
+  fertiliser,
   procAnimation,
   touchCount,
   showTimers,
@@ -82,37 +86,47 @@ const FertilePlotComponent: React.FC<Props> = ({
         </div>
       </div>
 
-      {/* Fertilisers */}
-      {!!fertilisers && (
-        <div
+      {/* Fertiliser */}
+      {fertiliser?.name === "Sprout Mix" && (
+        <img
+          key={fertiliser.name}
           className="absolute z-10 pointer-events-none"
+          src={powerup}
           style={{
-            top: `${PIXEL_SCALE * -6}px`,
-            left: `${PIXEL_SCALE * 9}px`,
-            width: `${PIXEL_SCALE * 10}px`,
+            width: `${PIXEL_SCALE * 5}px`,
+            bottom: `${PIXEL_SCALE * 9}px`,
+            right: `${PIXEL_SCALE * 0}px`,
           }}
-        >
-          {fertilisers.map(({ name }) => (
-            <img
-              key={name}
-              src={ITEM_DETAILS[name].image}
-              style={{
-                width: `${PIXEL_SCALE * 10}px`,
-                marginBottom: `${PIXEL_SCALE * 1}px`,
-              }}
-            />
-          ))}
-        </div>
+        />
+      )}
+      {fertiliser?.name === "Rapid Root" && (
+        <img
+          key={fertiliser.name}
+          className="absolute z-10 pointer-events-none"
+          src={SUNNYSIDE.icons.stopwatch}
+          style={{
+            width: `${PIXEL_SCALE * 6}px`,
+            bottom: `${PIXEL_SCALE * 9}px`,
+            right: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
       )}
 
       {/* Time popover */}
       {!!cropName && isGrowing && (
-        <TimerPopover
-          image={ITEM_DETAILS[cropName].image}
-          name={cropName}
-          showPopover={showTimerPopover}
-          timeLeft={timeLeft}
-        />
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            top: `${PIXEL_SCALE * -18}px`,
+          }}
+        >
+          <TimerPopover
+            image={ITEM_DETAILS[cropName].image}
+            description={cropName}
+            showPopover={showTimerPopover}
+            timeLeft={timeLeft}
+          />
+        </div>
       )}
 
       {/* Health bar for collecting rewards */}

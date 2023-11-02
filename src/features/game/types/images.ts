@@ -1,8 +1,11 @@
+import powerup from "assets/icons/level_up.png";
+
 // CROPS
 import magicBean from "assets/crops/magic_bean.png";
 import appleSeed from "assets/fruit/apple/apple_seed.png";
 import orangeSeed from "assets/fruit/orange/orange_seed.png";
 import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
+import bananaPlant from "assets/fruit/banana/banana_plant.png";
 
 // NFTs
 import chickenCoop from "assets/sfts/chicken_coop.png";
@@ -35,8 +38,8 @@ import tunnelMole from "assets/sfts/tunnel_mole.gif";
 import rockyMole from "assets/sfts/rocky_mole.gif";
 import nugget from "assets/sfts/nugget.gif";
 import rockGolem from "assets/sfts/rock_golem.gif";
-import rooster from "assets/sfts/rooster.gif";
-import undeadChicken from "assets/sfts/undead_chicken.gif";
+import rooster from "assets/animals/chickens/rooster.gif";
+import undeadChicken from "assets/animals/chickens/undead_chicken.gif";
 import wickerMan from "assets/sfts/wicker_man.png";
 import wendy from "assets/sfts/wood_nymph_wendy.gif";
 import cabbageBoy from "assets/sfts/cabbage_boy.gif";
@@ -46,16 +49,26 @@ import immortalPear from "assets/sfts/immortal_pear.webp";
 import ladybug from "assets/sfts/ladybug.gif";
 import blackBear from "assets/sfts/black_bear.gif";
 import squirrelMonkey from "assets/sfts/squirrel_monkey.gif";
-import luminousLantern from "assets/sfts/luminous_lantern.webp";
-import auroraLantern from "assets/sfts/aurora_lantern.webp";
-import radianceLantern from "assets/sfts/radiance_lantern.webp";
-import oceanLantern from "assets/sfts/ocean_lantern.png";
-import solarLantern from "assets/sfts/solar_lantern.png";
-import bumpkinLantern from "assets/sfts/bumpkin_lantern.png";
-import bettyLantern from "assets/sfts/betty_lantern.png";
-import goblinLantern from "assets/sfts/goblin_lantern.png";
+import luminousLantern from "assets/decorations/lanterns/luminous_lantern.webp";
+import auroraLantern from "assets/decorations/lanterns/aurora_lantern.webp";
+import radianceLantern from "assets/decorations/lanterns/radiance_lantern.webp";
+import oceanLantern from "assets/decorations/lanterns/ocean_lantern.png";
+import solarLantern from "assets/decorations/lanterns/solar_lantern.png";
+import bumpkinLantern from "assets/decorations/lanterns/bumpkin_lantern.png";
+import bettyLantern from "assets/decorations/lanterns/betty_lantern.png";
+import goblinLantern from "assets/decorations/lanterns/goblin_lantern.png";
 import poppy from "assets/sfts/poppy.png";
 import kernaldo from "assets/sfts/kernaldo.png";
+import walrus from "assets/sfts/walrus.webp";
+import alba from "assets/sfts/alba.webp";
+import knowledgeCrab from "assets/sfts/knowledge_crab.webp";
+import anchor from "assets/sfts/anchor.webp";
+import rubberDucky from "assets/sfts/rubber_ducky.webp";
+import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
+import krakenHead from "assets/sfts/kraken_head.webp";
+import skillShrimpy from "assets/sfts/skill_shrimpy.png";
+import soilKrabby from "assets/sfts/soil_krabby.webp";
+import nana from "assets/sfts/nana.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -72,10 +85,11 @@ import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 import richChicken from "assets/animals/chickens/rich_chicken.gif";
 import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
+import bananaChicken from "assets/animals/chickens/banana_chicken.png";
 
 // Foods
-import roastedCauliflower from "assets/sfts/roasted_cauliflower.png";
-import radishPie from "assets/sfts/radish_pie.png";
+import roastedCauliflower from "assets/food/roasted_cauliflower.png";
+import radishPie from "assets/food/radish_pie.png";
 
 // Flags
 import australiaFlag from "assets/sfts/flags/australia_flag.gif";
@@ -128,6 +142,7 @@ import honey from "assets/resources/honey.png";
 import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
 import blueberry from "assets/resources/blueberry.png";
+import banana from "assets/resources/banana.png";
 
 // Skills
 import greenThumb from "assets/skills/green_thumb.png";
@@ -196,13 +211,18 @@ import solarFlareTicket from "assets/icons/solar_flare_ticket.png";
 import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
 import potionPoint from "assets/icons/potion_point.png";
 import crowFeather from "assets/icons/crow_feather.webp";
+import mermaidScale from "assets/icons/mermaid_scale.webp";
 import supporterTicket from "assets/icons/supporter_ticket.png";
-import solarFlareBanner from "assets/decorations/solar_flare_banner.png";
-import dawnBreakerBanner from "assets/decorations/dawn_breaker_banner.png";
-import witchesEveBanner from "assets/decorations/witches_eve_banner.webp";
+import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png";
+import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
+import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp";
+import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
+import budTicket from "assets/icons/bud_ticket.png";
+import budSeedling from "assets/icons/bud_seedling.png";
+
 // Banners
-import goblinBanner from "assets/sfts/goblin_banner.png";
-import humanBanner from "assets/sfts/human_banner.png";
+import goblinBanner from "assets/decorations/banners/goblin_banner.png";
+import humanBanner from "assets/decorations/banners/human_banner.png";
 
 // Egg
 import redEgg from "src/assets/sfts/easter/red_egg.png";
@@ -223,16 +243,16 @@ import momCoreEngine from "src/assets/sfts/mom/engine_core.png";
 import observatory from "src/assets/sfts/mom/observatory.gif";
 
 // Cakes
-import carrotCake from "src/assets/sfts/cakes/carrot_cake.png";
-import radishCake from "src/assets/sfts/cakes/radish_cake.png";
-import beetrootCake from "src/assets/sfts/cakes/beetroot_cake.png";
-import cabbageCake from "src/assets/sfts/cakes/cabbage_cake.png";
-import cauliflowerCake from "src/assets/sfts/cakes/cauliflower_cake.png";
-import parsnipCake from "src/assets/sfts/cakes/parsnip_cake.png";
-import potatoCake from "src/assets/sfts/cakes/potato_cake.png";
-import pumpkinCake from "src/assets/sfts/cakes/pumpkin_cake.png";
-import sunflowerCake from "src/assets/sfts/cakes/sunflower_cake.png";
-import wheatCake from "src/assets/sfts/cakes/wheat_cake.png";
+import carrotCake from "src/assets/food/cakes/carrot_cake.png";
+import radishCake from "src/assets/food/cakes/radish_cake.png";
+import beetrootCake from "src/assets/food/cakes/beetroot_cake.png";
+import cabbageCake from "src/assets/food/cakes/cabbage_cake.png";
+import cauliflowerCake from "src/assets/food/cakes/cauliflower_cake.png";
+import parsnipCake from "src/assets/food/cakes/parsnip_cake.png";
+import potatoCake from "src/assets/food/cakes/potato_cake.png";
+import pumpkinCake from "src/assets/food/cakes/pumpkin_cake.png";
+import sunflowerCake from "src/assets/food/cakes/sunflower_cake.png";
+import wheatCake from "src/assets/food/cakes/wheat_cake.png";
 
 // Food
 import mashedPotato from "assets/food/mashed_potato.png";
@@ -246,10 +266,10 @@ import roastVeggies from "assets/food/roast_veggies.png";
 import clubSandwich from "assets/food/club_sandwich.png";
 import bumpkinSalad from "assets/food/bumpkin_salad.png";
 import blueberryJam from "assets/food/blueberry_jam.png";
-import honeyCake from "assets/food/honey_cake.png";
+import honeyCake from "assets/food/cakes/honey_cake.png";
 import kaleStew from "assets/food/kale_stew.png";
 import mushroomSoup from "assets/food/mushroom_soup.png";
-import orangeCake from "assets/food/orange_cake.png";
+import orangeCake from "assets/food/cakes/orange_cake.png";
 import sunflowerCrunch from "assets/food/sunflower_crunch.png";
 import applePie from "assets/food/apple_pie.png";
 import mushroomJacketPotato from "assets/food/mushroom_jacket_potato.png";
@@ -269,9 +289,13 @@ import kaleOmelette from "assets/food/kale_omelette.png";
 import cabbersNMash from "assets/food/cabbers_n_mash.png";
 import fancyFries from "assets/food/fancy_fries.png";
 import bumpkinGanoush from "assets/food/bumpkin_ganoush.png";
-import eggplantCake from "assets/food/eggplant_cake.png";
+import eggplantCake from "assets/food/cakes/eggplant_cake.png";
 import cornBread from "assets/food/corn_bread.png";
 import popcorn from "assets/food/popcorn.png";
+import chowder from "assets/food/chowder.png";
+import gumbo from "assets/food/gumbo.png";
+import fermentedFish from "assets/food/fermented_fish.png";
+import bananaBlast from "assets/food/banana_blast.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -295,6 +319,20 @@ import deli from "src/assets/buildings/deli.png";
 import smoothieShack from "src/assets/buildings/smoothie_shack.webp";
 import toolshed from "src/assets/buildings/toolshed.png";
 import warehouse from "src/assets/buildings/warehouse.png";
+import basicComposter from "assets/composters/composter_basic.png";
+import advancedComposter from "assets/composters/composter_advanced.png";
+import expertComposter from "assets/composters/composter_expert.png";
+
+// Composter Bait
+import earthworm from "assets/composters/earthworm.png";
+import grub from "assets/composters/grub.png";
+import redWiggler from "assets/composters/red_wiggler.png";
+import fishingLure from "assets/composters/fishing_lure.png";
+
+// Compost
+import sproutMix from "assets/composters/sprout_mix.png";
+import fruitfulBlend from "assets/composters/fruitful_blend.png";
+import rapidRoot from "assets/composters/rapid_root.png";
 
 // Clothing
 import chefHat from "src/assets/icons/chef_hat.png";
@@ -326,8 +364,8 @@ import bearTrap from "src/assets/sfts/bears/bear_trap.png";
 import christmasBear from "src/assets/sfts/bears/christmas_bear.png";
 import betaBear from "src/assets/sfts/bears/sfl_bear.png";
 import rainbowArtistBear from "src/assets/sfts/bears/rainbow_artist_bear.png";
-import cyborgBear from "src/assets/sfts/cyborg_bear.png";
-import collectibleBear from "src/assets/sfts/collectible_bear.png";
+import cyborgBear from "src/assets/sfts/bears/cyborg_bear.png";
+import collectibleBear from "src/assets/sfts/bears/collectible_bear.png";
 import manekiNeko from "src/assets/sfts/maneki_neko.gif";
 import redEnvelope from "src/assets/icons/red_envelope.png";
 import loveLetter from "src/assets/icons/love_letter.png";
@@ -342,6 +380,17 @@ import dawnFlower from "src/assets/sfts/dawn_flower.png";
 import candles from "src/assets/decorations/candles.png";
 import spookyTree from "src/assets/decorations/spooky_tree.png";
 import hauntedStump from "src/assets/decorations/haunted_stump.png";
+import sign from "src/assets/decorations/woodsign.png";
+import observer from "src/assets/decorations/observer.webp";
+import crowRock from "src/assets/decorations/crow_rock.webp";
+import miniCornMaze from "src/assets/decorations/mini_corn_maze.webp";
+import whiteCrow from "src/assets/decorations/white_crow.webp";
+import lifeguardRing from "src/assets/decorations/lifeguard_ring.webp";
+import surfboard from "src/assets/decorations/surfboard.webp";
+import hideawayHerman from "src/assets/decorations/hideaway_herman.webp";
+import shiftySheldon from "src/assets/decorations/shifty_sheldon.webp";
+import tikiTorch from "src/assets/decorations/tiki_torch.webp";
+import beachUmbrella from "src/assets/decorations/beach_umbrella.webp";
 
 import pineTree from "src/assets/decorations/pine_tree.png";
 import fieldMaple from "src/assets/decorations/field_maple.webp";
@@ -377,7 +426,7 @@ import blossomTree from "assets/events/valentine/sfts/blossom_tree.png";
 import skeletonKingStaff from "assets/sfts/skeleton_king_staff.webp";
 import foliant from "assets/sfts/foliant.webp";
 import dinosaurBone from "assets/sfts/dinosaur_bone.webp";
-import pirateCake from "assets/sfts/cakes/pirate_cake.webp";
+import pirateCake from "assets/food/cakes/pirate_cake.webp";
 import drill from "assets/icons/drill.png";
 import karkinos from "assets/seasons/solar-flare/karkinos.png";
 import palmTree from "assets/seasons/solar-flare/palm_tree.webp";
@@ -407,7 +456,7 @@ import purpleTrail from "assets/sfts/purple_trail.png";
 import obie from "assets/sfts/obie.png";
 import maximus from "assets/sfts/maximus.png";
 import hoot from "assets/sfts/hoot.png";
-import sirGoldenSnout from "assets/sfts/sir_goldensnout.png";
+import sirGoldenSnout from "assets/sfts/aoe/sir_goldensnout.png";
 import freyaFox from "assets/sfts/freya_fox.png";
 import grainGrinder from "assets/sfts/grain_grinder.png";
 
@@ -432,6 +481,42 @@ import wartyGoblinPumpkin from "assets/potion_house/warty_goblin_pumpkin.png";
 import potatoMutant from "assets/sfts/potato_mutant.gif";
 import radishMutant from "assets/sfts/radish_mutant.gif";
 import sunflowerMutant from "assets/sfts/sunflower_mutant.gif";
+
+import anchovy from "assets/fish/anchovy.png";
+import barredKnifejaw from "assets/fish/barred_knifejaw.png";
+import blowfish from "assets/fish/blowfish.png";
+import blueMarlin from "assets/fish/blue_marlin.png";
+import butterflyfish from "assets/fish/butterfly_fish.png";
+import clownfish from "assets/fish/clownfish.png";
+import coelacanth from "assets/fish/coelacanth.png";
+import footballFish from "assets/fish/football_fish.png";
+import hammerheadShark from "assets/fish/hammerhead_shark.png";
+import horseMackerel from "assets/fish/horse_mackerel.png";
+import mahiMahi from "assets/fish/mahi_mahi.png";
+import morayEel from "assets/fish/moray_eel.png";
+import napoleonfish from "assets/fish/napoleonfish.png";
+import oarfish from "assets/fish/oarfish.png";
+import oliveFlounder from "assets/fish/olive_flounder.png";
+import ray from "assets/fish/ray.png";
+import redSnapper from "assets/fish/red_snapper.png";
+import sawShark from "assets/fish/saw_shark.png";
+import seaBass from "assets/fish/sea_bass.png";
+import seahorse from "assets/fish/seahorse.png";
+import squid from "assets/fish/squid.png";
+import sunfish from "assets/fish/sunfish.png";
+import surgeonfish from "assets/fish/surgeonfish.png";
+import tuna from "assets/fish/tuna.png";
+import whaleShark from "assets/fish/whale_shark.png";
+import whiteShark from "assets/fish/white_shark.png";
+import zebraTurkeyfish from "assets/fish/zebra_turkeyfish.png";
+import twilightAnglerfish from "assets/fish/twilight_anglerfish.png";
+import startlightTuna from "assets/fish/starlight_tuna.png";
+import radiantRay from "assets/fish/radiant_ray.png";
+import phantomBarracuda from "assets/fish/phantom_barracuda.png";
+import gildedSwordfish from "assets/fish/gilded_swordfish.png";
+
+import sapoDocuras from "assets/sfts/sapo_docuras.gif";
+import sapoTravessura from "assets/sfts/sapo_travessura.gif";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -463,20 +548,22 @@ import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
 //Golden Crop Event
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
-import {
-  GOBLIN_PIRATE_ITEMS,
-  HELIOS_BLACKSMITH_ITEMS,
-  POTION_HOUSE_ITEMS,
-} from "./collectibles";
+import { GOBLIN_PIRATE_ITEMS, POTION_HOUSE_ITEMS } from "./collectibles";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { BAIT, CROP_COMPOST, FRUIT_COMPOST } from "./composters";
+import { BuffLabel } from ".";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
   image: any;
   secondaryImage?: any;
   section?: Section;
+  buff?: BuffLabel;
+  howToGetItem?: string[];
+  // TODO: Extend this as the codex grows eg. Resource etc
+  itemType?: "collectible";
 }
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
@@ -619,6 +706,10 @@ export const ITEM_DETAILS: Items = {
     description: FRUIT_SEEDS()["Orange Seed"].description,
     image: orangeSeed,
   },
+  "Banana Plant": {
+    description: FRUIT_SEEDS()["Banana Plant"].description,
+    image: bananaPlant,
+  },
 
   "Apple Pie": {
     description: CONSUMABLES["Apple Pie"].description,
@@ -677,6 +768,10 @@ export const ITEM_DETAILS: Items = {
     description: FRUIT()["Orange"].description,
     image: orange,
   },
+  Banana: {
+    description: FRUIT()["Banana"].description,
+    image: banana,
+  },
   Honey: {
     description: COMMODITIES["Honey"].description,
     image: honey,
@@ -724,6 +819,10 @@ export const ITEM_DETAILS: Items = {
   "Fancy Fries": {
     description: CONSUMABLES["Fancy Fries"].description,
     image: fancyFries,
+  },
+  "Banana Blast": {
+    description: CONSUMABLES["Banana Blast"].description,
+    image: bananaBlast,
   },
 
   // Resources
@@ -1398,7 +1497,7 @@ export const ITEM_DETAILS: Items = {
   },
   Toolshed: {
     image: toolshed,
-    description: "Increase your tool stocks by 50%",
+    description: "Increase your workbench tool stock by 50%",
   },
   Warehouse: {
     image: warehouse,
@@ -1437,7 +1536,6 @@ export const ITEM_DETAILS: Items = {
   },
   "Warrior Helmet": {
     image: SUNNYSIDE.icons.expression_confused,
-
     description: "Immune to arrows",
   },
   "Sunflower Shield": {
@@ -1510,6 +1608,35 @@ export const ITEM_DETAILS: Items = {
   "Reindeer Carrot": {
     image: reindeerCarrot,
     description: "Rudolph can't stop eating them!",
+  },
+  "Bumpkin ganoush": {
+    image: bumpkinGanoush,
+    description: "Zesty roasted eggplant spread.",
+  },
+  "Eggplant Cake": {
+    image: eggplantCake,
+    description: "Sweet farm-fresh dessert surprise.",
+  },
+  Cornbread: {
+    image: cornBread,
+    description: "Hearty golden farm-fresh bread.",
+  },
+  Popcorn: {
+    image: popcorn,
+    description: "Classic homegrown crunchy snack.",
+  },
+  Chowder: {
+    image: chowder,
+    description:
+      "Sailor's delight in a bowl! Dive in, there's treasure inside!",
+  },
+  Gumbo: {
+    image: gumbo,
+    description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
+  },
+  "Fermented Fish": {
+    image: fermentedFish,
+    description: "Daring delicacy! Unleash the Viking within with every bite!",
   },
 
   Explorer: {
@@ -1766,16 +1893,16 @@ export const ITEM_DETAILS: Items = {
 
   "Potent Potato": {
     image: potatoMutant,
-    description: "Potent! Grants a 4% chance to get +10 potatoes on harvest.",
+    description: "Potent! Grants a 3% chance to get +10 potatoes on harvest.",
   },
   "Radical Radish": {
     image: radishMutant,
-    description: "Radical! Grants a 4% chance to get +10 radishes on harvest.",
+    description: "Radical! Grants a 3% chance to get +10 radishes on harvest.",
   },
   "Stellar Sunflower": {
     image: sunflowerMutant,
     description:
-      "Stellar! Grants a 4% chance to get +10 sunflowers on harvest.",
+      "Stellar! Grants a 3% chance to get +10 sunflowers on harvest.",
   },
   "Potted Potato": {
     image: pottedPotato,
@@ -1796,7 +1923,7 @@ export const ITEM_DETAILS: Items = {
 
   "Immortal Pear": {
     image: immortalPear,
-    description: HELIOS_BLACKSMITH_ITEMS()["Immortal Pear"].description,
+    description: "A long-lived pear that makes fruit trees last longer.",
   },
   "Lady Bug": {
     image: ladybug,
@@ -2053,36 +2180,63 @@ export const ITEM_DETAILS: Items = {
     description: GOBLIN_PIRATE_ITEMS["Tin Turtle"].description,
   },
   "Basic Scarecrow": {
-    description: HELIOS_BLACKSMITH_ITEMS()["Basic Scarecrow"].description,
+    description: "Choosy defender of your farm's VIP (Very Important Plants)",
     image: basicScarecrow,
   },
   Bale: {
-    description: HELIOS_BLACKSMITH_ITEMS()["Bale"].description,
+    description:
+      "A poultry's favorite neighbor, providing a cozy retreat for chickens",
     image: bale,
   },
   "Sir Goldensnout": {
     image: sirGoldenSnout,
     description:
       "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
+    buff: {
+      shortDescription: "+0.5 Crops AoE",
+      labelType: "success",
+      boostTypeIcon: powerup,
+    },
   },
   "Scary Mike": {
-    description: HELIOS_BLACKSMITH_ITEMS()["Scary Mike"].description,
+    description:
+      "The veggie whisperer and champion of frightfully good harvests!",
     image: scaryMike,
   },
   "Laurie the Chuckle Crow": {
     description:
-      HELIOS_BLACKSMITH_ITEMS()["Laurie the Chuckle Crow"].description,
+      "With her disconcerting chuckle, she shooes peckers away from your crops!",
     image: laurie,
   },
   "Freya Fox": {
     image: freyaFox,
     description:
       "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
+    buff: {
+      shortDescription: "+0.5 Pumpkin",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: CROP_LIFECYCLE.Pumpkin.crop,
+    },
   },
   "Queen Cornelia": {
     image: queenCornelia,
     description:
       "Command the regal power of Queen Cornelia and experience a magnificent Area of Effect boost to your corn production. +1 Corn.",
+  },
+
+  // Composters
+  "Compost Bin": {
+    image: basicComposter,
+    description: "Produces bait & fertiliser on a regular basis.",
+  },
+  "Turbo Composter": {
+    image: advancedComposter,
+    description: "Produces advanced bait & fertiliser on a regular basis.",
+  },
+  "Premium Composter": {
+    image: expertComposter,
+    description: "Produces expert bait & fertiliser on a regular basis.",
   },
 
   // Season tickets
@@ -2097,6 +2251,10 @@ export const ITEM_DETAILS: Items = {
   "Crow Feather": {
     image: crowFeather,
     description: "A ticket used during the Witches' Eve Ticket Season",
+  },
+  "Mermaid Scale": {
+    image: mermaidScale,
+    description: "A ticket used during the Catch the Kraken Season",
   },
 
   "Sunflower Supporter": {
@@ -2206,6 +2364,11 @@ export const ITEM_DETAILS: Items = {
   "Witches' Eve Banner": {
     image: witchesEveBanner,
     description: "?",
+  },
+  "Catch the Kraken Banner": {
+    image: catchTheKrakenBanner,
+    description:
+      "The Kraken is here! The mark of a participant in the Catch the Kraken Season.",
   },
   "Luminous Lantern": {
     image: luminousLantern,
@@ -2334,6 +2497,12 @@ export const ITEM_DETAILS: Items = {
   Poppy: {
     image: poppy,
     description: "The mystical corn kernel. +0.1 Corn per harvest.",
+    buff: {
+      shortDescription: "+0.1 Corn",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+    },
   },
   "El Pollo Veloz": {
     image: elPolloVeloz,
@@ -2343,10 +2512,21 @@ export const ITEM_DETAILS: Items = {
     image: grainGrinder,
     description:
       "Grind your grain and experience a delectable surge in Cake XP.",
+    buff: {
+      shortDescription: "+20% Cake XP",
+      boostTypeIcon: powerup,
+      labelType: "success",
+    },
   },
   Kernaldo: {
     image: kernaldo,
     description: "The magical corn whisperer. +25% Corn Growth Speed.",
+    buff: {
+      shortDescription: "+25% Corn Growth Speed",
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+    },
   },
   Candles: {
     image: candles,
@@ -2361,23 +2541,21 @@ export const ITEM_DETAILS: Items = {
     image: spookyTree,
     description: "A hauntingly fun addition to your farm's decor!",
   },
+  Observer: {
+    image: observer,
+    description:
+      "A perpetually roving eyeball, always vigilant and ever-watchful!",
+  },
+  "Crow Rock": {
+    image: crowRock,
+    description: "A crow perched atop a mysterious rock.",
+  },
+  "Mini Corn Maze": {
+    image: miniCornMaze,
+    description:
+      "A memento of the beloved maze from the 2023 Witches' Eve season.",
+  },
 
-  "Bumpkin ganoush": {
-    image: bumpkinGanoush,
-    description: "Zesty roasted eggplant spread.",
-  },
-  "Eggplant Cake": {
-    image: eggplantCake,
-    description: "Sweet farm-fresh dessert surprise.",
-  },
-  Cornbread: {
-    image: cornBread,
-    description: "Hearty golden farm-fresh bread.",
-  },
-  Popcorn: {
-    image: popcorn,
-    description: "Classic homegrown crunchy snack.",
-  },
   "Giant Cabbage": {
     image: giantCabbage,
     description: POTION_HOUSE_DECORATIONS()["Giant Cabbage"].description,
@@ -2434,5 +2612,345 @@ export const ITEM_DETAILS: Items = {
   "White Carrot": {
     image: whiteCarrot,
     description: EXOTIC_CROPS["White Carrot"].description,
+  },
+  "Bud Ticket": {
+    image: budTicket,
+    description:
+      "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
+  },
+  "Bud Seedling": {
+    image: budSeedling,
+    description: "A seedling to be exchanged for a free Bud NFT",
+  },
+  "Town Sign": {
+    image: sign,
+    description: "Show your farm ID with pride!",
+  },
+  "White Crow": {
+    image: whiteCrow,
+    description: "A mysterious and ethereal white crow",
+  },
+
+  // Bait
+  Earthworm: {
+    image: earthworm,
+    description: BAIT.Earthworm.description,
+  },
+  Grub: {
+    image: grub,
+    description: BAIT.Grub.description,
+  },
+  "Red Wiggler": {
+    image: redWiggler,
+    description: BAIT["Red Wiggler"].description,
+  },
+  "Fishing Lure": {
+    image: fishingLure,
+    description: "Great for catching rare fish!",
+  },
+  // Compost
+  "Sprout Mix": {
+    image: sproutMix,
+    description: CROP_COMPOST["Sprout Mix"].description,
+  },
+  "Fruitful Blend": {
+    image: fruitfulBlend,
+    description: FRUIT_COMPOST["Fruitful Blend"].description,
+  },
+  "Rapid Root": {
+    image: rapidRoot,
+    description: CROP_COMPOST["Rapid Root"].description,
+  },
+
+  Anchovy: {
+    image: anchovy,
+    description: "The ocean's pocket-sized darting acrobat, always in a hurry!",
+    howToGetItem: ["Ocean fishing"],
+  },
+  Butterflyfish: {
+    image: butterflyfish,
+    description:
+      "A fish with a fashion-forward sense, flaunting its vivid, stylish stripes.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  Blowfish: {
+    image: blowfish,
+    description:
+      "The round, inflated comedian of the sea, guaranteed to bring a smile.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  Clownfish: {
+    image: clownfish,
+    description:
+      "The underwater jester, sporting a tangerine tuxedo and a clownish charm.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Sea Bass": {
+    image: seaBass,
+    description:
+      "Your 'not-so-exciting' friend with silver scales – a bassic catch!",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Sea Horse": {
+    image: seahorse,
+    description:
+      "The ocean's slow-motion dancer, swaying gracefully in the aquatic ballet.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Horse Mackerel": {
+    image: horseMackerel,
+    description:
+      "A speedster with a shiny coat, always racing through the waves.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  Squid: {
+    image: squid,
+    description: "The deep-sea enigma with tentacles to tickle your curiosity.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Red Snapper": {
+    image: redSnapper,
+    description: "A catch worth its weight in gold, dressed in fiery crimson.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Moray Eel": {
+    image: morayEel,
+    description: "A slinky, sinister lurker in the ocean's shadowy corners.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Olive Flounder": {
+    image: oliveFlounder,
+    description:
+      "The seabed's master of disguise, always blending in with the crowd.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  Napoleanfish: {
+    image: napoleonfish,
+    description: "Meet the fish with the Napoleon complex – short, but regal!",
+    howToGetItem: ["Ocean fishing"],
+  },
+  Surgeonfish: {
+    image: surgeonfish,
+    description: "The ocean's neon warrior, armed with a spine-sharp attitude.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Zebra Turkeyfish": {
+    image: zebraTurkeyfish,
+    description:
+      "Stripes, spines, and a zesty disposition, this fish is a true showstopper!",
+    howToGetItem: ["Ocean fishing"],
+  },
+  Ray: {
+    image: ray,
+    description:
+      "The underwater glider, a serene winged beauty through the waves.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Hammerhead shark": {
+    image: hammerheadShark,
+    description:
+      "Meet the shark with a head for business, and a body for adventure!",
+    howToGetItem: ["Ocean fishing"],
+  },
+  Tuna: {
+    image: tuna,
+    description:
+      "The ocean's muscle-bound sprinter, ready for a fin-tastic race!",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Mahi Mahi": {
+    image: mahiMahi,
+    description:
+      "A fish that believes in living life colorfully with fins of gold.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Blue Marlin": {
+    image: blueMarlin,
+    description:
+      "An oceanic legend, the marlin with an attitude as deep as the sea.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  Oarfish: {
+    image: oarfish,
+    description: "The long and the long of it – an enigmatic ocean wanderer.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Football fish": {
+    image: footballFish,
+    description:
+      "The MVP of the deep, a bioluminescent star that's ready to play!",
+    howToGetItem: ["Ocean fishing"],
+  },
+  Sunfish: {
+    image: sunfish,
+    description:
+      "The ocean's sunbather, basking in the spotlight with fins held high.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  Coelacanth: {
+    image: coelacanth,
+    description:
+      "A prehistoric relic, with a taste for the past and the present.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Whale Shark": {
+    image: whaleShark,
+    description:
+      "The gentle giant of the deep, sifting treasures from the ocean's buffet.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Barred Knifejaw": {
+    image: barredKnifejaw,
+    description:
+      "An oceanic outlaw with black-and-white stripes and a heart of gold.",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Saw Shark": {
+    image: sawShark,
+    description:
+      "With a saw-like snout, it's the ocean's carpenter, always cutting edge!",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "White Shark": {
+    image: whiteShark,
+    description:
+      "The shark with a killer smile, ruling the seas with fin-tensity!",
+    howToGetItem: ["Ocean fishing"],
+  },
+  "Twilight Anglerfish": {
+    image: twilightAnglerfish,
+    description:
+      "A deep-sea angler with a built-in nightlight, guiding its way through darkness.",
+    howToGetItem: ["Ocean fishing"],
+    itemType: "collectible",
+  },
+  "Starlight Tuna": {
+    image: startlightTuna,
+    description:
+      "A tuna that outshines the stars, ready to light up your collection.",
+    howToGetItem: ["Ocean fishing"],
+    itemType: "collectible",
+  },
+  "Radiant Ray": {
+    image: radiantRay,
+    description:
+      "A ray that prefers to glow in the dark, with a shimmering secret to share.",
+    howToGetItem: ["Ocean fishing"],
+    buff: {
+      labelType: "success",
+      shortDescription: "+0.1 Iron",
+      boostTypeIcon: powerup,
+      boostedItemIcon: iron,
+    },
+    itemType: "collectible",
+  },
+  "Phantom Barracuda": {
+    image: phantomBarracuda,
+    description:
+      "An elusive and ghostly fish of the deep, hiding in the shadows.",
+    howToGetItem: ["Ocean fishing"],
+    itemType: "collectible",
+  },
+  "Gilded Swordfish": {
+    image: gildedSwordfish,
+    description:
+      "A swordfish with scales that sparkle like gold, the ultimate catch!",
+    howToGetItem: ["Ocean fishing"],
+    buff: {
+      labelType: "success",
+      shortDescription: "+0.1 Gold",
+      boostTypeIcon: powerup,
+      boostedItemIcon: gold,
+    },
+    itemType: "collectible",
+  },
+
+  "Kraken Tentacle": {
+    image: krakenTentacle,
+    description:
+      "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
+  },
+
+  "Sapo Docuras": {
+    description: "A real treat!",
+    image: sapoDocuras,
+  },
+  "Sapo Travessuras": {
+    description: "Oh oh...someone was naughty",
+    image: sapoTravessura,
+  },
+  // Catch the Kraken Season
+  "Lifeguard Ring": {
+    image: lifeguardRing,
+    description: "Stay afloat with style, your seaside savior!",
+  },
+  "Beach Umbrella": {
+    image: beachUmbrella,
+    description: "Shade, shelter, and seaside chic in one sunny setup!",
+  },
+  "Hideaway Herman": {
+    image: hideawayHerman,
+    description: "Herman's here to hide, but always peeks for a party!",
+  },
+  "Shifty Sheldon": {
+    image: shiftySheldon,
+    description: "Sheldon's sly, always scuttling to the next sandy surprise!",
+  },
+  "Tiki Torch": {
+    image: tikiTorch,
+    description: "Light the night, tropical vibes burning bright!",
+  },
+  Surfboard: {
+    image: surfboard,
+    description: "Ride the waves of wonder, beach bliss on board!",
+  },
+  Walrus: {
+    image: walrus,
+    description:
+      "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
+  },
+  Alba: {
+    image: alba,
+    description:
+      "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 Basic Fish!",
+  },
+  "Knowledge Crab": {
+    image: knowledgeCrab,
+    description:
+      "The Knowledge Crab doubles your Sprout Mix effect, making your soil treasures as rich as sea plunder!",
+  },
+  Anchor: {
+    image: anchor,
+    description:
+      "Drop anchor' with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
+  },
+  "Rubber Ducky": {
+    image: rubberDucky,
+    description:
+      "Float on fun with this classic quacker, bringing bubbly joy to every corner!",
+  },
+  "Kraken Head": {
+    image: krakenHead,
+    description:
+      "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
+  },
+  "Banana Chicken": {
+    image: bananaChicken,
+    description: "A chicken that boosts bananas. What a world we live in.",
+  },
+  "Skill Shrimpy": {
+    image: skillShrimpy,
+    description:
+      "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
+  },
+  "Soil Krabby": {
+    image: soilKrabby,
+    description:
+      "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
+  },
+  Nana: {
+    image: nana,
+    description:
+      "This rare beauty is a surefire way to boost your banana harvests.",
   },
 };

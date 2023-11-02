@@ -1,3 +1,5 @@
+import "lib/__mocks__/configMock";
+
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
@@ -43,7 +45,7 @@ describe("buyWearable", () => {
         },
         action: {
           type: "wearable.bought",
-          name: "Infernal Bumpkin Potion",
+          name: "Fresh Catch Vest",
         },
         createdAt: new Date("2023-07-31").getTime(),
       })
@@ -59,9 +61,9 @@ describe("buyWearable", () => {
         },
         action: {
           type: "wearable.bought",
-          name: "Infernal Bumpkin Potion",
+          name: "Fresh Catch Vest",
         },
-        createdAt: new Date("2023-09-02").getTime(),
+        createdAt: new Date("2024-09-02").getTime(),
       })
     ).toThrow("Too late");
   });

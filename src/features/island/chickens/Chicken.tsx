@@ -203,16 +203,18 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
   };
 
   const feed = async () => {
-    const hasWheat = HasWheat(inventoryWheatCount, collectibles);
+    if (!isCollectibleBuilt("Gold Egg", collectibles)) {
+      const hasWheat = HasWheat(inventoryWheatCount, collectibles);
 
-    if (!hasWheat) {
-      setShowPopover(true);
-      await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
-      setShowPopover(false);
-      return;
+      if (!hasWheat) {
+        setShowPopover(true);
+        await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
+        setShowPopover(false);
+        return;
+      }
+
+      shortcutItem("Wheat");
     }
-
-    shortcutItem("Wheat");
 
     const {
       context: {

@@ -12,6 +12,7 @@ const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
   luna: true,
   birdie: true,
   hank: true,
+  "phantom face": true,
 };
 
 export class BumpkinContainer extends Phaser.GameObjects.Container {
@@ -23,7 +24,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   public speech: SpeechBubble | undefined;
   public invincible = false;
 
-  private clothing: Player["clothing"];
+  public clothing: Player["clothing"];
   private ready = false;
 
   // Animation Keys

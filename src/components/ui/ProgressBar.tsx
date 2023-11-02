@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import emptyBar from "assets/ui/progress/empty_bar.png";
 import { secondsToString, TimeFormatLength } from "lib/utils/time";
@@ -196,5 +196,52 @@ export const ProgressBar: React.FC<Props> = ({
         <Bar percentage={percentage} type={type} />
       </div>
     </div>
+  );
+};
+
+interface LiveProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
+  startAt: number;
+  endAt: number;
+  onComplete: () => void;
+}
+
+/**
+ * A progress bar which re-renders it's own timer
+ * This avoids parents needing to render on their own
+ */
+export const LiveProgressBar: React.FC<LiveProgressBarProps> = ({
+  startAt,
+  endAt,
+  onComplete,
+  ...divProps
+}) => {
+  const [secondsLeft, setSecondsLeft] = useState((endAt - Date.now()) / 1000);
+
+  const totalSeconds = (endAt - startAt) / 1000;
+  const percentage = (100 * (totalSeconds - secondsLeft)) / totalSeconds;
+
+  const active = endAt >= startAt;
+
+  useEffect(() => {
+    if (active) {
+      const interval = setInterval(() => {
+        setSecondsLeft((endAt - Date.now()) / 1000);
+
+        if (Date.now() > endAt) {
+          onComplete();
+        }
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [active]);
+
+  return (
+    <ProgressBar
+      seconds={secondsLeft}
+      formatLength="short"
+      percentage={percentage}
+      type="progress"
+      {...divProps}
+    />
   );
 };

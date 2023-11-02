@@ -27,9 +27,9 @@ interface Props {
 
 // If colyseus does not return one of the servers, it means its empty
 const ICONS = [
+  SUNNYSIDE.icons.water,
   CROP_LIFECYCLE.Sunflower.crop,
   SUNNYSIDE.icons.heart,
-  SUNNYSIDE.icons.water,
   brazilFlag,
   CROP_LIFECYCLE.Pumpkin.crop,
 ];
@@ -111,20 +111,23 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
                   }
                 >
                   <div className="flex items-center">
-                    <img src={ICONS[index]} className="w-5 mr-2" />
+                    <img src={ICONS[index]} className="w-6 mr-2" />
                     <div>
                       <p className="text-sm break-words">{server.name}</p>
-                      {isServerFull(servers, server.id) && (
-                        <Label
-                          type="danger"
-                          className="flex gap-2 items-center"
-                        >
-                          FULL
-                        </Label>
-                      )}
+                      <div className="flex items-center gap-2">
+                        {isServerFull(servers, server.id) && (
+                          <Label
+                            type="danger"
+                            className="flex gap-2 items-center"
+                          >
+                            FULL
+                          </Label>
+                        )}
+                        <p className="text-xs break-words">{server.purpose}</p>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex-1 flex items-center justify-end">
+                  <div className="flex items-center justify-end">
                     {progressBar(
                       serverCurrentPopulation(servers, server.id),
                       serverMaxCapacity,
@@ -161,10 +164,18 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
                   <div className="flex items-center">
                     <img src={island.icon} className="w-7 mr-2" />
                     <div>
-                      <p className="text-sm break-words -mb-2">{island.name}</p>
-                      <Label type="info" className="-mt-2">
-                        Special Event
-                      </Label>
+                      <p
+                        className={classNames("text-sm break-words", {
+                          "-mb-2": !!island.special,
+                        })}
+                      >
+                        {island.name}
+                      </p>
+                      {!!island.special && (
+                        <Label type="info" className="-mt-2">
+                          Special Event
+                        </Label>
+                      )}
                     </div>
                   </div>
                   <div className="flex-1 flex items-center justify-end">

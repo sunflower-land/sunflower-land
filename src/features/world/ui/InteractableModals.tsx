@@ -4,18 +4,21 @@ import { AuctioneerModal } from "features/retreat/components/auctioneer/Auctione
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
-import { hasFeatureAccess } from "lib/flags";
 import fanArt from "assets/fanArt/dawn_breaker.png";
 import fanArt2 from "assets/fanArt/vergels.png";
-import { Donations } from "./donations/Donations";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { KrakenIntro } from "./npcs/Shelly";
+import { PromotingModal } from "features/game/expansion/components/SpecialOffer";
 
 type InteractableName =
+  | "kraken"
   | "welcome_sign"
+  | "bud"
   | "plaza_statue"
   | "fan_art"
   | "auction_item"
@@ -44,7 +47,13 @@ type InteractableName =
   | "plaza_blue_book"
   | "plaza_orange_book"
   | "plaza_green_book"
-  | "potion_house";
+  | "potion_house"
+  | "clubhouse_reward"
+  | "beach_green_book"
+  | "beach_orange_book"
+  | "beach_blue_book"
+  | "walrus"
+  | "kraken_banner";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -73,6 +82,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
   } = gameState;
 
   const [interactable, setInteractable] = useState<InteractableName>();
+  const { openModal } = useContext(ModalContext);
 
   useEffect(() => {
     interactableModalManager.listen((interactable, open) => {
@@ -107,10 +117,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         />
       )}
 
-      {interactable === "potion_table" &&
-        hasFeatureAccess(state.inventory, "POTION_HOUSE") && (
-          <PotionHouse onClose={closeModal} />
-        )}
+      {interactable === "potion_table" && <PotionHouse onClose={closeModal} />}
 
       <Modal
         centered
@@ -131,19 +138,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         </CloseButtonPanel>
       </Modal>
 
-      <Modal
-        centered
-        show={interactable === "homeless_man"}
-        onHide={closeModal}
-      >
-        <CloseButtonPanel
-          title="Want to support more events like this?!"
-          onClose={closeModal}
-        >
-          <Donations />
-        </CloseButtonPanel>
-      </Modal>
-
       <Modal centered show={interactable === "fat_chicken"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -155,12 +149,45 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         />
       </Modal>
 
+      <Modal centered show={interactable === "kraken"} onHide={closeModal}>
+        <KrakenIntro onClose={closeModal} />
+      </Modal>
       <Modal centered show={interactable === "lazy_bud"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           message={[
             {
               text: "Eeeep! So tired.....",
+            },
+          ]}
+        />
+      </Modal>
+
+      <PromotingModal
+        isOpen={interactable === "kraken_banner"}
+        hasDiscount={!!gameState.context.state.inventory["Witches' Eve Banner"]}
+        hasPurchased={
+          !!gameState.context.state.inventory["Catch the Kraken Banner"]
+        }
+        onClose={closeModal}
+      />
+      <Modal centered show={interactable === "bud"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          message={[
+            {
+              text: "Hmmm, I better leave that bud alone. I'm sure it's owner is looking for it",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "walrus"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          message={[
+            {
+              text: "Arrr arr arrr! The fish shop ain't open 'til I get my fish.",
             },
           ]}
         />
@@ -199,6 +226,66 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
             },
             {
               text: "Until then, we will keep Sunflower Land alive in our hearts and dreams, waiting for the day of our triumphant return",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "beach_green_book"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.finley}
+          message={[
+            {
+              text: "When you're after those coveted Red Snappers, try an unexpected twist",
+            },
+            {
+              text: "Use Apples with Red Wiggler Bait, and watch those crimson beauties practically leap into your net.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "beach_blue_book"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.finn}
+          message={[
+            {
+              text: "Don't tell Shelly, but I've been trying to bring Saw Sharks to the beach!",
+            },
+            {
+              text: "I've been experimenting with different chums lately, but the only one that seems to work is Red Snapper.",
+            },
+            {
+              text: "These oceanic hunters can smell a Red Snapper feast from miles away, so don't be surprised if they come charging. ",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "beach_orange_book"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.finley}
+          message={[
+            {
+              text: "A radiant fin appeared on the surface, I couldn't believe my eyes!",
+            },
+            {
+              text: "Luckily Tango was with me, he must be my good luck charm.",
             },
           ]}
         />
@@ -262,6 +349,38 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
             will put here next...
           </p>
         </CloseButtonPanel>
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "clubhouse_reward"}
+        onHide={closeModal}
+      >
+        <CloseButtonPanel onClose={closeModal}>
+          <div className="p-2">
+            <p className="text-sm mb-2">
+              Patience buddy, rewards are coming...
+            </p>
+            <p className="text-sm">
+              Join #bud-clubhouse on Discord for latest updates.
+            </p>
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "plaza_statue"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          message={[
+            {
+              text: "In honor of Bumpkin Braveheart, the steadfast farmer who rallied our town against the Goblin horde during the dark days of the ancient war.",
+            },
+          ]}
+        />
       </Modal>
 
       <Modal centered show={interactable === "dawn_book_1"} onHide={closeModal}>
@@ -367,18 +486,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         />
       </Modal>
 
-      <Modal centered show={interactable === "guild_house"} onHide={closeModal}>
-        <SpeakingModal
-          onClose={closeModal}
-          bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
-          message={[
-            {
-              text: "This is my Guild House, and it's not ready for outsiders yet, gotta finish the preparations first.",
-            },
-          ]}
-        />
-      </Modal>
-
       <Modal
         centered
         show={interactable === "potion_house"}
@@ -404,7 +511,27 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
           message={[
             {
-              text: "This is my Guild House, and it's not ready for outsiders yet, gotta finish the preparations first.",
+              text: "Hold on Bumpkin! You need a Bud if you want to enter the Guild House.",
+              actions: [
+                {
+                  text: "Read more",
+                  cb: () => {
+                    window.open(
+                      "https://docs.sunflower-land.com/player-guides/bud-nfts",
+                      "_blank"
+                    );
+                  },
+                },
+                {
+                  text: "Buds Collection on Opensea",
+                  cb: () => {
+                    window.open(
+                      "https://opensea.io/collection/sunflower-land-buds",
+                      "_blank"
+                    );
+                  },
+                },
+              ],
             },
           ]}
         />

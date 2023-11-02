@@ -1,3 +1,4 @@
+import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { hasRemoveRestriction } from "./removeables";
 import { TEST_FARM } from "../lib/constants";
@@ -1135,5 +1136,78 @@ describe("canremove", () => {
     });
 
     expect(restricted).toBe(true);
+  });
+
+  it("prevents a user from removing Carrot Sword when Magic Bean is planted", () => {
+    const [restricted] = hasRemoveRestriction("Carrot Sword", "1", {
+      ...TEST_FARM,
+      collectibles: {
+        "Magic Bean": [
+          { coordinates: { x: 1, y: 1 }, createdAt: 0, id: "123", readyAt: 0 },
+        ],
+      },
+      inventory: {
+        Maximus: new Decimal(1),
+      },
+    });
+
+    expect(restricted).toBe(true);
+  });
+  it("prevents a user from removing Banana Chicken when Bananas are growing", () => {
+    const [restricted] = hasRemoveRestriction("Banana Chicken", "1", {
+      ...TEST_FARM,
+      fruitPatches: {
+        "1": {
+          height: 1,
+          width: 1,
+          x: 1,
+          y: 1,
+          fruit: {
+            amount: 1,
+            name: "Banana",
+            harvestedAt: 0,
+            plantedAt: Date.now() - 10,
+            harvestsLeft: 1,
+          },
+        },
+      },
+      collectibles: {
+        "Banana Chicken": [
+          { coordinates: { x: 1, y: 1 }, createdAt: 0, id: "123", readyAt: 0 },
+        ],
+      },
+      inventory: {},
+    });
+
+    expect(restricted).toBe(true);
+  });
+
+  it("does not prevent a user from removing Banana Chicken when apples are growing", () => {
+    const [restricted] = hasRemoveRestriction("Banana Chicken", "1", {
+      ...TEST_FARM,
+      fruitPatches: {
+        "1": {
+          height: 1,
+          width: 1,
+          x: 1,
+          y: 1,
+          fruit: {
+            amount: 1,
+            name: "Apple",
+            harvestedAt: 0,
+            plantedAt: Date.now() - 10,
+            harvestsLeft: 1,
+          },
+        },
+      },
+      collectibles: {
+        "Banana Chicken": [
+          { coordinates: { x: 1, y: 1 }, createdAt: 0, id: "123", readyAt: 0 },
+        ],
+      },
+      inventory: {},
+    });
+
+    expect(restricted).toBe(false);
   });
 });

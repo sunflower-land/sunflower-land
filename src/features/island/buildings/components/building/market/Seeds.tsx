@@ -21,6 +21,7 @@ import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -37,8 +38,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     },
   ] = useActor(gameService);
 
-  const inventory = state.inventory;
-  const collectibles = state.collectibles;
+  const { inventory, collectibles, buildings } = state;
 
   const price = getBuyPrice(
     selectedName,
@@ -125,12 +125,13 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     if (yields in FRUIT())
       return getFruitTime(selectedName as FruitSeedName, collectibles);
 
-    return getCropTime(
-      yields as CropName,
+    return getCropTime({
+      crop: yields as CropName,
       inventory,
       collectibles,
-      state.bumpkin as Bumpkin
-    );
+      bumpkin: state.bumpkin as Bumpkin,
+      buds: state.buds ?? {},
+    });
   };
 
   const getHarvestCount = () => {
@@ -140,7 +141,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const harvestCount = getHarvestCount();
-  const seeds = getKeys(SEEDS()).filter((seed) => !SEEDS()[seed].disabled);
+  const seeds = getKeys(SEEDS())
+    .filter((seed) => !SEEDS()[seed].disabled)
+    .filter(
+      (seed) => hasFeatureAccess(state, "BANANA") || seed !== "Banana Plant"
+    );
 
   return (
     <SplitScreenView

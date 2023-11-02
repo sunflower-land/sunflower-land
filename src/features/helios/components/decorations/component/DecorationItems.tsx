@@ -70,6 +70,9 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
     shortcutItem(selected.name);
   };
 
+  const limitReached = () =>
+    selected.limit ? inventory[selected.name]?.gte(selected.limit) : false;
+
   return (
     <SplitScreenView
       panel={
@@ -84,10 +87,14 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
             resources: selected.ingredients,
             sfl: price,
           }}
+          limit={selected.limit}
           actionView={
             <Button
               disabled={
-                isNotReady(selected) || lessFunds() || lessIngredients()
+                isNotReady(selected) ||
+                lessFunds() ||
+                lessIngredients() ||
+                limitReached()
               }
               onClick={buy}
             >

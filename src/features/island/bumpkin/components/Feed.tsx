@@ -81,7 +81,8 @@ export const Feed: React.FC<Props> = ({ food, onFeed }) => {
               getFoodExpBoost(
                 selected,
                 state.bumpkin as Bumpkin,
-                state.collectibles
+                state.collectibles,
+                state.buds ?? {}
               )
             ),
           }}

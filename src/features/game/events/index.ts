@@ -74,9 +74,9 @@ import {
 } from "./landExpansion/buyDecoration";
 import { sellCrop, SellCropAction } from "./landExpansion/sellCrop";
 import {
-  fertiliseCrop as landExpansionFertilise,
+  fertilisePlot as landExpansionFertilise,
   LandExpansionFertiliseCropAction,
-} from "./landExpansion/fertiliseCrop";
+} from "./landExpansion/fertilisePlot";
 import {
   removeCrop as landExpansionRemoveCrop,
   LandExpansionRemoveCropAction,
@@ -168,6 +168,28 @@ import { StartPotionAction, startPotion } from "./landExpansion/startPotion";
 import { receiveTrade, ReceiveTradeAction } from "./landExpansion/receiveTrade";
 import { listTrade, ListTradeAction } from "./landExpansion/listTrade";
 import { cancelTrade, CancelTradeAction } from "./landExpansion/cancelTrade";
+import { placeBud, PlaceBudAction } from "./landExpansion/placeBud";
+import { moveBud, MoveBudAction } from "./landExpansion/moveBud";
+import { removeBud, RemoveBudAction } from "./landExpansion/removeBud";
+import {
+  startComposter,
+  StartComposterAction,
+} from "./landExpansion/startComposter";
+import {
+  collectCompost,
+  collectCompostAction,
+} from "./landExpansion/collectCompost";
+import {
+  fertiliseFruitPatch,
+  FertiliseFruitAction,
+} from "./landExpansion/fertiliseFruitPatch";
+import { castRod, CastRodAction } from "./landExpansion/castRod";
+import { reelRod, ReelRodAction } from "./landExpansion/reelRod";
+import {
+  claimMilestone,
+  ClaimMilestoneAction,
+} from "./landExpansion/claimMilestone";
+import { missFish, MissFishAction } from "./landExpansion/missFish";
 
 export type PlayingEvent =
   | TradeAction
@@ -226,7 +248,14 @@ export type PlayingEvent =
   | StartPotionAction
   | ReceiveTradeAction
   | ListTradeAction
-  | CancelTradeAction;
+  | CancelTradeAction
+  | StartComposterAction
+  | collectCompostAction
+  | FertiliseFruitAction
+  | CastRodAction
+  | ReelRodAction
+  | ClaimMilestoneAction
+  | MissFishAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -253,7 +282,10 @@ export type PlacementEvent =
   | MoveChickenAction
   | RemoveBuildingAction
   | RemoveCollectibleAction
-  | RemoveChickenAction;
+  | RemoveChickenAction
+  | PlaceBudAction
+  | MoveBudAction
+  | RemoveBudAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -283,7 +315,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "bot.detected": detectBot,
   "seed.planted": landExpansionPlant,
   "crop.harvested": landExpansionHarvest,
-  "crop.fertilised": landExpansionFertilise,
+  "plot.fertilised": landExpansionFertilise,
   "crop.removed": landExpansionRemoveCrop,
   "chicken.collectEgg": landExpansionCollectEggs,
   "stoneRock.mined": landExpansionMineStone,
@@ -335,6 +367,13 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "trade.cancelled": cancelTrade,
   "trade.listed": listTrade,
   "trade.received": receiveTrade,
+  "composter.started": startComposter,
+  "compost.collected": collectCompost,
+  "fruitPatch.fertilised": fertiliseFruitPatch,
+  "rod.casted": castRod,
+  "rod.reeled": reelRod,
+  "milestone.claimed": claimMilestone,
+  "fish.missed": missFish,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
@@ -363,6 +402,9 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "building.removed": removeBuilding,
   "collectible.removed": removeCollectible,
   "chicken.removed": removeChicken,
+  "bud.placed": placeBud,
+  "bud.moved": moveBud,
+  "bud.removed": removeBud,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

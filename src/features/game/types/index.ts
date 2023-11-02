@@ -1,4 +1,5 @@
 import { InventoryItemName } from "./game";
+import { LabelType } from "components/ui/Label";
 
 export enum LimitedItemType {
   BlacksmithItem = "BlacksmithItem",
@@ -12,6 +13,13 @@ export enum LimitedItemType {
   WarTentItem = "WarTentItem",
   EasterEventItemName = "EasterEventItemName",
 }
+
+export type BuffLabel = {
+  shortDescription: string;
+  labelType: LabelType;
+  boostTypeIcon?: string;
+  boostedItemIcon?: string;
+};
 
 export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunflower Seed": 101,
@@ -33,6 +41,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   // "Golden Bean": 117,
   "Eggplant Seed": 118,
   "Corn Seed": 119,
+  "Banana Plant": 120,
 
   Sunflower: 201,
   Potato: 202,
@@ -50,6 +59,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Orange: 214,
   Eggplant: 215,
   Corn: 216,
+  Banana: 217,
 
   Axe: 301,
   Pickaxe: 302,
@@ -140,6 +150,18 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Lab Grown Carrot": 475,
   "Lab Grown Pumpkin": 476,
   "Lab Grown Radish": 477,
+  Walrus: 478,
+  Alba: 479,
+  "Knowledge Crab": 480,
+  Anchor: 481,
+  // AVAILABLE = 482,
+  "Rubber Ducky": 483,
+  "Kraken Head": 484,
+  "Skill Shrimpy": 485,
+  "Soil Krabby": 486,
+  Nana: 487,
+
+  "Banana Chicken": 488,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -191,6 +213,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Cornbread: 548,
   "Eggplant Cake": 549,
   Popcorn: 550,
+  Chowder: 551,
+  Gumbo: 552,
+  "Fermented Fish": 553,
+  "Banana Blast": 554,
 
   Wood: 601,
   Stone: 602,
@@ -217,6 +243,13 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Fruit Patch": 623,
   Boulder: 624,
   "Basic Land": 625,
+  Earthworm: 626,
+  Grub: 627,
+  "Red Wiggler": 628,
+  "Sprout Mix": 629,
+  "Fruitful Blend": 630,
+  "Rapid Root": 631,
+  "Fishing Lure": 632,
 
   "Green Thumb": 701,
   "Barn Manager": 702,
@@ -245,6 +278,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Crow Feather": 725,
   "Gold Pass": 726,
   "Potion Ticket": 727,
+  "Bud Ticket": 728,
+  "Bud Seedling": 729,
+  "Catch the Kraken Banner": 730,
+  "Mermaid Scale": 731,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -334,6 +371,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Toolshed: 1011,
   Warehouse: 1012,
   "Town Center": 1013,
+  "Compost Bin": 1014,
+  "Turbo Composter": 1015,
+  "Premium Composter": 1016,
 
   // Temporary Bumpkin items
   "Chef Apron": 1101,
@@ -435,6 +475,20 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Giant Cabbage": 1281,
   "Giant Potato": 1282,
   "Giant Pumpkin": 1283,
+  "Town Sign": 1284,
+  Observer: 1285,
+  "Crow Rock": 1286,
+  "Mini Corn Maze": 1287,
+  "White Crow": 1288,
+
+  "Lifeguard Ring": 1289,
+  Surfboard: 1290,
+  "Hideaway Herman": 1291,
+  "Shifty Sheldon": 1292,
+  "Tiki Torch": 1293,
+  "Beach Umbrella": 1294,
+  "Sapo Docuras": 1295,
+  "Sapo Travessuras": 1296,
 
   //Beach Bounty
   "Pirate Bounty": 1301,
@@ -454,6 +508,42 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Adirondack Potato": 1405,
   "Warty Goblin Pumpkin": 1406,
   "White Carrot": 1407,
+
+  // Fish
+  Anchovy: 1501,
+  Butterflyfish: 1502,
+  Blowfish: 1503,
+  Clownfish: 1504,
+  "Sea Bass": 1505,
+  "Sea Horse": 1506,
+  "Horse Mackerel": 1507,
+  Squid: 1508,
+  "Red Snapper": 1509,
+  "Moray Eel": 1510,
+  "Olive Flounder": 1511,
+  Napoleanfish: 1512,
+  Surgeonfish: 1513,
+  "Zebra Turkeyfish": 1514,
+  Ray: 1515,
+  "Hammerhead shark": 1516,
+  Tuna: 1517,
+  "Mahi Mahi": 1518,
+  "Blue Marlin": 1519,
+  Oarfish: 1520,
+  "Football fish": 1521,
+  Sunfish: 1522,
+  Coelacanth: 1523,
+  "Whale Shark": 1524,
+  "Barred Knifejaw": 1525,
+  "Saw Shark": 1526,
+  "White Shark": 1527,
+
+  "Twilight Anglerfish": 1528,
+  "Starlight Tuna": 1529,
+  "Radiant Ray": 1530,
+  "Phantom Barracuda": 1531,
+  "Gilded Swordfish": 1532,
+  "Kraken Tentacle": 1533,
 };
 
 // The reverse of above

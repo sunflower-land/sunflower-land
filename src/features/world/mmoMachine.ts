@@ -7,6 +7,7 @@ import { CONFIG } from "lib/config";
 import { Bumpkin } from "features/game/types/game";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { SPAWNS } from "./lib/spawn";
+import { Moderation } from "features/game/lib/gameMachine";
 
 export type Scenes = {
   plaza: Room<PlazaRoomState> | undefined;
@@ -22,6 +23,7 @@ export type Scenes = {
   dawn_breaker: Room<PlazaRoomState> | undefined;
   marcus_home: Room<PlazaRoomState> | undefined;
   corn_maze: Room<PlazaRoomState> | undefined;
+  beach: Room<PlazaRoomState> | undefined;
 };
 export type SceneId = keyof Scenes;
 
@@ -32,18 +34,46 @@ export type ServerId =
   | "sunflorea_brazil"
   | "sunflorea_magic";
 
-type ServerName = "Bliss" | "Dream" | "Oasis" | "Brazil" | "Magic";
+type ServerName =
+  | "Bliss"
+  | "Dream"
+  | "Oasis"
+  | "Brazil"
+  | "Magic"
+  | "Bumpkin Bazaar";
+type ServerPurpose = "Chill & Chat" | "Trading";
 
 export type Server = {
   name: ServerName;
   id: ServerId;
   population: number;
+  purpose: ServerPurpose;
 };
 const SERVERS: Server[] = [
-  { name: "Bliss", id: "sunflorea_bliss", population: 0 },
-  { name: "Dream", id: "sunflorea_dream", population: 0 },
-  { name: "Oasis", id: "sunflorea_oasis", population: 0 },
-  { name: "Brazil", id: "sunflorea_brazil", population: 0 },
+  {
+    name: "Bumpkin Bazaar",
+    id: "sunflorea_oasis",
+    population: 0,
+    purpose: "Trading",
+  },
+  {
+    name: "Bliss",
+    id: "sunflorea_bliss",
+    population: 0,
+    purpose: "Chill & Chat",
+  },
+  {
+    name: "Dream",
+    id: "sunflorea_dream",
+    population: 0,
+    purpose: "Chill & Chat",
+  },
+  {
+    name: "Brazil",
+    id: "sunflorea_brazil",
+    population: 0,
+    purpose: "Chill & Chat",
+  },
   // { name: "Magic", id: "sunflorea_magic", population: 0 },
 ];
 
@@ -58,6 +88,7 @@ export interface MMOContext {
   initialSceneId: SceneId;
   experience: number;
   isCommunity?: boolean;
+  moderation: Moderation;
 }
 
 export type MMOState = {
@@ -112,6 +143,10 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     initialSceneId: "plaza",
     experience: 0,
     isCommunity: false,
+    moderation: {
+      kicked: [],
+      muted: [],
+    },
   },
   exit: (context) => context.server?.leave(),
   states: {
@@ -196,6 +231,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             y: SPAWNS.plaza.default.y,
             sceneId: context.initialSceneId,
             experience: context.experience,
+            moderation: context.moderation,
           });
 
           console.log({ server, client, serverId });
@@ -244,6 +280,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
               y: SPAWNS.plaza.default.y,
               sceneId: context.initialSceneId,
               experience: context.experience,
+              moderation: context.moderation,
             }
           );
 

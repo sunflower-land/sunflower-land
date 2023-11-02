@@ -21,7 +21,9 @@ import { Ocean } from "./ui/Ocean";
 import { PickServer } from "./ui/PickServer";
 import { MazeHud } from "./ui/cornMaze/MazeHud";
 import { GameWrapper } from "features/game/expansion/Game";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
+import { hasFeatureAccess } from "lib/flags";
+import { IslandNotFound } from "features/game/expansion/components/IslandNotFound";
 
 interface Props {
   isCommunity?: boolean;
@@ -66,6 +68,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       initialSceneId: name as SceneId,
       experience: gameState.context.state.bumpkin?.experience ?? 0,
       isCommunity,
+      moderation: gameState.context.moderation,
     },
   }) as unknown as MMOMachineInterpreter;
 
@@ -94,6 +97,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       mmoService={mmoService}
       scene={name as SceneId}
       isCommunity={isCommunity}
+      inventory={gameState.context.state.inventory}
     />
   );
 };
@@ -150,6 +154,10 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
   const inventory = useSelector(gameService, _inventory);
   const name = useParams().name as SceneId;
 
+  const hasAccess =
+    name !== "beach" ||
+    hasFeatureAccess(gameService?.state?.context?.state ?? TEST_FARM, "BEACH");
+
   return (
     <div
       className="bg-blue-600 w-full bg-repeat h-full flex relative items-center justify-center"
@@ -159,10 +167,14 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
         imageRendering: "pixelated",
       }}
     >
-      <GameWrapper>
-        {!isLoading && <MMO isCommunity={isCommunity} />}
-        {name === "corn_maze" ? <MazeHud /> : <WorldHud />}
-      </GameWrapper>
+      {hasAccess ? (
+        <GameWrapper>
+          {!isLoading && <MMO isCommunity={isCommunity} />}
+          {name === "corn_maze" ? <MazeHud /> : <WorldHud />}
+        </GameWrapper>
+      ) : (
+        <IslandNotFound />
+      )}
     </div>
   );
 };

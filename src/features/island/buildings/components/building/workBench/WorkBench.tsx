@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 
 import npc from "assets/npcs/blacksmith.gif";
 import shadow from "assets/npcs/shadow.png";
@@ -8,8 +8,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { WorkbenchModal } from "./components/WorkbenchModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -28,12 +26,8 @@ function hasRead() {
 }
 
 export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
-  const [showIntro, setShowIntro] = React.useState(!hasRead());
-
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [showIntro, setShowIntro] = useState(!hasRead());
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
     if (onRemove) {

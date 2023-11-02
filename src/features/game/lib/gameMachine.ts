@@ -60,6 +60,7 @@ import {
   getGameRulesLastRead,
   getIntroductionRead,
   getSeasonPassRead,
+  hasUnreadMail,
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
@@ -80,6 +81,7 @@ import { AuctionResults } from "./auctionMachine";
 import { trade } from "../actions/trade";
 import { mmoBus } from "features/world/mmoMachine";
 import { analytics } from "lib/analytics";
+import { BudName } from "../types/buds";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -109,7 +111,23 @@ export interface Context {
   transaction?: { type: "withdraw_bumpkin"; expiresAt: number };
   auctionResults?: AuctionResults;
   promoCode?: string;
+  moderation: Moderation;
+  saveQueued: boolean;
 }
+
+export type Moderation = {
+  muted: {
+    mutedAt: number;
+    mutedBy: number;
+    reason: string;
+    mutedUntil: number;
+  }[];
+  kicked: {
+    kickedAt: number;
+    kickedBy: number;
+    reason: string;
+  }[];
+};
 
 type MintEvent = {
   type: "MINT";
@@ -153,7 +171,7 @@ type UpdateBlockBucksEvent = {
 };
 
 type LandscapeEvent = {
-  placeable?: BuildingName | CollectibleName;
+  placeable?: BuildingName | CollectibleName | BudName;
   action?: GameEventName<PlacementEvent>;
   type: "LANDSCAPE";
   requirements?: {
@@ -183,6 +201,7 @@ type DepositEvent = {
   wearableIds: number[];
   wearableAmounts: number[];
   bumpkinTokenUri?: string;
+  budIds: number[];
 };
 
 type UpdateEvent = {
@@ -343,6 +362,7 @@ export type BlockchainState = {
     | "refreshing"
     | "swarming"
     | "hoarding"
+    | "mailbox"
     | "transacting"
     | "depositing"
     | "landscaping"
@@ -351,6 +371,7 @@ export type BlockchainState = {
     | "trading"
     | "traded"
     | "sniped"
+    | "buds"
     | "noBumpkinFound"
     | "noTownCenter"
     | "coolingDown"
@@ -381,7 +402,7 @@ export const saveGame = async (
   farmId: number,
   rawToken: string
 ) => {
-  const saveAt = (event as any)?.data?.saveAt || new Date();
+  const saveAt = new Date();
 
   // Skip autosave when no actions were produced or if playing ART_MODE
   if (context.actions.length === 0 || ART_MODE) {
@@ -402,6 +423,7 @@ export const saveGame = async (
   // and when autosaving
   await new Promise((res) => setTimeout(res, 1000));
 
+  console.log({ saveAt, saveAt2: saveAt.getTime() });
   return {
     saveAt,
     verified,
@@ -414,6 +436,7 @@ const handleSuccessfulSave = (context: Context, event: any) => {
   const recentActions = context.actions.filter(
     (action) => action.createdAt.getTime() > event.data.saveAt.getTime()
   );
+  console.log("Success save", recentActions);
 
   const updatedState = recentActions.reduce((state, action) => {
     return processEvent({
@@ -426,6 +449,7 @@ const handleSuccessfulSave = (context: Context, event: any) => {
   return {
     actions: recentActions,
     state: updatedState,
+    saveQueued: false,
   };
 };
 
@@ -445,6 +469,11 @@ export function startGame(authContext: AuthContext) {
         sessionId: INITIAL_SESSION,
         announcements: {},
         bumpkins: [],
+        moderation: {
+          muted: [],
+          kicked: [],
+        },
+        saveQueued: false,
       },
       states: {
         loading: {
@@ -513,9 +542,8 @@ export function startGame(authContext: AuthContext) {
                   announcements,
                   transaction,
                   promoCode,
+                  moderation,
                 } = response;
-
-                console.log({ promoCode });
 
                 return {
                   state: {
@@ -534,6 +562,7 @@ export function startGame(authContext: AuthContext) {
                   announcements,
                   bumpkins,
                   transaction,
+                  moderation,
                   promoCode,
                 };
               }
@@ -658,6 +687,11 @@ export function startGame(authContext: AuthContext) {
               },
             },
             {
+              target: "mailbox",
+              cond: (context) =>
+                hasUnreadMail(context.announcements, context.state.mailbox),
+            },
+            {
               target: "swarming",
               cond: () => isSwarming(),
             },
@@ -678,14 +712,12 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
-
             {
               target: "specialOffer",
               cond: (context) =>
-                !getSeasonPassRead() &&
-                Date.now() < new Date("2023-08-01").getTime() &&
-                !context.state.inventory["Witches' Eve Banner"] &&
-                (context.state.bumpkin?.experience ?? 0) > 0,
+                (context.state.bumpkin?.experience ?? 0) > 10 &&
+                !context.state.collectibles["Catch the Kraken Banner"] &&
+                !getSeasonPassRead(),
             },
             {
               // auctionResults needs to be the last check as it transitions directly
@@ -734,6 +766,13 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
+        buds: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "playing",
+            },
+          },
+        },
         noTownCenter: {
           on: {
             ACKNOWLEDGE: {
@@ -750,6 +789,15 @@ export function startGame(authContext: AuthContext) {
         },
         gameRules: {
           on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
+        mailbox: {
+          on: {
+            "conversation.ended": (GAME_EVENT_HANDLERS as any)["bid.refunded"],
+            "message.read": (GAME_EVENT_HANDLERS as any)["message.read"],
             ACKNOWLEDGE: {
               target: "notifying",
             },
@@ -964,8 +1012,14 @@ export function startGame(authContext: AuthContext) {
         },
         autosaving: {
           entry: "setTransactionId",
+          id: "autosaving",
           on: {
             ...GAME_EVENT_HANDLERS,
+            SAVE: {
+              actions: assign({
+                saveQueued: (c) => c.actions.length > 0,
+              }),
+            },
           },
           invoke: {
             src: async (context, event) => {
@@ -977,6 +1031,14 @@ export function startGame(authContext: AuthContext) {
               );
             },
             onDone: [
+              {
+                target: "autosaving",
+                // If a SAVE was queued up, go back into saving
+                cond: (c) => c.saveQueued,
+                actions: assign((context: Context, event) =>
+                  handleSuccessfulSave(context, event)
+                ),
+              },
               {
                 target: "playing",
                 actions: assign((context: Context, event) =>
@@ -1411,6 +1473,7 @@ export function startGame(authContext: AuthContext) {
                 wearableIds,
                 wearableAmounts,
                 bumpkinTokenUri,
+                budIds,
               } = event as DepositEvent;
 
               if (bumpkinTokenUri) {
@@ -1430,6 +1493,7 @@ export function startGame(authContext: AuthContext) {
                   itemAmounts: itemAmounts,
                   wearableAmounts,
                   wearableIds,
+                  budIds,
                 });
               }
             },
@@ -1618,6 +1682,7 @@ export function startGame(authContext: AuthContext) {
           announcements: (_, event) => event.data.announcements,
           bumpkins: (_, event) => event.data.bumpkins,
           transaction: (_, event) => event.data.transaction,
+          moderation: (_, event) => event.data.moderation,
           promoCode: (_, event) => event.data.promoCode,
         }),
         setTransactionId: assign<Context, any>({

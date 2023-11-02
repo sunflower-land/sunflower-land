@@ -52,6 +52,7 @@ import { RefundAuction } from "../components/auctionResults/RefundAuction";
 import { Promo } from "./components/Promo";
 import { Traded } from "../components/Traded";
 import { Sniped } from "../components/Sniped";
+import { NewMail } from "./components/NewMail";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -96,6 +97,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   trading: true,
   sniped: true,
   traded: true,
+  buds: false,
+  mailbox: false,
 };
 
 // State change selectors
@@ -139,6 +142,7 @@ const isClaimAuction = (state: MachineState) => state.matches("claimAuction");
 const isRefundingAuction = (state: MachineState) =>
   state.matches("refundAuction");
 const isPromoing = (state: MachineState) => state.matches("promo");
+const isBudding = (state: MachineState) => state.matches("buds");
 
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -268,6 +272,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const claimingAuction = useSelector(gameService, isClaimAuction);
   const refundAuction = useSelector(gameService, isRefundingAuction);
   const promo = useSelector(gameService, isPromoing);
+  const showBuds = useSelector(gameService, isBudding);
 
   useInterval(() => {
     gameService.send("SAVE");
@@ -306,7 +311,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   }, []);
 
   if (loadingSession || loadingLandToVisit) {
-    console.log("Inner loading");
     return (
       <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
         <Modal show centered backdrop={false}>
@@ -335,6 +339,7 @@ export const GameWrapper: React.FC = ({ children }) => {
           {hoarding && <Hoarding />}
           {swarming && <Swarming />}
           {noBumpkinFound && <NoBumpkin />}
+
           {noTownCenter && <NoTownCenter />}
           {coolingDown && <Cooldown />}
           {gameRules && <Rules />}
@@ -354,6 +359,7 @@ export const GameWrapper: React.FC = ({ children }) => {
 
       <SpecialOffer />
       <Introduction />
+      <NewMail />
 
       {children}
     </ToastProvider>

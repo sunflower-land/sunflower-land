@@ -11,6 +11,7 @@ import { Equipped } from "features/game/types/bumpkin";
 
 interface OuterPanelProps extends React.HTMLAttributes<HTMLDivElement> {
   hasTabs?: boolean;
+  tabAlignment?: "top" | "left";
 }
 
 interface PanelProps extends OuterPanelProps {
@@ -77,6 +78,7 @@ export const InnerPanel: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 export const OuterPanel: React.FC<OuterPanelProps> = ({
   children,
   hasTabs,
+  tabAlignment = "top",
   ...divProps
 }) => {
   const { className, style, ...otherDivProps } = divProps;
@@ -86,7 +88,14 @@ export const OuterPanel: React.FC<OuterPanelProps> = ({
       style={{
         ...pixelDarkBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
-        ...(hasTabs ? { paddingTop: `${PIXEL_SCALE * 15}px` } : {}),
+        ...(hasTabs
+          ? {
+              paddingTop:
+                tabAlignment === "top" ? `${PIXEL_SCALE * 15}px` : undefined,
+              paddingLeft:
+                tabAlignment === "left" ? `${PIXEL_SCALE * 15}px` : undefined,
+            }
+          : {}),
         ...style,
       }}
       {...otherDivProps}

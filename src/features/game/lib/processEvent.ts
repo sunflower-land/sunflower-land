@@ -24,12 +24,14 @@ export const maxItems: Inventory = {
   Apple: new Decimal("200"),
   Orange: new Decimal("200"),
   Blueberry: new Decimal("200"),
+  Banana: new Decimal("200"),
 
   Chicken: new Decimal("20"),
   Egg: new Decimal("400"),
   "Speed Chicken": new Decimal("5"),
   "Rich Chicken": new Decimal("5"),
   "Fat Chicken": new Decimal("5"),
+  "Banana Chicken": new Decimal("5"),
 
   // Seed limits + buffer
   "Sunflower Seed": new Decimal(1250),
@@ -48,6 +50,7 @@ export const maxItems: Inventory = {
   "Apple Seed": new Decimal(100),
   "Orange Seed": new Decimal(100),
   "Blueberry Seed": new Decimal(100),
+  "Banana Plant": new Decimal(100),
 
   Gold: new Decimal("90"),
   Iron: new Decimal("400"),
@@ -71,6 +74,7 @@ export const maxItems: Inventory = {
   "Rusty Shovel": new Decimal("100"),
   "Sand Shovel": new Decimal(50),
   "Sand Drill": new Decimal(30),
+  Rod: new Decimal("200"),
 
   //Treasure Island Decorations
   "Abandoned Bear": new Decimal(50),
@@ -95,10 +99,11 @@ export const maxItems: Inventory = {
   "Solar Flare Ticket": new Decimal(350),
   "Dawn Breaker Ticket": new Decimal(750),
   "Crow Feather": new Decimal(750),
+  "Mermaid Scale": new Decimal(750),
+  "Bud Ticket": new Decimal(1),
 
   // Potion House
-  // "Potion Ticket": new Decimal(750),
-  "Potion Ticket": new Decimal(1000000),
+  "Potion Ticket": new Decimal(7500),
   "Giant Cabbage": new Decimal(50),
   "Giant Potato": new Decimal(50),
   "Giant Pumpkin": new Decimal(50),
@@ -106,6 +111,12 @@ export const maxItems: Inventory = {
   "Lab Grown Pumpkin": new Decimal(1),
   "Lab Grown Radish": new Decimal(1),
   "Magic Bean": new Decimal(5),
+
+  // Bait
+  Earthworm: new Decimal(100),
+  Grub: new Decimal(100),
+  "Red Wiggler": new Decimal(100),
+  "Fishing Lure": new Decimal(100),
 
   //Treasure Island Beach Bounty
   "Pirate Bounty": new Decimal(50),
@@ -165,7 +176,8 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
     return { valid: true };
   }
 
-  const progress = newState.balance.sub(onChain.balance);
+  const auctionSFL = newState.auctioneer.bid?.sfl ?? new Decimal(0);
+  const progress = newState.balance.add(auctionSFL).sub(onChain.balance);
 
   /**
    * Contract enforced SFL caps
@@ -177,25 +189,48 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
 
   let maxedItem: InventoryItemName | undefined = undefined;
 
-  // Check inventory amounts
-  const validProgress = getKeys(newState.inventory).every((name) => {
-    const onChainAmount = onChain.inventory[name] || new Decimal(0);
+  const inventory = newState.inventory;
+  const auctionBid = newState.auctioneer.bid?.ingredients ?? {};
 
-    const diff =
-      newState.inventory[name]?.minus(onChainAmount) || new Decimal(0);
+  const listedItems: Partial<Record<InventoryItemName, number>> = {};
 
-    const max = maxItems[name] || new Decimal(0);
+  Object.values(newState.trades.listings ?? {}).forEach((listing) => {
+    const items = listing.items;
 
-    if (max.eq(0)) return true;
-
-    if (diff.gt(max)) {
-      maxedItem = name;
-
-      return false;
-    }
-
-    return true;
+    Object.entries(items).forEach(([itemName, amount]) => {
+      listedItems[itemName as InventoryItemName] =
+        (listedItems[itemName as InventoryItemName] ?? 0) + amount;
+    });
   });
+
+  // Check inventory amounts
+  const validProgress = getKeys(inventory)
+    .concat(getKeys(auctionBid))
+    .concat(getKeys(listedItems))
+    .every((name) => {
+      const inventoryAmount = inventory[name] ?? new Decimal(0);
+      const auctionAmount = auctionBid[name] ?? new Decimal(0);
+      const listingAmount = listedItems[name] ?? new Decimal(0);
+
+      const onChainAmount = onChain.inventory[name] || new Decimal(0);
+
+      const diff = inventoryAmount
+        .add(auctionAmount)
+        .add(listingAmount)
+        .minus(onChainAmount);
+
+      const max = maxItems[name] || new Decimal(0);
+
+      if (max.eq(0)) return true;
+
+      if (diff.gt(max)) {
+        maxedItem = name;
+
+        return false;
+      }
+
+      return true;
+    });
 
   return { valid: validProgress, maxedItem };
 }
