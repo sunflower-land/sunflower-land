@@ -30,7 +30,10 @@ export type HeliosBlacksmithItem =
   | "Laurie the Chuckle Crow"
   | "Poppy"
   | "Kernaldo"
-  | "Grain Grinder";
+  | "Grain Grinder"
+  | "Skill Shrimpy"
+  | "Soil Krabby"
+  | "Nana";
 
 export type SoldOutCollectibleName =
   | "Sir Goldensnout"
@@ -57,7 +60,13 @@ export type SoldOutCollectibleName =
   | "Lady Bug"
   | "Freya Fox"
   | "Queen Cornelia"
-  | "White Crow";
+  | "White Crow"
+  | "Walrus"
+  | "Alba"
+  | "Knowledge Crab"
+  | "Anchor"
+  | "Rubber Ducky"
+  | "Kraken Head";
 
 export type GoblinBlacksmithItemName =
   | "Purple Trail"
@@ -89,8 +98,12 @@ export type CraftableCollectible = {
 };
 
 export const HELIOS_BLACKSMITH_ITEMS: (
-  game?: GameState
-) => Record<HeliosBlacksmithItem, CraftableCollectible> = (state) => ({
+  game?: GameState,
+  date?: Date
+) => Partial<Record<HeliosBlacksmithItem, CraftableCollectible>> = (
+  state,
+  date = new Date()
+) => ({
   Bale: {
     description:
       "A poultry's favorite neighbor, providing a cozy retreat for chickens",
@@ -111,7 +124,6 @@ export const HELIOS_BLACKSMITH_ITEMS: (
     boost: "20% faster Sunflowers, Potatoes and Pumpkins",
     sfl: new Decimal(0),
   },
-
   "Scary Mike": {
     description:
       "The veggie whisperer and champion of frightfully good harvests!",
@@ -145,7 +157,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
       Blueberry: new Decimal(10),
       Orange: new Decimal(10),
     },
-    boost: "+1 harvest",
+    boost: "+1 Harvest",
   },
   "Treasure Map": {
     description: "X marks the spot!",
@@ -155,37 +167,74 @@ export const HELIOS_BLACKSMITH_ITEMS: (
     },
     boost: "+20% SFL on Treasure Bounty",
   },
-  Poppy: {
-    description: "The mystical corn kernel.",
-    ingredients: {
-      Gold: new Decimal(5),
-      "Crow Feather": new Decimal(250),
+  ...(getCurrentSeason(date) === "Witches' Eve" && {
+    Poppy: {
+      description: "The mystical corn kernel.",
+      ingredients: {
+        Gold: new Decimal(5),
+        "Crow Feather": new Decimal(250),
+      },
+      boost: "+0.1 Corn",
+      from: new Date("2023-08-01"),
+      to: new Date("2023-09-01"),
     },
-    boost: "+0.1 Corn",
-    from: new Date("2023-08-01"),
-    to: new Date("2023-09-01"),
-  },
-  Kernaldo: {
-    description: "The magical corn whisperer.",
-    ingredients: {
-      "Crow Feather": new Decimal(500),
+    Kernaldo: {
+      description: "The magical corn whisperer.",
+      ingredients: {
+        "Crow Feather": new Decimal(500),
+      },
+      sfl: SFLDiscount(state, new Decimal(50)),
+      boost: "+25% Corn Speed",
+      from: new Date("2023-09-01"),
+      to: new Date("2023-10-01"),
     },
-    sfl: SFLDiscount(state, new Decimal(50)),
-    boost: "+25% Corn Speed",
-    from: new Date("2023-09-01"),
-    to: new Date("2023-10-01"),
-  },
-  "Grain Grinder": {
-    description:
-      "Grind your grain and experience a delectable surge in Cake XP.",
-    ingredients: {
-      "Crow Feather": new Decimal(750),
+    "Grain Grinder": {
+      description:
+        "Grind your grain and experience a delectable surge in Cake XP.",
+      ingredients: {
+        "Crow Feather": new Decimal(750),
+      },
+      sfl: SFLDiscount(state, new Decimal(100)),
+      boost: "+20% Cake XP",
+      from: new Date("2023-10-01"),
+      to: new Date("2023-11-01"),
     },
-    sfl: SFLDiscount(state, new Decimal(100)),
-    boost: "+20% Cake XP",
-    from: new Date("2023-10-01"),
-    to: new Date("2023-11-01"),
-  },
+  }),
+  ...(getCurrentSeason(date) === "Catch the Kraken" && {
+    Nana: {
+      description:
+        "This rare beauty is a surefire way to boost your banana harvests.",
+      ingredients: {
+        "Mermaid Scale": new Decimal(350),
+      },
+      sfl: SFLDiscount(state, new Decimal(50)),
+      boost: "+10% Banana Speed",
+      from: new Date("2023-11-01"),
+      to: new Date("2023-12-01"),
+    },
+    "Soil Krabby": {
+      description:
+        "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
+      ingredients: {
+        "Mermaid Scale": new Decimal(650),
+      },
+      sfl: SFLDiscount(state, new Decimal(65)),
+      boost: "+10% Composter Speed",
+      from: new Date("2023-12-01"),
+      to: new Date("2024-01-01"),
+    },
+    "Skill Shrimpy": {
+      description:
+        "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
+      ingredients: {
+        "Mermaid Scale": new Decimal(865),
+      },
+      sfl: SFLDiscount(state, new Decimal(115)),
+      boost: "+20% Fish XP",
+      from: new Date("2024-01-01"),
+      to: new Date("2024-02-01"),
+    },
+  }),
 });
 
 export type GoblinBlacksmithCraftable = CraftableCollectible & {
@@ -402,8 +451,14 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   },
   Kernaldo: {
     shortDescription: "+25% Corn Growth Speed",
-    labelType: "info",
+    labelType: "success",
     boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
+  },
+  "Skill Shrimpy": {
+    shortDescription: "+20% Fish XP",
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: SUNNYSIDE.icons.fish,
   },
 };

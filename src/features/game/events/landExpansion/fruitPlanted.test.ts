@@ -533,6 +533,68 @@ describe("fruitPlanted", () => {
       (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
     ).toEqual(1.2);
   });
+
+  it("includes Banana Amulet +0.5 bonus on Bananas", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = "1";
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { necklace: "Banana Amulet", ...INITIAL_BUMPKIN.equipped },
+        },
+        inventory: {
+          "Banana Plant": seedAmount,
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        seed: "Banana Plant",
+      },
+    });
+
+    const fruitPatches = state.fruitPatches;
+
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
+    ).toEqual(1.5);
+  });
+
+  it("does not include Banana Amulet +0.5 bonus on Apples", () => {
+    const seedAmount = new Decimal(5);
+
+    const patchIndex = "1";
+
+    const state = plantFruit({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { necklace: "Banana Amulet", ...INITIAL_BUMPKIN.equipped },
+        },
+        inventory: {
+          "Apple Seed": seedAmount,
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "fruit.planted",
+        index: patchIndex,
+        seed: "Apple Seed",
+      },
+    });
+
+    const fruitPatches = state.fruitPatches;
+
+    expect(
+      (fruitPatches as Record<number, FruitPatch>)[patchIndex].fruit?.amount
+    ).toEqual(1);
+  });
 });
 
 describe("getFruitTime", () => {
@@ -556,6 +618,37 @@ describe("getFruitTime", () => {
     const applePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitTime(seed, {
       "Squirrel Monkey": [
+        {
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          id: "123",
+          readyAt: 0,
+        },
+      ],
+    });
+    expect(time).toEqual(applePlantSeconds);
+  });
+
+  it("applies a 10% speed boost with Nana placed for Banana plant", () => {
+    const seed = "Banana Plant";
+    const orangePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitTime(seed, {
+      Nana: [
+        {
+          coordinates: { x: 0, y: 0 },
+          createdAt: 0,
+          id: "123",
+          readyAt: 0,
+        },
+      ],
+    });
+    expect(time).toEqual(orangePlantSeconds * 0.9);
+  });
+  it("does not apply a 10% speed boost with Nana placed for other seeds", () => {
+    const seed = "Apple Seed";
+    const applePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitTime(seed, {
+      Nana: [
         {
           coordinates: { x: 0, y: 0 },
           createdAt: 0,

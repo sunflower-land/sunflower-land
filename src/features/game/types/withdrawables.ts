@@ -55,8 +55,8 @@ import { WorkbenchToolName } from "./tools";
 import { BumpkinItem } from "./bumpkin";
 import { hasSeasonEnded } from "./seasons";
 import { GoblinState } from "../lib/goblinMachine";
-import { Bait, CompostName } from "./composters";
-import { FishName, MarineMarvelName } from "./fishing";
+import { CompostName } from "./composters";
+import { FishName, FishingBait, MarineMarvelName } from "./fishing";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
@@ -171,6 +171,9 @@ const heliosBlacksmith: Record<HeliosBlacksmithItem, () => boolean> = {
   "Grain Grinder": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
   Kernaldo: () => canWithdrawTimebasedItem(new Date("2023-10-02")),
   Poppy: () => canWithdrawTimebasedItem(new Date("2023-09-02")),
+  Nana: () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Soil Krabby": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Skill Shrimpy": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
 };
 
 const commodities: Record<CommodityName, () => boolean> = {
@@ -205,6 +208,7 @@ const mutantChickens: Record<MutantChicken, () => boolean> = {
   "Rich Chicken": () => true,
   "Speed Chicken": () => true,
   "El Pollo Veloz": () => true,
+  "Banana Chicken": () => true,
 };
 
 const flags: Record<Flag, () => boolean> = {
@@ -396,7 +400,7 @@ const consumables: Record<ConsumableName, () => boolean> = {
   "Hammerhead shark": () => false,
   "Horse Mackerel": () => false,
   "Mahi Mahi": () => false,
-  "Mooray Eel": () => false,
+  "Moray Eel": () => false,
   "Olive Flounder": () => false,
   "Red Snapper": () => false,
   "Saw Shark": () => false,
@@ -417,6 +421,7 @@ const consumables: Record<ConsumableName, () => boolean> = {
   Sunfish: () => false,
   Surgeonfish: () => false,
   Tuna: () => false,
+  "Banana Blast": () => false,
 };
 
 const decorations: Record<ShopDecorationName, () => boolean> = {
@@ -457,6 +462,12 @@ const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   Observer: () => canWithdrawTimebasedItem(new Date("2023-11-02")),
   "Crow Rock": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
   "Mini Corn Maze": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
+  "Beach Umbrella": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Hideaway Herman": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Lifeguard Ring": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Shifty Sheldon": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Tiki Torch": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  Surfboard: () => canWithdrawTimebasedItem(new Date("2024-02-02")),
 };
 
 const mutantCrop: Record<MutantCropName, () => boolean> = {
@@ -556,6 +567,13 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Freya Fox": () => true,
   "Queen Cornelia": () => canWithdrawTimebasedItem(new Date("2023-10-14")),
   "White Crow": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
+
+  Walrus: () => canWithdrawTimebasedItem(new Date("01-28-2024")),
+  Alba: () => canWithdrawTimebasedItem(new Date("01-19-2024")),
+  "Knowledge Crab": () => canWithdrawTimebasedItem(new Date("01-07-2024")),
+  Anchor: () => canWithdrawTimebasedItem(new Date("01-28-2024")),
+  "Rubber Ducky": () => canWithdrawTimebasedItem(new Date("01-10-2024")),
+  "Kraken Head": () => canWithdrawTimebasedItem(new Date("01-22-2024")),
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
@@ -643,6 +661,8 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Genie Bear": () => true,
   "Eggplant Bear": () => true,
   "Dawn Flower": () => true,
+  "Sapo Docuras": () => true,
+  "Sapo Travessuras": () => true,
 };
 
 const lanterns: Record<LanternName, () => boolean> = {
@@ -686,10 +706,11 @@ const exoticCrops: Record<ExoticCropName, () => boolean> = {
   Chiogga: () => false,
 };
 
-const bait: Record<Bait, () => boolean> = {
+const bait: Record<FishingBait, () => boolean> = {
   Earthworm: () => false,
   Grub: () => false,
   "Red Wiggler": () => false,
+  "Fishing Lure": () => false,
 };
 
 const compost: Record<CompostName, () => boolean> = {
@@ -708,7 +729,7 @@ const fish: Record<FishName | MarineMarvelName, () => boolean> = {
   "Horse Mackerel": () => false,
   Squid: () => false,
   "Red Snapper": () => false,
-  "Mooray Eel": () => false,
+  "Moray Eel": () => false,
   "Olive Flounder": () => false,
   Napoleanfish: () => false,
   Surgeonfish: () => false,
@@ -731,6 +752,7 @@ const fish: Record<FishName | MarineMarvelName, () => boolean> = {
   "Radiant Ray": () => false,
   "Phantom Barracuda": () => false,
   "Gilded Swordfish": () => false,
+  "Kraken Tentacle": () => false,
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
@@ -1080,29 +1102,41 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Feather Hat": () => true,
   "Valoria Wreath": () => true,
   "Earn Alliance Sombrero": () => true,
-  "Fresh Catch Vest": () => false,
-  "Fish Pro Vest": () => false,
-  "Reel Fishing Vest": () => false,
-  "Clown Shirt": () => false,
+  "Fresh Catch Vest": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
+  "Fish Pro Vest": () => canWithdrawTimebasedItem(new Date("2024-01-02")),
+  "Reel Fishing Vest": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Clown Shirt": () => canWithdrawTimebasedItem(new Date("2024-12-02")),
   "Luminous Anglerfish Topper": () => false,
-  "Abyssal Angler Hat": () => false,
+  "Abyssal Angler Hat": () =>
+    canWithdrawTimebasedItem(new Date("Thu Jan 4 2024 09:00:00 GMT+1000")),
   Harpoon: () => false,
-  "Ancient Rod": () => false,
+  "Ancient Rod": () =>
+    canWithdrawTimebasedItem(new Date("Thu Jan 25 2024 09:00:00 GMT+1000")),
   "Fishing Hat": () => false,
   Trident: () => false,
   "Bucket O' Worms": () => false,
   "Coconut Mask": () => false,
   "Crab Trap": () => false,
-  "Seaside Tank Top": () => false,
+  "Seaside Tank Top": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
   "Fish Trap": () => false,
-  "Fishing Pants": () => false,
+  "Fishing Pants": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
   "Angler Waders": () => false,
-  "Fishing Spear": () => false,
-  "Flip Flops": () => false,
-  Wellies: () => false,
-  "Saw Fish": () => false,
-  "Skinning Knife": () => false,
+  "Fishing Spear": () => canWithdrawTimebasedItem(new Date("2024-01-02")),
+  "Flip Flops": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  Wellies: () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Saw Fish": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Skinning Knife": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
   "Sunflower Rod": () => false,
-  "Tackle Box": () => false,
-  "Infernal Rod": () => false,
+  "Tackle Box": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Infernal Rod": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Mermaid Potion": () => false,
+  "Squirrel Monkey Potion": () => false,
+  "Koi Fish Hat": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
+  "Normal Fish Hat": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
+  "Stockeye Salmon Onesie": () =>
+    canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Tiki Armor": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
+  "Tiki Mask": () => canWithdrawTimebasedItem(new Date("2024-01-02")),
+  "Tiki Pants": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Banana Amulet": () => canWithdrawTimebasedItem(new Date("01-13-2024")),
 };

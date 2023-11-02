@@ -59,8 +59,16 @@ import bettyLantern from "assets/decorations/lanterns/betty_lantern.png";
 import goblinLantern from "assets/decorations/lanterns/goblin_lantern.png";
 import poppy from "assets/sfts/poppy.png";
 import kernaldo from "assets/sfts/kernaldo.png";
-
-import ironStone from "assets/resources/iron_small.png";
+import walrus from "assets/sfts/walrus.webp";
+import alba from "assets/sfts/alba.webp";
+import knowledgeCrab from "assets/sfts/knowledge_crab.webp";
+import anchor from "assets/sfts/anchor.webp";
+import rubberDucky from "assets/sfts/rubber_ducky.webp";
+import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
+import krakenHead from "assets/sfts/kraken_head.webp";
+import skillShrimpy from "assets/sfts/skill_shrimpy.png";
+import soilKrabby from "assets/sfts/soil_krabby.webp";
+import nana from "assets/sfts/nana.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -77,6 +85,7 @@ import fatChicken from "assets/animals/chickens/fat_chicken.gif";
 import richChicken from "assets/animals/chickens/rich_chicken.gif";
 import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
+import bananaChicken from "assets/animals/chickens/banana_chicken.png";
 
 // Foods
 import roastedCauliflower from "assets/food/roasted_cauliflower.png";
@@ -283,6 +292,10 @@ import bumpkinGanoush from "assets/food/bumpkin_ganoush.png";
 import eggplantCake from "assets/food/cakes/eggplant_cake.png";
 import cornBread from "assets/food/corn_bread.png";
 import popcorn from "assets/food/popcorn.png";
+import chowder from "assets/food/chowder.png";
+import gumbo from "assets/food/gumbo.png";
+import fermentedFish from "assets/food/fermented_fish.png";
+import bananaBlast from "assets/food/banana_blast.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -314,6 +327,7 @@ import expertComposter from "assets/composters/composter_expert.png";
 import earthworm from "assets/composters/earthworm.png";
 import grub from "assets/composters/grub.png";
 import redWiggler from "assets/composters/red_wiggler.png";
+import fishingLure from "assets/composters/fishing_lure.png";
 
 // Compost
 import sproutMix from "assets/composters/sprout_mix.png";
@@ -371,6 +385,12 @@ import observer from "src/assets/decorations/observer.webp";
 import crowRock from "src/assets/decorations/crow_rock.webp";
 import miniCornMaze from "src/assets/decorations/mini_corn_maze.webp";
 import whiteCrow from "src/assets/decorations/white_crow.webp";
+import lifeguardRing from "src/assets/decorations/lifeguard_ring.webp";
+import surfboard from "src/assets/decorations/surfboard.webp";
+import hideawayHerman from "src/assets/decorations/hideaway_herman.webp";
+import shiftySheldon from "src/assets/decorations/shifty_sheldon.webp";
+import tikiTorch from "src/assets/decorations/tiki_torch.webp";
+import beachUmbrella from "src/assets/decorations/beach_umbrella.webp";
 
 import pineTree from "src/assets/decorations/pine_tree.png";
 import fieldMaple from "src/assets/decorations/field_maple.webp";
@@ -495,6 +515,9 @@ import radiantRay from "assets/fish/radiant_ray.png";
 import phantomBarracuda from "assets/fish/phantom_barracuda.png";
 import gildedSwordfish from "assets/fish/gilded_swordfish.png";
 
+import sapoDocuras from "assets/sfts/sapo_docuras.gif";
+import sapoTravessura from "assets/sfts/sapo_travessura.gif";
+
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -525,11 +548,7 @@ import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
 //Golden Crop Event
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
-import {
-  GOBLIN_PIRATE_ITEMS,
-  HELIOS_BLACKSMITH_ITEMS,
-  POTION_HOUSE_ITEMS,
-} from "./collectibles";
+import { GOBLIN_PIRATE_ITEMS, POTION_HOUSE_ITEMS } from "./collectibles";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -750,7 +769,7 @@ export const ITEM_DETAILS: Items = {
     image: orange,
   },
   Banana: {
-    description: FRUIT()["Orange"].description,
+    description: FRUIT()["Banana"].description,
     image: banana,
   },
   Honey: {
@@ -800,6 +819,10 @@ export const ITEM_DETAILS: Items = {
   "Fancy Fries": {
     description: CONSUMABLES["Fancy Fries"].description,
     image: fancyFries,
+  },
+  "Banana Blast": {
+    description: CONSUMABLES["Banana Blast"].description,
+    image: bananaBlast,
   },
 
   // Resources
@@ -1603,16 +1626,16 @@ export const ITEM_DETAILS: Items = {
     description: "Classic homegrown crunchy snack.",
   },
   Chowder: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: chowder,
     description:
       "Sailor's delight in a bowl! Dive in, there's treasure inside!",
   },
   Gumbo: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: gumbo,
     description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
   },
   "Fermented Fish": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: fermentedFish,
     description: "Daring delicacy! Unleash the Viking within with every bite!",
   },
 
@@ -1900,7 +1923,7 @@ export const ITEM_DETAILS: Items = {
 
   "Immortal Pear": {
     image: immortalPear,
-    description: HELIOS_BLACKSMITH_ITEMS()["Immortal Pear"].description,
+    description: "A long-lived pear that makes fruit trees last longer.",
   },
   "Lady Bug": {
     image: ladybug,
@@ -2157,11 +2180,12 @@ export const ITEM_DETAILS: Items = {
     description: GOBLIN_PIRATE_ITEMS["Tin Turtle"].description,
   },
   "Basic Scarecrow": {
-    description: HELIOS_BLACKSMITH_ITEMS()["Basic Scarecrow"].description,
+    description: "Choosy defender of your farm's VIP (Very Important Plants)",
     image: basicScarecrow,
   },
   Bale: {
-    description: HELIOS_BLACKSMITH_ITEMS()["Bale"].description,
+    description:
+      "A poultry's favorite neighbor, providing a cozy retreat for chickens",
     image: bale,
   },
   "Sir Goldensnout": {
@@ -2175,12 +2199,13 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Scary Mike": {
-    description: HELIOS_BLACKSMITH_ITEMS()["Scary Mike"].description,
+    description:
+      "The veggie whisperer and champion of frightfully good harvests!",
     image: scaryMike,
   },
   "Laurie the Chuckle Crow": {
     description:
-      HELIOS_BLACKSMITH_ITEMS()["Laurie the Chuckle Crow"].description,
+      "With her disconcerting chuckle, she shooes peckers away from your crops!",
     image: laurie,
   },
   "Freya Fox": {
@@ -2619,7 +2644,10 @@ export const ITEM_DETAILS: Items = {
     image: redWiggler,
     description: BAIT["Red Wiggler"].description,
   },
-
+  "Fishing Lure": {
+    image: fishingLure,
+    description: "Great for catching rare fish!",
+  },
   // Compost
   "Sprout Mix": {
     image: sproutMix,
@@ -2636,160 +2664,197 @@ export const ITEM_DETAILS: Items = {
 
   Anchovy: {
     image: anchovy,
-    description: "?",
+    description: "The ocean's pocket-sized darting acrobat, always in a hurry!",
     howToGetItem: ["Ocean fishing"],
   },
   Butterflyfish: {
     image: butterflyfish,
-    description: "?",
+    description:
+      "A fish with a fashion-forward sense, flaunting its vivid, stylish stripes.",
     howToGetItem: ["Ocean fishing"],
   },
   Blowfish: {
     image: blowfish,
-    description: "?",
+    description:
+      "The round, inflated comedian of the sea, guaranteed to bring a smile.",
     howToGetItem: ["Ocean fishing"],
   },
   Clownfish: {
     image: clownfish,
-    description: "?",
+    description:
+      "The underwater jester, sporting a tangerine tuxedo and a clownish charm.",
     howToGetItem: ["Ocean fishing"],
   },
   "Sea Bass": {
     image: seaBass,
-    description: "?",
+    description:
+      "Your 'not-so-exciting' friend with silver scales – a bassic catch!",
     howToGetItem: ["Ocean fishing"],
   },
   "Sea Horse": {
     image: seahorse,
-    description: "?",
+    description:
+      "The ocean's slow-motion dancer, swaying gracefully in the aquatic ballet.",
     howToGetItem: ["Ocean fishing"],
   },
   "Horse Mackerel": {
     image: horseMackerel,
-    description: "?",
+    description:
+      "A speedster with a shiny coat, always racing through the waves.",
     howToGetItem: ["Ocean fishing"],
   },
-  Squid: { image: squid, description: "?", howToGetItem: ["Ocean fishing"] },
+  Squid: {
+    image: squid,
+    description: "The deep-sea enigma with tentacles to tickle your curiosity.",
+    howToGetItem: ["Ocean fishing"],
+  },
   "Red Snapper": {
     image: redSnapper,
-    description: "?",
+    description: "A catch worth its weight in gold, dressed in fiery crimson.",
     howToGetItem: ["Ocean fishing"],
   },
-  "Mooray Eel": {
+  "Moray Eel": {
     image: morayEel,
-    description: "?",
+    description: "A slinky, sinister lurker in the ocean's shadowy corners.",
     howToGetItem: ["Ocean fishing"],
   },
   "Olive Flounder": {
     image: oliveFlounder,
-    description: "?",
+    description:
+      "The seabed's master of disguise, always blending in with the crowd.",
     howToGetItem: ["Ocean fishing"],
   },
   Napoleanfish: {
     image: napoleonfish,
-    description: "?",
+    description: "Meet the fish with the Napoleon complex – short, but regal!",
     howToGetItem: ["Ocean fishing"],
   },
   Surgeonfish: {
     image: surgeonfish,
-    description: "?",
+    description: "The ocean's neon warrior, armed with a spine-sharp attitude.",
     howToGetItem: ["Ocean fishing"],
   },
   "Zebra Turkeyfish": {
     image: zebraTurkeyfish,
-    description: "?",
+    description:
+      "Stripes, spines, and a zesty disposition, this fish is a true showstopper!",
     howToGetItem: ["Ocean fishing"],
   },
-  Ray: { image: ray, description: "?", howToGetItem: ["Ocean fishing"] },
+  Ray: {
+    image: ray,
+    description:
+      "The underwater glider, a serene winged beauty through the waves.",
+    howToGetItem: ["Ocean fishing"],
+  },
   "Hammerhead shark": {
     image: hammerheadShark,
-    description: "?",
+    description:
+      "Meet the shark with a head for business, and a body for adventure!",
     howToGetItem: ["Ocean fishing"],
   },
-  Tuna: { image: tuna, description: "?", howToGetItem: ["Ocean fishing"] },
+  Tuna: {
+    image: tuna,
+    description:
+      "The ocean's muscle-bound sprinter, ready for a fin-tastic race!",
+    howToGetItem: ["Ocean fishing"],
+  },
   "Mahi Mahi": {
     image: mahiMahi,
-    description: "?",
+    description:
+      "A fish that believes in living life colorfully with fins of gold.",
     howToGetItem: ["Ocean fishing"],
   },
   "Blue Marlin": {
     image: blueMarlin,
-    description: "?",
+    description:
+      "An oceanic legend, the marlin with an attitude as deep as the sea.",
     howToGetItem: ["Ocean fishing"],
   },
   Oarfish: {
     image: oarfish,
-    description: "?",
+    description: "The long and the long of it – an enigmatic ocean wanderer.",
     howToGetItem: ["Ocean fishing"],
   },
   "Football fish": {
     image: footballFish,
-    description: "?",
+    description:
+      "The MVP of the deep, a bioluminescent star that's ready to play!",
     howToGetItem: ["Ocean fishing"],
   },
   Sunfish: {
     image: sunfish,
-    description: "?",
+    description:
+      "The ocean's sunbather, basking in the spotlight with fins held high.",
     howToGetItem: ["Ocean fishing"],
   },
   Coelacanth: {
     image: coelacanth,
-    description: "?",
+    description:
+      "A prehistoric relic, with a taste for the past and the present.",
     howToGetItem: ["Ocean fishing"],
   },
   "Whale Shark": {
     image: whaleShark,
-    description: "?",
+    description:
+      "The gentle giant of the deep, sifting treasures from the ocean's buffet.",
     howToGetItem: ["Ocean fishing"],
   },
   "Barred Knifejaw": {
     image: barredKnifejaw,
-    description: "?",
+    description:
+      "An oceanic outlaw with black-and-white stripes and a heart of gold.",
     howToGetItem: ["Ocean fishing"],
   },
   "Saw Shark": {
     image: sawShark,
-    description: "?",
+    description:
+      "With a saw-like snout, it's the ocean's carpenter, always cutting edge!",
     howToGetItem: ["Ocean fishing"],
   },
   "White Shark": {
     image: whiteShark,
-    description: "?",
+    description:
+      "The shark with a killer smile, ruling the seas with fin-tensity!",
     howToGetItem: ["Ocean fishing"],
   },
   "Twilight Anglerfish": {
     image: twilightAnglerfish,
-    description: "?",
+    description:
+      "A deep-sea angler with a built-in nightlight, guiding its way through darkness.",
     howToGetItem: ["Ocean fishing"],
     itemType: "collectible",
   },
   "Starlight Tuna": {
     image: startlightTuna,
-    description: "?",
+    description:
+      "A tuna that outshines the stars, ready to light up your collection.",
     howToGetItem: ["Ocean fishing"],
     itemType: "collectible",
   },
   "Radiant Ray": {
     image: radiantRay,
-    description: "?",
+    description:
+      "A ray that prefers to glow in the dark, with a shimmering secret to share.",
     howToGetItem: ["Ocean fishing"],
     buff: {
       labelType: "success",
       shortDescription: "+0.1 Iron",
       boostTypeIcon: powerup,
-      boostedItemIcon: ironStone,
+      boostedItemIcon: iron,
     },
     itemType: "collectible",
   },
   "Phantom Barracuda": {
     image: phantomBarracuda,
-    description: "?",
+    description:
+      "An elusive and ghostly fish of the deep, hiding in the shadows.",
     howToGetItem: ["Ocean fishing"],
     itemType: "collectible",
   },
   "Gilded Swordfish": {
     image: gildedSwordfish,
-    description: "?",
+    description:
+      "A swordfish with scales that sparkle like gold, the ultimate catch!",
     howToGetItem: ["Ocean fishing"],
     buff: {
       labelType: "success",
@@ -2798,5 +2863,94 @@ export const ITEM_DETAILS: Items = {
       boostedItemIcon: gold,
     },
     itemType: "collectible",
+  },
+
+  "Kraken Tentacle": {
+    image: krakenTentacle,
+    description:
+      "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
+  },
+
+  "Sapo Docuras": {
+    description: "A real treat!",
+    image: sapoDocuras,
+  },
+  "Sapo Travessuras": {
+    description: "Oh oh...someone was naughty",
+    image: sapoTravessura,
+  },
+  // Catch the Kraken Season
+  "Lifeguard Ring": {
+    image: lifeguardRing,
+    description: "Stay afloat with style, your seaside savior!",
+  },
+  "Beach Umbrella": {
+    image: beachUmbrella,
+    description: "Shade, shelter, and seaside chic in one sunny setup!",
+  },
+  "Hideaway Herman": {
+    image: hideawayHerman,
+    description: "Herman's here to hide, but always peeks for a party!",
+  },
+  "Shifty Sheldon": {
+    image: shiftySheldon,
+    description: "Sheldon's sly, always scuttling to the next sandy surprise!",
+  },
+  "Tiki Torch": {
+    image: tikiTorch,
+    description: "Light the night, tropical vibes burning bright!",
+  },
+  Surfboard: {
+    image: surfboard,
+    description: "Ride the waves of wonder, beach bliss on board!",
+  },
+  Walrus: {
+    image: walrus,
+    description:
+      "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
+  },
+  Alba: {
+    image: alba,
+    description:
+      "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 Basic Fish!",
+  },
+  "Knowledge Crab": {
+    image: knowledgeCrab,
+    description:
+      "The Knowledge Crab doubles your Sprout Mix effect, making your soil treasures as rich as sea plunder!",
+  },
+  Anchor: {
+    image: anchor,
+    description:
+      "Drop anchor' with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
+  },
+  "Rubber Ducky": {
+    image: rubberDucky,
+    description:
+      "Float on fun with this classic quacker, bringing bubbly joy to every corner!",
+  },
+  "Kraken Head": {
+    image: krakenHead,
+    description:
+      "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
+  },
+  "Banana Chicken": {
+    image: bananaChicken,
+    description: "A chicken that boosts bananas. What a world we live in.",
+  },
+  "Skill Shrimpy": {
+    image: skillShrimpy,
+    description:
+      "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
+  },
+  "Soil Krabby": {
+    image: soilKrabby,
+    description:
+      "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
+  },
+  Nana: {
+    image: nana,
+    description:
+      "This rare beauty is a surefire way to boost your banana harvests.",
   },
 };

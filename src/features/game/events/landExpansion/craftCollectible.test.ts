@@ -89,9 +89,9 @@ describe("craftCollectible", () => {
         },
         action: {
           type: "collectible.crafted",
-          name: "Poppy",
+          name: "Kernaldo",
         },
-        createdAt: new Date("2023-07-31").getTime(),
+        createdAt: new Date("2023-08-10").getTime(),
       })
     ).toThrow("Too early");
   });

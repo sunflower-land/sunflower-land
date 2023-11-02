@@ -5,11 +5,7 @@ import { Label } from "components/ui/Label";
 import { OuterPanel } from "components/ui/Panel";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import {
-  BUMPKIN_ITEM_BUFF_LABELS,
-  BumpkinItem,
-  ITEM_IDS,
-} from "features/game/types/bumpkin";
+import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { GameState } from "features/game/types/game";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 
@@ -19,6 +15,7 @@ import { Button } from "components/ui/Button";
 import { Milestone as MilestoneDetail } from "features/game/types/milestones";
 import { getKeys } from "features/game/types/craftables";
 import { CONFIG } from "lib/config";
+import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 
 export const MilestonePanel: React.FC<{
   milestone: MilestoneDetail;

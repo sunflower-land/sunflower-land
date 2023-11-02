@@ -12,11 +12,9 @@ import { GoblinState } from "features/game/lib/goblinMachine";
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Auction } from "features/game/lib/auctionMachine";
-import {
-  BUMPKIN_ITEM_BUFF_LABELS,
-  ITEM_IDS,
-} from "features/game/types/bumpkin";
+import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
+import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 
 type Props = {
   item: Auction;

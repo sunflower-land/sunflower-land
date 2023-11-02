@@ -17,7 +17,7 @@ import {
   ConsumableName,
   CONSUMABLES,
   COOKABLES,
-  PIRATECAKE,
+  PIRATE_CAKE,
 } from "features/game/types/consumables";
 import { COMMODITIES } from "features/game/types/resources";
 import { BEANS, EXOTIC_CROPS } from "features/game/types/beans";
@@ -70,8 +70,6 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const selectedItem = selected ?? getKeys(basketMap)[0] ?? "Sunflower Seed";
 
-  console.log({ selectedItem });
-
   const isFruitSeed = (
     selected: InventoryItemName
   ): selected is FruitSeedName => selected in FRUIT_SEEDS();
@@ -115,7 +113,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const exotic = getItems(BEANS());
   const resources = getItems(COMMODITIES);
   const foods = getItems(COOKABLES);
-  const pirateCake = getItems(PIRATECAKE);
+  const pirateCake = getItems(PIRATE_CAKE);
   const fertilisers = getItems(FERTILISERS);
   const coupons = getItems(COUPONS);
   const easterEggs = getItems(EASTER_EGG);
@@ -177,7 +175,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
                     getFoodExpBoost(
                       CONSUMABLES[selectedItem as ConsumableName],
                       gameState.bumpkin as Bumpkin,
-                      gameState.collectibles
+                      gameState.collectibles,
+                      gameState.buds ?? {}
                     )
                   )
                 : undefined,

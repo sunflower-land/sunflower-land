@@ -32,47 +32,44 @@ const FISH_BY_TYPE: Record<FishType, (FishName | MarineMarvelName)[]> =
 
 export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
   "Novice Angler": {
-    task: "Catch 5 of each basic fish",
+    task: "Catch all each basic fish",
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
-      const totalFishRequired = FISH_BY_TYPE.basic.length * 5;
-
-      const totalFishCaught = FISH_BY_TYPE.basic.reduce(
-        (total, name) =>
-          total + Math.min(farmActivity[`${name} Caught`] ?? 0, 5),
-        0
+      const caughtFish = FISH_BY_TYPE.basic.filter(
+        (name) => (farmActivity[`${name} Caught`] ?? 0) >= 1
       );
 
-      return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
+      return Math.min(
+        (caughtFish.length / FISH_BY_TYPE.basic.length) * 100,
+        100
+      );
     },
     reward: {
       "Sunflower Rod": 1,
     },
   },
   "Advanced Angler": {
-    task: "Catch 5 of each advanced fish",
+    task: "Catch all advanced fish",
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
-      const totalFishRequired = FISH_BY_TYPE.advanced.length * 5;
-
-      const totalFishCaught = FISH_BY_TYPE.advanced.reduce(
-        (total, name) =>
-          total + Math.min(farmActivity[`${name} Caught`] ?? 0, 5),
-        0
+      const caughtFish = FISH_BY_TYPE.advanced.filter(
+        (name) => (farmActivity[`${name} Caught`] ?? 0) >= 1
       );
 
-      return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
+      return Math.min(
+        (caughtFish.length / FISH_BY_TYPE.basic.length) * 100,
+        100
+      );
     },
     reward: {
       "Fishing Hat": 1,
     },
   },
   "Expert Angler": {
-    task: "Catch 5 of each expert fish",
+    task: "Catch 300 Fish",
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
-      const totalFishRequired = FISH_BY_TYPE.expert.length;
+      const totalFishRequired = 300;
 
-      const totalFishCaught = FISH_BY_TYPE.expert.reduce(
-        (total, name) =>
-          total + Math.min(farmActivity[`${name} Caught`] ?? 0, 5),
+      const totalFishCaught = getKeys(FISH).reduce(
+        (total, name) => total + (farmActivity[`${name} Caught`] ?? 0),
         0
       );
 
@@ -100,13 +97,12 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
     },
   },
   "Master Angler": {
-    task: "Catch 10 of every fish",
+    task: "Catch 1500 Fish",
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
-      const totalFishRequired = getKeys(FISH).length * 10;
+      const totalFishRequired = 1500;
 
       const totalFishCaught = getKeys(FISH).reduce(
-        (total, name) =>
-          total + Math.min(farmActivity[`${name} Caught`] ?? 0, 10),
+        (total, name) => total + (farmActivity[`${name} Caught`] ?? 0),
         0
       );
 

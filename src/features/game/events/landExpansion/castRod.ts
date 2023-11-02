@@ -1,6 +1,6 @@
 import cloneDeep from "lodash.clonedeep";
 
-import { GameState, InventoryItemName } from "../../types/game";
+import { Bumpkin, GameState, InventoryItemName } from "../../types/game";
 import { CHUM_AMOUNTS, FishingBait } from "features/game/types/fishing";
 import Decimal from "decimal.js-light";
 
@@ -16,12 +16,37 @@ type Options = {
   createdAt?: number;
 };
 
+const DAILY_FISHING_ATTEMPT_LIMIT = 20;
+
+export function getDailyFishingLimit(bumpkin: Bumpkin): number {
+  const { pants } = bumpkin.equipped;
+
+  if (pants === "Angler Waders") {
+    return DAILY_FISHING_ATTEMPT_LIMIT + 10;
+  }
+
+  return DAILY_FISHING_ATTEMPT_LIMIT;
+}
+
 export function castRod({
   state,
   action,
   createdAt = Date.now(),
 }: Options): GameState {
   const game = cloneDeep(state) as GameState;
+  const now = new Date(createdAt);
+  const today = new Date(now).toISOString().split("T")[0];
+
+  if (!game.bumpkin) {
+    throw new Error("You do not have a Bumpkin");
+  }
+
+  if (
+    (game.fishing.dailyAttempts?.[today] ?? 0) >=
+    getDailyFishingLimit(game.bumpkin)
+  ) {
+    throw new Error("Daily attempts exhausted");
+  }
 
   const rodCount = game.inventory.Rod ?? new Decimal(0);
   // Requires Rod
@@ -49,14 +74,16 @@ export function castRod({
     const inventoryChum = game.inventory[action.chum] ?? new Decimal(0);
 
     if (inventoryChum.lt(chumAmount)) {
-      throw new Error(`Insufficent Chum: ${action.chum}`);
+      throw new Error(`Insufficient Chum: ${action.chum}`);
     }
 
     game.inventory[action.chum] = inventoryChum.sub(chumAmount);
   }
 
   // Subtracts Rod
-  game.inventory.Rod = rodCount.sub(1);
+  if (game.bumpkin.equipped.tool !== "Ancient Rod") {
+    game.inventory.Rod = rodCount.sub(1);
+  }
 
   // Subtracts Bait
   game.inventory[action.bait] = baitCount.sub(1);
@@ -66,9 +93,19 @@ export function castRod({
     ...game.fishing,
     wharf: {
       castedAt: createdAt,
+      bait: action.bait,
       chum: action.chum,
     },
   };
+
+  // Track daily attempts
+  if (game.fishing.dailyAttempts && game.fishing.dailyAttempts[today]) {
+    game.fishing.dailyAttempts[today] += 1;
+  } else {
+    game.fishing.dailyAttempts = {
+      [today]: 1,
+    };
+  }
 
   return {
     ...game,

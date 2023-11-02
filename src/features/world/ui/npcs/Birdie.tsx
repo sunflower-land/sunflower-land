@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { NPC_WEARABLES, acknowledgeNPC } from "lib/npcs";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
+import {
+  getCurrentSeason,
+  getSeasonalTicket,
+} from "features/game/types/seasons";
 
 interface Props {
   onClose: () => void;
@@ -23,16 +27,16 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
         bumpkinParts={NPC_WEARABLES.birdie}
         message={[
           {
-            text: "You can earn Crow Feathers in a variety of ways.",
+            text: `You can earn ${getSeasonalTicket()}s in a variety of ways.`,
           },
           {
-            text: "The most common method to earn Crow Feathers is by gathering resources and delivering them to Bumpkins in the Plaza.",
+            text: `The most common method to earn ${getSeasonalTicket()}s is by gathering resources and delivering them to Bumpkins in the Plaza.`,
           },
           {
-            text: "You can also earn feathers by completing chores for Hank & claiming daily rewards!",
+            text: `You can also earn ${getSeasonalTicket()}s by completing chores for Hank & claiming daily rewards!`,
           },
           {
-            text: "Gather enough feathers and you will be able to craft some wings like me. ",
+            text: `Gather enough ${getSeasonalTicket()}s and you will be able to craft some rare items like me.`,
           },
         ]}
       />
@@ -52,16 +56,13 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
             text: "Every 3 months a new season is introduced at Sunflower Land.",
           },
           {
-            text: "We are in the enchanting Witches Eve season until the 1st of November!",
-          },
-          {
             text: "This season has exciting quests & rare collectibles you can earn.",
           },
           {
-            text: "To craft these items, you must collect crow feathers and exchange them at the shops or the Auction house.",
+            text: `To craft these items, you must collect ${getSeasonalTicket()}s and exchange them at the shops or the Auction house.`,
             actions: [
               {
-                text: "How do I earn feathers?",
+                text: `How do I earn ${getSeasonalTicket()}s?`,
                 cb: () => setShowFeatherHelp(true),
               },
             ],
@@ -83,20 +84,20 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
           text: "Hey there, I'm Birdie, the most beautiful Bumpkin around!",
         },
         {
-          text: "I noticed you admiring my Crow wings. Aren't they fantastic?!?",
+          text: "I noticed you admiring my outfit. Isn't it fantastic?!?",
         },
         {
-          text: "We are currently in Witches' Eve Season and Bumpkins are going crazy for Crow Feathers.",
+          text: `We are currently in ${getCurrentSeason()} Season and Bumpkins are going crazy for ${getSeasonalTicket()}s.`,
         },
         {
-          text: "Collect enough feathers and you can craft rare NFTs. That's how I got these rare wings!",
+          text: `Collect enough ${getSeasonalTicket()}s and you can craft rare NFTs. That's how I got this rare otuput!`,
           actions: [
             {
               text: "What is a season?",
               cb: () => setShowSeasonHelp(true),
             },
             {
-              text: "How do I earn feathers?",
+              text: `How do I earn ${getSeasonalTicket()}s?`,
               cb: () => setShowFeatherHelp(true),
             },
           ],

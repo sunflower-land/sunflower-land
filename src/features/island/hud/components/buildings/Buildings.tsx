@@ -15,7 +15,6 @@ import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { ITEM_ICONS } from "../inventory/Chest";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -116,16 +115,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
   };
 
   const FILTERED_BUILDINGS = () => {
-    if (hasFeatureAccess(inventory, "COMPOSTERS")) {
-      return getKeys(BUILDINGS());
-    }
-    // filter out Compost Bin, Turbo Composter and Premium Composter
-    return getKeys(BUILDINGS()).filter((building) => {
-      if (building === "Compost Bin") return false;
-      if (building === "Turbo Composter") return false;
-      if (building === "Premium Composter") return false;
-      return true;
-    });
+    return getKeys(BUILDINGS());
   };
 
   return (

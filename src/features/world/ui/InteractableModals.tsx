@@ -6,14 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
 import fanArt from "assets/fanArt/dawn_breaker.png";
 import fanArt2 from "assets/fanArt/vergels.png";
-import { Donations } from "./donations/Donations";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { KrakenMechanic } from "features/island/fisherman/KrakenMechanic";
+import { KrakenIntro } from "./npcs/Shelly";
+import { PromotingModal } from "features/game/expansion/components/SpecialOffer";
 
 type InteractableName =
   | "kraken"
@@ -48,7 +48,12 @@ type InteractableName =
   | "plaza_orange_book"
   | "plaza_green_book"
   | "potion_house"
-  | "clubhouse_reward";
+  | "clubhouse_reward"
+  | "beach_green_book"
+  | "beach_orange_book"
+  | "beach_blue_book"
+  | "walrus"
+  | "kraken_banner";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -93,10 +98,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
 
   return (
     <>
-      <Modal show={interactable === "kraken"} onHide={closeModal} centered>
-        <KrakenMechanic onClose={closeModal} />
-      </Modal>
-
       {/* TODO - make smoother opening */}
       {interactable === "auction_item" && (
         <AuctioneerModal
@@ -137,19 +138,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         </CloseButtonPanel>
       </Modal>
 
-      <Modal
-        centered
-        show={interactable === "homeless_man"}
-        onHide={closeModal}
-      >
-        <CloseButtonPanel
-          title="Want to support more events like this?!"
-          onClose={closeModal}
-        >
-          <Donations />
-        </CloseButtonPanel>
-      </Modal>
-
       <Modal centered show={interactable === "fat_chicken"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -161,12 +149,45 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         />
       </Modal>
 
+      <Modal centered show={interactable === "kraken"} onHide={closeModal}>
+        <KrakenIntro onClose={closeModal} />
+      </Modal>
       <Modal centered show={interactable === "lazy_bud"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           message={[
             {
               text: "Eeeep! So tired.....",
+            },
+          ]}
+        />
+      </Modal>
+
+      <PromotingModal
+        isOpen={interactable === "kraken_banner"}
+        hasDiscount={!!gameState.context.state.inventory["Witches' Eve Banner"]}
+        hasPurchased={
+          !!gameState.context.state.inventory["Catch the Kraken Banner"]
+        }
+        onClose={closeModal}
+      />
+      <Modal centered show={interactable === "bud"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          message={[
+            {
+              text: "Hmmm, I better leave that bud alone. I'm sure it's owner is looking for it",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal centered show={interactable === "walrus"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          message={[
+            {
+              text: "Arrr arr arrr! The fish shop ain't open 'til I get my fish.",
             },
           ]}
         />
@@ -205,6 +226,66 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
             },
             {
               text: "Until then, we will keep Sunflower Land alive in our hearts and dreams, waiting for the day of our triumphant return",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "beach_green_book"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.finley}
+          message={[
+            {
+              text: "When you're after those coveted Red Snappers, try an unexpected twist",
+            },
+            {
+              text: "Use Apples with Red Wiggler Bait, and watch those crimson beauties practically leap into your net.",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "beach_blue_book"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.finn}
+          message={[
+            {
+              text: "Don't tell Shelly, but I've been trying to bring Saw Sharks to the beach!",
+            },
+            {
+              text: "I've been experimenting with different chums lately, but the only one that seems to work is Red Snapper.",
+            },
+            {
+              text: "These oceanic hunters can smell a Red Snapper feast from miles away, so don't be surprised if they come charging. ",
+            },
+          ]}
+        />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "beach_orange_book"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.finley}
+          message={[
+            {
+              text: "A radiant fin appeared on the surface, I couldn't believe my eyes!",
+            },
+            {
+              text: "Luckily Tango was with me, he must be my good luck charm.",
             },
           ]}
         />

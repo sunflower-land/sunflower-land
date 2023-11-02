@@ -150,6 +150,18 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Lab Grown Carrot": 475,
   "Lab Grown Pumpkin": 476,
   "Lab Grown Radish": 477,
+  Walrus: 478,
+  Alba: 479,
+  "Knowledge Crab": 480,
+  Anchor: 481,
+  // AVAILABLE = 482,
+  "Rubber Ducky": 483,
+  "Kraken Head": 484,
+  "Skill Shrimpy": 485,
+  "Soil Krabby": 486,
+  Nana: 487,
+
+  "Banana Chicken": 488,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -204,6 +216,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Chowder: 551,
   Gumbo: 552,
   "Fermented Fish": 553,
+  "Banana Blast": 554,
 
   Wood: 601,
   Stone: 602,
@@ -236,6 +249,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sprout Mix": 629,
   "Fruitful Blend": 630,
   "Rapid Root": 631,
+  "Fishing Lure": 632,
 
   "Green Thumb": 701,
   "Barn Manager": 702,
@@ -467,6 +481,15 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Mini Corn Maze": 1287,
   "White Crow": 1288,
 
+  "Lifeguard Ring": 1289,
+  Surfboard: 1290,
+  "Hideaway Herman": 1291,
+  "Shifty Sheldon": 1292,
+  "Tiki Torch": 1293,
+  "Beach Umbrella": 1294,
+  "Sapo Docuras": 1295,
+  "Sapo Travessuras": 1296,
+
   //Beach Bounty
   "Pirate Bounty": 1301,
   Pearl: 1302,
@@ -496,7 +519,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Horse Mackerel": 1507,
   Squid: 1508,
   "Red Snapper": 1509,
-  "Mooray Eel": 1510,
+  "Moray Eel": 1510,
   "Olive Flounder": 1511,
   Napoleanfish: 1512,
   Surgeonfish: 1513,
@@ -520,6 +543,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Radiant Ray": 1530,
   "Phantom Barracuda": 1531,
   "Gilded Swordfish": 1532,
+  "Kraken Tentacle": 1533,
 };
 
 // The reverse of above

@@ -2,11 +2,13 @@ import React, { useLayoutEffect } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItemName } from "features/game/types/game";
+import bg from "assets/ui/brown_background.png";
 
 import { getOpenSeaLink } from "../lib/utils";
 import { KNOWN_IDS } from "features/game/types";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
+import classNames from "classnames";
 
 /**
  * Base Layout for Collectible Item Details Page in Codex
@@ -14,6 +16,7 @@ import { Label } from "components/ui/Label";
  */
 type Props = {
   name: InventoryItemName;
+  caught: boolean;
   /**
    * These labels will be rendered on the right side of the page along with any associated boost labels
    */
@@ -24,6 +27,7 @@ type Props = {
 
 export const Detail: React.FC<Props> = ({
   name,
+  caught,
   onBack,
   additionalLabels,
   children,
@@ -83,9 +87,9 @@ export const Detail: React.FC<Props> = ({
       <div className="flex flex-col space-y-2">
         <div className="flex gap-1">
           <div
-            className="w-3/5 sm:w-1/2 rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-40"
+            className="w-3/5 sm:w-1/2 sm:min-w-[50%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-40"
             style={{
-              backgroundImage: `url(public/erc1155/brown_background.png)`,
+              backgroundImage: `url(${bg})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
@@ -93,6 +97,7 @@ export const Detail: React.FC<Props> = ({
             <img
               src={image}
               alt={name}
+              className={classNames({ "brightness-0": !caught })}
               style={{
                 width: `${imageWidth}px`,
               }}

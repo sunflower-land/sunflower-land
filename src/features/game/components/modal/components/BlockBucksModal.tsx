@@ -13,7 +13,6 @@ import { buyBlockBucksXsolla } from "features/game/actions/buyBlockBucks";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { randomID } from "lib/utils/random";
 import { Label } from "components/ui/Label";
-import { hasFeatureAccess } from "lib/flags";
 import { Modal } from "react-bootstrap";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
@@ -255,7 +254,7 @@ export const BlockBucksModal: React.FC<Props> = ({
               )}
               <Button
                 onClick={() => onCreditCardBuy()}
-                disabled={price.amount === 1 || !hasFeatureAccess({}, "XSOLLA")}
+                disabled={price.amount === 1}
               >
                 Pay with Cash
               </Button>

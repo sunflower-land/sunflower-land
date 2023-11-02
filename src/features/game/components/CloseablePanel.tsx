@@ -12,6 +12,7 @@ export interface PanelTabs {
   icon: string;
   name: string;
   unread?: boolean;
+  alert?: boolean;
 }
 
 interface Props {
@@ -78,7 +79,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
               <Tab
                 key={`tab-${index}`}
                 isFirstTab={index === 0}
-                className="flex items-center relative"
+                className="flex items-center relative mr-1"
                 isActive={currentTab === index}
                 onClick={() => handleTabClick(index)}
               >
@@ -93,6 +94,15 @@ export const CloseButtonPanel: React.FC<Props> = ({
                 >
                   {tab.name}
                 </span>
+                {tab.alert && (
+                  <img
+                    src={SUNNYSIDE.icons.expression_alerted}
+                    className="ml-2"
+                    style={{
+                      width: `${PIXEL_SCALE * 3}px`,
+                    }}
+                  />
+                )}
               </Tab>
             ))}
           </div>
@@ -171,7 +181,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
         {showCloseButton && !tabs && !title && (
           <img
             src={SUNNYSIDE.icons.close}
-            className="float-right cursor-pointer z-20 ml-3"
+            className="absolute cursor-pointer z-20 top-2 right-2"
             onClick={onClose}
             style={{
               width: `${PIXEL_SCALE * 11}px`,

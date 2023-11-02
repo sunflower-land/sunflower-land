@@ -30,15 +30,15 @@ import { ConversationName } from "./conversations";
 import { NPCName } from "lib/npcs";
 import { SeasonalTicket } from "./seasons";
 import { Bud } from "./buds";
-import {
-  Bait,
-  CompostName,
-  CropCompostName,
-  FruitCompostName,
-} from "./composters";
+import { CompostName, CropCompostName, FruitCompostName } from "./composters";
 import { FarmActivityName } from "./farmActivity";
 import { MilestoneName } from "./milestones";
-import { FishName, FishingConditions, MarineMarvelName } from "./fishing";
+import {
+  FishName,
+  FishingBait,
+  FishingConditions,
+  MarineMarvelName,
+} from "./fishing";
 
 export type Reward = {
   sfl?: Decimal;
@@ -132,7 +132,8 @@ export type MutantChicken =
   | "Rich Chicken"
   | "Fat Chicken"
   | "Ayam Cemani"
-  | "El Pollo Veloz";
+  | "El Pollo Veloz"
+  | "Banana Chicken";
 
 export type Coupons =
   | "Gold Pass"
@@ -270,7 +271,7 @@ export type InventoryItemName =
   | ExoticCropName
   | PotionHouseItemName
   | "Basic Land"
-  | Bait
+  | FishingBait
   | CompostName
   | FishName
   | MarineMarvelName;
@@ -509,6 +510,11 @@ export type WitchesEve = {
   maze: MazeAttempts;
 };
 
+export type CatchTheKraken = {
+  weeklyCatches: Partial<Record<SeasonWeek, number>>;
+  hunger: InventoryItemName;
+};
+
 export type Mushroom = {
   name: MushroomName;
   amount: number;
@@ -638,7 +644,7 @@ export type ChoreV2 = {
   tickets: number;
 };
 
-export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
 
 export type MazeAttempt = {
   startedAt: number;
@@ -696,13 +702,17 @@ export type Fishing = {
   weather: FishingConditions;
   wharf: {
     castedAt?: number;
+    bait?: FishingBait;
     chum?: InventoryItemName;
     caught?: Partial<Record<InventoryItemName, number>>;
+  };
+  dailyAttempts?: {
+    [date: string]: number;
   };
 };
 
 export interface GameState {
-  id?: number;
+  id: number;
   balance: Decimal;
   airdrops?: Airdrop[];
   farmAddress?: string;
@@ -782,6 +792,7 @@ export interface GameState {
   chores?: ChoresV2;
   mushrooms: Mushrooms;
   witchesEve?: WitchesEve;
+  catchTheKraken: CatchTheKraken;
   potionHouse?: PotionHouse;
 
   trades: {

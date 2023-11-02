@@ -3,6 +3,7 @@ import Decimal from "decimal.js-light";
 import {
   Bumpkin,
   Collectibles,
+  GameState,
   GrubShopOrder,
   Inventory,
 } from "../../types/game";
@@ -12,10 +13,12 @@ import { CAKES } from "../../types/craftables";
 import {
   COOKABLE_CAKES,
   Consumable,
+  FISH_CONSUMABLES,
   isCookable,
 } from "features/game/types/consumables";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { getSeasonalBanner } from "features/game/types/seasons";
+import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
 
 const crops = CROPS();
 const cakes = CAKES();
@@ -99,7 +102,8 @@ export const getCookingTime = (
 export const getFoodExpBoost = (
   food: Consumable,
   bumpkin: Bumpkin,
-  collectibles: Collectibles
+  collectibles: Collectibles,
+  buds: NonNullable<GameState["buds"]>
 ): number => {
   let boostedExp = new Decimal(food.experience);
   const { skills, equipped } = bumpkin;
@@ -119,6 +123,14 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.1);
   }
 
+  if (
+    food.name in FISH_CONSUMABLES &&
+    equipped.hat === "Luminous Anglerfish Topper"
+  ) {
+    // 50% boost
+    boostedExp = boostedExp.mul(1.5);
+  }
+
   //Observatory is placed
   if (isCollectibleBuilt("Observatory", collectibles)) {
     boostedExp = boostedExp.mul(1.05);
@@ -131,11 +143,20 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.2);
   }
 
+  if (
+    food.name in FISH_CONSUMABLES &&
+    isCollectibleBuilt("Skill Shrimpy", collectibles)
+  ) {
+    boostedExp = boostedExp.mul(1.2);
+  }
+
   if (collectibles[getSeasonalBanner()]) {
     boostedExp = boostedExp.mul(1.1);
   }
 
-  return boostedExp.toNumber();
+  boostedExp = boostedExp.mul(getBudExperienceBoosts(buds, food));
+
+  return boostedExp.toDecimalPlaces(4).toNumber();
 };
 
 export const getOrderSellPrice = (bumpkin: Bumpkin, order: GrubShopOrder) => {

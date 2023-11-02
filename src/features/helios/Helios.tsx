@@ -74,7 +74,7 @@ export const Helios: React.FC = () => {
         <HeliosAuction />
         <IslandTravel
           bumpkin={bumpkin}
-          inventory={gameState.context.state.inventory}
+          gameState={gameState.context.state}
           x={3.5}
           y={-17}
           onTravelDialogOpened={() => gameService.send("SAVE")}

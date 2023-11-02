@@ -12,6 +12,7 @@ import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { BeachBountyTreasure, TreasureName } from "./treasure";
 import { CompostName, ComposterName } from "./composters";
+import { PurchaseableBait } from "./fishing";
 
 type BuyableName = SeedName | Animal | DecorationName | BeanName;
 type SellableName =
@@ -37,7 +38,8 @@ export type CraftedEvent = `${
   | TreasureToolName
   | HeliosBlacksmithItem
   | PotionHouseItemName
-  | LanternName} Crafted`;
+  | LanternName
+  | PurchaseableBait} Crafted`;
 export type ConsumableEvent = `${ConsumableName} Collected`;
 export type SellEvent = `${SellableName} Sold`;
 export type TreasureEvent = `${TreasureName} Dug`;
