@@ -191,9 +191,6 @@ export const Game: React.FC = () => {
               <Route path="/:id" element={<Land />} />
             </Routes>
           </div>
-          <div className="absolute z-20">
-            <VisitingHud />
-          </div>
         </>
       );
     }
