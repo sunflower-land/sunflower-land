@@ -27,12 +27,17 @@ function hasRead() {
 
 interface Props {
   isOpen: boolean;
+  isVisiting?: boolean;
   onClose: () => void;
 }
 
 const CONTENT_HEIGHT = 380;
 
-export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
+export const TravelModal: React.FC<Props> = ({
+  isOpen,
+  onClose,
+  isVisiting = false,
+}) => {
   const [tab, setTab] = useState(0);
   const [selectedOrderId, setSelectedOrderId] = useState<string>();
 
@@ -43,6 +48,41 @@ export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const delivery = gameState.context.state.delivery;
   const chores = gameState.context.state.chores;
+
+  if (isVisiting) {
+    return (
+      <Modal
+        centered
+        show={isOpen}
+        onHide={onClose}
+        dialogClassName="md:max-w-3xl"
+      >
+        <CloseButtonPanel
+          onClose={onClose}
+          tabs={[{ icon: world, name: "Travel" }]}
+          currentTab={tab}
+          setCurrentTab={setTab}
+        >
+          <div
+            style={{ maxHeight: CONTENT_HEIGHT }}
+            className="w-full pr-1 pt-2.5 overflow-y-auto scrollable"
+          >
+            {tab === 0 && (
+              // TODO - save flow + tutorial (intro to travel)
+              <IslandList
+                bumpkin={undefined}
+                showVisitList={true}
+                gameState={gameState.context.state}
+                travelAllowed={true}
+                hasBetaAccess={false}
+                onClose={onClose}
+              />
+            )}
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+    );
+  }
 
   return (
     <>

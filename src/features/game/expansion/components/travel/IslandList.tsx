@@ -71,7 +71,8 @@ const IslandListItem: React.FC<IslandProps> = ({
   const navigate = useNavigate();
   const onSameIsland = path === currentPath;
   const notEnoughLevel =
-    !bumpkin || getBumpkinLevel(bumpkin.experience) < levelRequired;
+    (!bumpkin || getBumpkinLevel(bumpkin.experience) < levelRequired) &&
+    levelRequired > 1;
   const cannotNavigate =
     notEnoughLevel || onSameIsland || comingSoon || disabled;
 
@@ -301,7 +302,7 @@ export const IslandList: React.FC<IslandListProps> = ({
   ];
 
   // NOTE: If you're visiting without a session then just show the form by default as there is no option to return to a farm
-  if (view === "visitForm" || state.isVisiting) {
+  if (view === "visitForm") {
     return (
       <VisitLandExpansionForm
         onBack={
