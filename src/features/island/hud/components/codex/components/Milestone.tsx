@@ -14,7 +14,6 @@ import { Collapse } from "components/ui/Collapse";
 import { Button } from "components/ui/Button";
 import { Milestone as MilestoneDetail } from "features/game/types/milestones";
 import { getKeys } from "features/game/types/craftables";
-import { CONFIG } from "lib/config";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 
 export const MilestonePanel: React.FC<{
@@ -101,10 +100,7 @@ export const MilestonePanel: React.FC<{
             </div>
           </div>
         </div>
-        <Button
-          onClick={onClaim}
-          disabled={CONFIG.NETWORK === "mainnet" || percentageComplete < 100}
-        >
+        <Button onClick={onClaim} disabled={percentageComplete < 100}>
           <div className="flex items-center">
             <img src={chest} className="mr-1" />
             <span>Claim reward</span>

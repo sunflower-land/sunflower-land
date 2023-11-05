@@ -70,35 +70,23 @@ export async function fetchLeaderboardData(
   if (cachedLeaderboardData) return cachedLeaderboardData;
 
   try {
-    const fetchMazeFn = getLeaderboard<MazeLeaderboard>({
-      farmId: Number(farmId),
-      leaderboardName: "maze",
-    });
-
-    const fetchTicketsFn = getLeaderboard<TicketLeaderboard>({
+    const ticketLeaderboard = await getLeaderboard<TicketLeaderboard>({
       farmId: Number(farmId),
       leaderboardName: "tickets",
     });
 
-    const [mazeLeaderboard, ticketLeaderboard] = await Promise.all([
-      fetchMazeFn,
-      fetchTicketsFn,
-    ]);
-
     // Leaderboard are created at the same time, so if one is missing, the other is too
-    if (!mazeLeaderboard || !ticketLeaderboard) return null;
+    if (!ticketLeaderboard) return null;
 
     // Likewise, their lastUpdated timestamps should be the same
-    const lastUpdated = mazeLeaderboard.lastUpdated;
+    const lastUpdated = ticketLeaderboard.lastUpdated;
 
     cacheLeaderboardData({
-      maze: mazeLeaderboard,
       tickets: ticketLeaderboard,
       lastUpdated,
     });
 
     return {
-      maze: mazeLeaderboard,
       tickets: ticketLeaderboard,
       lastUpdated,
     };

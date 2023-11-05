@@ -24,7 +24,6 @@ type FeatureName =
   | "FISHING"
   | "BEACH"
   | "HALLOWEEN"
-  | "XSOLLA"
   | "BANANA";
 
 // Used for testing production features
@@ -46,7 +45,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
 
     return Date.now() > SEASONS["Catch the Kraken"].startDate.getTime();
   },
-  XSOLLA: testnetFeatureFlag,
   HALLOWEEN: (game: GameState) => {
     if (Date.now() > new Date("2023-11-01").getTime()) {
       return false;

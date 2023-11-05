@@ -5,6 +5,7 @@ import { BumpkinItem } from "./bumpkin";
 
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
+import { ITEM_DETAILS } from "./images";
 
 export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
   {
@@ -123,5 +124,17 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+    "Ancient Rod": {
+      shortDescription: "Cast without rod",
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
+    },
+    "Banana Amulet": {
+      shortDescription: "+0.5 Bananas",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Banana.image,
     },
   };

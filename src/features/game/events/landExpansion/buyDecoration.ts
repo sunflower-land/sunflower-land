@@ -34,11 +34,11 @@ type Options = {
   createdAt?: number;
 };
 
-const DECORATIONS = (state: GameState) => {
+const DECORATIONS = (state: GameState, date: Date) => {
   return {
     ...BASIC_DECORATIONS(),
     ...LANDSCAPING_DECORATIONS(),
-    ...SEASONAL_DECORATIONS(state),
+    ...SEASONAL_DECORATIONS(state, date),
     ...POTION_HOUSE_DECORATIONS(),
   };
 };
@@ -49,7 +49,7 @@ export function buyDecoration({
 }: Options) {
   const stateCopy = cloneDeep(state);
   const { name } = action;
-  const desiredItem = DECORATIONS(stateCopy)[name];
+  const desiredItem = DECORATIONS(stateCopy, new Date(createdAt))[name];
 
   if (!desiredItem) {
     throw new Error("This item is not a decoration");
