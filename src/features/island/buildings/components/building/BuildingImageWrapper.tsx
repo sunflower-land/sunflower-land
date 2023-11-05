@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import {
+  getBuildingBumpkinLevelRequired,
+  isBuildingEnabled,
+} from "features/game/expansion/lib/buildingRequirements";
+import { BuildingName } from "features/game/types/buildings";
+import { MachineState } from "features/game/lib/gameMachine";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { Context } from "features/game/GameProvider";
 
 /**
  * BuildingImageWrapper props
@@ -10,17 +20,44 @@ import { SUNNYSIDE } from "assets/sunnyside";
  * @param onClick on click event
  */
 interface Props {
+  name: string;
   nonInteractible?: boolean;
   ready?: boolean;
   onClick: () => void;
 }
 
+const _bumpkinLevel = (state: MachineState) =>
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+
 export const BuildingImageWrapper: React.FC<Props> = ({
+  name,
   nonInteractible,
   ready,
   onClick,
   children,
 }) => {
+  const { gameService } = useContext(Context);
+  const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
+
+  const getHandleDisabledOnClick = (name: string) =>
+    function handleDisabledOnClick() {
+      const bumpkinLevelRequired = getBuildingBumpkinLevelRequired(
+        name as BuildingName
+      );
+      return (
+        <CloseButtonPanel>
+          <div>
+            {name} requires bumpkin level {bumpkinLevelRequired} to use.
+          </div>
+        </CloseButtonPanel>
+      );
+    };
+
+  let enabled = !nonInteractible;
+  if (enabled) {
+    enabled = isBuildingEnabled(bumpkinLevel, name as BuildingName);
+  }
+
   return (
     <>
       {/* building */}
@@ -29,7 +66,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
           "relative w-full h-full",
           nonInteractible ? "" : "cursor-pointer hover:img-highlight"
         )}
-        onClick={onClick}
+        onClick={nonInteractible ? getHandleDisabledOnClick(name) : onClick}
       >
         {children}
       </div>
