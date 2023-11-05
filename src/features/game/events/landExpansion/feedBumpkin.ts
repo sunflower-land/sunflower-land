@@ -36,18 +36,16 @@ export function feedBumpkin({ state, action }: Options): GameState {
   }
 
   // throws error when feeding invalid amount of food (undefined or negative number)
-  const feedAmount = new Decimal(action.amount);
+  const feedAmount = new Decimal(action.amount ?? 1);
   if (feedAmount.lessThanOrEqualTo(0)) {
     throw new Error(FEED_BUMPKIN_ERRORS.INVALID_AMOUNT);
   }
 
   // throws error if there are not enough in the inventory to feed the bumpkin
   const inventoryFoodCount = inventory[action.food] ?? new Decimal(0);
-  if (inventoryFoodCount.lessThan(action.amount)) {
+  if (inventoryFoodCount.lessThan(feedAmount)) {
     throw new Error(FEED_BUMPKIN_ERRORS.NOT_ENOUGH_FOOD);
   }
-
-  // after this point, the bumpkin can be successfully fed
 
   // reduce inventory food amount
   inventory[action.food] = inventoryFoodCount.sub(feedAmount);
