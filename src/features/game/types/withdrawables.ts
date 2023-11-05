@@ -56,7 +56,7 @@ import { hasSeasonEnded } from "./seasons";
 import { GoblinState } from "../lib/goblinMachine";
 import { CompostName } from "./composters";
 import { FishName, FishingBait, MarineMarvelName } from "./fishing";
-import { canWithdrawBoostedWearable } from "./withdrawalValidation";
+import { canWithdrawBoostedWearable } from "./wearableValidation";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
