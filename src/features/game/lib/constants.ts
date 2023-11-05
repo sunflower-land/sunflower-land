@@ -65,8 +65,8 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     "Kale Seed": new Decimal(30),
 
     "Apple Seed": new Decimal(10),
-    "Orange Seed": new Decimal(13),
-    "Blueberry Seed": new Decimal(16),
+    "Orange Seed": new Decimal(10),
+    "Blueberry Seed": new Decimal(10),
     "Banana Plant": new Decimal(10),
   };
 
@@ -89,8 +89,8 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
       "Wheat Seed": new Decimal(48),
       "Kale Seed": new Decimal(36),
       "Apple Seed": new Decimal(12),
-      "Orange Seed": new Decimal(16),
-      "Blueberry Seed": new Decimal(20),
+      "Orange Seed": new Decimal(12),
+      "Blueberry Seed": new Decimal(12),
       "Banana Plant": new Decimal(12),
     };
   }
