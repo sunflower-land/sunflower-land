@@ -1138,5 +1138,5 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Tiki Armor": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
   "Tiki Mask": () => canWithdrawTimebasedItem(new Date("2024-01-02")),
   "Tiki Pants": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
-  "Banana Amulet": () => canWithdrawTimebasedItem(new Date("2024-01-13")),
+  "Banana Amulet": () => canWithdrawTimebasedItem(new Date("01-13-2024")),
 };
