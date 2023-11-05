@@ -425,18 +425,22 @@ export abstract class BaseScene extends Phaser.Scene {
     // Initialise Keyboard
     this.cursorKeys = this.input.keyboard?.createCursorKeys();
     if (this.cursorKeys) {
-      // this.cursorKeys.w = this.input.keyboard?.addKey(
-      //   Phaser.Input.Keyboard.KeyCodes.W
-      // );
-      // this.cursorKeys.a = this.input.keyboard?.addKey(
-      //   Phaser.Input.Keyboard.KeyCodes.A
-      // );
-      // this.cursorKeys.s = this.input.keyboard?.addKey(
-      //   Phaser.Input.Keyboard.KeyCodes.S
-      // );
-      // this.cursorKeys.d = this.input.keyboard?.addKey(
-      //   Phaser.Input.Keyboard.KeyCodes.D
-      // );
+      const mmoLocalSettings = JSON.parse(
+        localStorage.getItem("mmo_settings") ?? "{}"
+      );
+      const layout = mmoLocalSettings.layout ?? "QWERTY";
+
+      // add WASD keys
+      this.cursorKeys.w = this.input.keyboard?.addKey(
+        layout === "QWERTY" ? "W" : "Z",
+        false
+      );
+      this.cursorKeys.a = this.input.keyboard?.addKey(
+        layout === "QWERTY" ? "A" : "Q",
+        false
+      );
+      this.cursorKeys.s = this.input.keyboard?.addKey("S", false);
+      this.cursorKeys.d = this.input.keyboard?.addKey("D", false);
 
       this.input.keyboard?.removeCapture("SPACE");
     }
@@ -677,6 +681,8 @@ export abstract class BaseScene extends Phaser.Scene {
 
     // use keyboard control if joystick is not active
     if (this.movementAngle === undefined) {
+      if (document.activeElement?.tagName === "INPUT") return;
+
       const left =
         (this.cursorKeys?.left.isDown || this.cursorKeys?.a?.isDown) ?? false;
       const right =
