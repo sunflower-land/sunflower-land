@@ -171,9 +171,9 @@ const heliosBlacksmith: Record<HeliosBlacksmithItem, () => boolean> = {
   "Grain Grinder": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
   Kernaldo: () => canWithdrawTimebasedItem(new Date("2023-10-02")),
   Poppy: () => canWithdrawTimebasedItem(new Date("2023-09-02")),
-  Nana: () => canWithdrawTimebasedItem(new Date("2024-02-02")),
-  "Soil Krabby": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
-  "Skill Shrimpy": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  Nana: () => canWithdrawTimebasedItem(new Date("2023-12-02")), // Available until 2023/12/01
+  "Soil Krabby": () => canWithdrawTimebasedItem(new Date("2024-01-02")), // Available until 2024/01/01
+  "Skill Shrimpy": () => canWithdrawTimebasedItem(new Date("2024-02-02")), // Available until 2024/02/01
 };
 
 const commodities: Record<CommodityName, () => boolean> = {
@@ -458,16 +458,16 @@ const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   "Shroom Glow": () => true,
   Candles: () => canWithdrawTimebasedItem(new Date("2023-11-02")),
   "Haunted Stump": () => canWithdrawTimebasedItem(new Date("2023-09-02")),
-  "Spooky Tree": () => canWithdrawTimebasedItem(new Date("2023-10-02")), // Spooky Tree available from 01/09/2023 to 01/10/2023. Hence withdrawal date should be after that
+  "Spooky Tree": () => canWithdrawTimebasedItem(new Date("2023-10-02")),
   Observer: () => canWithdrawTimebasedItem(new Date("2023-11-02")),
   "Crow Rock": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
   "Mini Corn Maze": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
-  "Beach Umbrella": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
-  "Hideaway Herman": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
-  "Lifeguard Ring": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
-  "Shifty Sheldon": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
-  "Tiki Torch": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
-  Surfboard: () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Beach Umbrella": () => canWithdrawTimebasedItem(new Date("2023-12-02")), // Available until 2023/12/01
+  "Hideaway Herman": () => canWithdrawTimebasedItem(new Date("2024-02-02")), // Available until 2024/02/01
+  "Lifeguard Ring": () => canWithdrawTimebasedItem(new Date("2024-02-02")), // Available until 2024/02/01
+  "Shifty Sheldon": () => canWithdrawTimebasedItem(new Date("2024-01-02")), // Available until 2024/01/01
+  "Tiki Torch": () => canWithdrawTimebasedItem(new Date("2023-12-02")), // Available until 2023/12/01
+  Surfboard: () => canWithdrawTimebasedItem(new Date("2024-01-02")), // Available until 2024/01/01
 };
 
 const mutantCrop: Record<MutantCropName, () => boolean> = {
@@ -568,12 +568,12 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Queen Cornelia": () => canWithdrawTimebasedItem(new Date("2023-10-14")),
   "White Crow": () => canWithdrawTimebasedItem(new Date("2023-11-02")),
 
-  Walrus: () => canWithdrawTimebasedItem(new Date("01-28-2024")),
-  Alba: () => canWithdrawTimebasedItem(new Date("01-19-2024")),
-  "Knowledge Crab": () => canWithdrawTimebasedItem(new Date("01-07-2024")),
-  Anchor: () => canWithdrawTimebasedItem(new Date("01-28-2024")),
-  "Rubber Ducky": () => canWithdrawTimebasedItem(new Date("01-10-2024")),
-  "Kraken Head": () => canWithdrawTimebasedItem(new Date("01-22-2024")),
+  Walrus: () => canWithdrawTimebasedItem(new Date("2024-01-30")), // Last Auction 2024/01/28 5pm UTC
+  Alba: () => canWithdrawTimebasedItem(new Date("2024-01-21")), // Last Auction 2024/01/19 3pm UTC
+  "Knowledge Crab": () => canWithdrawTimebasedItem(new Date("2024-01-09")), // Last Auction 2024/01/07 3pm UTC
+  Anchor: () => canWithdrawTimebasedItem(new Date("2024-01-18")), // Last Auction 2024/01/16 3pm UTC
+  "Rubber Ducky": () => canWithdrawTimebasedItem(new Date("2024-01-12")), // Last Auction 2024/01/10 5pm UTC
+  "Kraken Head": () => canWithdrawTimebasedItem(new Date("2024-01-24")), // Last Auction 2024/01/22 5pm UTC
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
@@ -1102,41 +1102,39 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Feather Hat": () => true,
   "Valoria Wreath": () => true,
   "Earn Alliance Sombrero": () => true,
-  "Fresh Catch Vest": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
-  "Fish Pro Vest": () => canWithdrawTimebasedItem(new Date("2024-01-02")),
-  "Reel Fishing Vest": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
-  "Clown Shirt": () => canWithdrawTimebasedItem(new Date("2024-12-02")),
+  "Fresh Catch Vest": () => canWithdrawTimebasedItem(new Date("2023-12-02")), // Available until 2023/12/01
+  "Fish Pro Vest": () => canWithdrawTimebasedItem(new Date("2024-01-02")), // Available until 2024/01/01
+  "Reel Fishing Vest": () => canWithdrawTimebasedItem(new Date("2024-02-02")), // Available until 2024/02/01
+  "Clown Shirt": () => canWithdrawTimebasedItem(new Date("2023-12-02")), // Available until 2023/12/01
   "Luminous Anglerfish Topper": () => false,
-  "Abyssal Angler Hat": () =>
-    canWithdrawTimebasedItem(new Date("Thu Jan 4 2024 09:00:00 GMT+1000")),
+  "Abyssal Angler Hat": () => canWithdrawTimebasedItem(new Date("2024-01-06")), // Last Auction 2024/01/04 5pm UTC
   Harpoon: () => false,
-  "Ancient Rod": () =>
-    canWithdrawTimebasedItem(new Date("Thu Jan 25 2024 09:00:00 GMT+1000")),
+  "Ancient Rod": () => canWithdrawTimebasedItem(new Date("2024-01-27")), // Last Auction 2024/01/25 3pm UTC
   "Fishing Hat": () => false,
   Trident: () => false,
   "Bucket O' Worms": () => false,
   "Coconut Mask": () => false,
   "Crab Trap": () => false,
-  "Seaside Tank Top": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
+  "Seaside Tank Top": () => canWithdrawTimebasedItem(new Date("2024-01-02")), // Available until 2024/01/01
   "Fish Trap": () => false,
-  "Fishing Pants": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
+  "Fishing Pants": () => canWithdrawTimebasedItem(new Date("2023-12-02")), // Available until 2023/12/01
   "Angler Waders": () => false,
-  "Fishing Spear": () => canWithdrawTimebasedItem(new Date("2024-01-02")),
+  "Fishing Spear": () => canWithdrawTimebasedItem(new Date("2024-01-02")), // Available until 2024/01/01
   "Flip Flops": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
   Wellies: () => canWithdrawTimebasedItem(new Date("2024-02-02")),
   "Saw Fish": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
-  "Skinning Knife": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
+  "Skinning Knife": () => canWithdrawTimebasedItem(new Date("2023-12-02")), // Available until 2023/12/01
   "Sunflower Rod": () => false,
   "Tackle Box": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
   "Infernal Rod": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
   "Mermaid Potion": () => false,
   "Squirrel Monkey Potion": () => false,
-  "Koi Fish Hat": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
-  "Normal Fish Hat": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
+  "Koi Fish Hat": () => canWithdrawTimebasedItem(new Date("2023-12-02")), // Available until 2023/12/01
+  "Normal Fish Hat": () => canWithdrawTimebasedItem(new Date("2023-12-02")), // Available until 2023/12/01
   "Stockeye Salmon Onesie": () =>
-    canWithdrawTimebasedItem(new Date("2024-02-02")),
-  "Tiki Armor": () => canWithdrawTimebasedItem(new Date("2023-12-02")),
-  "Tiki Mask": () => canWithdrawTimebasedItem(new Date("2024-01-02")),
-  "Tiki Pants": () => canWithdrawTimebasedItem(new Date("2024-02-02")),
-  "Banana Amulet": () => canWithdrawTimebasedItem(new Date("01-13-2024")),
+    canWithdrawTimebasedItem(new Date("2024-02-02")), // Available until 2024/02/01
+  "Tiki Armor": () => canWithdrawTimebasedItem(new Date("2023-12-02")), // Available until 2023/12/01
+  "Tiki Mask": () => canWithdrawTimebasedItem(new Date("2024-01-02")), // Available until 2024/01/01
+  "Tiki Pants": () => canWithdrawTimebasedItem(new Date("2024-02-02")), // Available until 2024/02/01
+  "Banana Amulet": () => canWithdrawTimebasedItem(new Date("2024-01-15")), // Last Auction 2024/01/13 3pm UTC
 };
