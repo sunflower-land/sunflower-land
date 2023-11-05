@@ -50,6 +50,12 @@ export const canWithdrawBoostedWearable = (
     );
   }
 
+  if (wearable === "Banana Amulet") {
+    return getKeys(state.fruitPatches).every(
+      (id) => state.fruitPatches[id].fruit?.name !== "Banana"
+    );
+  }
+
   if (
     wearable === "Green Amulet" ||
     wearable === "Angel Wings" ||
