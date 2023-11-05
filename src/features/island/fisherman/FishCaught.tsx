@@ -56,7 +56,7 @@ export const FishCaught: React.FC<Props> = ({
               )}
               <span className="text-sm mb-2">{name}</span>
               <img src={ITEM_DETAILS[name]?.image} className="h-12 mb-2" />
-              <span className="text-xs mb-2">
+              <span className="text-xs text-center mb-2">
                 {ITEM_DETAILS[name].description}
               </span>
             </div>

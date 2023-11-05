@@ -4,6 +4,7 @@ import classNames from "classnames";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import reel from "assets/ui/reel.png";
+import lightning from "assets/icons/lightning.png";
 
 import { ZoomContext } from "components/ZoomProvider";
 import Spritesheet, {
@@ -94,6 +95,8 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
   const { scale } = useContext(ZoomContext);
 
+  const showFishFrenzy = fishing.weather === "Fish Frenzy";
+
   const onIdleFinish = () => {
     // CAST
     if (fishing.wharf.castedAt && !fishing.wharf.caught) {
@@ -109,7 +112,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     // TESTING
     if (!CONFIG.API_URL) {
       setTimeout(() => {
-        fishing.wharf = { castedAt: 10000, caught: { Anchovy: 1 } };
+        fishing.wharf = { castedAt: 10000, caught: { "Kraken Tentacle": 1 } };
       }, 1000);
     }
   };
@@ -208,6 +211,20 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
           />
         </Panel>
       </Modal>
+
+      {!showReelLabel && showFishFrenzy && (
+        <img
+          src={lightning}
+          style={{
+            width: `${PIXEL_SCALE * 8}px`,
+            left: `${PIXEL_SCALE * 5}px`,
+            top: `${PIXEL_SCALE * -17}px`,
+
+            imageRendering: "pixelated",
+          }}
+          className="absolute"
+        />
+      )}
 
       {showReelLabel && (
         <React.Fragment>

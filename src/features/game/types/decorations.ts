@@ -4,6 +4,7 @@ import { Dimensions } from "./buildings";
 import { GameState, Inventory } from "./game";
 import { SFLDiscount } from "../lib/SFLDiscount";
 import { BoostTreasure, DecorationTreasure } from "./treasure";
+import { getCurrentSeason } from "./seasons";
 
 export type AchievementDecorationName =
   | "Chef Bear"
@@ -624,129 +625,138 @@ export const LANDSCAPING_DECORATIONS: () => Record<
 });
 
 export const SEASONAL_DECORATIONS: (
-  state?: GameState
-) => Partial<Record<SeasonalDecorationName, Decoration>> = (state) => ({
-  Candles: {
-    name: "Candles",
-    sfl: SFLDiscount(state, new Decimal(5)),
-    from: new Date("2023-08-01"),
-    to: new Date("2023-11-01"),
-    description:
-      "Enchant your farm with flickering spectral flames during Witches' Eve.",
-    ingredients: {
-      "Crow Feather": new Decimal(5),
+  state?: GameState,
+  date?: Date
+) => Partial<Record<SeasonalDecorationName, Decoration>> = (
+  state,
+  date = new Date()
+) => ({
+  ...(getCurrentSeason(date) === "Witches' Eve" && {
+    Candles: {
+      name: "Candles",
+      sfl: SFLDiscount(state, new Decimal(5)),
+      from: new Date("2023-08-01"),
+      to: new Date("2023-11-01"),
+      description:
+        "Enchant your farm with flickering spectral flames during Witches' Eve.",
+      ingredients: {
+        "Crow Feather": new Decimal(5),
+      },
     },
-  },
-  "Haunted Stump": {
-    name: "Haunted Stump",
-    sfl: new Decimal(0),
-    from: new Date("2023-08-01"),
-    to: new Date("2023-09-01"),
-    description: "Summon spirits and add eerie charm to your farm.",
-    ingredients: {
-      "Crow Feather": new Decimal(100),
+    "Haunted Stump": {
+      name: "Haunted Stump",
+      sfl: new Decimal(0),
+      from: new Date("2023-08-01"),
+      to: new Date("2023-09-01"),
+      description: "Summon spirits and add eerie charm to your farm.",
+      ingredients: {
+        "Crow Feather": new Decimal(100),
+      },
     },
-  },
-  "Spooky Tree": {
-    name: "Spooky Tree",
-    sfl: SFLDiscount(state, new Decimal(50)),
-    from: new Date("2023-09-01"),
-    to: new Date("2023-10-01"),
-    description: "A hauntingly fun addition to your farm's decor!",
-    ingredients: {
-      "Crow Feather": new Decimal(500),
+    "Spooky Tree": {
+      name: "Spooky Tree",
+      sfl: SFLDiscount(state, new Decimal(50)),
+      from: new Date("2023-09-01"),
+      to: new Date("2023-10-01"),
+      description: "A hauntingly fun addition to your farm's decor!",
+      ingredients: {
+        "Crow Feather": new Decimal(500),
+      },
     },
-  },
-  Observer: {
-    name: "Observer",
-    sfl: SFLDiscount(state, new Decimal(50)),
-    from: new Date("2023-10-01"),
-    to: new Date("2023-11-01"),
-    description:
-      "A perpetually roving eyeball, always vigilant and ever-watchful!",
-    ingredients: {
-      "Crow Feather": new Decimal(500),
+    Observer: {
+      name: "Observer",
+      sfl: SFLDiscount(state, new Decimal(50)),
+      from: new Date("2023-10-01"),
+      to: new Date("2023-11-01"),
+      description:
+        "A perpetually roving eyeball, always vigilant and ever-watchful!",
+      ingredients: {
+        "Crow Feather": new Decimal(500),
+      },
     },
-  },
-  "Crow Rock": {
-    name: "Crow Rock",
-    sfl: new Decimal(0),
-    from: new Date("2023-10-01"),
-    to: new Date("2023-11-01"),
-    description: "A crow perched atop a mysterious rock.",
-    ingredients: {
-      "Crow Feather": new Decimal(250),
+    "Crow Rock": {
+      name: "Crow Rock",
+      sfl: new Decimal(0),
+      from: new Date("2023-10-01"),
+      to: new Date("2023-11-01"),
+      description: "A crow perched atop a mysterious rock.",
+      ingredients: {
+        "Crow Feather": new Decimal(250),
+      },
     },
-  },
-  "Mini Corn Maze": {
-    name: "Mini Corn Maze",
-    sfl: SFLDiscount(state, new Decimal(5)),
-    from: new Date("2023-10-01"),
-    to: new Date("2023-11-01"),
-    description:
-      "A memento of the beloved maze from the 2023 Witches' Eve season.",
-    ingredients: {
-      "Crow Feather": new Decimal(50),
+    "Mini Corn Maze": {
+      name: "Mini Corn Maze",
+      sfl: SFLDiscount(state, new Decimal(5)),
+      from: new Date("2023-10-01"),
+      to: new Date("2023-11-01"),
+      description:
+        "A memento of the beloved maze from the 2023 Witches' Eve season.",
+      ingredients: {
+        "Crow Feather": new Decimal(50),
+      },
     },
-  },
-  "Lifeguard Ring": {
-    name: "Lifeguard Ring",
-    sfl: SFLDiscount(state, new Decimal(10)),
-    from: new Date("2024-01-01"),
-    to: new Date("2024-02-01"),
-    description: "Stay afloat with style, your seaside savior!",
-    ingredients: {
-      "Mermaid Scale": new Decimal(50),
+  }),
+  ...(getCurrentSeason(date) === "Catch the Kraken" && {
+    "Lifeguard Ring": {
+      name: "Lifeguard Ring",
+      sfl: SFLDiscount(state, new Decimal(10)),
+      from: new Date("2024-01-01"),
+      to: new Date("2024-02-01"),
+      description: "Stay afloat with style, your seaside savior!",
+      ingredients: {
+        "Mermaid Scale": new Decimal(50),
+      },
     },
-  },
-  Surfboard: {
-    name: "Surfboard",
-    from: new Date("2023-12-01"),
-    to: new Date("2024-01-01"),
-    description: "Ride the waves of wonder, beach bliss on board!",
-    ingredients: {
-      "Mermaid Scale": new Decimal(100),
+    Surfboard: {
+      name: "Surfboard",
+      from: new Date("2023-12-01"),
+      to: new Date("2024-01-01"),
+      description: "Ride the waves of wonder, beach bliss on board!",
+      ingredients: {
+        "Mermaid Scale": new Decimal(100),
+      },
     },
-  },
-  "Hideaway Herman": {
-    name: "Hideaway Herman",
-    sfl: SFLDiscount(state, new Decimal(15)),
-    from: new Date("2024-01-01"),
-    to: new Date("2024-02-01"),
-    description: "Herman's here to hide, but always peeks for a party!",
-    ingredients: {
-      "Mermaid Scale": new Decimal(350),
+    "Hideaway Herman": {
+      name: "Hideaway Herman",
+      sfl: SFLDiscount(state, new Decimal(15)),
+      from: new Date("2024-01-01"),
+      to: new Date("2024-02-01"),
+      description: "Herman's here to hide, but always peeks for a party!",
+      ingredients: {
+        "Mermaid Scale": new Decimal(350),
+      },
     },
-  },
-  "Shifty Sheldon": {
-    name: "Shifty Sheldon",
-    sfl: SFLDiscount(state, new Decimal(50)),
-    from: new Date("2023-12-01"),
-    to: new Date("2024-01-01"),
-    description: "Sheldon's sly, always scuttling to the next sandy surprise!",
-    ingredients: {
-      "Mermaid Scale": new Decimal(500),
+    "Shifty Sheldon": {
+      name: "Shifty Sheldon",
+      sfl: SFLDiscount(state, new Decimal(50)),
+      from: new Date("2023-12-01"),
+      to: new Date("2024-01-01"),
+      description:
+        "Sheldon's sly, always scuttling to the next sandy surprise!",
+      ingredients: {
+        "Mermaid Scale": new Decimal(500),
+      },
     },
-  },
-  "Tiki Torch": {
-    name: "Tiki Torch",
-    from: new Date("2023-11-01"),
-    to: new Date("2023-12-01"),
-    description: "Light the night, tropical vibes burning bright!",
-    ingredients: {
-      "Mermaid Scale": new Decimal(5),
+    "Tiki Torch": {
+      name: "Tiki Torch",
+      from: new Date("2023-11-01"),
+      to: new Date("2023-12-01"),
+      description: "Light the night, tropical vibes burning bright!",
+      ingredients: {
+        "Mermaid Scale": new Decimal(5),
+      },
     },
-  },
-  "Beach Umbrella": {
-    name: "Beach Umbrella",
-    sfl: SFLDiscount(state, new Decimal(20)),
-    from: new Date("2023-11-01"),
-    to: new Date("2023-12-01"),
-    description: "Shade, shelter, and seaside chic in one sunny setup!",
-    ingredients: {
-      "Mermaid Scale": new Decimal(250),
+    "Beach Umbrella": {
+      name: "Beach Umbrella",
+      sfl: SFLDiscount(state, new Decimal(20)),
+      from: new Date("2023-11-01"),
+      to: new Date("2023-12-01"),
+      description: "Shade, shelter, and seaside chic in one sunny setup!",
+      ingredients: {
+        "Mermaid Scale": new Decimal(250),
+      },
     },
-  },
+  }),
 });
 
 export const POTION_HOUSE_DECORATIONS: () => Record<
