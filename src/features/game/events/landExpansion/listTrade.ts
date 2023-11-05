@@ -31,6 +31,7 @@ export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Cauliflower: 500,
   Radish: 200,
   Eggplant: 200,
+  Corn: 200,
   Parsnip: 200,
   Wheat: 200,
   Kale: 200,
