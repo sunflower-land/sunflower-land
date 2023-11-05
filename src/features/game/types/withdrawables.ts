@@ -1080,7 +1080,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Goth Hair": () => false, // Not Launched
   "Pale Potion": () => false, // Not Launched
   "Stretched Jeans": () => false, // Not Launched
-  "Skull Shirt": () => false, // Not Launched
+  "Skull Shirt": () => true, // Halloween is over
   "Victorian Hat": () => false, // Not Launched
   "Boater Hat": () => false, // Not Launched
   "Antique Dress": () => false, // Not Launched
@@ -1093,7 +1093,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Parsnip Horns": () => false,
   "Potato Suit": () => false,
   "Whale Hat": () => canWithdrawTimebasedItem(new Date("2023-08-09")), // AUCTION
-  "Pumpkin Shirt": () => false,
+  "Pumpkin Shirt": () => true, // Halloween is over
   Halo: () => false,
   Kama: () => canWithdrawTimebasedItem(new Date("2023-11-02")), // AUCTION
   "Grey Merch Hoodie": () => false,
