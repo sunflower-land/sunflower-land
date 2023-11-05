@@ -275,6 +275,7 @@ describe("feedBumpkin", () => {
       action: {
         type: "bumpkin.feed",
         food: "Gumbo",
+        amount: 0,
       },
     });
 
@@ -301,6 +302,7 @@ describe("feedBumpkin", () => {
       action: {
         type: "bumpkin.feed",
         food: "Anchovy",
+        amount: 0,
       },
     });
 
@@ -333,6 +335,7 @@ describe("feedBumpkin", () => {
       action: {
         type: "bumpkin.feed",
         food: "Anchovy",
+        amount: 0,
       },
     });
 
@@ -365,6 +368,7 @@ describe("feedBumpkin", () => {
       action: {
         type: "bumpkin.feed",
         food: "Gumbo",
+        amount: 0,
       },
     });
 
