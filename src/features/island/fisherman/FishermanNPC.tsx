@@ -144,10 +144,13 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
       fishDifficulty = Math.ceil((tentaclesCaught + 1) / 2);
     }
 
-    if (fishDifficulty && didRefresh.current) {
-      // Player refreshed during challenge
-      onChallengeLost();
-    } else if (fishDifficulty) {
+    // TEMP: The reelin state is sometimes not showing automatically
+    // if (fishDifficulty && didRefresh.current) {
+    //   // Player refreshed during challenge
+    //   // onChallengeLost();
+    // } else
+
+    if (fishDifficulty) {
       // Show fishing challenge
       setChallengeDifficulty(fishDifficulty);
       setShowChallenge(true);
