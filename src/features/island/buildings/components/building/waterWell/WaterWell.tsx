@@ -20,7 +20,11 @@ export const WaterWell: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
   };
 
   return (
-    <BuildingImageWrapper onClick={handleClick} nonInteractible={!onRemove}>
+    <BuildingImageWrapper
+      name="Water Well"
+      onClick={handleClick}
+      nonInteractible={!onRemove}
+    >
       <img
         src={well}
         style={{
