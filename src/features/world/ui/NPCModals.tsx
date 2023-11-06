@@ -8,7 +8,6 @@ import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 import { Stylist } from "./stylist/Stylist";
 import { SceneId } from "../mmoMachine";
 
-import { Luna } from "./npcs/Luna";
 import { Pete } from "./npcs/Pete";
 import { Birdie } from "./npcs/Birdie";
 import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHankV2";
@@ -202,14 +201,6 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
         )}
         {npc === "betty" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "cornwell" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-        {npc === "luna" && (
-          <Luna
-            onNavigate={() => {
-              onNavigate("corn_maze");
-            }}
-            onClose={closeModal}
-          />
-        )}
 
         {npc === "corale" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "miranda" && <DeliveryPanel npc={npc} onClose={closeModal} />}
