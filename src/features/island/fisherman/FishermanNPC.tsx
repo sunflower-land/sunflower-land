@@ -88,6 +88,15 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     didRefresh.current = !!fishing.wharf.caught;
   }, []);
 
+  useEffect(() => {
+    if (
+      fishing.wharf.caught &&
+      (spriteRef.current?.getInfo("frame") ?? 0) <= FISHING_FRAMES.casting.endAt
+    ) {
+      onWaitFinish();
+    }
+  }, [fishing.wharf.caught]);
+
   let initialState: FishingState = "idle";
   if (fishing.wharf.caught || fishing.wharf.castedAt) {
     initialState = "waiting";
@@ -146,6 +155,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
     // TEMP: The reelin state is sometimes not showing automatically and players need to refresh
     // Right no they are losing resources, so comment this
+    // Remove comments in future so players don't refresh minigame
     // if (fishDifficulty && didRefresh.current) {
     //   // Player refreshed during challenge
     //   // onChallengeLost();
