@@ -62,14 +62,6 @@ function areFruitsGrowing(game: GameState, fruit: FruitName): Restriction {
   return [fruitGrowing, `${fruit} is growing`];
 }
 
-function areBananasGrowing(game: GameState): Restriction {
-  const bananaGrowing = Object.values(game.fruitPatches ?? {}).some((patch) => {
-    return patch.fruit?.name == "Banana" && isFruitGrowing(patch);
-  });
-
-  return [bananaGrowing, `Bananas are growing`];
-}
-
 function areAnyFruitsGrowing(game: GameState): Restriction {
   const fruitGrowing = Object.values(game.fruitPatches ?? {}).some((patch) =>
     isFruitGrowing(patch)
@@ -221,7 +213,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Gold Egg": (game) => areAnyChickensFed(game),
   Rooster: (game) => areAnyChickensFed(game),
   Bale: (game) => areAnyChickensFed(game),
-  "Banana Chicken": (game) => areBananasGrowing(game),
+  "Banana Chicken": (game) => areFruitsGrowing(game, "Banana"),
 
   Nancy: (game) => areAnyCropsGrowing(game),
   Scarecrow: (game) => areAnyCropsGrowing(game),
