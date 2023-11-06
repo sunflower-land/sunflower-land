@@ -10,7 +10,7 @@ import {
   setUserProperties,
 } from "firebase/analytics";
 
-export type GameAnalyticEvent =
+export type OnboardingGameAnalyticEvent =
   | EventNameString
   | "connect_wallet"
   | "connect_to_metamask"
@@ -39,7 +39,11 @@ export type GameAnalyticEvent =
   | "select_poko"
   | "select_matic";
 
-class GameAnalytics {
+/**
+ * Events used to track new users onboarding
+ * For in-game events, refer to gameAnalytics.ts
+ */
+class OnboardingAnalytics {
   private analytics: Analytics;
 
   public constructor() {
@@ -82,7 +86,7 @@ class GameAnalytics {
     Recommended game events: https://support.google.com/analytics/answer/9267735
   */
   public logEvent(
-    eventName: GameAnalyticEvent,
+    eventName: OnboardingGameAnalyticEvent,
     eventParams?: {
       [key: string]: any;
     },
@@ -90,11 +94,11 @@ class GameAnalytics {
   ): void {
     logEvent(
       this.analytics,
-      eventName as CustomEventName<GameAnalyticEvent>,
+      eventName as CustomEventName<OnboardingGameAnalyticEvent>,
       eventParams,
       options
     );
   }
 }
 
-export const analytics = new GameAnalytics();
+export const onboardingAnalytics = new OnboardingAnalytics();

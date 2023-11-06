@@ -1,6 +1,6 @@
 import { sequence, Wallet as SequenceWallet } from "0xsequence";
 import { ConnectOptions } from "@0xsequence/provider";
-import { GameAnalyticEvent } from "lib/analytics";
+import { OnboardingGameAnalyticEvent } from "lib/analytics";
 import { CONFIG } from "lib/config";
 import { IWeb3ConnectStrategy } from "./interfaces/IWeb3ConnectStrategy";
 import { ERRORS } from "lib/errors";
@@ -20,7 +20,7 @@ const SEQUENCE_CONNECT_OPTIONS: ConnectOptions = {
 export class SequenceStrategy implements IWeb3ConnectStrategy {
   private _wallet: SequenceWallet | null = null;
 
-  public getConnectEventType(): GameAnalyticEvent {
+  public getConnectEventType(): OnboardingGameAnalyticEvent {
     return "connect_to_sequence";
   }
 
