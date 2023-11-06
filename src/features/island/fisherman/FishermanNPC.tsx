@@ -144,7 +144,8 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
       fishDifficulty = Math.ceil((tentaclesCaught + 1) / 2);
     }
 
-    // TEMP: The reelin state is sometimes not showing automatically
+    // TEMP: The reelin state is sometimes not showing automatically and players need to refresh
+    // Right no they are losing resources, so comment this
     // if (fishDifficulty && didRefresh.current) {
     //   // Player refreshed during challenge
     //   // onChallengeLost();
