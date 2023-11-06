@@ -31,7 +31,6 @@ jobs:
           CI: false
 
           VITE_API_URL: ${{ secrets.API_URL }}
-          VITE_WEBSOCKET_URL: ${{ secrets.WEBSOCKET_URL }}
           VITE_ROOM_URL: ${{ secrets.ROOM_URL }}
           VITE_DONATION_ADDRESS: ${{ secrets.DONATION_ADDRESS }}
           VITE_NETWORK: mumbai

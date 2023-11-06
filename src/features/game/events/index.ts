@@ -158,8 +158,6 @@ import { refundBid, RefundBidAction } from "./landExpansion/refundBid";
 import { mixPotion, MixPotionAction } from "./landExpansion/mixPotion";
 import { buyWearable, BuyWearableAction } from "./landExpansion/buyWearable";
 import { skipOrder, SkipOrderAction } from "./landExpansion/skipOrder";
-import { SaveMazeAction, saveMaze } from "./landExpansion/saveMaze";
-import { StartMazeAction, startMaze } from "./landExpansion/startMaze";
 import {
   completeBertObsession,
   CompleteBertObsessionAction,
@@ -242,8 +240,6 @@ export type PlayingEvent =
   | MixPotionAction
   | BuyWearableAction
   | SkipOrderAction
-  | SaveMazeAction
-  | StartMazeAction
   | CompleteBertObsessionAction
   | StartPotionAction
   | ReceiveTradeAction
@@ -360,8 +356,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "bid.refunded": refundBid,
   "potion.mixed": mixPotion,
   "wearable.bought": buyWearable,
-  "maze.started": startMaze,
-  "maze.saved": saveMaze,
   "bertObsession.completed": completeBertObsession,
   "potion.started": startPotion,
   "trade.cancelled": cancelTrade,

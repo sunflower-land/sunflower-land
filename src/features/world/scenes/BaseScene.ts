@@ -21,7 +21,6 @@ import {
   SceneId,
 } from "../mmoMachine";
 import { Player } from "../types/Room";
-import { mazeManager } from "../ui/cornMaze/MazeHud";
 import { playerModalManager } from "../ui/PlayerModals";
 import { hasFeatureAccess } from "lib/flags";
 
@@ -78,8 +77,6 @@ export abstract class BaseScene extends Phaser.Scene {
   private options: Required<BaseSceneOptions>;
 
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
-
-  canHandlePortalHit = true;
 
   currentPlayer: BumpkinContainer | undefined;
   isFacingLeft = false;
@@ -506,7 +503,6 @@ export abstract class BaseScene extends Phaser.Scene {
       clothing,
       name: npc,
       onClick: defaultClick,
-      isEnemy: clothing.hat === "Crumple Crown" && this.sceneId === "corn_maze",
     });
 
     if (!npc) {
@@ -547,14 +543,6 @@ export abstract class BaseScene extends Phaser.Scene {
           const cb = this.onCollision[id];
           if (cb) {
             cb(obj1, obj2);
-          }
-
-          if (id) {
-            // Handled in corn scene
-            if (id === "maze_portal_exit") {
-              this.handlePortalHit();
-              return;
-            }
           }
 
           // Change scenes
@@ -605,17 +593,6 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     return entity;
-  }
-
-  handlePortalHit() {
-    if (this.canHandlePortalHit) {
-      mazeManager.handlePortalHit();
-      this.scene.pause();
-      this.sound.getAllPlaying().forEach((sound) => {
-        if (sound.key == "sand_footstep") sound.pause();
-      });
-      this.canHandlePortalHit = false;
-    }
   }
 
   createPlayerText({ x, y, text }: { x: number; y: number; text: string }) {

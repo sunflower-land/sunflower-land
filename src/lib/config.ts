@@ -5,7 +5,6 @@ const TREASURY_ADDRESS = import.meta.env.VITE_TREASURY_ADDRESS as string;
 const POLYGON_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80001;
 
 const API_URL = import.meta.env.VITE_API_URL;
-const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL;
 const ROOM_URL = import.meta.env.VITE_ROOM_URL;
 
 const WISHING_WELL_CONTRACT = import.meta.env.VITE_WISHING_WELL_CONTRACT;
@@ -118,7 +117,6 @@ export const CONFIG = {
   GREEDY_GOBLIN_DONATION,
   CHICKEN_FIGHT_DONATION,
   PROTECTED_IMAGE_URL,
-  WEBSOCKET_URL,
   ROOM_URL,
   POKO_API_KEY,
   POKO_DIRECT_CHECKOUT_API_KEY,
