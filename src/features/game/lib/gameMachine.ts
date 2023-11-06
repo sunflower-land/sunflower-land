@@ -65,10 +65,7 @@ import {
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
 import { choose } from "xstate/lib/actions";
-import {
-  removeGuestKey,
-  setOnboardingComplete,
-} from "features/auth/actions/createGuestAccount";
+import { setOnboardingComplete } from "features/auth/actions/onboardingComplete";
 import { Announcements } from "../types/conversations";
 import { purchaseItem } from "../actions/purchaseItem";
 import { Currency, buyBlockBucksMATIC } from "../actions/buyBlockBucks";
@@ -530,7 +527,6 @@ export function startGame(authContext: AuthContext) {
                   throw new Error("NO_FARM");
                 }
 
-                removeGuestKey();
                 setOnboardingComplete();
 
                 const {

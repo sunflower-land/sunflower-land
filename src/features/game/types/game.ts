@@ -791,7 +791,6 @@ export interface GameState {
   hayseedHank?: HayseedHank;
   chores?: ChoresV2;
   mushrooms: Mushrooms;
-  witchesEve?: WitchesEve;
   catchTheKraken: CatchTheKraken;
   potionHouse?: PotionHouse;
 

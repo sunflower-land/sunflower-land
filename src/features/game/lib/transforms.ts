@@ -86,7 +86,6 @@ export function makeGame(farm: any): GameState {
       unread: [],
     },
     mushrooms: farm.mushrooms,
-    witchesEve: farm.witchesEve,
     catchTheKraken: farm.catchTheKraken,
     delivery: farm.delivery,
     potionHouse: farm.potionHouse,
