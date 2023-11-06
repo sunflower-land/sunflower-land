@@ -1,8 +1,8 @@
 import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
-import { getSeasonalTicket } from "features/game/types/seasons";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 
 export type TradeTentacleAction = {
   type: "shelly.tradeTentacle";
@@ -38,17 +38,16 @@ export function tradeTentacle({
     stateCopy.npcs.shelly = { deliveryCount: 0 };
   }
 
-  const currentScales =
-    stateCopy.inventory[getSeasonalTicket()] || new Decimal(0);
+  const currentScales = stateCopy.inventory["Mermaid Scale"] || new Decimal(0);
 
   const currentTentaclesInInventory =
     stateCopy.inventory["Kraken Tentacle"] || new Decimal(0);
 
-  const currentTentaclesPlaced =
-    stateCopy.collectibles["Kraken Tentacle"]?.length || 0;
+  const tentaclesInChest =
+    getChestItems(stateCopy)["Kraken Tentacle"] || new Decimal(0);
 
   // Only accept tentacles that are not placed (in collectibles)
-  if (currentTentaclesInInventory.sub(currentTentaclesPlaced).lte(0)) {
+  if (tentaclesInChest.lte(0)) {
     throw new Error("Insufficient quantity to trade");
   }
 
@@ -56,15 +55,15 @@ export function tradeTentacle({
   stateCopy.inventory["Kraken Tentacle"] = currentTentaclesInInventory.sub(1);
 
   // Add 10 scales per Tentacle
-  stateCopy.inventory[getSeasonalTicket()] = currentScales.add(10);
+  stateCopy.inventory["Mermaid Scale"] = currentScales.add(10);
 
   const bannerQty =
     stateCopy.collectibles["Catch the Kraken Banner"]?.length || 0;
 
   // Adds +2 bonus with banner
   if (bannerQty > 0) {
-    stateCopy.inventory[getSeasonalTicket()] =
-      stateCopy.inventory[getSeasonalTicket()]?.add(2);
+    stateCopy.inventory["Mermaid Scale"] =
+      stateCopy.inventory["Mermaid Scale"]?.add(2);
   }
   // Add delivery count
   stateCopy.npcs.shelly.deliveryCount += 1;
