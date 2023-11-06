@@ -613,7 +613,7 @@ export const authMachine = createMachine<
                 }
               },
               (context) => {
-                gameAnalytics.initialise();
+                gameAnalytics.initialise(context.user.farmId as number);
 
                 onboardingAnalytics.initialise({
                   id: context.user.farmId as number,
