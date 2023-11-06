@@ -32,14 +32,8 @@ import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 import land from "assets/land/islands/island.webp";
 import { TreasureIsland } from "features/treasureIsland/TreasureIsland";
 import { getBumpkinLevel } from "../lib/level";
-import { SnowKingdom } from "features/snowKingdom/SnowKingdom";
 import { IslandNotFound } from "./components/IslandNotFound";
-import { Studios } from "features/studios/Studios";
 import { Rules } from "../components/Rules";
-import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
-import { BeachParty } from "features/pumpkinPlaza/BeachParty";
-import { HeadQuarters } from "features/pumpkinPlaza/HeadQuarters";
-import { StoneHaven } from "features/pumpkinPlaza/StoneHaven";
 import { WalletOnboarding } from "features/tutorials/wallet/WalletOnboarding";
 import { Introduction } from "./components/Introduction";
 import { NoTownCenter } from "../components/NoTownCenter";
@@ -201,30 +195,12 @@ export const Game: React.FC = () => {
           <Routes>
             <Route path="/" element={<Land />} />
             <Route path="/helios" element={<Helios key="helios" />} />
-            <Route path="/snow" element={<SnowKingdom key="snow" />} />
-            <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
-            <Route path="/beach" element={<BeachParty key="beach-party" />} />
-            <Route
-              path="/headquarters"
-              element={<HeadQuarters key="headquarters" />}
-            />
             {level >= 10 && (
               <Route
                 path="/treasure-island"
                 element={<TreasureIsland key="treasure" />}
               />
             )}
-
-            {level >= 20 && (
-              <Route
-                path="/stone-haven"
-                element={<StoneHaven key="stone-haven" />}
-              />
-            )}
-            {level >= 50 && (
-              <Route path="/snow" element={<SnowKingdom key="snow" />} />
-            )}
-            <Route path="/studios" element={<Studios key="hq" />} />
 
             <Route path="*" element={<IslandNotFound />} />
           </Routes>
