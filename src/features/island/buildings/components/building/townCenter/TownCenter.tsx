@@ -54,7 +54,11 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
 
   return (
     <div className="absolute h-full w-full">
-      <BuildingImageWrapper onClick={handleClick} nonInteractible={!onRemove}>
+      <BuildingImageWrapper
+        name="Town Center"
+        onClick={handleClick}
+        nonInteractible={!onRemove}
+      >
         <img
           src={townCenter}
           className="absolute pointer-events-none"
