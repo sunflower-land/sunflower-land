@@ -102,7 +102,7 @@ const OrderCards: React.FC<OrderCardsProps> = ({
   );
 };
 
-interface Props {
+interface ContentProps {
   onClose: () => void;
   canTrade: boolean;
   handleTrade: () => void;
@@ -110,7 +110,7 @@ interface Props {
   rewardQty: number;
 }
 
-export const ShellyPanelContent: React.FC<Props> = ({
+export const ShellyPanelContent: React.FC<ContentProps> = ({
   onClose,
   canTrade,
   handleTrade,
