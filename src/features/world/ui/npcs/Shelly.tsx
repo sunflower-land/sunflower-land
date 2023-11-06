@@ -180,6 +180,31 @@ export const KrakenIntro: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     },
   ] = useActor(gameService);
 
+  if (!state.catchTheKraken.hunger) {
+    return (
+      <SpeakingModal
+        key="kraken"
+        onClose={() => {
+          onClose();
+        }}
+        bumpkinParts={NPC_WEARABLES.shelly}
+        message={[
+          {
+            text: "Well done! The Kraken has stopped terrorising Bumpkins.",
+          },
+          {
+            text: `Let's keep a close eye on it, I'm sure the hunger will return.`,
+            actions: [
+              {
+                text: "Got it!",
+                cb: () => onClose(),
+              },
+            ],
+          },
+        ]}
+      />
+    );
+  }
   return (
     <SpeakingModal
       key="kraken"
