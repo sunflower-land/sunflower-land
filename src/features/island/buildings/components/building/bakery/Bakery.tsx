@@ -73,7 +73,7 @@ export const Bakery: React.FC<Props> = ({
 
   return (
     <>
-      <BuildingImageWrapper onClick={handleClick} ready={ready}>
+      <BuildingImageWrapper name="Bakery" onClick={handleClick} ready={ready}>
         <img
           src={bakery}
           className={classNames("absolute bottom-0 pointer-events-none", {
