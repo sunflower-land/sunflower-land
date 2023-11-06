@@ -23,7 +23,6 @@ import { randomID } from "lib/utils/random";
 import { createFarmMachine } from "./createFarmMachine";
 import { getFarm, getFarms } from "lib/blockchain/Farm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
-import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { analytics } from "lib/analytics";
 import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectStrategy.factory";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
@@ -250,17 +249,8 @@ export const authMachine = createMachine<
         always: [
           {
             target: "welcome",
-            cond: () => !getOnboardingComplete(),
-          },
-          {
-            target: "signIn",
           },
         ],
-        on: {
-          SIGN_IN: {
-            target: "signIn",
-          },
-        },
       },
       welcome: {
         on: {
