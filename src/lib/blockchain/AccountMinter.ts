@@ -6,7 +6,7 @@ import PokoMinterABI from "./abis/PokoAccountMinter.json";
 import { AccountMinter as IAccountMinter } from "./types/AccountMinter";
 import { AccountMinter as IPokoAccountMinter } from "./types/PokoAccountMinter";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
-import { analytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/analytics";
 import { PayableTransactionObject } from "./types/types";
 
 export async function getCreatedAt(
@@ -191,7 +191,7 @@ export async function createNewAccount({
       .on("transactionHash", async (transactionHash: any) => {
         console.log({ transactionHash });
         // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#purchase
-        analytics.logEvent("purchase", {
+        onboardingAnalytics.logEvent("purchase", {
           currency: "MATIC",
           // Unique ID to prevent duplicate events
           transaction_id: `create-${account}`,

@@ -5,7 +5,7 @@ import { getKeys } from "features/game/types/craftables";
 
 import { GameState } from "features/game/types/game";
 import { STYLIST_WEARABLES } from "features/game/types/stylist";
-import { analytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/analytics";
 import cloneDeep from "lodash.clonedeep";
 
 export type BuyWearableAction = {
@@ -86,7 +86,7 @@ export function buyWearable({
 
   if (wearable.ingredients["Block Buck"]) {
     // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#spend_virtual_currency
-    analytics.logEvent("spend_virtual_currency", {
+    onboardingAnalytics.logEvent("spend_virtual_currency", {
       value: wearable.ingredients["Block Buck"] ?? 1,
       virtual_currency_name: "Block Buck",
       item_name: `${name}`,

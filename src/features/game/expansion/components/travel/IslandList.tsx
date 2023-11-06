@@ -21,7 +21,7 @@ import land from "assets/land/islands/island.webp";
 import blueBottle from "assets/decorations/blue_bottle.webp";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { analytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/analytics";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { GoblinState } from "features/game/lib/goblinMachine";
@@ -86,7 +86,7 @@ const IslandListItem: React.FC<IslandProps> = ({
     if (cannotNavigate) return;
 
     navigate(path);
-    analytics.logEvent("select_content", {
+    onboardingAnalytics.logEvent("select_content", {
       content_type: "island",
       content_id: name,
     });

@@ -1,11 +1,11 @@
-import { GameAnalyticEvent } from "lib/analytics";
+import { OnboardingGameAnalyticEvent } from "lib/analytics";
 import { IWeb3ConnectStrategy } from "./interfaces/IWeb3ConnectStrategy";
 import { ERRORS } from "lib/errors";
 
 export class BitgetStrategy implements IWeb3ConnectStrategy {
   private _provider: any;
 
-  public getConnectEventType(): GameAnalyticEvent {
+  public getConnectEventType(): OnboardingGameAnalyticEvent {
     return "connect_to_bitget";
   }
 

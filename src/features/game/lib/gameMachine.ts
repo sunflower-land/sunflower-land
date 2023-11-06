@@ -77,7 +77,7 @@ import { getAuctionResults } from "../actions/getAuctionResults";
 import { AuctionResults } from "./auctionMachine";
 import { trade } from "../actions/trade";
 import { mmoBus } from "features/world/mmoMachine";
-import { analytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/analytics";
 import { BudName } from "../types/buds";
 
 export type PastAction = GameEvent & {
@@ -1432,7 +1432,7 @@ export function startGame(authContext: AuthContext) {
                       },
                     });
                     // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#spend_virtual_currency
-                    analytics.logEvent("spend_virtual_currency", {
+                    onboardingAnalytics.logEvent("spend_virtual_currency", {
                       value: 1,
                       virtual_currency_name: "Trade",
                       item_name: "Trade",
