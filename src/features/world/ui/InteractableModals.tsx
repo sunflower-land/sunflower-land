@@ -13,6 +13,7 @@ import { PlazaBanner } from "./PlazaBanner";
 import { Panel } from "components/ui/Panel";
 import { CropBoomFinish } from "features/portal/examples/cropBoom/components/CropBoomFinish";
 import { Luna } from "./npcs/Luna";
+import { PlazaMayor } from "features/game/components/PlazaMayor";
 
 type InteractableName =
   | "kraken"
@@ -54,7 +55,8 @@ type InteractableName =
   | "beach_blue_book"
   | "walrus"
   | "kraken_banner"
-  | "crop_boom_finish";
+  | "crop_boom_finish"
+  | "plaza_mayor";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -108,6 +110,10 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           id={id}
         />
       </Modal>
+
+      {interactable === "plaza_mayor" && (
+        <PlazaMayor onClose={closeModal} gameState={state} />
+      )}
 
       <Modal centered show={interactable === "fat_chicken"} onHide={closeModal}>
         <SpeakingModal
