@@ -4,12 +4,12 @@ import { CONFIG } from "./config";
 class GameAnalyticTracker {
   public async initialise(id: number) {
     try {
-      GameAnalytics.setEnabledInfoLog(true);
-      GameAnalytics.setEnabledVerboseLog(true);
+      // GameAnalytics.setEnabledInfoLog(true);
+      // GameAnalytics.setEnabledVerboseLog(true);
 
       GameAnalytics.configureBuild(CONFIG.RELEASE_VERSION);
 
-      GameAnalytics.configureUserId(`farm${id}`);
+      GameAnalytics.configureUserId(`account${id}`);
 
       // TODO - create prd envs
       GameAnalytics.initialize(
