@@ -5,7 +5,7 @@ import { getKeys } from "features/game/types/craftables";
 
 import { GameState } from "features/game/types/game";
 import { STYLIST_WEARABLES } from "features/game/types/stylist";
-import { onboardingAnalytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import cloneDeep from "lodash.clonedeep";
 
 export type BuyWearableAction = {

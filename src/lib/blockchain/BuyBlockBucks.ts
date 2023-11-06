@@ -3,7 +3,7 @@ import Web3 from "web3";
 import { AbiItem, fromWei } from "web3-utils";
 import BuyBlockBucksAbi from "./abis/BuyBlockBucks.json";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
-import { onboardingAnalytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
 const address = CONFIG.BUY_BLOCK_BUCKS_CONTRACT;
 

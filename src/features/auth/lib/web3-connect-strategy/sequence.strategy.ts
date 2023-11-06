@@ -1,6 +1,6 @@
 import { sequence, Wallet as SequenceWallet } from "0xsequence";
 import { ConnectOptions } from "@0xsequence/provider";
-import { OnboardingGameAnalyticEvent } from "lib/analytics";
+import { OnboardingGameAnalyticEvent } from "lib/onboardingAnalytics";
 import { CONFIG } from "lib/config";
 import { IWeb3ConnectStrategy } from "./interfaces/IWeb3ConnectStrategy";
 import { ERRORS } from "lib/errors";

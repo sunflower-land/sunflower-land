@@ -4,7 +4,7 @@ import { assign, createMachine, Interpreter } from "xstate";
 import { escalate } from "xstate/lib/actions";
 import { signTransaction } from "../actions/createAccount";
 import { CharityAddress } from "../components";
-import { onboardingAnalytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { estimateAccountGas } from "lib/blockchain/AccountMinter";
 import { toWei } from "web3-utils";
 

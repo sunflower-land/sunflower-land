@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
-import { onboardingAnalytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import cloneDeep from "lodash.clonedeep";
 
 export type RestockAction = {

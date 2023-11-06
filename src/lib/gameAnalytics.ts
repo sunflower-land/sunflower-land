@@ -11,10 +11,9 @@ class GameAnalyticTracker {
 
       GameAnalytics.configureUserId(`account${id}`);
 
-      // TODO - create prd envs
       GameAnalytics.initialize(
-        "25605bc25eb544f8f7cc45ba00398a49",
-        "7d9c33d1f9a5aa6d2568742d4219fdf8495ee8c7"
+        CONFIG.GAME_ANALYTICS_APP_ID,
+        CONFIG.GAME_ANALYTICS_PUB_KEY
       );
 
       GameAnalytics.startSession();

@@ -5,7 +5,7 @@ import Web3 from "web3";
 import { AbiItem, fromWei } from "web3-utils";
 import GameABI from "./abis/SunflowerLandGame.json";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
-import { onboardingAnalytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { getNextSessionId, getSessionId } from "./Session";
 
 const address = CONFIG.GAME_CONTRACT;

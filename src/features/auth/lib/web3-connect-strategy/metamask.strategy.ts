@@ -1,5 +1,5 @@
 import MetaMaskOnboarding from "@metamask/onboarding";
-import { OnboardingGameAnalyticEvent } from "lib/analytics";
+import { OnboardingGameAnalyticEvent } from "lib/onboardingAnalytics";
 import { IWeb3ConnectStrategy } from "./interfaces/IWeb3ConnectStrategy";
 import { ERRORS } from "lib/errors";
 

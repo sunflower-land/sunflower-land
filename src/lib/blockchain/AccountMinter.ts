@@ -6,7 +6,7 @@ import PokoMinterABI from "./abis/PokoAccountMinter.json";
 import { AccountMinter as IAccountMinter } from "./types/AccountMinter";
 import { AccountMinter as IPokoAccountMinter } from "./types/PokoAccountMinter";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
-import { onboardingAnalytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { PayableTransactionObject } from "./types/types";
 
 export async function getCreatedAt(

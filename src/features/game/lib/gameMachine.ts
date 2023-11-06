@@ -77,7 +77,7 @@ import { getAuctionResults } from "../actions/getAuctionResults";
 import { AuctionResults } from "./auctionMachine";
 import { trade } from "../actions/trade";
 import { mmoBus } from "features/world/mmoMachine";
-import { onboardingAnalytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { BudName } from "../types/buds";
 
 export type PastAction = GameEvent & {
