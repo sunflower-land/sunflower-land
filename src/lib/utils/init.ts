@@ -12,5 +12,4 @@ export function initialise() {
    */
   Decimal.set({ toExpPos: 30 });
   Decimal.set({ toExpNeg: -30 });
-  gameAnalytics.initialise();
 }
