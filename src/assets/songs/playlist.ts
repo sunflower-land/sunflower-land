@@ -1,7 +1,6 @@
 import harvesting from "./harvesting.mp3";
 import willow_tree from "./willow_tree.mp3";
 import mountain_escape from "./mountain_escape.mp3";
-import oreo_bite from "./oreo_bite.mp3";
 // Playlist hardcoded, but eventually it will be fetched from the server
 
 export interface Song {
@@ -31,14 +30,6 @@ const goblin_songs = [
   },
 ];
 
-const easter_song = [
-  {
-    artist: "Romy & Rick",
-    name: "Oreo Bite",
-    path: oreo_bite,
-  },
-];
-
 export const getFarmingSong = (index: number) => {
   return farming_songs[index];
 };
@@ -53,12 +44,4 @@ export const getGoblinSong = (index: number) => {
 
 export const getGoblinSongCount = () => {
   return goblin_songs.length;
-};
-
-export const getEasterSong = (index: number) => {
-  return easter_song[index];
-};
-
-export const getEasterSongCount = () => {
-  return easter_song.length;
 };
