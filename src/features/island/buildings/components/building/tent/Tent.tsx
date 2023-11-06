@@ -59,7 +59,11 @@ export const Tent: React.FC<BuildingProps> = ({
 
   return (
     <>
-      <BuildingImageWrapper onClick={handleClick} nonInteractible={!bumpkin}>
+      <BuildingImageWrapper
+        name="Tent"
+        onClick={handleClick}
+        nonInteractible={!bumpkin}
+      >
         <img
           src={tent}
           className="absolute"
