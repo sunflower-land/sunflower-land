@@ -12,14 +12,16 @@ import { hasNewChores } from "features/helios/components/hayseedHank/lib/chores"
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _chores = (state: MachineState) => state.context.state.chores;
 
-export const Travel: React.FC = () => {
+export const Travel: React.FC<{ isVisiting?: boolean }> = ({
+  isVisiting = false,
+}) => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
   const delivery = useSelector(gameService, _delivery);
   const chores = useSelector(gameService, _chores);
 
   const showExpression =
-    hasNewOrders(delivery) || (chores && hasNewChores(chores));
+    (hasNewOrders(delivery) || (chores && hasNewChores(chores))) && !isVisiting;
 
   return (
     <>
@@ -66,7 +68,11 @@ export const Travel: React.FC = () => {
           />
         )}
       </div>
-      <TravelModal isOpen={showModal} onClose={() => setShowModal(false)} />
+      <TravelModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        isVisiting={isVisiting}
+      />
     </>
   );
 };

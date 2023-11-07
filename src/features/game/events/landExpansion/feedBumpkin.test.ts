@@ -3,57 +3,111 @@ import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { CONSUMABLES } from "features/game/types/consumables";
-import { feedBumpkin } from "./feedBumpkin";
+import { FEED_BUMPKIN_ERRORS, feedBumpkin } from "./feedBumpkin";
 
 describe("feedBumpkin", () => {
-  it("requires a bumpkin", () => {
+  it("throws error if no bumpkin is found", () => {
     const state: GameState = { ...TEST_FARM, bumpkin: undefined };
     expect(() =>
       feedBumpkin({
         state,
-        action: { type: "bumpkin.feed", food: "Boiled Eggs" },
+        action: { type: "bumpkin.feed", food: "Boiled Eggs", amount: 1 },
       })
-    ).toThrow("You do not have a Bumpkin");
+    ).toThrow(FEED_BUMPKIN_ERRORS.MISSING_BUMPKIN);
   });
 
-  it("requires food is in inventory", () => {
+  it("throws error if food amount is invalid", () => {
     const state: GameState = { ...TEST_FARM, inventory: {} };
     expect(() =>
       feedBumpkin({
         state,
-        action: { type: "bumpkin.feed", food: "Boiled Eggs" },
+        action: { type: "bumpkin.feed", food: "Boiled Eggs", amount: -1 },
       })
-    ).toThrow("You have none of this food type");
+    ).toThrow(FEED_BUMPKIN_ERRORS.INVALID_AMOUNT);
+  });
+
+  it("throws error if no food is found in inventory", () => {
+    const state: GameState = { ...TEST_FARM, inventory: {} };
+    expect(() =>
+      feedBumpkin({
+        state,
+        action: { type: "bumpkin.feed", food: "Boiled Eggs", amount: 1 },
+      })
+    ).toThrow(FEED_BUMPKIN_ERRORS.NOT_ENOUGH_FOOD);
+  });
+
+  it("throws error if food in inventory is not enough to feed bumpkin", () => {
+    const state: GameState = {
+      ...TEST_FARM,
+      inventory: { "Boiled Eggs": new Decimal(8) },
+    };
+    expect(() =>
+      feedBumpkin({
+        state,
+        action: { type: "bumpkin.feed", food: "Boiled Eggs", amount: 9 },
+      })
+    ).toThrow(FEED_BUMPKIN_ERRORS.NOT_ENOUGH_FOOD);
   });
 
   it("deducts one food from inventory", () => {
     const state: GameState = {
       ...TEST_FARM,
-      inventory: { "Boiled Eggs": new Decimal(2) },
+      inventory: { "Boiled Eggs": new Decimal(11) },
     };
 
     const stateCopy = feedBumpkin({
       state,
-      action: { type: "bumpkin.feed", food: "Boiled Eggs" },
+      action: { type: "bumpkin.feed", food: "Boiled Eggs", amount: 1 },
     });
 
-    expect(stateCopy.inventory["Boiled Eggs"]).toEqual(new Decimal(1));
+    expect(stateCopy.inventory["Boiled Eggs"]).toEqual(new Decimal(10));
   });
 
-  it("adds experience", () => {
+  it("deducts multiple food from inventory", () => {
     const state: GameState = {
       ...TEST_FARM,
-      inventory: { "Boiled Eggs": new Decimal(2) },
+      inventory: { "Boiled Eggs": new Decimal(11) },
     };
 
     const stateCopy = feedBumpkin({
       state,
-      action: { type: "bumpkin.feed", food: "Boiled Eggs" },
+      action: { type: "bumpkin.feed", food: "Boiled Eggs", amount: 5 },
+    });
+
+    expect(stateCopy.inventory["Boiled Eggs"]).toEqual(new Decimal(6));
+  });
+
+  it("adds experience when feeding 1 food", () => {
+    const state: GameState = {
+      ...TEST_FARM,
+      inventory: { "Boiled Eggs": new Decimal(8) },
+    };
+
+    const stateCopy = feedBumpkin({
+      state,
+      action: { type: "bumpkin.feed", food: "Boiled Eggs", amount: 1 },
     });
 
     expect(stateCopy.bumpkin?.experience).toBe(
       (state.bumpkin?.experience as number) +
         CONSUMABLES["Boiled Eggs"].experience
+    );
+  });
+
+  it("adds more experience when feeding multiple food", () => {
+    const state: GameState = {
+      ...TEST_FARM,
+      inventory: { "Boiled Eggs": new Decimal(20) },
+    };
+
+    const stateCopy = feedBumpkin({
+      state,
+      action: { type: "bumpkin.feed", food: "Boiled Eggs", amount: 7 },
+    });
+
+    expect(stateCopy.bumpkin?.experience).toBe(
+      (state.bumpkin?.experience as number) +
+        CONSUMABLES["Boiled Eggs"].experience * 7
     );
   });
 
@@ -69,6 +123,7 @@ describe("feedBumpkin", () => {
       action: {
         type: "bumpkin.feed",
         food: "Boiled Eggs",
+        amount: 1,
       },
     });
 
@@ -92,6 +147,7 @@ describe("feedBumpkin", () => {
       action: {
         type: "bumpkin.feed",
         food: "Boiled Eggs",
+        amount: 1,
       },
     });
 
@@ -126,6 +182,7 @@ describe("feedBumpkin", () => {
       action: {
         type: "bumpkin.feed",
         food: "Boiled Eggs",
+        amount: 1,
       },
     });
 
@@ -158,6 +215,7 @@ describe("feedBumpkin", () => {
       action: {
         type: "bumpkin.feed",
         food: "Sunflower Cake",
+        amount: 1,
       },
     });
 
@@ -190,6 +248,7 @@ describe("feedBumpkin", () => {
       action: {
         type: "bumpkin.feed",
         food: "Sauerkraut",
+        amount: 1,
       },
     });
 
@@ -216,6 +275,7 @@ describe("feedBumpkin", () => {
       action: {
         type: "bumpkin.feed",
         food: "Gumbo",
+        amount: 1,
       },
     });
 
@@ -242,6 +302,7 @@ describe("feedBumpkin", () => {
       action: {
         type: "bumpkin.feed",
         food: "Anchovy",
+        amount: 1,
       },
     });
 
@@ -274,6 +335,7 @@ describe("feedBumpkin", () => {
       action: {
         type: "bumpkin.feed",
         food: "Anchovy",
+        amount: 1,
       },
     });
 
@@ -306,6 +368,7 @@ describe("feedBumpkin", () => {
       action: {
         type: "bumpkin.feed",
         food: "Gumbo",
+        amount: 1,
       },
     });
 

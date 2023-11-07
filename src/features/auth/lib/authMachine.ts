@@ -3,6 +3,7 @@ import { loadBanDetails } from "features/game/actions/bans";
 import { isFarmBlacklisted } from "features/game/actions/onchain";
 import { CONFIG } from "lib/config";
 import { ErrorCode, ERRORS } from "lib/errors";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 import { wallet } from "../../../lib/blockchain/wallet";
 import {
@@ -23,8 +24,8 @@ import { randomID } from "lib/utils/random";
 import { createFarmMachine } from "./createFarmMachine";
 import { getFarm, getFarms } from "lib/blockchain/Farm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
-import { getOnboardingComplete } from "../actions/createGuestAccount";
-import { analytics } from "lib/analytics";
+import { getOnboardingComplete } from "../actions/onboardingComplete";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectStrategy.factory";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { savePromoCode } from "features/game/actions/loadSession";
@@ -243,7 +244,7 @@ export const authMachine = createMachine<
 
           const promoCode = getPromoCode();
           if (promoCode) {
-            analytics.logEvent(`promo_code_${promoCode}` as any);
+            onboardingAnalytics.logEvent(`promo_code_${promoCode}` as any);
             savePromoCode(promoCode);
           }
         },
@@ -266,17 +267,17 @@ export const authMachine = createMachine<
         on: {
           SIGN_IN: {
             target: "signIn",
-            actions: () => analytics.logEvent("connect_wallet"),
+            actions: () => onboardingAnalytics.logEvent("connect_wallet"),
           },
           CONTINUE: [
             {
               target: "signIn",
               cond: () => hasFeatureAccess(TEST_FARM, "NEW_FARM_FLOW"),
-              actions: () => analytics.logEvent("create_account"),
+              actions: () => onboardingAnalytics.logEvent("create_account"),
             },
             {
               target: "createWallet",
-              actions: () => analytics.logEvent("create_account"),
+              actions: () => onboardingAnalytics.logEvent("create_account"),
             },
           ],
         },
@@ -286,7 +287,7 @@ export const authMachine = createMachine<
         on: {
           CONTINUE: {
             target: "signIn",
-            actions: () => analytics.logEvent("connect_wallet"),
+            actions: () => onboardingAnalytics.logEvent("connect_wallet"),
           },
         },
       },
@@ -359,14 +360,14 @@ export const authMachine = createMachine<
               cond: (context) =>
                 context.user.web3?.wallet === Web3SupportedProviders.SEQUENCE,
               actions: (context) =>
-                analytics.logEvent("wallet_connected", {
+                onboardingAnalytics.logEvent("wallet_connected", {
                   wallet: context.user.web3?.wallet,
                 }),
             },
             {
               target: "signing",
               actions: (context) =>
-                analytics.logEvent("wallet_connected", {
+                onboardingAnalytics.logEvent("wallet_connected", {
                   wallet: context.user.web3?.wallet,
                 }),
             },
@@ -492,7 +493,7 @@ export const authMachine = createMachine<
             on: {
               CREATE_FARM: {
                 target: "creatingFarm",
-                actions: () => analytics.logEvent("mint_farm"),
+                actions: () => onboardingAnalytics.logEvent("mint_farm"),
               },
               REFRESH: {
                 target: "#reconnecting",
@@ -503,7 +504,7 @@ export const authMachine = createMachine<
               },
               SELECT_POKO: {
                 target: "creatingPokoFarm",
-                actions: () => analytics.logEvent("select_poko"),
+                actions: () => onboardingAnalytics.logEvent("select_poko"),
               },
               // SELECT_MATIC: {
               //   target: "funding",
@@ -554,12 +555,12 @@ export const authMachine = createMachine<
             },
           },
           offer: {
-            entry: () => analytics.logEvent("offer_seen"),
+            entry: () => onboardingAnalytics.logEvent("offer_seen"),
             on: {
               CONTINUE: {
                 // target: "selectPaymentMethod",
                 target: "funding",
-                actions: () => analytics.logEvent("offer_accepted"),
+                actions: () => onboardingAnalytics.logEvent("offer_accepted"),
               },
             },
           },
@@ -611,13 +612,16 @@ export const authMachine = createMachine<
                   );
                 }
               },
-              (context) =>
-                analytics.initialise({
+              (context) => {
+                gameAnalytics.initialise(context.user.farmId as number);
+
+                onboardingAnalytics.initialise({
                   id: context.user.farmId as number,
                   type: context.user.type,
                   wallet: context.user.web3?.wallet as string,
-                }),
-              () => analytics.logEvent("login"),
+                });
+              },
+              () => onboardingAnalytics.logEvent("login"),
             ],
             on: {
               RETURN: {
@@ -732,7 +736,7 @@ export const authMachine = createMachine<
 
         const web3ConnectStrategy = web3ConnectStrategyFactory(wallet);
 
-        analytics.logEvent(web3ConnectStrategy.getConnectEventType());
+        onboardingAnalytics.logEvent(web3ConnectStrategy.getConnectEventType());
 
         if (!web3ConnectStrategy.isAvailable()) {
           web3ConnectStrategy.whenUnavailableAction();

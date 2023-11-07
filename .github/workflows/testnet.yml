@@ -31,7 +31,6 @@ jobs:
           CI: false
 
           VITE_API_URL: ${{ secrets.API_URL }}
-          VITE_WEBSOCKET_URL: ${{ secrets.WEBSOCKET_URL }}
           VITE_ROOM_URL: ${{ secrets.ROOM_URL }}
           VITE_DONATION_ADDRESS: ${{ secrets.DONATION_ADDRESS }}
           VITE_NETWORK: mumbai
@@ -80,6 +79,8 @@ jobs:
           VITE_POKO_DIRECT_CHECKOUT_API_KEY: ${{ secrets.POKO_DIRECT_CHECKOUT_API_KEY }}
           VITE_WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
           VITE_PRIVATE_IMAGE_URL: "https://sunflower-land.com/testnet-assets"
+          VITE_GAME_ANALYTICS_APP_ID: ${{ secrets.GAME_ANALYTICS_APP_ID }}
+          VITE_GAME_ANALYTICS_PUB_KEY: ${{ secrets.GAME_ANALYTICS_PUB_KEY }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9

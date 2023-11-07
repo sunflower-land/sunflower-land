@@ -40,7 +40,6 @@ import { CommunityScene } from "./scenes/CommunityScene";
 import { CommunityModals } from "./ui/CommunityModalManager";
 import { CommunityToasts } from "./ui/CommunityToastManager";
 import { SceneId } from "./mmoMachine";
-import { CornScene } from "./scenes/CornScene";
 import { useNavigate } from "react-router-dom";
 import { PlayerModals } from "./ui/PlayerModals";
 import { prepareAPI } from "features/community/lib/CommunitySDK";
@@ -111,7 +110,6 @@ export const PhaserComponent: React.FC<Props> = ({
     ? [CommunityScene]
     : [
         Preloader,
-        CornScene,
         AuctionScene,
         WoodlandsScene,
         BettyHomeScene,
@@ -393,22 +391,20 @@ export const PhaserComponent: React.FC<Props> = ({
         />
       )}
 
-      {scene !== "corn_maze" && (
-        <ChatUI
-          farmId={authState.context.user.farmId as number}
-          onMessage={(m) => {
-            mmoService.state.context.server?.send(0, {
-              text: m.text ?? "?",
-            });
-          }}
-          onCommand={(name, args) => {
-            handleCommand(name, args).then(updateMessages);
-          }}
-          messages={messages ?? []}
-          isMuted={isMuted ? true : false}
-        />
-      )}
-      {isModerator && scene !== "corn_maze" && !isCommunity && (
+      <ChatUI
+        farmId={authState.context.user.farmId as number}
+        onMessage={(m) => {
+          mmoService.state.context.server?.send(0, {
+            text: m.text ?? "?",
+          });
+        }}
+        onCommand={(name, args) => {
+          handleCommand(name, args).then(updateMessages);
+        }}
+        messages={messages ?? []}
+        isMuted={isMuted ? true : false}
+      />
+      {isModerator && !isCommunity && (
         <ModerationTools
           scene={game.current?.scene.getScene(scene)}
           messages={messages ?? []}

@@ -21,7 +21,7 @@ import land from "assets/land/islands/island.webp";
 import blueBottle from "assets/decorations/blue_bottle.webp";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { analytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { GoblinState } from "features/game/lib/goblinMachine";
@@ -71,7 +71,8 @@ const IslandListItem: React.FC<IslandProps> = ({
   const navigate = useNavigate();
   const onSameIsland = path === currentPath;
   const notEnoughLevel =
-    !bumpkin || getBumpkinLevel(bumpkin.experience) < levelRequired;
+    (!bumpkin || getBumpkinLevel(bumpkin.experience) < levelRequired) &&
+    levelRequired > 1;
   const cannotNavigate =
     notEnoughLevel || onSameIsland || comingSoon || disabled;
 
@@ -85,7 +86,7 @@ const IslandListItem: React.FC<IslandProps> = ({
     if (cannotNavigate) return;
 
     navigate(path);
-    analytics.logEvent("select_content", {
+    onboardingAnalytics.logEvent("select_content", {
       content_type: "island",
       content_id: name,
     });
@@ -301,7 +302,7 @@ export const IslandList: React.FC<IslandListProps> = ({
   ];
 
   // NOTE: If you're visiting without a session then just show the form by default as there is no option to return to a farm
-  if (view === "visitForm" || state.isVisiting) {
+  if (view === "visitForm") {
     return (
       <VisitLandExpansionForm
         onBack={

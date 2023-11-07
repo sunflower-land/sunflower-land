@@ -18,7 +18,6 @@ type FeatureName =
   | "JEST_TEST"
   | "PUMPKIN_PLAZA"
   | "NEW_DELIVERIES"
-  | "CORN_MAZE"
   | "NEW_FARM_FLOW"
   | "BUDS_DEPOSIT_FLOW"
   | "FISHING"
@@ -35,7 +34,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
   NEW_DELIVERIES: testnetFeatureFlag,
-  CORN_MAZE: testnetFeatureFlag,
   NEW_FARM_FLOW: () => true,
   BUDS_DEPOSIT_FLOW: () => true,
   FISHING: (game: GameState) => {
@@ -90,8 +88,5 @@ export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
     return true;
   }
 
-  if (featureName === "CORN_MAZE" && isWitchesEve) {
-    return true;
-  }
   return featureFlags[featureName](game);
 };

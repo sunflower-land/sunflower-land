@@ -8,7 +8,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { analytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { buyBlockBucksXsolla } from "features/game/actions/buyBlockBucks";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { randomID } from "lib/utils/random";
@@ -209,7 +209,7 @@ export const BlockBucksModal: React.FC<Props> = ({
     // Trigger an autosave in case they have changes so user can sync right away
     gameService.send("SAVE");
 
-    analytics.logEvent("begin_checkout");
+    onboardingAnalytics.logEvent("begin_checkout");
   }, []);
 
   const Content = () => {

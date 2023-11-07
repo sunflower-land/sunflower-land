@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
-import { analytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
 import cloneDeep from "lodash.clonedeep";
 
@@ -59,17 +59,17 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
 
   // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#tutorial_complete
   if (game.inventory["Basic Land"]?.eq(3)) {
-    analytics.logEvent("tutorial_complete");
+    onboardingAnalytics.logEvent("tutorial_complete");
   }
 
   //developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#level_up
-  analytics.logEvent("level_up", {
+  onboardingAnalytics.logEvent("level_up", {
     level: game.inventory["Basic Land"]?.toNumber() ?? 3,
   });
 
   if (game.expansionRequirements.resources["Block Buck"]) {
     // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#spend_virtual_currency
-    analytics.logEvent("spend_virtual_currency", {
+    onboardingAnalytics.logEvent("spend_virtual_currency", {
       value: game.expansionRequirements.resources["Block Buck"] ?? 1,
       virtual_currency_name: "Block Buck",
       item_name: "Land Expansion",

@@ -4,7 +4,7 @@ import {
   MILESTONE_MESSAGES,
   MilestoneName,
 } from "features/game/types/milestones";
-import { analytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import {
   TwitterShareButton,
   TwitterIcon,
@@ -31,7 +31,7 @@ export const MilestoneReached: React.FC<Props> = ({
 
   const clicked = (method: "Reddit" | "Twitter" | "Telegram" | "Facebook") => {
     // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=18434190870996612736-AP&client_type=gtag#share
-    analytics.logEvent("share", {
+    onboardingAnalytics.logEvent("share", {
       method,
       content_type: "text",
       item_id: "milestone_reached",

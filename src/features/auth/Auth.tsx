@@ -91,9 +91,6 @@ export const Auth: React.FC = () => {
           {authState.matches("welcome") && <Welcome />}
           {authState.matches("createWallet") && <CreateWallet />}
           {authState.matches({ connected: "offer" }) && <Offer />}
-          {/* {authState.matches({ connected: "selectPaymentMethod" }) && (
-          <SelectPaymentMethod />
-        )} */}
           {authState.matches({ connected: "creatingPokoFarm" }) && (
             <BuyWithPoko />
           )}

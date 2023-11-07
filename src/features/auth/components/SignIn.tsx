@@ -12,7 +12,6 @@ import okxIcon from "src/assets/icons/okx.svg";
 import cryptoComIcon from "src/assets/icons/crypto-com-logo.svg";
 import bitgetIcon from "src/assets/icons/bitget_logo.svg";
 
-import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { Label } from "components/ui/Label";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { getPromoCode } from "features/game/actions/loadSession";
@@ -209,13 +208,12 @@ export const SignIn = () => {
             width: `${PIXEL_SCALE * 8}px`,
           }}
         />
-        {!getOnboardingComplete() &&
-          !hasFeatureAccess(TEST_FARM, "NEW_FARM_FLOW") && (
-            <div className="flex items-center">
-              <img src={SUNNYSIDE.ui.green_bar_4} className="h-5 mr-2" />
-              <span className="text-xs">Step 2/3 (Create a wallet)</span>
-            </div>
-          )}
+        {!hasFeatureAccess(TEST_FARM, "NEW_FARM_FLOW") && (
+          <div className="flex items-center">
+            <img src={SUNNYSIDE.ui.green_bar_4} className="h-5 mr-2" />
+            <span className="text-xs">Step 2/3 (Create a wallet)</span>
+          </div>
+        )}
       </div>
 
       {isBitget && (

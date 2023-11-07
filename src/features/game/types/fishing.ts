@@ -155,7 +155,7 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     type: "basic",
   },
   "Red Snapper": {
-    baits: ["Grub", "Fishing Lure"],
+    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "advanced",
   },
   "Moray Eel": {
