@@ -84,6 +84,9 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
     });
   }
 
+  const expansions = (game.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
+  gameAnalytics.trackMilestone(`Farm:Expanding:Expansion${expansions}`);
+
   return {
     ...game,
     inventory,

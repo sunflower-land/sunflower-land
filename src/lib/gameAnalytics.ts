@@ -119,8 +119,8 @@ class GameAnalyticTracker {
    * "Building:HenHouse:2_Crafted" - 10000 seconds
    * "Achievement:Fishing:Angler - 1600 seconds"
    */
-  public trackMilestone() {
-    // TODO - debounce and prevent duplicate events (e.g. Hoarding calling this method)
+  public trackMilestone(event: string) {
+    GameAnalytics.addDesignEvent(event);
   }
 }
 

@@ -4,6 +4,8 @@ import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 export enum FEED_BUMPKIN_ERRORS {
   MISSING_BUMPKIN = "You do not have a Bumpkin",
@@ -54,6 +56,8 @@ export function feedBumpkin({ state, action }: Options): GameState {
   const foodExperience = new Decimal(
     getFoodExpBoost(CONSUMABLES[action.food], bumpkin, collectibles, buds ?? {})
   );
+
+  const previousLevel = getBumpkinLevel(bumpkin.experience);
   bumpkin.experience += Number(foodExperience.mul(feedAmount));
 
   // tracks activity
@@ -62,6 +66,12 @@ export function feedBumpkin({ state, action }: Options): GameState {
     bumpkin.activity,
     feedAmount
   );
+
+  const currentLevel = getBumpkinLevel(bumpkin.experience);
+
+  if (currentLevel > previousLevel) {
+    gameAnalytics.trackMilestone(`Bumpkin:LevelUp:Level${currentLevel}`);
+  }
 
   // return new state
   return stateCopy;
