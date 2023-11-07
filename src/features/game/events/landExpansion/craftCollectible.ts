@@ -15,6 +15,8 @@ import {
   PotionHouseItemName,
 } from "features/game/types/collectibles";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
+import { gameAnalytics } from "lib/gameAnalytics";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 export type CraftCollectibleAction = {
   type: "collectible.crafted";
@@ -121,6 +123,33 @@ export function craftCollectible({
       coordinates: { x: action.coordinates.x, y: action.coordinates.y },
       readyAt: createdAt,
       createdAt: createdAt,
+    });
+  }
+
+  if (item.ingredients["Block Buck"]) {
+    gameAnalytics.trackSink({
+      currency: "Block Buck",
+      amount: item.ingredients["Block Buck"].toNumber() ?? 1,
+      item: action.name,
+      type: "Collectible",
+    });
+  }
+
+  if (item.ingredients[getSeasonalTicket()]) {
+    gameAnalytics.trackSink({
+      currency: "Seasonal Ticket",
+      amount: item.ingredients[getSeasonalTicket()]?.toNumber() ?? 1,
+      item: action.name,
+      type: "Collectible",
+    });
+  }
+
+  if (item.sfl) {
+    gameAnalytics.trackSink({
+      currency: "SFL",
+      amount: item.sfl.toNumber(),
+      item: action.name,
+      type: "Collectible",
     });
   }
 

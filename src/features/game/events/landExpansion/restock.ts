@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
+import { gameAnalytics } from "lib/gameAnalytics";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import cloneDeep from "lodash.clonedeep";
 
@@ -33,6 +34,13 @@ export function restock({ state, action }: Options): GameState {
     value: 1,
     virtual_currency_name: "Block Buck",
     item_name: "Restock",
+  });
+
+  gameAnalytics.trackSink({
+    currency: "Block Buck",
+    amount: 1,
+    item: "Stock",
+    type: "Fee",
   });
 
   return game;

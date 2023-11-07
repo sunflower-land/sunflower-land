@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
+import { gameAnalytics } from "lib/gameAnalytics";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
 import cloneDeep from "lodash.clonedeep";
@@ -73,6 +74,13 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
       value: game.expansionRequirements.resources["Block Buck"] ?? 1,
       virtual_currency_name: "Block Buck",
       item_name: "Land Expansion",
+    });
+
+    gameAnalytics.trackSink({
+      currency: "Block Buck",
+      amount: game.expansionRequirements.resources["Block Buck"] ?? 1,
+      item: "Basic Land",
+      type: "Fee",
     });
   }
 

@@ -15,6 +15,8 @@ import {
   ShopDecorationName,
 } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
+import { getSeasonalTicket } from "features/game/types/seasons";
+import { gameAnalytics } from "lib/gameAnalytics";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import cloneDeep from "lodash.clonedeep";
 
@@ -143,6 +145,30 @@ export function buyDecoration({
       value: desiredItem.ingredients["Block Buck"].toNumber() ?? 1,
       virtual_currency_name: "Block Buck",
       item_name: `${name}`,
+    });
+    gameAnalytics.trackSink({
+      currency: "Block Buck",
+      amount: desiredItem.ingredients["Block Buck"].toNumber() ?? 1,
+      item: action.name,
+      type: "Collectible",
+    });
+  }
+
+  if (desiredItem.ingredients[getSeasonalTicket()]) {
+    gameAnalytics.trackSink({
+      currency: "Seasonal Ticket",
+      amount: desiredItem.ingredients[getSeasonalTicket()]?.toNumber() ?? 1,
+      item: action.name,
+      type: "Collectible",
+    });
+  }
+
+  if (desiredItem.sfl) {
+    gameAnalytics.trackSink({
+      currency: "SFL",
+      amount: desiredItem.sfl.toNumber(),
+      item: action.name,
+      type: "Collectible",
     });
   }
 
