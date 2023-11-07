@@ -153,6 +153,9 @@ export function craftCollectible({
     });
   }
 
+  const count = stateCopy.inventory[action.name]?.toNumber() ?? 1;
+  gameAnalytics.trackMilestone(`Crafting:Collectible:${action.name}${count}`);
+
   return {
     ...stateCopy,
     balance: stateCopy.balance.sub(totalExpenses),

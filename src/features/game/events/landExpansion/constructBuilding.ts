@@ -3,6 +3,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 import { BuildingName, BUILDINGS } from "../../types/buildings";
 import { GameState, PlacedItem } from "../../types/game";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 export enum CONSTRUCT_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -100,6 +101,11 @@ export function constructBuilding({
   stateCopy.inventory = inventoryMinusIngredients;
   stateCopy.inventory[action.name] = buildingInventory.add(1);
   stateCopy.buildings[action.name] = [...placed, newBuilding];
+
+  const buildingCount = stateCopy.inventory[action.name]?.toNumber() ?? 1;
+  gameAnalytics.trackMilestone(
+    `Crafting:Building:${action.name}${buildingCount}`
+  );
 
   return stateCopy;
 }

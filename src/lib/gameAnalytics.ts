@@ -3,6 +3,13 @@ import { CONFIG } from "./config";
 import { InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
 
+/**
+ * Analytics for in-game events. These are useful once a player has logged into the game.
+ * Game Analytics is focussed on tracking usage + player progression
+ * It mainly uses one-off events that players accomplish. (i.e. not tracking every Sunflower Harvested)
+ * There is a limit of 500 events per daily user
+ * https://docs.gameanalytics.com/
+ */
 class GameAnalyticTracker {
   public async initialise(id: number) {
     try {
@@ -44,6 +51,7 @@ class GameAnalyticTracker {
 
   /**
    * Tracks Block Buck and Gold Pass purchases
+   * https://docs.gameanalytics.com/event-types/business-events
    */
   private trackPurchase() {
     // TODO - debounce and prevent duplicate events (e.g. Hoarding calling this method)
@@ -53,6 +61,7 @@ class GameAnalyticTracker {
    * Track the source of SFL, Mermaid Scales & Block Bucks
    * Does not include frequent events like selling crops - just irregular changes
    * E.g. Claiming Rewards, Deliveries & Airdrops
+   * https://docs.gameanalytics.com/event-types/resource-events
    */
   public trackSource({
     item,
@@ -86,6 +95,7 @@ class GameAnalyticTracker {
    * Track the sinks of SFL, Mermaid Scales & Block Bucks
    * Used for in frequent events like shop purchases
    * E.g. Purchasing a Wearable, Crafting a Decoration, Buying a Lure
+   * https://docs.gameanalytics.com/event-types/resource-events
    */
   public trackSink({
     currency,
@@ -112,15 +122,13 @@ class GameAnalyticTracker {
   /**
    * Tracks one off milestone events
    * Useful for tracking tutorial progress and achievements
-   * "Tutorial:Welcome:TreeChopped - 120 seconds"
-   * "Tutorial:Codex:Opened - 90 seconds"
-   * "Building:Expansion:3_Expansions - 60 seconds"
-   * "Building:HenHouse:1_Crafted" - 500 seconds
-   * "Building:HenHouse:2_Crafted" - 10000 seconds
-   * "Achievement:Fishing:Angler - 1600 seconds"
+   * Game Analytics follows a hierachy event structure - [category]:[sub_category]:[outcome]
+   * https://docs.gameanalytics.com/event-types/design-events
    */
   public trackMilestone(event: string) {
-    GameAnalytics.addDesignEvent(event);
+    GameAnalytics.addDesignEvent(
+      event.replace(/\s/g, "") // Camel Case naming
+    );
   }
 }
 

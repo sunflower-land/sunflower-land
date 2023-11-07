@@ -5,6 +5,7 @@ import {
 } from "features/game/types/bumpkinSkills";
 import { getKeys } from "features/game/types/craftables";
 import { Bumpkin, GameState } from "features/game/types/game";
+import { gameAnalytics } from "lib/gameAnalytics";
 import cloneDeep from "lodash.clonedeep";
 
 export type PickSkillAction = {
@@ -59,6 +60,8 @@ export function pickSkill({ state, action, createdAt = Date.now() }: Options) {
   }
 
   bumpkin.skills = { ...bumpkin.skills, [action.skill]: 1 };
+
+  gameAnalytics.trackMilestone(`Bumpkin:SkillUnlocked:${action.skill}`);
 
   return stateCopy;
 }
