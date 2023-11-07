@@ -168,7 +168,7 @@ const ambassadors: Record<string, string> = {
 
 export function saveReferrerId(id: string) {
   // if ID is Ambassador name, get the ID
-  if (id in ambassadors) {
+  if (id.toLowerCase() in ambassadors) {
     localStorage.setItem(REFERRER_LS_KEY, ambassadors[id]);
   } else localStorage.setItem(REFERRER_LS_KEY, id);
 }
