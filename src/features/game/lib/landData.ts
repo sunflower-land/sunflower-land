@@ -439,6 +439,7 @@ export const OFFLINE_FARM: GameState = {
     "Easter Bear": new Decimal(1),
     "Cabbage Girl": new Decimal(1),
     "Cabbage Boy": new Decimal(1),
+    "Chef Bear": new Decimal(1),
 
     // "Beta Pass": new Decimal(1),
     "Witches' Eve Banner": new Decimal(1),

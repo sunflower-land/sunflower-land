@@ -133,7 +133,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   "Chef Bear": {
-    height: 2,
+    height: 1,
     width: 1,
   },
   "Construction Bear": {
