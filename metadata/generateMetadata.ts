@@ -16,9 +16,9 @@ function generate() {
     metadata.description = `# Description\n\n${metadata.description}\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)`;
 
     const oldPath = "../public/erc1155/images/";
-    const imageFileName = metadata.image_url.slice(oldPath.length);
+    const imageFileName = metadata.image.slice(oldPath.length);
 
-    metadata.image_url = `https://sunflower-land.com/play/erc1155/images/${imageFileName}`;
+    metadata.image = `https://sunflower-land.com/play/erc1155/images/${imageFileName}`;
 
     metadata.name = name;
 
