@@ -11,6 +11,7 @@ import {
 } from "features/game/types/game";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { hasFeatureAccess } from "lib/flags";
+import { gameAnalytics } from "lib/gameAnalytics";
 import { NPCName } from "lib/npcs";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import cloneDeep from "lodash.clonedeep";
@@ -233,6 +234,13 @@ export function deliverOrder({
     const amount = order.reward.tickets || new Decimal(0);
 
     game.inventory[seasonalTicket] = count.add(amount);
+
+    gameAnalytics.trackSource({
+      item: "Seasonal Ticket",
+      amount: new Decimal(amount).toNumber(),
+      from: "Delivery",
+      type: "Exchange",
+    });
   }
 
   game.delivery.fulfilledCount += 1;
@@ -261,6 +269,15 @@ export function deliverOrder({
   } else {
     // Mark as complete
     order.completedAt = Date.now();
+  }
+
+  if (order.reward.sfl) {
+    gameAnalytics.trackSource({
+      item: "SFL",
+      amount: order.reward.sfl,
+      from: "Delivery",
+      type: "Exchange",
+    });
   }
 
   return game;

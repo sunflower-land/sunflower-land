@@ -2,7 +2,6 @@ import { GameAnalytics, EGAResourceFlowType } from "gameanalytics";
 import { CONFIG } from "./config";
 import { InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
-import { SeasonalTicket } from "features/game/types/seasons";
 
 class GameAnalyticTracker {
   public async initialise(id: number) {
@@ -46,14 +45,42 @@ class GameAnalyticTracker {
   /**
    * Tracks Block Buck and Gold Pass purchases
    */
-  private trackPurchase() {}
+  private trackPurchase() {
+    // TODO - debounce and prevent duplicate events (e.g. Hoarding calling this method)
+  }
 
   /**
    * Track the source of SFL, Mermaid Scales & Block Bucks
    * Does not include frequent events like selling crops - just irregular changes
    * E.g. Claiming Rewards, Deliveries & Airdrops
    */
-  public trackSource() {}
+  public trackSource({
+    item,
+    amount,
+    type,
+    from,
+  }: {
+    item: "Block Buck" | "SFL" | "Seasonal Ticket";
+    amount: number;
+    type: "Exchange" | "Reward" | "IAP" | "Web3" | "Quest";
+    from:
+      | "Delivery"
+      | "Daily Reward"
+      | "Delivery Streak"
+      | "IAP"
+      | "Deposit"
+      | "Kraken";
+  }) {
+    // TODO - debounce and prevent duplicate events (e.g. Hoarding calling this method)
+
+    GameAnalytics.addResourceEvent(
+      EGAResourceFlowType.Source,
+      item.replace(/\s/g, ""), // Camel Case naming
+      amount,
+      type.replace(/\s/g, ""), // Camel Case naming,
+      from.replace(/\s/g, "") // Camel Case naming
+    );
+  }
 
   /**
    * Track the sinks of SFL, Mermaid Scales & Block Bucks
@@ -71,6 +98,8 @@ class GameAnalyticTracker {
     type: "Consumable" | "Fee" | "Wearable" | "Collectible" | "Web3";
     item: InventoryItemName | BumpkinItem | "Stock" | "Trade";
   }) {
+    // TODO - debounce and prevent duplicate events (e.g. Hoarding calling this method)
+
     GameAnalytics.addResourceEvent(
       EGAResourceFlowType.Sink,
       currency.replace(/\s/g, ""), // Camel Case naming
@@ -90,7 +119,9 @@ class GameAnalyticTracker {
    * "Building:HenHouse:2_Crafted" - 10000 seconds
    * "Achievement:Fishing:Angler - 1600 seconds"
    */
-  public trackMilestone() {}
+  public trackMilestone() {
+    // TODO - debounce and prevent duplicate events (e.g. Hoarding calling this method)
+  }
 }
 
 export const gameAnalytics = new GameAnalyticTracker();
