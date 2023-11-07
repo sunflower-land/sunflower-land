@@ -58,10 +58,10 @@ export function tradeTentacle({
   stateCopy.inventory["Mermaid Scale"] = currentScales.add(10);
 
   const bannerQty =
-    stateCopy.collectibles["Catch the Kraken Banner"]?.length || 0;
+    stateCopy.inventory["Catch the Kraken Banner"] || new Decimal(0);
 
   // Adds +2 bonus with banner
-  if (bannerQty > 0) {
+  if (bannerQty.gte(1)) {
     stateCopy.inventory["Mermaid Scale"] =
       stateCopy.inventory["Mermaid Scale"]?.add(2);
   }

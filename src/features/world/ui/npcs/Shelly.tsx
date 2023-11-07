@@ -193,7 +193,7 @@ export const KrakenIntro: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             text: "Well done! The Kraken has stopped terrorising Bumpkins.",
           },
           {
-            text: `Let's keep a close eye on it, I'm sure the hunger will return.`,
+            text: `You have collected all the tentacles for the week. Let's keep a close eye on it, I'm sure the hunger will return.`,
             actions: [
               {
                 text: "Got it!",
@@ -262,7 +262,7 @@ export const Shelly: React.FC<Props> = ({ onClose }) => {
     currentTentaclesPlaced
   );
 
-  const rewardQty = game.collectibles["Catch the Kraken Banner"] ? 12 : 10;
+  const rewardQty = game.inventory["Catch the Kraken Banner"] ? 12 : 10;
 
   useEffect(() => {
     acknowledgeNPC("shelly");
