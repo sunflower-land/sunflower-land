@@ -1,4 +1,7 @@
-import { getFishByType } from "features/island/hud/components/codex/lib/utils";
+import {
+  getEncyclopediaFish,
+  getFishByType,
+} from "features/island/hud/components/codex/lib/utils";
 import { KNOWN_IDS } from ".";
 import { BumpkinItem } from "./bumpkin";
 import { getKeys } from "./craftables";
@@ -82,9 +85,10 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
   "Fish Encyclopedia": {
     task: "Discover all fish",
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
-      const totalFishRequired = getKeys(FISH).length;
+      const encyclopediaFish = getEncyclopediaFish();
+      const totalFishRequired = encyclopediaFish.length;
 
-      const totalFishCaught = getKeys(FISH).reduce(
+      const totalFishCaught = encyclopediaFish.reduce(
         (total, name) =>
           total + Math.min(farmActivity[`${name} Caught`] ?? 0, 1),
         0
