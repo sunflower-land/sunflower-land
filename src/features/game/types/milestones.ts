@@ -55,7 +55,7 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
       );
 
       return Math.min(
-        (caughtFish.length / FISH_BY_TYPE.basic.length) * 100,
+        (caughtFish.length / FISH_BY_TYPE.advanced.length) * 100,
         100
       );
     },
