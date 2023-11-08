@@ -45,6 +45,8 @@ class GameAnalyticTracker {
         "Exchange",
         "IAP",
         "Web3",
+        "Quest",
+        "Delivery",
       ]);
 
       GameAnalytics.initialize(

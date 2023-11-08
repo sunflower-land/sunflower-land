@@ -69,18 +69,21 @@ export const Feed: React.FC<Props> = ({ food }) => {
   const feed = (amount: number) => {
     if (!selected) return;
 
-    const previousLevel: number = getBumpkinLevel(bumpkin?.experience ?? 0);
+    let previousLevel: number = getBumpkinLevel(bumpkin?.experience ?? 0);
 
-    gameService.send("bumpkin.feed", {
+    const newState = gameService.send("bumpkin.feed", {
       food: selected.name,
       amount,
     });
 
-    const currentLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
+    const currentLevel = getBumpkinLevel(
+      newState.context.state.bumpkin?.experience ?? 0
+    );
 
-    if (currentLevel > previousLevel) {
+    while (currentLevel > previousLevel) {
+      previousLevel += 1;
       gameAnalytics.trackMilestone({
-        event: `Bumpkin:LevelUp:Level${currentLevel}`,
+        event: `Bumpkin:LevelUp:Level${previousLevel}`,
       });
     }
   };

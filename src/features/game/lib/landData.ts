@@ -277,7 +277,7 @@ export const INITIAL_EXPANSIONS = 3;
 
 const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 10000,
+  experience: 100,
   tokenUri: "bla",
   equipped: {
     body: "Beige Farmer Potion",
@@ -408,6 +408,7 @@ export const OFFLINE_FARM: GameState = {
     Egg: new Decimal(10),
     Kale: new Decimal(10),
     Wood: new Decimal(30),
+    "Kraken Tentacle": new Decimal(3),
     "Luminous Lantern": new Decimal(5),
     "Radiance Lantern": new Decimal(3),
     Market: new Decimal(1),
@@ -723,6 +724,7 @@ export const OFFLINE_FARM: GameState = {
     },
   },
   mysteryPrizes: {},
+  npcs: {},
   pumpkinPlaza: {},
   treasureIsland: {
     holes: {},
