@@ -15,9 +15,6 @@ import {
   ShopDecorationName,
 } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
-import { getSeasonalTicket } from "features/game/types/seasons";
-import { gameAnalytics } from "lib/gameAnalytics";
-import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import cloneDeep from "lodash.clonedeep";
 
 export type buyDecorationAction = {

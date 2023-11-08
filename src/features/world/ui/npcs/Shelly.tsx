@@ -318,7 +318,7 @@ export const Shelly: React.FC<Props> = ({ onClose }) => {
           gameAnalytics.trackSource({
             item: "Seasonal Ticket",
             amount: new Decimal(
-              !!game.inventory["Catch the Kraken Banner"] ? 12 : 10
+              game.inventory["Catch the Kraken Banner"] ? 12 : 10
             ).toNumber(),
             from: "Kraken",
             type: "Quest",

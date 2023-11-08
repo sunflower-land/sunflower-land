@@ -80,7 +80,6 @@ import { mmoBus } from "features/world/mmoMachine";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { BudName } from "../types/buds";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { getSeasonalTicket } from "../types/seasons";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
