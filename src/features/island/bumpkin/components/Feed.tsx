@@ -15,6 +15,8 @@ import { FeedBumpkinDetails } from "components/ui/layouts/FeedBumpkinDetails";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 interface Props {
   food: Consumable[];
@@ -67,10 +69,23 @@ export const Feed: React.FC<Props> = ({ food }) => {
   const feed = (amount: number) => {
     if (!selected) return;
 
-    gameService.send("bumpkin.feed", {
+    let previousLevel: number = getBumpkinLevel(bumpkin?.experience ?? 0);
+
+    const newState = gameService.send("bumpkin.feed", {
       food: selected.name,
       amount,
     });
+
+    const currentLevel = getBumpkinLevel(
+      newState.context.state.bumpkin?.experience ?? 0
+    );
+
+    while (currentLevel > previousLevel) {
+      previousLevel += 1;
+      gameAnalytics.trackMilestone({
+        event: `Bumpkin:LevelUp:Level${previousLevel}`,
+      });
+    }
   };
 
   const inventoryFoodCount = inventory[selected.name] ?? new Decimal(0);

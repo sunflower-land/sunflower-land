@@ -17,6 +17,7 @@ import {
   PURCHASEABLE_BAIT,
   PurchaseableBait,
 } from "features/game/types/fishing";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 export const BeachBaitShop: React.FC = () => {
   const [selectedName, setSelectedName] =
@@ -40,6 +41,16 @@ export const BeachBaitShop: React.FC = () => {
     gameService.send("tool.crafted", {
       tool: selectedName,
     });
+
+    const blockBucks = selectedItem.ingredients["Block Buck"]?.toNumber() ?? 0;
+    if (blockBucks > 0) {
+      gameAnalytics.trackSink({
+        currency: "Block Buck",
+        amount: blockBucks,
+        item: selectedName,
+        type: "Consumable",
+      });
+    }
   };
 
   return (

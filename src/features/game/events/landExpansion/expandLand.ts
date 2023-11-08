@@ -67,15 +67,6 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
     level: game.inventory["Basic Land"]?.toNumber() ?? 3,
   });
 
-  if (game.expansionRequirements.resources["Block Buck"]) {
-    // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#spend_virtual_currency
-    onboardingAnalytics.logEvent("spend_virtual_currency", {
-      value: game.expansionRequirements.resources["Block Buck"] ?? 1,
-      virtual_currency_name: "Block Buck",
-      item_name: "Land Expansion",
-    });
-  }
-
   return {
     ...game,
     inventory,

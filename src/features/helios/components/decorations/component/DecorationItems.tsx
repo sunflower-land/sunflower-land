@@ -12,6 +12,8 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { gameAnalytics } from "lib/gameAnalytics";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 function isNotReady(collectible: Decoration) {
   return (
@@ -66,6 +68,33 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
     gameService.send("decoration.bought", {
       name: selected.name,
     });
+
+    if (selected.ingredients["Block Buck"]) {
+      gameAnalytics.trackSink({
+        currency: "Block Buck",
+        amount: selected.ingredients["Block Buck"].toNumber() ?? 1,
+        item: selected.name,
+        type: "Collectible",
+      });
+    }
+
+    if (selected.sfl) {
+      gameAnalytics.trackSink({
+        currency: "SFL",
+        amount: selected.sfl.toNumber(),
+        item: selected.name,
+        type: "Collectible",
+      });
+    }
+
+    if (selected.ingredients[getSeasonalTicket()]) {
+      gameAnalytics.trackSink({
+        currency: "Seasonal Ticket",
+        amount: selected.ingredients[getSeasonalTicket()]?.toNumber() ?? 1,
+        item: selected.name,
+        type: "Collectible",
+      });
+    }
 
     shortcutItem(selected.name);
   };

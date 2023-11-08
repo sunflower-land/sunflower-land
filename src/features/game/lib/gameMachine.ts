@@ -79,6 +79,7 @@ import { trade } from "../actions/trade";
 import { mmoBus } from "features/world/mmoMachine";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { BudName } from "../types/buds";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -1106,12 +1107,13 @@ export function startGame(authContext: AuthContext) {
           invoke: {
             src: async (context, event) => {
               const { auctionId } = event as MintEvent;
-              console.log({ mintEveent: event });
+
               const { sessionId } = await mintAuctionItem({
                 farmId: Number(authContext.user.farmId),
                 token: authContext.user.rawToken as string,
                 auctionId,
                 transactionId: context.transactionId as string,
+                bid: context.state.auctioneer.bid,
               });
 
               return {
@@ -1401,6 +1403,13 @@ export function startGame(authContext: AuthContext) {
                 tradeId,
                 token: authContext.user.rawToken as string,
                 transactionId: context.transactionId as string,
+              });
+
+              gameAnalytics.trackSink({
+                currency: "Block Buck",
+                amount: 1,
+                item: "Trade",
+                type: "Fee",
               });
 
               return {

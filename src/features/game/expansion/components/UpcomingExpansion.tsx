@@ -17,6 +17,7 @@ import { Revealing } from "features/game/components/Revealing";
 import { Panel } from "components/ui/Panel";
 import { Revealed } from "features/game/components/Revealed";
 import { Button } from "components/ui/Button";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 /**
  * The next piece of land to expand into
@@ -43,6 +44,25 @@ export const UpcomingExpansion: React.FC = () => {
   const onExpand = () => {
     gameService.send("land.expanded");
     gameService.send("SAVE");
+
+    const blockBucks =
+      gameState.context.state.expansionRequirements?.resources["Block Buck"] ??
+      0;
+    if (blockBucks) {
+      gameAnalytics.trackSink({
+        currency: "Block Buck",
+        amount: blockBucks,
+        item: "Basic Land",
+        type: "Fee",
+      });
+    }
+
+    const expansions =
+      (gameState.context.state.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
+    gameAnalytics.trackMilestone({
+      event: `Farm:Expanding:Expansion${expansions}`,
+    });
+
     setShowBumpkinModal(false);
   };
 
