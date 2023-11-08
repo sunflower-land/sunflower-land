@@ -1,4 +1,4 @@
-import { GameAnalytics, EGAResourceFlowType } from "gameanalytics";
+import { GameAnalytics, gameanalytics } from "gameanalytics";
 import { CONFIG } from "./config";
 import { InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
@@ -11,6 +11,8 @@ import { BumpkinItem } from "features/game/types/bumpkin";
  * https://docs.gameanalytics.com/
  */
 class GameAnalyticTracker {
+  private executed: Record<string, boolean> = {};
+
   public async initialise(id: number) {
     try {
       GameAnalytics.setEnabledInfoLog(true);
@@ -53,9 +55,7 @@ class GameAnalyticTracker {
    * Tracks Block Buck and Gold Pass purchases
    * https://docs.gameanalytics.com/event-types/business-events
    */
-  private trackPurchase() {
-    // TODO - debounce and prevent duplicate events (e.g. Hoarding calling this method)
-  }
+  private trackPurchase({}: { id: string }) {}
 
   /**
    * Track the source of SFL, Mermaid Scales & Block Bucks
@@ -63,12 +63,7 @@ class GameAnalyticTracker {
    * E.g. Claiming Rewards, Deliveries & Airdrops
    * https://docs.gameanalytics.com/event-types/resource-events
    */
-  public trackSource({
-    item,
-    amount,
-    type,
-    from,
-  }: {
+  public trackSource(event: {
     item: "Block Buck" | "SFL" | "Seasonal Ticket";
     amount: number;
     type: "Exchange" | "Reward" | "IAP" | "Web3" | "Quest";
@@ -80,10 +75,12 @@ class GameAnalyticTracker {
       | "Deposit"
       | "Kraken";
   }) {
-    // TODO - debounce and prevent duplicate events (e.g. Hoarding calling this method)
+    const { item, amount, type, from } = event;
+
+    // TODO - check if already processed?
 
     GameAnalytics.addResourceEvent(
-      EGAResourceFlowType.Source,
+      gameanalytics.EGAResourceFlowType.Source,
       item.replace(/\s/g, ""), // Camel Case naming
       amount,
       type.replace(/\s/g, ""), // Camel Case naming,
@@ -97,21 +94,16 @@ class GameAnalyticTracker {
    * E.g. Purchasing a Wearable, Crafting a Decoration, Buying a Lure
    * https://docs.gameanalytics.com/event-types/resource-events
    */
-  public trackSink({
-    currency,
-    amount,
-    type,
-    item,
-  }: {
+  public trackSink(event: {
     currency: "Block Buck" | "SFL" | "Seasonal Ticket";
     amount: number;
     type: "Consumable" | "Fee" | "Wearable" | "Collectible" | "Web3";
     item: InventoryItemName | BumpkinItem | "Stock" | "Trade";
   }) {
-    // TODO - debounce and prevent duplicate events (e.g. Hoarding calling this method)
+    const { currency, amount, type, item } = event;
 
     GameAnalytics.addResourceEvent(
-      EGAResourceFlowType.Sink,
+      gameanalytics.EGAResourceFlowType.Sink,
       currency.replace(/\s/g, ""), // Camel Case naming
       amount,
       type.replace(/\s/g, ""), // Camel Case naming,
@@ -125,10 +117,21 @@ class GameAnalyticTracker {
    * Game Analytics follows a hierachy event structure - [category]:[sub_category]:[outcome]
    * https://docs.gameanalytics.com/event-types/design-events
    */
-  public trackMilestone(event: string) {
+  public trackMilestone(milestone: { event: string }) {
+    const key = JSON.stringify(milestone);
+
+    // Milestones can only be tracked once
+    if (this.executed[key]) {
+      return;
+    }
+
+    const { event } = milestone;
+
     GameAnalytics.addDesignEvent(
       event.replace(/\s/g, "") // Camel Case naming
     );
+
+    this.executed[key] = true;
   }
 }
 

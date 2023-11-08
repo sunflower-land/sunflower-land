@@ -15,7 +15,6 @@ import {
   PURCHASEABLE_BAIT,
   PurchaseableBait,
 } from "features/game/types/fishing";
-import { gameAnalytics } from "lib/gameAnalytics";
 
 type CraftableToolName =
   | WorkbenchToolName
@@ -89,16 +88,6 @@ export function craftTool({ state, action }: Options) {
     new Decimal(amount)
   );
   bumpkin.activity = trackActivity("SFL Spent", bumpkin.activity, price);
-
-  const blockBucks = tool.ingredients["Block Buck"]?.toNumber() ?? 0;
-  if (blockBucks > 0) {
-    gameAnalytics.trackSink({
-      currency: "Block Buck",
-      amount: blockBucks,
-      item: action.tool,
-      type: "Consumable",
-    });
-  }
 
   return {
     ...stateCopy,

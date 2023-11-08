@@ -72,12 +72,5 @@ export function tradeTentacle({
   // Add activity
   bumpkin.activity = trackActivity("Kraken Tentacle Traded", bumpkin.activity);
 
-  gameAnalytics.trackSource({
-    item: "Seasonal Ticket",
-    amount: new Decimal(bannerQty > 0 ? 12 : 10).toNumber(),
-    from: "Kraken",
-    type: "Quest",
-  });
-
   return stateCopy;
 }

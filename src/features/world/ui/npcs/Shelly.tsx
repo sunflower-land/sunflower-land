@@ -20,6 +20,7 @@ import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 interface OrderCardsProps {
   tentaclesAvailable: Decimal;
@@ -311,7 +312,18 @@ export const Shelly: React.FC<Props> = ({ onClose }) => {
     <CloseButtonPanel bumpkinParts={NPC_WEARABLES.shelly}>
       <ShellyPanelContent
         onClose={onClose}
-        handleTrade={() => gameService.send("shelly.tradeTentacle")}
+        handleTrade={() => {
+          gameService.send("shelly.tradeTentacle");
+
+          gameAnalytics.trackSource({
+            item: "Seasonal Ticket",
+            amount: new Decimal(
+              !!game.inventory["Catch the Kraken Banner"] ? 12 : 10
+            ).toNumber(),
+            from: "Kraken",
+            type: "Quest",
+          });
+        }}
         canTrade={hasItem}
         rewardQty={rewardQty}
         tentaclesAvailable={tentaclesAvailable}

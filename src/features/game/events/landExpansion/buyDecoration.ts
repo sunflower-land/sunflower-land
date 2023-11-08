@@ -139,39 +139,6 @@ export function buyDecoration({
     });
   }
 
-  if (desiredItem.ingredients["Block Buck"]) {
-    // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#spend_virtual_currency
-    onboardingAnalytics.logEvent("spend_virtual_currency", {
-      value: desiredItem.ingredients["Block Buck"].toNumber() ?? 1,
-      virtual_currency_name: "Block Buck",
-      item_name: `${name}`,
-    });
-    gameAnalytics.trackSink({
-      currency: "Block Buck",
-      amount: desiredItem.ingredients["Block Buck"].toNumber() ?? 1,
-      item: action.name,
-      type: "Collectible",
-    });
-  }
-
-  if (desiredItem.ingredients[getSeasonalTicket()]) {
-    gameAnalytics.trackSink({
-      currency: "Seasonal Ticket",
-      amount: desiredItem.ingredients[getSeasonalTicket()]?.toNumber() ?? 1,
-      item: action.name,
-      type: "Collectible",
-    });
-  }
-
-  if (desiredItem.sfl) {
-    gameAnalytics.trackSink({
-      currency: "SFL",
-      amount: desiredItem.sfl.toNumber(),
-      item: action.name,
-      type: "Collectible",
-    });
-  }
-
   return {
     ...stateCopy,
     balance: totalExpenses
