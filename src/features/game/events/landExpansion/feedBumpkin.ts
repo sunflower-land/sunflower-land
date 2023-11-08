@@ -4,7 +4,6 @@ import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
-import { getBumpkinLevel } from "features/game/lib/level";
 
 export enum FEED_BUMPKIN_ERRORS {
   MISSING_BUMPKIN = "You do not have a Bumpkin",
@@ -21,10 +20,9 @@ export type FeedBumpkinAction = {
 type Options = {
   state: Readonly<GameState>;
   action: FeedBumpkinAction;
-  createdAt?: number;
 };
 
-export function feedBumpkin({ state, action, createdAt }: Options): GameState {
+export function feedBumpkin({ state, action }: Options): GameState {
   const stateCopy = cloneDeep(state);
 
   const bumpkin = stateCopy.bumpkin;

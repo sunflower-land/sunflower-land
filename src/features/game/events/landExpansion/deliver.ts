@@ -11,7 +11,6 @@ import {
 } from "features/game/types/game";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { hasFeatureAccess } from "lib/flags";
-import { gameAnalytics } from "lib/gameAnalytics";
 import { NPCName } from "lib/npcs";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import cloneDeep from "lodash.clonedeep";

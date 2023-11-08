@@ -4,10 +4,8 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/craftables";
 
 import { GameState } from "features/game/types/game";
-import { getSeasonalTicket } from "features/game/types/seasons";
 import { STYLIST_WEARABLES } from "features/game/types/stylist";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import cloneDeep from "lodash.clonedeep";
 
 export type BuyWearableAction = {
@@ -85,31 +83,6 @@ export function buyWearable({
     bumpkin?.activity,
     totalExpenses ?? new Decimal(0)
   );
-
-  if (wearable.ingredients["Block Buck"]) {
-    // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#spend_virtual_currency
-    onboardingAnalytics.logEvent("spend_virtual_currency", {
-      value: wearable.ingredients["Block Buck"] ?? 1,
-      virtual_currency_name: "Block Buck",
-      item_name: `${name}`,
-    });
-
-    gameAnalytics.trackSink({
-      currency: "Block Buck",
-      amount: wearable.ingredients["Block Buck"].toNumber() ?? 1,
-      item: name,
-      type: "Wearable",
-    });
-  }
-
-  if (wearable.ingredients[getSeasonalTicket()]) {
-    gameAnalytics.trackSink({
-      currency: "Seasonal Ticket",
-      amount: wearable.ingredients[getSeasonalTicket()]?.toNumber() ?? 1,
-      item: name,
-      type: "Wearable",
-    });
-  }
 
   if (wearable.sfl) {
     gameAnalytics.trackSink({

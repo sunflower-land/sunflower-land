@@ -11,14 +11,13 @@ export type RestockAction = {
 type Options = {
   state: Readonly<GameState>;
   action: RestockAction;
-  analytics?: boolean;
 };
 
 const clone = (state: GameState): GameState => {
   return cloneDeep(state);
 };
 
-export function restock({ state, analytics }: Options): GameState {
+export function restock({ state }: Options): GameState {
   const game = clone(state);
 
   const blockBucks = game.inventory["Block Buck"] ?? new Decimal(0);

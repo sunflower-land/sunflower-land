@@ -3,7 +3,6 @@ import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
-import { gameAnalytics } from "lib/gameAnalytics";
 
 export type TradeTentacleAction = {
   type: "shelly.tradeTentacle";
