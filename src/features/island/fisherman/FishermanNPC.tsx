@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -22,6 +22,7 @@ import { Panel } from "components/ui/Panel";
 import { getKeys } from "features/game/types/craftables";
 import { FISH, FISH_DIFFICULTY, FishName } from "features/game/types/fishing";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
+import { MachineState } from "features/game/lib/gameMachine";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -64,6 +65,11 @@ interface Props {
   onClick: () => void;
 }
 
+const _fishing = (state: MachineState) => state.context.state.fishing;
+const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
+const _catchTheKraken = (state: MachineState) =>
+  state.context.state.catchTheKraken;
+
 export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const spriteRef = useRef<SpriteSheetInstance>();
   const didRefresh = useRef(false);
@@ -74,14 +80,9 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const [challengeDifficulty, setChallengeDifficulty] = useState(1);
 
   const { gameService } = useContext(Context);
-  // TODO selectors
-  const [
-    {
-      context: {
-        state: { fishing, farmActivity, catchTheKraken },
-      },
-    },
-  ] = useActor(gameService);
+  const fishing = useSelector(gameService, _fishing);
+  const farmActivity = useSelector(gameService, _farmActivity);
+  const catchTheKraken = useSelector(gameService, _catchTheKraken);
 
   // Catches cases where players try reset their fishing challenge
   useEffect(() => {
