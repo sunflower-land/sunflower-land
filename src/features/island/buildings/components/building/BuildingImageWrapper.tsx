@@ -41,6 +41,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
 
   const getHandleDisabledOnClick = (name: string) =>
     function handleDisabledOnClick() {
+      console.log("handleDisabledOnClick");
       const bumpkinLevelRequired = getBuildingBumpkinLevelRequired(
         name as BuildingName
       );
