@@ -5,7 +5,6 @@ import { getKeys } from "features/game/types/craftables";
 
 import { GameState } from "features/game/types/game";
 import { STYLIST_WEARABLES } from "features/game/types/stylist";
-import { gameAnalytics } from "lib/gameAnalytics";
 import cloneDeep from "lodash.clonedeep";
 
 export type BuyWearableAction = {
@@ -83,15 +82,6 @@ export function buyWearable({
     bumpkin?.activity,
     totalExpenses ?? new Decimal(0)
   );
-
-  if (wearable.sfl) {
-    gameAnalytics.trackSink({
-      currency: "SFL",
-      amount: wearable.sfl.toNumber(),
-      item: name,
-      type: "Wearable",
-    });
-  }
 
   const oldAmount = stateCopy.wardrobe[name] ?? 0;
 

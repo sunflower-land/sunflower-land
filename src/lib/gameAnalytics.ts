@@ -1,7 +1,14 @@
-import { GameAnalytics, gameanalytics } from "gameanalytics";
+import { GameAnalytics } from "gameanalytics";
 import { CONFIG } from "./config";
 import { InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
+
+// Their type definition has some issues, extract to here
+enum EGAResourceFlowType {
+  Undefined = 0,
+  Source = 1,
+  Sink = 2,
+}
 
 /**
  * Analytics for in-game events. These are useful once a player has logged into the game.
@@ -55,7 +62,7 @@ class GameAnalyticTracker {
    * Tracks Block Buck and Gold Pass purchases
    * https://docs.gameanalytics.com/event-types/business-events
    */
-  private trackPurchase({}: { id: string }) {}
+  // private trackPurchase({}: { id: string }) {}
 
   /**
    * Track the source of SFL, Mermaid Scales & Block Bucks
@@ -77,10 +84,8 @@ class GameAnalyticTracker {
   }) {
     const { item, amount, type, from } = event;
 
-    // TODO - check if already processed?
-
     GameAnalytics.addResourceEvent(
-      gameanalytics.EGAResourceFlowType.Source,
+      EGAResourceFlowType.Source,
       item.replace(/\s/g, ""), // Camel Case naming
       amount,
       type.replace(/\s/g, ""), // Camel Case naming,
@@ -103,7 +108,7 @@ class GameAnalyticTracker {
     const { currency, amount, type, item } = event;
 
     GameAnalytics.addResourceEvent(
-      gameanalytics.EGAResourceFlowType.Sink,
+      EGAResourceFlowType.Sink,
       currency.replace(/\s/g, ""), // Camel Case naming
       amount,
       type.replace(/\s/g, ""), // Camel Case naming,
