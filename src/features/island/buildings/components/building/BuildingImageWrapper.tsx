@@ -66,7 +66,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
           "relative w-full h-full",
           nonInteractible ? "" : "cursor-pointer hover:img-highlight"
         )}
-        onClick={nonInteractible ? getHandleDisabledOnClick(name) : onClick}
+        onClick={!enabled ? getHandleDisabledOnClick(name) : onClick}
       >
         {children}
       </div>
