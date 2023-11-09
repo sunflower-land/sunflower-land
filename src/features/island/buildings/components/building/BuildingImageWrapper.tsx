@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -12,7 +12,8 @@ import { BuildingName } from "features/game/types/buildings";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Context } from "features/game/GameProvider";
-
+import { Modal } from "react-bootstrap";
+import lockIcon from "assets/skills/lock.png";
 /**
  * BuildingImageWrapper props
  * @param nonInteractible if the building is non interactible
@@ -38,6 +39,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
+  const [warning, setWarning] = useState<JSX.Element>();
 
   const getHandleDisabledOnClick = (name: string) =>
     function handleDisabledOnClick() {
@@ -45,10 +47,12 @@ export const BuildingImageWrapper: React.FC<Props> = ({
       const bumpkinLevelRequired = getBuildingBumpkinLevelRequired(
         name as BuildingName
       );
-      return (
-        <CloseButtonPanel>
-          <div>
-            {name} requires bumpkin level {bumpkinLevelRequired} to use.
+
+      setWarning(
+        <CloseButtonPanel onClose={() => setWarning(undefined)}>
+          <div className="p-2 flex flex-col items-center">
+            <img src={lockIcon} className="w-20 my-2" />
+            <p className="text-sm">{`${name} requires Bumpkin level ${bumpkinLevelRequired} to use.`}</p>
           </div>
         </CloseButtonPanel>
       );
@@ -61,6 +65,9 @@ export const BuildingImageWrapper: React.FC<Props> = ({
 
   return (
     <>
+      <Modal centered show={!!warning}>
+        {warning}
+      </Modal>
       {/* building */}
       <div
         className={classNames(
