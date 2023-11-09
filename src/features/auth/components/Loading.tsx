@@ -1,3 +1,4 @@
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 
 interface Props {
@@ -5,5 +6,6 @@ interface Props {
 }
 
 export const Loading: React.FC<Props> = ({ text }) => {
-  return <span className="loading">{text || "Loading"}</span>;
+  const { t } = useAppTranslation();
+  return <span className="loading">{text || t("loading")}</span>;
 };

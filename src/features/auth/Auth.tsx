@@ -27,10 +27,12 @@ import { CreateWallet } from "./components/CreateWallet";
 import { BuyWithPoko } from "./components/BuyWithPoko";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
+  const { t } = useAppTranslation();
 
   const loading =
     authState.matches({ connected: "authorised" }) ||
@@ -97,7 +99,7 @@ export const Auth: React.FC = () => {
           {(authState.matches("idle") || authState.matches("signIn")) && (
             <SignIn />
           )}
-          {connecting && <Loading text="Connecting" />}
+          {connecting && <Loading text={t("connecting")} />}
           {authState.matches("connectedToWallet") && <ConnectedToWallet />}
           {authState.matches("signing") && <Signing />}
           {authState.matches("verifying") && <Verifying />}
