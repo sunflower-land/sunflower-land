@@ -24,7 +24,7 @@ type Rules =
   | "rules.game"
   | "rules.termsOfService";
 
-type Season =
+type SeasonBannerOffer =
   | "season.goodLuck"
   | "season.discount"
   | "season.banner"
@@ -37,7 +37,19 @@ type Season =
   | "season.accessTo"
   | "season.buyNow";
 
-export type TranslationKeys = WelcomeTerms | GeneralTerms | Rules | Season;
+type Intro =
+  | "intro.one"
+  | "intro.two"
+  | "intro.three"
+  | "intro.four"
+  | "intro.five";
+
+export type TranslationKeys =
+  | WelcomeTerms
+  | GeneralTerms
+  | Rules
+  | SeasonBannerOffer
+  | Intro;
 
 export type TranslationResource = Record<TranslationKeys, string>;
 
@@ -72,7 +84,7 @@ export const resources: Record<
       "rules.game": "This is a game. Not a financial product.",
       "rules.termsOfService": "Terms of Service",
 
-      // Season
+      // Season Banner Offer
       "season.goodLuck": "Good luck in the season!",
       "season.discount": "25% SFL discount on seasonal items",
       "season.banner": "Seasonal Banner",
@@ -84,6 +96,18 @@ export const resources: Record<
       "season.limitedOffer": " Limited time only!",
       "season.accessTo": "You have access to:",
       "season.buyNow": "Buy Now",
+
+      // Intro
+      "intro.one":
+        "Howdy there, partner! Welcome to Sunflower Land, the bountiful farming paradise!",
+      "intro.two":
+        "I'm Otis, an old Bumpkin farmer who's been tending to these lands for longer than I can remember. Truth be told, I could use a little help from a fresh face like you.",
+      "intro.three":
+        "You see, our little island has so much potential, and with your determination and hard work, we can transform it into a thriving empire!",
+      "intro.four":
+        "Looks like our little island is getting crowded. If we want to craft buildings and rare NFTs, we'll need more space.",
+      "intro.five":
+        "Let's first chop down these trees, gather some wood and expand the island.",
     },
   },
   pt: {
@@ -125,6 +149,16 @@ export const resources: Record<
       "season.limitedOffer": "Oferta por tempo limitado!",
       "season.accessTo": "Você tem acesso a:",
       "season.buyNow": "Comprar Agora",
+      "intro.one":
+        "Olá, parceiro! Bem-vindo ao Sunflower Land, o paraíso agrícola!",
+      "intro.two":
+        "Sou Otis, um velho fazendeiro Bumpkin que cuida destas terras há mais tempo do que consigo me lembrar. Para ser sincero, eu poderia usar a ajuda de alguém como você, cheio de energia e com novas ideias.",
+      "intro.three":
+        "Veja bem, nossa pequena ilha tem um grande potencial, e com sua determinação e empenho, podemos fazer dela um lugar florescente!",
+      "intro.four":
+        "Parece que nossa pequena ilha está ficando lotada. Se quisermos construir edifícios e NFTs raros, vamos precisar de mais espaço.",
+      "intro.five":
+        "Vamos primeiro derrubar essas árvores, coletar madeira e expandir a ilha.",
     },
   },
 };
