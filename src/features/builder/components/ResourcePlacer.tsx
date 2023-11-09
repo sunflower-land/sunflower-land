@@ -47,7 +47,7 @@ export const RESOURCES: Record<
     },
   },
   stones: {
-    component: () => <Stone id="0" />,
+    component: () => <Stone id="0" index={0} />,
     dimensions: {
       height: 1,
       width: 1,

@@ -13,7 +13,12 @@ import {
 } from "../types/craftables";
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
-import { GameState, ExpansionConstruction, PlacedItem } from "../types/game";
+import {
+  Bumpkin,
+  GameState,
+  ExpansionConstruction,
+  PlacedItem,
+} from "../types/game";
 import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
 import { Collectible } from "features/island/collectibles/Collectible";
@@ -43,6 +48,7 @@ const getIslandElements = ({
   buildings,
   collectibles,
   chickens,
+  bumpkin,
   trees,
   stones,
   iron,
@@ -60,6 +66,7 @@ const getIslandElements = ({
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
   collectibles: Partial<Record<CollectibleName, PlacedItem[]>>;
   chickens: Partial<Record<string, Chicken>>;
+  bumpkin?: Bumpkin;
   trees: GameState["trees"];
   stones: GameState["stones"];
   iron: GameState["iron"];
@@ -167,7 +174,7 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
-    ...getKeys(trees).map((id) => {
+    ...getKeys(trees).map((id, index) => {
       const { x, y, width, height } = trees[id];
 
       return (
@@ -184,6 +191,7 @@ const getIslandElements = ({
             createdAt={0}
             readyAt={0}
             id={id}
+            index={index}
             x={x}
             y={y}
           />
@@ -193,7 +201,7 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
-    ...getKeys(stones).map((id) => {
+    ...getKeys(stones).map((id, index) => {
       const { x, y, width, height } = stones[id];
 
       return (
@@ -210,6 +218,7 @@ const getIslandElements = ({
             createdAt={0}
             readyAt={0}
             id={id}
+            index={index}
             x={x}
             y={y}
           />
@@ -219,7 +228,7 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
-    ...getKeys(iron).map((id) => {
+    ...getKeys(iron).map((id, index) => {
       const { x, y, width, height } = iron[id];
 
       return (
@@ -236,6 +245,7 @@ const getIslandElements = ({
             createdAt={0}
             readyAt={0}
             id={id}
+            index={index}
             x={x}
             y={y}
           />
@@ -245,7 +255,7 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
-    ...getKeys(gold).map((id) => {
+    ...getKeys(gold).map((id, index) => {
       const { x, y, width, height } = gold[id];
 
       return (
@@ -262,6 +272,7 @@ const getIslandElements = ({
             createdAt={0}
             readyAt={0}
             id={id}
+            index={index}
             x={x}
             y={y}
           />
@@ -271,7 +282,7 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
-    ...getKeys(fruitPatches).map((id) => {
+    ...getKeys(fruitPatches).map((id, index) => {
       const { x, y, width, height } = fruitPatches[id];
 
       return (
@@ -287,6 +298,7 @@ const getIslandElements = ({
             createdAt={0}
             readyAt={0}
             id={id}
+            index={index}
             x={x}
             y={y}
           />
@@ -296,7 +308,7 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
-    ...getKeys(crops).map((id) => {
+    ...getKeys(crops).map((id, index) => {
       const { x, y, width, height } = crops[id];
 
       return (
@@ -312,6 +324,7 @@ const getIslandElements = ({
             createdAt={0}
             readyAt={0}
             id={id}
+            index={index}
             x={x}
             y={y}
           />
@@ -506,6 +519,7 @@ export const Land: React.FC = () => {
               buildings,
               collectibles,
               chickens,
+              bumpkin,
               trees,
               stones,
               iron,
