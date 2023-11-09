@@ -368,26 +368,18 @@ const getIslandElements = ({
         // Only show placed chickens (V1 may have ones without coords)
         .filter((airdrop) => airdrop?.coordinates)
         .map((airdrop) => {
-          const chicken = airdrop[id]!;
-          const { x, y } = chicken.coordinates as Coordinates;
-          const { width, height } = ANIMAL_DIMENSIONS.Chicken;
+          console.log({ airdrop });
+          const { x, y } = airdrop.coordinates as Coordinates;
 
           return (
             <MapPlacement
               key={`airdrop-${airdrop.id}`}
               x={x}
               y={y}
-              height={height}
-              width={width}
+              height={1}
+              width={1}
             >
-              <Airdrop
-                key={`airdrop-${airdrop.id}`}
-                airdrop={airdrop}
-                coordinates={{
-                  x,
-                  y,
-                }}
-              />
+              <Airdrop key={`airdrop-${airdrop.id}`} airdrop={airdrop} />
             </MapPlacement>
           );
         })
@@ -421,6 +413,7 @@ export const Land: React.FC = () => {
     fruitPatches,
     mushrooms,
     buds,
+    airdrops,
   } = state;
   const autosaving = useSelector(gameService, isAutosaving);
   const landscaping = useSelector(gameService, isLandscaping);
@@ -525,6 +518,7 @@ export const Land: React.FC = () => {
               mushrooms: mushrooms?.mushrooms,
               isFirstRender,
               buds,
+              airdrops,
             }).sort((a, b) => b.props.y - a.props.y)}
           </div>
 

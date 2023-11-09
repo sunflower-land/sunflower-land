@@ -406,7 +406,7 @@ export const OFFLINE_FARM: GameState = {
     "Water Well": new Decimal(4),
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
-    Axe: new Decimal(3),
+    Axe: new Decimal(6),
     "Block Buck": new Decimal(3),
   },
   wardrobe: {},
@@ -502,20 +502,5 @@ export const OFFLINE_FARM: GameState = {
     hunger: "Sunflower",
     weeklyCatches: {},
   },
-  airdrops: [
-    {
-      createdAt: Date.now(),
-      id: "123",
-      items: {
-        "Potato Cake": 1,
-      },
-      sfl: 0,
-      wearables: {},
-      // coordinates: {
-      //   x: 1,
-      //   y: 1,
-      // },
-      message: "YO!",
-    },
-  ],
+  airdrops: [],
 };

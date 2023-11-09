@@ -5,6 +5,7 @@ import { getLand } from "features/game/types/expansions";
 import { GameState } from "features/game/types/game";
 
 import cloneDeep from "lodash.clonedeep";
+import { getKeys } from "features/game/types/craftables";
 
 export type RevealLandAction = {
   type: "land.revealed";
@@ -135,6 +136,41 @@ export function revealLand({
   inventory["Fruit Patch"] = (inventory["Fruit Patch"] || new Decimal(0)).add(
     land.fruitPatches?.length ?? 0
   );
+
+  if (inventory["Basic Land"].eq(4)) {
+    game.airdrops?.push({
+      createdAt,
+      id: "expansion-four-airdrop",
+      items: {
+        "Mashed Potato": 1,
+      },
+      sfl: 0,
+      wearables: {},
+      coordinates: {
+        x: -1,
+        y: 5,
+      },
+      message: "Congratulations!",
+    });
+  }
+
+  console.log({ pre: game.trees });
+
+  // Refresh all natural resources
+  game.trees = getKeys(game.trees).reduce((acc, id) => {
+    return {
+      ...acc,
+      [id]: {
+        ...game.trees[id],
+        wood: {
+          ...game.trees[id].wood,
+          choppedAt: createdAt - 4 * 60 * 60 * 1000,
+        },
+      },
+    };
+  }, {} as GameState["trees"]);
+
+  console.log({ trees: game.trees });
 
   return {
     ...game,
