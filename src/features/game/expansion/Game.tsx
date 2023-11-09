@@ -46,6 +46,7 @@ import { Traded } from "../components/Traded";
 import { Sniped } from "../components/Sniped";
 import { NewMail } from "./components/NewMail";
 import { Blacklisted } from "../components/Blacklisted";
+import { AirdropPopup } from "./components/Airdrop";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -91,6 +92,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   buds: false,
   mailbox: false,
   blacklisted: true,
+  airdrop: true,
 };
 
 // State change selectors
@@ -138,6 +140,8 @@ const isRefundingAuction = (state: MachineState) =>
   state.matches("refundAuction");
 const isPromoing = (state: MachineState) => state.matches("promo");
 const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
+const isBudding = (state: MachineState) => state.matches("buds");
+const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -239,6 +243,8 @@ export const GameWrapper: React.FC = ({ children }) => {
   const refundAuction = useSelector(gameService, isRefundingAuction);
   const promo = useSelector(gameService, isPromoing);
   const blacklisted = useSelector(gameService, isBlacklisted);
+  const showBuds = useSelector(gameService, isBudding);
+  const airdrop = useSelector(gameService, hasAirdrop);
 
   useInterval(() => {
     gameService.send("SAVE");
@@ -319,6 +325,7 @@ export const GameWrapper: React.FC = ({ children }) => {
           {sniped && <Sniped />}
           {minting && <Minting />}
           {promo && <Promo />}
+          {airdrop && <AirdropPopup />}
         </Panel>
       </Modal>
 
