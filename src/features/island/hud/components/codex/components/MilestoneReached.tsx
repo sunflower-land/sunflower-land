@@ -4,7 +4,7 @@ import {
   MILESTONE_MESSAGES,
   MilestoneName,
 } from "features/game/types/milestones";
-import { onboardingAnalytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import {
   TwitterShareButton,
   TwitterIcon,

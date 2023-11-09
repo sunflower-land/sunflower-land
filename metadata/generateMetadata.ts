@@ -16,18 +16,26 @@ function generate() {
     metadata.description = `# Description\n\n${metadata.description}\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)`;
 
     const oldPath = "../public/erc1155/images/";
-    const imageFileName = metadata.image_url.slice(oldPath.length);
+    const imageFileName = metadata.image.slice(oldPath.length);
 
-    metadata.image_url = `https://sunflower-land.com/play/erc1155/images/${imageFileName}`;
+    metadata.image = `https://sunflower-land.com/play/erc1155/images/${imageFileName}`;
 
     metadata.name = name;
+
+    // convert KNOWN_IDS[name] to hex zero padded with 64 zeros
+    const zeroPadded = KNOWN_IDS[name].toString(16).padStart(64, "0");
 
     const jsonPath = path.join(
       __dirname,
       `../public/erc1155/${KNOWN_IDS[name]}.json`
     );
+    const hexJsonPath = path.join(
+      __dirname,
+      `../public/erc1155/${zeroPadded}.json`
+    );
 
     fs.writeFile(jsonPath, JSON.stringify(metadata), () => undefined);
+    fs.writeFile(hexJsonPath, JSON.stringify(metadata), () => undefined);
   });
 
   // Clean-up old metadata files
@@ -36,9 +44,21 @@ function generate() {
   const fileItemIds = fs
     .readdirSync(metadataFolderPath)
     .filter((f) => f.includes(".json"))
-    .map((f) => parseInt(f.split(".")[0]));
+    .map((f) => f.split(".")[0]);
 
-  const idLookup = new Set<number>(Object.values(KNOWN_IDS));
+  // As of November 2023, Opensea appears to be uses hex zero padded with 64 zeros to identify token IDs
+  // e.g. https://URL/0000...0001.json as per https://eips.ethereum.org/EIPS/eip-1155#metadata
+  // Previously was using decimals https://URL/1.json
+  // We need to support both for now
+  const idLookup = new Set<string>(
+    Object.values(KNOWN_IDS)
+      .map(String)
+      .concat(
+        Object.values(KNOWN_IDS).map((id) =>
+          Number(id).toString(16).padStart(64, "0")
+        )
+      )
+  );
 
   fileItemIds.forEach((id) => {
     if (!idLookup.has(id)) {

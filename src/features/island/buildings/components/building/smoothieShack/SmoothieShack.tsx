@@ -71,7 +71,11 @@ export const SmoothieShack: React.FC<Props> = ({
 
   return (
     <>
-      <BuildingImageWrapper onClick={handleClick} ready={ready}>
+      <BuildingImageWrapper
+        name="Smoothie Shack"
+        onClick={handleClick}
+        ready={ready}
+      >
         <img
           src={smoothieShack}
           className={classNames("absolute bottom-0 pointer-events-none", {

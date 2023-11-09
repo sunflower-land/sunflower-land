@@ -17,6 +17,8 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { gameAnalytics } from "lib/gameAnalytics";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 function isNotReady(collectible: CraftableCollectible) {
   return (
@@ -49,6 +51,38 @@ export const HeliosBlacksmithItems: React.FC = () => {
     gameService.send("collectible.crafted", {
       name: selectedName,
     });
+
+    const count = state.inventory[selectedName]?.toNumber() ?? 1;
+    gameAnalytics.trackMilestone({
+      event: `Crafting:Collectible:${selectedName}${count}`,
+    });
+
+    if (selectedItem.ingredients["Block Buck"]) {
+      gameAnalytics.trackSink({
+        currency: "Block Buck",
+        amount: selectedItem.ingredients["Block Buck"].toNumber() ?? 1,
+        item: selectedName,
+        type: "Collectible",
+      });
+    }
+
+    if (selectedItem.ingredients[getSeasonalTicket()]) {
+      gameAnalytics.trackSink({
+        currency: "Seasonal Ticket",
+        amount: selectedItem.ingredients[getSeasonalTicket()]?.toNumber() ?? 1,
+        item: selectedName,
+        type: "Collectible",
+      });
+    }
+
+    if (selectedItem.sfl) {
+      gameAnalytics.trackSink({
+        currency: "SFL",
+        amount: selectedItem.sfl.toNumber(),
+        item: selectedName,
+        type: "Collectible",
+      });
+    }
 
     shortcutItem(selectedName);
   };

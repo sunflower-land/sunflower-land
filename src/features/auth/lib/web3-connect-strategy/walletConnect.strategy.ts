@@ -3,7 +3,7 @@ import { IEthereumProvider } from "@walletconnect/ethereum-provider/dist/types/t
 import { CONFIG } from "lib/config";
 import { IWeb3ConnectStrategy } from "./interfaces/IWeb3ConnectStrategy";
 import { ERRORS } from "lib/errors";
-import { OnboardingGameAnalyticEvent } from "lib/analytics";
+import { OnboardingGameAnalyticEvent } from "lib/onboardingAnalytics";
 
 export class WalletConnectStrategy implements IWeb3ConnectStrategy {
   private _provider: IEthereumProvider | null = null;

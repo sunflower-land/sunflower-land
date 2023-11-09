@@ -17,6 +17,7 @@ import { SkillPath } from "./SkillPath";
 import { Button } from "components/ui/Button";
 import { setImageWidth } from "lib/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 const RequiredSkillPoints = ({
   missingPointRequirement,
@@ -120,6 +121,11 @@ export const SkillPathDetails: React.FC<Props> = ({
   const handleClaim = () => {
     setShowConfirmButton(false);
     gameService.send("skill.picked", { skill: selectedSkill });
+
+    gameAnalytics.trackMilestone({
+      event: `Bumpkin:SkillUnlocked:${selectedSkill}`,
+    });
+
     acknowledgeSkillPoints(gameService.state.context.state.bumpkin);
   };
 

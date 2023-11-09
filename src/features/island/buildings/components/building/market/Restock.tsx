@@ -9,6 +9,7 @@ import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import ticket from "assets/icons/block_buck_detailed.png";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 interface Props {
   onClose: () => void;
@@ -43,6 +44,13 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
 
   const handleRestock = () => {
     gameService.send("shops.restocked");
+
+    gameAnalytics.trackSink({
+      currency: "Block Buck",
+      amount: 1,
+      item: "Stock",
+      type: "Fee",
+    });
 
     () => setShowConfirm(false);
   };

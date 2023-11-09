@@ -189,6 +189,7 @@ const FertilePlotComponent: React.FC<Props> = ({
           }}
         >
           <LiveProgressBar
+            key={`${startAt}-${readyAt}`}
             startAt={startAt}
             endAt={readyAt}
             formatLength="short"

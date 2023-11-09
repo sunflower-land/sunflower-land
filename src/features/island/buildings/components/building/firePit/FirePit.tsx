@@ -77,7 +77,7 @@ export const FirePit: React.FC<Props> = ({
 
   return (
     <>
-      <BuildingImageWrapper onClick={handleClick} ready={ready}>
+      <BuildingImageWrapper name="Fire Pit" onClick={handleClick} ready={ready}>
         <img
           src={firePit}
           className={classNames("absolute bottom-0 pointer-events-none", {

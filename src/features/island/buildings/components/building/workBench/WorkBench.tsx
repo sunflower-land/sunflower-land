@@ -49,7 +49,7 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
 
   return (
     <>
-      <BuildingImageWrapper onClick={handleClick}>
+      <BuildingImageWrapper name="Workbench" onClick={handleClick}>
         <img
           src={workbench}
           className="absolute bottom-0 pointer-events-none"

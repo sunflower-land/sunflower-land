@@ -25,7 +25,7 @@ import { createFarmMachine } from "./createFarmMachine";
 import { getFarm, getFarms } from "lib/blockchain/Farm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
 import { getOnboardingComplete } from "../actions/onboardingComplete";
-import { onboardingAnalytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectStrategy.factory";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { savePromoCode } from "features/game/actions/loadSession";
