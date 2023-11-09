@@ -26,7 +26,7 @@ export const Introduction: React.FC = () => {
           }}
           message={[
             {
-              text: "Howdy there, partner! Welcome to Sunflower Land, the bountiful farming paradise!",
+              text: "Howdy there, Bumpkin! Welcome to Sunflower Land, the bountiful farming paradise where anything is possible!",
             },
             {
               text: "I'm Otis, an old Bumpkin farmer who's been tending to these lands for longer than I can remember. Truth be told, I could use a little help from a fresh face like you.",
@@ -35,10 +35,10 @@ export const Introduction: React.FC = () => {
               text: "You see, our little island has so much potential, and with your determination and hard work, we can transform it into a thriving empire!",
             },
             {
-              text: "Looks like our little island is getting crowded. If we want to craft buildings and rare NFTs, we'll need more space.",
+              text: "Now that you've arrived we can start growing the farm. Let's first chop down these trees, gather some wood and expand the island.",
             },
             {
-              text: "Let's first chop down these trees, gather some wood and expand the island.",
+              text: "I've given you some Axes to get started. If you need help, come and visit me.",
             },
           ]}
         />

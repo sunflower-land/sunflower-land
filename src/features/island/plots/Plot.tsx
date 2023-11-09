@@ -22,6 +22,7 @@ import { BuildingName } from "features/game/types/buildings";
 import { ZoomContext } from "components/ZoomProvider";
 import { CROP_COMPOST } from "features/game/types/composters";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
@@ -111,9 +112,14 @@ export const Plot: React.FC<Props> = ({ id }) => {
     }
   };
 
+  const now = Date.now();
+
+  // increase touch count if there is a reward
+  const readyToHarvest =
+    !!crop && isReadyToHarvest(now, crop, CROPS()[crop.name]);
+
   const onClick = () => {
     // small buffer to prevent accidental double clicks
-    const now = Date.now();
     if (now - clickedAt.current < 100) {
       return;
     }
@@ -125,9 +131,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    // increase touch count if there is a reward
-    const readyToHarvest =
-      !!crop && isReadyToHarvest(now, crop, CROPS()[crop.name]);
     if (crop?.reward && readyToHarvest) {
       if (touchCount < 1) {
         // Add to touch count for reward pickup
@@ -196,6 +199,18 @@ export const Plot: React.FC<Props> = ({ id }) => {
   return (
     <>
       <div onClick={onClick} className="w-full h-full relative">
+        {readyToHarvest && (
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-30"
+            src={SUNNYSIDE.icons.dig_icon}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * -8}px`,
+              top: `${PIXEL_SCALE * -14}px`,
+            }}
+          />
+        )}
+
         <FertilePlot
           cropName={crop?.name}
           inventory={inventory}

@@ -23,7 +23,8 @@ const HasTool = (inventory: Partial<Record<InventoryItemName, Decimal>>) => {
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
-
+const selectStonesMined = (state: MachineState) =>
+  state.context.state.bumpkin?.activity?.["Stone Mined"] ?? 0;
 const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
@@ -68,6 +69,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
       HasTool(prev) === HasTool(next) &&
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0))
   );
+  const stonesMined = useSelector(gameService, selectStonesMined);
 
   const hasTool = HasTool(inventory);
   const timeLeft = getTimeLeft(resource.stone.minedAt, STONE_RECOVERY_TIME);
@@ -110,7 +112,11 @@ export const Stone: React.FC<Props> = ({ id }) => {
       {/* Resource ready to collect */}
       {!mined && (
         <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
-          <RecoveredStone hasTool={hasTool} touchCount={touchCount} />
+          <RecoveredStone
+            hasTool={hasTool}
+            touchCount={touchCount}
+            showHelper={stonesMined < 2}
+          />
         </div>
       )}
 
