@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import classNames from "classnames";
 
 import kitchen from "assets/buildings/kitchen.png";
@@ -72,7 +73,7 @@ export const Kitchen: React.FC<Props> = ({
 
   return (
     <>
-      <BuildingImageWrapper onClick={handleClick} ready={ready}>
+      <BuildingImageWrapper name="Kitchen" onClick={handleClick} ready={ready}>
         <img
           src={kitchen}
           className={classNames("absolute pointer-events-none bottom-0", {

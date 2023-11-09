@@ -71,7 +71,7 @@ export const Deli: React.FC<Props> = ({
 
   return (
     <>
-      <BuildingImageWrapper onClick={handleClick} ready={ready}>
+      <BuildingImageWrapper name="Deli" onClick={handleClick} ready={ready}>
         <img
           src={deli}
           className={classNames("absolute bottom-0 pointer-events-none", {

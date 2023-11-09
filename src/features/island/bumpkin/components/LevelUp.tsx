@@ -15,7 +15,7 @@ import { Button } from "components/ui/Button";
 import { Equipped } from "features/game/types/bumpkin";
 import { NPC } from "./NPC";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { onboardingAnalytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
 const LEVEL_UP_MESSAGES: Record<number, string> = {
   2: "Yeehaw, you've reached level 2! The crops are quakin' in their boots.",

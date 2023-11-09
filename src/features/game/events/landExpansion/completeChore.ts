@@ -5,7 +5,7 @@ import { getKeys } from "features/game/types/craftables";
 import { ChoreV2Name, GameState } from "features/game/types/game";
 import { getProgress } from "features/helios/components/hayseedHank/lib/HayseedHankTask";
 import { CONFIG } from "lib/config";
-import { onboardingAnalytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import cloneDeep from "lodash.clonedeep";
 import { startChore } from "./startChore";
 import { getSeasonalTicket } from "features/game/types/seasons";

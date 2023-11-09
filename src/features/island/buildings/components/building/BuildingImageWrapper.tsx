@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
-
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import {
+  getBuildingBumpkinLevelRequired,
+  isBuildingEnabled,
+} from "features/game/expansion/lib/buildingRequirements";
+import { BuildingName } from "features/game/types/buildings";
+import { MachineState } from "features/game/lib/gameMachine";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { Context } from "features/game/GameProvider";
+import { Modal } from "react-bootstrap";
+import lockIcon from "assets/skills/lock.png";
 /**
  * BuildingImageWrapper props
  * @param nonInteractible if the building is non interactible
@@ -10,26 +21,60 @@ import { SUNNYSIDE } from "assets/sunnyside";
  * @param onClick on click event
  */
 interface Props {
+  name: string;
   nonInteractible?: boolean;
   ready?: boolean;
   onClick: () => void;
 }
 
+const _bumpkinLevel = (state: MachineState) =>
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+
 export const BuildingImageWrapper: React.FC<Props> = ({
+  name,
   nonInteractible,
   ready,
   onClick,
   children,
 }) => {
+  const { gameService } = useContext(Context);
+  const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
+  const [warning, setWarning] = useState<JSX.Element>();
+
+  const getHandleDisabledOnClick = (name: string) =>
+    function handleDisabledOnClick() {
+      console.log("handleDisabledOnClick");
+      const bumpkinLevelRequired = getBuildingBumpkinLevelRequired(
+        name as BuildingName
+      );
+
+      setWarning(
+        <CloseButtonPanel onClose={() => setWarning(undefined)}>
+          <div className="p-2 flex flex-col items-center">
+            <img src={lockIcon} className="w-20 my-2" />
+            <p className="text-sm">{`${name} requires Bumpkin level ${bumpkinLevelRequired} to use.`}</p>
+          </div>
+        </CloseButtonPanel>
+      );
+    };
+
+  let enabled = !nonInteractible;
+  if (enabled) {
+    enabled = isBuildingEnabled(bumpkinLevel, name as BuildingName);
+  }
+
   return (
     <>
+      <Modal centered show={!!warning}>
+        {warning}
+      </Modal>
       {/* building */}
       <div
         className={classNames(
           "relative w-full h-full",
           nonInteractible ? "" : "cursor-pointer hover:img-highlight"
         )}
-        onClick={onClick}
+        onClick={!enabled ? getHandleDisabledOnClick(name) : onClick}
       >
         {children}
       </div>

@@ -23,6 +23,7 @@ import { createPortal } from "react-dom";
 import { HalveningCountdown } from "./components/HalveningCountdown";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { CodexButton } from "./components/codex/CodexButton";
+import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -155,6 +156,16 @@ const HudComponent: React.FC<{
           >
             <CodexButton />
             <TravelButton />
+          </div>
+
+          <div
+            className="fixed z-50 flex flex-col justify-between"
+            style={{
+              bottom: `${PIXEL_SCALE * 3}px`,
+              left: `${PIXEL_SCALE * 28}px`,
+            }}
+          >
+            <AuctionCountdown />
           </div>
 
           <HalveningCountdown />

@@ -21,7 +21,7 @@ import land from "assets/land/islands/island.webp";
 import blueBottle from "assets/decorations/blue_bottle.webp";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { onboardingAnalytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { GoblinState } from "features/game/lib/goblinMachine";

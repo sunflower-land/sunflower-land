@@ -1,4 +1,4 @@
-import { OnboardingGameAnalyticEvent } from "lib/analytics";
+import { OnboardingGameAnalyticEvent } from "lib/onboardingAnalytics";
 
 export interface IWeb3ConnectStrategy {
   getConnectEventType(): OnboardingGameAnalyticEvent;

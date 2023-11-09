@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_STOCK } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
-import { onboardingAnalytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import cloneDeep from "lodash.clonedeep";
 
 export type RestockAction = {
@@ -17,7 +17,7 @@ const clone = (state: GameState): GameState => {
   return cloneDeep(state);
 };
 
-export function restock({ state, action }: Options): GameState {
+export function restock({ state }: Options): GameState {
   const game = clone(state);
 
   const blockBucks = game.inventory["Block Buck"] ?? new Decimal(0);

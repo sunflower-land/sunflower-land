@@ -75,8 +75,6 @@ export class BeachScene extends BaseScene {
       frameHeight: 32,
     });
 
-    this.load.image("kraken", "world/kraken.png");
-
     if (this.krakenHunger) {
       const image = ITEM_DETAILS[this.krakenHunger].image;
 
@@ -88,6 +86,11 @@ export class BeachScene extends BaseScene {
 
       this.load.image("heart", SUNNYSIDE.icons.heart);
     }
+
+    this.load.spritesheet("kraken", "world/kraken_sheet.png", {
+      frameWidth: 41,
+      frameHeight: 48,
+    });
 
     this.load.spritesheet("bird", SUNNYSIDE.animals.bird, {
       frameWidth: 16,
@@ -114,7 +117,17 @@ export class BeachScene extends BaseScene {
 
     this.initialiseNPCs(BUMPKINS);
 
-    this.add.sprite(308, 755, "kraken");
+    const kraken = this.add.sprite(308, 755, "kraken");
+    this.anims.create({
+      key: "kraken_anim",
+      frames: this.anims.generateFrameNumbers("kraken", {
+        start: 0,
+        end: 4,
+      }),
+      repeat: -1,
+      frameRate: 5,
+    });
+    kraken.play("kraken_anim", true);
 
     if (this.krakenHunger) {
       this.add.sprite(338, 740, "kraken_hunger");

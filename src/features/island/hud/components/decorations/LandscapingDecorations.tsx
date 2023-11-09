@@ -16,6 +16,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 interface Props {
   onClose: () => void;
@@ -50,6 +51,24 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
       },
       multiple: true,
     });
+
+    if (selected.ingredients["Block Buck"]) {
+      gameAnalytics.trackSink({
+        currency: "Block Buck",
+        amount: selected.ingredients["Block Buck"].toNumber() ?? 1,
+        item: selected.name,
+        type: "Collectible",
+      });
+    }
+
+    if (selected.sfl) {
+      gameAnalytics.trackSink({
+        currency: "SFL",
+        amount: selected.sfl.toNumber(),
+        item: selected.name,
+        type: "Collectible",
+      });
+    }
 
     onClose();
   };

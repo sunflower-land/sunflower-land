@@ -91,6 +91,7 @@ describe("tradeTentacle", () => {
         ...GAME_STATE,
         inventory: {
           "Kraken Tentacle": new Decimal(5),
+          "Catch the Kraken Banner": new Decimal(1),
         },
         npcs: { shelly: { deliveryCount: 0 } },
         collectibles: {
