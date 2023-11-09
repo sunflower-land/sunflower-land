@@ -49,7 +49,7 @@ export const Welcome: React.FC = () => {
           rel="noopener noreferrer"
           className="underline text-white text-xs"
         >
-          {t("needHelp")}
+          {t("welcome.needHelp")}
         </a>
       </div>
     </div>

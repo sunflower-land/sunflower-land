@@ -1,13 +1,14 @@
 export type LanguageCode = "en" | "pt";
 
-export type TranslationKeys =
-  | "featured"
-  | "otherWallets"
-  | "needHelp"
+type GeneralTerms = "featured" | "connecting" | "loading";
+
+type WelcomeTerms =
+  | "welcome.otherWallets"
+  | "welcome.needHelp"
   | "welcome.createAccount"
-  | "connecting"
-  | "loading"
   | "welcome.login";
+
+export type TranslationKeys = WelcomeTerms | GeneralTerms;
 
 export type TranslationResource = Record<TranslationKeys, string>;
 
@@ -18,8 +19,8 @@ export const resources: Record<
   en: {
     translation: {
       featured: "Featured",
-      otherWallets: "Other wallets",
-      needHelp: "Need help?",
+      "welcome.otherWallets": "Other wallets",
+      "welcome.needHelp": "Need help?",
       "welcome.createAccount": "Create account",
       connecting: "Connecting",
       loading: "Loading",
@@ -29,8 +30,8 @@ export const resources: Record<
   pt: {
     translation: {
       featured: "Destaque",
-      otherWallets: "Outras carteiras",
-      needHelp: "Ajuda?",
+      "welcome.otherWallets": "Outras carteiras",
+      "welcome.needHelp": "Ajuda?",
       "welcome.createAccount": "Criar conta",
       connecting: "Conectando",
       loading: "Carregando",

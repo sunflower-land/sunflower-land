@@ -189,7 +189,7 @@ export const SignIn = () => {
               src={walletIcon}
               className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
             />
-            {t("otherWallets")}
+            {t("welcome.otherWallets")}
           </div>
         </Button>
       </>
@@ -291,7 +291,7 @@ export const SignIn = () => {
           rel="noopener noreferrer"
           className="underline text-white text-xs"
         >
-          {t("needHelp")}
+          {t("welcome.needHelp")}
         </a>
       </div>
     </div>
