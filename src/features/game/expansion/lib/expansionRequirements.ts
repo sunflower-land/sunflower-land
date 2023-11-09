@@ -1,4 +1,5 @@
 export type Land =
+  | 3
   | 4
   | 5
   | 6
@@ -24,6 +25,7 @@ export interface Requirements {
   bumpkinLevel: number;
 }
 
+const LAND_3_REQUIREMENTS: Requirements = { bumpkinLevel: 1 };
 const LAND_4_REQUIREMENTS: Requirements = { bumpkinLevel: 1 };
 const LAND_5_REQUIREMENTS: Requirements = { bumpkinLevel: 3 };
 const LAND_6_REQUIREMENTS: Requirements = { bumpkinLevel: 4 };
@@ -46,6 +48,7 @@ const LAND_22_REQUIREMENTS: Requirements = { bumpkinLevel: 55 };
 const LAND_23_REQUIREMENTS: Requirements = { bumpkinLevel: 60 };
 
 export const EXPANSION_REQUIREMENTS: Record<Land, Requirements> = {
+  3: LAND_3_REQUIREMENTS,
   4: LAND_4_REQUIREMENTS,
   5: LAND_5_REQUIREMENTS,
   6: LAND_6_REQUIREMENTS,
