@@ -550,6 +550,7 @@ export const OFFLINE_FARM: GameState = {
     Workbench: new Decimal(1),
     "Basic Land": new Decimal(10),
     "Crop Plot": new Decimal(getKeys(INITIAL_RESOURCES.crops).length),
+    "Water Well": new Decimal(4),
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
     "Mashed Potato": new Decimal(2),
@@ -755,6 +756,32 @@ export const OFFLINE_FARM: GameState = {
     Market: [
       {
         coordinates: { x: 3, y: -5 },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+      },
+    ],
+    "Water Well": [
+      {
+        coordinates: { x: 0, y: -3 },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+      },
+      {
+        coordinates: { x: 2, y: -3 },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+      },
+      {
+        coordinates: { x: 4, y: -3 },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+      },
+      {
+        coordinates: { x: 6, y: -3 },
         createdAt: 0,
         id: "123",
         readyAt: 0,
