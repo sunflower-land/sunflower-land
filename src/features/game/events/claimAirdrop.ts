@@ -44,6 +44,7 @@ export function claimAirdrop({ state, action }: Options): GameState {
     };
   }, game.wardrobe);
 
+  console.log("CLAIMED");
   return {
     ...game,
     balance: game.balance.add(airdrop.sfl),

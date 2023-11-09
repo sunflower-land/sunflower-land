@@ -7,7 +7,6 @@ import { BuildingProps } from "../Building";
 import { Otis } from "features/helios/components/hayseedHank/Otis";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { Airdrop } from "features/game/expansion/components/Airdrop";
 import { LetterBox } from "features/farming/mail/LetterBox";
 import { PlayerNPC } from "features/island/bumpkin/components/PlayerNPC";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -51,6 +50,10 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   }, []);
 
   const bumpkin = gameState.context.state.bumpkin as Bumpkin;
+
+  const airdrop = gameState.context.state.airdrops?.find(
+    (airdrop) => !airdrop.coordinates
+  );
 
   return (
     <div className="absolute h-full w-full">
@@ -110,15 +113,6 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         }}
       >
         <LetterBox />
-      </div>
-      <div
-        className="absolute"
-        style={{
-          top: `${PIXEL_SCALE * 20}px`,
-          left: `${PIXEL_SCALE * 24}px`,
-        }}
-      >
-        <Airdrop />
       </div>
 
       <img

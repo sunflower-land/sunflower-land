@@ -35,6 +35,7 @@ import ocean from "assets/decorations/ocean.webp";
 import { Bud } from "features/island/buds/Bud";
 import { Fisherman } from "features/island/fisherman/Fisherman";
 import { VisitingHud } from "features/island/hud/VisitingHud";
+import { Airdrop } from "./components/Airdrop";
 
 export const LAND_WIDTH = 6;
 
@@ -53,6 +54,7 @@ const getIslandElements = ({
   mushrooms,
   isFirstRender,
   buds,
+  airdrops,
 }: {
   expansionConstruction?: ExpansionConstruction;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
@@ -64,6 +66,7 @@ const getIslandElements = ({
   gold: GameState["gold"];
   crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
+  airdrops: GameState["airdrops"];
   showTimers: boolean;
   grid: GameGrid;
   mushrooms: GameState["mushrooms"]["mushrooms"];
@@ -357,6 +360,38 @@ const getIslandElements = ({
             );
           })
       );
+  }
+
+  if (!!airdrops && airdrops?.length > 0) {
+    mapPlacements.push(
+      ...airdrops
+        // Only show placed chickens (V1 may have ones without coords)
+        .filter((airdrop) => airdrop?.coordinates)
+        .map((airdrop) => {
+          const chicken = airdrop[id]!;
+          const { x, y } = chicken.coordinates as Coordinates;
+          const { width, height } = ANIMAL_DIMENSIONS.Chicken;
+
+          return (
+            <MapPlacement
+              key={`airdrop-${airdrop.id}`}
+              x={x}
+              y={y}
+              height={height}
+              width={width}
+            >
+              <Airdrop
+                key={`airdrop-${airdrop.id}`}
+                airdrop={airdrop}
+                coordinates={{
+                  x,
+                  y,
+                }}
+              />
+            </MapPlacement>
+          );
+        })
+    );
   }
 
   return mapPlacements;

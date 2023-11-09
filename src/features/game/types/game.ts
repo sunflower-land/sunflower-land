@@ -39,6 +39,7 @@ import {
   FishingConditions,
   MarineMarvelName,
 } from "./fishing";
+import { Coordinates } from "../expansion/components/MapPlacement";
 
 export type Reward = {
   sfl?: Decimal;
@@ -467,6 +468,7 @@ export type Airdrop = {
   wearables: Partial<Record<BumpkinItem, number>>;
   sfl: number;
   message?: string;
+  coordinates?: Coordinates;
 };
 
 // Mystery Prize reveals

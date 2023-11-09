@@ -368,6 +368,7 @@ export type BlockchainState = {
     | "traded"
     | "sniped"
     | "buds"
+    | "airdrop"
     | "noBumpkinFound"
     | "noTownCenter"
     | "coolingDown"
@@ -640,6 +641,17 @@ export function startGame(authContext: AuthContext) {
               },
             },
             {
+              target: "airdrop",
+              cond: (context) => {
+                const airdrop = context.state.airdrops?.find(
+                  (airdrop) => !airdrop.coordinates
+                );
+
+                console.log({ airdrop });
+                return !!airdrop;
+              },
+            },
+            {
               target: "mailbox",
               cond: (context) =>
                 hasUnreadMail(context.announcements, context.state.mailbox),
@@ -754,6 +766,17 @@ export function startGame(authContext: AuthContext) {
             ACKNOWLEDGE: {
               target: "notifying",
             },
+          },
+        },
+        airdrop: {
+          on: {
+            "airdrop.claimed": {
+              ...(GAME_EVENT_HANDLERS as any)["airdrop.claimed"],
+              target: "playing",
+            },
+            // CLOSE: {
+            //   target: "autosaving",
+            // },
           },
         },
         auctionResults: {
