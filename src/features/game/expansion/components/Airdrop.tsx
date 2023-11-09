@@ -13,7 +13,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { Airdrop as IAirdrop } from "features/game/types/game";
-import { Coordinates } from "./MapPlacement";
 
 export const AirdropModal: React.FC<{
   airdrop: IAirdrop;
@@ -70,10 +69,9 @@ export const AirdropModal: React.FC<{
 };
 
 interface Props {
-  coordinates: Coordinates;
   airdrop: IAirdrop;
 }
-export const Airdrop: React.FC<Props> = ({ coordinates, airdrop }) => {
+export const Airdrop: React.FC<Props> = ({ airdrop }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -88,7 +86,7 @@ export const Airdrop: React.FC<Props> = ({ coordinates, airdrop }) => {
       </Modal>
 
       <div
-        className="absolute cursor-pointer hover:img-highlight"
+        className="absolute left-0 top-0 cursor-pointer hover:img-highlight"
         onClick={() => setShowModal(true)}
         style={{
           width: `${PIXEL_SCALE * 16}px`,
