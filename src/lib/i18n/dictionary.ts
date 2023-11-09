@@ -6,7 +6,8 @@ export type TranslationKeys =
   | "needHelp"
   | "welcome.createAccount"
   | "connecting"
-  | "loading";
+  | "loading"
+  | "welcome.login";
 
 export type TranslationResource = Record<TranslationKeys, string>;
 
@@ -22,6 +23,7 @@ export const resources: Record<
       "welcome.createAccount": "Create account",
       connecting: "Connecting",
       loading: "Loading",
+      "welcome.login": "Login",
     },
   },
   pt: {
@@ -32,6 +34,7 @@ export const resources: Record<
       "welcome.createAccount": "Criar conta",
       connecting: "Conectando",
       loading: "Carregando",
+      "welcome.login": "Entrar",
     },
   },
 };

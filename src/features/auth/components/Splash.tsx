@@ -18,6 +18,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import i18n from "src/i18n";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { hasFeatureAccess } from "lib/flags";
+import { GameState } from "features/game/types/game";
 
 const releaseVersion = CONFIG.RELEASE_VERSION as string;
 
@@ -35,9 +37,9 @@ const Languages = () => {
 
   const flagImage =
     language === "en"
-      ? ITEM_DETAILS["Brazilian Flag"].image
-      : ITEM_DETAILS["American Flag"].image;
-  const languageLabel = language === "en" ? "Brazilian Portuguese" : "English";
+      ? ITEM_DETAILS["American Flag"].image
+      : ITEM_DETAILS["Brazilian Flag"].image;
+  const languageLabel = language === "en" ? "English" : "Português Brasileiro";
 
   return (
     <Button className="mb-2 py-1 text-xs relative" onClick={toggleLanguage}>
@@ -164,7 +166,7 @@ export const Splash: React.FC = ({ children }) => {
         className="absolute bottom-0 right-auto m-1 pointer-events-auto"
         style={{ zIndex: 1100, margin: `${PIXEL_SCALE * 1}px` }}
       >
-        <Languages />
+        {hasFeatureAccess({} as GameState, "LOCALISATION") && <Languages />}
       </div>
       <div
         className="absolute bottom-0 right-0 m-1 pointer-events-auto"
