@@ -6,7 +6,9 @@ type WelcomeTerms =
   | "welcome.otherWallets"
   | "welcome.needHelp"
   | "welcome.createAccount"
-  | "welcome.login";
+  | "welcome.login"
+  | "welcome.signingIn"
+  | "welcome.signInMessage";
 
 export type TranslationKeys = WelcomeTerms | GeneralTerms;
 
@@ -25,6 +27,9 @@ export const resources: Record<
       connecting: "Connecting",
       loading: "Loading",
       "welcome.login": "Login",
+      "welcome.signingIn": "Signing you in",
+      "welcome.signInMessage":
+        "Accept the signature request in your browser wallet to login.",
     },
   },
   pt: {
@@ -36,6 +41,9 @@ export const resources: Record<
       connecting: "Conectando",
       loading: "Carregando",
       "welcome.login": "Entrar",
+      "welcome.signingIn": "Entrando",
+      "welcome.signInMessage":
+        "Aceite a requisição de assinatura na sua carteira para entrar.",
     },
   },
 };

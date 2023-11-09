@@ -1,11 +1,13 @@
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 
 export const Signing: React.FC = () => {
+  const { t } = useAppTranslation();
   return (
     <>
-      <span className="text-shadow loading">Signing you in</span>
+      <span className="text-shadow loading">{t("welcome.signingIn")}</span>
       <span className="text-shadow block my-2 mx-2 sm:text-sm">
-        Accept the signature request in your browser wallet to login.
+        {t("welcome.signInMessage")}
       </span>
     </>
   );

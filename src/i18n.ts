@@ -5,7 +5,7 @@ import { resources } from "lib/i18n/dictionary";
 i18n.use(initReactI18next).init(
   {
     resources,
-    lng: localStorage.getItem("language") || undefined,
+    lng: localStorage.getItem("language") || "en",
     keySeparator: false,
     interpolation: {
       escapeValue: false,
