@@ -44,10 +44,6 @@ export const FirePit: React.FC<Props> = ({
       buildingId,
     });
 
-    console.log({
-      item,
-      activity: gameState.context.state.bumpkin?.activity?.[`${item} Cooked`],
-    });
     if (
       item === "Mashed Potato" &&
       !gameState.context.state.bumpkin?.activity?.[`${item} Cooked`]
