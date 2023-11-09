@@ -41,9 +41,10 @@ export const BuildingImageWrapper: React.FC<Props> = ({
   const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
   const [warning, setWarning] = useState<JSX.Element>();
 
-  const getHandleDisabledOnClick = (name: string) =>
+  const getHandleDisabledOnClick = (name: string, nonInteractible: boolean) =>
     function handleDisabledOnClick() {
-      console.log("handleDisabledOnClick");
+      if (nonInteractible) return;
+
       const bumpkinLevelRequired = getBuildingBumpkinLevelRequired(
         name as BuildingName
       );
@@ -74,7 +75,11 @@ export const BuildingImageWrapper: React.FC<Props> = ({
           "relative w-full h-full",
           nonInteractible ? "" : "cursor-pointer hover:img-highlight"
         )}
-        onClick={!enabled ? getHandleDisabledOnClick(name) : onClick}
+        onClick={
+          !enabled
+            ? getHandleDisabledOnClick(name, nonInteractible ?? false)
+            : onClick
+        }
       >
         {children}
       </div>
