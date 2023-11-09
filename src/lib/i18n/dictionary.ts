@@ -1,6 +1,6 @@
 export type LanguageCode = "en" | "pt";
 
-type GeneralTerms = "featured" | "connecting" | "loading";
+type GeneralTerms = "featured" | "connecting" | "loading" | "continue";
 
 type WelcomeTerms =
   | "welcome.otherWallets"
@@ -10,7 +10,14 @@ type WelcomeTerms =
   | "welcome.signingIn"
   | "welcome.signInMessage";
 
-export type TranslationKeys = WelcomeTerms | GeneralTerms;
+type Rules =
+  | "rules"
+  | "rules.accounts"
+  | "rules.noBots"
+  | "rules.game"
+  | "rules.termsOfService";
+
+export type TranslationKeys = WelcomeTerms | GeneralTerms | Rules;
 
 export type TranslationResource = Record<TranslationKeys, string>;
 
@@ -30,6 +37,13 @@ export const resources: Record<
       "welcome.signingIn": "Signing you in",
       "welcome.signInMessage":
         "Accept the signature request in your browser wallet to login.",
+
+      rules: "Game Rules",
+      "rules.accounts": "1 account per player",
+      "rules.noBots": "No botting or automation",
+      "rules.game": "This is a game. Not a financial product.",
+      continue: "Continue",
+      "rules.termsOfService": "Terms of Service",
     },
   },
   pt: {
@@ -44,6 +58,12 @@ export const resources: Record<
       "welcome.signingIn": "Entrando",
       "welcome.signInMessage":
         "Aceite a requisição de assinatura na sua carteira para entrar.",
+      rules: "Regras do Jogo",
+      "rules.accounts": "1 conta por jogador",
+      "rules.noBots": "Sem bots ou automação",
+      "rules.game": "Isto é um jogo. Não um produto financeiro.",
+      continue: "Continuar",
+      "rules.termsOfService": "Termos de Serviço",
     },
   },
 };
