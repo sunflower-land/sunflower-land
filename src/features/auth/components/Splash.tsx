@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import ocean from "assets/decorations/ocean.webp";
 import sandIslandOne from "assets/brand/sand_island_one.webp";
@@ -15,8 +15,43 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InnerPanel, Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { SUNNYSIDE } from "assets/sunnyside";
+import i18n from "src/i18n";
+import { Button } from "components/ui/Button";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 const releaseVersion = CONFIG.RELEASE_VERSION as string;
+
+const Languages = () => {
+  // Determine the initial language from localStorage or default to 'en'
+  const initialLanguage = localStorage.getItem("language") || "en";
+  const [language, setLanguage] = useState(initialLanguage);
+
+  const toggleLanguage = () => {
+    const newLanguage = language === "en" ? "pt" : "en";
+    localStorage.setItem("language", newLanguage);
+    i18n.changeLanguage(newLanguage);
+    setLanguage(newLanguage);
+  };
+
+  const flagImage =
+    language === "en"
+      ? ITEM_DETAILS["Brazilian Flag"].image
+      : ITEM_DETAILS["American Flag"].image;
+  const languageLabel = language === "en" ? "Brazilian Portuguese" : "English";
+
+  return (
+    <Button className="mb-2 py-1 text-xs relative" onClick={toggleLanguage}>
+      <div className="px-8 pr-1">
+        <img
+          src={flagImage}
+          alt={languageLabel}
+          className="h-5 mobile:h-4 ml-2.5 mr-4 absolute left-0 rounded-sm"
+        />
+        {languageLabel}
+      </div>
+    </Button>
+  );
+};
 
 export const Splash: React.FC = ({ children }) => {
   return (
@@ -125,7 +160,12 @@ export const Splash: React.FC = ({ children }) => {
           <Panel>{children}</Panel>
         </Modal>
       )}
-      {/* z-index must be 1056 or higher to break out of bootstrap modal */}
+      <div
+        className="absolute bottom-0 right-auto m-1 pointer-events-auto"
+        style={{ zIndex: 1100, margin: `${PIXEL_SCALE * 1}px` }}
+      >
+        <Languages />
+      </div>
       <div
         className="absolute bottom-0 right-0 m-1 pointer-events-auto"
         style={{ zIndex: 1100, margin: `${PIXEL_SCALE * 1}px` }}
