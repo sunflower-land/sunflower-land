@@ -5,6 +5,7 @@ import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import reel from "assets/ui/reel.png";
 import lightning from "assets/icons/lightning.png";
+import lockIcon from "assets/skills/lock.png";
 
 import { ZoomContext } from "components/ZoomProvider";
 import Spritesheet, {
@@ -214,8 +215,37 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     setShowCaughtModal(false);
   };
 
+  const totalFishCaught = getKeys(FISH).reduce(
+    (total, name) => total + (farmActivity[`${name} Caught`] ?? 0),
+    0
+  );
+
   return (
     <>
+      {totalFishCaught === 0 && (
+        <>
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-50"
+            src={SUNNYSIDE.icons.fish_icon}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * 2}px`,
+              top: `${PIXEL_SCALE * 16}px`,
+            }}
+          />
+
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-50"
+            src={lockIcon}
+            style={{
+              width: `${PIXEL_SCALE * 8}px`,
+              right: `${PIXEL_SCALE * 12}px`,
+              top: `${PIXEL_SCALE * 16}px`,
+            }}
+          />
+        </>
+      )}
+
       <Modal centered show={showCaughtModal} onHide={close} onExited={claim}>
         <CloseButtonPanel
           onClose={close}

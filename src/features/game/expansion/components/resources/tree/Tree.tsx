@@ -43,6 +43,8 @@ const HasTool = (
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
+const selectTreesChopped = (state: MachineState) =>
+  state.context.state.bumpkin?.activity?.["Tree Chopped"] ?? 0;
 const selectCollectibles = (state: MachineState) =>
   state.context.state.collectibles;
 
@@ -99,6 +101,8 @@ export const Tree: React.FC<Props> = ({ id }) => {
       HasTool(prev, collectibles) === HasTool(next, collectibles) &&
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0))
   );
+
+  const treesChopped = useSelector(gameService, selectTreesChopped);
 
   const hasTool = HasTool(inventory, collectibles);
   const timeLeft = getTimeLeft(resource.wood.choppedAt, TREE_RECOVERY_TIME);
@@ -160,7 +164,11 @@ export const Tree: React.FC<Props> = ({ id }) => {
       {/* Resource ready to collect */}
       {!chopped && (
         <div ref={divRef} className="absolute w-full h-full" onClick={shake}>
-          <RecoveredTree hasTool={hasTool} touchCount={touchCount} />
+          <RecoveredTree
+            hasTool={hasTool}
+            touchCount={touchCount}
+            showHelper={treesChopped < 3}
+          />
         </div>
       )}
 

@@ -31,6 +31,7 @@ import { getKeys } from "features/game/types/craftables";
 import { SEEDS, SeedName } from "features/game/types/seeds";
 import { SeedSelection } from "./components/SeedSelection";
 import { FRUIT_SEEDS } from "features/game/types/fruits";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
@@ -124,8 +125,14 @@ export const Plot: React.FC<Props> = ({ id }) => {
   };
 
   const onClick = (seed: SeedName = selectedItem as SeedName) => {
+  const now = Date.now();
+
+  // increase touch count if there is a reward
+  const readyToHarvest =
+    !!crop && isReadyToHarvest(now, crop, CROPS()[crop.name]);
+
+  const onClick = () => {
     // small buffer to prevent accidental double clicks
-    const now = Date.now();
     if (now - clickedAt.current < 100) {
       return;
     }
@@ -265,6 +272,19 @@ export const Plot: React.FC<Props> = ({ id }) => {
       </Modal>
 
       <div onClick={() => onClick()} className="w-full h-full relative">
+      <div onClick={onClick} className="w-full h-full relative">
+        {readyToHarvest && (
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-30"
+            src={SUNNYSIDE.icons.dig_icon}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * -8}px`,
+              top: `${PIXEL_SCALE * -14}px`,
+            }}
+          />
+        )}
+
         <FertilePlot
           cropName={crop?.name}
           inventory={inventory}

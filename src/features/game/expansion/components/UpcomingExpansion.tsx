@@ -64,12 +64,7 @@ export const UpcomingExpansion: React.FC = () => {
 
   const onReveal = () => {
     setIsRevealing(true);
-    gameService.send("REVEAL", {
-      event: {
-        type: "land.revealed",
-        createdAt: new Date(),
-      },
-    });
+    gameService.send("land.revealed");
   };
 
   const Content = () => {

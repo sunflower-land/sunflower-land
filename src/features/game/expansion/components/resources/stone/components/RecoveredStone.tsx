@@ -14,6 +14,7 @@ import classNames from "classnames";
 import { miningAudio } from "lib/utils/sfx";
 import stone from "assets/resources/stone_small.png";
 import { ZoomContext } from "components/ZoomProvider";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const tool = "Pickaxe";
 
@@ -23,9 +24,14 @@ const STRIKE_SHEET_FRAME_HEIGHT = 48;
 interface Props {
   hasTool: boolean;
   touchCount: number;
+  showHelper: boolean;
 }
 
-const RecoveredStoneComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
+const RecoveredStoneComponent: React.FC<Props> = ({
+  hasTool,
+  touchCount,
+  showHelper,
+}) => {
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
@@ -70,6 +76,18 @@ const RecoveredStoneComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
           "cursor-not-allowed": showEquipTool,
         })}
       >
+        {showHelper && (
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-30"
+            src={SUNNYSIDE.icons.wood_mine_icon}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * -8}px`,
+              top: `${PIXEL_SCALE * -8}px`,
+            }}
+          />
+        )}
+
         {/* static resource node image */}
         {!showSpritesheet && (
           <img

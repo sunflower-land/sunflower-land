@@ -192,6 +192,7 @@ import {
   tradeTentacle,
   TradeTentacleAction,
 } from "./landExpansion/tradeTentacle";
+import { revealLand, RevealLandAction } from "./landExpansion/revealLand";
 
 export type PlayingEvent =
   | TradeAction
@@ -256,7 +257,8 @@ export type PlayingEvent =
   | ReelRodAction
   | ClaimMilestoneAction
   | MissFishAction
-  | TradeTentacleAction;
+  | TradeTentacleAction
+  | RevealLandAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -375,6 +377,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "milestone.claimed": claimMilestone,
   "fish.missed": missFish,
   "shelly.tradeTentacle": tradeTentacle,
+  "land.revealed": revealLand,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
