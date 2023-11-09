@@ -24,6 +24,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { DepletedTree } from "./components/DepletedTree";
 import { DepletingTree } from "./components/DepletingTree";
 import { RecoveredTree } from "./components/RecoveredTree";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 const HITS = 3;
 const tool = "Axe";
@@ -147,6 +148,10 @@ export const Tree: React.FC<Props> = ({ id }) => {
       await new Promise((res) => setTimeout(res, 3000));
       setCollecting(false);
       setCollectedAmount(undefined);
+    }
+
+    if (newState.context.state.bumpkin?.activity?.["Tree Chopped"] === 1) {
+      gameAnalytics.trackMilestone({ event: "Tutorial:TreeChopped:Completed" });
     }
   };
 

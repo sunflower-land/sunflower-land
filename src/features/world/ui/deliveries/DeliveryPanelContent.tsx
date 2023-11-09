@@ -295,6 +295,12 @@ export const DeliveryPanelContent: React.FC<Props> = ({
         type: "Exchange",
       });
     }
+
+    if (state.context.state.delivery.fulfilledCount === 1) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:Delivery:Completed",
+      });
+    }
   };
 
   const { tasksAreFrozen } = getSeasonChangeover({

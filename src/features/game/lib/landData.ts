@@ -277,7 +277,7 @@ export const INITIAL_EXPANSIONS = 3;
 
 const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 100,
+  experience: 0,
   tokenUri: "bla",
   equipped: {
     body: "Beige Farmer Potion",
@@ -290,12 +290,8 @@ const INITIAL_BUMPKIN: Bumpkin = {
     background: "Farm Background",
     onesie: "Eggplant Onesie",
   },
-  skills: {
-    "Michelin Stars": 1,
-  },
-  achievements: {
-    "Busy Bumpkin": 1,
-  },
+  skills: {},
+  achievements: {},
   activity: {
     "Reindeer Carrot Fed": 50,
   },
@@ -315,17 +311,7 @@ export const OFFLINE_FARM: GameState = {
     "Fish Encyclopedia": 1,
     "Expert Angler": 1,
   },
-  farmActivity: {
-    "Anchovy Caught": 5,
-    "Clownfish Caught": 5,
-    "Red Snapper Caught": 1,
-    "Butterflyfish Caught": 5,
-    "Blowfish Caught": 5,
-    "Sea Bass Caught": 5,
-    "Sea Horse Caught": 5,
-    "Horse Mackerel Caught": 5,
-    "Squid Caught": 5,
-  },
+  farmActivity: {},
   wardrobe: {
     "Eggplant Onesie": 1,
     "Golden Spatula": 1,
@@ -513,9 +499,20 @@ export const OFFLINE_FARM: GameState = {
       },
     },
   },
-  chickens: {},
+  chickens: {
+    "1": {
+      multiplier: 1,
+      coordinates: { x: -5, y: 0 },
+      fedAt: 100,
+    },
+    "12": {
+      multiplier: 1,
+      coordinates: { x: -6, y: 0 },
+      fedAt: 100,
+    },
+  },
   fishing: {
-    weather: "Fish Frenzy",
+    weather: "Sunny",
     wharf: {},
     dailyAttempts: {},
   },
@@ -600,9 +597,25 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    Workbench: [
+    "Hen House": [
       {
         coordinates: { x: 3, y: 0 },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+      },
+    ],
+    Market: [
+      {
+        coordinates: { x: 3, y: -5 },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+      },
+    ],
+    "Fire Pit": [
+      {
+        coordinates: { x: -3, y: -5 },
         createdAt: 0,
         id: "123",
         readyAt: 0,
@@ -616,6 +629,12 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
         requires: {
           Sunflower: 5,
+        },
+        producing: {
+          items: { "Fruitful Blend": 10, "Red Wiggler": 3 },
+
+          readyAt: Date.now() + 3000,
+          startedAt: Date.now() - 50000 - 8 * 60 * 60 * 1000,
         },
       },
     ],
@@ -717,7 +736,7 @@ export const OFFLINE_FARM: GameState = {
         readyAt: Date.now() + 5000,
       },
     ],
-    fulfilledCount: 23,
+    fulfilledCount: 0,
     milestone: {
       goal: 12,
       total: 25,
