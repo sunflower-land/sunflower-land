@@ -79,7 +79,9 @@ export const AuctionCountdown: React.FC = () => {
 
       // Show countdown 1 hour from Auction
       const upcoming = auctions.filter(
-        (auction) => auction.startAt > Date.now() - 60 * 60 * 1000
+        (auction) =>
+          auction.startAt + 60 * 60 * 1000 > Date.now() &&
+          auction.endAt > Date.now()
       );
 
       if (upcoming.length > 0) {
