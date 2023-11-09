@@ -6,7 +6,7 @@ import { Bumpkin, LanternName } from "../types/game";
 import { BeanName, ExoticCropName } from "./beans";
 import { HeliosBlacksmithItem, PotionHouseItemName } from "./collectibles";
 import { DecorationName } from "./decorations";
-import { FruitName } from "./fruits";
+import { FruitName, FruitSeedName } from "./fruits";
 import { GarbageName } from "./garbage";
 import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
@@ -29,6 +29,7 @@ type Edibles = Food | ConsumableName;
 
 export type HarvestEvent = `${CropName | FruitName} Harvested`;
 export type PlantEvent = `${CropName | FruitName} Planted`;
+export type FruitPlantEvent = `${FruitSeedName} Planted`;
 export type CookEvent = `${Recipes} Cooked`;
 export type FedEvent = `${Edibles} Fed`;
 export type BuyEvent = `${BuyableName} Bought`;
@@ -55,6 +56,7 @@ export type BumpkinActivityName =
   | SellEvent
   | HarvestEvent
   | PlantEvent
+  | FruitPlantEvent
   | TreasureEvent
   | CompostedEvent
   // Resources
