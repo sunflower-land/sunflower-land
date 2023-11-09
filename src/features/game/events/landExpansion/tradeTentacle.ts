@@ -38,6 +38,10 @@ export function tradeTentacle({
     stateCopy.npcs.shelly = { deliveryCount: 0 };
   }
 
+  if (!stateCopy.npcs?.shelly.deliveryCount) {
+    stateCopy.npcs.shelly = { ...stateCopy.npcs?.shelly, deliveryCount: 0 };
+  }
+
   const currentScales = stateCopy.inventory["Mermaid Scale"] || new Decimal(0);
 
   const currentTentaclesInInventory =
