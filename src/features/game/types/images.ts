@@ -557,6 +557,7 @@ import { BuffLabel } from ".";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
+  boostedDescriptions?: [{ name: string; description: string }];
   image: any;
   secondaryImage?: any;
   section?: Section;
@@ -2652,6 +2653,7 @@ export const ITEM_DETAILS: Items = {
   "Sprout Mix": {
     image: sproutMix,
     description: CROP_COMPOST["Sprout Mix"].description,
+    boostedDescriptions: CROP_COMPOST["Sprout Mix"].boostedDescriptions,
   },
   "Fruitful Blend": {
     image: fruitfulBlend,
