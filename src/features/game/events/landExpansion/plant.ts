@@ -31,6 +31,10 @@ import {
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { getBudSpeedBoosts } from "features/game/lib/getBudSpeedBoosts";
 import { CropCompostName } from "features/game/types/composters";
+import {
+  BumpkinActivityName,
+  trackActivity,
+} from "features/game/types/bumpkinActivity";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -558,6 +562,10 @@ export function plant({
   };
 
   inventory[action.item] = seedCount.sub(1);
+
+  const activityName: BumpkinActivityName = `${cropName} Planted`;
+
+  bumpkin.activity = trackActivity(activityName, bumpkin.activity);
 
   return stateCopy;
 }

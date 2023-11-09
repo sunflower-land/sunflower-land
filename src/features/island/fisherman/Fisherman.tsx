@@ -37,7 +37,7 @@ export const Fisherman: React.FC = () => {
   };
 
   const cast = (bait: FishingBait, chum?: InventoryItemName) => {
-    gameService.send("rod.casted", { bait, chum });
+    const state = gameService.send("rod.casted", { bait, chum });
     gameService.send("SAVE");
     setShowModal(false);
   };

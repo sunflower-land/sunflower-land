@@ -17,6 +17,7 @@ import { setImageWidth } from "lib/images";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { bakeryAudio } from "lib/utils/sfx";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -42,6 +43,19 @@ export const FirePit: React.FC<Props> = ({
       item,
       buildingId,
     });
+
+    console.log({
+      item,
+      activity: gameState.context.state.bumpkin?.activity?.[`${item} Cooked`],
+    });
+    if (
+      item === "Mashed Potato" &&
+      !gameState.context.state.bumpkin?.activity?.[`${item} Cooked`]
+    ) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:Cooked:Completed",
+      });
+    }
   };
 
   const handleCollect = () => {

@@ -41,6 +41,7 @@ import { ZoomContext } from "components/ZoomProvider";
 import { isLocked } from "features/game/events/landExpansion/moveChicken";
 import lockIcon from "assets/skills/lock.png";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 const getPercentageComplete = (fedAt?: number) => {
   if (!fedAt) return 0;
@@ -218,7 +219,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
 
     const {
       context: {
-        state: { chickens },
+        state: { chickens, bumpkin },
       },
     } = gameService.send("chicken.fed", {
       id,
@@ -252,6 +253,12 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
 
     if (!newState.matches("hoarding")) {
       chickenService.send("COLLECT");
+    }
+
+    if (newState.context.state.bumpkin?.activity?.["Egg Collected"] === 1) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:EggCollected:Completed",
+      });
     }
   };
 

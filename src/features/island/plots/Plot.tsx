@@ -21,6 +21,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { BuildingName } from "features/game/types/buildings";
 import { ZoomContext } from "components/ZoomProvider";
 import { CROP_COMPOST } from "features/game/types/composters";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
@@ -99,6 +100,14 @@ export const Plot: React.FC<Props> = ({ id }) => {
         />
       );
     }
+
+    if (
+      newState.context.state.bumpkin?.activity?.["Sunflower Harvested"] === 1
+    ) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:SunflowerHarvested:Completed",
+      });
+    }
   };
 
   const onClick = () => {
@@ -133,23 +142,35 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
     // apply fertilisers
     if (!readyToHarvest && selectedItem && selectedItem in CROP_COMPOST) {
-      gameService.send("plot.fertilised", {
+      const state = gameService.send("plot.fertilised", {
         plotID: id,
         fertiliser: selectedItem,
       });
+
+      if (state.context.state.bumpkin?.activity?.["Crop Fertilised"] === 1) {
+        gameAnalytics.trackMilestone({
+          event: "Tutorial:Fertilised:Completed",
+        });
+      }
 
       return;
     }
 
     // plant
     if (!crop) {
-      gameService.send("seed.planted", {
+      const state = gameService.send("seed.planted", {
         index: id,
         item: selectedItem,
         cropId: uuidv4().slice(0, 8),
       });
 
       plantAudio.play();
+
+      if (state.context.state.bumpkin?.activity?.["Sunflower Planted"] === 1) {
+        gameAnalytics.trackMilestone({
+          event: "Tutorial:SunflowerPlanted:Completed",
+        });
+      }
 
       return;
     }

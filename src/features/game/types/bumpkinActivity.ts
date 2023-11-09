@@ -6,7 +6,7 @@ import { Bumpkin, LanternName } from "../types/game";
 import { BeanName, ExoticCropName } from "./beans";
 import { HeliosBlacksmithItem, PotionHouseItemName } from "./collectibles";
 import { DecorationName } from "./decorations";
-import { FruitName, FruitSeedName } from "./fruits";
+import { FruitName } from "./fruits";
 import { GarbageName } from "./garbage";
 import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
@@ -28,10 +28,10 @@ type Recipes = Food | CookableName;
 type Edibles = Food | ConsumableName;
 
 export type HarvestEvent = `${CropName | FruitName} Harvested`;
+export type PlantEvent = `${CropName | FruitName} Planted`;
 export type CookEvent = `${Recipes} Cooked`;
 export type FedEvent = `${Edibles} Fed`;
 export type BuyEvent = `${BuyableName} Bought`;
-export type PlantFruitEvent = `${FruitSeedName} Planted`;
 export type CraftedEvent = `${
   | ToolName
   | WorkbenchToolName
@@ -54,7 +54,7 @@ export type BumpkinActivityName =
   | ConsumableEvent
   | SellEvent
   | HarvestEvent
-  | PlantFruitEvent
+  | PlantEvent
   | TreasureEvent
   | CompostedEvent
   // Resources
@@ -83,7 +83,8 @@ export type BumpkinActivityName =
   | "Chore Skipped"
   | "Bud Placed"
   | ComposterCollectEvent
-  | "Kraken Tentacle Traded";
+  | "Kraken Tentacle Traded"
+  | "Crop Fertilised";
 
 export function trackActivity(
   activityName: BumpkinActivityName,

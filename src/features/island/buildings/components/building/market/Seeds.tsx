@@ -22,6 +22,7 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
 import { hasFeatureAccess } from "lib/flags";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 interface Props {
   onClose: () => void;
@@ -54,12 +55,20 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const buy = (amount = 1) => {
-    gameService.send("seed.bought", {
+    const state = gameService.send("seed.bought", {
       item: selectedName,
       amount,
     });
 
     shortcutItem(selectedName);
+
+    if (
+      state.context.state.bumpkin?.activity?.["Sunflower Seed Bought"] === 1
+    ) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:SunflowerSeedBought:Completed",
+      });
+    }
   };
 
   const lessFunds = (amount = 1) => {

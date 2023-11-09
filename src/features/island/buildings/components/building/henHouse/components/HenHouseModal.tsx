@@ -67,7 +67,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
   >(canPlaceLazyChicken ? "lazy" : canBuyChicken ? "buy" : "working");
 
   const handleBuy = () => {
-    gameService.send("LANDSCAPE", {
+    const newState = gameService.send("LANDSCAPE", {
       placeable: "Chicken",
       action: "chicken.bought",
       // Not used yet
@@ -78,6 +78,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
       maximum: availableSpots,
       multiple: true,
     });
+
     onClose();
   };
 
