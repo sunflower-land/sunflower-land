@@ -271,34 +271,6 @@ export const IslandList: React.FC<IslandListProps> = ({
         </Label>,
       ],
     },
-    {
-      name: "Treasure Island",
-      levelRequired: 10 as BumpkinLevel,
-      image: SUNNYSIDE.icons.treasure,
-      path: `/land/${farmId}/treasure-island`,
-      labels: [],
-    },
-    //{
-    //  name: "Stone Haven",
-    //  levelRequired: 20 as BumpkinLevel,
-    //  image: SUNNYSIDE.resource.boulder,
-    //  path: `/treasure/${farmId}`,
-    //  comingSoon: true,
-    //},
-    //{
-    //  name: "Sunflorea",
-    //  levelRequired: 30 as BumpkinLevel,
-    //  image: sunflorea,
-    //  path: `/treasure/${farmId}`,
-    //  comingSoon: true,
-    //},
-    //{
-    //  name: "Snow Kingdom",
-    //  levelRequired: 50 as BumpkinLevel,
-    //  image: snowman,
-    //  path: `/snow/${farmId}`,
-    //  comingSoon: true,
-    //},
   ];
 
   // NOTE: If you're visiting without a session then just show the form by default as there is no option to return to a farm
