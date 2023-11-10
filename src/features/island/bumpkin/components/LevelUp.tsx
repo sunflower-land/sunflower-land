@@ -16,7 +16,16 @@ import { Equipped } from "features/game/types/bumpkin";
 import { NPC } from "./NPC";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
+import { SUNNYSIDE } from "assets/sunnyside";
 
+const LEVEL_UP_UNLOCKS: Record<number, { text: string; icon: string }[]> = {
+  2: [
+    {
+      text: "Farming",
+      icon: SUNNYSIDE.icons.plant_icon,
+    },
+  ],
+};
 const LEVEL_UP_MESSAGES: Record<number, string> = {
   2: "Yeehaw, you've reached level 2! The crops are quakin' in their boots.",
   3: "Congrats on level 3! You're growing like a weed...",

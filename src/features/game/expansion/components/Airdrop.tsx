@@ -13,11 +13,14 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { Airdrop as IAirdrop } from "features/game/types/game";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 export const AirdropModal: React.FC<{
   airdrop: IAirdrop;
   onClose: () => void;
 }> = ({ airdrop, onClose }) => {
+  const { openModal } = useContext(ModalContext);
+
   const { gameService } = useContext(Context);
 
   const itemNames = getKeys(airdrop.items);
@@ -26,6 +29,11 @@ export const AirdropModal: React.FC<{
     gameService.send("airdrop.claimed", {
       id: airdrop.id,
     });
+
+    // If airdrop = "X", open modal
+    if (airdrop.id === "expansion-four-airdrop") {
+      openModal("FIRST_EXPANSION");
+    }
 
     onClose();
   };
