@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import npc from "assets/npcs/blacksmith.gif";
 import shadow from "assets/npcs/shadow.png";
@@ -13,6 +13,10 @@ import { Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { shopAudio } from "lib/utils/sfx";
 import { SpeakingText } from "features/game/components/SpeakingModal";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { Context } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `workbench-read.${host}-${window.location.pathname}`;
@@ -25,9 +29,17 @@ function hasRead() {
   return !!localStorage.getItem(LOCAL_STORAGE_KEY);
 }
 
+const needsHelp = (state: MachineState) =>
+  !state.context.state.inventory["Basic Scarecrow"] &&
+  (state.context.state.bumpkin?.activity?.["Sunflower Planted"] ?? 0) >= 6;
+
 export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
+  const { gameService } = useContext(Context);
+
   const [showIntro, setShowIntro] = useState(!hasRead());
   const [isOpen, setIsOpen] = useState(false);
+
+  const showHelper = useSelector(gameService, needsHelp);
 
   const handleClick = () => {
     if (onRemove) {
@@ -75,6 +87,17 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
             right: `${PIXEL_SCALE * 12}px`,
           }}
         />
+        {showHelper && (
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-30"
+            src={SUNNYSIDE.icons.click_icon}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * -8}px`,
+              top: `${PIXEL_SCALE * 20}px`,
+            }}
+          />
+        )}
       </BuildingImageWrapper>
       <Modal centered show={isOpen} onHide={handleClose}>
         {showIntro ? (

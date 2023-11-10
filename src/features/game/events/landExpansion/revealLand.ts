@@ -1,7 +1,7 @@
 import { v4 as randomUUID } from "uuid";
 import Decimal from "decimal.js-light";
 import { EXPANSION_ORIGINS } from "features/game/expansion/lib/constants";
-import { getLand } from "features/game/types/expansions";
+import { expansionRequirements, getLand } from "features/game/types/expansions";
 import { GameState } from "features/game/types/game";
 
 import cloneDeep from "lodash.clonedeep";
@@ -171,6 +171,10 @@ export function revealLand({
   }, {} as GameState["trees"]);
 
   console.log({ trees: game.trees });
+
+  game.expansionRequirements = expansionRequirements(
+    inventory["Basic Land"].toNumber() + 1
+  );
 
   return {
     ...game,

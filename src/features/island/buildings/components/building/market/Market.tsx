@@ -15,6 +15,7 @@ import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
 import { Bumpkin } from "features/game/types/game";
 import { shopAudio } from "lib/utils/sfx";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 const hasSoldCropsBefore = (bumpkin?: Bumpkin) => {
   if (!bumpkin) return false;
@@ -47,6 +48,10 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
 
   const hasSoldBefore = hasSoldCropsBefore(gameState.context.state.bumpkin);
 
+  const showHelper =
+    getBumpkinLevel(gameState.context.state.bumpkin?.experience ?? 0) === 2 &&
+    !gameState.context.state.bumpkin?.activity?.["Sunflower Sold"];
+
   return (
     <>
       <BuildingImageWrapper name="Market" onClick={handleClick}>
@@ -77,6 +82,17 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
             transform: "scaleX(-1)",
           }}
         />
+        {showHelper && (
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-30"
+            src={SUNNYSIDE.icons.click_icon}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * -8}px`,
+              top: `${PIXEL_SCALE * 20}px`,
+            }}
+          />
+        )}
       </BuildingImageWrapper>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <ShopItems

@@ -58,7 +58,7 @@ export const ModalProvider: FC = ({ children }) => {
               text: "You've done a mighty fine job expandin' the land, Bumpkin! Every time you clear new space, there's a whole heap of new resources just waitin' to be uncovered.",
             },
             {
-              text: "To start farming, you will need to become stronger. You can level up by eating food!",
+              text: "Yippee, you found a Mashed Potato. To start farming, you will need to become stronger. You can level up by eating food!",
             },
           ]}
           onClose={handleClose}

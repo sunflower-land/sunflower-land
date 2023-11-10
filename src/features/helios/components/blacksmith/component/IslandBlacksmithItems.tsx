@@ -19,6 +19,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import Decimal from "decimal.js-light";
 
 function isNotReady(collectible: CraftableCollectible) {
   return (
@@ -28,7 +29,7 @@ function isNotReady(collectible: CraftableCollectible) {
       collectible.to.getTime() < Date.now())
   );
 }
-export const HeliosBlacksmithItems: React.FC = () => {
+export const IslandBlacksmithItems: React.FC = () => {
   const [selectedName, setSelectedName] =
     useState<HeliosBlacksmithItem>("Basic Scarecrow");
   const { gameService, shortcutItem } = useContext(Context);
@@ -48,8 +49,14 @@ export const HeliosBlacksmithItems: React.FC = () => {
     );
 
   const craft = () => {
-    gameService.send("collectible.crafted", {
-      name: selectedName,
+    gameService.send("LANDSCAPE", {
+      placeable: selectedName,
+      action: "collectible.crafted",
+      // Not used yet
+      requirements: {
+        sfl: new Decimal(0),
+        ingredients: {},
+      },
     });
 
     const count = state.inventory[selectedName]?.toNumber() ?? 1;

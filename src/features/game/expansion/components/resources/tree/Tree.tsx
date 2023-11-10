@@ -167,7 +167,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
           <RecoveredTree
             hasTool={hasTool}
             touchCount={touchCount}
-            showHelper={treesChopped < 3}
+            showHelper={treesChopped < 3 && treesChopped + 1 === Number(id)}
           />
         </div>
       )}
