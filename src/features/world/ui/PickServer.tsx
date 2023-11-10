@@ -102,7 +102,11 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
                   className={classNames(
                     "flex relative items-center justify-between p-2 mb-1 cursor-pointer hover:bg-brown-200",
                     {
-                      "cursor-not-allowed": isServerFull(servers, server.id),
+                      "cursor-not-allowed": isServerFull(
+                        servers,
+                        server.id,
+                        gameState.context.state
+                      ),
                     }
                   )}
                   key={server.id}
@@ -115,7 +119,11 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
                     <div>
                       <p className="text-sm break-words">{server.name}</p>
                       <div className="flex items-center gap-2">
-                        {isServerFull(servers, server.id) && (
+                        {isServerFull(
+                          servers,
+                          server.id,
+                          gameState.context.state
+                        ) && (
                           <Label
                             type="danger"
                             className="flex gap-2 items-center"
