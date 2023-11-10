@@ -295,6 +295,7 @@ import popcorn from "assets/food/popcorn.png";
 import chowder from "assets/food/chowder.png";
 import gumbo from "assets/food/gumbo.png";
 import fermentedFish from "assets/food/fermented_fish.png";
+import bananaBlast from "assets/food/banana_blast.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -547,11 +548,7 @@ import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
 //Golden Crop Event
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
-import {
-  GOBLIN_PIRATE_ITEMS,
-  HELIOS_BLACKSMITH_ITEMS,
-  POTION_HOUSE_ITEMS,
-} from "./collectibles";
+import { GOBLIN_PIRATE_ITEMS, POTION_HOUSE_ITEMS } from "./collectibles";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -822,6 +819,10 @@ export const ITEM_DETAILS: Items = {
   "Fancy Fries": {
     description: CONSUMABLES["Fancy Fries"].description,
     image: fancyFries,
+  },
+  "Banana Blast": {
+    description: CONSUMABLES["Banana Blast"].description,
+    image: bananaBlast,
   },
 
   // Resources
@@ -1922,7 +1923,7 @@ export const ITEM_DETAILS: Items = {
 
   "Immortal Pear": {
     image: immortalPear,
-    description: HELIOS_BLACKSMITH_ITEMS()["Immortal Pear"].description,
+    description: "A long-lived pear that makes fruit trees last longer.",
   },
   "Lady Bug": {
     image: ladybug,
@@ -2179,11 +2180,12 @@ export const ITEM_DETAILS: Items = {
     description: GOBLIN_PIRATE_ITEMS["Tin Turtle"].description,
   },
   "Basic Scarecrow": {
-    description: HELIOS_BLACKSMITH_ITEMS()["Basic Scarecrow"].description,
+    description: "Choosy defender of your farm's VIP (Very Important Plants)",
     image: basicScarecrow,
   },
   Bale: {
-    description: HELIOS_BLACKSMITH_ITEMS()["Bale"].description,
+    description:
+      "A poultry's favorite neighbor, providing a cozy retreat for chickens",
     image: bale,
   },
   "Sir Goldensnout": {
@@ -2197,12 +2199,13 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Scary Mike": {
-    description: HELIOS_BLACKSMITH_ITEMS()["Scary Mike"].description,
+    description:
+      "The veggie whisperer and champion of frightfully good harvests!",
     image: scaryMike,
   },
   "Laurie the Chuckle Crow": {
     description:
-      HELIOS_BLACKSMITH_ITEMS()["Laurie the Chuckle Crow"].description,
+      "With her disconcerting chuckle, she shooes peckers away from your crops!",
     image: laurie,
   },
   "Freya Fox": {
@@ -2909,7 +2912,7 @@ export const ITEM_DETAILS: Items = {
   Alba: {
     image: alba,
     description:
-      "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 fish!",
+      "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 Basic Fish!",
   },
   "Knowledge Crab": {
     image: knowledgeCrab,

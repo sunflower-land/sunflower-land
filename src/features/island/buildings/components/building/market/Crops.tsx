@@ -22,6 +22,7 @@ import {
   ExoticCropName,
 } from "features/game/types/beans";
 import { getKeys } from "features/game/types/craftables";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 export const isExoticCrop = (
   item: Crop | Fruit | ExoticCrop
@@ -52,10 +53,16 @@ export const Crops: React.FC = () => {
         amount,
       });
     } else {
-      gameService.send("crop.sold", {
+      const state = gameService.send("crop.sold", {
         crop: selected.name,
         amount: setPrecision(amount),
       });
+
+      if (state.context.state.bumpkin?.activity?.["Sunflower Sold"] === 1) {
+        gameAnalytics.trackMilestone({
+          event: "Tutorial:SunflowerSold:Completed",
+        });
+      }
     }
   };
 

@@ -12,14 +12,15 @@ import okxIcon from "src/assets/icons/okx.svg";
 import cryptoComIcon from "src/assets/icons/crypto-com-logo.svg";
 import bitgetIcon from "src/assets/icons/bitget_logo.svg";
 
-import { getOnboardingComplete } from "../actions/createGuestAccount";
 import { Label } from "components/ui/Label";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { getPromoCode } from "features/game/actions/loadSession";
 import { hasFeatureAccess } from "lib/flags";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const OtherWallets = () => {
   const { authService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   return (
     <>
@@ -42,7 +43,7 @@ const OtherWallets = () => {
               type="info"
               className="absolute top-1/2 -translate-y-1/2 right-1"
             >
-              Featured
+              {t("featured")}
             </Label>
             Bitget Wallet
           </div>
@@ -132,6 +133,7 @@ const OtherWallets = () => {
 export const SignIn = () => {
   const { authService } = useContext(Context);
   const [page, setPage] = useState<"home" | "other">("home");
+  const { t } = useAppTranslation();
 
   const connectToMetaMask = () => {
     authService.send("CONNECT_TO_WALLET", {
@@ -187,7 +189,7 @@ export const SignIn = () => {
               src={walletIcon}
               className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
             />
-            Other Wallets
+            {t("welcome.otherWallets")}
           </div>
         </Button>
       </>
@@ -209,13 +211,12 @@ export const SignIn = () => {
             width: `${PIXEL_SCALE * 8}px`,
           }}
         />
-        {!getOnboardingComplete() &&
-          !hasFeatureAccess(TEST_FARM, "NEW_FARM_FLOW") && (
-            <div className="flex items-center">
-              <img src={SUNNYSIDE.ui.green_bar_4} className="h-5 mr-2" />
-              <span className="text-xs">Step 2/3 (Create a wallet)</span>
-            </div>
-          )}
+        {!hasFeatureAccess(TEST_FARM, "NEW_FARM_FLOW") && (
+          <div className="flex items-center">
+            <img src={SUNNYSIDE.ui.green_bar_4} className="h-5 mr-2" />
+            <span className="text-xs">Step 2/3 (Create a wallet)</span>
+          </div>
+        )}
       </div>
 
       {isBitget && (
@@ -290,7 +291,7 @@ export const SignIn = () => {
           rel="noopener noreferrer"
           className="underline text-white text-xs"
         >
-          Need help?
+          {t("welcome.needHelp")}
         </a>
       </div>
     </div>

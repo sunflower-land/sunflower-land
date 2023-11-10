@@ -16,11 +16,12 @@ import { NonFertilePlot } from "./components/NonFertilePlot";
 import { FertilePlot } from "./components/FertilePlot";
 import { ChestReward } from "../common/chest-reward/ChestReward";
 import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { BuildingName } from "features/game/types/buildings";
 import { ZoomContext } from "components/ZoomProvider";
 import { CROP_COMPOST } from "features/game/types/composters";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
@@ -50,6 +51,17 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
   const crop = crops?.[id]?.crop;
   const fertiliser = crops?.[id]?.fertiliser;
+
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+  const inventory = state.inventory;
+  const collectibles = state.collectibles;
+  const bumpkin = state.bumpkin;
+  const buds = state.buds;
+  const plot = crops[id];
 
   const isFertile = isPlotFertile({
     plotIndex: id,
@@ -88,6 +100,14 @@ export const Plot: React.FC<Props> = ({ id }) => {
         />
       );
     }
+
+    if (
+      newState.context.state.bumpkin?.activity?.["Sunflower Harvested"] === 1
+    ) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:SunflowerHarvested:Completed",
+      });
+    }
   };
 
   const onClick = () => {
@@ -122,23 +142,35 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
     // apply fertilisers
     if (!readyToHarvest && selectedItem && selectedItem in CROP_COMPOST) {
-      gameService.send("plot.fertilised", {
+      const state = gameService.send("plot.fertilised", {
         plotID: id,
         fertiliser: selectedItem,
       });
+
+      if (state.context.state.bumpkin?.activity?.["Crop Fertilised"] === 1) {
+        gameAnalytics.trackMilestone({
+          event: "Tutorial:Fertilised:Completed",
+        });
+      }
 
       return;
     }
 
     // plant
     if (!crop) {
-      gameService.send("seed.planted", {
+      const state = gameService.send("seed.planted", {
         index: id,
         item: selectedItem,
         cropId: uuidv4().slice(0, 8),
       });
 
       plantAudio.play();
+
+      if (state.context.state.bumpkin?.activity?.["Sunflower Planted"] === 1) {
+        gameAnalytics.trackMilestone({
+          event: "Tutorial:SunflowerPlanted:Completed",
+        });
+      }
 
       return;
     }
@@ -165,6 +197,11 @@ export const Plot: React.FC<Props> = ({ id }) => {
       <div onClick={onClick} className="w-full h-full relative">
         <FertilePlot
           cropName={crop?.name}
+          inventory={inventory}
+          collectibles={collectibles}
+          bumpkin={bumpkin}
+          buds={buds}
+          plot={plot}
           plantedAt={crop?.plantedAt}
           fertiliser={fertiliser}
           procAnimation={procAnimation}

@@ -10,7 +10,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropTime } from "features/game/events/landExpansion/plant";
-import { INITIAL_STOCK } from "features/game/lib/constants";
+import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuyAmount } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SeedName, SEEDS } from "features/game/types/seeds";
@@ -22,6 +22,7 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
 import { hasFeatureAccess } from "lib/flags";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 interface Props {
   onClose: () => void;
@@ -54,12 +55,20 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const buy = (amount = 1) => {
-    gameService.send("seed.bought", {
+    const state = gameService.send("seed.bought", {
       item: selectedName,
       amount,
     });
 
     shortcutItem(selectedName);
+
+    if (
+      state.context.state.bumpkin?.activity?.["Sunflower Seed Bought"] === 1
+    ) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:SunflowerSeedBought:Completed",
+      });
+    }
   };
 
   const lessFunds = (amount = 1) => {
@@ -88,7 +97,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     // return message if inventory is full
     if (
       (inventory[selectedName] ?? new Decimal(0)).greaterThan(
-        INITIAL_STOCK(state)[selectedName] ?? new Decimal(0)
+        INVENTORY_LIMIT(state)[selectedName] ?? new Decimal(0)
       )
     ) {
       return (

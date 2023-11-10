@@ -4,6 +4,7 @@ import classNames from "classnames";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import reel from "assets/ui/reel.png";
+import lightning from "assets/icons/lightning.png";
 
 import { ZoomContext } from "components/ZoomProvider";
 import Spritesheet, {
@@ -21,6 +22,7 @@ import { Panel } from "components/ui/Panel";
 import { getKeys } from "features/game/types/craftables";
 import { FISH, FISH_DIFFICULTY, FishName } from "features/game/types/fishing";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -87,12 +89,23 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     didRefresh.current = !!fishing.wharf.caught;
   }, []);
 
+  useEffect(() => {
+    if (
+      fishing.wharf.caught &&
+      (spriteRef.current?.getInfo("frame") ?? 0) <= FISHING_FRAMES.casting.endAt
+    ) {
+      onWaitFinish();
+    }
+  }, [fishing.wharf.caught]);
+
   let initialState: FishingState = "idle";
   if (fishing.wharf.caught || fishing.wharf.castedAt) {
     initialState = "waiting";
   }
 
   const { scale } = useContext(ZoomContext);
+
+  const showFishFrenzy = fishing.weather === "Fish Frenzy";
 
   const onIdleFinish = () => {
     // CAST
@@ -109,7 +122,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     // TESTING
     if (!CONFIG.API_URL) {
       setTimeout(() => {
-        fishing.wharf = { castedAt: 10000, caught: { Anchovy: 1 } };
+        fishing.wharf = { castedAt: 10000, caught: { "Kraken Tentacle": 1 } };
       }, 1000);
     }
   };
@@ -141,10 +154,15 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
       fishDifficulty = Math.ceil((tentaclesCaught + 1) / 2);
     }
 
-    if (fishDifficulty && didRefresh.current) {
-      // Player refreshed during challenge
-      onChallengeLost();
-    } else if (fishDifficulty) {
+    // TEMP: The reelin state is sometimes not showing automatically and players need to refresh
+    // Right no they are losing resources, so comment this
+    // Remove comments in future so players don't refresh minigame
+    // if (fishDifficulty && didRefresh.current) {
+    //   // Player refreshed during challenge
+    //   // onChallengeLost();
+    // } else
+
+    if (fishDifficulty) {
       // Show fishing challenge
       setChallengeDifficulty(fishDifficulty);
       setShowChallenge(true);
@@ -175,7 +193,19 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
   const claim = () => {
     if (fishing.wharf.caught) {
-      gameService.send("rod.reeled");
+      const state = gameService.send("rod.reeled");
+
+      const totalFishCaught = getKeys(FISH).reduce(
+        (total, name) =>
+          total + (state.context.state.farmActivity[`${name} Caught`] ?? 0),
+        0
+      );
+
+      if (totalFishCaught === 1) {
+        gameAnalytics.trackMilestone({
+          event: "Tutorial:Fishing:Completed",
+        });
+      }
     }
   };
 
@@ -208,6 +238,20 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
           />
         </Panel>
       </Modal>
+
+      {!showReelLabel && showFishFrenzy && (
+        <img
+          src={lightning}
+          style={{
+            width: `${PIXEL_SCALE * 8}px`,
+            left: `${PIXEL_SCALE * 5}px`,
+            top: `${PIXEL_SCALE * -17}px`,
+
+            imageRendering: "pixelated",
+          }}
+          className="absolute"
+        />
+      )}
 
       {showReelLabel && (
         <React.Fragment>

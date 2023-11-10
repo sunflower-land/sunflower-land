@@ -8,7 +8,6 @@ import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 import { Stylist } from "./stylist/Stylist";
 import { SceneId } from "../mmoMachine";
 
-import { Luna } from "./npcs/Luna";
 import { Pete } from "./npcs/Pete";
 import { Birdie } from "./npcs/Birdie";
 import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHankV2";
@@ -57,7 +56,6 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
   const [gameState] = useActor(gameService);
   const [npc, setNpc] = useState<NPCName | undefined>(getInitialNPC(scene));
 
-  console.log({ scene });
   const { openModal } = useContext(ModalContext);
 
   const inventory = gameState.context.state.inventory;
@@ -157,6 +155,20 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
             ]}
           />
         )}
+        {npc === "goldtooth" && (
+          <SpeakingModal
+            bumpkinParts={NPC_WEARABLES.goldtooth}
+            onClose={closeModal}
+            message={[
+              {
+                text: "Arrr, me hearties! The treasure-diggin' area be teemin' with wealth and adventure, and it be openin' its gates soon for ye daring farmers!",
+              },
+              {
+                text: "Be ready to join me crew, for the hunt for riches begins shortly!",
+              },
+            ]}
+          />
+        )}
         {npc === "hank" && <HayseedHankV2 onClose={closeModal} />}
         {npc === "gabi" && (
           <CloseButtonPanel
@@ -189,14 +201,6 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
         )}
         {npc === "betty" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "cornwell" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-        {npc === "luna" && (
-          <Luna
-            onNavigate={() => {
-              onNavigate("corn_maze");
-            }}
-            onClose={closeModal}
-          />
-        )}
 
         {npc === "corale" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "miranda" && <DeliveryPanel npc={npc} onClose={closeModal} />}

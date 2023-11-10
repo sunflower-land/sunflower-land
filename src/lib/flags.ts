@@ -18,14 +18,13 @@ type FeatureName =
   | "JEST_TEST"
   | "PUMPKIN_PLAZA"
   | "NEW_DELIVERIES"
-  | "CORN_MAZE"
   | "NEW_FARM_FLOW"
   | "BUDS_DEPOSIT_FLOW"
   | "FISHING"
   | "BEACH"
   | "HALLOWEEN"
-  | "XSOLLA"
-  | "BANANA";
+  | "BANANA"
+  | "LOCALISATION";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51];
@@ -36,7 +35,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
   NEW_DELIVERIES: testnetFeatureFlag,
-  CORN_MAZE: testnetFeatureFlag,
   NEW_FARM_FLOW: () => true,
   BUDS_DEPOSIT_FLOW: () => true,
   FISHING: (game: GameState) => {
@@ -46,7 +44,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
 
     return Date.now() > SEASONS["Catch the Kraken"].startDate.getTime();
   },
-  XSOLLA: testnetFeatureFlag,
   HALLOWEEN: (game: GameState) => {
     if (Date.now() > new Date("2023-11-01").getTime()) {
       return false;
@@ -80,6 +77,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
 
     return defaultFeatureFlag(game);
   },
+  LOCALISATION: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
@@ -92,8 +90,5 @@ export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
     return true;
   }
 
-  if (featureName === "CORN_MAZE" && isWitchesEve) {
-    return true;
-  }
   return featureFlags[featureName](game);
 };

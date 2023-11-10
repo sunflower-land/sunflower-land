@@ -18,6 +18,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Settings } from "./components/Settings";
 import { Leaderboard } from "features/game/expansion/components/leaderboard/Leaderboard";
 import { TravelButton } from "./components/deliveries/TravelButton";
+import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -100,6 +101,16 @@ const HudComponent: React.FC = () => {
             <Leaderboard farmId={farmId} />
             <TravelButton />
           </div>
+          <div
+            className="fixed z-50 flex flex-col justify-between"
+            style={{
+              bottom: `${PIXEL_SCALE * 3}px`,
+              left: `${PIXEL_SCALE * 28}px`,
+            }}
+          >
+            <AuctionCountdown />
+          </div>
+
           <BumpkinProfile isFullUser={isFullUser} />
 
           <div

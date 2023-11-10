@@ -35,6 +35,7 @@ import ocean from "assets/decorations/ocean.webp";
 import { Bud } from "features/island/buds/Bud";
 import { hasFeatureAccess } from "lib/flags";
 import { Fisherman } from "features/island/fisherman/Fisherman";
+import { VisitingHud } from "features/island/hud/VisitingHud";
 
 export const LAND_WIDTH = 6;
 
@@ -510,13 +511,15 @@ export const Land: React.FC = () => {
         />
       </div>
 
-      {landscaping ? (
-        <>
-          <LandscapingHud isFarming />
-        </>
-      ) : (
-        <Hud isFarming={!visiting} />
+      {landscaping && <LandscapingHud isFarming />}
+
+      {!landscaping && visiting && (
+        <div className="absolute z-20">
+          <VisitingHud />
+        </div>
       )}
+
+      {!landscaping && !visiting && <Hud isFarming={true} />}
     </>
   );
 };

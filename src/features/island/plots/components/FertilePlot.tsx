@@ -4,19 +4,32 @@ import { CROPS, CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { GrowthStage, Soil } from "features/island/plots/components/Soil";
-import { Bar, ProgressBar } from "components/ui/ProgressBar";
+import { Bar, LiveProgressBar } from "components/ui/ProgressBar";
 
 import powerup from "assets/icons/level_up.png";
 
 import { TimerPopover } from "../../common/TimerPopover";
-import { getTimeLeft } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import classNames from "classnames";
-import { CropFertiliser } from "features/game/types/game";
+import {
+  Bumpkin,
+  Collectibles,
+  CropFertiliser,
+  CropPlot,
+  GameState,
+  Inventory,
+} from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
+
+import { getCropTime } from "features/game/events/landExpansion/plant";
 
 interface Props {
   cropName?: CropName;
+  inventory: Inventory;
+  collectibles: Collectibles;
+  bumpkin?: Bumpkin;
+  buds?: NonNullable<GameState["buds"]>;
+  plot: CropPlot;
   plantedAt?: number;
   fertiliser?: CropFertiliser;
   procAnimation?: JSX.Element;
@@ -26,6 +39,11 @@ interface Props {
 
 const FertilePlotComponent: React.FC<Props> = ({
   cropName,
+  inventory,
+  collectibles,
+  bumpkin,
+  buds,
+  plot,
   plantedAt,
   fertiliser,
   procAnimation,
@@ -34,10 +52,29 @@ const FertilePlotComponent: React.FC<Props> = ({
 }) => {
   const [showTimerPopover, setShowTimerPopover] = useState(false);
 
-  const harvestSeconds = cropName ? CROPS()[cropName].harvestSeconds : 0;
-  const timeLeft = plantedAt ? getTimeLeft(plantedAt, harvestSeconds) : 0;
+  const [_, setRender] = useState<number>(0);
+
+  let harvestSeconds = cropName ? CROPS()[cropName].harvestSeconds : 0;
+  const readyAt = plantedAt ? plantedAt + harvestSeconds * 1000 : 0;
+
+  let startAt = plantedAt ?? 0;
+  if (cropName && bumpkin) {
+    const fertiliserName = fertiliser?.name ?? undefined;
+    harvestSeconds = getCropTime({
+      crop: cropName,
+      inventory,
+      collectibles,
+      bumpkin,
+      buds: buds ?? {},
+      plot,
+      fertiliser: fertiliserName,
+    });
+    startAt = readyAt - harvestSeconds * 1000;
+  }
+  const timeLeft = readyAt > 0 ? (readyAt - Date.now()) / 1000 : 0;
   const isGrowing = timeLeft > 0;
 
+  // REVIEW: Is this still needed after changing to LiveProgressBar?
   useUiRefresher({ active: isGrowing });
 
   const growPercentage = 100 - (timeLeft / harvestSeconds) * 100;
@@ -143,7 +180,7 @@ const FertilePlotComponent: React.FC<Props> = ({
       )}
 
       {/* Progres bar for growing crops */}
-      {showTimers && timeLeft > 0 && (
+      {showTimers && isGrowing && (
         <div
           className="absolute pointer-events-none"
           style={{
@@ -151,11 +188,12 @@ const FertilePlotComponent: React.FC<Props> = ({
             width: `${PIXEL_SCALE * 15}px`,
           }}
         >
-          <ProgressBar
-            percentage={growPercentage}
-            seconds={timeLeft}
-            type="progress"
+          <LiveProgressBar
+            key={`${startAt}-${readyAt}`}
+            startAt={startAt}
+            endAt={readyAt}
             formatLength="short"
+            onComplete={() => setRender((r) => r + 1)}
           />
         </div>
       )}

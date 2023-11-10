@@ -1,10 +1,8 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_STOCK } from "features/game/lib/constants";
+import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getKeys } from "features/game/types/craftables";
-import { CROP_SEEDS } from "features/game/types/crops";
-import { FRUIT_SEEDS } from "features/game/types/fruits";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
@@ -100,22 +98,18 @@ function getDetails(
 ): {
   limit: Decimal;
   count: Decimal;
-  isSeed: boolean;
   image: string;
   name: string;
   description: string;
 } {
   if (details.item) {
     const inventoryCount = game.inventory[details.item] ?? new Decimal(0);
-    const limit = INITIAL_STOCK(game)[details.item];
-    const isSeed =
-      details.item in FRUIT_SEEDS() || details.item in CROP_SEEDS();
+    const limit = INVENTORY_LIMIT(game)[details.item];
 
     return {
       count: inventoryCount,
       description: ITEM_DETAILS[details.item].description,
       image: ITEM_DETAILS[details.item].image,
-      isSeed,
       name: details.item,
       limit: limit as Decimal,
     };
@@ -128,7 +122,6 @@ function getDetails(
     limit: new Decimal(1),
     description: "?",
     image: getImageUrl(ITEM_IDS[details.wearable]),
-    isSeed: false,
     name: details.wearable,
   };
 }
@@ -159,10 +152,10 @@ export const CraftingRequirements: React.FC<Props> = ({
       );
     }
 
-    const { count, limit, isSeed } = getDetails(gameState, details);
+    const { count, limit } = getDetails(gameState, details);
 
     const isInventoryFull =
-      isSeed && (limit === undefined ? false : count.greaterThan(limit));
+      limit === undefined ? false : count.greaterThan(limit);
 
     return (
       <div className="flex justify-center mt-0 sm:mb-1">

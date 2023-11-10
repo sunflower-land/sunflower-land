@@ -202,6 +202,7 @@ export const ProgressBar: React.FC<Props> = ({
 interface LiveProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
   startAt: number;
   endAt: number;
+  formatLength: TimeFormatLength;
   onComplete: () => void;
 }
 
@@ -212,6 +213,7 @@ interface LiveProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
 export const LiveProgressBar: React.FC<LiveProgressBarProps> = ({
   startAt,
   endAt,
+  formatLength,
   onComplete,
   ...divProps
 }) => {
@@ -238,7 +240,7 @@ export const LiveProgressBar: React.FC<LiveProgressBarProps> = ({
   return (
     <ProgressBar
       seconds={secondsLeft}
-      formatLength="short"
+      formatLength={formatLength}
       percentage={percentage}
       type="progress"
       {...divProps}

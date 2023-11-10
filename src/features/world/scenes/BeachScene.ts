@@ -3,8 +3,8 @@ import mapJSON from "assets/map/beach.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { InventoryItemName } from "features/game/types/game";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -55,10 +55,10 @@ export class BeachScene extends BaseScene {
   }
 
   preload() {
+    super.preload();
+
     this.krakenHunger =
       this.gameService.state.context.state?.catchTheKraken?.hunger;
-
-    super.preload();
 
     this.load.spritesheet("beach_bud", "world/turtle.png", {
       frameWidth: 15,
@@ -75,12 +75,22 @@ export class BeachScene extends BaseScene {
       frameHeight: 32,
     });
 
-    this.load.image("kraken", "world/kraken.png");
-
     if (this.krakenHunger) {
-      this.load.image("kraken_hunger", ITEM_DETAILS[this.krakenHunger].image);
+      const image = ITEM_DETAILS[this.krakenHunger].image;
+
+      if (image.startsWith("data:")) {
+        this.textures.addBase64("kraken_hunger", image);
+      } else {
+        this.load.image("kraken_hunger", image);
+      }
+
       this.load.image("heart", SUNNYSIDE.icons.heart);
     }
+
+    this.load.spritesheet("kraken", "world/kraken_sheet.png", {
+      frameWidth: 41,
+      frameHeight: 48,
+    });
 
     this.load.spritesheet("bird", SUNNYSIDE.animals.bird, {
       frameWidth: 16,
@@ -107,7 +117,17 @@ export class BeachScene extends BaseScene {
 
     this.initialiseNPCs(BUMPKINS);
 
-    this.add.sprite(308, 755, "kraken");
+    const kraken = this.add.sprite(308, 755, "kraken");
+    this.anims.create({
+      key: "kraken_anim",
+      frames: this.anims.generateFrameNumbers("kraken", {
+        start: 0,
+        end: 4,
+      }),
+      repeat: -1,
+      frameRate: 5,
+    });
+    kraken.play("kraken_anim", true);
 
     if (this.krakenHunger) {
       this.add.sprite(338, 740, "kraken_hunger");

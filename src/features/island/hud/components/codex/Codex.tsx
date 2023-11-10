@@ -27,6 +27,26 @@ export const categories: CodexCategory[] = [
     name: "Fish",
     icon: SUNNYSIDE.icons.fish,
   },
+  {
+    name: "Farming",
+    icon: SUNNYSIDE.icons.basket,
+    disabled: true,
+  },
+  {
+    name: "Bumpkins",
+    icon: SUNNYSIDE.icons.player,
+    disabled: true,
+  },
+  {
+    name: "Treasures",
+    icon: SUNNYSIDE.decorations.treasure_chest,
+    disabled: true,
+  },
+  {
+    name: "Season",
+    icon: SUNNYSIDE.icons.stopwatch,
+    disabled: true,
+  },
 ];
 
 export function getCodexCategoryIndex(category: CodexCategoryName) {
@@ -96,6 +116,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                       isActive={currentTab === index}
                       onClick={() => handleTabClick(index)}
                       vertical
+                      disabled={tab.disabled}
                     >
                       <SquareIcon icon={tab.icon} width={7} />
                     </Tab>

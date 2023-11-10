@@ -15,7 +15,7 @@ import { Button } from "components/ui/Button";
 import { Equipped } from "features/game/types/bumpkin";
 import { NPC } from "./NPC";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { analytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
 const LEVEL_UP_MESSAGES: Record<number, string> = {
   2: "Yeehaw, you've reached level 2! The crops are quakin' in their boots.",
@@ -89,7 +89,7 @@ export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
 
   const clicked = (method: "Reddit" | "Twitter" | "Telegram" | "Facebook") => {
     // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=18434190870996612736-AP&client_type=gtag#share
-    analytics.logEvent("share", {
+    onboardingAnalytics.logEvent("share", {
       method,
       content_type: "text",
       item_id: "level_up",

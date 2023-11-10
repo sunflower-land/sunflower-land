@@ -38,7 +38,10 @@ export const FishCaught: React.FC<Props> = ({
     <>
       <div className="p-2">
         {getKeys(caught).map((name) => {
-          const isNew = name in FISH && farmActivity[`${name} Caught`] === 1;
+          const isNew =
+            name in FISH &&
+            (!farmActivity[`${name} Caught`] ||
+              farmActivity[`${name} Caught`] === 0);
 
           return (
             <div
@@ -53,7 +56,7 @@ export const FishCaught: React.FC<Props> = ({
               )}
               <span className="text-sm mb-2">{name}</span>
               <img src={ITEM_DETAILS[name]?.image} className="h-12 mb-2" />
-              <span className="text-xs mb-2">
+              <span className="text-xs text-center mb-2">
                 {ITEM_DETAILS[name].description}
               </span>
             </div>

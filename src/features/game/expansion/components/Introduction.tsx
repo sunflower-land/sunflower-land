@@ -7,6 +7,7 @@ import { Context } from "features/game/GameProvider";
 
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 export const Introduction: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -20,6 +21,8 @@ export const Introduction: React.FC = () => {
           onClose={() => {
             acknowledgeIntroduction();
             send("ACKNOWLEDGE");
+
+            gameAnalytics.trackMilestone({ event: "Tutorial:Intro:Completed" });
           }}
           message={[
             {

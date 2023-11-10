@@ -112,11 +112,6 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const canSkip =
     getDayOfYear(new Date()) !== getDayOfYear(new Date(previewOrder.createdAt));
 
-  const deliver = () => {
-    gameService.send("order.delivered", { id: previewOrder?.id });
-    onSelect(undefined);
-  };
-
   const skip = () => {
     setShowSkipDialog(false);
     gameService.send("order.skipped", { id: previewOrder?.id });

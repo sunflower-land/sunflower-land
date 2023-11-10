@@ -11,15 +11,20 @@ import { FishermanModal } from "./FishermanModal";
 import { FishermanNPC } from "./FishermanNPC";
 import { InventoryItemName } from "features/game/types/game";
 import { FishingBait } from "features/game/types/fishing";
+import classNames from "classnames";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 3;
+
+const _isVisiting = (state: MachineState) => state.matches("visiting");
 
 export const Fisherman: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { gameService } = useContext(Context);
 
   const expansionCount = useSelector(gameService, expansions);
+  const isVisiting = useSelector(gameService, _isVisiting);
+
   const wharfCoords = () => {
     if (expansionCount < 7) {
       return { x: -1, y: -3.5 };
@@ -32,13 +37,13 @@ export const Fisherman: React.FC = () => {
   };
 
   const cast = (bait: FishingBait, chum?: InventoryItemName) => {
-    gameService.send("rod.casted", { bait, chum });
+    const state = gameService.send("rod.casted", { bait, chum });
     gameService.send("SAVE");
     setShowModal(false);
   };
 
   return (
-    <>
+    <div className={classNames({ "pointer-events-none": isVisiting })}>
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <FishermanModal onCast={cast} onClose={() => setShowModal(false)} />
       </Modal>
@@ -71,6 +76,6 @@ export const Fisherman: React.FC = () => {
           }}
         />
       </MapPlacement>
-    </>
+    </div>
   );
 };

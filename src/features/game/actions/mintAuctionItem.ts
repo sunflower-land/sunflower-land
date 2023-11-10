@@ -5,12 +5,16 @@ import {
 import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { Bid, InventoryItemName } from "../types/game";
+import { gameAnalytics } from "lib/gameAnalytics";
+import { getSeasonalTicket } from "../types/seasons";
 
 type Request = {
   farmId: number;
   auctionId: string;
   token: string;
   transactionId: string;
+  bid?: Bid;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -41,21 +45,49 @@ export async function mintAuctionItem(request: Request) {
 
   const transaction = await response.json();
 
+  let sessionId;
   if (transaction.type === "collectible") {
-    const sessionId = await mintAuctionCollectible({
+    sessionId = await mintAuctionCollectible({
       ...transaction,
       web3: wallet.web3Provider,
       account: wallet.myAccount,
     });
-
-    return { sessionId, verified: true };
   } else {
-    const sessionId = await mintAuctionWearable({
+    sessionId = await mintAuctionWearable({
       ...transaction,
       web3: wallet.web3Provider,
       account: wallet.myAccount,
     });
-
-    return { sessionId, verified: true };
   }
+
+  // Fire off analytics - TODO migrate to backend
+  const bid = request.bid;
+  if (bid && bid.ingredients["Block Buck"]) {
+    gameAnalytics.trackSink({
+      currency: "Block Buck",
+      amount: bid.ingredients["Block Buck"],
+      item: bid.collectible ?? (bid.wearable as InventoryItemName),
+      type: bid.collectible ? "Collectible" : "Wearable",
+    });
+  }
+
+  if (bid && bid.ingredients[getSeasonalTicket()]) {
+    gameAnalytics.trackSink({
+      currency: "Seasonal Ticket",
+      amount: bid.ingredients[getSeasonalTicket()] ?? 0,
+      item: bid.collectible ?? (bid.wearable as InventoryItemName),
+      type: bid.collectible ? "Collectible" : "Wearable",
+    });
+  }
+
+  if (bid && bid.sfl) {
+    gameAnalytics.trackSink({
+      currency: "SFL",
+      amount: bid.sfl ?? 0,
+      item: bid.collectible ?? (bid.wearable as InventoryItemName),
+      type: bid.collectible ? "Collectible" : "Wearable",
+    });
+  }
+
+  return { sessionId, verified: true };
 }

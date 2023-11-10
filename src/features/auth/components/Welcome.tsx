@@ -4,9 +4,11 @@ import { Context } from "../lib/Provider";
 
 import walletIcon from "src/assets/icons/wallet.png";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Welcome: React.FC = () => {
   const { authService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   return (
     <div className="p-2">
@@ -19,7 +21,7 @@ export const Welcome: React.FC = () => {
             src={walletIcon}
             className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
           />
-          Login
+          {t("welcome.login")}
         </div>
       </Button>
       <Button
@@ -31,7 +33,7 @@ export const Welcome: React.FC = () => {
             src={SUNNYSIDE.icons.player}
             className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
           />
-          Create Account
+          {t("welcome.createAccount")}
         </div>
       </Button>
       <div className="flex justify-between">
@@ -47,7 +49,7 @@ export const Welcome: React.FC = () => {
           rel="noopener noreferrer"
           className="underline text-white text-xs"
         >
-          Need help?
+          {t("welcome.needHelp")}
         </a>
       </div>
     </div>

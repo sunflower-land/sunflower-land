@@ -78,6 +78,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
       maximum: availableSpots,
       multiple: true,
     });
+
     onClose();
   };
 

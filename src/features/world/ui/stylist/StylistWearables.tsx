@@ -21,6 +21,8 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { GameState } from "features/game/types/game";
+import { gameAnalytics } from "lib/gameAnalytics";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 function isNotReady(name: BumpkinItem, state: GameState) {
   const wearable = STYLIST_WEARABLES(state)[name] as StylistWearable;
@@ -71,6 +73,33 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
     gameService.send("wearable.bought", {
       name: selected,
     });
+
+    if (wearable.ingredients["Block Buck"]) {
+      gameAnalytics.trackSink({
+        currency: "Block Buck",
+        amount: wearable.ingredients["Block Buck"].toNumber() ?? 1,
+        item: selected,
+        type: "Wearable",
+      });
+    }
+
+    if (wearable.ingredients[getSeasonalTicket()]) {
+      gameAnalytics.trackSink({
+        currency: "Seasonal Ticket",
+        amount: wearable.ingredients[getSeasonalTicket()]?.toNumber() ?? 1,
+        item: selected,
+        type: "Wearable",
+      });
+    }
+
+    if (wearable.sfl) {
+      gameAnalytics.trackSink({
+        currency: "SFL",
+        amount: wearable.sfl.toNumber(),
+        item: selected,
+        type: "Wearable",
+      });
+    }
   };
 
   const Action = () => {

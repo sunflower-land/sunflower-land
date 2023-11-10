@@ -10,6 +10,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { BuildingName } from "features/game/types/buildings";
 import { ComposterName } from "features/game/types/composters";
 import { CompostBuilding } from "features/game/types/game";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 const getComposter = (type: BuildingName) => (state: MachineState) =>
   state.context.state.buildings[type]?.[0] as CompostBuilding;
@@ -51,11 +52,20 @@ export const Composter: React.FC<Props> = ({ name }) => {
   };
 
   const handleCollect = () => {
-    gameService.send("compost.collected", {
+    const state = gameService.send("compost.collected", {
       buildingId: composter!.id,
       building: name,
     });
     gameService.send("SAVE");
+
+    if (
+      name === "Compost Bin" &&
+      state.context.state.bumpkin?.activity?.["Compost Bin Collected"] === 1
+    ) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:Composting:Completed",
+      });
+    }
   };
 
   let image = COMPOSTER_IMAGES[name].idle;
@@ -100,6 +110,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
             <LiveProgressBar
               startAt={composter?.producing?.startedAt}
               endAt={composter?.producing?.readyAt}
+              formatLength="short"
               className="relative"
               style={{
                 width: `${PIXEL_SCALE * 14}px`,

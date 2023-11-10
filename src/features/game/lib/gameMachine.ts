@@ -65,10 +65,7 @@ import {
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
 import { choose } from "xstate/lib/actions";
-import {
-  removeGuestKey,
-  setOnboardingComplete,
-} from "features/auth/actions/createGuestAccount";
+import { setOnboardingComplete } from "features/auth/actions/onboardingComplete";
 import { Announcements } from "../types/conversations";
 import { purchaseItem } from "../actions/purchaseItem";
 import { Currency, buyBlockBucksMATIC } from "../actions/buyBlockBucks";
@@ -80,8 +77,9 @@ import { getAuctionResults } from "../actions/getAuctionResults";
 import { AuctionResults } from "./auctionMachine";
 import { trade } from "../actions/trade";
 import { mmoBus } from "features/world/mmoMachine";
-import { analytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { BudName } from "../types/buds";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -530,7 +528,6 @@ export function startGame(authContext: AuthContext) {
                   throw new Error("NO_FARM");
                 }
 
-                removeGuestKey();
                 setOnboardingComplete();
 
                 const {
@@ -1110,12 +1107,13 @@ export function startGame(authContext: AuthContext) {
           invoke: {
             src: async (context, event) => {
               const { auctionId } = event as MintEvent;
-              console.log({ mintEveent: event });
+
               const { sessionId } = await mintAuctionItem({
                 farmId: Number(authContext.user.farmId),
                 token: authContext.user.rawToken as string,
                 auctionId,
                 transactionId: context.transactionId as string,
+                bid: context.state.auctioneer.bid,
               });
 
               return {
@@ -1407,6 +1405,13 @@ export function startGame(authContext: AuthContext) {
                 transactionId: context.transactionId as string,
               });
 
+              gameAnalytics.trackSink({
+                currency: "Block Buck",
+                amount: 1,
+                item: "Trade",
+                type: "Fee",
+              });
+
               return {
                 farm,
                 buyerId: Number(authContext.user.farmId),
@@ -1436,7 +1441,7 @@ export function startGame(authContext: AuthContext) {
                       },
                     });
                     // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#spend_virtual_currency
-                    analytics.logEvent("spend_virtual_currency", {
+                    onboardingAnalytics.logEvent("spend_virtual_currency", {
                       value: 1,
                       virtual_currency_name: "Trade",
                       item_name: "Trade",

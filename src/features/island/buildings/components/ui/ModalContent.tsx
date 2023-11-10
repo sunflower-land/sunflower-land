@@ -6,6 +6,7 @@ import { BuildingName } from "features/game/types/buildings";
 import { ListView } from "./ListView";
 import { DetailView } from "./DetailView";
 import Decimal from "decimal.js-light";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 export const ModalContent: React.FC<{ closeModal: () => void }> = ({
   closeModal,
@@ -35,6 +36,15 @@ export const ModalContent: React.FC<{ closeModal: () => void }> = ({
         ingredients: {},
       },
     });
+
+    const isCrafting = !hasUnplacedBuildings;
+    if (isCrafting) {
+      const buildingCount = state.inventory[selected]?.toNumber() ?? 1;
+      gameAnalytics.trackMilestone({
+        event: `Crafting:Building:${selected}${buildingCount}`,
+      });
+    }
+
     closeModal();
   };
 

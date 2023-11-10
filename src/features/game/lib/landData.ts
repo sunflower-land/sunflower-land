@@ -277,7 +277,7 @@ export const INITIAL_EXPANSIONS = 3;
 
 const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 10000,
+  experience: 0,
   tokenUri: "bla",
   equipped: {
     body: "Beige Farmer Potion",
@@ -290,12 +290,8 @@ const INITIAL_BUMPKIN: Bumpkin = {
     background: "Farm Background",
     onesie: "Eggplant Onesie",
   },
-  skills: {
-    "Michelin Stars": 1,
-  },
-  achievements: {
-    "Busy Bumpkin": 1,
-  },
+  skills: {},
+  achievements: {},
   activity: {
     "Reindeer Carrot Fed": 50,
   },
@@ -304,29 +300,10 @@ const INITIAL_BUMPKIN: Bumpkin = {
 export const OFFLINE_FARM: GameState = {
   id: 4,
   catchTheKraken: {
-    hunger: "Red Snapper",
+    hunger: "Iron",
     weeklyCatches: {
       1: 5,
       13: 5,
-    },
-  },
-  witchesEve: {
-    weeklyLostCrowCount: 25,
-    maze: {
-      13: {
-        claimedFeathers: 0,
-        sflFee: 5,
-        paidEntryFee: true,
-        highestScore: 0,
-        attempts: [
-          {
-            startedAt: 0,
-            crowsFound: 0,
-            health: 3,
-            time: 2,
-          },
-        ],
-      },
     },
   },
   balance: new Decimal(100),
@@ -334,17 +311,7 @@ export const OFFLINE_FARM: GameState = {
     "Fish Encyclopedia": 1,
     "Expert Angler": 1,
   },
-  farmActivity: {
-    "Anchovy Caught": 5,
-    "Clownfish Caught": 5,
-    "Red Snapper Caught": 1,
-    "Butterflyfish Caught": 5,
-    "Blowfish Caught": 5,
-    "Sea Bass Caught": 5,
-    "Sea Horse Caught": 5,
-    "Horse Mackerel Caught": 5,
-    "Squid Caught": 5,
-  },
+  farmActivity: {},
   wardrobe: {
     "Eggplant Onesie": 1,
     "Golden Spatula": 1,
@@ -402,13 +369,13 @@ export const OFFLINE_FARM: GameState = {
     "Phantom Barracuda": new Decimal(1),
     "Gilded Swordfish": new Decimal(1),
     Rod: new Decimal(1),
+    "Mermaid Scale": new Decimal(500),
     Earthworm: new Decimal(10),
     "Sprout Mix": new Decimal(10),
     "Rapid Root": new Decimal(10),
     "Fruitful Blend": new Decimal(10),
     "El Pollo Veloz": new Decimal(1),
     "Banana Chicken": new Decimal(1),
-    Nana: new Decimal(1),
     "Bud Seedling": new Decimal(1),
     Gnome: new Decimal(1),
     "Sunflower Cake": new Decimal(15),
@@ -427,13 +394,14 @@ export const OFFLINE_FARM: GameState = {
     Egg: new Decimal(10),
     Kale: new Decimal(10),
     Wood: new Decimal(30),
+    "Kraken Tentacle": new Decimal(3),
     "Luminous Lantern": new Decimal(5),
     "Radiance Lantern": new Decimal(3),
     Market: new Decimal(1),
     "Fire Pit": new Decimal(1),
     "Town Center": new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(3),
+    "Basic Land": new Decimal(10),
     "Crop Plot": new Decimal(getKeys(INITIAL_RESOURCES.crops).length),
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
@@ -531,7 +499,18 @@ export const OFFLINE_FARM: GameState = {
       },
     },
   },
-  chickens: {},
+  chickens: {
+    "1": {
+      multiplier: 1,
+      coordinates: { x: -5, y: 0 },
+      fedAt: 100,
+    },
+    "12": {
+      multiplier: 1,
+      coordinates: { x: -6, y: 0 },
+      fedAt: 100,
+    },
+  },
   fishing: {
     weather: "Sunny",
     wharf: {},
@@ -618,9 +597,25 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    Workbench: [
+    "Hen House": [
       {
         coordinates: { x: 3, y: 0 },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+      },
+    ],
+    Market: [
+      {
+        coordinates: { x: 3, y: -5 },
+        createdAt: 0,
+        id: "123",
+        readyAt: 0,
+      },
+    ],
+    "Fire Pit": [
+      {
+        coordinates: { x: -3, y: -5 },
         createdAt: 0,
         id: "123",
         readyAt: 0,
@@ -634,6 +629,12 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
         requires: {
           Sunflower: 5,
+        },
+        producing: {
+          items: { "Fruitful Blend": 10, "Red Wiggler": 3 },
+
+          readyAt: Date.now() + 3000,
+          startedAt: Date.now() - 50000 - 8 * 60 * 60 * 1000,
         },
       },
     ],
@@ -735,13 +736,14 @@ export const OFFLINE_FARM: GameState = {
         readyAt: Date.now() + 5000,
       },
     ],
-    fulfilledCount: 23,
+    fulfilledCount: 0,
     milestone: {
       goal: 12,
       total: 25,
     },
   },
   mysteryPrizes: {},
+  npcs: {},
   pumpkinPlaza: {},
   treasureIsland: {
     holes: {},
