@@ -1,4 +1,4 @@
-import { GameState } from "../types/game";
+import { GameState, InventoryItemName } from "../types/game";
 import { Coordinates } from "../expansion/components/MapPlacement";
 
 export type ExpandLandAction = {
@@ -103,6 +103,14 @@ export const LAND_4_LAYOUT: Layout = {
     },
     {
       x: -1,
+      y: 0,
+    },
+    {
+      x: 0,
+      y: 1,
+    },
+    {
+      x: 0,
       y: 0,
     },
   ],
@@ -730,3 +738,252 @@ export const LAND_PACK_THREE = [LAND_12_LAYOUT, LAND_13_LAYOUT, LAND_14_LAYOUT];
 export const LAND_PACK_FOUR = [LAND_15_LAYOUT, LAND_16_LAYOUT, LAND_17_LAYOUT];
 export const LAND_PACK_FIVE = [LAND_18_LAYOUT, LAND_19_LAYOUT, LAND_20_LAYOUT];
 export const LAND_PACK_SIX = [LAND_21_LAYOUT, LAND_22_LAYOUT, LAND_23_LAYOUT];
+
+export interface Requirements {
+  resources: Partial<Record<InventoryItemName, number>>;
+  seconds: number;
+  bumpkinLevel: number;
+}
+
+const LAND_4_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 3,
+    "Block Buck": 1,
+  },
+  seconds: 10,
+  bumpkinLevel: 1,
+};
+
+const LAND_5_REQUIREMENTS: Requirements = {
+  resources: {
+    Stone: 3,
+    "Block Buck": 1,
+  },
+  seconds: 60,
+  bumpkinLevel: 3,
+};
+
+const LAND_6_REQUIREMENTS: Requirements = {
+  resources: {
+    Stone: 3,
+    Iron: 1,
+    "Block Buck": 1,
+  },
+  seconds: 5 * 60,
+  bumpkinLevel: 4,
+};
+
+const LAND_7_REQUIREMENTS: Requirements = {
+  resources: {
+    Stone: 5,
+    Iron: 1,
+    Gold: 1,
+    "Block Buck": 1,
+  },
+  seconds: 30 * 60,
+  bumpkinLevel: 6,
+};
+
+const LAND_8_REQUIREMENTS: Requirements = {
+  resources: {
+    Stone: 10,
+    Iron: 3,
+    Gold: 1,
+    "Block Buck": 1,
+  },
+  seconds: 4 * 60 * 60,
+  bumpkinLevel: 8,
+};
+
+const LAND_9_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 100,
+    Stone: 40,
+    Iron: 5,
+    "Block Buck": 1,
+  },
+  seconds: 12 * 60 * 60,
+  bumpkinLevel: 11,
+};
+
+const LAND_10_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 100,
+    Stone: 50,
+    Iron: 5,
+    Gold: 2,
+    "Block Buck": 1,
+  },
+  seconds: 24 * 60 * 60,
+  bumpkinLevel: 13,
+};
+
+const LAND_11_REQUIREMENTS: Requirements = {
+  resources: {
+    Gold: 10,
+    "Block Buck": 1,
+  },
+  seconds: 24 * 60 * 60,
+  bumpkinLevel: 15,
+};
+
+const LAND_12_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 500,
+    Stone: 20,
+    Gold: 2,
+    "Block Buck": 1,
+  },
+  seconds: 24 * 60 * 60,
+  bumpkinLevel: 17,
+};
+
+const LAND_13_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 100,
+    Stone: 150,
+    Gold: 5,
+    "Block Buck": 1,
+  },
+  seconds: 24 * 60 * 60,
+  bumpkinLevel: 20,
+};
+
+const LAND_14_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 40,
+    Stone: 30,
+    Iron: 10,
+    Gold: 10,
+    "Block Buck": 1,
+  },
+  seconds: 36 * 60 * 60,
+  bumpkinLevel: 23,
+};
+
+const LAND_15_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 200,
+    Gold: 15,
+    "Block Buck": 1,
+  },
+  seconds: 36 * 60 * 60,
+  bumpkinLevel: 26,
+};
+
+const LAND_16_REQUIREMENTS: Requirements = {
+  resources: {
+    Stone: 150,
+    Iron: 30,
+    Gold: 10,
+    "Block Buck": 1,
+  },
+  seconds: 36 * 60 * 60,
+  bumpkinLevel: 30,
+};
+
+const LAND_17_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 200,
+    Stone: 50,
+    Gold: 25,
+    "Block Buck": 1,
+  },
+  seconds: 36 * 60 * 60,
+  bumpkinLevel: 34,
+};
+
+const LAND_18_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 300,
+    Stone: 200,
+    Iron: 30,
+    Gold: 10,
+    "Block Buck": 1,
+  },
+  seconds: 36 * 60 * 60,
+  bumpkinLevel: 37,
+};
+
+const LAND_19_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 100,
+    Stone: 250,
+    Gold: 30,
+    "Block Buck": 1,
+  },
+  seconds: 48 * 60 * 60,
+  bumpkinLevel: 40,
+};
+
+const LAND_20_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 1000,
+    Stone: 100,
+    Iron: 10,
+    Gold: 25,
+    "Block Buck": 1,
+  },
+  seconds: 48 * 60 * 60,
+  bumpkinLevel: 45,
+};
+
+const LAND_21_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 1500,
+    Stone: 100,
+    Iron: 20,
+    Gold: 25,
+    "Block Buck": 2,
+  },
+  seconds: 48 * 60 * 60,
+  bumpkinLevel: 50,
+};
+const LAND_22_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 2000,
+    Stone: 200,
+    Iron: 20,
+    Gold: 40,
+    "Block Buck": 2,
+  },
+  seconds: 48 * 60 * 60,
+  bumpkinLevel: 55,
+};
+const LAND_23_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 2000,
+    Stone: 250,
+    Iron: 50,
+    Gold: 60,
+    "Block Buck": 2,
+  },
+  seconds: 48 * 60 * 60,
+  bumpkinLevel: 60,
+};
+const EXPANSION_REQUIREMENTS: Record<number, Requirements> = {
+  4: LAND_4_REQUIREMENTS,
+  5: LAND_5_REQUIREMENTS,
+  6: LAND_6_REQUIREMENTS,
+  7: LAND_7_REQUIREMENTS,
+  8: LAND_8_REQUIREMENTS,
+  9: LAND_9_REQUIREMENTS,
+  10: LAND_10_REQUIREMENTS,
+  11: LAND_11_REQUIREMENTS,
+  12: LAND_12_REQUIREMENTS,
+  13: LAND_13_REQUIREMENTS,
+  14: LAND_14_REQUIREMENTS,
+  15: LAND_15_REQUIREMENTS,
+  16: LAND_16_REQUIREMENTS,
+  17: LAND_17_REQUIREMENTS,
+  18: LAND_18_REQUIREMENTS,
+  19: LAND_19_REQUIREMENTS,
+  20: LAND_20_REQUIREMENTS,
+  21: LAND_21_REQUIREMENTS,
+  22: LAND_22_REQUIREMENTS,
+  23: LAND_23_REQUIREMENTS,
+};
+
+export const expansionRequirements = (level: number) => {
+  return EXPANSION_REQUIREMENTS[level];
+};

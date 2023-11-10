@@ -47,6 +47,9 @@ export const DailyReward: React.FC = () => {
 
   const [chestState] = useActor(chestService);
 
+  if (getBumpkinLevel(gameState.context.state.bumpkin?.experience ?? 0) <= 5) {
+    return null;
+  }
   const openModal = () => {
     setShowModal(true);
     chestService.send("LOAD");

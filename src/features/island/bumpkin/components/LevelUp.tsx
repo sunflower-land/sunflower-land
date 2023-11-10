@@ -17,12 +17,22 @@ import { NPC } from "./NPC";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Label } from "components/ui/Label";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
 const LEVEL_UP_UNLOCKS: Record<number, { text: string; icon: string }[]> = {
   2: [
     {
-      text: "Farming",
-      icon: SUNNYSIDE.icons.plant_icon,
+      text: "Crops",
+      icon: SUNNYSIDE.tools.shovel,
+    },
+    {
+      text: "Sunflower",
+      icon: CROP_LIFECYCLE.Sunflower.crop,
+    },
+    {
+      text: "Potato",
+      icon: CROP_LIFECYCLE.Potato.crop,
     },
   ],
 };
@@ -105,62 +115,65 @@ export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
     });
   };
 
+  const unlocks = LEVEL_UP_UNLOCKS[level] ?? [];
+
   return (
     <div className="flex flex-col items-center">
-      <div className="w-11/12 rounded-lg shadow-md overflow-hidden mb-1">
-        <img src={levelUp} className="w-full" />
-        <div
-          className="absolute"
-          style={{
-            top: "50%",
-            left: "50%",
-            transform: `translate(-${(PIXEL_SCALE * 16) / 2}px,-${
-              PIXEL_SCALE * 56
-            }px)`,
-          }}
-        >
-          <NPC parts={wearables} hideShadow />
-        </div>
-      </div>
       <p className="text-sm my-1 text-center">
         {LEVEL_UP_MESSAGES[level] ?? "Wow, I am lost for words!"}
       </p>
-      <div className="flex mt-2 mb-1 underline">
-        <p className="text-xxs">Share</p>
-      </div>
-      <div className="flex">
-        <TwitterShareButton
-          url={" "}
-          title={shareMessage}
-          className="mr-1"
-          onClick={() => clicked("Twitter")}
-        >
-          <TwitterIcon size={40} round />
-        </TwitterShareButton>
-        <TelegramShareButton
-          url={" "}
-          title={shareMessage}
-          className="mr-1"
-          onClick={() => clicked("Telegram")}
-        >
-          <TelegramIcon size={40} round />
-        </TelegramShareButton>
-        <FacebookShareButton
-          url={"sunflower-land.com"}
-          quote={shareMessage}
-          className="mr-1"
-          onClick={() => clicked("Facebook")}
-        >
-          <FacebookIcon size={40} round />
-        </FacebookShareButton>
-        <RedditShareButton
-          url={" "}
-          title={shareMessage}
-          onClick={() => clicked("Reddit")}
-        >
-          <RedditIcon size={40} round />
-        </RedditShareButton>
-      </div>
+      {unlocks.length > 0 && (
+        <div className="mt-2 underline">
+          <p className="text-xxs text-center">Unlocked</p>
+          <div className="flex flex-wrap justify-center items-center mt-2 space-x-3">
+            {unlocks.map((unlock) => (
+              <Label className="mb-2" type="default" icon={unlock.icon}>
+                {unlock.text}
+              </Label>
+            ))}
+          </div>
+        </div>
+      )}
+      {level >= 6 && (
+        <>
+          <div className="flex mb-1 underline">
+            <p className="text-xxs">Share</p>
+          </div>
+          <div className="flex">
+            <TwitterShareButton
+              url={" "}
+              title={shareMessage}
+              className="mr-1"
+              onClick={() => clicked("Twitter")}
+            >
+              <TwitterIcon size={40} round />
+            </TwitterShareButton>
+            <TelegramShareButton
+              url={" "}
+              title={shareMessage}
+              className="mr-1"
+              onClick={() => clicked("Telegram")}
+            >
+              <TelegramIcon size={40} round />
+            </TelegramShareButton>
+            <FacebookShareButton
+              url={"sunflower-land.com"}
+              quote={shareMessage}
+              className="mr-1"
+              onClick={() => clicked("Facebook")}
+            >
+              <FacebookIcon size={40} round />
+            </FacebookShareButton>
+            <RedditShareButton
+              url={" "}
+              title={shareMessage}
+              onClick={() => clicked("Reddit")}
+            >
+              <RedditIcon size={40} round />
+            </RedditShareButton>
+          </div>
+        </>
+      )}
       <Button className="mt-2" onClick={onClose}>
         Ok
       </Button>

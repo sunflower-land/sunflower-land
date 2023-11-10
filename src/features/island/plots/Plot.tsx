@@ -23,9 +23,14 @@ import { ZoomContext } from "components/ZoomProvider";
 import { CROP_COMPOST } from "features/game/types/composters";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
+const selectLevel = (state: MachineState) =>
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+const selectHarvests = (state: MachineState) =>
+  state.context.state.bumpkin?.activity?.["Sunflower Harvested"] ?? 0;
 
 const compareBuildings = (
   prev: Partial<Record<BuildingName, PlacedItem[]>>,
@@ -49,6 +54,8 @@ export const Plot: React.FC<Props> = ({ id }) => {
     return JSON.stringify(prev[id]) === JSON.stringify(next[id]);
   });
   const buildings = useSelector(gameService, selectBuildings, compareBuildings);
+  const harvestCount = useSelector(gameService, selectHarvests);
+  const level = useSelector(gameService, selectLevel);
 
   const crop = crops?.[id]?.crop;
   const fertiliser = crops?.[id]?.fertiliser;
@@ -199,7 +206,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
   return (
     <>
       <div onClick={onClick} className="w-full h-full relative">
-        {readyToHarvest && (
+        {harvestCount < 3 && harvestCount + 1 === Number(id) && level >= 2 && (
           <img
             className="absolute cursor-pointer group-hover:img-highlight z-30"
             src={SUNNYSIDE.icons.dig_icon}

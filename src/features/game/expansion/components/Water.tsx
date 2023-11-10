@@ -22,6 +22,7 @@ import { DailyReward } from "./dailyReward/DailyReward";
 import { SeasonTeaser } from "./SeasonTeaser";
 import { LAND_WIDTH } from "../Land";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { TravelTeaser } from "./TravelTeaser";
 
 interface Props {
   townCenterBuilt: boolean;
@@ -142,6 +143,10 @@ export const WaterComponent: React.FC<Props> = ({
 
       {/* Bottom island */}
       <SeasonTeaser offset={offset} />
+
+      <MapPlacement x={-1 - offset} y={1 + offset} width={3}>
+        <TravelTeaser />
+      </MapPlacement>
 
       {/* Bottom right island */}
       <MapPlacement x={7 + offset} y={-2 - offset} width={6}>
