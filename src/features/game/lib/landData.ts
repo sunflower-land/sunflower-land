@@ -430,7 +430,7 @@ export const OFFLINE_FARM: GameState = {
   stockExpiry: {},
   expansionRequirements: {
     bumpkinLevel: 1,
-    seconds: 10,
+    seconds: 3,
     resources: { Wood: 3 },
   },
   chickens: {},
