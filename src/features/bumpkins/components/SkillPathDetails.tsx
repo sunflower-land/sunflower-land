@@ -120,11 +120,17 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   const handleClaim = () => {
     setShowConfirmButton(false);
-    gameService.send("skill.picked", { skill: selectedSkill });
+    const state = gameService.send("skill.picked", { skill: selectedSkill });
 
     gameAnalytics.trackMilestone({
       event: `Bumpkin:SkillUnlocked:${selectedSkill}`,
     });
+
+    if (Object.keys(state.context.state.bumpkin?.skills ?? {}).length === 1) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:Skill:Completed",
+      });
+    }
 
     acknowledgeSkillPoints(gameService.state.context.state.bumpkin);
   };

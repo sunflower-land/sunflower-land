@@ -22,8 +22,8 @@ class GameAnalyticTracker {
 
   public async initialise(id: number) {
     try {
-      GameAnalytics.setEnabledInfoLog(true);
-      GameAnalytics.setEnabledVerboseLog(true);
+      // GameAnalytics.setEnabledInfoLog(true);
+      // GameAnalytics.setEnabledVerboseLog(true);
 
       GameAnalytics.configureBuild(CONFIG.RELEASE_VERSION);
 

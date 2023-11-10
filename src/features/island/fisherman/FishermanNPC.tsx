@@ -23,6 +23,7 @@ import { getKeys } from "features/game/types/craftables";
 import { FISH, FISH_DIFFICULTY, FishName } from "features/game/types/fishing";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { MachineState } from "features/game/lib/gameMachine";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -193,7 +194,19 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
   const claim = () => {
     if (fishing.wharf.caught) {
-      gameService.send("rod.reeled");
+      const state = gameService.send("rod.reeled");
+
+      const totalFishCaught = getKeys(FISH).reduce(
+        (total, name) =>
+          total + (state.context.state.farmActivity[`${name} Caught`] ?? 0),
+        0
+      );
+
+      if (totalFishCaught === 1) {
+        gameAnalytics.trackMilestone({
+          event: "Tutorial:Fishing:Completed",
+        });
+      }
     }
   };
 

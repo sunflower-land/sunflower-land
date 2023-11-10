@@ -35,7 +35,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
 
   return (
     <>
-      <BuildingImageWrapper onClick={handleClick}>
+      <BuildingImageWrapper name="Hen House" onClick={handleClick}>
         <img
           src={building}
           className="absolute bottom-0 pointer-events-none"

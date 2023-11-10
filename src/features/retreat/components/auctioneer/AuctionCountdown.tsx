@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { loadAuctions } from "./actions/loadAuctions";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
@@ -7,26 +6,39 @@ import { TimerDisplay } from "./AuctionDetails";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { Auction } from "features/game/lib/auctionMachine";
-import { createPortal } from "react-dom";
 import { Context } from "features/game/GameProvider";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { loadAuctions } from "./actions/loadAuctions";
 
-const Countdown: React.FC<{ auction: Auction }> = ({ auction }) => {
+const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
+  auction,
+  onComplete,
+}) => {
   const start = useCountdown(auction?.startAt);
   const end = useCountdown(auction?.endAt);
 
+  useEffect(() => {
+    if (auction.endAt < Date.now()) {
+      onComplete();
+    }
+  }, [end]);
+
   if (auction.endAt < Date.now()) {
-    return (
-      <div className="h-7 flex justify-center">
-        <Label type="danger">Auction has finished</Label>
-      </div>
-    );
+    return null;
   }
 
   if (auction.startAt < Date.now()) {
     return (
       <div>
         <div className="h-6 flex justify-center">
-          <Label type="info">Auction is live!</Label>
+          <Label type="info" icon={SUNNYSIDE.icons.stopwatch} className="ml-1">
+            Auction is live!
+          </Label>
+          <img
+            src={SUNNYSIDE.icons.close}
+            className="h-5 cursor-pointer ml-2"
+            onClick={onComplete}
+          />
         </div>
         <TimerDisplay time={end} />
       </div>
@@ -35,7 +47,16 @@ const Countdown: React.FC<{ auction: Auction }> = ({ auction }) => {
 
   return (
     <div>
-      <p className="text-xxs">Next Auction</p>
+      <div className="flex">
+        <Label type="default" className="ml-1" icon={SUNNYSIDE.icons.stopwatch}>
+          Plaza Auction
+        </Label>
+        <img
+          src={SUNNYSIDE.icons.close}
+          className="h-5 cursor-pointer ml-2"
+          onClick={onComplete}
+        />
+      </div>
       <TimerDisplay time={start} />
     </div>
   );
@@ -47,7 +68,7 @@ export const AuctionCountdown: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [auction, setAuction] = useState<Auction>();
+  const [auction, setAuction] = useState<Auction | undefined>();
 
   useEffect(() => {
     const load = async () => {
@@ -56,7 +77,12 @@ export const AuctionCountdown: React.FC = () => {
         transactionId: gameState.context.transactionId as string,
       });
 
-      const upcoming = auctions.filter((auction) => auction.endAt > Date.now());
+      // Show countdown 1 hour from Auction
+      const upcoming = auctions.filter(
+        (auction) =>
+          auction.startAt - 60 * 60 * 1000 < Date.now() &&
+          auction.endAt > Date.now()
+      );
 
       if (upcoming.length > 0) {
         setAuction(upcoming[0]);
@@ -70,13 +96,9 @@ export const AuctionCountdown: React.FC = () => {
     return null;
   }
 
-  return createPortal(
-    <InnerPanel
-      className="fixed bottom-2 left-1/2 -translate-x-1/2 flex justify-center"
-      id="test-auction"
-    >
-      <Countdown auction={auction} />
-    </InnerPanel>,
-    document.body
+  return (
+    <InnerPanel className="flex justify-center" id="test-auction">
+      <Countdown auction={auction} onComplete={() => setAuction(undefined)} />
+    </InnerPanel>
   );
 };

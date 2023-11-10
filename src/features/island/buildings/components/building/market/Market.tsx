@@ -49,7 +49,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
 
   return (
     <>
-      <BuildingImageWrapper onClick={handleClick}>
+      <BuildingImageWrapper name="Market" onClick={handleClick}>
         <img
           src={market}
           className="absolute bottom-0 pointer-events-none"

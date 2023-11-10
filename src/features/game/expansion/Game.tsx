@@ -30,7 +30,6 @@ import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 
 import land from "assets/land/islands/island.webp";
-import { TreasureIsland } from "features/treasureIsland/TreasureIsland";
 import { getBumpkinLevel } from "../lib/level";
 import { IslandNotFound } from "./components/IslandNotFound";
 import { Rules } from "../components/Rules";
@@ -195,13 +194,6 @@ export const Game: React.FC = () => {
           <Routes>
             <Route path="/" element={<Land />} />
             <Route path="/helios" element={<Helios key="helios" />} />
-            {level >= 10 && (
-              <Route
-                path="/treasure-island"
-                element={<TreasureIsland key="treasure" />}
-              />
-            )}
-
             <Route path="*" element={<IslandNotFound />} />
           </Routes>
         </div>

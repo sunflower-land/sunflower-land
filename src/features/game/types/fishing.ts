@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { Bait } from "./composters";
 import { InventoryItemName } from "./game";
-import { getCurrentSeason } from "./seasons";
 import { Tool } from "./tools";
 
 export type PurchaseableBait = "Fishing Lure";
@@ -275,14 +274,6 @@ export function getTide(utcTime: Date = new Date()): Tide {
 export const FISH_DIFFICULTY: Partial<
   Record<FishName | MarineMarvelName, number>
 > = {
-  // TESTING ONLY
-  ...(getCurrentSeason() === "Witches' Eve"
-    ? {
-        Anchovy: 2,
-        "Red Snapper": 3,
-        Tuna: 4,
-      }
-    : {}),
   "Horse Mackerel": 1,
   Squid: 1,
   "Zebra Turkeyfish": 1,

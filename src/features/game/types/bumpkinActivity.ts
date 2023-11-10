@@ -28,10 +28,11 @@ type Recipes = Food | CookableName;
 type Edibles = Food | ConsumableName;
 
 export type HarvestEvent = `${CropName | FruitName} Harvested`;
+export type PlantEvent = `${CropName | FruitName} Planted`;
+export type FruitPlantEvent = `${FruitSeedName} Planted`;
 export type CookEvent = `${Recipes} Cooked`;
 export type FedEvent = `${Edibles} Fed`;
 export type BuyEvent = `${BuyableName} Bought`;
-export type PlantFruitEvent = `${FruitSeedName} Planted`;
 export type CraftedEvent = `${
   | ToolName
   | WorkbenchToolName
@@ -54,7 +55,8 @@ export type BumpkinActivityName =
   | ConsumableEvent
   | SellEvent
   | HarvestEvent
-  | PlantFruitEvent
+  | PlantEvent
+  | FruitPlantEvent
   | TreasureEvent
   | CompostedEvent
   // Resources
@@ -83,7 +85,8 @@ export type BumpkinActivityName =
   | "Chore Skipped"
   | "Bud Placed"
   | ComposterCollectEvent
-  | "Kraken Tentacle Traded";
+  | "Kraken Tentacle Traded"
+  | "Crop Fertilised";
 
 export function trackActivity(
   activityName: BumpkinActivityName,
