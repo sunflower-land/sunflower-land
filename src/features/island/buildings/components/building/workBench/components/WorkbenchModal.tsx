@@ -4,7 +4,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Tools } from "./Tools";
-import { Buildings } from "features/island/hud/components/buildings/Buildings";
 import { IslandBlacksmithItems } from "features/helios/components/blacksmith/component/IslandBlacksmithItems";
 
 interface Props {
@@ -26,7 +25,6 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
     >
       {tab === 0 && <Tools onClose={onClose} />}
       {tab === 1 && <IslandBlacksmithItems />}
-      {tab === 2 && <Buildings onClose={onClose} />}
     </CloseButtonPanel>
   );
 };

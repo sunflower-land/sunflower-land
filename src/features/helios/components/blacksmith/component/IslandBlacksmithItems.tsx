@@ -7,12 +7,10 @@ import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 
+import powerup from "assets/icons/level_up.png";
+
 import { Button } from "components/ui/Button";
-import {
-  HeliosBlacksmithItem,
-  HELIOS_BLACKSMITH_ITEMS,
-  CraftableCollectible,
-} from "features/game/types/collectibles";
+import { HELIOS_BLACKSMITH_ITEMS } from "features/game/types/collectibles";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -20,18 +18,30 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import Decimal from "decimal.js-light";
+import { Label } from "components/ui/Label";
+import { InventoryItemName } from "features/game/types/game";
+import { BuildingName } from "features/game/types/buildings";
+import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 
-function isNotReady(collectible: CraftableCollectible) {
-  return (
-    collectible.from &&
-    collectible.to &&
-    (collectible.from.getTime() > Date.now() ||
-      collectible.to.getTime() < Date.now())
-  );
-}
+const VALID_EQUIPMENT: InventoryItemName[] = ["Basic Scarecrow", "Bale"];
+const VALID_BUILDINGS: BuildingName[] = [
+  "Fire Pit",
+  "Compost Bin",
+  "Water Well",
+  "Kitchen",
+  "Bakery",
+  "Hen House",
+  "Deli",
+  "Smoothie Shack",
+  "Turbo Composter",
+  "Toolshed",
+  "Warehouse",
+  "Premium Composter",
+];
+
 export const IslandBlacksmithItems: React.FC = () => {
   const [selectedName, setSelectedName] =
-    useState<HeliosBlacksmithItem>("Basic Scarecrow");
+    useState<InventoryItemName>("Basic Scarecrow");
   const { gameService, shortcutItem } = useContext(Context);
   const [
     {
@@ -113,10 +123,7 @@ export const IslandBlacksmithItems: React.FC = () => {
             isAlreadyCrafted ? (
               <p className="text-xxs text-center mb-1">Already crafted!</p>
             ) : (
-              <Button
-                disabled={lessIngredients() || isNotReady(selectedItem)}
-                onClick={craft}
-              >
+              <Button disabled={lessIngredients()} onClick={craft}>
                 Craft
               </Button>
             )
@@ -125,12 +132,13 @@ export const IslandBlacksmithItems: React.FC = () => {
       }
       content={
         <>
-          {getKeys(HELIOS_BLACKSMITH_ITEMS(state)).map(
-            (name: HeliosBlacksmithItem) => {
-              const isTimeLimited = isNotReady(
-                HELIOS_BLACKSMITH_ITEMS(state)[name] as CraftableCollectible
-              );
-
+          <div className="block w-full">
+            <Label type="default" icon={powerup}>
+              Equipment
+            </Label>
+          </div>
+          <div className="flex flex-wrap">
+            {VALID_EQUIPMENT.map((name: InventoryItemName) => {
               return (
                 <Box
                   isSelected={selectedName === name}
@@ -138,7 +146,6 @@ export const IslandBlacksmithItems: React.FC = () => {
                   onClick={() => setSelectedName(name)}
                   image={ITEM_DETAILS[name].image}
                   count={inventory[name]}
-                  showOverlay={isTimeLimited}
                   overlayIcon={
                     <img
                       src={SUNNYSIDE.icons.stopwatch}
@@ -154,8 +161,27 @@ export const IslandBlacksmithItems: React.FC = () => {
                   }
                 />
               );
-            }
-          )}
+            })}
+          </div>
+          <div className="block w-full">
+            <Label type="default" icon={SUNNYSIDE.icons.hammer}>
+              Buildings
+            </Label>
+          </div>
+          <div className="flex flex-wrap">
+            {VALID_BUILDINGS.map((name: BuildingName) => {
+              return (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => setSelectedName(name)}
+                  image={ITEM_ICONS[name] ?? ITEM_DETAILS[name].image}
+                  // secondaryImage={secondaryIcon}
+                  // showOverlay={isLocked}
+                />
+              );
+            })}
+          </div>
         </>
       }
     />
