@@ -154,6 +154,25 @@ export function revealLand({
     });
   }
 
+  if (inventory["Basic Land"].eq(5)) {
+    game.airdrops?.push({
+      createdAt,
+      id: "expansion-fifth-airdrop",
+      items: {
+        Axe: 5,
+        Pickaxe: 2,
+        "Stone Pickaxe": 1,
+      },
+      sfl: 0,
+      wearables: {},
+      coordinates: {
+        x: -1,
+        y: 5,
+      },
+      message: "Congratulations!",
+    });
+  }
+
   console.log({ pre: game.trees });
 
   // Refresh all natural resources
