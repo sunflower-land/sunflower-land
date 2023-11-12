@@ -2,6 +2,8 @@ import { Equipped } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";
 import { GameState, Wardrobe } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import { cacheOutfit } from "features/farming/hud/lib/outfit";
+import { getLocationType } from "features/farming/hud/lib/locationType";
 
 export type EquipBumpkinAction = {
   type: "bumpkin.equipped";
@@ -62,6 +64,11 @@ export function equip({
   });
 
   bumpkin.equipped = action.equipment;
+
+  const locationType = getLocationType();
+  if (locationType !== "Other") cacheOutfit(bumpkin, locationType);
+
+  cacheOutfit(bumpkin, "last");
 
   return game;
 }
