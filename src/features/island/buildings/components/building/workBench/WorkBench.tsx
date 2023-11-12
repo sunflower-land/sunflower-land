@@ -1,7 +1,5 @@
 import React, { useContext, useState } from "react";
 
-import npc from "assets/npcs/blacksmith.gif";
-import shadow from "assets/npcs/shadow.png";
 import workbench from "assets/buildings/workbench.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -9,10 +7,7 @@ import { WorkbenchModal } from "./components/WorkbenchModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
 import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
-import { NPC_WEARABLES } from "lib/npcs";
 import { shopAudio } from "lib/utils/sfx";
-import { SpeakingText } from "features/game/components/SpeakingModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -29,15 +24,30 @@ function hasRead() {
   return !!localStorage.getItem(LOCAL_STORAGE_KEY);
 }
 
-const needsHelp = (state: MachineState) =>
-  !state.context.state.inventory["Basic Scarecrow"] &&
-  (state.context.state.bumpkin?.activity?.["Sunflower Planted"] ?? 0) >= 6;
+const needsHelp = (state: MachineState) => {
+  const missingScarecrow =
+    !state.context.state.inventory["Basic Scarecrow"] &&
+    (state.context.state.bumpkin?.activity?.["Sunflower Planted"] ?? 0) >= 6;
+
+  if (missingScarecrow) {
+    return true;
+  }
+
+  const missingFirePit =
+    state.context.state.inventory["Basic Land"]?.gte(5) &&
+    !state.context.state.inventory["Fire Pit"];
+
+  if (missingFirePit) {
+    return true;
+  }
+
+  return false;
+};
 
 export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService } = useContext(Context);
 
-  const [showIntro, setShowIntro] = useState(!hasRead());
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const showHelper = useSelector(gameService, needsHelp);
 
@@ -83,23 +93,7 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         )}
       </BuildingImageWrapper>
       <Modal centered show={isOpen} onHide={handleClose}>
-        {showIntro ? (
-          <Panel bumpkinParts={NPC_WEARABLES.blacksmith}>
-            <SpeakingText
-              message={[
-                {
-                  text: "I'm a master of tools, and with the right resources, I can craft anything you need...including more tools!",
-                },
-              ]}
-              onClose={() => {
-                acknowledgeRead();
-                setShowIntro(false);
-              }}
-            />
-          </Panel>
-        ) : (
-          <WorkbenchModal onClose={handleClose} />
-        )}
+        <WorkbenchModal onClose={handleClose} />
       </Modal>
     </>
   );
