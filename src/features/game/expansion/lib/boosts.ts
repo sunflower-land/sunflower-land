@@ -19,6 +19,7 @@ import {
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { getSeasonalBanner } from "features/game/types/seasons";
 import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 const crops = CROPS();
 const cakes = CAKES();
@@ -49,6 +50,11 @@ export const getSellPrice = (
     bumpkin.equipped.coat === "Chef Apron"
   ) {
     price = price.mul(1.2);
+  }
+
+  // TODO: Use some other non tradeable metrics to prevent exploits
+  if (getBumpkinLevel(bumpkin.experience ?? 0) <= 4) {
+    price = price.mul(2);
   }
 
   return price;

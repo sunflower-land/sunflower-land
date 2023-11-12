@@ -16,6 +16,7 @@ import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import lock from "assets/skills/lock.png";
+import lightning from "assets/icons/lightning.png";
 import {
   EXOTIC_CROPS,
   ExoticCrop,
@@ -23,6 +24,8 @@ import {
 } from "features/game/types/beans";
 import { getKeys } from "features/game/types/craftables";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const isExoticCrop = (
   item: Crop | Fruit | ExoticCrop
@@ -132,6 +135,9 @@ export const Crops: React.FC = () => {
 
   return (
     <>
+      <Label type="vibrant" icon={SUNNYSIDE.icons.stopwatch}>
+        2x Crop Demand
+      </Label>
       <SplitScreenView
         divRef={divRef}
         panel={

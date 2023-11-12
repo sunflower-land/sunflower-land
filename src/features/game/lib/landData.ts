@@ -146,10 +146,11 @@ export const INITIAL_RESOURCES: Pick<
         choppedAt: 0,
       },
       x: 7,
-      y: 3,
+      y: 0,
       height: 2,
       width: 2,
     },
+
     3: {
       wood: {
         amount: 1,
@@ -165,16 +166,6 @@ export const INITIAL_RESOURCES: Pick<
     1: {
       x: 0,
       y: 3,
-      width: 1,
-      height: 1,
-      stone: {
-        amount: 1,
-        minedAt: 0,
-      },
-    },
-    2: {
-      x: 4,
-      y: 5,
       width: 1,
       height: 1,
       stone: {
@@ -225,7 +216,6 @@ export const OFFLINE_FARM: GameState = {
   inventory: {
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
-    "Fire Pit": new Decimal(1),
     Workbench: new Decimal(1),
     "Basic Land": new Decimal(INITIAL_EXPANSIONS),
     "Crop Plot": new Decimal(getKeys(INITIAL_RESOURCES.crops).length),
@@ -267,8 +257,8 @@ export const OFFLINE_FARM: GameState = {
         id: "123",
         readyAt: 0,
         coordinates: {
-          x: 3,
-          y: 3,
+          x: 2,
+          y: 2,
         },
         createdAt: 0,
       },
@@ -279,29 +269,19 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
         coordinates: {
           x: 4,
-          y: 9,
+          y: 8,
         },
         createdAt: 0,
       },
     ],
-    "Fire Pit": [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 2,
-          y: -1,
-        },
-        createdAt: 0,
-      },
-    ],
+
     Market: [
       {
         id: "123",
         readyAt: 0,
         coordinates: {
           x: 6,
-          y: 6,
+          y: 5,
         },
         createdAt: 0,
       },
@@ -315,7 +295,47 @@ export const OFFLINE_FARM: GameState = {
   auctioneer: {},
   delivery: {
     fulfilledCount: 0,
-    orders: [],
+    orders: [
+      {
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "betty",
+        reward: {
+          items: {},
+          sfl: 0.12,
+        },
+        id: "1",
+        items: {
+          Sunflower: 20,
+        },
+      },
+      {
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "grimbly",
+        reward: {
+          items: {},
+          sfl: 0.15,
+        },
+        id: "3",
+        items: {
+          Potato: 2,
+        },
+      },
+      {
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "grubnuk",
+        reward: {
+          items: {},
+          sfl: 0.2,
+        },
+        id: "2",
+        items: {
+          "Pumpkin Soup": 1,
+        },
+      },
+    ],
     milestone: {
       goal: 10,
       total: 10,

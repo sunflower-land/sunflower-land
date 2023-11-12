@@ -1,5 +1,6 @@
 import { GameState, InventoryItemName } from "../types/game";
 import { Coordinates } from "../expansion/components/MapPlacement";
+import { marketRate } from "../lib/halvening";
 
 export type ExpandLandAction = {
   type: "land.expanded";
@@ -90,14 +91,6 @@ export const LAND_4_LAYOUT: Layout = {
   id: "4",
   plots: [
     {
-      x: -2,
-      y: 1,
-    },
-    {
-      x: -2,
-      y: 0,
-    },
-    {
       x: -1,
       y: 1,
     },
@@ -113,15 +106,18 @@ export const LAND_4_LAYOUT: Layout = {
       x: 0,
       y: 0,
     },
-  ],
-  fruitPatches: [],
-  gold: [],
-  iron: [
+    {
+      x: 1,
+      y: 1,
+    },
     {
       x: 1,
       y: 0,
     },
   ],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
   stones: [
     {
       x: 2,
@@ -131,6 +127,10 @@ export const LAND_4_LAYOUT: Layout = {
   trees: [
     {
       x: 1,
+      y: 3,
+    },
+    {
+      x: -2,
       y: 3,
     },
   ],
@@ -742,13 +742,13 @@ export const LAND_PACK_SIX = [LAND_21_LAYOUT, LAND_22_LAYOUT, LAND_23_LAYOUT];
 export interface Requirements {
   resources: Partial<Record<InventoryItemName, number>>;
   seconds: number;
+  sfl?: number;
   bumpkinLevel: number;
 }
 
 const LAND_4_REQUIREMENTS: Requirements = {
   resources: {
     Wood: 3,
-    "Block Buck": 1,
   },
   seconds: 10,
   bumpkinLevel: 1,
@@ -756,11 +756,11 @@ const LAND_4_REQUIREMENTS: Requirements = {
 
 const LAND_5_REQUIREMENTS: Requirements = {
   resources: {
-    Stone: 3,
-    "Block Buck": 1,
+    Wood: 5,
   },
+  sfl: marketRate(1).toNumber(),
   seconds: 60,
-  bumpkinLevel: 3,
+  bumpkinLevel: 2,
 };
 
 const LAND_6_REQUIREMENTS: Requirements = {

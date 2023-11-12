@@ -502,6 +502,10 @@ export function getCropYieldAmount({
     amount += 0.2;
   }
 
+  if (bumpkin.activity?.["Sunflower Planted"] === 4) {
+    amount += 10;
+  }
+
   return Number(setPrecision(new Decimal(amount)));
 }
 
