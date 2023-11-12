@@ -24,6 +24,7 @@ import { CROP_COMPOST } from "features/game/types/composters";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
@@ -56,6 +57,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const buildings = useSelector(gameService, selectBuildings, compareBuildings);
   const harvestCount = useSelector(gameService, selectHarvests);
   const level = useSelector(gameService, selectLevel);
+  const { openModal } = useContext(ModalContext);
 
   const crop = crops?.[id]?.crop;
   const fertiliser = crops?.[id]?.fertiliser;
@@ -177,10 +179,24 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
       plantAudio.play();
 
-      if (state.context.state.bumpkin?.activity?.["Sunflower Planted"] === 1) {
+      const planted =
+        state.context.state.bumpkin?.activity?.["Sunflower Planted"] ?? 0;
+
+      if (planted === 1) {
         gameAnalytics.trackMilestone({
           event: "Tutorial:SunflowerPlanted:Completed",
         });
+      }
+
+      console.log({
+        planted,
+        seeds: state.context.state.inventory["Sunflower Seed"],
+      });
+      if (
+        planted >= 3 &&
+        !state.context.state.inventory["Sunflower Seed"]?.gt(0)
+      ) {
+        openModal("BLACKSMITH");
       }
 
       return;

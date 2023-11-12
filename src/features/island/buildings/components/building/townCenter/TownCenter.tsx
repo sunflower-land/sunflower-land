@@ -72,7 +72,6 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
           }}
         />
       </BuildingImageWrapper>
-      <Otis />
       <div
         className="absolute"
         style={{ left: `${PIXEL_SCALE * 7}px`, top: `${PIXEL_SCALE * -6}px` }}

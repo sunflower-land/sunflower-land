@@ -11,12 +11,21 @@ import { Pontoon } from "./Pontoon";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import landComplete from "assets/land/land_complete.png";
+import lockIcon from "assets/skills/lock.png";
+
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useActor } from "@xstate/react";
 import { Revealing } from "features/game/components/Revealing";
 import { Panel } from "components/ui/Panel";
 import { Revealed } from "features/game/components/Revealed";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
+import Decimal from "decimal.js-light";
+import { getKeys } from "features/game/types/craftables";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { Label } from "components/ui/Label";
+import { NPC_WEARABLES } from "lib/npcs";
 
 /**
  * The next piece of land to expand into
@@ -24,6 +33,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 export const UpcomingExpansion: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { openModal } = useContext(ModalContext);
   const [isRevealing, setIsRevealing] = useState(false);
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
@@ -64,7 +74,11 @@ export const UpcomingExpansion: React.FC = () => {
 
   const onReveal = () => {
     setIsRevealing(true);
-    gameService.send("land.revealed");
+    const state = gameService.send("land.revealed");
+
+    if (state.context.state.inventory["Basic Land"]?.eq(4)) {
+      openModal("FIRST_EXPANSION");
+    }
   };
 
   const Content = () => {
@@ -137,6 +151,8 @@ export const UpcomingExpansion: React.FC = () => {
     const nextPosition =
       EXPANSION_ORIGINS[state.inventory["Basic Land"]?.toNumber() ?? 0];
 
+    const requirements = state.expansionRequirements;
+
     return (
       <>
         <MapPlacement
@@ -145,13 +161,43 @@ export const UpcomingExpansion: React.FC = () => {
           height={LAND_SIZE}
           width={LAND_SIZE}
         >
-          <div className="w-full h-full flex items-center justify-center opacity-90 hover:opacity-100">
+          <div className="w-full h-full flex flex-col items-center justify-center opacity-90 hover:opacity-100">
             <img
               src={SUNNYSIDE.icons.expand}
               width={18 * PIXEL_SCALE}
               className="relative cursor-pointer hover:img-highlight"
               onClick={() => setShowBumpkinModal(true)}
             />
+            {state.expansionRequirements && (
+              <>
+                <div className="flex mt-2">
+                  {getKeys(state.expansionRequirements?.resources ?? {}).map(
+                    (name) => (
+                      <div className="mr-3" key={name}>
+                        <RequirementLabel
+                          type="item"
+                          item={name}
+                          requirement={
+                            new Decimal(
+                              state.expansionRequirements?.resources[name] ?? 0
+                            )
+                          }
+                          balance={state.inventory[name] ?? new Decimal(0)}
+                        />
+                      </div>
+                    )
+                  )}
+                </div>
+                {getBumpkinLevel(state.bumpkin?.experience ?? 0) <
+                  state.expansionRequirements?.bumpkinLevel && (
+                  <Label
+                    type="default"
+                    icon={lockIcon}
+                    className="mt-2"
+                  >{`Level ${state.expansionRequirements?.bumpkinLevel}`}</Label>
+                )}
+              </>
+            )}
           </div>
         </MapPlacement>
       </>
@@ -183,7 +229,7 @@ export const UpcomingExpansion: React.FC = () => {
         centered
       >
         <CloseButtonPanel
-          bumpkinParts={state.bumpkin?.equipped}
+          bumpkinParts={NPC_WEARABLES.grimbly}
           title="Expand your land"
           onClose={() => setShowBumpkinModal(false)}
         >

@@ -12,7 +12,9 @@ type GlobalModal =
   | "BUY_BLOCK_BUCKS"
   | "STORE_ON_CHAIN"
   | "GOLD_PASS"
-  | "FIRST_EXPANSION";
+  | "FIRST_EXPANSION"
+  | "BETTY"
+  | "BLACKSMITH";
 
 export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;
@@ -58,11 +60,36 @@ export const ModalProvider: FC = ({ children }) => {
               text: "You've done a mighty fine job expandin' the land, Bumpkin! Every time you clear new space, there's a whole heap of new resources just waitin' to be uncovered.",
             },
             {
-              text: "Yippee, you found a Mashed Potato. To start farming, you will need to become stronger. You can level up by eating food!",
+              text: "Wow, you found some crops! First you need to strengthen your Bumpkin, let's find some food and eat it!",
             },
           ]}
           onClose={handleClose}
-          bumpkinParts={NPC_WEARABLES.otis}
+          bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
+        />
+      </Modal>
+      <Modal centered show={opened === "BETTY"} onHide={handleClose}>
+        <SpeakingModal
+          message={[
+            {
+              text: "Head over to the Crop Delivery Service. Time to start farming!",
+            },
+          ]}
+          onClose={handleClose}
+          bumpkinParts={NPC_WEARABLES.betty}
+        />
+      </Modal>
+      <Modal centered show={opened === "BLACKSMITH"} onHide={handleClose}>
+        <SpeakingModal
+          message={[
+            {
+              text: "Hmm, those crops are growing slow.",
+            },
+            {
+              text: "Head over to the Workbench and craft a scarecrow",
+            },
+          ]}
+          onClose={handleClose}
+          bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
         />
       </Modal>
     </ModalContext.Provider>

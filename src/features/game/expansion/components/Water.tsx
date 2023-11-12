@@ -144,7 +144,7 @@ export const WaterComponent: React.FC<Props> = ({
       {/* Bottom island */}
       <SeasonTeaser offset={offset} />
 
-      <MapPlacement x={-1 - offset} y={1 + offset} width={3}>
+      <MapPlacement x={-1 - offset} y={-5 + offset} width={3}>
         <TravelTeaser />
       </MapPlacement>
 

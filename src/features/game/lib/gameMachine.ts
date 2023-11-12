@@ -433,7 +433,10 @@ const handleSuccessfulSave = (context: Context, event: any) => {
   const recentActions = context.actions.filter(
     (action) => action.createdAt.getTime() > event.data.saveAt.getTime()
   );
+<<<<<<< HEAD
 
+=======
+>>>>>>> a5e1cff17 (Pete flow)
   const updatedState = recentActions.reduce((state, action) => {
     return processEvent({
       state,

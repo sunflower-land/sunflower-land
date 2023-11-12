@@ -69,24 +69,7 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
             width: `${PIXEL_SCALE * 47}px`,
           }}
         />
-        <img
-          src={shadow}
-          className="absolute pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            bottom: `${PIXEL_SCALE * 14}px`,
-            right: `${PIXEL_SCALE * 11}px`,
-          }}
-        />
-        <img
-          src={npc}
-          className="absolute pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 14}px`,
-            bottom: `${PIXEL_SCALE * 16}px`,
-            right: `${PIXEL_SCALE * 12}px`,
-          }}
-        />
+
         {showHelper && (
           <img
             className="absolute cursor-pointer group-hover:img-highlight z-30"
