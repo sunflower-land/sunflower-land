@@ -13,6 +13,7 @@ type GlobalModal =
   | "STORE_ON_CHAIN"
   | "GOLD_PASS"
   | "FIRST_EXPANSION"
+  | "SECOND_EXPANSION"
   | "BETTY"
   | "BLACKSMITH";
 
@@ -86,6 +87,17 @@ export const ModalProvider: FC = ({ children }) => {
             },
             {
               text: "Head over to the Workbench and craft a scarecrow",
+            },
+          ]}
+          onClose={handleClose}
+          bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
+        />
+      </Modal>
+      <Modal centered show={opened === "SECOND_EXPANSION"} onHide={handleClose}>
+        <SpeakingModal
+          message={[
+            {
+              text: "Build, cook, repeat! The Bumpkins are waiting for you!!! Build a fire pit and let's go exploring",
             },
           ]}
           onClose={handleClose}
