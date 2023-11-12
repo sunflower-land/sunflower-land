@@ -19,6 +19,8 @@ import { getKeys } from "features/game/types/craftables";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { getLocationType } from "features/farming/hud/lib/locationType";
+import { getOutfit } from "features/farming/hud/lib/outfit";
 
 const REQUIRED: BumpkinPart[] = [
   "background",
@@ -78,6 +80,15 @@ export const BumpkinEquip: React.FC = () => {
   const finish = (equipment: Equipped) => {
     gameService.send("bumpkin.equipped", {
       equipment,
+    });
+    gameService.send("SAVE");
+  };
+
+  const loadCached = () => {
+    const locationType = getLocationType();
+    console.log("Loading " + locationType + "...");
+    gameService.send("bumpkin.equipped", {
+      equipment: getOutfit(locationType),
     });
     gameService.send("SAVE");
   };
@@ -148,6 +159,16 @@ export const BumpkinEquip: React.FC = () => {
           </div>
           <Button disabled={!isDirty || warn} onClick={() => finish(equipped)}>
             <div className="flex">Save</div>
+          </Button>
+          <Button
+            disabled={!gameState.context.state.bumpkin}
+            onClick={() => loadCached()}
+          >
+            <div className="flex">
+              Load outfit for
+              <br />
+              {getLocationType()}
+            </div>
           </Button>
           {warn && <Label type="warning">{warning()}</Label>}
         </div>
