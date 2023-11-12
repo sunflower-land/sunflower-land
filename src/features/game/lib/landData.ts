@@ -153,7 +153,7 @@ export const INITIAL_RESOURCES: Pick<
 
     3: {
       wood: {
-        amount: 1,
+        amount: 2,
         choppedAt: 0,
       },
       x: 7,
@@ -224,6 +224,10 @@ export const OFFLINE_FARM: GameState = {
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
     Axe: new Decimal(6),
     "Block Buck": new Decimal(3),
+
+    // Testing
+    Wood: new Decimal(20),
+    Stone: new Decimal(20),
   },
   wardrobe: {},
 

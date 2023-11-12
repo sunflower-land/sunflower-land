@@ -12,6 +12,7 @@ import {
   InventoryItemName,
   PlacedItem,
   Position,
+  Reward,
 } from "../../types/game";
 import {
   COLLECTIBLES_DIMENSIONS,
@@ -558,6 +559,17 @@ export function plant({
 
   const cropName = action.item.split(" ")[0] as CropName;
 
+  const activityName: BumpkinActivityName = `${cropName} Planted`;
+
+  bumpkin.activity = trackActivity(activityName, bumpkin.activity);
+
+  let reward: Reward | undefined;
+  if (bumpkin.activity?.["Sunflower Planted"] === 5) {
+    reward = {
+      sfl: new Decimal(1),
+    };
+  }
+
   plots[action.index] = {
     ...plot,
     crop: {
@@ -583,14 +595,11 @@ export function plant({
         buds,
         fertiliser: plot.fertiliser?.name,
       }),
+      reward,
     },
   };
 
   inventory[action.item] = seedCount.sub(1);
-
-  const activityName: BumpkinActivityName = `${cropName} Planted`;
-
-  bumpkin.activity = trackActivity(activityName, bumpkin.activity);
 
   return stateCopy;
 }

@@ -188,13 +188,11 @@ export const Plot: React.FC<Props> = ({ id }) => {
         });
       }
 
-      console.log({
-        planted,
-        seeds: state.context.state.inventory["Sunflower Seed"],
-      });
       if (
         planted >= 3 &&
-        !state.context.state.inventory["Sunflower Seed"]?.gt(0)
+        selectedItem === "Sunflower Seed" &&
+        !state.context.state.inventory["Sunflower Seed"]?.gt(0) &&
+        !state.context.state.inventory["Basic Scarecrow"]
       ) {
         openModal("BLACKSMITH");
       }

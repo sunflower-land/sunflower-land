@@ -1,6 +1,5 @@
 import { GameState, InventoryItemName } from "../types/game";
 import { Coordinates } from "../expansion/components/MapPlacement";
-import { marketRate } from "../lib/halvening";
 
 export type ExpandLandAction = {
   type: "land.expanded";
@@ -756,20 +755,19 @@ const LAND_4_REQUIREMENTS: Requirements = {
 
 const LAND_5_REQUIREMENTS: Requirements = {
   resources: {
-    Wood: 5,
+    Stone: 1,
   },
-  sfl: marketRate(1).toNumber(),
-  seconds: 60,
+  // sfl: marketRate(1).toNumber(),
+  seconds: 3,
   bumpkinLevel: 2,
 };
 
 const LAND_6_REQUIREMENTS: Requirements = {
   resources: {
-    Stone: 3,
+    Wood: 5,
     Iron: 1,
-    "Block Buck": 1,
   },
-  seconds: 5 * 60,
+  seconds: 60,
   bumpkinLevel: 4,
 };
 

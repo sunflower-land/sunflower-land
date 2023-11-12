@@ -1,9 +1,6 @@
 import React, { useContext, useState } from "react";
 
 import firePit from "assets/buildings/fire_pit.png";
-import npc from "assets/npcs/cook.gif";
-import doing from "assets/npcs/cook_doing.gif";
-import shadow from "assets/npcs/shadow.png";
 
 import classNames from "classnames";
 import { FirePitModal } from "./FirePitModal";
@@ -123,36 +120,6 @@ export const FirePit: React.FC<Props> = ({
             style={{
               opacity: 0,
               bottom: `${PIXEL_SCALE * 6}px`,
-            }}
-          />
-        )}
-        <img
-          src={shadow}
-          className="absolute pointer-events-none"
-          style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            top: `${PIXEL_SCALE * 14}px`,
-            left: `${PIXEL_SCALE * 11}px`,
-          }}
-        />
-        {crafting ? (
-          <img
-            src={doing}
-            className="absolute pointer-events-none"
-            style={{
-              width: `${PIXEL_SCALE * 16}px`,
-              top: `${PIXEL_SCALE * 2}px`,
-              left: `${PIXEL_SCALE * 13}px`,
-            }}
-          />
-        ) : (
-          <img
-            src={npc}
-            className="absolute pointer-events-none"
-            style={{
-              width: `${PIXEL_SCALE * 14}px`,
-              top: `${PIXEL_SCALE * 2}px`,
-              left: `${PIXEL_SCALE * 11}px`,
             }}
           />
         )}
