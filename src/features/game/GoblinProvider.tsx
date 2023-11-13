@@ -15,12 +15,26 @@ interface GameContext {
 
 export const Context = React.createContext<GameContext>({} as GameContext);
 
-export const GoblinProvider: React.FC = ({ children }) => {
+interface Props {
+  farmAddress: string;
+  farmId: number;
+}
+
+export const GoblinProvider: React.FC<Props> = ({
+  farmAddress,
+  farmId,
+  children,
+}) => {
   const { authService } = useContext(Auth.Context);
+  // const { gameService } = useContext(GameProviderContext);
   const [authState] = useActor(authService);
+  // const [gameState] = useActor(gameService);
+
   const [goblinMachine] = useState(
     startGoblinVillage({
-      ...authState.context,
+      user: authState.context.user,
+      farmAddress,
+      farmId,
     })
   );
 

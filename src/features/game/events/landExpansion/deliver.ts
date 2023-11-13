@@ -24,6 +24,7 @@ type Options = {
   state: Readonly<GameState>;
   action: DeliverOrderAction;
   createdAt?: number;
+  farmId?: number;
 };
 
 export const BETA_DELIVERY_END_DATE = new Date("2023-08-15");
@@ -171,6 +172,7 @@ export function deliverOrder({
   state,
   action,
   createdAt = Date.now(),
+  farmId = 0,
 }: Options): GameState {
   const game = clone(state);
   const bumpkin = game.bumpkin;
@@ -190,7 +192,7 @@ export function deliverOrder({
   }
 
   const { tasksAreFrozen } = getSeasonChangeover({
-    id: state.id,
+    id: farmId,
     now: createdAt,
   });
   if (tasksAreFrozen) {

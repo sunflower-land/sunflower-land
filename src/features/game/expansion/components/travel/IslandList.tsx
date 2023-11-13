@@ -25,6 +25,7 @@ import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { GoblinState } from "features/game/lib/goblinMachine";
+import { Context } from "features/game/GameProvider";
 
 interface Island {
   name: string;
@@ -155,10 +156,8 @@ const VisitFriendListItem: React.FC<{ onClick: () => void }> = ({
   );
 };
 
-const farmIdSelector = (state: AuthMachineState) =>
-  state.context.user.farmId ?? "guest";
 const stateSelector = (state: AuthMachineState) => ({
-  isAuthorised: state.matches({ connected: "authorised" }),
+  isAuthorised: state.matches("connected"),
   isVisiting: state.matches("visiting"),
 });
 
@@ -170,9 +169,10 @@ export const IslandList: React.FC<IslandListProps> = ({
   onClose,
 }) => {
   const { authService } = useContext(Auth.Context);
+  const { gameService } = useContext(Context);
 
-  const farmId = useSelector(authService, farmIdSelector);
   const state = useSelector(authService, stateSelector);
+  const farmId = gameService.state.context.farmId;
 
   const location = useLocation();
   const [view, setView] = useState<"list" | "visitForm">("list");

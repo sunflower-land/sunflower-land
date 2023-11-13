@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Balance } from "components/Balance";
 import { useActor } from "@xstate/react";
-import * as AuthProvider from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 import { Settings } from "./components/Settings";
 import { Inventory } from "./components/inventory/Inventory";
@@ -17,8 +16,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
 import classNames from "classnames";
-import { useLocation } from "react-router-dom";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { createPortal } from "react-dom";
 import { HalveningCountdown } from "./components/HalveningCountdown";
 import { TravelButton } from "./components/deliveries/TravelButton";
@@ -33,11 +30,8 @@ const HudComponent: React.FC<{
   isFarming: boolean;
   moveButtonsUp?: boolean;
 }> = ({ isFarming, moveButtonsUp }) => {
-  const { authService } = useContext(AuthProvider.Context);
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const location = useLocation();
-  const [isMobile] = useIsMobile();
 
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
@@ -54,11 +48,8 @@ const HudComponent: React.FC<{
     gameService.send("DEPOSIT", args);
   };
 
-  const user = authService.state.context.user;
-  const isFullUser = user.type === "FULL";
-  const farmAddress = isFullUser ? user.farmAddress : undefined;
-
-  const isDawnBreakerIsland = location.pathname.includes("dawn-breaker");
+  const { farmAddress } = gameService.state.context;
+  const isFullUser = farmAddress !== undefined;
 
   return (
     <>
@@ -142,7 +133,6 @@ const HudComponent: React.FC<{
             blockBucks={
               gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
             }
-            isFullUser={isFullUser}
           />
 
           <div

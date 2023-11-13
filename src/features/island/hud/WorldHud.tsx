@@ -32,7 +32,7 @@ const HudComponent: React.FC = () => {
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
 
-  const farmId = Number(authService.state.context.user.farmId);
+  const farmId = Number(gameState.context.farmId);
 
   const autosaving = gameState.matches("autosaving");
 
@@ -46,9 +46,8 @@ const HudComponent: React.FC = () => {
     gameService.send("DEPOSIT", args);
   };
 
-  const user = authService.state.context.user;
-  const isFullUser = user.type === "FULL";
-  const farmAddress = isFullUser ? user.farmAddress : undefined;
+  const { farmAddress } = gameService.state.context;
+  const isFullUser = farmAddress !== undefined;
 
   return (
     <>
@@ -87,7 +86,6 @@ const HudComponent: React.FC = () => {
             blockBucks={
               gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
             }
-            isFullUser={isFullUser}
           />
           <div
             className="fixed z-50 flex flex-col justify-between"

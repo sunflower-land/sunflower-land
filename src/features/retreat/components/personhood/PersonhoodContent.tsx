@@ -26,7 +26,7 @@ export const PersonhoodContent: React.FC = () => {
 
   const loadPersonhood = async () => {
     return await loadPersonhoodDetails(
-      Number(authState.context.user.farmId),
+      Number(goblinService.state.context.farmId),
       authState.context.user.rawToken as string,
       authState.context.transactionId as string
     );

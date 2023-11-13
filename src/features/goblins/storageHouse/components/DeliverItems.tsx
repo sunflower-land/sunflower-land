@@ -69,7 +69,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
   useEffect(() => {
     const load = async () => {
       const check = await loadBanDetails(
-        authState.context.user.farmId?.toString() as string,
+        String(goblinState.context.farmId),
         authState.context.user.rawToken as string,
         authState.context.transactionId as string
       );

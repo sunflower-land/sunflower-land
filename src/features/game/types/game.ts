@@ -712,10 +712,9 @@ export type Fishing = {
 };
 
 export interface GameState {
-  id: number;
   balance: Decimal;
+  previousBalance: Decimal;
   airdrops?: Airdrop[];
-  farmAddress?: string;
 
   createdAt: number;
 
@@ -729,6 +728,7 @@ export interface GameState {
 
   chickens: Record<string, Chicken>;
   inventory: Inventory;
+  previousInventory: Inventory;
   wardrobe: Wardrobe;
   stock: Inventory;
   stockExpiry: StockExpiry;

@@ -50,7 +50,7 @@ export const RetreatBank: React.FC = () => {
       </div>
       <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>
         <BankModal
-          farmAddress={goblinService.state?.context.state.farmAddress as string}
+          farmAddress={goblinService.state?.context.farmAddress as string}
           onClose={() => setIsOpen(false)}
         />
       </Modal>

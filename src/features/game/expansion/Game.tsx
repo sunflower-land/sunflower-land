@@ -3,7 +3,6 @@ import { Modal } from "react-bootstrap";
 import { useSelector } from "@xstate/react";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
-import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Loading } from "features/auth/components";
 import { ErrorCode } from "lib/errors";
@@ -46,12 +45,11 @@ import { Promo } from "./components/Promo";
 import { Traded } from "../components/Traded";
 import { Sniped } from "../components/Sniped";
 import { NewMail } from "./components/NewMail";
+import { Blacklisted } from "../components/Blacklisted";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
-  playingFullGame: false,
-  playingGuestGame: false,
   playing: false,
   autosaving: false,
   syncing: true,
@@ -92,6 +90,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   traded: true,
   buds: false,
   mailbox: false,
+  blacklisted: true,
 };
 
 // State change selectors
@@ -109,7 +108,10 @@ const isHoarding = (state: MachineState) => state.matches("hoarding");
 const isVisiting = (state: MachineState) => state.matches("visiting");
 const isSwarming = (state: MachineState) => state.matches("swarming");
 const isPurchasing = (state: MachineState) =>
-  state.matches("purchasing") || state.matches("buyingBlockBucks");
+  state.matches({ purchasing: "fetching" }) ||
+  state.matches({ purchasing: "transacting" }) ||
+  state.matches({ buyingBlockBucks: "fetching" }) ||
+  state.matches({ buyingBlockBucks: "transacting" });
 const isNoTownCenter = (state: MachineState) => state.matches("noTownCenter");
 const isNoBumpkinFound = (state: MachineState) =>
   state.matches("noBumpkinFound");
@@ -135,7 +137,7 @@ const isClaimAuction = (state: MachineState) => state.matches("claimAuction");
 const isRefundingAuction = (state: MachineState) =>
   state.matches("refundAuction");
 const isPromoing = (state: MachineState) => state.matches("promo");
-const isBudding = (state: MachineState) => state.matches("buds");
+const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
 
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -205,7 +207,6 @@ export const Game: React.FC = () => {
 };
 
 export const GameWrapper: React.FC = ({ children }) => {
-  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
 
   const loading = useSelector(gameService, isLoading);
@@ -237,7 +238,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const claimingAuction = useSelector(gameService, isClaimAuction);
   const refundAuction = useSelector(gameService, isRefundingAuction);
   const promo = useSelector(gameService, isPromoing);
-  const showBuds = useSelector(gameService, isBudding);
+  const blacklisted = useSelector(gameService, isBlacklisted);
 
   useInterval(() => {
     gameService.send("SAVE");
@@ -287,12 +288,15 @@ export const GameWrapper: React.FC = ({ children }) => {
     );
   }
 
+  const stateValue = typeof state === "object" ? Object.keys(state)[0] : state;
+
   return (
     <ToastProvider>
       <ToastPanel />
 
-      <Modal show={SHOW_MODAL[state as StateValues]} centered>
+      <Modal show={SHOW_MODAL[stateValue as StateValues]} centered>
         <Panel>
+          {blacklisted && <Blacklisted />}
           {loading && <Loading />}
           {refreshing && <Refreshing />}
           {buyingSFL && <AddingSFL />}

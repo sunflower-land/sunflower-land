@@ -39,7 +39,7 @@ export abstract class CommunityScene extends Phaser.Scene {
   preload() {
     const errorLogger = createErrorLogger(
       "phaser_preloader_scene",
-      Number(this.gameService.state.context.state.id)
+      Number(this.gameService.state.context.farmId)
     );
 
     this.load.on(

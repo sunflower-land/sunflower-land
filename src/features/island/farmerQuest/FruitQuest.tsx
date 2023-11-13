@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -10,13 +10,20 @@ import orangeTree from "assets/fruit/orange/orange_tree.png";
 import blueberryBush from "assets/fruit/blueberry/blueberry_bush.png";
 import { NPC } from "../bumpkin/components/NPC";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
 
+const _farmAddress = (state: MachineState) => state.context.farmAddress;
 interface Props {
   offset: number;
 }
 
 export const FruitQuest: React.FC<Props> = ({ offset }) => {
   const [showModal, setShowModal] = useState(false);
+  const { gameService } = useContext(Context);
+  // useSelector to select farmAddress
+  const farmAddress = useSelector(gameService, _farmAddress);
 
   const ModalDescription = () => {
     return (
@@ -92,7 +99,7 @@ export const FruitQuest: React.FC<Props> = ({ offset }) => {
               shirt: "Fruit Picker Shirt",
               hat: "Fruit Bowl",
             }}
-            onClick={() => setShowModal(true)}
+            onClick={farmAddress ? () => setShowModal(true) : undefined}
           />
         </div>
       </MapPlacement>

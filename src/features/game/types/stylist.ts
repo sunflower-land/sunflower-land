@@ -186,8 +186,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
         }
       : {}),
   }),
-  ...((getCurrentSeason() === "Catch the Kraken" ||
-    hasFeatureAccess(game, "FISHING")) && {
+  ...(getCurrentSeason() === "Catch the Kraken" && {
     "Clown Shirt": {
       sfl: new Decimal(0),
       ingredients: {
