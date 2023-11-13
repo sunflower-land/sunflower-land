@@ -45,9 +45,11 @@ export const CommunityToasts: React.FC = () => {
   useEffect(() => {
     communityToastManager.listen((toast, isShown) => {
       if (!toast.text) {
+        // eslint-disable-next-line no-console
         return console.warn("Toast text is empty");
       }
 
+      // eslint-disable-next-line no-console
       console.log("TOAST", { toast, isShown });
 
       const newToast: CommunityToast = {

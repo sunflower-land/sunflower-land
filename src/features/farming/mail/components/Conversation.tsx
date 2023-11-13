@@ -50,6 +50,7 @@ export const Conversation: React.FC<Props> = ({
     onAcknowledge?.();
   };
   const Content = () => {
+    // eslint-disable-next-line no-console
     console.log({ showReward, conversation, read });
     if (showReward && conversation.reward) {
       return (

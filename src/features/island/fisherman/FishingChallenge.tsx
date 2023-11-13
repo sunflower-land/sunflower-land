@@ -173,6 +173,7 @@ export const FishingChallenge: React.FC<Props> = ({
 
     const hit = degreeDifference < halfBarDegreesWithTolerance;
 
+    // eslint-disable-next-line no-console
     console.log({
       hit,
       degreeDifference,

@@ -62,6 +62,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
   const inventory = gameState.context.state.inventory;
 
   useEffect(() => {
+    // eslint-disable-next-line no-console
     console.log({ effect: scene });
     npcModalManager.listen((npc, open) => {
       setNpc(npc);

@@ -99,6 +99,7 @@ export const ChatUI: React.FC<Props> = ({
           "fixed top-48 left-3 transition-transform origin-top-left ease-in-out duration-300",
           { "scale-0": !showChat, "scale-100": showChat }
         )}
+        // eslint-disable-next-line no-console
         onClick={console.log}
       >
         <ChatText

@@ -126,6 +126,7 @@ export const Otis: React.FC = () => {
           <Panel bumpkinParts={NPC_WEARABLES["otis"]}>
             <SpeakingText
               onClose={() => {
+                // eslint-disable-next-line no-console
                 console.log("CLOSE");
                 setShowIntro(false);
               }}
