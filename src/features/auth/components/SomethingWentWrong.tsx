@@ -119,7 +119,7 @@ export const SomethingWentWrong: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
 
-  const { farmId } = authService.state.context.user;
+  const id = gameService.state.context.farmId;
   // If we get a connecting error before the game has loaded then try to connect again via the authService
   const service = gameService ?? authService;
 
@@ -135,7 +135,7 @@ export const SomethingWentWrong: React.FC = () => {
 
   return (
     <BoundaryError
-      farmId={farmId}
+      farmId={id}
       transactionId={transactionId}
       error={errorCode}
       onAcknowledge={onAcknowledge}

@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Balance } from "components/Balance";
 import { useActor } from "@xstate/react";
@@ -20,14 +19,12 @@ import { TravelButton } from "./components/travel/TravelButton";
  * Balances, Inventory, actions etc.
  */
 export const Hud: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
 
   const { state } = goblinState.context;
-  const landId = state.id;
 
   const handleDeposit = (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
@@ -35,9 +32,7 @@ export const Hud: React.FC = () => {
     goblinService.send("DEPOSIT", args);
   };
 
-  const user = authService.state.context.user;
-  const isFullUser = user.type === "FULL";
-  const farmAddress = isFullUser ? user.farmAddress : undefined;
+  const farmAddress = goblinState.context.farmAddress;
 
   const handleDepositClose = () => {
     if (!farmAddress) return;

@@ -33,7 +33,6 @@ import { MUSHROOM_DIMENSIONS } from "../types/resources";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import ocean from "assets/decorations/ocean.webp";
 import { Bud } from "features/island/buds/Bud";
-import { hasFeatureAccess } from "lib/flags";
 import { Fisherman } from "features/island/fisherman/Fisherman";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 
@@ -497,7 +496,7 @@ export const Land: React.FC = () => {
           {landscaping && <Placeable />}
         </div>
 
-        {!landscaping && hasFeatureAccess(state, "FISHING") && <Fisherman />}
+        {!landscaping && <Fisherman />}
 
         {/* Background darkens in landscaping */}
         <div

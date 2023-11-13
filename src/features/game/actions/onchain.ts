@@ -80,7 +80,6 @@ export async function getGameOnChainState({
     game: {
       ...EMPTY,
       balance: new Decimal(fromWei(balance)),
-      farmAddress,
       inventory,
     },
     bumpkin: bumpkins[0],
@@ -132,7 +131,6 @@ export async function getOnChainState({
     game: {
       ...EMPTY,
       balance: new Decimal(fromWei(balance)),
-      farmAddress,
       inventory,
     },
     owner: farm.owner,

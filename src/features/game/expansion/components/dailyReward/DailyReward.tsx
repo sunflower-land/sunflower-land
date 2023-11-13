@@ -22,7 +22,7 @@ export const DailyReward: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const isGuest = gameState.matches("playingGuestGame");
+  const isWeb2 = !gameState.context.farmAddress;
 
   const [showModal, setShowModal] = useState(false);
 
@@ -86,7 +86,7 @@ export const DailyReward: React.FC = () => {
   const getNextBonus = streaks + (5 - streakRemainder);
 
   const ModalContent = () => {
-    if (isGuest) {
+    if (isWeb2) {
       return (
         <CloseButtonPanel
           title="Daily Reward"

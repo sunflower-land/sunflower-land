@@ -2,43 +2,37 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { CONFIG } from "lib/config";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
-import { loadBumpkins } from "lib/blockchain/BumpkinDetails";
+import { OnChainBumpkin, loadBumpkins } from "lib/blockchain/BumpkinDetails";
 import { wallet } from "lib/blockchain/wallet";
-import * as AuthProvider from "features/auth/lib/Provider";
-import { FullUser } from "features/auth/lib/authMachine";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 
-const selectBumpkins = (state: MachineState) => state.context.bumpkins;
-
 export const NoBumpkin: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
-
   const { gameService } = useContext(Context);
 
   const [selectedBumpkinId, setSelectedBumpkinId] = useState<number>();
 
-  const bumpkins = useSelector(gameService, selectBumpkins);
-  const [hasFarmBumpkins, setHasFarmBumpkins] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [walletBumpkins, setWalletBumpkins] = useState<OnChainBumpkin[]>();
+  const [farmBumpkins, setFarmBumpkins] = useState<OnChainBumpkin[]>();
+
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
-      const farmBumpkins = await loadBumpkins(
-        wallet.web3Provider,
-        (authState.context.user as FullUser).farmAddress as string
-      );
+      const [walletBumpkins, farmBumpkins] = await Promise.all([
+        loadBumpkins(wallet.web3Provider, wallet.myAccount as string),
+        loadBumpkins(
+          wallet.web3Provider,
+          gameService.state.context.farmAddress as string
+        ),
+      ]);
 
-      if (farmBumpkins.length > 0) {
-        setHasFarmBumpkins(true);
-      }
+      setWalletBumpkins(walletBumpkins);
+      setFarmBumpkins(farmBumpkins);
 
       setIsLoading(false);
     };
@@ -46,8 +40,10 @@ export const NoBumpkin: React.FC = () => {
     load();
   }, []);
 
+  const hasFarmBumpkins = (farmBumpkins?.length ?? 0) > 0;
+
   const deposit = () => {
-    const bumpkin = bumpkins.find(
+    const bumpkin = (walletBumpkins ?? []).find(
       (b) => Number(b.tokenId) === selectedBumpkinId
     );
 
@@ -94,7 +90,7 @@ export const NoBumpkin: React.FC = () => {
     );
   }
 
-  if (bumpkins.length === 0) {
+  if (walletBumpkins?.length === 0) {
     return (
       <>
         <div className="flex items-center flex-col p-2">
@@ -137,7 +133,7 @@ export const NoBumpkin: React.FC = () => {
           Which Bumpkin would you like to play with?
         </p>
         <div className="flex flex-wrap max-h-48 overflow-y-scroll">
-          {bumpkins.map((bumpkin) => {
+          {(walletBumpkins ?? []).map((bumpkin) => {
             const parts = interpretTokenUri(bumpkin.tokenURI).equipped;
             return (
               <OuterPanel

@@ -42,9 +42,8 @@ const TraderDeeplinkHandler: React.FC<{ farmId?: number }> = ({ farmId }) => {
 
 const selectProvider = (state: AuthMachineState) =>
   state.context.user.web3?.provider;
-const selectFarmId = (state: AuthMachineState) => state.context.user.farmId;
 const selectState = (state: AuthMachineState) => ({
-  isAuthorised: state.matches({ connected: "authorised" }),
+  isAuthorised: state.matches("connected"),
   isVisiting: state.matches("visiting"),
 });
 
@@ -55,7 +54,6 @@ const selectState = (state: AuthMachineState) => ({
 export const Navigation: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const provider = useSelector(authService, selectProvider);
-  const farmId = useSelector(authService, selectFarmId);
   const state = useSelector(authService, selectState);
 
   const [showGame, setShowGame] = useState(false);
@@ -142,10 +140,7 @@ export const Navigation: React.FC = () => {
                 element={<LandExpansion key="land" />}
               />
               <Route path="/retreat">
-                <Route
-                  index
-                  element={<TraderDeeplinkHandler farmId={farmId} />}
-                />
+                <Route index element={<TraderDeeplinkHandler />} />
                 <Route path=":id" element={<Retreat key="retreat" />} />
               </Route>
               {CONFIG.NETWORK === "mumbai" && (

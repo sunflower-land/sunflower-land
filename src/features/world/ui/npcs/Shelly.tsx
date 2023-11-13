@@ -121,7 +121,7 @@ export const ShellyPanelContent: React.FC<ContentProps> = ({
   const { gameService } = useContext(Context);
 
   const { tasksAreFrozen } = getSeasonChangeover({
-    id: gameService.state.context.state.id,
+    id: gameService.state.context.farmId,
   });
 
   if (tasksAreFrozen) {

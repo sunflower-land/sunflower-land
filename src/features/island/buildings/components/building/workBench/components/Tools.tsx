@@ -13,7 +13,6 @@ import { Restock } from "features/island/buildings/components/building/market/Re
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { makeBulkBuyAmount } from "../../market/lib/makeBulkBuyAmount";
-import { hasFeatureAccess } from "lib/flags";
 import { gameAnalytics } from "lib/gameAnalytics";
 
 interface Props {
@@ -117,19 +116,15 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {getKeys(WORKBENCH_TOOLS())
-            .filter(
-              (name) => hasFeatureAccess(state, "FISHING") || name !== "Rod"
-            )
-            .map((toolName) => (
-              <Box
-                isSelected={selectedName === toolName}
-                key={toolName}
-                onClick={() => onToolClick(toolName)}
-                image={ITEM_DETAILS[toolName].image}
-                count={inventory[toolName]}
-              />
-            ))}
+          {getKeys(WORKBENCH_TOOLS()).map((toolName) => (
+            <Box
+              isSelected={selectedName === toolName}
+              key={toolName}
+              onClick={() => onToolClick(toolName)}
+              image={ITEM_DETAILS[toolName].image}
+              count={inventory[toolName]}
+            />
+          ))}
         </>
       }
     />

@@ -22,8 +22,6 @@ export const loadUpdatedSession = async (
   const sessionId = await getSessionId(wallet.web3Provider, farmId);
 
   const response = await loadSession({
-    farmId,
-    sessionId,
     token,
     transactionId,
     wallet: walletName,

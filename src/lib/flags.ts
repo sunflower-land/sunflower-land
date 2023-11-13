@@ -20,7 +20,6 @@ type FeatureName =
   | "NEW_DELIVERIES"
   | "NEW_FARM_FLOW"
   | "BUDS_DEPOSIT_FLOW"
-  | "FISHING"
   | "BEACH"
   | "HALLOWEEN"
   | "BANANA"
@@ -37,13 +36,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   NEW_DELIVERIES: testnetFeatureFlag,
   NEW_FARM_FLOW: () => true,
   BUDS_DEPOSIT_FLOW: () => true,
-  FISHING: (game: GameState) => {
-    if (ADMIN_IDS.includes(game.id ?? 0)) {
-      return true;
-    }
 
-    return Date.now() > SEASONS["Catch the Kraken"].startDate.getTime();
-  },
   HALLOWEEN: (game: GameState) => {
     if (Date.now() > new Date("2023-11-01").getTime()) {
       return false;

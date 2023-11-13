@@ -71,7 +71,7 @@ export const DailyChore: React.FC<Props> = ({ id, chore, isReadOnly }) => {
   const isTaskComplete = progress >= chore.requirement;
 
   const { tasksAreFrozen } = getSeasonChangeover({
-    id: gameService.state.context.state.id,
+    id: gameService.state.context.farmId,
   });
 
   return (

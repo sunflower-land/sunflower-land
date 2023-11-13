@@ -107,7 +107,7 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
       className="absolute z-40"
     >
       <Balance balance={balance} />
-      <BlockBucks blockBucks={blockBucks} isFullUser={false} />
+      <BlockBucks blockBucks={blockBucks} />
 
       <LandscapingIntroduction />
 

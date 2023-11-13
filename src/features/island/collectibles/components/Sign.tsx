@@ -29,7 +29,7 @@ export const Sign: React.FC = () => {
           textShadow: "1px 1px #723e39",
         }}
       >
-        <p className="text-xxs mt-2">#{gameState.context.state.id}</p>
+        <p className="text-xxs mt-2">#{gameState.context.farmId}</p>
       </div>
     </div>
   );

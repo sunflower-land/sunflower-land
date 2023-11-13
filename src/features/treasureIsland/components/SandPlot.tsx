@@ -389,9 +389,7 @@ export const SandPlot: React.FC<{
     );
   }
 
-  const gameMachinePlaying =
-    gameState.matches("playingGuestGame") ||
-    gameState.matches("playingFullGame");
+  const gameMachinePlaying = gameState.matches("playing");
 
   const showShovelGoblin = !idle && !dug && !noShovel;
   const showSelectBox =

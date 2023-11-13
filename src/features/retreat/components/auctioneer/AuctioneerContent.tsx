@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { Bid, GameState } from "features/game/types/game";
-import * as AuthProvider from "features/auth/lib/Provider";
 import {
   AuctionResults,
   MachineInterpreter,
@@ -32,8 +31,6 @@ export const AuctioneerContent: React.FC<Props> = ({
   onMint,
 }) => {
   const [auctioneerState, send] = useActor(auctionService);
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
 
   const [selectedAuctionId, setSelectedAuctionId] = useState<string>();
 
@@ -125,7 +122,7 @@ export const AuctioneerContent: React.FC<Props> = ({
   if (auctioneerState.matches("loser")) {
     return (
       <Loser
-        farmId={authState.context.user.farmId ?? 0}
+        farmId={auctioneerState.context.farmId}
         onRefund={() => auctionService.send("REFUND")}
         results={auctioneerState.context.results as AuctionResults}
       />
@@ -137,13 +134,11 @@ export const AuctioneerContent: React.FC<Props> = ({
       (auction) => auction.auctionId === auctioneerState.context.bid?.auctionId
     ) as IAuction;
 
-    console.log({ auction });
-
     return (
       <Winner
         onMint={onMint}
         bid={auctioneerState.context.bid as Bid}
-        farmId={authState.context.user.farmId ?? 0}
+        farmId={auctioneerState.context.farmId ?? 0}
         results={auctioneerState.context.results as AuctionResults}
       />
     );
@@ -152,7 +147,7 @@ export const AuctioneerContent: React.FC<Props> = ({
     return (
       <TieBreaker
         auctionService={auctionService}
-        farmId={authState.context.user.farmId ?? 0}
+        farmId={auctioneerState.context.farmId}
         results={auctioneerState.context.results as AuctionResults}
       />
     );

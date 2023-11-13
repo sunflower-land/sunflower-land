@@ -3,7 +3,7 @@ import { wallet } from "lib/blockchain/wallet";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
-export type Currency = "USDC" | "MATIC";
+export type Currency = "MATIC";
 
 type Request = {
   farmId: number;
@@ -52,9 +52,7 @@ export async function buyBlockBucks(request: Request): Promise<Response> {
   return await response.json();
 }
 
-export async function buyBlockBucksMATIC(request: Request) {
-  const transaction = await buyBlockBucks(request);
-
+export async function buyBlockBucksMATIC(transaction: any) {
   await _buyBlockBucksMATIC({
     ...transaction,
     web3: wallet.web3Provider,
@@ -65,7 +63,7 @@ export async function buyBlockBucksMATIC(request: Request) {
 }
 
 export async function buyBlockBucksXsolla(
-  request: Request
+  request: Omit<Request, "type">
 ): Promise<{ url: string }> {
   const response = await window.fetch(
     `${API_URL}/payments/create/${request.farmId}`,

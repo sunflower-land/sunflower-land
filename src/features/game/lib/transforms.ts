@@ -17,6 +17,13 @@ export function makeGame(farm: any): GameState {
       }),
       {} as Record<InventoryItemName, Decimal>
     ),
+    previousInventory: Object.keys(farm.previousInventory).reduce(
+      (items, item) => ({
+        ...items,
+        [item]: new Decimal(farm.previousInventory[item]),
+      }),
+      {} as Record<InventoryItemName, Decimal>
+    ),
     wardrobe: farm.wardrobe,
     stock: Object.keys(farm.stock).reduce(
       (items, item) => ({
@@ -29,7 +36,7 @@ export function makeGame(farm: any): GameState {
     chickens: farm.chickens || {},
     stockExpiry: farm.stockExpiry || {},
     balance: new Decimal(farm.balance),
-    id: farm.id,
+    previousBalance: new Decimal(farm.previousBalance),
     trades: farm.trades,
     tradeOffer: farm.tradeOffer
       ? {

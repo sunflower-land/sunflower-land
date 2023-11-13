@@ -11,10 +11,12 @@ import { CONFIG } from "lib/config";
 import { BuildingName } from "features/game/types/buildings";
 import { PlacedItem } from "features/game/types/game";
 import { MachineState } from "features/game/lib/gameMachine";
+import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
 
 interface Props {
   defaultSelectedIndex?: number;
   onClose: () => void;
+  bumpkins: OnChainBumpkin[];
 }
 
 const DEFAULT_BUMPKIN_ALLOWANCE = 1;
@@ -25,7 +27,6 @@ const baseUrl =
     : `https://testnet.bumpkins.io/#/bumpkins`;
 
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
-const selectBumpkins = (state: MachineState) => state.context.bumpkins;
 
 const compareBuildings = (
   prev: Partial<Record<BuildingName, PlacedItem[]>>,
@@ -37,21 +38,18 @@ const compareBuildings = (
 export const TentModal: React.FC<Props> = ({
   defaultSelectedIndex,
   onClose,
+  bumpkins,
 }) => {
   const { gameService } = useContext(Context);
-
   const buildings = useSelector(gameService, selectBuildings, compareBuildings);
-  const bumpkins = useSelector(gameService, selectBumpkins);
 
   const [selectedBumpkin, setSelectedBumpkin] = useState<{
     equipped: BumpkinParts;
     tokenId: number;
   }>(interpretTokenUri(bumpkins[defaultSelectedIndex ?? 0].tokenURI));
 
-  if (!bumpkins) return null;
-
   const placedTents = (buildings.Tent || []).length;
-  const allowedBumpkins = placedTents + DEFAULT_BUMPKIN_ALLOWANCE;
+  const allowedBumpkins = placedTents;
 
   const farmingBumpkins = bumpkins.slice(0, allowedBumpkins);
   const nonFarmingBumpkins = bumpkins.slice(allowedBumpkins);
@@ -67,7 +65,9 @@ export const TentModal: React.FC<Props> = ({
               <BumpkinBox
                 key={tokenId}
                 bumpkin={{ equipped, id: tokenId }}
-                selectedId={selectedBumpkin.tokenId}
+                selectedId={
+                  selectedBumpkin ? Number(selectedBumpkin.tokenId) : 0
+                }
                 onSelect={(tokenId: number) =>
                   setSelectedBumpkin({ tokenId, equipped })
                 }

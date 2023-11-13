@@ -128,7 +128,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
 
     const hasMaxedOut = hasMaxItems({
       current: updatedInventory,
-      old: gameState.context.onChain.inventory,
+      old: gameState.context.state.previousInventory,
     });
 
     if (hasMaxedOut) {

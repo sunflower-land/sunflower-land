@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 
-import * as Auth from "features/auth/lib/Provider";
 import { OuterPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
@@ -18,8 +17,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { COMMUNITY_ISLANDS } from "./community/CommunityIslands";
 import { useNavigate } from "react-router-dom";
 import { Context } from "features/game/GameProvider";
-import { useActor, useSelector } from "@xstate/react";
-import { AuthMachineState } from "features/auth/lib/authMachine";
+import { useActor } from "@xstate/react";
 
 interface Props {
   mmoService: MachineInterpreter;
@@ -34,16 +32,13 @@ const ICONS = [
   CROP_LIFECYCLE.Pumpkin.crop,
 ];
 
-const farmIdSelector = (state: AuthMachineState) => state.context.user.farmId;
 export const PickServer: React.FC<Props> = ({ mmoService }) => {
   const [tab, setTab] = useState(0);
-  const { authService } = useContext(Auth.Context);
-
-  const farmId = useSelector(authService, farmIdSelector);
 
   const navigate = useNavigate();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const farmId = gameState.context.farmId;
 
   const serverMaxCapacity = MAX_PLAYERS;
 

@@ -10,6 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { TransferAccount } from "./TransferAccount";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useActor } from "@xstate/react";
 
 interface Props {
   isOpen: boolean;
@@ -19,9 +20,10 @@ interface Props {
 export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
 
-  const { user } = authService.state.context;
-  const isFullUser = user.type === "FULL";
+  const { farmAddress } = gameState.context;
+  const isFullUser = farmAddress !== undefined;
 
   const [view, setView] = useState<"settings" | "transfer">("settings");
 

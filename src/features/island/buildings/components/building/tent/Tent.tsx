@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import tent from "assets/buildings/tent.png";
 
@@ -15,9 +15,10 @@ import classNames from "classnames";
 import { BuildingName } from "features/game/types/buildings";
 import { MachineState } from "features/game/lib/gameMachine";
 import { PlacedItem } from "features/game/types/game";
+import { OnChainBumpkin, loadBumpkins } from "lib/blockchain/BumpkinDetails";
+import { wallet } from "lib/blockchain/wallet";
 
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
-const selectBumpkins = (state: MachineState) => state.context.bumpkins;
 
 const compareBuildings = (
   prev: Partial<Record<BuildingName, PlacedItem[]>>,
@@ -34,7 +35,6 @@ export const Tent: React.FC<BuildingProps> = ({
   const { gameService } = useContext(Context);
 
   const buildings = useSelector(gameService, selectBuildings, compareBuildings);
-  const bumpkins = useSelector(gameService, selectBumpkins);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -42,7 +42,22 @@ export const Tent: React.FC<BuildingProps> = ({
     (building) => building.id === buildingId
   );
 
-  const bumpkin = buildingIndex !== undefined && bumpkins[buildingIndex];
+  const [walletBumpkins, setWalletBumpkins] = useState<OnChainBumpkin[]>([]);
+
+  useEffect(() => {
+    const load = async () => {
+      const walletBumpkins = await loadBumpkins(
+        wallet.web3Provider,
+        wallet.myAccount as string
+      );
+
+      setWalletBumpkins(walletBumpkins);
+    };
+
+    load();
+  }, []);
+
+  const bumpkin = buildingIndex !== undefined && walletBumpkins[buildingIndex];
 
   const handleClick = () => {
     if (onRemove) {
@@ -90,6 +105,7 @@ export const Tent: React.FC<BuildingProps> = ({
         <TentModal
           defaultSelectedIndex={buildingIndex}
           onClose={() => setShowModal(false)}
+          bumpkins={walletBumpkins}
         />
       </Modal>
     </>

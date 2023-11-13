@@ -78,7 +78,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
-    context: { state },
+    context: { state, farmId },
   } = gameState;
 
   const [interactable, setInteractable] = useState<InteractableName>();
@@ -101,15 +101,14 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
       {/* TODO - make smoother opening */}
       {interactable === "auction_item" && (
         <AuctioneerModal
+          farmId={farmId}
           isOpen={interactable === "auction_item"}
           onClose={closeModal}
           gameState={state}
           onUpdate={(state) => {
-            console.log("Update hit!");
             gameService.send("UPDATE", { state });
           }}
           onMint={(id) => {
-            console.log("Update hit!", gameState.value);
             setInteractable(undefined);
             gameService.send("MINT", { auctionId: id });
           }}

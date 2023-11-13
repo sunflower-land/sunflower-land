@@ -298,7 +298,6 @@ const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 export const OFFLINE_FARM: GameState = {
-  id: 4,
   catchTheKraken: {
     hunger: "Iron",
     weeklyCatches: {
@@ -307,6 +306,7 @@ export const OFFLINE_FARM: GameState = {
     },
   },
   balance: new Decimal(100),
+  previousBalance: new Decimal(100),
   milestones: {
     "Fish Encyclopedia": 1,
     "Expert Angler": 1,
@@ -362,6 +362,7 @@ export const OFFLINE_FARM: GameState = {
     seconds: 10,
     bumpkinLevel: 1,
   },
+  previousInventory: {},
   inventory: {
     "Twilight Anglerfish": new Decimal(1),
     "Starlight Tuna": new Decimal(1),
