@@ -16,7 +16,10 @@ import {
   FISH_CONSUMABLES,
   isCookable,
 } from "features/game/types/consumables";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleActive,
+  isCollectibleBuilt,
+} from "features/game/lib/collectibleBuilt";
 import { getSeasonalBanner } from "features/game/types/seasons";
 import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -80,7 +83,8 @@ export const hasSellBoost = (inventory: Inventory) => {
  */
 export const getCookingTime = (
   seconds: number,
-  bumpkin: Bumpkin | undefined
+  bumpkin: Bumpkin | undefined,
+  collectibles: Collectibles
 ): number => {
   let reducedSecs = new Decimal(seconds);
 
@@ -91,6 +95,10 @@ export const getCookingTime = (
 
   // Luna's Hat - 50% reduction
   if (bumpkin?.equipped.hat === "Luna's Hat") {
+    reducedSecs = reducedSecs.mul(0.5);
+  }
+
+  if (isCollectibleActive("Time Warp Totem", collectibles)) {
     reducedSecs = reducedSecs.mul(0.5);
   }
 

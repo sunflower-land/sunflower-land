@@ -21,7 +21,6 @@ interface Props {
 }
 
 const VALID_BUILDINGS: BuildingName[] = [
-  "Fire Pit",
   "Kitchen",
   "Water Well",
   "Bakery",

@@ -3,7 +3,8 @@ import { canMine } from "features/game/expansion/lib/utils";
 import cloneDeep from "lodash.clonedeep";
 import { IRON_RECOVERY_TIME } from "../../lib/constants";
 import { trackActivity } from "../../types/bumpkinActivity";
-import { GameState } from "../../types/game";
+import { Collectibles, GameState } from "../../types/game";
+import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
 
 export type LandExpansionIronMineAction = {
   type: "ironRock.mined";
@@ -25,13 +26,34 @@ export enum MINE_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin",
 }
 
+type GetMinedAtArgs = {
+  createdAt: number;
+  collectibles: Collectibles;
+};
+
+/**
+ * Set a mined in the past to make it replenish faster
+ */
+export function getMinedAt({
+  createdAt,
+  collectibles,
+}: GetMinedAtArgs): number {
+  let time = createdAt;
+
+  if (isCollectibleActive("Time Warp Totem", collectibles)) {
+    time -= IRON_RECOVERY_TIME * 0.5 * 1000;
+  }
+
+  return time;
+}
+
 export function mineIron({
   state,
   action,
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { iron, bumpkin } = stateCopy;
+  const { iron, bumpkin, collectibles } = stateCopy;
 
   if (!bumpkin) {
     throw new Error(MINE_ERRORS.NO_BUMPKIN);
@@ -57,7 +79,7 @@ export function mineIron({
   const amountInInventory = stateCopy.inventory.Iron || new Decimal(0);
 
   ironRock.stone = {
-    minedAt: createdAt,
+    minedAt: getMinedAt({ createdAt, collectibles }),
     amount: 2,
   };
   bumpkin.activity = trackActivity("Iron Mined", bumpkin.activity);

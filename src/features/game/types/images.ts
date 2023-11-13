@@ -2955,4 +2955,8 @@ export const ITEM_DETAILS: Items = {
     description:
       "This rare beauty is a surefire way to boost your banana harvests.",
   },
+  "Time Warp Totem": {
+    image: tikiTotem,
+    description: "?",
+  },
 };

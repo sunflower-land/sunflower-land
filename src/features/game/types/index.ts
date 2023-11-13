@@ -489,6 +489,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Beach Umbrella": 1294,
   "Sapo Docuras": 1295,
   "Sapo Travessuras": 1296,
+  "Time Warp Totem": 1297,
 
   //Beach Bounty
   "Pirate Bounty": 1301,

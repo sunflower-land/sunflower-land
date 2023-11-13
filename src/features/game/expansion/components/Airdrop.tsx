@@ -33,6 +33,13 @@ export const AirdropModal: React.FC<{
       openModal("BETTY");
     }
 
+    if (airdrop.items["Time Warp Totem"]) {
+      gameService.send("LANDSCAPE", {
+        placeable: "Time Warp Totem",
+        action: "collectible.placed",
+      });
+    }
+
     onClose();
   };
 

@@ -1,5 +1,8 @@
 import Decimal from "decimal.js-light";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleActive,
+  isCollectibleBuilt,
+} from "features/game/lib/collectibleBuilt";
 import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
@@ -59,6 +62,10 @@ export function getChoppedAt({
 
   if (skills["Tree Hugger"]) {
     time = time - TREE_RECOVERY_TIME * 0.2 * 1000;
+  }
+
+  if (isCollectibleActive("Time Warp Totem", collectibles)) {
+    time = time - TREE_RECOVERY_TIME * 0.5 * 1000;
   }
 
   return time;

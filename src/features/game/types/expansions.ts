@@ -90,6 +90,14 @@ export const LAND_4_LAYOUT: Layout = {
   id: "4",
   plots: [
     {
+      x: -2,
+      y: 1,
+    },
+    {
+      x: -2,
+      y: 0,
+    },
+    {
       x: -1,
       y: 1,
     },
@@ -755,8 +763,7 @@ const LAND_4_REQUIREMENTS: Requirements = {
 
 const LAND_5_REQUIREMENTS: Requirements = {
   resources: {
-    Wood: 3,
-    Stone: 1,
+    Wood: 5,
   },
   seconds: 3,
   bumpkinLevel: 2,
@@ -765,7 +772,7 @@ const LAND_5_REQUIREMENTS: Requirements = {
 const LAND_6_REQUIREMENTS: Requirements = {
   resources: {
     Wood: 5,
-    Iron: 1,
+    Stone: 3,
   },
   seconds: 60,
   bumpkinLevel: 4,
