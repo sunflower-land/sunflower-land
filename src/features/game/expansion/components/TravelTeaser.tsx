@@ -56,7 +56,8 @@ export const TravelTeaser: React.FC = () => {
           className="absolute"
           style={{
             top: `${-10 * PIXEL_SCALE}px`,
-            left: `${12 * PIXEL_SCALE}px`,
+            left: `${30 * PIXEL_SCALE}px`,
+            transform: "scaleX(-1)",
           }}
         >
           <NPC

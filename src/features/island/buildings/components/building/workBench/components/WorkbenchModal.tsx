@@ -6,6 +6,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Tools } from "./Tools";
 import { IslandBlacksmithItems } from "features/helios/components/blacksmith/component/IslandBlacksmithItems";
 import { Buildings } from "features/island/hud/components/buildings/Buildings";
+import { NPC_WEARABLES } from "lib/npcs";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -17,6 +18,7 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel
       onClose={onClose}
+      bumpkinParts={NPC_WEARABLES.blacksmith}
       tabs={[
         { icon: ITEM_DETAILS.Pickaxe.image, name: "Tools" },
         { icon: SUNNYSIDE.icons.hammer, name: "Craft" },

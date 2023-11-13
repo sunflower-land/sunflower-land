@@ -88,10 +88,14 @@ export const AirdropModal: React.FC<{
           {getKeys(airdrop.wearables ?? {}).length > 0 &&
             getKeys(airdrop.wearables).map((name) => (
               <div className="flex items-center  mb-2" key={name}>
-                <Box image={getImageUrl(ITEM_IDS[name])} />
-                <span>
-                  {airdrop.wearables[name]} x {name}
-                </span>
+                <Box
+                  image={getImageUrl(ITEM_IDS[name])}
+                  count={new Decimal(airdrop.wearables[name] ?? 0)}
+                />
+                <div>
+                  <Label type="default">{name}</Label>
+                  <p className="text-xs">A wearable for your Bumpkin</p>
+                </div>
               </div>
             ))}
         </div>
@@ -175,6 +179,9 @@ export const AirdropPopup: React.FC = () => {
     <AirdropModal
       airdrop={airdrop}
       onClaimed={() => {
+        gameService.send("CLOSE");
+      }}
+      onClose={() => {
         gameService.send("CLOSE");
       }}
     />

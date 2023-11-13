@@ -777,9 +777,9 @@ export function startGame(authContext: AuthContext) {
               ...(GAME_EVENT_HANDLERS as any)["airdrop.claimed"],
               target: "playing",
             },
-            // CLOSE: {
-            //   target: "autosaving",
-            // },
+            CLOSE: {
+              target: "playing",
+            },
           },
         },
         auctionResults: {
