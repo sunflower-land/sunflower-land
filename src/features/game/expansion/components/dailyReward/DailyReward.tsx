@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { useActor, useInterpret } from "@xstate/react";
+import React, { useContext, useEffect, useState } from "react";
+import { useActor, useInterpret, useSelector } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
@@ -17,24 +17,33 @@ import { Loading } from "features/auth/components";
 import { CountdownLabel } from "components/ui/CountdownLabel";
 import { Equipped } from "features/game/types/bumpkin";
 import { Label } from "components/ui/Label";
+import { MachineState } from "features/game/lib/gameMachine";
+
+const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
+const _dailyRewards = (state: MachineState) => state.context.state.dailyRewards;
+const _isRevealed = (state: MachineState) => state.matches("revealed");
 
 export const DailyReward: React.FC = () => {
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const dailyRewards = useSelector(gameService, _dailyRewards);
+  const bumpkin = useSelector(gameService, _bumpkin);
+  const isRevealed = useSelector(gameService, _isRevealed);
 
-  const isWeb2 = !gameState.context.farmAddress;
+  const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
 
   const [showModal, setShowModal] = useState(false);
 
   const chestService = useInterpret(rewardChestMachine, {
     context: {
-      lastUsedCode: gameState.context.state.dailyRewards?.chest?.code ?? 0,
-      openedAt: gameState.context.state.dailyRewards?.chest?.collectedAt ?? 0,
-      bumpkinLevel: getBumpkinLevel(
-        gameState.context.state.bumpkin?.experience ?? 0
-      ),
+      lastUsedCode: dailyRewards?.chest?.code ?? 0,
+      openedAt: dailyRewards?.chest?.collectedAt ?? 0,
+      bumpkinLevel,
     },
   });
+
+  useEffect(() => {
+    chestService.send("UPDATE_BUMPKIN_LEVEL", { bumpkinLevel });
+  }, [bumpkinLevel]);
 
   const [chestState] = useActor(chestService);
 
@@ -70,9 +79,8 @@ export const DailyReward: React.FC = () => {
     shoes: "Black Farmer Boots",
   };
 
-  const streaks = gameState.context.state.dailyRewards?.streaks ?? 0;
-  const collectedAt =
-    gameState.context.state.dailyRewards?.chest?.collectedAt ?? 0;
+  const streaks = dailyRewards?.streaks ?? 0;
+  const collectedAt = dailyRewards?.chest?.collectedAt ?? 0;
 
   const collectedDate = new Date(collectedAt).toISOString().substring(0, 10);
   const currentDate = new Date().toISOString().substring(0, 10);
@@ -86,34 +94,6 @@ export const DailyReward: React.FC = () => {
   const getNextBonus = streaks + (5 - streakRemainder);
 
   const ModalContent = () => {
-    if (isWeb2) {
-      return (
-        <CloseButtonPanel
-          title="Daily Reward"
-          onClose={() => setShowModal(false)}
-          bumpkinParts={pirateBumpkin}
-        >
-          <>
-            <div className="flex flex-col items-center p-2 pt-0 space-y-2 mb-1 text-sm w-full">
-              <img
-                src={SUNNYSIDE.decorations.treasure_chest}
-                className="mb-2"
-                style={{
-                  width: `${PIXEL_SCALE * 16}px`,
-                }}
-              />
-              <span>Want to take your farm game to the next level?</span>
-              <span>
-                Upgrade to a full farm account and unlock all the daily rewards
-                waiting for you.
-              </span>
-            </div>
-            <Button onClick={onUpgrade}>Upgrade now!</Button>
-          </>
-        </CloseButtonPanel>
-      );
-    }
-
     if (chestState.matches("opened")) {
       const now = new Date();
       const nextRefreshInSeconds =
@@ -229,7 +209,7 @@ export const DailyReward: React.FC = () => {
       );
     }
 
-    if (chestState.matches("opening") && gameState.matches("revealed")) {
+    if (chestState.matches("opening") && isRevealed) {
       return (
         <Panel>
           <Revealed

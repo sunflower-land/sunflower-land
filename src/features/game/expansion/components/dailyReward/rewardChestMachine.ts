@@ -35,7 +35,8 @@ type DailyRewardEvent =
   | { type: "OPEN" }
   | { type: "LOAD" }
   | { type: "UNLOCK" }
-  | { type: "ACKNOWLEDGE" };
+  | { type: "ACKNOWLEDGE" }
+  | { type: "UPDATE_BUMPKIN_LEVEL"; bumpkinLevel: number };
 
 export type MachineState = State<
   DailyRewardContext,
@@ -81,7 +82,16 @@ export const rewardChestMachine = createMachine<
         { target: "idle" },
       ],
     },
-    comingSoon: {},
+    comingSoon: {
+      on: {
+        UPDATE_BUMPKIN_LEVEL: {
+          actions: assign({
+            bumpkinLevel: (_, event) => event.bumpkinLevel,
+          }),
+          target: "initialising",
+        },
+      },
+    },
     idle: {
       on: {
         LOAD: "loading",

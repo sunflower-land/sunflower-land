@@ -1107,7 +1107,12 @@ export function startGame(authContext: AuthContext) {
                     state: makeGame(event.data.gameState),
                     farmAddress: event.data.farmAddress,
                     sessionId: event.data.sessionId,
+                    farmId: event.data.farmId,
                   })),
+                },
+                onError: {
+                  target: "#error",
+                  actions: "assignErrorMessage",
                 },
               },
             },
@@ -1136,6 +1141,20 @@ export function startGame(authContext: AuthContext) {
                     },
                   })),
                 },
+                onError: [
+                  {
+                    target: "#playing",
+                    cond: (_, event: any) =>
+                      event.data.message === ERRORS.REJECTED_TRANSACTION,
+                    actions: assign((_) => ({
+                      actions: [],
+                    })),
+                  },
+                  {
+                    target: "#error",
+                    actions: "assignErrorMessage",
+                  },
+                ],
               },
             },
           },
@@ -1158,6 +1177,7 @@ export function startGame(authContext: AuthContext) {
                 onDone: {
                   target: "transacting",
                   actions: assign((_, event) => ({
+                    farmId: event.data.transaction.farmId,
                     farmAddress: event.data.farmAddress,
                     state: makeGame(event.data.gameState),
                     sessionId: event.data.sessionId,

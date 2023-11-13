@@ -33,11 +33,7 @@ import { CommunityTools } from "features/world/ui/CommunityTools";
 const TraderDeeplinkHandler: React.FC<{ farmId?: number }> = ({ farmId }) => {
   const [params] = useSearchParams();
 
-  if (!farmId) return null;
-
-  return (
-    <Navigate to={`/retreat/${farmId}?${createSearchParams(params)}`} replace />
-  );
+  return <Navigate to={`/retreat/0?${createSearchParams(params)}`} replace />;
 };
 
 const selectProvider = (state: AuthMachineState) =>
