@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import tikiTotem from "src/assets/sfts/tiki_totem.webp";
+import tikiTotem from "src/assets/sfts/time_warp_totem.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -9,6 +9,7 @@ import { CloseButton, Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export const TimeWarpTotem: React.FC<CollectibleProps> = ({ createdAt }) => {
   const { gameService } = useContext(Context);
@@ -16,15 +17,25 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({ createdAt }) => {
   const [_, setRender] = useState(0);
 
   const [showModal, setShowModal] = useState(false);
-  const expiresAt = createdAt + 2 * 1000;
+  const expiresAt = createdAt + 2 * 60 * 60 * 1000;
+
   const hasExpired = Date.now() > expiresAt;
 
-  console.log({ hasExpired, expiresAt, createdAt });
   const ModalContent = () => {
     if (hasExpired) {
       return (
-        <div>
-          Dig it up or buy another!
+        <>
+          <div className="p-2">
+            <img
+              src={ITEM_DETAILS["Time Warp Totem"].image}
+              className="w-20 mx-auto my-2"
+            />
+            <p className="text-xs mb-2 text-center">
+              Your Time Warp Totem has expired. Head to the Pumpkin Plaza to
+              discover and craft more magical items to boost your farming
+              abilities!
+            </p>
+          </div>
           <Button
             onClick={() => {
               gameService.send("collectible.burned", {
@@ -34,15 +45,30 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({ createdAt }) => {
           >
             Remove
           </Button>
-        </div>
+        </>
       );
     }
 
     return (
-      <div>
-        Magical powers are in effect. For more magical items, explore the Plaza
-        and craft the rare items.
-      </div>
+      <>
+        <div className="p-2">
+          <img
+            src={ITEM_DETAILS["Time Warp Totem"].image}
+            className="w-20 mx-auto my-2"
+          />
+          <p className="text-xs mb-2 text-center">
+            The Time Warp Totem temporarily boosts your cooking, crops, trees &
+            mineral time. Make the most of it!
+          </p>
+        </div>
+        <Button
+          onClick={() => {
+            setShowModal(false);
+          }}
+        >
+          Got it
+        </Button>
+      </>
     );
   };
 
@@ -70,6 +96,7 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({ createdAt }) => {
           startAt={createdAt}
           endAt={expiresAt}
           formatLength="medium"
+          type={"buff"}
           onComplete={() => setRender((r) => r + 1)}
         />
       </div>
