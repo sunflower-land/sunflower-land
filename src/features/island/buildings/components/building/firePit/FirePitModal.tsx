@@ -68,7 +68,7 @@ export const FirePitModal: React.FC<Props> = ({
           <SpeakingText
             message={[
               {
-                text: "Howdy Bumpkin! I can spot a hungry Bumpkin from a mile away.",
+                text: "Howdy farmer! I can spot a hungry Bumpkin from a mile away.",
               },
               {
                 text: "Bring me resources and I will cook all the food you can eat!",

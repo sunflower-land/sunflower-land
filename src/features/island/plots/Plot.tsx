@@ -25,6 +25,11 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { Modal } from "react-bootstrap";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { Label } from "components/ui/Label";
+import { ITEM_DETAILS } from "features/game/types/images";
+import lockIcon from "assets/skills/lock.png";
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
@@ -49,6 +54,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const [procAnimation, setProcAnimation] = useState<JSX.Element>();
   const [touchCount, setTouchCount] = useState(0);
   const [reward, setReward] = useState<Reward>();
+  const [showMissingShovel, setShowMissingShovel] = useState(false);
   const clickedAt = useRef<number>(0);
 
   const crops = useSelector(gameService, selectCrops, (prev, next) => {
@@ -128,6 +134,10 @@ export const Plot: React.FC<Props> = ({ id }) => {
     !!crop && isReadyToHarvest(now, crop, CROPS()[crop.name]);
 
   const onClick = () => {
+    if (!inventory.Shovel) {
+      setShowMissingShovel(true);
+      return;
+    }
     // small buffer to prevent accidental double clicks
     if (now - clickedAt.current < 100) {
       return;
@@ -219,6 +229,23 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
   return (
     <>
+      <Modal
+        centered
+        show={showMissingShovel}
+        onHide={() => setShowMissingShovel(false)}
+      >
+        <CloseButtonPanel onClose={() => setShowMissingShovel(false)}>
+          <div className="flex flex-col items-center">
+            <Label className="mt-2" icon={lockIcon} type="danger">
+              Missing Shovel
+            </Label>
+            <img
+              src={ITEM_DETAILS.Shovel.image}
+              className="w-20 mx-auto my-2"
+            />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
       <div onClick={onClick} className="w-full h-full relative">
         {harvestCount < 3 &&
           harvestCount + 1 === Number(id) &&
