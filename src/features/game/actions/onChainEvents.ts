@@ -101,6 +101,7 @@ function getLastBlock(): BlockInfo | null {
   try {
     return JSON.parse(item) as BlockInfo;
   } catch {
+    // eslint-disable-next-line no-console
     console.error(`Unable to parse ${LOCAL_STORAGE_KEY}`);
     return null;
   }

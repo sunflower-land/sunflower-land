@@ -130,6 +130,7 @@ export async function autosave(request: Request) {
 
   if (response.status !== 200 || !response.ok) {
     const data = await response.json();
+    // eslint-disable-next-line no-console
     console.log({ data });
 
     throw new Error(ERRORS.AUTOSAVE_SERVER_ERROR);

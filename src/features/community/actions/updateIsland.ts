@@ -76,6 +76,7 @@ export async function updateIsland(
 
   const game = makeGame(farm);
 
+  // eslint-disable-next-line no-console
   console.log({ game });
   return {
     updatedAt,

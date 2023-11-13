@@ -90,6 +90,7 @@ class ScreenTracker {
       this.movements = [];
       return isValid;
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.log({ e });
       return true;
     }

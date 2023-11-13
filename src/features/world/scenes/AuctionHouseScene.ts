@@ -23,10 +23,12 @@ export class AuctionScene extends BaseScene {
   }
 
   async create() {
+    // eslint-disable-next-line no-console
     console.log("Create auction");
     this.map = this.make.tilemap({
       key: "auction-map",
     });
+    // eslint-disable-next-line no-console
     console.log("Created auction");
 
     super.create();

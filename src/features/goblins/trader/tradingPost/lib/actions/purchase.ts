@@ -65,6 +65,7 @@ export async function purchaseRequest(request: Request): Promise<Response> {
 
   const data = await response.json();
 
+  // eslint-disable-next-line no-console
   console.log(data);
   return data;
 }

@@ -39,9 +39,11 @@ export class Wallet {
     } catch (e: any) {
       // Timeout, retry
       if (e.code === "-32005") {
+        // eslint-disable-next-line no-console
         console.error("Retrying...");
         await new Promise((res) => window.setTimeout(res, 3000));
       } else {
+        // eslint-disable-next-line no-console
         console.error(e);
         throw e;
       }
@@ -128,6 +130,7 @@ export class Wallet {
     this.isAlchemy = true;
 
     if (CONFIG.ALCHEMY_RPC) {
+      // eslint-disable-next-line no-console
       console.log("Provider overridden");
 
       let web3;

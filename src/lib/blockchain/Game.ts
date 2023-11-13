@@ -10,6 +10,7 @@ import { getNextSessionId, getSessionId } from "./Session";
 
 const address = CONFIG.GAME_CONTRACT;
 
+// eslint-disable-next-line no-console
 console.log({ address });
 type ProgressData = {
   mintIds: number[];
@@ -193,6 +194,7 @@ export async function syncProgress({
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ purchase });
         if (purchase) {
           // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#purchase
@@ -266,11 +268,13 @@ export async function mint({
       .mint(signature, sessionId, nextSessionId, deadline, farmId, mintId, fee)
       .send({ from: account, value: fee, gasPrice })
       .on("error", function (error: any) {
+        // eslint-disable-next-line no-console
         console.log({ error });
         const parsed = parseMetamaskError(error);
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore
@@ -326,11 +330,13 @@ export async function mintCollectible({
       )
       .send({ from: account, value: fee, gasPrice })
       .on("error", function (error: any) {
+        // eslint-disable-next-line no-console
         console.log({ error });
         const parsed = parseMetamaskError(error);
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore
@@ -410,10 +416,12 @@ export async function listTrade({
       .send({ from: account, value: fee, gasPrice })
       .on("error", function (error: any) {
         const parsed = parseMetamaskError(error);
+        // eslint-disable-next-line no-console
         console.log({ parsedIt: parsed });
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore
@@ -429,6 +437,7 @@ export async function listTrade({
         }
       })
       .on("receipt", function (receipt: any) {
+        // eslint-disable-next-line no-console
         console.log({ receipt });
         resolve(receipt);
       });
@@ -478,10 +487,12 @@ export async function cancelTrade({
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
         const parsed = parseMetamaskError(error);
+        // eslint-disable-next-line no-console
         console.log({ parsedIt: parsed });
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore
@@ -497,6 +508,7 @@ export async function cancelTrade({
         }
       })
       .on("receipt", function (receipt: any) {
+        // eslint-disable-next-line no-console
         console.log({ receipt });
         resolve(receipt);
       });
@@ -549,10 +561,12 @@ export async function purchaseTrade({
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
         const parsed = parseMetamaskError(error);
+        // eslint-disable-next-line no-console
         console.log({ parsedIt: parsed });
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore
@@ -568,6 +582,7 @@ export async function purchaseTrade({
         }
       })
       .on("receipt", function (receipt: any) {
+        // eslint-disable-next-line no-console
         console.log({ receipt });
         resolve(receipt);
       });

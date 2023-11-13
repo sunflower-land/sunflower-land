@@ -115,9 +115,11 @@ const TOKEN_BUFFER_MS = 1000 * 60 * 60 * 4;
 
 export function hasValidSession(): boolean {
   const address = wallet.myAccount as string;
+  // eslint-disable-next-line no-console
   console.log({ address });
   const session = getSession(address);
 
+  // eslint-disable-next-line no-console
   console.log({ address, session });
   if (session) {
     const token = decodeToken(session.token);

@@ -19,10 +19,12 @@ export class ClothesShopScene extends BaseScene {
   }
 
   async create() {
+    // eslint-disable-next-line no-console
     console.log("Create clothes shop");
     this.map = this.make.tilemap({
       key: "clothes-shop",
     });
+    // eslint-disable-next-line no-console
     console.log("Created auction");
 
     super.create();

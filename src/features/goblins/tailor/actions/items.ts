@@ -127,6 +127,7 @@ async function loadItems(): Promise<BumpkinShopItem[]> {
   try {
     supply = await loadSupplyBatch(wallet.web3Provider, ids);
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log("Loading supply failed: ", e);
   }
 

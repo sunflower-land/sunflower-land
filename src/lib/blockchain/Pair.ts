@@ -23,11 +23,13 @@ export async function mintTestnetTokens(web3: Web3, account: string) {
       .mint(account, amount)
       .send({ from: account })
       .on("error", function (error: any) {
+        // eslint-disable-next-line no-console
         console.log({ error });
 
         reject(error);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore
@@ -43,6 +45,7 @@ export async function mintTestnetTokens(web3: Web3, account: string) {
         }
       })
       .on("receipt", function (receipt: any) {
+        // eslint-disable-next-line no-console
         console.log({ receipt });
         resolve(receipt);
       });

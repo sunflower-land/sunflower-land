@@ -47,6 +47,7 @@ export function buyWearable({
 
   if (wearable.hoursPlayed) {
     const hoursPlayed = (Date.now() - stateCopy.createdAt) / 1000 / 60 / 60;
+    // eslint-disable-next-line no-console
     console.log({ hours: wearable.hoursPlayed, hoursPlayed });
 
     if (hoursPlayed < wearable.hoursPlayed) {
