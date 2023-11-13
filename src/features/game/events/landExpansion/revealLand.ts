@@ -150,7 +150,6 @@ export function revealLand({
         x: -1,
         y: 5,
       },
-      message: "Congratulations!",
     });
   }
 
@@ -167,7 +166,6 @@ export function revealLand({
         x: -5,
         y: 5,
       },
-      message: "Congratulations!",
     });
   }
 

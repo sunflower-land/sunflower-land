@@ -29,10 +29,16 @@ export const Introduction: React.FC = () => {
               text: "Howdy there, Bumpkin! Welcome to Sunflower Land, the bountiful farming paradise where anything is possible!",
             },
             {
-              text: "I'm Pumpkin Pete...Grow your land and prepare for the festival!",
+              text: "What a beautiful island you have set up on! I'm Pumpkin Pete, your neighboring farmer.",
             },
             {
-              text: "If you need help, come back to me!",
+              text: "Right now the players are celebrating a festival in the plaza with fantastic rewards and magical items.",
+            },
+            {
+              text: "Before you can join the fun, you will need to grow your farm and gather some resources. You don't want to turn up empty handed!",
+            },
+            {
+              text: "To get started, you will want to chop down those trees and grow your island.",
             },
           ]}
         />

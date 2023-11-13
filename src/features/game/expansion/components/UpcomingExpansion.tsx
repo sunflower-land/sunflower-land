@@ -26,6 +26,18 @@ import { getKeys } from "features/game/types/craftables";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 import { NPC_WEARABLES } from "lib/npcs";
+import { SpeakingModal } from "features/game/components/SpeakingModal";
+
+const host = window.location.host.replace(/^www\./, "");
+const LOCAL_STORAGE_KEY = `expansion-read.${host}-${window.location.pathname}`;
+
+function acknowledgeRead() {
+  localStorage.setItem(LOCAL_STORAGE_KEY, new Date().toString());
+}
+
+function hasRead() {
+  return !!localStorage.getItem(LOCAL_STORAGE_KEY);
+}
 
 /**
  * The next piece of land to expand into
@@ -33,6 +45,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 export const UpcomingExpansion: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const [showIntro, setShowIntro] = useState(!hasRead());
   const { openModal } = useContext(ModalContext);
   const [isRevealing, setIsRevealing] = useState(false);
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
@@ -240,17 +253,37 @@ export const UpcomingExpansion: React.FC = () => {
         onHide={() => setShowBumpkinModal(false)}
         centered
       >
-        <CloseButtonPanel
-          bumpkinParts={NPC_WEARABLES.grimbly}
-          title="Expand your land"
-          onClose={() => setShowBumpkinModal(false)}
-        >
-          <UpcomingExpansionModal
-            gameState={state}
-            onClose={() => setShowBumpkinModal(false)}
-            onExpand={onExpand}
+        {showIntro && (
+          <SpeakingModal
+            message={[
+              {
+                text: "Greetings, budding farmer! I am Grimbly, a seasoned Goblin Builder.",
+              },
+              {
+                text: "With the right materials and my ancient crafting skills, we can turn your island into a masterpiece.",
+              },
+            ]}
+            onClose={() => {
+              acknowledgeRead();
+              setShowIntro(false);
+            }}
+            bumpkinParts={NPC_WEARABLES.grimbly}
           />
-        </CloseButtonPanel>
+        )}
+
+        {!showIntro && (
+          <CloseButtonPanel
+            bumpkinParts={NPC_WEARABLES.grimbly}
+            title="Expand your land"
+            onClose={() => setShowBumpkinModal(false)}
+          >
+            <UpcomingExpansionModal
+              gameState={state}
+              onClose={() => setShowBumpkinModal(false)}
+              onExpand={onExpand}
+            />
+          </CloseButtonPanel>
+        )}
       </Modal>
     </>
   );

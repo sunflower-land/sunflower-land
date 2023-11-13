@@ -5,6 +5,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
 import { ExpansionRequirements } from "components/ui/layouts/ExpansionRequirements";
+import { SpeakingText } from "features/game/components/SpeakingModal";
 
 interface Props {
   gameState: GameState;

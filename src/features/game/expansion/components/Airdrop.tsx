@@ -14,11 +14,15 @@ import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { Airdrop as IAirdrop } from "features/game/types/game";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { Label } from "components/ui/Label";
+import { Box } from "components/ui/Box";
+import Decimal from "decimal.js-light";
 
 export const AirdropModal: React.FC<{
   airdrop: IAirdrop;
-  onClose: () => void;
-}> = ({ airdrop, onClose }) => {
+  onClose?: () => void;
+  onClaimed: () => void;
+}> = ({ airdrop, onClose, onClaimed }) => {
   const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
 
@@ -40,43 +44,67 @@ export const AirdropModal: React.FC<{
       });
     }
 
-    onClose();
+    onClaimed();
   };
 
   return (
     <>
-      <div className="flex flex-col pt-4">
-        {!!airdrop.sfl && (
-          <div className="flex items-center justify-center mb-2">
-            <img src={token} className="w-6 mr-2" />
-            <span>{airdrop.sfl} SFL</span>
-          </div>
+      <div className="p-1">
+        <Label
+          className="ml-2 mb-2"
+          type="warning"
+          icon={SUNNYSIDE.decorations.treasure_chest}
+        >
+          Reward Discovered
+        </Label>
+        {airdrop.message && (
+          <p className="text-sm mb-2 ml-1">{airdrop.message}</p>
         )}
-
-        {itemNames.length > 0 &&
-          itemNames.map((name) => (
-            <div className="flex items-center justify-center mb-2" key={name}>
-              <img src={ITEM_DETAILS[name].image} className="w-6 mr-2" />
-              <span>
-                {airdrop.items[name]} {name}
-              </span>
+        <div className="flex flex-col">
+          {!!airdrop.sfl && (
+            <div className="flex items-center">
+              <Box image={token} />
+              <div>
+                <Label type="warning">{airdrop.sfl} SFL</Label>
+                <p className="text-xs">Spend it wisely.</p>
+              </div>
             </div>
-          ))}
+          )}
 
-        {getKeys(airdrop.wearables ?? {}).length > 0 &&
-          getKeys(airdrop.wearables).map((name) => (
-            <div className="flex items-center justify-center mb-2" key={name}>
-              <img src={getImageUrl(ITEM_IDS[name])} className="w-12 mr-2" />
-              <span>
-                {airdrop.wearables[name]} {name}
-              </span>
-            </div>
-          ))}
+          {itemNames.length > 0 &&
+            itemNames.map((name) => (
+              <div className="flex items-center" key={name}>
+                <Box
+                  count={new Decimal(airdrop.items[name] ?? 0)}
+                  image={ITEM_DETAILS[name].image}
+                />
+                <div>
+                  <Label type="default">{name}</Label>
+                  <p className="text-xs">{ITEM_DETAILS[name].description}</p>
+                </div>
+              </div>
+            ))}
+
+          {getKeys(airdrop.wearables ?? {}).length > 0 &&
+            getKeys(airdrop.wearables).map((name) => (
+              <div className="flex items-center  mb-2" key={name}>
+                <Box image={getImageUrl(ITEM_IDS[name])} />
+                <span>
+                  {airdrop.wearables[name]} x {name}
+                </span>
+              </div>
+            ))}
+        </div>
       </div>
 
-      <Button onClick={claim} className="mt-2">
-        Claim
-      </Button>
+      <div className="flex items-center mt-2">
+        {onClose && (
+          <Button className="mr-1" onClick={onClose}>
+            Close
+          </Button>
+        )}
+        <Button onClick={claim}>Claim</Button>
+      </div>
     </>
   );
 };
@@ -90,11 +118,11 @@ export const Airdrop: React.FC<Props> = ({ airdrop }) => {
   return (
     <>
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
-        <CloseButtonPanel
-          title={airdrop.message ?? "Congratulations, you found a reward!"}
-          onClose={() => setShowModal(false)}
-        >
-          <AirdropModal airdrop={airdrop} onClose={() => setShowModal(false)} />
+        <CloseButtonPanel onClose={() => setShowModal(false)}>
+          <AirdropModal
+            airdrop={airdrop}
+            onClaimed={() => setShowModal(false)}
+          />
         </CloseButtonPanel>
       </Modal>
 
@@ -146,10 +174,7 @@ export const AirdropPopup: React.FC = () => {
   return (
     <AirdropModal
       airdrop={airdrop}
-      onClose={() => {
-        console.log("CLAIMED!");
-        gameService.send("airdrop.claimed", { id: airdrop.id });
-        console.log("CLOSE!");
+      onClaimed={() => {
         gameService.send("CLOSE");
       }}
     />
