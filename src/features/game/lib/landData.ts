@@ -249,7 +249,7 @@ export const OFFLINE_FARM: GameState = {
         readyAt: 0,
         coordinates: {
           x: 2,
-          y: 2,
+          y: 3,
         },
         createdAt: 0,
       },
@@ -350,5 +350,16 @@ export const OFFLINE_FARM: GameState = {
     hunger: "Sunflower",
     weeklyCatches: {},
   },
-  airdrops: [],
+  airdrops: [
+    {
+      message: "yo, yo, yo",
+      items: {
+        Shovel: 1,
+      },
+      sfl: 10,
+      id: "123",
+      createdAt: 0,
+      wearables: {},
+    },
+  ],
 };

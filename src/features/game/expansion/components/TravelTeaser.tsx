@@ -21,8 +21,8 @@ export const TravelTeaser: React.FC = () => {
           onClose={() => setShowModal(false)}
           tabs={[
             {
-              icon: SUNNYSIDE.icons.hammer,
-              name: "Task",
+              icon: SUNNYSIDE.icons.expression_chat,
+              name: "Explore",
             },
             {
               icon: SUNNYSIDE.icons.expression_confused,

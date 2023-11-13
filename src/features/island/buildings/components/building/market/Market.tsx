@@ -80,6 +80,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         <ShopItems
           onClose={() => setIsOpen(false)}
           hasSoldBefore={hasSoldBefore}
+          cropShortage={gameState.context.state.inventory["Basic Land"]?.lte(4)}
         />
       </Modal>
     </>

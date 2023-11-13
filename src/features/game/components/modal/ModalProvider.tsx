@@ -58,7 +58,13 @@ export const ModalProvider: FC = ({ children }) => {
         <SpeakingModal
           message={[
             {
-              text: "You've done a mighty fine job expandin' the land, Bumpkin! Every time you clear new space, there's a whole heap of new resources just waitin' to be uncovered.",
+              text: "Congratulations, Bumpkin! Your farm is growing faster than a beanstalk in a rainstorm!",
+            },
+            {
+              text: "With each expansion, you'll find cool stuff like special resources, new trees, and more to collect!",
+            },
+            {
+              text: "Keep an eye out for surprise gifts from the generous goblins as you explore—they're not just expert builders, but crafty secret givers!",
             },
           ]}
           onClose={handleClose}
@@ -69,7 +75,16 @@ export const ModalProvider: FC = ({ children }) => {
         <SpeakingModal
           message={[
             {
-              text: "Head over to the Crop Delivery Service. Time to start farming!",
+              text: "Hey there, Bumpkin! It's Betty from the farmer's market. I travel between islands to buy Crops and sell fresh seeds.",
+            },
+            {
+              text: "Good news: you just stumbled upon a shiny new shovel! Bad news: we've hit a bit of a crop shortage.",
+            },
+            {
+              text: "For a limited time I am offering newcomers double the money for any crops you bring to me.",
+            },
+            {
+              text: "Harvest those Sunflowers and let's start your farming empire.",
             },
           ]}
           onClose={handleClose}
@@ -83,7 +98,10 @@ export const ModalProvider: FC = ({ children }) => {
               text: "Hmm, those crops are growing slow.",
             },
             {
-              text: "Head over to the Workbench and craft a scarecrow",
+              text: "Sunflower Land is full of magical items you can craft to enhance your farming abilities.",
+            },
+            {
+              text: "Head over to the work bench and craft a scarecrow to speed up those Sunflowers.",
             },
           ]}
           onClose={handleClose}
@@ -94,7 +112,13 @@ export const ModalProvider: FC = ({ children }) => {
         <SpeakingModal
           message={[
             {
-              text: "Build, cook, repeat! The Bumpkins are waiting for you!!! Build a fire pit and let's go exploring",
+              text: "Congratulations, your green thumb is truly shining!",
+            },
+            {
+              text: "It's high time we head to the Plaza, where your farming prowess can shine even brighter",
+            },
+            {
+              text: "At the plaza you can deliver your resources for rewards, craft magical items & trade with other players.",
             },
           ]}
           onClose={handleClose}

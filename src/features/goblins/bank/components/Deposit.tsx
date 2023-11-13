@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
+import { useSelector } from "@xstate/react";
 
 import {
   Inventory,
@@ -12,6 +13,7 @@ import { balancesToInventory } from "lib/utils/visitUtils";
 import { fromWei, toBN, toWei } from "web3-utils";
 
 import token from "assets/icons/token_2.png";
+import lockIcon from "assets/skills/lock.png";
 import classNames from "classnames";
 import { setPrecision } from "lib/utils/formatNumber";
 import { transferInventoryItem } from "./WithdrawItems";
@@ -31,6 +33,7 @@ import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { loadWardrobe } from "lib/blockchain/BumpkinItems";
 import { getBudsBalance } from "lib/blockchain/Buds";
 import { CONFIG } from "lib/config";
+import { Label } from "components/ui/Label";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -51,6 +54,7 @@ interface Props {
   ) => void;
   onClose: () => void;
   onLoaded?: (loaded: boolean) => void;
+  canDeposit: boolean;
 }
 
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
@@ -61,6 +65,7 @@ export const Deposit: React.FC<Props> = ({
   onDeposit,
   onLoaded,
   farmAddress,
+  canDeposit,
 }) => {
   const [status, setStatus] = useState<Status>("loading");
   // These are the balances of the user's personal wallet
@@ -259,6 +264,16 @@ export const Deposit: React.FC<Props> = ({
     sflBalance.eq(0);
   const validDepositAmount = sflDepositAmount > 0 && !amountGreaterThanBalance;
 
+  if (!canDeposit) {
+    return (
+      <div className="p-2 space-y-2">
+        <p>To deposit items you must first level up</p>
+        <Label icon={lockIcon} type="danger">
+          Level 3
+        </Label>
+      </div>
+    );
+  }
   return (
     <>
       {status === "loading" && <Loading />}

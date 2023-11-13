@@ -210,6 +210,7 @@ import { BananaChicken } from "./components/BananaChicken";
 import { SkillShrimpy } from "./components/SkillShrimpy";
 import { SoilKrabby } from "./components/SoilKrabby";
 import { Nana } from "./components/Nana";
+import { TimeWarpTotem } from "./components/TimeWarpTotem";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -217,7 +218,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
   React.FC<CollectibleProps>
 > = {
-  "Time Warp Totem": TikiTotem,
+  "Time Warp Totem": TimeWarpTotem,
   "Sapo Docuras": SapoDocuras,
   "Sapo Travessuras": SapoTravessuras,
 

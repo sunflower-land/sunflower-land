@@ -180,9 +180,11 @@ export const Crops: React.FC = () => {
               >
                 Crops
               </Label>
-              <Label type="vibrant" icon={SUNNYSIDE.icons.stopwatch}>
-                2x Crop Demand
-              </Label>
+              {state.inventory["Basic Land"]?.lte(4) && (
+                <Label type="vibrant" icon={SUNNYSIDE.icons.stopwatch}>
+                  2x Sale
+                </Label>
+              )}
             </div>
             <div className="flex flex-wrap">
               {cropsAndFruits

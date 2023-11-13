@@ -55,8 +55,8 @@ export const getSellPrice = (
     price = price.mul(1.2);
   }
 
-  // TODO: Use some other non tradeable metrics to prevent exploits
-  if (getBumpkinLevel(bumpkin.experience ?? 0) <= 4) {
+  // Crop Shortage during initial gameplay
+  if (inventory["Basic Land"]?.lte(4)) {
     price = price.mul(2);
   }
 
