@@ -27,6 +27,8 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { expansionRequirements } from "features/game/types/expansions";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `expansion-read.${host}-${window.location.pathname}`;
@@ -43,6 +45,8 @@ function hasRead() {
  * The next piece of land to expand into
  */
 export const UpcomingExpansion: React.FC = () => {
+  const [showLockedModal, setShowLockedModal] = useState(false);
+
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showIntro, setShowIntro] = useState(!hasRead());
@@ -170,8 +174,32 @@ export const UpcomingExpansion: React.FC = () => {
 
     const requirements = state.expansionRequirements;
 
+    const isLocked =
+      getBumpkinLevel(state.bumpkin?.experience ?? 0) <
+      (state.expansionRequirements?.bumpkinLevel ?? 0);
     return (
       <>
+        <Modal
+          centered
+          show={showLockedModal}
+          onHide={() => setShowLockedModal(false)}
+        >
+          <CloseButtonPanel onClose={() => setShowLockedModal(false)}>
+            <div className="flex flex-col items-center">
+              <Label className="mt-2" icon={lockIcon} type="danger">
+                {`Level ${state.expansionRequirements?.bumpkinLevel} required`}
+              </Label>
+              <img
+                src={ITEM_DETAILS.Hammer.image}
+                className="w-20 mx-auto my-2"
+              />
+              <p className="text-sm text-center mb-2">
+                Visit the Fire Pit to cook food and feed your Bumpkin.
+              </p>
+            </div>
+          </CloseButtonPanel>
+        </Modal>
+
         <MapPlacement
           x={nextPosition.x - LAND_SIZE / 2}
           y={nextPosition.y + LAND_SIZE / 2}
@@ -183,7 +211,13 @@ export const UpcomingExpansion: React.FC = () => {
               src={SUNNYSIDE.icons.expand}
               width={18 * PIXEL_SCALE}
               className="relative cursor-pointer hover:img-highlight"
-              onClick={() => setShowBumpkinModal(true)}
+              onClick={() => {
+                if (isLocked) {
+                  setShowLockedModal(true);
+                } else {
+                  setShowBumpkinModal(true);
+                }
+              }}
             />
             {state.expansionRequirements && (
               <>
@@ -213,8 +247,7 @@ export const UpcomingExpansion: React.FC = () => {
                     )
                   )}
                 </div>
-                {getBumpkinLevel(state.bumpkin?.experience ?? 0) <
-                  state.expansionRequirements?.bumpkinLevel && (
+                {isLocked && (
                   <Label
                     type="default"
                     icon={lockIcon}

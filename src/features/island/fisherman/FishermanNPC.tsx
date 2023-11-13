@@ -26,6 +26,8 @@ import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { MachineState } from "features/game/lib/gameMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { Label } from "components/ui/Label";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -78,6 +80,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const didRefresh = useRef(false);
 
   const [showReelLabel, setShowReelLabel] = useState(false);
+  const [showLockedModal, setShowLockedModal] = useState(false);
   const [showCaughtModal, setShowCaughtModal] = useState(false);
   const [showChallenge, setShowChallenge] = useState(false);
   const [challengeDifficulty, setChallengeDifficulty] = useState(1);
@@ -223,11 +226,29 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
   return (
     <>
-      {totalFishCaught === 0 && (
+      <Modal
+        centered
+        show={showLockedModal}
+        onHide={() => setShowLockedModal(false)}
+      >
+        <CloseButtonPanel onClose={() => setShowLockedModal(false)}>
+          <div className="flex flex-col items-center">
+            <Label className="mt-2" icon={lockIcon} type="danger">
+              Level 5 Required
+            </Label>
+            <img src={ITEM_DETAILS.Rod.image} className="w-20 mx-auto my-2" />
+            <p className="text-sm text-center mb-2">
+              Visit the Fire Pit to cook food and feed your Bumpkin.
+            </p>
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+      {getBumpkinLevel(bumpkin?.experience ?? 0) <= 5 && (
         <>
           <img
             className="absolute cursor-pointer group-hover:img-highlight z-50 opacity-80"
             src={SUNNYSIDE.icons.fish_icon}
+            onClick={() => setShowLockedModal(true)}
             style={{
               width: `${PIXEL_SCALE * 18}px`,
               right: `${PIXEL_SCALE * 2}px`,
