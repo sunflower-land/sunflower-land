@@ -1,4 +1,4 @@
-import i18n from "src/i18n";
+import i18n from "lib/i18n";
 import { TOptions } from "i18next";
 import { TranslationKeys } from "./dictionaries/types";
 

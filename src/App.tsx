@@ -6,7 +6,7 @@ import "./styles.css";
 import * as Auth from "features/auth/lib/Provider";
 import ErrorBoundary from "features/auth/components/ErrorBoundary";
 import { Navigation } from "./Navigation";
-import "./i18n";
+import "./lib/i18n";
 
 // Initialise Global Settings
 initialise();

@@ -10,7 +10,7 @@ import {
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
-  featured: "Destaque",
+  featured: "Em destaque",
   connecting: "Conectando",
   loading: "Carregando",
   continue: "Continuar",
@@ -155,7 +155,7 @@ const achievementTerms: Record<AchievementsDialog, string> = {
 
   "seasonedFarmer.description": "Colete 50 Recursos Sazonais",
   "seasonedFarmer.one":
-    "Olá, aventureiro das temporadas! Sunflower Land é conhecido por suas temporadas especiais repletas de itens únicos e surpresas.",
+    "Olá, aventureiro! Sunflower Land é conhecido por suas temporadas especiais repletas de itens únicos e surpresas.",
   "seasonedFarmer.two":
     "Ao coletar recursos de temporada, você terá acesso a recompensas por tempo limitado, Crafts exclusivos e tesouros raros. É como ter um ingresso na primeira fila para as maravilhas de cada temporada.",
   "seasonedFarmer.three":
@@ -224,7 +224,7 @@ const guideTerms: Record<GuideTerms, string> = {
   "deliveries.description.one":
     "As entregas no Sunflower Land oferecem uma oportunidade emocionante de ajudar Goblins famintos e outros Bumpkins, enquanto ganha recompensas. Todos os dias, você poderá ver todos os pedidos que tem clicando no quadro de entregas no canto inferior esquerdo da tela. Os pedidos foram feitos por alguns NPCs locais que podem ser encontrados no Pumpkin Plaza. Para entregar um pedido, você precisará pegar um barco até o Pumpkin Plaza e procurar o NPC que espera a entrega. Uma vez que os encontrar, clique neles para entregar o pedido e receber sua recompensa.",
   "deliveries.description.two":
-    "Como um jogador novo, você começa com três espaços de pedido, mas à medida que expande sua fazenda, desbloqueará espaços adicionais, permitindo que jogadores avançados completem mais pedidos. Novos pedidos chegam a cada 24 horas, oferecendo uma variedade de tarefas, desde produzir colheitas até cozinhar alimentos e coletar recursos. Completar pedidos tambem lhe renderá alguns bônus, incluindo Block Bucks, SFL, bolos deliciosos e outras recompensas. O sistema de recompensas é baseado na dificuldade do pedido, então considere priorizar pedidos que ofereçam maiores recompensas para maximizar seus ganhos. Fique de olho no quadro e desafie-se com uma variedade de pedidos, subindo de nível e desbloqueando novos edifícios conforme necessário para atender pedidos mais exigentes.",
+    "Como um jogador novo, você começa com três espaços de pedido, mas à medida que expande sua fazenda, desbloqueará espaços adicionais, permitindo que jogadores avançados completem mais pedidos. Novos pedidos chegam a cada 24 horas, oferecendo uma variedade de tarefas, desde produzir colheitas até cozinhar alimentos e coletar recursos. Completar pedidos tambem lhe renderá alguns bônus, incluindo Block Bucks, SFL, bolos deliciosos e outras recompensas. O sistema de recompensas é baseado na dificuldade do pedido, então considere priorizar pedidos que ofereçam maiores recompensas para maximizar seus ganhos. Fique de olho no quadro e desafie-se com uma variedade de pedidos, subindo de nível e desbloqueando novos construções conforme necessário para atender pedidos mais exigentes.",
 
   "scavenger.description.one":
     "Coletar no Sunflower Land oferece oportunidades emocionantes para descobrir tesouros escondidos e reunir recursos valiosos. O primeiro aspecto da coleta é escavar tesouros na Treasure Island, onde você pode se tornar um caçador de tesouros pirata. Com uma pá e se aventurando na Treasure Island, você pode cavar em áreas arenosas escuras para descobrir uma variedade de tesouros, incluindo recompensas, decorações e até SFTs antigos com utilidade.",
