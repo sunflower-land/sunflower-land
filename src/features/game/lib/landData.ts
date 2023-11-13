@@ -162,18 +162,7 @@ export const INITIAL_RESOURCES: Pick<
       width: 2,
     },
   },
-  stones: {
-    1: {
-      x: 0,
-      y: 3,
-      width: 1,
-      height: 1,
-      stone: {
-        amount: 1,
-        minedAt: 0,
-      },
-    },
-  },
+  stones: {},
   fruitPatches: {},
   gold: {},
   iron: {},
@@ -222,8 +211,10 @@ export const OFFLINE_FARM: GameState = {
     "Water Well": new Decimal(4),
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
-    Axe: new Decimal(8),
-    "Block Buck": new Decimal(3),
+    Axe: new Decimal(10),
+    "Block Buck": new Decimal(1),
+    "Mashed Potato": new Decimal(1),
+    "Time Warp Totem": new Decimal(1),
   },
   wardrobe: {},
 

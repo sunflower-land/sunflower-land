@@ -31,7 +31,8 @@ type RESTRICTION_REASON =
   | "Medium crops are growing"
   | "Advanced crops are growing"
   | "Magic Bean is planted"
-  | "Bananas are growing";
+  | "Bananas are growing"
+  | "In use";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -273,6 +274,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
 
   "Heart of Davy Jones": (game) => areAnyTreasureHolesDug(game),
   "Maneki Neko": (game) => hasShakenManeki(game),
+  "Time Warp Totem": (_: GameState) => [true, "In use"],
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<

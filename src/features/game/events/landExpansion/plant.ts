@@ -12,13 +12,15 @@ import {
   InventoryItemName,
   PlacedItem,
   Position,
-  Reward,
 } from "../../types/game";
 import {
   COLLECTIBLES_DIMENSIONS,
   getKeys,
 } from "features/game/types/craftables";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleActive,
+  isCollectibleBuilt,
+} from "features/game/lib/collectibleBuilt";
 import { setPrecision } from "lib/utils/formatNumber";
 import { SEEDS } from "features/game/types/seeds";
 import { BuildingName } from "features/game/types/buildings";
@@ -219,6 +221,10 @@ export const getCropTime = ({
   }
 
   if (fertiliser === "Rapid Root") {
+    seconds = seconds * 0.5;
+  }
+
+  if (isCollectibleActive("Time Warp Totem", collectibles)) {
     seconds = seconds * 0.5;
   }
 
@@ -503,10 +509,6 @@ export function getCropYieldAmount({
     amount += 0.2;
   }
 
-  if (bumpkin.activity?.["Sunflower Planted"] === 4) {
-    amount += 10;
-  }
-
   return Number(setPrecision(new Decimal(amount)));
 }
 
@@ -563,13 +565,6 @@ export function plant({
 
   bumpkin.activity = trackActivity(activityName, bumpkin.activity);
 
-  let reward: Reward | undefined;
-  // if (bumpkin.activity?.["Sunflower Planted"] === 5) {
-  //   reward = {
-  //     sfl: new Decimal(1),
-  //   };
-  // }
-
   plots[action.index] = {
     ...plot,
     crop: {
@@ -595,7 +590,6 @@ export function plant({
         buds,
         fertiliser: plot.fertiliser?.name,
       }),
-      reward,
     },
   };
 

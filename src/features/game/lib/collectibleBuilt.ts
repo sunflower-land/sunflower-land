@@ -10,3 +10,21 @@ export function isCollectibleBuilt(
     collectible[name]?.some((placed) => placed.readyAt < Date.now())
   );
 }
+
+/**
+ * Useful for collectibles which expire after X time
+ * Currently we only support Time Warp Totem
+ */
+export function isCollectibleActive(
+  name: CollectibleName,
+  collectible: Collectibles
+) {
+  if (!collectible[name]) {
+    return false;
+  }
+
+  // Expires after 2 hours
+  return collectible[name]?.some(
+    (placed) => placed.readyAt + 2 * 60 * 60 * 1000 > Date.now()
+  );
+}

@@ -217,6 +217,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
   React.FC<CollectibleProps>
 > = {
+  "Time Warp Totem": TikiTotem,
   "Sapo Docuras": SapoDocuras,
   "Sapo Travessuras": SapoTravessuras,
 

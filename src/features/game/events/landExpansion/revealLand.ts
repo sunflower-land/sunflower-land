@@ -159,12 +159,12 @@ export function revealLand({
       createdAt,
       id: "expansion-fifth-airdrop",
       items: {
-        Pickaxe: 1,
+        "Time Warp Totem": 1,
       },
       sfl: 0,
       wearables: {},
       coordinates: {
-        x: -1,
+        x: -5,
         y: 5,
       },
       message: "Congratulations!",
@@ -173,7 +173,7 @@ export function revealLand({
 
   console.log({ pre: game.trees });
 
-  // Refresh all natural resources
+  // Refresh all natural resources - TODO stone and iron
   game.trees = getKeys(game.trees).reduce((acc, id) => {
     return {
       ...acc,

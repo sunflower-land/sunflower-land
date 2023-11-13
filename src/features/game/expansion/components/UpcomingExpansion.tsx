@@ -177,7 +177,7 @@ export const UpcomingExpansion: React.FC = () => {
                 <div className="flex mt-2">
                   {getKeys(state.expansionRequirements?.resources ?? {}).map(
                     (name) => (
-                      <div className="mr-3" key={name}>
+                      <div className="mr-3 flex items-center" key={name}>
                         <RequirementLabel
                           type="item"
                           item={name}
@@ -188,6 +188,14 @@ export const UpcomingExpansion: React.FC = () => {
                           }
                           balance={state.inventory[name] ?? new Decimal(0)}
                         />
+                        {state.inventory[name]?.gte(
+                          state.expansionRequirements?.resources[name] ?? 0
+                        ) && (
+                          <img
+                            src={SUNNYSIDE.icons.confirm}
+                            className="h-4 ml-0.5"
+                          />
+                        )}
                       </div>
                     )
                   )}

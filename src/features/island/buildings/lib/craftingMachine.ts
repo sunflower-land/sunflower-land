@@ -152,8 +152,13 @@ export const craftingMachine = createMachine<
       },
       assignCraftingDetails: assign((context, event) => {
         const { cookingSeconds } = COOKABLES[(event as CraftEvent).item];
-        const { bumpkin } = context.gameService.state.context.state;
-        const reducedSeconds = getCookingTime(cookingSeconds, bumpkin);
+        const { bumpkin, collectibles } =
+          context.gameService.state.context.state;
+        const reducedSeconds = getCookingTime(
+          cookingSeconds,
+          bumpkin,
+          collectibles
+        );
 
         return {
           readyAt: Date.now() + reducedSeconds * 1000,
