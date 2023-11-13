@@ -61,14 +61,32 @@ export const FirePitModal: React.FC<Props> = ({
       firePitRecipes[0]
   );
 
-  const bumpkinParts: Partial<Equipped> = NPC_WEARABLES.bruce;
-
   return (
     <Modal show={isOpen} onHide={onClose} centered>
+      {showIntro && (
+        <Panel bumpkinParts={NPC_WEARABLES.bruce}>
+          <SpeakingText
+            message={[
+              {
+                text: "Howdy Bumpkin! I can spot a hungry Bumpkin from a mile away.",
+              },
+              {
+                text: "Bring me resources and I will cook all the food you can eat!",
+              },
+            ]}
+            onClose={() => {
+              acknowledgeRead();
+              setShowIntro(false);
+            }}
+          />
+        </Panel>
+      )}
+
       {!showIntro && (
         <CloseButtonPanel
           tabs={[{ icon: chefHat, name: "Fire Pit" }]}
           onClose={onClose}
+          bumpkinParts={NPC_WEARABLES.bruce}
         >
           <Recipes
             selected={selected}

@@ -183,7 +183,6 @@ const INITIAL_BUMPKIN: Bumpkin = {
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
     background: "Farm Background",
-    onesie: "Eggplant Onesie",
   },
   skills: {},
   achievements: {},
@@ -350,16 +349,5 @@ export const OFFLINE_FARM: GameState = {
     hunger: "Sunflower",
     weeklyCatches: {},
   },
-  airdrops: [
-    {
-      message: "yo, yo, yo",
-      items: {
-        Shovel: 1,
-      },
-      sfl: 10,
-      id: "123",
-      createdAt: 0,
-      wearables: {},
-    },
-  ],
+  airdrops: [],
 };

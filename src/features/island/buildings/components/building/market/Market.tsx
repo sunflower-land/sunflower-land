@@ -64,6 +64,26 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
           }}
         />
 
+        <img
+          src={shadow}
+          className="absolute pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 15}px`,
+            bottom: `${PIXEL_SCALE * 6}px`,
+            right: `${PIXEL_SCALE * 6}px`,
+          }}
+        />
+        <img
+          src={SUNNYSIDE.npcs.betty}
+          className="absolute pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 16}px`,
+            bottom: `${PIXEL_SCALE * 8}px`,
+            right: `${PIXEL_SCALE * 4}px`,
+            transform: "scaleX(-1)",
+          }}
+        />
+
         {showHelper && (
           <img
             className="absolute cursor-pointer group-hover:img-highlight z-30"

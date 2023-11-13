@@ -434,7 +434,13 @@ export const PhaserComponent: React.FC<Props> = ({
         </Panel>
       </Modal>
       <Modal show={mmoState === "introduction"} centered>
-        <WorldIntroduction onClose={() => mmoService.send("CONTINUE")} />
+        <WorldIntroduction
+          onClose={() => {
+            mmoService.send("CONTINUE");
+            // BUG - need to call twice?
+            mmoService.send("CONTINUE");
+          }}
+        />
       </Modal>
       <Modal show={mmoState === "joinRoom"} centered>
         <Panel>
