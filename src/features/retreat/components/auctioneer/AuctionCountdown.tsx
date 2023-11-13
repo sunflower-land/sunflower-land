@@ -49,7 +49,10 @@ const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
     <div>
       <div className="flex">
         <Label type="default" className="ml-1" icon={SUNNYSIDE.icons.stopwatch}>
-          Plaza Auction
+          Auction:{" "}
+          {auction.type === "collectible"
+            ? auction.collectible
+            : auction.wearable}
         </Label>
         <img
           src={SUNNYSIDE.icons.close}
