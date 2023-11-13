@@ -65,23 +65,19 @@ export const BUILDINGS: () => Record<
   ],
   "Fire Pit": [
     {
-      unlocksAtLevel: 2,
+      unlocksAtLevel: 1,
       ingredients: [
         {
           item: "Wood",
-          amount: new Decimal(5),
+          amount: new Decimal(3),
         },
         {
           item: "Stone",
           amount: new Decimal(2),
         },
-        {
-          item: "Iron",
-          amount: new Decimal(1),
-        },
       ],
       sfl: new Decimal(0),
-      constructionSeconds: 30,
+      constructionSeconds: 0,
     },
   ],
   Workbench: [

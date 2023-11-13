@@ -7,8 +7,10 @@ import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Guide } from "features/helios/components/hayseedHank/components/Guide";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { PeteHelp } from "./PeteHelp";
 
 export const TravelTeaser: React.FC = () => {
+  const [tab, setTab] = useState(0);
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -32,7 +34,8 @@ export const TravelTeaser: React.FC = () => {
             style={{ maxHeight: "300px" }}
             className="scrollable overflow-y-auto"
           >
-            <Guide onSelect={() => {}} />
+            {tab === 0 && <PeteHelp />}
+            {tab === 1 && <Guide onSelect={() => {}} />}
           </div>
         </CloseButtonPanel>
       </Modal>

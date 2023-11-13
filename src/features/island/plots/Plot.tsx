@@ -294,17 +294,19 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
       <div onClick={() => onClick()} className="w-full h-full relative">
       <div onClick={onClick} className="w-full h-full relative">
-        {harvestCount < 3 && harvestCount + 1 === Number(id) && level >= 2 && (
-          <img
-            className="absolute cursor-pointer group-hover:img-highlight z-30"
-            src={SUNNYSIDE.icons.dig_icon}
-            style={{
-              width: `${PIXEL_SCALE * 18}px`,
-              right: `${PIXEL_SCALE * -8}px`,
-              top: `${PIXEL_SCALE * -14}px`,
-            }}
-          />
-        )}
+        {harvestCount < 3 &&
+          harvestCount + 1 === Number(id) &&
+          !!inventory.Shovel && (
+            <img
+              className="absolute cursor-pointer group-hover:img-highlight z-30"
+              src={SUNNYSIDE.icons.dig_icon}
+              style={{
+                width: `${PIXEL_SCALE * 18}px`,
+                right: `${PIXEL_SCALE * -8}px`,
+                top: `${PIXEL_SCALE * -14}px`,
+              }}
+            />
+          )}
 
         <FertilePlot
           cropName={crop?.name}

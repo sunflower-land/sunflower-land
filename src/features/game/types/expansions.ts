@@ -750,14 +750,14 @@ const LAND_4_REQUIREMENTS: Requirements = {
     Wood: 3,
   },
   seconds: 10,
-  bumpkinLevel: 1,
+  bumpkinLevel: 2,
 };
 
 const LAND_5_REQUIREMENTS: Requirements = {
   resources: {
+    Wood: 3,
     Stone: 1,
   },
-  // sfl: marketRate(1).toNumber(),
   seconds: 3,
   bumpkinLevel: 2,
 };
