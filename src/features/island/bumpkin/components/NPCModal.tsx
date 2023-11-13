@@ -57,10 +57,6 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
             onClose={() => {
               setShowLevelUp(false);
               onClose();
-
-              if (bumpkinLevel.current === 2) {
-                openModal("BETTY");
-              }
             }}
             wearables={state.bumpkin?.equipped as Equipped}
           />

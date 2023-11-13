@@ -17,6 +17,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import lock from "assets/skills/lock.png";
 import lightning from "assets/icons/lightning.png";
+import orange from "assets/resources/orange.png";
 import {
   EXOTIC_CROPS,
   ExoticCrop,
@@ -26,6 +27,7 @@ import { getKeys } from "features/game/types/craftables";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
 export const isExoticCrop = (
   item: Crop | Fruit | ExoticCrop
@@ -135,9 +137,6 @@ export const Crops: React.FC = () => {
 
   return (
     <>
-      <Label type="vibrant" icon={SUNNYSIDE.icons.stopwatch}>
-        2x Crop Demand
-      </Label>
       <SplitScreenView
         divRef={divRef}
         panel={
@@ -172,24 +171,84 @@ export const Crops: React.FC = () => {
           />
         }
         content={
-          <>
-            {cropsAndFruits
-              .filter((crop) => !!crop.sellPrice)
-              .map((item) => (
-                <Box
-                  isSelected={selected.name === item.name}
-                  key={item.name}
-                  onClick={() => setSelected(item)}
-                  image={ITEM_DETAILS[item.name].image}
-                  count={inventory[item.name]}
-                  parentDivRef={divRef}
-                  secondaryImage={
-                    bumpkinLevel < item.bumpkinLevel ? lock : undefined
-                  }
-                  showOverlay={bumpkinLevel < item.bumpkinLevel}
-                />
-              ))}
-          </>
+          <div className="pl-1">
+            <div className="flex">
+              <Label
+                className="mr-3"
+                icon={CROP_LIFECYCLE.Sunflower.crop}
+                type="default"
+              >
+                Crops
+              </Label>
+              <Label type="vibrant" icon={SUNNYSIDE.icons.stopwatch}>
+                2x Crop Demand
+              </Label>
+            </div>
+            <div className="flex flex-wrap">
+              {cropsAndFruits
+                .filter((crop) => !!crop.sellPrice && crop.name in CROPS())
+                .map((item) => (
+                  <Box
+                    isSelected={selected.name === item.name}
+                    key={item.name}
+                    onClick={() => setSelected(item)}
+                    image={ITEM_DETAILS[item.name].image}
+                    count={inventory[item.name]}
+                    parentDivRef={divRef}
+                    secondaryImage={
+                      bumpkinLevel < item.bumpkinLevel ? lock : undefined
+                    }
+                    showOverlay={bumpkinLevel < item.bumpkinLevel}
+                  />
+                ))}
+            </div>
+            <div className="flex">
+              <Label className="mr-3" icon={orange} type="default">
+                Fruits
+              </Label>
+            </div>
+            <div className="flex flex-wrap">
+              {cropsAndFruits
+                .filter((crop) => !!crop.sellPrice && crop.name in FRUIT())
+                .map((item) => (
+                  <Box
+                    isSelected={selected.name === item.name}
+                    key={item.name}
+                    onClick={() => setSelected(item)}
+                    image={ITEM_DETAILS[item.name].image}
+                    count={inventory[item.name]}
+                    parentDivRef={divRef}
+                    secondaryImage={
+                      bumpkinLevel < item.bumpkinLevel ? lock : undefined
+                    }
+                    showOverlay={bumpkinLevel < item.bumpkinLevel}
+                  />
+                ))}
+            </div>
+            <div className="flex">
+              <Label className="mr-3" icon={lightning} type="default">
+                Exotics
+              </Label>
+            </div>
+            <div className="flex flex-wrap">
+              {cropsAndFruits
+                .filter((crop) => !!crop.sellPrice && crop.name in EXOTIC_CROPS)
+                .map((item) => (
+                  <Box
+                    isSelected={selected.name === item.name}
+                    key={item.name}
+                    onClick={() => setSelected(item)}
+                    image={ITEM_DETAILS[item.name].image}
+                    count={inventory[item.name]}
+                    parentDivRef={divRef}
+                    secondaryImage={
+                      bumpkinLevel < item.bumpkinLevel ? lock : undefined
+                    }
+                    showOverlay={bumpkinLevel < item.bumpkinLevel}
+                  />
+                ))}
+            </div>
+          </div>
         }
       />
       <Modal centered show={isSellAllModalOpen} onHide={closeConfirmationModal}>

@@ -564,11 +564,11 @@ export function plant({
   bumpkin.activity = trackActivity(activityName, bumpkin.activity);
 
   let reward: Reward | undefined;
-  if (bumpkin.activity?.["Sunflower Planted"] === 5) {
-    reward = {
-      sfl: new Decimal(1),
-    };
-  }
+  // if (bumpkin.activity?.["Sunflower Planted"] === 5) {
+  //   reward = {
+  //     sfl: new Decimal(1),
+  //   };
+  // }
 
   plots[action.index] = {
     ...plot,

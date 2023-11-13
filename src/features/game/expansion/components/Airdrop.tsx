@@ -20,6 +20,7 @@ export const AirdropModal: React.FC<{
   onClose: () => void;
 }> = ({ airdrop, onClose }) => {
   const { gameService } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
 
   const itemNames = getKeys(airdrop.items);
 
@@ -27,6 +28,10 @@ export const AirdropModal: React.FC<{
     gameService.send("airdrop.claimed", {
       id: airdrop.id,
     });
+
+    if (airdrop.id === "expansion-four-airdrop") {
+      openModal("BETTY");
+    }
 
     onClose();
   };

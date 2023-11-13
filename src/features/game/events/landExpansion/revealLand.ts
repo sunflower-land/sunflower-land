@@ -142,7 +142,7 @@ export function revealLand({
       createdAt,
       id: "expansion-four-airdrop",
       items: {
-        "Mashed Potato": 1,
+        Shovel: 1,
       },
       sfl: 0,
       wearables: {},
@@ -159,9 +159,7 @@ export function revealLand({
       createdAt,
       id: "expansion-fifth-airdrop",
       items: {
-        Axe: 5,
-        Pickaxe: 2,
-        "Stone Pickaxe": 1,
+        Pickaxe: 1,
       },
       sfl: 0,
       wearables: {},

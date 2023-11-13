@@ -5,6 +5,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Tools } from "./Tools";
 import { IslandBlacksmithItems } from "features/helios/components/blacksmith/component/IslandBlacksmithItems";
+import { Buildings } from "features/island/hud/components/buildings/Buildings";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -19,12 +20,14 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
       tabs={[
         { icon: ITEM_DETAILS.Pickaxe.image, name: "Tools" },
         { icon: SUNNYSIDE.icons.hammer, name: "Craft" },
+        { icon: SUNNYSIDE.icons.hammer, name: "Build" },
       ]}
       currentTab={tab}
       setCurrentTab={setTab}
     >
       {tab === 0 && <Tools onClose={onClose} />}
       {tab === 1 && <IslandBlacksmithItems />}
+      {tab === 2 && <Buildings onClose={onClose} />}
     </CloseButtonPanel>
   );
 };

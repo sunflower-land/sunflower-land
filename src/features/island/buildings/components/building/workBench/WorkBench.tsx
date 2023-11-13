@@ -47,7 +47,7 @@ const needsHelp = (state: MachineState) => {
 export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService } = useContext(Context);
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const showHelper = useSelector(gameService, needsHelp);
 

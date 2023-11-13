@@ -60,9 +60,6 @@ export const ModalProvider: FC = ({ children }) => {
             {
               text: "You've done a mighty fine job expandin' the land, Bumpkin! Every time you clear new space, there's a whole heap of new resources just waitin' to be uncovered.",
             },
-            {
-              text: "Wow, you found some crops! First you need to strengthen your Bumpkin, let's find some food and eat it!",
-            },
           ]}
           onClose={handleClose}
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}

@@ -49,7 +49,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const hasSoldBefore = hasSoldCropsBefore(gameState.context.state.bumpkin);
 
   const showHelper =
-    getBumpkinLevel(gameState.context.state.bumpkin?.experience ?? 0) === 2 &&
+    gameState.context.state.bumpkin?.activity?.["Sunflower Harvested"] === 3 &&
     !gameState.context.state.bumpkin?.activity?.["Sunflower Sold"];
 
   return (

@@ -132,7 +132,7 @@ export const INITIAL_RESOURCES: Pick<
   trees: {
     1: {
       wood: {
-        amount: 1,
+        amount: 2,
         choppedAt: 0,
       },
       x: -3,
@@ -222,12 +222,8 @@ export const OFFLINE_FARM: GameState = {
     "Water Well": new Decimal(4),
     Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
-    Axe: new Decimal(6),
+    Axe: new Decimal(8),
     "Block Buck": new Decimal(3),
-
-    // Testing
-    Wood: new Decimal(20),
-    Stone: new Decimal(20),
   },
   wardrobe: {},
 
@@ -286,6 +282,17 @@ export const OFFLINE_FARM: GameState = {
         coordinates: {
           x: 6,
           y: 5,
+        },
+        createdAt: 0,
+      },
+    ],
+    "Fire Pit": [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 3,
+          y: -1,
         },
         createdAt: 0,
       },
