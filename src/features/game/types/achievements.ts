@@ -495,7 +495,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     ],
   },
   Contractor: {
-    description: "Have 10 buildings constructed on your land",
+    description: translate("contractor.description"),
     progress: (gameState: GameState) => {
       const totalBuildingsOnLand = getKeys(gameState.buildings).reduce(
         (a, b) => a + (gameState.buildings[b]?.length ?? 0),
