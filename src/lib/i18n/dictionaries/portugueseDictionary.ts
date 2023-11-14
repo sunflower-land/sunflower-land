@@ -264,7 +264,7 @@ const conversations: Record<Conversations, string> = {
     "Hmm, essas colheitas estão crescendo muito lentamente. Não tenho o dia todo.",
   "hank-crafting.two": "Faça um espantalho para acelerar suas colheitas.",
   "betty-intro.headline": "Como fazer sua fazenda crescer",
-  "betty-intro.one": "Ei, ei! Bem-vindo ao meu mercado.",
+  "betty-intro.one": "Oi! Bem-vindo ao meu mercado.",
   "betty-intro.two":
     "Traga-me suas colheitas e te darei um preço justo por elas!",
   "betty-intro.three":
