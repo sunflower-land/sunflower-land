@@ -1887,6 +1887,7 @@ describe("isPlotFertile", () => {
       },
       plotIndex: "87",
       buildings: {},
+      bumpkin: { ...INITIAL_BUMPKIN },
     });
 
     expect(isFertile).toBeFalsy();
@@ -1912,6 +1913,7 @@ describe("isPlotFertile", () => {
           },
         ],
       },
+      bumpkin: { ...INITIAL_BUMPKIN },
       crops: {
         0: fakePlot(),
         1: fakePlot(),
@@ -1969,6 +1971,7 @@ describe("isPlotFertile", () => {
       },
       plotIndex: "5",
       buildings: {},
+      bumpkin: { ...INITIAL_BUMPKIN },
     });
     expect(isFertile).toBeTruthy();
   });
@@ -1992,6 +1995,7 @@ describe("isPlotFertile", () => {
           },
         ],
       },
+      bumpkin: { ...INITIAL_BUMPKIN },
       crops: {
         0: fakePlot,
         1: fakePlot,
