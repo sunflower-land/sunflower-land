@@ -1,11 +1,13 @@
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
-import { InventoryItemName } from "features/game/types/game";
+import { CollectibleName } from "features/game/types/craftables";
+import { Collectibles, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 /**
  * The props for the details for items.
@@ -48,6 +50,7 @@ interface PropertiesProps {
  */
 interface Props {
   wideLayout?: boolean;
+  collectibles: Collectibles;
   details: ItemDetailsProps;
   properties?: PropertiesProps;
   actionView?: JSX.Element;
@@ -59,6 +62,7 @@ interface Props {
  */
 export const InventoryItemDetails: React.FC<Props> = ({
   wideLayout = false,
+  collectibles,
   details,
   properties,
   actionView,
@@ -67,7 +71,20 @@ export const InventoryItemDetails: React.FC<Props> = ({
     const item = ITEM_DETAILS[details.item];
     const icon = item.image;
     const title = details.item;
-    const description = item.description;
+
+    let description = item.description;
+    if (item.boostedDescriptions) {
+      for (const boostedDescription of item.boostedDescriptions) {
+        if (
+          isCollectibleBuilt(
+            boostedDescription.name as CollectibleName,
+            collectibles
+          )
+        ) {
+          description = boostedDescription.description;
+        }
+      }
+    }
 
     return (
       <>
