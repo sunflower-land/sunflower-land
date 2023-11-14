@@ -1,5 +1,6 @@
 import {
   AchievementsDialog,
+  Conversations,
   GeneralTerms,
   GuideTerms,
   Intro,
@@ -17,6 +18,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   readMore: "Read more",
   close: "Close",
   noThanks: "No thanks",
+  guide: "Guide",
+  task: "Task",
 };
 
 const welcomeTerms: Record<WelcomeTerms, string> = {
@@ -243,6 +246,32 @@ const guideTerms: Record<GuideTerms, string> = {
     "The availability of seasonal items at the Goblin Blacksmith adds another layer of excitement. Players must gather the required resources and seasonal tickets to craft these limited-supply items, creating a sense of competition and urgency. Planning ahead and strategizing become crucial as players aim to secure their desired items before the supply runs out. Moreover, the option to swap seasonal tickets for SFL provides flexibility and allows players to make choices that align with their specific gameplay goals. With each season's unique offerings and the anticipation of surprise events, Sunflower Land keeps players engaged and entertained throughout the year, fostering a vibrant and ever-evolving farming experience.",
 };
 
+const conversations: Record<Conversations, string> = {
+  "hank-intro.headline": "Help an old man?",
+  "hank-intro.one": "Howdy Bumpkin! Welcome to our little patch of paradise.",
+  "hank-intro.two":
+    "I've been working this land for fifty years but could sure use some help.",
+  "hank-intro.three":
+    "I can teach you the basics of farming, as long as you help me with my daily chores.",
+  "hank-crafting.headline": "Craft a scarecrow",
+  "hank-crafting.one":
+    "Hmmm, those crops are growing awfully slow. I aint' got time to wait around.",
+  "hank-crafting.two": "Craft a scarecrow to speed up your crops.",
+  "betty-intro.headline": "How to grow your farm",
+  "betty-intro.one": "Hey, hey! Welcome to my market.",
+  "betty-intro.two":
+    "Bring me your finest harvest, and I will give you a fair price for them!",
+  "betty-intro.three":
+    "You need seeds? From potatoes to parsnips, I've got you covered!",
+  "bruce-intro.headline": "Cooking Introduction",
+  "bruce-intro.one": "I'm the owner of this lovely little bistro.",
+  "bruce-intro.two":
+    "Bring me resources and I will cook all the food you can eat!",
+  "blacksmith-intro.headline": "Chop chop chop.",
+  "blacksmith-intro.one":
+    "I'm a master of tools, and with the right resources, I can craft anything you need...including more tools!",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...generalTerms,
   ...welcomeTerms,
@@ -251,4 +280,5 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...introTerms,
   ...achievementTerms,
   ...guideTerms,
+  ...conversations,
 };

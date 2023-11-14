@@ -20,6 +20,7 @@ import {
   AchievementName,
 } from "features/game/types/achievements";
 import { GameState } from "features/game/types/game";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `last-task.${host}-${window.location.pathname}`;
@@ -64,6 +65,7 @@ export const Otis: React.FC = () => {
   const [gameState] = useActor(gameService);
 
   const { activeTaskIndex } = getActiveTask(gameState.context.state);
+  const { t } = useAppTranslation();
 
   const [activeTask, setActiveTask] = useState<AchievementName>();
 
@@ -142,11 +144,11 @@ export const Otis: React.FC = () => {
             tabs={[
               {
                 icon: SUNNYSIDE.icons.hammer,
-                name: "Task",
+                name: t("task"),
               },
               {
                 icon: SUNNYSIDE.icons.expression_confused,
-                name: "Guide",
+                name: t("guide"),
               },
             ]}
             bumpkinParts={NPC_WEARABLES.otis}

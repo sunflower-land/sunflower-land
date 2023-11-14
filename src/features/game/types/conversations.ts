@@ -6,6 +6,7 @@ import crafting from "assets/tutorials/crafting.png";
 
 import { InventoryItemName } from "./game";
 import { NPCName } from "lib/npcs";
+import { translate } from "lib/i18n/translate";
 
 export type ConversationName =
   | "betty-intro"
@@ -30,59 +31,59 @@ export type Message = {
 
 export const CONVERSATIONS: Record<ConversationName, Message> = {
   "hank-intro": {
-    headline: "Help an old man?",
+    headline: translate("hank-intro.headline"),
     content: [
       {
-        text: "Howdy Bumpkin! Welcome to our little patch of paradise.",
+        text: translate("hank-intro.one"),
       },
       {
-        text: "I've been working this land for fifty years but could sure use some help.",
+        text: translate("hank-intro.two"),
       },
 
       {
-        text: "I can teach you the basics of farming, as long as you help me with my daily chores.",
+        text: translate("hank-intro.three"),
         image: chores,
       },
     ],
     from: "hank",
   },
   "hank-crafting": {
-    headline: "Craft a scarecrow",
+    headline: translate("hank-crafting.headline"),
     content: [
       {
-        text: "Hmmm, those crops are growing awfully slow. I aint' got time to wait around.",
+        text: translate("hank-crafting.one"),
       },
       {
-        text: "Craft a scarecrow to speed up your crops.",
+        text: translate("hank-crafting.two"),
         image: crafting,
       },
     ],
     from: "hank",
   },
   "betty-intro": {
-    headline: "How to grow your farm",
+    headline: translate("betty-intro.headline"),
     content: [
       {
-        text: "Hey, hey! Welcome to my market.",
+        text: translate("betty-intro.one"),
       },
       {
-        text: "Bring me your finest harvest, and I will give you a fair price for them!",
+        text: translate("betty-intro.two"),
       },
       {
-        text: "You need seeds? From potatoes to parsnips, I've got you covered!",
+        text: translate("betty-intro.three"),
         image: harvesting,
       },
     ],
     from: "betty",
   },
   "bruce-intro": {
-    headline: "Cooking Introduction",
+    headline: translate("bruce-intro.headline"),
     content: [
       {
-        text: "I'm the owner of this lovely little bistro.",
+        text: translate("bruce-intro.one"),
       },
       {
-        text: "Bring me resources and I will cook all the food you can eat!",
+        text: translate("bruce-intro.two"),
         image: firePit,
       },
     ],
@@ -94,10 +95,10 @@ export const CONVERSATIONS: Record<ConversationName, Message> = {
     },
   },
   "blacksmith-intro": {
-    headline: "Chop chop chop.",
+    headline: translate("blacksmith-intro.headline"),
     content: [
       {
-        text: "I'm a master of tools, and with the right resources, I can craft anything you need...including more tools!",
+        text: translate("blacksmith-intro.one"),
         image: workbench,
       },
     ],

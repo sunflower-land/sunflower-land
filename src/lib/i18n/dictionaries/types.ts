@@ -5,7 +5,8 @@ export type TranslationKeys =
   | SeasonBannerOffer
   | Intro
   | AchievementsDialog
-  | GuideTerms;
+  | GuideTerms
+  | Conversations;
 
 export type GeneralTerms =
   | "featured"
@@ -14,7 +15,9 @@ export type GeneralTerms =
   | "continue"
   | "readMore"
   | "close"
-  | "noThanks";
+  | "noThanks"
+  | "guide"
+  | "task";
 
 export type WelcomeTerms =
   | "welcome.otherWallets"
@@ -156,3 +159,21 @@ export type GuideTerms =
   | "fruit.description.three"
   | "seasons.description.one"
   | "seasons.description.two";
+
+export type Conversations =
+  | "hank-intro.headline"
+  | "hank-intro.one"
+  | "hank-intro.two"
+  | "hank-intro.three"
+  | "hank-crafting.headline"
+  | "hank-crafting.one"
+  | "hank-crafting.two"
+  | "betty-intro.headline"
+  | "betty-intro.one"
+  | "betty-intro.two"
+  | "betty-intro.three"
+  | "bruce-intro.headline"
+  | "bruce-intro.one"
+  | "bruce-intro.two"
+  | "blacksmith-intro.headline"
+  | "blacksmith-intro.one";

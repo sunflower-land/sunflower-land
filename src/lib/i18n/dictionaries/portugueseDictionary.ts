@@ -1,5 +1,6 @@
 import {
   AchievementsDialog,
+  Conversations,
   GeneralTerms,
   GuideTerms,
   Intro,
@@ -17,6 +18,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   readMore: "Saiba mais",
   close: "Fechar",
   noThanks: "Não, obrigado",
+  guide: "Guia",
+  task: "Tarefa",
 };
 
 const welcomeTerms: Record<WelcomeTerms, string> = {
@@ -244,6 +247,31 @@ const guideTerms: Record<GuideTerms, string> = {
     "A disponibilidade de itens de temporada no Goblin Blacksmith adiciona outra camada de emoção. Os jogadores devem reunir os recursos necessários e tickets de temporada para criar esses itens de oferta limitada, criando um senso de competição e urgência. Planejar com antecedência e estrategizar se tornam cruciais à medida que os jogadores visam garantir seus itens desejados antes que o estoque acabe. Além disso, a opção de trocar tickets de temporada por SFL oferece flexibilidade e permite que os jogadores façam escolhas que estejam alinhadas com seus objetivos específicos de jogo. Com as ofertas únicas e eventos surpresa de cada temporada , Sunflower Land mantém os jogadores engajados e entretidos durante todo o ano, fomentando uma experiência de fazenda vibrante e em constante evolução.",
 };
 
+const conversations: Record<Conversations, string> = {
+  "hank-intro.headline": "Ajude um velho fazendeiro?",
+  "hank-intro.one": "Olá, Bumpkin! Bem-vindo ao nosso pequeno paraíso.",
+  "hank-intro.two":
+    "Estou trabalhando nesta terra há cinquenta anos, mas com adoraria receber alguma ajuda.",
+  "hank-intro.three":
+    "Posso te ensinar o básico da agricultura, desde que você me ajude com as tarefas diárias.",
+  "hank-crafting.headline": "Faça um espantalho",
+  "hank-crafting.one":
+    "Hmm, essas colheitas estão crescendo muito lentamente. Não tenho o dia todo.",
+  "hank-crafting.two": "Faça um espantalho para acelerar suas colheitas.",
+  "betty-intro.headline": "Como fazer sua fazenda crescer",
+  "betty-intro.one": "Ei, ei! Bem-vindo ao meu mercado.",
+  "betty-intro.two":
+    "Traga-me suas colheitas e te darei um preço justo por elas!",
+  "betty-intro.three":
+    "Precisa de sementes? De batatas a pastinagas, eu tenho tudo o que você precisa!",
+  "bruce-intro.headline": "Introdução à culinária",
+  "bruce-intro.one": "Sou o dono deste adorável bistrô.",
+  "bruce-intro.two":
+    "Traga-me recursos e cozinharei toda a comida que você puder comer!",
+  "blacksmith-intro.headline": "Madeeeeeira.",
+  "blacksmith-intro.one":
+    "Sou um mestre das ferramentas, e com os recursos certos, posso criar tudo o que você precisa... incluindo mais ferramentas!",
+};
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...generalTerms,
   ...welcomeTerms,
@@ -252,4 +280,5 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...introTerms,
   ...achievementTerms,
   ...guideTerms,
+  ...conversations,
 };
