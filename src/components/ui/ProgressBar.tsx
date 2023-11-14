@@ -43,7 +43,7 @@ const PROGRESS_COLORS: Record<progressType, progressStyle> = {
   },
   buff: {
     color: "#b65389",
-    backgroundColor: "#613368",
+    backgroundColor: "#193c3e",
   },
 };
 

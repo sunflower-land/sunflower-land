@@ -77,7 +77,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
       >
         {showHelper && (
           <img
-            className="absolute cursor-pointer group-hover:img-highlight z-30"
+            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
             src={SUNNYSIDE.icons.chop_icon}
             style={{
               width: `${PIXEL_SCALE * 18}px`,
