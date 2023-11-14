@@ -165,7 +165,6 @@ export const Airdrop: React.FC<Props> = ({ airdrop }) => {
 export const AirdropPopup: React.FC = () => {
   const { gameService } = useContext(Context);
   const [state] = useActor(gameService);
-  console.log({ state: state.value });
 
   const airdrop = state.context.state.airdrops?.find(
     (airdrop) => !airdrop.coordinates

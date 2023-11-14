@@ -12,6 +12,7 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
 
 const isNoob = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) < 3;
@@ -21,7 +22,7 @@ export const TravelTeaser: React.FC = () => {
   const showSpeech = useSelector(gameService, isNoob);
   const [tab, setTab] = useState(0);
   const [showModal, setShowModal] = useState(false);
-
+  const [guide, setGuide] = useState<GuidePath>();
   return (
     <>
       <Modal show={showModal} centered onHide={() => setShowModal(false)}>
@@ -38,13 +39,15 @@ export const TravelTeaser: React.FC = () => {
               name: "Guide",
             },
           ]}
+          currentTab={tab}
+          setCurrentTab={setTab}
         >
           <div
             style={{ maxHeight: "300px" }}
             className="scrollable overflow-y-auto"
           >
             {tab === 0 && <PeteHelp />}
-            {tab === 1 && <Guide onSelect={() => {}} />}
+            {tab === 1 && <Guide selected={guide} onSelect={setGuide} />}
           </div>
         </CloseButtonPanel>
       </Modal>
