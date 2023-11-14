@@ -50,10 +50,6 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
 
   const bumpkin = gameState.context.state.bumpkin as Bumpkin;
 
-  const airdrop = gameState.context.state.airdrops?.find(
-    (airdrop) => !airdrop.coordinates
-  );
-
   return (
     <div className="absolute h-full w-full">
       <BuildingImageWrapper

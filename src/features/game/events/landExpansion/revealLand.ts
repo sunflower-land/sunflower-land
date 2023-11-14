@@ -163,15 +163,13 @@ export function revealLand({
       sfl: 0,
       wearables: {},
       coordinates: {
-        x: -5,
-        y: 5,
+        x: -7,
+        y: 7,
       },
     });
   }
 
-  console.log({ pre: game.trees });
-
-  // Refresh all natural resources - TODO stone and iron
+  // Refresh all resources
   game.trees = getKeys(game.trees).reduce((acc, id) => {
     return {
       ...acc,
@@ -185,7 +183,57 @@ export function revealLand({
     };
   }, {} as GameState["trees"]);
 
-  console.log({ trees: game.trees });
+  game.stones = getKeys(game.stones).reduce((acc, id) => {
+    return {
+      ...acc,
+      [id]: {
+        ...game.stones[id],
+        stone: {
+          ...game.stones[id].stone,
+          minedAt: createdAt - 12 * 60 * 60 * 1000,
+        },
+      },
+    };
+  }, {} as GameState["stones"]);
+
+  game.stones = getKeys(game.stones).reduce((acc, id) => {
+    return {
+      ...acc,
+      [id]: {
+        ...game.stones[id],
+        stone: {
+          ...game.stones[id].stone,
+          minedAt: createdAt - 12 * 60 * 60 * 1000,
+        },
+      },
+    };
+  }, {} as GameState["stones"]);
+
+  game.iron = getKeys(game.iron).reduce((acc, id) => {
+    return {
+      ...acc,
+      [id]: {
+        ...game.iron[id],
+        stone: {
+          ...game.iron[id].stone,
+          minedAt: createdAt - 24 * 60 * 60 * 1000,
+        },
+      },
+    };
+  }, {} as GameState["iron"]);
+
+  game.gold = getKeys(game.gold).reduce((acc, id) => {
+    return {
+      ...acc,
+      [id]: {
+        ...game.gold[id],
+        stone: {
+          ...game.gold[id].stone,
+          minedAt: createdAt - 48 * 60 * 60 * 1000,
+        },
+      },
+    };
+  }, {} as GameState["gold"]);
 
   game.expansionRequirements = expansionRequirements(
     inventory["Basic Land"].toNumber() + 1
