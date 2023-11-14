@@ -13,8 +13,6 @@ export class IgorHomeScene extends BaseScene {
   }
 
   async create() {
-    // eslint-disable-next-line no-console
-    console.log("Create igor_home shop");
     this.map = this.make.tilemap({
       key: "igor-home",
     });

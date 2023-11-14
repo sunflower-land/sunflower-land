@@ -123,8 +123,6 @@ export const Deposit: React.FC<Props> = ({
         // Notify parent that we're done loading
         onLoaded && onLoaded(true);
       } catch (error: unknown) {
-        // eslint-disable-next-line no-console
-        console.error(error instanceof Error ? error.message : error);
         setStatus("error");
         // Notify parent that we're done loading
         onLoaded && onLoaded(false);
@@ -391,8 +389,6 @@ export const Deposit: React.FC<Props> = ({
                     {hasWearablesToDeposit && (
                       <div className="flex flex-wrap h-fit -ml-1.5">
                         {selectedWearables.map((item) => {
-                          // eslint-disable-next-line no-console
-                          console.log({ item });
                           return (
                             <Box
                               count={new Decimal(wearablesToDeposit[item] ?? 0)}

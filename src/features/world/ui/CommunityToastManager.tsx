@@ -49,9 +49,6 @@ export const CommunityToasts: React.FC = () => {
         return console.warn("Toast text is empty");
       }
 
-      // eslint-disable-next-line no-console
-      console.log("TOAST", { toast, isShown });
-
       const newToast: CommunityToast = {
         ...toast,
         id: Date.now().toString(),

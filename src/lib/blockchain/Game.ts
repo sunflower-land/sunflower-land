@@ -10,8 +10,6 @@ import { getNextSessionId, getSessionId } from "./Session";
 
 const address = CONFIG.GAME_CONTRACT;
 
-// eslint-disable-next-line no-console
-console.log({ address });
 type ProgressData = {
   mintIds: number[];
   mintAmounts: string[];
@@ -194,8 +192,6 @@ export async function syncProgress({
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
-        // eslint-disable-next-line no-console
-        console.log({ purchase });
         if (purchase) {
           // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#purchase
           onboardingAnalytics.logEvent("purchase", {

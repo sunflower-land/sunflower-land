@@ -231,8 +231,6 @@ export const landscapingMachine = createMachine<
               target: "placing",
               actions: assign({
                 placeable: (_, event) => {
-                  // eslint-disable-next-line no-console
-                  console.log({ event });
                   return event.placeable;
                 },
                 action: (_, event) => event.action,

@@ -77,9 +77,6 @@ export const Builder: React.FC = () => {
     console.log(JSON.stringify(identifiedLayouts, null, 2));
   };
 
-  // eslint-disable-next-line no-console
-  console.log({ placed });
-
   // Load data
   return (
     <GameProvider>

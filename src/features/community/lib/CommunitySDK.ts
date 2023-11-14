@@ -112,8 +112,6 @@ export function prepareAPI({
     }
 
     public async reset() {
-      // eslint-disable-next-line no-console
-      console.log("SEND IT");
       if (CONFIG.NETWORK !== "mumbai") return;
 
       await resetIsland({

@@ -173,13 +173,6 @@ export const FishingChallenge: React.FC<Props> = ({
 
     const hit = degreeDifference < halfBarDegreesWithTolerance;
 
-    // eslint-disable-next-line no-console
-    console.log({
-      hit,
-      degreeDifference,
-      tentacleAngle,
-      greenBarAngle,
-    });
     setAttempts((prev) => [...prev, hit ? "hit" : "miss"]);
 
     if (!hit) {

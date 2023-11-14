@@ -23,11 +23,7 @@ export function placeBud({
 }: Options): GameState {
   const copy = cloneDeep(state);
 
-  // eslint-disable-next-line no-console
-  console.log({ action });
   const bud = copy.buds?.[Number(action.id)];
-  // eslint-disable-next-line no-console
-  console.log({ bud });
 
   if (!bud) throw new Error("This bud does not exist");
 

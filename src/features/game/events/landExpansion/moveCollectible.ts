@@ -28,8 +28,6 @@ export function moveCollectible({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  // eslint-disable-next-line no-console
-  console.log({ action });
   const stateCopy = cloneDeep(state) as GameState;
   const collectibleGroup = stateCopy.collectibles[action.name];
 

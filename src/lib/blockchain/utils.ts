@@ -11,8 +11,6 @@ export async function estimateGasPrice(web3: Web3, incr = 1) {
     if (!gasPrice || gasPrice < minimum) {
       gasPrice = minimum;
     }
-    // eslint-disable-next-line no-console
-    console.log({ gasPrice });
     return gasPrice;
   } catch {
     return minimum;

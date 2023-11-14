@@ -47,8 +47,6 @@ export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
 export function listTrade({ state, action, createdAt = Date.now() }: Options) {
   const game = cloneDeep(state) as GameState;
 
-  // eslint-disable-next-line no-console
-  console.log({ action });
   // Ensure Gold Pass
 
   // Check Item Limits

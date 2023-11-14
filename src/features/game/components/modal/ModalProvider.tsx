@@ -18,8 +18,6 @@ export const ModalProvider: FC = ({ children }) => {
   const [closeable, setCloseable] = useState(true);
 
   const openModal = (type: GlobalModal) => {
-    // eslint-disable-next-line no-console
-    console.log({ override: type });
     setOpened(type);
   };
 

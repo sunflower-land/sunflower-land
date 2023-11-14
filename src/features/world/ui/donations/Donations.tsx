@@ -50,8 +50,6 @@ export const Donations: React.FC = () => {
   };
 
   const donate = () => {
-    // eslint-disable-next-line no-console
-    console.log(DAWN_BREAKER_EVENT_DONATION_ADDRESS);
     send("DONATE", {
       donation,
       to: DAWN_BREAKER_EVENT_DONATION_ADDRESS,

@@ -233,8 +233,6 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             moderation: context.moderation,
           });
 
-          // eslint-disable-next-line no-console
-          console.log({ server, client, serverId });
           return { server, client, serverId };
         },
         onDone: [
@@ -340,8 +338,6 @@ class MMOBus {
   private listener?: (message: any) => void;
 
   public send(message: any) {
-    // eslint-disable-next-line no-console
-    console.log({ message });
     if (this.listener) {
       this.listener(message);
     }
