@@ -7,7 +7,6 @@ import { Chest } from "./Chest";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "react-bootstrap";
-import { Buildings } from "features/island/buildings/Buildings";
 import { BudName } from "features/game/types/buds";
 
 interface Props {
@@ -80,7 +79,6 @@ export const InventoryItemsModal: React.FC<Props> = ({
             isSaving={isSaving}
           />
         )}
-        {currentTab === 2 && <Buildings onClose={onHide} />}
       </CloseButtonPanel>
     </Modal>
   );

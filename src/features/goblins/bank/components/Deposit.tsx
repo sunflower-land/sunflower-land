@@ -1,5 +1,4 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { useSelector } from "@xstate/react";
 
 import {
   Inventory,
@@ -54,7 +53,7 @@ interface Props {
   ) => void;
   onClose: () => void;
   onLoaded?: (loaded: boolean) => void;
-  canDeposit: boolean;
+  canDeposit?: boolean;
 }
 
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
@@ -65,7 +64,7 @@ export const Deposit: React.FC<Props> = ({
   onDeposit,
   onLoaded,
   farmAddress,
-  canDeposit,
+  canDeposit = true,
 }) => {
   const [status, setStatus] = useState<Status>("loading");
   // These are the balances of the user's personal wallet

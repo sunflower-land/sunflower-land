@@ -1,5 +1,4 @@
 import { Button } from "components/ui/Button";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useState } from "react";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -20,11 +19,11 @@ const ProgressDots: React.FC<{ progress: number; total: number }> = ({
   total,
 }) => (
   <div className="flex">
-    {new Array(progress).fill(null).map(() => (
-      <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
+    {new Array(progress).fill(null).map((_, index) => (
+      <img key={index} src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
     ))}
-    {new Array(total - progress).fill(null).map(() => (
-      <img src={SUNNYSIDE.ui.dot} className="h-4 mr-1" />
+    {new Array(total - progress).fill(null).map((_, index) => (
+      <img key={index} src={SUNNYSIDE.ui.dot} className="h-4 mr-1" />
     ))}
   </div>
 );
@@ -156,7 +155,7 @@ export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
             </p>
           </div>
         </div>
-        <Button onClick={onClose}>Let's go!</Button>
+        <Button onClick={onClose}>{`Lets go!`}</Button>
       </>
     );
   };

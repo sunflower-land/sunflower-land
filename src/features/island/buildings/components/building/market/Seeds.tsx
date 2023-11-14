@@ -25,7 +25,6 @@ import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
 import { hasFeatureAccess } from "lib/flags";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
 interface Props {

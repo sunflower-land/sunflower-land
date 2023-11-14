@@ -44,7 +44,7 @@ export type PlaceableName =
 export const UPGRADABLES: Partial<Record<BuildingName, BuildingName>> = {};
 
 export const BUILDINGS: () => Record<
-  Exclude<BuildingName, "Tent">,
+  BuildingName,
   BuildingBluePrint[]
 > = () => ({
   "Town Center": [
@@ -158,7 +158,19 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 30,
     },
   ],
-
+  Tent: [
+    {
+      unlocksAtLevel: 9,
+      ingredients: [
+        {
+          item: "Wood",
+          amount: new Decimal(50),
+        },
+      ],
+      sfl: marketRate(0.06255),
+      constructionSeconds: 60 * 60,
+    },
+  ],
   "Hen House": [
     {
       unlocksAtLevel: 7,
