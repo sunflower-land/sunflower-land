@@ -56,6 +56,7 @@ class GameAnalyticTracker {
 
       GameAnalytics.startSession();
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.log(`Game analytics error: `, e);
     }
   }

@@ -130,7 +130,6 @@ export async function autosave(request: Request) {
 
   if (response.status !== 200 || !response.ok) {
     const data = await response.json();
-    console.log({ data });
 
     throw new Error(ERRORS.AUTOSAVE_SERVER_ERROR);
   }

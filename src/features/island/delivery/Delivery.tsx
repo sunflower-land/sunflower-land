@@ -83,6 +83,7 @@ export const DeliveryModal: React.FC<Props> = ({ isOpen, onClose }) => {
   );
 
   useEffect(() => {
+    // eslint-disable-next-line no-console
     console.log("Top render");
   }, []);
 

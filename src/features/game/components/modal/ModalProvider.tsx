@@ -10,6 +10,7 @@ type GlobalModal = "BUY_BLOCK_BUCKS" | "STORE_ON_CHAIN" | "GOLD_PASS";
 
 export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;
+  // eslint-disable-next-line no-console
 }>({ openModal: console.log });
 
 export const ModalProvider: FC = ({ children }) => {
@@ -17,7 +18,6 @@ export const ModalProvider: FC = ({ children }) => {
   const [closeable, setCloseable] = useState(true);
 
   const openModal = (type: GlobalModal) => {
-    console.log({ override: type });
     setOpened(type);
   };
 

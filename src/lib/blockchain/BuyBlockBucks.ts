@@ -36,12 +36,14 @@ export async function buyBlockBucksMATIC({
       .buyBlockBucksMATIC(signature, farmId, amount, fee, deadline)
       .send({ from: account, value: fee, gasPrice })
       .on("error", function (error: any) {
+        // eslint-disable-next-line no-console
         console.log({ error });
         const parsed = parseMetamaskError(error);
 
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore

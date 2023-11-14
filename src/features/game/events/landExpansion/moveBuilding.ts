@@ -27,7 +27,6 @@ export function moveBuilding({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  console.log({ move: action });
   const stateCopy = cloneDeep(state) as GameState;
   const buildings = stateCopy.buildings[action.name];
 

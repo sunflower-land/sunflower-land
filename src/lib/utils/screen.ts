@@ -90,7 +90,6 @@ class ScreenTracker {
       this.movements = [];
       return isValid;
     } catch (e) {
-      console.log({ e });
       return true;
     }
   }

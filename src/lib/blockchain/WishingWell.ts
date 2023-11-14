@@ -16,11 +16,13 @@ export async function wish(web3: Web3, account: string) {
       .wish()
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
+        // eslint-disable-next-line no-console
         console.log({ error });
 
         reject(error);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore
@@ -36,6 +38,7 @@ export async function wish(web3: Web3, account: string) {
         }
       })
       .on("receipt", function (receipt: any) {
+        // eslint-disable-next-line no-console
         console.log({ receipt });
         resolve(receipt);
       });
@@ -67,11 +70,13 @@ export async function collectFromWellOnChain({
       .collectFromWell(signature, tokens, deadline, farmId)
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
+        // eslint-disable-next-line no-console
         console.log({ error });
 
         reject(error);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore

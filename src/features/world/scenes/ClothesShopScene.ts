@@ -19,11 +19,9 @@ export class ClothesShopScene extends BaseScene {
   }
 
   async create() {
-    console.log("Create clothes shop");
     this.map = this.make.tilemap({
       key: "clothes-shop",
     });
-    console.log("Created auction");
 
     super.create();
 

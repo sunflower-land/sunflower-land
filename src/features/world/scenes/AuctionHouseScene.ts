@@ -23,11 +23,9 @@ export class AuctionScene extends BaseScene {
   }
 
   async create() {
-    console.log("Create auction");
     this.map = this.make.tilemap({
       key: "auction-map",
     });
-    console.log("Created auction");
 
     super.create();
 

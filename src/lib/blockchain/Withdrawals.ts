@@ -52,10 +52,12 @@ export async function withdrawSFLTransaction({
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
         const parsed = parseMetamaskError(error);
+        // eslint-disable-next-line no-console
         console.log({ parsedIt: parsed });
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore
@@ -71,6 +73,7 @@ export async function withdrawSFLTransaction({
         }
       })
       .on("receipt", function (receipt: any) {
+        // eslint-disable-next-line no-console
         console.log({ receipt });
         resolve(receipt);
       });
@@ -129,10 +132,12 @@ export async function withdrawItemsTransaction({
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
         const parsed = parseMetamaskError(error);
+        // eslint-disable-next-line no-console
         console.log({ parsedIt: parsed });
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore
@@ -148,6 +153,7 @@ export async function withdrawItemsTransaction({
         }
       })
       .on("receipt", function (receipt: any) {
+        // eslint-disable-next-line no-console
         console.log({ receipt });
         resolve(receipt);
       });
@@ -187,6 +193,7 @@ export async function withdrawWearablesTransaction({
   const oldSessionId = await getSessionId(web3, farmId);
   const gasPrice = await estimateGasPrice(web3);
 
+  // eslint-disable-next-line no-console
   console.log({
     signature,
     sessionId,
@@ -215,10 +222,12 @@ export async function withdrawWearablesTransaction({
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
         const parsed = parseMetamaskError(error);
+        // eslint-disable-next-line no-console
         console.log({ parsedIt: parsed });
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore
@@ -234,6 +243,7 @@ export async function withdrawWearablesTransaction({
         }
       })
       .on("receipt", function (receipt: any) {
+        // eslint-disable-next-line no-console
         console.log({ receipt });
         resolve(receipt);
       });
@@ -277,6 +287,7 @@ export async function withdrawBumpkinTransaction({
   const oldSessionId = await getSessionId(web3, farmId);
   const gasPrice = await estimateGasPrice(web3);
 
+  // eslint-disable-next-line no-console
   console.log({
     signature,
     sessionId,
@@ -309,10 +320,12 @@ export async function withdrawBumpkinTransaction({
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
         const parsed = parseMetamaskError(error);
+        // eslint-disable-next-line no-console
         console.log({ parsedIt: parsed });
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore
@@ -328,6 +341,7 @@ export async function withdrawBumpkinTransaction({
         }
       })
       .on("receipt", function (receipt: any) {
+        // eslint-disable-next-line no-console
         console.log({ receipt });
         resolve(receipt);
       });
@@ -383,10 +397,12 @@ export async function withdrawBudsTransaction({
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
         const parsed = parseMetamaskError(error);
+        // eslint-disable-next-line no-console
         console.log({ parsedIt: parsed });
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore
@@ -402,6 +418,7 @@ export async function withdrawBudsTransaction({
         }
       })
       .on("receipt", function (receipt: any) {
+        // eslint-disable-next-line no-console
         console.log({ receipt });
         resolve(receipt);
       });

@@ -131,7 +131,6 @@ export const createFarmMachine = createMachine<
 
         const maticFee = Number(estimatedGas);
         const estimatedGasUSD = Number(estimatedGas) / Number(conversionRate);
-        console.log({ estimatedGas, estimatedGasUSD, conversionRate });
 
         return { maticFee, maticBalance, estimatedGasUSD };
       },
