@@ -3,7 +3,13 @@ import Decimal from "decimal.js-light";
 import { CROPS } from "features/game/types/crops";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { GameState, CropPlot } from "../../types/game";
-import { getCropTime, getCropYieldAmount, isPlotFertile, plant } from "./plant";
+import {
+  getCropTime,
+  getCropYieldAmount,
+  getPlantedAt,
+  isPlotFertile,
+  plant,
+} from "./plant";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -2350,5 +2356,71 @@ describe("getCropYield", () => {
     expect(plots).toBeDefined();
 
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  describe("getPlantedAt", () => {
+    it("returns normal planted at if time wrap is expired", () => {
+      const now = Date.now();
+
+      const time = getPlantedAt({
+        buds: {},
+        buildings: {},
+        bumpkin: INITIAL_BUMPKIN,
+        crop: "Sunflower",
+        inventory: {},
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now - 2 * 60 * 60 * 1000 - 1,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 2 * 60 * 60 * 1000 - 1,
+            },
+          ],
+        },
+        createdAt: now,
+        plot: {
+          createdAt: now,
+          height: 1,
+          width: 1,
+          x: 0,
+          y: -2,
+        },
+      });
+
+      expect(time).toEqual(now);
+    });
+
+    it("crop replenishes faster with time warp", () => {
+      const now = Date.now();
+
+      const time = getPlantedAt({
+        buds: {},
+        buildings: {},
+        bumpkin: INITIAL_BUMPKIN,
+        crop: "Sunflower",
+        inventory: {},
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
+        createdAt: now,
+        plot: {
+          createdAt: now,
+          height: 1,
+          width: 1,
+          x: 0,
+          y: -2,
+        },
+      });
+
+      expect(time).toEqual(now - 30 * 1000);
+    });
   });
 });

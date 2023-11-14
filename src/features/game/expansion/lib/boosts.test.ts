@@ -6,6 +6,7 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { marketRate } from "features/game/lib/halvening";
 import { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import { Bumpkin } from "features/game/types/game";
+import { CROPS } from "features/game/types/crops";
 
 describe("boosts", () => {
   describe("getSellPrice", () => {
@@ -34,6 +35,19 @@ describe("boosts", () => {
         },
       });
       expect(amount).toEqual(new Decimal(marketRate(560)));
+    });
+
+    it("applies crop shortage boost", () => {
+      const bumpkin = INITIAL_BUMPKIN;
+      const amount = getSellPrice({
+        item: CROPS()["Sunflower"] as SellableItem,
+        game: {
+          ...TEST_FARM,
+          bumpkin,
+        },
+      });
+
+      expect(amount).toEqual(CROPS()["Sunflower"].sellPrice.mul(2));
     });
   });
 });

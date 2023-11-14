@@ -25,6 +25,6 @@ export function isCollectibleActive(
 
   // Expires after 2 hours
   return collectible[name]?.some(
-    (placed) => placed.readyAt + 2 * 60 * 60 * 1000 > Date.now()
+    (placed) => placed.createdAt + 2 * 60 * 60 * 1000 > Date.now()
   );
 }

@@ -206,4 +206,25 @@ describe("getMinedAt", () => {
 
     expect(time).toEqual(now - STONE_RECOVERY_TIME * 0.2 * 1000);
   });
+
+  it("stone replenishes faster with time warp", () => {
+    const now = Date.now();
+
+    const time = getMinedAt({
+      collectibles: {
+        "Time Warp Totem": [
+          {
+            id: "123",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now - 5 * 60 * 1000,
+          },
+        ],
+      },
+      skills: {},
+      createdAt: now,
+    });
+
+    expect(time).toEqual(now - (STONE_RECOVERY_TIME * 1000) / 2);
+  });
 });

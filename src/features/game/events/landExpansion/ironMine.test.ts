@@ -1,7 +1,11 @@
 import Decimal from "decimal.js-light";
-import { TEST_FARM, INITIAL_BUMPKIN } from "../../lib/constants";
+import {
+  TEST_FARM,
+  INITIAL_BUMPKIN,
+  IRON_RECOVERY_TIME,
+} from "../../lib/constants";
 import { GameState } from "../../types/game";
-import { LandExpansionIronMineAction, mineIron } from "./ironMine";
+import { LandExpansionIronMineAction, getMinedAt, mineIron } from "./ironMine";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -250,6 +254,39 @@ describe("mineIron", () => {
       });
 
       expect(game.bumpkin?.activity?.["Iron Mined"]).toBe(2);
+    });
+  });
+
+  describe("getMinedAt", () => {
+    it("returns normal mined at", () => {
+      const now = Date.now();
+
+      const time = getMinedAt({
+        collectibles: {},
+        createdAt: now,
+      });
+
+      expect(time).toEqual(now);
+    });
+
+    it("iron replenishes faster with time warp", () => {
+      const now = Date.now();
+
+      const time = getMinedAt({
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
+        createdAt: now,
+      });
+
+      expect(time).toEqual(now - (IRON_RECOVERY_TIME * 1000) / 2);
     });
   });
 });

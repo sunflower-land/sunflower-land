@@ -294,4 +294,31 @@ describe("getReadyAt", () => {
 
     expect(time).toEqual(readyAt);
   });
+
+  it("applies Time Warp Totem", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      item: "Boiled Eggs",
+      bumpkin: INITIAL_BUMPKIN,
+      collectibles: {
+        "Time Warp Totem": [
+          {
+            id: "123",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now - 5 * 60 * 1000,
+          },
+        ],
+      },
+      createdAt: now,
+    });
+
+    const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.5;
+
+    const readyAt =
+      now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
 });
