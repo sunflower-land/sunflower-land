@@ -287,16 +287,7 @@ export const OFFLINE_FARM: GameState = {
       },
     ],
   },
-  collectibles: {
-    "Time Warp Totem": [
-      {
-        coordinates: { x: 5, y: 5 },
-        createdAt: Date.now(),
-        readyAt: Date.now(),
-        id: "123",
-      },
-    ],
-  },
+  collectibles: {},
   pumpkinPlaza: {},
   treasureIsland: {
     holes: {},

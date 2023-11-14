@@ -257,7 +257,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
           />
 
           <img
-            className="absolute cursor-pointer group-hover:img-highlight z-50"
+            className="absolute pointer-events-none group-hover:img-highlight z-50"
             src={lockIcon}
             style={{
               width: `${PIXEL_SCALE * 8}px`,

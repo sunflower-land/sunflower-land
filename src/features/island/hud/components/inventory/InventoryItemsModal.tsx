@@ -52,9 +52,6 @@ export const InventoryItemsModal: React.FC<Props> = ({
         tabs={[
           { icon: SUNNYSIDE.icons.basket, name: "Basket" },
           { icon: chest, name: "Chest" },
-          ...(isFarming
-            ? [{ icon: SUNNYSIDE.icons.hammer, name: "Buildings" }]
-            : []),
         ]}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}

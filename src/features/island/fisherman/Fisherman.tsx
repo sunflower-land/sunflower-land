@@ -59,7 +59,6 @@ export const Fisherman: React.FC = () => {
         <img
           src={bubbles}
           className="absolute z-0 skew-animation cursor-pointer"
-          onClick={() => setShowModal(true)}
           style={{
             width: `${37 * PIXEL_SCALE}px`,
             right: `${-6 * PIXEL_SCALE}px`,
