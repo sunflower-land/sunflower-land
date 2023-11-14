@@ -15,6 +15,7 @@ import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
 import { Bumpkin } from "features/game/types/game";
 import { shopAudio } from "lib/utils/sfx";
+import { isCropShortage } from "features/game/expansion/lib/boosts";
 
 const hasSoldCropsBefore = (bumpkin?: Bumpkin) => {
   if (!bumpkin) return false;
@@ -99,7 +100,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         <ShopItems
           onClose={() => setIsOpen(false)}
           hasSoldBefore={hasSoldBefore}
-          cropShortage={gameState.context.state.inventory["Basic Land"]?.lte(4)}
+          cropShortage={isCropShortage({ game: gameState.context.state })}
         />
       </Modal>
     </>

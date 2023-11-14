@@ -22,19 +22,44 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { getSeasonalBanner } from "features/game/types/seasons";
 import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 const crops = CROPS();
 const cakes = CAKES();
 
+export function isCropShortage({ game }: { game: GameState }) {
+  const bumpkinLevel = getBumpkinLevel(game.bumpkin?.experience ?? 0);
+
+  if (bumpkinLevel >= 3) {
+    return false;
+  }
+
+  if (game.inventory["Basic Land"]?.gte(5)) {
+    return false;
+  }
+
+  // Crop Shortage Expired
+  if (game.createdAt + 2 * 60 * 60 * 1000 < Date.now()) {
+    return false;
+  }
+
+  return true;
+}
+
 /**
  * How much SFL an item is worth
  */
-export const getSellPrice = (
-  item: SellableItem,
-  inventory: Inventory,
-  bumpkin: Bumpkin
-) => {
+export const getSellPrice = ({
+  item,
+  game,
+}: {
+  item: SellableItem;
+  game: GameState;
+}) => {
   let price = item.sellPrice;
+
+  const inventory = game.inventory;
+  const bumpkin = game.bumpkin as Bumpkin;
 
   if (!price) {
     return new Decimal(0);
@@ -55,7 +80,7 @@ export const getSellPrice = (
   }
 
   // Crop Shortage during initial gameplay
-  if (inventory["Basic Land"]?.lte(4)) {
+  if (isCropShortage({ game })) {
     price = price.mul(2);
   }
 

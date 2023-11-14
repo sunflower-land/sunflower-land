@@ -9,7 +9,6 @@ import { Modal } from "react-bootstrap";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
-import { Bumpkin } from "features/game/types/game";
 import { Fruit, FRUIT } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
@@ -35,7 +34,9 @@ export const isExoticCrop = (
   return item.name in EXOTIC_CROPS;
 };
 
-export const Crops: React.FC = () => {
+export const Crops: React.FC<{ cropShortage: boolean }> = ({
+  cropShortage,
+}) => {
   const [selected, setSelected] = useState<Crop | Fruit | ExoticCrop>(
     CROPS().Sunflower
   );
@@ -77,7 +78,7 @@ export const Crops: React.FC = () => {
   const displaySellPrice = (crop: Crop | Fruit | ExoticCrop) =>
     isExoticCrop(crop)
       ? crop.sellPrice
-      : getSellPrice(crop, inventory, state.bumpkin as Bumpkin);
+      : getSellPrice({ item: crop, game: state });
 
   const handleSellOneOrLess = () => {
     const sellAmount = cropAmount.gte(1) ? new Decimal(1) : cropAmount;
@@ -180,7 +181,7 @@ export const Crops: React.FC = () => {
               >
                 Crops
               </Label>
-              {state.inventory["Basic Land"]?.lte(4) && (
+              {cropShortage && (
                 <Label type="vibrant" icon={SUNNYSIDE.icons.stopwatch}>
                   2x Sale
                 </Label>
