@@ -162,6 +162,8 @@ export const PlaceableController: React.FC = () => {
     );
   };
 
+  const isForcedToPlace = placeable === "Time Warp Totem";
+
   return (
     <div className="fixed bottom-2 left-1/2 -translate-x-1/2">
       <OuterPanel>
@@ -173,15 +175,18 @@ export const PlaceableController: React.FC = () => {
             height: `${PIXEL_SCALE * 17}px`,
           }}
         >
-          <Button onClick={handleCancelPlacement}>
-            <img
-              src={SUNNYSIDE.icons.cancel}
-              alt="cancel"
-              style={{
-                width: `${PIXEL_SCALE * 11}px`,
-              }}
-            />
-          </Button>
+          {!isForcedToPlace && (
+            <Button onClick={handleCancelPlacement}>
+              <img
+                src={SUNNYSIDE.icons.cancel}
+                alt="cancel"
+                style={{
+                  width: `${PIXEL_SCALE * 11}px`,
+                }}
+              />
+            </Button>
+          )}
+
           <Button disabled={collisionDetected} onClick={handleConfirmPlacement}>
             <img
               src={SUNNYSIDE.icons.confirm}
