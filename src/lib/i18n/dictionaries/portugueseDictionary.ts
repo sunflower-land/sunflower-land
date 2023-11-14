@@ -3,6 +3,7 @@ import {
   Conversations,
   GeneralTerms,
   GuideTerms,
+  HenHouseTerms,
   Intro,
   RulesTerms,
   SeasonBannerOffer,
@@ -14,12 +15,16 @@ const generalTerms: Record<GeneralTerms, string> = {
   featured: "Em destaque",
   connecting: "Conectando",
   loading: "Carregando",
+  saving: "Salvando",
   continue: "Continuar",
   readMore: "Saiba mais",
   close: "Fechar",
   noThanks: "Não, obrigado",
   guide: "Guia",
   task: "Tarefa",
+  buy: "Comprar",
+  sell: "Vender",
+  delivery: "Entrega",
 };
 
 const welcomeTerms: Record<WelcomeTerms, string> = {
@@ -272,6 +277,18 @@ const conversations: Record<Conversations, string> = {
   "blacksmith-intro.one":
     "Sou um mestre das ferramentas, e com os recursos certos, posso criar tudo o que você precisa... incluindo mais ferramentas!",
 };
+
+const henHouseTerms: Record<HenHouseTerms, string> = {
+  "henHouse.chickens": "Galinhas",
+  "henHouse.text.one": "Alimente com trigo e colete ovos",
+  "henHouse.text.two": "Galinha Preguiçosa",
+  "henHouse.text.three":
+    "Coloque sua galinha para trabalhar e comece a coletar ovos!",
+  "henHouse.text.four": "Galinha Trabalhadora",
+  "henHouse.text.five": "Já colocada e trabalhando duro!",
+  "henHouse.text.six": "Construa uma Hen House extra para criar mais galinhas",
+};
+
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...generalTerms,
   ...welcomeTerms,
@@ -281,4 +298,5 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...guideTerms,
   ...conversations,
+  ...henHouseTerms,
 };

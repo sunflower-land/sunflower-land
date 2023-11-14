@@ -3,6 +3,7 @@ import {
   Conversations,
   GeneralTerms,
   GuideTerms,
+  HenHouseTerms,
   Intro,
   RulesTerms,
   SeasonBannerOffer,
@@ -14,12 +15,16 @@ const generalTerms: Record<GeneralTerms, string> = {
   featured: "Featured",
   connecting: "Connecting",
   loading: "Loading",
+  saving: "Saving",
   continue: "Continue",
   readMore: "Read more",
   close: "Close",
   noThanks: "No thanks",
   guide: "Guide",
   task: "Task",
+  sell: "Sell",
+  buy: "Buy",
+  delivery: "Delivery",
 };
 
 const welcomeTerms: Record<WelcomeTerms, string> = {
@@ -272,6 +277,15 @@ const conversations: Record<Conversations, string> = {
     "I'm a master of tools, and with the right resources, I can craft anything you need...including more tools!",
 };
 
+const henHouseTerms: Record<HenHouseTerms, string> = {
+  "henHouse.chickens": "Chickens",
+  "henHouse.text.one": "Feed wheat and collect eggs",
+  "henHouse.text.two": "Lazy Chicken",
+  "henHouse.text.three": "Put your chicken to work to start collecting eggs!",
+  "henHouse.text.four": "Working Chicken",
+  "henHouse.text.five": "Already placed and working hard!",
+  "henHouse.text.six": "Build an extra Hen House to farm more chickens",
+};
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...generalTerms,
   ...welcomeTerms,
@@ -281,4 +295,5 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...guideTerms,
   ...conversations,
+  ...henHouseTerms,
 };

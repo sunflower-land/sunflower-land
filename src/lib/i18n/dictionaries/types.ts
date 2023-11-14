@@ -6,18 +6,23 @@ export type TranslationKeys =
   | Intro
   | AchievementsDialog
   | GuideTerms
-  | Conversations;
+  | Conversations
+  | HenHouseTerms;
 
 export type GeneralTerms =
   | "featured"
   | "connecting"
   | "loading"
+  | "saving"
   | "continue"
   | "readMore"
   | "close"
   | "noThanks"
   | "guide"
-  | "task";
+  | "task"
+  | "sell"
+  | "buy"
+  | "delivery";
 
 export type WelcomeTerms =
   | "welcome.otherWallets"
@@ -177,3 +182,12 @@ export type Conversations =
   | "bruce-intro.two"
   | "blacksmith-intro.headline"
   | "blacksmith-intro.one";
+
+export type HenHouseTerms =
+  | "henHouse.chickens"
+  | "henHouse.text.one"
+  | "henHouse.text.two"
+  | "henHouse.text.three"
+  | "henHouse.text.four"
+  | "henHouse.text.five"
+  | "henHouse.text.six";

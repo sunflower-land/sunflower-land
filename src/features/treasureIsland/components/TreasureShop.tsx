@@ -12,10 +12,12 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { TreasureShopSell } from "./TreasureShopSell";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NPC } from "features/island/bumpkin/components/NPC";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const TreasureShop: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [tab, setTab] = useState(0);
+  const { t } = useAppTranslation();
 
   return (
     <MapPlacement x={-5} y={-3} height={4} width={4}>
@@ -74,11 +76,11 @@ export const TreasureShop: React.FC = () => {
           tabs={[
             {
               icon: SUNNYSIDE.tools.sand_shovel,
-              name: "Buy",
+              name: t("buy"),
             },
             {
               icon: SUNNYSIDE.resource.starfish,
-              name: "Sell",
+              name: t("sell"),
             },
           ]}
         >
