@@ -80,7 +80,10 @@ export const getSellPrice = ({
   }
 
   // Crop Shortage during initial gameplay
-  if (isCropShortage({ game })) {
+  if (
+    ["Sunflower", "Potato", "Pumpkin"].includes(item.name) &&
+    isCropShortage({ game })
+  ) {
     price = price.mul(2);
   }
 
