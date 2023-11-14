@@ -73,7 +73,7 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
       </BuildingImageWrapper>
       <div
         className="absolute"
-        style={{ left: `${PIXEL_SCALE * 7}px`, top: `${PIXEL_SCALE * -6}px` }}
+        style={{ left: `${PIXEL_SCALE * 7}px`, top: `${PIXEL_SCALE * 14}px` }}
       >
         <DailyReward />
       </div>
