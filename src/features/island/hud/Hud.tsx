@@ -48,7 +48,7 @@ const HudComponent: React.FC<{
     gameService.send("DEPOSIT", args);
   };
 
-  const { farmAddress } = gameService.state.context;
+  const farmAddress = gameService.state?.context?.farmAddress;
   const isFullUser = farmAddress !== undefined;
 
   return (
