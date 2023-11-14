@@ -14,7 +14,6 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
@@ -93,10 +92,6 @@ export const AuctioneerModal: React.FC<Props> = ({
             rel="noreferrer"
           >
             <div className="flex items-center">
-              <div className="mr-2">
-                <Label type="info">BETA</Label>
-              </div>
-
               <img
                 src={SUNNYSIDE.icons.expression_confused}
                 className="flex-none cursor-pointer float-right"
