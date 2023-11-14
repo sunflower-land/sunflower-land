@@ -77,7 +77,7 @@ export const ShopItems: React.FC<Props> = ({
       onClose={onClose}
     >
       {tab === 0 && <Seeds onClose={onClose} />}
-      {tab === 1 && <Crops cropShortage={cropShortage} />}
+      {tab === 1 && <Crops cropShortage={!!cropShortage} />}
     </CloseButtonPanel>
   );
 };
