@@ -124,10 +124,15 @@ export const LAND_4_LAYOUT: Layout = {
   ],
   fruitPatches: [],
   gold: [],
-  iron: [],
+  iron: [
+    {
+      x: -2,
+      y: -2,
+    },
+  ],
   stones: [
     {
-      x: 2,
+      x: 1,
       y: -2,
     },
   ],
@@ -143,7 +148,6 @@ export const LAND_4_LAYOUT: Layout = {
   ],
 };
 
-// TODO
 export const LAND_5_LAYOUT: Layout = {
   id: "5",
   plots: [
@@ -183,12 +187,7 @@ export const LAND_5_LAYOUT: Layout = {
       y: -1,
     },
   ],
-  trees: [
-    {
-      x: -2,
-      y: 3,
-    },
-  ],
+  trees: [],
 } as Layout;
 
 export const LAND_6_LAYOUT: Layout = {

@@ -147,8 +147,8 @@ export function revealLand({
       sfl: 0,
       wearables: {},
       coordinates: {
-        x: -1,
-        y: 5,
+        x: 0,
+        y: 8,
       },
     });
   }

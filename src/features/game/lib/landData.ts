@@ -162,7 +162,28 @@ export const INITIAL_RESOURCES: Pick<
       width: 2,
     },
   },
-  stones: {},
+  stones: {
+    1: {
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      x: 7,
+      y: 3,
+      height: 2,
+      width: 2,
+    },
+    2: {
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      x: 3,
+      y: 6,
+      height: 2,
+      width: 2,
+    },
+  },
   fruitPatches: {},
   gold: {},
   iron: {},
