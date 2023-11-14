@@ -70,6 +70,8 @@ interface Props {
   onClick: () => void;
 }
 
+const _canFish = (state: MachineState) =>
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 const _fishing = (state: MachineState) => state.context.state.fishing;
 const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
 const _catchTheKraken = (state: MachineState) =>
@@ -89,6 +91,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const fishing = useSelector(gameService, _fishing);
   const farmActivity = useSelector(gameService, _farmActivity);
   const catchTheKraken = useSelector(gameService, _catchTheKraken);
+  const canFish = useSelector(gameService, _canFish);
 
   // Catches cases where players try reset their fishing challenge
   useEffect(() => {
@@ -243,7 +246,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
           </div>
         </CloseButtonPanel>
       </Modal>
-      {getBumpkinLevel(bumpkin?.experience ?? 0) <= 5 && (
+      {!canFish && (
         <>
           <img
             className="absolute cursor-pointer group-hover:img-highlight z-50 opacity-80"
@@ -333,7 +336,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
           />
         </React.Fragment>
       )}
-      {getBumpkinLevel(bumpkin?.experience ?? 0) >= 5 && (
+      {canFish && (
         <Spritesheet
           className={classNames("absolute  z-50", {
             "hover:img-highlight cursor-pointer": !fishing.wharf.castedAt,
