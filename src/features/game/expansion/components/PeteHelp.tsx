@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 
 import plaza from "assets/tutorials/plaza_screenshot1.png";
 import { Label } from "components/ui/Label";
-import { SUNNYSIDE } from "assets/sunnyside";
 import lockIcon from "assets/skills/lock.png";
 import { Button } from "components/ui/Button";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -48,7 +47,7 @@ export const PeteHelp: React.FC = () => {
           navigate(`/world/plaza`);
         }}
       >
-        Let's go!
+        Lets go!
       </Button>
     </div>
   );

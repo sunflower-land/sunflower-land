@@ -201,6 +201,7 @@ describe("getMinedAt", () => {
     const time = getMinedAt({
       skills: { "Coal Face": 1 },
       createdAt: now,
+      collectibles: {},
     });
 
     expect(time).toEqual(now - STONE_RECOVERY_TIME * 0.2 * 1000);

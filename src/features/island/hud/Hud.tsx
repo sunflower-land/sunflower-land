@@ -21,6 +21,7 @@ import { HalveningCountdown } from "./components/HalveningCountdown";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { CodexButton } from "./components/codex/CodexButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -184,6 +185,11 @@ const HudComponent: React.FC<{
                   onDeposit={handleDeposit}
                   onLoaded={(loaded) => setDepositDataLoaded(loaded)}
                   onClose={handleClose}
+                  canDeposit={
+                    getBumpkinLevel(
+                      gameState.context.state.bumpkin?.experience ?? 0
+                    ) >= 3
+                  }
                 />
               </CloseButtonPanel>
             </Modal>

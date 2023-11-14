@@ -4,7 +4,6 @@ import townCenter from "assets/buildings/town_center.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
-import { Otis } from "features/helios/components/hayseedHank/Otis";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { LetterBox } from "features/farming/mail/LetterBox";

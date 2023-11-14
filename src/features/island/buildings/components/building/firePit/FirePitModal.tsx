@@ -12,7 +12,6 @@ import {
   COOKABLES,
 } from "features/game/types/consumables";
 import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
-import { Equipped } from "features/game/types/bumpkin";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ConversationName } from "features/game/types/conversations";
 import { Panel } from "components/ui/Panel";

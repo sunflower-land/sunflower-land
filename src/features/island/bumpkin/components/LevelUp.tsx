@@ -10,11 +10,8 @@ import {
 } from "react-share";
 
 import React from "react";
-import levelUp from "assets/tutorials/level_up.png";
 import { Button } from "components/ui/Button";
 import { Equipped } from "features/game/types/bumpkin";
-import { NPC } from "./NPC";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
@@ -127,7 +124,12 @@ export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
           <p className="text-xxs text-center">Unlocked</p>
           <div className="flex flex-wrap justify-center items-center mt-2 space-x-3">
             {unlocks.map((unlock) => (
-              <Label className="mb-2" type="default" icon={unlock.icon}>
+              <Label
+                key={unlock.text}
+                className="mb-2"
+                type="default"
+                icon={unlock.icon}
+              >
                 {unlock.text}
               </Label>
             ))}

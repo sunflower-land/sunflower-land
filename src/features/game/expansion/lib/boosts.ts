@@ -22,7 +22,6 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { getSeasonalBanner } from "features/game/types/seasons";
 import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
-import { getBumpkinLevel } from "features/game/lib/level";
 
 const crops = CROPS();
 const cakes = CAKES();

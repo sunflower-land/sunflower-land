@@ -55,7 +55,7 @@ export function mineStone({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { stones, bumpkin } = stateCopy;
+  const { stones, bumpkin, collectibles } = stateCopy;
   const rock = stones?.[action.index];
 
   if (!rock) {
@@ -83,6 +83,7 @@ export function mineStone({
     minedAt: getMinedAt({
       skills: bumpkin.skills,
       createdAt: Date.now(),
+      collectibles,
     }),
     amount: 2,
   };
