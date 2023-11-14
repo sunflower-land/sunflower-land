@@ -172,7 +172,7 @@ export const INITIAL_EXPANSIONS = 3;
 
 const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 0,
+  experience: 100,
   tokenUri: "bla",
   equipped: {
     body: "Beige Farmer Potion",

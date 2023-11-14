@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import plaza from "assets/tutorials/plaza_screenshot1.png";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import lockIcon from "assets/skills/lock.png";
 import { Button } from "components/ui/Button";
+import { MachineState } from "features/game/lib/gameMachine";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { useSelector } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
+import { useNavigate } from "react-router-dom";
+
+const isLocked = (state: MachineState) =>
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) < 3;
 
 export const PeteHelp: React.FC = () => {
-  // Travel to the plaza
+  const { gameService } = useContext(Context);
+  const locked = useSelector(gameService, isLocked);
+  const navigate = useNavigate();
+
   return (
     <div className="p-2">
       <p className="text-sm mb-2">
@@ -20,14 +31,23 @@ export const PeteHelp: React.FC = () => {
       </p>
 
       <img src={plaza} className="w-full mx-auto rounded-lg my-2" />
-      <p className="text-xs">
-        Visit the fire pit, cook food and eat to level up.
-      </p>
-      <Label type="danger" className="my-2 ml-1" icon={lockIcon}>
-        Level 3 Required
-      </Label>
+      {locked && (
+        <>
+          <p className="text-xs mb-2">
+            Visit the fire pit, cook food and eat to level up.
+          </p>
+          <Label type="danger" className="mb-2 ml-1" icon={lockIcon}>
+            Level 3 Required
+          </Label>
+        </>
+      )}
 
-      <Button disabled onClick={console.log}>
+      <Button
+        disabled={locked}
+        onClick={() => {
+          navigate(`/world/plaza`);
+        }}
+      >
         Let's go!
       </Button>
     </div>
