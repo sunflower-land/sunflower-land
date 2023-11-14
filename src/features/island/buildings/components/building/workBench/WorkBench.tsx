@@ -36,14 +36,6 @@ const needsHelp = (state: MachineState) => {
     return true;
   }
 
-  const missingFirePit =
-    state.context.state.inventory["Basic Land"]?.gte(5) &&
-    !state.context.state.inventory["Fire Pit"];
-
-  if (missingFirePit) {
-    return true;
-  }
-
   return false;
 };
 
