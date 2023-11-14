@@ -368,7 +368,6 @@ const getIslandElements = ({
         // Only show placed chickens (V1 may have ones without coords)
         .filter((airdrop) => airdrop?.coordinates)
         .map((airdrop) => {
-          console.log({ airdrop });
           const { x, y } = airdrop.coordinates as Coordinates;
 
           return (
