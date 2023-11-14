@@ -1,7 +1,5 @@
 name: Testnet deploy
 
-concurrency: testnet-deploy
-
 on:
   push:
     branches:
@@ -9,6 +7,7 @@ on:
 
 jobs:
   deploy:
+    concurrency: testnet-deploy
     environment: develop
     runs-on: ubuntu-latest
     steps:
