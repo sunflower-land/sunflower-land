@@ -15,7 +15,6 @@ import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
 import { Bumpkin } from "features/game/types/game";
 import { shopAudio } from "lib/utils/sfx";
-import { getBumpkinLevel } from "features/game/lib/level";
 
 const hasSoldCropsBefore = (bumpkin?: Bumpkin) => {
   if (!bumpkin) return false;
@@ -86,7 +85,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
 
         {showHelper && (
           <img
-            className="absolute cursor-pointer group-hover:img-highlight z-30"
+            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
             src={SUNNYSIDE.icons.click_icon}
             style={{
               width: `${PIXEL_SCALE * 18}px`,

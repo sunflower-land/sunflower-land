@@ -323,7 +323,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
           harvestCount + 1 === Number(id) &&
           !!inventory.Shovel && (
             <img
-              className="absolute cursor-pointer group-hover:img-highlight z-30"
+              className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
               src={SUNNYSIDE.icons.dig_icon}
               style={{
                 width: `${PIXEL_SCALE * 18}px`,

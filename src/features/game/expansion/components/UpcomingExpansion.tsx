@@ -28,7 +28,8 @@ import { Label } from "components/ui/Label";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { expansionRequirements } from "features/game/types/expansions";
+import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
+import classNames from "classnames";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `expansion-read.${host}-${window.location.pathname}`;
@@ -147,7 +148,7 @@ export const UpcomingExpansion: React.FC = () => {
             }}
           />
           <div
-            className="absolute pointer-events-none"
+            className="absolute pointer-events-none animate-pulsate"
             style={{
               width: `${PIXEL_SCALE * 20}px`,
               left: `${PIXEL_SCALE * 42}px`,
@@ -177,6 +178,15 @@ export const UpcomingExpansion: React.FC = () => {
     const isLocked =
       getBumpkinLevel(state.bumpkin?.experience ?? 0) <
       (state.expansionRequirements?.bumpkinLevel ?? 0);
+
+    const canExpand = craftingRequirementsMet(
+      state,
+      state.expansionRequirements
+    );
+
+    const showHelper =
+      canExpand && (state.bumpkin?.activity?.["Tree Chopped"] ?? 0) === 3;
+
     return (
       <>
         <Modal
@@ -206,11 +216,16 @@ export const UpcomingExpansion: React.FC = () => {
           height={LAND_SIZE}
           width={LAND_SIZE}
         >
-          <div className="w-full h-full flex flex-col items-center justify-center opacity-90 hover:opacity-100">
+          <div className="w-full h-full flex flex-col items-center justify-center opacity-100">
             <img
               src={SUNNYSIDE.icons.expand}
               width={18 * PIXEL_SCALE}
-              className="relative cursor-pointer hover:img-highlight"
+              className={classNames(
+                `relative cursor-pointer hover:img-highlight`,
+                {
+                  "animate-pulsate": showHelper,
+                }
+              )}
               onClick={() => {
                 if (isLocked) {
                   setShowLockedModal(true);

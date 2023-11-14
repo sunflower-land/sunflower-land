@@ -1,11 +1,12 @@
 import React, { useContext, useState } from "react";
 
 import tikiTotem from "src/assets/sfts/time_warp_totem.webp";
+import fastForward from "src/assets/icons/fast_forward.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { LiveProgressBar } from "components/ui/ProgressBar";
-import { CloseButton, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -111,6 +112,15 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({ createdAt }) => {
         className="absolute cursor-pointer"
         alt="Time Warp Totem"
         onClick={() => setShowModal(true)}
+      />
+      <img
+        src={fastForward}
+        style={{
+          width: `${PIXEL_SCALE * 10}px`,
+          top: `${PIXEL_SCALE * -5}px`,
+          left: `${PIXEL_SCALE * 3}px`,
+        }}
+        className="absolute pointer-events-none animate-pulse"
       />
     </>
   );

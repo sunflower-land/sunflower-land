@@ -172,7 +172,7 @@ export const INITIAL_EXPANSIONS = 3;
 
 const INITIAL_BUMPKIN: Bumpkin = {
   id: 1,
-  experience: 100,
+  experience: 0,
   tokenUri: "bla",
   equipped: {
     body: "Beige Farmer Potion",
@@ -287,7 +287,16 @@ export const OFFLINE_FARM: GameState = {
       },
     ],
   },
-  collectibles: {},
+  collectibles: {
+    "Time Warp Totem": [
+      {
+        coordinates: { x: 5, y: 5 },
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        id: "123",
+      },
+    ],
+  },
   pumpkinPlaza: {},
   treasureIsland: {
     holes: {},
