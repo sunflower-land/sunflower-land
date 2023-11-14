@@ -1,5 +1,7 @@
 name: Testnet deploy
 
+concurrency: testnet-deploy
+
 on:
   push:
     branches:
