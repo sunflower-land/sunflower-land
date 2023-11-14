@@ -211,6 +211,7 @@ function hasShakenManeki(game: GameState): Restriction {
 export const REMOVAL_RESTRICTIONS: Partial<
   Record<InventoryItemName, RemoveCondition>
 > = {
+  // Mutant Chickens
   "Undead Rooster": (game) => areAnyChickensFed(game),
   "Ayam Cemani": (game) => areAnyChickensFed(game),
   "El Pollo Veloz": (game) => areAnyChickensFed(game),
@@ -223,6 +224,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   Bale: (game) => areAnyChickensFed(game),
   "Banana Chicken": (game) => areBananasGrowing(game),
 
+  // Crop Boosts
   Nancy: (game) => areAnyCropsGrowing(game),
   Scarecrow: (game) => areAnyCropsGrowing(game),
   Kuebiko: (game) => areAnyCropsGrowing(game),
@@ -249,16 +251,20 @@ export const REMOVAL_RESTRICTIONS: Partial<
   Obie: (game) => cropIsGrowing({ item: "Eggplant", game }),
   "Purple Trail": (game) => cropIsGrowing({ item: "Eggplant", game }),
 
+  // Fruit Boosts
   "Squirrel Monkey": (game) => areFruitsGrowing(game, "Orange"),
   "Black Bearry": (game) => areFruitsGrowing(game, "Blueberry"),
   "Lady Bug": (game) => areFruitsGrowing(game, "Apple"),
+  Nana: (game) => areFruitsGrowing(game, "Banana"),
 
+  // Wood Boosts
   "Woody the Beaver": (game) => areAnyTreesChopped(game),
   "Apprentice Beaver": (game) => areAnyTreesChopped(game),
   "Foreman Beaver": (game) => areAnyTreesChopped(game),
   "Wood Nymph Wendy": (game) => areAnyTreesChopped(game),
   "Tiki Totem": (game) => areAnyTreesChopped(game),
 
+  // Mineral Boosts
   "Rock Golem": (game) => areAnyStonesMined(game),
   "Tunnel Mole": (game) => areAnyStonesMined(game),
   "Rocky the Mole": (game) => areAnyIronsMined(game),
@@ -267,15 +273,14 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Tin Turtle": (game) => areAnyStonesMined(game),
   "Emerald Turtle": (game) => areAnyMineralsMined(game),
 
-  "Heart of Davy Jones": (game) => areAnyTreasureHolesDug(game),
-
-  "Maneki Neko": (game) => hasShakenManeki(game),
-
+  // Mutant Crops
   "Carrot Sword": (game) => beanIsPlanted(game),
-
   "Stellar Sunflower": (game) => cropIsGrowing({ item: "Sunflower", game }),
   "Potent Potato": (game) => cropIsGrowing({ item: "Potato", game }),
   "Radical Radish": (game) => cropIsGrowing({ item: "Radish", game }),
+
+  "Heart of Davy Jones": (game) => areAnyTreasureHolesDug(game),
+  "Maneki Neko": (game) => hasShakenManeki(game),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
