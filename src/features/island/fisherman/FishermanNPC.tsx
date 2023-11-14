@@ -71,7 +71,7 @@ interface Props {
 }
 
 const _canFish = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 5;
 const _fishing = (state: MachineState) => state.context.state.fishing;
 const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
 const _catchTheKraken = (state: MachineState) =>
@@ -249,7 +249,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
       {!canFish && (
         <>
           <img
-            className="absolute cursor-pointer group-hover:img-highlight z-50 opacity-80"
+            className="absolute cursor-pointer group-hover:img-highlight z-50"
             src={SUNNYSIDE.icons.fish_icon}
             onClick={() => setShowLockedModal(true)}
             style={{
