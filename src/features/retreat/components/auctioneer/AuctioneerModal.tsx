@@ -14,7 +14,6 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
@@ -22,6 +21,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 interface Props {
   gameState: GameState;
   isOpen: boolean;
+  farmId: number;
   onClose: () => void;
   onUpdate: (state: GameState) => void;
   onMint: (id: string) => void;
@@ -31,6 +31,7 @@ interface Props {
 export const AuctioneerModal: React.FC<Props> = ({
   isOpen,
   onClose,
+  farmId,
   gameState,
   onUpdate,
   onMint,
@@ -43,7 +44,7 @@ export const AuctioneerModal: React.FC<Props> = ({
 
   const auctionService = useInterpret(createAuctioneerMachine({ onUpdate }), {
     context: {
-      farmId: authState.context.user.farmId,
+      farmId: farmId,
       token: authState.context.user.rawToken,
       bid: gameState.auctioneer.bid,
       deviceTrackerId: deviceTrackerId,
@@ -53,7 +54,6 @@ export const AuctioneerModal: React.FC<Props> = ({
 
   const [auctioneerState, send] = useActor(auctionService);
 
-  console.log({ state: auctioneerState.value });
   useEffect(() => {
     if (isOpen) {
       auctionService.send("OPEN", { gameState });
@@ -92,10 +92,6 @@ export const AuctioneerModal: React.FC<Props> = ({
             rel="noreferrer"
           >
             <div className="flex items-center">
-              <div className="mr-2">
-                <Label type="info">BETA</Label>
-              </div>
-
               <img
                 src={SUNNYSIDE.icons.expression_confused}
                 className="flex-none cursor-pointer float-right"

@@ -50,7 +50,6 @@ export const Conversation: React.FC<Props> = ({
     onAcknowledge?.();
   };
   const Content = () => {
-    console.log({ showReward, conversation, read });
     if (showReward && conversation.reward) {
       return (
         <>

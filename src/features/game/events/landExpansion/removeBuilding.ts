@@ -5,6 +5,8 @@ import { getKeys } from "features/game/types/craftables";
 import { Chicken, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { getSupportedChickens } from "./utils";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { isBuildingEnabled } from "features/game/expansion/lib/buildingRequirements";
 
 export enum REMOVE_BUILDING_ERRORS {
   INVALID_BUILDING = "This building does not exist",
@@ -33,10 +35,16 @@ const WELL_PLOT_SUPPORT = 8;
 
 const getUnSupportedPlotCount = (gameState: GameState): number => {
   // Get the well count
-  const activeWells =
+  let activeWells =
     gameState.buildings["Water Well"]?.filter(
       (well) => well.readyAt < Date.now()
     ).length ?? 0;
+
+  const bumpkinLevel = getBumpkinLevel(gameState.bumpkin?.experience ?? 0);
+  while (activeWells > 0) {
+    if (isBuildingEnabled(bumpkinLevel, "Water Well", activeWells - 1)) break;
+    --activeWells;
+  }
 
   // How many plots well can support
   const supportedPlots =

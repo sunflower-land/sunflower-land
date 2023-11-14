@@ -154,6 +154,7 @@ export const WalletOnboarding: React.FC = () => {
         });
         setCurrentStep(3);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error(e);
       }
       setLoading(false);

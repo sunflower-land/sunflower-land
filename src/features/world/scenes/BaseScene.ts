@@ -166,7 +166,7 @@ export abstract class BaseScene extends Phaser.Scene {
   create() {
     const errorLogger = createErrorLogger(
       "phaser_base_scene",
-      Number(this.gameService.state.context.state.id)
+      Number(this.gameService.state.context.farmId)
     );
 
     try {
@@ -193,7 +193,7 @@ export abstract class BaseScene extends Phaser.Scene {
         x: spawn.x ?? 0,
         y: spawn.y ?? 0,
         // gameService
-        farmId: Number(this.gameService.state.context.state.id),
+        farmId: Number(this.gameService.state.context.farmId),
         isCurrentPlayer: true,
         // gameService
         clothing: {
@@ -209,7 +209,6 @@ export abstract class BaseScene extends Phaser.Scene {
       // this.physics.world.fixedStep = false; // activates sync
       // this.physics.world.fixedStep = true; // deactivates sync (default)
     } catch (error) {
-      console.log({ error });
       errorLogger(JSON.stringify(error));
     }
   }
@@ -484,7 +483,7 @@ export abstract class BaseScene extends Phaser.Scene {
       if (npc) {
         npcModalManager.open(npc);
       } else {
-        if (farmId !== this.gameService.state.context.state.id) {
+        if (farmId !== this.gameService.state.context.farmId) {
           playerModalManager.open({
             id: farmId,
             clothing,
@@ -558,7 +557,6 @@ export abstract class BaseScene extends Phaser.Scene {
             this.cameras.main.on(
               "camerafadeoutcomplete",
               () => {
-                console.log("fade out complete in base scene");
                 this.switchToScene = warpTo;
               },
               this
@@ -726,12 +724,14 @@ export abstract class BaseScene extends Phaser.Scene {
         )
       );
     } else {
+      // eslint-disable-next-line no-console
       console.error("audioController is undefined");
     }
 
     if (this.walkAudioController) {
       this.walkAudioController.handleWalkSound(isMoving);
     } else {
+      // eslint-disable-next-line no-console
       console.error("walkAudioController is undefined");
     }
 

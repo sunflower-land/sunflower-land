@@ -21,7 +21,9 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["react", "@typescript-eslint", "unused-imports"],
+  ignorePatterns: ["*.typegen.ts"],
   rules: {
+    "no-console": "error",
     "no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": [

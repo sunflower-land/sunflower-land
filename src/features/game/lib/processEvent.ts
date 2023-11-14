@@ -161,23 +161,21 @@ export const maxItems: Inventory = {
  */
 const MAX_SESSION_SFL = 255;
 
-type checkProgressArgs = ProcessEventArgs & { onChain: GameState };
-
-export function checkProgress({ state, action, onChain }: checkProgressArgs): {
+export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   valid: boolean;
   maxedItem?: InventoryItemName | "SFL";
 } {
   let newState: GameState;
 
   try {
-    newState = processEvent({ state, action });
+    newState = processEvent({ state, action, farmId });
   } catch {
     // Not our responsibility to catch events, pass on to the next handler
     return { valid: true };
   }
 
   const auctionSFL = newState.auctioneer.bid?.sfl ?? new Decimal(0);
-  const progress = newState.balance.add(auctionSFL).sub(onChain.balance);
+  const progress = newState.balance.add(auctionSFL).sub(newState.balance);
 
   /**
    * Contract enforced SFL caps
@@ -212,12 +210,13 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
       const auctionAmount = auctionBid[name] ?? new Decimal(0);
       const listingAmount = listedItems[name] ?? new Decimal(0);
 
-      const onChainAmount = onChain.inventory[name] || new Decimal(0);
+      const previousInventoryAmount =
+        newState.previousInventory[name] || new Decimal(0);
 
       const diff = inventoryAmount
         .add(auctionAmount)
         .add(listingAmount)
-        .minus(onChainAmount);
+        .minus(previousInventoryAmount);
 
       const max = maxItems[name] || new Decimal(0);
 
@@ -269,12 +268,14 @@ type ProcessEventArgs = {
   state: GameState;
   action: GameEvent;
   announcements?: Announcements;
+  farmId: number;
 };
 
 export function processEvent({
   state,
   action,
   announcements,
+  farmId,
 }: ProcessEventArgs): GameState {
   const handler = EVENTS[action.type];
 
@@ -287,6 +288,7 @@ export function processEvent({
     // TODO - fix type error
     action: action as never,
     announcements,
+    farmId,
   });
 
   return newState;

@@ -62,7 +62,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const mmoService = useInterpret(mmoMachine, {
     context: {
       jwt: authState.context.user.rawToken,
-      farmId: authState.context.user.farmId,
+      farmId: gameState.context.farmId,
       bumpkin: gameState.context.state.bumpkin,
       initialSceneId: name as SceneId,
       experience: gameState.context.state.bumpkin?.experience ?? 0,

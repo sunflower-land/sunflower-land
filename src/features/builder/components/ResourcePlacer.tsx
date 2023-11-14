@@ -137,7 +137,6 @@ export const ResourcePlacer: React.FC<Props> = ({
           onStop={(_, data) => {
             const x = Math.round(data.x / GRID_WIDTH_PX);
             const y = Math.round((data.y / GRID_WIDTH_PX) * -1);
-            console.log({ drop: { x, y } });
             setIsDragging(false);
             setCoordinates({ x, y });
           }}

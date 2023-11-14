@@ -31,7 +31,7 @@ export const VisitingHud: React.FC = () => {
     >
       {!gameState.matches("landToVisitNotFound") && (
         <InnerPanel className="fixed px-2 pt-1 pb-2 bottom-2 left-1/2 -translate-x-1/2 z-50">
-          <span className="text-white">{`Visiting #${gameState.context.state.id}`}</span>
+          <span className="text-white">{`Visiting #${gameState.context.farmId}`}</span>
         </InnerPanel>
       )}
       <Balance balance={gameState.context.state.balance} />
@@ -39,7 +39,7 @@ export const VisitingHud: React.FC = () => {
         blockBucks={
           gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
         }
-        isFullUser={false}
+        isVisiting={true}
       />
       <Inventory
         state={gameState.context.state}

@@ -305,6 +305,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       try {
         this.sprite.anims.play(this.walkingAnimationKey as string, true);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.log("Bumpkin Container: Error playing walk animation: ", e);
       }
     }
@@ -319,6 +320,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       try {
         this.sprite.anims.play(this.idleAnimationKey as string, true);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.log("Bumpkin Container: Error playing idle animation: ", e);
       }
     }

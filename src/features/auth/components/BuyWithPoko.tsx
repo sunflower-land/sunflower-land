@@ -38,7 +38,6 @@ const PokoIFrame: React.FC<
     const handler = (
       event: MessageEvent<{ type: string; message: string }>
     ) => {
-      console.log({ event });
       const origin = new URL(url).origin;
 
       if (event.origin !== origin) return;

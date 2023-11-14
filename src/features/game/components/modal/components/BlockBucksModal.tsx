@@ -90,7 +90,6 @@ const XsollaIFrame: React.FC<{
       if (event.origin !== origin) return;
 
       const eventData = JSON.parse(event.data);
-      console.log(eventData);
       if (eventData.command === "close-widget") {
         onClose();
       }
@@ -181,9 +180,8 @@ export const BlockBucksModal: React.FC<Props> = ({
 
       const { url } = await buyBlockBucksXsolla({
         amount,
-        farmId: gameState.context.state.id as number,
+        farmId: gameState.context.farmId,
         transactionId: randomID(),
-        type: "USDC",
         token: authState.context.user.rawToken as string,
       });
 
@@ -249,7 +247,7 @@ export const BlockBucksModal: React.FC<Props> = ({
               </div>
               {price.amount === 1 && (
                 <Label type="info" className="mb-1">
-                  Choose a higher amount
+                  Minimum 5 Block Bucks
                 </Label>
               )}
               <Button

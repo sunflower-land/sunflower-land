@@ -25,7 +25,6 @@ export const Mail: React.FC<Props> = ({ setSelected }) => {
     // Ensure they haven't read it already
     .filter((id) => !ids.find((readId) => readId === id));
 
-  console.log({ announcementIds });
   ids = [...announcementIds, ...ids];
   if (ids.length === 0) {
     return <p>No mail</p>;
@@ -50,7 +49,6 @@ export const Mail: React.FC<Props> = ({ setSelected }) => {
   return (
     <div>
       {ids.map((id) => {
-        console.log({ id });
         const details =
           CONVERSATIONS[id as ConversationName] ?? announcements[id];
 

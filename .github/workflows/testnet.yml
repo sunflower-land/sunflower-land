@@ -7,6 +7,7 @@ on:
 
 jobs:
   deploy:
+    concurrency: testnet-deploy
     environment: develop
     runs-on: ubuntu-latest
     steps:

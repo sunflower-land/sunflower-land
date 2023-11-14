@@ -13,7 +13,7 @@ export const HeliosAuction: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
-    context: { state },
+    context: { state, farmId },
   } = gameState;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -50,14 +50,13 @@ export const HeliosAuction: React.FC = () => {
       </MapPlacement>
       <AuctioneerModal
         isOpen={isOpen}
+        farmId={farmId}
         onClose={() => setIsOpen(false)}
         gameState={state}
         onUpdate={(state) => {
-          console.log("Update hit!");
           gameService.send("UPDATE", { state });
         }}
         onMint={(id) => {
-          console.log("Update hit!", gameState.value);
           setIsOpen(false);
           gameService.send("MINT", { auctionId: id });
         }}

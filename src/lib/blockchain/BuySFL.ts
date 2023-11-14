@@ -34,12 +34,14 @@ export async function buySFL({
       .swap(signature, farmId, amountOutMin, deadline, feePercent)
       .send({ from: account, value: matic, gasPrice })
       .on("error", function (error: any) {
+        // eslint-disable-next-line no-console
         console.log({ error });
         const parsed = parseMetamaskError(error);
 
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore

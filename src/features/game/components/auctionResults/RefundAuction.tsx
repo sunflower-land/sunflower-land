@@ -31,7 +31,7 @@ export const RefundAuction: React.FC = () => {
           <img src={image} className="w-20 h-20" />
         </div>
         <Loser
-          farmId={authService.state.context.user.farmId ?? 0}
+          farmId={gameService.state.context.farmId}
           onRefund={() => {
             gameService.send("CLOSE");
           }}

@@ -28,6 +28,7 @@ export const Leaderboard: React.FC<Props> = ({ farmId }) => {
         setData(data);
         setLoading(false);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error("Error loading leaderboards", e);
       }
     };

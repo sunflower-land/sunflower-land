@@ -13,7 +13,6 @@ type Request = {
 const API_URL = CONFIG.API_URL;
 
 export async function bid(request: Request) {
-  console.log({ request });
   const response = await window.fetch(
     `${API_URL}/auction/bid/${request.farmId}`,
     {

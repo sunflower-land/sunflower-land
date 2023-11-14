@@ -255,8 +255,6 @@ export const wishingWellMachine = createMachine<
 
             // Reload the session to get the new refreshed balance
             const response = await loadSession({
-              farmId: context.farmId as number,
-              sessionId: context.sessionId as string,
               token: context.token as string,
               transactionId: context.transactionId as string,
               wallet: context.wallet as string,

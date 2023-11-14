@@ -28,7 +28,6 @@ export function moveCollectible({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  console.log({ action });
   const stateCopy = cloneDeep(state) as GameState;
   const collectibleGroup = stateCopy.collectibles[action.name];
 

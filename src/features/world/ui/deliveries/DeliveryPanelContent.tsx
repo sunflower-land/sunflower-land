@@ -261,6 +261,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({
   const handleDeliver = () => {
     const order = orders.find((o) => o.id === selectedOrderId);
     if (!selectedOrderId || !order) {
+      // eslint-disable-next-line no-console
       console.log("Delivery: No order selected");
       return;
     }
@@ -304,7 +305,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({
   };
 
   const { tasksAreFrozen } = getSeasonChangeover({
-    id: gameService.state.context.state.id,
+    id: gameService.state.context.farmId,
   });
 
   if (tasksAreFrozen) {

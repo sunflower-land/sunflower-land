@@ -62,21 +62,12 @@ class OnboardingAnalytics {
     this.analytics = getAnalytics(app);
   }
 
-  public initialise({
-    id,
-    type,
-    wallet,
-  }: {
-    id?: number;
-    type: "GUEST" | "FULL";
-    wallet: string;
-  }) {
+  public initialise({ id, wallet }: { id?: number; wallet: string }) {
     if (id) {
       setUserId(this.analytics, id.toString());
     }
 
     setUserProperties(this.analytics, {
-      userType: type,
       wallet,
     });
   }

@@ -97,13 +97,13 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
     },
     "Sunflower Rod": {
-      shortDescription: "Chance +1 Fish",
+      shortDescription: "10% Chance +1 Fish",
       labelType: "vibrant",
       boostTypeIcon: lightning,
       boostedItemIcon: SUNNYSIDE.icons.fish,
     },
     Trident: {
-      shortDescription: "Chance +1 Fish",
+      shortDescription: "20% Chance +1 Fish",
       labelType: "vibrant",
       boostTypeIcon: lightning,
       boostedItemIcon: SUNNYSIDE.icons.fish,
@@ -120,7 +120,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostedItemIcon: SUNNYSIDE.icons.fish,
     },
     "Angler Waders": {
-      shortDescription: "+10 Fish Limit",
+      shortDescription: "+10 Fishing Limit",
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.icons.fish,

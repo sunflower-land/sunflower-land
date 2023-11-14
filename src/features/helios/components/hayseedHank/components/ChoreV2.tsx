@@ -33,7 +33,7 @@ export const ChoreV2: React.FC<Props> = ({ isReadOnly = false }) => {
   }
 
   const { tasksAreClosing, tasksStartAt, tasksCloseAt, tasksAreFrozen } =
-    getSeasonChangeover({ id: gameService.state.context.state.id });
+    getSeasonChangeover({ id: gameService.state.context.farmId });
   return (
     <>
       {

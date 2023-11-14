@@ -47,7 +47,6 @@ export function buyWearable({
 
   if (wearable.hoursPlayed) {
     const hoursPlayed = (Date.now() - stateCopy.createdAt) / 1000 / 60 / 60;
-    console.log({ hours: wearable.hoursPlayed, hoursPlayed });
 
     if (hoursPlayed < wearable.hoursPlayed) {
       throw new Error("Not available");

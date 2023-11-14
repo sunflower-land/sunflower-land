@@ -40,8 +40,11 @@ export const ToastContext = createContext<{
   setExperience: (experience: Decimal) => void;
 }>({
   toastsList: [],
+  // eslint-disable-next-line no-console
   setInventory: console.log,
+  // eslint-disable-next-line no-console
   setBalance: console.log,
+  // eslint-disable-next-line no-console
   setExperience: console.log,
 });
 

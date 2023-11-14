@@ -12,6 +12,7 @@ i18n.use(initReactI18next).init(
     },
   },
   (err, t) => {
+    // eslint-disable-next-line no-console
     if (err) return console.error("Something went wrong loading", err);
     t("key"); // initialized and ready to go!
   }
