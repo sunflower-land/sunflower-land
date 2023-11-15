@@ -31,13 +31,8 @@ import { getKeys } from "features/game/types/craftables";
 import { SEEDS, SeedName } from "features/game/types/seeds";
 import { SeedSelection } from "./components/SeedSelection";
 import { FRUIT_SEEDS } from "features/game/types/fruits";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { Modal } from "react-bootstrap";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Label } from "components/ui/Label";
-import { ITEM_DETAILS } from "features/game/types/images";
 import lockIcon from "assets/skills/lock.png";
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
@@ -140,9 +135,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
   };
 
   const onClick = (seed: SeedName = selectedItem as SeedName) => {
-  const now = Date.now();
-
-  const onClick = () => {
     const now = Date.now();
 
     if (!inventory.Shovel) {
@@ -161,9 +153,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    // increase touch count if there is a reward
-    const readyToHarvest =
-      !!crop && isReadyToHarvest(now, crop, CROPS()[crop.name]);
     // increase touch count if there is a reward
     const readyToHarvest =
       !!crop && isReadyToHarvest(now, crop, CROPS()[crop.name]);
@@ -304,9 +293,10 @@ export const Plot: React.FC<Props> = ({ id }) => {
         </CloseButtonPanel>
       </Modal>
 
-      <div onClick={() => onClick()} className="w-full h-full relative">
+      <Modal
         show={showMissingShovel}
         onHide={() => setShowMissingShovel(false)}
+        centered
       >
         <CloseButtonPanel onClose={() => setShowMissingShovel(false)}>
           <div className="flex flex-col items-center">
@@ -320,7 +310,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
           </div>
         </CloseButtonPanel>
       </Modal>
-      <div onClick={onClick} className="w-full h-full relative">
+      <div onClick={() => onClick()} className="w-full h-full relative">
         {harvestCount < 3 &&
           harvestCount + 1 === Number(id) &&
           !!inventory.Shovel && (
