@@ -25,18 +25,14 @@ export const SeedSelection: React.FC<Props> = ({ onPlant, inventory }) => {
     <>
       <div className="p-2">
         {!seed && (
-          <Label
-            className="mt-2 mb-1"
-            icon={SUNNYSIDE.icons.seeds}
-            type="danger"
-          >
+          <Label className="mb-1" icon={SUNNYSIDE.icons.seeds} type="danger">
             Seed not selected
           </Label>
         )}
 
         {seed && (
           <Label
-            className="mt-2 mb-1"
+            className="mb-1"
             icon={ITEM_DETAILS[SEEDS()[seed].yield].image}
             type="default"
           >
