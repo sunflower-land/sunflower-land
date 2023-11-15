@@ -22,6 +22,15 @@ import { BuildingName } from "features/game/types/buildings";
 import { ZoomContext } from "components/ZoomProvider";
 import { CROP_COMPOST } from "features/game/types/composters";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { Modal } from "react-bootstrap";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { Label } from "components/ui/Label";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { getKeys } from "features/game/types/craftables";
+import { SEEDS, SeedName } from "features/game/types/seeds";
+import { SeedSelection } from "./components/SeedSelection";
+import { FRUIT_SEEDS } from "features/game/types/fruits";
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
@@ -38,9 +47,12 @@ interface Props {
 }
 export const Plot: React.FC<Props> = ({ id }) => {
   const { scale } = useContext(ZoomContext);
-  const { gameService, selectedItem, showTimers } = useContext(Context);
+  const { gameService, selectedItem, showTimers, shortcutItem } =
+    useContext(Context);
   const [procAnimation, setProcAnimation] = useState<JSX.Element>();
   const [touchCount, setTouchCount] = useState(0);
+  const [showMissingSeeds, setShowMissingSeeds] = useState(false);
+  const [showSeedNotSelected, setShowSeedNotSelected] = useState(false);
   const [reward, setReward] = useState<Reward>();
   const clickedAt = useRef<number>(0);
 
@@ -111,7 +123,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
     }
   };
 
-  const onClick = () => {
+  const onClick = (seed: SeedName = selectedItem as SeedName) => {
     // small buffer to prevent accidental double clicks
     const now = Date.now();
     if (now - clickedAt.current < 100) {
@@ -122,6 +134,26 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
     // already looking at a reward
     if (reward) {
+      return;
+    }
+
+    const hasSeeds = getKeys(inventory).some(
+      (name) =>
+        inventory[name]?.gte(1) && name in SEEDS() && !(name in FRUIT_SEEDS())
+    );
+    if (!hasSeeds) {
+      setShowMissingSeeds(true);
+      return;
+    }
+
+    const seedIsReady =
+      seed &&
+      inventory[seed]?.gte(1) &&
+      seed in SEEDS() &&
+      !(seed in FRUIT_SEEDS());
+
+    if (!seedIsReady) {
+      setShowSeedNotSelected(true);
       return;
     }
 
@@ -142,10 +174,10 @@ export const Plot: React.FC<Props> = ({ id }) => {
     }
 
     // apply fertilisers
-    if (!readyToHarvest && selectedItem && selectedItem in CROP_COMPOST) {
+    if (!readyToHarvest && seed && seed in CROP_COMPOST) {
       const state = gameService.send("plot.fertilised", {
         plotID: id,
-        fertiliser: selectedItem,
+        fertiliser: seed,
       });
 
       if (state.context.state.bumpkin?.activity?.["Crop Fertilised"] === 1) {
@@ -161,7 +193,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
     if (!crop) {
       const state = gameService.send("seed.planted", {
         index: id,
-        item: selectedItem,
+        item: seed,
         cropId: uuidv4().slice(0, 8),
       });
 
@@ -195,7 +227,44 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
   return (
     <>
-      <div onClick={onClick} className="w-full h-full relative">
+      <Modal
+        centered
+        show={showMissingSeeds}
+        onHide={() => setShowMissingSeeds(false)}
+      >
+        <CloseButtonPanel onClose={() => setShowMissingSeeds(false)}>
+          <div className="flex flex-col items-center">
+            <Label className="mt-2" icon={SUNNYSIDE.icons.seeds} type="danger">
+              Missing Seeds
+            </Label>
+            <img
+              src={ITEM_DETAILS.Market.image}
+              className="w-20 mx-auto my-2"
+            />
+            <p className="text-center text-sm mb-2">
+              Go to the Market to purchase seeds.
+            </p>
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+      <Modal
+        centered
+        show={showSeedNotSelected}
+        onHide={() => setShowSeedNotSelected(false)}
+      >
+        <CloseButtonPanel onClose={() => setShowSeedNotSelected(false)}>
+          <SeedSelection
+            onPlant={(seed) => {
+              shortcutItem(seed);
+              onClick(seed);
+              setShowSeedNotSelected(false);
+            }}
+            inventory={inventory}
+          />
+        </CloseButtonPanel>
+      </Modal>
+
+      <div onClick={() => onClick()} className="w-full h-full relative">
         <FertilePlot
           cropName={crop?.name}
           inventory={inventory}
