@@ -13,13 +13,13 @@ import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";
 import { SharkBumpkin } from "./water/SharkBumpkin";
 import { Arcade } from "features/community/arcade/Arcade";
-import { FruitQuest } from "features/island/farmerQuest/FruitQuest";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { DailyReward } from "./dailyReward/DailyReward";
 import { SeasonTeaser } from "./SeasonTeaser";
 import { LAND_WIDTH } from "../Land";
 import { TravelTeaser } from "./TravelTeaser";
+import { DiscordBoat } from "./DiscordBoat";
 
 interface Props {
   townCenterBuilt: boolean;
@@ -54,6 +54,8 @@ export const WaterComponent: React.FC<Props> = ({
           className="animate-float"
         />
       </MapPlacement>
+
+      <DiscordBoat />
 
       {/* Goblin swimming */}
       <MapPlacement x={-6 - offset} y={-1} width={6}>
@@ -114,9 +116,6 @@ export const WaterComponent: React.FC<Props> = ({
           <Arcade />
         </div>
       </MapPlacement>
-
-      {/* Top left island */}
-      <FruitQuest offset={offset} />
 
       {/* Bottom island */}
       <SeasonTeaser offset={offset} />

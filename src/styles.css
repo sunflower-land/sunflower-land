@@ -298,6 +298,32 @@ img {
   }
 }
 
+.boating {
+  animation-duration: 10s;
+  animation-name: boating;
+  animation-iteration-count: infinite;
+  transition-timing-function: linear;
+}
+
+@keyframes boating {
+  0% {
+    transform: translateX(-800px);
+    animation-timing-function: linear;
+  }
+  25% {
+    transform: translateX(500px);
+    animation-timing-function: linear;
+  }
+  75% {
+    transform: translateX(550px);
+    animation-timing-function: linear;
+  }
+  100% {
+    transform: translateX(1600px);
+    animation-timing-function: linear;
+  }
+}
+
 .swimming {
   animation-duration: 10s;
   animation-name: swimming;
