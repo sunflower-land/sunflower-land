@@ -142,10 +142,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const onClick = (seed: SeedName = selectedItem as SeedName) => {
   const now = Date.now();
 
-  // increase touch count if there is a reward
-  const readyToHarvest =
-    !!crop && isReadyToHarvest(now, crop, CROPS()[crop.name]);
-
   const onClick = () => {
     if (!inventory.Shovel) {
       setShowMissingShovel(true);
@@ -166,6 +162,10 @@ export const Plot: React.FC<Props> = ({ id }) => {
     // increase touch count if there is a reward
     const readyToHarvest =
       !!crop && isReadyToHarvest(now, crop, CROPS()[crop.name]);
+    // increase touch count if there is a reward
+    const readyToHarvest =
+      !!crop && isReadyToHarvest(now, crop, CROPS()[crop.name]);
+
     if (crop?.reward && readyToHarvest) {
       if (touchCount < 1) {
         // Add to touch count for reward pickup

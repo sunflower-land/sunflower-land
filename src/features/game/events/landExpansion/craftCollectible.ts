@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import {
   COLLECTIBLES_DIMENSIONS,
+  CollectibleName,
   getKeys,
 } from "features/game/types/craftables";
 
@@ -15,6 +16,15 @@ import {
   PotionHouseItemName,
 } from "features/game/types/collectibles";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
+
+export const COLLECTIBLE_CRAFT_SECONDS: Partial<
+  Record<CollectibleName, number>
+> = {
+  // AOE items
+  "Basic Scarecrow": 15,
+  Bale: 60,
+  "Scary Mike": 60,
+};
 
 export type CraftCollectibleAction = {
   type: "collectible.crafted";
@@ -116,10 +126,13 @@ export function craftCollectible({
       throw new Error("ID already exists");
     }
 
+    const seconds = COLLECTIBLE_CRAFT_SECONDS[action.name] ?? 0;
+
     stateCopy.collectibles[action.name] = previous.concat({
       id: action.id,
       coordinates: { x: action.coordinates.x, y: action.coordinates.y },
-      readyAt: createdAt,
+      readyAt: createdAt + seconds * 1000,
+
       createdAt: createdAt,
     });
   }

@@ -73,6 +73,6 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
     sellPrice: marketRate(160),
   },
   Tent: {
-    sellPrice: marketRate(100 * 0.0625 + 50),
+    sellPrice: new Decimal(1),
   },
 };
