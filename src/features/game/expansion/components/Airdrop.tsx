@@ -4,6 +4,7 @@ import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import token from "src/assets/icons/token_2.png";
+import powerup from "assets/icons/level_up.png";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -17,6 +18,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
+import { CONSUMABLES, ConsumableName } from "features/game/types/consumables";
 
 export const AirdropModal: React.FC<{
   airdrop: IAirdrop;
@@ -79,7 +81,20 @@ export const AirdropModal: React.FC<{
                   image={ITEM_DETAILS[name].image}
                 />
                 <div>
-                  <Label type="default">{name}</Label>
+                  <div className="flex items-center">
+                    <Label type="default" className="mr-2">
+                      {name}
+                    </Label>
+                    {name in CONSUMABLES && (
+                      <Label
+                        type="success"
+                        icon={powerup}
+                        className="mr-2"
+                      >{`+${
+                        CONSUMABLES[name as ConsumableName].experience
+                      } EXP`}</Label>
+                    )}
+                  </div>
                   <p className="text-xs">{ITEM_DETAILS[name].description}</p>
                 </div>
               </div>

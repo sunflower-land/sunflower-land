@@ -118,7 +118,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
           <RecoveredStone
             hasTool={hasTool}
             touchCount={touchCount}
-            showHelper={needsHelp}
+            showHelper={false} // FUTURE ENHANCEMENT
           />
         </div>
       )}

@@ -7,10 +7,15 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 const _showHelper = (state: MachineState) =>
-  state.context.state.bumpkin?.experience === 0 &&
-  !!state.context.state.inventory["Mashed Potato"];
+  // First Mashed Potato
+  (state.context.state.bumpkin?.experience === 0 &&
+    !!state.context.state.inventory["Mashed Potato"]) ||
+  // First Pumpkin Soup
+  (getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) <= 3 &&
+    !!state.context.state.inventory["Pumpkin Soup"]);
 
 export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
   const [open, setOpen] = useState(false);

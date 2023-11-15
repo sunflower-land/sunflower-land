@@ -97,10 +97,6 @@ export const UpcomingExpansion: React.FC = () => {
     if (state.context.state.inventory["Basic Land"]?.eq(4)) {
       openModal("FIRST_EXPANSION");
     }
-
-    if (state.context.state.inventory["Basic Land"]?.eq(5)) {
-      openModal("SECOND_EXPANSION");
-    }
   };
 
   const Content = () => {

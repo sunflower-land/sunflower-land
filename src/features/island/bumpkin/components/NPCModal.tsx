@@ -45,18 +45,42 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
   }, [state.bumpkin?.experience]);
 
   return (
-    <Modal show={isOpen} onHide={onClose} centered>
+    <Modal
+      show={isOpen}
+      onHide={() => {
+        onClose();
+        if (showLevelUp && bumpkinLevel.current === 3) {
+          openModal("THIRD_LEVEL");
+        }
+
+        setTimeout(() => setShowLevelUp(false), 500);
+      }}
+      centered
+    >
       {showLevelUp ? (
         <CloseButtonPanel
-          onClose={() => setShowLevelUp(false)}
+          onClose={() => {
+            onClose();
+
+            if (bumpkinLevel.current === 3) {
+              openModal("THIRD_LEVEL");
+            }
+
+            setTimeout(() => setShowLevelUp(false), 500);
+          }}
           title="Level up!"
           bumpkinParts={state.bumpkin?.equipped}
         >
           <LevelUp
             level={bumpkinLevel.current}
             onClose={() => {
-              setShowLevelUp(false);
               onClose();
+
+              if (bumpkinLevel.current === 3) {
+                openModal("THIRD_LEVEL");
+              }
+
+              setTimeout(() => setShowLevelUp(false), 500);
             }}
             wearables={state.bumpkin?.equipped as Equipped}
           />

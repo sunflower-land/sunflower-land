@@ -7,13 +7,14 @@ import { StoreOnChainModal } from "./components/StoreOnChainModal";
 import { GoldPassModal } from "features/game/expansion/components/GoldPass";
 import { SpeakingModal } from "../SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
+import { useNavigate } from "react-router-dom";
 
 type GlobalModal =
   | "BUY_BLOCK_BUCKS"
   | "STORE_ON_CHAIN"
   | "GOLD_PASS"
   | "FIRST_EXPANSION"
-  | "SECOND_EXPANSION"
+  | "THIRD_LEVEL"
   | "BETTY"
   | "BLACKSMITH";
 
@@ -26,6 +27,7 @@ export const ModalProvider: FC = ({ children }) => {
   const [opened, setOpened] = useState<GlobalModal>();
   const [closeable, setCloseable] = useState(true);
 
+  const navigate = useNavigate();
   const openModal = (type: GlobalModal) => {
     setOpened(type);
   };
@@ -108,7 +110,7 @@ export const ModalProvider: FC = ({ children }) => {
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
         />
       </Modal>
-      <Modal centered show={opened === "SECOND_EXPANSION"} onHide={handleClose}>
+      <Modal centered show={opened === "THIRD_LEVEL"} onHide={handleClose}>
         <SpeakingModal
           message={[
             {
@@ -119,6 +121,12 @@ export const ModalProvider: FC = ({ children }) => {
             },
             {
               text: "At the plaza you can deliver your resources for rewards, craft magical items & trade with other players.",
+              actions: [
+                {
+                  text: "Let's go!",
+                  cb: () => navigate("/world/plaza"),
+                },
+              ],
             },
           ]}
           onClose={handleClose}

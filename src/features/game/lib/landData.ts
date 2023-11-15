@@ -233,6 +233,7 @@ export const OFFLINE_FARM: GameState = {
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
     Axe: new Decimal(10),
     "Block Buck": new Decimal(1),
+    "Mashed Potato": new Decimal(1),
   },
   wardrobe: {},
 
