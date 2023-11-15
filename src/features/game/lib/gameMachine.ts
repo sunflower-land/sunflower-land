@@ -522,6 +522,7 @@ export function startGame(authContext: AuthContext) {
                 moderation: response.moderation,
                 promoCode: response.promoCode,
                 farmAddress: response.farmAddress,
+                analyticsId: response.analyticsId,
               };
             },
             onDone: [
@@ -1668,9 +1669,9 @@ export function startGame(authContext: AuthContext) {
     },
     {
       actions: {
-        initialiseAnalytics: (context) => {
+        initialiseAnalytics: (context, event: any) => {
           if (!ART_MODE) {
-            gameAnalytics.initialise(context.farmId);
+            gameAnalytics.initialise(event.data.analyticsId);
             onboardingAnalytics.initialise({
               id: context.farmId,
               wallet: authContext.user.web3?.wallet as string,

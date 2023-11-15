@@ -22,6 +22,9 @@ class GameAnalyticTracker {
 
   public async initialise(id: number) {
     try {
+      if (!id) {
+        throw new Error("Missing User ID for analytics");
+      }
       // GameAnalytics.setEnabledInfoLog(true);
       // GameAnalytics.setEnabledVerboseLog(true);
 

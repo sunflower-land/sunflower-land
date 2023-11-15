@@ -32,6 +32,7 @@ type Response = {
   promoCode?: string;
   moderation: Moderation;
   sessionId: string;
+  analyticsId: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -87,6 +88,7 @@ export async function loadSession(request: Request): Promise<Response> {
     farmId,
     sessionId,
     farmAddress,
+    analyticsId,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -100,6 +102,7 @@ export async function loadSession(request: Request): Promise<Response> {
     promoCode?: string;
     sessionId: string;
     farmId: string;
+    analyticsId: string;
     farmAddress?: string;
   }>(response);
 
@@ -117,6 +120,7 @@ export async function loadSession(request: Request): Promise<Response> {
     verified,
     moderation,
     promoCode: promo,
+    analyticsId,
   };
 }
 
