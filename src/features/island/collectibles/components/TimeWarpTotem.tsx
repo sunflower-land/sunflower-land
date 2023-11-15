@@ -29,7 +29,7 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({ createdAt }) => {
           <div className="p-2">
             <img
               src={ITEM_DETAILS["Time Warp Totem"].image}
-              className="w-20 mx-auto my-2"
+              className="w-10 mx-auto my-2"
             />
             <p className="text-xs mb-2 text-center">
               Your Time Warp Totem has expired. Head to the Pumpkin Plaza to
@@ -55,7 +55,7 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({ createdAt }) => {
         <div className="p-2">
           <img
             src={ITEM_DETAILS["Time Warp Totem"].image}
-            className="w-20 mx-auto my-2"
+            className="w-10 mx-auto my-2"
           />
           <p className="text-xs mb-2 text-center">
             The Time Warp Totem temporarily boosts your cooking, crops, trees &

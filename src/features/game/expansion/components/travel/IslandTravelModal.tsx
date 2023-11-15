@@ -61,7 +61,7 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
           <Label className="mt-2" icon={lockIcon} type="danger">
             Level 3 Required
           </Label>
-          <img src={worldIcon} className="w-20 mx-auto my-2" />
+          <img src={worldIcon} className="w-10 mx-auto my-2" />
           <p className="text-sm text-center mb-2">
             Visit the Fire Pit to cook food and feed your Bumpkin.
           </p>

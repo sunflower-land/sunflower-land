@@ -34,8 +34,7 @@ export type Crop = {
 export const CROPS: () => Record<CropName, Crop> = () => ({
   Sunflower: {
     sellPrice: marketRate(0.02),
-    // harvestSeconds: 1 * 60,
-    harvestSeconds: 3,
+    harvestSeconds: 1 * 60,
     name: "Sunflower",
     description: "A sunny flower",
     bumpkinLevel: 1,

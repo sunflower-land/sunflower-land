@@ -200,7 +200,7 @@ export const UpcomingExpansion: React.FC = () => {
               </Label>
               <img
                 src={ITEM_DETAILS.Hammer.image}
-                className="w-20 mx-auto my-2"
+                className="w-10 mx-auto my-2"
               />
               <p className="text-sm text-center mb-2">
                 Visit the Fire Pit to cook food and feed your Bumpkin.

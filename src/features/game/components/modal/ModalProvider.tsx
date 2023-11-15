@@ -77,7 +77,7 @@ export const ModalProvider: FC = ({ children }) => {
         <SpeakingModal
           message={[
             {
-              text: "Hey there, Bumpkin! It's Betty from the farmer's market. I travel between islands to buy Crops and sell fresh seeds.",
+              text: "Hey there, Bumpkin! It's Betty from the farmer's market. I travel between islands to buy crops and sell fresh seeds.",
             },
             {
               text: "Good news: you just stumbled upon a shiny new shovel! Bad news: we've hit a bit of a crop shortage.",
@@ -117,16 +117,13 @@ export const ModalProvider: FC = ({ children }) => {
               text: "Congratulations, your green thumb is truly shining!",
             },
             {
-              text: "It's high time we head to the Plaza, where your farming prowess can shine even brighter",
+              text: "It's high time we head to the Plaza, where your farming prowess can shine even brighter.",
             },
             {
               text: "At the plaza you can deliver your resources for rewards, craft magical items & trade with other players.",
-              actions: [
-                {
-                  text: "Let's go!",
-                  cb: () => navigate("/world/plaza"),
-                },
-              ],
+            },
+            {
+              text: "You can travel by clicking on the world icon in the bottom left.",
             },
           ]}
           onClose={handleClose}

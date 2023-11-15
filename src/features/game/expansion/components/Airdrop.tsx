@@ -77,7 +77,11 @@ export const AirdropModal: React.FC<{
             itemNames.map((name) => (
               <div className="flex items-center" key={name}>
                 <Box
-                  count={new Decimal(airdrop.items[name] ?? 0)}
+                  count={
+                    (airdrop.items[name] ?? 1) > 1
+                      ? new Decimal(airdrop.items[name] ?? 0)
+                      : undefined
+                  }
                   image={ITEM_DETAILS[name].image}
                 />
                 <div>
@@ -105,7 +109,11 @@ export const AirdropModal: React.FC<{
               <div className="flex items-center  mb-2" key={name}>
                 <Box
                   image={getImageUrl(ITEM_IDS[name])}
-                  count={new Decimal(airdrop.wearables[name] ?? 0)}
+                  count={
+                    (airdrop.wearables[name] ?? 1) > 1
+                      ? new Decimal(airdrop.wearables[name] ?? 0)
+                      : undefined
+                  }
                 />
                 <div>
                   <Label type="default">{name}</Label>

@@ -96,7 +96,7 @@ export const TravelModal: React.FC<Props> = ({
             <Label className="mt-2" icon={lockIcon} type="danger">
               Level 3 Required
             </Label>
-            <img src={world} className="w-20 mx-auto my-2" />
+            <img src={world} className="w-10 mx-auto my-2" />
             <p className="text-sm text-center mb-1">
               Before travelling, you must level up.
             </p>

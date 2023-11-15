@@ -239,7 +239,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
             <Label className="mt-2" icon={lockIcon} type="danger">
               Level 5 Required
             </Label>
-            <img src={ITEM_DETAILS.Rod.image} className="w-20 mx-auto my-2" />
+            <img src={ITEM_DETAILS.Rod.image} className="w-10 mx-auto my-2" />
             <p className="text-sm text-center mb-2">
               Visit the Fire Pit to cook food and feed your Bumpkin.
             </p>

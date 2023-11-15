@@ -274,7 +274,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
             </Label>
             <img
               src={ITEM_DETAILS.Market.image}
-              className="w-20 mx-auto my-2"
+              className="w-10 mx-auto my-2"
             />
             <p className="text-center text-sm mb-2">
               Go to the Market to purchase seeds.
@@ -311,7 +311,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
             </Label>
             <img
               src={ITEM_DETAILS.Shovel.image}
-              className="w-20 mx-auto my-2"
+              className="w-10 mx-auto my-2"
             />
           </div>
         </CloseButtonPanel>
