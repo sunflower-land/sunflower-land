@@ -15,24 +15,75 @@ import { Equipped } from "features/game/types/bumpkin";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { getKeys } from "features/game/types/craftables";
+import { LEVEL_EXPERIENCE } from "features/game/lib/level";
+import { CROPS } from "features/game/types/crops";
+import { BUILDINGS } from "features/game/types/buildings";
+import { ITEM_DETAILS } from "features/game/types/images";
+import worldIcon from "assets/icons/world_small.png";
 
-const LEVEL_UP_UNLOCKS: Record<number, { text: string; icon: string }[]> = {
+const BONUS_UNLOCKS: Record<number, { text: string; icon: string }[]> = {
   2: [
     {
       text: "Crops",
       icon: SUNNYSIDE.tools.shovel,
     },
+  ],
+  3: [
     {
-      text: "Sunflower",
-      icon: CROP_LIFECYCLE.Sunflower.crop,
+      text: "Travel",
+      icon: worldIcon,
     },
     {
-      text: "Potato",
-      icon: CROP_LIFECYCLE.Potato.crop,
+      text: "Mining",
+      icon: SUNNYSIDE.tools.stone_pickaxe,
+    },
+  ],
+  5: [
+    {
+      text: "Fishing",
+      icon: SUNNYSIDE.tools.fishing_rod,
+    },
+  ],
+  10: [
+    {
+      text: "Trading",
+      icon: SUNNYSIDE.icons.player,
     },
   ],
 };
+
+function generateUnlockLabels(): Record<
+  number,
+  { text: string; icon: string }[]
+> {
+  const levels = getKeys(LEVEL_EXPERIENCE);
+
+  const unlocks = levels.reduce((acc, id) => {
+    const level = Number(id);
+    const crops = getKeys(CROPS())
+      .filter((name) => CROPS()[name].bumpkinLevel === level)
+      .map((name) => ({ text: name, icon: ITEM_DETAILS[name].image }));
+
+    const buildings = getKeys(BUILDINGS())
+      .filter((name) =>
+        BUILDINGS()[name].find((b) => b.unlocksAtLevel === level)
+      )
+      .map((name) => ({ text: name, icon: ITEM_DETAILS[name].image }));
+
+    const bonus = BONUS_UNLOCKS[level] ?? [];
+
+    return {
+      ...acc,
+      [level]: [...bonus, ...crops, ...buildings],
+    };
+  }, {} as Record<number, { text: string; icon: string }[]>);
+
+  return unlocks;
+}
+
+const LEVEL_UP_UNLOCKS = generateUnlockLabels();
+
 const LEVEL_UP_MESSAGES: Record<number, string> = {
   2: "Yeehaw, you've reached level 2! The crops are quakin' in their boots.",
   3: "Congrats on level 3! You're growing like a weed...",
