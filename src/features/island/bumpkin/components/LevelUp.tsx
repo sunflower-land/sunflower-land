@@ -34,10 +34,6 @@ const BONUS_UNLOCKS: Record<number, { text: string; icon: string }[]> = {
       text: "Travel",
       icon: worldIcon,
     },
-    {
-      text: "Mining",
-      icon: SUNNYSIDE.tools.stone_pickaxe,
-    },
   ],
   5: [
     {

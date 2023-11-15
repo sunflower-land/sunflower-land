@@ -143,6 +143,8 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const now = Date.now();
 
   const onClick = () => {
+    const now = Date.now();
+
     if (!inventory.Shovel) {
       setShowMissingShovel(true);
       return;

@@ -181,7 +181,10 @@ export const UpcomingExpansion: React.FC = () => {
     );
 
     const showHelper =
-      canExpand && (state.bumpkin?.activity?.["Tree Chopped"] ?? 0) === 3;
+      canExpand &&
+      (state.bumpkin?.activity?.["Tree Chopped"] ?? 0) >= 3 &&
+      // Only pulsate first 5 times
+      state.inventory["Basic Land"]?.lte(4);
 
     return (
       <>

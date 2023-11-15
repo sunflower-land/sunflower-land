@@ -19,6 +19,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import npc from "assets/npcs/cook.gif";
 import doing from "assets/npcs/cook_doing.gif";
 import shadow from "assets/npcs/shadow.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -86,6 +87,11 @@ export const FirePit: React.FC<Props> = ({
     }
   };
 
+  const showHelper =
+    gameState.context.state.inventory.Potato?.gte(8) &&
+    gameState.context.state.bumpkin?.experience === 0 &&
+    !crafting;
+
   return (
     <>
       <BuildingImageWrapper name="Fire Pit" onClick={handleClick} ready={ready}>
@@ -136,6 +142,18 @@ export const FirePit: React.FC<Props> = ({
             left: `${PIXEL_SCALE * 11}px`,
           }}
         />
+        {showHelper && (
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
+            src={SUNNYSIDE.icons.click_icon}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * -8}px`,
+              top: `${PIXEL_SCALE * 20}px`,
+            }}
+          />
+        )}
+
         {crafting ? (
           <img
             src={doing}

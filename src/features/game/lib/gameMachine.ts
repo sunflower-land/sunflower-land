@@ -679,7 +679,7 @@ export function startGame(authContext: AuthContext) {
             {
               target: "specialOffer",
               cond: (context) =>
-                (context.state.bumpkin?.experience ?? 0) > 10 &&
+                (context.state.bumpkin?.experience ?? 0) > 100 &&
                 !context.state.collectibles["Catch the Kraken Banner"] &&
                 !getSeasonPassRead(),
             },

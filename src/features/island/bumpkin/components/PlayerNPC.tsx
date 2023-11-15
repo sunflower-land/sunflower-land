@@ -33,7 +33,7 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
 
       {showHelper && (
         <img
-          className="absolute cursor-pointer group-hover:img-highlight z-30"
+          className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
           src={SUNNYSIDE.icons.click_icon}
           onClick={() => setOpen(true)}
           style={{

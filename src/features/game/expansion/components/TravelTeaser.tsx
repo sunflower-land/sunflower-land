@@ -13,16 +13,36 @@ import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
+import { MapPlacement } from "./MapPlacement";
 
 const isNoob = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) < 3;
 
+const expansions = (state: MachineState) =>
+  state.context.state.inventory["Basic Land"]?.toNumber() ?? 0;
+
 export const TravelTeaser: React.FC = () => {
   const { gameService } = useContext(Context);
   const showSpeech = useSelector(gameService, isNoob);
+  const expansionCount = useSelector(gameService, expansions);
+
   const [tab, setTab] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [guide, setGuide] = useState<GuidePath>();
+
+  const coords = () => {
+    if (expansionCount < 7) {
+      return { x: 6, y: -4.5 };
+    }
+    if (expansionCount >= 7 && expansionCount < 21) {
+      return { x: 6, y: -10.5 };
+    } else {
+      return { x: 6, y: -16.5 };
+    }
+  };
+
+  const coordinates = coords();
+
   return (
     <>
       <Modal show={showModal} centered onHide={() => setShowModal(false)}>
@@ -51,46 +71,48 @@ export const TravelTeaser: React.FC = () => {
           </div>
         </CloseButtonPanel>
       </Modal>
-      <div
-        className="absolute"
-        style={{
-          top: `${2 * PIXEL_SCALE}px`,
-          left: `${2 * PIXEL_SCALE}px`,
-        }}
-      >
-        <img
-          src={raft}
-          style={{
-            width: `${37 * PIXEL_SCALE}px`,
-          }}
-        />
+      <MapPlacement x={coordinates.x} y={coordinates.y} width={3}>
         <div
           className="absolute"
           style={{
-            top: `${-10 * PIXEL_SCALE}px`,
-            left: `${14 * PIXEL_SCALE}px`,
-            width: `${1 * GRID_WIDTH_PX}px`,
-            transform: "scaleX(-1)",
+            top: `${2 * PIXEL_SCALE}px`,
+            left: `${2 * PIXEL_SCALE}px`,
           }}
         >
-          {showSpeech && (
-            <img
-              src={SUNNYSIDE.icons.expression_chat}
-              className="absolute z-10"
-              style={{
-                width: `${10 * PIXEL_SCALE}px`,
-                top: `${-5 * PIXEL_SCALE}px`,
-                left: `${8 * PIXEL_SCALE}px`,
-              }}
-            />
-          )}
-
-          <NPC
-            parts={NPC_WEARABLES["pumpkin' pete"]}
-            onClick={() => setShowModal(true)}
+          <img
+            src={raft}
+            style={{
+              width: `${37 * PIXEL_SCALE}px`,
+            }}
           />
+          <div
+            className="absolute"
+            style={{
+              top: `${-10 * PIXEL_SCALE}px`,
+              left: `${14 * PIXEL_SCALE}px`,
+              width: `${1 * GRID_WIDTH_PX}px`,
+              transform: "scaleX(-1)",
+            }}
+          >
+            {showSpeech && (
+              <img
+                src={SUNNYSIDE.icons.expression_chat}
+                className="absolute z-10"
+                style={{
+                  width: `${10 * PIXEL_SCALE}px`,
+                  top: `${-5 * PIXEL_SCALE}px`,
+                  left: `${8 * PIXEL_SCALE}px`,
+                }}
+              />
+            )}
+
+            <NPC
+              parts={NPC_WEARABLES["pumpkin' pete"]}
+              onClick={() => setShowModal(true)}
+            />
+          </div>
         </div>
-      </div>
+      </MapPlacement>
     </>
   );
 };

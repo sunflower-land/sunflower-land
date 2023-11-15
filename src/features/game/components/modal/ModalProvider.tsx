@@ -56,7 +56,7 @@ export const ModalProvider: FC = ({ children }) => {
         <GoldPassModal onClose={handleClose} />
       </Modal>
 
-      <Modal centered show={opened === "FIRST_EXPANSION"} onHide={handleClose}>
+      <Modal centered show={opened === "FIRST_EXPANSION"}>
         <SpeakingModal
           message={[
             {
@@ -73,7 +73,7 @@ export const ModalProvider: FC = ({ children }) => {
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
         />
       </Modal>
-      <Modal centered show={opened === "BETTY"} onHide={handleClose}>
+      <Modal centered show={opened === "BETTY"}>
         <SpeakingModal
           message={[
             {
@@ -93,7 +93,7 @@ export const ModalProvider: FC = ({ children }) => {
           bumpkinParts={NPC_WEARABLES.betty}
         />
       </Modal>
-      <Modal centered show={opened === "BLACKSMITH"} onHide={handleClose}>
+      <Modal centered show={opened === "BLACKSMITH"}>
         <SpeakingModal
           message={[
             {
@@ -110,7 +110,7 @@ export const ModalProvider: FC = ({ children }) => {
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
         />
       </Modal>
-      <Modal centered show={opened === "THIRD_LEVEL"} onHide={handleClose}>
+      <Modal centered show={opened === "THIRD_LEVEL"}>
         <SpeakingModal
           message={[
             {

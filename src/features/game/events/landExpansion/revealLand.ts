@@ -138,36 +138,44 @@ export function revealLand({
   );
 
   if (inventory["Basic Land"].eq(4)) {
-    game.airdrops?.push({
-      createdAt,
-      id: "expansion-four-airdrop",
-      items: {
-        Shovel: 1,
+    const prev = game.airdrops ?? [];
+    game.airdrops = [
+      ...prev,
+      {
+        createdAt,
+        id: "expansion-four-airdrop",
+        items: {
+          Shovel: 1,
+        },
+        sfl: 0,
+        wearables: {},
+        coordinates: {
+          x: 0,
+          y: 8,
+        },
       },
-      sfl: 0,
-      wearables: {},
-      coordinates: {
-        x: 0,
-        y: 8,
-      },
-    });
+    ];
   }
 
   if (inventory["Basic Land"].eq(5)) {
-    game.airdrops?.push({
-      createdAt,
-      id: "expansion-fifth-airdrop",
-      items: {
-        "Time Warp Totem": 1,
-        "Pumpkin Soup": 1,
+    const prev = game.airdrops ?? [];
+    game.airdrops = [
+      ...prev,
+      {
+        createdAt,
+        id: "expansion-fifth-airdrop",
+        items: {
+          "Time Warp Totem": 1,
+          "Pumpkin Soup": 1,
+        },
+        sfl: 0,
+        wearables: {},
+        coordinates: {
+          x: -7,
+          y: 7,
+        },
       },
-      sfl: 0,
-      wearables: {},
-      coordinates: {
-        x: -7,
-        y: 7,
-      },
-    });
+    ];
   }
 
   // Refresh all resources
