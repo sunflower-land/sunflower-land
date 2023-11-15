@@ -137,26 +137,6 @@ export const Plot: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    const hasSeeds = getKeys(inventory).some(
-      (name) =>
-        inventory[name]?.gte(1) && name in SEEDS() && !(name in FRUIT_SEEDS())
-    );
-    if (!hasSeeds) {
-      setShowMissingSeeds(true);
-      return;
-    }
-
-    const seedIsReady =
-      seed &&
-      inventory[seed]?.gte(1) &&
-      seed in SEEDS() &&
-      !(seed in FRUIT_SEEDS());
-
-    if (!seedIsReady) {
-      setShowSeedNotSelected(true);
-      return;
-    }
-
     // increase touch count if there is a reward
     const readyToHarvest =
       !!crop && isReadyToHarvest(now, crop, CROPS()[crop.name]);
@@ -191,6 +171,26 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
     // plant
     if (!crop) {
+      const hasSeeds = getKeys(inventory).some(
+        (name) =>
+          inventory[name]?.gte(1) && name in SEEDS() && !(name in FRUIT_SEEDS())
+      );
+      if (!hasSeeds) {
+        setShowMissingSeeds(true);
+        return;
+      }
+
+      const seedIsReady =
+        seed &&
+        inventory[seed]?.gte(1) &&
+        seed in SEEDS() &&
+        !(seed in FRUIT_SEEDS());
+
+      if (!seedIsReady) {
+        setShowSeedNotSelected(true);
+        return;
+      }
+
       const state = gameService.send("seed.planted", {
         index: id,
         item: seed,
