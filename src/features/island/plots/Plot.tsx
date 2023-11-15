@@ -41,6 +41,10 @@ const selectLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 const selectHarvests = (state: MachineState) =>
   state.context.state.bumpkin?.activity?.["Sunflower Harvested"] ?? 0;
+const selectPlants = (state: MachineState) =>
+  state.context.state.bumpkin?.activity?.["Sunflower Planted"] ?? 0;
+const selectCropsSold = (state: MachineState) =>
+  state.context.state.bumpkin?.activity?.["Sunflower Sold"] ?? 0;
 
 const compareBuildings = (
   prev: Partial<Record<BuildingName, PlacedItem[]>>,
@@ -69,6 +73,8 @@ export const Plot: React.FC<Props> = ({ id }) => {
   });
   const buildings = useSelector(gameService, selectBuildings, compareBuildings);
   const harvestCount = useSelector(gameService, selectHarvests);
+  const plantCount = useSelector(gameService, selectPlants);
+  const soldCount = useSelector(gameService, selectCropsSold);
   const level = useSelector(gameService, selectLevel);
   const { openModal } = useContext(ModalContext);
 
@@ -317,6 +323,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
             <img
               className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
               src={SUNNYSIDE.icons.dig_icon}
+              onClick={() => onClick()}
               style={{
                 width: `${PIXEL_SCALE * 18}px`,
                 right: `${PIXEL_SCALE * -8}px`,
@@ -324,6 +331,19 @@ export const Plot: React.FC<Props> = ({ id }) => {
               }}
             />
           )}
+
+        {plantCount < 3 && plantCount + 1 === Number(id) && soldCount > 0 && (
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
+            src={SUNNYSIDE.icons.click_icon}
+            onClick={() => onClick()}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * -8}px`,
+              top: `${PIXEL_SCALE * 6}px`,
+            }}
+          />
+        )}
 
         <FertilePlot
           cropName={crop?.name}
