@@ -32,6 +32,7 @@ import { SEEDS, SeedName } from "features/game/types/seeds";
 import { SeedSelection } from "./components/SeedSelection";
 import { FRUIT_SEEDS } from "features/game/types/fruits";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { getBumpkinLevelRequiredForNode } from "features/game/expansion/lib/expansionNodes";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import lockIcon from "assets/skills/lock.png";
 
@@ -53,10 +54,14 @@ const compareBuildings = (
   return getCompletedWellCount(prev) === getCompletedWellCount(next);
 };
 
+const _bumpkinLevel = (state: MachineState) =>
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+
 interface Props {
   id: string;
+  index: number;
 }
-export const Plot: React.FC<Props> = ({ id }) => {
+export const Plot: React.FC<Props> = ({ id, index }) => {
   const { scale } = useContext(ZoomContext);
   const { gameService, selectedItem, showTimers, shortcutItem } =
     useContext(Context);
@@ -91,6 +96,13 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const bumpkin = state.bumpkin;
   const buds = state.buds;
   const plot = crops[id];
+
+  const bumpkinLevelRequired = getBumpkinLevelRequiredForNode(
+    index,
+    "Crop Plot"
+  );
+  const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
+  const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
 
   const isFertile = isPlotFertile({
     plotIndex: id,
@@ -141,6 +153,8 @@ export const Plot: React.FC<Props> = ({ id }) => {
   };
 
   const onClick = (seed: SeedName = selectedItem as SeedName) => {
+    if (bumpkinTooLow) return;
+
     const now = Date.now();
 
     if (!inventory.Shovel) {
@@ -346,6 +360,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
         )}
 
         <FertilePlot
+          bumpkinLevelRequired={bumpkinLevelRequired}
           cropName={crop?.name}
           inventory={inventory}
           collectibles={collectibles}
