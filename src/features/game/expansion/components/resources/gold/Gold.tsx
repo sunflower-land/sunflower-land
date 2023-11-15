@@ -14,6 +14,8 @@ import { DepletedGold } from "./components/DepletedGold";
 import { DepletingGold } from "./components/DepletingGold";
 import { RecoveredGold } from "./components/RecoveredGold";
 import { canMine } from "features/game/expansion/lib/utils";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { getBumpkinLevelRequiredForNode } from "features/game/expansion/lib/expansionNodes";
 
 const HITS = 3;
 const tool = "Iron Pickaxe";
@@ -28,11 +30,15 @@ const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
 
+const _bumpkinLevel = (state: MachineState) =>
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+
 interface Props {
   id: string;
+  index: number;
 }
 
-export const Gold: React.FC<Props> = ({ id }) => {
+export const Gold: React.FC<Props> = ({ id, index }) => {
   const { gameService, shortcutItem } = useContext(Context);
 
   const [touchCount, setTouchCount] = useState(0);
@@ -73,9 +79,17 @@ export const Gold: React.FC<Props> = ({ id }) => {
   const timeLeft = getTimeLeft(resource.stone.minedAt, GOLD_RECOVERY_TIME);
   const mined = !canMine(resource, GOLD_RECOVERY_TIME);
 
+  const bumpkinLevelRequired = getBumpkinLevelRequiredForNode(
+    index,
+    "Gold Rock"
+  );
+  const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
+  const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
+
   useUiRefresher({ active: mined });
 
   const strike = () => {
+    if (bumpkinTooLow) return;
     if (!hasTool) return;
 
     setTouchCount((count) => count + 1);
@@ -110,7 +124,11 @@ export const Gold: React.FC<Props> = ({ id }) => {
       {/* Resource ready to collect */}
       {!mined && (
         <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
-          <RecoveredGold hasTool={hasTool} touchCount={touchCount} />
+          <RecoveredGold
+            bumpkinLevelRequired={bumpkinLevelRequired}
+            hasTool={hasTool}
+            touchCount={touchCount}
+          />
         </div>
       )}
 
