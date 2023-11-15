@@ -102,6 +102,7 @@ const getIslandElements = ({
               <Building
                 name={name}
                 id={building.id}
+                index={itemIndex}
                 readyAt={building.readyAt}
                 createdAt={building.createdAt}
                 craftingItemName={building.crafting?.name}

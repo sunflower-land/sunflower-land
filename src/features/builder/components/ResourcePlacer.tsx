@@ -31,7 +31,7 @@ export const RESOURCES: Record<
   }
 > = {
   trees: {
-    component: () => <Tree id="0" />,
+    component: () => <Tree id="0" index={0} />,
     icon: SUNNYSIDE.resource.tree,
     dimensions: {
       height: 2,
@@ -39,7 +39,7 @@ export const RESOURCES: Record<
     },
   },
   fruitPatches: {
-    component: () => <FruitPatch id="0" />,
+    component: () => <FruitPatch id="0" index={0} />,
     icon: fruitPatch,
     dimensions: {
       height: 2,
@@ -55,7 +55,7 @@ export const RESOURCES: Record<
     icon: SUNNYSIDE.resource.small_stone,
   },
   iron: {
-    component: () => <Iron id="0" />,
+    component: () => <Iron id="0" index={0} />,
     dimensions: {
       height: 1,
       width: 1,
@@ -63,7 +63,7 @@ export const RESOURCES: Record<
     icon: ironStone,
   },
   gold: {
-    component: () => <Gold id="0" />,
+    component: () => <Gold id="0" index={0} />,
     dimensions: {
       height: 1,
       width: 1,
@@ -71,7 +71,7 @@ export const RESOURCES: Record<
     icon: goldStone,
   },
   plots: {
-    component: () => <Plot id="0" />,
+    component: () => <Plot id="0" index={0} />,
     dimensions: {
       height: 1,
       width: 1,
