@@ -66,6 +66,8 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
 }) => {
   const [showLockedModal, setShowLockedModal] = useState(false);
 
+  const showRequirements = inventory["Basic Land"]?.lte(5);
+
   return (
     <>
       <Modal
@@ -113,39 +115,58 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
               }
             }}
           />
-          <>
-            <div className="flex mt-2 flex-wrap justify-center px-4 items-center">
-              {getKeys(requirements.resources ?? {})
-                .filter((name) => name !== "Block Buck")
-                .map((name) => (
-                  <div className="mr-3 flex items-center mb-1" key={name}>
-                    <RequirementLabel
-                      type="item"
-                      item={name}
-                      requirement={
-                        new Decimal(requirements.resources[name] ?? 0)
-                      }
-                      balance={inventory[name] ?? new Decimal(0)}
-                    />
-                    {inventory[name]?.gte(
-                      requirements.resources[name] ?? 0
-                    ) && (
-                      <img
-                        src={SUNNYSIDE.icons.confirm}
-                        className="h-4 ml-0.5"
+          {showRequirements && (
+            <>
+              <div className="flex mt-2 flex-wrap justify-center px-4 items-center">
+                {getKeys(requirements.resources ?? {})
+                  .filter((name) => name !== "Block Buck")
+                  .map((name) => (
+                    <div className="mr-3 flex items-center mb-1" key={name}>
+                      <RequirementLabel
+                        type="item"
+                        item={name}
+                        requirement={
+                          new Decimal(requirements.resources[name] ?? 0)
+                        }
+                        balance={inventory[name] ?? new Decimal(0)}
                       />
-                    )}
-                  </div>
-                ))}
-            </div>
-            {isLocked && (
-              <Label
-                type="default"
-                icon={lockIcon}
-                className="mt-2"
-              >{`Level ${requirements.bumpkinLevel}`}</Label>
-            )}
-          </>
+                      {inventory[name]?.gte(
+                        requirements.resources[name] ?? 0
+                      ) && (
+                        <img
+                          src={SUNNYSIDE.icons.confirm}
+                          className="h-4 ml-0.5"
+                        />
+                      )}
+                    </div>
+                  ))}
+              </div>
+              {isLocked && (
+                <Label
+                  type="default"
+                  icon={lockIcon}
+                  className="mt-2"
+                >{`Level ${requirements.bumpkinLevel}`}</Label>
+              )}
+            </>
+          )}
+          {!showRequirements && (
+            <>
+              {canExpand ? (
+                <Label
+                  type="default"
+                  icon={SUNNYSIDE.icons.confirm}
+                  className="mt-2"
+                >{`Expand`}</Label>
+              ) : (
+                <Label
+                  type="default"
+                  icon={SUNNYSIDE.icons.cancel}
+                  className="mt-2"
+                >{`Expand`}</Label>
+              )}
+            </>
+          )}
         </div>
       </MapPlacement>
     </>
