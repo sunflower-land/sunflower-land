@@ -300,7 +300,7 @@ export const UpcomingExpansion: React.FC = () => {
         />
       )}
 
-      {!state.expansionConstruction && (
+      {!state.expansionConstruction && state.expansionRequirements && (
         <ExpandIcon
           canExpand={canExpand}
           inventory={state.inventory}
