@@ -5,10 +5,13 @@ import { CONFIG } from "lib/config";
 
 import { Context } from "../lib/Provider";
 import { wallet } from "lib/blockchain/wallet";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Verifying: React.FC = () => {
   const { authService } = useContext(Context);
   const [authState] = useActor(authService);
+
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     const setup = () => {
@@ -57,9 +60,9 @@ export const Verifying: React.FC = () => {
         title="Yeeeet!"
         id="iframe"
       ></iframe>
-      <span className="text-shadow loading">Signing you in</span>
+      <span className="text-shadow loading">{t("welcome.signingIn")}</span>
       <span className="text-shadow block my-2 mx-2 sm:text-sm">
-        Accept the signature request in your browser wallet to login.
+        {t("welcome.signInMessage")}
       </span>
     </>
   );

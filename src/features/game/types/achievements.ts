@@ -8,6 +8,7 @@ import { CAKES, getKeys, TOOLS } from "./craftables";
 import { CROPS } from "./crops";
 import { FRUIT } from "./fruits";
 import { getSeasonalTicket } from "./seasons";
+import { translate } from "lib/i18n/translate";
 
 export type AchievementName =
   | "Explorer"
@@ -73,19 +74,19 @@ export type Achievement = {
 export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   // Crops
   "Bread Winner": {
-    description: "Earn 0.001 SFL",
+    description: translate("breadWinner.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Earned"] || 0,
     requirement: 0.001,
     sfl: new Decimal(0),
     introduction: [
-      "Well, well, well, partner... It looks like you need some SFL!",
-      "In Sunflower Land, a healthy stash of SFL is the key to crafting tools, buildings and rare NFTs",
-      "The quickest way to earn SFL is by planting and selling crops.",
+      translate("breadWinner.one"),
+      translate("breadWinner.two"),
+      translate("breadWinner.three"),
     ],
   },
   "Sun Seeker": {
-    description: "Harvest Sunflower 100 times",
+    description: translate("sunSeeker.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Sunflower Harvested"] || 0,
     requirement: 100,
@@ -95,14 +96,14 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "Cabbage King": {
-    description: "Harvest Cabbage 200 times",
+    description: translate("cabbageKing.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Cabbage Harvested"] || 0,
     requirement: 200,
     sfl: marketRate(10),
   },
   "Jack O'Latern": {
-    description: "Harvest Pumpkin 500 times",
+    description: translate("jackOLantern.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Pumpkin Harvested"] || 0,
     requirement: 500,
@@ -112,14 +113,14 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "Cool Flower": {
-    description: "Harvest Cauliflower 100 times",
+    description: translate("coolFlower.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Cauliflower Harvested"] || 0,
     requirement: 100,
     sfl: marketRate(70),
   },
   "Farm Hand": {
-    description: "Harvest crops 10,000 times",
+    description: translate("farmHand.description"),
     progress: (gameState: GameState) => {
       const harvestEvents = getKeys(CROPS()).map(
         (name) => `${name} Harvested` as HarvestEvent
@@ -138,7 +139,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "Beetroot Beast": {
-    description: "Harvest Beetroot 2,000 times",
+    description: translate("beetrootBeast.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Beetroot Harvested"] || 0,
     requirement: 2000,
@@ -148,35 +149,35 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "My life is potato": {
-    description: "Harvest Potato 5,000 times",
+    description: translate("myLifeIsPotato.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Potato Harvested"] || 0,
     requirement: 5000,
     sfl: marketRate(300),
   },
   "Rapid Radish": {
-    description: "Harvest Radish 200 times",
+    description: translate("rapidRadish.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Radish Harvested"] || 0,
     requirement: 200,
     sfl: marketRate(400),
   },
   "20/20 Vision": {
-    description: "Harvest Carrot 10,000 times",
+    description: translate("twentyTwentyVision.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Carrot Harvested"] || 0,
     requirement: 10000,
     sfl: marketRate(400),
   },
   "Staple Crop": {
-    description: "Harvest Wheat 10,000 times",
+    description: translate("stapleCrop.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Wheat Harvested"] || 0,
     requirement: 10000,
     sfl: marketRate(500),
   },
   "Sunflower Superstar": {
-    description: "Harvest Sunflower 100,000 times",
+    description: translate("sunflowerSuperstar.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Sunflower Harvested"] || 0,
     requirement: 100000,
@@ -186,7 +187,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "Bumpkin Billionaire": {
-    description: "Earn 5,000 SFL",
+    description: translate("bumpkinBillionaire.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Earned"] || 0,
     requirement: 5000,
@@ -196,14 +197,14 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "Patient Parsnips": {
-    description: "Harvest Parsnip 5,000 times",
+    description: translate("patientParsnips.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Parsnip Harvested"] || 0,
     requirement: 5000,
     sfl: marketRate(750),
   },
   "Crop Champion": {
-    description: "Harvest 1 million crops",
+    description: translate("cropChampion.description"),
     progress: (gameState: GameState) => {
       const harvestEvents = getKeys(CROPS()).map(
         (name) => `${name} Harvested` as HarvestEvent
@@ -224,18 +225,15 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
 
   // Cooking
   "Busy Bumpkin": {
-    description: "Reach level 2",
+    description: translate("busyBumpkin.description"),
     progress: (gameState: GameState) =>
       getBumpkinLevel(gameState.bumpkin?.experience || 0),
     requirement: 2,
     sfl: marketRate(10),
-    introduction: [
-      "Howdy, my ambitious friend! To unlock new crops, expansions, buildings and much more you will need to level up.",
-      "Head over to the Fire Pit, cook up a delicious recipe and feed it to your Bumpkin.",
-    ],
+    introduction: [translate("busyBumpkin.one"), translate("busyBumpkin.two")],
   },
   "Kiss the Cook": {
-    description: "Cook 20 meals",
+    description: translate("kissTheCook.description"),
     progress: (gameState: GameState) => {
       const cookEvents = getKeys(COOKABLES).map(
         (name) => `${name} Cooked` as CookEvent
@@ -254,7 +252,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "Bakers Dozen": {
-    description: "Bake 13 cakes",
+    description: translate("bakersDozen.description"),
     progress: (gameState: GameState) => {
       const cakeEvents = getKeys(CAKES()).map(
         (name) => `${name} Cooked` as CookEvent
@@ -275,7 +273,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "Brilliant Bumpkin": {
-    description: "Reach level 20",
+    description: translate("brilliantBumpkin.description"),
     progress: (gameState: GameState) =>
       getBumpkinLevel(gameState.bumpkin?.experience || 0),
     requirement: 20,
@@ -285,7 +283,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "Chef de Cuisine": {
-    description: "Cook 5,000 meals",
+    description: translate("chefDeCuisine.description"),
     progress: (gameState: GameState) => {
       const cookEvents = getKeys(COOKABLES).map(
         (name) => `${name} Cooked` as CookEvent
@@ -306,25 +304,25 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
 
   // Crafting
   "Scarecrow Maestro": {
-    description: "Craft a scarecrow and boost your crops",
+    description: translate("scarecrowMaestro.description"),
     progress: (gameState: GameState) =>
       gameState.collectibles["Basic Scarecrow"]?.length ?? 0,
     requirement: 1,
     sfl: marketRate(0),
     introduction: [
-      "Howdy, partner! It is time you learn the art of crafting and boosted your farming abilities",
-      "Travel to the Pumpkin Plaza, visit the Blacksmith and craft a Scarecrow.",
+      translate("scarecrowMaestro.one"),
+      translate("scarecrowMaestro.two"),
     ],
   },
   "Big Spender": {
-    description: "Spend 10 SFL",
+    description: translate("bigSpender.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Spent"] || 0,
     requirement: 10,
     sfl: marketRate(20),
   },
   Museum: {
-    description: "Have 10 different kinds of rare items placed on your land",
+    description: translate("museum.description"),
     progress: (gameState: GameState) => getKeys(gameState.collectibles).length,
     requirement: 10,
     sfl: marketRate(0),
@@ -333,7 +331,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "High Roller": {
-    description: "Spend 7,500 SFL",
+    description: translate("highRoller.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Spent"] || 0,
     requirement: 7500,
@@ -345,7 +343,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
 
   // Gathering
   Timbeerrr: {
-    description: "Chop 150 trees",
+    description: translate("timbeerrr.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Tree Chopped"] || 0,
     requirement: 150,
@@ -355,7 +353,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   Craftmanship: {
-    description: "Craft 100 tools",
+    description: translate("craftmanship.description"),
     progress: (gameState: GameState) => {
       const craftEvent = getKeys(TOOLS).map(
         (name) => `${name} Crafted` as CraftedEvent
@@ -374,7 +372,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   Driller: {
-    description: "Mine 50 stone rocks",
+    description: translate("driller.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Stone Mined"] || 0,
     requirement: 50,
@@ -384,7 +382,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "Iron Eyes": {
-    description: "Mine 50 iron rocks",
+    description: translate("ironEyes.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Iron Mined"] || 0,
     requirement: 50,
@@ -394,7 +392,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "El Dorado": {
-    description: "Mine 50 gold rocks",
+    description: translate("elDorado.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Gold Mined"] || 0,
     requirement: 50,
@@ -404,7 +402,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "Time to chop": {
-    description: "Craft 500 axes",
+    description: translate("timeToChop.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Axe Crafted"] || 0,
     requirement: 500,
@@ -414,14 +412,14 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   Canary: {
-    description: "Mine 1,000 stone rocks",
+    description: translate("canary.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Stone Mined"] || 0,
     requirement: 1000,
     sfl: marketRate(500),
   },
   "Something Shiny": {
-    description: "Mine 500 iron rocks",
+    description: translate("somethingShiny.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Iron Mined"] || 0,
     requirement: 500,
@@ -431,7 +429,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "Bumpkin Chainsaw Amateur": {
-    description: "Chop 5,000 trees",
+    description: translate("bumpkinChainsawAmateur.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Tree Chopped"] || 0,
     requirement: 5000,
@@ -441,7 +439,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   "Gold Fever": {
-    description: "Mine 500 gold rocks",
+    description: translate("goldFever.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Gold Mined"] || 0,
     requirement: 500,
@@ -451,18 +449,15 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   Explorer: {
-    introduction: [
-      "Looks like our little island is getting crowded. If we want to craft buildings and rare NFTs, we'll need more space.",
-      "Let's gather some wood by chopping down these trees and expand the island. Go ahead and figure out the best way to do it.",
-    ],
-    description: "Expand your land",
+    description: translate("explorer.description"),
     progress: (gameState: GameState) =>
       gameState.inventory["Basic Land"]?.toNumber() ?? 0,
     requirement: 4,
+    introduction: [translate("intro.four"), translate("explorer.one")],
     sfl: new Decimal(0),
   },
   "Land Expansion Enthusiast": {
-    description: "Expand your land to new horizons.",
+    description: translate("expansion.description"),
     progress: (gameState: GameState) => {
       return gameState.inventory["Basic Land"]?.toNumber() ?? 0;
     },
@@ -470,7 +465,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     sfl: marketRate(0),
   },
   "Land Expansion Extraordinaire": {
-    description: "Expand your land to new horizons.",
+    description: translate("expansion.description"),
     progress: (gameState: GameState) => {
       return gameState.inventory["Basic Land"]?.toNumber() ?? 0;
     },
@@ -478,7 +473,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     sfl: marketRate(0),
   },
   "Land Baron": {
-    description: "Expand your land to new horizons.",
+    description: translate("expansion.description"),
     progress: (gameState: GameState) => {
       return gameState.inventory["Basic Land"]?.toNumber() ?? 0;
     },
@@ -488,19 +483,19 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
 
   // Building
   "Well of Prosperity": {
-    description: "Build a well",
+    description: translate("wellOfProsperity.description"),
     progress: (gameState: GameState) => {
       return gameState.buildings["Water Well"]?.length ?? 0;
     },
     requirement: 1,
     sfl: marketRate(0),
     introduction: [
-      "Well, well, well, what do we have here?",
-      "It looks like your crops are thirsty. To support more crops you must first build a well.",
+      translate("wellOfProsperity.one"),
+      translate("wellOfProsperity.two"),
     ],
   },
   Contractor: {
-    description: "Have 10 buildings constructed on your land",
+    description: translate("contractor.description"),
     progress: (gameState: GameState) => {
       const totalBuildingsOnLand = getKeys(gameState.buildings).reduce(
         (a, b) => a + (gameState.buildings[b]?.length ?? 0),
@@ -517,7 +512,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
 
   // Fruit
   "Fruit Aficionado": {
-    description: "Harvest 50 fruit",
+    description: translate("fruitAficionado.description"),
     progress: (gameState: GameState) => {
       const harvestEvents = getKeys(FRUIT()).map(
         (name) => `${name} Harvested` as HarvestEvent
@@ -532,33 +527,33 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     requirement: 50,
     sfl: marketRate(0),
     introduction: [
-      "Hey there, fruit gatherer! Fruits are nature's sweetest gifts, and they bring a burst of flavor to your farm.",
-      "By collecting different fruits, such as apples, oranges, and blueberries, you'll unlock unique recipes, boost your cooking skills, and create delightful treats",
+      translate("fruitAficionado.one"),
+      translate("fruitAficionado.two"),
     ],
   },
   "Orange Squeeze": {
-    description: "Harvest Orange 100 times",
+    description: translate("orangeSqueeze.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Orange Harvested"] || 0,
     requirement: 100,
     sfl: marketRate(10),
   },
   "Apple of my Eye": {
-    description: "Harvest Apple 500 times",
+    description: translate("appleOfMyEye.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Apple Harvested"] || 0,
     requirement: 500,
     sfl: marketRate(400),
   },
   "Blue Chip": {
-    description: "Harvest Blueberry 5,000 times",
+    description: translate("blueChip.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Blueberry Harvested"] || 0,
     requirement: 5000,
     sfl: marketRate(800),
   },
   "Fruit Platter": {
-    description: "Harvest 50,000 fruits",
+    description: translate("fruitPlatter.description"),
     progress: (gameState: GameState) => {
       const harvestEvents = getKeys(FRUIT()).map(
         (name) => `${name} Harvested` as HarvestEvent
@@ -579,19 +574,19 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
 
   // Deliveries
   "Delivery Dynamo": {
-    description: "Complete 3 deliveries",
+    description: translate("deliveryDynamo.description"),
     progress: (gameState: GameState) => {
       return gameState.delivery.fulfilledCount;
     },
     requirement: 3,
     sfl: marketRate(0),
     introduction: [
-      "Howdy, reliable farmer! Bumpkins from all around need your help with deliveries.",
-      "By completing deliveries, you'll make them happy and earn some fantastic SFL rewards in return ",
+      translate("deliveryDynamo.one"),
+      translate("deliveryDynamo.two"),
     ],
   },
   "Crowd Favourite": {
-    description: "Complete 100 deliveries",
+    description: translate("crowdFavourite.description"),
     progress: (gameState: GameState) => {
       return gameState.delivery.fulfilledCount;
     },
@@ -601,44 +596,44 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
 
   // Seasons
   "Seasoned Farmer": {
-    description: "Collect 50 Seasonal Resources",
+    description: translate("seasonedFarmer.description"),
     progress: (gameState: GameState) => {
       return gameState.inventory[getSeasonalTicket()]?.toNumber() ?? 0;
     },
     requirement: 50,
     sfl: marketRate(0),
     introduction: [
-      "Howdy, seasonal adventurer! Sunflower Land is known for its special seasons filled with unique items and surprises.",
-      "By collecting Seasonal resources, you'll gain access to limited-time rewards, exclusive crafts, and rare treasures. It's like having a front-row ticket to the wonders of each season.",
-      "So complete tasks, participate in events, and gather those Seasonal Tickets to enjoy the best that Sunflower Land has to offer!",
+      translate("seasonedFarmer.one"),
+      translate("seasonedFarmer.two"),
+      translate("seasonedFarmer.three"),
     ],
   },
 
   // Scavenger
   "Treasure Hunter": {
-    description: "Dig 10 holes",
+    description: translate("treasureHunter.description"),
     progress: (gameState: GameState) => {
       return gameState.bumpkin?.activity?.["Treasure Dug"] ?? 0;
     },
     requirement: 10,
     sfl: marketRate(0),
     introduction: [
-      "Ahoy, treasure hunter! Sunflower Land is full of hidden treasures waiting to be discovered.",
-      "Grab your shovel and head to Treasure Island, where you can dig for valuable items and rare surprises.",
+      translate("treasureHunter.one"),
+      translate("treasureHunter.two"),
     ],
   },
 
   // Animals
   "Egg-cellent Collection": {
-    description: "Collect 10 Eggs",
+    description: translate("eggcellentCollection.description"),
     progress: (gameState: GameState) => {
       return gameState.bumpkin?.activity?.["Egg Collected"] ?? 0;
     },
     requirement: 10,
     sfl: marketRate(0),
     introduction: [
-      "Howdy, egg collector! Chickens are wonderful farm companions that provide us with delicious eggs.",
-      "By collecting eggs, you'll have a fresh supply of ingredients for cooking, and you'll also unlock special recipes and bonuses.",
+      translate("eggcellentCollection.one"),
+      translate("eggcellentCollection.two"),
     ],
   },
 });
