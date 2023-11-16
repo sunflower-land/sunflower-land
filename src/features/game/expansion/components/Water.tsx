@@ -68,7 +68,7 @@ export const WaterComponent: React.FC<Props> = ({
       </MapPlacement>
 
       {/* Snorkler */}
-      <Snorkler x={-2} y={offset + 7} />
+      <Snorkler x={-2} y={offset + 6} />
 
       {/* Shark bumpkin */}
       <SharkBumpkin x={-8} y={offset + 10} />
@@ -99,7 +99,7 @@ export const WaterComponent: React.FC<Props> = ({
       {/* Islands */}
 
       {/* Top right island */}
-      <MapPlacement x={7 + offset} y={9 + offset} width={6}>
+      <MapPlacement x={7 + offset} y={15 + offset} width={6}>
         <img
           src={bearIsland}
           style={{

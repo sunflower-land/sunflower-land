@@ -15,6 +15,7 @@ import { Context } from "features/game/GameProvider";
 import { redirectOAuth } from "features/auth/actions/oauth";
 import { ClaimReward } from "./Airdrop";
 import { BONUSES } from "features/game/types/bonuses";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -52,6 +53,9 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
   const claim = () => {
     // Fire event
     gameService.send("bonus.claimed", { name: "discord-signup" });
+
+    gameAnalytics.trackMilestone({ event: "Reward:DiscordSignup:Claimed" });
+
     onClose();
   };
 
@@ -135,7 +139,9 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
 };
 
 export const DiscordBoat: React.FC = () => {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+
+  // TODO - fix boat if Discord and not claimed
 
   return (
     <>
@@ -149,8 +155,7 @@ export const DiscordBoat: React.FC = () => {
       </Modal>
 
       <div
-        // className="absolute boating left-0"
-        className="absolute left-0 cursor-pointer"
+        className="absolute boating left-0"
         onClick={() => setShowModal(true)}
         style={{
           top: `${GRID_WIDTH_PX * 3}px`,
@@ -159,6 +164,15 @@ export const DiscordBoat: React.FC = () => {
         }}
       >
         <img src={boat} className="absolute top-0 right-0 w-full" />
+        <img
+          src={SUNNYSIDE.icons.expression_chat}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            top: `${PIXEL_SCALE * -4}px`,
+            right: `${PIXEL_SCALE * 16}px`,
+          }}
+        />
         <div
           className="absolute"
           style={{
