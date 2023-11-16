@@ -8,28 +8,13 @@ export const canWithdrawBoostedWearable = (
 ) => {
   if (!state) return false;
 
-  if (wearable === "Fruit Picker Apron") {
-    return getKeys(state.fruitPatches).every(
-      (id) => state.fruitPatches[id].fruit === undefined
-    );
-  }
-
-  if (wearable === "Eggplant Onesie") {
-    return getKeys(state.crops).every(
-      (id) => state.crops[id].crop?.name !== "Eggplant"
-    );
-  }
-
-  if (wearable === "Corn Onesie") {
-    return getKeys(state.crops).every(
-      (id) => state.crops[id].crop?.name !== "Corn"
-    );
-  }
-
-  if (wearable === "Parsnip") {
-    return getKeys(state.crops).every(
-      (id) => state.crops[id].crop?.name !== "Parsnip"
-    );
+  if (
+    wearable === "Green Amulet" ||
+    wearable === "Angel Wings" ||
+    wearable === "Devil Wings" ||
+    wearable === "Infernal Pitchfork"
+  ) {
+    return getKeys(state.crops).every((id) => !state.crops[id].crop);
   }
 
   if (wearable === "Sunflower Amulet") {
@@ -50,26 +35,38 @@ export const canWithdrawBoostedWearable = (
     );
   }
 
+  if (wearable === "Parsnip") {
+    return getKeys(state.crops).every(
+      (id) => state.crops[id].crop?.name !== "Parsnip"
+    );
+  }
+
+  if (wearable === "Eggplant Onesie") {
+    return getKeys(state.crops).every(
+      (id) => state.crops[id].crop?.name !== "Eggplant"
+    );
+  }
+
+  if (wearable === "Corn Onesie") {
+    return getKeys(state.crops).every(
+      (id) => state.crops[id].crop?.name !== "Corn"
+    );
+  }
+
+  if (wearable === "Fruit Picker Apron") {
+    return getKeys(state.fruitPatches).every(
+      (id) => state.fruitPatches[id].fruit === undefined
+    );
+  }
+
   if (wearable === "Banana Amulet") {
     return getKeys(state.fruitPatches).every(
       (id) => state.fruitPatches[id].fruit?.name !== "Banana"
     );
   }
 
-  if (
-    wearable === "Green Amulet" ||
-    wearable === "Angel Wings" ||
-    wearable === "Devil Wings"
-  ) {
-    return getKeys(state.crops).every((id) => !state.crops[id].crop);
-  }
-
   if (wearable === "Cattlegrim") {
     return getKeys(state.chickens).every((id) => !state.chickens[id].fedAt);
-  }
-
-  if (wearable === "Infernal Pitchfork") {
-    return getKeys(state.crops).every((id) => !state.crops[id].crop);
   }
 
   // Safety check
