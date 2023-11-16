@@ -11,6 +11,7 @@ import {
   WelcomeTerms,
   ShopItems,
   RewardTerms,
+  ConfirmationTerms,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -25,8 +26,20 @@ const generalTerms: Record<GeneralTerms, string> = {
   guide: "Guide",
   task: "Task",
   sell: "Sell",
+  "sell.ten": "Sell 10",
+  "sell.all": "Sell all",
   buy: "Buy",
   delivery: "Delivery",
+  crops: "Crops",
+  exotics: "Exotics",
+  fruits: "Fruits",
+  "2x.sale": "2x Sale",
+  cancel: "Cancel",
+  for: "for",
+};
+
+const confirmationTerms: Record<ConfirmationTerms, string> = {
+  "confirmation.sellCrops": "Are you sure you want to",
 };
 
 const welcomeTerms: Record<WelcomeTerms, string> = {
@@ -281,6 +294,8 @@ const conversations: Record<Conversations, string> = {
   "bruce-intro.one": "I'm the owner of this lovely little bistro.",
   "bruce-intro.two":
     "Bring me resources and I will cook all the food you can eat!",
+  "bruce-intro.three":
+    "Howdy farmer! I can spot a hungry Bumpkin from a mile away.",
   "blacksmith-intro.headline": "Chop chop chop.",
   "blacksmith-intro.one":
     "I'm a master of tools, and with the right resources, I can craft anything you need...including more tools!",
@@ -321,4 +336,5 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...henHouseTerms,
   ...shopItems,
   ...rewardTerms,
+  ...confirmationTerms,
 };

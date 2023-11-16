@@ -9,7 +9,8 @@ export type TranslationKeys =
   | Conversations
   | HenHouseTerms
   | ShopItems
-  | RewardTerms;
+  | RewardTerms
+  | ConfirmationTerms;
 
 export type GeneralTerms =
   | "featured"
@@ -23,8 +24,18 @@ export type GeneralTerms =
   | "guide"
   | "task"
   | "sell"
+  | "sell.ten"
+  | "sell.all"
   | "buy"
-  | "delivery";
+  | "delivery"
+  | "crops"
+  | "fruits"
+  | "exotics"
+  | "2x.sale"
+  | "cancel"
+  | "for";
+
+export type ConfirmationTerms = "confirmation.sellCrops";
 
 export type WelcomeTerms =
   | "welcome.otherWallets"
@@ -184,6 +195,7 @@ export type Conversations =
   | "bruce-intro.headline"
   | "bruce-intro.one"
   | "bruce-intro.two"
+  | "bruce-intro.three"
   | "blacksmith-intro.headline"
   | "blacksmith-intro.one";
 

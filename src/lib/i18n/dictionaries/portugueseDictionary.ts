@@ -1,5 +1,6 @@
 import {
   AchievementsDialog,
+  ConfirmationTerms,
   Conversations,
   GeneralTerms,
   GuideTerms,
@@ -26,7 +27,20 @@ const generalTerms: Record<GeneralTerms, string> = {
   task: "Tarefa",
   buy: "Comprar",
   sell: "Vender",
+  "sell.ten": "Vender 10",
+  "sell.all": "Vender tudo",
   delivery: "Entrega",
+  crops: "Colheitas",
+  exotics: "Exóticos",
+  fruits: "Frutas",
+  "2x.sale": "Venda 2x",
+  cancel: "Cancelar",
+  for: "por",
+};
+
+const confirmationTerms: Record<ConfirmationTerms, string> = {
+  // "confirmation.sellCrops": "Are you sure you want to"
+  "confirmation.sellCrops": "Tem certeza de que deseja",
 };
 
 const welcomeTerms: Record<WelcomeTerms, string> = {
@@ -282,6 +296,8 @@ const conversations: Record<Conversations, string> = {
   "bruce-intro.one": "Sou o dono deste adorável bistrô.",
   "bruce-intro.two":
     "Traga-me recursos e cozinharei toda a comida que você puder comer!",
+  "bruce-intro.three":
+    "Olá, fazendeiro! Eu posso ver um Bumpkin faminto a um quilômetro de distância.",
   "blacksmith-intro.headline": "Madeeeeeira.",
   "blacksmith-intro.one":
     "Sou um mestre das ferramentas, e com os recursos certos, posso criar tudo o que você precisa... incluindo mais ferramentas!",
@@ -324,4 +340,5 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...henHouseTerms,
   ...shopItems,
   ...rewardTerms,
+  ...confirmationTerms,
 };
