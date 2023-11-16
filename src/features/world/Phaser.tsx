@@ -35,7 +35,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Preloader } from "./scenes/Preloader";
 import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
 import { Label } from "components/ui/Label";
-import { WorldIntroduction } from "./ui/WorldIntroduction";
 import { CommunityScene } from "./scenes/CommunityScene";
 import { CommunityModals } from "./ui/CommunityModalManager";
 import { CommunityToasts } from "./ui/CommunityToastManager";
@@ -433,15 +432,7 @@ export const PhaserComponent: React.FC<Props> = ({
           <p className="loading">Loading</p>
         </Panel>
       </Modal>
-      <Modal show={mmoState === "introduction"} centered>
-        <WorldIntroduction
-          onClose={() => {
-            mmoService.send("CONTINUE");
-            // BUG - need to call twice?
-            mmoService.send("CONTINUE");
-          }}
-        />
-      </Modal>
+
       <Modal show={mmoState === "joinRoom"} centered>
         <Panel>
           <p className="loading">Loading</p>

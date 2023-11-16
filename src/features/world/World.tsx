@@ -23,6 +23,7 @@ import { GameWrapper } from "features/game/expansion/Game";
 import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 import { hasFeatureAccess } from "lib/flags";
 import { IslandNotFound } from "features/game/expansion/components/IslandNotFound";
+import { WorldIntroduction } from "./ui/WorldIntroduction";
 
 interface Props {
   isCommunity?: boolean;
@@ -47,6 +48,8 @@ const _isJoined = (state: MMOMachineState) => state.matches("joined");
 const _isKicked = (state: MMOMachineState) => state.matches("kicked");
 const _isMMOInitialising = (state: MMOMachineState) =>
   state.matches("initialising");
+const _isIntroducing = (state: MMOMachineState) =>
+  state.matches("introduction");
 
 type MMOProps = { isCommunity: boolean };
 
@@ -77,6 +80,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const isJoining = useSelector(mmoService, _isJoining);
   const isJoined = useSelector(mmoService, _isJoined);
   const isKicked = useSelector(mmoService, _isKicked);
+  const isIntroducting = useSelector(mmoService, _isIntroducing);
 
   // If state is x, y or z then return Travel Screen
   const isTraveling =
@@ -92,12 +96,23 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
 
   // Otherwsie if connected, return Plaza Screen
   return (
-    <PhaserComponent
-      mmoService={mmoService}
-      scene={name as SceneId}
-      isCommunity={isCommunity}
-      inventory={gameState.context.state.inventory}
-    />
+    <>
+      <PhaserComponent
+        mmoService={mmoService}
+        scene={name as SceneId}
+        isCommunity={isCommunity}
+        inventory={gameState.context.state.inventory}
+      />
+      <Modal show={isIntroducting} centered>
+        <WorldIntroduction
+          onClose={() => {
+            mmoService.send("CONTINUE");
+            // BUG - need to call twice?
+            mmoService.send("CONTINUE");
+          }}
+        />
+      </Modal>
+    </>
   );
 };
 

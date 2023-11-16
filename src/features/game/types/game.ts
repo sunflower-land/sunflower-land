@@ -455,7 +455,7 @@ export type ExpansionConstruction = {
   readyAt: number;
 };
 
-interface ExpansionRequirements {
+export interface ExpansionRequirements {
   resources: Partial<Record<InventoryItemName, number>>;
   seconds: number;
   bumpkinLevel: number;

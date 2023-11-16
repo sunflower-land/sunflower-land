@@ -12,10 +12,10 @@ import { getBumpkinLevel } from "features/game/lib/level";
 const _showHelper = (state: MachineState) =>
   // First Mashed Potato
   (state.context.state.bumpkin?.experience === 0 &&
-    !!state.context.state.inventory["Mashed Potato"]) ||
+    state.context.state.inventory["Mashed Potato"]?.gte(1)) ||
   // First Pumpkin Soup
   (getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) <= 3 &&
-    !!state.context.state.inventory["Pumpkin Soup"]);
+    state.context.state.inventory["Pumpkin Soup"]?.gte(1));
 
 export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
   const [open, setOpen] = useState(false);

@@ -161,7 +161,7 @@ export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
   };
   return (
     <Panel bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}>
-      <Content />
+      <Content key={page} />
     </Panel>
   );
 };
