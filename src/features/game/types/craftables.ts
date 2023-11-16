@@ -573,7 +573,7 @@ export const SHOVELS: Record<Shovel, CraftableItem> = {
   },
   Shovel: {
     name: "Shovel",
-    description: "Used to remove unwanted crops",
+    description: "Plant and harvest crops.",
     tokenAmount: new Decimal(0),
     ingredients: [
       {

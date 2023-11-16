@@ -205,6 +205,7 @@ export const landscapingMachine = createMachine<
             },
             onError: {
               actions: (_, event) => {
+                // eslint-disable-next-line no-console
                 console.error(event);
               },
             },
@@ -230,7 +231,6 @@ export const landscapingMachine = createMachine<
               target: "placing",
               actions: assign({
                 placeable: (_, event) => {
-                  console.log({ event });
                   return event.placeable;
                 },
                 action: (_, event) => event.action,
@@ -322,6 +322,7 @@ export const landscapingMachine = createMachine<
                   // When buying/crafting items, return them to playing mode once bought
                   context.action === "chicken.bought" ||
                   context.action === "collectible.crafted" ||
+                  context.action === "collectible.placed" ||
                   context.action === "building.constructed",
                 actions: [
                   sendParent(({ placeable, action, coordinates: { x, y } }) => {

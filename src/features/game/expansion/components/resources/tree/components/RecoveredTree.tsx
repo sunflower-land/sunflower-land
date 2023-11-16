@@ -22,10 +22,15 @@ const SHAKE_SHEET_FRAME_HEIGHT = 48;
 
 interface Props {
   hasTool: boolean;
+  showHelper: boolean;
   touchCount: number;
 }
 
-const RecoveredTreeComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
+const RecoveredTreeComponent: React.FC<Props> = ({
+  hasTool,
+  touchCount,
+  showHelper,
+}) => {
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
@@ -70,6 +75,18 @@ const RecoveredTreeComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
           "cursor-not-allowed": showEquipTool,
         })}
       >
+        {showHelper && (
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
+            src={SUNNYSIDE.icons.chop_icon}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * -4}px`,
+              top: `${PIXEL_SCALE * -4}px`,
+            }}
+          />
+        )}
+
         {/* static tree image */}
         {!showSpritesheet && (
           <img

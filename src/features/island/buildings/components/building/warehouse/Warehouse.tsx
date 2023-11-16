@@ -20,7 +20,11 @@ export const Warehouse: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
   };
 
   return (
-    <BuildingImageWrapper onClick={handleClick} nonInteractible={!onRemove}>
+    <BuildingImageWrapper
+      name="Warehouse"
+      onClick={handleClick}
+      nonInteractible={!onRemove}
+    >
       <div
         className="absolute pointer-events-none"
         style={{

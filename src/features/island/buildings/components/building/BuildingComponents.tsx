@@ -163,7 +163,7 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
       style={{
         width: `${PIXEL_SCALE * 62}px`,
         left: `${PIXEL_SCALE * 2}px`,
-        bottom: `${PIXEL_SCALE * 2}px`,
+        bottom: `${PIXEL_SCALE * 11}px`,
       }}
     />
   ),

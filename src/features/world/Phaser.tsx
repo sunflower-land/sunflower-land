@@ -40,7 +40,6 @@ import { CommunityScene } from "./scenes/CommunityScene";
 import { CommunityModals } from "./ui/CommunityModalManager";
 import { CommunityToasts } from "./ui/CommunityToastManager";
 import { SceneId } from "./mmoMachine";
-import { CornScene } from "./scenes/CornScene";
 import { useNavigate } from "react-router-dom";
 import { PlayerModals } from "./ui/PlayerModals";
 import { prepareAPI } from "features/community/lib/CommunitySDK";
@@ -111,7 +110,6 @@ export const PhaserComponent: React.FC<Props> = ({
     ? [CommunityScene]
     : [
         Preloader,
-        CornScene,
         AuctionScene,
         WoodlandsScene,
         BettyHomeScene,
@@ -130,9 +128,9 @@ export const PhaserComponent: React.FC<Props> = ({
   useEffect(() => {
     // Set up community APIs
     (window as any).CommunityAPI = prepareAPI({
-      farmId: authState.context.user.farmId as number,
+      farmId: gameService.state.context.farmId as number,
       jwt: authState.context.user.rawToken as string,
-      gameService: gameService,
+      gameService,
     });
 
     // Set up moderator by looking if bumpkin has Halo hat equipped
@@ -152,7 +150,7 @@ export const PhaserComponent: React.FC<Props> = ({
       if (latestMute.mutedUntil > new Date().getTime()) {
         setIsMuted({
           type: "mute",
-          farmId: authState.context.user.farmId as number,
+          farmId: gameService.state.context.farmId as number,
           reason: latestMute.reason,
           mutedUntil: latestMute.mutedUntil,
         });
@@ -244,7 +242,7 @@ export const PhaserComponent: React.FC<Props> = ({
     mmoService.state.context.server?.onMessage(
       "moderation_event",
       (event: ModerationEvent) => {
-        const clientFarmId = authState.context.user.farmId as number;
+        const clientFarmId = gameService.state.context.farmId as number;
         if (!clientFarmId || clientFarmId !== event.farmId) return;
 
         switch (event.type) {
@@ -388,27 +386,25 @@ export const PhaserComponent: React.FC<Props> = ({
           event={KickEvent}
           onClose={() => {
             setKickEvent(undefined);
-            navigate(`/land/${authState.context.user.farmId}`);
+            navigate(`/land/${gameService.state.context.farmId}`);
           }}
         />
       )}
 
-      {scene !== "corn_maze" && (
-        <ChatUI
-          farmId={authState.context.user.farmId as number}
-          onMessage={(m) => {
-            mmoService.state.context.server?.send(0, {
-              text: m.text ?? "?",
-            });
-          }}
-          onCommand={(name, args) => {
-            handleCommand(name, args).then(updateMessages);
-          }}
-          messages={messages ?? []}
-          isMuted={isMuted ? true : false}
-        />
-      )}
-      {isModerator && scene !== "corn_maze" && !isCommunity && (
+      <ChatUI
+        farmId={gameService.state.context.farmId}
+        onMessage={(m) => {
+          mmoService.state.context.server?.send(0, {
+            text: m.text ?? "?",
+          });
+        }}
+        onCommand={(name, args) => {
+          handleCommand(name, args).then(updateMessages);
+        }}
+        messages={messages ?? []}
+        isMuted={isMuted ? true : false}
+      />
+      {isModerator && !isCommunity && (
         <ModerationTools
           scene={game.current?.scene.getScene(scene)}
           messages={messages ?? []}
@@ -424,11 +420,11 @@ export const PhaserComponent: React.FC<Props> = ({
       <PlayerModals />
       <TradeCompleted
         mmoService={mmoService}
-        farmId={authState.context.user.farmId as number}
+        farmId={gameService.state.context.farmId as number}
       />
       <CommunityModals />
       <CommunityToasts />
-      <InteractableModals id={authState.context.user.farmId as number} />
+      <InteractableModals id={gameService.state.context.farmId as number} />
       <Modal
         show={mmoState === "loading" || mmoState === "initialising"}
         centered
@@ -438,7 +434,13 @@ export const PhaserComponent: React.FC<Props> = ({
         </Panel>
       </Modal>
       <Modal show={mmoState === "introduction"} centered>
-        <WorldIntroduction onClose={() => mmoService.send("CONTINUE")} />
+        <WorldIntroduction
+          onClose={() => {
+            mmoService.send("CONTINUE");
+            // BUG - need to call twice?
+            mmoService.send("CONTINUE");
+          }}
+        />
       </Modal>
       <Modal show={mmoState === "joinRoom"} centered>
         <Panel>

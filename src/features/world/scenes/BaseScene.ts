@@ -21,7 +21,6 @@ import {
   SceneId,
 } from "../mmoMachine";
 import { Player } from "../types/Room";
-import { mazeManager } from "../ui/cornMaze/MazeHud";
 import { playerModalManager } from "../ui/PlayerModals";
 import { hasFeatureAccess } from "lib/flags";
 
@@ -78,8 +77,6 @@ export abstract class BaseScene extends Phaser.Scene {
   private options: Required<BaseSceneOptions>;
 
   public map: Phaser.Tilemaps.Tilemap = {} as Phaser.Tilemaps.Tilemap;
-
-  canHandlePortalHit = true;
 
   currentPlayer: BumpkinContainer | undefined;
   isFacingLeft = false;
@@ -169,7 +166,7 @@ export abstract class BaseScene extends Phaser.Scene {
   create() {
     const errorLogger = createErrorLogger(
       "phaser_base_scene",
-      Number(this.gameService.state.context.state.id)
+      Number(this.gameService.state.context.farmId)
     );
 
     try {
@@ -196,7 +193,7 @@ export abstract class BaseScene extends Phaser.Scene {
         x: spawn.x ?? 0,
         y: spawn.y ?? 0,
         // gameService
-        farmId: Number(this.gameService.state.context.state.id),
+        farmId: Number(this.gameService.state.context.farmId),
         isCurrentPlayer: true,
         // gameService
         clothing: {
@@ -212,7 +209,6 @@ export abstract class BaseScene extends Phaser.Scene {
       // this.physics.world.fixedStep = false; // activates sync
       // this.physics.world.fixedStep = true; // deactivates sync (default)
     } catch (error) {
-      console.log({ error });
       errorLogger(JSON.stringify(error));
     }
   }
@@ -425,18 +421,22 @@ export abstract class BaseScene extends Phaser.Scene {
     // Initialise Keyboard
     this.cursorKeys = this.input.keyboard?.createCursorKeys();
     if (this.cursorKeys) {
-      // this.cursorKeys.w = this.input.keyboard?.addKey(
-      //   Phaser.Input.Keyboard.KeyCodes.W
-      // );
-      // this.cursorKeys.a = this.input.keyboard?.addKey(
-      //   Phaser.Input.Keyboard.KeyCodes.A
-      // );
-      // this.cursorKeys.s = this.input.keyboard?.addKey(
-      //   Phaser.Input.Keyboard.KeyCodes.S
-      // );
-      // this.cursorKeys.d = this.input.keyboard?.addKey(
-      //   Phaser.Input.Keyboard.KeyCodes.D
-      // );
+      const mmoLocalSettings = JSON.parse(
+        localStorage.getItem("mmo_settings") ?? "{}"
+      );
+      const layout = mmoLocalSettings.layout ?? "QWERTY";
+
+      // add WASD keys
+      this.cursorKeys.w = this.input.keyboard?.addKey(
+        layout === "QWERTY" ? "W" : "Z",
+        false
+      );
+      this.cursorKeys.a = this.input.keyboard?.addKey(
+        layout === "QWERTY" ? "A" : "Q",
+        false
+      );
+      this.cursorKeys.s = this.input.keyboard?.addKey("S", false);
+      this.cursorKeys.d = this.input.keyboard?.addKey("D", false);
 
       this.input.keyboard?.removeCapture("SPACE");
     }
@@ -483,7 +483,7 @@ export abstract class BaseScene extends Phaser.Scene {
       if (npc) {
         npcModalManager.open(npc);
       } else {
-        if (farmId !== this.gameService.state.context.state.id) {
+        if (farmId !== this.gameService.state.context.farmId) {
           playerModalManager.open({
             id: farmId,
             clothing,
@@ -502,7 +502,6 @@ export abstract class BaseScene extends Phaser.Scene {
       clothing,
       name: npc,
       onClick: defaultClick,
-      isEnemy: clothing.hat === "Crumple Crown" && this.sceneId === "corn_maze",
     });
 
     if (!npc) {
@@ -545,14 +544,6 @@ export abstract class BaseScene extends Phaser.Scene {
             cb(obj1, obj2);
           }
 
-          if (id) {
-            // Handled in corn scene
-            if (id === "maze_portal_exit") {
-              this.handlePortalHit();
-              return;
-            }
-          }
-
           // Change scenes
           const warpTo = (obj2 as any).data?.list?.warp;
           if (
@@ -566,7 +557,6 @@ export abstract class BaseScene extends Phaser.Scene {
             this.cameras.main.on(
               "camerafadeoutcomplete",
               () => {
-                console.log("fade out complete in base scene");
                 this.switchToScene = warpTo;
               },
               this
@@ -601,17 +591,6 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     return entity;
-  }
-
-  handlePortalHit() {
-    if (this.canHandlePortalHit) {
-      mazeManager.handlePortalHit();
-      this.scene.pause();
-      this.sound.getAllPlaying().forEach((sound) => {
-        if (sound.key == "sand_footstep") sound.pause();
-      });
-      this.canHandlePortalHit = false;
-    }
   }
 
   createPlayerText({ x, y, text }: { x: number; y: number; text: string }) {
@@ -677,6 +656,8 @@ export abstract class BaseScene extends Phaser.Scene {
 
     // use keyboard control if joystick is not active
     if (this.movementAngle === undefined) {
+      if (document.activeElement?.tagName === "INPUT") return;
+
       const left =
         (this.cursorKeys?.left.isDown || this.cursorKeys?.a?.isDown) ?? false;
       const right =
@@ -743,12 +724,14 @@ export abstract class BaseScene extends Phaser.Scene {
         )
       );
     } else {
+      // eslint-disable-next-line no-console
       console.error("audioController is undefined");
     }
 
     if (this.walkAudioController) {
       this.walkAudioController.handleWalkSound(isMoving);
     } else {
+      // eslint-disable-next-line no-console
       console.error("walkAudioController is undefined");
     }
 

@@ -14,6 +14,7 @@ import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { wallet } from "lib/blockchain/wallet";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
   isOpen: boolean;
@@ -22,6 +23,7 @@ interface Props {
 
 export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
+  const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
 
   const [receiver, setReceiver] = useState({ address: "" });
@@ -34,7 +36,7 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
     try {
       await transferAccount({
         receiver: receiver.address,
-        farmId: authState.context.user.farmId as number,
+        farmId: gameService.state.context.farmId,
         token: authState.context.user.rawToken as string,
         account: wallet.myAccount as string,
       });
@@ -63,9 +65,7 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
           }}
           className="text-center mb-2"
         >
-          {`Your Account #${
-            authState.context.user.farmId as number
-          } has been transferred to: ${receiver.address}`}
+          {`Your Account #${gameService.state.context.farmId} has been transferred to: ${receiver.address}`}
           !
         </span>
         <Button onClick={handleContinue}>Continue</Button>

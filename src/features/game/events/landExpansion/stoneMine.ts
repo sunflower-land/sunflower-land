@@ -3,7 +3,8 @@ import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 import cloneDeep from "lodash.clonedeep";
-import { GameState, Rock } from "../../types/game";
+import { Collectibles, GameState, Rock } from "../../types/game";
+import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
 
 export type LandExpansionStoneMineAction = {
   type: "stoneRock.mined";
@@ -19,6 +20,7 @@ type Options = {
 type GetMinedAtArgs = {
   skills: Partial<Record<BumpkinSkillName, number>>;
   createdAt: number;
+  collectibles: Collectibles;
 };
 
 export function canMine(rock: Rock, now: number = Date.now()) {
@@ -29,12 +31,22 @@ export function canMine(rock: Rock, now: number = Date.now()) {
 /**
  * Set a mined in the past to make it replenish faster
  */
-export function getMinedAt({ skills, createdAt }: GetMinedAtArgs): number {
+export function getMinedAt({
+  skills,
+  createdAt,
+  collectibles,
+}: GetMinedAtArgs): number {
+  let time = createdAt;
+
   if (skills["Coal Face"]) {
-    return createdAt - STONE_RECOVERY_TIME * 0.2 * 1000;
+    time -= STONE_RECOVERY_TIME * 0.2 * 1000;
   }
 
-  return createdAt;
+  if (isCollectibleActive("Time Warp Totem", collectibles)) {
+    time -= STONE_RECOVERY_TIME * 0.5 * 1000;
+  }
+
+  return time;
 }
 
 export function mineStone({
@@ -43,7 +55,7 @@ export function mineStone({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { stones, bumpkin } = stateCopy;
+  const { stones, bumpkin, collectibles } = stateCopy;
   const rock = stones?.[action.index];
 
   if (!rock) {
@@ -71,6 +83,7 @@ export function mineStone({
     minedAt: getMinedAt({
       skills: bumpkin.skills,
       createdAt: Date.now(),
+      collectibles,
     }),
     amount: 2,
   };

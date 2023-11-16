@@ -9,7 +9,8 @@ type JuiceName =
   | "Orange Juice"
   | "Purple Smoothie"
   | "Power Smoothie"
-  | "Bumpkin Detox";
+  | "Bumpkin Detox"
+  | "Banana Blast";
 
 type FishCookableName = "Chowder" | "Gumbo" | "Fermented Fish";
 
@@ -292,9 +293,9 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     description: "My life is potato.",
     experience: 3,
     building: "Fire Pit",
-    cookingSeconds: 60,
+    cookingSeconds: 30,
     ingredients: {
-      Potato: new Decimal(10),
+      Potato: new Decimal(8),
     },
     marketRate: 10,
   },
@@ -708,6 +709,18 @@ export const COOKABLES: Record<CookableName, Cookable> = {
       Corn: new Decimal(5),
     },
     marketRate: 120,
+  },
+  "Banana Blast": {
+    name: "Banana Blast",
+    description: "The ultimate fruity fuel for those with a peel for power!",
+    building: "Smoothie Shack",
+    cookingSeconds: 60 * 60 * 3,
+    experience: 1200,
+    ingredients: {
+      Banana: new Decimal(10),
+      Egg: new Decimal(5),
+    },
+    marketRate: 560,
   },
   ...COOKABLE_CAKES,
   ...FISH_COOKABLES,

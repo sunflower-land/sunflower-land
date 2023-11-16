@@ -25,6 +25,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
 import { DELIVERY_LEVELS } from "features/island/delivery/lib/delivery";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 interface OrderCardsProps {
   orders: Order[];
@@ -258,7 +259,9 @@ export const DeliveryPanelContent: React.FC<Props> = ({
   }
 
   const handleDeliver = () => {
-    if (!selectedOrderId) {
+    const order = orders.find((o) => o.id === selectedOrderId);
+    if (!selectedOrderId || !order) {
+      // eslint-disable-next-line no-console
       console.log("Delivery: No order selected");
       return;
     }
@@ -273,10 +276,36 @@ export const DeliveryPanelContent: React.FC<Props> = ({
     if (!remainingOrders.length) {
       onClose();
     }
+
+    if (order.reward.tickets) {
+      const amount = order.reward.tickets || 0;
+
+      gameAnalytics.trackSource({
+        item: "Seasonal Ticket",
+        amount: new Decimal(amount).toNumber(),
+        from: "Delivery",
+        type: "Exchange",
+      });
+    }
+
+    if (order.reward.sfl) {
+      gameAnalytics.trackSource({
+        item: "SFL",
+        amount: order.reward.sfl,
+        from: "Delivery",
+        type: "Exchange",
+      });
+    }
+
+    if (state.context.state.delivery.fulfilledCount === 1) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:Delivery:Completed",
+      });
+    }
   };
 
   const { tasksAreFrozen } = getSeasonChangeover({
-    id: gameService.state.context.state.id,
+    id: gameService.state.context.farmId,
   });
 
   if (tasksAreFrozen) {

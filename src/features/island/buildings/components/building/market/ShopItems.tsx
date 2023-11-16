@@ -25,11 +25,16 @@ interface Props {
   onClose: () => void;
   conversation?: ConversationName;
   hasSoldBefore?: boolean;
+  cropShortage?: boolean;
 }
 
-export const ShopItems: React.FC<Props> = ({ onClose, hasSoldBefore }) => {
+export const ShopItems: React.FC<Props> = ({
+  onClose,
+  hasSoldBefore,
+  cropShortage,
+}) => {
   const [tab, setTab] = useState(0);
-  const [showIntro, setShowIntro] = React.useState(!hasRead());
+  const [showIntro, setShowIntro] = React.useState(!hasRead() && !cropShortage);
 
   const bumpkinParts: Partial<Equipped> = NPC_WEARABLES.betty;
 
@@ -39,13 +44,13 @@ export const ShopItems: React.FC<Props> = ({ onClose, hasSoldBefore }) => {
         <SpeakingText
           message={[
             {
-              text: "Hey, hey! Welcome to my market.",
+              text: "Hey, hey! Welcome back.",
             },
             {
-              text: "Bring me your finest harvest, and I will give you a fair price for them!",
+              text: "You've helped solve the crop shortage and prices have returned to normal.",
             },
             {
-              text: "You need seeds? From potatoes to parsnips, I've got you covered!",
+              text: "It's time to move onto some bigger and better crops!",
             },
           ]}
           onClose={() => {
@@ -72,7 +77,7 @@ export const ShopItems: React.FC<Props> = ({ onClose, hasSoldBefore }) => {
       onClose={onClose}
     >
       {tab === 0 && <Seeds onClose={onClose} />}
-      {tab === 1 && <Crops />}
+      {tab === 1 && <Crops cropShortage={!!cropShortage} />}
     </CloseButtonPanel>
   );
 };

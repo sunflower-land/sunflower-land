@@ -15,6 +15,7 @@ import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
 import { Bumpkin } from "features/game/types/game";
 import { shopAudio } from "lib/utils/sfx";
+import { isCropShortage } from "features/game/expansion/lib/boosts";
 
 const hasSoldCropsBefore = (bumpkin?: Bumpkin) => {
   if (!bumpkin) return false;
@@ -47,9 +48,13 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
 
   const hasSoldBefore = hasSoldCropsBefore(gameState.context.state.bumpkin);
 
+  const showHelper =
+    gameState.context.state.bumpkin?.activity?.["Sunflower Harvested"] === 3 &&
+    !gameState.context.state.bumpkin?.activity?.["Sunflower Sold"];
+
   return (
     <>
-      <BuildingImageWrapper onClick={handleClick}>
+      <BuildingImageWrapper name="Market" onClick={handleClick}>
         <img
           src={market}
           className="absolute bottom-0 pointer-events-none"
@@ -58,6 +63,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
             height: `${PIXEL_SCALE * 38}px`,
           }}
         />
+
         <img
           src={shadow}
           className="absolute pointer-events-none"
@@ -77,11 +83,24 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
             transform: "scaleX(-1)",
           }}
         />
+
+        {showHelper && (
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
+            src={SUNNYSIDE.icons.click_icon}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * -8}px`,
+              top: `${PIXEL_SCALE * 20}px`,
+            }}
+          />
+        )}
       </BuildingImageWrapper>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
         <ShopItems
           onClose={() => setIsOpen(false)}
           hasSoldBefore={hasSoldBefore}
+          cropShortage={isCropShortage({ game: gameState.context.state })}
         />
       </Modal>
     </>

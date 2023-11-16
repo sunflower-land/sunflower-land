@@ -5,9 +5,9 @@ import { secondsToString, TimeFormatLength } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { progressBarBorderStyle } from "features/game/lib/style";
 
-type progressType = "progress" | "health" | "error";
+type progressType = "progress" | "health" | "error" | "buff";
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
   percentage: number;
   type: progressType;
   seconds?: number;
@@ -40,6 +40,10 @@ const PROGRESS_COLORS: Record<progressType, progressStyle> = {
   error: {
     color: "#e43b44",
     backgroundColor: "#3e2731",
+  },
+  buff: {
+    color: "#b65389",
+    backgroundColor: "#193c3e",
   },
 };
 
@@ -167,7 +171,7 @@ export const Bar: React.FC<{ percentage: number; type: progressType }> = ({
   );
 };
 
-export const ProgressBar: React.FC<Props> = ({
+export const ProgressBar: React.FC<ProgressBarProps> = ({
   percentage,
   type,
   formatLength,
@@ -202,7 +206,9 @@ export const ProgressBar: React.FC<Props> = ({
 interface LiveProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
   startAt: number;
   endAt: number;
+  formatLength: TimeFormatLength;
   onComplete: () => void;
+  type?: ProgressBarProps["type"];
 }
 
 /**
@@ -212,7 +218,9 @@ interface LiveProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
 export const LiveProgressBar: React.FC<LiveProgressBarProps> = ({
   startAt,
   endAt,
+  formatLength,
   onComplete,
+  type = "progress",
   ...divProps
 }) => {
   const [secondsLeft, setSecondsLeft] = useState((endAt - Date.now()) / 1000);
@@ -238,9 +246,9 @@ export const LiveProgressBar: React.FC<LiveProgressBarProps> = ({
   return (
     <ProgressBar
       seconds={secondsLeft}
-      formatLength="short"
+      formatLength={formatLength}
       percentage={percentage}
-      type="progress"
+      type={type}
       {...divProps}
     />
   );

@@ -13,7 +13,6 @@ export class IgorHomeScene extends BaseScene {
   }
 
   async create() {
-    console.log("Create igor_home shop");
     this.map = this.make.tilemap({
       key: "igor-home",
     });

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -6,7 +6,6 @@ import dragonfly from "assets/decorations/dragonfly.gif";
 
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
 import cossies from "assets/decorations/cossies.png";
-import pirateIsland from "assets/land/desert_island.webp";
 import bearIsland from "assets/land/bear_island.webp";
 import abandonedLand from "assets/land/abandoned_land.webp";
 
@@ -17,11 +16,10 @@ import { Arcade } from "features/community/arcade/Arcade";
 import { FruitQuest } from "features/island/farmerQuest/FruitQuest";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Pirate } from "./Pirate";
 import { DailyReward } from "./dailyReward/DailyReward";
 import { SeasonTeaser } from "./SeasonTeaser";
 import { LAND_WIDTH } from "../Land";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { TravelTeaser } from "./TravelTeaser";
 
 interface Props {
   townCenterBuilt: boolean;
@@ -34,7 +32,6 @@ export const WaterComponent: React.FC<Props> = ({
 }) => {
   // As the land gets bigger, push the water decorations out
   const offset = Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2);
-  const { openModal } = useContext(ModalContext);
 
   return (
     // Container
@@ -121,27 +118,10 @@ export const WaterComponent: React.FC<Props> = ({
       {/* Top left island */}
       <FruitQuest offset={offset} />
 
-      {/* Bottom left island */}
-      <MapPlacement x={-8 - offset} y={-2 - offset} width={6}>
-        <img
-          src={pirateIsland}
-          style={{
-            width: `${PIXEL_SCALE * 78}px`,
-          }}
-        />
-        <div
-          className="absolute"
-          style={{
-            top: `${GRID_WIDTH_PX * 3}px`,
-            left: `${GRID_WIDTH_PX * 2}px`,
-          }}
-        >
-          <Pirate />
-        </div>
-      </MapPlacement>
-
       {/* Bottom island */}
       <SeasonTeaser offset={offset} />
+
+      <TravelTeaser />
 
       {/* Bottom right island */}
       <MapPlacement x={7 + offset} y={-2 - offset} width={6}>

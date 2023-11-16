@@ -55,8 +55,6 @@ export async function cancelRequest(request: Request): Promise<Response> {
   }
 
   const data = await response.json();
-
-  console.log(data);
   return data;
 }
 

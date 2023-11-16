@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import lock from "assets/skills/lock.png";
+import orange from "assets/resources/orange.png";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
@@ -10,18 +11,21 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropTime } from "features/game/events/landExpansion/plant";
-import { INITIAL_STOCK } from "features/game/lib/constants";
+import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuyAmount } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SeedName, SEEDS } from "features/game/types/seeds";
 import { Bumpkin } from "features/game/types/game";
-import { FRUIT, FruitSeedName } from "features/game/types/fruits";
+import { FRUIT, FRUIT_SEEDS, FruitSeedName } from "features/game/types/fruits";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
 import { hasFeatureAccess } from "lib/flags";
+import { gameAnalytics } from "lib/gameAnalytics";
+import { Label } from "components/ui/Label";
+import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 
 interface Props {
   onClose: () => void;
@@ -54,12 +58,20 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const buy = (amount = 1) => {
-    gameService.send("seed.bought", {
+    const state = gameService.send("seed.bought", {
       item: selectedName,
       amount,
     });
 
     shortcutItem(selectedName);
+
+    if (
+      state.context.state.bumpkin?.activity?.["Sunflower Seed Bought"] === 1
+    ) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:SunflowerSeedBought:Completed",
+      });
+    }
   };
 
   const lessFunds = (amount = 1) => {
@@ -88,7 +100,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     // return message if inventory is full
     if (
       (inventory[selectedName] ?? new Decimal(0)).greaterThan(
-        INITIAL_STOCK(state)[selectedName] ?? new Decimal(0)
+        INVENTORY_LIMIT(state)[selectedName] ?? new Decimal(0)
       )
     ) {
       return (
@@ -174,19 +186,44 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
         />
       }
       content={
-        <>
-          {seeds.map((name: SeedName) => (
-            <Box
-              isSelected={selectedName === name}
-              key={name}
-              onClick={() => onSeedClick(name)}
-              image={ITEM_DETAILS[name].image}
-              showOverlay={isSeedLocked(name)}
-              secondaryImage={isSeedLocked(name) ? lock : undefined}
-              count={inventory[name]}
-            />
-          ))}
-        </>
+        <div className="pl-1">
+          <Label icon={CROP_LIFECYCLE.Sunflower.crop} type="default">
+            Crops
+          </Label>
+          <div className="flex flex-wrap">
+            {seeds
+              .filter((name) => !(name in FRUIT_SEEDS()))
+              .map((name: SeedName) => (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => onSeedClick(name)}
+                  image={ITEM_DETAILS[name].image}
+                  showOverlay={isSeedLocked(name)}
+                  secondaryImage={isSeedLocked(name) ? lock : undefined}
+                  count={inventory[name]}
+                />
+              ))}
+          </div>
+          <Label icon={orange} type="default">
+            Fruit
+          </Label>
+          <div className="flex flex-wrap">
+            {seeds
+              .filter((name) => name in FRUIT_SEEDS())
+              .map((name: SeedName) => (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => onSeedClick(name)}
+                  image={ITEM_DETAILS[name].image}
+                  showOverlay={isSeedLocked(name)}
+                  secondaryImage={isSeedLocked(name) ? lock : undefined}
+                  count={inventory[name]}
+                />
+              ))}
+          </div>
+        </div>
       }
     />
   );

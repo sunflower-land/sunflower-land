@@ -10,34 +10,25 @@ import * as AuthProvider from "features/auth/lib/Provider";
 
 import { ErrorMessage } from "./ErrorMessage";
 import { Panel } from "components/ui/Panel";
-import { CreatingFarm, Loading, CreateFarm, VisitFarm } from "./components";
+import { Loading } from "./components";
 
 import { Signing } from "./components/Signing";
 import { ErrorCode } from "lib/errors";
-import { Countdown } from "./components/Countdown";
-import { Blacklisted } from "features/game/components/Blacklisted";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ConnectedToWallet } from "./components/ConnectedToWallet";
 import { Verifying } from "./components/Verifying";
 import { Welcome } from "./components/Welcome";
-import { Offer } from "./components/Offer";
 import classNames from "classnames";
 import { SignIn } from "./components/SignIn";
 import { CreateWallet } from "./components/CreateWallet";
-import { BuyWithPoko } from "./components/BuyWithPoko";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
-
-  const loading =
-    authState.matches({ connected: "authorised" }) ||
-    authState.matches({ connected: "loadingFarm" }) ||
-    authState.matches("checkFarm") ||
-    authState.matches("initialising") ||
-    authState.matches("connectingAsGuest");
+  const { t } = useAppTranslation();
 
   const connecting =
     authState.matches("reconnecting") ||
@@ -48,10 +39,7 @@ export const Auth: React.FC = () => {
     <>
       <Modal
         centered
-        show={
-          !authState.matches({ connected: "authorised" }) &&
-          !authState.matches("visiting")
-        }
+        show={!authState.matches("connected") && !authState.matches("visiting")}
         backdrop={false}
       >
         <div
@@ -87,35 +75,17 @@ export const Auth: React.FC = () => {
           </div>
         </div>
         <Panel className="pb-1">
-          {loading && <Loading />}
+          {authState.matches("initialising") && <Loading />}
           {authState.matches("welcome") && <Welcome />}
           {authState.matches("createWallet") && <CreateWallet />}
-          {authState.matches({ connected: "offer" }) && <Offer />}
-          {/* {authState.matches({ connected: "selectPaymentMethod" }) && (
-          <SelectPaymentMethod />
-        )} */}
-          {authState.matches({ connected: "creatingPokoFarm" }) && (
-            <BuyWithPoko />
-          )}
           {(authState.matches("idle") || authState.matches("signIn")) && (
             <SignIn />
           )}
-          {connecting && <Loading text="Connecting" />}
+          {connecting && <Loading text={t("connecting")} />}
           {authState.matches("connectedToWallet") && <ConnectedToWallet />}
           {authState.matches("signing") && <Signing />}
           {authState.matches("verifying") && <Verifying />}
           {authState.matches("oauthorising") && <Loading />}
-          {authState.matches({ connected: "funding" }) && <CreateFarm />}
-          {authState.matches({ connected: "countdown" }) && <Countdown />}
-          {authState.matches({ connected: "creatingFarm" }) && <CreatingFarm />}
-          {(authState.matches({ connected: "blacklisted" }) ||
-            authState.matches("blacklisted")) && (
-            <Blacklisted
-              verificationUrl={authState.context.verificationUrl}
-              blacklistStatus={authState.context.blacklistStatus}
-            />
-          )}
-          {authState.matches("exploring") && <VisitFarm />}
           {authState.matches("unauthorised") && (
             <ErrorMessage
               errorCode={authState.context.errorCode as ErrorCode}

@@ -49,7 +49,7 @@ export const BUILDINGS: () => Record<
 > = () => ({
   "Town Center": [
     {
-      unlocksAtLevel: 3,
+      unlocksAtLevel: 99,
       ingredients: [],
       sfl: new Decimal(0),
       constructionSeconds: 30,
@@ -57,7 +57,8 @@ export const BUILDINGS: () => Record<
   ],
   Market: [
     {
-      unlocksAtLevel: 3,
+      unlocksAtLevel: 99,
+
       ingredients: [],
       sfl: new Decimal(0),
       constructionSeconds: 30,
@@ -65,15 +66,26 @@ export const BUILDINGS: () => Record<
   ],
   "Fire Pit": [
     {
-      unlocksAtLevel: 3,
-      ingredients: [],
+      unlocksAtLevel: 99,
+
+      ingredients: [
+        {
+          item: "Wood",
+          amount: new Decimal(3),
+        },
+        {
+          item: "Stone",
+          amount: new Decimal(2),
+        },
+      ],
       sfl: new Decimal(0),
-      constructionSeconds: 30,
+      constructionSeconds: 0,
     },
   ],
   Workbench: [
     {
-      unlocksAtLevel: 3,
+      unlocksAtLevel: 99,
+
       ingredients: [],
       sfl: marketRate(5),
       constructionSeconds: 60 * 1,
@@ -158,7 +170,7 @@ export const BUILDINGS: () => Record<
           amount: new Decimal(50),
         },
       ],
-      sfl: marketRate(50),
+      sfl: marketRate(0.06255),
       constructionSeconds: 60 * 60,
     },
   ],

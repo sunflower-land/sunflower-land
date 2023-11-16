@@ -12,12 +12,14 @@ export const Traded: React.FC = () => {
   }
 
   return (
-    <div className="p-2">
-      <img src={SUNNYSIDE.icons.confirm} className="mx-auto w-1/5 my-2" />
-      <p className="text-sm mb-2 text-center">
-        Congratulations, your trade was successful
-      </p>
+    <>
+      <div className="p-2">
+        <img src={SUNNYSIDE.icons.confirm} className="mx-auto h-12 my-2" />
+        <p className="text-sm mb-2 text-center">
+          Congratulations, your trade was successful
+        </p>
+      </div>
       <Button onClick={onAcknowledge}>Continue</Button>
-    </div>
+    </>
   );
 };

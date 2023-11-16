@@ -24,6 +24,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { DepletedTree } from "./components/DepletedTree";
 import { DepletingTree } from "./components/DepletingTree";
 import { RecoveredTree } from "./components/RecoveredTree";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 const HITS = 3;
 const tool = "Axe";
@@ -42,6 +43,8 @@ const HasTool = (
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
+const selectTreesChopped = (state: MachineState) =>
+  state.context.state.bumpkin?.activity?.["Tree Chopped"] ?? 0;
 const selectCollectibles = (state: MachineState) =>
   state.context.state.collectibles;
 
@@ -99,6 +102,8 @@ export const Tree: React.FC<Props> = ({ id }) => {
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0))
   );
 
+  const treesChopped = useSelector(gameService, selectTreesChopped);
+
   const hasTool = HasTool(inventory, collectibles);
   const timeLeft = getTimeLeft(resource.wood.choppedAt, TREE_RECOVERY_TIME);
   const chopped = !canChop(resource);
@@ -148,6 +153,10 @@ export const Tree: React.FC<Props> = ({ id }) => {
       setCollecting(false);
       setCollectedAmount(undefined);
     }
+
+    if (newState.context.state.bumpkin?.activity?.["Tree Chopped"] === 1) {
+      gameAnalytics.trackMilestone({ event: "Tutorial:TreeChopped:Completed" });
+    }
   };
 
   return (
@@ -155,7 +164,11 @@ export const Tree: React.FC<Props> = ({ id }) => {
       {/* Resource ready to collect */}
       {!chopped && (
         <div ref={divRef} className="absolute w-full h-full" onClick={shake}>
-          <RecoveredTree hasTool={hasTool} touchCount={touchCount} />
+          <RecoveredTree
+            hasTool={hasTool}
+            touchCount={touchCount}
+            showHelper={treesChopped < 3 && treesChopped + 1 === Number(id)}
+          />
         </div>
       )}
 

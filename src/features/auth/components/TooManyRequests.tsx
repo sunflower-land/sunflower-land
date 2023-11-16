@@ -13,14 +13,6 @@ export const TooManyRequests: React.FC = () => {
       <p className="text-center mb-4 text-xs">
         {`Looks like you have been busy! Please try again later.`}
       </p>
-      {/* {
-        // Only show when playing
-        authState.matches({ connected: "authorised" }) &&  (
-          <Button onClick={() => gameService.send("CONTINUE")}>
-            Keep playing
-          </Button>
-        )
-      } */}
     </div>
   );
 };

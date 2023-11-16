@@ -22,7 +22,6 @@ export type Scenes = {
   woodlands: Room<PlazaRoomState> | undefined;
   dawn_breaker: Room<PlazaRoomState> | undefined;
   marcus_home: Room<PlazaRoomState> | undefined;
-  corn_maze: Room<PlazaRoomState> | undefined;
   beach: Room<PlazaRoomState> | undefined;
 };
 export type SceneId = keyof Scenes;
@@ -234,7 +233,6 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             moderation: context.moderation,
           });
 
-          console.log({ server, client, serverId });
           return { server, client, serverId };
         },
         onDone: [
@@ -340,7 +338,6 @@ class MMOBus {
   private listener?: (message: any) => void;
 
   public send(message: any) {
-    console.log({ message });
     if (this.listener) {
       this.listener(message);
     }

@@ -126,7 +126,6 @@ export const Otis: React.FC = () => {
           <Panel bumpkinParts={NPC_WEARABLES["otis"]}>
             <SpeakingText
               onClose={() => {
-                console.log("CLOSE");
                 setShowIntro(false);
               }}
               message={task?.introduction.map((text) => ({ text }))}

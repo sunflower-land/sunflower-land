@@ -10,6 +10,10 @@ import { BumpkinProfile } from "./components/BumpkinProfile";
 import { InventoryItemName } from "features/game/types/game";
 import { Settings } from "./components/Settings";
 import { createPortal } from "react-dom";
+import { TravelButton } from "./components/deliveries/TravelButton";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { BlockBucks } from "./components/BlockBucks";
+import Decimal from "decimal.js-light";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -20,25 +24,54 @@ export const VisitingHud: React.FC = () => {
   const [gameState] = useActor(gameService);
 
   return createPortal(
-    <>
+    <div
+      data-html2canvas-ignore="true"
+      aria-label="Hud"
+      className="absolute z-40"
+    >
       {!gameState.matches("landToVisitNotFound") && (
-        <InnerPanel className="fixed px-2 pt-1 pb-2 bottom-2 left-2 z-50">
-          <span className="text-white">{`Visiting #${gameState.context.state.id}`}</span>
+        <InnerPanel className="fixed px-2 pt-1 pb-2 bottom-2 left-1/2 -translate-x-1/2 z-50">
+          <span className="text-white">{`Visiting #${gameState.context.farmId}`}</span>
         </InnerPanel>
       )}
-      <div data-html2canvas-ignore="true" aria-label="Hud">
-        <Balance balance={gameState.context.state.balance} />
-        <Inventory
-          state={gameState.context.state}
-          shortcutItem={shortcutItem}
-          selectedItem={selectedItem as InventoryItemName}
-          isFarming={false}
-          isFullUser={false}
-        />
-        <BumpkinProfile isFullUser={false} />
+      <Balance balance={gameState.context.state.balance} />
+      <BlockBucks
+        blockBucks={
+          gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
+        }
+        isVisiting={true}
+      />
+      <Inventory
+        state={gameState.context.state}
+        shortcutItem={shortcutItem}
+        selectedItem={selectedItem as InventoryItemName}
+        isFarming={false}
+        isFullUser={false}
+      />
+      <BumpkinProfile isFullUser={false} />
+      <div
+        className="fixed z-50"
+        style={{
+          right: `${PIXEL_SCALE * 3}px`,
+          bottom: `${PIXEL_SCALE * 3}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+          height: `${PIXEL_SCALE * 23}px`,
+        }}
+      >
         <Settings isFarming={false} />
       </div>
-    </>,
+      <div
+        className="fixed z-50"
+        style={{
+          left: `${PIXEL_SCALE * 3}px`,
+          bottom: `${PIXEL_SCALE * 3}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+          height: `${PIXEL_SCALE * 23}px`,
+        }}
+      >
+        <TravelButton isVisiting={true} />
+      </div>
+    </div>,
     document.body
   );
 };

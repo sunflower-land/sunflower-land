@@ -7,13 +7,12 @@ import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
-import { analytics } from "lib/analytics";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { buyBlockBucksXsolla } from "features/game/actions/buyBlockBucks";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { randomID } from "lib/utils/random";
 import { Label } from "components/ui/Label";
-import { hasFeatureAccess } from "lib/flags";
 import { Modal } from "react-bootstrap";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
@@ -91,7 +90,6 @@ const XsollaIFrame: React.FC<{
       if (event.origin !== origin) return;
 
       const eventData = JSON.parse(event.data);
-      console.log(eventData);
       if (eventData.command === "close-widget") {
         onClose();
       }
@@ -182,9 +180,8 @@ export const BlockBucksModal: React.FC<Props> = ({
 
       const { url } = await buyBlockBucksXsolla({
         amount,
-        farmId: gameState.context.state.id as number,
+        farmId: gameState.context.farmId,
         transactionId: randomID(),
-        type: "USDC",
         token: authState.context.user.rawToken as string,
       });
 
@@ -210,7 +207,7 @@ export const BlockBucksModal: React.FC<Props> = ({
     // Trigger an autosave in case they have changes so user can sync right away
     gameService.send("SAVE");
 
-    analytics.logEvent("begin_checkout");
+    onboardingAnalytics.logEvent("begin_checkout");
   }, []);
 
   const Content = () => {
@@ -250,14 +247,12 @@ export const BlockBucksModal: React.FC<Props> = ({
               </div>
               {price.amount === 1 && (
                 <Label type="info" className="mb-1">
-                  Choose a higher amount
+                  Minimum 5 Block Bucks
                 </Label>
               )}
               <Button
                 onClick={() => onCreditCardBuy()}
-                disabled={
-                  price.amount === 1 || !hasFeatureAccess(TEST_FARM, "XSOLLA")
-                }
+                disabled={price.amount === 1}
               >
                 Pay with Cash
               </Button>

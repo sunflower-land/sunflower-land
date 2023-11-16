@@ -59,8 +59,6 @@ export const ClickableGridCoordinatesBuilder: React.FC<{
                 }}
                 onClick={() => {
                   coordinates.push({ x, y });
-
-                  console.log(coordinates);
                 }}
               >{`${x}, ${y}`}</div>
             );

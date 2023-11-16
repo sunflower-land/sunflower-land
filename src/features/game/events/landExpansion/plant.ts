@@ -17,7 +17,10 @@ import {
   COLLECTIBLES_DIMENSIONS,
   getKeys,
 } from "features/game/types/craftables";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleActive,
+  isCollectibleBuilt,
+} from "features/game/lib/collectibleBuilt";
 import { setPrecision } from "lib/utils/formatNumber";
 import { SEEDS } from "features/game/types/seeds";
 import { BuildingName } from "features/game/types/buildings";
@@ -31,6 +34,12 @@ import {
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { getBudSpeedBoosts } from "features/game/lib/getBudSpeedBoosts";
 import { CropCompostName } from "features/game/types/composters";
+import {
+  BumpkinActivityName,
+  trackActivity,
+} from "features/game/types/bumpkinActivity";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { isBuildingEnabled } from "features/game/expansion/lib/buildingRequirements";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -49,10 +58,11 @@ type IsPlotFertile = {
   plotIndex: string;
   crops: Record<string, CropPlot>;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
+  bumpkin?: Bumpkin;
 };
 
 // First 15 plots do not need water
-const INITIAL_SUPPORTED_PLOTS = 15;
+const INITIAL_SUPPORTED_PLOTS = 17;
 // Each well can support an additional 8 plots
 const WELL_PLOT_SUPPORT = 8;
 
@@ -65,13 +75,31 @@ export const getCompletedWellCount = (
   );
 };
 
+export const getEnabledWellCount = (
+  buildings: Partial<Record<BuildingName, PlacedItem[]>>,
+  bumpkin?: Bumpkin
+) => {
+  let enabledWells =
+    buildings["Water Well"]?.filter((well) => well.readyAt < Date.now())
+      .length ?? 0;
+
+  const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
+  while (enabledWells > 0) {
+    if (isBuildingEnabled(bumpkinLevel, "Water Well", enabledWells - 1)) break;
+    --enabledWells;
+  }
+
+  return enabledWells;
+};
+
 export function isPlotFertile({
   plotIndex,
   crops,
   buildings,
+  bumpkin,
 }: IsPlotFertile): boolean {
   // get the well count
-  const wellCount = getCompletedWellCount(buildings);
+  const wellCount = getEnabledWellCount(buildings, bumpkin);
   const cropsWellCanWater =
     wellCount * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
 
@@ -193,6 +221,10 @@ export const getCropTime = ({
   }
 
   if (fertiliser === "Rapid Root") {
+    seconds = seconds * 0.5;
+  }
+
+  if (isCollectibleActive("Time Warp Totem", collectibles)) {
     seconds = seconds * 0.5;
   }
 
@@ -528,6 +560,10 @@ export function plant({
   }
 
   const cropName = action.item.split(" ")[0] as CropName;
+
+  const activityName: BumpkinActivityName = `${cropName} Planted`;
+
+  bumpkin.activity = trackActivity(activityName, bumpkin.activity);
 
   plots[action.index] = {
     ...plot,

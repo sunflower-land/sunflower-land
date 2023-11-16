@@ -43,7 +43,6 @@ export const GoblinPirateItems: React.FC<Props> = ({ onClose }) => {
         ? await totalSupply(wallet.web3Provider)
         : ({} as ItemSupply);
 
-      console.log({ supply });
       setSupply(supply);
 
       setIsLoading(false);

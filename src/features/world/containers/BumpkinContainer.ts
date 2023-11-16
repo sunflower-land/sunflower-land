@@ -42,7 +42,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     onClick,
     name,
     direction,
-    isEnemy,
   }: {
     scene: Phaser.Scene;
     x: number;
@@ -52,7 +51,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     onCollide?: () => void;
     name?: string;
     direction?: "left" | "right";
-    isEnemy?: boolean;
   }) {
     super(scene, x, y);
     this.scene = scene;
@@ -86,13 +84,6 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.alert = this.scene.add.sprite(1, -23, "alert").setSize(4, 10);
         this.add(this.alert);
       }
-    }
-
-    if (isEnemy && this.scene.textures.exists("skull")) {
-      this.skull = this.scene.add
-        .sprite(this.sprite.x / 2, -11, "skull")
-        .setDisplaySize(6, 6);
-      this.add(this.skull);
     }
 
     this.scene.add.existing(this);
@@ -314,6 +305,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       try {
         this.sprite.anims.play(this.walkingAnimationKey as string, true);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.log("Bumpkin Container: Error playing walk animation: ", e);
       }
     }
@@ -328,6 +320,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       try {
         this.sprite.anims.play(this.idleAnimationKey as string, true);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.log("Bumpkin Container: Error playing idle animation: ", e);
       }
     }

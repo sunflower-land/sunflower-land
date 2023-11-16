@@ -1,9 +1,6 @@
 import React, { useContext, useState } from "react";
 
 import firePit from "assets/buildings/fire_pit.png";
-import npc from "assets/npcs/cook.gif";
-import doing from "assets/npcs/cook_doing.gif";
-import shadow from "assets/npcs/shadow.png";
 
 import classNames from "classnames";
 import { FirePitModal } from "./FirePitModal";
@@ -17,6 +14,12 @@ import { setImageWidth } from "lib/images";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { bakeryAudio } from "lib/utils/sfx";
+import { gameAnalytics } from "lib/gameAnalytics";
+
+import npc from "assets/npcs/cook.gif";
+import doing from "assets/npcs/cook_doing.gif";
+import shadow from "assets/npcs/shadow.png";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -42,6 +45,15 @@ export const FirePit: React.FC<Props> = ({
       item,
       buildingId,
     });
+
+    if (
+      item === "Mashed Potato" &&
+      !gameState.context.state.bumpkin?.activity?.[`${item} Cooked`]
+    ) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:Cooked:Completed",
+      });
+    }
   };
 
   const handleCollect = () => {
@@ -75,9 +87,14 @@ export const FirePit: React.FC<Props> = ({
     }
   };
 
+  const showHelper =
+    gameState.context.state.inventory.Potato?.gte(8) &&
+    gameState.context.state.bumpkin?.experience === 0 &&
+    !crafting;
+
   return (
     <>
-      <BuildingImageWrapper onClick={handleClick} ready={ready}>
+      <BuildingImageWrapper name="Fire Pit" onClick={handleClick} ready={ready}>
         <img
           src={firePit}
           className={classNames("absolute bottom-0 pointer-events-none", {
@@ -125,6 +142,18 @@ export const FirePit: React.FC<Props> = ({
             left: `${PIXEL_SCALE * 11}px`,
           }}
         />
+        {showHelper && (
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
+            src={SUNNYSIDE.icons.click_icon}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * -8}px`,
+              top: `${PIXEL_SCALE * 20}px`,
+            }}
+          />
+        )}
+
         {crafting ? (
           <img
             src={doing}

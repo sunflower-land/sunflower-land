@@ -5,6 +5,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { DeliveryOrders } from "features/island/delivery/components/Orders";
 import { ChoreV2 } from "features/helios/components/hayseedHank/components/ChoreV2";
 import world from "assets/icons/world_small.png";
+import lockIcon from "assets/skills/lock.png";
+
 import { IslandList } from "features/game/expansion/components/travel/IslandList";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
@@ -13,6 +15,8 @@ import { Panel } from "components/ui/Panel";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { hasNewOrders } from "features/island/delivery/lib/delivery";
 import { hasNewChores } from "features/helios/components/hayseedHank/lib/chores";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { Label } from "components/ui/Label";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `travel-read.${host}-${window.location.pathname}`;
@@ -27,12 +31,17 @@ function hasRead() {
 
 interface Props {
   isOpen: boolean;
+  isVisiting?: boolean;
   onClose: () => void;
 }
 
 const CONTENT_HEIGHT = 380;
 
-export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
+export const TravelModal: React.FC<Props> = ({
+  isOpen,
+  onClose,
+  isVisiting = false,
+}) => {
   const [tab, setTab] = useState(0);
   const [selectedOrderId, setSelectedOrderId] = useState<string>();
 
@@ -44,6 +53,138 @@ export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const delivery = gameState.context.state.delivery;
   const chores = gameState.context.state.chores;
 
+  if (isVisiting) {
+    return (
+      <Modal
+        centered
+        show={isOpen}
+        onHide={onClose}
+        dialogClassName="md:max-w-3xl"
+      >
+        <CloseButtonPanel
+          onClose={onClose}
+          tabs={[{ icon: world, name: "Travel" }]}
+          currentTab={tab}
+          setCurrentTab={setTab}
+        >
+          <div
+            style={{ maxHeight: CONTENT_HEIGHT }}
+            className="w-full pr-1 pt-2.5 overflow-y-auto scrollable"
+          >
+            {tab === 0 && (
+              // TODO - save flow + tutorial (intro to travel)
+              <IslandList
+                bumpkin={undefined}
+                showVisitList={true}
+                gameState={gameState.context.state}
+                travelAllowed={true}
+                hasBetaAccess={false}
+                onClose={onClose}
+              />
+            )}
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+    );
+  }
+
+  const Content = () => {
+    if (getBumpkinLevel(gameState.context.state.bumpkin?.experience ?? 0) < 3) {
+      return (
+        <CloseButtonPanel onClose={onClose}>
+          <div className="flex flex-col items-center">
+            <Label className="mt-2" icon={lockIcon} type="danger">
+              Level 3 Required
+            </Label>
+            <img src={world} className="w-10 mx-auto my-2" />
+            <p className="text-sm text-center mb-1">
+              Before travelling, you must level up.
+            </p>
+            <p className="text-xs text-center mb-2">
+              Visit the Fire Pit to cook food and feed your Bumpkin.
+            </p>
+          </div>
+        </CloseButtonPanel>
+      );
+    }
+
+    if (showIntro) {
+      return (
+        <Panel bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}>
+          <SpeakingText
+            message={[
+              {
+                text: "Hey Traveller! Ready to explore?",
+              },
+              {
+                text: "Sunflower Land is filled with exciting islands where you can complete deliveries, craft rare NFTs and even dig for treasure!",
+              },
+              {
+                text: "Different locations bring different opportunities to spend your hard earned resources.",
+              },
+              {
+                text: "At any time click the travel button to return home.",
+              },
+            ]}
+            onClose={() => {
+              acknowledgeRead();
+              setShowIntro(false);
+            }}
+          />
+        </Panel>
+      );
+    }
+
+    return (
+      <CloseButtonPanel
+        onClose={onClose}
+        tabs={[
+          { icon: world, name: "Travel" },
+          {
+            icon: SUNNYSIDE.icons.heart,
+            name: "Deliveries",
+            alert: hasNewOrders(delivery),
+          },
+          {
+            icon: SUNNYSIDE.icons.expression_chat,
+            name: "Chores",
+            alert: chores && hasNewChores(chores),
+          },
+        ]}
+        currentTab={tab}
+        setCurrentTab={setTab}
+      >
+        <div
+          style={{ maxHeight: CONTENT_HEIGHT }}
+          className="w-full pr-1 pt-2.5 overflow-y-auto scrollable"
+        >
+          {tab === 0 && (
+            // TODO - save flow + tutorial (intro to travel)
+            <IslandList
+              bumpkin={gameState.context.state.bumpkin}
+              showVisitList={false}
+              gameState={gameState.context.state}
+              travelAllowed={true}
+              hasBetaAccess={!!gameState.context.state.inventory["Beta Pass"]}
+              onClose={onClose}
+            />
+          )}
+          {tab === 1 && (
+            <DeliveryOrders
+              selectedId={selectedOrderId}
+              onSelect={setSelectedOrderId}
+            />
+          )}
+          {tab === 2 && (
+            <div className="pt-1">
+              <ChoreV2 isReadOnly />
+            </div>
+          )}
+        </div>
+      </CloseButtonPanel>
+    );
+  };
+
   return (
     <>
       <Modal
@@ -53,79 +194,7 @@ export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
         onShow={() => gameService.send("SAVE")}
         dialogClassName="md:max-w-3xl"
       >
-        {showIntro ? (
-          <Panel bumpkinParts={NPC_WEARABLES["daphne"]}>
-            <SpeakingText
-              message={[
-                {
-                  text: "Hey Traveller! Ready to explore?",
-                },
-                {
-                  text: "Sunflower Land is filled with exciting islands where you can complete deliveries, craft rare NFTs and even dig for treasure!",
-                },
-                {
-                  text: "Different locations bring different opportunities to spend your hard earned resources.",
-                },
-                {
-                  text: "At any time click the travel button to return home.",
-                },
-              ]}
-              onClose={() => {
-                acknowledgeRead();
-                setShowIntro(false);
-              }}
-            />
-          </Panel>
-        ) : (
-          <CloseButtonPanel
-            onClose={onClose}
-            tabs={[
-              { icon: world, name: "Travel" },
-              {
-                icon: SUNNYSIDE.icons.heart,
-                name: "Deliveries",
-                alert: hasNewOrders(delivery),
-              },
-              {
-                icon: SUNNYSIDE.icons.expression_chat,
-                name: "Chores",
-                alert: chores && hasNewChores(chores),
-              },
-            ]}
-            currentTab={tab}
-            setCurrentTab={setTab}
-          >
-            <div
-              style={{ maxHeight: CONTENT_HEIGHT }}
-              className="w-full pr-1 pt-2.5 overflow-y-auto scrollable"
-            >
-              {tab === 0 && (
-                // TODO - save flow + tutorial (intro to travel)
-                <IslandList
-                  bumpkin={gameState.context.state.bumpkin}
-                  showVisitList={false}
-                  gameState={gameState.context.state}
-                  travelAllowed={true}
-                  hasBetaAccess={
-                    !!gameState.context.state.inventory["Beta Pass"]
-                  }
-                  onClose={onClose}
-                />
-              )}
-              {tab === 1 && (
-                <DeliveryOrders
-                  selectedId={selectedOrderId}
-                  onSelect={setSelectedOrderId}
-                />
-              )}
-              {tab === 2 && (
-                <div className="pt-1">
-                  <ChoreV2 isReadOnly />
-                </div>
-              )}
-            </div>
-          </CloseButtonPanel>
-        )}
+        <Content />
       </Modal>
     </>
   );

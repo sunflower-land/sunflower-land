@@ -5,6 +5,7 @@ import { CropCompostName } from "features/game/types/composters";
 import { CROPS, Crop } from "features/game/types/crops";
 import { isReadyToHarvest } from "./harvest";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export type LandExpansionFertiliseCropAction = {
   type: "plot.fertilised";
@@ -50,7 +51,11 @@ export function fertilisePlot({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { crops: plots, inventory, collectibles } = stateCopy;
+  const { crops: plots, inventory, collectibles, bumpkin } = stateCopy;
+
+  if (!bumpkin) {
+    throw new Error("Bumpkin not found");
+  }
 
   if (!plots[action.plotID]) {
     throw new Error(FERTILISE_CROP_ERRORS.EMPTY_PLOT);
@@ -103,6 +108,11 @@ export function fertilisePlot({
   }
 
   inventory[action.fertiliser] = fertiliserAmount.minus(1);
+
+  bumpkin.activity = trackActivity(
+    `Crop Fertilised`,
+    stateCopy.bumpkin?.activity
+  );
 
   return stateCopy;
 }

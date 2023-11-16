@@ -1,18 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
+import workbench from "assets/buildings/workbench.png";
 import npc from "assets/npcs/blacksmith.gif";
 import shadow from "assets/npcs/shadow.png";
-import workbench from "assets/buildings/workbench.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { WorkbenchModal } from "./components/WorkbenchModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
 import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
-import { NPC_WEARABLES } from "lib/npcs";
 import { shopAudio } from "lib/utils/sfx";
-import { SpeakingText } from "features/game/components/SpeakingModal";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { Context } from "features/game/GameProvider";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `workbench-read.${host}-${window.location.pathname}`;
@@ -25,9 +26,25 @@ function hasRead() {
   return !!localStorage.getItem(LOCAL_STORAGE_KEY);
 }
 
+const needsHelp = (state: MachineState) => {
+  const missingScarecrow =
+    !state.context.state.inventory["Basic Scarecrow"] &&
+    (state.context.state.bumpkin?.activity?.["Sunflower Planted"] ?? 0) >= 6 &&
+    !state.context.state.inventory["Sunflower Seed"]?.gt(0);
+
+  if (missingScarecrow) {
+    return true;
+  }
+
+  return false;
+};
+
 export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
-  const [showIntro, setShowIntro] = useState(!hasRead());
+  const { gameService } = useContext(Context);
+
   const [isOpen, setIsOpen] = useState(false);
+
+  const showHelper = useSelector(gameService, needsHelp);
 
   const handleClick = () => {
     if (onRemove) {
@@ -49,7 +66,7 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
 
   return (
     <>
-      <BuildingImageWrapper onClick={handleClick}>
+      <BuildingImageWrapper name="Workbench" onClick={handleClick}>
         <img
           src={workbench}
           className="absolute bottom-0 pointer-events-none"
@@ -57,6 +74,7 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
             width: `${PIXEL_SCALE * 47}px`,
           }}
         />
+
         <img
           src={shadow}
           className="absolute pointer-events-none"
@@ -75,25 +93,21 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
             right: `${PIXEL_SCALE * 12}px`,
           }}
         />
+
+        {showHelper && (
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
+            src={SUNNYSIDE.icons.click_icon}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * -8}px`,
+              top: `${PIXEL_SCALE * 20}px`,
+            }}
+          />
+        )}
       </BuildingImageWrapper>
       <Modal centered show={isOpen} onHide={handleClose}>
-        {showIntro ? (
-          <Panel bumpkinParts={NPC_WEARABLES.blacksmith}>
-            <SpeakingText
-              message={[
-                {
-                  text: "I'm a master of tools, and with the right resources, I can craft anything you need...including more tools!",
-                },
-              ]}
-              onClose={() => {
-                acknowledgeRead();
-                setShowIntro(false);
-              }}
-            />
-          </Panel>
-        ) : (
-          <WorkbenchModal onClose={handleClose} />
-        )}
+        <WorkbenchModal onClose={handleClose} />
       </Modal>
     </>
   );

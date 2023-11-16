@@ -10,6 +10,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { BuildingName } from "features/game/types/buildings";
 import { ComposterName } from "features/game/types/composters";
 import { CompostBuilding } from "features/game/types/game";
+import { gameAnalytics } from "lib/gameAnalytics";
+import { BuildingImageWrapper } from "../BuildingImageWrapper";
 
 const getComposter = (type: BuildingName) => (state: MachineState) =>
   state.context.state.buildings[type]?.[0] as CompostBuilding;
@@ -51,11 +53,20 @@ export const Composter: React.FC<Props> = ({ name }) => {
   };
 
   const handleCollect = () => {
-    gameService.send("compost.collected", {
+    const state = gameService.send("compost.collected", {
       buildingId: composter!.id,
       building: name,
     });
     gameService.send("SAVE");
+
+    if (
+      name === "Compost Bin" &&
+      state.context.state.bumpkin?.activity?.["Compost Bin Collected"] === 1
+    ) {
+      gameAnalytics.trackMilestone({
+        event: "Tutorial:Composting:Completed",
+      });
+    }
   };
 
   let image = COMPOSTER_IMAGES[name].idle;
@@ -69,46 +80,49 @@ export const Composter: React.FC<Props> = ({ name }) => {
 
   return (
     <>
-      <div
-        className="absolute cursor-pointer hover:img-highlight"
-        style={{
-          width: `${PIXEL_SCALE * width}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
-        }}
-        onClick={handleClick}
-      >
-        <img
-          src={image}
+      <BuildingImageWrapper name={name} onClick={handleClick} ready={ready}>
+        <div
+          className="absolute cursor-pointer hover:img-highlight"
           style={{
             width: `${PIXEL_SCALE * width}px`,
             bottom: `${PIXEL_SCALE * 0}px`,
-            left: `${PIXEL_SCALE * ((32 - width) / 2)}px`,
           }}
-          className="absolute"
-          alt={name}
-        />
-        {showTimers && composting && composter?.producing?.readyAt && (
-          <div
-            className="flex justify-center absolute bg-red-500"
+        >
+          <img
+            src={image}
             style={{
-              bottom: "24px",
               width: `${PIXEL_SCALE * width}px`,
-
+              bottom: `${PIXEL_SCALE * 0}px`,
               left: `${PIXEL_SCALE * ((32 - width) / 2)}px`,
             }}
-          >
-            <LiveProgressBar
-              startAt={composter?.producing?.startedAt}
-              endAt={composter?.producing?.readyAt}
-              className="relative"
+            className="absolute"
+            alt={name}
+          />
+          {showTimers && composting && composter?.producing?.readyAt && (
+            <div
+              className="flex justify-center absolute bg-red-500"
               style={{
-                width: `${PIXEL_SCALE * 14}px`,
+                bottom: "24px",
+                width: `${PIXEL_SCALE * width}px`,
+
+                left: `${PIXEL_SCALE * ((32 - width) / 2)}px`,
               }}
-              onComplete={() => setRender((r) => r + 1)}
-            />
-          </div>
-        )}
-      </div>
+            >
+              <LiveProgressBar
+                startAt={composter?.producing?.startedAt}
+                endAt={composter?.producing?.readyAt}
+                formatLength="short"
+                className="relative"
+                style={{
+                  width: `${PIXEL_SCALE * 14}px`,
+                }}
+                onComplete={() => setRender((r) => r + 1)}
+              />
+            </div>
+          )}
+        </div>
+      </BuildingImageWrapper>
+
       <ComposterModal
         composterName={name}
         showModal={showModal}

@@ -39,6 +39,7 @@ import {
   FishingConditions,
   MarineMarvelName,
 } from "./fishing";
+import { Coordinates } from "../expansion/components/MapPlacement";
 
 export type Reward = {
   sfl?: Decimal;
@@ -467,6 +468,7 @@ export type Airdrop = {
   wearables: Partial<Record<BumpkinItem, number>>;
   sfl: number;
   message?: string;
+  coordinates?: Coordinates;
 };
 
 // Mystery Prize reveals
@@ -712,10 +714,9 @@ export type Fishing = {
 };
 
 export interface GameState {
-  id: number;
   balance: Decimal;
+  previousBalance: Decimal;
   airdrops?: Airdrop[];
-  farmAddress?: string;
 
   createdAt: number;
 
@@ -729,6 +730,7 @@ export interface GameState {
 
   chickens: Record<string, Chicken>;
   inventory: Inventory;
+  previousInventory: Inventory;
   wardrobe: Wardrobe;
   stock: Inventory;
   stockExpiry: StockExpiry;
@@ -791,7 +793,6 @@ export interface GameState {
   hayseedHank?: HayseedHank;
   chores?: ChoresV2;
   mushrooms: Mushrooms;
-  witchesEve?: WitchesEve;
   catchTheKraken: CatchTheKraken;
   potionHouse?: PotionHouse;
 

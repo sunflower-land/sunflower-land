@@ -6,7 +6,7 @@ import PokoMinterABI from "./abis/PokoAccountMinter.json";
 import { AccountMinter as IAccountMinter } from "./types/AccountMinter";
 import { AccountMinter as IPokoAccountMinter } from "./types/PokoAccountMinter";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
-import { analytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { PayableTransactionObject } from "./types/types";
 
 export async function getCreatedAt(
@@ -85,6 +85,7 @@ export async function estimateAccountGas({
     ).estimateGas(
       { from: account, value: 0 },
       function (err: any, estimatedGas: string) {
+        // eslint-disable-next-line no-console
         console.log({ err, estimatedGas });
         if (err) {
           rej(err);
@@ -183,15 +184,17 @@ export async function createNewAccount({
     mintAccountFn
       .send({ from: account, value: fee, gasPrice })
       .on("error", function (error: any) {
+        // eslint-disable-next-line no-console
         console.log({ error });
         const parsed = parseMetamaskError(error);
 
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=11955999175679069053-AP&client_type=gtag#purchase
-        analytics.logEvent("purchase", {
+        onboardingAnalytics.logEvent("purchase", {
           currency: "MATIC",
           // Unique ID to prevent duplicate events
           transaction_id: `create-${account}`,
@@ -218,6 +221,7 @@ export async function createNewAccount({
         }
       })
       .on("receipt", function (receipt: any) {
+        // eslint-disable-next-line no-console
         console.log({ receipt });
         resolve(receipt);
       });

@@ -407,4 +407,25 @@ describe("getChoppedAt", () => {
     const treeTimeStacked = (treeTimeWithBeaver + treeTimeWithSkill) * 1000;
     expect(time).toEqual(now - treeTimeStacked);
   });
+
+  it("tree replenishes faster with time warp", () => {
+    const now = Date.now();
+
+    const time = getChoppedAt({
+      collectibles: {
+        "Time Warp Totem": [
+          {
+            id: "123",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now - 5 * 60 * 1000,
+          },
+        ],
+      },
+      skills: {},
+      createdAt: now,
+    });
+
+    expect(time).toEqual(now - (TREE_RECOVERY_TIME * 1000) / 2);
+  });
 });

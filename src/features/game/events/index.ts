@@ -158,8 +158,6 @@ import { refundBid, RefundBidAction } from "./landExpansion/refundBid";
 import { mixPotion, MixPotionAction } from "./landExpansion/mixPotion";
 import { buyWearable, BuyWearableAction } from "./landExpansion/buyWearable";
 import { skipOrder, SkipOrderAction } from "./landExpansion/skipOrder";
-import { SaveMazeAction, saveMaze } from "./landExpansion/saveMaze";
-import { StartMazeAction, startMaze } from "./landExpansion/startMaze";
 import {
   completeBertObsession,
   CompleteBertObsessionAction,
@@ -190,6 +188,15 @@ import {
   ClaimMilestoneAction,
 } from "./landExpansion/claimMilestone";
 import { missFish, MissFishAction } from "./landExpansion/missFish";
+import {
+  tradeTentacle,
+  TradeTentacleAction,
+} from "./landExpansion/tradeTentacle";
+import { revealLand, RevealLandAction } from "./landExpansion/revealLand";
+import {
+  burnCollectible,
+  BurnCollectibleAction,
+} from "./landExpansion/burnCollectible";
 
 export type PlayingEvent =
   | TradeAction
@@ -242,8 +249,6 @@ export type PlayingEvent =
   | MixPotionAction
   | BuyWearableAction
   | SkipOrderAction
-  | SaveMazeAction
-  | StartMazeAction
   | CompleteBertObsessionAction
   | StartPotionAction
   | ReceiveTradeAction
@@ -255,7 +260,10 @@ export type PlayingEvent =
   | CastRodAction
   | ReelRodAction
   | ClaimMilestoneAction
-  | MissFishAction;
+  | MissFishAction
+  | TradeTentacleAction
+  | RevealLandAction
+  | BurnCollectibleAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -306,6 +314,7 @@ type Handlers<T> = {
     // Extract the correct event payload from the list of events
     action: Extract<GameEventName<T>, { type: Name }>;
     announcements?: Announcements;
+    farmId?: number;
   }) => GameState;
 };
 
@@ -360,8 +369,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "bid.refunded": refundBid,
   "potion.mixed": mixPotion,
   "wearable.bought": buyWearable,
-  "maze.started": startMaze,
-  "maze.saved": saveMaze,
   "bertObsession.completed": completeBertObsession,
   "potion.started": startPotion,
   "trade.cancelled": cancelTrade,
@@ -374,6 +381,9 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "rod.reeled": reelRod,
   "milestone.claimed": claimMilestone,
   "fish.missed": missFish,
+  "shelly.tradeTentacle": tradeTentacle,
+  "land.revealed": revealLand,
+  "collectible.burned": burnCollectible,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

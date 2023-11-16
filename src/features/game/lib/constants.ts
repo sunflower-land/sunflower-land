@@ -26,7 +26,6 @@ export const POPOVER_TIME_MS = 1000;
 export function isBuildingReady(building: PlacedItem[]) {
   return building.some((b) => b.readyAt <= Date.now());
 }
-
 export const INITIAL_STOCK = (state?: GameState): Inventory => {
   let tools = {
     Axe: new Decimal(200),
@@ -113,6 +112,57 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
   };
 };
 
+export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
+  let seeds = {
+    "Sunflower Seed": new Decimal(1000),
+    "Potato Seed": new Decimal(500),
+    "Pumpkin Seed": new Decimal(400),
+    "Carrot Seed": new Decimal(250),
+    "Cabbage Seed": new Decimal(240),
+    "Beetroot Seed": new Decimal(220),
+    "Cauliflower Seed": new Decimal(200),
+    "Parsnip Seed": new Decimal(150),
+    "Eggplant Seed": new Decimal(120),
+    "Corn Seed": new Decimal(120),
+    "Radish Seed": new Decimal(100),
+    "Wheat Seed": new Decimal(100),
+    "Kale Seed": new Decimal(80),
+
+    "Apple Seed": new Decimal(25),
+    "Orange Seed": new Decimal(33),
+    "Blueberry Seed": new Decimal(40),
+    "Banana Plant": new Decimal(25),
+  };
+
+  if (
+    state?.buildings["Warehouse"] &&
+    isBuildingReady(state.buildings["Warehouse"])
+  ) {
+    seeds = {
+      "Sunflower Seed": new Decimal(1200),
+      "Potato Seed": new Decimal(600),
+      "Pumpkin Seed": new Decimal(480),
+      "Carrot Seed": new Decimal(300),
+      "Cabbage Seed": new Decimal(288),
+      "Beetroot Seed": new Decimal(264),
+      "Cauliflower Seed": new Decimal(240),
+      "Parsnip Seed": new Decimal(180),
+      "Eggplant Seed": new Decimal(144),
+      "Corn Seed": new Decimal(144),
+      "Radish Seed": new Decimal(120),
+      "Wheat Seed": new Decimal(120),
+      "Kale Seed": new Decimal(96),
+
+      "Apple Seed": new Decimal(30),
+      "Orange Seed": new Decimal(40),
+      "Blueberry Seed": new Decimal(50),
+      "Banana Plant": new Decimal(30),
+    };
+  }
+
+  return seeds;
+};
+
 export const INITIAL_GOLD_MINES: GameState["gold"] = {
   0: {
     stone: {
@@ -182,7 +232,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
 
 export const TEST_FARM: GameState = {
   balance: new Decimal(0),
-  id: 123,
+  previousBalance: new Decimal(0),
   inventory: {
     Sunflower: new Decimal(5),
     Potato: new Decimal(12),
@@ -203,6 +253,7 @@ export const TEST_FARM: GameState = {
     "Sunflower Cake": new Decimal(1),
     "Basic Land": new Decimal(1),
   },
+  previousInventory: {},
   stock: INITIAL_STOCK(),
   chickens: {},
   farmActivity: {},
@@ -395,7 +446,7 @@ export const TEST_FARM: GameState = {
 
 export const EMPTY: GameState = {
   balance: new Decimal(fromWei("0")),
-  id: 123,
+  previousBalance: new Decimal(fromWei("0")),
   createdAt: new Date().getTime(),
   inventory: {
     "Chicken Coop": new Decimal(1),
@@ -403,6 +454,7 @@ export const EMPTY: GameState = {
     Gold: new Decimal(10),
     Stone: new Decimal(10),
   },
+  previousInventory: {},
   chickens: {},
   stock: {},
   stockExpiry: {},

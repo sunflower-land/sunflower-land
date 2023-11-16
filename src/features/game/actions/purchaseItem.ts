@@ -39,10 +39,25 @@ export async function purchaseItem(request: Request) {
     throw new Error(ERRORS.MINT_COLLECTIBLE_SERVER_ERROR);
   }
 
-  const transaction = await response.json();
+  const { gameState, farmAddress, ...transaction } = await response.json();
 
+  return {
+    gameState,
+    farmAddress,
+    transaction,
+    verified: true,
+    item: request.item,
+    amount: request.amount,
+  };
+}
+
+export async function purchaseItemOnChain(request: {
+  transaction: any;
+  item: PurchasableItems;
+  amount?: number;
+}) {
   const sessionId = await syncProgress({
-    ...transaction,
+    ...request.transaction,
     web3: wallet.web3Provider,
     account: wallet.myAccount,
     purchase: {
@@ -51,5 +66,5 @@ export async function purchaseItem(request: Request) {
     },
   });
 
-  return { sessionId, verified: true };
+  return { sessionId };
 }

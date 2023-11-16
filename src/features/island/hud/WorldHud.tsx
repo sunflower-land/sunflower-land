@@ -18,6 +18,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Settings } from "./components/Settings";
 import { Leaderboard } from "features/game/expansion/components/leaderboard/Leaderboard";
 import { TravelButton } from "./components/deliveries/TravelButton";
+import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -31,7 +32,7 @@ const HudComponent: React.FC = () => {
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
 
-  const farmId = Number(authService.state.context.user.farmId);
+  const farmId = Number(gameState.context.farmId);
 
   const autosaving = gameState.matches("autosaving");
 
@@ -45,9 +46,8 @@ const HudComponent: React.FC = () => {
     gameService.send("DEPOSIT", args);
   };
 
-  const user = authService.state.context.user;
-  const isFullUser = user.type === "FULL";
-  const farmAddress = isFullUser ? user.farmAddress : undefined;
+  const farmAddress = gameService.state?.context?.farmAddress;
+  const isFullUser = farmAddress !== undefined;
 
   return (
     <>
@@ -86,7 +86,6 @@ const HudComponent: React.FC = () => {
             blockBucks={
               gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
             }
-            isFullUser={isFullUser}
           />
           <div
             className="fixed z-50 flex flex-col justify-between"
@@ -100,6 +99,16 @@ const HudComponent: React.FC = () => {
             <Leaderboard farmId={farmId} />
             <TravelButton />
           </div>
+          <div
+            className="fixed z-50 flex flex-col justify-between"
+            style={{
+              bottom: `${PIXEL_SCALE * 3}px`,
+              left: `${PIXEL_SCALE * 28}px`,
+            }}
+          >
+            <AuctionCountdown />
+          </div>
+
           <BumpkinProfile isFullUser={isFullUser} />
 
           <div

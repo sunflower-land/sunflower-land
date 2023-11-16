@@ -34,19 +34,19 @@ export const maxItems: Inventory = {
   "Banana Chicken": new Decimal("5"),
 
   // Seed limits + buffer
-  "Sunflower Seed": new Decimal(1000),
-  "Potato Seed": new Decimal(500),
-  "Pumpkin Seed": new Decimal(400),
-  "Carrot Seed": new Decimal(300),
-  "Cabbage Seed": new Decimal(250),
-  "Beetroot Seed": new Decimal(200),
-  "Cauliflower Seed": new Decimal(150),
-  "Parsnip Seed": new Decimal(150),
-  "Eggplant Seed": new Decimal(100),
-  "Corn Seed": new Decimal(100),
-  "Radish Seed": new Decimal(100),
-  "Wheat Seed": new Decimal(100),
-  "Kale Seed": new Decimal(100),
+  "Sunflower Seed": new Decimal(1250),
+  "Potato Seed": new Decimal(650),
+  "Pumpkin Seed": new Decimal(530),
+  "Carrot Seed": new Decimal(350),
+  "Cabbage Seed": new Decimal(350),
+  "Beetroot Seed": new Decimal(320),
+  "Cauliflower Seed": new Decimal(290),
+  "Parsnip Seed": new Decimal(230),
+  "Eggplant Seed": new Decimal(200),
+  "Corn Seed": new Decimal(200),
+  "Radish Seed": new Decimal(170),
+  "Wheat Seed": new Decimal(170),
+  "Kale Seed": new Decimal(150),
   "Apple Seed": new Decimal(100),
   "Orange Seed": new Decimal(100),
   "Blueberry Seed": new Decimal(100),
@@ -161,23 +161,21 @@ export const maxItems: Inventory = {
  */
 const MAX_SESSION_SFL = 255;
 
-type checkProgressArgs = ProcessEventArgs & { onChain: GameState };
-
-export function checkProgress({ state, action, onChain }: checkProgressArgs): {
+export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   valid: boolean;
   maxedItem?: InventoryItemName | "SFL";
 } {
   let newState: GameState;
 
   try {
-    newState = processEvent({ state, action });
+    newState = processEvent({ state, action, farmId });
   } catch {
     // Not our responsibility to catch events, pass on to the next handler
     return { valid: true };
   }
 
   const auctionSFL = newState.auctioneer.bid?.sfl ?? new Decimal(0);
-  const progress = newState.balance.add(auctionSFL).sub(onChain.balance);
+  const progress = newState.balance.add(auctionSFL).sub(newState.balance);
 
   /**
    * Contract enforced SFL caps
@@ -212,12 +210,13 @@ export function checkProgress({ state, action, onChain }: checkProgressArgs): {
       const auctionAmount = auctionBid[name] ?? new Decimal(0);
       const listingAmount = listedItems[name] ?? new Decimal(0);
 
-      const onChainAmount = onChain.inventory[name] || new Decimal(0);
+      const previousInventoryAmount =
+        newState.previousInventory[name] || new Decimal(0);
 
       const diff = inventoryAmount
         .add(auctionAmount)
         .add(listingAmount)
-        .minus(onChainAmount);
+        .minus(previousInventoryAmount);
 
       const max = maxItems[name] || new Decimal(0);
 
@@ -269,12 +268,14 @@ type ProcessEventArgs = {
   state: GameState;
   action: GameEvent;
   announcements?: Announcements;
+  farmId: number;
 };
 
 export function processEvent({
   state,
   action,
   announcements,
+  farmId,
 }: ProcessEventArgs): GameState {
   const handler = EVENTS[action.type];
 
@@ -287,6 +288,7 @@ export function processEvent({
     // TODO - fix type error
     action: action as never,
     announcements,
+    farmId,
   });
 
   return newState;

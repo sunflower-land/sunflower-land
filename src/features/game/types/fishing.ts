@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { Bait } from "./composters";
 import { InventoryItemName } from "./game";
-import { getCurrentSeason } from "./seasons";
 import { Tool } from "./tools";
 
 export type PurchaseableBait = "Fishing Lure";
@@ -79,6 +78,7 @@ export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
   Blueberry: 3,
   Orange: 3,
   Apple: 3,
+  Banana: 3,
   Seaweed: 1,
   Crab: 2,
   Anchovy: 1,
@@ -107,6 +107,7 @@ export const CHUM_DETAILS: Partial<Record<InventoryItemName, string>> = {
   Blueberry: "Often confused by blue fish as potential mates.",
   Orange: "Oranges, the citrusy curiosity for sea creatures.",
   Apple: "Apples – a crunchy enigma beneath the waves.",
+  Banana: "Lighter than water!",
   Seaweed: "A taste of the ocean in a leafy underwater snack.",
   Crab: "A tantalizing morsel for a curious undersea fish.",
   Anchovy: "Anchovies, mysteriously alluring to the outlaws of the sea.",
@@ -155,15 +156,15 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     type: "basic",
   },
   "Red Snapper": {
-    baits: ["Grub", "Fishing Lure"],
+    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "advanced",
   },
   "Moray Eel": {
-    baits: ["Grub", "Fishing Lure"],
+    baits: ["Earthworm", "Grub", "Fishing Lure"],
     type: "advanced",
   },
   "Olive Flounder": {
-    baits: ["Grub", "Fishing Lure"],
+    baits: ["Earthworm", "Grub", "Fishing Lure"],
     type: "advanced",
   },
   Napoleanfish: {
@@ -187,19 +188,19 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     type: "advanced",
   },
   "Barred Knifejaw": {
-    baits: [],
+    baits: ["Grub", "Fishing Lure"],
     type: "advanced",
   },
   Tuna: {
-    baits: ["Red Wiggler", "Fishing Lure"],
+    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "expert",
   },
   "Mahi Mahi": {
-    baits: ["Red Wiggler", "Fishing Lure"],
+    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "expert",
   },
   "Blue Marlin": {
-    baits: ["Red Wiggler", "Fishing Lure"],
+    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "expert",
   },
   Oarfish: {
@@ -231,7 +232,7 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     type: "expert",
   },
   "Twilight Anglerfish": {
-    baits: ["Red Wiggler", "Grub"],
+    baits: ["Red Wiggler", "Grub", "Fishing Lure"],
     type: "marine marvel",
   },
   "Starlight Tuna": {
@@ -250,7 +251,6 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     baits: ["Earthworm", "Red Wiggler", "Fishing Lure"],
     type: "marine marvel",
   },
-
   "Kraken Tentacle": {
     baits: ["Earthworm", "Grub", "Red Wiggler", "Fishing Lure"],
     type: "expert",
@@ -276,14 +276,6 @@ export function getTide(utcTime: Date = new Date()): Tide {
 export const FISH_DIFFICULTY: Partial<
   Record<FishName | MarineMarvelName, number>
 > = {
-  // TESTING ONLY
-  ...(getCurrentSeason() === "Witches' Eve"
-    ? {
-        Anchovy: 2,
-        "Red Snapper": 3,
-        Tuna: 4,
-      }
-    : {}),
   "Horse Mackerel": 1,
   Squid: 1,
   "Zebra Turkeyfish": 1,

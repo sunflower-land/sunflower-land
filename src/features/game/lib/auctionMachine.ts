@@ -222,14 +222,9 @@ export const createAuctioneerMachine = ({
           entry: "setTransactionId",
           invoke: {
             src: async (context, event) => {
-              console.log({ event });
               const { auctions } = await loadAuctions({
                 token: context.token,
                 transactionId: context.transactionId as string,
-              });
-              console.log({
-                auctions,
-                id: auctions.length > 0 ? auctions[0].auctionId : undefined,
               });
 
               return {
@@ -257,7 +252,6 @@ export const createAuctioneerMachine = ({
             {
               target: "noAccess",
               cond: (context) => {
-                console.log({ canAccess: context.canAccess });
                 return !context.canAccess;
               },
             },
@@ -323,8 +317,6 @@ export const createAuctioneerMachine = ({
                 (a) => a.auctionId === auctionId
               ) as Auction;
 
-              console.log({ auction, context });
-
               const { game } = await bid({
                 farmId: Number(context.farmId),
                 token: context.token as string,
@@ -361,7 +353,6 @@ export const createAuctioneerMachine = ({
           entry: "setTransactionId",
           invoke: {
             src: async (context, event) => {
-              console.log({ bid: context.bid });
               const auctionResult = await getAuctionResults({
                 farmId: Number(context.farmId),
                 token: context.token as string,

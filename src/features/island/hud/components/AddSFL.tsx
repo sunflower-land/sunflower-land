@@ -54,6 +54,7 @@ export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
 
       setSFLAmount(sfl);
     } catch (error: any) {
+      // eslint-disable-next-line no-console
       console.error(error.message);
     }
   };

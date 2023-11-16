@@ -112,11 +112,6 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const canSkip =
     getDayOfYear(new Date()) !== getDayOfYear(new Date(previewOrder.createdAt));
 
-  const deliver = () => {
-    gameService.send("order.delivered", { id: previewOrder?.id });
-    onSelect(undefined);
-  };
-
   const skip = () => {
     setShowSkipDialog(false);
     gameService.send("order.skipped", { id: previewOrder?.id });
@@ -176,7 +171,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   }
 
   const { tasksAreClosing, tasksStartAt, tasksCloseAt, tasksAreFrozen } =
-    getSeasonChangeover({ id: gameService.state.context.state.id });
+    getSeasonChangeover({ id: gameService.state.context.farmId });
 
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1">

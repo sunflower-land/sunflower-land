@@ -3,7 +3,7 @@ import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
 import { makeGame } from "../lib/transforms";
-import { GameState, InventoryItemName } from "../types/game";
+import { GameState } from "../types/game";
 import { Announcements } from "../types/conversations";
 import {
   getReferrerId,
@@ -12,22 +12,17 @@ import {
 import { Moderation } from "../lib/gameMachine";
 
 type Request = {
-  sessionId: string;
-  farmId: number;
   token: string;
   transactionId: string;
   wallet: string;
-  guestKey?: string;
 };
 
-export type MintedAt = Partial<Record<InventoryItemName, number>>;
 type Response = {
+  farmId: string;
+  farmAddress?: string;
   game: GameState;
   isBlacklisted?: boolean;
-  whitelistedAt?: string;
-  itemsMintedAt?: MintedAt;
   deviceTrackerId: string;
-  status?: "COOL_DOWN";
   announcements: Announcements;
   transaction?: {
     type: "withdraw_bumpkin";
@@ -36,20 +31,18 @@ type Response = {
   verified: boolean;
   promoCode?: string;
   moderation: Moderation;
+  sessionId: string;
+  analyticsId: string;
 };
 
 const API_URL = CONFIG.API_URL;
 
-export async function loadSession(
-  request: Request
-): Promise<Response | undefined> {
-  if (!API_URL) return;
-
+export async function loadSession(request: Request): Promise<Response> {
   const promoCode = getPromoCode();
   const referrerId = getReferrerId();
   const signUpMethod = getSignupMethod();
 
-  const response = await window.fetch(`${API_URL}/session/${request.farmId}`, {
+  const response = await window.fetch(`${API_URL}/session`, {
     method: "POST",
     //mode: "no-cors",
     headers: {
@@ -59,10 +52,8 @@ export async function loadSession(
       "X-Transaction-ID": request.transactionId,
     },
     body: JSON.stringify({
-      sessionId: request.sessionId,
       clientVersion: CONFIG.CLIENT_VERSION as string,
       wallet: request.wallet,
-      guestKey: request.guestKey,
       promoCode,
       referrerId,
       signUpMethod,
@@ -88,21 +79,20 @@ export async function loadSession(
   const {
     farm,
     isBlacklisted,
-    whitelistedAt,
-    itemsMintedAt,
     deviceTrackerId,
-    status,
     announcements,
     transaction,
     verified,
     moderation,
     promoCode: promo,
+    farmId,
+    sessionId,
+    farmAddress,
+    analyticsId,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
     isBlacklisted: boolean;
-    whitelistedAt: string;
-    itemsMintedAt: MintedAt;
     deviceTrackerId: string;
     status?: "COOL_DOWN";
     announcements: Announcements;
@@ -110,22 +100,27 @@ export async function loadSession(
     verified: boolean;
     moderation: Moderation;
     promoCode?: string;
+    sessionId: string;
+    farmId: string;
+    analyticsId: string;
+    farmAddress?: string;
   }>(response);
 
-  saveSession(request.farmId);
+  saveSession(farm.id);
 
   return {
+    farmAddress,
+    sessionId,
+    farmId,
     game: makeGame(farm),
     isBlacklisted,
-    whitelistedAt,
-    itemsMintedAt,
     deviceTrackerId,
-    status,
     announcements,
     transaction,
     verified,
     moderation,
     promoCode: promo,
+    analyticsId,
   };
 }
 

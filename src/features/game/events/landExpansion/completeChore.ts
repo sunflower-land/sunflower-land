@@ -5,7 +5,7 @@ import { getKeys } from "features/game/types/craftables";
 import { ChoreV2Name, GameState } from "features/game/types/game";
 import { getProgress } from "features/helios/components/hayseedHank/lib/HayseedHankTask";
 import { CONFIG } from "lib/config";
-import { analytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import cloneDeep from "lodash.clonedeep";
 import { startChore } from "./startChore";
 import { getSeasonalTicket } from "features/game/types/seasons";
@@ -20,6 +20,7 @@ type Options = {
   state: Readonly<GameState>;
   action: CompleteChoreAction;
   createdAt?: number;
+  farmId?: number;
 };
 
 const clone = (state: GameState): GameState => {
@@ -29,6 +30,7 @@ const clone = (state: GameState): GameState => {
 function completeDawnBreakerChore({
   state,
   createdAt = Date.now(),
+  farmId = 0,
 }: Options): GameState {
   let game = clone(state);
   const { hayseedHank } = game;
@@ -50,15 +52,13 @@ function completeDawnBreakerChore({
   }
 
   const { tasksAreFrozen } = getSeasonChangeover({
-    id: state.id,
+    id: farmId,
     now: createdAt,
   });
 
   if (tasksAreFrozen) {
     throw new Error("Chores are frozen");
   }
-
-  const activity = hayseedHank.chore.activity;
 
   const progress = getProgress(game);
 
@@ -126,7 +126,7 @@ function completeDawnBreakerChore({
     });
   }
 
-  analytics.logEvent("chore_complete", {
+  onboardingAnalytics.logEvent("chore_complete", {
     choreIndex,
   });
 

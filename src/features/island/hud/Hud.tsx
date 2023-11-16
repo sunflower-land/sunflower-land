@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Balance } from "components/Balance";
 import { useActor } from "@xstate/react";
-import * as AuthProvider from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 import { Settings } from "./components/Settings";
 import { Inventory } from "./components/inventory/Inventory";
@@ -17,12 +16,12 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
 import classNames from "classnames";
-import { useLocation } from "react-router-dom";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { createPortal } from "react-dom";
 import { HalveningCountdown } from "./components/HalveningCountdown";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { CodexButton } from "./components/codex/CodexButton";
+import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -32,11 +31,8 @@ const HudComponent: React.FC<{
   isFarming: boolean;
   moveButtonsUp?: boolean;
 }> = ({ isFarming, moveButtonsUp }) => {
-  const { authService } = useContext(AuthProvider.Context);
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const location = useLocation();
-  const [isMobile] = useIsMobile();
 
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
@@ -53,11 +49,8 @@ const HudComponent: React.FC<{
     gameService.send("DEPOSIT", args);
   };
 
-  const user = authService.state.context.user;
-  const isFullUser = user.type === "FULL";
-  const farmAddress = isFullUser ? user.farmAddress : undefined;
-
-  const isDawnBreakerIsland = location.pathname.includes("dawn-breaker");
+  const farmAddress = gameService.state?.context?.farmAddress;
+  const isFullUser = farmAddress !== undefined;
 
   return (
     <>
@@ -141,7 +134,6 @@ const HudComponent: React.FC<{
             blockBucks={
               gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
             }
-            isFullUser={isFullUser}
           />
 
           <div
@@ -155,6 +147,16 @@ const HudComponent: React.FC<{
           >
             <CodexButton />
             <TravelButton />
+          </div>
+
+          <div
+            className="fixed z-50 flex flex-col justify-between"
+            style={{
+              bottom: `${PIXEL_SCALE * 3}px`,
+              left: `${PIXEL_SCALE * 28}px`,
+            }}
+          >
+            <AuctionCountdown />
           </div>
 
           <HalveningCountdown />
@@ -183,6 +185,11 @@ const HudComponent: React.FC<{
                   onDeposit={handleDeposit}
                   onLoaded={(loaded) => setDepositDataLoaded(loaded)}
                   onClose={handleClose}
+                  canDeposit={
+                    getBumpkinLevel(
+                      gameState.context.state.bumpkin?.experience ?? 0
+                    ) >= 3
+                  }
                 />
               </CloseButtonPanel>
             </Modal>

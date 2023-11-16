@@ -9,12 +9,12 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import classNames from "classnames";
 
 interface Props {
-  isFullUser: boolean;
+  isVisiting?: boolean;
   blockBucks: Decimal;
 }
 
 export const BlockBucks: React.FC<Props> = ({
-  isFullUser,
+  isVisiting = false,
   blockBucks = new Decimal(0),
 }) => {
   const { openModal } = useContext(ModalContext);
@@ -23,16 +23,15 @@ export const BlockBucks: React.FC<Props> = ({
     <>
       <InnerPanel
         className={classNames("flex items-center fixed z-50", {
-          "cursor-pointer": isFullUser,
+          "cursor-pointer": !isVisiting,
         })}
         style={{
           top: `${PIXEL_SCALE * 21}px`,
           right: `${PIXEL_SCALE * 3}px`,
         }}
         onClick={
-          isFullUser
+          !isVisiting
             ? () => {
-                console.log("OPEN");
                 openModal("BUY_BLOCK_BUCKS");
               }
             : undefined

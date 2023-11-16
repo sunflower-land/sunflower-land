@@ -216,6 +216,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Chowder: 551,
   Gumbo: 552,
   "Fermented Fish": 553,
+  "Banana Blast": 554,
 
   Wood: 601,
   Stone: 602,
@@ -488,6 +489,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Beach Umbrella": 1294,
   "Sapo Docuras": 1295,
   "Sapo Travessuras": 1296,
+  "Time Warp Totem": 1297,
 
   //Beach Bounty
   "Pirate Bounty": 1301,

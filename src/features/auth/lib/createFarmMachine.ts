@@ -4,7 +4,7 @@ import { assign, createMachine, Interpreter } from "xstate";
 import { escalate } from "xstate/lib/actions";
 import { signTransaction } from "../actions/createAccount";
 import { CharityAddress } from "../components";
-import { analytics } from "lib/analytics";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { estimateAccountGas } from "lib/blockchain/AccountMinter";
 import { toWei } from "web3-utils";
 
@@ -78,7 +78,7 @@ export const createFarmMachine = createMachine<
         },
       },
       notEnoughMatic: {
-        entry: () => analytics.logEvent("not_enough_matic"),
+        entry: () => onboardingAnalytics.logEvent("not_enough_matic"),
         invoke: {
           src: "updateBalance",
           onDone: [
@@ -102,7 +102,7 @@ export const createFarmMachine = createMachine<
         },
       },
       hasEnoughMatic: {
-        entry: () => analytics.logEvent("wallet_funded"),
+        entry: () => onboardingAnalytics.logEvent("wallet_funded"),
       },
     },
   },
@@ -131,7 +131,6 @@ export const createFarmMachine = createMachine<
 
         const maticFee = Number(estimatedGas);
         const estimatedGasUSD = Number(estimatedGas) / Number(conversionRate);
-        console.log({ estimatedGas, estimatedGasUSD, conversionRate });
 
         return { maticFee, maticBalance, estimatedGasUSD };
       },

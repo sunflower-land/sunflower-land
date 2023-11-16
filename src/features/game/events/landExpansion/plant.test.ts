@@ -3,7 +3,13 @@ import Decimal from "decimal.js-light";
 import { CROPS } from "features/game/types/crops";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { GameState, CropPlot } from "../../types/game";
-import { getCropTime, getCropYieldAmount, isPlotFertile, plant } from "./plant";
+import {
+  getCropTime,
+  getCropYieldAmount,
+  getPlantedAt,
+  isPlotFertile,
+  plant,
+} from "./plant";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -1856,7 +1862,7 @@ describe("getCropTime", () => {
 });
 
 describe("isPlotFertile", () => {
-  it("cannot plant on 16th field if a well is not available", () => {
+  it("cannot plant on 18th field if a well is not available", () => {
     let counter = 1;
     const fakePlot = () => ({
       createdAt: Date.now() + counter++,
@@ -1884,15 +1890,18 @@ describe("isPlotFertile", () => {
         76: fakePlot(),
         87: fakePlot(), //16th
         98: fakePlot(), // 17th
+        99: fakePlot(), // 18th
+        100: fakePlot(), // 19th
       },
-      plotIndex: "87",
+      plotIndex: "99",
       buildings: {},
+      bumpkin: { ...INITIAL_BUMPKIN },
     });
 
     expect(isFertile).toBeFalsy();
   });
 
-  it("cannot plant on 23rd field if 2 wells are not avilable", () => {
+  it("cannot plant on 25th field if 2 wells are not avilable", () => {
     let counter = 1;
     const fakePlot = () => ({
       createdAt: Date.now() + counter++,
@@ -1912,6 +1921,7 @@ describe("isPlotFertile", () => {
           },
         ],
       },
+      bumpkin: { ...INITIAL_BUMPKIN },
       crops: {
         0: fakePlot(),
         1: fakePlot(),
@@ -1937,8 +1947,10 @@ describe("isPlotFertile", () => {
         21: fakePlot(),
         22: fakePlot(),
         23: fakePlot(), // 24th
+        24: fakePlot(), // 25th
+        25: fakePlot(), // 26th
       },
-      plotIndex: "23",
+      plotIndex: "25",
     });
 
     expect(isFertile).toBeFalsy();
@@ -1969,6 +1981,7 @@ describe("isPlotFertile", () => {
       },
       plotIndex: "5",
       buildings: {},
+      bumpkin: { ...INITIAL_BUMPKIN },
     });
     expect(isFertile).toBeTruthy();
   });
@@ -1992,6 +2005,7 @@ describe("isPlotFertile", () => {
           },
         ],
       },
+      bumpkin: { ...INITIAL_BUMPKIN },
       crops: {
         0: fakePlot,
         1: fakePlot,
@@ -2342,5 +2356,71 @@ describe("getCropYield", () => {
     expect(plots).toBeDefined();
 
     expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  describe("getPlantedAt", () => {
+    it("returns normal planted at if time wrap is expired", () => {
+      const now = Date.now();
+
+      const time = getPlantedAt({
+        buds: {},
+        buildings: {},
+        bumpkin: INITIAL_BUMPKIN,
+        crop: "Sunflower",
+        inventory: {},
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now - 2 * 60 * 60 * 1000 - 1,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 2 * 60 * 60 * 1000 - 1,
+            },
+          ],
+        },
+        createdAt: now,
+        plot: {
+          createdAt: now,
+          height: 1,
+          width: 1,
+          x: 0,
+          y: -2,
+        },
+      });
+
+      expect(time).toEqual(now);
+    });
+
+    it("crop replenishes faster with time warp", () => {
+      const now = Date.now();
+
+      const time = getPlantedAt({
+        buds: {},
+        buildings: {},
+        bumpkin: INITIAL_BUMPKIN,
+        crop: "Sunflower",
+        inventory: {},
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
+        createdAt: now,
+        plot: {
+          createdAt: now,
+          height: 1,
+          width: 1,
+          x: 0,
+          y: -2,
+        },
+      });
+
+      expect(time).toEqual(now - 30 * 1000);
+    });
   });
 });

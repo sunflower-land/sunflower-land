@@ -3,7 +3,6 @@ import { Modal } from "react-bootstrap";
 import { useSelector } from "@xstate/react";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
-import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Loading } from "features/auth/components";
 import { ErrorCode } from "lib/errors";
@@ -30,16 +29,9 @@ import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 
 import land from "assets/land/islands/island.webp";
-import { TreasureIsland } from "features/treasureIsland/TreasureIsland";
 import { getBumpkinLevel } from "../lib/level";
-import { SnowKingdom } from "features/snowKingdom/SnowKingdom";
 import { IslandNotFound } from "./components/IslandNotFound";
-import { Studios } from "features/studios/Studios";
 import { Rules } from "../components/Rules";
-import { PumpkinPlaza } from "features/pumpkinPlaza/PumpkinPlaza";
-import { BeachParty } from "features/pumpkinPlaza/BeachParty";
-import { HeadQuarters } from "features/pumpkinPlaza/HeadQuarters";
-import { StoneHaven } from "features/pumpkinPlaza/StoneHaven";
 import { WalletOnboarding } from "features/tutorials/wallet/WalletOnboarding";
 import { Introduction } from "./components/Introduction";
 import { NoTownCenter } from "../components/NoTownCenter";
@@ -53,12 +45,12 @@ import { Promo } from "./components/Promo";
 import { Traded } from "../components/Traded";
 import { Sniped } from "../components/Sniped";
 import { NewMail } from "./components/NewMail";
+import { Blacklisted } from "../components/Blacklisted";
+import { AirdropPopup } from "./components/Airdrop";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
   loading: true,
-  playingFullGame: false,
-  playingGuestGame: false,
   playing: false,
   autosaving: false,
   syncing: true,
@@ -99,6 +91,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   traded: true,
   buds: false,
   mailbox: false,
+  blacklisted: true,
+  airdrop: true,
 };
 
 // State change selectors
@@ -116,7 +110,10 @@ const isHoarding = (state: MachineState) => state.matches("hoarding");
 const isVisiting = (state: MachineState) => state.matches("visiting");
 const isSwarming = (state: MachineState) => state.matches("swarming");
 const isPurchasing = (state: MachineState) =>
-  state.matches("purchasing") || state.matches("buyingBlockBucks");
+  state.matches({ purchasing: "fetching" }) ||
+  state.matches({ purchasing: "transacting" }) ||
+  state.matches({ buyingBlockBucks: "fetching" }) ||
+  state.matches({ buyingBlockBucks: "transacting" });
 const isNoTownCenter = (state: MachineState) => state.matches("noTownCenter");
 const isNoBumpkinFound = (state: MachineState) =>
   state.matches("noBumpkinFound");
@@ -142,7 +139,9 @@ const isClaimAuction = (state: MachineState) => state.matches("claimAuction");
 const isRefundingAuction = (state: MachineState) =>
   state.matches("refundAuction");
 const isPromoing = (state: MachineState) => state.matches("promo");
+const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
 const isBudding = (state: MachineState) => state.matches("buds");
+const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 
 export const Game: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -191,9 +190,6 @@ export const Game: React.FC = () => {
               <Route path="/:id" element={<Land />} />
             </Routes>
           </div>
-          <div className="absolute z-20">
-            <VisitingHud />
-          </div>
         </>
       );
     }
@@ -204,31 +200,6 @@ export const Game: React.FC = () => {
           <Routes>
             <Route path="/" element={<Land />} />
             <Route path="/helios" element={<Helios key="helios" />} />
-            <Route path="/snow" element={<SnowKingdom key="snow" />} />
-            <Route path="/plaza" element={<PumpkinPlaza key="plaza" />} />
-            <Route path="/beach" element={<BeachParty key="beach-party" />} />
-            <Route
-              path="/headquarters"
-              element={<HeadQuarters key="headquarters" />}
-            />
-            {level >= 10 && (
-              <Route
-                path="/treasure-island"
-                element={<TreasureIsland key="treasure" />}
-              />
-            )}
-
-            {level >= 20 && (
-              <Route
-                path="/stone-haven"
-                element={<StoneHaven key="stone-haven" />}
-              />
-            )}
-            {level >= 50 && (
-              <Route path="/snow" element={<SnowKingdom key="snow" />} />
-            )}
-            <Route path="/studios" element={<Studios key="hq" />} />
-
             <Route path="*" element={<IslandNotFound />} />
           </Routes>
         </div>
@@ -240,7 +211,6 @@ export const Game: React.FC = () => {
 };
 
 export const GameWrapper: React.FC = ({ children }) => {
-  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
 
   const loading = useSelector(gameService, isLoading);
@@ -272,7 +242,9 @@ export const GameWrapper: React.FC = ({ children }) => {
   const claimingAuction = useSelector(gameService, isClaimAuction);
   const refundAuction = useSelector(gameService, isRefundingAuction);
   const promo = useSelector(gameService, isPromoing);
+  const blacklisted = useSelector(gameService, isBlacklisted);
   const showBuds = useSelector(gameService, isBudding);
+  const airdrop = useSelector(gameService, hasAirdrop);
 
   useInterval(() => {
     gameService.send("SAVE");
@@ -322,12 +294,15 @@ export const GameWrapper: React.FC = ({ children }) => {
     );
   }
 
+  const stateValue = typeof state === "object" ? Object.keys(state)[0] : state;
+
   return (
     <ToastProvider>
       <ToastPanel />
 
-      <Modal show={SHOW_MODAL[state as StateValues]} centered>
+      <Modal show={SHOW_MODAL[stateValue as StateValues]} centered>
         <Panel>
+          {blacklisted && <Blacklisted />}
           {loading && <Loading />}
           {refreshing && <Refreshing />}
           {buyingSFL && <AddingSFL />}
@@ -350,6 +325,7 @@ export const GameWrapper: React.FC = ({ children }) => {
           {sniped && <Sniped />}
           {minting && <Minting />}
           {promo && <Promo />}
+          {airdrop && <AirdropPopup />}
         </Panel>
       </Modal>
 

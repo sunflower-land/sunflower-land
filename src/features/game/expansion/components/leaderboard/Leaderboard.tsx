@@ -4,14 +4,9 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getRelativeTime } from "lib/utils/time";
 import { Leaderboards } from "./actions/cache";
 import { LeaderboardButton } from "./LeaderboardButton";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { Modal } from "react-bootstrap";
 import { fetchLeaderboardData } from "./actions/leaderboard";
-import { MazeTable } from "./MazeTable";
-import {
-  getCurrentSeason,
-  getSeasonalTicket,
-} from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/seasons";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {
@@ -33,6 +28,7 @@ export const Leaderboard: React.FC<Props> = ({ farmId }) => {
         setData(data);
         setLoading(false);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.error("Error loading leaderboards", e);
       }
     };
@@ -65,9 +61,6 @@ export const Leaderboard: React.FC<Props> = ({ farmId }) => {
                 icon: ITEM_DETAILS[seasonTicket].image,
                 name: `${seasonTicket}s`,
               },
-              ...(getCurrentSeason() === "Witches' Eve"
-                ? [{ icon: CROP_LIFECYCLE.Corn.crop, name: "Maze" }]
-                : []),
             ]}
             currentTab={leaderboardTab}
             setCurrentTab={setLeaderboardTab}
@@ -97,28 +90,6 @@ export const Leaderboard: React.FC<Props> = ({ farmId }) => {
                       farmId={Number(farmId)}
                     />
                   </>
-                )}
-              </div>
-            )}
-            {getCurrentSeason() === "Witches' Eve" && leaderboardTab === 1 && (
-              <div>
-                <div className="p-1 mb-1 space-y-1 text-sm">
-                  <p>Maze Run Leaderboard</p>
-                  <p className="text-xs">
-                    Weekly SFL Burned: {data.maze.weeklySflBurned}
-                  </p>
-                  <p className="text-[12px]">
-                    Last updated: {getRelativeTime(data.lastUpdated)}
-                  </p>
-                </div>
-                {data.maze.topRanks.length === 0 && (
-                  <p className="my-1">No maze data available</p>
-                )}
-                {data.maze.topRanks.length > 0 && (
-                  <MazeTable
-                    rankings={data.maze.topRanks}
-                    farmId={Number(farmId)}
-                  />
                 )}
               </div>
             )}

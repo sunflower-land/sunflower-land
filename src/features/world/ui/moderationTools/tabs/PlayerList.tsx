@@ -57,6 +57,7 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
         setUnMuteStatus("success");
       } else {
         setUnMuteStatus("error");
+        // eslint-disable-next-line no-console
         console.log(r);
       }
     });

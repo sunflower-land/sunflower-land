@@ -73,10 +73,9 @@ export const Builder: React.FC = () => {
       }),
       {}
     );
+    // eslint-disable-next-line no-console
     console.log(JSON.stringify(identifiedLayouts, null, 2));
   };
-
-  console.log({ placed });
 
   // Load data
   return (

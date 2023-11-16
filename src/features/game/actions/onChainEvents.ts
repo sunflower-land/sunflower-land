@@ -101,7 +101,6 @@ function getLastBlock(): BlockInfo | null {
   try {
     return JSON.parse(item) as BlockInfo;
   } catch {
-    console.error(`Unable to parse ${LOCAL_STORAGE_KEY}`);
     return null;
   }
 }

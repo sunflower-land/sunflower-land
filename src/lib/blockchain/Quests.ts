@@ -70,11 +70,13 @@ export async function mintQuestItemOnChain({
       .mint(signature, questId, bumpkinId, deadline)
       .send({ from: account, gasPrice })
       .on("error", function (error: any) {
+        // eslint-disable-next-line no-console
         console.log({ error });
         const parsed = parseMetamaskError(error);
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore

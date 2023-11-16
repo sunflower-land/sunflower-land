@@ -35,6 +35,7 @@ export async function mintAuctionCollectible({
   const oldSessionId = await getSessionId(web3, farmId);
   const gasPrice = await estimateGasPrice(web3);
 
+  // eslint-disable-next-line no-console
   console.log({
     signature,
     sessionId,
@@ -65,10 +66,12 @@ export async function mintAuctionCollectible({
       .send({ from: account, gasPrice, value: fee })
       .on("error", function (error: any) {
         const parsed = parseMetamaskError(error);
+        // eslint-disable-next-line no-console
         console.log({ parsedIt: parsed });
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore
@@ -84,6 +87,7 @@ export async function mintAuctionCollectible({
         }
       })
       .on("receipt", function (receipt: any) {
+        // eslint-disable-next-line no-console
         console.log({ receipt });
         resolve(receipt);
       });
@@ -125,6 +129,7 @@ export async function mintAuctionWearable({
   const oldSessionId = await getSessionId(web3, farmId);
   const gasPrice = await estimateGasPrice(web3);
 
+  // eslint-disable-next-line no-console
   console.log({
     signature,
     sessionId,
@@ -155,10 +160,12 @@ export async function mintAuctionWearable({
       .send({ from: account, gasPrice, value: fee })
       .on("error", function (error: any) {
         const parsed = parseMetamaskError(error);
+        // eslint-disable-next-line no-console
         console.log({ parsedIt: parsed });
         reject(parsed);
       })
       .on("transactionHash", async (transactionHash: any) => {
+        // eslint-disable-next-line no-console
         console.log({ transactionHash });
         try {
           // Sequence wallet doesn't resolve the receipt. Therefore
@@ -174,6 +181,7 @@ export async function mintAuctionWearable({
         }
       })
       .on("receipt", function (receipt: any) {
+        // eslint-disable-next-line no-console
         console.log({ receipt });
         resolve(receipt);
       });

@@ -63,13 +63,12 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
 
     try {
       await addDiscordRole({
-        farmId: authState.context.user.farmId as number,
+        farmId: gameService.state.context.farmId,
         token: authState.context.user.rawToken as string,
         role: role,
       });
       setState("joined");
     } catch (e) {
-      console.error(e);
       setState("error");
     }
   };

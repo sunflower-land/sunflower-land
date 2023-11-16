@@ -186,8 +186,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
         }
       : {}),
   }),
-  ...((getCurrentSeason() === "Catch the Kraken" ||
-    hasFeatureAccess(game, "FISHING")) && {
+  ...(getCurrentSeason() === "Catch the Kraken" && {
     "Clown Shirt": {
       sfl: new Decimal(0),
       ingredients: {
@@ -287,7 +286,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
       ingredients: {
         "Mermaid Scale": new Decimal(250),
       },
-      from: new Date("2023-01-1"),
+      from: new Date("2024-01-1"),
       to: new Date("2024-02-01"),
     },
     "Tiki Pants": {
@@ -295,7 +294,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
       ingredients: {
         "Mermaid Scale": new Decimal(250),
       },
-      from: new Date("2023-01-1"),
+      from: new Date("2024-01-1"),
       to: new Date("2024-02-01"),
     },
   }),

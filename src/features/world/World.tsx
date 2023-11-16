@@ -19,7 +19,6 @@ import {
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Ocean } from "./ui/Ocean";
 import { PickServer } from "./ui/PickServer";
-import { MazeHud } from "./ui/cornMaze/MazeHud";
 import { GameWrapper } from "features/game/expansion/Game";
 import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 import { hasFeatureAccess } from "lib/flags";
@@ -63,7 +62,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const mmoService = useInterpret(mmoMachine, {
     context: {
       jwt: authState.context.user.rawToken,
-      farmId: authState.context.user.farmId,
+      farmId: gameState.context.farmId,
       bumpkin: gameState.context.state.bumpkin,
       initialSceneId: name as SceneId,
       experience: gameState.context.state.bumpkin?.experience ?? 0,
@@ -170,7 +169,7 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
       {hasAccess ? (
         <GameWrapper>
           {!isLoading && <MMO isCommunity={isCommunity} />}
-          {name === "corn_maze" ? <MazeHud /> : <WorldHud />}
+          <WorldHud />
         </GameWrapper>
       ) : (
         <IslandNotFound />

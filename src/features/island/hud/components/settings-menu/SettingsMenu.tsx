@@ -22,6 +22,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { PokoOnRamp } from "../PokoOnRamp";
 import { createPortal } from "react-dom";
 import { DEV_TimeMachine } from "./DEV_TimeMachine";
+import { PlazaSettings } from "./PlazaSettingsModal";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -41,6 +42,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
 
   const [showShareModal, setShowShareModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [showPlazaSettingsModal, setShowPlazaSettingsModal] = useState(false);
   const [showAddSFLModal, setShowAddSFLModal] = useState(false);
   const [showDiscordModal, setShowDiscordModal] = useState(false);
   const [showCommunityGardenModal, setShowCommunityGardenModal] =
@@ -51,7 +53,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const { openModal } = useContext(ModalContext);
 
-  const isFullUser = gameService?.state?.value === "playingFullGame";
+  const isFullUser = !!gameService?.state?.context.farmAddress;
 
   const handleHowToPlay = () => {
     setShowHowToPlay(true);
@@ -85,6 +87,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
 
   const handleSettingsClick = () => {
     setShowSettingsModal(true);
+    onClose();
+  };
+
+  const handlePlazaSettingsClick = () => {
+    setShowPlazaSettingsModal(true);
     onClose();
   };
 
@@ -175,6 +182,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                   </>
                 )}
                 <li className="p-1">
+                  <Button onClick={handlePlazaSettingsClick}>
+                    <span>Plaza Settings</span>
+                  </Button>
+                </li>
+                <li className="p-1">
                   <Button onClick={handleSettingsClick}>
                     <span>Settings</span>
                   </Button>
@@ -240,6 +252,10 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
       <AddSFL
         isOpen={showAddSFLModal}
         onClose={() => setShowAddSFLModal(false)}
+      />
+      <PlazaSettings
+        isOpen={showPlazaSettingsModal}
+        onClose={() => setShowPlazaSettingsModal(false)}
       />
 
       {showCaptcha && (
