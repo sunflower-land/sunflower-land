@@ -10,11 +10,13 @@ export type Bonus = {
   };
 };
 
-const BONUSES: Record<BonusName, Bonus> = {
+export const BONUSES: Record<BonusName, Bonus> = {
   "discord-signup": {
-    isClaimed: (game) => !game.wardrobe["Community Hat"].gte(1),
+    isClaimed: (game) => !!game.wardrobe["Companion Cap"],
     reward: {
-      wearables: {},
+      wearables: {
+        "Companion Cap": 1,
+      },
       inventory: { Axe: 5 },
     },
   },
