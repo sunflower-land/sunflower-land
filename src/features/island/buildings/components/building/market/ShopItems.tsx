@@ -9,6 +9,7 @@ import { ConversationName } from "features/game/types/conversations";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { Panel } from "components/ui/Panel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `betty-read.${host}-${window.location.pathname}`;
@@ -35,6 +36,7 @@ export const ShopItems: React.FC<Props> = ({
 }) => {
   const [tab, setTab] = useState(0);
   const [showIntro, setShowIntro] = React.useState(!hasRead() && !cropShortage);
+  const { t } = useAppTranslation();
 
   const bumpkinParts: Partial<Equipped> = NPC_WEARABLES.betty;
 
@@ -44,13 +46,13 @@ export const ShopItems: React.FC<Props> = ({
         <SpeakingText
           message={[
             {
-              text: "Hey, hey! Welcome back.",
+              text: t("shopItems.one"),
             },
             {
-              text: "You've helped solve the crop shortage and prices have returned to normal.",
+              text: t("shopItems.two"),
             },
             {
-              text: "It's time to move onto some bigger and better crops!",
+              text: t("shopItems.three"),
             },
           ]}
           onClose={() => {
@@ -65,10 +67,10 @@ export const ShopItems: React.FC<Props> = ({
     <CloseButtonPanel
       bumpkinParts={bumpkinParts}
       tabs={[
-        { icon: SUNNYSIDE.icons.seeds, name: "Buy" },
+        { icon: SUNNYSIDE.icons.seeds, name: t("buy") },
         {
           icon: CROP_LIFECYCLE.Sunflower.crop,
-          name: "Sell",
+          name: t("sell"),
           unread: !hasSoldBefore,
         },
       ]}

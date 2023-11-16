@@ -7,6 +7,7 @@ import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 import { npcDialogues, defaultDialogue } from "../deliveries/dialogues";
 import { BeachBaitShop } from "../beach/BeachBaitShop";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -17,6 +18,7 @@ export const Finn: React.FC<Props> = ({ onClose }) => {
   const [confirmAction, setConfirmAction] = useState(false);
   const dialogue = npcDialogues.finn || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);
+  const { t } = useAppTranslation();
 
   const handleConfirm = (tab: number) => {
     setConfirmAction(true);
@@ -33,11 +35,11 @@ export const Finn: React.FC<Props> = ({ onClose }) => {
             text: intro,
             actions: [
               {
-                text: "Buy",
+                text: t("buy"),
                 cb: () => handleConfirm(0),
               },
               {
-                text: "Delivery",
+                text: t("delivery"),
                 cb: () => handleConfirm(1),
               },
             ],
@@ -52,8 +54,8 @@ export const Finn: React.FC<Props> = ({ onClose }) => {
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES.finn}
       tabs={[
-        { icon: SUNNYSIDE.icons.heart, name: "Buy" },
-        { icon: SUNNYSIDE.icons.expression_chat, name: "Delivery" },
+        { icon: SUNNYSIDE.icons.heart, name: t("buy") },
+        { icon: SUNNYSIDE.icons.expression_chat, name: t("delivery") },
       ]}
       setCurrentTab={setTab}
       currentTab={tab}
