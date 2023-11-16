@@ -10,6 +10,7 @@ import {
   TranslationKeys,
   WelcomeTerms,
   ShopItems,
+  RewardTerms,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -294,6 +295,20 @@ const henHouseTerms: Record<HenHouseTerms, string> = {
   "henHouse.text.five": "Already placed and working hard!",
   "henHouse.text.six": "Build an extra Hen House to farm more chickens",
 };
+
+const rewardTerms: Record<RewardTerms, string> = {
+  "reward.title": "Daily Reward",
+  "reward.streak": " day streak",
+  "reward.comeBackLater": "Come back later for more rewards",
+  "reward.nextBonus": " Next bonus: ",
+  "reward.unlock": "Unlock Reward",
+  "reward.open": "Open reward",
+  "reward.lvlRequirement": "You must be level 3 to claim daily rewards.",
+  "reward.revealing": "What could it be?",
+  "reward.streakBonus": "3x streak bonus",
+  "reward.found": "You found",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...generalTerms,
   ...welcomeTerms,
@@ -305,4 +320,5 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...conversations,
   ...henHouseTerms,
   ...shopItems,
+  ...rewardTerms,
 };

@@ -5,6 +5,7 @@ import {
   GuideTerms,
   HenHouseTerms,
   Intro,
+  RewardTerms,
   RulesTerms,
   SeasonBannerOffer,
   ShopItems,
@@ -297,6 +298,20 @@ const henHouseTerms: Record<HenHouseTerms, string> = {
   "henHouse.text.six": "Construa uma Hen House extra para criar mais galinhas",
 };
 
+const rewardTerms: Record<RewardTerms, string> = {
+  "reward.title": "Recompensas Diárias",
+  "reward.streak": " dias seguidos",
+  "reward.comeBackLater": "Volte mais tarde para mais recompensas",
+  "reward.nextBonus": "Próximo bônus: ",
+  "reward.unlock": "Desbloquear recompensa",
+  "reward.open": "Abrir recompensa",
+  "reward.lvlRequirement":
+    "Você precisa estar no nível 3 para acessar recompensas diárias.",
+  "reward.revealing": "O que poderia ser?",
+  "reward.streakBonus": "Bônus de streak x3",
+  "reward.found": "Você encontrou",
+};
+
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...generalTerms,
   ...welcomeTerms,
@@ -308,4 +323,5 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...conversations,
   ...henHouseTerms,
   ...shopItems,
+  ...rewardTerms,
 };

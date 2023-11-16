@@ -8,7 +8,8 @@ export type TranslationKeys =
   | GuideTerms
   | Conversations
   | HenHouseTerms
-  | ShopItems;
+  | ShopItems
+  | RewardTerms;
 
 export type GeneralTerms =
   | "featured"
@@ -194,3 +195,15 @@ export type HenHouseTerms =
   | "henHouse.text.four"
   | "henHouse.text.five"
   | "henHouse.text.six";
+
+export type RewardTerms =
+  | "reward.title"
+  | "reward.streak"
+  | "reward.comeBackLater"
+  | "reward.nextBonus"
+  | "reward.unlock"
+  | "reward.open"
+  | "reward.lvlRequirement"
+  | "reward.revealing"
+  | "reward.streakBonus"
+  | "reward.found";
