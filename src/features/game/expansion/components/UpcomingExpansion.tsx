@@ -235,10 +235,11 @@ export const UpcomingExpansion: React.FC = () => {
             />
             {state.expansionRequirements && (
               <>
-                <div className="flex mt-2">
-                  {getKeys(state.expansionRequirements?.resources ?? {}).map(
-                    (name) => (
-                      <div className="mr-3 flex items-center" key={name}>
+                <div className="flex mt-2 flex-wrap justify-center px-4 items-center">
+                  {getKeys(state.expansionRequirements?.resources ?? {})
+                    .filter((name) => name !== "Block Buck")
+                    .map((name) => (
+                      <div className="mr-3 flex items-center mb-1" key={name}>
                         <RequirementLabel
                           type="item"
                           item={name}
@@ -258,8 +259,7 @@ export const UpcomingExpansion: React.FC = () => {
                           />
                         )}
                       </div>
-                    )
-                  )}
+                    ))}
                 </div>
                 {isLocked && (
                   <Label
