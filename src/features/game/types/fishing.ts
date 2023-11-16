@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { Bait } from "./composters";
-import { InventoryItemName } from "./game";
+import { Bumpkin, GameState, InventoryItemName } from "./game";
 import { Tool } from "./tools";
 
 export type PurchaseableBait = "Fishing Lure";
@@ -294,3 +294,19 @@ export const FISH_DIFFICULTY: Partial<
   "Starlight Tuna": 5,
   "Twilight Anglerfish": 5,
 };
+
+export function getDailyFishingCount(state: GameState): number {
+  const today = new Date().toISOString().split("T")[0];
+  return state.fishing.dailyAttempts?.[today] ?? 0;
+}
+
+const DAILY_FISHING_ATTEMPT_LIMIT = 20;
+export function getDailyFishingLimit(bumpkin: Bumpkin): number {
+  const { pants } = bumpkin.equipped;
+
+  if (pants === "Angler Waders") {
+    return DAILY_FISHING_ATTEMPT_LIMIT + 10;
+  }
+
+  return DAILY_FISHING_ATTEMPT_LIMIT;
+}

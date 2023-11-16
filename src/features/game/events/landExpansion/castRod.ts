@@ -1,7 +1,12 @@
 import cloneDeep from "lodash.clonedeep";
 
-import { Bumpkin, GameState, InventoryItemName } from "../../types/game";
-import { CHUM_AMOUNTS, FishingBait } from "features/game/types/fishing";
+import { GameState, InventoryItemName } from "../../types/game";
+import {
+  CHUM_AMOUNTS,
+  FishingBait,
+  getDailyFishingCount,
+  getDailyFishingLimit,
+} from "features/game/types/fishing";
 import Decimal from "decimal.js-light";
 
 export type CastRodAction = {
@@ -16,18 +21,6 @@ type Options = {
   createdAt?: number;
 };
 
-const DAILY_FISHING_ATTEMPT_LIMIT = 20;
-
-export function getDailyFishingLimit(bumpkin: Bumpkin): number {
-  const { pants } = bumpkin.equipped;
-
-  if (pants === "Angler Waders") {
-    return DAILY_FISHING_ATTEMPT_LIMIT + 10;
-  }
-
-  return DAILY_FISHING_ATTEMPT_LIMIT;
-}
-
 export function castRod({
   state,
   action,
@@ -41,10 +34,7 @@ export function castRod({
     throw new Error("You do not have a Bumpkin");
   }
 
-  if (
-    (game.fishing.dailyAttempts?.[today] ?? 0) >=
-    getDailyFishingLimit(game.bumpkin)
-  ) {
+  if (getDailyFishingCount(game) >= getDailyFishingLimit(game.bumpkin)) {
     throw new Error("Daily attempts exhausted");
   }
 

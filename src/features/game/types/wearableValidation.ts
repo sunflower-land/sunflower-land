@@ -1,6 +1,7 @@
 import { getKeys } from "./craftables";
 import { BumpkinItem } from "./bumpkin";
 import { GoblinState } from "../lib/goblinMachine";
+import { getDailyFishingCount } from "./fishing";
 
 export const canWithdrawBoostedWearable = (
   wearable: BumpkinItem,
@@ -80,6 +81,10 @@ export const canWithdrawBoostedWearable = (
       return false;
     }
     return true;
+  }
+
+  if (wearable === "Ancient Rod") {
+    return getDailyFishingCount(state) == 0;
   }
 
   // Safety check
