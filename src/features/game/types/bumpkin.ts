@@ -132,7 +132,8 @@ export type BumpkinTool =
   | "Fishing Spear"
   | "Skinning Knife"
   | "Sunflower Rod"
-  | "Infernal Rod";
+  | "Infernal Rod"
+  | "Pickaxe Shark";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -199,7 +200,14 @@ export type BumpkinHat =
   | "Coconut Mask"
   | "Koi Fish Hat"
   | "Normal Fish Hat"
-  | "Tiki Mask";
+  | "Tiki Mask"
+  | "Seedling Hat"
+  | "Deep Sea Helm"
+  | "Companion Cap"
+  | "Dazzling Dumbo"
+  | "Basic Dumbo"
+  | "Stormy Dumbo"
+  | "Gloomy Dumbo";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -256,7 +264,8 @@ export type BumpkinOnesie =
   | "Bunny Onesie"
   | "Eggplant Onesie"
   | "Corn Onesie"
-  | "Stockeye Salmon Onesie";
+  | "Stockeye Salmon Onesie"
+  | "Banana Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -539,6 +548,15 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Tiki Mask": 248,
   "Tiki Pants": 249,
   "Banana Amulet": 250,
+  "Banana Onesie": 251,
+  "Basic Dumbo": 252,
+  "Companion Cap": 253,
+  "Dazzling Dumbo": 254,
+  "Deep Sea Helm": 255,
+  "Gloomy Dumbo": 256,
+  "Pickaxe Shark": 257,
+  "Seedling Hat": 258,
+  "Stormy Dumbo": 259,
 };
 
 // The reverse of above
@@ -848,4 +866,13 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Tiki Mask": "hat",
   "Tiki Pants": "pants",
   "Banana Amulet": "necklace",
+  "Banana Onesie": "onesie",
+  "Basic Dumbo": "hat",
+  "Companion Cap": "hat",
+  "Dazzling Dumbo": "hat",
+  "Deep Sea Helm": "hat",
+  "Gloomy Dumbo": "hat",
+  "Pickaxe Shark": "tool",
+  "Seedling Hat": "hat",
+  "Stormy Dumbo": "hat",
 };
