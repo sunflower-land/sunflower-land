@@ -9,6 +9,7 @@ import {
   SeasonBannerOffer,
   TranslationKeys,
   WelcomeTerms,
+  ShopItems,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -61,15 +62,22 @@ const seasonBannerOffer: Record<SeasonBannerOffer, string> = {
 
 const introTerms: Record<Intro, string> = {
   "intro.one":
-    "Howdy there, partner! Welcome to Sunflower Land, the bountiful farming paradise!",
+    "Howdy there, Bumpkin! Welcome to Sunflower Land, the bountiful farming paradise where anything is possible!",
   "intro.two":
-    "I'm Otis, an old Bumpkin farmer who's been tending to these lands for longer than I can remember. Truth be told, I could use a little help from a fresh face like you.",
+    "What a beautiful island you have set up on! I'm Pumpkin Pete, your neighboring farmer.",
   "intro.three":
-    "You see, our little island has so much potential, and with your determination and hard work, we can transform it into a thriving empire!",
+    "Right now the players are celebrating a festival in the plaza with fantastic rewards and magical items.",
   "intro.four":
-    "Looks like our little island is getting crowded. If we want to craft buildings and rare NFTs, we'll need more space.",
+    "Before you can join the fun, you will need to grow your farm and gather some resources. You don't want to turn up empty handed!",
   "intro.five":
-    "Let's first chop down these trees, gather some wood and expand the island.",
+    "To get started, you will want to chop down those trees and grow your island.",
+};
+
+const shopItems: Record<ShopItems, string> = {
+  "shopItems.one": "Hey, hey! Welcome back.",
+  "shopItems.two":
+    "You've helped solve the crop shortage and prices have returned to normal.",
+  "shopItems.three": "It's time to move onto some bigger and better crops!",
 };
 
 const achievementTerms: Record<AchievementsDialog, string> = {
@@ -296,4 +304,5 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...guideTerms,
   ...conversations,
   ...henHouseTerms,
+  ...shopItems,
 };

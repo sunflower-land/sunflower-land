@@ -7,6 +7,7 @@ import {
   Intro,
   RulesTerms,
   SeasonBannerOffer,
+  ShopItems,
   TranslationKeys,
   WelcomeTerms,
 } from "./types";
@@ -61,15 +62,22 @@ const seasonBannerOffer: Record<SeasonBannerOffer, string> = {
 
 const introTerms: Record<Intro, string> = {
   "intro.one":
-    "Olá, parceiro! Bem-vindo ao Sunflower Land, o paraíso agrícola!",
+    "Olá, Bumpkin! Bem-vindo ao Sunflower Land, o paraíso agrícola onde tudo é possível!",
   "intro.two":
-    "Sou Otis, um velho fazendeiro Bumpkin que cuida destas terras há mais tempo do que consigo me lembrar. Para ser sincero, eu poderia usar a ajuda de alguém como você, cheio de energia e com novas ideias.",
+    "Que ilha linda você escolheu! Sou o Pumpkin Pete, seu vizinho fazendeiro.",
   "intro.three":
-    "Veja bem, nossa pequena ilha tem um grande potencial, e com sua determinação e empenho, podemos fazer dela um lugar florescente!",
+    "Agora mesmo os jogadores estão celebrando um festival no Pumpkin Plaza com recompensas fantásticas e itens mágicos.",
   "intro.four":
-    "Parece que nossa pequena ilha está ficando lotada. Se quisermos construir edifícios e NFTs raros, vamos precisar de mais espaço.",
+    "Antes de poder se juntar à diversão, você precisará melhorar sua fazenda e coletar alguns recursos. Você não vai querer aparecer de mãos vazias!",
   "intro.five":
-    "Vamos primeiro derrubar essas árvores, coletar madeira e expandir a ilha.",
+    "Para começar, você vai precisar derrubar essas árvores e expandir sua ilha.",
+};
+
+const shopItems: Record<ShopItems, string> = {
+  "shopItems.one": "Ei, ei! Bem-vindo de volta.",
+  "shopItems.two":
+    "Você ajudou a resolver a escassez de colheitas e os preços voltaram ao normal.",
+  "shopItems.three": "É hora de passar para colheitas maiores e melhores!",
 };
 
 const achievementTerms: Record<AchievementsDialog, string> = {
@@ -299,4 +307,5 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...guideTerms,
   ...conversations,
   ...henHouseTerms,
+  ...shopItems,
 };

@@ -7,7 +7,8 @@ export type TranslationKeys =
   | AchievementsDialog
   | GuideTerms
   | Conversations
-  | HenHouseTerms;
+  | HenHouseTerms
+  | ShopItems;
 
 export type GeneralTerms =
   | "featured"
@@ -58,6 +59,8 @@ export type Intro =
   | "intro.three"
   | "intro.four"
   | "intro.five";
+
+export type ShopItems = "shopItems.one" | "shopItems.two" | "shopItems.three";
 
 export type AchievementsDialog =
   | "breadWinner.description"
