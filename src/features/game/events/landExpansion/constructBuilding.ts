@@ -47,6 +47,7 @@ export function constructBuilding({
   const allowedBuildings = building.filter(({ unlocksAtLevel }) =>
     landCount.gte(unlocksAtLevel)
   ).length;
+
   const buildingToConstruct = building[buildingNumber];
 
   const built = stateCopy.inventory[action.name] || new Decimal(0);
