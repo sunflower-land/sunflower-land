@@ -8,8 +8,10 @@ import { Context } from "features/game/GameProvider";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Introduction: React.FC = () => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState, send] = useActor(gameService);
 
@@ -26,19 +28,19 @@ export const Introduction: React.FC = () => {
           }}
           message={[
             {
-              text: "Howdy there, Bumpkin! Welcome to Sunflower Land, the bountiful farming paradise where anything is possible!",
+              text: t("intro.one"),
             },
             {
-              text: "What a beautiful island you have set up on! I'm Pumpkin Pete, your neighboring farmer.",
+              text: t("intro.two"),
             },
             {
-              text: "Right now the players are celebrating a festival in the plaza with fantastic rewards and magical items.",
+              text: t("intro.three"),
             },
             {
-              text: "Before you can join the fun, you will need to grow your farm and gather some resources. You don't want to turn up empty handed!",
+              text: t("intro.four"),
             },
             {
-              text: "To get started, you will want to chop down those trees and grow your island.",
+              text: t("intro.five"),
             },
           ]}
         />

@@ -17,6 +17,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getSupportedChickens } from "features/game/events/landExpansion/utils";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -25,6 +26,7 @@ interface Props {
 export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { t } = useAppTranslation();
 
   const [
     {
@@ -106,7 +108,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
             alt="chicken"
           />
           <span className="text-center mt-2 text-sm">
-            Feed wheat and collect eggs
+            {t("henHouse.text.one")}
           </span>
           <>
             <div className="border-t border-white w-full mt-2 pt-1">
@@ -126,7 +128,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
               className="text-xs mt-3 whitespace-nowrap"
               onClick={handleBuy}
             >
-              {autosaving ? "Saving..." : "Buy"}
+              {autosaving ? t("saving") : t("buy")}
             </Button>
           </>
         </div>
@@ -136,7 +138,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
     if (selectedChicken === "lazy") {
       return (
         <div className="flex flex-col justify-center items-center p-2 relative">
-          <span className="text-center">Lazy Chicken</span>
+          <span className="text-center">{t("henHouse.text.two")}</span>
           <img
             src={boxChicken}
             className="h-16 img-highlight mt-1"
@@ -144,7 +146,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
           />
           <div className="flex mt-2 relative">
             <span className="text-center text-sm">
-              Put your chicken to work to start collecting eggs!
+              {t("henHouse.text.three")}
             </span>
           </div>
 
@@ -161,14 +163,14 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
 
     return (
       <div className="flex flex-col justify-center items-center p-2 relative">
-        <span className="text-center">Working Chicken</span>
+        <span className="text-center">{t("henHouse.text.four")}</span>
         <img
           src={SUNNYSIDE.resource.chicken}
           className="h-16 img-highlight mt-1"
           alt="chicken"
         />
         <span className="text-center mt-2 text-sm">
-          Already placed and working hard!
+          {t("henHouse.text.five")}
         </span>
       </div>
     );
@@ -186,7 +188,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
       >
         <Tab isActive>
           <img src={SUNNYSIDE.resource.chicken} className="h-5 mr-2" />
-          <span className="text-sm">Chickens</span>
+          <span className="text-sm">{t("henHouse.chickens")}</span>
         </Tab>
         <img
           src={SUNNYSIDE.icons.close}
@@ -240,9 +242,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
                 {`Capacity ${workingChickenCount}/${availableSpots}`}
               </Label>
               {workingCapacityFull && (
-                <p className="text-xs mx-1 mb-1">
-                  Build an extra Hen House to farm more chickens
-                </p>
+                <p className="text-xs mx-1 mb-1">{t("henHouse.text.six")}</p>
               )}
             </div>
           </div>

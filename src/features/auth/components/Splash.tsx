@@ -15,7 +15,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InnerPanel, Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { SUNNYSIDE } from "assets/sunnyside";
-import i18n from "src/i18n";
+import i18n from "lib/i18n";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
