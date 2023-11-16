@@ -194,16 +194,27 @@ const BaitSelection: React.FC<{
         </div>
       </div>
       <div>
-        <div className="flex flex-wrap">
-          {BAIT.map((name) => (
-            <Box
-              image={ITEM_DETAILS[name].image}
-              isSelected={bait === name}
-              count={state.inventory[name]}
-              onClick={() => setBait(name)}
-              key={name}
-            />
-          ))}
+        <div className="flex items-center justify-between flex-wrap">
+          <div className="flex flex-wrap">
+            {BAIT.map((name) => (
+              <Box
+                image={ITEM_DETAILS[name].image}
+                isSelected={bait === name}
+                count={state.inventory[name]}
+                onClick={() => setBait(name)}
+                key={name}
+              />
+            ))}
+          </div>
+          <Button
+            disabled={fishingLimitReached}
+            className={`h-[48px] w-[48px]`}
+            onClick={() => setShowChum(true)}
+          >
+            <div className="flex items-center">
+              <img src={plus} className="w-8 mt-1" />
+            </div>
+          </Button>
         </div>
         <OuterPanel className="my-1 relative">
           <div className="flex p-1">
@@ -253,15 +264,6 @@ const BaitSelection: React.FC<{
               Attract fish by throwing chum into the water.
             </p>
           </div>
-          <Button
-            disabled={fishingLimitReached}
-            className={`h-[30px] w-[40px]`}
-            onClick={() => setShowChum(true)}
-          >
-            <div className="flex items-center">
-              <img src={plus} className="w-8 mt-1" />
-            </div>
-          </Button>
         </div>
       )}
 
