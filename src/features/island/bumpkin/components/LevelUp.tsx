@@ -10,12 +10,75 @@ import {
 } from "react-share";
 
 import React from "react";
-import levelUp from "assets/tutorials/level_up.png";
 import { Button } from "components/ui/Button";
 import { Equipped } from "features/game/types/bumpkin";
-import { NPC } from "./NPC";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { Label } from "components/ui/Label";
+import { getKeys } from "features/game/types/craftables";
+import { LEVEL_EXPERIENCE } from "features/game/lib/level";
+import { CROPS } from "features/game/types/crops";
+import { BUILDINGS } from "features/game/types/buildings";
+import { ITEM_DETAILS } from "features/game/types/images";
+import worldIcon from "assets/icons/world_small.png";
+
+const BONUS_UNLOCKS: Record<number, { text: string; icon: string }[]> = {
+  2: [
+    {
+      text: "Crops",
+      icon: SUNNYSIDE.tools.shovel,
+    },
+  ],
+  3: [
+    {
+      text: "Travel",
+      icon: worldIcon,
+    },
+  ],
+  5: [
+    {
+      text: "Fishing",
+      icon: SUNNYSIDE.tools.fishing_rod,
+    },
+  ],
+  10: [
+    {
+      text: "Trading",
+      icon: SUNNYSIDE.icons.player,
+    },
+  ],
+};
+
+function generateUnlockLabels(): Record<
+  number,
+  { text: string; icon: string }[]
+> {
+  const levels = getKeys(LEVEL_EXPERIENCE);
+
+  const unlocks = levels.reduce((acc, id) => {
+    const level = Number(id);
+    const crops = getKeys(CROPS())
+      .filter((name) => CROPS()[name].bumpkinLevel === level)
+      .map((name) => ({ text: name, icon: ITEM_DETAILS[name].image }));
+
+    const buildings = getKeys(BUILDINGS())
+      .filter((name) =>
+        BUILDINGS()[name].find((b) => b.unlocksAtLevel === level)
+      )
+      .map((name) => ({ text: name, icon: ITEM_DETAILS[name].image }));
+
+    const bonus = BONUS_UNLOCKS[level] ?? [];
+
+    return {
+      ...acc,
+      [level]: [...bonus, ...crops, ...buildings],
+    };
+  }, {} as Record<number, { text: string; icon: string }[]>);
+
+  return unlocks;
+}
+
+const LEVEL_UP_UNLOCKS = generateUnlockLabels();
 
 const LEVEL_UP_MESSAGES: Record<number, string> = {
   2: "Yeehaw, you've reached level 2! The crops are quakin' in their boots.",
@@ -96,62 +159,70 @@ export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
     });
   };
 
+  const unlocks = LEVEL_UP_UNLOCKS[level] ?? [];
+
   return (
     <div className="flex flex-col items-center">
-      <div className="w-11/12 rounded-lg shadow-md overflow-hidden mb-1">
-        <img src={levelUp} className="w-full" />
-        <div
-          className="absolute"
-          style={{
-            top: "50%",
-            left: "50%",
-            transform: `translate(-${(PIXEL_SCALE * 16) / 2}px,-${
-              PIXEL_SCALE * 56
-            }px)`,
-          }}
-        >
-          <NPC parts={wearables} hideShadow />
-        </div>
-      </div>
       <p className="text-sm my-1 text-center">
         {LEVEL_UP_MESSAGES[level] ?? "Wow, I am lost for words!"}
       </p>
-      <div className="flex mt-2 mb-1 underline">
-        <p className="text-xxs">Share</p>
-      </div>
-      <div className="flex">
-        <TwitterShareButton
-          url={" "}
-          title={shareMessage}
-          className="mr-1"
-          onClick={() => clicked("Twitter")}
-        >
-          <TwitterIcon size={40} round />
-        </TwitterShareButton>
-        <TelegramShareButton
-          url={" "}
-          title={shareMessage}
-          className="mr-1"
-          onClick={() => clicked("Telegram")}
-        >
-          <TelegramIcon size={40} round />
-        </TelegramShareButton>
-        <FacebookShareButton
-          url={"sunflower-land.com"}
-          quote={shareMessage}
-          className="mr-1"
-          onClick={() => clicked("Facebook")}
-        >
-          <FacebookIcon size={40} round />
-        </FacebookShareButton>
-        <RedditShareButton
-          url={" "}
-          title={shareMessage}
-          onClick={() => clicked("Reddit")}
-        >
-          <RedditIcon size={40} round />
-        </RedditShareButton>
-      </div>
+      {unlocks.length > 0 && (
+        <div className="mt-2 underline">
+          <p className="text-xxs text-center">Unlocked</p>
+          <div className="flex flex-wrap justify-center items-center mt-2 space-x-3">
+            {unlocks.map((unlock) => (
+              <Label
+                key={unlock.text}
+                className="mb-2"
+                type="default"
+                icon={unlock.icon}
+              >
+                {unlock.text}
+              </Label>
+            ))}
+          </div>
+        </div>
+      )}
+      {level >= 6 && (
+        <>
+          <div className="flex mb-1 underline">
+            <p className="text-xxs">Share</p>
+          </div>
+          <div className="flex">
+            <TwitterShareButton
+              url={" "}
+              title={shareMessage}
+              className="mr-1"
+              onClick={() => clicked("Twitter")}
+            >
+              <TwitterIcon size={40} round />
+            </TwitterShareButton>
+            <TelegramShareButton
+              url={" "}
+              title={shareMessage}
+              className="mr-1"
+              onClick={() => clicked("Telegram")}
+            >
+              <TelegramIcon size={40} round />
+            </TelegramShareButton>
+            <FacebookShareButton
+              url={"sunflower-land.com"}
+              quote={shareMessage}
+              className="mr-1"
+              onClick={() => clicked("Facebook")}
+            >
+              <FacebookIcon size={40} round />
+            </FacebookShareButton>
+            <RedditShareButton
+              url={" "}
+              title={shareMessage}
+              onClick={() => clicked("Reddit")}
+            >
+              <RedditIcon size={40} round />
+            </RedditShareButton>
+          </div>
+        </>
+      )}
       <Button className="mt-2" onClick={onClose}>
         Ok
       </Button>

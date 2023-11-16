@@ -64,6 +64,7 @@ describe("sell", () => {
         ...GAME_STATE,
         inventory: {
           Sunflower: new Decimal(5),
+          "Basic Land": new Decimal(5),
         },
       },
       action: {
@@ -85,6 +86,7 @@ describe("sell", () => {
         ...GAME_STATE,
         inventory: {
           Sunflower: new Decimal(11),
+          "Basic Land": new Decimal(10),
         },
       },
       action: {

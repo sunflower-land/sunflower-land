@@ -16,22 +16,50 @@ import {
   FISH_CONSUMABLES,
   isCookable,
 } from "features/game/types/consumables";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleActive,
+  isCollectibleBuilt,
+} from "features/game/lib/collectibleBuilt";
 import { getSeasonalBanner } from "features/game/types/seasons";
 import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 const crops = CROPS();
 const cakes = CAKES();
 
+export function isCropShortage({ game }: { game: GameState }) {
+  const bumpkinLevel = getBumpkinLevel(game.bumpkin?.experience ?? 0);
+
+  if (bumpkinLevel >= 3) {
+    return false;
+  }
+
+  if (game.inventory["Basic Land"]?.gte(5)) {
+    return false;
+  }
+
+  // Crop Shortage Expired
+  if (game.createdAt + 2 * 60 * 60 * 1000 < Date.now()) {
+    return false;
+  }
+
+  return true;
+}
+
 /**
  * How much SFL an item is worth
  */
-export const getSellPrice = (
-  item: SellableItem,
-  inventory: Inventory,
-  bumpkin: Bumpkin
-) => {
+export const getSellPrice = ({
+  item,
+  game,
+}: {
+  item: SellableItem;
+  game: GameState;
+}) => {
   let price = item.sellPrice;
+
+  const inventory = game.inventory;
+  const bumpkin = game.bumpkin as Bumpkin;
 
   if (!price) {
     return new Decimal(0);
@@ -49,6 +77,14 @@ export const getSellPrice = (
     bumpkin.equipped.coat === "Chef Apron"
   ) {
     price = price.mul(1.2);
+  }
+
+  // Crop Shortage during initial gameplay
+  if (
+    ["Sunflower", "Potato", "Pumpkin"].includes(item.name) &&
+    isCropShortage({ game })
+  ) {
+    price = price.mul(2);
   }
 
   return price;
@@ -74,7 +110,8 @@ export const hasSellBoost = (inventory: Inventory) => {
  */
 export const getCookingTime = (
   seconds: number,
-  bumpkin: Bumpkin | undefined
+  bumpkin: Bumpkin | undefined,
+  collectibles: Collectibles
 ): number => {
   let reducedSecs = new Decimal(seconds);
 
@@ -85,6 +122,10 @@ export const getCookingTime = (
 
   // Luna's Hat - 50% reduction
   if (bumpkin?.equipped.hat === "Luna's Hat") {
+    reducedSecs = reducedSecs.mul(0.5);
+  }
+
+  if (isCollectibleActive("Time Warp Totem", collectibles)) {
     reducedSecs = reducedSecs.mul(0.5);
   }
 

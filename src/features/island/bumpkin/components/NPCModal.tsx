@@ -12,6 +12,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { LevelUp } from "./LevelUp";
 import { Equipped } from "features/game/types/bumpkin";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 interface Props {
   isOpen: boolean;
@@ -24,6 +25,7 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
       context: { state },
     },
   ] = useActor(gameService);
+  const { openModal } = useContext(ModalContext);
 
   const availableFood = getEntries(CONSUMABLES)
     .filter(([name, _]) => !!state.inventory[name]?.gt(0))
@@ -43,16 +45,43 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
   }, [state.bumpkin?.experience]);
 
   return (
-    <Modal show={isOpen} onHide={onClose} centered>
+    <Modal
+      show={isOpen}
+      onHide={() => {
+        onClose();
+        if (showLevelUp && bumpkinLevel.current === 3) {
+          openModal("THIRD_LEVEL");
+        }
+
+        setTimeout(() => setShowLevelUp(false), 500);
+      }}
+      centered
+    >
       {showLevelUp ? (
         <CloseButtonPanel
-          onClose={() => setShowLevelUp(false)}
+          onClose={() => {
+            onClose();
+
+            if (bumpkinLevel.current === 3) {
+              openModal("THIRD_LEVEL");
+            }
+
+            setTimeout(() => setShowLevelUp(false), 500);
+          }}
           title="Level up!"
           bumpkinParts={state.bumpkin?.equipped}
         >
           <LevelUp
             level={bumpkinLevel.current}
-            onClose={() => setShowLevelUp(false)}
+            onClose={() => {
+              onClose();
+
+              if (bumpkinLevel.current === 3) {
+                openModal("THIRD_LEVEL");
+              }
+
+              setTimeout(() => setShowLevelUp(false), 500);
+            }}
             wearables={state.bumpkin?.equipped as Equipped}
           />
         </CloseButtonPanel>

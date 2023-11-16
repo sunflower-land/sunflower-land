@@ -102,7 +102,11 @@ export const Recipes: React.FC<Props> = ({
                 state.buds ?? {}
               )
             ),
-            timeSeconds: getCookingTime(selected.cookingSeconds, state.bumpkin),
+            timeSeconds: getCookingTime(
+              selected.cookingSeconds,
+              state.bumpkin,
+              state.collectibles
+            ),
           }}
           actionView={Action()}
         />

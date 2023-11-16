@@ -293,9 +293,9 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     description: "My life is potato.",
     experience: 3,
     building: "Fire Pit",
-    cookingSeconds: 60,
+    cookingSeconds: 30,
     ingredients: {
-      Potato: new Decimal(10),
+      Potato: new Decimal(8),
     },
     marketRate: 10,
   },

@@ -14,6 +14,7 @@ import { DepletedStone } from "./components/DepletedStone";
 import { DepletingStone } from "./components/DepletingStone";
 import { RecoveredStone } from "./components/RecoveredStone";
 import { canMine } from "features/game/expansion/lib/utils";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 const HITS = 3;
 const tool = "Pickaxe";
@@ -23,7 +24,9 @@ const HasTool = (inventory: Partial<Record<InventoryItemName, Decimal>>) => {
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
-
+const showHelper = (state: MachineState) =>
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 3 &&
+  !state.context.state.bumpkin?.activity?.["Stone Mined"];
 const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
@@ -69,6 +72,8 @@ export const Stone: React.FC<Props> = ({ id }) => {
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0))
   );
 
+  const needsHelp = useSelector(gameService, showHelper);
+
   const hasTool = HasTool(inventory);
   const timeLeft = getTimeLeft(resource.stone.minedAt, STONE_RECOVERY_TIME);
   const mined = !canMine(resource, STONE_RECOVERY_TIME);
@@ -110,7 +115,11 @@ export const Stone: React.FC<Props> = ({ id }) => {
       {/* Resource ready to collect */}
       {!mined && (
         <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
-          <RecoveredStone hasTool={hasTool} touchCount={touchCount} />
+          <RecoveredStone
+            hasTool={hasTool}
+            touchCount={touchCount}
+            showHelper={false} // FUTURE ENHANCEMENT
+          />
         </div>
       )}
 

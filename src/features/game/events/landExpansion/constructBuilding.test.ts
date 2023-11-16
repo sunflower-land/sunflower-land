@@ -301,7 +301,7 @@ describe("Construct building", () => {
     expect(state.buildings["Fire Pit"]?.[0]).toEqual({
       id: expect.any(String),
       coordinates: { x: 1, y: 2 },
-      readyAt: dateNow + 30 * 1000,
+      readyAt: dateNow,
       createdAt: dateNow,
     });
   });

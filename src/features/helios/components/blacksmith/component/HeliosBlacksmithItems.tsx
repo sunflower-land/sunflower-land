@@ -30,7 +30,7 @@ function isNotReady(collectible: CraftableCollectible) {
 }
 export const HeliosBlacksmithItems: React.FC = () => {
   const [selectedName, setSelectedName] =
-    useState<HeliosBlacksmithItem>("Immortal Pear");
+    useState<HeliosBlacksmithItem>("Basic Scarecrow");
   const { gameService, shortcutItem } = useContext(Context);
   const [
     {

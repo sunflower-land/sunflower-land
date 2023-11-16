@@ -12,7 +12,6 @@ import {
   COOKABLES,
 } from "features/game/types/consumables";
 import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
-import { Equipped } from "features/game/types/bumpkin";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ConversationName } from "features/game/types/conversations";
 import { Panel } from "components/ui/Panel";
@@ -61,8 +60,6 @@ export const FirePitModal: React.FC<Props> = ({
       firePitRecipes[0]
   );
 
-  const bumpkinParts: Partial<Equipped> = NPC_WEARABLES.bruce;
-
   return (
     <Modal show={isOpen} onHide={onClose} centered>
       {showIntro && (
@@ -70,7 +67,7 @@ export const FirePitModal: React.FC<Props> = ({
           <SpeakingText
             message={[
               {
-                text: "I'm the owner of this lovely little bistro.",
+                text: "Howdy farmer! I can spot a hungry Bumpkin from a mile away.",
               },
               {
                 text: "Bring me resources and I will cook all the food you can eat!",
@@ -83,11 +80,12 @@ export const FirePitModal: React.FC<Props> = ({
           />
         </Panel>
       )}
+
       {!showIntro && (
         <CloseButtonPanel
-          bumpkinParts={bumpkinParts}
           tabs={[{ icon: chefHat, name: "Fire Pit" }]}
           onClose={onClose}
+          bumpkinParts={NPC_WEARABLES.bruce}
         >
           <Recipes
             selected={selected}

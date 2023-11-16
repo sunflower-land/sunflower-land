@@ -1,8 +1,9 @@
 import Decimal from "decimal.js-light";
 import { canMine } from "features/game/expansion/lib/utils";
+import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
 import { GOLD_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { GameState } from "features/game/types/game";
+import { Collectibles, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type LandExpansionMineGoldAction = {
@@ -25,13 +26,34 @@ export enum EVENT_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin",
 }
 
+type GetMinedAtArgs = {
+  createdAt: number;
+  collectibles: Collectibles;
+};
+
+/**
+ * Set a mined in the past to make it replenish faster
+ */
+export function getMinedAt({
+  createdAt,
+  collectibles,
+}: GetMinedAtArgs): number {
+  let time = createdAt;
+
+  if (isCollectibleActive("Time Warp Totem", collectibles)) {
+    time -= GOLD_RECOVERY_TIME * 0.5 * 1000;
+  }
+
+  return time;
+}
+
 export function mineGold({
   state,
   action,
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { bumpkin } = stateCopy;
+  const { bumpkin, collectibles } = stateCopy;
 
   const { index } = action;
   if (!bumpkin) {
@@ -58,7 +80,7 @@ export function mineGold({
   const amountInInventory = stateCopy.inventory.Gold || new Decimal(0);
 
   goldRock.stone = {
-    minedAt: createdAt,
+    minedAt: getMinedAt({ createdAt, collectibles }),
     amount: 2,
   };
   bumpkin.activity = trackActivity("Gold Mined", bumpkin.activity);

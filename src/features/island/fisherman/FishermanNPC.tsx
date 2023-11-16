@@ -5,6 +5,7 @@ import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import reel from "assets/ui/reel.png";
 import lightning from "assets/icons/lightning.png";
+import lockIcon from "assets/skills/lock.png";
 
 import { ZoomContext } from "components/ZoomProvider";
 import Spritesheet, {
@@ -24,6 +25,9 @@ import { FISH, FISH_DIFFICULTY, FishName } from "features/game/types/fishing";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { MachineState } from "features/game/lib/gameMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { Label } from "components/ui/Label";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -66,6 +70,8 @@ interface Props {
   onClick: () => void;
 }
 
+const _canFish = (state: MachineState) =>
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 5;
 const _fishing = (state: MachineState) => state.context.state.fishing;
 const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
 const _catchTheKraken = (state: MachineState) =>
@@ -76,6 +82,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const didRefresh = useRef(false);
 
   const [showReelLabel, setShowReelLabel] = useState(false);
+  const [showLockedModal, setShowLockedModal] = useState(false);
   const [showCaughtModal, setShowCaughtModal] = useState(false);
   const [showChallenge, setShowChallenge] = useState(false);
   const [challengeDifficulty, setChallengeDifficulty] = useState(1);
@@ -84,6 +91,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const fishing = useSelector(gameService, _fishing);
   const farmActivity = useSelector(gameService, _farmActivity);
   const catchTheKraken = useSelector(gameService, _catchTheKraken);
+  const canFish = useSelector(gameService, _canFish);
 
   // Catches cases where players try reset their fishing challenge
   useEffect(() => {
@@ -214,8 +222,55 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     setShowCaughtModal(false);
   };
 
+  const totalFishCaught = getKeys(FISH).reduce(
+    (total, name) => total + (farmActivity[`${name} Caught`] ?? 0),
+    0
+  );
+
   return (
     <>
+      <Modal
+        centered
+        show={showLockedModal}
+        onHide={() => setShowLockedModal(false)}
+      >
+        <CloseButtonPanel onClose={() => setShowLockedModal(false)}>
+          <div className="flex flex-col items-center">
+            <Label className="mt-2" icon={lockIcon} type="danger">
+              Level 5 Required
+            </Label>
+            <img src={ITEM_DETAILS.Rod.image} className="w-10 mx-auto my-2" />
+            <p className="text-sm text-center mb-2">
+              Visit the Fire Pit to cook food and feed your Bumpkin.
+            </p>
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+      {!canFish && (
+        <>
+          <img
+            className="absolute cursor-pointer group-hover:img-highlight z-50"
+            src={SUNNYSIDE.icons.fish_icon}
+            onClick={() => setShowLockedModal(true)}
+            style={{
+              width: `${PIXEL_SCALE * 18}px`,
+              right: `${PIXEL_SCALE * 2}px`,
+              top: `${PIXEL_SCALE * 16}px`,
+            }}
+          />
+
+          <img
+            className="absolute pointer-events-none group-hover:img-highlight z-50"
+            src={lockIcon}
+            style={{
+              width: `${PIXEL_SCALE * 8}px`,
+              right: `${PIXEL_SCALE * 12}px`,
+              top: `${PIXEL_SCALE * 16}px`,
+            }}
+          />
+        </>
+      )}
+
       <Modal centered show={showCaughtModal} onHide={close} onExited={claim}>
         <CloseButtonPanel
           onClose={close}
@@ -281,56 +336,58 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
           />
         </React.Fragment>
       )}
-      <Spritesheet
-        className={classNames("absolute  z-50", {
-          "hover:img-highlight cursor-pointer": !fishing.wharf.castedAt,
-        })}
-        style={{
-          width: `${PIXEL_SCALE * 58}px`,
-          left: `${PIXEL_SCALE * -10}px`,
-          top: `${PIXEL_SCALE * -14}px`,
+      {canFish && (
+        <Spritesheet
+          className={classNames("absolute  z-50", {
+            "hover:img-highlight cursor-pointer": !fishing.wharf.castedAt,
+          })}
+          style={{
+            width: `${PIXEL_SCALE * 58}px`,
+            left: `${PIXEL_SCALE * -10}px`,
+            top: `${PIXEL_SCALE * -14}px`,
 
-          imageRendering: "pixelated",
-        }}
-        onClick={() => {
-          if (fishing.wharf.castedAt) {
-            return;
-          }
-          onClick();
-        }}
-        getInstance={(spritesheet) => {
-          spriteRef.current = spritesheet;
-        }}
-        image={SUNNYSIDE.npcs.fishing_sheet}
-        widthFrame={58}
-        heightFrame={50}
-        zoomScale={scale}
-        fps={14}
-        steps={56}
-        startAt={FISHING_FRAMES[initialState].startAt}
-        endAt={FISHING_FRAMES[initialState].endAt}
-        direction={`forward`}
-        autoplay
-        loop
-        onEnterFrame={[
-          {
-            frame: FISHING_FRAMES.idle.endAt - 1,
-            callback: onIdleFinish,
-          },
-          {
-            frame: FISHING_FRAMES.casting.endAt - 1,
-            callback: onCastFinish,
-          },
-          {
-            frame: FISHING_FRAMES.waiting.endAt - 1,
-            callback: onWaitFinish,
-          },
-          {
-            frame: FISHING_FRAMES.caught.endAt - 1,
-            callback: onCaughtFinish,
-          },
-        ]}
-      />
+            imageRendering: "pixelated",
+          }}
+          onClick={() => {
+            if (fishing.wharf.castedAt) {
+              return;
+            }
+            onClick();
+          }}
+          getInstance={(spritesheet) => {
+            spriteRef.current = spritesheet;
+          }}
+          image={SUNNYSIDE.npcs.fishing_sheet}
+          widthFrame={58}
+          heightFrame={50}
+          zoomScale={scale}
+          fps={14}
+          steps={56}
+          startAt={FISHING_FRAMES[initialState].startAt}
+          endAt={FISHING_FRAMES[initialState].endAt}
+          direction={`forward`}
+          autoplay
+          loop
+          onEnterFrame={[
+            {
+              frame: FISHING_FRAMES.idle.endAt - 1,
+              callback: onIdleFinish,
+            },
+            {
+              frame: FISHING_FRAMES.casting.endAt - 1,
+              callback: onCastFinish,
+            },
+            {
+              frame: FISHING_FRAMES.waiting.endAt - 1,
+              callback: onWaitFinish,
+            },
+            {
+              frame: FISHING_FRAMES.caught.endAt - 1,
+              callback: onCaughtFinish,
+            },
+          ]}
+        />
+      )}
     </>
   );
 };

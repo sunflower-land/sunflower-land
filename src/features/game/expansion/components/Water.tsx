@@ -19,6 +19,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { DailyReward } from "./dailyReward/DailyReward";
 import { SeasonTeaser } from "./SeasonTeaser";
 import { LAND_WIDTH } from "../Land";
+import { TravelTeaser } from "./TravelTeaser";
 
 interface Props {
   townCenterBuilt: boolean;
@@ -119,6 +120,8 @@ export const WaterComponent: React.FC<Props> = ({
 
       {/* Bottom island */}
       <SeasonTeaser offset={offset} />
+
+      <TravelTeaser />
 
       {/* Bottom right island */}
       <MapPlacement x={7 + offset} y={-2 - offset} width={6}>

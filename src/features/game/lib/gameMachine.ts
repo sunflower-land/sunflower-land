@@ -368,6 +368,7 @@ export type BlockchainState = {
     | "traded"
     | "sniped"
     | "buds"
+    | "airdrop"
     | "noBumpkinFound"
     | "noTownCenter"
     | "coolingDown"
@@ -641,6 +642,16 @@ export function startGame(authContext: AuthContext) {
               },
             },
             {
+              target: "airdrop",
+              cond: (context) => {
+                const airdrop = context.state.airdrops?.find(
+                  (airdrop) => !airdrop.coordinates
+                );
+
+                return !!airdrop;
+              },
+            },
+            {
               target: "mailbox",
               cond: (context) =>
                 hasUnreadMail(context.announcements, context.state.mailbox),
@@ -669,7 +680,7 @@ export function startGame(authContext: AuthContext) {
             {
               target: "specialOffer",
               cond: (context) =>
-                (context.state.bumpkin?.experience ?? 0) > 10 &&
+                (context.state.bumpkin?.experience ?? 0) > 100 &&
                 !context.state.collectibles["Catch the Kraken Banner"] &&
                 !getSeasonPassRead(),
             },
@@ -754,6 +765,17 @@ export function startGame(authContext: AuthContext) {
             "message.read": (GAME_EVENT_HANDLERS as any)["message.read"],
             ACKNOWLEDGE: {
               target: "notifying",
+            },
+          },
+        },
+        airdrop: {
+          on: {
+            "airdrop.claimed": {
+              ...(GAME_EVENT_HANDLERS as any)["airdrop.claimed"],
+              target: "playing",
+            },
+            CLOSE: {
+              target: "playing",
             },
           },
         },

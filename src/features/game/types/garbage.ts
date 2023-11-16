@@ -17,7 +17,8 @@ export type GarbageName =
   | "Purple Egg"
   | "Red Egg"
   | "Yellow Egg"
-  | "Rapid Growth";
+  | "Rapid Growth"
+  | "Tent";
 
 export type Garbage = {
   sellPrice: Decimal;
@@ -70,5 +71,8 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
   },
   "Rapid Growth": {
     sellPrice: marketRate(160),
+  },
+  Tent: {
+    sellPrice: new Decimal(1),
   },
 };

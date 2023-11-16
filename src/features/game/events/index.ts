@@ -192,6 +192,11 @@ import {
   tradeTentacle,
   TradeTentacleAction,
 } from "./landExpansion/tradeTentacle";
+import { revealLand, RevealLandAction } from "./landExpansion/revealLand";
+import {
+  burnCollectible,
+  BurnCollectibleAction,
+} from "./landExpansion/burnCollectible";
 
 export type PlayingEvent =
   | TradeAction
@@ -256,7 +261,9 @@ export type PlayingEvent =
   | ReelRodAction
   | ClaimMilestoneAction
   | MissFishAction
-  | TradeTentacleAction;
+  | TradeTentacleAction
+  | RevealLandAction
+  | BurnCollectibleAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -375,6 +382,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "milestone.claimed": claimMilestone,
   "fish.missed": missFish,
   "shelly.tradeTentacle": tradeTentacle,
+  "land.revealed": revealLand,
+  "collectible.burned": burnCollectible,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

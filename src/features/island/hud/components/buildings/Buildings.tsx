@@ -20,6 +20,20 @@ interface Props {
   onClose: () => void;
 }
 
+const VALID_BUILDINGS: BuildingName[] = [
+  "Kitchen",
+  "Water Well",
+  "Bakery",
+  "Hen House",
+  "Deli",
+  "Smoothie Shack",
+  "Toolshed",
+  "Warehouse",
+  "Compost Bin",
+  "Turbo Composter",
+  "Premium Composter",
+];
+
 export const Buildings: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] = useState<BuildingName>("Market");
   const { gameService } = useContext(Context);
@@ -143,45 +157,42 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {FILTERED_BUILDINGS()
-            .sort((a, b) =>
-              BUILDINGS()[a][0].unlocksAtLevel >
-              BUILDINGS()[b][0].unlocksAtLevel
-                ? 1
-                : -1
-            )
-            .map((name: BuildingName) => {
-              const blueprints = BUILDINGS()[name];
-              const inventoryCount = inventory[name] || new Decimal(0);
-              const nextIndex = blueprints[inventoryCount.toNumber()]
-                ? inventoryCount.toNumber()
-                : 0;
-              const isLocked = landCount.lt(
-                BUILDINGS()[name][nextIndex].unlocksAtLevel
-              );
+          {VALID_BUILDINGS.sort((a, b) =>
+            BUILDINGS()[a][0].unlocksAtLevel > BUILDINGS()[b][0].unlocksAtLevel
+              ? 1
+              : -1
+          ).map((name: BuildingName) => {
+            const blueprints = BUILDINGS()[name];
+            const inventoryCount = inventory[name] || new Decimal(0);
+            const nextIndex = blueprints[inventoryCount.toNumber()]
+              ? inventoryCount.toNumber()
+              : 0;
+            const isLocked = landCount.lt(
+              BUILDINGS()[name][nextIndex].unlocksAtLevel
+            );
 
-              let secondaryIcon = undefined;
-              if (isLocked) {
-                secondaryIcon = lock;
-              }
+            let secondaryIcon = undefined;
+            if (isLocked) {
+              secondaryIcon = lock;
+            }
 
-              if (
-                inventory[name]?.greaterThanOrEqualTo(BUILDINGS()[name].length)
-              ) {
-                secondaryIcon = SUNNYSIDE.icons.confirm;
-              }
+            if (
+              inventory[name]?.greaterThanOrEqualTo(BUILDINGS()[name].length)
+            ) {
+              secondaryIcon = SUNNYSIDE.icons.confirm;
+            }
 
-              return (
-                <Box
-                  isSelected={selectedName === name}
-                  key={name}
-                  onClick={() => setSelectedName(name)}
-                  image={ITEM_ICONS[name] ?? ITEM_DETAILS[name].image}
-                  secondaryImage={secondaryIcon}
-                  showOverlay={isLocked}
-                />
-              );
-            })}
+            return (
+              <Box
+                isSelected={selectedName === name}
+                key={name}
+                onClick={() => setSelectedName(name)}
+                image={ITEM_ICONS[name] ?? ITEM_DETAILS[name].image}
+                secondaryImage={secondaryIcon}
+                showOverlay={isLocked}
+              />
+            );
+          })}
         </>
       }
     />
