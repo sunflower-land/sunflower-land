@@ -141,6 +141,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
   };
 
   const onClick = (seed: SeedName = selectedItem as SeedName) => {
+    if (selectedItem === "Shovel") return;
     const now = Date.now();
 
     if (!inventory.Shovel) {

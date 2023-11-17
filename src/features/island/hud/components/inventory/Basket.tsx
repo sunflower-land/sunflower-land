@@ -31,7 +31,11 @@ import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SELLABLE_TREASURE } from "features/game/types/treasure";
-import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
+import {
+  TREASURE_TOOLS,
+  WORKBENCH_TOOLS,
+  UNLIMITED_USE_TOOLS,
+} from "features/game/types/tools";
 import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
 import {
   BAIT,
@@ -110,6 +114,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const fruits = getItems(FRUIT());
   const workbenchTools = getItems(WORKBENCH_TOOLS());
   const treasureTools = getItems(TREASURE_TOOLS);
+  const unlimitedUseTools = getItems(UNLIMITED_USE_TOOLS());
   const exotic = getItems(BEANS());
   const resources = getItems(COMMODITIES);
   const foods = getItems(COOKABLES);
@@ -125,7 +130,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const fish = getItems(FISH);
 
   const allSeeds = [...seeds, ...fruitSeeds];
-  const allTools = [...workbenchTools, ...treasureTools];
+  const allTools = [...unlimitedUseTools, ...workbenchTools, ...treasureTools];
 
   const itemsSection = (title: string, items: InventoryItemName[]) => {
     if (!items.length) {

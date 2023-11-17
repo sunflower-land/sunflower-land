@@ -5,6 +5,8 @@
 import Decimal from "decimal.js-light";
 import { GameState, Inventory } from "./game";
 
+export type UnlimitedUseToolName = "Shovel";
+
 export type WorkbenchToolName =
   | "Axe"
   | "Pickaxe"
@@ -21,6 +23,17 @@ export interface Tool {
   sfl: Decimal;
   disabled?: boolean;
 }
+
+export const UNLIMITED_USE_TOOLS: (
+  gameState?: GameState
+) => Record<UnlimitedUseToolName, Tool> = () => ({
+  Shovel: {
+    name: "Shovel",
+    description: "Used to harvest crops",
+    ingredients: {},
+    sfl: new Decimal(0),
+  },
+});
 
 export const WORKBENCH_TOOLS: (
   gameState?: GameState
