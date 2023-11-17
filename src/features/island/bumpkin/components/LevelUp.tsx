@@ -35,7 +35,7 @@ const BONUS_UNLOCKS: Record<number, { text: string; icon: string }[]> = {
     },
     {
       text: "Potato",
-      icon: CROP_LIFECYCLE.Sunflower.crop,
+      icon: CROP_LIFECYCLE.Potato.crop,
     },
   ],
   3: [
