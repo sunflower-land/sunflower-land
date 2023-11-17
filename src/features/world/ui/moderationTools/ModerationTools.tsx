@@ -38,21 +38,21 @@ interface Props {
   scene?: any;
   messages: Message[];
   players: Player[];
-  gameState: any;
+  gameService: any;
 }
 
 export const ModerationTools: React.FC<Props> = ({
   scene,
   messages,
   players,
-  gameState,
+  gameService,
 }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
   const [showModerationTool, setShowModerationTool] = useState(false);
   const [tab, setTab] = useState(0);
-  const ModeratorFarmId = gameState.state.context.farmId as number;
+  const ModeratorFarmId = gameService.state.context.farmId as number;
 
   const toggleModerationTool = () => {
     setShowModerationTool(!showModerationTool);

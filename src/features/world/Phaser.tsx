@@ -410,7 +410,7 @@ export const PhaserComponent: React.FC<Props> = ({
           scene={game.current?.scene.getScene(scene)}
           messages={messages ?? []}
           players={players ?? []}
-          gameState={gameService}
+          gameService={gameService}
         />
       )}
       <NPCModals
