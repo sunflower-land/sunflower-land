@@ -180,6 +180,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
       {/* Chest reward */}
       <ChestReward
+        collectedItem={"Wood"}
         reward={reward}
         onCollected={onCollectChest}
         onOpen={() =>

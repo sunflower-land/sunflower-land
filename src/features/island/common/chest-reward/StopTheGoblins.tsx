@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { addNoise } from "lib/images";
 
@@ -60,7 +61,10 @@ const moonSeekers = [
   SUNNYSIDE.npcs.moonseeker5,
 ];
 
-const generateImages = (isMoonSeekerMode: boolean) => {
+const generateImages = (
+  isMoonSeekerMode: boolean,
+  collectedItem?: InventoryItemName
+) => {
   const newImageItem = (src: any, isGoblin: boolean): Item => {
     return {
       src: src,
@@ -76,9 +80,19 @@ const generateImages = (isMoonSeekerMode: boolean) => {
   };
 
   const items: Item[] = [];
-  const resourceImages = isMoonSeekerMode
-    ? [...getKeys(CROPS()), ...getKeys(FRUIT()), ...getKeys(COMMODITIES)]
-    : getKeys(CONSUMABLES);
+  let resourceImages;
+  if (isMoonSeekerMode) {
+    resourceImages = [
+      ...getKeys(CROPS()),
+      ...getKeys(FRUIT()),
+      ...getKeys(COMMODITIES),
+    ];
+    resourceImages = resourceImages.filter(
+      (name: InventoryItemName) => name !== collectedItem
+    );
+  } else {
+    resourceImages = getKeys(CONSUMABLES);
+  }
   const availableResourceImages = resourceImages.map(
     (name) => ITEM_DETAILS[name].image
   );
@@ -103,13 +117,18 @@ const generateImages = (isMoonSeekerMode: boolean) => {
 interface Props {
   onOpen: () => void;
   onFail: () => void;
+  collectedItem?: InventoryItemName;
 }
 
-export const StopTheGoblins: React.FC<Props> = ({ onOpen, onFail }) => {
+export const StopTheGoblins: React.FC<Props> = ({
+  onOpen,
+  onFail,
+  collectedItem,
+}) => {
   const [wrongAttempts, setWrongAttempts] = useState(new Set<number>());
   const [correctAttempts, setCorrectAttempts] = useState(new Set<number>());
   const [isMoonSeekerMode] = useState(randomBoolean());
-  const [items] = useState(generateImages(isMoonSeekerMode));
+  const [items] = useState(generateImages(isMoonSeekerMode, collectedItem));
 
   const attemptsLeft = MAX_ATTEMPTS - wrongAttempts.size;
 
