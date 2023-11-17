@@ -1,6 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { Reward, PlantedCrop, PlacedItem } from "features/game/types/game";
 import { CROPS } from "features/game/types/crops";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -67,6 +68,8 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const [reward, setReward] = useState<Reward>();
   const [showMissingShovel, setShowMissingShovel] = useState(false);
   const clickedAt = useRef<number>(0);
+
+  const [isMobile] = useIsMobile();
 
   const crops = useSelector(gameService, selectCrops, (prev, next) => {
     return JSON.stringify(prev[id]) === JSON.stringify(next[id]);
@@ -198,7 +201,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
         (name) =>
           inventory[name]?.gte(1) && name in SEEDS() && !(name in FRUIT_SEEDS())
       );
-      if (!hasSeeds) {
+      if (!hasSeeds && !isMobile) {
         setShowMissingSeeds(true);
         return;
       }
@@ -209,7 +212,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
         seed in SEEDS() &&
         !(seed in FRUIT_SEEDS());
 
-      if (!seedIsReady) {
+      if (!seedIsReady && !isMobile) {
         setShowSeedNotSelected(true);
         return;
       }
