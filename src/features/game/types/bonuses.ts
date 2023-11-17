@@ -17,7 +17,10 @@ export const BONUSES: Record<BonusName, Bonus> = {
       wearables: {
         "Companion Cap": 1,
       },
-      inventory: { Axe: 5 },
+      inventory: {
+        Axe: 5,
+        "Community Coin": 1,
+      },
     },
   },
 };

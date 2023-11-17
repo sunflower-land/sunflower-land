@@ -150,6 +150,7 @@ export type Coupons =
   | "Potion Ticket"
   | "Bud Ticket"
   | "Bud Seedling"
+  | "Community Coin"
   | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
@@ -207,6 +208,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Mermaid Scale": {
     description: "A ticket used during the Catch the Kraken Season",
+  },
+  "Community Coin": {
+    description: "A valued coin that can be exchanged for rewards",
   },
 };
 
