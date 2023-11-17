@@ -369,5 +369,15 @@ export const OFFLINE_FARM: GameState = {
     hunger: "Sunflower",
     weeklyCatches: {},
   },
-  airdrops: [],
+  airdrops: [
+    {
+      createdAt: 0,
+      id: "123",
+      items: {
+        Wood: 5,
+      },
+      sfl: 0,
+      wearables: {},
+    },
+  ],
 };

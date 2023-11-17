@@ -770,10 +770,7 @@ export function startGame(authContext: AuthContext) {
         },
         airdrop: {
           on: {
-            "airdrop.claimed": {
-              ...(GAME_EVENT_HANDLERS as any)["airdrop.claimed"],
-              target: "playing",
-            },
+            "airdrop.claimed": (GAME_EVENT_HANDLERS as any)["airdrop.claimed"],
             CLOSE: {
               target: "playing",
             },
