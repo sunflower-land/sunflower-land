@@ -10,12 +10,15 @@ import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { redirectOAuth } from "features/auth/actions/oauth";
 import { ClaimReward } from "./Airdrop";
 import { BONUSES } from "features/game/types/bonuses";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { MachineState } from "features/game/lib/gameMachine";
+import classNames from "classnames";
+import { hasFeatureAccess } from "lib/flags";
 
 export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -138,10 +141,28 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
   );
 };
 
+const _isClaimed = (state: MachineState) =>
+  BONUSES["discord-signup"].isClaimed(state.context.state);
+
+const _hasAccess = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "DISCORD_BONUS");
+
 export const DiscordBoat: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
-  // TODO - fix boat if Discord and not claimed
+  const { authService } = useContext(Auth.Context);
+  const [authState] = useActor(authService);
+
+  const { gameService } = useContext(Context);
+  const isClaimed = useSelector(gameService, _isClaimed);
+  const hasAccess = useSelector(gameService, _hasAccess);
+
+  if (!hasAccess) {
+    return null;
+  }
+
+  // When ready, show boat above island
+  const isReady = authState.context.user.token?.discordId && !isClaimed;
 
   return (
     <>
@@ -155,12 +176,14 @@ export const DiscordBoat: React.FC = () => {
       </Modal>
 
       <div
-        className="absolute boating left-0"
+        className={classNames("absolute cursor-pointer  left-0", {
+          boating: !isReady,
+        })}
         onClick={() => setShowModal(true)}
         style={{
           top: `${GRID_WIDTH_PX * 3}px`,
           width: `${PIXEL_SCALE * 63}px`,
-          transform: `translateX(600px)`,
+          transform: `translateX(650px)`,
         }}
       >
         <img src={boat} className="absolute top-0 right-0 w-full" />
