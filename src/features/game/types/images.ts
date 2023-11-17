@@ -2871,7 +2871,7 @@ export const ITEM_DETAILS: Items = {
   "Kraken Tentacle": {
     image: krakenTentacle,
     description:
-      "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
+      "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
   },
 
   "Sapo Docuras": {
