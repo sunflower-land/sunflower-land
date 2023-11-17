@@ -87,10 +87,12 @@ export const PhaserComponent: React.FC<Props> = ({
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
   const [messages, setMessages] = useState<Message[]>([]);
   const [players, setPlayers] = useState<Player[]>([]);
   const [isModerator, setIsModerator] = useState(false);
-  const { gameService } = useContext(Context);
 
   const [isMuted, setIsMuted] = useState<ModerationEvent | undefined>();
 
@@ -408,6 +410,7 @@ export const PhaserComponent: React.FC<Props> = ({
           scene={game.current?.scene.getScene(scene)}
           messages={messages ?? []}
           players={players ?? []}
+          gameState={gameService}
         />
       )}
       <NPCModals
