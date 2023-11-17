@@ -5252,7 +5252,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1405.png",
     attributes: [
-      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Purpose", value: "Exotic" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5262,7 +5262,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1401.png",
     attributes: [
-      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Purpose", value: "Exotic" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5272,7 +5272,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1402.png",
     attributes: [
-      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Purpose", value: "Exotic" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5282,7 +5282,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1403.png",
     attributes: [
-      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Purpose", value: "Exotic" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5292,7 +5292,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1404.png",
     attributes: [
-      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Purpose", value: "Exotic" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5302,7 +5302,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1406.png",
     attributes: [
-      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Purpose", value: "Exotic" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -5312,7 +5312,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1407.png",
     attributes: [
-      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Purpose", value: "Exotic" },
       { trait_type: "Tradable", value: "No" },
     ],
   },
@@ -6098,6 +6098,17 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/554.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+
+  "Time Warp Totem": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
     attributes: [
       { trait_type: "Purpose", value: "Consumable" },
       { trait_type: "Tradable", value: "No" },

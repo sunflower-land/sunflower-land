@@ -8,14 +8,16 @@ import { Context } from "features/game/GameProvider";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Introduction: React.FC = () => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState, send] = useActor(gameService);
 
   return (
     <Modal centered show={gameState.matches("introduction")}>
-      <Panel bumpkinParts={NPC_WEARABLES["otis"]}>
+      <Panel bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}>
         {/* <Content /> */}
         <SpeakingText
           onClose={() => {
@@ -26,19 +28,19 @@ export const Introduction: React.FC = () => {
           }}
           message={[
             {
-              text: "Howdy there, partner! Welcome to Sunflower Land, the bountiful farming paradise!",
+              text: t("intro.one"),
             },
             {
-              text: "I'm Otis, an old Bumpkin farmer who's been tending to these lands for longer than I can remember. Truth be told, I could use a little help from a fresh face like you.",
+              text: t("intro.two"),
             },
             {
-              text: "You see, our little island has so much potential, and with your determination and hard work, we can transform it into a thriving empire!",
+              text: t("intro.three"),
             },
             {
-              text: "Looks like our little island is getting crowded. If we want to craft buildings and rare NFTs, we'll need more space.",
+              text: t("intro.four"),
             },
             {
-              text: "Let's first chop down these trees, gather some wood and expand the island.",
+              text: t("intro.five"),
             },
           ]}
         />

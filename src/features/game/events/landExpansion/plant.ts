@@ -17,7 +17,10 @@ import {
   COLLECTIBLES_DIMENSIONS,
   getKeys,
 } from "features/game/types/craftables";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleActive,
+  isCollectibleBuilt,
+} from "features/game/lib/collectibleBuilt";
 import { setPrecision } from "lib/utils/formatNumber";
 import { SEEDS } from "features/game/types/seeds";
 import { BuildingName } from "features/game/types/buildings";
@@ -59,7 +62,7 @@ type IsPlotFertile = {
 };
 
 // First 15 plots do not need water
-const INITIAL_SUPPORTED_PLOTS = 15;
+const INITIAL_SUPPORTED_PLOTS = 17;
 // Each well can support an additional 8 plots
 const WELL_PLOT_SUPPORT = 8;
 
@@ -218,6 +221,10 @@ export const getCropTime = ({
   }
 
   if (fertiliser === "Rapid Root") {
+    seconds = seconds * 0.5;
+  }
+
+  if (isCollectibleActive("Time Warp Totem", collectibles)) {
     seconds = seconds * 0.5;
   }
 
@@ -554,6 +561,10 @@ export function plant({
 
   const cropName = action.item.split(" ")[0] as CropName;
 
+  const activityName: BumpkinActivityName = `${cropName} Planted`;
+
+  bumpkin.activity = trackActivity(activityName, bumpkin.activity);
+
   plots[action.index] = {
     ...plot,
     crop: {
@@ -583,10 +594,6 @@ export function plant({
   };
 
   inventory[action.item] = seedCount.sub(1);
-
-  const activityName: BumpkinActivityName = `${cropName} Planted`;
-
-  bumpkin.activity = trackActivity(activityName, bumpkin.activity);
 
   return stateCopy;
 }

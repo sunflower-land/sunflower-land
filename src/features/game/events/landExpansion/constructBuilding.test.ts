@@ -257,11 +257,12 @@ describe("Construct building", () => {
           Radish: new Decimal(50),
           "Basic Land": new Decimal(10),
         },
+        balance: new Decimal(100),
       },
       action: {
         id: "123",
         type: "building.constructed",
-        name: "Fire Pit",
+        name: "Water Well",
         coordinates: {
           x: 0,
           y: 0,
@@ -269,7 +270,7 @@ describe("Construct building", () => {
       },
     });
 
-    expect(state.inventory["Fire Pit"]).toEqual(new Decimal(1));
+    expect(state.inventory["Water Well"]).toEqual(new Decimal(1));
     expect(state.inventory["Radish"]).toEqual(new Decimal(50));
   });
 
@@ -288,7 +289,7 @@ describe("Construct building", () => {
       action: {
         id: "123",
         type: "building.constructed",
-        name: "Fire Pit",
+        name: "Water Well",
         coordinates: {
           x: 1,
           y: 2,
@@ -297,11 +298,11 @@ describe("Construct building", () => {
       createdAt: dateNow,
     });
 
-    expect(state.buildings["Fire Pit"]).toHaveLength(1);
-    expect(state.buildings["Fire Pit"]?.[0]).toEqual({
+    expect(state.buildings["Water Well"]).toHaveLength(1);
+    expect(state.buildings["Water Well"]?.[0]).toEqual({
       id: expect.any(String),
       coordinates: { x: 1, y: 2 },
-      readyAt: dateNow + 30 * 1000,
+      readyAt: dateNow + 60 * 5 * 1000,
       createdAt: dateNow,
     });
   });

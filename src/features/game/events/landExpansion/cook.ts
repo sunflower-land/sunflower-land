@@ -1,7 +1,7 @@
 import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { CookableName, COOKABLES } from "features/game/types/consumables";
-import { Bumpkin, GameState } from "features/game/types/game";
+import { Bumpkin, Collectibles, GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 
@@ -21,10 +21,20 @@ type GetReadyAtArgs = {
   item: CookableName;
   bumpkin: Bumpkin;
   createdAt: number;
+  collectibles: Collectibles;
 };
 
-export const getReadyAt = ({ item, bumpkin, createdAt }: GetReadyAtArgs) => {
-  const seconds = getCookingTime(COOKABLES[item].cookingSeconds, bumpkin);
+export const getReadyAt = ({
+  item,
+  bumpkin,
+  createdAt,
+  collectibles,
+}: GetReadyAtArgs) => {
+  const seconds = getCookingTime(
+    COOKABLES[item].cookingSeconds,
+    bumpkin,
+    collectibles
+  );
 
   return createdAt + seconds * 1000;
 };
@@ -86,6 +96,7 @@ export function cook({
       item: action.item,
       bumpkin,
       createdAt,
+      collectibles: stateCopy.collectibles,
     }),
   };
 

@@ -1,6 +1,6 @@
 // useAppTranslation.ts
 import { useTranslation as useOriginalTranslation } from "react-i18next";
-import { TranslationKeys } from "./dictionary";
+import { TranslationKeys } from "./dictionaries/types";
 
 // Define a custom hook that wraps the original useTranslation hook
 export const useAppTranslation = () => {

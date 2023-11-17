@@ -14,10 +14,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
-import {
-  SEASON_TICKET_NAME,
-  getSeasonalBanner,
-} from "features/game/types/seasons";
+import { getSeasonalBanner } from "features/game/types/seasons";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const isPromoting = (state: MachineState) => state.matches("specialOffer");
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -55,6 +53,7 @@ export const PromotingModal: React.FC<Props> = ({
   hasPurchased,
   hasDiscount,
 }) => {
+  const { t } = useAppTranslation();
   // Goes live on 17th of July.
   // $3.99 for Dawn Breaker Holders, otherwise $5.99.
   // Discounts on seasonal items, 1 Mystery Airdrop + Bonus Tickets completing chores.
@@ -88,17 +87,15 @@ export const PromotingModal: React.FC<Props> = ({
                   height: `${PIXEL_SCALE * 16}px`,
                 }}
               />
-              <p className="text-sm">Good luck in the season!</p>
+              <p className="text-sm">{t("season.goodLuck")}</p>
             </div>
-            <p className="text-sm">You have access to:</p>
+            <p className="text-sm">{t("season.accessTo")}</p>
             <ul className="list-disc">
-              <li className="text-xs ml-4">
-                25% SFL discount on seasonal items
-              </li>
-              <li className="text-xs ml-4">Free Seasonal Banner</li>
-              <li className="text-xs ml-4">Seasonal Wearable Airdrop</li>
-              <li className="text-xs ml-4">Bonus Seasonal Tickets</li>
-              <li className="text-xs ml-4">+10% EXP from food</li>
+              <li className="text-xs ml-4">{t("season.discount")}</li>
+              <li className="text-xs ml-4">{t("season.banner")}</li>
+              <li className="text-xs ml-4">{t("season.wearableAirdrop")}</li>
+              <li className="text-xs ml-4">{t("season.bonusTickets")}</li>
+              <li className="text-xs ml-4">{t("season.boostXP")}</li>
             </ul>
 
             <a
@@ -107,12 +104,12 @@ export const PromotingModal: React.FC<Props> = ({
               rel="noopener noreferrer"
               className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
             >
-              Read more
+              {t("readMore")}
             </a>
           </div>
           <div className="flex">
             <Button className="mr-1" onClick={onClose}>
-              Close
+              {t("close")}
             </Button>
           </div>
         </>
@@ -125,7 +122,7 @@ export const PromotingModal: React.FC<Props> = ({
     return (
       <>
         <div className="flex flex-col p-2">
-          <p className="text-base">Exclusive offer!</p>
+          <p className="text-base">{t("season.exclusiveOffer")}</p>
 
           <div className="flex items-center">
             <img
@@ -156,15 +153,13 @@ export const PromotingModal: React.FC<Props> = ({
               )}
             </div>
           </div>
-          <p className="text-sm">Includes:</p>
+          <p className="text-sm">{t("season.includes")}</p>
           <ul className="list-disc">
-            <li className="text-sm ml-4">Decorative Banner</li>
-            <li className="text-sm ml-4">Mystery Airdrop</li>
-            <li className="text-sm ml-4">25% SFL discount on seasonal items</li>
-            <li className="text-sm ml-4">+10% EXP from food</li>
-            <li className="text-sm ml-4">
-              Bonus {SEASON_TICKET_NAME["Catch the Kraken"]}s
-            </li>
+            <li className="text-sm ml-4">{t("season.banner")}</li>
+            <li className="text-sm ml-4">{t("season.wearableAirdrop")}</li>
+            <li className="text-sm ml-4">{t("season.discount")}</li>
+            <li className="text-sm ml-4">{t("season.boostXP")}</li>
+            <li className="text-sm ml-4">{t("season.bonusTickets")}</li>
           </ul>
           {!isPreSeason && (
             <Label
@@ -175,7 +170,7 @@ export const PromotingModal: React.FC<Props> = ({
                 width: "fit-content",
               }}
             >
-              Limited time only!
+              {t("season.limitedOffer")}
             </Label>
           )}
 
@@ -185,12 +180,12 @@ export const PromotingModal: React.FC<Props> = ({
             rel="noopener noreferrer"
             className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
           >
-            Read more
+            {t("readMore")}
           </a>
         </div>
         <div className="flex">
           <Button className="mr-1" onClick={onClose}>
-            No thanks
+            {t("noThanks")}
           </Button>
           <Button
             onClick={() => {
@@ -200,7 +195,7 @@ export const PromotingModal: React.FC<Props> = ({
               onClose();
             }}
           >
-            {`Buy now $${price}`}
+            {t("season.buyNow")} {price}
           </Button>
         </div>
       </>

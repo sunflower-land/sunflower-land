@@ -79,7 +79,8 @@ export type EventDecorationName =
   | "Eggplant Bear"
   | "Dawn Flower"
   | "Sapo Docuras"
-  | "Sapo Travessuras";
+  | "Sapo Travessuras"
+  | "Time Warp Totem";
 
 export type PotionHouseDecorationName =
   | "Giant Potato"
@@ -419,6 +420,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Beach Umbrella": {
     width: 2,
     height: 2,
+  },
+  "Time Warp Totem": {
+    height: 1,
+    width: 1,
   },
 };
 

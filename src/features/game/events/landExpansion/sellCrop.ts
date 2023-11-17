@@ -27,6 +27,7 @@ type Options = {
   state: GameState;
   action: SellCropAction;
 };
+
 export function sellCrop({ state, action }: Options): GameState {
   const game = cloneDeep(state);
 
@@ -53,11 +54,10 @@ export function sellCrop({ state, action }: Options): GameState {
     throw new Error("Insufficient quantity to sell");
   }
 
-  const price = getSellPrice(
-    sellables as SellableItem,
-    game.inventory,
-    bumpkin
-  );
+  const price = getSellPrice({
+    item: sellables as SellableItem,
+    game,
+  });
 
   const sflEarned = price.mul(action.amount);
   bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sflEarned);

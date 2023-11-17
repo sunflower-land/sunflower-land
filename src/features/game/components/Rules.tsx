@@ -5,9 +5,11 @@ import { Context } from "../GameProvider";
 import { Button } from "components/ui/Button";
 import { acknowledgeGameRules } from "features/announcements/announcementsStorage";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Rules: React.FC = () => {
   const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   function onAcknowledge() {
     acknowledgeGameRules();
@@ -22,7 +24,7 @@ export const Rules: React.FC = () => {
           <img src={SUNNYSIDE.icons.player} className="h-8" />
         </div>
         <div className="flex-1">
-          <p>1 account per player</p>
+          <p>{t("rules.accounts")}</p>
         </div>
       </div>
       <div className="flex mt-4">
@@ -30,7 +32,7 @@ export const Rules: React.FC = () => {
           <img src={suspicious} className="h-8" />
         </div>
         <div className="flex-1">
-          <p>No botting or automation</p>
+          <p>{t("rules.noBots")}</p>
         </div>
       </div>
       <div className="flex mt-4">
@@ -38,11 +40,11 @@ export const Rules: React.FC = () => {
           <img src={SUNNYSIDE.icons.heart} className="h-8" />
         </div>
         <div className="flex-1">
-          <p>This is a game. Not a financial product.</p>
+          <p>{t("rules.game")}</p>
         </div>
       </div>
       <Button onClick={onAcknowledge} className="mt-4">
-        Continue
+        {t("continue")}
       </Button>
       <p className="text-xs underline mt-2 text-center">
         <a
@@ -51,7 +53,7 @@ export const Rules: React.FC = () => {
           rel="noopener noreferrer"
           className="text-center"
         >
-          Terms of Service
+          {t("rules.termsOfService")}
         </a>
       </p>
     </div>

@@ -199,13 +199,13 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           ])}
           {itemsSection("Crops", crops)}
           {itemsSection("Fruits", fruits)}
+          {itemsSection("Exotic", [...exotic, ...exotics])}
           {itemsSection("Tools", allTools)}
           {itemsSection("Resources", resources)}
           {itemsSection("Bait", bait)}
           {itemsSection("Fish", fish)}
           {itemsSection("Foods", [...foods, ...pirateCake])}
-          {itemsSection("Exotic", exotic)}
-          {itemsSection("Bounty", [...bounty, ...exotics])}
+          {itemsSection("Bounty", bounty)}
           {itemsSection("Coupons", coupons)}
           {itemsSection("Easter Eggs", easterEggs)}
         </>

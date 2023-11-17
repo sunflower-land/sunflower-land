@@ -11,12 +11,13 @@ import { TimerPopover } from "features/island/common/TimerPopover";
 
 interface Props {
   expansion: ExpansionConstruction;
+  onDone: () => void;
 }
 
 /**
  * Goblins working hard constructing a piece of land
  */
-export const Pontoon: React.FC<Props> = ({ expansion }) => {
+export const Pontoon: React.FC<Props> = ({ expansion, onDone }) => {
   const { showTimers } = useContext(Context);
 
   const [showPopover, setShowPopover] = useState(false);
@@ -31,6 +32,7 @@ export const Pontoon: React.FC<Props> = ({ expansion }) => {
 
       if (seconds <= 0) {
         clearInterval(interval);
+        onDone();
       }
     }, 1000);
 

@@ -9,6 +9,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { GUIDE_PATHS, GuidePath } from "../lib/guide";
 import { GuideTask } from "./Task";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   selected?: GuidePath;
@@ -17,6 +18,8 @@ interface Props {
 export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+
+  const { t } = useTranslation();
 
   const state = gameState.context.state;
 
@@ -62,10 +65,7 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
       <>
         <div className="p-1 mb-1">
           <div className="flex">
-            <p className="text-xs flex-1 pr-2">
-              From humble beginnings to expert farming, this guide has got you
-              covered!
-            </p>
+            <p className="text-xs flex-1 pr-2">{t("guide.intro")}</p>
             <a
               href="https://youtu.be/L9yCxAUCYhI"
               target="_blank"
@@ -130,7 +130,7 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
                     })}
                   </div>
                   <div className="flex items-center">
-                    <p className="text-xs  mr-1  ">Read more</p>
+                    <p className="text-xs  mr-1  ">{t("readMore")}</p>
                     <img src={SUNNYSIDE.icons.chevron_right} className="h-4" />
                   </div>
                 </div>

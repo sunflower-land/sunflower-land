@@ -9,6 +9,7 @@ import { ConversationName } from "features/game/types/conversations";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { Panel } from "components/ui/Panel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `betty-read.${host}-${window.location.pathname}`;
@@ -25,11 +26,17 @@ interface Props {
   onClose: () => void;
   conversation?: ConversationName;
   hasSoldBefore?: boolean;
+  cropShortage?: boolean;
 }
 
-export const ShopItems: React.FC<Props> = ({ onClose, hasSoldBefore }) => {
+export const ShopItems: React.FC<Props> = ({
+  onClose,
+  hasSoldBefore,
+  cropShortage,
+}) => {
   const [tab, setTab] = useState(0);
-  const [showIntro, setShowIntro] = React.useState(!hasRead());
+  const [showIntro, setShowIntro] = React.useState(!hasRead() && !cropShortage);
+  const { t } = useAppTranslation();
 
   const bumpkinParts: Partial<Equipped> = NPC_WEARABLES.betty;
 
@@ -39,13 +46,13 @@ export const ShopItems: React.FC<Props> = ({ onClose, hasSoldBefore }) => {
         <SpeakingText
           message={[
             {
-              text: "Hey, hey! Welcome to my market.",
+              text: t("shopItems.one"),
             },
             {
-              text: "Bring me your finest harvest, and I will give you a fair price for them!",
+              text: t("shopItems.two"),
             },
             {
-              text: "You need seeds? From potatoes to parsnips, I've got you covered!",
+              text: t("shopItems.three"),
             },
           ]}
           onClose={() => {
@@ -60,10 +67,10 @@ export const ShopItems: React.FC<Props> = ({ onClose, hasSoldBefore }) => {
     <CloseButtonPanel
       bumpkinParts={bumpkinParts}
       tabs={[
-        { icon: SUNNYSIDE.icons.seeds, name: "Buy" },
+        { icon: SUNNYSIDE.icons.seeds, name: t("buy") },
         {
           icon: CROP_LIFECYCLE.Sunflower.crop,
-          name: "Sell",
+          name: t("sell"),
           unread: !hasSoldBefore,
         },
       ]}
@@ -72,7 +79,7 @@ export const ShopItems: React.FC<Props> = ({ onClose, hasSoldBefore }) => {
       onClose={onClose}
     >
       {tab === 0 && <Seeds onClose={onClose} />}
-      {tab === 1 && <Crops />}
+      {tab === 1 && <Crops cropShortage={!!cropShortage} />}
     </CloseButtonPanel>
   );
 };

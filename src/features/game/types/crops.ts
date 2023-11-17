@@ -51,14 +51,14 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     harvestSeconds: 30 * 60,
     name: "Pumpkin",
     description: "There's more to pumpkin than pie.",
-    bumpkinLevel: 2,
+    bumpkinLevel: 3,
   },
   Carrot: {
     sellPrice: marketRate(0.8),
     harvestSeconds: 60 * 60,
     name: "Carrot",
     description: "They're good for your eyes!",
-    bumpkinLevel: 2,
+    bumpkinLevel: 3,
   },
   Cabbage: {
     sellPrice: marketRate(1.5),
