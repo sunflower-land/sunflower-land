@@ -26,8 +26,12 @@ export function claimBonus({
 
   const bonus = BONUSES[action.name];
 
+  if (!bonus) {
+    throw new Error("No bonus exists");
+  }
+
   if (bonus.isClaimed(game)) {
-    throw new Error("Already claimed");
+    throw new Error("Bonus already claimed");
   }
 
   const inventory = getKeys(bonus.reward.inventory).reduce((acc, itemName) => {
