@@ -1,24 +1,29 @@
 import React, { useState } from "react";
-import { GameState } from "../types/game";
+import { GameState } from "../../../game/types/game";
 
 import { Button } from "components/ui/Button";
 import { Modal } from "react-bootstrap";
-import { CloseButtonPanel } from "./CloseablePanel";
-import { SpeakingModal } from "./SpeakingModal";
+import { CloseButtonPanel } from "../../../game/components/CloseablePanel";
+import { SpeakingModal } from "../../../game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
+import { validateUsername } from "lib/username";
 
-interface PlazaMayorProps {
+interface MayorProps {
   onClose: () => void;
   gameState: GameState;
 }
 
-export const PlazaMayor: React.FC<PlazaMayorProps> = ({
-  onClose,
-  gameState,
-}) => {
-  console.log("gameState ", gameState);
+export const Mayor: React.FC<MayorProps> = ({ onClose, gameState }) => {
+  const [username, setUsername] = useState<string | undefined>(
+    gameState.username
+  );
+  const [validationState, setValidationState] = useState<string | null>(null);
 
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState<number>(0);
+  const [state, setState] = useState<"idle" | "loading" | "success" | "error">(
+    "idle"
+  );
+
   const alreadyHaveUsername =
     gameState.username && gameState.username.length > 0;
 
@@ -77,21 +82,54 @@ export const PlazaMayor: React.FC<PlazaMayorProps> = ({
         {tab === 1 && (
           <CloseButtonPanel onClose={onClose}>
             <div className="flex flex-col items-center">
-              <span>Enter your name:</span>
+              <span>Enter your username:</span>
               <input
                 type="string"
                 name="Username"
-                className="text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2 m-2 text-center"
+                autoComplete="off"
+                className={
+                  "text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2 m-2 text-center " +
+                  (validationState ? "" : "border-2 border-red-500")
+                }
+                value={username}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                  setValidationState(validateUsername(e.target.value));
+                }}
               />
+              {validationState && (
+                <label className="text-xs mb-2 mr-2 text-red-500 text-right w-full">
+                  {validationState}
+                </label>
+              )}
               <Button
                 className="overflow-hidden"
                 type="submit"
                 onClick={() => {
-                  setTab(2);
+                  if (state !== "idle") return;
                 }}
+                disabled={Boolean(validationState) || state !== "idle"}
               >
-                Submit
+                {state === "idle"
+                  ? "Submit"
+                  : state === "loading"
+                  ? "Loading..."
+                  : state === "success"
+                  ? "Success!"
+                  : state === "error"
+                  ? "Error!"
+                  : "Submit"}
               </Button>
+              <div className="flex flex-row justify-end items-center w-full px-1 pt-1">
+                <span
+                  className="cursor-pointer text-xs underline hover:text-gray-400"
+                  onClick={() => {
+                    window.open("https://docs.sunflower-land.com/", "_blank");
+                  }}
+                >
+                  Learn More
+                </span>
+              </div>
             </div>
           </CloseButtonPanel>
         )}
