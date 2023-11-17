@@ -5,9 +5,13 @@
     This file also import a list of profanity words used to check if the username is valid.
 
 */
-
 import { Profanity, ProfanityOptions } from "@2toad/profanity";
 import profanity from "./utils/profanity";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+
+import { CONFIG } from "lib/config";
+import { ERRORS } from "lib/errors";
+const API_URL = CONFIG.API_URL;
 
 const PROFANITY_LIST = JSON.parse(
   Buffer.from(profanity, "base64").toString("utf-8")
@@ -38,4 +42,33 @@ export const validateUsername = (username?: string) => {
     return "Username must start with a letter";
 
   return null;
+};
+
+export const saveUsername = async (
+  authState: AuthMachineState,
+  farmId: number,
+  username?: string
+) => {
+  const token = authState.context.user.rawToken;
+
+  if (!token || !farmId || !username) throw new Error(ERRORS.FAILED_REQUEST);
+
+  const response = await window.fetch(`${API_URL}/username/${farmId}`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      username,
+    }),
+  });
+
+  if (response.status >= 400) {
+    throw new Error(ERRORS.FAILED_REQUEST);
+  }
+
+  const data: { success: boolean } = await response.json();
+
+  return data;
 };

@@ -1,21 +1,28 @@
-import React, { useState } from "react";
-import { GameState } from "../../../game/types/game";
+import React, { useState, useContext } from "react";
+import { useActor } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "../../../game/components/CloseablePanel";
 import { SpeakingModal } from "../../../game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
-import { validateUsername } from "lib/username";
+import { validateUsername, saveUsername } from "lib/username";
 
 interface MayorProps {
   onClose: () => void;
-  gameState: GameState;
 }
 
-export const Mayor: React.FC<MayorProps> = ({ onClose, gameState }) => {
+export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState] = useActor(authService);
+
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
   const [username, setUsername] = useState<string | undefined>(
-    gameState.username
+    gameState.context.state.username
   );
   const [validationState, setValidationState] = useState<string | null>(null);
 
@@ -24,8 +31,19 @@ export const Mayor: React.FC<MayorProps> = ({ onClose, gameState }) => {
     "idle"
   );
 
-  const alreadyHaveUsername =
-    gameState.username && gameState.username.length > 0;
+  const alreadyHaveUsername = Boolean(gameState.context.state.username);
+
+  const applyUsername = async () => {
+    setState("loading");
+
+    const farmId = gameState.context.farmId;
+    await saveUsername(authState, farmId, username)
+      .then(() => {
+        setState("success");
+        gameService.send("SAVE");
+      })
+      .catch(() => setState("error"));
+  };
 
   return (
     <>
@@ -38,7 +56,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose, gameState }) => {
                 bumpkinParts={NPC_WEARABLES.mayor}
                 message={[
                   {
-                    text: `Howdy ${gameState?.username}! Seems like we've already met. In case you forgot, I'm the Mayor of this town!`,
+                    text: `Howdy ${username}! Seems like we've already met. In case you forgot, I'm the Mayor of this town!`,
                   },
                   {
                     text: "You might want to ask other people around to call you with another name? Unfortunately, I can't do that for you now, the paperwork is too much for me to handle..",
@@ -107,6 +125,8 @@ export const Mayor: React.FC<MayorProps> = ({ onClose, gameState }) => {
                 type="submit"
                 onClick={() => {
                   if (state !== "idle") return;
+
+                  applyUsername();
                 }}
                 disabled={Boolean(validationState) || state !== "idle"}
               >
@@ -132,6 +152,21 @@ export const Mayor: React.FC<MayorProps> = ({ onClose, gameState }) => {
               </div>
             </div>
           </CloseButtonPanel>
+        )}
+
+        {tab === 2 && (
+          <SpeakingModal
+            onClose={onClose}
+            bumpkinParts={NPC_WEARABLES.mayor}
+            message={[
+              {
+                text: `Nice to meet you ${username}!`,
+              },
+              {
+                text: "I hope you enjoy your stay in Sunflower Land! If you ever need me again, just come back to me!",
+              },
+            ]}
+          />
         )}
       </Modal>
     </>

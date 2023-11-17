@@ -111,9 +111,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         />
       </Modal>
 
-      {interactable === "plaza_mayor" && (
-        <Mayor onClose={closeModal} gameState={state} />
-      )}
+      {interactable === "plaza_mayor" && <Mayor onClose={closeModal} />}
 
       <Modal centered show={interactable === "fat_chicken"} onHide={closeModal}>
         <SpeakingModal
