@@ -3,8 +3,9 @@ import { InnerPanel } from "components/ui/Panel";
 import { createPortal } from "react-dom";
 import { ITEM_DETAILS } from "../../game/types/images";
 import { InventoryItemName } from "../../game/types/game";
+import { detectMobile } from "lib/utils/hooks/useIsMobile";
 
-const PIXEL_SCALE = 2.625;
+const PIXEL_SCALE = 2.625 * (detectMobile() ? 0.75 : 1);
 const MAX_TOAST = 6;
 type ToastItem = InventoryItemName;
 

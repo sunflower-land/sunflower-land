@@ -7,9 +7,10 @@ import {
   ExpansionConstruction,
   PlacedItem,
 } from "../types/game";
+import { detectMobile } from "lib/utils/hooks/useIsMobile";
 
 // Our "zoom" factor
-export const PIXEL_SCALE = 2.625;
+export const PIXEL_SCALE = 2.625 * (detectMobile() ? 0.75 : 1);
 
 // How many pixels a raw green square is
 export const SQUARE_WIDTH = 16;
