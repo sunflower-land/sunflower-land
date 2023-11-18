@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
 
-import boat from "assets/decorations/isles_boat.png";
+import boat from "assets/decorations/isle_boat.gif";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -182,7 +182,7 @@ export const DiscordBoat: React.FC = () => {
         onClick={() => setShowModal(true)}
         style={{
           top: `${GRID_WIDTH_PX * 3}px`,
-          width: `${PIXEL_SCALE * 63}px`,
+          width: `${PIXEL_SCALE * 104}px`,
           transform: `translateX(650px)`,
         }}
       >
@@ -199,8 +199,8 @@ export const DiscordBoat: React.FC = () => {
         <div
           className="absolute"
           style={{
-            top: `${PIXEL_SCALE * 1}px`,
-            right: `${PIXEL_SCALE * 32}px`,
+            top: `${PIXEL_SCALE * 3}px`,
+            right: `${PIXEL_SCALE * 30}px`,
           }}
         >
           <NPC parts={NPC_WEARABLES.wobble} />
@@ -209,7 +209,7 @@ export const DiscordBoat: React.FC = () => {
           src={SUNNYSIDE.decorations.treasure_chest}
           style={{
             top: `${PIXEL_SCALE * -6}px`,
-            right: `${PIXEL_SCALE * 39}px`,
+            right: `${PIXEL_SCALE * 45}px`,
             width: `${PIXEL_SCALE * 16}px`,
           }}
           className="absolute w-full"
