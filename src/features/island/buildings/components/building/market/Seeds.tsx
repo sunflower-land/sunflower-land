@@ -26,6 +26,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
 
 interface Props {
   onClose: () => void;
@@ -43,6 +44,8 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   ] = useActor(gameService);
 
   const { inventory, collectibles, buildings } = state;
+
+  if (!state.bumpkin) return <NoBumpkin />;
 
   const price = getBuyPrice(
     selectedName,
