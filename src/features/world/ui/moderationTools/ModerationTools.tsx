@@ -15,7 +15,7 @@ import { ChatHistory } from "./tabs/ChatHistory";
 import { Actions } from "./tabs/Actions";
 
 import discord from "assets/skills/discord.png";
-import { Moderation } from "features/game/lib/gameMachine";
+import { MachineInterpreter, Moderation } from "features/game/lib/gameMachine";
 
 export type Message = {
   farmId: number;
@@ -38,7 +38,7 @@ interface Props {
   scene?: any;
   messages: Message[];
   players: Player[];
-  gameService: any;
+  gameService: MachineInterpreter;
 }
 
 export const ModerationTools: React.FC<Props> = ({
@@ -52,7 +52,7 @@ export const ModerationTools: React.FC<Props> = ({
 
   const [showModerationTool, setShowModerationTool] = useState(false);
   const [tab, setTab] = useState(0);
-  const ModeratorFarmId = gameService.state.context.farmId as number;
+  const moderatorFarmId = gameService.state.context.farmId;
 
   const toggleModerationTool = () => {
     setShowModerationTool(!showModerationTool);
@@ -108,7 +108,7 @@ export const ModerationTools: React.FC<Props> = ({
               scene={scene}
               players={players}
               authState={authState.context.user}
-              moderatorFarmId={ModeratorFarmId}
+              moderatorFarmId={moderatorFarmId}
             />
           )}
           {tab === 1 && <ChatHistory messages={messages} />}
@@ -116,7 +116,7 @@ export const ModerationTools: React.FC<Props> = ({
             <Actions
               scene={scene}
               authState={authState.context.user}
-              moderatorFarmId={ModeratorFarmId}
+              moderatorFarmId={moderatorFarmId}
             />
           )}
         </CloseButtonPanel>
