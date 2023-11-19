@@ -197,6 +197,7 @@ import {
   burnCollectible,
   BurnCollectibleAction,
 } from "./landExpansion/burnCollectible";
+import { claimBonus, ClaimBonusAction } from "./landExpansion/claimBonus";
 
 export type PlayingEvent =
   | TradeAction
@@ -263,7 +264,8 @@ export type PlayingEvent =
   | MissFishAction
   | TradeTentacleAction
   | RevealLandAction
-  | BurnCollectibleAction;
+  | BurnCollectibleAction
+  | ClaimBonusAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -384,6 +386,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "shelly.tradeTentacle": tradeTentacle,
   "land.revealed": revealLand,
   "collectible.burned": burnCollectible,
+  "bonus.claimed": claimBonus,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

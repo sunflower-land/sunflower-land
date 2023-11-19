@@ -300,6 +300,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Bud Ticket": () => false,
   "Bud Seedling": () => false,
   "Mermaid Scale": () => false,
+  "Community Coin": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {

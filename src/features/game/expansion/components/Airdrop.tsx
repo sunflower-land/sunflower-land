@@ -20,34 +20,18 @@ import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import { CONSUMABLES, ConsumableName } from "features/game/types/consumables";
 
-export const AirdropModal: React.FC<{
-  airdrop: IAirdrop;
+interface ClaimRewardProps {
+  reward: IAirdrop;
+  onClaim: () => void;
   onClose?: () => void;
-  onClaimed: () => void;
-}> = ({ airdrop, onClose, onClaimed }) => {
-  const { gameService } = useContext(Context);
-  const { openModal } = useContext(ModalContext);
+}
 
+export const ClaimReward: React.FC<ClaimRewardProps> = ({
+  reward: airdrop,
+  onClaim,
+  onClose,
+}) => {
   const itemNames = getKeys(airdrop.items);
-
-  const claim = () => {
-    gameService.send("airdrop.claimed", {
-      id: airdrop.id,
-    });
-
-    if (airdrop.id === "expansion-four-airdrop") {
-      openModal("BETTY");
-    }
-
-    if (airdrop.items["Time Warp Totem"]) {
-      gameService.send("LANDSCAPE", {
-        placeable: "Time Warp Totem",
-        action: "collectible.placed",
-      });
-    }
-
-    onClaimed();
-  };
 
   return (
     <>
@@ -130,10 +114,39 @@ export const AirdropModal: React.FC<{
             Close
           </Button>
         )}
-        <Button onClick={claim}>Claim</Button>
+        <Button onClick={onClaim}>Claim</Button>
       </div>
     </>
   );
+};
+export const AirdropModal: React.FC<{
+  airdrop: IAirdrop;
+  onClose?: () => void;
+  onClaimed: () => void;
+}> = ({ airdrop, onClose, onClaimed }) => {
+  const { gameService } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
+
+  const claim = () => {
+    gameService.send("airdrop.claimed", {
+      id: airdrop.id,
+    });
+
+    if (airdrop.id === "expansion-four-airdrop") {
+      openModal("BETTY");
+    }
+
+    if (airdrop.items["Time Warp Totem"]) {
+      gameService.send("LANDSCAPE", {
+        placeable: "Time Warp Totem",
+        action: "collectible.placed",
+      });
+    }
+
+    onClaimed();
+  };
+
+  return <ClaimReward reward={airdrop} onClaim={claim} onClose={onClose} />;
 };
 
 interface Props {
