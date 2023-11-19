@@ -18,7 +18,6 @@ import { BONUSES } from "features/game/types/bonuses";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 import classNames from "classnames";
-import { hasFeatureAccess } from "lib/flags";
 
 export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -144,9 +143,6 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
 const _isClaimed = (state: MachineState) =>
   BONUSES["discord-signup"].isClaimed(state.context.state);
 
-const _hasAccess = (state: MachineState) =>
-  hasFeatureAccess(state.context.state, "DISCORD_BONUS");
-
 const _expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 0;
 
@@ -158,12 +154,7 @@ export const DiscordBoat: React.FC = () => {
 
   const { gameService } = useContext(Context);
   const isClaimed = useSelector(gameService, _isClaimed);
-  const hasAccess = useSelector(gameService, _hasAccess);
   const expansions = useSelector(gameService, _expansions);
-
-  if (!hasAccess) {
-    return null;
-  }
 
   let yOffset = 5;
   if (expansions >= 12) {

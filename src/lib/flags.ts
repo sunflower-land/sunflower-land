@@ -16,7 +16,6 @@ const testnetFeatureFlag = () => CONFIG.NETWORK === "mumbai";
  */
 type FeatureName =
   | "JEST_TEST"
-  | "DISCORD_BONUS"
   | "PUMPKIN_PLAZA"
   | "NEW_DELIVERIES"
   | "NEW_FARM_FLOW"
@@ -72,7 +71,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
     return defaultFeatureFlag(game);
   },
   LOCALISATION: testnetFeatureFlag,
-  DISCORD_BONUS: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
