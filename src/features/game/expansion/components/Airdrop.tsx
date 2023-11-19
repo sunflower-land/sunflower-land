@@ -17,43 +17,26 @@ import { Airdrop as IAirdrop } from "features/game/types/game";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
-import Decimal from "decimal.js-light";
 import { CONSUMABLES, ConsumableName } from "features/game/types/consumables";
 
-export const AirdropModal: React.FC<{
-  airdrop: IAirdrop;
+interface ClaimRewardProps {
+  reward: IAirdrop;
+  onClaim: () => void;
   onClose?: () => void;
-  onClaimed: () => void;
-}> = ({ airdrop, onClose, onClaimed }) => {
-  const { gameService } = useContext(Context);
-  const { openModal } = useContext(ModalContext);
+}
 
+export const ClaimReward: React.FC<ClaimRewardProps> = ({
+  reward: airdrop,
+  onClaim,
+  onClose,
+}) => {
   const itemNames = getKeys(airdrop.items);
-
-  const claim = () => {
-    gameService.send("airdrop.claimed", {
-      id: airdrop.id,
-    });
-
-    if (airdrop.id === "expansion-four-airdrop") {
-      openModal("BETTY");
-    }
-
-    if (airdrop.items["Time Warp Totem"]) {
-      gameService.send("LANDSCAPE", {
-        placeable: "Time Warp Totem",
-        action: "collectible.placed",
-      });
-    }
-
-    onClaimed();
-  };
 
   return (
     <>
       <div className="p-1">
         <Label
-          className="ml-2 mb-2"
+          className="ml-2 mb-2 mt-1"
           type="warning"
           icon={SUNNYSIDE.decorations.treasure_chest}
         >
@@ -76,18 +59,11 @@ export const AirdropModal: React.FC<{
           {itemNames.length > 0 &&
             itemNames.map((name) => (
               <div className="flex items-center" key={name}>
-                <Box
-                  count={
-                    (airdrop.items[name] ?? 1) > 1
-                      ? new Decimal(airdrop.items[name] ?? 0)
-                      : undefined
-                  }
-                  image={ITEM_DETAILS[name].image}
-                />
+                <Box image={ITEM_DETAILS[name].image} />
                 <div>
                   <div className="flex items-center">
                     <Label type="default" className="mr-2">
-                      {name}
+                      {`${airdrop.items[name] ?? 1} x ${name}`}
                     </Label>
                     {name in CONSUMABLES && (
                       <Label
@@ -107,16 +83,11 @@ export const AirdropModal: React.FC<{
           {getKeys(airdrop.wearables ?? {}).length > 0 &&
             getKeys(airdrop.wearables).map((name) => (
               <div className="flex items-center  mb-2" key={name}>
-                <Box
-                  image={getImageUrl(ITEM_IDS[name])}
-                  count={
-                    (airdrop.wearables[name] ?? 1) > 1
-                      ? new Decimal(airdrop.wearables[name] ?? 0)
-                      : undefined
-                  }
-                />
+                <Box image={getImageUrl(ITEM_IDS[name])} />
                 <div>
-                  <Label type="default">{name}</Label>
+                  <Label type="default">{`${
+                    airdrop.wearables[name] ?? 1
+                  } x ${name}`}</Label>
                   <p className="text-xs">A wearable for your Bumpkin</p>
                 </div>
               </div>
@@ -124,16 +95,45 @@ export const AirdropModal: React.FC<{
         </div>
       </div>
 
-      <div className="flex items-center mt-2">
+      <div className="flex items-center mt-1">
         {onClose && (
           <Button className="mr-1" onClick={onClose}>
             Close
           </Button>
         )}
-        <Button onClick={claim}>Claim</Button>
+        <Button onClick={onClaim}>Claim</Button>
       </div>
     </>
   );
+};
+export const AirdropModal: React.FC<{
+  airdrop: IAirdrop;
+  onClose?: () => void;
+  onClaimed: () => void;
+}> = ({ airdrop, onClose, onClaimed }) => {
+  const { gameService } = useContext(Context);
+  const { openModal } = useContext(ModalContext);
+
+  const claim = () => {
+    gameService.send("airdrop.claimed", {
+      id: airdrop.id,
+    });
+
+    if (airdrop.id === "expansion-four-airdrop") {
+      openModal("BETTY");
+    }
+
+    if (airdrop.items["Time Warp Totem"]) {
+      gameService.send("LANDSCAPE", {
+        placeable: "Time Warp Totem",
+        action: "collectible.placed",
+      });
+    }
+
+    onClaimed();
+  };
+
+  return <ClaimReward reward={airdrop} onClaim={claim} onClose={onClose} />;
 };
 
 interface Props {

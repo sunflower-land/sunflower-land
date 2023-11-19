@@ -13,13 +13,13 @@ import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";
 import { SharkBumpkin } from "./water/SharkBumpkin";
 import { Arcade } from "features/community/arcade/Arcade";
-import { FruitQuest } from "features/island/farmerQuest/FruitQuest";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { DailyReward } from "./dailyReward/DailyReward";
 import { SeasonTeaser } from "./SeasonTeaser";
 import { LAND_WIDTH } from "../Land";
 import { TravelTeaser } from "./TravelTeaser";
+import { DiscordBoat } from "./DiscordBoat";
 
 interface Props {
   townCenterBuilt: boolean;
@@ -55,6 +55,8 @@ export const WaterComponent: React.FC<Props> = ({
         />
       </MapPlacement>
 
+      <DiscordBoat />
+
       {/* Goblin swimming */}
       <MapPlacement x={-6 - offset} y={-1} width={6}>
         <img
@@ -66,7 +68,7 @@ export const WaterComponent: React.FC<Props> = ({
       </MapPlacement>
 
       {/* Snorkler */}
-      <Snorkler x={-2} y={offset + 7} />
+      <Snorkler x={-2} y={offset + 12} />
 
       {/* Shark bumpkin */}
       <SharkBumpkin x={-8} y={offset + 10} />
@@ -97,7 +99,7 @@ export const WaterComponent: React.FC<Props> = ({
       {/* Islands */}
 
       {/* Top right island */}
-      <MapPlacement x={7 + offset} y={9 + offset} width={6}>
+      <MapPlacement x={7 + offset} y={15 + offset} width={6}>
         <img
           src={bearIsland}
           style={{
@@ -114,9 +116,6 @@ export const WaterComponent: React.FC<Props> = ({
           <Arcade />
         </div>
       </MapPlacement>
-
-      {/* Top left island */}
-      <FruitQuest offset={offset} />
 
       {/* Bottom island */}
       <SeasonTeaser offset={offset} />

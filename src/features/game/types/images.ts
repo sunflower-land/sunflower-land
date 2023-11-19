@@ -369,6 +369,7 @@ import collectibleBear from "src/assets/sfts/bears/collectible_bear.png";
 import manekiNeko from "src/assets/sfts/maneki_neko.gif";
 import redEnvelope from "src/assets/icons/red_envelope.png";
 import loveLetter from "src/assets/icons/love_letter.png";
+import communityCoin from "src/assets/icons/community_coin.png";
 import tikiTotem from "src/assets/sfts/tiki_totem.webp";
 import timeWarpTotem from "src/assets/sfts/time_warp_totem.webp";
 import lunarCalendar from "src/assets/sfts/lunar_calendar.webp";
@@ -2871,7 +2872,7 @@ export const ITEM_DETAILS: Items = {
   "Kraken Tentacle": {
     image: krakenTentacle,
     description:
-      "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
+      "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
   },
 
   "Sapo Docuras": {
@@ -2960,5 +2961,9 @@ export const ITEM_DETAILS: Items = {
     image: timeWarpTotem,
     description:
       "2x speed for crops, trees, cooking & minerals. Only lasts for 2 hours",
+  },
+  "Community Coin": {
+    image: communityCoin,
+    description: "A valued coin that can be exchanged for rewards",
   },
 };

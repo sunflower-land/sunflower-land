@@ -6008,7 +6008,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Kraken Head": {
     description:
-      "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
+      "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/484.png",
@@ -6105,6 +6105,28 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
 
   "Time Warp Totem": {
+    description:
+      "The Time Warp Totem temporarily boosts your cooking, crops, trees & mineral time. Make the most of it!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1297.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Boost", value: "Other" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Cooking, Crop, Tree and Mineral Time",
+        value: -50,
+      },
+      {
+        display_type: "boost_number",
+        trait_type: "Boost Duration (hours)",
+        value: 2,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Community Coin": {
     description: "?",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
