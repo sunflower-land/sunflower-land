@@ -8,7 +8,9 @@ export type TranslationKeys =
   | GuideTerms
   | Conversations
   | HenHouseTerms
-  | ShopItems;
+  | ShopItems
+  | RewardTerms
+  | ConfirmationTerms;
 
 export type GeneralTerms =
   | "featured"
@@ -22,8 +24,18 @@ export type GeneralTerms =
   | "guide"
   | "task"
   | "sell"
+  | "sell.ten"
+  | "sell.all"
   | "buy"
-  | "delivery";
+  | "delivery"
+  | "crops"
+  | "fruits"
+  | "exotics"
+  | "2x.sale"
+  | "cancel"
+  | "for";
+
+export type ConfirmationTerms = "confirmation.sellCrops";
 
 export type WelcomeTerms =
   | "welcome.otherWallets"
@@ -183,6 +195,7 @@ export type Conversations =
   | "bruce-intro.headline"
   | "bruce-intro.one"
   | "bruce-intro.two"
+  | "bruce-intro.three"
   | "blacksmith-intro.headline"
   | "blacksmith-intro.one";
 
@@ -194,3 +207,15 @@ export type HenHouseTerms =
   | "henHouse.text.four"
   | "henHouse.text.five"
   | "henHouse.text.six";
+
+export type RewardTerms =
+  | "reward.title"
+  | "reward.streak"
+  | "reward.comeBackLater"
+  | "reward.nextBonus"
+  | "reward.unlock"
+  | "reward.open"
+  | "reward.lvlRequirement"
+  | "reward.revealing"
+  | "reward.streakBonus"
+  | "reward.found";
