@@ -14,6 +14,7 @@ import {
   isCropGrowing,
 } from "features/game/events/landExpansion/harvest";
 import { isFruitGrowing } from "features/game/events/landExpansion/fruitHarvested";
+import { CompostName } from "./composters";
 
 type RESTRICTION_REASON =
   | "No restriction"
@@ -182,6 +183,16 @@ function areAnyTreasureHolesDug(game: GameState): Restriction {
   return [holesDug, "Treasure holes are dug"];
 }
 
+function isFertiliserApplied(
+  game: GameState,
+  fertiliser: CompostName
+): Restriction {
+  const fertiliserApplied = Object.values(game.crops ?? {}).some(
+    (plot) => plot.fertiliser?.name === fertiliser
+  );
+  return [fertiliserApplied, "In use"];
+}
+
 export const canShake = (shakenAt?: number) => {
   if (!shakenAt) return true;
 
@@ -249,6 +260,9 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Black Bearry": (game) => areFruitsGrowing(game, "Blueberry"),
   "Lady Bug": (game) => areFruitsGrowing(game, "Apple"),
   Nana: (game) => areFruitsGrowing(game, "Banana"),
+
+  // Fertiliser Boosts
+  "Knowledge Crab": (game) => isFertiliserApplied(game, "Sprout Mix"),
 
   // Wood Boosts
   "Woody the Beaver": (game) => areAnyTreesChopped(game),

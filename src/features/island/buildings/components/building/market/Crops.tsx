@@ -27,6 +27,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const isExoticCrop = (
   item: Crop | Fruit | ExoticCrop
@@ -42,6 +43,7 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
   );
   const [isSellAllModalOpen, showSellAllModal] = useState(false);
   const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
   const [
     {
       context: { state },
@@ -161,11 +163,11 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
                     disabled={cropAmount.lessThan(10)}
                     onClick={handleSellTen}
                   >
-                    Sell 10
+                    {t("sell.ten")}
                   </Button>
                 </div>
                 <Button disabled={noCrop} onClick={openConfirmationModal}>
-                  Sell All
+                  {t("sell.all")}
                 </Button>
               </>
             }
@@ -179,11 +181,11 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
                 icon={CROP_LIFECYCLE.Sunflower.crop}
                 type="default"
               >
-                Crops
+                {t("crops")}
               </Label>
               {cropShortage && (
                 <Label type="vibrant" icon={SUNNYSIDE.icons.stopwatch}>
-                  2x Sale
+                  {t("2x.sale")}
                 </Label>
               )}
             </div>
@@ -207,7 +209,7 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
             </div>
             <div className="flex">
               <Label className="mr-3" icon={orange} type="default">
-                Fruits
+                {t("fruits")}
               </Label>
             </div>
             <div className="flex flex-wrap">
@@ -230,7 +232,7 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
             </div>
             <div className="flex">
               <Label className="mr-3" icon={lightning} type="default">
-                Exotics
+                {t("exotics")}
               </Label>
             </div>
             <div className="flex flex-wrap">
@@ -258,8 +260,10 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
         <CloseButtonPanel className="sm:w-4/5 m-auto">
           <div className="flex flex-col p-2">
             <span className="text-sm text-center">
-              Are you sure you want to <br className="hidden sm:block" />
-              {`sell ${cropAmount} ${selected.name} for `}
+              {t("confirmation.sellCrops")} <br className="hidden sm:block" />
+              {`${t("sell").toLowerCase()} ${cropAmount} ${selected.name} ${t(
+                "for"
+              )} `}
               <br className="hidden sm:block" />
               {`${setPrecision(
                 displaySellPrice(selected).mul(cropAmount)
@@ -268,7 +272,7 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
           </div>
           <div className="flex justify-content-around mt-2 space-x-1">
             <Button disabled={noCrop} onClick={closeConfirmationModal}>
-              Cancel
+              {t("cancel")}
             </Button>
             <Button disabled={noCrop} onClick={handleSellAll}>
               Sell All

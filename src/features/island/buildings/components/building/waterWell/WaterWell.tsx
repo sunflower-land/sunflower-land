@@ -6,7 +6,11 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
 
-export const WaterWell: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
+export const WaterWell: React.FC<BuildingProps> = ({
+  onRemove,
+  isBuilt,
+  buildingIndex,
+}) => {
   const handleClick = () => {
     if (onRemove) {
       onRemove();
@@ -22,6 +26,7 @@ export const WaterWell: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
   return (
     <BuildingImageWrapper
       name="Water Well"
+      index={buildingIndex}
       onClick={handleClick}
       nonInteractible={!onRemove}
     >

@@ -17,6 +17,7 @@ import { ConversationName } from "features/game/types/conversations";
 import { Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `bruce-read.${host}-${window.location.pathname}`;
@@ -48,6 +49,7 @@ export const FirePitModal: React.FC<Props> = ({
   conversation,
 }) => {
   const [showIntro, setShowIntro] = React.useState(!hasRead());
+  const { t } = useAppTranslation();
   const firePitRecipes = getKeys(COOKABLES).reduce((acc, name) => {
     if (COOKABLES[name].building !== "Fire Pit") {
       return acc;
@@ -67,10 +69,10 @@ export const FirePitModal: React.FC<Props> = ({
           <SpeakingText
             message={[
               {
-                text: "Howdy farmer! I can spot a hungry Bumpkin from a mile away.",
+                text: t("bruce-intro.three"),
               },
               {
-                text: "Bring me resources and I will cook all the food you can eat!",
+                text: t("bruce-intro.two"),
               },
             ]}
             onClose={() => {

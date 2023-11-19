@@ -19,7 +19,7 @@ interface Props {
 
 export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(Auth.Context);
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations, toggleAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const { farmAddress } = gameState.context;
@@ -35,6 +35,10 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   const onLogout = () => {
     onClose();
     authService.send("LOGOUT"); // hack used to avoid redundancy
+  };
+
+  const onToggleAnimations = () => {
+    toggleAnimations();
   };
 
   const refreshSession = () => {
@@ -53,7 +57,10 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
 
     return (
       <CloseButtonPanel title="Settings" onClose={onClose}>
-        <Button className="col p-1" onClick={onLogout}>
+        <Button className="col p-1" onClick={onToggleAnimations}>
+          {showAnimations ? "Disable Animations" : "Enable Animations"}
+        </Button>
+        <Button className="col p-1 mt-2" onClick={onLogout}>
           Logout
         </Button>
         {isFullUser && (

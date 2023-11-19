@@ -7,6 +7,7 @@ import { mutePlayer } from "features/world/lib/moderationAction";
 interface Props {
   player?: Player;
   authState: any;
+  moderatorFarmId: number;
   scene: any;
   onClose: () => void;
 }
@@ -25,6 +26,7 @@ export const MUTE_DURATIONS: { value: MuteDuration; label: string }[] = [
 export const MuteModal: React.FC<Props> = ({
   player,
   authState,
+  moderatorFarmId,
   scene,
   onClose,
 }) => {
@@ -46,7 +48,7 @@ export const MuteModal: React.FC<Props> = ({
 
     await mutePlayer({
       token: authState.rawToken as string,
-      farmId: authState.farmId as number,
+      farmId: moderatorFarmId,
       mutedId: farmId,
       reason: reason,
       mutedUntil: until,

@@ -1,10 +1,12 @@
 import {
   AchievementsDialog,
+  ConfirmationTerms,
   Conversations,
   GeneralTerms,
   GuideTerms,
   HenHouseTerms,
   Intro,
+  RewardTerms,
   RulesTerms,
   SeasonBannerOffer,
   ShopItems,
@@ -25,7 +27,20 @@ const generalTerms: Record<GeneralTerms, string> = {
   task: "Tarefa",
   buy: "Comprar",
   sell: "Vender",
+  "sell.ten": "Vender 10",
+  "sell.all": "Vender tudo",
   delivery: "Entrega",
+  crops: "Colheitas",
+  exotics: "Exóticos",
+  fruits: "Frutas",
+  "2x.sale": "Venda 2x",
+  cancel: "Cancelar",
+  for: "por",
+};
+
+const confirmationTerms: Record<ConfirmationTerms, string> = {
+  // "confirmation.sellCrops": "Are you sure you want to"
+  "confirmation.sellCrops": "Tem certeza de que deseja",
 };
 
 const welcomeTerms: Record<WelcomeTerms, string> = {
@@ -281,6 +296,8 @@ const conversations: Record<Conversations, string> = {
   "bruce-intro.one": "Sou o dono deste adorável bistrô.",
   "bruce-intro.two":
     "Traga-me recursos e cozinharei toda a comida que você puder comer!",
+  "bruce-intro.three":
+    "Olá, fazendeiro! Eu posso ver um Bumpkin faminto a um quilômetro de distância.",
   "blacksmith-intro.headline": "Madeeeeeira.",
   "blacksmith-intro.one":
     "Sou um mestre das ferramentas, e com os recursos certos, posso criar tudo o que você precisa... incluindo mais ferramentas!",
@@ -297,6 +314,20 @@ const henHouseTerms: Record<HenHouseTerms, string> = {
   "henHouse.text.six": "Construa uma Hen House extra para criar mais galinhas",
 };
 
+const rewardTerms: Record<RewardTerms, string> = {
+  "reward.title": "Recompensas Diárias",
+  "reward.streak": " dias seguidos",
+  "reward.comeBackLater": "Volte mais tarde para mais recompensas",
+  "reward.nextBonus": "Próximo bônus: ",
+  "reward.unlock": "Desbloquear recompensa",
+  "reward.open": "Abrir recompensa",
+  "reward.lvlRequirement":
+    "Você precisa estar no nível 3 para acessar recompensas diárias.",
+  "reward.revealing": "O que poderia ser?",
+  "reward.streakBonus": "Bônus de streak x3",
+  "reward.found": "Você encontrou",
+};
+
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...generalTerms,
   ...welcomeTerms,
@@ -308,4 +339,6 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...conversations,
   ...henHouseTerms,
   ...shopItems,
+  ...rewardTerms,
+  ...confirmationTerms,
 };

@@ -12,6 +12,7 @@ import { setImageWidth } from "lib/images";
 import { Label } from "components/ui/Label";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { ITEM_IDS } from "../types/bumpkin";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Revealed: React.FC<{
   onAcknowledged?: () => void;
@@ -20,6 +21,7 @@ export const Revealed: React.FC<{
 }> = ({ onAcknowledged, id, streaks = false }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { t } = useAppTranslation();
 
   const handleAcknowledge = () => {
     gameService.send({ type: "CONTINUE", id });
@@ -40,7 +42,7 @@ export const Revealed: React.FC<{
 
         {streaks && streakBonus && (
           <Label type="info" className="px-0.5 text-sm">
-            3x streak bonus
+            {t("reward.streakBonus")}
           </Label>
         )}
         <>
@@ -81,7 +83,7 @@ export const Revealed: React.FC<{
 
             {/* Text*/}
             <div>
-              <p className="text-center text-sm mb-2">You found</p>
+              <p className="text-center text-sm mb-2">{t("reward.found")}</p>
               {sfl > 0 && (
                 <p className="text-center text-sm mb-2">{`${sfl} SFL`}</p>
               )}
@@ -101,7 +103,7 @@ export const Revealed: React.FC<{
           </div>
         </>
       </div>
-      <Button onClick={handleAcknowledge}>Continue</Button>
+      <Button onClick={handleAcknowledge}>{t("continue")}</Button>
     </>
   );
 };

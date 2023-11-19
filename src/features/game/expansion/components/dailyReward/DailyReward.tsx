@@ -18,6 +18,7 @@ import { CountdownLabel } from "components/ui/CountdownLabel";
 import { Equipped } from "features/game/types/bumpkin";
 import { Label } from "components/ui/Label";
 import { MachineState } from "features/game/lib/gameMachine";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _dailyRewards = (state: MachineState) => state.context.state.dailyRewards;
@@ -28,6 +29,7 @@ export const DailyReward: React.FC = () => {
   const dailyRewards = useSelector(gameService, _dailyRewards);
   const bumpkin = useSelector(gameService, _bumpkin);
   const isRevealed = useSelector(gameService, _isRevealed);
+  const { t } = useAppTranslation();
 
   const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
 
@@ -109,7 +111,7 @@ export const DailyReward: React.FC = () => {
         <CloseButtonPanel onClose={() => setShowModal(false)}>
           <div className="flex flex-col items-center p-2 w-full">
             <Label type="info" className="px-0.5 text-xs">
-              {streaks} day streak
+              {streaks} {t("reward.streak")}
             </Label>
             <img
               src={SUNNYSIDE.decorations.treasure_chest_opened}
@@ -119,7 +121,7 @@ export const DailyReward: React.FC = () => {
               }}
             />
             <span className="text-center mb-4">
-              Come back later for more rewards
+              {t("reward.comeBackLater")}
             </span>
             <CountdownLabel timeLeft={nextRefreshInSeconds} />
           </div>
@@ -130,17 +132,19 @@ export const DailyReward: React.FC = () => {
     if (chestState.matches("locked")) {
       return (
         <CloseButtonPanel
-          title="Daily Reward"
+          title={t("reward.title")}
           onClose={() => setShowModal(false)}
         >
           <div className="flex flex-col items-center px-2">
             {streaks > 1 && !missedADay && (
               <>
                 <Label type="info" className="px-0.5 text-xs">
-                  {streaks} day streak
+                  {streaks} {t("reward.streak")}
                 </Label>
                 <p className="text-xxs mt-2">
-                  Next bonus: {getNextBonus} Day Streak
+                  {t("reward.nextBonus")}
+                  {getNextBonus}
+                  {t("reward.streak")}
                 </p>
               </>
             )}
@@ -153,7 +157,7 @@ export const DailyReward: React.FC = () => {
             />
           </div>
           <Button onClick={() => chestService.send("UNLOCK")}>
-            Unlock Reward
+            {t("reward.unlock")}
           </Button>
         </CloseButtonPanel>
       );
@@ -162,7 +166,7 @@ export const DailyReward: React.FC = () => {
     if (chestState.matches("unlocked")) {
       return (
         <CloseButtonPanel
-          title="Daily Reward"
+          title={t("reward.title")}
           onClose={() => setShowModal(false)}
         >
           <div className="flex flex-col items-center p-2">
@@ -174,7 +178,7 @@ export const DailyReward: React.FC = () => {
               }}
             />
           </div>
-          <Button onClick={reveal}>Open reward</Button>
+          <Button onClick={reveal}>{t("reward.open")}</Button>
         </CloseButtonPanel>
       );
     }
@@ -194,7 +198,7 @@ export const DailyReward: React.FC = () => {
               }}
             />
           </div>
-          <Button onClick={() => setShowModal(false)}>Close</Button>
+          <Button onClick={() => setShowModal(false)}>{t("close")}</Button>
         </CloseButtonPanel>
       );
     }
@@ -204,9 +208,7 @@ export const DailyReward: React.FC = () => {
         <CloseButtonPanel title="Oh oh!" onClose={() => setShowModal(false)}>
           <div className="px-2 pb-2 w-full flex flex-col items-center">
             <img src={SUNNYSIDE.icons.player} className="w-1/5 mb-3" />
-            <p className="text-sm">
-              You must be level 3 to claim daily rewards.
-            </p>
+            <p className="text-sm">{t("reward.lvlRequirement")}</p>
           </div>
         </CloseButtonPanel>
       );

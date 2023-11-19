@@ -14,6 +14,8 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
 import lockIcon from "assets/skills/lock.png";
+import { InnerPanel } from "components/ui/Panel";
+
 /**
  * BuildingImageWrapper props
  * @param nonInteractible if the building is non interactible
@@ -22,6 +24,7 @@ import lockIcon from "assets/skills/lock.png";
  */
 interface Props {
   name: string;
+  index?: number;
   nonInteractible?: boolean;
   ready?: boolean;
   onClick: () => void;
@@ -32,6 +35,7 @@ const _bumpkinLevel = (state: MachineState) =>
 
 export const BuildingImageWrapper: React.FC<Props> = ({
   name,
+  index,
   nonInteractible,
   ready,
   onClick,
@@ -41,13 +45,17 @@ export const BuildingImageWrapper: React.FC<Props> = ({
   const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
   const [warning, setWarning] = useState<JSX.Element>();
 
+  const [showBumpkinLevel, setShowBumpkinLevel] = useState(false);
+
+  const bumpkinLevelRequired = getBuildingBumpkinLevelRequired(
+    name as BuildingName,
+    index ?? 0
+  );
+  const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
+
   const getHandleDisabledOnClick = (name: string, nonInteractible: boolean) =>
     function handleDisabledOnClick() {
       if (nonInteractible) return;
-
-      const bumpkinLevelRequired = getBuildingBumpkinLevelRequired(
-        name as BuildingName
-      );
 
       setWarning(
         <CloseButtonPanel onClose={() => setWarning(undefined)}>
@@ -64,6 +72,16 @@ export const BuildingImageWrapper: React.FC<Props> = ({
     enabled = isBuildingEnabled(bumpkinLevel, name as BuildingName);
   }
 
+  const handleHover = () => {
+    if (bumpkinTooLow) {
+      setShowBumpkinLevel(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setShowBumpkinLevel(false);
+  };
+
   return (
     <>
       <Modal centered show={!!warning}>
@@ -73,16 +91,38 @@ export const BuildingImageWrapper: React.FC<Props> = ({
       <div
         className={classNames(
           "relative w-full h-full",
-          nonInteractible ? "" : "cursor-pointer hover:img-highlight"
+          nonInteractible
+            ? bumpkinTooLow
+              ? "opacity-50"
+              : ""
+            : "cursor-pointer hover:img-highlight"
         )}
         onClick={
           !enabled
             ? getHandleDisabledOnClick(name, nonInteractible ?? false)
             : onClick
         }
+        onMouseEnter={handleHover}
+        onMouseLeave={handleMouseLeave}
       >
         {children}
       </div>
+
+      {/* Bumpkin level warning */}
+      {showBumpkinLevel && (
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            top: `${PIXEL_SCALE * -14}px`,
+          }}
+        >
+          <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
+            <div className="text-xxs mx-1 p-1">
+              <span>Bumpkin level {bumpkinLevelRequired} required.</span>
+            </div>
+          </InnerPanel>
+        </div>
+      )}
 
       {/* Ready indicator */}
       {ready && (

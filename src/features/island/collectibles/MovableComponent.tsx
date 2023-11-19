@@ -102,6 +102,7 @@ export function getRemoveAction(
 export interface MovableProps {
   name: CollectibleName | BuildingName | "Chicken" | "Bud";
   id: string;
+  index: number;
   x: number;
   y: number;
 }
@@ -111,6 +112,7 @@ const getMovingItem = (state: MachineState) => state.context.moving;
 export const MoveableComponent: React.FC<MovableProps> = ({
   name,
   id,
+  index,
   x: coordinatesX,
   y: coordinatesY,
   children,

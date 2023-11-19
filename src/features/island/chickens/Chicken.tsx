@@ -526,7 +526,13 @@ const LockedChicken: React.FC<Props> = (props) => {
 
 const MoveableChicken: React.FC<Props> = (props) => {
   return (
-    <MoveableComponent name="Chicken" x={props.x} y={props.y} id={props.id}>
+    <MoveableComponent
+      name="Chicken"
+      x={props.x}
+      y={props.y}
+      id={props.id}
+      index={0}
+    >
       <PlaceableChicken {...props} />
     </MoveableComponent>
   );
