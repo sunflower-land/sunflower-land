@@ -300,6 +300,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Bud Ticket": () => false,
   "Bud Seedling": () => false,
   "Mermaid Scale": () => false,
+  "Community Coin": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {
@@ -973,7 +974,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Infernal Goblin Potion": () => true,
   "Imp Costume": () => true,
   "Ox Costume": () => true,
-  "Luna's Hat": () => true,
+  "Luna's Hat": (state) => canWithdrawBoostedWearable("Luna's Hat", state),
   "Infernal Pitchfork": (state) =>
     canWithdrawBoostedWearable("Infernal Pitchfork", state), // Auction
   "Infernal Horns": () => true,
