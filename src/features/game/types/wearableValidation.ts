@@ -69,6 +69,19 @@ export const canWithdrawBoostedWearable = (
     return getKeys(state.chickens).every((id) => !state.chickens[id].fedAt);
   }
 
+  if (wearable === "Luna's Hat") {
+    if (
+      state.buildings["Fire Pit"]?.[0].crafting ||
+      state.buildings["Kitchen"]?.[0].crafting ||
+      state.buildings["Bakery"]?.[0].crafting ||
+      state.buildings["Deli"]?.[0].crafting ||
+      state.buildings["Smoothie Shack"]?.[0].crafting
+    ) {
+      return false;
+    }
+    return true;
+  }
+
   // Safety check
   return false;
 };
