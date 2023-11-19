@@ -146,7 +146,7 @@ export function getAvailableGameState({
 
     const amount = firstAmount.lt(secondAmount) ? firstAmount : secondAmount;
 
-    if (amount.eq(0)) {
+    if (amount.eq(0) && name !== "Gold Pass") {
       return inv;
     }
 

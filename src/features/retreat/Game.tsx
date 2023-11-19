@@ -1,10 +1,4 @@
-import React, {
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useContext, useLayoutEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
@@ -87,14 +81,12 @@ export const Game = () => {
   useLayoutEffect(() => {
     if (retreatLoaded) {
       scrollIntoView(Section.RetreatBackground, "auto");
+
+      if (!inventory["Gold Pass"]) {
+        setShowGoldPassModal(true);
+      }
     }
   }, [retreatLoaded]);
-
-  useEffect(() => {
-    if (!inventory["Gold Pass"]) {
-      setShowGoldPassModal(true);
-    }
-  }, []);
 
   const handleGoldPassModalClose = () => {
     setShowGoldPassModal(false);
