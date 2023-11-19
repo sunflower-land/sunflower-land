@@ -113,6 +113,11 @@ export const maxItems: Inventory = {
   "Lab Grown Radish": new Decimal(1),
   "Magic Bean": new Decimal(5),
 
+  // Fertilisers
+  "Sprout Mix": new Decimal(500),
+  "Fruitful Blend": new Decimal(500),
+  "Rapid Root": new Decimal(500),
+
   // Bait
   Earthworm: new Decimal(100),
   Grub: new Decimal(100),
