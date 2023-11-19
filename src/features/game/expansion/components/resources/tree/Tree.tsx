@@ -195,6 +195,7 @@ export const Tree: React.FC<Props> = ({ id, index }) => {
 
       {/* Chest reward */}
       <ChestReward
+        collectedItem={"Wood"}
         reward={reward}
         onCollected={onCollectChest}
         onOpen={() =>

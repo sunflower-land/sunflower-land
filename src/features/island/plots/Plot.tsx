@@ -383,6 +383,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
         />
       </div>
       <ChestReward
+        collectedItem={crop?.name}
         reward={reward}
         onCollected={onCollectReward}
         onOpen={() =>

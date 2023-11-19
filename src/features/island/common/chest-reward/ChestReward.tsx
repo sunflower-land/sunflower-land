@@ -2,7 +2,7 @@ import { Panel } from "components/ui/Panel";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 
-import { Reward } from "features/game/types/game";
+import { InventoryItemName, Reward } from "features/game/types/game";
 
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -14,6 +14,7 @@ import { ChestCaptcha } from "features/island/common/chest-reward/ChestCaptcha";
 import { Loading } from "features/auth/components";
 
 interface Props {
+  collectedItem?: InventoryItemName;
   reward?: Reward;
   onCollected: (success: boolean) => void;
   onOpen: () => void;
@@ -22,6 +23,7 @@ interface Props {
 type Challenge = "goblins" | "chest";
 
 export const ChestReward: React.FC<Props> = ({
+  collectedItem,
   reward,
   onCollected,
   onOpen,
@@ -104,7 +106,11 @@ export const ChestReward: React.FC<Props> = ({
           ) : (
             <>
               {challenge.current === "goblins" && (
-                <StopTheGoblins onFail={fail} onOpen={open} />
+                <StopTheGoblins
+                  onFail={fail}
+                  onOpen={open}
+                  collectedItem={collectedItem}
+                />
               )}
               {challenge.current === "chest" && (
                 <ChestCaptcha onFail={fail} onOpen={open} />
