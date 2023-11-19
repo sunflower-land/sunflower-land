@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { useSelector } from "@xstate/react";
 
 import Spritesheet, {
   SpriteSheetInstance,
@@ -15,18 +16,27 @@ import { chopAudio } from "lib/utils/sfx";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";
 
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { getBumpkinLevel } from "features/game/lib/level";
+
 const tool = "Axe";
 
 const SHAKE_SHEET_FRAME_WIDTH = 448 / 7;
 const SHAKE_SHEET_FRAME_HEIGHT = 48;
 
+const _bumpkinLevel = (state: MachineState) =>
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+
 interface Props {
+  bumpkinLevelRequired: number;
   hasTool: boolean;
   showHelper: boolean;
   touchCount: number;
 }
 
 const RecoveredTreeComponent: React.FC<Props> = ({
+  bumpkinLevelRequired,
   hasTool,
   touchCount,
   showHelper,
@@ -34,6 +44,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
+  const [showBumpkinLevel, setShowBumpkinLevel] = useState(false);
 
   const shakeGif = useRef<SpriteSheetInstance>();
 
@@ -44,7 +55,12 @@ const RecoveredTreeComponent: React.FC<Props> = ({
     };
   }, []);
 
+  const { gameService } = useContext(Context);
+  const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
+  const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
+
   useEffect(() => {
+    if (bumpkinTooLow) return;
     if (touchCount > 0) {
       setShowSpritesheet(true);
       chopAudio.play();
@@ -53,12 +69,17 @@ const RecoveredTreeComponent: React.FC<Props> = ({
   }, [touchCount]);
 
   const handleHover = () => {
+    if (bumpkinTooLow) {
+      setShowBumpkinLevel(true);
+      return;
+    }
     if (!hasTool) {
       setShowEquipTool(true);
     }
   };
 
   const handleMouseLeave = () => {
+    setShowBumpkinLevel(false);
     setShowEquipTool(false);
   };
 
@@ -91,7 +112,11 @@ const RecoveredTreeComponent: React.FC<Props> = ({
         {!showSpritesheet && (
           <img
             src={SUNNYSIDE.resource.tree}
-            className="absolute pointer-events-none"
+            className={
+              bumpkinTooLow
+                ? "absolute pointer-events-none opacity-50"
+                : "absolute pointer-events-none"
+            }
             style={{
               width: `${PIXEL_SCALE * 26}px`,
               bottom: `${PIXEL_SCALE * 2}px`,
@@ -137,6 +162,22 @@ const RecoveredTreeComponent: React.FC<Props> = ({
           />
         )}
       </div>
+
+      {/* Bumpkin level warning */}
+      {showBumpkinLevel && (
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            top: `${PIXEL_SCALE * -14}px`,
+          }}
+        >
+          <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
+            <div className="text-xxs mx-1 p-1">
+              <span>Bumpkin level {bumpkinLevelRequired} required.</span>
+            </div>
+          </InnerPanel>
+        </div>
+      )}
 
       {/* No tool warning */}
       {showEquipTool && (

@@ -23,7 +23,7 @@ const BudComponent: React.FC<BudProps> = ({ id, x, y }) => {
 
   if (landscaping)
     return (
-      <MoveableComponent name="Bud" id={String(id)} x={x} y={y}>
+      <MoveableComponent name="Bud" id={String(id)} index={0} x={x} y={y}>
         <_Bud id={String(id)} type={bud.type} />
       </MoveableComponent>
     );

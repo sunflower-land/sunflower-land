@@ -24,6 +24,7 @@ import { Composter } from "./composters/Composter";
 
 export interface BuildingProps {
   buildingId: string;
+  buildingIndex: number;
   craftingItemName?: CookableName;
   craftingReadyAt?: number;
   isBuilt?: boolean;
@@ -35,31 +36,43 @@ export const BUILDING_COMPONENTS: Record<
 > = {
   "Fire Pit": ({
     buildingId,
+    buildingIndex,
     craftingItemName,
     craftingReadyAt,
     isBuilt,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
+      buildingIndex={buildingIndex}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
     >
-      <FirePit buildingId={buildingId} isBuilt={isBuilt} />
+      <FirePit
+        buildingId={buildingId}
+        buildingIndex={buildingIndex}
+        isBuilt={isBuilt}
+      />
     </WithCraftingMachine>
   ),
   Workbench: WorkBench,
   Bakery: ({
     buildingId,
+    buildingIndex,
     craftingItemName,
     craftingReadyAt,
     isBuilt,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
+      buildingIndex={buildingIndex}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
     >
-      <Bakery buildingId={buildingId} isBuilt={isBuilt} />
+      <Bakery
+        buildingId={buildingId}
+        buildingIndex={buildingIndex}
+        isBuilt={isBuilt}
+      />
     </WithCraftingMachine>
   ),
   Market: Market,
@@ -71,44 +84,62 @@ export const BUILDING_COMPONENTS: Record<
   "Hen House": ChickenHouse,
   Kitchen: ({
     buildingId,
+    buildingIndex,
     craftingItemName,
     craftingReadyAt,
     isBuilt,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
+      buildingIndex={buildingIndex}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
     >
-      <Kitchen buildingId={buildingId} isBuilt={isBuilt} />
+      <Kitchen
+        buildingId={buildingId}
+        buildingIndex={buildingIndex}
+        isBuilt={isBuilt}
+      />
     </WithCraftingMachine>
   ),
   Deli: ({
     buildingId,
+    buildingIndex,
     craftingItemName,
     craftingReadyAt,
     isBuilt,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
+      buildingIndex={buildingIndex}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
     >
-      <Deli buildingId={buildingId} isBuilt={isBuilt} />
+      <Deli
+        buildingId={buildingId}
+        buildingIndex={buildingIndex}
+        isBuilt={isBuilt}
+      />
     </WithCraftingMachine>
   ),
   "Smoothie Shack": ({
     buildingId,
+    buildingIndex,
     craftingItemName,
     craftingReadyAt,
     isBuilt,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
+      buildingIndex={buildingIndex}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
     >
-      <SmoothieShack buildingId={buildingId} isBuilt={isBuilt} />
+      <SmoothieShack
+        buildingId={buildingId}
+        buildingIndex={buildingIndex}
+        isBuilt={isBuilt}
+      />
     </WithCraftingMachine>
   ),
   "Compost Bin": () => <Composter name="Compost Bin" />,
