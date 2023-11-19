@@ -39,6 +39,7 @@ import { RetreatPirate } from "./components/pirate/RetreatPirate";
 import { GameBoard } from "components/GameBoard";
 import { Auctioneer } from "./components/auctioneer/Auctioneer";
 import { PersonhoodContent } from "./components/personhood/PersonhoodContent";
+import { GoldPassModal } from "features/game/expansion/components/GoldPass";
 
 const spawn = [
   [35, 15],
@@ -67,11 +68,15 @@ const SHOW_MODAL: Partial<Record<StateValues, boolean>> = {
 
 export const Game = () => {
   const container = useRef(null);
+  const navigate = useNavigate();
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
   const [scrollIntoView] = useScrollIntoView();
   const [retreatLoaded, setRetreatLoaded] = useState(false);
   const [sealSpawn] = useState(getRandomSpawn());
+  const [showGoldPassModal, setShowGoldPassModal] = useState<boolean>(false);
+
+  const { bumpkin, inventory } = goblinState.context.state;
 
   useLayoutEffect(() => {
     if (retreatLoaded) {
@@ -148,6 +153,17 @@ export const Game = () => {
                 id={Section.RetreatBackground}
                 onLoad={() => setRetreatLoaded(true)}
               />
+
+              {/* No Gold Pass Modal */}
+              <Modal
+                show={showGoldPassModal}
+                centered
+                backdrop="static"
+                keyboard={false}
+              >
+                <GoldPassModal onClose={handleGoldPassModalClose} />
+              </Modal>
+
               <RetreatBank />
               <RetreatStorageHouse />
               <RetreatHotAirBalloon />
