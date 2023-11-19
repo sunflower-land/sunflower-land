@@ -17,7 +17,6 @@ import { Airdrop as IAirdrop } from "features/game/types/game";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
-import Decimal from "decimal.js-light";
 import { CONSUMABLES, ConsumableName } from "features/game/types/consumables";
 
 interface ClaimRewardProps {
@@ -37,7 +36,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
     <>
       <div className="p-1">
         <Label
-          className="ml-2 mb-2"
+          className="ml-2 mb-2 mt-1"
           type="warning"
           icon={SUNNYSIDE.decorations.treasure_chest}
         >
@@ -60,18 +59,11 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
           {itemNames.length > 0 &&
             itemNames.map((name) => (
               <div className="flex items-center" key={name}>
-                <Box
-                  count={
-                    (airdrop.items[name] ?? 1) > 1
-                      ? new Decimal(airdrop.items[name] ?? 0)
-                      : undefined
-                  }
-                  image={ITEM_DETAILS[name].image}
-                />
+                <Box image={ITEM_DETAILS[name].image} />
                 <div>
                   <div className="flex items-center">
                     <Label type="default" className="mr-2">
-                      {name}
+                      {`${airdrop.items[name] ?? 1} x ${name}`}
                     </Label>
                     {name in CONSUMABLES && (
                       <Label
@@ -91,16 +83,11 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
           {getKeys(airdrop.wearables ?? {}).length > 0 &&
             getKeys(airdrop.wearables).map((name) => (
               <div className="flex items-center  mb-2" key={name}>
-                <Box
-                  image={getImageUrl(ITEM_IDS[name])}
-                  count={
-                    (airdrop.wearables[name] ?? 1) > 1
-                      ? new Decimal(airdrop.wearables[name] ?? 0)
-                      : undefined
-                  }
-                />
+                <Box image={getImageUrl(ITEM_IDS[name])} />
                 <div>
-                  <Label type="default">{name}</Label>
+                  <Label type="default">{`${
+                    airdrop.wearables[name] ?? 1
+                  } x ${name}`}</Label>
                   <p className="text-xs">A wearable for your Bumpkin</p>
                 </div>
               </div>
@@ -108,7 +95,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
         </div>
       </div>
 
-      <div className="flex items-center mt-2">
+      <div className="flex items-center mt-1">
         {onClose && (
           <Button className="mr-1" onClick={onClose}>
             Close
