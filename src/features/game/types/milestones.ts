@@ -35,7 +35,7 @@ const FISH_BY_TYPE: Record<FishType, (FishName | MarineMarvelName)[]> =
 
 export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
   "Novice Angler": {
-    task: "Catch all each basic fish",
+    task: "Catch each basic fish",
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const caughtFish = FISH_BY_TYPE.basic.filter(
         (name) => (farmActivity[`${name} Caught`] ?? 0) >= 1
@@ -51,7 +51,7 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
     },
   },
   "Advanced Angler": {
-    task: "Catch all advanced fish",
+    task: "Catch each advanced fish",
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const caughtFish = FISH_BY_TYPE.advanced.filter(
         (name) => (farmActivity[`${name} Caught`] ?? 0) >= 1
@@ -67,7 +67,7 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
     },
   },
   "Expert Angler": {
-    task: "Catch 300 Fish",
+    task: "Catch 300 fish",
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const totalFishRequired = 300;
 
@@ -83,7 +83,7 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
     },
   },
   "Fish Encyclopedia": {
-    task: "Discover all fish",
+    task: "Discover each basic, advanced, and expert fish",
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const encyclopediaFish = getEncyclopediaFish();
       const totalFishRequired = encyclopediaFish.length;
@@ -101,7 +101,7 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
     },
   },
   "Master Angler": {
-    task: "Catch 1500 Fish",
+    task: "Catch 1500 fish",
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const totalFishRequired = 1500;
 
@@ -117,7 +117,7 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
     },
   },
   "Marine Marvel Master": {
-    task: "Catch 1 of every Marine Marvel",
+    task: "Catch each Marine Marvel",
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const totalFishRequired = FISH_BY_TYPE["marine marvel"].length;
 
@@ -166,15 +166,15 @@ export const getExperienceLevelForMilestones = (
 
 export const MILESTONE_MESSAGES: Record<MilestoneName, string> = {
   "Novice Angler":
-    "Congratulations, you've just reached the Novice Angler milestone! You're well on your way to becoming a fishing pro by catching 5 of each basic fish.",
+    "Congratulations, you've just reached the Novice Angler milestone! You're well on your way to becoming a fishing pro by catching each basic fish.",
   "Advanced Angler":
-    "Impressive, you've just reached the Advanced Angler milestone! You've mastered the art of catching 5 of each advanced fish. Keep it up!",
+    "Impressive, you've just reached the Advanced Angler milestone! You've mastered the art of catching each advanced fish. Keep it up!",
   "Expert Angler":
-    "Wow, you've just reached the Expert Angler milestone! You're a true fishing expert now! Catching 5 of each expert fish is no small feat.",
+    "Wow, you've just reached the Expert Angler milestone! You're a true fishing expert now! Catching 300 fish is no small feat.",
   "Fish Encyclopedia":
-    "Congratulations, you've just reached the Fish Encyclopedia milestone! You've become a true fish connoisseur! Discovering all the fish is a remarkable achievement.",
+    "Congratulations, you've just reached the Fish Encyclopedia milestone! You've become a true fish connoisseur! Discovering each basic, advanced, and expert fish is a remarkable achievement.",
   "Master Angler":
-    "Wow, you've just reached the Master Angler milestone! Catching 10 of every fish is a testament to your fishing skills.",
+    "Wow, you've just reached the Master Angler milestone! Catching 1500 fish is a testament to your fishing skills.",
   "Marine Marvel Master":
-    "Congratulations, you've just reached the Marine Marvel Master milestone! You're the undisputed champion of the seas! Catching 1 of each Marvel proves your fishing prowess like no other.",
+    "Congratulations, you've just reached the Marine Marvel Master milestone! You're the undisputed champion of the seas! Catching each Marvel proves your fishing prowess like no other.",
 };
