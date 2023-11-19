@@ -147,6 +147,9 @@ const _isClaimed = (state: MachineState) =>
 const _hasAccess = (state: MachineState) =>
   hasFeatureAccess(state.context.state, "DISCORD_BONUS");
 
+const _expansions = (state: MachineState) =>
+  state.context.state.inventory["Basic Land"]?.toNumber() ?? 0;
+
 export const DiscordBoat: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
@@ -156,9 +159,15 @@ export const DiscordBoat: React.FC = () => {
   const { gameService } = useContext(Context);
   const isClaimed = useSelector(gameService, _isClaimed);
   const hasAccess = useSelector(gameService, _hasAccess);
+  const expansions = useSelector(gameService, _expansions);
 
   if (!hasAccess) {
     return null;
+  }
+
+  let yOffset = 5;
+  if (expansions >= 12) {
+    yOffset = 0;
   }
 
   // When ready, show boat above island
@@ -181,7 +190,7 @@ export const DiscordBoat: React.FC = () => {
         })}
         onClick={() => setShowModal(true)}
         style={{
-          top: `${GRID_WIDTH_PX * 3}px`,
+          top: `${GRID_WIDTH_PX * yOffset}px`,
           width: `${PIXEL_SCALE * 104}px`,
           transform: `translateX(650px)`,
         }}
