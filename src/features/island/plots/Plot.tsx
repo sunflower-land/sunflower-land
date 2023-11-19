@@ -59,8 +59,13 @@ interface Props {
 }
 export const Plot: React.FC<Props> = ({ id }) => {
   const { scale } = useContext(ZoomContext);
-  const { gameService, selectedItem, showTimers, shortcutItem } =
-    useContext(Context);
+  const {
+    gameService,
+    selectedItem,
+    showAnimations,
+    showTimers,
+    shortcutItem,
+  } = useContext(Context);
   const [procAnimation, setProcAnimation] = useState<JSX.Element>();
   const [touchCount, setTouchCount] = useState(0);
   const [showMissingSeeds, setShowMissingSeeds] = useState(false);
@@ -113,7 +118,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
     harvestAudio.play();
 
     // firework animation
-    if (crop.amount && crop.amount >= 10) {
+    if (showAnimations && crop.amount && crop.amount >= 10) {
       setProcAnimation(
         <Spritesheet
           className="absolute pointer-events-none"

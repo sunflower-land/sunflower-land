@@ -14,6 +14,10 @@ import {
 import { startGame, MachineInterpreter } from "./lib/gameMachine";
 import { InventoryItemName } from "./types/game";
 import {
+  cacheShowAnimationsSetting,
+  getShowAnimationsSetting,
+} from "features/farming/hud/lib/animations";
+import {
   cacheShowTimersSetting,
   getShowTimersSetting,
 } from "features/farming/hud/lib/timers";
@@ -22,6 +26,8 @@ interface GameContext {
   shortcutItem: (item: InventoryItemName) => void;
   selectedItem?: InventoryItemName;
   gameService: MachineInterpreter;
+  showAnimations: boolean;
+  toggleAnimations: () => void;
   showTimers: boolean;
   toggleTimers: () => void;
 }
@@ -39,6 +45,9 @@ export const GameProvider: React.FC = ({ children }) => {
   const [shortcuts, setShortcuts] = useState<InventoryItemName[]>(
     getShortcuts()
   );
+  const [showAnimations, setShowAnimations] = useState<boolean>(
+    getShowAnimationsSetting()
+  );
   const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
@@ -55,6 +64,13 @@ export const GameProvider: React.FC = ({ children }) => {
     setShortcuts(items);
   }, []);
 
+  const toggleAnimations = () => {
+    const newValue = !showAnimations;
+
+    setShowAnimations(newValue);
+    cacheShowAnimationsSetting(newValue);
+  };
+
   const toggleTimers = () => {
     const newValue = !showTimers;
 
@@ -70,6 +86,8 @@ export const GameProvider: React.FC = ({ children }) => {
         shortcutItem,
         selectedItem,
         gameService,
+        showAnimations,
+        toggleAnimations,
         showTimers,
         toggleTimers,
       }}
