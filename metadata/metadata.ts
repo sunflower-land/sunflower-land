@@ -6008,7 +6008,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Kraken Head": {
     description:
-      "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
+      "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/484.png",
