@@ -60,7 +60,7 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
         <Button className="col p-1" onClick={onToggleAnimations}>
           {showAnimations ? "Disable Animations" : "Enable Animations"}
         </Button>
-        <Button className="col p-1" onClick={onLogout}>
+        <Button className="col p-1 mt-2" onClick={onLogout}>
           Logout
         </Button>
         {isFullUser && (
