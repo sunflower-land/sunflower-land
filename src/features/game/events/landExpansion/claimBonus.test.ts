@@ -56,6 +56,7 @@ describe("claimBonus", () => {
 
     expect(state.inventory).toEqual({
       Axe: new Decimal(5),
+      "Community Coin": new Decimal(1),
     });
 
     expect(state.wardrobe["Companion Cap"]).toEqual(1);
