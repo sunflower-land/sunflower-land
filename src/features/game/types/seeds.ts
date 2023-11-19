@@ -16,7 +16,7 @@ export type Seed = {
   disabled?: boolean;
 };
 
-export const SEEDS: () => Record<SeedName, Seed> = () => ({
+export const CROP_SEEDS: () => Record<CropSeedName, Seed> = () => ({
   "Sunflower Seed": {
     sfl: marketRate(0.01),
     description: "A sunny flower",
@@ -112,5 +112,9 @@ export const SEEDS: () => Record<SeedName, Seed> = () => ({
     plantSeconds: 36 * 60 * 60,
     yield: "Kale",
   },
+});
+
+export const SEEDS: () => Record<SeedName, Seed> = () => ({
+  ...CROP_SEEDS(),
   ...FRUIT_SEEDS(),
 });
