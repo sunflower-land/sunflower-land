@@ -11,11 +11,13 @@ export type TranslationKeys =
   | ShopItems
   | RewardTerms
   | ConfirmationTerms
-  | ErrorTerms;
+  | ErrorTerms
+  | TransactionTerms;
 
 export type GeneralTerms =
   | "featured"
   | "connecting"
+  | "connected"
   | "loading"
   | "saving"
   | "continue"
@@ -222,3 +224,8 @@ export type RewardTerms =
   | "reward.found";
 
 export type ErrorTerms = "error.congestion.one" | "error.congestion.two";
+export type TransactionTerms =
+  | "transaction.t&c.one"
+  | "transaction.t&c.two"
+  | "transaction.mintFarm.one"
+  | "transaction.mintFarm.two";

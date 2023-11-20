@@ -11,6 +11,7 @@ import {
   RulesTerms,
   SeasonBannerOffer,
   ShopItems,
+  TransactionTerms,
   TranslationKeys,
   WelcomeTerms,
 } from "./types";
@@ -18,6 +19,7 @@ import {
 const generalTerms: Record<GeneralTerms, string> = {
   featured: "Em destaque",
   connecting: "Conectando",
+  connected: "Conectado",
   loading: "Carregando",
   saving: "Salvando",
   continue: "Continuar",
@@ -328,12 +330,21 @@ const rewardTerms: Record<RewardTerms, string> = {
   "reward.streakBonus": "Bônus de streak x3",
   "reward.found": "Você encontrou",
 };
+
 // To Be Translated
 const errorTerms: Record<ErrorTerms, string> = {
   "error.congestion.one":
     "We are trying our best but looks like Polygon is getting a lot of traffic or you have lost your connection.",
   "error.congestion.two":
     "If this error continues please try changing your Metamask RPC",
+};
+
+const transactionTerms: Record<TransactionTerms, string> = {
+  "transaction.t&c.one":
+    "Accept the terms and conditions to sign in to Sunflower Land.",
+  "transaction.t&c.two": "Accept Terms and Conditions",
+  "transaction.mintFarm.one": "Your farm has been minted!",
+  "transaction.mintFarm.two": "Your farm will be ready in",
 };
 
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
@@ -350,4 +361,5 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...rewardTerms,
   ...confirmationTerms,
   ...errorTerms,
+  ...transactionTerms,
 };

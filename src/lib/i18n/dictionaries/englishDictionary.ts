@@ -13,11 +13,13 @@ import {
   RewardTerms,
   ConfirmationTerms,
   ErrorTerms,
+  TransactionTerms,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
   featured: "Featured",
   connecting: "Connecting",
+  connected: "Connected",
   loading: "Loading",
   saving: "Saving",
   continue: "Continue",
@@ -332,6 +334,14 @@ const errorTerms: Record<ErrorTerms, string> = {
     "If this error continues please try changing your Metamask RPC",
 };
 
+const transactionTerms: Record<TransactionTerms, string> = {
+  "transaction.t&c.one":
+    "Accept the terms and conditions to sign in to Sunflower Land.",
+  "transaction.t&c.two": "Accept Terms and Conditions",
+  "transaction.mintFarm.one": "Your farm has been minted!",
+  "transaction.mintFarm.two": "",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...generalTerms,
   ...welcomeTerms,
@@ -346,4 +356,5 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...rewardTerms,
   ...confirmationTerms,
   ...errorTerms,
+  ...transactionTerms,
 };
