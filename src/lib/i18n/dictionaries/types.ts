@@ -10,7 +10,8 @@ export type TranslationKeys =
   | HenHouseTerms
   | ShopItems
   | RewardTerms
-  | ConfirmationTerms;
+  | ConfirmationTerms
+  | ErrorTerms;
 
 export type GeneralTerms =
   | "featured"
@@ -219,3 +220,5 @@ export type RewardTerms =
   | "reward.revealing"
   | "reward.streakBonus"
   | "reward.found";
+
+export type ErrorTerms = "error.congestion.one" | "error.congestion.two";

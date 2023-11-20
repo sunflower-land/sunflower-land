@@ -2,6 +2,7 @@ import {
   AchievementsDialog,
   ConfirmationTerms,
   Conversations,
+  ErrorTerms,
   GeneralTerms,
   GuideTerms,
   HenHouseTerms,
@@ -327,6 +328,13 @@ const rewardTerms: Record<RewardTerms, string> = {
   "reward.streakBonus": "Bônus de streak x3",
   "reward.found": "Você encontrou",
 };
+// To Be Translated
+const errorTerms: Record<ErrorTerms, string> = {
+  "error.congestion.one":
+    "We are trying our best but looks like Polygon is getting a lot of traffic or you have lost your connection.",
+  "error.congestion.two":
+    "If this error continues please try changing your Metamask RPC",
+};
 
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...generalTerms,
@@ -341,4 +349,5 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...shopItems,
   ...rewardTerms,
   ...confirmationTerms,
+  ...errorTerms,
 };
