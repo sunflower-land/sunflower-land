@@ -96,7 +96,7 @@ export const FishingChallengeIntro: React.FC<{ onNext: () => void }> = ({
   );
 };
 
-export const FishingChallenge: React.FC<Props> = ({
+export const FishingChallengeComponent: React.FC<Props> = ({
   onCatch,
   onMiss,
   difficulty = 1,
@@ -352,3 +352,4 @@ export const FishingChallenge: React.FC<Props> = ({
     </div>
   );
 };
+export const FishingChallenge = React.memo(FishingChallengeComponent);
