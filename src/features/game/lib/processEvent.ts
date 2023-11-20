@@ -53,11 +53,11 @@ export const maxItems: Inventory = {
   "Blueberry Seed": new Decimal(100),
   "Banana Plant": new Decimal(100),
 
-  Gold: new Decimal("90"),
+  Gold: new Decimal("200"),
   Iron: new Decimal("400"),
-  Stone: new Decimal("500"),
-  Wood: new Decimal("1500"),
-  "Wild Mushroom": new Decimal("80"),
+  Stone: new Decimal("800"),
+  Wood: new Decimal("4000"),
+  "Wild Mushroom": new Decimal("100"),
 
   "War Bond": new Decimal(500),
   "Human War Banner": new Decimal(1),
