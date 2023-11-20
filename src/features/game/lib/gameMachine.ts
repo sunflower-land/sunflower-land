@@ -755,6 +755,9 @@ export function startGame(authContext: AuthContext) {
         },
         gameRules: {
           on: {
+            DEPOSIT: {
+              target: "depositing",
+            },
             ACKNOWLEDGE: {
               target: "notifying",
             },

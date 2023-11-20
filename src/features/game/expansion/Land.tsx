@@ -503,7 +503,7 @@ export const Land: React.FC = () => {
             {!landscaping && <UpcomingExpansion />}
 
             {/* No Bumpkin */}
-            <Modal show={!bumpkin} backdrop="static" keyboard={false} centered>
+            <Modal show={!bumpkin} keyboard={false} centered>
               <Panel>
                 <NoBumpkin />
               </Panel>
