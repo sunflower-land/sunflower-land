@@ -323,7 +323,7 @@ export const SignUp = () => {
             }
           />
         </div>
-        <div className="flex">
+        <div className="flex space-x-1">
           <Button
             onClick={() => {
               setShowPromoCode(false);
