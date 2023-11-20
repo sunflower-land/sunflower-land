@@ -12,7 +12,10 @@ export type TranslationKeys =
   | RewardTerms
   | ConfirmationTerms
   | ErrorTerms
-  | TransactionTerms;
+  | TransactionTerms
+  | Onboarding
+  | Questions
+  | Statements;
 
 export type GeneralTerms =
   | "featured"
@@ -37,7 +40,9 @@ export type GeneralTerms =
   | "2x.sale"
   | "cancel"
   | "for"
-  | "wallet";
+  | "wallet"
+  | "mint"
+  | "card.cash";
 
 export type ConfirmationTerms = "confirmation.sellCrops";
 
@@ -232,4 +237,18 @@ export type TransactionTerms =
   | "transaction.t&c.two"
   | "transaction.mintFarm.one"
   | "transaction.mintFarm.two"
-  | "transaction.doNotRefresh";
+  | "transaction.doNotRefresh"
+  | "transaction.network"
+  | "transaction.estimated.fee"
+  | "transaction.pay"
+  | "transaction.creditCard";
+
+export type Onboarding =
+  | "onboarding.step.three"
+  | "onboarding.cheer"
+  | "onboarding.form.one"
+  | "onboarding.form.two";
+
+export type Questions = "questions.obtain.MATIC" | "questions.lowCash";
+
+export type Statements = "statements.adventure";

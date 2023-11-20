@@ -15,6 +15,7 @@ import card from "assets/icons/credit_card.png";
 import { MachineInterpreter } from "../lib/createFarmMachine";
 import { fromWei, toBN } from "web3-utils";
 import { hasFeatureAccess } from "lib/flags";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const roundToOneDecimal = (number: number) =>
   Math.round(number * 10) / 10;
@@ -47,6 +48,7 @@ const CHARITIES: Charity[] = shuffle([
 ]);
 
 export const CreateFarm: React.FC = () => {
+  const { t } = useAppTranslation();
   const { authService } = useContext(Context);
 
   const child = authService.state.children
@@ -104,30 +106,28 @@ export const CreateFarm: React.FC = () => {
         />
         <div className="flex items-center">
           <img src={SUNNYSIDE.ui.green_bar_5} className="h-5 mr-2" />
-          <span className="text-xs">Step 3/3 (Create your NFT)</span>
+          <span className="text-xs">{t("onboarding.step.three")}</span>
         </div>
       </div>
       <div className="flex flex-col">
-        <p className="text-sm mb-2">{`You're almost there!`}</p>
-        <p className="text-sm mb-2">
-          {`To secure your NFTs on the Blockchain, a small network fee is required.`}
-        </p>
+        <p className="text-sm mb-2">{t("onboarding.cheer")}</p>
+        <p className="text-sm mb-2">{t("transaction.network")}</p>
       </div>
       <div className="flex space-x-1 mb-2 items-center">
-        <p className="text-xxs">Estimated fee:</p>
+        <p className="text-xxs">{t("transaction.estimated.fee")}</p>
         <img
           src={maticToken}
           style={{
             width: `${PIXEL_SCALE * 6}px`,
           }}
         />
-        <span className="text-xxs">{maticFeePlusGas.toNumber()} Matic</span>
+        <span className="text-xxs">{maticFeePlusGas.toNumber()} MATIC</span>
         <span className="text-xxs italic">{`($${usdFee.toFixed(2)} USD)`}</span>
       </div>
       <div className="flex flex-col flex-grow items-stretch justify-around space-y-2 sm:space-y-0 sm:space-x-3 sm:flex-row">
         <OuterPanel className="w-full md:w-1/2 flex flex-col items-center relative">
           <div className="flex w-full h-full items-center justify-center px-2">
-            <p className="mr-2 mb-1 text-xs">Matic</p>
+            <p className="mr-2 mb-1 text-xs">MATIC</p>
             <img
               src={maticToken}
               style={{
@@ -146,7 +146,7 @@ export const CreateFarm: React.FC = () => {
               });
             }}
           >
-            Mint
+            {t("mint")}
           </Button>
           <a
             href="https://docs.sunflower-land.com/getting-started/how-to-start#step-2-fund-your-wallet"
@@ -154,12 +154,12 @@ export const CreateFarm: React.FC = () => {
             rel="noopener noreferrer"
             className="underline text-white text-xxs text-center mb-1"
           >
-            How do I get MATIC?
+            {t("questions.obtain.MATIC")}
           </a>
         </OuterPanel>
         <OuterPanel className="w-full md:w-1/2 flex flex-col items-center relative">
           <div className="flex w-full h-full items-center justify-center py-2 px-2">
-            <p className="mr-2 mb-1 text-xs">Card/Cash</p>
+            <p className="mr-2 mb-1 text-xs">{t("card.cash")}</p>
             <img
               src={card}
               style={{
@@ -172,15 +172,15 @@ export const CreateFarm: React.FC = () => {
             className="mb-1"
             onClick={() => authService.send("SELECT_POKO")}
           >
-            Pay with Card/Cash
+            {t("transaction.pay")}
           </Button>
-          <span className="text-xxs mb-1">*Credit card fees apply</span>
+          <span className="text-xxs mb-1">{t("transaction.creditCard")}</span>
         </OuterPanel>
       </div>
       <div>
         <div className="flex items-center w-full my-1">
           <img src={SUNNYSIDE.icons.heart} className="h-5 mr-1" />
-          <p className="text-xs">Short on cash?</p>
+          <p className="text-xs">{t("questions.lowCash")}</p>
         </div>
         <p className="text-xs">
           <a
@@ -189,9 +189,9 @@ export const CreateFarm: React.FC = () => {
             rel="noopener noreferrer"
             className="underline text-white text-xxs text-center"
           >
-            Fill in your details
+            {t("onboarding.form.one")}
           </a>{" "}
-          and we will send a free NFT to play. (This will take us 3-7 days)
+          {t("onboarding.form.two")}
         </p>
       </div>
 
@@ -222,6 +222,7 @@ interface NewFarmFlowProps {
 }
 
 const NewFarmFlow: React.FC<NewFarmFlowProps> = ({ onBack, onCreate }) => {
+  const { t } = useAppTranslation();
   return (
     <div className="p-2">
       <div className="flex items-center">
@@ -233,7 +234,7 @@ const NewFarmFlow: React.FC<NewFarmFlowProps> = ({ onBack, onCreate }) => {
             width: `${PIXEL_SCALE * 8}px`,
           }}
         />
-        <Button onClick={onCreate}>Start your Adventure!</Button>
+        <Button onClick={onCreate}>{t("statements.adventure")}</Button>
       </div>
     </div>
   );

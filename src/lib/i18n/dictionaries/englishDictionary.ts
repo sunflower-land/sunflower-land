@@ -14,6 +14,9 @@ import {
   ConfirmationTerms,
   ErrorTerms,
   TransactionTerms,
+  Onboarding,
+  Questions,
+  Statements,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -40,6 +43,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   cancel: "Cancel",
   for: "for",
   wallet: "Wallet",
+  mint: "Mint",
+  "card.cash": "Card/Cash",
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
@@ -343,6 +348,28 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.mintFarm.one": "Your farm has been minted!",
   "transaction.mintFarm.two": "Your farm will be ready in",
   "transaction.doNotRefresh": "Do not refresh this browser",
+  "transaction.network":
+    "To secure your NFTs on the Blockchain, a small network fee is required.",
+  "transaction.estimated.fee": "Estimated fee:",
+  "transaction.pay": "Pay with Card/Cash",
+  "transaction.creditCard": "*Credit card fees apply",
+};
+
+const onboarding: Record<Onboarding, string> = {
+  "onboarding.step.three": "Step 3/3 (Create your NFT)",
+  "onboarding.cheer": "You're almost there!",
+  "onboarding.form.one": "Fill in your details",
+  "onboarding.form.two":
+    "and we will send a free NFT to play. (This will take us 3-7 days)",
+};
+
+const questions: Record<Questions, string> = {
+  "questions.obtain.MATIC": "How do I get MATIC?",
+  "questions.lowCash": "Short on Cash?",
+};
+
+const statements: Record<Statements, string> = {
+  "statements.adventure": "Start your Adventure!",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
@@ -360,4 +387,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...confirmationTerms,
   ...errorTerms,
   ...transactionTerms,
+  ...onboarding,
+  ...questions,
+  ...statements,
 };
