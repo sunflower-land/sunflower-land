@@ -6,6 +6,7 @@ import { SKILL_TREE } from "../types/skills";
 import { Announcements } from "../types/conversations";
 import { EXOTIC_CROPS } from "../types/beans";
 import { BASIC_DECORATIONS, BasicDecorationName } from "../types/decorations";
+import { FISH, FishName, MarineMarvelName } from "../types/fishing";
 
 export const maxItems: Inventory = {
   Sunflower: new Decimal("15000"),
@@ -191,6 +192,15 @@ export const maxItems: Inventory = {
 
   // Max of 100 basic decoration
   ...(Object.keys(BASIC_DECORATIONS()) as BasicDecorationName[]).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(100),
+    }),
+    {}
+  ),
+
+  // Max of 100 fish
+  ...(Object.keys(FISH) as (FishName | MarineMarvelName)[]).reduce(
     (acc, name) => ({
       ...acc,
       [name]: new Decimal(100),
