@@ -7,6 +7,7 @@ import { kickPlayer } from "features/world/lib/moderationAction";
 type Props = {
   scene: any;
   authState: any;
+  moderatorFarmId: number;
   player?: Player;
   onClose: () => void;
 };
@@ -14,6 +15,7 @@ type Props = {
 export const KickModal: React.FC<Props> = ({
   scene,
   authState,
+  moderatorFarmId,
   player,
   onClose,
 }) => {
@@ -30,7 +32,7 @@ export const KickModal: React.FC<Props> = ({
 
     await kickPlayer({
       token: authState.rawToken as string,
-      farmId: authState.farmId as number,
+      farmId: moderatorFarmId,
       kickedId: farmId,
       reason: reason,
     })

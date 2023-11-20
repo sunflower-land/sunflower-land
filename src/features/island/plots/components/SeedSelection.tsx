@@ -3,10 +3,9 @@ import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
-import { FRUIT_SEEDS } from "features/game/types/fruits";
 import { Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { SEEDS, SeedName } from "features/game/types/seeds";
+import { CROP_SEEDS, SEEDS, SeedName } from "features/game/types/seeds";
 import React, { useState } from "react";
 
 interface Props {
@@ -16,9 +15,8 @@ interface Props {
 export const SeedSelection: React.FC<Props> = ({ onPlant, inventory }) => {
   const [seed, setSeed] = useState<SeedName>();
 
-  const availableSeeds = getKeys(inventory).filter(
-    (name) =>
-      name in SEEDS() && !(name in FRUIT_SEEDS()) && inventory[name]?.gte(1)
+  const availableSeeds = getKeys(CROP_SEEDS()).filter((name) =>
+    inventory[name]?.gte(1)
   );
 
   return (

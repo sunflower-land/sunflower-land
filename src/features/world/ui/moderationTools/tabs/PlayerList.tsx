@@ -14,10 +14,16 @@ import { mutePlayer } from "features/world/lib/moderationAction";
 type Props = {
   scene?: any;
   authState: any;
+  moderatorFarmId: number;
   players: Player[];
 };
 
-export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
+export const PlayerList: React.FC<Props> = ({
+  scene,
+  players,
+  authState,
+  moderatorFarmId,
+}) => {
   const [step, setStep] = useState<"MAIN" | "MUTE" | "KICK" | "UNMUTE">("MAIN");
 
   const [unMuteStatus, setUnMuteStatus] = useState<
@@ -47,7 +53,7 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
     setStep("UNMUTE");
     await mutePlayer({
       token: authState.rawToken as string,
-      farmId: authState.farmId as number,
+      farmId: moderatorFarmId,
       mutedId: player.farmId,
       mutedUntil: new Date().getTime() + 1000,
       reason: "UNMUTE",
@@ -173,6 +179,7 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
           onClose={() => setStep("MAIN")}
           player={selectedPlayer}
           authState={authState}
+          moderatorFarmId={moderatorFarmId}
           scene={scene}
         />
       )}
@@ -182,6 +189,7 @@ export const PlayerList: React.FC<Props> = ({ scene, players, authState }) => {
           onClose={() => setStep("MAIN")}
           player={selectedPlayer}
           authState={authState}
+          moderatorFarmId={moderatorFarmId}
           scene={scene}
         />
       )}

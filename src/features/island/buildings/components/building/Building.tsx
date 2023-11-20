@@ -15,6 +15,7 @@ import { CookableName } from "features/game/types/consumables";
 interface Prop {
   name: BuildingName;
   id: string;
+  index: number;
   readyAt: number;
   createdAt: number;
   craftingItemName?: CookableName;
@@ -26,6 +27,7 @@ interface Prop {
 
 export interface BuildingProps {
   buildingId: string;
+  buildingIndex: number;
   craftingItemName?: CookableName;
   craftingReadyAt?: number;
   isBuilt?: boolean;
@@ -35,6 +37,7 @@ export interface BuildingProps {
 const InProgressBuilding: React.FC<Prop> = ({
   name,
   id,
+  index,
   readyAt,
   createdAt,
   showTimers,
@@ -54,7 +57,7 @@ const InProgressBuilding: React.FC<Prop> = ({
         onMouseLeave={() => setShowTooltip(false)}
       >
         <div className="w-full h-full pointer-events-none opacity-50">
-          <BuildingPlaced buildingId={id} />
+          <BuildingPlaced buildingId={id} buildingIndex={index} />
         </div>
         {showTimers && (
           <div
@@ -89,6 +92,7 @@ const InProgressBuilding: React.FC<Prop> = ({
 const BuildingComponent: React.FC<Prop> = ({
   name,
   id,
+  index,
   readyAt,
   createdAt,
   craftingItemName,
@@ -110,6 +114,7 @@ const BuildingComponent: React.FC<Prop> = ({
           key={id}
           name={name}
           id={id}
+          index={index}
           readyAt={readyAt}
           createdAt={createdAt}
           showTimers={showTimers}
@@ -119,6 +124,7 @@ const BuildingComponent: React.FC<Prop> = ({
       ) : (
         <BuildingPlaced
           buildingId={id}
+          buildingIndex={index}
           craftingItemName={craftingItemName}
           craftingReadyAt={craftingReadyAt}
           isBuilt
@@ -143,6 +149,7 @@ const MoveableBuilding: React.FC<Prop> = (props) => {
     return (
       <MoveableComponent
         id={props.id}
+        index={props.index}
         name={props.name}
         x={props.x}
         y={props.y}

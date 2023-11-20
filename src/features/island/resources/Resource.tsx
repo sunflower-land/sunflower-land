@@ -26,6 +26,7 @@ import lockIcon from "assets/skills/lock.png";
 export interface ResourceProps {
   name: ResourceName;
   id: string;
+  index: number;
   readyAt: number;
   createdAt: number;
   x: number;

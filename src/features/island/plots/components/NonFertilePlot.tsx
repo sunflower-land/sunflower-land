@@ -6,12 +6,27 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { InnerPanel } from "components/ui/Panel";
 
 const NonFertilePlotComponent = () => {
   const [showModal, setShowModal] = useState(false);
+  const [showWaterWell, setShowWaterWell] = useState(false);
+
+  const handleHover = () => {
+    setShowWaterWell(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowWaterWell(false);
+  };
+
   return (
     <>
-      <div className="w-full h-full relative cursor-pointer hover:img-highlight">
+      <div
+        className="w-full h-full relative cursor-pointer hover:img-highlight"
+        onMouseEnter={handleHover}
+        onMouseLeave={handleMouseLeave}
+      >
         <img
           src={SUNNYSIDE.soil.soil_dry}
           alt="soil image"
@@ -23,6 +38,23 @@ const NonFertilePlotComponent = () => {
           onClick={() => setShowModal(true)}
         />
       </div>
+
+      {/* Water Well warning */}
+      {showWaterWell && (
+        <div
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            top: `${PIXEL_SCALE * -14}px`,
+          }}
+        >
+          <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
+            <div className="text-xxs mx-1 p-1">
+              <span>Additional Water Well required.</span>
+            </div>
+          </InnerPanel>
+        </div>
+      )}
+
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel
           title="These crops need water!"

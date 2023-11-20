@@ -8,9 +8,14 @@ import SoundOffIcon from "assets/icons/sound_off.png";
 type Props = {
   scene?: any;
   authState: any;
+  moderatorFarmId: number;
 };
 
-export const Actions: React.FC<Props> = ({ scene, authState }) => {
+export const Actions: React.FC<Props> = ({
+  scene,
+  authState,
+  moderatorFarmId,
+}) => {
   const [step, setStep] = useState<"MAIN" | "MUTE" | "LOADING">("MAIN");
 
   return (
@@ -41,6 +46,7 @@ export const Actions: React.FC<Props> = ({ scene, authState }) => {
             scene={scene}
             authState={authState}
             onClose={() => setStep("MAIN")}
+            moderatorFarmId={moderatorFarmId}
           />
         )}
       </div>
