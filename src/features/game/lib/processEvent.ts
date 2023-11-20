@@ -7,6 +7,10 @@ import { Announcements } from "../types/conversations";
 import { EXOTIC_CROPS } from "../types/beans";
 import { BASIC_DECORATIONS, BasicDecorationName } from "../types/decorations";
 import { FISH, FishName, MarineMarvelName } from "../types/fishing";
+import {
+  LANDSCAPING_DECORATIONS,
+  LandscapingDecorationName,
+} from "../types/decorations";
 
 export const maxItems: Inventory = {
   Sunflower: new Decimal("15000"),
@@ -207,6 +211,30 @@ export const maxItems: Inventory = {
     }),
     {}
   ),
+
+  // Max of 1000 landscaping decoration, but only 100 for mushrooms
+  ...(Object.keys(LANDSCAPING_DECORATIONS()) as LandscapingDecorationName[])
+    .filter(
+      (name) => !LANDSCAPING_DECORATIONS()[name].ingredients["Wild Mushroom"]
+    )
+    .reduce(
+      (acc, name) => ({
+        ...acc,
+        [name]: new Decimal(1000),
+      }),
+      {}
+    ),
+  ...(Object.keys(LANDSCAPING_DECORATIONS()) as LandscapingDecorationName[])
+    .filter(
+      (name) => LANDSCAPING_DECORATIONS()[name].ingredients["Wild Mushroom"]
+    )
+    .reduce(
+      (acc, name) => ({
+        ...acc,
+        [name]: new Decimal(100),
+      }),
+      {}
+    ),
 };
 
 /**
