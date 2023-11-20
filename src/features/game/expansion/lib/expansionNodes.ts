@@ -103,6 +103,8 @@ export function getBumpkinLevelRequiredForNode(
   index: number,
   nodeType: string
 ): BumpkinLevel {
+  return 1;
+
   const key = nodeType as keyof Nodes;
 
   let count = LAND_3_NODES[key];
