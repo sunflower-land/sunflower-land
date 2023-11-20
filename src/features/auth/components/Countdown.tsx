@@ -34,7 +34,7 @@ export const Countdown: React.FC = () => {
       <span className="text-xs mb-1">{t("transaction.mintFarm.two")}</span>
       <span className="text-3xl">{time}</span>
       <span className="text-xs mt-4 underline mb-1">
-        Do not refresh this browser
+        {t("transaction.doNotRefresh")}
       </span>
     </div>
   );

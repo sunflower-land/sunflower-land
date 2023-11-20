@@ -45,7 +45,7 @@ const OtherWallets = () => {
             >
               {t("featured")}
             </Label>
-            Bitget Wallet
+            Bitget {t("wallet")}
           </div>
         </Button>
         <Button
@@ -62,7 +62,7 @@ const OtherWallets = () => {
               alt="Crypto.com"
               className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
-            Crypto.com Wallet
+            Crypto.com {t("wallet")}
           </div>
         </Button>
         <Button
@@ -79,7 +79,7 @@ const OtherWallets = () => {
               alt="OKX"
               className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
-            OKX Wallet
+            OKX {t("wallet")}
           </div>
         </Button>
         <Button
@@ -96,7 +96,7 @@ const OtherWallets = () => {
               alt="Phantom"
               className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
             />
-            Phantom
+            Phantom {t("wallet")}
           </div>
         </Button>
       </>
@@ -165,7 +165,7 @@ export const SignIn = () => {
               src="https://sequence.app/static/images/sequence-logo.7c854742a6b8b4969004.svg"
               className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
             />
-            Email & Social Login
+            {t("welcome.email")}
           </div>
         </Button>
         <Button
@@ -238,9 +238,9 @@ export const SignIn = () => {
               type="info"
               className="absolute top-1/2 -translate-y-1/2 right-1"
             >
-              Featured
+              {t("featured")}
             </Label>
-            Bitget Wallet
+            Bitget {t("wallet")}
           </div>
         </Button>
       )}

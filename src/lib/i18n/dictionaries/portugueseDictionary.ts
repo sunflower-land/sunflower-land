@@ -39,6 +39,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "2x.sale": "Venda 2x",
   cancel: "Cancelar",
   for: "por",
+  wallet: "Carteira",
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
@@ -54,6 +55,7 @@ const welcomeTerms: Record<WelcomeTerms, string> = {
   "welcome.signingIn": "Entrando",
   "welcome.signInMessage":
     "Aceite a requisição de assinatura na sua carteira para entrar.",
+  "welcome.email": "Email & Social Login", // To be Translated
 };
 
 const rulesTerms: Record<RulesTerms, string> = {
@@ -345,6 +347,7 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.t&c.two": "Accept Terms and Conditions",
   "transaction.mintFarm.one": "Your farm has been minted!",
   "transaction.mintFarm.two": "Your farm will be ready in",
+  "transaction.doNotRefresh": "Do not refresh this browser",
 };
 
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {

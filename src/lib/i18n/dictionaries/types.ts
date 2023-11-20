@@ -36,7 +36,8 @@ export type GeneralTerms =
   | "exotics"
   | "2x.sale"
   | "cancel"
-  | "for";
+  | "for"
+  | "wallet";
 
 export type ConfirmationTerms = "confirmation.sellCrops";
 
@@ -46,7 +47,8 @@ export type WelcomeTerms =
   | "welcome.createAccount"
   | "welcome.login"
   | "welcome.signingIn"
-  | "welcome.signInMessage";
+  | "welcome.signInMessage"
+  | "welcome.email";
 
 export type RulesTerms =
   | "rules"
@@ -224,8 +226,10 @@ export type RewardTerms =
   | "reward.found";
 
 export type ErrorTerms = "error.congestion.one" | "error.congestion.two";
+
 export type TransactionTerms =
   | "transaction.t&c.one"
   | "transaction.t&c.two"
   | "transaction.mintFarm.one"
-  | "transaction.mintFarm.two";
+  | "transaction.mintFarm.two"
+  | "transaction.doNotRefresh";
