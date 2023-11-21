@@ -346,6 +346,9 @@ const errorTerms: Record<ErrorTerms, string> = {
     "If this error continues please try changing your Metamask RPC",
   "error.forbidden.goblinVillage":
     "You are not allowed to visit Goblin Village!",
+  "error.multipleDevices.one": "Multiple devices open",
+  "error.multipleDevices.two":
+    "Please close any other browser tabs or devices that you are operating on.",
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {

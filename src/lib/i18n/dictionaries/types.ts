@@ -238,7 +238,9 @@ export type RewardTerms =
 export type ErrorTerms =
   | "error.congestion.one"
   | "error.congestion.two"
-  | "error.forbidden.goblinVillage";
+  | "error.forbidden.goblinVillage"
+  | "error.multipleDevices.one"
+  | "error.multipleDevices.two";
 
 export type TransactionTerms =
   | "transaction.t&c.one"
