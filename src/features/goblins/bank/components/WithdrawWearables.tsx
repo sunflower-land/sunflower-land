@@ -17,6 +17,7 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { BUMPKIN_WITHDRAWABLES } from "features/game/types/withdrawables";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const isCurrentObsession = (itemName: BumpkinItem, game: GameState) => {
   const obsessionCompletedAt = game.npcs?.bert?.questCompletedAt;
@@ -38,7 +39,7 @@ interface Props {
 export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
-
+  const { t } = useAppTranslation();
   const [wardrobe, setWardrobe] = useState<Wardrobe>({});
   const [selected, setSelected] = useState<Wardrobe>({});
 
@@ -181,7 +182,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Read more
+            {t("readMore")}
           </a>
           .
         </span>

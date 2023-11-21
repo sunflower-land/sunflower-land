@@ -15,6 +15,7 @@ import { randomID } from "lib/utils/random";
 import { Label } from "components/ui/Label";
 import { Modal } from "react-bootstrap";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   show: boolean;
@@ -152,6 +153,7 @@ export const BlockBucksModal: React.FC<Props> = ({
   onClose,
   setCloseable,
 }) => {
+  const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
@@ -214,7 +216,7 @@ export const BlockBucksModal: React.FC<Props> = ({
     if (gameState.matches("autosaving")) {
       return (
         <div className="flex justify-center">
-          <p className="loading text-center">Loading</p>
+          <p className="loading text-center">{t("loading")}</p>
         </div>
       );
     }
@@ -237,7 +239,7 @@ export const BlockBucksModal: React.FC<Props> = ({
           <div className="flex flex-col flex-grow items-stretch justify-around mx-3 space-y-2 sm:space-y-0 sm:space-x-5 sm:flex-row">
             <OuterPanel className="w-full flex flex-col items-center relative">
               <div className="flex w-full items-center justify-center py-4 px-2">
-                <p className="mr-2 mb-1 text-xs">Cash / Card</p>
+                <p className="mr-2 mb-1 text-xs">{t("card.cash")}</p>
                 <img
                   src={creditCard}
                   style={{
@@ -322,7 +324,7 @@ export const BlockBucksModal: React.FC<Props> = ({
             target="_blank"
             rel="noreferrer"
           >
-            Read more
+            {t("readMore")}
           </a>
         </div>
       </>

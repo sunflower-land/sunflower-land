@@ -13,6 +13,7 @@ import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { CONFIG } from "lib/config";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -23,6 +24,8 @@ interface Props {
 export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
+
+  const { t } = useAppTranslation();
 
   const buds = goblinState.context.state.buds ?? {};
 
@@ -99,7 +102,7 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Read more
+            {t("readMore")}
           </a>
           .
         </span>

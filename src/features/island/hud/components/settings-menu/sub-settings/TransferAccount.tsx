@@ -15,6 +15,7 @@ import { Panel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { wallet } from "lib/blockchain/wallet";
 import { Context } from "features/game/GameProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   isOpen: boolean;
@@ -90,6 +91,7 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
   }
 
   const Content = () => {
+    const { t } = useAppTranslation();
     return (
       <div className="p-2">
         <p>Transfer your account</p>
@@ -125,7 +127,7 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Read more
+          {t("readMore")}
         </a>
         <img
           src={SUNNYSIDE.icons.close}

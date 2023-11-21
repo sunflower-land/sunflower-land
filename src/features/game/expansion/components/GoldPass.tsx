@@ -5,13 +5,14 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { Context } from "features/game/GameProvider";
 import goldPass from "assets/announcements/gold_pass.png";
 import { Panel } from "components/ui/Panel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 interface Props {
   onClose: () => void;
 }
 
 export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
-
+  const { t } = useAppTranslation();
   const price = 4.99;
   const Content = () => {
     return (
@@ -36,7 +37,7 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
             rel="noopener noreferrer"
             className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
           >
-            Read more
+            {t("readMore")}
           </a>
         </div>
         <div className="flex">
