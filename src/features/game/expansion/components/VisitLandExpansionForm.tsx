@@ -5,6 +5,7 @@ import { Button } from "components/ui/Button";
 import * as Auth from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type FormEvent = Element & {
   landId: {
@@ -15,6 +16,8 @@ type FormEvent = Element & {
 export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
   onBack,
 }) => {
+  const { t } = useAppTranslation();
+
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
   const { gameService } = useContext(Context);
@@ -74,7 +77,7 @@ export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
             type="button"
             onClick={onBack ?? handleEndVisit}
           >
-            Back
+            {t("back")}
           </Button>
           <Button className="overflow-hidden ml-1" type="submit">
             Visit

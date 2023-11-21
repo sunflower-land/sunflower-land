@@ -82,7 +82,7 @@ export const PersonhoodContent: React.FC = () => {
       <>
         <p className="text-sm p-1 m-1">Failed Loading Personhood Details</p>
         <Button className="mr-1" onClick={onBack}>
-          Back
+          {t("back")}
         </Button>
       </>
     );
@@ -93,7 +93,7 @@ export const PersonhoodContent: React.FC = () => {
       <>
         <p className="text-sm p-1 m-1">Your identity could not be verified</p>
         <Button className="mr-1" onClick={onBack}>
-          Back
+          {t("back")}
         </Button>
       </>
     );

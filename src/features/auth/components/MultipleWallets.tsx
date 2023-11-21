@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "../lib/Provider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const MultipleWallets: React.FC = () => {
   const { authService } = useContext(Context);
@@ -12,7 +13,7 @@ export const MultipleWallets: React.FC = () => {
       "_blank"
     );
   };
-
+  const { t } = useAppTranslation();
   return (
     <>
       <div className="flex flex-col p-1">
@@ -34,7 +35,7 @@ export const MultipleWallets: React.FC = () => {
           onClick={() => authService.send("REFRESH")}
           className="overflow-hidden"
         >
-          <span>Go back</span>
+          <span>{t("back")}</span>
         </Button>
         <Button onClick={goToDocs} className="overflow-hidden">
           <span>Go to docs</span>

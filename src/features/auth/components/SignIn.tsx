@@ -301,7 +301,7 @@ export const SignIn = () => {
 export const SignUp = () => {
   const [showPromoCode, setShowPromoCode] = useState(false);
   const [promoCode, setPromoCode] = useState(getPromoCode());
-
+  const { t } = useAppTranslation();
   if (showPromoCode) {
     return (
       <>
@@ -329,7 +329,7 @@ export const SignUp = () => {
               setShowPromoCode(false);
             }}
           >
-            Back
+            {t("back")}
           </Button>
           <Button
             disabled={!promoCode}
