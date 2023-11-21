@@ -401,6 +401,10 @@ const statements: Record<Statements, string> = {
   "statements.adventure": "Start your Adventure!",
   "statements.maintenance":
     "New things are coming! Thanks for your patience, the game will be live again shortly.",
+  "statements.wrongChain.one":
+    "Check out this guide to help you get connected.",
+  "statements.guide": "Go to guide",
+  "statements.switchNetwork": "Add or Switch Network",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

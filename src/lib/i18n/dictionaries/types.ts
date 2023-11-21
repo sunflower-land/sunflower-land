@@ -275,4 +275,9 @@ export type Onboarding =
 
 export type Questions = "questions.obtain.MATIC" | "questions.lowCash";
 
-export type Statements = "statements.adventure" | "statements.maintenance";
+export type Statements =
+  | "statements.adventure"
+  | "statements.maintenance"
+  | "statements.wrongChain.one"
+  | "statements.guide"
+  | "statements.switchNetwork";
