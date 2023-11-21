@@ -1038,7 +1038,9 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Luminous Anglerfish Topper": () => false,
   "Abyssal Angler Hat": () => canWithdrawTimebasedItem(new Date("2024-01-06")), // Last Auction 2024/01/04 5pm UTC
   Harpoon: () => false,
-  "Ancient Rod": () => canWithdrawTimebasedItem(new Date("2024-01-27")), // Last Auction 2024/01/25 3pm UTC
+  "Ancient Rod": (state) =>
+    canWithdrawBoostedWearable("Ancient Rod", state) &&
+    canWithdrawTimebasedItem(new Date("2024-01-27")), // Last Auction 2024/01/25 3pm UTC
   "Fishing Hat": () => false,
   Trident: () => false,
   "Bucket O' Worms": () => false,
