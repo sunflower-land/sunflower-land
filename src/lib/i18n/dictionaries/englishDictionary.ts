@@ -47,6 +47,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   "card.cash": "Card/Cash",
   letsGo: "Let's Go!",
   maintenance: "Maintenance",
+  back: "Back",
+  forbidden: "Forbidden",
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
@@ -342,6 +344,8 @@ const errorTerms: Record<ErrorTerms, string> = {
     "We are trying our best but looks like Polygon is getting a lot of traffic or you have lost your connection.",
   "error.congestion.two":
     "If this error continues please try changing your Metamask RPC",
+  "error.forbidden.goblinVillage":
+    "You are not allowed to visit Goblin Village!",
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {

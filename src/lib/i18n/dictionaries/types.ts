@@ -44,7 +44,9 @@ export type GeneralTerms =
   | "mint"
   | "card.cash"
   | "letsGo"
-  | "maintenance";
+  | "maintenance"
+  | "back"
+  | "forbidden";
 
 export type ConfirmationTerms = "confirmation.sellCrops";
 
@@ -233,7 +235,10 @@ export type RewardTerms =
   | "reward.streakBonus"
   | "reward.found";
 
-export type ErrorTerms = "error.congestion.one" | "error.congestion.two";
+export type ErrorTerms =
+  | "error.congestion.one"
+  | "error.congestion.two"
+  | "error.forbidden.goblinVillage";
 
 export type TransactionTerms =
   | "transaction.t&c.one"
