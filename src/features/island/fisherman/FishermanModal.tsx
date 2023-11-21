@@ -33,6 +33,7 @@ import {
   acknowledgeFishFrenzy,
   fishFrenzyAcknowledged,
 } from "./fishFrenzyStorage";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -307,6 +308,7 @@ const currentWeather = (state: MachineState) =>
 export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
   const { gameService } = useContext(Context);
   const weather = useSelector(gameService, currentWeather);
+  const { t } = useAppTranslation();
 
   const [tab, setTab] = useState(0);
   const [showIntro, setShowIntro] = useState(!hasRead());
@@ -375,7 +377,7 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
         { icon: SUNNYSIDE.tools.fishing_rod, name: "Fish" },
         {
           icon: SUNNYSIDE.icons.expression_confused,
-          name: "Guide",
+          name: t("guide"),
         },
       ]}
       currentTab={tab}

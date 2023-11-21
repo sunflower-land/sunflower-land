@@ -14,6 +14,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
 import { MapPlacement } from "./MapPlacement";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const isNoob = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) < 3;
@@ -25,6 +26,7 @@ export const TravelTeaser: React.FC = () => {
   const { gameService } = useContext(Context);
   const showSpeech = useSelector(gameService, isNoob);
   const expansionCount = useSelector(gameService, expansions);
+  const { t } = useAppTranslation();
 
   const [tab, setTab] = useState(0);
   const [showModal, setShowModal] = useState(false);
@@ -56,7 +58,7 @@ export const TravelTeaser: React.FC = () => {
             },
             {
               icon: SUNNYSIDE.icons.expression_confused,
-              name: "Guide",
+              name: t("guide"),
             },
           ]}
           currentTab={tab}
