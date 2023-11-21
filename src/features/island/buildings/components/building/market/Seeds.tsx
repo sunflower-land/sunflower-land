@@ -119,14 +119,14 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           disabled={lessFunds() || stock.lessThan(1)}
           onClick={() => buy(1)}
         >
-          Buy 1
+          {t("buy")} 1
         </Button>
         {bulkSeedBuyAmount > 1 && (
           <Button
             disabled={lessFunds(bulkSeedBuyAmount)}
             onClick={() => buy(bulkSeedBuyAmount)}
           >
-            Buy {bulkSeedBuyAmount}
+            {t("buy")} {bulkSeedBuyAmount}
           </Button>
         )}
       </div>

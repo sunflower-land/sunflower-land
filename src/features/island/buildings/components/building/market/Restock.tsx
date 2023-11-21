@@ -10,12 +10,14 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import ticket from "assets/icons/block_buck_detailed.png";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
 }
 
 export const Restock: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -74,7 +76,7 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
       {!canRestock && (
         <Button className="mt-1" onClick={handleBuy} disabled={disableBuy}>
           <div className="flex items-center h-4">
-            <p className="mr-1.5">Buy</p>
+            <p className="mr-1.5">{t("buy")}</p>
 
             <img src={ITEM_DETAILS["Block Buck"].image} className="h-5 -mb-1" />
           </div>

@@ -16,8 +16,10 @@ import {
   POTION_HOUSE_ITEMS,
   PotionHouseItem,
 } from "features/game/types/collectibles";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const PotionHouseItems: React.FC = () => {
+  const { t } = useAppTranslation();
   const [selected, setSelected] = useState<Decoration | PotionHouseItem>(
     POTION_HOUSE_DECORATIONS()["Giant Potato"]
   );
@@ -62,7 +64,7 @@ export const PotionHouseItems: React.FC = () => {
 
     return (
       <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>
-        Buy
+        {t("buy")}
       </Button>
     );
   };

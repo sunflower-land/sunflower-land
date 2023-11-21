@@ -16,6 +16,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { hasMaxItems } from "features/game/lib/processEvent";
 import { Label } from "components/ui/Label";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   farmId: number;
@@ -31,6 +32,8 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [listing, setListing] = useState<{ id: string; trade: TradeListing }>();
   const [showConfirm, setShowConfirm] = useState(false);
+
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     const load = async () => {
@@ -188,7 +191,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
           confirm();
         }}
       >
-        Buy
+        {t("buy")}
       </Button>
     );
   };
