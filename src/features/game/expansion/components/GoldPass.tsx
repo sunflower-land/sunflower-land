@@ -42,7 +42,7 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
         </div>
         <div className="flex">
           <Button className="mr-1" onClick={onClose}>
-            No thanks
+            {t("noThanks")}
           </Button>
           <Button
             onClick={() => {
