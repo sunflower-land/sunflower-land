@@ -78,7 +78,7 @@ export const Conversation: React.FC<Props> = ({
             ))}
           </div>
 
-          <Button onClick={acknowledge}>Claim</Button>
+          <Button onClick={acknowledge}>{t("claim")}</Button>
         </>
       );
     }

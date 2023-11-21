@@ -20,6 +20,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { Label } from "components/ui/Label";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const INPUT_MAX_CHAR = 10;
@@ -201,6 +202,7 @@ const TradeDetails: React.FC<{
   onCancel: () => void;
   onClaim: () => void;
 }> = ({ trade, onCancel, onClaim }) => {
+  const { t } = useAppTranslation();
   if (trade.boughtAt) {
     return (
       <div>
@@ -230,7 +232,7 @@ const TradeDetails: React.FC<{
             </div>
             <div className="flex flex-col justify-between h-full">
               <Button className="mb-1" onClick={onClaim}>
-                Claim
+                {t("claim")}
               </Button>
 
               <div className="flex items-center mt-3 mr-0.5">

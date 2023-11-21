@@ -54,6 +54,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   forbidden: "Proibido",
   refreshing: "Refrescante",
   tryAgain: "Tente novamente",
+  claim: "Reivindicar",
 };
 
 const gameTerms: Record<GameTerms, string> = {

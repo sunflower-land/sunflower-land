@@ -51,7 +51,8 @@ export type GeneralTerms =
   | "back"
   | "forbidden"
   | "refreshing"
-  | "tryAgain";
+  | "tryAgain"
+  | "claim";
 
 export type GameTerms = "blockBucks";
 

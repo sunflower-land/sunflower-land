@@ -18,6 +18,7 @@ import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onBack: () => void;
@@ -34,6 +35,7 @@ export const AchievementDetails: React.FC<Props> = ({
   state,
   readonly,
 }) => {
+  const { t } = useAppTranslation();
   const achievement = ACHIEVEMENTS()[name];
   const progress = achievement.progress(state);
   const isComplete = progress >= achievement.requirement;
@@ -145,7 +147,7 @@ export const AchievementDetails: React.FC<Props> = ({
                     onClick={onClaim}
                     disabled={!isComplete}
                   >
-                    <span>Claim</span>
+                    <span>{t("claim")}</span>
                   </Button>
                 )}
               </div>
