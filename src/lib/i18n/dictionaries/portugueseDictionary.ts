@@ -51,6 +51,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   back: "Volte",
   forbidden: "Proibido",
   refreshing: "Refrescante",
+  tryAgain: "Tente novamente",
 };
 
 const gameTerms: Record<GameTerms, string> = {
@@ -374,6 +375,9 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.estimated.fee": "Estimated fee:",
   "transaction.pay": "Pay with Card/Cash",
   "transaction.creditCard": "*Credit card fees apply",
+  "transaction.rejected": "Transaction Rejected!",
+  "transaction.message":
+    "This request will not trigger a blockchain transaction or cost any gas fees.",
 };
 
 const onboarding: Record<Onboarding, string> = {
