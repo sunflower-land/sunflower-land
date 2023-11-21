@@ -13,6 +13,7 @@ import { Bumpkin, GameState } from "features/game/types/game";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const CONTENT_HEIGHT = 380;
 
@@ -38,6 +39,8 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
   const [showTutorial, setShowTutorial] = useState<boolean>(
     !hasShownTutorial("Boat")
   );
+
+  const { t } = useAppTranslation();
 
   const bumpkinParts: Partial<Equipped> = {
     body: "Goblin Potion",
@@ -91,7 +94,7 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
           style={{ maxHeight: CONTENT_HEIGHT }}
           className="w-full pr-1 pt-2.5 overflow-y-auto scrollable"
         >
-          {!travelAllowed && <span className="loading">Saving</span>}
+          {!travelAllowed && <span className="loading">{t("saving")}</span>}
           <IslandList
             bumpkin={bumpkin}
             showVisitList={isVisiting}

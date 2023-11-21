@@ -14,6 +14,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { KrakenIntro } from "./npcs/Shelly";
 import { PromotingModal } from "features/game/expansion/components/SpecialOffer";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type InteractableName =
   | "kraken"
@@ -96,6 +97,8 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
 
   const navigate = useNavigate();
 
+  const { t } = useAppTranslation();
+
   return (
     <>
       {/* TODO - make smoother opening */}
@@ -132,7 +135,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
             onClick={() => navigate(`/land/${id}`)}
             disabled={gameState.matches("autosaving")}
           >
-            {gameState.matches("autosaving") ? "Saving..." : "Go home"}
+            {gameState.matches("autosaving") ? t("saving") : "Go home"}
           </Button>
         </CloseButtonPanel>
       </Modal>
