@@ -240,7 +240,9 @@ export type ErrorTerms =
   | "error.congestion.two"
   | "error.forbidden.goblinVillage"
   | "error.multipleDevices.one"
-  | "error.multipleDevices.two";
+  | "error.multipleDevices.two"
+  | "error.multipleWallets.one"
+  | "error.multipleWallets.two";
 
 export type TransactionTerms =
   | "transaction.t&c.one"
@@ -267,4 +269,7 @@ export type Onboarding =
 
 export type Questions = "questions.obtain.MATIC" | "questions.lowCash";
 
-export type Statements = "statements.adventure" | "statements.maintenance";
+export type Statements =
+  | "statements.adventure"
+  | "statements.maintenance"
+  | "statements.docs";

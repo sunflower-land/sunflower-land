@@ -354,6 +354,9 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.multipleDevices.one": "Multiple devices open",
   "error.multipleDevices.two":
     "Please close any other browser tabs or devices that you are operating on.",
+  "error.multipleWallets.one": "Multiple Wallets",
+  "error.multipleWallets.two":
+    "It looks like you have multiple wallets installed. This can cause unexpected behaviour.Try to disable all but one wallet.",
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
@@ -395,6 +398,7 @@ const statements: Record<Statements, string> = {
   "statements.adventure": "Start your Adventure!",
   "statements.maintenance":
     "New things are coming! Thanks for your patience, the game will be live again shortly.",
+  "statements.docs": "Go to docs",
 };
 
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
