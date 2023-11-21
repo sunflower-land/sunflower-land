@@ -43,12 +43,13 @@ const generalTerms: Record<GeneralTerms, string> = {
   cancel: "Cancelar",
   for: "por",
   wallet: "Carteira",
-  mint: "Mint",
-  "card.cash": "Card/Cash",
-  letsGo: "Let's Go!",
+  mint: "Mint", // To translate
+  "card.cash": "Card/Cash", // To translate
+  letsGo: "Let's Go!", // To translate
   maintenance: "Manutenção",
   back: "Volte",
   forbidden: "Proibido",
+  blockBucks: "Block Bucks", // To translate
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
@@ -384,6 +385,7 @@ const onboarding: Record<Onboarding, string> = {
   "onboarding.duplicateUser.one": "Already signed up!",
   "onboarding.duplicateUser.two":
     "It looks like you have already registered for beta testing using a different address. Only one address can be used during beta testing. ",
+  "onboarding.starterPack": "Starter Pack",
 };
 
 const questions: Record<Questions, string> = {

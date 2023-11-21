@@ -46,7 +46,8 @@ export type GeneralTerms =
   | "letsGo"
   | "maintenance"
   | "back"
-  | "forbidden";
+  | "forbidden"
+  | "blockBucks";
 
 export type ConfirmationTerms = "confirmation.sellCrops";
 
@@ -263,7 +264,8 @@ export type Onboarding =
   | "onboarding.form.one"
   | "onboarding.form.two"
   | "onboarding.duplicateUser.one"
-  | "onboarding.duplicateUser.two";
+  | "onboarding.duplicateUser.two"
+  | "onboarding.starterPack";
 
 export type Questions = "questions.obtain.MATIC" | "questions.lowCash";
 

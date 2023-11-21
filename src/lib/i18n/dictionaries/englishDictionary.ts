@@ -49,6 +49,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   maintenance: "Maintenance",
   back: "Back",
   forbidden: "Forbidden",
+  blockBucks: "Block Bucks",
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
@@ -379,6 +380,7 @@ const onboarding: Record<Onboarding, string> = {
   "onboarding.duplicateUser.one": "Already signed up!",
   "onboarding.duplicateUser.two":
     "It looks like you have already registered for beta testing using a different address. Only one address can be used during beta testing. ",
+  "onboarding.starterPack": "Starter Pack",
 };
 
 const questions: Record<Questions, string> = {
