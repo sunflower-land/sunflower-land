@@ -1,6 +1,7 @@
 export type TranslationKeys =
   | WelcomeTerms
   | GeneralTerms
+  | GameTerms
   | RulesTerms
   | SeasonBannerOffer
   | Intro
@@ -47,7 +48,9 @@ export type GeneralTerms =
   | "maintenance"
   | "back"
   | "forbidden"
-  | "blockBucks";
+  | "refreshing";
+
+export type GameTerms = "blockBucks";
 
 export type ConfirmationTerms = "confirmation.sellCrops";
 

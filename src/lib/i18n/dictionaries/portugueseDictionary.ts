@@ -3,6 +3,7 @@ import {
   ConfirmationTerms,
   Conversations,
   ErrorTerms,
+  GameTerms,
   GeneralTerms,
   GuideTerms,
   HenHouseTerms,
@@ -44,12 +45,16 @@ const generalTerms: Record<GeneralTerms, string> = {
   for: "por",
   wallet: "Carteira",
   mint: "Mint", // To translate
-  "card.cash": "Card/Cash", // To translate
-  letsGo: "Let's Go!", // To translate
+  "card.cash": "Cartão/Dinheiro",
+  letsGo: "Vamos!",
   maintenance: "Manutenção",
   back: "Volte",
   forbidden: "Proibido",
-  blockBucks: "Block Bucks", // To translate
+  refreshing: "Refrescante",
+};
+
+const gameTerms: Record<GameTerms, string> = {
+  blockBucks: "Block Bucks",
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
@@ -401,6 +406,7 @@ const statements: Record<Statements, string> = {
 
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...generalTerms,
+  ...gameTerms,
   ...welcomeTerms,
   ...rulesTerms,
   ...seasonBannerOffer,

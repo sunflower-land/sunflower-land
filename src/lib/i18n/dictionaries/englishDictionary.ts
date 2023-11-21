@@ -17,6 +17,7 @@ import {
   Onboarding,
   Questions,
   Statements,
+  GameTerms,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -49,6 +50,10 @@ const generalTerms: Record<GeneralTerms, string> = {
   maintenance: "Maintenance",
   back: "Back",
   forbidden: "Forbidden",
+  refreshing: "Refreshing",
+};
+
+const gameTerms: Record<GameTerms, string> = {
   blockBucks: "Block Bucks",
 };
 
@@ -396,6 +401,7 @@ const statements: Record<Statements, string> = {
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...generalTerms,
+  ...gameTerms,
   ...welcomeTerms,
   ...rulesTerms,
   ...seasonBannerOffer,
