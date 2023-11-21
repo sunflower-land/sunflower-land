@@ -18,6 +18,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
 import { CONSUMABLES, ConsumableName } from "features/game/types/consumables";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface ClaimRewardProps {
   reward: IAirdrop;
@@ -31,6 +32,8 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
   onClose,
 }) => {
   const itemNames = getKeys(airdrop.items);
+
+  const { t } = useAppTranslation();
 
   return (
     <>
@@ -98,7 +101,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
       <div className="flex items-center mt-1">
         {onClose && (
           <Button className="mr-1" onClick={onClose}>
-            Close
+            {t("close")}
           </Button>
         )}
         <Button onClick={onClaim}>Claim</Button>

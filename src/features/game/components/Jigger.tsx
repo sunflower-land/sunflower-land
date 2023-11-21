@@ -60,7 +60,7 @@ export const Jigger: React.FC<Props> = ({
         </span>
         <div className="flex w-full">
           <Button className="mr-2" onClick={onClose}>
-            Close
+            {t("close")}
           </Button>
         </div>
       </div>
@@ -83,7 +83,7 @@ export const Jigger: React.FC<Props> = ({
         <span className="text-sm mt-2 mb-2">Thank you for your patience.</span>
         <div className="flex w-full">
           <Button className="mr-2" onClick={onClose}>
-            Close
+            {t("close")}
           </Button>
         </div>
       </div>
@@ -103,7 +103,7 @@ export const Jigger: React.FC<Props> = ({
       </span>
       <div className="flex w-full">
         <Button className="mr-2" onClick={onClose}>
-          Close
+          {t("close")}
         </Button>
         <Button onClick={() => setShowWarning(true)}>Verify</Button>
       </div>
