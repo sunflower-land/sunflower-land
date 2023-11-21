@@ -111,7 +111,8 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
 
   const sellOneButtonText = () => {
     // In the case of 0 the button will be disabled
-    if (cropAmount.greaterThanOrEqualTo(1) || cropAmount.eq(0)) return "Sell 1";
+    if (cropAmount.greaterThanOrEqualTo(1) || cropAmount.eq(0))
+      return t("sell.one");
 
     return `Sell ${cropAmount}`;
   };
@@ -177,7 +178,7 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
           <div className="pl-1">
             <div className="flex">
               <Label
-                className="mr-3"
+                className="mr-3 ml-1 mb-1"
                 icon={CROP_LIFECYCLE.Sunflower.crop}
                 type="default"
               >
@@ -189,7 +190,7 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
                 </Label>
               )}
             </div>
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap mb-2">
               {cropsAndFruits
                 .filter((crop) => !!crop.sellPrice && crop.name in CROPS())
                 .map((item) => (
@@ -208,11 +209,11 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
                 ))}
             </div>
             <div className="flex">
-              <Label className="mr-3" icon={orange} type="default">
+              <Label className="mr-3 ml-2 mb-1" icon={orange} type="default">
                 {t("fruits")}
               </Label>
             </div>
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap mb-2">
               {cropsAndFruits
                 .filter((crop) => !!crop.sellPrice && crop.name in FRUIT())
                 .map((item) => (
@@ -231,11 +232,11 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
                 ))}
             </div>
             <div className="flex">
-              <Label className="mr-3" icon={lightning} type="default">
+              <Label className="mr-3 ml-2" icon={lightning} type="default">
                 {t("exotics")}
               </Label>
             </div>
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap mb-2">
               {cropsAndFruits
                 .filter((crop) => !!crop.sellPrice && crop.name in EXOTIC_CROPS)
                 .map((item) => (
@@ -275,7 +276,7 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
               {t("cancel")}
             </Button>
             <Button disabled={noCrop} onClick={handleSellAll}>
-              Sell All
+              {t("sell.all")}
             </Button>
           </div>
         </CloseButtonPanel>

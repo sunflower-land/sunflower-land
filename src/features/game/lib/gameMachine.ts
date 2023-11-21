@@ -632,6 +632,7 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
+
             {
               target: "introduction",
               cond: (context) => {

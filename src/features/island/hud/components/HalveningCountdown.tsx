@@ -7,10 +7,13 @@ import sfl from "assets/icons/token_2.png";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const HalveningCountdown: React.FC = () => {
   const start = useCountdown(new Date("2023-07-10").getTime());
   const [showModal, setShowModal] = useState(false);
+
+  const { t } = useAppTranslation();
 
   if (Date.now() > new Date("2023-07-10").getTime()) {
     return null;
@@ -37,7 +40,7 @@ export const HalveningCountdown: React.FC = () => {
               rel="noopener noreferrer"
               className="underline text-white text-xs"
             >
-              Read more
+              {t("readMore")}
             </a>
           </div>
         </CloseButtonPanel>

@@ -3978,8 +3978,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Block Buck": {
-    description:
-      "A voucher used for restocking and enhancing your Blockchain experience!",
+    description: "A valuable token in Sunflower Land!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/718.png",

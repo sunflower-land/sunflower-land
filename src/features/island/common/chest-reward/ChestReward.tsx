@@ -12,6 +12,7 @@ import token from "assets/icons/token_2.png";
 import { StopTheGoblins } from "features/island/common/chest-reward/StopTheGoblins";
 import { ChestCaptcha } from "features/island/common/chest-reward/ChestCaptcha";
 import { Loading } from "features/auth/components";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   collectedItem?: InventoryItemName;
@@ -28,6 +29,7 @@ export const ChestReward: React.FC<Props> = ({
   onCollected,
   onOpen,
 }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [opened, setOpened] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -100,7 +102,7 @@ export const ChestReward: React.FC<Props> = ({
                 </div>
               )}
               <Button onClick={() => close(true)} className="w-full mt-1">
-                Close
+                {t("close")}
               </Button>
             </>
           ) : (

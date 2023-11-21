@@ -26,6 +26,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { DELIVERY_LEVELS } from "features/island/delivery/lib/delivery";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface OrderCardsProps {
   orders: Order[];
@@ -193,6 +194,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({
   onClose,
 }) => {
   const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   const delivery = useSelector(gameService, _delivery);
   const inventory = useSelector(gameService, _inventory);
@@ -345,7 +347,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({
             />
           ),
           actions: [
-            { text: canFulfillAnOrder ? "Not now" : "Close", cb: onClose },
+            { text: canFulfillAnOrder ? "Not now" : t("close"), cb: onClose },
             ...(canFulfillAnOrder
               ? [{ text: "Deliver", cb: handleDeliver }]
               : []),

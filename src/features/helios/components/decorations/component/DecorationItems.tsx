@@ -14,6 +14,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 function isNotReady(collectible: Decoration) {
   return (
@@ -40,6 +41,7 @@ interface Props {
   items: Partial<Record<DecorationName, Decoration>>;
 }
 export const DecorationItems: React.FC<Props> = ({ items }) => {
+  const { t } = useAppTranslation();
   const [selected, setSelected] = useState<Decoration>(
     items[getKeys(items)[0]] as Decoration
   );
@@ -127,7 +129,7 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
               }
               onClick={buy}
             >
-              Buy
+              {t("buy")}
             </Button>
           }
         />

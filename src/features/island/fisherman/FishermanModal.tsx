@@ -29,6 +29,11 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
 import { getDailyFishingLimit } from "features/game/events/landExpansion/castRod";
 import { MachineState } from "features/game/lib/gameMachine";
+import {
+  acknowledgeFishFrenzy,
+  fishFrenzyAcknowledged,
+} from "./fishFrenzyStorage";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -303,14 +308,19 @@ const currentWeather = (state: MachineState) =>
 export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
   const { gameService } = useContext(Context);
   const weather = useSelector(gameService, currentWeather);
-
-  const [showIntro, setShowIntro] = React.useState(!hasRead());
-
-  const [showFishFrenzy, setShowFishFrenzy] = React.useState(
-    weather === "Fish Frenzy"
-  );
+  const { t } = useAppTranslation();
 
   const [tab, setTab] = useState(0);
+  const [showIntro, setShowIntro] = useState(!hasRead());
+  const [showFishFrenzy, setShowFishFrenzy] = useState(
+    weather === "Fish Frenzy" && !fishFrenzyAcknowledged()
+  );
+
+  const handleAcknowledgeFishFrenzy = () => {
+    acknowledgeFishFrenzy();
+    setShowFishFrenzy(false);
+  };
+
   if (showIntro) {
     return (
       <CloseButtonPanel
@@ -338,7 +348,7 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
     );
   }
 
-  if (showFishFrenzy) {
+  if (showFishFrenzy && !fishFrenzyAcknowledged()) {
     return (
       <CloseButtonPanel
         onClose={onClose}
@@ -353,9 +363,7 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
               text: "Hurry, you will get a bonus fish for each catch!",
             },
           ]}
-          onClose={() => {
-            setShowFishFrenzy(false);
-          }}
+          onClose={handleAcknowledgeFishFrenzy}
         />
       </CloseButtonPanel>
     );
@@ -369,14 +377,13 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
         { icon: SUNNYSIDE.tools.fishing_rod, name: "Fish" },
         {
           icon: SUNNYSIDE.icons.expression_confused,
-          name: "Guide",
+          name: t("guide"),
         },
       ]}
       currentTab={tab}
       setCurrentTab={setTab}
     >
       {tab === 0 && <BaitSelection onCast={onCast} />}
-
       {tab === 1 && <FishingGuide onClose={() => setTab(0)} />}
     </CloseButtonPanel>
   );

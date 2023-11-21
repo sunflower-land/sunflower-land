@@ -6,8 +6,10 @@ import React, { useContext } from "react";
 import { Context } from "../lib/Provider";
 import { getPromoCode } from "features/game/actions/loadSession";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const OfferItems: React.FC = () => {
+  const { t } = useAppTranslation();
   const promo = getPromoCode();
   if (promo === "okx") {
     return (
@@ -16,13 +18,13 @@ export const OfferItems: React.FC = () => {
           <div className="w-8">
             <img src={ITEM_DETAILS["Block Buck"].image} className="h-5 mr-2" />
           </div>
-          <p className="text-sm">10 Block Bucks</p>
+          <p className="text-sm">10 {t("blockBucks")}</p>
         </div>
         <div className="flex mb-2 items-center w-1/2">
           <div className="w-8">
             <img src={chest} className="h-6 mr-2  animate-pulsate" />
           </div>
-          <p className="text-sm">Starter Pack</p>
+          <p className="text-sm">{t("onboarding.starterPack")}</p>
         </div>
         <div className="flex mb-2 items-center w-1/2">
           <div className="w-8">
@@ -51,13 +53,13 @@ export const OfferItems: React.FC = () => {
         <div className="w-8">
           <img src={ITEM_DETAILS["Block Buck"].image} className="h-5 mr-2" />
         </div>
-        <p className="text-sm">5 Block Bucks</p>
+        <p className="text-sm">5 {t("blockBucks")}</p>
       </div>
       <div className="flex mb-2 items-center w-1/2">
         <div className="w-8">
           <img src={chest} className="h-6 mr-2  animate-pulsate" />
         </div>
-        <p className="text-sm">1 Starter Pack</p>
+        <p className="text-sm">1 {t("onboarding.starterPack")}</p>
       </div>
     </div>
   );

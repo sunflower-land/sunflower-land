@@ -4,6 +4,7 @@ import { Button } from "components/ui/Button";
 
 import { DeliverItems } from "./DeliverItems";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onWithdraw: () => void;
@@ -11,6 +12,7 @@ interface Props {
 
 export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
   const [isTalking, setIsTalking] = useState(true);
+  const { t } = useAppTranslation();
 
   if (isTalking) {
     return (
@@ -39,7 +41,7 @@ export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
             </span>
           </div>
         </div>
-        <Button onClick={() => setIsTalking(false)}>Continue</Button>
+        <Button onClick={() => setIsTalking(false)}>{t("continue")}</Button>
       </>
     );
   }

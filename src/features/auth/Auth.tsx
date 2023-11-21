@@ -19,7 +19,7 @@ import { ConnectedToWallet } from "./components/ConnectedToWallet";
 import { Verifying } from "./components/Verifying";
 import { Welcome } from "./components/Welcome";
 import classNames from "classnames";
-import { SignIn } from "./components/SignIn";
+import { SignIn, SignUp } from "./components/SignIn";
 import { CreateWallet } from "./components/CreateWallet";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -74,13 +74,14 @@ export const Auth: React.FC = () => {
             )}
           </div>
         </div>
-        <Panel className="pb-1">
+        <Panel className="pb-1 relative">
           {authState.matches("initialising") && <Loading />}
           {authState.matches("welcome") && <Welcome />}
           {authState.matches("createWallet") && <CreateWallet />}
           {(authState.matches("idle") || authState.matches("signIn")) && (
             <SignIn />
           )}
+          {authState.matches("signUp") && <SignUp />}
           {connecting && <Loading text={t("connecting")} />}
           {authState.matches("connectedToWallet") && <ConnectedToWallet />}
           {authState.matches("signing") && <Signing />}

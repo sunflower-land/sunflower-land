@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import dignity from "assets/icons/dignity.png";
 import unicorn from "assets/icons/unicorn.png";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type CommunityIsland = {
   url: string;
@@ -39,6 +40,8 @@ export const CommunityIslands: React.FC = () => {
     navigate(`/community/${island.id}`);
   };
 
+  const { t } = useAppTranslation();
+
   return (
     <>
       <div className="p-2">
@@ -67,7 +70,7 @@ export const CommunityIslands: React.FC = () => {
         rel="noopener noreferrer"
         className="underline text-white text-xs"
       >
-        Read more
+        {t("readMore")}
       </a>
     </>
   );

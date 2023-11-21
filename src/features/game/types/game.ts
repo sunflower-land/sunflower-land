@@ -180,8 +180,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
     description: "Convey feelings of love",
   },
   "Block Buck": {
-    description:
-      "A voucher used for restocking and enhancing your Blockchain experience!",
+    description: "A valuable token in Sunflower Land!",
   },
   "Solar Flare Ticket": {
     description: "A ticket used during the Solar Flare Season",

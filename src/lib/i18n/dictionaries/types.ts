@@ -1,6 +1,7 @@
 export type TranslationKeys =
   | WelcomeTerms
   | GeneralTerms
+  | GameTerms
   | RulesTerms
   | SeasonBannerOffer
   | Intro
@@ -30,12 +31,14 @@ export type GeneralTerms =
   | "guide"
   | "task"
   | "sell"
+  | "sell.one"
   | "sell.ten"
   | "sell.all"
   | "buy"
   | "delivery"
   | "crops"
   | "fruits"
+  | "fruit"
   | "exotics"
   | "2x.sale"
   | "cancel"
@@ -46,7 +49,11 @@ export type GeneralTerms =
   | "letsGo"
   | "maintenance"
   | "back"
-  | "forbidden";
+  | "forbidden"
+  | "refreshing"
+  | "tryAgain";
+
+export type GameTerms = "blockBucks";
 
 export type ConfirmationTerms = "confirmation.sellCrops";
 
@@ -242,7 +249,9 @@ export type ErrorTerms =
   | "error.multipleDevices.one"
   | "error.multipleDevices.two"
   | "error.multipleWallets.one"
-  | "error.multipleWallets.two";
+  | "error.multipleWallets.two"
+  | "error.toManyRequest.one"
+  | "error.toManyRequest.two";
 
 export type TransactionTerms =
   | "transaction.t&c.one"
@@ -253,7 +262,9 @@ export type TransactionTerms =
   | "transaction.network"
   | "transaction.estimated.fee"
   | "transaction.pay"
-  | "transaction.creditCard";
+  | "transaction.creditCard"
+  | "transaction.rejected"
+  | "transaction.message";
 
 export type Onboarding =
   | "onboarding.welcome"
@@ -265,11 +276,15 @@ export type Onboarding =
   | "onboarding.form.one"
   | "onboarding.form.two"
   | "onboarding.duplicateUser.one"
-  | "onboarding.duplicateUser.two";
+  | "onboarding.duplicateUser.two"
+  | "onboarding.starterPack";
 
 export type Questions = "questions.obtain.MATIC" | "questions.lowCash";
 
 export type Statements =
   | "statements.adventure"
   | "statements.maintenance"
-  | "statements.docs";
+  | "statements.docs"
+  | "statements.wrongChain.one"
+  | "statements.guide"
+  | "statements.switchNetwork";

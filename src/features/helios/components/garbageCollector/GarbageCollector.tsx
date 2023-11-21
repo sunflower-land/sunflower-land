@@ -11,9 +11,11 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { GarbageCollectorModal } from "./components/GarbageCollectorModal";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const GarbageCollector: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const { t } = useAppTranslation();
 
   const handleClick = () => {
     setIsOpen(true);
@@ -76,7 +78,7 @@ export const GarbageCollector: React.FC = () => {
           tabs={[
             {
               icon: ITEM_DETAILS["Solar Flare Ticket"].image,
-              name: "Sell",
+              name: t("sell"),
             },
           ]}
         >

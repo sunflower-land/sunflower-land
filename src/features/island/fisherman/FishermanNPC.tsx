@@ -295,7 +295,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
         </Panel>
       </Modal>
 
-      {!showReelLabel && showFishFrenzy && (
+      {!showReelLabel && showFishFrenzy && canFish && (
         <img
           src={lightning}
           style={{

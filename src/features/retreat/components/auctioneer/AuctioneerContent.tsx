@@ -19,6 +19,7 @@ import { Refunded } from "./Refunded";
 import { MissingAuction } from "./MissingAuction";
 import { TieBreaker } from "./TieBreaker";
 import { AuctionsComingSoon } from "./AuctionsComingSoon";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   auctionService: MachineInterpreter;
@@ -30,6 +31,7 @@ export const AuctioneerContent: React.FC<Props> = ({
   gameState,
   onMint,
 }) => {
+  const { t } = useAppTranslation();
   const [auctioneerState, send] = useActor(auctionService);
 
   const [selectedAuctionId, setSelectedAuctionId] = useState<string>();
@@ -50,10 +52,10 @@ export const AuctioneerContent: React.FC<Props> = ({
             target="_blank"
             rel="noreferrer"
           >
-            Read more
+            {t("readMore")}
           </a>
         </div>
-        <Button onClick={() => send("CONTINUE")}>Continue</Button>
+        <Button onClick={() => send("CONTINUE")}>{t("continue")}</Button>
       </>
     );
   }

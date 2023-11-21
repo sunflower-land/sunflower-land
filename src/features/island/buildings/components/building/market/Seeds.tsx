@@ -26,6 +26,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -41,8 +42,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       context: { state },
     },
   ] = useActor(gameService);
+  const { t } = useAppTranslation();
 
-  const { inventory, collectibles, buildings } = state;
+  const { inventory, collectibles } = state;
 
   const price = getBuyPrice(
     selectedName,
@@ -117,14 +119,14 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           disabled={lessFunds() || stock.lessThan(1)}
           onClick={() => buy(1)}
         >
-          Buy 1
+          {t("buy")} 1
         </Button>
         {bulkSeedBuyAmount > 1 && (
           <Button
             disabled={lessFunds(bulkSeedBuyAmount)}
             onClick={() => buy(bulkSeedBuyAmount)}
           >
-            Buy {bulkSeedBuyAmount}
+            {t("buy")} {bulkSeedBuyAmount}
           </Button>
         )}
       </div>
@@ -187,10 +189,14 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <div className="pl-1">
-          <Label icon={CROP_LIFECYCLE.Sunflower.crop} type="default">
-            Crops
+          <Label
+            icon={CROP_LIFECYCLE.Sunflower.crop}
+            type="default"
+            className="ml-1 mb-1"
+          >
+            {t("crops")}
           </Label>
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap mb-2">
             {seeds
               .filter((name) => !(name in FRUIT_SEEDS()))
               .map((name: SeedName) => (
@@ -205,10 +211,10 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                 />
               ))}
           </div>
-          <Label icon={orange} type="default">
-            Fruit
+          <Label icon={orange} type="default" className="ml-2 mb-1">
+            {t("fruits")}
           </Label>
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap mb-2">
             {seeds
               .filter((name) => name in FRUIT_SEEDS())
               .map((name: SeedName) => (

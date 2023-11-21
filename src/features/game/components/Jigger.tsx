@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import suspiciousGoblin from "assets/npcs/suspicious_goblin.gif";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export type JiggerStatus = "VERIFY" | "PENDING" | "REJECTED";
 interface Props {
@@ -17,7 +18,7 @@ export const Jigger: React.FC<Props> = ({
   onClose,
 }) => {
   const [showWarning, setShowWarning] = useState(false);
-
+  const { t } = useAppTranslation();
   if (showWarning) {
     return (
       <div className="flex flex-col items-center p-2">
@@ -34,7 +35,7 @@ export const Jigger: React.FC<Props> = ({
               window.location.href = verificationUrl as string;
             }}
           >
-            Continue
+            {t("continue")}
           </Button>
         </div>
       </div>
@@ -59,7 +60,7 @@ export const Jigger: React.FC<Props> = ({
         </span>
         <div className="flex w-full">
           <Button className="mr-2" onClick={onClose}>
-            Close
+            {t("close")}
           </Button>
         </div>
       </div>
@@ -82,7 +83,7 @@ export const Jigger: React.FC<Props> = ({
         <span className="text-sm mt-2 mb-2">Thank you for your patience.</span>
         <div className="flex w-full">
           <Button className="mr-2" onClick={onClose}>
-            Close
+            {t("close")}
           </Button>
         </div>
       </div>
@@ -102,7 +103,7 @@ export const Jigger: React.FC<Props> = ({
       </span>
       <div className="flex w-full">
         <Button className="mr-2" onClick={onClose}>
-          Close
+          {t("close")}
         </Button>
         <Button onClick={() => setShowWarning(true)}>Verify</Button>
       </div>

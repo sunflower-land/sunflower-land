@@ -3,9 +3,11 @@ import React, { useContext } from "react";
 import { Context } from "../GameProvider";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Sniped: React.FC = () => {
   const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   function onAcknowledge() {
     gameService.send("CONTINUE");
@@ -17,7 +19,7 @@ export const Sniped: React.FC = () => {
       <p className="text-sm mb-2 text-center">
         Oh no! Another player bought that trade before you.
       </p>
-      <Button onClick={onAcknowledge}>Continue</Button>
+      <Button onClick={onAcknowledge}>{t("continue")}</Button>
     </div>
   );
 };

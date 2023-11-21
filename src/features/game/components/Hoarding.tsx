@@ -10,8 +10,10 @@ import { InventoryItemName } from "../types/game";
 import { PIXEL_SCALE } from "../lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ModalContext } from "./modal/ModalProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Hoarding: React.FC = () => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { openModal } = useContext(ModalContext);
@@ -67,7 +69,7 @@ export const Hoarding: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Read more
+            {t("readMore")}
           </a>
         </div>
       </div>

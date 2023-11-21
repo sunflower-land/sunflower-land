@@ -2,8 +2,10 @@ import React, { useContext } from "react";
 import suspiciousGoblin from "assets/npcs/suspicious_goblin.gif";
 import { Button } from "components/ui/Button";
 import { Context } from "../GameProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const SFLExceeded = () => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
   return (
@@ -15,7 +17,9 @@ export const SFLExceeded = () => {
         You can continue playing, but will need to wait until tomorrow to sync
         again.
       </p>
-      <Button onClick={() => gameService.send("CONTINUE")}>Continue</Button>
+      <Button onClick={() => gameService.send("CONTINUE")}>
+        {t("continue")}
+      </Button>
     </div>
   );
 };
