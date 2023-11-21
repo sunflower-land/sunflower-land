@@ -46,6 +46,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   mint: "Mint",
   "card.cash": "Card/Cash",
   letsGo: "Let's Go!",
+  maintenance: "Maintenance",
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
@@ -380,6 +381,8 @@ const questions: Record<Questions, string> = {
 
 const statements: Record<Statements, string> = {
   "statements.adventure": "Start your Adventure!",
+  "statements.maintenance":
+    "New things are coming! Thanks for your patience, the game will be live again shortly.",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

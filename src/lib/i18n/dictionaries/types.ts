@@ -43,7 +43,8 @@ export type GeneralTerms =
   | "wallet"
   | "mint"
   | "card.cash"
-  | "letsGo";
+  | "letsGo"
+  | "maintenance";
 
 export type ConfirmationTerms = "confirmation.sellCrops";
 
@@ -259,4 +260,4 @@ export type Onboarding =
 
 export type Questions = "questions.obtain.MATIC" | "questions.lowCash";
 
-export type Statements = "statements.adventure";
+export type Statements = "statements.adventure" | "statements.maintenance";
