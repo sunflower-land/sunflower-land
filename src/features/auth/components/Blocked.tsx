@@ -22,7 +22,7 @@ export const Blocked: React.FC = () => {
       <div className="flex mb-3 items-center ml-8">
         <img src={humanDeath} alt="Warning" className="w-full" />
       </div>
-      <p className="text-center mb-3">Beta testers only!</p>
+      <p className="text-center mb-3">{t("error.blocked.betaTestersOnly")}</p>
 
       <p className="text-center mb-2 text-xs">
         {`You don't have access to the game yet.`}
@@ -35,7 +35,7 @@ export const Blocked: React.FC = () => {
           target="_blank"
           rel="noreferrer"
         >
-          Sunflower Land Discord server
+          {t("sflDiscord")}
         </a>
         {`, go to the #verify channel and have the "farmer" role.`}
       </p>

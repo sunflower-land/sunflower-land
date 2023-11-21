@@ -186,7 +186,7 @@ export const DailyReward: React.FC = () => {
     if (chestState.matches("error")) {
       return (
         <CloseButtonPanel
-          title="Something went wrong!"
+          title={t("error.wentWrong")}
           onClose={() => setShowModal(false)}
         >
           <div className="flex flex-col items-center p-2">

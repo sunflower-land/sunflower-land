@@ -92,7 +92,7 @@ export const Selling: React.FC = () => {
           alt="alert"
           className="mr-2 w-6"
         />
-        <span className="text-xs">{"Something went wrong!"}</span>
+        <span className="text-xs">{t("error.wentWrong")}</span>
       </div>
       <Button onClick={() => tradingPostService.send("CLOSE")}>
         {t("close")}

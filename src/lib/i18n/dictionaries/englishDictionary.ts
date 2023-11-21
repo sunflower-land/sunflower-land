@@ -18,6 +18,7 @@ import {
   Questions,
   Statements,
   GameTerms,
+  BumpkinTrade,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -54,10 +55,27 @@ const generalTerms: Record<GeneralTerms, string> = {
   forbidden: "Forbidden",
   refreshing: "Refreshing",
   tryAgain: "Try again",
+  claim: "Claim",
+  alrClaim: "Already Claimed!",
+  achievements: "Achievements",
+  lvl: "Level",
+  skills: "Skills",
+  viewAll: "View all",
+  reqSkillPts: "Required Skill Points",
+  reqSkills: "Required Skills:",
+  comingSoon: "Coming soon",
+  claimSkill: "Claim skill",
+  skillPts: "Skill Points:",
+  nextSkillPtLvl: "Next skill point: level",
+  list: "List",
+  beta: "Beta",
+  swapping: "Swapping",
+  retry: "Retry",
 };
 
 const gameTerms: Record<GameTerms, string> = {
   blockBucks: "Block Bucks",
+  sflDiscord: "Sunflower Land Discord Server",
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
@@ -361,6 +379,8 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.toManyRequest.one": "Too many requests!",
   "error.toManyRequest.two":
     "Looks like you have been busy! Please try again later.",
+  "error.blocked.betaTestersOnly": "Beta testers only!",
+  "error.wentWrong": "Something went wrong!",
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
@@ -410,6 +430,17 @@ const statements: Record<Statements, string> = {
     "Check out this guide to help you get connected.",
   "statements.guide": "Go to guide",
   "statements.switchNetwork": "Add or Switch Network",
+  "statements.lvlUp": "Feed your Bumpkin to level up",
+};
+
+const bumpkinTrade: Record<BumpkinTrade, string> = {
+  "bumpkinTrade.askPrice": "Asking price:",
+  "bumpkinTrade.purchased": "Congratulations, your listing was purchased!",
+  "bumpkinTrade.plaza": "Travel to the plaza so players can trade with you",
+  "bumpkinTrade.lvl": "You must be level 10 to trade",
+  "bumpkinTrade.noTradeLs": "You have no trades listed.",
+  "bumpkinTrade.sell": "Sell your resources to other players for SFL.",
+  "bumpkinTrade.list": "List trade",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
@@ -431,4 +462,5 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...onboarding,
   ...questions,
   ...statements,
+  ...bumpkinTrade,
 };

@@ -11,6 +11,7 @@ import { fromWei, toBN, toWei } from "web3-utils";
 import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Context } from "features/game/GameProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   isOpen: boolean;
@@ -27,6 +28,7 @@ export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
   const [maticAmount, setMaticAmount] = useState(0);
   const [SFLAmount, setSFLAmount] = useState(0);
   const [maticInputError, setMaticInputError] = useState<string | null>(null);
+  const { t } = useAppTranslation();
 
   const amountOutMin = SFLAmount * 0.99;
 
@@ -145,7 +147,7 @@ export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
             <div className="relative">
               {maticInputError && (
                 <p className="absolute -top-1 text-error text-[11px] font-error">
-                  Something went wrong
+                  {t("error.wentWrong")}
                 </p>
               )}
               <div className="text-left w-full mt-3 mb-4">for</div>

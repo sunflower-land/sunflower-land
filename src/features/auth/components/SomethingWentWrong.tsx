@@ -8,6 +8,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
 import { createErrorLogger } from "lib/errorLogger";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface BoundaryErrorProps {
   farmId?: number;
@@ -30,6 +31,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
 }) => {
   const [date] = useState(new Date().toISOString());
   const [showStackTrace, setShowStackTrace] = useState(false);
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     const errorLogger = createErrorLogger("react_error_modal", farmId ?? 0);
@@ -56,7 +58,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
   return (
     <>
       <div className="p-2">
-        <h1 className="mb-1 text-lg text-center">Something went wrong</h1>
+        <h1 className="mb-1 text-lg text-center">{t("error.wentWrong")}</h1>
         <div className="w-full mb-1 flex justify-center">
           <img src={lightningAnimation} className="h-20" />
         </div>

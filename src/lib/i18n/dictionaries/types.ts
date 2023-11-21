@@ -16,7 +16,8 @@ export type TranslationKeys =
   | TransactionTerms
   | Onboarding
   | Questions
-  | Statements;
+  | Statements
+  | BumpkinTrade;
 
 export type GeneralTerms =
   | "featured"
@@ -51,9 +52,25 @@ export type GeneralTerms =
   | "back"
   | "forbidden"
   | "refreshing"
-  | "tryAgain";
+  | "tryAgain"
+  | "claim"
+  | "alrClaim"
+  | "achievements"
+  | "lvl"
+  | "skills"
+  | "viewAll"
+  | "reqSkillPts"
+  | "reqSkills"
+  | "comingSoon"
+  | "claimSkill"
+  | "skillPts"
+  | "nextSkillPtLvl"
+  | "list"
+  | "beta"
+  | "swapping"
+  | "retry";
 
-export type GameTerms = "blockBucks";
+export type GameTerms = "blockBucks" | "sflDiscord";
 
 export type ConfirmationTerms = "confirmation.sellCrops";
 
@@ -249,7 +266,9 @@ export type ErrorTerms =
   | "error.multipleDevices.one"
   | "error.multipleDevices.two"
   | "error.toManyRequest.one"
-  | "error.toManyRequest.two";
+  | "error.toManyRequest.two"
+  | "error.blocked.betaTestersOnly"
+  | "error.wentWrong";
 
 export type TransactionTerms =
   | "transaction.t&c.one"
@@ -284,4 +303,14 @@ export type Statements =
   | "statements.maintenance"
   | "statements.wrongChain.one"
   | "statements.guide"
-  | "statements.switchNetwork";
+  | "statements.switchNetwork"
+  | "statements.lvlUp";
+
+export type BumpkinTrade =
+  | "bumpkinTrade.askPrice"
+  | "bumpkinTrade.purchased"
+  | "bumpkinTrade.plaza"
+  | "bumpkinTrade.lvl"
+  | "bumpkinTrade.noTradeLs"
+  | "bumpkinTrade.sell"
+  | "bumpkinTrade.list";

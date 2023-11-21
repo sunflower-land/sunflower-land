@@ -60,7 +60,7 @@ export const Buying: React.FC = () => {
   }
 
   if (machine.matches("loadingFarm")) {
-    return <span className="loading m-2">Loading</span>;
+    return <span className="loading m-2">{t("loading")}</span>;
   }
 
   // This should never show, call the parent machine to exit.
@@ -72,7 +72,7 @@ export const Buying: React.FC = () => {
           alt="alert"
           className="mr-2 w-6"
         />
-        <span className="text-xs">{"Something went wrong!"}</span>
+        <span className="text-xs">{t("error.wentWrong")}</span>
       </div>
       <Button onClick={() => tradingPostService.send("CLOSE")}>
         {t("close")}
