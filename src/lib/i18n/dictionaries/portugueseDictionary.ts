@@ -362,6 +362,8 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.multipleDevices.one": "Multiple devices open",
   "error.multipleDevices.two":
     "Please close any other browser tabs or devices that you are operating on.",
+  "error.toManyRequest.one": "Too many requests!",
+  "error.toManyRequest.two": "Looks like you have been busy! Please try again later.",
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
