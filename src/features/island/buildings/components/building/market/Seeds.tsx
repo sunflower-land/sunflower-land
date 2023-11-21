@@ -162,6 +162,8 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       (seed) => hasFeatureAccess(state, "BANANA") || seed !== "Banana Plant"
     );
 
+  // Height was: 161 inner PX
+
   return (
     <SplitScreenView
       panel={
@@ -203,9 +205,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                 count={inventory[selectedName]}
               />
               <Button className="mr-1" onClick={() => buy(1)}>
-                1
+                +1
               </Button>
-              <Button onClick={() => buy(10)}>10</Button>
+              <Button onClick={() => buy(10)}>+10</Button>
             </div>
             <div className="flex justify-center items-center mt-2">
               <span className="text-xs mr-3">Sell</span>
@@ -224,7 +226,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
               <Button onClick={() => buy(10)}>10</Button>
             </div>
           </div>
-          <div className="block sm:hidden p-1">
+          <div className="block sm:hidden p-1 relative">
             <div className="flex justify-between">
               <div>
                 <p className=" mb-2">{selected.yield}</p>
@@ -232,57 +234,82 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                   1 min
                 </Label>
               </div>
-              <div className="flex items-center justify-center mb-2">
-                <img
-                  src={ITEM_DETAILS[selectedName].image}
-                  className="h-6 mr-1"
-                />
-                <img src={SUNNYSIDE.icons.chevron_right} className="h-3 mr-1" />
-                <img
-                  src={CROP_LIFECYCLE[selected.yield as CropName].seedling}
-                  className="h-10 mr-1"
-                />
-                <img src={SUNNYSIDE.icons.chevron_right} className="h-3 mr-1" />
-                <img
-                  src={CROP_LIFECYCLE[selected.yield as CropName].crop}
-                  className="h-10 mr-1"
-                />
+              <div>
+                <Label type="info" className="absolute -top-4 right-0">
+                  400 in stock
+                </Label>
+
+                <div className="flex items-center justify-center mt-1">
+                  <img
+                    src={ITEM_DETAILS[selectedName].image}
+                    className="h-6 mr-1"
+                  />
+                  <img
+                    src={SUNNYSIDE.icons.chevron_right}
+                    className="h-3 mr-1"
+                  />
+                  <img
+                    src={CROP_LIFECYCLE[selected.yield as CropName].seedling}
+                    className="h-10 mr-1"
+                  />
+                  <img
+                    src={SUNNYSIDE.icons.chevron_right}
+                    className="h-3 mr-1"
+                  />
+                  <img
+                    src={CROP_LIFECYCLE[selected.yield as CropName].crop}
+                    className="h-10 mr-1"
+                  />
+                </div>
               </div>
             </div>
-            <div className="flex mt-1">
+            <div className="flex">
               <div className="w-1/2">
-                <div className="flex">
-                  <img src={token} className="h-4 mr-1" />
-                  <span className="text-xs">0.0625</span>
+                <div className="flex justify-between  items-center">
+                  <span className="text-xs">Buy:</span>
+                  <Label type="warning" icon={token}>
+                    0.0625
+                  </Label>
                 </div>
-                {/* <Label type="warning" icon={token}>
-                  0.0625
-                </Label> */}
-                <div className="flex items-center">
+                <div className="flex ">
                   <Box
                     image={ITEM_DETAILS[selectedName].image}
                     count={inventory[selectedName]}
                     className="-ml-2"
                   />
-                  <Button className="mr-1" onClick={() => buy(1)}>
-                    1
-                  </Button>
-                  <Button onClick={() => buy(10)}>10</Button>
+                  <div className="flex-1 mt-2">
+                    <Button className="mr-1 w-full" onClick={() => buy(1)}>
+                      +1
+                    </Button>
+                    <Button className="mt-1" onClick={() => buy(10)}>
+                      +10
+                    </Button>
+                  </div>
                 </div>
               </div>
-              <div className="w-1/2">
-                <Label type="warning" icon={token}>
-                  0.1225
-                </Label>
-                <div className="flex items-center">
+              <div className="w-1/2 ml-2">
+                <div className="flex justify-between  items-center">
+                  <span className="text-xs">Sell:</span>
+                  <Label type="warning" icon={token}>
+                    0.1225
+                  </Label>
+                </div>
+                <div className="flex -ml-2">
                   <Box
                     image={ITEM_DETAILS[selected.yield].image}
                     count={inventory[selected.yield]}
                   />
-                  <Button className="mr-1" onClick={() => buy(1)}>
-                    1
-                  </Button>
-                  <Button onClick={() => buy(10)}>10</Button>
+                  <div className="flex-1 mt-2">
+                    <div className="flex">
+                      <Button className="mr-1" onClick={() => buy(1)}>
+                        -1
+                      </Button>
+                      <Button onClick={() => buy(10)}>-10</Button>
+                    </div>
+                    <Button className="mt-1" onClick={() => buy(10)}>
+                      Sell All
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -306,7 +333,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                   isSelected={selectedName === name}
                   key={name}
                   onClick={() => onSeedClick(name)}
-                  image={ITEM_DETAILS[name].image}
+                  image={ITEM_DETAILS[SEEDS()[name].yield].image}
                   showOverlay={isSeedLocked(name)}
                   secondaryImage={isSeedLocked(name) ? lock : undefined}
                   count={inventory[name]}
@@ -324,7 +351,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                   isSelected={selectedName === name}
                   key={name}
                   onClick={() => onSeedClick(name)}
-                  image={ITEM_DETAILS[name].image}
+                  image={ITEM_DETAILS[SEEDS()[name].yield].image}
                   showOverlay={isSeedLocked(name)}
                   secondaryImage={isSeedLocked(name) ? lock : undefined}
                   count={inventory[name]}
