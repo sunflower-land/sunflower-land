@@ -29,7 +29,6 @@ import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 
 import land from "assets/land/islands/island.webp";
-import { getBumpkinLevel } from "../lib/level";
 import { IslandNotFound } from "./components/IslandNotFound";
 import { Rules } from "../components/Rules";
 import { WalletOnboarding } from "features/tutorials/wallet/WalletOnboarding";
@@ -127,8 +126,6 @@ const isLoadingSession = (state: MachineState) =>
   state.matches("loading") && state.context.sessionId === INITIAL_SESSION;
 const isLandToVisitNotFound = (state: MachineState) =>
   state.matches("landToVisitNotFound");
-const bumpkinLevel = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 const currentState = (state: MachineState) => state.value;
 const getErrorCode = (state: MachineState) => state.context.errorCode;
 const getActions = (state: MachineState) => state.context.actions;
@@ -140,74 +137,78 @@ const isRefundingAuction = (state: MachineState) =>
   state.matches("refundAuction");
 const isPromoing = (state: MachineState) => state.matches("promo");
 const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
-const isBudding = (state: MachineState) => state.matches("buds");
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 
-export const Game: React.FC = () => {
+const GameContent = () => {
   const { gameService } = useContext(Context);
 
   const visiting = useSelector(gameService, isVisiting);
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
-  const level = useSelector(gameService, bumpkinLevel);
 
-  const GameContent = () => {
-    if (landToVisitNotFound) {
-      return (
-        <>
-          <div className="absolute z-20">
-            <VisitingHud />
-          </div>
-          <div className="relative">
-            <Modal centered show backdrop={false}>
-              <Panel
-                bumpkinParts={{
-                  body: "Beige Farmer Potion",
-                  hair: "Rancher Hair",
-                  pants: "Farmer Overalls",
-                  shirt: "Red Farmer Shirt",
-                  tool: "Farmer Pitchfork",
-                  background: "Farm Background",
-                  shoes: "Black Farmer Boots",
-                }}
-              >
-                <div className="flex flex-col items-center">
-                  <h2 className="text-center">Island Not Found!</h2>
-                  <img src={land} className="h-9 my-3" />
-                </div>
-                <VisitLandExpansionForm />
-              </Panel>
-            </Modal>
-          </div>
-        </>
-      );
-    }
-
-    if (visiting) {
-      return (
-        <>
-          <div className="absolute z-10 w-full h-full">
-            <Routes>
-              <Route path="/:id" element={<Land />} />
-            </Routes>
-          </div>
-        </>
-      );
-    }
-
+  if (landToVisitNotFound) {
     return (
       <>
-        <div className="absolute w-full h-full z-10">
+        <div className="absolute z-20">
+          <VisitingHud />
+        </div>
+        <div className="relative">
+          <Modal centered show backdrop={false}>
+            <Panel
+              bumpkinParts={{
+                body: "Beige Farmer Potion",
+                hair: "Rancher Hair",
+                pants: "Farmer Overalls",
+                shirt: "Red Farmer Shirt",
+                tool: "Farmer Pitchfork",
+                background: "Farm Background",
+                shoes: "Black Farmer Boots",
+              }}
+            >
+              <div className="flex flex-col items-center">
+                <h2 className="text-center">Island Not Found!</h2>
+                <img src={land} className="h-9 my-3" />
+              </div>
+              <VisitLandExpansionForm />
+            </Panel>
+          </Modal>
+        </div>
+      </>
+    );
+  }
+
+  if (visiting) {
+    return (
+      <>
+        <div className="absolute z-10 w-full h-full">
           <Routes>
-            <Route path="/" element={<Land />} />
-            <Route path="/helios" element={<Helios key="helios" />} />
-            <Route path="*" element={<IslandNotFound />} />
+            <Route path="/:id" element={<Land />} />
           </Routes>
         </div>
       </>
     );
-  };
+  }
 
-  return <GameWrapper>{GameContent()}</GameWrapper>;
+  return (
+    <>
+      <div className="absolute w-full h-full z-10">
+        <Routes>
+          <Route path="/" element={<Land />} />
+          {/* Legacy route */}
+          <Route path="/farm" element={<Land />} />
+          <Route path="/helios" element={<Helios key="helios" />} />
+          <Route path="*" element={<IslandNotFound />} />
+        </Routes>
+      </div>
+    </>
+  );
+};
+
+export const Game: React.FC = () => {
+  return (
+    <GameWrapper>
+      <GameContent />
+    </GameWrapper>
+  );
 };
 
 export const GameWrapper: React.FC = ({ children }) => {
@@ -243,7 +244,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const refundAuction = useSelector(gameService, isRefundingAuction);
   const promo = useSelector(gameService, isPromoing);
   const blacklisted = useSelector(gameService, isBlacklisted);
-  const showBuds = useSelector(gameService, isBudding);
   const airdrop = useSelector(gameService, hasAirdrop);
 
   useInterval(() => {
@@ -294,6 +294,18 @@ export const GameWrapper: React.FC = ({ children }) => {
     );
   }
 
+  if (blacklisted) {
+    return (
+      <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
+        <Modal show centered backdrop={false}>
+          <Panel>
+            <Blacklisted />
+          </Panel>
+        </Modal>
+      </div>
+    );
+  }
+
   const stateValue = typeof state === "object" ? Object.keys(state)[0] : state;
 
   return (
@@ -302,7 +314,6 @@ export const GameWrapper: React.FC = ({ children }) => {
 
       <Modal show={SHOW_MODAL[stateValue as StateValues]} centered>
         <Panel>
-          {blacklisted && <Blacklisted />}
           {loading && <Loading />}
           {refreshing && <Refreshing />}
           {buyingSFL && <AddingSFL />}
