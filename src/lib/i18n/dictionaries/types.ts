@@ -247,7 +247,9 @@ export type ErrorTerms =
   | "error.congestion.two"
   | "error.forbidden.goblinVillage"
   | "error.multipleDevices.one"
-  | "error.multipleDevices.two";
+  | "error.multipleDevices.two"
+  | "error.toManyRequest.one"
+  | "error.toManyRequest.two";
 
 export type TransactionTerms =
   | "transaction.t&c.one"
