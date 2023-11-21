@@ -27,7 +27,10 @@ import {
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
-import { getDailyFishingLimit } from "features/game/events/landExpansion/castRod";
+import {
+  getDailyFishingCount,
+  getDailyFishingLimit,
+} from "features/game/types/fishing";
 import { MachineState } from "features/game/lib/gameMachine";
 
 const host = window.location.host.replace(/^www\./, "");
@@ -143,9 +146,8 @@ const BaitSelection: React.FC<{
     );
   }
 
-  const today = new Date().toISOString().split("T")[0];
   const dailyFishingMax = getDailyFishingLimit(state.bumpkin as Bumpkin);
-  const dailyFishingCount = state.fishing.dailyAttempts?.[today] ?? 0;
+  const dailyFishingCount = getDailyFishingCount(state);
   const fishingLimitReached = dailyFishingCount >= dailyFishingMax;
   const missingRod = !state.inventory["Rod"] || state.inventory.Rod.lt(1);
 

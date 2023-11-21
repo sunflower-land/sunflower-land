@@ -15,6 +15,7 @@ import {
 } from "features/game/events/landExpansion/harvest";
 import { isFruitGrowing } from "features/game/events/landExpansion/fruitHarvested";
 import { CompostName } from "./composters";
+import { getDailyFishingCount } from "./fishing";
 
 type RESTRICTION_REASON =
   | "No restriction"
@@ -289,6 +290,14 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Heart of Davy Jones": (game) => areAnyTreasureHolesDug(game),
   "Maneki Neko": (game) => hasShakenManeki(game),
   "Time Warp Totem": (_: GameState) => [true, "In use"],
+
+  // Fishing Boosts
+  Alba: (game) => {
+    return [getDailyFishingCount(game) !== 0, "In use"];
+  },
+  Walrus: (game) => {
+    return [getDailyFishingCount(game) !== 0, "In use"];
+  },
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
