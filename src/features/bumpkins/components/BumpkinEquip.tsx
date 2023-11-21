@@ -21,14 +21,14 @@ import classNames from "classnames";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 
 const REQUIRED: BumpkinPart[] = [
-  "background",
-  "body",
-  "dress",
-  "shirt",
-  "pants",
-  "hair",
-  "shoes",
-  "tool",
+  "background", // To be translated?
+  "body", // To be translated?
+  "dress", // To be translated?
+  "shirt", // To be translated?
+  "pants", // To be translated?
+  "hair", // To be translated?
+  "shoes", // To be translated?
+  "tool", // To be translated?
 ];
 export const BumpkinEquip: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -105,27 +105,27 @@ export const BumpkinEquip: React.FC = () => {
 
   const warning = () => {
     if (isMissingHair) {
-      return "Hair is required";
+      return "Hair is required"; // To be translated?
     }
 
     if (isMissingBody) {
-      return "Body is required";
+      return "Body is required"; // To be translated?
     }
 
     if (isMissingShoes) {
-      return "Shoes are required";
+      return "Shoes are required"; // To be translated?
     }
 
     if (isMissingShirt) {
-      return "Shirt is required";
+      return "Shirt is required"; // To be translated?
     }
 
     if (isMissingPants) {
-      return "Pants are required";
+      return "Pants are required"; // To be translated?
     }
 
     if (isMissingBackground) {
-      return "Background is required";
+      return "Background is required"; // To be translated?
     }
     return "";
   };

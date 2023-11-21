@@ -16,7 +16,8 @@ export type TranslationKeys =
   | TransactionTerms
   | Onboarding
   | Questions
-  | Statements;
+  | Statements
+  | BumpkinTrade;
 
 export type GeneralTerms =
   | "featured"
@@ -52,7 +53,20 @@ export type GeneralTerms =
   | "forbidden"
   | "refreshing"
   | "tryAgain"
-  | "claim";
+  | "claim"
+  | "alrClaim"
+  | "achievements"
+  | "lvl"
+  | "skills"
+  | "viewAll"
+  | "reqSkillPts"
+  | "reqSkills"
+  | "comingSoon"
+  | "claimSkill"
+  | "skillPts"
+  | "nextSkillPtLvl"
+  | "list"
+  | "beta";
 
 export type GameTerms = "blockBucks";
 
@@ -288,4 +302,14 @@ export type Statements =
   | "statements.docs"
   | "statements.wrongChain.one"
   | "statements.guide"
-  | "statements.switchNetwork";
+  | "statements.switchNetwork"
+  | "statements.lvlUp";
+
+export type BumpkinTrade =
+  | "bumpkinTrade.askPrice"
+  | "bumpkinTrade.purchased"
+  | "bumpkinTrade.plaza"
+  | "bumpkinTrade.lvl"
+  | "bumpkinTrade.noTradeLs"
+  | "bumpkinTrade.sell"
+  | "bumpkinTrade.list";

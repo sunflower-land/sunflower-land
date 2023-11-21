@@ -18,6 +18,7 @@ import {
   TransactionTerms,
   TranslationKeys,
   WelcomeTerms,
+  BumpkinTrade,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -55,6 +56,19 @@ const generalTerms: Record<GeneralTerms, string> = {
   refreshing: "Refrescante",
   tryAgain: "Tente novamente",
   claim: "Reivindicar",
+  alrClaim: "Already Claimed!", // To translate
+  achievements: "Achievements", // To translate
+  lvl: "Level", // To be translated
+  skills: "Skills", // To be translated
+  viewAll: "View all", // To be translated
+  reqSkillPts: "Required Skill Points", // To be translated
+  reqSkills: "Required Skills:", // To be translated
+  comingSoon: "Coming soon", // To be translated
+  claimSkill: "Claim skill", // To be translated
+  skillPts: "Skill Points:", // To be translated
+  nextSkillPtLvl: "Next skill point: level", // To be translated (context: Next skill point level ___(variable for level)___)
+  list: "List", // To be translated
+  beta: "Beta", // To be translated
 };
 
 const gameTerms: Record<GameTerms, string> = {
@@ -420,6 +434,17 @@ const statements: Record<Statements, string> = {
     "Check out this guide to help you get connected.",
   "statements.guide": "Go to guide",
   "statements.switchNetwork": "Add or Switch Network",
+  "statements.lvlUp": "Feed your Bumpkin to level up",
+};
+
+const bumpkinTrade: Record<BumpkinTrade, string> = {
+  "bumpkinTrade.askPrice": "Asking price:",
+  "bumpkinTrade.purchased": "Congratulations, your listing was purchased!",
+  "bumpkinTrade.plaza": "Travel to the plaza so players can trade with you",
+  "bumpkinTrade.lvl": "You must be level 10 to trade",
+  "bumpkinTrade.noTradeLs": "You have no trades listed.",
+  "bumpkinTrade.sell": "Sell your resources to other players for SFL.",
+  "bumpkinTrade.list": "List trade",
 };
 
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
@@ -441,4 +466,5 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...onboarding,
   ...questions,
   ...statements,
+  ...bumpkinTrade,
 };
