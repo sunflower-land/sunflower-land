@@ -34,6 +34,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   task: "Tarefa",
   buy: "Comprar",
   sell: "Vender",
+  "sell.one": "Vender 1",
   "sell.ten": "Vender 10",
   "sell.all": "Vender tudo",
   delivery: "Entrega",

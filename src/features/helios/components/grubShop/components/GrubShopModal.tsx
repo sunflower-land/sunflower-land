@@ -20,12 +20,14 @@ import { getOrderSellPrice } from "features/game/expansion/lib/boosts";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CountdownLabel } from "components/ui/CountdownLabel";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
 }
 
 export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const [showTutorial, setShowTutorial] = useState<boolean>(
     !hasShownTutorial("Grub Shop")
   );
@@ -249,7 +251,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                     className="text-xxs sm:text-xs"
                     onClick={handleSell}
                   >
-                    Sell 1
+                    {t("sell")} 1
                   </Button>
                 )}
               </OuterPanel>

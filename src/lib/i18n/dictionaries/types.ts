@@ -31,6 +31,7 @@ export type GeneralTerms =
   | "guide"
   | "task"
   | "sell"
+  | "sell.one"
   | "sell.ten"
   | "sell.all"
   | "buy"
