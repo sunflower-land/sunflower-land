@@ -41,6 +41,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   crops: "Crops",
   exotics: "Exotics",
   fruits: "Fruits",
+  fruit: "Fruit",
   "2x.sale": "2x Sale",
   cancel: "Cancel",
   for: "for",

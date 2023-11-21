@@ -38,6 +38,7 @@ export type GeneralTerms =
   | "delivery"
   | "crops"
   | "fruits"
+  | "fruit"
   | "exotics"
   | "2x.sale"
   | "cancel"
