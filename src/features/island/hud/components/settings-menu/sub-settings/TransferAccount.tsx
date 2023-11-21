@@ -32,6 +32,8 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
     "idle"
   );
 
+  const { t } = useAppTranslation();
+
   const transfer = async () => {
     setState("loading");
     try {
@@ -69,7 +71,7 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
           {`Your Account #${gameService.state.context.farmId} has been transferred to: ${receiver.address}`}
           !
         </span>
-        <Button onClick={handleContinue}>Continue</Button>
+        <Button onClick={handleContinue}>{t("continue")}</Button>
       </div>
     );
   }

@@ -55,7 +55,7 @@ export const AuctioneerContent: React.FC<Props> = ({
             {t("readMore")}
           </a>
         </div>
-        <Button onClick={() => send("CONTINUE")}>Continue</Button>
+        <Button onClick={() => send("CONTINUE")}>{t("continue")}</Button>
       </>
     );
   }
