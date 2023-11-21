@@ -437,6 +437,8 @@ const statements: Record<Statements, string> = {
   "statements.guide": "Go to guide",
   "statements.switchNetwork": "Add or Switch Network",
   "statements.lvlUp": "Feed your Bumpkin to level up",
+  "statements.beta.one": "Beta is only accessible to our OG farmers.",
+  "statements.beta.two": "Stay tuned for updates. We will be going live soon!",
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {
