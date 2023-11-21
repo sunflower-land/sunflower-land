@@ -28,11 +28,10 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
 import {
-
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
   getDailyFishingCount,
   getDailyFishingLimit,
 } from "features/game/types/fishing";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
 
 const host = window.location.host.replace(/^www\./, "");
