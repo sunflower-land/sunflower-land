@@ -253,7 +253,9 @@ export type Onboarding =
   | "onboarding.intro.two"
   | "onboarding.cheer"
   | "onboarding.form.one"
-  | "onboarding.form.two";
+  | "onboarding.form.two"
+  | "onboarding.createdBefore.one"
+  | "onboarding.createdBefore.two";
 
 export type Questions = "questions.obtain.MATIC" | "questions.lowCash";
 

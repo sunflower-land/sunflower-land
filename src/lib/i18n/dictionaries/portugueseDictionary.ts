@@ -373,6 +373,9 @@ const onboarding: Record<Onboarding, string> = {
   "onboarding.form.one": "Fill in your details",
   "onboarding.form.two":
     "and we will send a free NFT to play. (This will take us 3-7 days)",
+  "onboarding.createdBefore.one": "Already signed up!",
+  "onboarding.createdBefore.two":
+    "It looks like you have already registered for beta testing using a different address. Only one address can be used during beta testing. ",
 };
 
 const questions: Record<Questions, string> = {
