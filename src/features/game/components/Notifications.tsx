@@ -6,6 +6,7 @@ import { OnChainEvent } from "../actions/onChainEvents";
 import { Button } from "components/ui/Button";
 import { PIXEL_SCALE } from "../lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const CONTENT_HEIGHT = 400;
 
@@ -18,6 +19,8 @@ export const Notifications: React.FC = () => {
   }
 
   const notifications = state.context.notifications as OnChainEvent[];
+
+  const { t } = useAppTranslation();
 
   return (
     <>
@@ -46,7 +49,7 @@ export const Notifications: React.FC = () => {
           </div>
         ))}
       </div>
-      <Button onClick={onAcknowledge}>Continue</Button>
+      <Button onClick={onAcknowledge}>{t("continue")}</Button>
     </>
   );
 };

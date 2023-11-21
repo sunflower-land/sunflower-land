@@ -17,6 +17,7 @@ import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { secondsToString } from "lib/utils/time";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -31,6 +32,7 @@ const obsessionDialogues = (itemName: string) => [
 ];
 
 export const Bert: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -116,7 +118,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
             text: intro,
             actions: [
               {
-                text: "Delivery",
+                text: t("delivery"),
                 cb: () => handleConfirm(0),
               },
               {

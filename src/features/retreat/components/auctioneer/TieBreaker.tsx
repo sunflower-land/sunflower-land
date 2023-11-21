@@ -12,6 +12,7 @@ import {
   AuctionLeaderboardTable,
   toOrdinalSuffix,
 } from "./AuctionLeaderboardTable";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   auctionService: MachineInterpreter;
@@ -25,6 +26,7 @@ export const TieBreaker: React.FC<Props> = ({
   results,
 }) => {
   const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   const refund = () => {
     gameService.send("bid.refunded");
@@ -59,7 +61,7 @@ export const TieBreaker: React.FC<Props> = ({
         target="_blank"
         rel="noreferrer"
       >
-        Read more
+        {t("readMore")}
       </a>
       <Button className="mt-2" onClick={refund}>
         Refund resources

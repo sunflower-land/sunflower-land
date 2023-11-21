@@ -2,8 +2,10 @@ import React from "react";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import chest from "assets/icons/chest.png";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const DeliveryHelp: React.FC = () => {
+  const { t } = useAppTranslation();
   return (
     <div className="flex flex-col space-y-2 pt-3">
       <div className="flex">
@@ -48,7 +50,7 @@ export const DeliveryHelp: React.FC = () => {
         rel="noopener noreferrer"
         className="underline text-xxs ml-[10px] pb-1 pt-0.5 hover:text-blue-500"
       >
-        Read more
+        {t("readMore")}
       </a>
     </div>
   );

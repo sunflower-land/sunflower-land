@@ -13,11 +13,14 @@ import { useActor } from "@xstate/react";
 import { Loading } from "features/auth/components";
 import { Context } from "features/game/GoblinProvider";
 import { Button } from "components/ui/Button";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const PersonhoodContent: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
   const { goblinService } = useContext(Context);
+
+  const { t } = useAppTranslation();
 
   const [loading, setLoading] = useState(true);
   const [personHoodDetails, setPersonhoodDetails] = useState<
@@ -103,7 +106,7 @@ export const PersonhoodContent: React.FC = () => {
           Congratulations, your identity has been verified!
         </p>
         <Button className="mr-1" onClick={onFinish}>
-          Continue
+          {t("continue")}
         </Button>
       </>
     );

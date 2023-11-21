@@ -20,8 +20,6 @@ import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectStrategy.factory";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { loadSession, savePromoCode } from "features/game/actions/loadSession";
-import { hasFeatureAccess } from "lib/flags";
-import { TEST_FARM } from "features/game/lib/constants";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -130,6 +128,7 @@ export type BlockchainEvent =
       type: "CHOOSE_CHARITY";
     }
   | { type: "CONTINUE" }
+  | { type: "SIGNUP" }
   | { type: "BACK" }
   | { type: "CONNECT_TO_DISCORD" }
   | { type: "CONFIRM" }
@@ -149,6 +148,7 @@ export type BlockchainState = {
     | "welcome"
     | "createWallet"
     | "signIn"
+    | "signUp"
     | "initialising"
     | "visiting"
     | "connectingToWallet"
@@ -226,17 +226,10 @@ export const authMachine = createMachine(
             target: "signIn",
             actions: () => onboardingAnalytics.logEvent("connect_wallet"),
           },
-          CONTINUE: [
-            {
-              target: "signIn",
-              cond: () => hasFeatureAccess(TEST_FARM, "NEW_FARM_FLOW"),
-              actions: () => onboardingAnalytics.logEvent("create_account"),
-            },
-            {
-              target: "createWallet",
-              actions: () => onboardingAnalytics.logEvent("create_account"),
-            },
-          ],
+          SIGNUP: {
+            target: "signUp",
+            actions: () => onboardingAnalytics.logEvent("create_account"),
+          },
         },
       },
 
@@ -250,6 +243,17 @@ export const authMachine = createMachine(
       },
       signIn: {
         id: "signIn",
+        on: {
+          CONNECT_TO_WALLET: {
+            target: "connectingToWallet",
+          },
+          BACK: {
+            target: "welcome",
+          },
+        },
+      },
+      signUp: {
+        id: "signUp",
         on: {
           CONNECT_TO_WALLET: {
             target: "connectingToWallet",

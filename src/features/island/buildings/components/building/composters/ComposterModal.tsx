@@ -34,6 +34,7 @@ import { GameState, Inventory } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const WORM_OUTPUT: Record<ComposterName, string> = {
   "Compost Bin": "2-4",
@@ -124,6 +125,8 @@ export const ComposterModal: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+
+  const { t } = useAppTranslation();
 
   const [tab, setTab] = useState(0);
 
@@ -246,7 +249,7 @@ export const ComposterModal: React.FC<Props> = ({
             type="success"
             className="text-xs whitespace-pre-line"
           >
-            +0.2 Crops
+            +0.2 {t("crops")}
           </Label>
         );
       }
@@ -259,7 +262,7 @@ export const ComposterModal: React.FC<Props> = ({
             type="success"
             className="text-xs whitespace-pre-line"
           >
-            +0.1 Fruit
+            +0.1 {t("fruit")}
           </Label>
         );
       }
@@ -364,7 +367,7 @@ export const ComposterModal: React.FC<Props> = ({
           { icon: compost, name: "Composter" },
           {
             icon: SUNNYSIDE.icons.expression_confused,
-            name: "Guide",
+            name: t("guide"),
           },
         ]}
         currentTab={tab}

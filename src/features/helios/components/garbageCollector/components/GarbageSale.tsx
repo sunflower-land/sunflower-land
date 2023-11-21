@@ -13,8 +13,10 @@ import { GARBAGE, GarbageName } from "features/game/types/garbage";
 import { getGarbageSellPrice } from "features/game/events/landExpansion/garbageSold";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const GarbageSale: React.FC = () => {
+  const { t } = useAppTranslation();
   const garbage = getKeys(GARBAGE).sort((a, b) =>
     GARBAGE[a].sellPrice.sub(GARBAGE[b].sellPrice).toNumber()
   );
@@ -45,10 +47,10 @@ export const GarbageSale: React.FC = () => {
     return (
       <div className="flex space-x-1 w-full sm:flex-col sm:space-x-0 sm:space-y-1">
         <Button disabled={amount.lt(1)} onClick={() => sell(1)}>
-          Sell 1
+          {t("sell.one")}
         </Button>
         <Button disabled={amount.lt(10)} onClick={() => sell(10)}>
-          Sell 10
+          {t("sell.ten")}
         </Button>
       </div>
     );

@@ -17,6 +17,7 @@ import {
   Onboarding,
   Questions,
   Statements,
+  GameTerms,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -32,13 +33,15 @@ const generalTerms: Record<GeneralTerms, string> = {
   guide: "Guide",
   task: "Task",
   sell: "Sell",
+  "sell.one": "Sell 1",
   "sell.ten": "Sell 10",
-  "sell.all": "Sell all",
+  "sell.all": "Sell All",
   buy: "Buy",
   delivery: "Delivery",
   crops: "Crops",
   exotics: "Exotics",
   fruits: "Fruits",
+  fruit: "Fruit",
   "2x.sale": "2x Sale",
   cancel: "Cancel",
   for: "for",
@@ -49,6 +52,12 @@ const generalTerms: Record<GeneralTerms, string> = {
   maintenance: "Maintenance",
   back: "Back",
   forbidden: "Forbidden",
+  refreshing: "Refreshing",
+  tryAgain: "Try again",
+};
+
+const gameTerms: Record<GameTerms, string> = {
+  blockBucks: "Block Bucks",
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
@@ -349,6 +358,9 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.multipleDevices.one": "Multiple devices open",
   "error.multipleDevices.two":
     "Please close any other browser tabs or devices that you are operating on.",
+  "error.toManyRequest.one": "Too many requests!",
+  "error.toManyRequest.two":
+    "Looks like you have been busy! Please try again later.",
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
@@ -363,6 +375,9 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.estimated.fee": "Estimated fee:",
   "transaction.pay": "Pay with Card/Cash",
   "transaction.creditCard": "*Credit card fees apply",
+  "transaction.rejected": "Transaction Rejected!",
+  "transaction.message":
+    "This request will not trigger a blockchain transaction or cost any gas fees.",
 };
 
 const onboarding: Record<Onboarding, string> = {
@@ -379,6 +394,7 @@ const onboarding: Record<Onboarding, string> = {
   "onboarding.duplicateUser.one": "Already signed up!",
   "onboarding.duplicateUser.two":
     "It looks like you have already registered for beta testing using a different address. Only one address can be used during beta testing. ",
+  "onboarding.starterPack": "Starter Pack",
 };
 
 const questions: Record<Questions, string> = {
@@ -390,10 +406,15 @@ const statements: Record<Statements, string> = {
   "statements.adventure": "Start your Adventure!",
   "statements.maintenance":
     "New things are coming! Thanks for your patience, the game will be live again shortly.",
+  "statements.wrongChain.one":
+    "Check out this guide to help you get connected.",
+  "statements.guide": "Go to guide",
+  "statements.switchNetwork": "Add or Switch Network",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...generalTerms,
+  ...gameTerms,
   ...welcomeTerms,
   ...rulesTerms,
   ...seasonBannerOffer,

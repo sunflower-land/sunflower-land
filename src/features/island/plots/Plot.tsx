@@ -28,10 +28,8 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getKeys } from "features/game/types/craftables";
-import { SEEDS, SeedName } from "features/game/types/seeds";
+import { SeedName } from "features/game/types/seeds";
 import { SeedSelection } from "./components/SeedSelection";
-import { FRUIT_SEEDS } from "features/game/types/fruits";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getBumpkinLevelRequiredForNode } from "features/game/expansion/lib/expansionNodes";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
@@ -216,25 +214,26 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
 
     // plant
     if (!crop) {
-      const hasSeeds = getKeys(inventory).some(
-        (name) =>
-          inventory[name]?.gte(1) && name in SEEDS() && !(name in FRUIT_SEEDS())
-      );
-      if (!hasSeeds && !isMobile) {
-        setShowMissingSeeds(true);
-        return;
-      }
+      // TEMP Disable
+      // const hasSeeds = getKeys(inventory).some(
+      //   (name) =>
+      //     inventory[name]?.gte(1) && name in SEEDS() && !(name in FRUIT_SEEDS())
+      // );
+      // if (!hasSeeds && !isMobile) {
+      //   setShowMissingSeeds(true);
+      //   return;
+      // }
 
-      const seedIsReady =
-        seed &&
-        inventory[seed]?.gte(1) &&
-        seed in SEEDS() &&
-        !(seed in FRUIT_SEEDS());
+      // const seedIsReady =
+      //   seed &&
+      //   inventory[seed]?.gte(1) &&
+      //   seed in SEEDS() &&
+      //   !(seed in FRUIT_SEEDS());
 
-      if (!seedIsReady && !isMobile) {
-        setShowSeedNotSelected(true);
-        return;
-      }
+      // if (!seedIsReady && !isMobile) {
+      //   setShowSeedNotSelected(true);
+      //   return;
+      // }
 
       const state = gameService.send("seed.planted", {
         index: id,

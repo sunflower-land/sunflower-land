@@ -11,6 +11,7 @@ import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.png";
 import bananaChicken from "assets/animals/chickens/banana_chicken.png";
 
 import { Button } from "components/ui/Button";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const mutants: Record<MutantChicken, Record<string, string>> = {
   "Speed Chicken": {
@@ -46,6 +47,7 @@ interface Props {
 }
 
 export const MutantChickenModal = ({ type, show, onContinue }: Props) => {
+  const { t } = useAppTranslation();
   return (
     <Modal show={show} centered>
       <Panel>
@@ -59,7 +61,7 @@ export const MutantChickenModal = ({ type, show, onContinue }: Props) => {
         </div>
 
         <div className="flex">
-          <Button onClick={onContinue}>Continue</Button>
+          <Button onClick={onContinue}>{t("continue")}</Button>
         </div>
       </Panel>
     </Modal>

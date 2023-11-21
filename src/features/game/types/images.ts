@@ -915,8 +915,7 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Block Buck": {
-    description:
-      "A voucher used for restocking and enhancing your Blockchain experience!",
+    description: "A valuable token in Sunflower Land!",
     image: blockBuck,
   },
 
