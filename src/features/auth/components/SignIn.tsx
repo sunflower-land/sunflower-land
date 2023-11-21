@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { ChangeEvent, useContext, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
@@ -14,7 +14,7 @@ import bitgetIcon from "src/assets/icons/bitget_logo.svg";
 
 import { Label } from "components/ui/Label";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
-import { getPromoCode } from "features/game/actions/loadSession";
+import { getPromoCode, savePromoCode } from "features/game/actions/loadSession";
 import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -295,5 +295,76 @@ export const SignIn = () => {
         </a>
       </div>
     </div>
+  );
+};
+
+export const SignUp = () => {
+  const [showPromoCode, setShowPromoCode] = useState(false);
+  const [promoCode, setPromoCode] = useState(getPromoCode());
+
+  if (showPromoCode) {
+    return (
+      <>
+        <div className="p-2">
+          <p className="text-xs mb-1">Enter your promo code:</p>
+          <input
+            style={{
+              boxShadow: "#b96e50 0px 1px 1px 1px inset",
+              border: "2px solid #ead4aa",
+            }}
+            type="text"
+            min={1}
+            value={promoCode}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              setPromoCode(e.target.value);
+            }}
+            className={
+              "text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10"
+            }
+          />
+        </div>
+        <div className="flex space-x-1">
+          <Button
+            onClick={() => {
+              setShowPromoCode(false);
+            }}
+          >
+            Back
+          </Button>
+          <Button
+            disabled={!promoCode}
+            onClick={() => {
+              setShowPromoCode(false);
+              savePromoCode(promoCode as string);
+            }}
+          >
+            Ok
+          </Button>
+        </div>
+      </>
+    );
+  }
+  return (
+    <>
+      {promoCode && (
+        <div className="absolute top-3 right-5">
+          <Label type="formula" icon={SUNNYSIDE.icons.search}>
+            {`Promo Code: ${getPromoCode()}`}
+          </Label>
+        </div>
+      )}
+      {!promoCode && (
+        <div className="absolute top-3 right-5 flex items-center">
+          <Button onClick={() => setShowPromoCode(true)} className="h-6">
+            <div className="flex">
+              <span className="text-xxs">Add Promo Code</span>
+            </div>
+          </Button>
+          <img src={SUNNYSIDE.icons.expression_confused} className="h-4 ml-1" />
+        </div>
+      )}
+
+      <SignIn />
+    </>
   );
 };
