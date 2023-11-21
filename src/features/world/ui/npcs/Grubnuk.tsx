@@ -7,12 +7,14 @@ import { DeliveryPanelContent } from "../deliveries/DeliveryPanelContent";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 import { npcDialogues, defaultDialogue } from "../deliveries/dialogues";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
 }
 
 export const Grubnuk: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const [tab, setTab] = useState(0);
   const [confirmAction, setConfirmAction] = useState(false);
   const dialogue = npcDialogues.blacksmith || defaultDialogue;
@@ -37,7 +39,7 @@ export const Grubnuk: React.FC<Props> = ({ onClose }) => {
                 cb: () => handleConfirm(0),
               },
               {
-                text: "Delivery",
+                text: t("delivery"),
                 cb: () => handleConfirm(1),
               },
             ],
