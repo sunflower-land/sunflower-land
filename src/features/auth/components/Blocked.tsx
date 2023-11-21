@@ -6,10 +6,11 @@ import humanDeath from "assets/npcs/human_death.gif";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { removeSession } from "../actions/login";
 import { wallet } from "lib/blockchain/wallet";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Blocked: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
-
+  const { t } = useAppTranslation();
   const tryAgain = () => {
     removeSession(wallet.myAccount as string);
 
@@ -39,7 +40,7 @@ export const Blocked: React.FC = () => {
         {`, go to the #verify channel and have the "farmer" role.`}
       </p>
       <Button onClick={tryAgain} className="overflow-hidden mb-2">
-        <span>Try again</span>
+        <span>{t("tryAgain")}</span>
       </Button>
     </div>
   );
