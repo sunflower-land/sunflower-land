@@ -45,6 +45,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   wallet: "Wallet",
   mint: "Mint",
   "card.cash": "Card/Cash",
+  letsGo: "Let's Go!",
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
@@ -55,6 +56,7 @@ const welcomeTerms: Record<WelcomeTerms, string> = {
   "welcome.otherWallets": "Other wallets",
   "welcome.needHelp": "Need help?",
   "welcome.createAccount": "Create account",
+  "welcome.creatingAccount": "Creating your account",
   "welcome.login": "Login",
   "welcome.signingIn": "Signing you in",
   "welcome.signInMessage":
@@ -356,7 +358,12 @@ const transactionTerms: Record<TransactionTerms, string> = {
 };
 
 const onboarding: Record<Onboarding, string> = {
+  "onboarding.welcome": "Welcome to decentralized gaming!",
+  "onboarding.step.one": "Step 1/3",
   "onboarding.step.three": "Step 3/3 (Create your NFT)",
+  "onboarding.intro.one":
+    "In your travels, you will earn rare NFTs that need to be protected. To keep these secure you'll need a Web3 wallet.",
+  "onboarding.intro.two": "To begin your journey, your wallet will receive:",
   "onboarding.cheer": "You're almost there!",
   "onboarding.form.one": "Fill in your details",
   "onboarding.form.two":

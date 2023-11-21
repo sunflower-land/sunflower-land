@@ -42,7 +42,8 @@ export type GeneralTerms =
   | "for"
   | "wallet"
   | "mint"
-  | "card.cash";
+  | "card.cash"
+  | "letsGo";
 
 export type ConfirmationTerms = "confirmation.sellCrops";
 
@@ -50,6 +51,7 @@ export type WelcomeTerms =
   | "welcome.otherWallets"
   | "welcome.needHelp"
   | "welcome.createAccount"
+  | "welcome.creatingAccount"
   | "welcome.login"
   | "welcome.signingIn"
   | "welcome.signInMessage"
@@ -244,7 +246,11 @@ export type TransactionTerms =
   | "transaction.creditCard";
 
 export type Onboarding =
+  | "onboarding.welcome"
+  | "onboarding.step.one"
   | "onboarding.step.three"
+  | "onboarding.intro.one"
+  | "onboarding.intro.two"
   | "onboarding.cheer"
   | "onboarding.form.one"
   | "onboarding.form.two";
