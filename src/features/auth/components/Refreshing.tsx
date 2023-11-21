@@ -1,5 +1,7 @@
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 
 export const Refreshing: React.FC = () => {
-  return <span className="text-shadow loading">Refreshing</span>;
+  const { t } = useAppTranslation();
+  return <span className="text-shadow loading">{t("refreshing")}</span>;
 };
