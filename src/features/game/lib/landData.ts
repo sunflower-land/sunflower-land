@@ -219,7 +219,7 @@ export const OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   bumpkin: INITIAL_BUMPKIN,
-  balance: new Decimal(0),
+  balance: new Decimal(10),
   previousBalance: new Decimal(0),
   previousInventory: {},
   inventory: {
@@ -369,15 +369,5 @@ export const OFFLINE_FARM: GameState = {
     hunger: "Sunflower",
     weeklyCatches: {},
   },
-  airdrops: [
-    {
-      createdAt: 0,
-      id: "123",
-      items: {
-        Wood: 5,
-      },
-      sfl: 0,
-      wearables: {},
-    },
-  ],
+  airdrops: [],
 };

@@ -28,7 +28,7 @@ const hasSoldCropsBefore = (bumpkin?: Bumpkin) => {
 };
 
 export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(true);
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);

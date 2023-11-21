@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import lock from "assets/skills/lock.png";
 import orange from "assets/resources/orange.png";
+import token from "assets/icons/token_2.png";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
@@ -20,13 +21,13 @@ import { FRUIT, FRUIT_SEEDS, FruitSeedName } from "features/game/types/fruits";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { SplitScreenView } from "components/ui/SplitScreenView";
-import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
 import { hasFeatureAccess } from "lib/flags";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
@@ -164,28 +165,129 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   return (
     <SplitScreenView
       panel={
-        <CraftingRequirements
-          gameState={state}
-          stock={stock}
-          details={{
-            item: selectedName,
-          }}
-          requirements={{
-            sfl: price,
-            showSflIfFree: true,
-            level: isSeedLocked(selectedName)
-              ? selected.bumpkinLevel
-              : undefined,
-            harvests: harvestCount
-              ? {
-                  minHarvest: harvestCount[0],
-                  maxHarvest: harvestCount[1],
-                }
-              : undefined,
-            timeSeconds: getPlantSeconds(),
-          }}
-          actionView={Action()}
-        />
+        <>
+          <div className="hidden sm:block">
+            <div>
+              <p className="text-center mb-2">{selected.yield}</p>
+              <div className="flex justify-center">
+                <Label type="default" icon={SUNNYSIDE.icons.stopwatch}>
+                  1 min
+                </Label>
+              </div>
+              <div className="flex items-center justify-center mb-2">
+                <img
+                  src={ITEM_DETAILS[selectedName].image}
+                  className="h-6 mr-1"
+                />
+                <img src={SUNNYSIDE.icons.chevron_right} className="h-3 mr-1" />
+                <img
+                  src={CROP_LIFECYCLE[selected.yield as CropName].seedling}
+                  className="h-10 mr-1"
+                />
+                <img src={SUNNYSIDE.icons.chevron_right} className="h-3 mr-1" />
+                <img
+                  src={CROP_LIFECYCLE[selected.yield as CropName].crop}
+                  className="h-10 mr-1"
+                />
+              </div>
+            </div>
+            <div className="flex justify-center items-center mt-2">
+              <span className="text-xs mr-3">Buy</span>
+              <Label type="warning" icon={token}>
+                0.0625 SFL
+              </Label>
+            </div>
+            <div className="flex items-center">
+              <Box
+                image={ITEM_DETAILS[selectedName].image}
+                count={inventory[selectedName]}
+              />
+              <Button className="mr-1" onClick={() => buy(1)}>
+                1
+              </Button>
+              <Button onClick={() => buy(10)}>10</Button>
+            </div>
+            <div className="flex justify-center items-center mt-2">
+              <span className="text-xs mr-3">Sell</span>
+              <Label type="warning" icon={token}>
+                0.1225 SFL
+              </Label>
+            </div>
+            <div className="flex items-center">
+              <Box
+                image={ITEM_DETAILS[selected.yield].image}
+                count={inventory[selected.yield]}
+              />
+              <Button className="mr-1" onClick={() => buy(1)}>
+                1
+              </Button>
+              <Button onClick={() => buy(10)}>10</Button>
+            </div>
+          </div>
+          <div className="block sm:hidden p-1">
+            <div className="flex justify-between">
+              <div>
+                <p className=" mb-2">{selected.yield}</p>
+                <Label type="default" icon={SUNNYSIDE.icons.stopwatch}>
+                  1 min
+                </Label>
+              </div>
+              <div className="flex items-center justify-center mb-2">
+                <img
+                  src={ITEM_DETAILS[selectedName].image}
+                  className="h-6 mr-1"
+                />
+                <img src={SUNNYSIDE.icons.chevron_right} className="h-3 mr-1" />
+                <img
+                  src={CROP_LIFECYCLE[selected.yield as CropName].seedling}
+                  className="h-10 mr-1"
+                />
+                <img src={SUNNYSIDE.icons.chevron_right} className="h-3 mr-1" />
+                <img
+                  src={CROP_LIFECYCLE[selected.yield as CropName].crop}
+                  className="h-10 mr-1"
+                />
+              </div>
+            </div>
+            <div className="flex mt-1">
+              <div className="w-1/2">
+                <div className="flex">
+                  <img src={token} className="h-4 mr-1" />
+                  <span className="text-xs">0.0625</span>
+                </div>
+                {/* <Label type="warning" icon={token}>
+                  0.0625
+                </Label> */}
+                <div className="flex items-center">
+                  <Box
+                    image={ITEM_DETAILS[selectedName].image}
+                    count={inventory[selectedName]}
+                    className="-ml-2"
+                  />
+                  <Button className="mr-1" onClick={() => buy(1)}>
+                    1
+                  </Button>
+                  <Button onClick={() => buy(10)}>10</Button>
+                </div>
+              </div>
+              <div className="w-1/2">
+                <Label type="warning" icon={token}>
+                  0.1225
+                </Label>
+                <div className="flex items-center">
+                  <Box
+                    image={ITEM_DETAILS[selected.yield].image}
+                    count={inventory[selected.yield]}
+                  />
+                  <Button className="mr-1" onClick={() => buy(1)}>
+                    1
+                  </Button>
+                  <Button onClick={() => buy(10)}>10</Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
       }
       content={
         <div className="pl-1">

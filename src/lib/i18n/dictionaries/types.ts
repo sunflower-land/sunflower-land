@@ -27,6 +27,7 @@ export type GeneralTerms =
   | "sell.ten"
   | "sell.all"
   | "buy"
+  | "exchange"
   | "delivery"
   | "crops"
   | "fruits"

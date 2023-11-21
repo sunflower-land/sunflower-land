@@ -3,7 +3,6 @@ import { Seeds } from "./Seeds";
 import { Crops } from "./Crops";
 import { Equipped } from "features/game/types/bumpkin";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ConversationName } from "features/game/types/conversations";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -66,14 +65,7 @@ export const ShopItems: React.FC<Props> = ({
   return (
     <CloseButtonPanel
       bumpkinParts={bumpkinParts}
-      tabs={[
-        { icon: SUNNYSIDE.icons.seeds, name: t("buy") },
-        {
-          icon: CROP_LIFECYCLE.Sunflower.crop,
-          name: t("sell"),
-          unread: !hasSoldBefore,
-        },
-      ]}
+      tabs={[{ icon: SUNNYSIDE.icons.seeds, name: t("exchange") }]}
       currentTab={tab}
       setCurrentTab={setTab}
       onClose={onClose}
