@@ -29,6 +29,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
 import { getDailyFishingLimit } from "features/game/events/landExpansion/castRod";
 import { MachineState } from "features/game/lib/gameMachine";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -47,6 +48,7 @@ const ChumSelection: React.FC<{
   onCancel: () => void;
   initial?: InventoryItemName;
 }> = ({ inventory, onList, onCancel, initial }) => {
+  const { t } = useAppTranslation();
   const [selected, setSelected] = useState<InventoryItemName | undefined>(
     initial
   );
@@ -96,7 +98,7 @@ const ChumSelection: React.FC<{
 
       <div className="flex">
         <Button className="mr-1" onClick={() => onCancel()}>
-          Cancel
+          {t("cancel")}
         </Button>
         <Button
           disabled={!hasRequirements}

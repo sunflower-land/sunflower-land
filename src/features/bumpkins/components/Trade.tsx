@@ -20,6 +20,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { Label } from "components/ui/Label";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const INPUT_MAX_CHAR = 10;
@@ -32,6 +33,7 @@ const ListTrade: React.FC<{
   onList: (items: Items, sfl: number) => void;
   onCancel: () => void;
 }> = ({ inventory, onList, onCancel }) => {
+  const { t } = useAppTranslation();
   const [selected, setSelected] = useState<Items>({});
   const [sfl, setSFL] = useState(1);
   const select = (name: InventoryItemName) => {
@@ -176,7 +178,7 @@ const ListTrade: React.FC<{
       )}
       <div className="flex">
         <Button className="mr-1" onClick={() => onCancel()}>
-          Cancel
+          {t("cancel")}
         </Button>
         <Button
           disabled={
@@ -201,6 +203,7 @@ const TradeDetails: React.FC<{
   onCancel: () => void;
   onClaim: () => void;
 }> = ({ trade, onCancel, onClaim }) => {
+  const { t } = useAppTranslation();
   if (trade.boughtAt) {
     return (
       <div>
@@ -266,7 +269,7 @@ const TradeDetails: React.FC<{
           </div>
           <div className="flex flex-col justify-between h-full">
             <Button className="mb-1" onClick={onCancel}>
-              Cancel
+              {t("cancel")}
             </Button>
 
             <div className="flex items-center">

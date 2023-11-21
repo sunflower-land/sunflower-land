@@ -18,6 +18,7 @@ import { Button } from "components/ui/Button";
 import { setImageWidth } from "lib/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const RequiredSkillPoints = ({
   missingPointRequirement,
@@ -78,6 +79,7 @@ export const SkillPathDetails: React.FC<Props> = ({
   skillsInPath,
   readonly,
 }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
@@ -147,7 +149,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                   onClick={() => setShowConfirmButton(false)}
                   className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
                 >
-                  Cancel
+                  {t("cancel")}
                 </Button>
                 <Button
                   onClick={handleClaim}
