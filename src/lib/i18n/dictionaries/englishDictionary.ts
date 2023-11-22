@@ -78,6 +78,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   date: "Date",
   version: "Version",
   details: "Details",
+  save: "Save",
+  clear: "Clear",
+  print: "Print",
 };
 
 const gameTerms: Record<GameTerms, string> = {

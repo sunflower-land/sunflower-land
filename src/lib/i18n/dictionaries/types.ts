@@ -75,7 +75,10 @@ export type GeneralTerms =
   | "error"
   | "date"
   | "version"
-  | "details";
+  | "details"
+  | "save"
+  | "clear"
+  | "print";
 
 export type GameTerms = "blockBucks" | "sflDiscord";
 

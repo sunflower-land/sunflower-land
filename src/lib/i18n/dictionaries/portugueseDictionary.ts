@@ -78,6 +78,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   date: "Data",
   version: "Versão",
   details: "Detalhes",
+  save: "Salvar",
+  clear: "Claro",
+  print: "Imprimir",
 };
 
 // To be translated
