@@ -44,6 +44,7 @@ export type GeneralTerms =
   | "maintenance"
   | "mint"
   | "minting"
+  | "minted"
   | "nextSkillPtLvl"
   | "noThanks"
   | "ok"
@@ -299,7 +300,7 @@ export type WarningTerms =
   | "warning.noAxe"
   | "warning.chat.maxCharacters"
   | "warning.chat.noSpecialCharacters";
-  
+
 export type TransactionTerms =
   | "transaction.blockBucksFarm"
   | "transaction.blockchain.one"
@@ -419,12 +420,11 @@ export type BumpkinPartRequirements =
   | "part.pants"
   | "part.background";
 
-
 export type RetreatTerms =
   | "retreatTerms.introTravel.one"
   | "retreatTerms.introTravel.two"
   | "retreatTerms.introTravel.three"
-  | "retreatTerms.introTravel.four"  
+  | "retreatTerms.introTravel.four"
   | "retreatTerms.resale.title"
   | "retreatTerms.resale.one"
   | "retreatTerms.resale.two"
