@@ -4,6 +4,7 @@ import Filter from "bad-words";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   messages: { farmId: number; sessionId: string; text: string }[];
@@ -64,9 +65,10 @@ export const ChatText: React.FC<Props> = ({
 
   const Validation = () => {
     if (text.length > MAX_CHARACTERS) {
+      const { t } = useAppTranslation();
       return (
         <Label className="mt-1 mb-1 float-right" type="danger">
-          {`Max ${MAX_CHARACTERS} characters`}
+          {t("warning.chat.maxCharacters")} {`${MAX_CHARACTERS}`}
         </Label>
       );
     }
@@ -74,9 +76,10 @@ export const ChatText: React.FC<Props> = ({
     const isValidText = text.length === 0 || ALPHA_REGEX.test(text);
 
     if (!isValidText) {
+      const { t } = useAppTranslation();
       return (
         <Label className="mt-1 mb-1 float-right" type="danger">
-          No special characters
+          {t("warning.chat.noSpecialCharacters")}
         </Label>
       );
     }

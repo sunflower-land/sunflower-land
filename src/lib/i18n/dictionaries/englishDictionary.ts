@@ -13,6 +13,7 @@ import {
   Intro,
   Onboarding,
   Questions,
+  RetreatTerms,
   RewardTerms,
   RulesTerms,
   SeasonBannerOffer,
@@ -37,6 +38,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   claimSkill: "Claim skill",
   clear: "Clear",
   close: "Close",
+  craft: "Craft",
   comingSoon: "Coming soon",
   congrats: "Congratulations!",
   connected: "Connected",
@@ -67,6 +69,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   maintenance: "Maintenance",
   mint: "Mint",
   minting: "minting",
+  minted: "Already minted!",
   nextSkillPtLvl: "Next skill point: level",
   noThanks: "No thanks",
   ok: "OK",
@@ -431,6 +434,8 @@ const errorTerms: Record<ErrorTerms, string> = {
 
 const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "No Axe Selected!",
+  "warning.chat.maxCharacters": "Max characters:",
+  "warning.chat.noSpecialCharacters": "No special characters",
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
@@ -593,6 +598,17 @@ const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {
   "part.pants": "Pants are required",
   "part.background": "Background is required",
 };
+  
+const retreatTerms: Record<RetreatTerms, string> = {
+  "retreatTerms.introTravel.one": "Hey Traveller! Ready to explore?",
+  "retreatTerms.introTravel.two": "Sunflower Land is filled with exciting islands where you can complete deliveries, craft rare NFTs and even dig for treasure!",
+  "retreatTerms.introTravel.three": "Different locations bring different opportunities to spend your hard earned resources.",
+  "retreatTerms.introTravel.four": "At any time click the travel button to return home.",
+  "retreatTerms.resale.title": "Looking for rare items?",
+  "retreatTerms.resale.one": "Players can trade special items they crafted in-game.",
+  "retreatTerms.resale.two": "You can purchase these on secondary marketplaces like OpenSea.",
+  "retreatTerms.resale.three": "View items on OpenSea",
+};
 
 const collectiblesDescription: Record<CollectiblesDescription, string> = {
   "seed.sunflower": "",
@@ -656,6 +672,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...introTerms,
   ...onboarding,
   ...questions,
+  ...retreatTerms,
   ...rewardTerms,
   ...rulesTerms,
   ...seasonBannerOffer,
