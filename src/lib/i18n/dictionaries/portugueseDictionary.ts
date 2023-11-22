@@ -19,7 +19,6 @@ import {
   TransactionTerms,
   TranslationKeys,
   WelcomeTerms,
-  BumpkinTrade,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {

@@ -1,5 +1,6 @@
 import {
   AchievementsDialog,
+  BumpkinTrade,
   Conversations,
   GeneralTerms,
   GuideTerms,
@@ -18,7 +19,6 @@ import {
   Questions,
   Statements,
   GameTerms,
-  BumpkinTrade,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
