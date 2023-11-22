@@ -598,15 +598,20 @@ const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {
   "part.pants": "Pants are required",
   "part.background": "Background is required",
 };
-  
+
 const retreatTerms: Record<RetreatTerms, string> = {
   "retreatTerms.introTravel.one": "Hey Traveller! Ready to explore?",
-  "retreatTerms.introTravel.two": "Sunflower Land is filled with exciting islands where you can complete deliveries, craft rare NFTs and even dig for treasure!",
-  "retreatTerms.introTravel.three": "Different locations bring different opportunities to spend your hard earned resources.",
-  "retreatTerms.introTravel.four": "At any time click the travel button to return home.",
+  "retreatTerms.introTravel.two":
+    "Sunflower Land is filled with exciting islands where you can complete deliveries, craft rare NFTs and even dig for treasure!",
+  "retreatTerms.introTravel.three":
+    "Different locations bring different opportunities to spend your hard earned resources.",
+  "retreatTerms.introTravel.four":
+    "At any time click the travel button to return home.",
   "retreatTerms.resale.title": "Looking for rare items?",
-  "retreatTerms.resale.one": "Players can trade special items they crafted in-game.",
-  "retreatTerms.resale.two": "You can purchase these on secondary marketplaces like OpenSea.",
+  "retreatTerms.resale.one":
+    "Players can trade special items they crafted in-game.",
+  "retreatTerms.resale.two":
+    "You can purchase these on secondary marketplaces like OpenSea.",
   "retreatTerms.resale.three": "View items on OpenSea",
 };
 
@@ -654,6 +659,19 @@ const collectiblesDescription: Record<CollectiblesDescription, string> = {
   "tool.shovel": "",
   "tool.sand.shovel": "",
   "tool.sand.drill": "",
+  "collectible.sunflower.statue": "",
+  "collectible.potato.statue": "",
+  "collectible.christmas.tree": "",
+  "collectible.scarecrow": "",
+  "collectible.farm.cat": "",
+  "collectible.farm.dog": "",
+  "collectible.gnome": "",
+  "collectible.chicken.coop": "",
+  "collectible.gold.egg": "",
+  "collectible.golden.cauliflower": "",
+  "collectible.sunflower.tombstone": "",
+  "collectible.sunflower.rock": "",
+  "collectible.goblin.crown": "",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

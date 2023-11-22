@@ -25,12 +25,8 @@ export const Resale: React.FC = () => {
           title="Looking for rare items?"
         >
           <div className="p-2">
-            <p className="text-sm mb-3">
-              {t("retreatTerms.resale.one")}
-            </p>
-            <p className="text-sm mb-3">
-            {t("retreatTerms.resale.two")}
-            </p>
+            <p className="text-sm mb-3">{t("retreatTerms.resale.one")}</p>
+            <p className="text-sm mb-3">{t("retreatTerms.resale.two")}</p>
 
             <Button
               onClick={() => {

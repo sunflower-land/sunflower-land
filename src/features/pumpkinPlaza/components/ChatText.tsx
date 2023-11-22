@@ -62,10 +62,9 @@ export const ChatText: React.FC<Props> = ({
       window.removeEventListener("keydown", keyDownListener);
     };
   });
-
+  const { t } = useAppTranslation();
   const Validation = () => {
     if (text.length > MAX_CHARACTERS) {
-      const { t } = useAppTranslation();
       return (
         <Label className="mt-1 mb-1 float-right" type="danger">
           {t("warning.chat.maxCharacters")} {`${MAX_CHARACTERS}`}
@@ -76,7 +75,6 @@ export const ChatText: React.FC<Props> = ({
     const isValidText = text.length === 0 || ALPHA_REGEX.test(text);
 
     if (!isValidText) {
-      const { t } = useAppTranslation();
       return (
         <Label className="mt-1 mb-1 float-right" type="danger">
           {t("warning.chat.noSpecialCharacters")}

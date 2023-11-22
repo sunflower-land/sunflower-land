@@ -478,9 +478,22 @@ export type CollectiblesDescription =
   | "tool.rusty.shovel"
   | "tool.shovel"
   | "tool.sand.shovel"
-  | "tool.sand.drill";
+  | "tool.sand.drill"
 
-// Collectibles
+  // Collectibles
+  | "collectible.sunflower.statue"
+  | "collectible.potato.statue"
+  | "collectible.christmas.tree"
+  | "collectible.scarecrow"
+  | "collectible.farm.cat"
+  | "collectible.farm.dog"
+  | "collectible.gnome"
+  | "collectible.chicken.coop"
+  | "collectible.gold.egg"
+  | "collectible.golden.cauliflower"
+  | "collectible.sunflower.tombstone"
+  | "collectible.sunflower.rock"
+  | "collectible.goblin.crown";
 
 export type TranslationKeys =
   | AchievementsDialog

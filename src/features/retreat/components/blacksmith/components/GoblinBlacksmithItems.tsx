@@ -112,11 +112,13 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
     notEnoughSFL || lessIngredients() || selectedItem.ingredients === undefined;
 
   const Action = () => {
-  const { t } = useAppTranslation();
+    const { t } = useAppTranslation();
     if (soldOut) return <></>;
 
     if (selectedItem.disabled)
-      return <span className="text-xxs text-center my-1">{t("comingSoon")}</span>;
+      return (
+        <span className="text-xxs text-center my-1">{t("comingSoon")}</span>
+      );
 
     if (inventory[selectedName] && !ALLOW_MULTIPLE_MINTS.includes(selectedName))
       return <span className="text-xxs text-center my-1">{t("minted")}</span>;
