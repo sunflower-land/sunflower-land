@@ -18,7 +18,7 @@ export const OfferItems: React.FC = () => {
           <div className="w-8">
             <img src={ITEM_DETAILS["Block Buck"].image} className="h-5 mr-2" />
           </div>
-          <p className="text-sm">10 {t("blockBucks")}</p>
+          <p className="text-sm">10 {t("block.buck")}</p>
         </div>
         <div className="flex mb-2 items-center w-1/2">
           <div className="w-8">
@@ -53,7 +53,7 @@ export const OfferItems: React.FC = () => {
         <div className="w-8">
           <img src={ITEM_DETAILS["Block Buck"].image} className="h-5 mr-2" />
         </div>
-        <p className="text-sm">5 {t("blockBucks")}</p>
+        <p className="text-sm">5 {t("block.buck")}</p>
       </div>
       <div className="flex mb-2 items-center w-1/2">
         <div className="w-8">
