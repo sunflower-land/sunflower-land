@@ -23,16 +23,13 @@ import {
 
 const generalTerms: Record<GeneralTerms, string> = {
   "2x.sale": "Venda 2x",
-  "card.cash": "Cartão/Dinheiro",
-  "sell.all": "Vender tudo",
-  "sell.one": "Vender 1",
-  "sell.ten": "Vender 10",
   achievements: "Conquistas",
   alrClaim: "Já reivindicado!",
   back: "Volte",
   beta: "Beta",
   buy: "Comprar",
   cancel: "Cancelar",
+  "card.cash": "Cartão/Dinheiro",
   claim: "Reivindicar",
   claimSkill: "Claim skill", // To be translated
   clear: "Claro",
@@ -73,6 +70,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   save: "Salvar",
   saving: "Salvando",
   sell: "Vender",
+  "sell.all": "Vender tudo",
+  "sell.one": "Vender 1",
+  "sell.ten": "Vender 10",
   skillPts: "Skill Points:", // To be translated
   skills: "Habilidades",
   swapping: "Troca",
