@@ -314,9 +314,8 @@ export type ErrorTerms =
   | "error.diagnostic.info"
   | "error.Web3NotFound";
 
-  export type WarningTerms =
-  | "warning.noAxe";
-  
+export type WarningTerms = "warning.noAxe";
+
 export type TransactionTerms =
   | "transaction.blockBucksFarm"
   | "transaction.blockchain.one"
