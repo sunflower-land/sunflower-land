@@ -139,17 +139,17 @@ export const BumpkinModal: React.FC<Props> = ({
       tabs={[
         {
           icon: SUNNYSIDE.icons.player,
-          name: "Info",
+          name: t("info"),
         },
         ...(!readonly
           ? [
               {
                 icon: SUNNYSIDE.icons.wardrobe,
-                name: "Equip",
+                name: t("equip"),
               },
               {
                 icon: token,
-                name: "Trades",
+                name: t("trades"),
               },
             ]
           : []),
