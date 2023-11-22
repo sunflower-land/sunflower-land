@@ -73,6 +73,11 @@ const generalTerms: Record<GeneralTerms, string> = {
   swapping: "Troca",
   retry: "Tentar novamente",
   ok: "OK",
+  farm: "Fazenda",
+  error: "Erro",
+  date: "Data",
+  version: "Versão",
+  details: "Detalhes",
 };
 
 // To be translated
@@ -392,6 +397,12 @@ const errorTerms: Record<ErrorTerms, string> = {
     "Looks like you have been busy! Please try again later.",
   "error.blocked.betaTestersOnly": "Beta testers only!",
   "error.wentWrong": "Something went wrong",
+  "error.polygonRPC": "Please try again or check your Polygon RPC settings.",
+  "error.connection.one":
+    "It looks like we were unable to complete this request.",
+  "error.connection.two": "It may be a simple connection issue.",
+  "error.connection.three": "You can click refresh to try again.",
+  "error.diagnostic.info": "Diagnostic Information",
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
@@ -409,6 +420,7 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.rejected": "Transaction Rejected!",
   "transaction.message":
     "This request will not trigger a blockchain transaction or cost any gas fees.",
+  "transaction.id": "Transaction ID",
 };
 
 const onboarding: Record<Onboarding, string> = {

@@ -70,7 +70,12 @@ export type GeneralTerms =
   | "beta"
   | "swapping"
   | "retry"
-  | "ok";
+  | "ok"
+  | "farm"
+  | "error"
+  | "date"
+  | "version"
+  | "details";
 
 export type GameTerms = "blockBucks" | "sflDiscord";
 
@@ -272,7 +277,12 @@ export type ErrorTerms =
   | "error.toManyRequest.one"
   | "error.toManyRequest.two"
   | "error.blocked.betaTestersOnly"
-  | "error.wentWrong";
+  | "error.wentWrong"
+  | "error.polygonRPC"
+  | "error.connection.one"
+  | "error.connection.two"
+  | "error.connection.three"
+  | "error.diagnostic.info";
 
 export type TransactionTerms =
   | "transaction.t&c.one"
@@ -285,7 +295,8 @@ export type TransactionTerms =
   | "transaction.pay"
   | "transaction.creditCard"
   | "transaction.rejected"
-  | "transaction.message";
+  | "transaction.message"
+  | "transaction.id";
 
 export type Onboarding =
   | "onboarding.welcome"
