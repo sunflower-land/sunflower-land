@@ -48,6 +48,7 @@ export type GeneralTerms =
   | "mint"
   | "minting"
   | "minted"
+  | "next"
   | "nextSkillPtLvl"
   | "noThanks"
   | "ok"
@@ -414,7 +415,10 @@ export type Statements =
   | "statements.tapCont"
   | "statements.thankYou"
   | "statements.wrongChain.one"
-  | "statements.visit.firePit";
+  | "statements.visit.firePit"
+  | "statements.tutorial.one"
+  | "statements.tutorial.two"
+  | "statements.tutorial.three";
 
 export type BumpkinTrade =
   | "bumpkinTrade.askPrice"

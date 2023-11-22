@@ -90,6 +90,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   mint: "Mint",
   minting: "minting",
   minted: "Already minted!",
+  next: "Next",
   nextSkillPtLvl: "Next skill point: level",
   noThanks: "No thanks",
   ok: "OK",
@@ -609,6 +610,12 @@ const statements: Record<Statements, string> = {
   "statements.beta.two": "Stay tuned for updates. We will be going live soon!",
   "statements.visit.firePit":
     "Visit the Fire Pit to cook food and feed your Bumpkin.",
+  "statements.tutorial.one":
+    "The boat will take you between islands where you can discover new lands and exciting adventures.",
+  "statements.tutorial.two":
+    "Many lands are far away and will require an experienced Bumpkin before you can visit them.",
+  "statements.tutorial.three":
+    "Your adventure begins now, how far you explore ... that is on you.",
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {
