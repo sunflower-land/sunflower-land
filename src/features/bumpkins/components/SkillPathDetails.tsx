@@ -138,7 +138,7 @@ export const SkillPathDetails: React.FC<Props> = ({
 
     acknowledgeSkillPoints(gameService.state.context.state.bumpkin);
   };
-  const { t } = useAppTranslation();
+
   return (
     <div className="flex flex-col">
       <OuterPanel className="relative flex-1 min-w-[42%] flex flex-col justify-between items-center">

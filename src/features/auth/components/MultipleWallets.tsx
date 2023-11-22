@@ -13,7 +13,6 @@ export const MultipleWallets: React.FC = () => {
       "_blank"
     );
   };
-  const { t } = useAppTranslation();
   return (
     <>
       <div className="flex flex-col p-1">
