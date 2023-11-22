@@ -61,6 +61,7 @@ export const PURCHASEABLE_BAIT: Record<PurchaseableBait, Tool> = {
 export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
   Gold: 1,
   Iron: 5,
+  Stone: 5,
   Egg: 5,
   Sunflower: 50,
   Potato: 20,

@@ -12,13 +12,12 @@ import classNames from "classnames";
 import { AchievementDetails } from "./AchievementDetails";
 import Decimal from "decimal.js-light";
 import { shortenCount } from "lib/utils/formatNumber";
-import { Panel } from "components/ui/Panel";
-import { Tab } from "components/ui/Tab";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setImageWidth } from "lib/images";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 const CONTENT_HEIGHT = 350;
 interface Props {
@@ -27,11 +26,7 @@ interface Props {
   readonly: boolean;
 }
 
-export const Achievements: React.FC<Props> = ({
-  onBack,
-  onClose,
-  readonly,
-}) => {
+export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
   const [selected, setSelected] = useState<AchievementName>("Farm Hand");
 
   const { gameService } = useContext(Context);
@@ -206,34 +201,17 @@ export const AchievementsModal: React.FC<Props> = ({
   onClose,
   readonly,
 }) => {
-  const { t } = useAppTranslation();
+  const [tab, setTab] = useState(0);
+  
   return (
-    <Panel className="relative" hasTabs>
-      <div
-        className="absolute flex"
-        style={{
-          top: `${PIXEL_SCALE * 1}px`,
-          left: `${PIXEL_SCALE * 1}px`,
-          right: `${PIXEL_SCALE * 1}px`,
-        }}
-      >
-        <Tab isActive>
-          <img src={SUNNYSIDE.icons.player} className="h-5 mr-2" />
-          <span className="text-sm">{t("achievements")}</span>
-        </Tab>
-        <img
-          src={SUNNYSIDE.icons.close}
-          className="absolute cursor-pointer z-20"
-          onClick={onClose}
-          style={{
-            top: `${PIXEL_SCALE * 1}px`,
-            right: `${PIXEL_SCALE * 1}px`,
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
-        />
-      </div>
-
+    <CloseButtonPanel
+      currentTab={tab}
+      setCurrentTab={setTab}
+      tabs={[{ icon: SUNNYSIDE.icons.player, name: "Achievements" }]}
+      onClose={onClose}
+    >
+      {/* @note: There is only one tab, no extra judgment is needed. */}
       <Achievements onBack={onBack} onClose={onClose} readonly={readonly} />
-    </Panel>
+    </CloseButtonPanel>
   );
 };

@@ -311,8 +311,15 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
 
   const [showIntro, setShowIntro] = React.useState(!hasRead());
 
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+  const dailyFishingCount = getDailyFishingCount(state);
+
   const [showFishFrenzy, setShowFishFrenzy] = React.useState(
-    weather === "Fish Frenzy"
+    weather === "Fish Frenzy" && dailyFishingCount === 0
   );
 
   const [tab, setTab] = useState(0);
