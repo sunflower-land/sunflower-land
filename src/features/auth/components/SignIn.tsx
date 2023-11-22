@@ -17,6 +17,7 @@ import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { getPromoCode, savePromoCode } from "features/game/actions/loadSession";
 import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { CONFIG } from "lib/config";
 
 const OtherWallets = () => {
   const { authService } = useContext(Context);
@@ -191,6 +192,13 @@ export const SignIn = () => {
             />
             {t("welcome.otherWallets")}
           </div>
+        </Button>
+        <Button
+          onClick={() =>
+            (window.location.href = `${CONFIG.API_URL}/auth/google/authorize`)
+          }
+        >
+          Google
         </Button>
       </>
     );

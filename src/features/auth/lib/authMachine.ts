@@ -47,6 +47,11 @@ const getPromoCode = () => {
   return code;
 };
 
+const getToken = () => {
+  const token = new URLSearchParams(window.location.search).get("token");
+  return token;
+};
+
 const deleteFarmUrl = () =>
   window.history.pushState({}, "", window.location.pathname);
 
@@ -206,6 +211,11 @@ export const authMachine = createMachine(
           }
         },
         always: [
+          {
+            target: "connected",
+            cond: () => !!getToken(),
+            actions: "assignWeb2Token",
+          },
           {
             target: "welcome",
             cond: () => !getOnboardingComplete(),
@@ -504,6 +514,13 @@ export const authMachine = createMachine(
           ...context.user,
           token: decodeToken(event.data.token),
           rawToken: event.data.token,
+        }),
+      }),
+      assignWeb2Token: assign<Context, any>({
+        user: (context, event) => ({
+          ...context.user,
+          token: decodeToken(getToken() as string),
+          rawToken: getToken() as string,
         }),
       }),
       assignErrorMessage: assign<Context, any>({
