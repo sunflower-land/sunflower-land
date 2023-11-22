@@ -632,7 +632,13 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
-
+            {
+              target: "noBumpkinFound",
+              cond: (context: Context, event: any) =>
+                !event.data?.state.bumpkin &&
+                !context.state.bumpkin &&
+                window.location.hash.includes("/land"),
+            },
             {
               target: "introduction",
               cond: (context) => {
@@ -662,14 +668,6 @@ export function startGame(authContext: AuthContext) {
               cond: () => isSwarming(),
             },
             // TODO - introduction > tutorial_begin
-
-            {
-              target: "noBumpkinFound",
-              cond: (context: Context, event: any) =>
-                !event.data?.state.bumpkin &&
-                !context.state.bumpkin &&
-                window.location.hash.includes("/land"),
-            },
             {
               target: "noTownCenter",
               cond: (context: Context) => {
@@ -773,7 +771,7 @@ export function startGame(authContext: AuthContext) {
           on: {
             "airdrop.claimed": (GAME_EVENT_HANDLERS as any)["airdrop.claimed"],
             CLOSE: {
-              target: "playing",
+              target: "notifying",
             },
           },
         },
