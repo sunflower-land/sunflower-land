@@ -1,24 +1,25 @@
 export type TranslationKeys =
-  | WelcomeTerms
-  | GeneralTerms
-  | GameTerms
-  | RulesTerms
-  | SeasonBannerOffer
-  | Intro
   | AchievementsDialog
-  | GuideTerms
-  | Conversations
-  | HenHouseTerms
-  | ShopItems
-  | RewardTerms
+  | BumpkinPartRequirements
+  | BumpkinTrade
   | ConfirmationTerms
+  | Conversations
   | ErrorTerms
-  | WarningTerms
-  | TransactionTerms
+  | GameTerms
+  | GeneralTerms
+  | GuideTerms
+  | HenHouseTerms
+  | Intro
   | Onboarding
   | Questions
+  | RewardTerms
+  | RulesTerms
+  | SeasonBannerOffer
+  | ShopItems
   | Statements
-  | BumpkinTrade;
+  | TransactionTerms
+  | WarningTerms
+  | WelcomeTerms;
 
 export type GeneralTerms =
   | "2x.sale"
@@ -426,3 +427,11 @@ export type BumpkinTrade =
   | "bumpkinTrade.noTradeLs"
   | "bumpkinTrade.sell"
   | "bumpkinTrade.list";
+
+export type BumpkinPartRequirements =
+  | "part.hair"
+  | "part.body"
+  | "part.shoes"
+  | "part.shirt"
+  | "part.pants"
+  | "part.background";
