@@ -102,10 +102,10 @@ const generalTerms: Record<GeneralTerms, string> = {
 
 const gameTerms: Record<GameTerms, string> = {
   blockBucks: "Block Bucks",
+  bumpkinLvl: "Bumpkin level",
   dailyLim: "Daily SFL Limit",
   gobSwarm: "Goblin Swarm!",
   potions: "Potions",
-  bumpkinLvl: "Bumpkin level",
   sflDiscord: "Sunflower Land Discord Server",
 };
 
@@ -114,37 +114,37 @@ const confirmationTerms: Record<ConfirmationTerms, string> = {
 };
 
 const welcomeTerms: Record<WelcomeTerms, string> = {
-  "welcome.otherWallets": "Other wallets",
-  "welcome.needHelp": "Need help?",
   "welcome.createAccount": "Create account",
   "welcome.creatingAccount": "Creating your account",
+  "welcome.email": "Email & Social Login",
   "welcome.login": "Login",
+  "welcome.needHelp": "Need help?",
+  "welcome.otherWallets": "Other wallets",
   "welcome.signingIn": "Signing you in",
   "welcome.signInMessage":
     "Accept the signature request in your browser wallet to login.",
-  "welcome.email": "Email & Social Login",
 };
 
 const rulesTerms: Record<RulesTerms, string> = {
   rules: "Game Rules",
   "rules.accounts": "1 account per player",
-  "rules.noBots": "No botting or automation",
   "rules.game": "This is a game. Not a financial product.",
+  "rules.noBots": "No botting or automation",
   "rules.termsOfService": "Terms of Service",
 };
 
 const seasonBannerOffer: Record<SeasonBannerOffer, string> = {
-  "season.goodLuck": "Good luck in the season!",
-  "season.discount": "25% SFL discount on seasonal items",
+  "season.accessTo": "You have access to:",
   "season.banner": "Seasonal Banner",
-  "season.wearableAirdrop": "Seasonal Wearable Airdrop",
   "season.bonusTickets": "Bonus Seasonal Tickets",
   "season.boostXP": "+10% EXP from food",
+  "season.buyNow": "Buy Now",
+  "season.discount": "25% SFL discount on seasonal items",
   "season.exclusiveOffer": "Exclusive offer!",
+  "season.goodLuck": "Good luck in the season!",
   "season.includes": "Includes:",
   "season.limitedOffer": " Limited time only!",
-  "season.accessTo": "You have access to:",
-  "season.buyNow": "Buy Now",
+  "season.wearableAirdrop": "Seasonal Wearable Airdrop",
 };
 
 const introTerms: Record<Intro, string> = {
@@ -398,10 +398,18 @@ const rewardTerms: Record<RewardTerms, string> = {
 };
 
 const errorTerms: Record<ErrorTerms, string> = {
+  "error.blocked.betaTestersOnly": "Beta testers only!",
   "error.congestion.one":
     "We are trying our best but looks like Polygon is getting a lot of traffic or you have lost your connection.",
   "error.congestion.two":
     "If this error continues please try changing your Metamask RPC",
+  "error.connection.one":
+    "It looks like we were unable to complete this request.",
+  "error.connection.two": "It may be a simple connection issue.",
+  "error.connection.three": "You can click refresh to try again.",
+  "error.connection.four":
+    "If the issue remains, you can reach out for help by either contacting our support team or jumping over to our discord and asking our community.",
+  "error.diagnostic.info": "Diagnostic Information",
   "error.forbidden.goblinVillage":
     "You are not allowed to visit Goblin Village!",
   "error.multipleDevices.one": "Multiple devices open",
@@ -410,20 +418,12 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.multipleWallets.one": "Multiple Wallets",
   "error.multipleWallets.two":
     "It looks like you have multiple wallets installed. This can cause unexpected behaviour.Try to disable all but one wallet.",
+  "error.polygonRPC": "Please try again or check your Polygon RPC settings.",
   "error.toManyRequest.one": "Too many requests!",
   "error.toManyRequest.two":
     "Looks like you have been busy! Please try again later.",
-  "error.blocked.betaTestersOnly": "Beta testers only!",
-  "error.wentWrong": "Something went wrong!",
-  "error.polygonRPC": "Please try again or check your Polygon RPC settings.",
-  "error.connection.one":
-    "It looks like we were unable to complete this request.",
-  "error.connection.two": "It may be a simple connection issue.",
-  "error.connection.three": "You can click refresh to try again.",
-  "error.connection.four":
-    "If the issue remains, you can reach out for help by either contacting our support team or jumping over to our discord and asking our community.",
-  "error.diagnostic.info": "Diagnostic Information",
   "error.Web3NotFound": "Web3 Not Found",
+  "error.wentWrong": "Something went wrong!",
 };
 
 const warningTerms: Record<WarningTerms, string> = {
@@ -592,26 +592,26 @@ const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
-  ...generalTerms,
-  ...gameTerms,
-  ...welcomeTerms,
-  ...rulesTerms,
-  ...seasonBannerOffer,
-  ...introTerms,
   ...achievementTerms,
-  ...guideTerms,
-  ...conversations,
-  ...henHouseTerms,
-  ...shopItems,
-  ...rewardTerms,
+  ...bumpkinPartRequirements,
+  ...bumpkinTrade,
   ...confirmationTerms,
+  ...conversations,
   ...errorTerms,
-  ...warningTerms,
-  ...transactionTerms,
+  ...gameTerms,
+  ...gameTerms,
+  ...generalTerms,
+  ...guideTerms,
+  ...henHouseTerms,
+  ...introTerms,
   ...onboarding,
   ...questions,
+  ...rewardTerms,
+  ...rulesTerms,
+  ...seasonBannerOffer,
+  ...shopItems,
   ...statements,
-  ...bumpkinTrade,
-  ...gameTerms,
-  ...bumpkinPartRequirements,
+  ...transactionTerms,
+  ...warningTerms,
+  ...welcomeTerms,
 };
