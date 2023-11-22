@@ -85,6 +85,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   skills: "Skills",
   sound: "Sound Effects: ",
   success: "Success!",
+  "support.team": "Support Team",
   swapping: "Swapping",
   syncing: "Syncing",
   task: "Task",
@@ -417,6 +418,8 @@ const errorTerms: Record<ErrorTerms, string> = {
     "It looks like we were unable to complete this request.",
   "error.connection.two": "It may be a simple connection issue.",
   "error.connection.three": "You can click refresh to try again.",
+  "error.connection.four":
+    "If the issue remains, you can reach out for help by either contacting our support team or jumping over to our discord and asking our community.",
   "error.diagnostic.info": "Diagnostic Information",
   "error.Web3NotFound": "Web3 Not Found",
 };

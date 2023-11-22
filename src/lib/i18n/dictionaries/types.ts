@@ -86,6 +86,7 @@ export type GeneralTerms =
   | "skills"
   | "sound"
   | "success"
+  | "support.team"
   | "swapping"
   | "syncing"
   | "task"
@@ -308,6 +309,7 @@ export type ErrorTerms =
   | "error.connection.one"
   | "error.connection.two"
   | "error.connection.three"
+  | "error.connection.four"
   | "error.diagnostic.info"
   | "error.Web3NotFound";
 

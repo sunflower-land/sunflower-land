@@ -66,27 +66,24 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
           <p>{t("error.connection.one")}</p>
           <p>{t("error.connection.two")}</p>
           <p>{t("error.connection.three")}</p>
+          <p>{t("error.connection.four")}</p>
           <p>
-            If the issue remains, you can reach out for help by either
-            contacting our{" "}
             <a
               className="underline"
               href="https://sunflowerland.freshdesk.com"
               target="_blank"
               rel="noopener noreferrer"
             >
-              support team{" "}
+              {t("support.team")}{" "}
             </a>
-            or jumping over to our{" "}
             <a
               className="underline"
               target="_blank"
               href="https://discord.gg/sunflowerland"
               rel="noreferrer"
             >
-              discord
-            </a>{" "}
-            and asking our community.
+              Discord
+            </a>
           </p>
         </div>
         <div className="flex flex-col w-full text-left mb-2 text-[12px] overflow-hidden">
