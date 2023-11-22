@@ -35,6 +35,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   clear: "Clear",
   close: "Close",
   comingSoon: "Coming soon",
+  congrats: "Congratulations!",
   connected: "Connected",
   connecting: "Connecting",
   continue: "Continue",
@@ -42,6 +43,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   date: "Date",
   delivery: "Delivery",
   details: "Details",
+  equip: "Equip",
   error: "Error",
   exotics: "Exotics",
   farm: "Farm",
@@ -50,17 +52,23 @@ const generalTerms: Record<GeneralTerms, string> = {
   forbidden: "Forbidden",
   fruit: "Fruit",
   fruits: "Fruits",
+  gotIt: "Got it",
   guide: "Guide",
+  item: "Item:",
+  lastUpdated: "Last updated: ",
   letsGo: "Let's Go!",
   list: "List",
   loading: "Loading",
   lvl: "Level",
   maintenance: "Maintenance",
   mint: "Mint",
+  minting: "minting",
   nextSkillPtLvl: "Next skill point: level",
   noThanks: "No thanks",
   ok: "OK",
   print: "Print",
+  purchasing: "Purchasing",
+  rank: "Rank",
   readMore: "Read more",
   refresh: "Refresh",
   refreshing: "Refreshing",
@@ -75,16 +83,26 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sell.ten": "Sell 10",
   skillPts: "Skill Points:",
   skills: "Skills",
+  sound: "Sound Effects: ",
+  success: "Success!",
   swapping: "Swapping",
+  syncing: "Syncing",
   task: "Task",
+  total: "Total",
   tryAgain: "Try again",
+  verify: "Verify",
   version: "Version",
   viewAll: "View all",
   wallet: "Wallet",
+  welcome: "Welcome!",
 };
 
 const gameTerms: Record<GameTerms, string> = {
   blockBucks: "Block Bucks",
+  dailyLim: "Daily SFL Limit",
+  gobSwarm: "Goblin Swarm!",
+  potions: "Potions",
+  bumpkinLvl: "Bumpkin level",
   sflDiscord: "Sunflower Land Discord Server",
 };
 
@@ -418,6 +436,40 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.rejected": "Transaction Rejected!",
   "transaction.message":
     "This request will not trigger a blockchain transaction or cost any gas fees.",
+  "transaction.maticAmount": "Amount in MATIC",
+  "transaction.donate": "Donate",
+  "transaction.donating": "Donating",
+  "transaction.thankYou":
+    "Thank you for your support! Kindly choose the game that you like donate to.",
+  "transaction.minblockbucks": "Minimum 5 Block Bucks",
+  "transaction.payCash": "Pay with Cash",
+  "transaction.matic": "Matic",
+  "transaction.payMatic": "Pay with Matic",
+  "transaction.blockBucksFarm": "Block bucks will be stored on your farm.",
+  "transaction.excludeFees": "*Prices exclude transaction fees.",
+  "transaction.blockchain.one":
+    "Do you wish to store your progress on the Blockchain?",
+  "transaction.blockchain.two":
+    "Storing data on the Blockchain does not restock shops.",
+  "transaction.progress": "Store progress",
+  "transaction.progChain": "Store progress on chain",
+  "transaction.success": "Woohoo! Your items are secured on the Blockchain!",
+  "transaction.congrats": "Congratulations, your trade was successful",
+  "transaction.transacting.one": "Processing your transaction.",
+  "transaction.transacting.two":
+    "Please wait for your transaction to be confirmed by the Blockchain.",
+  "transaction.transacting.three":
+    "After 5 minutes, any unconfirmed transactions will be reset.",
+  "transaction.withdraw.one": "Withdrawing",
+  "transaction.withdraw.two": "Your items/tokens have been sent to:",
+  "transaction.withdraw.three": "You can view your items on",
+  "transaction.openSea": "OpenSea",
+  "transaction.withdraw.four":
+    "You can view your tokens by importing the SFL Token to your wallet.",
+  "transaction.withdraw.five": "Import SFL Token to MetaMask",
+  "transaction.withdraw.six":
+    "Please note that OpenSea can take up to 30 minutes to display your items. You can also view your items on",
+  "transaction.withdraw.polygon": "PolygonScan",
   "transaction.id": "Transaction ID",
 };
 
@@ -455,6 +507,58 @@ const statements: Record<Statements, string> = {
   "statements.guide.two": "Check out this guide to help you get started.",
   "statements.switchNetwork": "Add or Switch Network",
   "statements.lvlUp": "Feed your Bumpkin to level up",
+  "statements.thankYou": "Thank you!",
+  "statements.ohNo": "Oh no! Something went wrong!",
+  "statements.blacklist.one":
+    "The anti-bot and multi-account detection system has picked up strange behaviour. Actions have been restricted.",
+  "statements.blacklist.two":
+    "Please submit a ticket with details and we will get back to you.",
+  "statements.clock.one":
+    "Uh oh, it looks like your clock is not in sync with the game. Set date and time to automatic to avoid disruptions",
+  "statements.clock.two":
+    "Need help to sync your clock? Have a look at our guide!",
+  "statements.openGuide": "Open guide",
+  "statements.cooldown":
+    "To protect the community, we require a 2 week waiting period before this farm can be accessed.",
+  "statements.jigger.one":
+    "You will be redirected to a 3rd party service to take a quick selfie. Never share any personal information or crypto data.",
+  "statements.jigger.two": "You failed the Jigger Proof of Humanity.",
+  "statements.jigger.three":
+    "You can continue playing, but some actions will be restricted while you are being verified.",
+  "statements.jigger.four":
+    "Please reach out to support@usejigger.com if you beleive this was a mistake.",
+  "statements.jigger.five":
+    "Your proof of humanity is still being processed by Jigger. This can take up to 2 hours.",
+  "statements.patience": "Thank you for your patience.",
+  "statements.jigger.six":
+    "The multi-account detection system has picked up strange behaviour.",
+  "statements.jigger.seven":
+    "You can continue playing, but some actions will be restricted while you are being verified.",
+  "statements.minted": "The goblins have crafted your ",
+  "statements.minting":
+    "Please be patient while your item is minted on the Blockchain.",
+  "statements.news":
+    "Recieve the latest news, complete chores & feed your Bumpkin.",
+  "statements.dontRefresh": "Do not refresh your browser!",
+  "statements.sflLim.one": "You have reached the daily SFL limit.",
+  "statements.sflLim.two":
+    "You can continue playing, but will need to wait until tomorrow to sync again.",
+  "statements.sniped": "Oh no! Another player bought that trade before you.",
+  "statements.tapCont": "Tap to continue",
+  "statements.sync":
+    "Please bear with us while we sync all of your data on chain.",
+  "statements.clickBottle": "Click on a bottle to add to your guess",
+  "statements.potionRule.one":
+    "Objective: Figure out the combination. You have 3 tries to get it right. The game will end if you have a perfect potion or if you run out of tries.",
+  "statements.potionRule.two":
+    "Choose a combination of potions and attempt to mix them.",
+  "statements.potionRule.three":
+    "Adjust your next combination based on the feedback given.",
+  "statements.potionRule.four":
+    "When the game is complete, the score for your last attempt will determine help to determine your reward.",
+  "statements.potionRule.five": "A perfect potion in the perfect position",
+  "statements.potionRule.six": "Correct potion but wrong position",
+  "statements.potionRule.seven": "Oops, wrong potion",
   "statements.beta.one": "Beta is only accessible to our OG farmers.",
   "statements.beta.two": "Stay tuned for updates. We will be going live soon!",
 };
@@ -489,4 +593,5 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...questions,
   ...statements,
   ...bumpkinTrade,
+  ...gameTerms,
 };

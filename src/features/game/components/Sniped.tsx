@@ -16,9 +16,7 @@ export const Sniped: React.FC = () => {
   return (
     <div className="p-2">
       <img src={SUNNYSIDE.icons.cancel} className="mx-auto w-1/5 my-2" />
-      <p className="text-sm mb-2 text-center">
-        Oh no! Another player bought that trade before you.
-      </p>
+      <p className="text-sm mb-2 text-center">{t("statements.sniped")}</p>
       <Button onClick={onAcknowledge}>{t("continue")}</Button>
     </div>
   );

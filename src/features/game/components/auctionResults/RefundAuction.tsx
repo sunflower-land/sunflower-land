@@ -21,7 +21,7 @@ export const RefundAuction: React.FC = () => {
       : getImageUrl(ITEM_IDS[bid.wearable!]);
 
   const onClose = () => {
-    gameService.send("CLOSE");
+    gameService.send("CLOSE"); // translation needed (line 24, 29, 36)
   };
 
   return (

@@ -42,7 +42,7 @@ export const ModalProvider: FC = ({ children }) => {
       {children}
 
       <BlockBucksModal
-        show={opened === "BUY_BLOCK_BUCKS"}
+        show={opened === "BUY_BLOCK_BUCKS"} // Translation needed (line 45, 51, 55, 59)
         onClose={handleClose}
         closeable={closeable}
         setCloseable={setCloseable}
@@ -60,13 +60,13 @@ export const ModalProvider: FC = ({ children }) => {
         <SpeakingModal
           message={[
             {
-              text: "Congratulations, Bumpkin! Your farm is growing faster than a beanstalk in a rainstorm!",
+              text: "Congratulations, Bumpkin! Your farm is growing faster than a beanstalk in a rainstorm!", // Translation needed
             },
             {
-              text: "With each expansion, you'll find cool stuff like special resources, new trees, and more to collect!",
+              text: "With each expansion, you'll find cool stuff like special resources, new trees, and more to collect!", // Translation needed
             },
             {
-              text: "Keep an eye out for surprise gifts from the generous goblins as you explore—they're not just expert builders, but crafty secret givers!",
+              text: "Keep an eye out for surprise gifts from the generous goblins as you explore—they're not just expert builders, but crafty secret givers!", // Translation needed
             },
           ]}
           onClose={handleClose}
@@ -77,16 +77,16 @@ export const ModalProvider: FC = ({ children }) => {
         <SpeakingModal
           message={[
             {
-              text: "Hey there, Bumpkin! It's Betty from the farmer's market. I travel between islands to buy crops and sell fresh seeds.",
+              text: "Hey there, Bumpkin! It's Betty from the farmer's market. I travel between islands to buy crops and sell fresh seeds.", // Translation needed
             },
             {
-              text: "Good news: you just stumbled upon a shiny new shovel! Bad news: we've hit a bit of a crop shortage.",
+              text: "Good news: you just stumbled upon a shiny new shovel! Bad news: we've hit a bit of a crop shortage.", // Translation needed
             },
             {
-              text: "For a limited time I am offering newcomers double the money for any crops you bring to me.",
+              text: "For a limited time I am offering newcomers double the money for any crops you bring to me.", // Translation needed
             },
             {
-              text: "Harvest those Sunflowers and let's start your farming empire.",
+              text: "Harvest those Sunflowers and let's start your farming empire.", // Translation needed
             },
           ]}
           onClose={handleClose}
@@ -97,33 +97,33 @@ export const ModalProvider: FC = ({ children }) => {
         <SpeakingModal
           message={[
             {
-              text: "Hmm, those crops are growing slow.",
+              text: "Hmm, those crops are growing slow.", // Translation needed
             },
             {
-              text: "Sunflower Land is full of magical items you can craft to enhance your farming abilities.",
+              text: "Sunflower Land is full of magical items you can craft to enhance your farming abilities.", // Translation needed
             },
             {
-              text: "Head over to the work bench and craft a scarecrow to speed up those Sunflowers.",
+              text: "Head over to the work bench and craft a scarecrow to speed up those Sunflowers.", // Translation needed
             },
           ]}
           onClose={handleClose}
-          bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
+          bumpkinParts={NPC_WEARABLES["pumpkin' pete"]} // Translation needed
         />
       </Modal>
       <Modal centered show={opened === "THIRD_LEVEL"}>
         <SpeakingModal
           message={[
             {
-              text: "Congratulations, your green thumb is truly shining!",
+              text: "Congratulations, your green thumb is truly shining!", // Translation needed
             },
             {
-              text: "It's high time we head to the Plaza, where your farming prowess can shine even brighter.",
+              text: "It's high time we head to the Plaza, where your farming prowess can shine even brighter.", // Translation needed
             },
             {
-              text: "At the plaza you can deliver your resources for rewards, craft magical items & trade with other players.",
+              text: "At the plaza you can deliver your resources for rewards, craft magical items & trade with other players.", // Translation needed
             },
             {
-              text: "You can travel by clicking on the world icon in the bottom left.",
+              text: "You can travel by clicking on the world icon in the bottom left.", // Translation needed
             },
           ]}
           onClose={handleClose}

@@ -55,6 +55,7 @@ export const Conversation: React.FC<Props> = ({
   const Content = () => {
     if (showReward && conversation.reward) {
       return (
+        // Translation needed (line 59,81, 103, 115)
         <>
           <p className="text-center">{`I've got something for you!`}</p>
 

@@ -17,7 +17,7 @@ export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
   React.useEffect(() => {
     setLoaded(true);
   }, []);
-
+  // Translation needed for lines 45-54, 96, 100
   return (
     <>
       <div className="p-2 pt-0 flex flex-col h-full">

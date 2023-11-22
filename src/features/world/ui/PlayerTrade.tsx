@@ -55,7 +55,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
     };
 
     load();
-  }, []);
+  });
 
   const level = getBumpkinLevel(
     gameState.context.state.bumpkin?.experience ?? 0

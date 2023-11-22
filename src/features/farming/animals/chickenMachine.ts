@@ -11,26 +11,26 @@ export interface ChickenContext {
 
 export type ChickenState = {
   value:
-    | "hungry"
-    | "eating"
-    | "fed"
-    | { fed: "sleeping" }
-    | { fed: "happy" }
-    | "eggReady"
-    | "eggLaid";
+    | "hungry" // Translation needed
+    | "eating" // Translation needed
+    | "fed" // Translation needed
+    | { fed: "sleeping" } // Translation needed
+    | { fed: "happy" } // Translation needed
+    | "eggReady" // Translation needed
+    | "eggLaid"; // Translation needed
   context: ChickenContext;
 };
 
 type ChickenFeedEvent = {
-  type: "FEED";
+  type: "FEED"; // Translation needed
   fedAt: number;
 };
 
 type ChickenEvent =
   | ChickenFeedEvent
-  | { type: "COLLECT" }
-  | { type: "TICK" }
-  | { type: "LAY" };
+  | { type: "COLLECT" } // Translation needed
+  | { type: "TICK" } // Translation needed
+  | { type: "LAY" }; // Translation needed
 
 export type MachineState = State<ChickenContext, ChickenEvent, ChickenState>;
 
@@ -69,7 +69,7 @@ export const chickenMachine = createMachine<
   ChickenState
 >(
   {
-    initial: "loading",
+    initial: "loading", // Translation needed
     context: {
       timeElapsed: 0,
       timeInCurrentState: 0,
@@ -79,20 +79,20 @@ export const chickenMachine = createMachine<
       loading: {
         always: [
           {
-            target: "hungry",
+            target: "hungry", // Translation needed
             cond: (context) => isNaN(context.fedAt as number),
           },
           {
-            target: "eggReady",
+            target: "eggReady", // Translation needed
             cond: (context) => context.timeToEgg === 0,
           },
-          { target: "fed", actions: assignRandomTimeInState },
+          { target: "fed", actions: assignRandomTimeInState }, // Translation needed
         ],
       },
       hungry: {
         on: {
           FEED: {
-            target: "eating",
+            target: "eating", // Translation needed
             actions: assignFeedDetails,
           },
         },
@@ -100,17 +100,17 @@ export const chickenMachine = createMachine<
       eating: {
         after: {
           5250: {
-            target: "fed",
+            target: "fed", // Translation needed
             actions: assignRandomTimeInState,
           },
         },
       },
       fed: {
-        initial: "happy",
+        initial: "happy", // Translation needed
         invoke: {
           src: () => (cb) => {
             const interval = setInterval(() => {
-              cb("TICK");
+              cb("TICK"); // Translation needed
             }, 1000);
 
             return () => {
@@ -120,15 +120,15 @@ export const chickenMachine = createMachine<
         },
         states: {
           happy: {
-            id: "happy",
+            id: "happy", // Translation needed
             always: [
               {
-                target: "#eggReady",
-                cond: "isEggReady",
+                target: "#eggReady", // Translation needed
+                cond: "isEggReady", // Translation needed
               },
               {
-                target: "sleeping",
-                cond: "timeToTransition",
+                target: "sleeping", // Translation needed
+                cond: "timeToTransition", // Translation needed
                 actions: assignRandomTimeInState,
               },
             ],
@@ -136,12 +136,12 @@ export const chickenMachine = createMachine<
           sleeping: {
             always: [
               {
-                target: "#eggReady",
-                cond: "isEggReady",
+                target: "#eggReady", // Translation needed
+                cond: "isEggReady", // Translation needed
               },
               {
-                target: "happy",
-                cond: "timeToTransition",
+                target: "happy", // Translation needed
+                cond: "timeToTransition", // Translation needed
                 actions: assignRandomTimeInState,
               },
             ],
@@ -154,17 +154,17 @@ export const chickenMachine = createMachine<
         },
       },
       eggReady: {
-        id: "eggReady",
+        id: "eggReady", // Translation needed
         on: {
           LAY: {
-            target: "eggLaid",
+            target: "eggLaid", // Translation needed
           },
         },
       },
       eggLaid: {
         on: {
           COLLECT: {
-            target: "hungry",
+            target: "hungry", // Translation needed
             actions: reset,
           },
         },

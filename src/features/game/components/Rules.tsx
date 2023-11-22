@@ -18,7 +18,7 @@ export const Rules: React.FC = () => {
 
   return (
     <div className=" p-2">
-      <p className="text-lg text-center">Game Rules</p>
+      <p className="text-lg text-center">{t("rules")}</p>
       <div className="flex mt-4">
         <div className="w-16 flex justify-center">
           <img src={SUNNYSIDE.icons.player} className="h-8" />

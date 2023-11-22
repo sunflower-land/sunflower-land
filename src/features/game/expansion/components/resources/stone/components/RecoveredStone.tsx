@@ -20,6 +20,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const tool = "Pickaxe";
 
@@ -48,7 +49,7 @@ const RecoveredStoneComponent: React.FC<Props> = ({
   const [showBumpkinLevel, setShowBumpkinLevel] = useState(false);
 
   const strikeGif = useRef<SpriteSheetInstance>();
-
+  const { t } = useAppTranslation();
   // prevent performing react state update on an unmounted component
   useEffect(() => {
     return () => {
@@ -174,7 +175,9 @@ const RecoveredStoneComponent: React.FC<Props> = ({
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>Bumpkin level {bumpkinLevelRequired} required.</span>
+              <span>
+                {t("bumpkinLvl")} {bumpkinLevelRequired} required.
+              </span>
             </div>
           </InnerPanel>
         </div>
@@ -190,7 +193,9 @@ const RecoveredStoneComponent: React.FC<Props> = ({
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>Equip {tool.toLowerCase()}</span>
+              <span>
+                {t("equip")} {tool.toLowerCase()}
+              </span>
             </div>
           </InnerPanel>
         </div>

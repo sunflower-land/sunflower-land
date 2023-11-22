@@ -38,7 +38,7 @@ export const Revealed: React.FC<{
   return (
     <>
       <div className="flex flex-col items-center p-2">
-        <p className="text-center text-base mb-3">Congratulations!</p>
+        <p className="text-center text-base mb-3">{t("congrats")}</p>
 
         {streaks && streakBonus && (
           <Label type="info" className="px-0.5 text-sm">

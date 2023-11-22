@@ -13,36 +13,36 @@ export const POTIONS: Record<PotionName, Potion> = {
   "Bloom Boost": {
     name: "Bloom Boost",
     image: orangeBottle,
-    description: "Ignite your plants with vibrant blooms!",
+    description: "Ignite your plants with vibrant blooms!", // Translation required
   },
   "Dream Drip": {
     name: "Dream Drip",
     image: mustardBottle,
-    description: "Drizzle your plants with magical dreams and fantasies.",
+    description: "Drizzle your plants with magical dreams and fantasies.", // Translation required
   },
   "Earth Essence": {
     name: "Earth Essence",
     image: pinkBottle,
-    description: "Harness the power of the earth to nurture your plants.",
+    description: "Harness the power of the earth to nurture your plants.", // Translation required
   },
   "Flower Power": {
     name: "Flower Power",
     image: blackBottle,
-    description: "Unleash a burst of floral energy upon your plants.",
+    description: "Unleash a burst of floral energy upon your plants.", // Translation required
   },
   "Silver Syrup": {
     name: "Silver Syrup",
     image: whiteBottle,
-    description: "A sweet syrup to bring out the best in your plants.",
+    description: "A sweet syrup to bring out the best in your plants.", // Translation required
   },
   "Happy Hooch": {
     name: "Happy Hooch",
     image: blueBottle,
-    description: "A potion to bring joy and laughter to your plants.",
+    description: "A potion to bring joy and laughter to your plants.", // Translation required
   },
   "Organic Oasis": {
     name: "Organic Oasis",
     image: greenBottle,
-    description: "Create a lush, organic paradise for your plants.",
+    description: "Create a lush, organic paradise for your plants.", // Translation required
   },
 };

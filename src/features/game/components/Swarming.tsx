@@ -32,11 +32,11 @@ export const Swarming: React.FC = () => {
   const onAcknowledge = () => {
     gameService.send("REFRESH");
   };
-
+  // Translation needed for line 57, 60
   return (
     <>
       <div className="flex flex-col items-center p-2">
-        <span className="text-center text-base">Goblin Swarm!</span>
+        <span className="text-center text-base">{t("gobSwarm")}</span>
         <div className="flex items-end my-2">
           <img
             src={SUNNYSIDE.npcs.goblin}

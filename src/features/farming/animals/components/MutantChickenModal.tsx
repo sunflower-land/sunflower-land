@@ -15,27 +15,27 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const mutants: Record<MutantChicken, Record<string, string>> = {
   "Speed Chicken": {
-    description: "Your chickens will now produce eggs 10% faster.",
+    description: "Your chickens will now produce eggs 10% faster.", // May need translation
     image: speedChicken,
   },
   "Fat Chicken": {
-    description: "Your chickens will now require 10% less wheat per feed.",
+    description: "Your chickens will now require 10% less wheat per feed.", // May need translation
     image: fatChicken,
   },
   "Rich Chicken": {
-    description: "Your chickens will now yield 10% more eggs.",
+    description: "Your chickens will now yield 10% more eggs.", // May need translation
     image: richChicken,
   },
   "Ayam Cemani": {
-    description: "The rarest chicken in existence!",
+    description: "The rarest chicken in existence!", // May need translation
     image: ayamCemani,
   },
   "El Pollo Veloz": {
-    description: "Your chickens will lay eggs 4 hours faster!",
+    description: "Your chickens will lay eggs 4 hours faster!", // May need translation
     image: elPolloVeloz,
   },
   "Banana Chicken": {
-    description: "A chicken that boosts bananas. What a world we live in.",
+    description: "A chicken that boosts bananas. What a world we live in.", // May need translation (also line 59)
     image: bananaChicken,
   },
 };

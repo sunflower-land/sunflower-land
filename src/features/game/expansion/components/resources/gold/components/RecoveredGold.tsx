@@ -19,6 +19,7 @@ import { ZoomContext } from "components/ZoomProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { t } from "i18next";
 
 const tool = "Iron Pickaxe";
 
@@ -159,7 +160,9 @@ const RecoveredGoldComponent: React.FC<Props> = ({
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>Bumpkin level {bumpkinLevelRequired} required.</span>
+              <span>
+                {t("bumpkinLvl")} {bumpkinLevelRequired} required.
+              </span>
             </div>
           </InnerPanel>
         </div>
@@ -175,7 +178,9 @@ const RecoveredGoldComponent: React.FC<Props> = ({
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>Equip {tool.toLowerCase()}</span>
+              <span>
+                {t("equip")} {tool.toLowerCase()}
+              </span>
             </div>
           </InnerPanel>
         </div>

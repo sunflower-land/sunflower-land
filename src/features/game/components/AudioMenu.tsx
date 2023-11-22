@@ -10,6 +10,7 @@ import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "./CloseablePanel";
 import { Song } from "assets/songs/playlist";
 import { PIXEL_SCALE } from "../lib/constants";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 enum AudioLocalStorageKeys {
   audioMuted = "settings.audioMuted",
@@ -49,6 +50,7 @@ export const AudioMenu: React.FC<Props> = ({
   show,
   onClose,
 }) => {
+  const { t } = useAppTranslation();
   const [audioMuted, setAudioMuted] = useState<boolean>(
     getCachedAudioSetting<boolean>(AudioLocalStorageKeys.audioMuted, false)
   );
@@ -142,7 +144,10 @@ export const AudioMenu: React.FC<Props> = ({
           </div>
 
           {/* Sound effects controls */}
-          <p className="mb-2">Sound Effects: {audioMuted ? "Off" : "On"}</p>
+          <p className="mb-2">
+            {t("sound")}
+            {audioMuted ? "Off" : "On"}
+          </p>
           <img
             src={audioMuted ? sound_off : sound_on}
             className="cursor-pointer hover:img-highlight"

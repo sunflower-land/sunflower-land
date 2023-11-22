@@ -38,7 +38,7 @@ export const Hoarding: React.FC = () => {
     const startsWithVowel = regex.test(maxedItem);
     const indefiniteArticle = startsWithVowel ? "an" : "a";
 
-    return `Are you ${indefiniteArticle} ${itemName} hoarder?!`;
+    return `Are you ${indefiniteArticle} ${itemName} hoarder?!`; //may need translation (Lines 41, 61, 64)
   };
 
   return (
@@ -73,7 +73,7 @@ export const Hoarding: React.FC = () => {
           </a>
         </div>
       </div>
-      <Button onClick={sync}>Store progress on chain</Button>
+      <Button onClick={sync}>{t("transaction.progChain")}</Button>
     </>
   );
 };
