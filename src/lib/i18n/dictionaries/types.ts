@@ -52,6 +52,7 @@ export type GeneralTerms =
   | "back"
   | "forbidden"
   | "refreshing"
+  | "refresh"
   | "tryAgain"
   | "claim"
   | "alrClaim"

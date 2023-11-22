@@ -54,6 +54,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   back: "Back",
   forbidden: "Forbidden",
   refreshing: "Refreshing",
+  refresh: "Refresh",
   tryAgain: "Try again",
   claim: "Claim",
   alrClaim: "Already Claimed!",

@@ -5,9 +5,11 @@ import humanDeath from "assets/npcs/human_death.gif";
 import { Button } from "components/ui/Button";
 import { wallet } from "lib/blockchain/wallet";
 import { removeSession } from "../actions/login";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const SessionExpired: React.FC = () => {
   const { authService } = useContext(Auth.Context);
+  const { t } = useAppTranslation();
 
   return (
     <div className="flex flex-col text-center text-shadow items-center p-1">
@@ -25,7 +27,7 @@ export const SessionExpired: React.FC = () => {
           authService.send("REFRESH");
         }}
       >
-        Refresh
+        {t("refresh")}
       </Button>
     </div>
   );
