@@ -63,9 +63,9 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
           <img src={lightningAnimation} className="h-20" />
         </div>
         <div className="space-y-3 text-sm mb-3">
-          <p>It looks like we were unable to complete this request.</p>
-          <p>It may be a simple connection issue.</p>
-          <p>You can click refresh to try again.</p>
+          <p>{t("error.connection.one")}</p>
+          <p>{t("error.connection.two")}</p>
+          <p>{t("error.connection.three")}</p>
           <p>
             If the issue remains, you can reach out for help by either
             contacting our{" "}
