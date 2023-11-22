@@ -16,7 +16,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setImageWidth } from "lib/images";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 const CONTENT_HEIGHT = 350;
@@ -202,7 +201,7 @@ export const AchievementsModal: React.FC<Props> = ({
   readonly,
 }) => {
   const [tab, setTab] = useState(0);
-  
+
   return (
     <CloseButtonPanel
       currentTab={tab}
