@@ -69,7 +69,8 @@ export type GeneralTerms =
   | "list"
   | "beta"
   | "swapping"
-  | "retry";
+  | "retry"
+  | "ok";
 
 export type GameTerms = "blockBucks" | "sflDiscord";
 
@@ -289,6 +290,7 @@ export type TransactionTerms =
 export type Onboarding =
   | "onboarding.welcome"
   | "onboarding.step.one"
+  | "onboarding.step.two"
   | "onboarding.step.three"
   | "onboarding.intro.one"
   | "onboarding.intro.two"

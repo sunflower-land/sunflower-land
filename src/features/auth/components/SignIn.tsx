@@ -214,7 +214,7 @@ export const SignIn = () => {
         {!hasFeatureAccess(TEST_FARM, "NEW_FARM_FLOW") && (
           <div className="flex items-center">
             <img src={SUNNYSIDE.ui.green_bar_4} className="h-5 mr-2" />
-            <span className="text-xs">Step 2/3 (Create a wallet)</span>
+            <span className="text-xs">{t("onboarding.step.two")}</span>
           </div>
         )}
       </div>
@@ -338,7 +338,7 @@ export const SignUp = () => {
               savePromoCode(promoCode as string);
             }}
           >
-            Ok
+            {t("ok")}
           </Button>
         </div>
       </>

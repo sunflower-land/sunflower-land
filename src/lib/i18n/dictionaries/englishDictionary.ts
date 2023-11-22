@@ -72,6 +72,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   beta: "Beta",
   swapping: "Swapping",
   retry: "Retry",
+  ok: "OK",
 };
 
 const gameTerms: Record<GameTerms, string> = {
@@ -407,6 +408,7 @@ const transactionTerms: Record<TransactionTerms, string> = {
 const onboarding: Record<Onboarding, string> = {
   "onboarding.welcome": "Welcome to decentralized gaming!",
   "onboarding.step.one": "Step 1/3",
+  "onboarding.step.two": "Step 2/3 (Create a wallet)",
   "onboarding.step.three": "Step 3/3 (Create your NFT)",
   "onboarding.intro.one":
     "In your travels, you will earn rare NFTs that need to be protected. To keep these secure you'll need a Web3 wallet.",
