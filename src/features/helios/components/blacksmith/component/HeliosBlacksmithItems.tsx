@@ -19,6 +19,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 function isNotReady(collectible: CraftableCollectible) {
   return (
@@ -38,7 +39,7 @@ export const HeliosBlacksmithItems: React.FC = () => {
     },
   ] = useActor(gameService);
   const inventory = state.inventory;
-
+  const { t } = useAppTranslation();
   const selectedItem = HELIOS_BLACKSMITH_ITEMS(state)[selectedName]!;
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
 
@@ -110,7 +111,7 @@ export const HeliosBlacksmithItems: React.FC = () => {
                 disabled={lessIngredients() || isNotReady(selectedItem)}
                 onClick={craft}
               >
-                Craft
+                {t("craft")}
               </Button>
             )
           }

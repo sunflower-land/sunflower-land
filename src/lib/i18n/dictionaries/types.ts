@@ -3,6 +3,7 @@ export type GeneralTerms =
   | "achievements"
   | "alrClaim"
   | "alrClaim"
+  | "auctions"
   | "back"
   | "beta"
   | "buy"
@@ -14,6 +15,7 @@ export type GeneralTerms =
   | "clear"
   | "close"
   | "craft"
+  | "crafting"
   | "comingSoon"
   | "congrats"
   | "connected"
@@ -22,6 +24,7 @@ export type GeneralTerms =
   | "crops"
   | "date"
   | "delivery"
+  | "deliveries"
   | "details"
   | "equip"
   | "error"
@@ -48,6 +51,7 @@ export type GeneralTerms =
   | "nextSkillPtLvl"
   | "noThanks"
   | "ok"
+  | "pass.required"
   | "print"
   | "purchasing"
   | "rank"
@@ -64,6 +68,7 @@ export type GeneralTerms =
   | "sell.one"
   | "sell.ten"
   | "sell"
+  | "shopping"
   | "skillPts"
   | "skills"
   | "sound"
@@ -74,12 +79,17 @@ export type GeneralTerms =
   | "task"
   | "total"
   | "trades"
+  | "trading"
+  | "trash.collection"
   | "tryAgain"
   | "verify"
   | "version"
   | "viewAll"
+  | "visit.friend"
   | "wallet"
-  | "welcome";
+  | "welcome"
+  | "withdraw"
+  | "you.are.here";
 
 export type GameTerms =
   | "blockBucks"
@@ -108,7 +118,7 @@ export type RulesTerms =
   | "rules.game"
   | "rules.termsOfService";
 
-export type SeasonBannerOffer =
+export type SeasonTerms =
   | "season.goodLuck"
   | "season.discount"
   | "season.banner"
@@ -119,7 +129,8 @@ export type SeasonBannerOffer =
   | "season.includes"
   | "season.limitedOffer"
   | "season.accessTo"
-  | "season.buyNow";
+  | "season.buyNow"
+  | "season.ctk";
 
 export type Intro =
   | "intro.one"
@@ -813,6 +824,15 @@ export type ExoticName =
   | "warty.goblin.pumpkin"
   | "white.carrot";
 
+export type IslandNames =
+  | "home"
+  | "pumpkin.plaza"
+  | "beach"
+  | "woodlands"
+  | "helios"
+  | "goblin.retreat"
+  | "potion.house";
+
 export type TranslationKeys =
   | AchievementsDialog
   | AnimalName
@@ -837,6 +857,7 @@ export type TranslationKeys =
   | GuideTerms
   | HenHouseTerms
   | Intro
+  | IslandNames
   | LandResourceName
   | LegacySkills
   | Onboarding
@@ -845,7 +866,7 @@ export type TranslationKeys =
   | RetreatTerms
   | RewardTerms
   | RulesTerms
-  | SeasonBannerOffer
+  | SeasonTerms
   | SeedName
   | ShopItems
   | Statements

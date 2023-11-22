@@ -22,7 +22,7 @@ import {
   RetreatTerms,
   RewardTerms,
   RulesTerms,
-  SeasonBannerOffer,
+  SeasonTerms,
   SeedName,
   ShopItems,
   Statements,
@@ -39,12 +39,14 @@ import {
   FishName,
   BeachBountyName,
   ExoticName,
+  IslandNames,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
   "2x.sale": "2x Sale",
   achievements: "Achievements",
   alrClaim: "Already Claimed!",
+  auctions: "Auctions",
   back: "Back",
   beta: "Beta",
   buy: "Buy",
@@ -55,6 +57,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   clear: "Clear",
   close: "Close",
   craft: "Craft",
+  crafting: "Crafting",
   comingSoon: "Coming soon",
   congrats: "Congratulations!",
   connected: "Connected",
@@ -63,6 +66,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   crops: "Crops",
   date: "Date",
   delivery: "Delivery",
+  deliveries: "Deliveries",
   details: "Details",
   equip: "Equip",
   error: "Error",
@@ -89,6 +93,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   nextSkillPtLvl: "Next skill point: level",
   noThanks: "No thanks",
   ok: "OK",
+  "pass.required": "Pass Required",
   print: "Print",
   purchasing: "Purchasing",
   rank: "Rank",
@@ -104,6 +109,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sell.all": "Sell All",
   "sell.one": "Sell 1",
   "sell.ten": "Sell 10",
+  shopping: "Shopping",
   skillPts: "Skill Points:",
   skills: "Skills",
   sound: "Sound Effects: ",
@@ -114,12 +120,17 @@ const generalTerms: Record<GeneralTerms, string> = {
   task: "Task",
   total: "Total",
   trades: "Trades",
+  trading: "Trading",
+  "trash.collection": "Trash Collection",
   tryAgain: "Try again",
   verify: "Verify",
   version: "Version",
   viewAll: "View all",
+  "visit.friend": "Visit Friend",
   wallet: "Wallet",
   welcome: "Welcome!",
+  withdraw: "Withdraw",
+  "you.are.here": "You are here",
 };
 
 const gameTerms: Record<GameTerms, string> = {
@@ -155,7 +166,7 @@ const rulesTerms: Record<RulesTerms, string> = {
   "rules.termsOfService": "Terms of Service",
 };
 
-const seasonBannerOffer: Record<SeasonBannerOffer, string> = {
+const seasonTerms: Record<SeasonTerms, string> = {
   "season.accessTo": "You have access to:",
   "season.banner": "Seasonal Banner",
   "season.bonusTickets": "Bonus Seasonal Tickets",
@@ -167,6 +178,7 @@ const seasonBannerOffer: Record<SeasonBannerOffer, string> = {
   "season.includes": "Includes:",
   "season.limitedOffer": " Limited time only!",
   "season.wearableAirdrop": "Seasonal Wearable Airdrop",
+  "season.ctk": "Catch the Kraken",
 };
 
 const introTerms: Record<Intro, string> = {
@@ -1037,6 +1049,16 @@ const exoticName: Record<ExoticName, string> = {
   "white.carrot": "White Carrot",
 };
 
+const islandNames: Record<IslandNames, string> = {
+  home: "Home",
+  "pumpkin.plaza": "Pumpkin Plaza",
+  beach: "Beach",
+  woodlands: "Woodlands",
+  helios: "Helios",
+  "goblin.retreat": "Goblin Retreat",
+  "potion.house": "Potion House",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...animalName,
@@ -1062,6 +1084,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...guideTerms,
   ...henHouseTerms,
   ...introTerms,
+  ...islandNames,
   ...landResourceName,
   ...legacySkills,
   ...onboarding,
@@ -1070,7 +1093,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...retreatTerms,
   ...rewardTerms,
   ...rulesTerms,
-  ...seasonBannerOffer,
+  ...seasonTerms,
   ...seedName,
   ...shopItems,
   ...statements,
