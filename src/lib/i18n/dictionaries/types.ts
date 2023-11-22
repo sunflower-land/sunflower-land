@@ -282,7 +282,8 @@ export type ErrorTerms =
   | "error.connection.one"
   | "error.connection.two"
   | "error.connection.three"
-  | "error.diagnostic.info";
+  | "error.diagnostic.info"
+  | "error.Web3NotFound";
 
 export type TransactionTerms =
   | "transaction.t&c.one"
@@ -319,7 +320,8 @@ export type Statements =
   | "statements.maintenance"
   | "statements.docs"
   | "statements.wrongChain.one"
-  | "statements.guide"
+  | "statements.guide.one"
+  | "statements.guide.two"
   | "statements.switchNetwork"
   | "statements.lvlUp"
   | "statements.beta.one"

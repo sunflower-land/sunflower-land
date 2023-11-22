@@ -403,6 +403,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.connection.two": "It may be a simple connection issue.",
   "error.connection.three": "You can click refresh to try again.",
   "error.diagnostic.info": "Diagnostic Information",
+  "error.Web3NotFound": "Web3 Not Found",
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
@@ -453,7 +454,8 @@ const statements: Record<Statements, string> = {
   "statements.docs": "Go to docs",
   "statements.wrongChain.one":
     "Check out this guide to help you get connected.",
-  "statements.guide": "Go to guide",
+  "statements.guide.one": "Go to guide",
+  "statements.guide.two": "Check out this guide to help you get started.",
   "statements.switchNetwork": "Add or Switch Network",
   "statements.lvlUp": "Feed your Bumpkin to level up",
   "statements.beta.one": "Beta is only accessible to our OG farmers.",

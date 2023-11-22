@@ -54,7 +54,7 @@ export const WrongChain: React.FC = () => {
           onClick={goToPolygonSetupDocs}
           className="py-2 text-sm relative"
         >
-          <span>{t("statements.guide")}</span>
+          <span>{t("statements.guide.one")}</span>
         </Button>
         {/* This doesn't work on metamask browser so we won't show if on mobile */}
         {(!isDefaultNetwork || !isMobile) && (
