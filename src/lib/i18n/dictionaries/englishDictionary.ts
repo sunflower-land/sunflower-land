@@ -376,6 +376,9 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.multipleDevices.one": "Multiple devices open",
   "error.multipleDevices.two":
     "Please close any other browser tabs or devices that you are operating on.",
+  "error.multipleWallets.one": "Multiple Wallets",
+  "error.multipleWallets.two":
+    "It looks like you have multiple wallets installed. This can cause unexpected behaviour.Try to disable all but one wallet.",
   "error.toManyRequest.one": "Too many requests!",
   "error.toManyRequest.two":
     "Looks like you have been busy! Please try again later.",
@@ -426,6 +429,7 @@ const statements: Record<Statements, string> = {
   "statements.adventure": "Start your Adventure!",
   "statements.maintenance":
     "New things are coming! Thanks for your patience, the game will be live again shortly.",
+  "statements.docs": "Go to docs",
   "statements.wrongChain.one":
     "Check out this guide to help you get connected.",
   "statements.guide": "Go to guide",

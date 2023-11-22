@@ -25,6 +25,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { BumpkinEquip } from "./BumpkinEquip";
 import { AchievementBadges } from "./AchievementBadges";
 import { Trade } from "./Trade";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -86,7 +87,7 @@ export const BumpkinModal: React.FC<Props> = ({
   const [view, setView] = useState<ViewState>(initialView);
 
   const [tab, setTab] = useState(0);
-
+  const { t } = useAppTranslation();
   const getVisitBumpkinUrl = () => {
     if (readonly) {
       const baseUrl =
@@ -130,7 +131,6 @@ export const BumpkinModal: React.FC<Props> = ({
   const maxLevel = isMaxLevel(experience);
 
   const hasAvailableSP = getAvailableBumpkinSkillPoints(bumpkin) > 0;
-
   return (
     <CloseButtonPanel
       currentTab={tab}
@@ -190,7 +190,7 @@ export const BumpkinModal: React.FC<Props> = ({
                 />
                 <div>
                   <p className="text-base">
-                    Level {level}
+                    {t("lvl")} {level}
                     {maxLevel ? " (Max)" : ""}
                   </p>
                   {/* Progress bar */}
@@ -206,7 +206,7 @@ export const BumpkinModal: React.FC<Props> = ({
               <InnerPanel className="relative mt-1 px-2 py-1">
                 <div className="flex items-center mb-1 justify-between">
                   <div className="flex items-center">
-                    <span className="text-xs">Skills</span>
+                    <span className="text-xs">{t("skills")}</span>
                     {hasAvailableSP && !readonly && (
                       <img
                         src={SUNNYSIDE.icons.expression_alerted}
@@ -214,7 +214,7 @@ export const BumpkinModal: React.FC<Props> = ({
                       />
                     )}
                   </div>
-                  <span className="text-xxs underline">View all</span>
+                  <span className="text-xxs underline">{t("viewAll")}</span>
                 </div>
                 <SkillBadges
                   inventory={inventory}
@@ -230,9 +230,9 @@ export const BumpkinModal: React.FC<Props> = ({
               <InnerPanel className="relative mt-1 px-2 py-1">
                 <div className="flex items-center mb-1 justify-between">
                   <div className="flex items-center">
-                    <span className="text-xs">Achievements</span>
+                    <span className="text-xs">{t("achievements")}</span>
                   </div>
-                  <span className="text-xxs underline">View all</span>
+                  <span className="text-xxs underline">{t("viewAll")}</span>
                 </div>
                 <AchievementBadges achievements={bumpkin?.achievements} />
               </InnerPanel>

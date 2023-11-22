@@ -265,6 +265,8 @@ export type ErrorTerms =
   | "error.forbidden.goblinVillage"
   | "error.multipleDevices.one"
   | "error.multipleDevices.two"
+  | "error.multipleWallets.one"
+  | "error.multipleWallets.two"
   | "error.toManyRequest.one"
   | "error.toManyRequest.two"
   | "error.blocked.betaTestersOnly"
@@ -301,6 +303,7 @@ export type Questions = "questions.obtain.MATIC" | "questions.lowCash";
 export type Statements =
   | "statements.adventure"
   | "statements.maintenance"
+  | "statements.docs"
   | "statements.wrongChain.one"
   | "statements.guide"
   | "statements.switchNetwork"

@@ -18,6 +18,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { setImageWidth } from "lib/images";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const CONTENT_HEIGHT = 350;
 interface Props {
@@ -205,6 +206,7 @@ export const AchievementsModal: React.FC<Props> = ({
   onClose,
   readonly,
 }) => {
+  const { t } = useAppTranslation();
   return (
     <Panel className="relative" hasTabs>
       <div
@@ -217,7 +219,7 @@ export const AchievementsModal: React.FC<Props> = ({
       >
         <Tab isActive>
           <img src={SUNNYSIDE.icons.player} className="h-5 mr-2" />
-          <span className="text-sm">Achievements</span>
+          <span className="text-sm">{t("achievements")}</span>
         </Tab>
         <img
           src={SUNNYSIDE.icons.close}

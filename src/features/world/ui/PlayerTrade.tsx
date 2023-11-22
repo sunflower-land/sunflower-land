@@ -69,8 +69,8 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
         </Label>
         <div className="p-1 flex flex-col items-center">
           <img src={lock} className="w-1/5 mx-auto my-2 img-highlight-heavy" />
-          <p className="text-sm">You must be level 10 to trade</p>
-          <p className="text-xs mb-2">Feed your Bumpkin to level up</p>
+          <p className="text-sm">{t("bumpkinTrade.lvl")}</p>
+          <p className="text-xs mb-2">{t("statements.lvlUp")}</p>
         </div>
       </div>
     );

@@ -18,6 +18,7 @@ import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onBack: () => void;
@@ -42,7 +43,7 @@ export const AchievementDetails: React.FC<Props> = ({
   const isAlreadyClaimed = !!bumpkinAchievements[name];
   const progressPercentage =
     Math.min(1, progress / achievement.requirement) * 100;
-
+  const { t } = useAppTranslation();
   return (
     <div className="flex flex-col items-center">
       <OuterPanel className="relative flex-1 w-full flex flex-col justify-between items-center">
@@ -96,7 +97,7 @@ export const AchievementDetails: React.FC<Props> = ({
                     {isAlreadyClaimed && (
                       <div className="flex items-center mt-2 mb-1">
                         <span className="w-auto -mt-2 mb-1 bg-blue-600 border text-xxs p-1 rounded-md">
-                          Already Claimed!
+                          {t("alrClaim")}
                         </span>
                       </div>
                     )}
@@ -145,7 +146,7 @@ export const AchievementDetails: React.FC<Props> = ({
                     onClick={onClaim}
                     disabled={!isComplete}
                   >
-                    <span>Claim</span>
+                    <span>{t("claim")}</span>
                   </Button>
                 )}
               </div>
