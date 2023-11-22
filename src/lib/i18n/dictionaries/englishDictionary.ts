@@ -464,6 +464,7 @@ const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "No Axe Selected!",
   "warning.chat.maxCharacters": "Max characters:",
   "warning.chat.noSpecialCharacters": "No special characters",
+  "warning.level.three.required": "Level 3 Required",
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
@@ -606,6 +607,8 @@ const statements: Record<Statements, string> = {
   "statements.potionRule.seven": "Oops, wrong potion",
   "statements.beta.one": "Beta is only accessible to our OG farmers.",
   "statements.beta.two": "Stay tuned for updates. We will be going live soon!",
+  "statements.visit.firePit":
+    "Visit the Fire Pit to cook food and feed your Bumpkin.",
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {

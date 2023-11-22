@@ -310,7 +310,8 @@ export type ErrorTerms =
 export type WarningTerms =
   | "warning.noAxe"
   | "warning.chat.maxCharacters"
-  | "warning.chat.noSpecialCharacters";
+  | "warning.chat.noSpecialCharacters"
+  | "warning.level.three.required";
 
 export type TransactionTerms =
   | "transaction.blockBucksFarm"
@@ -412,7 +413,8 @@ export type Statements =
   | "statements.sync"
   | "statements.tapCont"
   | "statements.thankYou"
-  | "statements.wrongChain.one";
+  | "statements.wrongChain.one"
+  | "statements.visit.firePit";
 
 export type BumpkinTrade =
   | "bumpkinTrade.askPrice"

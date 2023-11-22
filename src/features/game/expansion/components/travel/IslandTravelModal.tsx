@@ -62,11 +62,11 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
       <CloseButtonPanel onClose={onClose}>
         <div className="flex flex-col items-center">
           <Label className="mt-2" icon={lockIcon} type="danger">
-            Level 3 Required
+            {t("warning.level.three.required")}
           </Label>
           <img src={worldIcon} className="w-10 mx-auto my-2" />
           <p className="text-sm text-center mb-2">
-            Visit the Fire Pit to cook food and feed your Bumpkin.
+            {t("statements.visit.firePit")}
           </p>
         </div>
       </CloseButtonPanel>
