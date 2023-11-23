@@ -3,7 +3,7 @@ name: Upload Demo Game
 on:
   push:
     branches:
-      - feat/expo-demo
+      - feat/ygg-demo
 
 jobs:
   deploy:
