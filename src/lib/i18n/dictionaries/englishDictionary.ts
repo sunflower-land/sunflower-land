@@ -28,6 +28,7 @@ import {
 const generalTerms: Record<GeneralTerms, string> = {
   "2x.sale": "2x Sale",
   achievements: "Achievements",
+  "add.liquidity": "Add Liquidity",
   alrClaim: "Already Claimed!",
   auctions: "Auctions",
   back: "Back",
@@ -71,6 +72,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   loading: "Loading",
   lvl: "Level",
   maintenance: "Maintenance",
+  "make.wish": "Make a Wish",
+  "making.wish": "Making a wish",
   mint: "Mint",
   minting: "minting",
   minted: "Already minted!",
@@ -83,6 +86,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "open.gift": "Open Gift",
   "pass.required": "Pass Required",
   print: "Print",
+  "providing.liquidity": "Providing Liquidity",
   purchasing: "Purchasing",
   rank: "Rank",
   readMore: "Read more",
@@ -133,6 +137,8 @@ const gameTerms: Record<GameTerms, string> = {
   "auction.winner": "Auction Winner!",
   "farm.banned": "This farm is banned",
   "proof.of.humanity": "Proof of Humanity",
+  "no.sfl": "No SFL tokens found",
+  "granting.wish": "Granting your wish",
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
@@ -688,6 +694,14 @@ const statements: Record<Statements, string> = {
     "If you remove your liquidity during this time you won't receive any rewards.",
   "statements.wish.time":
     "Come back in the following amount of time to see just how lucky you have been: ",
+  "statements.wishing-well.info.one":
+    "The wishing well is a magical place where SFL rewards can be made just by making a wish!",
+  "statements.wishing-well.info.two":
+    "Wishes are granted to farmers who provided liquidity in the game. More info:",
+  "statements.wishing-well.info.three":
+    "Looks like you have those magic LP tokens in your wallet!",
+  "statements.wishing-well.not.providing.liquidity":
+    "It doesn't look like you're providing liquidity yet. More info: ",
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {

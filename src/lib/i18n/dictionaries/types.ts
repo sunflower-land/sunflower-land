@@ -1,6 +1,7 @@
 export type GeneralTerms =
   | "2x.sale"
   | "achievements"
+  | "add.liquidity"
   | "alrClaim"
   | "alrClaim"
   | "auctions"
@@ -46,6 +47,8 @@ export type GeneralTerms =
   | "loading"
   | "lvl"
   | "maintenance"
+  | "make.wish"
+  | "making.wish"
   | "mint"
   | "minting"
   | "minted"
@@ -58,6 +61,7 @@ export type GeneralTerms =
   | "open.gift"
   | "pass.required"
   | "print"
+  | "providing.liquidity"
   | "purchasing"
   | "rank"
   | "readMore"
@@ -107,7 +111,9 @@ export type GameTerms =
   | "sflDiscord"
   | "auction.winner"
   | "farm.banned"
-  | "proof.of.humanity";
+  | "proof.of.humanity"
+  | "no.sfl"
+  | "granting.wish";
 
 export type ConfirmationTerms = "confirmation.sellCrops";
 
@@ -478,7 +484,11 @@ export type Statements =
   | "statements.wish.thanks"
   | "statements.wish.warning.one"
   | "statements.wish.warning.two"
-  | "statements.wish.time";
+  | "statements.wish.time"
+  | "statements.wishing-well.info.one"
+  | "statements.wishing-well.info.two"
+  | "statements.wishing-well.info.three"
+  | "statements.wishing-well.not.providing.liquidity";
 
 export type BumpkinTrade =
   | "bumpkinTrade.askPrice"

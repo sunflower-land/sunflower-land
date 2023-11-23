@@ -152,12 +152,10 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => (
         <img src={wisingWell} alt="wishing well" className="w-16" />
       </div>
       <p className="mb-4 text-sm">
-        The wishing well is a magical place where SFL rewards can be made just
-        by making a wish!
+        {translate("statements.wishing-well.info.one")}
       </p>
       <p className="mb-4 text-sm">
-        Wishes are granted to farmers who provided liquidity in the game. More
-        info:
+        {translate("statements.wishing-well.info.two")}
       </p>
       <p className="mb-4 text-sm">
         <a
@@ -166,7 +164,7 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => (
           target="_blank"
           rel="noopener noreferrer"
         >
-          Providing Liquidity
+          {translate("providing.liquidity")}
         </a>
       </p>
       <p className="mb-4 text-sm">
@@ -183,20 +181,11 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => (
       </div>
       {hasLPTokens ? (
         <p className="mb-2 text-sm">
-          Looks like you have those magic LP tokens in your wallet!
+          {translate("statements.wishing-well.info.three")}
         </p>
       ) : (
         <p className="mb-2 text-sm">
-          {`It doesn't look like you are `}
-          <a
-            className="underline"
-            href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            providing liquidity
-          </a>
-          {` yet.`}
+          {translate("statements.wishing-well.not.providing.liquidity")}
         </p>
       )}
     </div>
@@ -205,7 +194,7 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => (
         className={classNames(!hasLPTokens && "text-xs")}
         onClick={onClick}
       >
-        {hasLPTokens ? `Make Wish` : `Add Liquidity`}
+        {hasLPTokens ? translate("make.wish") : translate("add.liquidity")}
       </Button>
     </div>
     {CONFIG.NETWORK === "mumbai" && (
@@ -255,18 +244,18 @@ export const WishingWellModal: React.FC = () => {
     <Modal centered show={true} onHide={handleClose}>
       <Panel className="relative">
         {machine.matches("loading") && (
-          <span className="loading mt-1">Loading</span>
+          <span className="loading mt-1">{translate("loading")}</span>
         )}
         {(machine.matches("granting") || machine.matches("signing")) && (
-          <span className="loading mt-1">Granting your wish</span>
+          <span className="loading mt-1">{translate("granting.wish")}</span>
         )}
         {machine.matches("wishing") && (
-          <span className="loading mt-1">Making a wish</span>
+          <span className="loading mt-1">{translate("making.wish")}</span>
         )}
         {machine.matches("error") && (
           <div>
             {errorCode === "NO_TOKENS" ? (
-              <span className="mt-2">No SFL tokens found</span>
+              <span className="mt-2">{translate("no.sfl")}</span>
             ) : (
               <SomethingWentWrong />
             )}
