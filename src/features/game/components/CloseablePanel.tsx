@@ -74,7 +74,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
             right: `${PIXEL_SCALE * 1}px`,
           }}
         >
-          <div className="flex overflow-x-auto scrollbar-hide">
+          <div className="flex overflow-x-auto scrollbar-hide mr-auto">
             {tabs.map((tab, index) => (
               <Tab
                 key={`tab-${index}`}
@@ -106,7 +106,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
               </Tab>
             ))}
           </div>
-          <div className="grow" />
+
           {secondaryAction && (
             <div
               className="flex-none cursor-pointer float-right"

@@ -45,9 +45,9 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
   const { inventory } = state;
 
   const buildingBlueprints = BUILDINGS()[selectedName];
-  const buildingUnlockLevels = buildingBlueprints
-    .filter((blueprint) => blueprint.unlocksAtLevel !== 99)
-    .map(({ unlocksAtLevel }) => unlocksAtLevel);
+  const buildingUnlockLevels = buildingBlueprints.map(
+    ({ unlocksAtLevel }) => unlocksAtLevel
+  );
   const landCount = inventory["Basic Land"] ?? new Decimal(0);
   const buildingsInInventory = inventory[selectedName] || new Decimal(0);
   // Some buildings have multiple blueprints, so we need to check if the next blueprint is available else fallback to the first one

@@ -27,12 +27,11 @@ import {
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
-import { getDailyFishingLimit } from "features/game/events/landExpansion/castRod";
-import { MachineState } from "features/game/lib/gameMachine";
 import {
-  acknowledgeFishFrenzy,
-  fishFrenzyAcknowledged,
-} from "./fishFrenzyStorage";
+  getDailyFishingCount,
+  getDailyFishingLimit,
+} from "features/game/types/fishing";
+import { MachineState } from "features/game/lib/gameMachine";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -147,9 +146,8 @@ const BaitSelection: React.FC<{
     );
   }
 
-  const today = new Date().toISOString().split("T")[0];
   const dailyFishingMax = getDailyFishingLimit(state.bumpkin as Bumpkin);
-  const dailyFishingCount = state.fishing.dailyAttempts?.[today] ?? 0;
+  const dailyFishingCount = getDailyFishingCount(state);
   const fishingLimitReached = dailyFishingCount >= dailyFishingMax;
   const missingRod = !state.inventory["Rod"] || state.inventory.Rod.lt(1);
 
@@ -308,17 +306,20 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
   const { gameService } = useContext(Context);
   const weather = useSelector(gameService, currentWeather);
 
-  const [tab, setTab] = useState(0);
-  const [showIntro, setShowIntro] = useState(!hasRead());
-  const [showFishFrenzy, setShowFishFrenzy] = useState(
-    weather === "Fish Frenzy" && !fishFrenzyAcknowledged()
+  const [showIntro, setShowIntro] = React.useState(!hasRead());
+
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+  const dailyFishingCount = getDailyFishingCount(state);
+
+  const [showFishFrenzy, setShowFishFrenzy] = React.useState(
+    weather === "Fish Frenzy" && dailyFishingCount === 0
   );
 
-  const handleAcknowledgeFishFrenzy = () => {
-    acknowledgeFishFrenzy();
-    setShowFishFrenzy(false);
-  };
-
+  const [tab, setTab] = useState(0);
   if (showIntro) {
     return (
       <CloseButtonPanel
@@ -346,7 +347,7 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
     );
   }
 
-  if (showFishFrenzy && !fishFrenzyAcknowledged()) {
+  if (showFishFrenzy) {
     return (
       <CloseButtonPanel
         onClose={onClose}
@@ -361,7 +362,9 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
               text: "Hurry, you will get a bonus fish for each catch!",
             },
           ]}
-          onClose={handleAcknowledgeFishFrenzy}
+          onClose={() => {
+            setShowFishFrenzy(false);
+          }}
         />
       </CloseButtonPanel>
     );
@@ -382,6 +385,7 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
       setCurrentTab={setTab}
     >
       {tab === 0 && <BaitSelection onCast={onCast} />}
+
       {tab === 1 && <FishingGuide onClose={() => setTab(0)} />}
     </CloseButtonPanel>
   );

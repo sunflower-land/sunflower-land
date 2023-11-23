@@ -146,9 +146,15 @@ export function interpretTokenUri(tokenUri: string) {
   // Remove the baseUri (sunflower-land.com/testnet/)
   const urlParts = tokenUri.split("/");
   const tokenPart = urlParts[urlParts.length - 1];
-  const [tokenId, version, ...ids] = tokenPart
-    .split("_")
-    .map((val) => (!val.startsWith("v") ? Number(val) : val));
+
+  const parts = tokenPart.split("_");
+  // Bug with web2 farm metadata
+  if (!parts[1].startsWith("v")) {
+    parts.splice(1, 1);
+  }
+  const [tokenId, version, ...ids] = parts.map((val) =>
+    !val.startsWith("v") ? Number(val) : val
+  );
 
   const equipped: BumpkinParts = {
     background: getItemName<BumpkinBackground>(ids[Slots.Background]),
