@@ -522,18 +522,24 @@ const onboarding: Record<Onboarding, string> = {
     "It looks like you have already registered for beta testing using a different address. Only one address can be used during beta testing. ",
   "onboarding.starterPack": "Starter Pack",
   "onboarding.wallet.titleOne": "Setting up your wallet",
-  "onboarding.wallet.one": "There are many wallet providers out there, but we've partnered with Sequence because they're easy to use and secure.",
-  "onboarding.wallet.two": "Select a sign-up method in the pop-up window and you're good to go. I'll see you back here in just a minute!",
+  "onboarding.wallet.one":
+    "There are many wallet providers out there, but we've partnered with Sequence because they're easy to use and secure.",
+  "onboarding.wallet.two":
+    "Select a sign-up method in the pop-up window and you're good to go. I'll see you back here in just a minute!",
   "onboarding.wallet.haveWallet": "I already have a wallet",
   "onboarding.wallet.createButton": "Create wallet",
   "onboarding.wallet.titleTwo": "Accept the terms of service",
-  "onboarding.wallet.three": "In order to buy your farm you will need to accept the Sunflower Land terms of service.",
-  "onboarding.wallet.four": "This step will take you back to your new sequence wallet to accept the terms of service.",
+  "onboarding.wallet.three":
+    "In order to buy your farm you will need to accept the Sunflower Land terms of service.",
+  "onboarding.wallet.four":
+    "This step will take you back to your new sequence wallet to accept the terms of service.",
   "onboarding.wallet.acceptButton": "Accept terms of service",
   "onboarding.wallet.acceptLoading": "Accepting terms...",
   "onboarding.wallet.titleThree": "Buy your farm!",
-  "onboarding.wallet.five": "Now that your wallet is all set up, it's time to get your very own farm NFT! ",
-  "onboarding.wallet.six": "This NFT will securely store all your progress in Sunflower Land and allow you to keep coming back to tend to your farm.",
+  "onboarding.wallet.five":
+    "Now that your wallet is all set up, it's time to get your very own farm NFT! ",
+  "onboarding.wallet.six":
+    "This NFT will securely store all your progress in Sunflower Land and allow you to keep coming back to tend to your farm.",
   "onboarding.wallet.final": "Let's do this!",
 };
 
