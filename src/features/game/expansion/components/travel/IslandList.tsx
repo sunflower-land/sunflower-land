@@ -235,7 +235,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       path: `/world/woodlands`,
       labels: [
         <Label type="vibrant" key="potion_house" icon={blueBottle}>
-          {t("potion.house")}
+          Potion House
         </Label>,
       ],
     },

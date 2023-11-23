@@ -417,7 +417,8 @@ export type Statements =
   | "statements.visit.firePit"
   | "statements.tutorial.one"
   | "statements.tutorial.two"
-  | "statements.tutorial.three";
+  | "statements.tutorial.three"
+  | "statements.mutant.chicken";
 
 export type BumpkinTrade =
   | "bumpkinTrade.askPrice"
@@ -446,10 +447,20 @@ export type RetreatTerms =
   | "retreatTerms.resale.two"
   | "retreatTerms.resale.three";
 
+export type CollectibleDescriptions =
+  // Mutant Chickens
+  | "description.speed.chicken"
+  | "description.fat.chicken"
+  | "description.rich.chicken"
+  | "description.ayam.cemani"
+  | "description.el.pollo.veloz"
+  | "description.banana.chicken";
+
 export type TranslationKeys =
   | AchievementsDialog
   | BumpkinPartRequirements
   | BumpkinTrade
+  | CollectibleDescriptions
   | ConfirmationTerms
   | Conversations
   | ErrorTerms

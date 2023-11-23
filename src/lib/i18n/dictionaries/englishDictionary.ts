@@ -22,6 +22,7 @@ import {
   WarningTerms,
   WelcomeTerms,
   TransactionTerms,
+  CollectibleDescriptions,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -597,6 +598,8 @@ const statements: Record<Statements, string> = {
     "Many lands are far away and will require an experienced Bumpkin before you can visit them.",
   "statements.tutorial.three":
     "Your adventure begins now, how far you explore ... that is on you.",
+  "statements.mutant.chicken":
+    "Congratulations, your chicken has laid a very rare mutant chicken!",
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {
@@ -633,10 +636,24 @@ const retreatTerms: Record<RetreatTerms, string> = {
     "You can purchase these on secondary marketplaces like OpenSea.",
   "retreatTerms.resale.three": "View items on OpenSea",
 };
+
+const collectibleDescriptions: Record<CollectibleDescriptions, string> = {
+  "description.speed.chicken":
+    "Your chickens will now produce eggs 10% faster.",
+  "description.fat.chicken":
+    "Your chickens will now require 10% less wheat per feed.",
+  "description.rich.chicken": "Your chickens will now yield 10% more eggs.",
+  "description.ayam.cemani": "The rarest chicken in existence!",
+  "description.el.pollo.veloz": "Your chickens will lay eggs 4 hours faster!",
+  "description.banana.chicken":
+    "A chicken that boosts bananas. What a world we live in.",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...bumpkinPartRequirements,
   ...bumpkinTrade,
+  ...collectibleDescriptions,
   ...confirmationTerms,
   ...conversations,
   ...errorTerms,
