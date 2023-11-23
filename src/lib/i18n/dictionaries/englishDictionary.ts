@@ -118,7 +118,6 @@ const generalTerms: Record<GeneralTerms, string> = {
 };
 
 const gameTerms: Record<GameTerms, string> = {
-  blockBucks: "Block Bucks",
   bumpkinLvl: "Bumpkin level",
   dailyLim: "Daily SFL Limit",
   gobSwarm: "Goblin Swarm!",

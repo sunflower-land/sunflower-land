@@ -93,7 +93,6 @@ export type GeneralTerms =
   | "you.are.here";
 
 export type GameTerms =
-  | "blockBucks"
   | "dailyLim"
   | "gobSwarm"
   | "potions"
