@@ -307,7 +307,8 @@ export type ErrorTerms =
   | "error.connection.three"
   | "error.connection.four"
   | "error.diagnostic.info"
-  | "error.Web3NotFound";
+  | "error.Web3NotFound"
+  | "error.noBumpkin";
 
 export type WarningTerms =
   | "warning.noAxe"
@@ -368,7 +369,21 @@ export type Onboarding =
   | "onboarding.form.two"
   | "onboarding.duplicateUser.one"
   | "onboarding.duplicateUser.two"
-  | "onboarding.starterPack";
+  | "onboarding.starterPack"
+  | "onboarding.wallet.titleOne"
+  | "onboarding.wallet.one"
+  | "onboarding.wallet.two"
+  | "onboarding.wallet.haveWallet"
+  | "onboarding.wallet.createButton"
+  | "onboarding.wallet.titleTwo"
+  | "onboarding.wallet.three"
+  | "onboarding.wallet.four"
+  | "onboarding.wallet.acceptButton"
+  | "onboarding.wallet.acceptLoading"
+  | "onboarding.wallet.titleThree"
+  | "onboarding.wallet.five"
+  | "onboarding.wallet.six"
+  | "onboarding.wallet.final";
 
 export type Questions = "questions.obtain.MATIC" | "questions.lowCash";
 

@@ -13,6 +13,7 @@ import { Button } from "components/ui/Button";
 
 import walletIcon from "src/assets/icons/wallet.png";
 import { web3ConnectStrategyFactory } from "features/auth/lib/web3-connect-strategy/web3ConnectStrategy.factory";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Step = 1 | 2 | 3;
 
@@ -35,16 +36,16 @@ export const WalletOnboarding: React.FC = () => {
 
   const [currentStep, setCurrentStep] = useState<Step>(1);
   const [loading, setLoading] = useState(false);
-
+  const { t } = useAppTranslation();
   if (!bumpkin) {
-    throw new Error("Bumpkin is not defined");
+    throw new Error(t("error.noBumpkin"));
   }
 
   const onClose = () => gameService.send("CLOSE");
 
   const STEPS: Record<Step, ModalContent> = {
     1: {
-      title: "Setting up your wallet",
+      title: t("onboarding.wallet.titleOne"),
       icon: (
         <img
           src="https://sequence.app/static/images/sequence-logo.7c854742a6b8b4969004.svg"
@@ -54,13 +55,9 @@ export const WalletOnboarding: React.FC = () => {
       ),
       text: (
         <>
-          <p>
-            {`There are many wallet providers out there, but we've partnered with Sequence because they're easy to use and secure.`}
-          </p>
+          <p>{t("onboarding.wallet.one")}</p>
 
-          <p>
-            {`Select a sign-up method in the pop-up window and you're good to go. I'll see you back here in just a minute!`}
-          </p>
+          <p>{t("onboarding.wallet.two")}</p>
 
           <a
             onClick={() => authService.send("SIGN_IN")}
@@ -70,11 +67,11 @@ export const WalletOnboarding: React.FC = () => {
           </a>
         </>
       ),
-      buttonText: `Create wallet`,
-      loadingText: "Signing in...",
+      buttonText: t("onboarding.wallet.createButton"),
+      loadingText: t("welcome.signingIn"),
     },
     2: {
-      title: "Accept the terms of service",
+      title: t("onboarding.wallet.titleTwo"),
       icon: (
         <img
           src={CROP_LIFECYCLE.Sunflower.crop}
@@ -84,18 +81,16 @@ export const WalletOnboarding: React.FC = () => {
       ),
       text: (
         <>
-          <p>{`In order to buy your farm you will need to accept the Sunflower Land terms of service.`}</p>
+          <p>{t("onboarding.wallet.three")}</p>
 
-          <p>
-            {`This step will take you back to your new sequence wallet to accept the terms of service.`}
-          </p>
+          <p>{t("onboarding.wallet.four")}</p>
         </>
       ),
-      buttonText: `Accept terms of service`,
-      loadingText: "Accepting terms...",
+      buttonText: t("onboarding.wallet.acceptButton"),
+      loadingText: t("onboarding.wallet.acceptLoading"),
     },
     3: {
-      title: "Buy your farm!",
+      title: t("onboarding.wallet.titleThree"),
       icon: (
         <img
           src={walletIcon}
@@ -105,17 +100,13 @@ export const WalletOnboarding: React.FC = () => {
       ),
       text: (
         <>
-          <p>
-            {`Now that your wallet is all set up, it's time to get your very own farm NFT! `}
-          </p>
+          <p>{t("onboarding.wallet.five")}</p>
 
-          <p>
-            {`This NFT will securely store all your progress in Sunflower Land and allow you to keep coming back to tend to your farm.`}
-          </p>
+          <p>{t("onboarding.wallet.six")}</p>
         </>
       ),
-      buttonText: `Let's do this!`,
-      loadingText: `Let's do this!`,
+      buttonText: t("onboarding.wallet.final"),
+      loadingText: t("onboarding.wallet.final"),
     },
   };
 
