@@ -447,6 +447,15 @@ export type RetreatTerms =
   | "retreatTerms.resale.two"
   | "retreatTerms.resale.three";
 
+export type IslandNames =
+  | "home"
+  | "pumpkin.plaza"
+  | "beach"
+  | "woodlands"
+  | "helios"
+  | "goblin.retreat"
+  | "potion.house";
+
 export type TranslationKeys =
   | AchievementsDialog
   | BumpkinPartRequirements
@@ -459,6 +468,7 @@ export type TranslationKeys =
   | GuideTerms
   | HenHouseTerms
   | Intro
+  | IslandNames
   | Onboarding
   | Questions
   | RetreatTerms
