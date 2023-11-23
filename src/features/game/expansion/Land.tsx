@@ -42,10 +42,6 @@ import { Fisherman } from "features/island/fisherman/Fisherman";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { Airdrop } from "./components/Airdrop";
 
-import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
-import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
-
 export const LAND_WIDTH = 6;
 
 const getIslandElements = ({
@@ -501,13 +497,6 @@ export const Land: React.FC = () => {
               />
             )}
             {!landscaping && <UpcomingExpansion />}
-
-            {/* No Bumpkin */}
-            <Modal show={!bumpkin} backdrop="static" keyboard={false} centered>
-              <Panel>
-                <NoBumpkin />
-              </Panel>
-            </Modal>
 
             <div
               className={classNames(
