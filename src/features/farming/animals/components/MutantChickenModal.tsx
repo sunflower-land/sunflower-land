@@ -11,29 +11,30 @@ import bananaChicken from "assets/animals/chickens/banana_chicken.png";
 
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 const mutants: Record<MutantChicken, Record<string, string>> = {
   "Speed Chicken": {
-    description: "Your chickens will now produce eggs 10% faster.",
+    description: translate("description.speed.chicken"),
     image: speedChicken,
   },
   "Fat Chicken": {
-    description: "Your chickens will now require 10% less wheat per feed.",
+    description: translate("description.fat.chicken"),
     image: fatChicken,
   },
   "Rich Chicken": {
-    description: "Your chickens will now yield 10% more eggs.",
+    description: translate("description.rich.chicken"),
     image: richChicken,
   },
   "Ayam Cemani": {
-    description: "The rarest chicken in existence!",
+    description: translate("description.ayam.cemani"),
     image: ayamCemani,
   },
   "El Pollo Veloz": {
-    description: "Your chickens will lay eggs 4 hours faster!",
+    description: translate("description.el.pollo.veloz"),
   },
   "Banana Chicken": {
-    description: "A chicken that boosts bananas. What a world we live in.",
+    description: translate("description.banana.chicken"),
     image: bananaChicken,
   },
 };
