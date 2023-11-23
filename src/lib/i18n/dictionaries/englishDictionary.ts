@@ -61,6 +61,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   fruit: "Fruit",
   fruits: "Fruits",
   gotIt: "Got it",
+  "grant.wish": "Grant New Wish",
   guide: "Guide",
   info: "Info",
   item: "Item:",
@@ -73,6 +74,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   mint: "Mint",
   minting: "minting",
   minted: "Already minted!",
+  music: "Music",
   next: "Next",
   nextSkillPtLvl: "Next skill point: level",
   "no.mail": "No mail",
@@ -105,16 +107,19 @@ const generalTerms: Record<GeneralTerms, string> = {
   syncing: "Syncing",
   task: "Task",
   total: "Total",
+  "total.price": "Total Price: ",
   trades: "Trades",
   trading: "Trading",
   "trash.collection": "Trash Collection",
   tryAgain: "Try again",
+  uhOh: "Uh oh!",
   verify: "Verify",
   version: "Version",
   viewAll: "View all",
   "visit.friend": "Visit Friend",
   wallet: "Wallet",
   welcome: "Welcome!",
+  "wishing.well": "Wishing Well",
   withdraw: "Withdraw",
   "you.are.here": "You are here",
 };
@@ -125,6 +130,9 @@ const gameTerms: Record<GameTerms, string> = {
   gobSwarm: "Goblin Swarm!",
   potions: "Potions",
   sflDiscord: "Sunflower Land Discord Server",
+  "auction.winner": "Auction Winner!",
+  "farm.banned": "This farm is banned",
+  "proof.of.humanity": "Proof of Humanity",
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
@@ -141,6 +149,8 @@ const welcomeTerms: Record<WelcomeTerms, string> = {
   "welcome.signingIn": "Signing you in",
   "welcome.signInMessage":
     "Accept the signature request in your browser wallet to login.",
+  "welcome.takeover":
+    "It looks like you are new to Sunflower Land and have claimed ownership of another player's account.",
 };
 
 const rulesTerms: Record<RulesTerms, string> = {
@@ -382,6 +392,14 @@ const conversations: Record<Conversations, string> = {
     "Bring me your finest harvest, and I will give you a fair price for them!",
   "betty-intro.three":
     "You need seeds? From potatoes to parsnips, I've got you covered!",
+  "betty.market-intro.one":
+    "Hey there, Bumpkin! It's Betty from the farmer's market. I travel between islands to buy crops and sell fresh seeds.",
+  "betty.market-intro.two":
+    "Good news: you just stumbled upon a shiny new shovel! Bad news: we've hit a bit of a crop shortage.",
+  "betty.market-intro.three":
+    "For a limited time I am offering newcomers double the money for any crops you bring to me.",
+  "betty.market-intro.four":
+    "Harvest those Sunflowers and let's start your farming empire.",
   "bruce-intro.headline": "Cooking Introduction",
   "bruce-intro.one": "I'm the owner of this lovely little bistro.",
   "bruce-intro.two":
@@ -391,6 +409,24 @@ const conversations: Record<Conversations, string> = {
   "blacksmith-intro.headline": "Chop chop chop.",
   "blacksmith-intro.one":
     "I'm a master of tools, and with the right resources, I can craft anything you need...including more tools!",
+  "pete.first-expansion.one":
+    "Congratulations, Bumpkin! Your farm is growing faster than a beanstalk in a rainstorm!",
+  "pete.first-expansion.two":
+    "With each expansion, you'll find cool stuff like special resources, new trees, and more to collect!",
+  "pete.first-expansion.three":
+    "Keep an eye out for surprise gifts from the generous goblins as you explore—they're not just expert builders, but crafty secret givers!",
+  "pete.blacksmith.one": "Hmm, those crops are growing slow.",
+  "pete.blacksmith.two":
+    "Sunflower Land is full of magical items you can craft to enhance your farming abilities.",
+  "pete.blacksmith.three":
+    "Head over to the work bench and craft a scarecrow to speed up those Sunflowers.",
+  "pete.levelthree.one": "Congratulations, your green thumb is truly shining!",
+  "pete.levelthree.two":
+    "It's high time we head to the Plaza, where your farming prowess can shine even brighter.",
+  "pete.levelthree.three":
+    "At the plaza you can deliver your resources for rewards, craft magical items & trade with other players.",
+  "pete.levelthree.four":
+    "You can travel by clicking on the world icon in the bottom left.",
 };
 
 const henHouseTerms: Record<HenHouseTerms, string> = {
@@ -444,6 +480,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.Web3NotFound": "Web3 Not Found",
   "error.wentWrong": "Something went wrong!",
   "error.noBumpkin": "Bumpkin is not defined",
+  "error.clock.not.synced": "Clock not in sync",
 };
 
 const warningTerms: Record<WarningTerms, string> = {
@@ -451,6 +488,12 @@ const warningTerms: Record<WarningTerms, string> = {
   "warning.chat.maxCharacters": "Max characters:",
   "warning.chat.noSpecialCharacters": "No special characters",
   "warning.level.three.required": "Level 3 Required",
+  "warning.hoarding.message":
+    "You have reached the Hoarding Limit for the following item",
+  "warning.hoarding.one":
+    "Word is that Goblins are known to raid farms that have an abundance of resources.",
+  "warning.hoarding.two":
+    "To protect yourself and keep those precious resources safe, please sync them on chain before gathering any more of:",
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
@@ -624,6 +667,27 @@ const statements: Record<Statements, string> = {
   "statements.mutant.chicken":
     "Congratulations, your chicken has laid a very rare mutant chicken!",
   "statements.conversation.one": "I've got something for you!",
+  "statements.better.luck": "Better luck next time!",
+  "statements.make.a.wish": "Grant a new wish and see how lucky you are!",
+  "statements.no.reward":
+    "You have no reward available! Liquidity needs to be held for 3 days to get a reward!",
+  "statements.new.wish":
+    "A new wish has been made for you based on your current balance of LP tokens!",
+  "statements.wish.granted": "Your wish has been granted.",
+  "statements.wish.ready.in": "Time till next wish: ",
+  "statements.wishing.well.amount": "Amount of rewards in the well: ",
+  "statements.wish.granted.time": "It's time to grant your wish!",
+  "statements.wishing.well.luck": "Let's see how lucky you are!",
+  "statements.sfl.rewards.received": "SFL rewards received: ",
+  "statements.wish.made": "You have made a wish!",
+  "statements.wish.thanks":
+    "Thanks for supporting the project and making a wish.",
+  "statements.wish.warning.one":
+    "Be aware that only the LP tokens you held at the time the wish was made will be considered when the wish is granted.",
+  "statements.wish.warning.two":
+    "If you remove your liquidity during this time you won't receive any rewards.",
+  "statements.wish.time":
+    "Come back in the following amount of time to see just how lucky you have been: ",
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {

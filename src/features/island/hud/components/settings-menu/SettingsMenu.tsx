@@ -23,6 +23,7 @@ import { PokoOnRamp } from "../PokoOnRamp";
 import { createPortal } from "react-dom";
 import { DEV_TimeMachine } from "./DEV_TimeMachine";
 import { PlazaSettings } from "./PlazaSettingsModal";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -52,6 +53,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [showTimeMachine, setShowTimeMachine] = useState(false);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const { openModal } = useContext(ModalContext);
+  const { t } = useAppTranslation();
 
   const isFullUser = !!gameService?.state?.context.farmAddress;
 
@@ -143,7 +145,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                 {isFullUser && (
                   <li className="p-1">
                     <Button onClick={storeOnChain}>
-                      <span>Store progress on chain</span>
+                      <span>{t("transaction.progChain")}</span>
                     </Button>
                   </li>
                 )}

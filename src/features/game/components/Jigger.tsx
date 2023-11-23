@@ -22,7 +22,7 @@ export const Jigger: React.FC<Props> = ({
   if (showWarning) {
     return (
       <div className="flex flex-col items-center p-2">
-        <span className="text-center">Proof of Humanity</span>
+        <span className="text-center">{t("proof.of.humanity")}</span>
         <img src={SUNNYSIDE.icons.expression_alerted} className="w-6 mt-2" />
         <span className="text-sm mt-2 mb-2">{t("statements.jigger.one")}</span>
 
@@ -42,7 +42,7 @@ export const Jigger: React.FC<Props> = ({
   if (status === "REJECTED") {
     return (
       <div className="flex flex-col items-center p-2">
-        <span className="text-center">Uh oh!</span>
+        <span className="text-center">{t("uhOh")}</span>
         <img src={suspiciousGoblin} alt="Warning" className="w-16 m-2" />
         <span className="text-sm mt-2 mb-2">{t("statements.jigger.two")}</span>
         <span className="text-sm mt-2 mb-2">
@@ -61,7 +61,7 @@ export const Jigger: React.FC<Props> = ({
   if (status === "PENDING") {
     return (
       <div className="flex flex-col items-center p-2">
-        <span className="text-center">Uh oh!</span>
+        <span className="text-center">{t("uhOh")}</span>
         <img src={suspiciousGoblin} alt="Warning" className="w-16 m-2" />
         <span className="text-sm mt-2 mb-2">{t("statements.jigger.five")}</span>
         <span className="text-sm mt-2 mb-2">
@@ -79,7 +79,7 @@ export const Jigger: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col items-center p-2">
-      <span className="text-center">Uh oh!</span>
+      <span className="text-center">{t("uhOh")}</span>
       <img src={suspiciousGoblin} alt="Warning" className="w-16 m-2" />
       <span className="text-sm mt-2 mb-2">{t("statements.jigger.six")}</span>
       <span className="text-sm mt-2 mb-2">{t("statements.jigger.seven")}</span>

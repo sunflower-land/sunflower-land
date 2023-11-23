@@ -37,7 +37,7 @@ export const StoreOnChainModal: React.FC<Props> = ({ onClose }) => {
           {t("transaction.blockchain.one")}
         </p>
       </div>
-      <Button onClick={storeData}>Store progress</Button>
+      <Button onClick={storeData}>{t("transaction.progress")}</Button>
     </CloseButtonPanel>
   );
 };

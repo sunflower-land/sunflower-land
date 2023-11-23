@@ -11,6 +11,7 @@ import { PIXEL_SCALE } from "../lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ModalContext } from "./modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 export const Hoarding: React.FC = () => {
   const { t } = useAppTranslation();
@@ -35,10 +36,8 @@ export const Hoarding: React.FC = () => {
 
   const makeTitle = () => {
     const regex = new RegExp(/^[aeiou]/gi);
-    const startsWithVowel = regex.test(maxedItem);
-    const indefiniteArticle = startsWithVowel ? "an" : "a";
 
-    return `Are you ${indefiniteArticle} ${itemName} hoarder?!`; //may need translation (Lines 41, 61, 64)
+    return translate("warning.hoarding.message"); // May change the format later
   };
 
   return (
@@ -57,11 +56,9 @@ export const Hoarding: React.FC = () => {
       <div className="flex flex-col items-center p-1">
         <span className="text-center text-sm sm:text-base">{makeTitle()}</span>
         <img src={maxedItemImage} className="h-12 mt-2 mb-3" />
-        <p className="text-xs sm:text-sm mb-3">
-          {`Word is that Goblins are known to raid farms that have an abundance of resources.`}
-        </p>
+        <p className="text-xs sm:text-sm mb-3">{t("warning.hoarding.one")}</p>
         <p className="text-xs sm:text-sm mb-1">
-          {`To protect yourself and keep those precious resources safe, please sync them on chain before gathering any more ${itemName}.`}
+          {t("warning.hoarding.two")} {`${itemName}.`}
         </p>
         <div className="text-xs underline my-2 w-full">
           <a

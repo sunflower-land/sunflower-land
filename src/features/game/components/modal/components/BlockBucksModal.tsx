@@ -236,7 +236,10 @@ export const BlockBucksModal: React.FC<Props> = ({
                 }}
               />
             </div>
-            <p className="mr-2 mb-1">{`Total: ${price.usd} USD`}</p>
+            <p className="mr-2 mb-1">
+              {t("total.price")}
+              {`${price.usd} USD`}
+            </p>
           </div>
           <div className="flex flex-col flex-grow items-stretch justify-around mx-3 space-y-2 sm:space-y-0 sm:space-x-5 sm:flex-row">
             <OuterPanel className="w-full flex flex-col items-center relative">

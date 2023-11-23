@@ -9,9 +9,7 @@ export const Cooldown: React.FC = () => {
     <div className="flex flex-col items-center p-2">
       <span className="text-center">{t("welcome")}</span>
       <img src={suspiciousGoblin} alt="Warning" className="w-16 m-2" />
-      <span className="text-sm mt-2 mb-2">
-        {`It looks like you are new to Sunflower Land and have claimed ownership of another player's account.`}
-      </span>
+      <span className="text-sm mt-2 mb-2">{t("welcome.takeover")}</span>
       <span className="text-sm mt-2 mb-2">{t("statements.cooldown")}</span>
     </div>
   );

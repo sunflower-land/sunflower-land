@@ -36,6 +36,7 @@ export type GeneralTerms =
   | "fruit"
   | "fruits"
   | "gotIt"
+  | "grant.wish"
   | "guide"
   | "info"
   | "item"
@@ -48,6 +49,7 @@ export type GeneralTerms =
   | "mint"
   | "minting"
   | "minted"
+  | "music"
   | "next"
   | "nextSkillPtLvl"
   | "no.mail"
@@ -81,16 +83,19 @@ export type GeneralTerms =
   | "syncing"
   | "task"
   | "total"
+  | "total.price"
   | "trades"
   | "trading"
   | "trash.collection"
   | "tryAgain"
+  | "uhOh"
   | "verify"
   | "version"
   | "viewAll"
   | "visit.friend"
   | "wallet"
   | "welcome"
+  | "wishing.well"
   | "withdraw"
   | "you.are.here";
 
@@ -99,7 +104,10 @@ export type GameTerms =
   | "gobSwarm"
   | "potions"
   | "bumpkinLvl"
-  | "sflDiscord";
+  | "sflDiscord"
+  | "auction.winner"
+  | "farm.banned"
+  | "proof.of.humanity";
 
 export type ConfirmationTerms = "confirmation.sellCrops";
 
@@ -111,7 +119,8 @@ export type WelcomeTerms =
   | "welcome.login"
   | "welcome.signingIn"
   | "welcome.signInMessage"
-  | "welcome.email";
+  | "welcome.email"
+  | "welcome.takeover";
 
 export type RulesTerms =
   | "rules"
@@ -261,12 +270,26 @@ export type Conversations =
   | "betty-intro.one"
   | "betty-intro.two"
   | "betty-intro.three"
+  | "betty.market-intro.one"
+  | "betty.market-intro.two"
+  | "betty.market-intro.three"
+  | "betty.market-intro.four"
   | "bruce-intro.headline"
   | "bruce-intro.one"
   | "bruce-intro.two"
   | "bruce-intro.three"
   | "blacksmith-intro.headline"
-  | "blacksmith-intro.one";
+  | "blacksmith-intro.one"
+  | "pete.first-expansion.one"
+  | "pete.first-expansion.two"
+  | "pete.first-expansion.three"
+  | "pete.blacksmith.one"
+  | "pete.blacksmith.two"
+  | "pete.blacksmith.three"
+  | "pete.levelthree.one"
+  | "pete.levelthree.two"
+  | "pete.levelthree.three"
+  | "pete.levelthree.four";
 
 export type HenHouseTerms =
   | "henHouse.chickens"
@@ -308,13 +331,17 @@ export type ErrorTerms =
   | "error.connection.four"
   | "error.diagnostic.info"
   | "error.Web3NotFound"
-  | "error.noBumpkin";
+  | "error.noBumpkin"
+  | "error.clock.not.synced";
 
 export type WarningTerms =
   | "warning.noAxe"
   | "warning.chat.maxCharacters"
   | "warning.chat.noSpecialCharacters"
-  | "warning.level.three.required";
+  | "warning.level.three.required"
+  | "warning.hoarding.message"
+  | "warning.hoarding.one"
+  | "warning.hoarding.two";
 
 export type TransactionTerms =
   | "transaction.blockBucksFarm"
@@ -436,7 +463,22 @@ export type Statements =
   | "statements.tutorial.two"
   | "statements.tutorial.three"
   | "statements.mutant.chicken"
-  | "statements.conversation.one";
+  | "statements.conversation.one"
+  | "statements.better.luck"
+  | "statements.make.a.wish"
+  | "statements.no.reward"
+  | "statements.new.wish"
+  | "statements.wish.granted"
+  | "statements.wish.ready.in"
+  | "statements.wishing.well.amount"
+  | "statements.wish.granted.time"
+  | "statements.wishing.well.luck"
+  | "statements.sfl.rewards.received"
+  | "statements.wish.made"
+  | "statements.wish.thanks"
+  | "statements.wish.warning.one"
+  | "statements.wish.warning.two"
+  | "statements.wish.time";
 
 export type BumpkinTrade =
   | "bumpkinTrade.askPrice"

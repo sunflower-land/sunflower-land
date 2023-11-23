@@ -8,6 +8,7 @@ import { GoldPassModal } from "features/game/expansion/components/GoldPass";
 import { SpeakingModal } from "../SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useNavigate } from "react-router-dom";
+import { translate } from "lib/i18n/translate";
 
 type GlobalModal =
   | "BUY_BLOCK_BUCKS"
@@ -42,7 +43,7 @@ export const ModalProvider: FC = ({ children }) => {
       {children}
 
       <BlockBucksModal
-        show={opened === "BUY_BLOCK_BUCKS"} // Translation needed (line 45, 51, 55, 59)
+        show={opened === "BUY_BLOCK_BUCKS"}
         onClose={handleClose}
         closeable={closeable}
         setCloseable={setCloseable}
@@ -60,13 +61,13 @@ export const ModalProvider: FC = ({ children }) => {
         <SpeakingModal
           message={[
             {
-              text: "Congratulations, Bumpkin! Your farm is growing faster than a beanstalk in a rainstorm!", // Translation needed
+              text: translate("pete.first-expansion.one"),
             },
             {
-              text: "With each expansion, you'll find cool stuff like special resources, new trees, and more to collect!", // Translation needed
+              text: translate("pete.first-expansion.two"),
             },
             {
-              text: "Keep an eye out for surprise gifts from the generous goblins as you explore—they're not just expert builders, but crafty secret givers!", // Translation needed
+              text: translate("pete.first-expansion.three"),
             },
           ]}
           onClose={handleClose}
@@ -77,16 +78,16 @@ export const ModalProvider: FC = ({ children }) => {
         <SpeakingModal
           message={[
             {
-              text: "Hey there, Bumpkin! It's Betty from the farmer's market. I travel between islands to buy crops and sell fresh seeds.", // Translation needed
+              text: translate("betty.market-intro.one"),
             },
             {
-              text: "Good news: you just stumbled upon a shiny new shovel! Bad news: we've hit a bit of a crop shortage.", // Translation needed
+              text: translate("betty.market-intro.two"),
             },
             {
-              text: "For a limited time I am offering newcomers double the money for any crops you bring to me.", // Translation needed
+              text: translate("betty.market-intro.three"),
             },
             {
-              text: "Harvest those Sunflowers and let's start your farming empire.", // Translation needed
+              text: translate("betty.market-intro.four"),
             },
           ]}
           onClose={handleClose}
@@ -97,33 +98,33 @@ export const ModalProvider: FC = ({ children }) => {
         <SpeakingModal
           message={[
             {
-              text: "Hmm, those crops are growing slow.", // Translation needed
+              text: translate("pete.blacksmith.one"),
             },
             {
-              text: "Sunflower Land is full of magical items you can craft to enhance your farming abilities.", // Translation needed
+              text: translate("pete.blacksmith.two"),
             },
             {
-              text: "Head over to the work bench and craft a scarecrow to speed up those Sunflowers.", // Translation needed
+              text: translate("pete.blacksmith.three"),
             },
           ]}
           onClose={handleClose}
-          bumpkinParts={NPC_WEARABLES["pumpkin' pete"]} // Translation needed
+          bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
         />
       </Modal>
       <Modal centered show={opened === "THIRD_LEVEL"}>
         <SpeakingModal
           message={[
             {
-              text: "Congratulations, your green thumb is truly shining!", // Translation needed
+              text: translate("pete.levelthree.one"),
             },
             {
-              text: "It's high time we head to the Plaza, where your farming prowess can shine even brighter.", // Translation needed
+              text: translate("pete.levelthree.two"),
             },
             {
-              text: "At the plaza you can deliver your resources for rewards, craft magical items & trade with other players.", // Translation needed
+              text: translate("pete.levelthree.three"),
             },
             {
-              text: "You can travel by clicking on the world icon in the bottom left.", // Translation needed
+              text: translate("pete.levelthree.four"),
             },
           ]}
           onClose={handleClose}
