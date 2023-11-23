@@ -2494,7 +2494,7 @@ export const ITEM_DETAILS: Items = {
   "Gold Pass": {
     image: goldPass,
     description:
-      "An exlusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content",
+      "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content",
   },
   Poppy: {
     image: poppy,
