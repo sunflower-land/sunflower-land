@@ -57,7 +57,7 @@ export const Conversation: React.FC<Props> = ({
       return (
         // Translation needed (line 59,81, 103, 115)
         <>
-          <p className="text-center">{`I've got something for you!`}</p>
+          <p className="text-center">{t("statements.conversation.one")}</p>
 
           <div className="flex flex-col items-center">
             {getKeys(conversation.reward?.items).map((name) => (
@@ -101,7 +101,7 @@ export const Conversation: React.FC<Props> = ({
 
         {!read && (
           <Button onClick={next}>
-            {!!conversation.reward && !read ? "Open Gift" : `Got it`}
+            {!!conversation.reward && !read ? t("open.gift") : t("gotIt")}
           </Button>
         )}
 

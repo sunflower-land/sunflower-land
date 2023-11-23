@@ -67,7 +67,6 @@ export const PlaceableController: React.FC = () => {
   const handleConfirmPlacement = () => {
     // prevents multiple toasts while spam clicking place button
     if (!child.state.matches({ editing: "placing" })) {
-      // Translation needed
       return;
     }
 
@@ -117,19 +116,19 @@ export const PlaceableController: React.FC = () => {
       );
 
       send({
-        type: "PLACE", // Translation needed
+        type: "PLACE",
         nextOrigin: nextPosition,
         nextWillCollide: collisionDetected,
       });
     } else {
       send({
-        type: "PLACE", // Translation needed
+        type: "PLACE",
       });
     }
   };
 
   const handleCancelPlacement = () => {
-    send("BACK"); // Translation needed
+    send("BACK");
   };
 
   const image = isBudName(placeable) ? "" : ITEM_DETAILS[placeable].image;
@@ -163,7 +162,7 @@ export const PlaceableController: React.FC = () => {
     );
   };
 
-  const isForcedToPlace = placeable === "Time Warp Totem"; // Translation needed
+  const isForcedToPlace = placeable === "Time Warp Totem";
 
   return (
     <div className="fixed bottom-2 left-1/2 -translate-x-1/2">
@@ -180,7 +179,7 @@ export const PlaceableController: React.FC = () => {
             <Button onClick={handleCancelPlacement}>
               <img
                 src={SUNNYSIDE.icons.cancel}
-                alt="cancel" // Translation needed
+                alt="cancel"
                 style={{
                   width: `${PIXEL_SCALE * 11}px`,
                 }}
@@ -191,7 +190,7 @@ export const PlaceableController: React.FC = () => {
           <Button disabled={collisionDetected} onClick={handleConfirmPlacement}>
             <img
               src={SUNNYSIDE.icons.confirm}
-              alt="confirm" // Translation needed
+              alt="confirm"
               style={{
                 width: `${PIXEL_SCALE * 12}px`,
               }}

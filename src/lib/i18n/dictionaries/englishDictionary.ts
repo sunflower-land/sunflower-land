@@ -75,8 +75,10 @@ const generalTerms: Record<GeneralTerms, string> = {
   minted: "Already minted!",
   next: "Next",
   nextSkillPtLvl: "Next skill point: level",
+  "no.mail": "No mail",
   noThanks: "No thanks",
   ok: "OK",
+  "open.gift": "Open Gift",
   "pass.required": "Pass Required",
   print: "Print",
   purchasing: "Purchasing",
@@ -600,6 +602,7 @@ const statements: Record<Statements, string> = {
     "Your adventure begins now, how far you explore ... that is on you.",
   "statements.mutant.chicken":
     "Congratulations, your chicken has laid a very rare mutant chicken!",
+  "statements.conversation.one": "I've got something for you!",
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {

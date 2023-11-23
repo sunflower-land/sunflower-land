@@ -50,8 +50,10 @@ export type GeneralTerms =
   | "minted"
   | "next"
   | "nextSkillPtLvl"
+  | "no.mail"
   | "noThanks"
   | "ok"
+  | "open.gift"
   | "pass.required"
   | "print"
   | "purchasing"
@@ -418,7 +420,8 @@ export type Statements =
   | "statements.tutorial.one"
   | "statements.tutorial.two"
   | "statements.tutorial.three"
-  | "statements.mutant.chicken";
+  | "statements.mutant.chicken"
+  | "statements.conversation.one";
 
 export type BumpkinTrade =
   | "bumpkinTrade.askPrice"

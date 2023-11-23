@@ -7,7 +7,6 @@ export function useIsNewFarm() {
   const [{ history }] = useActor(authService);
 
   if (history?.event.type === "CREATE_FARM") {
-    // Translation needed
     return true;
   }
 
