@@ -86,7 +86,11 @@ export type BumpkinActivityName =
   | "Bud Placed"
   | ComposterCollectEvent
   | "Kraken Tentacle Traded"
-  | "Crop Fertilised";
+  | "Crop Fertilised"
+  | "5x Block Buck Crafted"
+  | "100x Block Buck Crafted"
+  | "Fishing Pack Crafted"
+  | "Tool Pack Crafted";
 
 export function trackActivity(
   activityName: BumpkinActivityName,

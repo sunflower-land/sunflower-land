@@ -198,6 +198,10 @@ import {
   BurnCollectibleAction,
 } from "./landExpansion/burnCollectible";
 import { claimBonus, ClaimBonusAction } from "./landExpansion/claimBonus";
+import {
+  craftCommunityItem,
+  CraftCommunityItemAction,
+} from "./landExpansion/craftCommunityItem";
 
 export type PlayingEvent =
   | TradeAction
@@ -265,7 +269,8 @@ export type PlayingEvent =
   | TradeTentacleAction
   | RevealLandAction
   | BurnCollectibleAction
-  | ClaimBonusAction;
+  | ClaimBonusAction
+  | CraftCommunityItemAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -387,6 +392,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "land.revealed": revealLand,
   "collectible.burned": burnCollectible,
   "bonus.claimed": claimBonus,
+  "communityShop.crafted": craftCommunityItem,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

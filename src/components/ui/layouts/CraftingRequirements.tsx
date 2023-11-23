@@ -18,6 +18,7 @@ import {
 } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { NPC } from "features/island/bumpkin/components/NPC";
+import { CommunityShopItemName } from "features/game/types/collectibles";
 
 /**
  * The props for the details for items.
@@ -38,7 +39,13 @@ type InventoryDetailsProps = BaseProps & {
 type WearableDetailsProps = BaseProps & {
   wearable: BumpkinItem;
 };
-type ItemDetailsProps = InventoryDetailsProps | WearableDetailsProps;
+type CommunityDetailsProps = BaseProps & {
+  communityItem: CommunityShopItemName;
+};
+type ItemDetailsProps =
+  | InventoryDetailsProps
+  | WearableDetailsProps
+  | CommunityDetailsProps;
 
 /**
  * The props for harvests requirement label.
@@ -115,14 +122,24 @@ function getDetails(
     };
   }
 
-  const wardrobeCount = game.wardrobe[details.wearable] ?? 0;
+  if (details.wearable) {
+    const wardrobeCount = game.wardrobe[details.wearable] ?? 0;
+
+    return {
+      count: new Decimal(wardrobeCount),
+      limit: new Decimal(1),
+      description: "?",
+      image: getImageUrl(ITEM_IDS[details.wearable]),
+      name: details.wearable,
+    };
+  }
 
   return {
-    count: new Decimal(wardrobeCount),
+    count: new Decimal(0),
     limit: new Decimal(1),
     description: "?",
-    image: getImageUrl(ITEM_IDS[details.wearable]),
-    name: details.wearable,
+    image: ITEM_DETAILS["Abandoned Bear"].image,
+    name: details.communityItem,
   };
 }
 

@@ -462,3 +462,61 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostedItemIcon: SUNNYSIDE.icons.fish,
   },
 };
+
+export type CommunityShopItemName =
+  | "Tool Pack"
+  | "Fishing Pack"
+  | "5x Block Buck"
+  | "100x Block Buck";
+
+type CommunityShopCraftable = CraftableCollectible & {
+  packItems: Inventory;
+};
+
+export const COMMUNITY_SHOP_ITEMS: Record<
+  CommunityShopItemName,
+  CommunityShopCraftable
+> = {
+  "Fishing Pack": {
+    description: "",
+    ingredients: {
+      "Community Coin": new Decimal(2),
+    },
+    packItems: {
+      Rod: new Decimal(15),
+      "Red Wiggler": new Decimal(5),
+      Grub: new Decimal(7),
+      Earthworm: new Decimal(10),
+    },
+  },
+  "Tool Pack": {
+    description: "",
+    ingredients: {
+      "Community Coin": new Decimal(5),
+    },
+    packItems: {
+      Pickaxe: new Decimal(8),
+      "Stone Pickaxe": new Decimal(5),
+      "Iron Pickaxe": new Decimal(4),
+      Axe: new Decimal(10),
+    },
+  },
+  "5x Block Buck": {
+    description: "",
+    ingredients: {
+      "Community Coin": new Decimal(10),
+    },
+    packItems: {
+      "Block Buck": new Decimal(5),
+    },
+  },
+  "100x Block Buck": {
+    description: "",
+    ingredients: {
+      "Community Coin": new Decimal(50),
+    },
+    packItems: {
+      "Block Buck": new Decimal(100),
+    },
+  },
+};
