@@ -632,13 +632,47 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
-
+            {
+              target: "noBumpkinFound",
+              cond: (context: Context, event: any) =>
+                !event.data?.state.bumpkin &&
+                !context.state.bumpkin &&
+                window.location.hash.includes("/land"),
+            },
             {
               target: "introduction",
               cond: (context) => {
                 return (
                   context.state.bumpkin?.experience === 0 &&
                   !getIntroductionRead()
+                );
+              },
+            },
+            {
+              target: "mailbox",
+              cond: (context) =>
+                hasUnreadMail(context.announcements, context.state.mailbox),
+            },
+            {
+              target: "swarming",
+              cond: () => isSwarming(),
+            },
+            {
+              target: "specialOffer",
+              cond: (context) =>
+                (context.state.bumpkin?.experience ?? 0) > 100 &&
+                !context.state.collectibles["Catch the Kraken Banner"] &&
+                !getSeasonPassRead(),
+            },
+            // EVENTS THAT TARGET NOTIFYING OR LOADING MUST GO ABOVE THIS LINE
+
+            // EVENTS THAT TARGET PLAYING MUST GO BELOW THIS LINE
+            {
+              target: "promo",
+              cond: (context) => {
+                return (
+                  context.state.bumpkin?.experience === 0 &&
+                  getPromoCode() === "crypto-com"
                 );
               },
             },
@@ -653,24 +687,6 @@ export function startGame(authContext: AuthContext) {
               },
             },
             {
-              target: "mailbox",
-              cond: (context) =>
-                hasUnreadMail(context.announcements, context.state.mailbox),
-            },
-            {
-              target: "swarming",
-              cond: () => isSwarming(),
-            },
-            // TODO - introduction > tutorial_begin
-
-            {
-              target: "noBumpkinFound",
-              cond: (context: Context, event: any) =>
-                !event.data?.state.bumpkin &&
-                !context.state.bumpkin &&
-                window.location.hash.includes("/land"),
-            },
-            {
               target: "noTownCenter",
               cond: (context: Context) => {
                 return (
@@ -679,26 +695,10 @@ export function startGame(authContext: AuthContext) {
               },
             },
             {
-              target: "specialOffer",
-              cond: (context) =>
-                (context.state.bumpkin?.experience ?? 0) > 100 &&
-                !context.state.collectibles["Catch the Kraken Banner"] &&
-                !getSeasonPassRead(),
-            },
-            {
               // auctionResults needs to be the last check as it transitions directly
               // to playing. It does not target notifying.
               target: "auctionResults",
               cond: (context: Context) => !!context.state.auctioneer.bid,
-            },
-            {
-              target: "promo",
-              cond: (context) => {
-                return (
-                  context.state.bumpkin?.experience === 0 &&
-                  getPromoCode() === "crypto-com"
-                );
-              },
             },
             {
               target: "playing",
