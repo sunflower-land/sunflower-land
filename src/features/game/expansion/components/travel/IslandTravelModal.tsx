@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import boatIcon from "assets/npcs/island_boat_pirate.png";
-import worldIcon from "assets/icons/world_small.png";
-import lockIcon from "assets/skills/lock.png";
 
 import { IslandList } from "./IslandList";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
@@ -11,8 +9,6 @@ import { Equipped } from "features/game/types/bumpkin";
 import { Tutorial } from "./Tutorial";
 import { Bumpkin, GameState } from "features/game/types/game";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { getBumpkinLevel } from "features/game/lib/level";
-import { Label } from "components/ui/Label";
 
 const CONTENT_HEIGHT = 380;
 
@@ -54,21 +50,22 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
     setShowTutorial(false);
   };
 
-  if (getBumpkinLevel(bumpkin?.experience ?? 0) < 3) {
-    return (
-      <CloseButtonPanel onClose={onClose}>
-        <div className="flex flex-col items-center">
-          <Label className="mt-2" icon={lockIcon} type="danger">
-            Level 3 Required
-          </Label>
-          <img src={worldIcon} className="w-10 mx-auto my-2" />
-          <p className="text-sm text-center mb-2">
-            Visit the Fire Pit to cook food and feed your Bumpkin.
-          </p>
-        </div>
-      </CloseButtonPanel>
-    );
-  }
+  // TEMP: Disable for conference
+  // if (getBumpkinLevel(bumpkin?.experience ?? 0) < 3) {
+  //   return (
+  //     <CloseButtonPanel onClose={onClose}>
+  //       <div className="flex flex-col items-center">
+  //         <Label className="mt-2" icon={lockIcon} type="danger">
+  //           Level 3 Required
+  //         </Label>
+  //         <img src={worldIcon} className="w-10 mx-auto my-2" />
+  //         <p className="text-sm text-center mb-2">
+  //           Visit the Fire Pit to cook food and feed your Bumpkin.
+  //         </p>
+  //       </div>
+  //     </CloseButtonPanel>
+  //   );
+  // }
 
   if (showTutorial) {
     return (
