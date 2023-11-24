@@ -1,14 +1,12 @@
 import Decimal from "decimal.js-light";
-import { BONUSES } from "features/game/types/bonuses";
+import { BONUSES, BonusName } from "features/game/types/bonuses";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
-type Bonus = "discord-signup";
-
 export type ClaimBonusAction = {
   type: "bonus.claimed";
-  name: Bonus;
+  name: BonusName;
 };
 
 type Options = {

@@ -417,7 +417,7 @@ export const PhaserComponent: React.FC<Props> = ({
           navigate(`/world/${sceneId}`);
         }}
       />
-      <PlayerModals />
+      <PlayerModals game={gameService.state.context.state} />
       <TradeCompleted
         mmoService={mmoService}
         farmId={gameService.state.context.farmId as number}
