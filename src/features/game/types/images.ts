@@ -556,6 +556,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { BAIT, CROP_COMPOST, FRUIT_COMPOST } from "./composters";
 import { BuffLabel } from ".";
+import { translate } from "lib/i18n/translate";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -906,16 +907,16 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tools.shovel,
   },
   "Sand Shovel": {
-    description: "Used for digging treasure",
+    description: translate("description.sand.shovel"),
     image: SUNNYSIDE.tools.sand_shovel,
   },
   "Sand Drill": {
-    description: "Drill deep for uncommon or rare treasure",
+    description: translate("description.sand.drill"),
     image: drill,
   },
 
   "Block Buck": {
-    description: "A valuable token in Sunflower Land!",
+    description: translate("description.block.buck"),
     image: blockBuck,
   },
 
@@ -1167,11 +1168,11 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Beta Pass": {
-    description: "Gain early access to features for testing.",
+    description: translate("description.beta.pass"),
     image: betaPass,
   },
   "War Bond": {
-    description: "A mark of a true warrior",
+    description: translate("description.war.bond"),
     image: warBond,
   },
   "Goblin War Point": {
@@ -1184,11 +1185,11 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Human War Banner": {
-    description: "A display of allegiance to the Human cause",
+    description: translate("description.human.war.banner"),
     image: humanBanner,
   },
   "Goblin War Banner": {
-    description: "A display of allegiance to the Goblin cause",
+    description: translate("description.goblin.war.banner"),
     image: goblinBanner,
   },
 
@@ -1413,19 +1414,19 @@ export const ITEM_DETAILS: Items = {
     image: observatory,
   },
   "Goblin Key": {
-    description: "The Goblin Key",
+    description: translate("description.goblin.key"),
     image: goblinKey,
   },
   "Sunflower Key": {
-    description: "The Sunflower Key",
+    description: translate("description.sunflower.key"),
     image: sunflowerKey,
   },
   "Ancient Goblin Sword": {
-    description: "An Ancient Goblin Sword",
+    description: translate("description.ancient.goblin.sword"),
     image: ancientGoblinSword,
   },
   "Ancient Human Warhammer": {
-    description: "An Ancient Human Warhammer",
+    description: translate("description.ancient.human.warhammer"),
     image: ancientHumanWarhammer,
   },
   "Speed Chicken": {

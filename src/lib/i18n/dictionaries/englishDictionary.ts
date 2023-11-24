@@ -858,6 +858,8 @@ const collectibleDescriptions: Record<CollectibleDescriptions, string> = {
   "description.rod": "Used to catch fish",
   "description.rusty.shovel": "Used to remove buildings and collectibles",
   "description.shovel": "Plant and harvest crops.",
+  "description.sand.shovel": "Used for digging treasure",
+  "description.sand.drill": "Drill deep for uncommon or rare treasure",
   // Quest Items
   "description.goblin.key": "The Goblin Key",
   "description.sunflower.key": "The Sunflower Key",
@@ -879,6 +881,10 @@ const collectibleDescriptions: Record<CollectibleDescriptions, string> = {
   "description.goblin.war.banner":
     "A display of allegiance to the Goblin cause",
   "description.human.war.banner": "A display of allegiance to the Human cause",
+  // Coupons
+  "description.block.buck": "A valuable token in Sunflower Land!",
+  "description.beta.pass": "Gain early access to features for testing.",
+  "description.war.bond": "A mark of a true warrior",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

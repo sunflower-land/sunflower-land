@@ -4,6 +4,7 @@
 
 import Decimal from "decimal.js-light";
 import { GameState, Inventory } from "./game";
+import { translate } from "lib/i18n/translate";
 
 export type WorkbenchToolName =
   | "Axe"
@@ -27,13 +28,13 @@ export const WORKBENCH_TOOLS: (
 ) => Record<WorkbenchToolName, Tool> = () => ({
   Axe: {
     name: "Axe",
-    description: "Used to collect wood",
+    description: translate("description.axe"),
     ingredients: {},
     sfl: new Decimal(0.0625),
   },
   Pickaxe: {
     name: "Pickaxe",
-    description: "Used to collect stone",
+    description: translate("description.pickaxe"),
     ingredients: {
       Wood: new Decimal(3),
     },
@@ -41,7 +42,7 @@ export const WORKBENCH_TOOLS: (
   },
   "Stone Pickaxe": {
     name: "Stone Pickaxe",
-    description: "Used to collect iron",
+    description: translate("description.stone.pickaxe"),
     ingredients: {
       Wood: new Decimal(3),
       Stone: new Decimal(5),
@@ -50,7 +51,7 @@ export const WORKBENCH_TOOLS: (
   },
   "Iron Pickaxe": {
     name: "Iron Axe",
-    description: "Used to collect gold",
+    description: translate("description.iron.pickaxe"),
     ingredients: {
       Wood: new Decimal(3),
       Iron: new Decimal(5),
@@ -59,7 +60,7 @@ export const WORKBENCH_TOOLS: (
   },
   Rod: {
     name: "Rod",
-    description: "Used to collect fish",
+    description: translate("description.rod"),
     ingredients: {
       Wood: new Decimal(3),
       Stone: new Decimal(1),
@@ -71,7 +72,7 @@ export const WORKBENCH_TOOLS: (
 export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
   "Sand Shovel": {
     name: "Sand Shovel",
-    description: "Used for digging treasure",
+    description: translate("description.sand.shovel"),
     ingredients: {
       Wood: new Decimal(2),
       Stone: new Decimal(1),
@@ -80,7 +81,7 @@ export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
   },
   "Sand Drill": {
     name: "Sand Drill",
-    description: "Drill deep for uncommon or rare treasure",
+    description: translate("description.sand.drill"),
     ingredients: {
       Gold: new Decimal(1),
       Iron: new Decimal(3),

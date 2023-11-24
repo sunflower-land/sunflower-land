@@ -635,6 +635,8 @@ export type CollectibleDescriptions =
   | "description.rod"
   | "description.rusty.shovel"
   | "description.shovel"
+  | "description.sand.shovel"
+  | "description.sand.drill"
 
   // Quest Items
   | "description.goblin.key"
@@ -654,7 +656,12 @@ export type CollectibleDescriptions =
 
   // Banners
   | "description.goblin.war.banner"
-  | "description.human.war.banner";
+  | "description.human.war.banner"
+
+  // Coupons
+  | "description.block.buck"
+  | "description.beta.pass"
+  | "description.war.bond";
 
 export type TranslationKeys =
   | AchievementsDialog
