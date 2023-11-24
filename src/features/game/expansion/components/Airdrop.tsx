@@ -43,7 +43,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
           type="warning"
           icon={SUNNYSIDE.decorations.treasure_chest}
         >
-          Reward Discovered
+          {t("reward.discovered")}
         </Label>
         {airdrop.message && (
           <p className="text-xs mb-2 ml-1">{airdrop.message}</p>

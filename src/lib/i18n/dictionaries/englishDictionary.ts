@@ -96,6 +96,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   reqSkillPts: "Required Skill Points",
   reqSkills: "Required Skills:",
   retry: "Retry",
+  "reward.discovered": "Reward Discovered",
   save: "Save",
   saving: "Saving",
   sell: "Sell",
@@ -755,6 +756,7 @@ const collectibleDescriptions: Record<CollectibleDescriptions, string> = {
   "description.el.pollo.veloz": "Your chickens will lay eggs 4 hours faster!",
   "description.banana.chicken":
     "A chicken that boosts bananas. What a world we live in.",
+  "description.shovel": "Plant and harvest crops.",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

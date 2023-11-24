@@ -72,6 +72,7 @@ export type GeneralTerms =
   | "reqSkillPts"
   | "reqSkills"
   | "retry"
+  | "reward.discovered"
   | "save"
   | "saving"
   | "sell.all"
@@ -528,7 +529,10 @@ export type CollectibleDescriptions =
   | "description.rich.chicken"
   | "description.ayam.cemani"
   | "description.el.pollo.veloz"
-  | "description.banana.chicken";
+  | "description.banana.chicken"
+
+  // Tools
+  | "description.shovel";
 
 export type TranslationKeys =
   | AchievementsDialog
