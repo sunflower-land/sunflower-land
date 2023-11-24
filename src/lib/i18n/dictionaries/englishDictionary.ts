@@ -759,6 +759,7 @@ const collectibleDescriptions: Record<CollectibleDescriptions, string> = {
   "description.banana.chicken":
     "A chicken that boosts bananas. What a world we live in.",
   "description.shovel": "Plant and harvest crops.",
+
   "description.sunflower": "A sunny flower",
   "description.potato": "Healthier than you might think.",
   "description.pumpkin": "There's more to pumpkin than pie.",
@@ -778,6 +779,14 @@ const collectibleDescriptions: Record<CollectibleDescriptions, string> = {
   "description.orange": "Vitamin C to keep your Bumpkin Healthy",
   "description.apple": "Perfect for homemade Apple Pie",
   "description.banana": "Oh banana!",
+
+  "description.white.carrot": "A pale carrot with pale roots",
+  "description.warty.goblin.pumpkin": "A whimsical, wart-covered pumpkin",
+  "description.adirondack.potato": "A rugged spud, Adirondack style!",
+  "description.purple.cauliflower": "A regal purple cauliflowser",
+  "description.chiogga": "A rainbow beet!",
+  "description.golden.helios": "Sun-kissed grandeur!",
+  "description.black.magic": "A dark and mysterious flower!",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

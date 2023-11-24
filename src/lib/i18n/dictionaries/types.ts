@@ -555,7 +555,16 @@ export type CollectibleDescriptions =
   | "description.blueberry"
   | "description.orange"
   | "description.apple"
-  | "description.banana";
+  | "description.banana"
+
+  // Exotic Crops
+  | "description.white.carrot"
+  | "description.warty.goblin.pumpkin"
+  | "description.adirondack.potato"
+  | "description.purple.cauliflower"
+  | "description.chiogga"
+  | "description.golden.helios"
+  | "description.black.magic";
 
 export type TranslationKeys =
   | AchievementsDialog
