@@ -34,6 +34,7 @@ import {
   GameState,
   Inventory,
 } from "features/game/types/game";
+import { translate } from "lib/i18n/translate";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `expansion-read.${host}-${window.location.pathname}`;
@@ -85,7 +86,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
               className="w-10 mx-auto my-2"
             />
             <p className="text-sm text-center mb-2">
-              Visit the Fire Pit to cook food and feed your Bumpkin.
+              {translate("statements.visit.firePit")}
             </p>
           </div>
         </CloseButtonPanel>

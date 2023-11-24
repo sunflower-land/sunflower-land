@@ -16,6 +16,7 @@ import { SpeakingText } from "features/game/components/SpeakingModal";
 import { hasNewOrders } from "features/island/delivery/lib/delivery";
 import { hasNewChores } from "features/helios/components/hayseedHank/lib/chores";
 import { Label } from "components/ui/Label";
+import { translate } from "lib/i18n/translate";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `travel-read.${host}-${window.location.pathname}`;
@@ -112,7 +113,7 @@ export const TravelModal: React.FC<Props> = ({
                 Before travelling, you must level up.
               </p>
               <p className="text-xs text-center mb-2">
-                Visit the Fire Pit to cook food and feed your Bumpkin.
+                {translate("statements.visit.firePit")}
               </p>
             </div>
           </CloseButtonPanel>

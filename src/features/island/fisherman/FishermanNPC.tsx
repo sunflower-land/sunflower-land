@@ -28,6 +28,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { translate } from "lib/i18n/translate";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -241,7 +242,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
             </Label>
             <img src={ITEM_DETAILS.Rod.image} className="w-10 mx-auto my-2" />
             <p className="text-sm text-center mb-2">
-              Visit the Fire Pit to cook food and feed your Bumpkin.
+              {translate("statements.visit.firePit")}
             </p>
           </div>
         </CloseButtonPanel>
