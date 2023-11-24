@@ -58,6 +58,7 @@ export type GeneralTerms =
   | "nextSkillPtLvl"
   | "no.mail"
   | "noThanks"
+  | "ocean.fishing"
   | "ok"
   | "open.gift"
   | "pass.required"
@@ -719,7 +720,14 @@ export type GameDescriptions =
   | "description.sawshark.one"
   | "description.sawshark.two"
   | "description.whiteshark.one"
-  | "description.whiteshark.two";
+  | "description.whiteshark.two"
+
+  // Marine Marvels
+  | "description.twilight.anglerfish"
+  | "description.starlight.tuna"
+  | "description.radiant.ray"
+  | "description.phantom.barracuda"
+  | "description.gilded.swordfish";
 
 export type TranslationKeys =
   | AchievementsDialog

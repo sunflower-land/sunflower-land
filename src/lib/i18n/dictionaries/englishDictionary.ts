@@ -83,6 +83,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   nextSkillPtLvl: "Next skill point: level",
   "no.mail": "No mail",
   noThanks: "No thanks",
+  "ocean.fishing": "Ocean fishing",
   ok: "OK",
   "open.gift": "Open Gift",
   "pass.required": "Pass Required",
@@ -980,6 +981,17 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.whiteshark.one":
     "The shark with a killer smile, ruling the seas with fin-tensity!",
   "description.whiteshark.two": "Dive into an ocean of thrilling taste!",
+  // Marine Marvels
+  "description.twilight.anglerfish":
+    "A deep-sea angler with a built-in nightlight, guiding its way through darkness.",
+  "description.starlight.tuna":
+    "A tuna that outshines the stars, ready to light up your collection.",
+  "description.radiant.ray":
+    "A ray that prefers to glow in the dark, with a shimmering secret to share.",
+  "description.phantom.barracuda":
+    "An elusive and ghostly fish of the deep, hiding in the shadows.",
+  "description.gilded.swordfish":
+    "A swordfish with scales that sparkle like gold, the ultimate catch!",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
