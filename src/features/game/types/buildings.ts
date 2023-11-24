@@ -156,14 +156,10 @@ export const BUILDINGS: () => Record<
       sfl: marketRate(10),
       constructionSeconds: 60 * 30,
       ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(30),
-        },
-        {
-          item: "Stone",
-          amount: new Decimal(5),
-        },
+        { item: "Wood",
+          amount: new Decimal(30) },
+        { item: "Stone",
+          amount: new Decimal(5) },
       ],
     },
   ],
