@@ -15,15 +15,15 @@ import { translate } from "lib/i18n/translate";
 
 const mutants: Record<MutantChicken, Record<string, string>> = {
   "Speed Chicken": {
-    description: translate("description.speed.chicken"),
+    description: translate("description.speed.chicken.one"),
     image: speedChicken,
   },
   "Fat Chicken": {
-    description: translate("description.fat.chicken"),
+    description: translate("description.fat.chicken.one"),
     image: fatChicken,
   },
   "Rich Chicken": {
-    description: translate("description.rich.chicken"),
+    description: translate("description.rich.chicken.one"),
     image: richChicken,
   },
   "Ayam Cemani": {
@@ -31,7 +31,7 @@ const mutants: Record<MutantChicken, Record<string, string>> = {
     image: ayamCemani,
   },
   "El Pollo Veloz": {
-    description: translate("description.el.pollo.veloz"),
+    description: translate("description.el.pollo.veloz.one"),
   },
   "Banana Chicken": {
     description: translate("description.banana.chicken"),

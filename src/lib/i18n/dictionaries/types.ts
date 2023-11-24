@@ -526,15 +526,16 @@ export type RetreatTerms =
 
 export type CollectibleDescriptions =
   // Mutant Chickens
-  | "description.speed.chicken"
-  | "description.fat.chicken"
-  | "description.rich.chicken"
+  | "description.speed.chicken.one"
+  | "description.speed.chicken.two"
+  | "description.fat.chicken.one"
+  | "description.fat.chicken.two"
+  | "description.rich.chicken.one"
+  | "description.rich.chicken.two"
   | "description.ayam.cemani"
-  | "description.el.pollo.veloz"
+  | "description.el.pollo.veloz.one"
+  | "description.el.pollo.veloz.two"
   | "description.banana.chicken"
-
-  // Tools
-  | "description.shovel"
 
   // Crops
   | "description.sunflower"
@@ -564,7 +565,96 @@ export type CollectibleDescriptions =
   | "description.purple.cauliflower"
   | "description.chiogga"
   | "description.golden.helios"
-  | "description.black.magic";
+  | "description.black.magic"
+
+  // Food
+  // Fire Pit
+  | "description.pumpkin.soup"
+  | "description.mashed.potato"
+  | "description.bumpkin.broth"
+  | "description.boiled.eggs"
+  | "description.kale.stew"
+  | "description.mushroom.soup"
+  | "description.reindeer.carrot"
+  | "description.kale.omelette"
+  | "description.cabbers.mash"
+  | "description.popcorn"
+  | "description.gumbo"
+  // Kitchen
+  | "description.roast.veggies"
+  | "description.bumpkin.salad"
+  | "description.goblins.treat"
+  | "description.cauliflower.burger"
+  | "description.club.sandwich"
+  | "description.mushroom.jacket.potatoes"
+  | "description.sunflower.crunch"
+  | "description.bumpkin.roast"
+  | "description.goblin.brunch"
+  | "description.fruit.salad"
+  | "description.bumpkin.ganoush"
+  | "description.chowder"
+  // Bakery
+  | "description.apple.pie"
+  | "description.kale.mushroom.pie"
+  | "description.cornbread"
+  | "description.sunflower.cake"
+  | "description.potato.cake"
+  | "description.pumpkin.cake"
+  | "description.carrot.cake"
+  | "description.cabbage.cake"
+  | "description.beetroot.cake"
+  | "description.cauliflower.cake"
+  | "description.parsnip.cake"
+  | "description.radish.cake"
+  | "description.wheat.cake"
+  | "description.eggplant.cake"
+  | "description.orange.cake"
+  // Deli
+  | "description.blueberry.jam"
+  | "description.fermented.carrots"
+  | "description.sauerkraut"
+  | "description.fancy.fries"
+  | "description.fermented.fish"
+  // Smoothie Shack
+  | "description.apple.juice"
+  | "description.orange.juice"
+  | "description.purple.smoothie"
+  | "description.power.smoothie"
+  | "description.bumpkin.detox"
+  | "description.banana.blast"
+  // Unused foods
+  | "description.roasted.cauliflower"
+  | "description.radish.pie"
+
+  // Tools
+  | "description.axe"
+  | "description.pickaxe"
+  | "description.stone.pickaxe"
+  | "description.iron.pickaxe"
+  | "description.hammer"
+  | "description.rod"
+  | "description.rusty.shovel"
+  | "description.shovel"
+
+  // Quest Items
+  | "description.goblin.key"
+  | "description.sunflower.key"
+  | "description.ancient.goblin.sword"
+  | "description.ancient.human.warhammer"
+
+  // Decorations
+  | "description.wicker.man"
+  | "description.golden bonsai"
+  | "description.victoria.sisters"
+  | "description.christmas.bear"
+  | "description.war.skull"
+  | "description.war.tombstone"
+  | "description.undead.rooster"
+  | "description.observatory"
+
+  // Banners
+  | "description.goblin.war.banner"
+  | "description.human.war.banner";
 
 export type TranslationKeys =
   | AchievementsDialog

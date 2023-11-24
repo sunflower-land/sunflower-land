@@ -242,7 +242,7 @@ export type Animal = "Chicken" | "Cow" | "Pig" | "Sheep";
 export const FOODS: () => Record<Food, CraftableItem> = () => ({
   "Pumpkin Soup": {
     name: "Pumpkin Soup",
-    description: "A creamy soup that goblins love",
+    description: translate("description.pumpkin.soup"),
     tokenAmount: marketRate(3),
     ingredients: [
       {
@@ -254,7 +254,7 @@ export const FOODS: () => Record<Food, CraftableItem> = () => ({
   },
   Sauerkraut: {
     name: "Sauerkraut",
-    description: "Fermented cabbage",
+    description: translate("description.sauerkraut"),
     tokenAmount: marketRate(25),
     ingredients: [
       {
@@ -265,7 +265,7 @@ export const FOODS: () => Record<Food, CraftableItem> = () => ({
   },
   "Roasted Cauliflower": {
     name: "Roasted Cauliflower",
-    description: "A Goblin's favourite",
+    description: translate("description.roasted.cauliflower"),
     tokenAmount: marketRate(150),
     ingredients: [
       {
@@ -276,7 +276,7 @@ export const FOODS: () => Record<Food, CraftableItem> = () => ({
   },
   "Radish Pie": {
     name: "Radish Pie",
-    description: "Despised by humans, loved by goblins",
+    description: translate("description.radish.pie"),
     tokenAmount: marketRate(300),
     ingredients: [
       {
@@ -291,7 +291,7 @@ export const FOODS: () => Record<Food, CraftableItem> = () => ({
 export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Sunflower Cake": {
     name: "Sunflower Cake",
-    description: "Sunflower Cake",
+    description: translate("description.sunflower.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(320),
     ingredients: [
@@ -311,7 +311,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Potato Cake": {
     name: "Potato Cake",
-    description: "Potato Cake",
+    description: translate("description.potato.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(320),
     ingredients: [
@@ -331,7 +331,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Pumpkin Cake": {
     name: "Pumpkin Cake",
-    description: "Pumpkin Cake",
+    description: translate("description.pumpkin.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(320),
     ingredients: [
@@ -351,7 +351,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Carrot Cake": {
     name: "Carrot Cake",
-    description: "Carrot Cake",
+    description: translate("description.carrot.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(360),
     ingredients: [
@@ -371,7 +371,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Cabbage Cake": {
     name: "Cabbage Cake",
-    description: "Cabbage Cake",
+    description: translate("description.cabbage.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(360),
     ingredients: [
@@ -391,7 +391,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Beetroot Cake": {
     name: "Beetroot Cake",
-    description: "Beetroot Cake",
+    description: translate("description.beetroot.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(560),
     ingredients: [
@@ -411,7 +411,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Cauliflower Cake": {
     name: "Cauliflower Cake",
-    description: "Cauliflower Cake",
+    description: translate("description.cauliflower.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(560),
     ingredients: [
@@ -431,7 +431,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Parsnip Cake": {
     name: "Parsnip Cake",
-    description: "Parsnip Cake",
+    description: translate("description.parsnip.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(560),
     ingredients: [
@@ -451,7 +451,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Radish Cake": {
     name: "Radish Cake",
-    description: "Radish Cake",
+    description: translate("description.radish.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(560),
     ingredients: [
@@ -471,7 +471,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Wheat Cake": {
     name: "Wheat Cake",
-    description: "Wheat Cake",
+    description: translate("description.wheat.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(560),
     ingredients: [
@@ -490,13 +490,13 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
 export const TOOLS: Record<ToolName, CraftableItem> = {
   Axe: {
     name: "Axe",
-    description: "Used to collect wood",
+    description: translate("description.axe"),
     tokenAmount: new Decimal(1),
     ingredients: [],
   },
   Pickaxe: {
     name: "Pickaxe",
-    description: "Used to collect stone",
+    description: translate("description.pickaxe"),
     tokenAmount: new Decimal(1),
     ingredients: [
       {
@@ -507,7 +507,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   },
   "Stone Pickaxe": {
     name: "Stone Pickaxe",
-    description: "Used to collect iron",
+    description: translate("description.stone.pickaxe"),
     tokenAmount: new Decimal(2),
     ingredients: [
       {
@@ -522,7 +522,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   },
   "Iron Pickaxe": {
     name: "Iron Pickaxe",
-    description: "Used to collect gold",
+    description: translate("description.iron.pickaxe"),
     tokenAmount: new Decimal(5),
     ingredients: [
       {
@@ -537,7 +537,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   },
   Hammer: {
     name: "Hammer",
-    description: "Coming soon",
+    description: translate("description.hammer"),
     tokenAmount: new Decimal(5),
     ingredients: [
       {
@@ -553,7 +553,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   },
   Rod: {
     name: "Rod",
-    description: "Used to catch fish",
+    description: translate("description.rod"),
     tokenAmount: new Decimal(5),
     ingredients: [
       {
@@ -568,7 +568,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
 export const SHOVELS: Record<Shovel, CraftableItem> = {
   "Rusty Shovel": {
     name: "Rusty Shovel",
-    description: "Used to remove buildings and collectibles",
+    description: translate("description.rusty.shovel"),
     ingredients: [],
     hidden: true,
   },
@@ -596,22 +596,22 @@ export const SHOVELS: Record<Shovel, CraftableItem> = {
 export const QUEST_ITEMS: Record<QuestItem, LimitedItem> = {
   "Goblin Key": {
     name: "Goblin Key",
-    description: "The Goblin Key",
+    description: translate("description.goblin.key"),
     type: LimitedItemType.QuestItem,
   },
   "Sunflower Key": {
     name: "Sunflower Key",
-    description: "The Sunflower Key",
+    description: translate("description.sunflower.key"),
     type: LimitedItemType.QuestItem,
   },
   "Ancient Goblin Sword": {
     name: "Ancient Goblin Sword",
-    description: "An Ancient Goblin Sword",
+    description: translate("description.ancient.goblin.sword"),
     type: LimitedItemType.QuestItem,
   },
   "Ancient Human Warhammer": {
     name: "Ancient Human Warhammer",
-    description: "An Ancient Human Warhammer",
+    description: translate("description.ancient.human.warhammer"),
     type: LimitedItemType.QuestItem,
   },
 };
@@ -619,26 +619,25 @@ export const QUEST_ITEMS: Record<QuestItem, LimitedItem> = {
 export const SALESMAN_ITEMS: Record<TravelingSalesmanItem, LimitedItem> = {
   "Wicker Man": {
     name: "Wicker Man",
-    description:
-      "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
+    description: translate("description.wicker.man"),
     disabled: false,
     section: Section["Wicker Man"],
   },
   "Golden Bonsai": {
     name: "Golden Bonsai",
-    description: "Goblins love bonsai too",
+    description: translate("description.golden bonsai"),
     section: Section["Golden Bonsai"],
     isPlaceholder: true,
   },
   "Victoria Sisters": {
     name: "Victoria Sisters",
-    description: "The pumpkin loving sisters",
+    description: translate("description.victoria.sisters"),
     section: Section["Golden Bonsai"],
     isPlaceholder: true,
   },
   "Christmas Bear": {
     name: "Christmas Bear",
-    description: "Santa's favorite",
+    description: translate("description.christmas.bear"),
     section: Section["Christmas Bear"],
     isPlaceholder: true,
   },
@@ -692,19 +691,19 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
   },
   "War Skull": {
     name: "War Skull",
-    description: "Decorate the land with the bones of your enemies.",
+    description: translate("description.war.skull"),
     type: LimitedItemType.WarTentItem,
     canMintMultiple: true,
   },
   "War Tombstone": {
     name: "War Tombstone",
-    description: "R.I.P",
+    description: translate("description.war.tombstone"),
     type: LimitedItemType.WarTentItem,
     canMintMultiple: true,
   },
   "Undead Rooster": {
     name: "Undead Rooster",
-    description: "An unfortunate casualty of the war. 10% increased egg yield.",
+    description: translate("description.undead.rooster"),
     type: LimitedItemType.WarTentItem,
   },
 };
@@ -717,7 +716,7 @@ export const MOM_EVENT_ITEMS: Record<MOMEventItem, LimitedItem> = {
   },
   Observatory: {
     name: "Observatory",
-    description: "Explore the stars and improve scientific development",
+    description: translate("description.observatory"),
     section: Section.Observatory,
     type: LimitedItemType.MOMEventItem,
   },
@@ -726,32 +725,32 @@ export const MOM_EVENT_ITEMS: Record<MOMEventItem, LimitedItem> = {
 export const MUTANT_CHICKENS: Record<MutantChicken, LimitedItem> = {
   "Speed Chicken": {
     name: "Speed Chicken",
-    description: "Produces eggs 10% faster",
+    description: translate("description.speed.chicken.two"),
     type: LimitedItemType.MutantChicken,
   },
   "Fat Chicken": {
     name: "Fat Chicken",
-    description: "10% less wheat needed to feed a chicken",
+    description: translate("description.fat.chicken.two"),
     type: LimitedItemType.MutantChicken,
   },
   "Rich Chicken": {
     name: "Rich Chicken",
-    description: "Yields 10% more eggs",
+    description: translate("description.rich.chicken.two"),
     type: LimitedItemType.MutantChicken,
   },
   "Ayam Cemani": {
     name: "Ayam Cemani",
-    description: "The rarest chicken in Sunflower Land.",
+    description: translate("description.ayam.cemani"),
     type: LimitedItemType.MutantChicken,
   },
   "El Pollo Veloz": {
     name: "El Pollo Veloz",
-    description: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
+    description: translate("description.el.pollo.veloz.two"),
     type: LimitedItemType.MutantChicken,
   },
   "Banana Chicken": {
     name: "Banana Chicken",
-    description: "A chicken that boosts bananas. What a world we live in.",
+    description: translate("description.banana.chicken"),
     type: LimitedItemType.MutantChicken,
   },
 };
@@ -759,11 +758,11 @@ export const MUTANT_CHICKENS: Record<MutantChicken, LimitedItem> = {
 export const WAR_BANNERS: Record<WarBanner, CraftableItem> = {
   "Goblin War Banner": {
     name: "Goblin War Banner",
-    description: "A display of allegiance to the Goblin cause",
+    description: translate("description.goblin.war.banner"),
   },
   "Human War Banner": {
     name: "Human War Banner",
-    description: "A display of allegiance to the Human cause",
+    description: translate("description.human.war.banner"),
   },
 };
 

@@ -749,17 +749,23 @@ const retreatTerms: Record<RetreatTerms, string> = {
 };
 
 const collectibleDescriptions: Record<CollectibleDescriptions, string> = {
-  "description.speed.chicken":
+  // Mutant Chickens
+  "description.speed.chicken.one":
     "Your chickens will now produce eggs 10% faster.",
-  "description.fat.chicken":
+  "description.speed.chicken.two": "Produces eggs 10% faster",
+  "description.fat.chicken.one":
     "Your chickens will now require 10% less wheat per feed.",
-  "description.rich.chicken": "Your chickens will now yield 10% more eggs.",
+  "description.fat.chicken.two": "10% less wheat needed to feed a chicken",
+  "description.rich.chicken.one": "Your chickens will now yield 10% more eggs.",
+  "description.rich.chicken.two": "Yields 10% more eggs",
   "description.ayam.cemani": "The rarest chicken in existence!",
-  "description.el.pollo.veloz": "Your chickens will lay eggs 4 hours faster!",
+  "description.el.pollo.veloz.one":
+    "Your chickens will lay eggs 4 hours faster!",
+  "description.el.pollo.veloz.two":
+    "Give me those eggs, fast! 4 hour speed boost on egg laying.",
   "description.banana.chicken":
     "A chicken that boosts bananas. What a world we live in.",
-  "description.shovel": "Plant and harvest crops.",
-
+  // Crops
   "description.sunflower": "A sunny flower",
   "description.potato": "Healthier than you might think.",
   "description.pumpkin": "There's more to pumpkin than pie.",
@@ -774,12 +780,12 @@ const collectibleDescriptions: Record<CollectibleDescriptions, string> = {
   "description.radish": "Takes time but is worth the wait!",
   "description.wheat": "The most harvested crop in the world.",
   "description.kale": "A Bumpkin Power Food!",
-
+  // Fruits
   "description.blueberry": "A Goblin's weakness",
   "description.orange": "Vitamin C to keep your Bumpkin Healthy",
   "description.apple": "Perfect for homemade Apple Pie",
   "description.banana": "Oh banana!",
-
+  // Exotic Crops
   "description.white.carrot": "A pale carrot with pale roots",
   "description.warty.goblin.pumpkin": "A whimsical, wart-covered pumpkin",
   "description.adirondack.potato": "A rugged spud, Adirondack style!",
@@ -787,6 +793,92 @@ const collectibleDescriptions: Record<CollectibleDescriptions, string> = {
   "description.chiogga": "A rainbow beet!",
   "description.golden.helios": "Sun-kissed grandeur!",
   "description.black.magic": "A dark and mysterious flower!",
+  // Fire Pit
+  "description.pumpkin.soup": "A creamy soup that goblins love",
+  "description.mashed.potato": "",
+  "description.bumpkin.broth": "",
+  "description.boiled.eggs": "",
+  "description.kale.stew": "",
+  "description.mushroom.soup": "",
+  "description.reindeer.carrot": "",
+  "description.kale.omelette": "",
+  "description.cabbers.mash": "",
+  "description.popcorn": "",
+  "description.gumbo": "",
+  // Kitchen
+  "description.roast.veggies": "",
+  "description.bumpkin.salad": "",
+  "description.goblins.treat": "",
+  "description.cauliflower.burger": "",
+  "description.club.sandwich": "",
+  "description.mushroom.jacket.potatoes": "",
+  "description.sunflower.crunch": "",
+  "description.bumpkin.roast": "",
+  "description.goblin.brunch": "",
+  "description.fruit.salad": "",
+  "description.bumpkin.ganoush": "",
+  "description.chowder": "",
+  // Bakery
+  "description.apple.pie": "",
+  "description.kale.mushroom.pie": "",
+  "description.cornbread": "",
+  "description.sunflower.cake": "Sunflower Cake",
+  "description.potato.cake": "Potato Cake",
+  "description.pumpkin.cake": "Pumpkin Cake",
+  "description.carrot.cake": "Carrot Cake",
+  "description.cabbage.cake": "Cabbage Cake",
+  "description.beetroot.cake": "Beetroot Cake",
+  "description.cauliflower.cake": "Cauliflower Cake",
+  "description.parsnip.cake": "Parsnip Cake",
+  "description.radish.cake": "Radish Cake",
+  "description.wheat.cake": "Wheat Cake",
+  "description.eggplant.cake": "",
+  "description.orange.cake": "",
+  // Smoothie Shack
+  "description.blueberry.jam": "",
+  "description.fermented.carrots": "",
+  "description.sauerkraut": "Fermented cabbage",
+  "description.fancy.fries": "",
+  "description.fermented.fish": "",
+  "description.apple.juice": "",
+  "description.orange.juice": "",
+  "description.purple.smoothie": "",
+  "description.power.smoothie": "",
+  "description.bumpkin.detox": "",
+  "description.banana.blast": "",
+  // Unused foods
+  "description.roasted.cauliflower": "A Goblin's favourite",
+  "description.radish.pie": "Despised by humans, loved by goblins",
+  // Tools
+  "description.axe": "Used to collect wood",
+  "description.pickaxe": "Used to collect stone",
+  "description.stone.pickaxe": "Used to collect iron",
+  "description.iron.pickaxe": "Used to collect gold",
+  "description.hammer": "Coming soon",
+  "description.rod": "Used to catch fish",
+  "description.rusty.shovel": "Used to remove buildings and collectibles",
+  "description.shovel": "Plant and harvest crops.",
+  // Quest Items
+  "description.goblin.key": "The Goblin Key",
+  "description.sunflower.key": "The Sunflower Key",
+  "description.ancient.goblin.sword": "An Ancient Goblin Sword",
+  "description.ancient.human.warhammer": "An Ancient Human Warhammer",
+  // Decorations
+  "description.wicker.man":
+    "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
+  "description.golden bonsai": "Goblins love bonsai too",
+  "description.victoria.sisters": "The pumpkin loving sisters",
+  "description.christmas.bear": "Santa's favorite",
+  "description.war.skull": "Decorate the land with the bones of your enemies.",
+  "description.war.tombstone": "R.I.P",
+  "description.undead.rooster":
+    "An unfortunate casualty of the war. 10% increased egg yield.",
+  "description.observatory":
+    "Explore the stars and improve scientific development",
+  // Banners
+  "description.goblin.war.banner":
+    "A display of allegiance to the Goblin cause",
+  "description.human.war.banner": "A display of allegiance to the Human cause",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
