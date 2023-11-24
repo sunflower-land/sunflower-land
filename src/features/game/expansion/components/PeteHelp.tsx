@@ -8,12 +8,14 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Context } from "features/game/GameProvider";
 import { useNavigate } from "react-router-dom";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const isLocked = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) < 3;
 
 export const PeteHelp: React.FC = () => {
   const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   // TEMP: Disable for conference
   const locked = false;
@@ -39,7 +41,7 @@ export const PeteHelp: React.FC = () => {
             Visit the fire pit, cook food and eat to level up.
           </p>
           <Label type="danger" className="mb-2 ml-1" icon={lockIcon}>
-            Level 3 Required
+            {t("warning.level.required")}3
           </Label>
         </>
       )}

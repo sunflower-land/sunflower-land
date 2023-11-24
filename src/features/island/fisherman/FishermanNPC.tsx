@@ -29,6 +29,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -81,6 +82,7 @@ const _catchTheKraken = (state: MachineState) =>
 export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const spriteRef = useRef<SpriteSheetInstance>();
   const didRefresh = useRef(false);
+  const { t } = useAppTranslation();
 
   const [showReelLabel, setShowReelLabel] = useState(false);
   const [showLockedModal, setShowLockedModal] = useState(false);
@@ -238,7 +240,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
         <CloseButtonPanel onClose={() => setShowLockedModal(false)}>
           <div className="flex flex-col items-center">
             <Label className="mt-2" icon={lockIcon} type="danger">
-              Level 5 Required
+              {t("warning.level.required")}5
             </Label>
             <img src={ITEM_DETAILS.Rod.image} className="w-10 mx-auto my-2" />
             <p className="text-sm text-center mb-2">
