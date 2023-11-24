@@ -1566,43 +1566,43 @@ export const ITEM_DETAILS: Items = {
 
   "Boiled Eggs": {
     image: boiledEgg,
-    description: "Don't let the Chickens see!",
+    description: CONSUMABLES["Boiled Eggs"].description,
   },
   "Bumpkin Broth": {
     image: bumpkinBroth,
-    description: "A nutritious broth to replenish your Bumpkin",
+    description: CONSUMABLES["Bumpkin Broth"].description,
   },
   "Mashed Potato": {
     image: mashedPotato,
-    description: "My life is potato.",
+    description: CONSUMABLES["Mashed Potato"].description,
   },
   "Bumpkin Salad": {
     image: bumpkinSalad,
-    description: "Gotta keep your Bumpkin healthy!",
+    description: CONSUMABLES["Bumpkin Salad"].description,
   },
   "Goblin's Treat": {
     image: goblinsTreat,
-    description: "Goblins go crazy for this stuff!",
+    description: CONSUMABLES["Goblin's Treat"].description,
   },
   "Cauliflower Burger": {
     image: cauliflowerBurger,
-    description: "Calling all cauliflower lovers!",
+    description: CONSUMABLES["Cauliflower Burger"].description,
   },
   "Club Sandwich": {
     image: clubSandwich,
-    description: "Filled with Carrots and Roasted Sunflower Seeds",
+    description: CONSUMABLES["Club Sandwich"].description,
   },
   "Roast Veggies": {
     image: roastVeggies,
-    description: "Even Goblins need to eat their veggies!",
+    description: CONSUMABLES["Roast Veggies"].description,
   },
   Pancakes: {
     image: pancakes,
-    description: "A great start to a Bumpkins day",
+    description: CONSUMABLES["Pancakes"].description,
   },
   "Fermented Carrots": {
     image: fermentedCarrots,
-    description: "Got a surplus of carrots?",
+    description: CONSUMABLES["Fermented Carrots"].description,
   },
   Sauerkraut: {
     ...FOODS()["Sauerkraut"],
@@ -1610,36 +1610,35 @@ export const ITEM_DETAILS: Items = {
   },
   "Reindeer Carrot": {
     image: reindeerCarrot,
-    description: "Rudolph can't stop eating them!",
+    description: CONSUMABLES["Reindeer Carrot"].description,
   },
   "Bumpkin ganoush": {
     image: bumpkinGanoush,
-    description: "Zesty roasted eggplant spread.",
+    description: CONSUMABLES["Bumpkin ganoush"].description,
   },
   "Eggplant Cake": {
     image: eggplantCake,
-    description: "Sweet farm-fresh dessert surprise.",
+    description: CONSUMABLES["Eggplant Cake"].description,
   },
   Cornbread: {
     image: cornBread,
-    description: "Hearty golden farm-fresh bread.",
+    description: CONSUMABLES["Cornbread"].description,
   },
   Popcorn: {
     image: popcorn,
-    description: "Classic homegrown crunchy snack.",
+    description: CONSUMABLES["Popcorn"].description,
   },
   Chowder: {
     image: chowder,
-    description:
-      "Sailor's delight in a bowl! Dive in, there's treasure inside!",
+    description: CONSUMABLES["Chowder"].description,
   },
   Gumbo: {
     image: gumbo,
-    description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
+    description: CONSUMABLES["Gumbo"].description,
   },
   "Fermented Fish": {
     image: fermentedFish,
-    description: "Daring delicacy! Unleash the Viking within with every bite!",
+    description: CONSUMABLES["Fermented Fish"].description,
   },
 
   Explorer: {

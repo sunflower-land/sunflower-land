@@ -795,33 +795,37 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.black.magic": "A dark and mysterious flower!",
   // Fire Pit
   "description.pumpkin.soup": "A creamy soup that goblins love",
-  "description.mashed.potato": "",
-  "description.bumpkin.broth": "",
-  "description.boiled.eggs": "",
-  "description.kale.stew": "",
-  "description.mushroom.soup": "",
-  "description.reindeer.carrot": "",
-  "description.kale.omelette": "",
-  "description.cabbers.mash": "",
-  "description.popcorn": "",
-  "description.gumbo": "",
+  "description.mashed.potato": "My life is potato.",
+  "description.bumpkin.broth": "A nutritious broth to replenish your Bumpkin",
+  "description.boiled.eggs": "Boiled Eggs are great for breakfast",
+  "description.kale.stew": "A perfect Bumpkin Booster!",
+  "description.mushroom.soup": "Warm your Bumpkin's soul.",
+  "description.reindeer.carrot": "Rudolph can't stop eating them!",
+  "description.kale.omelette": "A healthy breakfast",
+  "description.cabbers.mash": "Cabbages and Mashed Potatoes",
+  "description.popcorn": "Classic homegrown crunchy snack.",
+  "description.gumbo":
+    "A pot full of magic! Every spoonful's a Mardi Gras parade!",
   // Kitchen
-  "description.roast.veggies": "",
-  "description.bumpkin.salad": "",
-  "description.goblins.treat": "",
-  "description.cauliflower.burger": "",
-  "description.club.sandwich": "",
-  "description.mushroom.jacket.potatoes": "",
-  "description.sunflower.crunch": "",
-  "description.bumpkin.roast": "",
-  "description.goblin.brunch": "",
-  "description.fruit.salad": "",
-  "description.bumpkin.ganoush": "",
-  "description.chowder": "",
+  "description.roast.veggies": "Even Goblins need to eat their veggies!",
+  "description.bumpkin.salad": "Gotta keep your Bumpkin healthy!",
+  "description.goblins.treat": "Goblins go crazy for this stuff!",
+  "description.cauliflower.burger": "Calling all cauliflower lovers!",
+  "description.club.sandwich":
+    "Filled with Carrots and Roasted Sunflower Seeds",
+  "description.mushroom.jacket.potatoes": "Cram them taters with what ya got!",
+  "description.sunflower.crunch": "Crunchy goodness. Try not to burn it.",
+  "description.bumpkin.roast": "A traditional Bumpkin dish",
+  "description.goblin.brunch": "A traditional Goblin dish",
+  "description.fruit.salad": "Fruit Salad, Yummy Yummy",
+  "description.bumpkin.ganoush": "Zesty roasted eggplant spread.",
+  "description.chowder":
+    "Sailor's delight in a bowl! Dive in, there's treasure inside!",
+  "description.pancakes": "A great start to a Bumpkins day",
   // Bakery
-  "description.apple.pie": "",
-  "description.kale.mushroom.pie": "",
-  "description.cornbread": "",
+  "description.apple.pie": "Bumpkin Betty's famous recipe",
+  "description.kale.mushroom.pie": "A traditional Sapphiron recipe",
+  "description.cornbread": "Hearty golden farm-fresh bread.",
   "description.sunflower.cake": "Sunflower Cake",
   "description.potato.cake": "Potato Cake",
   "description.pumpkin.cake": "Pumpkin Cake",
@@ -832,20 +836,25 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.parsnip.cake": "Parsnip Cake",
   "description.radish.cake": "Radish Cake",
   "description.wheat.cake": "Wheat Cake",
-  "description.eggplant.cake": "",
-  "description.orange.cake": "",
+  "description.eggplant.cake": "Sweet farm-fresh dessert surprise.",
+  "description.orange.cake": "Orange you glad we aren't cooking apples",
+  "description.pirate.cake": "Great for Pirate themed birthday parties.",
+  // Deli
+  "description.blueberry.jam": "Goblins will do anything for this jam",
+  "description.fermented.carrots": "Got a surplus of carrots?",
+  "description.sauerkraut": "No more boring Cabbage!",
+  "description.fancy.fries": "Cabbages and Mashed Potatoes",
+  "description.fermented.fish":
+    "Daring delicacy! Unleash the Viking within with every bite!",
   // Smoothie Shack
-  "description.blueberry.jam": "",
-  "description.fermented.carrots": "",
-  "description.sauerkraut": "Fermented cabbage",
-  "description.fancy.fries": "",
-  "description.fermented.fish": "",
-  "description.apple.juice": "",
-  "description.orange.juice": "",
-  "description.purple.smoothie": "",
-  "description.power.smoothie": "",
-  "description.bumpkin.detox": "",
-  "description.banana.blast": "",
+  "description.apple.juice": "A crisp refreshing beverage",
+  "description.orange.juice": "OJ matches perfectly with a Club Sandwich",
+  "description.purple.smoothie": "You can hardly taste the Cabbage",
+  "description.power.smoothie":
+    "Official drink of the Bumpkin Powerlifting Society",
+  "description.bumpkin.detox": "Wash away the sins of last night",
+  "description.banana.blast":
+    "The ultimate fruity fuel for those with a peel for power!",
   // Unused foods
   "description.roasted.cauliflower": "A Goblin's favourite",
   "description.radish.pie": "Despised by humans, loved by goblins",
@@ -885,6 +894,92 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.block.buck": "A valuable token in Sunflower Land!",
   "description.beta.pass": "Gain early access to features for testing.",
   "description.war.bond": "A mark of a true warrior",
+  // Fish
+  "description.anchovy.one":
+    "The ocean's pocket-sized darting acrobat, always in a hurry!",
+  "description.anchovy.two": "Tiny fish, big flavor!",
+  "description.butterflyfish.one":
+    "A fish with a fashion-forward sense, flaunting its vivid, stylish stripes.",
+  "description.butterflyfish.two": "Swimming in colors and taste!",
+  "description.blowfish.one":
+    "The round, inflated comedian of the sea, guaranteed to bring a smile.",
+  "description.blowfish.two": "Dine with danger, a spiky surprise!",
+  "description.clownfish.one":
+    "The underwater jester, sporting a tangerine tuxedo and a clownish charm.",
+  "description.clownfish.two": "No jokes, just pure deliciousness!",
+  "description.seabass.one":
+    "Your 'not-so-exciting' friend with silver scales – a bassic catch!",
+  "description.seabass.two": "The bass-ics of seaside cuisine!",
+  "description.seahorse.one":
+    "The ocean's slow-motion dancer, swaying gracefully in the aquatic ballet.",
+  "description.seahorse.two": "Dainty, rare, and surprisingly tasty!",
+  "description.horsemackerel.one":
+    "A speedster with a shiny coat, always racing through the waves.",
+  "description.horsemackerel.two": "Gallop through flavors with every bite!",
+  "description.squid.one":
+    "The deep-sea enigma with tentacles to tickle your curiosity.",
+  "description.squid.two": "Ink your way to exquisite tastes!",
+  "description.redsnapper.one":
+    "A catch worth its weight in gold, dressed in fiery crimson.",
+  "description.redsnapper.two": "Snap into rich, zesty oceans of flavor!",
+  "description.morayeel.one":
+    "A slinky, sinister lurker in the ocean's shadowy corners.",
+  "description.morayeel.two": "Slippery, savory, and sensational!",
+  "description.oliveflounder.one":
+    "The seabed's master of disguise, always blending in with the crowd.",
+  "description.oliveflounder.two": "Floundering in richness and taste!",
+  "description.napoleanfish.one":
+    "Meet the fish with the Napoleon complex – short, but regal!",
+  "description.napoleanfish.two": "Conquer your hunger with this catch!",
+  "description.surgeonfish.one":
+    "The ocean's neon warrior, armed with a spine-sharp attitude.",
+  "description.surgeonfish.two": "Operate on your taste buds with precision!",
+  "description.zebraturkeyfish.one":
+    "Stripes, spines, and a zesty disposition, this fish is a true showstopper!",
+  "description.zebraturkeyfish.two":
+    "Striped, spiky, and spectacularly scrumptious!",
+  "description.ray.one":
+    "The underwater glider, a serene winged beauty through the waves.",
+  "description.ray.two": "Glide into a realm of rich flavors!",
+  "description.hammerheadshark.one":
+    "Meet the shark with a head for business, and a body for adventure!",
+  "description.hammerheadshark.two": "A head-on collision with taste!",
+  "description.tuna.one":
+    "The ocean's muscle-bound sprinter, ready for a fin-tastic race!",
+  "description.tuna.two": "A titan of taste in every slice!",
+  "description.mahimahi.one":
+    "A fish that believes in living life colorfully with fins of gold.",
+  "description.mahimahi.two": "Double the name, double the deliciousness!",
+  "description.bluemarlin.one":
+    "An oceanic legend, the marlin with an attitude as deep as the sea.",
+  "description.bluemarlin.two":
+    "Spearhead your appetite with this royal catch!",
+  "description.oarfish.one":
+    "The long and the long of it – an enigmatic ocean wanderer.",
+  "description.oarfish.two": "Row your way into legendary flavor!",
+  "description.footballfish.one":
+    "The MVP of the deep, a bioluminescent star that's ready to play!",
+  "description.footballfish.two": "Score a touchdown in taste!",
+  "description.sunfish.one":
+    "The ocean's sunbather, basking in the spotlight with fins held high.",
+  "description.sunfish.two": "Bask in the glow of its delectable flavor!",
+  "description.coelacanth.one":
+    "A prehistoric relic, with a taste for the past and the present.",
+  "description.coelacanth.two":
+    "Prehistoric flavor that's stood the test of time!",
+  "description.whaleshark.one":
+    "The gentle giant of the deep, sifting treasures from the ocean's buffet.",
+  "description.whaleshark.two": "A mammoth meal for monumental cravings!",
+  "description.barredknifejaw.one":
+    "An oceanic outlaw with black-and-white stripes and a heart of gold.",
+  "description.barredknifejaw.two":
+    "Cut through the hunger with sharp flavors!",
+  "description.sawshark.one":
+    "With a saw-like snout, it's the ocean's carpenter, always cutting edge!",
+  "description.sawshark.two": "Cutting-edge flavor from the deep!",
+  "description.whiteshark.one":
+    "The shark with a killer smile, ruling the seas with fin-tensity!",
+  "description.whiteshark.two": "Dive into an ocean of thrilling taste!",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
