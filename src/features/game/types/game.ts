@@ -40,6 +40,7 @@ import {
   MarineMarvelName,
 } from "./fishing";
 import { Coordinates } from "../expansion/components/MapPlacement";
+import { translate } from "lib/i18n/translate";
 
 export type Reward = {
   sfl?: Decimal;
@@ -162,7 +163,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
     description: "Free Trades! Woohoo!",
   },
   "War Bond": {
-    description: "A mark of a true warrior",
+    description: translate("description.war.bond"),
   },
   "Jack-o-lantern": {
     description: "A Halloween special event item",

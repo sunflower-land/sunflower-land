@@ -11,6 +11,8 @@ import { Bumpkin, GameState } from "features/game/types/game";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 // import { getBumpkinLevel } from "features/game/lib/level";
 // import { Label } from "components/ui/Label";
+// import worldIcon from "assets/icons/world_small.png";
+// import lockIcon from "assets/skills/lock.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const CONTENT_HEIGHT = 380;
@@ -61,7 +63,7 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
   //      <CloseButtonPanel onClose={onClose}>
   //        <div className="flex flex-col items-center">
   //          <Label className="mt-2" icon={lockIcon} type="danger">
-  //            {t("warning.level.three.required")}
+  //            {t("warning.level.required")}3
   //          </Label>
   //          <img src={worldIcon} className="w-10 mx-auto my-2" />
   //          <p className="text-sm text-center mb-2">

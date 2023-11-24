@@ -22,7 +22,7 @@ import {
   WarningTerms,
   WelcomeTerms,
   TransactionTerms,
-  CollectibleDescriptions,
+  GameDescriptions,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -498,7 +498,7 @@ const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "No Axe Selected!",
   "warning.chat.maxCharacters": "Max characters:",
   "warning.chat.noSpecialCharacters": "No special characters",
-  "warning.level.three.required": "Level 3 Required",
+  "warning.level.required": "Level Required: ",
   "warning.hoarding.message":
     "You have reached the Hoarding Limit for the following item",
   "warning.hoarding.one":
@@ -748,7 +748,7 @@ const retreatTerms: Record<RetreatTerms, string> = {
   "retreatTerms.resale.three": "View items on OpenSea",
 };
 
-const collectibleDescriptions: Record<CollectibleDescriptions, string> = {
+const gameDescriptions: Record<GameDescriptions, string> = {
   // Mutant Chickens
   "description.speed.chicken.one":
     "Your chickens will now produce eggs 10% faster.",
@@ -891,11 +891,10 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...bumpkinPartRequirements,
   ...bumpkinTrade,
-  ...collectibleDescriptions,
   ...confirmationTerms,
   ...conversations,
   ...errorTerms,
-  ...gameTerms,
+  ...gameDescriptions,
   ...gameTerms,
   ...generalTerms,
   ...guideTerms,
