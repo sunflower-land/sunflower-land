@@ -100,6 +100,7 @@ export type GeneralTerms =
   | "tryAgain"
   | "uhOh"
   | "unlocking"
+  | "unlock.land"
   | "verify"
   | "version"
   | "viewAll"

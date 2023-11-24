@@ -125,6 +125,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   tryAgain: "Try again",
   uhOh: "Uh oh!",
   unlocking: "Unlocking",
+  "unlock.land": "Unlock more land",
   verify: "Verify",
   version: "Version",
   viewAll: "View all",
