@@ -413,10 +413,12 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               <div className="w-6">
                 <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
               </div>
-              <span className="text-xs">{`New deliveries available in ${secondsToString(
-                secondsTillReset(),
-                { length: "medium" }
-              )}.`}</span>
+              <span className="text-xs">
+                {t("new.delivery.in")}
+                {`${secondsToString(secondsTillReset(), {
+                  length: "medium",
+                })}.`}
+              </span>
             </div>
           )}
         </div>
@@ -560,14 +562,14 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               {previewOrder.completedAt ? (
                 <div className="flex">
                   <img src={SUNNYSIDE.icons.confirm} className="mr-2 h-4" />
-                  <p className="text-xxs">Completed</p>
+                  <p className="text-xxs">{t("completed")}</p>
                 </div>
               ) : (
                 <p
                   className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
                   onClick={() => setShowSkipDialog(true)}
                 >
-                  Skip order?
+                  {t("skip.order")}?
                 </p>
               )}
             </div>
