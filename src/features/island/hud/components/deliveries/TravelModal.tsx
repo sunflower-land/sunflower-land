@@ -15,7 +15,6 @@ import { Panel } from "components/ui/Panel";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { hasNewOrders } from "features/island/delivery/lib/delivery";
 import { hasNewChores } from "features/helios/components/hayseedHank/lib/chores";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 
 const host = window.location.host.replace(/^www\./, "");
@@ -88,8 +87,10 @@ export const TravelModal: React.FC<Props> = ({
     );
   }
 
-  const isLocked =
-    getBumpkinLevel(gameState.context.state.bumpkin?.experience ?? 0) < 3;
+  // TEMP: Disable for conference
+  const isLocked = false;
+  // const isLocked =
+  //   getBumpkinLevel(gameState.context.state.bumpkin?.experience ?? 0) < 3;
 
   return (
     <>

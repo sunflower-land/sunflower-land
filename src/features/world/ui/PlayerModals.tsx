@@ -10,6 +10,9 @@ import { BumpkinLevel } from "features/bumpkins/components/BumpkinModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PlayerTrade } from "./PlayerTrade";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { GameState } from "features/game/types/game";
+import { BONUSES } from "features/game/types/bonuses";
+import { ParsnipGiveaway } from "./ParsnipGiveaway";
 
 type Player = {
   id: number;
@@ -33,7 +36,11 @@ class PlayerModalManager {
 
 export const playerModalManager = new PlayerModalManager();
 
-export const PlayerModals: React.FC = () => {
+interface Props {
+  game: GameState;
+}
+
+export const PlayerModals: React.FC<Props> = ({ game }) => {
   const [tab, setTab] = useState(0);
   const [player, setPlayer] = useState<Player>();
   const { t } = useAppTranslation();
@@ -48,6 +55,20 @@ export const PlayerModals: React.FC = () => {
   const closeModal = () => {
     setPlayer(undefined);
   };
+
+  const isGiveaway =
+    player?.clothing.hat === "Parsnip Horns" &&
+    !BONUSES["ygg-giveaway"].isClaimed(game);
+
+  if (isGiveaway) {
+    return (
+      <Modal show={!!player} centered onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal} bumpkinParts={player?.clothing}>
+          <ParsnipGiveaway onClose={closeModal} />
+        </CloseButtonPanel>
+      </Modal>
+    );
+  }
 
   return (
     <>
