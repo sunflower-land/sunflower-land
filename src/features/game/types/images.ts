@@ -2667,157 +2667,137 @@ export const ITEM_DETAILS: Items = {
 
   Anchovy: {
     image: anchovy,
-    description: "The ocean's pocket-sized darting acrobat, always in a hurry!",
+    description: translate("description.anchovy.one"),
     howToGetItem: ["Ocean fishing"],
   },
   Butterflyfish: {
     image: butterflyfish,
-    description:
-      "A fish with a fashion-forward sense, flaunting its vivid, stylish stripes.",
+    description: translate("description.butterflyfish.one"),
     howToGetItem: ["Ocean fishing"],
   },
   Blowfish: {
     image: blowfish,
-    description:
-      "The round, inflated comedian of the sea, guaranteed to bring a smile.",
+    description: translate("description.blowfish.one"),
     howToGetItem: ["Ocean fishing"],
   },
   Clownfish: {
     image: clownfish,
-    description:
-      "The underwater jester, sporting a tangerine tuxedo and a clownish charm.",
+    description: translate("description.clownfish.one"),
     howToGetItem: ["Ocean fishing"],
   },
   "Sea Bass": {
     image: seaBass,
-    description:
-      "Your 'not-so-exciting' friend with silver scales – a bassic catch!",
+    description: translate("description.seabass.one"),
     howToGetItem: ["Ocean fishing"],
   },
   "Sea Horse": {
     image: seahorse,
-    description:
-      "The ocean's slow-motion dancer, swaying gracefully in the aquatic ballet.",
+    description: translate("description.seahorse.one"),
     howToGetItem: ["Ocean fishing"],
   },
   "Horse Mackerel": {
     image: horseMackerel,
-    description:
-      "A speedster with a shiny coat, always racing through the waves.",
+    description: translate("description.horsemackerel.one"),
     howToGetItem: ["Ocean fishing"],
   },
   Squid: {
     image: squid,
-    description: "The deep-sea enigma with tentacles to tickle your curiosity.",
+    description: translate("description.squid.one"),
     howToGetItem: ["Ocean fishing"],
   },
   "Red Snapper": {
     image: redSnapper,
-    description: "A catch worth its weight in gold, dressed in fiery crimson.",
+    description: translate("description.redsnapper.one"),
     howToGetItem: ["Ocean fishing"],
   },
   "Moray Eel": {
     image: morayEel,
-    description: "A slinky, sinister lurker in the ocean's shadowy corners.",
+    description: translate("description.morayeel.one"),
     howToGetItem: ["Ocean fishing"],
   },
   "Olive Flounder": {
     image: oliveFlounder,
-    description:
-      "The seabed's master of disguise, always blending in with the crowd.",
+    description: translate("description.oliveflounder.one"),
     howToGetItem: ["Ocean fishing"],
   },
   Napoleanfish: {
     image: napoleonfish,
-    description: "Meet the fish with the Napoleon complex – short, but regal!",
+    description: translate("description.napoleanfish.one"),
     howToGetItem: ["Ocean fishing"],
   },
   Surgeonfish: {
     image: surgeonfish,
-    description: "The ocean's neon warrior, armed with a spine-sharp attitude.",
+    description: translate("description.surgeonfish.one"),
     howToGetItem: ["Ocean fishing"],
   },
   "Zebra Turkeyfish": {
     image: zebraTurkeyfish,
-    description:
-      "Stripes, spines, and a zesty disposition, this fish is a true showstopper!",
+    description: translate("description.zebraturkeyfish.one"),
     howToGetItem: ["Ocean fishing"],
   },
   Ray: {
     image: ray,
-    description:
-      "The underwater glider, a serene winged beauty through the waves.",
+    description: translate("description.ray.one"),
     howToGetItem: ["Ocean fishing"],
   },
   "Hammerhead shark": {
     image: hammerheadShark,
-    description:
-      "Meet the shark with a head for business, and a body for adventure!",
+    description: translate("description.hammerheadshark.one"),
     howToGetItem: ["Ocean fishing"],
   },
   Tuna: {
     image: tuna,
-    description:
-      "The ocean's muscle-bound sprinter, ready for a fin-tastic race!",
+    description: translate("description.tuna.one"),
     howToGetItem: ["Ocean fishing"],
   },
   "Mahi Mahi": {
     image: mahiMahi,
-    description:
-      "A fish that believes in living life colorfully with fins of gold.",
+    description: translate("description.mahimahi.one"),
     howToGetItem: ["Ocean fishing"],
   },
   "Blue Marlin": {
     image: blueMarlin,
-    description:
-      "An oceanic legend, the marlin with an attitude as deep as the sea.",
+    description: translate("description.bluemarlin.one"),
     howToGetItem: ["Ocean fishing"],
   },
   Oarfish: {
     image: oarfish,
-    description: "The long and the long of it – an enigmatic ocean wanderer.",
+    description: translate("description.oarfish.one"),
     howToGetItem: ["Ocean fishing"],
   },
   "Football fish": {
     image: footballFish,
-    description:
-      "The MVP of the deep, a bioluminescent star that's ready to play!",
+    description: translate("description.footballfish.one"),
     howToGetItem: ["Ocean fishing"],
   },
   Sunfish: {
     image: sunfish,
-    description:
-      "The ocean's sunbather, basking in the spotlight with fins held high.",
+    description: translate("description.sunfish.one"),
     howToGetItem: ["Ocean fishing"],
   },
   Coelacanth: {
     image: coelacanth,
-    description:
-      "A prehistoric relic, with a taste for the past and the present.",
+    description: translate("description.coelacanth.one"),
     howToGetItem: ["Ocean fishing"],
   },
   "Whale Shark": {
     image: whaleShark,
-    description:
-      "The gentle giant of the deep, sifting treasures from the ocean's buffet.",
+    description: translate("description.whaleshark.one"),
     howToGetItem: ["Ocean fishing"],
   },
   "Barred Knifejaw": {
     image: barredKnifejaw,
-    description:
-      "An oceanic outlaw with black-and-white stripes and a heart of gold.",
+    description: translate("description.barredknifejaw.one"),
     howToGetItem: ["Ocean fishing"],
   },
   "Saw Shark": {
     image: sawShark,
-    description:
-      "With a saw-like snout, it's the ocean's carpenter, always cutting edge!",
+    description: translate("description.sawshark.one"),
     howToGetItem: ["Ocean fishing"],
   },
   "White Shark": {
     image: whiteShark,
-    description:
-      "The shark with a killer smile, ruling the seas with fin-tensity!",
+    description: translate("description.whiteshark.one"),
     howToGetItem: ["Ocean fishing"],
   },
   "Twilight Anglerfish": {
