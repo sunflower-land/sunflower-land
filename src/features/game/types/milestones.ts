@@ -7,6 +7,7 @@ import { BumpkinItem } from "./bumpkin";
 import { getKeys } from "./craftables";
 import { FishType, FishName, FISH, MarineMarvelName } from "./fishing";
 import { InventoryItemName, GameState } from "./game";
+import { translate } from "lib/i18n/translate";
 
 export type MilestoneName =
   | "Novice Angler"
@@ -35,7 +36,7 @@ const FISH_BY_TYPE: Record<FishType, (FishName | MarineMarvelName)[]> =
 
 export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
   "Novice Angler": {
-    task: "Catch each basic fish",
+    task: translate("quest.basic.fish"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const caughtFish = FISH_BY_TYPE.basic.filter(
         (name) => (farmActivity[`${name} Caught`] ?? 0) >= 1
@@ -51,7 +52,7 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
     },
   },
   "Advanced Angler": {
-    task: "Catch each advanced fish",
+    task: translate("quest.advanced.fish"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const caughtFish = FISH_BY_TYPE.advanced.filter(
         (name) => (farmActivity[`${name} Caught`] ?? 0) >= 1
@@ -67,7 +68,7 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
     },
   },
   "Expert Angler": {
-    task: "Catch 300 fish",
+    task: translate("quest.300.fish"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const totalFishRequired = 300;
 
@@ -83,7 +84,7 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
     },
   },
   "Fish Encyclopedia": {
-    task: "Discover each basic, advanced, and expert fish",
+    task: translate("quest.all.fish"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const encyclopediaFish = getEncyclopediaFish();
       const totalFishRequired = encyclopediaFish.length;
@@ -101,7 +102,7 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
     },
   },
   "Master Angler": {
-    task: "Catch 1500 fish",
+    task: translate("quest.1500.fish"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const totalFishRequired = 1500;
 
@@ -117,7 +118,7 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
     },
   },
   "Marine Marvel Master": {
-    task: "Catch each Marine Marvel",
+    task: translate("quest.marine.marvel"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const totalFishRequired = FISH_BY_TYPE["marine marvel"].length;
 

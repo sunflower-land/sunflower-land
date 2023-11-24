@@ -2845,8 +2845,7 @@ export const ITEM_DETAILS: Items = {
 
   "Kraken Tentacle": {
     image: krakenTentacle,
-    description:
-      "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
+    description: translate("description.kraken.tentacle"),
   },
 
   "Sapo Docuras": {
@@ -2909,8 +2908,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Kraken Head": {
     image: krakenHead,
-    description:
-      "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
+    description: translate("description.kraken.head"),
   },
   "Banana Chicken": {
     image: bananaChicken,

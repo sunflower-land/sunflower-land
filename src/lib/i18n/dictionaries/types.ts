@@ -33,6 +33,7 @@ export type GeneralTerms =
   | "exotics"
   | "farm"
   | "featured"
+  | "fish.caught"
   | "for"
   | "forbidden"
   | "fruit"
@@ -727,7 +728,17 @@ export type GameDescriptions =
   | "description.starlight.tuna"
   | "description.radiant.ray"
   | "description.phantom.barracuda"
-  | "description.gilded.swordfish";
+  | "description.gilded.swordfish"
+  | "description.kraken.tentacle"
+  | "description.kraken.head";
+
+export type FishingQuests =
+  | "quest.basic.fish"
+  | "quest.advanced.fish"
+  | "quest.all.fish"
+  | "quest.300.fish"
+  | "quest.1500.fish"
+  | "quest.marine.marvel";
 
 export type TranslationKeys =
   | AchievementsDialog
@@ -736,6 +747,7 @@ export type TranslationKeys =
   | ConfirmationTerms
   | Conversations
   | ErrorTerms
+  | FishingQuests
   | GameDescriptions
   | GameTerms
   | GeneralTerms

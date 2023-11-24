@@ -23,6 +23,7 @@ import {
   WelcomeTerms,
   TransactionTerms,
   GameDescriptions,
+  FishingQuests,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -58,6 +59,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   exotics: "Exotics",
   farm: "Farm",
   featured: "Featured",
+  "fish.caught": "Fish Caught: ",
   for: "for",
   forbidden: "Forbidden",
   fruit: "Fruit",
@@ -981,6 +983,10 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.whiteshark.one":
     "The shark with a killer smile, ruling the seas with fin-tensity!",
   "description.whiteshark.two": "Dive into an ocean of thrilling taste!",
+  "description.kraken.tentacle":
+    "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
+  "description.kraken.head":
+    "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
   // Marine Marvels
   "description.twilight.anglerfish":
     "A deep-sea angler with a built-in nightlight, guiding its way through darkness.",
@@ -994,6 +1000,15 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     "A swordfish with scales that sparkle like gold, the ultimate catch!",
 };
 
+const fishingQuests: Record<FishingQuests, string> = {
+  "quest.basic.fish": "Catch each basic fish",
+  "quest.advanced.fish": "Catch each advanced fish",
+  "quest.all.fish": "Discover each basic, advanced, and expert fish",
+  "quest.300.fish": "Catch 300 fish",
+  "quest.1500.fish": "Catch 1500 fish",
+  "quest.marine.marvel": "Catch each Marine Marvel",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...bumpkinPartRequirements,
@@ -1001,6 +1016,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...confirmationTerms,
   ...conversations,
   ...errorTerms,
+  ...fishingQuests,
   ...gameDescriptions,
   ...gameTerms,
   ...generalTerms,
