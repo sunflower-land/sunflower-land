@@ -774,10 +774,10 @@ const collectibleDescriptions: Record<CollectibleDescriptions, string> = {
   "description.wheat": "The most harvested crop in the world.",
   "description.kale": "A Bumpkin Power Food!",
 
-  "description.blueberry": "",
-  "description.orange": "",
-  "description.apple": "",
-  "description.banana": "",
+  "description.blueberry": "A Goblin's weakness",
+  "description.orange": "Vitamin C to keep your Bumpkin Healthy",
+  "description.apple": "Perfect for homemade Apple Pie",
+  "description.banana": "Oh banana!",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
