@@ -43,7 +43,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
           Reward Discovered
         </Label>
         {airdrop.message && (
-          <p className="text-sm mb-2 ml-1">{airdrop.message}</p>
+          <p className="text-xs mb-2 ml-1">{airdrop.message}</p>
         )}
         <div className="flex flex-col">
           {!!airdrop.sfl && (
@@ -82,7 +82,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
 
           {getKeys(airdrop.wearables ?? {}).length > 0 &&
             getKeys(airdrop.wearables).map((name) => (
-              <div className="flex items-center  mb-2" key={name}>
+              <div className="flex items-center mb-2" key={name}>
                 <Box image={getImageUrl(ITEM_IDS[name])} />
                 <div>
                   <Label type="default">{`${
