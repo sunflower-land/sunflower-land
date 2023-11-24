@@ -50,346 +50,261 @@ export const BUILDINGS: () => Record<
   "Town Center": [
     {
       unlocksAtLevel: 99,
-      ingredients: [],
       sfl: new Decimal(0),
       constructionSeconds: 30,
+      ingredients: [],
     },
   ],
   Market: [
     {
       unlocksAtLevel: 99,
-
-      ingredients: [],
       sfl: new Decimal(0),
       constructionSeconds: 30,
+      ingredients: [],
     },
   ],
   "Fire Pit": [
     {
       unlocksAtLevel: 99,
-
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(3),
-        },
-        {
-          item: "Stone",
-          amount: new Decimal(2),
-        },
-      ],
       sfl: new Decimal(0),
       constructionSeconds: 0,
+      ingredients: [
+        { item: "Wood",
+          amount: new Decimal(3) },
+        { item: "Stone", 
+        amount: new Decimal(2) },
+      ],
     },
   ],
   Workbench: [
     {
       unlocksAtLevel: 99,
-
-      ingredients: [],
       sfl: marketRate(5),
       constructionSeconds: 60 * 1,
+      ingredients: [],
     },
   ],
   "Water Well": [
     {
       unlocksAtLevel: 4,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(5),
-        },
-        {
-          item: "Stone",
-          amount: new Decimal(5),
-        },
-      ],
       sfl: new Decimal(1),
       constructionSeconds: 60 * 5,
+      ingredients: [
+        { item: "Wood",
+          amount: new Decimal(5) }, 
+        { item: "Stone",
+          amount: new Decimal(5) },
+      ],
     },
     {
       unlocksAtLevel: 6,
-      ingredients: [
-        { item: "Wood", amount: new Decimal(5) },
-        {
-          item: "Stone",
-          amount: new Decimal(5),
-        },
-      ],
       sfl: new Decimal(1),
       constructionSeconds: 60 * 5,
+      ingredients: [
+        { item: "Wood",
+          amount: new Decimal(5) },
+        { item: "Stone",
+          amount: new Decimal(5) },
+      ],
     },
     {
       unlocksAtLevel: 10,
-      ingredients: [
-        { item: "Wood", amount: new Decimal(5) },
-        {
-          item: "Stone",
-          amount: new Decimal(5),
-        },
-      ],
       sfl: new Decimal(1),
       constructionSeconds: 60 * 5,
+      ingredients: [
+        { item: "Wood",
+           amount: new Decimal(5) },
+        { item: "Stone",
+          amount: new Decimal(5) },
+      ],
     },
     {
       unlocksAtLevel: 12,
-      ingredients: [
-        { item: "Wood", amount: new Decimal(5) },
-        {
-          item: "Stone",
-          amount: new Decimal(5),
-        },
-      ],
       sfl: new Decimal(1),
       constructionSeconds: 60 * 5,
+      ingredients: [
+        { item: "Wood",
+          amount: new Decimal(5) },
+        { item: "Stone",
+          amount: new Decimal(5) },
+      ],
     },
   ],
   Kitchen: [
     {
       unlocksAtLevel: 5,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(30),
-        },
-        {
-          item: "Stone",
-          amount: new Decimal(5),
-        },
-      ],
       sfl: marketRate(10),
-      constructionSeconds: 60 * 30,
+      constructionSeconds: 60 * 30,      
+      ingredients: [
+        { item: "Wood",
+          amount: new Decimal(30) },
+        { item: "Stone",
+          amount: new Decimal(5) },
+      ],
     },
   ],
   Tent: [
     {
       unlocksAtLevel: 9,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(50),
-        },
-      ],
       sfl: marketRate(0.06255),
       constructionSeconds: 60 * 60,
+      ingredients: [
+        { item: "Wood",
+          amount: new Decimal(50) },
+      ],
     },
   ],
   "Hen House": [
     {
       unlocksAtLevel: 7,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(30),
-        },
-        {
-          item: "Iron",
-          amount: new Decimal(5),
-        },
-        {
-          item: "Gold",
-          amount: new Decimal(5),
-        },
-      ],
-
       sfl: marketRate(100),
       constructionSeconds: 60 * 60 * 2,
+      ingredients: [
+        { item: "Wood",
+          amount: new Decimal(30) },
+        { item: "Iron",
+          amount: new Decimal(5) },
+        { item: "Gold",
+          amount: new Decimal(5) },
+      ],
     },
     {
       unlocksAtLevel: 13,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(200),
-        },
-        {
-          item: "Iron",
-          amount: new Decimal(15),
-        },
-        {
-          item: "Gold",
-          amount: new Decimal(15),
-        },
-        {
-          item: "Egg",
-          amount: new Decimal(300),
-        },
-      ],
       sfl: marketRate(800),
       constructionSeconds: 60 * 60 * 3,
+      ingredients: [
+        { item: "Wood",
+          amount: new Decimal(200) },
+        { item: "Iron",
+          amount: new Decimal(15) },
+        { item: "Gold",
+          amount: new Decimal(15) },
+        { item: "Egg", 
+         amount: new Decimal(300) },
+      ],
     },
   ],
   Bakery: [
     {
       unlocksAtLevel: 8,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(50),
-        },
-        {
-          item: "Stone",
-          amount: new Decimal(20),
-        },
-        {
-          item: "Gold",
-          amount: new Decimal(5),
-        },
-      ],
       sfl: marketRate(200),
       constructionSeconds: 60 * 60 * 4,
+      ingredients: [
+        { item: "Wood",
+          amount: new Decimal(50) },
+        { item: "Stone",
+          amount: new Decimal(20) },
+        { item: "Gold",
+          amount: new Decimal(5) },
+      ],
     },
   ],
   Deli: [
     {
       unlocksAtLevel: 12,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(50),
-        },
-        {
-          item: "Stone",
-          amount: new Decimal(50),
-        },
-        {
-          item: "Gold",
-          amount: new Decimal(10),
-        },
-      ],
       sfl: marketRate(300),
       constructionSeconds: 60 * 60 * 12,
+      ingredients: [
+        { item: "Wood",
+          amount: new Decimal(50) },
+        { item: "Stone",
+          amount: new Decimal(50) },
+        { item: "Gold",
+          amount: new Decimal(10) },
+      ],
     },
   ],
   "Smoothie Shack": [
     {
       unlocksAtLevel: 14,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(25),
-        },
-        {
-          item: "Stone",
-          amount: new Decimal(25),
-        },
-        {
-          item: "Iron",
-          amount: new Decimal(10),
-        },
-      ],
       sfl: new Decimal(0),
       constructionSeconds: 60 * 60 * 12,
+      ingredients: [
+        { item: "Wood",
+          amount: new Decimal(25) },
+        { item: "Stone",
+          amount: new Decimal(25) },
+        { item: "Iron",
+          amount: new Decimal(10) },
+      ],
     },
   ],
 
   Toolshed: [
     {
       unlocksAtLevel: 15,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(500),
-        },
-        {
-          item: "Iron",
-          amount: new Decimal(30),
-        },
-        {
-          item: "Gold",
-          amount: new Decimal(25),
-        },
-        {
-          item: "Axe",
-          amount: new Decimal(100),
-        },
-        {
-          item: "Pickaxe",
-          amount: new Decimal(50),
-        },
-      ],
       sfl: new Decimal(0),
       constructionSeconds: 60 * 60 * 2,
+      ingredients: [
+        { item: "Wood",
+          amount: new Decimal(500) },
+        { item: "Iron",
+          amount: new Decimal(30) },
+        { item: "Gold",
+          amount: new Decimal(25) },
+        { item: "Axe", 
+         amount: new Decimal(100) },
+        { item: "Pickaxe",
+          amount: new Decimal(50) },
+      ],
     },
   ],
   Warehouse: [
     {
       unlocksAtLevel: 14,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(250),
-        },
-        {
-          item: "Stone",
-          amount: new Decimal(150),
-        },
-        {
-          item: "Potato",
-          amount: new Decimal(5000),
-        },
-        {
-          item: "Pumpkin",
-          amount: new Decimal(2000),
-        },
-        {
-          item: "Wheat",
-          amount: new Decimal(500),
-        },
-        {
-          item: "Kale",
-          amount: new Decimal(100),
-        },
-      ],
       sfl: new Decimal(0),
       constructionSeconds: 60 * 60 * 2,
+      ingredients: [
+        { item: "Wood",
+          amount: new Decimal(250) },
+        { item: "Stone",
+          amount: new Decimal(150) },
+        { item: "Potato",
+          amount: new Decimal(5000) },
+        { item: "Pumpkin", 
+         amount: new Decimal(2000) },
+        { item: "Wheat",
+          amount: new Decimal(500) },
+        { item: "Kale",
+          amount: new Decimal(100) },
+      ]
     },
   ],
   "Compost Bin": [
     {
       unlocksAtLevel: 6,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(5),
-        },
-        {
-          item: "Stone",
-          amount: new Decimal(5),
-        },
-      ],
       sfl: marketRate(0),
       constructionSeconds: 60 * 60,
+      ingredients: [
+        { item: "Wood", 
+         amount: new Decimal(5) },
+        { item: "Stone", 
+         amount: new Decimal(5) },
+      ],
     },
   ],
   "Turbo Composter": [
     {
       unlocksAtLevel: 10,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(50),
-        },
-        {
-          item: "Stone",
-          amount: new Decimal(25),
-        },
-      ],
       sfl: marketRate(0),
       constructionSeconds: 60 * 60 * 2,
+      ingredients: [
+        { item: "Wood",
+          amount: new Decimal(50) },
+        { item: "Stone",
+          amount: new Decimal(25) },
+      ],
     },
   ],
   "Premium Composter": [
     {
       unlocksAtLevel: 18,
-      ingredients: [
-        {
-          item: "Gold",
-          amount: new Decimal(50),
-        },
-      ],
       sfl: marketRate(0),
       constructionSeconds: 60 * 60 * 4,
+      ingredients: [
+        { item: "Gold",
+          amount: new Decimal(50) },
+      ],
     },
   ],
 });
