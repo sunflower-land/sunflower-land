@@ -59,6 +59,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   exotics: "Exotics",
   farm: "Farm",
   featured: "Featured",
+  "feed.bumpkin": "Feed Bumpkin",
   "fish.caught": "Fish Caught: ",
   for: "for",
   forbidden: "Forbidden",
@@ -67,6 +68,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   gotIt: "Got it",
   "grant.wish": "Grant New Wish",
   guide: "Guide",
+  "hungry?": "Hungry?",
   info: "Info",
   item: "Item:",
   lastUpdated: "Last updated: ",
@@ -715,6 +717,9 @@ const statements: Record<Statements, string> = {
   "statements.wishing.well.luck": "Let's see how lucky you are!",
   "statements.wrongChain.one":
     "Check out this guide to help you get connected.",
+  "statements.feed.bumpkin.one": "You have no food in your inventory.",
+  "statements.feed.bumpkin.two":
+    "You will need to cook food in order to feed your Bumpkin.",
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {

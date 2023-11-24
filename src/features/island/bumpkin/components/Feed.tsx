@@ -17,6 +17,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   food: Consumable[];
@@ -35,7 +36,7 @@ export const Feed: React.FC<Props> = ({ food }) => {
   const bumpkin = useSelector(gameService, _bumpkin);
   const collectibles = useSelector(gameService, _collectibles);
   const buds = useSelector(gameService, _buds);
-
+  const { t } = useAppTranslation();
   useEffect(() => {
     if (food.length) {
       setSelected(food[0]);
@@ -47,12 +48,12 @@ export const Feed: React.FC<Props> = ({ food }) => {
   if (!selected) {
     return (
       <div className="flex flex-col items-center p-2">
-        <span className="text-base text-center mb-4">Hungry?</span>
+        <span className="text-base text-center mb-4">{t("hungry?")}</span>
         <span className="w-full text-sm mb-3">
-          You have no food in your inventory.
+          {t("statements.feed.bumpkin.one")}
         </span>
         <span className="w-full text-sm mb-2">
-          You will need to cook food in order to feed your Bumpkin.
+          {t("statements.feed.bumpkin.two")}
         </span>
         <img
           src={firePit}
