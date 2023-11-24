@@ -7,6 +7,7 @@ export type GeneralTerms =
   | "auctions"
   | "back"
   | "beta"
+  | "build"
   | "buy"
   | "cancel"
   | "card.cash"
@@ -88,6 +89,7 @@ export type GeneralTerms =
   | "swapping"
   | "syncing"
   | "task"
+  | "tools"
   | "total"
   | "total.price"
   | "trades"
@@ -532,7 +534,28 @@ export type CollectibleDescriptions =
   | "description.banana.chicken"
 
   // Tools
-  | "description.shovel";
+  | "description.shovel"
+
+  // Crops
+  | "description.sunflower"
+  | "description.potato"
+  | "description.pumpkin"
+  | "description.carrot"
+  | "description.cabbage"
+  | "description.beetroot"
+  | "description.cauliflower"
+  | "description.parsnip"
+  | "description.eggplant"
+  | "description.corn"
+  | "description.radish"
+  | "description.wheat"
+  | "description.kale"
+
+  // Fruit
+  | "description.blueberry"
+  | "description.orange"
+  | "description.apple"
+  | "description.banana";
 
 export type TranslationKeys =
   | AchievementsDialog

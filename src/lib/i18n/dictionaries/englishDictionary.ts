@@ -33,6 +33,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   auctions: "Auctions",
   back: "Back",
   beta: "Beta",
+  build: "Build",
   buy: "Buy",
   cancel: "Cancel",
   "card.cash": "Card/Cash",
@@ -112,6 +113,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   swapping: "Swapping",
   syncing: "Syncing",
   task: "Task",
+  tools: "Tools",
   total: "Total",
   "total.price": "Total Price: ",
   trades: "Trades",
@@ -757,6 +759,25 @@ const collectibleDescriptions: Record<CollectibleDescriptions, string> = {
   "description.banana.chicken":
     "A chicken that boosts bananas. What a world we live in.",
   "description.shovel": "Plant and harvest crops.",
+  "description.sunflower": "A sunny flower",
+  "description.potato": "Healthier than you might think.",
+  "description.pumpkin": "There's more to pumpkin than pie.",
+  "description.carrot": "They're good for your eyes!",
+  "description.cabbage": "Once a luxury, now a food for many.",
+  "description.beetroot": "Good for hangovers!",
+  "description.cauliflower": "Excellent rice substitute!",
+  "description.parsnip": "Not to be mistaken for carrots.",
+  "description.eggplant": "Nature's edible work of art.",
+  "description.corn":
+    "Sun-kissed kernels of delight, nature's summer treasure.",
+  "description.radish": "Takes time but is worth the wait!",
+  "description.wheat": "The most harvested crop in the world.",
+  "description.kale": "A Bumpkin Power Food!",
+
+  "description.blueberry": "",
+  "description.orange": "",
+  "description.apple": "",
+  "description.banana": "",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

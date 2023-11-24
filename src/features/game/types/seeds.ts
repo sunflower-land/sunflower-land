@@ -4,6 +4,7 @@ import { CropName, CropSeedName } from "./crops";
 import { FruitName, FruitSeedName, FRUIT_SEEDS } from "./fruits";
 import { CONFIG } from "lib/config";
 import { SEASONS } from "./seasons";
+import { translate } from "lib/i18n/translate";
 
 export type SeedName = CropSeedName | FruitSeedName;
 
@@ -19,14 +20,14 @@ export type Seed = {
 export const CROP_SEEDS: () => Record<CropSeedName, Seed> = () => ({
   "Sunflower Seed": {
     sfl: marketRate(0.01),
-    description: "A sunny flower",
+    description: translate("description.sunflower"),
     plantSeconds: 60,
     bumpkinLevel: 1,
     yield: "Sunflower",
   },
   "Potato Seed": {
     sfl: marketRate(0.1),
-    description: "Healthier than you might think.",
+    description: translate("description.potato"),
     plantSeconds: 5 * 60,
     bumpkinLevel: 1,
     yield: "Potato",

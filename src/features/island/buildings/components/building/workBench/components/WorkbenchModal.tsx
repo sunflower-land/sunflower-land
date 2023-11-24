@@ -7,6 +7,7 @@ import { Tools } from "./Tools";
 import { IslandBlacksmithItems } from "features/helios/components/blacksmith/component/IslandBlacksmithItems";
 import { Buildings } from "features/island/hud/components/buildings/Buildings";
 import { NPC_WEARABLES } from "lib/npcs";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -14,15 +15,16 @@ interface Props {
 
 export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState(0);
+  const { t } = useAppTranslation();
 
   return (
     <CloseButtonPanel
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES.blacksmith}
       tabs={[
-        { icon: ITEM_DETAILS.Pickaxe.image, name: "Tools" },
-        { icon: SUNNYSIDE.icons.hammer, name: "Craft" },
-        { icon: SUNNYSIDE.icons.hammer, name: "Build" },
+        { icon: ITEM_DETAILS.Pickaxe.image, name: t("tools") },
+        { icon: SUNNYSIDE.icons.hammer, name: t("craft") },
+        { icon: SUNNYSIDE.icons.hammer, name: t("build") },
       ]}
       currentTab={tab}
       setCurrentTab={setTab}

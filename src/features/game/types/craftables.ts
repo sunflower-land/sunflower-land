@@ -18,6 +18,7 @@ import {
 import { BoostTreasure } from "./treasure";
 import { RESOURCE_DIMENSIONS } from "./resources";
 import { MarineMarvelName } from "./fishing";
+import { translate } from "lib/i18n/translate";
 
 export { FLAGS };
 
@@ -573,7 +574,7 @@ export const SHOVELS: Record<Shovel, CraftableItem> = {
   },
   Shovel: {
     name: "Shovel",
-    description: "Plant and harvest crops.",
+    description: translate("description.shovel"),
     tokenAmount: new Decimal(0),
     ingredients: [
       {
