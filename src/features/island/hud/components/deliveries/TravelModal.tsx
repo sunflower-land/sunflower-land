@@ -149,15 +149,15 @@ export const TravelModal: React.FC<Props> = ({
           <CloseButtonPanel
             onClose={onClose}
             tabs={[
-              { icon: world, name: "Travel" },
+              { icon: world, name: t("travel") },
               {
                 icon: SUNNYSIDE.icons.heart,
-                name: "Deliveries",
+                name: t("deliveries"),
                 alert: hasNewOrders(delivery),
               },
               {
                 icon: SUNNYSIDE.icons.expression_chat,
-                name: "Chores",
+                name: t("chores"),
                 alert: chores && hasNewChores(chores),
               },
             ]}

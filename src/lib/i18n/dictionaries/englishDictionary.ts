@@ -34,11 +34,14 @@ const generalTerms: Record<GeneralTerms, string> = {
   alrClaim: "Already Claimed!",
   auctions: "Auctions",
   back: "Back",
+  basket: "Basket",
   beta: "Beta",
   build: "Build",
   buy: "Buy",
   cancel: "Cancel",
   "card.cash": "Card/Cash",
+  chest: "Chest",
+  chores: "Chores",
   claim: "Claim",
   claimSkill: "Claim skill",
   clear: "Clear",
@@ -46,6 +49,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   craft: "Craft",
   crafting: "Crafting",
   comingSoon: "Coming soon",
+  completed: "Completed",
   congrats: "Congratulations!",
   connected: "Connected",
   connecting: "Connecting",
@@ -114,6 +118,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   shopping: "Shopping",
   skillPts: "Skill Points:",
   skills: "Skills",
+  "skip.order": "Skip Order",
   sound: "Sound Effects: ",
   success: "Success!",
   "support.team": "Support Team",
@@ -126,6 +131,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   trades: "Trades",
   trading: "Trading",
   "trash.collection": "Trash Collection",
+  travel: "Travel",
   tryAgain: "Try again",
   uhOh: "Uh oh!",
   unlocking: "Unlocking",
@@ -139,6 +145,16 @@ const generalTerms: Record<GeneralTerms, string> = {
   "wishing.well": "Wishing Well",
   withdraw: "Withdraw",
   "you.are.here": "You are here",
+  bait: "Bait",
+  bounty: "Bounty",
+  coupons: "Coupons",
+  "easter.eggs": "Easter Eggs",
+  fertilisers: "Fertilisers",
+  fish: "Fish",
+  foods: "Foods",
+  resources: "Resources",
+  seeds: "Seeds",
+  cook: "Cook",
 };
 
 const gameTerms: Record<GameTerms, string> = {
@@ -152,6 +168,7 @@ const gameTerms: Record<GameTerms, string> = {
   "proof.of.humanity": "Proof of Humanity",
   "no.sfl": "No SFL tokens found",
   "granting.wish": "Granting your wish",
+  "new.delivery.in": "New deliveries available in: ",
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
@@ -726,6 +743,7 @@ const statements: Record<Statements, string> = {
   "statements.feed.bumpkin.one": "You have no food in your inventory.",
   "statements.feed.bumpkin.two":
     "You will need to cook food in order to feed your Bumpkin.",
+  "statements.empty.chest": "Your chest is empty, discover rare items today!",
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {

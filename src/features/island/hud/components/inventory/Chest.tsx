@@ -67,7 +67,7 @@ export const Chest: React.FC<Props> = ({
   const divRef = useRef<HTMLDivElement>(null);
   const buds = getChestBuds(state);
   const chestMap = getChestItems(state);
-
+  const { t } = useAppTranslation();
   const collectibles = getKeys(chestMap)
     .sort((a, b) => a.localeCompare(b))
     .reduce((acc, item) => {
@@ -119,7 +119,7 @@ export const Chest: React.FC<Props> = ({
           }}
         />
         <span className="text-xs text-center mt-2">
-          Your chest is empty, discover rare items today!
+          {t("statements.empty.chest")}
         </span>
         {onDepositClick && (
           <p
