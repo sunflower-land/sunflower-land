@@ -183,14 +183,14 @@ export const IslandList: React.FC<IslandListProps> = ({
 
   const islands: Island[] = [
     {
-      name: "Home",
+      name: t("island.home"),
       image: CROP_LIFECYCLE.Sunflower.ready,
       levelRequired: 1,
       path: `/land/${farmId}`,
       labels: [],
     },
     {
-      name: "Pumpkin Plaza",
+      name: t("island.pumpkin.plaza"),
       levelRequired: 1 as BumpkinLevel,
       image: CROP_LIFECYCLE.Pumpkin.crop,
       path: `/world/plaza`,
@@ -211,7 +211,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       ],
     },
     {
-      name: "Beach",
+      name: t("island.beach"),
       levelRequired: 1 as BumpkinLevel,
       image: SUNNYSIDE.resource.crab,
       path: `/world/beach`,
@@ -229,7 +229,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       ],
     },
     {
-      name: "Woodlands",
+      name: t("island.woodlands"),
       levelRequired: 1 as BumpkinLevel,
       image: SUNNYSIDE.resource.wild_mushroom,
       path: `/world/woodlands`,
@@ -240,7 +240,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       ],
     },
     {
-      name: "Helios",
+      name: t("island.helios"),
       levelRequired: 1 as BumpkinLevel,
       image: SUNNYSIDE.icons.helios,
       path: `/land/${farmId}/helios`,
@@ -254,7 +254,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       ],
     },
     {
-      name: "Goblin Retreat",
+      name: t("island.goblin.retreat"),
       levelRequired: 1 as BumpkinLevel,
       image: goblin,
       path: `/retreat/${farmId}`,
@@ -295,7 +295,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       <>
         {state.isAuthorised && (
           <IslandListItem
-            name="Home"
+            name={t("island.home")}
             image={CROP_LIFECYCLE.Sunflower.ready}
             levelRequired={1}
             path={`/land/${farmId}`}

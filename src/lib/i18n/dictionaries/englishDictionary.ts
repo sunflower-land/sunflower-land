@@ -24,6 +24,7 @@ import {
   TransactionTerms,
   GameDescriptions,
   FishingQuests,
+  IslandName,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -57,6 +58,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   equip: "Equip",
   error: "Error",
   exotics: "Exotics",
+  explore: "Explore",
   farm: "Farm",
   featured: "Featured",
   "feed.bumpkin": "Feed Bumpkin",
@@ -444,6 +446,10 @@ const conversations: Record<Conversations, string> = {
     "At the plaza you can deliver your resources for rewards, craft magical items & trade with other players.",
   "pete.levelthree.four":
     "You can travel by clicking on the world icon in the bottom left.",
+  "pete.help.one":
+    "As you level up, you will unlock new areas to explore. First up is the Pumpkin Plaza....my home!",
+  "pete.help.two":
+    "Here you can complete deliveries for rewards, craft magical items & trade with other players.",
 };
 
 const henHouseTerms: Record<HenHouseTerms, string> = {
@@ -1035,6 +1041,14 @@ const fishingQuests: Record<FishingQuests, string> = {
   "quest.1500.fish": "Catch 1500 fish",
   "quest.marine.marvel": "Catch each Marine Marvel",
 };
+const islandName: Record<IslandName, string> = {
+  "island.home": "Home",
+  "island.pumpkin.plaza": "Pumpkin Plaza",
+  "island.beach": "Beach",
+  "island.woodlands": "Woodlands",
+  "island.helios": "Helios",
+  "island.goblin.retreat": "Goblin Retreat",
+};
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
@@ -1050,6 +1064,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...guideTerms,
   ...henHouseTerms,
   ...introTerms,
+  ...islandName,
   ...onboarding,
   ...questions,
   ...retreatTerms,

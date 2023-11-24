@@ -31,6 +31,7 @@ export type GeneralTerms =
   | "equip"
   | "error"
   | "exotics"
+  | "explore"
   | "farm"
   | "featured"
   | "feed.bumpkin"
@@ -305,7 +306,9 @@ export type Conversations =
   | "pete.levelthree.one"
   | "pete.levelthree.two"
   | "pete.levelthree.three"
-  | "pete.levelthree.four";
+  | "pete.levelthree.four"
+  | "pete.help.one"
+  | "pete.help.two";
 
 export type HenHouseTerms =
   | "henHouse.chickens"
@@ -763,6 +766,14 @@ export type FishingQuests =
   | "quest.1500.fish"
   | "quest.marine.marvel";
 
+export type IslandName =
+  | "island.home"
+  | "island.pumpkin.plaza"
+  | "island.beach"
+  | "island.woodlands"
+  | "island.helios"
+  | "island.goblin.retreat";
+
 export type TranslationKeys =
   | AchievementsDialog
   | BumpkinPartRequirements
@@ -777,6 +788,7 @@ export type TranslationKeys =
   | GuideTerms
   | HenHouseTerms
   | Intro
+  | IslandName
   | Onboarding
   | Questions
   | RetreatTerms

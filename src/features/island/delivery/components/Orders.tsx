@@ -42,6 +42,7 @@ import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Label } from "components/ui/Label";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -141,7 +142,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const skippedOrder = delivery.orders.find((order) => order.id === "skipping");
 
   const canFulfill = hasRequirements(previewOrder as Order);
-
+  const { t } = useAppTranslation();
   const slots = getDeliverySlots(inventory);
   let emptySlots = slots - orders.length - (nextOrder ? 1 : 0);
   emptySlots = Math.max(0, emptySlots);
@@ -519,11 +520,11 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
                 {BEACH_BUMPKINS.includes(previewOrder.from) ? (
                   <Label type="default" icon={worldIcon} className="ml-1">
-                    Beach
+                    {t("island.beach")}
                   </Label>
                 ) : (
                   <Label type="default" icon={worldIcon} className="ml-1">
-                    Pumpkin Plaza
+                    {t("island.pumpkin.plaza")}
                   </Label>
                 )}
               </div>

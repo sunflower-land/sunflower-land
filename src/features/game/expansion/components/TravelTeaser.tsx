@@ -54,7 +54,7 @@ export const TravelTeaser: React.FC = () => {
           tabs={[
             {
               icon: SUNNYSIDE.icons.expression_chat,
-              name: "Explore",
+              name: t("explore"),
             },
             {
               icon: SUNNYSIDE.icons.expression_confused,

@@ -25,14 +25,8 @@ export const PeteHelp: React.FC = () => {
 
   return (
     <div className="p-2">
-      <p className="text-sm mb-2">
-        As you level up, you will unlock new areas to explore. First up is the
-        Pumpkin Plaza....my home!
-      </p>
-      <p className="text-sm">
-        Here you can complete deliveries for rewards, craft magical items &
-        trade with other players.
-      </p>
+      <p className="text-sm mb-2">{t("pete.help.one")}</p>
+      <p className="text-sm">{t("pete.help.two")}</p>
 
       <img src={plaza} className="w-full mx-auto rounded-lg my-2" />
       {locked && (
@@ -52,7 +46,7 @@ export const PeteHelp: React.FC = () => {
           navigate(`/world/plaza`);
         }}
       >
-        Lets go!
+        {t("letsGo")}
       </Button>
     </div>
   );
