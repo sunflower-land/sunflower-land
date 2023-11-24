@@ -44,8 +44,8 @@ export const AuctioneerContent: React.FC<Props> = ({
     return (
       <>
         <div className="p-2">
-          <p className="text-sm mb-2">{`I've travelled far and wide across Sunflower Land in search for exotic treasures to bring to my fellow Bumpkins.`}</p>
-          <p className="text-sm mb-2">{`Don't miss one of the Auctions where a swing of my mighty hammer can turn your hard-earned resources into rare, minted marvels!`}</p>
+          <p className="text-sm mb-2">{t("statements.auctioneer.one")}</p>
+          <p className="text-sm mb-2">{t("statements.auctioneer.two")}</p>
           <a
             href="https://docs.sunflower-land.com/player-guides/auctions"
             className="mx-auto text-xxs underline  pb-2 pt-2"
@@ -90,7 +90,7 @@ export const AuctioneerContent: React.FC<Props> = ({
   }
 
   if (auctioneerState.matches("bidding")) {
-    return <span className="loading">Placing bid</span>;
+    return <span className="loading">{t("placing.bid")}</span>;
   }
 
   if (auctioneerState.matches("refunded")) {
@@ -116,7 +116,7 @@ export const AuctioneerContent: React.FC<Props> = ({
   }
 
   if (auctioneerState.matches("checkingResults")) {
-    return <span className="loading">Loading</span>;
+    return <span className="loading">{t("loading")}</span>;
   }
 
   if (auctioneerState.matches("pending")) {

@@ -236,7 +236,7 @@ export const DailyReward: React.FC = () => {
     if (chestState.matches("unlocking")) {
       return (
         <Panel>
-          <Loading text="Unlocking" />
+          <Loading text={t("unlocking")} />
         </Panel>
       );
     }

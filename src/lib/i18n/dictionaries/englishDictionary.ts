@@ -85,6 +85,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   ok: "OK",
   "open.gift": "Open Gift",
   "pass.required": "Pass Required",
+  "placing.bid": "Placing bid",
   print: "Print",
   "providing.liquidity": "Providing Liquidity",
   purchasing: "Purchasing",
@@ -117,6 +118,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "trash.collection": "Trash Collection",
   tryAgain: "Try again",
   uhOh: "Uh oh!",
+  unlocking: "Unlocking",
   verify: "Verify",
   version: "Version",
   viewAll: "View all",
@@ -599,28 +601,29 @@ const questions: Record<Questions, string> = {
 
 const statements: Record<Statements, string> = {
   "statements.adventure": "Start your Adventure!",
-  "statements.maintenance":
-    "New things are coming! Thanks for your patience, the game will be live again shortly.",
-  "statements.docs": "Go to docs",
-  "statements.wrongChain.one":
-    "Check out this guide to help you get connected.",
-  "statements.guide.one": "Go to guide",
-  "statements.guide.two": "Check out this guide to help you get started.",
-  "statements.switchNetwork": "Add or Switch Network",
-  "statements.lvlUp": "Feed your Bumpkin to level up",
-  "statements.thankYou": "Thank you!",
-  "statements.ohNo": "Oh no! Something went wrong!",
+  "statements.auctioneer.one":
+    "I've travelled far and wide across Sunflower Land in search for exotic treasures to bring to my fellow Bumpkins.",
+  "statements.auctioneer.two":
+    "Don't miss one of the Auctions where a swing of my mighty hammer can turn your hard-earned resources into rare, minted marvels!",
+  "statements.beta.one": "Beta is only accessible to our OG farmers.",
+  "statements.beta.two": "Stay tuned for updates. We will be going live soon!",
+  "statements.better.luck": "Better luck next time!",
   "statements.blacklist.one":
     "The anti-bot and multi-account detection system has picked up strange behaviour. Actions have been restricted.",
   "statements.blacklist.two":
     "Please submit a ticket with details and we will get back to you.",
+  "statements.clickBottle": "Click on a bottle to add to your guess",
   "statements.clock.one":
     "Uh oh, it looks like your clock is not in sync with the game. Set date and time to automatic to avoid disruptions",
   "statements.clock.two":
     "Need help to sync your clock? Have a look at our guide!",
-  "statements.openGuide": "Open guide",
+  "statements.conversation.one": "I've got something for you!",
   "statements.cooldown":
     "To protect the community, we require a 2 week waiting period before this farm can be accessed.",
+  "statements.docs": "Go to docs",
+  "statements.dontRefresh": "Do not refresh your browser!",
+  "statements.guide.one": "Go to guide",
+  "statements.guide.two": "Check out this guide to help you get started.",
   "statements.jigger.one":
     "You will be redirected to a 3rd party service to take a quick selfie. Never share any personal information or crypto data.",
   "statements.jigger.two": "You failed the Jigger Proof of Humanity.",
@@ -630,25 +633,28 @@ const statements: Record<Statements, string> = {
     "Please reach out to support@usejigger.com if you beleive this was a mistake.",
   "statements.jigger.five":
     "Your proof of humanity is still being processed by Jigger. This can take up to 2 hours.",
-  "statements.patience": "Thank you for your patience.",
   "statements.jigger.six":
     "The multi-account detection system has picked up strange behaviour.",
   "statements.jigger.seven":
     "You can continue playing, but some actions will be restricted while you are being verified.",
+  "statements.lvlUp": "Feed your Bumpkin to level up",
+  "statements.maintenance":
+    "New things are coming! Thanks for your patience, the game will be live again shortly.",
+  "statements.make.a.wish": "Grant a new wish and see how lucky you are!",
   "statements.minted": "The goblins have crafted your ",
   "statements.minting":
     "Please be patient while your item is minted on the Blockchain.",
+  "statements.mutant.chicken":
+    "Congratulations, your chicken has laid a very rare mutant chicken!",
+  "statements.new.wish":
+    "A new wish has been made for you based on your current balance of LP tokens!",
   "statements.news":
     "Recieve the latest news, complete chores & feed your Bumpkin.",
-  "statements.dontRefresh": "Do not refresh your browser!",
-  "statements.sflLim.one": "You have reached the daily SFL limit.",
-  "statements.sflLim.two":
-    "You can continue playing, but will need to wait until tomorrow to sync again.",
-  "statements.sniped": "Oh no! Another player bought that trade before you.",
-  "statements.tapCont": "Tap to continue",
-  "statements.sync":
-    "Please bear with us while we sync all of your data on chain.",
-  "statements.clickBottle": "Click on a bottle to add to your guess",
+  "statements.no.reward":
+    "You have no reward available! Liquidity needs to be held for 3 days to get a reward!",
+  "statements.ohNo": "Oh no! Something went wrong!",
+  "statements.openGuide": "Open guide",
+  "statements.patience": "Thank you for your patience.",
   "statements.potionRule.one":
     "Objective: Figure out the combination. You have 3 tries to get it right. The game will end if you have a perfect potion or if you run out of tries.",
   "statements.potionRule.two":
@@ -660,40 +666,36 @@ const statements: Record<Statements, string> = {
   "statements.potionRule.five": "A perfect potion in the perfect position",
   "statements.potionRule.six": "Correct potion but wrong position",
   "statements.potionRule.seven": "Oops, wrong potion",
-  "statements.beta.one": "Beta is only accessible to our OG farmers.",
-  "statements.beta.two": "Stay tuned for updates. We will be going live soon!",
-  "statements.visit.firePit":
-    "Visit the Fire Pit to cook food and feed your Bumpkin.",
+  "statements.sfl.rewards.received": "SFL rewards received: ",
+  "statements.sflLim.one": "You have reached the daily SFL limit.",
+  "statements.sflLim.two":
+    "You can continue playing, but will need to wait until tomorrow to sync again.",
+  "statements.sniped": "Oh no! Another player bought that trade before you.",
+  "statements.switchNetwork": "Add or Switch Network",
+  "statements.sync":
+    "Please bear with us while we sync all of your data on chain.",
+  "statements.tapCont": "Tap to continue",
+  "statements.thankYou": "Thank you!",
   "statements.tutorial.one":
     "The boat will take you between islands where you can discover new lands and exciting adventures.",
   "statements.tutorial.two":
     "Many lands are far away and will require an experienced Bumpkin before you can visit them.",
   "statements.tutorial.three":
     "Your adventure begins now, how far you explore ... that is on you.",
-  "statements.mutant.chicken":
-    "Congratulations, your chicken has laid a very rare mutant chicken!",
-  "statements.conversation.one": "I've got something for you!",
-  "statements.better.luck": "Better luck next time!",
-  "statements.make.a.wish": "Grant a new wish and see how lucky you are!",
-  "statements.no.reward":
-    "You have no reward available! Liquidity needs to be held for 3 days to get a reward!",
-  "statements.new.wish":
-    "A new wish has been made for you based on your current balance of LP tokens!",
-  "statements.wish.granted": "Your wish has been granted.",
-  "statements.wish.ready.in": "Time till next wish: ",
-  "statements.wishing.well.amount": "Amount of rewards in the well: ",
+  "statements.visit.firePit":
+    "Visit the Fire Pit to cook food and feed your Bumpkin.",
   "statements.wish.granted.time": "It's time to grant your wish!",
-  "statements.wishing.well.luck": "Let's see how lucky you are!",
-  "statements.sfl.rewards.received": "SFL rewards received: ",
+  "statements.wish.granted": "Your wish has been granted.",
   "statements.wish.made": "You have made a wish!",
+  "statements.wish.ready.in": "Time till next wish: ",
   "statements.wish.thanks":
     "Thanks for supporting the project and making a wish.",
+  "statements.wish.time":
+    "Come back in the following amount of time to see just how lucky you have been: ",
   "statements.wish.warning.one":
     "Be aware that only the LP tokens you held at the time the wish was made will be considered when the wish is granted.",
   "statements.wish.warning.two":
     "If you remove your liquidity during this time you won't receive any rewards.",
-  "statements.wish.time":
-    "Come back in the following amount of time to see just how lucky you have been: ",
   "statements.wishing-well.info.one":
     "The wishing well is a magical place where SFL rewards can be made just by making a wish!",
   "statements.wishing-well.info.two":
@@ -702,6 +704,10 @@ const statements: Record<Statements, string> = {
     "Looks like you have those magic LP tokens in your wallet!",
   "statements.wishing-well.not.providing.liquidity":
     "It doesn't look like you're providing liquidity yet. More info: ",
+  "statements.wishing.well.amount": "Amount of rewards in the well: ",
+  "statements.wishing.well.luck": "Let's see how lucky you are!",
+  "statements.wrongChain.one":
+    "Check out this guide to help you get connected.",
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {
