@@ -998,6 +998,27 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     "An elusive and ghostly fish of the deep, hiding in the shadows.",
   "description.gilded.swordfish":
     "A swordfish with scales that sparkle like gold, the ultimate catch!",
+  // Buildings
+  "description.water.well": "Crops need water!",
+  "description.kitchen": "Step up your cooking game",
+  "description.compost.bin": "Produces bait & fertiliser on a regular basis.",
+  "description.hen.house": "Grow your chicken empire",
+  "description.bakery": "Bake your favourite cakes",
+  "description.turbo.composter":
+    "Produces advanced bait & fertiliser on a regular basis.",
+  "description.deli": "Satisfy your appetite with these delicatessen foods!",
+  "description.smoothie.shack": "Freshly squeezed!",
+  "description.warehouse": "Increase your seed stocks by 20%",
+  "description.toolshed": "Increase your workbench tool stock by 50%",
+  "description.premium.composter":
+    "Produces expert bait & fertiliser on a regular basis.",
+  "description.town.center":
+    "Gather around the town center for the latest news",
+  "description.market": "Buy and sell at the Farmer's Market",
+  "description.fire.pit":
+    "Roast your Sunflowers, feed and level up your Bumpkin",
+  "description.workbench": "Craft tools to collect resources",
+  "description.tent": "(Discontinued)",
 };
 
 const fishingQuests: Record<FishingQuests, string> = {

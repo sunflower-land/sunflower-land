@@ -730,7 +730,25 @@ export type GameDescriptions =
   | "description.phantom.barracuda"
   | "description.gilded.swordfish"
   | "description.kraken.tentacle"
-  | "description.kraken.head";
+  | "description.kraken.head"
+
+  // Buildings
+  | "description.water.well"
+  | "description.kitchen"
+  | "description.compost.bin"
+  | "description.hen.house"
+  | "description.bakery"
+  | "description.turbo.composter"
+  | "description.deli"
+  | "description.smoothie.shack"
+  | "description.warehouse"
+  | "description.toolshed"
+  | "description.premium.composter"
+  | "description.town.center"
+  | "description.market"
+  | "description.fire.pit"
+  | "description.workbench"
+  | "description.tent";
 
 export type FishingQuests =
   | "quest.basic.fish"

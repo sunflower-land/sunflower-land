@@ -1455,56 +1455,55 @@ export const ITEM_DETAILS: Items = {
 
   "Fire Pit": {
     image: firePit,
-    description: "Roast your Sunflowers, feed and level up your Bumpkin",
+    description: translate("description.fire.pit"),
   },
   Market: {
     image: market,
-    description: "Buy and sell at the Farmer's Market",
+    description: translate("description.market"),
   },
   "Town Center": {
     image: townCenter,
-    description: "Gather around the town center for the latest news",
+    description: translate("description.town.center"),
   },
   Kitchen: {
     image: kitchen,
-    description: "Step up your cooking game",
+    description: translate("description.kitchen"),
   },
   Bakery: {
     image: bakery,
-    description: "Bake your favourite cakes",
+    description: translate("description.bakery"),
   },
   Workbench: {
     image: workbench,
-    description: "Craft tools to collect resources",
+    description: translate("description.workbench"),
   },
   "Water Well": {
     image: well,
-    description: "Crops need water!",
+    description: translate("description.water.well"),
   },
   Tent: {
     image: tent,
-    description:
-      "Every Bumpkin needs a home! Add extra Bumpkins to your island (coming soon)",
+    description: translate("description.tent"),
   },
   "Hen House": {
     image: chickenHouse,
-    description: "Grow your chicken empire",
+    description: translate("description.hen.house"),
   },
   Deli: {
     image: deli,
-    description: "Satisfy your appetite with these delicatessen foods!",
+    description: translate("description.deli"),
   },
   "Smoothie Shack": {
     image: smoothieShack,
-    description: "Freshly squeezed!",
+    description: translate("description.smoothie.shack"),
   },
   Toolshed: {
     image: toolshed,
-    description: "Increase your workbench tool stock by 50%",
+    description: translate("description.toolshed"),
   },
   Warehouse: {
     image: warehouse,
-    description: "Increase your seed stocks by 20%",
+    description: translate("description.warehouse"),
   },
 
   "Sunflower Amulet": {
@@ -2230,15 +2229,15 @@ export const ITEM_DETAILS: Items = {
   // Composters
   "Compost Bin": {
     image: basicComposter,
-    description: "Produces bait & fertiliser on a regular basis.",
+    description: translate("description.compost.bin"),
   },
   "Turbo Composter": {
     image: advancedComposter,
-    description: "Produces advanced bait & fertiliser on a regular basis.",
+    description: translate("description.turbo.composter"),
   },
   "Premium Composter": {
     image: expertComposter,
-    description: "Produces expert bait & fertiliser on a regular basis.",
+    description: translate("description.premium.composter"),
   },
 
   // Season tickets
