@@ -340,7 +340,6 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
       supply: 2000 + 50,
       sfl: SFLDiscount(state, new Decimal(50)),
       boost: "+0.2 Wild Mushroom",
-      // Placeholders
       ingredients: {
         "Wild Mushroom": new Decimal(50),
         Gold: new Decimal(10),
@@ -354,7 +353,6 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
       supply: 350 + 50,
       sfl: SFLDiscount(state, marketRate(20000)),
       boost: "+1 Eggplant",
-      // Placeholders
       ingredients: {
         Eggplant: new Decimal(100),
         "Dawn Breaker Ticket": new Decimal(3200),
@@ -367,7 +365,6 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
       supply: 2500 + 100,
       sfl: SFLDiscount(state, marketRate(2000)),
       boost: "25% faster eggplants",
-      // Placeholders
       ingredients: {
         Eggplant: new Decimal(150),
         "Dawn Breaker Ticket": new Decimal(1200),
@@ -381,7 +378,6 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
       sfl: SFLDiscount(state, marketRate(800)),
       supply: 10000,
       boost: "+0.2 Eggplant",
-      // Placeholders
       ingredients: {
         Eggplant: new Decimal(25),
         "Dawn Breaker Ticket": new Decimal(500),
