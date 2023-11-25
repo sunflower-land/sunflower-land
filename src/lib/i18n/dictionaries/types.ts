@@ -774,7 +774,35 @@ export type GameDescriptions =
   | "description.market"
   | "description.fire.pit"
   | "description.workbench"
-  | "description.tent";
+  | "description.tent"
+
+  // Bumpkin Skills
+  // Crops
+  | "description.green.thumb"
+  | "description.cultivator"
+  | "description.master.farmer"
+  | "description.golden.flowers"
+  | "description.happy.crop"
+  // Trees
+  | "description.lumberjack"
+  | "description.tree.hugger"
+  | "description.tough.tree"
+  | "description.money.tree"
+  // Rocks
+  | "description.digger"
+  | "description.coal.face"
+  | "description.seeker"
+  | "description.gold.rush"
+  // Cooking
+  | "description.rush.hour"
+  | "description.kitchen.hand"
+  | "description.michelin.stars"
+  | "description.curer"
+  // Animals
+  | "description.stable.hand"
+  | "description.free.range"
+  | "description.horse.whisperer"
+  | "description.buckaroo";
 
 export type FishingQuests =
   | "quest.basic.fish"

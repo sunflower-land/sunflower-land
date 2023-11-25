@@ -1049,6 +1049,33 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     "Roast your Sunflowers, feed and level up your Bumpkin",
   "description.workbench": "Craft tools to collect resources",
   "description.tent": "(Discontinued)",
+  // Bumpkin Skills
+  // Crops
+  "description.green.thumb": "Crops yield 5% more",
+  "description.cultivator": "Crops grow 5% quicker",
+  "description.master.farmer": "Crops yield 10% more",
+  "description.golden.flowers": "Chance for Sunflowers to Drop Gold ",
+  "description.happy.crop": "Chance to get 2x crops",
+  // Trees
+  "description.lumberjack": "Trees drop 10% more",
+  "description.tree.hugger": "Trees regrow 20% quicker",
+  "description.tough.tree": "Chance to get 3x wood drops",
+  "description.money.tree": "Chance for SFL drops",
+  // Rocks
+  "description.digger": "Stone Drops 10% more",
+  "description.coal.face": "Stones recover 20% quicker",
+  "description.seeker": "Attract Rock Monsters",
+  "description.gold.rush": "Chance to get 2.5x gold drops",
+  // Cooking
+  "description.rush.hour": "Cook meals 10% faster",
+  "description.kitchen.hand": "Meals yield an extra 5% experience",
+  "description.michelin.stars": "High quality food, earn additional 5% SFL",
+  "description.curer": "Consuming deli goods adds extra 15% exp",
+  // Animals
+  "description.stable.hand": "Animals produce 10% quicker",
+  "description.free.range": "Animals produce 10% more",
+  "description.horse.whisperer": "Increase chance of mutants",
+  "description.buckaroo": "Chance of double drops",
 };
 
 const fishingQuests: Record<FishingQuests, string> = {

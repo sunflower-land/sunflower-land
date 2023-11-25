@@ -123,12 +123,12 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
 
 export const SkillsModal: React.FC<Props> = ({ onBack, onClose, readonly }) => {
   const [tab, setTab] = useState(0);
-
+  const { t } = useAppTranslation();
   return (
     <CloseButtonPanel
       currentTab={tab}
       setCurrentTab={setTab}
-      tabs={[{ icon: seedSpecialist, name: "Skills" }]}
+      tabs={[{ icon: seedSpecialist, name: t("skills") }]}
       onClose={onClose}
     >
       {/* @note: There is only one tab, no extra judgment is needed. */}
