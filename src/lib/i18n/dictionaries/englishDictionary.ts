@@ -92,6 +92,9 @@ const shopItems: Record<ShopItems, string> = {
   "shopItems.two":
     "You've helped solve the crop shortage and prices have returned to normal.",
   "shopItems.three": "It's time to move onto some bigger and better crops!",
+  "betty.intro": "Welcome to my market. What would you like to do?",
+  "betty.buySeeds": "Buy seeds",
+  "betty.sellCrops": "Sell crops",
 };
 
 const achievementTerms: Record<AchievementsDialog, string> = {

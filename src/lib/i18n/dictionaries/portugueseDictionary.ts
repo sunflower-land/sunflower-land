@@ -93,6 +93,11 @@ const shopItems: Record<ShopItems, string> = {
   "shopItems.two":
     "Você ajudou a resolver a escassez de colheitas e os preços voltaram ao normal.",
   "shopItems.three": "É hora de passar para colheitas maiores e melhores!",
+
+  // TODO
+  "betty.intro": "",
+  "betty.buySeeds": "",
+  "betty.sellCrops": "",
 };
 
 const achievementTerms: Record<AchievementsDialog, string> = {

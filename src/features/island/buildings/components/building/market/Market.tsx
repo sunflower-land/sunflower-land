@@ -27,6 +27,16 @@ const hasSoldCropsBefore = (bumpkin?: Bumpkin) => {
   );
 };
 
+const hasBoughtCropsBefore = (bumpkin?: Bumpkin) => {
+  if (!bumpkin) return false;
+
+  const { activity = {} } = bumpkin;
+
+  return !!getKeys(CROPS()).find((crop) =>
+    getKeys(activity).includes(`${crop} Seed Bought`)
+  );
+};
+
 export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -47,6 +57,8 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   };
 
   const hasSoldBefore = hasSoldCropsBefore(gameState.context.state.bumpkin);
+  const showBuyHelper =
+    !hasBoughtCropsBefore(gameState.context.state.bumpkin) && !!hasSoldBefore;
 
   const showHelper =
     gameState.context.state.bumpkin?.activity?.["Sunflower Harvested"] === 3 &&
@@ -85,15 +97,26 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         />
 
         {showHelper && (
-          <img
-            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
-            src={SUNNYSIDE.icons.click_icon}
-            style={{
-              width: `${PIXEL_SCALE * 18}px`,
-              right: `${PIXEL_SCALE * -8}px`,
-              top: `${PIXEL_SCALE * 20}px`,
-            }}
-          />
+          <>
+            <img
+              className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
+              src={SUNNYSIDE.icons.click_icon}
+              style={{
+                width: `${PIXEL_SCALE * 18}px`,
+                right: `${PIXEL_SCALE * -8}px`,
+                top: `${PIXEL_SCALE * 20}px`,
+              }}
+            />
+            <img
+              className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
+              src={SUNNYSIDE.icons.money_icon}
+              style={{
+                width: `${PIXEL_SCALE * 18}px`,
+                right: `${PIXEL_SCALE * 8}px`,
+                top: `${PIXEL_SCALE * 20}px`,
+              }}
+            />
+          </>
         )}
       </BuildingImageWrapper>
       <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
@@ -101,6 +124,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
           onClose={() => setIsOpen(false)}
           hasSoldBefore={hasSoldBefore}
           cropShortage={isCropShortage({ game: gameState.context.state })}
+          showBuyHelper={showBuyHelper}
         />
       </Modal>
     </>
