@@ -71,6 +71,7 @@ export const SUNNYSIDE = {
     mine_icon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/mine_icon.png`,
     wood_mine_icon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/wood_mine_icon.png`,
     iron_mine_icon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/iron_mine_icon.png`,
+    money_icon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/money_icon.png`,
   },
   npcs: {
     betty: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/betty.gif`,

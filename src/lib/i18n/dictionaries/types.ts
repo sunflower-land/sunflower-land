@@ -72,7 +72,13 @@ export type Intro =
   | "intro.four"
   | "intro.five";
 
-export type ShopItems = "shopItems.one" | "shopItems.two" | "shopItems.three";
+export type ShopItems =
+  | "shopItems.one"
+  | "shopItems.two"
+  | "shopItems.three"
+  | "betty.intro"
+  | "betty.buySeeds"
+  | "betty.sellCrops";
 
 export type AchievementsDialog =
   | "breadWinner.description"
