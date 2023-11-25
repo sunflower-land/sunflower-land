@@ -745,6 +745,7 @@ const statements: Record<Statements, string> = {
   "statements.feed.bumpkin.two":
     "You will need to cook food in order to feed your Bumpkin.",
   "statements.empty.chest": "Your chest is empty, discover rare items today!",
+  "statements.chest.captcha": "Tap the chest to open it",
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {
@@ -920,6 +921,8 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     "An unfortunate casualty of the war. 10% increased egg yield.",
   "description.observatory":
     "Explore the stars and improve scientific development",
+  "description.time.warp.totem":
+    "2x speed for crops, trees, cooking & minerals. Only lasts for 2 hours",
   // Banners
   "description.goblin.war.banner":
     "A display of allegiance to the Goblin cause",

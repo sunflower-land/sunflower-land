@@ -2930,8 +2930,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Time Warp Totem": {
     image: timeWarpTotem,
-    description:
-      "2x speed for crops, trees, cooking & minerals. Only lasts for 2 hours",
+    description: translate("description.time.warp.totem"),
   },
   "Community Coin": {
     image: communityCoin,

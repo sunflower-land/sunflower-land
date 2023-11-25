@@ -523,7 +523,8 @@ export type Statements =
   | "statements.wishing.well.amount"
   | "statements.wishing.well.luck"
   | "statements.wrongChain.one"
-  | "statements.empty.chest";
+  | "statements.empty.chest"
+  | "statements.chest.captcha";
 
 export type BumpkinTrade =
   | "bumpkinTrade.askPrice"
@@ -683,6 +684,7 @@ export type GameDescriptions =
   | "description.war.tombstone"
   | "description.undead.rooster"
   | "description.observatory"
+  | "description.time.warp.totem"
 
   // Banners
   | "description.goblin.war.banner"
