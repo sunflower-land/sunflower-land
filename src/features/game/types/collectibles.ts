@@ -115,7 +115,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
   "Scary Mike": {
     description:
       "The veggie whisperer and champion of frightfully good harvests!",
-    boost: 
+    boost:
       "+0.2 yield on Carrots, Cabbages, Beetroots, Cauliflowers and Parsnips",
     sfl: new Decimal(15),
     ingredients: {
@@ -217,7 +217,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
         "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
       boost: "+10% Composter Speed",
       sfl: SFLDiscount(state, new Decimal(65)),
-        ingredients: {
+      ingredients: {
         "Mermaid Scale": new Decimal(650),
       },
       from: new Date("2023-12-01"),
@@ -227,7 +227,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
       description:
         "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
       boost: "+20% Fish XP",
-      sfl: SFLDiscount(state, new Decimal(115)), 
+      sfl: SFLDiscount(state, new Decimal(115)),
       ingredients: {
         "Mermaid Scale": new Decimal(865),
       },
@@ -297,13 +297,12 @@ export const GOBLIN_PIRATE_ITEMS: Record<
       Gold: new Decimal(10),
       "Wooden Compass": new Decimal(6),
     },
-
   },
   Karkinos: {
     description:
       "Pinchy but kind, the crabby cabbage-boosting addition to your farm!",
     boost: "+0.1 Cabbage",
-    supply: 7500,  
+    supply: 7500,
     ingredients: {
       Crab: new Decimal(5),
       Cabbage: new Decimal(500),
@@ -378,7 +377,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
     "Purple Trail": {
       description:
         "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
-      
+
       sfl: SFLDiscount(state, marketRate(800)),
       supply: 10000,
       boost: "+0.2 Eggplant",

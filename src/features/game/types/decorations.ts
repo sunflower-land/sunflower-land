@@ -566,7 +566,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
   "Field Maple": {
     name: "Field Maple",
     description:
-     "A petite charmer that spreads its leaves like a delicate green canopy.",
+      "A petite charmer that spreads its leaves like a delicate green canopy.",
     sfl: new Decimal(0.625),
     ingredients: {
       Wood: new Decimal(20),

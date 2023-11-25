@@ -178,7 +178,6 @@ export const CROP_SEEDS: () => Record<CropSeedName, CraftableItem> = () => ({
     tokenAmount: marketRate(3),
     bumpkinLevel: 4,
     ingredients: [],
-
   },
   "Parsnip Seed": {
     name: "Parsnip Seed",

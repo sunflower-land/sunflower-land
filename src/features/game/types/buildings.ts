@@ -69,13 +69,13 @@ export const BUILDINGS: () => Record<
       sfl: new Decimal(0),
       constructionSeconds: 0,
       ingredients: [
-        { 
+        {
           item: "Wood",
           amount: new Decimal(3),
         },
-        { 
-          item: "Stone", 
-        amount: new Decimal(2),
+        {
+          item: "Stone",
+          amount: new Decimal(2),
         },
       ],
     },
@@ -94,10 +94,10 @@ export const BUILDINGS: () => Record<
       sfl: new Decimal(1),
       constructionSeconds: 60 * 5,
       ingredients: [
-        { 
+        {
           item: "Wood",
           amount: new Decimal(5),
-        }, 
+        },
         {
           item: "Stone",
           amount: new Decimal(5),
@@ -109,7 +109,7 @@ export const BUILDINGS: () => Record<
       sfl: new Decimal(1),
       constructionSeconds: 60 * 5,
       ingredients: [
-        { 
+        {
           item: "Wood",
           amount: new Decimal(5),
         },
@@ -124,10 +124,10 @@ export const BUILDINGS: () => Record<
       sfl: new Decimal(1),
       constructionSeconds: 60 * 5,
       ingredients: [
-        { 
+        {
           item: "Wood",
-           amount: new Decimal(5),
-          },
+          amount: new Decimal(5),
+        },
         {
           item: "Stone",
           amount: new Decimal(5),
@@ -154,13 +154,13 @@ export const BUILDINGS: () => Record<
     {
       unlocksAtLevel: 5,
       sfl: marketRate(10),
-      constructionSeconds: 60 * 30,      
+      constructionSeconds: 60 * 30,
       ingredients: [
-        { 
+        {
           item: "Wood",
           amount: new Decimal(30),
         },
-        { 
+        {
           item: "Stone",
           amount: new Decimal(5),
         },
@@ -173,7 +173,7 @@ export const BUILDINGS: () => Record<
       sfl: marketRate(0.06255),
       constructionSeconds: 60 * 60,
       ingredients: [
-        { 
+        {
           item: "Wood",
           amount: new Decimal(50),
         },
@@ -186,15 +186,15 @@ export const BUILDINGS: () => Record<
       sfl: marketRate(100),
       constructionSeconds: 60 * 60 * 2,
       ingredients: [
-        { 
+        {
           item: "Wood",
           amount: new Decimal(30),
         },
-        { 
+        {
           item: "Iron",
           amount: new Decimal(5),
         },
-        { 
+        {
           item: "Gold",
           amount: new Decimal(5),
         },
@@ -205,7 +205,7 @@ export const BUILDINGS: () => Record<
       sfl: marketRate(800),
       constructionSeconds: 60 * 60 * 3,
       ingredients: [
-        { 
+        {
           item: "Wood",
           amount: new Decimal(200),
         },
@@ -213,13 +213,13 @@ export const BUILDINGS: () => Record<
           item: "Iron",
           amount: new Decimal(15),
         },
-        { 
+        {
           item: "Gold",
           amount: new Decimal(15),
         },
-        { 
-          item: "Egg", 
-         amount: new Decimal(300),
+        {
+          item: "Egg",
+          amount: new Decimal(300),
         },
       ],
     },
@@ -238,7 +238,7 @@ export const BUILDINGS: () => Record<
           item: "Stone",
           amount: new Decimal(20),
         },
-        { 
+        {
           item: "Gold",
           amount: new Decimal(5),
         },
@@ -255,11 +255,11 @@ export const BUILDINGS: () => Record<
           item: "Wood",
           amount: new Decimal(50),
         },
-        { 
+        {
           item: "Stone",
           amount: new Decimal(50),
         },
-        { 
+        {
           item: "Gold",
           amount: new Decimal(10),
         },
@@ -272,7 +272,7 @@ export const BUILDINGS: () => Record<
       sfl: new Decimal(0),
       constructionSeconds: 60 * 60 * 12,
       ingredients: [
-        { 
+        {
           item: "Wood",
           amount: new Decimal(25),
         },
@@ -280,7 +280,7 @@ export const BUILDINGS: () => Record<
           item: "Stone",
           amount: new Decimal(25),
         },
-        { 
+        {
           item: "Iron",
           amount: new Decimal(10),
         },
@@ -294,11 +294,11 @@ export const BUILDINGS: () => Record<
       sfl: new Decimal(0),
       constructionSeconds: 60 * 60 * 2,
       ingredients: [
-        { 
+        {
           item: "Wood",
           amount: new Decimal(500),
         },
-        { 
+        {
           item: "Iron",
           amount: new Decimal(30),
         },
@@ -306,11 +306,11 @@ export const BUILDINGS: () => Record<
           item: "Gold",
           amount: new Decimal(25),
         },
-        { 
-          item: "Axe", 
-         amount: new Decimal(100),
+        {
+          item: "Axe",
+          amount: new Decimal(100),
         },
-        { 
+        {
           item: "Pickaxe",
           amount: new Decimal(50),
         },
@@ -327,27 +327,27 @@ export const BUILDINGS: () => Record<
           item: "Wood",
           amount: new Decimal(250),
         },
-        { 
+        {
           item: "Stone",
           amount: new Decimal(150),
         },
-        { 
+        {
           item: "Potato",
           amount: new Decimal(5000),
         },
-        { 
-          item: "Pumpkin", 
-         amount: new Decimal(2000),
+        {
+          item: "Pumpkin",
+          amount: new Decimal(2000),
         },
-        { 
+        {
           item: "Wheat",
           amount: new Decimal(500),
         },
-        { 
+        {
           item: "Kale",
           amount: new Decimal(100),
         },
-      ]
+      ],
     },
   ],
   "Compost Bin": [
@@ -356,12 +356,12 @@ export const BUILDINGS: () => Record<
       sfl: marketRate(0),
       constructionSeconds: 60 * 60,
       ingredients: [
-        { 
-          item: "Wood", 
+        {
+          item: "Wood",
           amount: new Decimal(5),
         },
-        { 
-          item: "Stone", 
+        {
+          item: "Stone",
           amount: new Decimal(5),
         },
       ],
@@ -373,11 +373,11 @@ export const BUILDINGS: () => Record<
       sfl: marketRate(0),
       constructionSeconds: 60 * 60 * 2,
       ingredients: [
-        { 
+        {
           item: "Wood",
           amount: new Decimal(50),
         },
-        { 
+        {
           item: "Stone",
           amount: new Decimal(25),
         },
@@ -390,7 +390,7 @@ export const BUILDINGS: () => Record<
       sfl: marketRate(0),
       constructionSeconds: 60 * 60 * 4,
       ingredients: [
-        { 
+        {
           item: "Gold",
           amount: new Decimal(50),
         },
