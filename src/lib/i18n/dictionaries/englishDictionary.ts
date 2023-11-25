@@ -25,6 +25,7 @@ import {
   GameDescriptions,
   FishingQuests,
   IslandName,
+  LevelUpMessages,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -1095,6 +1096,88 @@ const islandName: Record<IslandName, string> = {
   "island.goblin.retreat": "Goblin Retreat",
 };
 
+const levelUpMessages: Record<LevelUpMessages, string> = {
+  "levelUp.2":
+    "Yeehaw, you've reached level 2! The crops are quakin' in their boots.",
+  "levelUp.3": "Congrats on level 3! You're growing like a weed...",
+  "levelUp.4":
+    "Congrats on level 4! You've officially outgrown your green thumb.",
+  "levelUp.5":
+    "Level 5 and still alive! Your hard work is paying off...or should we say 'hay work'?",
+  "levelUp.6":
+    "Wow, level 6 already? You must be as strong as an ox. Or at least your plow is.",
+  "levelUp.7": "Congrats on reaching level 7! Your farm is a-maize-ing.",
+  "levelUp.8": "Level 8, great job! You're sowing the seeds of success.",
+  "levelUp.9":
+    "Niner niner, level 9er! Your harvest is growing as fast as your skills.",
+  "levelUp.10":
+    "Level 10, double digits! Your farm is looking so good, even the chickens are impressed.",
+  "levelUp.11": "Level 11, you're making it rain (water, that is)!",
+  "levelUp.12":
+    "Congrats on level 12! Your farm is really starting to cultivate some character.",
+  "levelUp.13":
+    "Lucky level 13! You're really getting the hang of this farming thing.",
+  "levelUp.14": "Level 14, it's a-maize-ing how much progress you've made!",
+  "levelUp.15": "Fifteen and thriving! Your farm is looking better than ever.",
+  "levelUp.16":
+    "Congrats on level 16! Your farming skills are really taking root.",
+  "levelUp.17":
+    "Level 17, you're reaping what you sow (and it's looking good!).",
+  "levelUp.18": "Eighteen and budding with potential!",
+  "levelUp.19":
+    "Congrats on level 19! Your farm is growing as fast as your skills.",
+  "levelUp.20": "Level 20, you're the cream of the crop!",
+  "levelUp.21": "Twenty-one and harvesting like a pro!",
+  "levelUp.22":
+    "Congrats on level 22! Your farm is getting plowed with success.",
+  "levelUp.23": "Level 23, your skills are really starting to bloom!",
+  "levelUp.24": "You're really blossoming at level 24!",
+  "levelUp.25": "Quarter-century mark! You're making hay while the sun shines.",
+  "levelUp.26":
+    "Congrats on level 26! You're really milking this farming thing.",
+  "levelUp.27": "Level 27, you're really starting to stand out in the field!",
+  "levelUp.28": "You're really raising the bar at level 28!",
+  "levelUp.29":
+    "Congrats on level 29! You're really crop-tivating some serious skills.",
+  "levelUp.30": "Level 30, you're a true farmer now!",
+  "levelUp.31": "Thirty-one and still growing strong!",
+  "levelUp.32": "Congrats on level 32! Your farm is in full bloom.",
+  "levelUp.33": "Level 33, your farming skills are really taking off!",
+  "levelUp.34": "You're really sprouting at level 34!",
+  "levelUp.35": "Level 35, you're the tractor-trailer of farming!",
+  "levelUp.36":
+    "Congrats on level 36! Your farm is really starting to harvest some success.",
+  "levelUp.37": "Level 37, your skills are really starting to crop up!",
+  "levelUp.38": "You're really planting the seeds of success at level 38!",
+  "levelUp.39": "Congrats on level 39! Your farm is really starting to mature.",
+  "levelUp.40": "Level 40, you're a harvesting hero!",
+  "levelUp.41": "Forty-one and still growing strong!",
+  "levelUp.42":
+    "Congrats on level 42! Your farm is starting to rake in the rewards.",
+  "levelUp.43": "Level 43, you're really cultivating some serious skills.",
+  "levelUp.44": "You're really harvesting success at level 44!",
+  "levelUp.45": "Level 45, you're a true master of the harvest!",
+  "levelUp.46":
+    "Congrats on level 46! Your farming skills are really starting to bear fruit.",
+  "levelUp.47": "Level 47, you're really growing into a farming legend.",
+  "levelUp.48": "You're really thriving at level 48!",
+  "levelUp.49":
+    "Congrats on level 49! You're really starting to reap the rewards of your hard work.",
+  "levelUp.50": "Halfway to 100! You're a true farming pro now.",
+  "levelUp.51": "Fifty-one and still going strong!",
+  "levelUp.52": "Congrats on level 52! Your farm is a true work of art.",
+  "levelUp.53": "Level 53, your skills are really starting to take root.",
+  "levelUp.54": "You're really harvesting happiness at level 54!",
+  "levelUp.55": "Level 55, you're a true farming force to be reckoned with.",
+  "levelUp.56":
+    "Congrats on level 56! Your farm is really starting to blossom.",
+  "levelUp.57":
+    "Level 57, you're really starting to cultivate some serious skills.",
+  "levelUp.58": "You're really sowing the seeds of success at level 58!",
+  "levelUp.59": "Congrats on level 59! Your farm is the cream of the crop.",
+  "levelUp.60": "Level 60, you're a true farming superstar!",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...bumpkinPartRequirements,
@@ -1110,6 +1193,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...henHouseTerms,
   ...introTerms,
   ...islandName,
+  ...levelUpMessages,
   ...onboarding,
   ...questions,
   ...retreatTerms,

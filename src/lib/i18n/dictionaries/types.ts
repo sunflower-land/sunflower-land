@@ -820,6 +820,67 @@ export type IslandName =
   | "island.helios"
   | "island.goblin.retreat";
 
+export type LevelUpMessages =
+  | "levelUp.2"
+  | "levelUp.3"
+  | "levelUp.4"
+  | "levelUp.5"
+  | "levelUp.6"
+  | "levelUp.7"
+  | "levelUp.8"
+  | "levelUp.9"
+  | "levelUp.10"
+  | "levelUp.11"
+  | "levelUp.12"
+  | "levelUp.13"
+  | "levelUp.14"
+  | "levelUp.15"
+  | "levelUp.16"
+  | "levelUp.17"
+  | "levelUp.18"
+  | "levelUp.19"
+  | "levelUp.20"
+  | "levelUp.21"
+  | "levelUp.22"
+  | "levelUp.23"
+  | "levelUp.24"
+  | "levelUp.25"
+  | "levelUp.26"
+  | "levelUp.27"
+  | "levelUp.28"
+  | "levelUp.29"
+  | "levelUp.30"
+  | "levelUp.31"
+  | "levelUp.32"
+  | "levelUp.33"
+  | "levelUp.34"
+  | "levelUp.35"
+  | "levelUp.36"
+  | "levelUp.37"
+  | "levelUp.38"
+  | "levelUp.39"
+  | "levelUp.40"
+  | "levelUp.41"
+  | "levelUp.42"
+  | "levelUp.43"
+  | "levelUp.44"
+  | "levelUp.45"
+  | "levelUp.46"
+  | "levelUp.47"
+  | "levelUp.48"
+  | "levelUp.49"
+  | "levelUp.50"
+  | "levelUp.51"
+  | "levelUp.52"
+  | "levelUp.53"
+  | "levelUp.54"
+  | "levelUp.55"
+  | "levelUp.56"
+  | "levelUp.57"
+  | "levelUp.58"
+  | "levelUp.59"
+  | "levelUp.60";
+
 export type TranslationKeys =
   | AchievementsDialog
   | BumpkinPartRequirements
@@ -835,6 +896,7 @@ export type TranslationKeys =
   | HenHouseTerms
   | Intro
   | IslandName
+  | LevelUpMessages
   | Onboarding
   | Questions
   | RetreatTerms
