@@ -3,7 +3,6 @@ import { BuildingName } from "./buildings";
 import { Cake, getKeys } from "./craftables";
 import { Inventory } from "./game";
 import { FishName } from "./fishing";
-import { translate } from "lib/i18n/translate";
 
 type JuiceName =
   | "Apple Juice"
