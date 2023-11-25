@@ -130,7 +130,9 @@ const OtherWallets = () => {
   );
 };
 
-export const SignIn = () => {
+export const SignIn: React.FC<{ isNewPlayer?: boolean }> = ({
+  isNewPlayer,
+}) => {
   const { authService } = useContext(Context);
   const [page, setPage] = useState<"home" | "other">("home");
   const { t } = useAppTranslation();
@@ -150,6 +152,44 @@ export const SignIn = () => {
   };
 
   const MainWallets = () => {
+    if (isNewPlayer && !window.ethereum) {
+      return (
+        <>
+          <Button
+            className="mb-2 py-2 text-sm relative"
+            onClick={() =>
+              authService.send("CONNECT_TO_WALLET", {
+                chosenProvider: Web3SupportedProviders.SEQUENCE,
+              })
+            }
+          >
+            <div className="px-8">
+              <img
+                src="https://sequence.app/static/images/sequence-logo.7c854742a6b8b4969004.svg"
+                className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
+              />
+              Email & Social Login
+            </div>
+          </Button>
+          <Button
+            className="mb-2 py-2 text-sm relative"
+            onClick={() => {
+              authService.send("CONNECT_TO_WALLET", {
+                chosenProvider: Web3SupportedProviders.WALLET_CONNECT,
+              });
+            }}
+          >
+            <div className="px-8">
+              <img
+                src={walletIcon}
+                className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
+              />
+              Connect Wallet
+            </div>
+          </Button>
+        </>
+      );
+    }
     return (
       <>
         <Button
@@ -364,7 +404,7 @@ export const SignUp = () => {
         </div>
       )}
 
-      <SignIn />
+      <SignIn isNewPlayer />
     </>
   );
 };
