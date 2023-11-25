@@ -114,7 +114,7 @@ export const BUILDINGS: () => Record<
           amount: new Decimal(5),
         },
         {
-           item: "Stone",
+          item: "Stone",
           amount: new Decimal(5),
         },
       ],
@@ -129,7 +129,7 @@ export const BUILDINGS: () => Record<
            amount: new Decimal(5),
           },
         {
-           item: "Stone",
+          item: "Stone",
           amount: new Decimal(5),
         },
       ],
@@ -140,11 +140,11 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 5,
       ingredients: [
         {
-           item: "Wood",
+          item: "Wood",
           amount: new Decimal(5),
         },
         {
-           item: "Stone",
+          item: "Stone",
           amount: new Decimal(5),
         },
       ],
@@ -210,7 +210,7 @@ export const BUILDINGS: () => Record<
           amount: new Decimal(200),
         },
         {
-           item: "Iron",
+          item: "Iron",
           amount: new Decimal(15),
         },
         { 
@@ -231,11 +231,11 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 60 * 4,
       ingredients: [
         {
-           item: "Wood",
+          item: "Wood",
           amount: new Decimal(50),
         },
         {
-           item: "Stone",
+          item: "Stone",
           amount: new Decimal(20),
         },
         { 
@@ -252,7 +252,7 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 60 * 12,
       ingredients: [
         {
-           item: "Wood",
+          item: "Wood",
           amount: new Decimal(50),
         },
         { 
@@ -277,7 +277,7 @@ export const BUILDINGS: () => Record<
           amount: new Decimal(25),
         },
         {
-           item: "Stone",
+          item: "Stone",
           amount: new Decimal(25),
         },
         { 
@@ -303,7 +303,7 @@ export const BUILDINGS: () => Record<
           amount: new Decimal(30),
         },
         {
-           item: "Gold",
+          item: "Gold",
           amount: new Decimal(25),
         },
         { 
@@ -324,7 +324,7 @@ export const BUILDINGS: () => Record<
       constructionSeconds: 60 * 60 * 2,
       ingredients: [
         {
-           item: "Wood",
+          item: "Wood",
           amount: new Decimal(250),
         },
         { 
@@ -358,11 +358,11 @@ export const BUILDINGS: () => Record<
       ingredients: [
         { 
           item: "Wood", 
-         amount: new Decimal(5),
+          amount: new Decimal(5),
         },
         { 
           item: "Stone", 
-         amount: new Decimal(5),
+          amount: new Decimal(5),
         },
       ],
     },
