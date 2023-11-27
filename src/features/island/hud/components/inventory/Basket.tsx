@@ -34,7 +34,7 @@ import { SELLABLE_TREASURE } from "features/game/types/treasure";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
 import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
 import {
-  BAIT,
+  WORM,
   CROP_COMPOST,
   FRUIT_COMPOST,
 } from "features/game/types/composters";
@@ -121,7 +121,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const exotics = getItems(EXOTIC_CROPS);
   const cropCompost = getItems(CROP_COMPOST);
   const fruitCompost = getItems(FRUIT_COMPOST);
-  const bait = getItems(BAIT);
+  const worm = getItems(WORM);
   const purchaseableBait = getItems(PURCHASEABLE_BAIT);
   const fish = getItems(FISH);
 
@@ -203,7 +203,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           {itemsSection("Exotic", [...exotic, ...exotics])}
           {itemsSection("Tools", allTools)}
           {itemsSection("Resources", resources)}
-          {itemsSection("Bait", [...bait, ...purchaseableBait])}
+          {itemsSection("Bait", [...worm, ...purchaseableBait])}
           {itemsSection("Fish", fish)}
           {itemsSection("Foods", [...foods, ...pirateCake])}
           {itemsSection("Bounty", bounty)}
