@@ -556,6 +556,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { BAIT, CROP_COMPOST, FRUIT_COMPOST } from "./composters";
 import { BuffLabel } from ".";
+import { PURCHASEABLE_BAIT } from "./fishing";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -2648,7 +2649,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Fishing Lure": {
     image: fishingLure,
-    description: "Great for catching rare fish!",
+    description: PURCHASEABLE_BAIT["Fishing Lure"].description,
   },
   // Compost
   "Sprout Mix": {

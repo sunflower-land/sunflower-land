@@ -38,7 +38,7 @@ import {
   CROP_COMPOST,
   FRUIT_COMPOST,
 } from "features/game/types/composters";
-import { FISH } from "features/game/types/fishing";
+import { FISH, PURCHASEABLE_BAIT } from "features/game/types/fishing";
 
 interface Prop {
   gameState: GameState;
@@ -122,6 +122,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const cropCompost = getItems(CROP_COMPOST);
   const fruitCompost = getItems(FRUIT_COMPOST);
   const bait = getItems(BAIT);
+  const purchaseableBait = getItems(PURCHASEABLE_BAIT);
   const fish = getItems(FISH);
 
   const allSeeds = [...seeds, ...fruitSeeds];
@@ -202,7 +203,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           {itemsSection("Exotic", [...exotic, ...exotics])}
           {itemsSection("Tools", allTools)}
           {itemsSection("Resources", resources)}
-          {itemsSection("Bait", bait)}
+          {itemsSection("Bait", [...bait, ...purchaseableBait])}
           {itemsSection("Fish", fish)}
           {itemsSection("Foods", [...foods, ...pirateCake])}
           {itemsSection("Bounty", bounty)}
