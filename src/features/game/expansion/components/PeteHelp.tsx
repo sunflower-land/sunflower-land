@@ -8,6 +8,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Context } from "features/game/GameProvider";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "@xstate/react";
 
 const isLocked = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) < 3;
@@ -15,9 +16,7 @@ const isLocked = (state: MachineState) =>
 export const PeteHelp: React.FC = () => {
   const { gameService } = useContext(Context);
 
-  // TEMP: Disable for conference
-  const locked = false;
-  // const locked = useSelector(gameService, isLocked);
+  const locked = useSelector(gameService, isLocked);
 
   const navigate = useNavigate();
 

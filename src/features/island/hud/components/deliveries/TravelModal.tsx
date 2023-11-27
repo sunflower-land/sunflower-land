@@ -16,6 +16,7 @@ import { SpeakingText } from "features/game/components/SpeakingModal";
 import { hasNewOrders } from "features/island/delivery/lib/delivery";
 import { hasNewChores } from "features/helios/components/hayseedHank/lib/chores";
 import { Label } from "components/ui/Label";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `travel-read.${host}-${window.location.pathname}`;
@@ -87,10 +88,8 @@ export const TravelModal: React.FC<Props> = ({
     );
   }
 
-  // TEMP: Disable for conference
-  const isLocked = false;
-  // const isLocked =
-  //   getBumpkinLevel(gameState.context.state.bumpkin?.experience ?? 0) < 3;
+  const isLocked =
+    getBumpkinLevel(gameState.context.state.bumpkin?.experience ?? 0) < 3;
 
   return (
     <>
