@@ -34,15 +34,28 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { getBumpkinLevelRequiredForNode } from "features/game/expansion/lib/expansionNodes";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import lockIcon from "assets/skills/lock.png";
+import { getKeys } from "features/game/types/craftables";
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
 const selectLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+
 const selectHarvests = (state: MachineState) =>
-  state.context.state.bumpkin?.activity?.["Sunflower Harvested"] ?? 0;
+  getKeys(CROPS()).reduce(
+    (total, crop) =>
+      total +
+      (state.context.state.bumpkin?.activity?.[`${crop} Harvested`] ?? 0),
+    0
+  );
+
 const selectPlants = (state: MachineState) =>
-  state.context.state.bumpkin?.activity?.["Sunflower Planted"] ?? 0;
+  getKeys(CROPS()).reduce(
+    (total, crop) =>
+      total + (state.context.state.bumpkin?.activity?.[`${crop} Planted`] ?? 0),
+    0
+  );
+
 const selectCropsSold = (state: MachineState) =>
   state.context.state.bumpkin?.activity?.["Sunflower Sold"] ?? 0;
 
