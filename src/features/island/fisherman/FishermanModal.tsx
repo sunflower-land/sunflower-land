@@ -149,7 +149,9 @@ const BaitSelection: React.FC<{
   const dailyFishingMax = getDailyFishingLimit(state.bumpkin as Bumpkin);
   const dailyFishingCount = getDailyFishingCount(state);
   const fishingLimitReached = dailyFishingCount >= dailyFishingMax;
-  const missingRod = !state.inventory["Rod"] || state.inventory.Rod.lt(1);
+  const missingRod =
+    state.bumpkin?.equipped?.tool !== "Ancient Rod" &&
+    (!state.inventory["Rod"] || state.inventory.Rod.lt(1));
 
   const catches = getKeys(FISH).filter((name) =>
     FISH[name].baits.includes(bait)

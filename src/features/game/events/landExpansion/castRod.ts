@@ -40,7 +40,7 @@ export function castRod({
 
   const rodCount = game.inventory.Rod ?? new Decimal(0);
   // Requires Rod
-  if (rodCount.lt(1)) {
+  if (rodCount.lt(1) && game.bumpkin.equipped.tool !== "Ancient Rod") {
     throw new Error("Missing rod");
   }
 
