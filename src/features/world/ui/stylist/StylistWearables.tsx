@@ -118,7 +118,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
     if (state.wardrobe[selected])
       return (
         <div className="flex justify-center items-center">
-          <span className="text-xs">Already crafted</span>
+          <span className="text-xs">Already bought!</span>
           <img src={SUNNYSIDE.icons.confirm} className="h-4 ml-1" />
         </div>
       );
@@ -143,7 +143,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
           }
           onClick={openConfirmationModal}
         >
-          Craft
+          Buy
         </Button>
         <Modal
           centered
@@ -153,11 +153,11 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
           <CloseButtonPanel className="sm:w-4/5 m-auto">
             <div className="flex flex-col p-2">
               <span className="text-sm text-center">
-                Are you sure you want to craft this item?
+                Are you sure you want to buy {`${selected}`}?
               </span>
             </div>
             <div className="flex justify-content-around mt-2 space-x-1">
-              <Button onClick={buy}>Craft</Button>
+              <Button onClick={buy}>Buy</Button>
               <Button onClick={closeConfirmationModal}>{t("cancel")}</Button>
             </div>
           </CloseButtonPanel>
