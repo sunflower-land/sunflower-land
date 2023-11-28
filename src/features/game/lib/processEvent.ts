@@ -5,6 +5,7 @@ import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { SKILL_TREE } from "../types/skills";
 import { Announcements } from "../types/conversations";
 import { EXOTIC_CROPS } from "../types/beans";
+import { BASIC_DECORATIONS, BasicDecorationName } from "../types/decorations";
 
 export const maxItems: Inventory = {
   Sunflower: new Decimal("15000"),
@@ -176,6 +177,23 @@ export const maxItems: Inventory = {
     (acc, name) => ({
       ...acc,
       [name]: new Decimal(1),
+    }),
+    {}
+  ),
+
+  ...(Object.keys(EXOTIC_CROPS) as InventoryItemName[]).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(50),
+    }),
+    {}
+  ),
+
+  // Max of 100 basic decoration
+  ...(Object.keys(BASIC_DECORATIONS()) as BasicDecorationName[]).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(100),
     }),
     {}
   ),
