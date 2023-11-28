@@ -80,7 +80,7 @@ const hint = (state: MachineState) => {
   }
 
   if (
-    plantedCrops > 0 &&
+    plantedCrops >= 3 &&
     !inventory["Sunflower Seed"]?.gt(0) &&
     !inventory["Basic Scarecrow"]
   ) {
