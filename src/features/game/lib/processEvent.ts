@@ -130,6 +130,30 @@ export const maxItems: Inventory = {
   "Sea Cucumber": new Decimal(50),
   Crab: new Decimal(100),
 
+  // Seasonal decorations - Dawnbreaker
+  Clementine: new Decimal(1),
+  Cobalt: new Decimal(1),
+  "Eggplant Grill": new Decimal(1),
+  "Giant Dawn Mushroom": new Decimal(5),
+  "Dawn Umbrella Seat": new Decimal(100),
+  "Shroom Glow": new Decimal(100),
+
+  // Seasonal decorations - Witches" Eve
+  Candles: new Decimal(100),
+  "Haunted Stump": new Decimal(100),
+  "Spooky Tree": new Decimal(100),
+  Observer: new Decimal(100),
+  "Crow Rock": new Decimal(100),
+  "Mini Corn Maze": new Decimal(100),
+
+  // Seasonal decorations - Catch the Kraken
+  "Lifeguard Ring": new Decimal(100),
+  Surfboard: new Decimal(100),
+  "Hideaway Herman": new Decimal(100),
+  "Shifty Sheldon": new Decimal(100),
+  "Tiki Torch": new Decimal(100),
+  "Beach Umbrella": new Decimal(100),
+
   ...(Object.keys(EXOTIC_CROPS) as InventoryItemName[]).reduce(
     (acc, name) => ({
       ...acc,
