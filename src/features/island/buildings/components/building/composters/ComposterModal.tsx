@@ -34,6 +34,7 @@ import { GameState, Inventory } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { OuterPanel } from "components/ui/Panel";
 
 const WORM_OUTPUT: Record<ComposterName, string> = {
   "Compost Bin": "2-4",
@@ -217,6 +218,23 @@ export const ComposterModal: React.FC<Props> = ({
               </div>
             </div>
           </div>
+          <OuterPanel className="p-1">
+            <div className="flex justify-between mb-1">
+              <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                +1 Hour Boost
+              </Label>
+              <RequirementLabel
+                type="item"
+                item="Egg"
+                requirement={new Decimal(10)}
+                balance={new Decimal(5)}
+              />
+            </div>
+            <p className="text-xs mb-2">
+              Add egg shells to speed up production.
+            </p>
+            <Button>Add Eggs</Button>
+          </OuterPanel>
         </>
       );
     }
