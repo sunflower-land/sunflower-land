@@ -158,7 +158,17 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
                     </span>
                   </div>
                   <div className="flex justify-content-around mt-2 space-x-1">
-                    <Button onClick={handleBuy}>Buy</Button>
+                    <Button
+                      disabled={
+                        isNotReady(selected) ||
+                        lessFunds() ||
+                        lessIngredients() ||
+                        limitReached()
+                      }
+                      onClick={handleBuy}
+                    >
+                      Buy
+                    </Button>
                     <Button onClick={closeConfirmationModal}>
                       {t("cancel")}
                     </Button>
