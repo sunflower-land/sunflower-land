@@ -233,7 +233,7 @@ export const OFFLINE_FARM: GameState = {
     "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
     Axe: new Decimal(10),
     "Block Buck": new Decimal(1),
-    Potato: new Decimal(1),
+    Egg: new Decimal(12),
   },
   wardrobe: {},
 
@@ -273,7 +273,7 @@ export const OFFLINE_FARM: GameState = {
         createdAt: 0,
       },
     ],
-    "Compost Bin": [
+    Workbench: [
       {
         id: "123",
         readyAt: 0,
@@ -282,11 +282,23 @@ export const OFFLINE_FARM: GameState = {
           y: 8,
         },
         createdAt: 0,
+      },
+    ],
+
+    "Compost Bin": [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 2,
+          y: 8,
+        },
+        createdAt: 0,
         producing: {
           items: {
             Earthworm: 1,
           },
-          readyAt: Date.now() + 50000,
+          readyAt: Date.now() + 5000000,
           startedAt: Date.now() - 50000,
         },
         requires: {

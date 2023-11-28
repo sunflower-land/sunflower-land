@@ -1,15 +1,8 @@
-import Decimal from "decimal.js-light";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
   ComposterName,
   composterDetails,
 } from "features/game/types/composters";
-import { getKeys } from "features/game/types/craftables";
-import {
-  CompostBuilding,
-  GameState,
-  InventoryItemName,
-} from "features/game/types/game";
+import { CompostBuilding, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type AccelerateComposterAction = {
@@ -46,9 +39,24 @@ export function accelerateComposter({
     throw new Error("Composter already done");
   }
 
+  if (composter.boost) {
+    throw new Error("Already boosted");
+  }
+
+  const details = composterDetails[action.building];
+  if (!stateCopy.inventory.Egg?.gte(details.eggBoostRequirements)) {
+    throw new Error("Missing Eggs");
+  }
+
   // Subtract eggs
+  stateCopy.inventory.Egg = stateCopy.inventory.Egg.sub(
+    details.eggBoostRequirements
+  );
 
   // Subtract time
+  producing.readyAt -= details.eggBoostMilliseconds;
+
+  composter.boost = { Egg: details.eggBoostRequirements };
 
   return stateCopy;
 }

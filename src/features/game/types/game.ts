@@ -437,6 +437,7 @@ export type Collectibles = Partial<PlacedTypes<CollectibleName>>;
 export type CompostBuilding = PlacedItem & {
   producing?: BuildingProduce;
   requires?: Partial<Record<InventoryItemName, number>>;
+  boost?: Partial<Record<InventoryItemName, number>>;
 };
 
 type CustomBuildings = {

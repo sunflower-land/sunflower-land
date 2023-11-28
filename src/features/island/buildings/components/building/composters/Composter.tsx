@@ -12,6 +12,7 @@ import { ComposterName } from "features/game/types/composters";
 import { CompostBuilding } from "features/game/types/game";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 const getComposter = (type: BuildingName) => (state: MachineState) =>
   state.context.state.buildings[type]?.[0] as CompostBuilding;
@@ -27,7 +28,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
   const { gameService, showTimers } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
-  const [_, setRender] = useState<number>(0);
+  const [renderKey, setRender] = useState<number>(0);
 
   const composter = useSelector(gameService, getComposter(name), compare);
 
@@ -109,6 +110,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
               }}
             >
               <LiveProgressBar
+                key={renderKey}
                 startAt={composter?.producing?.startedAt}
                 endAt={composter?.producing?.readyAt}
                 formatLength="short"
@@ -120,6 +122,19 @@ export const Composter: React.FC<Props> = ({ name }) => {
               />
             </div>
           )}
+          {composter.boost && (
+            <>
+              <img
+                src={ITEM_DETAILS.Egg.image}
+                className="absolute z-10"
+                style={{
+                  width: `${PIXEL_SCALE * 10}px`,
+                  bottom: `${PIXEL_SCALE * 22}px`,
+                  right: `${PIXEL_SCALE * -4}px`,
+                }}
+              />
+            </>
+          )}
         </div>
       </BuildingImageWrapper>
 
@@ -130,6 +145,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
         startComposter={startComposter}
         readyAt={composter?.producing?.readyAt}
         onCollect={handleCollect}
+        onBoost={() => setRender((r) => r + 1)}
       />
       {ready && (
         <div
