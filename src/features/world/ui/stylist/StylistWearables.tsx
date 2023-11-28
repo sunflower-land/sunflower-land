@@ -23,6 +23,9 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import { GameState } from "features/game/types/game";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { Modal } from "react-bootstrap";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 function isNotReady(name: BumpkinItem, state: GameState) {
   const wearable = STYLIST_WEARABLES(state)[name] as StylistWearable;
@@ -102,6 +105,15 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
     }
   };
 
+  const [isConfirmBuyModalOpen, showConfirmBuyModal] = useState(false);
+  const openConfirmationModal = () => {
+    showConfirmBuyModal(true);
+  };
+  const closeConfirmationModal = () => {
+    showConfirmBuyModal(false);
+  };
+
+  const { t } = useAppTranslation();
   const Action = () => {
     if (state.wardrobe[selected])
       return (
@@ -124,14 +136,33 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
     }
 
     return (
-      <Button
-        disabled={
-          isNotReady(selected, state) || lessFunds() || lessIngredients()
-        }
-        onClick={buy}
-      >
-        Craft
-      </Button>
+      <>
+        <Button
+          disabled={
+            isNotReady(selected, state) || lessFunds() || lessIngredients()
+          }
+          onClick={openConfirmationModal}
+        >
+          Craft
+        </Button>
+        <Modal
+          centered
+          show={isConfirmBuyModalOpen}
+          onHide={closeConfirmationModal}
+        >
+          <CloseButtonPanel className="sm:w-4/5 m-auto">
+            <div className="flex flex-col p-2">
+              <span className="text-sm text-center">
+                Are you sure you want to buy this item?
+              </span>
+            </div>
+            <div className="flex justify-content-around mt-2 space-x-1">
+              <Button onClick={buy}>Buy</Button>
+              <Button onClick={closeConfirmationModal}>{t("cancel")}</Button>
+            </div>
+          </CloseButtonPanel>
+        </Modal>
+      </>
     );
   };
 
