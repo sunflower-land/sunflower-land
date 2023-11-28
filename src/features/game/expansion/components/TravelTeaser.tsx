@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import raft from "assets/decorations/raft.png";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
@@ -15,20 +15,106 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
 import { MapPlacement } from "./MapPlacement";
 
+import speechBubble from "assets/ui/speech_border.png";
+import { getKeys } from "features/game/types/craftables";
+import { CROPS } from "features/game/types/crops";
+
 const isNoob = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) < 3;
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 0;
 
+const hint = (state: MachineState) => {
+  const activity = state.context.state.bumpkin?.activity;
+  const inventory = state.context.state.inventory;
+  const level = getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+
+  if (level >= 2) {
+    return "Explore";
+  }
+
+  const choppedTrees = activity?.["Tree Chopped"] ?? 0;
+  if (choppedTrees < 3) {
+    return "Chop the trees";
+  }
+
+  if (inventory["Basic Land"]?.lte(3)) {
+    return "Expand your land";
+  }
+
+  const harvestedCrops = getKeys(CROPS()).reduce(
+    (total, crop) => total + (activity?.[`${crop} Harvested`] ?? 0),
+    0
+  );
+
+  if (inventory.Shovel && harvestedCrops < 3) {
+    return "Harvest the Sunflowers";
+  }
+
+  const soldCrops = getKeys(CROPS()).reduce(
+    (total, crop) => total + (activity?.[`${crop} Sold`] ?? 0),
+    0
+  );
+
+  if (inventory.Sunflower && soldCrops < 3) {
+    return "Sell the Sunflowers";
+  }
+
+  const boughtCrops = getKeys(CROPS()).reduce(
+    (total, crop) => total + (activity?.[`${crop} Seed Bought`] ?? 0),
+    0
+  );
+
+  if (soldCrops > 0 && boughtCrops === 0) {
+    return "Buy Seeds";
+  }
+
+  const plantedCrops = getKeys(CROPS()).reduce(
+    (total, crop) => total + (activity?.[`${crop} Planted`] ?? 0),
+    0
+  );
+
+  if (inventory["Sunflower Seed"] && plantedCrops === 0) {
+    return "Plant Seeds";
+  }
+
+  if (
+    plantedCrops > 0 &&
+    !inventory["Sunflower Seed"]?.gt(0) &&
+    !inventory["Basic Scarecrow"]
+  ) {
+    return "Craft a Scarecrow";
+  }
+
+  if (inventory["Basic Scarecrow"] && level === 1) {
+    return "Cook food and level up";
+  }
+
+  return null;
+};
+
 export const TravelTeaser: React.FC = () => {
   const { gameService } = useContext(Context);
   const showSpeech = useSelector(gameService, isNoob);
+  const peteHint = useSelector(gameService, hint);
   const expansionCount = useSelector(gameService, expansions);
+
+  const [peteState, setPeteState] = useState<"idle" | "typing">("idle");
 
   const [tab, setTab] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [guide, setGuide] = useState<GuidePath>();
+
+  useEffect(() => {
+    const speak = async () => {
+      setPeteState("typing");
+
+      await new Promise((res) => setTimeout(() => setPeteState("idle"), 1000));
+    };
+
+    speak();
+  }, [peteHint]);
 
   const coords = () => {
     if (expansionCount < 7) {
@@ -94,7 +180,71 @@ export const TravelTeaser: React.FC = () => {
               transform: "scaleX(-1)",
             }}
           >
-            {showSpeech && (
+            {peteHint && peteHint !== "Explore" && (
+              <div
+                className="absolute uppercase animate-float"
+                style={{
+                  fontFamily: "Teeny",
+                  color: "black",
+                  textShadow: "none",
+                  top: `${PIXEL_SCALE * -8}px`,
+                  left: `${PIXEL_SCALE * 6}px`,
+
+                  borderImage: `url(${speechBubble})`,
+                  borderStyle: "solid",
+                  borderTopWidth: `${PIXEL_SCALE * 2}px`,
+                  borderRightWidth: `${PIXEL_SCALE * 2}px`,
+                  borderBottomWidth: `${PIXEL_SCALE * 4}px`,
+                  borderLeftWidth: `${PIXEL_SCALE * 5}px`,
+
+                  borderImageSlice: "2 2 4 5 fill",
+                  imageRendering: "pixelated",
+                  borderImageRepeat: "stretch",
+                  fontSize: "8px",
+                }}
+              >
+                <div
+                  style={{
+                    transform: "scaleX(-1)",
+                    height: "12px",
+                    minWidth: "30px",
+                  }}
+                >
+                  {peteState === "idle" && (
+                    <span
+                      className="whitespace-nowrap"
+                      style={{
+                        fontSize: "10px",
+                        position: "relative",
+                        bottom: "4px",
+                        left: "4px",
+                        wordSpacing: "-4px",
+                        color: "#262b45",
+                      }}
+                    >
+                      {peteHint}
+                    </span>
+                  )}
+
+                  {peteState === "typing" && (
+                    <span
+                      style={{
+                        fontSize: "10px",
+                        position: "relative",
+                        bottom: "4px",
+                        left: "4px",
+                        wordSpacing: "-4px",
+                        color: "#262b45",
+                      }}
+                    >
+                      ...
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {peteHint === "Explore" && (
               <img
                 src={SUNNYSIDE.icons.expression_chat}
                 className="absolute z-10"
