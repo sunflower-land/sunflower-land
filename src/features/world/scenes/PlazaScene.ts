@@ -357,7 +357,7 @@ export class PlazaScene extends BaseScene {
       chest.setVisible(!isOpen);
 
       if (wasOpen === isOpen) {
-        this.mmoService.state.context.server?.send(0, {
+        this.mmoService?.state.context.server?.send(0, {
           action: "open_clubhouse",
         });
       }
@@ -365,7 +365,7 @@ export class PlazaScene extends BaseScene {
       return;
     };
 
-    const server = this.mmoService.state.context.server;
+    const server = this.mmoService?.state.context.server;
     if (!server) return;
 
     server.state.actions.onAdd(async (action) => {
