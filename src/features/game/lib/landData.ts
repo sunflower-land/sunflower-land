@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
-import { Bumpkin, GameState, Inventory } from "../types/game";
+import { GameState, Inventory } from "../types/game";
 import { getKeys } from "../types/craftables";
+import { INITIAL_BUMPKIN, INITIAL_EXPANSIONS } from "./bumpkinData";
 
 const INITIAL_STOCK: Inventory = {
   "Sunflower Seed": new Decimal(400),
@@ -187,29 +188,6 @@ export const INITIAL_RESOURCES: Pick<
   fruitPatches: {},
   gold: {},
   iron: {},
-};
-
-export const INITIAL_EXPANSIONS = 3;
-
-const INITIAL_BUMPKIN: Bumpkin = {
-  id: 1,
-  experience: 1000,
-  tokenUri: "bla",
-  equipped: {
-    body: "Beige Farmer Potion",
-    hair: "Basic Hair",
-    shirt: "Red Farmer Shirt",
-    pants: "Brown Suspenders",
-
-    shoes: "Black Farmer Boots",
-    tool: "Farmer Pitchfork",
-    background: "Farm Background",
-  },
-  skills: {},
-  achievements: {},
-  activity: {
-    "Reindeer Carrot Fed": 50,
-  },
 };
 
 export const OFFLINE_FARM: GameState = {
