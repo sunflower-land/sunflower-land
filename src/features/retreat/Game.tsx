@@ -1,4 +1,6 @@
 import React, { useContext, useLayoutEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import ScrollContainer from "react-indiana-drag-scroll";
 import background from "assets/land/retreat.webp";
@@ -37,6 +39,7 @@ import { RetreatPirate } from "./components/pirate/RetreatPirate";
 import { GameBoard } from "components/GameBoard";
 import { Auctioneer } from "./components/auctioneer/Auctioneer";
 import { PersonhoodContent } from "./components/personhood/PersonhoodContent";
+import { GoldPassModal } from "features/game/expansion/components/GoldPass";
 
 const spawn = [
   [35, 15],
@@ -65,19 +68,30 @@ const SHOW_MODAL: Partial<Record<StateValues, boolean>> = {
 
 export const Game = () => {
   const container = useRef(null);
+  const navigate = useNavigate();
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
   const [scrollIntoView] = useScrollIntoView();
   const [retreatLoaded, setRetreatLoaded] = useState(false);
   const [sealSpawn] = useState(getRandomSpawn());
+  const [showGoldPassModal, setShowGoldPassModal] = useState<boolean>(false);
+
+  const { bumpkin, inventory } = goblinState.context.state;
 
   useLayoutEffect(() => {
     if (retreatLoaded) {
       scrollIntoView(Section.RetreatBackground, "auto");
+
+      if (!inventory["Gold Pass"]) {
+        setShowGoldPassModal(true);
+      }
     }
   }, [retreatLoaded]);
 
-  const { bumpkin } = goblinState.context.state;
+  const handleGoldPassModalClose = () => {
+    setShowGoldPassModal(false);
+    navigate("/land");
+  };
 
   const hasRequiredLevel =
     bumpkin && getBumpkinLevel(bumpkin.experience) >= RETREAT_LEVEL_REQUIREMENT;
@@ -139,6 +153,17 @@ export const Game = () => {
                 id={Section.RetreatBackground}
                 onLoad={() => setRetreatLoaded(true)}
               />
+
+              {/* No Gold Pass Modal */}
+              <Modal
+                show={showGoldPassModal}
+                centered
+                backdrop="static"
+                keyboard={false}
+              >
+                <GoldPassModal onClose={handleGoldPassModalClose} />
+              </Modal>
+
               <RetreatBank />
               <RetreatStorageHouse />
               <RetreatHotAirBalloon />

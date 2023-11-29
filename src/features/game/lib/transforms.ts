@@ -127,6 +127,9 @@ export function getAvailableGameState({
     ...(offChain.inventory["Catch the Kraken Banner"] && {
       "Catch the Kraken Banner": offChain.inventory["Catch the Kraken Banner"],
     }),
+    ...(offChain.inventory["Gold Pass"] && {
+      "Gold Pass": offChain.inventory["Gold Pass"],
+    }),
   };
 
   const balance = onChain.balance.lt(offChain.balance)
