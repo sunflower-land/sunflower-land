@@ -34,6 +34,8 @@ import { GameState, Inventory } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { OuterPanel } from "components/ui/Panel";
+import { hasFeatureAccess } from "lib/flags";
 
 const WORM_OUTPUT: Record<ComposterName, string> = {
   "Compost Bin": "2-4",
@@ -112,6 +114,7 @@ interface Props {
   composterName: ComposterName;
   onCollect: () => void;
   readyAt?: number;
+  onBoost: () => void;
 }
 
 export const ComposterModal: React.FC<Props> = ({
@@ -121,6 +124,7 @@ export const ComposterModal: React.FC<Props> = ({
   startComposter,
   readyAt,
   onCollect,
+  onBoost,
 }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -136,6 +140,8 @@ export const ComposterModal: React.FC<Props> = ({
 
   const produces = state.buildings[composterName]?.[0].producing?.items ?? {};
   const requires = state.buildings[composterName]?.[0].requires ?? {};
+  const boost = state.buildings[composterName]?.[0].boost;
+
   const hasRequirements = getKeys(requires).every((name) => {
     const amount = requires[name] || new Decimal(0);
 
@@ -151,6 +157,13 @@ export const ComposterModal: React.FC<Props> = ({
       setTab(1);
     }
   }, [showModal]);
+
+  const accelerate = () => {
+    gameService.send("compost.accelerated", {
+      building: composterName,
+    });
+    onBoost();
+  };
 
   const Content = () => {
     if (isReady) {
@@ -190,6 +203,8 @@ export const ComposterModal: React.FC<Props> = ({
       );
     }
 
+    const canBoost = hasFeatureAccess(state, "COMPOST_BOOST");
+
     if (composting) {
       return (
         <>
@@ -217,6 +232,58 @@ export const ComposterModal: React.FC<Props> = ({
               </div>
             </div>
           </div>
+          {canBoost && !boost && (
+            <OuterPanel className="p-1">
+              <div className="flex justify-between mb-1">
+                <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                  {`${secondsToString(
+                    composterInfo.eggBoostMilliseconds / 1000,
+                    {
+                      length: "short",
+                    }
+                  )} Boost`}
+                </Label>
+                <RequirementLabel
+                  type="item"
+                  item="Egg"
+                  requirement={new Decimal(composterInfo.eggBoostRequirements)}
+                  balance={state.inventory.Egg ?? new Decimal(0)}
+                />
+              </div>
+              <p className="text-xs mb-2">
+                Add egg shells to speed up production.
+              </p>
+              <Button
+                disabled={
+                  !state.inventory.Egg?.gte(composterInfo.eggBoostRequirements)
+                }
+                onClick={accelerate}
+              >
+                Add Eggs
+              </Button>
+            </OuterPanel>
+          )}
+          {canBoost && boost && (
+            <OuterPanel className="p-1">
+              <div className="flex justify-between">
+                <Label
+                  type="info"
+                  icon={SUNNYSIDE.icons.stopwatch}
+                  secondaryIcon={SUNNYSIDE.icons.confirm}
+                >
+                  {`${secondsToString(
+                    composterInfo.eggBoostMilliseconds / 1000,
+                    {
+                      length: "short",
+                    }
+                  )} Boosted`}
+                </Label>
+                <Label type="default" icon={ITEM_DETAILS.Egg.image}>
+                  {composterInfo.eggBoostRequirements} Eggs
+                </Label>
+              </div>
+            </OuterPanel>
+          )}
         </>
       );
     }
