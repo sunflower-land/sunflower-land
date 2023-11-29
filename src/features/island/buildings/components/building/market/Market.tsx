@@ -37,10 +37,27 @@ const hasBoughtCropsBefore = (bumpkin?: Bumpkin) => {
   );
 };
 
+export const paintCanvas = (imgElement: HTMLImageElement) => {
+  const canvasElement = imgElement.previousElementSibling as HTMLCanvasElement;
+  if (canvasElement) {
+    const context = canvasElement.getContext("2d");
+    if (context) {
+      context.scale(-1, 1);
+      context.drawImage(
+        imgElement,
+        -120 * PIXEL_SCALE,
+        0,
+        120 * PIXEL_SCALE,
+        60 * PIXEL_SCALE
+      );
+    }
+  }
+};
+
 export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const handleClick = () => {
@@ -75,7 +92,6 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
             height: `${PIXEL_SCALE * 38}px`,
           }}
         />
-
         <img
           src={shadow}
           className="absolute pointer-events-none"
@@ -83,6 +99,16 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
             width: `${PIXEL_SCALE * 15}px`,
             bottom: `${PIXEL_SCALE * 6}px`,
             right: `${PIXEL_SCALE * 6}px`,
+          }}
+        />
+        <canvas
+          className="absolute pointer-events-none"
+          style={{
+            width: `${PIXEL_SCALE * 16}px`,
+            height: `${PIXEL_SCALE * 20}px`,
+            bottom: `${PIXEL_SCALE * 8}px`,
+            right: `${PIXEL_SCALE * 4}px`,
+            visibility: !showAnimations ? "visible" : "hidden",
           }}
         />
         <img
@@ -93,7 +119,9 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
             bottom: `${PIXEL_SCALE * 8}px`,
             right: `${PIXEL_SCALE * 4}px`,
             transform: "scaleX(-1)",
+            visibility: showAnimations ? "visible" : "hidden",
           }}
+          onLoad={(e) => paintCanvas(e.currentTarget)}
         />
 
         {showHelper && (
