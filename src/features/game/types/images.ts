@@ -554,8 +554,9 @@ import { GOBLIN_PIRATE_ITEMS, POTION_HOUSE_ITEMS } from "./collectibles";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
-import { BAIT, CROP_COMPOST, FRUIT_COMPOST } from "./composters";
+import { WORM, CROP_COMPOST, FRUIT_COMPOST } from "./composters";
 import { BuffLabel } from ".";
+import { PURCHASEABLE_BAIT } from "./fishing";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -2636,19 +2637,19 @@ export const ITEM_DETAILS: Items = {
   // Bait
   Earthworm: {
     image: earthworm,
-    description: BAIT.Earthworm.description,
+    description: WORM.Earthworm.description,
   },
   Grub: {
     image: grub,
-    description: BAIT.Grub.description,
+    description: WORM.Grub.description,
   },
   "Red Wiggler": {
     image: redWiggler,
-    description: BAIT["Red Wiggler"].description,
+    description: WORM["Red Wiggler"].description,
   },
   "Fishing Lure": {
     image: fishingLure,
-    description: "Great for catching rare fish!",
+    description: PURCHASEABLE_BAIT["Fishing Lure"].description,
   },
   // Compost
   "Sprout Mix": {

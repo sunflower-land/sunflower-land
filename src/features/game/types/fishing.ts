@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
-import { Bait } from "./composters";
+import { Worm } from "./composters";
 import { Bumpkin, GameState, InventoryItemName } from "./game";
 import { Tool } from "./tools";
 
 export type PurchaseableBait = "Fishing Lure";
-export type FishingBait = Bait | PurchaseableBait;
+export type FishingBait = Worm | PurchaseableBait;
 export type FishType = "basic" | "advanced" | "expert" | "marine marvel";
 
 export type FishName =

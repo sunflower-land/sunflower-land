@@ -20,7 +20,7 @@ import expertComposting from "assets/composters/composter_expert_closed.png";
 import expertReady from "assets/composters/composter_expert_ready.png";
 
 import {
-  BAIT,
+  WORM,
   ComposterName,
   composterDetails,
 } from "features/game/types/composters";
@@ -208,7 +208,7 @@ export const ComposterModal: React.FC<Props> = ({
                   >
                     <img src={ITEM_DETAILS[name].image} className="h-5" />
                     <Label type="default">
-                      {name in BAIT
+                      {name in WORM
                         ? `? ${name}s`
                         : `${produces[name]} ${name}`}
                     </Label>
@@ -302,13 +302,13 @@ export const ComposterModal: React.FC<Props> = ({
               <div className="flex space-x-1 justify-start">
                 <SquareIcon
                   icon={
-                    ITEM_DETAILS[composterDetails[composterName].bait].image
+                    ITEM_DETAILS[composterDetails[composterName].worm].image
                   }
                   width={14}
                 />
                 <div className="block">
                   <p className="text-xs mb-1">
-                    {`${WORM_OUTPUT[composterName]} ${composterDetails[composterName].bait}s`}
+                    {`${WORM_OUTPUT[composterName]} ${composterDetails[composterName].worm}s`}
                   </p>
                   <Label
                     icon={SUNNYSIDE.tools.fishing_rod}
