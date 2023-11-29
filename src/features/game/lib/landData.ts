@@ -285,28 +285,6 @@ export const OFFLINE_FARM: GameState = {
       },
     ],
 
-    "Compost Bin": [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 2,
-          y: 8,
-        },
-        createdAt: 0,
-        producing: {
-          items: {
-            Earthworm: 1,
-          },
-          readyAt: Date.now() + 5000000,
-          startedAt: Date.now() - 50000,
-        },
-        requires: {
-          Potato: 1,
-        },
-      },
-    ],
-
     Market: [
       {
         id: "123",
