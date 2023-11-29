@@ -196,7 +196,7 @@ describe("accelerateComposter", () => {
     const state = accelerateComposter({
       state: {
         ...GAME_STATE,
-        inventory: { Egg: new Decimal(20) },
+        inventory: { Egg: new Decimal(25) },
         buildings: {
           "Turbo Composter": [
             {
@@ -233,7 +233,7 @@ describe("accelerateComposter", () => {
     const state = accelerateComposter({
       state: {
         ...GAME_STATE,
-        inventory: { Egg: new Decimal(23) },
+        inventory: { Egg: new Decimal(33) },
         buildings: {
           "Premium Composter": [
             {

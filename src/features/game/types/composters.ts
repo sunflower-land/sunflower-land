@@ -77,7 +77,7 @@ export const composterDetails: Record<ComposterName, ComposterDetails> = {
     produceAmount: 3,
     worm: "Grub",
     timeToFinishMilliseconds: 8 * 60 * 60 * 1000,
-    eggBoostRequirements: 15,
+    eggBoostRequirements: 20,
     eggBoostMilliseconds: 2 * 60 * 60 * 1000,
   },
   "Premium Composter": {
@@ -85,7 +85,7 @@ export const composterDetails: Record<ComposterName, ComposterDetails> = {
     produceAmount: 10,
     worm: "Red Wiggler",
     timeToFinishMilliseconds: 12 * 60 * 60 * 1000,
-    eggBoostRequirements: 20,
+    eggBoostRequirements: 30,
     eggBoostMilliseconds: 3 * 60 * 60 * 1000,
   },
 };
