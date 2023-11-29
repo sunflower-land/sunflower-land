@@ -250,9 +250,7 @@ export const ComposterModal: React.FC<Props> = ({
                   balance={state.inventory.Egg ?? new Decimal(0)}
                 />
               </div>
-              <p className="text-xs mb-2">
-                Add egg shells to speed up production.
-              </p>
+              <p className="text-xs mb-2">Add eggs to speed up production.</p>
               <Button
                 disabled={
                   !state.inventory.Egg?.gte(composterInfo.eggBoostRequirements)
