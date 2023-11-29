@@ -14,6 +14,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { Modal } from "react-bootstrap";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 function isNotReady(collectible: Decoration) {
   return (
@@ -40,6 +43,7 @@ interface Props {
   items: Partial<Record<DecorationName, Decoration>>;
 }
 export const DecorationItems: React.FC<Props> = ({ items }) => {
+  const { t } = useAppTranslation();
   const [selected, setSelected] = useState<Decoration>(
     items[getKeys(items)[0]] as Decoration
   );
@@ -102,6 +106,18 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
   const limitReached = () =>
     selected.limit ? inventory[selected.name]?.gte(selected.limit) : false;
 
+  const [isConfirmBuyModalOpen, showConfirmBuyModal] = useState(false);
+  const openConfirmModal = () => {
+    showConfirmBuyModal(true);
+  };
+  const handleBuy = () => {
+    buy();
+    showConfirmBuyModal(false);
+  };
+  const closeConfirmationModal = () => {
+    showConfirmBuyModal(false);
+  };
+
   return (
     <SplitScreenView
       panel={
@@ -118,17 +134,48 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
           }}
           limit={selected.limit}
           actionView={
-            <Button
-              disabled={
-                isNotReady(selected) ||
-                lessFunds() ||
-                lessIngredients() ||
-                limitReached()
-              }
-              onClick={buy}
-            >
-              Buy
-            </Button>
+            <>
+              <Button
+                disabled={
+                  isNotReady(selected) ||
+                  lessFunds() ||
+                  lessIngredients() ||
+                  limitReached()
+                }
+                onClick={openConfirmModal}
+              >
+                Buy
+              </Button>
+              <Modal
+                centered
+                show={isConfirmBuyModalOpen}
+                onHide={closeConfirmationModal}
+              >
+                <CloseButtonPanel className="sm:w-4/5 m-auto">
+                  <div className="flex flex-col p-2">
+                    <span className="text-sm text-center">
+                      Are you sure you want to buy {`${selected.name}`}?
+                    </span>
+                  </div>
+                  <div className="flex justify-content-around mt-2 space-x-1">
+                    <Button
+                      disabled={
+                        isNotReady(selected) ||
+                        lessFunds() ||
+                        lessIngredients() ||
+                        limitReached()
+                      }
+                      onClick={handleBuy}
+                    >
+                      Buy
+                    </Button>
+                    <Button onClick={closeConfirmationModal}>
+                      {t("cancel")}
+                    </Button>
+                  </div>
+                </CloseButtonPanel>
+              </Modal>
+            </>
           }
         />
       }
