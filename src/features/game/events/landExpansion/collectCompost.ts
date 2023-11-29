@@ -61,5 +61,7 @@ export function collectCompost({
 
   delete building.producing;
 
+  delete building.boost;
+
   return stateCopy;
 }
