@@ -474,6 +474,17 @@ export const ComposterModal: React.FC<Props> = ({
                   fishing.
                 </p>
               </div>
+              <div className="flex mb-2">
+                <div className="w-12 flex justify-center">
+                  <img
+                    src={ITEM_DETAILS.Egg.image}
+                    className="h-6 mr-2 object-contain"
+                  />
+                </div>
+                <p className="text-xs flex-1">
+                  Tired of waiting? Use Eggs to speed up the compost production.
+                </p>
+              </div>
             </div>
             <Button
               className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
