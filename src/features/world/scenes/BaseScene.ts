@@ -23,6 +23,7 @@ import {
 import { Player } from "../types/Room";
 import { playerModalManager } from "../ui/PlayerModals";
 import { hasFeatureAccess } from "lib/flags";
+import { GameState } from "features/game/types/game";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -164,10 +165,7 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   create() {
-    const errorLogger = createErrorLogger(
-      "phaser_base_scene",
-      Number(this.gameService.state.context.farmId)
-    );
+    const errorLogger = createErrorLogger("phaser_base_scene", Number(this.id));
 
     try {
       this.initialiseMap();
@@ -193,12 +191,11 @@ export abstract class BaseScene extends Phaser.Scene {
         x: spawn.x ?? 0,
         y: spawn.y ?? 0,
         // gameService
-        farmId: Number(this.gameService.state.context.farmId),
+        farmId: Number(this.id),
         isCurrentPlayer: true,
         // gameService
         clothing: {
-          ...(this.gameService.state.context.state.bumpkin
-            ?.equipped as BumpkinParts),
+          ...(this.gameState.bumpkin?.equipped as BumpkinParts),
           updatedAt: 0,
         },
         experience: 0,
@@ -361,13 +358,13 @@ export abstract class BaseScene extends Phaser.Scene {
 
   public initialiseMMO() {
     if (this.options.mmo.url && this.options.mmo.serverId) {
-      this.mmoService.send("CONNECT", {
+      this.mmoService?.send("CONNECT", {
         url: this.options.mmo.url,
         serverId: this.options.mmo.serverId,
       });
     }
 
-    const server = this.mmoService.state.context.server;
+    const server = this.mmoService?.state.context.server;
     if (!server) return;
 
     const removeMessageListener = server.state.messages.onAdd((message) => {
@@ -445,11 +442,15 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   public get mmoService() {
-    return this.registry.get("mmoService") as MMOMachineInterpreter;
+    return this.registry.get("mmoService") as MMOMachineInterpreter | undefined;
   }
 
-  public get gameService() {
-    return this.registry.get("gameService") as GameMachineInterpreter;
+  public get gameState() {
+    return this.registry.get("gameState") as GameState;
+  }
+
+  public get id() {
+    return this.registry.get("id") as number;
   }
 
   createPlayer({
@@ -483,7 +484,7 @@ export abstract class BaseScene extends Phaser.Scene {
       if (npc) {
         npcModalManager.open(npc);
       } else {
-        if (farmId !== this.gameService.state.context.farmId) {
+        if (farmId !== this.id) {
           playerModalManager.open({
             id: farmId,
             clothing,
@@ -548,8 +549,7 @@ export abstract class BaseScene extends Phaser.Scene {
           const warpTo = (obj2 as any).data?.list?.warp;
           if (
             warpTo &&
-            (warpTo !== "beach" ||
-              hasFeatureAccess(this.gameService.state.context.state, "BEACH"))
+            (warpTo !== "beach" || hasFeatureAccess(this.gameState, "BEACH"))
           ) {
             this.currentPlayer?.stopSpeaking();
             this.cameras.main.fadeOut(1000);
@@ -708,7 +708,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
       this.packetSentAt = Date.now();
 
-      const server = this.mmoService.state.context.server;
+      const server = this.mmoService?.state.context.server;
       if (server) {
         server.send(0, this.serverPosition);
       }
@@ -747,7 +747,7 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   syncPlayers() {
-    const server = this.mmoService.state.context.server;
+    const server = this.mmoService?.state.context.server;
     if (!server) return;
 
     // Destroy any dereferenced players
@@ -783,7 +783,7 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   updateClothing() {
-    const server = this.mmoService.state.context.server;
+    const server = this.mmoService?.state.context.server;
     if (!server) return;
 
     // Update clothing
@@ -797,7 +797,7 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   renderPlayers() {
-    const server = this.mmoService.state.context.server;
+    const server = this.mmoService?.state.context.server;
     if (!server) return;
 
     const playerInVIP = this.physics.world.overlap(
@@ -852,12 +852,12 @@ export abstract class BaseScene extends Phaser.Scene {
     if (this.switchToScene) {
       const warpTo = this.switchToScene;
       this.switchToScene = undefined;
-      this.mmoService.state.context.server?.send(0, { sceneId: warpTo });
+      this.mmoService?.state.context.server?.send(0, { sceneId: warpTo });
       this.scene.start(warpTo, { previousSceneId: this.sceneId });
     }
   }
   updateOtherPlayers() {
-    const server = this.mmoService.state.context.server;
+    const server = this.mmoService?.state.context.server;
     if (!server) return;
 
     this.syncPlayers();

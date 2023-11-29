@@ -1,22 +1,14 @@
-import mapJson from "assets/map/plaza_halloween.json";
-
-import { SceneId } from "../mmoMachine";
-import { BaseScene, NPCBumpkin } from "./BaseScene";
-import { Label } from "../containers/Label";
-import { interactableModalManager } from "../ui/InteractableModals";
-import { AudioController } from "../lib/AudioController";
-import { CONFIG } from "lib/config";
-import { hasFeatureAccess } from "lib/flags";
+import mapJson from "assets/map/plaza.json";
+import { Label } from "features/world/containers/Label";
+import { AudioController } from "features/world/lib/AudioController";
+import { SceneId } from "features/world/mmoMachine";
+import { BaseScene, NPCBumpkin } from "features/world/scenes/BaseScene";
+import { interactableModalManager } from "features/world/ui/InteractableModals";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
-    npc: "phantom face",
-    x: 726,
-    y: 280,
-  },
-  {
-    x: 400,
-    y: 400,
+    x: 371,
+    y: 344,
     npc: "pumpkin' pete",
   },
   {
@@ -26,7 +18,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
   {
-    x: 312,
+    x: 316,
     y: 245,
     npc: "stella",
   },
@@ -42,7 +34,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
   {
-    x: 364,
+    x: 367,
     y: 120,
     npc: "blacksmith",
   },
@@ -79,7 +71,6 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "betty",
     direction: "left",
   },
-
   {
     x: 840,
     y: 291,
@@ -90,12 +81,6 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     x: 90,
     y: 70,
     npc: "tywin",
-  },
-  {
-    x: 480,
-    y: 235,
-    npc: "luna",
-    direction: "left",
   },
   {
     x: 505,
@@ -114,8 +99,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "hank",
   },
 ];
-
-export class HalloweenScene extends BaseScene {
+export class ExampleScene extends BaseScene {
   sceneId: SceneId = "plaza";
 
   constructor() {
@@ -127,11 +111,6 @@ export class HalloweenScene extends BaseScene {
   }
 
   preload() {
-    this.load.image(
-      "halloween",
-      `${CONFIG.PROTECTED_IMAGE_URL}/world/halloween-extruded.png`
-    );
-
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
       frameHeight: 18,
@@ -170,11 +149,6 @@ export class HalloweenScene extends BaseScene {
     this.load.spritesheet("fat_chicken", "world/fat_chicken.png", {
       frameWidth: 17,
       frameHeight: 21,
-    });
-
-    this.load.spritesheet("portal", "world/portal.png", {
-      frameWidth: 30,
-      frameHeight: 30,
     });
 
     this.load.image("chest", "world/rare_chest.png");
@@ -217,17 +191,7 @@ export class HalloweenScene extends BaseScene {
 
     super.create();
 
-    const bumpkins = PLAZA_BUMPKINS;
-
-    if (!hasFeatureAccess(this.gameService.state.context.state, "BEACH")) {
-      bumpkins.push({
-        x: 20,
-        y: 318,
-        npc: "old salty",
-      });
-    }
-
-    this.initialiseNPCs(bumpkins);
+    this.initialiseNPCs(PLAZA_BUMPKINS);
 
     const auctionLabel = new Label(this, "AUCTIONS", "brown");
     auctionLabel.setPosition(601, 260);
@@ -238,18 +202,6 @@ export class HalloweenScene extends BaseScene {
     clubHouseLabel.setPosition(152, 262);
     clubHouseLabel.setDepth(10000000);
     this.add.existing(clubHouseLabel);
-
-    const portal = this.add.sprite(505, 215, "portal");
-    this.anims.create({
-      key: "portal_anim",
-      frames: this.anims.generateFrameNumbers("portal", {
-        start: 0,
-        end: 11,
-      }),
-      repeat: -1,
-      frameRate: 10,
-    });
-    portal.play("portal_anim", true);
 
     // Plaza Bud
     const fatChicken = this.add.sprite(106, 352, "fat_chicken");
@@ -372,61 +324,5 @@ export class HalloweenScene extends BaseScene {
       .on("pointerdown", () => {
         interactableModalManager.open("clubhouse_reward");
       });
-
-    const door = this.colliders
-      ?.getChildren()
-      .find((object) => object.data?.list?.id === "clubhouse_door");
-
-    // TODO
-    const canAccess =
-      Object.keys(this.gameService.state.context.state.buds ?? {}).length > 0;
-
-    if (door && canAccess) {
-      this.physics.world.disable(door);
-    }
-
-    // Opening and closing clubhouse door
-    this.onCollision["clubhouse_door"] = async (obj1, obj2) => {
-      if (!canAccess) {
-        interactableModalManager.open("guild_house");
-        return;
-      }
-
-      const wasOpen = chest.visible;
-      const isOpen = (obj1 as any).y > (obj2 as any).y;
-
-      this.layers["Club House Roof"].setVisible(isOpen);
-      this.layers["Club House Base"].setVisible(isOpen);
-      this.layers["Club House Door"].setVisible(isOpen);
-      clubHouseLabel.setVisible(isOpen);
-
-      snowHornBud.setVisible(!isOpen);
-      orangeBud.setVisible(!isOpen);
-      chest.setVisible(!isOpen);
-
-      if (wasOpen === isOpen) {
-        this.mmoService.state.context.server?.send(0, {
-          action: "open_clubhouse",
-        });
-      }
-
-      return;
-    };
-
-    const server = this.mmoService.state.context.server;
-    if (!server) return;
-
-    server.state.actions.onAdd(async (action) => {
-      if (
-        action.event === "open_clubhouse" &&
-        !!this.layers["Club House Door"].visible
-      ) {
-        this.layers["Club House Door"].setVisible(false);
-
-        await new Promise((res) => setTimeout(res, 1000));
-
-        this.layers["Club House Door"].setVisible(true);
-      }
-    });
   }
 }

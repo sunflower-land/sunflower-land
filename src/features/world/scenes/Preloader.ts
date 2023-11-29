@@ -3,16 +3,17 @@ import { CONFIG } from "lib/config";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { createErrorLogger } from "lib/errorLogger";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
+import { GameState } from "features/game/types/game";
 
 export abstract class Preloader extends Phaser.Scene {
-  public get gameService() {
-    return this.registry.get("gameService") as MachineInterpreter;
+  public get id() {
+    return this.registry.get("id") as number;
   }
 
   preload() {
     const errorLogger = createErrorLogger(
       "phaser_preloader_scene",
-      Number(this.gameService.state.context.farmId)
+      Number(this.id)
     );
 
     this.load.on(

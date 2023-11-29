@@ -331,8 +331,7 @@ export class PlazaScene extends BaseScene {
       .find((object) => object.data?.list?.id === "clubhouse_door");
 
     // TODO
-    const canAccess =
-      Object.keys(this.gameService.state.context.state.buds ?? {}).length > 0;
+    const canAccess = Object.keys(this.gameState.buds ?? {}).length > 0;
 
     if (door && canAccess) {
       this.physics.world.disable(door);

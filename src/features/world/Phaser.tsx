@@ -49,7 +49,6 @@ import SoundOffIcon from "assets/icons/sound_off.png";
 import { handleCommand } from "./lib/chatCommands";
 import { Moderation } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
-import { HalloweenScene } from "./scenes/HalloweenScene";
 import { hasFeatureAccess } from "lib/flags";
 import { Inventory } from "features/game/types/game";
 
@@ -119,9 +118,7 @@ export const PhaserComponent: React.FC<Props> = ({
         ClothesShopScene,
         DecorationShopScene,
         BeachScene,
-        ...(hasFeatureAccess(gameService.state.context.state, "HALLOWEEN")
-          ? [HalloweenScene]
-          : [PlazaScene]),
+        PlazaScene,
       ];
 
   useEffect(() => {
@@ -205,7 +202,8 @@ export const PhaserComponent: React.FC<Props> = ({
     });
 
     game.current.registry.set("mmoService", mmoService);
-    game.current.registry.set("gameService", gameService);
+    game.current.registry.set("gameState", gameService.state.context.state);
+    game.current.registry.set("id", gameService.state.context.farmId);
     game.current.registry.set("initialScene", scene);
     gameService.onEvent((e) => {
       if (e.type === "bumpkin.equipped") {
