@@ -1019,7 +1019,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Pink Ponytail": () => false, // Not Launched
   "Silver Streaks": () => false, // Not Launched,
   "Brown Rancher Hair": () => false,
-  "Parsnip Horns": () => false,
+  "Parsnip Horns": () => true, // Released 24/11/23
   "Potato Suit": () => false,
   "Whale Hat": () => true,
   "Pumpkin Shirt": () => true,
