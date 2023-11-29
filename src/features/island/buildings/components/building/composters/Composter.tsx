@@ -12,7 +12,6 @@ import { ComposterName } from "features/game/types/composters";
 import { CompostBuilding } from "features/game/types/game";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
-import { ITEM_DETAILS } from "features/game/types/images";
 
 const getComposter = (type: BuildingName) => (state: MachineState) =>
   state.context.state.buildings[type]?.[0] as CompostBuilding;
@@ -125,7 +124,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
           {composter.boost && (
             <>
               <img
-                src={ITEM_DETAILS.Egg.image}
+                src={SUNNYSIDE.icons.stopwatch}
                 className="absolute z-10"
                 style={{
                   width: `${PIXEL_SCALE * 10}px`,
