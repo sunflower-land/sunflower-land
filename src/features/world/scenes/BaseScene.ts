@@ -2,7 +2,6 @@ import Phaser, { Physics } from "phaser";
 
 import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
-import { MachineInterpreter as GameMachineInterpreter } from "features/game/lib/gameMachine";
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { interactableModalManager } from "../ui/InteractableModals";

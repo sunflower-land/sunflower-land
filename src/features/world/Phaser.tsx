@@ -49,7 +49,6 @@ import SoundOffIcon from "assets/icons/sound_off.png";
 import { handleCommand } from "./lib/chatCommands";
 import { Moderation } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
-import { hasFeatureAccess } from "lib/flags";
 import { Inventory } from "features/game/types/game";
 
 const _roomState = (state: MachineState) => state.value;

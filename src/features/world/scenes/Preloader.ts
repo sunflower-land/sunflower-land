@@ -2,8 +2,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { createErrorLogger } from "lib/errorLogger";
-import { MachineInterpreter } from "features/game/lib/gameMachine";
-import { GameState } from "features/game/types/game";
 
 export abstract class Preloader extends Phaser.Scene {
   public get id() {
