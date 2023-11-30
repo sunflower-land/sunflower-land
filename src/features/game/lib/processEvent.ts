@@ -261,7 +261,9 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   }
 
   const auctionSFL = newState.auctioneer.bid?.sfl ?? new Decimal(0);
-  const progress = newState.balance.add(auctionSFL).sub(newState.balance);
+  const progress = newState.balance
+    .add(auctionSFL)
+    .sub(newState.previousBalance);
 
   /**
    * Contract enforced SFL caps
