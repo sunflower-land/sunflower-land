@@ -90,7 +90,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
     }
   };
 
-  const enabled = true;
+  const enabled = authState.context.user.token?.userAccess.withdraw;
   const disableWithdraw =
     safeAmount(amount).gte(balance) || safeAmount(amount).lt(0);
 

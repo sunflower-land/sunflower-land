@@ -92,7 +92,12 @@ export type Token = {
   address: string;
   exp: number;
   userAccess: {
+    withdraw: boolean;
+    createFarm: boolean;
+    sync: boolean;
+    mintCollectible: boolean;
     admin?: boolean;
+    landExpansion?: boolean;
     verified?: boolean;
   };
   discordId?: string;

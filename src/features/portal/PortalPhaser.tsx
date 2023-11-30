@@ -8,9 +8,7 @@ import { PortalContext } from "./PortalProvider";
 import { useActor } from "@xstate/react";
 import { ExampleScene } from "./ExampleScene";
 
-interface Props {}
-
-export const PortalPhaser: React.FC<Props> = ({}) => {
+export const PortalPhaser: React.FC = () => {
   const { portalService } = useContext(PortalContext);
   const [portalState] = useActor(portalService);
 
@@ -18,7 +16,7 @@ export const PortalPhaser: React.FC<Props> = ({}) => {
 
   const game = useRef<Game>();
 
-  const scene = "plaza";
+  const scene = "example";
 
   const scenes = [Preloader, ExampleScene];
 

@@ -52,7 +52,7 @@ export const portalMachine = createMachine({
         {
           target: "unauthorised",
           // TODO: Also validate token
-          cond: (context) => !context.jwt,
+          cond: (context) => !!CONFIG.API_URL && !context.jwt,
         },
         {
           target: "loading",
@@ -64,16 +64,20 @@ export const portalMachine = createMachine({
       id: "loading",
       invoke: {
         src: async (context) => {
-          const player = await loadPortal({
+          if (!CONFIG.API_URL) {
+            return { game: OFFLINE_FARM };
+          }
+
+          const { game } = await loadPortal({
             portalId: CONFIG.PORTAL_APP,
             token: context.jwt as string,
           });
 
-          return player;
+          return { game };
         },
         onDone: [
           {
-            target: "idle",
+            target: "ready",
             actions: assign({
               state: (_: any, event) => event.data.game,
             }),
@@ -84,13 +88,7 @@ export const portalMachine = createMachine({
         },
       },
     },
-    idle: {
-      on: {
-        START: {
-          target: "ready",
-        },
-      },
-    },
+    idle: {},
     ready: {},
     error: {},
   },
