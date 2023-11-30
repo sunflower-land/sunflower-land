@@ -495,6 +495,7 @@ export const authMachine = createMachine(
           context.transactionId as string,
           wallet.myAccount
         );
+        console.log({ token });
         return { token };
       },
     },

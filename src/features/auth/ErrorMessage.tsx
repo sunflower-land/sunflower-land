@@ -19,6 +19,7 @@ import { Blocked } from "./components/Blocked";
 import { ClockIssue } from "features/game/components/ClockIssue";
 import { SFLExceeded } from "features/game/components/SFLExceeded";
 import { MultipleWallets } from "./components/MultipleWallets";
+import { NotOnDiscordServer } from "./components/NotOnDiscordServer";
 
 interface Props {
   errorCode: ErrorCode;
@@ -79,6 +80,10 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
 
   if (errorCode === ERRORS.DISCORD_USER_EXISTS) {
     return <DuplicateUser />;
+  }
+
+  if (errorCode === ERRORS.DISCORD_NOT_ON_SERVER) {
+    return <NotOnDiscordServer />;
   }
 
   if (errorCode === ERRORS.NETWORK_CONGESTED) {

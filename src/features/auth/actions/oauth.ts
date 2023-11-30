@@ -48,6 +48,8 @@ export async function oauthorise(
     transactionId,
   });
 
+  console.log({ token });
+
   saveSession(account, { token });
 
   return { token };

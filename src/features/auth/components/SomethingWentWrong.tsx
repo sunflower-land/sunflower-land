@@ -119,9 +119,9 @@ export const SomethingWentWrong: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
 
-  const id = gameService.state.context.farmId;
   // If we get a connecting error before the game has loaded then try to connect again via the authService
   const service = gameService ?? authService;
+  const id = service.state.context?.farmId;
 
   const [
     {
