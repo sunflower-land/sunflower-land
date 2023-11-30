@@ -5,6 +5,7 @@ import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { PortalPhaser } from "./PortalPhaser";
+import { PortalHud } from "./components/PortalHud";
 
 export const Portal: React.FC = () => {
   const { portalService } = useContext(PortalContext);
@@ -41,7 +42,12 @@ export const Portal: React.FC = () => {
           </Panel>
         </Modal>
       )}
-      {portalState.matches("ready") && <PortalPhaser />}
+      {portalState.matches("ready") && (
+        <>
+          <PortalHud />
+          <PortalPhaser />
+        </>
+      )}
     </div>
   );
 };
