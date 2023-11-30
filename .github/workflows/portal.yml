@@ -35,6 +35,7 @@ jobs:
           VITE_CLIENT_VERSION: ${{ steps.date.outputs.date }}
           VITE_RELEASE_VERSION: ${{ steps.get_version.outputs.VERSION }}
           VITE_PRIVATE_IMAGE_URL: "https://sunflower-land.com/game-assets"
+          VITE_API_URL: "https://f5axg3frqc.execute-api.us-east-1.amazonaws.com"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9
