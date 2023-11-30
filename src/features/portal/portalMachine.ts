@@ -64,13 +64,10 @@ export const portalMachine = createMachine({
       id: "loading",
       invoke: {
         src: async (context) => {
-          // Grab ID from token
           const player = await loadPortal({
             portalId: CONFIG.PORTAL_APP,
             token: context.jwt as string,
           });
-          // await new Promise((r) => setTimeout(r, 2000));
-          // Load game state
 
           return player;
         },
@@ -78,7 +75,7 @@ export const portalMachine = createMachine({
           {
             target: "idle",
             actions: assign({
-              state: (_, event) => event.data.game,
+              state: (_: any, event) => event.data.game,
             }),
           },
         ],
