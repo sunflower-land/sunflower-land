@@ -8,6 +8,7 @@ export type NPCName =
   | "orlin"
   | "blacksmith"
   | "grimbly"
+  | "wizard"
   | "grimtooth"
   | "grubnuk"
   | "marcus"
@@ -56,6 +57,16 @@ export type NPCName =
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   // TODO
+  wizard: {
+    background: "Farm Background",
+    body: "Beige Farmer Potion",
+    hair: "Wise Hair",
+    shoes: "Black Farmer Boots",
+    hat: "Feather Hat",
+    tool: "Sunflower Rod",
+    pants: "Traveller's Pants",
+    shirt: "Traveller's Shirt",
+  },
   "reelin roy": {
     background: "Farm Background",
     body: "Beige Farmer Potion",

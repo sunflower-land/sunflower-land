@@ -1,3 +1,4 @@
+# Example Portal Deploy
 name: Portal deploy
 
 on:
@@ -49,13 +50,3 @@ jobs:
 
       - name: Deploy static site to S3 bucket
         run: aws s3 sync ./dist/ s3://www.infected.sunflower-land.com --delete
-
-      # TODO
-      # - name: Invalidate CloudFront
-      #   uses: chetan/invalidate-cloudfront-action@v2
-      #   env:
-      #     DISTRIBUTION: ${{ secrets.CF_DISTRIBUTION }}
-      #     PATHS: "/testnet/*"
-      #     AWS_REGION: "us-east-1"
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

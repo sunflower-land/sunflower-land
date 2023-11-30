@@ -41,9 +41,6 @@ import { Bud } from "features/island/buds/Bud";
 import { Fisherman } from "features/island/fisherman/Fisherman";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { Airdrop } from "./components/Airdrop";
-import { Modal } from "react-bootstrap";
-import { Panel } from "components/ui/Panel";
-import { Portals } from "features/world/ui/portals/Portals";
 
 export const LAND_WIDTH = 6;
 
@@ -565,12 +562,6 @@ export const Land: React.FC = () => {
       )}
 
       {!landscaping && !visiting && <Hud isFarming={true} />}
-
-      <Modal show centered>
-        <Panel>
-          <Portals />
-        </Panel>
-      </Modal>
     </>
   );
 };

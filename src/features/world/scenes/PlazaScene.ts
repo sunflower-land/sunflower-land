@@ -5,8 +5,18 @@ import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { AudioController } from "../lib/AudioController";
+import { CONFIG } from "lib/config";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
+  ...(CONFIG.NETWORK === "mumbai"
+    ? [
+        {
+          x: 401,
+          y: 274,
+          npc: "wizard",
+        } as NPCBumpkin,
+      ]
+    : []),
   {
     x: 371,
     y: 344,
