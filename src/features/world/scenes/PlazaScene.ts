@@ -5,8 +5,18 @@ import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { AudioController } from "../lib/AudioController";
+import { CONFIG } from "lib/config";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
+  ...(CONFIG.NETWORK === "mumbai"
+    ? [
+        {
+          x: 401,
+          y: 274,
+          npc: "wizard",
+        } as NPCBumpkin,
+      ]
+    : []),
   {
     x: 371,
     y: 344,
@@ -331,8 +341,7 @@ export class PlazaScene extends BaseScene {
       .find((object) => object.data?.list?.id === "clubhouse_door");
 
     // TODO
-    const canAccess =
-      Object.keys(this.gameService.state.context.state.buds ?? {}).length > 0;
+    const canAccess = Object.keys(this.gameState.buds ?? {}).length > 0;
 
     if (door && canAccess) {
       this.physics.world.disable(door);
@@ -358,7 +367,7 @@ export class PlazaScene extends BaseScene {
       chest.setVisible(!isOpen);
 
       if (wasOpen === isOpen) {
-        this.mmoService.state.context.server?.send(0, {
+        this.mmoService?.state.context.server?.send(0, {
           action: "open_clubhouse",
         });
       }
@@ -366,7 +375,7 @@ export class PlazaScene extends BaseScene {
       return;
     };
 
-    const server = this.mmoService.state.context.server;
+    const server = this.mmoService?.state.context.server;
     if (!server) return;
 
     server.state.actions.onAdd(async (action) => {

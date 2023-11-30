@@ -22,6 +22,7 @@ import { Donations } from "./donations/Donations";
 import { Shelly } from "./npcs/Shelly";
 import { Finn } from "./npcs/Finn";
 import { GoldTooth } from "./npcs/GoldTooth";
+import { Portals } from "./portals/Portals";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -194,6 +195,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
         {npc === "finn" && <Finn onClose={closeModal} />}
         {npc === "tango" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "wizard" && <Portals />}
       </Modal>
     </>
   );

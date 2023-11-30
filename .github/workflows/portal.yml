@@ -1,0 +1,52 @@
+# Example Portal Deploy
+name: Portal deploy
+
+on:
+  push:
+    branches:
+      - feat/portal-adventure
+
+jobs:
+  deploy:
+    concurrency: portal-deploy
+    environment: develop
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M')"
+
+      - name: Get the current version ref
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_SHA}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn build
+        env:
+          NODE_OPTIONS: --max-old-space-size=6144
+          CI: false
+
+          VITE_PORTAL_APP: "infected"
+          VITE_CLIENT_VERSION: ${{ steps.date.outputs.date }}
+          VITE_RELEASE_VERSION: ${{ steps.get_version.outputs.VERSION }}
+          VITE_PRIVATE_IMAGE_URL: "https://sunflower-land.com/game-assets"
+          VITE_API_URL: "https://api-dev.sunflower-land.com"
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1.5.9
+        with:
+          aws-access-key-id: ${{ secrets.DEPLOY_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.DEPLOY_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+
+      - name: Deploy static site to S3 subdomain
+        run: aws s3 sync ./dist/ s3://infected.sunflower-land.com --delete
+
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync ./dist/ s3://www.infected.sunflower-land.com --delete

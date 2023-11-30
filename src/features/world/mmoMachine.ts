@@ -23,6 +23,7 @@ export type Scenes = {
   dawn_breaker: Room<PlazaRoomState> | undefined;
   marcus_home: Room<PlazaRoomState> | undefined;
   beach: Room<PlazaRoomState> | undefined;
+  example: Room<PlazaRoomState> | undefined;
 };
 export type SceneId = keyof Scenes;
 

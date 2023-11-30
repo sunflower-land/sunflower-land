@@ -45,6 +45,8 @@ export const ERRORS = {
   ONRAMP_SERVER_ERROR: "ON-001",
   BUMPKINS_METADATA_ERROR: "BM-001",
 
+  PORTAL_LOGIN_ERROR: "PL-001",
+
   // Wishing well errors
   NO_TOKENS: "NO_TOKENS",
 

@@ -57,8 +57,7 @@ export class BeachScene extends BaseScene {
   preload() {
     super.preload();
 
-    this.krakenHunger =
-      this.gameService.state.context.state?.catchTheKraken?.hunger;
+    this.krakenHunger = this.gameState.catchTheKraken?.hunger;
 
     this.load.spritesheet("beach_bud", "world/turtle.png", {
       frameWidth: 15,
