@@ -12,6 +12,14 @@ export const Portal: React.FC = () => {
 
   return (
     <div>
+      {portalState.matches("error") && (
+        <Modal centered show>
+          <Panel>
+            <span>Something went wrong</span>
+          </Panel>
+        </Modal>
+      )}
+
       {portalState.matches("loading") && (
         <Modal centered show>
           <Panel>

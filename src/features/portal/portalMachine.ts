@@ -1,6 +1,8 @@
 import { OFFLINE_FARM } from "features/game/lib/landData";
 import { GameState } from "features/game/types/game";
-import { createMachine, Interpreter, State } from "xstate";
+import { assign, createMachine, Interpreter, State } from "xstate";
+import { loadPortal } from "./actions/loadPortal";
+import { CONFIG } from "lib/config";
 
 const getJWT = () => {
   const code = new URLSearchParams(window.location.search).get("jwt");
@@ -17,7 +19,13 @@ export interface Context {
 export type PortalEvent = { type: "START" };
 
 export type PortalState = {
-  value: "initialising" | "idle" | "ready" | "unauthorised" | "loading";
+  value:
+    | "initialising"
+    | "error"
+    | "idle"
+    | "ready"
+    | "unauthorised"
+    | "loading";
   context: Context;
 };
 
@@ -43,7 +51,7 @@ export const portalMachine = createMachine({
       always: [
         {
           target: "unauthorised",
-          // Validate token
+          // TODO: Also validate token
           cond: (context) => !context.jwt,
         },
         {
@@ -57,14 +65,26 @@ export const portalMachine = createMachine({
       invoke: {
         src: async (context) => {
           // Grab ID from token
+          const player = await loadPortal({
+            portalId: CONFIG.PORTAL_APP,
+            token: context.jwt as string,
+          });
           // await new Promise((r) => setTimeout(r, 2000));
           // Load game state
+
+          return player;
         },
         onDone: [
           {
             target: "idle",
+            actions: assign({
+              state: (_, event) => event.data.game,
+            }),
           },
         ],
+        onError: {
+          target: "error",
+        },
       },
     },
     idle: {
@@ -75,5 +95,6 @@ export const portalMachine = createMachine({
       },
     },
     ready: {},
+    error: {},
   },
 });
