@@ -200,6 +200,13 @@ export const SignIn = () => {
         >
           Google
         </Button>
+        <Button
+          onClick={() =>
+            (window.location.href = `${CONFIG.API_URL}/auth/cognito/authorize`)
+          }
+        >
+          Cognito
+        </Button>
       </>
     );
   };

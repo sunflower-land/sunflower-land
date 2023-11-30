@@ -6,4 +6,5 @@ export enum Web3SupportedProviders {
   WALLET_CONNECT = "Wallet Connect",
   CRYPTO_COM = "Crypto.com",
   BITGET = "Bitkeep",
+  SUNFLOWER_LAND = "Sunflower Land",
 }

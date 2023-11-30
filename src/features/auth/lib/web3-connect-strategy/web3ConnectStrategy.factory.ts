@@ -26,5 +26,7 @@ export function web3ConnectStrategyFactory(
       return new CryptoComStrategy();
     case Web3SupportedProviders.BITGET:
       return new BitgetStrategy();
+    case Web3SupportedProviders.SUNFLOWER_LAND:
+      throw new Error("Not implemented");
   }
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import goblinDonation from "assets/splash/goblin_donation.gif";
 import humanDeath from "assets/npcs/human_death.gif";
@@ -80,30 +80,30 @@ function preloadImage(src: string) {
 export function useImagePreloader() {
   const [imagesPreloaded, setImagesPreloaded] = useState<boolean>(false);
 
-  useEffect(() => {
-    let isCancelled = false;
+  // useEffect(() => {
+  //   let isCancelled = false;
 
-    async function load() {
-      if (isCancelled) return;
+  //   async function load() {
+  //     if (isCancelled) return;
 
-      const imagesPromiseList: Promise<any>[] = [];
-      for (const i of IMAGE_LIST) {
-        imagesPromiseList.push(preloadImage(i));
-      }
+  //     const imagesPromiseList: Promise<any>[] = [];
+  //     for (const i of IMAGE_LIST) {
+  //       imagesPromiseList.push(preloadImage(i));
+  //     }
 
-      await Promise.all(imagesPromiseList);
+  //     await Promise.all(imagesPromiseList);
 
-      if (isCancelled) return;
+  //     if (isCancelled) return;
 
-      setImagesPreloaded(true);
-    }
+  //     setImagesPreloaded(true);
+  //   }
 
-    load();
+  //   load();
 
-    return () => {
-      isCancelled = true;
-    };
-  }, []);
+  //   return () => {
+  //     isCancelled = true;
+  //   };
+  // }, []);
 
-  return { imagesPreloaded };
+  return { imagesPreloaded: true };
 }

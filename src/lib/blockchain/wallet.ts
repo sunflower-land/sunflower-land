@@ -283,6 +283,14 @@ export class Wallet {
     return this.account;
   }
 
+  public set myAccount(account: string | null) {
+    this.account = account;
+  }
+
+  public get myType() {
+    return this.type;
+  }
+
   public async getBlockNumber() {
     try {
       const number = await this.web3?.eth.getBlockNumber();

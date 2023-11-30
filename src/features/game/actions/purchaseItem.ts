@@ -39,7 +39,8 @@ export async function purchaseItem(request: Request) {
     throw new Error(ERRORS.MINT_COLLECTIBLE_SERVER_ERROR);
   }
 
-  const { gameState, farmAddress, ...transaction } = await response.json();
+  const { gameState, farmAddress, sessionId, ...transaction } =
+    await response.json();
 
   return {
     gameState,
@@ -48,6 +49,7 @@ export async function purchaseItem(request: Request) {
     verified: true,
     item: request.item,
     amount: request.amount,
+    sessionId,
   };
 }
 

@@ -1,6 +1,7 @@
 import { getDailyCode, trackDailyReward } from "lib/blockchain/DailyReward";
 import { wallet } from "lib/blockchain/wallet";
 import { ERRORS } from "lib/errors";
+import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { assign, createMachine, Interpreter, State } from "xstate";
 
 export interface DailyRewardContext {
@@ -140,11 +141,14 @@ export const rewardChestMachine = createMachine<
           if (!wallet.myAccount) throw new Error("No account");
 
           const nextCode = (context.code + 1) % 100;
-          await trackDailyReward({
-            web3: wallet.web3Provider,
-            account: wallet.myAccount,
-            code: nextCode,
-          });
+
+          if (wallet.myType !== Web3SupportedProviders.SUNFLOWER_LAND) {
+            await trackDailyReward({
+              web3: wallet.web3Provider,
+              account: wallet.myAccount,
+              code: nextCode,
+            });
+          }
 
           return { nextCode };
         },

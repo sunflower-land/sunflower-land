@@ -45,6 +45,10 @@ export async function mintAuctionItem(request: Request) {
 
   const transaction = await response.json();
 
+  if (transaction.sessionId) {
+    return transaction.sessionId;
+  }
+
   let sessionId;
   if (transaction.type === "collectible") {
     sessionId = await mintAuctionCollectible({

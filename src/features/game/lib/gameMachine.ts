@@ -80,6 +80,9 @@ import { mmoBus } from "features/world/mmoMachine";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { BudName } from "../types/buds";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { createAlchemyWeb3 } from "@alch/alchemy-web3";
+import { Web3SupportedProviders } from "lib/web3SupportedProviders";
+import { CONFIG } from "lib/config";
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -496,14 +499,20 @@ export function startGame(authContext: AuthContext) {
                 transactionId: context.transactionId as string,
               });
 
+              if (!wallet.myAccount) {
+                await wallet.initialise(
+                  createAlchemyWeb3(CONFIG.ALCHEMY_RPC),
+                  Web3SupportedProviders.SUNFLOWER_LAND
+                );
+                wallet.myAccount = response.wallet;
+              }
+
               setOnboardingComplete();
 
               let notifications: OnChainEvent[] = [];
 
               // Web3 Farm
               if (response.farmAddress) {
-                if (!wallet.myAccount) throw new Error("No account");
-
                 notifications = await unseenEvents({
                   farmAddress: response.farmAddress,
                   farmId: Number(response.farmId),
@@ -1076,9 +1085,7 @@ export function startGame(authContext: AuthContext) {
                 bid: context.state.auctioneer.bid,
               });
 
-              return {
-                sessionId: sessionId,
-              };
+              return { sessionId };
             },
             onDone: {
               target: "synced",
@@ -1195,15 +1202,21 @@ export function startGame(authContext: AuthContext) {
                     amount: (event as PurchaseEvent).amount,
                   });
                 },
-                onDone: {
-                  target: "transacting",
-                  actions: assign((_, event) => ({
-                    farmId: event.data.transaction.farmId,
-                    farmAddress: event.data.farmAddress,
-                    state: makeGame(event.data.gameState),
-                    sessionId: event.data.sessionId,
-                  })),
-                },
+                onDone: [
+                  {
+                    target: "#loading",
+                    cond: (_, event) => !!event.data.sessionId,
+                  },
+                  {
+                    target: "transacting",
+                    actions: assign((_, event) => ({
+                      farmId: event.data.transaction.farmId,
+                      farmAddress: event.data.farmAddress,
+                      state: makeGame(event.data.gameState),
+                      sessionId: event.data.sessionId,
+                    })),
+                  },
+                ],
                 onError: {
                   target: "#error",
                   actions: "assignErrorMessage",
