@@ -416,6 +416,11 @@ export const authMachine = createMachine(
       },
       unauthorised: {
         id: "unauthorised",
+        on: {
+          RETURN: {
+            target: "idle",
+          },
+        },
       },
       visiting: {
         entry: (context) => {
