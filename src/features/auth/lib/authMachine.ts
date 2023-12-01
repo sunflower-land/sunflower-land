@@ -416,6 +416,11 @@ export const authMachine = createMachine(
       },
       unauthorised: {
         id: "unauthorised",
+        on: {
+          RETURN: {
+            target: "idle",
+          },
+        },
       },
       visiting: {
         entry: (context) => {
@@ -495,7 +500,6 @@ export const authMachine = createMachine(
           context.transactionId as string,
           wallet.myAccount
         );
-        console.log({ token });
         return { token };
       },
     },

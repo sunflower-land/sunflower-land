@@ -37,9 +37,6 @@ export async function oauthorise(
   transactionId: string,
   account: string
 ): Promise<{ token: string }> {
-  // Remove query parameters from url
-  window.history.pushState({}, "", window.location.pathname);
-
   const { token: oldToken } = await login(transactionId, account);
 
   const { token } = await oauthoriseRequest({
@@ -48,7 +45,8 @@ export async function oauthorise(
     transactionId,
   });
 
-  console.log({ token });
+  // Remove query parameters from url
+  window.history.pushState({}, "", window.location.pathname);
 
   saveSession(account, { token });
 
