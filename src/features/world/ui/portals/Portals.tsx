@@ -6,7 +6,7 @@ import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { wallet } from "lib/blockchain/wallet";
 
-const PORTAL_IDS = ["infected"];
+const PORTAL_IDS = ["infected", "crop-boom"];
 
 export const Portals: React.FC = () => {
   const { gameService } = useContext(Context);
