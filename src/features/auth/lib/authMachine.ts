@@ -57,6 +57,11 @@ const isPassiveFailureMessage = (failureMessage: string): boolean => {
   );
 };
 
+const getToken = () => {
+  const token = new URLSearchParams(window.location.search).get("token");
+  return token;
+};
+
 type Farm = {
   farmId: number;
   address: string;
@@ -206,6 +211,11 @@ export const authMachine = createMachine(
           }
         },
         always: [
+          {
+            target: "connected",
+            cond: () => !!getToken(),
+            actions: "assignWeb2Token",
+          },
           {
             target: "welcome",
             cond: () => !getOnboardingComplete(),
@@ -509,6 +519,13 @@ export const authMachine = createMachine(
           ...context.user,
           token: decodeToken(event.data.token),
           rawToken: event.data.token,
+        }),
+      }),
+      assignWeb2Token: assign<Context, any>({
+        user: (context, event) => ({
+          ...context.user,
+          token: decodeToken(getToken() as string),
+          rawToken: getToken() as string,
         }),
       }),
       assignErrorMessage: assign<Context, any>({
