@@ -147,7 +147,14 @@ export function getAvailableGameState({
     const firstAmount = onChain.inventory[name] || new Decimal(0);
     const secondAmount = availableItems[name] || new Decimal(0);
 
-    const amount = firstAmount.lt(secondAmount) ? firstAmount : secondAmount;
+    let amount: Decimal;
+
+    // Gold Pass was airdropped to all farms created prior to the pass release. This is a large number of farms. We will prefer the off chain balance in this case.
+    if (name === "Gold Pass") {
+      amount = secondAmount;
+    } else {
+      amount = firstAmount.lt(secondAmount) ? firstAmount : secondAmount;
+    }
 
     if (amount.eq(0)) {
       return inv;
