@@ -1080,4 +1080,6 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Pickaxe Shark": () => false,
   "Seedling Hat": () => false,
   "Stormy Dumbo": () => false,
+  "Ugly Christmas Sweater": () =>
+    canWithdrawTimebasedItem(new Date("2023-12-21")), // Available until 2024/01/01
 };
