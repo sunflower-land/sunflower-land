@@ -17,7 +17,7 @@ export const CropBoomPhaser: React.FC = () => {
 
   const game = useRef<Game>();
 
-  const scene = "example";
+  const scene = "crop_boom";
 
   const scenes = [Preloader, CropBoomScene];
 
@@ -71,6 +71,7 @@ export const CropBoomPhaser: React.FC = () => {
     game.current.registry.set("initialScene", scene);
     game.current.registry.set("gameState", portalState.context.state);
     game.current.registry.set("id", portalState.context.id);
+    game.current.registry.set("mmoServer", portalState.context.mmoServer);
 
     setLoaded(true);
 
@@ -78,19 +79,6 @@ export const CropBoomPhaser: React.FC = () => {
       game.current?.destroy(true);
     };
   }, []);
-
-  useEffect(() => {
-    if (!loaded) return;
-
-    const activeScene = game.current?.scene
-      .getScenes(false)
-      // Corn maze pauses when game is over so we need to filter for active and paused scenes.
-      .filter((s) => s.scene.isActive() || s.scene.isPaused())[0];
-
-    if (activeScene) {
-      activeScene.scene.start(scene);
-    }
-  }, [scene]);
 
   const ref = useRef<HTMLDivElement>(null);
 

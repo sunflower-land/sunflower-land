@@ -7,7 +7,7 @@ export type SpawnLocation = Record<
 >;
 
 export const SPAWNS: SpawnLocation = {
-  example: {
+  crop_boom: {
     default: {
       x: 220,
       y: 422,

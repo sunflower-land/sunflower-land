@@ -19,10 +19,11 @@ import {
   MachineInterpreter as MMOMachineInterpreter,
   SceneId,
 } from "../mmoMachine";
-import { Player } from "../types/Room";
+import { Player, PlazaRoomState } from "../types/Room";
 import { playerModalManager } from "../ui/PlayerModals";
 import { hasFeatureAccess } from "lib/flags";
 import { GameState } from "features/game/types/game";
+import { Room } from "colyseus.js";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -363,7 +364,7 @@ export abstract class BaseScene extends Phaser.Scene {
       });
     }
 
-    const server = this.mmoService?.state.context.server;
+    const server = this.mmoServer;
     if (!server) return;
 
     const removeMessageListener = server.state.messages.onAdd((message) => {
@@ -440,8 +441,13 @@ export abstract class BaseScene extends Phaser.Scene {
     this.input.setTopOnly(true);
   }
 
+  // LEGACY: Used in community islands
   public get mmoService() {
     return this.registry.get("mmoService") as MMOMachineInterpreter | undefined;
+  }
+
+  public get mmoServer() {
+    return this.registry.get("mmoServer") as Room<PlazaRoomState>;
   }
 
   public get gameState() {
@@ -692,26 +698,7 @@ export abstract class BaseScene extends Phaser.Scene {
       currentPlayerBody.setVelocity(0, 0);
     }
 
-    // sync player position to server
-    if (
-      // Hasn't sent to server recently
-      Date.now() - this.packetSentAt > 1000 / SEND_PACKET_RATE &&
-      // Position has changed
-      (this.serverPosition.x !== this.currentPlayer.x ||
-        this.serverPosition.y !== this.currentPlayer.y)
-    ) {
-      this.serverPosition = {
-        x: this.currentPlayer.x,
-        y: this.currentPlayer.y,
-      };
-
-      this.packetSentAt = Date.now();
-
-      const server = this.mmoService?.state.context.server;
-      if (server) {
-        server.send(0, this.serverPosition);
-      }
-    }
+    this.sendPositionToServer();
 
     const isMoving = this.movementAngle !== undefined;
 
@@ -745,8 +732,35 @@ export abstract class BaseScene extends Phaser.Scene {
     // this.cameras.main.setScroll(this.currentPlayer.x, this.currentPlayer.y);
   }
 
+  sendPositionToServer() {
+    if (!this.currentPlayer) {
+      return;
+    }
+
+    // sync player position to server
+    if (
+      // Hasn't sent to server recently
+      Date.now() - this.packetSentAt > 1000 / SEND_PACKET_RATE &&
+      // Position has changed
+      (this.serverPosition.x !== this.currentPlayer.x ||
+        this.serverPosition.y !== this.currentPlayer.y)
+    ) {
+      this.serverPosition = {
+        x: this.currentPlayer.x,
+        y: this.currentPlayer.y,
+      };
+
+      this.packetSentAt = Date.now();
+
+      const server = this.mmoServer;
+      if (server) {
+        server.send(0, this.serverPosition);
+      }
+    }
+  }
+
   syncPlayers() {
-    const server = this.mmoService?.state.context.server;
+    const server = this.mmoServer;
     if (!server) return;
 
     // Destroy any dereferenced players
@@ -759,6 +773,8 @@ export abstract class BaseScene extends Phaser.Scene {
       if (!this.playerEntities[sessionId]?.active)
         this.destroyPlayer(sessionId);
     });
+
+    // console.log({ players: server.state.players.size });
 
     // Create new players
     server.state.players.forEach((player, sessionId) => {
@@ -782,7 +798,7 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   updateClothing() {
-    const server = this.mmoService?.state.context.server;
+    const server = this.mmoServer;
     if (!server) return;
 
     // Update clothing
@@ -796,7 +812,7 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   renderPlayers() {
-    const server = this.mmoService?.state.context.server;
+    const server = this.mmoServer;
     if (!server) return;
 
     const playerInVIP = this.physics.world.overlap(
@@ -856,7 +872,7 @@ export abstract class BaseScene extends Phaser.Scene {
     }
   }
   updateOtherPlayers() {
-    const server = this.mmoService?.state.context.server;
+    const server = this.mmoServer;
     if (!server) return;
 
     this.syncPlayers();
