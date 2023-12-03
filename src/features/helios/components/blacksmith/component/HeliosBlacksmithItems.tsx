@@ -99,6 +99,10 @@ export const HeliosBlacksmithItems: React.FC = () => {
   const closeConfirmationModal = () => {
     showConfirmBuyModal(false);
   };
+  const handleBuy = () => {
+    craft();
+    showConfirmBuyModal(false);
+  };
 
   return (
     <SplitScreenView
@@ -140,7 +144,7 @@ export const HeliosBlacksmithItems: React.FC = () => {
                     <div className="flex justify-content-around mt-2 space-x-1">
                       <Button
                         disabled={lessIngredients() || isNotReady(selectedItem)}
-                        onClick={craft}
+                        onClick={handleBuy}
                       >
                         Craft
                       </Button>
