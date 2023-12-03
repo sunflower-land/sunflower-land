@@ -4,7 +4,7 @@ import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 
 import { Preloader } from "features/world/scenes/Preloader";
-import { PortalContext } from "../../lib/PortalProvider";
+import { PortalContext } from "./lib/PortalProvider";
 import { useActor } from "@xstate/react";
 import { CropBoomScene } from "./CropBoomScene";
 import { InteractableModals } from "features/world/ui/InteractableModals";

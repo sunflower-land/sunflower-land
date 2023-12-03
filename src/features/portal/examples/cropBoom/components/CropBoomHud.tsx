@@ -10,7 +10,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import worldIcon from "assets/icons/world.png";
 import { goHome } from "../lib/portalUtil";
 
-export const PortalHud: React.FC = () => {
+export const CropBoomHud: React.FC = () => {
   const { portalService } = useContext(PortalContext);
   const [portalState] = useActor(portalService);
 

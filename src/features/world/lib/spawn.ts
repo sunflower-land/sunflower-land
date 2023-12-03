@@ -9,8 +9,8 @@ export type SpawnLocation = Record<
 export const SPAWNS: SpawnLocation = {
   example: {
     default: {
-      x: 348,
-      y: 322,
+      x: 220,
+      y: 422,
     },
   },
   beach: {

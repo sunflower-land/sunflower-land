@@ -12,6 +12,14 @@ const getJWT = () => {
   return code;
 };
 
+const hasReadRules = () => {
+  return !!localStorage.getItem("rules.read");
+};
+
+export const acknowledgeCropBoomRules = () => {
+  localStorage.setItem("rules.read", new Date().toISOString());
+};
+
 export interface Context {
   id: number;
   jwt: string;
@@ -70,7 +78,31 @@ export const portalMachine = createMachine({
         },
       ],
     },
-    unauthorised: {},
+    introduction: {
+      always: [
+        { target: "rules", cond: () => !hasReadRules() },
+        {
+          target: "completed",
+          cond: (c) => {
+            const todayKey = new Date().toISOString().slice(0, 10);
+
+            const portals = (c.state?.portals ??
+              {}) as Required<GameState>["portals"];
+
+            const portal = portals[CONFIG.PORTAL_APP as PortalName];
+
+            const alreadyMintedToday =
+              portal?.history[todayKey]?.arcadeTokensMinted ?? 0;
+
+            return alreadyMintedToday > 0;
+          },
+        },
+        {
+          target: "ready",
+        },
+      ],
+    },
+
     loading: {
       id: "loading",
       invoke: {
@@ -99,30 +131,15 @@ export const portalMachine = createMachine({
         },
       },
     },
-    introduction: {
-      always: [
-        // { target: "rules" },
-        {
-          target: "completed",
-          cond: (c) => {
-            const todayKey = new Date().toISOString().slice(0, 10);
 
-            const portals = (c.state?.portals ??
-              {}) as Required<GameState>["portals"];
-
-            const portal = portals[CONFIG.PORTAL_APP as PortalName];
-
-            const alreadyMintedToday =
-              portal?.history[todayKey]?.arcadeTokensMinted ?? 0;
-
-            return alreadyMintedToday > 0;
-          },
+    rules: {
+      on: {
+        CONTINUE: {
+          target: "introduction",
         },
-        {
-          target: "ready",
-        },
-      ],
+      },
     },
+
     ready: {
       on: {
         CLAIM: {
@@ -156,7 +173,6 @@ export const portalMachine = createMachine({
       },
     },
 
-    error: {},
     completed: {
       on: {
         CONTINUE: {
@@ -164,5 +180,13 @@ export const portalMachine = createMachine({
         },
       },
     },
+    error: {
+      on: {
+        RETRY: {
+          target: "initialising",
+        },
+      },
+    },
+    unauthorised: {},
   },
 });
