@@ -15,8 +15,10 @@ import {
 import { getSellPrice } from "features/game/events/landExpansion/treasureSold";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const TreasureShopSell: React.FC = () => {
+  const { t } = useAppTranslation();
   const beachBountyTreasure = getKeys(SELLABLE_TREASURE).sort((a, b) =>
     SELLABLE_TREASURE[a].sellPrice
       .sub(SELLABLE_TREASURE[b].sellPrice)
@@ -59,7 +61,7 @@ export const TreasureShopSell: React.FC = () => {
           }}
           actionView={
             <Button disabled={amount.lt(1)} onClick={() => sell(1)}>
-              Sell
+              {t("sell")}
             </Button>
           }
         />

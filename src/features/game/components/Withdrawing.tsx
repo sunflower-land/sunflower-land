@@ -1,5 +1,7 @@
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 
 export const Withdrawing: React.FC = () => {
-  return <span className="loading">Withdrawing</span>;
+  const { t } = useAppTranslation();
+  return <span className="loading">{t("withdrawing")}</span>;
 };

@@ -21,6 +21,7 @@ import stable_hand from "assets/skills/land/animals/stable_hand.png";
 import tough_tree from "assets/skills/land/trees/tough_tree.png";
 import tree_hugger from "assets/skills/land/trees/tree_hugger.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { translate } from "lib/i18n/translate";
 
 export type BumpkinSkillName =
   | "Green Thumb"
@@ -72,7 +73,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     requirements: {
       points: 1,
     },
-    boosts: "Crops yield 5% more",
+    boosts: translate("description.green.thumb"),
     image: green_thumb_LE,
   },
   Cultivator: {
@@ -82,7 +83,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 1,
       skill: "Green Thumb",
     },
-    boosts: "Crops grow 5% quicker",
+    boosts: translate("description.cultivator"),
     image: cultivator,
   },
   "Master Farmer": {
@@ -92,7 +93,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Cultivator",
     },
-    boosts: "Crops yield 10% more",
+    boosts: translate("description.master.farmer"),
     image: master_farmer,
   },
   "Golden Flowers": {
@@ -102,7 +103,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Master Farmer",
     },
-    boosts: "Chance for Sunflowers to Drop Gold ",
+    boosts: translate("description.golden.flowers"),
     image: golden_flowers,
   },
   "Plant Whisperer": {
@@ -112,7 +113,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 1,
       skill: "Master Farmer",
     },
-    boosts: "Crops require ?",
+    boosts: translate("coming.soon"),
     image: CROP_LIFECYCLE.Radish.crop,
     disabled: true,
   },
@@ -123,7 +124,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Master Farmer",
     },
-    boosts: "Chance to get 2x crops",
+    boosts: translate("description.happy.crop"),
     image: happy_crop,
   },
   Lumberjack: {
@@ -132,7 +133,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     requirements: {
       points: 1,
     },
-    boosts: "Trees drop 10% more",
+    boosts: translate("description.lumberjack"),
     image: lumberjack_LE,
   },
   "Tree Hugger": {
@@ -142,7 +143,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Lumberjack",
     },
-    boosts: "Trees regrow 20% quicker",
+    boosts: translate("description.tree.hugger"),
     image: tree_hugger,
   },
   "Tough Tree": {
@@ -152,7 +153,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 3,
       skill: "Tree Hugger",
     },
-    boosts: "Chance to get 3x wood drops",
+    boosts: translate("description.tough.tree"),
     image: tough_tree,
   },
   "Money Tree": {
@@ -162,7 +163,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Tree Hugger",
     },
-    boosts: "Chance for SFL drops",
+    boosts: translate("description.tree.hugger"),
     image: money_tree,
   },
   Digger: {
@@ -171,7 +172,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     requirements: {
       points: 1,
     },
-    boosts: "Stone Drops 10% more",
+    boosts: translate("description.digger"),
     image: digger,
   },
   "Coal Face": {
@@ -181,7 +182,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Digger",
     },
-    boosts: "Stones recover 20% quicker",
+    boosts: translate("description.coal.face"),
     image: coal_face,
   },
   Seeker: {
@@ -191,7 +192,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 3,
       skill: "Coal Face",
     },
-    boosts: "Attract Rock Monsters",
+    boosts: translate("description.seeker"),
     image: seeker,
     disabled: true,
   },
@@ -202,7 +203,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Coal Face",
     },
-    boosts: "Chance to get 2.5x gold drops",
+    boosts: translate("description.gold.rush"),
     image: gold_rush_LE,
   },
   "Rush Hour": {
@@ -211,7 +212,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     requirements: {
       points: 1,
     },
-    boosts: "Cook meals 10% faster",
+    boosts: translate("description.rush.hour"),
     image: rush_hour,
   },
   "Kitchen Hand": {
@@ -221,7 +222,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Rush Hour",
     },
-    boosts: "Meals yield an extra 5% experience",
+    boosts: translate("description.kitchen.hand"),
     image: kitchen_hand,
   },
   "Michelin Stars": {
@@ -231,7 +232,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Kitchen Hand",
     },
-    boosts: "High quality food, earn additional 5% SFL",
+    boosts: translate("description.michelin.stars"),
     image: michelin_stars,
   },
   Curer: {
@@ -241,7 +242,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Michelin Stars",
     },
-    boosts: "Consuming deli goods adds extra 15% exp",
+    boosts: translate("description.curer"),
     image: curer,
   },
   "Stable Hand": {
@@ -250,7 +251,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
     requirements: {
       points: 1,
     },
-    boosts: "Animals produce 10% quicker",
+    boosts: translate("description.stable.hand"),
     image: stable_hand,
   },
   "Free Range": {
@@ -260,7 +261,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Stable Hand",
     },
-    boosts: "Animals produce 10% more",
+    boosts: translate("description.free.range"),
     image: free_range,
   },
   "Horse Whisperer": {
@@ -270,7 +271,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Free Range",
     },
-    boosts: "Increase chance of mutants",
+    boosts: translate("description.horse.whisperer"),
     image: horse_whisperer,
   },
   Buckaroo: {
@@ -280,7 +281,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Horse Whisperer",
     },
-    boosts: "Chance of double drops",
+    boosts: translate("description.buckaroo"),
     image: buckaroo,
   },
 };

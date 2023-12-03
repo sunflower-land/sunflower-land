@@ -8,6 +8,7 @@ import { AuctionResults } from "features/game/lib/auctionMachine";
 import { Label } from "components/ui/Label";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "./AuctionDetails";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onMint: (id: string) => void;
@@ -19,6 +20,7 @@ export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
   const deadline = results.endAt + 24 * 60 * 60 * 1000;
   const countdown = useCountdown(deadline);
 
+  const { t } = useAppTranslation();
   return (
     <div className="flex flex-col justify-center items-center pt-2">
       <AuctionLeaderboardTable
@@ -40,7 +42,7 @@ export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
         target="_blank"
         rel="noreferrer"
       >
-        Read more
+        {t("read.more")}
       </a>
 
       <Button className="mt-2" onClick={() => onMint(bid.auctionId)}>

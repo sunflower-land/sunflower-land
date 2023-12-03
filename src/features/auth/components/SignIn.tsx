@@ -45,7 +45,7 @@ const OtherWallets = () => {
             >
               {t("featured")}
             </Label>
-            Bitget Wallet
+            Bitget {t("wallet")}
           </div>
         </Button>
         <Button
@@ -62,7 +62,7 @@ const OtherWallets = () => {
               alt="Crypto.com"
               className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
-            Crypto.com Wallet
+            Crypto.com {t("wallet")}
           </div>
         </Button>
         <Button
@@ -79,7 +79,7 @@ const OtherWallets = () => {
               alt="OKX"
               className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
-            OKX Wallet
+            OKX {t("wallet")}
           </div>
         </Button>
         <Button
@@ -96,7 +96,7 @@ const OtherWallets = () => {
               alt="Phantom"
               className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
             />
-            Phantom
+            Phantom {t("wallet")}
           </div>
         </Button>
       </>
@@ -165,7 +165,7 @@ export const SignIn = () => {
               src="https://sequence.app/static/images/sequence-logo.7c854742a6b8b4969004.svg"
               className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
             />
-            Email & Social Login
+            {t("welcome.email")}
           </div>
         </Button>
         <Button
@@ -214,7 +214,7 @@ export const SignIn = () => {
         {!hasFeatureAccess(TEST_FARM, "NEW_FARM_FLOW") && (
           <div className="flex items-center">
             <img src={SUNNYSIDE.ui.green_bar_4} className="h-5 mr-2" />
-            <span className="text-xs">Step 2/3 (Create a wallet)</span>
+            <span className="text-xs">{t("onboarding.step.two")}</span>
           </div>
         )}
       </div>
@@ -238,9 +238,9 @@ export const SignIn = () => {
               type="info"
               className="absolute top-1/2 -translate-y-1/2 right-1"
             >
-              Featured
+              {t("featured")}
             </Label>
-            Bitget Wallet
+            Bitget {t("wallet")}
           </div>
         </Button>
       )}
@@ -301,12 +301,12 @@ export const SignIn = () => {
 export const SignUp = () => {
   const [showPromoCode, setShowPromoCode] = useState(false);
   const [promoCode, setPromoCode] = useState(getPromoCode());
-
+  const { t } = useAppTranslation();
   if (showPromoCode) {
     return (
       <>
         <div className="p-2">
-          <p className="text-xs mb-1">Enter your promo code:</p>
+          <p className="text-xs mb-1">{t("reward.promo.code")}</p>
           <input
             style={{
               boxShadow: "#b96e50 0px 1px 1px 1px inset",
@@ -329,7 +329,7 @@ export const SignUp = () => {
               setShowPromoCode(false);
             }}
           >
-            Back
+            {t("back")}
           </Button>
           <Button
             disabled={!promoCode}
@@ -338,7 +338,7 @@ export const SignUp = () => {
               savePromoCode(promoCode as string);
             }}
           >
-            Ok
+            {t("ok")}
           </Button>
         </div>
       </>
@@ -349,7 +349,7 @@ export const SignUp = () => {
       {promoCode && (
         <div className="absolute top-3 right-5">
           <Label type="formula" icon={SUNNYSIDE.icons.search}>
-            {`Promo Code: ${getPromoCode()}`}
+            {t("promo.code")}: {`${getPromoCode()}`}
           </Label>
         </div>
       )}
@@ -357,7 +357,7 @@ export const SignUp = () => {
         <div className="absolute top-3 right-5 flex items-center">
           <Button onClick={() => setShowPromoCode(true)} className="h-6">
             <div className="flex">
-              <span className="text-xxs">Add Promo Code</span>
+              <span className="text-xxs">{t("welcome.promo")}</span>
             </div>
           </Button>
           <img src={SUNNYSIDE.icons.expression_confused} className="h-4 ml-1" />

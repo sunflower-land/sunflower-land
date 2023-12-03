@@ -5,6 +5,7 @@ import { Equipped } from "features/game/types/bumpkin";
 import classNames from "classnames";
 import { TypingMessage } from "features/world/ui/TypingMessage";
 import { Button } from "components/ui/Button";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export type Message = {
   text: string;
@@ -31,6 +32,7 @@ export const SpeakingModal: React.FC<Props> = ({
   const [currentMessage, setCurrentMessage] = useState(0);
   const [currentTextEnded, setCurrentTextEnded] = useState(false);
   const [forceShowFullMessage, setForceShowFullMessage] = useState(false);
+  const { t } = useAppTranslation();
 
   const handleClick = useCallback(() => {
     if (!currentTextEnded) {
@@ -100,7 +102,9 @@ export const SpeakingModal: React.FC<Props> = ({
           {currentTextEnded && message[currentMessage].jsx}
         </div>
         {!showActions && (
-          <p className="text-xxs italic float-right p-1">(Tap to continue)</p>
+          <p className="text-xxs italic float-right p-1">
+            ({t("statements.tapCont")})
+          </p>
         )}
         {showActions && (
           <div className="flex flex-col-reverse space-y-1 mt-1 space-y-reverse md:flex-row md:space-y-0 md:space-x-1">
@@ -131,7 +135,7 @@ export const SpeakingText: React.FC<Pick<Props, "message" | "onClose">> = ({
   const [currentMessage, setCurrentMessage] = useState(0);
   const [currentTextEnded, setCurrentTextEnded] = useState(false);
   const [forceShowFullMessage, setForceShowFullMessage] = useState(false);
-
+  const { t } = useAppTranslation();
   const maxLength = Math.max(...message.map((m) => m.text.length));
   const lines = maxLength / 30;
 
@@ -196,7 +200,9 @@ export const SpeakingText: React.FC<Pick<Props, "message" | "onClose">> = ({
           {currentTextEnded && message[currentMessage].jsx}
         </div>
         {!showActions && (
-          <p className="text-xxs italic float-right">(Tap to continue)</p>
+          <p className="text-xxs italic float-right">
+            ({t("statements.tapCont")})
+          </p>
         )}
       </div>
       {showActions && (

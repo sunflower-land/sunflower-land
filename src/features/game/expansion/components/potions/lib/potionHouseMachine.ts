@@ -105,7 +105,7 @@ export const potionHouseMachine = createMachine<
     isNewGame: false,
     animationQueue: [],
     score: null,
-    feedbackText: "Select your potions and unveil the secrets of the plants!",
+    feedbackText: "Select your potions and unveil the secrets of the plants!", // Translation required
   },
   states: {
     introduction: {

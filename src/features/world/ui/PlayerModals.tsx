@@ -10,6 +10,7 @@ import { BumpkinLevel } from "features/bumpkins/components/BumpkinModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PlayerTrade } from "./PlayerTrade";
 import { GameState } from "features/game/types/game";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Player = {
   id: number;
@@ -40,6 +41,7 @@ interface Props {
 export const PlayerModals: React.FC<Props> = ({ game }) => {
   const [tab, setTab] = useState(0);
   const [player, setPlayer] = useState<Player>();
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     playerModalManager.listen((npc) => {
@@ -88,7 +90,7 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
                 />
                 <div>
                   <p className="text-base">
-                    Level {getBumpkinLevel(player?.experience ?? 0)}
+                    {t("lvl")} {getBumpkinLevel(player?.experience ?? 0)}
                   </p>
                   {/* Progress bar */}
                   <BumpkinLevel experience={player?.experience} />

@@ -15,6 +15,7 @@ import { randomID } from "lib/utils/random";
 import { Label } from "components/ui/Label";
 import { Modal } from "react-bootstrap";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   show: boolean;
@@ -152,6 +153,7 @@ export const BlockBucksModal: React.FC<Props> = ({
   onClose,
   setCloseable,
 }) => {
+  const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
@@ -214,7 +216,7 @@ export const BlockBucksModal: React.FC<Props> = ({
     if (gameState.matches("autosaving")) {
       return (
         <div className="flex justify-center">
-          <p className="loading text-center">Loading</p>
+          <p className="loading text-center">{t("loading")}</p>
         </div>
       );
     }
@@ -224,7 +226,9 @@ export const BlockBucksModal: React.FC<Props> = ({
         <>
           <div className="flex flex-col w-full items-center space-y-1 pb-2 px-2 text-sm">
             <div className="flex items-center">
-              <p className="mr-2 mb-1">Item: {price.amount} x</p>
+              <p className="mr-2 mb-1">
+                {t("item")} {price.amount} x
+              </p>
               <img
                 src={ticket}
                 style={{
@@ -232,12 +236,15 @@ export const BlockBucksModal: React.FC<Props> = ({
                 }}
               />
             </div>
-            <p className="mr-2 mb-1">{`Total: ${price.usd} USD`}</p>
+            <p className="mr-2 mb-1">
+              {t("total.price")}
+              {`${price.usd} USD`}
+            </p>
           </div>
           <div className="flex flex-col flex-grow items-stretch justify-around mx-3 space-y-2 sm:space-y-0 sm:space-x-5 sm:flex-row">
             <OuterPanel className="w-full flex flex-col items-center relative">
               <div className="flex w-full items-center justify-center py-4 px-2">
-                <p className="mr-2 mb-1 text-xs">Cash / Card</p>
+                <p className="mr-2 mb-1 text-xs">{t("card.cash")}</p>
                 <img
                   src={creditCard}
                   style={{
@@ -247,19 +254,19 @@ export const BlockBucksModal: React.FC<Props> = ({
               </div>
               {price.amount === 1 && (
                 <Label type="info" className="mb-1">
-                  Minimum 5 Block Bucks
+                  {t("transaction.minblockbucks")}
                 </Label>
               )}
               <Button
                 onClick={() => onCreditCardBuy()}
                 disabled={price.amount === 1}
               >
-                Pay with Cash
+                {t("transaction.payCash")}
               </Button>
             </OuterPanel>
             <OuterPanel className="w-full flex flex-col items-center relative">
               <div className="flex w-full h-full items-center justify-center py-4 px-2">
-                <p className="mr-2 mb-1 text-xs">Matic</p>
+                <p className="mr-2 mb-1 text-xs">MATIC</p>
                 <img
                   src={matic}
                   style={{
@@ -269,16 +276,16 @@ export const BlockBucksModal: React.FC<Props> = ({
                 />
               </div>
               <Button onClick={() => onMaticBuy(price.amount)}>
-                Pay with Matic
+                {t("transaction.payMatic")}
               </Button>
             </OuterPanel>
           </div>
 
           <p className="text-xs text-center pt-2">
-            Block bucks will be stored on your farm.
+            {t("transaction.storeBlockBucks")}
           </p>
           <p className="text-xxs italic text-center py-2">
-            *Prices exclude transaction fees.
+            {t("transaction.excludeFees")}
           </p>
         </>
       );
@@ -291,7 +298,7 @@ export const BlockBucksModal: React.FC<Props> = ({
           style={{ maxHeight: "280px" }}
         >
           <p className="text-xxs italic text-center pt-2">
-            *Prices exclude transaction fees.
+            {t("transaction.excludeFees")}
           </p>
           <div className="flex flex-wrap">
             {PRICES.map((price) => (
@@ -322,7 +329,7 @@ export const BlockBucksModal: React.FC<Props> = ({
             target="_blank"
             rel="noreferrer"
           >
-            Read more
+            {t("read.more")}
           </a>
         </div>
       </>

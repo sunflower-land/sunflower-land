@@ -1,5 +1,8 @@
+import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 
 export const AddingSFL: React.FC = () => {
-  return <span className="loading">Swapping</span>;
+  const { t } = useAppTranslation();
+  return <span className="loading">{translate("swapping")}</span>;
 };

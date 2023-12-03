@@ -26,6 +26,7 @@ import { BudName, isBudName } from "features/game/types/buds";
 import { CONFIG } from "lib/config";
 import { BudDetails } from "components/ui/layouts/BudDetails";
 import classNames from "classnames";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -66,7 +67,7 @@ export const Chest: React.FC<Props> = ({
   const divRef = useRef<HTMLDivElement>(null);
   const buds = getChestBuds(state);
   const chestMap = getChestItems(state);
-
+  const { t } = useAppTranslation();
   const collectibles = getKeys(chestMap)
     .sort((a, b) => a.localeCompare(b))
     .reduce((acc, item) => {
@@ -118,7 +119,7 @@ export const Chest: React.FC<Props> = ({
           }}
         />
         <span className="text-xs text-center mt-2">
-          Your chest is empty, discover rare items today!
+          {t("statements.empty.chest")}
         </span>
         {onDepositClick && (
           <p
@@ -136,6 +137,7 @@ export const Chest: React.FC<Props> = ({
   }
 
   const PanelContent: React.FC = () => {
+    const { t } = useAppTranslation();
     if (isBudName(selectedChestItem)) {
       const budId = Number(selectedChestItem.split("-")[1]);
       const bud = buds[budId];
@@ -147,7 +149,7 @@ export const Chest: React.FC<Props> = ({
           actionView={
             onPlace && (
               <Button onClick={handlePlace} disabled={isSaving}>
-                {isSaving ? "Saving..." : "Place on map"}
+                {isSaving ? t("saving") : "Place on map"}
               </Button>
             )
           }
@@ -167,7 +169,7 @@ export const Chest: React.FC<Props> = ({
         actionView={
           onPlace && (
             <Button onClick={handlePlace} disabled={isSaving}>
-              {isSaving ? "Saving..." : "Place on map"}
+              {isSaving ? t("saving") : "Place on map"}
             </Button>
           )
         }

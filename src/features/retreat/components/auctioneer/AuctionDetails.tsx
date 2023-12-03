@@ -15,6 +15,7 @@ import { Auction } from "features/game/lib/auctionMachine";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { translate } from "lib/i18n/translate";
 
 type Props = {
   item: Auction;
@@ -81,7 +82,7 @@ export const AuctionDetails: React.FC<Props> = ({
         ? !!game.inventory[item.collectible]
         : !!game.wardrobe[item.wearable]
     ) {
-      return <Label type="info">Already minted</Label>;
+      return <Label type="info">{translate("alr.minted")}</Label>;
     }
     if (isUpcomingItem) {
       return null;

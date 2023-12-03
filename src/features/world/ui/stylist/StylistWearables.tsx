@@ -26,6 +26,7 @@ import { getSeasonalTicket } from "features/game/types/seasons";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 function isNotReady(name: BumpkinItem, state: GameState) {
   const wearable = STYLIST_WEARABLES(state)[name] as StylistWearable;
@@ -48,6 +49,7 @@ interface Props {
   wearables: ShopWearables;
 }
 export const StylistWearables: React.FC<Props> = ({ wearables }) => {
+  const { t } = useAppTranslation();
   const [selected, setSelected] = useState<BumpkinItem>(getKeys(wearables)[0]);
   const { gameService } = useContext(Context);
   const [
@@ -113,12 +115,11 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
     showConfirmBuyModal(false);
   };
 
-  const { t } = useAppTranslation();
   const Action = () => {
     if (state.wardrobe[selected])
       return (
         <div className="flex justify-center items-center">
-          <span className="text-xs">Already bought!</span>
+          <span className="text-xs">{translate("alr.bought")}!</span>
           <img src={SUNNYSIDE.icons.confirm} className="h-4 ml-1" />
         </div>
       );
@@ -143,7 +144,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
           }
           onClick={openConfirmationModal}
         >
-          Buy
+          {t("buy")}
         </Button>
         <Modal
           centered
@@ -165,7 +166,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
                 }
                 onClick={buy}
               >
-                Buy
+                {t("buy")}
               </Button>
               <Button onClick={closeConfirmationModal}>{t("cancel")}</Button>
             </div>
@@ -230,7 +231,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
             rel="noopener noreferrer"
             className="underline text-white text-xs"
           >
-            View sold out wearables
+            {t("statements.soldOutWearables")}
           </a>
         </>
       }

@@ -31,7 +31,9 @@ import {
   getDailyFishingCount,
   getDailyFishingLimit,
 } from "features/game/types/fishing";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
+import { translate } from "lib/i18n/translate";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -50,6 +52,7 @@ const ChumSelection: React.FC<{
   onCancel: () => void;
   initial?: InventoryItemName;
 }> = ({ inventory, onList, onCancel, initial }) => {
+  const { t } = useAppTranslation();
   const [selected, setSelected] = useState<InventoryItemName | undefined>(
     initial
   );
@@ -62,7 +65,7 @@ const ChumSelection: React.FC<{
 
   return (
     <div>
-      <p className="mb-1 p-1 text-xs">Select your resource:</p>
+      <p className="mb-1 p-1 text-xs">{translate("select.resource")}</p>
 
       <div className="flex flex-wrap">
         {getKeys(CHUM_AMOUNTS)
@@ -99,13 +102,13 @@ const ChumSelection: React.FC<{
 
       <div className="flex">
         <Button className="mr-1" onClick={() => onCancel()}>
-          Cancel
+          {translate("cancel")}
         </Button>
         <Button
           disabled={!hasRequirements}
           onClick={() => onList(selected as InventoryItemName)}
         >
-          Confirm
+          {translate("confirm")}
         </Button>
       </div>
     </div>
@@ -131,6 +134,8 @@ const BaitSelection: React.FC<{
   const [showChum, setShowChum] = useState(false);
   const [chum, setChum] = useState<InventoryItemName | undefined>();
   const [bait, setBait] = useState<FishingBait>("Earthworm");
+
+  const { t } = useAppTranslation();
 
   if (showChum) {
     return (
@@ -215,7 +220,7 @@ const BaitSelection: React.FC<{
               <p className="text-xs">{ITEM_DETAILS[bait].description}</p>
               {!state.inventory[bait] && bait !== "Fishing Lure" && (
                 <Label className="mt-1" type="default">
-                  Craft at Composter
+                  {t("statements.craft.composter")}
                 </Label>
               )}
               {!state.inventory[bait] && bait === "Fishing Lure" && (
@@ -307,7 +312,7 @@ const currentWeather = (state: MachineState) =>
 export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
   const { gameService } = useContext(Context);
   const weather = useSelector(gameService, currentWeather);
-
+  const { t } = useAppTranslation();
   const [showIntro, setShowIntro] = React.useState(!hasRead());
 
   const [
@@ -380,7 +385,7 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
         { icon: SUNNYSIDE.tools.fishing_rod, name: "Fish" },
         {
           icon: SUNNYSIDE.icons.expression_confused,
-          name: "Guide",
+          name: t("guide"),
         },
       ]}
       currentTab={tab}

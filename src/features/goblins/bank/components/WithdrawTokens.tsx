@@ -18,6 +18,7 @@ import lightning from "assets/icons/lightning.png";
 
 import { getTax } from "lib/utils/tax";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onWithdraw: (sfl: string) => void;
@@ -25,7 +26,7 @@ interface Props {
 export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
-
+  const { t } = useAppTranslation();
   const { goblinService } = useContext(Context);
   const [
     {
@@ -152,7 +153,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                (Read more)
+                ({t("read.more")})
               </a>
             </span>
           </>

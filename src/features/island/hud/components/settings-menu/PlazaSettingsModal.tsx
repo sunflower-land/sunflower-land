@@ -10,6 +10,7 @@ interface Props {
 }
 
 import SoundOffIcon from "assets/icons/sound_off.png";
+import { translate } from "lib/i18n/translate";
 
 export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   const [step, setStep] = useState<"MAIN" | "MUTED_PLAYERS" | "KEYBINDS">(
@@ -109,7 +110,7 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
               )}
             </div>
 
-            <Button onClick={() => setStep("MAIN")}>Back</Button>
+            <Button onClick={() => setStep("MAIN")}>{translate("back")}</Button>
           </div>
         )}
       </CloseButtonPanel>

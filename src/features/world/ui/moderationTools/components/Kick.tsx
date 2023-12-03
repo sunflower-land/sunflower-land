@@ -3,6 +3,7 @@ import { Player } from "../ModerationTools";
 import { Button } from "components/ui/Button";
 
 import { kickPlayer } from "features/world/lib/moderationAction";
+import { translate } from "lib/i18n/translate";
 
 type Props = {
   scene: any;
@@ -76,12 +77,12 @@ export const KickModal: React.FC<Props> = ({
             onChange={(e) => setReason(e.target.value)}
           />
           <div className="flex gap-2 w-full mt-2">
-            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleClose}>{translate("cancel")}</Button>
             <Button
               onClick={handleKickAction}
               disabled={reason.length === 0 || !farmId}
             >
-              Confirm
+              {translate("confirm")}
             </Button>
           </div>
         </div>

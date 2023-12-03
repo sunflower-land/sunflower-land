@@ -12,6 +12,7 @@ import { BoatModal } from "./BoatModal";
 import { PlazaBanner } from "./PlazaBanner";
 import { Panel } from "components/ui/Panel";
 import { CropBoomFinish } from "features/portal/components/CropBoomFinish";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type InteractableName =
   | "kraken"
@@ -85,6 +86,8 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
   const closeModal = () => {
     setInteractable(undefined);
   };
+
+  const { t } = useAppTranslation();
 
   return (
     <>

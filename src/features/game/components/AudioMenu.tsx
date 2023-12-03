@@ -10,6 +10,7 @@ import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "./CloseablePanel";
 import { Song } from "assets/songs/playlist";
 import { PIXEL_SCALE } from "../lib/constants";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 enum AudioLocalStorageKeys {
   audioMuted = "settings.audioMuted",
@@ -49,6 +50,7 @@ export const AudioMenu: React.FC<Props> = ({
   show,
   onClose,
 }) => {
+  const { t } = useAppTranslation();
   const [audioMuted, setAudioMuted] = useState<boolean>(
     getCachedAudioSetting<boolean>(AudioLocalStorageKeys.audioMuted, false)
   );
@@ -95,7 +97,7 @@ export const AudioMenu: React.FC<Props> = ({
     <Modal show={show} centered onHide={onClose}>
       <CloseButtonPanel title="Audio Settings" onClose={onClose}>
         <div className="p-1 relative">
-          <p className="mb-2">Music</p>
+          <p className="mb-2">{t("music")}</p>
           {/* Music display */}
           <div className="mb-1.5 overflow-hidden bg-brown-200 ">
             <p
@@ -142,7 +144,10 @@ export const AudioMenu: React.FC<Props> = ({
           </div>
 
           {/* Sound effects controls */}
-          <p className="mb-2">Sound Effects: {audioMuted ? "Off" : "On"}</p>
+          <p className="mb-2">
+            {t("sound.effects")}
+            {audioMuted ? "Off" : "On"}
+          </p>
           <img
             src={audioMuted ? sound_off : sound_on}
             className="cursor-pointer hover:img-highlight"

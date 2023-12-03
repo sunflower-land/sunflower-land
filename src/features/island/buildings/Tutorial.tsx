@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "components/ui/Button";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   onClose: () => void;
@@ -41,8 +42,8 @@ export const Tutorial: React.FC<Props> = ({ onClose }) => {
           </p>
         </div>
         <div className="flex space-x-1">
-          <Button onClick={() => setPageNumber(0)}>Back</Button>
-          <Button onClick={onClose}>Got it</Button>
+          <Button onClick={() => setPageNumber(0)}>{translate("back")}</Button>
+          <Button onClick={onClose}>{translate("gotIt")}</Button>
         </div>
       </>
     );

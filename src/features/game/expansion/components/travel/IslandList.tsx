@@ -26,6 +26,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { Context } from "features/game/GameProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 interface Island {
   name: string;
@@ -68,6 +70,7 @@ const IslandListItem: React.FC<IslandProps> = ({
   onClose,
   labels,
 }) => {
+  const { t } = useAppTranslation();
   const { openModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const onSameIsland = path === currentPath;
@@ -117,19 +120,21 @@ const IslandListItem: React.FC<IslandProps> = ({
 
         <div className="flex items-center gap-x-3 gap-y-1 flex-wrap">
           {/* Current island */}
-          {onSameIsland && <Label type="info">You are here</Label>}
+          {onSameIsland && <Label type="info">{t("you.are.here")}</Label>}
           {/* Level requirement */}
           {notEnoughLevel && (
             <Label type="danger" icon={levelUpIcon}>
-              Lvl {levelRequired}
+              {t("lvl")} {levelRequired}
             </Label>
           )}
           {/* Coming soon */}
-          {comingSoon && <Label type="warning">Coming soon</Label>}
-          {beta && <Label type="info">Beta</Label>}
+          {comingSoon && (
+            <Label type="warning">{translate("coming.soon")}</Label>
+          )}
+          {beta && <Label type="info">{translate("beta")}</Label>}
           {passRequired && (
             <Label type="danger" icon={ITEM_DETAILS["Gold Pass"].image}>
-              Pass Required
+              {t("pass.required")}
             </Label>
           )}
           {labels}
@@ -142,6 +147,7 @@ const IslandListItem: React.FC<IslandProps> = ({
 const VisitFriendListItem: React.FC<{ onClick: () => void }> = ({
   onClick,
 }) => {
+  const { t } = useAppTranslation();
   return (
     <div onClick={onClick}>
       <OuterPanel className="flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200">
@@ -149,7 +155,7 @@ const VisitFriendListItem: React.FC<{ onClick: () => void }> = ({
           <img src={land} className="h-9" />
         </div>
         <div className="flex-1 flex flex-col justify-center">
-          <span className="text-sm">Visit Friend</span>
+          <span className="text-sm">{t("visit.friend")}</span>
         </div>
       </OuterPanel>
     </div>
@@ -170,6 +176,7 @@ export const IslandList: React.FC<IslandListProps> = ({
 }) => {
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   const state = useSelector(authService, stateSelector);
   const farmId = gameService.state.context.farmId;
@@ -179,35 +186,35 @@ export const IslandList: React.FC<IslandListProps> = ({
 
   const islands: Island[] = [
     {
-      name: "Home",
+      name: t("island.home"),
       image: CROP_LIFECYCLE.Sunflower.ready,
       levelRequired: 1,
       path: `/land/${farmId}`,
       labels: [],
     },
     {
-      name: "Pumpkin Plaza",
+      name: t("island.pumpkin.plaza"),
       levelRequired: 1 as BumpkinLevel,
       image: CROP_LIFECYCLE.Pumpkin.crop,
       path: `/world/plaza`,
       labels: [
         <Label type="default" key="trading" icon={SUNNYSIDE.icons.player_small}>
-          Trading
+          {t("trading")}
         </Label>,
         <Label type="default" key="deliveries" icon={SUNNYSIDE.icons.heart}>
-          Deliveries
+          {t("deliveries")}
         </Label>,
 
         <Label type="default" key="shopping" icon={SUNNYSIDE.icons.basket}>
-          Shopping
+          {t("shopping")}
         </Label>,
         <Label type="vibrant" key="auctions" icon={SUNNYSIDE.icons.timer}>
-          Auctions
+          {t("auctions")}
         </Label>,
       ],
     },
     {
-      name: "Beach",
+      name: t("island.beach"),
       levelRequired: 1 as BumpkinLevel,
       image: SUNNYSIDE.resource.crab,
       path: `/world/beach`,
@@ -217,15 +224,15 @@ export const IslandList: React.FC<IslandListProps> = ({
           key="treasure_island"
           icon={SUNNYSIDE.icons.heart}
         >
-          Deliveries
+          {t("deliveries")}
         </Label>,
         <Label type="vibrant" key="tentacle" icon={lightning}>
-          Catch the Kraken
+          {t("season.catch.the.kraken")}
         </Label>,
       ],
     },
     {
-      name: "Woodlands",
+      name: t("island.woodlands"),
       levelRequired: 1 as BumpkinLevel,
       image: SUNNYSIDE.resource.wild_mushroom,
       path: `/world/woodlands`,
@@ -236,38 +243,38 @@ export const IslandList: React.FC<IslandListProps> = ({
       ],
     },
     {
-      name: "Helios",
+      name: t("island.helios"),
       levelRequired: 1 as BumpkinLevel,
       image: SUNNYSIDE.icons.helios,
       path: `/land/${farmId}/helios`,
       labels: [
         <Label type="default" key="shopping" icon={SUNNYSIDE.icons.basket}>
-          Shopping
+          {t("shopping")}
         </Label>,
         <Label type="default" key="trash" icon={SUNNYSIDE.icons.cancel}>
-          Trash Collection
+          {t("trash.collection")}
         </Label>,
       ],
     },
     {
-      name: "Goblin Retreat",
+      name: t("island.goblin.retreat"),
       levelRequired: 1 as BumpkinLevel,
       image: goblin,
       path: `/retreat/${farmId}`,
       passRequired: true,
       labels: [
         <Label type="default" key="trading" icon={SUNNYSIDE.icons.player_small}>
-          Trading
+          {t("trading")}
         </Label>,
         <Label
           type="default"
           key="withdraw"
           icon={SUNNYSIDE.decorations.treasure_chest_opened}
         >
-          Withdraw
+          {t("withdraw")}
         </Label>,
         <Label type="default" key="crafting" icon={SUNNYSIDE.icons.hammer}>
-          Crafting
+          {t("crafting")}
         </Label>,
       ],
     },
@@ -291,7 +298,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       <>
         {state.isAuthorised && (
           <IslandListItem
-            name="Home"
+            name={t("island.home")}
             image={CROP_LIFECYCLE.Sunflower.ready}
             levelRequired={1}
             path={`/land/${farmId}`}

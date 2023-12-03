@@ -1,6 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { RankData } from "./actions/leaderboard";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   rankings: RankData[];
@@ -13,19 +14,20 @@ export const TicketTable: React.FC<Props> = ({
   farmId,
   showHeader = true,
 }) => {
+  const { t } = useAppTranslation();
   return (
     <table className="w-full text-xs table-fixed border-collapse p-">
       {showHeader && (
         <thead>
           <tr>
             <th style={{ border: "1px solid #b96f50" }} className="p-1.5 ">
-              <p>Rank</p>
+              <p>{t("rank")}</p>
             </th>
             <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
-              <p>Farm</p>
+              <p>{t("farm")}</p>
             </th>
             <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
-              <p>Total</p>
+              <p>{t("total")}</p>
             </th>
           </tr>
         </thead>

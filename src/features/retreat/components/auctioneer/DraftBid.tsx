@@ -17,6 +17,8 @@ import {
   INPUT_MAX_CHAR,
   VALID_NUMBER,
 } from "features/island/hud/components/AddSFL";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 /**
  * If they have enough resources, default the bid to 5 tickets
@@ -56,6 +58,8 @@ export const DraftBid: React.FC<Props> = ({
   gameState,
   onBack,
 }) => {
+  const { t } = useAppTranslation();
+
   const minTickets = getInitialTickets(auction, gameState);
   const [tickets, setTickets] = useState(minTickets);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -142,14 +146,14 @@ export const DraftBid: React.FC<Props> = ({
         </div>
         <div className="flex w-full">
           <Button className="mr-1" onClick={() => setShowConfirm(false)}>
-            Back
+            {t("back")}
           </Button>
           <Button
             onClick={() => {
               onBid(tickets);
             }}
           >
-            Confirm
+            {translate("confirm")}
           </Button>
         </div>
       </div>

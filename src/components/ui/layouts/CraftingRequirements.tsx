@@ -18,6 +18,7 @@ import {
 } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { NPC } from "features/island/bumpkin/components/NPC";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 /**
  * The props for the details for items.
@@ -141,13 +142,14 @@ export const CraftingRequirements: React.FC<Props> = ({
   actionView,
   hideDescription,
 }: Props) => {
+  const { t } = useAppTranslation();
   const getStock = () => {
     if (!stock) return <></>;
 
     if (stock.lessThanOrEqualTo(0)) {
       return (
         <div className="flex justify-center mt-0 sm:mb-1">
-          <Label type="danger">Sold out</Label>
+          <Label type="danger">{t("statements.soldOut")}</Label>
         </div>
       );
     }
@@ -160,7 +162,9 @@ export const CraftingRequirements: React.FC<Props> = ({
     return (
       <div className="flex justify-center mt-0 sm:mb-1">
         <Label type={isInventoryFull ? "danger" : "info"}>
-          {`${stock} ${isLimitedItem ? "left" : "in stock"}`}
+          {`${stock} ${
+            isLimitedItem ? t("left").toLowerCase : t("statements.inStock")
+          }`}
         </Label>
       </div>
     );

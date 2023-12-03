@@ -14,6 +14,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
 import { MapPlacement } from "./MapPlacement";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import speechBubble from "assets/ui/speech_border.png";
 import { getKeys } from "features/game/types/craftables";
@@ -99,6 +100,7 @@ export const TravelTeaser: React.FC = () => {
   const showSpeech = useSelector(gameService, isNoob);
   const peteHint = useSelector(gameService, hint);
   const expansionCount = useSelector(gameService, expansions);
+  const { t } = useAppTranslation();
 
   const [peteState, setPeteState] = useState<"idle" | "typing">("idle");
 
@@ -138,11 +140,11 @@ export const TravelTeaser: React.FC = () => {
           tabs={[
             {
               icon: SUNNYSIDE.icons.expression_chat,
-              name: "Explore",
+              name: t("explore"),
             },
             {
               icon: SUNNYSIDE.icons.expression_confused,
-              name: "Guide",
+              name: t("guide"),
             },
           ]}
           currentTab={tab}

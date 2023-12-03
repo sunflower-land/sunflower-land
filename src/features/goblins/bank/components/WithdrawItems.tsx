@@ -19,6 +19,7 @@ import { getKeys } from "features/game/types/craftables";
 import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { WITHDRAWABLES } from "features/game/types/withdrawables";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -59,6 +60,8 @@ export const WithdrawItems: React.FC<Props> = ({
   onWithdraw,
   allowLongpressWithdrawal = true,
 }) => {
+  const { t } = useAppTranslation();
+
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
 
@@ -219,7 +222,7 @@ export const WithdrawItems: React.FC<Props> = ({
             target="_blank"
             rel="noopener noreferrer"
           >
-            Read more
+            {t("read.more")}
           </a>
           .
         </span>

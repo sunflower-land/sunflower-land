@@ -18,6 +18,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
 import { CONSUMABLES, ConsumableName } from "features/game/types/consumables";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface ClaimRewardProps {
   reward: IAirdrop;
@@ -32,6 +33,8 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
 }) => {
   const itemNames = getKeys(airdrop.items);
 
+  const { t } = useAppTranslation();
+
   return (
     <>
       <div className="p-1">
@@ -40,7 +43,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
           type="warning"
           icon={SUNNYSIDE.decorations.treasure_chest}
         >
-          Reward Discovered
+          {t("reward.discovered")}
         </Label>
         {airdrop.message && (
           <p className="text-xs mb-2 ml-1">{airdrop.message}</p>
@@ -51,7 +54,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
               <Box image={token} />
               <div>
                 <Label type="warning">{airdrop.sfl} SFL</Label>
-                <p className="text-xs">Spend it wisely.</p>
+                <p className="text-xs">{t("reward.spendWisely")}</p>
               </div>
             </div>
           )}
@@ -88,7 +91,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                   <Label type="default">{`${
                     airdrop.wearables[name] ?? 1
                   } x ${name}`}</Label>
-                  <p className="text-xs">A wearable for your Bumpkin</p>
+                  <p className="text-xs">{t("reward.wearable")}</p>
                 </div>
               </div>
             ))}
@@ -98,10 +101,10 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
       <div className="flex items-center mt-1">
         {onClose && (
           <Button className="mr-1" onClick={onClose}>
-            Close
+            {t("close")}
           </Button>
         )}
-        <Button onClick={onClaim}>Claim</Button>
+        <Button onClick={onClaim}>{t("claim")}</Button>
       </div>
     </>
   );

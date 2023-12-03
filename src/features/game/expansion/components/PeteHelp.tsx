@@ -9,12 +9,14 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { Context } from "features/game/GameProvider";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "@xstate/react";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const isLocked = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) < 3;
 
 export const PeteHelp: React.FC = () => {
   const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   const locked = useSelector(gameService, isLocked);
 
@@ -22,23 +24,15 @@ export const PeteHelp: React.FC = () => {
 
   return (
     <div className="p-2">
-      <p className="text-sm mb-2">
-        As you level up, you will unlock new areas to explore. First up is the
-        Pumpkin Plaza....my home!
-      </p>
-      <p className="text-sm">
-        Here you can complete deliveries for rewards, craft magical items &
-        trade with other players.
-      </p>
+      <p className="text-sm mb-2">{t("pete.pumpkinPlaza.one")}</p>
+      <p className="text-sm">{t("pete.pumpkinPlaza.two")}</p>
 
       <img src={plaza} className="w-full mx-auto rounded-lg my-2" />
       {locked && (
         <>
-          <p className="text-xs mb-2">
-            Visit the fire pit, cook food and eat to level up.
-          </p>
+          <p className="text-xs mb-2">{t("pete.help.zero")}</p>
           <Label type="danger" className="mb-2 ml-1" icon={lockIcon}>
-            Level 3 Required
+            {t("warning.level.required")}3
           </Label>
         </>
       )}
@@ -49,7 +43,7 @@ export const PeteHelp: React.FC = () => {
           navigate(`/world/plaza`);
         }}
       >
-        Lets go!
+        {t("lets.go")}
       </Button>
     </div>
   );

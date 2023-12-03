@@ -15,6 +15,8 @@ import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { ITEM_ICONS } from "../inventory/Chest";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   onClose: () => void;
@@ -45,7 +47,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     },
   ] = useActor(gameService);
   const { inventory } = state;
-
+  const { t } = useAppTranslation();
   const buildingBlueprints = BUILDINGS()[selectedName];
   const buildingUnlockLevels = buildingBlueprints.map(
     ({ unlocksAtLevel }) => unlocksAtLevel
@@ -100,7 +102,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       <div className="flex flex-col w-full justify-center">
         <div className="flex items-center justify-center border-t border-white w-full pt-2">
           <img src={lock} className="h-4 mr-1" />
-          <p className="text-xxs mb-1">Unlock more land</p>
+          <p className="text-xxs mb-1">{t("unlock.land")}</p>
         </div>
         <div className="flex items-center justify-center ">
           <img src={ITEM_DETAILS["Basic Land"].image} className="h-4 mr-1" />
@@ -117,7 +119,9 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     if (nextLockedLevel && hasMaxNumberOfBuildings) return landLocked();
 
     if (isAlreadyCrafted) {
-      return <p className="text-xxs text-center mb-1">Already crafted!</p>;
+      return (
+        <p className="text-xxs text-center mb-1">{translate("alr.crafted")}</p>
+      );
     }
 
     return (
@@ -125,7 +129,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
         disabled={lessIngredients() || state.balance.lt(sfl)}
         onClick={craft}
       >
-        Build
+        {translate("build")}
       </Button>
     );
   };

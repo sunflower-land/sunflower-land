@@ -8,6 +8,7 @@ import { Button } from "components/ui/Button";
 import { ArcadeDonation } from "./ArcadeDonation";
 import { ARCADE_GAMES } from "../lib/constants";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   isOpen: boolean;
@@ -16,7 +17,7 @@ interface Props {
 
 export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [activeWindow, setActiveWindow] = useState<string | null>(null);
-
+  const { t } = useAppTranslation();
   return (
     <Modal centered show={isOpen} onHide={onClose}>
       <CloseButtonPanel
@@ -52,7 +53,7 @@ export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 className="underline cursor-pointer"
                 onClick={() => setActiveWindow("Donation")}
               >
-                Donate
+                {t("donate")}
               </span>
             </li>
           </ul>

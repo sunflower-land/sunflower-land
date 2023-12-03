@@ -80,7 +80,7 @@ export const GuideTask: React.FC<GuideTaskProps> = ({
               onClick={console.log}
             >
               <div className="flex items-center">
-                <span className="text-xs">Claim</span>
+                <span className="text-xs">{translate("claim")}</span>
                 <img src={chest} className="h-4 ml-1 relative top-0.5" />
               </div>
             </Button>

@@ -8,11 +8,13 @@ import { getGoblinSwarm } from "../events/detectBot";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "../lib/constants";
 import { CountdownLabel } from "components/ui/CountdownLabel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Swarming: React.FC = () => {
   const { gameService } = useContext(Context);
 
   const [secondsLeft, setSecondsLeft] = useState(0);
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     const swarmUntil = getGoblinSwarm() as Date;
@@ -30,11 +32,11 @@ export const Swarming: React.FC = () => {
   const onAcknowledge = () => {
     gameService.send("REFRESH");
   };
-
+  // Translation needed for line 57, 60
   return (
     <>
       <div className="flex flex-col items-center p-2">
-        <span className="text-center text-base">Goblin Swarm!</span>
+        <span className="text-center text-base">{t("goblin.swarm")}</span>
         <div className="flex items-end my-2">
           <img
             src={SUNNYSIDE.npcs.goblin}
@@ -63,7 +65,9 @@ export const Swarming: React.FC = () => {
           </div>
         )}
       </div>
-      {secondsLeft < 0 && <Button onClick={onAcknowledge}>Continue</Button>}
+      {secondsLeft < 0 && (
+        <Button onClick={onAcknowledge}>{t("continue")}</Button>
+      )}
     </>
   );
 };

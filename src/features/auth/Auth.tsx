@@ -24,6 +24,7 @@ import { CreateWallet } from "./components/CreateWallet";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -82,7 +83,7 @@ export const Auth: React.FC = () => {
             <SignIn />
           )}
           {authState.matches("signUp") && <SignUp />}
-          {connecting && <Loading text={t("connecting")} />}
+          {connecting && <Loading text={translate("connecting")} />}
           {authState.matches("connectedToWallet") && <ConnectedToWallet />}
           {authState.matches("signing") && <Signing />}
           {authState.matches("verifying") && <Verifying />}

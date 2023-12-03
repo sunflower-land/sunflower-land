@@ -132,7 +132,7 @@ export const DailyReward: React.FC = () => {
     if (chestState.matches("locked")) {
       return (
         <CloseButtonPanel
-          title={t("reward.title")}
+          title={t("reward.daily.reward")}
           onClose={() => setShowModal(false)}
         >
           <div className="flex flex-col items-center px-2">
@@ -166,7 +166,7 @@ export const DailyReward: React.FC = () => {
     if (chestState.matches("unlocked")) {
       return (
         <CloseButtonPanel
-          title={t("reward.title")}
+          title={t("reward.daily.reward")}
           onClose={() => setShowModal(false)}
         >
           <div className="flex flex-col items-center p-2">
@@ -186,7 +186,7 @@ export const DailyReward: React.FC = () => {
     if (chestState.matches("error")) {
       return (
         <CloseButtonPanel
-          title="Something went wrong!"
+          title={t("error.wentWrong")}
           onClose={() => setShowModal(false)}
         >
           <div className="flex flex-col items-center p-2">
@@ -236,7 +236,7 @@ export const DailyReward: React.FC = () => {
     if (chestState.matches("unlocking")) {
       return (
         <Panel>
-          <Loading text="Unlocking" />
+          <Loading text={t("unlocking")} />
         </Panel>
       );
     }

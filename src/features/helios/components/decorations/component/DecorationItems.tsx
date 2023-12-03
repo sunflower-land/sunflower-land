@@ -144,7 +144,7 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
                 }
                 onClick={openConfirmModal}
               >
-                Buy
+                {t("buy")}
               </Button>
               <Modal
                 centered
@@ -167,7 +167,7 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
                       }
                       onClick={handleBuy}
                     >
-                      Buy
+                      {t("buy")}
                     </Button>
                     <Button onClick={closeConfirmationModal}>
                       {t("cancel")}

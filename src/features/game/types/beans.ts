@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
 import { InventoryItemName } from "./game";
+import { translate } from "lib/i18n/translate";
 
 export type BeanName = "Magic Bean";
 
@@ -45,37 +46,37 @@ export type ExoticCrop = {
 export const EXOTIC_CROPS: Record<ExoticCropName, ExoticCrop> = {
   "Black Magic": {
     name: "Black Magic",
-    description: "A dark and mysterious flower!",
+    description: translate("description.black.magic"),
     sellPrice: marketRate(32000),
   },
   "Golden Helios": {
     name: "Golden Helios",
-    description: "Sun-kissed grandeur!",
+    description: translate("description.golden.helios"),
     sellPrice: marketRate(16000),
   },
   Chiogga: {
     name: "Chiogga",
-    description: "A rainbow beet!",
+    description: translate("description.chiogga"),
     sellPrice: marketRate(8000),
   },
   "Purple Cauliflower": {
     name: "Purple Cauliflower",
-    description: "A regal purple cauliflower",
+    description: translate("description.purple.cauliflower"),
     sellPrice: marketRate(3200),
   },
   "Adirondack Potato": {
     name: "Adirondack Potato",
-    description: "A rugged spud, Adirondack style!",
+    description: translate("description.adirondack.potato"),
     sellPrice: marketRate(2400),
   },
   "Warty Goblin Pumpkin": {
     name: "Warty Goblin Pumpkin",
-    description: "A whimsical, wart-covered pumpkin",
+    description: translate("description.warty.goblin.pumpkin"),
     sellPrice: marketRate(1600),
   },
   "White Carrot": {
     name: "White Carrot",
-    description: "A pale carrot with pale roots",
+    description: translate("description.white.carrot"),
     sellPrice: marketRate(800),
   },
 };

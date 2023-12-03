@@ -3,6 +3,7 @@ import { Button } from "components/ui/Button";
 import { Player } from "../ModerationTools";
 
 import { mutePlayer } from "features/world/lib/moderationAction";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   player?: Player;
@@ -110,12 +111,12 @@ export const MuteModal: React.FC<Props> = ({
             onChange={(e) => setReason(e.target.value)}
           />
           <div className="flex gap-2 w-full mt-2">
-            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleClose}>{translate("cancel")}</Button>
             <Button
               onClick={handleMuteAction}
               disabled={reason.length === 0 || !farmId}
             >
-              Confirm
+              {translate("confirm")}
             </Button>
           </div>
         </div>

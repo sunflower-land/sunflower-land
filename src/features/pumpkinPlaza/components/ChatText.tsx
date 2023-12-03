@@ -4,6 +4,7 @@ import Filter from "bad-words";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   messages: { farmId: number; sessionId: string; text: string }[];
@@ -61,12 +62,12 @@ export const ChatText: React.FC<Props> = ({
       window.removeEventListener("keydown", keyDownListener);
     };
   });
-
+  const { t } = useAppTranslation();
   const Validation = () => {
     if (text.length > MAX_CHARACTERS) {
       return (
         <Label className="mt-1 mb-1 float-right" type="danger">
-          {`Max ${MAX_CHARACTERS} characters`}
+          {t("warning.chat.maxCharacters")} {`${MAX_CHARACTERS}`}
         </Label>
       );
     }
@@ -76,7 +77,7 @@ export const ChatText: React.FC<Props> = ({
     if (!isValidText) {
       return (
         <Label className="mt-1 mb-1 float-right" type="danger">
-          No special characters
+          {t("warning.chat.noSpecialCharacters")}
         </Label>
       );
     }
@@ -147,7 +148,10 @@ export const ChatText: React.FC<Props> = ({
         {showCooldown && (
           <Label type="warning" className="flex p-1 m-1 mx-2">
             <img src={SUNNYSIDE.icons.timer} className="h-4 pr-1" />
-            <p className="text-xs">{`Cooldown - ${cooldown.minutes} mins ${cooldown.seconds} secs`}</p>
+            <p className="text-xs">
+              {`Cooldown - ${cooldown.minutes}`} {t("mins")}{" "}
+              {`${cooldown.seconds}`} {t("secs")}
+            </p>
           </Label>
         )}
 

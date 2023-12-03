@@ -1,11 +1,13 @@
 import React from "react";
 
 import syncingAnimation from "assets/npcs/syncing.gif";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Purchasing: React.FC = () => {
+  const { t } = useAppTranslation();
   return (
     <div className="flex flex-col items-center p-2">
-      <span className="text-shadow text-center text-lg">Purchasing</span>
+      <span className="text-shadow text-center text-lg">{t("purchasing")}</span>
       <img
         src={syncingAnimation}
         alt="Purchasing"
@@ -13,7 +15,7 @@ export const Purchasing: React.FC = () => {
       />
 
       <span className="text-shadow text-sm text-center mt-2">
-        Do not refresh your browser!
+        {t("statements.dontRefresh")}
       </span>
     </div>
   );

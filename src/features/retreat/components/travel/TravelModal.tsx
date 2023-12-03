@@ -13,6 +13,7 @@ import { Panel } from "components/ui/Panel";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { hasNewOrders } from "features/island/delivery/lib/delivery";
 import { hasNewChores } from "features/helios/components/hayseedHank/lib/chores";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `travel-read.${host}-${window.location.pathname}`;
@@ -43,7 +44,7 @@ export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const delivery = gameState.context.state.delivery;
   const chores = gameState.context.state.chores;
-
+  const { t } = useAppTranslation();
   return (
     <>
       <Modal
@@ -57,16 +58,16 @@ export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
             <SpeakingText
               message={[
                 {
-                  text: "Hey Traveller! Ready to explore?",
+                  text: t("retreatTerms.introTravel.one"),
                 },
                 {
-                  text: "Sunflower Land is filled with exciting islands where you can complete deliveries, craft rare NFTs and even dig for treasure!",
+                  text: t("retreatTerms.introTravel.two"),
                 },
                 {
-                  text: "Different locations bring different opportunities to spend your hard earned resources.",
+                  text: t("retreatTerms.introTravel.three"),
                 },
                 {
-                  text: "At any time click the travel button to return home.",
+                  text: t("retreatTerms.introTravel.four"),
                 },
               ]}
               onClose={() => {
@@ -79,15 +80,15 @@ export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
           <CloseButtonPanel
             onClose={onClose}
             tabs={[
-              { icon: world, name: "Travel" },
+              { icon: world, name: t("travel") },
               {
                 icon: SUNNYSIDE.icons.heart,
-                name: "Deliveries",
+                name: t("deliveries"),
                 alert: hasNewOrders(delivery),
               },
               {
                 icon: SUNNYSIDE.icons.expression_chat,
-                name: "Chores",
+                name: t("chores"),
                 alert: chores && hasNewChores(chores),
               },
             ]}

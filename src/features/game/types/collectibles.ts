@@ -7,6 +7,7 @@ import { BuffLabel } from ".";
 import powerup from "assets/icons/level_up.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { translate } from "lib/i18n/translate";
 
 export type SeasonPassName =
   | "Dawn Breaker Banner"
@@ -105,7 +106,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
   date = new Date()
 ) => ({
   "Basic Scarecrow": {
-    description: "Choosy defender of your farm's VIP (Very Important Plants)",
+    description: translate("description.basic.scarecrow"),
     boost: "20% faster Sunflowers, Potatoes and Pumpkins",
     sfl: new Decimal(0),
     ingredients: {

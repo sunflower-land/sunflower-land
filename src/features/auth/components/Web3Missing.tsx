@@ -2,12 +2,13 @@ import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "../lib/Provider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Web3Missing: React.FC<{
   wallet?: "PHANTOM" | "CRYPTO_COM" | "BITGET";
 }> = ({ wallet }) => {
   const { authService } = useContext(Context);
-
+  const { t } = useAppTranslation();
   const goToMetamaskSetupDocs = () => {
     window.open(
       "https://docs.sunflower-land.com/guides/getting-setup#metamask-setup",
@@ -50,21 +51,19 @@ export const Web3Missing: React.FC<{
             className="w-3 mr-3"
           />
         </div>
-        <p className="text-center mb-3">Web3 Not Found</p>
+        <p className="text-center mb-3">{t("error.Web3NotFound")}</p>
 
-        <p className="text-center mb-3 text-xs">
-          Check out this guide to help you get started.
-        </p>
+        <p className="text-center mb-3 text-xs">{t("statements.guide.two")}</p>
       </div>
       <div className="flex space-x-1">
         <Button
           onClick={() => authService.send("REFRESH")}
           className="overflow-hidden"
         >
-          <span>Go back</span>
+          <span>{t("back")}</span>
         </Button>
         <Button onClick={handleClick} className="overflow-hidden">
-          <span>Go to setup guide</span>
+          <span>{t("statements.guide.one")}</span>
         </Button>
       </div>
     </>

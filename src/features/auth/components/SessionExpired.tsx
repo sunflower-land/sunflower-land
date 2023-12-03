@@ -5,19 +5,21 @@ import humanDeath from "assets/npcs/human_death.gif";
 import { Button } from "components/ui/Button";
 import { wallet } from "lib/blockchain/wallet";
 import { removeSession } from "../actions/login";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const SessionExpired: React.FC = () => {
   const { authService } = useContext(Auth.Context);
+  const { t } = useAppTranslation();
 
   return (
     <div className="flex flex-col text-center text-shadow items-center p-1">
       <div className="flex mb-3 items-center ml-8">
         <img src={humanDeath} alt="Warning" className="w-full" />
       </div>
-      <p className="text-center mb-3">Session expired!</p>
+      <p className="text-center mb-3">{t("session.expired")}</p>
 
       <p className="text-center mb-4 text-xs">
-        {`It looks like your session has expired. Please refresh the page to continue playing.`}
+        {t("statements.session.expired")}
       </p>
       <Button
         onClick={() => {
@@ -25,7 +27,7 @@ export const SessionExpired: React.FC = () => {
           authService.send("REFRESH");
         }}
       >
-        Refresh
+        {t("refresh")}
       </Button>
     </div>
   );

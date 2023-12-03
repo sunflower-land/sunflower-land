@@ -12,6 +12,7 @@ import { getKeys } from "features/game/types/craftables";
 import token from "assets/icons/token_2.png";
 import { ItemLimits } from "lib/blockchain/Trader";
 import { Draft } from "../lib/sellingMachine";
+import { translate } from "lib/i18n/translate";
 
 const MAX_SFL = new Decimal(10000);
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
@@ -177,7 +178,7 @@ export const Drafting: React.FC<DraftingProps> = ({
         </div>
       </div>
       <div className="flex space-x-2 w-full">
-        <Button onClick={onBack}>Back</Button>
+        <Button onClick={onBack}>{translate("back")}</Button>
         <Button
           onClick={onConfirm}
           disabled={disableListTradeButton}

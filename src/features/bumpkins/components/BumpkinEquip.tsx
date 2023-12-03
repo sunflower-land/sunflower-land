@@ -19,6 +19,7 @@ import { getKeys } from "features/game/types/craftables";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const REQUIRED: BumpkinPart[] = [
   "background",
@@ -33,6 +34,7 @@ const REQUIRED: BumpkinPart[] = [
 export const BumpkinEquip: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { t } = useAppTranslation();
 
   const [equipped, setEquipped] = useState(
     gameState.context.state.bumpkin?.equipped as Equipped
@@ -105,27 +107,27 @@ export const BumpkinEquip: React.FC = () => {
 
   const warning = () => {
     if (isMissingHair) {
-      return "Hair is required";
+      return t("part.hair");
     }
 
     if (isMissingBody) {
-      return "Body is required";
+      return t("part.body");
     }
 
     if (isMissingShoes) {
-      return "Shoes are required";
+      return t("part.shoes");
     }
 
     if (isMissingShirt) {
-      return "Shirt is required";
+      return t("part.shirt");
     }
 
     if (isMissingPants) {
-      return "Pants are required";
+      return t("part.pants");
     }
 
     if (isMissingBackground) {
-      return "Background is required";
+      return t("part.background");
     }
     return "";
   };
@@ -147,7 +149,7 @@ export const BumpkinEquip: React.FC = () => {
             </div>
           </div>
           <Button disabled={!isDirty || warn} onClick={() => finish(equipped)}>
-            <div className="flex">Save</div>
+            <div className="flex">{t("save")}</div>
           </Button>
           {warn && <Label type="warning">{warning()}</Label>}
         </div>

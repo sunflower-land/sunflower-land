@@ -19,6 +19,7 @@ import { Refunded } from "./Refunded";
 import { MissingAuction } from "./MissingAuction";
 import { TieBreaker } from "./TieBreaker";
 import { AuctionsComingSoon } from "./AuctionsComingSoon";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   auctionService: MachineInterpreter;
@@ -30,6 +31,7 @@ export const AuctioneerContent: React.FC<Props> = ({
   gameState,
   onMint,
 }) => {
+  const { t } = useAppTranslation();
   const [auctioneerState, send] = useActor(auctionService);
 
   const [selectedAuctionId, setSelectedAuctionId] = useState<string>();
@@ -42,18 +44,18 @@ export const AuctioneerContent: React.FC<Props> = ({
     return (
       <>
         <div className="p-2">
-          <p className="text-sm mb-2">{`I've travelled far and wide across Sunflower Land in search for exotic treasures to bring to my fellow Bumpkins.`}</p>
-          <p className="text-sm mb-2">{`Don't miss one of the Auctions where a swing of my mighty hammer can turn your hard-earned resources into rare, minted marvels!`}</p>
+          <p className="text-sm mb-2">{t("statements.auctioneer.one")}</p>
+          <p className="text-sm mb-2">{t("statements.auctioneer.two")}</p>
           <a
             href="https://docs.sunflower-land.com/player-guides/auctions"
             className="mx-auto text-xxs underline  pb-2 pt-2"
             target="_blank"
             rel="noreferrer"
           >
-            Read more
+            {t("read.more")}
           </a>
         </div>
-        <Button onClick={() => send("CONTINUE")}>Continue</Button>
+        <Button onClick={() => send("CONTINUE")}>{t("continue")}</Button>
       </>
     );
   }
@@ -61,8 +63,10 @@ export const AuctioneerContent: React.FC<Props> = ({
   if (auctioneerState.matches("error")) {
     return (
       <div className="p-2">
-        <p className="mb-2">Something went wrong!</p>
-        <Button onClick={() => auctionService.send("REFRESH")}>Retry</Button>
+        <p className="mb-2">{t("error.wentWrong")}</p>
+        <Button onClick={() => auctionService.send("REFRESH")}>
+          {t("retry")}
+        </Button>
       </div>
     );
   }
@@ -86,7 +90,7 @@ export const AuctioneerContent: React.FC<Props> = ({
   }
 
   if (auctioneerState.matches("bidding")) {
-    return <span className="loading">Placing bid</span>;
+    return <span className="loading">{t("placing.bid")}</span>;
   }
 
   if (auctioneerState.matches("refunded")) {
@@ -112,7 +116,7 @@ export const AuctioneerContent: React.FC<Props> = ({
   }
 
   if (auctioneerState.matches("checkingResults")) {
-    return <span className="loading">Loading</span>;
+    return <span className="loading">{t("loading")}</span>;
   }
 
   if (auctioneerState.matches("pending")) {
