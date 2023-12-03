@@ -4,11 +4,12 @@ import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 
 import { Preloader } from "features/world/scenes/Preloader";
-import { PortalContext } from "./PortalProvider";
+import { PortalContext } from "../../lib/PortalProvider";
 import { useActor } from "@xstate/react";
-import { ExampleScene } from "./ExampleScene";
+import { CropBoomScene } from "./CropBoomScene";
+import { InteractableModals } from "features/world/ui/InteractableModals";
 
-export const PortalPhaser: React.FC = () => {
+export const CropBoomPhaser: React.FC = () => {
   const { portalService } = useContext(PortalContext);
   const [portalState] = useActor(portalService);
 
@@ -18,7 +19,7 @@ export const PortalPhaser: React.FC = () => {
 
   const scene = "example";
 
-  const scenes = [Preloader, ExampleScene];
+  const scenes = [Preloader, CropBoomScene];
 
   useEffect(() => {
     const config: Phaser.Types.Core.GameConfig = {
@@ -96,6 +97,7 @@ export const PortalPhaser: React.FC = () => {
   return (
     <div>
       <div id="game-content" ref={ref} />
+      <InteractableModals id={portalState.context.id} />
     </div>
   );
 };

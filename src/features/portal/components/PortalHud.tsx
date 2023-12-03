@@ -4,7 +4,7 @@ import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { createPortal } from "react-dom";
 import { BlockBucks } from "features/island/hud/components/BlockBucks";
-import { PortalContext } from "../PortalProvider";
+import { PortalContext } from "../lib/PortalProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import worldIcon from "assets/icons/world.png";

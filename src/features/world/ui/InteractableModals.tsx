@@ -1,19 +1,15 @@
-import { useActor } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
-import { AuctioneerModal } from "features/retreat/components/auctioneer/AuctioneerModal";
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
 import fanArt from "assets/fanArt/dawn_breaker.png";
 import fanArt2 from "assets/fanArt/vergels.png";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Button } from "components/ui/Button";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { KrakenIntro } from "./npcs/Shelly";
-import { PromotingModal } from "features/game/expansion/components/SpecialOffer";
+import { AuctionHouseModal } from "./AuctionHouseModal";
+import { BoatModal } from "./BoatModal";
+import { PlazaBanner } from "./PlazaBanner";
 
 type InteractableName =
   | "kraken"
@@ -75,14 +71,7 @@ interface Props {
   id: number;
 }
 export const InteractableModals: React.FC<Props> = ({ id }) => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const {
-    context: { state, farmId },
-  } = gameState;
-
   const [interactable, setInteractable] = useState<InteractableName>();
-  const { openModal } = useContext(ModalContext);
 
   useEffect(() => {
     interactableModalManager.listen((interactable, open) => {
@@ -94,47 +83,25 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
     setInteractable(undefined);
   };
 
-  const navigate = useNavigate();
-
   return (
     <>
       {/* TODO - make smoother opening */}
       {interactable === "auction_item" && (
-        <AuctioneerModal
-          farmId={farmId}
+        <AuctionHouseModal
+          closeModal={closeModal}
+          id={id}
           isOpen={interactable === "auction_item"}
-          onClose={closeModal}
-          gameState={state}
-          onUpdate={(state) => {
-            gameService.send("UPDATE", { state });
-          }}
-          onMint={(id) => {
-            setInteractable(undefined);
-            gameService.send("MINT", { auctionId: id });
-          }}
-          deviceTrackerId={gameState.context.deviceTrackerId as string}
         />
       )}
 
       {interactable === "potion_table" && <PotionHouse onClose={closeModal} />}
 
-      <Modal
-        centered
-        show={interactable === "boat_modal"}
-        onHide={closeModal}
-        onShow={() => gameService.send("SAVE")}
-      >
-        <CloseButtonPanel onClose={closeModal}>
-          <div className="p-2">
-            <p className="mb-3">Would you like to return home?</p>
-          </div>
-          <Button
-            onClick={() => navigate(`/land/${id}`)}
-            disabled={gameState.matches("autosaving")}
-          >
-            {gameState.matches("autosaving") ? "Saving..." : "Go home"}
-          </Button>
-        </CloseButtonPanel>
+      <Modal centered show={interactable === "boat_modal"} onHide={closeModal}>
+        <BoatModal
+          isOpen={interactable === "boat_modal"}
+          closeModal={closeModal}
+          id={id}
+        />
       </Modal>
 
       <Modal centered show={interactable === "fat_chicken"} onHide={closeModal}>
@@ -162,14 +129,13 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         />
       </Modal>
 
-      <PromotingModal
-        isOpen={interactable === "kraken_banner"}
-        hasDiscount={!!gameState.context.state.inventory["Witches' Eve Banner"]}
-        hasPurchased={
-          !!gameState.context.state.inventory["Catch the Kraken Banner"]
-        }
-        onClose={closeModal}
-      />
+      {interactable === "kraken_banner" && (
+        <PlazaBanner
+          isOpen={interactable === "kraken_banner"}
+          closeModal={closeModal}
+        />
+      )}
+
       <Modal centered show={interactable === "bud"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}

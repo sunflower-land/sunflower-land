@@ -71,7 +71,7 @@ export abstract class BaseScene extends Phaser.Scene {
   abstract sceneId: SceneId;
   eventListener?: (event: EventObject) => void;
 
-  private joystick?: VirtualJoystick;
+  public joystick?: VirtualJoystick;
   private sceneTransitionData?: SceneTransitionData;
   private switchToScene?: SceneId;
   private options: Required<BaseSceneOptions>;

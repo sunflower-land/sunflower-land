@@ -1,7 +1,7 @@
 import { OFFLINE_FARM } from "features/game/lib/landData";
 import { GameState } from "features/game/types/game";
 import { assign, createMachine, Interpreter, State } from "xstate";
-import { loadPortal } from "./actions/loadPortal";
+import { loadPortal } from "../actions/loadPortal";
 import { CONFIG } from "lib/config";
 
 const getJWT = () => {
