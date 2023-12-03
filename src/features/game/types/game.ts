@@ -40,6 +40,7 @@ import {
   MarineMarvelName,
 } from "./fishing";
 import { Coordinates } from "../expansion/components/MapPlacement";
+import { PortalName } from "./portals";
 
 export type Reward = {
   sfl?: Decimal;
@@ -151,6 +152,7 @@ export type Coupons =
   | "Bud Ticket"
   | "Bud Seedling"
   | "Community Coin"
+  | "Arcade Token"
   | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
@@ -210,6 +212,10 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Community Coin": {
     description: "A valued coin that can be exchanged for rewards",
+  },
+  "Arcade Token": {
+    description:
+      "A token earned from mini-games and adventures. Can be exchanged for rewards.",
   },
 };
 
@@ -696,6 +702,17 @@ export type CommunityIsland = {
   };
 };
 
+export type Portal = {
+  arcadeTokensMinted: number;
+
+  history: Record<
+    string,
+    {
+      arcadeTokensMinted: number;
+    }
+  >;
+};
+
 export type TradeListing = {
   items: Partial<Record<InventoryItemName, number>>;
   sfl: number;
@@ -731,6 +748,7 @@ export interface GameState {
   warCollectionOffer?: WarCollectionOffer;
 
   islands?: Record<string, CommunityIsland>;
+  portals?: Partial<Record<PortalName, Portal>>;
 
   chickens: Record<string, Chicken>;
   inventory: Inventory;

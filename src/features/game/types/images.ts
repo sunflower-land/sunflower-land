@@ -2966,4 +2966,9 @@ export const ITEM_DETAILS: Items = {
     image: communityCoin,
     description: "A valued coin that can be exchanged for rewards",
   },
+  "Arcade Token": {
+    image: communityCoin,
+    description:
+      "A token earned from mini-games and adventures. Can be exchanged for rewards.",
+  },
 };

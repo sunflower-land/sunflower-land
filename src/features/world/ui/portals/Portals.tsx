@@ -5,8 +5,7 @@ import { portal } from "../community/actions/portal";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { wallet } from "lib/blockchain/wallet";
-
-const PORTAL_IDS = ["infected", "crop-boom"];
+import { SUPPORTED_PORTALS } from "features/game/types/portals";
 
 export const Portals: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -36,7 +35,7 @@ export const Portals: React.FC = () => {
 
   return (
     <>
-      {PORTAL_IDS.map((id) => (
+      {SUPPORTED_PORTALS.map((id) => (
         <Button key={id} onClick={() => travel(id)}>
           {id}
         </Button>

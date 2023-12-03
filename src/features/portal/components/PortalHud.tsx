@@ -8,19 +8,14 @@ import { PortalContext } from "../lib/PortalProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import worldIcon from "assets/icons/world.png";
-import { CONFIG } from "lib/config";
+import { goHome } from "../lib/portalUtil";
 
 export const PortalHud: React.FC = () => {
   const { portalService } = useContext(PortalContext);
   const [portalState] = useActor(portalService);
 
   const travelHome = () => {
-    if (CONFIG.NETWORK === "mainnet") {
-      window.location.href = "https://sunflower-land.com/play";
-      return;
-    }
-
-    window.location.href = "https://sunflower-land.com/testnet";
+    goHome();
   };
 
   return (

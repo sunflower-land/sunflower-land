@@ -3,6 +3,8 @@ import { GameState } from "features/game/types/game";
 import { assign, createMachine, Interpreter, State } from "xstate";
 import { loadPortal } from "../actions/loadPortal";
 import { CONFIG } from "lib/config";
+import { claimArcadeToken } from "../actions/claimArcadeToken";
+import { PortalName } from "features/game/types/portals";
 
 const getJWT = () => {
   const code = new URLSearchParams(window.location.search).get("jwt");
@@ -16,7 +18,11 @@ export interface Context {
   state: GameState;
 }
 
-export type PortalEvent = { type: "START" };
+export type PortalEvent =
+  | { type: "START" }
+  | { type: "CLAIM" }
+  | { type: "RETRY" }
+  | { type: "CONTINUE" };
 
 export type PortalState = {
   value:
@@ -25,7 +31,10 @@ export type PortalState = {
     | "idle"
     | "ready"
     | "unauthorised"
-    | "loading";
+    | "loading"
+    | "claiming"
+    | "completed"
+    | "rules";
   context: Context;
 };
 
@@ -44,7 +53,9 @@ export const portalMachine = createMachine({
   context: {
     id: 0,
     jwt: getJWT(),
-    state: OFFLINE_FARM,
+    state: CONFIG.API_URL ? undefined : OFFLINE_FARM,
+
+    completeAcknowledged: false,
   },
   states: {
     initialising: {
@@ -77,7 +88,7 @@ export const portalMachine = createMachine({
         },
         onDone: [
           {
-            target: "ready",
+            target: "introduction",
             actions: assign({
               state: (_: any, event) => event.data.game,
             }),
@@ -88,8 +99,70 @@ export const portalMachine = createMachine({
         },
       },
     },
-    idle: {},
-    ready: {},
+    introduction: {
+      always: [
+        // { target: "rules" },
+        {
+          target: "completed",
+          cond: (c) => {
+            const todayKey = new Date().toISOString().slice(0, 10);
+
+            const portals = (c.state?.portals ??
+              {}) as Required<GameState>["portals"];
+
+            const portal = portals[CONFIG.PORTAL_APP as PortalName];
+
+            const alreadyMintedToday =
+              portal?.history[todayKey]?.arcadeTokensMinted ?? 0;
+
+            return alreadyMintedToday > 0;
+          },
+        },
+        {
+          target: "ready",
+        },
+      ],
+    },
+    ready: {
+      on: {
+        CLAIM: {
+          target: "claiming",
+        },
+      },
+    },
+    claiming: {
+      id: "claiming",
+      invoke: {
+        src: async (context) => {
+          const { game } = await claimArcadeToken({
+            token: context.jwt as string,
+          });
+
+          return { game };
+        },
+        onDone: [
+          {
+            target: "completed",
+            actions: assign({
+              state: (_: any, event) => event.data.game,
+            }),
+          },
+        ],
+        onError: [
+          {
+            target: "error",
+          },
+        ],
+      },
+    },
+
     error: {},
+    completed: {
+      on: {
+        CONTINUE: {
+          target: "ready",
+        },
+      },
+    },
   },
 });

@@ -10,6 +10,8 @@ import { KrakenIntro } from "./npcs/Shelly";
 import { AuctionHouseModal } from "./AuctionHouseModal";
 import { BoatModal } from "./BoatModal";
 import { PlazaBanner } from "./PlazaBanner";
+import { Panel } from "components/ui/Panel";
+import { CropBoomFinish } from "features/portal/components/CropBoomFinish";
 
 type InteractableName =
   | "kraken"
@@ -49,7 +51,8 @@ type InteractableName =
   | "beach_orange_book"
   | "beach_blue_book"
   | "walrus"
-  | "kraken_banner";
+  | "kraken_banner"
+  | "crop_boom_finish";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -575,6 +578,16 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
             },
           ]}
         />
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "crop_boom_finish"}
+        onHide={closeModal}
+      >
+        <Panel bumpkinParts={NPC_WEARABLES.wizard}>
+          <CropBoomFinish onClose={closeModal} />
+        </Panel>
       </Modal>
     </>
   );

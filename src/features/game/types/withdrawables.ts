@@ -301,6 +301,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Bud Seedling": () => false,
   "Mermaid Scale": () => false,
   "Community Coin": () => false,
+  "Arcade Token": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {

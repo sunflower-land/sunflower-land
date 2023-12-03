@@ -64,6 +64,7 @@ export function makeGame(farm: any): GameState {
     expansionRequirements: farm.expansionRequirements,
 
     islands: farm.islands,
+    portals: farm.portals,
 
     bumpkin: farm.bumpkin,
     buildings: farm.buildings,
