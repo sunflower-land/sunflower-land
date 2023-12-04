@@ -1,0 +1,104 @@
+{
+  "tilesets": [
+    {
+      "columns": 64,
+      "firstgid": 1,
+      "image": "tilesheet.png",
+      "imageheight": 1024,
+      "imagewidth": 1024,
+      "margin": 0,
+      "name": "Sunnyside V3",
+      "spacing": 0,
+      "tilecount": 4096,
+      "tileheight": 16,
+      "tiles": [
+        {
+          "id": 0,
+          "properties": [
+            {
+              "name": "h",
+              "type": "int",
+              "value": 16
+            },
+            {
+              "name": "w",
+              "type": "int",
+              "value": 16
+            },
+            {
+              "name": "x",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "y",
+              "type": "int",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "properties": [
+            {
+              "name": "h",
+              "type": "int",
+              "value": 16
+            },
+            {
+              "name": "w",
+              "type": "int",
+              "value": 8
+            },
+            {
+              "name": "x",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "y",
+              "type": "int",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "properties": [
+            {
+              "name": "h",
+              "type": "int",
+              "value": 16
+            },
+            {
+              "name": "w",
+              "type": "int",
+              "value": 8
+            },
+            {
+              "name": "x",
+              "type": "int",
+              "value": 8
+            },
+            {
+              "name": "y",
+              "type": "int",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "id": 2298,
+          "properties": [
+            {
+              "name": "Collide Left",
+              "type": "bool",
+              "value": false
+            }
+          ]
+        }
+      ],
+      "tilewidth": 16
+    }
+  ]
+}

@@ -25,6 +25,8 @@ import { hasFeatureAccess } from "lib/flags";
 import { GameState } from "features/game/types/game";
 import { Room } from "colyseus.js";
 
+import defaultTilesetConfig from "assets/map/tileset.json";
+
 type SceneTransitionData = {
   previousSceneId: SceneId;
 };
@@ -145,7 +147,11 @@ export abstract class BaseScene extends Phaser.Scene {
 
   preload() {
     if (this.options.map?.json) {
-      this.load.tilemapTiledJSON(this.options.name, this.options.map.json);
+      const json = {
+        ...this.options.map.json,
+        tilesets: defaultTilesetConfig.tilesets,
+      };
+      this.load.tilemapTiledJSON(this.options.name, json);
     }
 
     if (this.options.map?.tilesetUrl)
@@ -247,54 +253,63 @@ export abstract class BaseScene extends Phaser.Scene {
 
     // Set up collider layers
     this.colliders = this.add.group();
-    const collisionPolygons = this.map.createFromObjects("Collision", {
-      scene: this,
-    });
-    collisionPolygons.forEach((polygon) => {
-      this.colliders?.add(polygon);
-      this.physics.world.enable(polygon);
-      (polygon.body as Physics.Arcade.Body).setImmovable(true);
-    });
+
+    if (this.map.getLayer("Collision")) {
+      const collisionPolygons = this.map.createFromObjects("Collision", {
+        scene: this,
+      });
+      collisionPolygons.forEach((polygon) => {
+        this.colliders?.add(polygon);
+        this.physics.world.enable(polygon);
+        (polygon.body as Physics.Arcade.Body).setImmovable(true);
+      });
+    }
 
     // Setup interactable layers
-    const interactablesPolygons = this.map.createFromObjects(
-      "Interactable",
-      {}
-    );
-    interactablesPolygons.forEach((polygon) => {
-      polygon
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", (p: Phaser.Input.Pointer) => {
-          if (p.downElement.nodeName === "CANVAS") {
-            const id = polygon.data.list.id;
-            interactableModalManager.open(id);
-          }
-        });
-    });
+    if (this.map.getLayer("Interactable")) {
+      const interactablesPolygons = this.map.createFromObjects(
+        "Interactable",
+        {}
+      );
+      interactablesPolygons.forEach((polygon) => {
+        polygon
+          .setInteractive({ cursor: "pointer" })
+          .on("pointerdown", (p: Phaser.Input.Pointer) => {
+            if (p.downElement.nodeName === "CANVAS") {
+              const id = polygon.data.list.id;
+              interactableModalManager.open(id);
+            }
+          });
+      });
+    }
 
     this.triggerColliders = this.add.group();
 
-    const triggerPolygons = this.map.createFromObjects("Trigger", {
-      scene: this,
-    });
+    if (this.map.getLayer("Trigger")) {
+      const triggerPolygons = this.map.createFromObjects("Trigger", {
+        scene: this,
+      });
 
-    triggerPolygons.forEach((polygon) => {
-      this.triggerColliders?.add(polygon);
-      this.physics.world.enable(polygon);
-      (polygon.body as Physics.Arcade.Body).setImmovable(true);
-    });
+      triggerPolygons.forEach((polygon) => {
+        this.triggerColliders?.add(polygon);
+        this.physics.world.enable(polygon);
+        (polygon.body as Physics.Arcade.Body).setImmovable(true);
+      });
+    }
 
     this.hiddenColliders = this.add.group();
 
-    const hiddenPolygons = this.map.createFromObjects("Hidden", {
-      scene: this,
-    });
+    if (this.map.getLayer("Hidden")) {
+      const hiddenPolygons = this.map.createFromObjects("Hidden", {
+        scene: this,
+      });
 
-    hiddenPolygons.forEach((polygon) => {
-      this.hiddenColliders?.add(polygon);
-      this.physics.world.enable(polygon);
-      (polygon.body as Physics.Arcade.Body).setImmovable(true);
-    });
+      hiddenPolygons.forEach((polygon) => {
+        this.hiddenColliders?.add(polygon);
+        this.physics.world.enable(polygon);
+        (polygon.body as Physics.Arcade.Body).setImmovable(true);
+      });
+    }
 
     // Debugging purposes - display colliders in pink
     this.physics.world.drawDebug = false;
