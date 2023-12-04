@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "components/ui/Button";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { portal } from "../community/actions/portal";
@@ -6,6 +6,7 @@ import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { wallet } from "lib/blockchain/wallet";
 import { SUPPORTED_PORTALS } from "features/game/types/portals";
+import { Modal } from "react-bootstrap";
 
 export const Portals: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -14,6 +15,29 @@ export const Portals: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
   const [loading, setLoading] = useState(false);
+  const [url, setUrl] = useState<string>();
+
+  // Function to handle messages from the iframe
+  const handleMessage = (event: any) => {
+    // Check the message content
+    if (event.data === "closePortal") {
+      // Close the modal when the message is received
+      setLoading(false);
+      setUrl("");
+
+      // TODO - refresh game state?
+    }
+  };
+
+  useEffect(() => {
+    // Add event listener to listen for messages from any origin
+    window.addEventListener("message", handleMessage);
+
+    return () => {
+      // Remove the event listener when the component is unmounted
+      window.removeEventListener("message", handleMessage);
+    };
+  }, []);
 
   const travel = async (portalId: string) => {
     setLoading(true);
@@ -26,8 +50,20 @@ export const Portals: React.FC = () => {
     });
 
     // Change route
-    window.location.href = `https://${portalId}.sunflower-land.com?jwt=${token}`;
+    // setUrl(`https://${portalId}.sunflower-land.com?jwt=${token}`);
+    setUrl(`http://localhost:3001?jwt=${token}`);
   };
+
+  if (url) {
+    return (
+      <Modal fullscreen show centered>
+        <iframe
+          src={url}
+          className="w-full h-full rounded-lg shadow-md absolute"
+        />
+      </Modal>
+    );
+  }
 
   if (loading) {
     return <span className="loading">Loading</span>;
