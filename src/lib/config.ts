@@ -74,6 +74,7 @@ const GAME_ANALYTICS_APP_ID = import.meta.env
 const GAME_ANALYTICS_PUB_KEY = import.meta.env
   .VITE_GAME_ANALYTICS_PUB_KEY as string;
 const PORTAL_APP = import.meta.env.VITE_PORTAL_APP as string;
+const PORTAL_GAME_URL = import.meta.env.VITE_PORTAL_GAME_URL as string;
 
 export const CONFIG = {
   NETWORK,
@@ -131,4 +132,5 @@ export const CONFIG = {
   GAME_ANALYTICS_APP_ID,
   GAME_ANALYTICS_PUB_KEY,
   PORTAL_APP,
+  PORTAL_GAME_URL,
 };

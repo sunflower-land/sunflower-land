@@ -14,7 +14,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { NPC_WEARABLES } from "lib/npcs";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { secondsToString } from "lib/utils/time";
-import { goHome } from "features/portal/examples/cropBoom/lib/portalUtil";
+import {
+  authorisePortal,
+  goHome,
+} from "features/portal/examples/cropBoom/lib/portalUtil";
 import { CropBoomRules } from "./components/CropBoomRules";
 
 export const CropBoomApp: React.FC = () => {
@@ -60,7 +63,7 @@ export const CropBoom: React.FC = () => {
               <Label type="danger">Error</Label>
               <span className="text-sm my-2">Your session has expired</span>
             </div>
-            <Button onClick={goHome}>Go Home</Button>
+            <Button onClick={authorisePortal}>Login</Button>
           </Panel>
         </Modal>
       )}
