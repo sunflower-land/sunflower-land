@@ -8,7 +8,7 @@ import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 export const Resale: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -16,17 +16,21 @@ export const Resale: React.FC = () => {
   const openResale = () => {
     setIsOpen(true);
   };
-  const { t } = useAppTranslation();
+
   return (
     <>
       <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>
         <CloseButtonPanel
           onClose={() => setIsOpen(false)}
-          title="Looking for rare items?"
+          title={translate("retreatTerms.lookingForRareItems")}
         >
           <div className="p-2">
-            <p className="text-sm mb-3">{t("retreatTerms.resale.one")}</p>
-            <p className="text-sm mb-3">{t("retreatTerms.resale.two")}</p>
+            <p className="text-sm mb-3">
+              {translate("retreatTerms.resale.one")}
+            </p>
+            <p className="text-sm mb-3">
+              {translate("retreatTerms.resale.two")}
+            </p>
 
             <Button
               onClick={() => {
@@ -36,7 +40,7 @@ export const Resale: React.FC = () => {
                 );
               }}
             >
-              {t("retreatTerms.resale.three")}
+              {translate("retreatTerms.resale.three")}
             </Button>
           </div>
         </CloseButtonPanel>
@@ -64,7 +68,7 @@ export const Resale: React.FC = () => {
           >
             <Action
               className="pointer-events-none"
-              text="Resale"
+              text={translate("resale")}
               icon={SUNNYSIDE.icons.heart}
             />
           </div>

@@ -119,6 +119,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   details: "Details",
   donate: "Donate",
   donating: "Donating",
+  dragMe: "Drag me",
   egg: "Egg",
   equip: "Equip",
   error: "Error",
@@ -159,6 +160,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   refreshing: "Refreshing",
   reqSkillPts: "Required Skill Points",
   reqSkills: "Required Skills:",
+  resale: "Resale",
   resources: "Resources",
   restock: "Restock",
   retry: "Retry",
@@ -804,10 +806,12 @@ const statements: Record<Statements, string> = {
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.askPrice": "Asking price:",
-  "bumpkinTrade.purchased": "Congratulations, your listing was purchased!",
-  "bumpkinTrade.plaza": "Travel to the plaza so players can trade with you",
-  "bumpkinTrade.lvl": "You must be level 10 to trade",
-  "bumpkinTrade.noTradeLs": "You have no trades listed.",
+  "bumpkinTrade.listingPurchased":
+    "Congratulations, your listing was purchased!",
+  "bumpkinTrade.travelPlaza":
+    "Travel to the plaza so players can trade with you",
+  "bumpkinTrade.minLevel": "You must be level 10 to trade",
+  "bumpkinTrade.noTradeListed": "You have no trades listed.",
   "bumpkinTrade.sell": "Sell your resources to other players for SFL.",
   "bumpkinTrade.list": "List trade",
 };
@@ -822,16 +826,15 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
     "Each piece of land comes with unique resources to help build your farming empire!",
   "landscape.expansion.two": "More expansions will be available soon...",
   "landscape.timerPopover": "Next Expansion",
-  "landscape.dragMe": "Drag me",
 };
 
 const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {
-  "part.hair": "Hair is required",
-  "part.body": "Body is required",
-  "part.shoes": "Shoes are required",
-  "part.shirt": "Shirt is required",
-  "part.pants": "Pants are required",
-  "part.background": "Background is required",
+  "equip.missingHair": "Hair is required",
+  "equip.missingBody": "Body is required",
+  "equip.missingShoes": "Shoes are required",
+  "equip.missingShirt": "Shirt is required",
+  "equip.missingPants": "Pants are required",
+  "equip.missingBackground": "Background is required",
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {
@@ -842,7 +845,7 @@ const retreatTerms: Record<RetreatTerms, string> = {
     "Different locations bring different opportunities to spend your hard earned resources.",
   "retreatTerms.introTravel.four":
     "At any time click the travel button to return home.",
-  "retreatTerms.resale.title": "Looking for rare items?",
+  "retreatTerms.lookingForRareItems": "Looking for rare items?",
   "retreatTerms.resale.one":
     "Players can trade special items they crafted in-game.",
   "retreatTerms.resale.two":

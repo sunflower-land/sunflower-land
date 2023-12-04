@@ -107,27 +107,27 @@ export const BumpkinEquip: React.FC = () => {
 
   const warning = () => {
     if (isMissingHair) {
-      return t("part.hair");
+      return t("equip.missingHair");
     }
 
     if (isMissingBody) {
-      return t("part.body");
+      return t("equip.missingBody");
     }
 
     if (isMissingShoes) {
-      return t("part.shoes");
+      return t("equip.missingShoes");
     }
 
     if (isMissingShirt) {
-      return t("part.shirt");
+      return t("equip.missingShirt");
     }
 
     if (isMissingPants) {
-      return t("part.pants");
+      return t("equip.missingPants");
     }
 
     if (isMissingBackground) {
-      return t("part.background");
+      return t("equip.missingBackground");
     }
     return "";
   };

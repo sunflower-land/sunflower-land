@@ -45,6 +45,7 @@ export type GeneralTerms =
   | "details"
   | "donate"
   | "donating"
+  | "dragMe"
   | "easter.eggs"
   | "egg"
   | "equip"
@@ -104,6 +105,7 @@ export type GeneralTerms =
   | "reqSkillPts"
   | "reqSkillPts"
   | "reqSkills"
+  | "resale"
   | "resources"
   | "restock"
   | "retry"
@@ -570,32 +572,31 @@ export type LandscapeTerms =
   | "landscape.intro.four"
   | "landscape.expansion.one"
   | "landscape.expansion.two"
-  | "landscape.timerPopover"
-  | "landscape.dragMe";
+  | "landscape.timerPopover";
 
 export type BumpkinTrade =
   | "bumpkinTrade.askPrice"
-  | "bumpkinTrade.purchased"
-  | "bumpkinTrade.plaza"
-  | "bumpkinTrade.lvl"
-  | "bumpkinTrade.noTradeLs"
+  | "bumpkinTrade.listingPurchased"
+  | "bumpkinTrade.travelPlaza"
+  | "bumpkinTrade.minLevel"
+  | "bumpkinTrade.noTradeListed"
   | "bumpkinTrade.sell"
   | "bumpkinTrade.list";
 
 export type BumpkinPartRequirements =
-  | "part.hair"
-  | "part.body"
-  | "part.shoes"
-  | "part.shirt"
-  | "part.pants"
-  | "part.background";
+  | "equip.missingHair"
+  | "equip.missingBody"
+  | "equip.missingShoes"
+  | "equip.missingShirt"
+  | "equip.missingPants"
+  | "equip.missingBackground";
 
 export type RetreatTerms =
   | "retreatTerms.introTravel.one"
   | "retreatTerms.introTravel.two"
   | "retreatTerms.introTravel.three"
   | "retreatTerms.introTravel.four"
-  | "retreatTerms.resale.title"
+  | "retreatTerms.lookingForRareItems"
   | "retreatTerms.resale.one"
   | "retreatTerms.resale.two"
   | "retreatTerms.resale.three";
