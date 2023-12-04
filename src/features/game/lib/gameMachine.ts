@@ -80,6 +80,20 @@ import { mmoBus } from "features/world/mmoMachine";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { BudName } from "../types/buds";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { isValidRedirect } from "features/portal/examples/cropBoom/lib/portalUtil";
+import { portal } from "features/world/ui/community/actions/portal";
+
+const getPortal = () => {
+  const code = new URLSearchParams(window.location.search).get("portal");
+
+  return code;
+};
+
+const getRedirect = () => {
+  const code = new URLSearchParams(window.location.search).get("redirect");
+
+  return code;
+};
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -342,6 +356,7 @@ export type BlockchainState = {
     | "deposited"
     | "visiting"
     | "gameRules"
+    | "portalling"
     | "introduction"
     | "playing"
     | "autosaving"
@@ -532,6 +547,11 @@ export function startGame(authContext: AuthContext) {
                 cond: (_, event) => event.data.isBlacklisted,
               },
               {
+                target: "portalling",
+                cond: () => !!getPortal(),
+                actions: ["assignGame"],
+              },
+              {
                 target: "notifying",
                 actions: ["assignGame", "assignUrl", "initialiseAnalytics"],
               },
@@ -552,6 +572,32 @@ export function startGame(authContext: AuthContext) {
           },
         },
         blacklisted: {},
+        portalling: {
+          id: "portalling",
+          invoke: {
+            src: async (context) => {
+              const portalId = getPortal() as string;
+              const { token } = await portal({
+                portalId,
+                token: authContext.user.rawToken as string,
+                farmId: context.farmId,
+                address: wallet.myAccount as string,
+              });
+
+              const redirect = getRedirect() as string;
+
+              if (!isValidRedirect(redirect)) {
+                throw new Error("Invalid redirect");
+              }
+
+              window.location.href = `${redirect}?jwt=${token}`;
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
         loadLandToVisit: {
           invoke: {
             src: async (_, event) => {

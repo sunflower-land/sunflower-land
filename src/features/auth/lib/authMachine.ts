@@ -20,8 +20,6 @@ import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectStrategy.factory";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { loadSession, savePromoCode } from "features/game/actions/loadSession";
-import { portal } from "features/world/ui/community/actions/portal";
-import { isValidRedirect } from "features/portal/examples/cropBoom/lib/portalUtil";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -33,18 +31,6 @@ const getFarmIdFromUrl = () => {
 
 const getDiscordCode = () => {
   const code = new URLSearchParams(window.location.search).get("code");
-
-  return code;
-};
-
-const getPortal = () => {
-  const code = new URLSearchParams(window.location.search).get("portal");
-
-  return code;
-};
-
-const getRedirect = () => {
-  const code = new URLSearchParams(window.location.search).get("redirect");
 
   return code;
 };
@@ -164,7 +150,6 @@ export type BlockchainState = {
     | "signIn"
     | "signUp"
     | "initialising"
-    | "portaling"
     | "visiting"
     | "connectingToWallet"
     | "setupContracts"
@@ -403,12 +388,6 @@ export const authMachine = createMachine(
       },
       connected: {
         entry: "clearTransactionId",
-        always: [
-          {
-            target: "portalling",
-            cond: () => !!getPortal(),
-          },
-        ],
         on: {
           RETURN: {
             target: "#reconnecting",
@@ -433,34 +412,6 @@ export const authMachine = createMachine(
                 }),
             ],
           },
-        },
-      },
-      portalling: {
-        id: "portalling",
-        invoke: {
-          src: async (context) => {
-            const portalId = getPortal() as string;
-            const { token } = await portal({
-              portalId,
-              token: context.user.rawToken as string,
-              farmId: 1, // TODO??
-              address: wallet.myAccount as string,
-            });
-
-            const redirect = getRedirect() as string;
-
-            if (!isValidRedirect(redirect)) {
-              throw new Error("Invalid redirect");
-            }
-
-            window.location.href = `${redirect}?jwt=${token}`;
-          },
-          onError: [
-            {
-              target: "unauthorised",
-              actions: "assignErrorMessage",
-            },
-          ],
         },
       },
       unauthorised: {

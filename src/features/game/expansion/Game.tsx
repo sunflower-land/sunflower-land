@@ -92,10 +92,12 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   mailbox: false,
   blacklisted: true,
   airdrop: true,
+  portalling: true,
 };
 
 // State change selectors
-const isLoading = (state: MachineState) => state.matches("loading");
+const isLoading = (state: MachineState) =>
+  state.matches("loading") || state.matches("portalling");
 const isTrading = (state: MachineState) => state.matches("trading");
 const isTraded = (state: MachineState) => state.matches("traded");
 const isSniped = (state: MachineState) => state.matches("sniped");
