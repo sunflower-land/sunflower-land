@@ -1,3 +1,5 @@
+import { BumpkinLevel } from "features/game/lib/level";
+
 export type Land =
   | 3
   | 4
@@ -70,3 +72,11 @@ export const EXPANSION_REQUIREMENTS: Record<Land, Requirements> = {
   22: LAND_22_REQUIREMENTS,
   23: LAND_23_REQUIREMENTS,
 };
+
+export function getLandLimit(bumpkinLevel: BumpkinLevel): number {
+  for (let limit = 3; limit <= 22; ++limit) {
+    if (EXPANSION_REQUIREMENTS[(limit + 1) as Land].bumpkinLevel > bumpkinLevel)
+      return limit;
+  }
+  return 23;
+}
