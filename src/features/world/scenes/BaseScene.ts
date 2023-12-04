@@ -254,7 +254,7 @@ export abstract class BaseScene extends Phaser.Scene {
     // Set up collider layers
     this.colliders = this.add.group();
 
-    if (this.map.getLayer("Collision")) {
+    if (this.map.getObjectLayer("Collision")) {
       const collisionPolygons = this.map.createFromObjects("Collision", {
         scene: this,
       });
@@ -266,7 +266,7 @@ export abstract class BaseScene extends Phaser.Scene {
     }
 
     // Setup interactable layers
-    if (this.map.getLayer("Interactable")) {
+    if (this.map.getObjectLayer("Interactable")) {
       const interactablesPolygons = this.map.createFromObjects(
         "Interactable",
         {}
@@ -285,7 +285,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
     this.triggerColliders = this.add.group();
 
-    if (this.map.getLayer("Trigger")) {
+    if (this.map.getObjectLayer("Trigger")) {
       const triggerPolygons = this.map.createFromObjects("Trigger", {
         scene: this,
       });
@@ -299,7 +299,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
     this.hiddenColliders = this.add.group();
 
-    if (this.map.getLayer("Hidden")) {
+    if (this.map.getObjectLayer("Hidden")) {
       const hiddenPolygons = this.map.createFromObjects("Hidden", {
         scene: this,
       });
