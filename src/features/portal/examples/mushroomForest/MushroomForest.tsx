@@ -1,25 +1,19 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Game, AUTO } from "phaser";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 
 import { Preloader } from "features/world/scenes/Preloader";
-import { PortalContext } from "./lib/PortalProvider";
-import { useActor } from "@xstate/react";
-import { CropBoomScene } from "./CropBoomScene";
-import { InteractableModals } from "features/world/ui/InteractableModals";
+import { MushroomForestScene } from "./MushroomForestScene";
+import { OFFLINE_FARM } from "features/game/lib/landData";
 
-export const CropBoomPhaser: React.FC = () => {
-  const { portalService } = useContext(PortalContext);
-  const [portalState] = useActor(portalService);
-
+export const MushroomForest: React.FC = () => {
   const [loaded, setLoaded] = useState(false);
-
   const game = useRef<Game>();
 
-  const scene = "crop_boom";
+  const scene = "mushroom_forest";
 
-  const scenes = [Preloader, CropBoomScene];
+  const scenes = [Preloader, MushroomForestScene];
 
   useEffect(() => {
     const config: Phaser.Types.Core.GameConfig = {
@@ -69,9 +63,9 @@ export const CropBoomPhaser: React.FC = () => {
     });
 
     game.current.registry.set("initialScene", scene);
-    game.current.registry.set("gameState", portalState.context.state);
-    game.current.registry.set("id", portalState.context.id);
-    game.current.registry.set("mmoServer", portalState.context.mmoServer);
+
+    game.current.registry.set("initialScene", scene);
+    game.current.registry.set("gameState", OFFLINE_FARM);
 
     setLoaded(true);
 
@@ -85,7 +79,6 @@ export const CropBoomPhaser: React.FC = () => {
   return (
     <div>
       <div id="game-content" ref={ref} />
-      <InteractableModals id={portalState.context.id} />
     </div>
   );
 };

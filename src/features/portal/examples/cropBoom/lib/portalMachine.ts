@@ -5,6 +5,10 @@ import { loadPortal } from "../actions/loadPortal";
 import { CONFIG } from "lib/config";
 import { claimArcadeToken } from "../actions/claimArcadeToken";
 import { PortalName } from "features/game/types/portals";
+import { Client, Room } from "colyseus.js";
+import { PlazaRoomState } from "features/world/types/Room";
+import { SPAWNS } from "features/world/lib/spawn";
+import { decodeToken } from "features/auth/actions/login";
 
 const getJWT = () => {
   const code = new URLSearchParams(window.location.search).get("jwt");
@@ -12,10 +16,25 @@ const getJWT = () => {
   return code;
 };
 
+const getServer = () => {
+  const code = new URLSearchParams(window.location.search).get("server");
+
+  return code;
+};
+
+const hasReadRules = () => {
+  return !!localStorage.getItem("rules.read");
+};
+
+export const acknowledgeCropBoomRules = () => {
+  localStorage.setItem("rules.read", new Date().toISOString());
+};
+
 export interface Context {
   id: number;
   jwt: string;
   state: GameState;
+  mmoServer?: Room<PlazaRoomState>;
 }
 
 export type PortalEvent =
@@ -70,38 +89,9 @@ export const portalMachine = createMachine({
         },
       ],
     },
-    unauthorised: {},
-    loading: {
-      id: "loading",
-      invoke: {
-        src: async (context) => {
-          if (!CONFIG.API_URL) {
-            return { game: OFFLINE_FARM };
-          }
-
-          const { game } = await loadPortal({
-            portalId: CONFIG.PORTAL_APP,
-            token: context.jwt as string,
-          });
-
-          return { game };
-        },
-        onDone: [
-          {
-            target: "introduction",
-            actions: assign({
-              state: (_: any, event) => event.data.game,
-            }),
-          },
-        ],
-        onError: {
-          target: "error",
-        },
-      },
-    },
     introduction: {
       always: [
-        // { target: "rules" },
+        { target: "rules", cond: () => !hasReadRules() },
         {
           target: "completed",
           cond: (c) => {
@@ -123,6 +113,68 @@ export const portalMachine = createMachine({
         },
       ],
     },
+
+    loading: {
+      id: "loading",
+      invoke: {
+        src: async (context) => {
+          if (!CONFIG.API_URL) {
+            return { game: OFFLINE_FARM };
+          }
+
+          const { farmId } = decodeToken(context.jwt as string);
+
+          // Load the game data
+          const { game } = await loadPortal({
+            portalId: CONFIG.PORTAL_APP,
+            token: context.jwt as string,
+          });
+
+          // Join the MMO Server
+          let mmoServer: Room<PlazaRoomState> | undefined;
+          const serverName = getServer();
+          const mmoUrl = CONFIG.ROOM_URL;
+
+          if (serverName && mmoUrl) {
+            const client = new Client(mmoUrl);
+
+            mmoServer = await client?.joinOrCreate<PlazaRoomState>(serverName, {
+              jwt: context.jwt,
+              bumpkin: game?.bumpkin,
+              farmId,
+              x: SPAWNS.crop_boom.default.x,
+              y: SPAWNS.crop_boom.default.y,
+              sceneId: "crop_boom",
+              experience: game.bumpkin?.experience ?? 0,
+            });
+          }
+
+          return { game, mmoServer, farmId };
+        },
+        onDone: [
+          {
+            target: "introduction",
+            actions: assign({
+              state: (_: any, event) => event.data.game,
+              mmoServer: (_: any, event) => event.data.mmoServer,
+              id: (_: any, event) => event.data.farmId,
+            }),
+          },
+        ],
+        onError: {
+          target: "error",
+        },
+      },
+    },
+
+    rules: {
+      on: {
+        CONTINUE: {
+          target: "introduction",
+        },
+      },
+    },
+
     ready: {
       on: {
         CLAIM: {
@@ -156,7 +208,6 @@ export const portalMachine = createMachine({
       },
     },
 
-    error: {},
     completed: {
       on: {
         CONTINUE: {
@@ -164,5 +215,13 @@ export const portalMachine = createMachine({
         },
       },
     },
+    error: {
+      on: {
+        RETRY: {
+          target: "initialising",
+        },
+      },
+    },
+    unauthorised: {},
   },
 });

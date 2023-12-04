@@ -4,14 +4,13 @@ import { HARVEST_PROC_ANIMATION } from "features/island/plots/lib/plant";
 import { SPAWNS } from "features/world/lib/spawn";
 import { SceneId } from "features/world/mmoMachine";
 import { BaseScene } from "features/world/scenes/BaseScene";
-import { randomInt } from "lib/utils/random";
 
 export class CropBoomScene extends BaseScene {
-  sceneId: SceneId = "example";
+  sceneId: SceneId = "crop_boom";
 
   constructor() {
     super({
-      name: "example",
+      name: "crop_boom",
       map: { json: mapJson },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
@@ -73,17 +72,24 @@ export class CropBoomScene extends BaseScene {
     });
 
     this.map.destroyLayer("Boom");
+
+    if (this.mmoServer) {
+      this.mmoServer.state.actions.onAdd(async (action) => {
+        if (action.event === "kaboom") {
+          this.kaboom(action.x as number, action.y as number, "otherPlayer");
+        }
+      });
+    }
   }
 
   private moving = false;
   private bombed = false;
 
-  kaboom(x: number, y: number) {
+  kaboom(x: number, y: number, from: "currentPlayer" | "otherPlayer") {
     if (!this.currentPlayer) {
       return;
     }
 
-    const key = randomInt(1, 100000000);
     const boom = this.add.sprite(x, y - 4, "crop_boom");
     boom.setDepth(100000);
 
@@ -105,13 +111,22 @@ export class CropBoomScene extends BaseScene {
 
     boom.play("crop_boom_anim", true);
 
+    // Let other players know they kaboomed
+    if (this.mmoServer && from === "currentPlayer") {
+      this.mmoServer.send(0, {
+        action: "kaboom",
+        x,
+        y,
+      });
+    }
+
     boom.on("animationcomplete", async () => {
       if (!this.currentPlayer) {
         return;
       }
 
-      this.currentPlayer.x = SPAWNS.example.default.x;
-      this.currentPlayer.y = SPAWNS.example.default.y;
+      this.currentPlayer.x = SPAWNS.crop_boom.default.x;
+      this.currentPlayer.y = SPAWNS.crop_boom.default.y;
 
       this.bombed = false;
       // Your code to run when the animation is complete
@@ -173,6 +188,8 @@ export class CropBoomScene extends BaseScene {
         this.movePlayerByDirection(90);
       }
     }
+
+    this.sendPositionToServer();
   }
 
   movePlayerByDirection(angle: number) {
@@ -219,7 +236,7 @@ export class CropBoomScene extends BaseScene {
           (pos) => pos.x === x && pos.y === y
         );
         if (bomb) {
-          this.kaboom(targetX, targetY);
+          this.kaboom(targetX, targetY, "currentPlayer");
         }
       },
     });

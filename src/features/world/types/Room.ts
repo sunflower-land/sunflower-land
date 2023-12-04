@@ -38,6 +38,8 @@ export interface Action extends Schema {
   sceneId: SceneId;
   sentAt: number;
   event: string;
+  x?: number;
+  y?: number;
 }
 export interface Trade extends Schema {
   text: string;

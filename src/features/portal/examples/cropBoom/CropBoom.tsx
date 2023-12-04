@@ -5,16 +5,20 @@ import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
-import { PortalContext, PortalProvider } from "../../lib/PortalProvider";
+import { PortalContext, PortalProvider } from "./lib/PortalProvider";
 import { Ocean } from "features/world/ui/Ocean";
-import { PortalHud } from "features/portal/components/PortalHud";
+import { CropBoomHud } from "features/portal/examples/cropBoom/components/CropBoomHud";
 import { CropBoomPhaser } from "./CropBoomPhaser";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NPC_WEARABLES } from "lib/npcs";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { secondsToString } from "lib/utils/time";
-import { goHome } from "features/portal/lib/portalUtil";
+import {
+  authorisePortal,
+  goHome,
+} from "features/portal/examples/cropBoom/lib/portalUtil";
+import { CropBoomRules } from "./components/CropBoomRules";
 
 export const CropBoomApp: React.FC = () => {
   return (
@@ -35,7 +39,11 @@ export const CropBoom: React.FC = () => {
       {portalState.matches("error") && (
         <Modal centered show>
           <Panel>
-            <span>Something went wrong</span>
+            <div className="p-2">
+              <Label type="danger">Error</Label>
+              <span className="text-sm my-2">Something went wrong</span>
+            </div>
+            <Button onClick={() => portalService.send("RETRY")}>Retry</Button>
           </Panel>
         </Modal>
       )}
@@ -47,17 +55,33 @@ export const CropBoom: React.FC = () => {
           </Panel>
         </Modal>
       )}
+
       {portalState.matches("unauthorised") && (
         <Modal centered show>
           <Panel>
-            <span>unauthorised</span>
+            <div className="p-2">
+              <Label type="danger">Error</Label>
+              <span className="text-sm my-2">Your session has expired</span>
+            </div>
+            <Button onClick={authorisePortal}>Login</Button>
           </Panel>
         </Modal>
       )}
+
       {portalState.matches("idle") && (
         <Modal centered show>
           <Panel>
             <Button onClick={() => portalService.send("START")}>Start</Button>
+          </Panel>
+        </Modal>
+      )}
+
+      {portalState.matches("rules") && (
+        <Modal centered show>
+          <Panel bumpkinParts={NPC_WEARABLES.wizard}>
+            <CropBoomRules
+              onAcknowledged={() => portalService.send("CONTINUE")}
+            />
           </Panel>
         </Modal>
       )}
@@ -98,7 +122,7 @@ export const CropBoom: React.FC = () => {
 
       {portalState.context.state && (
         <>
-          <PortalHud />
+          <CropBoomHud />
           <CropBoomPhaser />
         </>
       )}

@@ -92,10 +92,13 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   mailbox: false,
   blacklisted: true,
   airdrop: true,
+  portalling: true,
 };
 
 // State change selectors
-const isLoading = (state: MachineState) => state.matches("loading");
+const isLoading = (state: MachineState) =>
+  state.matches("loading") || state.matches("portalling");
+const isPortalling = (state: MachineState) => state.matches("portalling");
 const isTrading = (state: MachineState) => state.matches("trading");
 const isTraded = (state: MachineState) => state.matches("traded");
 const isSniped = (state: MachineState) => state.matches("sniped");
@@ -215,6 +218,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const { gameService } = useContext(Context);
 
   const loading = useSelector(gameService, isLoading);
+  const portalling = useSelector(gameService, isPortalling);
   const trading = useSelector(gameService, isTrading);
   const traded = useSelector(gameService, isTraded);
   const sniped = useSelector(gameService, isSniped);
@@ -282,7 +286,7 @@ export const GameWrapper: React.FC = ({ children }) => {
     };
   }, []);
 
-  if (loadingSession || loadingLandToVisit) {
+  if (loadingSession || loadingLandToVisit || portalling) {
     return (
       <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
         <Modal show centered backdrop={false}>

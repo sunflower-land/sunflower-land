@@ -101,6 +101,7 @@ export type Token = {
     verified?: boolean;
   };
   discordId?: string;
+  farmId?: number;
 };
 
 export function decodeToken(token: string): Token {

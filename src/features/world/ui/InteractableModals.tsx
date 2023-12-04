@@ -11,7 +11,7 @@ import { AuctionHouseModal } from "./AuctionHouseModal";
 import { BoatModal } from "./BoatModal";
 import { PlazaBanner } from "./PlazaBanner";
 import { Panel } from "components/ui/Panel";
-import { CropBoomFinish } from "features/portal/components/CropBoomFinish";
+import { CropBoomFinish } from "features/portal/examples/cropBoom/components/CropBoomFinish";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type InteractableName =
