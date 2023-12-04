@@ -20,6 +20,11 @@ import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectStrategy.factory";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { loadSession, savePromoCode } from "features/game/actions/loadSession";
+import {
+  getToken,
+  removeSocialSession,
+  saveSocialSession,
+} from "../actions/social";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -55,11 +60,6 @@ const isPassiveFailureMessage = (failureMessage: string): boolean => {
     failureMessage === "User closed modal" ||
     failureMessage === ERRORS.SEQUENCE_NOT_CONNECTED
   );
-};
-
-const getToken = () => {
-  const token = new URLSearchParams(window.location.search).get("token");
-  return token;
 };
 
 type Farm = {
@@ -193,6 +193,7 @@ export const authMachine = createMachine(
       context: {} as Context,
       events: {} as BlockchainEvent,
     },
+    preserveActionOrder: true,
     context: { user: {} },
     states: {
       idle: {
@@ -214,7 +215,10 @@ export const authMachine = createMachine(
           {
             target: "connected",
             cond: () => !!getToken(),
-            actions: "assignWeb2Token",
+            actions: [
+              "assignWeb2Token",
+              () => saveSocialSession(getToken() as string),
+            ],
           },
           {
             target: "welcome",
@@ -542,7 +546,10 @@ export const authMachine = createMachine(
       refreshFarm: assign<Context, any>({
         visitingFarmId: undefined,
       }),
-      clearSession: () => removeSession(wallet.myAccount as string),
+      clearSession: () => {
+        removeSocialSession();
+        removeSession(wallet.myAccount as string);
+      },
       deleteFarmIdUrl: deleteFarmUrl,
       setTransactionId: assign<Context, any>({
         transactionId: () => randomID(),
