@@ -186,25 +186,27 @@ export const SignIn = () => {
   const MainWallets = () => {
     return (
       <>
-        <Button
-          className="mb-2 py-2 text-sm relative"
-          onClick={() =>
-            (window.location.href = `${CONFIG.API_URL}/auth/google/authorize`)
-          }
-        >
-          <div className="px-8 mr-2 flex">
-            <div className="ml-2 mr-6 absolute left-0 top-1">
-              <GoogleIcon />
+        {hasFeatureAccess(TEST_FARM, "GOOGLE_LOGIN") && (
+          <Button
+            className="mb-2 py-2 text-sm relative"
+            onClick={() =>
+              (window.location.href = `${CONFIG.API_URL}/auth/google/authorize`)
+            }
+          >
+            <div className="px-8 mr-2 flex">
+              <div className="ml-2 mr-6 absolute left-0 top-1">
+                <GoogleIcon />
+              </div>
+              <Label
+                type="info"
+                className="absolute top-1/2 -translate-y-1/2 right-1"
+              >
+                New
+              </Label>
+              Google
             </div>
-            <Label
-              type="info"
-              className="absolute top-1/2 -translate-y-1/2 right-1"
-            >
-              New
-            </Label>
-            Google
-          </div>
-        </Button>
+          </Button>
+        )}
         <Button
           className="mb-2 py-2 text-sm relative"
           onClick={() =>
