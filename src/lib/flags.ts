@@ -23,7 +23,8 @@ type FeatureName =
   | "BEACH"
   | "HALLOWEEN"
   | "BANANA"
-  | "LOCALISATION";
+  | "LOCALISATION"
+  | "PORTALS";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51];
@@ -31,6 +32,7 @@ export const ADMIN_IDS = [1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51];
 type FeatureFlag = (game: GameState) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
+  PORTALS: defaultFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
   NEW_DELIVERIES: testnetFeatureFlag,

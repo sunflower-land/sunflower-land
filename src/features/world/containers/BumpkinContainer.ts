@@ -9,7 +9,6 @@ import { NPCName, acknowedlgedNPCs } from "lib/npcs";
 
 const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
   "pumpkin' pete": true,
-  luna: true,
   birdie: true,
   hank: true,
   "phantom face": true,

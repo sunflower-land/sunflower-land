@@ -306,6 +306,10 @@ const conversations: Record<Conversations, string> = {
   "blacksmith-intro.headline": "Madeeeeeira.",
   "blacksmith-intro.one":
     "Sou um mestre das ferramentas, e com os recursos certos, posso criar tudo o que você precisa... incluindo mais ferramentas!",
+  "luna.portalNoAccess":
+    "Hmmm, this portal just appeared out of nowhere. What could this mean?",
+  "luna.portals": "Portals",
+  "luna.rewards": "Rewards",
 };
 
 const henHouseTerms: Record<HenHouseTerms, string> = {
