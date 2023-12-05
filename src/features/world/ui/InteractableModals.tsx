@@ -12,10 +12,12 @@ import { BoatModal } from "./BoatModal";
 import { PlazaBanner } from "./PlazaBanner";
 import { Panel } from "components/ui/Panel";
 import { CropBoomFinish } from "features/portal/examples/cropBoom/components/CropBoomFinish";
+import { Luna } from "./npcs/Luna";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type InteractableName =
   | "kraken"
+  | "portal"
   | "welcome_sign"
   | "bud"
   | "plaza_statue"
@@ -370,6 +372,10 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
             },
           ]}
         />
+      </Modal>
+
+      <Modal centered show={interactable === "portal"} onHide={closeModal}>
+        <Luna onClose={closeModal} />
       </Modal>
 
       <Modal centered show={interactable === "dawn_book_2"} onHide={closeModal}>

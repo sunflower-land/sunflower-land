@@ -22,7 +22,7 @@ import { Donations } from "./donations/Donations";
 import { Shelly } from "./npcs/Shelly";
 import { Finn } from "./npcs/Finn";
 import { GoldTooth } from "./npcs/GoldTooth";
-import { Portals } from "./portals/Portals";
+import { Luna } from "./npcs/Luna";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -56,7 +56,7 @@ function getInitialNPC(scene: SceneId): NPCName | undefined {
 export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const [npc, setNpc] = useState<NPCName | undefined>(getInitialNPC(scene));
+  const [npc, setNpc] = useState<NPCName | undefined>();
 
   const { openModal } = useContext(ModalContext);
 
@@ -195,7 +195,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
         {npc === "finn" && <Finn onClose={closeModal} />}
         {npc === "tango" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-        {npc === "wizard" && <Portals />}
+        {npc === "luna" && <Luna onClose={closeModal} />}
       </Modal>
     </>
   );

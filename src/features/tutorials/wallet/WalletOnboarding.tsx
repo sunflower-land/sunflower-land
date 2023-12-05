@@ -13,6 +13,7 @@ import { Button } from "components/ui/Button";
 
 import walletIcon from "src/assets/icons/wallet.png";
 import { web3ConnectStrategyFactory } from "features/auth/lib/web3-connect-strategy/web3ConnectStrategy.factory";
+import { SEQUENCE_ICON } from "features/auth/components/SignIn";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Step = 1 | 2 | 3;
@@ -48,7 +49,7 @@ export const WalletOnboarding: React.FC = () => {
       title: t("onboarding.settingWallet"),
       icon: (
         <img
-          src="https://sequence.app/static/images/sequence-logo.7c854742a6b8b4969004.svg"
+          src={SEQUENCE_ICON}
           width={16 * PIXEL_SCALE}
           className="mx-auto mb-3"
         />

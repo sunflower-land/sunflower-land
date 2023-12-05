@@ -132,7 +132,7 @@ export const portalMachine = createMachine({
 
           // Join the MMO Server
           let mmoServer: Room<PlazaRoomState> | undefined;
-          const serverName = getServer();
+          const serverName = getServer() ?? "sunflorea_bliss";
           const mmoUrl = CONFIG.ROOM_URL;
 
           if (serverName && mmoUrl) {
