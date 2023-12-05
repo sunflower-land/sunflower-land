@@ -7,6 +7,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Portals } from "../portals/Portals";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -19,7 +20,7 @@ export const Luna: React.FC<Props> = ({ onClose }) => {
   const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
 
-  const hasAccess = false; //hasFeatureAccess(gameState.context.state, "PORTALS");
+  const hasAccess = hasFeatureAccess(gameState.context.state, "PORTALS");
   if (!hasAccess) {
     return (
       <SpeakingModal
