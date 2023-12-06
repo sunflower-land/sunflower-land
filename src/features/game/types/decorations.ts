@@ -432,7 +432,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   "Festive Tree": {
-    height: 3,
+    height: 2,
     width: 2,
   },
 };

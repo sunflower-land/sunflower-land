@@ -130,7 +130,7 @@ export function getDayOfChristmas(game: GameState, now = Date.now()) {
   };
 }
 
-export const DAILY_CANDY = 2;
+export const DAILY_CANDY = 10;
 
 export function collectCandy({
   state,

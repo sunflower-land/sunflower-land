@@ -52,13 +52,17 @@ function getInitialNPC(scene: SceneId): NPCName | undefined {
     return "shelly";
   }
 
+  if (scene === "plaza" && !isNPCAcknowledged("santa")) {
+    return "santa";
+  }
+
   return undefined;
 }
 
 export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const [npc, setNpc] = useState<NPCName | undefined>("santa");
+  const [npc, setNpc] = useState<NPCName | undefined>(getInitialNPC(scene));
 
   const { openModal } = useContext(ModalContext);
 

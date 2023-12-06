@@ -25,7 +25,8 @@ export type BumpkinBody =
   | "Infernal Goblin Potion"
   | "Pale Potion"
   | "Squirrel Monkey Potion"
-  | "Mermaid Potion";
+  | "Mermaid Potion"
+  | "Elf Potion";
 
 export type BumpkinHair =
   | "Basic Hair"
@@ -134,7 +135,8 @@ export type BumpkinTool =
   | "Skinning Knife"
   | "Sunflower Rod"
   | "Infernal Rod"
-  | "Pickaxe Shark";
+  | "Pickaxe Shark"
+  | "Candy Cane";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -147,7 +149,8 @@ export type BumpkinShoe =
   | "Leather Shoes"
   | "Old Shoes"
   | "Flip Flops"
-  | "Wellies";
+  | "Wellies"
+  | "Elf Shoes";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -164,6 +167,7 @@ export type BumpkinHat =
   | "Skull Hat"
   | "Reindeer Antlers"
   | "Santa Hat"
+  | "Elf Hat"
   | "Lion Dance Mask"
   | "Fruit Bowl"
   | "Pirate Hat"
@@ -273,7 +277,9 @@ export type BumpkinSuit =
   | "Reindeer Suit"
   | "Imp Costume"
   | "Ox Costume"
-  | "Potato Suit";
+  | "Potato Suit"
+  | "Santa Suit"
+  | "Elf Suit";
 
 export type BumpkinWings =
   | "Angel Wings"
@@ -559,6 +565,13 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Seedling Hat": 258,
   "Stormy Dumbo": 259,
   "Ugly Christmas Sweater": 260,
+  "Candy Cane": 261,
+  "Elf Hat": 262,
+  "Elf Potion": 263,
+  "Elf Shoes": 264,
+  "Elf Suit": 265,
+  "Santa Beard": 266,
+  "Santa Suit": 267,
 };
 
 // The reverse of above
@@ -878,4 +891,11 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Seedling Hat": "hat",
   "Stormy Dumbo": "hat",
   "Ugly Christmas Sweater": "shirt",
+  "Candy Cane": "tool",
+  "Elf Hat": "hat",
+  "Elf Potion": "body",
+  "Elf Shoes": "shoes",
+  "Elf Suit": "suit",
+  "Santa Beard": "beard",
+  "Santa Suit": "suit",
 };
