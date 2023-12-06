@@ -534,6 +534,7 @@ export abstract class BaseScene extends Phaser.Scene {
         y: 0,
         text: username ? username : `#${farmId}`,
       });
+      nameTag.name = "nameTag";
       entity.add(nameTag);
     }
 
@@ -830,6 +831,31 @@ export abstract class BaseScene extends Phaser.Scene {
     });
   }
 
+  updateUsernames() {
+    const server = this.mmoService.state.context.server;
+    if (!server) return;
+
+    server.state.players.forEach((player, sessionId) => {
+      if (this.playerEntities[sessionId]) {
+        const nameTag = this.playerEntities[sessionId].getByName("nameTag") as
+          | Phaser.GameObjects.Text
+          | undefined;
+
+        if (nameTag && player.username && nameTag.text !== player.username) {
+          nameTag.setText(player.username);
+        }
+      } else if (sessionId === server.sessionId) {
+        const nameTag = this.currentPlayer?.getByName("nameTag") as
+          | Phaser.GameObjects.Text
+          | undefined;
+
+        if (nameTag && player.username && nameTag.text !== player.username) {
+          nameTag.setText(player.username);
+        }
+      }
+    });
+  }
+
   renderPlayers() {
     const server = this.mmoServer;
     if (!server) return;
@@ -946,6 +972,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.switchScene();
     this.updatePlayer();
     this.updateOtherPlayers();
+    this.updateUsernames();
   }
 
   teleportModerator(x: number, y: number) {

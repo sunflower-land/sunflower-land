@@ -37,12 +37,17 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
     setState("loading");
 
     const farmId = gameState.context.farmId;
-    await saveUsername(authState, farmId, username)
-      .then(() => {
-        setState("success");
-        gameService.send("SAVE");
-      })
-      .catch(() => setState("error"));
+    try {
+      await saveUsername(authState, farmId, username);
+      gameService.send({
+        type: "UPDATE_USERNAME",
+        username: username as string,
+      });
+      //emit to colysues here
+      setState("success");
+    } catch {
+      setState("error");
+    }
   };
 
   return (

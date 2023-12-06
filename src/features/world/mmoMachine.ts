@@ -234,6 +234,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             sceneId: context.initialSceneId,
             experience: context.experience,
             moderation: context.moderation,
+            username: context.username,
           });
 
           return { server, client, serverId };

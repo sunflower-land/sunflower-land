@@ -47,7 +47,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 import SoundOffIcon from "assets/icons/sound_off.png";
 import { handleCommand } from "./lib/chatCommands";
-import { Moderation } from "features/game/lib/gameMachine";
+import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
 import { Inventory } from "features/game/types/game";
 
@@ -209,6 +209,11 @@ export const PhaserComponent: React.FC<Props> = ({
       if (e.type === "bumpkin.equipped") {
         mmoService.state.context.server?.send(0, {
           clothing: (e as EquipBumpkinAction).equipment,
+        });
+      }
+      if (e.type === "UPDATE_USERNAME") {
+        mmoService.state.context.server?.send(0, {
+          username: (e as UpdateUsernameEvent).username,
         });
       }
     });
