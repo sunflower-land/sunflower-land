@@ -146,7 +146,6 @@ export function collectCandy({
 
   const previous = christmas.day[dayOfChristmas]?.candy ?? 0;
 
-  console.log({ daysCompleted, previous });
   if (previous >= 10) {
     throw new Error("Reached daily limit");
   }
