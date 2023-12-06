@@ -12,6 +12,7 @@ import {
   getDayOfChristmas,
 } from "features/game/events/landExpansion/collectCandy";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
+import { SOUNDS } from "assets/sound-effects/soundEffects";
 
 const CANDY_POSITIONS = [
   {
@@ -240,6 +241,8 @@ export class ChristmasScene extends BaseScene {
   }
 
   preload() {
+    this.load.audio("chime", SOUNDS.notifications.chime);
+
     this.load.image("candy", "world/candy.png");
 
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
@@ -366,6 +369,9 @@ export class ChristmasScene extends BaseScene {
             // Otherwise collect straight away
             this.gameService.send("candy.collected");
           }
+
+          const chime = this.sound.add("chime");
+          chime.play({ loop: false, volume: 0.1 });
         }
       );
     });
