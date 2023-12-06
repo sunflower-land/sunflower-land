@@ -600,6 +600,7 @@ export abstract class BaseScene extends Phaser.Scene {
           // You can access custom properties of the trigger object here
           const id = (obj2 as any).data?.list?.id;
 
+          console.log({ id });
           // See if scene has registered any callbacks to perform
           const cb = this.onCollision[id];
           if (cb) {

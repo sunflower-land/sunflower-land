@@ -3,9 +3,17 @@ import mapJson from "assets/map/christmas.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
-import { interactableModalManager } from "../ui/InteractableModals";
+import {
+  InteractableModals,
+  interactableModalManager,
+} from "../ui/InteractableModals";
 import { AudioController } from "../lib/AudioController";
-import { CONFIG } from "lib/config";
+import { Candy } from "../containers/Candy";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
+import {
+  DAILY_CANDY,
+  getDayOfChristmas,
+} from "features/game/events/landExpansion/collectCandy";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -126,7 +134,13 @@ export class ChristmasScene extends BaseScene {
     });
   }
 
+  public get gameService() {
+    return this.registry.get("gameService") as MachineInterpreter;
+  }
+
   preload() {
+    this.load.image("candy", "world/candy.png");
+
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
       frameHeight: 18,
@@ -208,6 +222,50 @@ export class ChristmasScene extends BaseScene {
     super.create();
 
     this.initialiseNPCs(PLAZA_BUMPKINS);
+
+    const positions = [
+      {
+        x: 473,
+        y: 329,
+      },
+      {
+        x: 473,
+        y: 309,
+      },
+    ];
+
+    positions.forEach(({ x, y }) => {
+      const candy = new Candy({ x, y, scene: this });
+      candy.setDepth(1000000);
+      this.physics.world.enable(candy);
+
+      const candyGroup = this.add.group();
+      candyGroup.add(candy);
+      this.physics.add.collider(this.currentPlayer, candy, (obj1, obj2) => {
+        console.log("HIT!");
+        candy.sprite?.destroy();
+        candy.destroy();
+
+        const { dayOfChristmas } = getDayOfChristmas(
+          this.gameService.state.context.state
+        );
+
+        const candyCollected =
+          this.gameService.state.context.state.christmas?.day[dayOfChristmas]
+            ?.candy ?? 0;
+
+        const remaining = DAILY_CANDY - candyCollected;
+
+        console.log({ remaining });
+        // Open reward window
+        if (remaining === 1) {
+          interactableModalManager.open("christmas_reward");
+        } else {
+          // Otherwise collect straight away
+          this.gameService.send("candy.collected");
+        }
+      });
+    });
 
     const auctionLabel = new Label(this, "AUCTIONS", "brown");
     auctionLabel.setPosition(601, 260);

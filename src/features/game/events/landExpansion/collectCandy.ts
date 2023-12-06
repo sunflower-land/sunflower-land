@@ -1,7 +1,11 @@
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import {
+  Christmas,
+  GameState,
+  InventoryItemName,
+} from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 type ChristmasReward = {
@@ -106,7 +110,27 @@ type Options = {
   createdAt?: number;
 };
 
-export const DAILY_CANDY = 10;
+export function getDayOfChristmas(game: GameState, now = Date.now()) {
+  const christmas = game.christmas ?? { day: {} };
+
+  const daysCompleted = getKeys(christmas.day).filter(
+    (index) =>
+      // They have completed the daily requirement
+      christmas.day[index].candy >= DAILY_CANDY &&
+      // A new day has begun
+      new Date(now).getUTCDate() >
+        new Date(christmas.day[index].collectedAt).getUTCDate()
+  ).length;
+
+  const dayOfChristmas = daysCompleted + 1;
+
+  return {
+    daysCompleted,
+    dayOfChristmas,
+  };
+}
+
+export const DAILY_CANDY = 2;
 
 export function collectCandy({
   state,
@@ -118,20 +142,11 @@ export function collectCandy({
   const christmas = game.christmas ?? { day: {} };
 
   // Which day are they up to in the event
-  const daysCompleted = getKeys(christmas.day).filter(
-    (index) =>
-      // They have completed the daily requirement
-      christmas.day[index].candy >= DAILY_CANDY &&
-      // A new day has begun
-      new Date(createdAt).getUTCDate() >
-        new Date(christmas.day[index].collectedAt).getUTCDate()
-  ).length;
+  const { dayOfChristmas, daysCompleted } = getDayOfChristmas(game, createdAt);
 
   if (daysCompleted >= 12) {
     throw new Error("Event finished");
   }
-
-  const dayOfChristmas = daysCompleted + 1;
 
   const previous = christmas.day[dayOfChristmas]?.candy ?? 0;
 
