@@ -243,9 +243,9 @@ export abstract class BaseScene extends Phaser.Scene {
           2
         ) as Phaser.Tilemaps.Tileset);
 
-    const halloween = this.map.addTilesetImage(
-      "Halloween",
-      "halloween",
+    const christmas = this.map.addTilesetImage(
+      "Sunnyside V3",
+      "christmas-tileset",
       16,
       16,
       1,
@@ -330,12 +330,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.map.layers.forEach((layerData, idx) => {
       if (layerData.name === "Crows") return;
 
-      const layer = this.map.createLayer(
-        layerData.name,
-        [tileset, halloween],
-        0,
-        0
-      );
+      const layer = this.map.createLayer(layerData.name, [christmas], 0, 0);
       if (TOP_LAYERS.includes(layerData.name)) {
         layer?.setDepth(1000000);
       }

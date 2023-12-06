@@ -734,6 +734,16 @@ export type Fishing = {
   };
 };
 
+export type Christmas = {
+  day: Record<
+    number,
+    {
+      candy: number;
+      collectedAt: number;
+    }
+  >;
+};
+
 export interface GameState {
   username?: string;
   balance: Decimal;
@@ -823,6 +833,8 @@ export interface GameState {
     listings?: Record<string, TradeListing>;
   };
   buds?: Record<number, Bud>;
+
+  christmas?: Christmas;
 }
 
 export interface Context {

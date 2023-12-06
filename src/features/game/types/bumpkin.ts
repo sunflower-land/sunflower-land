@@ -283,7 +283,7 @@ export type BumpkinWings =
   | "Crow Wings"
   | "Bat Wings";
 
-export type BumpkinBeard = "Wise Beard" | "Hoary Chin";
+export type BumpkinBeard = "Wise Beard" | "Hoary Chin" | "Santa Beard";
 
 export type BumpkinItem =
   | BumpkinBody
