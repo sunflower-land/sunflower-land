@@ -21,7 +21,7 @@ const NAME_START_DATE = new Date("2023-12-11T00:00:00.000Z");
 const NAME_END_DATE = new Date("2023-12-16T00:00:00.000Z");
 const MAX_FARM_ID = 250000;
 
-const WHITELISTED_FARM_IDS = [87, 39488];
+const WHITELISTED_FARM_IDS = [142, 39488];
 
 const farmAvailableAt = (farmId: number) => {
   const percentage = farmId / MAX_FARM_ID;
@@ -46,8 +46,8 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [username, setUsername] = useState<string | undefined>(
-    gameState.context.state.username
+  const [username, setUsername] = useState<string>(
+    gameState.context.state.username ?? ""
   );
   const [validationState, setValidationState] = useState<string | null>(null);
 
@@ -65,6 +65,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
     WHITELISTED_FARM_IDS.includes(gameState.context.farmId);
 
   // debounced function to check if username is available
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedCheckUsername = useCallback(
     debounce(async (token: string, username: string) => {
       try {
@@ -137,15 +138,15 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                   text: "You don't have a name yet? Well, we can fix that! Do you want me to get the papers ready?",
                   actions: [
                     {
-                      text: "Yes please!",
-                      cb: () => {
-                        setTab(1);
-                      },
-                    },
-                    {
                       text: "No thanks.",
                       cb: () => {
                         onClose();
+                      },
+                    },
+                    {
+                      text: "Yes please!",
+                      cb: () => {
+                        setTab(1);
                       },
                     },
                   ],
@@ -244,7 +245,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                 </span>
                 <Label
                   icon={SUNNYSIDE.icons.stopwatch}
-                  type="warning"
+                  type="info"
                   className="my-1 mx-auto"
                 >
                   {formatDateTime(availableAt.toISOString())}
