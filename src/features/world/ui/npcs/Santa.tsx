@@ -2,7 +2,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES, acknowledgeNPC, isNPCAcknowledged } from "lib/npcs";
 import React, { useContext, useEffect, useState } from "react";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { ClaimReward } from "features/game/expansion/components/Airdrop";
@@ -24,12 +23,10 @@ interface Props {
 }
 
 export const Santa: React.FC<Props> = ({ onClose }) => {
-  const [tab, setTab] = useState(0);
   const [showIntro, setShowIntro] = useState(!isNPCAcknowledged("santa"));
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const { t } = useAppTranslation();
 
   const game = gameState.context.state;
 
@@ -44,7 +41,13 @@ export const Santa: React.FC<Props> = ({ onClose }) => {
         bumpkinParts={NPC_WEARABLES.santa}
         message={[
           {
-            text: t("santa.introduction"),
+            text: "Ho Ho Ho Bumpkin! For a limited time, I am giving daily rewards for those that find my missing Candy.",
+          },
+          {
+            text: "Each day you will find 10 pieces scattered throughout the Pumpkin Plaza.",
+          },
+          {
+            text: "Collect these pieces 12 days in a row for a special prize!",
           },
         ]}
       />
@@ -99,8 +102,8 @@ export const Santa: React.FC<Props> = ({ onClose }) => {
               Complete
             </Label>
             <p className="text-sm flex-1 mb-2">
-              Well done! You have completed the 12 Days of Christmas. Don't
-              forget to place the Festive Tree for a special gift.
+              {`Well done! You have completed the 12 Days of Christmas. Don't
+              forget to place the Festive Tree for a special gift.`}
             </p>
           </>
         )}
@@ -119,14 +122,8 @@ export const ChristmasReward: React.FC<Props> = ({ onClose }) => {
   const [state, setState] = useState<"intro" | "reward" | "claimed">("intro");
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const game = gameState.context.state;
-  const { t } = useAppTranslation();
 
   const { dayOfChristmas } = getDayOfChristmas(gameState.context.state);
-
-  const candyCollected = game.christmas?.day[dayOfChristmas]?.candy ?? 0;
-
-  const remaining = DAILY_CANDY - candyCollected;
 
   useEffect(() => {
     acknowledgeNPC("santa");
@@ -139,7 +136,7 @@ export const ChristmasReward: React.FC<Props> = ({ onClose }) => {
         bumpkinParts={NPC_WEARABLES.santa}
         message={[
           {
-            text: t("santa.complete"),
+            text: "Ho Ho Ho! Well done Bumpkin, you found my candy.",
           },
         ]}
       />

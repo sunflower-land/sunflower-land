@@ -347,7 +347,6 @@ export class ChristmasScene extends BaseScene {
         this.currentPlayer as BumpkinContainer,
         candy,
         (obj1, obj2) => {
-          console.log("HIT!");
           candy.sprite?.destroy();
           candy.destroy();
 
@@ -361,7 +360,6 @@ export class ChristmasScene extends BaseScene {
 
           const remaining = DAILY_CANDY - candyCollected;
 
-          console.log({ remaining });
           // Open reward window
           if (remaining === 1) {
             interactableModalManager.open("christmas_reward");

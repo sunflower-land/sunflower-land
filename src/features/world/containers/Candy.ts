@@ -14,17 +14,13 @@ export class Candy extends Phaser.GameObjects.Container {
 
     this.setSize(SQUARE_WIDTH, SQUARE_WIDTH);
 
-    // On Collision
-    this.setInteractive({ cursor: "pointer" }).on(
-      "pointerdown",
-      (p: Phaser.Input.Pointer) => {}
-    );
-
     // this.setDepth(bumpkin.y);
     (this.body as Phaser.Physics.Arcade.Body)
       .setSize(16, 20)
       .setOffset(0, 0)
       .setImmovable(true)
       .setCollideWorldBounds(true);
+
+    this.setDepth(100000000);
   }
 }

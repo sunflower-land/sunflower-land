@@ -117,7 +117,7 @@ describe("collectCandy", () => {
   });
 
   it("claims the sfl reward", () => {
-    let state = collectCandy({
+    const state = collectCandy({
       state: {
         ...TEST_FARM,
         christmas: {
@@ -138,7 +138,7 @@ describe("collectCandy", () => {
   });
 
   it("claims an item reward", () => {
-    let state = collectCandy({
+    const state = collectCandy({
       state: {
         ...TEST_FARM,
         christmas: {
@@ -159,7 +159,7 @@ describe("collectCandy", () => {
   });
 
   it("claims a wearable reward", () => {
-    let state = collectCandy({
+    const state = collectCandy({
       state: {
         ...TEST_FARM,
         wardrobe: {

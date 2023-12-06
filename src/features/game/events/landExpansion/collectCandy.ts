@@ -1,11 +1,7 @@
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";
-import {
-  Christmas,
-  GameState,
-  InventoryItemName,
-} from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 type ChristmasReward = {

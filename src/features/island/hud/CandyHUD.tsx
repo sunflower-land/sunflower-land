@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import candy from "public/world/candy_icon.png";
 
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";

@@ -600,7 +600,6 @@ export abstract class BaseScene extends Phaser.Scene {
           // You can access custom properties of the trigger object here
           const id = (obj2 as any).data?.list?.id;
 
-          console.log({ id });
           // See if scene has registered any callbacks to perform
           const cb = this.onCollision[id];
           if (cb) {
@@ -793,8 +792,6 @@ export abstract class BaseScene extends Phaser.Scene {
       if (!this.playerEntities[sessionId]?.active)
         this.destroyPlayer(sessionId);
     });
-
-    // console.log({ players: server.state.players.size });
 
     // Create new players
     server.state.players.forEach((player, sessionId) => {
