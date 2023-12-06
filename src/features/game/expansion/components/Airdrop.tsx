@@ -21,7 +21,7 @@ import { CONSUMABLES, ConsumableName } from "features/game/types/consumables";
 
 interface ClaimRewardProps {
   reward: IAirdrop;
-  onClaim: () => void;
+  onClaim?: () => void;
   onClose?: () => void;
 }
 
@@ -96,12 +96,12 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
       </div>
 
       <div className="flex items-center mt-1">
-        {onClose && (
-          <Button className="mr-1" onClick={onClose}>
-            Close
+        {onClose && <Button onClick={onClose}>Close</Button>}
+        {onClaim && (
+          <Button onClick={onClaim} className="ml-1">
+            Claim
           </Button>
         )}
-        <Button onClick={onClaim}>Claim</Button>
       </div>
     </>
   );

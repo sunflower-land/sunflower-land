@@ -13,6 +13,7 @@ import { Label } from "components/ui/Label";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { ITEM_IDS } from "../types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ClaimReward } from "../expansion/components/Airdrop";
 
 export const Revealed: React.FC<{
   onAcknowledged?: () => void;
@@ -37,6 +38,15 @@ export const Revealed: React.FC<{
 
   return (
     <>
+      <ClaimReward
+        reward={{
+          createdAt: Date.now(),
+          id: "revealed-reward",
+          items,
+          wearables,
+          sfl,
+        }}
+      />
       <div className="flex flex-col items-center p-2">
         <p className="text-center text-base mb-3">Congratulations!</p>
 

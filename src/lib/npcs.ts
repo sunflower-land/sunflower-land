@@ -586,11 +586,11 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     body: "Beige Farmer Potion",
     hair: "Sun Spots",
     hat: "Santa Hat",
-    beard: "Wise Beard", // TODO: Santa Beard
-    suit: "Reindeer Suit", // TODO: Santa Suit
+    beard: "Santa Beard",
+    suit: "Santa Suit",
     background: "Christmas Background",
     shoes: "Black Farmer Boots",
-    tool: "Dawn Lamp",
+    tool: "Candy Cane",
   },
 };
 
