@@ -101,7 +101,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
         username: username as string,
       });
       setState("success");
-      setTab(3);
+      setTab(4);
     } catch {
       setValidationState("Error saving username, please try again");
       setState("idle");
@@ -200,25 +200,11 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                     </label>
                   )}
                 </div>
-
-                <div className="flex flex-row justify-end items-center w-full p-1">
-                  <span
-                    className="cursor-pointer text-xs underline hover:text-gray-400"
-                    onClick={() => {
-                      window.open(
-                        "https://docs.sunflower-land.com/support/terms-of-service/code-of-conduct",
-                        "_blank"
-                      );
-                    }}
-                  >
-                    Code of Conduct
-                  </span>
-                </div>
               </div>
               <Button
                 className="overflow-hidden"
                 type="submit"
-                onClick={state !== "idle" ? undefined : applyUsername}
+                onClick={state !== "idle" ? undefined : () => setTab(2)}
                 disabled={
                   Boolean(validationState) || state !== "idle" || !username
                 }
@@ -258,6 +244,45 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
       )}
 
       {tab === 2 && (
+        <CloseButtonPanel
+          onClose={onClose}
+          bumpkinParts={{
+            ...NPC_WEARABLES.mayor,
+            body: "Light Brown Worried Farmer Potion",
+          }}
+          onBack={() => setTab(1)}
+          title="Beware!"
+        >
+          <>
+            <div className="flex flex-col space-y-2 px-1 pb-2 pt-0">
+              <span>
+                Please be aware that usernames must adhere to our{" "}
+                <a
+                  className="cursor-pointer underline hover:text-gray-400"
+                  href="https://docs.sunflower-land.com/support/terms-of-service/code-of-conduct"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Code of Conduct
+                </a>
+                . Failure to comply may result in penalties, including possible
+                account suspension.
+              </span>
+            </div>
+
+            <Button
+              onClick={() => {
+                applyUsername();
+                setTab(1);
+              }}
+            >
+              Confirm
+            </Button>
+          </>
+        </CloseButtonPanel>
+      )}
+
+      {tab === 3 && (
         <SpeakingModal
           onClose={onClose}
           bumpkinParts={NPC_WEARABLES.mayor}
@@ -272,7 +297,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
         />
       )}
 
-      {tab === 3 && (
+      {tab === 4 && (
         <CloseButtonPanel bumpkinParts={NPC_WEARABLES.mayor}>
           <div className="flex flex-col gap-2 p-1 pb-2">
             <span>
