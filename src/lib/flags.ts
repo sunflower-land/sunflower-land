@@ -53,7 +53,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   },
 
   CHRISTMAS: (game: GameState) => {
-    if (Date.now() > new Date("2023-12-27").getTime()) {
+    if (Date.now() > new Date("2023-12-28").getTime()) {
       return false;
     }
 
