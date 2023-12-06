@@ -7,7 +7,6 @@
 */
 import { Profanity, ProfanityOptions } from "@2toad/profanity";
 import profanity from "./utils/profanity";
-import { AuthMachineState } from "features/auth/lib/authMachine";
 
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
@@ -45,14 +44,10 @@ export const validateUsername = (username?: string) => {
 };
 
 export const saveUsername = async (
-  authState: AuthMachineState,
+  token: string,
   farmId: number,
-  username?: string
+  username: string
 ) => {
-  const token = authState.context.user.rawToken;
-
-  if (!token || !farmId || !username) throw new Error(ERRORS.FAILED_REQUEST);
-
   const response = await window.fetch(`${API_URL}/username/${farmId}`, {
     method: "POST",
     headers: {
@@ -64,11 +59,36 @@ export const saveUsername = async (
     }),
   });
 
+  if (response.status === 409) {
+    return { success: false };
+  }
+
   if (response.status >= 400) {
     throw new Error(ERRORS.FAILED_REQUEST);
   }
 
-  const data: { success: boolean } = await response.json();
+  return { success: true };
+};
 
-  return data;
+export const checkUsername = async (token: string, username: string) => {
+  const response = await window.fetch(`${API_URL}/check-username`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      username,
+    }),
+  });
+
+  if (response.status === 409) {
+    return { success: false };
+  }
+
+  if (response.status >= 400) {
+    throw new Error(ERRORS.FAILED_REQUEST);
+  }
+
+  return { success: true };
 };

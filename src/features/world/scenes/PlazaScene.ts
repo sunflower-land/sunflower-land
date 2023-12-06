@@ -110,9 +110,6 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     y: 163,
     npc: "mayor",
     direction: "left",
-    onClick: () => {
-      interactableModalManager.open("plaza_mayor");
-    },
   },
 ];
 export class PlazaScene extends BaseScene {

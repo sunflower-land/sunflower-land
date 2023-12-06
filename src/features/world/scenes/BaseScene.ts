@@ -198,7 +198,7 @@ export abstract class BaseScene extends Phaser.Scene {
         y: spawn.y ?? 0,
         // gameService
         farmId: Number(this.id),
-        username: this.gameService.state.context.state.username,
+        username: this.username,
         isCurrentPlayer: true,
         // gameService
         clothing: {
@@ -474,6 +474,10 @@ export abstract class BaseScene extends Phaser.Scene {
     return this.registry.get("id") as number;
   }
 
+  public get username() {
+    return this.gameState.username;
+  }
+
   createPlayer({
     x,
     y,
@@ -488,7 +492,7 @@ export abstract class BaseScene extends Phaser.Scene {
     x: number;
     y: number;
     farmId: number;
-    username: string;
+    username?: string;
     clothing: Player["clothing"];
     npc?: NPCName;
     experience?: number;
@@ -622,6 +626,7 @@ export abstract class BaseScene extends Phaser.Scene {
       fontSize: "4px",
       fontFamily: "monospace",
       resolution: 4,
+      padding: { x: 2, y: 2 },
     });
     textObject.setOrigin(0.5);
 
@@ -832,7 +837,7 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   updateUsernames() {
-    const server = this.mmoService.state.context.server;
+    const server = this.mmoServer;
     if (!server) return;
 
     server.state.players.forEach((player, sessionId) => {

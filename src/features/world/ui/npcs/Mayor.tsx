@@ -1,14 +1,39 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
-import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "../../../game/components/CloseablePanel";
-import { SpeakingModal } from "../../../game/components/SpeakingModal";
+import {
+  SpeakingModal,
+  SpeakingText,
+} from "../../../game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
-import { validateUsername, saveUsername } from "lib/username";
+import { validateUsername, saveUsername, checkUsername } from "lib/username";
+import { Panel } from "components/ui/Panel";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { formatDateTime } from "lib/utils/time";
+import { Label } from "components/ui/Label";
+import debounce from "lodash.debounce";
+
+const NAME_START_DATE = new Date("2023-12-11T00:00:00.000Z");
+const NAME_END_DATE = new Date("2023-12-16T00:00:00.000Z");
+const MAX_FARM_ID = 250000;
+
+const WHITELISTED_FARM_IDS = [87, 39488];
+
+const farmAvailableAt = (farmId: number) => {
+  const percentage = farmId / MAX_FARM_ID;
+
+  const availableAt =
+    percentage * (NAME_END_DATE.getTime() - NAME_START_DATE.getTime()) +
+    NAME_START_DATE.getTime();
+
+  const cappedAvailableAt = Math.min(availableAt, NAME_END_DATE.getTime());
+
+  return new Date(cappedAvailableAt);
+};
 
 interface MayorProps {
   onClose: () => void;
@@ -27,153 +52,236 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
   const [validationState, setValidationState] = useState<string | null>(null);
 
   const [tab, setTab] = useState<number>(0);
-  const [state, setState] = useState<"idle" | "loading" | "success" | "error">(
-    "idle"
-  );
+  const [state, setState] = useState<
+    "idle" | "loading" | "success" | "error" | "checking"
+  >("idle");
 
   const alreadyHaveUsername = Boolean(gameState.context.state.username);
+
+  const now = new Date();
+  const availableAt = farmAvailableAt(gameState.context.farmId);
+  const isAvailable =
+    now > availableAt ||
+    WHITELISTED_FARM_IDS.includes(gameState.context.farmId);
+
+  // debounced function to check if username is available
+  const debouncedCheckUsername = useCallback(
+    debounce(async (token: string, username: string) => {
+      try {
+        const result = await checkUsername(token, username);
+        setValidationState(result.success ? null : "Username already taken");
+      } catch {
+        setValidationState("Error checking username, please try again");
+      } finally {
+        setState("idle");
+      }
+    }, 300),
+    []
+  );
 
   const applyUsername = async () => {
     setState("loading");
 
     const farmId = gameState.context.farmId;
     try {
-      await saveUsername(authState, farmId, username);
+      const result = await saveUsername(
+        authState.context.user.rawToken as string,
+        farmId,
+        username as string
+      );
+      if (result.success === false) {
+        setValidationState("Username already taken");
+        setState("idle");
+        return;
+      }
+
       gameService.send({
         type: "UPDATE_USERNAME",
         username: username as string,
       });
-      //emit to colysues here
       setState("success");
+      setTab(3);
     } catch {
-      setState("error");
+      setValidationState("Error saving username, please try again");
+      setState("idle");
     }
   };
 
   return (
     <>
-      <Modal show={true} onHide={onClose} centered>
-        {tab === 0 && (
-          <>
-            {alreadyHaveUsername ? (
-              <SpeakingModal
-                onClose={onClose}
-                bumpkinParts={NPC_WEARABLES.mayor}
-                message={[
-                  {
-                    text: `Howdy ${username}! Seems like we've already met. In case you forgot, I'm the Mayor of this town!`,
-                  },
-                  {
-                    text: "You might want to ask other people around to call you with another name? Unfortunately, I can't do that for you now, the paperwork is too much for me to handle..",
-                  },
-                ]}
-              />
-            ) : (
-              <SpeakingModal
-                onClose={onClose}
-                bumpkinParts={NPC_WEARABLES.mayor}
-                message={[
-                  {
-                    text: "Howdy fellow Bumpkin I.. Don't seem to know yet? Let's meet!",
-                  },
-                  {
-                    text: "I'm the Mayor of this town! I'm in charge of making sure everyone is happy and has a place to live. I also make sure that everyone has a name!",
-                  },
-                  {
-                    text: "You don't have a name yet? Well, we can fix that! Do you want me to get the papers ready?",
-                    actions: [
-                      {
-                        text: "Yes please!",
-                        cb: () => {
-                          setTab(1);
-                        },
+      {tab === 0 && (
+        <Panel bumpkinParts={NPC_WEARABLES.mayor}>
+          {alreadyHaveUsername ? (
+            <SpeakingText
+              onClose={onClose}
+              message={[
+                {
+                  text: `Howdy ${username}! Seems like we've already met. In case you forgot, I'm the Mayor of this town!`,
+                },
+                {
+                  text: "Do you want to change your name? Unfortunately, I can't do that for you right now, the paperwork is too much for me to handle.",
+                },
+              ]}
+            />
+          ) : (
+            <SpeakingText
+              onClose={onClose}
+              message={[
+                {
+                  text: "Howdy fellow Bumpkin, it seems we haven't been introduced yet.",
+                },
+                {
+                  text: "I'm the Mayor of this town! I'm in charge of making sure everyone is happy. I also make sure that everyone has a name!",
+                },
+                {
+                  text: "You don't have a name yet? Well, we can fix that! Do you want me to get the papers ready?",
+                  actions: [
+                    {
+                      text: "Yes please!",
+                      cb: () => {
+                        setTab(1);
                       },
-                      {
-                        text: "No thanks.",
-                        cb: () => {
-                          onClose();
-                        },
+                    },
+                    {
+                      text: "No thanks.",
+                      cb: () => {
+                        onClose();
                       },
-                    ],
-                  },
-                ]}
-              />
-            )}
-          </>
-        )}
+                    },
+                  ],
+                },
+              ]}
+            />
+          )}
+        </Panel>
+      )}
 
-        {tab === 1 && (
-          <CloseButtonPanel onClose={onClose}>
-            <div className="flex flex-col items-center">
-              <span>Enter your username:</span>
-              <input
-                type="string"
-                name="Username"
-                autoComplete="off"
-                className={
-                  "text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2 m-2 text-center " +
-                  (validationState ? "" : "border-2 border-red-500")
-                }
-                value={username}
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                  setValidationState(validateUsername(e.target.value));
-                }}
-              />
-              {validationState && (
-                <label className="text-xs mb-2 mr-2 text-red-500 text-right w-full">
-                  {validationState}
-                </label>
-              )}
+      {tab === 1 && (
+        <CloseButtonPanel
+          onClose={state === "loading" || !isAvailable ? undefined : onClose}
+          bumpkinParts={NPC_WEARABLES.mayor}
+        >
+          {isAvailable ? (
+            <>
+              <div className="flex flex-col items-center p-1">
+                <span>Enter your username:</span>
+                <div className="w-full py-3 relative">
+                  <input
+                    type="string"
+                    name="Username"
+                    autoComplete="off"
+                    className={
+                      "text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2 text-center"
+                    }
+                    value={username}
+                    onChange={(e) => {
+                      setState("checking");
+                      setUsername(e.target.value);
+                      const validationState = validateUsername(e.target.value);
+                      setValidationState(validationState);
+
+                      debouncedCheckUsername.cancel();
+
+                      if (!validationState) {
+                        debouncedCheckUsername(
+                          authState.context.user.rawToken as string,
+                          e.target.value
+                        );
+                      } else {
+                        setState("idle");
+                      }
+                    }}
+                  />
+
+                  {validationState && (
+                    <label className="absolute -bottom-1 right-0 text-red-500 text-[11px] font-error">
+                      {validationState}
+                    </label>
+                  )}
+                </div>
+
+                <div className="flex flex-row justify-end items-center w-full p-1">
+                  <span
+                    className="cursor-pointer text-xs underline hover:text-gray-400"
+                    onClick={() => {
+                      window.open(
+                        "https://docs.sunflower-land.com/support/terms-of-service/code-of-conduct",
+                        "_blank"
+                      );
+                    }}
+                  >
+                    Code of Conduct
+                  </span>
+                </div>
+              </div>
               <Button
                 className="overflow-hidden"
                 type="submit"
-                onClick={() => {
-                  if (state !== "idle") return;
-
-                  applyUsername();
-                }}
-                disabled={Boolean(validationState) || state !== "idle"}
+                onClick={state !== "idle" ? undefined : applyUsername}
+                disabled={
+                  Boolean(validationState) || state !== "idle" || !username
+                }
               >
                 {state === "idle"
                   ? "Submit"
                   : state === "loading"
-                  ? "Loading..."
+                  ? "Submitting..."
                   : state === "success"
                   ? "Success!"
                   : state === "error"
                   ? "Error!"
+                  : state === "checking"
+                  ? "Checking availability..."
                   : "Submit"}
               </Button>
-              <div className="flex flex-row justify-end items-center w-full px-1 pt-1">
-                <span
-                  className="cursor-pointer text-xs underline hover:text-gray-400"
-                  onClick={() => {
-                    window.open("https://docs.sunflower-land.com/", "_blank");
-                  }}
-                >
-                  Learn More
+            </>
+          ) : (
+            <>
+              <div className="flex flex-col gap-2 p-1">
+                <span>
+                  {`I'm processing usernames in order of Farm ID. You will be able
+                  to choose your username from:`}
                 </span>
+                <Label
+                  icon={SUNNYSIDE.icons.stopwatch}
+                  type="warning"
+                  className="my-1 mx-auto"
+                >
+                  {formatDateTime(availableAt.toISOString())}
+                </Label>
               </div>
-            </div>
-          </CloseButtonPanel>
-        )}
+              <Button onClick={onClose}>Close</Button>
+            </>
+          )}
+        </CloseButtonPanel>
+      )}
 
-        {tab === 2 && (
-          <SpeakingModal
-            onClose={onClose}
-            bumpkinParts={NPC_WEARABLES.mayor}
-            message={[
-              {
-                text: `Nice to meet you ${username}!`,
-              },
-              {
-                text: "I hope you enjoy your stay in Sunflower Land! If you ever need me again, just come back to me!",
-              },
-            ]}
-          />
-        )}
-      </Modal>
+      {tab === 2 && (
+        <SpeakingModal
+          onClose={onClose}
+          bumpkinParts={NPC_WEARABLES.mayor}
+          message={[
+            {
+              text: `Nice to meet you ${username}!`,
+            },
+            {
+              text: "I hope you enjoy your stay in Sunflower Land! If you ever need me again, just come back to me!",
+            },
+          ]}
+        />
+      )}
+
+      {tab === 3 && (
+        <CloseButtonPanel bumpkinParts={NPC_WEARABLES.mayor}>
+          <div className="flex flex-col gap-2 p-1 pb-2">
+            <span>
+              Congratulations {username}, your paperwork is now complete. See
+              you around!
+            </span>
+          </div>
+          <Button onClick={onClose}>Close</Button>
+        </CloseButtonPanel>
+      )}
     </>
   );
 };
