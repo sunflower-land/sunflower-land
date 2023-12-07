@@ -14,7 +14,7 @@ import {
   isCropGrowing,
 } from "features/game/events/landExpansion/harvest";
 import { isFruitGrowing } from "features/game/events/landExpansion/fruitHarvested";
-import { CompostName } from "./composters";
+import { CompostName, isComposting } from "./composters";
 import { getDailyFishingCount } from "./fishing";
 
 type RESTRICTION_REASON =
@@ -184,6 +184,15 @@ function areAnyTreasureHolesDug(game: GameState): Restriction {
   return [holesDug, "Treasure holes are dug"];
 }
 
+function areAnyComposting(game: GameState): Restriction {
+  return [
+    isComposting(game, "Compost Bin") ||
+      isComposting(game, "Turbo Composter") ||
+      isComposting(game, "Premium Composter"),
+    "In use",
+  ];
+}
+
 function isFertiliserApplied(
   game: GameState,
   fertiliser: CompostName
@@ -261,6 +270,9 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Black Bearry": (game) => areFruitsGrowing(game, "Blueberry"),
   "Lady Bug": (game) => areFruitsGrowing(game, "Apple"),
   Nana: (game) => areFruitsGrowing(game, "Banana"),
+
+  // Composter boosts
+  "Soil Krabby": (game) => areAnyComposting(game),
 
   // Fertiliser Boosts
   "Knowledge Crab": (game) => isFertiliserApplied(game, "Sprout Mix"),
