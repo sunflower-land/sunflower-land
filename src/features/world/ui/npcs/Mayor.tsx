@@ -17,7 +17,10 @@ import { formatDateTime } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import debounce from "lodash.debounce";
 
-const NAME_START_DATE = new Date("2023-12-11T00:00:00.000Z");
+const network = process.env.VITE_NETWORK as "mainnet" | "mumbai";
+
+const NAME_START_DATE =
+  network === "mumbai" ? new Date(0) : new Date("2023-12-11T00:00:00.000Z");
 const NAME_END_DATE = new Date("2023-12-16T00:00:00.000Z");
 const MAX_FARM_ID = 250000;
 
