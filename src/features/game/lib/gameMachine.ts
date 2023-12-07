@@ -225,6 +225,11 @@ type TradeEvent = {
   tradeId: string;
 };
 
+export type UpdateUsernameEvent = {
+  type: "UPDATE_USERNAME";
+  username: string;
+};
+
 export type BlockchainEvent =
   | {
       type: "SAVE";
@@ -269,6 +274,7 @@ export type BlockchainEvent =
   | UpdateBlockBucksEvent
   | DepositEvent
   | UpdateEvent
+  | UpdateUsernameEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
   | { type: "UPGRADE" }
@@ -927,6 +933,14 @@ export function startGame(authContext: AuthContext) {
           },
           on: {
             ...GAME_EVENT_HANDLERS,
+            UPDATE_USERNAME: {
+              actions: assign((context, event) => ({
+                state: {
+                  ...context.state,
+                  username: event.username,
+                },
+              })),
+            },
             SAVE: {
               target: "autosaving",
             },

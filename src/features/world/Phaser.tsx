@@ -47,7 +47,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 import SoundOffIcon from "assets/icons/sound_off.png";
 import { handleCommand } from "./lib/chatCommands";
-import { Moderation } from "features/game/lib/gameMachine";
+import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
 import { Inventory } from "features/game/types/game";
 
@@ -211,6 +211,11 @@ export const PhaserComponent: React.FC<Props> = ({
           clothing: (e as EquipBumpkinAction).equipment,
         });
       }
+      if (e.type === "UPDATE_USERNAME") {
+        mmoService.state.context.server?.send(0, {
+          username: (e as UpdateUsernameEvent).username,
+        });
+      }
     });
 
     setLoaded(true);
@@ -269,6 +274,7 @@ export const PhaserComponent: React.FC<Props> = ({
       setMessages(
         sceneMessages.map((m) => ({
           farmId: m.farmId ?? 0,
+          username: m.username,
           text: m.text,
           sessionId: m.sessionId,
           sceneId: m.sceneId,
@@ -360,6 +366,7 @@ export const PhaserComponent: React.FC<Props> = ({
     setMessages(
       filteredMessages.map((m) => ({
         farmId: m.farmId ?? 0,
+        username: m.username,
         text: m.text,
         sessionId: m.sessionId,
         sceneId: m.sceneId,

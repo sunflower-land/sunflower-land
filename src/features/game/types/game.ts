@@ -736,6 +736,7 @@ export type Fishing = {
 };
 
 export interface GameState {
+  username?: string;
   balance: Decimal;
   previousBalance: Decimal;
   airdrops?: Airdrop[];

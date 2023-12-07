@@ -10,6 +10,7 @@ import { SceneId } from "features/world/mmoMachine";
 
 export type Message = {
   farmId: number;
+  username: string;
   sessionId: string;
   text: string;
   sceneId: SceneId;
