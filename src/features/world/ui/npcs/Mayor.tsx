@@ -16,8 +16,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { formatDateTime } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import debounce from "lodash.debounce";
+import { CONFIG } from "lib/config";
 
-const network = process.env.VITE_NETWORK as "mainnet" | "mumbai";
+const network = CONFIG.NETWORK as "mainnet" | "mumbai";
 
 const NAME_START_DATE =
   network === "mumbai" ? new Date(0) : new Date("2023-12-11T00:00:00.000Z");
