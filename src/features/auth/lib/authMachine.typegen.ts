@@ -106,6 +106,7 @@ export interface Typegen0 {
     | "reconnecting"
     | "setupContracts"
     | "signIn"
+    | "signUp"
     | "signing"
     | "unauthorised"
     | "verifying"

@@ -52,6 +52,7 @@ export type NPCName =
   | "daphne"
   | "miranda"
   | "damien"
+  | "mayor"
   | "wobble";
 // Ol Salty
 
@@ -557,6 +558,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     hair: "Sun Spots",
     tool: "Mushroom Lamp",
     pants: "Pirate Pants",
+    background: "Seashore Background",
+    shoes: "Brown Boots",
+  },
+  mayor: {
+    body: "Light Brown Farmer Potion",
+    shirt: "Pirate Leather Polo",
+    hat: "Feather Hat",
+    hair: "Sun Spots",
+    tool: "Merch Coffee Mug",
+    pants: "Farmer Pants",
     background: "Seashore Background",
     shoes: "Brown Boots",
   },

@@ -12,6 +12,7 @@ export interface InputData {
 }
 
 export interface Player extends Schema {
+  username: string;
   farmId: number;
   x: number;
   y: number;

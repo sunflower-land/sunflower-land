@@ -79,6 +79,7 @@ const SERVERS: Server[] = [
 ];
 
 export interface MMOContext {
+  username?: string;
   jwt: string;
   farmId: number;
   bumpkin: Bumpkin;
@@ -233,6 +234,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             sceneId: context.initialSceneId,
             experience: context.experience,
             moderation: context.moderation,
+            username: context.username,
           });
 
           return { server, client, serverId };
@@ -276,6 +278,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
               jwt: context.jwt,
               bumpkin: context.bumpkin,
               farmId: context.farmId,
+              username: context.username,
               x: SPAWNS.plaza.default.x,
               y: SPAWNS.plaza.default.y,
               sceneId: context.initialSceneId,

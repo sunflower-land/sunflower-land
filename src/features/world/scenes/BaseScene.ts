@@ -198,6 +198,7 @@ export abstract class BaseScene extends Phaser.Scene {
         y: spawn.y ?? 0,
         // gameService
         farmId: Number(this.id),
+        username: this.username,
         isCurrentPlayer: true,
         // gameService
         clothing: {
@@ -473,10 +474,15 @@ export abstract class BaseScene extends Phaser.Scene {
     return this.registry.get("id") as number;
   }
 
+  public get username() {
+    return this.gameState.username;
+  }
+
   createPlayer({
     x,
     y,
     farmId,
+    username,
     isCurrentPlayer,
     clothing,
     npc,
@@ -486,6 +492,7 @@ export abstract class BaseScene extends Phaser.Scene {
     x: number;
     y: number;
     farmId: number;
+    username?: string;
     clothing: Player["clothing"];
     npc?: NPCName;
     experience?: number;
@@ -529,8 +536,9 @@ export abstract class BaseScene extends Phaser.Scene {
       const nameTag = this.createPlayerText({
         x: 0,
         y: 0,
-        text: `#${farmId}`,
+        text: username ? username : `#${farmId}`,
       });
+      nameTag.name = "nameTag";
       entity.add(nameTag);
     }
 
@@ -618,6 +626,7 @@ export abstract class BaseScene extends Phaser.Scene {
       fontSize: "4px",
       fontFamily: "monospace",
       resolution: 4,
+      padding: { x: 2, y: 2 },
     });
     textObject.setOrigin(0.5);
 
@@ -803,6 +812,7 @@ export abstract class BaseScene extends Phaser.Scene {
           x: player.x,
           y: player.y,
           farmId: player.farmId,
+          username: player.username,
           clothing: player.clothing,
           isCurrentPlayer: sessionId === server.sessionId,
           npc: player.npc,
@@ -822,6 +832,31 @@ export abstract class BaseScene extends Phaser.Scene {
         this.playerEntities[sessionId].changeClothing(player.clothing);
       } else if (sessionId === server.sessionId) {
         this.currentPlayer?.changeClothing(player.clothing);
+      }
+    });
+  }
+
+  updateUsernames() {
+    const server = this.mmoServer;
+    if (!server) return;
+
+    server.state.players.forEach((player, sessionId) => {
+      if (this.playerEntities[sessionId]) {
+        const nameTag = this.playerEntities[sessionId].getByName("nameTag") as
+          | Phaser.GameObjects.Text
+          | undefined;
+
+        if (nameTag && player.username && nameTag.text !== player.username) {
+          nameTag.setText(player.username);
+        }
+      } else if (sessionId === server.sessionId) {
+        const nameTag = this.currentPlayer?.getByName("nameTag") as
+          | Phaser.GameObjects.Text
+          | undefined;
+
+        if (nameTag && player.username && nameTag.text !== player.username) {
+          nameTag.setText(player.username);
+        }
       }
     });
   }
@@ -942,6 +977,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.switchScene();
     this.updatePlayer();
     this.updateOtherPlayers();
+    this.updateUsernames();
   }
 
   teleportModerator(x: number, y: number) {
