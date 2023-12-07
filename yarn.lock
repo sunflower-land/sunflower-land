@@ -149,11 +149,6 @@
     "@0xsequence/transactions" "^0.43.2"
     "@0xsequence/utils" "^0.43.2"
 
-"@2toad/profanity@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@2toad/profanity/-/profanity-2.2.0.tgz#bb3232c1dbdd31d7f3bf0a5ff3b69437f9e5cbaf"
-  integrity sha512-EDoqDFFkw3g11xIHMQI4L91G+PT6OHrAHvwi+oxbYBH06G7EFrWVva+r604uscEPDZR4h+GrvVqkTD0g8JzZgg==
-
 "@adraffy/ens-normalize@1.9.2":
   version "1.9.2"
   resolved "https://registry.yarnpkg.com/@adraffy/ens-normalize/-/ens-normalize-1.9.2.tgz#60111a5d9db45b2e5cbb6231b0bb8d97e8659316"

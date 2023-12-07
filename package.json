@@ -22,7 +22,6 @@
   ],
   "dependencies": {
     "0xsequence": "^0.43.2",
-    "@2toad/profanity": "^2.2.0",
     "@alch/alchemy-web3": "^1.4.7",
     "@anima-protocol/personhood-sdk-react": "^0.4.6",
     "@metamask/onboarding": "^1.0.1",
