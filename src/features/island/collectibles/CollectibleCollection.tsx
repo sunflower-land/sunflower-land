@@ -212,6 +212,8 @@ import { SoilKrabby } from "./components/SoilKrabby";
 import { Nana } from "./components/Nana";
 import { TimeWarpTotem } from "./components/TimeWarpTotem";
 import { KrakenHead } from "./components/KrakenHead";
+import { Nutcracker } from "./components/Nutcracker";
+import { FestiveTree } from "./components/FestiveTree";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -465,6 +467,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Skill Shrimpy": SkillShrimpy,
   "Soil Krabby": SoilKrabby,
   Nana: Nana,
+
+  "Bumpkin Nutcracker": Nutcracker,
+  "Festive Tree": FestiveTree,
 };
 // Need readonly versions for some troublesome components while in design mode
 

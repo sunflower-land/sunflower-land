@@ -6145,4 +6145,26 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+
+  "Bumpkin Nutcracker": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1298.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Decoration", value: "Monument" },
+    ],
+  },
+  "Festive Tree": {
+    description:
+      "A festive tree that can be attained each festive season. I wonder if it is big enough for santa to see?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1299.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Decoration", value: "Monument" },
+    ],
+  },
 };

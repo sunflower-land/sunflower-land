@@ -50,6 +50,8 @@ import { handleCommand } from "./lib/chatCommands";
 import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
 import { Inventory } from "features/game/types/game";
+import { hasFeatureAccess } from "lib/flags";
+import { ChristmasScene } from "./scenes/ChristmasScene";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -117,7 +119,9 @@ export const PhaserComponent: React.FC<Props> = ({
         ClothesShopScene,
         DecorationShopScene,
         BeachScene,
-        PlazaScene,
+        ...(hasFeatureAccess(gameService.state.context.state, "CHRISTMAS")
+          ? [ChristmasScene]
+          : [PlazaScene]),
       ];
 
   useEffect(() => {
@@ -203,6 +207,7 @@ export const PhaserComponent: React.FC<Props> = ({
     game.current.registry.set("mmoService", mmoService); // LEGACY
     game.current.registry.set("mmoServer", mmoService.state.context.server);
     game.current.registry.set("gameState", gameService.state.context.state);
+    game.current.registry.set("gameService", gameService);
     game.current.registry.set("id", gameService.state.context.farmId);
     game.current.registry.set("initialScene", scene);
     gameService.onEvent((e) => {

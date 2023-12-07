@@ -666,6 +666,9 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Sapo Docuras": () => true,
   "Sapo Travessuras": () => true,
   "Time Warp Totem": () => false,
+
+  "Bumpkin Nutcracker": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
+  "Festive Tree": () => false,
 };
 
 const lanterns: Record<LanternName, () => boolean> = {
@@ -1083,4 +1086,12 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Stormy Dumbo": () => false,
   "Ugly Christmas Sweater": () =>
     canWithdrawTimebasedItem(new Date("2023-12-21")), // Available until 2024/01/01
+
+  "Candy Cane": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
+  "Elf Hat": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
+  "Elf Potion": () => false,
+  "Elf Shoes": () => false,
+  "Elf Suit": () => false,
+  "Santa Beard": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
+  "Santa Suit": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
 };

@@ -34,7 +34,8 @@ type RESTRICTION_REASON =
   | "Advanced crops are growing"
   | "Magic Bean is planted"
   | "Bananas are growing"
-  | "In use";
+  | "In use"
+  | "Locked during festive season";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -213,6 +214,17 @@ function hasShakenManeki(game: GameState): Restriction {
   return [hasShakenRecently, "Paw shaken"];
 }
 
+function hasShakenTree(game: GameState): Restriction {
+  const trees = game.collectibles["Festive Tree"] ?? [];
+  const hasShakenRecently = trees.some((tree) => {
+    return (
+      tree.shakenAt &&
+      new Date(tree.shakenAt).getFullYear() === new Date().getFullYear()
+    );
+  });
+
+  return [hasShakenRecently, "Locked during festive season"];
+}
 export const REMOVAL_RESTRICTIONS: Partial<
   Record<InventoryItemName, RemoveCondition>
 > = {
@@ -289,6 +301,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
 
   "Heart of Davy Jones": (game) => areAnyTreasureHolesDug(game),
   "Maneki Neko": (game) => hasShakenManeki(game),
+  "Festive Tree": (game) => hasShakenTree(game),
   "Time Warp Totem": (_: GameState) => [true, "In use"],
 
   // Fishing Boosts
