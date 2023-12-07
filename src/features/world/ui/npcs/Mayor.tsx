@@ -24,7 +24,7 @@ const NAME_START_DATE =
 const NAME_END_DATE = new Date("2023-12-16T00:00:00.000Z");
 const MAX_FARM_ID = 250000;
 
-const WHITELISTED_FARM_IDS = [142, 39488];
+const WHITELISTED_FARM_IDS = [39488];
 
 const farmAvailableAt = (farmId: number) => {
   const percentage = farmId / MAX_FARM_ID;
