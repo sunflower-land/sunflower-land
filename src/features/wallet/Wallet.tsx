@@ -1,22 +1,29 @@
 import { useActor, useInterpret } from "@xstate/react";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import { Wallets } from "features/auth/components/SignIn";
-import { Context } from "features/auth/lib/Provider";
+import { Context as AuthContext } from "features/auth/lib/Provider";
 import { walletMachine } from "features/auth/lib/walletMachine";
 import { CONFIG } from "lib/config";
 
 import walletIcon from "assets/icons/wallet.png";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
-  id: number;
   onReady: (payload: { signature: string; address: string }) => void;
+  id?: number;
+  linkedWallet?: string;
 }
 
-export const Wallet: React.FC<Props> = ({ onReady, children, id }) => {
-  const { authService } = useContext(Context);
+export const Wallet: React.FC<Props> = ({
+  onReady,
+  children,
+  id,
+  linkedWallet,
+}) => {
+  const { authService } = useContext(AuthContext);
   const [authState] = useActor(authService);
 
   console.log({ token: authState.context.user.rawToken });
@@ -24,7 +31,8 @@ export const Wallet: React.FC<Props> = ({ onReady, children, id }) => {
     context: {
       id,
       jwt: authState.context.user.rawToken,
-      // TODO
+      linkedAddress: linkedWallet,
+      // TODO more?
     },
   });
 
@@ -92,16 +100,30 @@ export const Wallet: React.FC<Props> = ({ onReady, children, id }) => {
     );
   }
 
-  if (walletState.matches("ready")) {
+  return <Panel>{walletState.value}</Panel>;
+};
+
+export const GameWallet: React.FC<Props> = ({ children }) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  const [isReady, setIsReady] = useState(false);
+
+  if (isReady) {
     return (
       <div className="p-2">
         <Label type="formula" icon={walletIcon}>
-          {walletState.context.address}
+          Connected
         </Label>
         {children}
       </div>
     );
   }
-
-  return <Panel>{walletState.value}</Panel>;
+  return (
+    <Wallet
+      id={gameState.context.farmId}
+      linkedWallet={gameState.context.linkedWallet}
+      onReady={() => setIsReady(true)}
+    />
+  );
 };

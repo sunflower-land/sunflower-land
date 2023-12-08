@@ -33,7 +33,7 @@ import { loadWardrobe } from "lib/blockchain/BumpkinItems";
 import { getBudsBalance } from "lib/blockchain/Buds";
 import { CONFIG } from "lib/config";
 import { Label } from "components/ui/Label";
-import { Wallet } from "features/wallet/Wallet";
+import { GameWallet, Wallet } from "features/wallet/Wallet";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -41,7 +41,6 @@ type Status = "loading" | "loaded" | "error";
 
 interface Props {
   farmAddress: string;
-  id: number;
   onDeposit: (
     args: Pick<
       DepositArgs,
@@ -67,10 +66,9 @@ export const Deposit: React.FC<Props> = ({
   onLoaded,
   farmAddress,
   canDeposit = true,
-  id,
 }) => {
   return (
-    <Wallet id={id} onReady={(r) => console.log({ ready: r })}>
+    <GameWallet onReady={(r) => console.log({ ready: r })}>
       <DepositOptions
         onClose={onClose}
         onDeposit={onDeposit}
@@ -78,7 +76,7 @@ export const Deposit: React.FC<Props> = ({
         farmAddress={farmAddress}
         canDeposit={canDeposit}
       />
-    </Wallet>
+    </GameWallet>
   );
 };
 
