@@ -11,6 +11,7 @@ import { TransferAccount } from "./TransferAccount";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
+import { removeSocialSession } from "features/auth/actions/social";
 
 interface Props {
   isOpen: boolean;
@@ -34,6 +35,7 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const onLogout = () => {
     onClose();
+    removeSocialSession();
     authService.send("LOGOUT"); // hack used to avoid redundancy
   };
 

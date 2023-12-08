@@ -714,6 +714,7 @@ export function startGame(authContext: AuthContext) {
               cond: (context) =>
                 (context.state.bumpkin?.experience ?? 0) > 100 &&
                 !context.state.collectibles["Catch the Kraken Banner"] &&
+                !wallet.isSocial &&
                 !getSeasonPassRead(),
             },
             // EVENTS THAT TARGET NOTIFYING OR LOADING MUST GO ABOVE THIS LINE
