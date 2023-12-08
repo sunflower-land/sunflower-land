@@ -6,6 +6,7 @@ import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectS
 import { wallet } from "lib/blockchain/wallet";
 import { ERRORS } from "lib/errors";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
+import { linkWallet } from "features/wallet/actions/linkWallet";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -15,6 +16,7 @@ export interface Context {
   nftID?: number;
   errorCode: string;
   provider: any; // TODO?
+  jwt?: string;
 }
 
 type ConnectWalletEvent = {
@@ -69,6 +71,7 @@ export const walletMachine = createMachine({
     nftID: 123, // TODO
     errorCode: "",
     provider: null,
+    jwt: "",
   },
   states: {
     idle: {
@@ -184,6 +187,13 @@ export const walletMachine = createMachine({
           const signature = event.data.signature;
 
           console.log({ link: signature });
+          await linkWallet({
+            id: 1,
+            jwt: context.jwt,
+            linkedWallet: context.address,
+            signature,
+            transactionId: "TODOX", // TODO
+          });
 
           await new Promise((r) => setTimeout(r, 1000));
         },
