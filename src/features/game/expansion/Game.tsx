@@ -46,6 +46,7 @@ import { Sniped } from "../components/Sniped";
 import { NewMail } from "./components/NewMail";
 import { Blacklisted } from "../components/Blacklisted";
 import { AirdropPopup } from "./components/Airdrop";
+import { Wallet } from "features/wallet/Wallet";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -315,6 +316,10 @@ export const GameWrapper: React.FC = ({ children }) => {
   return (
     <ToastProvider>
       <ToastPanel />
+
+      <Modal centered show>
+        <Wallet />
+      </Modal>
 
       <Modal show={SHOW_MODAL[stateValue as StateValues]} centered>
         <Panel>

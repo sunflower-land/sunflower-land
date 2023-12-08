@@ -140,23 +140,16 @@ const OtherWallets = () => {
   );
 };
 
-export const SignIn = () => {
-  const { authService } = useContext(Context);
+interface Props {
+  onConnect: (provider: Web3SupportedProviders) => void;
+}
+
+export const Wallets: React.FC<Props> = ({ onConnect }) => {
   const [page, setPage] = useState<"home" | "other">("home");
   const { t } = useAppTranslation();
 
   const connectToMetaMask = () => {
-    authService.send("CONNECT_TO_WALLET", {
-      chosenProvider: Web3SupportedProviders.METAMASK,
-    });
-  };
-
-  const handleBack = () => {
-    if (page === "other") {
-      setPage("home");
-    } else {
-      authService.send("BACK");
-    }
+    onConnect(Web3SupportedProviders.METAMASK);
   };
 
   const MainWallets = () => {
@@ -187,11 +180,9 @@ export const SignIn = () => {
         )}
         <Button
           className="mb-2 py-2 text-sm relative"
-          onClick={() =>
-            authService.send("CONNECT_TO_WALLET", {
-              chosenProvider: Web3SupportedProviders.SEQUENCE,
-            })
-          }
+          onClick={() => {
+            onConnect(Web3SupportedProviders.SEQUENCE);
+          }}
         >
           <div className="px-8">
             <img
@@ -257,32 +248,11 @@ export const SignIn = () => {
   const isBitget = getPromoCode() === "BITGET";
 
   return (
-    <div className="px-2">
-      <div className="flex items-center mb-2">
-        <img
-          src={SUNNYSIDE.icons.arrow_left}
-          className="cursor-pointer mr-2"
-          onClick={handleBack}
-          style={{
-            width: `${PIXEL_SCALE * 8}px`,
-          }}
-        />
-        {!hasFeatureAccess(TEST_FARM, "NEW_FARM_FLOW") && (
-          <div className="flex items-center">
-            <img src={SUNNYSIDE.ui.green_bar_4} className="h-5 mr-2" />
-            <span className="text-xs">Step 2/3 (Create a wallet)</span>
-          </div>
-        )}
-      </div>
-
+    <>
       {isBitget && (
         <Button
           className="mb-2 py-2 text-sm relative"
-          onClick={() =>
-            authService.send("CONNECT_TO_WALLET", {
-              chosenProvider: Web3SupportedProviders.BITGET,
-            })
-          }
+          onClick={() => onConnect(Web3SupportedProviders.BITGET)}
         >
           <div className="px-8">
             <img
@@ -304,11 +274,7 @@ export const SignIn = () => {
       {isCryptoCom && (
         <Button
           className="mb-2 py-2 text-sm relative"
-          onClick={() =>
-            authService.send("CONNECT_TO_WALLET", {
-              chosenProvider: Web3SupportedProviders.CRYPTO_COM,
-            })
-          }
+          onClick={() => onConnect(Web3SupportedProviders.CRYPTO_COM)}
         ></Button>
       )}
 
@@ -333,6 +299,49 @@ export const SignIn = () => {
           {page === "other" && <OtherWallets />}
         </>
       )}
+    </>
+  );
+};
+
+export const SignIn = () => {
+  const { authService } = useContext(Context);
+  const [page, setPage] = useState<"home" | "other">("home");
+  const { t } = useAppTranslation();
+
+  const handleBack = () => {
+    if (page === "other") {
+      setPage("home");
+    } else {
+      authService.send("BACK");
+    }
+  };
+
+  return (
+    <div className="px-2">
+      <div className="flex items-center mb-2">
+        <img
+          src={SUNNYSIDE.icons.arrow_left}
+          className="cursor-pointer mr-2"
+          onClick={handleBack}
+          style={{
+            width: `${PIXEL_SCALE * 8}px`,
+          }}
+        />
+        {!hasFeatureAccess(TEST_FARM, "NEW_FARM_FLOW") && (
+          <div className="flex items-center">
+            <img src={SUNNYSIDE.ui.green_bar_4} className="h-5 mr-2" />
+            <span className="text-xs">Step 2/3 (Create a wallet)</span>
+          </div>
+        )}
+      </div>
+
+      <Wallets
+        onConnect={(provider) => {
+          authService.send("CONNECT_TO_WALLET", {
+            chosenProvider: provider,
+          });
+        }}
+      />
 
       <div className="flex justify-between my-1">
         <a href="https://discord.gg/sunflowerland" className="mr-4">
