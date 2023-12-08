@@ -64,41 +64,6 @@ export const Navigation: React.FC = () => {
 
   const [showGame, setShowGame] = useState(false);
 
-  /**
-   * Listen to web3 account/chain changes
-   * TODO: move into a hook
-   */
-  useEffect(() => {
-    if (provider) {
-      if (provider.on) {
-        provider.on("chainChanged", (chain: any) => {
-          if (parseInt(chain) === CONFIG.POLYGON_CHAIN_ID) {
-            return;
-          }
-
-          // Phantom handles this internally
-          if (provider.isPhantom) return;
-
-          authService.send("CHAIN_CHANGED");
-        });
-        provider.on("accountsChanged", function (accounts: string[]) {
-          // Metamask Mobile accidentally triggers this on route changes
-          const didChange = accounts[0] !== wallet.myAccount;
-          if (didChange) {
-            authService.send("ACCOUNT_CHANGED");
-          }
-        });
-      } else if (provider.givenProvider) {
-        provider.givenProvider.on("chainChanged", () => {
-          authService.send("CHAIN_CHANGED");
-        });
-        provider.givenProvider.on("accountsChanged", function () {
-          authService.send("ACCOUNT_CHANGED");
-        });
-      }
-    }
-  }, [provider]);
-
   useEffect(() => {
     const _showGame = state.isAuthorised || state.isVisiting;
 

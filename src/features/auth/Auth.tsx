@@ -30,11 +30,6 @@ export const Auth: React.FC = () => {
   const [authState] = useActor(authService);
   const { t } = useAppTranslation();
 
-  const connecting =
-    authState.matches("reconnecting") ||
-    authState.matches("connectingToWallet") ||
-    authState.matches("setupContracts");
-
   return (
     <>
       <Modal
@@ -75,16 +70,12 @@ export const Auth: React.FC = () => {
           </div>
         </div>
         <Panel className="pb-1 relative">
-          {authState.matches("initialising") && <Loading />}
           {authState.matches("welcome") && <Welcome />}
           {authState.matches("createWallet") && <CreateWallet />}
           {(authState.matches("idle") || authState.matches("signIn")) && (
             <SignIn />
           )}
           {authState.matches("signUp") && <SignUp />}
-          {connecting && <Loading text={t("connecting")} />}
-          {authState.matches("connectedToWallet") && <ConnectedToWallet />}
-          {authState.matches("signing") && <Signing />}
           {authState.matches("verifying") && <Verifying />}
           {authState.matches("oauthorising") && <Loading />}
           {authState.matches("unauthorised") && (

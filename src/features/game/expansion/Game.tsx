@@ -46,7 +46,6 @@ import { Sniped } from "../components/Sniped";
 import { NewMail } from "./components/NewMail";
 import { Blacklisted } from "../components/Blacklisted";
 import { AirdropPopup } from "./components/Airdrop";
-import { Wallet } from "features/wallet/Wallet";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -77,7 +76,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   beanRevealed: false,
   buyingSFL: true,
   depositing: true,
-  upgradingGuestGame: false,
   introduction: false,
   specialOffer: false,
   transacting: true,
@@ -133,8 +131,7 @@ const isLandToVisitNotFound = (state: MachineState) =>
 const currentState = (state: MachineState) => state.value;
 const getErrorCode = (state: MachineState) => state.context.errorCode;
 const getActions = (state: MachineState) => state.context.actions;
-const isUpgradingGuestGame = (state: MachineState) =>
-  state.matches("upgradingGuestGame");
+
 const isTransacting = (state: MachineState) => state.matches("transacting");
 const isClaimAuction = (state: MachineState) => state.matches("claimAuction");
 const isRefundingAuction = (state: MachineState) =>
@@ -242,7 +239,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const state = useSelector(gameService, currentState);
   const errorCode = useSelector(gameService, getErrorCode);
   const actions = useSelector(gameService, getActions);
-  const upgradingGuestGame = useSelector(gameService, isUpgradingGuestGame);
   const transacting = useSelector(gameService, isTransacting);
   const minting = useSelector(gameService, isMinting);
   const claimingAuction = useSelector(gameService, isClaimAuction);
@@ -317,10 +313,6 @@ export const GameWrapper: React.FC = ({ children }) => {
     <ToastProvider>
       <ToastPanel />
 
-      <Modal centered show>
-        <Wallet />
-      </Modal>
-
       <Modal show={SHOW_MODAL[stateValue as StateValues]} centered>
         <Panel>
           {loading && <Loading />}
@@ -349,7 +341,6 @@ export const GameWrapper: React.FC = ({ children }) => {
         </Panel>
       </Modal>
 
-      {upgradingGuestGame && <WalletOnboarding />}
       {claimingAuction && <ClaimAuction />}
       {refundAuction && <RefundAuction />}
 

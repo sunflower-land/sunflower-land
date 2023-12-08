@@ -1,14 +1,30 @@
 import { useActor, useInterpret } from "@xstate/react";
+import React, { useContext, useEffect } from "react";
+
+import { Label } from "components/ui/Label";
 import { Panel } from "components/ui/Panel";
 import { Wallets } from "features/auth/components/SignIn";
+import { Context } from "features/auth/lib/Provider";
 import { walletMachine } from "features/auth/lib/walletMachine";
 import { CONFIG } from "lib/config";
-import React, { useEffect } from "react";
 
-export const Wallet: React.FC = () => {
+import walletIcon from "assets/icons/wallet.png";
+
+interface Props {
+  id: number;
+  onReady: (payload: { signature: string; address: string }) => void;
+}
+
+export const Wallet: React.FC<Props> = ({ onReady, children, id }) => {
+  const { authService } = useContext(Context);
+  const [authState] = useActor(authService);
+
+  console.log({ token: authState.context.user.rawToken });
   const walletService = useInterpret(walletMachine, {
     context: {
-      verifiedWallet: "0x", //TODO
+      id,
+      jwt: authState.context.user.rawToken,
+      // TODO
     },
   });
 
@@ -16,6 +32,15 @@ export const Wallet: React.FC = () => {
 
   const provider = walletState.context.provider;
   const address = walletState.context.address;
+
+  useEffect(() => {
+    if (walletState.matches("ready")) {
+      onReady({
+        signature: walletState.context.signature,
+        address: walletState.context.address,
+      });
+    }
+  }, [walletState.value]);
 
   /**
    * Listen to web3 account/chain changes
@@ -67,6 +92,16 @@ export const Wallet: React.FC = () => {
     );
   }
 
-  console.log({ context: walletState.context });
+  if (walletState.matches("ready")) {
+    return (
+      <div className="p-2">
+        <Label type="formula" icon={walletIcon}>
+          {walletState.context.address}
+        </Label>
+        {children}
+      </div>
+    );
+  }
+
   return <Panel>{walletState.value}</Panel>;
 };

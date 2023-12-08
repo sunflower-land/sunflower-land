@@ -33,6 +33,7 @@ import { loadWardrobe } from "lib/blockchain/BumpkinItems";
 import { getBudsBalance } from "lib/blockchain/Buds";
 import { CONFIG } from "lib/config";
 import { Label } from "components/ui/Label";
+import { Wallet } from "features/wallet/Wallet";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -40,6 +41,7 @@ type Status = "loading" | "loaded" | "error";
 
 interface Props {
   farmAddress: string;
+  id: number;
   onDeposit: (
     args: Pick<
       DepositArgs,
@@ -65,7 +67,30 @@ export const Deposit: React.FC<Props> = ({
   onLoaded,
   farmAddress,
   canDeposit = true,
+  id,
 }) => {
+  return (
+    <Wallet id={id} onReady={(r) => console.log({ ready: r })}>
+      <DepositOptions
+        onClose={onClose}
+        onDeposit={onDeposit}
+        onLoaded={onLoaded}
+        farmAddress={farmAddress}
+        canDeposit={canDeposit}
+      />
+    </Wallet>
+  );
+};
+
+const DepositOptions: React.FC<Props> = ({
+  onClose,
+  onDeposit,
+  onLoaded,
+  farmAddress,
+  canDeposit = true,
+}) => {
+  const [hasWeb3, setHasWeb3] = useState(false);
+
   const [status, setStatus] = useState<Status>("loading");
   // These are the balances of the user's personal wallet
   const [sflBalance, setSflBalance] = useState<Decimal>(new Decimal(0));
@@ -263,16 +288,16 @@ export const Deposit: React.FC<Props> = ({
     sflBalance.eq(0);
   const validDepositAmount = sflDepositAmount > 0 && !amountGreaterThanBalance;
 
-  if (!canDeposit) {
-    return (
-      <div className="p-2 space-y-2">
-        <p>To deposit items you must first level up</p>
-        <Label icon={lockIcon} type="danger">
-          Level 3
-        </Label>
-      </div>
-    );
-  }
+  // if (!canDeposit) {
+  //   return (
+  //     <div className="p-2 space-y-2">
+  //       <p>To deposit items you must first level up</p>
+  //       <Label icon={lockIcon} type="danger">
+  //         Level 3
+  //       </Label>
+  //     </div>
+  //   );
+  // }
   return (
     <>
       {status === "loading" && <Loading />}

@@ -4,7 +4,6 @@ import { CONFIG } from "lib/config";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectStrategy.factory";
 import { wallet } from "lib/blockchain/wallet";
-import { ERRORS } from "lib/errors";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { linkWallet } from "features/wallet/actions/linkWallet";
 
@@ -17,6 +16,7 @@ export interface Context {
   errorCode: string;
   provider: any; // TODO?
   jwt?: string;
+  signature?: string;
 }
 
 type ConnectWalletEvent = {
@@ -66,12 +66,14 @@ export const walletMachine = createMachine({
   id: "walletMachine",
   initial: "idle",
   context: {
+    id: 0,
     address: "",
     linkedAddress: "",
     nftID: 123, // TODO
     errorCode: "",
     provider: null,
     jwt: "",
+    signature: "",
   },
   states: {
     idle: {
@@ -170,8 +172,19 @@ export const walletMachine = createMachine({
           return { signature };
         },
         onDone: [
+          // Not yet authorised, they are on login screen
+          {
+            target: "ready",
+            actions: assign({
+              signature: (_, event) => event.data.signature,
+            }),
+            cond: (context) => !context.jwt,
+          },
           {
             target: "linking",
+            actions: assign({
+              signature: (_, event) => event.data.signature,
+            }),
           },
         ],
         onError: {
@@ -188,7 +201,7 @@ export const walletMachine = createMachine({
 
           console.log({ link: signature });
           await linkWallet({
-            id: 1,
+            id: context.id,
             jwt: context.jwt,
             linkedWallet: context.address,
             signature,

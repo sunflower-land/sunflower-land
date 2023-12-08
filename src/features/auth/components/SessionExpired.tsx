@@ -5,7 +5,7 @@ import humanDeath from "assets/npcs/human_death.gif";
 import { Button } from "components/ui/Button";
 import { wallet } from "lib/blockchain/wallet";
 import { removeSession } from "../actions/login";
-import { removeSocialSession } from "../actions/social";
+import { removeJWT } from "../actions/social";
 
 export const SessionExpired: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -25,7 +25,7 @@ export const SessionExpired: React.FC = () => {
       <Button
         onClick={() => {
           removeSession(wallet.myAccount as string);
-          removeSocialSession();
+          removeJWT();
           authService.send("REFRESH");
         }}
       >

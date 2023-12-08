@@ -130,30 +130,16 @@ export function hasValidSession(): boolean {
   return false;
 }
 
-export async function login(
-  transactionId: string,
-  address: string
-): Promise<{ token: string }> {
-  const session = getSession(address);
-
-  if (session) {
-    const token = decodeToken(session.token);
-
-    const isFresh = token.exp * 1000 > Date.now() + TOKEN_BUFFER_MS;
-
-    // Migration from token that did not have user access
-    const isValid = !!token.userAccess;
-
-    if (isFresh && isValid) {
-      // Raw token
-      return { token: session.token };
-    }
-  }
-
-  const timestamp = Math.floor(Date.now() / 8.64e7);
-
-  const { signature } = await wallet.signTransaction(timestamp);
-
+export async function login({
+  transactionId,
+  address,
+  signature,
+}: {
+  transactionId: string;
+  address: string;
+  signature: string;
+}): Promise<{ token: string }> {
+  console.log({ login: true, transactionId, address, signature });
   const { token } = await loginRequest({
     address,
     signature,

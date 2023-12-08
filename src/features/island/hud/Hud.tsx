@@ -52,6 +52,7 @@ const HudComponent: React.FC<{
   const farmAddress = gameService.state?.context?.farmAddress;
   const isFullUser = farmAddress !== undefined;
 
+  console.log({ showDepositModal });
   return (
     <>
       {createPortal(
@@ -125,9 +126,7 @@ const HudComponent: React.FC<{
           </div>
 
           <Balance
-            onBalanceClick={
-              farmAddress ? () => setShowDepositModal(true) : undefined
-            }
+            onBalanceClick={() => setShowDepositModal(true)}
             balance={gameState.context.state.balance}
           />
           <BlockBucks
@@ -174,26 +173,24 @@ const HudComponent: React.FC<{
           </div>
           <BumpkinProfile isFullUser={isFullUser} />
 
-          {farmAddress && (
-            <Modal show={showDepositModal} centered onHide={handleClose}>
-              <CloseButtonPanel
-                title={depositDataLoaded ? "Deposit" : undefined}
-                onClose={depositDataLoaded ? handleClose : undefined}
-              >
-                <Deposit
-                  farmAddress={farmAddress}
-                  onDeposit={handleDeposit}
-                  onLoaded={(loaded) => setDepositDataLoaded(loaded)}
-                  onClose={handleClose}
-                  canDeposit={
-                    getBumpkinLevel(
-                      gameState.context.state.bumpkin?.experience ?? 0
-                    ) >= 3
-                  }
-                />
-              </CloseButtonPanel>
-            </Modal>
-          )}
+          <Modal show={showDepositModal} centered onHide={handleClose}>
+            <CloseButtonPanel
+              title={depositDataLoaded ? "Deposit" : undefined}
+              onClose={depositDataLoaded ? handleClose : undefined}
+            >
+              <Deposit
+                id={gameState.context.farmId}
+                onDeposit={handleDeposit}
+                onLoaded={(loaded) => setDepositDataLoaded(loaded)}
+                onClose={handleClose}
+                canDeposit={
+                  getBumpkinLevel(
+                    gameState.context.state.bumpkin?.experience ?? 0
+                  ) >= 3
+                }
+              />
+            </CloseButtonPanel>
+          </Modal>
         </div>,
         document.body
       )}

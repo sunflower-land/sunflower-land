@@ -123,6 +123,7 @@ export interface Context {
   promoCode?: string;
   moderation: Moderation;
   saveQueued: boolean;
+  linkedWallet?: string;
 }
 
 export type Moderation = {
@@ -393,7 +394,6 @@ export type BlockchainState = {
     | "noBumpkinFound"
     | "noTownCenter"
     | "coolingDown"
-    | "upgradingGuestGame"
     | "buyingBlockBucks"
     | "auctionResults"
     | "claimAuction"
@@ -545,6 +545,7 @@ export function startGame(authContext: AuthContext) {
                 promoCode: response.promoCode,
                 farmAddress: response.farmAddress,
                 analyticsId: response.analyticsId,
+                linkedWallet: response.linkedWallet,
               };
             },
             onDone: [
@@ -1734,9 +1735,6 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-        upgradingGuestGame: {
-          on: { CLOSE: { target: "playing" } },
-        },
       },
       on: {
         COMMUNITY_UPDATE: {
@@ -1788,6 +1786,7 @@ export function startGame(authContext: AuthContext) {
           moderation: (_, event) => event.data.moderation,
           promoCode: (_, event) => event.data.promoCode,
           farmAddress: (_, event) => event.data.farmAddress,
+          linkedWallet: (_, event) => event.data.linkedWallet,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),
