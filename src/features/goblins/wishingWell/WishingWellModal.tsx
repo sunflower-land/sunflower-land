@@ -53,15 +53,15 @@ const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => (
         <h1 className="text-lg mb-4 text-center">{translate("congrats")}</h1>
         <img src={token} alt="sunflower token" className="w-16 mb-2" />
       </div>
-      <p className="mb-4 text-sm">{translate("statements.wish.granted")}</p>
+      <p className="mb-4 text-sm">{translate("wishingWell.wish.granted")}</p>
       <p className="mb-4 text-sm">
-        {translate("statements.sfl.rewards.received")}
+        {translate("wishingWell.sflRewardsReceived")}
         {`${reward}`}
       </p>
-      <p className="mb-4 text-sm">{translate("statements.new.wish")}</p>
+      <p className="mb-4 text-sm">{translate("wishingWell.newWish")}</p>
       {lockedTime && (
         <p className="mb-2 text-sm">
-          {translate("statements.wish.ready.in")}
+          {translate("wishingWell.wish.timeTillNextWish")}
           {`${lockedTime}.`}
         </p>
       )}
@@ -77,17 +77,15 @@ const GrantWish = ({ totalTokensInWell, onClick }: GrantWishArgs) => (
     <div className="p-2">
       <div className="flex flex-col items-center mb-3">
         <h1 className="text-lg mb-4 text-center">
-          {translate("statements.wish.granted.time")}
+          {translate("wishingWell.wish.grantTime")}
         </h1>
         <img src={wisingWell} alt="wishing well" className="w-16 mb-2" />
       </div>
       <p className="mb-4 text-sm">
-        {translate("statements.wishing.well.amount")}
+        {translate("wishingWell.rewardsInWell")}
         {`${Number(fromWei(totalTokensInWell.toString())).toFixed(2)}`}
       </p>
-      <p className="mb-2 text-sm">
-        {translate("statements.wishing.well.luck")}
-      </p>
+      <p className="mb-2 text-sm">{translate("wishingWell.luck")}</p>
     </div>
     <div className="flex">
       <Button onClick={onClick}>{translate("grant.wish")}</Button>
@@ -102,8 +100,8 @@ const ZeroTokens = ({ onClick }: ZeroTokensArgs) => (
         <h1 className="text-lg mb-4 text-center">{translate("uhOh")}</h1>
         <img src={goblinHead} alt="skeleton death" className="w-16 mb-2" />
       </div>
-      <p className="mb-4 text-sm">{translate("statements.no.reward")}</p>
-      <p className="mb-2 text-sm">{translate("statements.make.a.wish")}</p>
+      <p className="mb-4 text-sm">{translate("wishingWell.noReward")}</p>
+      <p className="mb-2 text-sm">{translate("wishingWell.makeWish")}</p>
     </div>
     <div className="flex">
       <Button className="whitespace-nowrap" onClick={onClick}>
@@ -118,16 +116,20 @@ const WaitingForWish = ({ lockedTime }: WaitingForWishArgs) => (
     <div className="p-2">
       <div className="flex flex-col items-center mb-3">
         <h1 className="text-lg mb-4 text-center">
-          {translate("statements.wish.made")}
+          {translate("wishingWell.wish.made")}
         </h1>
         <img src={SUNNYSIDE.icons.timer} alt="timer" className="w-8 mb-2" />
       </div>
-      <p className="mb-4 text-sm">{translate("statements.wish.thanks")}</p>
       <p className="mb-4 text-sm">
-        {translate("statements.wish.granted.time")}
+        {translate("wishingWell.wish.thanksForSupport")}
+      </p>
+      <p className="mb-4 text-sm">
+        {translate("wishingWell.wish.grantTime")}
         {`${lockedTime}`}
       </p>
-      <p className="mb-4 text-sm">{translate("statements.wish.warning.one")}</p>
+      <p className="mb-4 text-sm">
+        {translate("wishingWell.wish.warning.one")}
+      </p>
       <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-[#f77621]">
         <img
           src={SUNNYSIDE.icons.expression_alerted}
@@ -135,7 +137,7 @@ const WaitingForWish = ({ lockedTime }: WaitingForWishArgs) => (
           className="mr-2 w-6"
         />
         <span className="text-xs">
-          {translate("statements.wish.warning.two")}
+          {translate("wishingWell.wish.warning.two")}
         </span>
       </div>
     </div>
@@ -151,12 +153,8 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => (
         </h1>
         <img src={wisingWell} alt="wishing well" className="w-16" />
       </div>
-      <p className="mb-4 text-sm">
-        {translate("statements.wishing-well.info.one")}
-      </p>
-      <p className="mb-4 text-sm">
-        {translate("statements.wishing-well.info.two")}
-      </p>
+      <p className="mb-4 text-sm">{translate("wishingWell.info.one")}</p>
+      <p className="mb-4 text-sm">{translate("wishingWell.info.two")}</p>
       <p className="mb-4 text-sm">
         <a
           className="underline"
@@ -168,7 +166,7 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => (
         </a>
       </p>
       <p className="mb-4 text-sm">
-        {translate("statements.wishing.well.amount")}
+        {translate("wishingWell.rewardsInWell")}
         {`${Number(fromWei(totalTokensInWell.toString())).toFixed(2)}`}
       </p>
       <div className="flex justify-center items-center mb-4">
@@ -180,13 +178,9 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => (
         <span className="ml-2">{shortAddress(wallet.myAccount as string)}</span>
       </div>
       {hasLPTokens ? (
-        <p className="mb-2 text-sm">
-          {translate("statements.wishing-well.info.three")}
-        </p>
+        <p className="mb-2 text-sm">{translate("wishingWell.info.three")}</p>
       ) : (
-        <p className="mb-2 text-sm">
-          {translate("statements.wishing-well.not.providing.liquidity")}
-        </p>
+        <p className="mb-2 text-sm">{translate("wishingWell.noLiquidity")}</p>
       )}
     </div>
     <div className="flex">

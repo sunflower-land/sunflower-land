@@ -512,13 +512,10 @@ export type Statements =
   | "statements.jigger.seven"
   | "statements.lvlUp"
   | "statements.maintenance"
-  | "statements.make.a.wish"
   | "statements.minted"
   | "statements.minting"
   | "statements.mutant.chicken"
-  | "statements.new.wish"
   | "statements.news"
-  | "statements.no.reward"
   | "statements.ohNo"
   | "statements.openGuide"
   | "statements.patience"
@@ -529,7 +526,6 @@ export type Statements =
   | "statements.potionRule.five"
   | "statements.potionRule.six"
   | "statements.potionRule.seven"
-  | "statements.sfl.rewards.received"
   | "statements.sflLim.one"
   | "statements.sflLim.two"
   | "statements.sniped"
@@ -542,19 +538,7 @@ export type Statements =
   | "statements.tutorial.three"
   | "statements.visit.firePit"
   | "statements.wish.granted.time"
-  | "statements.wish.granted"
-  | "statements.wish.made"
-  | "statements.wish.ready.in"
-  | "statements.wish.thanks"
   | "statements.wish.time"
-  | "statements.wish.warning.one"
-  | "statements.wish.warning.two"
-  | "statements.wishing-well.info.one"
-  | "statements.wishing-well.info.two"
-  | "statements.wishing-well.info.three"
-  | "statements.wishing-well.not.providing.liquidity"
-  | "statements.wishing.well.amount"
-  | "statements.wishing.well.luck"
   | "statements.wrongChain.one"
   | "statements.empty.chest"
   | "statements.chest.captcha"
@@ -1095,6 +1079,56 @@ export type LevelUpMessages =
   | "levelUp.59"
   | "levelUp.60";
 
+export type AuctionTerms = "auctioneer.one" | "auctioneer.two";
+
+export type BetaTerms = "beta.restricted" | "beta.stayTuned";
+
+export type FeedBumpkin =
+  | "feedBumpkin.noFood"
+  | "feedBumpkin.cookFood"
+  | "feedBumpkin.feedFood";
+
+export type Instructions =
+  | "instructions.checkGuide"
+  | "instructions.joinDiscord"
+  | "instructions.sessionExpired";
+
+export type InventoryTerms = "inventory.emptyChest";
+
+export type PotionTerms =
+  | "potion.clickBottle"
+  | "potion.rule.one"
+  | "potion.rule.two"
+  | "potion.rule.three"
+  | "potion.rule.four"
+  | "potion.rule.five"
+  | "potion.rule.six"
+  | "potion.rule.seven";
+
+export type TradeTerms = "trade.sniped";
+
+export type TutorialTerms = "tutorial.one" | "tutorial.two" | "tutorial.three";
+
+export type WishingWell =
+  | "wishingWell.makeWish"
+  | "wishingWell.newWish"
+  | "wishingWell.noReward"
+  | "wishingWell.sflRewardsReceived"
+  | "wishingWell.wish.grantTime"
+  | "wishingWell.wish.granted"
+  | "wishingWell.wish.made"
+  | "wishingWell.wish.timeTillNextWish"
+  | "wishingWell.wish.thanksForSupport"
+  | "wishingWell.wish.comeBackAfter"
+  | "wishingWell.wish.warning.one"
+  | "wishingWell.wish.warning.two"
+  | "wishingWell.info.one"
+  | "wishingWell.info.two"
+  | "wishingWell.info.three"
+  | "wishingWell.noLiquidity"
+  | "wishingWell.rewardsInWell"
+  | "wishingWell.luck";
+
 export type TranslationKeys =
   | AchievementsDialog
   | BoostDescriptions
@@ -1130,4 +1164,5 @@ export type TranslationKeys =
   | ToolDescriptions
   | TransactionTerms
   | WarningTerms
-  | WelcomeTerms;
+  | WelcomeTerms
+  | WishingWell;

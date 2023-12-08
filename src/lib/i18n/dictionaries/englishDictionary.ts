@@ -35,6 +35,7 @@ import {
   BuildingDescriptions,
   ToolDescriptions,
   BountyDescription,
+  WishingWell,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -720,18 +721,13 @@ const statements: Record<Statements, string> = {
   "statements.lvlUp": "Feed your Bumpkin to level up",
   "statements.maintenance":
     "New things are coming! Thanks for your patience, the game will be live again shortly.",
-  "statements.make.a.wish": "Grant a new wish and see how lucky you are!",
   "statements.minted": "The goblins have crafted your ",
   "statements.minting":
     "Please be patient while your item is minted on the Blockchain.",
   "statements.mutant.chicken":
     "Congratulations, your chicken has laid a very rare mutant chicken!",
-  "statements.new.wish":
-    "A new wish has been made for you based on your current balance of LP tokens!",
   "statements.news":
     "Recieve the latest news, complete chores & feed your Bumpkin.",
-  "statements.no.reward":
-    "You have no reward available! Liquidity needs to be held for 3 days to get a reward!",
   "statements.ohNo": "Oh no! Something went wrong!",
   "statements.openGuide": "Open guide",
   "statements.patience": "Thank you for your patience.",
@@ -746,7 +742,6 @@ const statements: Record<Statements, string> = {
   "statements.potionRule.five": "A perfect potion in the perfect position",
   "statements.potionRule.six": "Correct potion but wrong position",
   "statements.potionRule.seven": "Oops, wrong potion",
-  "statements.sfl.rewards.received": "SFL rewards received: ",
   "statements.sflLim.one": "You have reached the daily SFL limit.",
   "statements.sflLim.two":
     "You can continue playing, but will need to wait until tomorrow to sync again.",
@@ -765,27 +760,8 @@ const statements: Record<Statements, string> = {
   "statements.visit.firePit":
     "Visit the Fire Pit to cook food and feed your Bumpkin.",
   "statements.wish.granted.time": "It's time to grant your wish!",
-  "statements.wish.granted": "Your wish has been granted.",
-  "statements.wish.made": "You have made a wish!",
-  "statements.wish.ready.in": "Time till next wish: ",
-  "statements.wish.thanks":
-    "Thanks for supporting the project and making a wish.",
   "statements.wish.time":
     "Come back in the following amount of time to see just how lucky you have been: ",
-  "statements.wish.warning.one":
-    "Be aware that only the LP tokens you held at the time the wish was made will be considered when the wish is granted.",
-  "statements.wish.warning.two":
-    "If you remove your liquidity during this time you won't receive any rewards.",
-  "statements.wishing-well.info.one":
-    "The wishing well is a magical place where SFL rewards can be made just by making a wish!",
-  "statements.wishing-well.info.two":
-    "Wishes are granted to farmers who provided liquidity in the game. More info:",
-  "statements.wishing-well.info.three":
-    "Looks like you have those magic LP tokens in your wallet!",
-  "statements.wishing-well.not.providing.liquidity":
-    "It doesn't look like you're providing liquidity yet. More info: ",
-  "statements.wishing.well.amount": "Amount of rewards in the well: ",
-  "statements.wishing.well.luck": "Let's see how lucky you are!",
   "statements.wrongChain.one":
     "Check out this guide to help you get connected.",
   "statements.feed.bumpkin.one": "You have no food in your inventory.",
@@ -1490,13 +1466,44 @@ const bountyDescription: Record<BountyDescription, string> = {
   "description.seaweed": "Seaweed.",
 };
 
+const wishingWellTerms: Record<WishingWell, string> = {
+  "wishingWell.makeWish": "Grant a new wish and see how lucky you are!",
+  "wishingWell.newWish":
+    "A new wish has been made for you based on your current balance of LP tokens!",
+  "wishingWell.noReward":
+    "You have no reward available! Liquidity needs to be held for 3 days to get a reward!",
+  "wishingWell.sflRewardsReceived": "SFL rewards received:",
+  "wishingWell.wish.grantTime": "It's time to grant your wish!",
+  "wishingWell.wish.granted": "Your wish has been granted.",
+  "wishingWell.wish.made": "You have made a wish!",
+  "wishingWell.wish.timeTillNextWish": "Time till next wish:",
+  "wishingWell.wish.thanksForSupport":
+    "Thanks for supporting the project and making a wish.",
+  "wishingWell.wish.comeBackAfter":
+    "Come back in the following amount of time to see just how lucky you have been:",
+  "wishingWell.wish.warning.one":
+    "Be aware that only the LP tokens you held at the time the wish was made will be considered when the wish is granted.",
+  "wishingWell.wish.warning.two":
+    "If you remove your liquidity during this time you won't receive any rewards.",
+  "wishingWell.info.one":
+    "The wishing well is a magical place where SFL rewards can be made just by making a wish!",
+  "wishingWell.info.two":
+    "Wishes are granted to farmers who provided liquidity in the game. More info:",
+  "wishingWell.info.three":
+    "Looks like you have those magic LP tokens in your wallet!",
+  "wishingWell.noLiquidity":
+    "It doesn't look like you're providing liquidity yet. More info,",
+  "wishingWell.rewardsInWell": "Amount of rewards in the well: ",
+  "wishingWell.luck": "Let's see how lucky you are!",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
-  ...bountyDescription,
   ...boostDescriptions,
+  ...bountyDescription,
   ...buildingDescriptions,
-  ...bumpkinSkillsDescription,
   ...bumpkinPartRequirements,
+  ...bumpkinSkillsDescription,
   ...bumpkinTrade,
   // ...confirmationTerms,
   ...conversations,
@@ -1526,4 +1533,5 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...transactionTerms,
   ...warningTerms,
   ...welcomeTerms,
+  ...wishingWellTerms,
 };
