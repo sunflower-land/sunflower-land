@@ -17,6 +17,7 @@ import { Label } from "components/ui/Label";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { secondsToString } from "lib/utils/time";
 import { getKeys } from "features/game/types/craftables";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -33,6 +34,23 @@ export const Santa: React.FC<Props> = ({ onClose }) => {
   useEffect(() => {
     acknowledgeNPC("santa");
   }, []);
+
+  if (!hasFeatureAccess(game, "CHRISTMAS")) {
+    return (
+      <SpeakingModal
+        onClose={() => {
+          setShowIntro(false);
+          onClose();
+        }}
+        bumpkinParts={NPC_WEARABLES.santa}
+        message={[
+          {
+            text: "Ho Ho Ho Bumpkin! On the 12th of December the Christmas Event will begin.",
+          },
+        ]}
+      />
+    );
+  }
 
   if (showIntro) {
     return (
