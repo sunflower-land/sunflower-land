@@ -1,15 +1,137 @@
-import mapJson from "assets/map/plaza.json";
+import mapJson from "assets/map/christmas.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { AudioController } from "../lib/AudioController";
+import { Candy } from "../containers/Candy";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
+import {
+  DAILY_CANDY,
+  getDayOfChristmas,
+} from "features/game/events/landExpansion/collectCandy";
+import { BumpkinContainer } from "../containers/BumpkinContainer";
+import { SOUNDS } from "assets/sound-effects/soundEffects";
+
+const CANDY_POSITIONS = [
+  {
+    x: 160,
+    y: 64,
+  },
+  {
+    x: 64,
+    y: 80,
+  },
+  {
+    x: 208,
+    y: 96,
+  },
+  {
+    x: 592,
+    y: 128,
+  },
+  {
+    x: 672,
+    y: 144,
+  },
+  {
+    x: 768,
+    y: 144,
+  },
+  {
+    x: 288,
+    y: 160,
+  },
+  {
+    x: 480,
+    y: 160,
+  },
+  {
+    x: 192,
+    y: 176,
+  },
+  {
+    x: 320,
+    y: 192,
+  },
+  {
+    x: 432,
+    y: 192,
+  },
+  {
+    x: 48,
+    y: 240,
+  },
+  {
+    x: 672,
+    y: 240,
+  },
+  {
+    x: 832,
+    y: 256,
+  },
+  {
+    x: 704,
+    y: 288,
+  },
+  {
+    x: 144,
+    y: 304,
+  },
+  {
+    x: 304,
+    y: 304,
+  },
+  {
+    x: 512,
+    y: 304,
+  },
+  {
+    x: 240,
+    y: 320,
+  },
+  {
+    x: 608,
+    y: 320,
+  },
+  {
+    x: 752,
+    y: 336,
+  },
+  {
+    x: 64,
+    y: 384,
+  },
+  {
+    x: 112,
+    y: 432,
+  },
+  {
+    x: 256,
+    y: 448,
+  },
+];
+
+const SHUFFLED_CANDY_POSITIONS = CANDY_POSITIONS.sort(
+  () => 0.5 - Math.random()
+);
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
-    x: 371,
-    y: 344,
+    x: 442,
+    y: 163,
+    npc: "mayor",
+    direction: "left",
+  },
+  {
+    x: 418,
+    y: 330,
+    npc: "santa",
+  },
+  {
+    x: 600,
+    y: 352,
     npc: "pumpkin' pete",
   },
   {
@@ -105,30 +227,30 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     y: 293,
     npc: "hank",
   },
-  {
-    x: 442,
-    y: 163,
-    npc: "mayor",
-    direction: "left",
-  },
-  {
-    x: 418,
-    y: 330,
-    npc: "santa",
-  },
 ];
-export class PlazaScene extends BaseScene {
+
+export class ChristmasScene extends BaseScene {
   sceneId: SceneId = "plaza";
 
   constructor() {
     super({
       name: "plaza",
-      map: { json: mapJson },
+      map: {
+        json: mapJson,
+      },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
   }
 
+  public get gameService() {
+    return this.registry.get("gameService") as MachineInterpreter;
+  }
+
   preload() {
+    this.load.audio("chime", SOUNDS.notifications.chime);
+
+    this.load.image("candy", "world/candy.png");
+
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
       frameHeight: 18,
@@ -210,6 +332,53 @@ export class PlazaScene extends BaseScene {
     super.create();
 
     this.initialiseNPCs(PLAZA_BUMPKINS);
+
+    const { dayOfChristmas } = getDayOfChristmas(this.gameState);
+
+    const candyCollected =
+      this.gameState.christmas?.day[dayOfChristmas]?.candy ?? 0;
+
+    const remaining = DAILY_CANDY - candyCollected;
+
+    const candyPositions = SHUFFLED_CANDY_POSITIONS.slice(0, remaining);
+
+    candyPositions.forEach(({ x, y }) => {
+      const candy = new Candy({ x, y, scene: this });
+      candy.setDepth(1000000);
+      this.physics.world.enable(candy);
+
+      const candyGroup = this.add.group();
+      candyGroup.add(candy);
+      this.physics.add.collider(
+        this.currentPlayer as BumpkinContainer,
+        candy,
+        (obj1, obj2) => {
+          candy.sprite?.destroy();
+          candy.destroy();
+
+          const { dayOfChristmas } = getDayOfChristmas(
+            this.gameService.state.context.state
+          );
+
+          const candyCollected =
+            this.gameService.state.context.state.christmas?.day[dayOfChristmas]
+              ?.candy ?? 0;
+
+          const remaining = DAILY_CANDY - candyCollected;
+
+          // Open reward window
+          if (remaining === 1) {
+            interactableModalManager.open("christmas_reward");
+          } else {
+            // Otherwise collect straight away
+            this.gameService.send("candy.collected");
+          }
+
+          const chime = this.sound.add("chime");
+          chime.play({ loop: false, volume: 0.1 });
+        }
+      );
+    });
 
     const auctionLabel = new Label(this, "AUCTIONS", "brown");
     auctionLabel.setPosition(601, 260);

@@ -26,6 +26,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { Context } from "features/game/GameProvider";
+import { wallet } from "lib/blockchain/wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { translate } from "lib/i18n/translate";
 
@@ -256,28 +257,40 @@ export const IslandList: React.FC<IslandListProps> = ({
         </Label>,
       ],
     },
-    {
-      name: t("island.goblin.retreat"),
-      levelRequired: 1 as BumpkinLevel,
-      image: goblin,
-      path: `/retreat/${farmId}`,
-      passRequired: true,
-      labels: [
-        <Label type="default" key="trading" icon={SUNNYSIDE.icons.player_small}>
-          {t("trading")}
-        </Label>,
-        <Label
-          type="default"
-          key="withdraw"
-          icon={SUNNYSIDE.decorations.treasure_chest_opened}
-        >
-          {t("withdraw")}
-        </Label>,
-        <Label type="default" key="crafting" icon={SUNNYSIDE.icons.hammer}>
-          {t("crafting")}
-        </Label>,
-      ],
-    },
+    ...(wallet.isSocial
+      ? []
+      : [
+          {
+            name: t("island.goblin.retreat"),
+            levelRequired: 1 as BumpkinLevel,
+            image: goblin,
+            path: `/retreat/${farmId}`,
+            passRequired: true,
+            labels: [
+              <Label
+                type="default"
+                key="trading"
+                icon={SUNNYSIDE.icons.player_small}
+              >
+                {t("trading")}
+              </Label>,
+              <Label
+                type="default"
+                key="withdraw"
+                icon={SUNNYSIDE.decorations.treasure_chest_opened}
+              >
+                {t("withdraw")}
+              </Label>,
+              <Label
+                type="default"
+                key="crafting"
+                icon={SUNNYSIDE.icons.hammer}
+              >
+                {t("crafting")}
+              </Label>,
+            ],
+          },
+        ]),
   ];
 
   // NOTE: If you're visiting without a session then just show the form by default as there is no option to return to a farm

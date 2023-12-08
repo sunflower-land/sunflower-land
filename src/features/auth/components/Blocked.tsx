@@ -7,11 +7,13 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { removeSession } from "../actions/login";
 import { wallet } from "lib/blockchain/wallet";
 import { translate } from "lib/i18n/translate";
+import { removeSocialSession } from "../actions/social";
 
 export const Blocked: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const tryAgain = () => {
     removeSession(wallet.myAccount as string);
+    removeSocialSession();
 
     authService.send("REFRESH");
   };

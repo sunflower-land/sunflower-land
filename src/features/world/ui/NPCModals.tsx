@@ -24,6 +24,7 @@ import { Finn } from "./npcs/Finn";
 import { GoldTooth } from "./npcs/GoldTooth";
 import { Luna } from "./npcs/Luna";
 import { Mayor } from "./npcs/Mayor";
+import { Santa } from "./npcs/Santa";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -51,13 +52,17 @@ function getInitialNPC(scene: SceneId): NPCName | undefined {
     return "shelly";
   }
 
+  if (scene === "plaza" && !isNPCAcknowledged("santa")) {
+    return "santa";
+  }
+
   return undefined;
 }
 
 export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const [npc, setNpc] = useState<NPCName | undefined>();
+  const [npc, setNpc] = useState<NPCName | undefined>(getInitialNPC(scene));
 
   const { openModal } = useContext(ModalContext);
 
@@ -198,6 +203,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
         {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "luna" && <Luna onClose={closeModal} />}
         {npc === "mayor" && <Mayor onClose={closeModal} />}
+        {npc === "santa" && <Santa onClose={closeModal} />}
       </Modal>
     </>
   );

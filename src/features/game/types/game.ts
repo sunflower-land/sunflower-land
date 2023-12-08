@@ -423,12 +423,13 @@ export type PlacedItem = {
   crafting?: BuildingProduct;
 };
 
-type PlacedManeki = PlacedItem & { shakenAt?: number };
+type ShakeItem = PlacedItem & { shakenAt?: number };
 export type PlacedLamp = PlacedItem & { rubbedCount?: number };
 
 // Support custom types for collectibles
 type CustomCollectibles = {
-  "Maneki Neko": PlacedManeki[];
+  "Maneki Neko": ShakeItem[];
+  "Festive Tree": ShakeItem[];
   "Genie Lamp": PlacedLamp[];
 };
 
@@ -735,6 +736,16 @@ export type Fishing = {
   };
 };
 
+export type Christmas = {
+  day: Record<
+    number,
+    {
+      candy: number;
+      collectedAt: number;
+    }
+  >;
+};
+
 export interface GameState {
   username?: string;
   balance: Decimal;
@@ -824,6 +835,8 @@ export interface GameState {
     listings?: Record<string, TradeListing>;
   };
   buds?: Record<number, Bud>;
+
+  christmas?: Christmas;
 }
 
 export interface Context {

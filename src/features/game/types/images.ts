@@ -517,6 +517,9 @@ import radiantRay from "assets/fish/radiant_ray.png";
 import phantomBarracuda from "assets/fish/phantom_barracuda.png";
 import gildedSwordfish from "assets/fish/gilded_swordfish.png";
 
+import festiveTree from "assets/sfts/festive_tree.png";
+import nutcracker from "assets/sfts/bumpkin_nutcracker.png";
+
 import sapoDocuras from "assets/sfts/sapo_docuras.gif";
 import sapoTravessura from "assets/sfts/sapo_travessura.gif";
 
@@ -2907,5 +2910,14 @@ export const ITEM_DETAILS: Items = {
     image: communityCoin,
     description:
       "A token earned from mini-games and adventures. Can be exchanged for rewards.",
+  },
+  "Bumpkin Nutcracker": {
+    image: nutcracker,
+    description: "A festive decoration from 2023.",
+  },
+  "Festive Tree": {
+    image: festiveTree,
+    description:
+      "A festive tree available each holiday season. I wonder if it is big enough for santa to see?",
   },
 };

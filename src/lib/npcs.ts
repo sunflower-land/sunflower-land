@@ -53,7 +53,8 @@ export type NPCName =
   | "miranda"
   | "damien"
   | "mayor"
-  | "wobble";
+  | "wobble"
+  | "santa";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -580,6 +581,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Farmer Overalls",
     background: "Seashore Background",
     shoes: "Brown Boots",
+  },
+  santa: {
+    body: "Beige Farmer Potion",
+    hair: "Sun Spots",
+    hat: "Santa Hat",
+    beard: "Santa Beard",
+    suit: "Santa Suit",
+    background: "Christmas Background",
+    shoes: "Black Farmer Boots",
+    tool: "Candy Cane",
   },
 };
 

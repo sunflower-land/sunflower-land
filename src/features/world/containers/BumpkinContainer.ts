@@ -9,9 +9,8 @@ import { NPCName, acknowedlgedNPCs } from "lib/npcs";
 
 const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
   "pumpkin' pete": true,
-  birdie: true,
   hank: true,
-  "phantom face": true,
+  santa: true,
 };
 
 export class BumpkinContainer extends Phaser.GameObjects.Container {

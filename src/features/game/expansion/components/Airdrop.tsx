@@ -22,7 +22,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface ClaimRewardProps {
   reward: IAirdrop;
-  onClaim: () => void;
+  onClaim?: () => void;
   onClose?: () => void;
 }
 
@@ -99,12 +99,12 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
       </div>
 
       <div className="flex items-center mt-1">
-        {onClose && (
-          <Button className="mr-1" onClick={onClose}>
-            {t("close")}
+        {onClose && <Button onClick={onClose}>{t("close")}</Button>}
+        {onClaim && (
+          <Button onClick={onClaim} className="ml-1">
+            {t("claim")}
           </Button>
         )}
-        <Button onClick={onClaim}>{t("claim")}</Button>
       </div>
     </>
   );

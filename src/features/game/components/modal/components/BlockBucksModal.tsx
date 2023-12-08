@@ -15,6 +15,8 @@ import { randomID } from "lib/utils/random";
 import { Label } from "components/ui/Label";
 import { Modal } from "react-bootstrap";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { wallet } from "lib/blockchain/wallet";
+import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
@@ -264,7 +266,14 @@ export const BlockBucksModal: React.FC<Props> = ({
                 {t("transaction.payCash")}
               </Button>
             </OuterPanel>
-            <OuterPanel className="w-full flex flex-col items-center relative">
+            <OuterPanel
+              className={classNames(
+                "w-full flex flex-col items-center relative",
+                {
+                  "opacity-50 pointer-events-none": wallet.isSocial,
+                }
+              )}
+            >
               <div className="flex w-full h-full items-center justify-center py-4 px-2">
                 <p className="mr-2 mb-1 text-xs">MATIC</p>
                 <img
@@ -275,7 +284,11 @@ export const BlockBucksModal: React.FC<Props> = ({
                   }}
                 />
               </div>
-              <Button onClick={() => onMaticBuy(price.amount)}>
+              <Button
+                onClick={
+                  wallet.isSocial ? undefined : () => onMaticBuy(price.amount)
+                }
+              >
                 {t("transaction.payMatic")}
               </Button>
             </OuterPanel>
