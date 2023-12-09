@@ -34,6 +34,7 @@ type Response = {
   sessionId: string;
   analyticsId: string;
   linkedWallet?: string;
+  wallet?: string;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -91,6 +92,7 @@ export async function loadSession(request: Request): Promise<Response> {
     farmAddress,
     analyticsId,
     linkedWallet,
+    wallet,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -107,6 +109,7 @@ export async function loadSession(request: Request): Promise<Response> {
     analyticsId: string;
     farmAddress?: string;
     linkedWallet?: string;
+    wallet?: string;
   }>(response);
 
   saveSession(farm.id);
@@ -125,6 +128,7 @@ export async function loadSession(request: Request): Promise<Response> {
     promoCode: promo,
     analyticsId,
     linkedWallet,
+    wallet,
   };
 }
 

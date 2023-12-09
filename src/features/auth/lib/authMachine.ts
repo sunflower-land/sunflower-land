@@ -140,7 +140,7 @@ export type BlockchainState = {
     | "welcome"
     | "signIn"
     | "signUp"
-    | "authorisng"
+    | "authorising"
     | "visiting"
     | "verifying"
     | "oauthorising"

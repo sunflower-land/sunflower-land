@@ -74,6 +74,7 @@ export const walletMachine = createMachine({
     provider: null,
     jwt: "",
     signature: "",
+    wallet: "METAMASK", // Predefine provider?
   },
   states: {
     idle: {
@@ -172,13 +173,13 @@ export const walletMachine = createMachine({
           return { signature };
         },
         onDone: [
-          // Not yet authorised, they are on login screen
           {
             target: "ready",
             actions: assign({
               signature: (_, event) => event.data.signature,
             }),
-            cond: (context) => !context.jwt,
+            // No farm ID = they are on login screen
+            cond: (context) => !context.id,
           },
           {
             target: "linking",

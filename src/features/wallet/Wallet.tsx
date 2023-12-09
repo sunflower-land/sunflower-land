@@ -10,18 +10,25 @@ import { CONFIG } from "lib/config";
 
 import walletIcon from "assets/icons/wallet.png";
 import { Context } from "features/game/GameProvider";
+import { Modal } from "react-bootstrap";
 
 interface Props {
   onReady: (payload: { signature: string; address: string }) => void;
+  onStart?: () => void;
   id?: number;
-  linkedWallet?: string;
+  linkedAddress?: string;
+  wallet?: string;
+  wrapper?: React.FC;
 }
 
 export const Wallet: React.FC<Props> = ({
   onReady,
+  onStart,
   children,
   id,
-  linkedWallet,
+  linkedAddress,
+  wallet,
+  wrapper = ({ children }) => <>{children}</>,
 }) => {
   const { authService } = useContext(AuthContext);
   const [authState] = useActor(authService);
@@ -31,7 +38,8 @@ export const Wallet: React.FC<Props> = ({
     context: {
       id,
       jwt: authState.context.user.rawToken,
-      linkedAddress: linkedWallet,
+      linkedAddress,
+      wallet,
       // TODO more?
     },
   });
@@ -47,6 +55,10 @@ export const Wallet: React.FC<Props> = ({
         signature: walletState.context.signature,
         address: walletState.context.address,
       });
+    }
+
+    if (onStart && walletState.matches("initialising")) {
+      onStart();
     }
   }, [walletState.value]);
 
@@ -85,10 +97,14 @@ export const Wallet: React.FC<Props> = ({
     }
   }, [provider, address]);
 
-  console.log({ walletState: walletState.value });
+  console.log({ walletState: walletState.value, context: walletState.context });
+  const Wrapper = wrapper;
   if (walletState.matches("idle")) {
     return (
-      <Panel>
+      <Wrapper>
+        <Label className="ml-2 mt-1 mb-2" icon={walletIcon} type="default">
+          Connect your wallet
+        </Label>
         <Wallets
           onConnect={(chosenProvider) =>
             walletService.send("CONNECT_TO_WALLET", {
@@ -96,11 +112,21 @@ export const Wallet: React.FC<Props> = ({
             })
           }
         />
-      </Panel>
+      </Wrapper>
     );
   }
 
-  return <Panel>{walletState.value}</Panel>;
+  if (walletState.matches("ready")) {
+    console.log("RETURN CHILDREN!");
+    return <>{children}</>;
+  }
+
+  // Show wallet states
+  return (
+    <Wrapper>
+      <p className="text-sm loading">{walletState.value}</p>
+    </Wrapper>
+  );
 };
 
 export const GameWallet: React.FC<Props> = ({ children }) => {
@@ -109,21 +135,16 @@ export const GameWallet: React.FC<Props> = ({ children }) => {
 
   const [isReady, setIsReady] = useState(false);
 
-  if (isReady) {
-    return (
-      <div className="p-2">
-        <Label type="formula" icon={walletIcon}>
-          Connected
-        </Label>
-        {children}
-      </div>
-    );
-  }
   return (
-    <Wallet
-      id={gameState.context.farmId}
-      linkedWallet={gameState.context.linkedWallet}
-      onReady={() => setIsReady(true)}
-    />
+    <>
+      <Wallet
+        id={gameState.context.farmId}
+        linkedAddress={gameState.context.linkedWallet}
+        wallet={gameState.context.wallet}
+        onReady={() => setIsReady(true)}
+      >
+        {children}
+      </Wallet>
+    </>
   );
 };

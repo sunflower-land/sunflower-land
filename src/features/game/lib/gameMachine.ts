@@ -124,6 +124,7 @@ export interface Context {
   moderation: Moderation;
   saveQueued: boolean;
   linkedWallet?: string;
+  wallet?: string;
 }
 
 export type Moderation = {
@@ -521,15 +522,15 @@ export function startGame(authContext: AuthContext) {
 
               let notifications: OnChainEvent[] = [];
 
-              // Web3 Farm
-              if (response.farmAddress) {
-                if (!wallet.myAccount) throw new Error("No account");
+              // Web3 Farm - TODO only in Goblin Retreat
+              // if (response.farmAddress) {
+              //   if (!wallet.myAccount) throw new Error("No account");
 
-                notifications = await unseenEvents({
-                  farmAddress: response.farmAddress,
-                  farmId: Number(response.farmId),
-                });
-              }
+              //   notifications = await unseenEvents({
+              //     farmAddress: response.farmAddress,
+              //     farmId: Number(response.farmId),
+              //   });
+              // }
 
               return {
                 farmId: Number(response.farmId),
@@ -546,6 +547,7 @@ export function startGame(authContext: AuthContext) {
                 farmAddress: response.farmAddress,
                 analyticsId: response.analyticsId,
                 linkedWallet: response.linkedWallet,
+                wallet: response.wallet,
               };
             },
             onDone: [
@@ -701,11 +703,12 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
-            {
-              target: "mailbox",
-              cond: (context) =>
-                hasUnreadMail(context.announcements, context.state.mailbox),
-            },
+            // TODO - FIX
+            // {
+            //   target: "mailbox",
+            //   cond: (context) =>
+            //     hasUnreadMail(context.announcements, context.state.mailbox),
+            // },
             {
               target: "swarming",
               cond: () => isSwarming(),
@@ -1787,6 +1790,7 @@ export function startGame(authContext: AuthContext) {
           promoCode: (_, event) => event.data.promoCode,
           farmAddress: (_, event) => event.data.farmAddress,
           linkedWallet: (_, event) => event.data.linkedWallet,
+          wallet: (_, event) => event.data.wallet,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

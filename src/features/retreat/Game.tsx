@@ -68,6 +68,7 @@ const SHOW_MODAL: Partial<Record<StateValues, boolean>> = {
 };
 
 export const Game = () => {
+  console.log("Goblin game!");
   const container = useRef(null);
   const navigate = useNavigate();
   const { goblinService } = useContext(Context);

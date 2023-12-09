@@ -25,6 +25,7 @@ export const GoblinProvider: React.FC<Props> = ({
   farmId,
   children,
 }) => {
+  console.log("Goblin provider");
   const { authService } = useContext(Auth.Context);
   // const { gameService } = useContext(GameProviderContext);
   const [authState] = useActor(authService);

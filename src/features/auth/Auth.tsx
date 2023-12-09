@@ -12,15 +12,12 @@ import { ErrorMessage } from "./ErrorMessage";
 import { Panel } from "components/ui/Panel";
 import { Loading } from "./components";
 
-import { Signing } from "./components/Signing";
 import { ErrorCode } from "lib/errors";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ConnectedToWallet } from "./components/ConnectedToWallet";
 import { Verifying } from "./components/Verifying";
 import { Welcome } from "./components/Welcome";
 import classNames from "classnames";
 import { SignIn, SignUp } from "./components/SignIn";
-import { CreateWallet } from "./components/CreateWallet";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -30,6 +27,7 @@ export const Auth: React.FC = () => {
   const [authState] = useActor(authService);
   const { t } = useAppTranslation();
 
+  console.log({ authState: authState.value });
   return (
     <>
       <Modal
@@ -71,12 +69,12 @@ export const Auth: React.FC = () => {
         </div>
         <Panel className="pb-1 relative">
           {authState.matches("welcome") && <Welcome />}
-          {authState.matches("createWallet") && <CreateWallet />}
+          {authState.matches("authorising") && <Loading />}
+          {authState.matches("verifying") && <Verifying />}
           {(authState.matches("idle") || authState.matches("signIn")) && (
             <SignIn />
           )}
           {authState.matches("signUp") && <SignUp />}
-          {authState.matches("verifying") && <Verifying />}
           {authState.matches("oauthorising") && <Loading />}
           {authState.matches("unauthorised") && (
             <ErrorMessage

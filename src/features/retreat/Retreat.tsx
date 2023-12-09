@@ -10,6 +10,8 @@ import { GameBoard } from "components/GameBoard";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Loading } from "features/auth/components";
+import { GameWallet, Wallet } from "features/wallet/Wallet";
+import { Ocean } from "features/world/ui/Ocean";
 
 const GoblinRetreat: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -29,12 +31,26 @@ const GoblinRetreat: React.FC = () => {
   }
 
   return (
-    <GoblinProvider
-      farmAddress={gameState.context.farmAddress}
-      farmId={gameState.context.farmId}
-    >
-      <Game />
-    </GoblinProvider>
+    <Ocean>
+      <Wallet
+        onReady={console.log}
+        id={gameState.context.farmId}
+        linkedAddress={gameState.context.linkedWallet}
+        wallet={gameState.context.wallet}
+        wrapper={({ children }) => (
+          <Modal centered show>
+            <Panel>{children}</Panel>
+          </Modal>
+        )}
+      >
+        <GoblinProvider
+          farmAddress={gameState.context.farmAddress}
+          farmId={gameState.context.farmId}
+        >
+          <Game />
+        </GoblinProvider>
+      </Wallet>
+    </Ocean>
   );
 };
 
