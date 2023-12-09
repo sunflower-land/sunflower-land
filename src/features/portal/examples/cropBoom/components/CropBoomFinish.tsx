@@ -1,4 +1,4 @@
-import { ClaimReward } from "features/game/expansion/components/Airdrop";
+import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import React, { useContext } from "react";
 import { PortalContext } from "../lib/PortalProvider";
 import { useActor } from "@xstate/react";

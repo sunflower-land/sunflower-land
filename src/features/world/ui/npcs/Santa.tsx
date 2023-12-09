@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { ClaimReward } from "features/game/expansion/components/Airdrop";
+import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import candy from "public/world/candy_icon.png";
 import gift from "assets/icons/gift.png";
 import {
