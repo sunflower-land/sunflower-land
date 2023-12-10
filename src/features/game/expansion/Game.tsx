@@ -17,6 +17,10 @@ import { Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
 
+import logo from "assets/brand/logo_v2.png";
+import winterLogo from "assets/brand/winter_logo.png";
+import sparkle from "assets/fx/sparkle2.gif";
+
 import { Notifications } from "../components/Notifications";
 import { Hoarding } from "../components/Hoarding";
 import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
@@ -31,7 +35,6 @@ import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 import land from "assets/land/islands/island.webp";
 import { IslandNotFound } from "./components/IslandNotFound";
 import { Rules } from "../components/Rules";
-import { WalletOnboarding } from "features/tutorials/wallet/WalletOnboarding";
 import { Introduction } from "./components/Introduction";
 import { NoTownCenter } from "../components/NoTownCenter";
 import { SpecialOffer } from "./components/SpecialOffer";
@@ -46,6 +49,10 @@ import { Sniped } from "../components/Sniped";
 import { NewMail } from "./components/NewMail";
 import { Blacklisted } from "../components/Blacklisted";
 import { AirdropPopup } from "./components/Airdrop";
+import { PIXEL_SCALE } from "../lib/constants";
+import classNames from "classnames";
+import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -287,6 +294,38 @@ export const GameWrapper: React.FC = ({ children }) => {
     return (
       <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
         <Modal show centered backdrop={false}>
+          <div
+            className={classNames(
+              "relative flex items-center justify-center mb-4 w-full -mt-12 max-w-xl transition-opacity duration-500 opacity-100"
+            )}
+          >
+            <div className="w-[90%] relative">
+              <img
+                src={sparkle}
+                className="absolute animate-pulse"
+                style={{
+                  width: `${PIXEL_SCALE * 8}px`,
+                  top: `${PIXEL_SCALE * 0}px`,
+                  right: `${PIXEL_SCALE * 0}px`,
+                }}
+              />
+              {Date.now() > new Date("2023-12-10").getTime() &&
+              Date.now() < new Date("2023-12-27").getTime() ? (
+                <>
+                  <img id="logo" src={winterLogo} className="w-full mb-1" />
+                  <Label
+                    icon={SUNNYSIDE.icons.stopwatch}
+                    type="vibrant"
+                    className="mx-auto"
+                  >
+                    Christmas event!
+                  </Label>
+                </>
+              ) : (
+                <img id="logo" src={logo} className="w-full" />
+              )}
+            </div>
+          </div>
           <Panel>
             <Loading />
           </Panel>

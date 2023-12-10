@@ -343,7 +343,6 @@ export const authMachine = createMachine(
   {
     services: {
       login: async (context, event): Promise<{ token: string | null }> => {
-        console.log({ event });
         const { address, signature } = event as any as ConnectedWalletEvent;
 
         const { token } = await login({
@@ -352,7 +351,6 @@ export const authMachine = createMachine(
           signature,
         });
 
-        console.log({ token });
         return { token };
       },
       oauthorise: async (context) => {
