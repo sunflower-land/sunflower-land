@@ -384,6 +384,7 @@ describe("getChoppedAt", () => {
     const treeTimeWithBoost = TREE_RECOVERY_TIME * 1000 * 0.2;
     expect(time).toEqual(now - treeTimeWithBoost);
   });
+
   it("tree replenishes faster when Apprentice Beaver is placed and the bumpkins has the skill Tree Hugger", () => {
     const now = Date.now();
 
@@ -402,10 +403,8 @@ describe("getChoppedAt", () => {
       createdAt: now,
     });
 
-    const treeTimeWithSkill = TREE_RECOVERY_TIME * 0.2; // 1440
-    const treeTimeWithBeaver = TREE_RECOVERY_TIME / 2; // 3600
-    const treeTimeStacked = (treeTimeWithBeaver + treeTimeWithSkill) * 1000;
-    expect(time).toEqual(now - treeTimeStacked);
+    const buff = TREE_RECOVERY_TIME * 0.5 * 1.2 * 1000;
+    expect(time).toEqual(now - buff);
   });
 
   it("tree replenishes faster with time warp", () => {
@@ -427,5 +426,36 @@ describe("getChoppedAt", () => {
     });
 
     expect(time).toEqual(now - (TREE_RECOVERY_TIME * 1000) / 2);
+  });
+
+  it("does not go negative with all buffs", () => {
+    const now = Date.now();
+
+    const time = getChoppedAt({
+      collectibles: {
+        "Apprentice Beaver": [
+          {
+            id: "123",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now - 5 * 60 * 1000,
+          },
+        ],
+        "Time Warp Totem": [
+          {
+            id: "123",
+            createdAt: now,
+            coordinates: { x: 1, y: 1 },
+            readyAt: now - 5 * 60 * 1000,
+          },
+        ],
+      },
+      skills: { "Tree Hugger": 1 },
+      createdAt: now,
+    });
+
+    const buff = TREE_RECOVERY_TIME - TREE_RECOVERY_TIME * 0.5 * 0.5 * 0.8;
+
+    expect(time).toEqual(now - buff * 1000);
   });
 });
