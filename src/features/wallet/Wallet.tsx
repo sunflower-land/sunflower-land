@@ -50,7 +50,8 @@ export const Wallet: React.FC<Props> = ({
   const address = walletState.context.address;
 
   useEffect(() => {
-    if (walletState.matches("ready") && onReady) {
+    if (walletState.matches("ready") && !!onReady) {
+      console.log("TRIGGER UP");
       onReady({
         signature: walletState.context.signature,
         address: walletState.context.address,
@@ -129,11 +130,9 @@ export const Wallet: React.FC<Props> = ({
   );
 };
 
-export const GameWallet: React.FC<Props> = ({ children }) => {
+export const GameWallet: React.FC<Props> = ({ children, onReady, wrapper }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-
-  const [isReady, setIsReady] = useState(false);
 
   return (
     <>
@@ -141,7 +140,8 @@ export const GameWallet: React.FC<Props> = ({ children }) => {
         id={gameState.context.farmId}
         linkedAddress={gameState.context.linkedWallet}
         wallet={gameState.context.wallet}
-        onReady={() => setIsReady(true)}
+        onReady={onReady}
+        wrapper={wrapper}
       >
         {children}
       </Wallet>
