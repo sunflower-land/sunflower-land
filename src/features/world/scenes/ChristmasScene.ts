@@ -377,6 +377,7 @@ export class ChristmasScene extends BaseScene {
           } else {
             // Otherwise collect straight away
             this.gameService.send("candy.collected");
+            this.gameService.send("SAVE");
           }
 
           const chime = this.sound.add("chime");
