@@ -17,6 +17,7 @@ import { Modal } from "react-bootstrap";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { wallet } from "lib/blockchain/wallet";
 import classNames from "classnames";
+import { GameWallet } from "features/wallet/Wallet";
 
 interface Props {
   show: boolean;
@@ -166,6 +167,7 @@ export const BlockBucksModal: React.FC<Props> = ({
   const [isMobile] = useIsMobile();
 
   const [price, setPrice] = useState<Price>();
+  const [showMaticConfirm, setShowMaticConfirm] = useState(false);
 
   const onMaticBuy = async (amount: number) => {
     gameService.send("BUY_BLOCK_BUCKS", {
@@ -221,6 +223,31 @@ export const BlockBucksModal: React.FC<Props> = ({
       );
     }
 
+    if (!!price && showMaticConfirm) {
+      return (
+        <GameWallet>
+          <div className="flex flex-col w-full items-center space-y-1 pb-2 px-2 text-sm">
+            <div className="flex items-center">
+              <p className="mr-2 mb-1">Item: {price.amount} x</p>
+              <img
+                src={ticket}
+                style={{
+                  height: `${PIXEL_SCALE * 13}px`,
+                }}
+              />
+            </div>
+            <p className="mr-2 mb-1">{`Total: ${price.usd} USD`}</p>
+          </div>
+
+          <Button onClick={() => onMaticBuy(price.amount)}>Confirm</Button>
+
+          <p className="text-xxs italic text-center py-2">
+            *Prices exclude transaction fees.
+          </p>
+        </GameWallet>
+      );
+    }
+
     if (price) {
       return (
         <>
@@ -261,10 +288,7 @@ export const BlockBucksModal: React.FC<Props> = ({
             </OuterPanel>
             <OuterPanel
               className={classNames(
-                "w-full flex flex-col items-center relative",
-                {
-                  "opacity-50 pointer-events-none": wallet.isSocial,
-                }
+                "w-full flex flex-col items-center relative"
               )}
             >
               <div className="flex w-full h-full items-center justify-center py-4 px-2">
@@ -277,11 +301,7 @@ export const BlockBucksModal: React.FC<Props> = ({
                   }}
                 />
               </div>
-              <Button
-                onClick={
-                  wallet.isSocial ? undefined : () => onMaticBuy(price.amount)
-                }
-              >
+              <Button onClick={() => setShowMaticConfirm(true)}>
                 Pay with Matic
               </Button>
             </OuterPanel>

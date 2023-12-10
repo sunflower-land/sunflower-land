@@ -254,40 +254,28 @@ export const IslandList: React.FC<IslandListProps> = ({
         </Label>,
       ],
     },
-    ...(wallet.isSocial
-      ? []
-      : [
-          {
-            name: "Goblin Retreat",
-            levelRequired: 1 as BumpkinLevel,
-            image: goblin,
-            path: `/retreat/${farmId}`,
-            passRequired: true,
-            labels: [
-              <Label
-                type="default"
-                key="trading"
-                icon={SUNNYSIDE.icons.player_small}
-              >
-                Trading
-              </Label>,
-              <Label
-                type="default"
-                key="withdraw"
-                icon={SUNNYSIDE.decorations.treasure_chest_opened}
-              >
-                Withdraw
-              </Label>,
-              <Label
-                type="default"
-                key="crafting"
-                icon={SUNNYSIDE.icons.hammer}
-              >
-                Crafting
-              </Label>,
-            ],
-          },
-        ]),
+    {
+      name: "Goblin Retreat",
+      levelRequired: 1 as BumpkinLevel,
+      image: goblin,
+      path: `/retreat/${farmId}`,
+      passRequired: true,
+      labels: [
+        <Label type="default" key="trading" icon={SUNNYSIDE.icons.player_small}>
+          Trading
+        </Label>,
+        <Label
+          type="default"
+          key="withdraw"
+          icon={SUNNYSIDE.decorations.treasure_chest_opened}
+        >
+          Withdraw
+        </Label>,
+        <Label type="default" key="crafting" icon={SUNNYSIDE.icons.hammer}>
+          Crafting
+        </Label>,
+      ],
+    },
   ];
 
   // NOTE: If you're visiting without a session then just show the form by default as there is no option to return to a farm

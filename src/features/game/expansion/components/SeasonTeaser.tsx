@@ -48,7 +48,7 @@ export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
         >
           <NPC
             parts={NPC_WEARABLES.grubnuk}
-            onClick={wallet.isSocial ? undefined : () => setShowModal(true)}
+            onClick={() => setShowModal(true)}
           />
         </div>
       </MapPlacement>

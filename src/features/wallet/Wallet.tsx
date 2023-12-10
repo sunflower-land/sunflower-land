@@ -13,7 +13,7 @@ import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
 
 interface Props {
-  onReady: (payload: { signature: string; address: string }) => void;
+  onReady?: (payload: { signature: string; address: string }) => void;
   onStart?: () => void;
   id?: number;
   linkedAddress?: string;
@@ -50,7 +50,7 @@ export const Wallet: React.FC<Props> = ({
   const address = walletState.context.address;
 
   useEffect(() => {
-    if (walletState.matches("ready")) {
+    if (walletState.matches("ready") && onReady) {
       onReady({
         signature: walletState.context.signature,
         address: walletState.context.address,

@@ -52,7 +52,6 @@ const HudComponent: React.FC<{
   const farmAddress = gameService.state?.context?.farmAddress;
   const isFullUser = farmAddress !== undefined;
 
-  console.log({ showDepositModal });
   return (
     <>
       {createPortal(
@@ -179,7 +178,6 @@ const HudComponent: React.FC<{
               onClose={depositDataLoaded ? handleClose : undefined}
             >
               <Deposit
-                id={gameState.context.farmId}
                 onDeposit={handleDeposit}
                 onLoaded={(loaded) => setDepositDataLoaded(loaded)}
                 onClose={handleClose}

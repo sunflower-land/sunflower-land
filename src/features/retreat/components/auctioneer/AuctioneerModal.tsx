@@ -76,24 +76,6 @@ export const AuctioneerModal: React.FC<Props> = ({
     );
   }
 
-  if (wallet.isSocial) {
-    return (
-      <Modal centered show={isOpen} onHide={onClose}>
-        <CloseButtonPanel
-          bumpkinParts={NPC_WEARABLES["hammerin harry"]}
-          onClose={onClose}
-        >
-          <div className="flex p-1 gap-2 items-center">
-            <GoogleIcon />
-            <span className="text-sm">
-              Auctions are coming soon for social wallets.
-            </span>
-          </div>
-        </CloseButtonPanel>
-      </Modal>
-    );
-  }
-
   const closeModal = () => {
     onClose();
   };
