@@ -243,14 +243,14 @@ export abstract class BaseScene extends Phaser.Scene {
           2
         ) as Phaser.Tilemaps.Tileset);
 
-    const christmas = this.map.addTilesetImage(
-      "Sunnyside V3",
-      "christmas-tileset",
-      16,
-      16,
-      1,
-      2
-    ) as Phaser.Tilemaps.Tileset;
+    // const christmas = this.map.addTilesetImage(
+    //   "Sunnyside V3",
+    //   "christmas-tileset",
+    //   16,
+    //   16,
+    //   1,
+    //   2
+    // ) as Phaser.Tilemaps.Tileset;
 
     // Set up collider layers
     this.colliders = this.add.group();
@@ -330,7 +330,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.map.layers.forEach((layerData, idx) => {
       if (layerData.name === "Crows") return;
 
-      const layer = this.map.createLayer(layerData.name, [christmas], 0, 0);
+      const layer = this.map.createLayer(layerData.name, [tileset], 0, 0);
       if (TOP_LAYERS.includes(layerData.name)) {
         layer?.setDepth(1000000);
       }
