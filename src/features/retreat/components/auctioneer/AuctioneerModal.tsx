@@ -17,8 +17,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { wallet } from "lib/blockchain/wallet";
-import { GoogleIcon } from "features/auth/components/SignIn";
 
 interface Props {
   gameState: GameState;
@@ -28,6 +26,7 @@ interface Props {
   onUpdate: (state: GameState) => void;
   onMint: (id: string) => void;
   deviceTrackerId: string;
+  linkedAddress?: string;
 }
 
 export const AuctioneerModal: React.FC<Props> = ({
@@ -38,6 +37,7 @@ export const AuctioneerModal: React.FC<Props> = ({
   onUpdate,
   onMint,
   deviceTrackerId,
+  linkedAddress,
 }) => {
   const { openModal } = useContext(ModalContext);
 
@@ -51,6 +51,7 @@ export const AuctioneerModal: React.FC<Props> = ({
       bid: gameState.auctioneer.bid,
       deviceTrackerId: deviceTrackerId,
       canAccess: true,
+      linkedAddress: linkedAddress,
     },
   }) as unknown as MachineInterpreter;
 

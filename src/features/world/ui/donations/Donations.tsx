@@ -7,6 +7,7 @@ import { CONFIG } from "lib/config";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
+import { GameWallet } from "features/wallet/Wallet";
 
 const CONTRIBUTORS = [
   "Netherzapdos",
@@ -57,7 +58,7 @@ export const Donations: React.FC = () => {
   };
 
   return (
-    <>
+    <GameWallet>
       {state.matches("idle") && (
         <div className="flex flex-col mb-1 p-2 text-sm">
           <p className="mb-2 text-center">
@@ -133,6 +134,6 @@ export const Donations: React.FC = () => {
           <p className="my-4">Oh no! Something went wrong!</p>
         </div>
       )}
-    </>
+    </GameWallet>
   );
 };
