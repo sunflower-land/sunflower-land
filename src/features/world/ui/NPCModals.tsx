@@ -86,11 +86,11 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
         centered
         onHide={closeModal}
       >
-        {npc === "phantom face" && (
+        {npc === "elf" && (
           <CloseButtonPanel
-            title="Enjoying Halloween?"
+            title="Enjoying Christmas?"
             onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES["phantom face"]}
+            bumpkinParts={NPC_WEARABLES["elf"]}
           >
             <Donations />
           </CloseButtonPanel>

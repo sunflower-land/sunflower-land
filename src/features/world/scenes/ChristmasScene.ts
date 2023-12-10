@@ -119,6 +119,11 @@ const SHUFFLED_CANDY_POSITIONS = CANDY_POSITIONS.sort(
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
+    npc: "elf",
+    x: 195,
+    y: 156,
+  },
+  {
     x: 442,
     y: 163,
     npc: "mayor",
