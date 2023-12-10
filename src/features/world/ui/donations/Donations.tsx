@@ -58,7 +58,7 @@ export const Donations: React.FC = () => {
   };
 
   return (
-    <GameWallet>
+    <>
       {state.matches("idle") && (
         <div className="flex flex-col mb-1 p-2 text-sm">
           <p className="mb-2 text-center">
@@ -134,6 +134,14 @@ export const Donations: React.FC = () => {
           <p className="my-4">Oh no! Something went wrong!</p>
         </div>
       )}
-    </GameWallet>
+      {state.matches("confirming") && (
+        <GameWallet>
+          <p className="m-2">{`${donation} (MATIC)`}</p>
+          <Button className="w-full ml-1" onClick={donate}>
+            <span className="text-xs whitespace-nowrap">Confirm</span>
+          </Button>
+        </GameWallet>
+      )}
+    </>
   );
 };
