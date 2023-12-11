@@ -165,6 +165,11 @@ type CommunityEvent = {
   game: GameState;
 };
 
+type MigrateEvent = {
+  type: "MIGRAT";
+  game: GameState;
+};
+
 type PurchaseEvent = {
   type: "PURCHASE_ITEM";
   name: PurchasableItems;

@@ -8,6 +8,8 @@ import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { linkWallet } from "features/wallet/actions/linkWallet";
 import { ERRORS } from "lib/errors";
 import { getFarms } from "lib/blockchain/Farm";
+import { mintFarm } from "./actions/mintFarm";
+import { migrate } from "./actions/migrate";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -253,14 +255,17 @@ export const walletMachine = createMachine({
         src: async (context, event) => {
           // Already has a farm, let them wait
           const farms = await getFarms(wallet.web3Provider, context.address);
-          if (farms.length === 0) {
+          if (farms.length >= 1) {
             return {
               readyAt: Date.now() + 30 * 1000,
             };
           }
 
-          // Call mint endpoint
-          await new Promise((r) => setTimeout(r, 1000));
+          await mintFarm({
+            id: context.id,
+            jwt: context.jwt,
+            transactionId: "0xTODO",
+          });
 
           return {
             readyAt: Date.now() + 30 * 1000,
@@ -292,10 +297,11 @@ export const walletMachine = createMachine({
       id: "migrating",
       invoke: {
         src: async (context, event) => {
-          await new Promise((r) => setTimeout(r, 1000));
-
-          const farmAddress = "0x123"; // TODO
-          const farmId = 9;
+          const { farmId, farmAddress } = await migrate({
+            id: context.id,
+            jwt: context.jwt,
+            transactionId: "0xTODO",
+          });
 
           return { farmAddress, farmId };
         },
