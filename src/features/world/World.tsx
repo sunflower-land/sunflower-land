@@ -165,7 +165,7 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
 export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const isLoading = useSelector(gameService, _isLoading);
   const inventory = useSelector(gameService, _inventory);
   const name = useParams().name as SceneId;
@@ -183,7 +183,8 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
         imageRendering: "pixelated",
       }}
     >
-      {Date.now() > new Date("2023-12-10").getTime() &&
+      {showAnimations &&
+        Date.now() > new Date("2023-12-10").getTime() &&
         Date.now() < new Date("2023-12-27").getTime() && <Snow />}
       {hasAccess ? (
         <GameWrapper>
