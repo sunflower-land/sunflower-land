@@ -121,7 +121,7 @@
   "tilesets": [
     {
       "firstgid": 1,
-      "source": "../../tiled/sunnyside.tsx"
+      "source": "../../../tiled/sunnyside.tsx"
     }
   ],
   "tilewidth": 16,

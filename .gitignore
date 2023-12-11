@@ -14,9 +14,7 @@
 /build
 /dist
 
-tilesheet.png
-christmas-tilesheet.png
-halloween.png
+/tiled/*.tiled-session
 
 # misc
 .DS_Store
@@ -25,7 +23,6 @@ halloween.png
 .env.development.local
 .env.test.local
 .env.production.local
-/public/tileset.png
 
 npm-debug.log*
 yarn-debug.log*

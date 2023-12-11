@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 import { Modal } from "react-bootstrap";
-
-import { Ocean } from "features/world/ui/Ocean";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -20,9 +18,7 @@ import { Phaser } from "./components/Phaser";
 export const BumpkinFightClubApp: React.FC = () => {
   return (
     <PortalProvider>
-      <Ocean>
-        <BumpkinFightClub />
-      </Ocean>
+      <BumpkinFightClub />
     </PortalProvider>
   );
 };
