@@ -27,6 +27,7 @@ export type Message = {
 
 export type Player = {
   farmId: number;
+  username: string;
   playerId: string;
   x: number;
   y: number;
