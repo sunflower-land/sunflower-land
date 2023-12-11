@@ -24,6 +24,7 @@ import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 import { hasFeatureAccess } from "lib/flags";
 import { IslandNotFound } from "features/game/expansion/components/IslandNotFound";
 import { WorldIntroduction } from "./ui/WorldIntroduction";
+import { Snow } from "./ui/Snow";
 
 interface Props {
   isCommunity?: boolean;
@@ -182,6 +183,8 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
         imageRendering: "pixelated",
       }}
     >
+      {Date.now() > new Date("2023-12-10").getTime() &&
+        Date.now() < new Date("2023-12-27").getTime() && <Snow />}
       {hasAccess ? (
         <GameWrapper>
           {!isLoading && <MMO isCommunity={isCommunity} />}
