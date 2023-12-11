@@ -80,6 +80,20 @@ import { mmoBus } from "features/world/mmoMachine";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { BudName } from "../types/buds";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { isValidRedirect } from "features/portal/examples/cropBoom/lib/portalUtil";
+import { portal } from "features/world/ui/community/actions/portal";
+
+const getPortal = () => {
+  const code = new URLSearchParams(window.location.search).get("portal");
+
+  return code;
+};
+
+const getRedirect = () => {
+  const code = new URLSearchParams(window.location.search).get("redirect");
+
+  return code;
+};
 
 export type PastAction = GameEvent & {
   createdAt: Date;
@@ -211,6 +225,11 @@ type TradeEvent = {
   tradeId: string;
 };
 
+export type UpdateUsernameEvent = {
+  type: "UPDATE_USERNAME";
+  username: string;
+};
+
 export type BlockchainEvent =
   | {
       type: "SAVE";
@@ -255,6 +274,7 @@ export type BlockchainEvent =
   | UpdateBlockBucksEvent
   | DepositEvent
   | UpdateEvent
+  | UpdateUsernameEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
   | { type: "UPGRADE" }
@@ -342,6 +362,7 @@ export type BlockchainState = {
     | "deposited"
     | "visiting"
     | "gameRules"
+    | "portalling"
     | "introduction"
     | "playing"
     | "autosaving"
@@ -532,6 +553,11 @@ export function startGame(authContext: AuthContext) {
                 cond: (_, event) => event.data.isBlacklisted,
               },
               {
+                target: "portalling",
+                cond: () => !!getPortal(),
+                actions: ["assignGame"],
+              },
+              {
                 target: "notifying",
                 actions: ["assignGame", "assignUrl", "initialiseAnalytics"],
               },
@@ -552,6 +578,32 @@ export function startGame(authContext: AuthContext) {
           },
         },
         blacklisted: {},
+        portalling: {
+          id: "portalling",
+          invoke: {
+            src: async (context) => {
+              const portalId = getPortal() as string;
+              const { token } = await portal({
+                portalId,
+                token: authContext.user.rawToken as string,
+                farmId: context.farmId,
+                address: wallet.myAccount as string,
+              });
+
+              const redirect = getRedirect() as string;
+
+              if (!isValidRedirect(redirect)) {
+                throw new Error("Invalid redirect");
+              }
+
+              window.location.href = `${redirect}?jwt=${token}`;
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
         loadLandToVisit: {
           invoke: {
             src: async (_, event) => {
@@ -633,11 +685,47 @@ export function startGame(authContext: AuthContext) {
               },
             },
             {
+              target: "noBumpkinFound",
+              cond: (context: Context, event: any) =>
+                !event.data?.state.bumpkin &&
+                !context.state.bumpkin &&
+                window.location.hash.includes("/land"),
+            },
+            {
               target: "introduction",
               cond: (context) => {
                 return (
                   context.state.bumpkin?.experience === 0 &&
                   !getIntroductionRead()
+                );
+              },
+            },
+            {
+              target: "mailbox",
+              cond: (context) =>
+                hasUnreadMail(context.announcements, context.state.mailbox),
+            },
+            {
+              target: "swarming",
+              cond: () => isSwarming(),
+            },
+            {
+              target: "specialOffer",
+              cond: (context) =>
+                (context.state.bumpkin?.experience ?? 0) > 100 &&
+                !context.state.collectibles["Catch the Kraken Banner"] &&
+                !wallet.isSocial &&
+                !getSeasonPassRead(),
+            },
+            // EVENTS THAT TARGET NOTIFYING OR LOADING MUST GO ABOVE THIS LINE
+
+            // EVENTS THAT TARGET PLAYING MUST GO BELOW THIS LINE
+            {
+              target: "promo",
+              cond: (context) => {
+                return (
+                  context.state.bumpkin?.experience === 0 &&
+                  getPromoCode() === "crypto-com"
                 );
               },
             },
@@ -652,24 +740,6 @@ export function startGame(authContext: AuthContext) {
               },
             },
             {
-              target: "mailbox",
-              cond: (context) =>
-                hasUnreadMail(context.announcements, context.state.mailbox),
-            },
-            {
-              target: "swarming",
-              cond: () => isSwarming(),
-            },
-            // TODO - introduction > tutorial_begin
-
-            {
-              target: "noBumpkinFound",
-              cond: (context: Context, event: any) =>
-                !event.data?.state.bumpkin &&
-                !context.state.bumpkin &&
-                window.location.hash.includes("/land"),
-            },
-            {
               target: "noTownCenter",
               cond: (context: Context) => {
                 return (
@@ -678,26 +748,10 @@ export function startGame(authContext: AuthContext) {
               },
             },
             {
-              target: "specialOffer",
-              cond: (context) =>
-                (context.state.bumpkin?.experience ?? 0) > 100 &&
-                !context.state.collectibles["Catch the Kraken Banner"] &&
-                !getSeasonPassRead(),
-            },
-            {
               // auctionResults needs to be the last check as it transitions directly
               // to playing. It does not target notifying.
               target: "auctionResults",
               cond: (context: Context) => !!context.state.auctioneer.bid,
-            },
-            {
-              target: "promo",
-              cond: (context) => {
-                return (
-                  context.state.bumpkin?.experience === 0 &&
-                  getPromoCode() === "crypto-com"
-                );
-              },
             },
             {
               target: "playing",
@@ -880,6 +934,14 @@ export function startGame(authContext: AuthContext) {
           },
           on: {
             ...GAME_EVENT_HANDLERS,
+            UPDATE_USERNAME: {
+              actions: assign((context, event) => ({
+                state: {
+                  ...context.state,
+                  username: event.username,
+                },
+              })),
+            },
             SAVE: {
               target: "autosaving",
             },

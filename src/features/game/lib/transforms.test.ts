@@ -59,6 +59,34 @@ describe("transform", () => {
     });
   });
 
+  it("takes off chain Gold Pass balance but lowest of everything else", () => {
+    const state = getAvailableGameState({
+      onChain: {
+        ...TEST_FARM,
+        inventory: {
+          Sunflower: new Decimal(5),
+          Axe: new Decimal(100),
+          Stone: new Decimal(20),
+        },
+      },
+      offChain: {
+        ...TEST_FARM,
+        inventory: {
+          Sunflower: new Decimal(10),
+          Axe: new Decimal(90),
+          Gold: new Decimal(0.5),
+          "Gold Pass": new Decimal(1),
+        },
+      },
+    });
+
+    expect(state.inventory).toEqual({
+      Sunflower: new Decimal(5),
+      Axe: new Decimal(90),
+      "Gold Pass": new Decimal(1),
+    });
+  });
+
   it("filters out placed items", () => {
     const lowest = getAvailableGameState({
       onChain: {

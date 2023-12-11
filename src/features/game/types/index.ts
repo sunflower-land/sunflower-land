@@ -283,6 +283,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Catch the Kraken Banner": 730,
   "Mermaid Scale": 731,
   "Community Coin": 732,
+  "Arcade Token": 733,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -491,6 +492,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sapo Docuras": 1295,
   "Sapo Travessuras": 1296,
   "Time Warp Totem": 1297,
+  "Bumpkin Nutcracker": 1298,
+  "Festive Tree": 1299,
 
   //Beach Bounty
   "Pirate Bounty": 1301,

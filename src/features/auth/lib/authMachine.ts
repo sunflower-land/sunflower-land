@@ -20,8 +20,11 @@ import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectStrategy.factory";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { loadSession, savePromoCode } from "features/game/actions/loadSession";
-import { hasFeatureAccess } from "lib/flags";
-import { TEST_FARM } from "features/game/lib/constants";
+import {
+  getToken,
+  removeSocialSession,
+  saveSocialSession,
+} from "../actions/social";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -130,6 +133,7 @@ export type BlockchainEvent =
       type: "CHOOSE_CHARITY";
     }
   | { type: "CONTINUE" }
+  | { type: "SIGNUP" }
   | { type: "BACK" }
   | { type: "CONNECT_TO_DISCORD" }
   | { type: "CONFIRM" }
@@ -149,6 +153,7 @@ export type BlockchainState = {
     | "welcome"
     | "createWallet"
     | "signIn"
+    | "signUp"
     | "initialising"
     | "visiting"
     | "connectingToWallet"
@@ -188,6 +193,7 @@ export const authMachine = createMachine(
       context: {} as Context,
       events: {} as BlockchainEvent,
     },
+    preserveActionOrder: true,
     context: { user: {} },
     states: {
       idle: {
@@ -206,6 +212,14 @@ export const authMachine = createMachine(
           }
         },
         always: [
+          {
+            target: "connected",
+            cond: () => !!getToken(),
+            actions: [
+              "assignWeb2Token",
+              () => saveSocialSession(getToken() as string),
+            ],
+          },
           {
             target: "welcome",
             cond: () => !getOnboardingComplete(),
@@ -226,17 +240,10 @@ export const authMachine = createMachine(
             target: "signIn",
             actions: () => onboardingAnalytics.logEvent("connect_wallet"),
           },
-          CONTINUE: [
-            {
-              target: "signIn",
-              cond: () => hasFeatureAccess(TEST_FARM, "NEW_FARM_FLOW"),
-              actions: () => onboardingAnalytics.logEvent("create_account"),
-            },
-            {
-              target: "createWallet",
-              actions: () => onboardingAnalytics.logEvent("create_account"),
-            },
-          ],
+          SIGNUP: {
+            target: "signUp",
+            actions: () => onboardingAnalytics.logEvent("create_account"),
+          },
         },
       },
 
@@ -250,6 +257,17 @@ export const authMachine = createMachine(
       },
       signIn: {
         id: "signIn",
+        on: {
+          CONNECT_TO_WALLET: {
+            target: "connectingToWallet",
+          },
+          BACK: {
+            target: "welcome",
+          },
+        },
+      },
+      signUp: {
+        id: "signUp",
         on: {
           CONNECT_TO_WALLET: {
             target: "connectingToWallet",
@@ -412,6 +430,11 @@ export const authMachine = createMachine(
       },
       unauthorised: {
         id: "unauthorised",
+        on: {
+          RETURN: {
+            target: "idle",
+          },
+        },
       },
       visiting: {
         entry: (context) => {
@@ -502,6 +525,13 @@ export const authMachine = createMachine(
           rawToken: event.data.token,
         }),
       }),
+      assignWeb2Token: assign<Context, any>({
+        user: (context, event) => ({
+          ...context.user,
+          token: decodeToken(getToken() as string),
+          rawToken: getToken() as string,
+        }),
+      }),
       assignErrorMessage: assign<Context, any>({
         errorCode: (_context, event) => event.data.message,
       }),
@@ -516,7 +546,10 @@ export const authMachine = createMachine(
       refreshFarm: assign<Context, any>({
         visitingFarmId: undefined,
       }),
-      clearSession: () => removeSession(wallet.myAccount as string),
+      clearSession: () => {
+        removeSocialSession();
+        removeSession(wallet.myAccount as string);
+      },
       deleteFarmIdUrl: deleteFarmUrl,
       setTransactionId: assign<Context, any>({
         transactionId: () => randomID(),

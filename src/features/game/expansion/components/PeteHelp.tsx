@@ -6,16 +6,18 @@ import lockIcon from "assets/skills/lock.png";
 import { Button } from "components/ui/Button";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "@xstate/react";
 
 const isLocked = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) < 3;
 
 export const PeteHelp: React.FC = () => {
   const { gameService } = useContext(Context);
+
   const locked = useSelector(gameService, isLocked);
+
   const navigate = useNavigate();
 
   return (

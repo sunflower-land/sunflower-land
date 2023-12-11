@@ -301,6 +301,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Bud Seedling": () => false,
   "Mermaid Scale": () => false,
   "Community Coin": () => false,
+  "Arcade Token": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {
@@ -665,6 +666,9 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Sapo Docuras": () => true,
   "Sapo Travessuras": () => true,
   "Time Warp Totem": () => false,
+
+  "Bumpkin Nutcracker": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
+  "Festive Tree": () => false,
 };
 
 const lanterns: Record<LanternName, () => boolean> = {
@@ -1019,7 +1023,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Pink Ponytail": () => false, // Not Launched
   "Silver Streaks": () => false, // Not Launched,
   "Brown Rancher Hair": () => false,
-  "Parsnip Horns": () => false,
+  "Parsnip Horns": () => true, // Released 24/11/23
   "Potato Suit": () => false,
   "Whale Hat": () => true,
   "Pumpkin Shirt": () => true,
@@ -1038,7 +1042,9 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Luminous Anglerfish Topper": () => false,
   "Abyssal Angler Hat": () => canWithdrawTimebasedItem(new Date("2024-01-06")), // Last Auction 2024/01/04 5pm UTC
   Harpoon: () => false,
-  "Ancient Rod": () => canWithdrawTimebasedItem(new Date("2024-01-27")), // Last Auction 2024/01/25 3pm UTC
+  "Ancient Rod": (state) =>
+    canWithdrawBoostedWearable("Ancient Rod", state) &&
+    canWithdrawTimebasedItem(new Date("2024-01-27")), // Last Auction 2024/01/25 3pm UTC
   "Fishing Hat": () => false,
   Trident: () => false,
   "Bucket O' Worms": () => false,
@@ -1078,4 +1084,14 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Pickaxe Shark": () => false,
   "Seedling Hat": () => false,
   "Stormy Dumbo": () => false,
+  "Ugly Christmas Sweater": () =>
+    canWithdrawTimebasedItem(new Date("2023-12-21")), // Available until 2024/01/01
+
+  "Candy Cane": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
+  "Elf Hat": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
+  "Elf Potion": () => false,
+  "Elf Shoes": () => false,
+  "Elf Suit": () => false,
+  "Santa Beard": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
+  "Santa Suit": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
 };

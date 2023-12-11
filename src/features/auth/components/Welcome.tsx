@@ -26,7 +26,7 @@ export const Welcome: React.FC = () => {
       </Button>
       <Button
         className="mb-2 py-2 text-sm relative"
-        onClick={() => authService.send("CONTINUE")}
+        onClick={() => authService.send("SIGNUP")}
       >
         <div className="px-8">
           <img

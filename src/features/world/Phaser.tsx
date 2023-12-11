@@ -47,11 +47,11 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 import SoundOffIcon from "assets/icons/sound_off.png";
 import { handleCommand } from "./lib/chatCommands";
-import { Moderation } from "features/game/lib/gameMachine";
+import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
-import { HalloweenScene } from "./scenes/HalloweenScene";
-import { hasFeatureAccess } from "lib/flags";
 import { Inventory } from "features/game/types/game";
+import { hasFeatureAccess } from "lib/flags";
+import { ChristmasScene } from "./scenes/ChristmasScene";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -119,8 +119,8 @@ export const PhaserComponent: React.FC<Props> = ({
         ClothesShopScene,
         DecorationShopScene,
         BeachScene,
-        ...(hasFeatureAccess(gameService.state.context.state, "HALLOWEEN")
-          ? [HalloweenScene]
+        ...(hasFeatureAccess(gameService.state.context.state, "CHRISTMAS")
+          ? [ChristmasScene]
           : [PlazaScene]),
       ];
 
@@ -204,13 +204,21 @@ export const PhaserComponent: React.FC<Props> = ({
       parent: "game-content",
     });
 
-    game.current.registry.set("mmoService", mmoService);
+    game.current.registry.set("mmoService", mmoService); // LEGACY
+    game.current.registry.set("mmoServer", mmoService.state.context.server);
+    game.current.registry.set("gameState", gameService.state.context.state);
     game.current.registry.set("gameService", gameService);
+    game.current.registry.set("id", gameService.state.context.farmId);
     game.current.registry.set("initialScene", scene);
     gameService.onEvent((e) => {
       if (e.type === "bumpkin.equipped") {
         mmoService.state.context.server?.send(0, {
           clothing: (e as EquipBumpkinAction).equipment,
+        });
+      }
+      if (e.type === "UPDATE_USERNAME") {
+        mmoService.state.context.server?.send(0, {
+          username: (e as UpdateUsernameEvent).username,
         });
       }
     });
@@ -271,6 +279,7 @@ export const PhaserComponent: React.FC<Props> = ({
       setMessages(
         sceneMessages.map((m) => ({
           farmId: m.farmId ?? 0,
+          username: m.username,
           text: m.text,
           sessionId: m.sessionId,
           sceneId: m.sceneId,
@@ -362,6 +371,7 @@ export const PhaserComponent: React.FC<Props> = ({
     setMessages(
       filteredMessages.map((m) => ({
         farmId: m.farmId ?? 0,
+        username: m.username,
         text: m.text,
         sessionId: m.sessionId,
         sceneId: m.sceneId,
@@ -417,7 +427,7 @@ export const PhaserComponent: React.FC<Props> = ({
           navigate(`/world/${sceneId}`);
         }}
       />
-      <PlayerModals />
+      <PlayerModals game={gameService.state.context.state} />
       <TradeCompleted
         mmoService={mmoService}
         farmId={gameService.state.context.farmId as number}

@@ -517,6 +517,9 @@ import radiantRay from "assets/fish/radiant_ray.png";
 import phantomBarracuda from "assets/fish/phantom_barracuda.png";
 import gildedSwordfish from "assets/fish/gilded_swordfish.png";
 
+import festiveTree from "assets/sfts/festive_tree.png";
+import nutcracker from "assets/sfts/bumpkin_nutcracker.png";
+
 import sapoDocuras from "assets/sfts/sapo_docuras.gif";
 import sapoTravessura from "assets/sfts/sapo_travessura.gif";
 
@@ -554,8 +557,9 @@ import { GOBLIN_PIRATE_ITEMS, POTION_HOUSE_ITEMS } from "./collectibles";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
-import { BAIT, CROP_COMPOST, FRUIT_COMPOST } from "./composters";
+import { WORM, CROP_COMPOST, FRUIT_COMPOST } from "./composters";
 import { BuffLabel } from ".";
+import { PURCHASEABLE_BAIT } from "./fishing";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -915,8 +919,7 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Block Buck": {
-    description:
-      "A voucher used for restocking and enhancing your Blockchain experience!",
+    description: "A valuable token in Sunflower Land!",
     image: blockBuck,
   },
 
@@ -2495,7 +2498,7 @@ export const ITEM_DETAILS: Items = {
   "Gold Pass": {
     image: goldPass,
     description:
-      "An exlusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content",
+      "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content",
   },
   Poppy: {
     image: poppy,
@@ -2637,19 +2640,19 @@ export const ITEM_DETAILS: Items = {
   // Bait
   Earthworm: {
     image: earthworm,
-    description: BAIT.Earthworm.description,
+    description: WORM.Earthworm.description,
   },
   Grub: {
     image: grub,
-    description: BAIT.Grub.description,
+    description: WORM.Grub.description,
   },
   "Red Wiggler": {
     image: redWiggler,
-    description: BAIT["Red Wiggler"].description,
+    description: WORM["Red Wiggler"].description,
   },
   "Fishing Lure": {
     image: fishingLure,
-    description: "Great for catching rare fish!",
+    description: PURCHASEABLE_BAIT["Fishing Lure"].description,
   },
   // Compost
   "Sprout Mix": {
@@ -2965,5 +2968,19 @@ export const ITEM_DETAILS: Items = {
   "Community Coin": {
     image: communityCoin,
     description: "A valued coin that can be exchanged for rewards",
+  },
+  "Arcade Token": {
+    image: communityCoin,
+    description:
+      "A token earned from mini-games and adventures. Can be exchanged for rewards.",
+  },
+  "Bumpkin Nutcracker": {
+    image: nutcracker,
+    description: "A festive decoration from 2023.",
+  },
+  "Festive Tree": {
+    image: festiveTree,
+    description:
+      "A festive tree available each holiday season. I wonder if it is big enough for santa to see?",
   },
 };

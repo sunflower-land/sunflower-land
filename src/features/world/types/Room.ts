@@ -12,6 +12,7 @@ export interface InputData {
 }
 
 export interface Player extends Schema {
+  username: string;
   farmId: number;
   x: number;
   y: number;
@@ -38,6 +39,8 @@ export interface Action extends Schema {
   sceneId: SceneId;
   sentAt: number;
   event: string;
+  x?: number;
+  y?: number;
 }
 export interface Trade extends Schema {
   text: string;

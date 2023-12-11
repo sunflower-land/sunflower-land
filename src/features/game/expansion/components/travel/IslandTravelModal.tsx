@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import boatIcon from "assets/npcs/island_boat_pirate.png";
-import worldIcon from "assets/icons/world_small.png";
 import lockIcon from "assets/skills/lock.png";
+import worldIcon from "assets/icons/world_small.png";
 
 import { IslandList } from "./IslandList";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";

@@ -1,10 +1,10 @@
 import Decimal from "decimal.js-light";
-import { Bait } from "./composters";
-import { InventoryItemName } from "./game";
+import { Worm } from "./composters";
+import { Bumpkin, GameState, InventoryItemName } from "./game";
 import { Tool } from "./tools";
 
 export type PurchaseableBait = "Fishing Lure";
-export type FishingBait = Bait | PurchaseableBait;
+export type FishingBait = Worm | PurchaseableBait;
 export type FishType = "basic" | "advanced" | "expert" | "marine marvel";
 
 export type FishName =
@@ -61,6 +61,7 @@ export const PURCHASEABLE_BAIT: Record<PurchaseableBait, Tool> = {
 export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
   Gold: 1,
   Iron: 5,
+  Stone: 5,
   Egg: 5,
   Sunflower: 50,
   Potato: 20,
@@ -294,3 +295,19 @@ export const FISH_DIFFICULTY: Partial<
   "Starlight Tuna": 5,
   "Twilight Anglerfish": 5,
 };
+
+export function getDailyFishingCount(state: GameState): number {
+  const today = new Date().toISOString().split("T")[0];
+  return state.fishing.dailyAttempts?.[today] ?? 0;
+}
+
+const DAILY_FISHING_ATTEMPT_LIMIT = 20;
+export function getDailyFishingLimit(bumpkin: Bumpkin): number {
+  const { pants } = bumpkin.equipped;
+
+  if (pants === "Angler Waders") {
+    return DAILY_FISHING_ATTEMPT_LIMIT + 10;
+  }
+
+  return DAILY_FISHING_ATTEMPT_LIMIT;
+}

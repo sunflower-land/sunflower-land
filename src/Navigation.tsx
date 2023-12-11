@@ -106,7 +106,7 @@ export const Navigation: React.FC = () => {
         <ZoomProvider>
           <HashRouter>
             <Routes>
-              <Route path="/" element={<LandExpansion />} />
+              <Route path="*" element={<LandExpansion />} />
               {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
               {!state.isVisiting && (
                 <Route

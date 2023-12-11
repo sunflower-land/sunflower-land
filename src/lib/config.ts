@@ -60,8 +60,8 @@ const POKO_DIRECT_CHECKOUT_API_KEY = import.meta.env
   .VITE_POKO_DIRECT_CHECKOUT_API_KEY as string;
 const WALLETCONNECT_PROJECT_ID = import.meta.env
   .VITE_WALLETCONNECT_PROJECT_ID as string;
-const DAWN_BREAKER_EVENT_DONATION = import.meta.env
-  .VITE_DAWN_BREAKER_EVENT_DONATION as string;
+const CHRISTMAS_EVENT_DONATION = import.meta.env
+  .VITE_CHRISTMAS_EVENT_DONATION as string;
 
 // Arcade Mini Games Donation Addresses
 const GREEDY_GOBLIN_DONATION = import.meta.env
@@ -73,6 +73,8 @@ const GAME_ANALYTICS_APP_ID = import.meta.env
   .VITE_GAME_ANALYTICS_APP_ID as string;
 const GAME_ANALYTICS_PUB_KEY = import.meta.env
   .VITE_GAME_ANALYTICS_PUB_KEY as string;
+const PORTAL_APP = import.meta.env.VITE_PORTAL_APP as string;
+const PORTAL_GAME_URL = import.meta.env.VITE_PORTAL_GAME_URL as string;
 
 export const CONFIG = {
   NETWORK,
@@ -126,7 +128,9 @@ export const CONFIG = {
   POKO_API_KEY,
   POKO_DIRECT_CHECKOUT_API_KEY,
   WALLETCONNECT_PROJECT_ID,
-  DAWN_BREAKER_EVENT_DONATION,
+  CHRISTMAS_EVENT_DONATION,
   GAME_ANALYTICS_APP_ID,
   GAME_ANALYTICS_PUB_KEY,
+  PORTAL_APP,
+  PORTAL_GAME_URL,
 };

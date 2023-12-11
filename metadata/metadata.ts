@@ -3978,8 +3978,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Block Buck": {
-    description:
-      "A voucher used for restocking and enhancing your Blockchain experience!",
+    description: "A valuable token in Sunflower Land!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/718.png",
@@ -6134,6 +6133,38 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Purpose", value: "Consumable" },
       { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Arcade Token": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+
+  "Bumpkin Nutcracker": {
+    description: "?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1298.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Decoration", value: "Monument" },
+    ],
+  },
+  "Festive Tree": {
+    description:
+      "A festive tree that can be attained each festive season. I wonder if it is big enough for santa to see?",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1299.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Decoration", value: "Monument" },
     ],
   },
 };

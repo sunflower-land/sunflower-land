@@ -92,6 +92,9 @@ const shopItems: Record<ShopItems, string> = {
   "shopItems.two":
     "You've helped solve the crop shortage and prices have returned to normal.",
   "shopItems.three": "It's time to move onto some bigger and better crops!",
+  "betty.intro": "Welcome to my market. What would you like to do?",
+  "betty.buySeeds": "Buy seeds",
+  "betty.sellCrops": "Sell crops",
 };
 
 const achievementTerms: Record<AchievementsDialog, string> = {
@@ -299,6 +302,11 @@ const conversations: Record<Conversations, string> = {
   "blacksmith-intro.headline": "Chop chop chop.",
   "blacksmith-intro.one":
     "I'm a master of tools, and with the right resources, I can craft anything you need...including more tools!",
+  "luna.portalNoAccess":
+    "Hmmm, this portal just appeared out of nowhere. What could this mean?",
+
+  "luna.portals": "Portals",
+  "luna.rewards": "Rewards",
 };
 
 const henHouseTerms: Record<HenHouseTerms, string> = {

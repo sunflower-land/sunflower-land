@@ -37,6 +37,7 @@ export function makeGame(farm: any): GameState {
     stockExpiry: farm.stockExpiry || {},
     balance: new Decimal(farm.balance),
     previousBalance: new Decimal(farm.previousBalance),
+    username: farm.username,
     trades: farm.trades,
     tradeOffer: farm.tradeOffer
       ? {
@@ -64,6 +65,7 @@ export function makeGame(farm: any): GameState {
     expansionRequirements: farm.expansionRequirements,
 
     islands: farm.islands,
+    portals: farm.portals,
 
     bumpkin: farm.bumpkin,
     buildings: farm.buildings,
@@ -98,6 +100,7 @@ export function makeGame(farm: any): GameState {
     potionHouse: farm.potionHouse,
     npcs: farm.npcs,
     buds: farm.buds,
+    christmas: farm.christmas,
   };
 }
 
@@ -127,6 +130,9 @@ export function getAvailableGameState({
     ...(offChain.inventory["Catch the Kraken Banner"] && {
       "Catch the Kraken Banner": offChain.inventory["Catch the Kraken Banner"],
     }),
+    ...(offChain.inventory["Gold Pass"] && {
+      "Gold Pass": offChain.inventory["Gold Pass"],
+    }),
   };
 
   const balance = onChain.balance.lt(offChain.balance)
@@ -144,7 +150,14 @@ export function getAvailableGameState({
     const firstAmount = onChain.inventory[name] || new Decimal(0);
     const secondAmount = availableItems[name] || new Decimal(0);
 
-    const amount = firstAmount.lt(secondAmount) ? firstAmount : secondAmount;
+    let amount: Decimal;
+
+    // Gold Pass was airdropped to all farms created prior to the pass release. This is a large number of farms. We will prefer the off chain balance in this case.
+    if (name === "Gold Pass") {
+      amount = secondAmount;
+    } else {
+      amount = firstAmount.lt(secondAmount) ? firstAmount : secondAmount;
+    }
 
     if (amount.eq(0)) {
       return inv;

@@ -15,17 +15,6 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 
-const host = window.location.host.replace(/^www\./, "");
-const LOCAL_STORAGE_KEY = `workbench-read.${host}-${window.location.pathname}`;
-
-function acknowledgeRead() {
-  localStorage.setItem(LOCAL_STORAGE_KEY, new Date().toString());
-}
-
-function hasRead() {
-  return !!localStorage.getItem(LOCAL_STORAGE_KEY);
-}
-
 const needsHelp = (state: MachineState) => {
   const missingScarecrow =
     !state.context.state.inventory["Basic Scarecrow"] &&

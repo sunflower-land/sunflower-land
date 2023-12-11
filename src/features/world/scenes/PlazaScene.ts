@@ -73,9 +73,15 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
   {
-    x: 840,
-    y: 291,
+    x: 729,
+    y: 270,
     npc: "grubnuk",
+    direction: "left",
+  },
+  {
+    x: 834,
+    y: 335,
+    npc: "luna",
     direction: "left",
   },
   {
@@ -98,6 +104,17 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     x: 224,
     y: 293,
     npc: "hank",
+  },
+  {
+    x: 442,
+    y: 163,
+    npc: "mayor",
+    direction: "left",
+  },
+  {
+    x: 418,
+    y: 330,
+    npc: "santa",
   },
 ];
 export class PlazaScene extends BaseScene {
@@ -331,8 +348,7 @@ export class PlazaScene extends BaseScene {
       .find((object) => object.data?.list?.id === "clubhouse_door");
 
     // TODO
-    const canAccess =
-      Object.keys(this.gameService.state.context.state.buds ?? {}).length > 0;
+    const canAccess = Object.keys(this.gameState.buds ?? {}).length > 0;
 
     if (door && canAccess) {
       this.physics.world.disable(door);
@@ -358,7 +374,7 @@ export class PlazaScene extends BaseScene {
       chest.setVisible(!isOpen);
 
       if (wasOpen === isOpen) {
-        this.mmoService.state.context.server?.send(0, {
+        this.mmoService?.state.context.server?.send(0, {
           action: "open_clubhouse",
         });
       }
@@ -366,7 +382,7 @@ export class PlazaScene extends BaseScene {
       return;
     };
 
-    const server = this.mmoService.state.context.server;
+    const server = this.mmoService?.state.context.server;
     if (!server) return;
 
     server.state.actions.onAdd(async (action) => {

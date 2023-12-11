@@ -3,7 +3,7 @@ import { useActor } from "@xstate/react";
 import Modal from "react-bootstrap/esm/Modal";
 
 import logo from "assets/brand/logo_v2.png";
-import halloween from "assets/brand/halloween_logo.png";
+import winterLogo from "assets/brand/winter_logo.png";
 import sparkle from "assets/fx/sparkle2.gif";
 
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -19,7 +19,7 @@ import { ConnectedToWallet } from "./components/ConnectedToWallet";
 import { Verifying } from "./components/Verifying";
 import { Welcome } from "./components/Welcome";
 import classNames from "classnames";
-import { SignIn } from "./components/SignIn";
+import { SignIn, SignUp } from "./components/SignIn";
 import { CreateWallet } from "./components/CreateWallet";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -57,16 +57,16 @@ export const Auth: React.FC = () => {
                 right: `${PIXEL_SCALE * 0}px`,
               }}
             />
-            {Date.now() > new Date("2023-10-26").getTime() &&
-            Date.now() < new Date("2023-11-01").getTime() ? (
+            {Date.now() > new Date("2023-12-10").getTime() &&
+            Date.now() < new Date("2023-12-27").getTime() ? (
               <>
-                <img id="logo" src={halloween} className="w-full mb-1" />
+                <img id="logo" src={winterLogo} className="w-full mb-1" />
                 <Label
                   icon={SUNNYSIDE.icons.stopwatch}
                   type="vibrant"
                   className="mx-auto"
                 >
-                  Halloween event!
+                  Christmas event!
                 </Label>
               </>
             ) : (
@@ -74,13 +74,14 @@ export const Auth: React.FC = () => {
             )}
           </div>
         </div>
-        <Panel className="pb-1">
+        <Panel className="pb-1 relative">
           {authState.matches("initialising") && <Loading />}
           {authState.matches("welcome") && <Welcome />}
           {authState.matches("createWallet") && <CreateWallet />}
           {(authState.matches("idle") || authState.matches("signIn")) && (
             <SignIn />
           )}
+          {authState.matches("signUp") && <SignUp />}
           {connecting && <Loading text={t("connecting")} />}
           {authState.matches("connectedToWallet") && <ConnectedToWallet />}
           {authState.matches("signing") && <Signing />}

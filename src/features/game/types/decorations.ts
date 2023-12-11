@@ -80,7 +80,9 @@ export type EventDecorationName =
   | "Dawn Flower"
   | "Sapo Docuras"
   | "Sapo Travessuras"
-  | "Time Warp Totem";
+  | "Time Warp Totem"
+  | "Festive Tree"
+  | "Bumpkin Nutcracker";
 
 export type PotionHouseDecorationName =
   | "Giant Potato"
@@ -425,6 +427,14 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 1,
     width: 1,
   },
+  "Bumpkin Nutcracker": {
+    height: 1,
+    width: 1,
+  },
+  "Festive Tree": {
+    height: 2,
+    width: 2,
+  },
 };
 
 export type Decoration = {
@@ -450,65 +460,65 @@ export const BASIC_DECORATIONS: () => Record<
   },
   "Potted Sunflower": {
     name: "Potted Sunflower",
+    description: "Brighten up your land.",
     sfl: new Decimal(0.25),
     ingredients: {
       Sunflower: new Decimal(100),
     },
-    description: "Brighten up your land.",
   },
   "Potted Potato": {
     name: "Potted Potato",
+    description: "Potato blood runs through your Bumpkin.",
     sfl: new Decimal(0.625),
     ingredients: {
       Potato: new Decimal(200),
     },
-    description: "Potato blood runs through your Bumpkin.",
   },
   "Potted Pumpkin": {
     name: "Potted Pumpkin",
+    description: "Pumpkins for Bumpkins",
     sfl: new Decimal(2.5),
     ingredients: {
       Pumpkin: new Decimal(200),
     },
-    description: "Pumpkins for Bumpkins",
   },
   Cactus: {
     name: "Cactus",
+    description: "Saves water and makes your farm look stunning!",
     sfl: new Decimal(0.25),
     ingredients: {},
-    description: "Saves water and makes your farm look stunning!",
   },
   "Basic Bear": {
     name: "Basic Bear",
+    description: "A basic bear. Use this at Goblin Retreat to build a bear!",
     sfl: new Decimal(0.625),
     ingredients: {},
-    description: "A basic bear. Use this at Goblin Retreat to build a bear!",
   },
 
   "Bonnie's Tombstone": {
     name: "Bonnie's Tombstone",
+    description:
+      "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
     sfl: marketRate(0),
     ingredients: {
       Stone: new Decimal(10),
     },
-    description:
-      "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
   },
 
   "Grubnash's Tombstone": {
     name: "Grubnash's Tombstone",
+    description: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
     sfl: marketRate(0),
     ingredients: {
       Stone: new Decimal(20),
       Iron: new Decimal(10),
     },
-    description: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
   },
   "Town Sign": {
     name: "Town Sign",
+    description: "Show your farm ID with pride!",
     sfl: marketRate(0),
     ingredients: {},
-    description: "Show your farm ID with pride!",
     limit: 1,
   },
 });
@@ -519,113 +529,113 @@ export const LANDSCAPING_DECORATIONS: () => Record<
 > = () => ({
   "Dirt Path": {
     name: "Dirt Path",
+    description: "Keep your farmer boots clean with a well trodden path.",
     sfl: new Decimal(0.625),
     ingredients: {},
-    description: "Keep your farmer boots clean with a well trodden path.",
   },
   Bush: {
     name: "Bush",
+    description: "What's lurking in the bushes?",
     sfl: new Decimal(1.25),
     ingredients: {
       Wood: new Decimal(5),
     },
-    description: "What's lurking in the bushes?",
   },
   Fence: {
     name: "Fence",
+    description: "Add a touch of rustic charm to your farm.",
     sfl: new Decimal(0.125),
     ingredients: {
       Wood: new Decimal(5),
     },
-    description: "Add a touch of rustic charm to your farm.",
   },
   "Stone Fence": {
     name: "Stone Fence",
+    description: "Embrace the timeless elegance of a stone fence.",
     sfl: new Decimal(0.25),
     ingredients: {
       Stone: new Decimal(5),
     },
-    description: "Embrace the timeless elegance of a stone fence.",
   },
   "Pine Tree": {
     name: "Pine Tree",
+    description: "Standing tall and mighty, a needle-clad dream.",
     sfl: new Decimal(1.25),
     ingredients: {
       Wood: new Decimal(7),
     },
-    description: "Standing tall and mighty, a needle-clad dream.",
   },
   Shrub: {
     name: "Shrub",
+    description: "Enhance your in-game landscaping with a beautiful shrub",
     sfl: new Decimal(0.625),
     ingredients: {
       Wood: new Decimal(3),
     },
-    description: "Enhance your in-game landscaping with a beautiful shrub",
   },
   "Field Maple": {
     name: "Field Maple",
+    description:
+      "A petite charmer that spreads its leaves like a delicate green canopy.",
     sfl: new Decimal(0.625),
     ingredients: {
       Wood: new Decimal(20),
     },
-    description:
-      "A petite charmer that spreads its leaves like a delicate green canopy.",
   },
   "Red Maple": {
     name: "Red Maple",
+    description: "Fiery foliage and a heart full of autumnal warmth.",
     sfl: new Decimal(0.625),
     ingredients: {
       Wood: new Decimal(3),
       "Block Buck": new Decimal(1),
     },
-    description: "Fiery foliage and a heart full of autumnal warmth.",
   },
   "Golden Maple": {
     name: "Golden Maple",
+    description: "Radiating brilliance with its shimmering golden leaves.",
     sfl: new Decimal(0.625),
     ingredients: {
       Wood: new Decimal(3),
       "Block Buck": new Decimal(1),
     },
-    description: "Radiating brilliance with its shimmering golden leaves.",
   },
   "Crimson Cap": {
     name: "Crimson Cap",
+    description:
+      "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
     sfl: new Decimal(50),
     ingredients: {
       "Wild Mushroom": new Decimal(20),
     },
-    description:
-      "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
   },
   "Toadstool Seat": {
     name: "Toadstool Seat",
+    description: "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
     sfl: new Decimal(0),
     ingredients: {
       "Wild Mushroom": new Decimal(5),
     },
-    description: "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
   },
   "Chestnut Fungi Stool": {
     name: "Chestnut Fungi Stool",
+    description:
+      "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
     sfl: new Decimal(5),
     ingredients: {
       "Toadstool Seat": new Decimal(1),
       Wood: new Decimal(10),
     },
-    description:
-      "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
   },
   "Mahogany Cap": {
     name: "Mahogany Cap",
+    description:
+      "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
     sfl: new Decimal(5),
     ingredients: {
       "Crimson Cap": new Decimal(1),
       Wood: new Decimal(100),
     },
-    description:
-      "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
   },
 });
 

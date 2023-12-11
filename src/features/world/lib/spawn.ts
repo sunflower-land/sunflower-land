@@ -7,6 +7,18 @@ export type SpawnLocation = Record<
 >;
 
 export const SPAWNS: SpawnLocation = {
+  crop_boom: {
+    default: {
+      x: 220,
+      y: 422,
+    },
+  },
+  mushroom_forest: {
+    default: {
+      x: 220,
+      y: 422,
+    },
+  },
   beach: {
     default: {
       x: 468,

@@ -3,6 +3,7 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useContext, useLayoutEffect, useState } from "react";
 
 import background from "assets/land/helios.webp";
+import frozenBackground from "assets/land/frozen_helios.png";
 import { GrubShop } from "./components/grubShop/GrubShop";
 import { Decorations } from "./components/decorations/Decorations";
 import { ExoticShop } from "./components/exoticShop/ExoticShop";
@@ -58,11 +59,21 @@ export const Helios: React.FC = () => {
           height: `${40 * GRID_WIDTH_PX}px`,
         }}
       >
-        <img
-          src={background}
-          className="absolute inset-0 w-full h-full"
-          id={Section.HeliosBackGround}
-        />
+        {Date.now() > new Date("2023-12-10").getTime() &&
+        Date.now() < new Date("2023-12-27").getTime() ? (
+          <img
+            src={frozenBackground}
+            className="absolute inset-0 w-full h-full"
+            id={Section.HeliosBackGround}
+          />
+        ) : (
+          <img
+            src={background}
+            className="absolute inset-0 w-full h-full"
+            id={Section.HeliosBackGround}
+          />
+        )}
+
         <Decorations />
         <GrubShop />
         <HeliosBlacksmith />

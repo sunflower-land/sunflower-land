@@ -2,7 +2,6 @@ import Phaser, { Physics } from "phaser";
 
 import VirtualJoystick from "phaser3-rex-plugins/plugins/virtualjoystick.js";
 
-import { MachineInterpreter as GameMachineInterpreter } from "features/game/lib/gameMachine";
 import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
@@ -20,9 +19,13 @@ import {
   MachineInterpreter as MMOMachineInterpreter,
   SceneId,
 } from "../mmoMachine";
-import { Player } from "../types/Room";
+import { Player, PlazaRoomState } from "../types/Room";
 import { playerModalManager } from "../ui/PlayerModals";
 import { hasFeatureAccess } from "lib/flags";
+import { GameState } from "features/game/types/game";
+import { Room } from "colyseus.js";
+
+import defaultTilesetConfig from "assets/map/tileset.json";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -71,7 +74,7 @@ export abstract class BaseScene extends Phaser.Scene {
   abstract sceneId: SceneId;
   eventListener?: (event: EventObject) => void;
 
-  private joystick?: VirtualJoystick;
+  public joystick?: VirtualJoystick;
   private sceneTransitionData?: SceneTransitionData;
   private switchToScene?: SceneId;
   private options: Required<BaseSceneOptions>;
@@ -144,7 +147,11 @@ export abstract class BaseScene extends Phaser.Scene {
 
   preload() {
     if (this.options.map?.json) {
-      this.load.tilemapTiledJSON(this.options.name, this.options.map.json);
+      const json = {
+        ...this.options.map.json,
+        tilesets: defaultTilesetConfig.tilesets,
+      };
+      this.load.tilemapTiledJSON(this.options.name, json);
     }
 
     if (this.options.map?.tilesetUrl)
@@ -164,10 +171,7 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   create() {
-    const errorLogger = createErrorLogger(
-      "phaser_base_scene",
-      Number(this.gameService.state.context.farmId)
-    );
+    const errorLogger = createErrorLogger("phaser_base_scene", Number(this.id));
 
     try {
       this.initialiseMap();
@@ -193,12 +197,12 @@ export abstract class BaseScene extends Phaser.Scene {
         x: spawn.x ?? 0,
         y: spawn.y ?? 0,
         // gameService
-        farmId: Number(this.gameService.state.context.farmId),
+        farmId: Number(this.id),
+        username: this.username,
         isCurrentPlayer: true,
         // gameService
         clothing: {
-          ...(this.gameService.state.context.state.bumpkin
-            ?.equipped as BumpkinParts),
+          ...(this.gameState.bumpkin?.equipped as BumpkinParts),
           updatedAt: 0,
         },
         experience: 0,
@@ -239,9 +243,9 @@ export abstract class BaseScene extends Phaser.Scene {
           2
         ) as Phaser.Tilemaps.Tileset);
 
-    const halloween = this.map.addTilesetImage(
-      "Halloween",
-      "halloween",
+    const christmas = this.map.addTilesetImage(
+      "Sunnyside V3",
+      "christmas-tileset",
       16,
       16,
       1,
@@ -250,54 +254,63 @@ export abstract class BaseScene extends Phaser.Scene {
 
     // Set up collider layers
     this.colliders = this.add.group();
-    const collisionPolygons = this.map.createFromObjects("Collision", {
-      scene: this,
-    });
-    collisionPolygons.forEach((polygon) => {
-      this.colliders?.add(polygon);
-      this.physics.world.enable(polygon);
-      (polygon.body as Physics.Arcade.Body).setImmovable(true);
-    });
+
+    if (this.map.getObjectLayer("Collision")) {
+      const collisionPolygons = this.map.createFromObjects("Collision", {
+        scene: this,
+      });
+      collisionPolygons.forEach((polygon) => {
+        this.colliders?.add(polygon);
+        this.physics.world.enable(polygon);
+        (polygon.body as Physics.Arcade.Body).setImmovable(true);
+      });
+    }
 
     // Setup interactable layers
-    const interactablesPolygons = this.map.createFromObjects(
-      "Interactable",
-      {}
-    );
-    interactablesPolygons.forEach((polygon) => {
-      polygon
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", (p: Phaser.Input.Pointer) => {
-          if (p.downElement.nodeName === "CANVAS") {
-            const id = polygon.data.list.id;
-            interactableModalManager.open(id);
-          }
-        });
-    });
+    if (this.map.getObjectLayer("Interactable")) {
+      const interactablesPolygons = this.map.createFromObjects(
+        "Interactable",
+        {}
+      );
+      interactablesPolygons.forEach((polygon) => {
+        polygon
+          .setInteractive({ cursor: "pointer" })
+          .on("pointerdown", (p: Phaser.Input.Pointer) => {
+            if (p.downElement.nodeName === "CANVAS") {
+              const id = polygon.data.list.id;
+              interactableModalManager.open(id);
+            }
+          });
+      });
+    }
 
     this.triggerColliders = this.add.group();
 
-    const triggerPolygons = this.map.createFromObjects("Trigger", {
-      scene: this,
-    });
+    if (this.map.getObjectLayer("Trigger")) {
+      const triggerPolygons = this.map.createFromObjects("Trigger", {
+        scene: this,
+      });
 
-    triggerPolygons.forEach((polygon) => {
-      this.triggerColliders?.add(polygon);
-      this.physics.world.enable(polygon);
-      (polygon.body as Physics.Arcade.Body).setImmovable(true);
-    });
+      triggerPolygons.forEach((polygon) => {
+        this.triggerColliders?.add(polygon);
+        this.physics.world.enable(polygon);
+        (polygon.body as Physics.Arcade.Body).setImmovable(true);
+      });
+    }
 
     this.hiddenColliders = this.add.group();
 
-    const hiddenPolygons = this.map.createFromObjects("Hidden", {
-      scene: this,
-    });
+    if (this.map.getObjectLayer("Hidden")) {
+      const hiddenPolygons = this.map.createFromObjects("Hidden", {
+        scene: this,
+      });
 
-    hiddenPolygons.forEach((polygon) => {
-      this.hiddenColliders?.add(polygon);
-      this.physics.world.enable(polygon);
-      (polygon.body as Physics.Arcade.Body).setImmovable(true);
-    });
+      hiddenPolygons.forEach((polygon) => {
+        this.hiddenColliders?.add(polygon);
+        this.physics.world.enable(polygon);
+        (polygon.body as Physics.Arcade.Body).setImmovable(true);
+      });
+    }
 
     // Debugging purposes - display colliders in pink
     this.physics.world.drawDebug = false;
@@ -317,12 +330,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.map.layers.forEach((layerData, idx) => {
       if (layerData.name === "Crows") return;
 
-      const layer = this.map.createLayer(
-        layerData.name,
-        [tileset, halloween],
-        0,
-        0
-      );
+      const layer = this.map.createLayer(layerData.name, [christmas], 0, 0);
       if (TOP_LAYERS.includes(layerData.name)) {
         layer?.setDepth(1000000);
       }
@@ -361,13 +369,13 @@ export abstract class BaseScene extends Phaser.Scene {
 
   public initialiseMMO() {
     if (this.options.mmo.url && this.options.mmo.serverId) {
-      this.mmoService.send("CONNECT", {
+      this.mmoService?.send("CONNECT", {
         url: this.options.mmo.url,
         serverId: this.options.mmo.serverId,
       });
     }
 
-    const server = this.mmoService.state.context.server;
+    const server = this.mmoServer;
     if (!server) return;
 
     const removeMessageListener = server.state.messages.onAdd((message) => {
@@ -444,18 +452,32 @@ export abstract class BaseScene extends Phaser.Scene {
     this.input.setTopOnly(true);
   }
 
+  // LEGACY: Used in community islands
   public get mmoService() {
-    return this.registry.get("mmoService") as MMOMachineInterpreter;
+    return this.registry.get("mmoService") as MMOMachineInterpreter | undefined;
   }
 
-  public get gameService() {
-    return this.registry.get("gameService") as GameMachineInterpreter;
+  public get mmoServer() {
+    return this.registry.get("mmoServer") as Room<PlazaRoomState>;
+  }
+
+  public get gameState() {
+    return this.registry.get("gameState") as GameState;
+  }
+
+  public get id() {
+    return this.registry.get("id") as number;
+  }
+
+  public get username() {
+    return this.gameState.username;
   }
 
   createPlayer({
     x,
     y,
     farmId,
+    username,
     isCurrentPlayer,
     clothing,
     npc,
@@ -465,6 +487,7 @@ export abstract class BaseScene extends Phaser.Scene {
     x: number;
     y: number;
     farmId: number;
+    username?: string;
     clothing: Player["clothing"];
     npc?: NPCName;
     experience?: number;
@@ -483,7 +506,7 @@ export abstract class BaseScene extends Phaser.Scene {
       if (npc) {
         npcModalManager.open(npc);
       } else {
-        if (farmId !== this.gameService.state.context.farmId) {
+        if (farmId !== this.id) {
           playerModalManager.open({
             id: farmId,
             clothing,
@@ -508,8 +531,9 @@ export abstract class BaseScene extends Phaser.Scene {
       const nameTag = this.createPlayerText({
         x: 0,
         y: 0,
-        text: `#${farmId}`,
+        text: username ? username : `#${farmId}`,
       });
+      nameTag.name = "nameTag";
       entity.add(nameTag);
     }
 
@@ -548,8 +572,7 @@ export abstract class BaseScene extends Phaser.Scene {
           const warpTo = (obj2 as any).data?.list?.warp;
           if (
             warpTo &&
-            (warpTo !== "beach" ||
-              hasFeatureAccess(this.gameService.state.context.state, "BEACH"))
+            (warpTo !== "beach" || hasFeatureAccess(this.gameState, "BEACH"))
           ) {
             this.currentPlayer?.stopSpeaking();
             this.cameras.main.fadeOut(1000);
@@ -598,6 +621,7 @@ export abstract class BaseScene extends Phaser.Scene {
       fontSize: "4px",
       fontFamily: "monospace",
       resolution: 4,
+      padding: { x: 2, y: 2 },
     });
     textObject.setOrigin(0.5);
 
@@ -693,26 +717,7 @@ export abstract class BaseScene extends Phaser.Scene {
       currentPlayerBody.setVelocity(0, 0);
     }
 
-    // sync player position to server
-    if (
-      // Hasn't sent to server recently
-      Date.now() - this.packetSentAt > 1000 / SEND_PACKET_RATE &&
-      // Position has changed
-      (this.serverPosition.x !== this.currentPlayer.x ||
-        this.serverPosition.y !== this.currentPlayer.y)
-    ) {
-      this.serverPosition = {
-        x: this.currentPlayer.x,
-        y: this.currentPlayer.y,
-      };
-
-      this.packetSentAt = Date.now();
-
-      const server = this.mmoService.state.context.server;
-      if (server) {
-        server.send(0, this.serverPosition);
-      }
-    }
+    this.sendPositionToServer();
 
     const isMoving = this.movementAngle !== undefined;
 
@@ -746,8 +751,35 @@ export abstract class BaseScene extends Phaser.Scene {
     // this.cameras.main.setScroll(this.currentPlayer.x, this.currentPlayer.y);
   }
 
+  sendPositionToServer() {
+    if (!this.currentPlayer) {
+      return;
+    }
+
+    // sync player position to server
+    if (
+      // Hasn't sent to server recently
+      Date.now() - this.packetSentAt > 1000 / SEND_PACKET_RATE &&
+      // Position has changed
+      (this.serverPosition.x !== this.currentPlayer.x ||
+        this.serverPosition.y !== this.currentPlayer.y)
+    ) {
+      this.serverPosition = {
+        x: this.currentPlayer.x,
+        y: this.currentPlayer.y,
+      };
+
+      this.packetSentAt = Date.now();
+
+      const server = this.mmoServer;
+      if (server) {
+        server.send(0, this.serverPosition);
+      }
+    }
+  }
+
   syncPlayers() {
-    const server = this.mmoService.state.context.server;
+    const server = this.mmoServer;
     if (!server) return;
 
     // Destroy any dereferenced players
@@ -773,6 +805,7 @@ export abstract class BaseScene extends Phaser.Scene {
           x: player.x,
           y: player.y,
           farmId: player.farmId,
+          username: player.username,
           clothing: player.clothing,
           isCurrentPlayer: sessionId === server.sessionId,
           npc: player.npc,
@@ -783,7 +816,7 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   updateClothing() {
-    const server = this.mmoService.state.context.server;
+    const server = this.mmoServer;
     if (!server) return;
 
     // Update clothing
@@ -796,8 +829,33 @@ export abstract class BaseScene extends Phaser.Scene {
     });
   }
 
+  updateUsernames() {
+    const server = this.mmoServer;
+    if (!server) return;
+
+    server.state.players.forEach((player, sessionId) => {
+      if (this.playerEntities[sessionId]) {
+        const nameTag = this.playerEntities[sessionId].getByName("nameTag") as
+          | Phaser.GameObjects.Text
+          | undefined;
+
+        if (nameTag && player.username && nameTag.text !== player.username) {
+          nameTag.setText(player.username);
+        }
+      } else if (sessionId === server.sessionId) {
+        const nameTag = this.currentPlayer?.getByName("nameTag") as
+          | Phaser.GameObjects.Text
+          | undefined;
+
+        if (nameTag && player.username && nameTag.text !== player.username) {
+          nameTag.setText(player.username);
+        }
+      }
+    });
+  }
+
   renderPlayers() {
-    const server = this.mmoService.state.context.server;
+    const server = this.mmoServer;
     if (!server) return;
 
     const playerInVIP = this.physics.world.overlap(
@@ -852,12 +910,12 @@ export abstract class BaseScene extends Phaser.Scene {
     if (this.switchToScene) {
       const warpTo = this.switchToScene;
       this.switchToScene = undefined;
-      this.mmoService.state.context.server?.send(0, { sceneId: warpTo });
+      this.mmoService?.state.context.server?.send(0, { sceneId: warpTo });
       this.scene.start(warpTo, { previousSceneId: this.sceneId });
     }
   }
   updateOtherPlayers() {
-    const server = this.mmoService.state.context.server;
+    const server = this.mmoServer;
     if (!server) return;
 
     this.syncPlayers();
@@ -912,6 +970,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.switchScene();
     this.updatePlayer();
     this.updateOtherPlayers();
+    this.updateUsernames();
   }
 
   teleportModerator(x: number, y: number) {

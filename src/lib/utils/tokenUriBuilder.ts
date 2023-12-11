@@ -16,6 +16,7 @@ import {
   BumpkinWings,
   BumpkinDress,
   ITEM_NAMES,
+  BumpkinBeard,
 } from "features/game/types/bumpkin";
 
 export type BumpkinParts = {
@@ -34,6 +35,7 @@ export type BumpkinParts = {
   onesie?: BumpkinOnesie;
   wings?: BumpkinWings;
   dress?: BumpkinDress;
+  beard?: BumpkinBeard;
 };
 
 enum Slots {
@@ -52,6 +54,7 @@ enum Slots {
   Suit = 12,
   Wings = 13,
   Dress = 14,
+  Beard = 15,
 }
 
 export function tokenUriBuilder(parts: BumpkinParts) {
@@ -66,6 +69,7 @@ export function tokenUriBuilder(parts: BumpkinParts) {
   ids[Slots.Shoes] = parts.shoes ? ITEM_IDS[parts.shoes] : 0;
   ids[Slots.Tool] = parts.tool ? ITEM_IDS[parts.tool] : 0;
   ids[Slots.Hat] = parts.hat ? ITEM_IDS[parts.hat] : 0;
+  ids[Slots.Beard] = parts.beard ? ITEM_IDS[parts.beard] : 0;
   ids[Slots.Coat] = parts.coat ? ITEM_IDS[parts.coat] : 0;
   ids[Slots.Necklace] = parts.necklace ? ITEM_IDS[parts.necklace] : 0;
   ids[Slots.Suit] = parts.suit ? ITEM_IDS[parts.suit] : 0;
@@ -146,9 +150,15 @@ export function interpretTokenUri(tokenUri: string) {
   // Remove the baseUri (sunflower-land.com/testnet/)
   const urlParts = tokenUri.split("/");
   const tokenPart = urlParts[urlParts.length - 1];
-  const [tokenId, version, ...ids] = tokenPart
-    .split("_")
-    .map((val) => (!val.startsWith("v") ? Number(val) : val));
+
+  const parts = tokenPart.split("_");
+  // Bug with web2 farm metadata
+  if (!parts[1].startsWith("v")) {
+    parts.splice(1, 1);
+  }
+  const [tokenId, version, ...ids] = parts.map((val) =>
+    !val.startsWith("v") ? Number(val) : val
+  );
 
   const equipped: BumpkinParts = {
     background: getItemName<BumpkinBackground>(ids[Slots.Background]),

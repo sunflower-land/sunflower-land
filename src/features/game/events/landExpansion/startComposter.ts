@@ -75,7 +75,7 @@ export function startComposter({
     items: {
       [composterDetails[action.building].produce]: 10,
       // Set on backend
-      [composterDetails[action.building].bait]: 1,
+      [composterDetails[action.building].worm]: 1,
     },
     startedAt: createdAt,
     readyAt: createdAt + getReadyAt(stateCopy, action.building),

@@ -206,8 +206,8 @@ export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
     name: "Eggplant Cake",
     description: "Sweet farm-fresh dessert surprise.",
     building: "Bakery",
-    cookingSeconds: 60 * 60 * 24,
     experience: 1400,
+    cookingSeconds: 60 * 60 * 24,
     ingredients: {
       Eggplant: new Decimal(30),
       Wheat: new Decimal(10),
@@ -219,13 +219,13 @@ export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
     name: "Orange Cake",
     description: "Orange you glad we aren't cooking apples",
     building: "Bakery",
+    experience: 730,
     cookingSeconds: 240 * 60,
     ingredients: {
       Orange: new Decimal(5),
       Egg: new Decimal(15),
       Wheat: new Decimal(10),
     },
-    experience: 730,
     marketRate: 600,
   },
   "Honey Cake": {
@@ -250,8 +250,8 @@ export const FISH_COOKABLES: Record<FishCookableName, Cookable> = {
     description:
       "Sailor's delight in a bowl! Dive in, there's treasure inside!",
     building: "Kitchen",
-    cookingSeconds: 60 * 60 * 8,
     experience: 1000,
+    cookingSeconds: 60 * 60 * 8,
     ingredients: {
       Beetroot: new Decimal(10),
       Wheat: new Decimal(10),
@@ -264,8 +264,8 @@ export const FISH_COOKABLES: Record<FishCookableName, Cookable> = {
     name: "Gumbo",
     description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
     building: "Fire Pit",
-    cookingSeconds: 60 * 60 * 4,
     experience: 600,
+    cookingSeconds: 60 * 60 * 4,
     ingredients: {
       Potato: new Decimal(50),
       Pumpkin: new Decimal(30),
@@ -278,8 +278,8 @@ export const FISH_COOKABLES: Record<FishCookableName, Cookable> = {
     name: "Fermented Fish",
     description: "Daring delicacy! Unleash the Viking within with every bite!",
     building: "Deli",
-    cookingSeconds: 60 * 60 * 24,
     experience: 3000,
+    cookingSeconds: 60 * 60 * 24,
     ingredients: {
       Tuna: new Decimal(6),
     },
@@ -291,8 +291,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
   "Mashed Potato": {
     name: "Mashed Potato",
     description: "My life is potato.",
-    experience: 3,
     building: "Fire Pit",
+    experience: 3,
     cookingSeconds: 30,
     ingredients: {
       Potato: new Decimal(8),
@@ -302,8 +302,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
   "Pumpkin Soup": {
     name: "Pumpkin Soup",
     description: "Creamy, orange and healthy!",
-    experience: 24,
     building: "Fire Pit",
+    experience: 24,
     cookingSeconds: 60 * 3,
     ingredients: {
       Pumpkin: new Decimal(10),
@@ -314,8 +314,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
   "Bumpkin Broth": {
     name: "Bumpkin Broth",
     description: "A perfect broth for a cold day.",
-    experience: 96,
     building: "Fire Pit",
+    experience: 96,
     cookingSeconds: 60 * 20,
     ingredients: {
       Carrot: new Decimal(10),
@@ -327,8 +327,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
   "Boiled Eggs": {
     name: "Boiled Eggs",
     description: "Boiled Eggs are great for breakfast",
-    experience: 90,
     building: "Fire Pit",
+    experience: 90,
     cookingSeconds: 60 * 60,
     ingredients: {
       Egg: new Decimal(5),
@@ -340,19 +340,19 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Kale Stew",
     description: "A perfect Bumpkin Booster!",
     building: "Fire Pit",
+    experience: 400,
     cookingSeconds: 60 * 60 * 2,
     ingredients: {
       Kale: new Decimal(10),
     },
-    experience: 400,
     marketRate: 400,
   },
 
   "Roast Veggies": {
     name: "Roast Veggies",
     description: "Even Goblins need to eat their veggies!",
-    experience: 170,
     building: "Kitchen",
+    experience: 170,
     cookingSeconds: 60 * 60 * 2,
     ingredients: {
       Cauliflower: new Decimal(15),
@@ -364,8 +364,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
   "Bumpkin Salad": {
     name: "Bumpkin Salad",
     description: "Gotta keep your Bumpkin healthy!",
-    experience: 290,
     building: "Kitchen",
+    experience: 290,
     cookingSeconds: 60 * 60 * 3.5,
     ingredients: {
       Beetroot: new Decimal(20),
@@ -377,8 +377,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
   "Goblin's Treat": {
     name: "Goblin's Treat",
     description: "Goblins go crazy for this stuff!",
-    experience: 500,
     building: "Kitchen",
+    experience: 500,
     cookingSeconds: 60 * 60 * 6,
     ingredients: {
       Pumpkin: new Decimal(10),
@@ -391,8 +391,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
   "Cauliflower Burger": {
     name: "Cauliflower Burger",
     description: "Calling all cauliflower lovers!",
-    experience: 255,
     building: "Kitchen",
+    experience: 255,
     cookingSeconds: 60 * 60 * 3,
     ingredients: {
       Cauliflower: new Decimal(15),
@@ -404,8 +404,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
   Pancakes: {
     name: "Pancakes",
     description: "A great start to a Bumpkins day.",
-    experience: 480,
     building: "Kitchen",
+    experience: 480,
     cookingSeconds: 60 * 20,
     ingredients: {
       Wheat: new Decimal(5),
@@ -418,8 +418,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
   "Club Sandwich": {
     name: "Club Sandwich",
     description: "Filled with Carrots and Roasted Sunflower Seeds",
-    experience: 170,
     building: "Kitchen",
+    experience: 170,
     cookingSeconds: 60 * 60 * 3,
     ingredients: {
       Sunflower: new Decimal(100),
@@ -468,8 +468,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Kale & Mushroom Pie",
     description: "A traditional Sapphiron recipe",
     building: "Bakery",
-    cookingSeconds: 60 * 240,
     experience: 720,
+    cookingSeconds: 60 * 240,
     ingredients: {
       "Wild Mushroom": new Decimal(10),
       Kale: new Decimal(5),
@@ -482,8 +482,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Mushroom Jacket Potatoes",
     description: "Cram them taters with what ya got!",
     building: "Kitchen",
-    cookingSeconds: 10 * 60,
     experience: 240,
+    cookingSeconds: 10 * 60,
     ingredients: {
       "Wild Mushroom": new Decimal(10),
       Potato: new Decimal(5),
@@ -494,8 +494,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Mushroom Soup",
     description: "Warm your Bumpkin's soul.",
     building: "Fire Pit",
-    cookingSeconds: 10 * 60,
     experience: 56,
+    cookingSeconds: 10 * 60,
     ingredients: {
       "Wild Mushroom": new Decimal(5),
     },
@@ -505,8 +505,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Sunflower Crunch",
     description: "Crunchy goodness. Try not to burn it.",
     building: "Kitchen",
-    cookingSeconds: 10 * 60,
     experience: 50,
+    cookingSeconds: 10 * 60,
     ingredients: {
       Sunflower: new Decimal(300),
     },
@@ -516,8 +516,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Sauerkraut",
     description: "No more boring Cabbage!",
     building: "Deli",
-    cookingSeconds: 24 * 60 * 60,
     experience: 500,
+    cookingSeconds: 24 * 60 * 60,
     ingredients: {
       Cabbage: new Decimal(20),
     },
@@ -527,8 +527,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Reindeer Carrot",
     description: "Rudolph can't stop eating them!",
     building: "Fire Pit",
-    cookingSeconds: 60 * 5,
     experience: 10,
+    cookingSeconds: 60 * 5,
     ingredients: {
       Carrot: new Decimal(5),
     },
@@ -539,8 +539,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Apple Juice",
     description: "A crisp refreshing beverage",
     building: "Smoothie Shack",
-    cookingSeconds: 60 * 60,
     experience: 500,
+    cookingSeconds: 60 * 60,
     ingredients: {
       Apple: new Decimal(5),
     },
@@ -551,8 +551,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Orange Juice",
     description: "OJ matches perfectly with a Club Sandwich",
     building: "Smoothie Shack",
-    cookingSeconds: 60 * 45,
     experience: 375,
+    cookingSeconds: 60 * 45,
     ingredients: {
       Orange: new Decimal(5),
     },
@@ -563,8 +563,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Purple Smoothie",
     description: "You can hardly taste the Cabbage",
     building: "Smoothie Shack",
-    cookingSeconds: 60 * 30,
     experience: 310,
+    cookingSeconds: 60 * 30,
     ingredients: {
       Blueberry: new Decimal(5),
       Cabbage: new Decimal(10),
@@ -576,8 +576,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Power Smoothie",
     description: "Official drink of the Bumpkin Powerlifting Society",
     building: "Smoothie Shack",
-    cookingSeconds: 60 * 60 * 1.5,
     experience: 775,
+    cookingSeconds: 60 * 60 * 1.5,
     ingredients: {
       Blueberry: new Decimal(10),
       Kale: new Decimal(5),
@@ -589,8 +589,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Bumpkin Detox",
     description: "Wash away the sins of last night",
     building: "Smoothie Shack",
-    cookingSeconds: 60 * 60 * 2,
     experience: 975,
+    cookingSeconds: 60 * 60 * 2,
     ingredients: {
       Apple: new Decimal(5),
       Orange: new Decimal(5),
@@ -603,8 +603,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Bumpkin Roast",
     description: "A traditional Bumpkin dish",
     building: "Kitchen",
-    cookingSeconds: 60 * 60 * 12,
     experience: 2500,
+    cookingSeconds: 60 * 60 * 12,
     ingredients: {
       "Mashed Potato": new Decimal(20),
       "Roast Veggies": new Decimal(5),
@@ -615,8 +615,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Goblin Brunch",
     description: "A traditional Goblin dish",
     building: "Kitchen",
-    cookingSeconds: 60 * 60 * 12,
     experience: 2500,
+    cookingSeconds: 60 * 60 * 12,
     ingredients: {
       "Boiled Eggs": new Decimal(5),
       "Goblin's Treat": new Decimal(1),
@@ -627,8 +627,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Fruit Salad",
     description: "Fruit Salad, Yummy Yummy",
     building: "Kitchen",
-    cookingSeconds: 60 * 30,
     experience: 225,
+    cookingSeconds: 60 * 30,
     ingredients: {
       Apple: new Decimal(1),
       Orange: new Decimal(1),
@@ -640,8 +640,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Kale Omelette",
     description: "A healthy breakfast",
     building: "Fire Pit",
-    cookingSeconds: 60 * 60 * 3.5,
     experience: 1250,
+    cookingSeconds: 60 * 60 * 3.5,
     ingredients: {
       Egg: new Decimal(20),
       Kale: new Decimal(5),
@@ -652,8 +652,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Cabbers n Mash",
     description: "Cabbages and Mashed Potatoes",
     building: "Fire Pit",
-    cookingSeconds: 60 * 40,
     experience: 250,
+    cookingSeconds: 60 * 40,
     ingredients: {
       "Mashed Potato": new Decimal(10),
       Cabbage: new Decimal(20),
@@ -664,8 +664,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Fancy Fries",
     description: "Fantastic Fries",
     building: "Deli",
-    cookingSeconds: 60 * 60 * 24,
     experience: 1000,
+    cookingSeconds: 60 * 60 * 24,
     ingredients: {
       Sunflower: new Decimal(500),
       Potato: new Decimal(500),
@@ -676,8 +676,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Bumpkin ganoush",
     description: "Zesty roasted eggplant spread.",
     building: "Kitchen",
-    cookingSeconds: 60 * 60 * 5,
     experience: 1000,
+    cookingSeconds: 60 * 60 * 5,
     ingredients: {
       Eggplant: new Decimal(30),
       Potato: new Decimal(50),
@@ -689,8 +689,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Cornbread",
     description: "Hearty golden farm-fresh bread.",
     building: "Bakery",
-    cookingSeconds: 60 * 60 * 12,
     experience: 600,
+    cookingSeconds: 60 * 60 * 12,
     ingredients: {
       Corn: new Decimal(15),
       Wheat: new Decimal(5),
@@ -702,8 +702,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Popcorn",
     description: "Classic homegrown crunchy snack",
     building: "Fire Pit",
-    cookingSeconds: 12 * 60,
     experience: 200,
+    cookingSeconds: 12 * 60,
     ingredients: {
       Sunflower: new Decimal(100),
       Corn: new Decimal(5),
@@ -714,8 +714,8 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     name: "Banana Blast",
     description: "The ultimate fruity fuel for those with a peel for power!",
     building: "Smoothie Shack",
-    cookingSeconds: 60 * 60 * 3,
     experience: 1200,
+    cookingSeconds: 60 * 60 * 3,
     ingredients: {
       Banana: new Decimal(10),
       Egg: new Decimal(5),
@@ -736,139 +736,139 @@ export const PIRATE_CAKE: Record<"Pirate Cake", Consumable> = {
 
 const FISH: Record<FishName, Consumable> = {
   Anchovy: {
+    name: "Anchovy",
     description: "Tiny fish, big flavor!",
     experience: 60,
-    name: "Anchovy",
   },
   Butterflyfish: {
+    name: "Butterflyfish",
     description: "Swimming in colors and taste!",
     experience: 70,
-    name: "Butterflyfish",
   },
   Blowfish: {
+    name: "Blowfish",
     description: "Dine with danger, a spiky surprise!",
     experience: 80,
-    name: "Blowfish",
   },
   Clownfish: {
+    name: "Clownfish",
     description: "No jokes, just pure deliciousness!",
     experience: 90,
-    name: "Clownfish",
   },
   "Sea Bass": {
+    name: "Sea Bass",
     description: "The bass-ics of seaside cuisine!",
     experience: 100,
-    name: "Sea Bass",
   },
   "Sea Horse": {
+    name: "Sea Horse",
     description: "Dainty, rare, and surprisingly tasty!",
     experience: 110,
-    name: "Sea Horse",
   },
   "Horse Mackerel": {
+    name: "Horse Mackerel",
     description: "Gallop through flavors with every bite!",
     experience: 120,
-    name: "Horse Mackerel",
   },
   Squid: {
+    name: "Squid",
     description: "Ink your way to exquisite tastes!",
     experience: 130,
-    name: "Squid",
   },
   "Red Snapper": {
+    name: "Red Snapper",
     description: "Snap into rich, zesty oceans of flavor!",
     experience: 140,
-    name: "Red Snapper",
   },
   "Moray Eel": {
+    name: "Moray Eel",
     description: "Slippery, savory, and sensational!",
     experience: 150,
-    name: "Moray Eel",
   },
   "Olive Flounder": {
+    name: "Olive Flounder",
     description: "Floundering in richness and taste!",
     experience: 160,
-    name: "Olive Flounder",
   },
   Napoleanfish: {
+    name: "Napoleanfish",
     description: "Conquer your hunger with this catch!",
     experience: 170,
-    name: "Napoleanfish",
   },
   Surgeonfish: {
+    name: "Surgeonfish",
     description: "Operate on your taste buds with precision!",
     experience: 180,
-    name: "Surgeonfish",
   },
   "Zebra Turkeyfish": {
+    name: "Zebra Turkeyfish",
     description: "Striped, spiky, and spectacularly scrumptious!",
     experience: 190,
-    name: "Zebra Turkeyfish",
   },
   Ray: {
+    name: "Ray",
     description: "Glide into a realm of rich flavors!",
     experience: 200,
-    name: "Ray",
   },
   "Hammerhead shark": {
+    name: "Hammerhead shark",
     description: "A head-on collision with taste!",
     experience: 210,
-    name: "Hammerhead shark",
   },
   "Barred Knifejaw": {
+    name: "Barred Knifejaw",
     description: "Cut through the hunger with sharp flavors!",
     experience: 220,
-    name: "Barred Knifejaw",
   },
   Tuna: {
+    name: "Tuna",
     description: "A titan of taste in every slice!",
     experience: 230,
-    name: "Tuna",
   },
   "Mahi Mahi": {
+    name: "Mahi Mahi",
     description: "Double the name, double the deliciousness!",
     experience: 240,
-    name: "Mahi Mahi",
   },
   "Blue Marlin": {
+    name: "Blue Marlin",
     description: "Spearhead your appetite with this royal catch!",
     experience: 250,
-    name: "Blue Marlin",
   },
   Oarfish: {
+    name: "Oarfish",
     description: "Row your way into legendary flavor!",
     experience: 300,
-    name: "Oarfish",
   },
   "Football fish": {
+    name: "Football fish",
     description: "Score a touchdown in taste!",
     experience: 350,
-    name: "Football fish",
   },
   Sunfish: {
+    name: "Sunfish",
     description: "Bask in the glow of its delectable flavor!",
     experience: 400,
-    name: "Sunfish",
   },
   Coelacanth: {
+    name: "Coelacanth",
     description: "Prehistoric flavor that's stood the test of time!",
     experience: 700,
-    name: "Coelacanth",
   },
   "Whale Shark": {
+    name: "Whale Shark",
     description: "A mammoth meal for monumental cravings!",
     experience: 750,
-    name: "Whale Shark",
   },
   "Saw Shark": {
+    name: "Saw Shark",
     description: "Cutting-edge flavor from the deep!",
     experience: 800,
-    name: "Saw Shark",
   },
   "White Shark": {
+    name: "White Shark",
     description: "Dive into an ocean of thrilling taste!",
     experience: 1000,
-    name: "White Shark",
   },
 };
 

@@ -28,43 +28,43 @@ export const WORKBENCH_TOOLS: (
   Axe: {
     name: "Axe",
     description: "Used to collect wood",
-    ingredients: {},
     sfl: new Decimal(0.0625),
+    ingredients: {},
   },
   Pickaxe: {
     name: "Pickaxe",
     description: "Used to collect stone",
+    sfl: new Decimal(0.0625),
     ingredients: {
       Wood: new Decimal(3),
     },
-    sfl: new Decimal(0.0625),
   },
   "Stone Pickaxe": {
     name: "Stone Pickaxe",
     description: "Used to collect iron",
+    sfl: new Decimal(0.0625),
     ingredients: {
       Wood: new Decimal(3),
       Stone: new Decimal(5),
     },
-    sfl: new Decimal(0.0625),
   },
   "Iron Pickaxe": {
     name: "Iron Axe",
     description: "Used to collect gold",
+    sfl: new Decimal(0.25),
     ingredients: {
       Wood: new Decimal(3),
       Iron: new Decimal(5),
     },
-    sfl: new Decimal(0.25),
   },
   Rod: {
     name: "Rod",
     description: "Used to collect fish",
+    sfl: new Decimal(0.0625),
     ingredients: {
       Wood: new Decimal(3),
       Stone: new Decimal(1),
     },
-    sfl: new Decimal(0.0625),
   },
 });
 
@@ -72,19 +72,19 @@ export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
   "Sand Shovel": {
     name: "Sand Shovel",
     description: "Used for digging treasure",
+    sfl: new Decimal(0.0625),
     ingredients: {
       Wood: new Decimal(2),
       Stone: new Decimal(1),
     },
-    sfl: new Decimal(0.0625),
   },
   "Sand Drill": {
     name: "Sand Drill",
     description: "Drill deep for uncommon or rare treasure",
+    sfl: new Decimal(0.125),
     ingredients: {
       Gold: new Decimal(1),
       Iron: new Decimal(3),
     },
-    sfl: new Decimal(0.125),
   },
 };

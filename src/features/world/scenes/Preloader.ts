@@ -2,17 +2,16 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { createErrorLogger } from "lib/errorLogger";
-import { MachineInterpreter } from "features/game/lib/gameMachine";
 
 export abstract class Preloader extends Phaser.Scene {
-  public get gameService() {
-    return this.registry.get("gameService") as MachineInterpreter;
+  public get id() {
+    return this.registry.get("id") as number;
   }
 
   preload() {
     const errorLogger = createErrorLogger(
       "phaser_preloader_scene",
-      Number(this.gameService.state.context.farmId)
+      Number(this.id)
     );
 
     this.load.on(
@@ -39,6 +38,11 @@ export abstract class Preloader extends Phaser.Scene {
       this.load.image(
         "tileset",
         `${CONFIG.PROTECTED_IMAGE_URL}/world/map-extruded.png`
+      );
+
+      this.load.image(
+        "christmas-tileset",
+        `${CONFIG.PROTECTED_IMAGE_URL}/world/christmas-map-extruded.png`
       );
 
       this.load.image("speech_bubble", "world/speech_bubble.png");

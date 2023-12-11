@@ -114,10 +114,7 @@ export const Tree: React.FC<Props> = ({ id, index }) => {
   const timeLeft = getTimeLeft(resource.wood.choppedAt, TREE_RECOVERY_TIME);
   const chopped = !canChop(resource);
 
-  const bumpkinLevelRequired = getBumpkinLevelRequiredForNode(
-    index,
-    "Stone Rock"
-  );
+  const bumpkinLevelRequired = getBumpkinLevelRequiredForNode(index, "Tree");
   const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
   const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
 
@@ -195,6 +192,7 @@ export const Tree: React.FC<Props> = ({ id, index }) => {
 
       {/* Chest reward */}
       <ChestReward
+        collectedItem={"Wood"}
         reward={reward}
         onCollected={onCollectChest}
         onOpen={() =>

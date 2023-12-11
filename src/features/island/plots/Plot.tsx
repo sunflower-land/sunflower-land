@@ -28,23 +28,34 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getKeys } from "features/game/types/craftables";
-import { SEEDS, SeedName } from "features/game/types/seeds";
+import { SeedName } from "features/game/types/seeds";
 import { SeedSelection } from "./components/SeedSelection";
-import { FRUIT_SEEDS } from "features/game/types/fruits";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getBumpkinLevelRequiredForNode } from "features/game/expansion/lib/expansionNodes";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import lockIcon from "assets/skills/lock.png";
+import { getKeys } from "features/game/types/craftables";
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
 const selectLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+
 const selectHarvests = (state: MachineState) =>
-  state.context.state.bumpkin?.activity?.["Sunflower Harvested"] ?? 0;
+  getKeys(CROPS()).reduce(
+    (total, crop) =>
+      total +
+      (state.context.state.bumpkin?.activity?.[`${crop} Harvested`] ?? 0),
+    0
+  );
+
 const selectPlants = (state: MachineState) =>
-  state.context.state.bumpkin?.activity?.["Sunflower Planted"] ?? 0;
+  getKeys(CROPS()).reduce(
+    (total, crop) =>
+      total + (state.context.state.bumpkin?.activity?.[`${crop} Planted`] ?? 0),
+    0
+  );
+
 const selectCropsSold = (state: MachineState) =>
   state.context.state.bumpkin?.activity?.["Sunflower Sold"] ?? 0;
 
@@ -216,25 +227,26 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
 
     // plant
     if (!crop) {
-      const hasSeeds = getKeys(inventory).some(
-        (name) =>
-          inventory[name]?.gte(1) && name in SEEDS() && !(name in FRUIT_SEEDS())
-      );
-      if (!hasSeeds && !isMobile) {
-        setShowMissingSeeds(true);
-        return;
-      }
+      // TEMP Disable
+      // const hasSeeds = getKeys(inventory).some(
+      //   (name) =>
+      //     inventory[name]?.gte(1) && name in SEEDS() && !(name in FRUIT_SEEDS())
+      // );
+      // if (!hasSeeds && !isMobile) {
+      //   setShowMissingSeeds(true);
+      //   return;
+      // }
 
-      const seedIsReady =
-        seed &&
-        inventory[seed]?.gte(1) &&
-        seed in SEEDS() &&
-        !(seed in FRUIT_SEEDS());
+      // const seedIsReady =
+      //   seed &&
+      //   inventory[seed]?.gte(1) &&
+      //   seed in SEEDS() &&
+      //   !(seed in FRUIT_SEEDS());
 
-      if (!seedIsReady && !isMobile) {
-        setShowSeedNotSelected(true);
-        return;
-      }
+      // if (!seedIsReady && !isMobile) {
+      //   setShowSeedNotSelected(true);
+      //   return;
+      // }
 
       const state = gameService.send("seed.planted", {
         index: id,
@@ -383,6 +395,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
         />
       </div>
       <ChestReward
+        collectedItem={crop?.name}
         reward={reward}
         onCollected={onCollectReward}
         onOpen={() =>

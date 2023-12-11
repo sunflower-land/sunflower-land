@@ -16,7 +16,6 @@ const testnetFeatureFlag = () => CONFIG.NETWORK === "mumbai";
  */
 type FeatureName =
   | "JEST_TEST"
-  | "DISCORD_BONUS"
   | "PUMPKIN_PLAZA"
   | "NEW_DELIVERIES"
   | "NEW_FARM_FLOW"
@@ -24,7 +23,10 @@ type FeatureName =
   | "BEACH"
   | "HALLOWEEN"
   | "BANANA"
-  | "LOCALISATION";
+  | "LOCALISATION"
+  | "PORTALS"
+  | "CHRISTMAS"
+  | "GOOGLE_LOGIN";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51];
@@ -32,6 +34,7 @@ export const ADMIN_IDS = [1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51];
 type FeatureFlag = (game: GameState) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
+  PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
   NEW_DELIVERIES: testnetFeatureFlag,
@@ -44,6 +47,18 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
     }
 
     if (Date.now() > new Date("2023-10-26").getTime()) {
+      return true;
+    }
+
+    return defaultFeatureFlag(game);
+  },
+
+  CHRISTMAS: (game: GameState) => {
+    if (Date.now() > new Date("2023-12-28").getTime()) {
+      return false;
+    }
+
+    if (Date.now() > new Date("2023-12-12").getTime()) {
       return true;
     }
 
@@ -72,7 +87,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
     return defaultFeatureFlag(game);
   },
   LOCALISATION: testnetFeatureFlag,
-  DISCORD_BONUS: defaultFeatureFlag,
+  GOOGLE_LOGIN: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {

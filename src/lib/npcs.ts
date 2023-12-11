@@ -8,6 +8,7 @@ export type NPCName =
   | "orlin"
   | "blacksmith"
   | "grimbly"
+  | "wizard"
   | "grimtooth"
   | "grubnuk"
   | "marcus"
@@ -51,11 +52,24 @@ export type NPCName =
   | "daphne"
   | "miranda"
   | "damien"
-  | "wobble";
+  | "mayor"
+  | "wobble"
+  | "santa"
+  | "elf";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   // TODO
+  wizard: {
+    background: "Farm Background",
+    body: "Beige Farmer Potion",
+    hair: "Wise Hair",
+    shoes: "Black Farmer Boots",
+    hat: "Feather Hat",
+    tool: "Sunflower Rod",
+    pants: "Traveller's Pants",
+    shirt: "Traveller's Shirt",
+  },
   "reelin roy": {
     background: "Farm Background",
     body: "Beige Farmer Potion",
@@ -549,6 +563,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Seashore Background",
     shoes: "Brown Boots",
   },
+  mayor: {
+    body: "Light Brown Farmer Potion",
+    shirt: "Pirate Leather Polo",
+    hat: "Feather Hat",
+    hair: "Sun Spots",
+    tool: "Merch Coffee Mug",
+    pants: "Farmer Pants",
+    background: "Seashore Background",
+    shoes: "Brown Boots",
+  },
   wobble: {
     body: "Light Brown Farmer Potion",
     shirt: "Red Farmer Shirt",
@@ -558,6 +582,25 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Farmer Overalls",
     background: "Seashore Background",
     shoes: "Brown Boots",
+  },
+  santa: {
+    body: "Beige Farmer Potion",
+    hair: "Sun Spots",
+    hat: "Santa Hat",
+    beard: "Santa Beard",
+    suit: "Santa Suit",
+    background: "Christmas Background",
+    shoes: "Black Farmer Boots",
+    tool: "Candy Cane",
+  },
+  elf: {
+    body: "Light Brown Farmer Potion",
+    hair: "Sun Spots",
+    hat: "Elf Hat",
+    suit: "Elf Suit",
+    background: "Christmas Background",
+    shoes: "Black Farmer Boots",
+    tool: "Candy Cane",
   },
 };
 

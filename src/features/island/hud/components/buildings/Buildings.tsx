@@ -21,18 +21,20 @@ interface Props {
 }
 
 const VALID_BUILDINGS: BuildingName[] = [
-  "Kitchen",
-  "Water Well",
-  "Bakery",
-  "Hen House",
-  "Deli",
-  "Smoothie Shack",
-  "Toolshed",
-  "Warehouse",
-  "Compost Bin",
-  "Turbo Composter",
-  "Premium Composter",
-];
+  "Kitchen" as BuildingName,
+  "Water Well" as BuildingName,
+  "Bakery" as BuildingName,
+  "Hen House" as BuildingName,
+  "Deli" as BuildingName,
+  "Smoothie Shack" as BuildingName,
+  "Toolshed" as BuildingName,
+  "Warehouse" as BuildingName,
+  "Compost Bin" as BuildingName,
+  "Turbo Composter" as BuildingName,
+  "Premium Composter" as BuildingName,
+].sort(
+  (a, b) => BUILDINGS()[a][0].unlocksAtLevel - BUILDINGS()[b][0].unlocksAtLevel
+);
 
 export const Buildings: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] = useState<BuildingName>("Market");
@@ -157,11 +159,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {VALID_BUILDINGS.sort((a, b) =>
-            BUILDINGS()[a][0].unlocksAtLevel > BUILDINGS()[b][0].unlocksAtLevel
-              ? 1
-              : -1
-          ).map((name: BuildingName) => {
+          {VALID_BUILDINGS.map((name: BuildingName) => {
             const blueprints = BUILDINGS()[name];
             const inventoryCount = inventory[name] || new Decimal(0);
             const nextIndex = blueprints[inventoryCount.toNumber()]

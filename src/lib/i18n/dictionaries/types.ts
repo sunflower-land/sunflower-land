@@ -72,7 +72,13 @@ export type Intro =
   | "intro.four"
   | "intro.five";
 
-export type ShopItems = "shopItems.one" | "shopItems.two" | "shopItems.three";
+export type ShopItems =
+  | "shopItems.one"
+  | "shopItems.two"
+  | "shopItems.three"
+  | "betty.intro"
+  | "betty.buySeeds"
+  | "betty.sellCrops";
 
 export type AchievementsDialog =
   | "breadWinner.description"
@@ -197,7 +203,10 @@ export type Conversations =
   | "bruce-intro.two"
   | "bruce-intro.three"
   | "blacksmith-intro.headline"
-  | "blacksmith-intro.one";
+  | "blacksmith-intro.one"
+  | "luna.portalNoAccess"
+  | "luna.portals"
+  | "luna.rewards";
 
 export type HenHouseTerms =
   | "henHouse.chickens"

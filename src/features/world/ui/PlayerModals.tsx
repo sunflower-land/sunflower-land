@@ -9,6 +9,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { BumpkinLevel } from "features/bumpkins/components/BumpkinModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PlayerTrade } from "./PlayerTrade";
+import { GameState } from "features/game/types/game";
 
 type Player = {
   id: number;
@@ -32,7 +33,11 @@ class PlayerModalManager {
 
 export const playerModalManager = new PlayerModalManager();
 
-export const PlayerModals: React.FC = () => {
+interface Props {
+  game: GameState;
+}
+
+export const PlayerModals: React.FC<Props> = ({ game }) => {
   const [tab, setTab] = useState(0);
   const [player, setPlayer] = useState<Player>();
 

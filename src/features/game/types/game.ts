@@ -40,6 +40,7 @@ import {
   MarineMarvelName,
 } from "./fishing";
 import { Coordinates } from "../expansion/components/MapPlacement";
+import { PortalName } from "./portals";
 
 export type Reward = {
   sfl?: Decimal;
@@ -151,6 +152,7 @@ export type Coupons =
   | "Bud Ticket"
   | "Bud Seedling"
   | "Community Coin"
+  | "Arcade Token"
   | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
@@ -180,8 +182,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
     description: "Convey feelings of love",
   },
   "Block Buck": {
-    description:
-      "A voucher used for restocking and enhancing your Blockchain experience!",
+    description: "A valuable token in Sunflower Land!",
   },
   "Solar Flare Ticket": {
     description: "A ticket used during the Solar Flare Season",
@@ -211,6 +212,10 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Community Coin": {
     description: "A valued coin that can be exchanged for rewards",
+  },
+  "Arcade Token": {
+    description:
+      "A token earned from mini-games and adventures. Can be exchanged for rewards.",
   },
 };
 
@@ -417,12 +422,13 @@ export type PlacedItem = {
   crafting?: BuildingProduct;
 };
 
-type PlacedManeki = PlacedItem & { shakenAt?: number };
+type ShakeItem = PlacedItem & { shakenAt?: number };
 export type PlacedLamp = PlacedItem & { rubbedCount?: number };
 
 // Support custom types for collectibles
 type CustomCollectibles = {
-  "Maneki Neko": PlacedManeki[];
+  "Maneki Neko": ShakeItem[];
+  "Festive Tree": ShakeItem[];
   "Genie Lamp": PlacedLamp[];
 };
 
@@ -438,6 +444,7 @@ export type Collectibles = Partial<PlacedTypes<CollectibleName>>;
 export type CompostBuilding = PlacedItem & {
   producing?: BuildingProduce;
   requires?: Partial<Record<InventoryItemName, number>>;
+  boost?: Partial<Record<InventoryItemName, number>>;
 };
 
 type CustomBuildings = {
@@ -696,6 +703,17 @@ export type CommunityIsland = {
   };
 };
 
+export type Portal = {
+  arcadeTokensMinted: number;
+
+  history: Record<
+    string,
+    {
+      arcadeTokensMinted: number;
+    }
+  >;
+};
+
 export type TradeListing = {
   items: Partial<Record<InventoryItemName, number>>;
   sfl: number;
@@ -717,7 +735,18 @@ export type Fishing = {
   };
 };
 
+export type Christmas = {
+  day: Record<
+    number,
+    {
+      candy: number;
+      collectedAt: number;
+    }
+  >;
+};
+
 export interface GameState {
+  username?: string;
   balance: Decimal;
   previousBalance: Decimal;
   airdrops?: Airdrop[];
@@ -731,6 +760,7 @@ export interface GameState {
   warCollectionOffer?: WarCollectionOffer;
 
   islands?: Record<string, CommunityIsland>;
+  portals?: Partial<Record<PortalName, Portal>>;
 
   chickens: Record<string, Chicken>;
   inventory: Inventory;
@@ -804,6 +834,8 @@ export interface GameState {
     listings?: Record<string, TradeListing>;
   };
   buds?: Record<number, Bud>;
+
+  christmas?: Christmas;
 }
 
 export interface Context {

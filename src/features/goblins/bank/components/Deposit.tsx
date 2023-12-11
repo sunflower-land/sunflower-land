@@ -444,6 +444,20 @@ export const Deposit: React.FC<Props> = ({
                 {`Deposit didn't arrive?`}
               </a>
             </div>
+            {sflDepositAmount > 0 && (
+              <div className="mb-1 mt-2 text-xxs">
+                When players withdraw any SFL, a{" "}
+                <a
+                  target="_blank"
+                  className="underline text-xxs hover:text-blue-500"
+                  href={`https://docs.sunflower-land.com/economy/withdrawing`}
+                  rel="noreferrer"
+                >
+                  {`Goblin Tax`}
+                </a>{" "}
+                is applied.
+              </div>
+            )}
           </div>
           <Button
             onClick={handleDeposit}
