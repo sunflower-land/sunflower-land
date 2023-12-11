@@ -338,10 +338,13 @@ export class ChristmasScene extends BaseScene {
 
     this.initialiseNPCs(PLAZA_BUMPKINS);
 
-    const { dayOfChristmas } = getDayOfChristmas(this.gameState);
+    const { dayOfChristmas } = getDayOfChristmas(
+      this.gameService.state.context.state
+    );
 
     const candyCollected =
-      this.gameState.christmas?.day[dayOfChristmas]?.candy ?? 0;
+      this.gameService.state.context.state.christmas?.day[dayOfChristmas]
+        ?.candy ?? 0;
 
     const remaining = DAILY_CANDY - candyCollected;
 
