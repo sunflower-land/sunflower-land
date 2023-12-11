@@ -14,6 +14,9 @@ import { WalletErrorMessage } from "features/wallet/components/WalletErrors";
 import { ErrorCode } from "lib/errors";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
+import { shortAddress } from "lib/utils/shortAddress";
+import { Minting } from "features/game/components/Minting";
+import { NFTMinting } from "./components/NFTMinting";
 
 interface Props {
   onReady?: (payload: { signature: string; address: string }) => void;
@@ -34,14 +37,14 @@ export const Wallet: React.FC<Props> = ({
   linkedAddress,
   farmAddress,
   wrapper = ({ children }) => <>{children}</>,
-  requiresNFT = false,
+  requiresNFT = true,
 }) => {
   const { authService } = useContext(AuthContext);
   const [authState] = useActor(authService);
 
   const walletService = useInterpret(walletMachine, {
     context: {
-      id: 123,
+      id,
       jwt: authState.context.user.rawToken,
       linkedAddress,
       farmAddress,
@@ -54,7 +57,7 @@ export const Wallet: React.FC<Props> = ({
   const provider = walletState.context.provider;
   const address = walletState.context.address;
 
-  console.log({ state: walletState.value });
+  console.log({ state: walletState.value, context: walletState.context });
   useEffect(() => {
     if (walletState.matches("ready") && !!onReady) {
       console.log("TRIGGER UP");
@@ -152,10 +155,10 @@ export const Wallet: React.FC<Props> = ({
               type="default"
               className="mb-2"
             >
-              Missing Vault NFT
+              Missing Account NFT
             </Label>
             <p className="text-sm mb-2">
-              A Vault NFT is needed to secure your items on the Blockchain.
+              An Account NFT is needed to secure your items on the Blockchain.
             </p>
           </div>
           <Button onClick={() => walletService.send("MINT")}>
@@ -173,6 +176,20 @@ export const Wallet: React.FC<Props> = ({
       );
     }
 
+    if (walletState.matches("alreadyLinkedWallet")) {
+      return (
+        <div className="p-2">
+          <Label type="danger" icon={walletIcon}>
+            Wallet already linked
+          </Label>
+          <p className="my-2 text-sm">{`Wallet ${shortAddress(
+            walletState.context.address
+          )} has already been linked to an account.`}</p>
+          <p className="text-xs my-2">Please link another wallet.</p>
+        </div>
+      );
+    }
+
     if (walletState.matches("signing")) {
       return (
         <div className="p-2">
@@ -183,6 +200,19 @@ export const Wallet: React.FC<Props> = ({
             Sign the request in your wallet to continue.
           </p>
         </div>
+      );
+    }
+
+    if (walletState.matches("minting")) {
+      return <p className="loading">Minting</p>;
+    }
+
+    if (walletState.matches("waiting")) {
+      return (
+        <NFTMinting
+          onComplete={() => walletService.send("CONTINUE")}
+          readyAt={walletState.context.nftReadyAt}
+        />
       );
     }
 

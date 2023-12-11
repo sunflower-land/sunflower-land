@@ -1746,6 +1746,16 @@ export function startGame(authContext: AuthContext) {
             },
           }),
         },
+        MIGRATED: {
+          actions: assign({
+            id: (_, event) => {
+              return event.id;
+            },
+            farmAddress: (_, event) => {
+              return event.farmAddress;
+            },
+          }),
+        },
       },
     },
     {

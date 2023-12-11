@@ -7,6 +7,7 @@ import { wallet } from "lib/blockchain/wallet";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { linkWallet } from "features/wallet/actions/linkWallet";
 import { ERRORS } from "lib/errors";
+import { getFarms } from "lib/blockchain/Farm";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -43,14 +44,14 @@ export type WalletState = {
     | "signing"
     | "linking"
     | "minting"
-    | "preparing"
+    | "waiting"
+    | "migrating"
     | "ready"
     // Error states
     | "missingNFT"
     | "wrongWallet"
     | "wrongNetwork"
-    // | "missingWeb3"
-    // | "duplicateAddress"
+    | "alreadyLinkedWallet"
     | "error";
 
   context: Context;
@@ -78,6 +79,7 @@ export const walletMachine = createMachine({
     jwt: "",
     signature: "",
     requiresNFT: true,
+    nftReadyAt: Date.now() + 3 * 1000,
     // wallet: "METAMASK", TODO
   },
   states: {
@@ -118,6 +120,7 @@ export const walletMachine = createMachine({
 
           await wallet.initialise(web3.provider, web3.wallet);
 
+          console.log("DEEP IN");
           return {
             address: wallet.myAccount,
             wallet: chosenWallet,
@@ -212,7 +215,6 @@ export const walletMachine = createMachine({
         src: async (context, event) => {
           const signature = event.data.signature;
 
-          console.log({ link: signature });
           await linkWallet({
             id: context.id,
             jwt: context.jwt,
@@ -232,9 +234,16 @@ export const walletMachine = createMachine({
             target: "ready",
           },
         ],
-        onError: {
-          target: "error",
-        },
+        onError: [
+          {
+            cond: (_, event) =>
+              event.data.message === ERRORS.WALLET_ALREADY_LINKED,
+            target: "alreadyLinkedWallet",
+          },
+          {
+            target: "error",
+          },
+        ],
       },
     },
 
@@ -242,17 +251,60 @@ export const walletMachine = createMachine({
       id: "minting",
       invoke: {
         src: async (context, event) => {
+          // Already has a farm, let them wait
+          const farms = await getFarms(wallet.web3Provider, context.address);
+          if (farms.length === 0) {
+            return {
+              readyAt: Date.now() + 30 * 1000,
+            };
+          }
+
+          // Call mint endpoint
+          await new Promise((r) => setTimeout(r, 1000));
+
+          return {
+            readyAt: Date.now() + 30 * 1000,
+          };
+        },
+        onDone: [
+          {
+            target: "waiting",
+            actions: assign({
+              nftReadyAt: (_, event) => event.data.readyAt,
+            }),
+          },
+        ],
+        onError: {
+          target: "error",
+        },
+      },
+    },
+
+    waiting: {
+      on: {
+        CONTINUE: {
+          target: "migrating",
+        },
+      },
+    },
+
+    migrating: {
+      id: "migrating",
+      invoke: {
+        src: async (context, event) => {
           await new Promise((r) => setTimeout(r, 1000));
 
           const farmAddress = "0x123"; // TODO
+          const farmId = 9;
 
-          return { farmAddress };
+          return { farmAddress, farmId };
         },
         onDone: [
           {
             target: "ready",
             actions: assign({
               farmAddress: (_, event) => event.data.farmAddress,
+              id: (_, event) => event.data.farmId,
             }),
           },
         ],
@@ -274,6 +326,7 @@ export const walletMachine = createMachine({
     },
     wrongWallet: {},
     wrongNetwork: {},
+    alreadyLinkedWallet: {},
     error: {},
   },
   on: {
