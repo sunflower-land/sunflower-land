@@ -276,6 +276,7 @@ export const DailyReward: React.FC = () => {
       </div>
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <GameWallet
+          requiresNFT={false}
           onReady={() => {
             chestService.send("LOAD");
             console.log("INTO LOAD");

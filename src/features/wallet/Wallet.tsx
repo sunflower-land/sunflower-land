@@ -2,23 +2,28 @@ import { useActor, useInterpret } from "@xstate/react";
 import React, { useContext, useEffect, useState } from "react";
 
 import { Label } from "components/ui/Label";
-import { Panel } from "components/ui/Panel";
 import { Wallets } from "features/auth/components/SignIn";
 import { Context as AuthContext } from "features/auth/lib/Provider";
-import { walletMachine } from "features/auth/lib/walletMachine";
+import { walletMachine } from "features/wallet/walletMachine";
 import { CONFIG } from "lib/config";
 
 import walletIcon from "assets/icons/wallet.png";
+
 import { Context } from "features/game/GameProvider";
-import { Modal } from "react-bootstrap";
+import { WalletErrorMessage } from "features/wallet/components/WalletErrors";
+import { ErrorCode } from "lib/errors";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { Button } from "components/ui/Button";
 
 interface Props {
   onReady?: (payload: { signature: string; address: string }) => void;
   onStart?: () => void;
   id?: number;
   linkedAddress?: string;
+  farmAddress?: string;
   wallet?: string;
   wrapper?: React.FC;
+  requiresNFT?: boolean;
 }
 
 export const Wallet: React.FC<Props> = ({
@@ -27,20 +32,20 @@ export const Wallet: React.FC<Props> = ({
   children,
   id,
   linkedAddress,
-  wallet,
+  farmAddress,
   wrapper = ({ children }) => <>{children}</>,
+  requiresNFT = false,
 }) => {
   const { authService } = useContext(AuthContext);
   const [authState] = useActor(authService);
 
-  console.log({ token: authState.context.user.rawToken });
   const walletService = useInterpret(walletMachine, {
     context: {
-      id,
+      id: 123,
       jwt: authState.context.user.rawToken,
       linkedAddress,
-      wallet,
-      // TODO more?
+      farmAddress,
+      requiresNFT,
     },
   });
 
@@ -49,6 +54,7 @@ export const Wallet: React.FC<Props> = ({
   const provider = walletState.context.provider;
   const address = walletState.context.address;
 
+  console.log({ state: walletState.value });
   useEffect(() => {
     if (walletState.matches("ready") && !!onReady) {
       console.log("TRIGGER UP");
@@ -98,39 +104,103 @@ export const Wallet: React.FC<Props> = ({
     }
   }, [provider, address]);
 
-  console.log({ walletState: walletState.value, context: walletState.context });
-  const Wrapper = wrapper;
-  if (walletState.matches("idle")) {
-    return (
-      <Wrapper>
-        <Label className="ml-2 mt-1 mb-2" icon={walletIcon} type="default">
-          Connect your wallet
-        </Label>
-        <Wallets
-          onConnect={(chosenProvider) =>
-            walletService.send("CONNECT_TO_WALLET", {
-              chosenProvider,
-            })
-          }
-        />
-      </Wrapper>
-    );
-  }
-
   if (walletState.matches("ready")) {
-    console.log("RETURN CHILDREN!");
     return <>{children}</>;
   }
 
+  const Content = () => {
+    if (walletState.matches("idle")) {
+      return (
+        <>
+          <Label className="ml-2 mt-1 mb-2" icon={walletIcon} type="default">
+            Connect your wallet
+          </Label>
+          <Wallets
+            onConnect={(chosenProvider) =>
+              walletService.send("CONNECT_TO_WALLET", {
+                chosenProvider,
+              })
+            }
+          />
+        </>
+      );
+    }
+
+    if (walletState.matches("error")) {
+      return (
+        <WalletErrorMessage
+          errorCode={walletState.context.errorCode as ErrorCode}
+          onRefresh={() => walletService.send("REFRESH")}
+        />
+      );
+    }
+
+    if (walletState.matches("wrongWallet")) {
+      return (
+        <div>
+          <p>Wrong wallet</p>
+        </div>
+      );
+    }
+
+    if (walletState.matches("missingNFT")) {
+      return (
+        <>
+          <div className="p-2">
+            <Label
+              icon={SUNNYSIDE.resource.pirate_bounty}
+              type="default"
+              className="mb-2"
+            >
+              Missing Vault NFT
+            </Label>
+            <p className="text-sm mb-2">
+              A Vault NFT is needed to secure your items on the Blockchain.
+            </p>
+          </div>
+          <Button onClick={() => walletService.send("MINT")}>
+            Mint your free NFT
+          </Button>
+        </>
+      );
+    }
+
+    if (walletState.matches("wrongNetwork")) {
+      return (
+        <div className="p-2">
+          <p>Wrong Chain</p>
+        </div>
+      );
+    }
+
+    if (walletState.matches("signing")) {
+      return (
+        <div className="p-2">
+          <Label icon={walletIcon} type="default" className="mb-1">
+            Sign
+          </Label>
+          <p className="text-sm">
+            Sign the request in your wallet to continue.
+          </p>
+        </div>
+      );
+    }
+
+    return <p className="loading">Connecting</p>;
+  };
+
+  const Wrapper = wrapper;
+
   // Show wallet states
-  return (
-    <Wrapper>
-      <p className="text-sm loading">{walletState.value}</p>
-    </Wrapper>
-  );
+  return <Wrapper>{Content()}</Wrapper>;
 };
 
-export const GameWallet: React.FC<Props> = ({ children, onReady, wrapper }) => {
+export const GameWallet: React.FC<Props> = ({
+  children,
+  onReady,
+  wrapper,
+  requiresNFT,
+}) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -142,6 +212,8 @@ export const GameWallet: React.FC<Props> = ({ children, onReady, wrapper }) => {
         wallet={gameState.context.wallet}
         onReady={onReady}
         wrapper={wrapper}
+        farmAddress={""}
+        requiresNFT={requiresNFT}
       >
         {children}
       </Wallet>

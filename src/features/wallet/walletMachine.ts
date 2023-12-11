@@ -2,21 +2,23 @@ import { createMachine, Interpreter, State, assign } from "xstate";
 import { CONFIG } from "lib/config";
 
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
-import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectStrategy.factory";
+import { web3ConnectStrategyFactory } from "../auth/lib/web3-connect-strategy/web3ConnectStrategy.factory";
 import { wallet } from "lib/blockchain/wallet";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { linkWallet } from "features/wallet/actions/linkWallet";
+import { ERRORS } from "lib/errors";
 
 export const ART_MODE = !CONFIG.API_URL;
 
 export interface Context {
   address?: string;
   linkedAddress?: string;
-  nftID?: number;
+  farmAddress?: string;
   errorCode: string;
   provider: any; // TODO?
   jwt?: string;
   signature?: string;
+  requiresNFT?: boolean;
 }
 
 type ConnectWalletEvent = {
@@ -40,13 +42,14 @@ export type WalletState = {
     | "initialising"
     | "signing"
     | "linking"
-    | "missingNFT"
     | "minting"
+    | "preparing"
     | "ready"
     // Error states
+    | "missingNFT"
     | "wrongWallet"
+    | "wrongNetwork"
     // | "missingWeb3"
-    // | "wrongNetwork"
     // | "duplicateAddress"
     | "error";
 
@@ -69,12 +72,13 @@ export const walletMachine = createMachine({
     id: 0,
     address: "",
     linkedAddress: "",
-    nftID: 123, // TODO
+    farmAddress: "",
     errorCode: "",
     provider: null,
     jwt: "",
     signature: "",
-    wallet: "METAMASK", // Predefine provider?
+    requiresNFT: true,
+    // wallet: "METAMASK", TODO
   },
   states: {
     idle: {
@@ -88,16 +92,14 @@ export const walletMachine = createMachine({
     initialising: {
       id: "initialising",
       invoke: {
-        src: async (context, event) => {
+        src: async (_: Context, event: any) => {
           const _event = event as ConnectWalletEvent | undefined;
           console.log({ _event });
-          const chosenWallet =
-            _event?.chosenProvider ?? context.user.web3?.wallet;
+          const chosenWallet = _event?.chosenProvider;
           if (!chosenWallet) {
             throw new Error("Could not determine wallet provider.");
           }
 
-          console.log({ wallet });
           const web3ConnectStrategy = web3ConnectStrategyFactory(chosenWallet);
           onboardingAnalytics.logEvent(
             web3ConnectStrategy.getConnectEventType()
@@ -114,7 +116,6 @@ export const walletMachine = createMachine({
             provider: web3ConnectStrategy.getProvider(),
           };
 
-          console.log("LETS GO");
           await wallet.initialise(web3.provider, web3.wallet);
 
           return {
@@ -143,6 +144,14 @@ export const walletMachine = createMachine({
             cond: (context) => !context.linkedAddress,
           },
           {
+            target: "missingNFT",
+            actions: assign<Context, any>({
+              provider: (_, event) => event.data.provider,
+              address: (_, event) => event.data.address,
+            }),
+            cond: (context) => context.requiresNFT && !context.farmAddress,
+          },
+          {
             target: "ready",
             actions: assign<Context, any>({
               provider: (_, event) => event.data.provider,
@@ -152,6 +161,11 @@ export const walletMachine = createMachine({
         ],
         onError: [
           {
+            target: "wrongNetwork",
+            cond: (_context, event) =>
+              event.data.message === ERRORS.WRONG_CHAIN,
+          },
+          {
             target: "error",
             actions: assign<Context, any>({
               errorCode: (_context, event) => event.data.message,
@@ -160,8 +174,6 @@ export const walletMachine = createMachine({
         ],
       },
     },
-
-    wrongWallet: {},
 
     signing: {
       id: "signing",
@@ -214,7 +226,7 @@ export const walletMachine = createMachine({
         onDone: [
           {
             target: "missingNFT",
-            cond: (context) => !context.nftID,
+            cond: (context) => context.requiresNFT && !context.farmAddress,
           },
           {
             target: "ready",
@@ -226,23 +238,22 @@ export const walletMachine = createMachine({
       },
     },
 
-    missingNFT: {
-      on: {
-        MINT: {
-          target: "minting",
-        },
-      },
-    },
-
     minting: {
       id: "minting",
       invoke: {
         src: async (context, event) => {
           await new Promise((r) => setTimeout(r, 1000));
+
+          const farmAddress = "0x123"; // TODO
+
+          return { farmAddress };
         },
         onDone: [
           {
             target: "ready",
+            actions: assign({
+              farmAddress: (_, event) => event.data.farmAddress,
+            }),
           },
         ],
         onError: {
@@ -253,6 +264,16 @@ export const walletMachine = createMachine({
 
     ready: {},
 
+    // Error states
+    missingNFT: {
+      on: {
+        MINT: {
+          target: "minting",
+        },
+      },
+    },
+    wrongWallet: {},
+    wrongNetwork: {},
     error: {},
   },
   on: {
