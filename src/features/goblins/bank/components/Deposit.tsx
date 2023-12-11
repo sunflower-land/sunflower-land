@@ -32,8 +32,7 @@ import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { loadWardrobe } from "lib/blockchain/BumpkinItems";
 import { getBudsBalance } from "lib/blockchain/Buds";
 import { CONFIG } from "lib/config";
-import { Label } from "components/ui/Label";
-import { GameWallet, Wallet } from "features/wallet/Wallet";
+import { GameWallet } from "features/wallet/Wallet";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -68,7 +67,7 @@ export const Deposit: React.FC<Props> = ({
   canDeposit = true,
 }) => {
   return (
-    <GameWallet onReady={(r) => console.log({ ready: r })}>
+    <GameWallet>
       <DepositOptions
         onClose={onClose}
         onDeposit={onDeposit}

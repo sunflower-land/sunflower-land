@@ -165,9 +165,11 @@ type CommunityEvent = {
   game: GameState;
 };
 
-type MigrateEvent = {
-  type: "MIGRAT";
-  game: GameState;
+type WalletUpdatedEvent = {
+  type: "WALLET_UPDATED";
+  linkedWallet: string;
+  farmAddress: string;
+  id: number;
 };
 
 type PurchaseEvent = {
@@ -241,6 +243,7 @@ export type BlockchainEvent =
   | {
       type: "SAVE";
     }
+  | WalletUpdatedEvent
   | SyncEvent
   | PurchaseEvent
   | CommunityEvent
@@ -1751,13 +1754,16 @@ export function startGame(authContext: AuthContext) {
             },
           }),
         },
-        MIGRATED: {
+        WALLET_UPDATED: {
           actions: assign({
-            id: (_, event) => {
+            farmId: (_, event) => {
               return event.id;
             },
             farmAddress: (_, event) => {
               return event.farmAddress;
+            },
+            linkedWallet: (_, event) => {
+              return event.linkedWallet;
             },
           }),
         },
@@ -1779,13 +1785,13 @@ export function startGame(authContext: AuthContext) {
           if (window.location.hash.includes("retreat")) return;
           if (window.location.hash.includes("world")) return;
 
-          if (!ART_MODE) {
-            window.history.replaceState(
-              null,
-              "",
-              `${window.location.pathname}#/land/${context.farmId}`
-            );
-          }
+          // if (!ART_MODE) {
+          //   window.history.replaceState(
+          //     null,
+          //     "",
+          //     `${window.location.pathname}#/land/${context.farmId}`
+          //   );
+          // }
         },
         assignErrorMessage: assign<Context, any>({
           errorCode: (_context, event) => event.data.message,

@@ -19,7 +19,12 @@ import { Minting } from "features/game/components/Minting";
 import { NFTMinting } from "./components/NFTMinting";
 
 interface Props {
-  onReady?: (payload: { signature: string; address: string }) => void;
+  onReady?: (payload: {
+    signature?: string;
+    address?: string;
+    id?: number;
+    farmAddress?: string;
+  }) => void;
   onStart?: () => void;
   id?: number;
   linkedAddress?: string;
@@ -60,10 +65,11 @@ export const Wallet: React.FC<Props> = ({
   console.log({ state: walletState.value, context: walletState.context });
   useEffect(() => {
     if (walletState.matches("ready") && !!onReady) {
-      console.log("TRIGGER UP");
       onReady({
         signature: walletState.context.signature,
         address: walletState.context.address,
+        farmAddress: walletState.context.farmAddress,
+        id: walletState.context.id,
       });
     }
 
@@ -112,12 +118,36 @@ export const Wallet: React.FC<Props> = ({
   }
 
   const Content = () => {
+    const linkedAddress = walletState.context.linkedAddress;
     if (walletState.matches("idle")) {
       return (
         <>
-          <Label className="ml-2 mt-1 mb-2" icon={walletIcon} type="default">
-            Connect your wallet
-          </Label>
+          {
+            // Only show after login
+            !!id && (
+              <div className="flex justify-between">
+                <Label
+                  className="ml-2 mt-1 mb-2"
+                  icon={walletIcon}
+                  type="default"
+                >
+                  Connect your wallet
+                </Label>
+                {linkedAddress && (
+                  <Label className="ml-2 mt-1 mb-2" type="formula">
+                    {shortAddress(linkedAddress)}
+                  </Label>
+                )}
+              </div>
+            )
+          }
+
+          {!!id && !linkedAddress && (
+            <p className="text-xs mx-1 mb-2">
+              Link a Web3 wallet to collect rewards & rare NFTs.
+            </p>
+          )}
+
           <Wallets
             onConnect={(chosenProvider) =>
               walletService.send("CONNECT_TO_WALLET", {
@@ -140,8 +170,16 @@ export const Wallet: React.FC<Props> = ({
 
     if (walletState.matches("wrongWallet")) {
       return (
-        <div>
-          <p>Wrong wallet</p>
+        <div className="p-2">
+          <div className="flex justify-between items-center">
+            <Label type="danger" icon={walletIcon}>
+              Wrong Wallet
+            </Label>
+            {linkedAddress && (
+              <Label type="formula">{shortAddress(linkedAddress)}</Label>
+            )}
+          </div>
+          <p className="text-sm my-2">You are connected to the wrong wallet.</p>
         </div>
       );
     }
@@ -239,11 +277,22 @@ export const GameWallet: React.FC<Props> = ({
       <Wallet
         id={gameState.context.farmId}
         linkedAddress={gameState.context.linkedWallet}
+        // linkedAddress={"0x1A5c6933FB5693be1305F12436079c200552B7aB"}
         wallet={gameState.context.wallet}
-        onReady={onReady}
-        wrapper={wrapper}
-        farmAddress={""}
+        farmAddress={gameState.context.farmAddress}
         requiresNFT={requiresNFT}
+        onReady={({ address, signature, farmAddress, id }) => {
+          gameService.send("WALLET_UPDATED", {
+            linkedWallet: address,
+            farmAddress,
+            id,
+          });
+
+          if (!!onReady) {
+            onReady({ address, signature, farmAddress, id });
+          }
+        }}
+        wrapper={wrapper}
       >
         {children}
       </Wallet>

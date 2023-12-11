@@ -279,7 +279,6 @@ export const DailyReward: React.FC = () => {
           requiresNFT={false}
           onReady={() => {
             chestService.send("LOAD");
-            console.log("INTO LOAD");
           }}
           wrapper={({ children }) => <Panel>{children}</Panel>}
         >

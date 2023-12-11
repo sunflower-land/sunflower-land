@@ -92,7 +92,7 @@ export const Game = () => {
 
   const handleGoldPassModalClose = () => {
     setShowGoldPassModal(false);
-    navigate("/land");
+    navigate("/");
   };
 
   const hasRequiredLevel =

@@ -187,7 +187,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       name: "Home",
       image: CROP_LIFECYCLE.Sunflower.ready,
       levelRequired: 1,
-      path: `/land/${farmId}`,
+      path: `/`,
       labels: [],
     },
     {

@@ -74,7 +74,7 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
       currentTab={tab}
       setCurrentTab={setTab}
       onClose={() => {
-        navigate(`/land/${farmId}`);
+        navigate(`/`);
       }}
       tabs={[
         {
