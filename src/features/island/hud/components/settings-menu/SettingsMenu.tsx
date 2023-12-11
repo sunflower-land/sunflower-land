@@ -24,6 +24,10 @@ import { createPortal } from "react-dom";
 import { DEV_TimeMachine } from "./DEV_TimeMachine";
 import { PlazaSettings } from "./PlazaSettingsModal";
 import { DEV_HoardingCheck } from "components/dev/DEV_HoardingCheck";
+import { Label } from "components/ui/Label";
+import { shortAddress } from "lib/utils/shortAddress";
+
+import walletIcon from "assets/icons/wallet.png";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -127,6 +131,17 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
             {/* Root menu */}
             {menuLevel === MENU_LEVELS.ROOT && (
               <>
+                <div className="flex items-center justify-between mx-2">
+                  <Label
+                    type="default"
+                    icon={SUNNYSIDE.icons.search}
+                  >{`#${gameService.state.context.farmId}`}</Label>
+                  {gameService.state.context.linkedWallet && (
+                    <Label type="formula" icon={walletIcon}>
+                      {shortAddress(gameService.state.context.linkedWallet)}
+                    </Label>
+                  )}
+                </div>
                 {CONFIG.NETWORK === "mumbai" && (
                   <>
                     <li className="p-1">
