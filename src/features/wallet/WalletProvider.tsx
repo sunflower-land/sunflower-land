@@ -20,9 +20,7 @@ export const WalletProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     walletService.onTransition((state) => {
-      console.log("Transitioned", state);
       if (state.context.provider) {
-        console.log("SET PROVIDER");
         setProvider(state.context.provider);
       }
     });
@@ -34,10 +32,7 @@ export const WalletProvider: React.FC = ({ children }) => {
   useEffect(() => {
     console.log("Use effect on provider", provider);
     if (provider) {
-      console.log("Set up that provider!");
       if (provider.on) {
-        console.log("ON SOMETHING!!!");
-        const address = walletService.state.context.address;
         provider.on("chainChanged", (chain: any) => {
           if (parseInt(chain) === CONFIG.POLYGON_CHAIN_ID) {
             return;
@@ -49,6 +44,8 @@ export const WalletProvider: React.FC = ({ children }) => {
           walletService.send("CHAIN_CHANGED");
         });
         provider.on("accountsChanged", function (accounts: string[]) {
+          const address = walletService.state.context.address;
+
           // Metamask Mobile accidentally triggers this on route changes
           const didChange = accounts[0] !== address;
           if (didChange) {

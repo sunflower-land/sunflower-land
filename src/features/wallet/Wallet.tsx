@@ -49,15 +49,6 @@ export const Wallet: React.FC<Props> = ({
   const [authState] = useActor(authService);
 
   const { walletService } = useContext(WalletContext);
-  // const walletService = useInterpret(walletMachine, {
-  //   context: {
-  //     id,
-  //     jwt: authState.context.user.rawToken,
-  //     linkedAddress,
-  //     farmAddress,
-  //     requiresNFT,
-  //   },
-  // });
 
   useEffect(() => {
     walletService.send("INITIALISE", {
@@ -70,9 +61,6 @@ export const Wallet: React.FC<Props> = ({
   }, []);
 
   const [walletState] = useActor(walletService);
-
-  const provider = walletState.context.provider;
-  const address = walletState.context.address;
 
   useEffect(() => {
     if (walletState.matches("ready") && !!onReady) {

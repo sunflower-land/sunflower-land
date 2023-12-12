@@ -48,6 +48,8 @@ export type WalletEvent =
   | InitialiseEvent
   | ConnectWalletEvent
   | { type: "CONTINUE" }
+  | { type: "MINT" }
+  | { type: "REFRESH" }
   | {
       type: "CHAIN_CHANGED";
     }
@@ -59,6 +61,7 @@ export type WalletState = {
   value:
     | "idle"
     | "initialising"
+    | "chooseWallet"
     | "signing"
     | "linking"
     | "minting"
@@ -106,11 +109,11 @@ export const walletMachine = createMachine({
         INITIALISE: {
           target: "chooseWallet",
           actions: assign({
-            id: (_, event) => event.id,
-            jwt: (_, event) => event.jwt,
-            linkedAddress: (_, event) => event.linkedAddress,
-            farmAddress: (_, event) => event.farmAddress,
-            requiresNFT: (_, event) => event.requiresNFT,
+            id: (_, event: InitialiseEvent) => event.id,
+            jwt: (_, event: InitialiseEvent) => event.jwt,
+            linkedAddress: (_, event: InitialiseEvent) => event.linkedAddress,
+            farmAddress: (_, event: InitialiseEvent) => event.farmAddress,
+            requiresNFT: (_, event: InitialiseEvent) => event.requiresNFT,
           }),
         },
       },
