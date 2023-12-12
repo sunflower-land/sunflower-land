@@ -33,6 +33,8 @@ import { loadWardrobe } from "lib/blockchain/BumpkinItems";
 import { getBudsBalance } from "lib/blockchain/Buds";
 import { CONFIG } from "lib/config";
 import { GameWallet } from "features/wallet/Wallet";
+import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -66,6 +68,25 @@ export const Deposit: React.FC<Props> = ({
   farmAddress,
   canDeposit = true,
 }) => {
+  const [showIntro, setShowIntro] = useState(true);
+
+  if (showIntro) {
+    return (
+      <>
+        <div className="p-2">
+          <Label icon={SUNNYSIDE.resource.pirate_bounty} type="default">
+            Deposit
+          </Label>
+          <p className="my-2 text-sm">
+            Would you like to deposit Sunflower Land collectibles, wearables or
+            SFL?
+          </p>
+        </div>
+        <Button onClick={() => setShowIntro(false)}>Connect Web3 Wallet</Button>
+      </>
+    );
+  }
+
   return (
     <GameWallet>
       <DepositOptions

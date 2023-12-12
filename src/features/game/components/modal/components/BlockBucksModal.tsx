@@ -182,7 +182,7 @@ const Content: React.FC<{
           <p className="mr-2 mb-1">{`Total: ${price.usd} USD`}</p>
         </div>
 
-        <Button onClick={() => onMaticBuy(price)}>Confirm</Button>
+        <Button onClick={() => onMaticBuy()}>Confirm</Button>
 
         <p className="text-xxs italic text-center py-2">
           *Prices exclude transaction fees.

@@ -159,13 +159,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     </li>
                   </>
                 )}
-                {isFullUser && (
-                  <li className="p-1">
-                    <Button onClick={storeOnChain}>
-                      <span>Store progress on chain</span>
-                    </Button>
-                  </li>
-                )}
+                <li className="p-1">
+                  <Button onClick={storeOnChain}>
+                    <span>Store progress on chain</span>
+                  </Button>
+                </li>
                 <li className="p-1">
                   <Button onClick={handleHowToPlay}>
                     <div className="flex items-center justify-center">

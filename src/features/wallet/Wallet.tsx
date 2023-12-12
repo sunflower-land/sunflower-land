@@ -205,8 +205,8 @@ export const Wallet: React.FC<Props> = ({
               Missing NFT
             </Label>
             <p className="text-sm mb-2">
-              To access rare NFTs & Blockchain content, we must first store your
-              progress on chain.
+              To store rare NFTs & access bonus content, we must first secure
+              your farm on the Blockchain.
             </p>
             <p className="text-xs mb-2">
               A unique farm NFT will be minted to store your progress.
@@ -285,10 +285,6 @@ export const GameWallet: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  console.log({
-    id: gameState.context.farmId,
-    address: gameState.context.farmAddress,
-  });
   return (
     <>
       <Wallet
@@ -299,11 +295,17 @@ export const GameWallet: React.FC<Props> = ({
         farmAddress={gameState.context.farmAddress}
         requiresNFT={requiresNFT}
         onReady={({ address, signature, farmAddress, id }) => {
-          gameService.send("WALLET_UPDATED", {
-            linkedWallet: address,
-            farmAddress,
-            id,
-          });
+          const hasChanged =
+            (!gameState.context.linkedWallet && address) ||
+            (!gameState.context.farmAddress && farmAddress) ||
+            gameState.context.farmId !== id;
+
+          if (hasChanged)
+            gameService.send("WALLET_UPDATED", {
+              linkedWallet: address,
+              farmAddress,
+              id,
+            });
 
           if (!!onReady) {
             onReady({ address, signature, farmAddress, id });
