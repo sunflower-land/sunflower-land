@@ -54,7 +54,6 @@ export const GoogleIcon = () => (
 
 const OtherWallets = () => {
   const { authService } = useContext(Context);
-  const { t } = useAppTranslation();
 
   return (
     <>
@@ -161,6 +160,8 @@ export const SignIn = () => {
   };
 
   const MainWallets = () => {
+    const { t } = useAppTranslation();
+
     return (
       <>
         {hasFeatureAccess(TEST_FARM, "GOOGLE_LOGIN") && (
