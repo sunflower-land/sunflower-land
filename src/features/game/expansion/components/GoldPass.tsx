@@ -5,6 +5,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { Context } from "features/game/GameProvider";
 import goldPass from "assets/announcements/gold_pass.png";
 import { Panel } from "components/ui/Panel";
+import { GameWallet } from "features/wallet/Wallet";
 interface Props {
   onClose: () => void;
 }
@@ -62,7 +63,9 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
   };
   return (
     <Panel bumpkinParts={NPC_WEARABLES.grubnuk}>
-      <Content />
+      <GameWallet>
+        <Content />
+      </GameWallet>
     </Panel>
   );
 };

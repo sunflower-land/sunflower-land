@@ -109,10 +109,8 @@ export const Navigation: React.FC = () => {
                   path="/visit/*"
                   element={<LandExpansion key="visit" />}
                 />
-                <Route
-                  path="/land/:id?/*"
-                  element={<LandExpansion key="land" />}
-                />
+                <Route path="/" element={<LandExpansion key="land" />} />
+
                 <Route path="/retreat">
                   <Route index element={<TraderDeeplinkHandler />} />
                   <Route path=":id" element={<Retreat key="retreat" />} />
