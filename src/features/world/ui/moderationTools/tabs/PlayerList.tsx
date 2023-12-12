@@ -42,10 +42,15 @@ export const PlayerList: React.FC<Props> = ({
   };
 
   const Players = players.filter((player) => {
+    if (!player.username) player.username = "";
+
     if (search.length === 0) {
       return true;
     } else {
-      return player.farmId.toString().includes(search.toLowerCase());
+      return (
+        player.farmId.toString().includes(search.toLowerCase()) ||
+        player?.username.toLowerCase().includes(search.toLowerCase())
+      );
     }
   });
 
@@ -79,6 +84,7 @@ export const PlayerList: React.FC<Props> = ({
                 <tr>
                   <th className="w-1/4">Player ID</th>
                   <th className="w-1/4">Farm ID</th>
+                  <th className="w-1/4">Username</th>
                   <th className="w-1/4">Status</th>
                   <th className="w-1/2">Action</th>
                 </tr>
@@ -103,6 +109,7 @@ export const PlayerList: React.FC<Props> = ({
                         </div>
                       </td>
                       <td className="w-1/4">{player.farmId}</td>
+                      <td className="w-1/4">{player.username}</td>
                       <td className="w-1/4">
                         {!isMuted ? (
                           <span>OK</span>
