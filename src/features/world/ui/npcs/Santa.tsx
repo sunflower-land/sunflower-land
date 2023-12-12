@@ -104,7 +104,7 @@ export const Santa: React.FC<Props> = ({ onClose }) => {
               Complete
             </Label>
             <p className="text-sm flex-1 mb-2">
-              Congratutlations, you found my candy!
+              Congratulations, you found my candy!
             </p>
             <div className="flex mb-2 ">
               <p className="text-xs flex-1 mr-2">Next challenge:</p>
@@ -129,7 +129,7 @@ export const Santa: React.FC<Props> = ({ onClose }) => {
           {`${complete}/12 Days Completed`}
         </Label>
         <p className="text-xs">
-          Complete the challenge 12 days in a row for a special prize.
+          Complete the challenge 12 days during the event for a special prize.
         </p>
       </div>
     </CloseButtonPanel>

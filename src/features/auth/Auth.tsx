@@ -3,7 +3,7 @@ import { useActor } from "@xstate/react";
 import Modal from "react-bootstrap/esm/Modal";
 
 import logo from "assets/brand/logo_v2.png";
-import halloween from "assets/brand/halloween_logo.png";
+import winterLogo from "assets/brand/winter_logo.png";
 import sparkle from "assets/fx/sparkle2.gif";
 
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -58,16 +58,16 @@ export const Auth: React.FC = () => {
                 right: `${PIXEL_SCALE * 0}px`,
               }}
             />
-            {Date.now() > new Date("2023-10-26").getTime() &&
-            Date.now() < new Date("2023-11-01").getTime() ? (
+            {Date.now() > new Date("2023-12-10").getTime() &&
+            Date.now() < new Date("2023-12-27").getTime() ? (
               <>
-                <img id="logo" src={halloween} className="w-full mb-1" />
+                <img id="logo" src={winterLogo} className="w-full mb-1" />
                 <Label
                   icon={SUNNYSIDE.icons.stopwatch}
                   type="vibrant"
                   className="mx-auto"
                 >
-                  Halloween event!
+                  Christmas event!
                 </Label>
               </>
             ) : (

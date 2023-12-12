@@ -119,6 +119,11 @@ const SHUFFLED_CANDY_POSITIONS = CANDY_POSITIONS.sort(
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
+    npc: "elf",
+    x: 195,
+    y: 156,
+  },
+  {
     x: 442,
     y: 163,
     npc: "mayor",
@@ -333,10 +338,13 @@ export class ChristmasScene extends BaseScene {
 
     this.initialiseNPCs(PLAZA_BUMPKINS);
 
-    const { dayOfChristmas } = getDayOfChristmas(this.gameState);
+    const { dayOfChristmas } = getDayOfChristmas(
+      this.gameService.state.context.state
+    );
 
     const candyCollected =
-      this.gameState.christmas?.day[dayOfChristmas]?.candy ?? 0;
+      this.gameService.state.context.state.christmas?.day[dayOfChristmas]
+        ?.candy ?? 0;
 
     const remaining = DAILY_CANDY - candyCollected;
 
@@ -372,6 +380,7 @@ export class ChristmasScene extends BaseScene {
           } else {
             // Otherwise collect straight away
             this.gameService.send("candy.collected");
+            this.gameService.send("SAVE");
           }
 
           const chime = this.sound.add("chime");

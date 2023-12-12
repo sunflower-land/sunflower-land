@@ -10,28 +10,28 @@ import { Label } from "components/ui/Label";
 
 const CONTRIBUTORS = [
   "Netherzapdos",
-  "PoroTamphina",
-  "Neonlight",
-  "kohi",
-  "default",
+  "Poro",
   "whaitte",
-  "Vergelsxtn",
+  "default",
   "shinon",
-  "SFWhat",
-  "PurpleDrvnk",
-  "JCEii",
-  "Andando",
   "Telk",
-  "frogchard",
-  "Ventin",
+  "Vergelsxtn",
   "LittleEins",
+  "Neonlight",
+  "Andando",
+  "forgchard",
+  "KOTOB",
+  "JC",
+  "kohi",
+  "PurpleDrvnk",
+  "SFWhat",
+  "Ventin",
 ];
 
 export const Donations: React.FC = () => {
   const [state, send] = useMachine(donationMachine);
   const [donation, setDonation] = useState(1);
-  const DAWN_BREAKER_EVENT_DONATION_ADDRESS =
-    CONFIG.DAWN_BREAKER_EVENT_DONATION;
+  const CHRISTMAS_EVENT_DONATION_ADDRESS = CONFIG.CHRISTMAS_EVENT_DONATION;
   const onDonationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // If keyboard input "" convert to 0
     // Typed input validation will happen in onBlur
@@ -52,7 +52,7 @@ export const Donations: React.FC = () => {
   const donate = () => {
     send("DONATE", {
       donation,
-      to: DAWN_BREAKER_EVENT_DONATION_ADDRESS,
+      to: CHRISTMAS_EVENT_DONATION_ADDRESS,
     });
   };
 

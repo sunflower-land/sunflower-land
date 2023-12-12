@@ -52,23 +52,27 @@ export function getChoppedAt({
   skills,
   createdAt,
 }: GetChoppedAtArgs): number {
-  let time = createdAt;
-  if (
+  const hasBeaverReady =
     isCollectibleBuilt("Apprentice Beaver", collectibles) ||
-    isCollectibleBuilt("Foreman Beaver", collectibles)
-  ) {
-    time = time - (TREE_RECOVERY_TIME / 2) * 1000;
+    isCollectibleBuilt("Foreman Beaver", collectibles);
+
+  let totalSeconds = TREE_RECOVERY_TIME;
+
+  if (hasBeaverReady) {
+    totalSeconds = totalSeconds * 0.5;
   }
 
   if (skills["Tree Hugger"]) {
-    time = time - TREE_RECOVERY_TIME * 0.2 * 1000;
+    totalSeconds = totalSeconds * 0.8;
   }
 
   if (isCollectibleActive("Time Warp Totem", collectibles)) {
-    time = time - TREE_RECOVERY_TIME * 0.5 * 1000;
+    totalSeconds = totalSeconds * 0.5;
   }
 
-  return time;
+  const buff = TREE_RECOVERY_TIME - totalSeconds;
+
+  return createdAt - buff * 1000;
 }
 
 /**

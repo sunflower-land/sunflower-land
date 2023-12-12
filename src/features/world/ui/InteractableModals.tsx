@@ -380,11 +380,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         <Luna onClose={closeModal} />
       </Modal>
 
-      <Modal
-        centered
-        show={interactable === "christmas_reward"}
-        onHide={closeModal}
-      >
+      <Modal centered show={interactable === "christmas_reward"}>
         <ChristmasReward onClose={closeModal} />
       </Modal>
 

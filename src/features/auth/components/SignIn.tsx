@@ -63,29 +63,6 @@ const OtherWallets = () => {
           className="mb-2 py-2 text-sm relative"
           onClick={() =>
             authService.send("CONNECT_TO_WALLET", {
-              chosenProvider: Web3SupportedProviders.BITGET,
-            })
-          }
-        >
-          <div className="px-8">
-            <img
-              src={bitgetIcon}
-              alt="Bitget"
-              className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
-            />
-            <Label
-              type="info"
-              className="absolute top-1/2 -translate-y-1/2 right-1"
-            >
-              {t("featured")}
-            </Label>
-            Bitget {t("wallet")}
-          </div>
-        </Button>
-        <Button
-          className="mb-2 py-2 text-sm relative"
-          onClick={() =>
-            authService.send("CONNECT_TO_WALLET", {
               chosenProvider: Web3SupportedProviders.CRYPTO_COM,
             })
           }
@@ -184,6 +161,8 @@ export const SignIn = () => {
   };
 
   const MainWallets = () => {
+    const { t } = useAppTranslation();
+
     return (
       <>
         {hasFeatureAccess(TEST_FARM, "GOOGLE_LOGIN") && (
@@ -233,6 +212,29 @@ export const SignIn = () => {
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
             />
             Metamask
+          </div>
+        </Button>
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() =>
+            authService.send("CONNECT_TO_WALLET", {
+              chosenProvider: Web3SupportedProviders.BITGET,
+            })
+          }
+        >
+          <div className="px-8">
+            <img
+              src={bitgetIcon}
+              alt="Bitget"
+              className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+            />
+            <Label
+              type="info"
+              className="absolute top-1/2 -translate-y-1/2 right-1"
+            >
+              {t("featured")}
+            </Label>
+            Bitget {t("wallet")}
           </div>
         </Button>
         <Button
