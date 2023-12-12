@@ -46,7 +46,7 @@ const GoblinRetreat: React.FC = () => {
       >
         <GoblinProvider
           farmAddress={gameState.context.farmAddress}
-          farmId={gameState.context.nftId}
+          farmId={gameState.context.farmId}
         >
           <Game />
         </GoblinProvider>

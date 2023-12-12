@@ -17,6 +17,7 @@ import { Button } from "components/ui/Button";
 import { shortAddress } from "lib/utils/shortAddress";
 import { Minting } from "features/game/components/Minting";
 import { NFTMinting } from "./components/NFTMinting";
+import { WalletContext } from "./WalletProvider";
 
 interface Props {
   onReady?: (payload: {
@@ -47,15 +48,26 @@ export const Wallet: React.FC<Props> = ({
   const { authService } = useContext(AuthContext);
   const [authState] = useActor(authService);
 
-  const walletService = useInterpret(walletMachine, {
-    context: {
+  const { walletService } = useContext(WalletContext);
+  // const walletService = useInterpret(walletMachine, {
+  //   context: {
+  //     id,
+  //     jwt: authState.context.user.rawToken,
+  //     linkedAddress,
+  //     farmAddress,
+  //     requiresNFT,
+  //   },
+  // });
+
+  useEffect(() => {
+    walletService.send("INITIALISE", {
       id,
       jwt: authState.context.user.rawToken,
       linkedAddress,
       farmAddress,
       requiresNFT,
-    },
-  });
+    });
+  }, []);
 
   const [walletState] = useActor(walletService);
 
@@ -77,48 +89,18 @@ export const Wallet: React.FC<Props> = ({
     }
   }, [walletState.value]);
 
-  /**
-   * Listen to web3 account/chain changes
-   * TODO: move into a hook
-   */
-  useEffect(() => {
-    if (provider) {
-      if (provider.on) {
-        provider.on("chainChanged", (chain: any) => {
-          if (parseInt(chain) === CONFIG.POLYGON_CHAIN_ID) {
-            return;
-          }
-
-          // Phantom handles this internally
-          if (provider.isPhantom) return;
-
-          walletService.send("CHAIN_CHANGED");
-        });
-        provider.on("accountsChanged", function (accounts: string[]) {
-          // Metamask Mobile accidentally triggers this on route changes
-          const didChange = accounts[0] !== address;
-          if (didChange) {
-            walletService.send("ACCOUNT_CHANGED");
-          }
-        });
-      } else if (provider.givenProvider) {
-        provider.givenProvider.on("chainChanged", () => {
-          walletService.send("CHAIN_CHANGED");
-        });
-        provider.givenProvider.on("accountsChanged", function () {
-          walletService.send("ACCOUNT_CHANGED");
-        });
-      }
-    }
-  }, [provider, address]);
-
   if (walletState.matches("ready")) {
     return <>{children}</>;
   }
 
   const Content = () => {
     const linkedAddress = walletState.context.linkedAddress;
+
     if (walletState.matches("idle")) {
+      return <p>Idle</p>;
+    }
+
+    if (walletState.matches("chooseWallet")) {
       return (
         <>
           {
@@ -289,7 +271,6 @@ export const GameWallet: React.FC<Props> = ({
       <Wallet
         id={gameState.context.farmId}
         linkedAddress={gameState.context.linkedWallet}
-        // linkedAddress={"0x1A5c6933FB5693be1305F12436079c200552B7aB"}
         wallet={gameState.context.wallet}
         farmAddress={gameState.context.farmAddress}
         requiresNFT={requiresNFT}
@@ -297,13 +278,11 @@ export const GameWallet: React.FC<Props> = ({
           const hasChanged =
             (!gameState.context.linkedWallet && address) ||
             (!gameState.context.farmAddress && farmAddress);
-          // gameState.context.farmId !== id;
 
           if (hasChanged)
             gameService.send("WALLET_UPDATED", {
               linkedWallet: address,
               farmAddress,
-              // id,
             });
 
           if (!!onReady) {

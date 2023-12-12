@@ -25,12 +25,27 @@ export interface Context {
   requiresNFT?: boolean;
 }
 
+type InitialiseEvent = {
+  type: "INITIALISE";
+  id: number;
+  jwt: string;
+  linkedAddress: string;
+  farmAddress: string;
+  requiresNFT: boolean;
+};
+
 type ConnectWalletEvent = {
   type: "CONNECT_TO_WALLET";
   chosenProvider: Web3SupportedProviders;
+  id: number;
+  jwt: string;
+  linkedAddress: string;
+  farmAddress: string;
+  requiresNFT: boolean;
 };
 
 export type WalletEvent =
+  | InitialiseEvent
   | ConnectWalletEvent
   | { type: "CONTINUE" }
   | {
@@ -87,6 +102,20 @@ export const walletMachine = createMachine({
   },
   states: {
     idle: {
+      on: {
+        INITIALISE: {
+          target: "chooseWallet",
+          actions: assign({
+            id: (_, event) => event.id,
+            jwt: (_, event) => event.jwt,
+            linkedAddress: (_, event) => event.linkedAddress,
+            farmAddress: (_, event) => event.farmAddress,
+            requiresNFT: (_, event) => event.requiresNFT,
+          }),
+        },
+      },
+    },
+    chooseWallet: {
       on: {
         CONNECT_TO_WALLET: {
           target: "initialising",
@@ -346,10 +375,10 @@ export const walletMachine = createMachine({
   },
   on: {
     CHAIN_CHANGED: {
-      target: "idle",
+      target: "chooseWallet",
     },
     ACCOUNT_CHANGED: {
-      target: "idle",
+      target: "chooseWallet",
     },
   },
 });

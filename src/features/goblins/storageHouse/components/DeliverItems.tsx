@@ -57,9 +57,11 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
   const [selected, setSelected] = useState<Inventory>({});
 
   const inventory: Inventory = useMemo(() => {
+    console.log({ state: goblinState.context.state.inventory });
     const deliverables = getDeliverableItems(
       goblinState.context.state.inventory
     );
+    console.log({ deliverables });
 
     return Object.fromEntries(
       Object.entries(deliverables).filter(([_, v]) => v?.gt(0))
