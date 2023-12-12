@@ -367,11 +367,6 @@ export const BlockBucksModal: React.FC<Props> = ({
     onboardingAnalytics.logEvent("begin_checkout");
   }, []);
 
-  console.log("BB Modal rerender", {
-    price,
-    state: gameState.value,
-  });
-
   return (
     <Modal
       centered

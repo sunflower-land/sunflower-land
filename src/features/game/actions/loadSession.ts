@@ -35,6 +35,7 @@ type Response = {
   analyticsId: string;
   linkedWallet?: string;
   wallet?: string;
+  nftId?: number;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -93,6 +94,7 @@ export async function loadSession(request: Request): Promise<Response> {
     analyticsId,
     linkedWallet,
     wallet,
+    nftId,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -108,6 +110,7 @@ export async function loadSession(request: Request): Promise<Response> {
     farmId: string;
     analyticsId: string;
     farmAddress?: string;
+    nftId?: number;
     linkedWallet?: string;
     wallet?: string;
   }>(response);
@@ -129,6 +132,7 @@ export async function loadSession(request: Request): Promise<Response> {
     analyticsId,
     linkedWallet,
     wallet,
+    nftId,
   };
 }
 

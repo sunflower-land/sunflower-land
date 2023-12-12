@@ -244,7 +244,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       name: "Helios",
       levelRequired: 1 as BumpkinLevel,
       image: SUNNYSIDE.icons.helios,
-      path: `/land/${farmId}/helios`,
+      path: `/helios`,
       labels: [
         <Label type="default" key="shopping" icon={SUNNYSIDE.icons.basket}>
           Shopping

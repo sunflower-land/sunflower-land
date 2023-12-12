@@ -10,6 +10,7 @@ import { ERRORS } from "lib/errors";
 import { getFarms } from "lib/blockchain/Farm";
 import { mintFarm } from "./actions/mintFarm";
 import { migrate } from "./actions/migrate";
+import { getCreatedAt } from "lib/blockchain/AccountMinter";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -253,11 +254,15 @@ export const walletMachine = createMachine({
       id: "minting",
       invoke: {
         src: async (context, event) => {
-          // Already has a farm, let them wait
-          const farms = await getFarms(wallet.web3Provider, context.address);
-          if (farms.length >= 1) {
+          const createdAt = await getCreatedAt(
+            wallet.web3Provider,
+            context.address,
+            context.address
+          );
+          console.log({ createdAt });
+          if (createdAt) {
             return {
-              readyAt: Date.now() + 30 * 1000,
+              readyAt: (createdAt + 60) * 1000,
             };
           }
 
@@ -272,6 +277,10 @@ export const walletMachine = createMachine({
           };
         },
         onDone: [
+          {
+            target: "migrating",
+            cond: (_, event) => Date.now() > event.data.readyAt,
+          },
           {
             target: "waiting",
             actions: assign({

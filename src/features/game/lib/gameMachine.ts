@@ -1756,9 +1756,9 @@ export function startGame(authContext: AuthContext) {
         },
         WALLET_UPDATED: {
           actions: assign({
-            farmId: (_, event) => {
-              return event.id;
-            },
+            // farmId: (_, event) => {
+            //   return event.id;
+            // },
             farmAddress: (_, event) => {
               return event.farmAddress;
             },

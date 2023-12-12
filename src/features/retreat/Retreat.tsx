@@ -37,6 +37,7 @@ const GoblinRetreat: React.FC = () => {
         id={gameState.context.farmId}
         linkedAddress={gameState.context.linkedWallet}
         wallet={gameState.context.wallet}
+        farmAddress={gameState.context.farmAddress}
         wrapper={({ children }) => (
           <Modal centered show>
             <Panel>{children}</Panel>
@@ -45,7 +46,7 @@ const GoblinRetreat: React.FC = () => {
       >
         <GoblinProvider
           farmAddress={gameState.context.farmAddress}
-          farmId={gameState.context.farmId}
+          farmId={gameState.context.nftId}
         >
           <Game />
         </GoblinProvider>

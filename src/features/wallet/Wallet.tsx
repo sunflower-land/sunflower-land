@@ -62,7 +62,6 @@ export const Wallet: React.FC<Props> = ({
   const provider = walletState.context.provider;
   const address = walletState.context.address;
 
-  console.log({ state: walletState.value, context: walletState.context });
   useEffect(() => {
     if (walletState.matches("ready") && !!onReady) {
       onReady({
@@ -297,14 +296,14 @@ export const GameWallet: React.FC<Props> = ({
         onReady={({ address, signature, farmAddress, id }) => {
           const hasChanged =
             (!gameState.context.linkedWallet && address) ||
-            (!gameState.context.farmAddress && farmAddress) ||
-            gameState.context.farmId !== id;
+            (!gameState.context.farmAddress && farmAddress);
+          // gameState.context.farmId !== id;
 
           if (hasChanged)
             gameService.send("WALLET_UPDATED", {
               linkedWallet: address,
               farmAddress,
-              id,
+              // id,
             });
 
           if (!!onReady) {

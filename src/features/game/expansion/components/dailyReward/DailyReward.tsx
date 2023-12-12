@@ -27,6 +27,7 @@ const _isRevealed = (state: MachineState) => state.matches("revealed");
 
 export const DailyReward: React.FC = () => {
   const { gameService } = useContext(Context);
+  const [showIntro, setShowIntro] = useState(true);
   const dailyRewards = useSelector(gameService, _dailyRewards);
   const bumpkin = useSelector(gameService, _bumpkin);
   const isRevealed = useSelector(gameService, _isRevealed);
@@ -275,15 +276,34 @@ export const DailyReward: React.FC = () => {
         )}
       </div>
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <GameWallet
-          requiresNFT={false}
-          onReady={() => {
-            chestService.send("LOAD");
-          }}
-          wrapper={({ children }) => <Panel>{children}</Panel>}
-        >
-          <ModalContent />
-        </GameWallet>
+        {showIntro && (
+          <CloseButtonPanel onClose={() => setShowModal(false)}>
+            <div className="p-2">
+              <img
+                src={SUNNYSIDE.decorations.treasure_chest}
+                className="mb-2 mt-2 mx-auto"
+                style={{
+                  width: `${PIXEL_SCALE * 16}px`,
+                }}
+              />
+              <p className="text-sm text-center">
+                Connect a Web3 Wallet for a daily reward.
+              </p>
+            </div>
+            <Button onClick={() => setShowIntro(false)}>Continue</Button>
+          </CloseButtonPanel>
+        )}
+        {!showIntro && (
+          <GameWallet
+            requiresNFT={false}
+            onReady={() => {
+              chestService.send("LOAD");
+            }}
+            wrapper={({ children }) => <Panel>{children}</Panel>}
+          >
+            <ModalContent />
+          </GameWallet>
+        )}
       </Modal>
     </>
   );
