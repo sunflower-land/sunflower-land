@@ -124,28 +124,37 @@ export const Wallet: React.FC<Props> = ({
         <>
           {
             // Only show after login
-            !!id && (
+            !!id && linkedAddress && (
               <div className="flex justify-between">
                 <Label
                   className="ml-2 mt-1 mb-2"
                   icon={walletIcon}
                   type="default"
                 >
-                  Connect your wallet
+                  Select your wallet
                 </Label>
-                {linkedAddress && (
-                  <Label className="ml-2 mt-1 mb-2" type="formula">
-                    {shortAddress(linkedAddress)}
-                  </Label>
-                )}
+                <Label className="ml-2 mt-1 mb-2" type="formula">
+                  {shortAddress(linkedAddress)}
+                </Label>
               </div>
             )
           }
 
           {!!id && !linkedAddress && (
-            <p className="text-xs mx-1 mb-2">
-              Link a Web3 wallet to collect rewards & rare NFTs.
-            </p>
+            <>
+              <div className="flex justify-between">
+                <Label
+                  className="ml-2 mt-1 mb-2"
+                  icon={walletIcon}
+                  type="default"
+                >
+                  Link a Web3 Wallet
+                </Label>
+              </div>
+              <p className="text-xs mx-1 mb-2">
+                To access this feature, you must first setup a Web3 wallet.
+              </p>
+            </>
           )}
 
           <Wallets
@@ -193,10 +202,14 @@ export const Wallet: React.FC<Props> = ({
               type="default"
               className="mb-2"
             >
-              Missing Account NFT
+              Missing NFT
             </Label>
             <p className="text-sm mb-2">
-              An Account NFT is needed to secure your items on the Blockchain.
+              To access rare NFTs & Blockchain content, we must first store your
+              progress on chain.
+            </p>
+            <p className="text-xs mb-2">
+              A unique farm NFT will be minted to store your progress.
             </p>
           </div>
           <Button onClick={() => walletService.send("MINT")}>
@@ -272,6 +285,10 @@ export const GameWallet: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  console.log({
+    id: gameState.context.farmId,
+    address: gameState.context.farmAddress,
+  });
   return (
     <>
       <Wallet

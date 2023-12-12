@@ -32,15 +32,15 @@ export const NFTMinting: React.FC<Props> = ({ readyAt, onComplete }) => {
       <div className="p-2">
         <div className="flex justify-between items-center mb-3">
           <Label icon={SUNNYSIDE.resource.pirate_bounty} type="default">
-            Minting Vault NFT
+            Minting Account NFT
           </Label>
           <p className="text-sm">
             {secondsToString(secondsLeft, { length: "medium" })}
           </p>
         </div>
 
-        <p className="text-sm">
-          Please be patient while your NFT is minted on the Blockchain.
+        <p className="text-sm loading">
+          Minting your NFT and storing progress on the Blockchain
         </p>
 
         <img src={minting} className="w-40 mt-2 mx-auto " />

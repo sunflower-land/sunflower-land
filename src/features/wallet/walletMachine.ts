@@ -81,7 +81,7 @@ export const walletMachine = createMachine({
     jwt: "",
     signature: "",
     requiresNFT: true,
-    nftReadyAt: Date.now() + 3 * 1000,
+    nftReadyAt: 0,
     // wallet: "METAMASK", TODO
   },
   states: {
@@ -268,7 +268,7 @@ export const walletMachine = createMachine({
           });
 
           return {
-            readyAt: Date.now() + 30 * 1000,
+            readyAt: Date.now() + 60 * 1000,
           };
         },
         onDone: [
