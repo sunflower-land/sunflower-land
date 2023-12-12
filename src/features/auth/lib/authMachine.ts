@@ -16,8 +16,6 @@ import { CharityAddress } from "../components/CreateFarm";
 import { randomID } from "lib/utils/random";
 import { getOnboardingComplete } from "../actions/onboardingComplete";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
-import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectStrategy.factory";
-import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { loadSession, savePromoCode } from "features/game/actions/loadSession";
 import { getToken, removeJWT, saveJWT } from "../actions/social";
 
@@ -68,10 +66,6 @@ type Farm = {
 interface Authentication {
   token?: Token;
   rawToken?: string;
-  web3?: {
-    wallet: Web3SupportedProviders;
-    provider: any;
-  };
 }
 
 export interface Context {

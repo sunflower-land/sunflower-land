@@ -56,7 +56,9 @@ export const GoogleIcon = () => (
   </div>
 );
 
-const OtherWallets = () => {
+const OtherWallets: React.FC<{
+  onConnect: (provider: Web3SupportedProviders) => void;
+}> = ({ onConnect }) => {
   const { authService } = useContext(Context);
 
   return (
@@ -64,11 +66,26 @@ const OtherWallets = () => {
       <>
         <Button
           className="mb-2 py-2 text-sm relative"
-          onClick={() =>
-            authService.send("CONNECT_TO_WALLET", {
-              chosenProvider: Web3SupportedProviders.CRYPTO_COM,
-            })
-          }
+          onClick={() => onConnect(Web3SupportedProviders.BITGET)}
+        >
+          <div className="px-8">
+            <img
+              src={bitgetIcon}
+              alt="Bitget"
+              className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+            />
+            <Label
+              type="info"
+              className="absolute top-1/2 -translate-y-1/2 right-1"
+            >
+              {t("featured")}
+            </Label>
+            Bitget Wallet
+          </div>
+        </Button>
+        <Button
+          className="mb-2 py-2 text-sm relative"
+          onClick={() => onConnect(Web3SupportedProviders.CRYPTO_COM)}
         >
           <div className="px-8">
             <img
@@ -81,11 +98,7 @@ const OtherWallets = () => {
         </Button>
         <Button
           className="mb-2 py-2 text-sm relative"
-          onClick={() =>
-            authService.send("CONNECT_TO_WALLET", {
-              chosenProvider: Web3SupportedProviders.OKX,
-            })
-          }
+          onClick={() => onConnect(Web3SupportedProviders.OKX)}
         >
           <div className="px-8">
             <img
@@ -98,11 +111,7 @@ const OtherWallets = () => {
         </Button>
         <Button
           className="mb-2 py-2 text-sm relative"
-          onClick={() =>
-            authService.send("CONNECT_TO_WALLET", {
-              chosenProvider: Web3SupportedProviders.PHANTOM,
-            })
-          }
+          onClick={() => onConnect(Web3SupportedProviders.PHANTOM)}
         >
           <div className="px-8">
             <img
@@ -117,11 +126,7 @@ const OtherWallets = () => {
 
       <Button
         className="mb-2 py-2 text-sm relative"
-        onClick={() =>
-          authService.send("CONNECT_TO_WALLET", {
-            chosenProvider: Web3SupportedProviders.WALLET_CONNECT,
-          })
-        }
+        onClick={() => onConnect(Web3SupportedProviders.WALLET_CONNECT)}
       >
         <div className="px-8">
           <svg
@@ -280,7 +285,7 @@ export const Wallets: React.FC<Props> = ({ onConnect }) => {
           {page === "other" && (
             <>
               <MainWallets />
-              <OtherWallets />
+              <OtherWallets onConnect={onConnect} />
             </>
           )}
         </>
@@ -303,6 +308,16 @@ export const SignIn = () => {
       className="px-2 overflow-y-auto   scrollable"
       style={{ maxHeight: CONTENT_HEIGHT }}
     >
+      <div className="flex items-center mb-2">
+        <img
+          src={SUNNYSIDE.icons.arrow_left}
+          className="cursor-pointer mr-2"
+          onClick={() => authService.send("BACK")}
+          style={{
+            width: `${PIXEL_SCALE * 8}px`,
+          }}
+        />
+      </div>
       {showSSO && (
         <Button
           className="mb-2 py-2 text-sm relative"
@@ -314,12 +329,6 @@ export const SignIn = () => {
             <div className="ml-2 mr-6 absolute left-0 top-1">
               <GoogleIcon />
             </div>
-            <Label
-              type="info"
-              className="absolute top-1/2 -translate-y-1/2 right-1"
-            >
-              New
-            </Label>
             Google
           </div>
         </Button>
