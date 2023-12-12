@@ -166,6 +166,18 @@ export const Wallets: React.FC<Props> = ({ onConnect }) => {
     return (
       <>
         <Button
+          className="mb-2 py-2 text-sm relative justify-start"
+          onClick={connectToMetaMask}
+        >
+          <div className="px-8 mr-2 flex ">
+            <img
+              src={metamaskIcon}
+              className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
+            />
+            Metamask
+          </div>
+        </Button>
+        <Button
           className="mb-2 py-2 text-sm relative"
           onClick={() => {
             onConnect(Web3SupportedProviders.SEQUENCE);
@@ -300,7 +312,7 @@ export const SignIn = () => {
   const [showSSO, setShowSSO] = useState(
     hasFeatureAccess(TEST_FARM, "GOOGLE_LOGIN")
   );
-  const [page, setPage] = useState<"home" | "other">("home");
+  const [isConnecting, setIsConnecting] = useState(false);
   const { t } = useAppTranslation();
 
   return (
@@ -308,30 +320,34 @@ export const SignIn = () => {
       className="px-2 overflow-y-auto   scrollable"
       style={{ maxHeight: CONTENT_HEIGHT }}
     >
-      <div className="flex items-center mb-2">
-        <img
-          src={SUNNYSIDE.icons.arrow_left}
-          className="cursor-pointer mr-2"
-          onClick={() => authService.send("BACK")}
-          style={{
-            width: `${PIXEL_SCALE * 8}px`,
-          }}
-        />
-      </div>
-      {showSSO && (
-        <Button
-          className="mb-2 py-2 text-sm relative"
-          onClick={() =>
-            (window.location.href = `${CONFIG.API_URL}/auth/google/authorize`)
-          }
-        >
-          <div className="px-8 mr-2 flex">
-            <div className="ml-2 mr-6 absolute left-0 top-1">
-              <GoogleIcon />
-            </div>
-            Google
+      {!isConnecting && (
+        <>
+          <div className="flex items-center mb-2">
+            <img
+              src={SUNNYSIDE.icons.arrow_left}
+              className="cursor-pointer mr-2"
+              onClick={() => authService.send("BACK")}
+              style={{
+                width: `${PIXEL_SCALE * 8}px`,
+              }}
+            />
           </div>
-        </Button>
+          {showSSO && (
+            <Button
+              className="mb-2 py-2 text-sm relative"
+              onClick={() =>
+                (window.location.href = `${CONFIG.API_URL}/auth/google/authorize`)
+              }
+            >
+              <div className="px-8 mr-2 flex">
+                <div className="ml-2 mr-6 absolute left-0 top-1">
+                  <GoogleIcon />
+                </div>
+                Google
+              </div>
+            </Button>
+          )}
+        </>
       )}
 
       <Wallet
@@ -343,7 +359,7 @@ export const SignIn = () => {
             signature: payload.signature,
           });
         }}
-        onStart={() => setShowSSO(false)}
+        onStart={() => setIsConnecting(true)}
       />
 
       <div className="flex justify-between my-1">
