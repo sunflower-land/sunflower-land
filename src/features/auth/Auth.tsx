@@ -21,12 +21,14 @@ import { SignIn, SignUp } from "./components/SignIn";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { NoAccount } from "./components/NoAccount";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
   const { t } = useAppTranslation();
 
+  console.log({ value: authState.value });
   return (
     <>
       <Modal
@@ -68,6 +70,7 @@ export const Auth: React.FC = () => {
         </div>
         <Panel className="pb-1 relative">
           {authState.matches("welcome") && <Welcome />}
+          {authState.matches("noAccount") && <NoAccount />}
           {authState.matches("authorising") && <Loading />}
           {authState.matches("verifying") && <Verifying />}
           {(authState.matches("idle") || authState.matches("signIn")) && (
@@ -75,6 +78,8 @@ export const Auth: React.FC = () => {
           )}
           {authState.matches("signUp") && <SignUp />}
           {authState.matches("oauthorising") && <Loading />}
+          {authState.matches("creating") && <Loading text="Creating" />}
+          {authState.matches("claiming") && <Loading text="Claiming" />}
           {authState.matches("unauthorised") && (
             <ErrorMessage
               errorCode={authState.context.errorCode as ErrorCode}

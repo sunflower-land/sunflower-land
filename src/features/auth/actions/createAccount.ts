@@ -1,3 +1,6 @@
+/**
+ * LEGACY FILE
+ */
 import { createNewAccount } from "lib/blockchain/AccountMinter";
 import { getNewFarm } from "lib/blockchain/Farm";
 import { wallet } from "lib/blockchain/wallet";

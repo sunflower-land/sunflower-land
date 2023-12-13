@@ -48,8 +48,6 @@ export async function oauthorise(
   // Remove query parameters from url
   window.history.pushState({}, "", window.location.pathname);
 
-  saveSession(account, { token });
-
   return { token };
 }
 

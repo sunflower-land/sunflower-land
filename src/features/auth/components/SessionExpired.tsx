@@ -3,8 +3,6 @@ import * as Auth from "features/auth/lib/Provider";
 
 import humanDeath from "assets/npcs/human_death.gif";
 import { Button } from "components/ui/Button";
-import { wallet } from "lib/blockchain/wallet";
-import { removeSession } from "../actions/login";
 import { removeJWT } from "../actions/social";
 
 export const SessionExpired: React.FC = () => {
@@ -24,7 +22,6 @@ export const SessionExpired: React.FC = () => {
       </div>
       <Button
         onClick={() => {
-          removeSession(wallet.myAccount as string);
           removeJWT();
           authService.send("REFRESH");
         }}

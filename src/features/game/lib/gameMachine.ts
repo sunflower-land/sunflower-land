@@ -526,19 +526,11 @@ export function startGame(authContext: AuthContext) {
                 transactionId: context.transactionId as string,
               });
 
+              // If no farm go no farms route
+
               setOnboardingComplete();
 
               let notifications: OnChainEvent[] = [];
-
-              // Web3 Farm - TODO only in Goblin Retreat
-              // if (response.farmAddress) {
-              //   if (!wallet.myAccount) throw new Error("No account");
-
-              //   notifications = await unseenEvents({
-              //     farmAddress: response.farmAddress,
-              //     farmId: Number(response.farmId),
-              //   });
-              // }
 
               return {
                 farmId: Number(response.farmId),

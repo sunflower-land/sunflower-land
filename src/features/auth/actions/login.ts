@@ -57,37 +57,6 @@ function getSession(address: string): Session | null {
   return sessions[address];
 }
 
-export function saveSession(address: string, session: Session) {
-  let sessions: Sessions = {};
-
-  const item = localStorage.getItem(LOCAL_STORAGE_KEY);
-
-  if (item) {
-    sessions = JSON.parse(item) as Sessions;
-  }
-
-  const newSessions = {
-    ...sessions,
-    [address]: session,
-  };
-
-  return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newSessions));
-}
-
-export function removeSession(address: string) {
-  let sessions: Sessions = {};
-
-  const item = localStorage.getItem(LOCAL_STORAGE_KEY);
-
-  if (item) {
-    sessions = JSON.parse(item) as Sessions;
-  }
-
-  delete sessions[address];
-
-  return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(sessions));
-}
-
 export type Token = {
   address: string;
   exp: number;
@@ -105,7 +74,16 @@ export type Token = {
 };
 
 export function decodeToken(token: string): Token {
-  return jwt_decode(token);
+  let decoded = jwt_decode(token) as any;
+
+  decoded = {
+    ...decoded,
+    // SSO token puts fields in the properties so we need to elevate them
+    ...decoded.properties,
+  };
+  console.log({ decoded });
+
+  return decoded;
 }
 
 /**

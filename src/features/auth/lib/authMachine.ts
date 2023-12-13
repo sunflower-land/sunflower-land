@@ -4,20 +4,16 @@ import { ErrorCode, ERRORS } from "lib/errors";
 
 import { wallet } from "../../../lib/blockchain/wallet";
 import { saveReferrerId } from "../actions/createAccount";
-import {
-  login,
-  Token,
-  decodeToken,
-  removeSession,
-  saveSession,
-} from "../actions/login";
+import { login, Token, decodeToken } from "../actions/login";
 import { oauthorise } from "../actions/oauth";
 import { CharityAddress } from "../components/CreateFarm";
 import { randomID } from "lib/utils/random";
 import { getOnboardingComplete } from "../actions/onboardingComplete";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { loadSession, savePromoCode } from "features/game/actions/loadSession";
-import { getToken, removeJWT, saveJWT } from "../actions/social";
+import { getToken, hasSSOToken, removeJWT, saveJWT } from "../actions/social";
+import { signUp } from "../actions/signup";
+import { claimFarm } from "../actions/claimFarm";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -106,6 +102,11 @@ type ConnectedWalletEvent = {
   signature: string;
 };
 
+type ClaimFarmEvent = {
+  type: "CLAIM";
+  id: number;
+};
+
 export type BlockchainEvent =
   | StartEvent
   | ReturnEvent
@@ -126,6 +127,7 @@ export type BlockchainEvent =
   | { type: "CONFIRM" }
   | { type: "SKIP" }
   | { type: "VERIFIED" }
+  | ClaimFarmEvent
   | { type: "SIGN_IN" };
 
 export type BlockchainState = {
@@ -139,7 +141,10 @@ export type BlockchainState = {
     | "verifying"
     | "oauthorising"
     | "unauthorised"
-    | "connected";
+    | "connected"
+    | "noAccount"
+    | "creating"
+    | "claiming";
   context: Context;
 };
 
@@ -188,10 +193,15 @@ export const authMachine = createMachine(
         },
         always: [
           {
-            // TODO - look into verifying token
+            target: "noAccount",
+            cond: () =>
+              !!getToken() && !decodeToken(getToken() as string).farmId,
+            actions: ["assignWeb2Token"],
+          },
+          {
             target: "connected",
             cond: () => !!getToken(),
-            actions: ["assignWeb2Token", () => saveJWT(getToken() as string)],
+            actions: ["assignWeb2Token", "saveToken"],
           },
           {
             target: "welcome",
@@ -252,15 +262,10 @@ export const authMachine = createMachine(
               target: "oauthorising",
               cond: "hasDiscordCode",
             },
-            {
-              target: "connected",
-              cond: (_, event) =>
-                !!decodeToken(event.data.token).userAccess.verified,
-              actions: ["assignToken", "saveToken"],
-            },
+
             {
               target: "verifying",
-              actions: ["assignToken", "saveToken"],
+              actions: ["assignToken"],
             },
           ],
           onError: {
@@ -271,10 +276,17 @@ export const authMachine = createMachine(
       },
       verifying: {
         on: {
-          VERIFIED: {
-            target: "connected",
-            actions: ["assignToken", "saveToken"],
-          },
+          VERIFIED: [
+            {
+              target: "noAccount",
+              cond: (context) => !context.user.token?.farmId,
+              actions: ["assignToken"],
+            },
+            {
+              target: "authorised",
+              actions: ["assignToken", "saveToken"],
+            },
+          ],
         },
       },
       oauthorising: {
@@ -291,8 +303,20 @@ export const authMachine = createMachine(
           },
         },
       },
+      authorised: {
+        always: [
+          {
+            target: "noAccount",
+            cond: (context) => !context.user.token?.farmId,
+          },
+          {
+            target: "connected",
+          },
+        ],
+      },
       connected: {
         entry: "clearTransactionId",
+
         on: {
           RETURN: {
             target: "#idle",
@@ -323,6 +347,76 @@ export const authMachine = createMachine(
           RETURN: {
             target: "idle",
             actions: ["refreshFarm", "deleteFarmIdUrl"],
+          },
+        },
+      },
+      noAccount: {
+        on: {
+          CREATE_FARM: {
+            target: "creating",
+          },
+          CLAIM: {
+            target: "claiming",
+          },
+        },
+      },
+
+      creating: {
+        entry: "setTransactionId",
+        invoke: {
+          src: async (context) => {
+            console.log("CREATE!");
+            const { farm, token } = await signUp({
+              token: context.user.rawToken as string,
+              transactionId: context.transactionId as string,
+              promoCode: getPromoCode(),
+              referrerId: getReferrerID(),
+            });
+
+            return {
+              token,
+            };
+          },
+          onDone: [
+            {
+              target: "connected",
+              actions: ["assignToken", "saveToken"],
+            },
+          ],
+          onError: {
+            target: "unauthorised",
+            actions: "assignErrorMessage",
+          },
+        },
+      },
+
+      claiming: {
+        entry: "setTransactionId",
+        invoke: {
+          src: async (context, event) => {
+            const { id } = event as ClaimFarmEvent;
+            console.log("CLAIM!");
+            const { farm, token } = await claimFarm({
+              token: context.user.rawToken as string,
+              transactionId: context.transactionId as string,
+              farmId: id,
+            });
+
+            console.log({ token });
+
+            return {
+              token,
+            };
+          },
+          onDone: [
+            {
+              target: "connected",
+              actions: ["assignToken", "saveToken"],
+            },
+          ],
+          onError: {
+            target: "unauthorised",
+            actions: "assignErrorMessage",
           },
         },
       },
@@ -367,14 +461,13 @@ export const authMachine = createMachine(
           rawToken: event.data.token,
         }),
       }),
-      saveToken: (_: Context, event: any) => {
-        // Save primary JWT
-        saveJWT(event.data.token);
+      saveToken: (context: Context, event: any) => {
+        console.log("SAVE DA TOKEN");
+        // Clear browser token
+        window.history.pushState({}, "", window.location.pathname);
 
-        // Save Session JWTs if jumping between accounts
-        saveSession((event as any).data.account, {
-          token: (event as any).data.token,
-        });
+        // Save primary JWT
+        saveJWT(event.data?.token ?? context.user.rawToken);
       },
 
       assignWeb2Token: assign<Context, any>({
@@ -400,7 +493,6 @@ export const authMachine = createMachine(
       }),
       clearSession: () => {
         removeJWT();
-        removeSession(wallet.myAccount as string);
       },
       deleteFarmIdUrl: deleteFarmUrl,
       setTransactionId: assign<Context, any>({

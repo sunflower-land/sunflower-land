@@ -50,7 +50,6 @@ export const Wallet: React.FC<Props> = ({
   const { walletService } = useContext(WalletContext);
 
   useEffect(() => {
-    console.log({ linkedAddress });
     walletService.send("INITIALISE", {
       id,
       jwt: authState.context.user.rawToken,
