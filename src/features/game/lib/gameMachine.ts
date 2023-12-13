@@ -124,6 +124,7 @@ export interface Context {
   saveQueued: boolean;
   linkedWallet?: string;
   wallet?: string;
+  nftId?: number;
 }
 
 export type Moderation = {
@@ -546,6 +547,7 @@ export function startGame(authContext: AuthContext) {
                 farmAddress: response.farmAddress,
                 analyticsId: response.analyticsId,
                 linkedWallet: response.linkedWallet,
+                nftId: response.nftId,
                 wallet: response.wallet,
               };
             },
@@ -1535,7 +1537,7 @@ export function startGame(authContext: AuthContext) {
                 await depositToFarm({
                   web3: wallet.web3Provider,
                   account: wallet.myAccount,
-                  farmId: context.farmId as number,
+                  farmId: context.nftId as number,
                   sfl: sfl,
                   itemIds: itemIds,
                   itemAmounts: itemAmounts,
@@ -1758,6 +1760,7 @@ export function startGame(authContext: AuthContext) {
           farmAddress: (_, event) => event.data.farmAddress,
           linkedWallet: (_, event) => event.data.linkedWallet,
           wallet: (_, event) => event.data.wallet,
+          nftId: (_, event) => event.data.nftId,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),
