@@ -1,17 +1,11 @@
-import React, { useContext, useEffect } from "react";
-import { useActor } from "@xstate/react";
+import React, { useContext } from "react";
 
-import * as Auth from "features/auth/lib/Provider";
 import { ERRORS, ErrorCode } from "lib/errors";
 import { Web3Missing } from "../../auth/components/Web3Missing";
 import { MultipleWallets } from "../../auth/components/MultipleWallets";
 import { WrongChain } from "../../auth/components/WrongChain";
 import { RejectedSignTransaction } from "../../auth/components/RejectedSignTransaction";
-import {
-  BoundaryError,
-  SomethingWentWrong,
-} from "../../auth/components/SomethingWentWrong";
-import { Context } from "features/game/GameProvider";
+import { BoundaryError } from "../../auth/components/SomethingWentWrong";
 import { WalletContext } from "../WalletProvider";
 
 interface Props {
@@ -26,7 +20,7 @@ export const WalletErrorMessage: React.FC<Props> = ({
   const { walletService } = useContext(WalletContext);
 
   const onAcknowledge = () => {
-    walletService.send("REFRESH");
+    walletService.send("RESET");
   };
 
   if (errorCode === ERRORS.NO_WEB3_PHANTOM) {

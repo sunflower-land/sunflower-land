@@ -139,7 +139,6 @@ export const walletMachine = createMachine({
       invoke: {
         src: async (_: Context, event: any) => {
           const _event = event as ConnectWalletEvent | undefined;
-          console.log({ _event });
           const chosenWallet = _event?.chosenProvider;
           if (!chosenWallet) {
             throw new Error("Could not determine wallet provider.");
@@ -163,7 +162,6 @@ export const walletMachine = createMachine({
 
           await wallet.initialise(web3.provider, web3.wallet);
 
-          console.log("DEEP IN");
           return {
             address: wallet.myAccount,
             wallet: chosenWallet,
@@ -398,7 +396,7 @@ export const walletMachine = createMachine({
       target: "chooseWallet",
     },
     RESET: {
-      target: "idle",
+      target: "chooseWallet",
       actions: assign({
         id: (_) => 0,
         jwt: (_) => undefined,
