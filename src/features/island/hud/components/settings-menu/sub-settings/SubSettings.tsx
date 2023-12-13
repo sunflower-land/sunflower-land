@@ -11,7 +11,6 @@ import { TransferAccount } from "./TransferAccount";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
-import { removeJWT } from "features/auth/actions/social";
 import { WalletContext } from "features/wallet/WalletProvider";
 
 interface Props {
@@ -34,13 +33,6 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   const closeAndResetView = () => {
     onClose();
     setView("settings");
-  };
-
-  const onLogout = () => {
-    onClose();
-    removeJWT();
-    authService.send("LOGOUT"); // hack used to avoid redundancy
-    walletService.send("RESET");
   };
 
   const onToggleAnimations = () => {
@@ -66,9 +58,7 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
         <Button className="col p-1" onClick={onToggleAnimations}>
           {showAnimations ? "Disable Animations" : "Enable Animations"}
         </Button>
-        <Button className="col p-1 mt-2" onClick={onLogout}>
-          Logout
-        </Button>
+
         {isFullUser && (
           <>
             <Button

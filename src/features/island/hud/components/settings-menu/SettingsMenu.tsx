@@ -4,13 +4,13 @@ import { CONFIG } from "lib/config";
 
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
+import * as Auth from "features/auth/lib/Provider";
 
 import { Context as GameContext } from "features/game/GameProvider";
 
 import { Share } from "features/island/hud/components/settings-menu/Share";
 
 import { DEV_GenerateLandButton } from "./DEV_GenerateLandButton";
-import { useIsNewFarm } from "features/farming/hud/lib/onboarding";
 import { HowToPlay } from "./howToPlay/HowToPlay";
 import { SubSettings } from "./sub-settings/SubSettings";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
@@ -28,6 +28,8 @@ import { Label } from "components/ui/Label";
 import { shortAddress } from "lib/utils/shortAddress";
 
 import walletIcon from "assets/icons/wallet.png";
+import { removeJWT } from "features/auth/actions/social";
+import { WalletContext } from "features/wallet/WalletProvider";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -43,6 +45,8 @@ interface Props {
 }
 
 export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
+  const { authService } = useContext(Auth.Context);
+  const { walletService } = useContext(WalletContext);
   const { gameService } = useContext(GameContext);
 
   const [showShareModal, setShowShareModal] = useState(false);
@@ -123,6 +127,13 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
     setMenuLevel(MENU_LEVELS.ROOT);
   };
 
+  const onLogout = () => {
+    removeJWT();
+    authService.send("LOGOUT");
+    walletService.send("RESET");
+    onClose();
+  };
+
   return (
     <>
       <Modal show={show} centered onHide={onHide}>
@@ -135,8 +146,8 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                   <Label
                     type="default"
                     icon={SUNNYSIDE.icons.search}
-                  >{`#${gameService.state.context.farmId}`}</Label>
-                  {gameService.state.context.linkedWallet && (
+                  >{`ID #${gameService.state?.context?.farmId}`}</Label>
+                  {gameService.state?.context?.linkedWallet && (
                     <Label type="formula" icon={walletIcon}>
                       {shortAddress(gameService.state.context.linkedWallet)}
                     </Label>
@@ -203,9 +214,15 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     <span>Plaza Settings</span>
                   </Button>
                 </li>
+
                 <li className="p-1">
                   <Button onClick={handleSettingsClick}>
-                    <span>Settings</span>
+                    <span>Advanced</span>
+                  </Button>
+                </li>
+                <li className="p-1">
+                  <Button className="col p-1 mt-2" onClick={onLogout}>
+                    Logout
                   </Button>
                 </li>
               </>
