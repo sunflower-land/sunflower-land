@@ -10,7 +10,11 @@ export class PortalScene extends BaseScene {
   constructor() {
     super({
       name: "bumpkin_fight_club",
-      map: { json: mapJson, tilesetUrl: "tileset.png" },
+      map: {
+        json: mapJson,
+        tilesetUrl: "tileset-extruded.png",
+        padding: [1, 2],
+      },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
   }

@@ -15,6 +15,8 @@
 /dist
 
 /tiled/*.tiled-session
+/public/tileset.png
+/public/tileset-extruded.png
 
 # misc
 .DS_Store
