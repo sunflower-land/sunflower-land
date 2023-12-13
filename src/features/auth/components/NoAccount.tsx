@@ -1,5 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import { Context } from "../lib/Provider";
+
+import { getPromoCode, savePromoCode } from "features/game/actions/loadSession";
 
 import walletIcon from "src/assets/icons/wallet.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -17,7 +19,53 @@ export const NoAccount: React.FC = () => {
   const { authService } = useContext(Context);
   const [authState] = useActor(authService);
 
+  const [showPromoCode, setShowPromoCode] = useState(false);
+  const [promoCode, setPromoCode] = useState(getPromoCode());
+
   const [showClaimAccount, setShowClaimAccount] = useState(false);
+
+  if (showPromoCode) {
+    return (
+      <>
+        <div className="p-2">
+          <p className="text-xs mb-1">Enter your promo code:</p>
+          <input
+            style={{
+              boxShadow: "#b96e50 0px 1px 1px 1px inset",
+              border: "2px solid #ead4aa",
+            }}
+            type="text"
+            min={1}
+            value={promoCode}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              setPromoCode(e.target.value);
+            }}
+            className={
+              "text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10"
+            }
+          />
+        </div>
+        <div className="flex space-x-1">
+          <Button
+            onClick={() => {
+              setShowPromoCode(false);
+            }}
+          >
+            Back
+          </Button>
+          <Button
+            disabled={!promoCode}
+            onClick={() => {
+              setShowPromoCode(false);
+              savePromoCode(promoCode as string);
+            }}
+          >
+            Ok
+          </Button>
+        </div>
+      </>
+    );
+  }
 
   if (showClaimAccount) {
     return (
@@ -32,11 +80,28 @@ export const NoAccount: React.FC = () => {
 
   return (
     <>
-      <div className="p-2">
-        <Label className="mb-2" type="chill" icon={SUNNYSIDE.icons.heart}>
-          New Farmer
-        </Label>
-        <p className="text-sm mb-1">
+      <div className="px-2">
+        <div className="flex items-center justify-between mb-2">
+          <Label type="chill" icon={SUNNYSIDE.icons.heart}>
+            New Farmer
+          </Label>
+          {promoCode && (
+            <Label type="formula" icon={SUNNYSIDE.icons.search}>
+              {`Promo Code: ${getPromoCode()}`}
+            </Label>
+          )}
+          {!promoCode && (
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-white text-xs cursor-pointer"
+              onClick={() => setShowPromoCode(true)}
+            >
+              Add a promo code?
+            </a>
+          )}
+        </div>
+        <p className="text-sm mb-2">
           Welcome to Sunflower Land. It looks like you don't have a farm yet.
         </p>
       </div>
@@ -44,7 +109,7 @@ export const NoAccount: React.FC = () => {
         Create Farm
       </Button>
       {isAddress(authState.context.user.token?.address ?? "") && (
-        <div className="mb-1">
+        <div className="mb-1 px-1 py-0.5">
           <a
             target="_blank"
             rel="noopener noreferrer"
