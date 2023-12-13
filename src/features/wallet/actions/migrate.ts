@@ -26,7 +26,7 @@ export async function migrate(request: Request) {
     throw new Error(ERRORS.LOGIN_SERVER_ERROR);
   }
 
-  const { farmId, farmAddress } = await response.json();
+  const { farmId, farmAddress, nftId } = await response.json();
 
-  return { farmId, farmAddress };
+  return { farmId, farmAddress, nftId };
 }

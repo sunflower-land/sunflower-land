@@ -24,6 +24,7 @@ export interface Context {
   signature?: string;
   action?: WalletAction;
   nftReadyAt?: number;
+  nftId?: number;
 }
 
 export type WalletAction =
@@ -350,20 +351,20 @@ export const walletMachine = createMachine({
       id: "migrating",
       invoke: {
         src: async (context, event) => {
-          const { farmId, farmAddress } = await migrate({
+          const { farmId, farmAddress, nftId } = await migrate({
             id: context.id,
             jwt: context.jwt,
             transactionId: "0xTODO",
           });
 
-          return { farmAddress, farmId };
+          return { farmAddress, farmId, nftId };
         },
         onDone: [
           {
             target: "ready",
             actions: assign({
               farmAddress: (_, event) => event.data.farmAddress,
-              id: (_, event) => event.data.farmId,
+              nftId: (_, event) => event.data.nftId,
             }),
           },
         ],

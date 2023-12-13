@@ -25,6 +25,7 @@ interface Props {
     signature?: string;
     address?: string;
     farmAddress?: string;
+    nftId?: number;
   }) => void;
   onStart?: () => void;
   id?: number;
@@ -68,6 +69,7 @@ export const Wallet: React.FC<Props> = ({
         signature: walletState.context.signature,
         address: walletState.context.address,
         farmAddress: walletState.context.farmAddress,
+        nftId: walletState.context.nftId,
       });
     }
 
@@ -263,19 +265,21 @@ export const GameWallet: React.FC<Props> = ({
         linkedAddress={gameState.context.linkedWallet}
         wallet={gameState.context.wallet}
         farmAddress={gameState.context.farmAddress}
-        onReady={({ address, signature, farmAddress, id }) => {
+        onReady={({ address, signature, farmAddress, nftId }) => {
           const hasChanged =
             (!gameState.context.linkedWallet && address) ||
             (!gameState.context.farmAddress && farmAddress);
+          !gameState.context.nftId && nftId;
 
           if (hasChanged)
             gameService.send("WALLET_UPDATED", {
+              nftId,
               linkedWallet: address,
               farmAddress,
             });
 
           if (!!onReady) {
-            onReady({ address, signature, farmAddress, id });
+            onReady({ address, signature, farmAddress, nftId });
           }
         }}
         wrapper={wrapper}
