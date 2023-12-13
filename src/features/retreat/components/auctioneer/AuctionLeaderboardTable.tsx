@@ -21,6 +21,7 @@ export const AuctionLeaderboardTable: React.FC<{
   leaderboard: AuctionResults["leaderboard"];
   showHeader: boolean;
   farmId: number;
+  username: string;
   status: AuctionResults["status"];
 }> = ({ farmId, leaderboard, showHeader = true, status }) => {
   return (
@@ -40,6 +41,12 @@ export const AuctionLeaderboardTable: React.FC<{
                 className="p-1.5 w-1/5"
               >
                 <p>Farm</p>
+              </th>
+              <th
+                style={{ border: "1px solid #b96f50" }}
+                className="p-1.5 w-1/5"
+              >
+                <p>Username</p>
               </th>
               <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
                 <p>Bid</p>
@@ -69,6 +76,12 @@ export const AuctionLeaderboardTable: React.FC<{
                 className="p-1.5 w-1/5"
               >
                 {result.farmId}
+              </td>
+              <td
+                style={{ border: "1px solid #b96f50" }}
+                className="p-1.5 w-1/5"
+              >
+                {result.username}
               </td>
               <td
                 style={{ border: "1px solid #b96f50" }}

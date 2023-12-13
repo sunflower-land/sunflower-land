@@ -26,6 +26,7 @@ export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
         leaderboard={results.leaderboard}
         showHeader
         status="winner"
+        username={""}
       />
 
       <div className="my-2">

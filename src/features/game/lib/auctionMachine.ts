@@ -32,6 +32,7 @@ type WearableAuction = AuctionBase & {
 export type Auction = CollectibleAuction | WearableAuction;
 
 export type LeaderboardBid = {
+  username: string;
   rank: number;
   tickets: number;
   experience: number;
@@ -141,6 +142,7 @@ export const createAuctioneerMachine = ({
           endAt: Date.now() + 100000,
           leaderboard: [
             {
+              username: "Betty",
               farmId: 44,
               experience: 10,
               items: { Gold: 50, "Block Buck": 30, Radish: 50 },
@@ -149,6 +151,7 @@ export const createAuctioneerMachine = ({
               rank: 1,
             },
             {
+              username: "Adam",
               farmId: 1,
               experience: 10,
               items: { Gold: 5, "Block Buck": 3, Radish: 5 },
@@ -157,6 +160,7 @@ export const createAuctioneerMachine = ({
               rank: 2,
             },
             {
+              username: "Chicken",
               farmId: 122078,
               experience: 10,
               items: { Gold: 5, "Block Buck": 3, Radish: 5 },
@@ -165,6 +169,7 @@ export const createAuctioneerMachine = ({
               rank: 3,
             },
             {
+              username: "Ben",
               farmId: 156788,
               experience: 10,
               items: { Gold: 5, "Block Buck": 3, Radish: 5 },

@@ -29,6 +29,7 @@ export const Loser: React.FC<Props> = ({ farmId, onRefund, results }) => {
         leaderboard={results.leaderboard}
         showHeader
         status="loser"
+        username={""}
       />
       <div className="my-2">
         <Label type="danger">You were unsuccessful</Label>

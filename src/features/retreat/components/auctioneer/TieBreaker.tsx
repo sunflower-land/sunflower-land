@@ -39,6 +39,7 @@ export const TieBreaker: React.FC<Props> = ({
         leaderboard={results.leaderboard}
         showHeader
         status="tiebreaker"
+        username={""}
       />
       <div className="my-2">
         <Label type="warning">Tiebreaker</Label>
