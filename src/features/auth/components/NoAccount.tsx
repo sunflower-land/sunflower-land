@@ -14,6 +14,7 @@ import { Label } from "components/ui/Label";
 import { isAddress } from "web3-utils";
 import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { removeJWT } from "../actions/social";
 
 export const NoAccount: React.FC = () => {
   const { authService } = useContext(Context);
@@ -104,22 +105,35 @@ export const NoAccount: React.FC = () => {
         <p className="text-sm mb-2">
           Welcome to Sunflower Land. It looks like you don't have a farm yet.
         </p>
+        {isAddress(authState.context.user.token?.address ?? "") && (
+          <div className="mt-1 mb-2">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-white text-xs cursor-pointer"
+              onClick={() => setShowClaimAccount(true)}
+            >
+              Already have an NFT farm?
+            </a>
+          </div>
+        )}
       </div>
-      <Button onClick={() => authService.send("CREATE_FARM")}>
-        Create Farm
-      </Button>
-      {isAddress(authState.context.user.token?.address ?? "") && (
-        <div className="mb-1 px-1 py-0.5">
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline text-white text-xs cursor-pointer"
-            onClick={() => setShowClaimAccount(true)}
-          >
-            Already have an NFT farm?
-          </a>
-        </div>
-      )}
+      <div className="flex">
+        <Button
+          onClick={() => {
+            removeJWT();
+            authService.send("BACK");
+          }}
+        >
+          Back
+        </Button>
+        <Button
+          className="ml-1"
+          onClick={() => authService.send("CREATE_FARM")}
+        >
+          Create Farm
+        </Button>
+      </div>
     </>
   );
 };

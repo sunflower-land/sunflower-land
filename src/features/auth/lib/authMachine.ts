@@ -11,7 +11,7 @@ import { randomID } from "lib/utils/random";
 import { getOnboardingComplete } from "../actions/onboardingComplete";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { loadSession, savePromoCode } from "features/game/actions/loadSession";
-import { getToken, hasSSOToken, removeJWT, saveJWT } from "../actions/social";
+import { getToken, removeJWT, saveJWT } from "../actions/social";
 import { signUp } from "../actions/signup";
 import { claimFarm } from "../actions/claimFarm";
 
@@ -43,13 +43,6 @@ const getPromoCode = () => {
 
 const deleteFarmUrl = () =>
   window.history.pushState({}, "", window.location.pathname);
-
-const isPassiveFailureMessage = (failureMessage: string): boolean => {
-  return (
-    failureMessage === "User closed modal" ||
-    failureMessage === ERRORS.SEQUENCE_NOT_CONNECTED
-  );
-};
 
 type Farm = {
   farmId: number;
@@ -91,11 +84,6 @@ type LoadFarmEvent = {
   type: "LOAD_FARM";
 };
 
-type ConnectWalletEvent = {
-  type: "CONNECT_TO_WALLET";
-  chosenProvider: Web3SupportedProviders;
-};
-
 type ConnectedWalletEvent = {
   type: "CONNECTED";
   address: string;
@@ -112,7 +100,6 @@ export type BlockchainEvent =
   | ReturnEvent
   | CreateFarmEvent
   | LoadFarmEvent
-  | ConnectWalletEvent
   | ConnectedWalletEvent
   | {
       type: "REFRESH";
@@ -141,6 +128,7 @@ export type BlockchainState = {
     | "verifying"
     | "oauthorising"
     | "unauthorised"
+    | "authorised"
     | "connected"
     | "noAccount"
     | "creating"
@@ -193,13 +181,7 @@ export const authMachine = createMachine(
         },
         always: [
           {
-            target: "noAccount",
-            cond: () =>
-              !!getToken() && !decodeToken(getToken() as string).farmId,
-            actions: ["assignWeb2Token"],
-          },
-          {
-            target: "connected",
+            target: "authorised",
             cond: () => !!getToken(),
             actions: ["assignWeb2Token", "saveToken"],
           },
@@ -276,17 +258,10 @@ export const authMachine = createMachine(
       },
       verifying: {
         on: {
-          VERIFIED: [
-            {
-              target: "noAccount",
-              cond: (context) => !context.user.token?.farmId,
-              actions: ["assignToken"],
-            },
-            {
-              target: "authorised",
-              actions: ["assignToken", "saveToken"],
-            },
-          ],
+          VERIFIED: {
+            target: "authorised",
+            actions: ["assignToken", "saveToken"],
+          },
         },
       },
       oauthorising: {
@@ -357,6 +332,9 @@ export const authMachine = createMachine(
           },
           CLAIM: {
             target: "claiming",
+          },
+          BACK: {
+            target: "idle",
           },
         },
       },
