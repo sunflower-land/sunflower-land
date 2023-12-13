@@ -26,7 +26,6 @@ export const NFTMinting: React.FC<Props> = ({ readyAt, onComplete }) => {
     }
   }, [active]);
 
-  console.log("RENDEDR");
   return (
     <>
       <div className="p-2">
@@ -39,7 +38,7 @@ export const NFTMinting: React.FC<Props> = ({ readyAt, onComplete }) => {
           </p>
         </div>
 
-        <p className="text-sm loading">
+        <p className="text-sm">
           Minting your NFT and storing progress on the Blockchain
         </p>
 
