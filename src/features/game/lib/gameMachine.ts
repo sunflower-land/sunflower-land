@@ -1231,6 +1231,8 @@ export function startGame(authContext: AuthContext) {
                 item: response.item,
                 amount: response.amount,
               });
+
+              return { sessionId };
             },
             onDone: {
               target: "synced",
