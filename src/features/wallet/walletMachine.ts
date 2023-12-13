@@ -292,11 +292,15 @@ export const walletMachine = createMachine({
             context.address,
             context.address
           );
-          console.log({ createdAt });
+
           if (createdAt) {
-            return {
-              readyAt: (createdAt + 60) * 1000,
-            };
+            // Ensure they still have a farm (wasn't a long time ago)
+            const farms = await getFarms(wallet.web3Provider, context.address);
+            if (farms.length >= 1) {
+              return {
+                readyAt: (createdAt + 60) * 1000,
+              };
+            }
           }
 
           await mintFarm({
