@@ -11,6 +11,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { isAddress } from "web3-utils";
 import { useActor } from "@xstate/react";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const NoAccount: React.FC = () => {
   const { authService } = useContext(Context);
@@ -30,24 +31,31 @@ export const NoAccount: React.FC = () => {
   }
 
   return (
-    <div className="p-2">
-      <p className="text-sm mb-2">
-        It looks like you don't have an account yet.
-      </p>
+    <>
+      <div className="p-2">
+        <Label className="mb-2" type="chill" icon={SUNNYSIDE.icons.heart}>
+          New Farmer
+        </Label>
+        <p className="text-sm mb-1">
+          Welcome to Sunflower Land. It looks like you don't have a farm yet.
+        </p>
+      </div>
       <Button onClick={() => authService.send("CREATE_FARM")}>
-        Create Account
+        Create Farm
       </Button>
       {isAddress(authState.context.user.token?.address ?? "") && (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline text-white text-xs cursor-pointer"
-          onClick={() => setShowClaimAccount(true)}
-        >
-          Already have an NFT account?
-        </a>
+        <div className="mb-1">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-white text-xs cursor-pointer"
+            onClick={() => setShowClaimAccount(true)}
+          >
+            Already have an NFT farm?
+          </a>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
