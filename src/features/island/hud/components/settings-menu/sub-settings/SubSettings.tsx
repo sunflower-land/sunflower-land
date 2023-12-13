@@ -12,6 +12,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { removeJWT } from "features/auth/actions/social";
+import { WalletContext } from "features/wallet/WalletProvider";
 
 interface Props {
   isOpen: boolean;
@@ -22,6 +23,8 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(Auth.Context);
   const { gameService, showAnimations, toggleAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
+
+  const { walletService } = useContext(WalletContext);
 
   const { farmAddress } = gameState.context;
   const isFullUser = farmAddress !== undefined;
@@ -37,6 +40,7 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
     onClose();
     removeJWT();
     authService.send("LOGOUT"); // hack used to avoid redundancy
+    walletService.send("RESET");
   };
 
   const onToggleAnimations = () => {

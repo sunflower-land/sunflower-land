@@ -23,6 +23,7 @@ export interface Context {
   jwt?: string;
   signature?: string;
   requiresNFT?: boolean;
+  nftReadyAt?: number;
 }
 
 type InitialiseEvent = {
@@ -47,7 +48,7 @@ type ConnectWalletEvent = {
 export type WalletEvent =
   | InitialiseEvent
   | ConnectWalletEvent
-  | { type: "CONTINUE" }
+  | { type: "RESET" }
   | { type: "MINT" }
   | { type: "REFRESH" }
   | {
@@ -382,6 +383,18 @@ export const walletMachine = createMachine({
     },
     ACCOUNT_CHANGED: {
       target: "chooseWallet",
+    },
+    RESET: {
+      target: "idle",
+      actions: assign({
+        id: (_) => 0,
+        jwt: (_) => undefined,
+        linkedAddress: (_) => undefined,
+        farmAddress: (_) => undefined,
+        requiresNFT: (_) => undefined,
+        signature: (_) => undefined,
+        address: (_) => undefined,
+      }),
     },
   },
 });

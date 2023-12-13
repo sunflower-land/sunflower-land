@@ -23,7 +23,6 @@ interface Props {
   onReady?: (payload: {
     signature?: string;
     address?: string;
-    id?: number;
     farmAddress?: string;
   }) => void;
   onStart?: () => void;
@@ -51,6 +50,7 @@ export const Wallet: React.FC<Props> = ({
   const { walletService } = useContext(WalletContext);
 
   useEffect(() => {
+    console.log({ linkedAddress });
     walletService.send("INITIALISE", {
       id,
       jwt: authState.context.user.rawToken,
@@ -68,7 +68,6 @@ export const Wallet: React.FC<Props> = ({
         signature: walletState.context.signature,
         address: walletState.context.address,
         farmAddress: walletState.context.farmAddress,
-        id: walletState.context.id,
       });
     }
 
@@ -132,6 +131,8 @@ export const Wallet: React.FC<Props> = ({
                 chosenProvider,
               })
             }
+            // Once logged in, only show Metamask for simplicity
+            showAll={!id}
           />
         </>
       );
@@ -203,7 +204,7 @@ export const Wallet: React.FC<Props> = ({
             Wallet already linked
           </Label>
           <p className="my-2 text-sm">{`Wallet ${shortAddress(
-            walletState.context.address
+            walletState.context.address as string
           )} has already been linked to an account.`}</p>
           <p className="text-xs my-2">Please link another wallet.</p>
         </div>
@@ -231,7 +232,7 @@ export const Wallet: React.FC<Props> = ({
       return (
         <NFTMinting
           onComplete={() => walletService.send("CONTINUE")}
-          readyAt={walletState.context.nftReadyAt}
+          readyAt={walletState.context.nftReadyAt as number}
         />
       );
     }
