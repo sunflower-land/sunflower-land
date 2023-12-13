@@ -36,7 +36,7 @@ import { ErrorCode, ERRORS } from "lib/errors";
 import { makeGame } from "./transforms";
 import { reset } from "features/farming/hud/actions/reset";
 // import { getGameRulesLastRead } from "features/announcements/announcementsStorage";
-import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
+import { OnChainEvent } from "../actions/onChainEvents";
 import { checkProgress, processEvent } from "./processEvent";
 import {
   landscapingMachine,
@@ -57,7 +57,6 @@ import {
   getGameRulesLastRead,
   getIntroductionRead,
   getSeasonPassRead,
-  hasUnreadMail,
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
@@ -530,7 +529,7 @@ export function startGame(authContext: AuthContext) {
 
               setOnboardingComplete();
 
-              let notifications: OnChainEvent[] = [];
+              const notifications: OnChainEvent[] = [];
 
               return {
                 farmId: Number(response.farmId),
@@ -1168,138 +1167,92 @@ export function startGame(authContext: AuthContext) {
         },
         buyingBlockBucks: {
           entry: "setTransactionId",
-          initial: "fetching",
-          states: {
-            fetching: {
-              invoke: {
-                src: async (context, event) => {
-                  const response = await buyBlockBucks({
-                    farmId: Number(context.farmId),
-                    type: (event as BuyBlockBucksEvent).currency,
-                    amount: (event as BuyBlockBucksEvent).amount,
-                    token: authContext.user.rawToken as string,
-                    transactionId: context.transactionId as string,
-                  });
+          invoke: {
+            src: async (context, event) => {
+              const transaction = await buyBlockBucks({
+                farmId: Number(context.farmId),
+                type: (event as BuyBlockBucksEvent).currency,
+                amount: (event as BuyBlockBucksEvent).amount,
+                token: authContext.user.rawToken as string,
+                transactionId: context.transactionId as string,
+              });
 
-                  return {
-                    ...response,
-                    amount: (event as BuyBlockBucksEvent).amount,
-                  };
-                },
-                onDone: {
-                  target: "transacting",
-                  actions: assign((_, event) => ({
-                    state: makeGame(event.data.gameState),
-                    farmAddress: event.data.farmAddress,
-                    sessionId: event.data.sessionId,
-                    farmId: event.data.farmId,
-                  })),
-                },
-                onError: {
-                  target: "#error",
-                  actions: "assignErrorMessage",
-                },
-              },
-            },
-            transacting: {
-              invoke: {
-                src: async (_, event: any) => {
-                  const response = await buyBlockBucksMATIC(event.data);
+              const response = await buyBlockBucksMATIC(transaction);
 
-                  return {
-                    ...response,
-                    amount: event.data.amount,
-                  };
-                },
-                onDone: {
-                  target: "#playing",
-                  actions: assign((context, event) => ({
-                    state: {
-                      ...context.state,
-                      inventory: {
-                        ...context.state.inventory,
-                        "Block Buck": (
-                          context.state.inventory["Block Buck"] ??
-                          new Decimal(0)
-                        ).add(event.data.amount),
-                      },
-                    },
-                  })),
-                },
-                onError: [
-                  {
-                    target: "#playing",
-                    cond: (_, event: any) =>
-                      event.data.message === ERRORS.REJECTED_TRANSACTION,
-                    actions: assign((_) => ({
-                      actions: [],
-                    })),
-                  },
-                  {
-                    target: "#error",
-                    actions: "assignErrorMessage",
-                  },
-                ],
-              },
+              return {
+                ...response,
+                amount: transaction.amount,
+              };
             },
+            onDone: {
+              target: "playing",
+              actions: assign((context, event) => ({
+                state: {
+                  ...context.state,
+                  inventory: {
+                    ...context.state.inventory,
+                    "Block Buck": (
+                      context.state.inventory["Block Buck"] ?? new Decimal(0)
+                    ).add(event.data.amount),
+                  },
+                },
+              })),
+            },
+            onError: [
+              {
+                target: "playing",
+                cond: (_, event: any) =>
+                  event.data.message === ERRORS.REJECTED_TRANSACTION,
+                actions: assign((_) => ({
+                  actions: [],
+                })),
+              },
+              {
+                target: "#error",
+                actions: "assignErrorMessage",
+              },
+            ],
           },
         },
         purchasing: {
           entry: "setTransactionId",
-          initial: "fetching",
-          states: {
-            fetching: {
-              invoke: {
-                src: async (context, event) => {
-                  return await purchaseItem({
-                    farmId: Number(context.farmId),
-                    token: authContext.user.rawToken as string,
-                    transactionId: context.transactionId as string,
-                    item: (event as PurchaseEvent).name,
-                    amount: (event as PurchaseEvent).amount,
-                  });
-                },
-                onDone: {
-                  target: "transacting",
-                  actions: assign((_, event) => ({
-                    farmId: event.data.transaction.farmId,
-                    farmAddress: event.data.farmAddress,
-                    state: makeGame(event.data.gameState),
-                    sessionId: event.data.sessionId,
-                  })),
-                },
-                onError: {
-                  target: "#error",
-                  actions: "assignErrorMessage",
-                },
-              },
+          invoke: {
+            src: async (context, event) => {
+              const response = await purchaseItem({
+                farmId: Number(context.farmId),
+                token: authContext.user.rawToken as string,
+                transactionId: context.transactionId as string,
+                item: (event as PurchaseEvent).name,
+                amount: (event as PurchaseEvent).amount,
+              });
+
+              const sessionId = await purchaseItemOnChain({
+                transaction: response.transaction,
+                item: response.item,
+                amount: response.amount,
+              });
             },
-            transacting: {
-              invoke: {
-                src: async (_, event: any) => {
-                  return await purchaseItemOnChain({
-                    transaction: event.data.transaction,
-                    item: event.data.item,
-                    amount: event.data.amount,
-                  });
-                },
-                onDone: { target: "#loading" },
-                onError: [
-                  {
-                    target: "#playing",
-                    cond: (_, event: any) =>
-                      event.data.message === ERRORS.REJECTED_TRANSACTION,
-                    actions: assign((_) => ({
-                      actions: [],
-                    })),
-                  },
-                  {
-                    target: "#error",
-                    actions: "assignErrorMessage",
-                  },
-                ],
-              },
+            onDone: {
+              target: "synced",
+              actions: assign((_, event) => ({
+                sessionId: event.data.sessionId,
+                actions: [],
+              })),
             },
+            onError: [
+              {
+                target: "#playing",
+                cond: (_, event: any) =>
+                  event.data.message === ERRORS.REJECTED_TRANSACTION,
+                actions: assign((_) => ({
+                  actions: [],
+                })),
+              },
+              {
+                target: "#error",
+                actions: "assignErrorMessage",
+              },
+            ],
           },
         },
         // Similar to autosaving, but for events that are only processed server side
