@@ -61,6 +61,7 @@ export const Wallet: React.FC<Props> = ({
 
   const [walletState] = useActor(walletService);
 
+  console.log({ walletState: walletState.value, context: walletState.context });
   useEffect(() => {
     if (walletState.matches("ready") && !!onReady) {
       onReady({
