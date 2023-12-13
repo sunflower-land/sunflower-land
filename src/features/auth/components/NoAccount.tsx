@@ -23,7 +23,7 @@ export const NoAccount: React.FC = () => {
       <Wallet>
         <ClaimAccount
           onBack={() => setShowClaimAccount(false)}
-          onClaim={() => authService.send("CLAIM")}
+          onClaim={(id) => authService.send("CLAIM", { id })}
         />
       </Wallet>
     );
