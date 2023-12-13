@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Label } from "components/ui/Label";
 import { Wallets } from "features/auth/components/SignIn";
 import { Context as AuthContext } from "features/auth/lib/Provider";
-import { walletMachine } from "features/wallet/walletMachine";
+import { WalletAction, walletMachine } from "features/wallet/walletMachine";
 import { CONFIG } from "lib/config";
 
 import walletIcon from "assets/icons/wallet.png";
@@ -20,6 +20,7 @@ import { NFTMinting } from "./components/NFTMinting";
 import { WalletContext } from "./WalletProvider";
 
 interface Props {
+  action: WalletAction;
   onReady?: (payload: {
     signature?: string;
     address?: string;
@@ -31,10 +32,10 @@ interface Props {
   farmAddress?: string;
   wallet?: string;
   wrapper?: React.FC;
-  requiresNFT?: boolean;
 }
 
 export const Wallet: React.FC<Props> = ({
+  action,
   onReady,
   onStart,
   children,
@@ -42,7 +43,6 @@ export const Wallet: React.FC<Props> = ({
   linkedAddress,
   farmAddress,
   wrapper = ({ children }) => <>{children}</>,
-  requiresNFT = true,
 }) => {
   const { authService } = useContext(AuthContext);
   const [authState] = useActor(authService);
@@ -55,7 +55,7 @@ export const Wallet: React.FC<Props> = ({
       jwt: authState.context.user.rawToken,
       linkedAddress,
       farmAddress,
-      requiresNFT,
+      action,
     });
   }, []);
 
@@ -249,7 +249,7 @@ export const GameWallet: React.FC<Props> = ({
   children,
   onReady,
   wrapper,
-  requiresNFT,
+  action,
 }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -257,11 +257,11 @@ export const GameWallet: React.FC<Props> = ({
   return (
     <>
       <Wallet
+        action={action}
         id={gameState.context.farmId}
         linkedAddress={gameState.context.linkedWallet}
         wallet={gameState.context.wallet}
         farmAddress={gameState.context.farmAddress}
-        requiresNFT={requiresNFT}
         onReady={({ address, signature, farmAddress, id }) => {
           const hasChanged =
             (!gameState.context.linkedWallet && address) ||

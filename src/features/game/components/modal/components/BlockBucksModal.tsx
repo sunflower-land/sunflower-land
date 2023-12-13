@@ -168,7 +168,7 @@ const Content: React.FC<{
 
   if (!!price && showMaticConfirm) {
     return (
-      <GameWallet>
+      <GameWallet action="purchase">
         <div className="flex flex-col w-full items-center space-y-1 pb-2 px-2 text-sm">
           <div className="flex items-center">
             <p className="mr-2 mb-1">Item: {price.amount} x</p>

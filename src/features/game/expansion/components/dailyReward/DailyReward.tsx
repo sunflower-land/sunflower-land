@@ -295,7 +295,7 @@ export const DailyReward: React.FC = () => {
         )}
         {!showIntro && (
           <GameWallet
-            requiresNFT={false}
+            action="dailyReward"
             onReady={() => {
               chestService.send("LOAD");
             }}

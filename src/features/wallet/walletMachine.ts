@@ -22,9 +22,21 @@ export interface Context {
   provider: any; // TODO?
   jwt?: string;
   signature?: string;
-  requiresNFT?: boolean;
+  action?: WalletAction;
   nftReadyAt?: number;
 }
+
+export type WalletAction =
+  | "login"
+  | "deposit"
+  | "withdraw"
+  | "purchase"
+  | "donate"
+  | "dailyReward"
+  | "sync";
+
+// Certain actions do not require an NFT to perform
+const NON_NFT_ACTIONS: WalletAction[] = ["login", "donate", "dailyReward"];
 
 type InitialiseEvent = {
   type: "INITIALISE";
@@ -32,22 +44,18 @@ type InitialiseEvent = {
   jwt: string;
   linkedAddress: string;
   farmAddress: string;
-  requiresNFT: boolean;
+  action: WalletAction;
 };
 
 type ConnectWalletEvent = {
   type: "CONNECT_TO_WALLET";
   chosenProvider: Web3SupportedProviders;
-  id: number;
-  jwt: string;
-  linkedAddress: string;
-  farmAddress: string;
-  requiresNFT: boolean;
 };
 
 export type WalletEvent =
   | InitialiseEvent
   | ConnectWalletEvent
+  | { type: "CONTINUE" }
   | { type: "RESET" }
   | { type: "MINT" }
   | { type: "REFRESH" }
@@ -100,9 +108,8 @@ export const walletMachine = createMachine({
     provider: null,
     jwt: "",
     signature: "",
-    requiresNFT: true,
     nftReadyAt: 0,
-    // wallet: "METAMASK", TODO
+    action: "" as WalletAction,
   },
   states: {
     idle: {
@@ -114,7 +121,7 @@ export const walletMachine = createMachine({
             jwt: (_, event: InitialiseEvent) => event.jwt,
             linkedAddress: (_, event: InitialiseEvent) => event.linkedAddress,
             farmAddress: (_, event: InitialiseEvent) => event.farmAddress,
-            requiresNFT: (_, event: InitialiseEvent) => event.requiresNFT,
+            action: (_, event: InitialiseEvent) => event.action,
           }),
         },
       },
@@ -188,7 +195,8 @@ export const walletMachine = createMachine({
               provider: (_, event) => event.data.provider,
               address: (_, event) => event.data.address,
             }),
-            cond: (context) => context.requiresNFT && !context.farmAddress,
+            cond: (context) =>
+              !NON_NFT_ACTIONS.includes(context.action) && !context.farmAddress,
           },
           {
             target: "ready",
@@ -264,7 +272,8 @@ export const walletMachine = createMachine({
         onDone: [
           {
             target: "missingNFT",
-            cond: (context) => context.requiresNFT && !context.farmAddress,
+            cond: (context) =>
+              !NON_NFT_ACTIONS.includes(context.action) && !context.farmAddress,
           },
           {
             target: "ready",
@@ -395,7 +404,7 @@ export const walletMachine = createMachine({
         jwt: (_) => undefined,
         linkedAddress: (_) => undefined,
         farmAddress: (_) => undefined,
-        requiresNFT: (_) => undefined,
+        action: (_) => undefined,
         signature: (_) => undefined,
         address: (_) => undefined,
       }),

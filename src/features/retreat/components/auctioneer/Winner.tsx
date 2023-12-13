@@ -24,7 +24,7 @@ export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
 
   if (showConfirmation) {
     return (
-      <GameWallet>
+      <GameWallet action="purchase">
         <>
           <div className="my-2">
             <Label type="success">Congratulations!</Label>

@@ -70,7 +70,7 @@ export const NoAccount: React.FC = () => {
 
   if (showClaimAccount) {
     return (
-      <Wallet>
+      <Wallet action="login">
         <ClaimAccount
           onBack={() => setShowClaimAccount(false)}
           onClaim={(id) => authService.send("CLAIM", { id })}
@@ -106,7 +106,7 @@ export const NoAccount: React.FC = () => {
           Welcome to Sunflower Land. It looks like you don't have a farm yet.
         </p>
         {isAddress(authState.context.user.token?.address ?? "") && (
-          <div className="mt-1 mb-2">
+          <div className="mb-2">
             <a
               target="_blank"
               rel="noopener noreferrer"
@@ -120,6 +120,7 @@ export const NoAccount: React.FC = () => {
       </div>
       <div className="flex">
         <Button
+          className="mr-1"
           onClick={() => {
             removeJWT();
             authService.send("BACK");
@@ -127,10 +128,7 @@ export const NoAccount: React.FC = () => {
         >
           Back
         </Button>
-        <Button
-          className="ml-1"
-          onClick={() => authService.send("CREATE_FARM")}
-        >
+        <Button onClick={() => authService.send("CREATE_FARM")}>
           Create Farm
         </Button>
       </div>

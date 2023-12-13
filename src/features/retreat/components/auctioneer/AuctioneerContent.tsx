@@ -70,7 +70,7 @@ export const AuctioneerContent: React.FC<Props> = ({
 
   if (auctioneerState.matches("noAccess")) {
     return (
-      <GameWallet>
+      <GameWallet action="purchase">
         <div className="p-2">
           <Button onClick={() => auctionService.send("REFRESH")}>
             Continue

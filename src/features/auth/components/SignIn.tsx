@@ -385,6 +385,7 @@ export const SignIn = () => {
       )}
 
       <Wallet
+        action="login"
         id={0}
         onReady={(payload) => {
           console.log({ ready: payload, state: authService.state.value });

@@ -18,7 +18,7 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
   const Content = () => {
     if (showConfirmation) {
       return (
-        <GameWallet>
+        <GameWallet action="purchase">
           <p className="p-2">{`Buy now $${price}`}</p>
           <Button
             onClick={() => {

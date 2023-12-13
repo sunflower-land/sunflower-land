@@ -25,7 +25,7 @@ export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
   return (
     <Modal show={isOpen} centered onHide={onClose}>
       <CloseButtonPanel title="Add SFL" onClose={onClose}>
-        <GameWallet>
+        <GameWallet action="purchase">
           <AddSFLOptions isOpen={isOpen} onClose={onClose} />
         </GameWallet>
       </CloseButtonPanel>

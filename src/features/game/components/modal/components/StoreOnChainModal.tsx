@@ -31,7 +31,7 @@ export const StoreOnChainModal: React.FC<Props> = ({ onClose }) => {
         hair: "Sun Spots",
       }}
     >
-      <GameWallet>
+      <GameWallet action="sync">
         <>
           <div className="p-2">
             <p className="text-sm mb-2">

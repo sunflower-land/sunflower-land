@@ -10,7 +10,7 @@ import { GameBoard } from "components/GameBoard";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Loading } from "features/auth/components";
-import { GameWallet, Wallet } from "features/wallet/Wallet";
+import { Wallet } from "features/wallet/Wallet";
 import { Ocean } from "features/world/ui/Ocean";
 
 const GoblinRetreat: React.FC = () => {
@@ -33,6 +33,7 @@ const GoblinRetreat: React.FC = () => {
   return (
     <Ocean>
       <Wallet
+        action="withdraw"
         onReady={console.log}
         id={gameState.context.farmId}
         linkedAddress={gameState.context.linkedWallet}

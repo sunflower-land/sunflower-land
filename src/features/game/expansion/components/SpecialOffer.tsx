@@ -79,7 +79,7 @@ export const PromotingModal: React.FC<Props> = ({
   const Content = () => {
     if (showConfirmation) {
       return (
-        <GameWallet>
+        <GameWallet action="purchase">
           <p className="text-sm my-2">Mint your exclusive Seasonal Banner:</p>
           <Button
             onClick={() => {

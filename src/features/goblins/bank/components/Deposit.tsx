@@ -88,7 +88,7 @@ export const Deposit: React.FC<Props> = ({
   }
 
   return (
-    <GameWallet>
+    <GameWallet action="deposit">
       <DepositOptions
         onClose={onClose}
         onDeposit={onDeposit}
