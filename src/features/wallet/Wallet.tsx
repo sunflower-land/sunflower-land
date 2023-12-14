@@ -14,7 +14,7 @@ import { ErrorCode } from "lib/errors";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { shortAddress } from "lib/utils/shortAddress";
-import { NFTMinting } from "./components/NFTMinting";
+import { NFTMigrating, NFTMinting, NFTWaiting } from "./components/NFTMinting";
 import { WalletContext } from "./WalletProvider";
 
 interface Props {
@@ -234,17 +234,21 @@ export const Wallet: React.FC<Props> = ({
       );
     }
 
-    if (walletState.matches("minting")) {
-      return <p className="loading">Minting</p>;
-    }
-
     if (walletState.matches("waiting")) {
       return (
-        <NFTMinting
+        <NFTWaiting
           onComplete={() => walletService.send("CONTINUE")}
           readyAt={walletState.context.nftReadyAt as number}
         />
       );
+    }
+
+    if (walletState.matches("minting")) {
+      return <NFTMinting />;
+    }
+
+    if (walletState.matches("migrating")) {
+      return <NFTMigrating />;
     }
 
     return <p className="loading">Connecting</p>;

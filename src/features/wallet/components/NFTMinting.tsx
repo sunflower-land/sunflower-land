@@ -8,7 +8,8 @@ interface Props {
   readyAt: number;
   onComplete: () => void;
 }
-export const NFTMinting: React.FC<Props> = ({ readyAt, onComplete }) => {
+
+export const NFTWaiting: React.FC<Props> = ({ readyAt, onComplete }) => {
   const [secondsLeft, setSecondsLeft] = useState((readyAt - Date.now()) / 1000);
 
   const active = readyAt >= Date.now();
@@ -42,7 +43,43 @@ export const NFTMinting: React.FC<Props> = ({ readyAt, onComplete }) => {
           Minting your NFT and storing progress on the Blockchain
         </p>
 
-        <img src={minting} className="w-40 mt-2 mx-auto " />
+        <img src={minting} className="w-40 mt-2" />
+      </div>
+    </>
+  );
+};
+
+export const NFTMinting: React.FC = () => {
+  return (
+    <>
+      <div className="p-2">
+        <div className="flex justify-between items-center mb-3">
+          <Label icon={SUNNYSIDE.resource.pirate_bounty} type="default">
+            Minting Account NFT
+          </Label>
+        </div>
+
+        <p className="text-sm loading">Minting</p>
+
+        <img src={minting} className="w-40 mt-2" />
+      </div>
+    </>
+  );
+};
+
+export const NFTMigrating: React.FC = () => {
+  return (
+    <>
+      <div className="p-2">
+        <div className="flex justify-between items-center mb-3">
+          <Label icon={SUNNYSIDE.resource.pirate_bounty} type="default">
+            Minting Account NFT
+          </Label>
+        </div>
+
+        <p className="text-sm loading">Almost there</p>
+
+        <img src={minting} className="w-40 mt-2" />
       </div>
     </>
   );
