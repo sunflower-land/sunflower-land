@@ -101,7 +101,7 @@ export type WalletMachineState = State<Context, WalletEvent, WalletState>;
 
 export const walletMachine = createMachine({
   id: "walletMachine",
-  initial: "idle",
+  initial: "chooseWallet",
   context: {
     id: 0,
     nftId: 0,
@@ -116,20 +116,6 @@ export const walletMachine = createMachine({
     action: "" as WalletAction,
   },
   states: {
-    idle: {
-      on: {
-        INITIALISE: {
-          target: "chooseWallet",
-          actions: assign({
-            id: (_, event: InitialiseEvent) => event.id,
-            jwt: (_, event: InitialiseEvent) => event.jwt,
-            linkedAddress: (_, event: InitialiseEvent) => event.linkedAddress,
-            farmAddress: (_, event: InitialiseEvent) => event.farmAddress,
-            action: (_, event: InitialiseEvent) => event.action,
-          }),
-        },
-      },
-    },
     chooseWallet: {
       on: {
         CONNECT_TO_WALLET: {
@@ -137,7 +123,6 @@ export const walletMachine = createMachine({
         },
       },
     },
-
     initialising: {
       id: "initialising",
       invoke: {
@@ -174,34 +159,7 @@ export const walletMachine = createMachine({
         },
         onDone: [
           {
-            target: "wrongWallet",
-            actions: assign<Context, any>({
-              provider: (_, event) => event.data.provider,
-              address: (_, event) => event.data.address,
-            }),
-            cond: (context, event) =>
-              !!context.linkedAddress &&
-              context.linkedAddress !== event.data.address,
-          },
-          {
-            target: "signing",
-            actions: assign<Context, any>({
-              provider: (_, event) => event.data.provider,
-              address: (_, event) => event.data.address,
-            }),
-            cond: (context) => !context.linkedAddress,
-          },
-          {
-            target: "missingNFT",
-            actions: assign<Context, any>({
-              provider: (_, event) => event.data.provider,
-              address: (_, event) => event.data.address,
-            }),
-            cond: (context) =>
-              !NON_NFT_ACTIONS.includes(context.action) && !context.farmAddress,
-          },
-          {
-            target: "ready",
+            target: "checking",
             actions: assign<Context, any>({
               provider: (_, event) => event.data.provider,
               address: (_, event) => event.data.address,
@@ -223,7 +181,32 @@ export const walletMachine = createMachine({
         ],
       },
     },
-
+    checking: {
+      always: [
+        {
+          target: "chooseWallet",
+          cond: (context) => !context.address,
+        },
+        {
+          target: "wrongWallet",
+          cond: (context) =>
+            !!context.linkedAddress &&
+            context.linkedAddress !== context.address,
+        },
+        {
+          target: "signing",
+          cond: (context) => !context.linkedAddress,
+        },
+        {
+          target: "missingNFT",
+          cond: (context) =>
+            !NON_NFT_ACTIONS.includes(context.action) && !context.farmAddress,
+        },
+        {
+          target: "ready",
+        },
+      ],
+    },
     signing: {
       id: "signing",
       invoke: {
@@ -417,6 +400,17 @@ export const walletMachine = createMachine({
         action: (_) => undefined,
         signature: (_) => undefined,
         address: (_) => undefined,
+        provider: (_) => undefined,
+      }),
+    },
+    INITIALISE: {
+      target: "checking",
+      actions: assign({
+        id: (_, event: InitialiseEvent) => event.id,
+        jwt: (_, event: InitialiseEvent) => event.jwt,
+        linkedAddress: (_, event: InitialiseEvent) => event.linkedAddress,
+        farmAddress: (_, event: InitialiseEvent) => event.farmAddress,
+        action: (_, event: InitialiseEvent) => event.action,
       }),
     },
   },
