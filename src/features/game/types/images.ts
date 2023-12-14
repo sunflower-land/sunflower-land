@@ -8,6 +8,7 @@ import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
 import bananaPlant from "assets/fruit/banana/banana_plant.png";
 
 // NFTs
+import grinxsHammer from "assets/sfts/grinx_hammer.png";
 import chickenCoop from "assets/sfts/chicken_coop.png";
 import christmasTree from "assets/sfts/christmas_tree.png";
 import farmCat from "assets/sfts/farm_cat.gif";
@@ -2982,5 +2983,10 @@ export const ITEM_DETAILS: Items = {
     image: festiveTree,
     description:
       "A festive tree available each holiday season. I wonder if it is big enough for santa to see?",
+  },
+  "Grinx's Hammer": {
+    image: grinxsHammer,
+    description:
+      "The magical hammer from Grinx, the legendary Goblin Blacksmith.",
   },
 };

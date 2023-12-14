@@ -35,6 +35,7 @@ type RESTRICTION_REASON =
   | "Magic Bean is planted"
   | "Bananas are growing"
   | "In use"
+  | "Recently used"
   | "Locked during festive season";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
@@ -185,7 +186,6 @@ function areAnyTreasureHolesDug(game: GameState): Restriction {
   return [holesDug, "Treasure holes are dug"];
 }
 
-
 function areAnyComposting(game: GameState): Restriction {
   return [
     isComposting(game, "Compost Bin") ||
@@ -320,6 +320,13 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Maneki Neko": (game) => hasShakenManeki(game),
   "Festive Tree": (game) => hasShakenTree(game),
   "Time Warp Totem": (_: GameState) => [true, "In use"],
+
+  "Grinx's Hammer": (game: GameState) => {
+    const canRemove =
+      Date.now() > (game.expandedAt ?? 0) + 7 * 24 * 60 * 60 * 1000;
+
+    return [!canRemove, "Recently used"];
+  },
 
   // Fishing Boosts
   Alba: (game) => hasFishedToday(game),
