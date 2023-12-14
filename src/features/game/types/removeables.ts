@@ -185,7 +185,6 @@ function areAnyTreasureHolesDug(game: GameState): Restriction {
   return [holesDug, "Treasure holes are dug"];
 }
 
-
 function areAnyComposting(game: GameState): Restriction {
   return [
     isComposting(game, "Compost Bin") ||
