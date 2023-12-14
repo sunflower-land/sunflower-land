@@ -4,7 +4,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
-import { ClaimReward } from "features/game/expansion/components/Airdrop";
+import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { BONUSES } from "features/game/types/bonuses";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useContext, useState } from "react";

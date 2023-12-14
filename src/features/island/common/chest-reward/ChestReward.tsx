@@ -4,14 +4,12 @@ import { Modal } from "react-bootstrap";
 
 import { InventoryItemName, Reward } from "features/game/types/game";
 
-import { Button } from "components/ui/Button";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 
-import token from "assets/icons/token_2.png";
 import { StopTheGoblins } from "features/island/common/chest-reward/StopTheGoblins";
 import { ChestCaptcha } from "features/island/common/chest-reward/ChestCaptcha";
 import { Loading } from "features/auth/components";
+import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 
 interface Props {
   collectedItem?: InventoryItemName;
@@ -68,56 +66,38 @@ export const ChestReward: React.FC<Props> = ({
     <Modal centered show={true}>
       <Panel>
         {loading && <Loading />}
-        <div
-          hidden={loading} // render and hide captchas so images have time to load
-          className="flex flex-col items-center justify-between"
-        >
-          {opened ? (
-            <>
-              <span className="text-center my-2">
-                Woohoo! Here is your reward
-              </span>
-              {items &&
-                items.map((item) => {
-                  const name = `${item.amount} ${item.name}${
-                    item.name === "Gold" ? "" : "s"
-                  }`;
-
-                  return (
-                    <div key={item.name} className="flex items-center my-2">
-                      <img
-                        className="w-5 img-highlight mr-2"
-                        src={ITEM_DETAILS[item.name].image}
-                      />
-                      <span className="text-center">{name}</span>
-                    </div>
-                  );
-                })}
-              {sfl && (
-                <div key="sfl" className="flex items-center my-2">
-                  <img className="w-5 img-highlight mr-2" src={token} />
-                  <span className="text-center">{`${sfl} SFL`}</span>
-                </div>
-              )}
-              <Button onClick={() => close(true)} className="w-full mt-1">
-                Close
-              </Button>
-            </>
-          ) : (
-            <>
-              {challenge.current === "goblins" && (
-                <StopTheGoblins
-                  onFail={fail}
-                  onOpen={open}
-                  collectedItem={collectedItem}
-                />
-              )}
-              {challenge.current === "chest" && (
-                <ChestCaptcha onFail={fail} onOpen={open} />
-              )}
-            </>
-          )}
-        </div>
+        {opened ? (
+          <ClaimReward
+            reward={{
+              id: "chest-reward",
+              createdAt: Date.now(),
+              items:
+                items?.reduce((acc, { name, amount }) => {
+                  return { ...acc, [name]: amount };
+                }, {} as Record<InventoryItemName, number>) ?? {},
+              wearables: {},
+              sfl: sfl ? sfl.toNumber() : 0,
+              message: "Woohoo! Here is your reward",
+            }}
+            onClose={() => close(true)}
+          />
+        ) : (
+          <div
+            hidden={loading} // render and hide captchas so images have time to load
+            className="flex flex-col items-center justify-between"
+          >
+            {challenge.current === "goblins" && (
+              <StopTheGoblins
+                onFail={fail}
+                onOpen={open}
+                collectedItem={collectedItem}
+              />
+            )}
+            {challenge.current === "chest" && (
+              <ChestCaptcha onFail={fail} onOpen={open} />
+            )}
+          </div>
+        )}
       </Panel>
     </Modal>
   );
