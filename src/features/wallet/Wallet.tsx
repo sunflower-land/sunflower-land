@@ -25,7 +25,6 @@ interface Props {
     farmAddress?: string;
     nftId?: number;
   }) => void;
-  onStart?: () => void;
   id?: number;
   linkedAddress?: string;
   farmAddress?: string;
@@ -36,7 +35,6 @@ interface Props {
 export const Wallet: React.FC<Props> = ({
   action,
   onReady,
-  onStart,
   children,
   id,
   linkedAddress,
@@ -68,10 +66,6 @@ export const Wallet: React.FC<Props> = ({
         farmAddress: walletState.context.farmAddress,
         nftId: walletState.context.nftId,
       });
-    }
-
-    if (onStart && walletState.matches("initialising")) {
-      onStart();
     }
   }, [walletState.value]);
 

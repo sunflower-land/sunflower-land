@@ -20,6 +20,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";
 import { Wallet } from "features/wallet/Wallet";
 import { useActor } from "@xstate/react";
+import { WalletContext } from "features/wallet/WalletProvider";
 
 const CONTENT_HEIGHT = 300;
 
@@ -342,11 +343,13 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
 
 export const SignIn = () => {
   const { authService } = useContext(Context);
+  const { walletService } = useContext(WalletContext);
+
+  const [walletState] = useActor(walletService);
 
   const [showSSO, setShowSSO] = useState(
     hasFeatureAccess(TEST_FARM, "GOOGLE_LOGIN")
   );
-  const [isConnecting, setIsConnecting] = useState(false);
   const { t } = useAppTranslation();
 
   return (
@@ -354,7 +357,7 @@ export const SignIn = () => {
       className="px-2 overflow-y-auto   scrollable"
       style={{ maxHeight: CONTENT_HEIGHT }}
     >
-      {!isConnecting && (
+      {walletState.matches("chooseWallet") && (
         <>
           <div className="flex items-center mb-2">
             <img
@@ -394,7 +397,6 @@ export const SignIn = () => {
             signature: payload.signature,
           });
         }}
-        onStart={() => setIsConnecting(true)}
       />
 
       <div className="flex justify-between my-1">

@@ -69,7 +69,6 @@ export type WalletEvent =
 
 export type WalletState = {
   value:
-    | "idle"
     | "initialising"
     | "chooseWallet"
     | "signing"
