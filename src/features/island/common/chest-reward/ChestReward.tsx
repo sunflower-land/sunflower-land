@@ -10,6 +10,7 @@ import { StopTheGoblins } from "features/island/common/chest-reward/StopTheGobli
 import { ChestCaptcha } from "features/island/common/chest-reward/ChestCaptcha";
 import { Loading } from "features/auth/components";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
+import Decimal from "decimal.js-light";
 
 interface Props {
   collectedItem?: InventoryItemName;
@@ -76,7 +77,7 @@ export const ChestReward: React.FC<Props> = ({
                   return { ...acc, [name]: amount };
                 }, {} as Record<InventoryItemName, number>) ?? {},
               wearables: {},
-              sfl: sfl ? sfl.toNumber() : 0,
+              sfl: sfl ? new Decimal(sfl).toNumber() : 0,
               message: "Woohoo! Here is your reward",
             }}
             onClose={() => close(true)}
