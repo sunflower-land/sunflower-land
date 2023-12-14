@@ -4,9 +4,11 @@ import * as Auth from "features/auth/lib/Provider";
 import humanDeath from "assets/npcs/human_death.gif";
 import { Button } from "components/ui/Button";
 import { removeJWT } from "../actions/social";
+import { WalletContext } from "features/wallet/WalletProvider";
 
 export const SessionExpired: React.FC = () => {
   const { authService } = useContext(Auth.Context);
+  const { walletService } = useContext(WalletContext);
 
   return (
     <>
@@ -24,6 +26,7 @@ export const SessionExpired: React.FC = () => {
         onClick={() => {
           removeJWT();
           authService.send("REFRESH");
+          walletService.send("RESET");
         }}
       >
         Refresh

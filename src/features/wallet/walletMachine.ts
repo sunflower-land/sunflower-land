@@ -15,6 +15,7 @@ import { getCreatedAt } from "lib/blockchain/AccountMinter";
 export const ART_MODE = !CONFIG.API_URL;
 
 export interface Context {
+  id?: number;
   address?: string;
   linkedAddress?: string;
   farmAddress?: string;
@@ -102,6 +103,7 @@ export const walletMachine = createMachine({
   initial: "idle",
   context: {
     id: 0,
+    nftId: 0,
     address: "",
     linkedAddress: "",
     farmAddress: "",
