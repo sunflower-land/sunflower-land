@@ -20,6 +20,11 @@ import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectStrategy.factory";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { loadSession, savePromoCode } from "features/game/actions/loadSession";
+import {
+  getToken,
+  removeSocialSession,
+  saveSocialSession,
+} from "../actions/social";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -188,6 +193,7 @@ export const authMachine = createMachine(
       context: {} as Context,
       events: {} as BlockchainEvent,
     },
+    preserveActionOrder: true,
     context: { user: {} },
     states: {
       idle: {
@@ -206,6 +212,14 @@ export const authMachine = createMachine(
           }
         },
         always: [
+          {
+            target: "connected",
+            cond: () => !!getToken(),
+            actions: [
+              "assignWeb2Token",
+              () => saveSocialSession(getToken() as string),
+            ],
+          },
           {
             target: "welcome",
             cond: () => !getOnboardingComplete(),
@@ -511,6 +525,13 @@ export const authMachine = createMachine(
           rawToken: event.data.token,
         }),
       }),
+      assignWeb2Token: assign<Context, any>({
+        user: (context, event) => ({
+          ...context.user,
+          token: decodeToken(getToken() as string),
+          rawToken: getToken() as string,
+        }),
+      }),
       assignErrorMessage: assign<Context, any>({
         errorCode: (_context, event) => event.data.message,
       }),
@@ -525,7 +546,10 @@ export const authMachine = createMachine(
       refreshFarm: assign<Context, any>({
         visitingFarmId: undefined,
       }),
-      clearSession: () => removeSession(wallet.myAccount as string),
+      clearSession: () => {
+        removeSocialSession();
+        removeSession(wallet.myAccount as string);
+      },
       deleteFarmIdUrl: deleteFarmUrl,
       setTransactionId: assign<Context, any>({
         transactionId: () => randomID(),

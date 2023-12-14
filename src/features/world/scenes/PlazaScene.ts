@@ -111,6 +111,11 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "mayor",
     direction: "left",
   },
+  {
+    x: 418,
+    y: 330,
+    npc: "santa",
+  },
 ];
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";

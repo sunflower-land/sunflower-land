@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import ScrollContainer from "react-indiana-drag-scroll";
 import background from "assets/land/retreat.webp";
+import frozenBackground from "assets/land/frozen_retreat.png";
 import { RetreatBank } from "./components/bank/RetreatBank";
 import { RetreatStorageHouse } from "./components/storageHouse/RetreatStorageHouse";
 import { RetreatHotAirBalloon } from "./components/hotAirBalloon/RetreatHotAirBalloon";
@@ -147,12 +148,22 @@ export const Game = () => {
                 height: `${40 * GRID_WIDTH_PX}px`,
               }}
             >
-              <img
-                src={background}
-                className="absolute inset-0 w-full h-full"
-                id={Section.RetreatBackground}
-                onLoad={() => setRetreatLoaded(true)}
-              />
+              {Date.now() > new Date("2023-12-10").getTime() &&
+              Date.now() < new Date("2023-12-27").getTime() ? (
+                <img
+                  src={frozenBackground}
+                  className="absolute inset-0 w-full h-full"
+                  id={Section.RetreatBackground}
+                  onLoad={() => setRetreatLoaded(true)}
+                />
+              ) : (
+                <img
+                  src={background}
+                  className="absolute inset-0 w-full h-full"
+                  id={Section.RetreatBackground}
+                  onLoad={() => setRetreatLoaded(true)}
+                />
+              )}
 
               {/* No Gold Pass Modal */}
               <Modal

@@ -67,8 +67,10 @@ export interface Typegen0 {
       | "done.invoke.authMachine.signing:invocation[0]";
     assignUser: "SET_WALLET" | "done.invoke.connectingToWallet:invocation[0]";
     assignVisitingFarmIdFromUrl: "done.invoke.authMachine.setupContracts:invocation[0]";
+    assignWeb2Token: "";
     clearSession: "LOGOUT";
     clearTransactionId:
+      | ""
       | "VERIFIED"
       | "done.invoke.authMachine.oauthorising:invocation[0]"
       | "done.invoke.authMachine.signing:invocation[0]";

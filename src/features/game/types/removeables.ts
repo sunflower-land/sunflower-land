@@ -34,7 +34,8 @@ type RESTRICTION_REASON =
   | "Advanced crops are growing"
   | "Magic Bean is planted"
   | "Bananas are growing"
-  | "In use";
+  | "In use"
+  | "Locked during festive season";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -184,6 +185,7 @@ function areAnyTreasureHolesDug(game: GameState): Restriction {
   return [holesDug, "Treasure holes are dug"];
 }
 
+
 function areAnyComposting(game: GameState): Restriction {
   return [
     isComposting(game, "Compost Bin") ||
@@ -191,6 +193,10 @@ function areAnyComposting(game: GameState): Restriction {
       isComposting(game, "Premium Composter"),
     "In use",
   ];
+}
+
+function hasFishedToday(game: GameState): Restriction {
+  return [getDailyFishingCount(game) !== 0, "In use"];
 }
 
 function isFertiliserApplied(
@@ -222,6 +228,17 @@ function hasShakenManeki(game: GameState): Restriction {
   return [hasShakenRecently, "Paw shaken"];
 }
 
+function hasShakenTree(game: GameState): Restriction {
+  const trees = game.collectibles["Festive Tree"] ?? [];
+  const hasShakenRecently = trees.some((tree) => {
+    return (
+      tree.shakenAt &&
+      new Date(tree.shakenAt).getFullYear() === new Date().getFullYear()
+    );
+  });
+
+  return [hasShakenRecently, "Locked during festive season"];
+}
 export const REMOVAL_RESTRICTIONS: Partial<
   Record<InventoryItemName, RemoveCondition>
 > = {
@@ -301,15 +318,12 @@ export const REMOVAL_RESTRICTIONS: Partial<
 
   "Heart of Davy Jones": (game) => areAnyTreasureHolesDug(game),
   "Maneki Neko": (game) => hasShakenManeki(game),
+  "Festive Tree": (game) => hasShakenTree(game),
   "Time Warp Totem": (_: GameState) => [true, "In use"],
 
   // Fishing Boosts
-  Alba: (game) => {
-    return [getDailyFishingCount(game) !== 0, "In use"];
-  },
-  Walrus: (game) => {
-    return [getDailyFishingCount(game) !== 0, "In use"];
-  },
+  Alba: (game) => hasFishedToday(game),
+  Walrus: (game) => hasFishedToday(game),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
@@ -318,8 +332,7 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
 > = {
   // HATS
   "3 Leaf Clover": (game) => areAnyCropsGrowing(game),
-  // TODO Fish Hat needs to be implemented
-  "Fish Hat": (game) => [false, "No restriction"],
+  "Fish Hat": (game) => hasFishedToday(game),
   "Diamond Gem": (game) => areAnyMineralsMined(game),
   "Gold Gem": (game) => areAnyGoldsMined(game),
   "Miner Hat": (game) => areAnyIronsMined(game),
@@ -349,8 +362,7 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
   Plaza: (game) => areAnyBasicCropsGrowing(game),
   Woodlands: (game) => areAnyTreesChopped(game),
   Cave: (game) => areAnyMineralsMined(game),
-  // TODO Sea needs to be implemented
-  Sea: (game) => [false, "No restriction"],
+  Sea: (game) => hasFishedToday(game),
   Castle: (game) => areAnyMediumCropsGrowing(game),
   // TODO Port needs to be implemented
   Port: (game) => [false, "No restriction"],

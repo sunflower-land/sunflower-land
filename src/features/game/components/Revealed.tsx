@@ -1,18 +1,13 @@
 import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 
-import token from "assets/icons/token_2.png";
 import { Button } from "components/ui/Button";
 
 import { Context } from "../GameProvider";
 import { getKeys } from "../types/craftables";
-import { ITEM_DETAILS } from "../types/images";
-import { InventoryItemName } from "../types/game";
-import { setImageWidth } from "lib/images";
 import { Label } from "components/ui/Label";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
-import { ITEM_IDS } from "../types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ClaimReward } from "../expansion/components/ClaimReward";
 
 export const Revealed: React.FC<{
   onAcknowledged?: () => void;
@@ -37,72 +32,28 @@ export const Revealed: React.FC<{
 
   return (
     <>
-      <div className="flex flex-col items-center p-2">
-        <p className="text-center text-base mb-3">Congratulations!</p>
-
-        {streaks && streakBonus && (
+      <ClaimReward
+        reward={{
+          createdAt: Date.now(),
+          id: "revealed-reward",
+          items: items.reduce(
+            (acc, name) => ({
+              ...acc,
+              [name]: Number(gameState.context.revealed?.inventory[name] ?? 0),
+            }),
+            {}
+          ),
+          wearables: gameState.context.revealed?.wardrobe ?? {},
+          sfl,
+        }}
+      />
+      {streaks && streakBonus && (
+        <div className="flex flex-col items-center p-2">
           <Label type="info" className="px-0.5 text-sm">
             {t("reward.streakBonus")}
           </Label>
-        )}
-        <>
-          <div className="flex flex-col items-center mt-2">
-            {/* Images */}
-            <div className="flex flex-wrap justify-center items-center mb-2 space-x-2 mt-1">
-              {sfl > 0 && (
-                <img
-                  src={token}
-                  className="mb-2"
-                  onLoad={(e) => setImageWidth(e.currentTarget)}
-                />
-              )}
-
-              {items.map((name, index) => (
-                <img
-                  key={`${name}-${index}`}
-                  src={ITEM_DETAILS[name as InventoryItemName].image}
-                  className="mb-2"
-                  onLoad={(e) => setImageWidth(e.currentTarget)}
-                  style={{
-                    opacity: 0,
-                  }}
-                />
-              ))}
-
-              {wearables.map((name, index) => (
-                <img
-                  key={`${name}-${index}`}
-                  src={getImageUrl(ITEM_IDS[name])}
-                  className="mb-2 w-full"
-                  style={{
-                    opacity: 0,
-                  }}
-                />
-              ))}
-            </div>
-
-            {/* Text*/}
-            <div>
-              <p className="text-center text-sm mb-2">{t("reward.found")}</p>
-              {sfl > 0 && (
-                <p className="text-center text-sm mb-2">{`${sfl} SFL`}</p>
-              )}
-              {items.map((name, index) => (
-                <p
-                  key={`${name}-${index}`}
-                  className="text-center text-sm mb-2"
-                >{`${gameState.context.revealed?.inventory[name]} x ${name}`}</p>
-              ))}
-              {wearables.map((name, index) => (
-                <p
-                  key={`${name}-${index}`}
-                  className="text-center text-sm mb-2"
-                >{`${gameState.context.revealed?.wardrobe[name]} x ${name}`}</p>
-              ))}
-            </div>
-          </div>
-        </>
-      </div>
+        </div>
+      )}
       <Button onClick={handleAcknowledge}>{t("continue")}</Button>
     </>
   );

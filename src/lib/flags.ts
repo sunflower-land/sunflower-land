@@ -24,7 +24,9 @@ type FeatureName =
   | "HALLOWEEN"
   | "BANANA"
   | "LOCALISATION"
-  | "PORTALS";
+  | "PORTALS"
+  | "CHRISTMAS"
+  | "GOOGLE_LOGIN";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51];
@@ -45,6 +47,18 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
     }
 
     if (Date.now() > new Date("2023-10-26").getTime()) {
+      return true;
+    }
+
+    return defaultFeatureFlag(game);
+  },
+
+  CHRISTMAS: (game: GameState) => {
+    if (Date.now() > new Date("2023-12-28").getTime()) {
+      return false;
+    }
+
+    if (Date.now() > new Date("2023-12-12").getTime()) {
       return true;
     }
 
@@ -73,6 +87,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
     return defaultFeatureFlag(game);
   },
   LOCALISATION: testnetFeatureFlag,
+  GOOGLE_LOGIN: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {

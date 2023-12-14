@@ -224,6 +224,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
   previousBalance: new Decimal(0),
   previousInventory: {},
   inventory: {
+    "Bumpkin Nutcracker": new Decimal(1),
+    "Festive Tree": new Decimal(1),
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
@@ -374,4 +376,5 @@ export const STATIC_OFFLINE_FARM: GameState = {
     weeklyCatches: {},
   },
   airdrops: [],
+  username: "Local Hero",
 };

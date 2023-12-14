@@ -26,7 +26,7 @@ export async function loadAuctions(request: Request): Promise<{
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error(ERRORS.MINT_COLLECTIBLE_SERVER_ERROR);
+    throw new Error(ERRORS.AUCTIONEER_SERVER_ERROR);
   }
 
   const { auctions } = await response.json();

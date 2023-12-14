@@ -387,6 +387,11 @@ export class Wallet {
 
     return maticWithFee;
   }
+
+  // Social accounts don't login via this class - so account should be null
+  public get isSocial() {
+    return !this.account;
+  }
 }
 
 export const wallet = new Wallet();
