@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import firePit from "assets/buildings/fire_pit.png";
 
@@ -13,7 +13,7 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { bakeryAudio } from "lib/utils/sfx";
+import { bakeryAudio, loadAudio } from "lib/utils/sfx";
 import { gameAnalytics } from "lib/gameAnalytics";
 
 import npc from "assets/npcs/cook.gif";
@@ -37,6 +37,10 @@ export const FirePit: React.FC<Props> = ({
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+
+  useEffect(() => {
+    loadAudio([bakeryAudio]);
+  }, []);
 
   const handleCook = (item: CookableName) => {
     craftingService?.send({

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 
 import smoothieShack from "assets/buildings/smoothie_shack_background.webp";
@@ -14,7 +14,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { SmoothieShackModal } from "./SmoothieShackModal";
-import { bakeryAudio } from "lib/utils/sfx";
+import { bakeryAudio, loadAudio } from "lib/utils/sfx";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -29,6 +29,10 @@ export const SmoothieShack: React.FC<Props> = ({
   onRemove,
 }) => {
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    loadAudio([bakeryAudio]);
+  }, []);
 
   const handleCook = (item: CookableName) => {
     craftingService?.send({

@@ -1,8 +1,7 @@
 import { Howl } from "howler";
 
-import harvestMp3 from "assets/sound-effects/harvest.mp3";
-import plantMp3 from "assets/sound-effects/plant.mp3";
-import kitchenMp3 from "../../assets/sound-effects/kitchen.mp3";
+// import harvestMp3 from "assets/sound-effects/harvest.mp3";
+// import plantMp3 from "assets/sound-effects/plant.mp3";
 import blacksmithMp3 from "../../assets/sound-effects/blacksmith.mp3";
 import shopMp3 from "../../assets/sound-effects/shop.mp3";
 import bankMp3 from "../../assets/sound-effects/bank.mp3";
@@ -11,7 +10,7 @@ import wishingWellMp3 from "../../assets/sound-effects/wishing_well.mp3";
 import miningMp3 from "../../assets/sound-effects/mining.mp3";
 import miningFallMp3 from "../../assets/sound-effects/mining_fall.mp3";
 import chopMp3 from "../../assets/sound-effects/chop.mp3";
-import treeFallMp3 from "../../assets/sound-effects/tree_fall.mp3";
+// import treeFallMp3 from "../../assets/sound-effects/tree_fall.mp3";
 import tailorMp3 from "../../assets/sound-effects/tailor.mp3";
 import homeDoorMp3 from "../../assets/sound-effects/home_door.mp3";
 import barnMp3 from "../../assets/sound-effects/barn.mp3";
@@ -40,19 +39,30 @@ import chickenFightPunch from "../../assets/community/arcade/chicken_fight/audio
 import chickenFightHit from "../../assets/community/arcade/chicken_fight/audio/hit.mp3";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 
+export const loadAudio = (sounds: Howl[]) => {
+  for (const sound of sounds) {
+    if (sound.state() === "loaded" || sound.state() === "loading") return;
+
+    sound.load();
+  }
+};
+
 export const harvestAudio = new Howl({
-  src: [harvestMp3],
+  src: ["src/assets/sound-effects/harvest.mp3"],
   volume: 0.2,
+  preload: false,
 });
 
 export const plantAudio = new Howl({
-  src: [plantMp3],
+  src: ["src/assets/sound-effects/plant.mp3"],
   volume: 0.2,
+  preload: false,
 });
 
 export const bakeryAudio = new Howl({
-  src: [kitchenMp3],
+  src: ["src/assets/sound-effects/kitchen.mp3"],
   volume: 0.5,
+  preload: false,
 });
 
 export const blacksmithAudio = new Howl({
@@ -101,8 +111,9 @@ export const chopAudio = new Howl({
 });
 
 export const treeFallAudio = new Howl({
-  src: [treeFallMp3],
+  src: ["src/assets/sound-effects/tree_fall.mp3"],
   volume: 0.3,
+  preload: false,
 });
 
 export const tailorAudio = new Howl({

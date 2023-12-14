@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import loadable from "@loadable/component";
 import { useSelector } from "@xstate/react";
 import {
   Routes,
@@ -14,7 +15,6 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { Splash } from "features/auth/components/Splash";
 import { Auth } from "features/auth/Auth";
 import { Forbidden } from "features/auth/components/Forbidden";
-import { useImagePreloader } from "features/auth/useImagePreloader";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
 import { CONFIG } from "lib/config";
 import { Retreat } from "features/retreat/Retreat";
@@ -22,8 +22,10 @@ import { Builder } from "features/builder/Builder";
 import { wallet } from "lib/blockchain/wallet";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { ZoomProvider } from "components/ZoomProvider";
-import { World } from "features/world/World";
 import { CommunityTools } from "features/world/ui/CommunityTools";
+
+// lazy
+const World = loadable(() => import("features/world/World") as Promise<any>);
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
@@ -53,7 +55,6 @@ export const Navigation: React.FC = () => {
   const state = useSelector(authService, selectState);
 
   const [showGame, setShowGame] = useState(false);
-  useImagePreloader();
 
   /**
    * Listen to web3 account/chain changes
