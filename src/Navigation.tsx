@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import loadable from "@loadable/component";
 import { useSelector } from "@xstate/react";
 import {
   Routes,
@@ -21,8 +22,10 @@ import { Builder } from "features/builder/Builder";
 import { wallet } from "lib/blockchain/wallet";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { ZoomProvider } from "components/ZoomProvider";
-import { World } from "features/world/World";
 import { CommunityTools } from "features/world/ui/CommunityTools";
+
+// lazy
+const World = loadable(() => import("features/world/World") as Promise<any>);
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
