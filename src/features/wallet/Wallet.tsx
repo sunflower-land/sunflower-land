@@ -1,11 +1,10 @@
-import { useActor, useInterpret } from "@xstate/react";
-import React, { useContext, useEffect, useState } from "react";
+import { useActor } from "@xstate/react";
+import React, { useContext, useEffect } from "react";
 
 import { Label } from "components/ui/Label";
 import { Wallets } from "features/auth/components/SignIn";
 import { Context as AuthContext } from "features/auth/lib/Provider";
-import { WalletAction, walletMachine } from "features/wallet/walletMachine";
-import { CONFIG } from "lib/config";
+import { WalletAction } from "features/wallet/walletMachine";
 
 import walletIcon from "assets/icons/wallet.png";
 
@@ -15,7 +14,6 @@ import { ErrorCode } from "lib/errors";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { shortAddress } from "lib/utils/shortAddress";
-import { Minting } from "features/game/components/Minting";
 import { NFTMinting } from "./components/NFTMinting";
 import { WalletContext } from "./WalletProvider";
 
@@ -62,7 +60,6 @@ export const Wallet: React.FC<Props> = ({
 
   const [walletState] = useActor(walletService);
 
-  console.log({ walletState: walletState.value, context: walletState.context });
   useEffect(() => {
     if (walletState.matches("ready") && !!onReady) {
       onReady({
@@ -213,6 +210,23 @@ export const Wallet: React.FC<Props> = ({
       );
     }
 
+    if (walletState.matches("alreadyHasFarm")) {
+      return (
+        <div className="p-2">
+          <Label type="danger" icon={walletIcon}>
+            Wallet already linked
+          </Label>
+          <p className="my-2 text-sm">{`Wallet ${shortAddress(
+            walletState.context.address as string
+          )} has already been linked to an account.`}</p>
+          <p className="text-xs my-2">
+            Please transfer the farm to another wallet in order to mint the new
+            account.
+          </p>
+        </div>
+      );
+    }
+
     if (walletState.matches("signing")) {
       return (
         <div className="p-2">
@@ -278,7 +292,7 @@ export const GameWallet: React.FC<Props> = ({
               farmAddress,
             });
 
-          if (!!onReady) {
+          if (onReady) {
             onReady({ address, signature, farmAddress, nftId });
           }
         }}

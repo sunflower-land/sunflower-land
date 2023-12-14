@@ -19,11 +19,15 @@ export async function mintFarm(request: Request) {
     },
   });
 
+  if (response.status === 409) {
+    throw new Error(ERRORS.WALLET_ALREADY_LINKED);
+  }
+
   if (response.status >= 400) {
     throw new Error(ERRORS.LOGIN_SERVER_ERROR);
   }
 
-  const {} = await response.json();
+  await response.json();
 
   return {};
 }

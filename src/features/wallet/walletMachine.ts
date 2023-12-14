@@ -84,6 +84,7 @@ export type WalletState = {
     | "wrongWallet"
     | "wrongNetwork"
     | "alreadyLinkedWallet"
+    | "alreadyHasFarm"
     | "error";
 
   context: Context;
@@ -335,9 +336,16 @@ export const walletMachine = createMachine({
             }),
           },
         ],
-        onError: {
-          target: "error",
-        },
+        onError: [
+          {
+            cond: (_, event) =>
+              event.data.message === ERRORS.WALLET_ALREADY_LINKED,
+            target: "alreadyHasFarm",
+          },
+          {
+            target: "error",
+          },
+        ],
       },
     },
 
@@ -389,6 +397,7 @@ export const walletMachine = createMachine({
     wrongWallet: {},
     wrongNetwork: {},
     alreadyLinkedWallet: {},
+    alreadyHasFarm: {},
     error: {},
   },
   on: {
