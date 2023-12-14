@@ -22,6 +22,7 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NoAccount } from "./components/NoAccount";
+import { CONFIG } from "lib/config";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
@@ -55,13 +56,14 @@ export const Auth: React.FC = () => {
             Date.now() < new Date("2023-12-27").getTime() ? (
               <>
                 <img id="logo" src={winterLogo} className="w-full mb-1" />
-                <Label
-                  icon={SUNNYSIDE.icons.stopwatch}
-                  type="vibrant"
-                  className="mx-auto"
-                >
-                  Christmas event!
-                </Label>
+                <div className="flex items-center justify-center">
+                  <Label icon={SUNNYSIDE.icons.stopwatch} type="vibrant">
+                    Christmas event!
+                  </Label>
+                  <Label type="default" className="ml-2">
+                    {CONFIG.RELEASE_VERSION?.split("-")[0]}
+                  </Label>
+                </div>
               </>
             ) : (
               <img id="logo" src={logo} className="w-full" />

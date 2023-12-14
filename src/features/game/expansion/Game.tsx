@@ -13,7 +13,7 @@ import { Context } from "../GameProvider";
 import { INITIAL_SESSION, MachineState, StateValues } from "../lib/gameMachine";
 import { ToastProvider } from "../toast/ToastProvider";
 import { ToastPanel } from "../toast/ToastPanel";
-import { Panel } from "components/ui/Panel";
+import { InnerPanel, Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
 
@@ -53,6 +53,7 @@ import { PIXEL_SCALE } from "../lib/constants";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { CONFIG } from "lib/config";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -289,45 +290,53 @@ export const GameWrapper: React.FC = ({ children }) => {
 
   if (loadingSession || loadingLandToVisit || portalling) {
     return (
-      <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
-        <Modal show centered backdrop={false}>
-          <div
-            className={classNames(
-              "relative flex items-center justify-center mb-4 w-full -mt-12 max-w-xl transition-opacity duration-500 opacity-100"
-            )}
-          >
-            <div className="w-[90%] relative">
-              <img
-                src={sparkle}
-                className="absolute animate-pulse"
-                style={{
-                  width: `${PIXEL_SCALE * 8}px`,
-                  top: `${PIXEL_SCALE * 0}px`,
-                  right: `${PIXEL_SCALE * 0}px`,
-                }}
-              />
-              {Date.now() > new Date("2023-12-10").getTime() &&
-              Date.now() < new Date("2023-12-27").getTime() ? (
-                <>
-                  <img id="logo" src={winterLogo} className="w-full mb-1" />
-                  <Label
-                    icon={SUNNYSIDE.icons.stopwatch}
-                    type="vibrant"
-                    className="mx-auto"
-                  >
-                    Christmas event!
-                  </Label>
-                </>
-              ) : (
-                <img id="logo" src={logo} className="w-full" />
+      <>
+        <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
+          <Modal show centered backdrop={false}>
+            <div
+              className={classNames(
+                "relative flex items-center justify-center mb-4 w-full -mt-12 max-w-xl transition-opacity duration-500 opacity-100"
               )}
+            >
+              <div className="w-[90%] relative">
+                <img
+                  src={sparkle}
+                  className="absolute animate-pulse"
+                  style={{
+                    width: `${PIXEL_SCALE * 8}px`,
+                    top: `${PIXEL_SCALE * 0}px`,
+                    right: `${PIXEL_SCALE * 0}px`,
+                  }}
+                />
+                {Date.now() > new Date("2023-12-10").getTime() &&
+                Date.now() < new Date("2023-12-27").getTime() ? (
+                  <>
+                    <img id="logo" src={winterLogo} className="w-full mb-1" />
+                    <div className="flex items-center justify-center">
+                      <Label icon={SUNNYSIDE.icons.stopwatch} type="vibrant">
+                        Christmas event!
+                      </Label>
+                      <Label type="default" className="ml-2">
+                        {CONFIG.RELEASE_VERSION?.split("-")[0]}
+                      </Label>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <img id="logo" src={logo} className="w-full" />
+                    <Label type="default" className="mx-auto">
+                      {CONFIG.RELEASE_VERSION?.split("-")[0]}
+                    </Label>
+                  </>
+                )}
+              </div>
             </div>
-          </div>
-          <Panel>
-            <Loading />
-          </Panel>
-        </Modal>
-      </div>
+            <Panel>
+              <Loading />
+            </Panel>
+          </Modal>
+        </div>
+      </>
     );
   }
 

@@ -152,6 +152,9 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                       {shortAddress(gameService.state.context.linkedWallet)}
                     </Label>
                   )}
+                  <Label type="default" className="ml-2">
+                    {CONFIG.RELEASE_VERSION?.split("-")[0]}
+                  </Label>
                 </div>
                 {CONFIG.NETWORK === "mumbai" && (
                   <>
@@ -221,9 +224,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                   </Button>
                 </li>
                 <li className="p-1">
-                  <Button className="col p-1 mt-2" onClick={onLogout}>
-                    Logout
-                  </Button>
+                  <Button onClick={onLogout}>Logout</Button>
                 </li>
               </>
             )}

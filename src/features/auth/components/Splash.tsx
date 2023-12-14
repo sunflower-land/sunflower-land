@@ -21,8 +21,6 @@ import { hasFeatureAccess } from "lib/flags";
 import { GameState } from "features/game/types/game";
 import { Ocean } from "features/world/ui/Ocean";
 
-const releaseVersion = CONFIG.RELEASE_VERSION as string;
-
 const Languages = () => {
   // Determine the initial language from localStorage or default to 'en'
   const initialLanguage = localStorage.getItem("language") || "en";
