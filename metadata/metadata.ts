@@ -6170,7 +6170,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
 
   "Grinx's Hammer": {
     description:
-      "The magical hammer from Grinx, the legendary Goblin Blacksmith.",
+      "The magical hammer from Grinx, the legendary Goblin Blacksmith. Halves expansion natural resource requirements.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/489.png",
