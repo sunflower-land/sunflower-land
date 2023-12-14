@@ -141,7 +141,7 @@ export const Wallet: React.FC<Props> = ({
       return (
         <WalletErrorMessage
           errorCode={walletState.context.errorCode as ErrorCode}
-          onRefresh={() => walletService.send("REFRESH")}
+          onRefresh={() => walletService.send("RESET")}
         />
       );
     }

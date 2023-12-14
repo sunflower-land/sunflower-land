@@ -60,7 +60,6 @@ export type WalletEvent =
   | { type: "CONTINUE" }
   | { type: "RESET" }
   | { type: "MINT" }
-  | { type: "REFRESH" }
   | {
       type: "CHAIN_CHANGED";
     }
@@ -234,6 +233,9 @@ export const walletMachine = createMachine({
         ],
         onError: {
           target: "error",
+          actions: assign<Context, any>({
+            errorCode: (_context, event) => event.data.message,
+          }),
         },
       },
     },
