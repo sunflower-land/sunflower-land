@@ -987,7 +987,3 @@ export const EXPANSION_REQUIREMENTS: Record<number, Requirements> = {
   22: LAND_22_REQUIREMENTS,
   23: LAND_23_REQUIREMENTS,
 };
-
-export const expansionRequirements = (level: number) => {
-  return EXPANSION_REQUIREMENTS[level];
-};
