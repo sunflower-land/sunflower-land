@@ -149,6 +149,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                   >{`ID #${gameService.state?.context?.farmId}`}</Label>
                   {gameService.state?.context?.linkedWallet && (
                     <Label type="formula" icon={walletIcon}>
+                      Linked wallet -{" "}
                       {shortAddress(gameService.state.context.linkedWallet)}
                     </Label>
                   )}

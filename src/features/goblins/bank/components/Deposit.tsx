@@ -12,7 +12,6 @@ import { balancesToInventory } from "lib/utils/visitUtils";
 import { fromWei, toBN, toWei } from "web3-utils";
 
 import token from "assets/icons/token_2.png";
-import lockIcon from "assets/skills/lock.png";
 import classNames from "classnames";
 import { setPrecision } from "lib/utils/formatNumber";
 import { transferInventoryItem } from "./WithdrawItems";
@@ -82,7 +81,7 @@ export const Deposit: React.FC<Props> = ({
             SFL?
           </p>
         </div>
-        <Button onClick={() => setShowIntro(false)}>Connect Web3 Wallet</Button>
+        <Button onClick={() => setShowIntro(false)}>Continue</Button>
       </>
     );
   }

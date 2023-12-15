@@ -76,10 +76,6 @@ export const Wallet: React.FC<Props> = ({
   const Content = () => {
     const linkedAddress = walletState.context.linkedAddress;
 
-    if (walletState.matches("idle")) {
-      return <p>Idle</p>;
-    }
-
     if (walletState.matches("chooseWallet")) {
       return (
         <>
@@ -92,10 +88,7 @@ export const Wallet: React.FC<Props> = ({
                   icon={walletIcon}
                   type="default"
                 >
-                  Select your wallet
-                </Label>
-                <Label className="ml-2 mt-1 mb-2" type="formula">
-                  {shortAddress(linkedAddress)}
+                  Connect your wallet - {shortAddress(linkedAddress)}
                 </Label>
               </div>
             )
