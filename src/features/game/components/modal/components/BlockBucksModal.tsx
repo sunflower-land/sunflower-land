@@ -15,7 +15,6 @@ import { randomID } from "lib/utils/random";
 import { Label } from "components/ui/Label";
 import { Modal } from "react-bootstrap";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
-import { wallet } from "lib/blockchain/wallet";
 import classNames from "classnames";
 import { GameWallet } from "features/wallet/Wallet";
 
@@ -158,14 +157,6 @@ const Content: React.FC<{
 }> = ({ isSaving, price, setPrice, onMaticBuy, onCreditCardBuy }) => {
   const [showMaticConfirm, setShowMaticConfirm] = useState(false);
 
-  if (isSaving) {
-    return (
-      <div className="flex justify-center">
-        <p className="loading text-center">Loading</p>
-      </div>
-    );
-  }
-
   if (!!price && showMaticConfirm) {
     return (
       <GameWallet action="purchase">
@@ -188,6 +179,14 @@ const Content: React.FC<{
           *Prices exclude transaction fees.
         </p>
       </GameWallet>
+    );
+  }
+
+  if (isSaving) {
+    return (
+      <div className="flex justify-center">
+        <p className="loading text-center">Loading</p>
+      </div>
     );
   }
 
