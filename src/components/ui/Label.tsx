@@ -84,6 +84,7 @@ interface Props {
   style?: React.CSSProperties;
   icon?: string;
   secondaryIcon?: string;
+  onClick?: () => void;
 }
 export const Label: React.FC<Props> = ({
   children,
@@ -92,14 +93,19 @@ export const Label: React.FC<Props> = ({
   style,
   icon,
   secondaryIcon,
+  onClick,
 }) => {
   return (
     <div
       key={type}
+      onClick={onClick}
       className={classnames(
         className,
         `w-fit justify-center flex items-center`,
-        { relative: !className?.includes("absolute") }
+        {
+          relative: !className?.includes("absolute"),
+          "cursor-pointer": !!onClick,
+        }
       )}
       style={{
         ...LABEL_STYLES[type].borderStyle,

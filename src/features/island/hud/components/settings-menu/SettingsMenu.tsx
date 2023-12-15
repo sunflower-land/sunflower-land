@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
+import clipboard from "clipboard";
 import { CONFIG } from "lib/config";
 
 import { Button } from "components/ui/Button";
@@ -142,20 +143,32 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
             {/* Root menu */}
             {menuLevel === MENU_LEVELS.ROOT && (
               <>
-                <div className="flex items-center justify-between mx-2">
+                <div className="flex flex-wrap space-x-2 items-center justify-between mx-2">
                   <Label
                     type="default"
                     icon={SUNNYSIDE.icons.search}
-                  >{`ID #${gameService.state?.context?.farmId}`}</Label>
+                    onClick={() => {
+                      clipboard.copy(
+                        gameService.state?.context?.farmId.toString() as string
+                      );
+                    }}
+                  >
+                    {`ID #${gameService.state?.context?.farmId}`}{" "}
+                  </Label>
                   {gameService.state?.context?.linkedWallet && (
-                    <Label type="formula" icon={walletIcon}>
+                    <Label
+                      type="formula"
+                      icon={walletIcon}
+                      onClick={() => {
+                        clipboard.copy(
+                          gameService.state?.context?.linkedWallet as string
+                        );
+                      }}
+                    >
                       Linked wallet -{" "}
                       {shortAddress(gameService.state.context.linkedWallet)}
                     </Label>
                   )}
-                  <Label type="default" className="ml-2">
-                    {CONFIG.RELEASE_VERSION?.split("-")[0]}
-                  </Label>
                 </div>
                 {CONFIG.NETWORK === "mumbai" && (
                   <>
@@ -268,6 +281,9 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
               />
             )}
           </ul>
+          <p className="mx-1 text-xxs">
+            {CONFIG.RELEASE_VERSION?.split("-")[0]}
+          </p>
         </Panel>
       </Modal>
       <Share isOpen={showShareModal} onClose={() => setShowShareModal(false)} />
