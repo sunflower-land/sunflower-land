@@ -174,7 +174,6 @@ const HudComponent: React.FC<{
 
           <Modal show={showDepositModal} centered onHide={handleClose}>
             <CloseButtonPanel
-              title={depositDataLoaded ? "Deposit" : undefined}
               onClose={depositDataLoaded ? handleClose : undefined}
             >
               <Deposit

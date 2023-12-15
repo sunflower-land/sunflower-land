@@ -161,8 +161,8 @@ export const Wallet: React.FC<Props> = ({
               Missing NFT
             </Label>
             <p className="text-sm mb-2">
-              To store rare NFTs & access bonus content, we must first secure
-              your farm on the Blockchain.
+              Some actions require a Farm NFT. This helps keep all of your items
+              secure on the Blockchain.
             </p>
             <p className="text-xs mb-2">
               A unique farm NFT will be minted to store your progress.

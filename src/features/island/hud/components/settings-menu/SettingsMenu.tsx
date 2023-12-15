@@ -11,7 +11,6 @@ import { Context as GameContext } from "features/game/GameProvider";
 
 import { Share } from "features/island/hud/components/settings-menu/Share";
 
-import { DEV_GenerateLandButton } from "./DEV_GenerateLandButton";
 import { HowToPlay } from "./howToPlay/HowToPlay";
 import { SubSettings } from "./sub-settings/SubSettings";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
@@ -143,10 +142,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
             {/* Root menu */}
             {menuLevel === MENU_LEVELS.ROOT && (
               <>
-                <div className="flex flex-wrap space-x-2 items-center justify-between mx-2">
+                <div className="flex flex-wrap items-center justify-between mx-2">
                   <Label
                     type="default"
                     icon={SUNNYSIDE.icons.search}
+                    className="mb-1"
                     onClick={() => {
                       clipboard.copy(
                         gameService.state?.context?.farmId.toString() as string
@@ -158,6 +158,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                   {gameService.state?.context?.linkedWallet && (
                     <Label
                       type="formula"
+                      className="mb-1"
                       icon={walletIcon}
                       onClick={() => {
                         clipboard.copy(
@@ -179,9 +180,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                         Time Machine
                       </Button>
                     </li>
-                    <li className="p-1">
-                      <DEV_GenerateLandButton />
-                    </li>
+
                     <li className="p-1">
                       <DEV_HoardingCheck />
                     </li>
@@ -204,28 +203,24 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     </div>
                   </Button>
                 </li>
-                {isFullUser && (
-                  <>
-                    <li className="p-1">
-                      <Button
-                        onClick={() => setMenuLevel(MENU_LEVELS.COMMUNITY)}
-                      >
-                        <span>Community</span>
-                      </Button>
-                    </li>
+                <>
+                  <li className="p-1">
+                    <Button onClick={() => setMenuLevel(MENU_LEVELS.COMMUNITY)}>
+                      <span>Community</span>
+                    </Button>
+                  </li>
 
-                    <li className="p-1">
-                      <Button onClick={handleDiscordClick}>
-                        <span>Discord</span>
-                      </Button>
-                    </li>
-                    <li className="p-1">
-                      <Button onClick={handleSwapSFL}>
-                        <span>Swap MATIC for SFL</span>
-                      </Button>
-                    </li>
-                  </>
-                )}
+                  <li className="p-1">
+                    <Button onClick={handleDiscordClick}>
+                      <span>Discord</span>
+                    </Button>
+                  </li>
+                  <li className="p-1">
+                    <Button onClick={handleSwapSFL}>
+                      <span>Swap MATIC for SFL</span>
+                    </Button>
+                  </li>
+                </>
                 <li className="p-1">
                   <Button onClick={handlePlazaSettingsClick}>
                     <span>Plaza Settings</span>
