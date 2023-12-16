@@ -24,10 +24,8 @@
     "0xsequence": "^0.43.2",
     "@alch/alchemy-web3": "^1.4.7",
     "@anima-protocol/personhood-sdk-react": "^0.4.6",
-    "@loadable/component": "^5.15.3",
     "@metamask/onboarding": "^1.0.1",
     "@react-spring/web": "^9.7.2",
-    "@types/loadable__component": "^5.13.8",
     "@types/string-similarity": "^4.0.0",
     "@types/uuid": "^9.0.0",
     "@use-gesture/react": "^10.2.26",
@@ -75,6 +73,7 @@
     "xstate": "^4.33.1"
   },
   "devDependencies": {
+    "@rollup/plugin-replace": "^5.0.5",
     "@testing-library/react-hooks": "^7.0.2",
     "@types/bad-words": "^3.0.1",
     "@types/howler": "^2.2.6",
