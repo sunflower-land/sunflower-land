@@ -2,10 +2,11 @@ import { Bumpkin } from "../types/game";
 import { BumpkinLevel } from "features/game/lib/level";
 import { getLandLimit } from "../expansion/lib/expansionRequirements";
 
-export const INITIAL_BUMPKIN_LEVEL = 1;
+export const INITIAL_BUMPKIN_LEVEL = 38;
 
 // Special case level 1 for testing expansions.
 export const INITIAL_EXPANSIONS =
+  // @ts-expect-error: This comparison appears to be unintentional
   INITIAL_BUMPKIN_LEVEL === 1
     ? 3
     : getLandLimit(INITIAL_BUMPKIN_LEVEL as BumpkinLevel);
