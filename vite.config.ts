@@ -61,5 +61,13 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 1000,
     assetsDir: "assets",
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          phaser: ["phaser"],
+          wallet: ["src/lib/blockchain/wallet.ts"],
+        },
+      },
+    },
   },
 });

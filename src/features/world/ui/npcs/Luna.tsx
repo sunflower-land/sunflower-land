@@ -6,7 +6,6 @@ import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { Portals } from "../portals/Portals";
 import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
@@ -53,7 +52,7 @@ export const Luna: React.FC<Props> = ({ onClose }) => {
               Travel to these player built portals and earn rewards.
             </p>
           </div>
-          <Portals />
+          {/* <Portals /> */}
         </>
       )}
       {tab === 1 && (
