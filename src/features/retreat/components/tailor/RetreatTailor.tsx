@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import goblinTailor from "assets/buildings/goblin_tailor2.gif";
 import clothesRack from "assets/decorations/clothes-rack.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
-import { tailorAudio } from "lib/utils/sfx";
+import { loadAudio, tailorAudio } from "lib/utils/sfx";
 import { ItemsModal } from "features/goblins/tailor/ItemsModal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 export const RetreatTailor: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+
+  useEffect(() => {
+    loadAudio([tailorAudio]);
+  }, []);
 
   const openTailor = () => {
     setIsOpen(true);

@@ -1,7 +1,5 @@
 import { Howl } from "howler";
 
-// import treeFallMp3 from "../../assets/sound-effects/tree_fall.mp3";
-import tailorMp3 from "../../assets/sound-effects/tailor.mp3";
 import homeDoorMp3 from "../../assets/sound-effects/home_door.mp3";
 import barnMp3 from "../../assets/sound-effects/barn.mp3";
 import battleMp3 from "../../assets/sound-effects/battle.mp3";
@@ -106,8 +104,9 @@ export const treeFallAudio = new Howl({
 });
 
 export const tailorAudio = new Howl({
-  src: [tailorMp3],
+  src: ["src/assets/sound-effects/tailor.mp3"],
   volume: 0.2,
+  preload: false,
 });
 
 export const homeDoorAudio = new Howl({
