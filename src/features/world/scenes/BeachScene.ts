@@ -5,6 +5,9 @@ import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { FishermanContainer } from "../containers/FishermanContainer";
+import { npcModalManager } from "../ui/NPCModals";
+import { fishingManager } from "../ui/FishingModal";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -115,6 +118,13 @@ export class BeachScene extends BaseScene {
     super.create();
 
     this.initialiseNPCs(BUMPKINS);
+
+    const fisherman = new FishermanContainer({
+      x: 433,
+      y: 669,
+      scene: this,
+    });
+    this.add.existing(fisherman);
 
     const kraken = this.add.sprite(308, 755, "kraken");
     this.anims.create({

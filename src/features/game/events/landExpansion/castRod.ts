@@ -4,6 +4,7 @@ import { GameState, InventoryItemName } from "../../types/game";
 import {
   CHUM_AMOUNTS,
   FishingBait,
+  FishingLocation,
   getDailyFishingCount,
   getDailyFishingLimit,
 } from "features/game/types/fishing";
@@ -12,6 +13,7 @@ import Decimal from "decimal.js-light";
 export type CastRodAction = {
   type: "rod.casted";
   bait: FishingBait;
+  location: FishingLocation;
   chum?: InventoryItemName;
 };
 
@@ -29,6 +31,7 @@ export function castRod({
   const game = cloneDeep(state) as GameState;
   const now = new Date(createdAt);
   const today = new Date(now).toISOString().split("T")[0];
+  const location = action.location;
 
   if (!game.bumpkin) {
     throw new Error("You do not have a Bumpkin");
@@ -50,7 +53,7 @@ export function castRod({
     throw new Error(`Missing ${action.bait}`);
   }
 
-  if (game.fishing.wharf.castedAt) {
+  if (game.fishing[location].castedAt) {
     throw new Error("Already casted");
   }
 
@@ -81,7 +84,7 @@ export function castRod({
   // Casts Rod
   game.fishing = {
     ...game.fishing,
-    wharf: {
+    [location]: {
       castedAt: createdAt,
       bait: action.bait,
       chum: action.chum,

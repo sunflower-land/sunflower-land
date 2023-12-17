@@ -224,7 +224,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
   previousBalance: new Decimal(0),
   previousInventory: {},
   inventory: {
+<<<<<<< HEAD
     "Grinx's Hammer": new Decimal(1),
+=======
+    Rod: new Decimal(20),
+    Earthworm: new Decimal(10),
+>>>>>>> 10048804c (Beach fisherman)
     "Bumpkin Nutcracker": new Decimal(1),
     "Festive Tree": new Decimal(1),
     "Town Center": new Decimal(1),
@@ -254,6 +259,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     dailyAttempts: {},
     weather: "Sunny",
     wharf: {},
+    beach: {},
   },
   mailbox: {
     read: [],
