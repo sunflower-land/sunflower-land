@@ -1,7 +1,5 @@
 import { Howl } from "howler";
 
-import merchantMp3 from "../../assets/sound-effects/merchant.mp3";
-import fireCracklingMp3 from "../../assets/sound-effects/fire-crackling.mp3";
 import warChantMp3 from "../../assets/sound-effects/war_chant.mp3";
 
 // Arcade - Common - Game Over
@@ -142,13 +140,15 @@ export const observatoryAnimationAudio = new Howl({
 });
 
 export const merchantAudio = new Howl({
-  src: [merchantMp3],
+  src: ["src/assets/sound-effects/merchant.mp3"],
   volume: 0.2,
+  preload: false,
 });
 
 export const burningSound = new Howl({
-  src: [fireCracklingMp3],
+  src: ["src/assets/sound-effects/fire-crackling.mp3"],
   volume: 0.5,
+  preload: false,
 });
 
 export const warChant = new Howl({
