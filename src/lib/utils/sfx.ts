@@ -1,9 +1,5 @@
 import { Howl } from "howler";
 
-import battleMp3 from "../../assets/sound-effects/battle.mp3";
-import diaryMp3 from "../../assets/sound-effects/diary.mp3";
-import fountainMp3 from "../../assets/sound-effects/fountain.mp3";
-import observatoryAnimationMp3 from "../../assets/sound-effects/mom_observatory_animation_sounds.mp3";
 import merchantMp3 from "../../assets/sound-effects/merchant.mp3";
 import fireCracklingMp3 from "../../assets/sound-effects/fire-crackling.mp3";
 import warChantMp3 from "../../assets/sound-effects/war_chant.mp3";
@@ -87,6 +83,7 @@ export const miningAudio = new Howl({
 export const miningFallAudio = new Howl({
   src: ["src/assets/sound-effects/mining_fall.mp3"],
   volume: 0.5,
+  preload: false,
 });
 
 export const chopAudio = new Howl({
@@ -120,24 +117,28 @@ export const barnAudio = new Howl({
 });
 
 export const diaryAudio = new Howl({
-  src: [diaryMp3],
+  src: ["src/assets/sound-effects/diary.mp3"],
   volume: 0.2,
+  preload: false,
 });
 
 export const battleAudio = new Howl({
-  src: [battleMp3],
+  src: ["src/assets/sound-effects/battle.mp3"],
   volume: 0.2,
+  preload: false,
 });
 
 export const fountainAudio = new Howl({
-  src: [fountainMp3],
+  src: ["src/assets/sound-effects/fountain.mp3"],
   volume: 0.2,
+  preload: false,
 });
 
 export const observatoryAnimationAudio = new Howl({
-  src: [observatoryAnimationMp3],
+  src: ["src./assets/sound-effects/mom_observatory_animation_sounds.mp3"],
   volume: 0.5,
   loop: true,
+  preload: false,
 });
 
 export const merchantAudio = new Howl({
