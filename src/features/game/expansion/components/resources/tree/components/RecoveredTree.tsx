@@ -12,7 +12,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
-import { chopAudio } from "lib/utils/sfx";
+import { chopAudio, loadAudio } from "lib/utils/sfx";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";
 
@@ -47,6 +47,10 @@ const RecoveredTreeComponent: React.FC<Props> = ({
   const [showBumpkinLevel, setShowBumpkinLevel] = useState(false);
 
   const shakeGif = useRef<SpriteSheetInstance>();
+
+  useEffect(() => {
+    loadAudio([chopAudio]);
+  }, []);
 
   // prevent performing react state update on an unmounted component
   useEffect(() => {

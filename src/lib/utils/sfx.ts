@@ -1,7 +1,5 @@
 import { Howl } from "howler";
 
-import miningFallMp3 from "../../assets/sound-effects/mining_fall.mp3";
-import chopMp3 from "../../assets/sound-effects/chop.mp3";
 // import treeFallMp3 from "../../assets/sound-effects/tree_fall.mp3";
 import tailorMp3 from "../../assets/sound-effects/tailor.mp3";
 import homeDoorMp3 from "../../assets/sound-effects/home_door.mp3";
@@ -91,13 +89,14 @@ export const miningAudio = new Howl({
 });
 
 export const miningFallAudio = new Howl({
-  src: [miningFallMp3],
+  src: ["src/assets/sound-effects/mining_fall.mp3"],
   volume: 0.5,
 });
 
 export const chopAudio = new Howl({
-  src: [chopMp3],
+  src: ["src/assets/sound-effects/chop.mp3"],
   volume: 0.3,
+  preload: false,
 });
 
 export const treeFallAudio = new Howl({
