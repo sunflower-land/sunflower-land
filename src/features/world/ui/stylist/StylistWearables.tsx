@@ -114,6 +114,10 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
   const closeConfirmationModal = () => {
     showConfirmBuyModal(false);
   };
+  const handleBuy = () => {
+    buy();
+    showConfirmBuyModal(false);
+  };
 
   const Action = () => {
     if (state.wardrobe[selected])
@@ -164,7 +168,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
                   lessFunds() ||
                   lessIngredients()
                 }
-                onClick={buy}
+                onClick={handleBuy}
               >
                 {t("buy")}
               </Button>

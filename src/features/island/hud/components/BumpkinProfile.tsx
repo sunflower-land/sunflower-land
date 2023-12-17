@@ -48,6 +48,12 @@ const DIMENSIONS = {
     marginLeft: 108,
     marginTop: 84,
   },
+  username: {
+    width: 200,
+    height: 12,
+    marginLeft: -20,
+    marginTop: 106,
+  },
   skillsMark: {
     width: 10,
     marginLeft: 116,
@@ -59,12 +65,14 @@ const SPRITE_STEPS = 51;
 
 interface AvatarProps {
   bumpkin?: Bumpkin;
+  username?: string;
   showSkillPointAlert?: boolean;
   onClick?: () => void;
 }
 
 export const BumpkinAvatar: React.FC<AvatarProps> = ({
   bumpkin,
+  username,
   showSkillPointAlert,
   onClick,
 }) => {
@@ -167,6 +175,19 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
         >
           {level}
         </div>
+        {username && (
+          <div
+            className={`col-start-1 row-start-1 flex justify-center text-white text-xxs z-20`}
+            style={{
+              width: `${DIMENSIONS.username.width}px`,
+              height: `${DIMENSIONS.username.height}px`,
+              marginLeft: `${DIMENSIONS.username.marginLeft}px`,
+              marginTop: `${DIMENSIONS.username.marginTop}px`,
+            }}
+          >
+            {username}
+          </div>
+        )}
         {showSkillPointAlert && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
@@ -199,6 +220,7 @@ export const BumpkinProfile: React.FC<{
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
   const showSkillPointAlert = hasUnacknowledgedSkillPoints(state.bumpkin);
+  const username = state.username;
 
   useEffect(() => {
     goToProgress();
@@ -250,6 +272,7 @@ export const BumpkinProfile: React.FC<{
       {/* Bumpkin profile */}
       <BumpkinAvatar
         bumpkin={state.bumpkin}
+        username={username}
         onClick={handleShowHomeModal}
         showSkillPointAlert={
           showSkillPointAlert && !gameState.matches("visiting")

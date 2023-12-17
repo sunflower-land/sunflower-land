@@ -14,7 +14,7 @@ import {
   isCropGrowing,
 } from "features/game/events/landExpansion/harvest";
 import { isFruitGrowing } from "features/game/events/landExpansion/fruitHarvested";
-import { CompostName } from "./composters";
+import { CompostName, isComposting } from "./composters";
 import { getDailyFishingCount } from "./fishing";
 
 type RESTRICTION_REASON =
@@ -185,6 +185,19 @@ function areAnyTreasureHolesDug(game: GameState): Restriction {
   return [holesDug, "Treasure holes are dug"];
 }
 
+function areAnyComposting(game: GameState): Restriction {
+  return [
+    isComposting(game, "Compost Bin") ||
+      isComposting(game, "Turbo Composter") ||
+      isComposting(game, "Premium Composter"),
+    "In use",
+  ];
+}
+
+function hasFishedToday(game: GameState): Restriction {
+  return [getDailyFishingCount(game) !== 0, "In use"];
+}
+
 function isFertiliserApplied(
   game: GameState,
   fertiliser: CompostName
@@ -274,6 +287,9 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Lady Bug": (game) => areFruitsGrowing(game, "Apple"),
   Nana: (game) => areFruitsGrowing(game, "Banana"),
 
+  // Composter boosts
+  "Soil Krabby": (game) => areAnyComposting(game),
+
   // Fertiliser Boosts
   "Knowledge Crab": (game) => isFertiliserApplied(game, "Sprout Mix"),
 
@@ -305,12 +321,8 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Time Warp Totem": (_: GameState) => [true, "In use"],
 
   // Fishing Boosts
-  Alba: (game) => {
-    return [getDailyFishingCount(game) !== 0, "In use"];
-  },
-  Walrus: (game) => {
-    return [getDailyFishingCount(game) !== 0, "In use"];
-  },
+  Alba: (game) => hasFishedToday(game),
+  Walrus: (game) => hasFishedToday(game),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
@@ -319,8 +331,7 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
 > = {
   // HATS
   "3 Leaf Clover": (game) => areAnyCropsGrowing(game),
-  // TODO Fish Hat needs to be implemented
-  "Fish Hat": (game) => [false, "No restriction"],
+  "Fish Hat": (game) => hasFishedToday(game),
   "Diamond Gem": (game) => areAnyMineralsMined(game),
   "Gold Gem": (game) => areAnyGoldsMined(game),
   "Miner Hat": (game) => areAnyIronsMined(game),
@@ -350,8 +361,7 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
   Plaza: (game) => areAnyBasicCropsGrowing(game),
   Woodlands: (game) => areAnyTreesChopped(game),
   Cave: (game) => areAnyMineralsMined(game),
-  // TODO Sea needs to be implemented
-  Sea: (game) => [false, "No restriction"],
+  Sea: (game) => hasFishedToday(game),
   Castle: (game) => areAnyMediumCropsGrowing(game),
   // TODO Port needs to be implemented
   Port: (game) => [false, "No restriction"],

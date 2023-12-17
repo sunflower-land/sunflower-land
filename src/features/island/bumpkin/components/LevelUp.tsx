@@ -22,6 +22,10 @@ import { BUILDINGS } from "features/game/types/buildings";
 import { ITEM_DETAILS } from "features/game/types/images";
 import worldIcon from "assets/icons/world_small.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import {
+  EXPANSION_REQUIREMENTS,
+  Land,
+} from "features/game/expansion/lib/expansionRequirements";
 import { translate } from "lib/i18n/translate";
 
 const BONUS_UNLOCKS: Record<number, { text: string; icon: string }[]> = {
@@ -73,7 +77,11 @@ function generateUnlockLabels(): Record<
 
     const buildings = getKeys(BUILDINGS())
       .filter((name) =>
-        BUILDINGS()[name].find((b) => b.unlocksAtLevel === level)
+        BUILDINGS()[name].find(
+          (b) =>
+            EXPANSION_REQUIREMENTS[b.unlocksAtLevel as Land]?.bumpkinLevel ===
+            level
+        )
       )
       .map((name) => ({ text: name, icon: ITEM_DETAILS[name].image }));
 
