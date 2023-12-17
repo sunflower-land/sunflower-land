@@ -2,8 +2,8 @@ import { Howl } from "howler";
 
 // import harvestMp3 from "assets/sound-effects/harvest.mp3";
 // import plantMp3 from "assets/sound-effects/plant.mp3";
-import blacksmithMp3 from "../../assets/sound-effects/blacksmith.mp3";
-import shopMp3 from "../../assets/sound-effects/shop.mp3";
+// import blacksmithMp3 from "../../assets/sound-effects/blacksmith.mp3";
+// import shopMp3 from "../../assets/sound-effects/shop.mp3";
 import bankMp3 from "../../assets/sound-effects/bank.mp3";
 import beggarMp3 from "../../assets/sound-effects/beggar.mp3";
 import wishingWellMp3 from "../../assets/sound-effects/wishing_well.mp3";
@@ -66,13 +66,15 @@ export const bakeryAudio = new Howl({
 });
 
 export const blacksmithAudio = new Howl({
-  src: [blacksmithMp3],
+  src: ["src/assets/sound-effects/blacksmith.mp3"],
   volume: 0.2,
+  preload: false,
 });
 
 export const shopAudio = new Howl({
-  src: [shopMp3],
+  src: ["src/assets/sound-effects/shop.mp3"],
   volume: 0.2,
+  preload: false,
 });
 
 export const bankAudio = new Howl({
