@@ -35,6 +35,7 @@ import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { OuterPanel } from "components/ui/Panel";
+import { translate } from "lib/i18n/translate";
 
 const WORM_OUTPUT: Record<ComposterName, string> = {
   "Compost Bin": "2-4",
@@ -164,6 +165,18 @@ export const ComposterModal: React.FC<Props> = ({
     onBoost();
   };
 
+  const [isConfirmBoostModalOpen, showConfirmBoostModal] = useState(false);
+  const openConfirmationModal = () => {
+    showConfirmBoostModal(true);
+  };
+  const closeConfirmationModal = () => {
+    showConfirmBoostModal(false);
+  };
+  const applyBoost = () => {
+    accelerate();
+    showConfirmBoostModal(false);
+  }; // We could do without this const but I added it for better security
+
   const Content = () => {
     if (isReady) {
       return (
@@ -252,10 +265,55 @@ export const ComposterModal: React.FC<Props> = ({
                 disabled={
                   !state.inventory.Egg?.gte(composterInfo.eggBoostRequirements)
                 }
-                onClick={accelerate}
+                onClick={openConfirmationModal}
               >
                 Add Eggs
               </Button>
+              <Modal
+                centered
+                show={isConfirmBoostModalOpen}
+                onHide={closeConfirmationModal}
+              >
+                <CloseButtonPanel className="sm:w-full m-auto">
+                  <div className="flex flex-col p-2">
+                    {/*Text is this format to help with Translations later on*/}
+                    <span className="text-sm text-left">
+                      Are you sure you want to add the following amount of eggs
+                      to reduce compost production time?
+                    </span>
+                    <>
+                      <br />
+                    </>
+                    <span className="text-sm text-left">
+                      Eggs Needed: {composterInfo.eggBoostRequirements}
+                    </span>
+                    <span className="text-sm text-left">
+                      Compost Time Reduction:{" "}
+                      {`${secondsToString(
+                        composterInfo.eggBoostMilliseconds / 1000,
+                        {
+                          length: "short",
+                        }
+                      )}`}
+                    </span>
+                  </div>
+                  <div className="flex justify-content-around mt-2 space-x-1">
+                    <Button
+                      disabled={
+                        !state.inventory.Egg?.gte(
+                          composterInfo.eggBoostRequirements
+                        )
+                      }
+                      onClick={applyBoost}
+                    >
+                      Add Eggs
+                    </Button>
+                    <Button onClick={closeConfirmationModal}>
+                      {translate("cancel")}
+                    </Button>
+                  </div>
+                </CloseButtonPanel>
+              </Modal>
             </OuterPanel>
           )}
           {boost && (
