@@ -1,6 +1,5 @@
 import { Howl } from "howler";
 
-import miningMp3 from "../../assets/sound-effects/mining.mp3";
 import miningFallMp3 from "../../assets/sound-effects/mining_fall.mp3";
 import chopMp3 from "../../assets/sound-effects/chop.mp3";
 // import treeFallMp3 from "../../assets/sound-effects/tree_fall.mp3";
@@ -14,9 +13,6 @@ import observatoryAnimationMp3 from "../../assets/sound-effects/mom_observatory_
 import merchantMp3 from "../../assets/sound-effects/merchant.mp3";
 import fireCracklingMp3 from "../../assets/sound-effects/fire-crackling.mp3";
 import warChantMp3 from "../../assets/sound-effects/war_chant.mp3";
-
-// Project Dignity Assets Sounds
-import frog1Mp3 from "../../assets/sound-effects/frog/frog-1.mp3";
 
 // Arcade - Common - Game Over
 import gameOver from "../../assets/community/arcade/audio/game_over.mp3";
@@ -88,14 +84,10 @@ export const wishingWellAudio = new Howl({
   preload: false,
 });
 
-export const frogAudio = new Howl({
-  src: [frog1Mp3],
-  volume: 0.2,
-});
-
 export const miningAudio = new Howl({
-  src: [miningMp3],
+  src: ["src/assets/sound-effects/mining.mp3"],
   volume: 0.5,
+  preload: false,
 });
 
 export const miningFallAudio = new Howl({
