@@ -1,7 +1,5 @@
 import { Howl } from "howler";
 
-import beggarMp3 from "../../assets/sound-effects/beggar.mp3";
-import wishingWellMp3 from "../../assets/sound-effects/wishing_well.mp3";
 import miningMp3 from "../../assets/sound-effects/mining.mp3";
 import miningFallMp3 from "../../assets/sound-effects/mining_fall.mp3";
 import chopMp3 from "../../assets/sound-effects/chop.mp3";
@@ -79,13 +77,15 @@ export const bankAudio = new Howl({
 });
 
 export const beggarAudio = new Howl({
-  src: [beggarMp3],
+  src: ["src/assets/sound-effects/beggar.mp3"],
   volume: 0.3,
+  preload: false,
 });
 
 export const wishingWellAudio = new Howl({
-  src: [wishingWellMp3],
+  src: ["src/assets/sound-effects/wishing_well.mp3"],
   volume: 0.5,
+  preload: false,
 });
 
 export const frogAudio = new Howl({

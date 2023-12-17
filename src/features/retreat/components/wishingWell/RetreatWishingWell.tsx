@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import wishingWell from "assets/buildings/wishing_well.png";
 import icon from "assets/icons/token_2.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
-import { wishingWellAudio } from "lib/utils/sfx";
+import { loadAudio, wishingWellAudio } from "lib/utils/sfx";
 import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
 import { WishingWellModal } from "features/goblins/wishingWell/WishingWellModal";
@@ -14,6 +14,10 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 export const RetreatWishingWell: React.FC = () => {
   const { goblinService } = useContext(Context);
   const [goblinState, send] = useActor(goblinService);
+
+  useEffect(() => {
+    loadAudio([wishingWellAudio]);
+  }, []);
 
   const openWell = () => {
     wishingWellAudio.play();
