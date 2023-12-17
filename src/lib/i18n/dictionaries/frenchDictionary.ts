@@ -2690,9 +2690,9 @@ const goldTooth: Record<GoldTooth, string> = {
 };
 
 const guideCompost: Record<GuideCompost, string> = {
-  "guide.compost.add.eggs.speed":
+  "guide.compost.addEggs.speed":
     "Ajoutez des œufs pour accélérer la production",
-  "guide.compost.add.eggs": "Ajouter des œufs",
+  "guide.compost.addEggs": "Ajouter des œufs",
   "guide.compost.eggs": "Œufs",
   "guide.compost.cropGrowthTime": "-50% Temps de croissance des cultures",
   "guide.compost.fishingBait": "Appât de pêche",
@@ -2704,6 +2704,8 @@ const guideCompost: Record<GuideCompost, string> = {
     "Chaque compost produit des vers qui peuvent être utilisés comme appât pour la pêche",
   "guide.compost.useEggs":
     "Fatigué d'attendre ? Utilisez des œufs pour accélérer la production de compost",
+  "guide.compost.addEggs.confirmation":
+    ENGLISH_TERMS["guide.compost.addEggs.confirmation"],
 };
 
 const guideTerms: Record<GuideTerms, string> = {

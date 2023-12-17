@@ -2329,8 +2329,8 @@ const goldTooth: Record<GoldTooth, string> = {
 };
 
 const guideCompost: Record<GuideCompost, string> = {
-  "guide.compost.add.eggs.speed": "添加鸡蛋以加快生产速度",
-  "guide.compost.add.eggs": "添加鸡蛋",
+  "guide.compost.addEggs.speed": "添加鸡蛋以加快生产速度",
+  "guide.compost.addEggs": "添加鸡蛋",
   "guide.compost.eggs": "鸡蛋",
   "guide.compost.cropGrowthTime": "-50% 庄稼生长时间",
   "guide.compost.fishingBait": "鱼饵",
@@ -2339,6 +2339,8 @@ const guideCompost: Record<GuideCompost, string> = {
     "一个堆肥周期可以生产多个肥料，可用来促进你的作物和水果生长",
   "guide.compost.yieldsWorms": "每个堆肥产出的蚯蚓可以用作钓鱼的饵",
   "guide.compost.useEggs": "厌倦了等待？使用鸡蛋来加速堆肥生产",
+  "guide.compost.addEggs.confirmation":
+    ENGLISH_TERMS["guide.compost.addEggs.confirmation"],
 };
 
 const guideTerms: Record<GuideTerms, string> = {
