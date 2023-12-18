@@ -110,17 +110,20 @@ export const portalMachine = createMachine({
       id: "loading",
       invoke: {
         src: async (context) => {
+          let game;
+          let farmId;
           if (!CONFIG.API_URL) {
-            return { game: OFFLINE_FARM };
+            game = OFFLINE_FARM;
+            farmId = 86;
+          } else {
+            farmId = decodeToken(context.jwt as string).farmId;
+            game = (
+              await loadPortal({
+                portalId: CONFIG.PORTAL_APP,
+                token: context.jwt as string,
+              })
+            ).game;
           }
-
-          const { farmId } = decodeToken(context.jwt as string);
-
-          // Load the game data
-          const { game } = await loadPortal({
-            portalId: CONFIG.PORTAL_APP,
-            token: context.jwt as string,
-          });
 
           // Join the MMO Server
           let mmoServer: Room<PlazaRoomState> | undefined;

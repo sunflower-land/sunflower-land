@@ -5,6 +5,7 @@ import Decimal from "decimal.js-light";
 
 import { Balance } from "components/Balance";
 import { BlockBucks } from "features/island/hud/components/BlockBucks";
+import { BumpkinAvatar } from "features/island/hud/components/BumpkinProfile";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import worldIcon from "assets/icons/world.png";
@@ -28,6 +29,7 @@ export const Hud: React.FC = () => {
           aria-label="Hud"
           className="absolute z-40"
         >
+          <BumpkinAvatar bumpkin={portalState.context.state.bumpkin} />
           <Balance balance={portalState.context.state.balance} />
           <BlockBucks
             blockBucks={
