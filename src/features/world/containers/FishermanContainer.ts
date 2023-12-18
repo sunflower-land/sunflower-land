@@ -20,9 +20,11 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
 
     this.setSize(58, 50);
 
+    console.log("BUILD THE FISHER");
+
     const spriteLoader = scene.load.spritesheet(
       "fisherman",
-      SUNNYSIDE.npcs.fishing_sheet,
+      SUNNYSIDE.npcs.female_fisher,
       {
         frameWidth: 58,
         frameHeight: 50,
@@ -30,10 +32,13 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
     );
 
     spriteLoader.addListener(Phaser.Loader.Events.COMPLETE, () => {
+      if (this.sprite) return;
+
       const idle = scene.add.sprite(0, 0, "fisherman").setOrigin(0.5);
       this.add(idle);
       this.sprite = idle;
 
+      console.log("Sprite loaded");
       this.fishingState = "idle";
 
       this.scene.anims.create({
@@ -121,7 +126,6 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
     );
 
     PubSub.subscribe("BEACH_FISHERMAN_CAST", (msg, data) => {
-      console.log("CAST THAT BAD BOY");
       if (this.sprite) {
         this.fishingState = "casting";
         this.sprite.play("casting_animation", true);
@@ -129,12 +133,10 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
     });
 
     PubSub.subscribe("BEACH_FISHERMAN_CAUGHT", (msg, data) => {
-      console.log("CAUGHT THAT BAD BOY");
       if (this.sprite) {
         this.fishingState = "reeling";
         this.sprite.play("reeling_animation", true);
 
-        console.log("ADD ALERT");
         if (!this.alert) {
           this.alert = this.scene.add.sprite(-11, -23, "alert").setSize(4, 10);
           this.add(this.alert);
@@ -154,10 +156,7 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
   }
 
   private removeAlert() {
-    console.log({ alertToDestory: this.alert });
     this.alert?.destroy();
     this.alert = undefined;
   }
-
-  public cast() {}
 }

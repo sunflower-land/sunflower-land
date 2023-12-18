@@ -119,13 +119,20 @@ export class BeachScene extends BaseScene {
 
     this.initialiseNPCs(BUMPKINS);
 
-    const fisherman = new FishermanContainer({
+    const fisher = new FishermanContainer({
       x: 402,
       y: 695,
       scene: this,
     });
-    fisherman.setDepth(100000000);
-    this.add.existing(fisherman);
+    fisher.setDepth(100000000);
+    this.physics.world.enable(fisher);
+    this.colliders?.add(fisher);
+    this.triggerColliders?.add(fisher);
+    (fisher.body as Phaser.Physics.Arcade.Body)
+      .setSize(16, 20)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
 
     const kraken = this.add.sprite(308, 755, "kraken");
     this.anims.create({
