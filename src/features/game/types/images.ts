@@ -517,6 +517,9 @@ import startlightTuna from "assets/fish/starlight_tuna.png";
 import radiantRay from "assets/fish/radiant_ray.png";
 import phantomBarracuda from "assets/fish/phantom_barracuda.png";
 import gildedSwordfish from "assets/fish/gilded_swordfish.png";
+import halibut from "assets/fish/halibut.png";
+import angelFish from "assets/fish/angel_fish.png";
+import parrotFish from "assets/fish/parrot_fish.png";
 
 import festiveTree from "assets/sfts/festive_tree.png";
 import nutcracker from "assets/sfts/bumpkin_nutcracker.png";
@@ -2988,5 +2991,17 @@ export const ITEM_DETAILS: Items = {
     image: grinxsHammer,
     description:
       "The magical hammer from Grinx, the legendary Goblin Blacksmith.",
+  },
+  Angelfish: {
+    image: angelFish,
+    description: "?",
+  },
+  Halibut: {
+    image: halibut,
+    description: "?",
+  },
+  Parrotfish: {
+    image: parrotFish,
+    description: "?",
   },
 };

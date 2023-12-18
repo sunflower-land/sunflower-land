@@ -14,7 +14,8 @@ export type MilestoneName =
   | "Expert Angler"
   | "Fish Encyclopedia"
   | "Master Angler"
-  | "Marine Marvel Master";
+  | "Marine Marvel Master"
+  | "Deep Sea Diver";
 
 type MilestoneReward = InventoryItemName | BumpkinItem;
 
@@ -131,6 +132,24 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
     },
     reward: {
       "Luminous Anglerfish Topper": 1,
+    },
+  },
+  "Deep Sea Diver": {
+    task: "Catch 5 of every fish",
+    percentageComplete: (farmActivity: GameState["farmActivity"]) => {
+      const encyclopediaFish = getEncyclopediaFish();
+      const totalFishRequired = encyclopediaFish.length * 5;
+
+      const totalFishCaught = encyclopediaFish.reduce(
+        (total, name) =>
+          total + Math.min(farmActivity[`${name} Caught`] ?? 0, 1),
+        0
+      );
+
+      return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
+    },
+    reward: {
+      "Deep Sea Helm": 1,
     },
   },
 };
