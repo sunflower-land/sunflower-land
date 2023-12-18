@@ -73,7 +73,6 @@
     "xstate": "^4.33.1"
   },
   "devDependencies": {
-    "@rollup/plugin-replace": "^5.0.5",
     "@testing-library/react-hooks": "^7.0.2",
     "@types/bad-words": "^3.0.1",
     "@types/howler": "^2.2.6",
