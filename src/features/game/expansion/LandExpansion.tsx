@@ -24,7 +24,6 @@ export const LandExpansion: React.FC = () => {
         >
           <GameBoard>
             <Game />
-            <FishingModal />
           </GameBoard>
         </ScrollContainer>
       </ModalProvider>

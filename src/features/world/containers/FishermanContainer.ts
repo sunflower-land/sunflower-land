@@ -5,34 +5,20 @@ import { SQUARE_WIDTH } from "features/game/lib/constants";
 import { Player } from "../types/Room";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
-import { Label } from "./Label";
 
 export class FishermanContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
-  public reelLabel: Label | undefined;
+  public alert: Phaser.GameObjects.Sprite | undefined;
 
-  private state: "idle" | "casting" | "waiting" | "reeling" | "caught" = "idle";
+  private fishingState: "idle" | "casting" | "waiting" | "reeling" | "caught" =
+    "idle";
 
-  constructor({
-    scene,
-    x,
-    y,
-    onClick,
-    gameService,
-  }: {
-    scene: Phaser.Scene;
-    x: number;
-    y: number;
-    onClick?: () => void;
-    gameService: MachineInterpreter;
-  }) {
+  constructor({ scene, x, y }: { scene: Phaser.Scene; x: number; y: number }) {
     super(scene, x, y);
     this.scene = scene;
     scene.physics.add.existing(this);
 
     this.setSize(58, 50);
-
-    this.scene.add.existing(this);
 
     const spriteLoader = scene.load.spritesheet(
       "fisherman",
@@ -48,7 +34,7 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
       this.add(idle);
       this.sprite = idle;
 
-      this.state = "idle";
+      this.fishingState = "idle";
 
       this.scene.anims.create({
         key: "idle_animation",
@@ -103,12 +89,12 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
       // Play casting animation once waiting animation finishes
       this.sprite?.on("animationcomplete-caught_animation", () => {
         this.sprite?.play("idle_animation", true);
-        this.state = "idle";
+        this.fishingState = "idle";
       });
 
       this.sprite?.on("animationcomplete-casting_animation", () => {
         this.sprite?.play("waiting_animation", true);
-        this.state = "waiting";
+        this.fishingState = "waiting";
       });
 
       this.sprite?.play("idle_animation", true);
@@ -117,21 +103,18 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
     this.setInteractive({ cursor: "pointer" }).on(
       "pointerdown",
       (p: Phaser.Input.Pointer) => {
-        if (this.state === "idle") {
+        if (this.fishingState === "idle") {
           if (p.downElement.nodeName === "CANVAS") {
             PubSub.publish("OPEN_BEACH_FISHERMAN");
           }
         }
 
-        if (this.state === "reeling") {
+        if (this.fishingState === "reeling") {
           if (p.downElement.nodeName === "CANVAS") {
             PubSub.publish("BEACH_FISHERMAN_REEL");
-            this.state = "caught";
+            this.fishingState = "caught";
 
-            // Remove the reel label
-            if (this.reelLabel) {
-              this.reelLabel.destroy();
-            }
+            this.removeAlert();
           }
         }
       }
@@ -140,7 +123,7 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
     PubSub.subscribe("BEACH_FISHERMAN_CAST", (msg, data) => {
       console.log("CAST THAT BAD BOY");
       if (this.sprite) {
-        this.state = "casting";
+        this.fishingState = "casting";
         this.sprite.play("casting_animation", true);
       }
     });
@@ -148,13 +131,14 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
     PubSub.subscribe("BEACH_FISHERMAN_CAUGHT", (msg, data) => {
       console.log("CAUGHT THAT BAD BOY");
       if (this.sprite) {
-        this.state = "reeling";
+        this.fishingState = "reeling";
         this.sprite.play("reeling_animation", true);
 
-        this.reelLabel = new Label(this.scene, "REEL");
-        this.reelLabel.setPosition(0, 0);
-        this.reelLabel.setDepth(10000000);
-        this.add(this.reelLabel);
+        console.log("ADD ALERT");
+        if (!this.alert) {
+          this.alert = this.scene.add.sprite(-11, -23, "alert").setSize(4, 10);
+          this.add(this.alert);
+        }
       }
     });
 
@@ -165,6 +149,14 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
         }
       }
     });
+
+    this.scene.add.existing(this);
+  }
+
+  private removeAlert() {
+    console.log({ alertToDestory: this.alert });
+    this.alert?.destroy();
+    this.alert = undefined;
   }
 
   public cast() {}

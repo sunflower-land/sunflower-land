@@ -147,11 +147,12 @@ export const FishingModal: React.FC<Props> = ({}) => {
             PubSub.publish("BEACH_FISHERMAN_CAST");
             closeModal();
 
-            // gameService.send("rod.casted", {
-            //   bait,
-            //   chum,
-            //   location: "beach",
-            // });
+            gameService.send("rod.casted", {
+              bait,
+              chum,
+              location: "beach",
+            });
+            gameService.send("SAVE");
 
             setTimeout(() => {
               gameState.context.state.fishing.beach = {

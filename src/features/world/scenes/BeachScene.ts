@@ -120,10 +120,11 @@ export class BeachScene extends BaseScene {
     this.initialiseNPCs(BUMPKINS);
 
     const fisherman = new FishermanContainer({
-      x: 433,
-      y: 669,
+      x: 402,
+      y: 695,
       scene: this,
     });
+    fisherman.setDepth(100000000);
     this.add.existing(fisherman);
 
     const kraken = this.add.sprite(308, 755, "kraken");
