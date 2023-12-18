@@ -7,6 +7,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { hasFeatureAccess } from "lib/flags";
+import { Portals } from "../portals/Portals";
 
 interface Props {
   onClose: () => void;
@@ -52,7 +53,7 @@ export const Luna: React.FC<Props> = ({ onClose }) => {
               Travel to these player built portals and earn rewards.
             </p>
           </div>
-          {/* <Portals /> */}
+          <Portals />
         </>
       )}
       {tab === 1 && (
