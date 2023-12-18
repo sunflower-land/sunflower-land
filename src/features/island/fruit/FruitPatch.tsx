@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -84,6 +84,11 @@ export const FruitPatch: React.FC<Props> = ({ id, index }) => {
     (prev, next) =>
       HasAxes(prev, collectibles, fruit) === HasAxes(next, collectibles, fruit)
   );
+
+  useEffect(() => {
+    loadAudio([harvestAudio, plantAudio, treeFallAudio]);
+  }, []);
+
   const hasAxes = HasAxes(inventory, collectibles, fruit);
 
   const bumpkinLevelRequired = getBumpkinLevelRequiredForNode(
@@ -232,3 +237,6 @@ export const FruitPatch: React.FC<Props> = ({ id, index }) => {
     </div>
   );
 };
+function loadAudio(arg0: import("howler").Howl[]) {
+  throw new Error("Function not implemented.");
+}
