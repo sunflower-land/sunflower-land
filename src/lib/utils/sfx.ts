@@ -1,21 +1,25 @@
 import { Howl } from "howler";
 
-import warChantMp3 from "../../assets/sound-effects/war_chant.mp3";
+/**
+ * All sounds should be lazy loaded to prevent unnecessary network requests on initial load. Please add the
+ * path to the audio file directly into the instantiated Howl instance rather then importing into this file.
+ * This is why we use the `loadAudio` function to load the sounds when needed.
+ * This is also why we use the `preload: false` option on the Howl objects.
+ * In the component that you wish you play the audio, you should import the sound and call `loadAudio` on it inside a useEffect.
+ *
+ * Example:
+ *
+ *   useEffect(() => {
+ *     loadAudio([burningSound]);
+ *   }, []);
+ *
+ */
 
-// Arcade - Common - Game Over
-import gameOver from "../../assets/community/arcade/audio/game_over.mp3";
-
-// Arcade - Greedy Goblin
-import greedyGoblinIntro from "../../assets/community/arcade/greedy_goblin/audio/intro.mp3";
-import greedyGoblinPlaying from "../../assets/community/arcade/greedy_goblin/audio/playing.mp3";
-import greedyGoblinPick from "../../assets/community/arcade/greedy_goblin/audio/pick.mp3";
-
-// Arcade - Chicken Fight
-import chickenFightPlaying from "../../assets/community/arcade/chicken_fight/audio/playing.mp3";
-import chickenFightPunch from "../../assets/community/arcade/chicken_fight/audio/punch.mp3";
-import chickenFightHit from "../../assets/community/arcade/chicken_fight/audio/hit.mp3";
-import { SOUNDS } from "assets/sound-effects/soundEffects";
-
+/**
+ * Lazy loader for audio sounds.
+ * @param sounds Array of Howl objects with `preload: false`
+ * @returns
+ */
 export const loadAudio = (sounds: Howl[]) => {
   for (const sound of sounds) {
     if (sound.state() === "loaded" || sound.state() === "loading") return;
@@ -152,54 +156,53 @@ export const burningSound = new Howl({
 });
 
 export const warChant = new Howl({
-  src: [warChantMp3],
+  src: ["src/assets/sound-effects/war_chant.mp3"],
   volume: 0.2,
+  preload: false,
 });
 
 // Arcade - Greedy Goblin
 export const greedyGoblinAudio = {
   greedyGoblinIntroAudio: new Howl({
-    src: [greedyGoblinIntro],
+    src: ["src/assets/community/arcade/greedy_goblin/audio/intro.mp3"],
     volume: 0.3,
+    preload: false,
   }),
   greedyGoblinPlayingAudio: new Howl({
-    src: [greedyGoblinPlaying],
+    src: ["src/assets/community/arcade/greedy_goblin/audio/playing.mp3"],
     volume: 0.2,
     loop: true,
+    preload: false,
   }),
   greedyGoblinPickAudio: new Howl({
-    src: [greedyGoblinPick],
+    src: ["src/assets/community/arcade/greedy_goblin/audio/pick.mp3"],
     volume: 0.2,
+    preload: false,
   }),
   greedyGoblinGameOverAudio: new Howl({
-    src: [gameOver],
+    src: ["src/assets/community/arcade/audio/game_over.mp3"],
     volume: 0.2,
+    preload: false,
   }),
 };
 
-// Arcade - Greedy Goblin
+// Arcade - Chicken Fight
 export const chickenFightAudio = {
   chickenFightPlayingAudio: new Howl({
-    src: [chickenFightPlaying],
+    src: ["src/assets/community/arcade/chicken_fight/audio/playing.mp3"],
     volume: 0.2,
     loop: true,
   }),
   chickenFightPunchAudio: new Howl({
-    src: [chickenFightPunch],
+    src: ["src/assets/community/arcade/chicken_fight/audio/punch.mp3"],
     volume: 0.3,
   }),
   chickenFightHitAudio: new Howl({
-    src: [chickenFightHit],
+    src: ["src/assets/community/arcade/chicken_fight/audio/hit.mp3"],
     volume: 0.2,
   }),
   chickenFightGameOverAudio: new Howl({
-    src: [gameOver],
+    src: ["src/assets/community/arcade/audio/game_over.mp3"],
     volume: 0.2,
   }),
 };
-
-// Plaza
-export const mazeOver = new Howl({
-  src: [SOUNDS.notifications.maze_over],
-  volume: 0.2,
-});
