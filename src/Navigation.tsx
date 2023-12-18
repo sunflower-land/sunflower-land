@@ -1,31 +1,28 @@
-import React, { lazy, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 import {
+  Routes,
+  Route,
+  HashRouter,
   Navigate,
   useSearchParams,
   createSearchParams,
-  HashRouter,
-  Route,
-  Routes,
 } from "react-router-dom";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
+import { Splash } from "features/auth/components/Splash";
 import { Auth } from "features/auth/Auth";
-import { CONFIG } from "lib/config";
-import { AuthMachineState } from "features/auth/lib/authMachine";
-import { Splash } from "features/auth/components";
-import { ZoomProvider } from "components/ZoomProvider";
 import { Forbidden } from "features/auth/components/Forbidden";
-import { Builder } from "features/builder/Builder";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
+import { CONFIG } from "lib/config";
 import { Retreat } from "features/retreat/Retreat";
+import { Builder } from "features/builder/Builder";
+import { wallet } from "lib/blockchain/wallet";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import { ZoomProvider } from "components/ZoomProvider";
+import { World } from "features/world/World";
 import { CommunityTools } from "features/world/ui/CommunityTools";
-
-// lazy
-const World = lazy(() =>
-  import("features/world/World").then((m) => ({ default: m.World }))
-);
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
@@ -73,8 +70,7 @@ export const Navigation: React.FC = () => {
 
           authService.send("CHAIN_CHANGED");
         });
-        provider.on("accountsChanged", async function (accounts: string[]) {
-          const { wallet } = await import("lib/blockchain/wallet");
+        provider.on("accountsChanged", function (accounts: string[]) {
           // Metamask Mobile accidentally triggers this on route changes
           const didChange = accounts[0] !== wallet.myAccount;
           if (didChange) {
