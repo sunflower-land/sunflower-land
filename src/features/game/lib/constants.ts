@@ -261,6 +261,7 @@ export const TEST_FARM: GameState = {
   fishing: {
     weather: "Sunny",
     wharf: {},
+    beach: {},
     dailyAttempts: {},
   },
   catchTheKraken: {
@@ -502,6 +503,7 @@ export const EMPTY: GameState = {
   fishing: {
     weather: "Sunny",
     wharf: {},
+    beach: {},
     dailyAttempts: {},
   },
   mushrooms: {

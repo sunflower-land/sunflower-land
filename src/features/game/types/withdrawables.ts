@@ -424,6 +424,9 @@ const consumables: Record<ConsumableName, () => boolean> = {
   Surgeonfish: () => false,
   Tuna: () => false,
   "Banana Blast": () => false,
+  Angelfish: () => false,
+  Halibut: () => false,
+  Parrotfish: () => false,
 };
 
 const decorations: Record<ShopDecorationName, () => boolean> = {
@@ -760,6 +763,9 @@ const fish: Record<FishName | MarineMarvelName, () => boolean> = {
   "Phantom Barracuda": () => false,
   "Gilded Swordfish": () => false,
   "Kraken Tentacle": () => false,
+  Angelfish: () => false,
+  Halibut: () => false,
+  Parrotfish: () => false,
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {

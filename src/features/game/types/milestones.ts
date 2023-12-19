@@ -196,4 +196,6 @@ export const MILESTONE_MESSAGES: Record<MilestoneName, string> = {
     "Wow, you've just reached the Master Angler milestone! Catching 1500 fish is a testament to your fishing skills.",
   "Marine Marvel Master":
     "Congratulations, you've just reached the Marine Marvel Master milestone! You're the undisputed champion of the seas! Catching each Marvel proves your fishing prowess like no other.",
+  "Deep Sea Diver":
+    "Congratulations, you've just reached the Deep Sea Diver milestone! You have earnt the Deep Sea Helm - a mysterious Crown that attracts Marine Marvels to your hook.",
 };
