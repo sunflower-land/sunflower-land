@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 
 import observatory from "assets/sfts/mom/observatory.gif";
-import observatoryAnimation from "assets/sfts/mom/mom_observatory_animation.gif";
+import observatoryAnimation from "assets/sfts/mom/mom_observatory_animation.webp";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { loadAudio, observatoryAnimationAudio } from "lib/utils/sfx";
