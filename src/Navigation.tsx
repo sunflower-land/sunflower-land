@@ -1,4 +1,4 @@
-import React, { Suspense, useContext, useEffect, useState } from "react";
+import React, { Suspense, lazy, useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 import {
   Routes,
@@ -21,12 +21,16 @@ import { Builder } from "features/builder/Builder";
 import { wallet } from "lib/blockchain/wallet";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { ZoomProvider } from "components/ZoomProvider";
-import { CommunityTools } from "features/world/ui/CommunityTools";
 import { LoadingFallback } from "./LoadingFallback";
 
 // Lazy load routes
-const World = React.lazy(() =>
+const World = lazy(() =>
   import("features/world/World").then((m) => ({ default: m.World }))
+);
+const CommunityTools = lazy(() =>
+  import("features/world/ui/CommunityTools").then((m) => ({
+    default: m.CommunityTools,
+  }))
 );
 
 /**
@@ -141,7 +145,11 @@ export const Navigation: React.FC = () => {
               {CONFIG.NETWORK === "mumbai" && (
                 <Route
                   path="/community-tools"
-                  element={<CommunityTools key="community-tools" />}
+                  element={
+                    <Suspense fallback={<LoadingFallback />}>
+                      <CommunityTools key="community-tools" />
+                    </Suspense>
+                  }
                 />
               )}
 
