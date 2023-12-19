@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { Suspense, useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 import {
   Routes,
@@ -21,8 +21,13 @@ import { Builder } from "features/builder/Builder";
 import { wallet } from "lib/blockchain/wallet";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { ZoomProvider } from "components/ZoomProvider";
-import { World } from "features/world/World";
 import { CommunityTools } from "features/world/ui/CommunityTools";
+import { LoadingFallback } from "./LoadingFallback";
+
+// Lazy load routes
+const World = React.lazy(() =>
+  import("features/world/World").then((m) => ({ default: m.World }))
+);
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
@@ -117,10 +122,21 @@ export const Navigation: React.FC = () => {
                   }
                 />
               )}
-              <Route path="/world/:name" element={<World key="world" />} />
+              <Route
+                path="/world/:name"
+                element={
+                  <Suspense fallback={<LoadingFallback />}>
+                    <World key="world" />
+                  </Suspense>
+                }
+              />
               <Route
                 path="/community/:name"
-                element={<World key="community" isCommunity />}
+                element={
+                  <Suspense fallback={<LoadingFallback />}>
+                    <World key="community" isCommunity />
+                  </Suspense>
+                }
               />
               {CONFIG.NETWORK === "mumbai" && (
                 <Route

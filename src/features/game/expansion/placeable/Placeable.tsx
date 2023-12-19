@@ -63,13 +63,9 @@ export const getInitialCoordinates = (origin?: Coordinates) => {
     .getElementById(Section.GenesisBlock)
     ?.getBoundingClientRect();
   let landMidX =
-    pageScrollContainer.scrollLeft +
-    (land?.left ?? 0) +
-    ((land?.width ?? 0) / 2 ?? 0);
+    pageScrollContainer.scrollLeft + (land?.left ?? 0) + (land?.width ?? 0) / 2;
   let landMidY =
-    pageScrollContainer.scrollTop +
-    (land?.top ?? 0) +
-    ((land?.height ?? 0) / 2 ?? 0);
+    pageScrollContainer.scrollTop + (land?.top ?? 0) + (land?.height ?? 0) / 2;
 
   if (origin) {
     const xOffset = viewportMidPointX - landMidX;
