@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import PubSub from "pubsub-js";
 import { Modal } from "react-bootstrap";
 
-import { NPCName, NPC_WEARABLES } from "lib/npcs";
+import { NPC_WEARABLES } from "lib/npcs";
 
 import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
@@ -36,25 +36,17 @@ export const FishingModal: React.FC<Props> = ({}) => {
 
   useEffect(() => {
     // Subscribe to the event
-    const eventSubscription = PubSub.subscribe(
-      "OPEN_BEACH_FISHERMAN",
-      (msg, data) => {
-        setShowModal(true);
-      }
-    );
+    const eventSubscription = PubSub.subscribe("OPEN_BEACH_FISHERMAN", () => {
+      setShowModal(true);
+    });
 
-    const reelSubscription = PubSub.subscribe(
-      "BEACH_FISHERMAN_REEL",
-      (msg, data) => {
-        console.log("REEEEEEL IT IN");
+    const reelSubscription = PubSub.subscribe("BEACH_FISHERMAN_REEL", () => {
+      const fish = getKeys(
+        gameService.state.context.state.fishing.beach?.caught ?? {}
+      ).find((fish) => fish in FISH);
 
-        const fish = getKeys(
-          gameService.state.context.state.fishing.beach?.caught ?? {}
-        ).find((fish) => fish in FISH);
-
-        reelIn(fish as FishName);
-      }
-    );
+      reelIn(fish as FishName);
+    });
 
     return () => {
       PubSub.unsubscribe(eventSubscription);
@@ -67,6 +59,12 @@ export const FishingModal: React.FC<Props> = ({}) => {
       if (state.context.state.fishing.beach?.caught) {
         PubSub.publish("BEACH_FISHERMAN_CAUGHT");
       }
+
+      if (state.context.state.catchTheKraken.hunger) {
+        PubSub.publish("KRAKEN_HUNGRY", {
+          hunger: state.context.state.catchTheKraken.hunger,
+        });
+      }
     });
   }, []);
 
@@ -76,7 +74,6 @@ export const FishingModal: React.FC<Props> = ({}) => {
   };
 
   const reelIn = (fish: FishName) => {
-    console.log({ fish });
     setFish(fish);
 
     let fishDifficulty = FISH_DIFFICULTY[fish as FishName];

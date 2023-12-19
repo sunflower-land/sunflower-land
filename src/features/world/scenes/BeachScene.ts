@@ -6,14 +6,12 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FishermanContainer } from "../containers/FishermanContainer";
-import { npcModalManager } from "../ui/NPCModals";
-import { fishingManager } from "../ui/FishingModal";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
     npc: "shelly",
-    x: 311,
-    y: 695,
+    x: 402,
+    y: 680,
   },
   {
     npc: "finn",
@@ -52,6 +50,7 @@ export class BeachScene extends BaseScene {
   sceneId: SceneId = "beach";
 
   krakenHunger: InventoryItemName | undefined;
+  krakenHungerSprite: Phaser.GameObjects.Sprite | undefined;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -60,7 +59,7 @@ export class BeachScene extends BaseScene {
   preload() {
     super.preload();
 
-    this.krakenHunger = this.gameState.catchTheKraken?.hunger;
+    this.load.image("heart", SUNNYSIDE.icons.heart);
 
     this.load.spritesheet("beach_bud", "world/turtle.png", {
       frameWidth: 15,
@@ -76,18 +75,6 @@ export class BeachScene extends BaseScene {
       frameWidth: 32,
       frameHeight: 32,
     });
-
-    if (this.krakenHunger) {
-      const image = ITEM_DETAILS[this.krakenHunger].image;
-
-      if (image.startsWith("data:")) {
-        this.textures.addBase64("kraken_hunger", image);
-      } else {
-        this.load.image("kraken_hunger", image);
-      }
-
-      this.load.image("heart", SUNNYSIDE.icons.heart);
-    }
 
     this.load.spritesheet("kraken", "world/kraken_sheet.png", {
       frameWidth: 41,
@@ -117,11 +104,21 @@ export class BeachScene extends BaseScene {
 
     super.create();
 
+    if (this.gameState.catchTheKraken?.hunger) {
+      this.loadKrakenHunger(this.gameState.catchTheKraken?.hunger);
+
+      PubSub.subscribe("KRAKEN_HUNGRY", (msg, data) => {
+        this.loadKrakenHunger(data?.hunger);
+      });
+    }
+
+    this.add.sprite(350, 740, "heart");
+
     this.initialiseNPCs(BUMPKINS);
 
     const fisher = new FishermanContainer({
-      x: 402,
-      y: 695,
+      x: 322,
+      y: 711,
       scene: this,
     });
     fisher.setDepth(100000000);
@@ -145,11 +142,6 @@ export class BeachScene extends BaseScene {
       frameRate: 5,
     });
     kraken.play("kraken_anim", true);
-
-    if (this.krakenHunger) {
-      this.add.sprite(338, 740, "kraken_hunger");
-      this.add.sprite(350, 740, "heart");
-    }
 
     const turtle = this.add.sprite(328, 515, "beach_bud");
     turtle.setScale(-1, 1);
@@ -213,6 +205,37 @@ export class BeachScene extends BaseScene {
       frameRate: 5,
     });
     bird.play("bird_anim", true);
+  }
+
+  public loadKrakenHunger(hunger: InventoryItemName) {
+    if (this.krakenHunger === hunger) {
+      return;
+    }
+
+    this.krakenHunger = hunger;
+
+    if (this.krakenHungerSprite) {
+      this.krakenHungerSprite.destroy();
+      this.krakenHungerSprite = undefined;
+    }
+
+    const image = ITEM_DETAILS[hunger].image;
+    let loader;
+
+    const key = `${hunger}_kraken_hunger}`;
+
+    if (image.startsWith("data:")) {
+      loader = this.textures.addBase64(key, image);
+    } else {
+      loader = this.load.image(key, image);
+    }
+
+    this.load.start();
+
+    loader.addListener(Phaser.Loader.Events.COMPLETE, () => {
+      // This callback will be executed only once when "kraken_hunger" is loaded
+      this.krakenHungerSprite = this.add.sprite(338, 740, key);
+    });
   }
 }
 

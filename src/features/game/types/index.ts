@@ -549,6 +549,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Phantom Barracuda": 1531,
   "Gilded Swordfish": 1532,
   "Kraken Tentacle": 1533,
+  Angelfish: 1534,
+  Halibut: 1535,
+  Parrotfish: 1536,
 };
 
 // The reverse of above

@@ -140,6 +140,7 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     type: "basic",
     locations: ["wharf"],
   },
+
   Blowfish: {
     baits: ["Earthworm"],
     type: "basic",
