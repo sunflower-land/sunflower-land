@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import ocean from "assets/decorations/ocean.webp";
 import sandIslandOne from "assets/brand/sand_island_one.webp";
 import sandIslandOneShore from "assets/brand/sand_island_one_shore.webp";
 import sandIslandTwo from "assets/brand/sand_island_two.webp";
@@ -20,6 +19,7 @@ import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
 import { GameState } from "features/game/types/game";
+import { Ocean } from "features/world/ui/Ocean";
 
 const releaseVersion = CONFIG.RELEASE_VERSION as string;
 
@@ -57,14 +57,7 @@ const Languages = () => {
 
 export const Splash: React.FC = ({ children }) => {
   return (
-    <div
-      className="bg-blue-600 w-full bg-repeat h-full flex relative items-center justify-center"
-      style={{
-        backgroundImage: `url(${ocean})`,
-        backgroundSize: `${64 * PIXEL_SCALE}px`,
-        imageRendering: "pixelated",
-      }}
-    >
+    <Ocean>
       <img
         src={sunflowerIslandOne}
         style={{
@@ -185,6 +178,6 @@ export const Splash: React.FC = ({ children }) => {
           </div>
         </InnerPanel>
       </div>
-    </div>
+    </Ocean>
   );
 };
