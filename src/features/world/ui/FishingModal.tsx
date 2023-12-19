@@ -16,12 +16,10 @@ import { FISH, FISH_DIFFICULTY, FishName } from "features/game/types/fishing";
 import { getKeys } from "features/game/types/craftables";
 import { MachineState } from "features/game/lib/gameMachine";
 
-interface Props {}
-
 const _fishing = (state: MachineState) => state.context.state.fishing;
 const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
 
-export const FishingModal: React.FC<Props> = ({}) => {
+export const FishingModal: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showModal, setShowModal] = useState(false);
@@ -76,7 +74,7 @@ export const FishingModal: React.FC<Props> = ({}) => {
   const reelIn = (fish: FishName) => {
     setFish(fish);
 
-    let fishDifficulty = FISH_DIFFICULTY[fish as FishName];
+    const fishDifficulty = FISH_DIFFICULTY[fish as FishName];
 
     // Show fishing challenge
     if (fishDifficulty) {

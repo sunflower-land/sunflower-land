@@ -1,10 +1,6 @@
 import PubSub from "pubsub-js";
 
-import { SQUARE_WIDTH } from "features/game/lib/constants";
-
-import { Player } from "../types/Room";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { MachineInterpreter } from "features/game/lib/gameMachine";
 
 export class FishermanContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
@@ -19,8 +15,6 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
     scene.physics.add.existing(this);
 
     this.setSize(58, 50);
-
-    console.log("BUILD THE FISHER");
 
     const spriteLoader = scene.load.spritesheet(
       "fisherman",
@@ -38,7 +32,6 @@ export class FishermanContainer extends Phaser.GameObjects.Container {
       this.add(idle);
       this.sprite = idle;
 
-      console.log("Sprite loaded");
       this.fishingState = "idle";
 
       this.scene.anims.create({

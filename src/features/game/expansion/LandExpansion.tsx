@@ -6,7 +6,6 @@ import { GameProvider } from "../GameProvider";
 import { Game } from "./Game";
 import { ModalProvider } from "../components/modal/ModalProvider";
 import { GameBoard } from "components/GameBoard";
-import { FishingModal } from "features/world/ui/FishingModal";
 
 export const LandExpansion: React.FC = () => {
   // catching and passing scroll container to keyboard listeners
