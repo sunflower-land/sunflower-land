@@ -31,6 +31,53 @@
   .img-shadow {
     filter: drop-shadow(0px 3px 0px rgba(0, 0, 0, 0.2));
   }
+  /* Safe Areas Mobile */
+  .inset-safe-area {
+    top: env(safe-area-inset-top);
+    right: env(safe-area-inset-right);
+    bottom: env(safe-area-inset-bottom);
+    left: env(safe-area-inset-left);
+  }
+  .safe-pt {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-pb {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-pl {
+    padding-left: env(safe-area-inset-left);
+  }
+  .safe-pr {
+    padding-right: env(safe-area-inset-right);
+  }
+  .safe-mt {
+    margin-top: env(safe-area-inset-top);
+  }
+  .safe-mb {
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-ml {
+    margin-left: env(safe-area-inset-left);
+  }
+  .safe-mr {
+    margin-right: env(safe-area-inset-right);
+  }
+  .safe-py {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-px {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  .safe-my {
+    margin-top: env(safe-area-inset-top);
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-mx {
+    margin-left: env(safe-area-inset-left);
+    margin-right: env(safe-area-inset-right);
+  }
 }
 
 @font-face {
@@ -41,6 +88,10 @@
 @font-face {
   font-family: "Teeny";
   src: url("https://sunflower-land.com/testnet-assets/fonts/Teeny.otf");
+}
+
+html {
+  min-height: calc(100% + env(safe-area-inset-top));
 }
 
 body {
@@ -74,6 +125,12 @@ img {
 #walletconnect-wrapper {
   all: initial;
 }
+
+/* Target Hud */
+/* [aria-label="Hud"] {
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+} */
 
 @media screen and (min-width: 480px) {
   body {
