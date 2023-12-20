@@ -914,6 +914,7 @@ export abstract class BaseScene extends Phaser.Scene {
       this.scene.start(warpTo, { previousSceneId: this.sceneId });
     }
   }
+
   updateOtherPlayers() {
     const server = this.mmoServer;
     if (!server) return;

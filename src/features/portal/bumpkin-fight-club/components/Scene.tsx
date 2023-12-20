@@ -15,6 +15,12 @@ export class PortalScene extends BaseScene {
         tilesetUrl: "tileset-extruded.png",
         padding: [1, 2],
       },
+      player: {
+        spawn: {
+          x: 240,
+          y: 255,
+        },
+      },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
   }

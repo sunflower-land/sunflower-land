@@ -134,11 +134,8 @@ export const portalMachine = createMachine({
             const client = new Client(mmoUrl);
 
             mmoServer = await client?.joinOrCreate<PlazaRoomState>(serverName, {
-              jwt: context.jwt,
               bumpkin: game?.bumpkin,
               farmId,
-              x: 240,
-              y: 255,
               experience: game.bumpkin?.experience ?? 0,
             });
           }

@@ -75,7 +75,7 @@ export const Phaser: React.FC = () => {
     return () => {
       game.current?.destroy(true);
     };
-  }, []);
+  }, [portalState, scenes]);
 
   return (
     <div>
