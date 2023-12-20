@@ -57,6 +57,7 @@ const _roomState = (state: MachineState) => state.value;
 
 type Player = {
   playerId: string;
+  username: string;
   farmId: number;
   clothing: BumpkinParts;
   x: number;
@@ -317,6 +318,7 @@ export const PhaserComponent: React.FC<Props> = ({
               updatedPlayers.push({
                 playerId,
                 farmId: player.farmId,
+                username: player.username,
                 x: player.x,
                 y: player.y,
                 clothing: player.clothing,

@@ -13,7 +13,7 @@ import { Button } from "components/ui/Button";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { redirectOAuth } from "features/auth/actions/oauth";
-import { ClaimReward } from "./Airdrop";
+import { ClaimReward } from "./ClaimReward";
 import { BONUSES } from "features/game/types/bonuses";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";

@@ -7,7 +7,7 @@ import { Context } from "../GameProvider";
 import { getKeys } from "../types/craftables";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ClaimReward } from "../expansion/components/Airdrop";
+import { ClaimReward } from "../expansion/components/ClaimReward";
 
 export const Revealed: React.FC<{
   onAcknowledged?: () => void;
