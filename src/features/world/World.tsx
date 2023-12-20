@@ -153,7 +153,7 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
 
   return (
     <Ocean>
-      <Modal show centered backdrop={false}>
+      <Modal show centered>
         <Panel>
           <p className="loading">Loading</p>
         </Panel>
@@ -162,9 +162,12 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
   );
 };
 
+const _inventory = (state: MachineState) => state.context.state.inventory;
+
 export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
   const { gameService, showAnimations } = useContext(Context);
   const isLoading = useSelector(gameService, _isLoading);
+  const inventory = useSelector(gameService, _inventory);
   const name = useParams().name as SceneId;
 
   const hasAccess =
