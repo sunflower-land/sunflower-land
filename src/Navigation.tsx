@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 import {
   Routes,
@@ -16,24 +16,13 @@ import { Auth } from "features/auth/Auth";
 import { Forbidden } from "features/auth/components/Forbidden";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
 import { CONFIG } from "lib/config";
+import { Retreat } from "features/retreat/Retreat";
 import { Builder } from "features/builder/Builder";
 import { wallet } from "lib/blockchain/wallet";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { ZoomProvider } from "components/ZoomProvider";
-import { LoadingFallback } from "./LoadingFallback";
-
-// Lazy load routes
-const World = lazy(() =>
-  import("features/world/World").then((m) => ({ default: m.World }))
-);
-const CommunityTools = lazy(() =>
-  import("features/world/ui/CommunityTools").then((m) => ({
-    default: m.CommunityTools,
-  }))
-);
-const Retreat = lazy(() =>
-  import("features/retreat/Retreat").then((m) => ({ default: m.Retreat }))
-);
+import { World } from "features/world/World";
+import { CommunityTools } from "features/world/ui/CommunityTools";
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
@@ -114,49 +103,44 @@ export const Navigation: React.FC = () => {
       {showGame ? (
         <ZoomProvider>
           <HashRouter>
-            <Suspense fallback={<LoadingFallback />}>
-              <Routes>
-                <Route path="*" element={<LandExpansion />} />
-                {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
-                {!state.isVisiting && (
-                  <Route
-                    path="/goblins"
-                    element={
-                      <Splash>
-                        <Forbidden />
-                      </Splash>
-                    }
-                  />
-                )}
-                <Route path="/world/:name" element={<World key="world" />} />
+            <Routes>
+              <Route path="*" element={<LandExpansion />} />
+              {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
+              {!state.isVisiting && (
                 <Route
-                  path="/community/:name"
-                  element={<World key="community" isCommunity />}
+                  path="/goblins"
+                  element={
+                    <Splash>
+                      <Forbidden />
+                    </Splash>
+                  }
                 />
-                {CONFIG.NETWORK === "mumbai" && (
-                  <Route
-                    path="/community-tools"
-                    element={<CommunityTools key="community-tools" />}
-                  />
-                )}
+              )}
+              <Route path="/world/:name" element={<World key="world" />} />
+              <Route
+                path="/community/:name"
+                element={<World key="community" isCommunity />}
+              />
+              {CONFIG.NETWORK === "mumbai" && (
+                <Route
+                  path="/community-tools"
+                  element={<CommunityTools key="community-tools" />}
+                />
+              )}
 
-                <Route
-                  path="/visit/*"
-                  element={<LandExpansion key="visit" />}
-                />
-                <Route
-                  path="/land/:id?/*"
-                  element={<LandExpansion key="land" />}
-                />
-                <Route path="/retreat">
-                  <Route index element={<TraderDeeplinkHandler />} />
-                  <Route path=":id" element={<Retreat key="retreat" />} />
-                </Route>
-                {CONFIG.NETWORK === "mumbai" && (
-                  <Route path="/builder" element={<Builder key="builder" />} />
-                )}
-              </Routes>
-            </Suspense>
+              <Route path="/visit/*" element={<LandExpansion key="visit" />} />
+              <Route
+                path="/land/:id?/*"
+                element={<LandExpansion key="land" />}
+              />
+              <Route path="/retreat">
+                <Route index element={<TraderDeeplinkHandler />} />
+                <Route path=":id" element={<Retreat key="retreat" />} />
+              </Route>
+              {CONFIG.NETWORK === "mumbai" && (
+                <Route path="/builder" element={<Builder key="builder" />} />
+              )}
+            </Routes>
           </HashRouter>
         </ZoomProvider>
       ) : (
