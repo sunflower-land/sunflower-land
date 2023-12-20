@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { Modal } from "react-bootstrap";
 
 import bank from "assets/buildings/goblin_bank.gif";
@@ -6,18 +6,14 @@ import icon from "assets/icons/token_2.png";
 
 import { Action } from "components/ui/Action";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { bankAudio, loadAudio } from "lib/utils/sfx";
+import { bankAudio } from "lib/utils/sfx";
 import { BankModal } from "features/goblins/bank/components/BankModal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Context } from "features/game/GoblinProvider";
 
 export const RetreatBank: React.FC = () => {
   const { goblinService } = useContext(Context);
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    loadAudio([bankAudio]);
-  }, []);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const openBank = () => {
     setIsOpen(true);

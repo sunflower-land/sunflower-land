@@ -1,14 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import fountain from "assets/sfts/fountain.gif";
-import { fountainAudio, loadAudio } from "lib/utils/sfx";
+import { fountainAudio } from "lib/utils/sfx";
 
 export const Fountain: React.FC = () => {
-  useEffect(() => {
-    loadAudio([fountainAudio]);
-  }, []);
-
   return (
     <div
       className="absolute w-full h-full hover:img-highlight cursor-pointer"

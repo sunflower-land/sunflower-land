@@ -4,7 +4,7 @@ import { IRON_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { getTimeLeft } from "lib/utils/time";
-import { loadAudio, miningFallAudio } from "lib/utils/sfx";
+import { miningFallAudio } from "lib/utils/sfx";
 import { InventoryItemName, Rock } from "features/game/types/game";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { useSelector } from "@xstate/react";
@@ -48,10 +48,6 @@ export const Iron: React.FC<Props> = ({ id, index }) => {
   const [collectedAmount, setCollectedAmount] = useState<number>();
 
   const divRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    loadAudio([miningFallAudio]);
-  }, []);
 
   // Reset the touch count when clicking outside of the component
   useEffect(() => {

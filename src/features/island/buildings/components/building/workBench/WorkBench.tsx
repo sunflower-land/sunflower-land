@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import workbench from "assets/buildings/workbench.png";
 import npc from "assets/npcs/blacksmith.gif";
@@ -9,7 +9,7 @@ import { WorkbenchModal } from "./components/WorkbenchModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
 import { Modal } from "react-bootstrap";
-import { loadAudio, shopAudio } from "lib/utils/sfx";
+import { shopAudio } from "lib/utils/sfx";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -30,12 +30,10 @@ const needsHelp = (state: MachineState) => {
 
 export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService } = useContext(Context);
-  const [isOpen, setIsOpen] = useState(false);
-  const showHelper = useSelector(gameService, needsHelp);
 
-  useEffect(() => {
-    loadAudio([shopAudio]);
-  }, []);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const showHelper = useSelector(gameService, needsHelp);
 
   const handleClick = () => {
     if (onRemove) {

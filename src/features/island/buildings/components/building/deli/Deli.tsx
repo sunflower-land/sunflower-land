@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import classNames from "classnames";
 
 import deli from "assets/buildings/deli.png";
@@ -14,7 +14,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { DeliModal } from "./DeliModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
-import { bakeryAudio, loadAudio } from "lib/utils/sfx";
+import { bakeryAudio } from "lib/utils/sfx";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -29,10 +29,6 @@ export const Deli: React.FC<Props> = ({
   onRemove,
 }) => {
   const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    loadAudio([bakeryAudio]);
-  }, []);
 
   const handleCook = (item: CookableName) => {
     craftingService?.send({

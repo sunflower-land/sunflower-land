@@ -12,7 +12,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
-import { loadAudio, miningAudio } from "lib/utils/sfx";
+import { miningAudio } from "lib/utils/sfx";
 import stone from "assets/resources/stone_small.png";
 import { ZoomContext } from "components/ZoomProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -49,10 +49,8 @@ const RecoveredStoneComponent: React.FC<Props> = ({
 
   const strikeGif = useRef<SpriteSheetInstance>();
 
+  // prevent performing react state update on an unmounted component
   useEffect(() => {
-    loadAudio([miningAudio]);
-
-    // prevent performing react state update on an unmounted component
     return () => {
       strikeGif.current = undefined;
     };
