@@ -84,7 +84,7 @@ export interface PlazaRoomState extends Schema {
   buds: MapSchema<Bud>;
 
   messages: ArraySchema<Message>;
-  reactions: ArraySchema<Message>;
+  reactions: ArraySchema<Reaction>;
   trades: ArraySchema<Trade>;
   actions: ArraySchema<Action>;
 }

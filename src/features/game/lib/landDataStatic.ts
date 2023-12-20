@@ -260,7 +260,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Block Buck": new Decimal(1),
     Egg: new Decimal(12),
   },
-  wardrobe: {},
+  wardrobe: {
+    "Elf Suit": 1,
+  },
 
   createdAt: new Date().getTime(),
 

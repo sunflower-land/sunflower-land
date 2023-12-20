@@ -80,6 +80,11 @@ export const PhaserComponent: React.FC<Props> = ({
   mmoService,
   inventory,
 }) => {
+  // Test onll
+  if (!mmoService.state.context.server) {
+    return null;
+  }
+  console.log({ server: mmoService.state.context.server });
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [authState] = useActor(authService);

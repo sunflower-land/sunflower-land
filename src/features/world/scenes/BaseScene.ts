@@ -26,6 +26,8 @@ import { GameState } from "features/game/types/game";
 import { Room } from "colyseus.js";
 
 import defaultTilesetConfig from "assets/map/tileset.json";
+import { PlaceableContainer } from "../containers/PlaceableContainer";
+import { budImageDomain } from "features/island/collectibles/components/Bud";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -92,7 +94,7 @@ export abstract class BaseScene extends Phaser.Scene {
   } = {};
 
   placeables: {
-    [sessionId: string]: Phaser.GameObjects.Sprite;
+    [sessionId: string]: PlaceableContainer;
   } = {};
 
   colliders?: Phaser.GameObjects.Group;
@@ -410,25 +412,10 @@ export abstract class BaseScene extends Phaser.Scene {
       }
 
       if (this.playerEntities[reaction.sessionId]) {
-        this.playerEntities[reaction.sessionId].speak(reaction.text);
+        this.playerEntities[reaction.sessionId].react(reaction.reaction);
       } else if (reaction.sessionId === server.sessionId) {
         this.currentPlayer?.react(reaction.reaction);
       }
-    });
-
-    const removeBudListener = server.state.buds.onAdd((bud) => {
-      // NOT FIRING
-      console.log({ bud });
-
-      if (bud.sceneId !== this.options.name) {
-        return;
-      }
-
-      if (!this.scene?.isActive()) {
-        return;
-      }
-
-      // TODO - add bud
     });
 
     // send the scene player is in
@@ -437,7 +424,6 @@ export abstract class BaseScene extends Phaser.Scene {
     this.events.on("shutdown", () => {
       removeMessageListener();
       removeReactionListener();
-      removeBudListener();
     });
   }
 
@@ -872,7 +858,13 @@ export abstract class BaseScene extends Phaser.Scene {
       if (bud.sceneId !== this.scene.key) return;
 
       if (!this.placeables[sessionId]) {
-        this.placeables[sessionId] = this.add.sprite();
+        console.log("Place that bad boy");
+        this.placeables[sessionId] = new PlaceableContainer({
+          sprite: `https://${budImageDomain}.sunflower-land.com/images/${bud.id}.webp`,
+          x: bud.x,
+          y: bud.y,
+          scene: this,
+        });
       }
     });
   }
@@ -1033,6 +1025,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.updatePlayer();
     this.updateOtherPlayers();
     this.updateUsernames();
+    this.syncPlaceables();
   }
 
   teleportModerator(x: number, y: number) {

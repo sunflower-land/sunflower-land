@@ -129,7 +129,9 @@ export type MachineInterpreter = Interpreter<
 >;
 
 export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
-  initial: "initialising",
+  // Testing purposes
+  initial: "exploring",
+  // initial: "initialising",
   context: {
     jwt: "",
     farmId: 0,
@@ -214,8 +216,14 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
       invoke: {
         id: "exploring",
         src: (context, event) => async () => {
-          const { url, serverId } = event as ConnectEvent;
+          // TESTING PURPOSES
+          const { url, serverId } = {
+            url: CONFIG.ROOM_URL,
+            serverId: "sunflorea_bliss",
+          };
+          // const { url, serverId } = event as ConnectEvent;
 
+          console.log("URL", url);
           const client = new Client(url);
 
           // Join server based on what was selected
@@ -231,6 +239,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             username: context.username,
           });
 
+          console.log({ server, client, serverId });
           return { server, client, serverId };
         },
         onDone: [
