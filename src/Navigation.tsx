@@ -63,7 +63,6 @@ export const Navigation: React.FC = () => {
   const state = useSelector(authService, selectState);
 
   const [showGame, setShowGame] = useState(false);
-  useImagePreloader();
 
   /**
    * Listen to web3 account/chain changes
