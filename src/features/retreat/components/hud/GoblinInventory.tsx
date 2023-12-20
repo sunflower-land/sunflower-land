@@ -43,7 +43,7 @@ export const GoblinInventory: React.FC<Props> = ({ state, onDepositClick }) => {
 
   return (
     <div
-      className="flex flex-col items-center fixed z-50"
+      className="flex flex-col items-center absolute z-50"
       style={{
         right: `${PIXEL_SCALE * 3}px`,
         top: `${PIXEL_SCALE * 25}px`,

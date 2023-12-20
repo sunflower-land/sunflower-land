@@ -27,10 +27,10 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { LandscapingIntroduction } from "./components/LandscapingIntroduction";
 import { getRemoveAction } from "../collectibles/MovableComponent";
 import { InventoryItemName } from "features/game/types/game";
-import { createPortal } from "react-dom";
 import { RemoveKuebikoModal } from "../collectibles/RemoveKuebikoModal";
 import { hasRemoveRestriction } from "features/game/types/removeables";
 import { BudName } from "features/game/types/buds";
+import { HudContainer } from "components/ui/HudContainer";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -100,12 +100,8 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
     }
   };
 
-  return createPortal(
-    <div
-      data-html2canvas-ignore="true"
-      aria-label="Hud"
-      className="absolute z-40"
-    >
+  return (
+    <HudContainer>
       <Balance balance={balance} />
       <BlockBucks blockBucks={blockBucks} />
 
@@ -115,7 +111,7 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
         {idle && (
           <>
             <div
-              className="fixed flex z-50 flex-col"
+              className="absolute flex z-50 flex-col"
               style={{
                 marginLeft: `${PIXEL_SCALE * 2}px`,
                 marginBottom: `${PIXEL_SCALE * 25}px`,
@@ -205,7 +201,7 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
       {showRemove && (
         <div
           onClick={() => !isRestricted && remove()}
-          className="fixed flex z-50 flex-col cursor-pointer"
+          className="absolute flex z-50 flex-col cursor-pointer"
           style={{
             marginLeft: `${PIXEL_SCALE * 2}px`,
             marginBottom: `${PIXEL_SCALE * 25}px`,
@@ -271,8 +267,7 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
       />
 
       <PlaceableController />
-    </div>,
-    document.body
+    </HudContainer>
   );
 };
 

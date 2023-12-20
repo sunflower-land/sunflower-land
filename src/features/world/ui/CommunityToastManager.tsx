@@ -78,7 +78,7 @@ export const CommunityToasts: React.FC = () => {
       {toasts.length > 0 &&
         createPortal(
           <InnerPanel
-            className="flex flex-col items-start fixed z-[99999] pointer-events-none"
+            className="flex flex-col items-start absolute z-[99999] pointer-events-none"
             style={{
               top: `${PIXEL_SCALE * 85}px`,
               left: `${PIXEL_SCALE * 3}px`,

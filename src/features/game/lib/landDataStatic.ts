@@ -122,8 +122,8 @@ export const INITIAL_RESOURCES: Pick<
       },
       x: 7,
       y: 3,
-      height: 2,
-      width: 2,
+      height: 1,
+      width: 1,
     },
     2: {
       stone: {
@@ -132,8 +132,8 @@ export const INITIAL_RESOURCES: Pick<
       },
       x: 3,
       y: 6,
-      height: 2,
-      width: 2,
+      height: 1,
+      width: 1,
     },
   },
   fruitPatches: {},

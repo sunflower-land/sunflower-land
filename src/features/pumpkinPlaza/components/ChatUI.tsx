@@ -97,7 +97,7 @@ export const ChatUI: React.FC<Props> = ({
     <>
       <div
         className={classNames(
-          "fixed top-48 left-3 transition-transform origin-top-left ease-in-out duration-300",
+          "absolute top-48 left-3 transition-transform origin-top-left ease-in-out duration-300",
           { "scale-0": !showChat, "scale-100": showChat }
         )}
         // eslint-disable-next-line no-console
@@ -112,7 +112,7 @@ export const ChatUI: React.FC<Props> = ({
       </div>
       <div
         className={classNames(
-          "fixed top-36 left-3 cursor-pointer transition-transform origin-top-left ease-in-out duration-300",
+          "absolute top-36 left-3 cursor-pointer transition-transform origin-top-left ease-in-out duration-300",
           {
             "scale-50": showChat,
             "opacity-50": isMuted,
