@@ -35,7 +35,7 @@ import emptyHeart from "assets/community/arcade/chicken_fight/images/heart_empty
 import p1wins from "assets/community/arcade/chicken_fight/images/p1_wins.png";
 import p2wins from "assets/community/arcade/chicken_fight/images/p2_wins.png";
 
-import { chickenFightAudio, loadAudio } from "src/lib/utils/sfx";
+import { chickenFightAudio } from "src/lib/utils/sfx";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { randomBoolean } from "lib/utils/random";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -186,10 +186,6 @@ export const ChickenFight: React.FC = () => {
   const [winner, setWinner] = useState<Id | undefined>();
   const [activeKeys, setActiveKeys] = useState<KeyboardButtons[]>([]);
   const chickenMoveTimeout = useRef<NodeJS.Timeout>();
-
-  useEffect(() => {
-    loadAudio(Object.values(chickenFightAudio));
-  }, []);
 
   /**
    * Start moving the chickens forever until it is stopped

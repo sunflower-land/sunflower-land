@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Action } from "components/ui/Action";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import { blacksmithAudio, loadAudio } from "lib/utils/sfx";
+import { blacksmithAudio } from "lib/utils/sfx";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -23,10 +23,6 @@ const bumpkin: Equipped = {
 
 export const RetreatPirate: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
-
-  useEffect(() => {
-    loadAudio([blacksmithAudio]);
-  }, []);
 
   const openPirate = () => {
     setIsOpen(true);

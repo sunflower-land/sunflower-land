@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Modal } from "react-bootstrap";
 
 import building from "assets/buildings/hen_house.png";
@@ -7,17 +7,13 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { HenHouseModal } from "./components/HenHouseModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
-import { barnAudio, loadAudio } from "lib/utils/sfx";
+import { barnAudio } from "lib/utils/sfx";
 
 export const ChickenHouse: React.FC<BuildingProps> = ({
   isBuilt,
   onRemove,
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-
-  useEffect(() => {
-    loadAudio([barnAudio]);
-  }, []);
 
   const handleClick = () => {
     if (onRemove) {

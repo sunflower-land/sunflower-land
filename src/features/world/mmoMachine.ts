@@ -15,7 +15,13 @@ export type Scenes = {
   clothes_shop: Room<PlazaRoomState> | undefined;
   decorations_shop: Room<PlazaRoomState> | undefined;
   windmill_floor: Room<PlazaRoomState> | undefined;
+  igor_home: Room<PlazaRoomState> | undefined;
+  bert_home: Room<PlazaRoomState> | undefined;
+  timmy_home: Room<PlazaRoomState> | undefined;
+  betty_home: Room<PlazaRoomState> | undefined;
   woodlands: Room<PlazaRoomState> | undefined;
+  dawn_breaker: Room<PlazaRoomState> | undefined;
+  marcus_home: Room<PlazaRoomState> | undefined;
   beach: Room<PlazaRoomState> | undefined;
   crop_boom: Room<PlazaRoomState> | undefined;
   mushroom_forest: Room<PlazaRoomState> | undefined;

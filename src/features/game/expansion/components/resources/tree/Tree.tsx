@@ -4,7 +4,7 @@ import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { getTimeLeft } from "lib/utils/time";
-import { loadAudio, treeFallAudio } from "lib/utils/sfx";
+import { treeFallAudio } from "lib/utils/sfx";
 import {
   Collectibles,
   InventoryItemName,
@@ -76,10 +76,6 @@ export const Tree: React.FC<Props> = ({ id, index }) => {
   const [collectedAmount, setCollectedAmount] = useState<number>();
 
   const divRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    loadAudio([treeFallAudio]);
-  }, []);
 
   // Reset the shake count when clicking outside of the component
   useEffect(() => {

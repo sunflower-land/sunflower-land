@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import classNames from "classnames";
 
@@ -15,7 +15,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { KitchenModal } from "./KitchenModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
-import { bakeryAudio, loadAudio } from "lib/utils/sfx";
+import { bakeryAudio } from "lib/utils/sfx";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -30,10 +30,6 @@ export const Kitchen: React.FC<Props> = ({
   onRemove,
 }) => {
   const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    loadAudio([bakeryAudio]);
-  }, []);
 
   const handleCook = (item: CookableName) => {
     craftingService?.send({

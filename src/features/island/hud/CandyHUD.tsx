@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import candy from "assets/icons/candy_icon.png";
+import candy from "public/world/candy_icon.png";
 
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import market from "assets/buildings/market.png";
 import shadow from "assets/npcs/shadow.png";
@@ -14,7 +14,7 @@ import { useActor } from "@xstate/react";
 import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
 import { Bumpkin } from "features/game/types/game";
-import { loadAudio, shopAudio } from "lib/utils/sfx";
+import { shopAudio } from "lib/utils/sfx";
 import { isCropShortage } from "features/game/expansion/lib/boosts";
 
 const hasSoldCropsBefore = (bumpkin?: Bumpkin) => {
@@ -39,12 +39,9 @@ const hasBoughtCropsBefore = (bumpkin?: Bumpkin) => {
 
 export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const [isOpen, setIsOpen] = React.useState(false);
+
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-
-  useEffect(() => {
-    loadAudio([shopAudio]);
-  }, []);
 
   const handleClick = () => {
     if (onRemove) {
