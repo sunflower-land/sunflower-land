@@ -12,13 +12,13 @@ import Modal from "react-bootstrap/esm/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Deposit } from "features/goblins/bank/components/Deposit";
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
-import { createPortal } from "react-dom";
 import { Save } from "./components/Save";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Settings } from "./components/Settings";
 import { Leaderboard } from "features/game/expansion/components/leaderboard/Leaderboard";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
+import { HudContainer } from "components/ui/HudContainer";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -50,98 +50,88 @@ const HudComponent: React.FC = () => {
   const isFullUser = farmAddress !== undefined;
 
   return (
-    <>
-      {createPortal(
-        <div
-          data-html2canvas-ignore="true"
-          aria-label="Hud"
-          className="absolute z-40"
-        >
-          <div>
-            <Inventory
-              state={gameState.context.state}
-              isFullUser={isFullUser}
-              shortcutItem={shortcutItem}
-              selectedItem={selectedItem}
-              onPlace={(selected) => {
-                gameService.send("LANDSCAPE", {
-                  action: placeEvent(selected),
-                  placeable: selected,
-                  multiple: true,
-                });
-              }}
-              onDepositClick={() => setShowDepositModal(true)}
-              isSaving={autosaving}
-              isFarming={false}
+    <HudContainer>
+      <Inventory
+        state={gameState.context.state}
+        isFullUser={isFullUser}
+        shortcutItem={shortcutItem}
+        selectedItem={selectedItem}
+        onPlace={(selected) => {
+          gameService.send("LANDSCAPE", {
+            action: placeEvent(selected),
+            placeable: selected,
+            multiple: true,
+          });
+        }}
+        onDepositClick={() => setShowDepositModal(true)}
+        isSaving={autosaving}
+        isFarming={false}
+      />
+
+      <Balance
+        onBalanceClick={
+          farmAddress ? () => setShowDepositModal(true) : undefined
+        }
+        balance={gameState.context.state.balance}
+      />
+      <BlockBucks
+        blockBucks={
+          gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
+        }
+      />
+      <div
+        className="absolute z-50 flex flex-col justify-between"
+        style={{
+          left: `${PIXEL_SCALE * 3}px`,
+          bottom: `${PIXEL_SCALE * 3}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+          height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
+        }}
+      >
+        <Leaderboard farmId={farmId} />
+        <TravelButton />
+      </div>
+      <div
+        className="absolute z-50 flex flex-col justify-between"
+        style={{
+          bottom: `${PIXEL_SCALE * 3}px`,
+          left: `${PIXEL_SCALE * 28}px`,
+        }}
+      >
+        <AuctionCountdown />
+      </div>
+
+      <BumpkinProfile isFullUser={isFullUser} />
+
+      <div
+        className="absolute z-50 flex flex-col justify-between"
+        style={{
+          right: `${PIXEL_SCALE * 3}px`,
+          bottom: `${PIXEL_SCALE * 3}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+          height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
+        }}
+      >
+        <Save />
+        <Settings isFarming={false} />
+      </div>
+
+      {farmAddress && (
+        <Modal show={showDepositModal} centered onHide={handleClose}>
+          <CloseButtonPanel
+            title={depositDataLoaded ? "Deposit" : undefined}
+            onClose={depositDataLoaded ? handleClose : undefined}
+          >
+            <Deposit
+              farmAddress={farmAddress}
+              onDeposit={handleDeposit}
+              onLoaded={(loaded) => setDepositDataLoaded(loaded)}
+              onClose={handleClose}
             />
-          </div>
-
-          <Balance
-            onBalanceClick={
-              farmAddress ? () => setShowDepositModal(true) : undefined
-            }
-            balance={gameState.context.state.balance}
-          />
-          <BlockBucks
-            blockBucks={
-              gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
-            }
-          />
-          <div
-            className="fixed z-50 flex flex-col justify-between"
-            style={{
-              left: `${PIXEL_SCALE * 3}px`,
-              bottom: `${PIXEL_SCALE * 3}px`,
-              width: `${PIXEL_SCALE * 22}px`,
-              height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
-            }}
-          >
-            <Leaderboard farmId={farmId} />
-            <TravelButton />
-          </div>
-          <div
-            className="fixed z-50 flex flex-col justify-between"
-            style={{
-              bottom: `${PIXEL_SCALE * 3}px`,
-              left: `${PIXEL_SCALE * 28}px`,
-            }}
-          >
-            <AuctionCountdown />
-          </div>
-
-          <BumpkinProfile isFullUser={isFullUser} />
-
-          <div
-            className="fixed z-50 flex flex-col justify-between"
-            style={{
-              right: `${PIXEL_SCALE * 3}px`,
-              bottom: `${PIXEL_SCALE * 3}px`,
-              width: `${PIXEL_SCALE * 22}px`,
-              height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
-            }}
-          >
-            <Save />
-            <Settings isFarming={false} />
-          </div>
-
-          {farmAddress && (
-            <Modal show={showDepositModal} centered onHide={handleClose}>
-              <CloseButtonPanel
-                onClose={depositDataLoaded ? handleClose : undefined}
-              >
-                <Deposit
-                  farmAddress={farmAddress}
-                  onDeposit={handleDeposit}
-                  onLoaded={(loaded) => setDepositDataLoaded(loaded)}
-                  onClose={handleClose}
-                />
-              </CloseButtonPanel>
-            </Modal>
-          )}
-        </div>,
-        document.body
+          </CloseButtonPanel>
+        </Modal>
       )}
-    </>
+    </HudContainer>
   );
 };
 

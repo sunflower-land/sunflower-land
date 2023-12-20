@@ -19,7 +19,7 @@ export const Balance: React.FC<Props> = ({ balance, onBalanceClick }) => {
   return (
     <>
       <InnerPanel
-        className={classNames("fixed z-50 flex items-center p-1", {
+        className={classNames("absolute z-50 flex items-center p-1", {
           "cursor-pointer": !!onBalanceClick,
         })}
         style={{
