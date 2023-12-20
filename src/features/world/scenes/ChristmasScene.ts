@@ -342,52 +342,55 @@ export class ChristmasScene extends BaseScene {
       this.gameService.state.context.state
     );
 
-    const candyCollected =
-      this.gameService.state.context.state.christmas?.day[dayOfChristmas]
-        ?.candy ?? 0;
+    if (dayOfChristmas <= 12) {
+      const candyCollected =
+        this.gameService.state.context.state.christmas?.day[dayOfChristmas]
+          ?.candy ?? 0;
 
-    const remaining = DAILY_CANDY - candyCollected;
+      const remaining = DAILY_CANDY - candyCollected;
 
-    const candyPositions = SHUFFLED_CANDY_POSITIONS.slice(0, remaining);
+      const candyPositions = SHUFFLED_CANDY_POSITIONS.slice(0, remaining);
 
-    candyPositions.forEach(({ x, y }) => {
-      const candy = new Candy({ x, y, scene: this });
-      candy.setDepth(1000000);
-      this.physics.world.enable(candy);
+      candyPositions.forEach(({ x, y }) => {
+        const candy = new Candy({ x, y, scene: this });
+        candy.setDepth(1000000);
+        this.physics.world.enable(candy);
 
-      const candyGroup = this.add.group();
-      candyGroup.add(candy);
-      this.physics.add.collider(
-        this.currentPlayer as BumpkinContainer,
-        candy,
-        (obj1, obj2) => {
-          candy.sprite?.destroy();
-          candy.destroy();
+        const candyGroup = this.add.group();
+        candyGroup.add(candy);
+        this.physics.add.collider(
+          this.currentPlayer as BumpkinContainer,
+          candy,
+          (obj1, obj2) => {
+            candy.sprite?.destroy();
+            candy.destroy();
 
-          const { dayOfChristmas } = getDayOfChristmas(
-            this.gameService.state.context.state
-          );
+            const { dayOfChristmas } = getDayOfChristmas(
+              this.gameService.state.context.state
+            );
 
-          const candyCollected =
-            this.gameService.state.context.state.christmas?.day[dayOfChristmas]
-              ?.candy ?? 0;
+            const candyCollected =
+              this.gameService.state.context.state.christmas?.day[
+                dayOfChristmas
+              ]?.candy ?? 0;
 
-          const remaining = DAILY_CANDY - candyCollected;
+            const remaining = DAILY_CANDY - candyCollected;
 
-          // Open reward window
-          if (remaining === 1) {
-            interactableModalManager.open("christmas_reward");
-          } else {
-            // Otherwise collect straight away
-            this.gameService.send("candy.collected");
-            this.gameService.send("SAVE");
+            // Open reward window
+            if (remaining === 1) {
+              interactableModalManager.open("christmas_reward");
+            } else {
+              // Otherwise collect straight away
+              this.gameService.send("candy.collected");
+              this.gameService.send("SAVE");
+            }
+
+            const chime = this.sound.add("chime");
+            chime.play({ loop: false, volume: 0.1 });
           }
-
-          const chime = this.sound.add("chime");
-          chime.play({ loop: false, volume: 0.1 });
-        }
-      );
-    });
+        );
+      });
+    }
 
     const auctionLabel = new Label(this, "AUCTIONS", "brown");
     auctionLabel.setPosition(601, 260);
