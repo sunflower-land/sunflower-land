@@ -56,7 +56,11 @@ export const FestiveTree: React.FC<Props> = ({ id }) => {
 
   return (
     <>
-      <Modal centered show={showGiftedModal}>
+      <Modal
+        centered
+        show={showGiftedModal}
+        onHide={() => setShowGiftedModal(false)}
+      >
         <CloseButtonPanel
           bumpkinParts={NPC_WEARABLES.santa}
           onClose={() => setShowGiftedModal(false)}
@@ -71,7 +75,11 @@ export const FestiveTree: React.FC<Props> = ({ id }) => {
         </CloseButtonPanel>
       </Modal>
 
-      <Modal centered show={showWrongTimeModal}>
+      <Modal
+        centered
+        show={showWrongTimeModal}
+        onHide={() => setShowWrongTimeModal(false)}
+      >
         <CloseButtonPanel
           bumpkinParts={NPC_WEARABLES.santa}
           onClose={() => setShowWrongTimeModal(false)}
