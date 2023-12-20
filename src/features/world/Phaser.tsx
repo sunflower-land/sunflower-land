@@ -367,6 +367,63 @@ export const PhaserComponent: React.FC<Props> = ({
     <div>
       <div id="game-content" ref={ref} />
 
+      {/* Hud Components should all be inside here. - ie. components positioned absolutely to the window */}
+      <div className="fixed inset-safe-area z-40">
+        {isMuted && (
+          <InnerPanel className="absolute top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer">
+            <img src={SoundOffIcon} className="h-8 mr-2 ml-1" />
+            <div className="flex flex-col p-1">
+              <span className="text-sm">You are muted</span>
+              <span className="text-xxs">
+                You will be able to chat again in{" "}
+                {isMuted.mutedUntil
+                  ? calculateMuteTime(isMuted.mutedUntil, "remaining")
+                  : "Unknown"}
+              </span>
+            </div>
+          </InnerPanel>
+        )}
+
+        <ChatUI
+          farmId={gameService.state.context.farmId}
+          onMessage={(m) => {
+            mmoService.state.context.server?.send(0, {
+              text: m.text ?? "?",
+            });
+          }}
+          onCommand={(name, args) => {
+            handleCommand(name, args).then(updateMessages);
+          }}
+          messages={messages ?? []}
+          isMuted={isMuted ? true : false}
+        />
+
+        {isModerator && !isCommunity && (
+          <ModerationTools
+            scene={game.current?.scene.getScene(scene)}
+            messages={messages ?? []}
+            players={players ?? []}
+            gameService={gameService}
+          />
+        )}
+
+        <CommunityToasts />
+
+        {mmoState === "error" && (
+          <InnerPanel
+            className="absolute top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer"
+            onClick={() => mmoService.send("RETRY")}
+          >
+            <img src={SUNNYSIDE.icons.sad} className="h-4 mr-1" />
+            <div className="mb-0.5">
+              <Label type="danger">Connection failed</Label>
+            </div>
+          </InnerPanel>
+        )}
+      </div>
+
+      {/* Modals */}
+
       {MuteEvent && (
         <Muted event={MuteEvent} onClose={() => setMuteEvent(undefined)} />
       )}
@@ -381,6 +438,7 @@ export const PhaserComponent: React.FC<Props> = ({
         />
       )}
 
+<<<<<<< HEAD
       <ChatUI
         farmId={gameService.state.context.farmId}
         gameState={gameService.state.context.state}
@@ -414,6 +472,8 @@ export const PhaserComponent: React.FC<Props> = ({
           gameService={gameService}
         />
       )}
+=======
+>>>>>>> 2f49ec6f3 ([FEAT] Add safe area container for Huds)
       <NPCModals
         id={gameService.state.context.farmId as number}
         scene={scene}
@@ -428,7 +488,6 @@ export const PhaserComponent: React.FC<Props> = ({
         farmId={gameService.state.context.farmId as number}
       />
       <CommunityModals />
-      <CommunityToasts />
       <InteractableModals id={gameService.state.context.farmId as number} />
       <Modal
         show={mmoState === "loading" || mmoState === "initialising"}
@@ -445,32 +504,6 @@ export const PhaserComponent: React.FC<Props> = ({
           <p className="loading">Loading</p>
         </Panel>
       </Modal>
-      {mmoState === "error" && (
-        <InnerPanel
-          className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer"
-          onClick={() => mmoService.send("RETRY")}
-        >
-          <img src={SUNNYSIDE.icons.sad} className="h-4 mr-1" />
-          <div className="mb-0.5">
-            <Label type="danger">Connection failed</Label>
-          </div>
-        </InnerPanel>
-      )}
-
-      {isMuted && (
-        <InnerPanel className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer">
-          <img src={SoundOffIcon} className="h-8 mr-2 ml-1" />
-          <div className="flex flex-col p-1">
-            <span className="text-sm">You are muted</span>
-            <span className="text-xxs">
-              You will be able to chat again in{" "}
-              {isMuted.mutedUntil
-                ? calculateMuteTime(isMuted.mutedUntil, "remaining")
-                : "Unknown"}
-            </span>
-          </div>
-        </InnerPanel>
-      )}
     </div>
   );
 };

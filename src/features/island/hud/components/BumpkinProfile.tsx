@@ -108,7 +108,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
     <>
       {/* Bumpkin profile */}
       <div
-        className={classNames(`grid fixed -left-4 z-50 top-0`, {
+        className={classNames(`grid absolute -left-4 z-50 top-0`, {
           "cursor-pointer hover:img-highlight": !!onClick,
         })}
         style={{ height: "80px" }}
