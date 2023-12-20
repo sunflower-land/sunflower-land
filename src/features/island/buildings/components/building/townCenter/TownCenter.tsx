@@ -94,6 +94,7 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
               onesie: bumpkin.equipped.onesie,
               wings: bumpkin.equipped.wings,
               dress: bumpkin.equipped.dress,
+              beard: bumpkin.equipped.beard,
             }}
           />
         )}
