@@ -49,6 +49,10 @@ export abstract class Preloader extends Phaser.Scene {
       this.load.image("shadow", "world/shadow.png");
       this.load.image("skull", SUNNYSIDE.decorations.skull);
 
+      this.load.image("heart", SUNNYSIDE.icons.heart);
+      this.load.image("sad", SUNNYSIDE.icons.sad);
+      this.load.image("happy", SUNNYSIDE.icons.happy);
+
       this.load.spritesheet("silhouette", "world/silhouette.webp", {
         frameWidth: 14,
         frameHeight: 18,

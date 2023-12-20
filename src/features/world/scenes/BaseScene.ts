@@ -91,6 +91,10 @@ export abstract class BaseScene extends Phaser.Scene {
     [sessionId: string]: BumpkinContainer;
   } = {};
 
+  placeables: {
+    [sessionId: string]: Phaser.GameObjects.Sprite;
+  } = {};
+
   colliders?: Phaser.GameObjects.Group;
   triggerColliders?: Phaser.GameObjects.Group;
   hiddenColliders?: Phaser.GameObjects.Group;
@@ -391,6 +395,7 @@ export abstract class BaseScene extends Phaser.Scene {
     });
 
     const removeReactionListener = server.state.reactions.onAdd((reaction) => {
+      console.log({ reaction });
       // Old message
       if (reaction.sentAt < Date.now() - 5000) {
         return;
@@ -407,8 +412,23 @@ export abstract class BaseScene extends Phaser.Scene {
       if (this.playerEntities[reaction.sessionId]) {
         this.playerEntities[reaction.sessionId].speak(reaction.text);
       } else if (reaction.sessionId === server.sessionId) {
-        this.currentPlayer?.speak(reaction.text);
+        this.currentPlayer?.react(reaction.reaction);
       }
+    });
+
+    const removeBudListener = server.state.buds.onAdd((bud) => {
+      // NOT FIRING
+      console.log({ bud });
+
+      if (bud.sceneId !== this.options.name) {
+        return;
+      }
+
+      if (!this.scene?.isActive()) {
+        return;
+      }
+
+      // TODO - add bud
     });
 
     // send the scene player is in
@@ -417,6 +437,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.events.on("shutdown", () => {
       removeMessageListener();
       removeReactionListener();
+      removeBudListener();
     });
   }
 
@@ -824,6 +845,34 @@ export abstract class BaseScene extends Phaser.Scene {
           npc: player.npc,
           experience: player.experience,
         });
+      }
+    });
+  }
+
+  syncPlaceables() {
+    const server = this.mmoServer;
+    if (!server) return;
+
+    // Destroy any dereferenced placeables
+    Object.keys(this.placeables).forEach((sessionId) => {
+      const hasLeft =
+        !server.state.buds.get(sessionId) ||
+        server.state.buds.get(sessionId)?.sceneId !== this.scene.key;
+
+      const isInactive = !this.placeables[sessionId]?.active;
+
+      if (hasLeft || isInactive) {
+        this.placeables[sessionId]?.setVisible(false);
+        delete this.placeables[sessionId];
+      }
+    });
+
+    // Create new placeables
+    server.state.buds.forEach((bud, sessionId) => {
+      if (bud.sceneId !== this.scene.key) return;
+
+      if (!this.placeables[sessionId]) {
+        this.placeables[sessionId] = this.add.sprite();
       }
     });
   }

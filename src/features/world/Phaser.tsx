@@ -411,7 +411,7 @@ export const PhaserComponent: React.FC<Props> = ({
         }}
         onBudPlace={(tokenId) => {
           mmoService.state.context.server?.send(0, {
-            bud: tokenId,
+            budId: tokenId,
           });
         }}
       />

@@ -6,6 +6,7 @@ import { Label } from "./Label";
 import debounce from "lodash.debounce";
 import { Player } from "../types/Room";
 import { NPCName, acknowedlgedNPCs } from "lib/npcs";
+import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
 
 const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
   "pumpkin' pete": true,
@@ -20,6 +21,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   public skull: Phaser.GameObjects.Sprite | undefined;
 
   public speech: SpeechBubble | undefined;
+  public reaction: Phaser.GameObjects.Sprite | undefined;
   public invincible = false;
 
   public clothing: Player["clothing"];
@@ -272,6 +274,19 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.stopSpeaking();
   }, 5000);
 
+  /**
+   * Use a debouncer to allow players new messages not to be destroyed by old timeouts
+   */
+  destroyReaction = debounce(() => {
+    this.stopReaction();
+  }, 5000);
+
+  public stopReaction() {
+    this.reaction?.destroy();
+    this.reaction = undefined;
+
+    this.destroyReaction.cancel();
+  }
   public stopSpeaking() {
     this.speech?.destroy();
     this.speech = undefined;
@@ -280,6 +295,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public speak(text: string) {
+    this.stopReaction();
+
     if (this.speech) {
       this.speech.destroy();
     }
@@ -292,6 +309,21 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.add(this.speech);
 
     this.destroySpeechBubble();
+  }
+
+  public react(react: ReactionName) {
+    this.stopSpeaking();
+
+    if (this.reaction) {
+      this.reaction.destroy();
+    }
+
+    // TODO preload these images
+    this.reaction = this.scene.add.sprite(0, -14, react);
+
+    this.add(this.reaction);
+
+    this.destroyReaction();
   }
 
   public walk() {
