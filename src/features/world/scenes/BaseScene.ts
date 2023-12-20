@@ -390,11 +390,33 @@ export abstract class BaseScene extends Phaser.Scene {
       }
     });
 
+    const removeReactionListener = server.state.reactions.onAdd((reaction) => {
+      // Old message
+      if (reaction.sentAt < Date.now() - 5000) {
+        return;
+      }
+
+      if (reaction.sceneId !== this.options.name) {
+        return;
+      }
+
+      if (!this.scene?.isActive()) {
+        return;
+      }
+
+      if (this.playerEntities[reaction.sessionId]) {
+        this.playerEntities[reaction.sessionId].speak(reaction.text);
+      } else if (reaction.sessionId === server.sessionId) {
+        this.currentPlayer?.speak(reaction.text);
+      }
+    });
+
     // send the scene player is in
     // this.room.send()
 
     this.events.on("shutdown", () => {
       removeMessageListener();
+      removeReactionListener();
     });
   }
 

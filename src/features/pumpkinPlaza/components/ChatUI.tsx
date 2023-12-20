@@ -7,6 +7,8 @@ import classNames from "classnames";
 import { ChatText } from "./ChatText";
 import { Label } from "components/ui/Label";
 import { SceneId } from "features/world/mmoMachine";
+import { Reactions } from "./Reactions";
+import { GameState } from "features/game/types/game";
 
 export type Message = {
   farmId: number;
@@ -22,6 +24,9 @@ interface Props {
   onMessage: (content: { text?: string; reaction?: ReactionName }) => void;
   isMuted?: boolean;
   onCommand?: (name: string, args: string[]) => void;
+  onReact: (reaction: "heart" | "angry" | "sad") => void;
+  onBudPlace: (tokenId: number) => void;
+  gameState: GameState;
 }
 
 export const ChatUI: React.FC<Props> = ({
@@ -30,14 +35,20 @@ export const ChatUI: React.FC<Props> = ({
   isMuted,
   onCommand,
   messages,
+  gameState,
+  onReact,
+  onBudPlace,
 }) => {
-  const [showChat, setShowChat] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
+
+  const [option, setOption] = useState<"chat" | "reaction">();
+
   const [cooldown, setCooldown] = useState<number>(0);
   const [messageCountOnChatClose, setMessageCountOnChatClose] = useState(0);
   const [newMessageCount, setNewMessageCount] = useState(0);
 
   useEffect(() => {
-    if (!showChat) {
+    if (!showOptions) {
       const newMessageCount = messages.length - messageCountOnChatClose;
 
       setNewMessageCount(newMessageCount);
@@ -45,8 +56,8 @@ export const ChatUI: React.FC<Props> = ({
   }, [messages.length]);
 
   useEffect(() => {
-    if (isMuted && showChat) {
-      setShowChat(false);
+    if (isMuted && showOptions) {
+      setShowOptions(false);
     }
   }, [isMuted]);
 
@@ -55,11 +66,12 @@ export const ChatUI: React.FC<Props> = ({
 
     setMessageCountOnChatClose(0);
     setNewMessageCount(0);
-    setShowChat(true);
+    setShowOptions(true);
+    setOption("chat");
   };
 
   const handleChatClose = () => {
-    setShowChat(false);
+    setShowOptions(false);
     setMessageCountOnChatClose(messages.length);
   };
 
@@ -93,12 +105,15 @@ export const ChatUI: React.FC<Props> = ({
     onCommand?.(name, args);
   };
 
+  const showChatMessages = showOptions && option === "chat";
+  const showReactions = showOptions && option === "reaction";
+
   return (
     <>
       <div
         className={classNames(
           "fixed top-48 left-3 transition-transform origin-top-left ease-in-out duration-300",
-          { "scale-0": !showChat, "scale-100": showChat }
+          { "scale-0": !showChatMessages, "scale-100": showChatMessages }
         )}
         // eslint-disable-next-line no-console
         onClick={console.log}
@@ -112,15 +127,33 @@ export const ChatUI: React.FC<Props> = ({
       </div>
       <div
         className={classNames(
-          "fixed top-36 left-3 cursor-pointer transition-transform origin-top-left ease-in-out duration-300",
+          "fixed top-48 left-3 transition-transform origin-top-left ease-in-out duration-300",
+          { "scale-0": !showReactions, "scale-100": showReactions }
+        )}
+        // eslint-disable-next-line no-console
+        onClick={console.log}
+      >
+        <Reactions
+          gameState={gameState}
+          onReact={onReact}
+          onBudPlace={onBudPlace}
+        />
+      </div>
+      <div
+        className={classNames(
+          "fixed top-36 cursor-pointer transition-transform origin-top-left ease-in-out duration-300",
           {
-            "scale-50": showChat,
+            "scale-50": showOptions,
             "opacity-50": isMuted,
             "cursor-not-allowed": isMuted,
           }
         )}
-        style={{ width: `${PIXEL_SCALE * 22}px`, zIndex: 51 }}
-        onClick={showChat ? handleChatClose : handleChatOpen}
+        style={{
+          left: `${PIXEL_SCALE * 4}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+          zIndex: 51,
+        }}
+        onClick={showOptions ? () => setOption("chat") : handleChatOpen}
       >
         <img
           src={SUNNYSIDE.icons.disc}
@@ -138,6 +171,54 @@ export const ChatUI: React.FC<Props> = ({
             </Label>
           </div>
         )}
+      </div>
+      <div
+        className={classNames(
+          "fixed top-36 left-12 cursor-pointer transition-transform origin-top-left ease-in-out duration-300 scale-0",
+          {
+            "scale-50": showOptions,
+          }
+        )}
+        style={{
+          left: `${PIXEL_SCALE * 18}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+          zIndex: 51,
+        }}
+        onClick={() => setOption("reaction")}
+      >
+        <img
+          src={SUNNYSIDE.icons.disc}
+          style={{ width: `${PIXEL_SCALE * 22}px` }}
+        />
+        <img
+          src={SUNNYSIDE.icons.heart}
+          style={{ width: `${PIXEL_SCALE * 9}px` }}
+          className="top-1/2 left-1/2 absolute -translate-x-1/2 -translate-y-1/2"
+        />
+      </div>
+      <div
+        className={classNames(
+          "fixed top-36 left-20 cursor-pointer transition-transform origin-top-left ease-in-out duration-300 scale-0",
+          {
+            "scale-50": showOptions,
+          }
+        )}
+        style={{
+          left: `${PIXEL_SCALE * 32}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+          zIndex: 51,
+        }}
+        onClick={handleChatClose}
+      >
+        <img
+          src={SUNNYSIDE.icons.disc}
+          style={{ width: `${PIXEL_SCALE * 22}px` }}
+        />
+        <img
+          src={SUNNYSIDE.icons.cancel}
+          style={{ width: `${PIXEL_SCALE * 9}px` }}
+          className="top-1/2 left-1/2 absolute -translate-x-1/2 -translate-y-1/2"
+        />
       </div>
     </>
   );

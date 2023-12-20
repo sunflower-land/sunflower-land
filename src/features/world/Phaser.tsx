@@ -393,6 +393,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
       <ChatUI
         farmId={gameService.state.context.farmId}
+        gameState={gameService.state.context.state}
         onMessage={(m) => {
           mmoService.state.context.server?.send(0, {
             text: m.text ?? "?",
@@ -403,6 +404,16 @@ export const PhaserComponent: React.FC<Props> = ({
         }}
         messages={messages ?? []}
         isMuted={isMuted ? true : false}
+        onReact={(reaction) => {
+          mmoService.state.context.server?.send(0, {
+            reaction,
+          });
+        }}
+        onBudPlace={(tokenId) => {
+          mmoService.state.context.server?.send(0, {
+            bud: tokenId,
+          });
+        }}
       />
       {isModerator && !isCommunity && (
         <ModerationTools

@@ -26,8 +26,32 @@ export interface Player extends Schema {
   inputQueue: InputData[];
 }
 
+export interface Bud extends Schema {
+  farmId: number;
+  x: number;
+  y: number;
+  id: number;
+  sceneId: SceneId;
+}
+
+export interface Bud extends Schema {
+  farmId: number;
+  x: number;
+  y: number;
+  sceneId: SceneId;
+  id: number;
+}
+
 export interface Message extends Schema {
   text: string;
+  farmId?: number;
+  sessionId: string;
+  sceneId: SceneId;
+  sentAt: number;
+}
+
+export interface Reaction extends Schema {
+  reaction: "heart" | "sad" | "happy";
   farmId?: number;
   sessionId: string;
   sceneId: SceneId;
@@ -57,8 +81,10 @@ export interface PlazaRoomState extends Schema {
   mapHeight: number;
 
   players: MapSchema<Player>;
+  buds: MapSchema<Bud>;
 
   messages: ArraySchema<Message>;
+  reactions: ArraySchema<Message>;
   trades: ArraySchema<Trade>;
   actions: ArraySchema<Action>;
 }
