@@ -16,6 +16,7 @@ import {
 import { isFruitGrowing } from "features/game/events/landExpansion/fruitHarvested";
 import { CompostName, isComposting } from "./composters";
 import { getDailyFishingCount } from "./fishing";
+import { GoblinState } from "features/game/lib/goblinMachine";
 
 type RESTRICTION_REASON =
   | "No restriction"
@@ -45,7 +46,7 @@ type CanRemoveArgs = {
   game: GameState;
 };
 
-function cropIsGrowing({ item, game }: CanRemoveArgs): Restriction {
+export function cropIsGrowing({ item, game }: CanRemoveArgs): Restriction {
   const cropGrowing = Object.values(game.crops ?? {}).some(
     (plot) => isCropGrowing(plot) && plot.crop?.name === item
   );
@@ -58,7 +59,10 @@ function beanIsPlanted(game: GameState): Restriction {
   return [!!beanPlanted, "Magic Bean is planted"];
 }
 
-function areFruitsGrowing(game: GameState, fruit: FruitName): Restriction {
+export function areFruitsGrowing(
+  game: GoblinState,
+  fruit: FruitName
+): Restriction {
   const fruitGrowing = Object.values(game.fruitPatches ?? {}).some(
     (patch) => isFruitGrowing(patch) && patch.fruit?.name === fruit
   );
@@ -66,7 +70,7 @@ function areFruitsGrowing(game: GameState, fruit: FruitName): Restriction {
   return [fruitGrowing, `${fruit} is growing`];
 }
 
-function areAnyFruitsGrowing(game: GameState): Restriction {
+export function areAnyFruitsGrowing(game: GoblinState): Restriction {
   const fruitGrowing = Object.values(game.fruitPatches ?? {}).some((patch) =>
     isFruitGrowing(patch)
   );
@@ -74,7 +78,7 @@ function areAnyFruitsGrowing(game: GameState): Restriction {
   return [fruitGrowing, `Fruits are growing`];
 }
 
-function areAnyCropsGrowing(game: GameState): Restriction {
+export function areAnyCropsGrowing(game: GoblinState): Restriction {
   const cropsGrowing = Object.values(game.crops ?? {}).some((plot) =>
     isCropGrowing(plot)
   );
@@ -164,7 +168,7 @@ function areAnyMineralsMined(game: GameState): Restriction {
   return areGoldsMined;
 }
 
-function areAnyChickensFed(game: GameState): Restriction {
+export function areAnyChickensFed(game: GoblinState): Restriction {
   const chickensAreFed = Object.values(game.chickens).some(
     (chicken) =>
       chicken.fedAt && Date.now() - chicken.fedAt < CHICKEN_TIME_TO_EGG
