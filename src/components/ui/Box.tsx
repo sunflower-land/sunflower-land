@@ -67,7 +67,7 @@ export const Box: React.FC<BoxProps> = ({
   const [isHover, setIsHover] = useState(false);
   const [showHiddenCountLabel, setShowHiddenCountLabel] = useState(false);
   const [shortCount, setShortCount] = useState("");
-  const [isMobile] = useIsMobile();
+  const isMobile = useIsMobile();
 
   const labelRef = useRef<HTMLDivElement>(null);
   const labelCheckerRef = useRef<HTMLDivElement>(null);

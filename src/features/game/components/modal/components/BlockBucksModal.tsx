@@ -317,7 +317,7 @@ export const BlockBucksModal: React.FC<Props> = ({
   const [showXsolla, setShowXsolla] = useState<string>();
   const [loading, setLoading] = useState(false);
 
-  const [isMobile] = useIsMobile();
+  const isMobile = useIsMobile();
 
   const [price, setPrice] = useState<Price>();
 
