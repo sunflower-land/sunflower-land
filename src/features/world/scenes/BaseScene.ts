@@ -26,8 +26,6 @@ import { GameState } from "features/game/types/game";
 import { Room } from "colyseus.js";
 
 import defaultTilesetConfig from "assets/map/tileset.json";
-import { PlaceableContainer } from "../containers/PlaceableContainer";
-import { budImageDomain } from "features/island/collectibles/components/Bud";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -91,10 +89,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
   playerEntities: {
     [sessionId: string]: BumpkinContainer;
-  } = {};
-
-  placeables: {
-    [sessionId: string]: PlaceableContainer;
   } = {};
 
   colliders?: Phaser.GameObjects.Group;
@@ -659,14 +653,13 @@ export abstract class BaseScene extends Phaser.Scene {
     }
   }
 
-  update(time: number, delta: number): void {
-    // this.elapsedTime += delta;
-    // while (this.elapsedTime >= this.fixedTimeStep) {
-    //   this.elapsedTime -= this.fixedTimeStep;
-    //   this.fixedTick(time, this.fixedTimeStep);
-    // }
+  update(): void {
+    this.currentTick++;
 
-    this.fixedTick(time, this.fixedTimeStep);
+    this.switchScene();
+    this.updatePlayer();
+    this.updateOtherPlayers();
+    this.updateUsernames();
   }
 
   keysToAngle(
@@ -835,40 +828,6 @@ export abstract class BaseScene extends Phaser.Scene {
     });
   }
 
-  syncPlaceables() {
-    const server = this.mmoServer;
-    if (!server) return;
-
-    // Destroy any dereferenced placeables
-    Object.keys(this.placeables).forEach((sessionId) => {
-      const hasLeft =
-        !server.state.buds.get(sessionId) ||
-        server.state.buds.get(sessionId)?.sceneId !== this.scene.key;
-
-      const isInactive = !this.placeables[sessionId]?.active;
-
-      if (hasLeft || isInactive) {
-        this.placeables[sessionId]?.disappear();
-        delete this.placeables[sessionId];
-      }
-    });
-
-    // Create new placeables
-    server.state.buds.forEach((bud, sessionId) => {
-      if (bud.sceneId !== this.scene.key) return;
-
-      if (!this.placeables[sessionId]) {
-        console.log("Place that bad boy");
-        this.placeables[sessionId] = new PlaceableContainer({
-          sprite: `https://${budImageDomain}.sunflower-land.com/sheets/idle/${bud.id}.webp`,
-          x: bud.x,
-          y: bud.y,
-          scene: this,
-        });
-      }
-    });
-  }
-
   updateClothing() {
     const server = this.mmoServer;
     if (!server) return;
@@ -1016,16 +975,6 @@ export abstract class BaseScene extends Phaser.Scene {
       this.colliders?.add(container);
       this.triggerColliders?.add(container);
     });
-  }
-
-  fixedTick(time: number, delta: number) {
-    this.currentTick++;
-
-    this.switchScene();
-    this.updatePlayer();
-    this.updateOtherPlayers();
-    this.updateUsernames();
-    this.syncPlaceables();
   }
 
   teleportModerator(x: number, y: number) {
