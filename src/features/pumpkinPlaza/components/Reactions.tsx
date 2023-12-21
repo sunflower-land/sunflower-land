@@ -1,12 +1,14 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
+import { Label } from "components/ui/Label";
 import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { Bud } from "features/island/buds/Bud";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
+import { SceneId } from "features/world/mmoMachine";
 import React from "react";
 import { Modal } from "react-bootstrap";
 
@@ -15,6 +17,7 @@ interface Props {
   gameState: GameState;
   onReact: (reaction: ReactionName) => void;
   onBudPlace: (tokenId: number) => void;
+  scene: SceneId;
 }
 
 export const BudReaction: React.FC<{
@@ -28,16 +31,26 @@ export const BudReaction: React.FC<{
 
   return (
     <CloseButtonPanel onClose={onClose}>
-      <div className="flex flex-wrap justify-center">
-        {buds.map((budId) => {
-          return (
-            <Box
-              onClick={() => setSelected(budId)}
-              isSelected={selected === budId}
-              image={`https://${budImageDomain}.sunflower-land.com/images/${budId}.webp`}
-            />
-          );
-        })}
+      <div className="p-1">
+        <Label type="default" className="mx-1" icon={SUNNYSIDE.icons.heart}>
+          Show your buds
+        </Label>
+        <p className="text-xs my-2">Select a bud to place in the plaza.</p>
+
+        <div className="flex flex-wrap">
+          {buds.length === 0 && (
+            <Label type={"danger"}>No buds found in your inventory.</Label>
+          )}
+          {buds.map((budId) => {
+            return (
+              <Box
+                onClick={() => setSelected(budId)}
+                isSelected={selected === budId}
+                image={`https://${budImageDomain}.sunflower-land.com/images/${budId}.webp`}
+              />
+            );
+          })}
+        </div>
       </div>
       <Button
         disabled={!selected}
@@ -46,7 +59,7 @@ export const BudReaction: React.FC<{
           onClose();
         }}
       >
-        Place Bud
+        Place
       </Button>
     </CloseButtonPanel>
   );
@@ -56,6 +69,7 @@ export const Reactions: React.FC<Props> = ({
   gameState,
   onReact,
   onBudPlace,
+  scene,
 }) => {
   const [showBudReactions, setShowBudReactions] = React.useState(false);
 
@@ -71,9 +85,14 @@ export const Reactions: React.FC<Props> = ({
         <Button className="h-8 mt-1" onClick={() => onReact("happy")}>
           <img src={SUNNYSIDE.icons.happy} className="h-4 mt-1" />
         </Button>
-        <Button className="h-8 mt-1" onClick={() => setShowBudReactions(true)}>
-          <img src={SUNNYSIDE.icons.drag} className="h-4 mt-1" />
-        </Button>
+        {scene === "plaza" && (
+          <Button
+            className="h-8 mt-1"
+            onClick={() => setShowBudReactions(true)}
+          >
+            <img src={SUNNYSIDE.icons.drag} className="h-4 mt-1" />
+          </Button>
+        )}
       </div>
 
       <Modal

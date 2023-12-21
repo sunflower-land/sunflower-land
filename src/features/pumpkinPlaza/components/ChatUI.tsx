@@ -8,6 +8,7 @@ import { Label } from "components/ui/Label";
 import { SceneId } from "features/world/mmoMachine";
 import { ReactionName, Reactions } from "./Reactions";
 import { GameState } from "features/game/types/game";
+import { hasFeatureAccess } from "lib/flags";
 
 export type Message = {
   farmId: number;
@@ -26,6 +27,7 @@ interface Props {
   onReact: (reaction: ReactionName) => void;
   onBudPlace: (tokenId: number) => void;
   gameState: GameState;
+  scene: SceneId;
 }
 
 export const ChatUI: React.FC<Props> = ({
@@ -37,6 +39,7 @@ export const ChatUI: React.FC<Props> = ({
   gameState,
   onReact,
   onBudPlace,
+  scene,
 }) => {
   const [showOptions, setShowOptions] = useState(false);
 
@@ -46,6 +49,7 @@ export const ChatUI: React.FC<Props> = ({
   const [messageCountOnChatClose, setMessageCountOnChatClose] = useState(0);
   const [newMessageCount, setNewMessageCount] = useState(0);
 
+  const canReact = hasFeatureAccess(gameState, "REACTIONS");
   useEffect(() => {
     if (!showOptions) {
       const newMessageCount = messages.length - messageCountOnChatClose;
@@ -136,6 +140,7 @@ export const ChatUI: React.FC<Props> = ({
           gameState={gameState}
           onReact={onReact}
           onBudPlace={onBudPlace}
+          scene={scene}
         />
       </div>
       <div
@@ -171,30 +176,32 @@ export const ChatUI: React.FC<Props> = ({
           </div>
         )}
       </div>
-      <div
-        className={classNames(
-          "fixed top-36 left-12 cursor-pointer transition-transform origin-top-left ease-in-out duration-300 scale-0",
-          {
-            "scale-50": showOptions,
-          }
-        )}
-        style={{
-          left: `${PIXEL_SCALE * 18}px`,
-          width: `${PIXEL_SCALE * 22}px`,
-          zIndex: 51,
-        }}
-        onClick={() => setOption("reaction")}
-      >
-        <img
-          src={SUNNYSIDE.icons.disc}
-          style={{ width: `${PIXEL_SCALE * 22}px` }}
-        />
-        <img
-          src={SUNNYSIDE.icons.heart}
-          style={{ width: `${PIXEL_SCALE * 9}px` }}
-          className="top-1/2 left-1/2 absolute -translate-x-1/2 -translate-y-1/2"
-        />
-      </div>
+      {canReact && (
+        <div
+          className={classNames(
+            "fixed top-36 left-12 cursor-pointer transition-transform origin-top-left ease-in-out duration-300 scale-0",
+            {
+              "scale-50": showOptions,
+            }
+          )}
+          style={{
+            left: `${PIXEL_SCALE * 18}px`,
+            width: `${PIXEL_SCALE * 22}px`,
+            zIndex: 51,
+          }}
+          onClick={() => setOption("reaction")}
+        >
+          <img
+            src={SUNNYSIDE.icons.disc}
+            style={{ width: `${PIXEL_SCALE * 22}px` }}
+          />
+          <img
+            src={SUNNYSIDE.icons.heart}
+            style={{ width: `${PIXEL_SCALE * 9}px` }}
+            className="top-1/2 left-1/2 absolute -translate-x-1/2 -translate-y-1/2"
+          />
+        </div>
+      )}
       <div
         className={classNames(
           "fixed top-36 left-20 cursor-pointer transition-transform origin-top-left ease-in-out duration-300 scale-0",

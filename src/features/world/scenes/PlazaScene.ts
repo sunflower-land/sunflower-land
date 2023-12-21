@@ -439,7 +439,6 @@ export class PlazaScene extends BaseScene {
       if (bud.sceneId !== this.scene.key) return;
 
       if (!this.placeables[sessionId]) {
-        console.log("Place that bad boy");
         this.placeables[sessionId] = new PlaceableContainer({
           sprite: `https://${budImageDomain}.sunflower-land.com/sheets/idle/${bud.id}.webp`,
           x: bud.x,

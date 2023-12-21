@@ -399,6 +399,7 @@ export const PhaserComponent: React.FC<Props> = ({
       <ChatUI
         farmId={gameService.state.context.farmId}
         gameState={gameService.state.context.state}
+        scene={scene}
         onMessage={(m) => {
           mmoService.state.context.server?.send(0, {
             text: m.text ?? "?",
