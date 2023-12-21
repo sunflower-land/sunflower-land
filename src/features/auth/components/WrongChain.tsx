@@ -8,7 +8,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 export const WrongChain: React.FC = () => {
   const [isDefaultNetwork, setIsDefaultNetwork] = useState(false);
-  const [isMobile] = useIsMobile();
+  const isMobile = useIsMobile();
   const goToPolygonSetupDocs = () => {
     window.open(
       "https://docs.sunflower-land.com/guides/getting-setup#polygon-setup",

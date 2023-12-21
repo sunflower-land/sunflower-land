@@ -50,7 +50,7 @@ const LandscapingHudComponent: React.FC<{
   location: CollectibleLocation;
 }> = ({ location }) => {
   const { gameService } = useContext(Context);
-  const [isMobile] = useIsMobile();
+  const isMobile = useIsMobile();
 
   const [showDecorations, setShowDecorations] = useState(false);
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
