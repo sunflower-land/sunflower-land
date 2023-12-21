@@ -36,6 +36,7 @@ export default defineConfig({
         theme_color: "#303443",
         display: "standalone",
         background_color: "#0099dc",
+        orientation: "portrait",
         icons: [
           {
             src: "pwa/manifest-icon-192.maskable.png",
