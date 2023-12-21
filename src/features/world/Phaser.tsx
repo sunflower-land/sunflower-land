@@ -44,6 +44,7 @@ import { BeachScene } from "./scenes/BeachScene";
 import { Inventory } from "features/game/types/game";
 import { FishingModal } from "./ui/FishingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { HudContainer } from "components/ui/HudContainer";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -148,7 +149,6 @@ export const PhaserComponent: React.FC<Props> = ({
       },
       backgroundColor: "#000000",
       parent: "phaser-example",
-
       autoRound: true,
       pixelArt: true,
       plugins: {
@@ -167,7 +167,6 @@ export const PhaserComponent: React.FC<Props> = ({
       },
       width: window.innerWidth,
       height: window.innerHeight,
-
       physics: {
         default: "arcade",
         arcade: {
@@ -371,7 +370,7 @@ export const PhaserComponent: React.FC<Props> = ({
       <div id="game-content" ref={ref} />
 
       {/* Hud Components should all be inside here. - ie. components positioned absolutely to the window */}
-      <div className="fixed inset-safe-area z-40">
+      <HudContainer>
         {isMuted && (
           <InnerPanel className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer">
             <img src={SoundOffIcon} className="h-8 mr-2 ml-1" />
@@ -434,7 +433,7 @@ export const PhaserComponent: React.FC<Props> = ({
             </div>
           </InnerPanel>
         )}
-      </div>
+      </HudContainer>
 
       {/* Modals */}
 
