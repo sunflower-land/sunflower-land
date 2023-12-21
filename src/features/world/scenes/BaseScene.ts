@@ -848,7 +848,7 @@ export abstract class BaseScene extends Phaser.Scene {
       const isInactive = !this.placeables[sessionId]?.active;
 
       if (hasLeft || isInactive) {
-        this.placeables[sessionId]?.setVisible(false);
+        this.placeables[sessionId]?.disappear();
         delete this.placeables[sessionId];
       }
     });
@@ -860,7 +860,7 @@ export abstract class BaseScene extends Phaser.Scene {
       if (!this.placeables[sessionId]) {
         console.log("Place that bad boy");
         this.placeables[sessionId] = new PlaceableContainer({
-          sprite: `https://${budImageDomain}.sunflower-land.com/images/${bud.id}.webp`,
+          sprite: `https://${budImageDomain}.sunflower-land.com/sheets/idle/${bud.id}.webp`,
           x: bud.x,
           y: bud.y,
           scene: this,

@@ -60,21 +60,22 @@ export const Reactions: React.FC<Props> = ({
   const [showBudReactions, setShowBudReactions] = React.useState(false);
 
   return (
-    <OuterPanel>
-      <div className="flex  items-center justify-center">
-        <Button className="h-7 mr-1" onClick={() => onReact("heart")}>
+    <>
+      <div className="flex flex-col  items-center justify-center">
+        <Button className="h-8 mt-1" onClick={() => onReact("heart")}>
           <img src={SUNNYSIDE.icons.heart} className="h-4 mt-1" />
         </Button>
-        <Button className="h-7 mr-1" onClick={() => onReact("sad")}>
+        <Button className="h-8 mt-1" onClick={() => onReact("sad")}>
           <img src={SUNNYSIDE.icons.sad} className="h-4 mt-1" />
         </Button>
-        <Button className="h-7" onClick={() => onReact("happy")}>
+        <Button className="h-8 mt-1" onClick={() => onReact("happy")}>
           <img src={SUNNYSIDE.icons.happy} className="h-4 mt-1" />
         </Button>
+        <Button className="h-8 mt-1" onClick={() => setShowBudReactions(true)}>
+          <img src={SUNNYSIDE.icons.drag} className="h-4 mt-1" />
+        </Button>
       </div>
-      <Button className="h-7" onClick={() => setShowBudReactions(true)}>
-        <img src={SUNNYSIDE.icons.plus} className="h-4 mt-1" />
-      </Button>
+
       <Modal
         centered
         show={showBudReactions}
@@ -86,6 +87,6 @@ export const Reactions: React.FC<Props> = ({
           onClose={() => setShowBudReactions(false)}
         />
       </Modal>
-    </OuterPanel>
+    </>
   );
 };

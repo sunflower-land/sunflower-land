@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import stringSimilarity from "string-similarity";
-import { ReactionName } from "../lib/reactions";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { ChatText } from "./ChatText";
 import { Label } from "components/ui/Label";
 import { SceneId } from "features/world/mmoMachine";
-import { Reactions } from "./Reactions";
+import { ReactionName, Reactions } from "./Reactions";
 import { GameState } from "features/game/types/game";
 
 export type Message = {
@@ -24,7 +23,7 @@ interface Props {
   onMessage: (content: { text?: string; reaction?: ReactionName }) => void;
   isMuted?: boolean;
   onCommand?: (name: string, args: string[]) => void;
-  onReact: (reaction: "heart" | "angry" | "sad") => void;
+  onReact: (reaction: ReactionName) => void;
   onBudPlace: (tokenId: number) => void;
   gameState: GameState;
 }
@@ -112,7 +111,7 @@ export const ChatUI: React.FC<Props> = ({
     <>
       <div
         className={classNames(
-          "fixed top-48 left-3 transition-transform origin-top-left ease-in-out duration-300",
+          "fixed top-44 left-3 transition-transform origin-top-left ease-in-out duration-300",
           { "scale-0": !showChatMessages, "scale-100": showChatMessages }
         )}
         // eslint-disable-next-line no-console
@@ -127,7 +126,7 @@ export const ChatUI: React.FC<Props> = ({
       </div>
       <div
         className={classNames(
-          "fixed top-48 left-3 transition-transform origin-top-left ease-in-out duration-300",
+          "fixed top-44 left-3 transition-transform origin-top-left ease-in-out duration-300",
           { "scale-0": !showReactions, "scale-100": showReactions }
         )}
         // eslint-disable-next-line no-console

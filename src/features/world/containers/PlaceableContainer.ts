@@ -4,6 +4,7 @@
  */
 export class PlaceableContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
+  public shadow: Phaser.GameObjects.Sprite | undefined;
 
   constructor({
     scene,
@@ -20,18 +21,22 @@ export class PlaceableContainer extends Phaser.GameObjects.Container {
     this.scene = scene;
     scene.physics.add.existing(this);
 
+    this.shadow = this.scene.add.sprite(0, 13, "shadow").setSize(16, 16);
+    this.add(this.shadow);
+
     this.setDepth(y);
 
     this.setSize(16, 16);
-    const key = `placeable-${sprite}`;
+    const key = `placeable-${x}-${y}`;
 
-    console.log("LETSS GO!");
+    console.log("LETSS GO!", x, y, sprite);
     const spriteLoader = scene.load.spritesheet(key, sprite, {
       frameWidth: 32,
       frameHeight: 32,
     });
 
     spriteLoader.addListener(Phaser.Loader.Events.COMPLETE, () => {
+      console.log("Sprite complete");
       if (this.sprite) return;
 
       const idle = scene.add.sprite(0, 0, key).setOrigin(0.5);
@@ -49,7 +54,8 @@ export class PlaceableContainer extends Phaser.GameObjects.Container {
         frameRate: 10,
       });
 
-      this.sprite?.play("idle_animation", true);
+      this.sprite?.play(`${key}_anim`, true);
+      console.log("Playing");
     });
 
     this.setInteractive({ cursor: "pointer" }).on(
@@ -59,6 +65,41 @@ export class PlaceableContainer extends Phaser.GameObjects.Container {
       }
     );
 
+    scene.load.start();
+
     this.scene.add.existing(this);
+  }
+
+  public disappear() {
+    console.log("POOF");
+    this.sprite?.destroy();
+    this.shadow?.destroy();
+
+    const poof = this.scene.add.sprite(0, 4, "poof").setOrigin(0.5);
+    this.add(poof);
+
+    this.scene.anims.create({
+      key: `poof_anim`,
+      frames: this.scene.anims.generateFrameNumbers("poof", {
+        start: 0,
+        // TODO - buds with longer animation frames?
+        end: 8,
+      }),
+      repeat: 0,
+      frameRate: 10,
+    });
+
+    poof.play(`poof_anim`, true);
+
+    const container = this;
+    // Listen for the animation complete event
+    poof.on("animationcomplete", function (animation: { key: string }) {
+      console.log({ animation });
+      if (animation.key === "poof_anim") {
+        console.log("DONE!");
+        // Animation 'poof_anim' has completed, destroy the sprite
+        container.destroy();
+      }
+    });
   }
 }
