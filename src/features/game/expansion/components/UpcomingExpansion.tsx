@@ -290,9 +290,12 @@ export const UpcomingExpansion: React.FC = () => {
   const onReveal = () => {
     setIsRevealing(true);
     const state = gameService.send("land.revealed");
+    gameService.send("SAVE");
 
     if (state.context.state.inventory["Basic Land"]?.eq(4)) {
       openModal("FIRST_EXPANSION");
+    } else {
+      openModal("NEXT_EXPANSION");
     }
   };
 
