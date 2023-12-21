@@ -1,7 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { Reward, PlantedCrop, PlacedItem } from "features/game/types/game";
 import { CROPS } from "features/game/types/crops";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -90,8 +89,6 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
   const [showMissingShovel, setShowMissingShovel] = useState(false);
   const clickedAt = useRef<number>(0);
 
-  const [isMobile] = useIsMobile();
-
   const crops = useSelector(gameService, selectCrops, (prev, next) => {
     return JSON.stringify(prev[id]) === JSON.stringify(next[id]);
   });
@@ -99,7 +96,6 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
   const harvestCount = useSelector(gameService, selectHarvests);
   const plantCount = useSelector(gameService, selectPlants);
   const soldCount = useSelector(gameService, selectCropsSold);
-  const level = useSelector(gameService, selectLevel);
   const { openModal } = useContext(ModalContext);
 
   const crop = crops?.[id]?.crop;

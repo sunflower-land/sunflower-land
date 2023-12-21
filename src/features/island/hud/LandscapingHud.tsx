@@ -47,7 +47,7 @@ const isIdle = (state: MachineState) => state.matches({ editing: "idle" });
 
 const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
   const { gameService } = useContext(Context);
-  const [isMobile] = useIsMobile();
+  const isMobile = useIsMobile();
 
   const [showDecorations, setShowDecorations] = useState(false);
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);

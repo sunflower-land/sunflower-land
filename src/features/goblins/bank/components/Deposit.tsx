@@ -76,7 +76,7 @@ export const Deposit: React.FC<Props> = ({
   const [inventoryToDeposit, setInventoryToDeposit] = useState<Inventory>({});
   const [wearablesToDeposit, setWearablesToDeposit] = useState<Wardrobe>({});
   const [budsToDeposit, setBudsToDeposit] = useState<number[]>([]);
-  const [isMobile] = useIsMobile();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (status !== "loading") return;
