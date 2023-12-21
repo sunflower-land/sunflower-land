@@ -9,8 +9,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const WrongChain: React.FC = () => {
   const [isDefaultNetwork, setIsDefaultNetwork] = useState(false);
-  const [isMobile] = useIsMobile();
   const { t } = useAppTranslation();
+  const isMobile = useIsMobile();
   const goToPolygonSetupDocs = () => {
     window.open(
       "https://docs.sunflower-land.com/guides/getting-setup#polygon-setup",

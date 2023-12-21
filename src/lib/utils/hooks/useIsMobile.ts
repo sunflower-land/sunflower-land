@@ -28,5 +28,5 @@ export const useIsMobile = () => {
     setIsMobile(detectMobile());
   }, []);
 
-  return [isMobile];
+  return isMobile;
 };

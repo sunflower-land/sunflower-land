@@ -116,7 +116,7 @@ const DepositOptions: React.FC<Props> = ({
   const [inventoryToDeposit, setInventoryToDeposit] = useState<Inventory>({});
   const [wearablesToDeposit, setWearablesToDeposit] = useState<Wardrobe>({});
   const [budsToDeposit, setBudsToDeposit] = useState<number[]>([]);
-  const [isMobile] = useIsMobile();
+  const isMobile = useIsMobile();
 
   const { t } = useAppTranslation();
 
