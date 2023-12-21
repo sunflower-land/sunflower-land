@@ -42,7 +42,7 @@ const Languages = () => {
   const languageLabel = language === "en" ? "English" : "Português Brasileiro";
 
   return (
-    <Button className="mb-2 py-1 text-xs relative" onClick={toggleLanguage}>
+    <Button className="py-1 text-xs relative" onClick={toggleLanguage}>
       <div className="px-8 pr-1">
         <img
           src={flagImage}
@@ -163,14 +163,14 @@ export const Splash: React.FC = ({ children }) => {
         </Modal>
       )}
       <div
-        className="absolute bottom-0 right-auto m-1 pointer-events-auto"
-        style={{ zIndex: 1100, margin: `${PIXEL_SCALE * 1}px` }}
+        className="absolute bottom-0 right-auto pointer-events-auto safe-pb"
+        style={{ zIndex: 1100 }}
       >
         {hasFeatureAccess({} as GameState, "LOCALISATION") && <Languages />}
       </div>
       <div
-        className="absolute bottom-0 right-0 m-1 pointer-events-auto"
-        style={{ zIndex: 1100, margin: `${PIXEL_SCALE * 1}px` }}
+        className="absolute bottom-0 right-0 mr-2 pointer-events-auto safe-pb safe-pr"
+        style={{ zIndex: 1100 }}
       >
         <InnerPanel>
           <div className="flex items-center justify-center">
