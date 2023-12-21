@@ -43,6 +43,7 @@ import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
 import { Inventory } from "features/game/types/game";
 import { FishingModal } from "./ui/FishingModal";
+import { HudContainer } from "components/ui/HudContainer";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -145,7 +146,6 @@ export const PhaserComponent: React.FC<Props> = ({
       },
       backgroundColor: "#000000",
       parent: "phaser-example",
-
       autoRound: true,
       pixelArt: true,
       plugins: {
@@ -164,7 +164,6 @@ export const PhaserComponent: React.FC<Props> = ({
       },
       width: window.innerWidth,
       height: window.innerHeight,
-
       physics: {
         default: "arcade",
         arcade: {
@@ -368,7 +367,7 @@ export const PhaserComponent: React.FC<Props> = ({
       <div id="game-content" ref={ref} />
 
       {/* Hud Components should all be inside here. - ie. components positioned absolutely to the window */}
-      <div className="fixed inset-safe-area z-40">
+      <HudContainer>
         {isMuted && (
           <InnerPanel className="absolute top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer">
             <img src={SoundOffIcon} className="h-8 mr-2 ml-1" />
@@ -386,6 +385,8 @@ export const PhaserComponent: React.FC<Props> = ({
 
         <ChatUI
           farmId={gameService.state.context.farmId}
+          gameState={gameService.state.context.state}
+          scene={scene}
           onMessage={(m) => {
             mmoService.state.context.server?.send(0, {
               text: m.text ?? "?",
@@ -396,8 +397,17 @@ export const PhaserComponent: React.FC<Props> = ({
           }}
           messages={messages ?? []}
           isMuted={isMuted ? true : false}
+          onReact={(reaction) => {
+            mmoService.state.context.server?.send(0, {
+              reaction,
+            });
+          }}
+          onBudPlace={(tokenId) => {
+            mmoService.state.context.server?.send(0, {
+              budId: tokenId,
+            });
+          }}
         />
-
         {isModerator && !isCommunity && (
           <ModerationTools
             scene={game.current?.scene.getScene(scene)}
@@ -420,7 +430,7 @@ export const PhaserComponent: React.FC<Props> = ({
             </div>
           </InnerPanel>
         )}
-      </div>
+      </HudContainer>
 
       {/* Modals */}
 
@@ -438,42 +448,6 @@ export const PhaserComponent: React.FC<Props> = ({
         />
       )}
 
-<<<<<<< HEAD
-      <ChatUI
-        farmId={gameService.state.context.farmId}
-        gameState={gameService.state.context.state}
-        scene={scene}
-        onMessage={(m) => {
-          mmoService.state.context.server?.send(0, {
-            text: m.text ?? "?",
-          });
-        }}
-        onCommand={(name, args) => {
-          handleCommand(name, args).then(updateMessages);
-        }}
-        messages={messages ?? []}
-        isMuted={isMuted ? true : false}
-        onReact={(reaction) => {
-          mmoService.state.context.server?.send(0, {
-            reaction,
-          });
-        }}
-        onBudPlace={(tokenId) => {
-          mmoService.state.context.server?.send(0, {
-            budId: tokenId,
-          });
-        }}
-      />
-      {isModerator && !isCommunity && (
-        <ModerationTools
-          scene={game.current?.scene.getScene(scene)}
-          messages={messages ?? []}
-          players={players ?? []}
-          gameService={gameService}
-        />
-      )}
-=======
->>>>>>> 2f49ec6f3 ([FEAT] Add safe area container for Huds)
       <NPCModals
         id={gameService.state.context.farmId as number}
         scene={scene}
