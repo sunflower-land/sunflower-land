@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Balance } from "components/Balance";
 import { useActor } from "@xstate/react";
-import * as AuthProvider from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 import { Inventory } from "./components/inventory/Inventory";
 import { BumpkinProfile } from "./components/BumpkinProfile";
@@ -27,7 +26,6 @@ import { HudContainer } from "components/ui/HudContainer";
  * Balances, Inventory, actions etc.
  */
 const HudComponent: React.FC = () => {
-  const { authService } = useContext(AuthProvider.Context);
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
