@@ -28,7 +28,7 @@ export const Phaser: React.FC = () => {
         smoothStep: true,
       },
       backgroundColor: "#000000",
-      parent: "phaser-example",
+      parent: "game-content",
 
       autoRound: true,
       pixelArt: true,
@@ -62,10 +62,7 @@ export const Phaser: React.FC = () => {
       },
     };
 
-    game.current = new Game({
-      ...config,
-      parent: "game-content",
-    });
+    game.current = new Game(config);
 
     game.current.registry.set("initialScene", scene);
     game.current.registry.set("gameState", portalState.context.state);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="33">
  <editorsettings>
   <export target="../src/assets/bumpkin-fight-club/map.json" format="json"/>
  </editorsettings>
@@ -52,4 +52,34 @@
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
 </data>
  </layer>
+ <objectgroup id="3" name="Collision">
+  <object id="4" x="65.3333" y="79.6667" width="15" height="160"/>
+  <object id="5" x="400" y="80" width="16.3333" height="159.667"/>
+  <object id="6" x="112" y="32" width="256" height="16.3333"/>
+  <object id="7" x="127.667" y="272.333" width="224" height="15.6667"/>
+  <object id="9" x="85.6667" y="233.667"/>
+  <object id="10" x="101.667" y="250.333"/>
+  <object id="11" x="117.667" y="266"/>
+  <object id="12" x="393.667" y="233.667"/>
+  <object id="13" x="378" y="249.667"/>
+  <object id="14" x="362" y="265.667"/>
+  <object id="15" x="394.333" y="70.6667"/>
+  <object id="16" x="377.667" y="54"/>
+  <object id="17" x="102" y="54"/>
+  <object id="18" x="85.6667" y="70"/>
+  <object id="19" x="77" y="77"/>
+  <object id="20" x="93.6667" y="61.3333"/>
+  <object id="21" x="108" y="45"/>
+  <object id="22" x="371" y="45.3333"/>
+  <object id="23" x="387.667" y="61"/>
+  <object id="24" x="402.667" y="77"/>
+  <object id="25" x="404.333" y="227.333"/>
+  <object id="26" x="388" y="242.333"/>
+  <object id="27" x="372.333" y="259"/>
+  <object id="28" x="356" y="274.667"/>
+  <object id="29" x="123" y="273.667"/>
+  <object id="30" x="107.667" y="259"/>
+  <object id="31" x="92" y="242.333"/>
+  <object id="32" x="75.3333" y="226.667"/>
+ </objectgroup>
 </map>
