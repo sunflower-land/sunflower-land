@@ -130,7 +130,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
 
   const nodeRef = useRef(null);
 
-  const [isMobile] = useIsMobile();
+  const isMobile = useIsMobile();
   const { gameService } = useContext(Context);
   const [isColliding, setIsColliding] = useState(false);
   const [isDragging, setIsDragging] = useState(false);

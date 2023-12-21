@@ -51,7 +51,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
-  const [isMobile] = useIsMobile();
+  const isMobile = useIsMobile();
   const deliveryItemsStartRef = useRef<HTMLDivElement>(null);
 
   const [jiggerState, setJiggerState] =
