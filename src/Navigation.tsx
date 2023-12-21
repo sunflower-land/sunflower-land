@@ -14,7 +14,6 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { Splash } from "features/auth/components/Splash";
 import { Auth } from "features/auth/Auth";
 import { Forbidden } from "features/auth/components/Forbidden";
-import { useImagePreloader } from "features/auth/useImagePreloader";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
 import { CONFIG } from "lib/config";
 import { Retreat } from "features/retreat/Retreat";
@@ -24,6 +23,10 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import { ZoomProvider } from "components/ZoomProvider";
 import { World } from "features/world/World";
 import { CommunityTools } from "features/world/ui/CommunityTools";
+import { useOrientation } from "lib/utils/hooks/useOrientation";
+import { Modal } from "react-bootstrap";
+import { Panel } from "components/ui/Panel";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
@@ -51,9 +54,20 @@ export const Navigation: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const provider = useSelector(authService, selectProvider);
   const state = useSelector(authService, selectState);
-
   const [showGame, setShowGame] = useState(false);
-  useImagePreloader();
+  const [showOrientationModal, setShowOrientationModal] = useState(false);
+  const isMobile = useIsMobile();
+  const orientation = useOrientation();
+
+  useEffect(() => {
+    if (!isMobile) return;
+
+    if (orientation === "landscape") {
+      setShowOrientationModal(true);
+    } else {
+      setShowOrientationModal(false);
+    }
+  }, [orientation, isMobile]);
 
   /**
    * Listen to web3 account/chain changes
@@ -104,6 +118,11 @@ export const Navigation: React.FC = () => {
       <Auth />
       {showGame ? (
         <ZoomProvider>
+          <Modal show={showOrientationModal} centered backdrop={false}>
+            <Panel>
+              <div className="text-sm p-1">{`Hey there Bumpkin, Sunflower Land currently prefers portrait mode. Tilt your device and enjoy the view for now, but prepare for the landscape mode coming soon!`}</div>
+            </Panel>
+          </Modal>
           <HashRouter>
             <Routes>
               <Route path="*" element={<LandExpansion />} />
