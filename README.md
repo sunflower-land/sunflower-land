@@ -1,4 +1,4 @@
-<h1 align="center">Sunflower Land</h1>
+<h1 align="center">Bumpkin Fight Club - Sunflower Land Portal</h1>
 <p align="center">
 <a href="https://github.com/sunflower-land/sunflower-land/actions/workflows/ci.yml/"><img src="https://github.com/sunflower-land/sunflower-land/actions/workflows/ci.yml/badge.svg" alt="CI Build Status" /></a>
 <a href="https://github.com/sunflower-land/sunflower-land/actions/workflows/testnet.yml"><img src="https://github.com/sunflower-land/sunflower-land/actions/workflows/testnet.yml/badge.svg" alt="Testnet deploy" /></a>
