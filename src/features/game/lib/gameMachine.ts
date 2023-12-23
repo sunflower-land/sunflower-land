@@ -391,7 +391,6 @@ export type BlockchainState = {
     | "buds"
     | "airdrop"
     | "noBumpkinFound"
-    | "noTownCenter"
     | "coolingDown"
     | "upgradingGuestGame"
     | "buyingBlockBucks"
@@ -739,14 +738,7 @@ export function startGame(authContext: AuthContext) {
                 return !!airdrop;
               },
             },
-            {
-              target: "noTownCenter",
-              cond: (context: Context) => {
-                return (
-                  (context.state.buildings["Town Center"] ?? []).length === 0
-                );
-              },
-            },
+
             {
               // auctionResults needs to be the last check as it transitions directly
               // to playing. It does not target notifying.
@@ -792,13 +784,7 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-        noTownCenter: {
-          on: {
-            ACKNOWLEDGE: {
-              target: "playing",
-            },
-          },
-        },
+
         deposited: {
           on: {
             ACKNOWLEDGE: {
