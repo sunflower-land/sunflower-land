@@ -24,6 +24,7 @@ import { playerModalManager } from "../ui/PlayerModals";
 import { hasFeatureAccess } from "lib/flags";
 import { GameState } from "features/game/types/game";
 import { Room } from "colyseus.js";
+import { getExpressSetting } from "features/farming/hud/lib/express";
 
 import defaultTilesetConfig from "assets/map/tileset.json";
 
@@ -931,7 +932,8 @@ export abstract class BaseScene extends Phaser.Scene {
           this.currentPlayer as BumpkinContainer
         );
 
-        if (distance > 50) {
+        const express = getExpressSetting();
+        if (distance > (express ? 5000 : 50)) {
           container.speak("You are too far away");
           return;
         }

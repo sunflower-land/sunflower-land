@@ -20,7 +20,13 @@ interface Props {
 
 export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(Auth.Context);
-  const { gameService, showAnimations, toggleAnimations } = useContext(Context);
+  const {
+    gameService,
+    showAnimations,
+    toggleAnimations,
+    express,
+    toggleExpress,
+  } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const { farmAddress } = gameState.context;
@@ -43,6 +49,10 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
     toggleAnimations();
   };
 
+  const onToggleExpress = () => {
+    toggleExpress();
+  };
+
   const refreshSession = () => {
     onClose();
     gameService.send("RESET");
@@ -61,6 +71,9 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
       <CloseButtonPanel title="Settings" onClose={onClose}>
         <Button className="col p-1" onClick={onToggleAnimations}>
           {showAnimations ? "Disable Animations" : "Enable Animations"}
+        </Button>
+        <Button className="col p-1" onClick={onToggleExpress}>
+          {express ? "Disable Sunflower Express" : "Enable Sunflower Express"}
         </Button>
         <Button className="col p-1 mt-2" onClick={onLogout}>
           Logout

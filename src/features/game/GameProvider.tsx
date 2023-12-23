@@ -18,6 +18,10 @@ import {
   getShowAnimationsSetting,
 } from "features/farming/hud/lib/animations";
 import {
+  cacheExpressSetting,
+  getExpressSetting,
+} from "features/farming/hud/lib/express";
+import {
   cacheShowTimersSetting,
   getShowTimersSetting,
 } from "features/farming/hud/lib/timers";
@@ -28,6 +32,8 @@ interface GameContext {
   gameService: MachineInterpreter;
   showAnimations: boolean;
   toggleAnimations: () => void;
+  express: boolean;
+  toggleExpress: () => void;
   showTimers: boolean;
   toggleTimers: () => void;
 }
@@ -48,6 +54,7 @@ export const GameProvider: React.FC = ({ children }) => {
   const [showAnimations, setShowAnimations] = useState<boolean>(
     getShowAnimationsSetting()
   );
+  const [express, setExpress] = useState<boolean>(getExpressSetting());
   const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
@@ -71,6 +78,13 @@ export const GameProvider: React.FC = ({ children }) => {
     cacheShowAnimationsSetting(newValue);
   };
 
+  const toggleExpress = () => {
+    const newValue = !express;
+
+    setExpress(newValue);
+    cacheExpressSetting(newValue);
+  };
+
   const toggleTimers = () => {
     const newValue = !showTimers;
 
@@ -88,6 +102,8 @@ export const GameProvider: React.FC = ({ children }) => {
         gameService,
         showAnimations,
         toggleAnimations,
+        express,
+        toggleExpress,
         showTimers,
         toggleTimers,
       }}
