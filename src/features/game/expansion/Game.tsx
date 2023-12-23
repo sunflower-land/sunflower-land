@@ -36,7 +36,6 @@ import land from "assets/land/islands/island.webp";
 import { IslandNotFound } from "./components/IslandNotFound";
 import { Rules } from "../components/Rules";
 import { Introduction } from "./components/Introduction";
-import { NoTownCenter } from "../components/NoTownCenter";
 import { SpecialOffer } from "./components/SpecialOffer";
 import { Purchasing } from "../components/Purchasing";
 import { Transacting } from "../components/Transacting";
@@ -70,7 +69,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   hoarding: true,
   landscaping: false,
   noBumpkinFound: true,
-  noTownCenter: true,
   swarming: true,
   coolingDown: true,
   gameRules: true,
@@ -119,8 +117,10 @@ const isHoarding = (state: MachineState) => state.matches("hoarding");
 const isVisiting = (state: MachineState) => state.matches("visiting");
 const isSwarming = (state: MachineState) => state.matches("swarming");
 const isPurchasing = (state: MachineState) =>
-  state.matches("purchasing") || state.matches("buyingBlockBucks");
-const isNoTownCenter = (state: MachineState) => state.matches("noTownCenter");
+  state.matches({ purchasing: "fetching" }) ||
+  state.matches({ purchasing: "transacting" }) ||
+  state.matches({ buyingBlockBucks: "fetching" }) ||
+  state.matches({ buyingBlockBucks: "transacting" });
 const isNoBumpkinFound = (state: MachineState) =>
   state.matches("noBumpkinFound");
 const isCoolingDown = (state: MachineState) => state.matches("coolingDown");
@@ -235,7 +235,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const hoarding = useSelector(gameService, isHoarding);
   const swarming = useSelector(gameService, isSwarming);
   const noBumpkinFound = useSelector(gameService, isNoBumpkinFound);
-  const noTownCenter = useSelector(gameService, isNoTownCenter);
   const coolingDown = useSelector(gameService, isCoolingDown);
   const gameRules = useSelector(gameService, isGameRules);
   const depositing = useSelector(gameService, isDepositing);
@@ -372,7 +371,6 @@ export const GameWrapper: React.FC = ({ children }) => {
           {swarming && <Swarming />}
           {noBumpkinFound && <NoBumpkin />}
 
-          {noTownCenter && <NoTownCenter />}
           {coolingDown && <Cooldown />}
           {gameRules && <Rules />}
           {transacting && <Transacting />}
