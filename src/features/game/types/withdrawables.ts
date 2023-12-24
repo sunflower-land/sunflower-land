@@ -1084,7 +1084,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
 
   "Banana Onesie": () => false,
   "Basic Dumbo": () => false,
-  "Companion Cap": () => true,
+  "Companion Cap": () => false,
   "Dazzling Dumbo": () => false,
   "Deep Sea Helm": () => false,
   "Gloomy Dumbo": () => false,
