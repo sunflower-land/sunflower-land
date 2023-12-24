@@ -81,7 +81,6 @@ export const INITIAL_RESOURCES: Pick<
       width: 1,
     },
   },
-
   trees: {
     1: {
       wood: {
@@ -137,34 +136,7 @@ export const INITIAL_RESOURCES: Pick<
       width: 2,
     },
   },
-  fruitPatches: {
-    1: {
-      fruit: {
-        amount: 2,
-        name: "Apple",
-        harvestedAt: 0,
-        harvestsLeft: 3,
-        plantedAt: 0,
-      },
-      x: -3,
-      y: 3,
-      height: 2,
-      width: 2,
-    },
-    2: {
-      fruit: {
-        amount: 1,
-        name: "Apple",
-        harvestedAt: 0,
-        harvestsLeft: 3,
-        plantedAt: 0,
-      },
-      x: 7,
-      y: -2,
-      height: 2,
-      width: 2,
-    },
-  },
+  fruitPatches: {},
   gold: {},
   iron: {},
 };
@@ -242,6 +214,9 @@ const OFFLINE_FARM_FRUIT = getEnabledNodeCount(
 );
 
 export const STATIC_OFFLINE_FARM: GameState = {
+  island: {
+    type: "basic",
+  },
   mysteryPrizes: {},
   mushrooms: {
     mushrooms: {},
@@ -274,17 +249,17 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Earthworm: new Decimal(10),
     "Bumpkin Nutcracker": new Decimal(1),
     "Festive Tree": new Decimal(1),
-    House: new Decimal(1),
+    "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(4),
-    "Crop Plot": new Decimal(100),
+    "Basic Land": new Decimal(INITIAL_EXPANSIONS),
+    "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),
     "Water Well": new Decimal(4),
-    Tree: new Decimal(100),
-    "Stone Rock": new Decimal(100),
-    "Iron Rock": new Decimal(100),
-    "Gold Rock": new Decimal(100),
-    "Fruit Patch": new Decimal(100),
+    Tree: new Decimal(OFFLINE_FARM_TREES),
+    "Stone Rock": new Decimal(OFFLINE_FARM_STONES),
+    "Iron Rock": new Decimal(OFFLINE_FARM_IRON),
+    "Gold Rock": new Decimal(OFFLINE_FARM_GOLD),
+    "Fruit Patch": new Decimal(OFFLINE_FARM_FRUIT),
     Axe: new Decimal(10),
     "Block Buck": new Decimal(1),
     Egg: new Decimal(12),
@@ -320,13 +295,13 @@ export const STATIC_OFFLINE_FARM: GameState = {
   chickens: {},
   trades: {},
   buildings: {
-    House: [
+    "Town Center": [
       {
         id: "123",
         readyAt: 0,
         coordinates: {
-          x: -1,
-          y: 5,
+          x: 2,
+          y: 3,
         },
         createdAt: 0,
       },
@@ -336,19 +311,20 @@ export const STATIC_OFFLINE_FARM: GameState = {
         id: "123",
         readyAt: 0,
         coordinates: {
-          x: 6,
-          y: 6,
+          x: 4,
+          y: 8,
         },
         createdAt: 0,
       },
     ],
+
     Market: [
       {
         id: "123",
         readyAt: 0,
         coordinates: {
           x: 6,
-          y: 3,
+          y: 5,
         },
         createdAt: 0,
       },
@@ -358,287 +334,13 @@ export const STATIC_OFFLINE_FARM: GameState = {
         id: "123",
         readyAt: 0,
         coordinates: {
-          x: 6,
-          y: 0,
+          x: 3,
+          y: -1,
         },
         createdAt: 0,
       },
     ],
   },
-  collectibles: {},
-  crops: {
-    "1": {
-      createdAt: 1703364823336,
-      crop: {
-        name: "Sunflower",
-        plantedAt: 0,
-        amount: 1,
-      },
-      x: -2,
-      y: 0,
-      height: 1,
-      width: 1,
-    },
-    "2": {
-      createdAt: 1703364823336,
-      crop: {
-        name: "Sunflower",
-        plantedAt: 0,
-        amount: 1,
-      },
-      x: -1,
-      y: 0,
-      height: 1,
-      width: 1,
-    },
-    "3": {
-      createdAt: 1703364823336,
-      crop: {
-        name: "Sunflower",
-        plantedAt: 0,
-        amount: 1,
-      },
-      x: 0,
-      y: 0,
-      height: 1,
-      width: 1,
-    },
-    "4": {
-      createdAt: 1703364823336,
-      x: -2,
-      y: -1,
-      height: 1,
-      width: 1,
-    },
-    "5": {
-      createdAt: 1703364823336,
-      x: -1,
-      y: -1,
-      height: 1,
-      width: 1,
-    },
-    "6": {
-      createdAt: 1703364823336,
-      x: 0,
-      y: -1,
-      height: 1,
-      width: 1,
-    },
-    "7": {
-      createdAt: 1703364823336,
-      x: -2,
-      y: 1,
-      height: 1,
-      width: 1,
-    },
-    "8": {
-      createdAt: 1703364823336,
-      x: -1,
-      y: 1,
-      height: 1,
-      width: 1,
-    },
-    "9": {
-      createdAt: 1703364823336,
-      x: 0,
-      y: 1,
-      height: 1,
-      width: 1,
-    },
-    "951036c8": {
-      createdAt: 1703365405829,
-      x: 1,
-      y: 1,
-      width: 1,
-      height: 1,
-    },
-    "550fac5f": {
-      createdAt: 1703365405976,
-      x: 1,
-      y: 0,
-      width: 1,
-      height: 1,
-    },
-    be1c094c: {
-      createdAt: 1703365406093,
-      x: 1,
-      y: -1,
-      width: 1,
-      height: 1,
-    },
-    c50b601a: {
-      createdAt: 1703365409614,
-      x: 2,
-      y: 1,
-      width: 1,
-      height: 1,
-    },
-    "3d12623c": {
-      createdAt: 1703365409776,
-      x: 2,
-      y: 0,
-      width: 1,
-      height: 1,
-    },
-    "7cb8e175": {
-      createdAt: 1703365409926,
-      x: 2,
-      y: -1,
-      width: 1,
-      height: 1,
-    },
-    "94a9a6c0": {
-      createdAt: 1703365428830,
-      x: 3,
-      y: 1,
-      width: 1,
-      height: 1,
-    },
-    "93e2f801": {
-      createdAt: 1703365429062,
-      x: 3,
-      y: 0,
-      width: 1,
-      height: 1,
-    },
-    d22f2c36: {
-      createdAt: 1703365429630,
-      x: 3,
-      y: -1,
-      width: 1,
-      height: 1,
-    },
-  },
-  fruitPatches: {
-    "1": {
-      fruit: {
-        amount: 2,
-        name: "Apple",
-        harvestedAt: 0,
-        harvestsLeft: 3,
-        plantedAt: 0,
-      },
-      x: 0,
-      y: 9,
-      height: 2,
-      width: 2,
-    },
-    "2": {
-      fruit: {
-        amount: 1,
-        name: "Apple",
-        harvestedAt: 0,
-        harvestsLeft: 3,
-        plantedAt: 0,
-      },
-      x: -2,
-      y: 9,
-      height: 2,
-      width: 2,
-    },
-  },
-  trees: {
-    "1": {
-      wood: {
-        amount: 2,
-        choppedAt: 0,
-      },
-      x: 3,
-      y: 6,
-      height: 2,
-      width: 2,
-    },
-    "2": {
-      wood: {
-        amount: 1,
-        choppedAt: 0,
-      },
-      x: 3,
-      y: 4,
-      height: 2,
-      width: 2,
-    },
-    "3": {
-      wood: {
-        amount: 2,
-        choppedAt: 0,
-      },
-      x: 7,
-      y: 9,
-      height: 2,
-      width: 2,
-    },
-  },
-  gold: {
-    d133e607: {
-      createdAt: 1703365458796,
-      x: 3,
-      y: 9,
-      width: 1,
-      height: 1,
-      stone: {
-        amount: 0,
-        minedAt: 0,
-      },
-    },
-  },
-  iron: {
-    "965dc66e": {
-      createdAt: 1703365470629,
-      x: 5,
-      y: 8,
-      width: 1,
-      height: 1,
-      stone: {
-        amount: 0,
-        minedAt: 0,
-      },
-    },
-  },
-  stones: {
-    "1": {
-      stone: {
-        amount: 1,
-        minedAt: 0,
-      },
-      x: -3,
-      y: 5,
-      height: 1,
-      width: 1,
-    },
-    "2": {
-      stone: {
-        amount: 1,
-        minedAt: 0,
-      },
-      x: -2,
-      y: 3,
-      height: 1,
-      width: 1,
-    },
-  },
-
-  conversations: ["hank-intro"],
-
-  fishing: {
-    dailyAttempts: {},
-    weather: "Sunny",
-    wharf: {},
-  },
-  mailbox: {
-    read: [],
-  },
-
-  stock: INITIAL_STOCK,
-  stockExpiry: {},
-  expansionRequirements: {
-    bumpkinLevel: 1,
-    seconds: 3,
-    resources: { Wood: 3 },
-  },
-  chickens: {},
-  trades: {},
-
   collectibles: {},
   pumpkinPlaza: {},
   treasureIsland: {
@@ -703,6 +405,3 @@ export const STATIC_OFFLINE_FARM: GameState = {
   airdrops: [],
   username: "Local Hero",
 };
-
-{
-}

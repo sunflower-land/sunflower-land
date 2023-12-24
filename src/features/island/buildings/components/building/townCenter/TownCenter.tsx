@@ -12,10 +12,13 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
+import { useNavigate } from "react-router-dom";
 
 export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+
+  const navigate = useNavigate();
 
   const [showHeart, setShowHeart] = useState(false);
 
@@ -26,6 +29,7 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
     }
 
     if (isBuilt) {
+      navigate("/home");
       // Add future on click actions here
       return;
     }
@@ -52,11 +56,7 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
 
   return (
     <div className="absolute h-full w-full">
-      <BuildingImageWrapper
-        name="Town Center"
-        onClick={handleClick}
-        nonInteractible={!onRemove}
-      >
+      <BuildingImageWrapper name="Town Center" onClick={handleClick}>
         <img
           src={townCenter}
           className="absolute pointer-events-none"

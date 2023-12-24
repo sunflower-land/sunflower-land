@@ -748,7 +748,14 @@ export type Christmas = {
   >;
 };
 
+export type IslandType = "basic" | "spring";
+
 export interface GameState {
+  island: {
+    type: IslandType;
+    upgradedAt?: number;
+  };
+
   username?: string;
   balance: Decimal;
   previousBalance: Decimal;
