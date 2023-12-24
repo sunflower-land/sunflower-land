@@ -427,6 +427,7 @@ export const Land: React.FC = () => {
     mushrooms,
     buds,
     airdrops,
+    island,
   } = state;
 
   console.log({
@@ -498,7 +499,7 @@ export const Land: React.FC = () => {
               "pointer-events-none": visiting,
             })}
           >
-            <LandBase expandedCount={expansionCount} />
+            <LandBase expandedCount={expansionCount} type={island.type} />
             <DirtRenderer grid={gameGrid} />
 
             {!landscaping && (

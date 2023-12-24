@@ -20,6 +20,7 @@ import { SeasonTeaser } from "./SeasonTeaser";
 import { LAND_WIDTH } from "../Land";
 import { TravelTeaser } from "./TravelTeaser";
 import { DiscordBoat } from "./DiscordBoat";
+import { IslandUpgrader } from "./IslandUpgrader";
 
 interface Props {
   townCenterBuilt: boolean;
@@ -121,6 +122,8 @@ export const WaterComponent: React.FC<Props> = ({
       <SeasonTeaser offset={offset} />
 
       <TravelTeaser />
+
+      <IslandUpgrader />
 
       {/* Bottom right island */}
       <MapPlacement x={7 + offset} y={-2 - offset} width={6}>
