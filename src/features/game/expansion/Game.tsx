@@ -53,6 +53,7 @@ import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
+import { Home } from "features/home/Home";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -201,6 +202,7 @@ const GameContent = () => {
           <Route path="/" element={<Land />} />
           {/* Legacy route */}
           <Route path="/farm" element={<Land />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/helios" element={<Helios key="helios" />} />
           <Route path="*" element={<IslandNotFound />} />
         </Routes>
