@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import pontoon from "assets/land/levels/pontoon.gif";
+import pontoon from "assets/land/basic/pontoon.gif";
 import island from "assets/land/islands/island.webp";
 
 import { ExpansionConstruction } from "features/game/types/game";
