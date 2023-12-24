@@ -28,6 +28,7 @@ export interface Context {
   id: number;
   jwt: string;
   state: GameState;
+  bumpkinPower: number;
   mmoServer?: Room<PlazaRoomState>;
 }
 
@@ -129,6 +130,7 @@ export const portalMachine = createMachine({
           let mmoServer: Room<PlazaRoomState> | undefined;
           const serverName = getServer() ?? "main";
           const mmoUrl = CONFIG.ROOM_URL;
+          let bumpkinPower = 0;
 
           if (serverName && mmoUrl) {
             const client = new Client(mmoUrl);
@@ -138,9 +140,12 @@ export const portalMachine = createMachine({
               farmId,
               experience: game.bumpkin?.experience ?? 0,
             });
+
+            // TODO get power from BE
+            bumpkinPower = 100;
           }
 
-          return { game, mmoServer, farmId };
+          return { game, mmoServer, farmId, bumpkinPower };
         },
         onDone: [
           {
@@ -148,6 +153,7 @@ export const portalMachine = createMachine({
             actions: assign({
               state: (_: any, event) => event.data.game,
               mmoServer: (_: any, event) => event.data.mmoServer,
+              bumpkinPower: (_: any, event) => event.data.bumpkinPower,
               id: (_: any, event) => event.data.farmId,
             }),
           },
