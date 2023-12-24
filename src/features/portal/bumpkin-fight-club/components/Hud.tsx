@@ -11,6 +11,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { PortalContext } from "../lib/Provider";
 import { HomeButton } from "./HomeButton";
 import { Power } from "./Power";
+import { Leaderboard } from "./Leaderboard";
 
 export const Hud: React.FC = () => {
   const { portalService } = useContext(PortalContext);
@@ -34,13 +35,14 @@ export const Hud: React.FC = () => {
             }
           />
           <div
-            className="fixed z-50 flex flex-col justify-between"
+            className="fixed z-50 flex flex-col justify-between gap-2"
             style={{
               left: `${PIXEL_SCALE * 3}px`,
               bottom: `${PIXEL_SCALE * 3}px`,
               width: `${PIXEL_SCALE * 22}px`,
             }}
           >
+            <Leaderboard farmId={portalState.context.id} />
             <HomeButton />
           </div>
         </div>,
