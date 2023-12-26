@@ -513,7 +513,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Christmas Tree": {
     name: "Christmas Tree",
     description:
-      "A rare festive collectible. Place on your farm during the Festive Season and Santa may come to visit you! \n\n~~You can craft this item at the Goblin Blacksmith~~ **Sold out!** \n\n Tree must be placed on your farm.",
+      "Place on your farm during the Festive Season to get a spot and Santa's nice list!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/403.png",
@@ -521,11 +521,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Other" },
       { trait_type: "Decoration", value: "Plants" },
       { trait_type: "Tradable", value: "Yes" },
-      {
-        display_type: "boost_number",
-        trait_type: "Free gift every Christmas",
-        value: 1,
-      },
     ],
   },
   Scarecrow: {
