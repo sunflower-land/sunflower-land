@@ -513,7 +513,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Christmas Tree": {
     name: "Christmas Tree",
     description:
-      "A rare collectible that provides holders with an airdrop on Christmas day.\n\n~~You can craft this item at the Goblin Blacksmith~~ **Sold out!**",
+      "A rare festive collectible. Place on your farm during the Festive Season and Santa may come to visit you! \n\n~~You can craft this item at the Goblin Blacksmith~~ **Sold out!** \n\n Tree must be placed on your farm.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/403.png",
@@ -6165,6 +6165,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Tradable", value: "Yes" },
       { trait_type: "Decoration", value: "Monument" },
+    ],
+  },
+
+  "Grinx's Hammer": {
+    description:
+      "The magical hammer from Grinx, the legendary Goblin Blacksmith. Halves expansion natural resource requirements.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/489.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Other" },
     ],
   },
 };

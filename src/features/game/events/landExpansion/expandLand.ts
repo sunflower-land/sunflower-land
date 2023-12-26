@@ -67,6 +67,8 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
     level: game.inventory["Basic Land"]?.toNumber() ?? 3,
   });
 
+  game.expandedAt = createdAt;
+
   return {
     ...game,
     inventory,

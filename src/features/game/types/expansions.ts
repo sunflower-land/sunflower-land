@@ -965,7 +965,7 @@ const LAND_23_REQUIREMENTS: Requirements = {
   seconds: 48 * 60 * 60,
   bumpkinLevel: 60,
 };
-const EXPANSION_REQUIREMENTS: Record<number, Requirements> = {
+export const EXPANSION_REQUIREMENTS: Record<number, Requirements> = {
   4: LAND_4_REQUIREMENTS,
   5: LAND_5_REQUIREMENTS,
   6: LAND_6_REQUIREMENTS,
@@ -986,8 +986,4 @@ const EXPANSION_REQUIREMENTS: Record<number, Requirements> = {
   21: LAND_21_REQUIREMENTS,
   22: LAND_22_REQUIREMENTS,
   23: LAND_23_REQUIREMENTS,
-};
-
-export const expansionRequirements = (level: number) => {
-  return EXPANSION_REQUIREMENTS[level];
 };

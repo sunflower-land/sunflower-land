@@ -784,6 +784,7 @@ export interface GameState {
 
   expansionConstruction?: ExpansionConstruction;
   expansionRequirements?: ExpansionRequirements;
+  expandedAt?: number;
 
   bumpkin?: Bumpkin;
   buildings: Buildings;
