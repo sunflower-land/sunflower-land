@@ -52,7 +52,9 @@ const HudComponent: React.FC = () => {
   const farmAddress = gameService.state?.context?.farmAddress;
   const isFullUser = farmAddress !== undefined;
 
-  const { dayOfChristmas } = getDayOfChristmas(gameService.state.context.state);
+  const { dayOfChristmas } = getDayOfChristmas(
+    gameService.state?.context?.state
+  );
 
   return (
     <>
