@@ -51,6 +51,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
 
     return defaultFeatureFlag(game);
   },
+
   BEACH: (game: GameState) => {
     const hasBeachBud = getKeys(game.buds ?? {}).some(
       (id) => game.buds?.[id]?.type === "Beach"
