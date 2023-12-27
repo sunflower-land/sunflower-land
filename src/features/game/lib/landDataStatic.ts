@@ -214,6 +214,43 @@ const OFFLINE_FARM_FRUIT = getEnabledNodeCount(
 );
 
 export const STATIC_OFFLINE_FARM: GameState = {
+  home: {
+    collectibles: {
+      Anchor: [
+        {
+          id: "123",
+          readyAt: 0,
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+          createdAt: 0,
+        },
+      ],
+      "Abandoned Bear": [
+        {
+          id: "123",
+          readyAt: 0,
+          coordinates: {
+            x: 2,
+            y: 3,
+          },
+          createdAt: 0,
+        },
+      ],
+      "Chef Bear": [
+        {
+          id: "123",
+          readyAt: 0,
+          coordinates: {
+            x: 4,
+            y: 5,
+          },
+          createdAt: 0,
+        },
+      ],
+    },
+  },
   island: {
     type: "basic",
   },

@@ -750,7 +750,13 @@ export type Christmas = {
 
 export type IslandType = "basic" | "spring";
 
+export type Home = {
+  collectibles: Collectibles;
+};
+
 export interface GameState {
+  home: Home;
+
   island: {
     type: IslandType;
     upgradedAt?: number;
