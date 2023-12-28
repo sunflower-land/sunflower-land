@@ -13,7 +13,6 @@ import { PlazaBanner } from "./PlazaBanner";
 import { Panel } from "components/ui/Panel";
 import { CropBoomFinish } from "features/portal/examples/cropBoom/components/CropBoomFinish";
 import { Luna } from "./npcs/Luna";
-import { ChristmasReward } from "./npcs/Santa";
 import { NyeButton } from "./NyeButton";
 
 type InteractableName =

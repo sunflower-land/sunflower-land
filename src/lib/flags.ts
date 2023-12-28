@@ -25,7 +25,6 @@ type FeatureName =
   | "BANANA"
   | "LOCALISATION"
   | "PORTALS"
-  | "NYE"
   | "GOOGLE_LOGIN";
 
 // Used for testing production features
@@ -53,17 +52,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
     return defaultFeatureFlag(game);
   },
 
-  NYE: (game: GameState) => {
-    if (Date.now() > new Date("2024-01-02").getTime()) {
-      return false;
-    }
-
-    if (Date.now() > new Date("2023-12-31").getTime()) {
-      return true;
-    }
-
-    return defaultFeatureFlag(game);
-  },
   BEACH: (game: GameState) => {
     const hasBeachBud = getKeys(game.buds ?? {}).some(
       (id) => game.buds?.[id]?.type === "Beach"
