@@ -52,7 +52,7 @@ import { OFFLINE_FARM } from "./landData";
 import { randomID } from "lib/utils/random";
 
 import { buySFL } from "../actions/buySFL";
-import { PurchasableItems } from "../types/collectibles";
+import { CollectibleLocation, PurchasableItems } from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
@@ -199,6 +199,7 @@ type LandscapeEvent = {
   };
   multiple?: boolean;
   maximum?: number;
+  location: CollectibleLocation;
 };
 
 type VisitEvent = {
@@ -1619,6 +1620,7 @@ export function startGame(authContext: AuthContext) {
               collisionDetected: true,
               multiple: (_: Context, event: LandscapeEvent) => event.multiple,
               maximum: (_: Context, event: LandscapeEvent) => event.maximum,
+              location: (_: Context, event: LandscapeEvent) => event.location,
             },
             onDone: {
               target: "autosaving",

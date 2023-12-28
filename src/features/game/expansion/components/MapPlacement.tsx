@@ -9,6 +9,7 @@ export type Coordinates = {
 export type Position = {
   height?: number;
   width?: number;
+  z?: number;
 } & Coordinates;
 
 type Props = Position;
@@ -24,6 +25,7 @@ export const MapPlacement: React.FC<Props> = ({
   height,
   width,
   children,
+  z = 0,
 }) => {
   return (
     <div
@@ -33,6 +35,7 @@ export const MapPlacement: React.FC<Props> = ({
         left: `calc(50% + ${GRID_WIDTH_PX * x}px)`,
         height: height ? `${GRID_WIDTH_PX * height}px` : "auto",
         width: width ? `${GRID_WIDTH_PX * width}px` : "auto",
+        zIndex: z,
       }}
     >
       {children}

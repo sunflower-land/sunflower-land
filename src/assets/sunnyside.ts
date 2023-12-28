@@ -161,5 +161,7 @@ export const SUNNYSIDE = {
     blue_bottle: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/blue_bottle.webp`,
     orange_bottle: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/orange_bottle.webp`,
     skull: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/skull.webp`,
+    painting: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/painting.png`,
+    rug: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/rug.png`,
   },
 };

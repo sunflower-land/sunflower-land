@@ -140,6 +140,7 @@ const getIslandElements = ({
               width={width}
             >
               <Collectible
+                location="farm"
                 name={name}
                 id={id}
                 readyAt={readyAt}
@@ -578,7 +579,7 @@ export const Land: React.FC = () => {
         />
       </div>
 
-      {landscaping && <LandscapingHud isFarming />}
+      {landscaping && <LandscapingHud location="farm" />}
 
       {!landscaping && visiting && (
         <div className="absolute z-20">

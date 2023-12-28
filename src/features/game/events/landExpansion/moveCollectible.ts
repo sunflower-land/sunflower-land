@@ -1,4 +1,5 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { CollectibleLocation } from "features/game/types/collectibles";
 import { CollectibleName } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { hasMoveRestriction } from "features/game/types/removeables";
@@ -15,6 +16,7 @@ export type MoveCollectibleAction = {
   name: CollectibleName;
   coordinates: Coordinates;
   id: string;
+  location: CollectibleLocation;
 };
 
 type Options = {
@@ -29,7 +31,12 @@ export function moveCollectible({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
-  const collectibleGroup = stateCopy.collectibles[action.name];
+
+  console.log({ location: action.location });
+  const collectibleGroup =
+    action.location === "home"
+      ? stateCopy.home.collectibles[action.name]
+      : stateCopy.collectibles[action.name];
 
   if (stateCopy.bumpkin === undefined) {
     throw new Error(MOVE_COLLECTIBLE_ERRORS.NO_BUMPKIN);

@@ -31,6 +31,7 @@ import { createPortal } from "react-dom";
 import { RemoveKuebikoModal } from "../collectibles/RemoveKuebikoModal";
 import { hasRemoveRestriction } from "features/game/types/removeables";
 import { BudName } from "features/game/types/buds";
+import { CollectibleLocation } from "features/game/types/collectibles";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -45,7 +46,9 @@ const compareBlockBucks = (prev: Decimal, next: Decimal) => {
 const selectMovingItem = (state: MachineState) => state.context.moving;
 const isIdle = (state: MachineState) => state.matches({ editing: "idle" });
 
-const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
+const LandscapingHudComponent: React.FC<{
+  location: CollectibleLocation;
+}> = ({ location }) => {
   const { gameService } = useContext(Context);
   const [isMobile] = useIsMobile();
 
@@ -270,7 +273,7 @@ const LandscapingHudComponent: React.FC<{ isFarming: boolean }> = () => {
         show={showDecorations}
       />
 
-      <PlaceableController />
+      <PlaceableController location={location} />
     </div>,
     document.body
   );

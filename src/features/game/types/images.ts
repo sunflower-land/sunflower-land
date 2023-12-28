@@ -3021,4 +3021,8 @@ export const ITEM_DETAILS: Items = {
       "A kaleidoscope of colors beneath the waves, this fish is nature's living artwork.",
     howToGetItem: ["Beach fishing"],
   },
+  Rug: {
+    image: SUNNYSIDE.decorations.rug,
+    description: "?",
+  },
 };

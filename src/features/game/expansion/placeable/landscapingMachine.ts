@@ -18,6 +18,7 @@ import { RESOURCES } from "features/game/types/resources";
 import { ResourceName } from "features/game/types/resources";
 import { BudName, isBudName } from "features/game/types/buds";
 import { RESOURCE_MOVE_EVENTS } from "features/island/collectibles/MovableComponent";
+import { CollectibleLocation } from "features/game/types/collectibles";
 
 export const RESOURCE_PLACE_EVENTS: Partial<
   Record<ResourceName, GameEventName<PlacementEvent>>
@@ -91,6 +92,7 @@ type PlaceEvent = {
   type: "PLACE";
   nextOrigin?: Coordinates;
   nextWillCollide?: boolean;
+  location: CollectibleLocation;
 };
 
 type RemoveEvent = {
@@ -300,14 +302,17 @@ export const landscapingMachine = createMachine<
                   return !!context.multiple && !!e.nextOrigin;
                 },
                 actions: [
-                  sendParent(({ placeable, action, coordinates: { x, y } }) => {
-                    return {
-                      type: action,
-                      name: placeable,
-                      coordinates: { x, y },
-                      id: uuidv4().slice(0, 8),
-                    } as PlacementEvent;
-                  }),
+                  sendParent(
+                    ({ placeable, action, coordinates: { x, y } }, e) => {
+                      return {
+                        type: action,
+                        name: placeable,
+                        coordinates: { x, y },
+                        id: uuidv4().slice(0, 8),
+                        location: e.location,
+                      } as PlacementEvent;
+                    }
+                  ),
                   assign({
                     collisionDetected: (_, event) => !!event.nextWillCollide,
                     origin: (_, event) => event.nextOrigin ?? { x: 0, y: 0 },
@@ -325,14 +330,17 @@ export const landscapingMachine = createMachine<
                   context.action === "collectible.placed" ||
                   context.action === "building.constructed",
                 actions: [
-                  sendParent(({ placeable, action, coordinates: { x, y } }) => {
-                    return {
-                      type: action,
-                      name: placeable,
-                      coordinates: { x, y },
-                      id: uuidv4().slice(0, 8),
-                    } as PlacementEvent;
-                  }),
+                  sendParent(
+                    ({ placeable, action, coordinates: { x, y } }, e) => {
+                      return {
+                        type: action,
+                        name: placeable,
+                        coordinates: { x, y },
+                        id: uuidv4().slice(0, 8),
+                        location: e.location,
+                      } as PlacementEvent;
+                    }
+                  ),
                   assign({
                     placeable: (_) => undefined,
                   }),
