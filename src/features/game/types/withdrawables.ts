@@ -1092,7 +1092,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Elf Hat": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
   "Elf Potion": () => false,
   "Elf Shoes": () => false,
-  "Elf Suit": () => false,
+  "Elf Suit": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
   "Santa Beard": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
   "Santa Suit": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
 };
