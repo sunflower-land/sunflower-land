@@ -136,7 +136,7 @@ export const Home: React.FC = () => {
                 }}
               />
 
-              {landscaping && <Placeable />}
+              {landscaping && <Placeable location="home" />}
 
               <img
                 src={tent}

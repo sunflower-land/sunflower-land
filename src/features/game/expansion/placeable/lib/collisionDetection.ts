@@ -1,6 +1,7 @@
 import {
   Collectibles,
   GameState,
+  IslandType,
   PlacedItem,
   Position,
 } from "features/game/types/game";
@@ -151,6 +152,56 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
   ];
 
   return boundingBoxes.some((resourceBoundingBox) =>
+    isOverlapping(boundingBox, resourceBoundingBox)
+  );
+}
+
+const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
+  basic: {
+    height: 6,
+    width: 6,
+    x: -3,
+    y: -3,
+  },
+  spring: {
+    height: 6,
+    width: 6,
+    x: -3,
+    y: -3,
+  },
+};
+function detectHomeCollision(state: GameState, boundingBox: BoundingBox) {
+  const bounds = HOME_BOUNDS[state.island.type];
+
+  const isOutside =
+    boundingBox.x < bounds.x ||
+    boundingBox.x + boundingBox.width > bounds.x + bounds.width;
+  // boundingBox.y < bounds.y - bounds.height ||
+  // boundingBox.y + boundingBox.y > bounds.y;
+
+  console.log({ bounds, boundingBox, isOutside });
+
+  if (isOutside) {
+    return true;
+  }
+
+  const { home } = state;
+
+  const placed = home.collectibles;
+
+  const placeableBounds = getKeys(placed).flatMap((name) => {
+    const items = placed[name] as PlacedItem[];
+    const dimensions = PLACEABLE_DIMENSIONS[name];
+
+    return items.map((item) => ({
+      x: item.coordinates.x,
+      y: item.coordinates.y,
+      height: dimensions.height,
+      width: dimensions.width,
+    }));
+  });
+
+  return placeableBounds.some((resourceBoundingBox) =>
     isOverlapping(boundingBox, resourceBoundingBox)
   );
 }
@@ -318,7 +369,9 @@ export function detectCollision({
   state: GameState;
   position: Position;
 }) {
-  return false;
+  if (location === "home") {
+    return detectHomeCollision(state, position);
+  }
 
   const expansions = state.inventory["Basic Land"]?.toNumber() ?? 3;
 
