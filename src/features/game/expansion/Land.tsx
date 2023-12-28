@@ -562,7 +562,7 @@ export const Land: React.FC = () => {
             }).sort((a, b) => b.props.y - a.props.y)}
           </div>
 
-          {landscaping && <Placeable />}
+          {landscaping && <Placeable location="farm" />}
         </div>
 
         {!landscaping && <Fisherman />}

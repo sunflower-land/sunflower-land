@@ -27,6 +27,7 @@ import { getGameGrid } from "./lib/makeGrid";
 import { READONLY_BUILDINGS } from "features/island/buildings/components/building/BuildingComponents";
 import { ZoomContext } from "components/ZoomProvider";
 import { isBudName } from "features/game/types/buds";
+import { CollectibleLocation } from "features/game/types/collectibles";
 
 export const PLACEABLES: Record<PlaceableName | "Bud", React.FC<any>> = {
   Chicken: () => <Chicken x={0} y={0} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
@@ -89,7 +90,10 @@ export const getInitialCoordinates = (origin?: Coordinates) => {
   return [INITIAL_POSITION_X, INITIAL_POSITION_Y];
 };
 
-export const Placeable: React.FC = () => {
+interface Props {
+  location: CollectibleLocation;
+}
+export const Placeable: React.FC<Props> = ({ location }) => {
   const { scale } = useContext(ZoomContext);
 
   const nodeRef = useRef(null);
@@ -118,11 +122,15 @@ export const Placeable: React.FC = () => {
   }
 
   const detect = ({ x, y }: Coordinates) => {
-    const collisionDetected = detectCollision(gameService.state.context.state, {
-      x,
-      y,
-      width: dimensions.width,
-      height: dimensions.height,
+    const collisionDetected = detectCollision({
+      state: gameService.state.context.state,
+      position: {
+        x,
+        y,
+        width: dimensions.width,
+        height: dimensions.height,
+      },
+      location,
     });
 
     send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
