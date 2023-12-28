@@ -13,7 +13,6 @@ import { PlazaBanner } from "./PlazaBanner";
 import { Panel } from "components/ui/Panel";
 import { CropBoomFinish } from "features/portal/examples/cropBoom/components/CropBoomFinish";
 import { Luna } from "./npcs/Luna";
-import { ChristmasReward } from "./npcs/Santa";
 
 type InteractableName =
   | "kraken"
@@ -375,10 +374,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
 
       <Modal centered show={interactable === "portal"} onHide={closeModal}>
         <Luna onClose={closeModal} />
-      </Modal>
-
-      <Modal centered show={interactable === "christmas_reward"}>
-        <ChristmasReward onClose={closeModal} />
       </Modal>
 
       <Modal centered show={interactable === "dawn_book_2"} onHide={closeModal}>

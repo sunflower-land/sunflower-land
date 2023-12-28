@@ -19,9 +19,6 @@ import { Settings } from "./components/Settings";
 import { Leaderboard } from "features/game/expansion/components/leaderboard/Leaderboard";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
-import { hasFeatureAccess } from "lib/flags";
-import { CandyHUD } from "./CandyHUD";
-import { getDayOfChristmas } from "features/game/events/landExpansion/collectCandy";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -51,10 +48,6 @@ const HudComponent: React.FC = () => {
 
   const farmAddress = gameService.state?.context?.farmAddress;
   const isFullUser = farmAddress !== undefined;
-
-  const { dayOfChristmas } = getDayOfChristmas(
-    gameService?.state?.context?.state ?? {}
-  );
 
   return (
     <>
@@ -130,18 +123,6 @@ const HudComponent: React.FC = () => {
             <Save />
             <Settings isFarming={false} />
           </div>
-
-          {hasFeatureAccess(gameState.context.state, "CHRISTMAS") && (
-            <div
-              className="fixed z-50 flex justify-center w-full"
-              style={{
-                top: `${PIXEL_SCALE * 3}px`,
-                // height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
-              }}
-            >
-              {dayOfChristmas <= 12 && <CandyHUD />}
-            </div>
-          )}
 
           {farmAddress && (
             <Modal show={showDepositModal} centered onHide={handleClose}>

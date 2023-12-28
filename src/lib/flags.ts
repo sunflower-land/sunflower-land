@@ -25,7 +25,6 @@ type FeatureName =
   | "BANANA"
   | "LOCALISATION"
   | "PORTALS"
-  | "CHRISTMAS"
   | "GOOGLE_LOGIN";
 
 // Used for testing production features
@@ -47,18 +46,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
     }
 
     if (Date.now() > new Date("2023-10-26").getTime()) {
-      return true;
-    }
-
-    return defaultFeatureFlag(game);
-  },
-
-  CHRISTMAS: (game: GameState) => {
-    if (Date.now() > new Date("2023-12-28").getTime()) {
-      return false;
-    }
-
-    if (Date.now() > new Date("2023-12-12").getTime()) {
       return true;
     }
 

@@ -50,8 +50,6 @@ import { handleCommand } from "./lib/chatCommands";
 import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
 import { Inventory } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
-import { ChristmasScene } from "./scenes/ChristmasScene";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -120,9 +118,7 @@ export const PhaserComponent: React.FC<Props> = ({
         ClothesShopScene,
         DecorationShopScene,
         BeachScene,
-        ...(hasFeatureAccess(gameService.state.context.state, "CHRISTMAS")
-          ? [ChristmasScene]
-          : [PlazaScene]),
+        PlazaScene,
       ];
 
   useEffect(() => {
