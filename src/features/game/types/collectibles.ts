@@ -8,6 +8,8 @@ import powerup from "assets/icons/level_up.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 
+export type CollectibleLocation = "farm" | "home";
+
 export type SeasonPassName =
   | "Dawn Breaker Banner"
   | "Solar Flare Banner"

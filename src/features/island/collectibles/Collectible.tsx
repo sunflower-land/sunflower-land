@@ -18,6 +18,7 @@ import {
   COLLECTIBLE_COMPONENTS,
   READONLY_COLLECTIBLES,
 } from "./CollectibleCollection";
+import { CollectibleLocation } from "features/game/types/collectibles";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -31,6 +32,7 @@ export type CollectibleProps = {
 
 type Props = CollectibleProps & {
   showTimers: boolean;
+  location: CollectibleLocation;
 };
 
 const InProgressCollectible: React.FC<Props> = ({
@@ -107,6 +109,7 @@ const CollectibleComponent: React.FC<Props> = ({
   y,
   showTimers,
   grid,
+  location,
 }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
 
@@ -127,6 +130,7 @@ const CollectibleComponent: React.FC<Props> = ({
           y={y}
           showTimers={showTimers}
           grid={grid}
+          location={location}
         />
       ) : (
         <CollectiblePlaced

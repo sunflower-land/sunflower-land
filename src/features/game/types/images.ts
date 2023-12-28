@@ -2994,4 +2994,8 @@ export const ITEM_DETAILS: Items = {
     description:
       "The magical hammer from Grinx, the legendary Goblin Blacksmith.",
   },
+  Rug: {
+    image: SUNNYSIDE.decorations.rug,
+    description: "?",
+  },
 };

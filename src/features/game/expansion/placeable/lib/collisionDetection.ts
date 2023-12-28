@@ -17,6 +17,7 @@ import {
   MUSHROOM_DIMENSIONS,
   RESOURCE_DIMENSIONS,
 } from "features/game/types/resources";
+import { CollectibleLocation } from "features/game/types/collectibles";
 
 type BoundingBox = Position;
 
@@ -308,7 +309,17 @@ function detectLandCornerCollision(
   });
 }
 
-export function detectCollision(state: GameState, position: Position) {
+export function detectCollision({
+  state,
+  position,
+  location,
+}: {
+  location: CollectibleLocation;
+  state: GameState;
+  position: Position;
+}) {
+  return false;
+
   const expansions = state.inventory["Basic Land"]?.toNumber() ?? 3;
 
   return (

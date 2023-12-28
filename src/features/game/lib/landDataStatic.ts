@@ -31,7 +31,7 @@ export const INITIAL_RESOURCES: Pick<
     },
     3: {
       createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      crop: { name: "Pumpkin", plantedAt: 0, amount: 1 },
       x: 0,
       y: 0,
       height: 1,
@@ -216,7 +216,18 @@ const OFFLINE_FARM_FRUIT = getEnabledNodeCount(
 export const STATIC_OFFLINE_FARM: GameState = {
   home: {
     collectibles: {
-      Anchor: [
+      // Anchor: [
+      //   {
+      //     id: "123",
+      //     readyAt: 0,
+      //     coordinates: {
+      //       x: 0,
+      //       y: 0,
+      //     },
+      //     createdAt: 0,
+      //   },
+      // ],
+      "Abandoned Bear": [
         {
           id: "123",
           readyAt: 0,
@@ -227,24 +238,13 @@ export const STATIC_OFFLINE_FARM: GameState = {
           createdAt: 0,
         },
       ],
-      "Abandoned Bear": [
-        {
-          id: "123",
-          readyAt: 0,
-          coordinates: {
-            x: 2,
-            y: 3,
-          },
-          createdAt: 0,
-        },
-      ],
       "Chef Bear": [
         {
           id: "123",
           readyAt: 0,
           coordinates: {
-            x: 4,
-            y: 5,
+            x: 2,
+            y: 2,
           },
           createdAt: 0,
         },
@@ -264,6 +264,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
   previousBalance: new Decimal(0),
   previousInventory: {},
   inventory: {
+    Rug: new Decimal(1),
+    "Abandoned Bear": new Decimal(10),
+    "Chef Bear": new Decimal(10),
     "Grinx's Hammer": new Decimal(1),
     "Bumpkin Nutcracker": new Decimal(1),
     "Festive Tree": new Decimal(1),
