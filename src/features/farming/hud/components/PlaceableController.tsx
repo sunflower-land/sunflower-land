@@ -14,6 +14,7 @@ import Decimal from "decimal.js-light";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import {
   COLLECTIBLES_DIMENSIONS,
+  CollectibleName,
   getKeys,
 } from "features/game/types/craftables";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
@@ -113,6 +114,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     if (placeMore) {
       const nextPosition = { x: coordinates.x, y: coordinates.y - height };
       const collisionDetected = detectCollision({
+        name: placeable as CollectibleName,
         state: gameService.state.context.state,
         position: {
           ...nextPosition,

@@ -165,7 +165,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       panel={
         selectedItem && (
           <InventoryItemDetails
-            collectibles={collectibles}
+            game={gameState}
             details={{
               item: selectedItem,
             }}

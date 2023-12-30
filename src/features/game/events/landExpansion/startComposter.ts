@@ -27,7 +27,7 @@ const getReadyAt = (gameState: GameState, composter: ComposterName) => {
   const timeToFinish = composterDetails[composter].timeToFinishMilliseconds;
 
   // gives +10% speed boost if the player has the Soil Krabby
-  if (isCollectibleBuilt("Soil Krabby", gameState.collectibles)) {
+  if (isCollectibleBuilt({ name: "Soil Krabby", game: gameState })) {
     return timeToFinish * 0.9;
   }
   return timeToFinish;

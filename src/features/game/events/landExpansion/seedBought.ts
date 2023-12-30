@@ -23,12 +23,12 @@ export function getBuyPrice(
   name: SeedName,
   seed: Seed,
   inventory: Inventory,
-  collectibles: Collectibles,
+  game: GameState,
   bumpkin: Bumpkin
 ) {
   const { equipped } = bumpkin;
   const { secondaryTool } = equipped;
-  if (isCollectibleBuilt("Kuebiko", collectibles)) {
+  if (isCollectibleBuilt({ name: "Kuebiko", game })) {
     return new Decimal(0);
   }
 
@@ -85,7 +85,7 @@ export function seedBought({ state, action }: Options) {
     item,
     seed,
     stateCopy.inventory,
-    stateCopy.collectibles,
+    stateCopy,
     stateCopy.bumpkin as Bumpkin
   );
   const totalExpenses = price?.mul(amount);

@@ -33,7 +33,11 @@ import { MutantChickenModal } from "features/farming/animals/components/MutantCh
 import { getWheatRequiredToFeed } from "features/game/events/landExpansion/feedChicken";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
-import { Collectibles, Chicken as ChickenType } from "features/game/types/game";
+import {
+  Collectibles,
+  Chicken as ChickenType,
+  GameState,
+} from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { MoveableComponent } from "../collectibles/MovableComponent";
@@ -91,8 +95,8 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
   );
 };
 
-const HasWheat = (inventoryWheatCount: Decimal, collectibles: Collectibles) => {
-  const wheatRequired = getWheatRequiredToFeed(collectibles);
+const HasWheat = (inventoryWheatCount: Decimal, game: GameState) => {
+  const wheatRequired = getWheatRequiredToFeed(game);
 
   // has enough wheat to feed chickens
 
@@ -110,17 +114,16 @@ const isEggReady = (state: ChickenMachineState) => state.matches("eggReady");
 const isEggLaid = (state: ChickenMachineState) => state.matches("eggLaid");
 const selectInventoryWheatCount = (state: GameMachineState) =>
   state.context.state.inventory.Wheat ?? new Decimal(0);
-const selectCollectibles = (state: GameMachineState) =>
-  state.context.state.collectibles;
+const selectGame = (state: GameMachineState) => state.context.state;
 
 const compareChicken = (prev: ChickenType, next: ChickenType) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
-const compareCollectibles = (prev: Collectibles, next: Collectibles) =>
-  isCollectibleBuilt("Gold Egg", prev) ===
-    isCollectibleBuilt("Gold Egg", next) &&
-  isCollectibleBuilt("Fat Chicken", prev) ===
-    isCollectibleBuilt("Fat Chicken", next);
+const compareGame = (prev: GameState, next: GameState) =>
+  isCollectibleBuilt({ name: "Gold Egg", game: prev }) ===
+    isCollectibleBuilt({ name: "Gold Egg", game: next }) &&
+  isCollectibleBuilt({ name: "Fat Chicken", game: prev }) ===
+    isCollectibleBuilt({ name: "Fat Chicken", game: next });
 
 interface Props {
   id: string;
@@ -137,16 +140,12 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
     (state) => state.context.state.chickens[id],
     compareChicken
   );
-  const collectibles = useSelector(
-    gameService,
-    selectCollectibles,
-    compareCollectibles
-  );
+  const game = useSelector(gameService, selectGame, compareGame);
   const inventoryWheatCount = useSelector(
     gameService,
     selectInventoryWheatCount,
     (prev: Decimal, next: Decimal) =>
-      HasWheat(prev, collectibles) === HasWheat(next, collectibles)
+      HasWheat(prev, game) === HasWheat(next, game)
   );
 
   const percentageComplete = getPercentageComplete(chicken?.fedAt);
@@ -204,8 +203,8 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
   };
 
   const feed = async () => {
-    if (!isCollectibleBuilt("Gold Egg", collectibles)) {
-      const hasWheat = HasWheat(inventoryWheatCount, collectibles);
+    if (!isCollectibleBuilt({ name: "Gold Egg", game })) {
+      const hasWheat = HasWheat(inventoryWheatCount, game);
 
       if (!hasWheat) {
         setShowPopover(true);

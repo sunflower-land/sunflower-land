@@ -206,6 +206,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
       name,
     });
     const collisionDetected = detectCollision({
+      name: name as CollectibleName,
       state: game,
       location,
       position: {
@@ -284,6 +285,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
           name,
         });
         const collisionDetected = detectCollision({
+          name: name as CollectibleName,
           state: game,
           location,
           position: {

@@ -281,6 +281,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
   previousInventory: {},
   inventory: {
     "White Festive Fox": new Decimal(3),
+    Scarecrow: new Decimal(1),
+    Shovel: new Decimal(1),
     Rug: new Decimal(1),
     "Abandoned Bear": new Decimal(10),
     "Chef Bear": new Decimal(10),

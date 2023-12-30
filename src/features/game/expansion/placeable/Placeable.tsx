@@ -15,6 +15,7 @@ import {
 import {
   ANIMAL_DIMENSIONS,
   COLLECTIBLES_DIMENSIONS,
+  CollectibleName,
 } from "features/game/types/craftables";
 import { READONLY_COLLECTIBLES } from "features/island/collectibles/CollectibleCollection";
 import { Chicken } from "features/island/chickens/Chicken";
@@ -127,6 +128,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
         height: dimensions.height,
       },
       location,
+      name: placeable as CollectibleName,
     });
 
     send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
