@@ -24,7 +24,7 @@ export enum CHOP_ERRORS {
 
 type GetChoppedAtArgs = {
   skills: Partial<Record<BumpkinSkillName, number>>;
-  collectibles: Collectibles;
+  game: GameState;
   createdAt: number;
 };
 
@@ -48,13 +48,13 @@ export function canChop(tree: Tree, now: number = Date.now()) {
  * Set a chopped in the past to make it replenish faster
  */
 export function getChoppedAt({
-  collectibles,
+  game,
   skills,
   createdAt,
 }: GetChoppedAtArgs): number {
   const hasBeaverReady =
-    isCollectibleBuilt("Apprentice Beaver", collectibles) ||
-    isCollectibleBuilt("Foreman Beaver", collectibles);
+    isCollectibleBuilt({ name: "Apprentice Beaver", game }) ||
+    isCollectibleBuilt({ name: "Foreman Beaver", game });
 
   let totalSeconds = TREE_RECOVERY_TIME;
 
@@ -66,7 +66,7 @@ export function getChoppedAt({
     totalSeconds = totalSeconds * 0.8;
   }
 
-  if (isCollectibleActive("Time Warp Totem", collectibles)) {
+  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
     totalSeconds = totalSeconds * 0.5;
   }
 
@@ -80,9 +80,9 @@ export function getChoppedAt({
  */
 export function getRequiredAxeAmount(
   inventory: Inventory,
-  collectibles: Collectibles
+  gameState: GameState
 ) {
-  if (isCollectibleBuilt("Foreman Beaver", collectibles)) {
+  if (isCollectibleBuilt({ name: "Foreman Beaver", game: gameState })) {
     return new Decimal(0);
   }
 
@@ -105,7 +105,7 @@ export function chop({
     throw new Error("You do not have a Bumpkin");
   }
 
-  const requiredAxes = getRequiredAxeAmount(state.inventory, collectibles);
+  const requiredAxes = getRequiredAxeAmount(state.inventory, state);
 
   const axeAmount = inventory.Axe || new Decimal(0);
   if (axeAmount.lessThan(requiredAxes)) {
@@ -129,7 +129,7 @@ export function chop({
     choppedAt: getChoppedAt({
       createdAt,
       skills: bumpkin.skills,
-      collectibles,
+      game: stateCopy,
     }),
     // Placeholder amount for next drop. This will get overridden on the next autosave.
     amount: 1,

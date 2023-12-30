@@ -29,11 +29,11 @@ type Options = {
 export function getRequiredAxeAmount(
   fruitName: FruitName,
   inventory: Inventory,
-  collectibles: Collectibles
+  game: GameState
 ) {
   // Apply boost for Trees
   if (fruitName === "Apple" || fruitName === "Orange") {
-    if (isCollectibleBuilt("Foreman Beaver", collectibles)) {
+    if (isCollectibleBuilt({ name: "Foreman Beaver", game })) {
       return new Decimal(0);
     }
 
@@ -70,7 +70,7 @@ export function removeFruitTree({
   const requiredAxes = getRequiredAxeAmount(
     patch.fruit.name,
     inventory,
-    collectibles
+    stateCopy
   );
 
   if (action.selectedItem !== "Axe" && requiredAxes.gt(0)) {

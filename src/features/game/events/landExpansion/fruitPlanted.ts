@@ -23,13 +23,13 @@ function getHarvestsLeft() {
 
 function getPlantedAt(
   fruitSeedName: FruitSeedName,
-  collectibles: Collectibles,
+  game: GameState,
   createdAt: number
 ) {
   if (!fruitSeedName) return createdAt;
 
   const fruitTime = FRUIT_SEEDS()[fruitSeedName].plantSeconds;
-  const boostedTime = getFruitTime(fruitSeedName, collectibles);
+  const boostedTime = getFruitTime(fruitSeedName, game);
 
   const offset = fruitTime - boostedTime;
 
@@ -39,16 +39,13 @@ function getPlantedAt(
 /**
  * Based on boosts, how long a fruit will take to grow
  */
-export const getFruitTime = (
-  fruitSeedName: FruitSeedName,
-  collectibles: Collectibles
-) => {
+export const getFruitTime = (fruitSeedName: FruitSeedName, game: GameState) => {
   let seconds = FRUIT_SEEDS()[fruitSeedName]?.plantSeconds ?? 0;
 
   // Squirrel Monkey: 50% reduction
   if (
     fruitSeedName === "Orange Seed" &&
-    isCollectibleBuilt("Squirrel Monkey", collectibles)
+    isCollectibleBuilt({ name: "Squirrel Monkey", game })
   ) {
     seconds = seconds * 0.5;
   }
@@ -56,7 +53,7 @@ export const getFruitTime = (
   // Nana: 10% reduction
   if (
     fruitSeedName === "Banana Plant" &&
-    isCollectibleBuilt("Nana", collectibles)
+    isCollectibleBuilt({ name: "Nana", game })
   ) {
     seconds = seconds * 0.9;
   }
@@ -111,7 +108,7 @@ export function plantFruit({
     throw new Error("Invalid harvests left amount");
   }
 
-  if (isCollectibleBuilt("Immortal Pear", stateCopy.collectibles)) {
+  if (isCollectibleBuilt({ name: "Immortal Pear", game: stateCopy })) {
     harvestCount += 1;
   }
 
@@ -121,10 +118,10 @@ export function plantFruit({
 
   patch.fruit = {
     name: fruitName,
-    plantedAt: getPlantedAt(action.seed, stateCopy.collectibles, createdAt),
+    plantedAt: getPlantedAt(action.seed, stateCopy, createdAt),
     amount: getFruitYield({
       name: fruitName,
-      collectibles: stateCopy.collectibles,
+      game: stateCopy,
       buds: stateCopy.buds ?? {},
       wearables: bumpkin.equipped,
       fertiliser: patch.fertiliser?.name,

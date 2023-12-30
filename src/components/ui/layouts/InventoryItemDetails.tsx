@@ -2,7 +2,11 @@ import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
 import { CollectibleName } from "features/game/types/craftables";
-import { Collectibles, InventoryItemName } from "features/game/types/game";
+import {
+  Collectibles,
+  GameState,
+  InventoryItemName,
+} from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
@@ -50,7 +54,7 @@ interface PropertiesProps {
  */
 interface Props {
   wideLayout?: boolean;
-  collectibles: Collectibles;
+  game: GameState;
   details: ItemDetailsProps;
   properties?: PropertiesProps;
   actionView?: JSX.Element;
@@ -62,7 +66,7 @@ interface Props {
  */
 export const InventoryItemDetails: React.FC<Props> = ({
   wideLayout = false,
-  collectibles,
+  game,
   details,
   properties,
   actionView,
@@ -76,10 +80,10 @@ export const InventoryItemDetails: React.FC<Props> = ({
     if (item.boostedDescriptions) {
       for (const boostedDescription of item.boostedDescriptions) {
         if (
-          isCollectibleBuilt(
-            boostedDescription.name as CollectibleName,
-            collectibles
-          )
+          isCollectibleBuilt({
+            name: boostedDescription.name as CollectibleName,
+            game,
+          })
         ) {
           description = boostedDescription.description;
         }

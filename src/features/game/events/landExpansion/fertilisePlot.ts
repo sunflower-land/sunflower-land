@@ -101,7 +101,7 @@ export function fertilisePlot({
     }
 
     if (!!crop && action.fertiliser === "Sprout Mix") {
-      if (isCollectibleBuilt("Knowledge Crab", collectibles)) {
+      if (isCollectibleBuilt({ name: "Knowledge Crab", game: stateCopy })) {
         crop.amount = (crop.amount ?? 1) + 0.4;
       } else crop.amount = (crop.amount ?? 1) + 0.2;
     }

@@ -18,6 +18,7 @@ import {
   Reward,
   TreasureHole,
   Collectibles,
+  GameState,
 } from "features/game/types/game";
 import { setImageWidth } from "lib/images";
 import classNames from "classnames";
@@ -125,9 +126,9 @@ const isNoShovel = (state: MachineState) => state.matches("noShovel");
 const isFinishing = (state: MachineState) => state.matches("finishing");
 const isDrilling = (state: MachineState) => state.matches("drilling");
 
-const getMaxHolesPerDay = (collectibles: Collectibles) => {
+const getMaxHolesPerDay = (game: GameState) => {
   const MAX_HOLES_PER_DAY = 30;
-  if (isCollectibleBuilt("Heart of Davy Jones", collectibles)) {
+  if (isCollectibleBuilt({ name: "Heart of Davy Jones", game })) {
     return MAX_HOLES_PER_DAY + 20;
   }
   return MAX_HOLES_PER_DAY;
@@ -220,7 +221,7 @@ export const SandPlot: React.FC<{
       (holeId) => !canDig(holes[holeId]?.dugAt)
     ).length;
 
-    if (holesDug >= getMaxHolesPerDay(collectibles)) {
+    if (holesDug >= getMaxHolesPerDay(gameState.context.state)) {
       setShowMaxHolesModal(true);
       return;
     }

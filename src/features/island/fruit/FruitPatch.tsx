@@ -14,6 +14,7 @@ import {
   FruitPatch as Patch,
   InventoryItemName,
   PlantedFruit,
+  GameState,
 } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { ResourceDropAnimator } from "components/animation/ResourceDropAnimator";
@@ -24,13 +25,13 @@ import { getBumpkinLevelRequiredForNode } from "features/game/expansion/lib/expa
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
-  collectibles: Collectibles,
+  game: GameState,
   fruit?: PlantedFruit
 ) => {
   const axesNeeded = getRequiredAxeAmount(
     fruit?.name as FruitName,
     inventory,
-    collectibles
+    game
   );
 
   // has enough axes to chop the tree
@@ -41,13 +42,12 @@ const HasAxes = (
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
-const selectCollectibles = (state: MachineState) =>
-  state.context.state.collectibles;
+const selectGame = (state: MachineState) => state.context.state;
 const compareFruit = (prev?: Patch, next?: Patch) =>
   JSON.stringify(prev) === JSON.stringify(next);
-const compareCollectibles = (prev: Collectibles, next: Collectibles) =>
-  isCollectibleBuilt("Foreman Beaver", prev) ===
-  isCollectibleBuilt("Foreman Beaver", next);
+const compareGame = (prev: GameState, next: GameState) =>
+  isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
+  isCollectibleBuilt({ name: "Foreman Beaver", game: next });
 
 const _bumpkinLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
@@ -73,18 +73,13 @@ export const FruitPatch: React.FC<Props> = ({ id, index }) => {
   );
   const fruit = fruitPatch?.fruit;
   const fertiliser = fruitPatch.fertiliser;
-  const collectibles = useSelector(
-    gameService,
-    selectCollectibles,
-    compareCollectibles
-  );
+  const game = useSelector(gameService, selectGame, compareGame);
   const inventory = useSelector(
     gameService,
     selectInventory,
-    (prev, next) =>
-      HasAxes(prev, collectibles, fruit) === HasAxes(next, collectibles, fruit)
+    (prev, next) => HasAxes(prev, game, fruit) === HasAxes(next, game, fruit)
   );
-  const hasAxes = HasAxes(inventory, collectibles, fruit);
+  const hasAxes = HasAxes(inventory, game, fruit);
 
   const bumpkinLevelRequired = getBumpkinLevelRequiredForNode(
     index,
@@ -153,7 +148,7 @@ export const FruitPatch: React.FC<Props> = ({ id, index }) => {
     if (!hasAxes) return;
 
     if (
-      !isCollectibleBuilt("Foreman Beaver", collectibles) ||
+      !isCollectibleBuilt({ name: "Foreman Beaver", game }) ||
       fruit?.name === "Blueberry"
     )
       shortcutItem("Axe");

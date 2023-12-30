@@ -6,7 +6,7 @@ import {
 import { GameState } from "features/game/types/game";
 
 export const getFruitHarvests = (state: Readonly<GameState>) => {
-  if (isCollectibleBuilt("Immortal Pear", state.collectibles)) {
+  if (isCollectibleBuilt({ name: "Immortal Pear", game: state })) {
     return [4, 6];
   }
 

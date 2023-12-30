@@ -110,9 +110,13 @@ export const getChestItems = (state: GameState) => {
       return {
         ...acc,
         [itemName]: new Decimal(
-          state.inventory[itemName]?.minus(
-            state.collectibles[itemName as CollectibleName]?.length ?? 0
-          ) ?? 0
+          state.inventory[itemName]
+            ?.minus(
+              state.collectibles[itemName as CollectibleName]?.length ?? 0
+            )
+            ?.minus(
+              state.home.collectibles[itemName as CollectibleName]?.length ?? 0
+            ) ?? 0
         ),
       };
     }

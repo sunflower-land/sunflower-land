@@ -1,6 +1,7 @@
 import {
   Collectibles,
   GameState,
+  InventoryItemName,
   IslandType,
   PlacedItem,
   Position,
@@ -170,26 +171,44 @@ const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
     y: -3,
   },
 };
-function detectHomeCollision(state: GameState, boundingBox: BoundingBox) {
+
+const NON_COLLIDING_OBJECTS: InventoryItemName[] = ["Rug"];
+function detectHomeCollision({
+  state,
+  position,
+  name,
+}: {
+  state: GameState;
+  position: BoundingBox;
+  name: InventoryItemName;
+}) {
   const bounds = HOME_BOUNDS[state.island.type];
 
   const isOutside =
-    boundingBox.x < bounds.x ||
-    boundingBox.x + boundingBox.width > bounds.x + bounds.width;
+    position.x < bounds.x ||
+    position.x + position.width > bounds.x + bounds.width;
   // boundingBox.y < bounds.y - bounds.height ||
   // boundingBox.y + boundingBox.y > bounds.y;
 
-  console.log({ bounds, boundingBox, isOutside });
+  console.log({ bounds, position, isOutside });
 
   if (isOutside) {
     return true;
+  }
+
+  if (NON_COLLIDING_OBJECTS.includes(name)) {
+    return false;
   }
 
   const { home } = state;
 
   const placed = home.collectibles;
 
-  const placeableBounds = getKeys(placed).flatMap((name) => {
+  const collidingItems = getKeys(placed).filter(
+    (name) => !NON_COLLIDING_OBJECTS.includes(name)
+  );
+
+  const placeableBounds = collidingItems.flatMap((name) => {
     const items = placed[name] as PlacedItem[];
     const dimensions = PLACEABLE_DIMENSIONS[name];
 
@@ -202,7 +221,7 @@ function detectHomeCollision(state: GameState, boundingBox: BoundingBox) {
   });
 
   return placeableBounds.some((resourceBoundingBox) =>
-    isOverlapping(boundingBox, resourceBoundingBox)
+    isOverlapping(position, resourceBoundingBox)
   );
 }
 
@@ -364,13 +383,15 @@ export function detectCollision({
   state,
   position,
   location,
+  name,
 }: {
   location: CollectibleLocation;
   state: GameState;
   position: Position;
+  name: InventoryItemName;
 }) {
   if (location === "home") {
-    return detectHomeCollision(state, position);
+    return detectHomeCollision({ state, position, name });
   }
 
   const expansions = state.inventory["Basic Land"]?.toNumber() ?? 3;

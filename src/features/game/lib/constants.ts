@@ -258,6 +258,8 @@ export const TEST_FARM: GameState = {
   chickens: {},
   farmActivity: {},
   milestones: {},
+  home: { collectibles: {} },
+  island: { type: "basic" },
   fishing: {
     weather: "Sunny",
     wharf: {},
@@ -471,6 +473,8 @@ export const EMPTY: GameState = {
       total: 10,
     },
   },
+  home: { collectibles: {} },
+  island: { type: "basic" },
   buildings: {},
   collectibles: {},
   mysteryPrizes: {},

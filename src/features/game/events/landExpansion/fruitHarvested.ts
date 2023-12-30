@@ -52,7 +52,7 @@ export const isFruitReadyToHarvest = (
 
 type FruitYield = {
   name: FruitName;
-  collectibles: Collectibles;
+  game: GameState;
   buds: NonNullable<GameState["buds"]>;
   wearables: Equipped;
   fertiliser?: FruitCompostName;
@@ -78,20 +78,20 @@ export function isFruitGrowing(patch: FruitPatch) {
 }
 
 export function getFruitYield({
-  collectibles,
+  game,
   buds,
   name,
   wearables,
   fertiliser,
 }: FruitYield) {
   let amount = 1;
-  if (name === "Apple" && isCollectibleBuilt("Lady Bug", collectibles)) {
+  if (name === "Apple" && isCollectibleBuilt({ name: "Lady Bug", game })) {
     amount += 0.25;
   }
 
   if (
     name === "Blueberry" &&
-    isCollectibleBuilt("Black Bearry", collectibles)
+    isCollectibleBuilt({ name: "Black Bearry", game })
   ) {
     amount += 1;
   }
@@ -121,12 +121,12 @@ export function getFruitYield({
 
 function getPlantedAt(
   fruitName: FruitName,
-  collectibles: Collectibles,
+  game: GameState,
   createdAt: number
 ) {
   if (
     fruitName === "Orange" &&
-    isCollectibleBuilt("Squirrel Monkey", collectibles)
+    isCollectibleBuilt({ name: "Squirrel Monkey", game })
   ) {
     const orangeTimeInMilliseconds =
       FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000;
@@ -182,14 +182,10 @@ export function harvestFruit({
     stateCopy.inventory[name]?.add(amount) ?? new Decimal(amount);
 
   patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
-  patch.fruit.harvestedAt = getPlantedAt(
-    name,
-    stateCopy.collectibles,
-    createdAt
-  );
+  patch.fruit.harvestedAt = getPlantedAt(name, stateCopy, createdAt);
 
   patch.fruit.amount = getFruitYield({
-    collectibles: collectibles,
+    game: stateCopy,
     buds: stateCopy.buds ?? {},
     wearables: bumpkin.equipped,
     name,

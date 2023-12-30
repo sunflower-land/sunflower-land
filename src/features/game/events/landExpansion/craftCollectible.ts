@@ -109,11 +109,16 @@ export function craftCollectible({
 
   if (action.coordinates && action.id) {
     const dimensions = COLLECTIBLES_DIMENSIONS[action.name];
-    const collides = detectCollision(stateCopy, {
-      x: action.coordinates.x,
-      y: action.coordinates.y,
-      height: dimensions.height,
-      width: dimensions.width,
+    const collides = detectCollision({
+      state: stateCopy,
+      position: {
+        x: action.coordinates.x,
+        y: action.coordinates.y,
+        height: dimensions.height,
+        width: dimensions.width,
+      },
+      location: "farm",
+      name: action.name,
     });
 
     if (collides) {
