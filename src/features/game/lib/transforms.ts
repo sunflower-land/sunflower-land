@@ -32,6 +32,8 @@ export function makeGame(farm: any): GameState {
       }),
       {} as Record<InventoryItemName, Decimal>
     ),
+    island: farm.island,
+    home: farm.home,
     createdAt: farm.createdAt,
     chickens: farm.chickens || {},
     stockExpiry: farm.stockExpiry || {},

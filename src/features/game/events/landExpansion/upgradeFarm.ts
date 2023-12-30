@@ -63,7 +63,6 @@ const INITIAL_LAND: Pick<
       },
     ],
   },
-  collectibles: {},
   crops: {
     "1": {
       createdAt: 1703364823336,

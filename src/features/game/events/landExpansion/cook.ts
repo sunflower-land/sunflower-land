@@ -21,20 +21,16 @@ type GetReadyAtArgs = {
   item: CookableName;
   bumpkin: Bumpkin;
   createdAt: number;
-  collectibles: Collectibles;
+  game: GameState;
 };
 
 export const getReadyAt = ({
   item,
   bumpkin,
   createdAt,
-  collectibles,
+  game,
 }: GetReadyAtArgs) => {
-  const seconds = getCookingTime(
-    COOKABLES[item].cookingSeconds,
-    bumpkin,
-    collectibles
-  );
+  const seconds = getCookingTime(COOKABLES[item].cookingSeconds, bumpkin, game);
 
   return createdAt + seconds * 1000;
 };
@@ -96,7 +92,7 @@ export function cook({
       item: action.item,
       bumpkin,
       createdAt,
-      collectibles: stateCopy.collectibles,
+      game: stateCopy,
     }),
   };
 

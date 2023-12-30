@@ -50,7 +50,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     selectedName,
     selected,
     inventory,
-    collectibles,
+    state,
     state.bumpkin as Bumpkin
   );
 
@@ -137,12 +137,12 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const getPlantSeconds = () => {
     if (yields in FRUIT())
-      return getFruitTime(selectedName as FruitSeedName, collectibles);
+      return getFruitTime(selectedName as FruitSeedName, state);
 
     return getCropTime({
       crop: yields as CropName,
       inventory,
-      collectibles,
+      game: state,
       bumpkin: state.bumpkin as Bumpkin,
       buds: state.buds ?? {},
     });
