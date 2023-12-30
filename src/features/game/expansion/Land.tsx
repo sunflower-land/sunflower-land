@@ -3,6 +3,7 @@ import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 
 import cloudedMap from "assets/land/clouded_map.png";
+import islands from "assets/land/islands/map_islands.png";
 
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Coordinates, MapPlacement } from "./components/MapPlacement";
@@ -502,6 +503,15 @@ export const Land: React.FC = () => {
           src={cloudedMap}
           alt="land"
           className="z-10 absolute pointer-events-none"
+          style={{
+            width: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
+            height: `${gameboardDimensions.y * GRID_WIDTH_PX}px`,
+          }}
+        />
+        <img
+          src={islands}
+          alt="land"
+          className="z-0 absolute pointer-events-none"
           style={{
             width: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
             height: `${gameboardDimensions.y * GRID_WIDTH_PX}px`,
