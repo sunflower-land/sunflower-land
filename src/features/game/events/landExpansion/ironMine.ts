@@ -28,19 +28,16 @@ export enum MINE_ERRORS {
 
 type GetMinedAtArgs = {
   createdAt: number;
-  collectibles: Collectibles;
+  game: GameState;
 };
 
 /**
  * Set a mined in the past to make it replenish faster
  */
-export function getMinedAt({
-  createdAt,
-  collectibles,
-}: GetMinedAtArgs): number {
+export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
   let time = createdAt;
 
-  if (isCollectibleActive("Time Warp Totem", collectibles)) {
+  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
     time -= IRON_RECOVERY_TIME * 0.5 * 1000;
   }
 
@@ -79,7 +76,7 @@ export function mineIron({
   const amountInInventory = stateCopy.inventory.Iron || new Decimal(0);
 
   ironRock.stone = {
-    minedAt: getMinedAt({ createdAt, collectibles }),
+    minedAt: getMinedAt({ createdAt, game: stateCopy }),
     amount: 2,
   };
   bumpkin.activity = trackActivity("Iron Mined", bumpkin.activity);

@@ -387,7 +387,8 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
           bumpkinLevelRequired={bumpkinLevelRequired}
           cropName={crop?.name}
           inventory={inventory}
-          collectibles={collectibles}
+          // TODO
+          game={gameService.state.context.state}
           bumpkin={bumpkin}
           buds={buds}
           plot={plot}

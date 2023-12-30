@@ -20,7 +20,7 @@ type Options = {
 type GetMinedAtArgs = {
   skills: Partial<Record<BumpkinSkillName, number>>;
   createdAt: number;
-  collectibles: Collectibles;
+  game: GameState;
 };
 
 export function canMine(rock: Rock, now: number = Date.now()) {
@@ -34,7 +34,7 @@ export function canMine(rock: Rock, now: number = Date.now()) {
 export function getMinedAt({
   skills,
   createdAt,
-  collectibles,
+  game,
 }: GetMinedAtArgs): number {
   let time = createdAt;
 
@@ -42,7 +42,7 @@ export function getMinedAt({
     time -= STONE_RECOVERY_TIME * 0.2 * 1000;
   }
 
-  if (isCollectibleActive("Time Warp Totem", collectibles)) {
+  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
     time -= STONE_RECOVERY_TIME * 0.5 * 1000;
   }
 
@@ -83,7 +83,7 @@ export function mineStone({
     minedAt: getMinedAt({
       skills: bumpkin.skills,
       createdAt: Date.now(),
-      collectibles,
+      game: stateCopy,
     }),
     amount: 2,
   };
