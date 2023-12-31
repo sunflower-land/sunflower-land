@@ -32,7 +32,6 @@ export function moveCollectible({
 }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
 
-  console.log({ location: action.location });
   const collectibleGroup =
     action.location === "home"
       ? stateCopy.home.collectibles[action.name]

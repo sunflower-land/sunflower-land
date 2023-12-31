@@ -436,16 +436,6 @@ export const Land: React.FC = () => {
     island,
   } = state;
 
-  console.log({
-    buildings,
-    collectibles,
-    crops,
-    fruitPatches,
-    trees,
-    gold,
-    iron,
-    stones,
-  });
   const autosaving = useSelector(gameService, isAutosaving);
   const landscaping = useSelector(gameService, isLandscaping);
   const visiting = useSelector(gameService, isVisiting);
