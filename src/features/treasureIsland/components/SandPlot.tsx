@@ -17,7 +17,6 @@ import {
   InventoryItemName,
   Reward,
   TreasureHole,
-  Collectibles,
   GameState,
 } from "features/game/types/game";
 import { setImageWidth } from "lib/images";

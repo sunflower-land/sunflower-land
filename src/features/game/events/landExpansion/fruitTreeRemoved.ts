@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { FruitName } from "features/game/types/fruits";
 import {
-  Collectibles,
   GameState,
   Inventory,
   InventoryItemName,

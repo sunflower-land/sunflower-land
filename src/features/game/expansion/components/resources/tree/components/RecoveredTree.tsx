@@ -92,7 +92,6 @@ const RecoveredTreeComponent: React.FC<Props> = ({
       ? SUNNYSIDE.resource.spring_tree
       : SUNNYSIDE.resource.tree;
 
-  console.log({ isladn: gameService.state?.context?.state.island.type });
   return (
     <div
       className="absolute w-full h-full"

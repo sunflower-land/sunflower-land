@@ -6,7 +6,6 @@ import { Context } from "features/game/GameProvider";
 import { getTimeLeft } from "lib/utils/time";
 import { loadAudio, treeFallAudio } from "lib/utils/sfx";
 import {
-  Collectibles,
   GameState,
   InventoryItemName,
   Reward,

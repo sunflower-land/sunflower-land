@@ -33,11 +33,7 @@ import { MutantChickenModal } from "features/farming/animals/components/MutantCh
 import { getWheatRequiredToFeed } from "features/game/events/landExpansion/feedChicken";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
-import {
-  Collectibles,
-  Chicken as ChickenType,
-  GameState,
-} from "features/game/types/game";
+import { Chicken as ChickenType, GameState } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { MoveableComponent } from "../collectibles/MovableComponent";

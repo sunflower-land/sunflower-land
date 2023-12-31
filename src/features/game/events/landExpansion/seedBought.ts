@@ -3,12 +3,7 @@ import cloneDeep from "lodash.clonedeep";
 
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
-import {
-  Bumpkin,
-  Collectibles,
-  GameState,
-  Inventory,
-} from "features/game/types/game";
+import { Bumpkin, GameState, Inventory } from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Seed, SeedName, SEEDS } from "features/game/types/seeds";

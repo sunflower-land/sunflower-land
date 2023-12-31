@@ -15,7 +15,6 @@ import { getRequiredAxeAmount } from "features/game/events/landExpansion/fruitTr
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
-  Collectibles,
   FruitPatch as Patch,
   InventoryItemName,
   PlantedFruit,
