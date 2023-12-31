@@ -157,7 +157,7 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
   );
 }
 
-const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
+export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
   basic: {
     height: 6,
     width: 6,
@@ -165,10 +165,10 @@ const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
     y: -3,
   },
   spring: {
-    height: 6,
-    width: 6,
-    x: -3,
-    y: -3,
+    height: 12,
+    width: 12,
+    x: -6,
+    y: -6,
   },
 };
 
@@ -186,11 +186,9 @@ function detectHomeCollision({
 
   const isOutside =
     position.x < bounds.x ||
-    position.x + position.width > bounds.x + bounds.width;
-  // boundingBox.y < bounds.y - bounds.height ||
-  // boundingBox.y + boundingBox.y > bounds.y;
-
-  console.log({ bounds, position, isOutside });
+    position.x + position.width > bounds.x + bounds.width ||
+    position.y > bounds.y + bounds.height ||
+    position.y - position.height < bounds.y;
 
   if (isOutside) {
     return true;
