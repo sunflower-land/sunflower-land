@@ -12,11 +12,7 @@ import {
   FRUIT_SEEDS,
   Fruit,
 } from "features/game/types/fruits";
-import {
-  Collectibles,
-  GameState,
-  PlantedFruit,
-} from "features/game/types/game";
+import { GameState, PlantedFruit } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { getTimeLeft } from "lib/utils/time";
 import { FruitPatch } from "features/game/types/game";

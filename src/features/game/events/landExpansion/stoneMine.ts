@@ -3,7 +3,7 @@ import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 import cloneDeep from "lodash.clonedeep";
-import { Collectibles, GameState, Rock } from "../../types/game";
+import { GameState, Rock } from "../../types/game";
 import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
 
 export type LandExpansionStoneMineAction = {

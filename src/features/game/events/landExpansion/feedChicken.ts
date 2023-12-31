@@ -4,12 +4,7 @@ import {
   CHICKEN_TIME_TO_EGG,
   MUTANT_CHICKEN_BOOST_AMOUNT,
 } from "features/game/lib/constants";
-import {
-  Bumpkin,
-  Collectibles,
-  GameState,
-  Inventory,
-} from "features/game/types/game";
+import { Bumpkin, GameState, Inventory } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type LandExpansionFeedChickenAction = {

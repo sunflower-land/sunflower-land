@@ -5,7 +5,6 @@ import { CropName, CROPS } from "../../types/crops";
 import {
   Buildings,
   Bumpkin,
-  Collectibles,
   CropPlot,
   GameState,
   Inventory,

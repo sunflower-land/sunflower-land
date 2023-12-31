@@ -1,23 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import raft from "assets/decorations/raft.png";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Guide } from "features/helios/components/hayseedHank/components/Guide";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { PeteHelp } from "./PeteHelp";
 import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { getBumpkinLevel } from "features/game/lib/level";
-import { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
 import { MapPlacement } from "./MapPlacement";
 
-import speechBubble from "assets/ui/speech_border.png";
-import { getKeys } from "features/game/types/craftables";
-import { CROPS } from "features/game/types/crops";
 import { Button } from "components/ui/Button";
 
 const expansions = (state: MachineState) =>

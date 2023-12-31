@@ -7,7 +7,6 @@ import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 import {
-  Collectibles,
   GameState,
   Inventory,
   InventoryItemName,

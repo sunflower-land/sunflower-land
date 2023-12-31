@@ -6,7 +6,7 @@ import {
   FRUIT_SEEDS,
   isFruitSeed,
 } from "features/game/types/fruits";
-import { Collectibles, GameState } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import { randomInt } from "lib/utils/random";
 import cloneDeep from "lodash.clonedeep";
 import { getFruitYield } from "./fruitHarvested";

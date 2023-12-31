@@ -15,7 +15,6 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import classNames from "classnames";
 import {
   Bumpkin,
-  Collectibles,
   CropFertiliser,
   CropPlot,
   GameState,

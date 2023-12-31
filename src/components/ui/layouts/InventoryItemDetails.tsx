@@ -2,11 +2,7 @@ import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { KNOWN_IDS } from "features/game/types";
 import { CollectibleName } from "features/game/types/craftables";
-import {
-  Collectibles,
-  GameState,
-  InventoryItemName,
-} from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";

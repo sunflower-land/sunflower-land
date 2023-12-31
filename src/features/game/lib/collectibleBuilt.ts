@@ -1,5 +1,5 @@
 import { CollectibleName } from "../types/craftables";
-import { Collectibles, GameState } from "../types/game";
+import { GameState } from "../types/game";
 
 export function isCollectibleBuilt({
   name,

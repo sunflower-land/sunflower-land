@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { EXOTIC_CROPS, ExoticCropName } from "features/game/types/beans";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { Collectibles, GameState } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import {
   SellableTreasure,
   BeachBountyTreasure,
