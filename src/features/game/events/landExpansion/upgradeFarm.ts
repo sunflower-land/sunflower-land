@@ -15,7 +15,7 @@ type Options = {
 
 const INITIAL_LAND: Pick<
   GameState,
-  "buildings" | "crops" | "fruitPatches" | "stones" | "iron" | "gold"
+  "buildings" | "crops" | "fruitPatches" | "stones" | "iron" | "gold" | "trees"
 > = {
   buildings: {
     House: [
