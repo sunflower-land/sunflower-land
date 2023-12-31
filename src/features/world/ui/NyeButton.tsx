@@ -59,7 +59,6 @@ export const NyeButton: React.FC<Props> = ({ onClose }) => {
             {
               text: "Yes",
               cb: () => {
-                console.log("Pressed");
                 confetti();
 
                 if (hasClaimed) {
