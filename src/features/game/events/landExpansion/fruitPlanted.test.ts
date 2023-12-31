@@ -602,14 +602,17 @@ describe("getFruitTime", () => {
     const seed = "Orange Seed";
     const orangePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitTime(seed, {
-      "Squirrel Monkey": [
-        {
-          coordinates: { x: 0, y: 0 },
-          createdAt: 0,
-          id: "123",
-          readyAt: 0,
-        },
-      ],
+      ...TEST_FARM,
+      collectibles: {
+        "Squirrel Monkey": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+          },
+        ],
+      },
     });
     expect(time).toEqual(orangePlantSeconds * 0.5);
   });
@@ -617,14 +620,17 @@ describe("getFruitTime", () => {
     const seed = "Apple Seed";
     const applePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitTime(seed, {
-      "Squirrel Monkey": [
-        {
-          coordinates: { x: 0, y: 0 },
-          createdAt: 0,
-          id: "123",
-          readyAt: 0,
-        },
-      ],
+      ...TEST_FARM,
+      collectibles: {
+        "Squirrel Monkey": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+          },
+        ],
+      },
     });
     expect(time).toEqual(applePlantSeconds);
   });
@@ -633,14 +639,17 @@ describe("getFruitTime", () => {
     const seed = "Banana Plant";
     const orangePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitTime(seed, {
-      Nana: [
-        {
-          coordinates: { x: 0, y: 0 },
-          createdAt: 0,
-          id: "123",
-          readyAt: 0,
-        },
-      ],
+      ...TEST_FARM,
+      collectibles: {
+        Nana: [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+          },
+        ],
+      },
     });
     expect(time).toEqual(orangePlantSeconds * 0.9);
   });
@@ -648,14 +657,17 @@ describe("getFruitTime", () => {
     const seed = "Apple Seed";
     const applePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
     const time = getFruitTime(seed, {
-      Nana: [
-        {
-          coordinates: { x: 0, y: 0 },
-          createdAt: 0,
-          id: "123",
-          readyAt: 0,
-        },
-      ],
+      ...TEST_FARM,
+      collectibles: {
+        Nana: [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+          },
+        ],
+      },
     });
     expect(time).toEqual(applePlantSeconds);
   });
