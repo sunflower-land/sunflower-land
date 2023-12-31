@@ -266,6 +266,11 @@ export const expansionRequirements = ({
   game: GameState;
 }) => {
   const requirements = EXPANSION_REQUIREMENTS[level];
+
+  if (!requirements) {
+    return undefined;
+  }
+
   let resources = requirements.resources;
 
   // Half resource costs
