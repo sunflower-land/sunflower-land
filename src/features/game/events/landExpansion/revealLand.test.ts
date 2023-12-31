@@ -5,7 +5,7 @@ describe("expansionRequirements", () => {
   it("returns normal expansion requirements", () => {
     const requirements = expansionRequirements({ level: 6, game: TEST_FARM });
 
-    expect(requirements.resources).toEqual({
+    expect(requirements?.resources).toEqual({
       Stone: 3,
       Wood: 5,
     });
@@ -28,7 +28,7 @@ describe("expansionRequirements", () => {
       level: 6,
     });
 
-    expect(requirements.resources).toEqual({
+    expect(requirements?.resources).toEqual({
       Stone: 1.5,
       Wood: 2.5,
     });
