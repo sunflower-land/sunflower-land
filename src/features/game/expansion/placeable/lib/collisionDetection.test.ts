@@ -36,7 +36,13 @@ describe("detectCollisions", () => {
 
     const position: Position = { x: 0, y: 0, height: 1, width: 1 };
 
-    const hasCollision = detectCollision(state, position);
+    const hasCollision = detectCollision({
+      state,
+      position,
+
+      location: "farm",
+      name: "Abandoned Bear",
+    });
 
     expect(hasCollision).toBe(false);
   });
@@ -55,7 +61,12 @@ describe("detectCollisions", () => {
       },
     };
 
-    const hasCollision = detectCollision(state, position);
+    const hasCollision = detectCollision({
+      state,
+      position,
+      location: "farm",
+      name: "Abandoned Bear",
+    });
 
     expect(hasCollision).toBe(true);
   });
@@ -64,11 +75,16 @@ describe("detectCollisions", () => {
     const state: GameState = cloneDeep(TEST_FARM);
     state.inventory["Basic Land"] = new Decimal(1);
 
-    const hasCollision = detectCollision(state, {
-      x: -4,
-      y: 0,
-      width: 2,
-      height: 1,
+    const hasCollision = detectCollision({
+      state,
+      position: {
+        x: -4,
+        y: 0,
+        width: 2,
+        height: 1,
+      },
+      location: "farm",
+      name: "Abandoned Bear",
     });
 
     expect(hasCollision).toBe(true);
@@ -78,11 +94,16 @@ describe("detectCollisions", () => {
     const state: GameState = cloneDeep(TEST_FARM);
     state.inventory["Basic Land"] = new Decimal(1);
 
-    const hasCollision = detectCollision(state, {
-      x: -3,
-      y: 3,
-      width: 1,
-      height: 1,
+    const hasCollision = detectCollision({
+      state,
+      position: {
+        x: -3,
+        y: 3,
+        width: 1,
+        height: 1,
+      },
+      location: "farm",
+      name: "Abandoned Bear",
     });
 
     expect(hasCollision).toBe(true);
@@ -104,11 +125,16 @@ describe("detectCollisions", () => {
       ],
     };
 
-    const hasCollision = detectCollision(state, {
-      x: 3,
-      y: 3,
-      height: 1,
-      width: 1,
+    const hasCollision = detectCollision({
+      state,
+      position: {
+        x: 3,
+        y: 3,
+        height: 1,
+        width: 1,
+      },
+      location: "farm",
+      name: "Abandoned Bear",
     });
 
     expect(hasCollision).toBe(true);
@@ -130,11 +156,16 @@ describe("detectCollisions", () => {
       ],
     };
 
-    const hasCollision = detectCollision(state, {
-      x: 1,
-      y: 1,
-      height: 1,
-      width: 1,
+    const hasCollision = detectCollision({
+      state,
+      position: {
+        x: 1,
+        y: 1,
+        height: 1,
+        width: 1,
+      },
+      location: "farm",
+      name: "Abandoned Bear",
     });
 
     expect(hasCollision).toBe(true);
@@ -152,11 +183,16 @@ describe("detectCollisions", () => {
       },
     };
 
-    const hasCollision = detectCollision(state, {
-      x: 1,
-      y: 1,
-      height: 1,
-      width: 1,
+    const hasCollision = detectCollision({
+      state,
+      position: {
+        x: 1,
+        y: 1,
+        height: 1,
+        width: 1,
+      },
+      location: "farm",
+      name: "Abandoned Bear",
     });
 
     expect(hasCollision).toBe(true);
@@ -178,11 +214,16 @@ describe("detectCollisions", () => {
       },
     };
 
-    const hasCollision = detectCollision(state, {
-      x: 0,
-      y: 0,
-      height: 1,
-      width: 1,
+    const hasCollision = detectCollision({
+      state,
+      position: {
+        x: 0,
+        y: 0,
+        height: 1,
+        width: 1,
+      },
+      location: "farm",
+      name: "Abandoned Bear",
     });
 
     expect(hasCollision).toBe(true);

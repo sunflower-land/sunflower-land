@@ -2406,15 +2406,18 @@ describe("getCropYield", () => {
         bumpkin: INITIAL_BUMPKIN,
         crop: "Sunflower",
         inventory: {},
-        collectibles: {
-          "Time Warp Totem": [
-            {
-              id: "123",
-              createdAt: now - 2 * 60 * 60 * 1000 - 1,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 2 * 60 * 60 * 1000 - 1,
-            },
-          ],
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Time Warp Totem": [
+              {
+                id: "123",
+                createdAt: now - 2 * 60 * 60 * 1000 - 1,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 2 * 60 * 60 * 1000 - 1,
+              },
+            ],
+          },
         },
         createdAt: now,
         plot: {
