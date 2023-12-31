@@ -5,6 +5,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
 import { ExpansionRequirements } from "components/ui/layouts/ExpansionRequirements";
+import { expansionRequirements } from "features/game/events/landExpansion/revealLand";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -53,7 +54,10 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
       details={{
         description: translate("landscape.expansion.one"),
       }}
-      requirements={gameState.expansionRequirements}
+      requirements={expansionRequirements({
+        level: (gameState.inventory["Basic Land"]?.toNumber() ?? 0) + 1,
+        game: gameState,
+      })}
       actionView={
         <Button onClick={onExpand} disabled={!canExpand}>
           {t("expand")}

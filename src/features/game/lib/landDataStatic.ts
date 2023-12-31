@@ -224,6 +224,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   previousBalance: new Decimal(0),
   previousInventory: {},
   inventory: {
+    "Grinx's Hammer": new Decimal(1),
     "Bumpkin Nutcracker": new Decimal(1),
     "Festive Tree": new Decimal(1),
     "Town Center": new Decimal(1),

@@ -1,4 +1,5 @@
 import mapJson from "assets/map/plaza.json";
+import nyeJSON from "assets/map/nye.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
@@ -111,19 +112,18 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "mayor",
     direction: "left",
   },
-  {
-    x: 418,
-    y: 330,
-    npc: "santa",
-  },
 ];
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
 
   constructor() {
+    const showNYE =
+      Date.now() > new Date("2023-12-31").getTime() &&
+      Date.now() < new Date("2024-01-02").getTime();
+
     super({
       name: "plaza",
-      map: { json: mapJson },
+      map: { json: showNYE ? nyeJSON : mapJson },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
   }

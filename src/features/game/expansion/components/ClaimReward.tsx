@@ -1,5 +1,6 @@
 import { Button } from "components/ui/Button";
-import React from "react";
+import React, { useEffect } from "react";
+import confetti from "canvas-confetti";
 
 import token from "src/assets/icons/token_2.png";
 import powerup from "assets/icons/level_up.png";
@@ -27,6 +28,10 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
   onClose,
 }) => {
   const itemNames = getKeys(airdrop.items);
+
+  useEffect(() => {
+    confetti();
+  }, []);
 
   return (
     <>
