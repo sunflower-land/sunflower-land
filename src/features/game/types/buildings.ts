@@ -4,14 +4,14 @@ import { CollectibleName } from "./craftables";
 import { InventoryItemName } from "./game";
 import { ResourceName } from "./resources";
 
+export type Home = "Tent" | "House";
+
 export type BuildingName =
   | "Fire Pit"
   | "Market"
   | "Town Center"
-  | "House"
   | "Workbench"
   | "Kitchen"
-  | "Tent"
   | "Water Well"
   | "Bakery"
   | "Hen House"
@@ -21,7 +21,8 @@ export type BuildingName =
   | "Warehouse"
   | "Compost Bin"
   | "Turbo Composter"
-  | "Premium Composter";
+  | "Premium Composter"
+  | Home;
 
 export type Ingredient = {
   item: InventoryItemName;

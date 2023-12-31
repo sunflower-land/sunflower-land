@@ -4,8 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { Reward, PlantedCrop, PlacedItem } from "features/game/types/game";
 import { CROPS } from "features/game/types/crops";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import { harvestAudio, loadAudio, plantAudio } from "lib/utils/sfx";
+import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
+import { harvestAudio, plantAudio } from "lib/utils/sfx";
 import {
   getCompletedWellCount,
   isPlotFertile,
@@ -122,10 +122,6 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
   );
   const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
   const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
-
-  useEffect(() => {
-    loadAudio([harvestAudio, plantAudio]);
-  }, []);
 
   const isFertile = isPlotFertile({
     plotIndex: id,
@@ -388,7 +384,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
           cropName={crop?.name}
           inventory={inventory}
           // TODO
-          game={gameService.state.context.state}
+          game={gameService.state?.context?.state ?? TEST_FARM}
           bumpkin={bumpkin}
           buds={buds}
           plot={plot}

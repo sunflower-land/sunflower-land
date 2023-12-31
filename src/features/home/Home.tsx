@@ -1,6 +1,8 @@
 import React, { useContext, useLayoutEffect, useMemo, useState } from "react";
 
 import tent from "assets/land/tent_inside.png";
+import house from "assets/land/house_inside.png";
+
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Hud } from "features/island/hud/Hud";
 import { Context } from "features/game/GameProvider";
@@ -22,10 +24,16 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "react-bootstrap";
 import { BumpkinPainting } from "./components/BumpkinPainting";
-import { Bumpkin } from "features/game/types/game";
+import { Bumpkin, IslandType } from "features/game/types/game";
+import { HOME_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
 
 const selectGameState = (state: MachineState) => state.context.state;
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
+
+const BACKGROUND_IMAGE: Record<IslandType, string> = {
+  basic: tent,
+  spring: house,
+};
 
 export const Home: React.FC = () => {
   const { gameService, showTimers } = useContext(Context);
@@ -99,6 +107,8 @@ export const Home: React.FC = () => {
       })
   );
 
+  const bounds = HOME_BOUNDS[state.island.type];
+
   return (
     <>
       <>
@@ -126,8 +136,8 @@ export const Home: React.FC = () => {
                   marginLeft: `${6 * PIXEL_SCALE}px`,
                   marginTop: `${16 * PIXEL_SCALE}px`,
 
-                  height: `${6 * GRID_WIDTH_PX}px`,
-                  width: `${6 * GRID_WIDTH_PX}px`,
+                  height: `${bounds.width * GRID_WIDTH_PX}px`,
+                  width: `${bounds.height * GRID_WIDTH_PX}px`,
 
                   backgroundSize: `${GRID_WIDTH_PX}px ${GRID_WIDTH_PX}px`,
                   backgroundImage: `
@@ -139,14 +149,16 @@ export const Home: React.FC = () => {
               {landscaping && <Placeable location="home" />}
 
               <img
-                src={tent}
+                src={BACKGROUND_IMAGE[state.island.type]}
                 id={Section.GenesisBlock}
                 className="relative z-0"
                 style={{
-                  width: `${108 * PIXEL_SCALE}px`,
-                  height: `${128 * PIXEL_SCALE}px`,
-                  // Offset the walls
-                  // right: `${6 * PIXEL_SCALE}px`,
+                  // Grid width + offset walls
+                  width: `${bounds.width * GRID_WIDTH_PX + 12 * PIXEL_SCALE}px`,
+                  // Grid height + offset walls
+                  height: `${
+                    bounds.height * GRID_WIDTH_PX + 32 * PIXEL_SCALE
+                  }px`,
                 }}
               />
 
