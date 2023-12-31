@@ -202,7 +202,6 @@ import {
   accelerateComposter,
   AccelerateComposterAction,
 } from "./landExpansion/accelerateComposter";
-import { collectCandy, CollectCandyAction } from "./landExpansion/collectCandy";
 import { updgrade, UpgradeFarmAction } from "./landExpansion/upgradeFarm";
 
 export type PlayingEvent =
@@ -273,7 +272,6 @@ export type PlayingEvent =
   | BurnCollectibleAction
   | ClaimBonusAction
   | AccelerateComposterAction
-  | CollectCandyAction
   | UpgradeFarmAction;
 
 export type PlacementEvent =
@@ -397,7 +395,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "collectible.burned": burnCollectible,
   "bonus.claimed": claimBonus,
   "compost.accelerated": accelerateComposter,
-  "candy.collected": collectCandy,
   "farm.upgraded": updgrade,
 };
 
