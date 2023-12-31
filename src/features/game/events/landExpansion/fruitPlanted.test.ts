@@ -604,14 +604,17 @@ describe("getFruitTime", () => {
     const time = getFruitTime(
       seed,
       {
-        "Squirrel Monkey": [
-          {
-            coordinates: { x: 0, y: 0 },
-            createdAt: 0,
-            id: "123",
-            readyAt: 0,
-          },
-        ],
+        ...TEST_FARM,
+        collectibles: {
+          "Squirrel Monkey": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
       },
       INITIAL_BUMPKIN.equipped
     );
@@ -623,14 +626,17 @@ describe("getFruitTime", () => {
     const time = getFruitTime(
       seed,
       {
-        "Squirrel Monkey": [
-          {
-            coordinates: { x: 0, y: 0 },
-            createdAt: 0,
-            id: "123",
-            readyAt: 0,
-          },
-        ],
+        ...TEST_FARM,
+        collectibles: {
+          "Squirrel Monkey": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
       },
       INITIAL_BUMPKIN.equipped
     );
@@ -643,14 +649,17 @@ describe("getFruitTime", () => {
     const time = getFruitTime(
       seed,
       {
-        Nana: [
-          {
-            coordinates: { x: 0, y: 0 },
-            createdAt: 0,
-            id: "123",
-            readyAt: 0,
-          },
-        ],
+        ...TEST_FARM,
+        collectibles: {
+          Nana: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
       },
       INITIAL_BUMPKIN.equipped
     );
@@ -662,14 +671,17 @@ describe("getFruitTime", () => {
     const time = getFruitTime(
       seed,
       {
-        Nana: [
-          {
-            coordinates: { x: 0, y: 0 },
-            createdAt: 0,
-            id: "123",
-            readyAt: 0,
-          },
-        ],
+        ...TEST_FARM,
+        collectibles: {
+          Nana: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
       },
       INITIAL_BUMPKIN.equipped
     );
@@ -679,14 +691,10 @@ describe("getFruitTime", () => {
   it("applies a 20% speed boost with Banana Onesie", () => {
     const seed = "Banana Plant";
     const orangePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
-    const time = getFruitTime(
-      seed,
-      {},
-      {
-        ...INITIAL_BUMPKIN.equipped,
-        onesie: "Banana Onesie",
-      }
-    );
+    const time = getFruitTime(seed, TEST_FARM, {
+      ...INITIAL_BUMPKIN.equipped,
+      onesie: "Banana Onesie",
+    });
     expect(time).toEqual(orangePlantSeconds * 0.8);
   });
 });

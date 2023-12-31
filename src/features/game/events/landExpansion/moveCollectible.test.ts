@@ -26,6 +26,7 @@ describe("moveCollectible", () => {
           name: "Algerian Flag",
           id: "1",
           coordinates: { x: 2, y: 2 },
+          location: "farm",
         },
       })
     ).toThrow(MOVE_COLLECTIBLE_ERRORS.NO_BUMPKIN);
@@ -51,6 +52,7 @@ describe("moveCollectible", () => {
           name: "Algerian Flag",
           id: "1",
           coordinates: { x: 2, y: 2 },
+          location: "farm",
         },
       })
     ).toThrow(MOVE_COLLECTIBLE_ERRORS.NO_COLLECTIBLES);
@@ -77,6 +79,7 @@ describe("moveCollectible", () => {
           name: "Algerian Flag",
           id: "1",
           coordinates: { x: 2, y: 2 },
+          location: "farm",
         },
       })
     ).toThrow(MOVE_COLLECTIBLE_ERRORS.COLLECTIBLE_NOT_PLACED);
@@ -114,6 +117,7 @@ describe("moveCollectible", () => {
         name: "Abandoned Bear",
         id: "123",
         coordinates: { x: 2, y: 2 },
+        location: "farm",
       },
     });
 
@@ -174,6 +178,7 @@ describe("moveCollectible", () => {
         name: "Nancy",
         id: "123",
         coordinates: { x: 2, y: 2 },
+        location: "farm",
       },
       createdAt: dateNow,
     });
@@ -232,6 +237,7 @@ describe("moveCollectible", () => {
           name: "Bale",
           id: "123",
           coordinates: { x: 2, y: 2 },
+          location: "farm",
         },
         createdAt: dateNow,
       })
