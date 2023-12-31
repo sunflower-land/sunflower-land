@@ -109,8 +109,6 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
       }
     }
 
-    console.log("LOCATION", location);
-
     if (placeMore) {
       const nextPosition = { x: coordinates.x, y: coordinates.y - height };
       const collisionDetected = detectCollision({
