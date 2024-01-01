@@ -100,6 +100,7 @@ const NPC_MESSAGES: Partial<Record<NPCName, string[]>> = {
     "Fruitful mischief and fruity delights. Let's have some fun!",
     "Tango's the name, fruity games are my claim to fame. Gimme!",
     "Fruit knowledge runs in my family. Tell me your fruitiest tales!",
+    "Keep my bananas away from the sea! Those fish are not as innocent as they sound.",
   ],
   miranda: [
     "Dance with me, friend! Add to my fruit-tastic hat, won't you?",
@@ -113,6 +114,7 @@ const NPC_MESSAGES: Partial<Record<NPCName, string[]>> = {
   finn: [
     "I've reeled in the biggest catch ever! Fish, anyone?",
     "Life's a fisherman's tale, and I've got stories to tell. Reeled in some fish!",
+    "Halibut can't resist the tempting aroma of anchovies",
     "Finn the fisherman, the legend, and the fish whisperer. Reeled in some fish?",
     "Big fish, big stories, and a big ego. Bring me your fishy treasures!",
     "Hook, line, and swagger, that's me. Fish, it's what I do!",
@@ -139,6 +141,7 @@ const NPC_MESSAGES: Partial<Record<NPCName, string[]>> = {
     "A mermaid's plea to protect her friends. Bring me fish, kind soul.",
     "Fishes' freedom, that's my mission. Help me with fish, won't you?",
     "Join me in the sea's dance of life. Fish, to set my friends free!",
+    "Seaweed is like a gourmet treat for Parrotfish",
   ],
   shelly: [
     "Bumpkins are vanishing, and I fear the Kraken is the cause. Help me collect its tentacles!",
