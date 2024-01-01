@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
@@ -177,6 +177,10 @@ export const IslandList: React.FC<IslandListProps> = ({
 
   const location = useLocation();
   const [view, setView] = useState<"list" | "visitForm">("list");
+
+  useEffect(() => {
+    gameService.send("SAVE");
+  }, []);
 
   const islands: Island[] = [
     {
