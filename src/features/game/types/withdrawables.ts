@@ -1037,7 +1037,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   Halo: () => false,
   Kama: () => true,
   "Grey Merch Hoodie": () => false,
-  "Unicorn Horn": () => false,
+  "Unicorn Horn": () => true,
   "Unicorn Hat": () => false,
   "Feather Hat": () => true,
   "Valoria Wreath": () => true,
