@@ -10,27 +10,11 @@ import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "./CloseablePanel";
 import { Song } from "assets/songs/playlist";
 import { PIXEL_SCALE } from "../lib/constants";
-
-enum AudioLocalStorageKeys {
-  audioMuted = "settings.audioMuted",
-  musicPaused = "settings.musicPaused",
-}
-
-function cacheAudioSetting(
-  key: AudioLocalStorageKeys,
-  value: boolean | number
-) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
-
-function getCachedAudioSetting<T>(
-  key: AudioLocalStorageKeys,
-  defaultValue: T
-): T {
-  const cached = localStorage.getItem(key);
-
-  return cached ? JSON.parse(cached) : defaultValue;
-}
+import {
+  AudioLocalStorageKeys,
+  cacheAudioSetting,
+  getCachedAudioSetting,
+} from "../lib/audio";
 
 interface Props {
   musicPlayer: React.MutableRefObject<HTMLAudioElement>;
