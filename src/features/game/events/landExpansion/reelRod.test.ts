@@ -8,9 +8,7 @@ describe("reelRod", () => {
   it("requires player has casted", () => {
     expect(() =>
       reelRod({
-        action: {
-          type: "rod.reeled",
-        },
+        action: { location: "wharf", type: "rod.reeled" },
         state: farm,
       })
     ).toThrow("Nothing has been casted");
@@ -18,9 +16,7 @@ describe("reelRod", () => {
 
   it("claims the fish", () => {
     const state = reelRod({
-      action: {
-        type: "rod.reeled",
-      },
+      action: { location: "wharf", type: "rod.reeled" },
       state: {
         ...farm,
         inventory: { Seaweed: new Decimal(5) },
@@ -30,6 +26,7 @@ describe("reelRod", () => {
             castedAt: 10000010,
             caught: { Gold: 2, Seaweed: 1 },
           },
+          beach: {},
           dailyAttempts: {},
         },
       },
@@ -41,9 +38,7 @@ describe("reelRod", () => {
 
   it("resets the location", () => {
     const state = reelRod({
-      action: {
-        type: "rod.reeled",
-      },
+      action: { location: "wharf", type: "rod.reeled" },
       state: {
         ...farm,
         fishing: {
@@ -54,6 +49,7 @@ describe("reelRod", () => {
             caught: { Gold: 2, Seaweed: 1 },
             chum: "Sunflower",
           },
+          beach: {},
         },
       },
     });
@@ -65,9 +61,7 @@ describe("reelRod", () => {
 
   it("tracks fish caught", () => {
     const state = reelRod({
-      action: {
-        type: "rod.reeled",
-      },
+      action: { location: "wharf", type: "rod.reeled" },
       state: {
         ...farm,
         fishing: {
@@ -78,6 +72,7 @@ describe("reelRod", () => {
             },
             castedAt: 100011000,
           },
+          beach: {},
         },
         inventory: {
           Rod: new Decimal(3),

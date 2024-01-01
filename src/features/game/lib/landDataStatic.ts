@@ -225,6 +225,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
   previousInventory: {},
   inventory: {
     "Grinx's Hammer": new Decimal(1),
+    Rod: new Decimal(20),
+    Earthworm: new Decimal(10),
     "Bumpkin Nutcracker": new Decimal(1),
     "Festive Tree": new Decimal(1),
     "Town Center": new Decimal(1),
@@ -254,6 +256,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     dailyAttempts: {},
     weather: "Sunny",
     wharf: {},
+    beach: {},
   },
   mailbox: {
     read: [],
