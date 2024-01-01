@@ -36,6 +36,7 @@ type RESTRICTION_REASON =
   | "Bananas are growing"
   | "In use"
   | "Recently used"
+  | "Cannot remove"
   | "Locked during festive season";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
@@ -331,6 +332,8 @@ export const REMOVAL_RESTRICTIONS: Partial<
   // Fishing Boosts
   Alba: (game) => hasFishedToday(game),
   Walrus: (game) => hasFishedToday(game),
+
+  Bed: () => [true, "Cannot remove"],
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<

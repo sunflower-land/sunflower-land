@@ -552,6 +552,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Kraken Tentacle": 1533,
 
   Rug: 2001,
+  Bed: 2002,
 };
 
 // The reverse of above

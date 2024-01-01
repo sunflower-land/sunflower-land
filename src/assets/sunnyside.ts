@@ -162,5 +162,6 @@ export const SUNNYSIDE = {
     skull: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/skull.webp`,
     painting: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/painting.png`,
     rug: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/rug.png`,
+    bed: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/bed.png`,
   },
 };

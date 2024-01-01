@@ -2998,4 +2998,8 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.rug,
     description: "?",
   },
+  Bed: {
+    image: SUNNYSIDE.decorations.bed,
+    description: "?",
+  },
 };

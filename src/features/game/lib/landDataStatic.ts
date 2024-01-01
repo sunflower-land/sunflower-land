@@ -227,6 +227,17 @@ export const STATIC_OFFLINE_FARM: GameState = {
       //     createdAt: 0,
       //   },
       // ],
+      Bed: [
+        {
+          id: "123",
+          readyAt: 0,
+          coordinates: {
+            x: 1,
+            y: 3,
+          },
+          createdAt: 0,
+        },
+      ],
       "Abandoned Bear": [
         {
           id: "123",
@@ -266,6 +277,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   inventory: {
     Scarecrow: new Decimal(1),
     Shovel: new Decimal(1),
+    Bed: new Decimal(1),
     Rug: new Decimal(1),
     "Abandoned Bear": new Decimal(10),
     "Chef Bear": new Decimal(10),
@@ -287,7 +299,21 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Block Buck": new Decimal(1),
     Egg: new Decimal(12),
   },
-  wardrobe: {},
+  wardrobe: {
+    "Beige Farmer Potion": 2,
+    "Fire Hair": 3,
+    "Basic Hair": 1,
+    "Red Farmer Shirt": 2,
+    "Blue Farmer Shirt": 1,
+    "Brown Suspenders": 1,
+
+    "Black Farmer Boots": 1,
+    "Farmer Pitchfork": 1,
+    "Farm Background": 1,
+    "Santa Beard": 1,
+  },
+
+  farmHands: {},
 
   createdAt: new Date().getTime(),
 

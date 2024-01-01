@@ -265,6 +265,7 @@ export const BumpkinProfile: React.FC<{
           readonly={gameState.matches("visiting")}
           bumpkin={gameState.context.state.bumpkin as Bumpkin}
           inventory={gameState.context.state.inventory}
+          gameState={gameState.context.state}
           isFullUser={isFullUser}
         />
       </Modal>
