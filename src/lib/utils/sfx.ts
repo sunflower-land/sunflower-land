@@ -1,3 +1,4 @@
+import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { Howl } from "howler";
 
 /**
@@ -29,180 +30,179 @@ export const loadAudio = (sounds: Howl[]) => {
 };
 
 export const harvestAudio = new Howl({
-  src: ["src/assets/sound-effects/harvest.mp3"],
-  volume: 0.2,
+  src: [SOUNDS.resources.harvest],
   preload: false,
+  volume: 0.2,
 });
 
 export const plantAudio = new Howl({
-  src: ["src/assets/sound-effects/plant.mp3"],
-  volume: 0.2,
+  src: [SOUNDS.resources.plant],
   preload: false,
+  volume: 0.2,
 });
 
 export const bakeryAudio = new Howl({
-  src: ["src/assets/sound-effects/kitchen.mp3"],
-  volume: 0.5,
+  src: [SOUNDS.buildings.kitchen],
   preload: false,
+  volume: 0.5,
 });
 
 export const blacksmithAudio = new Howl({
-  src: ["src/assets/sound-effects/blacksmith.mp3"],
-  volume: 0.2,
+  src: [SOUNDS.buildings.blacksmith],
   preload: false,
+  volume: 0.2,
 });
 
 export const shopAudio = new Howl({
-  src: ["src/assets/sound-effects/shop.mp3"],
-  volume: 0.2,
+  src: [SOUNDS.buildings.shop],
   preload: false,
+  volume: 0.2,
 });
 
 export const bankAudio = new Howl({
-  src: ["src/assets/sound-effects/bank.mp3"],
-  volume: 0.2,
+  src: [SOUNDS.buildings.bank],
   preload: false,
+  volume: 0.2,
 });
 
 export const beggarAudio = new Howl({
-  src: ["src/assets/sound-effects/beggar.mp3"],
-  volume: 0.3,
+  src: [SOUNDS.misc.begger],
   preload: false,
+  volume: 0.3,
 });
 
 export const wishingWellAudio = new Howl({
-  src: ["src/assets/sound-effects/wishing_well.mp3"],
-  volume: 0.5,
+  src: [SOUNDS.buildings.wishing_well],
   preload: false,
+  volume: 0.5,
 });
 
 export const miningAudio = new Howl({
-  src: ["src/assets/sound-effects/mining.mp3"],
-  volume: 0.5,
+  src: [SOUNDS.resources.mining],
   preload: false,
+  volume: 0.5,
 });
 
 export const miningFallAudio = new Howl({
-  src: ["src/assets/sound-effects/mining_fall.mp3"],
-  volume: 0.5,
+  src: [SOUNDS.resources.mining_fall],
   preload: false,
+  volume: 0.5,
 });
 
 export const chopAudio = new Howl({
-  src: ["src/assets/sound-effects/chop.mp3"],
-  volume: 0.3,
+  src: [SOUNDS.resources.chop],
   preload: false,
+  volume: 0.3,
 });
 
 export const treeFallAudio = new Howl({
-  src: ["src/assets/sound-effects/tree_fall.mp3"],
-  volume: 0.3,
+  src: [SOUNDS.resources.tree_fall],
   preload: false,
+  volume: 0.3,
 });
 
 export const tailorAudio = new Howl({
-  src: ["src/assets/sound-effects/tailor.mp3"],
+  src: [SOUNDS.buildings.tailor],
+  preload: false,
   volume: 0.2,
-  preload: false,
-});
-
-export const homeDoorAudio = new Howl({
-  src: ["src/assets/sound-effects/home_door.mp3"],
-  volume: 0.1,
-  preload: false,
 });
 
 export const barnAudio = new Howl({
-  src: ["src/assets/sound-effects/barn.mp3"],
-  volume: 0.1,
+  src: [SOUNDS.buildings.barn],
   preload: false,
+  volume: 0.1,
 });
 
 export const diaryAudio = new Howl({
-  src: ["src/assets/sound-effects/diary.mp3"],
-  volume: 0.2,
+  src: [SOUNDS.misc.diary],
   preload: false,
+  volume: 0.2,
 });
 
 export const battleAudio = new Howl({
-  src: ["src/assets/sound-effects/battle.mp3"],
-  volume: 0.2,
+  src: [SOUNDS.misc.battle],
   preload: false,
+  volume: 0.2,
 });
 
 export const fountainAudio = new Howl({
-  src: ["src/assets/sound-effects/fountain.mp3"],
-  volume: 0.2,
+  src: [SOUNDS.misc.fountain],
   preload: false,
+  volume: 0.2,
 });
 
 export const observatoryAnimationAudio = new Howl({
-  src: ["src./assets/sound-effects/mom_observatory_animation_sounds.mp3"],
+  src: [SOUNDS.misc.mom_observatory_animation_sounds],
+  preload: false,
   volume: 0.5,
   loop: true,
-  preload: false,
-});
-
-export const merchantAudio = new Howl({
-  src: ["src/assets/sound-effects/merchant.mp3"],
-  volume: 0.2,
-  preload: false,
 });
 
 export const burningSound = new Howl({
-  src: ["src/assets/sound-effects/fire-crackling.mp3"],
-  volume: 0.5,
+  src: [SOUNDS.loops.fire],
   preload: false,
+  volume: 0.5,
 });
 
 export const warChant = new Howl({
-  src: ["src/assets/sound-effects/war_chant.mp3"],
-  volume: 0.2,
+  src: [SOUNDS.misc.war_chant],
   preload: false,
+  volume: 0.2,
 });
 
 // Arcade - Greedy Goblin
 export const greedyGoblinAudio = {
   greedyGoblinIntroAudio: new Howl({
-    src: ["src/assets/community/arcade/greedy_goblin/audio/intro.mp3"],
-    volume: 0.3,
+    src: [SOUNDS.greedy_goblin.intro],
     preload: false,
+    volume: 0.3,
   }),
   greedyGoblinPlayingAudio: new Howl({
-    src: ["src/assets/community/arcade/greedy_goblin/audio/playing.mp3"],
+    src: [SOUNDS.greedy_goblin.playing],
+    preload: false,
     volume: 0.2,
     loop: true,
-    preload: false,
   }),
   greedyGoblinPickAudio: new Howl({
-    src: ["src/assets/community/arcade/greedy_goblin/audio/pick.mp3"],
-    volume: 0.2,
+    src: [SOUNDS.greedy_goblin.pick],
     preload: false,
+    volume: 0.2,
   }),
   greedyGoblinGameOverAudio: new Howl({
-    src: ["src/assets/community/arcade/audio/game_over.mp3"],
-    volume: 0.2,
+    src: [SOUNDS.misc.game_over],
     preload: false,
+    volume: 0.2,
   }),
 };
 
-// Arcade - Chicken Fight
+// Arcade - Greedy Goblin
 export const chickenFightAudio = {
   chickenFightPlayingAudio: new Howl({
-    src: ["src/assets/community/arcade/chicken_fight/audio/playing.mp3"],
+    src: [SOUNDS.chicken_fight.playing],
+    preload: false,
     volume: 0.2,
     loop: true,
   }),
   chickenFightPunchAudio: new Howl({
-    src: ["src/assets/community/arcade/chicken_fight/audio/punch.mp3"],
+    src: [SOUNDS.chicken_fight.punch],
+    preload: false,
     volume: 0.3,
   }),
   chickenFightHitAudio: new Howl({
-    src: ["src/assets/community/arcade/chicken_fight/audio/hit.mp3"],
+    src: [SOUNDS.chicken_fight.hit],
+    preload: false,
     volume: 0.2,
   }),
   chickenFightGameOverAudio: new Howl({
-    src: ["src/assets/community/arcade/audio/game_over.mp3"],
+    src: [SOUNDS.misc.game_over],
+    preload: false,
     volume: 0.2,
   }),
 };
+
+// Plaza
+export const mazeOver = new Howl({
+  src: [SOUNDS.notifications.maze_over],
+  preload: false,
+  volume: 0.2,
+});
