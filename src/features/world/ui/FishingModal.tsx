@@ -113,10 +113,7 @@ export const FishingModal: React.FC = () => {
   return (
     <>
       <Modal centered show={showCaughtModal} onHide={claim} onExited={claim}>
-        <CloseButtonPanel
-          onClose={claim}
-          bumpkinParts={NPC_WEARABLES["reelin roy"]}
-        >
+        <CloseButtonPanel onClose={claim} bumpkinParts={NPC_WEARABLES["misty"]}>
           <FishCaught
             caught={fishing.beach.caught ?? {}}
             onClaim={claim}
@@ -138,6 +135,7 @@ export const FishingModal: React.FC = () => {
 
       <Modal show={showModal} centered onHide={closeModal}>
         <FishermanModal
+          npc="misty"
           onCast={(bait, chum) => {
             PubSub.publish("BEACH_FISHERMAN_CAST");
             closeModal();
