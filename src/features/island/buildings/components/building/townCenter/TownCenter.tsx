@@ -13,6 +13,7 @@ import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 import { useNavigate } from "react-router-dom";
+import { HomeBumpkins } from "../house/HomeBumpkins";
 
 export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService } = useContext(Context);
@@ -74,30 +75,14 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         <DailyReward />
       </div>
       <div
-        className="absolute"
+        className="absolute w-full"
         style={{
           top: `${PIXEL_SCALE * 16}px`,
           left: `${PIXEL_SCALE * 4}px`,
-          width: `${PIXEL_SCALE * 16}px`,
           height: `${PIXEL_SCALE * 32}px`,
         }}
       >
-        {bumpkin && (
-          <PlayerNPC
-            parts={{
-              body: bumpkin.equipped.body,
-              hair: bumpkin.equipped.hair,
-              shirt: bumpkin.equipped.shirt,
-              pants: bumpkin.equipped.pants,
-              hat: bumpkin.equipped.hat,
-              suit: bumpkin.equipped.suit,
-              onesie: bumpkin.equipped.onesie,
-              wings: bumpkin.equipped.wings,
-              dress: bumpkin.equipped.dress,
-              beard: bumpkin.equipped.beard,
-            }}
-          />
-        )}
+        {bumpkin && <HomeBumpkins game={gameState.context.state} />}
       </div>
 
       <div

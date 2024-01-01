@@ -26,7 +26,7 @@ import { Modal } from "react-bootstrap";
 import { BumpkinPainting } from "./components/BumpkinPainting";
 import { Bumpkin, IslandType } from "features/game/types/game";
 import { HOME_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
-import { FarmHands } from "./components/FarmHands";
+import { InteriorBumpkins } from "./components/InteriorBumpkins";
 
 const selectGameState = (state: MachineState) => state.context.state;
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
@@ -181,7 +181,7 @@ export const Home: React.FC = () => {
                   top: `${-22 * PIXEL_SCALE}px`,
                 }}
               >
-                <FarmHands
+                <InteriorBumpkins
                   game={state}
                   onAdd={() => gameService.send("farmHand.bought")}
                 />
