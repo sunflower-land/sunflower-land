@@ -6,6 +6,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FishermanContainer } from "../containers/FishermanContainer";
+import { hasFeatureAccess } from "lib/flags";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -116,20 +117,22 @@ export class BeachScene extends BaseScene {
 
     this.initialiseNPCs(BUMPKINS);
 
-    const fisher = new FishermanContainer({
-      x: 322,
-      y: 711,
-      scene: this,
-    });
-    fisher.setDepth(100000000);
-    this.physics.world.enable(fisher);
-    this.colliders?.add(fisher);
-    this.triggerColliders?.add(fisher);
-    (fisher.body as Phaser.Physics.Arcade.Body)
-      .setSize(16, 20)
-      .setOffset(0, 0)
-      .setImmovable(true)
-      .setCollideWorldBounds(true);
+    if (hasFeatureAccess(this.gameState, "BEACH_FISHING")) {
+      const fisher = new FishermanContainer({
+        x: 322,
+        y: 711,
+        scene: this,
+      });
+      fisher.setDepth(100000000);
+      this.physics.world.enable(fisher);
+      this.colliders?.add(fisher);
+      this.triggerColliders?.add(fisher);
+      (fisher.body as Phaser.Physics.Arcade.Body)
+        .setSize(16, 20)
+        .setOffset(0, 0)
+        .setImmovable(true)
+        .setCollideWorldBounds(true);
+    }
 
     const kraken = this.add.sprite(308, 755, "kraken");
     this.anims.create({
