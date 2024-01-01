@@ -233,12 +233,12 @@ export class BeachScene extends BaseScene {
       loader = this.load.image(key, image);
     }
 
-    this.load.start();
-
     loader.addListener(Phaser.Loader.Events.COMPLETE, () => {
       // This callback will be executed only once when "kraken_hunger" is loaded
       this.krakenHungerSprite = this.add.sprite(338, 740, key);
     });
+
+    this.load.start();
   }
 }
 
