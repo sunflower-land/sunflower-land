@@ -1,8 +1,12 @@
+import "lib/__mocks__/configMock";
+
 import { TEST_FARM } from "../lib/constants";
 import { GoblinState } from "../lib/goblinMachine";
 import { BUMPKIN_WITHDRAWABLES, WITHDRAWABLES } from "./withdrawables";
 
 describe("withdrawables", () => {
+  const dateNow = Date.now();
+
   describe("prevents", () => {
     beforeEach(() => {
       jest.useRealTimers();
@@ -86,7 +90,7 @@ describe("withdrawables", () => {
               name: "Apple",
               harvestsLeft: 2,
               amount: 1.35,
-              harvestedAt: 1680624817609,
+              harvestedAt: dateNow,
               plantedAt: 0,
             },
             height: 2,
@@ -111,7 +115,7 @@ describe("withdrawables", () => {
               name: "Eggplant",
               amount: 1,
               id: "1",
-              plantedAt: 1680606097421,
+              plantedAt: dateNow,
             },
             height: 1,
           },
@@ -135,7 +139,7 @@ describe("withdrawables", () => {
               name: "Parsnip",
               amount: 1,
               id: "1",
-              plantedAt: 1680606097421,
+              plantedAt: dateNow,
             },
             height: 1,
           },
@@ -159,7 +163,7 @@ describe("withdrawables", () => {
               name: "Sunflower",
               amount: 1,
               id: "1",
-              plantedAt: 1680606097421,
+              plantedAt: dateNow,
             },
             height: 1,
           },
@@ -183,7 +187,7 @@ describe("withdrawables", () => {
               name: "Carrot",
               amount: 1,
               id: "1",
-              plantedAt: 1680606097421,
+              plantedAt: dateNow,
             },
             height: 1,
           },
@@ -207,7 +211,7 @@ describe("withdrawables", () => {
               name: "Beetroot",
               amount: 1,
               id: "1",
-              plantedAt: 1680606097421,
+              plantedAt: dateNow,
             },
             height: 1,
           },
@@ -231,7 +235,7 @@ describe("withdrawables", () => {
               name: "Beetroot",
               amount: 1,
               id: "1",
-              plantedAt: 1680606097421,
+              plantedAt: dateNow,
             },
             height: 1,
           },
@@ -297,7 +301,7 @@ describe("withdrawables", () => {
               name: "Beetroot",
               amount: 1,
               id: "1",
-              plantedAt: 1680606097421,
+              plantedAt: dateNow,
             },
           },
         },
