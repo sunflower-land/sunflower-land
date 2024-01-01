@@ -50,12 +50,7 @@ import { handleCommand } from "./lib/chatCommands";
 import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
 import { Inventory } from "features/game/types/game";
-<<<<<<< HEAD
-=======
-import { hasFeatureAccess } from "lib/flags";
-import { ChristmasScene } from "./scenes/ChristmasScene";
 import { FishingModal } from "./ui/FishingModal";
->>>>>>> 10048804c (Beach fisherman)
 
 const _roomState = (state: MachineState) => state.value;
 
