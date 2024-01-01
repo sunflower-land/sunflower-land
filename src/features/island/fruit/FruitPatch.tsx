@@ -2,7 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { plantAudio, harvestAudio, treeFallAudio } from "lib/utils/sfx";
+import {
+  plantAudio,
+  harvestAudio,
+  treeFallAudio,
+  loadAudio,
+} from "lib/utils/sfx";
 import { FruitName } from "features/game/types/fruits";
 import { FruitTree } from "./FruitTree";
 import Decimal from "decimal.js-light";
@@ -237,6 +242,3 @@ export const FruitPatch: React.FC<Props> = ({ id, index }) => {
     </div>
   );
 };
-function loadAudio(arg0: import("howler").Howl[]) {
-  throw new Error("Function not implemented.");
-}
