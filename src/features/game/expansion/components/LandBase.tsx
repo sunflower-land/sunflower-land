@@ -17,12 +17,12 @@ import level14 from "assets/land/levels/level_14.webp";
 import level15 from "assets/land/levels/level_15.webp";
 import level16 from "assets/land/levels/level_16.webp";
 import level17 from "assets/land/levels/level_17.webp";
-import level18 from "assets/land/levels/level_18.png";
-import level19 from "assets/land/levels/level_19.png";
-import level20 from "assets/land/levels/level_20.png";
-import level21 from "assets/land/levels/level_21.png";
-import level22 from "assets/land/levels/level_22.png";
-import level23 from "assets/land/levels/level_23.png";
+import level18 from "assets/land/levels/level_18.webp";
+import level19 from "assets/land/levels/level_19.webp";
+import level20 from "assets/land/levels/level_20.webp";
+import level21 from "assets/land/levels/level_21.webp";
+import level22 from "assets/land/levels/level_22.webp";
+import level23 from "assets/land/levels/level_23.webp";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
