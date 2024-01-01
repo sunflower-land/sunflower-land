@@ -2,7 +2,7 @@ import { Bumpkin } from "../types/game";
 import { BumpkinLevel } from "features/game/lib/level";
 import { getLandLimit } from "../expansion/lib/expansionRequirements";
 
-export const INITIAL_BUMPKIN_LEVEL = 38;
+export const INITIAL_BUMPKIN_LEVEL = 1;
 
 // Special case level 1 for testing expansions.
 export const INITIAL_EXPANSIONS =

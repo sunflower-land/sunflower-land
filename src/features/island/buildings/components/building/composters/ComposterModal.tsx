@@ -230,7 +230,7 @@ export const ComposterModal: React.FC<Props> = ({
             </div>
           </div>
           <Button
-            className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
+            className="text-xxs sm:text-sm mb-2 whitespace-nowrap"
             onClick={onCollect}
             disabled={true}
           >
