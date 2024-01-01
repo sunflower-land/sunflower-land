@@ -991,11 +991,11 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Infernal Horns": () => true,
   Cattlegrim: (state) => canWithdrawBoostedWearable("Cattlegrim", state), // Auction
   "Crumple Crown": () => true,
-  "Merch Bucket Hat": () => true,
-  "Merch Coffee Mug": () => true,
-  "Dawn Breaker Tee": () => true,
-  "Merch Tee": () => true,
-  "Merch Hoodie": () => true,
+  "Merch Bucket Hat": () => false,
+  "Merch Coffee Mug": () => false,
+  "Dawn Breaker Tee": () => false,
+  "Merch Tee": () => false,
+  "Merch Hoodie": () => false,
   "Birthday Hat": () => false,
   "Double Harvest Cap": () => false,
   "Streamer Helmet": () => false,
@@ -1036,7 +1036,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Pumpkin Shirt": () => true,
   Halo: () => false,
   Kama: () => true,
-  "Grey Merch Hoodie": () => true,
+  "Grey Merch Hoodie": () => false,
   "Unicorn Horn": () => true,
   "Unicorn Hat": () => false,
   "Feather Hat": () => true,
@@ -1091,7 +1091,9 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Pickaxe Shark": () => false,
   "Seedling Hat": () => false,
   "Stormy Dumbo": () => false,
-  "Ugly Christmas Sweater": () => true,
+  "Ugly Christmas Sweater": () =>
+    canWithdrawTimebasedItem(new Date("2023-12-21")), // Available until 2024/01/01
+
   "Candy Cane": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
   "Elf Hat": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
   "Elf Potion": () => false,
