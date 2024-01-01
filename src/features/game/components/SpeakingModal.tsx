@@ -78,7 +78,7 @@ export const SpeakingModal: React.FC<Props> = ({
 
   const showActions =
     (currentTextEnded || forceShowFullMessage) &&
-    message[currentMessage].actions;
+    message[currentMessage]?.actions;
   return (
     <Panel
       className={classNames("relative w-full", className)}
@@ -92,19 +92,19 @@ export const SpeakingModal: React.FC<Props> = ({
           onClick={handleClick}
         >
           <TypingMessage
-            message={message[currentMessage].text}
+            message={message[currentMessage]?.text ?? ""}
             key={currentMessage}
             onMessageEnd={() => setCurrentTextEnded(true)}
             forceShowFullMessage={forceShowFullMessage}
           />
-          {currentTextEnded && message[currentMessage].jsx}
+          {currentTextEnded && message[currentMessage]?.jsx}
         </div>
         {!showActions && (
           <p className="text-xxs italic float-right p-1">(Tap to continue)</p>
         )}
         {showActions && (
           <div className="flex flex-col-reverse space-y-1 mt-1 space-y-reverse md:flex-row md:space-y-0 md:space-x-1">
-            {message[currentMessage].actions?.map((action) => (
+            {message[currentMessage]?.actions?.map((action) => (
               <Button
                 key={action.text}
                 className="w-full"
@@ -143,7 +143,7 @@ export const SpeakingText: React.FC<Pick<Props, "message" | "onClose">> = ({
     }
 
     const isLast = currentMessage === message.length - 1;
-    const hasActions = message[currentMessage].actions?.length;
+    const hasActions = message[currentMessage]?.actions?.length;
 
     if (isLast && hasActions) {
       return;
@@ -188,12 +188,12 @@ export const SpeakingText: React.FC<Pick<Props, "message" | "onClose">> = ({
       >
         <div className="flex-1 pb-2">
           <TypingMessage
-            message={message[currentMessage].text}
+            message={message[currentMessage]?.text}
             key={currentMessage}
             onMessageEnd={() => setCurrentTextEnded(true)}
             forceShowFullMessage={forceShowFullMessage}
           />
-          {currentTextEnded && message[currentMessage].jsx}
+          {currentTextEnded && message[currentMessage]?.jsx}
         </div>
         {!showActions && (
           <p className="text-xxs italic float-right">(Tap to continue)</p>
@@ -201,7 +201,7 @@ export const SpeakingText: React.FC<Pick<Props, "message" | "onClose">> = ({
       </div>
       {showActions && (
         <div className="flex space-x-1">
-          {message[currentMessage].actions?.map((action) => (
+          {message[currentMessage]?.actions?.map((action) => (
             <Button
               key={action.text}
               className="w-full"
