@@ -25,8 +25,8 @@ type FeatureName =
   | "BANANA"
   | "LOCALISATION"
   | "PORTALS"
-  | "CHRISTMAS"
-  | "GOOGLE_LOGIN";
+  | "GOOGLE_LOGIN"
+  | "BEACH_FISHING";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51];
@@ -34,6 +34,7 @@ export const ADMIN_IDS = [1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51];
 type FeatureFlag = (game: GameState) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
+  BEACH_FISHING: defaultFeatureFlag,
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
@@ -53,17 +54,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
     return defaultFeatureFlag(game);
   },
 
-  CHRISTMAS: (game: GameState) => {
-    if (Date.now() > new Date("2023-12-28").getTime()) {
-      return false;
-    }
-
-    if (Date.now() > new Date("2023-12-12").getTime()) {
-      return true;
-    }
-
-    return defaultFeatureFlag(game);
-  },
   BEACH: (game: GameState) => {
     const hasBeachBud = getKeys(game.buds ?? {}).some(
       (id) => game.buds?.[id]?.type === "Beach"

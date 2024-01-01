@@ -46,8 +46,7 @@ import { handleCommand } from "./lib/chatCommands";
 import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
 import { Inventory } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
-import { ChristmasScene } from "./scenes/ChristmasScene";
+import { FishingModal } from "./ui/FishingModal";
 
 const _roomState = (state: MachineState) => state.value;
 
@@ -112,9 +111,7 @@ export const PhaserComponent: React.FC<Props> = ({
         ClothesShopScene,
         DecorationShopScene,
         BeachScene,
-        ...(hasFeatureAccess(gameService.state.context.state, "CHRISTMAS")
-          ? [ChristmasScene]
-          : [PlazaScene]),
+        PlazaScene,
       ];
 
   useEffect(() => {
@@ -421,6 +418,7 @@ export const PhaserComponent: React.FC<Props> = ({
           navigate(`/world/${sceneId}`);
         }}
       />
+      <FishingModal />
       <PlayerModals game={gameService.state.context.state} />
       <TradeCompleted
         mmoService={mmoService}
@@ -432,13 +430,14 @@ export const PhaserComponent: React.FC<Props> = ({
       <Modal
         show={mmoState === "loading" || mmoState === "initialising"}
         centered
+        backdrop={false}
       >
         <Panel>
           <p className="loading">Loading</p>
         </Panel>
       </Modal>
 
-      <Modal show={mmoState === "joinRoom"} centered>
+      <Modal show={mmoState === "joinRoom"} centered backdrop={false}>
         <Panel>
           <p className="loading">Loading</p>
         </Panel>

@@ -78,6 +78,7 @@ export const SUNNYSIDE = {
     bumpkin: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/idle.gif`,
     fisherman: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/fisherman.gif`,
     fishing_sheet: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/fishing_sheet.png`,
+    female_fisher: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/female_fisher.png`,
     goblin_carry: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_carry.gif`,
     goblin_dig: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_dig.gif`,
     goblin_doing: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_doing.gif`,

@@ -6,6 +6,7 @@ export const INITIAL_BUMPKIN_LEVEL = 1;
 
 // Special case level 1 for testing expansions.
 export const INITIAL_EXPANSIONS =
+  // @ts-expect-error: This comparison appears to be unintentional
   INITIAL_BUMPKIN_LEVEL === 1
     ? 3
     : getLandLimit(INITIAL_BUMPKIN_LEVEL as BumpkinLevel);
@@ -23,6 +24,8 @@ export const INITIAL_BUMPKIN: Bumpkin = {
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
     background: "Farm Background",
+    beard: "Santa Beard",
+    hat: "Deep Sea Helm",
   },
   skills: {},
   achievements: {},

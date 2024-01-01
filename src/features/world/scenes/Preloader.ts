@@ -40,11 +40,6 @@ export abstract class Preloader extends Phaser.Scene {
         `${CONFIG.PROTECTED_IMAGE_URL}/world/map-extruded.png`
       );
 
-      this.load.image(
-        "christmas-tileset",
-        `${CONFIG.PROTECTED_IMAGE_URL}/world/christmas-map-extruded.png`
-      );
-
       this.load.image("speech_bubble", "world/speech_bubble.png");
       this.load.image("alert", SUNNYSIDE.icons.expression_alerted);
       this.load.image("label", "world/label.png");

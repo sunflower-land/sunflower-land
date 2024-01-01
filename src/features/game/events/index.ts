@@ -202,7 +202,6 @@ import {
   accelerateComposter,
   AccelerateComposterAction,
 } from "./landExpansion/accelerateComposter";
-import { collectCandy, CollectCandyAction } from "./landExpansion/collectCandy";
 
 export type PlayingEvent =
   | TradeAction
@@ -271,8 +270,7 @@ export type PlayingEvent =
   | RevealLandAction
   | BurnCollectibleAction
   | ClaimBonusAction
-  | AccelerateComposterAction
-  | CollectCandyAction;
+  | AccelerateComposterAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -395,7 +393,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "collectible.burned": burnCollectible,
   "bonus.claimed": claimBonus,
   "compost.accelerated": accelerateComposter,
-  "candy.collected": collectCandy,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

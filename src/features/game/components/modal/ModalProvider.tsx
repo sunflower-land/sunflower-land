@@ -14,6 +14,7 @@ type GlobalModal =
   | "STORE_ON_CHAIN"
   | "GOLD_PASS"
   | "FIRST_EXPANSION"
+  | "NEXT_EXPANSION"
   | "THIRD_LEVEL"
   | "BETTY"
   | "BLACKSMITH";
@@ -67,6 +68,18 @@ export const ModalProvider: FC = ({ children }) => {
             },
             {
               text: "Keep an eye out for surprise gifts from the generous goblins as you explore—they're not just expert builders, but crafty secret givers!",
+            },
+          ]}
+          onClose={handleClose}
+          bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
+        />
+      </Modal>
+
+      <Modal centered show={opened === "NEXT_EXPANSION"}>
+        <SpeakingModal
+          message={[
+            {
+              text: "Congratulations, Bumpkin! Keep up the good work.",
             },
           ]}
           onClose={handleClose}

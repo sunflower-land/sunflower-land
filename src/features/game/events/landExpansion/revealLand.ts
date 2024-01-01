@@ -1,7 +1,10 @@
 import { v4 as randomUUID } from "uuid";
 import Decimal from "decimal.js-light";
 import { EXPANSION_ORIGINS } from "features/game/expansion/lib/constants";
-import { expansionRequirements, getLand } from "features/game/types/expansions";
+import {
+  EXPANSION_REQUIREMENTS,
+  getLand,
+} from "features/game/types/expansions";
 import { GameState } from "features/game/types/game";
 
 import cloneDeep from "lodash.clonedeep";
@@ -244,12 +247,46 @@ export function revealLand({
     };
   }, {} as GameState["gold"]);
 
-  game.expansionRequirements = expansionRequirements(
-    inventory["Basic Land"].toNumber() + 1
-  );
+  game.expansionRequirements = expansionRequirements({
+    level: inventory["Basic Land"].toNumber() + 1,
+    game,
+  });
 
   return {
     ...game,
     inventory,
   };
 }
+
+export const expansionRequirements = ({
+  level,
+  game,
+}: {
+  level: number;
+  game: GameState;
+}) => {
+  const requirements = EXPANSION_REQUIREMENTS[level];
+
+  if (!requirements) {
+    return undefined;
+  }
+
+  let resources = requirements.resources;
+
+  // Half resource costs
+  if (game.collectibles["Grinx's Hammer"]) {
+    resources = getKeys(resources).reduce(
+      (acc, key) => ({
+        ...acc,
+        [key]:
+          key === "Block Buck" ? resources[key] : (resources[key] ?? 0) / 2,
+      }),
+      {}
+    );
+  }
+
+  return {
+    ...requirements,
+    resources,
+  };
+};

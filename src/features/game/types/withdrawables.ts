@@ -424,6 +424,9 @@ const consumables: Record<ConsumableName, () => boolean> = {
   Surgeonfish: () => false,
   Tuna: () => false,
   "Banana Blast": () => false,
+  Angelfish: () => false,
+  Halibut: () => false,
+  Parrotfish: () => false,
 };
 
 const decorations: Record<ShopDecorationName, () => boolean> = {
@@ -669,6 +672,7 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
 
   "Bumpkin Nutcracker": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
   "Festive Tree": () => false,
+  "Grinx's Hammer": () => true,
 };
 
 const lanterns: Record<LanternName, () => boolean> = {
@@ -759,6 +763,9 @@ const fish: Record<FishName | MarineMarvelName, () => boolean> = {
   "Phantom Barracuda": () => false,
   "Gilded Swordfish": () => false,
   "Kraken Tentacle": () => false,
+  Angelfish: () => false,
+  Halibut: () => false,
+  Parrotfish: () => false,
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
@@ -1091,7 +1098,14 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Elf Hat": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
   "Elf Potion": () => false,
   "Elf Shoes": () => false,
-  "Elf Suit": () => false,
+  "Elf Suit": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
   "Santa Beard": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
   "Santa Suit": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
+
+  "Butterfly Wings": () => false,
+  "Cozy Hoodie": () => false,
+  "New Years Tiara": () => canWithdrawTimebasedItem(new Date("2024-01-03")),
+  "Northern Lights Background": () => false,
+  "Short Shorts": () => false,
+  "Winter Jacket": () => false,
 };

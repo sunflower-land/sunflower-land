@@ -186,7 +186,7 @@ describe("accelerateComposter", () => {
 
     expect(state.inventory.Egg).toEqual(new Decimal(3));
     expect(state.buildings["Compost Bin"]?.[0].producing?.readyAt).toEqual(
-      readyAt - 1 * 60 * 60 * 1000
+      readyAt - 2 * 60 * 60 * 1000
     );
   });
 
@@ -222,7 +222,7 @@ describe("accelerateComposter", () => {
 
     expect(state.inventory.Egg).toEqual(new Decimal(5));
     expect(state.buildings["Turbo Composter"]?.[0].producing?.readyAt).toEqual(
-      readyAt - 2 * 60 * 60 * 1000
+      readyAt - 3 * 60 * 60 * 1000
     );
   });
   it("accelerates Premium Composter", () => {
@@ -260,6 +260,6 @@ describe("accelerateComposter", () => {
     expect(state.inventory.Egg).toEqual(new Decimal(3));
     expect(
       state.buildings["Premium Composter"]?.[0].producing?.readyAt
-    ).toEqual(readyAt - 3 * 60 * 60 * 1000);
+    ).toEqual(readyAt - 4 * 60 * 60 * 1000);
   });
 });

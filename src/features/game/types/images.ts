@@ -8,6 +8,7 @@ import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
 import bananaPlant from "assets/fruit/banana/banana_plant.png";
 
 // NFTs
+import grinxsHammer from "assets/sfts/grinx_hammer.png";
 import chickenCoop from "assets/sfts/chicken_coop.png";
 import christmasTree from "assets/sfts/christmas_tree.png";
 import farmCat from "assets/sfts/farm_cat.gif";
@@ -516,6 +517,9 @@ import startlightTuna from "assets/fish/starlight_tuna.png";
 import radiantRay from "assets/fish/radiant_ray.png";
 import phantomBarracuda from "assets/fish/phantom_barracuda.png";
 import gildedSwordfish from "assets/fish/gilded_swordfish.png";
+import halibut from "assets/fish/halibut.png";
+import angelFish from "assets/fish/angel_fish.png";
+import parrotFish from "assets/fish/parrot_fish.png";
 
 import festiveTree from "assets/sfts/festive_tree.png";
 import nutcracker from "assets/sfts/bumpkin_nutcracker.png";
@@ -2982,5 +2986,22 @@ export const ITEM_DETAILS: Items = {
     image: festiveTree,
     description:
       "A festive tree available each holiday season. I wonder if it is big enough for santa to see?",
+  },
+  "Grinx's Hammer": {
+    image: grinxsHammer,
+    description:
+      "The magical hammer from Grinx, the legendary Goblin Blacksmith.",
+  },
+  Angelfish: {
+    image: angelFish,
+    description: "?",
+  },
+  Halibut: {
+    image: halibut,
+    description: "?",
+  },
+  Parrotfish: {
+    image: parrotFish,
+    description: "?",
   },
 };

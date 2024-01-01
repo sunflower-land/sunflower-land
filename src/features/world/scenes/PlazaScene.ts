@@ -1,10 +1,15 @@
 import mapJson from "assets/map/plaza.json";
+import nyeJSON from "assets/map/nye.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { AudioController } from "../lib/AudioController";
+import {
+  AudioLocalStorageKeys,
+  getCachedAudioSetting,
+} from "../../game/lib/audio";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -111,19 +116,18 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "mayor",
     direction: "left",
   },
-  {
-    x: 418,
-    y: 330,
-    npc: "santa",
-  },
 ];
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
 
   constructor() {
+    const showNYE =
+      Date.now() > new Date("2023-12-31").getTime() &&
+      Date.now() < new Date("2024-01-02").getTime();
+
     super({
       name: "plaza",
-      map: { json: mapJson },
+      map: { json: showNYE ? nyeJSON : mapJson },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
   }
@@ -173,25 +177,32 @@ export class PlazaScene extends BaseScene {
 
     super.preload();
 
-    // Ambience SFX
-    if (!this.sound.get("nature_1")) {
-      const nature1 = this.sound.add("nature_1");
-      nature1.play({ loop: true, volume: 0.01 });
-    }
+    const audioMuted = getCachedAudioSetting<boolean>(
+      AudioLocalStorageKeys.audioMuted,
+      false
+    );
 
-    // Boat SFX
-    if (!this.sound.get("boat")) {
-      const boatSound = this.sound.add("boat");
-      boatSound.play({ loop: true, volume: 0, rate: 0.6 });
+    if (!audioMuted) {
+      // Ambience SFX
+      if (!this.sound.get("nature_1")) {
+        const nature1 = this.sound.add("nature_1");
+        nature1.play({ loop: true, volume: 0.01 });
+      }
 
-      this.soundEffects.push(
-        new AudioController({
-          sound: boatSound,
-          distanceThreshold: 130,
-          coordinates: { x: 352, y: 462 },
-          maxVolume: 0.2,
-        })
-      );
+      // Boat SFX
+      if (!this.sound.get("boat")) {
+        const boatSound = this.sound.add("boat");
+        boatSound.play({ loop: true, volume: 0, rate: 0.6 });
+
+        this.soundEffects.push(
+          new AudioController({
+            sound: boatSound,
+            distanceThreshold: 130,
+            coordinates: { x: 352, y: 462 },
+            maxVolume: 0.2,
+          })
+        );
+      }
     }
 
     // Shut down the sound when the scene changes

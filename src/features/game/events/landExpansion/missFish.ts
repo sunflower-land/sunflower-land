@@ -1,9 +1,11 @@
 import cloneDeep from "lodash.clonedeep";
 
 import { GameState } from "../../types/game";
+import { FishingLocation } from "features/game/types/fishing";
 
 export type MissFishAction = {
   type: "fish.missed";
+  location: FishingLocation;
 };
 
 type Options = {
@@ -18,14 +20,14 @@ export function missFish({
   createdAt = Date.now(),
 }: Options): GameState {
   const game = cloneDeep(state) as GameState;
-
-  if (!game.fishing.wharf.castedAt) {
+  const location = action.location;
+  if (!game.fishing[location].castedAt) {
     throw new Error("Nothing has been casted");
   }
 
-  delete game.fishing.wharf.castedAt;
-  delete game.fishing.wharf.caught;
-  delete game.fishing.wharf.chum;
+  delete game.fishing[location].castedAt;
+  delete game.fishing[location].caught;
+  delete game.fishing[location].chum;
 
   return {
     ...game,
