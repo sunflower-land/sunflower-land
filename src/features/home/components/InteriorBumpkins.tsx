@@ -14,7 +14,7 @@ interface Props {
   game: GameState;
   onAdd: () => void;
 }
-export const FarmHands: React.FC<Props> = ({ game, onAdd }) => {
+export const InteriorBumpkins: React.FC<Props> = ({ game, onAdd }) => {
   const { gameService } = useContext(Context);
 
   console.log({ game });
