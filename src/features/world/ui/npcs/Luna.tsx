@@ -6,8 +6,8 @@ import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { Portals } from "../portals/Portals";
 import { hasFeatureAccess } from "lib/flags";
+import { Portals } from "../portals/Portals";
 
 interface Props {
   onClose: () => void;

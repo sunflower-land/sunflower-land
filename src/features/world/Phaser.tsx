@@ -26,10 +26,6 @@ import { InnerPanel, Panel } from "components/ui/Panel";
 import { ClothesShopScene } from "./scenes/ClothesShopScene";
 import { DecorationShopScene } from "./scenes/DecorationShop";
 import { WindmillFloorScene } from "./scenes/WindmillFloorScene";
-import { IgorHomeScene } from "./scenes/IgorHomeScene";
-import { BertScene } from "./scenes/BertRoomScene";
-import { TimmyHomeScene } from "./scenes/TimmyHomeScene";
-import { BettyHomeScene } from "./scenes/BettyHomeScene";
 import { WoodlandsScene } from "./scenes/WoodlandsScene";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Preloader } from "./scenes/Preloader";
@@ -111,10 +107,6 @@ export const PhaserComponent: React.FC<Props> = ({
         Preloader,
         AuctionScene,
         WoodlandsScene,
-        BettyHomeScene,
-        TimmyHomeScene,
-        BertScene,
-        IgorHomeScene,
         WindmillFloorScene,
         ClothesShopScene,
         DecorationShopScene,

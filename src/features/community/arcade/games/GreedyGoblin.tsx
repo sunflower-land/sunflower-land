@@ -21,7 +21,7 @@ import token from "assets/community/arcade/greedy_goblin/images/coin.png";
 import skull from "assets/community/arcade/greedy_goblin/images/skull.png";
 import gameOver from "assets/community/arcade/images/game_over.png";
 
-import { greedyGoblinAudio } from "src/lib/utils/sfx";
+import { greedyGoblinAudio, loadAudio } from "src/lib/utils/sfx";
 import { randomInt } from "lib/utils/random";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -97,6 +97,10 @@ export const GreedyGoblin: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const goblinMoveTimeout = useRef<NodeJS.Timeout>();
   const activeKeys = useRef<ActionKeys[]>([]);
+
+  useEffect(() => {
+    loadAudio(Object.values(greedyGoblinAudio));
+  }, []);
 
   /**
    * Start moving the goblin forever until it is stopped
