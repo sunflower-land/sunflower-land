@@ -138,15 +138,13 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
     task: "Catch 5 of every fish",
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const encyclopediaFish = getEncyclopediaFish();
-      const totalFishRequired = encyclopediaFish.length * 5;
 
-      const totalFishCaught = encyclopediaFish.reduce(
-        (total, name) =>
-          total + Math.min(farmActivity[`${name} Caught`] ?? 0, 1),
+      const fishComplete = encyclopediaFish.filter(
+        (name) => (farmActivity[`${name} Caught`] ?? 0) >= 5,
         0
       );
 
-      return Math.min((totalFishCaught / totalFishRequired) * 100, 100);
+      return (fishComplete.length / encyclopediaFish.length) * 100;
     },
     reward: {
       "Deep Sea Helm": 1,
