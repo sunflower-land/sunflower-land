@@ -39,6 +39,7 @@ import {
 } from "features/game/types/bumpkinActivity";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { isBuildingEnabled } from "features/game/expansion/lib/buildingRequirements";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -352,7 +353,10 @@ export function getCropYieldAmount({
     amount *= 1.2;
   }
   //Bumpkin Wearable boost Sunflower Amulet
-  if (crop === "Sunflower" && necklace === "Sunflower Amulet") {
+  if (
+    crop === "Sunflower" &&
+    isWearableActive({ name: "Sunflower Amulet", game })
+  ) {
     amount *= 1.1;
   }
 

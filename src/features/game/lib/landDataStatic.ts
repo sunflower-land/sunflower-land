@@ -332,6 +332,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Farmer Pitchfork": 1,
     "Farm Background": 1,
     "Santa Beard": 1,
+    "Sunflower Amulet": 2,
   },
 
   farmHands: {},
