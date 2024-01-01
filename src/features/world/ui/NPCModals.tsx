@@ -51,10 +51,6 @@ function getInitialNPC(scene: SceneId): NPCName | undefined {
     return "shelly";
   }
 
-  if (scene === "plaza" && !isNPCAcknowledged("santa")) {
-    return "santa";
-  }
-
   return undefined;
 }
 
