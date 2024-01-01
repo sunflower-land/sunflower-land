@@ -18,9 +18,6 @@ import { Howl } from "howler";
  *
  */
 
-// Project Dignity Assets Sounds
-import frog1Mp3 from "../../assets/sound-effects/frog/frog-1.mp3";
-
 // Arcade - Common - Game Over
 
 // Arcade - Greedy Goblin
@@ -65,11 +62,6 @@ export const beggarAudio = new Howl({
 export const wishingWellAudio = new Howl({
   src: [SOUNDS.buildings.wishing_well],
   volume: 0.5,
-});
-
-export const frogAudio = new Howl({
-  src: [frog1Mp3],
-  volume: 0.2,
 });
 
 export const miningAudio = new Howl({
