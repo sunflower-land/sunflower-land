@@ -192,7 +192,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
       ingredients: {
         "Mermaid Scale": new Decimal(200),
       },
-      from: new Date("2023-11-1"),
+      from: new Date("2023-11-01"),
       to: new Date("2023-12-01"),
     },
     "Fresh Catch Vest": {
@@ -200,7 +200,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
       ingredients: {
         "Mermaid Scale": new Decimal(250),
       },
-      from: new Date("2023-11-1"),
+      from: new Date("2023-11-01"),
       to: new Date("2023-12-01"),
     },
     "Skinning Knife": {
@@ -208,20 +208,20 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
       ingredients: {
         "Mermaid Scale": new Decimal(500),
       },
-      from: new Date("2023-11-1"),
+      from: new Date("2023-11-01"),
       to: new Date("2023-12-01"),
     },
     "Koi Fish Hat": {
       sfl: SFLDiscount(game, new Decimal(250)),
       ingredients: {},
-      from: new Date("2023-11-1"),
+      from: new Date("2023-11-01"),
       to: new Date("2023-12-01"),
       requiresItem: "Catch the Kraken Banner",
     },
     "Normal Fish Hat": {
       sfl: SFLDiscount(game, new Decimal(250)),
       ingredients: {},
-      from: new Date("2023-11-1"),
+      from: new Date("2023-11-01"),
       to: new Date("2023-12-01"),
       requiresItem: "Catch the Kraken Banner",
     },
@@ -230,7 +230,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
       ingredients: {
         "Mermaid Scale": new Decimal(250),
       },
-      from: new Date("2023-11-1"),
+      from: new Date("2023-11-01"),
       to: new Date("2023-12-01"),
     },
     "Fishing Pants": {
@@ -238,7 +238,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
       ingredients: {
         "Mermaid Scale": new Decimal(300),
       },
-      from: new Date("2023-11-1"),
+      from: new Date("2023-11-01"),
       to: new Date("2023-12-01"),
     },
     "Seaside Tank Top": {
@@ -246,7 +246,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
       ingredients: {
         "Mermaid Scale": new Decimal(200),
       },
-      from: new Date("2023-12-1"),
+      from: new Date("2023-12-01"),
       to: new Date("2024-01-01"),
     },
     "Fish Pro Vest": {
@@ -254,7 +254,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
       ingredients: {
         "Mermaid Scale": new Decimal(250),
       },
-      from: new Date("2023-12-1"),
+      from: new Date("2023-12-01"),
       to: new Date("2024-01-01"),
     },
     "Tiki Mask": {
@@ -262,7 +262,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
       ingredients: {
         "Mermaid Scale": new Decimal(250),
       },
-      from: new Date("2023-12-1"),
+      from: new Date("2023-12-01"),
       to: new Date("2024-01-01"),
     },
     "Fishing Spear": {
@@ -270,7 +270,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
       ingredients: {
         "Mermaid Scale": new Decimal(500),
       },
-      from: new Date("2023-12-1"),
+      from: new Date("2023-12-01"),
       to: new Date("2024-01-01"),
     },
     "Stockeye Salmon Onesie": {
@@ -278,7 +278,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
       ingredients: {
         "Mermaid Scale": new Decimal(3000),
       },
-      from: new Date("2024-01-1"),
+      from: new Date("2024-01-01"),
       to: new Date("2024-02-01"),
     },
     "Reel Fishing Vest": {
@@ -286,7 +286,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
       ingredients: {
         "Mermaid Scale": new Decimal(250),
       },
-      from: new Date("2024-01-1"),
+      from: new Date("2024-01-01"),
       to: new Date("2024-02-01"),
     },
     "Tiki Pants": {
@@ -294,7 +294,7 @@ export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
       ingredients: {
         "Mermaid Scale": new Decimal(250),
       },
-      from: new Date("2024-01-1"),
+      from: new Date("2024-01-01"),
       to: new Date("2024-02-01"),
     },
   }),
