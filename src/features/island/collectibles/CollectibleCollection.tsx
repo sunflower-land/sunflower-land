@@ -217,6 +217,7 @@ import { FestiveTree } from "./components/FestiveTree";
 import { GrinxsHammer } from "./components/GrinxsHammer";
 import { WhiteFestiveFox } from "./components/WhiteFestiveFox";
 import { Rug } from "./components/Rug";
+import { Bed } from "./components/Bed";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -225,6 +226,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   React.FC<CollectibleProps>
 > = {
   "White Festive Fox": WhiteFestiveFox,
+  Bed: Bed,
   Rug: Rug,
   "Grinx's Hammer": GrinxsHammer,
   "Time Warp Totem": TimeWarpTotem,
