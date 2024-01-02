@@ -14,7 +14,7 @@ export function authorisePortal() {
   if (isInIframe) {
     window.parent.postMessage("closePortal", "*");
   } else {
-    window.location.href = `${CONFIG.PORTAL_GAME_URL}?portal=${CONFIG.PORTAL_APP}`;
+    window.location.href = `${CONFIG.PORTAL_GAME_URL}?portal=${CONFIG.PORTAL_APP}&redirect=${window.location.origin}`;
   }
 }
 
