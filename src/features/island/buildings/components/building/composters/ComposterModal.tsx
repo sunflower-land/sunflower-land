@@ -229,38 +229,49 @@ export const ComposterModal: React.FC<Props> = ({
               </div>
             </div>
           </div>
-          <Button
-            className="text-xxs sm:text-sm mb-2 whitespace-nowrap"
-            onClick={onCollect}
-            disabled={true}
-          >
-            Collect
-          </Button>
-          <OuterPanel className="p-1">
-            <div className="flex justify-between mb-1">
-              <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                {`${secondsToString(composterInfo.eggBoostMilliseconds / 1000, {
-                  length: "short",
-                })} Boost`}
-              </Label>
-              <RequirementLabel
-                type="item"
-                item="Egg"
-                requirement={new Decimal(composterInfo.eggBoostRequirements)}
-                balance={state.inventory.Egg ?? new Decimal(0)}
-              />
-            </div>
-            <p className="text-xs mb-2">Add eggs to speed up production.</p>
-            <Button
-              disabled={
-                !boost &&
-                !state.inventory.Egg?.gte(composterInfo.eggBoostRequirements)
-              }
-              onClick={accelerate}
-            >
-              Add Eggs
-            </Button>
-          </OuterPanel>
+          {!boost && (
+            <>
+              <Button
+                className="text-xxs sm:text-sm mb-2 whitespace-nowrap"
+                onClick={onCollect}
+                disabled={true}
+              >
+                Collect
+              </Button>
+              <OuterPanel className="p-1">
+                <div className="flex justify-between mb-1">
+                  <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                    {`${secondsToString(
+                      composterInfo.eggBoostMilliseconds / 1000,
+                      {
+                        length: "short",
+                      }
+                    )} Boost`}
+                  </Label>
+                  <RequirementLabel
+                    type="item"
+                    item="Egg"
+                    requirement={
+                      new Decimal(composterInfo.eggBoostRequirements)
+                    }
+                    balance={state.inventory.Egg ?? new Decimal(0)}
+                  />
+                </div>
+                <p className="text-xs mb-2">Add eggs to speed up production.</p>
+                <Button
+                  disabled={
+                    !boost &&
+                    !state.inventory.Egg?.gte(
+                      composterInfo.eggBoostRequirements
+                    )
+                  }
+                  onClick={accelerate}
+                >
+                  Add Eggs
+                </Button>
+              </OuterPanel>
+            </>
+          )}
           {boost && (
             <OuterPanel className="p-1">
               <div className="flex justify-between">
