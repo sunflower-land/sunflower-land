@@ -72,12 +72,14 @@ interface Props {
   isCommunity: boolean;
   mmoService: MachineInterpreter;
   inventory: Inventory;
+  route: SceneId;
 }
 
 export const PhaserComponent: React.FC<Props> = ({
   isCommunity,
   mmoService,
   inventory,
+  route,
 }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
@@ -220,6 +222,7 @@ export const PhaserComponent: React.FC<Props> = ({
     };
   }, []);
 
+  // When route changes, switch scene
   useEffect(() => {
     if (!loaded) return;
 
@@ -228,14 +231,11 @@ export const PhaserComponent: React.FC<Props> = ({
       // Corn maze pauses when game is over so we need to filter for active and paused scenes.
       .filter((s) => s.scene.isActive() || s.scene.isPaused())[0];
 
-    console.log({ activeScene, scene });
     if (activeScene) {
-      activeScene.scene.start(scene);
-      mmoService.state.context.server?.send(0, { sceneId: scene });
+      activeScene.scene.start(route);
+      mmoService.state.context.server?.send(0, { sceneId: route });
     }
-  }, [scene]);
-
-  console.log({ scene });
+  }, [route]);
 
   useEffect(() => {
     // Listen to moderation events
