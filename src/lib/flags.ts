@@ -34,7 +34,7 @@ export const ADMIN_IDS = [1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51];
 type FeatureFlag = (game: GameState) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
-  BEACH_FISHING: defaultFeatureFlag,
+  BEACH_FISHING: () => true,
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
