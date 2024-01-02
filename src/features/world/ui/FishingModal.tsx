@@ -102,6 +102,7 @@ export const FishingModal: React.FC = () => {
   const claim = () => {
     if (fishing.beach.caught) {
       gameService.send("rod.reeled", { location: "beach" });
+      gameService.send("SAVE");
     }
 
     setFish(null);
