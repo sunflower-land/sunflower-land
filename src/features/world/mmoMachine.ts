@@ -81,7 +81,7 @@ export interface MMOContext {
   availableServers: Server[];
   server?: Room<PlazaRoomState> | undefined;
   serverId: ServerId;
-  initialSceneId: SceneId;
+  sceneId: SceneId;
   experience: number;
   isCommunity?: boolean;
   moderation: Moderation;
@@ -111,12 +111,18 @@ export type ConnectEvent = {
   serverId: string;
 };
 
+export type SwitchScene = {
+  type: "SWITCH_SCENE";
+  sceneId: SceneId;
+};
+
 export type MMOEvent =
   | PickServer
   | { type: "CONTINUE" }
   | { type: "DISCONNECTED" }
   | { type: "RETRY" }
-  | ConnectEvent;
+  | ConnectEvent
+  | SwitchScene;
 
 export type MachineState = State<MMOContext, MMOEvent, MMOState>;
 
@@ -129,16 +135,14 @@ export type MachineInterpreter = Interpreter<
 >;
 
 export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
-  // Testing purposes
-  initial: "exploring",
-  // initial: "initialising",
+  initial: "initialising",
   context: {
     jwt: "",
     farmId: 0,
     bumpkin: INITIAL_BUMPKIN,
     availableServers: SERVERS,
     serverId: "sunflorea_bliss",
-    initialSceneId: "plaza",
+    sceneId: "plaza",
     experience: 0,
     isCommunity: false,
     moderation: {
@@ -216,14 +220,8 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
       invoke: {
         id: "exploring",
         src: (context, event) => async () => {
-          // TESTING PURPOSES
-          const { url, serverId } = {
-            url: CONFIG.ROOM_URL,
-            serverId: "sunflorea_bliss",
-          };
-          // const { url, serverId } = event as ConnectEvent;
+          const { url, serverId } = event as ConnectEvent;
 
-          console.log("URL", url);
           const client = new Client(url);
 
           // Join server based on what was selected
@@ -233,13 +231,12 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             farmId: context.farmId,
             x: SPAWNS.plaza.default.x,
             y: SPAWNS.plaza.default.y,
-            sceneId: context.initialSceneId,
+            sceneId: context.sceneId,
             experience: context.experience,
             moderation: context.moderation,
             username: context.username,
           });
 
-          console.log({ server, client, serverId });
           return { server, client, serverId };
         },
         onDone: [
@@ -284,7 +281,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
               username: context.username,
               x: SPAWNS.plaza.default.x,
               y: SPAWNS.plaza.default.y,
-              sceneId: context.initialSceneId,
+              sceneId: context.sceneId,
               experience: context.experience,
               moderation: context.moderation,
             }
@@ -335,6 +332,16 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
           target: "reconnecting",
         },
       },
+    },
+  },
+  on: {
+    SWITCH_SCENE: {
+      actions: [
+        assign({
+          sceneId: (_, event) => event.sceneId,
+        }),
+        (context, event) => context.server?.send(0, { sceneId: event.sceneId }),
+      ],
     },
   },
 });

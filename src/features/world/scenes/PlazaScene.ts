@@ -435,7 +435,7 @@ export class PlazaScene extends BaseScene {
     });
 
     // Create new placeables
-    server.state.buds.forEach((bud, sessionId) => {
+    server.state.buds?.forEach((bud, sessionId) => {
       if (bud.sceneId !== this.scene.key) return;
 
       if (!this.placeables[sessionId]) {

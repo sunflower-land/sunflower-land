@@ -29,14 +29,12 @@ export class PlaceableContainer extends Phaser.GameObjects.Container {
     this.setSize(16, 16);
     const key = `placeable-${x}-${y}`;
 
-    console.log("LETSS GO!", x, y, sprite);
     const spriteLoader = scene.load.spritesheet(key, sprite, {
       frameWidth: 32,
       frameHeight: 32,
     });
 
     spriteLoader.addListener(Phaser.Loader.Events.COMPLETE, () => {
-      console.log("Sprite complete");
       if (this.sprite) return;
 
       const idle = scene.add.sprite(0, 0, key).setOrigin(0.5);
@@ -55,15 +53,15 @@ export class PlaceableContainer extends Phaser.GameObjects.Container {
       });
 
       this.sprite?.play(`${key}_anim`, true);
-      console.log("Playing");
     });
 
-    this.setInteractive({ cursor: "pointer" }).on(
-      "pointerdown",
-      (p: Phaser.Input.Pointer) => {
-        console.log("Clicked");
-      }
-    );
+    // TODO
+    // this.setInteractive({ cursor: "pointer" }).on(
+    //   "pointerdown",
+    //   (p: Phaser.Input.Pointer) => {
+    //     console.log("Clicked");
+    //   }
+    // );
 
     scene.load.start();
 
@@ -71,7 +69,6 @@ export class PlaceableContainer extends Phaser.GameObjects.Container {
   }
 
   public disappear() {
-    console.log("POOF");
     this.sprite?.destroy();
     this.shadow?.destroy();
 
@@ -94,9 +91,7 @@ export class PlaceableContainer extends Phaser.GameObjects.Container {
     const container = this;
     // Listen for the animation complete event
     poof.on("animationcomplete", function (animation: { key: string }) {
-      console.log({ animation });
       if (animation.key === "poof_anim") {
-        console.log("DONE!");
         // Animation 'poof_anim' has completed, destroy the sprite
         container.destroy();
       }

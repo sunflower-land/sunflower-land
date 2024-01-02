@@ -391,7 +391,6 @@ export abstract class BaseScene extends Phaser.Scene {
     });
 
     const removeReactionListener = server.state.reactions.onAdd((reaction) => {
-      console.log({ reaction });
       // Old message
       if (reaction.sentAt < Date.now() - 5000) {
         return;
@@ -923,7 +922,8 @@ export abstract class BaseScene extends Phaser.Scene {
     if (this.switchToScene) {
       const warpTo = this.switchToScene;
       this.switchToScene = undefined;
-      this.mmoService?.state.context.server?.send(0, { sceneId: warpTo });
+      // this.mmoService?.state.context.server?.send(0, { sceneId: warpTo });
+      this.mmoService?.send("SWITCH_SCENE", { sceneId: warpTo });
       this.scene.start(warpTo, { previousSceneId: this.sceneId });
     }
   }

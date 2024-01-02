@@ -128,21 +128,24 @@ export const ChatUI: React.FC<Props> = ({
           cooledDownAt={cooldown}
         />
       </div>
-      <div
-        className={classNames(
-          "fixed top-44 left-3 transition-transform origin-top-left ease-in-out duration-300",
-          { "scale-0": !showReactions, "scale-100": showReactions }
-        )}
-        // eslint-disable-next-line no-console
-        onClick={console.log}
-      >
-        <Reactions
-          gameState={gameState}
-          onReact={onReact}
-          onBudPlace={onBudPlace}
-          scene={scene}
-        />
-      </div>
+      {hasFeatureAccess(gameState, "REACTIONS") && (
+        <div
+          className={classNames(
+            "fixed top-44 left-3 transition-transform origin-top-left ease-in-out duration-300",
+            { "scale-0": !showReactions, "scale-100": showReactions }
+          )}
+          // eslint-disable-next-line no-console
+          onClick={console.log}
+        >
+          <Reactions
+            gameState={gameState}
+            onReact={onReact}
+            onBudPlace={onBudPlace}
+            scene={scene}
+          />
+        </div>
+      )}
+
       <div
         className={classNames(
           "fixed top-36 cursor-pointer transition-transform origin-top-left ease-in-out duration-300",

@@ -49,6 +49,7 @@ import { Inventory } from "features/game/types/game";
 import { FishingModal } from "./ui/FishingModal";
 
 const _roomState = (state: MachineState) => state.value;
+const _scene = (state: MachineState) => state.context.sceneId;
 
 type Player = {
   playerId: string;
@@ -68,23 +69,16 @@ export type ModerationEvent = {
 };
 
 interface Props {
-  scene: SceneId;
   isCommunity: boolean;
   mmoService: MachineInterpreter;
   inventory: Inventory;
 }
 
 export const PhaserComponent: React.FC<Props> = ({
-  scene,
   isCommunity,
   mmoService,
   inventory,
 }) => {
-  // Test onll
-  if (!mmoService.state.context.server) {
-    return null;
-  }
-  console.log({ server: mmoService.state.context.server });
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
@@ -105,6 +99,7 @@ export const PhaserComponent: React.FC<Props> = ({
   const game = useRef<Game>();
 
   const mmoState = useSelector(mmoService, _roomState);
+  const scene = useSelector(mmoService, _scene);
 
   const scenes = isCommunity
     ? [CommunityScene]
@@ -233,11 +228,14 @@ export const PhaserComponent: React.FC<Props> = ({
       // Corn maze pauses when game is over so we need to filter for active and paused scenes.
       .filter((s) => s.scene.isActive() || s.scene.isPaused())[0];
 
+    console.log({ activeScene, scene });
     if (activeScene) {
       activeScene.scene.start(scene);
       mmoService.state.context.server?.send(0, { sceneId: scene });
     }
   }, [scene]);
+
+  console.log({ scene });
 
   useEffect(() => {
     // Listen to moderation events

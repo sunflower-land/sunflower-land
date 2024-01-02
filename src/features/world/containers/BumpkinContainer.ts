@@ -318,7 +318,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.reaction.destroy();
     }
 
-    // TODO preload these images
+    if (!this.scene.textures.exists(react)) {
+      return;
+    }
+
     this.reaction = this.scene.add.sprite(0, -14, react);
 
     this.add(this.reaction);

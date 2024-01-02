@@ -68,7 +68,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       jwt: authState.context.user.rawToken,
       farmId: gameState.context.farmId,
       bumpkin: gameState.context.state.bumpkin,
-      initialSceneId: name as SceneId,
+      sceneId: name as SceneId,
       experience: gameState.context.state.bumpkin?.experience ?? 0,
       isCommunity,
       moderation: gameState.context.moderation,
@@ -101,7 +101,6 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     <>
       <PhaserComponent
         mmoService={mmoService}
-        scene={name as SceneId}
         isCommunity={isCommunity}
         inventory={gameState.context.state.inventory}
       />
