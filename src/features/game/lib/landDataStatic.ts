@@ -376,7 +376,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   farmActivity: {},
   milestones: {},
   catchTheKraken: {
-    hunger: "Sunflower",
+    hunger: "Iron",
     weeklyCatches: {},
   },
   airdrops: [],

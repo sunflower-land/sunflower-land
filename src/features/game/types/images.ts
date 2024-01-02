@@ -2992,16 +2992,23 @@ export const ITEM_DETAILS: Items = {
     description:
       "The magical hammer from Grinx, the legendary Goblin Blacksmith.",
   },
+
   Angelfish: {
     image: angelFish,
-    description: "?",
+    description:
+      "The aquatic celestial beauty, adorned in a palette of vibrant hues.",
+    howToGetItem: ["Beach fishing"],
   },
   Halibut: {
     image: halibut,
-    description: "?",
+    description:
+      "The flat ocean floor dweller, a master of disguise in sandy camouflage.",
+    howToGetItem: ["Beach fishing"],
   },
   Parrotfish: {
     image: parrotFish,
-    description: "?",
+    description:
+      "A kaleidoscope of colors beneath the waves, this fish is nature's living artwork.",
+    howToGetItem: ["Beach fishing"],
   },
 };
