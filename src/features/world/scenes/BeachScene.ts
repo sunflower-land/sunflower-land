@@ -210,7 +210,7 @@ export class BeachScene extends BaseScene {
     bird.play("bird_anim", true);
   }
 
-  public loadKrakenHunger(hunger: InventoryItemName) {
+  public loadKrakenHunger = (hunger: InventoryItemName) => {
     if (this.krakenHunger === hunger) {
       return;
     }
@@ -223,23 +223,34 @@ export class BeachScene extends BaseScene {
     }
 
     const image = ITEM_DETAILS[hunger].image;
+
     let loader;
 
-    const key = `${hunger}_kraken_hunger}`;
+    const key = `${hunger}_kraken_hunger`;
 
-    if (image.startsWith("data:")) {
-      loader = this.textures.addBase64(key, image);
-    } else {
-      loader = this.load.image(key, image);
+    if (this.textures.exists(key)) {
+      this.krakenHungerSprite = this.add.sprite(338, 740, key);
+      return;
     }
 
-    loader.addListener(Phaser.Loader.Events.COMPLETE, () => {
-      // This callback will be executed only once when "kraken_hunger" is loaded
-      this.krakenHungerSprite = this.add.sprite(338, 740, key);
-    });
+    if (image.startsWith("data:")) {
+      this.textures.addBase64(key, image);
 
-    this.load.start();
-  }
+      this.textures.once("addtexture", () => {
+        // Create the sprite once the texture is loaded
+        this.krakenHungerSprite = this.add.sprite(338, 740, key);
+      });
+    } else {
+      loader = this.load.image(key, image);
+
+      loader.once(Phaser.Loader.Events.COMPLETE, () => {
+        // This callback will be executed only once when "kraken_hunger" is loaded
+        this.krakenHungerSprite = this.add.sprite(338, 740, key);
+      });
+
+      this.load.start();
+    }
+  };
 }
 
 // PubSub.ts
