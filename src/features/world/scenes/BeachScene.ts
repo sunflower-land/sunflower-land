@@ -52,6 +52,7 @@ export class BeachScene extends BaseScene {
 
   krakenHunger: InventoryItemName | undefined;
   krakenHungerSprite: Phaser.GameObjects.Sprite | undefined;
+  heartSprite: Phaser.GameObjects.Sprite | undefined;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -112,8 +113,6 @@ export class BeachScene extends BaseScene {
         this.loadKrakenHunger(data?.hunger);
       });
     }
-
-    this.add.sprite(350, 740, "heart");
 
     this.initialiseNPCs(BUMPKINS);
 
@@ -211,8 +210,16 @@ export class BeachScene extends BaseScene {
   }
 
   public loadKrakenHunger = (hunger: InventoryItemName) => {
+    if (!hunger) {
+      this.heartSprite?.destroy();
+    }
+
     if (this.krakenHunger === hunger) {
       return;
+    }
+
+    if (!this.heartSprite) {
+      this.heartSprite = this.add.sprite(350, 740, "heart");
     }
 
     this.krakenHunger = hunger;
