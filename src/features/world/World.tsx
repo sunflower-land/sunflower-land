@@ -103,7 +103,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
         mmoService={mmoService}
         isCommunity={isCommunity}
         inventory={gameState.context.state.inventory}
-        route={name}
+        route={name as SceneId}
       />
       <Modal show={isIntroducting} centered>
         <WorldIntroduction
