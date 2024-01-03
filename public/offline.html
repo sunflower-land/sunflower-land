@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
+    <!-- <link
       href="https://fonts.googleapis.com/css2?family=Paytone+One&amp;display=swap"
       rel="stylesheet"
-    />
+    /> -->
 
     <title>You are offline</title>
 
@@ -18,7 +18,7 @@
         height: 100%;
         width: 100%;
         margin: 0;
-        background-image: url(./offline/ocean.webp);
+        /* background-image: url(./offline/ocean.webp); */
         background-size: 168px;
         image-rendering: pixelated;
         font-family: "Paytone One", sans-serif;
@@ -54,18 +54,40 @@
       p {
         margin-block: 1rem;
         font-style: italic;
-        font-size: 20px;
+      }
+
+      button {
+        display: flex;
+        background-color: rgb(231 168 115);
+        width: 100%;
+        padding: 4px;
+        font-size: 16px;
+        object-fit: contain;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        /* border-image: url(./offline/light_border.png); */
+        border-style: "solid";
+        border-width: 5.25px;
+        border-image-slice: 20%;
+        image-rendering: pixelated;
+        border-image-repeat: stretch;
+        border-radius: 13px;
+        width: 40%;
+        color: white;
+        text-shadow: 0px 0px 2px black;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <img
+      <!-- <img
         class="logo"
         src="./offline/logo_v2_large.png"
         alt="Sunflower Land Logo"
-      />
+      /> -->
       <p>You are currently offline</p>
+      <!-- <button>Reload App</button> -->
     </div>
 
     <!-- Inline the page's JavaScript file. -->
@@ -74,6 +96,8 @@
       document.querySelector("button").addEventListener("click", () => {
         window.location.reload();
       });
+
+      console.log({ window });
 
       // Listen to changes in the network state, reload when online.
       // This handles the case when the device is completely offline.
@@ -85,6 +109,7 @@
       // This handles the case when the device is online, but the server
       // is offline or misbehaving.
       async function checkNetworkAndReload() {
+        console.log("reloading");
         try {
           const response = await fetch(".");
           // Verify we get a valid response from the server
