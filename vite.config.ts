@@ -6,6 +6,7 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  assetsInclude: ["./offline.html"],
   plugins: [
     reactRefresh(),
     tsconfigPaths(),
@@ -19,18 +20,13 @@ export default defineConfig({
         enabled: true,
         type: "module",
       },
-      registerType: "autoUpdate",
       strategies: "injectManifest",
-      srcDir: "src",
-      filename: "sw.js",
-      scope: "/",
-      workbox: {
-        skipWaiting: true,
-        clientsClaim: true,
-      },
+      filename: "sw.ts",
       manifest: {
         name: "Sunflower Land",
         id: "com.sunflower-land",
+        description:
+          "Plant, Chop, Mine, Craft & Collect at Sunflower Land. The MetaVerse game with endless resources.",
         short_name: "Sunflower Land",
         start_url: "/",
         theme_color: "#303443",
@@ -61,6 +57,24 @@ export default defineConfig({
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable",
+          },
+        ],
+        screenshots: [
+          {
+            src: "pwa/screenshots/logo.webp",
+            sizes: "780x350",
+            type: "image/webp",
+            form_factor: "wide",
+          },
+          {
+            src: "pwa/screenshots/welcome.webp",
+            sizes: "780x349",
+            type: "image/webp",
+          },
+          {
+            src: "pwa/screenshots/fishing.webp",
+            sizes: "780x348",
+            type: "image/webp",
           },
         ],
       },
