@@ -212,6 +212,7 @@ export class BeachScene extends BaseScene {
   public loadKrakenHunger = (hunger: InventoryItemName) => {
     if (!hunger) {
       this.heartSprite?.destroy();
+      this.krakenHungerSprite?.destroy();
     }
 
     if (this.krakenHunger === hunger) {
