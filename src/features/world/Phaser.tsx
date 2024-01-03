@@ -49,6 +49,7 @@ import { Inventory } from "features/game/types/game";
 import { FishingModal } from "./ui/FishingModal";
 
 const _roomState = (state: MachineState) => state.value;
+const _scene = (state: MachineState) => state.context.sceneId;
 
 type Player = {
   playerId: string;
@@ -68,17 +69,17 @@ export type ModerationEvent = {
 };
 
 interface Props {
-  scene: SceneId;
   isCommunity: boolean;
   mmoService: MachineInterpreter;
   inventory: Inventory;
+  route: SceneId;
 }
 
 export const PhaserComponent: React.FC<Props> = ({
-  scene,
   isCommunity,
   mmoService,
   inventory,
+  route,
 }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
@@ -100,6 +101,7 @@ export const PhaserComponent: React.FC<Props> = ({
   const game = useRef<Game>();
 
   const mmoState = useSelector(mmoService, _roomState);
+  const scene = useSelector(mmoService, _scene);
 
   const scenes = isCommunity
     ? [CommunityScene]
@@ -220,6 +222,7 @@ export const PhaserComponent: React.FC<Props> = ({
     };
   }, []);
 
+  // When route changes, switch scene
   useEffect(() => {
     if (!loaded) return;
 
@@ -229,10 +232,10 @@ export const PhaserComponent: React.FC<Props> = ({
       .filter((s) => s.scene.isActive() || s.scene.isPaused())[0];
 
     if (activeScene) {
-      activeScene.scene.start(scene);
-      mmoService.state.context.server?.send(0, { sceneId: scene });
+      activeScene.scene.start(route);
+      mmoService.send("SWITCH_SCENE", { sceneId: route });
     }
-  }, [scene]);
+  }, [route]);
 
   useEffect(() => {
     // Listen to moderation events
@@ -393,6 +396,8 @@ export const PhaserComponent: React.FC<Props> = ({
 
       <ChatUI
         farmId={gameService.state.context.farmId}
+        gameState={gameService.state.context.state}
+        scene={scene}
         onMessage={(m) => {
           mmoService.state.context.server?.send(0, {
             text: m.text ?? "?",
@@ -403,6 +408,16 @@ export const PhaserComponent: React.FC<Props> = ({
         }}
         messages={messages ?? []}
         isMuted={isMuted ? true : false}
+        onReact={(reaction) => {
+          mmoService.state.context.server?.send(0, {
+            reaction,
+          });
+        }}
+        onBudPlace={(tokenId) => {
+          mmoService.state.context.server?.send(0, {
+            budId: tokenId,
+          });
+        }}
       />
       {isModerator && !isCommunity && (
         <ModerationTools

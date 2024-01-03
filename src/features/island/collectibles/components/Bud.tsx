@@ -7,7 +7,8 @@ import shadow from "assets/npcs/shadow.png";
 import { TypeTrait } from "features/game/types/buds";
 import classNames from "classnames";
 
-const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
+export const budImageDomain =
+  CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
 type Props = {
   id: string;
@@ -34,7 +35,7 @@ export const Bud: React.FC<Props> = ({ id, type }) => {
         className="absolute"
       />
       <img
-        src={`https://${imageDomain}.sunflower-land.com/images/${id}.webp`}
+        src={`https://${budImageDomain}.sunflower-land.com/images/${id}.webp`}
         className={classNames("absolute w-full -translate-x-1/4", {
           "top-1": type === "Retreat",
         })}

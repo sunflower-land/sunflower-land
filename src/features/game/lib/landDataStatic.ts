@@ -220,6 +220,22 @@ export const STATIC_OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   bumpkin: INITIAL_BUMPKIN,
+  buds: {
+    1: {
+      aura: "Basic",
+      colour: "Beige",
+      ears: "Ears",
+      stem: "3 Leaf Clover",
+      type: "Beach",
+    },
+    2: {
+      aura: "Basic",
+      colour: "Beige",
+      ears: "Ears",
+      stem: "3 Leaf Clover",
+      type: "Woodlands",
+    },
+  },
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   previousInventory: {},
@@ -244,7 +260,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Block Buck": new Decimal(1),
     Egg: new Decimal(12),
   },
-  wardrobe: {},
+  wardrobe: {
+    "Elf Suit": 1,
+  },
 
   createdAt: new Date().getTime(),
 

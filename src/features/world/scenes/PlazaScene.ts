@@ -10,6 +10,8 @@ import {
   AudioLocalStorageKeys,
   getCachedAudioSetting,
 } from "../../game/lib/audio";
+import { PlaceableContainer } from "../containers/PlaceableContainer";
+import { budImageDomain } from "features/island/collectibles/components/Bud";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -119,6 +121,10 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
 ];
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
+
+  placeables: {
+    [sessionId: string]: PlaceableContainer;
+  } = {};
 
   constructor() {
     const showNYE =
@@ -408,5 +414,43 @@ export class PlazaScene extends BaseScene {
         this.layers["Club House Door"].setVisible(true);
       }
     });
+  }
+
+  syncPlaceables() {
+    const server = this.mmoServer;
+    if (!server) return;
+
+    // Destroy any dereferenced placeables
+    Object.keys(this.placeables).forEach((sessionId) => {
+      const hasLeft =
+        !server.state.buds.get(sessionId) ||
+        server.state.buds.get(sessionId)?.sceneId !== this.scene.key;
+
+      const isInactive = !this.placeables[sessionId]?.active;
+
+      if (hasLeft || isInactive) {
+        this.placeables[sessionId]?.disappear();
+        delete this.placeables[sessionId];
+      }
+    });
+
+    // Create new placeables
+    server.state.buds?.forEach((bud, sessionId) => {
+      if (bud.sceneId !== this.scene.key) return;
+
+      if (!this.placeables[sessionId]) {
+        this.placeables[sessionId] = new PlaceableContainer({
+          sprite: `https://${budImageDomain}.sunflower-land.com/sheets/idle/${bud.id}.webp`,
+          x: bud.x,
+          y: bud.y,
+          scene: this,
+        });
+      }
+    });
+  }
+
+  public update() {
+    super.update();
+    this.syncPlaceables();
   }
 }

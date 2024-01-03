@@ -25,8 +25,9 @@ type FeatureName =
   | "BANANA"
   | "LOCALISATION"
   | "PORTALS"
-  | "GOOGLE_LOGIN"
-  | "BEACH_FISHING";
+  | "BEACH_FISHING"
+  | "REACTIONS"
+  | "GOOGLE_LOGIN";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51];
@@ -41,6 +42,8 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   NEW_DELIVERIES: testnetFeatureFlag,
   NEW_FARM_FLOW: () => true,
   BUDS_DEPOSIT_FLOW: () => true,
+
+  REACTIONS: defaultFeatureFlag,
 
   HALLOWEEN: (game: GameState) => {
     if (Date.now() > new Date("2023-11-01").getTime()) {

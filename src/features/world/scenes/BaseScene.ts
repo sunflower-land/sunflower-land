@@ -390,11 +390,33 @@ export abstract class BaseScene extends Phaser.Scene {
       }
     });
 
+    const removeReactionListener = server.state.reactions.onAdd((reaction) => {
+      // Old message
+      if (reaction.sentAt < Date.now() - 5000) {
+        return;
+      }
+
+      if (reaction.sceneId !== this.options.name) {
+        return;
+      }
+
+      if (!this.scene?.isActive()) {
+        return;
+      }
+
+      if (this.playerEntities[reaction.sessionId]) {
+        this.playerEntities[reaction.sessionId].react(reaction.reaction);
+      } else if (reaction.sessionId === server.sessionId) {
+        this.currentPlayer?.react(reaction.reaction);
+      }
+    });
+
     // send the scene player is in
     // this.room.send()
 
     this.events.on("shutdown", () => {
       removeMessageListener();
+      removeReactionListener();
     });
   }
 
@@ -630,14 +652,13 @@ export abstract class BaseScene extends Phaser.Scene {
     }
   }
 
-  update(time: number, delta: number): void {
-    // this.elapsedTime += delta;
-    // while (this.elapsedTime >= this.fixedTimeStep) {
-    //   this.elapsedTime -= this.fixedTimeStep;
-    //   this.fixedTick(time, this.fixedTimeStep);
-    // }
+  update(): void {
+    this.currentTick++;
 
-    this.fixedTick(time, this.fixedTimeStep);
+    this.switchScene();
+    this.updatePlayer();
+    this.updateOtherPlayers();
+    this.updateUsernames();
   }
 
   keysToAngle(
@@ -901,7 +922,8 @@ export abstract class BaseScene extends Phaser.Scene {
     if (this.switchToScene) {
       const warpTo = this.switchToScene;
       this.switchToScene = undefined;
-      this.mmoService?.state.context.server?.send(0, { sceneId: warpTo });
+      // this.mmoService?.state.context.server?.send(0, { sceneId: warpTo });
+      this.mmoService?.send("SWITCH_SCENE", { sceneId: warpTo });
       this.scene.start(warpTo, { previousSceneId: this.sceneId });
     }
   }
@@ -953,15 +975,6 @@ export abstract class BaseScene extends Phaser.Scene {
       this.colliders?.add(container);
       this.triggerColliders?.add(container);
     });
-  }
-
-  fixedTick(time: number, delta: number) {
-    this.currentTick++;
-
-    this.switchScene();
-    this.updatePlayer();
-    this.updateOtherPlayers();
-    this.updateUsernames();
   }
 
   teleportModerator(x: number, y: number) {
