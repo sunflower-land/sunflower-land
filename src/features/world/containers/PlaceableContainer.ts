@@ -88,6 +88,7 @@ export class PlaceableContainer extends Phaser.GameObjects.Container {
 
     poof.play(`poof_anim`, true);
 
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const container = this;
     // Listen for the animation complete event
     poof.on("animationcomplete", function (animation: { key: string }) {

@@ -2,11 +2,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
-import { Bud } from "features/island/buds/Bud";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { SceneId } from "features/world/mmoMachine";
 import React from "react";
@@ -44,6 +42,7 @@ export const BudReaction: React.FC<{
           {buds.map((budId) => {
             return (
               <Box
+                key={budId}
                 onClick={() => setSelected(budId)}
                 isSelected={selected === budId}
                 image={`https://${budImageDomain}.sunflower-land.com/images/${budId}.webp`}
