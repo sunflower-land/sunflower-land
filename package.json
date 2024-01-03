@@ -114,7 +114,10 @@
     "vite-plugin-html": "^2.1.2",
     "vite-plugin-pwa": "^0.17.4",
     "vite-tsconfig-paths": "^3.3.17",
-    "workbox-precaching": "^7.0.0"
+    "workbox-cacheable-response": "^7.0.0",
+    "workbox-precaching": "^7.0.0",
+    "workbox-routing": "^7.0.0",
+    "workbox-strategies": "^7.0.0"
   },
   "resolutions": {
     "async": "^2.6.4",
