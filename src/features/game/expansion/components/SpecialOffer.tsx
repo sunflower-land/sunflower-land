@@ -10,7 +10,6 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
@@ -161,7 +160,7 @@ export const PromotingModal: React.FC<Props> = ({
             <li className="text-sm ml-4">{t("season.boostXP")}</li>
             <li className="text-sm ml-4">{t("season.bonusTickets")}</li>
           </ul>
-          {!isPreSeason && (
+          {/* {!isPreSeason && (
             <Label
               type="info"
               className="mt-2"
@@ -172,8 +171,16 @@ export const PromotingModal: React.FC<Props> = ({
             >
               {t("season.limitedOffer")}
             </Label>
-          )}
-
+          )} */}
+          <Label
+            type="danger"
+            className="mt-2"
+            style={{
+              width: "fit-content",
+            }}
+          >
+            Sold out
+          </Label>
           <a
             href="https://docs.sunflower-land.com/player-guides/seasons/catch-the-kraken#catch-the-kraken-banner"
             target="_blank"
@@ -188,6 +195,7 @@ export const PromotingModal: React.FC<Props> = ({
             {t("noThanks")}
           </Button>
           <Button
+            disabled
             onClick={() => {
               gameService.send("PURCHASE_ITEM", {
                 name: "Catch the Kraken Banner",
