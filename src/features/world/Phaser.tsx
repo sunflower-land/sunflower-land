@@ -233,7 +233,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
     if (activeScene) {
       activeScene.scene.start(route);
-      mmoService.state.context.server?.send(0, { sceneId: route });
+      mmoService.send("SWITCH_SCENE", { sceneId: route });
     }
   }, [route]);
 
