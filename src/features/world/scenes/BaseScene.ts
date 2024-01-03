@@ -647,7 +647,7 @@ export abstract class BaseScene extends Phaser.Scene {
   destroyPlayer(sessionId: string) {
     const entity = this.playerEntities[sessionId];
     if (entity) {
-      entity.setVisible(false);
+      entity.disappear();
       delete this.playerEntities[sessionId];
     }
   }
