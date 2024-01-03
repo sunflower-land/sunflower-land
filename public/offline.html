@@ -53,25 +53,8 @@
 
       p {
         margin-block: 1rem;
-      }
-
-      button {
-        display: flex;
-        background-color: rgb(231 168 115);
-        width: 100%;
-        padding: 4px;
-        font-size: 16px;
-        object-fit: contain;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        border-image: url(./offline/light_border.png);
-        border-style: "solid";
-        border-width: 5.25px;
-        border-image-slice: 20%;
-        image-rendering: pixelated;
-        border-image-repeat: stretch;
-        border-radius: 13px;
+        font-style: italic;
+        font-size: 20px;
       }
     </style>
   </head>
@@ -82,8 +65,7 @@
         src="./offline/logo_v2_large.png"
         alt="Sunflower Land Logo"
       />
-      <p>You are offline mate</p>
-      <!-- <button>Reload</button> -->
+      <p>You are currently offline</p>
     </div>
 
     <!-- Inline the page's JavaScript file. -->
@@ -103,7 +85,6 @@
       // This handles the case when the device is online, but the server
       // is offline or misbehaving.
       async function checkNetworkAndReload() {
-        console.log("reloading");
         try {
           const response = await fetch(".");
           // Verify we get a valid response from the server
