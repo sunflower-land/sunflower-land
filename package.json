@@ -75,7 +75,6 @@
     "web3": "^1.6.1",
     "web3-health-check": "^1.0.17",
     "web3-utils": "^1.6.1",
-    "workbox-precaching": "^7.0.0",
     "xstate": "^4.33.1"
   },
   "devDependencies": {
@@ -115,7 +114,8 @@
     "vite": "^5.0.9",
     "vite-plugin-html": "^2.1.2",
     "vite-plugin-pwa": "^0.17.4",
-    "vite-tsconfig-paths": "^3.3.17"
+    "vite-tsconfig-paths": "^3.3.17",
+    "workbox-precaching": "^7.0.0"
   },
   "resolutions": {
     "async": "^2.6.4",

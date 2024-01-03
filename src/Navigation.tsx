@@ -63,6 +63,7 @@ export const Navigation: React.FC = () => {
   const state = useSelector(authService, selectState);
   const [showGame, setShowGame] = useState(false);
   const [showOrientationModal, setShowOrientationModal] = useState(false);
+  const [showConnectionModal, setShowConnectionModal] = useState(false);
   const isMobile = useIsMobile();
   const orientation = useOrientation();
 
@@ -75,6 +76,33 @@ export const Navigation: React.FC = () => {
       setShowOrientationModal(false);
     }
   }, [orientation, isMobile]);
+
+  useEffect(() => {
+    window.addEventListener("offline", handleOffline);
+    window.addEventListener("online", handleOnline);
+
+    return () => {
+      window.removeEventListener("offline", handleOffline);
+      window.removeEventListener("online", handleOnline);
+    };
+  }, []);
+
+  const handleOffline = () => {
+    if (window.matchMedia("(display-mode: standalone)").matches) {
+      setShowConnectionModal(true);
+    }
+  };
+
+  const handleOnline = async () => {
+    if (window.matchMedia("(display-mode: standalone)").matches) {
+      // ping the server
+      const response = await fetch(CONFIG.API_URL);
+
+      if (response.ok) {
+        setShowConnectionModal(false);
+      }
+    }
+  };
 
   useEffect(() => {
     const _showGame = state.isAuthorised || state.isVisiting;
@@ -93,6 +121,11 @@ export const Navigation: React.FC = () => {
           <Modal show={showOrientationModal} centered backdrop={false}>
             <Panel>
               <div className="text-sm p-1">{`Hey there Bumpkin, Sunflower Land currently prefers portrait mode. Tilt your device and enjoy the view for now, but prepare for the landscape mode coming soon!`}</div>
+            </Panel>
+          </Modal>
+          <Modal show={showConnectionModal} centered>
+            <Panel>
+              <div className="text-sm p-1">{`Hey there Bumpkin, it looks like you aren't online. Check your network connection.`}</div>
             </Panel>
           </Modal>
           <HashRouter>
