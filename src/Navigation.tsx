@@ -24,6 +24,7 @@ import { Panel } from "components/ui/Panel";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { useOrientation } from "lib/utils/hooks/useOrientation";
 import { Modal } from "react-bootstrap";
+import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -66,6 +67,7 @@ export const Navigation: React.FC = () => {
   const [showConnectionModal, setShowConnectionModal] = useState(false);
   const isMobile = useIsMobile();
   const orientation = useOrientation();
+  const isPWA = useIsPWA();
 
   useEffect(() => {
     if (!isMobile) return;
@@ -78,29 +80,26 @@ export const Navigation: React.FC = () => {
   }, [orientation, isMobile]);
 
   useEffect(() => {
-    window.addEventListener("offline", handleOffline);
-    window.addEventListener("online", handleOnline);
+    if (isPWA) {
+      window.addEventListener("offline", handleOffline);
+      window.addEventListener("online", handleOnline);
+    }
 
     return () => {
       window.removeEventListener("offline", handleOffline);
       window.removeEventListener("online", handleOnline);
     };
-  }, []);
+  }, [isPWA]);
 
   const handleOffline = () => {
-    if (window.matchMedia("(display-mode: standalone)").matches) {
-      setShowConnectionModal(true);
-    }
+    setShowConnectionModal(true);
   };
 
   const handleOnline = async () => {
-    if (window.matchMedia("(display-mode: standalone)").matches) {
-      // ping the server
-      const response = await fetch(CONFIG.API_URL);
-
-      if (response.ok) {
-        setShowConnectionModal(false);
-      }
+    const response = await fetch(".");
+    // Verify we get a valid response from the server
+    if (response.status >= 200 && response.status < 500) {
+      setShowConnectionModal(false);
     }
   };
 
@@ -115,7 +114,7 @@ export const Navigation: React.FC = () => {
 
   return (
     <>
-      <Auth />
+      <Auth showOfflineModal={showConnectionModal} />
       {showGame ? (
         <ZoomProvider>
           <Modal show={showOrientationModal} centered backdrop={false}>
@@ -125,7 +124,7 @@ export const Navigation: React.FC = () => {
           </Modal>
           <Modal show={showConnectionModal} centered>
             <Panel>
-              <div className="text-sm p-1">{`Hey there Bumpkin, it looks like you aren't online. Check your network connection.`}</div>
+              <div className="text-sm p-1">{`Hey there Bumpkin, it looks like you aren't online. Please check your network connection.`}</div>
             </Panel>
           </Modal>
           <HashRouter>
