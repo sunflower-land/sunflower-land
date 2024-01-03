@@ -103,21 +103,19 @@ export const NoBumpkin: React.FC = () => {
             You need a Bumpkin to help you plant, harvest, chop, mine and expand
             your land.
           </p>
-          <p className="text-sm my-2">
-            If you misplaced your Bumpkin, you can mint one below:
-          </p>
+          <p className="text-sm my-2">You can get a Bumpkin from OpenSea:</p>
           <p className="text-xs sm:text-sm text-shadow text-white p-1">
             <a
               className="underline"
               href={
                 CONFIG.NETWORK === "mumbai"
-                  ? "https://testnet.bumpkins.io"
-                  : "https://bumpkins.io"
+                  ? "https://testnets.opensea.io/collection/bumpkin-vptgvexdat"
+                  : "https://opensea.io/collection/bumpkins"
               }
               target="_blank"
               rel="noopener noreferrer"
             >
-              Bumpkins.io
+              OpenSea
             </a>
           </p>
         </div>
