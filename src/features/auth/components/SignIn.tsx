@@ -374,10 +374,4 @@ export const SignIn = () => {
   );
 };
 
-export const SignUp = () => {
-  return (
-    <>
-      <SignIn />
-    </>
-  );
-};
+export const SignUp = () => <SignIn />;

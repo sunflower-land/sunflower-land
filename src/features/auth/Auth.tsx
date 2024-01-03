@@ -22,11 +22,22 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { NoAccount } from "./components/NoAccount";
 import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { useIsPWA } from "lib/utils/hooks/useIsPWA";
+import { MobilePWASignIn } from "./components/MobilePWASignIn";
 
-export const Auth: React.FC = () => {
+type Props = {
+  showOfflineModal: boolean;
+};
+
+export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
   const { t } = useAppTranslation();
+
+  const isMobile = useIsMobile();
+  const isPWA = useIsPWA();
+  const isMobilePWA = isMobile && isPWA;
 
   return (
     <>
@@ -71,24 +82,29 @@ export const Auth: React.FC = () => {
             </>
           </div>
         </div>
-        <Panel className="pb-1 relative">
-          {authState.matches("welcome") && <Welcome />}
-          {authState.matches("noAccount") && <NoAccount />}
-          {authState.matches("authorising") && <Loading />}
-          {authState.matches("verifying") && <Verifying />}
-          {(authState.matches("idle") || authState.matches("signIn")) && (
-            <SignIn />
-          )}
-          {authState.matches("signUp") && <SignUp />}
-          {authState.matches("oauthorising") && <Loading />}
-          {authState.matches("creating") && <Loading text="Creating" />}
-          {authState.matches("claiming") && <Loading text="Claiming" />}
-          {authState.matches("unauthorised") && (
-            <ErrorMessage
-              errorCode={authState.context.errorCode as ErrorCode}
-            />
-          )}
-        </Panel>
+        {!showOfflineModal ? (
+          <Panel className="pb-1 relative">
+            {authState.matches("welcome") && <Welcome />}
+            {authState.matches("noAccount") && <NoAccount />}
+            {authState.matches("authorising") && <Loading />}
+            {authState.matches("verifying") && <Verifying />}
+            {(authState.matches("idle") || authState.matches("signIn")) &&
+              (isMobilePWA ? <MobilePWASignIn /> : <SignIn />)}
+            {authState.matches("signUp") && <SignUp />}
+            {authState.matches("oauthorising") && <Loading />}
+            {authState.matches("creating") && <Loading text="Creating" />}
+            {authState.matches("claiming") && <Loading text="Claiming" />}
+            {authState.matches("unauthorised") && (
+              <ErrorMessage
+                errorCode={authState.context.errorCode as ErrorCode}
+              />
+            )}
+          </Panel>
+        ) : (
+          <Panel>
+            <div className="text-sm p-1">{`Hey there Bumpkin, it looks like you aren't online. Please check your network connection.`}</div>
+          </Panel>
+        )}
       </Modal>
     </>
   );
