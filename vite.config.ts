@@ -6,7 +6,6 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  assetsInclude: ["./offline.html"],
   plugins: [
     reactRefresh(),
     tsconfigPaths(),
@@ -19,11 +18,12 @@ export default defineConfig({
       devOptions: {
         enabled: true,
         type: "module",
+        navigateFallback: "offline.html",
       },
       strategies: "injectManifest",
       filename: "sw.ts",
-      injectManifest: {
-        injectionPoint: undefined,
+      workbox: {
+        navigateFallback: "offline.html",
       },
       manifest: {
         name: "Sunflower Land",
