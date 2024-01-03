@@ -22,6 +22,9 @@ export default defineConfig({
       },
       strategies: "injectManifest",
       filename: "sw.ts",
+      injectManifest: {
+        injectionPoint: undefined,
+      },
       manifest: {
         name: "Sunflower Land",
         id: "com.sunflower-land",
