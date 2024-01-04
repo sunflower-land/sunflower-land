@@ -21,6 +21,9 @@ export default defineConfig({
         navigateFallback: "offline.html",
       },
       strategies: "injectManifest",
+      injectManifest: {
+        injectionPoint: undefined,
+      },
       filename: "sw.ts",
       workbox: {
         navigateFallback: "offline.html",

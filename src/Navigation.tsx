@@ -147,12 +147,12 @@ export const Navigation: React.FC = () => {
         <ZoomProvider>
           <Modal show={showOrientationModal} centered backdrop={false}>
             <Panel>
-              <div className="text-sm p-1">{`Hey there Bumpkin, Sunflower Land currently prefers portrait mode. Tilt your device and enjoy the view for now, but prepare for the landscape mode coming soon!`}</div>
+              <div className="text-sm p-1 mb-1">{`Hey there Bumpkin, Sunflower Land currently prefers portrait mode. Tilt your device and enjoy the view for now, but prepare for the landscape mode coming soon!`}</div>
             </Panel>
           </Modal>
           <Modal show={showConnectionModal} centered>
             <Panel>
-              <div className="text-sm p-1">{`Hey there Bumpkin, it looks like you aren't online. Please check your network connection.`}</div>
+              <div className="text-sm p-1 mb-1">{`Hey there Bumpkin, it looks like you aren't online. Please check your network connection.`}</div>
             </Panel>
           </Modal>
           <HashRouter>
