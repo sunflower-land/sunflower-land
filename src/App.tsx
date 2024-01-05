@@ -7,6 +7,7 @@ import * as Auth from "features/auth/lib/Provider";
 import ErrorBoundary from "features/auth/components/ErrorBoundary";
 import { Navigation } from "./Navigation";
 import "./lib/i18n";
+import { ReloadPrompt } from "./ReloadPrompt";
 
 // Initialise Global Settings
 initialise();
@@ -16,10 +17,13 @@ initialise();
  */
 export const App: React.FC = () => {
   return (
-    <Auth.Provider>
-      <ErrorBoundary>
-        <Navigation />
-      </ErrorBoundary>
-    </Auth.Provider>
+    <>
+      <Auth.Provider>
+        <ErrorBoundary>
+          <Navigation />
+        </ErrorBoundary>
+      </Auth.Provider>
+      <ReloadPrompt />
+    </>
   );
 };
