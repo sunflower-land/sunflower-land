@@ -154,32 +154,34 @@ const LandscapingHudComponent: React.FC<{
                 />
               </div>
 
-              <div
-                onClick={() => setShowDecorations(true)}
-                className="w-full z-10 cursor-pointer hover:img-highlight relative"
-                style={{
-                  width: `${PIXEL_SCALE * 22}px`,
-                  height: `${PIXEL_SCALE * 22}px`,
-                  marginBottom: `${PIXEL_SCALE * 4}px`,
-                }}
-              >
-                <img
-                  src={SUNNYSIDE.ui.round_button}
-                  className="absolute"
+              {location === "farm" && (
+                <div
+                  onClick={() => setShowDecorations(true)}
+                  className="w-full z-10 cursor-pointer hover:img-highlight relative"
                   style={{
                     width: `${PIXEL_SCALE * 22}px`,
+                    height: `${PIXEL_SCALE * 22}px`,
+                    marginBottom: `${PIXEL_SCALE * 4}px`,
                   }}
-                />
-                <img
-                  src={bush}
-                  className="absolute"
-                  style={{
-                    top: `${PIXEL_SCALE * 5}px`,
-                    left: `${PIXEL_SCALE * 5}px`,
-                    width: `${PIXEL_SCALE * 12}px`,
-                  }}
-                />
-              </div>
+                >
+                  <img
+                    src={SUNNYSIDE.ui.round_button}
+                    className="absolute"
+                    style={{
+                      width: `${PIXEL_SCALE * 22}px`,
+                    }}
+                  />
+                  <img
+                    src={bush}
+                    className="absolute"
+                    style={{
+                      top: `${PIXEL_SCALE * 5}px`,
+                      left: `${PIXEL_SCALE * 5}px`,
+                      width: `${PIXEL_SCALE * 12}px`,
+                    }}
+                  />
+                </div>
+              )}
               <Chest
                 onPlaceChestItem={(selected) => {
                   child.send("SELECT", {

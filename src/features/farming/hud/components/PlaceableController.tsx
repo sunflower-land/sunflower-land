@@ -21,6 +21,8 @@ import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { ANIMAL_DIMENSIONS } from "features/game/types/craftables";
 import { isBudName } from "features/game/types/buds";
 import { CollectibleLocation } from "features/game/types/collectibles";
+import { Label } from "components/ui/Label";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
 interface Props {
   location: CollectibleLocation;
@@ -51,7 +53,6 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   }
 
   let dimensions = { width: 0, height: 0 };
-
   if (isBudName(placeable)) {
     dimensions = { width: 1, height: 1 };
   } else if (placeable) {
@@ -59,6 +60,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
       ...BUILDINGS_DIMENSIONS,
       ...COLLECTIBLES_DIMENSIONS,
       ...ANIMAL_DIMENSIONS,
+      ...RESOURCE_DIMENSIONS,
     }[placeable];
   }
   const { width, height } = dimensions;
@@ -173,9 +175,23 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
   const isForcedToPlace = placeable === "Time Warp Totem";
 
+  const isWrongLocation =
+    location === "home" &&
+    !COLLECTIBLES_DIMENSIONS[placeable as CollectibleName] &&
+    !isBudName(placeable);
+
   return (
     <div className="fixed bottom-2 left-1/2 -translate-x-1/2">
       <OuterPanel>
+        {isWrongLocation && (
+          <Label
+            icon={SUNNYSIDE.icons.cancel}
+            className="mx-auto my-1"
+            type="danger"
+          >
+            Cannot place inside
+          </Label>
+        )}
         <Hint />
 
         <div
@@ -196,7 +212,10 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
             </Button>
           )}
 
-          <Button disabled={collisionDetected} onClick={handleConfirmPlacement}>
+          <Button
+            disabled={collisionDetected || isWrongLocation}
+            onClick={handleConfirmPlacement}
+          >
             <img
               src={SUNNYSIDE.icons.confirm}
               alt="confirm"
