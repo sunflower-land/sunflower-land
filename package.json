@@ -71,6 +71,7 @@
     "string-similarity": "^4.0.4",
     "util": "^0.12.4",
     "uuid": "^9.0.0",
+    "vite-plugin-pwa": "^0.17.4",
     "web3": "^1.6.1",
     "web3-health-check": "^1.0.17",
     "web3-utils": "^1.6.1",
@@ -112,12 +113,12 @@
     "typescript": "^4.9.3",
     "vite": "^5.0.9",
     "vite-plugin-html": "^2.1.2",
-    "vite-plugin-pwa": "^0.17.4",
     "vite-tsconfig-paths": "^3.3.17",
     "workbox-cacheable-response": "^7.0.0",
     "workbox-precaching": "^7.0.0",
     "workbox-routing": "^7.0.0",
-    "workbox-strategies": "^7.0.0"
+    "workbox-strategies": "^7.0.0",
+    "workbox-window": "^7.0.0"
   },
   "resolutions": {
     "async": "^2.6.4",
