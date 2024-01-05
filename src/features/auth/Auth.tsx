@@ -26,7 +26,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isMobile } from "mobile-device-detect";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
-import { MobilePWASignIn } from "../pwa/components/MobilePWASignIn";
+import { MobilePWASignIn } from "../pwa/MobilePWASignIn";
 
 type Props = {
   showOfflineModal: boolean;
