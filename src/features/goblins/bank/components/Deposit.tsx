@@ -22,7 +22,6 @@ import { Box } from "components/ui/Box";
 import { KNOWN_IDS } from "features/game/types";
 import { Button } from "components/ui/Button";
 import { Loading } from "features/auth/components";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { DepositArgs } from "lib/blockchain/Deposit";
 import { sflBalanceOf } from "lib/blockchain/Token";
 import { CopyAddress } from "components/ui/CopyAddress";
@@ -33,6 +32,7 @@ import { loadWardrobe } from "lib/blockchain/BumpkinItems";
 import { getBudsBalance } from "lib/blockchain/Buds";
 import { CONFIG } from "lib/config";
 import { Label } from "components/ui/Label";
+import { isMobile } from "mobile-device-detect";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -76,7 +76,6 @@ export const Deposit: React.FC<Props> = ({
   const [inventoryToDeposit, setInventoryToDeposit] = useState<Inventory>({});
   const [wearablesToDeposit, setWearablesToDeposit] = useState<Wardrobe>({});
   const [budsToDeposit, setBudsToDeposit] = useState<number[]>([]);
-  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (status !== "loading") return;

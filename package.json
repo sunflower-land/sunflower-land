@@ -50,6 +50,7 @@
     "lodash.debounce": "^4.0.8",
     "lodash.shuffle": "^4.2.0",
     "mitt": "^3.0.1",
+    "mobile-device-detect": "^0.4.3",
     "phaser": "^3.60.0",
     "phaser3-rex-plugins": "^1.60.1",
     "process": "^0.11.10",

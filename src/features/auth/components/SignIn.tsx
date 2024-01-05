@@ -18,7 +18,7 @@ import { getPromoCode, savePromoCode } from "features/game/actions/loadSession";
 import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { isMobile } from "mobile-device-detect";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 
 export const SEQUENCE_ICON =
@@ -146,7 +146,6 @@ export const SignIn = () => {
   const { authService } = useContext(Context);
   const { t } = useAppTranslation();
   const [page, setPage] = useState<"home" | "other">("home");
-  const isMobile = useIsMobile();
   const isPWA = useIsPWA();
   const isMobilePWA = isMobile && isPWA;
 

@@ -24,9 +24,9 @@ import { CreateWallet } from "./components/CreateWallet";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { isMobile } from "mobile-device-detect";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
-import { MobilePWASignIn } from "./components/MobilePWASignIn";
+import { MobilePWASignIn } from "../pwa/components/MobilePWASignIn";
 
 type Props = {
   showOfflineModal: boolean;
@@ -37,7 +37,6 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
   const [authState] = useActor(authService);
   const { t } = useAppTranslation();
 
-  const isMobile = useIsMobile();
   const isPWA = useIsPWA();
   const isMobilePWA = isMobile && isPWA;
 
