@@ -492,7 +492,7 @@ export const Land: React.FC = () => {
               "pointer-events-none": visiting,
             })}
           >
-            <LandBase expandedCount={expansionCount} type={island.type} />
+            <LandBase expandedCount={expansionCount} />
             <DirtRenderer grid={gameGrid} />
 
             {!landscaping && (

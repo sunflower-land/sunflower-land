@@ -235,10 +235,6 @@ export type Bumpkin = {
   activity?: Partial<Record<BumpkinActivityName, number>>;
 };
 
-export type FarmHand = {
-  equipped: BumpkinParts;
-};
-
 export type SpecialEvent = "Chef Apron" | "Chef Hat";
 export type WarItems =
   | "Sunflower Amulet"
@@ -808,8 +804,6 @@ export interface GameState {
 
   // TODO - make mandatory
   bumpkin?: Bumpkin;
-
-  farmHands: Record<string, FarmHand>;
 
   buildings: Buildings;
   collectibles: Collectibles;

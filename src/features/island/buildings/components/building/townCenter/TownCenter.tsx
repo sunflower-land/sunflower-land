@@ -13,7 +13,6 @@ import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 import { useNavigate } from "react-router-dom";
-import { HomeBumpkins } from "../house/HomeBumpkins";
 
 export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService } = useContext(Context);

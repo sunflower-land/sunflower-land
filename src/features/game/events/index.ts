@@ -202,12 +202,6 @@ import {
   accelerateComposter,
   AccelerateComposterAction,
 } from "./landExpansion/accelerateComposter";
-import { updgrade, UpgradeFarmAction } from "./landExpansion/upgradeFarm";
-import { buyFarmhand, BuyFarmHandAction } from "./landExpansion/buyFarmHand";
-import {
-  equipFarmhand,
-  EquipFarmHandAction,
-} from "./landExpansion/equipFarmHand";
 
 export type PlayingEvent =
   | TradeAction
@@ -276,10 +270,7 @@ export type PlayingEvent =
   | RevealLandAction
   | BurnCollectibleAction
   | ClaimBonusAction
-  | AccelerateComposterAction
-  | UpgradeFarmAction
-  | BuyFarmHandAction
-  | EquipFarmHandAction;
+  | AccelerateComposterAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -402,9 +393,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "collectible.burned": burnCollectible,
   "bonus.claimed": claimBonus,
   "compost.accelerated": accelerateComposter,
-  "farm.upgraded": updgrade,
-  "farmHand.bought": buyFarmhand,
-  "farmHand.equipped": equipFarmhand,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

@@ -12,7 +12,6 @@ import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 import { useNavigate } from "react-router-dom";
-import { HomeBumpkins } from "./HomeBumpkins";
 
 export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService } = useContext(Context);
@@ -73,16 +72,6 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         style={{ left: `${PIXEL_SCALE * 7}px`, top: `${PIXEL_SCALE * 14}px` }}
       >
         <DailyReward />
-      </div>
-      <div
-        className="absolute w-full"
-        style={{
-          top: `${PIXEL_SCALE * 16}px`,
-          left: `${PIXEL_SCALE * 4}px`,
-          height: `${PIXEL_SCALE * 32}px`,
-        }}
-      >
-        {bumpkin && <HomeBumpkins game={gameState.context.state} />}
       </div>
 
       <div
