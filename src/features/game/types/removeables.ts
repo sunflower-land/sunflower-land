@@ -336,8 +336,6 @@ export const REMOVAL_RESTRICTIONS: Partial<
   // Fishing Boosts
   Alba: (game) => hasFishedToday(game),
   Walrus: (game) => hasFishedToday(game),
-
-  Bed: () => [true, "Cannot remove"],
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<

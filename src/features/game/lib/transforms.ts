@@ -41,7 +41,6 @@ export function makeGame(farm: any): GameState {
     previousBalance: new Decimal(farm.previousBalance),
     username: farm.username,
     trades: farm.trades,
-    farmHands: farm.farmHands ?? {},
     tradeOffer: farm.tradeOffer
       ? {
           ...farm.tradeOffer,

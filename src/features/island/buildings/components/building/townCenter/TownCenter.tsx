@@ -81,7 +81,22 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
           height: `${PIXEL_SCALE * 32}px`,
         }}
       >
-        {bumpkin && <HomeBumpkins game={gameState.context.state} />}
+        {bumpkin && (
+          <PlayerNPC
+            parts={{
+              body: bumpkin.equipped.body,
+              hair: bumpkin.equipped.hair,
+              shirt: bumpkin.equipped.shirt,
+              pants: bumpkin.equipped.pants,
+              hat: bumpkin.equipped.hat,
+              suit: bumpkin.equipped.suit,
+              onesie: bumpkin.equipped.onesie,
+              wings: bumpkin.equipped.wings,
+              dress: bumpkin.equipped.dress,
+              beard: bumpkin.equipped.beard,
+            }}
+          />
+        )}
       </div>
 
       <div

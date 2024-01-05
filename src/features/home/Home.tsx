@@ -26,7 +26,6 @@ import { Modal } from "react-bootstrap";
 import { BumpkinPainting } from "./components/BumpkinPainting";
 import { Bumpkin, IslandType } from "features/game/types/game";
 import { HOME_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
-import { InteriorBumpkins } from "./components/InteriorBumpkins";
 
 const selectGameState = (state: MachineState) => state.context.state;
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
@@ -173,19 +172,6 @@ export const Home: React.FC = () => {
                 }}
                 onClick={() => setShowPainting(true)}
               />
-
-              <div
-                className="absolute"
-                style={{
-                  width: `${bounds.width * GRID_WIDTH_PX + 12 * PIXEL_SCALE}px`,
-                  top: `${-22 * PIXEL_SCALE}px`,
-                }}
-              >
-                <InteriorBumpkins
-                  game={state}
-                  onAdd={() => gameService.send("farmHand.bought")}
-                />
-              </div>
 
               <Button
                 className="absolute -bottom-24"
