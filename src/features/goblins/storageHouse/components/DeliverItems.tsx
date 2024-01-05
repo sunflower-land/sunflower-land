@@ -29,7 +29,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { isMobile } from "mobile-device-detect";
 import { getKeys } from "features/game/types/craftables";
 
 interface Props {
@@ -48,7 +48,6 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
-  const isMobile = useIsMobile();
   const deliveryItemsStartRef = useRef<HTMLDivElement>(null);
 
   const [jiggerState, setJiggerState] =

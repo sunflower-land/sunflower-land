@@ -14,7 +14,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { randomID } from "lib/utils/random";
 import { Label } from "components/ui/Label";
 import { Modal } from "react-bootstrap";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { isMobile } from "mobile-device-detect";
 import classNames from "classnames";
 import { GameWallet } from "features/wallet/Wallet";
 
@@ -316,9 +316,6 @@ export const BlockBucksModal: React.FC<Props> = ({
 
   const [showXsolla, setShowXsolla] = useState<string>();
   const [loading, setLoading] = useState(false);
-
-  const isMobile = useIsMobile();
-
   const [price, setPrice] = useState<Price>();
 
   const onMaticBuy = async () => {

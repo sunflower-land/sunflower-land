@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Button } from "components/ui/Button";
 
 import { wallet } from "lib/blockchain/wallet";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { isMobile } from "mobile-device-detect";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 export const WrongChain: React.FC = () => {
   const [isDefaultNetwork, setIsDefaultNetwork] = useState(false);
-  const isMobile = useIsMobile();
   const goToPolygonSetupDocs = () => {
     window.open(
       "https://docs.sunflower-land.com/guides/getting-setup#polygon-setup",

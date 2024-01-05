@@ -10,7 +10,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import bush from "assets/icons/decoration.png";
 import chest from "assets/icons/chest.png";
 
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { isMobile } from "mobile-device-detect";
 
 import {
   MachineInterpreter,
@@ -50,7 +50,6 @@ const LandscapingHudComponent: React.FC<{
   location: CollectibleLocation;
 }> = ({ location }) => {
   const { gameService } = useContext(Context);
-  const isMobile = useIsMobile();
 
   const [showDecorations, setShowDecorations] = useState(false);
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
