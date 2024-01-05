@@ -28,7 +28,7 @@ import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { isMobile } from "mobile-device-detect";
 >>>>>>> eea1fa8ed ([FEAT] Add mobile detect package)
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
-import { MobilePWASignIn } from "../pwa/components/MobilePWASignIn";
+import { MobilePWASignIn } from "../pwa/MobilePWASignIn";
 
 type Props = {
   showOfflineModal: boolean;

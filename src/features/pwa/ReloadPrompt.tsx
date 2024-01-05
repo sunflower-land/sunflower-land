@@ -54,7 +54,11 @@ export function ReloadPrompt() {
             </div>
             <Button
               className="max-w-max h-10"
-              onClick={() => updateServiceWorker(true)}
+              onClick={() => {
+                updateServiceWorker(true);
+                // Safety net for if updateServiceWorker fails
+                window.location.reload();
+              }}
             >
               Reload
             </Button>
