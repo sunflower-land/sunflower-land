@@ -8,6 +8,7 @@ import ErrorBoundary from "features/auth/components/ErrorBoundary";
 import { Navigation } from "./Navigation";
 import "./lib/i18n";
 import { WalletProvider } from "features/wallet/WalletProvider";
+import { ReloadPrompt } from "./ReloadPrompt";
 
 // Initialise Global Settings
 initialise();
@@ -17,12 +18,15 @@ initialise();
  */
 export const App: React.FC = () => {
   return (
-    <Auth.Provider>
-      <WalletProvider>
-        <ErrorBoundary>
-          <Navigation />
-        </ErrorBoundary>
-      </WalletProvider>
-    </Auth.Provider>
+    <>
+      <Auth.Provider>
+        <WalletProvider>
+          <ErrorBoundary>
+            <Navigation />
+          </ErrorBoundary>
+        </WalletProvider>
+      </Auth.Provider>
+      <ReloadPrompt />
+    </>
   );
 };
