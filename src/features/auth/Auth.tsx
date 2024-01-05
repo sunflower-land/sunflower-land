@@ -25,7 +25,7 @@ import { NoAccount } from "./components/NoAccount";
 import { CONFIG } from "lib/config";
 import { isMobile } from "mobile-device-detect";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
-import { MobilePWASignIn } from "../pwa/components/MobilePWASignIn";
+import { MobilePWASignIn } from "../pwa/MobilePWASignIn";
 
 type Props = {
   showOfflineModal: boolean;
