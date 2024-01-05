@@ -100,6 +100,7 @@ type RemoveEvent = {
   event: GameEventName<PlacementEvent>;
   id: string;
   name: PlaceableName;
+  location: CollectibleLocation;
 };
 
 type ConstructEvent = {
@@ -269,6 +270,7 @@ export const landscapingMachine = createMachine<
                         ? {}
                         : { name: event.name }),
                       id: event.id,
+                      location: event.location,
                     } as PlacementEvent)
                 ),
                 assign({ moving: (_) => undefined }),

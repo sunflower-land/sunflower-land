@@ -36,6 +36,7 @@ describe("removeCollectible", () => {
           },
         },
         action: {
+          location: "farm",
           type: "collectible.removed",
           name: "Algerian Flag",
           id: "1",
@@ -61,6 +62,7 @@ describe("removeCollectible", () => {
           },
         },
         action: {
+          location: "farm",
           type: "collectible.removed",
           name: "Nugget",
           id: "1",
@@ -100,6 +102,7 @@ describe("removeCollectible", () => {
         },
       },
       action: {
+        location: "farm",
         type: "collectible.removed",
         name: "Nugget",
         id: "123",
@@ -141,6 +144,7 @@ describe("removeCollectible", () => {
         },
       },
       action: {
+        location: "farm",
         type: "collectible.removed",
         name: "Nugget",
         id: "123",
@@ -183,6 +187,7 @@ describe("removeCollectible", () => {
       removeCollectible({
         state: gameState,
         action: {
+          location: "farm",
           type: "collectible.removed",
           name: "Chicken Coop",
           id: "123",
@@ -221,6 +226,7 @@ describe("removeCollectible", () => {
         },
       },
       action: {
+        location: "farm",
         type: "collectible.removed",
         name: "Chicken Coop",
         id: "123",
@@ -266,6 +272,7 @@ describe("removeCollectible", () => {
         },
       },
       action: {
+        location: "farm",
         type: "collectible.removed",
         name: "Chicken Coop",
         id: "123",
@@ -295,6 +302,7 @@ describe("removeCollectible", () => {
         },
       },
       action: {
+        location: "farm",
         type: "collectible.removed",
         name: "Rock Golem",
         id: "123",
@@ -325,6 +333,7 @@ describe("removeCollectible", () => {
           },
         },
         action: {
+          location: "farm",
           type: "collectible.removed",
           name: "Genie Lamp",
           id: "123",
@@ -356,6 +365,7 @@ describe("removeCollectible", () => {
         },
       },
       action: {
+        location: "farm",
         type: "collectible.removed",
         name: "Kuebiko",
         id: "123",

@@ -177,6 +177,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
         event: removeAction,
         id: id,
         name: name,
+        location,
       });
     } else {
       setShowRemoveConfirmation(true);
