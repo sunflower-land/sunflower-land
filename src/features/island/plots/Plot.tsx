@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
