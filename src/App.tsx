@@ -7,7 +7,7 @@ import * as Auth from "features/auth/lib/Provider";
 import ErrorBoundary from "features/auth/components/ErrorBoundary";
 import { Navigation } from "./Navigation";
 import "./lib/i18n";
-import { ReloadPrompt } from "./features/pwa/components/ReloadPrompt";
+import { ReloadPrompt } from "features/pwa/ReloadPrompt";
 
 // Initialise Global Settings
 initialise();
