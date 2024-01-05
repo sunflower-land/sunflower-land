@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import levelIcon from "assets/icons/level_up.png";
 import token from "assets/icons/token_2.png";
@@ -19,13 +19,12 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SkillBadges } from "./SkillBadges";
 import { getAvailableBumpkinSkillPoints } from "features/game/events/landExpansion/pickSkill";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Bumpkin, GameState, Inventory } from "features/game/types/game";
+import { Bumpkin, Inventory } from "features/game/types/game";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { BumpkinEquip } from "./BumpkinEquip";
 import { AchievementBadges } from "./AchievementBadges";
 import { Trade } from "./Trade";
-import { Context } from "features/game/GameProvider";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -74,7 +73,6 @@ interface Props {
   inventory: Inventory;
   readonly: boolean;
   isFullUser: boolean;
-  gameState: GameState;
 }
 
 export const BumpkinModal: React.FC<Props> = ({
@@ -84,10 +82,7 @@ export const BumpkinModal: React.FC<Props> = ({
   inventory,
   readonly,
   isFullUser,
-  gameState,
 }) => {
-  const { gameService } = useContext(Context);
-
   const [view, setView] = useState<ViewState>(initialView);
 
   const [tab, setTab] = useState(0);
@@ -245,18 +240,7 @@ export const BumpkinModal: React.FC<Props> = ({
           </div>
         </div>
       )}
-      {tab === 1 && (
-        <BumpkinEquip
-          equipment={bumpkin.equipped}
-          game={gameState}
-          onEquip={(equipment) => {
-            gameService.send("bumpkin.equipped", {
-              equipment,
-            });
-            gameService.send("SAVE");
-          }}
-        />
-      )}
+      {tab === 1 && <BumpkinEquip />}
       {tab === 2 && <Trade />}
     </CloseButtonPanel>
   );

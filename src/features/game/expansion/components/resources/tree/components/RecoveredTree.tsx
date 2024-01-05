@@ -87,11 +87,6 @@ const RecoveredTreeComponent: React.FC<Props> = ({
     setShowEquipTool(false);
   };
 
-  const staticTreeImage =
-    gameService.state?.context?.state.island.type === "spring"
-      ? SUNNYSIDE.resource.spring_tree
-      : SUNNYSIDE.resource.tree;
-
   return (
     <div
       className="absolute w-full h-full"
@@ -120,7 +115,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
         {/* static tree image */}
         {!showSpritesheet && (
           <img
-            src={staticTreeImage}
+            src={SUNNYSIDE.resource.tree}
             className={
               bumpkinTooLow
                 ? "absolute pointer-events-none opacity-50"

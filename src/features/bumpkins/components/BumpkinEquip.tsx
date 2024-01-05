@@ -1,3 +1,5 @@
+import { useActor } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
 import {
   BUMPKIN_ITEM_PART,
   BumpkinItem,
@@ -17,9 +19,6 @@ import { getKeys } from "features/game/types/craftables";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { GameState } from "features/game/types/game";
-import { availableWardrobe } from "features/game/events/landExpansion/equip";
 
 const REQUIRED: BumpkinPart[] = [
   "background",
@@ -31,18 +30,15 @@ const REQUIRED: BumpkinPart[] = [
   "shoes",
   "tool",
 ];
+export const BumpkinEquip: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
 
-interface Props {
-  onEquip: (equipment: BumpkinParts) => void;
-  equipment: BumpkinParts;
-  game: GameState;
-}
+  const [equipped, setEquipped] = useState(
+    gameState.context.state.bumpkin?.equipped as Equipped
+  );
 
-export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
-  const [equipped, setEquipped] = useState(equipment);
-
-  // TODO - available wardrobe
-  const wardrobe = availableWardrobe(game);
+  const wardrobe = gameState.context.state.wardrobe;
 
   const equipPart = (name: BumpkinItem) => {
     const part = BUMPKIN_ITEM_PART[name];
@@ -79,15 +75,16 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
     setEquipped(outfit);
   };
 
-  const finish = (equipment: BumpkinParts) => {
-    onEquip(equipment);
-    // gameService.send("bumpkin.equipped", {
-    //   equipment,
-    // });
-    // gameService.send("SAVE");
+  const finish = (equipment: Equipped) => {
+    gameService.send("bumpkin.equipped", {
+      equipment,
+    });
+    gameService.send("SAVE");
   };
 
-  const isDirty = JSON.stringify(equipped) !== JSON.stringify(equipment);
+  const isDirty =
+    JSON.stringify(equipped) !==
+    JSON.stringify(gameState.context.state.bumpkin?.equipped);
 
   const equippedItems = Object.values(equipped);
 

@@ -5,6 +5,8 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { useContext } from "react";
 import { ZoomContext } from "./ZoomProvider";
 
+import ocean from "assets/decorations/ocean.webp";
+
 export const GameBoard: React.FC = ({ children }) => {
   const { scale } = useContext(ZoomContext);
 
@@ -19,10 +21,9 @@ export const GameBoard: React.FC = ({ children }) => {
         }}
       >
         <animated.div
-          className="relative inset-0 bg-repeat w-full h-full bg-white"
+          className="relative inset-0 bg-repeat w-full h-full"
           style={{
-            // backgroundImage: `url(${ocean})`,
-
+            backgroundImage: `url(${ocean})`,
             backgroundSize: `${64 * PIXEL_SCALE}px`,
             width: `${84 * GRID_WIDTH_PX * 4}px`,
             height: `${56 * GRID_WIDTH_PX * 4}px`,
