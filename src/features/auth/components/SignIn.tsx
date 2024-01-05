@@ -62,7 +62,6 @@ const OtherWallets: React.FC<{
   onConnect: (provider: Web3SupportedProviders) => void;
   showSequence?: boolean;
 }> = ({ onConnect, showSequence = false }) => {
-  const { authService } = useContext(Context);
   const { t } = useAppTranslation();
 
   return (

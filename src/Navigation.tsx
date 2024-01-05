@@ -21,9 +21,9 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import { ZoomProvider } from "components/ZoomProvider";
 import { LoadingFallback } from "./LoadingFallback";
 import { Panel } from "components/ui/Panel";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { useOrientation } from "lib/utils/hooks/useOrientation";
 import { Modal } from "react-bootstrap";
+import { isMobile } from "mobile-device-detect";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 
 // Lazy load routes
@@ -65,7 +65,6 @@ export const Navigation: React.FC = () => {
   const [showGame, setShowGame] = useState(false);
   const [showOrientationModal, setShowOrientationModal] = useState(false);
   const [showConnectionModal, setShowConnectionModal] = useState(false);
-  const isMobile = useIsMobile();
   const orientation = useOrientation();
   const isPWA = useIsPWA();
 
