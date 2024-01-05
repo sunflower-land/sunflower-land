@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useContext, useState } from "react";
 
 import { Button } from "components/ui/Button";
-import { Context } from "../lib/Provider";
+import { Context } from "../../auth/lib/Provider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 
@@ -11,7 +11,7 @@ import { getPromoCode, savePromoCode } from "features/game/actions/loadSession";
 import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";
-import { GoogleIcon, SEQUENCE_ICON } from "./SignIn";
+import { GoogleIcon, SEQUENCE_ICON } from "../../auth/components/SignIn";
 
 export const MobilePWASignIn = () => {
   const { authService } = useContext(Context);
