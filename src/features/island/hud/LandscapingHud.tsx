@@ -192,6 +192,7 @@ const LandscapingHudComponent: React.FC<{
                   child.send("SELECT", {
                     action: "bud.placed",
                     placeable: selected,
+                    location,
                   });
                 }}
               />

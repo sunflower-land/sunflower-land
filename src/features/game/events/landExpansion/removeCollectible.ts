@@ -76,6 +76,14 @@ export function removeCollectible({ state, action }: Options) {
     if (action.location === "farm") {
       delete stateCopy.collectibles[action.name];
     }
+  } else {
+    if (action.location === "home") {
+      stateCopy.home.collectibles[action.name] = collectibleGroup;
+    }
+
+    if (action.location === "farm") {
+      stateCopy.collectibles[action.name] = collectibleGroup;
+    }
   }
 
   if (action.name === "Chicken Coop") {
@@ -112,14 +120,6 @@ export function removeCollectible({ state, action }: Options) {
   }
 
   bumpkin.activity = trackActivity("Collectible Removed", bumpkin.activity);
-
-  if (action.location === "home") {
-    stateCopy.home.collectibles[action.name] = collectibleGroup;
-  }
-
-  if (action.location === "farm") {
-    stateCopy.collectibles[action.name] = collectibleGroup;
-  }
 
   return stateCopy;
 }

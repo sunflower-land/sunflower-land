@@ -351,21 +351,28 @@ export const landscapingMachine = createMachine<
               {
                 target: ["#saving.done", "idle"],
                 actions: [
-                  sendParent(({ placeable, action, coordinates: { x, y } }) => {
-                    if (isBudName(placeable)) {
+                  sendParent(
+                    (
+                      { placeable, action, coordinates: { x, y } },
+                      { location }
+                    ) => {
+                      if (isBudName(placeable)) {
+                        return {
+                          type: action,
+                          coordinates: { x, y },
+                          id: placeable.split("-")[1],
+                          location,
+                        } as PlacementEvent;
+                      }
                       return {
                         type: action,
+                        name: placeable,
                         coordinates: { x, y },
-                        id: placeable.split("-")[1],
+                        id: uuidv4().slice(0, 8),
+                        location,
                       } as PlacementEvent;
                     }
-                    return {
-                      type: action,
-                      name: placeable,
-                      coordinates: { x, y },
-                      id: uuidv4().slice(0, 8),
-                    } as PlacementEvent;
-                  }),
+                  ),
                   assign({
                     placeable: (_) => undefined,
                   }),

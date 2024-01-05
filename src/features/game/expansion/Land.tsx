@@ -366,7 +366,11 @@ const getIslandElements = ({
     buds &&
       mapPlacements.push(
         ...getKeys(buds)
-          .filter((budId) => !!buds[budId].coordinates)
+          .filter(
+            (budId) =>
+              !!buds[budId].coordinates &&
+              (!buds[budId].location || buds[budId].location === "farm")
+          )
           .flatMap((id) => {
             const { x, y } = buds[id]!.coordinates!;
 
@@ -566,7 +570,7 @@ export const Land: React.FC = () => {
         </div>
       )}
 
-      {!landscaping && !visiting && <Hud isFarming={true} />}
+      {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}
     </>
   );
 };

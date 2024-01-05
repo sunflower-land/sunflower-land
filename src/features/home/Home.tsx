@@ -26,6 +26,7 @@ import { Modal } from "react-bootstrap";
 import { BumpkinPainting } from "./components/BumpkinPainting";
 import { Bumpkin, IslandType } from "features/game/types/game";
 import { HOME_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
+import { Bud } from "features/island/buds/Bud";
 
 const selectGameState = (state: MachineState) => state.context.state;
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
@@ -44,6 +45,8 @@ export const Home: React.FC = () => {
   const landscaping = useSelector(gameService, isLandscaping);
 
   const { bumpkin, home } = state;
+
+  const buds = state.buds ?? {};
 
   const [scrollIntoView] = useScrollIntoView();
   const [showPainting, setShowPainting] = useState(false);
@@ -104,6 +107,22 @@ export const Home: React.FC = () => {
             </MapPlacement>
           );
         });
+      })
+  );
+
+  mapPlacements.push(
+    ...getKeys(buds)
+      .filter(
+        (budId) => !!buds[budId].coordinates && buds[budId].location === "home"
+      )
+      .flatMap((id) => {
+        const { x, y } = buds[id]!.coordinates!;
+
+        return (
+          <MapPlacement key={`bud-${id}`} x={x} y={y} height={1} width={1}>
+            <Bud id={String(id)} x={x} y={y} />
+          </MapPlacement>
+        );
       })
   );
 
@@ -173,12 +192,14 @@ export const Home: React.FC = () => {
                 onClick={() => setShowPainting(true)}
               />
 
-              <Button
-                className="absolute -bottom-24"
-                onClick={() => navigate("/")}
-              >
-                Exit
-              </Button>
+              {!landscaping && (
+                <Button
+                  className="absolute -bottom-24"
+                  onClick={() => navigate("/")}
+                >
+                  Exit
+                </Button>
+              )}
 
               {/* Sort island elements by y axis */}
               {mapPlacements.sort((a, b) => b.props.y - a.props.y)}
@@ -186,7 +207,7 @@ export const Home: React.FC = () => {
           </div>
         </div>
 
-        {!landscaping && <Hud isFarming />}
+        {!landscaping && <Hud isFarming location="home" />}
         {landscaping && <LandscapingHud location="home" />}
 
         <Modal

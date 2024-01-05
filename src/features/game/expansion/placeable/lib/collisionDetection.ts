@@ -218,7 +218,18 @@ function detectHomeCollision({
     }));
   });
 
-  return placeableBounds.some((resourceBoundingBox) =>
+  const budsBoundingBox = Object.values(state.buds ?? {})
+    .filter((bud) => !!bud.coordinates)
+    .map((item) => ({
+      x: item.coordinates!.x,
+      y: item.coordinates!.y,
+      height: 1,
+      width: 1,
+    }));
+
+  const boundingBoxes = [...placeableBounds, ...budsBoundingBox];
+
+  return boundingBoxes.some((resourceBoundingBox) =>
     isOverlapping(position, resourceBoundingBox)
   );
 }

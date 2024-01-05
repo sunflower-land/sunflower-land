@@ -76,7 +76,7 @@ export const TreasureIsland: React.FC = () => {
         <TreasureTrove />
         <PirateChest />
       </div>
-      <Hud isFarming={false} />
+      <Hud isFarming={false} location="farm" />
     </>
   );
 };
