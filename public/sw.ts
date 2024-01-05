@@ -1,11 +1,23 @@
+/// <reference lib="webworker" />
+/// <reference no-default-lib="true"/>
+
 import { CONFIG } from "../src/lib/config";
 
 const OFFLINE_VERSION = CONFIG.RELEASE_VERSION;
 
-import { offlineFallback } from "workbox-recipes";
+import { offlineFallback, googleFontsCache } from "workbox-recipes";
 import { setDefaultHandler } from "workbox-routing";
 import { NetworkOnly } from "workbox-strategies";
 
-setDefaultHandler(new NetworkOnly());
+declare let self: ServiceWorkerGlobalScope;
 
+// Disable workbox logs
+(self as any).__WB_DISABLE_DEV_LOGS = true;
+
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();
+});
+
+setDefaultHandler(new NetworkOnly());
+googleFontsCache();
 offlineFallback();
