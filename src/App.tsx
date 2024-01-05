@@ -8,7 +8,7 @@ import ErrorBoundary from "features/auth/components/ErrorBoundary";
 import { Navigation } from "./Navigation";
 import "./lib/i18n";
 import { WalletProvider } from "features/wallet/WalletProvider";
-import { ReloadPrompt } from "./features/pwa/components/ReloadPrompt";
+import { ReloadPrompt } from "features/pwa/ReloadPrompt";
 
 // Initialise Global Settings
 initialise();
