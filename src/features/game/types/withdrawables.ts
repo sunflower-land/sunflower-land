@@ -671,7 +671,7 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Time Warp Totem": () => false,
 
   "Bumpkin Nutcracker": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
-  "Festive Tree": () => false,
+  "Festive Tree": () => true,
   "Grinx's Hammer": () => true,
 };
 
