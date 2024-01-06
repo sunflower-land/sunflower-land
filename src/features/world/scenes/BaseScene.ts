@@ -27,6 +27,11 @@ import { Room } from "colyseus.js";
 
 import defaultTilesetConfig from "assets/map/tileset.json";
 
+import {
+  AudioLocalStorageKeys,
+  getCachedAudioSetting,
+} from "../../game/lib/audio";
+
 type SceneTransitionData = {
   previousSceneId: SceneId;
 };
@@ -421,9 +426,15 @@ export abstract class BaseScene extends Phaser.Scene {
   }
 
   public initialiseSounds() {
-    this.walkAudioController = new WalkAudioController(
-      this.sound.add(this.options.audio.fx.walk_key)
+    const audioMuted = getCachedAudioSetting<boolean>(
+      AudioLocalStorageKeys.audioMuted,
+      false
     );
+    if (!audioMuted) {
+      this.walkAudioController = new WalkAudioController(
+        this.sound.add(this.options.audio.fx.walk_key)
+      );
+    }
   }
 
   public initialiseControls() {
