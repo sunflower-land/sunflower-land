@@ -79,7 +79,11 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const getHarvestTime = (seedName: SeedName) => {
     if (isFruitSeed(seedName)) {
-      return getFruitTime(seedName, collectibles);
+      return getFruitTime(
+        seedName,
+        collectibles,
+        (gameState.bumpkin as Bumpkin)?.equipped ?? {}
+      );
     }
 
     const crop = SEEDS()[seedName].yield as CropName;
