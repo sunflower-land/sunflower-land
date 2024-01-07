@@ -528,6 +528,10 @@ export type CatchTheKraken = {
   hunger: InventoryItemName;
 };
 
+export type FarmHand = {
+  equipped: BumpkinParts;
+};
+
 export type Mushroom = {
   name: MushroomName;
   amount: number;
@@ -777,6 +781,10 @@ export interface GameState {
 
   islands?: Record<string, CommunityIsland>;
   portals?: Partial<Record<PortalName, Portal>>;
+
+  farmHands: {
+    bumpkins: Record<string, FarmHand>;
+  };
 
   chickens: Record<string, Chicken>;
   inventory: Inventory;

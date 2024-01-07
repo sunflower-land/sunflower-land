@@ -1,6 +1,7 @@
-import { Equipped } from "features/game/types/bumpkin";
+import { BumpkinPart, Equipped } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";
-import { GameState, Wardrobe } from "features/game/types/game";
+import { Bumpkin, GameState, Wardrobe } from "features/game/types/game";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import cloneDeep from "lodash.clonedeep";
 
 export type EquipBumpkinAction = {
@@ -26,57 +27,89 @@ export function equip({
     throw new Error("You do not have a Bumpkin");
   }
 
-  if (action.equipment.dress && action.equipment.shirt) {
-    throw new Error("Cannot equip shirt while wearing dress");
-  }
-
-  if (action.equipment.dress && action.equipment.pants) {
-    throw new Error("Cannot equip pants while wearing dress");
-  }
-
-  if (!action.equipment.body) {
-    throw new Error("Body is required");
-  }
-
-  if (!action.equipment.shoes) {
-    throw new Error("Shoes are required");
-  }
-
-  if (!action.equipment.hair) {
-    throw new Error("Hair is required");
-  }
-
-  if (
-    !action.equipment.dress &&
-    !(action.equipment.shirt && action.equipment.pants)
-  ) {
-    throw new Error("Bumpkin is naked!");
-  }
-
-  const available = game.wardrobe;
-
-  Object.values(action.equipment).forEach((name) => {
-    if (!available[name]) {
-      throw new Error(`${name} is not available for use`);
-    }
-  });
+  assertEquipment({ game, equipment: action.equipment, bumpkin });
 
   bumpkin.equipped = action.equipment;
 
   return game;
 }
 
+export function assertEquipment({
+  equipment,
+  game,
+  bumpkin,
+}: {
+  equipment: BumpkinParts;
+  game: GameState;
+  bumpkin: Pick<Bumpkin, "equipped">;
+}) {
+  if (equipment.dress && equipment.shirt) {
+    throw new Error("Cannot equip shirt while wearing dress");
+  }
+
+  if (equipment.dress && equipment.pants) {
+    throw new Error("Cannot equip pants while wearing dress");
+  }
+
+  if (!equipment.body) {
+    throw new Error("Body is required");
+  }
+
+  if (!equipment.shoes) {
+    throw new Error("Shoes are required");
+  }
+
+  if (!equipment.hair) {
+    throw new Error("Hair is required");
+  }
+
+  if (!equipment.dress && !(equipment.shirt && equipment.pants)) {
+    throw new Error("Bumpkin is naked!");
+  }
+
+  const available = availableWardrobe(game);
+
+  Object.values(equipment).forEach((name) => {
+    const alreadyEquipped = Object.values(bumpkin.equipped).includes(name);
+
+    if (!alreadyEquipped && !available[name]) {
+      throw new Error(`${name} is not available for use`);
+    }
+  });
+
+  return true;
+}
+
 /**
  * Return the available (unequipped) wardrobe items
  */
 export function availableWardrobe(game: GameState): Wardrobe {
-  const inUse = Object.values(game.bumpkin?.equipped as Equipped);
+  // TODO check in use by farm hands
+  const equipped = [
+    game.bumpkin?.equipped as Equipped,
+    ...Object.values(game.farmHands.bumpkins).map((f) => f.equipped),
+  ];
+
+  const inUse = equipped.reduce((acc, parts) => {
+    return Object.values(parts).reduce((acc, name) => {
+      const previous = acc[name] ?? 0;
+
+      return {
+        ...acc,
+        [name]: previous + 1,
+      };
+    }, acc);
+  }, {} as Wardrobe);
+
+  console.log({ inUse });
+
+  // const inUse = Object.values(game.bumpkin?.equipped as Equipped);
 
   return getKeys(game.wardrobe).reduce((acc, name) => {
     let amount = game.wardrobe[name] ?? 0;
 
-    if (inUse.includes(name)) {
-      amount -= 1;
+    if (inUse[name]) {
+      amount -= inUse[name] ?? 0;
     }
 
     if (amount === 0) {

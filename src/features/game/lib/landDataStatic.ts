@@ -248,6 +248,13 @@ export const STATIC_OFFLINE_FARM: GameState = {
     mushrooms: {},
     spawnedAt: 0,
   },
+  farmHands: {
+    bumpkins: {
+      1: {
+        equipped: INITIAL_BUMPKIN.equipped,
+      },
+    },
+  },
   bumpkin: INITIAL_BUMPKIN,
   buds: {
     1: {
