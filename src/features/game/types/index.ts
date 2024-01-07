@@ -505,6 +505,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Seaweed: 1307,
   "Sea Cucumber": 1308,
   Crab: 1309,
+
   // Exotic Crops
   "Black Magic": 1401,
   "Golden Helios": 1402,
@@ -552,6 +553,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Angelfish: 1534,
   Halibut: 1535,
   Parrotfish: 1536,
+
+  "White Festive Fox": 2001,
 };
 
 // The reverse of above

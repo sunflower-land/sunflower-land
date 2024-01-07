@@ -523,6 +523,7 @@ import parrotFish from "assets/fish/parrot_fish.png";
 
 import festiveTree from "assets/sfts/festive_tree.png";
 import nutcracker from "assets/sfts/bumpkin_nutcracker.png";
+import whiteFestiveFox from "assets/sfts/white-xmas-fox.png";
 
 import sapoDocuras from "assets/sfts/sapo_docuras.gif";
 import sapoTravessura from "assets/sfts/sapo_travessura.gif";
@@ -2986,6 +2987,10 @@ export const ITEM_DETAILS: Items = {
     image: festiveTree,
     description:
       "A festive tree available each holiday season. I wonder if it is big enough for santa to see?",
+  },
+  "White Festive Fox": {
+    image: whiteFestiveFox,
+    description: "The blessing of the White Fox inhabits the generous farms",
   },
   "Grinx's Hammer": {
     image: grinxsHammer,
