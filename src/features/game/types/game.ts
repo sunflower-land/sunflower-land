@@ -153,6 +153,7 @@ export type Coupons =
   | "Bud Seedling"
   | "Community Coin"
   | "Arcade Token"
+  | "Farmhand Coupon"
   | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
@@ -216,6 +217,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Arcade Token": {
     description:
       "A token earned from mini-games and adventures. Can be exchanged for rewards.",
+  },
+  "Farmhand Coupon": {
+    description: "A coupon to exchange for a farm hand of your choice.",
   },
 };
 
