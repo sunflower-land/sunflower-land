@@ -1083,7 +1083,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
     canWithdrawBoostedWearable("Banana Amulet", state) &&
     canWithdrawTimebasedItem(new Date("2024-01-15")), // Last Auction 2024/01/13 3pm UTC
 
-  "Banana Onesie": () => false,
+  "Banana Onesie": () => true,
   "Basic Dumbo": () => false,
   "Companion Cap": () => false,
   "Dazzling Dumbo": () => false,
