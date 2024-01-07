@@ -673,6 +673,7 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Bumpkin Nutcracker": () => canWithdrawTimebasedItem(new Date("2023-12-27")),
   "Festive Tree": () => false,
   "Grinx's Hammer": () => true,
+  "White Festive Fox": () => true,
 };
 
 const lanterns: Record<LanternName, () => boolean> = {

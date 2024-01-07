@@ -83,6 +83,7 @@ export type EventDecorationName =
   | "Time Warp Totem"
   | "Festive Tree"
   | "Bumpkin Nutcracker"
+  | "White Festive Fox"
   | "Grinx's Hammer";
 
 export type PotionHouseDecorationName =
@@ -100,6 +101,10 @@ export type DecorationName =
   | PotionHouseDecorationName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
+  "White Festive Fox": {
+    height: 2,
+    width: 2,
+  },
   "Grinx's Hammer": {
     height: 1,
     width: 1,
