@@ -13,7 +13,7 @@ import { Context } from "../GameProvider";
 import { INITIAL_SESSION, MachineState, StateValues } from "../lib/gameMachine";
 import { ToastProvider } from "../toast/ToastProvider";
 import { ToastPanel } from "../toast/ToastPanel";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
 

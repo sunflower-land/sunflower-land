@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
@@ -14,7 +14,7 @@ import bitgetIcon from "src/assets/icons/bitget_logo.svg";
 
 import { Label } from "components/ui/Label";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
-import { getPromoCode, savePromoCode } from "features/game/actions/loadSession";
+import { getPromoCode } from "features/game/actions/loadSession";
 import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";
@@ -345,7 +345,6 @@ export const SignIn = () => {
         action="login"
         id={0}
         onReady={(payload) => {
-          console.log({ ready: payload, state: authService.state.value });
           authService.send("CONNECTED", {
             address: payload.address,
             signature: payload.signature,

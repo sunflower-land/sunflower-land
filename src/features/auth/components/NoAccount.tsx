@@ -3,8 +3,6 @@ import { Context } from "../lib/Provider";
 
 import { getPromoCode, savePromoCode } from "features/game/actions/loadSession";
 
-import walletIcon from "src/assets/icons/wallet.png";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getFarms } from "lib/blockchain/Farm";
 import { wallet } from "lib/blockchain/wallet";
 import { Button } from "components/ui/Button";
@@ -103,7 +101,7 @@ export const NoAccount: React.FC = () => {
           )}
         </div>
         <p className="text-sm mb-2">
-          Welcome to Sunflower Land. It looks like you don't have a farm yet.
+          {`Welcome to Sunflower Land. It looks like you don't have a farm yet.`}
         </p>
         {isAddress(authState.context.user.token?.address ?? "") && (
           <div className="mb-2">

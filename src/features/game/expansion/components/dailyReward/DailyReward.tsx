@@ -15,7 +15,6 @@ import { Panel } from "components/ui/Panel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Loading } from "features/auth/components";
 import { CountdownLabel } from "components/ui/CountdownLabel";
-import { Equipped } from "features/game/types/bumpkin";
 import { Label } from "components/ui/Label";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

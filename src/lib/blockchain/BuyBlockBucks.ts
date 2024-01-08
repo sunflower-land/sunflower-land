@@ -26,15 +26,6 @@ export async function buyBlockBucksMATIC({
   deadline,
   fee,
 }: BuyBlockBucksArgs) {
-  console.log({
-    web3,
-    account,
-    signature,
-    farmId,
-    amount,
-    deadline,
-    fee,
-  });
   const gasPrice = await estimateGasPrice(web3);
 
   await new Promise((resolve, reject) => {

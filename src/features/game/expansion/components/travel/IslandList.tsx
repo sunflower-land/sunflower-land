@@ -26,7 +26,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { Context } from "features/game/GameProvider";
-import { wallet } from "lib/blockchain/wallet";
 
 interface Island {
   name: string;

@@ -81,7 +81,6 @@ export function decodeToken(token: string): Token {
     // SSO token puts fields in the properties so we need to elevate them
     ...decoded.properties,
   };
-  console.log({ decoded });
 
   return decoded;
 }

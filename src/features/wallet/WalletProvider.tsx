@@ -30,7 +30,6 @@ export const WalletProvider: React.FC = ({ children }) => {
    * Listen to web3 account/chain changes
    */
   useEffect(() => {
-    console.log("Use effect on provider", provider);
     if (provider) {
       if (provider.on) {
         provider.on("chainChanged", (chain: any) => {

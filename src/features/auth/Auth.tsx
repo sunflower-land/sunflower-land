@@ -29,7 +29,6 @@ export const Auth: React.FC = () => {
   const [authState] = useActor(authService);
   const { t } = useAppTranslation();
 
-  console.log({ value: authState.value });
   return (
     <>
       <Modal

@@ -34,7 +34,6 @@ const GoblinRetreat: React.FC = () => {
     <Ocean>
       <Wallet
         action="withdraw"
-        onReady={console.log}
         id={gameState.context.farmId}
         linkedAddress={gameState.context.linkedWallet}
         wallet={gameState.context.wallet}

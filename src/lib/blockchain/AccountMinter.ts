@@ -15,7 +15,6 @@ export async function getCreatedAt(
 ): Promise<number> {
   await new Promise((res) => setTimeout(res, 3000 * attempts));
 
-  console.log({ address });
   try {
     const createdAt = await (
       new web3.eth.Contract(
