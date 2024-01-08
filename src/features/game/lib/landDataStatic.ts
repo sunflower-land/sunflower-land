@@ -216,37 +216,26 @@ const OFFLINE_FARM_FRUIT = getEnabledNodeCount(
 export const STATIC_OFFLINE_FARM: GameState = {
   home: {
     collectibles: {
-      // Anchor: [
-      //   {
-      //     id: "123",
-      //     readyAt: 0,
-      //     coordinates: {
-      //       x: 0,
-      //       y: 0,
-      //     },
-      //     createdAt: 0,
-      //   },
-      // ],
-      "Abandoned Bear": [
+      Wardrobe: [
         {
-          id: "123",
-          readyAt: 0,
+          id: "a3f26ad7",
+          createdAt: 1704754128378,
           coordinates: {
-            x: 0,
-            y: 0,
+            x: 1,
+            y: 3,
           },
-          createdAt: 0,
+          readyAt: 1704754128378,
         },
       ],
-      "Chef Bear": [
+      Rug: [
         {
-          id: "123",
-          readyAt: 0,
+          id: "16930e51",
+          createdAt: 1704754143012,
           coordinates: {
-            x: 2,
+            x: 0,
             y: 2,
           },
-          createdAt: 0,
+          readyAt: 1704754143012,
         },
       ],
     },
@@ -284,6 +273,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Scarecrow: new Decimal(1),
     Shovel: new Decimal(1),
     Rug: new Decimal(1),
+    Wardrobe: new Decimal(1),
     "Abandoned Bear": new Decimal(10),
     "Chef Bear": new Decimal(10),
     "Grinx's Hammer": new Decimal(1),

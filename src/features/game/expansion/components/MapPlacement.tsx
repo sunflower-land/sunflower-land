@@ -25,7 +25,7 @@ export const MapPlacement: React.FC<Props> = ({
   height,
   width,
   children,
-  z = 0,
+  z = "unset",
 }) => {
   return (
     <div

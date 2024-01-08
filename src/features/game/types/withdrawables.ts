@@ -773,6 +773,7 @@ const fish: Record<FishName | MarineMarvelName, () => boolean> = {
 
 const interiors: Record<InteriorDecorationName, () => boolean> = {
   Rug: () => false,
+  Wardrobe: () => false,
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {

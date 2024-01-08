@@ -91,7 +91,7 @@ export type PotionHouseDecorationName =
   | "Giant Pumpkin"
   | "Giant Cabbage";
 
-export type InteriorDecorationName = "Rug";
+export type InteriorDecorationName = "Rug" | "Wardrobe";
 
 export type DecorationName =
   | AchievementDecorationName
@@ -104,6 +104,10 @@ export type DecorationName =
   | InteriorDecorationName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
+  Wardrobe: {
+    height: 1,
+    width: 1,
+  },
   "White Festive Fox": {
     height: 2,
     width: 2,
