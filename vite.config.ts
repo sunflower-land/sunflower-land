@@ -3,6 +3,7 @@ import reactRefresh from "@vitejs/plugin-react-refresh";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { minifyHtml, injectHtml } from "vite-plugin-html";
 import { VitePWA } from "vite-plugin-pwa";
+import { CONFIG } from "./src/lib/config";
 // import mkcert from "vite-plugin-mkcert";
 
 // https://vitejs.dev/config/
@@ -39,7 +40,8 @@ export default defineConfig({
         description:
           "Plant, Chop, Mine, Craft & Collect at Sunflower Land. The MetaVerse game with endless resources.",
         short_name: "Sunflower Land",
-        start_url: "/pwa/",
+        start_url:
+          CONFIG.NETWORK === "mumbai" ? "/" : "http://sunflower-land/pwa",
         theme_color: "#303443",
         display: "standalone",
         background_color: "#0099dc",
