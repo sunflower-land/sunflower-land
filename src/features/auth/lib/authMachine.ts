@@ -152,7 +152,6 @@ type AuthService = {
 export const authMachine = createMachine(
   {
     id: "authMachine",
-    tsTypes: {} as import("./authMachine.typegen").Typegen0,
     initial: ART_MODE ? "connected" : "idle",
     schema: {
       services: {} as AuthService,
