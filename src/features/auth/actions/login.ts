@@ -57,37 +57,6 @@ function getSession(address: string): Session | null {
   return sessions[address];
 }
 
-export function saveSession(address: string, session: Session) {
-  let sessions: Sessions = {};
-
-  const item = localStorage.getItem(LOCAL_STORAGE_KEY);
-
-  if (item) {
-    sessions = JSON.parse(item) as Sessions;
-  }
-
-  const newSessions = {
-    ...sessions,
-    [address]: session,
-  };
-
-  return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newSessions));
-}
-
-export function removeSession(address: string) {
-  let sessions: Sessions = {};
-
-  const item = localStorage.getItem(LOCAL_STORAGE_KEY);
-
-  if (item) {
-    sessions = JSON.parse(item) as Sessions;
-  }
-
-  delete sessions[address];
-
-  return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(sessions));
-}
-
 export type Token = {
   address: string;
   exp: number;
@@ -105,7 +74,15 @@ export type Token = {
 };
 
 export function decodeToken(token: string): Token {
-  return jwt_decode(token);
+  let decoded = jwt_decode(token) as any;
+
+  decoded = {
+    ...decoded,
+    // SSO token puts fields in the properties so we need to elevate them
+    ...decoded.properties,
+  };
+
+  return decoded;
 }
 
 /**
@@ -130,30 +107,15 @@ export function hasValidSession(): boolean {
   return false;
 }
 
-export async function login(
-  transactionId: string,
-  address: string
-): Promise<{ token: string }> {
-  const session = getSession(address);
-
-  if (session) {
-    const token = decodeToken(session.token);
-
-    const isFresh = token.exp * 1000 > Date.now() + TOKEN_BUFFER_MS;
-
-    // Migration from token that did not have user access
-    const isValid = !!token.userAccess;
-
-    if (isFresh && isValid) {
-      // Raw token
-      return { token: session.token };
-    }
-  }
-
-  const timestamp = Math.floor(Date.now() / 8.64e7);
-
-  const { signature } = await wallet.signTransaction(timestamp);
-
+export async function login({
+  transactionId,
+  address,
+  signature,
+}: {
+  transactionId: string;
+  address: string;
+  signature: string;
+}): Promise<{ token: string }> {
   const { token } = await loginRequest({
     address,
     signature,

@@ -24,7 +24,6 @@ export const loadUpdatedSession = async (
   const response = await loadSession({
     token,
     transactionId,
-    wallet: walletName,
   });
 
   const game = response?.game as GameState;

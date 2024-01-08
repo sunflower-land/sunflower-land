@@ -17,6 +17,10 @@ import { Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
 
+import logo from "assets/brand/logo_v2.png";
+import winterLogo from "assets/brand/winter_logo.png";
+import sparkle from "assets/fx/sparkle2.gif";
+
 import { Notifications } from "../components/Notifications";
 import { Hoarding } from "../components/Hoarding";
 import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
@@ -31,7 +35,6 @@ import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 import land from "assets/land/islands/island.webp";
 import { IslandNotFound } from "./components/IslandNotFound";
 import { Rules } from "../components/Rules";
-import { WalletOnboarding } from "features/tutorials/wallet/WalletOnboarding";
 import { Introduction } from "./components/Introduction";
 import { NoTownCenter } from "../components/NoTownCenter";
 import { SpecialOffer } from "./components/SpecialOffer";
@@ -46,6 +49,11 @@ import { Sniped } from "../components/Sniped";
 import { NewMail } from "./components/NewMail";
 import { Blacklisted } from "../components/Blacklisted";
 import { AirdropPopup } from "./components/Airdrop";
+import { PIXEL_SCALE } from "../lib/constants";
+import classNames from "classnames";
+import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { CONFIG } from "lib/config";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -76,7 +84,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   beanRevealed: false,
   buyingSFL: true,
   depositing: true,
-  upgradingGuestGame: false,
   introduction: false,
   specialOffer: false,
   transacting: true,
@@ -112,10 +119,7 @@ const isHoarding = (state: MachineState) => state.matches("hoarding");
 const isVisiting = (state: MachineState) => state.matches("visiting");
 const isSwarming = (state: MachineState) => state.matches("swarming");
 const isPurchasing = (state: MachineState) =>
-  state.matches({ purchasing: "fetching" }) ||
-  state.matches({ purchasing: "transacting" }) ||
-  state.matches({ buyingBlockBucks: "fetching" }) ||
-  state.matches({ buyingBlockBucks: "transacting" });
+  state.matches("purchasing") || state.matches("buyingBlockBucks");
 const isNoTownCenter = (state: MachineState) => state.matches("noTownCenter");
 const isNoBumpkinFound = (state: MachineState) =>
   state.matches("noBumpkinFound");
@@ -132,8 +136,7 @@ const isLandToVisitNotFound = (state: MachineState) =>
 const currentState = (state: MachineState) => state.value;
 const getErrorCode = (state: MachineState) => state.context.errorCode;
 const getActions = (state: MachineState) => state.context.actions;
-const isUpgradingGuestGame = (state: MachineState) =>
-  state.matches("upgradingGuestGame");
+
 const isTransacting = (state: MachineState) => state.matches("transacting");
 const isClaimAuction = (state: MachineState) => state.matches("claimAuction");
 const isRefundingAuction = (state: MachineState) =>
@@ -241,7 +244,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const state = useSelector(gameService, currentState);
   const errorCode = useSelector(gameService, getErrorCode);
   const actions = useSelector(gameService, getActions);
-  const upgradingGuestGame = useSelector(gameService, isUpgradingGuestGame);
   const transacting = useSelector(gameService, isTransacting);
   const minting = useSelector(gameService, isMinting);
   const claimingAuction = useSelector(gameService, isClaimAuction);
@@ -288,13 +290,53 @@ export const GameWrapper: React.FC = ({ children }) => {
 
   if (loadingSession || loadingLandToVisit || portalling) {
     return (
-      <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
-        <Modal show centered backdrop={false}>
-          <Panel>
-            <Loading />
-          </Panel>
-        </Modal>
-      </div>
+      <>
+        <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
+          <Modal show centered backdrop={false}>
+            <div
+              className={classNames(
+                "relative flex items-center justify-center mb-4 w-full -mt-12 max-w-xl transition-opacity duration-500 opacity-100"
+              )}
+            >
+              <div className="w-[90%] relative">
+                <img
+                  src={sparkle}
+                  className="absolute animate-pulse"
+                  style={{
+                    width: `${PIXEL_SCALE * 8}px`,
+                    top: `${PIXEL_SCALE * 0}px`,
+                    right: `${PIXEL_SCALE * 0}px`,
+                  }}
+                />
+                {Date.now() > new Date("2023-12-10").getTime() &&
+                Date.now() < new Date("2023-12-27").getTime() ? (
+                  <>
+                    <img id="logo" src={winterLogo} className="w-full mb-1" />
+                    <div className="flex items-center justify-center">
+                      <Label icon={SUNNYSIDE.icons.stopwatch} type="vibrant">
+                        Christmas event!
+                      </Label>
+                      <Label type="default" className="ml-2">
+                        {CONFIG.RELEASE_VERSION?.split("-")[0]}
+                      </Label>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <img id="logo" src={logo} className="w-full" />
+                    <Label type="default" className="mx-auto">
+                      {CONFIG.RELEASE_VERSION?.split("-")[0]}
+                    </Label>
+                  </>
+                )}
+              </div>
+            </div>
+            <Panel>
+              <Loading />
+            </Panel>
+          </Modal>
+        </div>
+      </>
     );
   }
 
@@ -344,7 +386,6 @@ export const GameWrapper: React.FC = ({ children }) => {
         </Panel>
       </Modal>
 
-      {upgradingGuestGame && <WalletOnboarding />}
       {claimingAuction && <ClaimAuction />}
       {refundAuction && <RefundAuction />}
 

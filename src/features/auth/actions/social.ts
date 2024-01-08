@@ -6,8 +6,7 @@ const TOKEN_BUFFER_MS = 1000 * 60 * 60 * 4;
 
 export const getToken = () => {
   const token =
-    new URLSearchParams(window.location.search).get("token") ||
-    getSocialSession();
+    new URLSearchParams(window.location.search).get("token") || getJWT();
 
   if (token) {
     const decoded = decodeToken(token);
@@ -18,14 +17,14 @@ export const getToken = () => {
       return token;
     }
 
-    removeSocialSession();
+    removeJWT();
     return null;
   }
 
   return null;
 };
 
-export function getSocialSession(): string | null {
+export function getJWT(): string | null {
   const item = localStorage.getItem(LOCAL_STORAGE_KEY);
 
   if (!item) {
@@ -35,10 +34,10 @@ export function getSocialSession(): string | null {
   return JSON.parse(item);
 }
 
-export function saveSocialSession(token: string) {
+export function saveJWT(token: string) {
   return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(token));
 }
 
-export function removeSocialSession() {
+export function removeJWT() {
   localStorage.removeItem(LOCAL_STORAGE_KEY);
 }

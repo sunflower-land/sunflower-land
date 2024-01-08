@@ -1,30 +1,18 @@
 import { createMachine, Interpreter, State, assign } from "xstate";
 import { CONFIG } from "lib/config";
-import { ErrorCode, ERRORS } from "lib/errors";
+import { ErrorCode } from "lib/errors";
 
 import { wallet } from "../../../lib/blockchain/wallet";
 import { saveReferrerId } from "../actions/createAccount";
-import {
-  login,
-  Token,
-  decodeToken,
-  removeSession,
-  saveSession,
-  hasValidSession,
-} from "../actions/login";
+import { login, Token, decodeToken } from "../actions/login";
 import { oauthorise } from "../actions/oauth";
-import { CharityAddress } from "../components/CreateFarm";
 import { randomID } from "lib/utils/random";
 import { getOnboardingComplete } from "../actions/onboardingComplete";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
-import { web3ConnectStrategyFactory } from "./web3-connect-strategy/web3ConnectStrategy.factory";
-import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { loadSession, savePromoCode } from "features/game/actions/loadSession";
-import {
-  getToken,
-  removeSocialSession,
-  saveSocialSession,
-} from "../actions/social";
+import { getToken, removeJWT, saveJWT } from "../actions/social";
+import { signUp } from "../actions/signup";
+import { claimFarm } from "../actions/claimFarm";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -55,13 +43,6 @@ const getPromoCode = () => {
 const deleteFarmUrl = () =>
   window.history.pushState({}, "", window.location.pathname);
 
-const isPassiveFailureMessage = (failureMessage: string): boolean => {
-  return (
-    failureMessage === "User closed modal" ||
-    failureMessage === ERRORS.SEQUENCE_NOT_CONNECTED
-  );
-};
-
 type Farm = {
   farmId: number;
   address: string;
@@ -73,10 +54,6 @@ type Farm = {
 interface Authentication {
   token?: Token;
   rawToken?: string;
-  web3?: {
-    wallet: Web3SupportedProviders;
-    provider: any;
-  };
 }
 
 export interface Context {
@@ -96,7 +73,6 @@ type ReturnEvent = {
 
 type CreateFarmEvent = {
   type: "CREATE_FARM";
-  charityAddress: CharityAddress;
   donation: number;
   captcha: string;
   hasEnoughMatic: boolean;
@@ -106,9 +82,15 @@ type LoadFarmEvent = {
   type: "LOAD_FARM";
 };
 
-type ConnectWalletEvent = {
-  type: "CONNECT_TO_WALLET";
-  chosenProvider: Web3SupportedProviders;
+type ConnectedWalletEvent = {
+  type: "CONNECTED";
+  address: string;
+  signature: string;
+};
+
+type ClaimFarmEvent = {
+  type: "CLAIM";
+  id: number;
 };
 
 export type BlockchainEvent =
@@ -116,21 +98,12 @@ export type BlockchainEvent =
   | ReturnEvent
   | CreateFarmEvent
   | LoadFarmEvent
-  | ConnectWalletEvent
-  | {
-      type: "CHAIN_CHANGED";
-    }
-  | {
-      type: "ACCOUNT_CHANGED";
-    }
+  | ConnectedWalletEvent
   | {
       type: "REFRESH";
     }
   | {
       type: "LOGOUT";
-    }
-  | {
-      type: "CHOOSE_CHARITY";
     }
   | { type: "CONTINUE" }
   | { type: "SIGNUP" }
@@ -138,33 +111,26 @@ export type BlockchainEvent =
   | { type: "CONNECT_TO_DISCORD" }
   | { type: "CONFIRM" }
   | { type: "SKIP" }
-  | { type: "SIGN" }
   | { type: "VERIFIED" }
-  | { type: "SET_WALLET" }
-  | { type: "SET_TOKEN" }
-  | { type: "BUY_FULL_ACCOUNT" }
-  | { type: "SIGN_IN" }
-  | { type: "SELECT_POKO" }
-  | { type: "SELECT_MATIC" };
+  | ClaimFarmEvent
+  | { type: "SIGN_IN" };
 
 export type BlockchainState = {
   value:
     | "idle"
     | "welcome"
-    | "createWallet"
     | "signIn"
     | "signUp"
-    | "initialising"
+    | "authorising"
     | "visiting"
-    | "connectingToWallet"
-    | "setupContracts"
-    | "connectedToWallet"
-    | "reconnecting"
-    | "connected"
-    | "signing"
     | "verifying"
     | "oauthorising"
-    | "unauthorised";
+    | "unauthorised"
+    | "authorised"
+    | "connected"
+    | "noAccount"
+    | "creating"
+    | "claiming";
   context: Context;
 };
 
@@ -186,7 +152,6 @@ type AuthService = {
 export const authMachine = createMachine(
   {
     id: "authMachine",
-    tsTypes: {} as import("./authMachine.typegen").Typegen0,
     initial: ART_MODE ? "connected" : "idle",
     schema: {
       services: {} as AuthService,
@@ -213,12 +178,9 @@ export const authMachine = createMachine(
         },
         always: [
           {
-            target: "connected",
+            target: "authorised",
             cond: () => !!getToken(),
-            actions: [
-              "assignWeb2Token",
-              () => saveSocialSession(getToken() as string),
-            ],
+            actions: ["assignWeb2Token", "saveToken"],
           },
           {
             target: "welcome",
@@ -247,19 +209,11 @@ export const authMachine = createMachine(
         },
       },
 
-      createWallet: {
-        on: {
-          CONTINUE: {
-            target: "signIn",
-            actions: () => onboardingAnalytics.logEvent("connect_wallet"),
-          },
-        },
-      },
       signIn: {
         id: "signIn",
         on: {
-          CONNECT_TO_WALLET: {
-            target: "connectingToWallet",
+          CONNECTED: {
+            target: "authorising",
           },
           BACK: {
             target: "welcome",
@@ -269,84 +223,16 @@ export const authMachine = createMachine(
       signUp: {
         id: "signUp",
         on: {
-          CONNECT_TO_WALLET: {
-            target: "connectingToWallet",
+          CONNECTED: {
+            target: "authorising",
           },
           BACK: {
             target: "welcome",
           },
         },
       },
-      reconnecting: {
-        id: "reconnecting",
-        always: [
-          {
-            target: "connectingToWallet",
-            cond: (context) => !!context.user.web3?.wallet,
-          },
-          { target: "idle" },
-        ],
-      },
-      connectingToWallet: {
-        id: "connectingToWallet",
-        invoke: {
-          src: "initWallet",
-          onDone: [
-            {
-              target: "setupContracts",
-              actions: "assignUser",
-            },
-          ],
-          onError: [
-            {
-              target: "idle",
-              cond: (_, event) => isPassiveFailureMessage(event.data.message),
-            },
-            {
-              target: "unauthorised",
-              actions: "assignErrorMessage",
-            },
-          ],
-        },
-      },
-      setupContracts: {
-        invoke: {
-          src: "setupContracts",
-          onDone: [
-            {
-              target: "visiting",
-              cond: "isVisitingUrl",
-              actions: "assignVisitingFarmIdFromUrl",
-            },
-            // This enables pop ups to load during the sequence signing flow
-            {
-              target: "connectedToWallet",
-              cond: (context) =>
-                context.user.web3?.wallet === Web3SupportedProviders.SEQUENCE,
-              actions: (context) =>
-                onboardingAnalytics.logEvent("wallet_connected", {
-                  wallet: context.user.web3?.wallet,
-                }),
-            },
-            {
-              target: "signing",
-              actions: (context) =>
-                onboardingAnalytics.logEvent("wallet_connected", {
-                  wallet: context.user.web3?.wallet,
-                }),
-            },
-          ],
-          onError: {
-            target: "unauthorised",
-            actions: "assignErrorMessage",
-          },
-        },
-      },
-      connectedToWallet: {
-        always: { target: "signing", cond: () => hasValidSession() },
-        on: { SIGN: { target: "signing" } },
-      },
-      signing: {
+
+      authorising: {
         entry: "setTransactionId",
         invoke: {
           src: "login",
@@ -355,15 +241,10 @@ export const authMachine = createMachine(
               target: "oauthorising",
               cond: "hasDiscordCode",
             },
-            {
-              target: "connected",
-              cond: (_, event) =>
-                !!decodeToken(event.data.token).userAccess.verified,
-              actions: "assignToken",
-            },
+
             {
               target: "verifying",
-              actions: "assignToken",
+              actions: ["assignToken"],
             },
           ],
           onError: {
@@ -375,14 +256,8 @@ export const authMachine = createMachine(
       verifying: {
         on: {
           VERIFIED: {
-            target: "connected",
-            actions: [
-              "assignToken",
-              (_, event) =>
-                saveSession((event as any).data.account, {
-                  token: (event as any).data.token,
-                }),
-            ],
+            target: "authorised",
+            actions: ["assignToken", "saveToken"],
           },
         },
       },
@@ -392,7 +267,7 @@ export const authMachine = createMachine(
           src: "oauthorise",
           onDone: {
             target: "connected",
-            actions: "assignToken",
+            actions: ["assignToken", "saveToken"],
           },
           onError: {
             target: "unauthorised",
@@ -400,31 +275,31 @@ export const authMachine = createMachine(
           },
         },
       },
+      authorised: {
+        always: [
+          {
+            target: "noAccount",
+            cond: (context) => !context.user.token?.farmId,
+          },
+          {
+            target: "connected",
+          },
+        ],
+      },
       connected: {
         entry: "clearTransactionId",
+
         on: {
           RETURN: {
-            target: "#reconnecting",
+            target: "#idle",
             actions: ["refreshFarm", "deleteFarmIdUrl"],
           },
           REFRESH: {
-            target: "#reconnecting",
+            target: "#idle",
           },
           LOGOUT: {
             target: "#idle",
             actions: ["clearSession", "refreshFarm"],
-          },
-          SET_WALLET: {
-            actions: "assignUser",
-          },
-          SET_TOKEN: {
-            actions: [
-              "assignToken",
-              (_, event) =>
-                saveSession((event as any).data.account, {
-                  token: (event as any).data.token,
-                }),
-            ],
           },
         },
       },
@@ -442,67 +317,99 @@ export const authMachine = createMachine(
         },
         on: {
           RETURN: {
-            target: "reconnecting",
+            target: "idle",
             actions: ["refreshFarm", "deleteFarmIdUrl"],
+          },
+        },
+      },
+      noAccount: {
+        on: {
+          CREATE_FARM: {
+            target: "creating",
+          },
+          CLAIM: {
+            target: "claiming",
+          },
+          BACK: {
+            target: "idle",
+          },
+        },
+      },
+
+      creating: {
+        entry: "setTransactionId",
+        invoke: {
+          src: async (context) => {
+            const { farm, token } = await signUp({
+              token: context.user.rawToken as string,
+              transactionId: context.transactionId as string,
+              promoCode: getPromoCode(),
+              referrerId: getReferrerID(),
+            });
+
+            return {
+              token,
+            };
+          },
+          onDone: [
+            {
+              target: "connected",
+              actions: ["assignToken", "saveToken"],
+            },
+          ],
+          onError: {
+            target: "unauthorised",
+            actions: "assignErrorMessage",
+          },
+        },
+      },
+
+      claiming: {
+        entry: "setTransactionId",
+        invoke: {
+          src: async (context, event) => {
+            const { id } = event as ClaimFarmEvent;
+            const { farm, token } = await claimFarm({
+              token: context.user.rawToken as string,
+              transactionId: context.transactionId as string,
+              farmId: id,
+            });
+
+            return {
+              token,
+            };
+          },
+          onDone: [
+            {
+              target: "connected",
+              actions: ["assignToken", "saveToken"],
+            },
+          ],
+          onError: {
+            target: "unauthorised",
+            actions: "assignErrorMessage",
           },
         },
       },
     },
     on: {
-      CHAIN_CHANGED: {
-        target: "reconnecting",
-        actions: "refreshFarm",
-      },
-      ACCOUNT_CHANGED: {
-        target: "reconnecting",
-        actions: "refreshFarm",
-      },
       REFRESH: {
-        target: "reconnecting",
+        target: "idle",
         actions: "refreshFarm",
       },
     },
   },
   {
     services: {
-      setupContracts: async (context) => {
-        if (context.user.web3) {
-          await wallet.initialise(
-            context.user.web3.provider,
-            context.user.web3.wallet
-          );
-        }
-      },
-      initWallet: async (context, event: any) => {
-        const _event = event as ConnectWalletEvent | undefined;
-        const wallet = _event?.chosenProvider ?? context.user.web3?.wallet;
-        if (!wallet) {
-          throw new Error("Could not determine wallet provider.");
-        }
-        const web3ConnectStrategy = web3ConnectStrategyFactory(wallet);
-        onboardingAnalytics.logEvent(web3ConnectStrategy.getConnectEventType());
-        if (!web3ConnectStrategy.isAvailable()) {
-          web3ConnectStrategy.whenUnavailableAction();
-          return;
-        }
-        await web3ConnectStrategy.initialize();
-        await web3ConnectStrategy.requestAccounts();
-        return {
-          web3: {
-            wallet: wallet,
-            provider: web3ConnectStrategy.getProvider(),
-          },
-        };
-      },
+      login: async (context, event): Promise<{ token: string | null }> => {
+        const { address, signature } = event as any as ConnectedWalletEvent;
 
-      login: async (context): Promise<{ token: string | null }> => {
-        let token: string | null = null;
-        if (wallet.myAccount) {
-          ({ token } = await login(
-            context.transactionId as string,
-            wallet.myAccount
-          ));
-        }
+        const { token } = await login({
+          transactionId: context.transactionId as string,
+          address,
+          signature,
+        });
+
         return { token };
       },
       oauthorise: async (context) => {
@@ -511,8 +418,7 @@ export const authMachine = createMachine(
         // Navigates to Discord OAuth Flow
         const { token } = await oauthorise(
           code,
-          context.transactionId as string,
-          wallet.myAccount
+          context.transactionId as string
         );
         return { token };
       },
@@ -525,6 +431,14 @@ export const authMachine = createMachine(
           rawToken: event.data.token,
         }),
       }),
+      saveToken: (context: Context, event: any) => {
+        // Clear browser token
+        window.history.pushState({}, "", window.location.pathname);
+
+        // Save primary JWT
+        saveJWT(event.data?.token ?? context.user.rawToken);
+      },
+
       assignWeb2Token: assign<Context, any>({
         user: (context, event) => ({
           ...context.user,
@@ -535,11 +449,7 @@ export const authMachine = createMachine(
       assignErrorMessage: assign<Context, any>({
         errorCode: (_context, event) => event.data.message,
       }),
-      assignUser: assign<Context, any>({
-        user: (_context, event) => ({
-          web3: event.data.web3,
-        }),
-      }),
+
       assignVisitingFarmIdFromUrl: assign({
         visitingFarmId: (_) => getFarmIdFromUrl(),
       }),
@@ -547,8 +457,7 @@ export const authMachine = createMachine(
         visitingFarmId: undefined,
       }),
       clearSession: () => {
-        removeSocialSession();
-        removeSession(wallet.myAccount as string);
+        removeJWT();
       },
       deleteFarmIdUrl: deleteFarmUrl,
       setTransactionId: assign<Context, any>({

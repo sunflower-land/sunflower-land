@@ -26,7 +26,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { Context } from "features/game/GameProvider";
-import { wallet } from "lib/blockchain/wallet";
 
 interface Island {
   name: string;
@@ -187,7 +186,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       name: "Home",
       image: CROP_LIFECYCLE.Sunflower.ready,
       levelRequired: 1,
-      path: `/land/${farmId}`,
+      path: `/`,
       labels: [],
     },
     {
@@ -244,7 +243,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       name: "Helios",
       levelRequired: 1 as BumpkinLevel,
       image: SUNNYSIDE.icons.helios,
-      path: `/land/${farmId}/helios`,
+      path: `/helios`,
       labels: [
         <Label type="default" key="shopping" icon={SUNNYSIDE.icons.basket}>
           Shopping
@@ -254,40 +253,28 @@ export const IslandList: React.FC<IslandListProps> = ({
         </Label>,
       ],
     },
-    ...(wallet.isSocial
-      ? []
-      : [
-          {
-            name: "Goblin Retreat",
-            levelRequired: 1 as BumpkinLevel,
-            image: goblin,
-            path: `/retreat/${farmId}`,
-            passRequired: true,
-            labels: [
-              <Label
-                type="default"
-                key="trading"
-                icon={SUNNYSIDE.icons.player_small}
-              >
-                Trading
-              </Label>,
-              <Label
-                type="default"
-                key="withdraw"
-                icon={SUNNYSIDE.decorations.treasure_chest_opened}
-              >
-                Withdraw
-              </Label>,
-              <Label
-                type="default"
-                key="crafting"
-                icon={SUNNYSIDE.icons.hammer}
-              >
-                Crafting
-              </Label>,
-            ],
-          },
-        ]),
+    {
+      name: "Goblin Retreat",
+      levelRequired: 1 as BumpkinLevel,
+      image: goblin,
+      path: `/retreat/${farmId}`,
+      passRequired: true,
+      labels: [
+        <Label type="default" key="trading" icon={SUNNYSIDE.icons.player_small}>
+          Trading
+        </Label>,
+        <Label
+          type="default"
+          key="withdraw"
+          icon={SUNNYSIDE.decorations.treasure_chest_opened}
+        >
+          Withdraw
+        </Label>,
+        <Label type="default" key="crafting" icon={SUNNYSIDE.icons.hammer}>
+          Crafting
+        </Label>,
+      ],
+    },
   ];
 
   // NOTE: If you're visiting without a session then just show the form by default as there is no option to return to a farm

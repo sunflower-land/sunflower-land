@@ -1,16 +1,16 @@
 import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
+import clipboard from "clipboard";
 import { CONFIG } from "lib/config";
 
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
+import * as Auth from "features/auth/lib/Provider";
 
 import { Context as GameContext } from "features/game/GameProvider";
 
 import { Share } from "features/island/hud/components/settings-menu/Share";
 
-import { DEV_GenerateLandButton } from "./DEV_GenerateLandButton";
-import { useIsNewFarm } from "features/farming/hud/lib/onboarding";
 import { HowToPlay } from "./howToPlay/HowToPlay";
 import { SubSettings } from "./sub-settings/SubSettings";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
@@ -24,6 +24,12 @@ import { createPortal } from "react-dom";
 import { DEV_TimeMachine } from "./DEV_TimeMachine";
 import { PlazaSettings } from "./PlazaSettingsModal";
 import { DEV_HoardingCheck } from "components/dev/DEV_HoardingCheck";
+import { Label } from "components/ui/Label";
+import { shortAddress } from "lib/utils/shortAddress";
+
+import walletIcon from "assets/icons/wallet.png";
+import { removeJWT } from "features/auth/actions/social";
+import { WalletContext } from "features/wallet/WalletProvider";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -39,6 +45,8 @@ interface Props {
 }
 
 export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
+  const { authService } = useContext(Auth.Context);
+  const { walletService } = useContext(WalletContext);
   const { gameService } = useContext(GameContext);
 
   const [showShareModal, setShowShareModal] = useState(false);
@@ -48,7 +56,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [showDiscordModal, setShowDiscordModal] = useState(false);
   const [showCommunityGardenModal, setShowCommunityGardenModal] =
     useState(false);
-  const [showHowToPlay, setShowHowToPlay] = useState(useIsNewFarm());
+  const [showHowToPlay, setShowHowToPlay] = useState(false);
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [showTimeMachine, setShowTimeMachine] = useState(false);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
@@ -119,6 +127,13 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
     setMenuLevel(MENU_LEVELS.ROOT);
   };
 
+  const onLogout = () => {
+    removeJWT();
+    authService.send("LOGOUT");
+    walletService.send("RESET");
+    onClose();
+  };
+
   return (
     <>
       <Modal show={show} centered onHide={onHide}>
@@ -127,6 +142,35 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
             {/* Root menu */}
             {menuLevel === MENU_LEVELS.ROOT && (
               <>
+                <div className="flex flex-wrap items-center justify-between mx-2">
+                  <Label
+                    type="default"
+                    icon={SUNNYSIDE.icons.search}
+                    className="mb-1"
+                    onClick={() => {
+                      clipboard.copy(
+                        gameService.state?.context?.farmId.toString() as string
+                      );
+                    }}
+                  >
+                    {`ID #${gameService.state?.context?.farmId}`}{" "}
+                  </Label>
+                  {gameService.state?.context?.linkedWallet && (
+                    <Label
+                      type="formula"
+                      className="mb-1"
+                      icon={walletIcon}
+                      onClick={() => {
+                        clipboard.copy(
+                          gameService.state?.context?.linkedWallet as string
+                        );
+                      }}
+                    >
+                      Linked wallet -{" "}
+                      {shortAddress(gameService.state.context.linkedWallet)}
+                    </Label>
+                  )}
+                </div>
                 {CONFIG.NETWORK === "mumbai" && (
                   <>
                     <li className="p-1">
@@ -136,21 +180,17 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                         Time Machine
                       </Button>
                     </li>
-                    <li className="p-1">
-                      <DEV_GenerateLandButton />
-                    </li>
+
                     <li className="p-1">
                       <DEV_HoardingCheck />
                     </li>
                   </>
                 )}
-                {isFullUser && (
-                  <li className="p-1">
-                    <Button onClick={storeOnChain}>
-                      <span>Store progress on chain</span>
-                    </Button>
-                  </li>
-                )}
+                <li className="p-1">
+                  <Button onClick={storeOnChain}>
+                    <span>Store progress on chain</span>
+                  </Button>
+                </li>
                 <li className="p-1">
                   <Button onClick={handleHowToPlay}>
                     <div className="flex items-center justify-center">
@@ -163,37 +203,37 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     </div>
                   </Button>
                 </li>
-                {isFullUser && (
-                  <>
-                    <li className="p-1">
-                      <Button
-                        onClick={() => setMenuLevel(MENU_LEVELS.COMMUNITY)}
-                      >
-                        <span>Community</span>
-                      </Button>
-                    </li>
+                <>
+                  <li className="p-1">
+                    <Button onClick={() => setMenuLevel(MENU_LEVELS.COMMUNITY)}>
+                      <span>Community</span>
+                    </Button>
+                  </li>
 
-                    <li className="p-1">
-                      <Button onClick={handleDiscordClick}>
-                        <span>Discord</span>
-                      </Button>
-                    </li>
-                    <li className="p-1">
-                      <Button onClick={handleSwapSFL}>
-                        <span>Swap MATIC for SFL</span>
-                      </Button>
-                    </li>
-                  </>
-                )}
+                  <li className="p-1">
+                    <Button onClick={handleDiscordClick}>
+                      <span>Discord</span>
+                    </Button>
+                  </li>
+                  <li className="p-1">
+                    <Button onClick={handleSwapSFL}>
+                      <span>Swap MATIC for SFL</span>
+                    </Button>
+                  </li>
+                </>
                 <li className="p-1">
                   <Button onClick={handlePlazaSettingsClick}>
                     <span>Plaza Settings</span>
                   </Button>
                 </li>
+
                 <li className="p-1">
                   <Button onClick={handleSettingsClick}>
-                    <span>Settings</span>
+                    <span>Advanced</span>
                   </Button>
+                </li>
+                <li className="p-1">
+                  <Button onClick={onLogout}>Logout</Button>
                 </li>
               </>
             )}
@@ -236,6 +276,9 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
               />
             )}
           </ul>
+          <p className="mx-1 text-xxs">
+            {CONFIG.RELEASE_VERSION?.split("-")[0]}
+          </p>
         </Panel>
       </Modal>
       <Share isOpen={showShareModal} onClose={() => setShowShareModal(false)} />

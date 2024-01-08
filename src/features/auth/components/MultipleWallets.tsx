@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Context } from "../lib/Provider";
+import { WalletContext } from "features/wallet/WalletProvider";
 
 export const MultipleWallets: React.FC = () => {
-  const { authService } = useContext(Context);
+  const { walletService } = useContext(WalletContext);
 
   const goToDocs = () => {
     window.open(
@@ -31,7 +31,7 @@ export const MultipleWallets: React.FC = () => {
       </div>
       <div className="flex space-x-1">
         <Button
-          onClick={() => authService.send("REFRESH")}
+          onClick={() => walletService.send("RESET")}
           className="overflow-hidden"
         >
           <span>Go back</span>

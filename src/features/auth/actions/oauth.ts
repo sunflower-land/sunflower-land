@@ -1,6 +1,6 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { login, saveSession } from "./login";
+import { getToken } from "./social";
 
 type Request = {
   token: string;
@@ -34,21 +34,18 @@ export async function oauthoriseRequest(request: Request) {
 
 export async function oauthorise(
   code: string,
-  transactionId: string,
-  account: string
+  transactionId: string
 ): Promise<{ token: string }> {
-  const { token: oldToken } = await login(transactionId, account);
+  const oldToken = await getToken();
 
   const { token } = await oauthoriseRequest({
-    token: oldToken,
+    token: oldToken as string,
     code,
     transactionId,
   });
 
   // Remove query parameters from url
   window.history.pushState({}, "", window.location.pathname);
-
-  saveSession(account, { token });
 
   return { token };
 }

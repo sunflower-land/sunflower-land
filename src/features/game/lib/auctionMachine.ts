@@ -58,6 +58,7 @@ export interface Context {
   transactionId: string;
   results?: AuctionResults;
   canAccess: boolean;
+  linkedAddress?: string;
 }
 
 type BidEvent = {
@@ -135,6 +136,7 @@ export const createAuctioneerMachine = ({
         token: "",
         deviceTrackerId: "",
         canAccess: false,
+        linkedAddress: "",
 
         // Offline testing
         results: {
@@ -253,6 +255,12 @@ export const createAuctioneerMachine = ({
               target: "noAccess",
               cond: (context) => {
                 return !context.canAccess;
+              },
+            },
+            {
+              target: "noWallet",
+              cond: (context) => {
+                return !context.linkedAddress;
               },
             },
             {
@@ -398,6 +406,7 @@ export const createAuctioneerMachine = ({
 
         winner: {},
         noAccess: {},
+        noWallet: {},
 
         missingAuction: {
           on: {

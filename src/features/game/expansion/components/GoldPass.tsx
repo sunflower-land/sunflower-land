@@ -1,19 +1,38 @@
 import { Button } from "components/ui/Button";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { NPC_WEARABLES } from "lib/npcs";
 import { Context } from "features/game/GameProvider";
 import goldPass from "assets/announcements/gold_pass.png";
 import { Panel } from "components/ui/Panel";
+import { GameWallet } from "features/wallet/Wallet";
 interface Props {
   onClose: () => void;
 }
 
 export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const price = 4.99;
   const Content = () => {
+    if (showConfirmation) {
+      return (
+        <GameWallet action="purchase">
+          <p className="p-2">{`Buy now $${price}`}</p>
+          <Button
+            onClick={() => {
+              gameService.send("PURCHASE_ITEM", {
+                name: "Gold Pass",
+              });
+              onClose();
+            }}
+          >
+            Confirm
+          </Button>
+        </GameWallet>
+      );
+    }
     return (
       <>
         <div className="flex flex-col p-2">
@@ -45,10 +64,7 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
           </Button>
           <Button
             onClick={() => {
-              gameService.send("PURCHASE_ITEM", {
-                name: "Gold Pass",
-              });
-              onClose();
+              setShowConfirmation(true);
             }}
           >
             {`Buy now $${price}`}

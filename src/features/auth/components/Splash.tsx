@@ -9,19 +9,14 @@ import cossies from "assets/decorations/cossies.png";
 import goblinSwimming from "assets/npcs/goblin_farting.gif";
 import shadow from "assets/npcs/shadow.png";
 
-import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { SUNNYSIDE } from "assets/sunnyside";
 import i18n from "lib/i18n";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { hasFeatureAccess } from "lib/flags";
-import { GameState } from "features/game/types/game";
 import { Ocean } from "features/world/ui/Ocean";
-
-const releaseVersion = CONFIG.RELEASE_VERSION as string;
 
 const Languages = () => {
   // Determine the initial language from localStorage or default to 'en'
@@ -155,29 +150,6 @@ export const Splash: React.FC = ({ children }) => {
           <Panel>{children}</Panel>
         </Modal>
       )}
-      <div
-        className="absolute bottom-0 right-auto m-1 pointer-events-auto"
-        style={{ zIndex: 1100, margin: `${PIXEL_SCALE * 1}px` }}
-      >
-        {hasFeatureAccess({} as GameState, "LOCALISATION") && <Languages />}
-      </div>
-      <div
-        className="absolute bottom-0 right-0 m-1 pointer-events-auto"
-        style={{ zIndex: 1100, margin: `${PIXEL_SCALE * 1}px` }}
-      >
-        <InnerPanel>
-          <div className="flex items-center justify-center">
-            <a
-              className="underline text-xxs text-white hover:text-blue-500 p-1"
-              href="https://github.com/sunflower-land/sunflower-land/releases"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {releaseVersion?.split("-")[0]}
-            </a>
-          </div>
-        </InnerPanel>
-      </div>
     </Ocean>
   );
 };

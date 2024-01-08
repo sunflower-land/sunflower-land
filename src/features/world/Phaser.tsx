@@ -389,7 +389,7 @@ export const PhaserComponent: React.FC<Props> = ({
           event={KickEvent}
           onClose={() => {
             setKickEvent(undefined);
-            navigate(`/land/${gameService.state.context.farmId}`);
+            navigate(`/`);
           }}
         />
       )}

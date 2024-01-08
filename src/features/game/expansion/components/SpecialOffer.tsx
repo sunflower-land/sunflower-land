@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { MachineState } from "features/game/lib/gameMachine";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -15,6 +15,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
 import { getSeasonalBanner } from "features/game/types/seasons";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { GameWallet } from "features/wallet/Wallet";
 
 const isPromoting = (state: MachineState) => state.matches("specialOffer");
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -67,6 +68,8 @@ export const PromotingModal: React.FC<Props> = ({
   const inventory = useSelector(gameService, _inventory);
   const hasPreviousSeasonBanner = !!inventory["Witches' Eve Banner"];
 
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
   let price = hasPreviousSeasonBanner ? "4.99" : "6.99";
 
   if (!isPreSeason) {
@@ -74,6 +77,23 @@ export const PromotingModal: React.FC<Props> = ({
   }
 
   const Content = () => {
+    if (showConfirmation) {
+      return (
+        <GameWallet action="purchase">
+          <p className="text-sm my-2">Mint your exclusive Seasonal Banner:</p>
+          <Button
+            onClick={() => {
+              gameService.send("PURCHASE_ITEM", {
+                name: "Catch the Kraken Banner",
+              });
+              onClose();
+            }}
+          >
+            {t("season.buyNow")} {price}
+          </Button>
+        </GameWallet>
+      );
+    }
     if (hasPurchased) {
       return (
         <>
@@ -197,10 +217,7 @@ export const PromotingModal: React.FC<Props> = ({
           <Button
             disabled
             onClick={() => {
-              gameService.send("PURCHASE_ITEM", {
-                name: "Catch the Kraken Banner",
-              });
-              onClose();
+              setShowConfirmation(true);
             }}
           >
             {t("season.buyNow")} {price}

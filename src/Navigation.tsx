@@ -17,7 +17,6 @@ import { Forbidden } from "features/auth/components/Forbidden";
 import { LandExpansion } from "features/game/expansion/LandExpansion";
 import { CONFIG } from "lib/config";
 import { Builder } from "features/builder/Builder";
-import { wallet } from "lib/blockchain/wallet";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { ZoomProvider } from "components/ZoomProvider";
 import { LoadingFallback } from "./LoadingFallback";
@@ -46,8 +45,6 @@ const TraderDeeplinkHandler: React.FC<{ farmId?: number }> = ({ farmId }) => {
   return <Navigate to={`/retreat/0?${createSearchParams(params)}`} replace />;
 };
 
-const selectProvider = (state: AuthMachineState) =>
-  state.context.user.web3?.provider;
 const selectState = (state: AuthMachineState) => ({
   isAuthorised: state.matches("connected"),
   isVisiting: state.matches("visiting"),
@@ -59,45 +56,9 @@ const selectState = (state: AuthMachineState) => ({
  */
 export const Navigation: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
-  const provider = useSelector(authService, selectProvider);
   const state = useSelector(authService, selectState);
 
   const [showGame, setShowGame] = useState(false);
-
-  /**
-   * Listen to web3 account/chain changes
-   * TODO: move into a hook
-   */
-  useEffect(() => {
-    if (provider) {
-      if (provider.on) {
-        provider.on("chainChanged", (chain: any) => {
-          if (parseInt(chain) === CONFIG.POLYGON_CHAIN_ID) {
-            return;
-          }
-
-          // Phantom handles this internally
-          if (provider.isPhantom) return;
-
-          authService.send("CHAIN_CHANGED");
-        });
-        provider.on("accountsChanged", function (accounts: string[]) {
-          // Metamask Mobile accidentally triggers this on route changes
-          const didChange = accounts[0] !== wallet.myAccount;
-          if (didChange) {
-            authService.send("ACCOUNT_CHANGED");
-          }
-        });
-      } else if (provider.givenProvider) {
-        provider.givenProvider.on("chainChanged", () => {
-          authService.send("CHAIN_CHANGED");
-        });
-        provider.givenProvider.on("accountsChanged", function () {
-          authService.send("ACCOUNT_CHANGED");
-        });
-      }
-    }
-  }, [provider]);
 
   useEffect(() => {
     const _showGame = state.isAuthorised || state.isVisiting;
@@ -144,10 +105,8 @@ export const Navigation: React.FC = () => {
                   path="/visit/*"
                   element={<LandExpansion key="visit" />}
                 />
-                <Route
-                  path="/land/:id?/*"
-                  element={<LandExpansion key="land" />}
-                />
+                <Route path="/" element={<LandExpansion key="land" />} />
+
                 <Route path="/retreat">
                   <Route index element={<TraderDeeplinkHandler />} />
                   <Route path=":id" element={<Retreat key="retreat" />} />
