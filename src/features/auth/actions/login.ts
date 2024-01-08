@@ -117,7 +117,6 @@ export async function login({
   address: string;
   signature: string;
 }): Promise<{ token: string }> {
-  console.log({ login: true, transactionId, address, signature });
   const { token } = await loginRequest({
     address,
     signature,

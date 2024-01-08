@@ -46,8 +46,6 @@ const TraderDeeplinkHandler: React.FC<{ farmId?: number }> = ({ farmId }) => {
   return <Navigate to={`/retreat/0?${createSearchParams(params)}`} replace />;
 };
 
-const selectProvider = (state: AuthMachineState) =>
-  state.context.user.web3?.provider;
 const selectState = (state: AuthMachineState) => ({
   isAuthorised: state.matches("connected"),
   isVisiting: state.matches("visiting"),
@@ -59,7 +57,6 @@ const selectState = (state: AuthMachineState) => ({
  */
 export const Navigation: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
-  const provider = useSelector(authService, selectProvider);
   const state = useSelector(authService, selectState);
 
   const [showGame, setShowGame] = useState(false);

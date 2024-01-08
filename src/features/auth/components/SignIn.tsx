@@ -62,6 +62,7 @@ const OtherWallets: React.FC<{
   showSequence?: boolean;
 }> = ({ onConnect, showSequence = false }) => {
   const { authService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   return (
     <>
@@ -180,8 +181,6 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
   };
 
   const MainWallets = () => {
-    const { t } = useAppTranslation();
-
     return (
       <>
         <Button
@@ -194,51 +193,6 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
             />
             Metamask
-          </div>
-        </Button>
-        <Button
-          className="mb-2 py-2 text-sm relative"
-          onClick={() => {
-            onConnect(Web3SupportedProviders.SEQUENCE);
-          }}
-        >
-          <div className="px-8">
-            <img
-              src={SEQUENCE_ICON}
-              className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
-            />
-            Sequence
-          </div>
-        </Button>
-        <Button
-          className="mb-2 py-2 text-sm relative justify-start"
-          onClick={connectToMetaMask}
-        >
-          <div className="px-8 mr-2 flex ">
-            <img
-              src={metamaskIcon}
-              className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
-            />
-            Metamask
-          </div>
-        </Button>
-        <Button
-          className="mb-2 py-2 text-sm relative"
-          onClick={() => onConnect(Web3SupportedProviders.BITGET)}
-        >
-          <div className="px-8">
-            <img
-              src={bitgetIcon}
-              alt="Bitget"
-              className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
-            />
-            <Label
-              type="info"
-              className="absolute top-1/2 -translate-y-1/2 right-1"
-            >
-              {t("featured")}
-            </Label>
-            Bitget Wallet
           </div>
         </Button>
         {showAll && (

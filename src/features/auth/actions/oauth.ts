@@ -1,6 +1,6 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
-import { login, saveSession } from "./login";
+import { login } from "./login";
 
 type Request = {
   token: string;
@@ -37,7 +37,7 @@ export async function oauthorise(
   transactionId: string,
   account: string
 ): Promise<{ token: string }> {
-  const { token: oldToken } = await login(transactionId, account);
+  const { token: oldToken } = await login({ transactionId, address: account });
 
   const { token } = await oauthoriseRequest({
     token: oldToken,
