@@ -3,6 +3,7 @@ import { useRegisterSW } from "virtual:pwa-register/react";
 import { ReactPortal } from "components/ui/ReactPortal";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
+import { CONFIG } from "lib/config";
 
 const CHECK_FOR_UPDATE_INTERVAL = 20 * 1000;
 
@@ -41,6 +42,7 @@ export function ReloadPrompt() {
       <div className="fixed top-2 safe-pt left-1/2 -translate-x-1/2 text-xs flex flex-col">
         <span>{`Checking for update: ${checking}`}</span>
         <span>{`Needs update: ${needRefresh}`}</span>
+        <span>{`Release version: ${CONFIG.RELEASE_VERSION}`}</span>
       </div>
       <div
         className={classNames(
