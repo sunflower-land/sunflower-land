@@ -97,7 +97,7 @@ export type MachineInterpreter = Interpreter<
 
 export type WalletMachineState = State<Context, WalletEvent, WalletState>;
 
-export const walletMachine = createMachine({
+export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
   id: "walletMachine",
   initial: "chooseWallet",
   context: {
@@ -155,15 +155,13 @@ export const walletMachine = createMachine({
             provider: web3ConnectStrategy.getProvider(),
           };
         },
-        onDone: [
-          {
-            target: "checking",
-            actions: assign<Context, any>({
-              provider: (_, event) => event.data.provider,
-              address: (_, event) => event.data.address,
-            }),
-          },
-        ],
+        onDone: {
+          target: "checking",
+          actions: assign<Context, any>({
+            provider: (_: Context, event: any) => event.data.provider,
+            address: (_: Context, event: any) => event.data.address,
+          }),
+        },
         onError: [
           {
             target: "wrongNetwork",
@@ -198,7 +196,8 @@ export const walletMachine = createMachine({
         {
           target: "missingNFT",
           cond: (context) =>
-            !NON_NFT_ACTIONS.includes(context.action) && !context.farmAddress,
+            !NON_NFT_ACTIONS.includes(context.action as WalletAction) &&
+            !context.farmAddress,
         },
         {
           target: "ready",
@@ -208,7 +207,7 @@ export const walletMachine = createMachine({
     signing: {
       id: "signing",
       invoke: {
-        src: async (context) => {
+        src: async (_: Context) => {
           const timestamp = Math.floor(Date.now() / 8.64e7);
           const { signature } = await wallet.signTransaction(timestamp);
 
@@ -242,13 +241,13 @@ export const walletMachine = createMachine({
     linking: {
       id: "linking",
       invoke: {
-        src: async (context, event) => {
+        src: async (context, event: any) => {
           const signature = event.data.signature;
 
           await linkWallet({
-            id: context.id,
-            jwt: context.jwt,
-            linkedWallet: context.address,
+            id: context.id as number,
+            jwt: context.jwt as string,
+            linkedWallet: context.address as string,
             signature,
             transactionId: "TODOX", // TODO
           });
@@ -259,7 +258,8 @@ export const walletMachine = createMachine({
           {
             target: "missingNFT",
             cond: (context) =>
-              !NON_NFT_ACTIONS.includes(context.action) && !context.farmAddress,
+              !NON_NFT_ACTIONS.includes(context.action as WalletAction) &&
+              !context.farmAddress,
           },
           {
             target: "ready",
@@ -284,13 +284,16 @@ export const walletMachine = createMachine({
         src: async (context, event) => {
           const createdAt = await getCreatedAt(
             wallet.web3Provider,
-            context.address,
-            context.address
+            context.address as string,
+            context.address as string
           );
 
           if (createdAt) {
             // Ensure they still have a farm (wasn't a long time ago)
-            const farms = await getFarms(wallet.web3Provider, context.address);
+            const farms = await getFarms(
+              wallet.web3Provider,
+              context.address as string
+            );
             if (farms.length >= 1) {
               return {
                 readyAt: (createdAt + 60) * 1000,
@@ -299,8 +302,8 @@ export const walletMachine = createMachine({
           }
 
           await mintFarm({
-            id: context.id,
-            jwt: context.jwt,
+            id: context.id as number,
+            jwt: context.jwt as string,
             transactionId: "0xTODO",
           });
 
@@ -346,8 +349,8 @@ export const walletMachine = createMachine({
       invoke: {
         src: async (context, event) => {
           const { farmId, farmAddress, nftId } = await migrate({
-            id: context.id,
-            jwt: context.jwt,
+            id: context.id as number,
+            jwt: context.jwt as string,
             transactionId: "0xTODO",
           });
 
@@ -393,15 +396,15 @@ export const walletMachine = createMachine({
     },
     RESET: {
       target: "chooseWallet",
-      actions: assign({
-        id: (_) => 0,
-        jwt: (_) => undefined,
-        linkedAddress: (_) => undefined,
-        farmAddress: (_) => undefined,
-        action: (_) => undefined,
-        signature: (_) => undefined,
-        address: (_) => undefined,
-        provider: (_) => undefined,
+      actions: assign<Context, any>({
+        id: (_: Context) => 0,
+        jwt: (_: Context) => undefined,
+        linkedAddress: (_: Context) => undefined,
+        farmAddress: (_: Context) => undefined,
+        action: (_: Context) => undefined,
+        signature: (_: Context) => undefined,
+        address: (_: Context) => undefined,
+        provider: (_: Context) => undefined,
       }),
     },
     INITIALISE: {
