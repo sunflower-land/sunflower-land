@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import { ReactPortal } from "components/ui/ReactPortal";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
 
-const CHECK_FOR_UPDATE_INTERVAL = 60 * 60 * 1000;
+const CHECK_FOR_UPDATE_INTERVAL = 20 * 1000;
 
 export function ReloadPrompt() {
+  const [checking, setChecking] = useState(false);
   // Periodic Service Worker Updates
   // https://vite-pwa-org.netlify.app/guide/periodic-sw-updates.html#handling-edge-cases
   const {
@@ -16,6 +17,7 @@ export function ReloadPrompt() {
     onRegisteredSW(swUrl, registration) {
       registration &&
         setInterval(async () => {
+          setChecking(true);
           if (!(!registration.installing && navigator)) return;
 
           if ("connection" in navigator && !navigator.onLine) return;
@@ -29,12 +31,17 @@ export function ReloadPrompt() {
           });
 
           if (resp?.status === 200) await registration.update();
+          setChecking(false);
         }, CHECK_FOR_UPDATE_INTERVAL);
     },
   });
 
   return (
     <ReactPortal>
+      <div className="fixed top-2 left-1/2 -translate-x-1/2 text-xs flex flex-col">
+        <span>{`Checking for update: ${checking}`}</span>
+        <span>{`Needs update: ${needRefresh}`}</span>
+      </div>
       <div
         className={classNames(
           "fixed inset-x-0 bottom-0 transition-all duration-500 delay-1000 bg-brown-300",
