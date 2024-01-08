@@ -37,7 +37,6 @@ type RESTRICTION_REASON =
   | "Bananas are growing"
   | "In use"
   | "Recently used"
-  | "Cannot remove"
   | "Locked during festive season";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
