@@ -64,6 +64,7 @@ export const getFruitTime = (
     seconds = seconds * 0.9;
   }
 
+  // Banana Onesie: 20% reduction
   if (
     fruitSeedName === "Banana Plant" &&
     wearables.onesie === "Banana Onesie"

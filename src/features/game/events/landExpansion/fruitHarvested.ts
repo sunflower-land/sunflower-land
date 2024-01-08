@@ -11,8 +11,10 @@ import {
   FruitName,
   FRUIT_SEEDS,
   Fruit,
+  FruitSeedName,
 } from "features/game/types/fruits";
 import {
+  Bumpkin,
   Collectibles,
   GameState,
   PlantedFruit,
@@ -21,6 +23,7 @@ import cloneDeep from "lodash.clonedeep";
 import { getTimeLeft } from "lib/utils/time";
 import { FruitPatch } from "features/game/types/game";
 import { FruitCompostName } from "features/game/types/composters";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -119,25 +122,59 @@ export function getFruitYield({
   return amount;
 }
 
-function getPlantedAt(
+function getHarvestedAt(
   fruitName: FruitName,
+  fruitSeedName: FruitSeedName,
   collectibles: Collectibles,
+  wearables: BumpkinParts,
   createdAt: number
 ) {
+  if (!fruitName) return createdAt;
+
+  const fruitTime = FRUIT_SEEDS()[fruitSeedName].plantSeconds;
+  const boostedTime = getFruitTime(
+    fruitName,
+    fruitSeedName,
+    collectibles,
+    wearables
+  );
+
+  const offset = fruitTime - boostedTime;
+
+  return createdAt - offset * 1000;
+}
+
+const getFruitTime = (
+  fruitName: FruitName,
+  fruitSeedName: FruitSeedName,
+  collectibles: Collectibles,
+  wearables: BumpkinParts
+) => {
+  let seconds = FRUIT_SEEDS()[fruitSeedName]?.plantSeconds ?? 0;
+
+  // Squirrel Monkey: 50% reduction
   if (
     fruitName === "Orange" &&
     isCollectibleBuilt("Squirrel Monkey", collectibles)
   ) {
-    const orangeTimeInMilliseconds =
-      FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000;
-
-    const offset = orangeTimeInMilliseconds / 2;
-
-    return createdAt - offset;
+    fruitSeedName === "Orange Seed";
+    seconds = seconds * 0.5;
   }
 
-  return createdAt;
-}
+  // Nana: 10% reduction
+  if (fruitName === "Banana" && isCollectibleBuilt("Nana", collectibles)) {
+    fruitSeedName === "Banana Plant";
+    seconds = seconds * 0.9;
+  }
+
+  // Banana Onesie: 20% reduction
+  if (fruitName === "Banana" && wearables.onesie === "Banana Onesie") {
+    fruitSeedName === "Banana Plant";
+    seconds = seconds * 0.8;
+  }
+
+  return seconds;
+};
 
 export function harvestFruit({
   state,
@@ -182,9 +219,11 @@ export function harvestFruit({
     stateCopy.inventory[name]?.add(amount) ?? new Decimal(amount);
 
   patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
-  patch.fruit.harvestedAt = getPlantedAt(
+  patch.fruit.harvestedAt = getHarvestedAt(
     name,
+    seed,
     stateCopy.collectibles,
+    (stateCopy.bumpkin as Bumpkin).equipped,
     createdAt
   );
 
