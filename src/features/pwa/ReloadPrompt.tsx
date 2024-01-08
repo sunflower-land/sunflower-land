@@ -39,7 +39,7 @@ export function ReloadPrompt() {
 
   return (
     <ReactPortal>
-      <div className="fixed top-1/2 safe-pt left-1/2 -translate-y-1/2 text-xs flex flex-col">
+      <div className="fixed top-5 safe-pt left-1/2 -translate-x-1/2 text-xs flex flex-col">
         <span>{`Checking for update: ${checking}`}</span>
         <span>{`Needs update: ${needRefresh}`}</span>
         <span>{`Release version: ${CONFIG.RELEASE_VERSION}`}</span>
