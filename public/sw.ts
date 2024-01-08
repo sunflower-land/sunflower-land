@@ -3,7 +3,7 @@
 
 import { CONFIG } from "../src/lib/config";
 
-const OFFLINE_VERSION = CONFIG.RELEASE_VERSION + "2";
+const OFFLINE_VERSION = CONFIG.RELEASE_VERSION + "1";
 
 import { offlineFallback, googleFontsCache } from "workbox-recipes";
 import { setDefaultHandler } from "workbox-routing";
