@@ -14,7 +14,6 @@ import { Moderation } from "../lib/gameMachine";
 type Request = {
   token: string;
   transactionId: string;
-  wallet: string;
 };
 
 type Response = {
@@ -56,7 +55,6 @@ export async function loadSession(request: Request): Promise<Response> {
     },
     body: JSON.stringify({
       clientVersion: CONFIG.CLIENT_VERSION as string,
-      wallet: request.wallet,
       promoCode,
       referrerId,
       signUpMethod,

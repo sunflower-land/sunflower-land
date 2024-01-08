@@ -177,6 +177,7 @@ const HudComponent: React.FC<{
               onClose={depositDataLoaded ? handleClose : undefined}
             >
               <Deposit
+                farmAddress={gameState.context.farmAddress ?? ""}
                 onDeposit={handleDeposit}
                 onLoaded={(loaded) => setDepositDataLoaded(loaded)}
                 onClose={handleClose}

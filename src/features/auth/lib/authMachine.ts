@@ -1,12 +1,11 @@
 import { createMachine, Interpreter, State, assign } from "xstate";
 import { CONFIG } from "lib/config";
-import { ErrorCode, ERRORS } from "lib/errors";
+import { ErrorCode } from "lib/errors";
 
 import { wallet } from "../../../lib/blockchain/wallet";
 import { saveReferrerId } from "../actions/createAccount";
 import { login, Token, decodeToken } from "../actions/login";
 import { oauthorise } from "../actions/oauth";
-import { CharityAddress } from "../components/CreateFarm";
 import { randomID } from "lib/utils/random";
 import { getOnboardingComplete } from "../actions/onboardingComplete";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
@@ -74,7 +73,6 @@ type ReturnEvent = {
 
 type CreateFarmEvent = {
   type: "CREATE_FARM";
-  charityAddress: CharityAddress;
   donation: number;
   captcha: string;
   hasEnoughMatic: boolean;
@@ -343,7 +341,6 @@ export const authMachine = createMachine(
         entry: "setTransactionId",
         invoke: {
           src: async (context) => {
-            console.log("CREATE!");
             const { farm, token } = await signUp({
               token: context.user.rawToken as string,
               transactionId: context.transactionId as string,
@@ -373,14 +370,11 @@ export const authMachine = createMachine(
         invoke: {
           src: async (context, event) => {
             const { id } = event as ClaimFarmEvent;
-            console.log("CLAIM!");
             const { farm, token } = await claimFarm({
               token: context.user.rawToken as string,
               transactionId: context.transactionId as string,
               farmId: id,
             });
-
-            console.log({ token });
 
             return {
               token,
@@ -425,8 +419,7 @@ export const authMachine = createMachine(
         // Navigates to Discord OAuth Flow
         const { token } = await oauthorise(
           code,
-          context.transactionId as string,
-          wallet.myAccount
+          context.transactionId as string
         );
         return { token };
       },
@@ -440,7 +433,6 @@ export const authMachine = createMachine(
         }),
       }),
       saveToken: (context: Context, event: any) => {
-        console.log("SAVE DA TOKEN");
         // Clear browser token
         window.history.pushState({}, "", window.location.pathname);
 
@@ -458,11 +450,7 @@ export const authMachine = createMachine(
       assignErrorMessage: assign<Context, any>({
         errorCode: (_context, event) => event.data.message,
       }),
-      assignUser: assign<Context, any>({
-        user: (_context, event) => ({
-          web3: event.data.web3,
-        }),
-      }),
+
       assignVisitingFarmIdFromUrl: assign({
         visitingFarmId: (_) => getFarmIdFromUrl(),
       }),

@@ -169,7 +169,7 @@ type WalletUpdatedEvent = {
   type: "WALLET_UPDATED";
   linkedWallet: string;
   farmAddress: string;
-  id: number;
+  nftId: number;
 };
 
 type PurchaseEvent = {
@@ -522,7 +522,6 @@ export function startGame(authContext: AuthContext) {
 
               const response = await loadSession({
                 token: authContext.user.rawToken as string,
-                wallet: authContext.user.web3?.wallet as string,
                 transactionId: context.transactionId as string,
               });
 
@@ -1725,7 +1724,6 @@ export function startGame(authContext: AuthContext) {
             gameAnalytics.initialise(event.data.analyticsId);
             onboardingAnalytics.initialise({
               id: context.farmId,
-              wallet: authContext.user.web3?.wallet as string,
             });
             onboardingAnalytics.logEvent("login");
           }

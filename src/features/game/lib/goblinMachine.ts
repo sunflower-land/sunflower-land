@@ -204,7 +204,6 @@ export function startGoblinVillage({
               const response = await loadSession({
                 token: user.rawToken as string,
                 transactionId: context.transactionId as string,
-                wallet: user.web3?.wallet as string,
               });
 
               const onChainStateFn = getOnChainState({
@@ -322,7 +321,6 @@ export function startGoblinVillage({
               farmAddress: () => farmAddress,
               sessionId: (context: Context) => context.sessionId,
               token: () => user.rawToken,
-              wallet: () => user.web3?.wallet as string,
               balance: (context: Context) => context.state.balance,
             },
             onDone: {
@@ -356,7 +354,6 @@ export function startGoblinVillage({
               farmAddress: () => farmAddress,
               token: () => user.rawToken,
               deviceTrackerId: (context: Context) => context.deviceTrackerId,
-              wallet: () => user.web3?.wallet,
             },
             onDone: {
               target: "playing",

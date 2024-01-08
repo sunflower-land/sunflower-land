@@ -257,7 +257,6 @@ export const wishingWellMachine = createMachine<
             const response = await loadSession({
               token: context.token as string,
               transactionId: context.transactionId as string,
-              wallet: context.wallet as string,
             });
 
             const well = await loadWishingWell(wallet.myAccount);
