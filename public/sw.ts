@@ -3,7 +3,8 @@
 
 import { CONFIG } from "../src/lib/config";
 
-const OFFLINE_VERSION = CONFIG.RELEASE_VERSION + "1";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const OFFLINE_VERSION = CONFIG.RELEASE_VERSION;
 
 import { offlineFallback, googleFontsCache } from "workbox-recipes";
 import { setDefaultHandler } from "workbox-routing";
