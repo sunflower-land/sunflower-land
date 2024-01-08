@@ -263,6 +263,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   wardrobe: {
     "Elf Suit": 1,
+    "Banana Onesie": 1,
   },
 
   createdAt: new Date().getTime(),
