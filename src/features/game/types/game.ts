@@ -292,7 +292,8 @@ export type InventoryItemName =
   | FishingBait
   | CompostName
   | FishName
-  | MarineMarvelName;
+  | MarineMarvelName
+  | "Beehive";
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -766,6 +767,12 @@ export type Home = {
   collectibles: Collectibles;
 };
 
+export type Beehive = {
+  id: string;
+  honeyLevel: 0; // 0 to 24 hrs in minutes (1440)
+  isProducing: boolean;
+};
+
 export interface GameState {
   home: Home;
 
@@ -872,6 +879,7 @@ export interface GameState {
   buds?: Record<number, Bud>;
 
   christmas?: Christmas;
+  beehives?: Record<string, Beehive>;
 }
 
 export interface Context {
