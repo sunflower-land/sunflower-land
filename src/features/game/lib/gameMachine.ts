@@ -370,7 +370,6 @@ export type BlockchainState = {
     | "loading"
     | "loadLandToVisit"
     | "landToVisitNotFound"
-    | "deposited"
     | "visiting"
     | "gameRules"
     | "portalling"
@@ -665,11 +664,6 @@ export function startGame(authContext: AuthContext) {
         notifying: {
           always: [
             {
-              target: "deposited",
-              cond: (context: Context) =>
-                !!context.notifications && context.notifications?.length > 0,
-            },
-            {
               target: "transacting",
               cond: (context: Context) =>
                 !!context.transaction &&
@@ -787,13 +781,6 @@ export function startGame(authContext: AuthContext) {
           },
         },
 
-        deposited: {
-          on: {
-            ACKNOWLEDGE: {
-              target: "refreshing",
-            },
-          },
-        },
         gameRules: {
           on: {
             ACKNOWLEDGE: {

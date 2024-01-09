@@ -21,7 +21,6 @@ import logo from "assets/brand/logo_v2.png";
 import winterLogo from "assets/brand/winter_logo.png";
 import sparkle from "assets/fx/sparkle2.gif";
 
-import { Notifications } from "../components/Notifications";
 import { Hoarding } from "../components/Hoarding";
 import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
 import { Swarming } from "../components/Swarming";
@@ -68,7 +67,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   purchasing: true,
   buyingBlockBucks: true,
   refreshing: true,
-  deposited: true,
   hoarding: true,
   landscaping: false,
   noBumpkinFound: true,
@@ -112,7 +110,6 @@ const isTraded = (state: MachineState) => state.matches("traded");
 const isSniped = (state: MachineState) => state.matches("sniped");
 const isRefreshing = (state: MachineState) => state.matches("refreshing");
 const isBuyingSFL = (state: MachineState) => state.matches("buyingSFL");
-const isDeposited = (state: MachineState) => state.matches("deposited");
 const isError = (state: MachineState) => state.matches("error");
 const isSynced = (state: MachineState) => state.matches("synced");
 const isSyncing = (state: MachineState) => state.matches("syncing");
@@ -234,7 +231,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const sniped = useSelector(gameService, isSniped);
   const refreshing = useSelector(gameService, isRefreshing);
   const buyingSFL = useSelector(gameService, isBuyingSFL);
-  const deposited = useSelector(gameService, isDeposited);
   const error = useSelector(gameService, isError);
   const synced = useSelector(gameService, isSynced);
   const syncing = useSelector(gameService, isSyncing);
@@ -369,7 +365,6 @@ export const GameWrapper: React.FC = ({ children }) => {
           {loading && <Loading />}
           {refreshing && <Refreshing />}
           {buyingSFL && <AddingSFL />}
-          {deposited && <Notifications />}
           {error && <ErrorMessage errorCode={errorCode as ErrorCode} />}
           {synced && <Success />}
           {syncing && <Syncing />}
