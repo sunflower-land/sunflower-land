@@ -7,6 +7,7 @@ import { CONFIG } from "lib/config";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
+import { GameWallet } from "features/wallet/Wallet";
 
 const CONTRIBUTORS = [
   "Netherzapdos",
@@ -132,6 +133,14 @@ export const Donations: React.FC = () => {
         <div className="flex flex-col items-center">
           <p className="my-4">Oh no! Something went wrong!</p>
         </div>
+      )}
+      {state.matches("confirming") && (
+        <GameWallet action="donate">
+          <p className="m-2">{`${donation} (MATIC)`}</p>
+          <Button className="w-full ml-1" onClick={donate}>
+            <span className="text-xs whitespace-nowrap">Confirm</span>
+          </Button>
+        </GameWallet>
       )}
     </>
   );

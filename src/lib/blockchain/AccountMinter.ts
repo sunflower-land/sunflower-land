@@ -1,9 +1,7 @@
 import { CONFIG } from "lib/config";
 import Web3 from "web3";
 import { AbiItem, fromWei } from "web3-utils";
-import MinterABI from "./abis/AccountMinter.json";
 import PokoMinterABI from "./abis/PokoAccountMinter.json";
-import { AccountMinter as IAccountMinter } from "./types/AccountMinter";
 import { AccountMinter as IPokoAccountMinter } from "./types/PokoAccountMinter";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
@@ -20,9 +18,9 @@ export async function getCreatedAt(
   try {
     const createdAt = await (
       new web3.eth.Contract(
-        MinterABI as AbiItem[],
-        CONFIG.ACCOUNT_MINTER_CONTRACT as string
-      ) as unknown as IAccountMinter
+        PokoMinterABI as AbiItem[],
+        CONFIG.POKO_ACCOUNT_MINTER_CONTRACT as string
+      ) as unknown as IPokoAccountMinter
     ).methods
       .farmCreatedAt(address)
       .call({ from: account });
@@ -163,23 +161,6 @@ export async function createNewAccount({
     );
   }
 
-  if (type === undefined) {
-    mintAccountFn = (
-      new web3.eth.Contract(
-        MinterABI as AbiItem[],
-        CONFIG.ACCOUNT_MINTER_CONTRACT as string
-      ) as unknown as IAccountMinter
-    ).methods.mintAccount(
-      signature,
-      charity,
-      deadline,
-      fee,
-      bumpkinWearableIds,
-      bumpkinTokenUri,
-      referrerId
-    );
-  }
-
   return new Promise((resolve, reject) => {
     mintAccountFn
       .send({ from: account, value: fee, gasPrice })
@@ -226,23 +207,4 @@ export async function createNewAccount({
         resolve(receipt);
       });
   });
-}
-
-export async function getMaxSupply(
-  web3: Web3,
-  account: string,
-  attempts = 0
-): Promise<number> {
-  await new Promise((res) => setTimeout(res, 3000 * attempts));
-
-  const maxSupply = await (
-    new web3.eth.Contract(
-      MinterABI as AbiItem[],
-      CONFIG.ACCOUNT_MINTER_CONTRACT as string
-    ) as unknown as IAccountMinter
-  ).methods
-    .maxSupply()
-    .call({ from: account });
-
-  return Number(maxSupply);
 }

@@ -21,7 +21,7 @@ export const SPAWNS: SpawnLocation = {
   },
   beach: {
     default: {
-      x: 468,
+      x: 438,
       y: 652,
     },
   },
@@ -38,25 +38,9 @@ export const SPAWNS: SpawnLocation = {
       x: 600,
       y: 300,
     },
-    bert_home: {
-      x: 760,
-      y: 120,
-    },
-    timmy_home: {
-      x: 660,
-      y: 110,
-    },
-    betty_home: {
-      x: 583,
-      y: 123,
-    },
     decorations_shop: {
       x: 793,
       y: 287,
-    },
-    igor_home: {
-      x: 250,
-      y: 175,
     },
     clothes_shop: {
       x: 264,
@@ -71,38 +55,10 @@ export const SPAWNS: SpawnLocation = {
       y: 318,
     },
   },
-  marcus_home: {
-    default: {
-      x: 100,
-      y: 174,
-    },
-  },
-  dawn_breaker: {
-    default: {
-      x: 241,
-      y: 423,
-    },
-    marcus_home: {
-      x: 490,
-      y: 290,
-    },
-  },
   auction_house: {
     default: {
       x: 170,
       y: 242,
-    },
-  },
-  bert_home: {
-    default: {
-      x: 80,
-      y: 140,
-    },
-  },
-  betty_home: {
-    default: {
-      x: 80,
-      y: 144,
     },
   },
   clothes_shop: {
@@ -115,18 +71,6 @@ export const SPAWNS: SpawnLocation = {
     default: {
       x: 81,
       y: 215,
-    },
-  },
-  igor_home: {
-    default: {
-      x: 80,
-      y: 195,
-    },
-  },
-  timmy_home: {
-    default: {
-      x: 80,
-      y: 144,
     },
   },
   windmill_floor: {

@@ -16,6 +16,7 @@ export type FishName =
   | "Sea Bass"
   | "Sea Horse"
   | "Horse Mackerel"
+  | "Halibut"
   | "Squid"
   // Advanced
   | "Red Snapper"
@@ -24,6 +25,7 @@ export type FishName =
   | "Napoleanfish"
   | "Surgeonfish"
   | "Zebra Turkeyfish"
+  | "Angelfish"
   | "Ray"
   | "Hammerhead shark"
   | "Barred Knifejaw" // Coming Soon
@@ -35,6 +37,7 @@ export type FishName =
   | "Football fish"
   | "Sunfish"
   | "Coelacanth"
+  | "Parrotfish"
   | "Whale Shark"
   | "Saw Shark"
   | "White Shark";
@@ -117,9 +120,12 @@ export const CHUM_DETAILS: Partial<Record<InventoryItemName, string>> = {
   Squid: "Awaken a ray with its favorite treat!",
 };
 
+export type FishingLocation = "beach" | "wharf";
+
 type Fish = {
   baits: FishingBait[];
   type: FishType;
+  locations: FishingLocation[];
 };
 
 // TODO
@@ -127,134 +133,183 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
   Anchovy: {
     baits: ["Earthworm"],
     type: "basic",
+    locations: ["wharf"],
   },
   Butterflyfish: {
     baits: ["Earthworm"],
     type: "basic",
+    locations: ["wharf"],
   },
+
   Blowfish: {
     baits: ["Earthworm"],
     type: "basic",
+    locations: ["wharf"],
   },
   Clownfish: {
     baits: ["Earthworm"],
     type: "basic",
+    locations: ["wharf"],
   },
   "Sea Bass": {
     baits: ["Earthworm"],
     type: "basic",
+    locations: ["wharf"],
   },
   "Sea Horse": {
     baits: ["Earthworm"],
     type: "basic",
+    locations: ["wharf"],
   },
   "Horse Mackerel": {
     baits: ["Earthworm"],
     type: "basic",
+    locations: ["wharf"],
+  },
+  Halibut: {
+    baits: ["Earthworm"],
+    type: "basic",
+    locations: ["beach"],
   },
   Squid: {
     baits: ["Earthworm"],
     type: "basic",
+    locations: ["wharf"],
   },
   "Red Snapper": {
     baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "advanced",
+    locations: ["wharf"],
   },
   "Moray Eel": {
     baits: ["Earthworm", "Grub", "Fishing Lure"],
     type: "advanced",
+    locations: ["wharf"],
   },
   "Olive Flounder": {
     baits: ["Earthworm", "Grub", "Fishing Lure"],
     type: "advanced",
+    locations: ["wharf"],
   },
   Napoleanfish: {
     baits: ["Grub", "Fishing Lure"],
     type: "advanced",
+    locations: ["wharf"],
   },
   Surgeonfish: {
     baits: ["Grub", "Fishing Lure"],
     type: "advanced",
+    locations: ["wharf"],
+  },
+  Angelfish: {
+    baits: ["Grub", "Fishing Lure"],
+    type: "advanced",
+    locations: ["beach"],
   },
   "Zebra Turkeyfish": {
     baits: ["Grub", "Fishing Lure"],
     type: "advanced",
+    locations: ["wharf"],
   },
   Ray: {
     baits: ["Grub", "Fishing Lure"],
     type: "advanced",
+    locations: ["wharf"],
   },
   "Hammerhead shark": {
     baits: ["Grub", "Fishing Lure"],
     type: "advanced",
+    locations: ["wharf"],
   },
   "Barred Knifejaw": {
     baits: ["Grub", "Fishing Lure"],
     type: "advanced",
+    locations: ["wharf"],
   },
   Tuna: {
     baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "expert",
+    locations: ["wharf"],
   },
   "Mahi Mahi": {
     baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "expert",
+    locations: ["wharf"],
   },
   "Blue Marlin": {
     baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "expert",
+    locations: ["wharf"],
   },
   Oarfish: {
     baits: ["Red Wiggler", "Fishing Lure"],
     type: "expert",
+    locations: ["wharf"],
   },
   "Football fish": {
     baits: ["Red Wiggler", "Fishing Lure"],
     type: "expert",
+    locations: ["wharf"],
   },
   Sunfish: {
     baits: ["Red Wiggler", "Fishing Lure"],
     type: "expert",
+    locations: ["wharf"],
   },
   Coelacanth: {
     baits: ["Red Wiggler", "Fishing Lure"],
     type: "expert",
+    locations: ["wharf"],
+  },
+  Parrotfish: {
+    baits: ["Red Wiggler", "Fishing Lure"],
+    type: "expert",
+    locations: ["beach"],
   },
   "Whale Shark": {
     baits: ["Red Wiggler", "Fishing Lure"],
     type: "expert",
+    locations: ["wharf"],
   },
   "Saw Shark": {
     baits: ["Red Wiggler", "Fishing Lure"],
     type: "expert",
+    locations: ["wharf"],
   },
   "White Shark": {
     baits: ["Red Wiggler", "Fishing Lure"],
     type: "expert",
+    locations: ["wharf"],
   },
   "Twilight Anglerfish": {
     baits: ["Red Wiggler", "Grub", "Fishing Lure"],
     type: "marine marvel",
+    locations: ["wharf"],
   },
   "Starlight Tuna": {
     baits: ["Red Wiggler", "Fishing Lure"],
     type: "marine marvel",
+    locations: ["wharf"],
   },
   "Radiant Ray": {
     baits: ["Red Wiggler", "Fishing Lure"],
     type: "marine marvel",
+    locations: ["wharf"],
   },
   "Phantom Barracuda": {
     baits: ["Grub", "Fishing Lure"],
     type: "marine marvel",
+    locations: ["wharf"],
   },
   "Gilded Swordfish": {
     baits: ["Earthworm", "Red Wiggler", "Fishing Lure"],
     type: "marine marvel",
+    locations: ["wharf"],
   },
   "Kraken Tentacle": {
     baits: ["Earthworm", "Grub", "Red Wiggler", "Fishing Lure"],
     type: "expert",
+    locations: ["wharf"],
   },
 };
 

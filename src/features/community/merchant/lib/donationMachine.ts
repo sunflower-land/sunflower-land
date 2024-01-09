@@ -20,7 +20,7 @@ type DonateEvent = {
 type Event = DonateEvent | { type: "BOTTLE_CLICK" } | { type: "CLOSE" };
 
 export type DonationState = {
-  value: "idle" | "floating" | "donating" | "donated" | "error";
+  value: "idle" | "floating" | "donating" | "donated" | "error" | "confirming";
   context: Context;
 };
 
@@ -48,17 +48,24 @@ export const donationMachine = createMachine<Context, Event, DonationState>({
           target: "floating",
         },
         DONATE: {
-          target: "donating",
+          target: "confirming",
         },
       },
     },
     floating: {
       on: {
         DONATE: {
-          target: "donating",
+          target: "confirming",
         },
         CLOSE: {
           target: "idle",
+        },
+      },
+    },
+    confirming: {
+      on: {
+        DONATE: {
+          target: "donating",
         },
       },
     },

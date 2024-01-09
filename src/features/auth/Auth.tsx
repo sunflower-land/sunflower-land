@@ -12,28 +12,22 @@ import { ErrorMessage } from "./ErrorMessage";
 import { Panel } from "components/ui/Panel";
 import { Loading } from "./components";
 
-import { Signing } from "./components/Signing";
 import { ErrorCode } from "lib/errors";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ConnectedToWallet } from "./components/ConnectedToWallet";
 import { Verifying } from "./components/Verifying";
 import { Welcome } from "./components/Welcome";
 import classNames from "classnames";
 import { SignIn, SignUp } from "./components/SignIn";
-import { CreateWallet } from "./components/CreateWallet";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { NoAccount } from "./components/NoAccount";
+import { CONFIG } from "lib/config";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
   const { t } = useAppTranslation();
-
-  const connecting =
-    authState.matches("reconnecting") ||
-    authState.matches("connectingToWallet") ||
-    authState.matches("setupContracts");
 
   return (
     <>
@@ -61,32 +55,38 @@ export const Auth: React.FC = () => {
             Date.now() < new Date("2023-12-27").getTime() ? (
               <>
                 <img id="logo" src={winterLogo} className="w-full mb-1" />
-                <Label
-                  icon={SUNNYSIDE.icons.stopwatch}
-                  type="vibrant"
-                  className="mx-auto"
-                >
-                  Christmas event!
-                </Label>
+                <div className="flex items-center justify-center">
+                  <Label icon={SUNNYSIDE.icons.stopwatch} type="vibrant">
+                    Christmas event!
+                  </Label>
+                  <Label type="default" className="ml-2">
+                    {CONFIG.RELEASE_VERSION?.split("-")[0]}
+                  </Label>
+                </div>
               </>
             ) : (
-              <img id="logo" src={logo} className="w-full" />
+              <>
+                <img id="logo" src={logo} className="w-full" />
+
+                <Label type="default" className="mx-auto">
+                  {CONFIG.RELEASE_VERSION?.split("-")[0]}
+                </Label>
+              </>
             )}
           </div>
         </div>
         <Panel className="pb-1 relative">
-          {authState.matches("initialising") && <Loading />}
           {authState.matches("welcome") && <Welcome />}
-          {authState.matches("createWallet") && <CreateWallet />}
+          {authState.matches("noAccount") && <NoAccount />}
+          {authState.matches("authorising") && <Loading />}
+          {authState.matches("verifying") && <Verifying />}
           {(authState.matches("idle") || authState.matches("signIn")) && (
             <SignIn />
           )}
           {authState.matches("signUp") && <SignUp />}
-          {connecting && <Loading text={t("connecting")} />}
-          {authState.matches("connectedToWallet") && <ConnectedToWallet />}
-          {authState.matches("signing") && <Signing />}
-          {authState.matches("verifying") && <Verifying />}
           {authState.matches("oauthorising") && <Loading />}
+          {authState.matches("creating") && <Loading text="Creating" />}
+          {authState.matches("claiming") && <Loading text="Claiming" />}
           {authState.matches("unauthorised") && (
             <ErrorMessage
               errorCode={authState.context.errorCode as ErrorCode}

@@ -1,7 +1,13 @@
-import { getKeys } from "./craftables";
 import { BumpkinItem } from "./bumpkin";
 import { GoblinState } from "../lib/goblinMachine";
 import { getDailyFishingCount } from "./fishing";
+import {
+  areAnyChickensFed,
+  areAnyCropsGrowing,
+  areAnyFruitsGrowing,
+  areFruitsGrowing,
+  cropIsGrowing,
+} from "./removeables";
 
 export const canWithdrawBoostedWearable = (
   wearable: BumpkinItem,
@@ -15,59 +21,43 @@ export const canWithdrawBoostedWearable = (
     wearable === "Devil Wings" ||
     wearable === "Infernal Pitchfork"
   ) {
-    return getKeys(state.crops).every((id) => !state.crops[id].crop);
+    return !areAnyCropsGrowing(state)[0];
   }
 
   if (wearable === "Sunflower Amulet") {
-    return getKeys(state.crops).every(
-      (id) => state.crops[id].crop?.name !== "Sunflower"
-    );
+    return !cropIsGrowing({ item: "Sunflower", game: state })[0];
   }
 
   if (wearable === "Carrot Amulet") {
-    return getKeys(state.crops).every(
-      (id) => state.crops[id].crop?.name !== "Carrot"
-    );
+    return !cropIsGrowing({ item: "Carrot", game: state })[0];
   }
 
   if (wearable === "Beetroot Amulet") {
-    return getKeys(state.crops).every(
-      (id) => state.crops[id].crop?.name !== "Beetroot"
-    );
+    return !cropIsGrowing({ item: "Beetroot", game: state })[0];
   }
 
   if (wearable === "Parsnip") {
-    return getKeys(state.crops).every(
-      (id) => state.crops[id].crop?.name !== "Parsnip"
-    );
+    return !cropIsGrowing({ item: "Parsnip", game: state })[0];
   }
 
   if (wearable === "Eggplant Onesie") {
-    return getKeys(state.crops).every(
-      (id) => state.crops[id].crop?.name !== "Eggplant"
-    );
+    return !cropIsGrowing({ item: "Eggplant", game: state })[0];
   }
 
   if (wearable === "Corn Onesie") {
-    return getKeys(state.crops).every(
-      (id) => state.crops[id].crop?.name !== "Corn"
-    );
+    return !cropIsGrowing({ item: "Corn", game: state })[0];
   }
 
   if (wearable === "Fruit Picker Apron") {
-    return getKeys(state.fruitPatches).every(
-      (id) => state.fruitPatches[id].fruit === undefined
-    );
+    return !areAnyFruitsGrowing(state)[0];
   }
 
   if (wearable === "Banana Amulet") {
-    return getKeys(state.fruitPatches).every(
-      (id) => state.fruitPatches[id].fruit?.name !== "Banana"
-    );
+    return !areFruitsGrowing(state, "Banana")[0];
   }
 
   if (wearable === "Cattlegrim") {
-    return getKeys(state.chickens).every((id) => !state.chickens[id].fedAt);
+    return !areAnyChickensFed(state)[0];
   }
 
   if (wearable === "Luna's Hat") {

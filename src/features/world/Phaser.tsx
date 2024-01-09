@@ -26,10 +26,6 @@ import { InnerPanel, Panel } from "components/ui/Panel";
 import { ClothesShopScene } from "./scenes/ClothesShopScene";
 import { DecorationShopScene } from "./scenes/DecorationShop";
 import { WindmillFloorScene } from "./scenes/WindmillFloorScene";
-import { IgorHomeScene } from "./scenes/IgorHomeScene";
-import { BertScene } from "./scenes/BertRoomScene";
-import { TimmyHomeScene } from "./scenes/TimmyHomeScene";
-import { BettyHomeScene } from "./scenes/BettyHomeScene";
 import { WoodlandsScene } from "./scenes/WoodlandsScene";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Preloader } from "./scenes/Preloader";
@@ -50,13 +46,14 @@ import { handleCommand } from "./lib/chatCommands";
 import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
 import { Inventory } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
-import { ChristmasScene } from "./scenes/ChristmasScene";
+import { FishingModal } from "./ui/FishingModal";
 
 const _roomState = (state: MachineState) => state.value;
+const _scene = (state: MachineState) => state.context.sceneId;
 
 type Player = {
   playerId: string;
+  username: string;
   farmId: number;
   clothing: BumpkinParts;
   x: number;
@@ -72,17 +69,17 @@ export type ModerationEvent = {
 };
 
 interface Props {
-  scene: SceneId;
   isCommunity: boolean;
   mmoService: MachineInterpreter;
   inventory: Inventory;
+  route: SceneId;
 }
 
 export const PhaserComponent: React.FC<Props> = ({
-  scene,
   isCommunity,
   mmoService,
   inventory,
+  route,
 }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
@@ -104,6 +101,7 @@ export const PhaserComponent: React.FC<Props> = ({
   const game = useRef<Game>();
 
   const mmoState = useSelector(mmoService, _roomState);
+  const scene = useSelector(mmoService, _scene);
 
   const scenes = isCommunity
     ? [CommunityScene]
@@ -111,17 +109,11 @@ export const PhaserComponent: React.FC<Props> = ({
         Preloader,
         AuctionScene,
         WoodlandsScene,
-        BettyHomeScene,
-        TimmyHomeScene,
-        BertScene,
-        IgorHomeScene,
         WindmillFloorScene,
         ClothesShopScene,
         DecorationShopScene,
         BeachScene,
-        ...(hasFeatureAccess(gameService.state.context.state, "CHRISTMAS")
-          ? [ChristmasScene]
-          : [PlazaScene]),
+        PlazaScene,
       ];
 
   useEffect(() => {
@@ -230,6 +222,7 @@ export const PhaserComponent: React.FC<Props> = ({
     };
   }, []);
 
+  // When route changes, switch scene
   useEffect(() => {
     if (!loaded) return;
 
@@ -239,10 +232,10 @@ export const PhaserComponent: React.FC<Props> = ({
       .filter((s) => s.scene.isActive() || s.scene.isPaused())[0];
 
     if (activeScene) {
-      activeScene.scene.start(scene);
-      mmoService.state.context.server?.send(0, { sceneId: scene });
+      activeScene.scene.start(route);
+      mmoService.send("SWITCH_SCENE", { sceneId: route });
     }
-  }, [scene]);
+  }, [route]);
 
   useEffect(() => {
     // Listen to moderation events
@@ -317,6 +310,7 @@ export const PhaserComponent: React.FC<Props> = ({
               updatedPlayers.push({
                 playerId,
                 farmId: player.farmId,
+                username: player.username,
                 x: player.x,
                 y: player.y,
                 clothing: player.clothing,
@@ -395,13 +389,15 @@ export const PhaserComponent: React.FC<Props> = ({
           event={KickEvent}
           onClose={() => {
             setKickEvent(undefined);
-            navigate(`/land/${gameService.state.context.farmId}`);
+            navigate(`/`);
           }}
         />
       )}
 
       <ChatUI
         farmId={gameService.state.context.farmId}
+        gameState={gameService.state.context.state}
+        scene={scene}
         onMessage={(m) => {
           mmoService.state.context.server?.send(0, {
             text: m.text ?? "?",
@@ -412,6 +408,16 @@ export const PhaserComponent: React.FC<Props> = ({
         }}
         messages={messages ?? []}
         isMuted={isMuted ? true : false}
+        onReact={(reaction) => {
+          mmoService.state.context.server?.send(0, {
+            reaction,
+          });
+        }}
+        onBudPlace={(tokenId) => {
+          mmoService.state.context.server?.send(0, {
+            budId: tokenId,
+          });
+        }}
       />
       {isModerator && !isCommunity && (
         <ModerationTools
@@ -427,6 +433,7 @@ export const PhaserComponent: React.FC<Props> = ({
           navigate(`/world/${sceneId}`);
         }}
       />
+      <FishingModal />
       <PlayerModals game={gameService.state.context.state} />
       <TradeCompleted
         mmoService={mmoService}
@@ -438,13 +445,14 @@ export const PhaserComponent: React.FC<Props> = ({
       <Modal
         show={mmoState === "loading" || mmoState === "initialising"}
         centered
+        backdrop={false}
       >
         <Panel>
           <p className="loading">Loading</p>
         </Panel>
       </Modal>
 
-      <Modal show={mmoState === "joinRoom"} centered>
+      <Modal show={mmoState === "joinRoom"} centered backdrop={false}>
         <Panel>
           <p className="loading">Loading</p>
         </Panel>

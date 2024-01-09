@@ -3,19 +3,19 @@ import { Modal } from "react-bootstrap";
 
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { MachineState } from "features/game/lib/gameMachine";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
 import { getSeasonalBanner } from "features/game/types/seasons";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { GameWallet } from "features/wallet/Wallet";
 
 const isPromoting = (state: MachineState) => state.matches("specialOffer");
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -68,6 +68,8 @@ export const PromotingModal: React.FC<Props> = ({
   const inventory = useSelector(gameService, _inventory);
   const hasPreviousSeasonBanner = !!inventory["Witches' Eve Banner"];
 
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
   let price = hasPreviousSeasonBanner ? "4.99" : "6.99";
 
   if (!isPreSeason) {
@@ -75,6 +77,23 @@ export const PromotingModal: React.FC<Props> = ({
   }
 
   const Content = () => {
+    if (showConfirmation) {
+      return (
+        <GameWallet action="purchase">
+          <p className="text-sm my-2">Mint your exclusive Seasonal Banner:</p>
+          <Button
+            onClick={() => {
+              gameService.send("PURCHASE_ITEM", {
+                name: "Catch the Kraken Banner",
+              });
+              onClose();
+            }}
+          >
+            {t("season.buyNow")} {price}
+          </Button>
+        </GameWallet>
+      );
+    }
     if (hasPurchased) {
       return (
         <>
@@ -161,7 +180,7 @@ export const PromotingModal: React.FC<Props> = ({
             <li className="text-sm ml-4">{t("season.boostXP")}</li>
             <li className="text-sm ml-4">{t("season.bonusTickets")}</li>
           </ul>
-          {!isPreSeason && (
+          {/* {!isPreSeason && (
             <Label
               type="info"
               className="mt-2"
@@ -172,8 +191,16 @@ export const PromotingModal: React.FC<Props> = ({
             >
               {t("season.limitedOffer")}
             </Label>
-          )}
-
+          )} */}
+          <Label
+            type="danger"
+            className="mt-2"
+            style={{
+              width: "fit-content",
+            }}
+          >
+            Sold out
+          </Label>
           <a
             href="https://docs.sunflower-land.com/player-guides/seasons/catch-the-kraken#catch-the-kraken-banner"
             target="_blank"
@@ -188,11 +215,9 @@ export const PromotingModal: React.FC<Props> = ({
             {t("noThanks")}
           </Button>
           <Button
+            disabled
             onClick={() => {
-              gameService.send("PURCHASE_ITEM", {
-                name: "Catch the Kraken Banner",
-              });
-              onClose();
+              setShowConfirmation(true);
             }}
           >
             {t("season.buyNow")} {price}

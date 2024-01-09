@@ -243,15 +243,6 @@ export abstract class BaseScene extends Phaser.Scene {
           2
         ) as Phaser.Tilemaps.Tileset);
 
-    const christmas = this.map.addTilesetImage(
-      "Sunnyside V3",
-      "christmas-tileset",
-      16,
-      16,
-      1,
-      2
-    ) as Phaser.Tilemaps.Tileset;
-
     // Set up collider layers
     this.colliders = this.add.group();
 
@@ -330,7 +321,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.map.layers.forEach((layerData, idx) => {
       if (layerData.name === "Crows") return;
 
-      const layer = this.map.createLayer(layerData.name, [christmas], 0, 0);
+      const layer = this.map.createLayer(layerData.name, [tileset], 0, 0);
       if (TOP_LAYERS.includes(layerData.name)) {
         layer?.setDepth(1000000);
       }
@@ -399,11 +390,33 @@ export abstract class BaseScene extends Phaser.Scene {
       }
     });
 
+    const removeReactionListener = server.state.reactions.onAdd((reaction) => {
+      // Old message
+      if (reaction.sentAt < Date.now() - 5000) {
+        return;
+      }
+
+      if (reaction.sceneId !== this.options.name) {
+        return;
+      }
+
+      if (!this.scene?.isActive()) {
+        return;
+      }
+
+      if (this.playerEntities[reaction.sessionId]) {
+        this.playerEntities[reaction.sessionId].react(reaction.reaction);
+      } else if (reaction.sessionId === server.sessionId) {
+        this.currentPlayer?.react(reaction.reaction);
+      }
+    });
+
     // send the scene player is in
     // this.room.send()
 
     this.events.on("shutdown", () => {
       removeMessageListener();
+      removeReactionListener();
     });
   }
 
@@ -634,19 +647,18 @@ export abstract class BaseScene extends Phaser.Scene {
   destroyPlayer(sessionId: string) {
     const entity = this.playerEntities[sessionId];
     if (entity) {
-      entity.setVisible(false);
+      entity.disappear();
       delete this.playerEntities[sessionId];
     }
   }
 
-  update(time: number, delta: number): void {
-    // this.elapsedTime += delta;
-    // while (this.elapsedTime >= this.fixedTimeStep) {
-    //   this.elapsedTime -= this.fixedTimeStep;
-    //   this.fixedTick(time, this.fixedTimeStep);
-    // }
+  update(): void {
+    this.currentTick++;
 
-    this.fixedTick(time, this.fixedTimeStep);
+    this.switchScene();
+    this.updatePlayer();
+    this.updateOtherPlayers();
+    this.updateUsernames();
   }
 
   keysToAngle(
@@ -910,7 +922,8 @@ export abstract class BaseScene extends Phaser.Scene {
     if (this.switchToScene) {
       const warpTo = this.switchToScene;
       this.switchToScene = undefined;
-      this.mmoService?.state.context.server?.send(0, { sceneId: warpTo });
+      // this.mmoService?.state.context.server?.send(0, { sceneId: warpTo });
+      this.mmoService?.send("SWITCH_SCENE", { sceneId: warpTo });
       this.scene.start(warpTo, { previousSceneId: this.sceneId });
     }
   }
@@ -962,15 +975,6 @@ export abstract class BaseScene extends Phaser.Scene {
       this.colliders?.add(container);
       this.triggerColliders?.add(container);
     });
-  }
-
-  fixedTick(time: number, delta: number) {
-    this.currentTick++;
-
-    this.switchScene();
-    this.updatePlayer();
-    this.updateOtherPlayers();
-    this.updateUsernames();
   }
 
   teleportModerator(x: number, y: number) {

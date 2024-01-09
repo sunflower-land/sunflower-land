@@ -5,6 +5,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
 import { ExpansionRequirements } from "components/ui/layouts/ExpansionRequirements";
+import { expansionRequirements } from "features/game/events/landExpansion/revealLand";
 
 interface Props {
   gameState: GameState;
@@ -51,7 +52,10 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
         description:
           "Each piece of land comes with unique resources to help build your farming empire!",
       }}
-      requirements={gameState.expansionRequirements}
+      requirements={expansionRequirements({
+        level: (gameState.inventory["Basic Land"]?.toNumber() ?? 0) + 1,
+        game: gameState,
+      })}
       actionView={
         <Button onClick={onExpand} disabled={!canExpand}>
           Expand

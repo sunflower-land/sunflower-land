@@ -1,4 +1,4 @@
-import { InventoryItemName } from "./game";
+import { GameState, InventoryItemName } from "./game";
 
 export type Worm = "Earthworm" | "Grub" | "Red Wiggler";
 
@@ -70,7 +70,7 @@ export const composterDetails: Record<ComposterName, ComposterDetails> = {
     produceAmount: 10,
     timeToFinishMilliseconds: 6 * 60 * 60 * 1000,
     eggBoostRequirements: 10,
-    eggBoostMilliseconds: 1 * 60 * 60 * 1000,
+    eggBoostMilliseconds: 2 * 60 * 60 * 1000,
   },
   "Turbo Composter": {
     produce: "Fruitful Blend",
@@ -78,7 +78,7 @@ export const composterDetails: Record<ComposterName, ComposterDetails> = {
     worm: "Grub",
     timeToFinishMilliseconds: 8 * 60 * 60 * 1000,
     eggBoostRequirements: 20,
-    eggBoostMilliseconds: 2 * 60 * 60 * 1000,
+    eggBoostMilliseconds: 3 * 60 * 60 * 1000,
   },
   "Premium Composter": {
     produce: "Rapid Root",
@@ -86,6 +86,13 @@ export const composterDetails: Record<ComposterName, ComposterDetails> = {
     worm: "Red Wiggler",
     timeToFinishMilliseconds: 12 * 60 * 60 * 1000,
     eggBoostRequirements: 30,
-    eggBoostMilliseconds: 3 * 60 * 60 * 1000,
+    eggBoostMilliseconds: 4 * 60 * 60 * 1000,
   },
 };
+
+export function isComposting(game: GameState, name: ComposterName): boolean {
+  const composter = game.buildings[name]?.[0];
+  const producing = composter?.producing;
+  if (!producing) return false;
+  return Date.now() > producing?.readyAt;
+}

@@ -10,7 +10,8 @@ export type BumpkinBackground =
   | "China Town Background"
   | "SFL Office Background"
   | "Dawn Breaker Background"
-  | "Mushroom Lights Background";
+  | "Mushroom Lights Background"
+  | "Northern Lights Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -96,7 +97,9 @@ export type BumpkinShirt =
   | "Clown Shirt"
   | "Seaside Tank Top"
   | "Tiki Armor"
-  | "Ugly Christmas Sweater";
+  | "Ugly Christmas Sweater"
+  | "Cozy Hoodie"
+  | "Winter Jacket";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -212,7 +215,8 @@ export type BumpkinHat =
   | "Dazzling Dumbo"
   | "Basic Dumbo"
   | "Stormy Dumbo"
-  | "Gloomy Dumbo";
+  | "Gloomy Dumbo"
+  | "New Years Tiara";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -237,7 +241,8 @@ export type BumpkinPant =
   | "Tattered Slacks"
   | "Fishing Pants"
   | "Angler Waders"
-  | "Tiki Pants";
+  | "Tiki Pants"
+  | "Short Shorts";
 
 export type BumpkinDress =
   | "Cupid Dress"
@@ -287,7 +292,8 @@ export type BumpkinWings =
   | "Love Quiver"
   | "Traveller's Backpack"
   | "Crow Wings"
-  | "Bat Wings";
+  | "Bat Wings"
+  | "Butterfly Wings";
 
 export type BumpkinBeard = "Wise Beard" | "Hoary Chin" | "Santa Beard";
 
@@ -572,6 +578,12 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Elf Suit": 265,
   "Santa Beard": 266,
   "Santa Suit": 267,
+  "Butterfly Wings": 268,
+  "Cozy Hoodie": 269,
+  "New Years Tiara": 270,
+  "Northern Lights Background": 271,
+  "Short Shorts": 272,
+  "Winter Jacket": 273,
 };
 
 // The reverse of above
@@ -898,4 +910,10 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Elf Suit": "suit",
   "Santa Beard": "beard",
   "Santa Suit": "suit",
+  "Butterfly Wings": "wings",
+  "Cozy Hoodie": "shirt",
+  "New Years Tiara": "hat",
+  "Northern Lights Background": "background",
+  "Short Shorts": "pants",
+  "Winter Jacket": "shirt",
 };

@@ -14,8 +14,9 @@ import {
   isCropGrowing,
 } from "features/game/events/landExpansion/harvest";
 import { isFruitGrowing } from "features/game/events/landExpansion/fruitHarvested";
-import { CompostName } from "./composters";
+import { CompostName, isComposting } from "./composters";
 import { getDailyFishingCount } from "./fishing";
+import { GoblinState } from "features/game/lib/goblinMachine";
 
 type RESTRICTION_REASON =
   | "No restriction"
@@ -35,6 +36,7 @@ type RESTRICTION_REASON =
   | "Magic Bean is planted"
   | "Bananas are growing"
   | "In use"
+  | "Recently used"
   | "Locked during festive season";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
@@ -45,7 +47,7 @@ type CanRemoveArgs = {
   game: GameState;
 };
 
-function cropIsGrowing({ item, game }: CanRemoveArgs): Restriction {
+export function cropIsGrowing({ item, game }: CanRemoveArgs): Restriction {
   const cropGrowing = Object.values(game.crops ?? {}).some(
     (plot) => isCropGrowing(plot) && plot.crop?.name === item
   );
@@ -58,7 +60,10 @@ function beanIsPlanted(game: GameState): Restriction {
   return [!!beanPlanted, "Magic Bean is planted"];
 }
 
-function areFruitsGrowing(game: GameState, fruit: FruitName): Restriction {
+export function areFruitsGrowing(
+  game: GoblinState,
+  fruit: FruitName
+): Restriction {
   const fruitGrowing = Object.values(game.fruitPatches ?? {}).some(
     (patch) => isFruitGrowing(patch) && patch.fruit?.name === fruit
   );
@@ -66,7 +71,7 @@ function areFruitsGrowing(game: GameState, fruit: FruitName): Restriction {
   return [fruitGrowing, `${fruit} is growing`];
 }
 
-function areAnyFruitsGrowing(game: GameState): Restriction {
+export function areAnyFruitsGrowing(game: GoblinState): Restriction {
   const fruitGrowing = Object.values(game.fruitPatches ?? {}).some((patch) =>
     isFruitGrowing(patch)
   );
@@ -74,7 +79,7 @@ function areAnyFruitsGrowing(game: GameState): Restriction {
   return [fruitGrowing, `Fruits are growing`];
 }
 
-function areAnyCropsGrowing(game: GameState): Restriction {
+export function areAnyCropsGrowing(game: GoblinState): Restriction {
   const cropsGrowing = Object.values(game.crops ?? {}).some((plot) =>
     isCropGrowing(plot)
   );
@@ -164,7 +169,7 @@ function areAnyMineralsMined(game: GameState): Restriction {
   return areGoldsMined;
 }
 
-function areAnyChickensFed(game: GameState): Restriction {
+export function areAnyChickensFed(game: GoblinState): Restriction {
   const chickensAreFed = Object.values(game.chickens).some(
     (chicken) =>
       chicken.fedAt && Date.now() - chicken.fedAt < CHICKEN_TIME_TO_EGG
@@ -183,6 +188,19 @@ function areAnyTreasureHolesDug(game: GameState): Restriction {
   );
 
   return [holesDug, "Treasure holes are dug"];
+}
+
+function areAnyComposting(game: GameState): Restriction {
+  return [
+    isComposting(game, "Compost Bin") ||
+      isComposting(game, "Turbo Composter") ||
+      isComposting(game, "Premium Composter"),
+    "In use",
+  ];
+}
+
+function hasFishedToday(game: GameState): Restriction {
+  return [getDailyFishingCount(game) !== 0, "In use"];
 }
 
 function isFertiliserApplied(
@@ -274,6 +292,9 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Lady Bug": (game) => areFruitsGrowing(game, "Apple"),
   Nana: (game) => areFruitsGrowing(game, "Banana"),
 
+  // Composter boosts
+  "Soil Krabby": (game) => areAnyComposting(game),
+
   // Fertiliser Boosts
   "Knowledge Crab": (game) => isFertiliserApplied(game, "Sprout Mix"),
 
@@ -304,13 +325,16 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Festive Tree": (game) => hasShakenTree(game),
   "Time Warp Totem": (_: GameState) => [true, "In use"],
 
+  "Grinx's Hammer": (game: GameState) => {
+    const canRemove =
+      Date.now() > (game.expandedAt ?? 0) + 7 * 24 * 60 * 60 * 1000;
+
+    return [!canRemove, "Recently used"];
+  },
+
   // Fishing Boosts
-  Alba: (game) => {
-    return [getDailyFishingCount(game) !== 0, "In use"];
-  },
-  Walrus: (game) => {
-    return [getDailyFishingCount(game) !== 0, "In use"];
-  },
+  Alba: (game) => hasFishedToday(game),
+  Walrus: (game) => hasFishedToday(game),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
@@ -319,8 +343,7 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
 > = {
   // HATS
   "3 Leaf Clover": (game) => areAnyCropsGrowing(game),
-  // TODO Fish Hat needs to be implemented
-  "Fish Hat": (game) => [false, "No restriction"],
+  "Fish Hat": (game) => hasFishedToday(game),
   "Diamond Gem": (game) => areAnyMineralsMined(game),
   "Gold Gem": (game) => areAnyGoldsMined(game),
   "Miner Hat": (game) => areAnyIronsMined(game),
@@ -350,8 +373,7 @@ export const BUD_REMOVAL_RESTRICTIONS: Record<
   Plaza: (game) => areAnyBasicCropsGrowing(game),
   Woodlands: (game) => areAnyTreesChopped(game),
   Cave: (game) => areAnyMineralsMined(game),
-  // TODO Sea needs to be implemented
-  Sea: (game) => [false, "No restriction"],
+  Sea: (game) => hasFishedToday(game),
   Castle: (game) => areAnyMediumCropsGrowing(game),
   // TODO Port needs to be implemented
   Port: (game) => [false, "No restriction"],

@@ -40,11 +40,6 @@ export abstract class Preloader extends Phaser.Scene {
         `${CONFIG.PROTECTED_IMAGE_URL}/world/map-extruded.png`
       );
 
-      this.load.image(
-        "christmas-tileset",
-        `${CONFIG.PROTECTED_IMAGE_URL}/world/christmas-map-extruded.png`
-      );
-
       this.load.image("speech_bubble", "world/speech_bubble.png");
       this.load.image("alert", SUNNYSIDE.icons.expression_alerted);
       this.load.image("label", "world/label.png");
@@ -52,7 +47,16 @@ export abstract class Preloader extends Phaser.Scene {
       this.load.image("hammer", SUNNYSIDE.icons.hammer);
       this.load.image("disc", SUNNYSIDE.icons.disc);
       this.load.image("shadow", "world/shadow.png");
+      this.load.spritesheet("poof", "world/poof.png", {
+        frameWidth: 20,
+        frameHeight: 19,
+      });
+
       this.load.image("skull", SUNNYSIDE.decorations.skull);
+
+      this.load.image("heart", SUNNYSIDE.icons.heart);
+      this.load.image("sad", SUNNYSIDE.icons.sad);
+      this.load.image("happy", SUNNYSIDE.icons.happy);
 
       this.load.spritesheet("silhouette", "world/silhouette.webp", {
         frameWidth: 14,

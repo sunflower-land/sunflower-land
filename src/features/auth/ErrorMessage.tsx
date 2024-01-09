@@ -3,10 +3,7 @@ import { useActor } from "@xstate/react";
 
 import * as Auth from "features/auth/lib/Provider";
 
-import { Web3Missing } from "./components/Web3Missing";
-import { WrongChain } from "./components/WrongChain";
 import { Beta } from "./components/Beta";
-import { RejectedSignTransaction } from "./components/RejectedSignTransaction";
 import { SomethingWentWrong } from "./components/SomethingWentWrong";
 import { DuplicateUser } from "./components/DuplicateUser";
 import { Congestion } from "./components/Congestion";
@@ -18,7 +15,6 @@ import { MultipleDevices } from "./components/MultipleDevices";
 import { Blocked } from "./components/Blocked";
 import { ClockIssue } from "features/game/components/ClockIssue";
 import { SFLExceeded } from "features/game/components/SFLExceeded";
-import { MultipleWallets } from "./components/MultipleWallets";
 import { NotOnDiscordServer } from "./components/NotOnDiscordServer";
 
 interface Props {
@@ -41,34 +37,6 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
       }
     };
   }, []);
-
-  if (errorCode === ERRORS.NO_WEB3_PHANTOM) {
-    return <Web3Missing wallet="PHANTOM" />;
-  }
-
-  if (errorCode === ERRORS.NO_WEB3_CRYPTO_COM) {
-    return <Web3Missing wallet="CRYPTO_COM" />;
-  }
-
-  if (errorCode === ERRORS.NO_WEB3_BITGET) {
-    return <Web3Missing wallet="BITGET" />;
-  }
-
-  if (errorCode === ERRORS.NO_WEB3) {
-    return <Web3Missing />;
-  }
-
-  if (errorCode === ERRORS.WALLET_INITIALISATION_FAILED) {
-    return <MultipleWallets />;
-  }
-
-  if (errorCode === ERRORS.WRONG_CHAIN) {
-    return <WrongChain />;
-  }
-
-  if (errorCode === ERRORS.REJECTED_TRANSACTION) {
-    return <RejectedSignTransaction onTryAgain={() => send("REFRESH")} />;
-  }
 
   if (errorCode === ERRORS.NO_FARM) {
     return <Beta />;

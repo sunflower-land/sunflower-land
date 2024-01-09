@@ -1,6 +1,6 @@
 import { GameState, InventoryItemName, Wardrobe } from "./game";
 
-export type BonusName = "discord-signup" | "ygg-giveaway";
+export type BonusName = "discord-signup" | "ygg-giveaway" | "2024-nye-bonus";
 
 export type Bonus = {
   isClaimed: (game: GameState) => boolean;
@@ -28,6 +28,15 @@ export const BONUSES: Record<BonusName, Bonus> = {
     reward: {
       wearables: {
         "Parsnip Horns": 1,
+      },
+      inventory: {},
+    },
+  },
+  "2024-nye-bonus": {
+    isClaimed: (game) => !!game.wardrobe["New Years Tiara"],
+    reward: {
+      wearables: {
+        "New Years Tiara": 1,
       },
       inventory: {},
     },

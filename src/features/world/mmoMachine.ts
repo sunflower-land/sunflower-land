@@ -15,13 +15,7 @@ export type Scenes = {
   clothes_shop: Room<PlazaRoomState> | undefined;
   decorations_shop: Room<PlazaRoomState> | undefined;
   windmill_floor: Room<PlazaRoomState> | undefined;
-  igor_home: Room<PlazaRoomState> | undefined;
-  bert_home: Room<PlazaRoomState> | undefined;
-  timmy_home: Room<PlazaRoomState> | undefined;
-  betty_home: Room<PlazaRoomState> | undefined;
   woodlands: Room<PlazaRoomState> | undefined;
-  dawn_breaker: Room<PlazaRoomState> | undefined;
-  marcus_home: Room<PlazaRoomState> | undefined;
   beach: Room<PlazaRoomState> | undefined;
   crop_boom: Room<PlazaRoomState> | undefined;
   mushroom_forest: Room<PlazaRoomState> | undefined;
@@ -87,7 +81,7 @@ export interface MMOContext {
   availableServers: Server[];
   server?: Room<PlazaRoomState> | undefined;
   serverId: ServerId;
-  initialSceneId: SceneId;
+  sceneId: SceneId;
   experience: number;
   isCommunity?: boolean;
   moderation: Moderation;
@@ -117,12 +111,18 @@ export type ConnectEvent = {
   serverId: string;
 };
 
+export type SwitchScene = {
+  type: "SWITCH_SCENE";
+  sceneId: SceneId;
+};
+
 export type MMOEvent =
   | PickServer
   | { type: "CONTINUE" }
   | { type: "DISCONNECTED" }
   | { type: "RETRY" }
-  | ConnectEvent;
+  | ConnectEvent
+  | SwitchScene;
 
 export type MachineState = State<MMOContext, MMOEvent, MMOState>;
 
@@ -142,7 +142,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     bumpkin: INITIAL_BUMPKIN,
     availableServers: SERVERS,
     serverId: "sunflorea_bliss",
-    initialSceneId: "plaza",
+    sceneId: "plaza",
     experience: 0,
     isCommunity: false,
     moderation: {
@@ -231,7 +231,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             farmId: context.farmId,
             x: SPAWNS.plaza.default.x,
             y: SPAWNS.plaza.default.y,
-            sceneId: context.initialSceneId,
+            sceneId: context.sceneId,
             experience: context.experience,
             moderation: context.moderation,
             username: context.username,
@@ -281,7 +281,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
               username: context.username,
               x: SPAWNS.plaza.default.x,
               y: SPAWNS.plaza.default.y,
-              sceneId: context.initialSceneId,
+              sceneId: context.sceneId,
               experience: context.experience,
               moderation: context.moderation,
             }
@@ -332,6 +332,16 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
           target: "reconnecting",
         },
       },
+    },
+  },
+  on: {
+    SWITCH_SCENE: {
+      actions: [
+        assign({
+          sceneId: (_, event) => event.sceneId,
+        }),
+        (context, event) => context.server?.send(0, { sceneId: event.sceneId }),
+      ],
     },
   },
 });

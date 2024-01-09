@@ -196,13 +196,13 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     spriteRef.current?.setStartAt(FISHING_FRAMES.caught.startAt);
     spriteRef.current?.setEndAt(FISHING_FRAMES.caught.endAt);
 
-    gameService.send("fish.missed");
+    gameService.send("fish.missed", { location: "wharf" });
     gameService.send("SAVE");
   };
 
   const claim = () => {
     if (fishing.wharf.caught) {
-      const state = gameService.send("rod.reeled");
+      const state = gameService.send("rod.reeled", { location: "wharf" });
 
       const totalFishCaught = getKeys(FISH).reduce(
         (total, name) =>

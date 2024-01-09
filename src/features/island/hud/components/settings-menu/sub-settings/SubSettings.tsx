@@ -11,7 +11,7 @@ import { TransferAccount } from "./TransferAccount";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
-import { removeSocialSession } from "features/auth/actions/social";
+import { WalletContext } from "features/wallet/WalletProvider";
 
 interface Props {
   isOpen: boolean;
@@ -23,6 +23,8 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   const { gameService, showAnimations, toggleAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const { walletService } = useContext(WalletContext);
+
   const { farmAddress } = gameState.context;
   const isFullUser = farmAddress !== undefined;
 
@@ -31,12 +33,6 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   const closeAndResetView = () => {
     onClose();
     setView("settings");
-  };
-
-  const onLogout = () => {
-    onClose();
-    removeSocialSession();
-    authService.send("LOGOUT"); // hack used to avoid redundancy
   };
 
   const onToggleAnimations = () => {
@@ -62,9 +58,7 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
         <Button className="col p-1" onClick={onToggleAnimations}>
           {showAnimations ? "Disable Animations" : "Enable Animations"}
         </Button>
-        <Button className="col p-1 mt-2" onClick={onLogout}>
-          Logout
-        </Button>
+
         {isFullUser && (
           <>
             <Button

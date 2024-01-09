@@ -63,13 +63,14 @@ export function makeGame(farm: any): GameState {
 
     expansionConstruction: farm.expansionConstruction,
     expansionRequirements: farm.expansionRequirements,
+    expandedAt: farm.expandedAt,
 
     islands: farm.islands,
     portals: farm.portals,
 
     bumpkin: farm.bumpkin,
     buildings: farm.buildings,
-    fishing: farm.fishing ?? { wharf: {} },
+    fishing: farm.fishing ?? { wharf: {}, beach: {} },
     farmActivity: farm.farmActivity ?? {},
     milestones: farm.milestones ?? {},
     airdrops: farm.airdrops,

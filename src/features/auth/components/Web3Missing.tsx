@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Context } from "../lib/Provider";
+import { WalletContext } from "features/wallet/WalletProvider";
 
 export const Web3Missing: React.FC<{
   wallet?: "PHANTOM" | "CRYPTO_COM" | "BITGET";
 }> = ({ wallet }) => {
-  const { authService } = useContext(Context);
+  const { walletService } = useContext(WalletContext);
 
   const goToMetamaskSetupDocs = () => {
     window.open(
@@ -58,7 +58,7 @@ export const Web3Missing: React.FC<{
       </div>
       <div className="flex space-x-1">
         <Button
-          onClick={() => authService.send("REFRESH")}
+          onClick={() => walletService.send("RESET")}
           className="overflow-hidden"
         >
           <span>Go back</span>

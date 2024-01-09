@@ -61,6 +61,7 @@ export const HeliosAuction: React.FC = () => {
           gameService.send("MINT", { auctionId: id });
         }}
         deviceTrackerId={gameState.context.deviceTrackerId as string}
+        linkedAddress={gameState.context.linkedWallet}
       />
     </>
   );

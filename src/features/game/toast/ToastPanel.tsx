@@ -65,21 +65,17 @@ export const ToastPanel: React.FC = () => {
     // balance is set and changed
     if (
       !!newBalance.current &&
-      !(oldBalance.current ?? new Decimal(0)).equals(
-        newBalance.current ?? new Decimal(0)
-      )
+      oldBalance.current?.equals(newBalance.current) !== true
     ) {
-      setBalance(newBalance.current ?? new Decimal(0));
+      setBalance(newBalance.current);
     }
 
     // experience is set and changed
     if (
       !!newExperience.current &&
-      !(oldExperience.current ?? new Decimal(0)).equals(
-        newExperience.current ?? new Decimal(0)
-      )
+      oldExperience.current?.equals(newExperience.current) !== true
     ) {
-      setExperience(newExperience.current ?? new Decimal(0));
+      setExperience(newExperience.current);
     }
   });
 

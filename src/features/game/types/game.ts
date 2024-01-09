@@ -722,14 +722,17 @@ export type TradeListing = {
   buyerId?: number;
 };
 
+type FishingSpot = {
+  castedAt?: number;
+  bait?: FishingBait;
+  chum?: InventoryItemName;
+  caught?: Partial<Record<InventoryItemName, number>>;
+};
+
 export type Fishing = {
   weather: FishingConditions;
-  wharf: {
-    castedAt?: number;
-    bait?: FishingBait;
-    chum?: InventoryItemName;
-    caught?: Partial<Record<InventoryItemName, number>>;
-  };
+  wharf: FishingSpot;
+  beach: FishingSpot;
   dailyAttempts?: {
     [date: string]: number;
   };
@@ -784,6 +787,7 @@ export interface GameState {
 
   expansionConstruction?: ExpansionConstruction;
   expansionRequirements?: ExpansionRequirements;
+  expandedAt?: number;
 
   bumpkin?: Bumpkin;
   buildings: Buildings;

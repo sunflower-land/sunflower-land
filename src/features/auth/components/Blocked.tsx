@@ -4,18 +4,18 @@ import { Button } from "components/ui/Button";
 import humanDeath from "assets/npcs/human_death.gif";
 
 import * as AuthProvider from "features/auth/lib/Provider";
-import { removeSession } from "../actions/login";
-import { wallet } from "lib/blockchain/wallet";
-import { removeSocialSession } from "../actions/social";
+import { removeJWT } from "../actions/social";
+import { WalletContext } from "features/wallet/WalletProvider";
 
 export const Blocked: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
+  const { walletService } = useContext(WalletContext);
 
   const tryAgain = () => {
-    removeSession(wallet.myAccount as string);
-    removeSocialSession();
+    removeJWT();
 
     authService.send("REFRESH");
+    walletService.send("RESET");
   };
 
   return (

@@ -29,7 +29,7 @@ export const BoatModal: React.FC<Props> = ({ isOpen, closeModal, id }) => {
         <p className="mb-3">Would you like to return home?</p>
       </div>
       <Button
-        onClick={() => navigate(`/land/${id}`)}
+        onClick={() => navigate(`/`)}
         disabled={gameState.matches("autosaving")}
       >
         {gameState.matches("autosaving") ? "Saving..." : "Go home"}

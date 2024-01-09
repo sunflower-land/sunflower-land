@@ -27,7 +27,9 @@ export function skipOrder({
 
   if (
     getDayOfYear(new Date(createdAt)) ===
-    getDayOfYear(new Date(order.createdAt))
+      getDayOfYear(new Date(order.createdAt)) &&
+    new Date(createdAt).getFullYear() ===
+      new Date(order.createdAt).getFullYear()
   ) {
     throw new Error(
       `Order skipped within 24 hours; time now ${createdAt}, time of last skip ${order.createdAt}`
