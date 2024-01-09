@@ -12,7 +12,6 @@ import { balancesToInventory } from "lib/utils/visitUtils";
 import { fromWei, toBN, toWei } from "web3-utils";
 
 import token from "assets/icons/token_2.png";
-import lockIcon from "assets/skills/lock.png";
 import classNames from "classnames";
 import { setPrecision } from "lib/utils/formatNumber";
 import { transferInventoryItem } from "./WithdrawItems";
@@ -32,7 +31,9 @@ import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { loadWardrobe } from "lib/blockchain/BumpkinItems";
 import { getBudsBalance } from "lib/blockchain/Buds";
 import { CONFIG } from "lib/config";
+import { GameWallet } from "features/wallet/Wallet";
 import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -66,6 +67,47 @@ export const Deposit: React.FC<Props> = ({
   farmAddress,
   canDeposit = true,
 }) => {
+  const [showIntro, setShowIntro] = useState(true);
+
+  if (showIntro) {
+    return (
+      <>
+        <div className="p-2">
+          <Label icon={SUNNYSIDE.resource.pirate_bounty} type="default">
+            Deposit
+          </Label>
+          <p className="my-2 text-sm">
+            Would you like to deposit Sunflower Land collectibles, wearables or
+            SFL?
+          </p>
+        </div>
+        <Button onClick={() => setShowIntro(false)}>Continue</Button>
+      </>
+    );
+  }
+
+  return (
+    <GameWallet action="deposit">
+      <DepositOptions
+        onClose={onClose}
+        onDeposit={onDeposit}
+        onLoaded={onLoaded}
+        farmAddress={farmAddress}
+        canDeposit={canDeposit}
+      />
+    </GameWallet>
+  );
+};
+
+const DepositOptions: React.FC<Props> = ({
+  onClose,
+  onDeposit,
+  onLoaded,
+  farmAddress,
+  canDeposit = true,
+}) => {
+  const [hasWeb3, setHasWeb3] = useState(false);
+
   const [status, setStatus] = useState<Status>("loading");
   // These are the balances of the user's personal wallet
   const [sflBalance, setSflBalance] = useState<Decimal>(new Decimal(0));
@@ -263,16 +305,16 @@ export const Deposit: React.FC<Props> = ({
     sflBalance.eq(0);
   const validDepositAmount = sflDepositAmount > 0 && !amountGreaterThanBalance;
 
-  if (!canDeposit) {
-    return (
-      <div className="p-2 space-y-2">
-        <p>To deposit items you must first level up</p>
-        <Label icon={lockIcon} type="danger">
-          Level 3
-        </Label>
-      </div>
-    );
-  }
+  // if (!canDeposit) {
+  //   return (
+  //     <div className="p-2 space-y-2">
+  //       <p>To deposit items you must first level up</p>
+  //       <Label icon={lockIcon} type="danger">
+  //         Level 3
+  //       </Label>
+  //     </div>
+  //   );
+  // }
   return (
     <>
       {status === "loading" && <Loading />}

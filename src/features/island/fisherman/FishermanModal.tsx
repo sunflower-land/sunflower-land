@@ -25,7 +25,7 @@ import {
   getTide,
 } from "features/game/types/fishing";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { NPC_WEARABLES } from "lib/npcs";
+import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { FishingGuide } from "./FishingGuide";
 import {
   getDailyFishingCount,
@@ -301,15 +301,24 @@ const BaitSelection: React.FC<{
   );
 };
 
+const capitalizeFirstLetters = (inputString: string) => {
+  return inputString.replace(/\b\w/g, (char) => char.toUpperCase());
+};
+
 interface Props {
   onCast: (bait: FishingBait, chum?: InventoryItemName) => void;
   onClose: () => void;
+  npc?: NPCName;
 }
 
 const currentWeather = (state: MachineState) =>
   state.context.state.fishing.weather;
 
-export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
+export const FishermanModal: React.FC<Props> = ({
+  onCast,
+  onClose,
+  npc = "reelin roy",
+}) => {
   const { gameService } = useContext(Context);
   const weather = useSelector(gameService, currentWeather);
   const { t } = useAppTranslation();
@@ -329,14 +338,13 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
   const [tab, setTab] = useState(0);
   if (showIntro) {
     return (
-      <CloseButtonPanel
-        onClose={onClose}
-        bumpkinParts={NPC_WEARABLES["reelin roy"]}
-      >
+      <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES[npc]}>
         <SpeakingText
           message={[
             {
-              text: "Ahoy, fellow islanders! I'm Reelin' Roy, your trusty island fisherman, and I've set my sights on a grand challenge – collecting every fish under the sun!",
+              text: `Ahoy, fellow islanders! I'm ${capitalizeFirstLetters(
+                npc
+              )}, your trusty island fisherman, and I've set my sights on a grand challenge – collecting every fish under the sun!`,
             },
             {
               text: "Fish are great for eating, delivering and claiming rewards!",
@@ -356,10 +364,7 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
 
   if (showFishFrenzy) {
     return (
-      <CloseButtonPanel
-        onClose={onClose}
-        bumpkinParts={NPC_WEARABLES["reelin roy"]}
-      >
+      <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES[npc]}>
         <SpeakingText
           message={[
             {
@@ -380,7 +385,7 @@ export const FishermanModal: React.FC<Props> = ({ onCast, onClose }) => {
   return (
     <CloseButtonPanel
       onClose={onClose}
-      bumpkinParts={NPC_WEARABLES["reelin roy"]}
+      bumpkinParts={NPC_WEARABLES[npc]}
       tabs={[
         { icon: SUNNYSIDE.tools.fishing_rod, name: "Fish" },
         {

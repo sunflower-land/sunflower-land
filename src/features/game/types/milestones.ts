@@ -15,7 +15,8 @@ export type MilestoneName =
   | "Expert Angler"
   | "Fish Encyclopedia"
   | "Master Angler"
-  | "Marine Marvel Master";
+  | "Marine Marvel Master"
+  | "Deep Sea Diver";
 
 type MilestoneReward = InventoryItemName | BumpkinItem;
 
@@ -134,6 +135,22 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
       "Luminous Anglerfish Topper": 1,
     },
   },
+  "Deep Sea Diver": {
+    task: "Catch 5 of every fish",
+    percentageComplete: (farmActivity: GameState["farmActivity"]) => {
+      const encyclopediaFish = getEncyclopediaFish();
+
+      const fishComplete = encyclopediaFish.filter(
+        (name) => (farmActivity[`${name} Caught`] ?? 0) >= 5,
+        0
+      );
+
+      return (fishComplete.length / encyclopediaFish.length) * 100;
+    },
+    reward: {
+      "Deep Sea Helm": 1,
+    },
+  },
 };
 
 // All Milestones
@@ -178,4 +195,6 @@ export const MILESTONE_MESSAGES: Record<MilestoneName, string> = {
     "Wow, you've just reached the Master Angler milestone! Catching 1500 fish is a testament to your fishing skills.",
   "Marine Marvel Master":
     "Congratulations, you've just reached the Marine Marvel Master milestone! You're the undisputed champion of the seas! Catching each Marvel proves your fishing prowess like no other.",
+  "Deep Sea Diver":
+    "Congratulations, you've just reached the Deep Sea Diver milestone! You have earnt the Deep Sea Helm - a mysterious Crown that attracts Marine Marvels to your hook.",
 };

@@ -11,6 +11,7 @@ import { fromWei, toBN, toWei } from "web3-utils";
 import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Context } from "features/game/GameProvider";
+import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
@@ -22,6 +23,18 @@ export const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 export const INPUT_MAX_CHAR = 10;
 
 export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
+  return (
+    <Modal show={isOpen} centered onHide={onClose}>
+      <CloseButtonPanel title="Add SFL" onClose={onClose}>
+        <GameWallet action="purchase">
+          <AddSFLOptions isOpen={isOpen} onClose={onClose} />
+        </GameWallet>
+      </CloseButtonPanel>
+    </Modal>
+  );
+};
+
+const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
   const { gameService } = useContext(Context);
   const [maticBalance, setMaticBalance] = useState<Decimal>(new Decimal(0));
   const [isLoading, setIsLoading] = useState(true);
@@ -188,11 +201,5 @@ export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
       </>
     );
   };
-  return (
-    <Modal show={isOpen} centered onHide={onClose}>
-      <CloseButtonPanel title="Add SFL" onClose={onClose}>
-        {Content()}
-      </CloseButtonPanel>
-    </Modal>
-  );
+  return <>{Content()}</>;
 };
