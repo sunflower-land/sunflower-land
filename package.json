@@ -65,6 +65,7 @@
     "react-draggable": "^4.4.5",
     "react-i18next": "^13.3.1",
     "react-indiana-drag-scroll": "^2.1.0",
+    "react-ios-pwa-prompt-ts": "^1.0.3",
     "react-router-dom": "^6.10.0",
     "react-share": "^4.4.1",
     "react-spring": "^9.7.1",
