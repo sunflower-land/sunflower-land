@@ -19,6 +19,7 @@ import { Refunded } from "./Refunded";
 import { MissingAuction } from "./MissingAuction";
 import { TieBreaker } from "./TieBreaker";
 import { AuctionsComingSoon } from "./AuctionsComingSoon";
+import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
@@ -68,6 +69,18 @@ export const AuctioneerContent: React.FC<Props> = ({
           {t("retry")}
         </Button>
       </div>
+    );
+  }
+
+  if (auctioneerState.matches("noAccess")) {
+    return (
+      <GameWallet action="purchase">
+        <div className="p-2">
+          <Button onClick={() => auctionService.send("REFRESH")}>
+            Continue
+          </Button>
+        </div>
+      </GameWallet>
     );
   }
 

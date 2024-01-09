@@ -53,6 +53,10 @@ export const ERRORS = {
 
   // Sequence
   SEQUENCE_NOT_CONNECTED: "SEQUENCE_NOT_CONNECTED",
+
+  WALLET_ALREADY_LINKED: "WALLET_ALREADY_LINKED",
+
+  MISSING_PROVIDER: "MISSING_PROVIDER",
 };
 
 export type ErrorCode = keyof typeof ERRORS;

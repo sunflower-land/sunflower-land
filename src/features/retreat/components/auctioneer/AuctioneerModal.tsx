@@ -17,8 +17,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { wallet } from "lib/blockchain/wallet";
-import { GoogleIcon } from "features/auth/components/SignIn";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
@@ -29,6 +27,7 @@ interface Props {
   onUpdate: (state: GameState) => void;
   onMint: (id: string) => void;
   deviceTrackerId: string;
+  linkedAddress?: string;
 }
 
 export const AuctioneerModal: React.FC<Props> = ({
@@ -39,6 +38,7 @@ export const AuctioneerModal: React.FC<Props> = ({
   onUpdate,
   onMint,
   deviceTrackerId,
+  linkedAddress,
 }) => {
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
@@ -52,6 +52,7 @@ export const AuctioneerModal: React.FC<Props> = ({
       bid: gameState.auctioneer.bid,
       deviceTrackerId: deviceTrackerId,
       canAccess: true,
+      linkedAddress: linkedAddress,
     },
   }) as unknown as MachineInterpreter;
 
@@ -73,24 +74,6 @@ export const AuctioneerModal: React.FC<Props> = ({
         <Panel bumpkinParts={NPC_WEARABLES["hammerin harry"]}>
           <span className="loading">Loading</span>
         </Panel>
-      </Modal>
-    );
-  }
-
-  if (wallet.isSocial) {
-    return (
-      <Modal centered show={isOpen} onHide={onClose}>
-        <CloseButtonPanel
-          bumpkinParts={NPC_WEARABLES["hammerin harry"]}
-          onClose={onClose}
-        >
-          <div className="flex p-1 gap-2 items-center">
-            <GoogleIcon />
-            <span className="text-sm">
-              Auctions are coming soon for social wallets.
-            </span>
-          </div>
-        </CloseButtonPanel>
       </Modal>
     );
   }

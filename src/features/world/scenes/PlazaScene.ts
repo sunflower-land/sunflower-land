@@ -6,6 +6,12 @@ import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { AudioController } from "../lib/AudioController";
+import {
+  AudioLocalStorageKeys,
+  getCachedAudioSetting,
+} from "../../game/lib/audio";
+import { PlaceableContainer } from "../containers/PlaceableContainer";
+import { budImageDomain } from "features/island/collectibles/components/Bud";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -116,6 +122,10 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
 
+  placeables: {
+    [sessionId: string]: PlaceableContainer;
+  } = {};
+
   constructor() {
     const showNYE =
       Date.now() > new Date("2023-12-31").getTime() &&
@@ -173,25 +183,32 @@ export class PlazaScene extends BaseScene {
 
     super.preload();
 
-    // Ambience SFX
-    if (!this.sound.get("nature_1")) {
-      const nature1 = this.sound.add("nature_1");
-      nature1.play({ loop: true, volume: 0.01 });
-    }
+    const audioMuted = getCachedAudioSetting<boolean>(
+      AudioLocalStorageKeys.audioMuted,
+      false
+    );
 
-    // Boat SFX
-    if (!this.sound.get("boat")) {
-      const boatSound = this.sound.add("boat");
-      boatSound.play({ loop: true, volume: 0, rate: 0.6 });
+    if (!audioMuted) {
+      // Ambience SFX
+      if (!this.sound.get("nature_1")) {
+        const nature1 = this.sound.add("nature_1");
+        nature1.play({ loop: true, volume: 0.01 });
+      }
 
-      this.soundEffects.push(
-        new AudioController({
-          sound: boatSound,
-          distanceThreshold: 130,
-          coordinates: { x: 352, y: 462 },
-          maxVolume: 0.2,
-        })
-      );
+      // Boat SFX
+      if (!this.sound.get("boat")) {
+        const boatSound = this.sound.add("boat");
+        boatSound.play({ loop: true, volume: 0, rate: 0.6 });
+
+        this.soundEffects.push(
+          new AudioController({
+            sound: boatSound,
+            distanceThreshold: 130,
+            coordinates: { x: 352, y: 462 },
+            maxVolume: 0.2,
+          })
+        );
+      }
     }
 
     // Shut down the sound when the scene changes
@@ -397,5 +414,43 @@ export class PlazaScene extends BaseScene {
         this.layers["Club House Door"].setVisible(true);
       }
     });
+  }
+
+  syncPlaceables() {
+    const server = this.mmoServer;
+    if (!server) return;
+
+    // Destroy any dereferenced placeables
+    Object.keys(this.placeables).forEach((sessionId) => {
+      const hasLeft =
+        !server.state.buds.get(sessionId) ||
+        server.state.buds.get(sessionId)?.sceneId !== this.scene.key;
+
+      const isInactive = !this.placeables[sessionId]?.active;
+
+      if (hasLeft || isInactive) {
+        this.placeables[sessionId]?.disappear();
+        delete this.placeables[sessionId];
+      }
+    });
+
+    // Create new placeables
+    server.state.buds?.forEach((bud, sessionId) => {
+      if (bud.sceneId !== this.scene.key) return;
+
+      if (!this.placeables[sessionId]) {
+        this.placeables[sessionId] = new PlaceableContainer({
+          sprite: `https://${budImageDomain}.sunflower-land.com/sheets/idle/${bud.id}.webp`,
+          x: bud.x,
+          y: bud.y,
+          scene: this,
+        });
+      }
+    });
+  }
+
+  public update() {
+    super.update();
+    this.syncPlaceables();
   }
 }

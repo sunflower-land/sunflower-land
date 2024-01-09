@@ -68,7 +68,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       jwt: authState.context.user.rawToken,
       farmId: gameState.context.farmId,
       bumpkin: gameState.context.state.bumpkin,
-      initialSceneId: name as SceneId,
+      sceneId: name as SceneId,
       experience: gameState.context.state.bumpkin?.experience ?? 0,
       isCommunity,
       moderation: gameState.context.moderation,
@@ -101,9 +101,9 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     <>
       <PhaserComponent
         mmoService={mmoService}
-        scene={name as SceneId}
         isCommunity={isCommunity}
         inventory={gameState.context.state.inventory}
+        route={name as SceneId}
       />
       <Modal show={isIntroducting} centered>
         <WorldIntroduction
@@ -153,7 +153,7 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
 
   return (
     <Ocean>
-      <Modal show centered>
+      <Modal show centered backdrop={false}>
         <Panel>
           <p className="loading">Loading</p>
         </Panel>
@@ -162,12 +162,9 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
   );
 };
 
-const _inventory = (state: MachineState) => state.context.state.inventory;
-
 export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
   const { gameService, showAnimations } = useContext(Context);
   const isLoading = useSelector(gameService, _isLoading);
-  const inventory = useSelector(gameService, _inventory);
   const name = useParams().name as SceneId;
 
   const hasAccess =

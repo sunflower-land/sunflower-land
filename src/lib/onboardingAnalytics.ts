@@ -7,7 +7,6 @@ import {
   getAnalytics,
   logEvent,
   setUserId,
-  setUserProperties,
 } from "firebase/analytics";
 
 export type OnboardingGameAnalyticEvent =
@@ -62,14 +61,10 @@ class OnboardingAnalytics {
     this.analytics = getAnalytics(app);
   }
 
-  public initialise({ id, wallet }: { id?: number; wallet: string }) {
+  public initialise({ id }: { id?: number }) {
     if (id) {
       setUserId(this.analytics, id.toString());
     }
-
-    setUserProperties(this.analytics, {
-      wallet,
-    });
   }
 
   /*

@@ -6,6 +6,7 @@ import { Label } from "./Label";
 import debounce from "lodash.debounce";
 import { Player } from "../types/Room";
 import { NPCName, acknowedlgedNPCs } from "lib/npcs";
+import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
 
 const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
   "pumpkin' pete": true,
@@ -15,11 +16,13 @@ const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
 
 export class BumpkinContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
+  public shadow: Phaser.GameObjects.Sprite | undefined;
   public alert: Phaser.GameObjects.Sprite | undefined;
   public silhoutte: Phaser.GameObjects.Sprite | undefined;
   public skull: Phaser.GameObjects.Sprite | undefined;
 
   public speech: SpeechBubble | undefined;
+  public reaction: Phaser.GameObjects.Sprite | undefined;
   public invincible = false;
 
   public clothing: Player["clothing"];
@@ -62,11 +65,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     this.loadSprites(scene);
 
-    const shadow = this.scene.add
+    this.shadow = this.scene.add
       .sprite(0.5, 8, "shadow")
       .setSize(SQUARE_WIDTH, SQUARE_WIDTH);
 
-    this.add(shadow);
+    this.add(this.shadow);
 
     this.setSize(SQUARE_WIDTH, SQUARE_WIDTH);
 
@@ -272,6 +275,19 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.stopSpeaking();
   }, 5000);
 
+  /**
+   * Use a debouncer to allow players new messages not to be destroyed by old timeouts
+   */
+  destroyReaction = debounce(() => {
+    this.stopReaction();
+  }, 5000);
+
+  public stopReaction() {
+    this.reaction?.destroy();
+    this.reaction = undefined;
+
+    this.destroyReaction.cancel();
+  }
   public stopSpeaking() {
     this.speech?.destroy();
     this.speech = undefined;
@@ -280,6 +296,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   }
 
   public speak(text: string) {
+    this.stopReaction();
+
     if (this.speech) {
       this.speech.destroy();
     }
@@ -292,6 +310,24 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.add(this.speech);
 
     this.destroySpeechBubble();
+  }
+
+  public react(react: ReactionName) {
+    this.stopSpeaking();
+
+    if (this.reaction) {
+      this.reaction.destroy();
+    }
+
+    if (!this.scene.textures.exists(react)) {
+      return;
+    }
+
+    this.reaction = this.scene.add.sprite(0, -14, react);
+
+    this.add(this.reaction);
+
+    this.destroyReaction();
   }
 
   public walk() {
@@ -344,5 +380,42 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         tween.remove();
       }
     }, 2000);
+  }
+
+  private destroyed = false;
+  public disappear() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const container = this;
+
+    if (container.destroyed || !container.scene) {
+      return;
+    }
+
+    this.destroyed = true;
+
+    this.sprite?.destroy();
+    this.shadow?.destroy();
+
+    const poof = this.scene.add.sprite(0, 4, "poof").setOrigin(0.5);
+    this.add(poof);
+
+    this.scene.anims.create({
+      key: `poof_anim`,
+      frames: this.scene.anims.generateFrameNumbers("poof", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: 0,
+      frameRate: 10,
+    });
+
+    poof.play(`poof_anim`, true);
+
+    // Listen for the animation complete event
+    poof.on("animationcomplete", function (animation: { key: string }) {
+      if (animation.key === "poof_anim") {
+        container.destroy();
+      }
+    });
   }
 }
