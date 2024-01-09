@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import metamaskIcon from "src/assets/icons/metamask_pixel.png";
 import walletIcon from "src/assets/icons/wallet.png";
@@ -15,7 +15,6 @@ import bitgetIcon from "src/assets/icons/bitget_logo.svg";
 import { Label } from "components/ui/Label";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { getPromoCode } from "features/game/actions/loadSession";
-import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";
 import { Wallet } from "features/wallet/Wallet";
@@ -301,9 +300,6 @@ export const SignIn = () => {
 
   const [walletState] = useActor(walletService);
 
-  const [showSSO, setShowSSO] = useState(
-    hasFeatureAccess(TEST_FARM, "GOOGLE_LOGIN")
-  );
   const { t } = useAppTranslation();
 
   return (
@@ -323,21 +319,19 @@ export const SignIn = () => {
               }}
             />
           </div>
-          {showSSO && (
-            <Button
-              className="mb-2 py-2 text-sm relative"
-              onClick={() =>
-                (window.location.href = `${CONFIG.API_URL}/auth/google/authorize`)
-              }
-            >
-              <div className="px-8 mr-2 flex">
-                <div className="ml-2 mr-6 absolute left-0 top-1">
-                  <GoogleIcon />
-                </div>
-                Google
+          <Button
+            className="mb-2 py-2 text-sm relative"
+            onClick={() =>
+              (window.location.href = `${CONFIG.API_URL}/auth/google/authorize`)
+            }
+          >
+            <div className="px-8 mr-2 flex">
+              <div className="ml-2 mr-6 absolute left-0 top-1">
+                <GoogleIcon />
               </div>
-            </Button>
-          )}
+              Google
+            </div>
+          </Button>
         </>
       )}
 
