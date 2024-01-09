@@ -65,7 +65,13 @@ export const Auth: React.FC = () => {
                 </div>
               </>
             ) : (
-              <img id="logo" src={logo} className="w-full" />
+              <>
+                <img id="logo" src={logo} className="w-full" />
+
+                <Label type="default" className="mx-auto">
+                  {CONFIG.RELEASE_VERSION?.split("-")[0]}
+                </Label>
+              </>
             )}
           </div>
         </div>
