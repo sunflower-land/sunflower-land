@@ -45,6 +45,7 @@ export interface Context {
   deviceTrackerId?: string;
   mintedAtTimes: Partial<Record<InventoryItemName, number>>;
   verified?: boolean;
+  nftId: number;
 }
 
 type MintEvent = {
@@ -191,6 +192,7 @@ export function startGoblinVillage({
         mintedAtTimes: {},
         farmAddress,
         farmId,
+        nftId: 0,
       },
       states: {
         loading: {
@@ -199,25 +201,27 @@ export function startGoblinVillage({
             src: async (context) => {
               if (!wallet.myAccount) throw new Error("No account");
 
+              const response = await loadSession({
+                token: user.rawToken as string,
+                transactionId: context.transactionId as string,
+              });
+
               const onChainStateFn = getOnChainState({
                 farmAddress,
                 account: wallet.myAccount,
-                id: farmId,
+                id: response.nftId as number,
               });
 
               // Get session id
-              const sessionIdFn = getSessionId(wallet.web3Provider, farmId);
+              const sessionIdFn = getSessionId(
+                wallet.web3Provider,
+                response.nftId as number
+              );
 
               const [onChainState, sessionId] = await Promise.all([
                 onChainStateFn,
                 sessionIdFn,
               ]);
-
-              const response = await loadSession({
-                token: user.rawToken as string,
-                transactionId: context.transactionId as string,
-                wallet: user.web3?.wallet as string,
-              });
 
               const game = response?.game as GameState;
 
@@ -237,6 +241,7 @@ export function startGoblinVillage({
                 deviceTrackerId: response?.deviceTrackerId,
                 verified: response?.verified,
                 farmAddress,
+                nftId: response.nftId,
               };
             },
             onDone: [
@@ -260,6 +265,7 @@ export function startGoblinVillage({
                   deviceTrackerId: (_, event) => event.data.deviceTrackerId,
                   mintedAtTimes: (_, event) => event.data.mintedAtTimes,
                   verified: (_, event) => event.data.verified,
+                  nftId: (_, event) => event.data.nftId,
                 }),
               },
             ],
@@ -315,7 +321,6 @@ export function startGoblinVillage({
               farmAddress: () => farmAddress,
               sessionId: (context: Context) => context.sessionId,
               token: () => user.rawToken,
-              wallet: () => user.web3?.wallet as string,
               balance: (context: Context) => context.state.balance,
             },
             onDone: {
@@ -349,7 +354,6 @@ export function startGoblinVillage({
               farmAddress: () => farmAddress,
               token: () => user.rawToken,
               deviceTrackerId: (context: Context) => context.deviceTrackerId,
-              wallet: () => user.web3?.wallet,
             },
             onDone: {
               target: "playing",
@@ -541,7 +545,7 @@ export function startGoblinVillage({
               await depositToFarm({
                 web3: wallet.web3Provider,
                 account: wallet.myAccount,
-                farmId: context.farmId,
+                farmId: context.nftId,
                 sfl: (event as DepositEvent).sfl,
                 itemIds: (event as DepositEvent).itemIds,
                 itemAmounts: (event as DepositEvent).itemAmounts,

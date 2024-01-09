@@ -14,7 +14,6 @@ import { Moderation } from "../lib/gameMachine";
 type Request = {
   token: string;
   transactionId: string;
-  wallet: string;
 };
 
 type Response = {
@@ -33,6 +32,9 @@ type Response = {
   moderation: Moderation;
   sessionId: string;
   analyticsId: string;
+  linkedWallet?: string;
+  wallet?: string;
+  nftId?: number;
 };
 
 const API_URL = CONFIG.API_URL;
@@ -53,7 +55,6 @@ export async function loadSession(request: Request): Promise<Response> {
     },
     body: JSON.stringify({
       clientVersion: CONFIG.CLIENT_VERSION as string,
-      wallet: request.wallet,
       promoCode,
       referrerId,
       signUpMethod,
@@ -89,6 +90,9 @@ export async function loadSession(request: Request): Promise<Response> {
     sessionId,
     farmAddress,
     analyticsId,
+    linkedWallet,
+    wallet,
+    nftId,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -104,6 +108,9 @@ export async function loadSession(request: Request): Promise<Response> {
     farmId: string;
     analyticsId: string;
     farmAddress?: string;
+    nftId?: number;
+    linkedWallet?: string;
+    wallet?: string;
   }>(response);
 
   saveSession(farm.id);
@@ -121,6 +128,9 @@ export async function loadSession(request: Request): Promise<Response> {
     moderation,
     promoCode: promo,
     analyticsId,
+    linkedWallet,
+    wallet,
+    nftId,
   };
 }
 

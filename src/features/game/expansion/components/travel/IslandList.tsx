@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
@@ -26,7 +26,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { Context } from "features/game/GameProvider";
-import { wallet } from "lib/blockchain/wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { translate } from "lib/i18n/translate";
 
@@ -185,12 +184,16 @@ export const IslandList: React.FC<IslandListProps> = ({
   const location = useLocation();
   const [view, setView] = useState<"list" | "visitForm">("list");
 
+  useEffect(() => {
+    gameService.send("SAVE");
+  }, []);
+
   const islands: Island[] = [
     {
       name: t("island.home"),
       image: CROP_LIFECYCLE.Sunflower.ready,
       levelRequired: 1,
-      path: `/land/${farmId}`,
+      path: `/`,
       labels: [],
     },
     {
@@ -247,7 +250,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       name: t("island.helios"),
       levelRequired: 1 as BumpkinLevel,
       image: SUNNYSIDE.icons.helios,
-      path: `/land/${farmId}/helios`,
+      path: `/helios`,
       labels: [
         <Label type="default" key="shopping" icon={SUNNYSIDE.icons.basket}>
           {t("shopping")}
@@ -257,40 +260,28 @@ export const IslandList: React.FC<IslandListProps> = ({
         </Label>,
       ],
     },
-    ...(wallet.isSocial
-      ? []
-      : [
-          {
-            name: t("island.goblin.retreat"),
-            levelRequired: 1 as BumpkinLevel,
-            image: goblin,
-            path: `/retreat/${farmId}`,
-            passRequired: true,
-            labels: [
-              <Label
-                type="default"
-                key="trading"
-                icon={SUNNYSIDE.icons.player_small}
-              >
-                {t("trading")}
-              </Label>,
-              <Label
-                type="default"
-                key="withdraw"
-                icon={SUNNYSIDE.decorations.treasure_chest_opened}
-              >
-                {t("withdraw")}
-              </Label>,
-              <Label
-                type="default"
-                key="crafting"
-                icon={SUNNYSIDE.icons.hammer}
-              >
-                {t("crafting")}
-              </Label>,
-            ],
-          },
-        ]),
+    {
+      name: t("island.goblin.retreat"),
+      levelRequired: 1 as BumpkinLevel,
+      image: goblin,
+      path: `/retreat/${farmId}`,
+      passRequired: true,
+      labels: [
+        <Label type="default" key="trading" icon={SUNNYSIDE.icons.player_small}>
+          {t("trading")}
+        </Label>,
+        <Label
+          type="default"
+          key="withdraw"
+          icon={SUNNYSIDE.decorations.treasure_chest_opened}
+        >
+          {t("withdraw")}
+        </Label>,
+        <Label type="default" key="crafting" icon={SUNNYSIDE.icons.hammer}>
+          {t("crafting")}
+        </Label>,
+      ],
+    },
   ];
 
   // NOTE: If you're visiting without a session then just show the form by default as there is no option to return to a farm

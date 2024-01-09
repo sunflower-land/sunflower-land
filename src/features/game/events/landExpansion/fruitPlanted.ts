@@ -6,10 +6,11 @@ import {
   FRUIT_SEEDS,
   isFruitSeed,
 } from "features/game/types/fruits";
-import { Collectibles, GameState } from "features/game/types/game";
+import { Bumpkin, Collectibles, GameState } from "features/game/types/game";
 import { randomInt } from "lib/utils/random";
 import cloneDeep from "lodash.clonedeep";
 import { getFruitYield } from "./fruitHarvested";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export type PlantFruitAction = {
   type: "fruit.planted";
@@ -24,12 +25,13 @@ function getHarvestsLeft() {
 function getPlantedAt(
   fruitSeedName: FruitSeedName,
   collectibles: Collectibles,
+  wearables: BumpkinParts,
   createdAt: number
 ) {
   if (!fruitSeedName) return createdAt;
 
   const fruitTime = FRUIT_SEEDS()[fruitSeedName].plantSeconds;
-  const boostedTime = getFruitTime(fruitSeedName, collectibles);
+  const boostedTime = getFruitTime(fruitSeedName, collectibles, wearables);
 
   const offset = fruitTime - boostedTime;
 
@@ -41,7 +43,8 @@ function getPlantedAt(
  */
 export const getFruitTime = (
   fruitSeedName: FruitSeedName,
-  collectibles: Collectibles
+  collectibles: Collectibles,
+  wearables: BumpkinParts
 ) => {
   let seconds = FRUIT_SEEDS()[fruitSeedName]?.plantSeconds ?? 0;
 
@@ -59,6 +62,13 @@ export const getFruitTime = (
     isCollectibleBuilt("Nana", collectibles)
   ) {
     seconds = seconds * 0.9;
+  }
+
+  if (
+    fruitSeedName === "Banana Plant" &&
+    wearables.onesie === "Banana Onesie"
+  ) {
+    seconds = seconds * 0.8;
   }
 
   return seconds;
@@ -121,7 +131,12 @@ export function plantFruit({
 
   patch.fruit = {
     name: fruitName,
-    plantedAt: getPlantedAt(action.seed, stateCopy.collectibles, createdAt),
+    plantedAt: getPlantedAt(
+      action.seed,
+      stateCopy.collectibles,
+      (stateCopy.bumpkin as Bumpkin).equipped,
+      createdAt
+    ),
     amount: getFruitYield({
       name: fruitName,
       collectibles: stateCopy.collectibles,

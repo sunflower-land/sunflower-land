@@ -870,6 +870,21 @@ const FISH: Record<FishName, Consumable> = {
     description: translate("description.whiteshark.two"),
     experience: 1000,
   },
+  Angelfish: {
+    description: "?",
+    experience: 100,
+    name: "Angelfish",
+  },
+  Halibut: {
+    description: "?",
+    experience: 100,
+    name: "Halibut",
+  },
+  Parrotfish: {
+    description: "?",
+    experience: 100,
+    name: "Parrotfish",
+  },
 };
 
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {

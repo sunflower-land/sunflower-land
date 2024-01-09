@@ -220,11 +220,30 @@ export const STATIC_OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   bumpkin: INITIAL_BUMPKIN,
+  buds: {
+    1: {
+      aura: "Basic",
+      colour: "Beige",
+      ears: "Ears",
+      stem: "3 Leaf Clover",
+      type: "Beach",
+    },
+    2: {
+      aura: "Basic",
+      colour: "Beige",
+      ears: "Ears",
+      stem: "3 Leaf Clover",
+      type: "Woodlands",
+    },
+  },
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   previousInventory: {},
   inventory: {
+    "White Festive Fox": new Decimal(3),
     "Grinx's Hammer": new Decimal(1),
+    Rod: new Decimal(20),
+    Earthworm: new Decimal(10),
     "Bumpkin Nutcracker": new Decimal(1),
     "Festive Tree": new Decimal(1),
     "Town Center": new Decimal(1),
@@ -242,7 +261,10 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Block Buck": new Decimal(1),
     Egg: new Decimal(12),
   },
-  wardrobe: {},
+  wardrobe: {
+    "Elf Suit": 1,
+    "Banana Onesie": 1,
+  },
 
   createdAt: new Date().getTime(),
 
@@ -254,6 +276,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     dailyAttempts: {},
     weather: "Sunny",
     wharf: {},
+    beach: {},
   },
   mailbox: {
     read: [],
@@ -373,7 +396,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   farmActivity: {},
   milestones: {},
   catchTheKraken: {
-    hunger: "Sunflower",
+    hunger: "Iron",
     weeklyCatches: {},
   },
   airdrops: [],

@@ -9,6 +9,11 @@ import { ITEM_DETAILS } from "./images";
 
 export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
   {
+    "Banana Onesie": {
+      shortDescription: "+20% Banana Speed",
+      labelType: "info",
+      boostTypeIcon: ITEM_DETAILS.Banana.image,
+    },
     "Chef Apron": {
       shortDescription: "+20% Cake Profit",
       labelType: "success",

@@ -15,8 +15,8 @@ import { randomID } from "lib/utils/random";
 import { Label } from "components/ui/Label";
 import { Modal } from "react-bootstrap";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
-import { wallet } from "lib/blockchain/wallet";
 import classNames from "classnames";
+import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
@@ -149,13 +149,167 @@ const Loading: React.FC<{ autoClose: boolean }> = ({ autoClose }) => {
   );
 };
 
+const Content: React.FC<{
+  isSaving: boolean;
+  price?: { usd: number; amount: number };
+  setPrice: (s: { usd: number; amount: number }) => void;
+  onMaticBuy: () => void;
+  onCreditCardBuy: () => void;
+}> = ({ isSaving, price, setPrice, onMaticBuy, onCreditCardBuy }) => {
+  const [showMaticConfirm, setShowMaticConfirm] = useState(false);
+  const { t } = useAppTranslation();
+
+  if (!!price && showMaticConfirm) {
+    return (
+      <GameWallet action="purchase">
+        <div className="flex flex-col w-full items-center space-y-1 pb-2 px-2 text-sm">
+          <div className="flex items-center">
+            <p className="mr-2 mb-1">Item: {price.amount} x</p>
+            <img
+              src={ticket}
+              style={{
+                height: `${PIXEL_SCALE * 13}px`,
+              }}
+            />
+          </div>
+          <p className="mr-2 mb-1">{`Total: ${price.usd} USD`}</p>
+        </div>
+
+        <Button onClick={() => onMaticBuy()}>Confirm</Button>
+
+        <p className="text-xxs italic text-center py-2">
+          *Prices exclude transaction fees.
+        </p>
+      </GameWallet>
+    );
+  }
+
+  if (isSaving) {
+    return (
+      <div className="flex justify-center">
+        <p className="loading text-center">Loading</p>
+      </div>
+    );
+  }
+
+  if (price) {
+    return (
+      <>
+        <div className="flex flex-col w-full items-center space-y-1 pb-2 px-2 text-sm">
+          <div className="flex items-center">
+            <p className="mr-2 mb-1">Item: {price.amount} x</p>
+            <img
+              src={ticket}
+              style={{
+                height: `${PIXEL_SCALE * 13}px`,
+              }}
+            />
+          </div>
+          <p className="mr-2 mb-1">{`Total: ${price.usd} USD`}</p>
+        </div>
+        <div className="flex flex-col flex-grow items-stretch justify-around mx-3 space-y-2 sm:space-y-0 sm:space-x-5 sm:flex-row">
+          <OuterPanel className="w-full flex flex-col items-center relative">
+            <div className="flex w-full items-center justify-center py-4 px-2">
+              <p className="mr-2 mb-1 text-xs">Cash / Card</p>
+              <img
+                src={creditCard}
+                style={{
+                  height: `${PIXEL_SCALE * 13}px`,
+                }}
+              />
+            </div>
+            {price.amount === 1 && (
+              <Label type="info" className="mb-1">
+                Minimum 5 Block Bucks
+              </Label>
+            )}
+            <Button
+              onClick={() => onCreditCardBuy()}
+              disabled={price.amount === 1}
+            >
+              Pay with Cash
+            </Button>
+          </OuterPanel>
+          <OuterPanel
+            className={classNames("w-full flex flex-col items-center relative")}
+          >
+            <div className="flex w-full h-full items-center justify-center py-4 px-2">
+              <p className="mr-2 mb-1 text-xs">Matic</p>
+              <img
+                src={matic}
+                style={{
+                  height: `${PIXEL_SCALE * 13}px`,
+                  imageRendering: "pixelated",
+                }}
+              />
+            </div>
+            <Button onClick={() => setShowMaticConfirm(true)}>
+              Pay with Matic
+            </Button>
+          </OuterPanel>
+        </div>
+
+        <p className="text-xs text-center pt-2">
+          {t("transaction.storeBlockBucks")}
+        </p>
+        <p className="text-xxs italic text-center py-2">
+          {t("transaction.excludeFees")}
+        </p>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <div
+        className="overflow-y-auto scrollable "
+        style={{ maxHeight: "280px" }}
+      >
+        <p className="text-xxs italic text-center pt-2">
+          {t("transaction.excludeFees")}
+        </p>
+        <div className="flex flex-wrap">
+          {PRICES.map((price) => (
+            <div key={price.amount} className="w-1/2 p-1">
+              <OuterPanel className="h-full flex flex-col items-center relative">
+                <div className="flex w-full items-center justify-center py-2 px-2">
+                  <p className="mr-2 mb-1">{`${price.amount} x`}</p>
+                  <img
+                    src={ticket}
+                    style={{
+                      width: `${PIXEL_SCALE * 19}px`,
+                    }}
+                  />
+                </div>
+                <Button
+                  onClick={() => setPrice(price)}
+                >{`$${price.usd} USD`}</Button>
+              </OuterPanel>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex flex-col">
+        <a
+          href="https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks"
+          className="mx-auto text-xxs underline text-center pb-2 pt-2"
+          target="_blank"
+          rel="noreferrer"
+        >
+          {t("read.more")}
+        </a>
+      </div>
+    </>
+  );
+};
+
 export const BlockBucksModal: React.FC<Props> = ({
   show,
   closeable,
   onClose,
   setCloseable,
 }) => {
-  const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
@@ -169,10 +323,10 @@ export const BlockBucksModal: React.FC<Props> = ({
 
   const [price, setPrice] = useState<Price>();
 
-  const onMaticBuy = async (amount: number) => {
+  const onMaticBuy = async () => {
     gameService.send("BUY_BLOCK_BUCKS", {
       currency: "MATIC",
-      amount,
+      amount: price?.amount,
     });
     onClose();
   };
@@ -214,141 +368,6 @@ export const BlockBucksModal: React.FC<Props> = ({
     onboardingAnalytics.logEvent("begin_checkout");
   }, []);
 
-  const Content = () => {
-    if (gameState.matches("autosaving")) {
-      return (
-        <div className="flex justify-center">
-          <p className="loading text-center">{t("loading")}</p>
-        </div>
-      );
-    }
-
-    if (price) {
-      return (
-        <>
-          <div className="flex flex-col w-full items-center space-y-1 pb-2 px-2 text-sm">
-            <div className="flex items-center">
-              <p className="mr-2 mb-1">
-                {t("item")} {price.amount} x
-              </p>
-              <img
-                src={ticket}
-                style={{
-                  height: `${PIXEL_SCALE * 13}px`,
-                }}
-              />
-            </div>
-            <p className="mr-2 mb-1">
-              {t("total.price")}
-              {`${price.usd} USD`}
-            </p>
-          </div>
-          <div className="flex flex-col flex-grow items-stretch justify-around mx-3 space-y-2 sm:space-y-0 sm:space-x-5 sm:flex-row">
-            <OuterPanel className="w-full flex flex-col items-center relative">
-              <div className="flex w-full items-center justify-center py-4 px-2">
-                <p className="mr-2 mb-1 text-xs">{t("card.cash")}</p>
-                <img
-                  src={creditCard}
-                  style={{
-                    height: `${PIXEL_SCALE * 13}px`,
-                  }}
-                />
-              </div>
-              {price.amount === 1 && (
-                <Label type="info" className="mb-1">
-                  {t("transaction.minblockbucks")}
-                </Label>
-              )}
-              <Button
-                onClick={() => onCreditCardBuy()}
-                disabled={price.amount === 1}
-              >
-                {t("transaction.payCash")}
-              </Button>
-            </OuterPanel>
-            <OuterPanel
-              className={classNames(
-                "w-full flex flex-col items-center relative",
-                {
-                  "opacity-50 pointer-events-none": wallet.isSocial,
-                }
-              )}
-            >
-              <div className="flex w-full h-full items-center justify-center py-4 px-2">
-                <p className="mr-2 mb-1 text-xs">MATIC</p>
-                <img
-                  src={matic}
-                  style={{
-                    height: `${PIXEL_SCALE * 13}px`,
-                    imageRendering: "pixelated",
-                  }}
-                />
-              </div>
-              <Button
-                onClick={
-                  wallet.isSocial ? undefined : () => onMaticBuy(price.amount)
-                }
-              >
-                {t("transaction.payMatic")}
-              </Button>
-            </OuterPanel>
-          </div>
-
-          <p className="text-xs text-center pt-2">
-            {t("transaction.storeBlockBucks")}
-          </p>
-          <p className="text-xxs italic text-center py-2">
-            {t("transaction.excludeFees")}
-          </p>
-        </>
-      );
-    }
-
-    return (
-      <>
-        <div
-          className="overflow-y-auto scrollable "
-          style={{ maxHeight: "280px" }}
-        >
-          <p className="text-xxs italic text-center pt-2">
-            {t("transaction.excludeFees")}
-          </p>
-          <div className="flex flex-wrap">
-            {PRICES.map((price) => (
-              <div key={price.amount} className="w-1/2 p-1">
-                <OuterPanel className="h-full flex flex-col items-center relative">
-                  <div className="flex w-full items-center justify-center py-2 px-2">
-                    <p className="mr-2 mb-1">{`${price.amount} x`}</p>
-                    <img
-                      src={ticket}
-                      style={{
-                        width: `${PIXEL_SCALE * 19}px`,
-                      }}
-                    />
-                  </div>
-                  <Button
-                    onClick={() => setPrice(price)}
-                  >{`$${price.usd} USD`}</Button>
-                </OuterPanel>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex flex-col">
-          <a
-            href="https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks"
-            className="mx-auto text-xxs underline text-center pb-2 pt-2"
-            target="_blank"
-            rel="noreferrer"
-          >
-            {t("read.more")}
-          </a>
-        </div>
-      </>
-    );
-  };
-
   return (
     <Modal
       centered
@@ -382,7 +401,13 @@ export const BlockBucksModal: React.FC<Props> = ({
             tool: "Farmer Pitchfork",
           }}
         >
-          <Content />
+          <Content
+            isSaving={gameState.matches("autosaving")}
+            price={price}
+            setPrice={setPrice}
+            onCreditCardBuy={() => onCreditCardBuy()}
+            onMaticBuy={() => onMaticBuy()}
+          />
         </CloseButtonPanel>
       )}
     </Modal>

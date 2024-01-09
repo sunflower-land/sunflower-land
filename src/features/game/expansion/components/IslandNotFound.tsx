@@ -16,7 +16,7 @@ export const IslandNotFound = () => {
           <p className="my-4 px-2 text-center">
             You have landed in the middle of nowhere!
           </p>
-          <Button onClick={() => navigate(`/land/${id}`)}>Take me home</Button>
+          <Button onClick={() => navigate(`/`)}>Take me home</Button>
         </div>
       </Panel>
     </Modal>

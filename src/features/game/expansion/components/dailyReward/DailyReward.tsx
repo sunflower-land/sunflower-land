@@ -15,10 +15,10 @@ import { Panel } from "components/ui/Panel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Loading } from "features/auth/components";
 import { CountdownLabel } from "components/ui/CountdownLabel";
-import { Equipped } from "features/game/types/bumpkin";
 import { Label } from "components/ui/Label";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { GameWallet } from "features/wallet/Wallet";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _dailyRewards = (state: MachineState) => state.context.state.dailyRewards;
@@ -26,6 +26,7 @@ const _isRevealed = (state: MachineState) => state.matches("revealed");
 
 export const DailyReward: React.FC = () => {
   const { gameService } = useContext(Context);
+  const [showIntro, setShowIntro] = useState(true);
   const dailyRewards = useSelector(gameService, _dailyRewards);
   const bumpkin = useSelector(gameService, _bumpkin);
   const isRevealed = useSelector(gameService, _isRevealed);
@@ -54,7 +55,6 @@ export const DailyReward: React.FC = () => {
   }
   const openModal = () => {
     setShowModal(true);
-    chestService.send("LOAD");
   };
 
   const onUpgrade = () => {
@@ -71,17 +71,6 @@ export const DailyReward: React.FC = () => {
       },
     });
     chestService.send("OPEN");
-  };
-
-  const pirateBumpkin: Equipped = {
-    body: "Goblin Potion",
-    hair: "White Long Hair",
-    hat: "Pirate Hat",
-    shirt: "Fancy Top",
-    pants: "Pirate Pants",
-    tool: "Pirate Scimitar",
-    background: "Seashore Background",
-    shoes: "Black Farmer Boots",
   };
 
   const streaks = dailyRewards?.streaks ?? 0;
@@ -286,7 +275,34 @@ export const DailyReward: React.FC = () => {
         )}
       </div>
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <ModalContent />
+        {showIntro && (
+          <CloseButtonPanel onClose={() => setShowModal(false)}>
+            <div className="p-2">
+              <img
+                src={SUNNYSIDE.decorations.treasure_chest}
+                className="mb-2 mt-2 mx-auto"
+                style={{
+                  width: `${PIXEL_SCALE * 16}px`,
+                }}
+              />
+              <p className="text-sm text-center">
+                Connect a Web3 Wallet for a daily reward.
+              </p>
+            </div>
+            <Button onClick={() => setShowIntro(false)}>Continue</Button>
+          </CloseButtonPanel>
+        )}
+        {!showIntro && (
+          <GameWallet
+            action="dailyReward"
+            onReady={() => {
+              chestService.send("LOAD");
+            }}
+            wrapper={({ children }) => <Panel>{children}</Panel>}
+          >
+            <ModalContent />
+          </GameWallet>
+        )}
       </Modal>
     </>
   );

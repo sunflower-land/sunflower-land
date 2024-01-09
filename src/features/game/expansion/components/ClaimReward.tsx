@@ -1,5 +1,5 @@
 import { Button } from "components/ui/Button";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import confetti from "canvas-confetti";
 
 import token from "src/assets/icons/token_2.png";
@@ -15,6 +15,7 @@ import { Box } from "components/ui/Box";
 import { CONSUMABLES, ConsumableName } from "features/game/types/consumables";
 import { setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
+import { Context } from "features/game/GameProvider";
 
 interface ClaimRewardProps {
   reward: IAirdrop;
@@ -29,8 +30,10 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
 }) => {
   const itemNames = getKeys(airdrop.items);
 
+  const { showAnimations } = useContext(Context);
+
   useEffect(() => {
-    confetti();
+    if (showAnimations) confetti();
   }, []);
 
   return (

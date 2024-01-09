@@ -10,7 +10,6 @@ import { Context } from "features/game/GameProvider";
 import { MapPlacement } from "./MapPlacement";
 import { PromotingModal } from "./SpecialOffer";
 import { NPC_WEARABLES } from "lib/npcs";
-import { wallet } from "lib/blockchain/wallet";
 
 interface Props {
   offset: number;
@@ -48,7 +47,7 @@ export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
         >
           <NPC
             parts={NPC_WEARABLES.grubnuk}
-            onClick={wallet.isSocial ? undefined : () => setShowModal(true)}
+            onClick={() => setShowModal(true)}
           />
         </div>
       </MapPlacement>
