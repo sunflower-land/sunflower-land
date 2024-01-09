@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import ocean from "assets/decorations/ocean.webp";
 import sandIslandOne from "assets/brand/sand_island_one.webp";
 import sandIslandOneShore from "assets/brand/sand_island_one_shore.webp";
 import sandIslandTwo from "assets/brand/sand_island_two.webp";
@@ -10,18 +9,14 @@ import cossies from "assets/decorations/cossies.png";
 import goblinSwimming from "assets/npcs/goblin_farting.gif";
 import shadow from "assets/npcs/shadow.png";
 
-import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 import { SUNNYSIDE } from "assets/sunnyside";
 import i18n from "lib/i18n";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { hasFeatureAccess } from "lib/flags";
-import { GameState } from "features/game/types/game";
-
-const releaseVersion = CONFIG.RELEASE_VERSION as string;
+import { Ocean } from "features/world/ui/Ocean";
 
 const Languages = () => {
   // Determine the initial language from localStorage or default to 'en'
@@ -57,14 +52,7 @@ const Languages = () => {
 
 export const Splash: React.FC = ({ children }) => {
   return (
-    <div
-      className="bg-blue-600 w-full bg-repeat h-full flex relative items-center justify-center"
-      style={{
-        backgroundImage: `url(${ocean})`,
-        backgroundSize: `${64 * PIXEL_SCALE}px`,
-        imageRendering: "pixelated",
-      }}
-    >
+    <Ocean>
       <img
         src={sunflowerIslandOne}
         style={{
@@ -162,29 +150,6 @@ export const Splash: React.FC = ({ children }) => {
           <Panel>{children}</Panel>
         </Modal>
       )}
-      <div
-        className="absolute bottom-0 right-auto m-1 pointer-events-auto"
-        style={{ zIndex: 1100, margin: `${PIXEL_SCALE * 1}px` }}
-      >
-        {hasFeatureAccess({} as GameState, "LOCALISATION") && <Languages />}
-      </div>
-      <div
-        className="absolute bottom-0 right-0 m-1 pointer-events-auto"
-        style={{ zIndex: 1100, margin: `${PIXEL_SCALE * 1}px` }}
-      >
-        <InnerPanel>
-          <div className="flex items-center justify-center">
-            <a
-              className="underline text-xxs text-white hover:text-blue-500 p-1"
-              href="https://github.com/sunflower-land/sunflower-land/releases"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {releaseVersion?.split("-")[0]}
-            </a>
-          </div>
-        </InnerPanel>
-      </div>
-    </div>
+    </Ocean>
   );
 };

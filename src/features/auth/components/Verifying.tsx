@@ -60,10 +60,7 @@ export const Verifying: React.FC = () => {
         title="Yeeeet!"
         id="iframe"
       ></iframe>
-      <span className="text-shadow loading">{t("welcome.signingIn")}</span>
-      <span className="text-shadow block my-2 mx-2 sm:text-sm">
-        {t("welcome.signIn.message")}
-      </span>
+      <span className="text-shadow loading">{t("loading")}</span>
     </>
   );
 };

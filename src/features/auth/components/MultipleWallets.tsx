@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Context } from "../lib/Provider";
+import { WalletContext } from "features/wallet/WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const MultipleWallets: React.FC = () => {
-  const { authService } = useContext(Context);
+  const { walletService } = useContext(WalletContext);
   const { t } = useAppTranslation();
   const goToDocs = () => {
     window.open(
@@ -28,7 +28,7 @@ export const MultipleWallets: React.FC = () => {
       </div>
       <div className="flex space-x-1">
         <Button
-          onClick={() => authService.send("REFRESH")}
+          onClick={() => walletService.send("RESET")}
           className="overflow-hidden"
         >
           <span>{t("back")}</span>

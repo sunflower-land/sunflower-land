@@ -3,13 +3,13 @@ import * as Auth from "features/auth/lib/Provider";
 
 import humanDeath from "assets/npcs/human_death.gif";
 import { Button } from "components/ui/Button";
-import { wallet } from "lib/blockchain/wallet";
-import { removeSession } from "../actions/login";
+import { removeJWT } from "../actions/social";
+import { WalletContext } from "features/wallet/WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { removeSocialSession } from "../actions/social";
 
 export const SessionExpired: React.FC = () => {
   const { authService } = useContext(Auth.Context);
+  const { walletService } = useContext(WalletContext);
   const { t } = useAppTranslation();
 
   return (
@@ -26,9 +26,9 @@ export const SessionExpired: React.FC = () => {
       </div>
       <Button
         onClick={() => {
-          removeSession(wallet.myAccount as string);
-          removeSocialSession();
+          removeJWT();
           authService.send("REFRESH");
+          walletService.send("RESET");
         }}
       >
         {t("refresh")}
