@@ -1458,8 +1458,8 @@ export function startGame(authContext: AuthContext) {
 
               return {
                 farm,
-                buyerId: Number(context.farmId),
-                sellerId,
+                buyerId: String(context.farmId),
+                sellerId: String(sellerId),
                 tradeId,
                 error,
               };
