@@ -770,7 +770,8 @@ export type Home = {
 export type Beehive = {
   id: string;
   honeyLevel: 0; // 0 to 24 hrs in minutes (1440)
-  isProducing: boolean;
+  isProducingHoney: boolean;
+  coordinates: { x: number; y: number };
 };
 
 export interface GameState {

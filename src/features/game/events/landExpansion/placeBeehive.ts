@@ -1,4 +1,4 @@
-import { GameState } from "features/game/types/game";
+import { Beehive, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type PlaceBeehiveAction = {
@@ -21,11 +21,20 @@ export function placeBeehive({
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  const copy = cloneDeep(state);
+  const copy: GameState = cloneDeep(state);
 
   if (copy.inventory.Beehive?.lte(0)) {
     throw new Error("You do not have any available beehives");
   }
 
-  return state;
+  const beehive: Beehive = {
+    id: action.id,
+    coordinates: action.coordinates,
+    honeyLevel: 0,
+    isProducingHoney: false,
+  };
+
+  copy.beehives = { ...copy.beehives, [action.id]: beehive };
+
+  return copy;
 }

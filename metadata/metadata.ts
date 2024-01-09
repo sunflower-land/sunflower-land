@@ -6241,7 +6241,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     ],
   },
   "White Festive Fox": {
-    description: "The blessing of the White Fox inhabits the generous farms",
+    description: "The blessing of the White Fox inhabits the generous farms.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2001.png",
@@ -6259,7 +6259,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
 
     attributes: [{ trait_type: "Boost", value: "Other" }],
   },
-
   Rug: {
     description: "?",
     decimals: 0,
@@ -6267,7 +6266,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     attributes: [{ trait_type: "Boost", value: "Other" }],
   },
-
   Wardrobe: {
     description: "?",
     decimals: 0,
@@ -6288,5 +6286,22 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
     attributes: [{ trait_type: "Boost", value: "Other" }],
+  },
+  Beehive: {
+    name: "Beehive",
+    description:
+      "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Boost", value: "Crops" },
+      {
+        display_type: "boost_number",
+        trait_type: "10% chance of +0.2 crop yield when harvesting Honey",
+        value: 0.25,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
 };
