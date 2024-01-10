@@ -748,7 +748,20 @@ export type Christmas = {
   >;
 };
 
+export type IslandType = "basic" | "spring";
+
+export type Home = {
+  collectibles: Collectibles;
+};
+
 export interface GameState {
+  home: Home;
+
+  island: {
+    type: IslandType;
+    upgradedAt?: number;
+  };
+
   username?: string;
   balance: Decimal;
   previousBalance: Decimal;
@@ -789,7 +802,9 @@ export interface GameState {
   expansionRequirements?: ExpansionRequirements;
   expandedAt?: number;
 
+  // TODO - make mandatory
   bumpkin?: Bumpkin;
+
   buildings: Buildings;
   collectibles: Collectibles;
   delivery: Delivery;

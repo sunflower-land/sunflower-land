@@ -1,27 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import townCenter from "assets/buildings/town_center.png";
+import house from "assets/buildings/house.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { LetterBox } from "features/farming/mail/LetterBox";
-import { PlayerNPC } from "features/island/bumpkin/components/PlayerNPC";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 import { useNavigate } from "react-router-dom";
-import { hasFeatureAccess } from "lib/flags";
 
-export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
+export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const navigate = useNavigate();
-
   const [showHeart, setShowHeart] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleClick = () => {
     if (onRemove) {
@@ -29,8 +27,9 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
       return;
     }
 
-    if (isBuilt && hasFeatureAccess(gameState.context.state, "HOME")) {
+    if (isBuilt) {
       navigate("/home");
+
       // Add future on click actions here
       return;
     }
@@ -59,7 +58,7 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
     <div className="absolute h-full w-full">
       <BuildingImageWrapper name="Town Center" onClick={handleClick}>
         <img
-          src={townCenter}
+          src={house}
           className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 62}px`,
@@ -74,37 +73,12 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
       >
         <DailyReward />
       </div>
-      <div
-        className="absolute w-full"
-        style={{
-          top: `${PIXEL_SCALE * 16}px`,
-          left: `${PIXEL_SCALE * 4}px`,
-          height: `${PIXEL_SCALE * 32}px`,
-        }}
-      >
-        {bumpkin && (
-          <PlayerNPC
-            parts={{
-              body: bumpkin.equipped.body,
-              hair: bumpkin.equipped.hair,
-              shirt: bumpkin.equipped.shirt,
-              pants: bumpkin.equipped.pants,
-              hat: bumpkin.equipped.hat,
-              suit: bumpkin.equipped.suit,
-              onesie: bumpkin.equipped.onesie,
-              wings: bumpkin.equipped.wings,
-              dress: bumpkin.equipped.dress,
-              beard: bumpkin.equipped.beard,
-            }}
-          />
-        )}
-      </div>
 
       <div
         className="absolute"
         style={{
-          top: 0,
-          left: `${PIXEL_SCALE * 4}px`,
+          bottom: `${PIXEL_SCALE * 20}px`,
+          right: `${PIXEL_SCALE * 18}px`,
         }}
       >
         <LetterBox />

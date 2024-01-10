@@ -16,7 +16,6 @@ import {
   SoldOutCollectibleName,
 } from "./collectibles";
 import { BoostTreasure } from "./treasure";
-import { RESOURCE_DIMENSIONS } from "./resources";
 import { MarineMarvelName } from "./fishing";
 
 export { FLAGS };
@@ -1054,8 +1053,6 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   ...flagsDimension,
 
   ...DECORATION_DIMENSIONS,
-
-  ...RESOURCE_DIMENSIONS,
 
   // Blacksmith Items
   "Sunflower Statue": { width: 3, height: 4 },

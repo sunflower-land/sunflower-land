@@ -30,6 +30,7 @@ import {
   withdrawSFL,
   withdrawWearables,
 } from "../actions/withdraw";
+import { OnChainEvent, unseenEvents } from "../actions/onChainEvents";
 
 const API_URL = CONFIG.API_URL;
 
@@ -46,6 +47,7 @@ export interface Context {
   mintedAtTimes: Partial<Record<InventoryItemName, number>>;
   verified?: boolean;
   nftId: number;
+  notifications?: OnChainEvent[];
 }
 
 type MintEvent = {
@@ -152,7 +154,8 @@ export type GoblinMachineState = {
     | "refreshing"
     | "levelRequirementNotReached"
     | "error"
-    | "provingPersonhood";
+    | "provingPersonhood"
+    | "tradeNotification";
   context: Context;
 };
 
@@ -234,6 +237,11 @@ export function startGoblinVillage({
               game.balance = availableState.balance;
               game.inventory = availableState.inventory;
 
+              const notifications: OnChainEvent[] = await unseenEvents({
+                farmAddress,
+                farmId,
+              });
+
               return {
                 state: game,
                 mintedAtTimes: onChainState.mintedAtTimes,
@@ -242,23 +250,12 @@ export function startGoblinVillage({
                 verified: response?.verified,
                 farmAddress,
                 nftId: response.nftId,
+                notifications,
               };
             },
             onDone: [
               {
-                target: "levelRequirementNotReached",
-                cond: (_, event) => {
-                  const { bumpkin } = event.data.state;
-
-                  if (!bumpkin) return true;
-
-                  const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
-
-                  return bumpkinLevel < RETREAT_LEVEL_REQUIREMENT;
-                },
-              },
-              {
-                target: "playing",
+                target: "notifying",
                 actions: assign({
                   state: (_, event) => event.data.state,
                   sessionId: (_, event) => event.data.sessionId,
@@ -266,12 +263,40 @@ export function startGoblinVillage({
                   mintedAtTimes: (_, event) => event.data.mintedAtTimes,
                   verified: (_, event) => event.data.verified,
                   nftId: (_, event) => event.data.nftId,
+                  notifications: (_, event) => event.data.notifications,
                 }),
               },
             ],
-            onError: {},
+            onError: {
+              target: "error",
+            },
           },
         },
+        notifying: {
+          always: [
+            {
+              target: "levelRequirementNotReached",
+              cond: (context) => {
+                const { bumpkin } = context.state;
+
+                if (!bumpkin) return true;
+
+                const bumpkinLevel = getBumpkinLevel(bumpkin.experience);
+
+                return bumpkinLevel < RETREAT_LEVEL_REQUIREMENT;
+              },
+            },
+            {
+              target: "tradeNotification",
+              cond: (context: Context) =>
+                !!context.notifications && context.notifications?.length > 0,
+            },
+            {
+              target: "playing",
+            },
+          ],
+        },
+
         levelRequirementNotReached: {
           // Go back... you have no business being here :)
           entry: () => history.go(-1),
@@ -422,6 +447,15 @@ export function startGoblinVillage({
             REFRESH: "loading",
           },
         },
+
+        tradeNotification: {
+          on: {
+            REFRESH: {
+              target: "refreshing",
+            },
+          },
+        },
+
         withdrawing: {
           entry: "setTransactionId",
           invoke: {

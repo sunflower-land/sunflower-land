@@ -376,6 +376,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Compost Bin": 1014,
   "Turbo Composter": 1015,
   "Premium Composter": 1016,
+  House: 1017,
 
   // Temporary Bumpkin items
   "Chef Apron": 1101,
@@ -555,6 +556,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Parrotfish: 1536,
 
   "White Festive Fox": 2001,
+  Rug: 2002,
+  Wardrobe: 2003,
 };
 
 // The reverse of above

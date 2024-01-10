@@ -4,13 +4,14 @@ import { CollectibleName } from "./craftables";
 import { InventoryItemName } from "./game";
 import { ResourceName } from "./resources";
 
+export type Home = "Tent" | "House";
+
 export type BuildingName =
   | "Fire Pit"
   | "Market"
   | "Town Center"
   | "Workbench"
   | "Kitchen"
-  | "Tent"
   | "Water Well"
   | "Bakery"
   | "Hen House"
@@ -20,7 +21,8 @@ export type BuildingName =
   | "Warehouse"
   | "Compost Bin"
   | "Turbo Composter"
-  | "Premium Composter";
+  | "Premium Composter"
+  | Home;
 
 export type Ingredient = {
   item: InventoryItemName;
@@ -48,6 +50,14 @@ export const BUILDINGS: () => Record<
   BuildingBluePrint[]
 > = () => ({
   "Town Center": [
+    {
+      unlocksAtLevel: 99,
+      sfl: new Decimal(0),
+      constructionSeconds: 30,
+      ingredients: [],
+    },
+  ],
+  House: [
     {
       unlocksAtLevel: 99,
       sfl: new Decimal(0),
@@ -405,6 +415,7 @@ export const BUILDINGS_DIMENSIONS: Record<BuildingName, Dimensions> = {
   Market: { height: 2, width: 3 },
   "Fire Pit": { height: 2, width: 3 },
   "Town Center": { height: 3, width: 4 },
+  House: { height: 3, width: 4 },
   Workbench: { height: 2, width: 3 },
   Kitchen: { height: 3, width: 4 },
   Bakery: { height: 3, width: 4 },
