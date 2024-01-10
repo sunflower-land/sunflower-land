@@ -690,9 +690,7 @@ export function startGame(authContext: AuthContext) {
             {
               target: "noBumpkinFound",
               cond: (context: Context, event: any) =>
-                !event.data?.state.bumpkin &&
-                !context.state.bumpkin &&
-                window.location.hash.includes("/land"),
+                !event.data?.state.bumpkin && !context.state.bumpkin,
             },
             {
               target: "introduction",
