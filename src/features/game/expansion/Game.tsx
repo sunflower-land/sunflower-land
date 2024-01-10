@@ -55,6 +55,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
 import { Home } from "features/home/Home";
 import { hasFeatureAccess } from "lib/flags";
+import { Wallet } from "features/wallet/Wallet";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -375,7 +376,11 @@ export const GameWrapper: React.FC = ({ children }) => {
           {purchasing && <Purchasing />}
           {hoarding && <Hoarding />}
           {swarming && <Swarming />}
-          {noBumpkinFound && <NoBumpkin />}
+          {noBumpkinFound && (
+            <Wallet action="deposit">
+              <NoBumpkin />
+            </Wallet>
+          )}
 
           {coolingDown && <Cooldown />}
           {gameRules && <Rules />}
