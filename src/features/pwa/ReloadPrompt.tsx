@@ -39,14 +39,14 @@ export function ReloadPrompt() {
 
   return (
     <ReactPortal>
-      <div className="fixed top-20 safe-pt left-1/2 -translate-x-1/2 text-xs flex flex-col">
+      <div className="fixed top-28 safe-pt left-1/2 -translate-x-1/2 text-xs flex flex-col">
         <span>{`Checking for update: ${checking}`}</span>
         <span>{`Needs update: ${needRefresh}`}</span>
         <span>{`Release version: ${CONFIG.RELEASE_VERSION}`}</span>
       </div>
       <div
         className={classNames(
-          "fixed inset-x-0 bottom-0 transition-all duration-500 delay-1000 bg-brown-300",
+          "fixed inset-x-0 bottom-0 transition-all duration-500 delay-1000 bg-brown-300 safe-pb safe-px",
           {
             "translate-y-20": !needRefresh,
             "-translate-y-0": needRefresh,
