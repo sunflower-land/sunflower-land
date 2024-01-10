@@ -1,10 +1,12 @@
+/* eslint-disable no-console */
 /// <reference lib="webworker" />
 /// <reference no-default-lib="true"/>
 
 import { CONFIG } from "./lib/config";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const OFFLINE_VERSION = CONFIG.RELEASE_VERSION;
+
+console.log("SW VERSION", OFFLINE_VERSION);
 
 import { offlineFallback, googleFontsCache } from "workbox-recipes";
 import { setDefaultHandler } from "workbox-routing";
