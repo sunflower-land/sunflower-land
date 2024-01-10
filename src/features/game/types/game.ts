@@ -226,6 +226,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   Farmhand: {
     description: "An adopted Bumpkin on your farm",
   },
+  "Spring Blossom Ticket": {
+    description: "A ticket used during the Spring Blossom",
+  },
 };
 
 export type Points = "Human War Point" | "Goblin War Point";

@@ -2302,6 +2302,11 @@ export const ITEM_DETAILS: Items = {
     image: mermaidScale,
     description: "A ticket used during the Catch the Kraken Season",
   },
+  "Spring Blossom Ticket": {
+    // image: flowerSeasonTicket,
+    image: mermaidScale,
+    description: "A ticket used during the Spring Blossom",
+  },
 
   "Sunflower Supporter": {
     image: supporterTicket,
@@ -2423,6 +2428,10 @@ export const ITEM_DETAILS: Items = {
     image: catchTheKrakenBanner,
     description:
       "The Kraken is here! The mark of a participant in the Catch the Kraken Season.",
+  },
+  "Spring Blossom Banner": {
+    image: catchTheKrakenBanner,
+    description: "",
   },
   "Luminous Lantern": {
     image: luminousLantern,

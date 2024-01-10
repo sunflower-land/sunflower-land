@@ -218,6 +218,8 @@ import { GrinxsHammer } from "./components/GrinxsHammer";
 import { WhiteFestiveFox } from "./components/WhiteFestiveFox";
 import { Rug } from "./components/Rug";
 import { Wardrobe } from "./components/Wardrobe";
+import { FlowerSeasonBanner } from "./components/FlowerSeasonBanner";
+
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
 export const COLLECTIBLE_COMPONENTS: Record<
@@ -400,6 +402,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Human War Banner": HumanBanner,
   "Goblin War Banner": GoblinBanner,
   "Catch the Kraken Banner": CatchTheKrakenBanner,
+  "Spring Blossom Banner": FlowerSeasonBanner,
 
   "Bonnie's Tombstone": BonniesTombstone,
   "Chestnut Fungi Stool": ChestnutFungiStool,

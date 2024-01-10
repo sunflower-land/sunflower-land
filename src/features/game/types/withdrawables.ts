@@ -325,6 +325,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Arcade Token": () => false,
   "Farmhand Coupon": () => false,
   Farmhand: () => false,
+  "Spring Blossom Ticket": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {
@@ -717,6 +718,7 @@ const purchasables: Record<PurchasableItems, () => boolean> = {
   "Solar Flare Banner": () => false,
   "Gold Pass": () => false,
   "Catch the Kraken Banner": () => false,
+  "Spring Blossom Banner": () => false,
 };
 
 const potionHouse: Record<
