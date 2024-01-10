@@ -21,6 +21,9 @@ self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();
 });
 
+self.skipWaiting();
+self.clients.claim();
+
 setDefaultHandler(new NetworkOnly());
 googleFontsCache();
 offlineFallback();

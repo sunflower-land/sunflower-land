@@ -54,8 +54,8 @@ export function ReloadPrompt() {
         )}
         style={{ zIndex: 10000 }}
       >
-        {true && (
-          <div className="mx-auto max-w-2xl flex p-2 items-center">
+        {needRefresh && (
+          <div className="mx-auto max-w-2xl flex p-2 items-center safe-pb">
             <div className="p-1 flex flex-1">
               <span className="text-xs">
                 New content available, click on reload button to update.
