@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import PWAPrompt from "react-ios-pwa-prompt-ts";
 import { Modal } from "react-bootstrap";
 import { useSelector } from "@xstate/react";
 
@@ -415,10 +414,6 @@ export const GameWrapper: React.FC = ({ children }) => {
       <SpecialOffer />
       <Introduction />
       <NewMail />
-      <PWAPrompt
-        copyBody="This website has app functionality. Add it to your home screen to use it in app mode."
-        permanentlyHideOnDismiss={false}
-      />
 
       {children}
     </ToastProvider>
