@@ -41,6 +41,7 @@ import { GameBoard } from "components/GameBoard";
 import { Auctioneer } from "./components/auctioneer/Auctioneer";
 import { PersonhoodContent } from "./components/personhood/PersonhoodContent";
 import { GoldPassModal } from "features/game/expansion/components/GoldPass";
+import { Notifications } from "features/game/components/Notifications";
 
 const spawn = [
   [35, 15],
@@ -65,6 +66,7 @@ const SHOW_MODAL: Partial<Record<StateValues, boolean>> = {
   error: true,
   depositing: true,
   refreshing: true,
+  tradeNotification: true,
 };
 
 export const Game = () => {
@@ -116,6 +118,8 @@ export const Game = () => {
           {goblinState.matches("minting") && <Minting />}
           {goblinState.matches("minted") && <Minted />}
           {goblinState.matches("depositing") && <Loading text="Depositing" />}
+          {goblinState.matches("tradeNotification") && <Notifications />}
+
           {goblinState.matches("refreshing") && <Refreshing />}
         </Panel>
       </Modal>
