@@ -325,7 +325,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Arcade Token": () => false,
   "Farmhand Coupon": () => false,
   Farmhand: () => false,
-  Tulip: () => false,
+  "Tulip Bulb": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {

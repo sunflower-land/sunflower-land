@@ -2302,8 +2302,7 @@ export const ITEM_DETAILS: Items = {
     image: mermaidScale,
     description: "A ticket used during the Catch the Kraken Season",
   },
-  Tulip: {
-    // image: flowerSeasonTicket,
+  "Tulip Bulb": {
     image: mermaidScale,
     description: "A ticket used during the Spring Blossom",
   },

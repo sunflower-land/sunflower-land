@@ -226,7 +226,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   Farmhand: {
     description: "An adopted Bumpkin on your farm",
   },
-  Tulip: {
+  "Tulip Bulb": {
     description: "A ticket used during the Spring Blossom",
   },
 };
