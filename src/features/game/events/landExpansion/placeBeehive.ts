@@ -30,8 +30,7 @@ export function placeBeehive({
   const beehive: Beehive = {
     id: action.id,
     coordinates: action.coordinates,
-    honeyLevel: 0,
-    isProducingHoney: false,
+    lastRecordedHoneyLevel: 0,
   };
 
   copy.beehives = { ...copy.beehives, [action.id]: beehive };
