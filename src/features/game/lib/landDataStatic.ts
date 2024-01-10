@@ -310,6 +310,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Axe: new Decimal(10),
     "Block Buck": new Decimal(100),
     Egg: new Decimal(12),
+    Beehive: new Decimal(1),
   },
   wardrobe: {
     "Elf Suit": 1,

@@ -49,6 +49,7 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Stone Rock": "stone.moved",
   "Ruby Rock": "ruby.moved",
   Boulder: "tree.moved",
+  Beehive: "beehive.moved",
 };
 
 function getMoveAction(
