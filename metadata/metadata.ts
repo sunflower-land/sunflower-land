@@ -4206,7 +4206,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  "Spring Blossom Ticket": {
+  Tulip: {
     description: "A ticket used during the Spring Blossom",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -4538,7 +4538,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
       {
         display_type: "boost_number",
-        trait_type: "Extra Spring Blossom Ticket from Deliveries",
+        trait_type: "Extra Tulip from Deliveries",
         value: 2,
       },
       // {

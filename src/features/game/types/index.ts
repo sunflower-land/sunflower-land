@@ -299,7 +299,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Farmhand Coupon": 734,
   Farmhand: 735,
   "Spring Blossom Banner": 736,
-  "Spring Blossom Ticket": 737,
+  Tulip: 737,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
