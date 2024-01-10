@@ -41,6 +41,7 @@ import { Bud } from "features/island/buds/Bud";
 import { Fisherman } from "features/island/fisherman/Fisherman";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { Airdrop } from "./components/Airdrop";
+import { Beehive } from "./components/resources/beehive/Beehive";
 
 const IMAGE_GRID_WIDTH = 36;
 
@@ -64,6 +65,7 @@ const getIslandElements = ({
   isFirstRender,
   buds,
   airdrops,
+  beehives,
 }: {
   expansionConstruction?: ExpansionConstruction;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
@@ -83,6 +85,7 @@ const getIslandElements = ({
   mushrooms: GameState["mushrooms"]["mushrooms"];
   isFirstRender: boolean;
   buds: GameState["buds"];
+  beehives: GameState["beehives"];
 }) => {
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -435,6 +438,30 @@ const getIslandElements = ({
     );
   }
 
+  {
+    beehives &&
+      mapPlacements.push(
+        ...getKeys(beehives)
+          .filter((beehiveId) => !!beehives[beehiveId].coordinates)
+          .flatMap((id) => {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const { x, y } = beehives[id]!.coordinates as Coordinates;
+
+            return (
+              <MapPlacement
+                key={`beehive-${id}`}
+                x={x}
+                y={y}
+                height={1}
+                width={1}
+              >
+                <Beehive id={String(id)} />
+              </MapPlacement>
+            );
+          })
+      );
+  }
+
   return mapPlacements;
 };
 
@@ -465,6 +492,7 @@ export const Land: React.FC = () => {
     buds,
     airdrops,
     island,
+    beehives,
   } = state;
 
   const autosaving = useSelector(gameService, isAutosaving);
@@ -489,17 +517,6 @@ export const Land: React.FC = () => {
   }, []);
 
   const isFirstRender = useFirstRender();
-
-  const boatCoordinates = () => {
-    if (expansionCount < 7) {
-      return { x: -2, y: -4.5 };
-    }
-    if (expansionCount >= 7 && expansionCount < 21) {
-      return { x: -9, y: -10.5 };
-    } else {
-      return { x: -16, y: -16.5 };
-    }
-  };
 
   // memorize game grid and only update it when the stringified value changes
   const gameGridValue = getGameGrid({ crops, collectibles });
@@ -573,6 +590,7 @@ export const Land: React.FC = () => {
               isFirstRender,
               buds,
               airdrops,
+              beehives,
             }).sort((a, b) => b.props.y - a.props.y)}
           </div>
 

@@ -531,6 +531,9 @@ import whiteFestiveFox from "assets/sfts/white-xmas-fox.png";
 import sapoDocuras from "assets/sfts/sapo_docuras.gif";
 import sapoTravessura from "assets/sfts/sapo_travessura.gif";
 
+// Flowers
+import beehive from "assets/sfts/beehive.webp";
+
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -3050,5 +3053,10 @@ export const ITEM_DETAILS: Items = {
   Farmhand: {
     image: SUNNYSIDE.icons.player,
     description: "A helpful farmhand",
+  },
+  Beehive: {
+    image: beehive,
+    description:
+      "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
   },
 };

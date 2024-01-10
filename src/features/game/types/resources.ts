@@ -66,7 +66,8 @@ export type ResourceName =
   | "Ruby Rock"
   | "Crop Plot"
   | "Fruit Patch"
-  | "Boulder";
+  | "Boulder"
+  | "Beehive";
 
 export const RESOURCES: Record<ResourceName, string> = {
   "Crop Plot": "Plant crops",
@@ -77,6 +78,7 @@ export const RESOURCES: Record<ResourceName, string> = {
   "Ruby Rock": "Mine ruby",
   Boulder: "Mine rare minerals",
   Tree: "Chop Wood",
+  Beehive: "Collect honey",
 };
 
 export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
@@ -111,6 +113,10 @@ export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
   Boulder: {
     width: 2,
     height: 2,
+  },
+  Beehive: {
+    width: 1,
+    height: 1,
   },
 };
 

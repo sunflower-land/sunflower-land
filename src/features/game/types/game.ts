@@ -292,8 +292,7 @@ export type InventoryItemName =
   | FishingBait
   | CompostName
   | FishName
-  | MarineMarvelName
-  | "Beehive";
+  | MarineMarvelName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
