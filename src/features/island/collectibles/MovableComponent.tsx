@@ -309,7 +309,8 @@ export const MoveableComponent: React.FC<MovableProps> = ({
               y: coordinatesY + yDiff,
             },
             id,
-            location,
+            // Resources do not require location to be passed
+            location: name in RESOURCE_MOVE_EVENTS ? undefined : location,
           });
         }
       }}
