@@ -1,3 +1,4 @@
+import { CollectibleLocation } from "features/game/types/collectibles";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
@@ -8,6 +9,7 @@ export type PlaceBudAction = {
     x: number;
     y: number;
   };
+  location: CollectibleLocation;
 };
 
 type Options = {
@@ -29,7 +31,8 @@ export function placeBud({
 
   if (bud.coordinates) throw new Error("This bud is already placed");
 
-  copy.buds[Number(action.id)].coordinates = action.coordinates;
+  bud.coordinates = action.coordinates;
+  bud.location = action.location;
 
   return copy;
 }

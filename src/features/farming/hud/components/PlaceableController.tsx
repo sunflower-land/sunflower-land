@@ -14,13 +14,20 @@ import Decimal from "decimal.js-light";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import {
   COLLECTIBLES_DIMENSIONS,
+  CollectibleName,
   getKeys,
 } from "features/game/types/craftables";
 import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import { ANIMAL_DIMENSIONS } from "features/game/types/craftables";
 import { isBudName } from "features/game/types/buds";
+import { CollectibleLocation } from "features/game/types/collectibles";
+import { Label } from "components/ui/Label";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
-export const PlaceableController: React.FC = () => {
+interface Props {
+  location: CollectibleLocation;
+}
+export const PlaceableController: React.FC<Props> = ({ location }) => {
   const { gameService } = useContext(Context);
   const child = gameService.state.children.landscaping as MachineInterpreter;
 
@@ -46,7 +53,6 @@ export const PlaceableController: React.FC = () => {
   }
 
   let dimensions = { width: 0, height: 0 };
-
   if (isBudName(placeable)) {
     dimensions = { width: 1, height: 1 };
   } else if (placeable) {
@@ -54,6 +60,7 @@ export const PlaceableController: React.FC = () => {
       ...BUILDINGS_DIMENSIONS,
       ...COLLECTIBLES_DIMENSIONS,
       ...ANIMAL_DIMENSIONS,
+      ...RESOURCE_DIMENSIONS,
     }[placeable];
   }
   const { width, height } = dimensions;
@@ -106,23 +113,27 @@ export const PlaceableController: React.FC = () => {
 
     if (placeMore) {
       const nextPosition = { x: coordinates.x, y: coordinates.y - height };
-      const collisionDetected = detectCollision(
-        gameService.state.context.state,
-        {
+      const collisionDetected = detectCollision({
+        name: placeable as CollectibleName,
+        state: gameService.state.context.state,
+        position: {
           ...nextPosition,
           width,
           height,
-        }
-      );
+        },
+        location,
+      });
 
       send({
         type: "PLACE",
         nextOrigin: nextPosition,
         nextWillCollide: collisionDetected,
+        location,
       });
     } else {
       send({
         type: "PLACE",
+        location,
       });
     }
   };
@@ -164,9 +175,23 @@ export const PlaceableController: React.FC = () => {
 
   const isForcedToPlace = placeable === "Time Warp Totem";
 
+  const isWrongLocation =
+    location === "home" &&
+    !COLLECTIBLES_DIMENSIONS[placeable as CollectibleName] &&
+    !isBudName(placeable);
+
   return (
     <div className="fixed bottom-2 left-1/2 -translate-x-1/2">
       <OuterPanel>
+        {isWrongLocation && (
+          <Label
+            icon={SUNNYSIDE.icons.cancel}
+            className="mx-auto my-1"
+            type="danger"
+          >
+            Cannot place inside
+          </Label>
+        )}
         <Hint />
 
         <div
@@ -187,7 +212,10 @@ export const PlaceableController: React.FC = () => {
             </Button>
           )}
 
-          <Button disabled={collisionDetected} onClick={handleConfirmPlacement}>
+          <Button
+            disabled={collisionDetected || isWrongLocation}
+            onClick={handleConfirmPlacement}
+          >
             <img
               src={SUNNYSIDE.icons.confirm}
               alt="confirm"

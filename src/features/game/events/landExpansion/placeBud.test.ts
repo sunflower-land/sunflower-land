@@ -24,6 +24,7 @@ describe("Place Bud", () => {
             x: 0,
             y: 0,
           },
+          location: "farm",
         },
       })
     ).toThrow("This bud does not exist");
@@ -58,6 +59,7 @@ describe("Place Bud", () => {
             x: 0,
             y: 0,
           },
+          location: "farm",
         },
       })
     ).toThrow("This bud is already placed");
@@ -87,6 +89,7 @@ describe("Place Bud", () => {
           x: 0,
           y: 0,
         },
+        location: "farm",
       },
     });
 

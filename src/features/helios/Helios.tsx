@@ -92,7 +92,7 @@ export const Helios: React.FC = () => {
         />
         {gameState.context.state.hayseedHank && <HayseedHank />}
       </div>
-      <Hud isFarming={false} />
+      <Hud isFarming={false} location="farm" />
     </>
   );
 };

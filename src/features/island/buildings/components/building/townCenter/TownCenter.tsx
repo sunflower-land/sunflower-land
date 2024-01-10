@@ -12,10 +12,14 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
+import { useNavigate } from "react-router-dom";
+import { hasFeatureAccess } from "lib/flags";
 
 export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+
+  const navigate = useNavigate();
 
   const [showHeart, setShowHeart] = useState(false);
 
@@ -25,7 +29,8 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
       return;
     }
 
-    if (isBuilt) {
+    if (isBuilt && hasFeatureAccess(gameState.context.state, "HOME")) {
+      navigate("/home");
       // Add future on click actions here
       return;
     }
@@ -52,11 +57,7 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
 
   return (
     <div className="absolute h-full w-full">
-      <BuildingImageWrapper
-        name="Town Center"
-        onClick={handleClick}
-        nonInteractible={!onRemove}
-      >
+      <BuildingImageWrapper name="Town Center" onClick={handleClick}>
         <img
           src={townCenter}
           className="absolute pointer-events-none"
@@ -74,11 +75,10 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         <DailyReward />
       </div>
       <div
-        className="absolute"
+        className="absolute w-full"
         style={{
           top: `${PIXEL_SCALE * 16}px`,
           left: `${PIXEL_SCALE * 4}px`,
-          width: `${PIXEL_SCALE * 16}px`,
           height: `${PIXEL_SCALE * 32}px`,
         }}
       >

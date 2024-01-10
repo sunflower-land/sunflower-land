@@ -33,6 +33,7 @@ import { ZoomContext } from "components/ZoomProvider";
 import { InnerPanel } from "components/ui/Panel";
 import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
 import { hasRemoveRestriction } from "features/game/types/removeables";
+import { CollectibleLocation } from "features/game/types/collectibles";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -105,6 +106,7 @@ export interface MovableProps {
   index: number;
   x: number;
   y: number;
+  location?: CollectibleLocation;
 }
 
 const getMovingItem = (state: MachineState) => state.context.moving;
@@ -116,6 +118,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   x: coordinatesX,
   y: coordinatesY,
   children,
+  location = "farm",
 }) => {
   const { scale } = useContext(ZoomContext);
 
@@ -174,6 +177,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
         event: removeAction,
         id: id,
         name: name,
+        location,
       });
     } else {
       setShowRemoveConfirmation(true);
@@ -202,11 +206,16 @@ export const MoveableComponent: React.FC<MovableProps> = ({
       id,
       name,
     });
-    const collisionDetected = detectCollision(game, {
-      x,
-      y,
-      width: dimensions.width,
-      height: dimensions.height,
+    const collisionDetected = detectCollision({
+      name: name as CollectibleName,
+      state: game,
+      location,
+      position: {
+        x,
+        y,
+        width: dimensions.width,
+        height: dimensions.height,
+      },
     });
 
     setIsColliding(collisionDetected);
@@ -276,11 +285,16 @@ export const MoveableComponent: React.FC<MovableProps> = ({
           id,
           name,
         });
-        const collisionDetected = detectCollision(game, {
-          x,
-          y,
-          width: dimensions.width,
-          height: dimensions.height,
+        const collisionDetected = detectCollision({
+          name: name as CollectibleName,
+          state: game,
+          location,
+          position: {
+            x,
+            y,
+            width: dimensions.width,
+            height: dimensions.height,
+          },
         });
 
         if (!collisionDetected) {
@@ -292,6 +306,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
               y: coordinatesY + yDiff,
             },
             id,
+            location,
           });
         }
       }}

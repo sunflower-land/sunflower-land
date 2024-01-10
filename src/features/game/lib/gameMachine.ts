@@ -52,7 +52,7 @@ import { OFFLINE_FARM } from "./landData";
 import { randomID } from "lib/utils/random";
 
 import { buySFL } from "../actions/buySFL";
-import { PurchasableItems } from "../types/collectibles";
+import { CollectibleLocation, PurchasableItems } from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
@@ -199,6 +199,7 @@ type LandscapeEvent = {
   };
   multiple?: boolean;
   maximum?: number;
+  location: CollectibleLocation;
 };
 
 type VisitEvent = {
@@ -401,7 +402,6 @@ export type BlockchainState = {
     | "buds"
     | "airdrop"
     | "noBumpkinFound"
-    | "noTownCenter"
     | "coolingDown"
     | "buyingBlockBucks"
     | "auctionResults"
@@ -742,14 +742,7 @@ export function startGame(authContext: AuthContext) {
                 return !!airdrop;
               },
             },
-            {
-              target: "noTownCenter",
-              cond: (context: Context) => {
-                return (
-                  (context.state.buildings["Town Center"] ?? []).length === 0
-                );
-              },
-            },
+
             {
               // auctionResults needs to be the last check as it transitions directly
               // to playing. It does not target notifying.
@@ -795,13 +788,7 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-        noTownCenter: {
-          on: {
-            ACKNOWLEDGE: {
-              target: "playing",
-            },
-          },
-        },
+
         deposited: {
           on: {
             ACKNOWLEDGE: {
@@ -1633,6 +1620,7 @@ export function startGame(authContext: AuthContext) {
               collisionDetected: true,
               multiple: (_: Context, event: LandscapeEvent) => event.multiple,
               maximum: (_: Context, event: LandscapeEvent) => event.maximum,
+              location: (_: Context, event: LandscapeEvent) => event.location,
             },
             onDone: {
               target: "autosaving",

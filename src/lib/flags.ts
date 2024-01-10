@@ -26,7 +26,8 @@ type FeatureName =
   | "LOCALISATION"
   | "PORTALS"
   | "BEACH_FISHING"
-  | "REACTIONS";
+  | "REACTIONS"
+  | "HOME";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51];
@@ -41,6 +42,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   NEW_DELIVERIES: testnetFeatureFlag,
   NEW_FARM_FLOW: () => true,
   BUDS_DEPOSIT_FLOW: () => true,
+  HOME: defaultFeatureFlag,
 
   REACTIONS: defaultFeatureFlag,
 

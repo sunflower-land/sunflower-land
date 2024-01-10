@@ -323,6 +323,7 @@ import warehouse from "src/assets/buildings/warehouse.png";
 import basicComposter from "assets/composters/composter_basic.png";
 import advancedComposter from "assets/composters/composter_advanced.png";
 import expertComposter from "assets/composters/composter_expert.png";
+import house from "assets/buildings/house.png";
 
 // Composter Bait
 import earthworm from "assets/composters/earthworm.png";
@@ -1472,6 +1473,10 @@ export const ITEM_DETAILS: Items = {
   "Town Center": {
     image: townCenter,
     description: "Gather around the town center for the latest news",
+  },
+  House: {
+    image: house,
+    description: "A place to rest your head",
   },
   Kitchen: {
     image: kitchen,
@@ -3015,5 +3020,13 @@ export const ITEM_DETAILS: Items = {
     description:
       "A kaleidoscope of colors beneath the waves, this fish is nature's living artwork.",
     howToGetItem: ["Beach fishing"],
+  },
+  Rug: {
+    image: SUNNYSIDE.decorations.rug,
+    description: "?",
+  },
+  Wardrobe: {
+    image: SUNNYSIDE.decorations.wardrobe,
+    description: "?",
   },
 };

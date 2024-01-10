@@ -41,6 +41,7 @@ import { ConsumableName } from "./consumables";
 import {
   AchievementDecorationName,
   EventDecorationName,
+  InteriorDecorationName,
   PotionHouseDecorationName,
   SeasonalDecorationName,
   ShopDecorationName,
@@ -321,6 +322,7 @@ const buildings: Record<BuildingName, () => boolean> = {
   "Compost Bin": () => false,
   "Turbo Composter": () => false,
   "Premium Composter": () => false,
+  House: () => false,
 };
 
 const fertilisers: Record<FertiliserName, () => boolean> = {
@@ -769,6 +771,11 @@ const fish: Record<FishName | MarineMarvelName, () => boolean> = {
   Parrotfish: () => false,
 };
 
+const interiors: Record<InteriorDecorationName, () => boolean> = {
+  Rug: () => false,
+  Wardrobe: () => false,
+};
+
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...crops,
   ...fruits,
@@ -820,6 +827,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...bait,
   ...compost,
   ...fish,
+  ...interiors,
 };
 
 export const BUMPKIN_WITHDRAWABLES: Record<
