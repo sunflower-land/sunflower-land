@@ -211,6 +211,7 @@ import {
   EquipFarmHandAction,
 } from "./landExpansion/equipFarmHand";
 import { moveBeehive, MoveBeehiveAction } from "./landExpansion/moveBeehive";
+import { placeBeehive, PlaceBeehiveAction } from "./landExpansion/placeBeehive";
 
 export type PlayingEvent =
   | TradeAction
@@ -315,7 +316,8 @@ export type PlacementEvent =
   | PlaceBudAction
   | MoveBudAction
   | RemoveBudAction
-  | MoveBeehiveAction;
+  | MoveBeehiveAction
+  | PlaceBeehiveAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -446,6 +448,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "bud.moved": moveBud,
   "bud.removed": removeBud,
   "beehive.moved": moveBeehive,
+  "beehive.placed": placeBeehive,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };
