@@ -4,12 +4,7 @@ import {
   CHICKEN_TIME_TO_EGG,
   MUTANT_CHICKEN_BOOST_AMOUNT,
 } from "features/game/lib/constants";
-import {
-  Bumpkin,
-  Collectibles,
-  GameState,
-  Inventory,
-} from "features/game/types/game";
+import { Bumpkin, GameState, Inventory } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type LandExpansionFeedChickenAction = {
@@ -25,7 +20,7 @@ type Options = {
 
 const makeFedAt = (
   inventory: Inventory,
-  collectibles: Collectibles,
+  gameState: GameState,
   createdAt: number,
   bumpkin: Bumpkin
 ) => {
@@ -36,7 +31,7 @@ const makeFedAt = (
     milliseconds *= 0.9;
   }
 
-  if (isCollectibleBuilt("Speed Chicken", collectibles)) {
+  if (isCollectibleBuilt({ name: "Speed Chicken", game: gameState })) {
     milliseconds *= 0.9;
   }
 
@@ -44,7 +39,7 @@ const makeFedAt = (
     milliseconds *= 0.9;
   }
 
-  if (isCollectibleBuilt("El Pollo Veloz", collectibles)) {
+  if (isCollectibleBuilt({ name: "El Pollo Veloz", game: gameState })) {
     milliseconds -= 1000 * 60 * 60 * 4;
   }
 
@@ -54,14 +49,14 @@ const makeFedAt = (
   return createdAt - chickenTime;
 };
 
-export const getWheatRequiredToFeed = (collectibles: Collectibles) => {
-  if (isCollectibleBuilt("Gold Egg", collectibles)) {
+export const getWheatRequiredToFeed = (game: GameState) => {
+  if (isCollectibleBuilt({ name: "Gold Egg", game })) {
     return new Decimal(0);
   }
 
   const defaultAmount = new Decimal(1);
 
-  if (isCollectibleBuilt("Fat Chicken", collectibles)) {
+  if (isCollectibleBuilt({ name: "Fat Chicken", game })) {
     return defaultAmount.minus(defaultAmount.mul(MUTANT_CHICKEN_BOOST_AMOUNT));
   }
 
@@ -94,7 +89,7 @@ export function feedChicken({
     throw new Error("This chicken is not hungry");
   }
 
-  const wheatRequired = getWheatRequiredToFeed(collectibles);
+  const wheatRequired = getWheatRequiredToFeed(stateCopy);
 
   if (
     wheatRequired.gt(0) &&
@@ -107,7 +102,7 @@ export function feedChicken({
   inventory.Wheat = currentWheat.minus(wheatRequired);
   chickens[action.id] = {
     ...chickens[action.id],
-    fedAt: makeFedAt(inventory, collectibles, createdAt, bumpkin),
+    fedAt: makeFedAt(inventory, stateCopy, createdAt, bumpkin),
     multiplier: 1,
   };
 

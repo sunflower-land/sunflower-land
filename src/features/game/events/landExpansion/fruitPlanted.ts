@@ -6,7 +6,7 @@ import {
   FRUIT_SEEDS,
   isFruitSeed,
 } from "features/game/types/fruits";
-import { Bumpkin, Collectibles, GameState } from "features/game/types/game";
+import { Bumpkin, GameState } from "features/game/types/game";
 import { randomInt } from "lib/utils/random";
 import cloneDeep from "lodash.clonedeep";
 import { getFruitYield } from "./fruitHarvested";
@@ -24,14 +24,14 @@ function getHarvestsLeft() {
 
 function getPlantedAt(
   fruitSeedName: FruitSeedName,
-  collectibles: Collectibles,
   wearables: BumpkinParts,
+  game: GameState,
   createdAt: number
 ) {
   if (!fruitSeedName) return createdAt;
 
   const fruitTime = FRUIT_SEEDS()[fruitSeedName].plantSeconds;
-  const boostedTime = getFruitTime(fruitSeedName, collectibles, wearables);
+  const boostedTime = getFruitTime(fruitSeedName, game, wearables);
 
   const offset = fruitTime - boostedTime;
 
@@ -43,7 +43,7 @@ function getPlantedAt(
  */
 export const getFruitTime = (
   fruitSeedName: FruitSeedName,
-  collectibles: Collectibles,
+  game: GameState,
   wearables: BumpkinParts
 ) => {
   let seconds = FRUIT_SEEDS()[fruitSeedName]?.plantSeconds ?? 0;
@@ -51,7 +51,7 @@ export const getFruitTime = (
   // Squirrel Monkey: 50% reduction
   if (
     fruitSeedName === "Orange Seed" &&
-    isCollectibleBuilt("Squirrel Monkey", collectibles)
+    isCollectibleBuilt({ name: "Squirrel Monkey", game })
   ) {
     seconds = seconds * 0.5;
   }
@@ -59,7 +59,7 @@ export const getFruitTime = (
   // Nana: 10% reduction
   if (
     fruitSeedName === "Banana Plant" &&
-    isCollectibleBuilt("Nana", collectibles)
+    isCollectibleBuilt({ name: "Nana", game })
   ) {
     seconds = seconds * 0.9;
   }
@@ -122,7 +122,7 @@ export function plantFruit({
     throw new Error("Invalid harvests left amount");
   }
 
-  if (isCollectibleBuilt("Immortal Pear", stateCopy.collectibles)) {
+  if (isCollectibleBuilt({ name: "Immortal Pear", game: stateCopy })) {
     harvestCount += 1;
   }
 
@@ -134,13 +134,13 @@ export function plantFruit({
     name: fruitName,
     plantedAt: getPlantedAt(
       action.seed,
-      stateCopy.collectibles,
       (stateCopy.bumpkin as Bumpkin).equipped,
+      stateCopy,
       createdAt
     ),
     amount: getFruitYield({
       name: fruitName,
-      collectibles: stateCopy.collectibles,
+      game: stateCopy,
       buds: stateCopy.buds ?? {},
       wearables: bumpkin.equipped,
       fertiliser: patch.fertiliser?.name,

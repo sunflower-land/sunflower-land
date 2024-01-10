@@ -5,6 +5,7 @@ import {
 } from "../../types/craftables";
 import { GameState, PlacedItem } from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { CollectibleLocation } from "features/game/types/collectibles";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
@@ -14,6 +15,7 @@ export type PlaceCollectibleAction = {
     x: number;
     y: number;
   };
+  location: CollectibleLocation;
 };
 
 type Options = {
@@ -30,7 +32,16 @@ export function placeCollectible({
   const stateCopy = cloneDeep(state);
   const { bumpkin } = stateCopy;
   const collectible = action.name;
-  const collectibleItems = stateCopy.collectibles[collectible];
+
+  let collectibleItems =
+    action.location === "home"
+      ? stateCopy.home.collectibles[action.name]
+      : stateCopy.collectibles[action.name];
+
+  if (!collectibleItems) {
+    collectibleItems = [];
+  }
+
   const inventoryItemBalance = stateCopy.inventory[collectible];
 
   if (bumpkin === undefined) {
@@ -52,7 +63,6 @@ export function placeCollectible({
     throw new Error("You cannot place this item");
   }
 
-  const placed = stateCopy.collectibles[action.name] || [];
   const newCollectiblePlacement: PlacedItem = {
     id: action.id,
     createdAt: createdAt,
@@ -62,11 +72,16 @@ export function placeCollectible({
 
   bumpkin.activity = trackActivity("Collectible Placed", bumpkin.activity);
 
+  collectibleItems.push(newCollectiblePlacement);
+
+  // Update stateCopy with the new collectibleItems
+  if (action.location === "home") {
+    stateCopy.home.collectibles[action.name] = collectibleItems;
+  } else {
+    stateCopy.collectibles[action.name] = collectibleItems;
+  }
+
   return {
     ...stateCopy,
-    collectibles: {
-      ...stateCopy.collectibles,
-      [collectible]: [...placed, newCollectiblePlacement],
-    },
   };
 }

@@ -1,12 +1,6 @@
 import Decimal from "decimal.js-light";
 
-import {
-  Bumpkin,
-  Collectibles,
-  GameState,
-  GrubShopOrder,
-  Inventory,
-} from "../../types/game";
+import { Bumpkin, GameState, GrubShopOrder, Inventory } from "../../types/game";
 import { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import { CROPS } from "../../types/crops";
 import { CAKES } from "../../types/craftables";
@@ -111,7 +105,7 @@ export const hasSellBoost = (inventory: Inventory) => {
 export const getCookingTime = (
   seconds: number,
   bumpkin: Bumpkin | undefined,
-  collectibles: Collectibles
+  game: GameState
 ): number => {
   let reducedSecs = new Decimal(seconds);
 
@@ -125,7 +119,7 @@ export const getCookingTime = (
     reducedSecs = reducedSecs.mul(0.5);
   }
 
-  if (isCollectibleActive("Time Warp Totem", collectibles)) {
+  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
     reducedSecs = reducedSecs.mul(0.5);
   }
 
@@ -143,7 +137,7 @@ export const getCookingTime = (
 export const getFoodExpBoost = (
   food: Consumable,
   bumpkin: Bumpkin,
-  collectibles: Collectibles,
+  game: GameState,
   buds: NonNullable<GameState["buds"]>
 ): number => {
   let boostedExp = new Decimal(food.experience);
@@ -173,25 +167,25 @@ export const getFoodExpBoost = (
   }
 
   //Observatory is placed
-  if (isCollectibleBuilt("Observatory", collectibles)) {
+  if (isCollectibleBuilt({ name: "Observatory", game })) {
     boostedExp = boostedExp.mul(1.05);
   }
 
   if (
     (food.name in COOKABLE_CAKES || food.name === "Pirate Cake") &&
-    isCollectibleBuilt("Grain Grinder", collectibles)
+    isCollectibleBuilt({ name: "Grain Grinder", game })
   ) {
     boostedExp = boostedExp.mul(1.2);
   }
 
   if (
     food.name in FISH_CONSUMABLES &&
-    isCollectibleBuilt("Skill Shrimpy", collectibles)
+    isCollectibleBuilt({ name: "Skill Shrimpy", game })
   ) {
     boostedExp = boostedExp.mul(1.2);
   }
 
-  if (collectibles[getSeasonalBanner()]) {
+  if (isCollectibleBuilt({ name: getSeasonalBanner(), game })) {
     boostedExp = boostedExp.mul(1.1);
   }
 

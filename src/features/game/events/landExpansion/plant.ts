@@ -5,7 +5,6 @@ import { CropName, CROPS } from "../../types/crops";
 import {
   Buildings,
   Bumpkin,
-  Collectibles,
   CropPlot,
   GameState,
   Inventory,
@@ -117,7 +116,7 @@ export function isPlotFertile({
 export const getCropTime = ({
   crop,
   inventory,
-  collectibles,
+  game,
   bumpkin,
   buds,
   plot,
@@ -125,7 +124,7 @@ export const getCropTime = ({
 }: {
   crop: CropName;
   inventory: Inventory;
-  collectibles: Collectibles;
+  game: GameState;
   bumpkin: Bumpkin;
   buds: NonNullable<GameState["buds"]>;
   plot?: CropPlot;
@@ -143,7 +142,7 @@ export const getCropTime = ({
   // Mysterious Parsnip: 50% reduction
   if (
     crop === "Parsnip" &&
-    isCollectibleBuilt("Mysterious Parsnip", collectibles)
+    isCollectibleBuilt({ name: "Mysterious Parsnip", game })
   ) {
     seconds = seconds * 0.5;
   }
@@ -155,9 +154,9 @@ export const getCropTime = ({
 
   // Scarecrow: 15% reduction
   if (
-    isCollectibleBuilt("Nancy", collectibles) ||
-    isCollectibleBuilt("Scarecrow", collectibles) ||
-    isCollectibleBuilt("Kuebiko", collectibles)
+    isCollectibleBuilt({ name: "Nancy", game }) ||
+    isCollectibleBuilt({ name: "Scarecrow", game }) ||
+    isCollectibleBuilt({ name: "Kuebiko", game })
   ) {
     seconds = seconds * 0.85;
   }
@@ -168,22 +167,25 @@ export const getCropTime = ({
   }
 
   // Lunar calender: 10% reduction
-  if (isCollectibleBuilt("Lunar Calendar", collectibles)) {
+  if (isCollectibleBuilt({ name: "Lunar Calendar", game })) {
     seconds = seconds * 0.9;
   }
 
   // Cabbage Girl: 50% reduction
-  if (crop === "Cabbage" && isCollectibleBuilt("Cabbage Girl", collectibles)) {
+  if (
+    crop === "Cabbage" &&
+    isCollectibleBuilt({ name: "Cabbage Girl", game })
+  ) {
     seconds = seconds * 0.5;
   }
 
   // If Obie: 25% reduction
-  if (crop === "Eggplant" && isCollectibleBuilt("Obie", collectibles)) {
+  if (crop === "Eggplant" && isCollectibleBuilt({ name: "Obie", game })) {
     seconds = seconds * 0.75;
   }
 
   // If Kernaldo: 25% reduction
-  if (crop === "Corn" && isCollectibleBuilt("Kernaldo", collectibles)) {
+  if (crop === "Corn" && isCollectibleBuilt({ name: "Kernaldo", game })) {
     seconds = seconds * 0.75;
   }
 
@@ -191,6 +193,8 @@ export const getCropTime = ({
 
   // Any boost added below this line will not be reflected in betty's shop
   if (!plot) return seconds;
+
+  const collectibles = game.collectibles;
 
   // If within Basic Scarecrow AOE: 20% reduction
   if (collectibles["Basic Scarecrow"]?.[0] && isBasicCrop(crop)) {
@@ -213,7 +217,7 @@ export const getCropTime = ({
     };
 
     if (
-      isCollectibleBuilt("Basic Scarecrow", collectibles) &&
+      isCollectibleBuilt({ name: "Basic Scarecrow", game }) &&
       isWithinAOE("Basic Scarecrow", scarecrowPosition, plotPosition)
     ) {
       seconds = seconds * 0.8;
@@ -224,7 +228,7 @@ export const getCropTime = ({
     seconds = seconds * 0.5;
   }
 
-  if (isCollectibleActive("Time Warp Totem", collectibles)) {
+  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
     seconds = seconds * 0.5;
   }
 
@@ -234,7 +238,7 @@ export const getCropTime = ({
 type GetPlantedAtArgs = {
   crop: CropName;
   inventory: Inventory;
-  collectibles: Collectibles;
+  game: GameState;
   buildings: Buildings;
   bumpkin: Bumpkin;
   createdAt: number;
@@ -249,7 +253,7 @@ type GetPlantedAtArgs = {
 export function getPlantedAt({
   crop,
   inventory,
-  collectibles,
+  game,
   buildings,
   bumpkin,
   buds,
@@ -263,7 +267,7 @@ export function getPlantedAt({
   const boostedTime = getCropTime({
     crop,
     inventory,
-    collectibles,
+    game: game,
     bumpkin,
     buds,
     plot,
@@ -282,7 +286,7 @@ export function getCropYieldAmount({
   crop,
   plot,
   inventory,
-  collectibles,
+  game,
   buds,
   bumpkin,
   fertiliser,
@@ -290,7 +294,7 @@ export function getCropYieldAmount({
   crop: CropName;
   plot: CropPlot;
   inventory: Inventory;
-  collectibles: Collectibles;
+  game: GameState;
   buds: NonNullable<GameState["buds"]>;
   bumpkin: Bumpkin;
   fertiliser?: CropCompostName;
@@ -301,25 +305,25 @@ export function getCropYieldAmount({
 
   if (
     crop === "Cauliflower" &&
-    isCollectibleBuilt("Golden Cauliflower", collectibles)
+    isCollectibleBuilt({ name: "Golden Cauliflower", game })
   ) {
     amount *= 2;
   }
 
-  if (crop === "Carrot" && isCollectibleBuilt("Easter Bunny", collectibles)) {
+  if (crop === "Carrot" && isCollectibleBuilt({ name: "Easter Bunny", game })) {
     amount *= 1.2;
   }
 
   if (
     crop === "Pumpkin" &&
-    isCollectibleBuilt("Victoria Sisters", collectibles)
+    isCollectibleBuilt({ name: "Victoria Sisters", game })
   ) {
     amount *= 1.2;
   }
 
   if (
-    isCollectibleBuilt("Scarecrow", collectibles) ||
-    isCollectibleBuilt("Kuebiko", collectibles)
+    isCollectibleBuilt({ name: "Scarecrow", game }) ||
+    isCollectibleBuilt({ name: "Kuebiko", game })
   ) {
     amount *= 1.2;
   }
@@ -348,7 +352,10 @@ export function getCropYieldAmount({
     amount *= 1.2;
   }
   //Bumpkin Wearable boost Sunflower Amulet
-  if (crop === "Sunflower" && necklace === "Sunflower Amulet") {
+  if (
+    crop === "Sunflower" &&
+    bumpkin.equipped.necklace === "Sunflower Amulet"
+  ) {
     amount *= 1.1;
   }
 
@@ -359,6 +366,8 @@ export function getCropYieldAmount({
   if (crop === "Corn" && onesie === "Corn Onesie") {
     amount += 0.1;
   }
+
+  const collectibles = game.collectibles;
 
   if (collectibles["Scary Mike"]?.[0] && isMediumCrop(crop) && plot) {
     const scarecrowCoordinates = collectibles["Scary Mike"]?.[0].coordinates;
@@ -379,7 +388,7 @@ export function getCropYieldAmount({
     };
 
     if (
-      isCollectibleBuilt("Scary Mike", collectibles) &&
+      isCollectibleBuilt({ name: "Scary Mike", game }) &&
       isWithinAOE("Scary Mike", scarecrowPosition, plotPosition)
     ) {
       amount = amount + 0.2;
@@ -388,7 +397,7 @@ export function getCropYieldAmount({
 
   if (
     collectibles["Sir Goldensnout"] &&
-    isCollectibleBuilt("Sir Goldensnout", collectibles)
+    isCollectibleBuilt({ name: "Sir Goldensnout", game })
   ) {
     const sirGoldenSnout = collectibles["Sir Goldensnout"][0];
 
@@ -406,7 +415,7 @@ export function getCropYieldAmount({
   if (
     isOvernightCrop(crop) &&
     collectibles["Hoot"] &&
-    isCollectibleBuilt("Hoot", collectibles)
+    isCollectibleBuilt({ name: "Hoot", game })
   ) {
     amount = amount + 0.5;
   }
@@ -436,7 +445,7 @@ export function getCropYieldAmount({
     };
 
     if (
-      isCollectibleBuilt("Laurie the Chuckle Crow", collectibles) &&
+      isCollectibleBuilt({ name: "Laurie the Chuckle Crow", game }) &&
       isWithinAOE("Laurie the Chuckle Crow", scarecrowPosition, plotPosition)
     ) {
       amount = amount + 0.2;
@@ -463,18 +472,18 @@ export function getCropYieldAmount({
     };
 
     if (
-      isCollectibleBuilt("Queen Cornelia", collectibles) &&
+      isCollectibleBuilt({ name: "Queen Cornelia", game }) &&
       isWithinAOE("Queen Cornelia", scarecrowPosition, plotPosition)
     ) {
       amount = amount + 1;
     }
   }
 
-  if (crop === "Pumpkin" && isCollectibleBuilt("Freya Fox", collectibles)) {
+  if (crop === "Pumpkin" && isCollectibleBuilt({ name: "Freya Fox", game })) {
     amount += 0.5;
   }
 
-  if (crop === "Corn" && isCollectibleBuilt("Poppy", collectibles)) {
+  if (crop === "Corn" && isCollectibleBuilt({ name: "Poppy", game })) {
     amount += 0.1;
   }
 
@@ -484,21 +493,21 @@ export function getCropYieldAmount({
 
   if (
     crop === "Carrot" &&
-    isCollectibleBuilt("Lab Grown Carrot", collectibles)
+    isCollectibleBuilt({ name: "Lab Grown Carrot", game })
   ) {
     amount += 0.2;
   }
 
   if (
     crop === "Pumpkin" &&
-    isCollectibleBuilt("Lab Grown Pumpkin", collectibles)
+    isCollectibleBuilt({ name: "Lab Grown Pumpkin", game })
   ) {
     amount += 0.3;
   }
 
   if (
     crop === "Radish" &&
-    isCollectibleBuilt("Lab Grown Radish", collectibles)
+    isCollectibleBuilt({ name: "Lab Grown Radish", game })
   ) {
     amount += 0.4;
   }
@@ -572,7 +581,7 @@ export function plant({
       plantedAt: getPlantedAt({
         crop: cropName,
         inventory,
-        collectibles,
+        game: stateCopy,
         buildings,
         bumpkin,
         createdAt,
@@ -584,7 +593,7 @@ export function plant({
       amount: getCropYieldAmount({
         crop: cropName,
         inventory,
-        collectibles,
+        game: stateCopy,
         bumpkin,
         plot,
         buds,

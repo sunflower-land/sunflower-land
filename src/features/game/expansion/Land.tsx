@@ -42,6 +42,8 @@ import { Fisherman } from "features/island/fisherman/Fisherman";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { Airdrop } from "./components/Airdrop";
 
+const IMAGE_GRID_WIDTH = 36;
+
 export const LAND_WIDTH = 6;
 
 const getIslandElements = ({
@@ -136,6 +138,7 @@ const getIslandElements = ({
               width={width}
             >
               <Collectible
+                location="farm"
                 name={name}
                 id={id}
                 readyAt={readyAt}
@@ -363,7 +366,11 @@ const getIslandElements = ({
     buds &&
       mapPlacements.push(
         ...getKeys(buds)
-          .filter((budId) => !!buds[budId].coordinates)
+          .filter(
+            (budId) =>
+              !!buds[budId].coordinates &&
+              (!buds[budId].location || buds[budId].location === "farm")
+          )
           .flatMap((id) => {
             const { x, y } = buds[id]!.coordinates!;
 
@@ -427,7 +434,9 @@ export const Land: React.FC = () => {
     mushrooms,
     buds,
     airdrops,
+    island,
   } = state;
+
   const autosaving = useSelector(gameService, isAutosaving);
   const landscaping = useSelector(gameService, isLandscaping);
   const visiting = useSelector(gameService, isVisiting);
@@ -536,7 +545,7 @@ export const Land: React.FC = () => {
             }).sort((a, b) => b.props.y - a.props.y)}
           </div>
 
-          {landscaping && <Placeable />}
+          {landscaping && <Placeable location="farm" />}
         </div>
 
         {!landscaping && <Fisherman />}
@@ -553,7 +562,7 @@ export const Land: React.FC = () => {
         />
       </div>
 
-      {landscaping && <LandscapingHud isFarming />}
+      {landscaping && <LandscapingHud location="farm" />}
 
       {!landscaping && visiting && (
         <div className="absolute z-20">
@@ -561,7 +570,7 @@ export const Land: React.FC = () => {
         </div>
       )}
 
-      {!landscaping && !visiting && <Hud isFarming={true} />}
+      {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}
     </>
   );
 };

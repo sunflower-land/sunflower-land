@@ -376,7 +376,7 @@ describe("getChoppedAt", () => {
     const now = Date.now();
 
     const time = getChoppedAt({
-      collectibles: {},
+      game: TEST_FARM,
       skills: { "Tree Hugger": 1 },
       createdAt: now,
     });
@@ -389,15 +389,19 @@ describe("getChoppedAt", () => {
     const now = Date.now();
 
     const time = getChoppedAt({
-      collectibles: {
-        "Apprentice Beaver": [
-          {
-            id: "123",
-            createdAt: now,
-            coordinates: { x: 1, y: 1 },
-            readyAt: now - 5 * 60 * 1000,
-          },
-        ],
+      game: {
+        ...TEST_FARM,
+
+        collectibles: {
+          "Apprentice Beaver": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
       },
       skills: { "Tree Hugger": 1 },
       createdAt: now,
@@ -411,15 +415,18 @@ describe("getChoppedAt", () => {
     const now = Date.now();
 
     const time = getChoppedAt({
-      collectibles: {
-        "Time Warp Totem": [
-          {
-            id: "123",
-            createdAt: now,
-            coordinates: { x: 1, y: 1 },
-            readyAt: now - 5 * 60 * 1000,
-          },
-        ],
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
       },
       skills: {},
       createdAt: now,
@@ -432,23 +439,26 @@ describe("getChoppedAt", () => {
     const now = Date.now();
 
     const time = getChoppedAt({
-      collectibles: {
-        "Apprentice Beaver": [
-          {
-            id: "123",
-            createdAt: now,
-            coordinates: { x: 1, y: 1 },
-            readyAt: now - 5 * 60 * 1000,
-          },
-        ],
-        "Time Warp Totem": [
-          {
-            id: "123",
-            createdAt: now,
-            coordinates: { x: 1, y: 1 },
-            readyAt: now - 5 * 60 * 1000,
-          },
-        ],
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Apprentice Beaver": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+          "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
       },
       skills: { "Tree Hugger": 1 },
       createdAt: now,

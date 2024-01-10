@@ -77,7 +77,6 @@ export const Navigation: React.FC = () => {
           <HashRouter>
             <Suspense fallback={<LoadingFallback />}>
               <Routes>
-                <Route path="*" element={<LandExpansion />} />
                 {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
                 {!state.isVisiting && (
                   <Route
@@ -105,7 +104,6 @@ export const Navigation: React.FC = () => {
                   path="/visit/*"
                   element={<LandExpansion key="visit" />}
                 />
-                <Route path="/" element={<LandExpansion key="land" />} />
 
                 <Route path="/retreat">
                   <Route index element={<TraderDeeplinkHandler />} />
@@ -114,6 +112,8 @@ export const Navigation: React.FC = () => {
                 {CONFIG.NETWORK === "mumbai" && (
                   <Route path="/builder" element={<Builder key="builder" />} />
                 )}
+
+                <Route path="*" element={<LandExpansion key="land" />} />
               </Routes>
             </Suspense>
           </HashRouter>
