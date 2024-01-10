@@ -62,7 +62,7 @@ export const PromotingModal: React.FC<Props> = ({
 
   const { gameService } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
-  const hasPreviousSeasonBanner = !!inventory["Witches' Eve Banner"];
+  const hasPreviousSeasonBanner = !!inventory["Spring Blossom Banner"];
 
   const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -90,6 +90,7 @@ export const PromotingModal: React.FC<Props> = ({
         </GameWallet>
       );
     }
+
     if (hasPurchased) {
       return (
         <>

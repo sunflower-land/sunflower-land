@@ -3,7 +3,7 @@ import React from "react";
 import banner from "assets/decorations/banners/catch_the_kraken_banner.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-export const FlowerSeasonBanner: React.FC = () => {
+export const SpringBlossomBanner: React.FC = () => {
   return (
     <div>
       <img

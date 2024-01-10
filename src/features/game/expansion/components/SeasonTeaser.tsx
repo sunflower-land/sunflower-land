@@ -24,9 +24,11 @@ export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
     <>
       <PromotingModal
         hasPurchased={
+          !!gameState.context.state.inventory["Spring Blossom Banner"]
+        }
+        hasDiscount={
           !!gameState.context.state.inventory["Catch the Kraken Banner"]
         }
-        hasDiscount={!!gameState.context.state.inventory["Witches' Eve Banner"]}
         isOpen={showModal}
         onClose={() => setShowModal(false)}
       />
