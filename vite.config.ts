@@ -71,7 +71,6 @@ export default defineConfig({
             src: "pwa/screenshots/logo.webp",
             sizes: "780x350",
             type: "image/webp",
-            form_factor: "wide",
           },
           {
             src: "pwa/screenshots/welcome.webp",
