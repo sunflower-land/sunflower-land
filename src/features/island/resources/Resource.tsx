@@ -144,10 +144,9 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
   Beehive: () => (
     <img
       src={ITEM_DETAILS["Beehive"].image}
-      className="absolute h-auto w-full"
+      className="absolute bottom-0 h-auto w-full"
       style={{
         width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 1}px`,
       }}
     />
   ),

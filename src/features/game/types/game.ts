@@ -768,9 +768,14 @@ export type Home = {
 
 export type Beehive = {
   id: string;
-  honeyLevel: 0; // 0 to 24 hrs in minutes (1440)
-  isProducingHoney: boolean;
   coordinates: { x: number; y: number };
+  lastRecordedHoneyLevel: number; // 0 to 100 incremented based on 24hr life cycle
+  honeyReadyAt?: number;
+  flower?: {
+    id: string;
+    attachedAt: number;
+    readyAt: number;
+  };
 };
 
 export interface GameState {

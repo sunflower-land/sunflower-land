@@ -30,6 +30,7 @@ export const RESOURCE_PLACE_EVENTS: Partial<
   "Ruby Rock": "ruby.placed",
   "Crop Plot": "plot.placed",
   "Fruit Patch": "fruitPatch.placed",
+  Beehive: "beehive.placed",
 };
 
 export function placeEvent(
@@ -185,7 +186,6 @@ export const landscapingMachine = createMachine<
             SAVE: { target: "autosaving" },
           },
         },
-
         autosaving: {
           invoke: {
             src: async (_: Context, event: any) => {
@@ -279,7 +279,6 @@ export const landscapingMachine = createMachine<
             },
           },
         },
-
         placing: {
           on: {
             UPDATE: {
