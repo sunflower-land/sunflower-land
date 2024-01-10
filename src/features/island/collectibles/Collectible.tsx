@@ -28,6 +28,7 @@ export type CollectibleProps = {
   x: number;
   y: number;
   grid: GameGrid;
+  location: CollectibleLocation;
 };
 
 type Props = CollectibleProps & {
@@ -44,6 +45,7 @@ const InProgressCollectible: React.FC<Props> = ({
   x,
   y,
   grid,
+  location,
 }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
   const [showTooltip, setShowTooltip] = useState(false);
@@ -68,6 +70,7 @@ const InProgressCollectible: React.FC<Props> = ({
             x={x}
             y={y}
             grid={grid}
+            location={location}
           />
         </div>
         {showTimers && (
@@ -142,6 +145,7 @@ const CollectibleComponent: React.FC<Props> = ({
           x={x}
           y={y}
           grid={grid}
+          location={location}
         />
       )}
     </div>
