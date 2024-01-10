@@ -7,6 +7,8 @@ import {
   CollectibleName,
 } from "features/game/types/craftables";
 
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
+
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
@@ -197,6 +199,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
     ...BUILDINGS_DIMENSIONS,
     ...COLLECTIBLES_DIMENSIONS,
     ...ANIMAL_DIMENSIONS,
+    ...RESOURCE_DIMENSIONS,
     ...{ Bud: { width: 1, height: 1 } },
   }[name];
 
