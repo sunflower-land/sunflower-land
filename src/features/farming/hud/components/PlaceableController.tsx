@@ -23,6 +23,7 @@ import { isBudName } from "features/game/types/buds";
 import { CollectibleLocation } from "features/game/types/collectibles";
 import { Label } from "components/ui/Label";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
+import { LANDSCAPING_DECORATIONS } from "features/game/types/decorations";
 
 interface Props {
   location: CollectibleLocation;
@@ -177,8 +178,9 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
   const isWrongLocation =
     location === "home" &&
-    !COLLECTIBLES_DIMENSIONS[placeable as CollectibleName] &&
-    !isBudName(placeable);
+    ((!COLLECTIBLES_DIMENSIONS[placeable as CollectibleName] &&
+      !isBudName(placeable)) ||
+      placeable in LANDSCAPING_DECORATIONS());
 
   return (
     <div className="fixed bottom-2 left-1/2 -translate-x-1/2">
