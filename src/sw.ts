@@ -1,7 +1,7 @@
 /// <reference lib="webworker" />
 /// <reference no-default-lib="true"/>
 
-import { CONFIG } from "../src/lib/config";
+import { CONFIG } from "./lib/config";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const OFFLINE_VERSION = CONFIG.RELEASE_VERSION;
