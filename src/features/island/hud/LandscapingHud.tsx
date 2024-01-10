@@ -97,6 +97,7 @@ const LandscapingHudComponent: React.FC<{
         event: action,
         id: selectedItem?.id,
         name: selectedItem?.name,
+        location,
       });
     } else {
       setShowRemoveConfirmation(true);
