@@ -12,6 +12,7 @@ import { Revealed } from "features/game/components/Revealed";
 import { MapPlacement } from "./MapPlacement";
 import { Revealing } from "features/game/components/Revealing";
 import { CountdownLabel } from "components/ui/CountdownLabel";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export const PirateChest: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -55,8 +56,10 @@ export const PirateChest: React.FC = () => {
     setIsCollecting(true);
   };
 
-  const isPirate =
-    gameState.context.state.bumpkin?.equipped.body === "Pirate Potion";
+  const isPirate = isWearableActive({
+    name: "Pirate Potion",
+    game: gameState.context.state,
+  });
   const canOpen = isReady && isPirate;
 
   const onClick = () => {

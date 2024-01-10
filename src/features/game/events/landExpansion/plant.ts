@@ -39,6 +39,7 @@ import {
 } from "features/game/types/bumpkinActivity";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { isBuildingEnabled } from "features/game/expansion/lib/buildingRequirements";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -300,8 +301,7 @@ export function getCropYieldAmount({
   fertiliser?: CropCompostName;
 }): number {
   let amount = 1;
-  const { skills, equipped } = bumpkin;
-  const { tool, necklace, onesie } = equipped;
+  const { skills } = bumpkin;
 
   if (
     crop === "Cauliflower" &&
@@ -343,27 +343,33 @@ export function getCropYieldAmount({
   }
 
   //Bumpkin Wearable boost Parsnip tool
-  if (crop === "Parsnip" && tool === "Parsnip") {
+  if (crop === "Parsnip" && isWearableActive({ name: "Parsnip", game })) {
     amount *= 1.2;
   }
 
   //Bumpkin Wearable boost Beetroot Amulet
-  if (crop === "Beetroot" && necklace === "Beetroot Amulet") {
+  if (
+    crop === "Beetroot" &&
+    isWearableActive({ name: "Beetroot Amulet", game })
+  ) {
     amount *= 1.2;
   }
   //Bumpkin Wearable boost Sunflower Amulet
   if (
     crop === "Sunflower" &&
-    bumpkin.equipped.necklace === "Sunflower Amulet"
+    isWearableActive({ name: "Sunflower Amulet", game })
   ) {
     amount *= 1.1;
   }
 
-  if (crop === "Eggplant" && onesie === "Eggplant Onesie") {
+  if (
+    crop === "Eggplant" &&
+    isWearableActive({ name: "Eggplant Onesie", game })
+  ) {
     amount += 0.1;
   }
 
-  if (crop === "Corn" && onesie === "Corn Onesie") {
+  if (crop === "Corn" && isWearableActive({ name: "Corn Onesie", game })) {
     amount += 0.1;
   }
 
@@ -487,7 +493,7 @@ export function getCropYieldAmount({
     amount += 0.1;
   }
 
-  if (bumpkin.equipped.tool === "Infernal Pitchfork") {
+  if (isWearableActive({ name: "Infernal Pitchfork", game })) {
     amount += 3;
   }
 

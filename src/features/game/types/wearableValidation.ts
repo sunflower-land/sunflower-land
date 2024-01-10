@@ -8,59 +8,60 @@ import {
   areFruitsGrowing,
   cropIsGrowing,
 } from "./removeables";
+import { isWearableActive } from "../lib/wearables";
 
 export const canWithdrawBoostedWearable = (
-  wearable: BumpkinItem,
+  _: BumpkinItem,
   state?: GoblinState
 ) => {
   if (!state) return false;
 
   if (
-    wearable === "Green Amulet" ||
-    wearable === "Angel Wings" ||
-    wearable === "Devil Wings" ||
-    wearable === "Infernal Pitchfork"
+    isWearableActive({ name: "Green Amulet", game: state }) ||
+    isWearableActive({ name: "Angel Wings", game: state }) ||
+    isWearableActive({ name: "Devil Wings", game: state }) ||
+    isWearableActive({ name: "Infernal Pitchfork", game: state })
   ) {
     return !areAnyCropsGrowing(state)[0];
   }
 
-  if (wearable === "Sunflower Amulet") {
+  if (isWearableActive({ name: "Sunflower Amulet", game: state })) {
     return !cropIsGrowing({ item: "Sunflower", game: state })[0];
   }
 
-  if (wearable === "Carrot Amulet") {
+  if (isWearableActive({ name: "Carrot Amulet", game: state })) {
     return !cropIsGrowing({ item: "Carrot", game: state })[0];
   }
 
-  if (wearable === "Beetroot Amulet") {
+  if (isWearableActive({ name: "Beetroot Amulet", game: state })) {
     return !cropIsGrowing({ item: "Beetroot", game: state })[0];
   }
 
-  if (wearable === "Parsnip") {
+  if (isWearableActive({ name: "Parsnip", game: state })) {
     return !cropIsGrowing({ item: "Parsnip", game: state })[0];
   }
 
-  if (wearable === "Eggplant Onesie") {
+  if (isWearableActive({ name: "Eggplant Onesie", game: state })) {
     return !cropIsGrowing({ item: "Eggplant", game: state })[0];
   }
 
-  if (wearable === "Corn Onesie") {
+  if (isWearableActive({ name: "Corn Onesie", game: state })) {
     return !cropIsGrowing({ item: "Corn", game: state })[0];
   }
 
-  if (wearable === "Fruit Picker Apron") {
+  if (isWearableActive({ name: "Fruit Picker Apron", game: state })) {
     return !areAnyFruitsGrowing(state)[0];
   }
 
-  if (wearable === "Banana Amulet") {
+  if (isWearableActive({ name: "Banana Amulet", game: state })) {
     return !areFruitsGrowing(state, "Banana")[0];
   }
 
-  if (wearable === "Cattlegrim") {
+  if (isWearableActive({ name: "Cattlegrim", game: state })) {
     return !areAnyChickensFed(state)[0];
   }
 
-  if (wearable === "Luna's Hat") {
+  if (isWearableActive({ name: "Luna's Hat", game: state })) {
     if (
       state.buildings["Fire Pit"]?.[0].crafting ||
       state.buildings["Kitchen"]?.[0].crafting ||
@@ -73,7 +74,7 @@ export const canWithdrawBoostedWearable = (
     return true;
   }
 
-  if (wearable === "Ancient Rod") {
+  if (isWearableActive({ name: "Ancient Rod", game: state })) {
     return getDailyFishingCount(state) == 0;
   }
 

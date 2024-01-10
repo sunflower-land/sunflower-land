@@ -1,7 +1,8 @@
 import Decimal from "decimal.js-light";
 import { Worm } from "./composters";
-import { Bumpkin, GameState, InventoryItemName } from "./game";
+import { GameState, InventoryItemName } from "./game";
 import { Tool } from "./tools";
+import { isWearableActive } from "../lib/wearables";
 
 export type PurchaseableBait = "Fishing Lure";
 export type FishingBait = Worm | PurchaseableBait;
@@ -357,10 +358,8 @@ export function getDailyFishingCount(state: GameState): number {
 }
 
 const DAILY_FISHING_ATTEMPT_LIMIT = 20;
-export function getDailyFishingLimit(bumpkin: Bumpkin): number {
-  const { pants } = bumpkin.equipped;
-
-  if (pants === "Angler Waders") {
+export function getDailyFishingLimit(game: GameState): number {
+  if (isWearableActive({ name: "Angler Waders", game })) {
     return DAILY_FISHING_ATTEMPT_LIMIT + 10;
   }
 
