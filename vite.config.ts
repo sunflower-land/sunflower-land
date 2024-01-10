@@ -20,6 +20,7 @@ export default defineConfig({
         type: "module",
         navigateFallback: "offline.html",
       },
+      srcDir: "src",
       strategies: "injectManifest",
       injectManifest: {
         injectionPoint: undefined,
