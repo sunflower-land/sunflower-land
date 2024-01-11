@@ -433,7 +433,12 @@ export const authMachine = createMachine(
       }),
       saveToken: (context: Context, event: any) => {
         // Clear browser token
-        window.history.pushState({}, "", window.location.pathname);
+        const hasParamsJWT = new URLSearchParams(window.location.search).get(
+          "token"
+        );
+        if (hasParamsJWT) {
+          window.history.pushState({}, "", window.location.pathname);
+        }
 
         // Save primary JWT
         saveJWT(event.data?.token ?? context.user.rawToken);
