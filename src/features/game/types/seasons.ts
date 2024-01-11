@@ -40,11 +40,19 @@ export type SeasonalTicket =
   | "Tulip Bulb";
 
 export type SeasonalBanner =
-  | "Dawn Breaker Banner"
   | "Solar Flare Banner"
+  | "Dawn Breaker Banner"
   | "Witches' Eve Banner"
   | "Catch the Kraken Banner"
   | "Spring Blossom Banner";
+
+export const BANNERS: Record<SeasonalBanner, SeasonName> = {
+  "Solar Flare Banner": "Solar Flare",
+  "Dawn Breaker Banner": "Dawn Breaker",
+  "Witches' Eve Banner": "Witches' Eve",
+  "Catch the Kraken Banner": "Catch the Kraken",
+  "Spring Blossom Banner": "Spring Blossom",
+};
 
 export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
   "Solar Flare": "Solar Flare Ticket",

@@ -2,6 +2,7 @@ import "lib/__mocks__/configMock";
 import { TEST_FARM } from "features/game/lib/constants";
 import { purchaseBanner } from "./bannerPurchased";
 import Decimal from "decimal.js-light";
+import { SeasonalBanner } from "features/game/types/seasons";
 
 describe("purchaseBanner", () => {
   beforeEach(() => {
@@ -20,6 +21,23 @@ describe("purchaseBanner", () => {
         },
       })
     ).toThrow("You do not have a Bumpkin");
+  });
+
+  it("throws an error if invalid banner", () => {
+    expect(() =>
+      purchaseBanner({
+        state: {
+          ...TEST_FARM,
+          inventory: {
+            "Block Buck": new Decimal(100),
+          },
+        },
+        action: {
+          type: "banner.purchased",
+          name: "Invalid Banner" as SeasonalBanner,
+        },
+      })
+    ).toThrow("Invalid banner");
   });
 
   it("throws an error if insufficient block bucks", () => {

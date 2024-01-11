@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 import {
+  BANNERS,
   SEASONS,
   SeasonalBanner,
   getSeasonByBanner,
@@ -29,6 +30,10 @@ export function purchaseBanner({
 
   if (bumpkin === undefined) {
     throw new Error("You do not have a Bumpkin");
+  }
+
+  if (!(action.name in BANNERS)) {
+    throw new Error("Invalid banner");
   }
 
   if (inventory[action.name] !== undefined) {

@@ -15,7 +15,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
 import { SEASONS, getSeasonalBanner } from "features/game/types/seasons";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { GameWallet } from "features/wallet/Wallet";
 import { SUNNYSIDE } from "assets/sunnyside";
 import blockBuck from "assets/icons/block_buck.png";
 
@@ -75,19 +74,24 @@ export const PromotingModal: React.FC<Props> = ({
   const Content = () => {
     if (showConfirmation) {
       return (
-        <GameWallet action="purchase">
-          <p className="text-sm my-2">Mint your exclusive Seasonal Banner:</p>
-          <Button
-            onClick={() => {
-              gameService.send("banner.purchased", {
-                name: "Spring Blossom Banner",
-              });
-              onClose();
-            }}
-          >
-            {t("season.buyNow")} {price}
-          </Button>
-        </GameWallet>
+        <>
+          <p className="text-sm my-2">{`Are you sure you want to purchase the banner for ${price} Block Bucks?`}</p>
+          <div className="flex">
+            <Button className="mr-1" onClick={onClose}>
+              {t("noThanks")}
+            </Button>
+            <Button
+              onClick={() => {
+                gameService.send("banner.purchased", {
+                  name: "Spring Blossom Banner",
+                });
+                onClose();
+              }}
+            >
+              {t("season.buyNow")}
+            </Button>
+          </div>
+        </>
       );
     }
 
@@ -134,6 +138,7 @@ export const PromotingModal: React.FC<Props> = ({
 
     const msLeft = SEASONS["Spring Blossom"].startDate.getTime() - Date.now();
     const secondsLeft = msLeft / 1000;
+    const insuficientBlockBucks = inventory["Block Buck"]?.lessThan(price);
 
     return (
       <>
@@ -219,11 +224,12 @@ export const PromotingModal: React.FC<Props> = ({
             {t("noThanks")}
           </Button>
           <Button
+            disabled={secondsLeft > 0 || insuficientBlockBucks}
             onClick={() => {
               setShowConfirmation(true);
             }}
           >
-            {t("season.buyNow")} {price}
+            {t("season.buyNow")}
           </Button>
         </div>
       </>
