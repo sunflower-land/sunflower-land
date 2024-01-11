@@ -405,7 +405,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       key: `poof_anim`,
       frames: this.scene.anims.generateFrameNumbers("poof", {
         start: 0,
-        end: 20,
+        end: 8,
       }),
       repeat: 0,
       frameRate: 10,
@@ -437,7 +437,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         key: `smoke_anim`,
         frames: this.scene.anims.generateFrameNumbers("smoke", {
           start: 0,
-          end: 7,
+          end: 20,
         }),
         repeat: -1,
         frameRate: 10,
