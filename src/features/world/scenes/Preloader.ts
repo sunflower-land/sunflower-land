@@ -52,7 +52,7 @@ export abstract class Preloader extends Phaser.Scene {
         frameHeight: 19,
       });
 
-      this.load.spritesheet("smoke", "world/smoke.png", {
+      this.load.spritesheet("smoke", "world/equip_smoke_2.png", {
         frameWidth: 20,
         frameHeight: 19,
       });
