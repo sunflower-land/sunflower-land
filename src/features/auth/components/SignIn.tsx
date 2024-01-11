@@ -299,8 +299,16 @@ export const SignIn = () => {
   const { walletService } = useContext(WalletContext);
 
   const [walletState] = useActor(walletService);
-
+  const [showLoading, setShowLoading] = useState(false);
   const { t } = useAppTranslation();
+
+  if (showLoading) {
+    return (
+      <div className="">
+        <p className="text-sm loading">Loading</p>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -321,9 +329,10 @@ export const SignIn = () => {
           </div>
           <Button
             className="mb-2 py-2 text-sm relative"
-            onClick={() =>
-              (window.location.href = `${CONFIG.API_URL}/auth/google/authorize`)
-            }
+            onClick={() => {
+              setShowLoading(true);
+              window.location.href = `${CONFIG.API_URL}/auth/google/authorize`;
+            }}
           >
             <div className="px-8 mr-2 flex">
               <div className="ml-2 mr-6 absolute left-0 top-1">
