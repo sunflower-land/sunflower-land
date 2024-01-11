@@ -429,31 +429,28 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       return;
     }
 
-    this.destroyed = true;
+    if (container.scene.textures.exists("smoke")) {
+      const poof = this.scene.add.sprite(0, 4, "smoke").setOrigin(0.5);
+      this.add(poof);
 
-    this.sprite?.destroy();
-    this.shadow?.destroy();
+      this.scene.anims.create({
+        key: `smoke_anim`,
+        frames: this.scene.anims.generateFrameNumbers("smoke", {
+          start: 0,
+          end: 7,
+        }),
+        repeat: 0,
+        frameRate: 10,
+      });
 
-    const poof = this.scene.add.sprite(0, 4, "smoke").setOrigin(0.5);
-    this.add(poof);
+      poof.play(`smoke_anim`, true);
 
-    this.scene.anims.create({
-      key: `smoke_anim`,
-      frames: this.scene.anims.generateFrameNumbers("smoke", {
-        start: 0,
-        end: 7,
-      }),
-      repeat: 0,
-      frameRate: 10,
-    });
-
-    poof.play(`smoke_anim`, true);
-
-    // Listen for the animation complete event
-    poof.on("animationcomplete", function (animation: { key: string }) {
-      if (animation.key === "smoke_anim") {
-        poof.destroy();
-      }
-    });
+      // Listen for the animation complete event
+      poof.on("animationcomplete", function (animation: { key: string }) {
+        if (animation.key === "smoke_anim") {
+          poof.destroy();
+        }
+      });
+    }
   }
 }
