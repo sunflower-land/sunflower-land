@@ -439,15 +439,16 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           start: 0,
           end: 7,
         }),
-        repeat: 0,
+        repeat: -1,
         frameRate: 10,
       });
 
       poof.play(`smoke_anim`, true);
 
-      // Listen for the animation complete event
-      poof.on("animationcomplete", function (animation: { key: string }) {
-        if (animation.key === "smoke_anim") {
+      // Listen for the animation complete loop event
+      poof.on("animationrepeat", function (animation: { key: string }) {
+        if (animation.key === "smoke_anim" && container.ready) {
+          // This block will execute every time the animation loop completes
           poof.destroy();
         }
       });
