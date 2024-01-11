@@ -27,6 +27,7 @@ import { BumpkinPainting } from "./components/BumpkinPainting";
 import { Bumpkin, IslandType } from "features/game/types/game";
 import { HOME_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
 import { Bud } from "features/island/buds/Bud";
+import { InteriorBumpkins } from "./components/InteriorBumpkins";
 
 const selectGameState = (state: MachineState) => state.context.state;
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
@@ -140,6 +141,10 @@ export const Home: React.FC = () => {
             imageRendering: "pixelated",
           }}
         >
+          <div className="absolute top-0 left-0">
+            <InteriorBumpkins game={state} onAdd={() => {}} />
+          </div>
+
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <div className={classNames("relative w-full h-full")}>
               <div
