@@ -1,7 +1,7 @@
-import { Equipped } from "features/game/types/bumpkin";
-import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { assertEquipment } from "./equip";
+import { Equipped } from "features/game/types/bumpkin";
+import { GameState } from "features/game/types/game";
 
 export type EquipFarmHandAction = {
   type: "farmHand.equipped";
@@ -24,7 +24,7 @@ export function equipFarmhand({
   const bumpkin = game.farmHands.bumpkins[action.id];
 
   if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error("Farm hand does not exist");
   }
 
   assertEquipment({ game, equipment: action.equipment, bumpkin });
