@@ -9,6 +9,11 @@ import { ITEM_DETAILS } from "./images";
 
 export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
   {
+    "Deep Sea Helm": {
+      shortDescription: "3x chance Marine Marvels",
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
     "Banana Onesie": {
       shortDescription: "+20% Banana Speed",
       labelType: "info",
