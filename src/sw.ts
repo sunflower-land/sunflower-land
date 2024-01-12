@@ -6,7 +6,7 @@ import { CONFIG } from "./lib/config";
 
 const OFFLINE_VERSION = CONFIG.RELEASE_VERSION;
 
-console.log("SW VERSION 1", OFFLINE_VERSION);
+console.log("SW VERSION", OFFLINE_VERSION);
 
 import { offlineFallback, googleFontsCache } from "workbox-recipes";
 import { setDefaultHandler } from "workbox-routing";
