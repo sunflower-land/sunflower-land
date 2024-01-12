@@ -141,10 +141,6 @@ export const Home: React.FC = () => {
             imageRendering: "pixelated",
           }}
         >
-          <div className="absolute top-0 left-0">
-            <InteriorBumpkins game={state} onAdd={() => {}} />
-          </div>
-
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <div className={classNames("relative w-full h-full")}>
               <div
@@ -205,6 +201,15 @@ export const Home: React.FC = () => {
                   Exit
                 </Button>
               )}
+
+              <div className="absolute -top-16 left-0">
+                <InteriorBumpkins
+                  game={state}
+                  onAdd={() => {
+                    gameService.send("farmHand.bought");
+                  }}
+                />
+              </div>
 
               {/* Sort island elements by y axis */}
               {mapPlacements.sort((a, b) => b.props.y - a.props.y)}
