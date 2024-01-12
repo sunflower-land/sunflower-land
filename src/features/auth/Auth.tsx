@@ -20,12 +20,8 @@ import classNames from "classnames";
 import { SignIn, SignUp } from "./components/SignIn";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NoAccount } from "./components/NoAccount";
 import { CONFIG } from "lib/config";
-import { isMobile } from "mobile-device-detect";
-import { useIsPWA } from "lib/utils/hooks/useIsPWA";
-import { MobilePWASignIn } from "../pwa/MobilePWASignIn";
 
 type Props = {
   showOfflineModal: boolean;
@@ -34,10 +30,6 @@ type Props = {
 export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
-  const { t } = useAppTranslation();
-
-  const isPWA = useIsPWA();
-  const isMobilePWA = isMobile && isPWA;
 
   return (
     <>
@@ -91,8 +83,9 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
             {authState.matches("noAccount") && <NoAccount />}
             {authState.matches("authorising") && <Loading />}
             {authState.matches("verifying") && <Verifying />}
-            {(authState.matches("idle") || authState.matches("signIn")) &&
-              (isMobilePWA ? <MobilePWASignIn /> : <SignIn />)}
+            {(authState.matches("idle") || authState.matches("signIn")) && (
+              <SignIn />
+            )}
             {authState.matches("signUp") && <SignUp />}
             {authState.matches("oauthorising") && <Loading />}
             {authState.matches("creating") && <Loading text="Creating" />}

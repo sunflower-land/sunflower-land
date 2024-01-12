@@ -9448,13 +9448,6 @@ react-bootstrap@^2.1.1:
     uncontrollable "^7.2.1"
     warning "^4.0.3"
 
-react-device-detect@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/react-device-detect/-/react-device-detect-2.2.3.tgz#97a7ae767cdd004e7c3578260f48cf70c036e7ca"
-  integrity sha512-buYY3qrCnQVlIFHrC5UcUoAj7iANs/+srdkwsnNjI7anr3Tt7UY6MqNxtMLlr0tMBied0O49UZVK8XKs3ZIiPw==
-  dependencies:
-    ua-parser-js "^1.0.33"
-
 react-dom@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"
@@ -9503,11 +9496,6 @@ react-i18next@^13.3.1:
     "@babel/runtime" "^7.22.5"
     html-parse-stringify "^3.0.1"
 
-react-icons@^4.12.0:
-  version "4.12.0"
-  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.12.0.tgz#54806159a966961bfd5cdb26e492f4dafd6a8d78"
-  integrity sha512-IBaDuHiShdZqmfc/TwHu6+d6k2ltNCf3AszxNmjJc1KUfXdEeRJOKyNvLmAHaarhzGmTSVygNdyu8/opXv2gaw==
-
 react-indiana-drag-scroll@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/react-indiana-drag-scroll/-/react-indiana-drag-scroll-2.1.0.tgz"
@@ -9516,15 +9504,6 @@ react-indiana-drag-scroll@^2.1.0:
     classnames "^2.2.6"
     debounce "^1.2.0"
     easy-bem "^1.1.1"
-
-react-ios-pwa-prompt-ts@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-ios-pwa-prompt-ts/-/react-ios-pwa-prompt-ts-1.0.3.tgz#47669fc3b58ea990d98462d5afa5bf9f9f8425c6"
-  integrity sha512-CczQ2o/A8T9bYTwU8mbs2S24cY6meaSssDDrbMA9ol8aRpd68raLiOOzhuTQek8TACKZCwfnFzIJjL94Cy5Xzw==
-  dependencies:
-    react-device-detect "^2.2.3"
-    react-icons "^4.12.0"
-    usehooks-ts "^2.9.1"
 
 react-is@^16.13.1, react-is@^16.3.2, react-is@^16.7.0:
   version "16.13.1"
@@ -10792,11 +10771,6 @@ typescript@^4.9.3:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.3.tgz#3aea307c1746b8c384435d8ac36b8a2e580d85db"
   integrity sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==
 
-ua-parser-js@^1.0.33:
-  version "1.0.37"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-1.0.37.tgz#b5dc7b163a5c1f0c510b08446aed4da92c46373f"
-  integrity sha512-bhTyI94tZofjo+Dn8SN6Zv8nBDvyXTymAdM3LDI/0IboIUwTu1rEhW7v2TfiVsoYWgkQ4kOVqnI8APUFbIQIFQ==
-
 uint8arrays@^3.0.0, uint8arrays@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/uint8arrays/-/uint8arrays-3.1.1.tgz#2d8762acce159ccd9936057572dade9459f65ae0"
@@ -10940,11 +10914,6 @@ use-sync-external-store@1.2.0, use-sync-external-store@^1.0.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
   integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
-
-usehooks-ts@^2.9.1:
-  version "2.9.2"
-  resolved "https://registry.yarnpkg.com/usehooks-ts/-/usehooks-ts-2.9.2.tgz#56ff2c3941195505efe6fc17fb57015e2a712576"
-  integrity sha512-fOzPeG01rs51CGYzqgioP/zs9v1Cgpe+zcXeqJPlDHYfdfG/wjsdjBWHJi+Ph1JgQAGUrDo5sJbPlaZd+Z9lxw==
 
 utf-8-validate@^5.0.2:
   version "5.0.8"
