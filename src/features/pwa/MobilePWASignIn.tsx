@@ -12,11 +12,17 @@ import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";
 import { GoogleIcon, SEQUENCE_ICON } from "../auth/components/SignIn";
+import { useActor } from "@xstate/react";
+import { WalletContext } from "features/wallet/WalletProvider";
 
 export const MobilePWASignIn = () => {
   const { authService } = useContext(Context);
-  const { t } = useAppTranslation();
+  const { walletService } = useContext(WalletContext);
+  const [walletState] = useActor(walletService);
+
   const [page, setPage] = useState<"home" | "other">("home");
+  const [showLoading, setShowLoading] = useState(false);
+  const { t } = useAppTranslation();
 
   const handleBack = () => {
     if (page === "other") {
@@ -45,34 +51,25 @@ export const MobilePWASignIn = () => {
         )}
       </div>
 
-      {hasFeatureAccess(TEST_FARM, "GOOGLE_LOGIN") && (
-        <Button
-          className="mb-2 py-2 text-sm relative"
-          onClick={() =>
-            (window.location.href = `${CONFIG.API_URL}/auth/google/authorize`)
-          }
-        >
-          <div className="px-8 mr-2 flex">
-            <div className="ml-2 mr-6 absolute left-0 top-1">
-              <GoogleIcon />
-            </div>
-            <Label
-              type="info"
-              className="absolute top-1/2 -translate-y-1/2 right-1"
-            >
-              New
-            </Label>
-            Google
-          </div>
-        </Button>
-      )}
       <Button
         className="mb-2 py-2 text-sm relative"
-        onClick={() =>
-          authService.send("CONNECT_TO_WALLET", {
-            chosenProvider: Web3SupportedProviders.SEQUENCE,
-          })
-        }
+        onClick={() => {
+          setShowLoading(true);
+          window.location.href = `${CONFIG.API_URL}/auth/google/authorize`;
+        }}
+      >
+        <div className="px-8 mr-2 flex">
+          <div className="ml-2 mr-6 absolute left-0 top-1">
+            <GoogleIcon />
+          </div>
+          Google
+        </div>
+      </Button>
+      <Button
+        className="mb-2 py-2 text-sm relative"
+        onClick={() => {
+          onConnect(Web3SupportedProviders.SEQUENCE);
+        }}
       >
         <div className="px-8">
           <img
