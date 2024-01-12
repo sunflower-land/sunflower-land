@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import { HARVEST_HONEY_ERRORS, harvestHoney } from "./harvestHoney";
+import { HARVEST_BEEHIVE_ERRORS, harvestBeehive } from "./harvestBeehive";
 
-describe("harvestHoney", () => {
+describe("harvestBeehive", () => {
   it("throws an error if the beehive doesn't exist", () => {
     expect(() =>
-      harvestHoney({
+      harvestBeehive({
         state: {
           ...TEST_FARM,
           inventory: {
@@ -14,15 +14,15 @@ describe("harvestHoney", () => {
         },
         action: {
           id: "1234",
-          type: "honey.harvested",
+          type: "beehive.harvested",
         },
       })
-    ).toThrow(HARVEST_HONEY_ERRORS.NO_BEEHIVE);
+    ).toThrow(HARVEST_BEEHIVE_ERRORS.NO_BEEHIVE);
   });
 
   it("does not harvest honey from a beehive that is not ready", () => {
     expect(() =>
-      harvestHoney({
+      harvestBeehive({
         state: {
           ...TEST_FARM,
           beehives: {
@@ -43,9 +43,9 @@ describe("harvestHoney", () => {
         },
         action: {
           id: "1234",
-          type: "honey.harvested",
+          type: "beehive.harvested",
         },
       })
-    ).toThrow(HARVEST_HONEY_ERRORS.NOT_READY);
+    ).toThrow(HARVEST_BEEHIVE_ERRORS.NOT_READY);
   });
 });

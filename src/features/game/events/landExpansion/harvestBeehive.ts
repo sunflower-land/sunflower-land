@@ -1,13 +1,13 @@
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
-export enum HARVEST_HONEY_ERRORS {
+export enum HARVEST_BEEHIVE_ERRORS {
   NO_BEEHIVE = "This beehive does not exist.",
   NOT_READY = "This beehive is not ready to be harvested.",
 }
 
 export type HarvestHoneyAction = {
-  type: "honey.harvested";
+  type: "beehive.harvested";
   id: string;
 };
 
@@ -17,7 +17,7 @@ type Options = {
   createdAt?: number;
 };
 
-export function harvestHoney({
+export function harvestBeehive({
   state,
   action,
   createdAt = Date.now(),
@@ -25,13 +25,13 @@ export function harvestHoney({
   const stateCopy = cloneDeep(state) as GameState;
 
   if (!stateCopy.beehives?.[Number(action.id)]) {
-    throw new Error(HARVEST_HONEY_ERRORS.NO_BEEHIVE);
+    throw new Error(HARVEST_BEEHIVE_ERRORS.NO_BEEHIVE);
   }
 
   const beehive = stateCopy.beehives[action.id];
 
   if (!beehive.honeyReadyAt || beehive.honeyReadyAt > createdAt) {
-    throw new Error(HARVEST_HONEY_ERRORS.NOT_READY);
+    throw new Error(HARVEST_BEEHIVE_ERRORS.NOT_READY);
   }
 
   return stateCopy;
