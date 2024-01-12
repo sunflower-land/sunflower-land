@@ -768,7 +768,6 @@ export type Home = {
 
 export type Beehive = {
   id: string;
-  coordinates: { x: number; y: number };
   lastRecordedHoneyLevel: number; // 0 to 100 incremented based on 24hr life cycle
   honeyReadyAt?: number;
   flower?: {
@@ -776,7 +775,7 @@ export type Beehive = {
     attachedAt: number;
     readyAt: number;
   };
-};
+} & Position;
 
 export interface GameState {
   home: Home;
@@ -823,6 +822,7 @@ export interface GameState {
   rubies: Record<string, Rock>;
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;
+  beehives: Record<string, Beehive>;
   fishing: Fishing;
   farmActivity: Partial<Record<FarmActivityName, number>>;
   milestones: Partial<Record<MilestoneName, number>>;
@@ -884,7 +884,6 @@ export interface GameState {
   buds?: Record<number, Bud>;
 
   christmas?: Christmas;
-  beehives?: Record<string, Beehive>;
 }
 
 export interface Context {

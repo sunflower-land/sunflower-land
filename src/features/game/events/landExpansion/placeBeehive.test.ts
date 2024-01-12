@@ -43,9 +43,7 @@ describe("placeBeehive", () => {
     });
 
     expect(state.beehives?.["1234"]).toBeDefined();
-    expect(state.beehives?.["1234"].coordinates).toEqual({
-      x: 2,
-      y: 2,
-    });
+    expect(state.beehives?.["1234"].x).toEqual(2);
+    expect(state.beehives?.["1234"].y).toEqual(2);
   });
 });

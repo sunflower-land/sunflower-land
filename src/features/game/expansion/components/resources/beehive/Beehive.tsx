@@ -60,7 +60,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
         <div
           className="absolute pointer-events-none"
           style={{
-            top: `${PIXEL_SCALE * 9}px`,
+            top: `${PIXEL_SCALE * 13}px`,
             width: `${PIXEL_SCALE * 15}px`,
           }}
         >

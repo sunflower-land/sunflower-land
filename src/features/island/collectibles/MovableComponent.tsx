@@ -187,6 +187,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
       setShowRemoveConfirmation(true);
     }
   };
+
   useEffect(() => {
     if (isActive.current && !isSelected) {
       // Reset

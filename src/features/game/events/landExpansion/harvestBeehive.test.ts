@@ -27,10 +27,10 @@ describe("harvestBeehive", () => {
           ...TEST_FARM,
           beehives: {
             "1234": {
-              coordinates: {
-                x: 2,
-                y: 2,
-              },
+              x: 2,
+              y: 2,
+              height: 1,
+              width: 1,
               lastRecordedHoneyLevel: 0,
               flower: {
                 id: "234",

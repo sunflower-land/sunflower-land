@@ -26,14 +26,12 @@ export function moveBeehive({
 }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
 
-  if (
-    !stateCopy.beehives?.[Number(action.id)] ||
-    !stateCopy.beehives?.[Number(action.id)].coordinates
-  ) {
+  if (!stateCopy.beehives[action.id]) {
     throw new Error(MOVE_BEEHIVE_ERRORS.BEEHIVE_NOT_PLACED);
   }
 
-  stateCopy.beehives[action.id].coordinates = action.coordinates;
+  stateCopy.beehives[action.id].x = action.coordinates.x;
+  stateCopy.beehives[action.id].y = action.coordinates.y;
 
   return stateCopy;
 }

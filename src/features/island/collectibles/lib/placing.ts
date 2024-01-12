@@ -54,6 +54,11 @@ export function removePlaceable({
     return game;
   }
 
+  if (name === "Beehive") {
+    delete game.beehives[id];
+    return game;
+  }
+
   if (name in BUILDINGS()) {
     game.buildings[name as BuildingName] = game.buildings[
       name as BuildingName

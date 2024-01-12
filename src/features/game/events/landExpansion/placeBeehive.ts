@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { Beehive, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
@@ -23,13 +24,20 @@ export function placeBeehive({
 }: Options): GameState {
   const copy: GameState = cloneDeep(state);
 
-  if (copy.inventory.Beehive?.lte(0)) {
+  const available = (copy.inventory.Beehive || new Decimal(0)).minus(
+    Object.keys(copy.beehives ?? {}).length
+  );
+
+  if (available.lte(0)) {
     throw new Error("You do not have any available beehives");
   }
 
   const beehive: Beehive = {
     id: action.id,
-    coordinates: action.coordinates,
+    x: action.coordinates.x,
+    y: action.coordinates.y,
+    height: 1,
+    width: 1,
     lastRecordedHoneyLevel: 0,
   };
 

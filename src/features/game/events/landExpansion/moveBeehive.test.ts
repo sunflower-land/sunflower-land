@@ -34,8 +34,11 @@ describe("moveBeehive", () => {
         beehives: {
           "1234": {
             id: "1234",
-            lastRecordedHoneyProductionSeconds: 0,
-            coordinates: { x: 4, y: 4 },
+            height: 1,
+            width: 1,
+            lastRecordedHoneyLevel: 0,
+            x: 4,
+            y: 4,
           },
         },
       },
@@ -49,7 +52,8 @@ describe("moveBeehive", () => {
     expect(gameState.beehives?.["1234"]).toEqual({
       id: "1234",
       lastRecordedHoneyLevel: 0,
-      coordinates: { x: 2, y: 2 },
+      x: 2,
+      y: 2,
     });
   });
 });

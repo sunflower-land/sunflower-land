@@ -449,6 +449,7 @@ export const TEST_FARM: GameState = {
     spawnedAt: 0,
     mushrooms: {},
   },
+  beehives: {},
 };
 
 export const EMPTY: GameState = {
@@ -526,6 +527,7 @@ export const EMPTY: GameState = {
     hunger: "Sunflower",
     weeklyCatches: {},
   },
+  beehives: {},
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;

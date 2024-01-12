@@ -41,7 +41,6 @@ import { Bud } from "features/island/buds/Bud";
 import { Fisherman } from "features/island/fisherman/Fisherman";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { Airdrop } from "./components/Airdrop";
-import { Beehive } from "./components/resources/beehive/Beehive";
 
 const IMAGE_GRID_WIDTH = 36;
 
@@ -438,35 +437,36 @@ const getIslandElements = ({
     );
   }
 
-  {
-    beehives &&
-      mapPlacements.push(
-        ...getKeys(beehives)
-          .filter((beehiveId) => !!beehives[beehiveId].coordinates)
-          .flatMap((id) => {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            const { x, y } = beehives[id]!.coordinates as Coordinates;
+  mapPlacements.push(
+    ...getKeys(beehives).map((id, index) => {
+      const { x, y, width, height } = beehives[id];
 
-            return (
-              <MapPlacement
-                key={`beehive-${id}`}
-                x={x}
-                y={y}
-                height={1}
-                width={1}
-              >
-                <Beehive id={String(id)} />
-              </MapPlacement>
-            );
-          })
+      return (
+        <MapPlacement
+          key={`beehive-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+        >
+          <Resource
+            name="Beehive"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+            index={index}
+            x={x}
+            y={y}
+          />
+        </MapPlacement>
       );
-  }
+    })
+  );
 
   return mapPlacements;
 };
 
 const selectGameState = (state: MachineState) => state.context.state;
-const isAutosaving = (state: MachineState) => state.matches("autosaving");
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
 const isVisiting = (state: MachineState) => state.matches("visiting");
 
@@ -494,8 +494,11 @@ export const Land: React.FC = () => {
     island,
     beehives,
   } = state;
+<<<<<<< HEAD
 
   const autosaving = useSelector(gameService, isAutosaving);
+=======
+>>>>>>> fdfc46d74 ([FEAT] Fix movable logic)
   const landscaping = useSelector(gameService, isLandscaping);
   const visiting = useSelector(gameService, isVisiting);
 
