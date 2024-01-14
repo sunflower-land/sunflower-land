@@ -24,6 +24,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import lockIcon from "assets/skills/lock.png";
 import { Ruby } from "features/game/expansion/components/resources/ruby/Ruby";
 import { Beehive } from "features/game/expansion/components/resources/beehive/Beehive";
+import { FlowerBed } from "../flowers/FlowerBed";
 
 export interface ResourceProps {
   name: ResourceName;
@@ -150,6 +151,16 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
       }}
     />
   ),
+  "Flower Bed": () => (
+    <img
+      src={SUNNYSIDE.resource.boulder}
+      className="absolute h-auto w-full"
+      style={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * -4}px`,
+      }}
+    />
+  ),
 };
 
 export const RESOURCE_COMPONENTS: Record<
@@ -165,6 +176,7 @@ export const RESOURCE_COMPONENTS: Record<
   "Fruit Patch": FruitPatch,
   Boulder: Boulder,
   Beehive: Beehive,
+  "Flower Bed": FlowerBed,
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");

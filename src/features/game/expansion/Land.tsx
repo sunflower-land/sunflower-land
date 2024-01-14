@@ -57,6 +57,7 @@ const getIslandElements = ({
   gold,
   rubies,
   fruitPatches,
+  flowers,
   crops,
   showTimers,
   grid,
@@ -78,6 +79,7 @@ const getIslandElements = ({
   rubies: GameState["rubies"];
   crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
+  flowers: GameState["flowers"];
   airdrops: GameState["airdrops"];
   showTimers: boolean;
   grid: GameGrid;
@@ -368,6 +370,32 @@ const getIslandElements = ({
     })
   );
 
+  mapPlacements.push(
+    ...getKeys(flowers).map((id, index) => {
+      const { x, y, width, height } = flowers[id];
+
+      return (
+        <MapPlacement
+          key={`flowers-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+        >
+          <Resource
+            name="Flower Bed"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+            index={index}
+            x={x}
+            y={y}
+          />
+        </MapPlacement>
+      );
+    })
+  );
+
   {
     mushrooms &&
       mapPlacements.push(
@@ -488,17 +516,14 @@ export const Land: React.FC = () => {
     rubies,
     crops,
     fruitPatches,
+    flowers,
     mushrooms,
     buds,
     airdrops,
     island,
     beehives,
   } = state;
-<<<<<<< HEAD
 
-  const autosaving = useSelector(gameService, isAutosaving);
-=======
->>>>>>> fdfc46d74 ([FEAT] Fix movable logic)
   const landscaping = useSelector(gameService, isLandscaping);
   const visiting = useSelector(gameService, isVisiting);
 
@@ -586,6 +611,7 @@ export const Land: React.FC = () => {
               gold,
               rubies,
               fruitPatches,
+              flowers,
               crops,
               showTimers: showTimers,
               grid: gameGrid,

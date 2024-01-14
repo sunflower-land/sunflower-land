@@ -286,12 +286,9 @@ export type PlayingEvent =
   | BurnCollectibleAction
   | ClaimBonusAction
   | AccelerateComposterAction
-<<<<<<< HEAD
   | BuyFarmHandAction
-  | EquipFarmHandAction;
-=======
+  | EquipFarmHandAction
   | HarvestBeehiveAction;
->>>>>>> 9efef6b4c ([FEAT] Add actions)
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -420,12 +417,9 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "collectible.burned": burnCollectible,
   "bonus.claimed": claimBonus,
   "compost.accelerated": accelerateComposter,
-<<<<<<< HEAD
   "farmHand.bought": buyFarmhand,
   "farmHand.equipped": equipFarmhand,
-=======
   "beehive.harvested": harvestBeehive,
->>>>>>> 9efef6b4c ([FEAT] Add actions)
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

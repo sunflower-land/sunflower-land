@@ -50,6 +50,7 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Ruby Rock": "ruby.moved",
   Boulder: "tree.moved",
   Beehive: "beehive.moved",
+  "Flower Bed": "flowerBed.moved",
 };
 
 function getMoveAction(

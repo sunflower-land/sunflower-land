@@ -94,6 +94,7 @@ export function makeGame(farm: any): GameState {
     rubies: farm.rubies ?? {},
     crops: farm.crops ?? {},
     fruitPatches: farm.fruitPatches ?? {},
+    flowers: farm.flowers ?? {},
     conversations: farm.conversations ?? [],
     mailbox: farm.mailbox ?? {
       read: [],

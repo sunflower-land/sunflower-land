@@ -778,6 +778,7 @@ export type FlowerBed = {
 } & Position;
 
 export type Flowers = Record<string, FlowerBed>;
+
 export type AttachedFlower = {
   id: string;
   attachedAt: number;

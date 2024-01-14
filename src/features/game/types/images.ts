@@ -2345,6 +2345,10 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.fruitPatch,
     description: "An empty plot to plant fruit on",
   },
+  "Flower Bed": {
+    image: kaleMushroomPie,
+    description: "An empty plot to plant flowers on",
+  },
   Boulder: {
     image: SUNNYSIDE.resource.boulder,
     description: "A mythical rock that can drop rare minerals",

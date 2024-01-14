@@ -10,7 +10,14 @@ import {
 
 export const INITIAL_RESOURCES: Pick<
   GameState,
-  "crops" | "trees" | "stones" | "iron" | "gold" | "rubies" | "fruitPatches"
+  | "crops"
+  | "trees"
+  | "stones"
+  | "iron"
+  | "gold"
+  | "fruitPatches"
+  | "flowers"
+  | "rubies"
 > = {
   crops: {
     1: {
@@ -140,6 +147,20 @@ export const INITIAL_RESOURCES: Pick<
   gold: {},
   iron: {},
   rubies: {},
+  flowers: {
+    "1": {
+      createdAt: Date.now(),
+      x: 0,
+      y: 2,
+      height: 1,
+      width: 2,
+      flower: {
+        amount: 1,
+        name: "Flower 1",
+        plantedAt: 0,
+      },
+    },
+  },
 };
 
 const INITIAL_STOCK: Inventory = {
@@ -261,7 +282,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       // },
     },
   },
-  bumpkin: INITIAL_BUMPKIN,
+  bumpkin: { ...INITIAL_BUMPKIN, experience: 10000 },
   buds: {
     1: {
       aura: "Basic",
