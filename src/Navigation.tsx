@@ -79,16 +79,14 @@ export const Navigation: React.FC = () => {
   }, [orientation, isMobile]);
 
   useEffect(() => {
-    if (isPWA) {
-      window.addEventListener("offline", handleOffline);
-      window.addEventListener("online", handleOnline);
-    }
+    window.addEventListener("offline", handleOffline);
+    window.addEventListener("online", handleOnline);
 
     return () => {
       window.removeEventListener("offline", handleOffline);
       window.removeEventListener("online", handleOnline);
     };
-  }, [isPWA]);
+  }, []);
 
   const handleOffline = () => {
     setShowConnectionModal(true);
