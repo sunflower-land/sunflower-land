@@ -17,8 +17,6 @@ import { ExpirationPlugin } from "workbox-expiration";
 declare let self: ServiceWorkerGlobalScope;
 
 const OFFLINE_VERSION = CONFIG.RELEASE_VERSION;
-console.log("DEV: ", import.meta.env.DEV);
-console.log("PROD: ", import.meta.env.PROD);
 
 // Disable workbox logs => do not delete this static import: import "workbox-core";
 self.__WB_DISABLE_DEV_LOGS = true;
@@ -39,21 +37,16 @@ precacheAndRoute(self.__WB_MANIFEST);
 cleanupOutdatedCaches();
 
 if (import.meta.env.PROD) {
-  console.log("REGISTER THE PROD ROUTES");
-  const gameAssetsUrl =
-    CONFIG.NETWORK === "mumbai"
-      ? "https://sunflower-land/testnet-assets"
-      : "https://sunflower-land.com/game-assets";
+  const isTestnet = CONFIG.NETWORK === "mumbai";
+  const GAME_ASSETS_PATH = isTestnet ? "/testnet-assets" : "/game-assets";
 
   const gameAssetsCacheName = `${
-    CONFIG.NETWORK === "mumbai" ? "testnet" : "game"
+    isTestnet ? "testnet" : "game"
   }-assets-${OFFLINE_VERSION}`;
-
-  console.log("gameAssetsUrl: ", gameAssetsUrl);
 
   // Game assets
   registerRoute(
-    ({ url }) => url.href.startsWith(gameAssetsUrl),
+    ({ url }) => url.pathname.startsWith(GAME_ASSETS_PATH),
     new StaleWhileRevalidate({
       cacheName: gameAssetsCacheName,
       plugins: [
