@@ -22,16 +22,13 @@ export default defineConfig({
       },
       srcDir: "src",
       strategies: "injectManifest",
-      includeManifestIcons: false,
-      includeAssets: ["**/*.{ico,gif,jpg,jpeg,png,webp,json,zip,xml}"],
       injectManifest: {
-        maximumFileSizeToCacheInBytes: 15000000,
-        globPatterns: ["**/*.{js,css,html}", "assets/*.{jpg,mp3,svg,gif,png}"],
+        injectionPoint: undefined,
       },
       filename: "sw.ts",
-      // workbox: {
-      //   navigateFallback: "offline.html",
-      // },
+      workbox: {
+        navigateFallback: "offline.html",
+      },
       manifest: {
         name: "Sunflower Land",
         id: "com.sunflower-land",
@@ -45,23 +42,25 @@ export default defineConfig({
         orientation: "portrait",
         icons: [
           {
-            src: "pwa/icons/pwa-64x64.png",
-            sizes: "64x64",
+            src: "pwa/icons/manifest-icon-192.maskable.png",
+            sizes: "192x192",
             type: "image/png",
             purpose: "any",
           },
           {
-            src: "pwa/icons/pwa-192x192.png",
+            src: "pwa/icons/manifest-icon-192.maskable.png",
             sizes: "192x192",
             type: "image/png",
+            purpose: "maskable",
           },
           {
-            src: "pwa/icons/pwa-512x512.png",
+            src: "pwa/icons/manifest-icon-512.maskable.png",
             sizes: "512x512",
             type: "image/png",
+            purpose: "any",
           },
           {
-            src: "pwa/icons/maskable-icon-512x512.png",
+            src: "pwa/icons/manifest-icon-512.maskable.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable",
