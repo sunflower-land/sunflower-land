@@ -202,6 +202,9 @@ import {
   accelerateComposter,
   AccelerateComposterAction,
 } from "./landExpansion/accelerateComposter";
+import { moveRuby, MoveRubyAction } from "./landExpansion/moveRuby";
+import { mineRuby, MineRubyAction } from "./landExpansion/mineRuby";
+import { placeRuby, PlaceRubyAction } from "./landExpansion/placeRuby";
 
 export type PlayingEvent =
   | TradeAction
@@ -213,6 +216,7 @@ export type PlayingEvent =
   | LandExpansionStoneMineAction
   | LandExpansionIronMineAction
   | LandExpansionMineGoldAction
+  | MineRubyAction
   | ClaimAirdropAction
   | RecipeCookedAction
   | CollectRecipeAction
@@ -283,6 +287,7 @@ export type PlacementEvent =
   | PlaceStoneAction
   | PlaceGoldAction
   | PlaceIronAction
+  | PlaceRubyAction
   | PlaceFruitPatchAction
   | buyDecorationAction
   | CraftCollectibleAction
@@ -294,6 +299,7 @@ export type PlacementEvent =
   | MoveIronAction
   | MoveStoneAction
   | MoveGoldAction
+  | MoveRubyAction
   | MoveChickenAction
   | RemoveBuildingAction
   | RemoveCollectibleAction
@@ -337,6 +343,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "stoneRock.mined": landExpansionMineStone,
   "ironRock.mined": landExpansionIronMine,
   "goldRock.mined": landExpansionMineGold,
+  "rubyRock.mined": mineRuby,
+
   "timber.chopped": landExpansionChop,
   "recipe.cooked": cook,
   "recipe.collected": collectRecipe,
@@ -406,6 +414,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "stone.placed": placeStone,
   "gold.placed": placeGold,
   "iron.placed": placeIron,
+  "ruby.placed": placeRuby,
   "fruitPatch.placed": placeFruitPatch,
   "decoration.bought": buyDecoration,
   "collectible.crafted": craftCollectible,
@@ -417,6 +426,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "iron.moved": moveIron,
   "stone.moved": moveStone,
   "gold.moved": moveGold,
+  "ruby.moved": moveRuby,
   "chicken.moved": moveChicken,
   "building.removed": removeBuilding,
   "collectible.removed": removeCollectible,

@@ -440,6 +440,7 @@ export const TEST_FARM: GameState = {
   gold: {},
   iron: {},
   stones: {},
+  rubies: {},
   trees: {},
   mushrooms: {
     spawnedAt: 0,
@@ -501,6 +502,7 @@ export const EMPTY: GameState = {
   iron: {},
   crops: {},
   stones: {},
+  rubies: {},
   trees: {},
   farmActivity: {},
   milestones: {},
@@ -524,3 +526,4 @@ export const TREE_RECOVERY_TIME = 2 * 60 * 60;
 export const STONE_RECOVERY_TIME = 4 * 60 * 60;
 export const IRON_RECOVERY_TIME = 8 * 60 * 60;
 export const GOLD_RECOVERY_TIME = 24 * 60 * 60;
+export const RUBY_RECOVERY_TIME = 2 * 24 * 60 * 60;

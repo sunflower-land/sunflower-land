@@ -47,6 +47,7 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Gold Rock": "gold.moved",
   "Iron Rock": "iron.moved",
   "Stone Rock": "stone.moved",
+  "Ruby Rock": "ruby.moved",
   Boulder: "tree.moved",
 };
 

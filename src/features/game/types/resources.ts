@@ -5,6 +5,7 @@ export type CommodityName =
   | "Stone"
   | "Iron"
   | "Gold"
+  | "Ruby"
   | "Diamond"
   | "Egg"
   | "Honey"
@@ -34,6 +35,9 @@ export const COMMODITIES: Record<CommodityName, Commodity> = {
   Gold: {
     description: "Used to craft items",
   },
+  Ruby: {
+    description: "Used to craft items",
+  },
   Diamond: {
     description: "Used to craft items",
   },
@@ -59,6 +63,7 @@ export type ResourceName =
   | "Stone Rock"
   | "Iron Rock"
   | "Gold Rock"
+  | "Ruby Rock"
   | "Crop Plot"
   | "Fruit Patch"
   | "Boulder";
@@ -69,6 +74,7 @@ export const RESOURCES: Record<ResourceName, string> = {
   "Gold Rock": "Mine gold",
   "Iron Rock": "Mine iron",
   "Stone Rock": "Mine stone",
+  "Ruby Rock": "Mine ruby",
   Boulder: "Mine rare minerals",
   Tree: "Chop Wood",
 };
@@ -87,6 +93,10 @@ export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
     height: 1,
   },
   "Stone Rock": {
+    width: 1,
+    height: 1,
+  },
+  "Ruby Rock": {
     width: 1,
     height: 1,
   },

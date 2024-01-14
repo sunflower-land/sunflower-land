@@ -100,6 +100,7 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     stones,
     gold,
     iron,
+    rubies,
     fruitPatches,
     buds,
   } = state;
@@ -126,6 +127,7 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     ...Object.values(stones),
     ...Object.values(iron),
     ...Object.values(gold),
+    ...Object.values(rubies),
     ...Object.values(crops),
     ...Object.values(fruitPatches),
   ];

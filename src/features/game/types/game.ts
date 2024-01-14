@@ -792,6 +792,7 @@ export interface GameState {
   stones: Record<string, Rock>;
   gold: Record<string, Rock>;
   iron: Record<string, Rock>;
+  rubies: Record<string, Rock>;
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;
   fishing: Fishing;
