@@ -147,20 +147,7 @@ export const INITIAL_RESOURCES: Pick<
   gold: {},
   iron: {},
   rubies: {},
-  flowers: {
-    "1": {
-      createdAt: Date.now(),
-      x: -1,
-      y: 2,
-      height: 1,
-      width: 3,
-      // flower: {
-      //   amount: 1,
-      //   name: "Flower 1",
-      //   plantedAt: 0,
-      // },
-    },
-  },
+  flowers: {},
 };
 
 const INITIAL_STOCK: Inventory = {
@@ -275,13 +262,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     mushrooms: {},
     spawnedAt: 0,
   },
-  farmHands: {
-    bumpkins: {
-      // 1: {
-      //   equipped: INITIAL_BUMPKIN.equipped,
-      // },
-    },
-  },
+  farmHands: { bumpkins: {} },
   bumpkin: { ...INITIAL_BUMPKIN, experience: 10000 },
   buds: {
     1: {
