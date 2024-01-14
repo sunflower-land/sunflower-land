@@ -42,8 +42,52 @@ describe("placeBeehive", () => {
       },
     });
 
-    expect(state.beehives?.["1234"]).toBeDefined();
-    expect(state.beehives?.["1234"].x).toEqual(2);
-    expect(state.beehives?.["1234"].y).toEqual(2);
+    expect(state.beehives["1234"]).toBeDefined();
+    expect(state.beehives["1234"]).toMatchObject({
+      x: 2,
+      y: 2,
+      honey: {
+        updatedAt: expect.any(Number),
+        produced: 0,
+      },
+      flowers: [],
+    });
+  });
+
+  it("updates beehives", () => {
+    const now = Date.now();
+
+    const state = placeBeehive({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          Beehive: new Decimal(1),
+        },
+        flowers: {
+          "123": {
+            createdAt: now,
+            x: 0,
+            y: 0,
+            height: 1,
+            width: 2,
+            flower: {
+              name: "Flower 1",
+              amount: 1,
+              plantedAt: now,
+            },
+          },
+        },
+      },
+      action: {
+        id: "1234",
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        type: "beehive.placed",
+      },
+    });
+
+    expect(state.beehives["1234"].flowers.length).toBe(1);
   });
 });

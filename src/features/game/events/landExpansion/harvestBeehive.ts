@@ -1,19 +1,24 @@
-import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import Decimal from "decimal.js-light";
+import { GameState } from "features/game/types/game";
+import {
+  HONEY_PRODUCTION_TIME,
+  updateBeehives,
+} from "features/game/lib/updateBeehives";
 
 export enum HARVEST_BEEHIVE_ERRORS {
-  NO_BEEHIVE = "This beehive does not exist.",
-  NOT_READY = "This beehive is not ready to be harvested.",
+  BEEHIVE_NOT_PLACED = "This beehive is not placed.",
+  NO_HONEY = "This beehive has no honey.",
 }
 
-export type HarvestHoneyAction = {
+export type HarvestBeehiveAction = {
   type: "beehive.harvested";
   id: string;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: HarvestHoneyAction;
+  action: HarvestBeehiveAction;
   createdAt?: number;
 };
 
@@ -24,15 +29,26 @@ export function harvestBeehive({
 }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
 
-  if (!stateCopy.beehives?.[Number(action.id)]) {
-    throw new Error(HARVEST_BEEHIVE_ERRORS.NO_BEEHIVE);
+  if (!stateCopy.beehives[action.id]) {
+    throw new Error(HARVEST_BEEHIVE_ERRORS.BEEHIVE_NOT_PLACED);
   }
 
-  const beehive = stateCopy.beehives[action.id];
-
-  if (!beehive.honeyReadyAt || beehive.honeyReadyAt > createdAt) {
-    throw new Error(HARVEST_BEEHIVE_ERRORS.NOT_READY);
+  if (stateCopy.beehives[action.id].honey.produced <= 0) {
+    throw new Error(HARVEST_BEEHIVE_ERRORS.NO_HONEY);
   }
+
+  const totalHoneyProduced =
+    stateCopy.beehives[action.id].honey.produced / HONEY_PRODUCTION_TIME;
+
+  stateCopy.beehives[action.id].honey.produced = 0;
+  stateCopy.beehives[action.id].honey.updatedAt = createdAt;
+  stateCopy.inventory.Honey = (stateCopy.inventory.Honey ?? new Decimal(0)).add(
+    new Decimal(totalHoneyProduced)
+  );
+
+  const updatedBeehives = updateBeehives(stateCopy);
+
+  stateCopy.beehives = updatedBeehives;
 
   return stateCopy;
 }

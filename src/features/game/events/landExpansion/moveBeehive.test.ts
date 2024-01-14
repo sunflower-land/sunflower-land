@@ -33,10 +33,13 @@ describe("moveBeehive", () => {
         ...GAME_STATE,
         beehives: {
           "1234": {
-            id: "1234",
             height: 1,
             width: 1,
-            lastRecordedHoneyLevel: 0,
+            honey: {
+              updatedAt: 0,
+              produced: 0,
+            },
+            flowers: [],
             x: 4,
             y: 4,
           },
@@ -49,9 +52,12 @@ describe("moveBeehive", () => {
       },
     });
 
-    expect(gameState.beehives?.["1234"]).toEqual({
-      id: "1234",
-      lastRecordedHoneyLevel: 0,
+    expect(gameState.beehives["1234"]).toMatchObject({
+      honey: {
+        updatedAt: 0,
+        produced: 0,
+      },
+      flowers: [],
       x: 2,
       y: 2,
     });

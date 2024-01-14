@@ -766,16 +766,32 @@ export type Home = {
   collectibles: Collectibles;
 };
 
+export type PlantedFlower = {
+  name: "Flower 1";
+  plantedAt: number;
+  amount: number;
+};
+
+export type FlowerBed = {
+  flower?: PlantedFlower;
+  createdAt: number;
+} & Position;
+
+export type Flowers = Record<string, FlowerBed>;
+
 export type Beehive = {
-  id: string;
-  lastRecordedHoneyLevel: number; // 0 to 100 incremented based on 24hr life cycle
-  honeyReadyAt?: number;
-  flower?: {
+  honey: {
+    updatedAt: number;
+    produced: number;
+  };
+  flowers: {
     id: string;
     attachedAt: number;
-    readyAt: number;
-  };
+    attachedUntil: number;
+  }[];
 } & Position;
+
+export type Beehives = Record<string, Beehive>;
 
 export interface GameState {
   home: Home;
@@ -822,7 +838,8 @@ export interface GameState {
   rubies: Record<string, Rock>;
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;
-  beehives: Record<string, Beehive>;
+  beehives: Beehives;
+  flowers: Flowers;
   fishing: Fishing;
   farmActivity: Partial<Record<FarmActivityName, number>>;
   milestones: Partial<Record<MilestoneName, number>>;

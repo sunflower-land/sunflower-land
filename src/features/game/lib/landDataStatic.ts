@@ -465,4 +465,18 @@ export const STATIC_OFFLINE_FARM: GameState = {
   airdrops: [],
   username: "Local Hero",
   beehives: {},
+  flowers: {
+    "1": {
+      createdAt: Date.now(),
+      x: 0,
+      y: 2,
+      height: 1,
+      width: 2,
+      flower: {
+        amount: 1,
+        name: "Flower 1",
+        plantedAt: 0,
+      },
+    },
+  },
 };

@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { updateBeehives } from "features/game/lib/updateBeehives";
 import { Beehive, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
@@ -33,15 +34,22 @@ export function placeBeehive({
   }
 
   const beehive: Beehive = {
-    id: action.id,
     x: action.coordinates.x,
     y: action.coordinates.y,
     height: 1,
     width: 1,
-    lastRecordedHoneyLevel: 0,
+    honey: {
+      updatedAt: createdAt,
+      produced: 0,
+    },
+    flowers: [],
   };
 
   copy.beehives = { ...copy.beehives, [action.id]: beehive };
+
+  const updatedBeehives = updateBeehives(copy);
+
+  copy.beehives = updatedBeehives;
 
   return copy;
 }
