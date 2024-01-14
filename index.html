@@ -2,9 +2,11 @@
 <html lang="en" class="h-full w-full">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" href="/pwa/icons/favicon.ico" sizes="48x48" />
     <link
       rel="icon"
       type="image/svg+xml"
+      sizes="any"
       href="/src/assets/brand/icon_large.png"
     />
     <meta
@@ -27,7 +29,11 @@
     />
 
     <!-- PWA -->
-    <link rel="apple-touch-icon" href="public/pwa/icons/apple-icon-180.png" />
+    <!--    <link rel="apple-touch-icon" href="public/pwa/icons/apple-icon-180.png" />-->
+    <link
+      rel="apple-touch-icon"
+      href="public/pwa/icons/apple-touch-icon-180x180.png"
+    />
     <meta name="theme-color" content="#303443" />
 
     <!-- iOS -->
@@ -208,8 +214,7 @@
       id="community-root"
       class="absolute inset-safe-area h-full w-full pointer-events-none"
     ></div>
-    <script type="module" src="/src/main.tsx" async defer></script>
-
+    <script type="module" src="/src/main.tsx"></script>
     <script
       src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
       async=""
