@@ -14,7 +14,6 @@ import {
   FARM_HAND_COST,
   ISLAND_BUMPKIN_CAPACITY,
 } from "features/game/events/landExpansion/buyFarmHand";
-import Decimal from "decimal.js-light";
 import { Panel } from "components/ui/Panel";
 import confetti from "canvas-confetti";
 import { NPC } from "features/island/bumpkin/components/NPC";
@@ -50,7 +49,7 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
   };
 
   const hasBlockBucks =
-    gameState.inventory["Block Buck"] ?? new Decimal(0).gte(FARM_HAND_COST);
+    !!gameState.inventory["Block Buck"]?.gte(FARM_HAND_COST);
 
   const capacity = ISLAND_BUMPKIN_CAPACITY[gameState.island.type];
   const farmHands = Object.keys(gameState.farmHands.bumpkins).length;
