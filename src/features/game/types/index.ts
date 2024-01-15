@@ -285,6 +285,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Community Coin": 732,
   "Arcade Token": 733,
   "Farmhand Coupon": 734,
+  Farmhand: 735,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
