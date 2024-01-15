@@ -88,8 +88,9 @@ export const getChestItems = (state: GameState) => {
       return {
         ...acc,
         "Ruby Rock": new Decimal(
-          state.inventory["Ruby Rock"]?.minus(Object.keys(state.gold).length) ??
-            0
+          state.inventory["Ruby Rock"]?.minus(
+            Object.keys(state.rubies).length
+          ) ?? 0
         ),
       };
     }

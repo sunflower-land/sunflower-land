@@ -905,7 +905,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Gold Pickaxe": {
     ...TOOLS["Gold Pickaxe"],
-    image: SUNNYSIDE.tools.iron_pickaxe,
+    image: SUNNYSIDE.tools.gold_pickaxe,
   },
   Hammer: {
     ...TOOLS["Hammer"],
