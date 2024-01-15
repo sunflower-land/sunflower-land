@@ -21,7 +21,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
   const { gameService } = useContext(Context);
 
   const [showBumpkinModal, setShowBumpkinModal] = React.useState(false);
-  const [showBuyFarmHand, setShowBuyFarmHandModal] = React.useState(true);
+  const [showBuyFarmHand, setShowBuyFarmHandModal] = React.useState(false);
   const [selectedFarmHandId, setSelectedFarmHandId] = React.useState<string>();
 
   const bumpkin = game.bumpkin as Bumpkin;
