@@ -5,7 +5,7 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import strikeSheet from "assets/resources/iron/iron_rock_spark.png";
+import strikeSheet from "assets/resources/ruby/ruby_rock_spark.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 

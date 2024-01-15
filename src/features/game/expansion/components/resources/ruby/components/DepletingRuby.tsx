@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import dropSheet from "assets/resources/iron/iron_rock_drop.png";
+import dropSheet from "assets/resources/ruby/ruby_rock_drop.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import ruby from "assets/resources/ruby.png";
 import { ZoomContext } from "components/ZoomProvider";

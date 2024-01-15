@@ -537,15 +537,15 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   "Gold Pickaxe": {
     name: "Gold Pickaxe",
     description: "Used to collect rubies",
-    tokenAmount: new Decimal(10),
+    tokenAmount: new Decimal(7),
     ingredients: [
       {
-        item: "Iron",
-        amount: new Decimal(5),
+        item: "Wood",
+        amount: new Decimal(3),
       },
       {
         item: "Gold",
-        amount: new Decimal(5),
+        amount: new Decimal(3),
       },
     ],
   },

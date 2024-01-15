@@ -465,7 +465,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Gold Pickaxe": {
     name: "Gold Pickaxe",
     description:
-      "A tool used to mine rubies. It is burnt after use.\n\nYou can craft an gold pickaxe at the Blacksmith in the game.",
+      "A tool used to mine rubies. It is burnt after use.\n\nYou can craft a gold pickaxe at the Blacksmith in the game.",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/304.png",

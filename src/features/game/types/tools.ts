@@ -49,7 +49,7 @@ export const WORKBENCH_TOOLS: (
     },
   },
   "Iron Pickaxe": {
-    name: "Iron Axe",
+    name: "Iron Pickaxe",
     description: "Used to collect gold",
     sfl: new Decimal(0.25),
     ingredients: {
@@ -58,13 +58,12 @@ export const WORKBENCH_TOOLS: (
     },
   },
   "Gold Pickaxe": {
-    name: "Iron Axe",
-    description: "Used to collect gold",
-    sfl: new Decimal(0.5),
-    tokenAmount: new Decimal(10),
+    name: "Gold Pickaxe",
+    description: "Used to collect rubies",
+    sfl: new Decimal(0.3125),
     ingredients: {
-      Gold: new Decimal(5),
-      Iron: new Decimal(5),
+      Wood: new Decimal(3),
+      Gold: new Decimal(3),
     },
   },
   Rod: {
