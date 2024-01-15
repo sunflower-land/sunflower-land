@@ -22,7 +22,7 @@ function getHarvestsLeft() {
   return randomInt(3, 6);
 }
 
-function getPlantedAt(
+export function getPlantedAt(
   fruitSeedName: FruitSeedName,
   wearables: BumpkinParts,
   game: GameState,
@@ -64,6 +64,7 @@ export const getFruitTime = (
     seconds = seconds * 0.9;
   }
 
+  // Banana Onesie: 20% reduction
   if (
     fruitSeedName === "Banana Plant" &&
     wearables.onesie === "Banana Onesie"

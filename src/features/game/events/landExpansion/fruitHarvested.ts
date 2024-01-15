@@ -12,11 +12,12 @@ import {
   FRUIT_SEEDS,
   Fruit,
 } from "features/game/types/fruits";
-import { GameState, PlantedFruit } from "features/game/types/game";
+import { Bumpkin, GameState, PlantedFruit } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { getTimeLeft } from "lib/utils/time";
 import { FruitPatch } from "features/game/types/game";
 import { FruitCompostName } from "features/game/types/composters";
+import { getPlantedAt } from "./fruitPlanted";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -110,29 +111,16 @@ export function getFruitYield({
     amount += 0.5;
   }
 
+  if (
+    name === "Banana" &&
+    isCollectibleBuilt({ name: "Banana Chicken", game })
+  ) {
+    amount += 0.1;
+  }
+
   amount += getBudYieldBoosts(buds, name);
 
   return amount;
-}
-
-function getPlantedAt(
-  fruitName: FruitName,
-  game: GameState,
-  createdAt: number
-) {
-  if (
-    fruitName === "Orange" &&
-    isCollectibleBuilt({ name: "Squirrel Monkey", game })
-  ) {
-    const orangeTimeInMilliseconds =
-      FRUIT_SEEDS()["Orange Seed"].plantSeconds * 1000;
-
-    const offset = orangeTimeInMilliseconds / 2;
-
-    return createdAt - offset;
-  }
-
-  return createdAt;
 }
 
 export function harvestFruit({
@@ -178,7 +166,12 @@ export function harvestFruit({
     stateCopy.inventory[name]?.add(amount) ?? new Decimal(amount);
 
   patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
-  patch.fruit.harvestedAt = getPlantedAt(name, stateCopy, createdAt);
+  patch.fruit.harvestedAt = getPlantedAt(
+    seed,
+    (stateCopy.bumpkin as Bumpkin).equipped,
+    stateCopy,
+    createdAt
+  );
 
   patch.fruit.amount = getFruitYield({
     game: stateCopy,
