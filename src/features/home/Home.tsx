@@ -194,22 +194,18 @@ export const Home: React.FC = () => {
               />
 
               {!landscaping && (
-                <Button
-                  className="absolute -bottom-24"
-                  onClick={() => navigate("/")}
-                >
-                  Exit
-                </Button>
+                <>
+                  <div className="absolute -top-16 left-0 w-full">
+                    <InteriorBumpkins game={state} />
+                  </div>
+                  <Button
+                    className="absolute -bottom-24"
+                    onClick={() => navigate("/")}
+                  >
+                    Exit
+                  </Button>
+                </>
               )}
-
-              <div className="absolute -top-16 left-0">
-                <InteriorBumpkins
-                  game={state}
-                  onAdd={() => {
-                    gameService.send("farmHand.bought");
-                  }}
-                />
-              </div>
 
               {/* Sort island elements by y axis */}
               {mapPlacements.sort((a, b) => b.props.y - a.props.y)}

@@ -12,12 +12,12 @@ type Options = {
   createdAt?: number;
 };
 
-const ISLAND_CAPACITY: Record<IslandType, number> = {
-  basic: 0,
-  spring: 1,
+export const ISLAND_BUMPKIN_CAPACITY: Record<IslandType, number> = {
+  basic: 1,
+  spring: 2,
 };
 
-const FARM_HAND_COST = 15;
+export const FARM_HAND_COST = 15;
 
 export function buyFarmhand({
   state,
@@ -28,10 +28,10 @@ export function buyFarmhand({
 
   // TODO
   const island: IslandType = game.island?.type ?? "basic";
-  const capacity = ISLAND_CAPACITY[island];
+  const capacity = ISLAND_BUMPKIN_CAPACITY[island];
   const farmHands = Object.keys(game.farmHands.bumpkins).length;
 
-  if (farmHands >= capacity) {
+  if (farmHands + 1 >= capacity) {
     throw new Error("No space for a farm hand");
   }
 
@@ -60,6 +60,9 @@ export function buyFarmhand({
       pants: "Farmer Overalls",
     },
   };
+
+  const previous = game.inventory.Farmhand ?? new Decimal(0);
+  game.inventory.Farmhand = previous.add(1);
 
   return {
     ...game,

@@ -154,6 +154,7 @@ export type Coupons =
   | "Community Coin"
   | "Arcade Token"
   | "Farmhand Coupon"
+  | "Farmhand"
   | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
@@ -220,6 +221,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Farmhand Coupon": {
     description: "A coupon to exchange for a farm hand of your choice.",
+  },
+  Farmhand: {
+    description: "An adopted Bumpkin on your farm",
   },
 };
 
