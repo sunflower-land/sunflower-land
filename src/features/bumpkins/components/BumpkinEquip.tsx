@@ -2,10 +2,9 @@ import {
   BUMPKIN_ITEM_PART,
   BumpkinItem,
   BumpkinPart,
-  Equipped,
   ITEM_IDS,
 } from "features/game/types/bumpkin";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { DynamicNFT } from "./DynamicNFT";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { OuterPanel } from "components/ui/Panel";
@@ -41,8 +40,16 @@ interface Props {
 export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
   const [equipped, setEquipped] = useState(equipment);
 
-  // TODO - available wardrobe
-  const wardrobe = availableWardrobe(game);
+  /**
+   * Show available wardrobe and currently equipped items
+   */
+  const wardrobe = Object.values(equipment ?? {}).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: 1,
+    }),
+    availableWardrobe(game)
+  );
 
   const equipPart = (name: BumpkinItem) => {
     const part = BUMPKIN_ITEM_PART[name];
