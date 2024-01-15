@@ -22,7 +22,7 @@ function getHarvestsLeft() {
   return randomInt(3, 6);
 }
 
-function getPlantedAt(
+export function getPlantedAt(
   fruitSeedName: FruitSeedName,
   wearables: BumpkinParts,
   game: GameState,
