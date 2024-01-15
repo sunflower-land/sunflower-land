@@ -18,6 +18,7 @@ import Decimal from "decimal.js-light";
 import { Panel } from "components/ui/Panel";
 import confetti from "canvas-confetti";
 import { NPC } from "features/island/bumpkin/components/NPC";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 interface Props {
   onClose: () => void;
@@ -30,15 +31,24 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
+  const hasCoupon = !!gameState.inventory["Farmhand Coupon"]?.gte(1);
+
   const onAdd = () => {
     gameService.send("farmHand.bought");
     gameService.send("SAVE");
     setShowSuccess(true);
     confetti();
-    // onClose();
+
+    if (!hasCoupon) {
+      gameAnalytics.trackSink({
+        currency: "Block Buck",
+        amount: FARM_HAND_COST,
+        item: "Farmhand",
+        type: "Collectible",
+      });
+    }
   };
 
-  const hasCoupon = !!gameState.inventory["Farmhand Coupon"]?.gte(1);
   const hasBlockBucks =
     gameState.inventory["Block Buck"] ?? new Decimal(0).gte(FARM_HAND_COST);
 
