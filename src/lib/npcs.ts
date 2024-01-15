@@ -56,7 +56,8 @@ export type NPCName =
   | "wobble"
   | "santa"
   | "elf"
-  | "misty";
+  | "misty"
+  | "poppy";
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
@@ -612,6 +613,15 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Fishing Pants",
     shirt: "Trial Tee",
     coat: "Reel Fishing Vest",
+  },
+  // Flower expert
+  poppy: {
+    body: "Beige Farmer Potion",
+    dress: "Antique Dress",
+    background: "Mountain View Background",
+    hair: "Brown Long Hair",
+    tool: "Farmer Pitchfork",
+    shoes: "Brown Boots",
   },
 };
 
