@@ -778,17 +778,18 @@ export type FlowerBed = {
 } & Position;
 
 export type Flowers = Record<string, FlowerBed>;
+export type AttachedFlower = {
+  id: string;
+  attachedAt: number;
+  attachedUntil: number;
+};
 
 export type Beehive = {
   honey: {
     updatedAt: number;
     produced: number;
   };
-  flowers: {
-    id: string;
-    attachedAt: number;
-    attachedUntil: number;
-  }[];
+  flowers: AttachedFlower[];
 } & Position;
 
 export type Beehives = Record<string, Beehive>;

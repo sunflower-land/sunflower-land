@@ -117,6 +117,16 @@ export const getChestItems = (state: GameState) => {
       };
     }
 
+    if (itemName === "Beehive") {
+      return {
+        ...acc,
+        Beehive: new Decimal(
+          state.inventory.Beehive?.minus(Object.keys(state.beehives).length) ??
+            0
+        ),
+      };
+    }
+
     if (itemName in COLLECTIBLES_DIMENSIONS) {
       return {
         ...acc,

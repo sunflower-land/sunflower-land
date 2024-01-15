@@ -120,7 +120,6 @@ describe("updateBeehives", () => {
     const fiveMinutes = 5 * 60 * 1000;
     const twoMinutes = 2 * 60 * 1000;
 
-    const hivePlacedAt = now;
     const flower1PlantedAt = now - FLOWER_GROW_TIME + fiveMinutes;
     const flower2PlantedAt = now - FLOWER_GROW_TIME + twoMinutes;
 
