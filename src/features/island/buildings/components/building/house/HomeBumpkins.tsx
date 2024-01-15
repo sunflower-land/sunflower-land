@@ -1,5 +1,4 @@
-import { SUNNYSIDE } from "assets/sunnyside";
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Bumpkin, GameState } from "features/game/types/game";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import React, { useContext } from "react";

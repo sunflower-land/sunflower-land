@@ -1,4 +1,4 @@
-import { BumpkinPart, Equipped } from "features/game/types/bumpkin";
+import { Equipped } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";
 import { Bumpkin, GameState, Wardrobe } from "features/game/types/game";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
@@ -100,10 +100,6 @@ export function availableWardrobe(game: GameState): Wardrobe {
       };
     }, acc);
   }, {} as Wardrobe);
-
-  console.log({ inUse });
-
-  // const inUse = Object.values(game.bumpkin?.equipped as Equipped);
 
   return getKeys(game.wardrobe).reduce((acc, name) => {
     let amount = game.wardrobe[name] ?? 0;

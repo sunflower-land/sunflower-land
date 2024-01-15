@@ -1,6 +1,7 @@
 import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
-import { GameState, IslandType } from "features/game/types/game";
+import { GameState, IslandType, Wardrobe } from "features/game/types/game";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export type BuyFarmHandAction = {
   type: "farmHand.bought";
@@ -10,6 +11,16 @@ type Options = {
   state: Readonly<GameState>;
   action: BuyFarmHandAction;
   createdAt?: number;
+};
+
+const FARM_HAND_PARTS: BumpkinParts = {
+  background: "Farm Background",
+  body: "Beige Farmer Potion",
+  hair: "Basic Hair",
+  shoes: "Black Farmer Boots",
+  tool: "Farmer Pitchfork",
+  shirt: "Yellow Farmer Shirt",
+  pants: "Farmer Overalls",
 };
 
 export const ISLAND_BUMPKIN_CAPACITY: Record<IslandType, number> = {
@@ -60,6 +71,15 @@ export function buyFarmhand({
       pants: "Farmer Overalls",
     },
   };
+
+  // Add wearables to wardrobe
+  game.wardrobe = Object.values(FARM_HAND_PARTS).reduce((wardrobe, part) => {
+    const total = (wardrobe[part] ?? 0) + 1;
+    return {
+      ...wardrobe,
+      [part]: total,
+    };
+  }, game.wardrobe ?? ({} as Wardrobe));
 
   const previous = game.inventory.Farmhand ?? new Decimal(0);
   game.inventory.Farmhand = previous.add(1);
