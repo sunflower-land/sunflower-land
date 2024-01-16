@@ -1,7 +1,9 @@
 import React, { useContext, useState } from "react";
 
-import raft from "assets/land/prestige_raft.png";
+import springRaft from "assets/land/prestige_raft.png";
+import desertRaft from "assets/land/desert_prestige_raft.png";
 import springPrestige from "assets/announcements/spring_prestige.png";
+import desertPrestige from "assets/announcements/desert_prestige.png";
 import lockIcon from "assets/skills/lock.png";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
@@ -10,7 +12,6 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
 import { MapPlacement } from "./MapPlacement";
 
 import { Button } from "components/ui/Button";
@@ -25,9 +26,18 @@ import classNames from "classnames";
 import { createPortal } from "react-dom";
 import confetti from "canvas-confetti";
 import { hasFeatureAccess } from "lib/flags";
+import { GameState, IslandType } from "features/game/types/game";
+import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 
-const expansions = (state: MachineState) =>
-  state.context.state.inventory["Basic Land"]?.toNumber() ?? 0;
+const UPGRADE_RAFTS: Record<IslandType, string> = {
+  basic: springRaft,
+  spring: desertRaft,
+};
+
+const UPGRADE_PREVIEW: Record<IslandType, string> = {
+  basic: springPrestige,
+  spring: desertPrestige,
+};
 
 const IslandUpgraderModal: React.FC<{
   onClose: () => void;
@@ -49,13 +59,14 @@ const IslandUpgraderModal: React.FC<{
     return (
       <Panel>
         <div className="p-2">
-          <p className="text-sm">
-            Are you sure you want to upgrade to a new island. You will not be
-            able to return.
+          <p className="text-sm mb-2">
+            Are you sure you want to upgrade to a new island.
           </p>
+          <p className="text-xs"> You will not be able to return.</p>
           <div className="flex my-2">
             {getKeys(upgrade.items).map((name) => (
               <Label
+                key={name}
                 icon={ITEM_DETAILS[name].image}
                 className="mr-3"
                 type="default"
@@ -74,7 +85,10 @@ const IslandUpgraderModal: React.FC<{
     );
   }
 
-  const hasAccess = hasFeatureAccess(gameState.context.state, "ISLAND_UPGRADE");
+  const hasAccess =
+    gameState.context.state.island.type === "basic" &&
+    hasFeatureAccess(gameState.context.state, "ISLAND_UPGRADE");
+
   const hasResources = getKeys(upgrade.items).every(
     (name) => inventory[name]?.gte(upgrade.items[name] ?? 0) ?? false
   );
@@ -94,7 +108,10 @@ const IslandUpgraderModal: React.FC<{
           Would you like to upgrade? Your resources will be safely transferred
           to your new island.
         </p>
-        <img src={springPrestige} className="w-full rounded-md" />
+        <img
+          src={UPGRADE_PREVIEW[gameState.context.state.island.type] as string}
+          className="w-full rounded-md"
+        />
 
         {hasAccess && (
           <>
@@ -106,6 +123,7 @@ const IslandUpgraderModal: React.FC<{
               )}
               {getKeys(upgrade.items).map((name) => (
                 <Label
+                  key={name}
                   icon={ITEM_DETAILS[name].image}
                   className="mr-3"
                   type={
@@ -124,7 +142,9 @@ const IslandUpgraderModal: React.FC<{
 
         {!hasAccess && (
           <Label icon={lockIcon} type="danger" className="mr-3 my-2">
-            Coming Soon - February 1st
+            {gameState.context.state.island.type === "basic"
+              ? "Coming Soon - February 1st"
+              : "Coming Soon - May 1st"}
           </Label>
         )}
       </div>
@@ -138,13 +158,21 @@ const IslandUpgraderModal: React.FC<{
   );
 };
 
-export const IslandUpgrader: React.FC = () => {
+interface Props {
+  gameState: GameState;
+  offset: number;
+}
+export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
   const { gameService } = useContext(Context);
 
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   const [showTravelAnimation, setShowTravelAnimation] = useState(false);
   const [showUpgraded, setShowUpgraded] = useState(false);
+
+  const island = gameState.island.type ?? "basic";
+
+  const [scrollIntoView] = useScrollIntoView();
 
   const onUpgrade = async () => {
     setShowTravelAnimation(true);
@@ -157,6 +185,8 @@ export const IslandUpgrader: React.FC = () => {
     await new Promise((resolve) => setTimeout(resolve, 3000));
     gameService.send("farm.upgraded");
     gameService.send("SAVE");
+
+    scrollIntoView(Section.Home, "auto");
 
     setShowTravelAnimation(false);
     confetti();
@@ -178,12 +208,14 @@ export const IslandUpgrader: React.FC = () => {
             transition: "opacity 1.25s ease-in-out",
           }}
           className={classNames(
-            "bg-black absolute z-10 inset-0  opacity-0 pointer-events-none",
+            "bg-black absolute z-10 inset-0  opacity-0 pointer-events-none flex justify-center items-center",
             {
               "opacity-100": showTravelAnimation,
             }
           )}
-        />,
+        >
+          <span className="loading">Exploring</span>
+        </div>,
         document.body
       )}
       <Modal show={showModal} centered onHide={onClose}>
@@ -195,11 +227,14 @@ export const IslandUpgrader: React.FC = () => {
           <div className="p-2">
             <p className="text-sm mb-2">Welcome to Petal Paradise!</p>
             <p className="text-xs mb-2">
-              This area of Sunflower Land is known for it's exotic resources.
+              {`This area of Sunflower Land is known for it's exotic resources.
               Expand your land to discover fruit, flowers, bee hives & rare
-              minerals!
+              minerals!`}
             </p>
-            <img src={springPrestige} className="w-full rounded-md mb-2" />
+            <img
+              src={UPGRADE_PREVIEW.basic}
+              className="w-full rounded-md mb-2"
+            />
             <p className="text-xs mb-2">
               Your items have been safely returned to your inventory.
             </p>
@@ -208,7 +243,7 @@ export const IslandUpgrader: React.FC = () => {
         </CloseButtonPanel>
       </Modal>
 
-      <MapPlacement x={12} y={0} width={4}>
+      <MapPlacement x={8 + offset} y={0} width={4}>
         <div
           className="absolute cursor-pointer hover:img-highlight"
           onClick={() => setShowModal(true)}
@@ -218,7 +253,7 @@ export const IslandUpgrader: React.FC = () => {
           }}
         >
           <img
-            src={raft}
+            src={UPGRADE_RAFTS[island]}
             style={{
               width: `${62 * PIXEL_SCALE}px`,
             }}
