@@ -15,6 +15,7 @@ import {
   BumpkinPartRequirements,
   BumpkinSkillsDescription,
   BumpkinTrade,
+  BuyFarmHand,
   Chat,
   ChickenWinner,
   ChoresStart,
@@ -143,6 +144,7 @@ import {
 const generalTerms: Record<GeneralTerms, string> = {
   "2x.sale": "Vente x2",
   "action.deposit": "Dépôt",
+  "add": "Ajouter",
   "add.liquidity": "Ajouter de la liquidité",
   "alr.bought": "Déjà acheté",
   "alr.claim": "Déjà réclamé !",
@@ -687,6 +689,16 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.sell": "Vendez vos ressources à d'autres joueurs en échange de SFL.",
   "bumpkinTrade.list": "Lister le commerce",
   "bumpkinTrade.like.list": "Que souhaitez-vous lister",
+};
+
+const buyFarmHand: Record<BuyFarmHand, string> = {
+  "buyFarmHand.howdyBumpkin": "Salut Bumpkin.",
+  "buyFarmHand.confirmBuyAdditional": "Êtes-vous sûr de vouloir acheter un Bumpkin supplémentaire ?",
+  "buyFarmHand.farmhandCoupon": "1 Coupon d'Aide Agricole",
+  "buyFarmHand.adoptBumpkin": "Adopter un Bumpkin",
+  "buyFarmHand.additionalBumpkinsInfo": "Des Bumpkins supplémentaires peuvent être utilisés pour équiper des accessoires et améliorer votre ferme.",
+  "buyFarmHand.notEnoughSpace": "Pas assez d'espace - améliorez votre île",
+  "buyFarmHand.buyBumpkin": "Acheter un Bumpkin"
 };
 
 const chat: Record<Chat, string> = {
@@ -2850,6 +2862,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...bumpkinPartRequirements,
   ...bumpkinSkillsDescription,
   ...bumpkinTrade,
+  ...buyFarmHand,
   ...chat,
   ...chickenWinner,
   ...choresStart,

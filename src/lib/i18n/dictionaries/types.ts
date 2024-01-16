@@ -340,6 +340,15 @@ export type BumpkinTrade =
   | "bumpkinTrade.list"
   | "bumpkinTrade.like.list";
 
+export type BuyFarmHand =
+  | "buyFarmHand.howdyBumpkin"
+  | "buyFarmHand.confirmBuyAdditional"
+  | "buyFarmHand.farmhandCoupon"
+  | "buyFarmHand.adoptBumpkin"
+  | "buyFarmHand.additionalBumpkinsInfo"
+  | "buyFarmHand.notEnoughSpace"
+  | "buyFarmHand.buyBumpkin";
+
 export type Chat =
   | "chat.Loading"
   | "chat.Fail"
@@ -1037,6 +1046,7 @@ export type GeneralTerms =
   | "2x.sale"
   | "action.deposit"
   | "achievements"
+  | "add"
   | "add.liquidity"
   | "alr.bought"
   | "alr.claim"
@@ -2517,6 +2527,7 @@ export type TranslationKeys =
   | BumpkinPartRequirements
   | BumpkinSkillsDescription
   | BumpkinTrade
+  | BuyFarmHand
   | Chat
   | ChickenWinner
   | ChoresStart

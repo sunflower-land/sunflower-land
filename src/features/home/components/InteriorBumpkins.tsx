@@ -13,6 +13,7 @@ import { Button } from "components/ui/Button";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { ISLAND_BUMPKIN_CAPACITY } from "features/game/events/landExpansion/buyFarmHand";
 import { BuyFarmHand } from "./BuyFarmHand";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   game: GameState;
@@ -92,7 +93,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
             } Bumpkins`}
           </Label>
           <Button onClick={() => setShowBuyFarmHandModal(true)} className="h-8">
-            <span>Add</span>
+            <span>{translate("add")}</span>
           </Button>
         </div>
       </div>
