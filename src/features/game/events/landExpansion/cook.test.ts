@@ -263,7 +263,10 @@ describe("getReadyAt", () => {
       item: "Boiled Eggs",
       bumpkin: { ...INITIAL_BUMPKIN, skills: { "Rush Hour": 1 } },
       createdAt: now,
-      game: TEST_FARM,
+      game: {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Rush Hour": 1 } },
+      },
     });
 
     const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.1;
@@ -283,7 +286,13 @@ describe("getReadyAt", () => {
         ...INITIAL_BUMPKIN,
         equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Luna's Hat" },
       },
-      game: TEST_FARM,
+      game: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Luna's Hat" },
+        },
+      },
 
       createdAt: now,
     });

@@ -27,6 +27,7 @@ import { BumpkinPainting } from "./components/BumpkinPainting";
 import { Bumpkin, IslandType } from "features/game/types/game";
 import { HOME_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
 import { Bud } from "features/island/buds/Bud";
+import { InteriorBumpkins } from "./components/InteriorBumpkins";
 
 const selectGameState = (state: MachineState) => state.context.state;
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
@@ -193,12 +194,17 @@ export const Home: React.FC = () => {
               />
 
               {!landscaping && (
-                <Button
-                  className="absolute -bottom-24"
-                  onClick={() => navigate("/")}
-                >
-                  Exit
-                </Button>
+                <>
+                  <div className="absolute -top-16 left-0 w-full">
+                    <InteriorBumpkins game={state} />
+                  </div>
+                  <Button
+                    className="absolute -bottom-24"
+                    onClick={() => navigate("/")}
+                  >
+                    Exit
+                  </Button>
+                </>
               )}
 
               {/* Sort island elements by y axis */}

@@ -7,6 +7,7 @@ import { Bumpkin, GameState, Inventory } from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export type SeedBoughtAction = {
   type: "seed.bought";
@@ -21,13 +22,14 @@ export function getBuyPrice(
   game: GameState,
   bumpkin: Bumpkin
 ) {
-  const { equipped } = bumpkin;
-  const { secondaryTool } = equipped;
   if (isCollectibleBuilt({ name: "Kuebiko", game })) {
     return new Decimal(0);
   }
 
-  if (secondaryTool === "Sunflower Shield" && name === "Sunflower Seed") {
+  if (
+    isWearableActive({ name: "Sunflower Shield", game }) &&
+    name === "Sunflower Seed"
+  ) {
     return new Decimal(0);
   }
 

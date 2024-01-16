@@ -3029,4 +3029,12 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.decorations.wardrobe,
     description: "?",
   },
+  "Farmhand Coupon": {
+    image: budTicket,
+    description: "?",
+  },
+  Farmhand: {
+    image: SUNNYSIDE.icons.player,
+    description: "A helpful farmhand",
+  },
 };

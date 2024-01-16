@@ -153,6 +153,8 @@ export type Coupons =
   | "Bud Seedling"
   | "Community Coin"
   | "Arcade Token"
+  | "Farmhand Coupon"
+  | "Farmhand"
   | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
@@ -216,6 +218,12 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Arcade Token": {
     description:
       "A token earned from mini-games and adventures. Can be exchanged for rewards.",
+  },
+  "Farmhand Coupon": {
+    description: "A coupon to exchange for a farm hand of your choice.",
+  },
+  Farmhand: {
+    description: "An adopted Bumpkin on your farm",
   },
 };
 
@@ -528,6 +536,10 @@ export type CatchTheKraken = {
   hunger: InventoryItemName;
 };
 
+export type FarmHand = {
+  equipped: BumpkinParts;
+};
+
 export type Mushroom = {
   name: MushroomName;
   amount: number;
@@ -777,6 +789,10 @@ export interface GameState {
 
   islands?: Record<string, CommunityIsland>;
   portals?: Partial<Record<PortalName, Portal>>;
+
+  farmHands: {
+    bumpkins: Record<string, FarmHand>;
+  };
 
   chickens: Record<string, Chicken>;
   inventory: Inventory;

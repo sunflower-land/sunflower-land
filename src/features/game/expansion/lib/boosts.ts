@@ -17,6 +17,7 @@ import {
 import { getSeasonalBanner } from "features/game/types/seasons";
 import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { isWearableActive } from "features/game/lib/wearables";
 
 const crops = CROPS();
 const cakes = CAKES();
@@ -115,7 +116,7 @@ export const getCookingTime = (
   }
 
   // Luna's Hat - 50% reduction
-  if (bumpkin?.equipped.hat === "Luna's Hat") {
+  if (isWearableActive({ name: "Luna's Hat", game })) {
     reducedSecs = reducedSecs.mul(0.5);
   }
 
@@ -141,7 +142,7 @@ export const getFoodExpBoost = (
   buds: NonNullable<GameState["buds"]>
 ): number => {
   let boostedExp = new Decimal(food.experience);
-  const { skills, equipped } = bumpkin;
+  const { skills } = bumpkin;
 
   //Bumpkin Skill Boost Kitchen Hand
   if (skills["Kitchen Hand"]) {
@@ -154,13 +155,13 @@ export const getFoodExpBoost = (
   }
 
   //Bumpkin Wearable Boost Golden Spatula
-  if (equipped.tool === "Golden Spatula") {
+  if (isWearableActive({ name: "Golden Spatula", game })) {
     boostedExp = boostedExp.mul(1.1);
   }
 
   if (
     food.name in FISH_CONSUMABLES &&
-    equipped.hat === "Luminous Anglerfish Topper"
+    isWearableActive({ name: "Luminous Anglerfish Topper", game })
   ) {
     // 50% boost
     boostedExp = boostedExp.mul(1.5);

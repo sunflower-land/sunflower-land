@@ -10,11 +10,7 @@ import { Label } from "components/ui/Label";
 import { OuterPanel } from "components/ui/Panel";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
-import {
-  Bumpkin,
-  Inventory,
-  InventoryItemName,
-} from "features/game/types/game";
+import { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import {
@@ -32,6 +28,7 @@ import {
   getDailyFishingLimit,
 } from "features/game/types/fishing";
 import { MachineState } from "features/game/lib/gameMachine";
+import { isWearableActive } from "features/game/lib/wearables";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -146,11 +143,11 @@ const BaitSelection: React.FC<{
     );
   }
 
-  const dailyFishingMax = getDailyFishingLimit(state.bumpkin as Bumpkin);
+  const dailyFishingMax = getDailyFishingLimit(state);
   const dailyFishingCount = getDailyFishingCount(state);
   const fishingLimitReached = dailyFishingCount >= dailyFishingMax;
   const missingRod =
-    state.bumpkin?.equipped?.tool !== "Ancient Rod" &&
+    !isWearableActive({ name: "Ancient Rod", game: state }) &&
     (!state.inventory["Rod"] || state.inventory.Rod.lt(1));
 
   const catches = getKeys(FISH).filter((name) =>

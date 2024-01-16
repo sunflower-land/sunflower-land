@@ -260,6 +260,7 @@ export const TEST_FARM: GameState = {
   milestones: {},
   home: { collectibles: {} },
   island: { type: "basic" },
+  farmHands: { bumpkins: {} },
   fishing: {
     weather: "Sunny",
     wharf: {},
@@ -463,6 +464,9 @@ export const EMPTY: GameState = {
   stockExpiry: {},
   wardrobe: {},
   conversations: [],
+  farmHands: {
+    bumpkins: {},
+  },
   mailbox: {
     read: [],
   },
