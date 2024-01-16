@@ -216,6 +216,7 @@ import {
   harvestBeehive,
   HarvestBeehiveAction,
 } from "./landExpansion/harvestBeehive";
+import { PlantFlowerAction } from "./landExpansion/plantFlower";
 
 export type PlayingEvent =
   | TradeAction
@@ -288,7 +289,8 @@ export type PlayingEvent =
   | AccelerateComposterAction
   | BuyFarmHandAction
   | EquipFarmHandAction
-  | HarvestBeehiveAction;
+  | HarvestBeehiveAction
+  | PlantFlowerAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction

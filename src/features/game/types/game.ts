@@ -41,6 +41,7 @@ import {
 } from "./fishing";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { PortalName } from "./portals";
+import { FlowerSeedName } from "./flowers";
 
 export type Reward = {
   sfl?: Decimal;
@@ -259,6 +260,7 @@ export type InventoryItemName =
   | MutantCropName
   | FruitName
   | FruitSeedName
+  | FlowerSeedName
   | CraftableName
   | CommodityName
   | ResourceName
