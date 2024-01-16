@@ -14,13 +14,14 @@ import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SEEDS } from "features/game/types/seeds";
+import { EXOTIC_CROPS } from "features/game/types/beans";
 import flowerBed from "assets/flowers/flower_bed.webp";
 
 interface Props {
   onClose: () => void;
 }
 
-export const FlowerBedContent: React.FC<Props> = ({ onClose }) => {
+export const FlowerBedContent2: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [
     {
@@ -62,7 +63,38 @@ export const FlowerBedContent: React.FC<Props> = ({ onClose }) => {
 
   return (
     <div>
-      <img src={flowerBed} style={{ width: "200px" }} />
+      <div className="flex">
+        <img src={flowerBed} style={{ width: "200px" }} />
+        {selectedSeed && (
+          <img
+            src={
+              selectedChum
+                ? SUNNYSIDE.icons.expression_confused
+                : ITEM_DETAILS["Chiogga"].image
+            }
+            style={{ width: "40px" }}
+            className="absolute left-20 top-10"
+          />
+        )}
+        <div>
+          Attempt Cross Breed?
+          <Box
+            image={
+              selectedChum
+                ? ITEM_DETAILS["Chiogga"].image
+                : SUNNYSIDE.icons.plus
+            }
+          />
+        </div>
+      </div>
+
+      <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
+        <span className="text-xs">
+          {
+            "Cross breeding gives the chance to find rare variants. Copy copy copy."
+          }
+        </span>
+      </div>
 
       <p className="mb-1 p-1 text-xs">Select your seed:</p>
       <div className="flex flex-wrap">
@@ -75,22 +107,6 @@ export const FlowerBedContent: React.FC<Props> = ({ onClose }) => {
             isSelected={selectedSeed === name}
           />
         ))}
-      </div>
-
-      <p className="mb-1 p-1 text-xs">Select your resources:</p>
-
-      <div className="flex flex-wrap">
-        {getKeys(FLOWER_CHUM_AMOUNTS)
-          // .filter((name) => !!inventory[name]?.gte(1))
-          .map((name) => (
-            <Box
-              image={ITEM_DETAILS[name].image}
-              count={inventory[name]}
-              onClick={() => selectChum(name)}
-              key={name}
-              isSelected={selectedChum === name}
-            />
-          ))}
       </div>
 
       {selectedSeed && (
@@ -112,6 +128,22 @@ export const FlowerBedContent: React.FC<Props> = ({ onClose }) => {
           <p className="text-xs">{FLOWER_CHUM_DETAILS[selectedSeed]}</p>
         </div>
       )}
+
+      <p className="mb-1 p-1 text-xs">Select your resources:</p>
+
+      <div className="flex flex-wrap">
+        {getKeys(EXOTIC_CROPS)
+          // .filter((name) => !!inventory[name]?.gte(1))
+          .map((name) => (
+            <Box
+              image={ITEM_DETAILS[name].image}
+              count={inventory[name]}
+              onClick={() => selectChum(name)}
+              key={name}
+              isSelected={selectedChum === name}
+            />
+          ))}
+      </div>
 
       {selectedChum && (
         <div className="p-2">
@@ -135,7 +167,7 @@ export const FlowerBedContent: React.FC<Props> = ({ onClose }) => {
 
       <Button
         onClick={() => onPlant()}
-        disabled={!selectedSeed || !selectedChum}
+        disabled={!selectedSeed}
         // disabled={
         //   fishingLimitReached ||
         //   missingRod ||

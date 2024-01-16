@@ -146,7 +146,6 @@ export const INITIAL_RESOURCES: Pick<
   fruitPatches: {},
   gold: {},
   iron: {},
-  rubies: {},
   flowers: {},
 };
 
