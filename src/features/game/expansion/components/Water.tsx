@@ -21,19 +21,16 @@ import { LAND_WIDTH } from "../Land";
 import { TravelTeaser } from "./TravelTeaser";
 import { DiscordBoat } from "./DiscordBoat";
 import { IslandUpgrader } from "./IslandUpgrader";
-import { hasFeatureAccess } from "lib/flags";
 import { GameState } from "features/game/types/game";
 
 interface Props {
   townCenterBuilt: boolean;
   expansionCount: number;
-  state: GameState;
 }
 
 export const WaterComponent: React.FC<Props> = ({
   townCenterBuilt,
   expansionCount,
-  state,
 }) => {
   // As the land gets bigger, push the water decorations out
   const offset = Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2);
@@ -127,7 +124,7 @@ export const WaterComponent: React.FC<Props> = ({
 
       <TravelTeaser />
 
-      {hasFeatureAccess(state, "ISLAND_UPGRADE") && <IslandUpgrader />}
+      <IslandUpgrader />
 
       {/* Bottom right island */}
       <MapPlacement x={7 + offset} y={-2 - offset} width={6}>

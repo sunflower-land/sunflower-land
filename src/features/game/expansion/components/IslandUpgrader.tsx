@@ -21,13 +21,18 @@ import { Panel } from "components/ui/Panel";
 import { useActor } from "@xstate/react";
 import { ISLAND_UPGRADE } from "features/game/events/landExpansion/upgradeFarm";
 import { getKeys } from "features/game/types/craftables";
+import classNames from "classnames";
+import { createPortal } from "react-dom";
+import confetti from "canvas-confetti";
+import { hasFeatureAccess } from "lib/flags";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 0;
 
-const IslandUpgraderModal: React.FC<{ onClose: () => void }> = ({
-  onClose,
-}) => {
+const IslandUpgraderModal: React.FC<{
+  onClose: () => void;
+  onUpgrade: () => void;
+}> = ({ onClose, onUpgrade }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -40,15 +45,9 @@ const IslandUpgraderModal: React.FC<{ onClose: () => void }> = ({
   const remaindingExpansions =
     upgrade.expansions - (inventory["Basic Land"]?.toNumber() ?? 0);
 
-  const onUpgrade = () => {
-    gameService.send("island.explore");
-    gameService.send("SAVE");
-    setShowSuccess(true);
-  };
-
   if (showConfirmation) {
     return (
-      <Panel bumpkinParts={NPC_WEARABLES.grubnuk}>
+      <Panel>
         <div className="p-2">
           <p className="text-sm">
             Are you sure you want to upgrade to a new island. You will not be
@@ -75,6 +74,11 @@ const IslandUpgraderModal: React.FC<{ onClose: () => void }> = ({
     );
   }
 
+  const hasAccess = hasFeatureAccess(gameState.context.state, "ISLAND_UPGRADE");
+  const hasResources = getKeys(upgrade.items).every(
+    (name) => inventory[name]?.gte(upgrade.items[name] ?? 0) ?? false
+  );
+
   return (
     <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk} onClose={onClose}>
       <div className="p-2">
@@ -92,30 +96,40 @@ const IslandUpgraderModal: React.FC<{ onClose: () => void }> = ({
         </p>
         <img src={springPrestige} className="w-full rounded-md" />
 
-        <div className="flex items-center mt-2 mb-1">
-          {remaindingExpansions > 0 && (
-            <Label icon={lockIcon} type="danger" className="mr-3">
-              Locked
-            </Label>
-          )}
-          {getKeys(upgrade.items).map((name) => (
-            <Label
-              icon={ITEM_DETAILS[name].image}
-              className="mr-3"
-              type={
-                inventory[name]?.gte(upgrade.items[name] ?? 0)
-                  ? "default"
-                  : "danger"
-              }
-            >{`${upgrade.items[name]} x ${name}`}</Label>
-          ))}
-        </div>
-        {remaindingExpansions > 0 && (
-          <p className="text-xs">{`You are not ready. Expand ${remaindingExpansions} more times`}</p>
+        {hasAccess && (
+          <>
+            <div className="flex items-center mt-2 mb-1">
+              {remaindingExpansions > 0 && (
+                <Label icon={lockIcon} type="danger" className="mr-3">
+                  Locked
+                </Label>
+              )}
+              {getKeys(upgrade.items).map((name) => (
+                <Label
+                  icon={ITEM_DETAILS[name].image}
+                  className="mr-3"
+                  type={
+                    inventory[name]?.gte(upgrade.items[name] ?? 0)
+                      ? "default"
+                      : "danger"
+                  }
+                >{`${upgrade.items[name]} x ${name}`}</Label>
+              ))}
+            </div>
+            {remaindingExpansions > 0 && (
+              <p className="text-xs">{`You are not ready. Expand ${remaindingExpansions} more times`}</p>
+            )}
+          </>
+        )}
+
+        {!hasAccess && (
+          <Label icon={lockIcon} type="danger" className="mr-3 my-2">
+            Coming Soon - February 1st
+          </Label>
         )}
       </div>
       <Button
-        disabled={remaindingExpansions > 0}
+        disabled={!hasResources || !hasAccess || remaindingExpansions > 0}
         onClick={() => setShowConfirmation(true)}
       >
         Continue
@@ -125,12 +139,73 @@ const IslandUpgraderModal: React.FC<{ onClose: () => void }> = ({
 };
 
 export const IslandUpgrader: React.FC = () => {
+  const { gameService } = useContext(Context);
+
   const [showModal, setShowModal] = useState(true);
+
+  const [showTravelAnimation, setShowTravelAnimation] = useState(false);
+  const [showUpgraded, setShowUpgraded] = useState(false);
+
+  const onUpgrade = async () => {
+    setShowTravelAnimation(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
+    setShowModal(false);
+    setShowUpgraded(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    gameService.send("farm.upgraded");
+    gameService.send("SAVE");
+
+    setShowTravelAnimation(false);
+    confetti();
+  };
+
+  const onClose = () => {
+    if (showTravelAnimation) {
+      return;
+    }
+    setShowModal(false);
+  };
 
   return (
     <>
-      <Modal show={showModal} centered onHide={() => setShowModal(false)}>
-        <IslandUpgraderModal onClose={() => setShowModal(false)} />
+      {createPortal(
+        <div
+          style={{
+            zIndex: 9999999,
+            transition: "opacity 1.25s ease-in-out",
+          }}
+          className={classNames(
+            "bg-black absolute z-10 inset-0  opacity-0 pointer-events-none",
+            {
+              "opacity-100": showTravelAnimation,
+            }
+          )}
+        />,
+        document.body
+      )}
+      <Modal show={showModal} centered onHide={onClose}>
+        <IslandUpgraderModal onUpgrade={onUpgrade} onClose={onClose} />
+      </Modal>
+
+      <Modal show={showUpgraded} centered>
+        <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk}>
+          <div className="p-2">
+            <p className="text-sm mb-2">Welcome to Petal Paradise!</p>
+            <p className="text-xs mb-2">
+              This area of Sunflower Land is known for it's exotic resources.
+              Expand your land to discover fruit, flowers, bee hives & rare
+              minerals!
+            </p>
+            <img src={springPrestige} className="w-full rounded-md mb-2" />
+            <p className="text-xs mb-2">
+              Your items have been safely returned to your inventory.
+            </p>
+          </div>
+          <Button onClick={() => setShowUpgraded(false)}>Continue</Button>
+        </CloseButtonPanel>
       </Modal>
 
       <MapPlacement x={12} y={0} width={4}>
