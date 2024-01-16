@@ -88,10 +88,6 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
 
   const finish = (equipment: BumpkinParts) => {
     onEquip(equipment);
-    // gameService.send("bumpkin.equipped", {
-    //   equipment,
-    // });
-    // gameService.send("SAVE");
   };
 
   const isDirty = JSON.stringify(equipped) !== JSON.stringify(equipment);
