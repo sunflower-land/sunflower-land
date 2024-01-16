@@ -30,6 +30,7 @@ import { ZoomContext } from "components/ZoomProvider";
 import { isBudName } from "features/game/types/buds";
 import { CollectibleLocation } from "features/game/types/collectibles";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const PLACEABLES: Record<PlaceableName | "Bud", React.FC<any>> = {
   Chicken: () => <Chicken x={0} y={0} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
@@ -106,6 +107,8 @@ export const Placeable: React.FC<Props> = ({ location }) => {
   const { placeable, collisionDetected, origin, coordinates } = machine.context;
 
   const grid = getGameGrid(gameState.context.state);
+
+  const { t } = useAppTranslation();
 
   let dimensions = { width: 0, height: 0 };
   if (isBudName(placeable)) {
@@ -222,7 +225,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
                 }}
               >
                 <img src={SUNNYSIDE.icons.drag} className="h-6 mr-2" />
-                <span className="text-white text-sm">Drag me</span>
+                <span className="text-white text-sm">{t("landscape.dragMe")}</span>
               </div>
             )}
             <div

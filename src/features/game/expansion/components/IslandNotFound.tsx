@@ -4,6 +4,7 @@ import { Modal } from "react-bootstrap";
 import humanDeath from "assets/npcs/human_death.gif";
 import { Button } from "components/ui/Button";
 import { useNavigate, useParams } from "react-router-dom";
+import { translate } from "lib/i18n/translate";
 
 export const IslandNotFound = () => {
   const navigate = useNavigate();
@@ -14,9 +15,9 @@ export const IslandNotFound = () => {
         <div className="flex flex-col items-center">
           <img id="richBegger" src={humanDeath} />
           <p className="my-4 px-2 text-center">
-            You have landed in the middle of nowhere!
+            {translate("islandNotFound.message")}
           </p>
-          <Button onClick={() => navigate(`/`)}>Take me home</Button>
+          <Button onClick={() => navigate(`/`)}>{translate("islandNotFound.takeMeHome")}</Button>
         </div>
       </Panel>
     </Modal>

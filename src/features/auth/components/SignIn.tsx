@@ -132,7 +132,7 @@ const OtherWallets: React.FC<{
               alt="Crypto.com"
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
-            Crypto.com Wallet
+            Crypto.com {t("wallet")}
           </div>
         </Button>
         <Button
@@ -145,7 +145,7 @@ const OtherWallets: React.FC<{
               alt="OKX"
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
-            OKX Wallet
+            OKX {t("wallet")}
           </div>
         </Button>
         <Button
@@ -158,7 +158,7 @@ const OtherWallets: React.FC<{
               alt="Phantom"
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
             />
-            Phantom
+            Phantom {t("wallet")}
           </div>
         </Button>
       </>
@@ -250,9 +250,9 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
               type="info"
               className="absolute top-1/2 -translate-y-1/2 right-1"
             >
-              Featured
+              {t("featured")}
             </Label>
-            Bitget Wallet
+            Bitget {t("wallet")}
           </div>
         </Button>
       )}

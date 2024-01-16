@@ -7,11 +7,12 @@ import { Modal } from "react-bootstrap";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { InnerPanel } from "components/ui/Panel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const NonFertilePlotComponent = () => {
   const [showModal, setShowModal] = useState(false);
   const [showWaterWell, setShowWaterWell] = useState(false);
-
+  const { t } = useAppTranslation();
   const handleHover = () => {
     setShowWaterWell(true);
   };
@@ -49,7 +50,7 @@ const NonFertilePlotComponent = () => {
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>Additional Water Well required.</span>
+              <span>{t("statements.water.well.needed.one")}</span>
             </div>
           </InnerPanel>
         </div>
@@ -57,11 +58,11 @@ const NonFertilePlotComponent = () => {
 
       <Modal centered show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel
-          title="These crops need water!"
+          title={t("statements.crop.water")}
           onClose={() => setShowModal(false)}
         >
           <div className="p-2">
-            In order to support more crops, build a well.
+            {t("statements.water.well.needed.two")}
             <img
               src={well}
               alt="well"

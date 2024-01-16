@@ -17,6 +17,7 @@ import { Modal } from "react-bootstrap";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import classNames from "classnames";
 import { GameWallet } from "features/wallet/Wallet";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   show: boolean;
@@ -308,6 +309,7 @@ export const BlockBucksModal: React.FC<Props> = ({
   onClose,
   setCloseable,
 }) => {
+  const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 

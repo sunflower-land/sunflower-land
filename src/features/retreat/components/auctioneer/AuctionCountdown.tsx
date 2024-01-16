@@ -9,6 +9,7 @@ import { Auction } from "features/game/lib/auctionMachine";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { loadAuctions } from "./actions/loadAuctions";
+import { translate } from "lib/i18n/translate";
 
 const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
   auction,
@@ -32,7 +33,7 @@ const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
       <div>
         <div className="h-6 flex justify-center">
           <Label type="info" icon={SUNNYSIDE.icons.stopwatch} className="ml-1">
-            Auction is live!
+            {translate("action.live")}
           </Label>
           <img
             src={SUNNYSIDE.icons.close}
@@ -58,7 +59,7 @@ const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
               whiteSpace: "nowrap",
             }}
           >
-            Auction:{" "}
+            {translate("action.time")}{" "}
             {auction.type === "collectible"
               ? auction.collectible
               : auction.wearable}

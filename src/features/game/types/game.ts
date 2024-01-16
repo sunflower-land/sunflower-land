@@ -41,6 +41,7 @@ import {
 } from "./fishing";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { PortalName } from "./portals";
+import { translate } from "lib/i18n/translate";
 
 export type Reward = {
   sfl?: Decimal;
@@ -54,7 +55,7 @@ export type FertiliserName = "Rapid Growth";
 
 export const FERTILISERS: Record<FertiliserName, { description: string }> = {
   "Rapid Growth": {
-    description: "Apply to a crop to grow twice as fast",
+    description: translate("description.rapid.growth"),
   },
 };
 
@@ -93,25 +94,25 @@ export type EasterEgg =
 
 export const EASTER_EGG: Record<EasterEgg, { description: string }> = {
   "Red Egg": {
-    description: "A red easter egg",
+    description: translate("description.red.egg"),
   },
   "Orange Egg": {
-    description: "An orange easter egg",
+    description: translate("description.orange.egg"),
   },
   "Green Egg": {
-    description: "A green easter egg",
+    description: translate("description.green.egg"),
   },
   "Blue Egg": {
-    description: "A blue easter egg",
+    description: translate("description.blue.egg"),
   },
   "Pink Egg": {
-    description: "A pink easter egg",
+    description: translate("description.pink.egg"),
   },
   "Purple Egg": {
-    description: "A purple easter egg",
+    description: translate("description.purple.egg"),
   },
   "Yellow Egg": {
-    description: "A yellow easter egg",
+    description: translate("description.yellow.egg"),
   },
 };
 
@@ -159,61 +160,58 @@ export type Coupons =
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Gold Pass": {
-    description:
-      "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
+    description: translate("description.gold.pass"),
   },
   "Trading Ticket": {
-    description: "Free Trades! Woohoo!",
+    description: translate("description.trading.ticket"),
   },
   "War Bond": {
-    description: "A mark of a true warrior",
+    description: translate("description.war.bond"),
   },
   "Jack-o-lantern": {
-    description: "A Halloween special event item",
+    description: translate("description.jack.o.lantern"),
   },
   "Golden Crop": {
-    description: "A shiny golden crop",
+    description: translate("description.golden.crop"),
   },
   "Beta Pass": {
-    description: "Gain early access to features for testing.",
+    description: translate("description.beta.pass"),
   },
   "Red Envelope": {
-    description: "Someone was lucky!",
+    description: translate("description.red.envelope"),
   },
   "Love Letter": {
-    description: "Convey feelings of love",
+    description: translate("description.love.letter"),
   },
   "Block Buck": {
-    description: "A valuable token in Sunflower Land!",
+    description: translate("description.block.buck"),
   },
   "Solar Flare Ticket": {
-    description: "A ticket used during the Solar Flare Season",
+    description: translate("description.solar.flare.ticket"),
   },
   "Dawn Breaker Ticket": {
-    description: "A ticket used during the Dawn Breaker Season",
+    description: translate("description.dawn.breaker.ticket"),
   },
   "Crow Feather": {
-    description: "A ticket used during the Witches' Eve Season",
+    description: translate("description.crow.feather"),
   },
   "Sunflower Supporter": {
-    description: "A community and social media supporter of the project",
+    description: translate("description.sunflower.supporter"),
   },
   "Potion Ticket": {
-    description:
-      "A reward from the Potion House. Use this to buy items from Garth.",
+    description: translate("description.potion.ticket"),
   },
   "Bud Ticket": {
-    description:
-      "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
+    description: translate("description.bud.ticket"),
   },
   "Bud Seedling": {
-    description: "A seedling to be exchanged for a free Bud NFT",
+    description: translate("description.bud.seedling"),
   },
   "Mermaid Scale": {
-    description: "A ticket used during the Catch the Kraken Season",
+    description: translate("description.mermaid.scale"),
   },
   "Community Coin": {
-    description: "A valued coin that can be exchanged for rewards",
+    description: translate("description.community.coin"),
   },
   "Arcade Token": {
     description:

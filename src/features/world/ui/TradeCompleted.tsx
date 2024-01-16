@@ -13,6 +13,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import token from "assets/icons/token_2.png";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   farmId: number;
@@ -21,6 +23,7 @@ interface Props {
 
 export const TradeCompleted: React.FC<Props> = ({ mmoService, farmId }) => {
   const [trade, setTrade] = useState<Trade>();
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     mmoService?.state?.context?.server?.state?.trades?.onAdd((trade) => {
@@ -41,7 +44,7 @@ export const TradeCompleted: React.FC<Props> = ({ mmoService, farmId }) => {
     <Modal centered show={!!sold} onHide={() => setTrade(undefined)}>
       <CloseButtonPanel
         onClose={() => setTrade(undefined)}
-        title={"Congratulations, your listing was purchased"}
+        title={translate("playerTrade.title.congrat")}
       >
         {sold && (
           <OuterPanel>
@@ -74,7 +77,7 @@ export const TradeCompleted: React.FC<Props> = ({ mmoService, farmId }) => {
                     setTrade(undefined);
                   }}
                 >
-                  Claim
+                  {t("claim")}
                 </Button>
 
                 <div className="flex items-center mt-3 mr-0.5">

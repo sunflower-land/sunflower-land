@@ -3,6 +3,7 @@ import { Player } from "../ModerationTools";
 import { Button } from "components/ui/Button";
 
 import { kickPlayer } from "features/world/lib/moderationAction";
+import { translate } from "lib/i18n/translate";
 
 type Props = {
   scene: any;
@@ -59,15 +60,15 @@ export const KickModal: React.FC<Props> = ({
     <>
       {kickStatus === "idle" && (
         <div className="flex flex-col w-full p-1">
-          <span className="text-lg text-center">Kick a Player</span>
-          <span className="text-xxs text-left mt-2 mb-1">Player Farm ID</span>
+          <span className="text-lg text-center">{translate("kick.player")}</span>
+          <span className="text-xxs text-left mt-2 mb-1">{translate("kick.player.id")}</span>
           <input
             className="w-full text-shadow rounded-sm shadow-inner shadow-black bg-brown-200"
             value={farmId}
             onChange={(e) => setFarmId(Number(e.target.value))}
           />
           <span className="text-xxs text-left mt-2 mb-1">
-            Kick Reason (Please note that the player will see this)
+            {translate("kick.Reason")}
           </span>
           <textarea
             className="w-full h-20 text-shadow rounded-sm shadow-inner shadow-black bg-brown-200"
@@ -76,12 +77,12 @@ export const KickModal: React.FC<Props> = ({
             onChange={(e) => setReason(e.target.value)}
           />
           <div className="flex gap-2 w-full mt-2">
-            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleClose}>{translate("cancel")}</Button>
             <Button
               onClick={handleKickAction}
               disabled={reason.length === 0 || !farmId}
             >
-              Confirm
+              {translate("confirm")}
             </Button>
           </div>
         </div>
@@ -89,29 +90,29 @@ export const KickModal: React.FC<Props> = ({
       {kickStatus === "success" && (
         <div className="flex flex-col items-center w-full px-1">
           <span className="text-sm text-center">
-            Kick Player of Farm {farmId}
+            {translate("kick.player.farm")}{farmId}
           </span>
-          <span className="text-xs text-center">Player has been kicked.</span>
+          <span className="text-xs text-center">{translate("kick.player.kick")}</span>
           <div className="flex gap-2 w-full mt-2">
-            <Button onClick={handleClose}>Close</Button>
+            <Button onClick={handleClose}>{translate("close")}</Button>
           </div>
         </div>
       )}
       {kickStatus === "error" && (
         <div className="flex flex-col items-center w-full px-1">
           <span className="text-sm text-center">
-            Kick Player of Farm {farmId}
+            {translate("kick.player.farm")} {farmId}
           </span>
-          <span className="text-xs text-center">Failed to kick player</span>
+          <span className="text-xs text-center">{translate("kick.player.failed")}</span>
           <div className="flex gap-2 w-full mt-2">
-            <Button onClick={handleClose}>Close</Button>
+            <Button onClick={handleClose}>{translate("close")}</Button>
           </div>
         </div>
       )}
       {kickStatus === "loading" && (
         <div className="flex flex-col items-center w-full px-1">
-          <span className="text-lg text-center">Kicking Player...</span>
-          <span className="text-xs text-center mt-2">Please wait</span>
+          <span className="text-lg text-center">{translate("kick.player.kicking")}</span>
+          <span className="text-xs text-center mt-2">{translate("kick.please")}</span>
         </div>
       )}
     </>

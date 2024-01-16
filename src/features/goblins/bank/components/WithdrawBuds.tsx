@@ -13,6 +13,7 @@ import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { CONFIG } from "lib/config";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -23,6 +24,8 @@ interface Props {
 export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
+
+  const { t } = useAppTranslation();
 
   const buds = goblinState.context.state.buds ?? {};
 
@@ -44,7 +47,7 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
   return (
     <>
       <div className="p-2 mt-3">
-        <h2 className="mb-3">Select Buds to withdraw</h2>
+        <h2 className="mb-3">{t("withdraw.buds")}</h2>
         <div className="flex flex-wrap h-fit -ml-1.5">
           {unselected.map((budId) => (
             <Box
@@ -62,7 +65,7 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
         </div>
 
         <div className="mt-2">
-          <h2 className="">Selected</h2>
+          <h2 className="">{t("withdraw.select")}</h2>
           <div className="flex flex-wrap h-fit mt-2 -ml-1.5">
             {selected.map((budId) => (
               <Box
@@ -84,7 +87,7 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
         <div className="flex items-center mt-2 mb-2  border-white">
           <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
           <div>
-            <p className="text-sm">Send to your wallet</p>
+            <p className="text-sm">{t("withdraw.send.wallet")}</p>
             <p className="text-sm">
               {shortAddress(wallet.myAccount || "XXXX")}
             </p>
@@ -92,14 +95,14 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
         </div>
 
         <span className="text-sm mb-4">
-          Once withdrawn, you will be able to view your items on OpenSea.{" "}
+          {t("withdraw.opensea")}{" "}
           <a
             className="underline hover:text-blue-500"
             href="https://docs.sunflower-land.com/fundamentals/withdrawing"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Read more
+            {t("read.more")}
           </a>
           .
         </span>
@@ -110,7 +113,7 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
         onClick={() => onWithdraw(selected)}
         disabled={selected.length <= 0}
       >
-        Withdraw
+        {t("withdraw")}
       </Button>
     </>
   );

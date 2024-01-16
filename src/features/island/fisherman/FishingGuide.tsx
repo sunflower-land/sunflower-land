@@ -6,6 +6,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import powerup from "assets/icons/level_up.png";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   onClose: () => void;
@@ -36,16 +37,16 @@ export const FishingGuide: React.FC<Props> = ({ onClose }) => {
   const basicGuide: GuideItem[] = [
     {
       icon: SUNNYSIDE.tools.fishing_rod,
-      content: "Craft a rod and gather bait to catch fish.",
+      content: translate("fishingGuide.catch.rod"),
     },
     {
       icon: ITEM_DETAILS["Red Wiggler"].image,
-      content: "Bait can be earned through composting or crafting lures.",
+      content: translate("fishingGuide.bait.earn"),
     },
     {
       icon: powerup,
-      content:
-        "Eat fish to level up your Bumpkin or perform fish deliveries for rewards.",
+      content: 
+        translate("fishingGuide.eat.fish"),
     },
   ];
 
@@ -53,22 +54,22 @@ export const FishingGuide: React.FC<Props> = ({ onClose }) => {
     {
       icon: SUNNYSIDE.icons.search,
       content:
-        "Explore the waters to discover rare fish, complete missions, and unlock unique rewards within the Codex.",
+        translate("fishingGuide.discover.fish"),
     },
     {
       icon: SUNNYSIDE.icons.stopwatch,
       content:
-        "Keep track of the changing tide patterns; specific fish species are only available during certain conditions.",
+        translate("fishingGuide.condition"),
     },
     {
       icon: CROP_LIFECYCLE.Carrot.crop,
       content:
-        "Experiment with different types of bait and chum combinations to maximize your chances of catching various fish species.",
+        translate("fishingGuide.bait.chum"),
     },
     {
       icon: SUNNYSIDE.icons.stressed,
       content:
-        "Beware of legendary fish; they require exceptional skill and strength to catch.",
+        translate("fishingGuide.legendery.fish"),
     },
   ];
   return (
@@ -90,7 +91,7 @@ export const FishingGuide: React.FC<Props> = ({ onClose }) => {
         ))}
 
         <Button onClick={onClose} className="mt-2">
-          Got it
+          {translate("gotIt")}
         </Button>
       </div>
     </div>

@@ -13,6 +13,8 @@ import { Box } from "components/ui/Box";
 import { getKeys } from "features/game/types/craftables";
 import { BASIC_WEARABLES } from "features/game/types/stylist";
 import { isCurrentObsession } from "./WithdrawWearables";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+
 interface Props {
   onWithdraw: () => void;
 }
@@ -33,14 +35,13 @@ export const WithdrawBumpkin: React.FC<Props> = ({ onWithdraw }) => {
 
     return (!isWithdrawable && !isBasicWearables) || isObsession;
   });
-
+  const { t } = useAppTranslation();
   const getText = () => {
     if (nonWithdrawableItems.length > 0)
       return (
         <div className="text-sm space-y-2">
           <p>
-            {`Your Bumpkin is currently wearing the following item(s) that can't be withdrawn.
-            You will need to unequip them before you can withdraw.`}
+            {t("withdraw.bumpkin.wearing")}
           </p>
           <div className="flex items-center flex-wrap">
             {nonWithdrawableItems.map((itemName) => (
@@ -57,7 +58,7 @@ export const WithdrawBumpkin: React.FC<Props> = ({ onWithdraw }) => {
 
     return (
       <p className="text-sm mb-2">
-        Are you sure you want to withdraw your Bumpkin?
+        {t("withdraw.bumpkin.sure.withdraw")}
       </p>
     );
   };
@@ -67,7 +68,7 @@ export const WithdrawBumpkin: React.FC<Props> = ({ onWithdraw }) => {
       <div className="p-2">
         <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
           <span className="text-xs">
-            {"To play the game, you always need a Bumpkin on your farm."}
+            {t("withdraw.bumpkin.play")}
           </span>
         </div>
         {getText()}
@@ -82,7 +83,7 @@ export const WithdrawBumpkin: React.FC<Props> = ({ onWithdraw }) => {
         </div>
       </div>
       <Button disabled={nonWithdrawableItems.length > 0} onClick={onWithdraw}>
-        Withdraw
+        {t("withdraw")}
       </Button>
     </>
   );

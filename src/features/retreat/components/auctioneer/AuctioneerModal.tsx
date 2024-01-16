@@ -17,6 +17,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   gameState: GameState;
@@ -40,7 +41,7 @@ export const AuctioneerModal: React.FC<Props> = ({
   linkedAddress,
 }) => {
   const { openModal } = useContext(ModalContext);
-
+  const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
@@ -120,7 +121,7 @@ export const AuctioneerModal: React.FC<Props> = ({
                     className="h-4 mr-1"
                   />
                   <span className="text-xs">
-                    A Gold Pass is required to mint rare NFTs.
+                    {t("statements.gold.pass.required")}
                   </span>
                 </div>
                 <Button
@@ -130,7 +131,7 @@ export const AuctioneerModal: React.FC<Props> = ({
                   }}
                   className="text-xxs w-16 p-0 h-8"
                 >
-                  Buy
+                  {t("buy")}
                 </Button>
               </div>
             )}

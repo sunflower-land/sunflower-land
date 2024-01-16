@@ -9,6 +9,7 @@ import { Listing } from "lib/blockchain/Trader";
 import { KNOWN_ITEMS } from "features/game/types";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
+import { translate } from "lib/i18n/translate";
 
 interface ConfirmProps {
   balance: Decimal;
@@ -90,9 +91,9 @@ export const Confirming: React.FC<ConfirmProps> = ({
         </div>
       </div>
       <div className="flex space-x-2 w-full">
-        <Button onClick={onBack}>Back</Button>
+        <Button onClick={onBack}>{translate("back")}</Button>
         <Button onClick={onConfirm} disabled={insufficientFunds}>
-          Confirm
+          {translate("confirm")}
         </Button>
       </div>
     </div>

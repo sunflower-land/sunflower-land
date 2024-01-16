@@ -1,4 +1,5 @@
 import React from "react";
+import { translate } from "lib/i18n/translate";
 
 import trivia from "assets/npcs/trivia.gif";
 
@@ -9,9 +10,9 @@ export const Refunded: React.FC = () => {
         <img src={trivia} className="w-24 mb-2" />
 
         <p className="text-center mb-1">
-          Your items have been returned to your inventory
+          {translate("refunded.itemsReturned")}
         </p>
-        <p className="text-sm">Good luck next time!</p>
+        <p className="text-sm">{translate("refunded.goodLuck")}</p>
       </div>
     </div>
   );

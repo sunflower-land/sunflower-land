@@ -8,6 +8,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { GameWallet } from "features/wallet/Wallet";
+import { translate } from "lib/i18n/translate";
 
 const CONTRIBUTORS = [
   "Netherzapdos",
@@ -62,8 +63,7 @@ export const Donations: React.FC = () => {
       {state.matches("idle") && (
         <div className="flex flex-col mb-1 p-2 text-sm">
           <p className="mb-2 text-center">
-            This was a community art initiative and donations are greatly
-            appreciated!
+            {translate("donation.one")}
           </p>
 
           <div className="flex flex-wrap mt-1 mb-2 justify-center">
@@ -107,7 +107,7 @@ export const Donations: React.FC = () => {
                 />
               </div>
             </div>
-            <span className="text-xs text-shadow my-2">Amount in MATIC</span>
+            <span className="text-xs text-shadow my-2">{translate("donation.amount")}</span>
           </div>
 
           <Button
@@ -115,23 +115,23 @@ export const Donations: React.FC = () => {
             onClick={donate}
             disabled={donation < 0.1}
           >
-            <span className="text-xs whitespace-nowrap">Donate</span>
+            <span className="text-xs whitespace-nowrap">{translate("donation.donate")}</span>
           </Button>
         </div>
       )}
       {state.matches("donating") && (
         <div className="flex flex-col items-center">
-          <p className="loading mb-4">Donating</p>
+          <p className="loading mb-4">{translate("donation.donating")}</p>
         </div>
       )}
       {state.matches("donated") && (
         <div className="flex flex-col items-center">
-          <p className="mb-4">Thank you!</p>
+          <p className="mb-4">{translate("donation.Ty")}</p>
         </div>
       )}
       {state.matches("error") && (
         <div className="flex flex-col items-center">
-          <p className="my-4">Oh no! Something went wrong!</p>
+          <p className="my-4">{translate("donation.wrong")}</p>
         </div>
       )}
       {state.matches("confirming") && (

@@ -6,6 +6,7 @@ import { Tab } from "components/ui/Tab";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { translate } from "lib/i18n/translate";
 
 interface TabsProps {
   disabled: boolean;
@@ -48,7 +49,7 @@ export const Tabs: React.FC<TabsProps> = ({
       onClick={!disabled ? () => setIsSelling(false) : undefined}
     >
       <img src={token} className="h-4 sm:h-5 mr-2" />
-      <span className="text-sm text-ellipsis">Buy</span>
+      <span className="text-sm text-ellipsis">{translate("buy")}</span>
     </Tab>
     <img
       src={SUNNYSIDE.icons.close}

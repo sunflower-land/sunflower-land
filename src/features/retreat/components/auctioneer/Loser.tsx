@@ -6,7 +6,7 @@ import { Button } from "components/ui/Button";
 import { AuctionResults } from "features/game/lib/auctionMachine";
 import { Context } from "features/game/GameProvider";
 import { AuctionLeaderboardTable } from "./AuctionLeaderboardTable";
-
+import { translate } from "lib/i18n/translate";
 interface Props {
   onRefund: () => void;
   results: AuctionResults;
@@ -31,10 +31,10 @@ export const Loser: React.FC<Props> = ({ farmId, onRefund, results }) => {
         status="loser"
       />
       <div className="my-2">
-        <Label type="danger">You were unsuccessful</Label>
+        <Label type="danger">{translate("loser.unsuccess")}</Label>
       </div>
       <Button className="mt-2" onClick={refund}>
-        Refund resources
+        {translate("loser.refund")}
       </Button>
     </div>
   );

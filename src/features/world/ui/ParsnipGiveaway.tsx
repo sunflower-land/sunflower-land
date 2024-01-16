@@ -8,6 +8,7 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { BONUSES } from "features/game/types/bonuses";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useContext, useState } from "react";
+import { translate } from "lib/i18n/translate";
 
 export const ParsnipGiveaway: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -35,9 +36,9 @@ export const ParsnipGiveaway: React.FC<{ onClose: () => void }> = ({
     return (
       <>
         <div className="p-2">
-          <p className="text-sm mb-2">Wow, nice horns!</p>
+          <p className="text-sm mb-2">{translate("parsnip.hat")}</p>
           <p className="text-sm mb-2">
-            {`Don't miss out on future events and giveaways!`}
+            {translate("parsnip.miss")}
           </p>
         </div>
       </>
@@ -67,14 +68,14 @@ export const ParsnipGiveaway: React.FC<{ onClose: () => void }> = ({
           type="warning"
           icon={SUNNYSIDE.decorations.treasure_chest}
         >
-          Bonus reward
+          {translate("parsnip.Bonus")}
         </Label>
-        <p className="text-xs mb-2">Woohoo....you found me!</p>
+        <p className="text-xs mb-2">{translate("parsnip.found")}</p>
         <p className="text-xs mb-2">
           {`You've discovered a special event wearable.`}
         </p>
       </div>
-      <Button onClick={acknowledge}>Claim Gift</Button>
+      <Button onClick={acknowledge}>{translate("parsnip.gift")}</Button>
     </>
   );
 };

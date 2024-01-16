@@ -3,6 +3,7 @@ import { Modal } from "react-bootstrap";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { Message, SpeakingModal } from "features/game/components/SpeakingModal";
 import { Panel } from "components/ui/Panel";
+import { translate } from "lib/i18n/translate";
 
 type CommunityModal = {
   npc: {
@@ -73,7 +74,7 @@ export const CommunityModals: React.FC = () => {
         )}
         {modal?.type === "loading" && (
           <Panel>
-            <span className="loading">Loading</span>
+            <span className="loading">{translate("loading")}</span>
           </Panel>
         )}
       </Modal>

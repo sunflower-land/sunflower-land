@@ -12,10 +12,12 @@ import { Drafting } from "./components/Drafting";
 import { Cancelling } from "./components/Cancelling";
 import { Confirming } from "./components/Confirming";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const TAX = 0.1;
 
 export const Selling: React.FC = () => {
+  const { t } = useAppTranslation();
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
 
@@ -90,9 +92,9 @@ export const Selling: React.FC = () => {
           alt="alert"
           className="mr-2 w-6"
         />
-        <span className="text-xs">{"Something went wrong!"}</span>
+        <span className="text-xs">{t("error.wentWrong")}</span>
       </div>
-      <Button onClick={() => tradingPostService.send("CLOSE")}>Close</Button>
+      <Button onClick={() => tradingPostService.send("CLOSE")}>{t("close")}</Button>
     </>
   );
 };

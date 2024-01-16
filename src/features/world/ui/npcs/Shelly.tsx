@@ -21,6 +21,7 @@ import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { translate } from "lib/i18n/translate";
 
 interface OrderCardsProps {
   tentaclesAvailable: Decimal;
@@ -130,7 +131,7 @@ export const ShellyPanelContent: React.FC<ContentProps> = ({
         onClose={onClose}
         message={[
           {
-            text: `I am waiting for the new season to start. Come back to me then!`,
+            text: translate("shellyPanelContent.tasksFrozen"),
           },
         ]}
       />
@@ -143,8 +144,8 @@ export const ShellyPanelContent: React.FC<ContentProps> = ({
       message={[
         {
           text: canTrade
-            ? "Oh my, you've got a Kraken Tentacle! I'll swap it for some mermaid scales."
-            : "Looks like you don't have any Kraken Tentacles at hand! Come back when you do.",
+            ? translate("shellyPanelContent.canTrade")
+            : translate("shellyPanelContent.cannotTrade"),
           jsx: (
             <OrderCards
               tentaclesAvailable={tentaclesAvailable}
@@ -156,13 +157,13 @@ export const ShellyPanelContent: React.FC<ContentProps> = ({
             ...(canTrade
               ? [
                   {
-                    text: `Swap`,
+                    text: translate("shellyPanelContent.swap"),
                     cb: handleTrade,
                   },
                 ]
               : [
                   {
-                    text: `Close`,
+                    text: translate("shellyPanelContent.close"),
                     cb: onClose,
                   },
                 ]),
@@ -191,13 +192,13 @@ export const KrakenIntro: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         bumpkinParts={NPC_WEARABLES.shelly}
         message={[
           {
-            text: "Well done! The Kraken has stopped terrorising Bumpkins.",
+            text: translate("krakenIntro.congrats"),
           },
           {
-            text: `You have collected all the tentacles for the week. Let's keep a close eye on it, I'm sure the hunger will return.`,
+            text: translate("krakenIntro.noMoreTentacles"),
             actions: [
               {
-                text: "Got it!",
+                text: translate("krakenIntro.gotIt"),
                 cb: () => onClose(),
               },
             ],
@@ -215,16 +216,16 @@ export const KrakenIntro: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       bumpkinParts={NPC_WEARABLES.shelly}
       message={[
         {
-          text: "The Kraken's appetite is constantly changing.",
+          text: translate("krakenIntro.appetiteChanges"),
         },
         {
-          text: `Right now it has a hunger for ${state.catchTheKraken.hunger}....Phew, that's better than Bumpkins.`,
+          text: `Right now it has a hunger for ${state.catchTheKraken.hunger}....Phew, that's better than Bumpkins.`, //Translate
         },
         {
-          text: "Head to your fishing spot and try catch the beast!",
+          text: translate("krakenIntro.catchInstruction"),
           actions: [
             {
-              text: "Got it!",
+              text: translate("krakenIntro.gotIt"),
               cb: () => onClose(),
             },
           ],
@@ -279,22 +280,22 @@ export const Shelly: React.FC<Props> = ({ onClose }) => {
         bumpkinParts={NPC_WEARABLES.shelly}
         message={[
           {
-            text: "Howdy, Bumpkin! Welcome to the beach!",
+            text: translate("shelly.Dialogue.one"),
           },
           {
-            text: "After a hard day's work on your farm, there's no better place to kick back and enjoy the waves.",
+            text: translate("shelly.Dialogue.two"),
           },
           {
-            text: "But we've got a bit of a situation. A massive kraken has emerged and taken control of our beloved beach.",
+            text: translate("shelly.Dialogue.three"),
           },
           {
-            text: "We could really use your help, dear. Grab your bait and fishing rods, and together, we'll tackle this colossal problem!",
+            text: translate("shelly.Dialogue.four"),
           },
           {
-            text: "For each tentacle you catch I will provide you with valuable mermaid scales!",
+            text: translate("shelly.Dialogue.five"),
             actions: [
               {
-                text: "Let's do it!",
+                text: translate("shelly.Dialogue.letsgo"),
                 cb: () => setShowBeachIntro(false),
               },
             ],

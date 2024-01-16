@@ -9,8 +9,10 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { MapPlacement } from "./MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const ModalDescription = () => {
+  const { t } = useAppTranslation();
   return (
     <>
       <div className="flex justify-center mb-3"></div>
@@ -25,7 +27,7 @@ const ModalDescription = () => {
         target="_blank"
         rel="noreferrer"
       >
-        Read more
+        {t("read.more")}
       </a>
     </>
   );

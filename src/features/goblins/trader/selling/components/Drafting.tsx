@@ -12,6 +12,7 @@ import { getKeys } from "features/game/types/craftables";
 import token from "assets/icons/token_2.png";
 import { ItemLimits } from "lib/blockchain/Trader";
 import { Draft } from "../lib/sellingMachine";
+import { translate } from "lib/i18n/translate";
 
 const MAX_SFL = new Decimal(10000);
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
@@ -102,8 +103,8 @@ export const Drafting: React.FC<DraftingProps> = ({
       <div className="p-2">
         <span>
           {hasItemsToList
-            ? "Select an item to list"
-            : "No items available to list"}
+            ? translate("drafting.select")
+            : translate("drafting.noitem")}
         </span>
         <div className="flex flex-wrap mt-2">
           {inventoryItems.map((itemName) => (
@@ -122,7 +123,7 @@ export const Drafting: React.FC<DraftingProps> = ({
             "opacity-50": !hasItemsToList,
           })}
         >
-          <h1 className="mb-4">Trade Details</h1>
+          <h1 className="mb-4">{translate("drafting.trade.detail")}</h1>
           <div className="flex items-start justify-between mb-2">
             <div className="relative w-full mr-4">
               <input
@@ -152,7 +153,7 @@ export const Drafting: React.FC<DraftingProps> = ({
               )}
             </div>
           </div>
-          <div className="text-left w-full mb-2">for</div>
+          <div className="text-left w-full mb-2">{translate("for")}</div>
           <div className="flex items-center justify-between mb-2">
             <div className="relative w-full mr-4">
               <input
@@ -177,13 +178,13 @@ export const Drafting: React.FC<DraftingProps> = ({
         </div>
       </div>
       <div className="flex space-x-2 w-full">
-        <Button onClick={onBack}>Back</Button>
+        <Button onClick={onBack}>{translate("back")}</Button>
         <Button
           onClick={onConfirm}
           disabled={disableListTradeButton}
           className="whitespace-nowrap"
         >
-          List trade
+          {translate("list.trade")}
         </Button>
       </div>
     </>

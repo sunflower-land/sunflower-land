@@ -20,6 +20,8 @@ import { OuterPanel } from "components/ui/Panel";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { Label } from "components/ui/Label";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const INPUT_MAX_CHAR = 10;
@@ -32,6 +34,7 @@ const ListTrade: React.FC<{
   onList: (items: Items, sfl: number) => void;
   onCancel: () => void;
 }> = ({ inventory, onList, onCancel }) => {
+  const { t } = useAppTranslation();
   const [selected, setSelected] = useState<Items>({});
   const [sfl, setSFL] = useState(1);
   const select = (name: InventoryItemName) => {
@@ -56,7 +59,7 @@ const ListTrade: React.FC<{
 
   return (
     <div>
-      <p className="mb-1 p-1 text-sm">What would you like to list?</p>
+      <p className="mb-1 p-1 text-sm">{t("bumpkinTrade.like.list")}</p>
 
       <div className="flex flex-wrap">
         {getKeys(TRADE_LIMITS)
@@ -131,7 +134,7 @@ const ListTrade: React.FC<{
               />
             </div>
           ))}
-          <p className="text-sm ml-2">Asking price:</p>
+          <p className="text-sm ml-2">{t("bumpkinTrade.askPrice")}</p>
 
           <div className="flex items-center relative">
             <span className="text-xxs absolute right-[10px] top-[-5px]">{`Max: ${MAX_SFL}`}</span>
@@ -176,7 +179,7 @@ const ListTrade: React.FC<{
       )}
       <div className="flex">
         <Button className="mr-1" onClick={() => onCancel()}>
-          Cancel
+          {t("cancel")}
         </Button>
         <Button
           disabled={
@@ -189,7 +192,7 @@ const ListTrade: React.FC<{
           }
           onClick={() => onList(selected, sfl)}
         >
-          List
+          {t("list")}
         </Button>
       </div>
     </div>
@@ -201,13 +204,14 @@ const TradeDetails: React.FC<{
   onCancel: () => void;
   onClaim: () => void;
 }> = ({ trade, onCancel, onClaim }) => {
+  const { t } = useAppTranslation();
   if (trade.boughtAt) {
     return (
       <div>
         <div className="flex items-center   mb-2 mt-1 mx-1">
           <img src={SUNNYSIDE.icons.heart} className="h-4 mr-1" />
           <p className="text-xs">
-            Congratulations, your listing was purchased!
+            {t("bumpkinTrade.purchased")}
           </p>
         </div>
         <OuterPanel>
@@ -230,7 +234,7 @@ const TradeDetails: React.FC<{
             </div>
             <div className="flex flex-col justify-between h-full">
               <Button className="mb-1" onClick={onClaim}>
-                Claim
+                {t("claim")}
               </Button>
 
               <div className="flex items-center mt-3 mr-0.5">
@@ -249,7 +253,7 @@ const TradeDetails: React.FC<{
       <div className="flex items-center   mb-2 mt-1 mx-1">
         <img src={CROP_LIFECYCLE.Pumpkin.crop} className="h-4 mr-1" />
         <p className="text-xs">
-          Travel to the plaza so players can trade with you
+          {t("bumpkinTrade.plaza")}
         </p>
       </div>
       <OuterPanel>
@@ -266,7 +270,7 @@ const TradeDetails: React.FC<{
           </div>
           <div className="flex flex-col justify-between h-full">
             <Button className="mb-1" onClick={onCancel}>
-              Cancel
+              {t("cancel")}
             </Button>
 
             <div className="flex items-center">
@@ -287,7 +291,7 @@ export const Trade: React.FC = () => {
 
   // Show listings
   const trades = gameState.context.state.trades?.listings ?? {};
-
+  const { t } = useAppTranslation();
   const level = getBumpkinLevel(
     gameState.context.state.bumpkin?.experience ?? 0
   );
@@ -296,12 +300,12 @@ export const Trade: React.FC = () => {
     return (
       <div className="relative">
         <Label type="info" className="absolute top-2 right-2">
-          Beta
+          {t("beta")}
         </Label>
         <div className="p-1 flex flex-col items-center">
           <img src={lock} className="w-1/5 mx-auto my-2 img-highlight-heavy" />
-          <p className="text-sm">You must be level 10 to trade</p>
-          <p className="text-xs mb-2">Feed your Bumpkin to level up</p>
+          <p className="text-sm">{t("bumpkinTrade.lvl")}</p>
+          <p className="text-xs mb-2">{t("statements.lvlUp")}</p>
         </div>
       </div>
     );
@@ -325,16 +329,16 @@ export const Trade: React.FC = () => {
     return (
       <div className="relative">
         <Label type="info" className="absolute top-2 right-2">
-          Beta
+          {translate("beta")}
         </Label>
         <div className="p-1 flex flex-col items-center">
           <img src={token} className="w-1/5 mx-auto my-2 img-highlight-heavy" />
-          <p className="text-sm">You have no trades listed.</p>
+          <p className="text-sm">{t("bumpkinTrade.noTradeLs")}</p>
           <p className="text-xs mb-2">
-            Sell your resources to other players for SFL.
+            {t("bumpkinTrade.sell")}
           </p>
         </div>
-        <Button onClick={() => setShowListing(true)}>List trade</Button>
+        <Button onClick={() => setShowListing(true)}>{t("bumpkinTrade.list")}</Button>
       </div>
     );
   }

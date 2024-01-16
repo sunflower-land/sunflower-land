@@ -9,6 +9,7 @@ import { MapPlacement } from "../MapPlacement";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   x: number;
@@ -39,9 +40,9 @@ export const Snorkler: React.FC<Props> = ({ x, y }) => {
                 width: `${PIXEL_SCALE * 11}px`,
               }}
             />
-            <p>It is a vast ocean!</p>
+            <p>{translate("snorkler.vastOcean")}</p>
             <p className="mt-2">
-              There must be gold somewhere beneath the surface.
+              <p>{translate("snorkler.goldBeneath")}</p>
             </p>
           </div>
         </Panel>

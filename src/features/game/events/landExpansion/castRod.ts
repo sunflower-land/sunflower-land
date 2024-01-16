@@ -10,6 +10,7 @@ import {
 } from "features/game/types/fishing";
 import Decimal from "decimal.js-light";
 import { isWearableActive } from "features/game/lib/wearables";
+import { translate } from "lib/i18n/translate";
 
 export type CastRodAction = {
   type: "rod.casted";
@@ -35,17 +36,17 @@ export function castRod({
   const location = action.location;
 
   if (!game.bumpkin) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("error.noBumpkin2"));
   }
 
-  if (getDailyFishingCount(game) >= getDailyFishingLimit(game)) {
-    throw new Error("Daily attempts exhausted");
+  if (getDailyFishingCount(game) >= getDailyFishingLimit(game.bumpkin)) {
+    throw new Error(translate("error.dailyAttemptsExhausted"));
   }
 
   const rodCount = game.inventory.Rod ?? new Decimal(0);
   // Requires Rod
-  if (rodCount.lt(1) && !isWearableActive({ name: "Ancient Rod", game })) {
-    throw new Error("Missing rod");
+  if (rodCount.lt(1) && game.bumpkin.equipped.tool !== "Ancient Rod") {
+    throw new Error(translate("error.missingRod"));
   }
 
   // Requires Bait
@@ -55,14 +56,14 @@ export function castRod({
   }
 
   if (game.fishing[location].castedAt) {
-    throw new Error("Already casted");
+    throw new Error(translate("error.alreadyCasted"));
   }
 
   // Subtract Chum
   if (action.chum) {
     const chumAmount = CHUM_AMOUNTS[action.chum] ?? 0;
     if (!chumAmount) {
-      throw new Error(`${action.chum} is not a supported chum`);
+      throw new Error(`${action.chum} Axe is not a supported chum`);
     }
 
     const inventoryChum = game.inventory[action.chum] ?? new Decimal(0);
@@ -75,7 +76,7 @@ export function castRod({
   }
 
   // Subtracts Rod
-  if (!isWearableActive({ name: "Ancient Rod", game })) {
+  if (game.bumpkin.equipped.tool !== "Ancient Rod") {
     game.inventory.Rod = rodCount.sub(1);
   }
 

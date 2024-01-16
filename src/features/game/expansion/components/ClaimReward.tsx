@@ -16,6 +16,7 @@ import { CONSUMABLES, ConsumableName } from "features/game/types/consumables";
 import { setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
+import { translate } from "lib/i18n/translate";
 
 interface ClaimRewardProps {
   reward: IAirdrop;
@@ -44,7 +45,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
           type="warning"
           icon={SUNNYSIDE.decorations.treasure_chest}
         >
-          Reward Discovered
+          {translate("reward.discovered")}
         </Label>
         {airdrop.message && (
           <p className="text-xs mb-2 ml-1">{airdrop.message}</p>
@@ -106,10 +107,10 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
       </div>
 
       <div className="flex items-center mt-1">
-        {onClose && <Button onClick={onClose}>Close</Button>}
+        {onClose && <Button onClick={onClose}>{translate("close")}</Button>}
         {onClaim && (
           <Button onClick={onClaim} className="ml-1">
-            Claim
+            {translate("claim")}
           </Button>
         )}
       </div>

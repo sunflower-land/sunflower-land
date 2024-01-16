@@ -2,7 +2,7 @@ import React from "react";
 import Decimal from "decimal.js-light";
 
 import goblin from "assets/npcs/goblin_head.png";
-
+import { translate } from "lib/i18n/translate";
 import { Button } from "components/ui/Button";
 import {
   FarmSlot,
@@ -61,7 +61,7 @@ export const Idle: React.FC<IdleProps> = ({
                 key={farmSlot.slotId}
                 className="border-4 border-dashed border-brown-600 p-3 flex items-center justify-center mb-3"
               >
-                <span className="text-sm">Empty</span>
+                <span className="text-sm">{translate("empty")}</span>
               </div>
             );
           }
@@ -94,15 +94,15 @@ export const Idle: React.FC<IdleProps> = ({
           <>
             <img src={goblin} className="w-12" />
             <span className="text-sm">
-              {"Ready to trade?"}
+              {translate("ready.trade")}
               <br />
-              {"Enter a Land ID to browse what's on offer."}
+              {translate("visit.enter.land")}
             </span>
           </>
         )}
         <div className="flex items-center">
           <span className="text-shadow text-sm mr-2 whitespace-nowrap">
-            {"Land ID: "}
+            {translate("land.id")}
           </span>
           <input
             type="number"
@@ -111,7 +111,7 @@ export const Idle: React.FC<IdleProps> = ({
           />
         </div>
         <Button className="w-full overflow-hidden text-sm" type="submit">
-          Visit land
+          {translate("visit.land")}
         </Button>
       </form>
     </div>

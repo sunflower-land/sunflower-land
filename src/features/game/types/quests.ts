@@ -1,5 +1,6 @@
 import { BumpkinItem } from "./bumpkin";
 import { GameState } from "./game";
+import { translate } from "lib/i18n/translate";
 
 export type QuestName =
   | "Farmer Quest 1"
@@ -21,14 +22,14 @@ export type Quest = {
 
 export const QUESTS: Record<QuestName, Quest> = {
   "Farmer Quest 1": {
-    description: "Harvest 1000 Sunflowers",
+    description: translate("questDescription.farmerQuest1"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Sunflower Harvested"] || 0,
     requirement: 1000,
     wearable: "Red Farmer Shirt",
   },
   "Fruit Quest 1": {
-    description: "Harvest 10 Blueberries",
+    description: translate("questDescription.fruitQuest1"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Blueberry Harvested"] || 0,
     requirement: 10,
@@ -36,7 +37,7 @@ export const QUESTS: Record<QuestName, Quest> = {
     deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
   "Fruit Quest 2": {
-    description: "Harvest 100 Orange",
+    description: translate("questDescription.fruitQuest2"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Orange Harvested"] || 0,
     requirement: 100,
@@ -44,7 +45,7 @@ export const QUESTS: Record<QuestName, Quest> = {
     deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
   "Fruit Quest 3": {
-    description: "Harvest 750 Apples",
+    description: translate("questDescription.fruitQuest3"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Apple Harvested"] || 0,
     requirement: 750,
@@ -52,7 +53,7 @@ export const QUESTS: Record<QuestName, Quest> = {
     deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
   "Pirate Quest 1": {
-    description: "Dig 30 holes",
+    description: translate("questDescription.pirateQuest1"),
     progress: (gameState: GameState) =>
       (gameState.bumpkin?.activity?.["Treasure Dug"] || 0) +
       (gameState.bumpkin?.activity?.["Treasure Drilled"] || 0),
@@ -61,7 +62,7 @@ export const QUESTS: Record<QuestName, Quest> = {
     deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
   "Pirate Quest 2": {
-    description: "Collect 10 Seaweed",
+    description: translate("questDescription.pirateQuest2"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Seaweed Dug"] || 0,
     requirement: 10,
@@ -69,7 +70,7 @@ export const QUESTS: Record<QuestName, Quest> = {
     deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
   "Pirate Quest 3": {
-    description: "Collect 10 Pipis",
+    description: translate("questDescription.pirateQuest3"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Pipi Dug"] || 0,
     requirement: 10,
@@ -77,7 +78,7 @@ export const QUESTS: Record<QuestName, Quest> = {
     deadline: new Date(Date.now() + 10000000000).toISOString(),
   },
   "Pirate Quest 4": {
-    description: "Collect 5 Corals",
+    description: translate("questDescription.pirateQuest4"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Coral Dug"] || 0,
     requirement: 5,

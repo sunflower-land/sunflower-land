@@ -19,6 +19,7 @@ import { ZoomContext } from "components/ZoomProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { translate } from "lib/i18n/translate";
 
 const tool = "Iron Pickaxe";
 
@@ -177,7 +178,7 @@ const RecoveredGoldComponent: React.FC<Props> = ({
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>Equip {tool.toLowerCase()}</span>
+              <span>{translate("equip")} {tool.toLowerCase()}</span>
             </div>
           </InnerPanel>
         </div>

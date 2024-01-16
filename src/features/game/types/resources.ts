@@ -1,4 +1,5 @@
 import { Dimensions } from "./craftables";
+import { translate } from "lib/i18n/translate";
 
 export type CommodityName =
   | "Wood"
@@ -23,34 +24,34 @@ export type Commodity = {
 
 export const COMMODITIES: Record<CommodityName, Commodity> = {
   Wood: {
-    description: "Used to craft items",
+    description: translate("use.craft"),
   },
   Stone: {
-    description: "Used to craft items",
+    description: translate("use.craft"),
   },
   Iron: {
-    description: "Used to craft items",
+    description: translate("use.craft"),
   },
   Gold: {
-    description: "Used to craft items",
+    description: translate("use.craft"),
   },
   Diamond: {
-    description: "Used to craft items",
+    description: translate("use.craft"),
   },
   Egg: {
-    description: "Used to craft items",
+    description: translate("use.craft"),
   },
   Chicken: {
-    description: "Used to lay eggs",
+    description: translate("chicken.description"),
   },
   Honey: {
-    description: "Used to sweeten your cooking",
+    description: translate("honey.description"),
   },
   "Wild Mushroom": {
-    description: "Used to cook basic recipes",
+    description: translate("wildMushroom.description"),
   },
   "Magic Mushroom": {
-    description: "Used to cook advanced recipes",
+    description: translate("magicMushroom.description"),
   },
 };
 

@@ -11,6 +11,7 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { translate } from "lib/i18n/translate";
 
 export const TimeWarpTotem: React.FC<CollectibleProps> = ({
   createdAt,
@@ -36,9 +37,7 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
               className="w-10 mx-auto my-2"
             />
             <p className="text-xs mb-2 text-center">
-              Your Time Warp Totem has expired. Head to the Pumpkin Plaza to
-              discover and craft more magical items to boost your farming
-              abilities!
+              {translate("description.time.warp.totem.expired")}
             </p>
           </div>
           <Button
@@ -50,7 +49,7 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
               });
             }}
           >
-            Remove
+            {translate("remove")}
           </Button>
         </>
       );
@@ -64,8 +63,7 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
             className="w-10 mx-auto my-2"
           />
           <p className="text-xs mb-2 text-center">
-            The Time Warp Totem temporarily boosts your cooking, crops, trees &
-            mineral time. Make the most of it!
+            {translate("description.time.warp.totem.temporarily")}
           </p>
         </div>
         <Button
@@ -73,7 +71,7 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
             setShowModal(false);
           }}
         >
-          Got it
+          {translate("gotIt")}
         </Button>
       </>
     );

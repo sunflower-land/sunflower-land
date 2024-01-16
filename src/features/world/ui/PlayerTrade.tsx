@@ -16,6 +16,8 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { hasMaxItems } from "features/game/lib/processEvent";
 import { Label } from "components/ui/Label";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   farmId: number;
@@ -31,6 +33,8 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [listing, setListing] = useState<{ id: string; trade: TradeListing }>();
   const [showConfirm, setShowConfirm] = useState(false);
+
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     const load = async () => {
@@ -62,26 +66,26 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
     return (
       <div className="relative">
         <Label type="info" className="absolute top-2 right-2">
-          Beta
+          {translate("beta")}
         </Label>
         <div className="p-1 flex flex-col items-center">
           <img src={lock} className="w-1/5 mx-auto my-2 img-highlight-heavy" />
-          <p className="text-sm">You must be level 10 to trade</p>
-          <p className="text-xs mb-2">Feed your Bumpkin to level up</p>
+          <p className="text-sm">{t("bumpkinTrade.lvl")}</p>
+          <p className="text-xs mb-2">{t("statements.lvlUp")}</p>
         </div>
       </div>
     );
   }
 
   if (isLoading) {
-    return <p className="loading">Loading</p>;
+    return <p className="loading">{translate("playerTrade.loading")}</p>;
   }
 
   if (!listing)
     return (
       <div className="p-2">
         <img src={SUNNYSIDE.icons.sad} className="mx-auto w-1/5 my-2" />
-        <p className="text-sm mb-2 text-center">No trades available.</p>
+        <p className="text-sm mb-2 text-center">{translate("playerTrade.no.trade")}</p>
       </div>
     );
 
@@ -90,10 +94,10 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
       <div className="p-1 flex flex-col items-center">
         <img src={lock} className="w-1/5 mb-2" />
         <p className="text-sm mb-1 text-center">
-          {`Oh no! You've reached your max items.`}
+          {translate("playerTrade.max.item")}
         </p>
         <p className="text-xs mb-1 text-center">
-          Please store your progress on chain before continuing.
+          {translate("playerTrade.Progress")}
         </p>
       </div>
     );
@@ -104,10 +108,10 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
       <div className="p-1 flex flex-col items-center">
         <img src={SUNNYSIDE.icons.timer} className="w-1/6 mb-2" />
         <p className="text-sm mb-1 text-center">
-          Oh oh! It looks like you have a transaction in progress.
+          {translate("playerTrade.transaction")}
         </p>
         <p className="text-xs mb-1 text-center">
-          Please allow 5 minutes before continuing.
+          {translate("playerTrade.Please")}
         </p>
       </div>
     );
@@ -153,7 +157,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
         <div className="flex items-center justify-end">
           <img src={SUNNYSIDE.icons.neutral} className="h-4 mr-1"></img>
 
-          <span className="text-xs">Sold</span>
+          <span className="text-xs">{translate("playerTrade.sold")}</span>
         </div>
       );
     }
@@ -171,7 +175,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
         >
           <div className="flex items-center">
             <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
-            <span className="text-xs">Confirm</span>
+            <span className="text-xs">{translate("confirm")}</span>
           </div>
         </Button>
       );
@@ -188,15 +192,15 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
           confirm();
         }}
       >
-        Buy
+        {t("buy")}
       </Button>
     );
   };
   return (
     <div>
       <div className="flex justify-between items-center mb-1">
-        <p className="text-xs mb-1 ml-0.5">For sale:</p>
-        <Label type="info">Beta</Label>
+        <p className="text-xs mb-1 ml-0.5">{translate("playerTrade.sale")}</p>
+        <Label type="info">{t("beta")}</Label>
       </div>
       <OuterPanel>
         <div className="flex justify-between">

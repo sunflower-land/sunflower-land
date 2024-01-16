@@ -1,13 +1,14 @@
+import { translate } from "lib/i18n/translate";
 import React from "react";
 
 export const Beta: React.FC = () => {
   return (
     <>
       <span className="text-shadow">
-        Beta is only accessible to our OG farmers.
+      {translate("statements.beta.one")}
       </span>
       <span className="text-shadow text-xs block mt-4">
-        Stay tuned for updates. We will be going live soon!
+        {translate("statements.beta.two")}
       </span>
     </>
   );

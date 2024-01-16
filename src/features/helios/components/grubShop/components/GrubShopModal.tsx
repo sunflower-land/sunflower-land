@@ -20,12 +20,14 @@ import { getOrderSellPrice } from "features/game/expansion/lib/boosts";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CountdownLabel } from "components/ui/CountdownLabel";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
 }
 
 export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const [showTutorial, setShowTutorial] = useState<boolean>(
     !hasShownTutorial("Grub Shop")
   );
@@ -86,7 +88,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
     if (selectedFulFilled) {
       return (
         <Label type="success" className="-mt-2 mb-1">
-          Order fulfilled
+          {t("message.orderFulfilled")}
         </Label>
       );
     }
@@ -100,9 +102,9 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
     if (isClosed) {
       return (
         <div className="p-2">
-          <p>The Grub Shop is closed on Tuesdays.</p>
+          <p>{t("message.grubShopClosed")}</p>
           <p className="mt-4 text-sm">
-            Come back tomorrow to view the Grublin Orders.
+          {t("message.grublinOrders")}
           </p>
         </div>
       );
@@ -119,7 +121,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
             <div className="flex md:flex-row flex-wrap w-full sm:w-3/5 h-fit max-h-48 sm:max-h-96 overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1">
               {isAllFullFilled && (
                 <div className="flex items-center mb-2">
-                  <p className="text-xs mr-2">More orders in</p>
+                  <p className="text-xs mr-2">{t("message.moreOrdersIn")}</p>
                   <CountdownLabel timeLeft={secondsLeft} />
                 </div>
               )}
@@ -168,7 +170,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                     className="text-xxs underline hover:text-blue-500"
                     rel="noreferrer"
                   >
-                    Bonus Offer
+                    {t("message.bonusOffer")}
                   </a>
                   <img src={SUNNYSIDE.icons.timer} className="h-4 ml-2" />
                   {/* TEMP */}
@@ -181,7 +183,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                 </div>
                 <div className="flex items-center">
                   <p className="text-xxs">
-                    Earn 10 Seasonal Tickets for each meal.
+                  {t("message.earnSeasonalTickets")}
                   </p>
                 </div>
 
@@ -249,7 +251,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                     className="text-xxs sm:text-xs"
                     onClick={handleSell}
                   >
-                    Sell 1
+                    {t("sell")} 1
                   </Button>
                 )}
               </OuterPanel>

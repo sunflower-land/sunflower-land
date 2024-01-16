@@ -29,6 +29,8 @@ import {
 } from "features/game/types/fishing";
 import { MachineState } from "features/game/lib/gameMachine";
 import { isWearableActive } from "features/game/lib/wearables";
+import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -59,7 +61,7 @@ const ChumSelection: React.FC<{
 
   return (
     <div>
-      <p className="mb-1 p-1 text-xs">Select your resource:</p>
+      <p className="mb-1 p-1 text-xs">{translate("select.resource")}</p>
 
       <div className="flex flex-wrap">
         {getKeys(CHUM_AMOUNTS)
@@ -96,13 +98,13 @@ const ChumSelection: React.FC<{
 
       <div className="flex">
         <Button className="mr-1" onClick={() => onCancel()}>
-          Cancel
+          {translate("cancel")}
         </Button>
         <Button
           disabled={!hasRequirements}
           onClick={() => onList(selected as InventoryItemName)}
         >
-          Confirm
+          {translate("confirm")}
         </Button>
       </div>
     </div>
@@ -128,6 +130,8 @@ const BaitSelection: React.FC<{
   const [showChum, setShowChum] = useState(false);
   const [chum, setChum] = useState<InventoryItemName | undefined>();
   const [bait, setBait] = useState<FishingBait>("Earthworm");
+
+  const { t } = useAppTranslation();
 
   if (showChum) {
     return (
@@ -188,7 +192,7 @@ const BaitSelection: React.FC<{
           </div>
 
           <Label icon={SUNNYSIDE.tools.fishing_rod} type="default">
-            Daily Limit: {dailyFishingCount}/{dailyFishingMax}
+            {t("statements.daily.limit")} {dailyFishingCount}/{dailyFishingMax}
           </Label>
         </div>
       </div>
@@ -212,19 +216,19 @@ const BaitSelection: React.FC<{
               <p className="text-xs">{ITEM_DETAILS[bait].description}</p>
               {!state.inventory[bait] && bait !== "Fishing Lure" && (
                 <Label className="mt-1" type="default">
-                  Craft at Composter
+                  {translate("statements.craft.composter")}
                 </Label>
               )}
               {!state.inventory[bait] && bait === "Fishing Lure" && (
                 <Label className="mt-1" type="default">
-                  Craft at Beach
+                  {translate("fishermanModal.craft.beach")}
                 </Label>
               )}
             </div>
           </div>
           {!state.inventory[bait] && (
             <Label className="absolute -top-3 right-0" type={"danger"}>
-              0 available
+              {translate("fishermanModal.zero.available")}
             </Label>
           )}
         </OuterPanel>
@@ -249,7 +253,7 @@ const BaitSelection: React.FC<{
               className="h-4 mr-1"
             />
             <p className="text-xs mb-1">
-              Attract fish by throwing chum into the water.
+              {translate("fishermanModal.attractFish")}
             </p>
           </div>
           <Button
@@ -266,13 +270,13 @@ const BaitSelection: React.FC<{
 
       {fishingLimitReached && (
         <Label className="mb-1" type="danger">
-          You have reached your daily fishing limit of {dailyFishingMax}.
+          {translate("fishermanModal.dailyLimitReached")} {dailyFishingMax}
         </Label>
       )}
 
       {!fishingLimitReached && missingRod && (
         <Label className="mb-1" type="danger">
-          You must first craft a rod.
+          {translate("fishermanModal.needCraftRod")}
         </Label>
       )}
 
@@ -313,7 +317,7 @@ export const FishermanModal: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const weather = useSelector(gameService, currentWeather);
-
+  const { t } = useAppTranslation();
   const [showIntro, setShowIntro] = React.useState(!hasRead());
 
   const [
@@ -334,15 +338,15 @@ export const FishermanModal: React.FC<Props> = ({
         <SpeakingText
           message={[
             {
-              text: `Ahoy, fellow islanders! I'm ${capitalizeFirstLetters(
+              text: `Ahoy, fellow islanders! I'm ${capitalizeFirstLetters(  //Translate
                 npc
-              )}, your trusty island fisherman, and I've set my sights on a grand challenge – collecting every fish under the sun!`,
+              )}, your trusty island fisherman, and I've set my sights on a grand challenge  collecting every fish under the sun!`,
             },
             {
-              text: "Fish are great for eating, delivering and claiming rewards!",
+              text: translate("fishermanModal.fishBenefits"),
             },
             {
-              text: "Bring me bait and resources and we'll reel in the rarest prizes that the ocean has to offer!",
+              text: translate("fishermanModal.baitAndResources"),
             },
           ]}
           onClose={() => {
@@ -360,10 +364,10 @@ export const FishermanModal: React.FC<Props> = ({
         <SpeakingText
           message={[
             {
-              text: "Wow, something crazy is happening......It is a fish frenzy!",
+              text: translate("fishermanModal.crazyHappening"),
             },
             {
-              text: "Hurry, you will get a bonus fish for each catch!",
+              text: translate("fishermanModal.bonusFish"),
             },
           ]}
           onClose={() => {
@@ -382,7 +386,7 @@ export const FishermanModal: React.FC<Props> = ({
         { icon: SUNNYSIDE.tools.fishing_rod, name: "Fish" },
         {
           icon: SUNNYSIDE.icons.expression_confused,
-          name: "Guide",
+          name: t("guide"),
         },
       ]}
       currentTab={tab}

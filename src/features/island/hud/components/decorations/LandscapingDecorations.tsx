@@ -17,12 +17,14 @@ import { MachineInterpreter } from "features/game/expansion/placeable/landscapin
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
 }
 
 export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const [selectedName, setSelectedName] =
     useState<LandscapingDecorationName>("Bush");
 
@@ -98,7 +100,7 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
           }}
           actionView={
             <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>
-              Buy
+              {t("buy")}
             </Button>
           }
         />
@@ -116,7 +118,7 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
             />
           ))}
           <span className="text-xxs mt-2">
-            Travel to the plaza to craft rare decorations!
+            {t("statements.frankie.plaza")}
           </span>
         </>
       }

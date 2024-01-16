@@ -12,6 +12,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { translate } from "lib/i18n/translate";
 
 const GROUPS: {
   channel: string;
@@ -75,21 +76,21 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const getContent = (): JSX.Element => {
     if (state === "error") {
-      return <span className="text-shadow">Error!</span>;
+      return <span className="text-shadow">{translate("getContent.error")}</span>;
     }
 
     if (state === "joining") {
-      return <span className="text-shadow loading">Joining</span>;
+      return <span className="text-shadow loading">{translate("getContent.joining")}</span>;
     }
 
     if (state === "joined") {
       return (
         <>
           <span className="text-shadow mt-2 block text-center">
-            Congratulations!
+            {translate("getContent.congratulations")}
           </span>
           <span className="text-shadow my-2 block text-center">
-            You now have access. Go check out the channel in Discord
+            {translate("getContent.accessGranted")}
           </span>
         </>
       );
@@ -99,22 +100,22 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
       return (
         <>
           <span className="text-shadow my-2 block text-sm p-2">
-            You must be connected to Discord to join a restricted channel.
+            {translate("getContent.connectToDiscord")}
           </span>
-          <Button onClick={oauth}>Connect</Button>
+          <Button onClick={oauth}>{translate("getContent.connect")}</Button>
         </>
       );
     }
 
     return (
       <span className="text-shadow my-2 block text-sm">
-        Get access to restricted groups on Discord
+        {translate("getContent.getAccess")}
         {GROUPS.map((group) => (
           <div key={group.channel} className="flex justify-between w-full mt-4">
             <div>
               <span className="flex-1">{group.channel}</span>
               <div className="flex items-center flex-wrap">
-                <span className="text-xs mr-2">Requires a </span>
+                <span className="text-xs mr-2">{translate("getContent.requires")}{" "}</span>
                 {group.items.map((name) => (
                   <img
                     key={name}
@@ -129,7 +130,7 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
               onClick={() => addRole(group.role)}
               disabled={!group.items.some((name) => inventory[name])}
             >
-              Join
+              {translate("getContent.join")}
             </Button>
           </div>
         ))}
@@ -137,7 +138,7 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
           <div>
             <span className="flex-1">#bud-clubhouse</span>
             <div className="flex items-center flex-wrap">
-              <span className="text-xs mr-2">Requires a Bud</span>
+              <span className="text-xs mr-2">{translate("getContent.requires")}</span>
               <img src={budIcon} className="h-6 mr-2" />
             </div>
           </div>
@@ -146,7 +147,7 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
             onClick={() => addRole("bud-clubhouse")}
             disabled={Object.keys(buds ?? {}).length === 0}
           >
-            Join
+            {translate("getContent.join")}
           </Button>
         </div>
       </span>

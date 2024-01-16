@@ -3,6 +3,7 @@ import React from "react";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
+import { translate } from "lib/i18n/translate";
 
 interface ConfirmingCancelProps {
   onConfirm: () => void;
@@ -26,7 +27,7 @@ export const Cancelling: React.FC<ConfirmingCancelProps> = ({
       <span className="py-2">{`${resourceAmount} ${resourceName}`}</span>
     </div>
     <div className="flex space-x-2 w-full">
-      <Button onClick={onBack}>Back</Button>
+      <Button onClick={onBack}>{translate("back")}</Button>
       <Button onClick={onConfirm} className="whitespace-nowrap">
         Cancel trade
       </Button>

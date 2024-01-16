@@ -4,13 +4,14 @@ import React, { useContext } from "react";
 import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { GameWallet } from "features/wallet/Wallet";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
 }
 export const StoreOnChainModal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
-
+  const { t } = useAppTranslation();
   const storeData = () => {
     gameService.send("SYNC", {
       captcha: "",
@@ -35,13 +36,13 @@ export const StoreOnChainModal: React.FC<Props> = ({ onClose }) => {
         <>
           <div className="p-2">
             <p className="text-sm mb-2">
-              Do you wish to store your progress on the Blockchain?
+              {t("transaction.blockchain.one")}
             </p>
             <p className="text-xxs italic mb-2">
-              Storing data on the Blockchain does not restock shops.
+              {t("transaction.blockchain.one")}
             </p>
           </div>
-          <Button onClick={storeData}>Store progress</Button>
+          <Button onClick={storeData}>{t("transaction.progress")}</Button>
         </>
       </GameWallet>
     </CloseButtonPanel>

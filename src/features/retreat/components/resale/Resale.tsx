@@ -8,6 +8,7 @@ import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { translate } from "lib/i18n/translate";
 
 export const Resale: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -21,14 +22,14 @@ export const Resale: React.FC = () => {
       <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>
         <CloseButtonPanel
           onClose={() => setIsOpen(false)}
-          title="Looking for rare items?"
+          title={translate("resale.lookingForItems")}
         >
           <div className="p-2">
             <p className="text-sm mb-3">
-              Players can trade special items they crafted in-game.
+              {translate("retreatTerms.resale.one")}
             </p>
             <p className="text-sm mb-3">
-              You can purchase these on secondary marketplaces like OpenSea.
+              {translate("retreatTerms.resale.two")}
             </p>
 
             <Button
@@ -39,7 +40,7 @@ export const Resale: React.FC = () => {
                 );
               }}
             >
-              View items on OpenSea
+              {translate("retreatTerms.resale.three")}
             </Button>
           </div>
         </CloseButtonPanel>
@@ -67,7 +68,7 @@ export const Resale: React.FC = () => {
           >
             <Action
               className="pointer-events-none"
-              text="Resale"
+              text={translate("resale.actionText")}
               icon={SUNNYSIDE.icons.heart}
             />
           </div>

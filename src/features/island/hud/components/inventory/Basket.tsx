@@ -39,6 +39,7 @@ import {
   FRUIT_COMPOST,
 } from "features/game/types/composters";
 import { FISH, PURCHASEABLE_BAIT } from "features/game/types/fishing";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Prop {
   gameState: GameState;
@@ -48,6 +49,8 @@ interface Prop {
 
 export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const divRef = useRef<HTMLDivElement>(null);
+
+  const { t } = useAppTranslation();
 
   const { inventory, bumpkin, collectibles, buildings, buds } = gameState;
   const basketMap = getBasketItems(inventory);
@@ -196,23 +199,23 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       }
       content={
         <>
-          {itemsSection("Seeds", allSeeds)}
-          {itemsSection("Fertilisers", [
+          {itemsSection(t("seeds"), allSeeds)}
+          {itemsSection(t("fertilisers"), [
             ...cropCompost,
             ...fruitCompost,
             ...fertilisers,
           ])}
-          {itemsSection("Crops", crops)}
-          {itemsSection("Fruits", fruits)}
-          {itemsSection("Exotic", [...exotic, ...exotics])}
-          {itemsSection("Tools", allTools)}
-          {itemsSection("Resources", resources)}
-          {itemsSection("Bait", [...worm, ...purchaseableBait])}
-          {itemsSection("Fish", fish)}
-          {itemsSection("Foods", [...foods, ...pirateCake])}
-          {itemsSection("Bounty", bounty)}
-          {itemsSection("Coupons", coupons)}
-          {itemsSection("Easter Eggs", easterEggs)}
+          {itemsSection(t("crops"), crops)}
+          {itemsSection(t("fruits"), fruits)}
+          {itemsSection(t("exotics"), [...exotic, ...exotics])}
+          {itemsSection(t("tools"), allTools)}
+          {itemsSection(t("resources"), resources)}
+          {itemsSection(t("bait"), [...worm, ...purchaseableBait])}
+          {itemsSection(t("fish"), fish)}
+          {itemsSection(t("tools"), [...foods, ...pirateCake])}
+          {itemsSection(t("bounty"), bounty)}
+          {itemsSection(t("coupons"), coupons)}
+          {itemsSection(t("easter.eggs"), easterEggs)}
         </>
       }
     />

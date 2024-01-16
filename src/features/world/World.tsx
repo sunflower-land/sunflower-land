@@ -25,6 +25,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { IslandNotFound } from "features/game/expansion/components/IslandNotFound";
 import { WorldIntroduction } from "./ui/WorldIntroduction";
 import { Snow } from "./ui/Snow";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   isCommunity?: boolean;
@@ -134,7 +135,7 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
         <Modal show centered>
           <Panel>
             {/* Kicked reasons */}
-            <p className="">Kicked</p>
+            <p className="">{translate("chat.Kicked")}</p>
           </Panel>
         </Modal>
       </Ocean>
@@ -155,7 +156,7 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
     <Ocean>
       <Modal show centered backdrop={false}>
         <Panel>
-          <p className="loading">Loading</p>
+          <p className="loading">{translate("chat.Loading")}</p>
         </Panel>
       </Modal>
     </Ocean>

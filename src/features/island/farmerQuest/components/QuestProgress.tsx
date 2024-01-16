@@ -10,6 +10,7 @@ import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { setPrecision } from "lib/utils/formatNumber";
 import { CountdownLabel } from "components/ui/CountdownLabel";
 import { ResizableBar } from "components/ui/ProgressBar";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   questName: QuestName;
@@ -70,7 +71,7 @@ export const QuestProgress: React.FC<Props> = ({
           onClick={onClaim}
           disabled={!isComplete}
         >
-          <span>Mint Free Wearable</span>
+          <span>{translate("quest.mint.free")}</span>
         </Button>
       </div>
     </div>

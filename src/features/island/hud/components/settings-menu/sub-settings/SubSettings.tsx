@@ -12,6 +12,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { WalletContext } from "features/wallet/WalletProvider";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   isOpen: boolean;
@@ -54,7 +55,7 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
     }
 
     return (
-      <CloseButtonPanel title="Advanced" onClose={onClose}>
+      <CloseButtonPanel title={translate("subSettings.title")} onClose={onClose}>
         <Button className="col p-1" onClick={onToggleAnimations}>
           {showAnimations ? "Disable Animations" : "Enable Animations"}
         </Button>
@@ -65,11 +66,11 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
               className="col p-1 mt-2"
               onClick={() => setView("transfer")}
             >
-              Transfer Ownership
+              {translate("subSettings.transferOwnership")}
             </Button>
 
             <Button className="col p-1 mt-2" onClick={refreshSession}>
-              Refresh
+              {translate("subSettings.refresh")}
             </Button>
 
             <div className="flex items-start">
@@ -78,8 +79,7 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
                 className="w-12 pt-2 pr-2"
               />
               <span className="text-xs mt-2">
-                Refresh your session to grab the latest changes from the
-                Blockchain. This is useful if you deposited items to your farm.
+                {translate("subSettings.refreshDescription")}
               </span>
             </div>
           </>

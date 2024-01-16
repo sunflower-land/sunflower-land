@@ -7,6 +7,7 @@ import { Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CROP_SEEDS, SEEDS, SeedName } from "features/game/types/seeds";
 import React, { useState } from "react";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   onPlant: (seed: SeedName) => void;
@@ -24,7 +25,7 @@ export const SeedSelection: React.FC<Props> = ({ onPlant, inventory }) => {
       <div className="p-2">
         {!seed && (
           <Label className="mb-1" icon={SUNNYSIDE.icons.seeds} type="danger">
-            Seed not selected
+            {translate("availableSeeds.select")}
           </Label>
         )}
 
@@ -38,7 +39,7 @@ export const SeedSelection: React.FC<Props> = ({ onPlant, inventory }) => {
           </Label>
         )}
 
-        <p className="text-xs">What seed would you like to select and plant?</p>
+        <p className="text-xs">{translate("availableSeeds.select.plant")}</p>
         <div className="flex flex-wrap my-1">
           {availableSeeds.map((name) => (
             <Box
@@ -57,7 +58,7 @@ export const SeedSelection: React.FC<Props> = ({ onPlant, inventory }) => {
           onPlant(seed as SeedName);
         }}
       >
-        Plant
+        {translate("availableSeeds.plant")}
       </Button>
     </>
   );

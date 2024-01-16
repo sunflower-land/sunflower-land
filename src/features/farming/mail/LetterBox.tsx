@@ -18,6 +18,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { getKeys } from "features/game/types/craftables";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const LetterBox: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -29,7 +30,7 @@ export const LetterBox: React.FC = () => {
   const [selected, setSelected] = useState<string>();
 
   const announcements = gameState.context.announcements;
-
+  const { t } = useAppTranslation();
   const close = () => {
     setIsOpen(false);
   };
@@ -73,7 +74,7 @@ export const LetterBox: React.FC = () => {
     return (
       <CloseButtonPanel
         onClose={close}
-        tabs={[{ icon: SUNNYSIDE.icons.expression_chat, name: "Bumpkin Buzz" }]}
+        tabs={[{ icon: SUNNYSIDE.icons.expression_chat, name: t("bumpkinBuzz") }]}
         currentTab={tab}
         setCurrentTab={setTab}
       >

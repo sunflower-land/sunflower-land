@@ -2,10 +2,11 @@ import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { WalletContext } from "features/wallet/WalletProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const MultipleWallets: React.FC = () => {
   const { walletService } = useContext(WalletContext);
-
+  const { t } = useAppTranslation();
   const goToDocs = () => {
     window.open(
       "https://docs.sunflower-land.com/getting-started/web3-wallets#multiple-wallets",
@@ -23,21 +24,20 @@ export const MultipleWallets: React.FC = () => {
             className="w-3 mr-3"
           />
         </div>
-        <p className="text-center mb-3">Multiple Wallets</p>
+        <p className="text-center mb-3">{t("error.multipleWallets.one")}</p>
         <p className="mb-2 text-xs">
-          It looks like you have multiple wallets installed. This can cause
-          unexpected behaviour.Try to disable all but one wallet.
+        {t("error.multipleWallets.two")}
         </p>
       </div>
       <div className="flex space-x-1">
         <Button
-          onClick={() => walletService.send("RESET")}
+          onClick={() => authService.send("REFRESH")}
           className="overflow-hidden"
         >
-          <span>Go back</span>
+          <span>{t("back")}</span>
         </Button>
         <Button onClick={goToDocs} className="overflow-hidden">
-          <span>Go to docs</span>
+          <span>{t("statements.docs")}</span>
         </Button>
       </div>
     </>

@@ -18,6 +18,7 @@ import {
   PurchaseableBait,
 } from "features/game/types/fishing";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { translate } from "lib/i18n/translate";
 
 export const BeachBaitShop: React.FC = () => {
   const [selectedName, setSelectedName] =
@@ -66,7 +67,7 @@ export const BeachBaitShop: React.FC = () => {
           }}
           actionView={
             <Button disabled={lessIngredients()} onClick={craft}>
-              Craft
+              {translate("craft")}
             </Button>
           }
         />

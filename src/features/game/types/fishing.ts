@@ -3,6 +3,7 @@ import { Worm } from "./composters";
 import { GameState, InventoryItemName } from "./game";
 import { Tool } from "./tools";
 import { isWearableActive } from "../lib/wearables";
+import { translate } from "lib/i18n/translate";
 
 export type PurchaseableBait = "Fishing Lure";
 export type FishingBait = Worm | PurchaseableBait;
@@ -57,7 +58,7 @@ export const PURCHASEABLE_BAIT: Record<PurchaseableBait, Tool> = {
       "Block Buck": new Decimal(1),
     },
     sfl: new Decimal(0),
-    description: "Great for catching rare fish!",
+    description: translate("purchaseableBait.fishingLure.description"),
     name: "Fishing Lure",
   },
 };
@@ -93,32 +94,32 @@ export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
 };
 
 export const CHUM_DETAILS: Partial<Record<InventoryItemName, string>> = {
-  Gold: "The shimmering gold can be seen 100 miles away",
-  Iron: "A shimmering sparkle, can be seen at all angles during Dusk",
-  Egg: "Hmmm, not sure what fish would like eggs...",
-  Sunflower: "A sunny, vibrant lure for curious fish.",
-  Potato: "Potatoes make for an unusual fishy feast.",
-  Pumpkin: "Fish might be intrigued by the orange glow of pumpkins.",
-  Carrot: "Best used with Earthworms to catch Anchovies!",
-  Cabbage: "A leafy temptation for underwater herbivores.",
-  Beetroot: "Beets, the undersea delight for the bold fish.",
-  Cauliflower: "Fish may find the florets oddly enticing.",
-  Parsnip: "An earthy, rooty lure for curious fish.",
-  Eggplant: "Eggplants: the aquatic adventure for the daring fish.",
-  Corn: "Corn on the cob – an odd but intriguing treat.",
-  Radish: "Radishes, the buried treasure for aquatics.",
-  Wheat: "Wheat, a grainy delight for underwater foragers.",
-  Kale: "A leafy green surprise for the inquisitive fish.",
-  Blueberry: "Often confused by blue fish as potential mates.",
-  Orange: "Oranges, the citrusy curiosity for sea creatures.",
-  Apple: "Apples – a crunchy enigma beneath the waves.",
-  Banana: "Lighter than water!",
-  Seaweed: "A taste of the ocean in a leafy underwater snack.",
-  Crab: "A tantalizing morsel for a curious undersea fish.",
-  Anchovy: "Anchovies, mysteriously alluring to the outlaws of the sea.",
-  "Red Snapper": "A mystery hidden within the depths of the ocean.",
-  Tuna: "What is big enough to eat a tuna?",
-  Squid: "Awaken a ray with its favorite treat!",
+  Gold: translate("chumDetails.gold"),
+  Iron: translate("chumDetails.iron"),
+  Egg: translate("chumDetails.egg"),
+  Sunflower: translate("chumDetails.sunflower"),
+  Potato: translate("chumDetails.potato"),
+  Pumpkin: translate("chumDetails.pumpkin"),
+  Carrot: translate("chumDetails.carrot"),
+  Cabbage: translate("chumDetails.cabbage"),
+  Beetroot: translate("chumDetails.beetroot"),
+  Cauliflower: translate("chumDetails.cauliflower"),
+  Parsnip: translate("chumDetails.parsnip"),
+  Eggplant: translate("chumDetails.eggplant"),
+  Corn: translate("chumDetails.corn"),
+  Radish: translate("chumDetails.radish"),
+  Wheat: translate("chumDetails.wheat"),
+  Kale: translate("chumDetails.kale"),
+  Blueberry: translate("chumDetails.blueberry"),
+  Orange: translate("chumDetails.orange"),
+  Apple: translate("chumDetails.apple"),
+  Banana: translate("chumDetails.banana"),
+  Seaweed: translate("chumDetails.seaweed"),
+  Crab: translate("chumDetails.crab"),
+  Anchovy: translate("chumDetails.anchovy"),
+  "Red Snapper": translate("chumDetails.redSnapper"),
+  Tuna: translate("chumDetails.tuna"),
+  Squid: translate("chumDetails.squid"),
 };
 
 export type FishingLocation = "beach" | "wharf";

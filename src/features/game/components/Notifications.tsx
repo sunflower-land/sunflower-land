@@ -6,6 +6,7 @@ import { Button } from "components/ui/Button";
 import { PIXEL_SCALE } from "../lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "../GoblinProvider";
+import { translate } from "lib/i18n/translate";
 
 const CONTENT_HEIGHT = 400;
 
@@ -46,7 +47,7 @@ export const Notifications: React.FC = () => {
           </div>
         ))}
       </div>
-      <Button onClick={onAcknowledge}>Continue</Button>
+      <Button onClick={onAcknowledge}>{translate("continue")}</Button>
     </>
   );
 };

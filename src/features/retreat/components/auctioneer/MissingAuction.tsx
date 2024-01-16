@@ -5,6 +5,7 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { MachineInterpreter } from "features/game/lib/auctionMachine";
 import { Context } from "features/game/GameProvider";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   auctionService: MachineInterpreter;
@@ -20,10 +21,10 @@ export const MissingAuction: React.FC<Props> = ({ auctionService }) => {
 
   return (
     <div className="flex flex-col items-center">
-      <p className="mb-2">Auction no longer exists</p>
+      <p className="mb-2">{translate("loser.longer")}</p>
       <img src={SUNNYSIDE.icons.neutral} className="w-12 mb-2" />
       <Button className="mt-2" onClick={refund}>
-        Refund
+        {translate("loser.refund.one")}
       </Button>
     </div>
   );

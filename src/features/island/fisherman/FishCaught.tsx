@@ -6,6 +6,7 @@ import { FISH } from "features/game/types/fishing";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   farmActivity: GameState["farmActivity"];
@@ -28,9 +29,9 @@ export const FishCaught: React.FC<Props> = ({
               className="w-10 my-2 absolute -top-[12%] left-1/2 -translate-x-1/2"
             />
           </div>
-          <p className="text-sm mb-2 text-center">Oh no! It got away</p>
+          <p className="text-sm mb-2 text-center">{translate("fishermanQuest.Ohno")}</p>
         </div>
-        <Button onClick={onClaim}>Ok</Button>
+        <Button onClick={onClaim}>{translate("ok")}</Button>
       </>
     );
   }
@@ -51,7 +52,7 @@ export const FishCaught: React.FC<Props> = ({
               {isNew && (
                 // TODO - use codex icon
                 <Label type="warning" icon={SUNNYSIDE.icons.search}>
-                  New fish
+                  {translate("fishermanQuest.Newfish")}
                 </Label>
               )}
               <span className="text-sm mb-2">{name}</span>

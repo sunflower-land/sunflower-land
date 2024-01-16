@@ -12,6 +12,7 @@ import { BuildingName } from "features/game/types/buildings";
 import { PlacedItem } from "features/game/types/game";
 import { MachineState } from "features/game/lib/gameMachine";
 import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   defaultSelectedIndex?: number;
@@ -57,7 +58,7 @@ export const TentModal: React.FC<Props> = ({
   const MainContent = () => (
     <div className="flex flex-col space-y-4">
       <div>
-        <p className="text-sm mb-1">Showing on Farm</p>
+        <p className="text-sm mb-1">{translate("showing.farm")}</p>
         <div className="flex flex-wrap">
           {farmingBumpkins
             .map((bumpkin) => interpretTokenUri(bumpkin.tokenURI))
@@ -77,7 +78,7 @@ export const TentModal: React.FC<Props> = ({
       </div>
       {nonFarmingBumpkins.length > 0 && (
         <div>
-          <p className="text-sm mb-1">In Wallet</p>
+          <p className="text-sm mb-1">{translate("showing.wallet")}</p>
           <div className="flex flex-wrap">
             {nonFarmingBumpkins
               .map((bumpkin) => interpretTokenUri(bumpkin.tokenURI))

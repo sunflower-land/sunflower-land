@@ -15,6 +15,7 @@ import { Auction } from "features/game/lib/auctionMachine";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { translate } from "lib/i18n/translate";
 
 type Props = {
   item: Auction;
@@ -81,7 +82,7 @@ export const AuctionDetails: React.FC<Props> = ({
         ? !!game.inventory[item.collectible]
         : !!game.wardrobe[item.wearable]
     ) {
-      return <Label type="info">Already minted</Label>;
+      return <Label type="info">{translate("alr.minted")}</Label>;
     }
     if (isUpcomingItem) {
       return null;
@@ -158,7 +159,7 @@ export const AuctionDetails: React.FC<Props> = ({
       </div>
 
       <div className="mb-2 flex flex-col items-center">
-        <span className="text-xs mb-1">Requirements</span>
+        <span className="text-xs mb-1">{translate("action.requirement")}</span>
         <div className="flex items-center justify-center">
           {item.sfl > 0 && (
             <div className="flex items-center">
@@ -181,11 +182,11 @@ export const AuctionDetails: React.FC<Props> = ({
             rel="noopener noreferrer"
             className="text-xs  underline mb-0.5"
           >
-            Starting Time
+            {translate("action.start")}
           </a>
           {isMintStarted ? (
             <Label type="warning" className="mt-1">
-              Auction is live
+              {translate("action.live")}
             </Label>
           ) : (
             TimerDisplay({ time: start })
@@ -198,11 +199,11 @@ export const AuctionDetails: React.FC<Props> = ({
             rel="noopener noreferrer"
             className="text-xs  underline mb-0.5"
           >
-            Auction Period
+            {translate("action.period")}
           </a>
           {isMintComplete ? (
             <Label type="danger" className="mt-1">
-              Auction closed
+              {translate("action.closed")}
             </Label>
           ) : isMintStarted ? (
             TimerDisplay({ time: end })

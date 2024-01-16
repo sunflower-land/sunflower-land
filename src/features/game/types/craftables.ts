@@ -17,6 +17,7 @@ import {
 } from "./collectibles";
 import { BoostTreasure } from "./treasure";
 import { MarineMarvelName } from "./fishing";
+import { translate } from "lib/i18n/translate";
 
 export { FLAGS };
 
@@ -240,7 +241,7 @@ export type Animal = "Chicken" | "Cow" | "Pig" | "Sheep";
 export const FOODS: () => Record<Food, CraftableItem> = () => ({
   "Pumpkin Soup": {
     name: "Pumpkin Soup",
-    description: "A creamy soup that goblins love",
+    description: translate("description.pumpkin.soup"),
     tokenAmount: marketRate(3),
     ingredients: [
       {
@@ -252,7 +253,7 @@ export const FOODS: () => Record<Food, CraftableItem> = () => ({
   },
   Sauerkraut: {
     name: "Sauerkraut",
-    description: "Fermented cabbage",
+    description: translate("description.sauerkraut"),
     tokenAmount: marketRate(25),
     ingredients: [
       {
@@ -263,7 +264,7 @@ export const FOODS: () => Record<Food, CraftableItem> = () => ({
   },
   "Roasted Cauliflower": {
     name: "Roasted Cauliflower",
-    description: "A Goblin's favourite",
+    description: translate("description.roasted.cauliflower"),
     tokenAmount: marketRate(150),
     ingredients: [
       {
@@ -274,7 +275,7 @@ export const FOODS: () => Record<Food, CraftableItem> = () => ({
   },
   "Radish Pie": {
     name: "Radish Pie",
-    description: "Despised by humans, loved by goblins",
+    description: translate("description.radish.pie"),
     tokenAmount: marketRate(300),
     ingredients: [
       {
@@ -289,7 +290,7 @@ export const FOODS: () => Record<Food, CraftableItem> = () => ({
 export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Sunflower Cake": {
     name: "Sunflower Cake",
-    description: "Sunflower Cake",
+    description: translate("description.sunflower.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(320),
     ingredients: [
@@ -309,7 +310,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Potato Cake": {
     name: "Potato Cake",
-    description: "Potato Cake",
+    description: translate("description.potato.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(320),
     ingredients: [
@@ -329,7 +330,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Pumpkin Cake": {
     name: "Pumpkin Cake",
-    description: "Pumpkin Cake",
+    description: translate("description.pumpkin.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(320),
     ingredients: [
@@ -349,7 +350,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Carrot Cake": {
     name: "Carrot Cake",
-    description: "Carrot Cake",
+    description: translate("description.carrot.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(360),
     ingredients: [
@@ -369,7 +370,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Cabbage Cake": {
     name: "Cabbage Cake",
-    description: "Cabbage Cake",
+    description: translate("description.cabbage.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(360),
     ingredients: [
@@ -389,7 +390,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Beetroot Cake": {
     name: "Beetroot Cake",
-    description: "Beetroot Cake",
+    description: translate("description.beetroot.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(560),
     ingredients: [
@@ -409,7 +410,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Cauliflower Cake": {
     name: "Cauliflower Cake",
-    description: "Cauliflower Cake",
+    description: translate("description.cauliflower.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(560),
     ingredients: [
@@ -429,7 +430,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Parsnip Cake": {
     name: "Parsnip Cake",
-    description: "Parsnip Cake",
+    description: translate("description.parsnip.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(560),
     ingredients: [
@@ -449,7 +450,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Radish Cake": {
     name: "Radish Cake",
-    description: "Radish Cake",
+    description: translate("description.radish.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(560),
     ingredients: [
@@ -469,7 +470,7 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   },
   "Wheat Cake": {
     name: "Wheat Cake",
-    description: "Wheat Cake",
+    description: translate("description.wheat.cake"),
     tokenAmount: new Decimal(0),
     sellPrice: marketRate(560),
     ingredients: [
@@ -488,13 +489,13 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
 export const TOOLS: Record<ToolName, CraftableItem> = {
   Axe: {
     name: "Axe",
-    description: "Used to collect wood",
+    description: translate("description.axe"),
     tokenAmount: new Decimal(1),
     ingredients: [],
   },
   Pickaxe: {
     name: "Pickaxe",
-    description: "Used to collect stone",
+    description: translate("description.pickaxe"),
     tokenAmount: new Decimal(1),
     ingredients: [
       {
@@ -505,7 +506,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   },
   "Stone Pickaxe": {
     name: "Stone Pickaxe",
-    description: "Used to collect iron",
+    description: translate("description.stone.pickaxe"),
     tokenAmount: new Decimal(2),
     ingredients: [
       {
@@ -520,7 +521,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   },
   "Iron Pickaxe": {
     name: "Iron Pickaxe",
-    description: "Used to collect gold",
+    description: translate("description.iron.pickaxe"),
     tokenAmount: new Decimal(5),
     ingredients: [
       {
@@ -535,7 +536,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   },
   Hammer: {
     name: "Hammer",
-    description: "Coming soon",
+    description: translate("description.hammer"),
     tokenAmount: new Decimal(5),
     ingredients: [
       {
@@ -551,7 +552,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   },
   Rod: {
     name: "Rod",
-    description: "Used to catch fish",
+    description: translate("description.rod"),
     tokenAmount: new Decimal(5),
     ingredients: [
       {
@@ -566,13 +567,13 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
 export const SHOVELS: Record<Shovel, CraftableItem> = {
   "Rusty Shovel": {
     name: "Rusty Shovel",
-    description: "Used to remove buildings and collectibles",
+    description: translate("description.rusty.shovel"),
     ingredients: [],
     hidden: true,
   },
   Shovel: {
     name: "Shovel",
-    description: "Plant and harvest crops.",
+    description: translate("description.shovel"),
     tokenAmount: new Decimal(0),
     ingredients: [
       {
@@ -594,22 +595,22 @@ export const SHOVELS: Record<Shovel, CraftableItem> = {
 export const QUEST_ITEMS: Record<QuestItem, LimitedItem> = {
   "Goblin Key": {
     name: "Goblin Key",
-    description: "The Goblin Key",
+    description: translate("description.goblin.key"),
     type: LimitedItemType.QuestItem,
   },
   "Sunflower Key": {
     name: "Sunflower Key",
-    description: "The Sunflower Key",
+    description: translate("description.sunflower.key"),
     type: LimitedItemType.QuestItem,
   },
   "Ancient Goblin Sword": {
     name: "Ancient Goblin Sword",
-    description: "An Ancient Goblin Sword",
+    description: translate("description.ancient.goblin.sword"),
     type: LimitedItemType.QuestItem,
   },
   "Ancient Human Warhammer": {
     name: "Ancient Human Warhammer",
-    description: "An Ancient Human Warhammer",
+    description: translate("description.ancient.human.warhammer"),
     type: LimitedItemType.QuestItem,
   },
 };
@@ -618,25 +619,25 @@ export const SALESMAN_ITEMS: Record<TravelingSalesmanItem, LimitedItem> = {
   "Wicker Man": {
     name: "Wicker Man",
     description:
-      "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
+      translate("description.wicker.man"),
     disabled: false,
     section: Section["Wicker Man"],
   },
   "Golden Bonsai": {
     name: "Golden Bonsai",
-    description: "Goblins love bonsai too",
+    description: translate("description.golden bonsai"),
     section: Section["Golden Bonsai"],
     isPlaceholder: true,
   },
   "Victoria Sisters": {
     name: "Victoria Sisters",
-    description: "The pumpkin loving sisters",
+    description: translate("description.victoria.sisters"),
     section: Section["Golden Bonsai"],
     isPlaceholder: true,
   },
   "Christmas Bear": {
     name: "Christmas Bear",
-    description: "Santa's favorite",
+    description: translate("description.christmas.bear"),
     section: Section["Christmas Bear"],
     isPlaceholder: true,
   },
@@ -645,64 +646,64 @@ export const SALESMAN_ITEMS: Record<TravelingSalesmanItem, LimitedItem> = {
 export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
   "Sunflower Amulet": {
     name: "Sunflower Amulet",
-    description: "10% increased Sunflower yield",
+    description: translate("description.sunflower.amulet"),
     type: LimitedItemType.WarTentItem,
   },
   "Carrot Amulet": {
     name: "Carrot Amulet",
-    description: "Carrots grow 20% faster",
+    description: translate("description.carrot.amulet"),
     type: LimitedItemType.WarTentItem,
   },
   "Beetroot Amulet": {
     name: "Beetroot Amulet",
-    description: "20% increased Beetroot yield",
+    description: translate("description.betroot.amulet"),
     type: LimitedItemType.WarTentItem,
   },
   "Green Amulet": {
     name: "Green Amulet",
-    description: "Chance for 10x crop yield",
+    description: translate("description.green.amulet"),
     type: LimitedItemType.WarTentItem,
   },
   "Warrior Shirt": {
     name: "Warrior Shirt",
-    description: "A mark of a true warrior",
+    description: translate("description.warrior.shirt"),
     type: LimitedItemType.WarTentItem,
   },
   "Warrior Pants": {
     name: "Warrior Pants",
-    description: "Protect your thighs",
+    description: translate("description.warrior.pants"),
     type: LimitedItemType.WarTentItem,
   },
   "Warrior Helmet": {
     name: "Warrior Helmet",
-    description: "Immune to arrows",
+    description: translate("description.warrior.helmet"),
     type: LimitedItemType.WarTentItem,
   },
   "Sunflower Shield": {
     name: "Sunflower Shield",
-    description: "A hero of Sunflower Land. Free Sunflower Seeds!",
+    description: translate("description.sunflower.shield"),
     type: LimitedItemType.WarTentItem,
   },
   "Skull Hat": {
     name: "Skull Hat",
-    description: "A rare hat for your Bumpkin.",
+    description: translate("description.skull.hat"),
     type: LimitedItemType.WarTentItem,
   },
   "War Skull": {
     name: "War Skull",
-    description: "Decorate the land with the bones of your enemies.",
+    description: translate("description.war.skull"),
     type: LimitedItemType.WarTentItem,
     canMintMultiple: true,
   },
   "War Tombstone": {
     name: "War Tombstone",
-    description: "R.I.P",
+    description: translate("description.war.tombstone"),
     type: LimitedItemType.WarTentItem,
     canMintMultiple: true,
   },
   "Undead Rooster": {
     name: "Undead Rooster",
-    description: "An unfortunate casualty of the war. 10% increased egg yield.",
+    description: translate("description.undead.rooster"),
     type: LimitedItemType.WarTentItem,
   },
 };
@@ -710,12 +711,12 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
 export const MOM_EVENT_ITEMS: Record<MOMEventItem, LimitedItem> = {
   "Engine Core": {
     name: "Engine Core",
-    description: "The power of the sunflower",
+    description: translate("description.engine.core"),
     type: LimitedItemType.MOMEventItem,
   },
   Observatory: {
     name: "Observatory",
-    description: "Explore the stars and improve scientific development",
+    description: translate("description.observatory"),
     section: Section.Observatory,
     type: LimitedItemType.MOMEventItem,
   },
@@ -724,32 +725,32 @@ export const MOM_EVENT_ITEMS: Record<MOMEventItem, LimitedItem> = {
 export const MUTANT_CHICKENS: Record<MutantChicken, LimitedItem> = {
   "Speed Chicken": {
     name: "Speed Chicken",
-    description: "Produces eggs 10% faster",
+    description: translate("description.speed.chicken.two"),
     type: LimitedItemType.MutantChicken,
   },
   "Fat Chicken": {
     name: "Fat Chicken",
-    description: "10% less wheat needed to feed a chicken",
+    description: translate("description.fat.chicken.two"),
     type: LimitedItemType.MutantChicken,
   },
   "Rich Chicken": {
     name: "Rich Chicken",
-    description: "Yields 10% more eggs",
+    description: translate("description.rich.chicken.two"),
     type: LimitedItemType.MutantChicken,
   },
   "Ayam Cemani": {
     name: "Ayam Cemani",
-    description: "The rarest chicken in Sunflower Land.",
+    description: translate("description.ayam.cemani"),
     type: LimitedItemType.MutantChicken,
   },
   "El Pollo Veloz": {
     name: "El Pollo Veloz",
-    description: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
+    description: translate("description.el.pollo.veloz.two"),
     type: LimitedItemType.MutantChicken,
   },
   "Banana Chicken": {
     name: "Banana Chicken",
-    description: "A chicken that boosts bananas. What a world we live in.",
+    description: translate("description.banana.chicken"),
     type: LimitedItemType.MutantChicken,
   },
 };
@@ -757,11 +758,11 @@ export const MUTANT_CHICKENS: Record<MutantChicken, LimitedItem> = {
 export const WAR_BANNERS: Record<WarBanner, CraftableItem> = {
   "Goblin War Banner": {
     name: "Goblin War Banner",
-    description: "A display of allegiance to the Goblin cause",
+    description: translate("description.goblin.war.banner"),
   },
   "Human War Banner": {
     name: "Human War Banner",
-    description: "A display of allegiance to the Human cause",
+    description: translate("description.human.war.banner"),
   },
 };
 
@@ -769,126 +770,126 @@ export const BLACKSMITH_ITEMS: Record<LegacyItem | "Chef Apron", LimitedItem> =
   {
     "Sunflower Statue": {
       name: "Sunflower Statue",
-      description: "A symbol of the holy token",
+      description: translate("description.sunflower.statue"),
       section: Section["Sunflower Statue"],
       type: LimitedItemType.BlacksmithItem,
     },
     "Potato Statue": {
       name: "Potato Statue",
-      description: "The OG potato hustler flex",
+      description: translate("description.potato.statue"),
       section: Section["Potato Statue"],
       type: LimitedItemType.BlacksmithItem,
     },
     "Christmas Tree": {
       name: "Christmas Tree",
-      description: "Receive a Santa Airdrop on Christmas day",
+      description: translate("description.christmas.tree"),
       section: Section["Christmas Tree"],
       type: LimitedItemType.BlacksmithItem,
     },
     Gnome: {
       name: "Gnome",
-      description: "A lucky gnome",
+      description: translate("description.gnome"),
       section: Section.Gnome,
       type: LimitedItemType.BlacksmithItem,
     },
     "Homeless Tent": {
       name: "Homeless Tent",
-      description: "A nice and cozy tent",
+      description: translate("description.homeless.tent"),
       section: Section.Tent,
       type: LimitedItemType.BlacksmithItem,
     },
     "Sunflower Tombstone": {
       name: "Sunflower Tombstone",
-      description: "In memory of Sunflower Farmers",
+      description: translate("description.sunflower.tombstone"),
       section: Section["Sunflower Tombstone"],
       type: LimitedItemType.BlacksmithItem,
     },
     "Sunflower Rock": {
       name: "Sunflower Rock",
-      description: "The game that broke Polygon",
+      description: translate("description.sunflower.rock"),
       section: Section["Sunflower Rock"],
       type: LimitedItemType.BlacksmithItem,
     },
     "Goblin Crown": {
       name: "Goblin Crown",
-      description: "Summon the leader of the Goblins",
+      description: translate("description.goblin.crown"),
       section: Section["Goblin Crown"],
       type: LimitedItemType.BlacksmithItem,
     },
     Fountain: {
       name: "Fountain",
-      description: "A relaxing fountain for your farm",
+      description: translate("description.fountain"),
       section: Section.Fountain,
       type: LimitedItemType.BlacksmithItem,
     },
     "Nyon Statue": {
       name: "Nyon Statue",
-      description: "In memory of Nyon Lann",
+      description: translate("description.nyon.statue"),
       section: Section["Nyon Statue"],
       type: LimitedItemType.BlacksmithItem,
     },
     "Farmer Bath": {
       name: "Farmer Bath",
-      description: "A beetroot scented bath for the farmers",
+      description: translate("description.farmer.bath"),
       section: Section["Bath"],
       type: LimitedItemType.BlacksmithItem,
     },
     "Woody the Beaver": {
       name: "Woody the Beaver",
-      description: "Increase wood drops by 20%",
+      description: translate("description.woody.Beaver"),
       section: Section.Beaver,
       type: LimitedItemType.BlacksmithItem,
     },
     "Apprentice Beaver": {
       name: "Apprentice Beaver",
-      description: "Trees recover 50% faster",
+      description: translate("description.apprentice.beaver"),
       section: Section.Beaver,
       type: LimitedItemType.BlacksmithItem,
     },
     "Foreman Beaver": {
       name: "Foreman Beaver",
-      description: "Cut trees without axes",
+      description: translate("description.foreman.beaver"),
       section: Section.Beaver,
       type: LimitedItemType.BlacksmithItem,
     },
     "Egg Basket": {
       name: "Egg Basket",
-      description: "Gives access to the Easter Egg Hunt",
+      description: translate("description.egg.basket"),
       type: LimitedItemType.BlacksmithItem,
     },
     "Mysterious Head": {
       name: "Mysterious Head",
-      description: "A statue thought to protect farmers",
+      description: translate("description.mysterious.head"),
       section: Section["Mysterious Head"],
       type: LimitedItemType.BlacksmithItem,
     },
     "Tunnel Mole": {
       name: "Tunnel Mole",
-      description: "Gives a 25% increase to stone mines",
+      description: translate("description.tunnel.mole"),
       section: Section.Mole,
       type: LimitedItemType.BlacksmithItem,
     },
     "Rocky the Mole": {
       name: "Rocky the Mole",
-      description: "Gives a 25% increase to iron mines",
+      description: translate("description.rocky.the.mole"),
       section: Section.Mole,
       type: LimitedItemType.BlacksmithItem,
     },
     Nugget: {
       name: "Nugget",
-      description: "Gives a 25% increase to gold mines",
+      description: translate("description.nugget"),
       section: Section.Mole,
       type: LimitedItemType.BlacksmithItem,
     },
     "Rock Golem": {
       name: "Rock Golem",
-      description: "Gives a 10% chance to get 3x stone",
+      description: translate("description.rock.golem"),
       section: Section["Rock Golem"],
       type: LimitedItemType.BlacksmithItem,
     },
     "Chef Apron": {
       name: "Chef Apron",
-      description: "Gives 20% extra SFL selling cakes",
+      description: translate("description.chef.apron"),
       type: LimitedItemType.BlacksmithItem,
     },
   };
@@ -896,36 +897,36 @@ export const BLACKSMITH_ITEMS: Record<LegacyItem | "Chef Apron", LimitedItem> =
 export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
   Nancy: {
     name: "Nancy",
-    description: "Keeps a few crows away. Crops grow 15% faster",
+    description: translate("description.nancy"),
     section: Section.Scarecrow,
     type: LimitedItemType.MarketItem,
   },
   Scarecrow: {
     name: "Scarecrow",
-    description: "A goblin scarecrow. Yield 20% more crops",
+    description: translate("description.scarecrow"),
     section: Section.Scarecrow,
     type: LimitedItemType.MarketItem,
   },
   Kuebiko: {
     name: "Kuebiko",
     description:
-      "Even the shopkeeper is scared of this scarecrow. Seeds are free",
+      translate("description.kuebiko"),
     section: Section.Scarecrow,
     type: LimitedItemType.MarketItem,
   },
   "Golden Cauliflower": {
     name: "Golden Cauliflower",
-    description: "Doubles cauliflower yield",
+    description: translate("description.golden.cauliflower"),
     type: LimitedItemType.MarketItem,
   },
   "Mysterious Parsnip": {
     name: "Mysterious Parsnip",
-    description: "Parsnips grow 50% faster",
+    description: translate("description.mysterious.parsnip"),
     type: LimitedItemType.MarketItem,
   },
   "Carrot Sword": {
     name: "Carrot Sword",
-    description: "Increase chance of a mutant crop appearing",
+    description: translate("description.carrot.sword"),
     type: LimitedItemType.MarketItem,
   },
 };
@@ -933,36 +934,36 @@ export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
 export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
   "Chicken Coop": {
     name: "Chicken Coop",
-    description: "Collect 2x the amount of eggs",
+    description: translate("description.chicken.coop"),
     section: Section["Chicken Coop"],
     type: LimitedItemType.BarnItem,
   },
   "Farm Cat": {
     name: "Farm Cat",
-    description: "Keep the rats away",
+    description: translate("description.farm.cat"),
     section: Section["Farm Cat"],
     type: LimitedItemType.BarnItem,
   },
   "Farm Dog": {
     name: "Farm Dog",
-    description: "Herd sheep with your farm dog",
+    description: translate("description.farm.dog"),
     section: Section["Farm Dog"],
     type: LimitedItemType.BarnItem,
   },
   "Gold Egg": {
     name: "Gold Egg",
-    description: "Feed chickens without needing wheat",
+    description: translate("description.gold.egg"),
     type: LimitedItemType.BarnItem,
   },
   "Easter Bunny": {
     name: "Easter Bunny",
-    description: "Earn 20% more Carrots",
+    description: translate("description.easter.bunny"),
     section: Section["Easter Bunny"],
     type: LimitedItemType.BarnItem,
   },
   Rooster: {
     name: "Rooster",
-    description: "Doubles the chance of dropping a mutant chicken",
+    description: translate("description.rooster"),
     section: Section["Rooster"],
     type: LimitedItemType.BarnItem,
   },
@@ -971,27 +972,27 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
 export const ANIMALS: () => Record<Animal, CraftableItem> = () => ({
   Chicken: {
     name: "Chicken",
-    description: "Produces eggs. Requires wheat for feeding",
+    description: translate("description.chiken"),
     tokenAmount: marketRate(200),
     ingredients: [],
   },
   Cow: {
     name: "Cow",
-    description: "Produces milk. Requires wheat for feeding",
+    description: translate("description.cow"),
     tokenAmount: new Decimal(50),
     ingredients: [],
     disabled: true,
   },
   Pig: {
     name: "Pig",
-    description: "Produces manure. Requires wheat for feeding",
+    description: translate("description.pig"),
     tokenAmount: new Decimal(20),
     ingredients: [],
     disabled: true,
   },
   Sheep: {
     name: "Sheep",
-    description: "Produces wool. Requires wheat for feeding",
+    description: translate("description.sheep"),
     tokenAmount: new Decimal(20),
     ingredients: [],
     disabled: true,

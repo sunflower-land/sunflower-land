@@ -6,6 +6,7 @@ import { CONFIG } from "lib/config";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import * as Auth from "features/auth/lib/Provider";
+import { translate } from "lib/i18n/translate";
 
 import { Context as GameContext } from "features/game/GameProvider";
 
@@ -31,7 +32,6 @@ import walletIcon from "assets/icons/wallet.png";
 import { removeJWT } from "features/auth/actions/social";
 import { WalletContext } from "features/wallet/WalletProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { translate } from "lib/i18n/translate";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -187,7 +187,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                       <Button
                         onClick={() => setShowTimeMachine(!showTimeMachine)}
                       >
-                        Time Machine
+                        {translate("settingsMenu.timeMachine")}
                       </Button>
                     </li>
 
@@ -198,13 +198,13 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                 )}
                 <li className="p-1">
                   <Button onClick={storeOnChain}>
-                    <span>Store progress on chain</span>
+                    <span>{translate("settingsMenu.storeOnChain")}</span>
                   </Button>
                 </li>
                 <li className="p-1">
                   <Button onClick={handleHowToPlay}>
                     <div className="flex items-center justify-center">
-                      <span>How to play</span>
+                      <span>{translate("settingsMenu.howToPlay")}</span>
                       <img
                         src={SUNNYSIDE.icons.expression_confused}
                         className="w-3 ml-2"
@@ -216,7 +216,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                 <>
                   <li className="p-1">
                     <Button onClick={() => setMenuLevel(MENU_LEVELS.COMMUNITY)}>
-                      <span>Community</span>
+                      <span>{translate("settingsMenu.community")}</span>
                     </Button>
                   </li>
 
@@ -227,19 +227,19 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                   </li>
                   <li className="p-1">
                     <Button onClick={handleSwapSFL}>
-                      <span>Swap MATIC for SFL</span>
+                      <span>{translate("settingsMenu.swapMaticForSFL")}</span>
                     </Button>
                   </li>
                 </>
                 <li className="p-1">
                   <Button onClick={handlePlazaSettingsClick}>
-                    <span>Plaza Settings</span>
+                    <span>{translate("settingsMenu.plazaSettings")}</span>
                   </Button>
                 </li>
 
                 <li className="p-1">
                   <Button onClick={handleSettingsClick}>
-                    <span>Advanced</span>
+                    <span>{translate("settingsMenu.advanced")}</span>
                   </Button>
                 </li>
                 <li className="p-1">
@@ -281,12 +281,12 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                 </li>
                 <li className="p-1">
                   <Button onClick={handleCommunityGardenClick}>
-                    <span>Community Garden</span>
+                    <span>{translate("settingsMenu.communityGarden")}</span>
                   </Button>
                 </li>
                 <li className="p-1">
                   <Button onClick={handleShareClick}>
-                    <span>Share</span>
+                    <span>{translate("settingsMenu.share")}</span>
                   </Button>
                 </li>
               </>

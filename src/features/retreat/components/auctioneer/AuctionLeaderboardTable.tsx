@@ -4,6 +4,7 @@ import { AuctionResults } from "features/game/lib/auctionMachine";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import sflIcon from "assets/icons/token_2.png";
+import { translate } from "lib/i18n/translate";
 
 // https://www.w3resource.com/javascript-exercises/fundamental/javascript-fundamental-exercise-122.php
 export const toOrdinalSuffix = (num: number) => {
@@ -33,16 +34,16 @@ export const AuctionLeaderboardTable: React.FC<{
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 w-[20%]"
               >
-                <p>Rank</p>
+                <p>{translate("action.rank")}</p>
               </th>
               <th
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 w-1/5"
               >
-                <p>Farm</p>
+                <p>{translate("action.farm")}</p>
               </th>
               <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
-                <p>Bid</p>
+                <p>{translate("action.bid")}</p>
               </th>
             </tr>
           </thead>

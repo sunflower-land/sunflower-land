@@ -24,7 +24,8 @@ const Languages = () => {
   const [language, setLanguage] = useState(initialLanguage);
 
   const toggleLanguage = () => {
-    const newLanguage = language === "en" ? "pt" : "en";
+    const newLanguage =
+      language === "en" ? "pt" : language === "pt" ? "fr" : "en";
     localStorage.setItem("language", newLanguage);
     i18n.changeLanguage(newLanguage);
     setLanguage(newLanguage);
@@ -33,15 +34,27 @@ const Languages = () => {
   const flagImage =
     language === "en"
       ? ITEM_DETAILS["American Flag"].image
-      : ITEM_DETAILS["Brazilian Flag"].image;
-  const languageLabel = language === "en" ? "English" : "Português Brasileiro";
+      : language === "pt"
+      ? ITEM_DETAILS["Brazilian Flag"].image
+      : language === "fr"
+      ? ITEM_DETAILS["French Flag"].image
+      : null;
+
+  const languageLabel =
+    language === "en"
+      ? "English"
+      : language === "pt"
+      ? "Português Brasileiro"
+      : language === "fr"
+      ? "Français"
+      : null;
 
   return (
     <Button className="mb-2 py-1 text-xs relative" onClick={toggleLanguage}>
       <div className="px-8 pr-1">
         <img
           src={flagImage}
-          alt={languageLabel}
+          alt={languageLabel || ""}
           className="h-5 mobile:h-4 ml-2.5 mr-4 absolute left-0 rounded-sm"
         />
         {languageLabel}

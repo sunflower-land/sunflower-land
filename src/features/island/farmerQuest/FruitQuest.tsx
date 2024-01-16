@@ -13,6 +13,7 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
+import { translate } from "lib/i18n/translate";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 interface Props {
@@ -29,10 +30,10 @@ export const FruitQuest: React.FC<Props> = ({ offset }) => {
     return (
       <>
         <p className="mb-4">
-          {`I've been designing limited edition wearables that can enhance your fruit picking abilities`}
+          {translate("modalDescription.limited.abilitie")}
         </p>
         <p className="mb-4">
-          {`I am looking for dedicated fruit pickers to trial this clothing....for FREE!`}
+          {translate("modalDescription.trail")}
         </p>
         <div className="flex justify-center mb-4">
           <img
@@ -64,10 +65,9 @@ export const FruitQuest: React.FC<Props> = ({ offset }) => {
   const QuestCompletion = () => {
     return (
       <div className="pr-4 pl-2 py-2">
-        <p className="mb-3">Wow, you really do love Fruits as much as I do!</p>
+        <p className="mb-3">{translate("modalDescription.love.fruit")}</p>
         <p>
-          {`I have no more gifts for you. Don't forget to wear your new
-            items!`}
+          {translate("modalDescription.gift")}
         </p>
       </div>
     );
@@ -106,7 +106,7 @@ export const FruitQuest: React.FC<Props> = ({ offset }) => {
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Quest
           quests={["Fruit Quest 1", "Fruit Quest 2", "Fruit Quest 3"]}
-          questTitle="Hey there friend!"
+          questTitle={translate("modalDescription.friend")}
           onClose={() => setShowModal(false)}
           questDescription={ModalDescription()}
           bumpkinParts={{

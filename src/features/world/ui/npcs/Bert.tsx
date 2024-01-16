@@ -17,6 +17,8 @@ import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { secondsToString } from "lib/utils/time";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   onClose: () => void;
@@ -31,6 +33,7 @@ const obsessionDialogues = (itemName: string) => [
 ];
 
 export const Bert: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -79,7 +82,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
       obsessionCompletedAt >= currentObsession.startDate &&
       obsessionCompletedAt <= currentObsession.endDate
     ) {
-      return <Label type="info">Already completed</Label>;
+      return <Label type="info">{translate("alr.completed")}</Label>;
     }
 
     return (
@@ -91,7 +94,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
           {`Claim ${reward} ${getSeasonalTicket()}${reward > 0 ? "s" : ""}`}
         </Button>
         <span className="text-xs">
-          You cannot withdraw this item for 3 days after claiming{" "}
+          {t("bert.day")} {" "}
           {getSeasonalTicket()}.
         </span>
       </>
@@ -116,7 +119,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
             text: intro,
             actions: [
               {
-                text: "Delivery",
+                text: t("delivery"),
                 cb: () => handleConfirm(0),
               },
               {

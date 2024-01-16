@@ -19,6 +19,7 @@ import { getKeys } from "features/game/types/craftables";
 import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { WITHDRAWABLES } from "features/game/types/withdrawables";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -59,6 +60,8 @@ export const WithdrawItems: React.FC<Props> = ({
   onWithdraw,
   allowLongpressWithdrawal = true,
 }) => {
+  const { t } = useAppTranslation();
+
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
 
@@ -130,7 +133,7 @@ export const WithdrawItems: React.FC<Props> = ({
         <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
           <span className="text-xs">
             {
-              "Some items cannot be withdrawn. Other items may be restricted when "
+              t("withdraw.restricted")
             }
             <a
               href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
@@ -152,7 +155,7 @@ export const WithdrawItems: React.FC<Props> = ({
             {"."}
           </span>
         </div>
-        <h2 className="mb-3">Select items to withdraw</h2>
+        <h2 className="mb-3">{t("withdraw.select.item")}</h2>
         <div className="flex flex-wrap h-fit -ml-1.5">
           {withdrawableItems.map((itemName) => {
             const details = makeItemDetails(itemName);
@@ -179,7 +182,7 @@ export const WithdrawItems: React.FC<Props> = ({
         </div>
 
         <div className="mt-2">
-          <h2 className="">Selected</h2>
+          <h2 className="">{t("withdraw.select")}</h2>
           <div className="flex flex-wrap h-fit mt-2 -ml-1.5">
             {selectedItems.map((itemName) => {
               return (
@@ -204,7 +207,7 @@ export const WithdrawItems: React.FC<Props> = ({
         <div className="flex items-center mt-2 mb-2  border-white">
           <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
           <div>
-            <p className="text-sm">Send to your wallet</p>
+            <p className="text-sm">{t("withdraw.send.wallet")}</p>
             <p className="text-sm">
               {shortAddress(wallet.myAccount || "XXXX")}
             </p>
@@ -212,14 +215,14 @@ export const WithdrawItems: React.FC<Props> = ({
         </div>
 
         <span className="text-sm mb-4">
-          Once withdrawn, you will be able to view your items on OpenSea.{" "}
+          {t("withdraw.opensea")}{" "}
           <a
             className="underline hover:text-blue-500"
             href="https://docs.sunflower-land.com/fundamentals/withdrawing"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Read more
+            {t("read.more")}
           </a>
           .
         </span>
@@ -230,7 +233,7 @@ export const WithdrawItems: React.FC<Props> = ({
         onClick={withdraw}
         disabled={selectedItems.length <= 0}
       >
-        Withdraw
+        {t("withdraw")}
       </Button>
     </>
   );

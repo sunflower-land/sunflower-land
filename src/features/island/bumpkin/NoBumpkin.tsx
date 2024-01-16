@@ -10,6 +10,7 @@ import { wallet } from "lib/blockchain/wallet";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
+import { translate } from "lib/i18n/translate";
 
 export const NoBumpkin: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -72,7 +73,7 @@ export const NoBumpkin: React.FC = () => {
   if (isLoading) {
     return (
       <div className="p-2">
-        <p className="loading">Loading</p>
+        <p className="loading">{translate("noBumpkin.loading")}</p>
       </div>
     );
   }
@@ -82,10 +83,10 @@ export const NoBumpkin: React.FC = () => {
       <>
         <div className="p-2">
           <p className="mb-2 text-center">
-            Awesome, your Bumpkin is ready to farm!
+            {translate("noBumpkin.readyToFarm")}
           </p>
         </div>
-        <Button onClick={refresh}>Play</Button>
+        <Button onClick={refresh}>{translate("noBumpkin.play")}</Button>
       </>
     );
   }
@@ -94,16 +95,15 @@ export const NoBumpkin: React.FC = () => {
     return (
       <>
         <div className="flex items-center flex-col p-2">
-          <span>You are missing your Bumpkin</span>
+          <span> {translate("noBumpkin.missingBumpkin")}</span>
           <img src={SUNNYSIDE.icons.heart} className="w-20 my-2" />
           <p className="text-sm my-2">
-            A Bumpkin is an NFT that is minted on the Blockchain.
+            {translate("noBumpkin.bumpkinNFT")}
           </p>
           <p className="text-sm my-2">
-            You need a Bumpkin to help you plant, harvest, chop, mine and expand
-            your land.
+            {translate("noBumpkin.bumpkinHelp")}
           </p>
-          <p className="text-sm my-2">You can get a Bumpkin from OpenSea:</p>
+          <p className="text-sm my-2">{translate("noBumpkin.mintBumpkin")}</p>
           <p className="text-xs sm:text-sm text-shadow text-white p-1">
             <a
               className="underline"
@@ -126,9 +126,9 @@ export const NoBumpkin: React.FC = () => {
   return (
     <>
       <div className="p-2">
-        <p className="mb-3 text-center">Wow, look at all those Bumpkins!</p>
+        <p className="mb-3 text-center">{translate("noBumpkin.allBumpkins")}</p>
         <p className="mb-2 text-center text-xs">
-          Which Bumpkin would you like to play with?
+          {translate("noBumpkin.chooseBumpkin")}
         </p>
         <div className="flex flex-wrap max-h-48 overflow-y-scroll">
           {(walletBumpkins ?? []).map((bumpkin) => {
@@ -161,7 +161,7 @@ export const NoBumpkin: React.FC = () => {
         </div>
       </div>
       <Button disabled={!selectedBumpkinId} onClick={deposit}>
-        Deposit
+        {translate("noBumpkin.deposit")}
       </Button>
     </>
   );

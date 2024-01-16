@@ -17,6 +17,7 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { BUMPKIN_WITHDRAWABLES } from "features/game/types/withdrawables";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const isCurrentObsession = (itemName: BumpkinItem, game: GameState) => {
   const obsessionCompletedAt = game.npcs?.bert?.questCompletedAt;
@@ -38,7 +39,7 @@ interface Props {
 export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
-
+  const { t } = useAppTranslation();
   const [wardrobe, setWardrobe] = useState<Wardrobe>({});
   const [selected, setSelected] = useState<Wardrobe>({});
 
@@ -94,7 +95,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
         <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
           <span className="text-xs">
             {
-              "Some items cannot be withdrawn. Other items may be restricted when "
+              t("withdraw.restricted")
             }
             <a
               href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
@@ -116,7 +117,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
             {"."}
           </span>
         </div>
-        <h2 className="mb-3">Select items to withdraw</h2>
+        <h2 className="mb-3">{t("withdraw.select.item")}</h2>
         <div className="flex flex-wrap h-fit -ml-1.5">
           {withdrawableItems.map((itemName) => {
             // The wardrobe amount that is not placed
@@ -142,7 +143,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
         </div>
 
         <div className="mt-2">
-          <h2 className="">Selected</h2>
+          <h2 className="">{t("withdraw.select")}</h2>
           <div className="flex flex-wrap h-fit mt-2 -ml-1.5">
             {selectedItems.map((itemName) => {
               return (
@@ -166,7 +167,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
         <div className="flex items-center mt-2 mb-2  border-white">
           <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
           <div>
-            <p className="text-sm">Send to your wallet</p>
+            <p className="text-sm">{t("withdraw.send.wallet")}</p>
             <p className="text-sm">
               {shortAddress(wallet.myAccount || "XXXX")}
             </p>
@@ -174,14 +175,14 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
         </div>
 
         <span className="text-sm mb-4">
-          Once withdrawn, you will be able to view your items on OpenSea.{" "}
+          {t("withdraw.opensea")}.{" "}
           <a
             className="underline hover:text-blue-500"
             href="https://docs.sunflower-land.com/fundamentals/withdrawing"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Read more
+            {t("read.more")}
           </a>
           .
         </span>
@@ -192,7 +193,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
         onClick={withdraw}
         disabled={selectedItems.length <= 0}
       >
-        Withdraw
+        {t("withdraw")}
       </Button>
     </>
   );

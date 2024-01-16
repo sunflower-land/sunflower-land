@@ -111,7 +111,7 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
 
   const sellOneButtonText = () => {
     // In the case of 0 the button will be disabled
-    if (cropAmount.greaterThanOrEqualTo(1) || cropAmount.eq(0)) return "Sell 1";
+    if (cropAmount.greaterThanOrEqualTo(1) || cropAmount.eq(0)) return t("sell.one");
 
     return `Sell ${cropAmount}`;
   };
@@ -275,7 +275,7 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
               {t("cancel")}
             </Button>
             <Button disabled={noCrop} onClick={handleSellAll}>
-              Sell All
+              {t("sell.all")}
             </Button>
           </div>
         </CloseButtonPanel>

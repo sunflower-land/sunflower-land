@@ -50,7 +50,7 @@ export const Luna: React.FC<Props> = ({ onClose }) => {
         <>
           <div className="p-1">
             <p className="text-sm">
-              Travel to these player built portals and earn rewards.
+              {t("luna.travel")}
             </p>
           </div>
           <Portals />
@@ -58,7 +58,7 @@ export const Luna: React.FC<Props> = ({ onClose }) => {
       )}
       {tab === 1 && (
         <div className="p-1">
-          <p className="text-sm">Coming soon...</p>
+          <p className="text-sm">{t("luna.coming")}</p>
         </div>
       )}
     </CloseButtonPanel>

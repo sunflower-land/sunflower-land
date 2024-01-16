@@ -12,6 +12,7 @@ import { Panel } from "components/ui/Panel";
 import { CropBoomFinish } from "features/portal/examples/cropBoom/components/CropBoomFinish";
 import { Luna } from "./npcs/Luna";
 import { NyeButton } from "./NyeButton";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type InteractableName =
   | "kraken"
@@ -85,6 +86,8 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
     setInteractable(undefined);
   };
 
+  const { t } = useAppTranslation();
+
   return (
     <>
       {/* TODO - make smoother opening */}
@@ -111,7 +114,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           onClose={closeModal}
           message={[
             {
-              text: "Why won't these Bumpkins leave me alone, I just want to relax.",
+              text: t("interactableModals.fatChicken.message"),
             },
           ]}
         />
@@ -125,7 +128,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           onClose={closeModal}
           message={[
             {
-              text: "Eeeep! So tired.....",
+              text: t("interactableModals.lazyBud.message"),
             },
           ]}
         />
@@ -143,7 +146,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           onClose={closeModal}
           message={[
             {
-              text: "Hmmm, I better leave that bud alone. I'm sure it's owner is looking for it",
+              text: t("interactableModals.bud.message"),
             },
           ]}
         />
@@ -154,7 +157,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           onClose={closeModal}
           message={[
             {
-              text: "Arrr arr arrr! The fish shop ain't open 'til I get my fish.",
+              text: t("interactableModals.walrus.message"),
             },
           ]}
         />
@@ -170,10 +173,10 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES.raven}
           message={[
             {
-              text: "To summon the seekers, we must gather the essence of the land - pumpkins, nurtured by the earth, and eggs, the promise of new beginnings. ",
+              text: t("interactableModals.plazaBlueBook.message1"),
             },
             {
-              text: "As dusk falls and the moon casts its silvery glow, we offer our humble gifts, hoping to awaken their watchful eyes once more.",
+              text: t("interactableModals.plazaBlueBook.message2"),
             },
           ]}
         />
@@ -189,10 +192,10 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES.cornwell}
           message={[
             {
-              text: "Our brave defenders fought valiantly, but alas, we lost the great war, and the Moonseekers drove us from our homeland. Yet, we hold onto hope, for one day we shall reclaim what was once ours.",
+              text: t("interactableModals.plazaOrangeBook.message1"),
             },
             {
-              text: "Until then, we will keep Sunflower Land alive in our hearts and dreams, waiting for the day of our triumphant return",
+              text: t("interactableModals.plazaOrangeBook.message2"),
             },
           ]}
         />
@@ -208,10 +211,10 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES.finley}
           message={[
             {
-              text: "When you're after those coveted Red Snappers, try an unexpected twist",
+              text: t("interactableModals.beachGreenBook.message1"),
             },
             {
-              text: "Use Apples with Red Wiggler Bait, and watch those crimson beauties practically leap into your net.",
+              text: t("interactableModals.beachGreenBook.message2"),
             },
           ]}
         />
@@ -227,13 +230,13 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES.finn}
           message={[
             {
-              text: "Don't tell Shelly, but I've been trying to bring Saw Sharks to the beach!",
+              text: t("interactableModals.beachBlueBook.message1"),
             },
             {
-              text: "I've been experimenting with different chums lately, but the only one that seems to work is Red Snapper.",
+              text: t("interactableModals.beachBlueBook.message2"),
             },
             {
-              text: "These oceanic hunters can smell a Red Snapper feast from miles away, so don't be surprised if they come charging. ",
+              text: t("interactableModals.beachBlueBook.message3"),
             },
           ]}
         />
@@ -249,10 +252,10 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES.finley}
           message={[
             {
-              text: "A radiant fin appeared on the surface, I couldn't believe my eyes!",
+              text: t("interactableModals.beachOrangeBook.message1"),
             },
             {
-              text: "Luckily Tango was with me, he must be my good luck charm.",
+              text: t("interactableModals.beachOrangeBook.message2"),
             },
           ]}
         />
@@ -268,10 +271,10 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES.grimbly}
           message={[
             {
-              text: "The Bumpkins control these islands, leaving us goblins with scarce work and even scarcer food.",
+              text: t("interactableModals.plazaGreenBook.message1"),
             },
             {
-              text: "We strive for equality, a place to call our own, where we can live and thrive",
+              text: t("interactableModals.plazaGreenBook.message2"),
             },
           ]}
         />
@@ -285,10 +288,10 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         <CloseButtonPanel onClose={closeModal}>
           <div className="p-2">
             <p className="text-sm mb-2">
-              Patience buddy, rewards are coming...
+              {t("interactableModals.clubhouseReward.message1")}
             </p>
             <p className="text-sm">
-              Join #bud-clubhouse on Discord for latest updates.
+              {t("interactableModals.clubhouseReward.message2")}
             </p>
           </div>
         </CloseButtonPanel>
@@ -303,7 +306,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           onClose={closeModal}
           message={[
             {
-              text: "In honor of Bumpkin Braveheart, the steadfast farmer who rallied our town against the Goblin horde during the dark days of the ancient war.",
+              text: t("interactableModals.plazaStatue.message")
             },
           ]}
         />
@@ -315,13 +318,13 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES["marcus"]}
           message={[
             {
-              text: "For centuries our family has protected Dawn Breaker Island. As the island's bell ringer, we've warned of dangers from the North, even as shadowy creatures threaten our home.",
+              text: t("interactableModals.dawnBook1.message1"),
             },
             {
-              text: "Our family stands as the first line of defence against the darkness spreading from the North, but alas, our sacrifices go unnoticed.",
+              text: t("interactableModals.dawnBook1.message2"),
             },
             {
-              text: "Will the day come when our devotion is acknowledged?",
+              text: t("interactableModals.dawnBook1.message3"),
             },
           ]}
         />
@@ -337,10 +340,10 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES["bella"]}
           message={[
             {
-              text: "Eggplants, they're more than they appear. Despite their dark exterior that attracts shadowy creatures, they bring light to our dishes.",
+              text: t("interactableModals.dawnBook2.message1"),
             },
             {
-              text: "Grilled or mashed into a Bumpkin ganoush, their versatility is unmatched. The nightshade vegetables are a symbol of our resilience in the face of adversity.",
+              text: t("interactableModals.dawnBook2.message2"),
             },
           ]}
         />
@@ -352,13 +355,13 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES["sofia"]}
           message={[
             {
-              text: "Dear diary, the Bumpkins' arrival has brought a ray of hope. ",
+              text: t("interactableModals.dawnBook3.message1"),
             },
             {
-              text: "I dream of the day I can steer my own boat to Sunfloria, the land where adventurers and travelers congregate.",
+              text: t("interactableModals.dawnBook3.message2"),
             },
             {
-              text: "I've heard whispers about the Bumpkins' special preparations there - a beacon of promise in these challenging times.",
+              text: t("interactableModals.dawnBook3.message3"),
             },
           ]}
         />
@@ -369,12 +372,12 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES["marcus"]}
           message={[
-            { text: "The gnomes, their allure was too potent to resist." },
+            { text: t("interactableModals.dawnBook4.message1") },
             {
-              text: "The Witch's instructions echoed in my mind - 'Align the three, and power shall be yours.'",
+              text: t("interactableModals.dawnBook4.message2"),
             },
             {
-              text: "Alas, even the eggplant soldiers couldn't guard against the temptation. But I will not falter. One day, I will claim the power I rightfully deserve​.",
+              text: t("interactableModals.dawnBook4.message3"),
             },
           ]}
         />
@@ -386,7 +389,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES["timmy"]}
           message={[
             {
-              text: "Oh, gee, I really want you to explore my house, but Mom told me not to talk to strangers, maybe it's for the best.",
+              text: t("interactableModals.timmyHome.message"),
             },
           ]}
         />
@@ -398,7 +401,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES["cornwell"]}
           message={[
             {
-              text: "Ah, my windmill is under repair, can't have anyone snooping around while I fix it up, come back later.",
+              text: t("interactableModals.windmill.message"),
             },
           ]}
         />
@@ -410,7 +413,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES["igor"]}
           message={[
             {
-              text: "Get lost! I'm in no mood for visitors, especially nosy ones like you!",
+              text: t("interactableModals.igorHome.message"),
             },
           ]}
         />
@@ -426,10 +429,10 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
           message={[
             {
-              text: "Watch out friend, the crazy scientist lives in there!",
+              text: t("interactableModals.potionHouse.message1"),
             },
             {
-              text: "Rumour has it they are searching for Bumpkin apprentices to grow mutant crops with them.",
+              text: t("interactableModals.potionHouse.message2"),
             },
           ]}
         />
@@ -441,10 +444,10 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
           message={[
             {
-              text: "Hold on Bumpkin! You need a Bud if you want to enter the Guild House.",
+              text: t("interactableModals.guildHouse.message"),
               actions: [
                 {
-                  text: "Read more",
+                  text: t("interactableModals.guildHouse.readMore"),
                   cb: () => {
                     window.open(
                       "https://docs.sunflower-land.com/player-guides/bud-nfts",
@@ -453,7 +456,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
                   },
                 },
                 {
-                  text: "Buds Collection on Opensea",
+                  text: t("interactableModals.guildHouse.budsCollection"),
                   cb: () => {
                     window.open(
                       "https://opensea.io/collection/sunflower-land-buds",
@@ -473,7 +476,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES["betty"]}
           message={[
             {
-              text: "Oh, sweetie, as much as I love my crops, my house is a private space, not open to visitors right now.",
+              text: t("interactableModals.bettyHome.message"),
             },
           ]}
         />
@@ -485,7 +488,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES["bert"]}
           message={[
             {
-              text: "Intruders! They must be after my collection of rare items and secrets, I can't let them in!",
+              text: t("interactableModals.bertHome.message"),
             },
           ]}
         />
@@ -497,10 +500,10 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES["old salty"]}
           message={[
             {
-              text: "Have you been to the beach?",
+              text: t("interactableModals.beach.message1"),
             },
             {
-              text: "Rumour has that it is filled with luxurious treasures! Unfortunately it is under construction.",
+              text: t("interactableModals.beach.message2"),
             },
           ]}
         />
@@ -512,7 +515,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES["tywin"]}
           message={[
             {
-              text: "Hold it there peasant! There is no way I'm letting you visit the castle",
+              text: t("interactableModals.castle.message"),
             },
           ]}
         />
@@ -524,7 +527,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES["bert"]}
           message={[
             {
-              text: "Are you travelling to the woodlands? Make sure you pick up some delicious mushrooms!",
+              text: t("interactableModals.woodlands.message"),
             },
           ]}
         />
@@ -536,7 +539,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES["grubnuk"]}
           message={[
             {
-              text: "Hold it there! The Goblin's are still building the port. It will be ready for travel and fishing soon.",
+              text: t("interactableModals.port.message"),
             },
           ]}
         />

@@ -16,6 +16,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import chest from "assets/icons/chest.png";
 import token from "assets/icons/token_2.png";
 import { WithdrawBuds } from "./WithdrawBuds";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   onClose: () => void;
@@ -129,11 +130,10 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     return (
       <>
         <p className="text-sm p-1 m-1">
-          Proof of humanity is needed for this feature. Please take a quick
-          selfie.
+          {translate("withdraw.proof")}
         </p>
         <Button className="mr-1" onClick={proovePersonhood}>
-          Start Verification
+          {translate("withdraw.verification")}
         </Button>
       </>
     );
@@ -149,7 +149,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
           className="w-full m-4 flex items-center justify-center"
         />
         <p className="text-xs p-1 m-1 text-center">
-          Any unsaved progress will be lost.
+          {translate("withdraw.unsave")}
         </p>
       </>
     );
@@ -159,7 +159,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     <>
       <div className="p-2 flex flex-col justify-center space-y-1">
         <span className="text-shadow text-sm mb-1">
-          You can only withdraw items that you have synced to the blockchain.
+          {translate("withdraw.sync")}
         </span>
         <div className="flex space-x-1">
           <Button onClick={() => setPage("tokens")}>

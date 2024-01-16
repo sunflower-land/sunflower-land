@@ -16,8 +16,11 @@ import {
   POTION_HOUSE_ITEMS,
   PotionHouseItem,
 } from "features/game/types/collectibles";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 export const PotionHouseItems: React.FC = () => {
+  const { t } = useAppTranslation();
   const [selected, setSelected] = useState<Decoration | PotionHouseItem>(
     POTION_HOUSE_DECORATIONS()["Giant Potato"]
   );
@@ -58,11 +61,11 @@ export const PotionHouseItems: React.FC = () => {
 
   const Action = () => {
     if (selected.name in POTION_HOUSE_ITEMS && inventory[selected.name])
-      return <span className="text-xxs text-center my-1">Already minted!</span>;
+      return <span className="text-xxs text-center my-1">{translate("alr.minted")}</span>;
 
     return (
       <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>
-        Buy
+        {t("buy")}
       </Button>
     );
   };

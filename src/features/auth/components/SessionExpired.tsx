@@ -5,10 +5,12 @@ import humanDeath from "assets/npcs/human_death.gif";
 import { Button } from "components/ui/Button";
 import { removeJWT } from "../actions/social";
 import { WalletContext } from "features/wallet/WalletProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const SessionExpired: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const { walletService } = useContext(WalletContext);
+  const { t } = useAppTranslation();
 
   return (
     <>
@@ -29,7 +31,7 @@ export const SessionExpired: React.FC = () => {
           walletService.send("RESET");
         }}
       >
-        Refresh
+        {t("refresh")}
       </Button>
     </>
   );

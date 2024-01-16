@@ -1,5 +1,6 @@
 import React from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   onClose: () => void;
@@ -21,12 +22,11 @@ export const ExoticShopItems: React.FC<Props> = ({ onClose }) => {
     >
       <div className="p-2">
         <p className="mb-4">
-          Our bean shop is closing as our beans embark on a new journey with a
-          mad scientist.
+        {translate("exoticShopItems.line1")}
         </p>
-        <p className="mb-4">{`Thank you for being part of our legume-loving community.`}</p>
-        <p>Best regards,</p>
-        <p>The Bean Team</p>
+        <p className="mb-4">{translate("exoticShopItems.line2")}</p>
+        <p>{translate("exoticShopItems.line3")}</p>
+        <p>{translate("exoticShopItems.line4")}</p>
       </div>
     </CloseButtonPanel>
   );

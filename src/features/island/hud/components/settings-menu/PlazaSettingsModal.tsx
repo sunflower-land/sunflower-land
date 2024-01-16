@@ -10,6 +10,7 @@ interface Props {
 }
 
 import SoundOffIcon from "assets/icons/sound_off.png";
+import { translate } from "lib/i18n/translate";
 
 export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   const [step, setStep] = useState<"MAIN" | "MUTED_PLAYERS" | "KEYBINDS">(
@@ -43,11 +44,11 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   const getTitle = () => {
     switch (step) {
       case "MAIN":
-        return "Plaza Settings";
+        return translate("plazaSettings.title.main");
       case "MUTED_PLAYERS":
-        return "Muted Players";
+        return translate("plazaSettings.title.mutedPlayers");
       case "KEYBINDS":
-        return "Keybinds";
+        return translate("plazaSettings.title.keybinds");
     }
   };
 
@@ -59,14 +60,13 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2 px-1">
                 <img src={SoundOffIcon} className="h-8" />
-                <p className="text-sm">Muted Players</p>
+                <p className="text-sm">{translate("plazaSettings.mutedPlayers.button")}</p>
               </div>
               <p className="text-xs px-1">
-                In case you have muted some players using the /mute command, you
-                can see them here and unmute them if you want.
+                {translate("plazaSettings.mutedPlayers.description")}
               </p>
               <Button onClick={() => setStep("MUTED_PLAYERS")}>
-                Muted Players
+                {translate("plazaSettings.mutedPlayers.button")}
               </Button>
             </div>
             {/* <div className="flex flex-col gap-2">
@@ -97,19 +97,19 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
                         onClick={() => removeMutedPlayer(farmId)}
                         className="w-1/3 text-xs"
                       >
-                        Unmute
+                        {translate("plazaSettings.unmute")}
                       </Button>
                     </div>
                   ))}
                 </>
               ) : (
                 <p className="text-sm text-center">
-                  You have no muted players.
+                  {translate("plazaSettings.noMutedPlayers")}
                 </p>
               )}
             </div>
 
-            <Button onClick={() => setStep("MAIN")}>Back</Button>
+            <Button onClick={() => setStep("MAIN")}>{translate("plazaSettings.back")}</Button>
           </div>
         )}
       </CloseButtonPanel>

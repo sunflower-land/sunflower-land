@@ -15,6 +15,7 @@ import {
   cacheAudioSetting,
   getCachedAudioSetting,
 } from "../lib/audio";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   musicPlayer: React.MutableRefObject<HTMLAudioElement>;
@@ -79,7 +80,7 @@ export const AudioMenu: React.FC<Props> = ({
     <Modal show={show} centered onHide={onClose}>
       <CloseButtonPanel title="Audio Settings" onClose={onClose}>
         <div className="p-1 relative">
-          <p className="mb-2">Music</p>
+          <p className="mb-2">{translate("music")}</p>
           {/* Music display */}
           <div className="mb-1.5 overflow-hidden bg-brown-200 ">
             <p
@@ -126,7 +127,7 @@ export const AudioMenu: React.FC<Props> = ({
           </div>
 
           {/* Sound effects controls */}
-          <p className="mb-2">Sound Effects: {audioMuted ? "Off" : "On"}</p>
+          <p className="mb-2">{translate("sound.effects")}{audioMuted ? "Off" : "On"}</p>
           <img
             src={audioMuted ? sound_off : sound_on}
             className="cursor-pointer hover:img-highlight"

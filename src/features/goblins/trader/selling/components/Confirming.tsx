@@ -7,6 +7,7 @@ import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { Draft } from "../lib/sellingMachine";
+import { translate } from "lib/i18n/translate";
 
 interface ConfirmProps {
   tax: number;
@@ -78,8 +79,8 @@ export const Confirming: React.FC<ConfirmProps> = ({
         </div>
       </div>
       <div className="flex space-x-2 w-full">
-        <Button onClick={onBack}>Back</Button>
-        <Button onClick={onConfirm}>Confirm</Button>
+        <Button onClick={onBack}>{translate("back")}</Button>
+        <Button onClick={onConfirm}>{translate("confirm")}</Button>
       </div>
     </div>
   );

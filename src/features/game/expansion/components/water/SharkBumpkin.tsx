@@ -12,6 +12,7 @@ import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   x: number;
@@ -52,8 +53,8 @@ export const SharkBumpkin: React.FC<Props> = ({ x, y }) => {
             }}
           />
           <div className="py-2 px-1">
-            <p>Shhhh!</p>
-            <p className="mt-2">{`I'm trying to scare the Goblins`}</p>
+            <p>{translate("sharkBumpkin.dialogue.shhhh")}</p>
+            <p className="mt-2">{translate("sharkBumpkin.dialogue.scareGoblins")}</p>
           </div>
         </Panel>
       </Modal>

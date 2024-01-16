@@ -6,8 +6,9 @@ import { shortAddress } from "lib/utils/shortAddress";
 import { Label } from "components/ui/Label";
 import clipboard from "clipboard";
 import classNames from "classnames";
+import { translate } from "lib/i18n/translate";
 
-const TOOL_TIP_MESSAGE = "Copy Address";
+const TOOL_TIP_MESSAGE = translate("copy.adress");
 
 export const CopyAddress: React.FC<{ address: string; showCopy?: boolean }> = ({
   address,
