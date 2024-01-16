@@ -243,7 +243,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                   </Button>
                 </li>
                 <li className="p-1">
-                  <Button onClick={openConfirmLogoutModal}>Logout</Button>
+                  <Button onClick={openConfirmLogoutModal}>{translate("settingsMenu.logout")}</Button>
                   <Modal
                     centered
                     show={isConfirmLogoutModalOpen}
@@ -252,11 +252,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     <CloseButtonPanel className="sm:w-4/5 m-auto">
                       <div className="flex flex-col p-2">
                         <span className="text-sm text-center">
-                          Are you sure you want to Logout?
+                        {translate("settingsMenu.confirmLogout")}
                         </span>
                       </div>
                       <div className="flex justify-content-around mt-2 space-x-1">
-                        <Button onClick={onLogout}>Logout</Button>
+                        <Button onClick={onLogout}>{translate("settingsMenu.logout")}</Button>
                         <Button onClick={closeConfirmLogoutModal}>
                           {translate("cancel")}
                         </Button>

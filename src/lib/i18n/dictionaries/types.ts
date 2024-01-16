@@ -2174,7 +2174,8 @@ export type SettingsMenu =
   | "settingsMenu.settings"
   | "settingsMenu.communityGarden"
   | "settingsMenu.share"
-  | "settingsMenu.logout";
+  | "settingsMenu.logout"
+  | "settingsMenu.confirmLogout";
 
 export type Share =
   | "share.TweetText"

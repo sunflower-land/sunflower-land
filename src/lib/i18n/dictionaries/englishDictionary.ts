@@ -2473,6 +2473,7 @@ const settingsMenu: Record<SettingsMenu, string> = {
   "settingsMenu.communityGarden": "Community Garden",
   "settingsMenu.share": "Share",
   "settingsMenu.logout": "Logout",
+  "settingsMenu.confirmLogout": "Are you sure you want to Logout?",
 };
 
 const share: Record<Share, string> = {
