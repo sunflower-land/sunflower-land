@@ -578,6 +578,7 @@ export const Land: React.FC = () => {
               <Water
                 expansionCount={expansionCount}
                 townCenterBuilt={(buildings["Town Center"]?.length ?? 0) >= 1}
+                state={state}
               />
             )}
             {!landscaping && <UpcomingExpansion />}
