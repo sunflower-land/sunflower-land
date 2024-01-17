@@ -1,11 +1,11 @@
 import { TEST_FARM } from "features/game/lib/constants";
-import { updgrade } from "./upgradeFarm";
+import { upgrade } from "./upgradeFarm";
 import Decimal from "decimal.js-light";
 
 describe("upgradeFarm", () => {
   it("requires a player has met the expansions", () => {
     expect(() =>
-      updgrade({
+      upgrade({
         action: {
           type: "farm.upgraded",
         },
@@ -18,7 +18,7 @@ describe("upgradeFarm", () => {
 
   it("requires a player has ingredients", () => {
     expect(() =>
-      updgrade({
+      upgrade({
         action: {
           type: "farm.upgraded",
         },
@@ -34,7 +34,7 @@ describe("upgradeFarm", () => {
   });
 
   it("burns the ingredients", () => {
-    const state = updgrade({
+    const state = upgrade({
       action: {
         type: "farm.upgraded",
       },
@@ -51,7 +51,7 @@ describe("upgradeFarm", () => {
   });
 
   it("resets the expansions", () => {
-    const state = updgrade({
+    const state = upgrade({
       action: {
         type: "farm.upgraded",
       },
@@ -69,7 +69,7 @@ describe("upgradeFarm", () => {
 
   it("resets collectibles, buildings, fishing, chickens, mushrooms & buds", () => {
     const createdAt = Date.now();
-    const state = updgrade({
+    const state = upgrade({
       action: {
         type: "farm.upgraded",
       },
@@ -154,7 +154,7 @@ describe("upgradeFarm", () => {
   });
 
   it("upgrades to spring island", () => {
-    const state = updgrade({
+    const state = upgrade({
       action: {
         type: "farm.upgraded",
       },
@@ -181,7 +181,7 @@ describe("upgradeFarm", () => {
 
   it("does not allow a player to upgrade to desert island", () => {
     expect(() =>
-      updgrade({
+      upgrade({
         action: {
           type: "farm.upgraded",
         },

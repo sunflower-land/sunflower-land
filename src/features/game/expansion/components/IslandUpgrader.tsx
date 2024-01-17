@@ -32,11 +32,13 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 const UPGRADE_RAFTS: Record<IslandType, string> = {
   basic: springRaft,
   spring: desertRaft,
+  desert: desertRaft, // TODO
 };
 
 const UPGRADE_PREVIEW: Record<IslandType, string> = {
   basic: springPrestige,
   spring: desertPrestige,
+  desert: desertPrestige, // TODO
 };
 
 const IslandUpgraderModal: React.FC<{

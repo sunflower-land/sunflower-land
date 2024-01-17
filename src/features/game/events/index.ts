@@ -230,7 +230,7 @@ import {
   PlaceFlowerBedAction,
 } from "./landExpansion/placeFlowerBed";
 import {
-  updgrade as upgrade,
+  upgrade as upgrade,
   UpgradeFarmAction,
 } from "./landExpansion/upgradeFarm";
 

@@ -369,7 +369,7 @@ function desertUpgrade(_: GameState) {
 
   return _;
 }
-export function updgrade({ state, action, createdAt = Date.now() }: Options) {
+export function upgrade({ state, action, createdAt = Date.now() }: Options) {
   let game = cloneDeep(state) as GameState;
 
   const upcoming = ISLAND_UPGRADE[game.island.type];
