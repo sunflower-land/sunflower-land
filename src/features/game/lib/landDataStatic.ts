@@ -15,6 +15,8 @@ export const INITIAL_RESOURCES: Pick<
   | "fruitPatches"
   | "flowers"
   | "crimstones"
+  | "fruitPatches"
+  | "sunstones"
 > = {
   crops: {
     1: {
@@ -148,6 +150,7 @@ export const INITIAL_RESOURCES: Pick<
     flowerBeds: {},
   },
   crimstones: {},
+  sunstones: {},
 };
 
 const INITIAL_STOCK: Inventory = {
@@ -221,6 +224,11 @@ const OFFLINE_FARM_GOLD = getEnabledNodeCount(
 const OFFLINE_FARM_CRIMSTONE = getEnabledNodeCount(
   INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
   "Crimstone Rock"
+);
+
+const OFFLINE_FARM_SUNSTONE = getEnabledNodeCount(
+  INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
+  "Sunstone Rock"
 );
 const OFFLINE_FARM_FRUIT = getEnabledNodeCount(
   INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
@@ -309,6 +317,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Iron Rock": new Decimal(OFFLINE_FARM_IRON),
     "Gold Rock": new Decimal(OFFLINE_FARM_GOLD),
     "Crimstone Rock": new Decimal(OFFLINE_FARM_CRIMSTONE),
+    "Sunstone Rock": new Decimal(OFFLINE_FARM_SUNSTONE),
     "Fruit Patch": new Decimal(OFFLINE_FARM_FRUIT),
     Axe: new Decimal(10),
     "Block Buck": new Decimal(100),

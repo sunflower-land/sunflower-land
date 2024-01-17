@@ -11,6 +11,7 @@ export interface Nodes {
   "Iron Rock": number;
   "Gold Rock": number;
   "Crimstone Rock": number;
+  "Sunstone Rock": number;
   "Fruit Patch": number;
 }
 
@@ -26,6 +27,7 @@ const LAND_3_NODES: Nodes = {
   "Gold Rock": 2,
   "Fruit Patch": 0,
   "Crimstone Rock": 0,
+  "Sunstone Rock": 0,
 };
 const LAND_9_NODES: Nodes = {
   "Crop Plot": 4,
@@ -35,6 +37,7 @@ const LAND_9_NODES: Nodes = {
   "Gold Rock": 1,
   "Fruit Patch": 2,
   "Crimstone Rock": 0,
+  "Sunstone Rock": 0,
 };
 const LAND_12_NODES: Nodes = {
   "Crop Plot": 4,
@@ -44,6 +47,7 @@ const LAND_12_NODES: Nodes = {
   "Gold Rock": 1,
   "Fruit Patch": 3,
   "Crimstone Rock": 5,
+  "Sunstone Rock": 0,
 };
 const LAND_15_NODES: Nodes = {
   "Crop Plot": 2,
@@ -53,6 +57,7 @@ const LAND_15_NODES: Nodes = {
   "Gold Rock": 1,
   "Fruit Patch": 3,
   "Crimstone Rock": 0,
+  "Sunstone Rock": 0,
 };
 const LAND_18_NODES: Nodes = {
   "Crop Plot": 4,
@@ -62,6 +67,7 @@ const LAND_18_NODES: Nodes = {
   "Gold Rock": 0,
   "Fruit Patch": 2,
   "Crimstone Rock": 0,
+  "Sunstone Rock": 0,
 };
 const LAND_21_NODES: Nodes = {
   "Crop Plot": 3,
@@ -71,6 +77,7 @@ const LAND_21_NODES: Nodes = {
   "Gold Rock": 1,
   "Fruit Patch": 2,
   "Crimstone Rock": 0,
+  "Sunstone Rock": 0,
 };
 
 const NO_ADDITIONAL_NODES: Nodes = {
@@ -81,6 +88,7 @@ const NO_ADDITIONAL_NODES: Nodes = {
   "Gold Rock": 0,
   "Fruit Patch": 0,
   "Crimstone Rock": 0,
+  "Sunstone Rock": 0,
 };
 
 export const EXPANSION_NODES: Record<Land, Nodes> = {

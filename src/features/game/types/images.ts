@@ -2343,6 +2343,11 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.plot,
     description: "An empty plot to plant crops on",
   },
+  "Sunstone Rock": {
+    image: goldRock,
+    // image: sunstoneRock,
+    description: "A mineable rock to collect sunstone",
+  },
   "Gold Rock": {
     image: goldRock,
     description: "A mineable rock to collect gold",

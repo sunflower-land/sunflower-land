@@ -246,6 +246,11 @@ import {
   purchaseBanner,
   PurchaseBannerAction,
 } from "./landExpansion/bannerPurchased";
+import {
+  placeSunstone,
+  PlaceSunstoneAction,
+} from "./landExpansion/placeSunstone";
+import { moveSunstone, MoveSunstoneAction } from "./landExpansion/moveSunstone";
 
 export type PlayingEvent =
   | TradeAction
@@ -337,6 +342,7 @@ export type PlacementEvent =
   | PlaceIronAction
   | PlaceCrimstoneAction
   | PlaceFruitPatchAction
+  | PlaceSunstoneAction
   | buyDecorationAction
   | CraftCollectibleAction
   | MoveCollectibleAction
@@ -348,6 +354,7 @@ export type PlacementEvent =
   | MoveStoneAction
   | MoveGoldAction
   | MoveCrimstoneAction
+  | MoveSunstoneAction
   | MoveChickenAction
   | RemoveBuildingAction
   | RemoveCollectibleAction
@@ -497,6 +504,8 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "beehive.placed": placeBeehive,
   "flowerBed.moved": moveFlowerBed,
   "flowerBed.placed": placeFlowerBed,
+  "sunstone.placed": placeSunstone,
+  "sunstone.moved": moveSunstone,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

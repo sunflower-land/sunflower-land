@@ -845,6 +845,7 @@ export interface GameState {
   gold: Record<string, Rock>;
   iron: Record<string, Rock>;
   crimstones: Record<string, Rock>;
+  sunstones: Record<string, Rock>;
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;
   beehives: Beehives;

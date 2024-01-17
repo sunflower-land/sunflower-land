@@ -262,6 +262,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Flower Bed": 634,
   "Crimstone Rock": 635,
   Crimstone: 636,
+  "Sunstone Rock": 637,
+  // Sunstone: 636,
 
   "Green Thumb": 701,
   "Barn Manager": 702,

@@ -449,6 +449,7 @@ export const TEST_FARM: GameState = {
   stones: {},
   crimstones: {},
   trees: {},
+  sunstones: {},
   mushrooms: {
     spawnedAt: 0,
     mushrooms: {},
@@ -520,6 +521,7 @@ export const EMPTY: GameState = {
   stones: {},
   crimstones: {},
   trees: {},
+  sunstones: {},
   farmActivity: {},
   milestones: {},
   fishing: {

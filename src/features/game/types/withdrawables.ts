@@ -221,6 +221,7 @@ const resources: Record<ResourceName, () => boolean> = {
   Boulder: () => false,
   Beehive: () => false,
   "Flower Bed": () => false,
+  "Sunstone Rock": () => false,
 };
 
 const mutantChickens: Record<MutantChicken, () => boolean> = {
