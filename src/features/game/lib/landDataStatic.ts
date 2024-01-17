@@ -2,11 +2,7 @@ import Decimal from "decimal.js-light";
 import { GameState, Inventory } from "../types/game";
 import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
-import {
-  INITIAL_BUMPKIN,
-  INITIAL_BUMPKIN_LEVEL,
-  INITIAL_EXPANSIONS,
-} from "./bumpkinData";
+import { INITIAL_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
 
 export const INITIAL_RESOURCES: Pick<
   GameState,
