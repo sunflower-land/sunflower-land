@@ -1,8 +1,12 @@
 import Decimal from "decimal.js-light";
+import { INITIAL_BUMPKIN } from "features/game/lib/bumpkinData";
+import { TEST_FARM } from "features/game/lib/constants";
+import { FlowerBed, GameState } from "features/game/types/game";
+import { plantFlower } from "./plantFlower";
 
 const GAME_STATE: GameState = {
-  ...INITIAL_FARM,
-  bumpkin: TEST_BUMPKIN,
+  ...TEST_FARM,
+  bumpkin: INITIAL_BUMPKIN,
   flowers: {
     0: {
       createdAt: Date.now(),
@@ -79,7 +83,7 @@ describe("plantFlower", () => {
   it("does not plant an invalid seed", () => {
     expect(() =>
       plantFlower({
-        state: { ...GAME_STATE, bumpkin: TEST_BUMPKIN },
+        state: { ...GAME_STATE, bumpkin: INITIAL_BUMPKIN },
         createdAt: dateNow,
         action: {
           type: "flower.planted",
@@ -93,7 +97,7 @@ describe("plantFlower", () => {
   it("does not plant if user does not have seeds", () => {
     expect(() =>
       plantFlower({
-        state: { ...GAME_STATE, bumpkin: TEST_BUMPKIN },
+        state: { ...GAME_STATE, bumpkin: INITIAL_BUMPKIN },
         createdAt: dateNow,
         action: {
           type: "flower.planted",
@@ -112,7 +116,7 @@ describe("plantFlower", () => {
     const state = plantFlower({
       state: {
         ...GAME_STATE,
-        bumpkin: TEST_BUMPKIN,
+        bumpkin: INITIAL_BUMPKIN,
         inventory: {
           "Sunpetal Seed": seedAmount,
         },
@@ -144,7 +148,7 @@ describe("plantFlower", () => {
     const state = plantFlower({
       state: {
         ...GAME_STATE,
-        bumpkin: TEST_BUMPKIN,
+        bumpkin: INITIAL_BUMPKIN,
         inventory: {
           "Sunpetal Seed": new Decimal(1),
         },

@@ -216,7 +216,7 @@ import {
   harvestBeehive,
   HarvestBeehiveAction,
 } from "./landExpansion/harvestBeehive";
-import { PlantFlowerAction } from "./landExpansion/plantFlower";
+import { plantFlower, PlantFlowerAction } from "./landExpansion/plantFlower";
 
 export type PlayingEvent =
   | TradeAction
@@ -422,6 +422,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "farmHand.bought": buyFarmhand,
   "farmHand.equipped": equipFarmhand,
   "beehive.harvested": harvestBeehive,
+  "flower.planted": plantFlower,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

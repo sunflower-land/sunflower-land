@@ -9,6 +9,9 @@ export type FlowerSeedName = "Sunpetal Seed";
 export type FlowerSeed = {
   price: Decimal;
   bumpkinLevel: number;
+  sfl: Decimal;
+  description: string;
+  plantSeconds: number;
 };
 
 export function isFlowerSeed(seed: FlowerSeedName) {
@@ -19,6 +22,9 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
   "Sunpetal Seed": {
     price: new Decimal(0),
     bumpkinLevel: 0,
+    sfl: new Decimal(0),
+    description: "A seed for a flower",
+    plantSeconds: 60,
   },
 });
 

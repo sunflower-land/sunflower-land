@@ -13,10 +13,14 @@ export type PlantFlowerAction = {
 type Options = {
   state: Readonly<GameState>;
   action: PlantFlowerAction;
-  createdAt: number;
+  createdAt?: number;
 };
 
-export function plantFlower({ state, action, createdAt }: Options) {
+export function plantFlower({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options) {
   const stateCopy = cloneDeep(state);
   const { flowers, bumpkin } = stateCopy;
 

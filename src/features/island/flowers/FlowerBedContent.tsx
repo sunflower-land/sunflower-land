@@ -36,6 +36,16 @@ export const FlowerBedContent: React.FC<Props> = () => {
   const [seed, setSeed] = useState<SeedName>();
   const [crossbreed, setCrossBreed] = useState<InventoryItemName>();
 
+  const selectSeed = (name: SeedName) => {
+    setSeed(name);
+    if (!crossbreed) setSelecting("crossbreed");
+  };
+
+  const selectCrossBreed = (name: InventoryItemName) => {
+    setCrossBreed(name);
+    if (!seed) setSelecting("seed");
+  };
+
   return (
     <>
       <div className="p-2">
@@ -59,6 +69,7 @@ export const FlowerBedContent: React.FC<Props> = () => {
               "absolute z-40 cursor-pointer bg-green-800 border-t-4 border-green-900 rounded-md",
               {}
             )}
+            onClick={() => setSelecting("seed")}
             style={{
               height: `${PIXEL_SCALE * 16}px`,
               width: `${PIXEL_SCALE * 16}px`,
@@ -66,7 +77,7 @@ export const FlowerBedContent: React.FC<Props> = () => {
               left: `${PIXEL_SCALE * 12}px`,
             }}
           >
-            {!seed && (
+            {selecting === "seed" && (
               <img
                 src={SUNNYSIDE.ui.select_box}
                 className="w-full absolute inset-0 -top-1"
@@ -74,7 +85,7 @@ export const FlowerBedContent: React.FC<Props> = () => {
             )}
             {seed && (
               <img
-                src={ITEM_DETAILS["Sunflower Seed"].image}
+                src={ITEM_DETAILS[seed].image}
                 className="w-full absolute inset-0 -top-1"
               />
             )}
@@ -85,6 +96,7 @@ export const FlowerBedContent: React.FC<Props> = () => {
               "absolute  z-40 cursor-pointer bg-green-800 border-t-4 border-green-900 rounded-md",
               {}
             )}
+            onClick={() => setSelecting("crossbreed")}
             style={{
               height: `${PIXEL_SCALE * 16}px`,
               width: `${PIXEL_SCALE * 16}px`,
@@ -92,7 +104,7 @@ export const FlowerBedContent: React.FC<Props> = () => {
               right: `${PIXEL_SCALE * 12}px`,
             }}
           >
-            {seed && !crossbreed && (
+            {selecting === "crossbreed" && (
               <img
                 src={SUNNYSIDE.ui.select_box}
                 className="w-full  absolute inset-0 -top-1"
@@ -100,51 +112,59 @@ export const FlowerBedContent: React.FC<Props> = () => {
             )}
             {crossbreed && (
               <img
-                src={ITEM_DETAILS["Radish"].image}
+                src={ITEM_DETAILS[crossbreed].image}
                 className="h-full absolute inset-0 -top-1 mx-auto"
               />
             )}
           </div>
         </div>
 
-        <div className="flex flex-wrap">
-          {selecting === "seed" && (
-            <>
-              <Label type="default">Pick a seed</Label>
+        <div className="grid">
+          <div
+            className={classNames("row-start-1 col-start-1", {
+              invisible: !(selecting === "seed"),
+            })}
+          >
+            <Label type="default">Pick a seed</Label>
+            <div className="flex flex-wrap">
               {getKeys(FLOWER_SEEDS()).map((name) => (
                 <Box
                   image={ITEM_DETAILS[name].image}
                   count={inventory[name]}
-                  onClick={() => setSeed(name)}
+                  onClick={() => selectSeed(name)}
                   key={name}
                   isSelected={seed === name}
                 />
               ))}
-            </>
-          )}
+            </div>
+          </div>
 
-          {selecting === "crossbreed" && (
-            <>
-              <Label type="default">Crossbreed with</Label>
+          <div
+            className={classNames("row-start-1 col-start-1", {
+              invisible: !(selecting === "crossbreed"),
+            })}
+          >
+            <Label type="default">Crossbreed with</Label>
+            <div className="flex flex-wrap">
               {getKeys(FLOWER_CHUM_AMOUNTS)
                 // .filter((name) => !!inventory[name]?.gte(1))
                 .map((name) => (
                   <Box
                     image={ITEM_DETAILS[name].image}
                     count={inventory[name]}
-                    onClick={() => setCrossBreed(name)}
+                    onClick={() => selectCrossBreed(name)}
                     key={name}
                     isSelected={crossbreed === name}
                   />
                 ))}
-            </>
-          )}
+            </div>
+          </div>
         </div>
       </div>
 
-      {!seed && <Button onClick={() => setSeed("Sunflower Seed")}>Next</Button>}
-
-      {seed && <Button onClick={() => setCrossBreed("Pumpkin")}>Plant</Button>}
+      <Button disabled={true} onClick={() => setCrossBreed("Pumpkin")}>
+        Plant
+      </Button>
     </>
   );
 };
