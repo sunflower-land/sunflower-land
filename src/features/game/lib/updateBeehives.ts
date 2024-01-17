@@ -13,10 +13,8 @@ import { getKeys } from "../types/craftables";
  * autonomously switch beehives and continue producing while the player is offline.
  */
 
-// export const HONEY_PRODUCTION_TIME = 24 * 60 * 60 * 1000;
-// export const FLOWER_GROW_TIME = 24 * 60 * 60 * 1000;
-export const HONEY_PRODUCTION_TIME = 60 * 1000;
-export const FLOWER_GROW_TIME = 60 * 1000;
+export const HONEY_PRODUCTION_TIME = 24 * 60 * 60 * 1000;
+export const FLOWER_GROW_TIME = 24 * 60 * 60 * 1000;
 
 interface GetFlowerDetail {
   flowerId: string;
