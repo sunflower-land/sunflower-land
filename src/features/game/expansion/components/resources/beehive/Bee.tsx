@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
-import { animated, config, useSpring } from "react-spring";
+import { animated, useSpring } from "react-spring";
 import { Context } from "features/game/GameProvider";
 import bee from "assets/icons/bee.webp";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import classNames from "classnames";
 
 export type Position = {
   x: number;
@@ -68,52 +69,37 @@ export const Bee: React.FC<Props> = ({
 
   // React Spring animation
   const animation = useSpring({
-    from: { transform: "translate(0px, 0px) scale(1)" },
+    from: { transform: `translate(0px, 0px) scale(0)` },
     to: async (next) => {
-      switch (animationPhase) {
-        case 0:
-          // Phase 0: Scale out of the hive
-          await next({
-            transform: `translate(0px, -${GRID_WIDTH_PX}px) scale(0)`,
-          });
-          setAnimationPhase(1);
-          break;
-
-        case 1:
-          // Phase 1: Move to the flowerbed
-          await next({
-            transform: `translate(${flowerPosition.x}px, ${flowerPosition.y}px) scale(1)`,
-            config: config.molasses, // Adjust this config for a smooth transition
-          });
-          setAnimationPhase(2);
-          break;
-
-        case 2:
-          // Phase 2: Hover for a second
-          await new Promise((resolve) => setTimeout(resolve, 1000));
-          setAnimationPhase(3);
-          break;
-
-        case 3:
-          // Phase 3: Move back to the hive
-          await next({
-            transform: `translate(0px, 0px) scale(1)`,
-            config: config.molasses,
-          });
-          setAnimationPhase(4);
-          break;
-
-        case 4:
-          // Phase 4: Scale back into the hive
-          await next({ transform: `translate(0px, 0px) scale(0)` });
-          onAnimationEnd(); // Callback when animation is done
-          break;
-
-        default:
-          break;
-      }
+      await next({
+        transform: `translate(0px, 0px) scale(1)`,
+        config: {
+          duration: 1000,
+        },
+      });
+      // Phase 1: Move to the flowerbed
+      await next({
+        transform: `translate(${flowerPosition.x}px, ${flowerPosition.y}px) scale(1)`,
+        config: {
+          duration: 3000,
+        },
+      });
+      // Phase 2: Hover for a second
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Phase 3: Move back to the hive
+      await next({
+        transform: `translate(0px, 0px) scale(1)`,
+        config: {
+          duration: 3000,
+        },
+      });
+      // Phase 4: Scale back into the hive
+      await next({
+        transform: `translate(0px, 0px) scale(0)`,
+        config: { duration: 1000 },
+      });
+      onAnimationEnd(); // Callback when animation is done
     },
-    reset: true,
   });
 
   return (
@@ -129,7 +115,9 @@ export const Bee: React.FC<Props> = ({
       <img
         src={bee}
         alt="Bee"
-        className={flowerPosition.x > 0 ? "-scale-x-100" : ""}
+        className={classNames("animate-float", {
+          "-scale-x-100": flowerPosition.x > 0,
+        })}
         style={{
           width: `${PIXEL_SCALE * 10}px`,
         }}

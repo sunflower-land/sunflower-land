@@ -129,8 +129,8 @@ export const INITIAL_RESOURCES: Pick<
       },
       x: 7,
       y: 3,
-      height: 2,
-      width: 2,
+      height: 1,
+      width: 1,
     },
     2: {
       stone: {
@@ -139,8 +139,8 @@ export const INITIAL_RESOURCES: Pick<
       },
       x: 3,
       y: 6,
-      height: 2,
-      width: 2,
+      height: 1,
+      width: 1,
     },
   },
   fruitPatches: {},
@@ -332,7 +332,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Axe: new Decimal(10),
     "Block Buck": new Decimal(100),
     Egg: new Decimal(12),
-    Beehive: new Decimal(1),
+    Beehive: new Decimal(2),
     Banana: new Decimal(12),
     Wood: new Decimal(100),
     Stone: new Decimal(100),
@@ -494,15 +494,22 @@ export const STATIC_OFFLINE_FARM: GameState = {
   flowers: {
     "1": {
       createdAt: Date.now(),
-      x: 0,
+      x: -1,
       y: 2,
       height: 1,
-      width: 2,
+      width: 3,
       flower: {
         amount: 1,
         name: "Flower 1",
-        plantedAt: 0,
+        plantedAt: Date.now(),
       },
+    },
+    "2": {
+      createdAt: Date.now(),
+      x: 4,
+      y: 6,
+      height: 1,
+      width: 3,
     },
   },
 };
