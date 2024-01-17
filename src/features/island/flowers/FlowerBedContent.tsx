@@ -1,26 +1,25 @@
 import React, { useContext, useState } from "react";
 
-import { getKeys } from "features/game/types/craftables";
-import {
-  FLOWER_CHUM_AMOUNTS,
-  FLOWER_CHUM_DETAILS,
-} from "features/game/types/flowers";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { SEEDS } from "features/game/types/seeds";
+import { SeedName } from "features/game/types/seeds";
 import flowerBed from "assets/flowers/flower_bed.webp";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import classNames from "classnames";
+import { FLOWER_CHUM_AMOUNTS, FLOWER_SEEDS } from "features/game/types/flowers";
+import { getKeys } from "features/game/types/craftables";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
 
 interface Props {
   onClose: () => void;
 }
 
-export const FlowerBedContent: React.FC<Props> = ({ onClose }) => {
+export const FlowerBedContent: React.FC<Props> = () => {
   const { gameService } = useContext(Context);
   const [
     {
@@ -30,123 +29,122 @@ export const FlowerBedContent: React.FC<Props> = ({ onClose }) => {
     },
   ] = useActor(gameService);
 
-  const [selectedSeed, setSelectedSeed] = useState<
-    InventoryItemName | undefined
-  >(undefined);
-  const [selectedChum, setSelectedChum] = useState<
-    InventoryItemName | undefined
-  >(undefined);
+  const [selecting, setSelecting] = useState<"seed" | "crossbreed" | null>(
+    "seed"
+  );
 
-  const selectSeed = (name: InventoryItemName) => {
-    setSelectedSeed(name);
-  };
-  const selectChum = (name: InventoryItemName) => {
-    setSelectedChum(name);
-  };
-
-  const onList = (name: InventoryItemName) => {
-    throw new Error("Not implemented");
-  };
-
-  const onCancel = () => {
-    throw new Error("Not implemented");
-  };
-
-  const onPlant = () => {
-    gameService.send("flower.planted", {
-      id: "123",
-      name: "Sunpetal Seed",
-    });
-    onClose();
-  };
+  const [seed, setSeed] = useState<SeedName>();
+  const [crossbreed, setCrossBreed] = useState<InventoryItemName>();
 
   return (
-    <div>
-      <img src={flowerBed} style={{ width: "200px" }} />
+    <>
+      <div className="p-2">
+        {crossbreed && (
+          <div className="flex items-center justify-center">
+            <img src={ITEM_DETAILS["Warty Goblin Pumpkin"].image} />
+            <span className="text-xs">Red Tulip</span>
+          </div>
+        )}
+        {!crossbreed && <p className="text-xs text-center">?</p>}
+        <div
+          className="relative mx-auto w-full mt-2"
+          style={{
+            width: `${PIXEL_SCALE * 80}px`,
+          }}
+        >
+          <img src={flowerBed} className="w-full" />
 
-      <p className="mb-1 p-1 text-xs">Select your seed:</p>
-      <div className="flex flex-wrap">
-        {getKeys(SEEDS()).map((name) => (
-          <Box
-            image={ITEM_DETAILS[name].image}
-            count={inventory[name]}
-            onClick={() => selectSeed(name)}
-            key={name}
-            isSelected={selectedSeed === name}
-          />
-        ))}
+          <div
+            className={classNames(
+              "absolute z-40 cursor-pointer bg-green-800 border-t-4 border-green-900 rounded-md",
+              {}
+            )}
+            style={{
+              height: `${PIXEL_SCALE * 16}px`,
+              width: `${PIXEL_SCALE * 16}px`,
+              top: `${PIXEL_SCALE * 6}px`,
+              left: `${PIXEL_SCALE * 12}px`,
+            }}
+          >
+            {!seed && (
+              <img
+                src={SUNNYSIDE.ui.select_box}
+                className="w-full absolute inset-0 -top-1"
+              />
+            )}
+            {seed && (
+              <img
+                src={ITEM_DETAILS["Sunflower Seed"].image}
+                className="w-full absolute inset-0 -top-1"
+              />
+            )}
+          </div>
+
+          <div
+            className={classNames(
+              "absolute  z-40 cursor-pointer bg-green-800 border-t-4 border-green-900 rounded-md",
+              {}
+            )}
+            style={{
+              height: `${PIXEL_SCALE * 16}px`,
+              width: `${PIXEL_SCALE * 16}px`,
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 12}px`,
+            }}
+          >
+            {seed && !crossbreed && (
+              <img
+                src={SUNNYSIDE.ui.select_box}
+                className="w-full  absolute inset-0 -top-1"
+              />
+            )}
+            {crossbreed && (
+              <img
+                src={ITEM_DETAILS["Radish"].image}
+                className="h-full absolute inset-0 -top-1 mx-auto"
+              />
+            )}
+          </div>
+        </div>
+
+        <div className="flex flex-wrap">
+          {selecting === "seed" && (
+            <>
+              <Label type="default">Pick a seed</Label>
+              {getKeys(FLOWER_SEEDS()).map((name) => (
+                <Box
+                  image={ITEM_DETAILS[name].image}
+                  count={inventory[name]}
+                  onClick={() => setSeed(name)}
+                  key={name}
+                  isSelected={seed === name}
+                />
+              ))}
+            </>
+          )}
+
+          {selecting === "crossbreed" && (
+            <>
+              <Label type="default">Crossbreed with</Label>
+              {getKeys(FLOWER_CHUM_AMOUNTS)
+                // .filter((name) => !!inventory[name]?.gte(1))
+                .map((name) => (
+                  <Box
+                    image={ITEM_DETAILS[name].image}
+                    count={inventory[name]}
+                    onClick={() => setCrossBreed(name)}
+                    key={name}
+                    isSelected={crossbreed === name}
+                  />
+                ))}
+            </>
+          )}
+        </div>
       </div>
 
-      <p className="mb-1 p-1 text-xs">Select your resources:</p>
+      {!seed && <Button onClick={() => setSeed("Sunflower Seed")}>Next</Button>}
 
-      <div className="flex flex-wrap">
-        {getKeys(FLOWER_CHUM_AMOUNTS)
-          // .filter((name) => !!inventory[name]?.gte(1))
-          .map((name) => (
-            <Box
-              image={ITEM_DETAILS[name].image}
-              count={inventory[name]}
-              onClick={() => selectChum(name)}
-              key={name}
-              isSelected={selectedChum === name}
-            />
-          ))}
-      </div>
-
-      {selectedSeed && (
-        <div className="p-2">
-          <div className="flex justify-between">
-            <Label
-              type="default"
-              className="mb-1"
-              icon={ITEM_DETAILS[selectedSeed].image}
-            >
-              {selectedSeed}
-            </Label>
-            <Label
-              // type={!hasRequirements ? "danger" : "default"}
-              type="default"
-              className="mb-1"
-            >{`${FLOWER_CHUM_AMOUNTS[selectedSeed]} ${selectedSeed} required`}</Label>
-          </div>
-          <p className="text-xs">{FLOWER_CHUM_DETAILS[selectedSeed]}</p>
-        </div>
-      )}
-
-      {selectedChum && (
-        <div className="p-2">
-          <div className="flex justify-between">
-            <Label
-              type="default"
-              className="mb-1"
-              icon={ITEM_DETAILS[selectedChum].image}
-            >
-              {selectedChum}
-            </Label>
-            <Label
-              // type={!hasRequirements ? "danger" : "default"}
-              type="default"
-              className="mb-1"
-            >{`${FLOWER_CHUM_AMOUNTS[selectedChum]} ${selectedChum} required`}</Label>
-          </div>
-          <p className="text-xs">{FLOWER_CHUM_DETAILS[selectedChum]}</p>
-        </div>
-      )}
-
-      <Button
-        onClick={() => onPlant()}
-        disabled={!selectedSeed || !selectedChum}
-        // disabled={
-        //   fishingLimitReached ||
-        //   missingRod ||
-        //   !state.inventory[bait as InventoryItemName]?.gte(1)
-        // }
-      >
-        <div className="flex items-center">
-          <span className="text-sm mr-1">Plant</span>
-          <img src={SUNNYSIDE.icons.seedling} className="h-5" />
-        </div>
-      </Button>
-    </div>
+      {seed && <Button onClick={() => setCrossBreed("Pumpkin")}>Plant</Button>}
+    </>
   );
 };
