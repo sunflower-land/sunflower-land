@@ -13,7 +13,7 @@ export type Seed = {
   description: string;
   plantSeconds: number;
   bumpkinLevel: number;
-  yield: CropName | FruitName;
+  yield?: CropName | FruitName;
   disabled?: boolean;
 };
 
