@@ -7,10 +7,11 @@ import { FlowerBedGuide } from "./FlowerBedGuide";
 import { FlowerBedContent } from "./FlowerBedContent";
 
 interface Props {
+  id: string;
   onClose: () => void;
 }
 
-export const FlowerBedModal: React.FC<Props> = ({ onClose }) => {
+export const FlowerBedModal: React.FC<Props> = ({ onClose, id }) => {
   const [tab, setTab] = useState(0);
 
   return (
@@ -27,7 +28,7 @@ export const FlowerBedModal: React.FC<Props> = ({ onClose }) => {
       currentTab={tab}
       setCurrentTab={setTab}
     >
-      {tab === 0 && <FlowerBedContent onClose={onClose} />}
+      {tab === 0 && <FlowerBedContent id={id} onClose={onClose} />}
 
       {tab === 1 && <FlowerBedGuide onClose={() => setTab(0)} />}
     </CloseButtonPanel>

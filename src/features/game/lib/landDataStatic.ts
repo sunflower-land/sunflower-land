@@ -147,6 +147,7 @@ export const INITIAL_RESOURCES: Pick<
   gold: {},
   iron: {},
   flowers: {},
+  rubies: {},
 };
 
 const INITIAL_STOCK: Inventory = {
