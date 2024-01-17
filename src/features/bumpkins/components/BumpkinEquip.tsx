@@ -109,7 +109,8 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
     isMissingShirt ||
     isMissingBackground ||
     isMissingPants;
-
+    
+  const { t } = useAppTranslation();
   const warning = () => {
     if (isMissingHair) {
       return t("part.hair");
