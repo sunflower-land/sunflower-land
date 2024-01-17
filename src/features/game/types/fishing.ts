@@ -62,7 +62,39 @@ export const PURCHASEABLE_BAIT: Record<PurchaseableBait, Tool> = {
   },
 };
 
-export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
+export type Chum = Extract<
+  InventoryItemName,
+  | "Gold"
+  | "Iron"
+  | "Stone"
+  | "Egg"
+  | "Sunflower"
+  | "Potato"
+  | "Pumpkin"
+  | "Carrot"
+  | "Cabbage"
+  | "Beetroot"
+  | "Cauliflower"
+  | "Parsnip"
+  | "Eggplant"
+  | "Radish"
+  | "Corn"
+  | "Wheat"
+  | "Kale"
+  | "Blueberry"
+  | "Orange"
+  | "Apple"
+  | "Banana"
+  | "Seaweed"
+  | "Crab"
+  | "Anchovy"
+  | "Red Snapper"
+  | "Tuna"
+  | "Squid"
+  | "Wood"
+>;
+
+export const CHUM_AMOUNTS: Record<Chum, number> = {
   Gold: 1,
   Iron: 5,
   Stone: 5,
@@ -90,11 +122,13 @@ export const CHUM_AMOUNTS: Partial<Record<InventoryItemName, number>> = {
   "Red Snapper": 1,
   Tuna: 1,
   Squid: 1,
+  Wood: 5,
 };
 
-export const CHUM_DETAILS: Partial<Record<InventoryItemName, string>> = {
+export const CHUM_DETAILS: Record<Chum, string> = {
   Gold: "The shimmering gold can be seen 100 miles away",
   Iron: "A shimmering sparkle, can be seen at all angles during Dusk",
+  Stone: "Maybe throwing a few stones will attract some fish",
   Egg: "Hmmm, not sure what fish would like eggs...",
   Sunflower: "A sunny, vibrant lure for curious fish.",
   Potato: "Potatoes make for an unusual fishy feast.",
@@ -119,6 +153,7 @@ export const CHUM_DETAILS: Partial<Record<InventoryItemName, string>> = {
   "Red Snapper": "A mystery hidden within the depths of the ocean.",
   Tuna: "What is big enough to eat a tuna?",
   Squid: "Awaken a ray with its favorite treat!",
+  Wood: "Wood. An interesting choice....",
 };
 
 export type FishingLocation = "beach" | "wharf";
