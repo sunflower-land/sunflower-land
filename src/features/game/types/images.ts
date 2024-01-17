@@ -3069,4 +3069,9 @@ export const ITEM_DETAILS: Items = {
     description:
       "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
   },
+
+  "Flower 1": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
 };

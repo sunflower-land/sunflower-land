@@ -3,54 +3,112 @@ import React, { useContext, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { FlowerBedModal } from "./FlowerBedModal";
-import flowerBed from "assets/flowers/flower_bed.webp";
+import flowerBedImage from "assets/flowers/flower_bed.webp";
 import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
+import { useActor } from "@xstate/react";
+import { FLOWERS } from "features/game/types/flowers";
+import { TimerPopover } from "../common/TimerPopover";
+import { ITEM_DETAILS } from "features/game/types/images";
+import classNames from "classnames";
+import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 interface Props {
   id: string;
 }
 
 export const FlowerBed: React.FC<Props> = ({ id }) => {
-  const { showTimers } = useContext(Context);
+  const { showTimers, gameService } = useContext(Context);
+  const [
+    {
+      context: {
+        state: { flowers },
+      },
+    },
+  ] = useActor(gameService);
+
+  const flowerBed = flowers[id];
 
   const [showModal, setShowModal] = useState(false);
+  const [showPopover, setShowPopover] = useState(false);
 
-  const isGrowing = true;
-  const growPercentage = 50;
-  const timeLeft = 3;
+  useUiRefresher();
+
+  if (!flowerBed.flower) {
+    return (
+      <>
+        <div
+          className="relative w-full h-full hover:img-highlight cursor-pointer"
+          onClick={() => setShowModal(true)}
+        >
+          <img
+            src={flowerBedImage}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 48}px`,
+              height: `${PIXEL_SCALE * 16}px`,
+            }}
+          />
+        </div>
+        <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+          <FlowerBedModal id={id} onClose={() => setShowModal(false)} />
+        </Modal>
+      </>
+    );
+  }
+
+  const flower = flowerBed.flower;
+
+  const growTime = FLOWERS[flower.name].harvestSeconds * 1000;
+  const timeLeft = (flowerBed.flower?.plantedAt ?? 0) + growTime - Date.now();
+  const timeLeftSeconds = Math.round(timeLeft / 1000);
+
+  const growPercentage = Math.max(timeLeft, 0) / growTime;
+
+  const isGrowing = timeLeft > 0;
+
+  const handlePlotClick = () => {
+    gameService.send({
+      type: "flower.harvested",
+      id,
+    });
+  };
 
   return (
     <>
       <div
-        className="relative w-full h-full cursor-pointer hover:img-highlight"
-        onClick={() => setShowModal(true)}
+        className={classNames("relative w-full h-full  hover:img-highlight", {
+          "cursor-pointer": !isGrowing,
+        })}
+        onClick={handlePlotClick}
+        onMouseEnter={() => setShowPopover(true)}
+        onMouseLeave={() => setShowPopover(false)}
       >
         <img
-          src={flowerBed}
+          src={flowerBedImage}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 48}px`,
             height: `${PIXEL_SCALE * 16}px`,
           }}
         />
-        {isGrowing && (
+        {flowerBed.flower && isGrowing && (
           <div
             className="flex justify-center absolute w-full pointer-events-none"
             style={{
               top: `${PIXEL_SCALE * -18}px`,
             }}
           >
-            {/* <TimerPopover
-              image={ITEM_DETAILS[cropName].image}
-              description={cropName}
-              showPopover={showTimerPopover}
-              timeLeft={timeLeft}
-            /> */}
+            <TimerPopover
+              image={ITEM_DETAILS[flowerBed.flower.name].image}
+              description={flowerBed.flower.name}
+              showPopover={showPopover}
+              timeLeft={timeLeftSeconds}
+            />
           </div>
         )}
 
-        {showTimers && (
+        {showTimers && isGrowing && (
           <div
             className="absolute"
             style={{
@@ -61,16 +119,13 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
           >
             <ProgressBar
               percentage={growPercentage}
-              seconds={timeLeft}
+              seconds={timeLeftSeconds}
               type="progress"
               formatLength="short"
             />
           </div>
         )}
       </div>
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <FlowerBedModal id={id} onClose={() => setShowModal(false)} />
-      </Modal>
     </>
   );
 };

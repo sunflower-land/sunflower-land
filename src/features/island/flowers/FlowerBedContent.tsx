@@ -7,7 +7,7 @@ import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SeedName } from "features/game/types/seeds";
-import flowerBed from "assets/flowers/flower_bed.webp";
+import flowerBed from "assets/flowers/flower_bed_modal.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { FLOWER_CHUM_AMOUNTS, FLOWER_SEEDS } from "features/game/types/flowers";
