@@ -25,7 +25,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
   const [
     {
       context: {
-        state: { inventory, flowers },
+        state: { inventory },
       },
     },
   ] = useActor(gameService);
