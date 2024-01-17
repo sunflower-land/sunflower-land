@@ -154,11 +154,11 @@ export const INITIAL_RESOURCES: Pick<
       y: 2,
       height: 1,
       width: 3,
-      flower: {
-        amount: 1,
-        name: "Flower 1",
-        plantedAt: 0,
-      },
+      // flower: {
+      //   amount: 1,
+      //   name: "Flower 1",
+      //   plantedAt: 0,
+      // },
     },
   },
 };
@@ -304,6 +304,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   previousInventory: {},
   inventory: {
     "Farmhand Coupon": new Decimal(1),
+    "Sunpetal Seed": new Decimal(100),
     "White Festive Fox": new Decimal(3),
     Scarecrow: new Decimal(1),
     Shovel: new Decimal(1),

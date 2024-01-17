@@ -16,15 +16,16 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 
 interface Props {
+  id: string;
   onClose: () => void;
 }
 
-export const FlowerBedContent: React.FC<Props> = () => {
+export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
   const { gameService } = useContext(Context);
   const [
     {
       context: {
-        state: { inventory },
+        state: { inventory, flowers },
       },
     },
   ] = useActor(gameService);
@@ -44,6 +45,15 @@ export const FlowerBedContent: React.FC<Props> = () => {
   const selectCrossBreed = (name: InventoryItemName) => {
     setCrossBreed(name);
     if (!seed) setSelecting("seed");
+  };
+
+  const plant = () => {
+    gameService.send({
+      type: "flower.planted",
+      id,
+      seed: "Sunpetal Seed",
+    });
+    onClose();
   };
 
   return (
@@ -162,7 +172,7 @@ export const FlowerBedContent: React.FC<Props> = () => {
         </div>
       </div>
 
-      <Button disabled={true} onClick={() => setCrossBreed("Pumpkin")}>
+      <Button disabled={!seed} onClick={() => plant()}>
         Plant
       </Button>
     </>

@@ -11,7 +11,7 @@ interface Props {
   id: string;
 }
 
-export const FlowerBed: React.FC<Props> = (props) => {
+export const FlowerBed: React.FC<Props> = ({ id }) => {
   const { showTimers } = useContext(Context);
 
   const [showModal, setShowModal] = useState(false);
@@ -69,7 +69,7 @@ export const FlowerBed: React.FC<Props> = (props) => {
         )}
       </div>
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <FlowerBedModal onClose={() => setShowModal(false)} />
+        <FlowerBedModal id={id} onClose={() => setShowModal(false)} />
       </Modal>
     </>
   );
