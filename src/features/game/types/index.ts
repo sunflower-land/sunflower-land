@@ -251,8 +251,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Fruitful Blend": 630,
   "Rapid Root": 631,
   "Fishing Lure": 632,
-  "Ruby Rock": 633,
-  Ruby: 634,
+
+  "Ruby Rock": 635,
+  Ruby: 636,
 
   "Green Thumb": 701,
   "Barn Manager": 702,
