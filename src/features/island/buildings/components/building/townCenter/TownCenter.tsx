@@ -7,13 +7,13 @@ import { BuildingProps } from "../Building";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { LetterBox } from "features/farming/mail/LetterBox";
-import { PlayerNPC } from "features/island/bumpkin/components/PlayerNPC";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 import { useNavigate } from "react-router-dom";
 import { hasFeatureAccess } from "lib/flags";
+import { HomeBumpkins } from "../house/HomeBumpkins";
 
 export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
   const { gameService } = useContext(Context);
@@ -82,22 +82,7 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
           height: `${PIXEL_SCALE * 32}px`,
         }}
       >
-        {bumpkin && (
-          <PlayerNPC
-            parts={{
-              body: bumpkin.equipped.body,
-              hair: bumpkin.equipped.hair,
-              shirt: bumpkin.equipped.shirt,
-              pants: bumpkin.equipped.pants,
-              hat: bumpkin.equipped.hat,
-              suit: bumpkin.equipped.suit,
-              onesie: bumpkin.equipped.onesie,
-              wings: bumpkin.equipped.wings,
-              dress: bumpkin.equipped.dress,
-              beard: bumpkin.equipped.beard,
-            }}
-          />
-        )}
+        {bumpkin && <HomeBumpkins game={gameState.context.state} />}
       </div>
 
       <div

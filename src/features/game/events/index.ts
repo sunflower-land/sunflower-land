@@ -205,6 +205,11 @@ import {
 import { moveRuby, MoveRubyAction } from "./landExpansion/moveRuby";
 import { mineRuby, MineRubyAction } from "./landExpansion/mineRuby";
 import { placeRuby, PlaceRubyAction } from "./landExpansion/placeRuby";
+import { buyFarmhand, BuyFarmHandAction } from "./landExpansion/buyFarmHand";
+import {
+  equipFarmhand,
+  EquipFarmHandAction,
+} from "./landExpansion/equipFarmHand";
 
 export type PlayingEvent =
   | TradeAction
@@ -274,7 +279,9 @@ export type PlayingEvent =
   | RevealLandAction
   | BurnCollectibleAction
   | ClaimBonusAction
-  | AccelerateComposterAction;
+  | AccelerateComposterAction
+  | BuyFarmHandAction
+  | EquipFarmHandAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -401,6 +408,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "collectible.burned": burnCollectible,
   "bonus.claimed": claimBonus,
   "compost.accelerated": accelerateComposter,
+  "farmHand.bought": buyFarmhand,
+  "farmHand.equipped": equipFarmhand,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

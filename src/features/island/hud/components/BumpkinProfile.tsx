@@ -266,6 +266,7 @@ export const BumpkinProfile: React.FC<{
           bumpkin={gameState.context.state.bumpkin as Bumpkin}
           inventory={gameState.context.state.inventory}
           isFullUser={isFullUser}
+          gameState={gameState.context.state}
         />
       </Modal>
 

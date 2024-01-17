@@ -247,12 +247,19 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   island: {
-    type: "basic",
+    type: "spring",
   },
   mysteryPrizes: {},
   mushrooms: {
     mushrooms: {},
     spawnedAt: 0,
+  },
+  farmHands: {
+    bumpkins: {
+      // 1: {
+      //   equipped: INITIAL_BUMPKIN.equipped,
+      // },
+    },
   },
   bumpkin: INITIAL_BUMPKIN,
   buds: {
@@ -275,6 +282,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   previousBalance: new Decimal(0),
   previousInventory: {},
   inventory: {
+    "Farmhand Coupon": new Decimal(1),
     "White Festive Fox": new Decimal(3),
     Scarecrow: new Decimal(1),
     Shovel: new Decimal(1),
@@ -300,7 +308,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Ruby Rock": new Decimal(OFFLINE_FARM_RUBY),
     "Fruit Patch": new Decimal(OFFLINE_FARM_FRUIT),
     Axe: new Decimal(10),
-    "Block Buck": new Decimal(1),
+    "Block Buck": new Decimal(100),
     Egg: new Decimal(12),
   },
   wardrobe: {

@@ -1677,7 +1677,16 @@ describe("getCropTime", () => {
           onesie: "Eggplant Onesie",
         },
       },
-      game: TEST_FARM,
+      game: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            onesie: "Eggplant Onesie",
+          },
+        },
+      },
       buds: {},
       plot,
     });
@@ -1696,7 +1705,16 @@ describe("getCropTime", () => {
           onesie: "Corn Onesie",
         },
       },
-      game: TEST_FARM,
+      game: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            onesie: "Corn Onesie",
+          },
+        },
+      },
       buds: {},
       plot,
     });

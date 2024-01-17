@@ -691,10 +691,24 @@ describe("getFruitTime", () => {
   it("applies a 20% speed boost with Banana Onesie", () => {
     const seed = "Banana Plant";
     const orangePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
-    const time = getFruitTime(seed, TEST_FARM, {
-      ...INITIAL_BUMPKIN.equipped,
-      onesie: "Banana Onesie",
-    });
+    const time = getFruitTime(
+      seed,
+      {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+
+            onesie: "Banana Onesie",
+          },
+        },
+      },
+      {
+        ...INITIAL_BUMPKIN.equipped,
+        onesie: "Banana Onesie",
+      }
+    );
     expect(time).toEqual(orangePlantSeconds * 0.8);
   });
 });

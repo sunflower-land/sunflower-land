@@ -11,6 +11,7 @@ import { randomInt } from "lib/utils/random";
 import cloneDeep from "lodash.clonedeep";
 import { getFruitYield } from "./fruitHarvested";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export type PlantFruitAction = {
   type: "fruit.planted";
@@ -22,7 +23,7 @@ function getHarvestsLeft() {
   return randomInt(3, 6);
 }
 
-function getPlantedAt(
+export function getPlantedAt(
   fruitSeedName: FruitSeedName,
   wearables: BumpkinParts,
   game: GameState,
@@ -44,7 +45,7 @@ function getPlantedAt(
 export const getFruitTime = (
   fruitSeedName: FruitSeedName,
   game: GameState,
-  wearables: BumpkinParts
+  _: BumpkinParts
 ) => {
   let seconds = FRUIT_SEEDS()[fruitSeedName]?.plantSeconds ?? 0;
 
@@ -64,9 +65,10 @@ export const getFruitTime = (
     seconds = seconds * 0.9;
   }
 
+  // Banana Onesie: 20% reduction
   if (
     fruitSeedName === "Banana Plant" &&
-    wearables.onesie === "Banana Onesie"
+    isWearableActive({ name: "Banana Onesie", game })
   ) {
     seconds = seconds * 0.8;
   }
