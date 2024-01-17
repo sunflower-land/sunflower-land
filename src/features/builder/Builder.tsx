@@ -30,6 +30,7 @@ export const Builder: React.FC = () => {
     gold: [],
     iron: [],
     stones: [],
+    rubies: [],
     trees: [],
     boulder: [],
   });
@@ -125,6 +126,7 @@ export const Builder: React.FC = () => {
                 gold: [],
                 iron: [],
                 stones: [],
+                rubies: [],
                 trees: [],
                 boulder: [],
               })

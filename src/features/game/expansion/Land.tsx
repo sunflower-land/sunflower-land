@@ -55,6 +55,7 @@ const getIslandElements = ({
   stones,
   iron,
   gold,
+  rubies,
   fruitPatches,
   crops,
   showTimers,
@@ -73,6 +74,7 @@ const getIslandElements = ({
   stones: GameState["stones"];
   iron: GameState["iron"];
   gold: GameState["gold"];
+  rubies: GameState["rubies"];
   crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
   airdrops: GameState["airdrops"];
@@ -286,6 +288,33 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
+    ...getKeys(rubies).map((id, index) => {
+      const { x, y, width, height } = rubies[id];
+
+      return (
+        <MapPlacement
+          key={`ruby-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+        >
+          <Resource
+            key={`ruby-${id}`}
+            name="Ruby Rock"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+            index={index}
+            x={x}
+            y={y}
+          />
+        </MapPlacement>
+      );
+    })
+  );
+
+  mapPlacements.push(
     ...getKeys(fruitPatches).map((id, index) => {
       const { x, y, width, height } = fruitPatches[id];
 
@@ -429,6 +458,7 @@ export const Land: React.FC = () => {
     stones,
     iron,
     gold,
+    rubies,
     crops,
     fruitPatches,
     mushrooms,
@@ -534,6 +564,7 @@ export const Land: React.FC = () => {
               stones,
               iron,
               gold,
+              rubies,
               fruitPatches,
               crops,
               showTimers: showTimers,

@@ -143,6 +143,7 @@ const tools: Record<ToolName | WorkbenchToolName | Shovel, () => boolean> = {
   "Rusty Shovel": () => false,
   "Iron Pickaxe": () => false,
   "Stone Pickaxe": () => false,
+  "Gold Pickaxe": () => false,
   Rod: () => false,
   Shovel: () => false,
 };
@@ -187,6 +188,7 @@ const commodities: Record<CommodityName, () => boolean> = {
   Stone: () => true,
   Iron: () => true,
   Gold: () => true,
+  Ruby: () => true,
   Diamond: () => false,
 
   Honey: () => false,
@@ -198,6 +200,7 @@ const resources: Record<ResourceName, () => boolean> = {
   "Stone Rock": () => false,
   "Iron Rock": () => false,
   "Gold Rock": () => false,
+  "Ruby Rock": () => false,
   "Crop Plot": () => false,
   "Fruit Patch": () => false,
   Boulder: () => false,

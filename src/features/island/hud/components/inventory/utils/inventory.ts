@@ -84,6 +84,17 @@ export const getChestItems = (state: GameState) => {
       };
     }
 
+    if (itemName === "Ruby Rock") {
+      return {
+        ...acc,
+        "Ruby Rock": new Decimal(
+          state.inventory["Ruby Rock"]?.minus(
+            Object.keys(state.rubies).length
+          ) ?? 0
+        ),
+      };
+    }
+
     if (itemName === "Crop Plot") {
       return {
         ...acc,

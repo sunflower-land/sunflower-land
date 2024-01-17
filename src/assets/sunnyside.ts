@@ -135,6 +135,7 @@ export const SUNNYSIDE = {
     fishing_rod: `${CONFIG.PROTECTED_IMAGE_URL}/tools/fishing_rod.png`,
     hammer: `${CONFIG.PROTECTED_IMAGE_URL}/tools/hammer.png`,
     iron_pickaxe: `${CONFIG.PROTECTED_IMAGE_URL}/tools/iron_pickaxe.png`,
+    gold_pickaxe: `${CONFIG.PROTECTED_IMAGE_URL}/tools/gold_pickaxe.png`,
     power_shovel: `${CONFIG.PROTECTED_IMAGE_URL}/tools/power_shovel.png`,
     rusty_shovel: `${CONFIG.PROTECTED_IMAGE_URL}/tools/rusty_shovel.png`,
     sand_shovel: `${CONFIG.PROTECTED_IMAGE_URL}/tools/sand_shovel.png`,

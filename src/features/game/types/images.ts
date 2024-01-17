@@ -139,6 +139,7 @@ import singaporean_flag from "assets/sfts/flags/singaporean_flag.gif";
 // Resources
 import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
+import ruby from "assets/resources/ruby.png";
 import honey from "assets/resources/honey.png";
 import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
@@ -467,6 +468,7 @@ import grainGrinder from "assets/sfts/grain_grinder.png";
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
 import stoneRock from "assets/resources/stone_small.png";
+import rubyRock from "assets/resources/ruby_small.png";
 
 // Potion House
 import giantCabbage from "assets/sfts/giant_cabbage.png";
@@ -851,6 +853,10 @@ export const ITEM_DETAILS: Items = {
     ...COMMODITIES["Iron"],
     image: iron,
   },
+  Ruby: {
+    ...COMMODITIES["Ruby"],
+    image: ruby,
+  },
   Gold: {
     ...COMMODITIES["Gold"],
     image: gold,
@@ -896,6 +902,10 @@ export const ITEM_DETAILS: Items = {
   "Iron Pickaxe": {
     ...TOOLS["Iron Pickaxe"],
     image: SUNNYSIDE.tools.iron_pickaxe,
+  },
+  "Gold Pickaxe": {
+    ...TOOLS["Gold Pickaxe"],
+    image: SUNNYSIDE.tools.gold_pickaxe,
   },
   Hammer: {
     ...TOOLS["Hammer"],
@@ -2319,6 +2329,10 @@ export const ITEM_DETAILS: Items = {
   "Stone Rock": {
     image: stoneRock,
     description: "A mineable rock to collect stone",
+  },
+  "Ruby Rock": {
+    image: rubyRock,
+    description: "A mineable rock to collect ruby",
   },
   Tree: {
     image: SUNNYSIDE.resource.tree,

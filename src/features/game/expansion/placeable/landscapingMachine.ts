@@ -27,6 +27,7 @@ export const RESOURCE_PLACE_EVENTS: Partial<
   "Stone Rock": "stone.placed",
   "Iron Rock": "iron.placed",
   "Gold Rock": "gold.placed",
+  "Ruby Rock": "ruby.placed",
   "Crop Plot": "plot.placed",
   "Fruit Patch": "fruitPatch.placed",
 };

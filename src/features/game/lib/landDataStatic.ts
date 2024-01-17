@@ -10,7 +10,7 @@ import {
 
 export const INITIAL_RESOURCES: Pick<
   GameState,
-  "crops" | "trees" | "stones" | "iron" | "gold" | "fruitPatches"
+  "crops" | "trees" | "stones" | "iron" | "gold" | "rubies" | "fruitPatches"
 > = {
   crops: {
     1: {
@@ -139,6 +139,7 @@ export const INITIAL_RESOURCES: Pick<
   fruitPatches: {},
   gold: {},
   iron: {},
+  rubies: {},
 };
 
 const INITIAL_STOCK: Inventory = {
@@ -162,6 +163,7 @@ const INITIAL_STOCK: Inventory = {
   Pickaxe: new Decimal(30),
   "Stone Pickaxe": new Decimal(10),
   "Iron Pickaxe": new Decimal(5),
+  "Gold Pickaxe": new Decimal(5),
   "Rusty Shovel": new Decimal(10),
   "Sand Shovel": new Decimal(30),
   "Sand Drill": new Decimal(5),
@@ -207,6 +209,10 @@ const OFFLINE_FARM_IRON = getEnabledNodeCount(
 const OFFLINE_FARM_GOLD = getEnabledNodeCount(
   INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
   "Gold Rock"
+);
+const OFFLINE_FARM_RUBY = getEnabledNodeCount(
+  INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
+  "Ruby Rock"
 );
 const OFFLINE_FARM_FRUIT = getEnabledNodeCount(
   INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
@@ -299,6 +305,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Stone Rock": new Decimal(OFFLINE_FARM_STONES),
     "Iron Rock": new Decimal(OFFLINE_FARM_IRON),
     "Gold Rock": new Decimal(OFFLINE_FARM_GOLD),
+    "Ruby Rock": new Decimal(OFFLINE_FARM_RUBY),
     "Fruit Patch": new Decimal(OFFLINE_FARM_FRUIT),
     Axe: new Decimal(10),
     "Block Buck": new Decimal(100),

@@ -22,6 +22,7 @@ import { isLocked as isGoldLocked } from "features/game/events/landExpansion/mov
 import { InnerPanel } from "components/ui/Panel";
 import { SquareIcon } from "components/ui/SquareIcon";
 import lockIcon from "assets/skills/lock.png";
+import { Ruby } from "features/game/expansion/components/resources/ruby/Ruby";
 
 export interface ResourceProps {
   name: ResourceName;
@@ -96,6 +97,17 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
       }}
     />
   ),
+  "Ruby Rock": () => (
+    <img
+      src={ITEM_DETAILS["Ruby Rock"].image}
+      className="relative"
+      style={{
+        width: `${PIXEL_SCALE * 14}px`,
+        top: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 1}px`,
+      }}
+    />
+  ),
   Tree: () => (
     <img
       src={SUNNYSIDE.resource.tree}
@@ -138,6 +150,7 @@ export const RESOURCE_COMPONENTS: Record<
   "Gold Rock": Gold,
   "Iron Rock": Iron,
   "Stone Rock": Stone,
+  "Ruby Rock": Ruby,
   Tree: Tree,
   "Fruit Patch": FruitPatch,
   Boulder: Boulder,

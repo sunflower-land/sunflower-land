@@ -211,6 +211,7 @@ export type ToolName =
   | "Pickaxe"
   | "Stone Pickaxe"
   | "Iron Pickaxe"
+  | "Gold Pickaxe"
   | "Hammer"
   | "Rod";
 
@@ -529,6 +530,21 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
       },
       {
         item: "Iron",
+        amount: new Decimal(3),
+      },
+    ],
+  },
+  "Gold Pickaxe": {
+    name: "Gold Pickaxe",
+    description: "Used to collect rubies",
+    tokenAmount: new Decimal(7),
+    ingredients: [
+      {
+        item: "Wood",
+        amount: new Decimal(3),
+      },
+      {
+        item: "Gold",
         amount: new Decimal(3),
       },
     ],

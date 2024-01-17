@@ -32,6 +32,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     Pickaxe: new Decimal(60),
     "Stone Pickaxe": new Decimal(20),
     "Iron Pickaxe": new Decimal(5),
+    "Gold Pickaxe": new Decimal(5),
     Rod: new Decimal(50),
   };
 
@@ -45,6 +46,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
       Pickaxe: new Decimal(90),
       "Stone Pickaxe": new Decimal(30),
       "Iron Pickaxe": new Decimal(8),
+      "Gold Pickaxe": new Decimal(8),
       Rod: new Decimal(75),
     };
   }
@@ -441,6 +443,7 @@ export const TEST_FARM: GameState = {
   gold: {},
   iron: {},
   stones: {},
+  rubies: {},
   trees: {},
   mushrooms: {
     spawnedAt: 0,
@@ -505,6 +508,7 @@ export const EMPTY: GameState = {
   iron: {},
   crops: {},
   stones: {},
+  rubies: {},
   trees: {},
   farmActivity: {},
   milestones: {},
@@ -528,3 +532,4 @@ export const TREE_RECOVERY_TIME = 2 * 60 * 60;
 export const STONE_RECOVERY_TIME = 4 * 60 * 60;
 export const IRON_RECOVERY_TIME = 8 * 60 * 60;
 export const GOLD_RECOVERY_TIME = 24 * 60 * 60;
+export const RUBY_RECOVERY_TIME = 2 * 24 * 60 * 60;
