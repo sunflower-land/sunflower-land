@@ -17,6 +17,7 @@ import {
   getCurrentHoneyProduced,
   getFirstAttachedFlower,
 } from "./beehiveMachine";
+import { Bee } from "./Bee";
 
 interface Props {
   id: string;
@@ -36,6 +37,10 @@ const _honeyReady = (state: BeehiveMachineState) => state.matches("honeyReady");
 const _isProducing = (state: BeehiveMachineState) => state.context.isProducing;
 const _honeyProduced = (state: BeehiveMachineState) =>
   state.context.honeyProduced;
+const _currentFlowerId = (state: BeehiveMachineState) =>
+  state.context.attachedFlower?.id;
+const _showBeeAnimation = (state: BeehiveMachineState) =>
+  state.matches("showBeeAnimation");
 
 export const Beehive: React.FC<Props> = ({ id }) => {
   const { showTimers, gameService } = useContext(Context);
@@ -48,6 +53,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     hive,
     attachedFlower: getFirstAttachedFlower(hive),
     honeyProduced: getCurrentHoneyProduced(hive),
+    showBeeAnimation: false,
   };
 
   const beehiveService = useInterpret(beehiveMachine, {
@@ -58,6 +64,18 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const honeyReady = useSelector(beehiveService, _honeyReady);
   const isProducing = useSelector(beehiveService, _isProducing);
   const honeyProduced = useSelector(beehiveService, _honeyProduced);
+  const currentFlowerId = useSelector(beehiveService, _currentFlowerId);
+  const showBeeAnimation = useSelector(beehiveService, _showBeeAnimation);
+
+  const hasNewFlower = (hive: IBeehive) => {
+    const updatedFlowerId = getFirstAttachedFlower(hive)?.id;
+
+    return currentFlowerId !== updatedFlowerId;
+  };
+
+  const handleBeeAnimationEnd = () => {
+    beehiveService.send("BEE_ANIMATION_DONE");
+  };
 
   useEffect(() => {
     if (isInitialMount.current) {
@@ -65,7 +83,13 @@ export const Beehive: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    beehiveService.send("UPDATE_HIVE", { updatedHive: hive });
+    if (hasNewFlower(hive)) {
+      beehiveService.send("NEW_ACTIVE_FLOWER", { updatedHive: hive });
+    } else {
+      beehiveService.send("UPDATE_HIVE", { updatedHive: hive });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hive, beehiveService]);
 
   return (
@@ -103,6 +127,13 @@ export const Beehive: React.FC<Props> = ({ id }) => {
             type="quantity"
           />
         </div>
+      )}
+      {!landscaping && showBeeAnimation && (
+        <Bee
+          hivePosition={{ x: hive.x, y: hive.y }}
+          flowerId={currentFlowerId as string}
+          onAnimationEnd={handleBeeAnimationEnd}
+        />
       )}
     </div>
   );
