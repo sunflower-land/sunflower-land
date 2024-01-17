@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { updateBeehives } from "features/game/lib/updateBeehives";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { isFlowerSeed } from "features/game/types/flowers";
 import { GameState } from "features/game/types/game";
@@ -21,7 +22,7 @@ export function plantFlower({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy = cloneDeep(state);
+  const stateCopy: GameState = cloneDeep(state);
   const { flowers, bumpkin } = stateCopy;
 
   if (!bumpkin) {
@@ -61,6 +62,14 @@ export function plantFlower({
     bumpkin?.activity,
     new Decimal(1)
   );
+
+  const updatedBeehives = updateBeehives({
+    beehives: stateCopy.beehives,
+    flowers: stateCopy.flowers,
+    createdAt,
+  });
+
+  stateCopy.beehives = updatedBeehives;
 
   return stateCopy;
 }

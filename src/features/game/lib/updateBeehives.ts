@@ -130,7 +130,8 @@ const removeInactiveFlowers = ({
   getKeys(beehivesCopy).forEach((hiveId) => {
     const hive = beehivesCopy[hiveId];
     hive.flowers = hive.flowers.filter(
-      (flower) => flower.attachedAt <= createdAt
+      (flower) =>
+        flower.attachedAt <= createdAt && flower.attachedUntil > createdAt
     );
   });
 

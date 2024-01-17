@@ -451,7 +451,6 @@ export const TEST_FARM: GameState = {
     mushrooms: {},
   },
   beehives: {},
-  flowers: {},
 };
 
 export const EMPTY: GameState = {
@@ -507,6 +506,7 @@ export const EMPTY: GameState = {
   },
   trades: {},
   fruitPatches: {},
+  beehives: {},
   flowers: {},
   gold: {},
   iron: {},
@@ -530,8 +530,6 @@ export const EMPTY: GameState = {
     hunger: "Sunflower",
     weeklyCatches: {},
   },
-  beehives: {},
-  flowers: {},
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;

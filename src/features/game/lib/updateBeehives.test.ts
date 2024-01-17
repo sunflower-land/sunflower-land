@@ -445,7 +445,6 @@ describe("updateBeehives", () => {
 
   it("set the attachedUntil when the beehive is full", () => {
     const flowerId1 = "123";
-    const flowerId2 = "456";
     const beehiveId1 = "abc";
 
     const halfTime = HONEY_PRODUCTION_TIME / 2;
@@ -617,5 +616,93 @@ describe("updateBeehives", () => {
     expect(updatedBeehives[beehiveId2].flowers[0].attachedUntil).toEqual(
       now + HONEY_PRODUCTION_TIME
     );
+  });
+
+  it("detaches a flower that is fully grown", () => {
+    const flowerId1 = "123";
+    const beehiveId1 = "abc";
+
+    const tenMinutes = 10 * 60 * 1000;
+
+    const beehives: Beehives = {
+      [beehiveId1]: {
+        ...DEFAULT_BEEHIVE,
+        honey: { updatedAt: now, produced: 0 },
+        flowers: [
+          {
+            id: flowerId1,
+            attachedAt: now - HONEY_PRODUCTION_TIME - tenMinutes,
+            attachedUntil: now - tenMinutes,
+          },
+        ],
+      },
+    };
+    const flowers: Flowers = {
+      [flowerId1]: {
+        ...DEFAULT_FLOWER_BED,
+        flower: {
+          name: "Flower 1",
+          amount: 1,
+          plantedAt: now - HONEY_PRODUCTION_TIME - tenMinutes,
+        },
+      },
+    };
+
+    const updatedBeehives = updateBeehives({
+      beehives,
+      flowers,
+      createdAt: now,
+    });
+
+    expect(updatedBeehives[beehiveId1].flowers.length).toEqual(0);
+  });
+
+  it("detaches a flower that is fully grown and attaches an available flower", () => {
+    const flowerId1 = "123";
+    const flowerId2 = "456";
+    const beehiveId1 = "abc";
+
+    const tenMinutes = 10 * 60 * 1000;
+
+    const beehives: Beehives = {
+      [beehiveId1]: {
+        ...DEFAULT_BEEHIVE,
+        honey: { updatedAt: now, produced: 0 },
+        flowers: [
+          {
+            id: flowerId1,
+            attachedAt: now - HONEY_PRODUCTION_TIME - tenMinutes,
+            attachedUntil: now - tenMinutes,
+          },
+        ],
+      },
+    };
+    const flowers: Flowers = {
+      [flowerId1]: {
+        ...DEFAULT_FLOWER_BED,
+        flower: {
+          name: "Flower 1",
+          amount: 1,
+          plantedAt: now - HONEY_PRODUCTION_TIME - tenMinutes,
+        },
+      },
+      [flowerId2]: {
+        ...DEFAULT_FLOWER_BED,
+        flower: {
+          name: "Flower 1",
+          amount: 1,
+          plantedAt: now,
+        },
+      },
+    };
+
+    const updatedBeehives = updateBeehives({
+      beehives,
+      flowers,
+      createdAt: now,
+    });
+
+    expect(updatedBeehives[beehiveId1].flowers.length).toEqual(1);
+    expect(updatedBeehives[beehiveId1].flowers[0].id).toEqual(flowerId2);
   });
 });

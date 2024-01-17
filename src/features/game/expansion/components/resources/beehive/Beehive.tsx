@@ -1,89 +1,72 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import beehive from "assets/sfts/beehive.webp";
 import honeyDrop from "assets/sfts/honey_drop.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
+import { useInterpret, useSelector } from "@xstate/react";
 import { Bar } from "components/ui/ProgressBar";
 import { Beehive as IBeehive } from "features/game/types/game";
 import { HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
+import {
+  BeehiveContext,
+  BeehiveMachineState,
+  MachineInterpreter,
+  beehiveMachine,
+  getCurrentHoneyProduced,
+  getFirstAttachedFlower,
+} from "./beehiveMachine";
 
 interface Props {
   id: string;
 }
-
-const getFirstAttachedFlower = (hive: IBeehive) => {
-  const sortedFlowers = hive.flowers.sort(
-    (a, b) => a.attachedAt - b.attachedAt
-  );
-
-  return sortedFlowers[0];
+// gameService
+const getBeehiveById = (id: string) => (state: MachineState) => {
+  return state.context.state.beehives[id];
+};
+const compareHive = (prevHive: IBeehive, nextHive: IBeehive) => {
+  return JSON.stringify(prevHive) === JSON.stringify(nextHive);
 };
 
-const getCurrentHoneyProduced = (hive: IBeehive) => {
-  const attachedFlower = getFirstAttachedFlower(hive);
-
-  if (!attachedFlower) return hive.honey.produced;
-
-  const start = attachedFlower.attachedAt;
-  const end = Math.min(Date.now(), attachedFlower.attachedUntil);
-
-  return hive.honey.produced + Math.max(end - start, 0);
-};
-
-const _beehives = (state: MachineState) => state.context.state.beehives ?? {};
 const _landscaping = (state: MachineState) => state.matches("landscaping");
 
+// beehiveService
+const _honeyReady = (state: BeehiveMachineState) => state.matches("honeyReady");
+const _isProducing = (state: BeehiveMachineState) => state.context.isProducing;
+const _honeyProduced = (state: BeehiveMachineState) =>
+  state.context.honeyProduced;
+
 export const Beehive: React.FC<Props> = ({ id }) => {
-  const [honeyReady, setHoneyReady] = useState(false);
   const { showTimers, gameService } = useContext(Context);
+  const isInitialMount = useRef(true);
 
   const landscaping = useSelector(gameService, _landscaping);
-  const beehives = useSelector(gameService, _beehives);
-  const hive = beehives[id];
+  const hive = useSelector(gameService, getBeehiveById(id), compareHive);
 
-  const attachedFlower = getFirstAttachedFlower(hive);
-  const isProducing = attachedFlower && attachedFlower.attachedAt <= Date.now();
+  const beehiveContext: BeehiveContext = {
+    hive,
+    attachedFlower: getFirstAttachedFlower(hive),
+    honeyProduced: getCurrentHoneyProduced(hive),
+  };
 
-  const [honeyProduced, setHoneyProduced] = useState(
-    getCurrentHoneyProduced(hive)
-  );
+  const beehiveService = useInterpret(beehiveMachine, {
+    context: beehiveContext,
+    devTools: true,
+  }) as unknown as MachineInterpreter;
 
-  useLayoutEffect(() => {
-    let interval: NodeJS.Timeout | undefined;
-    const attachedFlower = getFirstAttachedFlower(hive);
+  const honeyReady = useSelector(beehiveService, _honeyReady);
+  const isProducing = useSelector(beehiveService, _isProducing);
+  const honeyProduced = useSelector(beehiveService, _honeyProduced);
 
-    if (!interval && attachedFlower) {
-      const { attachedAt, attachedUntil } = attachedFlower;
-      // Set interval to update honey produced every second
-
-      interval = setInterval(() => {
-        if (attachedAt > Date.now()) return;
-
-        // Increment the honey produced amount by 1 second
-        setHoneyProduced(() => {
-          const newValue = getCurrentHoneyProduced(hive);
-
-          const hiveFull = newValue >= HONEY_PRODUCTION_TIME;
-          const flowerExpired = attachedUntil < Date.now();
-
-          // If max honey produced or flower has fully grown, clear interval
-          if (hiveFull || flowerExpired) {
-            hiveFull && setHoneyReady(true);
-            interval && clearInterval(interval);
-          }
-
-          return newValue;
-        });
-      }, 1000);
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
     }
 
-    return () => {
-      interval && clearInterval(interval);
-    };
-  }, [hive, hive.flowers]);
+    beehiveService.send("UPDATE_HIVE", { updatedHive: hive });
+  }, [hive, beehiveService]);
 
   return (
     <div>
@@ -97,33 +80,28 @@ export const Beehive: React.FC<Props> = ({ id }) => {
       />
       <img
         src={honeyDrop}
-        alt="Beehive"
-        className={classNames(
-          "absolute top-0 right-1 transition-transform duration-300",
-          {
-            "scale-0": !honeyReady,
-            "scale-100": honeyReady,
-          }
-        )}
+        alt="Honey Drop"
+        className={classNames("absolute top-0 right-1 transition-transform", {
+          "scale-0": !honeyReady,
+          "scale-100": honeyReady,
+        })}
         style={{
           width: `${PIXEL_SCALE * 7}px`,
         }}
       />
       {/* Progress bar for growing crops */}
-      {showTimers && !!attachedFlower && !landscaping && (
+      {showTimers && !landscaping && (
         <div
           className="absolute pointer-events-none"
           style={{
-            top: `${PIXEL_SCALE * 13}px`,
+            top: `${PIXEL_SCALE * 13.2}px`,
             width: `${PIXEL_SCALE * 15}px`,
           }}
         >
-          {(isProducing || honeyReady) && (
-            <Bar
-              percentage={(honeyProduced / HONEY_PRODUCTION_TIME) * 100}
-              type="progress"
-            />
-          )}
+          <Bar
+            percentage={(honeyProduced / HONEY_PRODUCTION_TIME) * 100}
+            type="quantity"
+          />
         </div>
       )}
     </div>
