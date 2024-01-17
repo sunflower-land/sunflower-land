@@ -62,7 +62,10 @@ const IslandUpgraderModal: React.FC<{
           <p className="text-sm mb-2">
             Are you sure you want to upgrade to a new island.
           </p>
-          <p className="text-xs"> You will not be able to return.</p>
+          <p className="text-xs">
+            Make sure you do not have any crops, fruit, buildings or chickens in
+            progress. These will be returned to your inventory.
+          </p>
           <div className="flex my-2">
             {getKeys(upgrade.items).map((name) => (
               <Label

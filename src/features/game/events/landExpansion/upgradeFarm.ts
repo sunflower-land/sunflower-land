@@ -1,5 +1,11 @@
 import Decimal from "decimal.js-light";
-import { GameState, Inventory, IslandType } from "features/game/types/game";
+import { getKeys } from "features/game/types/craftables";
+import {
+  GameState,
+  Inventory,
+  InventoryItemName,
+  IslandType,
+} from "features/game/types/game";
 
 import cloneDeep from "lodash.clonedeep";
 
@@ -328,22 +334,80 @@ export const ISLAND_UPGRADE: Record<
   spring: {
     expansions: 16,
     items: {
+      Gold: new Decimal(9999999999), // TODO
+    },
+    upgrade: "desert",
+  },
+  // TODO
+  desert: {
+    expansions: 99,
+    items: {
       Gold: new Decimal(9999999999),
     },
-    upgrade: "spring", // TODO
+    upgrade: "desert",
   },
 };
+
+function springUpgrade(state: GameState) {
+  const game = cloneDeep(state) as GameState;
+  // Clear the house
+  delete game.inventory["Town Center"];
+
+  // Add new resources
+  game.inventory.House = new Decimal(1);
+
+  // If they do not already have fruit patches
+  if (!game.inventory["Fruit Patch"]?.gt(2)) {
+    game.inventory["Fruit Patch"] = new Decimal(2);
+  }
+
+  return game;
+}
+
+function desertUpgrade(_: GameState) {
+  throw new Error("Not implemented");
+
+  return _;
+}
 export function updgrade({ state, action, createdAt = Date.now() }: Options) {
   let game = cloneDeep(state) as GameState;
 
-  // Check the requirements
+  const upcoming = ISLAND_UPGRADE[game.island.type];
 
-  // Burn the requirements
+  if (game.inventory["Basic Land"]?.lt(upcoming.expansions)) {
+    throw new Error("Player has not met the expansion requirements");
+  }
 
-  // Clear all placed items
+  // Check & burnthe requirements
+  Object.entries(upcoming.items).forEach(([name, required]) => {
+    const amount = game.inventory[name as InventoryItemName] ?? new Decimal(0);
+    if (amount.lt(required)) {
+      throw new Error(`Insufficient ${name}`);
+    }
+
+    // Burn the ingredients
+    game.inventory[name as InventoryItemName] = amount.minus(required);
+  });
+
+  // Clear all in progress items
   game.collectibles = {};
   game.buildings = {};
   game.fishing.wharf = {};
+  game.mushrooms = {
+    mushrooms: {},
+    spawnedAt: createdAt,
+  };
+  game.buds = getKeys(game.buds ?? {}).reduce(
+    (acc, key) => ({
+      ...acc,
+      [key]: {
+        ...(game.buds ?? {})[key],
+        location: undefined,
+        coordinates: undefined,
+      },
+    }),
+    game.buds
+  );
 
   // Set the island
   game.island = {
@@ -351,21 +415,23 @@ export function updgrade({ state, action, createdAt = Date.now() }: Options) {
     upgradedAt: createdAt,
   };
 
+  if (upcoming.upgrade === "spring") {
+    game = springUpgrade(game);
+  }
+
+  if (upcoming.upgrade === "desert") {
+    game = desertUpgrade(game);
+  }
+
   // Reset expansions
   game.inventory["Basic Land"] = new Decimal(4);
 
-  // Clear the house
-  delete game.inventory["Town Center"];
-
-  // Add new resources
-  game.inventory.House = new Decimal(1);
-  game.inventory["Fruit Patch"] = new Decimal(2);
-
-  // Place initial resources
-  game = {
-    ...game,
-    ...INITIAL_LAND,
-  };
+  game =
+    // Place initial resources
+    game = {
+      ...game,
+      ...INITIAL_LAND,
+    };
 
   return {
     ...game,
