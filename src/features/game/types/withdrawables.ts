@@ -206,6 +206,7 @@ const commodities: Record<CommodityName, () => boolean> = {
   Crimstone: () => true,
   Diamond: () => false,
 
+  Sunstone: () => false,
   Honey: () => false,
   Egg: () => true,
 };

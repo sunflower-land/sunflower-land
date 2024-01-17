@@ -160,6 +160,16 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
       }}
     />
   ),
+  "Sunstone Rock": () => (
+    <img
+      src={SUNNYSIDE.resource.iron_rock}
+      className="absolute h-auto w-full"
+      style={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * -4}px`,
+      }}
+    />
+  ),
 };
 
 export const RESOURCE_COMPONENTS: Record<
@@ -176,6 +186,8 @@ export const RESOURCE_COMPONENTS: Record<
   Boulder: Boulder,
   Beehive: Beehive,
   "Flower Bed": FlowerBed,
+  // "Sunstone Rock": Sunstone
+  "Sunstone Rock": () => null,
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");

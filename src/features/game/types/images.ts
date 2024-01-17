@@ -886,6 +886,11 @@ export const ITEM_DETAILS: Items = {
     ...COMMODITIES["Diamond"],
     image: SUNNYSIDE.resource.diamond,
   },
+  Sunstone: {
+    ...COMMODITIES["Sunstone"],
+    image: SUNNYSIDE.resource.gold_rock, //Placeholder
+    // image: SUNNYSIDE.resource.sunstone_rock,
+  },
   Egg: {
     ...COMMODITIES["Egg"],
     image: SUNNYSIDE.resource.egg,

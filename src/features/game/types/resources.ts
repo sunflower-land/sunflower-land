@@ -11,7 +11,8 @@ export type CommodityName =
   | "Honey"
   | "Chicken"
   | "Wild Mushroom"
-  | "Magic Mushroom";
+  | "Magic Mushroom"
+  | "Sunstone";
 
 export type MushroomName = Extract<
   CommodityName,
@@ -55,6 +56,9 @@ export const COMMODITIES: Record<CommodityName, Commodity> = {
   },
   "Magic Mushroom": {
     description: "Used to cook advanced recipes",
+  },
+  Sunstone: {
+    description: "Used to craft items",
   },
 };
 
