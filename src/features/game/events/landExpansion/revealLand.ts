@@ -35,8 +35,7 @@ export function revealLand({
     throw new Error("Land is not in construction");
   }
 
-  const nextLand = (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1;
-  const land = getLand(farmId, nextLand);
+  const land = getLand({ id: farmId, game });
   if (!land) {
     throw new Error("Land Does Not Exists");
   }

@@ -3,7 +3,10 @@ import { GameState, Inventory } from "../types/game";
 import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { INITIAL_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
+<<<<<<< HEAD
 import { HONEY_PRODUCTION_TIME } from "./updateBeehives";
+=======
+>>>>>>> cabb48daf (Prestige expansions)
 
 export const INITIAL_RESOURCES: Pick<
   GameState,
@@ -319,8 +322,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Crimstone Rock": new Decimal(OFFLINE_FARM_CRIMSTONE),
     "Sunstone Rock": new Decimal(OFFLINE_FARM_SUNSTONE),
     "Fruit Patch": new Decimal(OFFLINE_FARM_FRUIT),
-    Axe: new Decimal(10),
-    "Block Buck": new Decimal(100),
     Egg: new Decimal(12),
     Beehive: new Decimal(2),
     Banana: new Decimal(12),
@@ -372,7 +373,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   chickens: {},
   trades: {},
   buildings: {
-    "Town Center": [
+    House: [
       {
         id: "123",
         readyAt: 0,

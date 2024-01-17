@@ -27,7 +27,15 @@ export function getPlayerGroup(id: string): 0 | 1 | 2 {
   return groupId as 0 | 1 | 2;
 }
 
-export function getLand(id: number, expansion: number): Layout | null {
+export function getLand({
+  id,
+  game,
+}: {
+  id: number;
+  game: GameState;
+}): Layout | null {
+  const expansion = (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1;
+
   if (expansion === 4) {
     return LAND_4_LAYOUT;
   }

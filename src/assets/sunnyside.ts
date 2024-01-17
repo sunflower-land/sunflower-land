@@ -129,6 +129,10 @@ export const SUNNYSIDE = {
     land: `${CONFIG.PROTECTED_IMAGE_URL}/resources/land.png`,
     plot: `${CONFIG.PROTECTED_IMAGE_URL}/resources/plot.png`,
     fruitPatch: `${CONFIG.PROTECTED_IMAGE_URL}/resources/fruit_patch.png`,
+    beeHive: `${CONFIG.PROTECTED_IMAGE_URL}/resources/bee_hive.png`,
+    rubyRock: `${CONFIG.PROTECTED_IMAGE_URL}/resources/ruby_rock.png`,
+    flowerBed: `${CONFIG.PROTECTED_IMAGE_URL}/resources/flower_bed.png`,
+    sunBoulder: `${CONFIG.PROTECTED_IMAGE_URL}/resources/sun_boulder.png`,
   },
   tools: {
     axe: `${CONFIG.PROTECTED_IMAGE_URL}/tools/axe.png`,

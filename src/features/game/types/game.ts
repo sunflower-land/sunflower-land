@@ -847,9 +847,11 @@ export interface GameState {
   trees: Record<string, Tree>;
   stones: Record<string, Rock>;
   gold: Record<string, Rock>;
+  ruby: Record<string, Rock>;
   iron: Record<string, Rock>;
   crimstones: Record<string, Rock>;
   sunstones: Record<string, FiniteResource>;
+
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;
   beehives: Beehives;
