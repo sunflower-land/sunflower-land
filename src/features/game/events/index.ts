@@ -212,6 +212,10 @@ import {
 } from "./landExpansion/equipFarmHand";
 import { moveBeehive, MoveBeehiveAction } from "./landExpansion/moveBeehive";
 import { placeBeehive, PlaceBeehiveAction } from "./landExpansion/placeBeehive";
+import {
+  harvestBeehive,
+  HarvestBeehiveAction,
+} from "./landExpansion/harvestBeehive";
 
 export type PlayingEvent =
   | TradeAction
@@ -282,8 +286,12 @@ export type PlayingEvent =
   | BurnCollectibleAction
   | ClaimBonusAction
   | AccelerateComposterAction
+<<<<<<< HEAD
   | BuyFarmHandAction
   | EquipFarmHandAction;
+=======
+  | HarvestBeehiveAction;
+>>>>>>> 9efef6b4c ([FEAT] Add actions)
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -412,8 +420,12 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "collectible.burned": burnCollectible,
   "bonus.claimed": claimBonus,
   "compost.accelerated": accelerateComposter,
+<<<<<<< HEAD
   "farmHand.bought": buyFarmhand,
   "farmHand.equipped": equipFarmhand,
+=======
+  "beehive.harvested": harvestBeehive,
+>>>>>>> 9efef6b4c ([FEAT] Add actions)
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

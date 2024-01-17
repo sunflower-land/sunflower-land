@@ -41,7 +41,11 @@ export function removeBeehive({
 
   delete copy.beehives[action.id];
 
-  const updatedBeehives = updateBeehives(copy);
+  const updatedBeehives = updateBeehives({
+    beehives: copy.beehives,
+    flowers: copy.flowers,
+    createdAt,
+  });
 
   copy.beehives = updatedBeehives;
 

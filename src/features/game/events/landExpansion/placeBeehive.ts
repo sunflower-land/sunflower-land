@@ -47,7 +47,11 @@ export function placeBeehive({
 
   copy.beehives = { ...copy.beehives, [action.id]: beehive };
 
-  const updatedBeehives = updateBeehives(copy);
+  const updatedBeehives = updateBeehives({
+    beehives: copy.beehives,
+    flowers: copy.flowers,
+    createdAt,
+  });
 
   copy.beehives = updatedBeehives;
 

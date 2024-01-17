@@ -29,6 +29,15 @@ export function harvestBeehive({
 }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
 
+  // Update beehives before harvesting to set honey produced
+  const freshBeehives = updateBeehives({
+    beehives: stateCopy.beehives,
+    flowers: stateCopy.flowers,
+    createdAt,
+  });
+
+  stateCopy.beehives = freshBeehives;
+
   if (!stateCopy.beehives[action.id]) {
     throw new Error(HARVEST_BEEHIVE_ERRORS.BEEHIVE_NOT_PLACED);
   }
@@ -46,7 +55,11 @@ export function harvestBeehive({
     new Decimal(totalHoneyProduced)
   );
 
-  const updatedBeehives = updateBeehives(stateCopy);
+  const updatedBeehives = updateBeehives({
+    beehives: stateCopy.beehives,
+    flowers: stateCopy.flowers,
+    createdAt,
+  });
 
   stateCopy.beehives = updatedBeehives;
 
