@@ -7,11 +7,8 @@ import classNames from "classnames";
 import fruitPatch from "assets/fruit/apple/apple_tree.png";
 import goldStone from "assets/resources/gold_small.png";
 import ironStone from "assets/resources/iron_small.png";
-<<<<<<< HEAD
 import rubyStone from "assets/resources/ruby_small.png";
-=======
 import beehive from "assets/sfts/beehive.webp";
->>>>>>> 4c3d4c995 ([FEAT] Add Beehive resource)
 
 import { FruitPatch } from "features/island/fruit/FruitPatch";
 import { ResourceBUttons } from "./ResourceButtons";
