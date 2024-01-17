@@ -226,6 +226,19 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Sunpetal Seed": {
+    name: "Sunpetal Seed",
+    description:
+      "A seed used to grow flowers. Experiment to find all the variants.\n\nYou can buy sunpetal seeds in game at the market.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/121.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Rarity", value: "Rare" },
+    ],
+  },
   Beetroot: {
     name: "Beetroot",
     description:

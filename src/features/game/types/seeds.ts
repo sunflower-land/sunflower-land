@@ -4,8 +4,9 @@ import { CropName, CropSeedName } from "./crops";
 import { FruitName, FruitSeedName, FRUIT_SEEDS } from "./fruits";
 import { CONFIG } from "lib/config";
 import { SEASONS } from "./seasons";
+import { FLOWER_SEEDS, FlowerSeedName } from "./flowers";
 
-export type SeedName = CropSeedName | FruitSeedName;
+export type SeedName = CropSeedName | FruitSeedName | FlowerSeedName;
 
 export type Seed = {
   sfl: Decimal;
@@ -117,4 +118,5 @@ export const CROP_SEEDS: () => Record<CropSeedName, Seed> = () => ({
 export const SEEDS: () => Record<SeedName, Seed> = () => ({
   ...CROP_SEEDS(),
   ...FRUIT_SEEDS(),
+  ...FLOWER_SEEDS(),
 });
