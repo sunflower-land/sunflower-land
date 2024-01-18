@@ -58,6 +58,7 @@ import { GoblinState } from "../lib/goblinMachine";
 import { CompostName } from "./composters";
 import { FishName, FishingBait, MarineMarvelName } from "./fishing";
 import { canWithdrawBoostedWearable } from "./wearableValidation";
+import { FlowerName, FlowerSeedName } from "./flowers";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
@@ -87,6 +88,11 @@ const fruitSeed: Record<FruitSeedName, () => boolean> = {
   "Orange Seed": () => false,
   "Banana Plant": () => false,
 };
+
+const flowerSeed: Record<FlowerSeedName, () => boolean> = {
+  "Sunpetal Seed": () => false,
+};
+
 const crops: Record<CropName, () => boolean> = {
   Beetroot: () => true,
   Cabbage: () => true,
@@ -108,6 +114,10 @@ const fruits: Record<FruitName, () => boolean> = {
   Blueberry: () => true,
   Orange: () => true,
   Banana: () => canWithdrawTimebasedItem(new Date("2024-02-01")),
+};
+
+const flowers: Record<FlowerName, () => boolean> = {
+  "Flower 1": () => false,
 };
 
 const beans: Record<BeanName, () => boolean> = {
@@ -786,8 +796,10 @@ const interiors: Record<InteriorDecorationName, () => boolean> = {
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...crops,
   ...fruits,
+  ...flowers,
   ...cropSeeds,
   ...fruitSeed,
+  ...flowerSeed,
   ...beans,
   ...questItems,
   ...warTentItems,

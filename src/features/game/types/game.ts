@@ -41,7 +41,7 @@ import {
 } from "./fishing";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { PortalName } from "./portals";
-import { FlowerSeedName } from "./flowers";
+import { FlowerName, FlowerSeedName } from "./flowers";
 
 export type Reward = {
   sfl?: Decimal;
@@ -294,7 +294,8 @@ export type InventoryItemName =
   | FishingBait
   | CompostName
   | FishName
-  | MarineMarvelName;
+  | MarineMarvelName
+  | FlowerName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
