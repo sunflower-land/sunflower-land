@@ -2310,7 +2310,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Ruby Rock": {
     image: rubyRock,
-    description: "A mineable rock to collect ruby",
+    description: translate("description.ruby.rock"),
   },
   Tree: {
     image: SUNNYSIDE.resource.tree,
@@ -2322,7 +2322,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Flower Bed": {
     image: flowerBed,
-    description: "An empty plot to plant flowers on",
+    description: translate("description.flower.bed"),
   },
   Boulder: {
     image: SUNNYSIDE.resource.boulder,

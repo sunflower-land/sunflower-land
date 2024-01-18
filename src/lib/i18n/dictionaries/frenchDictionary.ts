@@ -44,6 +44,7 @@ import {
   FishingChallengeIntro,
   FishingGuide,
   FishingQuests,
+  Flowerbedguide,
   FoodDescriptions,
   GameDescriptions,
   GameTerms,
@@ -57,12 +58,15 @@ import {
   GuideTerms,
   GrubShop,
   HalveningCountdown,
+  Harvestflower,
+  HarvestBeeHive,
   HayseedHankV2,
   HeliosSunflower,
   HenHouseTerms,
   HowToFarm,
   HowToSync,
   HowToUpgrade,
+  Islandupgrade,
   InteractableModals,
   Intro,
   IntroPage,
@@ -727,6 +731,7 @@ const choresStart: Record<ChoresStart, string> = {
 const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.gold": "L'or scintillant peut être vu à 100 miles de distance",
   "chumDetails.iron": "Un scintillement étincelant, visible sous tous les angles au crépuscule",
+  "chumDetails.stone": "Peut-être que jeter quelques pierres attirera des poissons",
   "chumDetails.egg": "Hmm, pas sûr que les poissons aiment les œufs...",
   "chumDetails.sunflower": "Un appât ensoleillé et vibrant pour les poissons curieux.",
   "chumDetails.potato": "Les pommes de terre constituent un festin de poisson inhabituel.",
@@ -751,6 +756,7 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.redSnapper": "Un mystère caché dans les profondeurs de l'océan.",
   "chumDetails.tuna": "Qu'est-ce qui est assez grand pour manger un thon ?",
   "chumDetails.squid": "Réveillez une raie avec sa friandise préférée !",
+  "chumDetails.wood": "Bois. Un choix intéressant....",
 };
 
 const community: Record<Community, string> = {
@@ -1020,6 +1026,8 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.gold.rock": "Un rocher exploitable pour collecter de l'or",
   "description.iron.rock": "Un rocher exploitable pour collecter du fer",
   "description.stone.rock": "Un rocher exploitable pour collecter de la pierre",
+  "description.ruby.rock": "Un rocher exploitable pour collecter du rubis",
+  "description.flower.bed": "Une parcelle vide pour planter des fleurs",
   "description.tree": "Un arbre à couper pour collecter du bois",
   "description.fruit.patch": "Une parcelle vide pour planter des fruits",
   "description.boulder": "Un rocher mythique pouvant lâcher des minéraux rares",
@@ -1291,6 +1299,16 @@ const fishingQuests: Record<FishingQuests, string> = {
   "quest.5.fish": "Attrapez 5 de chaque poisson",
 };
 
+const flowerbedguide: Record<Flowerbedguide, string> = {
+  "flowerbedguide.craftRod": "Fabriquez une canne et rassemblez des appâts pour pêcher.",
+  "flowerbedguide.earnBait": "Les appâts peuvent être obtenus par compostage ou en fabriquant des leurres.",
+  "flowerbedguide.eatFish": "Mangez du poisson pour faire évoluer votre Bumpkin ou effectuez des livraisons de poissons pour obtenir des récompenses.",
+  "flowerbedguide.exploreWaters": "Explorez les eaux pour découvrir des poissons rares, compléter des missions et débloquer des récompenses uniques dans le Codex.",
+  "flowerbedguide.tidePatterns": "Suivez les changements de marées ; certaines espèces de poissons ne sont disponibles que dans certaines conditions.",
+  "flowerbedguide.experimentBait": "Expérimentez avec différents types d'appâts et de combinaisons de chum pour maximiser vos chances de capturer diverses espèces de poissons.",
+  "flowerbedguide.legendaryFish": "Méfiez-vous des poissons légendaires ; ils nécessitent une compétence et une force exceptionnelles pour être capturés.",
+};
+
 const foodDescriptions: Record<FoodDescriptions, string> = {
   // Fire Pit
   "description.pumpkin.soup": "Une soupe crémeuse que les gobelins adorent",
@@ -1557,6 +1575,18 @@ const halveningCountdown: Record<HalveningCountdown, string> = {
   "halveningCountdown.readMore": "En savoir plus",
 };
 
+const harvestflower: Record<Harvestflower, string> = {
+  "harvestflower.noBumpkin": "Vous n'avez pas de Bumpkin",
+  "harvestflower.noFlowerBed": "Il n'y a pas de parterre de fleurs",
+  "harvestflower.noFlower": "Le parterre de fleurs n'a pas de fleur",
+  "harvestflower.notReady": "La fleur n'est pas prête à être récoltée"
+};
+
+const harvestBeeHive: Record<HarvestBeeHive, string> = {
+  "harvestBeeHive.notPlaced": "Cette ruche n'est pas placée.",
+  "harvestBeeHive.noHoney": "Cette ruche ne contient pas de miel."
+};
+
 const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1": "Eh bien, salut là, jeunes fripons ! Je suis Hayseed Hank, un vieux fermier Bumpkin chevronné, qui s'occupe de la terre comme au bon vieux temps.",
   "hayseedHankv2.dialog2": "Cependant, mes os ne sont plus ce qu'ils étaient. Si tu peux m'aider avec mes tâches quotidiennes, je te récompenserai avec des {{ticket}}s.",
@@ -1604,6 +1634,21 @@ const howToUpgrade: Record<HowToUpgrade, string> = {
   "howToUpgrade.stepTwo": "2. Visitez la ville et cliquez sur la cuisine",
   "howToUpgrade.stepThree": "3. Préparez le plat que le gobelin désire",
   "howToUpgrade.stepFour": "4. Voilà ! Profitez de vos nouveaux champs et cultures",
+};
+
+const islandupgrade: Record<Islandupgrade, string> = {
+  "islandupgrade.confirmUpgrade": "Êtes-vous sûr de vouloir passer à une nouvelle île.",
+  "islandupgrade.warning": "Assurez-vous de ne pas avoir de cultures, de fruits, de bâtiments ou de poulets en cours. Ceux-ci seront retournés dans votre inventaire.",
+  "islandupgrade.upgradeIsland": "Améliorer l'île",
+  "islandupgrade.newOpportunities": "Une île exotique vous attend avec de nouvelles ressources et opportunités pour développer votre ferme.",
+  "islandupgrade.confirmation": "Souhaitez-vous améliorer ? Vos ressources seront transférées en toute sécurité vers votre nouvelle île.",
+  "islandupgrade.locked": "Verrouillé",
+  "islandupgrade.continue": "Continuer",
+  "islandupgrade.exploring": "Exploration",
+  "islandupgrade.welcomePetalParadise": "Bienvenue au Paradis des Pétales !",
+  "islandupgrade.itemsReturned": "Vos objets ont été retournés en toute sécurité dans votre inventaire.",
+  "islandupgrade.notReadyExpandMore": "Vous n'êtes pas prêt. Développez",
+  "islandupgrade.notReadyExpandMore.two": " expansions de plus.",
 };
 
 const interactableModals: Record<InteractableModals, string> = {
@@ -2675,6 +2720,7 @@ const toolDescriptions: Record<ToolDescriptions, string> = {
   "description.shovel": "Plantez et récoltez des cultures.",
   "description.sand.shovel": "Utilisé pour creuser des trésors",
   "description.sand.drill": "Percez profondément pour trouver des trésors peu communs ou rares",
+  "description.gold.pickaxe": "Utilisé pour collecter des rubis",
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
@@ -2891,6 +2937,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...fishingChallengeIntro,
   ...fishingGuide,
   ...fishingQuests,
+  ...flowerbedguide,
   ...foodDescriptions,
   ...garbageCollector,
   ...gameDescriptions,
@@ -2904,12 +2951,15 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...guideTerms,
   ...grubshop,
   ...halveningCountdown,
+  ...harvestflower,
+  ...harvestBeeHive,
   ...hayseedHankV2,
   ...heliosSunflower,
   ...henHouseTerms,
   ...howToFarm,
   ...howToSync,
   ...howToUpgrade,
+  ...islandupgrade,
   ...interactableModals,
   ...introPage,
   ...introTerms,

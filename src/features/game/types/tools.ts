@@ -62,7 +62,7 @@ name: "Iron Pickaxe",
   },
   "Gold Pickaxe": {
     name: "Gold Pickaxe",
-    description: "Used to collect rubies",
+    description: translate("description.gold.pickaxe"),
     sfl: new Decimal(0.3125),
     ingredients: {
       Wood: new Decimal(3),

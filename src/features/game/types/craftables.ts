@@ -537,7 +537,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   },
   "Gold Pickaxe": {
     name: "Gold Pickaxe",
-    description: "Used to collect rubies",
+    description: translate("description.gold.pickaxe"),
     tokenAmount: new Decimal(7),
     ingredients: [
       {

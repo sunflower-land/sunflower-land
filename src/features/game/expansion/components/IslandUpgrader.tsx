@@ -28,6 +28,7 @@ import confetti from "canvas-confetti";
 import { hasFeatureAccess } from "lib/flags";
 import { GameState, IslandType } from "features/game/types/game";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
+import { translate } from "lib/i18n/translate";
 
 const UPGRADE_RAFTS: Record<IslandType, string> = {
   basic: springRaft,
@@ -62,11 +63,10 @@ const IslandUpgraderModal: React.FC<{
       <Panel>
         <div className="p-2">
           <p className="text-sm mb-2">
-            Are you sure you want to upgrade to a new island.
+            {translate("islandupgrade.confirmUpgrade")}
           </p>
           <p className="text-xs">
-            Make sure you do not have any crops, fruit, buildings or chickens in
-            progress. These will be returned to your inventory.
+            {translate("islandupgrade.warning")}
           </p>
           <div className="flex my-2">
             {getKeys(upgrade.items).map((name) => (
@@ -81,7 +81,7 @@ const IslandUpgraderModal: React.FC<{
         </div>
 
         <div className="flex">
-          <Button onClick={() => setShowConfirmation(false)}>No</Button>
+          <Button onClick={() => setShowConfirmation(false)}>{translate("no")}</Button>
           <Button className="ml-1" onClick={onUpgrade}>
             Yes
           </Button>
@@ -102,16 +102,14 @@ const IslandUpgraderModal: React.FC<{
     <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk} onClose={onClose}>
       <div className="p-2">
         <div className="flex items-center  mb-2 ">
-          <p className="text-sm mr-2">Upgrade Island</p>
+          <p className="text-sm mr-2">{translate("islandupgrade.upgradeIsland")}</p>
           <img src={SUNNYSIDE.icons.heart} className="h-6" />
         </div>
         <p className="text-xs mb-2">
-          An exotic island awaits you with new resources and opportunities to
-          grow your farm.
+        {translate("islandupgrade.newOpportunities")}
         </p>
         <p className="text-xs mb-2">
-          Would you like to upgrade? Your resources will be safely transferred
-          to your new island.
+        {translate("islandupgrade.confirmation")}
         </p>
         <img
           src={UPGRADE_PREVIEW[gameState.context.state.island.type] as string}
@@ -123,7 +121,7 @@ const IslandUpgraderModal: React.FC<{
             <div className="flex items-center mt-2 mb-1">
               {remaindingExpansions > 0 && (
                 <Label icon={lockIcon} type="danger" className="mr-3">
-                  Locked
+                  {translate("islandupgrade.locked")}
                 </Label>
               )}
               {getKeys(upgrade.items).map((name) => (
@@ -140,7 +138,7 @@ const IslandUpgraderModal: React.FC<{
               ))}
             </div>
             {remaindingExpansions > 0 && (
-              <p className="text-xs">{`You are not ready. Expand ${remaindingExpansions} more times`}</p>
+              <p className="text-xs">{translate("islandupgrade.notReadyExpandMore")} {remaindingExpansions} {translate("islandupgrade.notReadyExpandMore.two")}</p>
             )}
           </>
         )}
@@ -157,7 +155,7 @@ const IslandUpgraderModal: React.FC<{
         disabled={!hasResources || !hasAccess || remaindingExpansions > 0}
         onClick={() => setShowConfirmation(true)}
       >
-        Continue
+        {translate("continue")}
       </Button>
     </CloseButtonPanel>
   );
@@ -226,7 +224,7 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
             }
           )}
         >
-          <span className="loading">Exploring</span>
+          <span className="loading">{translate("islandupgrade.exploring")}</span>
         </div>,
         document.body
       )}
@@ -237,7 +235,7 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
       <Modal show={showUpgraded} centered>
         <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk}>
           <div className="p-2">
-            <p className="text-sm mb-2">Welcome to Petal Paradise!</p>
+            <p className="text-sm mb-2">{translate("islandupgrade.welcomePetalParadise")}</p>
             <p className="text-xs mb-2">
               {`This area of Sunflower Land is known for it's exotic resources.
               Expand your land to discover fruit, flowers, bee hives & rare
@@ -248,10 +246,10 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
               className="w-full rounded-md mb-2"
             />
             <p className="text-xs mb-2">
-              Your items have been safely returned to your inventory.
+            {translate("islandupgrade.itemsReturned")}
             </p>
           </div>
-          <Button onClick={() => setShowUpgraded(false)}>Continue</Button>
+          <Button onClick={() => setShowUpgraded(false)}>{translate("continue")}</Button>
         </CloseButtonPanel>
       </Modal>
 

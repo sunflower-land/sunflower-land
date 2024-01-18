@@ -129,7 +129,7 @@ export const CHUM_AMOUNTS: Record<Chum, number> = {
 export const CHUM_DETAILS: Record<Chum, string> = {
   Gold: translate("chumDetails.gold"),
   Iron: translate("chumDetails.iron"),
-  Stone: "Maybe throwing a few stones will attract some fish",
+  Stone: translate("chumDetails.stone"),
   Egg: translate("chumDetails.egg"),
   Sunflower: translate("chumDetails.sunflower"),
   Potato: translate("chumDetails.potato"),
@@ -154,7 +154,7 @@ export const CHUM_DETAILS: Record<Chum, string> = {
   "Red Snapper": translate("chumDetails.redSnapper"),
   Tuna: translate("chumDetails.tuna"),
   Squid: translate("chumDetails.squid"),
-  Wood: "Wood. An interesting choice....",
+  Wood: translate("chumDetails.wood"),
 };
 
 export type FishingLocation = "beach" | "wharf";

@@ -371,6 +371,7 @@ export type ChoresStart =
 export type ChumDetails =
   | "chumDetails.gold"
   | "chumDetails.iron"
+  | "chumDetails.stone"
   | "chumDetails.egg"
   | "chumDetails.sunflower"
   | "chumDetails.potato"
@@ -394,7 +395,8 @@ export type ChumDetails =
   | "chumDetails.anchovy"
   | "chumDetails.redSnapper"
   | "chumDetails.tuna"
-  | "chumDetails.squid";
+  | "chumDetails.squid"
+  | "chumDetails.wood";
 
 export type Community = "community.toast" | "community.url" | "comunity.Travel";
 
@@ -651,6 +653,8 @@ export type DecorationDescriptions =
   | "description.gold.rock"
   | "description.iron.rock"
   | "description.stone.rock"
+  | "description.ruby.rock"
+  |"description.flower.bed"
   | "description.tree"
   | "description.fruit.patch"
   | "description.boulder"
@@ -904,6 +908,15 @@ export type FishingQuests =
   | "quest.1500.fish"
   | "quest.marine.marvel"
   | "quest.5.fish";
+
+export type Flowerbedguide =
+  | "flowerbedguide.craftRod"
+  | "flowerbedguide.earnBait"
+  | "flowerbedguide.eatFish"
+  | "flowerbedguide.exploreWaters"
+  | "flowerbedguide.tidePatterns"
+  | "flowerbedguide.experimentBait"
+  | "flowerbedguide.legendaryFish";
 
 export type FoodDescriptions =
   //Fire Pit
@@ -1329,6 +1342,16 @@ export type HalveningCountdown =
   | "halveningCountdown.title"
   | "halveningCountdown.readMore";
 
+export type Harvestflower =
+  | "harvestflower.noBumpkin"
+  | "harvestflower.noFlowerBed"
+  | "harvestflower.noFlower"
+  | "harvestflower.notReady";
+
+export type HarvestBeeHive =
+  | "harvestBeeHive.notPlaced"
+  | "harvestBeeHive.noHoney";
+
 export type HayseedHankV2 =
   | "hayseedHankv2.dialog1"
   | "hayseedHankv2.dialog2"
@@ -1371,6 +1394,21 @@ export type HowToUpgrade =
   | "howToUpgrade.stepTwo"
   | "howToUpgrade.stepThree"
   | "howToUpgrade.stepFour";
+
+  export type Islandupgrade =
+  |"islandupgrade.confirmUpgrade"
+  |"islandupgrade.warning"
+  |"islandupgrade.upgradeIsland"
+  |"islandupgrade.newOpportunities"
+  |"islandupgrade.confirmation"
+  |"islandupgrade.locked"
+  |"islandupgrade.continue"
+  |"islandupgrade.exploring"
+  |"islandupgrade.welcomePetalParadise"
+  |"islandupgrade.itemsReturned"
+  | "islandupgrade.notReadyExpandMore"
+  | "islandupgrade.notReadyExpandMore.two";
+
 
 export type InteractableModals =
   | "interactableModals.returnhome.message"
@@ -2355,7 +2393,9 @@ export type ToolDescriptions =
   | "description.rusty.shovel"
   | "description.shovel"
   | "description.sand.shovel"
-  | "description.sand.drill";
+  | "description.sand.drill"
+  | "description.gold.pickaxe"
+;
 
 export type TransactionTerms =
   | "transaction.blockBucksFarm"
@@ -2556,6 +2596,7 @@ export type TranslationKeys =
   | FishingChallengeIntro
   | FishingGuide
   | FishingQuests
+  | Flowerbedguide
   | FoodDescriptions
   | GameDescriptions
   | GameTerms
@@ -2569,12 +2610,15 @@ export type TranslationKeys =
   | GuideTerms
   | GrubShop
   | HalveningCountdown
+  | Harvestflower
+  | HarvestBeeHive
   | HayseedHankV2
   | HeliosSunflower
   | HenHouseTerms
   | HowToFarm
   | HowToSync
   | HowToUpgrade
+  | Islandupgrade
   | InteractableModals
   | Intro
   | IntroPage

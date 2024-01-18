@@ -37,7 +37,7 @@ export const COMMODITIES: Record<CommodityName, Commodity> = {
     description: translate("use.craft"),
   },
   Ruby: {
-    description: "Used to craft items",
+    description: translate("use.craft"),
   },
   Diamond: {
     description: translate("use.craft"),

@@ -40,13 +40,13 @@ export function castRod({
     throw new Error(translate("error.noBumpkin2"));
   }
 
-  if (getDailyFishingCount(game) >= getDailyFishingLimit(game.bumpkin)) {
+  if (getDailyFishingCount(game) >= getDailyFishingLimit(game)) {
     throw new Error(translate("error.dailyAttemptsExhausted"));
   }
 
   const rodCount = game.inventory.Rod ?? new Decimal(0);
   // Requires Rod
-  if (rodCount.lt(1) && game.bumpkin.equipped.tool !== "Ancient Rod") {
+  if (rodCount.lt(1) && !isWearableActive({ name: "Ancient Rod", game })) {
     throw new Error(translate("error.missingRod"));
   }
 
@@ -77,7 +77,7 @@ export function castRod({
   }
 
   // Subtracts Rod
-  if (game.bumpkin.equipped.tool !== "Ancient Rod") {
+  if (!isWearableActive({ name: "Ancient Rod", game })) {
     game.inventory.Rod = rodCount.sub(1);
   }
 

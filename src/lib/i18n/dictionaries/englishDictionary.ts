@@ -44,6 +44,7 @@ import {
   FishingChallengeIntro,
   FishingGuide,
   FishingQuests,
+  Flowerbedguide,
   FoodDescriptions,
   GameDescriptions,
   GameTerms,
@@ -57,12 +58,15 @@ import {
   GuideTerms,
   GrubShop,
   HalveningCountdown,
+  Harvestflower,
+  HarvestBeeHive,
   HayseedHankV2,
   HeliosSunflower,
   HenHouseTerms,
   HowToFarm,
   HowToSync,
   HowToUpgrade,
+  Islandupgrade,
   InteractableModals,
   Intro,
   IntroPage,
@@ -724,6 +728,7 @@ const choresStart: Record<ChoresStart, string> = {
 const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.gold": "The shimmering gold can be seen 100 miles away",
   "chumDetails.iron": "A shimmering sparkle, can be seen at all angles during Dusk",
+  "chumDetails.stone": "Maybe throwing a few stones will attract some fish",
   "chumDetails.egg": "Hmmm, not sure what fish would like eggs...",
   "chumDetails.sunflower": "A sunny, vibrant lure for curious fish.",
   "chumDetails.potato": "Potatoes make for an unusual fishy feast.",
@@ -748,6 +753,7 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.redSnapper": "A mystery hidden within the depths of the ocean.",
   "chumDetails.tuna": "What is big enough to eat a tuna?",
   "chumDetails.squid": "Awaken a ray with its favorite treat!",
+  "chumDetails.wood": "Wood. An interesting choice....",
 };
 
 const community: Record<Community, string> = {
@@ -1018,6 +1024,8 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.gold.rock": "A mineable rock to collect gold",
   "description.iron.rock": "A mineable rock to collect iron",
   "description.stone.rock": "A mineable rock to collect stone",
+  "description.ruby.rock": "A mineable rock to collect ruby",
+  "description.flower.bed": "An empty plot to plant flowers on",
   "description.tree": "A choppable tree to collect wood",
   "description.fruit.patch": "An empty plot to plant fruit on",
   "description.boulder": "A mythical rock that can drop rare minerals",
@@ -1290,6 +1298,16 @@ const fishingQuests: Record<FishingQuests, string> = {
   "quest.5.fish": "Catch 5 of every fish",
 };
 
+const flowerbedguide: Record<Flowerbedguide, string> = {
+  "flowerbedguide.craftRod": "Craft a rod and gather bait to catch fish.",
+  "flowerbedguide.earnBait": "Bait can be earned through composting or crafting lures.",
+  "flowerbedguide.eatFish": "Eat fish to level up your Bumpkin or perform fish deliveries for rewards.",
+  "flowerbedguide.exploreWaters": "Explore the waters to discover rare fish, complete missions, and unlock unique rewards within the Codex.",
+  "flowerbedguide.tidePatterns": "Keep track of the changing tide patterns; specific fish species are only available during certain conditions.",
+  "flowerbedguide.experimentBait": "Experiment with different types of bait and chum combinations to maximize your chances of catching various fish species.",
+  "flowerbedguide.legendaryFish": "Beware of legendary fish; they require exceptional skill and strength to catch.",
+};
+
 const foodDescriptions: Record<FoodDescriptions, string> = {
   // Fire Pit
   "description.pumpkin.soup": "A creamy soup that goblins love",
@@ -1556,6 +1574,18 @@ const halveningCountdown: Record<HalveningCountdown, string> = {
   "halveningCountdown.readMore": "Read more",
 };
 
+const harvestflower: Record<Harvestflower, string> = {
+  "harvestflower.noBumpkin": "You do not have a Bumpkin",
+  "harvestflower.noFlowerBed": "Flower bed does not exist",
+  "harvestflower.noFlower": "Flower bed does not have a flower",
+  "harvestflower.notReady": "Flower is not ready to harvest",
+};
+
+const harvestBeeHive: Record<HarvestBeeHive, string> = {
+  "harvestBeeHive.notPlaced": "This beehive is not placed.",
+  "harvestBeeHive.noHoney": "This beehive has no honey.",
+};
+
 const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1": "Well, howdy there, young whippersnappers! I'm Hayseed Hank, a seasoned ol' Bumpkin farmer, tending to the land like in the good ol' days.",
   "hayseedHankv2.dialog2": "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with {{ticket}}s.",
@@ -1603,6 +1633,21 @@ const howToUpgrade: Record<HowToUpgrade, string> = {
   "howToUpgrade.stepTwo": "2.Visit the town & click on the kitchen",
   "howToUpgrade.stepThree": "3. Craft the food that the goblin wants",
   "howToUpgrade.stepFour": "4. Voila! Enjoy your new fields and crops",
+};
+
+const islandupgrade: Record<Islandupgrade, string> = {
+  "islandupgrade.confirmUpgrade": "Are you sure you want to upgrade to a new island.",
+  "islandupgrade.warning": "Make sure you do not have any crops, fruit, buildings or chickens in progress. These will be returned to your inventory.",
+  "islandupgrade.upgradeIsland": "Upgrade Island",
+  "islandupgrade.newOpportunities": "An exotic island awaits you with new resources and opportunities to grow your farm.",
+  "islandupgrade.confirmation": "Would you like to upgrade? Your resources will be safely transferred to your new island.",
+  "islandupgrade.locked": "Locked",
+  "islandupgrade.continue": "Continue",
+  "islandupgrade.exploring": "Exploring",
+  "islandupgrade.welcomePetalParadise": "Welcome to Petal Paradise!",
+  "islandupgrade.itemsReturned": "Your items have been safely returned to your inventory.",
+  "islandupgrade.notReadyExpandMore": "You are not ready. Expand",
+  "islandupgrade.notReadyExpandMore.two": "more times", 
 };
 
 const interactableModals: Record<InteractableModals, string> = {
@@ -2675,6 +2720,7 @@ const toolDescriptions: Record<ToolDescriptions, string> = {
   "description.shovel": "Plant and harvest crops.",
   "description.sand.shovel": "Used for digging treasure",
   "description.sand.drill": "Drill deep for uncommon or rare treasure",
+  "description.gold.pickaxe": "Used to collect rubies",
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
@@ -2889,6 +2935,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...fishingChallengeIntro,
   ...fishingGuide,
   ...fishingQuests,
+  ...flowerbedguide,
   ...foodDescriptions,
   ...garbageCollector,
   ...gameDescriptions,
@@ -2902,12 +2949,15 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...guideTerms,
   ...grubshop,
   ...halveningCountdown,
+  ...harvestflower,
+  ...harvestBeeHive,
   ...hayseedHankV2,
   ...heliosSunflower,
   ...henHouseTerms,
   ...howToFarm,
   ...howToSync,
   ...howToUpgrade,
+  ...islandupgrade,
   ...interactableModals,
   ...introPage,
   ...introTerms,

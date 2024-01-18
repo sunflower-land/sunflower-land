@@ -5,11 +5,12 @@ import {
   HONEY_PRODUCTION_TIME,
   updateBeehives,
 } from "features/game/lib/updateBeehives";
+import { translate } from "lib/i18n/translate";
 
-export enum HARVEST_BEEHIVE_ERRORS {
-  BEEHIVE_NOT_PLACED = "This beehive is not placed.",
-  NO_HONEY = "This beehive has no honey.",
-}
+export const HARVEST_BEEHIVE_ERRORS = {
+  BEEHIVE_NOT_PLACED: "harvestBeeHive.notPlaced",
+  NO_HONEY: "harvestBeeHive.noHoney",
+};
 
 export type HarvestBeehiveAction = {
   type: "beehive.harvested";

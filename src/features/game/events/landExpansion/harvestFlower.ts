@@ -4,6 +4,7 @@ import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { translate } from "lib/i18n/translate";
 
 export type HarvestFlowerAction = {
   type: "flower.harvested";
@@ -25,20 +26,20 @@ export function harvestFlower({
 
   const bumpkin = stateCopy.bumpkin;
 
-  if (!bumpkin) throw new Error("You do not have a Bumpkin");
+  if (!bumpkin) throw new Error(translate("harvestflower.noBumpkin"));
 
   const flowerBed = stateCopy.flowers[action.id];
 
-  if (!flowerBed) throw new Error("Flower bed does not exist");
+  if (!flowerBed) throw new Error(translate("harvestflower.noFlowerBed"));
 
   const flower = flowerBed.flower;
 
-  if (!flower) throw new Error("Flower bed does not have a flower");
+  if (!flower) throw new Error(translate("harvestflower.noFlower"));
 
   const isReady =
     flower.plantedAt + FLOWERS[flower.name].harvestSeconds * 1000 < createdAt;
 
-  if (!isReady) throw new Error("Flower is not ready to harvest");
+  if (!isReady) throw new Error(translate("harvestflower.notReady"));
 
   stateCopy.inventory[flower.name] = (
     stateCopy.inventory[flower.name] ?? new Decimal(0)
