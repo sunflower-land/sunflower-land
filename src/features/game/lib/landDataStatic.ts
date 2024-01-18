@@ -2,11 +2,7 @@ import Decimal from "decimal.js-light";
 import { GameState, Inventory } from "../types/game";
 import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
-import {
-  INITIAL_BUMPKIN,
-  INITIAL_BUMPKIN_LEVEL,
-  INITIAL_EXPANSIONS,
-} from "./bumpkinData";
+import { INITIAL_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
 
 export const INITIAL_RESOURCES: Pick<
   GameState,
@@ -255,7 +251,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   island: {
-    type: "spring",
+    type: "basic",
   },
   mysteryPrizes: {},
   mushrooms: {
@@ -301,7 +297,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(INITIAL_EXPANSIONS),
+    "Basic Land": new Decimal(9),
     "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),
     "Water Well": new Decimal(4),
     Tree: new Decimal(OFFLINE_FARM_TREES),
@@ -318,6 +314,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Wood: new Decimal(100),
     Stone: new Decimal(100),
     Iron: new Decimal(100),
+    Gold: new Decimal(15),
   },
   wardrobe: {
     "Elf Suit": 1,

@@ -763,7 +763,7 @@ export type Christmas = {
   >;
 };
 
-export type IslandType = "basic" | "spring";
+export type IslandType = "basic" | "spring" | "desert";
 
 export type Home = {
   collectibles: Collectibles;

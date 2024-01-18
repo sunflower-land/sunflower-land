@@ -26,7 +26,8 @@ type FeatureName =
   | "LOCALISATION"
   | "PORTALS"
   | "BEACH_FISHING"
-  | "HOME";
+  | "HOME"
+  | "ISLAND_UPGRADE";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51];
@@ -34,6 +35,13 @@ export const ADMIN_IDS = [1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51];
 type FeatureFlag = (game: GameState) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
+  ISLAND_UPGRADE: (_: GameState) => {
+    if (Date.now() > new Date("2024-02-01").getTime()) {
+      return true;
+    }
+
+    return testnetFeatureFlag();
+  },
   BEACH_FISHING: () => true,
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,

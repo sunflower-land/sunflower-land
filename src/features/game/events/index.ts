@@ -229,6 +229,10 @@ import {
   placeFlowerBed,
   PlaceFlowerBedAction,
 } from "./landExpansion/placeFlowerBed";
+import {
+  upgrade as upgrade,
+  UpgradeFarmAction,
+} from "./landExpansion/upgradeFarm";
 
 export type PlayingEvent =
   | TradeAction
@@ -303,7 +307,8 @@ export type PlayingEvent =
   | EquipFarmHandAction
   | HarvestBeehiveAction
   | PlantFlowerAction
-  | HarvestFlowerAction;
+  | HarvestFlowerAction
+  | UpgradeFarmAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -439,6 +444,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "beehive.harvested": harvestBeehive,
   "flower.planted": plantFlower,
   "flower.harvested": harvestFlower,
+  "farm.upgraded": upgrade,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

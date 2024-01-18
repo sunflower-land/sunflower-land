@@ -176,6 +176,12 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
     x: -6,
     y: -6,
   },
+  desert: {
+    height: 16,
+    width: 16,
+    x: -8,
+    y: -8,
+  },
 };
 
 const NON_COLLIDING_OBJECTS: InventoryItemName[] = ["Rug"];
