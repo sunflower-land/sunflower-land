@@ -21,7 +21,16 @@ type Options = {
 
 const INITIAL_LAND: Pick<
   GameState,
-  "buildings" | "crops" | "fruitPatches" | "stones" | "iron" | "gold" | "trees"
+  | "buildings"
+  | "crops"
+  | "fruitPatches"
+  | "stones"
+  | "iron"
+  | "gold"
+  | "trees"
+  | "flowers"
+  | "beehives"
+  | "rubies"
 > = {
   buildings: {
     House: [
@@ -318,6 +327,9 @@ const INITIAL_LAND: Pick<
       width: 1,
     },
   },
+  flowers: {},
+  beehives: {},
+  rubies: {},
 };
 
 export const ISLAND_UPGRADE: Record<

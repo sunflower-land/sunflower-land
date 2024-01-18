@@ -125,6 +125,7 @@ export interface Context {
   linkedWallet?: string;
   wallet?: string;
   nftId?: number;
+  paused?: boolean;
 }
 
 export type Moderation = {
@@ -269,6 +270,12 @@ export type BlockchainEvent =
       type: "DEPOSIT";
     }
   | {
+      type: "PAUSE";
+    }
+  | {
+      type: "PLAY";
+    }
+  | {
       type: "REVEAL";
     }
   | {
@@ -407,6 +414,7 @@ export type BlockchainState = {
     | "claimAuction"
     | "refundAuction"
     | "blacklisted"
+    | "paused"
     | "randomising"; // TEST ONLY
   context: Context;
 };
@@ -1343,6 +1351,7 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
+
         genieRevealed: {
           on: {
             CONTINUE: {
@@ -1643,6 +1652,13 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
+        paused: {
+          on: {
+            PLAY: {
+              target: "playing",
+            },
+          },
+        },
         transacting: {},
         randomising: {
           invoke: {
@@ -1668,6 +1684,16 @@ export function startGame(authContext: AuthContext) {
         },
       },
       on: {
+        PAUSE: {
+          actions: assign({
+            paused: (_) => true,
+          }),
+        },
+        PLAY: {
+          actions: assign({
+            paused: (_) => false,
+          }),
+        },
         COMMUNITY_UPDATE: {
           actions: assign({
             state: (_, event) => {

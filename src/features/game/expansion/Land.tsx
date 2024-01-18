@@ -497,9 +497,12 @@ const getIslandElements = ({
 const selectGameState = (state: MachineState) => state.context.state;
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
 const isVisiting = (state: MachineState) => state.matches("visiting");
+const isPaused = (state: MachineState) => !!state.context.paused;
 
 export const Land: React.FC = () => {
   const { gameService, showTimers } = useContext(Context);
+
+  const paused = useSelector(gameService, isPaused);
 
   const state = useSelector(gameService, selectGameState);
   const {
@@ -600,28 +603,29 @@ export const Land: React.FC = () => {
             />
 
             {/* Sort island elements by y axis */}
-            {getIslandElements({
-              expansionConstruction,
-              buildings,
-              collectibles,
-              chickens,
-              bumpkin,
-              trees,
-              stones,
-              iron,
-              gold,
-              rubies,
-              fruitPatches,
-              flowers,
-              crops,
-              showTimers: showTimers,
-              grid: gameGrid,
-              mushrooms: mushrooms?.mushrooms,
-              isFirstRender,
-              buds,
-              airdrops,
-              beehives,
-            }).sort((a, b) => b.props.y - a.props.y)}
+            {!paused &&
+              getIslandElements({
+                expansionConstruction,
+                buildings,
+                collectibles,
+                chickens,
+                bumpkin,
+                trees,
+                stones,
+                iron,
+                gold,
+                rubies,
+                fruitPatches,
+                flowers,
+                crops,
+                showTimers: showTimers,
+                grid: gameGrid,
+                mushrooms: mushrooms?.mushrooms,
+                isFirstRender,
+                buds,
+                airdrops,
+                beehives,
+              }).sort((a, b) => b.props.y - a.props.y)}
           </div>
 
           {landscaping && <Placeable location="farm" />}

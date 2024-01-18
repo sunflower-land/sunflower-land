@@ -182,14 +182,20 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
   const onUpgrade = async () => {
     setShowTravelAnimation(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     setShowModal(false);
+    gameService.send("PAUSE");
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    gameService.send("farm.upgraded");
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     setShowUpgraded(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    gameService.send("farm.upgraded");
-    gameService.send("SAVE");
+    gameService.send("PLAY");
 
     scrollIntoView(Section.Home, "auto");
 
