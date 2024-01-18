@@ -239,6 +239,7 @@ const OFFLINE_FARM_FRUIT = getEnabledNodeCount(
 );
 
 export const STATIC_OFFLINE_FARM: GameState = {
+  ruby: {},
   home: {
     collectibles: {
       Wardrobe: [

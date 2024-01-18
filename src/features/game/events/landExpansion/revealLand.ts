@@ -278,7 +278,7 @@ export const expansionRequirements = ({
   level: number;
   game: GameState;
 }) => {
-  const requirements = EXPANSION_REQUIREMENTS[level];
+  const requirements = EXPANSION_REQUIREMENTS[game.island.type][level];
 
   if (!requirements) {
     return undefined;

@@ -1,5 +1,6 @@
-import { GameState, InventoryItemName } from "../types/game";
+import { GameState, InventoryItemName, IslandType } from "../types/game";
 import { Coordinates } from "../expansion/components/MapPlacement";
+import { TOTAL_EXPANSION_NODES } from "../expansion/lib/expansionNodes";
 
 export type ExpandLandAction = {
   type: "land.expanded";
@@ -27,15 +28,7 @@ export function getPlayerGroup(id: string): 0 | 1 | 2 {
   return groupId as 0 | 1 | 2;
 }
 
-export function getLand({
-  id,
-  game,
-}: {
-  id: number;
-  game: GameState;
-}): Layout | null {
-  const expansion = (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1;
-
+function getBasicLand({ id, expansion }: { id: number; expansion: number }) {
   if (expansion === 4) {
     return LAND_4_LAYOUT;
   }
@@ -92,6 +85,91 @@ export function getLand({
   }
 
   return null;
+}
+
+export function getSpringLand({ expansion }: { expansion: number }) {
+  if (expansion === 5) {
+    return SPRING_LAND_5_LAYOUT;
+  }
+
+  return null;
+}
+export function getLand({
+  id,
+  game,
+}: {
+  id: number;
+  game: GameState;
+}): Layout | null {
+  const expansion = (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1;
+
+  let land: Layout | null = null;
+
+  if (game.island.type === "basic") {
+    land = getBasicLand({ id, expansion });
+  }
+
+  if (game.island.type === "spring") {
+    land = getSpringLand({ expansion });
+  }
+
+  if (!land) {
+    return null;
+  }
+
+  const expectedResources = TOTAL_EXPANSION_NODES[game.island.type][expansion];
+
+  // Remove any resources if they are past the limit already
+  const availableTrees =
+    expectedResources.Tree - (game.inventory.Tree?.toNumber() ?? 0);
+  land.trees = land.trees.slice(0, availableTrees);
+
+  const availableStones =
+    expectedResources["Stone Rock"] -
+    (game.inventory["Stone Rock"]?.toNumber() ?? 0);
+  land.stones = land.stones.slice(0, availableStones);
+
+  const availableIron =
+    expectedResources["Iron Rock"] -
+    (game.inventory["Iron Rock"]?.toNumber() ?? 0);
+  land.iron = land.iron?.slice(0, availableIron);
+
+  const availableGold =
+    expectedResources["Gold Rock"] -
+    (game.inventory["Gold Rock"]?.toNumber() ?? 0);
+  land.gold = land.gold?.slice(0, availableGold);
+
+  const availableFruit =
+    expectedResources["Fruit Patch"] -
+    (game.inventory["Fruit Patch"]?.toNumber() ?? 0);
+  land.fruitPatches = land.fruitPatches?.slice(0, availableFruit);
+
+  const availablePlots =
+    expectedResources["Crop Plot"] -
+    (game.inventory["Crop Plot"]?.toNumber() ?? 0);
+  land.plots = land.plots.slice(0, availablePlots);
+
+  const availableHives =
+    expectedResources["Bee Hive"] -
+    (game.inventory["Bee Hive"]?.toNumber() ?? 0);
+  land.beeHives = land.beeHives?.slice(0, availableHives);
+
+  const availableFlowers =
+    expectedResources["Flower Bed"] -
+    (game.inventory["Flower Bed"]?.toNumber() ?? 0);
+  land.flowerBeds = land.flowerBeds?.slice(0, availableFlowers);
+
+  const availableSunBoulders =
+    expectedResources["Sun Boulder"] -
+    (game.inventory["Sun Boulder"]?.toNumber() ?? 0);
+  land.sunBoulders = land.sunBoulders?.slice(0, availableSunBoulders);
+
+  const availableRubies =
+    expectedResources["Ruby Rock"] -
+    (game.inventory["Ruby Rock"]?.toNumber() ?? 0);
+  land.rubies = land.rubies?.slice(0, availableRubies);
+
+  return land;
 }
 
 export const LAND_4_LAYOUT: Layout = {
@@ -360,6 +438,7 @@ export const LAND_10_LAYOUT: Layout = {
     },
   ],
 } as Layout;
+
 export const LAND_11_LAYOUT: Layout = {
   id: "11",
   plots: [
@@ -398,6 +477,7 @@ export const LAND_11_LAYOUT: Layout = {
     },
   ],
 } as Layout;
+
 export const LAND_12_LAYOUT: Layout = {
   id: "12",
   plots: [],
@@ -733,6 +813,68 @@ export const LAND_23_LAYOUT: Layout = {
   ],
 };
 
+export const SPRING_LAND_5_LAYOUT: Layout = {
+  id: "spring_5",
+  plots: [
+    {
+      x: -2,
+      y: 1,
+    },
+    {
+      x: -2,
+      y: 0,
+    },
+    {
+      x: -1,
+      y: 1,
+    },
+    {
+      x: -1,
+      y: 0,
+    },
+    {
+      x: 0,
+      y: 1,
+    },
+    {
+      x: 0,
+      y: 0,
+    },
+    {
+      x: 1,
+      y: 1,
+    },
+    {
+      x: 1,
+      y: 0,
+    },
+  ],
+  fruitPatches: [],
+  gold: [],
+  iron: [
+    {
+      x: -2,
+      y: -2,
+    },
+  ],
+  stones: [
+    {
+      x: 1,
+      y: -2,
+    },
+  ],
+  trees: [
+    {
+      x: 1,
+      y: 3,
+    },
+    {
+      x: -2,
+      y: 3,
+    },
+  ],
+};
+
 export type Layout = {
   id: string;
   trees: Coordinates[];
@@ -741,6 +883,8 @@ export type Layout = {
   iron?: Coordinates[];
   gold?: Coordinates[];
   crimstones?: Coordinates[];
+  beeHives?: Coordinates[];
+  flowerBeds?: Coordinates[];
   fruitPatches?: Coordinates[];
 };
 
@@ -974,25 +1118,34 @@ const LAND_23_REQUIREMENTS: Requirements = {
   seconds: 48 * 60 * 60,
   bumpkinLevel: 60,
 };
-export const EXPANSION_REQUIREMENTS: Record<number, Requirements> = {
-  4: LAND_4_REQUIREMENTS,
-  5: LAND_5_REQUIREMENTS,
-  6: LAND_6_REQUIREMENTS,
-  7: LAND_7_REQUIREMENTS,
-  8: LAND_8_REQUIREMENTS,
-  9: LAND_9_REQUIREMENTS,
-  10: LAND_10_REQUIREMENTS,
-  11: LAND_11_REQUIREMENTS,
-  12: LAND_12_REQUIREMENTS,
-  13: LAND_13_REQUIREMENTS,
-  14: LAND_14_REQUIREMENTS,
-  15: LAND_15_REQUIREMENTS,
-  16: LAND_16_REQUIREMENTS,
-  17: LAND_17_REQUIREMENTS,
-  18: LAND_18_REQUIREMENTS,
-  19: LAND_19_REQUIREMENTS,
-  20: LAND_20_REQUIREMENTS,
-  21: LAND_21_REQUIREMENTS,
-  22: LAND_22_REQUIREMENTS,
-  23: LAND_23_REQUIREMENTS,
+
+export const EXPANSION_REQUIREMENTS: Record<
+  IslandType,
+  Record<number, Requirements>
+> = {
+  basic: {
+    4: LAND_4_REQUIREMENTS,
+    5: LAND_5_REQUIREMENTS,
+    6: LAND_6_REQUIREMENTS,
+    7: LAND_7_REQUIREMENTS,
+    8: LAND_8_REQUIREMENTS,
+    9: LAND_9_REQUIREMENTS,
+    10: LAND_10_REQUIREMENTS,
+    11: LAND_11_REQUIREMENTS,
+    12: LAND_12_REQUIREMENTS,
+    13: LAND_13_REQUIREMENTS,
+    14: LAND_14_REQUIREMENTS,
+    15: LAND_15_REQUIREMENTS,
+    16: LAND_16_REQUIREMENTS,
+    17: LAND_17_REQUIREMENTS,
+    18: LAND_18_REQUIREMENTS,
+    19: LAND_19_REQUIREMENTS,
+    20: LAND_20_REQUIREMENTS,
+    21: LAND_21_REQUIREMENTS,
+    22: LAND_22_REQUIREMENTS,
+    23: LAND_23_REQUIREMENTS,
+  },
+  spring: {
+    // TODO
+  },
 };

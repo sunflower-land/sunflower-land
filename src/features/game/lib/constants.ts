@@ -280,6 +280,7 @@ export const TEST_FARM: GameState = {
     read: [],
   },
   trades: {},
+  ruby: {},
   crops: {
     1: {
       height: 1,
@@ -468,6 +469,7 @@ export const EMPTY: GameState = {
     Stone: new Decimal(10),
   },
   previousInventory: {},
+  ruby: {},
   chickens: {},
   stock: {},
   stockExpiry: {},
