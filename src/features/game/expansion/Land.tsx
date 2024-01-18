@@ -2,6 +2,7 @@ import React, { useContext, useLayoutEffect, useMemo } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 
+import cloudedMap from "src/assets/land/clouded_map.png";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Coordinates, MapPlacement } from "./components/MapPlacement";
 import { Context } from "../GameProvider";
@@ -541,6 +542,8 @@ export const Land: React.FC = () => {
     y: 56 + gameboardSizeOffset,
   };
 
+  console.log({ gameboardDimensions });
+
   const [scrollIntoView] = useScrollIntoView();
 
   useLayoutEffect(() => {
@@ -555,6 +558,14 @@ export const Land: React.FC = () => {
     return gameGridValue;
   }, [JSON.stringify(gameGridValue)]);
 
+  console.log({
+    widthP: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
+    width: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
+    height: `${gameboardDimensions.y * GRID_WIDTH_PX}px`,
+
+    width2: `${1344 * PIXEL_SCALE}px`,
+    height2: `${896 * PIXEL_SCALE}px`,
+  });
   return (
     <>
       <div
@@ -568,6 +579,15 @@ export const Land: React.FC = () => {
           imageRendering: "pixelated",
         }}
       >
+        <img
+          src={cloudedMap}
+          alt="land"
+          className="z-10 absolute pointer-events-none w-full h-full"
+          style={{
+            width: `${1536 * PIXEL_SCALE}px`,
+            height: `${1088 * PIXEL_SCALE}px`,
+          }}
+        />
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div
             className={classNames("relative w-full h-full", {
