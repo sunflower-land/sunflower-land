@@ -867,3 +867,63 @@ img {
   left: 65%;
   animation-delay: 2.5s;
 }
+
+.bee-flight {
+  animation: floating 750ms infinite;
+}
+
+@keyframes enter-hive {
+  0% {
+    transform: translate(-50%, 0) scale(1);
+    transform-origin: center center;
+    opacity: 1;
+  }
+  60% {
+    transform: translate(-50%, -9px) scale(1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  90% {
+    transform: translate(-50%, -7px) scale(0);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -7px) scale(0);
+    transform-origin: center bottom;
+    opacity: 0;
+  }
+}
+
+@keyframes exit-hive {
+  0% {
+    transform: translate(-50%, -7px) scale(0);
+    transform-origin: center bottom;
+    opacity: 0;
+  }
+  60% {
+    transform: translate(-50%, -7px) scale(0);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  90% {
+    transform: translate(-50%, -9px) scale(1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 0) scale(1);
+    transform-origin: center center;
+    opacity: 1;
+  }
+}
+
+.animate-enter-hive {
+  animation: enter-hive 1.5s ease-out;
+  animation-fill-mode: forwards;
+}
+
+.animate-exit-hive {
+  animation: exit-hive 1.5s ease-in;
+  animation-fill-mode: forwards;
+}

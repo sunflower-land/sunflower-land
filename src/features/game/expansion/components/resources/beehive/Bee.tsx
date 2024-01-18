@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { animated, useSpring } from "react-spring";
+import { animated, config, useSpring } from "react-spring";
 import { Context } from "features/game/GameProvider";
 import bee from "assets/icons/bee.webp";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
@@ -74,28 +74,39 @@ export const Bee: React.FC<Props> = ({
       await next({
         transform: `translate(0px, 0px) scale(1)`,
         config: {
-          duration: 1000,
+          duration: 500,
         },
       });
       // Phase 1: Move to the flowerbed
       await next({
         transform: `translate(${flowerPosition.x}px, ${flowerPosition.y}px) scale(1)`,
         config: {
-          duration: 3000,
+          ...config.molasses,
+          duration: 5000,
         },
       });
       // Phase 2: Hover for a second
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // await new Promise((resolve) => setTimeout(resolve, 2000));
+      await next({
+        transform: `translate(${flowerPosition.x}px, ${flowerPosition.y}px) scale(1) scaleX(-1)`,
+      });
+      await next({
+        transform: `translate(${flowerPosition.x}px, ${flowerPosition.y}px) scale(1) scaleX(-1)`,
+        config: {
+          ...config.molasses,
+          duration: 3000,
+        },
+      });
       // Phase 3: Move back to the hive
       await next({
-        transform: `translate(0px, 0px) scale(1)`,
+        transform: `translate(0px, 0px) scale(1) scaleX(-1)`,
         config: {
           duration: 3000,
         },
       });
       // Phase 4: Scale back into the hive
       await next({
-        transform: `translate(0px, 0px) scale(0)`,
+        transform: `translate(0px, 0px) scale(0) scaleX(-1)`,
         config: { duration: 1000 },
       });
       onAnimationEnd(); // Callback when animation is done
@@ -107,19 +118,19 @@ export const Bee: React.FC<Props> = ({
       id="BEEEE"
       style={{
         position: "absolute",
-        width: `${PIXEL_SCALE * 10}px`,
-        height: `${PIXEL_SCALE * 10}px`,
+        width: `${PIXEL_SCALE * 7}px`,
+        height: `${PIXEL_SCALE * 7}px`,
         ...animation,
       }}
     >
       <img
         src={bee}
         alt="Bee"
-        className={classNames("animate-float", {
+        className={classNames("bee-flight", {
           "-scale-x-100": flowerPosition.x > 0,
         })}
         style={{
-          width: `${PIXEL_SCALE * 10}px`,
+          width: `${PIXEL_SCALE * 7}px`,
         }}
       />
     </animated.div>

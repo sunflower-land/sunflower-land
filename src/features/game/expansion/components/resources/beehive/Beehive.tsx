@@ -1,6 +1,7 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import beehive from "assets/sfts/beehive.webp";
 import honeyDrop from "assets/sfts/honey_drop.webp";
+import bee from "assets/icons/bee.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
@@ -45,6 +46,7 @@ const _showBeeAnimation = (state: BeehiveMachineState) =>
 export const Beehive: React.FC<Props> = ({ id }) => {
   const { showTimers, gameService } = useContext(Context);
   const isInitialMount = useRef(true);
+  const [showProducingBee, setShowProducingBee] = useState(false);
 
   const landscaping = useSelector(gameService, _landscaping);
   const hive = useSelector(gameService, getBeehiveById(id), compareHive);
@@ -75,6 +77,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
 
   const handleBeeAnimationEnd = () => {
     beehiveService.send("BEE_ANIMATION_DONE");
+    setShowProducingBee(true);
   };
 
   useEffect(() => {
@@ -92,6 +95,14 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hive, beehiveService]);
 
+  useEffect(() => {
+    if (isProducing === undefined) return;
+
+    if (showProducingBee && !isProducing) {
+      setShowProducingBee(false);
+    }
+  }, [isProducing, showProducingBee]);
+
   return (
     <div>
       <img
@@ -105,15 +116,31 @@ export const Beehive: React.FC<Props> = ({ id }) => {
       <img
         src={honeyDrop}
         alt="Honey Drop"
-        className={classNames("absolute top-0 right-1 transition-transform", {
-          "scale-0": !honeyReady,
-          "scale-100": honeyReady,
-        })}
+        className={classNames(
+          "absolute top-0 right-1 transition-transform duration-700",
+          {
+            "scale-0": !honeyReady,
+            "scale-100": honeyReady,
+          }
+        )}
         style={{
           width: `${PIXEL_SCALE * 7}px`,
         }}
       />
-      {/* Progress bar for growing crops */}
+      {!showBeeAnimation && (
+        <img
+          src={bee}
+          alt="Bee"
+          className={classNames("absolute left-1/2 -translate-x-1/2", {
+            "animate-enter-hive": !showProducingBee,
+            "animate-exit-hive": showProducingBee,
+          })}
+          style={{
+            width: `${PIXEL_SCALE * 7}px`,
+          }}
+        />
+      )}
+      {/* Progress bar for honey production */}
       {showTimers && !landscaping && (
         <div
           className="absolute pointer-events-none"
