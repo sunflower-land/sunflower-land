@@ -22,7 +22,7 @@ export function plantFlower({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy = cloneDeep(state);
+  const stateCopy: GameState = cloneDeep(state);
   const { flowers, bumpkin } = stateCopy;
 
   if (!bumpkin) {
