@@ -1,14 +1,19 @@
 import Decimal from "decimal.js-light";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { isFlowerSeed } from "features/game/types/flowers";
+import {
+  FlowerCrossBreedName,
+  FlowerSeedName,
+  isFlowerSeed,
+} from "features/game/types/flowers";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type PlantFlowerAction = {
   type: "flower.planted";
   id: string;
-  seed: "Sunpetal Seed";
+  seed: FlowerSeedName;
+  crossbreed: FlowerCrossBreedName;
 };
 
 type Options = {

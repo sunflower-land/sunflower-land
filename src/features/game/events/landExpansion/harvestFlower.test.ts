@@ -152,5 +152,4 @@ describe("harvestFlower", () => {
   });
 
   it.todo("updates the dex");
-  it.todo("updates the bees");
 });

@@ -1,16 +1,19 @@
 import React, { useContext, useState } from "react";
 
-import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { SeedName } from "features/game/types/seeds";
 import flowerBed from "assets/flowers/flower_bed_modal.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
-import { FLOWER_CHUM_AMOUNTS, FLOWER_SEEDS } from "features/game/types/flowers";
+import {
+  FLOWER_CROSS_BREED_AMOUNTS,
+  FLOWER_SEEDS,
+  FlowerCrossBreedName,
+  FlowerSeedName,
+} from "features/game/types/flowers";
 import { getKeys } from "features/game/types/craftables";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
@@ -34,15 +37,15 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
     "seed"
   );
 
-  const [seed, setSeed] = useState<SeedName>();
-  const [crossbreed, setCrossBreed] = useState<InventoryItemName>();
+  const [seed, setSeed] = useState<FlowerSeedName>();
+  const [crossbreed, setCrossBreed] = useState<FlowerCrossBreedName>();
 
-  const selectSeed = (name: SeedName) => {
+  const selectSeed = (name: FlowerSeedName) => {
     setSeed(name);
     if (!crossbreed) setSelecting("crossbreed");
   };
 
-  const selectCrossBreed = (name: InventoryItemName) => {
+  const selectCrossBreed = (name: FlowerCrossBreedName) => {
     setCrossBreed(name);
     if (!seed) setSelecting("seed");
   };
@@ -51,7 +54,8 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
     gameService.send({
       type: "flower.planted",
       id,
-      seed: "Sunpetal Seed",
+      seed: seed as FlowerSeedName,
+      crossbreed: crossbreed as FlowerCrossBreedName,
     });
     onClose();
   };
@@ -156,7 +160,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
           >
             <Label type="default">Crossbreed with</Label>
             <div className="flex flex-wrap">
-              {getKeys(FLOWER_CHUM_AMOUNTS)
+              {getKeys(FLOWER_CROSS_BREED_AMOUNTS)
                 // .filter((name) => !!inventory[name]?.gte(1))
                 .map((name) => (
                   <Box
@@ -172,7 +176,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
         </div>
       </div>
 
-      <Button disabled={!seed} onClick={() => plant()}>
+      <Button disabled={!seed || !crossbreed} onClick={() => plant()}>
         Plant
       </Button>
     </>

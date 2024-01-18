@@ -3075,4 +3075,8 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.icons.expression_confused,
     description: "?",
   },
+  "Flower 2": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
 };

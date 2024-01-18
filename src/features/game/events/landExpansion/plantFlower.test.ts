@@ -1,8 +1,9 @@
 import Decimal from "decimal.js-light";
-import { INITIAL_BUMPKIN } from "features/game/lib/bumpkinData";
-import { TEST_FARM } from "features/game/lib/constants";
-import { FlowerBed, GameState } from "features/game/types/game";
 import { plantFlower } from "./plantFlower";
+import { FlowerBed, GameState } from "features/game/types/game";
+import { TEST_FARM } from "features/game/lib/constants";
+import { INITIAL_BUMPKIN } from "features/game/lib/bumpkinData";
+import { FLOWER_CROSS_BREED_AMOUNTS } from "features/game/types/flowers";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -25,10 +26,11 @@ const GAME_STATE: GameState = {
       x: -2,
       y: 0,
       height: 1,
-      width: 1,
+      width: 3,
     },
   },
 };
+
 describe("plantFlower", () => {
   const dateNow = Date.now();
 
@@ -42,9 +44,9 @@ describe("plantFlower", () => {
         createdAt: dateNow,
         action: {
           type: "flower.planted",
-
           id: "0",
           seed: "Sunpetal Seed",
+          crossbreed: "Sunflower",
         },
       })
     ).toThrow("You do not have a Bumpkin");
@@ -59,6 +61,7 @@ describe("plantFlower", () => {
           type: "flower.planted",
           id: "2",
           seed: "Sunpetal Seed",
+          crossbreed: "Sunflower",
         },
       })
     ).toThrow("Flower bed does not exist");
@@ -75,6 +78,7 @@ describe("plantFlower", () => {
           type: "flower.planted",
           id: "0",
           seed: "Sunpetal Seed",
+          crossbreed: "Sunflower",
         },
       })
     ).toThrow("Flower is already planted");
@@ -89,6 +93,7 @@ describe("plantFlower", () => {
           type: "flower.planted",
           id: "1",
           seed: "Sunflower Seed" as "Sunpetal Seed",
+          crossbreed: "Sunflower",
         },
       })
     ).toThrow("Not a flower seed");
@@ -103,6 +108,7 @@ describe("plantFlower", () => {
           type: "flower.planted",
           id: "1",
           seed: "Sunpetal Seed",
+          crossbreed: "Sunflower",
         },
       })
     ).toThrow("Not enough seeds");
@@ -125,8 +131,8 @@ describe("plantFlower", () => {
       action: {
         type: "flower.planted",
         id: bedIndex,
-
         seed: "Sunpetal Seed",
+        crossbreed: "Sunflower",
       },
     });
 
@@ -158,8 +164,61 @@ describe("plantFlower", () => {
         type: "flower.planted",
         id: "1",
         seed: "Sunpetal Seed",
+        crossbreed: "Sunflower",
       },
     });
     expect(state.bumpkin?.activity?.["Sunpetal Seed Planted"]).toEqual(amount);
+  });
+
+  it("deducts the seed from the inventory", () => {
+    const initialState = {
+      ...GAME_STATE,
+      bumpkin: INITIAL_BUMPKIN,
+      inventory: {
+        "Sunpetal Seed": new Decimal(1),
+      },
+    };
+
+    const inventoryBefore = initialState.inventory["Sunpetal Seed"];
+
+    const state = plantFlower({
+      state: initialState,
+      createdAt: dateNow,
+      action: {
+        type: "flower.planted",
+        id: "1",
+        seed: "Sunpetal Seed",
+        crossbreed: "Sunflower",
+      },
+    });
+    expect(state.inventory["Sunpetal Seed"]).toEqual(inventoryBefore?.sub(1));
+  });
+
+  it("deducts the amount of cross breed required", () => {
+    const amount = 1;
+
+    const inventoryBefore = GAME_STATE.inventory["Sunflower Seed"];
+
+    const state = plantFlower({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Sunpetal Seed": new Decimal(1),
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "flower.planted",
+        id: "1",
+        seed: "Sunpetal Seed",
+        crossbreed: "Sunflower",
+      },
+    });
+
+    const inventoryAfter = state.inventory["Sunflower"];
+    expect(inventoryAfter).toEqual(
+      inventoryBefore?.sub(FLOWER_CROSS_BREED_AMOUNTS["Sunflower"])
+    );
   });
 });

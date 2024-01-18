@@ -118,6 +118,7 @@ const fruits: Record<FruitName, () => boolean> = {
 
 const flowers: Record<FlowerName, () => boolean> = {
   "Flower 1": () => false,
+  "Flower 2": () => false,
 };
 
 const beans: Record<BeanName, () => boolean> = {

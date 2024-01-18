@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { InventoryItemName } from "./game";
 import { getKeys } from "./craftables";
 
-export type FlowerName = "Flower 1";
+export type FlowerName = "Flower 1" | "Flower 2";
 
 export type FlowerSeedName = "Sunpetal Seed";
 
@@ -30,11 +30,16 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
   },
 });
 
-type FlowerChum = Extract<InventoryItemName, "Sunflower">;
+export type FlowerCrossBreedName = Extract<
+  InventoryItemName,
+  "Sunflower" | "Cauliflower"
+>;
 
-export const FLOWER_CHUM_AMOUNTS: Record<FlowerChum, number> = {
-  Sunflower: 50,
-};
+export const FLOWER_CROSS_BREED_AMOUNTS: Record<FlowerCrossBreedName, number> =
+  {
+    Sunflower: 50,
+    Cauliflower: 10,
+  };
 
 type Flower = {
   harvestSeconds: number;
@@ -43,6 +48,9 @@ type Flower = {
 export const FLOWERS: Record<FlowerName, Flower> = {
   // Todo set the seconds
   "Flower 1": {
+    harvestSeconds: 5,
+  },
+  "Flower 2": {
     harvestSeconds: 5,
   },
 };
