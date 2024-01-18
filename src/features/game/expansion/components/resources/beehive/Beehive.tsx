@@ -23,17 +23,16 @@ import { Bee } from "./Bee";
 interface Props {
   id: string;
 }
-// gameService
+// gameService values
 const getBeehiveById = (id: string) => (state: MachineState) => {
   return state.context.state.beehives[id];
 };
 const compareHive = (prevHive: IBeehive, nextHive: IBeehive) => {
   return JSON.stringify(prevHive) === JSON.stringify(nextHive);
 };
-
 const _landscaping = (state: MachineState) => state.matches("landscaping");
 
-// beehiveService
+// beehiveService values
 const _honeyReady = (state: BeehiveMachineState) => state.matches("honeyReady");
 const _isProducing = (state: BeehiveMachineState) => state.context.isProducing;
 const _honeyProduced = (state: BeehiveMachineState) =>
@@ -55,7 +54,6 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     hive,
     attachedFlower: getFirstAttachedFlower(hive),
     honeyProduced: getCurrentHoneyProduced(hive),
-    showBeeAnimation: false,
   };
 
   const beehiveService = useInterpret(beehiveMachine, {
@@ -127,7 +125,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
           width: `${PIXEL_SCALE * 7}px`,
         }}
       />
-      {!showBeeAnimation && (
+      {!showBeeAnimation && !landscaping && !!currentFlowerId && (
         <img
           src={bee}
           alt="Bee"

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { animated, config, useSpring } from "react-spring";
 import { Context } from "features/game/GameProvider";
 import bee from "assets/icons/bee.webp";
@@ -6,6 +6,7 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
 export type Position = {
   x: number;
@@ -27,26 +28,27 @@ export const Bee: React.FC<Props> = ({
   onAnimationEnd,
 }) => {
   const { gameService } = useContext(Context);
-  const [animationPhase, setAnimationPhase] = useState(0);
-
   const flower = useSelector(gameService, getFlowerById(flowerId));
 
   const getFlowerPositionRelativeToHive = (): Position => {
     const { x: hiveX, y: hiveY } = hivePosition;
     const { x: flowerX, y: flowerY } = flower;
-    const beeWidth = PIXEL_SCALE * 10;
-    const offsetToFlowerPosition = GRID_WIDTH_PX * 1.5 - beeWidth / 2;
+    const beeWidth = PIXEL_SCALE * 7;
+    const xOffsetToFlowerPosition =
+      (GRID_WIDTH_PX * RESOURCE_DIMENSIONS["Flower Bed"].width) / 2 -
+      beeWidth / 2;
+    const flowerHeightOffset = 20;
 
     let flowerDistanceX = 0;
 
     if (flowerX < hiveX) {
       flowerDistanceX =
-        -(hiveX - flowerX) * GRID_WIDTH_PX + offsetToFlowerPosition;
+        -(hiveX - flowerX) * GRID_WIDTH_PX + xOffsetToFlowerPosition;
     }
 
     if (flowerX > hiveX) {
       flowerDistanceX =
-        (flowerX - hiveX) * GRID_WIDTH_PX + offsetToFlowerPosition;
+        (flowerX - hiveX) * GRID_WIDTH_PX + xOffsetToFlowerPosition;
     }
 
     let flowerDistanceY = 0;
@@ -61,7 +63,7 @@ export const Bee: React.FC<Props> = ({
 
     return {
       x: flowerDistanceX,
-      y: flowerDistanceY,
+      y: flowerDistanceY - flowerHeightOffset,
     };
   };
 
@@ -69,10 +71,10 @@ export const Bee: React.FC<Props> = ({
 
   // React Spring animation
   const animation = useSpring({
-    from: { transform: `translate(0px, 0px) scale(0)` },
+    from: { transform: `translate(13px, -13px) scale(0)` },
     to: async (next) => {
       await next({
-        transform: `translate(0px, 0px) scale(1)`,
+        transform: `translate(13px, -13px) scale(1)`,
         config: {
           duration: 500,
         },
@@ -82,32 +84,28 @@ export const Bee: React.FC<Props> = ({
         transform: `translate(${flowerPosition.x}px, ${flowerPosition.y}px) scale(1)`,
         config: {
           ...config.molasses,
-          duration: 5000,
+          duration: 3500,
         },
       });
       // Phase 2: Hover for a second
-      // await new Promise((resolve) => setTimeout(resolve, 2000));
-      await next({
-        transform: `translate(${flowerPosition.x}px, ${flowerPosition.y}px) scale(1) scaleX(-1)`,
-      });
       await next({
         transform: `translate(${flowerPosition.x}px, ${flowerPosition.y}px) scale(1) scaleX(-1)`,
         config: {
-          ...config.molasses,
-          duration: 3000,
+          duration: 1500,
         },
       });
       // Phase 3: Move back to the hive
       await next({
-        transform: `translate(0px, 0px) scale(1) scaleX(-1)`,
+        transform: `translate(13px, -13px) scale(1) scaleX(-1)`,
         config: {
-          duration: 3000,
+          duration: 3500,
         },
       });
       // Phase 4: Scale back into the hive
       await next({
-        transform: `translate(0px, 0px) scale(0) scaleX(-1)`,
-        config: { duration: 1000 },
+        transform: `translate(13px, -1px) scale(0) scaleX(-1)`,
+        transformOrigin: "center bottom",
+        config: { duration: 500 },
       });
       onAnimationEnd(); // Callback when animation is done
     },
@@ -115,7 +113,6 @@ export const Bee: React.FC<Props> = ({
 
   return (
     <animated.div
-      id="BEEEE"
       style={{
         position: "absolute",
         width: `${PIXEL_SCALE * 7}px`,
