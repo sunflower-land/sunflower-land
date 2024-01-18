@@ -1,14 +1,25 @@
 import "lib/__mocks__/configMock";
 
-import { TEST_FARM } from "features/game/lib/constants";
+import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { harvestFlower } from "./harvestFlower";
 import Decimal from "decimal.js-light";
 
+const GAME_STATE = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
+
 describe("harvestFlower", () => {
+  it("throws if the bumpkin does not exist", () => {
+    expect(() =>
+      harvestFlower({
+        state: { ...GAME_STATE, bumpkin: undefined },
+        action: { type: "flower.harvested", id: "1" },
+      })
+    ).toThrow("You do not have a Bumpkin");
+  });
+
   it("throws an error if the flower bed does not exist", () => {
     expect(() =>
       harvestFlower({
-        state: TEST_FARM,
+        state: GAME_STATE,
         action: { type: "flower.harvested", id: "1" },
       })
     ).toThrow("Flower bed does not exist");
@@ -19,7 +30,7 @@ describe("harvestFlower", () => {
     expect(() =>
       harvestFlower({
         state: {
-          ...TEST_FARM,
+          ...GAME_STATE,
           flowers: {
             [flowerBedId]: {
               createdAt: 0,
@@ -40,7 +51,7 @@ describe("harvestFlower", () => {
     expect(() =>
       harvestFlower({
         state: {
-          ...TEST_FARM,
+          ...GAME_STATE,
           flowers: {
             [flowerBedId]: {
               createdAt: 0,
@@ -65,7 +76,7 @@ describe("harvestFlower", () => {
     const flowerBedId = "123";
     const state = harvestFlower({
       state: {
-        ...TEST_FARM,
+        ...GAME_STATE,
         flowers: {
           [flowerBedId]: {
             createdAt: 0,
@@ -91,7 +102,7 @@ describe("harvestFlower", () => {
     const flowerBedId = "123";
     const state = harvestFlower({
       state: {
-        ...TEST_FARM,
+        ...GAME_STATE,
         flowers: {
           [flowerBedId]: {
             createdAt: 0,
@@ -111,6 +122,33 @@ describe("harvestFlower", () => {
     });
 
     expect(state.flowers[flowerBedId].flower).toBeUndefined();
+  });
+
+  it("increments the flower harvested activity", () => {
+    const amount = 1;
+    const flowerBedId = "123";
+    const state = harvestFlower({
+      state: {
+        ...GAME_STATE,
+        flowers: {
+          [flowerBedId]: {
+            createdAt: 0,
+            height: 0,
+            width: 0,
+            x: 0,
+            y: 0,
+            flower: {
+              amount,
+              name: "Flower 1",
+              plantedAt: 0,
+            },
+          },
+        },
+      },
+      action: { type: "flower.harvested", id: flowerBedId },
+    });
+
+    expect(state.bumpkin?.activity?.["Flower 1 Harvested"]).toEqual(amount);
   });
 
   it.todo("updates the dex");

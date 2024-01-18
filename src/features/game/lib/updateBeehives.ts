@@ -6,7 +6,7 @@ import { getKeys } from "../types/craftables";
 /**
  * updateBeehives runs on any event that changes the state for bees or flowers
  * e.g.
- * flowerBed.placed, flower.planted, flowerBed.removed
+ * flower.planted, flower.harvested
  * beehive.placed, beehive.harvested, beehive.removed
  *
  * The update forecasts and allocates flowers to beehives so that bees are able to
