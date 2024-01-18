@@ -1121,3 +1121,21 @@ img {
   animation-fill-mode: forwards;
   animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
 }
+.clouds {
+  animation-duration: 10s;
+  animation-name: clouds;
+  animation-iteration-count: infinite;
+  transition-timing-function: linear;
+}
+
+@keyframes clouds {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(10px, 0px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}

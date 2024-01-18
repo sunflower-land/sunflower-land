@@ -100,44 +100,12 @@ export const WaterComponent: React.FC<Props> = ({
         />
       </MapPlacement>
 
-      {/* Islands */}
-
-      {/* Top right island */}
-      <MapPlacement x={7 + offset} y={15 + offset} width={6}>
-        <img
-          src={bearIsland}
-          style={{
-            width: `${PIXEL_SCALE * 86}px`,
-          }}
-        />
-        <div
-          className="absolute"
-          style={{
-            top: `${GRID_WIDTH_PX * 2 - PIXEL_SCALE * 1}px`,
-            left: `${GRID_WIDTH_PX * 3}px`,
-          }}
-        >
-          <Arcade />
-        </div>
-      </MapPlacement>
-
       {/* Bottom island */}
       <SeasonTeaser offset={offset} />
 
       <TravelTeaser />
 
       <IslandUpgrader gameState={gameState} offset={offset} />
-
-      {/* Bottom right island */}
-      <MapPlacement x={7 + offset} y={-2 - offset} width={6}>
-        {!townCenterBuilt && <DailyReward />}
-        <img
-          src={abandonedLand}
-          style={{
-            width: `${PIXEL_SCALE * 46}px`,
-          }}
-        />
-      </MapPlacement>
     </div>
   );
 };
