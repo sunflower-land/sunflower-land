@@ -113,11 +113,11 @@ describe("harvestFlower", () => {
     expect(state.flowers[flowerBedId].flower).toBeUndefined();
   });
 
-  it("updates the dex", () => {
+  it.todo("updates the dex", () => {
     throw new Error("Not implemented - TODO");
   });
 
-  it("updates the bees", () => {
+  it.todo("updates the bees", () => {
     throw new Error("Not implemented - TODO");
   });
 });
