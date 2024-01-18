@@ -414,7 +414,6 @@ export type BlockchainState = {
     | "claimAuction"
     | "refundAuction"
     | "blacklisted"
-    | "paused"
     | "randomising"; // TEST ONLY
   context: Context;
 };
@@ -1649,13 +1648,6 @@ export function startGame(authContext: AuthContext) {
               actions: assign((context: Context, event: any) =>
                 handleSuccessfulSave(context, event)
               ),
-            },
-          },
-        },
-        paused: {
-          on: {
-            PLAY: {
-              target: "playing",
             },
           },
         },
