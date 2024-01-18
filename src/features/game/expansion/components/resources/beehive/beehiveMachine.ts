@@ -1,7 +1,6 @@
+import { HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
 import { Beehive } from "features/game/types/game";
 import { Interpreter, State, createMachine, assign } from "xstate";
-
-export const HONEY_PRODUCTION_TIME = 60 * 1000;
 
 export type AttachedFlower = {
   id: string;

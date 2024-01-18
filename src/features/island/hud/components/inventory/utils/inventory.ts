@@ -127,6 +127,17 @@ export const getChestItems = (state: GameState) => {
       };
     }
 
+    if (itemName === "Flower Bed") {
+      return {
+        ...acc,
+        "Flower Bed": new Decimal(
+          state.inventory["Flower Bed"]?.minus(
+            Object.keys(state.flowers).length
+          ) ?? 0
+        ),
+      };
+    }
+
     if (itemName in COLLECTIBLES_DIMENSIONS) {
       return {
         ...acc,

@@ -153,11 +153,10 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
   ),
   "Flower Bed": () => (
     <img
-      src={SUNNYSIDE.resource.boulder}
-      className="absolute h-auto w-full"
+      src={ITEM_DETAILS["Flower Bed"].image}
+      className="absolute bottom-0 h-auto w-full"
       style={{
-        width: `${PIXEL_SCALE * 32}px`,
-        bottom: `${PIXEL_SCALE * -4}px`,
+        width: `${PIXEL_SCALE * 48}px`,
       }}
     />
   ),
