@@ -534,6 +534,7 @@ import sapoTravessura from "assets/sfts/sapo_travessura.gif";
 
 // Flowers
 import beehive from "assets/sfts/beehive.webp";
+import flowerBed from "assets/flowers/flower_bed.webp";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -2352,7 +2353,7 @@ export const ITEM_DETAILS: Items = {
     description: "An empty plot to plant fruit on",
   },
   "Flower Bed": {
-    image: kaleMushroomPie,
+    image: flowerBed,
     description: "An empty plot to plant flowers on",
   },
   Boulder: {

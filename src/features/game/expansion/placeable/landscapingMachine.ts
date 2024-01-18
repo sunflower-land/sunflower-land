@@ -31,6 +31,7 @@ export const RESOURCE_PLACE_EVENTS: Partial<
   "Crop Plot": "plot.placed",
   "Fruit Patch": "fruitPatch.placed",
   Beehive: "beehive.placed",
+  "Flower Bed": "flowerBed.placed",
 };
 
 export function placeEvent(
