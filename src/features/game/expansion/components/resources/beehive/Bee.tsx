@@ -113,8 +113,8 @@ export const Bee: React.FC<Props> = ({
 
   return (
     <animated.div
+      className="absolute z-50"
       style={{
-        position: "absolute",
         width: `${PIXEL_SCALE * 7}px`,
         height: `${PIXEL_SCALE * 7}px`,
         ...animation,

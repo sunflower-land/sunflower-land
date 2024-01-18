@@ -19,6 +19,13 @@ import {
   getFirstAttachedFlower,
 } from "./beehiveMachine";
 import { Bee } from "./Bee";
+import { Modal } from "react-bootstrap";
+import { NPC_WEARABLES } from "lib/npcs";
+import { progressBarBorderStyle } from "features/game/lib/style";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { Panel } from "components/ui/Panel";
+import { Button } from "components/ui/Button";
+import { InfoPopover } from "features/island/common/InfoPopover";
 
 interface Props {
   id: string;
@@ -46,6 +53,8 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const { showTimers, gameService } = useContext(Context);
   const isInitialMount = useRef(true);
   const [showProducingBee, setShowProducingBee] = useState(false);
+  const [showHoneyLevelModal, setShowHoneyLevelModal] = useState(false);
+  const [showHoneyLevelPopover, setShowHoneyLevelPopover] = useState(false);
 
   const landscaping = useSelector(gameService, _landscaping);
   const hive = useSelector(gameService, getBeehiveById(id), compareHive);
@@ -78,6 +87,32 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     setShowProducingBee(true);
   };
 
+  const handleHarvestHoney = () => {
+    gameService.send("beehive.harvested", { id });
+  };
+
+  const handleHiveClick = () => {
+    if (showBeeAnimation) return;
+    if (honeyReady) {
+      handleHarvestHoney();
+      return;
+    }
+
+    setShowHoneyLevelModal(true);
+  };
+
+  const handleHover = () => {
+    if (!honeyReady && !showBeeAnimation) {
+      setShowHoneyLevelPopover(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!showHoneyLevelPopover) return;
+
+    setShowHoneyLevelPopover(false);
+  };
+
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
@@ -101,65 +136,136 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     }
   }, [isProducing, showProducingBee]);
 
+  useEffect(() => {
+    if (honeyProduced === 1 && showHoneyLevelPopover) {
+      setShowHoneyLevelPopover(false);
+    }
+  }, [honeyProduced, showHoneyLevelPopover]);
+
+  const honeyAmount = (honeyProduced / HONEY_PRODUCTION_TIME).toFixed(2);
+  const percentage = (honeyProduced / HONEY_PRODUCTION_TIME) * 100;
+
   return (
-    <div>
-      <img
-        src={beehive}
-        alt="Beehive"
-        className="absolute bottom-0"
-        style={{
-          width: `${PIXEL_SCALE * 16}px`,
-        }}
-      />
-      <img
-        src={honeyDrop}
-        alt="Honey Drop"
-        className={classNames(
-          "absolute top-0 right-1 transition-transform duration-700",
-          {
-            "scale-0": !honeyReady,
-            "scale-100": honeyReady,
-          }
-        )}
-        style={{
-          width: `${PIXEL_SCALE * 7}px`,
-        }}
-      />
-      {!showBeeAnimation && !landscaping && !!currentFlowerId && (
+    <>
+      <div
+        className={!showBeeAnimation ? "cursor-pointer" : ""}
+        onMouseEnter={handleHover}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleHiveClick}
+      >
         <img
-          src={bee}
-          alt="Bee"
-          className={classNames("absolute left-1/2 -translate-x-1/2", {
-            "animate-enter-hive": !showProducingBee,
-            "animate-exit-hive": showProducingBee,
-          })}
+          src={beehive}
+          alt="Beehive"
+          className="absolute bottom-0 hover:img-highlight"
+          style={{
+            width: `${PIXEL_SCALE * 16}px`,
+          }}
+        />
+        <img
+          src={honeyDrop}
+          alt="Honey Drop"
+          className={classNames(
+            "absolute top-0 right-1 transition-transform duration-700",
+            {
+              "scale-0": !honeyReady,
+              "scale-100": honeyReady,
+            }
+          )}
           style={{
             width: `${PIXEL_SCALE * 7}px`,
           }}
         />
-      )}
-      {/* Progress bar for honey production */}
-      {showTimers && !landscaping && (
+        {!showBeeAnimation && !landscaping && !!currentFlowerId && (
+          <img
+            src={bee}
+            alt="Bee"
+            className={classNames("absolute left-1/2 -translate-x-1/2", {
+              "animate-enter-hive": !showProducingBee,
+              "animate-exit-hive": showProducingBee,
+            })}
+            style={{
+              width: `${PIXEL_SCALE * 7}px`,
+            }}
+          />
+        )}
+        {/* Progress bar for honey production */}
+        {showTimers && !landscaping && !showBeeAnimation && (
+          <div
+            className="absolute pointer-events-none"
+            style={{
+              top: `${PIXEL_SCALE * 13.2}px`,
+              width: `${PIXEL_SCALE * 15}px`,
+            }}
+          >
+            <Bar percentage={percentage} type="quantity" />
+          </div>
+        )}
+        {!landscaping && showBeeAnimation && (
+          <Bee
+            hivePosition={{ x: hive.x, y: hive.y }}
+            flowerId={currentFlowerId as string}
+            onAnimationEnd={handleBeeAnimationEnd}
+          />
+        )}
         <div
-          className="absolute pointer-events-none"
+          id="popover"
+          className="flex justify-center absolute w-full pointer-events-none"
           style={{
-            top: `${PIXEL_SCALE * 13.2}px`,
-            width: `${PIXEL_SCALE * 15}px`,
+            top: `${PIXEL_SCALE * -19}px`,
           }}
         >
-          <Bar
-            percentage={(honeyProduced / HONEY_PRODUCTION_TIME) * 100}
-            type="quantity"
-          />
+          <InfoPopover showPopover={showHoneyLevelPopover}>
+            <div className="flex flex-1 items-center text-xxs justify-center px-2 py-1 whitespace-nowrap">
+              <img src={ITEM_DETAILS.Honey.image} className="w-4 mr-1" />
+              <span>Honey: {honeyAmount}</span>
+            </div>
+          </InfoPopover>
         </div>
-      )}
-      {!landscaping && showBeeAnimation && (
-        <Bee
-          hivePosition={{ x: hive.x, y: hive.y }}
-          flowerId={currentFlowerId as string}
-          onAnimationEnd={handleBeeAnimationEnd}
-        />
-      )}
-    </div>
+      </div>
+      <Modal
+        centered
+        show={showHoneyLevelModal}
+        onHide={() => setShowHoneyLevelModal(false)}
+      >
+        <Panel bumpkinParts={NPC_WEARABLES.stevie} title="Current Honey Level">
+          <>
+            <div
+              className="flex flex-col w-full mx-1"
+              style={{ ...progressBarBorderStyle }}
+            >
+              <div
+                className="relative h-6 w-1/2 dawn-breaker-gradient flex items-center justify-center"
+                style={{
+                  width: `${Math.min(percentage, 100)}%`,
+                }}
+              >
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 -right-2"
+                  style={{
+                    width: PIXEL_SCALE * 10,
+                    height: PIXEL_SCALE * 16,
+                    overflow: "hidden",
+                  }}
+                >
+                  <img
+                    src={ITEM_DETAILS.Honey.image}
+                    alt="Honey Jar"
+                    style={{
+                      width: PIXEL_SCALE * 10,
+                    }}
+                  />
+                </div>
+                <p className="text-xxs mb-1">
+                  {(honeyProduced / HONEY_PRODUCTION_TIME).toFixed(2)}
+                </p>
+              </div>
+            </div>
+            <div>
+              <Button>Harvest honey</Button>
+            </div>
+          </>
+        </Panel>
+      </Modal>
+    </>
   );
 };
