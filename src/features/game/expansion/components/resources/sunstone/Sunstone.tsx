@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
-import { GOLD_RECOVERY_TIME } from "features/game/lib/constants";
+import { SUNSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { getTimeLeft } from "lib/utils/time";
@@ -13,9 +13,12 @@ import Decimal from "decimal.js-light";
 import { canMine } from "features/game/expansion/lib/utils";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getBumpkinLevelRequiredForNode } from "features/game/expansion/lib/expansionNodes";
+import { DepletedSunstone } from "./components/DepletedSunstone";
+import { RecoveredSunstone } from "./components/RecoveredSunstone";
+import { DepletingSunstone } from "./components/DepletingSunstone";
 
 const HITS = 3;
-const tool = "Iron Pickaxe";
+const tool = "Gold Pickaxe";
 
 const HasTool = (inventory: Partial<Record<InventoryItemName, Decimal>>) => {
   return (inventory[tool] ?? new Decimal(0)).gte(1);
@@ -35,7 +38,7 @@ interface Props {
   index: number;
 }
 
-export const Gold: React.FC<Props> = ({ id, index }) => {
+export const Sunstone: React.FC<Props> = ({ id, index }) => {
   const { gameService, shortcutItem } = useContext(Context);
 
   const [touchCount, setTouchCount] = useState(0);
@@ -65,7 +68,7 @@ export const Gold: React.FC<Props> = ({ id, index }) => {
 
   const resource = useSelector(
     gameService,
-    (state) => state.context.state.gold[id],
+    (state) => state.context.state.sunstones[id],
     compareResource
   );
   const inventory = useSelector(
@@ -77,12 +80,12 @@ export const Gold: React.FC<Props> = ({ id, index }) => {
   );
 
   const hasTool = HasTool(inventory);
-  const timeLeft = getTimeLeft(resource.stone.minedAt, GOLD_RECOVERY_TIME);
-  const mined = !canMine(resource, GOLD_RECOVERY_TIME);
+  const timeLeft = getTimeLeft(resource.stone.minedAt, SUNSTONE_RECOVERY_TIME);
+  const mined = !canMine(resource, SUNSTONE_RECOVERY_TIME);
 
   const bumpkinLevelRequired = getBumpkinLevelRequiredForNode(
     index,
-    "Gold Rock"
+    "Sunstone Rock"
   );
   const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
   const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
@@ -105,7 +108,7 @@ export const Gold: React.FC<Props> = ({ id, index }) => {
   };
 
   const mine = async () => {
-    const newState = gameService.send("goldRock.mined", {
+    const newState = gameService.send("sunstoneRock.mined", {
       index: id,
     });
 
@@ -120,24 +123,24 @@ export const Gold: React.FC<Props> = ({ id, index }) => {
     }
   };
 
-  return <></>;
-  // <div className="relative w-full h-full">
-  //   {/* Resource ready to collect */}
-  //   {!mined && (
-  //     <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
-  //       <RecoveredGold
-  //         bumpkinLevelRequired={bumpkinLevelRequired}
-  //         hasTool={hasTool}
-  //         touchCount={touchCount}
-  //       />
-  //     </div>
-  //   )}
+  return (
+    <div className="relative w-full h-full">
+      {/* Resource ready to collect */}
+      {!mined && (
+        <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
+          <RecoveredSunstone
+            bumpkinLevelRequired={bumpkinLevelRequired}
+            hasTool={hasTool}
+            touchCount={touchCount}
+          />
+        </div>
+      )}
 
-  //   {/* Depleting resource animation */}
-  //   {collecting && <DepletingGold resourceAmount={collectedAmount} />}
+      {/* Depleting resource animation */}
+      {collecting && <DepletingSunstone resourceAmount={collectedAmount} />}
 
-  //   {/* Depleted resource */}
-  //   {mined && <DepletedGold timeLeft={timeLeft} />}
-  // </div>
-  // );
+      {/* Depleted resource */}
+      {mined && <DepletedSunstone timeLeft={timeLeft} />}
+    </div>
+  );
 };

@@ -59,6 +59,7 @@ describe("moveSunstone", () => {
               amount: 1,
               minedAt: 0,
             },
+            minesLeft: 1,
           },
           "456": {
             height: 1,
@@ -69,6 +70,7 @@ describe("moveSunstone", () => {
               amount: 1,
               minedAt: 0,
             },
+            minesLeft: 1,
           },
           "789": {
             height: 1,
@@ -79,6 +81,7 @@ describe("moveSunstone", () => {
               amount: 1,
               minedAt: 0,
             },
+            minesLeft: 1,
           },
         },
       },
@@ -99,6 +102,7 @@ describe("moveSunstone", () => {
           amount: 1,
           minedAt: 0,
         },
+        minesLeft: 1,
       },
       "456": {
         height: 1,
@@ -109,6 +113,7 @@ describe("moveSunstone", () => {
           amount: 1,
           minedAt: 0,
         },
+        minesLeft: 1,
       },
       "789": {
         height: 1,
@@ -119,6 +124,7 @@ describe("moveSunstone", () => {
           amount: 1,
           minedAt: 0,
         },
+        minesLeft: 1,
       },
     });
   });

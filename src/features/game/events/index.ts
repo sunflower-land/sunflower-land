@@ -251,6 +251,7 @@ import {
   PlaceSunstoneAction,
 } from "./landExpansion/placeSunstone";
 import { moveSunstone, MoveSunstoneAction } from "./landExpansion/moveSunstone";
+import { mineSunstone, MineSunstoneAction } from "./landExpansion/mineSunstone";
 
 export type PlayingEvent =
   | TradeAction
@@ -263,6 +264,7 @@ export type PlayingEvent =
   | LandExpansionIronMineAction
   | LandExpansionMineGoldAction
   | MineCrimstoneAction
+  | MineSunstoneAction
   | ClaimAirdropAction
   | RecipeCookedAction
   | CollectRecipeAction
@@ -403,6 +405,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "ironRock.mined": landExpansionIronMine,
   "goldRock.mined": landExpansionMineGold,
   "crimstoneRock.mined": mineCrimstone,
+  "sunstoneRock.mined": mineSunstone,
 
   "timber.chopped": landExpansionChop,
   "recipe.cooked": cook,
