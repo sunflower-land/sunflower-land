@@ -20,6 +20,8 @@ import { CONFIG } from "lib/config";
 import { Wallet } from "features/wallet/Wallet";
 import { useActor } from "@xstate/react";
 import { WalletContext } from "features/wallet/WalletProvider";
+import googleIcon from "src/assets/ui/sign_in_with_google.svg";
+import { pixelGrayBorderStyle } from "features/game/lib/style";
 
 const CONTENT_HEIGHT = 300;
 
@@ -327,20 +329,17 @@ export const SignIn = () => {
               }}
             />
           </div>
-          <Button
-            className="mb-2 py-2 text-sm relative"
+          <button
+            className="w-full p-1 object-contain justify-center items-center cursor-pointer flex mb-2 text-sm relative h-[46px] bg-[#F2F2F2]"
+            type="button"
+            style={pixelGrayBorderStyle}
             onClick={() => {
               setShowLoading(true);
               window.location.href = `${CONFIG.API_URL}/auth/google/authorize`;
             }}
           >
-            <div className="px-8 mr-2 flex">
-              <div className="ml-2 mr-6 absolute left-0 top-1">
-                <GoogleIcon />
-              </div>
-              Google
-            </div>
-          </Button>
+            <img src={googleIcon} />
+          </button>
         </>
       )}
 

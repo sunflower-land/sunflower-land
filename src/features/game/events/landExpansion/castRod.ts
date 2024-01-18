@@ -1,8 +1,9 @@
 import cloneDeep from "lodash.clonedeep";
 
-import { GameState, InventoryItemName } from "../../types/game";
+import { GameState } from "../../types/game";
 import {
   CHUM_AMOUNTS,
+  Chum,
   FishingBait,
   FishingLocation,
   getDailyFishingCount,
@@ -16,7 +17,7 @@ export type CastRodAction = {
   type: "rod.casted";
   bait: FishingBait;
   location: FishingLocation;
-  chum?: InventoryItemName;
+  chum?: Chum;
 };
 
 type Options = {

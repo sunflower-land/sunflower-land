@@ -13,6 +13,7 @@ import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { BeachBountyTreasure, TreasureName } from "./treasure";
 import { CompostName, ComposterName } from "./composters";
 import { PurchaseableBait } from "./fishing";
+import { FlowerName, FlowerSeedName } from "./flowers";
 
 type BuyableName = SeedName | Animal | DecorationName | BeanName;
 type SellableName =
@@ -27,9 +28,10 @@ type SellableName =
 type Recipes = Food | CookableName;
 type Edibles = Food | ConsumableName;
 
-export type HarvestEvent = `${CropName | FruitName} Harvested`;
+export type HarvestEvent = `${CropName | FruitName | FlowerName} Harvested`;
 export type PlantEvent = `${CropName | FruitName} Planted`;
 export type FruitPlantEvent = `${FruitSeedName} Planted`;
+export type PlantFlowerEvent = `${FlowerSeedName} Planted`;
 export type CookEvent = `${Recipes} Cooked`;
 export type FedEvent = `${Edibles} Fed`;
 export type BuyEvent = `${BuyableName} Bought`;
@@ -57,6 +59,7 @@ export type BumpkinActivityName =
   | HarvestEvent
   | PlantEvent
   | FruitPlantEvent
+  | PlantFlowerEvent
   | TreasureEvent
   | CompostedEvent
   // Resources
@@ -64,6 +67,7 @@ export type BumpkinActivityName =
   | "Stone Mined"
   | "Iron Mined"
   | "Gold Mined"
+  | "Ruby Mined"
   | "Egg Collected"
   // Misc
   | "SFL Spent"

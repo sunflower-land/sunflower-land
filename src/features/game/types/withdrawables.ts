@@ -58,6 +58,7 @@ import { GoblinState } from "../lib/goblinMachine";
 import { CompostName } from "./composters";
 import { FishName, FishingBait, MarineMarvelName } from "./fishing";
 import { canWithdrawBoostedWearable } from "./wearableValidation";
+import { FlowerName, FlowerSeedName } from "./flowers";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
@@ -87,6 +88,11 @@ const fruitSeed: Record<FruitSeedName, () => boolean> = {
   "Orange Seed": () => false,
   "Banana Plant": () => false,
 };
+
+const flowerSeed: Record<FlowerSeedName, () => boolean> = {
+  "Sunpetal Seed": () => false,
+};
+
 const crops: Record<CropName, () => boolean> = {
   Beetroot: () => true,
   Cabbage: () => true,
@@ -108,6 +114,11 @@ const fruits: Record<FruitName, () => boolean> = {
   Blueberry: () => true,
   Orange: () => true,
   Banana: () => canWithdrawTimebasedItem(new Date("2024-02-01")),
+};
+
+const flowers: Record<FlowerName, () => boolean> = {
+  "Flower 1": () => false,
+  "Flower 2": () => false,
 };
 
 const beans: Record<BeanName, () => boolean> = {
@@ -143,6 +154,7 @@ const tools: Record<ToolName | WorkbenchToolName | Shovel, () => boolean> = {
   "Rusty Shovel": () => false,
   "Iron Pickaxe": () => false,
   "Stone Pickaxe": () => false,
+  "Gold Pickaxe": () => false,
   Rod: () => false,
   Shovel: () => false,
 };
@@ -187,6 +199,7 @@ const commodities: Record<CommodityName, () => boolean> = {
   Stone: () => true,
   Iron: () => true,
   Gold: () => true,
+  Ruby: () => true,
   Diamond: () => false,
 
   Honey: () => false,
@@ -198,9 +211,12 @@ const resources: Record<ResourceName, () => boolean> = {
   "Stone Rock": () => false,
   "Iron Rock": () => false,
   "Gold Rock": () => false,
+  "Ruby Rock": () => false,
   "Crop Plot": () => false,
   "Fruit Patch": () => false,
   Boulder: () => false,
+  Beehive: () => false,
+  "Flower Bed": () => false,
 };
 
 const mutantChickens: Record<MutantChicken, () => boolean> = {
@@ -781,8 +797,10 @@ const interiors: Record<InteriorDecorationName, () => boolean> = {
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...crops,
   ...fruits,
+  ...flowers,
   ...cropSeeds,
   ...fruitSeed,
+  ...flowerSeed,
   ...beans,
   ...questItems,
   ...warTentItems,

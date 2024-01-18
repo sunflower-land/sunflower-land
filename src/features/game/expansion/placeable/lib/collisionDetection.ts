@@ -100,8 +100,11 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     stones,
     gold,
     iron,
+    rubies,
     fruitPatches,
     buds,
+    beehives,
+    flowers,
   } = state;
 
   const placed = {
@@ -126,8 +129,11 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     ...Object.values(stones),
     ...Object.values(iron),
     ...Object.values(gold),
+    ...Object.values(rubies),
     ...Object.values(crops),
     ...Object.values(fruitPatches),
+    ...Object.values(beehives),
+    ...Object.values(flowers),
   ];
 
   const resourceBoundingBoxes = resources.map((item) => ({
@@ -169,6 +175,12 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
     width: 12,
     x: -6,
     y: -6,
+  },
+  desert: {
+    height: 16,
+    width: 16,
+    x: -8,
+    y: -8,
   },
 };
 

@@ -35,6 +35,7 @@ const isLandscaping = (state: MachineState) => state.matches("landscaping");
 const BACKGROUND_IMAGE: Record<IslandType, string> = {
   basic: tent,
   spring: house,
+  desert: house, // TODO
 };
 
 export const Home: React.FC = () => {

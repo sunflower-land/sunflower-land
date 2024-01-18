@@ -84,6 +84,17 @@ export const getChestItems = (state: GameState) => {
       };
     }
 
+    if (itemName === "Ruby Rock") {
+      return {
+        ...acc,
+        "Ruby Rock": new Decimal(
+          state.inventory["Ruby Rock"]?.minus(
+            Object.keys(state.rubies).length
+          ) ?? 0
+        ),
+      };
+    }
+
     if (itemName === "Crop Plot") {
       return {
         ...acc,
@@ -101,6 +112,27 @@ export const getChestItems = (state: GameState) => {
         "Fruit Patch": new Decimal(
           state.inventory["Fruit Patch"]?.minus(
             Object.keys(state.fruitPatches).length
+          ) ?? 0
+        ),
+      };
+    }
+
+    if (itemName === "Beehive") {
+      return {
+        ...acc,
+        Beehive: new Decimal(
+          state.inventory.Beehive?.minus(Object.keys(state.beehives).length) ??
+            0
+        ),
+      };
+    }
+
+    if (itemName === "Flower Bed") {
+      return {
+        ...acc,
+        "Flower Bed": new Decimal(
+          state.inventory["Flower Bed"]?.minus(
+            Object.keys(state.flowers).length
           ) ?? 0
         ),
       };

@@ -226,6 +226,19 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Sunpetal Seed": {
+    name: "Sunpetal Seed",
+    description:
+      "A seed used to grow flowers. Experiment to find all the variants.\n\nYou can buy sunpetal seeds in game at the market.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/121.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Rarity", value: "Rare" },
+    ],
+  },
   Beetroot: {
     name: "Beetroot",
     description:
@@ -454,6 +467,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     name: "Iron Pickaxe",
     description:
       "A tool used to mine gold. It is burnt after use.\n\nYou can craft an iron pickaxe at the Blacksmith in the game.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/304.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Gold Pickaxe": {
+    name: "Gold Pickaxe",
+    description:
+      "A tool used to mine rubies. It is burnt after use.\n\nYou can craft a gold pickaxe at the Blacksmith in the game.",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/304.png",
@@ -1203,6 +1228,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
+
   Wood: {
     name: "Wood",
     description:
@@ -1222,6 +1248,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/603.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  Ruby: {
+    name: "Ruby",
+    description:
+      "A resource collected by mining ruby mines.\n\nIt is used in a range of different crafting recipes.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/634.png",
     attributes: [
       { trait_type: "Purpose", value: "Resource" },
       { trait_type: "Tradable", value: "Yes" },
@@ -4223,6 +4261,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Flower Bed": {
+    description: "A beautiful piece of land used to plant flowers",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/634.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Gold Rock": {
     description: "A scarce resource that can be used to mine gold",
     decimals: 0,
@@ -4248,6 +4296,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/619.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Ruby Rock": {
+    description: "A rare resource used to mine rubies",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/633.png",
     attributes: [
       { trait_type: "Purpose", value: "Resource" },
       { trait_type: "Tradable", value: "No" },
@@ -6206,7 +6264,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     ],
   },
   "White Festive Fox": {
-    description: "The blessing of the White Fox inhabits the generous farms",
+    description: "The blessing of the White Fox inhabits the generous farms.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2001.png",
@@ -6224,7 +6282,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
 
     attributes: [{ trait_type: "Boost", value: "Other" }],
   },
-
   Rug: {
     description: "?",
     decimals: 0,
@@ -6232,7 +6289,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     attributes: [{ trait_type: "Boost", value: "Other" }],
   },
-
   Wardrobe: {
     description: "?",
     decimals: 0,
@@ -6253,5 +6309,38 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
     attributes: [{ trait_type: "Boost", value: "Other" }],
+  },
+  Beehive: {
+    name: "Beehive",
+    description:
+      "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Boost", value: "Crops" },
+      {
+        display_type: "boost_number",
+        trait_type: "10% chance of +0.2 crop yield when harvesting Honey",
+        value: 0.25,
+      },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Flower 1": {
+    name: "Flower 1",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Flower 2": {
+    name: "Flower 2",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
   },
 };

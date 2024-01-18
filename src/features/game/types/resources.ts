@@ -6,6 +6,7 @@ export type CommodityName =
   | "Stone"
   | "Iron"
   | "Gold"
+  | "Ruby"
   | "Diamond"
   | "Egg"
   | "Honey"
@@ -35,6 +36,9 @@ export const COMMODITIES: Record<CommodityName, Commodity> = {
   Gold: {
     description: translate("use.craft"),
   },
+  Ruby: {
+    description: "Used to craft items",
+  },
   Diamond: {
     description: translate("use.craft"),
   },
@@ -60,9 +64,12 @@ export type ResourceName =
   | "Stone Rock"
   | "Iron Rock"
   | "Gold Rock"
+  | "Ruby Rock"
   | "Crop Plot"
   | "Fruit Patch"
-  | "Boulder";
+  | "Boulder"
+  | "Beehive"
+  | "Flower Bed";
 
 export const RESOURCES: Record<ResourceName, string> = {
   "Crop Plot": "Plant crops",
@@ -70,8 +77,11 @@ export const RESOURCES: Record<ResourceName, string> = {
   "Gold Rock": "Mine gold",
   "Iron Rock": "Mine iron",
   "Stone Rock": "Mine stone",
+  "Ruby Rock": "Mine ruby",
   Boulder: "Mine rare minerals",
   Tree: "Chop Wood",
+  Beehive: "Collect honey",
+  "Flower Bed": "Plant flowers",
 };
 
 export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
@@ -91,6 +101,10 @@ export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
     width: 1,
     height: 1,
   },
+  "Ruby Rock": {
+    width: 1,
+    height: 1,
+  },
   Tree: {
     width: 2,
     height: 2,
@@ -102,6 +116,14 @@ export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
   Boulder: {
     width: 2,
     height: 2,
+  },
+  Beehive: {
+    width: 1,
+    height: 1,
+  },
+  "Flower Bed": {
+    width: 3,
+    height: 1,
   },
 };
 

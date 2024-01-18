@@ -42,6 +42,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Eggplant Seed": 118,
   "Corn Seed": 119,
   "Banana Plant": 120,
+  "Sunpetal Seed": 121,
 
   Sunflower: 201,
   Potato: 202,
@@ -60,6 +61,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Eggplant: 215,
   Corn: 216,
   Banana: 217,
+  "Flower 1": 218,
+  "Flower 2": 219,
 
   Axe: 301,
   Pickaxe: 302,
@@ -72,6 +75,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   //  Power Shovel was remove, 309 is available
   "Sand Shovel": 310,
   "Sand Drill": 311,
+  "Gold Pickaxe": 312,
 
   "Sunflower Statue": 401,
   "Potato Statue": 402,
@@ -250,6 +254,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Fruitful Blend": 630,
   "Rapid Root": 631,
   "Fishing Lure": 632,
+  Beehive: 633,
+  "Flower Bed": 634,
+  "Ruby Rock": 635,
+  Ruby: 636,
 
   "Green Thumb": 701,
   "Barn Manager": 702,

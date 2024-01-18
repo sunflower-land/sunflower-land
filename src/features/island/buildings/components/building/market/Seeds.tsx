@@ -136,7 +136,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const yields = SEEDS()[selectedName].yield;
 
   const getPlantSeconds = () => {
-    if (yields in FRUIT())
+    if (yields && yields in FRUIT())
       return getFruitTime(
         selectedName as FruitSeedName,
         state,
@@ -153,6 +153,8 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const getHarvestCount = () => {
+    if (!yields) return undefined;
+
     if (!(yields in FRUIT())) return undefined;
 
     return getFruitHarvests(state);

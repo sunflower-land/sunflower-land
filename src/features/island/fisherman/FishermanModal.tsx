@@ -16,6 +16,7 @@ import { Context } from "features/game/GameProvider";
 import {
   CHUM_AMOUNTS,
   CHUM_DETAILS,
+  Chum,
   FISH,
   FishingBait,
   getTide,
@@ -45,14 +46,12 @@ function hasRead() {
 
 const ChumSelection: React.FC<{
   inventory: Inventory;
-  onList: (item: InventoryItemName) => void;
+  onList: (item: Chum) => void;
   onCancel: () => void;
-  initial?: InventoryItemName;
+  initial?: Chum;
 }> = ({ inventory, onList, onCancel, initial }) => {
-  const [selected, setSelected] = useState<InventoryItemName | undefined>(
-    initial
-  );
-  const select = (name: InventoryItemName) => {
+  const [selected, setSelected] = useState<Chum | undefined>(initial);
+  const select = (name: Chum) => {
     setSelected(name);
   };
 
@@ -102,7 +101,7 @@ const ChumSelection: React.FC<{
         </Button>
         <Button
           disabled={!hasRequirements}
-          onClick={() => onList(selected as InventoryItemName)}
+          onClick={() => onList(selected as Chum)}
         >
           {translate("confirm")}
         </Button>
@@ -128,7 +127,7 @@ const BaitSelection: React.FC<{
     },
   ] = useActor(gameService);
   const [showChum, setShowChum] = useState(false);
-  const [chum, setChum] = useState<InventoryItemName | undefined>();
+  const [chum, setChum] = useState<Chum | undefined>();
   const [bait, setBait] = useState<FishingBait>("Earthworm");
 
   const { t } = useAppTranslation();

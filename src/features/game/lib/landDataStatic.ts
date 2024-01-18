@@ -2,15 +2,18 @@ import Decimal from "decimal.js-light";
 import { GameState, Inventory } from "../types/game";
 import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
-import {
-  INITIAL_BUMPKIN,
-  INITIAL_BUMPKIN_LEVEL,
-  INITIAL_EXPANSIONS,
-} from "./bumpkinData";
+import { INITIAL_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
 
 export const INITIAL_RESOURCES: Pick<
   GameState,
-  "crops" | "trees" | "stones" | "iron" | "gold" | "fruitPatches"
+  | "crops"
+  | "trees"
+  | "stones"
+  | "iron"
+  | "gold"
+  | "fruitPatches"
+  | "flowers"
+  | "rubies"
 > = {
   crops: {
     1: {
@@ -122,8 +125,8 @@ export const INITIAL_RESOURCES: Pick<
       },
       x: 7,
       y: 3,
-      height: 2,
-      width: 2,
+      height: 1,
+      width: 1,
     },
     2: {
       stone: {
@@ -132,13 +135,15 @@ export const INITIAL_RESOURCES: Pick<
       },
       x: 3,
       y: 6,
-      height: 2,
-      width: 2,
+      height: 1,
+      width: 1,
     },
   },
   fruitPatches: {},
   gold: {},
   iron: {},
+  flowers: {},
+  rubies: {},
 };
 
 const INITIAL_STOCK: Inventory = {
@@ -162,6 +167,7 @@ const INITIAL_STOCK: Inventory = {
   Pickaxe: new Decimal(30),
   "Stone Pickaxe": new Decimal(10),
   "Iron Pickaxe": new Decimal(5),
+  "Gold Pickaxe": new Decimal(5),
   "Rusty Shovel": new Decimal(10),
   "Sand Shovel": new Decimal(30),
   "Sand Drill": new Decimal(5),
@@ -208,6 +214,10 @@ const OFFLINE_FARM_GOLD = getEnabledNodeCount(
   INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
   "Gold Rock"
 );
+const OFFLINE_FARM_RUBY = getEnabledNodeCount(
+  INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
+  "Ruby Rock"
+);
 const OFFLINE_FARM_FRUIT = getEnabledNodeCount(
   INITIAL_BUMPKIN_LEVEL as BumpkinLevel,
   "Fruit Patch"
@@ -241,21 +251,15 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   island: {
-    type: "spring",
+    type: "basic",
   },
   mysteryPrizes: {},
   mushrooms: {
     mushrooms: {},
     spawnedAt: 0,
   },
-  farmHands: {
-    bumpkins: {
-      // 1: {
-      //   equipped: INITIAL_BUMPKIN.equipped,
-      // },
-    },
-  },
-  bumpkin: INITIAL_BUMPKIN,
+  farmHands: { bumpkins: {} },
+  bumpkin: { ...INITIAL_BUMPKIN, experience: 10000 },
   buds: {
     1: {
       aura: "Basic",
@@ -277,6 +281,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   previousInventory: {},
   inventory: {
     "Farmhand Coupon": new Decimal(1),
+    "Sunpetal Seed": new Decimal(100),
     "White Festive Fox": new Decimal(3),
     Scarecrow: new Decimal(1),
     Shovel: new Decimal(1),
@@ -292,17 +297,24 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(INITIAL_EXPANSIONS),
+    "Basic Land": new Decimal(9),
     "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),
     "Water Well": new Decimal(4),
     Tree: new Decimal(OFFLINE_FARM_TREES),
     "Stone Rock": new Decimal(OFFLINE_FARM_STONES),
     "Iron Rock": new Decimal(OFFLINE_FARM_IRON),
     "Gold Rock": new Decimal(OFFLINE_FARM_GOLD),
+    "Ruby Rock": new Decimal(OFFLINE_FARM_RUBY),
     "Fruit Patch": new Decimal(OFFLINE_FARM_FRUIT),
     Axe: new Decimal(10),
     "Block Buck": new Decimal(100),
     Egg: new Decimal(12),
+    Beehive: new Decimal(2),
+    Banana: new Decimal(12),
+    Wood: new Decimal(100),
+    Stone: new Decimal(100),
+    Iron: new Decimal(100),
+    Gold: new Decimal(15),
   },
   wardrobe: {
     "Elf Suit": 1,
@@ -456,4 +468,26 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   airdrops: [],
   username: "Local Hero",
+  beehives: {},
+  flowers: {
+    "1": {
+      createdAt: Date.now(),
+      x: -1,
+      y: 2,
+      height: 1,
+      width: 3,
+      flower: {
+        amount: 1,
+        name: "Flower 1",
+        plantedAt: Date.now(),
+      },
+    },
+    "2": {
+      createdAt: Date.now(),
+      x: 4,
+      y: 6,
+      height: 1,
+      width: 3,
+    },
+  },
 };

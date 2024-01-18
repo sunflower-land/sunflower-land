@@ -5,7 +5,7 @@ import { secondsToString, TimeFormatLength } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { progressBarBorderStyle } from "features/game/lib/style";
 
-type progressType = "progress" | "health" | "error" | "buff";
+type progressType = "progress" | "health" | "error" | "buff" | "quantity";
 
 interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
   percentage: number;
@@ -44,6 +44,10 @@ const PROGRESS_COLORS: Record<progressType, progressStyle> = {
   buff: {
     color: "#b65389",
     backgroundColor: "#193c3e",
+  },
+  quantity: {
+    color: "#ffb01e",
+    backgroundColor: "#543a2b",
   },
 };
 
