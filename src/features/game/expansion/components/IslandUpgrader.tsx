@@ -190,6 +190,7 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     gameService.send("farm.upgraded");
+    gameService.send("SAVE");
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
