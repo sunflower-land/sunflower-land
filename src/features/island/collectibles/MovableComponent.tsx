@@ -49,6 +49,8 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Stone Rock": "stone.moved",
   "Ruby Rock": "ruby.moved",
   Boulder: "tree.moved",
+  Beehive: "beehive.moved",
+  "Flower Bed": "flowerBed.moved",
 };
 
 function getMoveAction(
@@ -186,6 +188,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
       setShowRemoveConfirmation(true);
     }
   };
+
   useEffect(() => {
     if (isActive.current && !isSelected) {
       // Reset

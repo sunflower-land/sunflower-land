@@ -49,9 +49,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
   const [gameState] = useActor(gameService);
 
-  if (!placeable) {
-    return null;
-  }
+  if (!placeable) return null;
 
   let dimensions = { width: 0, height: 0 };
   if (isBudName(placeable)) {

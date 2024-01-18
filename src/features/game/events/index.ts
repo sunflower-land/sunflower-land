@@ -210,6 +210,13 @@ import {
   equipFarmhand,
   EquipFarmHandAction,
 } from "./landExpansion/equipFarmHand";
+import { moveBeehive, MoveBeehiveAction } from "./landExpansion/moveBeehive";
+import { placeBeehive, PlaceBeehiveAction } from "./landExpansion/placeBeehive";
+import {
+  harvestBeehive,
+  HarvestBeehiveAction,
+} from "./landExpansion/harvestBeehive";
+import { plantFlower, PlantFlowerAction } from "./landExpansion/plantFlower";
 
 export type PlayingEvent =
   | TradeAction
@@ -281,7 +288,9 @@ export type PlayingEvent =
   | ClaimBonusAction
   | AccelerateComposterAction
   | BuyFarmHandAction
-  | EquipFarmHandAction;
+  | EquipFarmHandAction
+  | HarvestBeehiveAction
+  | PlantFlowerAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -313,7 +322,9 @@ export type PlacementEvent =
   | RemoveChickenAction
   | PlaceBudAction
   | MoveBudAction
-  | RemoveBudAction;
+  | RemoveBudAction
+  | MoveBeehiveAction
+  | PlaceBeehiveAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -410,6 +421,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "compost.accelerated": accelerateComposter,
   "farmHand.bought": buyFarmhand,
   "farmHand.equipped": equipFarmhand,
+  "beehive.harvested": harvestBeehive,
+  "flower.planted": plantFlower,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
@@ -443,6 +456,8 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "bud.placed": placeBud,
   "bud.moved": moveBud,
   "bud.removed": removeBud,
+  "beehive.moved": moveBeehive,
+  "beehive.placed": placeBeehive,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

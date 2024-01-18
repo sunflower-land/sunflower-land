@@ -10,7 +10,14 @@ import {
 
 export const INITIAL_RESOURCES: Pick<
   GameState,
-  "crops" | "trees" | "stones" | "iron" | "gold" | "rubies" | "fruitPatches"
+  | "crops"
+  | "trees"
+  | "stones"
+  | "iron"
+  | "gold"
+  | "fruitPatches"
+  | "flowers"
+  | "rubies"
 > = {
   crops: {
     1: {
@@ -122,8 +129,8 @@ export const INITIAL_RESOURCES: Pick<
       },
       x: 7,
       y: 3,
-      height: 2,
-      width: 2,
+      height: 1,
+      width: 1,
     },
     2: {
       stone: {
@@ -132,14 +139,28 @@ export const INITIAL_RESOURCES: Pick<
       },
       x: 3,
       y: 6,
-      height: 2,
-      width: 2,
+      height: 1,
+      width: 1,
     },
   },
   fruitPatches: {},
   gold: {},
   iron: {},
   rubies: {},
+  flowers: {
+    "1": {
+      createdAt: Date.now(),
+      x: -1,
+      y: 2,
+      height: 1,
+      width: 3,
+      // flower: {
+      //   amount: 1,
+      //   name: "Flower 1",
+      //   plantedAt: 0,
+      // },
+    },
+  },
 };
 
 const INITIAL_STOCK: Inventory = {
@@ -261,7 +282,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       // },
     },
   },
-  bumpkin: INITIAL_BUMPKIN,
+  bumpkin: { ...INITIAL_BUMPKIN, experience: 10000 },
   buds: {
     1: {
       aura: "Basic",
@@ -283,6 +304,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   previousInventory: {},
   inventory: {
     "Farmhand Coupon": new Decimal(1),
+    "Sunpetal Seed": new Decimal(100),
     "White Festive Fox": new Decimal(3),
     Scarecrow: new Decimal(1),
     Shovel: new Decimal(1),
@@ -310,6 +332,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Axe: new Decimal(10),
     "Block Buck": new Decimal(100),
     Egg: new Decimal(12),
+    Beehive: new Decimal(2),
+    Banana: new Decimal(12),
+    Wood: new Decimal(100),
+    Stone: new Decimal(100),
+    Iron: new Decimal(100),
   },
   wardrobe: {
     "Elf Suit": 1,
@@ -463,4 +490,26 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   airdrops: [],
   username: "Local Hero",
+  beehives: {},
+  flowers: {
+    "1": {
+      createdAt: Date.now(),
+      x: -1,
+      y: 2,
+      height: 1,
+      width: 3,
+      flower: {
+        amount: 1,
+        name: "Flower 1",
+        plantedAt: Date.now(),
+      },
+    },
+    "2": {
+      createdAt: Date.now(),
+      x: 4,
+      y: 6,
+      height: 1,
+      width: 3,
+    },
+  },
 };

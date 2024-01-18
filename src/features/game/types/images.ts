@@ -6,6 +6,7 @@ import appleSeed from "assets/fruit/apple/apple_seed.png";
 import orangeSeed from "assets/fruit/orange/orange_seed.png";
 import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
 import bananaPlant from "assets/fruit/banana/banana_plant.png";
+import sunpetalSeed from "assets/fruit/banana/banana_plant.png";
 
 // NFTs
 import grinxsHammer from "assets/sfts/grinx_hammer.png";
@@ -531,6 +532,9 @@ import whiteFestiveFox from "assets/sfts/white-xmas-fox.png";
 import sapoDocuras from "assets/sfts/sapo_docuras.gif";
 import sapoTravessura from "assets/sfts/sapo_travessura.gif";
 
+// Flowers
+import beehive from "assets/sfts/beehive.webp";
+
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -568,6 +572,7 @@ import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { WORM, CROP_COMPOST, FRUIT_COMPOST } from "./composters";
 import { BuffLabel } from ".";
 import { PURCHASEABLE_BAIT } from "./fishing";
+import { FLOWER_SEEDS } from "./flowers";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -724,6 +729,10 @@ export const ITEM_DETAILS: Items = {
   "Banana Plant": {
     description: FRUIT_SEEDS()["Banana Plant"].description,
     image: bananaPlant,
+  },
+  "Sunpetal Seed": {
+    description: FLOWER_SEEDS()["Sunpetal Seed"].description,
+    image: sunpetalSeed,
   },
 
   "Apple Pie": {
@@ -2342,6 +2351,10 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.fruitPatch,
     description: "An empty plot to plant fruit on",
   },
+  "Flower Bed": {
+    image: kaleMushroomPie,
+    description: "An empty plot to plant flowers on",
+  },
   Boulder: {
     image: SUNNYSIDE.resource.boulder,
     description: "A mythical rock that can drop rare minerals",
@@ -3050,5 +3063,10 @@ export const ITEM_DETAILS: Items = {
   Farmhand: {
     image: SUNNYSIDE.icons.player,
     description: "A helpful farmhand",
+  },
+  Beehive: {
+    image: beehive,
+    description:
+      "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
   },
 };

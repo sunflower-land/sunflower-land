@@ -440,6 +440,7 @@ export const TEST_FARM: GameState = {
   dailyRewards: { streaks: 0 },
 
   fruitPatches: {},
+  flowers: {},
   gold: {},
   iron: {},
   stones: {},
@@ -449,6 +450,7 @@ export const TEST_FARM: GameState = {
     spawnedAt: 0,
     mushrooms: {},
   },
+  beehives: {},
 };
 
 export const EMPTY: GameState = {
@@ -504,6 +506,8 @@ export const EMPTY: GameState = {
   },
   trades: {},
   fruitPatches: {},
+  beehives: {},
+  flowers: {},
   gold: {},
   iron: {},
   crops: {},

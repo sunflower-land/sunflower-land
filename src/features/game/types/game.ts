@@ -41,6 +41,7 @@ import {
 } from "./fishing";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { PortalName } from "./portals";
+import { FlowerSeedName } from "./flowers";
 
 export type Reward = {
   sfl?: Decimal;
@@ -259,6 +260,7 @@ export type InventoryItemName =
   | MutantCropName
   | FruitName
   | FruitSeedName
+  | FlowerSeedName
   | CraftableName
   | CommodityName
   | ResourceName
@@ -766,6 +768,35 @@ export type Home = {
   collectibles: Collectibles;
 };
 
+export type PlantedFlower = {
+  name: "Flower 1";
+  plantedAt: number;
+  amount: number;
+};
+
+export type FlowerBed = {
+  flower?: PlantedFlower;
+  createdAt: number;
+} & Position;
+
+export type Flowers = Record<string, FlowerBed>;
+
+export type AttachedFlower = {
+  id: string;
+  attachedAt: number;
+  attachedUntil: number;
+};
+
+export type Beehive = {
+  honey: {
+    updatedAt: number;
+    produced: number;
+  };
+  flowers: AttachedFlower[];
+} & Position;
+
+export type Beehives = Record<string, Beehive>;
+
 export interface GameState {
   home: Home;
 
@@ -811,6 +842,8 @@ export interface GameState {
   rubies: Record<string, Rock>;
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;
+  beehives: Beehives;
+  flowers: Flowers;
   fishing: Fishing;
   farmActivity: Partial<Record<FarmActivityName, number>>;
   milestones: Partial<Record<MilestoneName, number>>;

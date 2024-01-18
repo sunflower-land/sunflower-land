@@ -204,6 +204,8 @@ const resources: Record<ResourceName, () => boolean> = {
   "Crop Plot": () => false,
   "Fruit Patch": () => false,
   Boulder: () => false,
+  Beehive: () => false,
+  "Flower Bed": () => false,
 };
 
 const mutantChickens: Record<MutantChicken, () => boolean> = {
