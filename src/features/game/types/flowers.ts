@@ -12,6 +12,7 @@ export type FlowerSeed = {
   sfl: Decimal;
   description: string;
   plantSeconds: number;
+  disabled: boolean;
 };
 
 export function isFlowerSeed(seed: FlowerSeedName) {
@@ -25,6 +26,7 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
     sfl: new Decimal(0),
     description: "A seed for a flower",
     plantSeconds: 1,
+    disabled: true,
   },
 });
 
