@@ -101,9 +101,13 @@ export type AvailableSeeds =
   | "availableSeeds.select.plant"
   | "availableSeeds.plant";
 
-export type Base = "base.missing" | "base.far.away";
+export type Base =
+  | "base.missing"
+  | "base.far.away";
 
-export type Beach = "beach.party" | "beach.ready";
+export type Beach =
+  | "beach.party"
+  | "beach.ready";
 
 export type BeachLuck =
   | "beachLuck.tryLuck"
@@ -112,26 +116,26 @@ export type BeachLuck =
   | "beachLuck.refreshesIn";
 
 export type BirdiePlaza =
-|"birdieplaza.birdieIntro"
-|"birdieplaza.admiringOutfit"
-|"birdieplaza.currentSeason"
-|"birdieplaza.currentSeason.two"
-|"birdieplaza.collectTickets"
-|"birdieplaza.collectTickets.two"
-|"birdieplaza.whatIsSeason"
-|"birdieplaza.howToEarnTickets"
-|"birdieplaza.earnTicketsVariety"
-|"birdieplaza.earnTicketsVariety.two"
-|"birdieplaza.commonMethod"
-|"birdieplaza.commonMethod.two"
-|"birdieplaza.choresAndRewards"
-|"birdieplaza.choresAndRewards.two"
-|"birdieplaza.gatherAndCraft"
-|"birdieplaza.gatherAndCraft.two"
-|"birdieplaza.newSeasonIntro"
-|"birdieplaza.seasonQuests"
-|"birdieplaza.craftItems"
-|"birdieplaza.craftItems.two";
+  | "birdieplaza.birdieIntro"
+  | "birdieplaza.admiringOutfit"
+  | "birdieplaza.currentSeason"
+  | "birdieplaza.currentSeason.two"
+  | "birdieplaza.collectTickets"
+  | "birdieplaza.collectTickets.two"
+  | "birdieplaza.whatIsSeason"
+  | "birdieplaza.howToEarnTickets"
+  | "birdieplaza.earnTicketsVariety"
+  | "birdieplaza.earnTicketsVariety.two"
+  | "birdieplaza.commonMethod"
+  | "birdieplaza.commonMethod.two"
+  | "birdieplaza.choresAndRewards"
+  | "birdieplaza.choresAndRewards.two"
+  | "birdieplaza.gatherAndCraft"
+  | "birdieplaza.gatherAndCraft.two"
+  | "birdieplaza.newSeasonIntro"
+  | "birdieplaza.seasonQuests"
+  | "birdieplaza.craftItems"
+  | "birdieplaza.craftItems.two";
 
 export type BoostDescriptions =
   //Mutant Chickens
@@ -361,7 +365,8 @@ export type Chat =
   | "chat.again"
   | "chat.Kicked";
 
-export type ChickenWinner = "chicken.winner.playagain";
+export type ChickenWinner =
+  | "chicken.winner.playagain";
 
 export type ChoresStart =
   | "chores.harvestFields"
@@ -403,7 +408,10 @@ export type ChumDetails =
   | "chumDetails.squid"
   | "chumDetails.wood";
 
-export type Community = "community.toast" | "community.url" | "comunity.Travel";
+export type Community =
+  | "community.toast"
+  | "community.url"
+  | "comunity.Travel";
 
 export type CompostDescription =
   | "compost.fruitfulBlend"
@@ -416,9 +424,11 @@ export type ComposterDescription =
   | "composter.turboComposter"
   | "composter.premiumComposter";
 
-export type ConfirmSkill = "confirm.skillClaim";
+export type ConfirmSkill =
+  | "confirm.skillClaim";
 
-export type ConfirmationTerms = "confirmation.sellCrops";
+export type ConfirmationTerms =
+  | "confirmation.sellCrops";
 
 export type Conversations =
   | "hank-intro.headline"
@@ -659,7 +669,7 @@ export type DecorationDescriptions =
   | "description.iron.rock"
   | "description.stone.rock"
   | "description.ruby.rock"
-  |"description.flower.bed"
+  | "description.flower.bed"
   | "description.tree"
   | "description.fruit.patch"
   | "description.boulder"
@@ -730,8 +740,7 @@ export type DepositWallet =
   | "deposit.level"
   | "deposit.noSflOrCollectibles"
   | "deposit.farmAdresse"
-  | "question.depositSFLItems"
-;
+  | "question.depositSFLItems";
 
 export type Detail =
   | "detail.how.item"
@@ -911,7 +920,9 @@ export type FishermanModal =
   | "fishermanModal.craft.beach"
   | "fishermanModal.zero.available";
 
-export type FishermanQuest = "fishermanQuest.Ohno" | "fishermanQuest.Newfish";
+export type FishermanQuest =
+  | "fishermanQuest.Ohno"
+  | "fishermanQuest.Newfish";
 
 export type FishingChallengeIntro =
   | "fishingChallengeIntro.powerfulCatch"
@@ -1308,7 +1319,9 @@ export type GoldPassModal =
   | "goldPass.buyNow"
   | "goldPass.priceInMatic";
 
-export type GoldTooth = "goldTooth.intro.part1" | "goldTooth.intro.part2";
+export type GoldTooth =
+  | "goldTooth.intro.part1"
+  | "goldTooth.intro.part2";
 
 export type GuideTerms =
   | "guide.intro"
@@ -1359,9 +1372,7 @@ export type GrubShop =
   | "message.grubShopClosed"
   | "message.moreOrdersIn"
   | "message.bonusOffer"
-  | "message.earnSeasonalTickets"
-
-;
+  | "message.earnSeasonalTickets";
 
 export type HalveningCountdown =
   | "halveningCountdown.approaching"
@@ -1425,16 +1436,16 @@ export type HowToUpgrade =
   | "howToUpgrade.stepFour";
 
   export type Islandupgrade =
-  |"islandupgrade.confirmUpgrade"
-  |"islandupgrade.warning"
-  |"islandupgrade.upgradeIsland"
-  |"islandupgrade.newOpportunities"
-  |"islandupgrade.confirmation"
-  |"islandupgrade.locked"
-  |"islandupgrade.continue"
-  |"islandupgrade.exploring"
-  |"islandupgrade.welcomePetalParadise"
-  |"islandupgrade.itemsReturned"
+  | "islandupgrade.confirmUpgrade"
+  | "islandupgrade.warning"
+  | "islandupgrade.upgradeIsland"
+  | "islandupgrade.newOpportunities"
+  | "islandupgrade.confirmation"
+  | "islandupgrade.locked"
+  | "islandupgrade.continue"
+  | "islandupgrade.exploring"
+  | "islandupgrade.welcomePetalParadise"
+  | "islandupgrade.itemsReturned"
   | "islandupgrade.notReadyExpandMore"
   | "islandupgrade.notReadyExpandMore.two";
 
@@ -2101,7 +2112,9 @@ export type Parsnip =
   | "parsnip.found"
   | "parsnip.gift";
 
-export type Pending = "pending.calcul" | "pending.comeback";
+export type Pending =
+  | "pending.calcul"
+  | "pending.comeback";
 
 export type PersonHood =
   | "personHood.Details."
@@ -2138,14 +2151,20 @@ export type PlayerTrade =
   | "playerTrade.sale"
   | "playerTrade.title.congrat";
 
-export type Portal = "portal.wrong" | "portal.loading" | "portal.unauthorised";
+export type Portal =
+  | "portal.wrong"
+  | "portal.loading"
+  | "portal.unauthorised";
 
 export type PurchaseableBaitTranslation =
   | "purchaseableBait.fishingLure.description";
 
-export type Quest = "quest.mint.free";
+export type Quest =
+  | "quest.mint.free";
 
-export type Questions = "questions.obtain.MATIC" | "questions.lowCash";
+export type Questions =
+  | "questions.obtain.MATIC"
+  | "questions.lowCash";
 
 export type Reaction =
   | "reaction.bumpkin"
@@ -2157,16 +2176,23 @@ export type Reaction =
   | "reaction.goblin"
   | "reaction.crown";
 
-export type Refunded = "refunded.itemsReturned" | "refunded.goodLuck";
+export type Refunded =
+  | "refunded.itemsReturned"
+  | "refunded.goodLuck";
 
 export type RemoveKuebiko =
   | "removeKuebiko.title"
   | "removeKuebiko.description"
   | "removeKuebiko.removeSeeds";
 
-export type Resale = "resale.lookingForItems" | "resale.actionText";
+export type Resale =
+  | "resale.lookingForItems"
+  | "resale.actionText";
 
-export type Restock = "restock.one.buck" | "restock.sure" | "restock.seed.buy";
+export type Restock =
+  | "restock.one.buck"
+  | "restock.sure"
+  | "restock.seed.buy";
 
 export type RetreatTerms =
   | "retreatTerms.introTravel.zero"
@@ -2222,7 +2248,8 @@ export type RulesTerms =
   | "rules.game"
   | "rules.termsOfService";
 
-export type SceneDialogueKey = "sceneDialogues.chefIsBusy";
+export type SceneDialogueKey =
+  |  "sceneDialogues.chefIsBusy";
 
 export type SeasonTerms =
   | "season.goodLuck"
@@ -2238,7 +2265,9 @@ export type SeasonTerms =
   | "season.buyNow"
   | "season.ctk";
 
-export type Session = "session.expired" | "session.expiredMessage";
+export type Session =
+  | "session.expired"
+  | "session.expiredMessage";
 
 export type SettingsMenu =
   | "settingsMenu.timeMachine"
@@ -2296,9 +2325,13 @@ export type ShopItems =
   | "betty.buySeeds"
   | "betty.sellCrops";
 
-export type ShowingFarm = "showing.farm" | "showing.wallet";
+export type ShowingFarm =
+  | "showing.farm"
+  | "showing.wallet";
 
-export type SnorklerDialogues = "snorkler.vastOcean" | "snorkler.goldBeneath";
+export type SnorklerDialogues =
+  | "snorkler.vastOcean"
+  | "snorkler.goldBeneath";
 
 export type Statements =
   | "statements.adventure"
@@ -2400,7 +2433,9 @@ export type SubSettings =
   | "subSettings.refresh"
   | "subSettings.refreshDescription";
 
-export type Swarming = "swarming.tooLongToFarm" | "swarming.goblinsTakenOver";
+export type Swarming =
+  | "swarming.tooLongToFarm"
+  | "swarming.goblinsTakenOver";
 
 export type TieBreaker =
   | "tieBreaker.label"
@@ -2423,8 +2458,7 @@ export type ToolDescriptions =
   | "description.shovel"
   | "description.sand.shovel"
   | "description.sand.drill"
-  | "description.gold.pickaxe"
-;
+  | "description.gold.pickaxe";
 
 export type TransactionTerms =
   | "transaction.blockBucksFarm"
@@ -2508,7 +2542,8 @@ export type VisitislandEnter =
   | "visitIsland.enterIslandId"
   | "visitIsland.visit";
 
-export type VisitislandNotFound = "visitislandNotFound.title";
+export type VisitislandNotFound =
+  | "visitislandNotFound.title";
 
 export type WarningTerms =
   | "warning.noAxe"
@@ -2518,8 +2553,7 @@ export type WarningTerms =
   | "warning.hoarding.message"
   | "warning.hoarding.one"
   | "warning.hoarding.two"
-  | "travelRequirement.notice"
-;
+  | "travelRequirement.notice";
 
 export type WelcomeTerms =
   | "welcome.otherWallets"
