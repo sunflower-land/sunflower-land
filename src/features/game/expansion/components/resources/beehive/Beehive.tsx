@@ -90,8 +90,10 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   };
 
   const handleHarvestHoney = () => {
+    if (showHoneyLevelModal && honeyReady) {
+      setShowHoneyLevelModal(false);
+    }
     gameService.send("beehive.harvested", { id });
-    setShowHoneyLevelModal(false);
   };
 
   const handleHiveClick = () => {
