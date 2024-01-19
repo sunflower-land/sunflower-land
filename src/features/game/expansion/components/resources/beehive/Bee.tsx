@@ -5,7 +5,6 @@ import bee from "assets/icons/bee.webp";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import classNames from "classnames";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
 export type Position = {
@@ -29,10 +28,12 @@ export const Bee: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const flower = useSelector(gameService, getFlowerById(flowerId));
+  const { x: hiveX, y: hiveY } = hivePosition;
+  const { x: flowerX, y: flowerY } = flower;
 
-  const getFlowerPositionRelativeToHive = (): Position => {
-    const { x: hiveX, y: hiveY } = hivePosition;
-    const { x: flowerX, y: flowerY } = flower;
+  const getFlowerPositionRelativeToHive = (): Position & {
+    distance: number;
+  } => {
     const beeWidth = PIXEL_SCALE * 7;
     const xOffsetToFlowerPosition =
       (GRID_WIDTH_PX * RESOURCE_DIMENSIONS["Flower Bed"].width) / 2 -
@@ -64,46 +65,82 @@ export const Bee: React.FC<Props> = ({
     return {
       x: flowerDistanceX,
       y: flowerDistanceY - flowerHeightOffset,
+      distance: Math.sqrt(flowerDistanceX ** 2 + flowerDistanceY ** 2),
     };
   };
 
+  const getBeeDirection = () => {
+    // Bee default direction is right: 1
+    // Above or above right or right
+    if (flowerX >= hiveX && flowerY >= hiveY) return -1;
+
+    // Above left or left
+    if (flowerX < hiveX && flowerY >= hiveY) return 1;
+
+    // Below or below right
+    if (flowerX >= hiveX && flowerY < hiveY) return -1;
+
+    // Below left
+    if (flowerX < hiveX && flowerY < hiveY) return 1;
+
+    return 1;
+  };
+
+  const getFlightDuration = (distance: number) => {
+    const perfectSpeed = 200 / 3.5; // Speed in pixels per second
+
+    const durationInSeconds = distance / perfectSpeed; // Duration in seconds
+    const durationInMilliseconds = durationInSeconds * 1000; // Convert to milliseconds
+
+    return durationInMilliseconds;
+  };
+
   const flowerPosition = getFlowerPositionRelativeToHive();
+  const initialBeeDirection = getBeeDirection();
+  const finalBeeDirection = -initialBeeDirection;
 
   // React Spring animation
   const animation = useSpring({
-    from: { transform: `translate(13px, -13px) scale(0)` },
+    from: {
+      transform: `translate(13px, -13px) scale(0) scaleX(${initialBeeDirection})`,
+    },
     to: async (next) => {
+      const flightDuration = getFlightDuration(flowerPosition.distance);
+
       await next({
-        transform: `translate(13px, -13px) scale(1)`,
+        transform: `translate(13px, -13px) scale(1) scaleX(${initialBeeDirection})`,
         config: {
           duration: 500,
         },
       });
       // Phase 1: Move to the flowerbed
       await next({
-        transform: `translate(${flowerPosition.x}px, ${flowerPosition.y}px) scale(1)`,
+        transform: `translate(${flowerPosition.x}px, ${flowerPosition.y}px) scale(1) scaleX(${initialBeeDirection})`,
         config: {
-          ...config.molasses,
-          duration: 3500,
+          ...config.slow,
+          duration: flightDuration,
         },
       });
       // Phase 2: Hover for a second
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Phase 3: Turn around
       await next({
-        transform: `translate(${flowerPosition.x}px, ${flowerPosition.y}px) scale(1) scaleX(-1)`,
+        transform: `translate(${flowerPosition.x}px, ${flowerPosition.y}px) scale(1) scaleX(${finalBeeDirection})`,
         config: {
-          duration: 1500,
+          duration: 1,
         },
       });
-      // Phase 3: Move back to the hive
+      // Phase 4: Move back to the hive
       await next({
-        transform: `translate(13px, -13px) scale(1) scaleX(-1)`,
+        transform: `translate(13px, -13px) scale(1) scaleX(${finalBeeDirection})`,
         config: {
-          duration: 3500,
+          ...config.slow,
+          duration: flightDuration,
         },
       });
-      // Phase 4: Scale back into the hive
+      // Phase 5: Scale back into the hive
       await next({
-        transform: `translate(13px, -1px) scale(0) scaleX(-1)`,
+        transform: `translate(13px, -1px) scale(0) scaleX(${finalBeeDirection})`,
         transformOrigin: "center bottom",
         config: { duration: 500 },
       });
@@ -123,9 +160,7 @@ export const Bee: React.FC<Props> = ({
       <img
         src={bee}
         alt="Bee"
-        className={classNames("bee-flight", {
-          "-scale-x-100": flowerPosition.x > 0,
-        })}
+        className="bee-flight"
         style={{
           width: `${PIXEL_SCALE * 7}px`,
         }}
