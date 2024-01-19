@@ -939,4 +939,5 @@ img {
 
 .honey-drop-ready {
   animation: honey-drop 1s infinite;
+  animation-delay: 1.5s;
 }
