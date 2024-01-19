@@ -14,6 +14,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { NPCName } from "lib/npcs";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import cloneDeep from "lodash.clonedeep";
+import { translate } from "lib/i18n/translate";
 
 export type DeliverOrderAction = {
   type: "order.delivered";
@@ -178,7 +179,7 @@ export function deliverOrder({
   const bumpkin = game.bumpkin;
 
   if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("harvestflower.noBumpkin"));
   }
 
   const order = game.delivery.orders.find((order) => order.id === action.id);

@@ -3,6 +3,7 @@ import { BuildingName } from "features/game/types/buildings";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import { translate } from "lib/i18n/translate";
 
 export type CollectRecipeAction = {
   type: "recipe.collected";
@@ -29,20 +30,20 @@ export function collectRecipe({
   );
 
   if (!building) {
-    throw new Error("Building does not exist");
+    throw new Error(translate("error.buildingNotExist"));
   }
 
   if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("harvestflower.noBumpkin"));
   }
 
   const recipe = building.crafting;
   if (!recipe) {
-    throw new Error("Building is not cooking anything");
+    throw new Error(translate("error.buildingNotCooking"));
   }
 
   if (createdAt < recipe.readyAt) {
-    throw new Error("Recipe is not ready");
+    throw new Error(translate("error.recipeNotReady"));
   }
 
   delete building.crafting;

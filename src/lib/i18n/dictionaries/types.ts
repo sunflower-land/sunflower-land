@@ -349,6 +349,11 @@ export type BuyFarmHand =
   | "buyFarmHand.notEnoughSpace"
   | "buyFarmHand.buyBumpkin";
 
+export type ClaimAchievement =
+  | "claimAchievement.noBumpkin"
+  | "claimAchievement.alreadyHave"
+  | "claimAchievement.requirementsNotMet";
+
 export type Chat =
   | "chat.Loading"
   | "chat.Fail"
@@ -799,7 +804,30 @@ export type ErrorTerms =
   | "error.missingBait"
   | "error.alreadyCasted"
   | "error.unsupportedChum"
-  | "error.insufficientChum";
+  | "error.insufficientChum"
+  | "error.alr.composter"
+  | "error.no.alr.composter"
+  | "error.missing"
+  | "error.no.ready"
+  | "error.noprod.composter"
+  | "error.buildingNotExist"
+  | "error.buildingNotCooking"
+  | "error.recipeNotReady"
+  | "error.npcsNotExist"
+  | "error.noDiscoveryAvailable"
+  | "error.obsessionAlreadyCompleted"
+  | "error.collectibleNotInInventory"
+  | "error.wearableNotInWardrobe"
+  | "error.requiredBuildingNotExist"
+  | "error.cookingInProgress"
+  | "error.insufficientIngredient"
+  | "error.itemNotExist"
+  | "error.notEnoughStock"
+  | "error.tooEarly"
+  | "error.tooLate"
+  | "error.insufficientSFL"
+  | "error.decorationCollides"
+  | "error.idAlreadyExists";
 
 export type ExoticShopItems =
   | "exoticShopItems.line1"
@@ -1346,7 +1374,8 @@ export type Harvestflower =
   | "harvestflower.noBumpkin"
   | "harvestflower.noFlowerBed"
   | "harvestflower.noFlower"
-  | "harvestflower.notReady";
+  | "harvestflower.notReady"
+  | "harvestflower.alr.plant";
 
 export type HarvestBeeHive =
   | "harvestBeeHive.notPlaced"
@@ -2568,6 +2597,7 @@ export type TranslationKeys =
   | BumpkinSkillsDescription
   | BumpkinTrade
   | BuyFarmHand
+  | ClaimAchievement
   | Chat
   | ChickenWinner
   | ChoresStart

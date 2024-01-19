@@ -4,6 +4,7 @@ import { ComposterName } from "features/game/types/composters";
 import { getKeys } from "features/game/types/craftables";
 import { CompostBuilding, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import { translate } from "lib/i18n/translate";
 
 export type collectCompostAction = {
   type: "compost.collected";
@@ -30,20 +31,20 @@ export function collectCompost({
   ) as CompostBuilding;
 
   if (!building) {
-    throw new Error("Composter does not exist");
+    throw new Error(translate("error.composterNotExist"));
   }
 
   if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("error.noBumpkin"));
   }
 
   const compost = building.producing;
   if (!compost) {
-    throw new Error("Composter is not producing anything");
+    throw new Error(translate("error.noprod.composter"));
   }
 
   if (createdAt < compost.readyAt) {
-    throw new Error("Compost is not ready");
+    throw new Error(translate("error.no.ready"));("Compost is not ready");
   }
 
   getKeys(compost.items ?? {}).forEach((name) => {

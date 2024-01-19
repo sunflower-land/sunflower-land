@@ -16,6 +16,7 @@ import {
   BumpkinSkillsDescription,
   BumpkinTrade,
   BuyFarmHand,
+  ClaimAchievement,
   Chat,
   ChickenWinner,
   ChoresStart,
@@ -705,6 +706,11 @@ const buyFarmHand: Record<BuyFarmHand, string> = {
   "buyFarmHand.buyBumpkin": "Comprar Bumpkin"
 };
 
+const claimAchievement: Record<ClaimAchievement, string> = {
+  "claimAchievement.noBumpkin": "Vous n'avez pas de Bumpkin",
+  "claimAchievement.alreadyHave": "Vous avez déjà cet accomplissement",
+  "claimAchievement.requirementsNotMet": "Vous ne répondez pas aux exigences",
+};
 
 const chat: Record<Chat, string> = {
   "chat.Loading": "Carregando",
@@ -1181,6 +1187,28 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.alreadyCasted": "Já lançado",
   "error.unsupportedChum": "{chum} não é uma isca suportada",
   "error.insufficientChum": "Isca insuficiente:",
+  "error.alr.composter": "O compostor já está compostando",
+  "error.no.alr.composter": "O compostor não está pronto para produzir",
+  "error.missing": "Requisitos ausentes",
+  "error.no.ready": "O composto não está pronto",
+  "error.noprod.composter": "O compostor não está produzindo nada",
+  "error.buildingNotExist": "O edifício não existe",
+  "error.buildingNotCooking": "O edifício não está cozinhando nada",
+  "error.recipeNotReady": "A receita não está pronta",
+  "error.npcsNotExist": "Os NPCs não existem",
+  "error.noDiscoveryAvailable": "Nenhuma descoberta disponível",
+  "error.obsessionAlreadyCompleted": "Esta obsessão já foi completada",
+  "error.collectibleNotInInventory": "Você não tem o colecionável necessário",
+  "error.wearableNotInWardrobe": "Você não tem o vestuário necessário",
+  "error.requiredBuildingNotExist": "O edifício necessário não existe",
+  "error.cookingInProgress": "Cozimento já em andamento",
+  "error.insufficientIngredient": "Ingrediente insuficiente:",
+  "error.itemNotExist": "O item não existe",
+  "error.notEnoughStock": "Estoque insuficiente",
+  "error.tooEarly": "Muito cedo",
+  "error.tooLate": "Muito tarde",
+  "error.decorationCollides": "Decoração colide",
+  "error.idAlreadyExists": "O ID já existe",
 };
 
 const exoticShopItems: Record<ExoticShopItems, string> = {
@@ -1580,7 +1608,8 @@ const harvestflower: Record<Harvestflower, string> = {
   "harvestflower.noBumpkin": "Você não tem um Bumpkin",
   "harvestflower.noFlowerBed": "Canteiro de flores não existe",
   "harvestflower.noFlower": "Canteiro de flores não tem uma flor",
-  "harvestflower.notReady": "A flor não está pronta para ser colhida"
+  "harvestflower.notReady": "A flor não está pronta para ser colhida",
+  "harvestflower.alr.plant": "Já existe uma flor plantada aqui.",
 };
 
 const harvestBeeHive: Record<HarvestBeeHive, string> = {
@@ -2908,6 +2937,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...bumpkinSkillsDescription,
   ...bumpkinTrade,
   ...buyFarmHand,
+  ...claimAchievement,
   ...chat,
   ...chickenWinner,
   ...choresStart,

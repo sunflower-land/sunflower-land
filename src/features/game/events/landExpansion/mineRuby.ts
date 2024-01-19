@@ -3,6 +3,7 @@ import { RUBY_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 import { GameState, Rock } from "../../types/game";
+import { translate } from "lib/i18n/translate";
 
 export type MineRubyAction = {
   type: "rubyRock.mined";
@@ -34,7 +35,7 @@ export function mineRuby({
   }
 
   if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("harvestflower.noBumpkin"));
   }
 
   if (!canMine(rock, createdAt)) {

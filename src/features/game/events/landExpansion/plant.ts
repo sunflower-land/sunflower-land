@@ -40,6 +40,7 @@ import {
 import { getBumpkinLevel } from "features/game/lib/level";
 import { isBuildingEnabled } from "features/game/expansion/lib/buildingRequirements";
 import { isWearableActive } from "features/game/lib/wearables";
+import { translate } from "lib/i18n/translate";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -543,7 +544,7 @@ export function plant({
   const buds = stateCopy.buds ?? {};
 
   if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("harvestflower.noBumpkin"));
   }
 
   if (!action.index) {

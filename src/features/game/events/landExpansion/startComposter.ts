@@ -11,6 +11,7 @@ import {
   InventoryItemName,
 } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import { translate } from "lib/i18n/translate";
 
 export type StartComposterAction = {
   type: "composter.started";
@@ -42,18 +43,18 @@ export function startComposter({
 
   const buildings = stateCopy.buildings[action.building] as CompostBuilding[];
   if (!buildings) {
-    throw new Error("Composter does not exist");
+    throw new Error(translate("error.composterNotExist"));
   }
 
   const composter = buildings[0];
   const isProducing = composter.producing;
 
   if (isProducing && isProducing.readyAt > createdAt) {
-    throw new Error("Composter is already composting");
+    throw new Error(translate("error.alr.composter"));
   }
 
   if (!composter.requires) {
-    throw new Error("Composter is not ready for produce");
+    throw new Error(translate("error.no.alr.composter"));
   }
 
   // remove the requirements from the player's inventory
@@ -62,7 +63,7 @@ export function startComposter({
       stateCopy.inventory[name as InventoryItemName] || new Decimal(0);
 
     if (previous.lt(composter.requires?.[name] ?? 0)) {
-      throw new Error("Missing requirements");
+      throw new Error(translate("error.missing"));("Missing requirements");
     }
 
     stateCopy.inventory[name as InventoryItemName] = previous.minus(

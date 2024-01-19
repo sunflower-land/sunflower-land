@@ -3,6 +3,7 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import cloneDeep from "lodash.clonedeep";
+import { translate } from "lib/i18n/translate";
 
 export type CompleteBertObsessionAction = {
   type: "bertObsession.completed";
@@ -22,11 +23,11 @@ export function completeBertObsession({
   const { bumpkin } = stateCopy;
 
   if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("harvestflower.noBumpkin"));
   }
 
   if (!stateCopy.npcs) {
-    throw new Error("NPCs does not exist");
+    throw new Error(translate("error.npcsNotExist"));  
   }
 
   if (!stateCopy.npcs?.bert) {
@@ -35,7 +36,7 @@ export function completeBertObsession({
 
   const currentObsession = stateCopy.bertObsession;
   if (!currentObsession) {
-    throw new Error("No discovery available");
+    throw new Error(translate("error.noDiscoveryAvailable")); 
   }
 
   if (stateCopy.npcs.bert.questCompletedAt) {
@@ -44,7 +45,7 @@ export function completeBertObsession({
       stateCopy.npcs.bert.questCompletedAt <= currentObsession.endDate;
 
     if (obsessionAlreadyCompleted) {
-      throw new Error("This obsession is already completed");
+      throw new Error(translate("error.obsessionAlreadyCompleted"));
     }
   }
 
@@ -53,7 +54,7 @@ export function completeBertObsession({
       stateCopy.inventory[currentObsession.name as InventoryItemName];
 
     if (!isItemInInventory) {
-      throw new Error("You do not have the collectible required");
+      throw new Error(translate("error.collectibleNotInInventory"));
     }
   }
 
@@ -62,7 +63,7 @@ export function completeBertObsession({
       stateCopy.wardrobe[currentObsession.name as BumpkinItem];
 
     if (!isWearableInWardrobe) {
-      throw new Error("You do not have the wearable required");
+      throw new Error(translate("error.wearableNotInWardrobe"));
     }
   }
 

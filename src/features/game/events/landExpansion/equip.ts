@@ -3,6 +3,7 @@ import { getKeys } from "features/game/types/craftables";
 import { Bumpkin, GameState, Wardrobe } from "features/game/types/game";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import cloneDeep from "lodash.clonedeep";
+import { translate } from "lib/i18n/translate";
 
 export type EquipBumpkinAction = {
   type: "bumpkin.equipped";
@@ -24,7 +25,7 @@ export function equip({
   const { bumpkin } = game;
 
   if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("harvestflower.noBumpkin"));
   }
 
   assertEquipment({ game, equipment: action.equipment, bumpkin });

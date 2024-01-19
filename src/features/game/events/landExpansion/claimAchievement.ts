@@ -7,6 +7,7 @@ import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import cloneDeep from "lodash.clonedeep";
+import { translate } from "lib/i18n/translate";
 
 export type ClaimAchievementAction = {
   type: "achievement.claimed";
@@ -28,15 +29,15 @@ export function claimAchievement({ state, action }: Options): GameState {
   const achievement = ACHIEVEMENTS()[action.achievement];
 
   if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("claimAchievement.noBumpkin"));
   }
 
   if (bumpkin.achievements?.[action.achievement]) {
-    throw new Error("You already have this achievement");
+    throw new Error(translate("claimAchievement.alreadyHave"));
   }
 
   if (achievement.progress(stateCopy) < achievement.requirement) {
-    throw new Error("You do not meet the requirements");
+    throw new Error(translate("claimAchievement.requirementsNotMet"));
   }
 
   const bumpkinAchievements = bumpkin.achievements || {};
