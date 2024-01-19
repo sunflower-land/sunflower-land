@@ -604,14 +604,14 @@ img {
   }
 }
 
-.dawn-breaker-gradient {
-  background: rgb(62, 39, 49);
+.honey-production-gradient {
+  background: rgb(190, 74, 47);
   background: linear-gradient(
     90deg,
-    rgba(62, 39, 49, 1) 8%,
-    rgba(104, 56, 108, 1) 33%,
-    rgba(181, 80, 136, 1) 70%,
-    rgba(246, 117, 122, 1) 100%
+    rgb(190, 74, 47) 8%,
+    rgb(247, 118, 34) 33%,
+    rgb(254, 174, 52) 70%,
+    rgb(254, 231, 97) 100%
   );
 }
 
@@ -926,4 +926,17 @@ img {
 .animate-exit-hive {
   animation: exit-hive 1.5s ease-in;
   animation-fill-mode: forwards;
+}
+
+@keyframes honey-drop {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}
+
+.honey-drop-ready {
+  animation: honey-drop 1s infinite;
 }

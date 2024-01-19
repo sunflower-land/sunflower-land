@@ -77,6 +77,8 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const showBeeAnimation = useSelector(beehiveService, _showBeeAnimation);
 
   const hasNewFlower = (hive: IBeehive) => {
+    if (hive.flowers.length === 0) return false;
+
     const updatedFlowerId = getFirstAttachedFlower(hive)?.id;
 
     return currentFlowerId !== updatedFlowerId;
@@ -89,6 +91,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
 
   const handleHarvestHoney = () => {
     gameService.send("beehive.harvested", { id });
+    setShowHoneyLevelModal(false);
   };
 
   const handleHiveClick = () => {
@@ -156,7 +159,9 @@ export const Beehive: React.FC<Props> = ({ id }) => {
         <img
           src={beehive}
           alt="Beehive"
-          className="absolute bottom-0 hover:img-highlight"
+          className={classNames("absolute bottom-0", {
+            "hover:img-highlight": !showBeeAnimation,
+          })}
           style={{
             width: `${PIXEL_SCALE * 16}px`,
           }}
@@ -168,7 +173,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
             "absolute top-0 right-1 transition-transform duration-700",
             {
               "scale-0": !honeyReady,
-              "scale-100": honeyReady,
+              "scale-100 honey-drop-ready": honeyReady,
             }
           )}
           style={{
@@ -223,46 +228,61 @@ export const Beehive: React.FC<Props> = ({ id }) => {
         </div>
       </div>
       <Modal
+        size="sm"
         centered
         show={showHoneyLevelModal}
         onHide={() => setShowHoneyLevelModal(false)}
       >
-        <Panel bumpkinParts={NPC_WEARABLES.stevie} title="Current Honey Level">
+        <Panel bumpkinParts={NPC_WEARABLES.stevie}>
           <>
-            <div
-              className="flex flex-col w-full mx-1"
-              style={{ ...progressBarBorderStyle }}
-            >
+            <div className="flex relative items-center justify-center py-1">
               <div
-                className="relative h-6 w-1/2 dawn-breaker-gradient flex items-center justify-center"
-                style={{
-                  width: `${Math.min(percentage, 100)}%`,
-                }}
+                className="flex w-full"
+                style={{ ...progressBarBorderStyle }}
               >
+                {/* Progress bar (Quantity of honey) */}
                 <div
-                  className="absolute top-1/2 -translate-y-1/2 -right-2"
+                  className="h-6 w-1/2 text-center transition-transform honey-production-gradient flex items-center justify-center"
                   style={{
-                    width: PIXEL_SCALE * 10,
-                    height: PIXEL_SCALE * 16,
-                    overflow: "hidden",
+                    transform: `scaleX(${Math.min(percentage / 100, 1)})`,
+                    transformOrigin: "top left",
+                    width: "100%",
+                  }}
+                />
+                {/* Honey jar and amount text */}
+                <div
+                  className={classNames(
+                    "absolute top-1/2 -left-2 transition-transform w-full z-50 flex items-center"
+                  )}
+                  style={{
+                    transform: `translate(calc(min(${
+                      percentage > 2 ? percentage : 2
+                    }%, 93%)), -50%)`,
                   }}
                 >
                   <img
                     src={ITEM_DETAILS.Honey.image}
-                    alt="Honey Jar"
+                    className="z-10"
                     style={{
                       width: PIXEL_SCALE * 10,
+                      height: PIXEL_SCALE * 12,
                     }}
+                    alt="Honey Jar"
                   />
+                  <p
+                    className={classNames(
+                      "text-xxs mb-1 ml-1 transition-transform duration-300",
+                      {
+                        "-translate-x-16": percentage > 75,
+                      }
+                    )}
+                  >
+                    {(honeyProduced / HONEY_PRODUCTION_TIME).toFixed(2)}
+                  </p>
                 </div>
-                <p className="text-xxs mb-1">
-                  {(honeyProduced / HONEY_PRODUCTION_TIME).toFixed(2)}
-                </p>
               </div>
             </div>
-            <div>
-              <Button>Harvest honey</Button>
-            </div>
+            <Button onClick={handleHarvestHoney}>Harvest honey</Button>
           </>
         </Panel>
       </Modal>

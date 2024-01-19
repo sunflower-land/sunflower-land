@@ -58,7 +58,7 @@ export const getCurrentHoneyProduced = (hive: Beehive) => {
 
   if (!attachedFlower) return hive.honey.produced;
 
-  const start = attachedFlower.attachedAt;
+  const start = Math.max(hive.honey.updatedAt, attachedFlower.attachedAt);
   const end = Math.min(Date.now(), attachedFlower.attachedUntil);
 
   return hive.honey.produced + Math.max(end - start, 0);
