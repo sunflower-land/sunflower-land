@@ -11,7 +11,6 @@ export type AttachedFlower = {
 export interface BeehiveContext {
   honeyProduced: number;
   hive: Beehive;
-  showBeeAnimation: boolean;
   isProducing?: boolean;
   attachedFlower?: AttachedFlower;
 }
@@ -59,7 +58,7 @@ export const getCurrentHoneyProduced = (hive: Beehive) => {
 
   if (!attachedFlower) return hive.honey.produced;
 
-  const start = attachedFlower.attachedAt;
+  const start = Math.max(hive.honey.updatedAt, attachedFlower.attachedAt);
   const end = Math.min(Date.now(), attachedFlower.attachedUntil);
 
   return hive.honey.produced + Math.max(end - start, 0);
@@ -113,7 +112,6 @@ export const beehiveMachine = createMachine<
         on: {
           BEE_ANIMATION_DONE: {
             target: "hiveBuzzing",
-            actions: "resetAnimation",
           },
         },
       },
@@ -158,9 +156,6 @@ export const beehiveMachine = createMachine<
         hive: (_, event) => (event as UpdateHive).updatedHive,
         honeyProduced: (_, event) =>
           getCurrentHoneyProduced((event as UpdateHive).updatedHive),
-      }),
-      resetAnimation: assign({
-        showBeeAnimation: (_) => false,
       }),
     },
     guards: {

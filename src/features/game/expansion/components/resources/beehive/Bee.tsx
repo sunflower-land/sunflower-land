@@ -1,11 +1,11 @@
-import React, { useContext, useState } from "react";
-import { animated, useSpring } from "react-spring";
+import React, { useContext } from "react";
+import { animated, config, useSpring } from "react-spring";
 import { Context } from "features/game/GameProvider";
 import bee from "assets/icons/bee.webp";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import classNames from "classnames";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
 export type Position = {
   x: number;
@@ -27,26 +27,29 @@ export const Bee: React.FC<Props> = ({
   onAnimationEnd,
 }) => {
   const { gameService } = useContext(Context);
-  const [animationPhase, setAnimationPhase] = useState(0);
-
   const flower = useSelector(gameService, getFlowerById(flowerId));
+  const { x: hiveX, y: hiveY } = hivePosition;
+  const { x: flowerX, y: flowerY } = flower;
 
-  const getFlowerPositionRelativeToHive = (): Position => {
-    const { x: hiveX, y: hiveY } = hivePosition;
-    const { x: flowerX, y: flowerY } = flower;
-    const beeWidth = PIXEL_SCALE * 10;
-    const offsetToFlowerPosition = GRID_WIDTH_PX * 1.5 - beeWidth / 2;
+  const getFlowerPositionRelativeToHive = (): Position & {
+    distance: number;
+  } => {
+    const beeWidth = PIXEL_SCALE * 7;
+    const xOffsetToFlowerPosition =
+      (GRID_WIDTH_PX * RESOURCE_DIMENSIONS["Flower Bed"].width) / 2 -
+      beeWidth / 2;
+    const flowerHeightOffset = 20;
 
     let flowerDistanceX = 0;
 
     if (flowerX < hiveX) {
       flowerDistanceX =
-        -(hiveX - flowerX) * GRID_WIDTH_PX + offsetToFlowerPosition;
+        -(hiveX - flowerX) * GRID_WIDTH_PX + xOffsetToFlowerPosition;
     }
 
     if (flowerX > hiveX) {
       flowerDistanceX =
-        (flowerX - hiveX) * GRID_WIDTH_PX + offsetToFlowerPosition;
+        (flowerX - hiveX) * GRID_WIDTH_PX + xOffsetToFlowerPosition;
     }
 
     let flowerDistanceY = 0;
@@ -61,42 +64,85 @@ export const Bee: React.FC<Props> = ({
 
     return {
       x: flowerDistanceX,
-      y: flowerDistanceY,
+      y: flowerDistanceY - flowerHeightOffset,
+      distance: Math.sqrt(flowerDistanceX ** 2 + flowerDistanceY ** 2),
     };
   };
 
+  const getBeeDirection = () => {
+    // Bee default direction is right: 1
+    // Above or above right or right
+    if (flowerX >= hiveX && flowerY >= hiveY) return -1;
+
+    // Above left or left
+    if (flowerX < hiveX && flowerY >= hiveY) return 1;
+
+    // Below or below right
+    if (flowerX >= hiveX && flowerY < hiveY) return -1;
+
+    // Below left
+    if (flowerX < hiveX && flowerY < hiveY) return 1;
+
+    return 1;
+  };
+
+  const getFlightDuration = (distance: number) => {
+    const perfectSpeed = 200 / 3.5; // Speed in pixels per second
+
+    const durationInSeconds = distance / perfectSpeed; // Duration in seconds
+    const durationInMilliseconds = durationInSeconds * 1000; // Convert to milliseconds
+
+    return durationInMilliseconds;
+  };
+
   const flowerPosition = getFlowerPositionRelativeToHive();
+  const initialBeeDirection = getBeeDirection();
+  const finalBeeDirection = -initialBeeDirection;
 
   // React Spring animation
   const animation = useSpring({
-    from: { transform: `translate(0px, 0px) scale(0)` },
+    from: {
+      transform: `translate(13px, -13px) scale(0) scaleX(${initialBeeDirection})`,
+    },
     to: async (next) => {
+      const flightDuration = getFlightDuration(flowerPosition.distance);
+
       await next({
-        transform: `translate(0px, 0px) scale(1)`,
+        transform: `translate(13px, -13px) scale(1) scaleX(${initialBeeDirection})`,
         config: {
-          duration: 1000,
+          duration: 500,
         },
       });
       // Phase 1: Move to the flowerbed
       await next({
-        transform: `translate(${flowerPosition.x}px, ${flowerPosition.y}px) scale(1)`,
+        transform: `translate(${flowerPosition.x}px, ${flowerPosition.y}px) scale(1) scaleX(${initialBeeDirection})`,
         config: {
-          duration: 3000,
+          ...config.slow,
+          duration: flightDuration,
         },
       });
       // Phase 2: Hover for a second
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      // Phase 3: Move back to the hive
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Phase 3: Turn around
       await next({
-        transform: `translate(0px, 0px) scale(1)`,
+        transform: `translate(${flowerPosition.x}px, ${flowerPosition.y}px) scale(1) scaleX(${finalBeeDirection})`,
         config: {
-          duration: 3000,
+          duration: 1,
         },
       });
-      // Phase 4: Scale back into the hive
+      // Phase 4: Move back to the hive
       await next({
-        transform: `translate(0px, 0px) scale(0)`,
-        config: { duration: 1000 },
+        transform: `translate(13px, -13px) scale(1) scaleX(${finalBeeDirection})`,
+        config: {
+          ...config.slow,
+          duration: flightDuration,
+        },
+      });
+      // Phase 5: Scale back into the hive
+      await next({
+        transform: `translate(13px, -1px) scale(0) scaleX(${finalBeeDirection})`,
+        transformOrigin: "center bottom",
+        config: { duration: 500 },
       });
       onAnimationEnd(); // Callback when animation is done
     },
@@ -104,22 +150,19 @@ export const Bee: React.FC<Props> = ({
 
   return (
     <animated.div
-      id="BEEEE"
+      className="absolute z-50"
       style={{
-        position: "absolute",
-        width: `${PIXEL_SCALE * 10}px`,
-        height: `${PIXEL_SCALE * 10}px`,
+        width: `${PIXEL_SCALE * 7}px`,
+        height: `${PIXEL_SCALE * 7}px`,
         ...animation,
       }}
     >
       <img
         src={bee}
         alt="Bee"
-        className={classNames("animate-float", {
-          "-scale-x-100": flowerPosition.x > 0,
-        })}
+        className="bee-flight"
         style={{
-          width: `${PIXEL_SCALE * 10}px`,
+          width: `${PIXEL_SCALE * 7}px`,
         }}
       />
     </animated.div>
