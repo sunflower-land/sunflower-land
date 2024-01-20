@@ -52,9 +52,7 @@ export const ArcadeDonation: React.FC = () => {
     <>
       {state.matches("idle") && (
         <div className="flex flex-col mb-1 p-2 text-sm">
-          <p className="my-2">
-          {t("transaction.thankYou")}
-          </p>
+          <p className="my-2">{t("transaction.thankYou")}</p>
           <Carousel
             activeIndex={activeIndex}
             interval={null}
@@ -114,14 +112,18 @@ export const ArcadeDonation: React.FC = () => {
                 />
               </div>
             </div>
-            <span className="text-xs text-shadow my-2">{t("transaction.maticAmount")}</span>
+            <span className="text-xs text-shadow my-2">
+              {t("transaction.maticAmount")}
+            </span>
           </div>
           <Button
             className="w-full ml-1"
             onClick={donate}
             disabled={donation < 0.1}
           >
-            <span className="text-xs whitespace-nowrap">{t("transaction.donate")}</span>
+            <span className="text-xs whitespace-nowrap">
+              {t("transaction.donate")}
+            </span>
           </Button>
         </div>
       )}

@@ -414,10 +414,12 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               <div className="w-6">
                 <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
               </div>
-              <span className="text-xs">{t("new.delivery.in")}{`${secondsToString(
-                secondsTillReset(),
-                { length: "medium" }
-              )}.`}</span>
+              <span className="text-xs">
+                {t("new.delivery.in")}
+                {`${secondsToString(secondsTillReset(), {
+                  length: "medium",
+                })}.`}
+              </span>
             </div>
           )}
         </div>
@@ -505,7 +507,9 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 </>
               )}
               {!canSkip && (
-                <Button onClick={() => setShowSkipDialog(false)}>{translate("back")}</Button>
+                <Button onClick={() => setShowSkipDialog(false)}>
+                  {translate("back")}
+                </Button>
               )}
             </>
           )}

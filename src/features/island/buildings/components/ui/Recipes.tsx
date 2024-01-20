@@ -80,7 +80,9 @@ export const Recipes: React.FC<Props> = ({
           {t("cook")}
         </Button>
         {crafting && (
-          <p className="text-xxs sm:text-xs text-center my-1">{translate("sceneDialogues.chefIsBusy")}</p>
+          <p className="text-xxs sm:text-xs text-center my-1">
+            {translate("sceneDialogues.chefIsBusy")}
+          </p>
         )}
       </>
     );

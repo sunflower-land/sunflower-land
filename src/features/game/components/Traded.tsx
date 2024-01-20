@@ -16,9 +16,7 @@ export const Traded: React.FC = () => {
     <>
       <div className="p-2">
         <img src={SUNNYSIDE.icons.confirm} className="mx-auto h-12 my-2" />
-        <p className="text-sm mb-2 text-center">
-          {t("transaction.congrats")}
-        </p>
+        <p className="text-sm mb-2 text-center">{t("transaction.congrats")}</p>
       </div>
       <Button onClick={onAcknowledge}>{t("continue")}</Button>
     </>

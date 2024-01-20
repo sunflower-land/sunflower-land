@@ -28,9 +28,7 @@ export const CreateWallet = () => {
           </div>
         </div>
         <p className="mb-3">{t("onboarding.welcome")}</p>
-        <p className="text-sm text-white mb-2">
-          {t("onboarding.intro.one")}
-        </p>
+        <p className="text-sm text-white mb-2">{t("onboarding.intro.one")}</p>
         <p className="text-sm text-white mt-2 mb-2">
           {t("onboarding.intro.two")}
         </p>
@@ -40,7 +38,9 @@ export const CreateWallet = () => {
         onClick={() => {
           authService.send("CONTINUE");
         }}
-      >{t("lets.go")}</Button>
+      >
+        {t("lets.go")}
+      </Button>
     </>
   );
 };

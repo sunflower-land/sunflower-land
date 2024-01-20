@@ -304,7 +304,7 @@ export const CraftingRequirements: React.FC<Props> = ({
         )}
         {getItemDetail({ hideDescription })}
         {limit && (
-          <p className="my-1 text-xs text-left sm:text-center">{`Max ${limit} per player`}</p>  //Translate
+          <p className="my-1 text-xs text-left sm:text-center">{`Max ${limit} per player`}</p> //Translate
         )}
         {getBoost()}
         {getRequirements()}

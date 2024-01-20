@@ -37,9 +37,7 @@ export const ParsnipGiveaway: React.FC<{ onClose: () => void }> = ({
       <>
         <div className="p-2">
           <p className="text-sm mb-2">{translate("parsnip.hat")}</p>
-          <p className="text-sm mb-2">
-            {translate("parsnip.miss")}
-          </p>
+          <p className="text-sm mb-2">{translate("parsnip.miss")}</p>
         </div>
       </>
     );

@@ -42,7 +42,7 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
             text: translate("hayseedHankv2.greeting"),
           },
           {
-            text: `However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with ${getSeasonalTicket()}s.`, //Translate 
+            text: `However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with ${getSeasonalTicket()}s.`, //Translate
             actions: [
               {
                 text: translate("hayseedHankv2.action"),
@@ -83,7 +83,9 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
             <div className="w-6">
               <img src={SUNNYSIDE.icons.heart} className="h-4 mx-auto" />
             </div>
-            <span className="text-xs">{translate("hayseedHankv2.skipChores")}</span>
+            <span className="text-xs">
+              {translate("hayseedHankv2.skipChores")}
+            </span>
           </div>
         </div>
 

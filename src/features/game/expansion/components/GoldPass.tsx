@@ -46,9 +46,15 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
           <ul className="list-disc">
             <li className="text-xs ml-4">{translate("goldPass.craftNFTs")}</li>
             <li className="text-xs ml-4">{translate("goldPass.trade")}</li>
-            <li className="text-xs ml-4">{translate("goldPass.participateAuction")}</li>
-            <li className="text-xs ml-4">{translate("goldPass.withdrawTransferNFTs")}</li>
-            <li className="text-xs ml-4">{translate("goldPass.accessRestrictedAreas")}</li>
+            <li className="text-xs ml-4">
+              {translate("goldPass.participateAuction")}
+            </li>
+            <li className="text-xs ml-4">
+              {translate("goldPass.withdrawTransferNFTs")}
+            </li>
+            <li className="text-xs ml-4">
+              {translate("goldPass.accessRestrictedAreas")}
+            </li>
           </ul>
 
           <a
@@ -69,11 +75,15 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
               setShowConfirmation(true);
             }}
           >
-            {t("goldPass.buyNow")}{price}
+            {t("goldPass.buyNow")}
+            {price}
           </Button>
         </div>
         <div className="flex justify-center my-0.5">
-          <span className="text-xxs italic">{t("goldPass.priceInMatic")}{price}USD</span>
+          <span className="text-xxs italic">
+            {t("goldPass.priceInMatic")}
+            {price}USD
+          </span>
         </div>
       </>
     );

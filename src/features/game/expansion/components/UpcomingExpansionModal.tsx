@@ -52,8 +52,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
       inventory={gameState.inventory}
       bumpkin={gameState.bumpkin as Bumpkin}
       details={{
-        description:
-          translate("landscape.expansion.one"),
+        description: translate("landscape.expansion.one"),
       }}
       requirements={expansionRequirements({
         level: (gameState.inventory["Basic Land"]?.toNumber() ?? 0) + 1,

@@ -11,12 +11,8 @@ export const ClockIssue = () => {
     <div className="flex flex-col items-center text-center p-2">
       <span>{t("error.clock.not.synced")}</span>
       <img src={suspiciousGoblin} alt="Warning" className="w-16 m-2" />
-      <span className="text-sm mt-2 mb-2">
-        {t("statements.clock.one")}
-      </span>
-      <span className="text-sm mt-2 mb-2">
-        {t("statements.clock.two")}
-      </span>
+      <span className="text-sm mt-2 mb-2">{t("statements.clock.one")}</span>
+      <span className="text-sm mt-2 mb-2">{t("statements.clock.two")}</span>
 
       <div className="flex w-full">
         <Button

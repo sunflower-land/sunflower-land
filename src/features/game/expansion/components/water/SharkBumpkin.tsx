@@ -54,7 +54,9 @@ export const SharkBumpkin: React.FC<Props> = ({ x, y }) => {
           />
           <div className="py-2 px-1">
             <p>{translate("sharkBumpkin.dialogue.shhhh")}</p>
-            <p className="mt-2">{translate("sharkBumpkin.dialogue.scareGoblins")}</p>
+            <p className="mt-2">
+              {translate("sharkBumpkin.dialogue.scareGoblins")}
+            </p>
           </div>
         </Panel>
       </Modal>

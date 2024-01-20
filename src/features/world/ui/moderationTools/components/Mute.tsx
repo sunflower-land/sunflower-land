@@ -79,7 +79,9 @@ export const MuteModal: React.FC<Props> = ({
       {muteStatus === "idle" && (
         <div className="flex flex-col w-full p-1">
           <span className="text-lg text-center">{translate("mute.playe")}</span>
-          <span className="text-xxs text-left mt-2 mb-1">{translate("mute.playe.id")}</span>
+          <span className="text-xxs text-left mt-2 mb-1">
+            {translate("mute.playe.id")}
+          </span>
           <input
             className="w-full text-shadow rounded-sm shadow-inner shadow-black bg-brown-200"
             value={farmId}
@@ -127,7 +129,9 @@ export const MuteModal: React.FC<Props> = ({
           <span className="text-sm text-center">
             {translate("mute.player.farm")} {farmId}
           </span>
-          <span className="text-xs text-center">{translate("mute.player.mute")}</span>
+          <span className="text-xs text-center">
+            {translate("mute.player.mute")}
+          </span>
           <div className="flex gap-2 w-full mt-2">
             <Button onClick={handleClose}>{translate("close")}</Button>
           </div>
@@ -136,7 +140,8 @@ export const MuteModal: React.FC<Props> = ({
       {muteStatus === "error" && (
         <div className="flex flex-col items-center w-full px-1">
           <span className="text-sm text-center">
-            {translate("mute.player.farm")}{farmId}
+            {translate("mute.player.farm")}
+            {farmId}
           </span>
           <span className="text-xs text-center">{translate("mute.fail")}</span>
           <div className="flex gap-2 w-full mt-2">
@@ -146,8 +151,12 @@ export const MuteModal: React.FC<Props> = ({
       )}
       {muteStatus === "loading" && (
         <div className="flex flex-col items-center w-full px-1">
-          <span className="text-lg text-center">{translate("mute.player.muting")}</span>
-          <span className="text-xs text-center mt-2">{translate("mute.player.wait")}</span>
+          <span className="text-lg text-center">
+            {translate("mute.player.muting")}
+          </span>
+          <span className="text-xs text-center mt-2">
+            {translate("mute.player.wait")}
+          </span>
         </div>
       )}
     </>

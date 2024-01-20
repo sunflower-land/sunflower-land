@@ -127,7 +127,10 @@ export const AudioMenu: React.FC<Props> = ({
           </div>
 
           {/* Sound effects controls */}
-          <p className="mb-2">{translate("sound.effects")}{audioMuted ? "Off" : "On"}</p>
+          <p className="mb-2">
+            {translate("sound.effects")}
+            {audioMuted ? "Off" : "On"}
+          </p>
           <img
             src={audioMuted ? sound_off : sound_on}
             className="cursor-pointer hover:img-highlight"

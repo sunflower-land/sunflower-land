@@ -116,10 +116,8 @@ export const HELIOS_BLACKSMITH_ITEMS: (
     },
   },
   "Scary Mike": {
-    description:
-      translate("description.scary.mike"),
-    boost:
-      translate("description.scary.mike.boost"),
+    description: translate("description.scary.mike"),
+    boost: translate("description.scary.mike.boost"),
     sfl: new Decimal(15),
     ingredients: {
       Wood: new Decimal(30),
@@ -129,8 +127,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
     },
   },
   "Laurie the Chuckle Crow": {
-    description:
-      translate("description.laurie.chuckle.crow"),
+    description: translate("description.laurie.chuckle.crow"),
     boost: translate("description.laurie.chuckle.crow.boost"),
     sfl: new Decimal(45),
     ingredients: {
@@ -141,8 +138,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
     },
   },
   Bale: {
-    description:
-      translate("description.bale"),
+    description: translate("description.bale"),
     boost: translate("description.bale.boost"),
     sfl: new Decimal(5),
     ingredients: {
@@ -192,8 +188,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
       to: new Date("2023-10-01"),
     },
     "Grain Grinder": {
-      description:
-        translate("description.grain.grinder"),
+      description: translate("description.grain.grinder"),
       boost: translate("description.grain.grinder.boost"),
       sfl: SFLDiscount(state, new Decimal(100)),
       ingredients: {
@@ -205,8 +200,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
   }),
   ...(getCurrentSeason(date) === "Catch the Kraken" && {
     Nana: {
-      description:
-        translate("description.nana"),
+      description: translate("description.nana"),
       boost: translate("description.nana.boost"),
       sfl: SFLDiscount(state, new Decimal(50)),
       ingredients: {
@@ -216,8 +210,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
       to: new Date("2023-12-01"),
     },
     "Soil Krabby": {
-      description:
-        translate("description.soil.krabby"),
+      description: translate("description.soil.krabby"),
       boost: translate("description.soil.krabby.boost"),
       sfl: SFLDiscount(state, new Decimal(65)),
       ingredients: {
@@ -227,8 +220,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
       to: new Date("2024-01-01"),
     },
     "Skill Shrimpy": {
-      description:
-        translate("description.skill.shrimpy"),
+      description: translate("description.skill.shrimpy"),
       boost: translate("description.skill.shrimpy.boost"),
       sfl: SFLDiscount(state, new Decimal(115)),
       ingredients: {
@@ -266,8 +258,7 @@ export const GOBLIN_PIRATE_ITEMS: Record<
     },
   },
   "Emerald Turtle": {
-    description:
-      translate("description.emerald.turtle"),
+    description: translate("description.emerald.turtle"),
     boost: translate("description.emerald.turtle.boost"),
     sfl: new Decimal(100),
     supply: 100,
@@ -279,8 +270,7 @@ export const GOBLIN_PIRATE_ITEMS: Record<
     },
   },
   "Tin Turtle": {
-    description:
-      translate("description.tin.turtle"),
+    description: translate("description.tin.turtle"),
     boost: translate("description.tin.turtle.boost"),
     sfl: new Decimal(40),
     supply: 3000,
@@ -292,8 +282,7 @@ export const GOBLIN_PIRATE_ITEMS: Record<
     },
   },
   "Heart of Davy Jones": {
-    description:
-      translate("description.heart.of.davy.jones"),
+    description: translate("description.heart.of.davy.jones"),
     boost: translate("description.heart.of.davy.jones.boost"),
     supply: 1000,
     ingredients: {
@@ -302,8 +291,7 @@ export const GOBLIN_PIRATE_ITEMS: Record<
     },
   },
   Karkinos: {
-    description:
-      translate("description.Karkinos"),
+    description: translate("description.Karkinos"),
     boost: translate("description.Karkinos.boost"),
     supply: 7500,
     ingredients: {
@@ -337,8 +325,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
 ) => Record<GoblinBlacksmithItemName, GoblinBlacksmithCraftable> = (state) => {
   return {
     "Mushroom House": {
-      description:
-        translate("description.mushroom.house"),
+      description: translate("description.mushroom.house"),
       // 50 Team supply + giveaways
       supply: 2000 + 50,
       sfl: SFLDiscount(state, new Decimal(50)),
@@ -375,8 +362,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
       disabled: getCurrentSeason() !== "Dawn Breaker",
     },
     "Purple Trail": {
-      description:
-        translate("description.purple.trail"),
+      description: translate("description.purple.trail"),
 
       sfl: SFLDiscount(state, marketRate(800)),
       supply: 10000,

@@ -112,7 +112,7 @@ export const TravelModal: React.FC<Props> = ({
               </Label>
               <img src={world} className="w-10 mx-auto my-2" />
               <p className="text-sm text-center mb-1">
-              {translate("travelRequirement.notice")}
+                {translate("travelRequirement.notice")}
               </p>
               <p className="text-xs text-center mb-2">
                 {translate("statements.visit.firePit")}

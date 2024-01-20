@@ -43,12 +43,8 @@ export const BeachConstruction: React.FC = () => {
           onClose={() => setShowModal(false)}
         >
           <div className="p-2">
-            <p className="mb-2 text-sm">
-              {translate("beach.party")}
-            </p>
-            <p className="mb-2 text-sm">
-              {translate("beach.ready")}
-            </p>
+            <p className="mb-2 text-sm">{translate("beach.party")}</p>
+            <p className="mb-2 text-sm">{translate("beach.ready")}</p>
           </div>
         </CloseButtonPanel>
       </Modal>

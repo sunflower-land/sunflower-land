@@ -57,9 +57,7 @@ export const Hoarding: React.FC = () => {
       <div className="flex flex-col items-center p-1">
         <span className="text-center text-sm sm:text-base">{makeTitle()}</span>
         <img src={maxedItemImage} className="h-12 mt-2 mb-3" />
-        <p className="text-xs sm:text-sm mb-3">
-          {t("warning.hoarding.one")}
-        </p>
+        <p className="text-xs sm:text-sm mb-3">{t("warning.hoarding.one")}</p>
         <p className="text-xs sm:text-sm mb-1">
           {t("warning.hoarding.two")} {itemName}
         </p>

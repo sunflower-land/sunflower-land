@@ -22,7 +22,7 @@ export const RejectedSignTransaction: React.FC<Props> = ({ onTryAgain }) => {
         <p className="mb-3 text-center">{t("transaction.rejected")}</p>
 
         <p className="mb-4 text-xs">
-        {t("transaction.message0")}{" "}
+          {t("transaction.message0")}{" "}
           <a
             className="underline"
             href="https://docs.sunflower-land.com/support/terms-of-service"
@@ -33,9 +33,7 @@ export const RejectedSignTransaction: React.FC<Props> = ({ onTryAgain }) => {
           </a>
           .
         </p>
-        <p className="mb-4 text-xs">
-          {t("transaction.message")}
-        </p>
+        <p className="mb-4 text-xs">{t("transaction.message")}</p>
       </div>
       <Button onClick={onTryAgain}>{t("try.again")}</Button>
     </>

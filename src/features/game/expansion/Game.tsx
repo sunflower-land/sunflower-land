@@ -175,7 +175,9 @@ const GameContent = () => {
               }}
             >
               <div className="flex flex-col items-center">
-                <h2 className="text-center">{translate("visitislandNotFound.title")}</h2>
+                <h2 className="text-center">
+                  {translate("visitislandNotFound.title")}
+                </h2>
                 <img src={land} className="h-9 my-3" />
               </div>
               <VisitLandExpansionForm />

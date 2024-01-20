@@ -5,7 +5,6 @@ import {
   HONEY_PRODUCTION_TIME,
   updateBeehives,
 } from "features/game/lib/updateBeehives";
-import { translate } from "lib/i18n/translate";
 
 export const HARVEST_BEEHIVE_ERRORS = {
   BEEHIVE_NOT_PLACED: "harvestBeeHive.notPlaced",

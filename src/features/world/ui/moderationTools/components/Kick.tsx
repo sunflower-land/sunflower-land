@@ -60,8 +60,12 @@ export const KickModal: React.FC<Props> = ({
     <>
       {kickStatus === "idle" && (
         <div className="flex flex-col w-full p-1">
-          <span className="text-lg text-center">{translate("kick.player")}</span>
-          <span className="text-xxs text-left mt-2 mb-1">{translate("kick.player.id")}</span>
+          <span className="text-lg text-center">
+            {translate("kick.player")}
+          </span>
+          <span className="text-xxs text-left mt-2 mb-1">
+            {translate("kick.player.id")}
+          </span>
           <input
             className="w-full text-shadow rounded-sm shadow-inner shadow-black bg-brown-200"
             value={farmId}
@@ -90,9 +94,12 @@ export const KickModal: React.FC<Props> = ({
       {kickStatus === "success" && (
         <div className="flex flex-col items-center w-full px-1">
           <span className="text-sm text-center">
-            {translate("kick.player.farm")}{farmId}
+            {translate("kick.player.farm")}
+            {farmId}
           </span>
-          <span className="text-xs text-center">{translate("kick.player.kick")}</span>
+          <span className="text-xs text-center">
+            {translate("kick.player.kick")}
+          </span>
           <div className="flex gap-2 w-full mt-2">
             <Button onClick={handleClose}>{translate("close")}</Button>
           </div>
@@ -103,7 +110,9 @@ export const KickModal: React.FC<Props> = ({
           <span className="text-sm text-center">
             {translate("kick.player.farm")} {farmId}
           </span>
-          <span className="text-xs text-center">{translate("kick.player.failed")}</span>
+          <span className="text-xs text-center">
+            {translate("kick.player.failed")}
+          </span>
           <div className="flex gap-2 w-full mt-2">
             <Button onClick={handleClose}>{translate("close")}</Button>
           </div>
@@ -111,8 +120,12 @@ export const KickModal: React.FC<Props> = ({
       )}
       {kickStatus === "loading" && (
         <div className="flex flex-col items-center w-full px-1">
-          <span className="text-lg text-center">{translate("kick.player.kicking")}</span>
-          <span className="text-xs text-center mt-2">{translate("kick.please")}</span>
+          <span className="text-lg text-center">
+            {translate("kick.player.kicking")}
+          </span>
+          <span className="text-xs text-center mt-2">
+            {translate("kick.please")}
+          </span>
         </div>
       )}
     </>

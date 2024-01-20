@@ -117,9 +117,7 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
               image={ITEM_DETAILS[item.name].image}
             />
           ))}
-          <span className="text-xxs mt-2">
-            {t("statements.frankie.plaza")}
-          </span>
+          <span className="text-xxs mt-2">{t("statements.frankie.plaza")}</span>
         </>
       }
     />

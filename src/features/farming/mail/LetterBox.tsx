@@ -74,7 +74,9 @@ export const LetterBox: React.FC = () => {
     return (
       <CloseButtonPanel
         onClose={close}
-        tabs={[{ icon: SUNNYSIDE.icons.expression_chat, name: t("bumpkinBuzz") }]}
+        tabs={[
+          { icon: SUNNYSIDE.icons.expression_chat, name: t("bumpkinBuzz") },
+        ]}
         currentTab={tab}
         setCurrentTab={setTab}
       >

@@ -22,7 +22,7 @@ export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
 
   const deadline = results.endAt + 24 * 60 * 60 * 1000;
   const countdown = useCountdown(deadline);
-    const { t } = useAppTranslation();
+  const { t } = useAppTranslation();
   if (showConfirmation) {
     return (
       <GameWallet action="purchase">

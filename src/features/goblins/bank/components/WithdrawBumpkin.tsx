@@ -40,9 +40,7 @@ export const WithdrawBumpkin: React.FC<Props> = ({ onWithdraw }) => {
     if (nonWithdrawableItems.length > 0)
       return (
         <div className="text-sm space-y-2">
-          <p>
-            {t("withdraw.bumpkin.wearing")}
-          </p>
+          <p>{t("withdraw.bumpkin.wearing")}</p>
           <div className="flex items-center flex-wrap">
             {nonWithdrawableItems.map((itemName) => (
               <Box
@@ -57,9 +55,7 @@ export const WithdrawBumpkin: React.FC<Props> = ({ onWithdraw }) => {
       );
 
     return (
-      <p className="text-sm mb-2">
-        {t("withdraw.bumpkin.sure.withdraw")}
-      </p>
+      <p className="text-sm mb-2">{t("withdraw.bumpkin.sure.withdraw")}</p>
     );
   };
 
@@ -67,9 +63,7 @@ export const WithdrawBumpkin: React.FC<Props> = ({ onWithdraw }) => {
     <>
       <div className="p-2">
         <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
-          <span className="text-xs">
-            {t("withdraw.bumpkin.play")}
-          </span>
+          <span className="text-xs">{t("withdraw.bumpkin.play")}</span>
         </div>
         {getText()}
         <div className="flex justify-center items-center mb-4">

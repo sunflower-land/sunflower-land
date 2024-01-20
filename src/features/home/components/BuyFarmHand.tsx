@@ -64,7 +64,9 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
     return (
       <Panel bumpkinParts={parts}>
         <div className="p-2 flex flex-col items-center">
-          <p className="text-sm mb-2 text-center">{translate("buyFarmHand.howdyBumpkin")}</p>
+          <p className="text-sm mb-2 text-center">
+            {translate("buyFarmHand.howdyBumpkin")}
+          </p>
           <p className="text-xs mb-2 text-center">
             {`I am your new farmhand. I can't wait to get to work!`}
           </p>
@@ -82,7 +84,7 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
       <Panel>
         <div className="p-2">
           <p className="text-sm">
-          {translate("buyFarmHand.confirmBuyAdditional")}
+            {translate("buyFarmHand.confirmBuyAdditional")}
           </p>
           {!hasCoupon && (
             <div className="flex items-center my-2">
@@ -100,15 +102,19 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
                 src={ITEM_DETAILS["Farmhand Coupon"].image}
                 className="h-4 mr-2"
               />
-              <p className="text-xs">{translate("buyFarmHand.farmhandCoupon")}</p>
+              <p className="text-xs">
+                {translate("buyFarmHand.farmhandCoupon")}
+              </p>
             </div>
           )}
         </div>
 
         <div className="flex">
-          <Button onClick={() => setShowConfirmation(false)}>{translate("no")}</Button>
+          <Button onClick={() => setShowConfirmation(false)}>
+            {translate("no")}
+          </Button>
           <Button className="ml-1" onClick={onAdd}>
-          {translate("yes")}
+            {translate("yes")}
           </Button>
         </div>
       </Panel>
@@ -119,11 +125,13 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
     <CloseButtonPanel onClose={onClose}>
       <div className="p-2">
         <div className="flex items-center  mb-2 ">
-          <p className="text-sm mr-2">{translate("buyFarmHand.adoptBumpkin")}</p>
+          <p className="text-sm mr-2">
+            {translate("buyFarmHand.adoptBumpkin")}
+          </p>
           <img src={SUNNYSIDE.icons.heart} className="h-6" />
         </div>
         <p className="text-xs mb-2">
-        {translate("buyFarmHand.additionalBumpkinsInfo")}
+          {translate("buyFarmHand.additionalBumpkinsInfo")}
         </p>
         <img src={farmHandImage} className="w-full rounded-md" />
         {!hasCoupon && (

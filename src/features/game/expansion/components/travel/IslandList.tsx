@@ -128,7 +128,9 @@ const IslandListItem: React.FC<IslandProps> = ({
             </Label>
           )}
           {/* Coming soon */}
-          {comingSoon && <Label type="warning">{translate("coming.soon")}</Label>}
+          {comingSoon && (
+            <Label type="warning">{translate("coming.soon")}</Label>
+          )}
           {beta && <Label type="info">{translate("beta")}</Label>}
           {passRequired && (
             <Label type="danger" icon={ITEM_DETAILS["Gold Pass"].image}>

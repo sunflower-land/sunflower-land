@@ -49,9 +49,7 @@ export const Luna: React.FC<Props> = ({ onClose }) => {
       {tab === 0 && (
         <>
           <div className="p-1">
-            <p className="text-sm">
-              {t("luna.travel")}
-            </p>
+            <p className="text-sm">{t("luna.travel")}</p>
           </div>
           <Portals />
         </>

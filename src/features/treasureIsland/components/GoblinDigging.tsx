@@ -76,12 +76,12 @@ export const GoblinDigging: React.FC = () => {
         >
           <div className="p-2">
             <p className="mb-4 text-lg">{translate("beachLuck.tryLuck")}</p>
-            <p className="mb-3">
-              {translate("beachLuck.uncleFound")}
-            </p>
+            <p className="mb-3">{translate("beachLuck.uncleFound")}</p>
             <p className="mb-3">{translate("beachLuck.grabShovel")}</p>
             <div className="flex flex-wrap gap-y-1 justify-center mt-4 items-center">
-              <p className="text-xxs mr-2">{translate("beachLuck.refreshesIn")}</p>
+              <p className="text-xxs mr-2">
+                {translate("beachLuck.refreshesIn")}
+              </p>
               <CountdownLabel timeLeft={secondsLeft} />
             </div>
           </div>

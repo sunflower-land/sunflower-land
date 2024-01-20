@@ -21,9 +21,7 @@ export const Tutorial: React.FC<Props> = ({ onClose, bumpkinParts }) => {
     return (
       <>
         <div className="space-y-3 text-sm px-1 mb-3">
-          <p className="mb-2">
-            {t("statements.tutorial.one")}
-          </p>
+          <p className="mb-2">{t("statements.tutorial.one")}</p>
         </div>
         <Button onClick={() => setPageNumber(2)}>{t("next")}</Button>
       </>
@@ -34,12 +32,8 @@ export const Tutorial: React.FC<Props> = ({ onClose, bumpkinParts }) => {
     return (
       <>
         <div className="space-y-3 text-sm px-1 mb-3">
-          <p>
-            {t("statements.tutorial.two")}
-          </p>
-          <p className="mb-2">
-            {t("statements.tutorial.three")}
-          </p>
+          <p>{t("statements.tutorial.two")}</p>
+          <p className="mb-2">{t("statements.tutorial.three")}</p>
         </div>
         <div className="flex space-x-1">
           <Button onClick={() => setPageNumber(1)}>{t("back")}</Button>

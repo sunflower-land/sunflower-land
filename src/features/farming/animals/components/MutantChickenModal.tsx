@@ -55,7 +55,9 @@ export const MutantChickenModal = ({ type, show, onContinue }: Props) => {
           <div className="flex my-4 justify-center">
             <img src={mutants[type].image} style={{ width: "50px" }} />
           </div>
-          <p className="text-sm mb-2">{translate("statements.mutant.chicken")}</p>
+          <p className="text-sm mb-2">
+            {translate("statements.mutant.chicken")}
+          </p>
           <p className="text-sm mb-2">{mutants[type].description}</p>
         </div>
 

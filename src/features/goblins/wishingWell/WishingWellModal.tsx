@@ -61,7 +61,8 @@ const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => (
       <p className="mb-4 text-sm">{translate("statements.new.wish")}</p>
       {lockedTime && (
         <p className="mb-2 text-sm">
-          {translate("statements.wish.ready.in")}{`${lockedTime}.`}
+          {translate("statements.wish.ready.in")}
+          {`${lockedTime}.`}
         </p>
       )}
     </div>
@@ -118,12 +119,12 @@ const WaitingForWish = ({ lockedTime }: WaitingForWishArgs) => (
   <>
     <div className="p-2">
       <div className="flex flex-col items-center mb-3">
-        <h1 className="text-lg mb-4 text-center">{translate("statements.wish.made")}</h1>
+        <h1 className="text-lg mb-4 text-center">
+          {translate("statements.wish.made")}
+        </h1>
         <img src={SUNNYSIDE.icons.timer} alt="timer" className="w-8 mb-2" />
       </div>
-      <p className="mb-4 text-sm">
-        {translate("statements.wish.thanks")}
-      </p>
+      <p className="mb-4 text-sm">{translate("statements.wish.thanks")}</p>
       <p className="mb-4 text-sm">
         {`Come back in ${lockedTime} to see just how lucky you have been.`}
       </p>
@@ -155,10 +156,10 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => (
         <img src={wisingWell} alt="wishing well" className="w-16" />
       </div>
       <p className="mb-4 text-sm">
-      {translate("statements.wishing-well.info.one")}
+        {translate("statements.wishing-well.info.one")}
       </p>
       <p className="mb-4 text-sm">
-      {translate("statements.wishing-well.info.two")}{" "}
+        {translate("statements.wishing-well.info.two")}{" "}
         <a
           className="underline"
           href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"

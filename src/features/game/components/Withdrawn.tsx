@@ -39,14 +39,12 @@ export const Withdrawn: React.FC = () => {
           </a>
         </span>
 
-        <span className="mb-7">
-          {t("transaction.withdraw.four")}
-        </span>
+        <span className="mb-7">{t("transaction.withdraw.four")}</span>
         <Button className="mb-7 sm:w-3/4 text-xs" onClick={handleAddToken}>
           {t("transaction.withdraw.five")}
         </Button>
         <span className="mb-4">
-          {t("transaction.withdraw.six")} {" "}
+          {t("transaction.withdraw.six")}{" "}
           <a
             className="underline hover:text-white"
             href={`https://polygonscan.com/address/${wallet.myAccount}#tokentxnsErc1155`}

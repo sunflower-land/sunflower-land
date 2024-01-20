@@ -156,7 +156,9 @@ export const StopTheGoblins: React.FC<Props> = ({
   return (
     <div className="flex flex-col justify-center">
       <span className="text-center mb-2">
-        {isMoonSeekerMode ? translate("stopGoblin.stop.moon") : translate("stopGoblin.stop.goblin")}
+        {isMoonSeekerMode
+          ? translate("stopGoblin.stop.moon")
+          : translate("stopGoblin.stop.goblin")}
       </span>
       <div className="flex flex-wrap justify-center items-center">
         {items.map((item, index) => {
@@ -201,10 +203,9 @@ export const StopTheGoblins: React.FC<Props> = ({
             : translate("stopGoblin.tap.two")}
         </span>
 
-        <Label
-          className="my-1"
-          type={attemptsLeft <= 2 ? "danger" : "info"}
-         >{translate("stopGoblin.left")}: ({attemptsLeft})</Label>
+        <Label className="my-1" type={attemptsLeft <= 2 ? "danger" : "info"}>
+          {translate("stopGoblin.left")}: ({attemptsLeft})
+        </Label>
       </div>
     </div>
   );

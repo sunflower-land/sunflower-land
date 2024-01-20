@@ -210,9 +210,7 @@ const TradeDetails: React.FC<{
       <div>
         <div className="flex items-center   mb-2 mt-1 mx-1">
           <img src={SUNNYSIDE.icons.heart} className="h-4 mr-1" />
-          <p className="text-xs">
-            {t("bumpkinTrade.purchased")}
-          </p>
+          <p className="text-xs">{t("bumpkinTrade.purchased")}</p>
         </div>
         <OuterPanel>
           <div className="flex justify-between">
@@ -252,9 +250,7 @@ const TradeDetails: React.FC<{
     <>
       <div className="flex items-center   mb-2 mt-1 mx-1">
         <img src={CROP_LIFECYCLE.Pumpkin.crop} className="h-4 mr-1" />
-        <p className="text-xs">
-          {t("bumpkinTrade.plaza")}
-        </p>
+        <p className="text-xs">{t("bumpkinTrade.plaza")}</p>
       </div>
       <OuterPanel>
         <div className="flex justify-between">
@@ -334,11 +330,11 @@ export const Trade: React.FC = () => {
         <div className="p-1 flex flex-col items-center">
           <img src={token} className="w-1/5 mx-auto my-2 img-highlight-heavy" />
           <p className="text-sm">{t("bumpkinTrade.noTradeLs")}</p>
-          <p className="text-xs mb-2">
-            {t("bumpkinTrade.sell")}
-          </p>
+          <p className="text-xs mb-2">{t("bumpkinTrade.sell")}</p>
         </div>
-        <Button onClick={() => setShowListing(true)}>{t("bumpkinTrade.list")}</Button>
+        <Button onClick={() => setShowListing(true)}>
+          {t("bumpkinTrade.list")}
+        </Button>
       </div>
     );
   }

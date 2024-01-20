@@ -102,7 +102,9 @@ export const SpeakingModal: React.FC<Props> = ({
           {currentTextEnded && message[currentMessage]?.jsx}
         </div>
         {!showActions && (
-          <p className="text-xxs italic float-right p-1">{t("statements.tapCont")}</p>
+          <p className="text-xxs italic float-right p-1">
+            {t("statements.tapCont")}
+          </p>
         )}
         {showActions && (
           <div className="flex flex-col-reverse space-y-1 mt-1 space-y-reverse md:flex-row md:space-y-0 md:space-x-1">
@@ -198,7 +200,9 @@ export const SpeakingText: React.FC<Pick<Props, "message" | "onClose">> = ({
           {currentTextEnded && message[currentMessage]?.jsx}
         </div>
         {!showActions && (
-          <p className="text-xxs italic float-right">{t("statements.tapCont")}</p>
+          <p className="text-xxs italic float-right">
+            {t("statements.tapCont")}
+          </p>
         )}
       </div>
       {showActions && (

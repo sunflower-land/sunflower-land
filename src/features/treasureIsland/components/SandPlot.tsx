@@ -330,14 +330,12 @@ export const SandPlot: React.FC<{
               alt="Sand Shovel"
               onLoad={(e) => setImageWidth(e.currentTarget)}
             />
-            <p>
-              {translate("treasureModal.needShovel")}
-            </p>
-            <p>
-              {translate("treasureModal.purchaseShovel")}
-            </p>
+            <p>{translate("treasureModal.needShovel")}</p>
+            <p>{translate("treasureModal.purchaseShovel")}</p>
           </div>
-          <Button onClick={handleAcknowledgeNoSandShovel}>{translate("treasureModal.gotIt")}</Button>
+          <Button onClick={handleAcknowledgeNoSandShovel}>
+            {translate("treasureModal.gotIt")}
+          </Button>
         </CloseButtonPanel>
       </Modal>
     );
@@ -363,7 +361,9 @@ export const SandPlot: React.FC<{
               {translate("treasureModal.comeBackTomorrow")}
             </p>
           </div>
-          <Button onClick={() => setShowMaxHolesModal(false)}>{translate("treasureModal.gotIt")}</Button>
+          <Button onClick={() => setShowMaxHolesModal(false)}>
+            {translate("treasureModal.gotIt")}
+          </Button>
         </CloseButtonPanel>
       </Modal>
     );
@@ -374,7 +374,9 @@ export const SandPlot: React.FC<{
       <Modal centered show>
         <Panel>
           <div className="flex flex-col items-center mt-2">
-            <p className="text-center loading">{translate("treasureModal.drilling")}</p>
+            <p className="text-center loading">
+              {translate("treasureModal.drilling")}
+            </p>
             <img
               className="mx-auto my-2"
               style={{

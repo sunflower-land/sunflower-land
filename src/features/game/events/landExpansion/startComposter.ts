@@ -63,7 +63,8 @@ export function startComposter({
       stateCopy.inventory[name as InventoryItemName] || new Decimal(0);
 
     if (previous.lt(composter.requires?.[name] ?? 0)) {
-      throw new Error(translate("error.missing"));("Missing requirements");
+      throw new Error(translate("error.missing"));
+      ("Missing requirements");
     }
 
     stateCopy.inventory[name as InventoryItemName] = previous.minus(

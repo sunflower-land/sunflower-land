@@ -129,9 +129,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   if (!goblinState.context.verified) {
     return (
       <>
-        <p className="text-sm p-1 m-1">
-          {translate("withdraw.proof")}
-        </p>
+        <p className="text-sm p-1 m-1">{translate("withdraw.proof")}</p>
         <Button className="mr-1" onClick={proovePersonhood}>
           {translate("withdraw.verification")}
         </Button>

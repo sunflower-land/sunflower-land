@@ -23,7 +23,10 @@ export const Blocked: React.FC = () => {
     <div className="flex flex-col text-center text-shadow items-center p-1">
       <div className="flex mb-3 items-center ml-8">
         <img
-          src={humanDeath} alt={translate("errorAndAccess.warning")} className="w-full" />
+          src={humanDeath}
+          alt={translate("errorAndAccess.warning")}
+          className="w-full"
+        />
       </div>
       <p className="text-center mb-3">
         {translate("errorAndAccess.blocked.betaTestersOnly")}

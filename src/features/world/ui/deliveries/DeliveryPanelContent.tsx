@@ -250,7 +250,9 @@ export const DeliveryPanelContent: React.FC<Props> = ({
             text: (inventory["Basic Land"] ?? new Decimal(3)).lt(
               DELIVERY_LEVELS[npc] ?? 0
             )
-            ? `${t("delivery.panel.one")} ${DELIVERY_LEVELS[npc] ?? 10}${t("delivery.panel.two")}`
+              ? `${t("delivery.panel.one")} ${DELIVERY_LEVELS[npc] ?? 10}${t(
+                  "delivery.panel.two"
+                )}`
               : noOrder,
           },
         ]}

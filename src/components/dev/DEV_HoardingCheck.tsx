@@ -148,7 +148,7 @@ const HoarderCheck: React.FC = () => {
       ))}
 
       <Button onClick={search} className="pt-2">
-      {t("check")}
+        {t("check")}
       </Button>
     </Panel>
   );

@@ -145,7 +145,9 @@ export const SkillPathDetails: React.FC<Props> = ({
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           {showConfirmButton && (
             <div className="flex flex-col">
-              <p className="mx-4 text-center text-sm">{t("confirm.skillClaim")} {selectedSkill}</p>
+              <p className="mx-4 text-center text-sm">
+                {t("confirm.skillClaim")} {selectedSkill}
+              </p>
               <div className="flex space-x-1">
                 <Button
                   onClick={() => setShowConfirmButton(false)}

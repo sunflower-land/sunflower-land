@@ -80,7 +80,8 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
         <CloseButtonPanel onClose={() => setShowLockedModal(false)}>
           <div className="flex flex-col items-center">
             <Label className="mt-2" icon={lockIcon} type="danger">
-              {translate("lvl")} {requirements.bumpkinLevel} {translate("required")}
+              {translate("lvl")} {requirements.bumpkinLevel}{" "}
+              {translate("required")}
             </Label>
             <img
               src={ITEM_DETAILS.Hammer.image}
@@ -144,11 +145,9 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
                   ))}
               </div>
               {isLocked && (
-                <Label
-                  type="default"
-                  icon={lockIcon}
-                  className="mt-2"
-                >{translate("lvl")} {requirements.bumpkinLevel}</Label>
+                <Label type="default" icon={lockIcon} className="mt-2">
+                  {translate("lvl")} {requirements.bumpkinLevel}
+                </Label>
               )}
             </>
           )}
@@ -159,13 +158,17 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
                   type="default"
                   icon={SUNNYSIDE.icons.confirm}
                   className="mt-2"
-                >{translate("expand")}</Label>
+                >
+                  {translate("expand")}
+                </Label>
               ) : (
                 <Label
                   type="default"
                   icon={SUNNYSIDE.icons.cancel}
                   className="mt-2"
-                >{translate("expand")}</Label>
+                >
+                  {translate("expand")}
+                </Label>
               )}
             </>
           )}

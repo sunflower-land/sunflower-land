@@ -85,8 +85,12 @@ export const FishingChallengeIntro: React.FC<{ onNext: () => void }> = ({
   return (
     <>
       <div className="p-2">
-        <p className="text-sm mb-1">{translate("fishingChallengeIntro.powerfulCatch")}</p>
-        <p className="text-sm mb-1">{translate("fishingChallengeIntro.useStrength")}</p>
+        <p className="text-sm mb-1">
+          {translate("fishingChallengeIntro.powerfulCatch")}
+        </p>
+        <p className="text-sm mb-1">
+          {translate("fishingChallengeIntro.useStrength")}
+        </p>
         <p className="text-sm mb-1">
           {translate("fishingChallengeIntro.stopGreenBar")}
         </p>

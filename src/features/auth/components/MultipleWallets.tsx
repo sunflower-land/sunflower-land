@@ -25,9 +25,7 @@ export const MultipleWallets: React.FC = () => {
           />
         </div>
         <p className="text-center mb-3">{t("error.multipleWallets.one")}</p>
-        <p className="mb-2 text-xs">
-        {t("error.multipleWallets.two")}
-        </p>
+        <p className="mb-2 text-xs">{t("error.multipleWallets.two")}</p>
       </div>
       <div className="flex space-x-1">
         <Button

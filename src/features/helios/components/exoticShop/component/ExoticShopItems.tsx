@@ -21,9 +21,7 @@ export const ExoticShopItems: React.FC<Props> = ({ onClose }) => {
       onClose={onClose}
     >
       <div className="p-2">
-        <p className="mb-4">
-        {translate("exoticShopItems.line1")}
-        </p>
+        <p className="mb-4">{translate("exoticShopItems.line1")}</p>
         <p className="mb-4">{translate("exoticShopItems.line2")}</p>
         <p>{translate("exoticShopItems.line3")}</p>
         <p>{translate("exoticShopItems.line4")}</p>

@@ -101,13 +101,9 @@ export type AvailableSeeds =
   | "availableSeeds.select.plant"
   | "availableSeeds.plant";
 
-export type Base =
-  | "base.missing"
-  | "base.far.away";
+export type Base = "base.missing" | "base.far.away";
 
-export type Beach =
-  | "beach.party"
-  | "beach.ready";
+export type Beach = "beach.party" | "beach.ready";
 
 export type BeachLuck =
   | "beachLuck.tryLuck"
@@ -365,8 +361,7 @@ export type Chat =
   | "chat.again"
   | "chat.Kicked";
 
-export type ChickenWinner =
-  | "chicken.winner.playagain";
+export type ChickenWinner = "chicken.winner.playagain";
 
 export type ChoresStart =
   | "chores.harvestFields"
@@ -408,10 +403,7 @@ export type ChumDetails =
   | "chumDetails.squid"
   | "chumDetails.wood";
 
-export type Community =
-  | "community.toast"
-  | "community.url"
-  | "comunity.Travel";
+export type Community = "community.toast" | "community.url" | "comunity.Travel";
 
 export type CompostDescription =
   | "compost.fruitfulBlend"
@@ -424,11 +416,9 @@ export type ComposterDescription =
   | "composter.turboComposter"
   | "composter.premiumComposter";
 
-export type ConfirmSkill =
-  | "confirm.skillClaim";
+export type ConfirmSkill = "confirm.skillClaim";
 
-export type ConfirmationTerms =
-  | "confirmation.sellCrops";
+export type ConfirmationTerms = "confirmation.sellCrops";
 
 export type Conversations =
   | "hank-intro.headline"
@@ -712,7 +702,6 @@ export type DecorationDescriptions =
   | "description.Farmhand"
   | "description.Beehive"
 
-
   //Banners
   | "description.goblin.war.banner"
   | "description.human.war.banner";
@@ -931,9 +920,7 @@ export type FishermanModal =
   | "fishermanmodal.greetingPart1"
   | "fishermanmodal.greetingPart2";
 
-export type FishermanQuest =
-  | "fishermanQuest.Ohno"
-  | "fishermanQuest.Newfish";
+export type FishermanQuest = "fishermanQuest.Ohno" | "fishermanQuest.Newfish";
 
 export type FishingChallengeIntro =
   | "fishingChallengeIntro.powerfulCatch"
@@ -1330,9 +1317,7 @@ export type GoldPassModal =
   | "goldPass.buyNow"
   | "goldPass.priceInMatic";
 
-export type GoldTooth =
-  | "goldTooth.intro.part1"
-  | "goldTooth.intro.part2";
+export type GoldTooth = "goldTooth.intro.part1" | "goldTooth.intro.part2";
 
 export type GuideTerms =
   | "guide.intro"
@@ -1411,7 +1396,7 @@ export type HayseedHankV2 =
   | "hayseedHankv2.newChoresAvailable"
   | "hayseedHankv2.skipChores"
   | "hayseedHankv2.greeting";
-  
+
 export type HeliosSunflower =
   | "heliosSunflower.title"
   | "heliosSunflower.description";
@@ -1446,7 +1431,7 @@ export type HowToUpgrade =
   | "howToUpgrade.stepThree"
   | "howToUpgrade.stepFour";
 
-  export type Islandupgrade =
+export type Islandupgrade =
   | "islandupgrade.confirmUpgrade"
   | "islandupgrade.warning"
   | "islandupgrade.upgradeIsland"
@@ -1460,7 +1445,6 @@ export type HowToUpgrade =
   | "islandupgrade.notReadyExpandMore"
   | "islandupgrade.notReadyExpandMore.two"
   | "islandupgrade.exoticResourcesDescription";
-
 
 export type InteractableModals =
   | "interactableModals.returnhome.message"
@@ -2053,8 +2037,7 @@ export type NpcDialogues =
   | "npcDialogues.pumpkinPete.noOrder1"
   | "npcDialogues.pumpkinPete.noOrder2";
 
-export type NyeButton =
-  | "plaza.magicButton.query";
+export type NyeButton = "plaza.magicButton.query";
 
 export type PirateQuest =
   | "questDescription.farmerQuest1"
@@ -2124,9 +2107,7 @@ export type Parsnip =
   | "parsnip.found"
   | "parsnip.gift";
 
-export type Pending =
-  | "pending.calcul"
-  | "pending.comeback";
+export type Pending = "pending.calcul" | "pending.comeback";
 
 export type PersonHood =
   | "personHood.Details."
@@ -2163,20 +2144,14 @@ export type PlayerTrade =
   | "playerTrade.sale"
   | "playerTrade.title.congrat";
 
-export type Portal =
-  | "portal.wrong"
-  | "portal.loading"
-  | "portal.unauthorised";
+export type Portal = "portal.wrong" | "portal.loading" | "portal.unauthorised";
 
 export type PurchaseableBaitTranslation =
   | "purchaseableBait.fishingLure.description";
 
-export type Quest =
-  | "quest.mint.free";
+export type Quest = "quest.mint.free";
 
-export type Questions =
-  | "questions.obtain.MATIC"
-  | "questions.lowCash";
+export type Questions = "questions.obtain.MATIC" | "questions.lowCash";
 
 export type Reaction =
   | "reaction.bumpkin"
@@ -2188,23 +2163,16 @@ export type Reaction =
   | "reaction.goblin"
   | "reaction.crown";
 
-export type Refunded =
-  | "refunded.itemsReturned"
-  | "refunded.goodLuck";
+export type Refunded = "refunded.itemsReturned" | "refunded.goodLuck";
 
 export type RemoveKuebiko =
   | "removeKuebiko.title"
   | "removeKuebiko.description"
   | "removeKuebiko.removeSeeds";
 
-export type Resale =
-  | "resale.lookingForItems"
-  | "resale.actionText";
+export type Resale = "resale.lookingForItems" | "resale.actionText";
 
-export type Restock =
-  | "restock.one.buck"
-  | "restock.sure"
-  | "restock.seed.buy";
+export type Restock = "restock.one.buck" | "restock.sure" | "restock.seed.buy";
 
 export type RetreatTerms =
   | "retreatTerms.introTravel.zero"
@@ -2260,8 +2228,7 @@ export type RulesTerms =
   | "rules.game"
   | "rules.termsOfService";
 
-export type SceneDialogueKey =
-  |  "sceneDialogues.chefIsBusy";
+export type SceneDialogueKey = "sceneDialogues.chefIsBusy";
 
 export type SeasonTerms =
   | "season.goodLuck"
@@ -2277,9 +2244,7 @@ export type SeasonTerms =
   | "season.buyNow"
   | "season.ctk";
 
-export type Session =
-  | "session.expired"
-  | "session.expiredMessage";
+export type Session = "session.expired" | "session.expiredMessage";
 
 export type SettingsMenu =
   | "settingsMenu.timeMachine"
@@ -2337,13 +2302,9 @@ export type ShopItems =
   | "betty.buySeeds"
   | "betty.sellCrops";
 
-export type ShowingFarm =
-  | "showing.farm"
-  | "showing.wallet";
+export type ShowingFarm = "showing.farm" | "showing.wallet";
 
-export type SnorklerDialogues =
-  | "snorkler.vastOcean"
-  | "snorkler.goldBeneath";
+export type SnorklerDialogues = "snorkler.vastOcean" | "snorkler.goldBeneath";
 
 export type Statements =
   | "statements.adventure"
@@ -2445,9 +2406,7 @@ export type SubSettings =
   | "subSettings.refresh"
   | "subSettings.refreshDescription";
 
-export type Swarming =
-  | "swarming.tooLongToFarm"
-  | "swarming.goblinsTakenOver";
+export type Swarming = "swarming.tooLongToFarm" | "swarming.goblinsTakenOver";
 
 export type TieBreaker =
   | "tieBreaker.label"
@@ -2554,8 +2513,7 @@ export type VisitislandEnter =
   | "visitIsland.enterIslandId"
   | "visitIsland.visit";
 
-export type VisitislandNotFound =
-  | "visitislandNotFound.title";
+export type VisitislandNotFound = "visitislandNotFound.title";
 
 export type WarningTerms =
   | "warning.noAxe"

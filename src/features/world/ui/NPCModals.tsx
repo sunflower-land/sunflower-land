@@ -103,9 +103,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
           <SpeakingModal
             onClose={closeModal}
             bumpkinParts={NPC_WEARABLES["hammerin harry"]}
-            message={[
-              { text: translate("npc.Modal.Hammer") }
-            ]}
+            message={[{ text: translate("npc.Modal.Hammer") }]}
           />
         )}
         {npc === "marcus" && (
@@ -167,9 +165,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
           >
             <div className="p-2">
               <p className="mb-2">{translate("npc.Modal.Gabi")}</p>
-              <p className="mb-2">
-                {translate("npc.Modal.Gabi.one")}
-              </p>
+              <p className="mb-2">{translate("npc.Modal.Gabi.one")}</p>
             </div>
           </CloseButtonPanel>
         )}

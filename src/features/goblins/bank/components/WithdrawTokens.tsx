@@ -146,7 +146,9 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
               {state.inventory["Liquidity Provider"] && (
                 <img src={lightning} className="h-6" />
               )}
-              <span className="text-xs">{tax}% {t("withdraw.fee")}</span>
+              <span className="text-xs">
+                {tax}% {t("withdraw.fee")}
+              </span>
               <a
                 className="underline ml-2"
                 href="https://docs.sunflower-land.com/fundamentals/withdrawing"
@@ -162,7 +164,8 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
 
       <div className="flex items-center mt-4">
         <span className="">
-        {t("withdraw.receive")} {safeAmount(amount)
+          {t("withdraw.receive")}{" "}
+          {safeAmount(amount)
             .mul((100 - tax) / 100)
             .toFixed(3)}
         </span>

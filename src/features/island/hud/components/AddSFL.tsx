@@ -149,7 +149,9 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
                     }
                   )}
                 />
-                <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">{t("addSFL.balance")}:{formattedMaticBalance}</span>
+                <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">
+                  {t("addSFL.balance")}:{formattedMaticBalance}
+                </span>
               </div>
               <div className="w-[10%] flex self-center justify-center">
                 <img src={matic} alt="selected item" className="w-6" />
@@ -161,7 +163,9 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
                   {t("error.wentWrong")}
                 </p>
               )}
-              <div className="text-left w-full mt-3 mb-4">{t("addSFL.for")}</div>
+              <div className="text-left w-full mt-3 mb-4">
+                {t("addSFL.for")}
+              </div>
             </div>
             <div className="flex items-center justify-between mb-2">
               <div className="relative w-full mr-4">

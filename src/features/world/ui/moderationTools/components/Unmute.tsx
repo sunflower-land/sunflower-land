@@ -15,9 +15,12 @@ export const UnMuteModal: React.FC<Props> = ({ player, status, onClose }) => {
       {status === "success" && (
         <div className="flex flex-col items-center w-full px-1">
           <span className="text-sm text-center">
-            {translate("mute.unmute.farm")}{player?.farmId}
+            {translate("mute.unmute.farm")}
+            {player?.farmId}
           </span>
-          <span className="text-xs text-center">{translate("mute.unmute.player")}{" "}</span>
+          <span className="text-xs text-center">
+            {translate("mute.unmute.player")}{" "}
+          </span>
           <div className="flex gap-2 w-full mt-2">
             <Button onClick={onClose}>{translate("close")}</Button>
           </div>
@@ -26,9 +29,12 @@ export const UnMuteModal: React.FC<Props> = ({ player, status, onClose }) => {
       {status === "error" && (
         <div className="flex flex-col items-center w-full px-1">
           <span className="text-sm text-center">
-            {translate("mute.unmute.farm")}{player?.farmId}
+            {translate("mute.unmute.farm")}
+            {player?.farmId}
           </span>
-          <span className="text-xs text-center">{translate("mute.unmute.failed")}{" "}</span>
+          <span className="text-xs text-center">
+            {translate("mute.unmute.failed")}{" "}
+          </span>
           <div className="flex gap-2 w-full mt-2">
             <Button onClick={onClose}>{translate("close")} </Button>
           </div>
@@ -36,8 +42,12 @@ export const UnMuteModal: React.FC<Props> = ({ player, status, onClose }) => {
       )}
       {status === "loading" && (
         <div className="flex flex-col items-center w-full px-1">
-          <span className="text-lg text-center">{translate("mute.unmuting.player")}{" "}</span>
-          <span className="text-xs text-center mt-2">{translate("mute.unmute.wait")}{" "}</span>
+          <span className="text-lg text-center">
+            {translate("mute.unmuting.player")}{" "}
+          </span>
+          <span className="text-xs text-center mt-2">
+            {translate("mute.unmute.wait")}{" "}
+          </span>
         </div>
       )}
     </>

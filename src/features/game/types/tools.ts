@@ -50,8 +50,7 @@ export const WORKBENCH_TOOLS: (
     },
   },
   "Iron Pickaxe": {
-
-name: "Iron Pickaxe",
+    name: "Iron Pickaxe",
     description: translate("description.iron.pickaxe"),
 
     sfl: new Decimal(0.25),

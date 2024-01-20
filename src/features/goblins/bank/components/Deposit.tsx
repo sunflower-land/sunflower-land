@@ -75,13 +75,15 @@ export const Deposit: React.FC<Props> = ({
       <>
         <div className="p-2">
           <Label icon={SUNNYSIDE.resource.pirate_bounty} type="default">
-          {translate("action.deposit")}
+            {translate("action.deposit")}
           </Label>
           <p className="my-2 text-sm">
-          {translate("question.depositSFLItems")}
+            {translate("question.depositSFLItems")}
           </p>
         </div>
-        <Button onClick={() => setShowIntro(false)}>{translate("continue")}</Button>
+        <Button onClick={() => setShowIntro(false)}>
+          {translate("continue")}
+        </Button>
       </>
     );
   }
@@ -322,7 +324,9 @@ const DepositOptions: React.FC<Props> = ({
         <div className="p-2 space-y-2">
           <p>{translate("deposit.noSflOrCollectibles")}</p>
           <div className="flex text-[12px] sm:text-xs mb-3 space-x-1">
-            <span className="whitespace-nowrap">{translate("deposit.farmAdresse")}</span>
+            <span className="whitespace-nowrap">
+              {translate("deposit.farmAdresse")}
+            </span>
             <CopyAddress address={farmAddress} />
           </div>
         </div>

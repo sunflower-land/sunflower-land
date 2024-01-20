@@ -634,8 +634,7 @@ export const QUEST_ITEMS: Record<QuestItem, LimitedItem> = {
 export const SALESMAN_ITEMS: Record<TravelingSalesmanItem, LimitedItem> = {
   "Wicker Man": {
     name: "Wicker Man",
-    description:
-      translate("description.wicker.man"),
+    description: translate("description.wicker.man"),
     disabled: false,
     section: Section["Wicker Man"],
   },
@@ -925,8 +924,7 @@ export const MARKET_ITEMS: Record<MarketItem, LimitedItem> = {
   },
   Kuebiko: {
     name: "Kuebiko",
-    description:
-      translate("description.kuebiko"),
+    description: translate("description.kuebiko"),
     section: Section.Scarecrow,
     type: LimitedItemType.MarketItem,
   },

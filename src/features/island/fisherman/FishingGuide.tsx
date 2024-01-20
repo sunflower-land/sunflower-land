@@ -45,31 +45,26 @@ export const FishingGuide: React.FC<Props> = ({ onClose }) => {
     },
     {
       icon: powerup,
-      content: 
-        translate("fishingGuide.eat.fish"),
+      content: translate("fishingGuide.eat.fish"),
     },
   ];
 
   const advancedGuide: GuideItem[] = [
     {
       icon: SUNNYSIDE.icons.search,
-      content:
-        translate("fishingGuide.discover.fish"),
+      content: translate("fishingGuide.discover.fish"),
     },
     {
       icon: SUNNYSIDE.icons.stopwatch,
-      content:
-        translate("fishingGuide.condition"),
+      content: translate("fishingGuide.condition"),
     },
     {
       icon: CROP_LIFECYCLE.Carrot.crop,
-      content:
-        translate("fishingGuide.bait.chum"),
+      content: translate("fishingGuide.bait.chum"),
     },
     {
       icon: SUNNYSIDE.icons.stressed,
-      content:
-        translate("fishingGuide.legendery.fish"),
+      content: translate("fishingGuide.legendery.fish"),
     },
   ];
   return (

@@ -35,9 +35,7 @@ export const StoreOnChainModal: React.FC<Props> = ({ onClose }) => {
       <GameWallet action="sync">
         <>
           <div className="p-2">
-            <p className="text-sm mb-2">
-              {t("transaction.blockchain.one")}
-            </p>
+            <p className="text-sm mb-2">{t("transaction.blockchain.one")}</p>
             <p className="text-xxs italic mb-2">
               {t("transaction.blockchain.one")}
             </p>

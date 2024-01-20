@@ -75,9 +75,7 @@ export const Muted: React.FC<{
             </p>
           </div>
           <div className="flex justify-center text-center">
-            <p className="text-xxs">
-              {translate("mute.discord")}
-            </p>
+            <p className="text-xxs">{translate("mute.discord")}</p>
           </div>
           <div className="flex justify-center">
             <Button className="mt-1" onClick={onClose}>

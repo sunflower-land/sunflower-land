@@ -13,7 +13,11 @@ export const NotOnDiscordServer: React.FC = () => {
   return (
     <div className="flex flex-col text-center text-shadow items-center p-1">
       <div className="flex mb-3 items-center ml-8">
-        <img src={humanDeath}alt={translate("notOnDiscordServer.warning")}className="w-full"/>
+        <img
+          src={humanDeath}
+          alt={translate("notOnDiscordServer.warning")}
+          className="w-full"
+        />
       </div>
       <p className="text-sm text-center mb-3">
         {translate("notOnDiscordServer.intro")}
@@ -30,8 +34,12 @@ export const NotOnDiscordServer: React.FC = () => {
           {translate("notOnDiscordServer.discordServer")}
         </a>{" "}
       </p>
-      <p className="mb-1 text-sm">{translate("notOnDiscordServer.completeVerification")}</p>
-      <p className="mb-1 text-sm">{translate("notOnDiscordServer.acceptRules")}</p>
+      <p className="mb-1 text-sm">
+        {translate("notOnDiscordServer.completeVerification")}
+      </p>
+      <p className="mb-1 text-sm">
+        {translate("notOnDiscordServer.acceptRules")}
+      </p>
       <p className="mb-3 text-sm">{translate("notOnDiscordServer.tryAgain")}</p>
 
       <div className="flex w-full">

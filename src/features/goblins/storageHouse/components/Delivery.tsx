@@ -24,9 +24,7 @@ export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
           />
           <div className="flex flex-col space-y-3">
             <span className="text-sm">{t("delivery.ressource")}</span>
-            <span className="text-sm">
-              {t("delivery.feed")}
-            </span>
+            <span className="text-sm">{t("delivery.feed")}</span>
             <span className="text-sm">
               {t("delivery.fee")}
               <a

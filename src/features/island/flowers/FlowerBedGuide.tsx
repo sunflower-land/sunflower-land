@@ -37,39 +37,34 @@ export const FlowerBedGuide: React.FC<Props> = ({ onClose }) => {
   const basicGuide: GuideItem[] = [
     {
       icon: SUNNYSIDE.tools.fishing_rod,
-      content: translate("flowerbedguide.craftRod")
+      content: translate("flowerbedguide.craftRod"),
     },
     {
       icon: ITEM_DETAILS["Red Wiggler"].image,
-      content: translate("flowerbedguide.earnBait")
+      content: translate("flowerbedguide.earnBait"),
     },
     {
       icon: powerup,
-      content:
-        translate("flowerbedguide.eatFish")
+      content: translate("flowerbedguide.eatFish"),
     },
   ];
 
   const advancedGuide: GuideItem[] = [
     {
       icon: SUNNYSIDE.icons.search,
-      content:
-        translate("flowerbedguide.exploreWaters")
+      content: translate("flowerbedguide.exploreWaters"),
     },
     {
       icon: SUNNYSIDE.icons.stopwatch,
-      content:
-        translate("flowerbedguide.tidePatterns")
+      content: translate("flowerbedguide.tidePatterns"),
     },
     {
       icon: CROP_LIFECYCLE.Carrot.crop,
-      content:
-        translate("flowerbedguide.experimentBait")
+      content: translate("flowerbedguide.experimentBait"),
     },
     {
       icon: SUNNYSIDE.icons.stressed,
-      content:
-        translate("flowerbedguide.legendaryFish")
+      content: translate("flowerbedguide.legendaryFish"),
     },
   ];
   return (

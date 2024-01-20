@@ -24,19 +24,13 @@ export const PeteHelp: React.FC = () => {
 
   return (
     <div className="p-2">
-      <p className="text-sm mb-2">
-        {t("pete.help.one")}
-      </p>
-      <p className="text-sm">
-        {t("pete.help.two")}
-      </p>
+      <p className="text-sm mb-2">{t("pete.help.one")}</p>
+      <p className="text-sm">{t("pete.help.two")}</p>
 
       <img src={plaza} className="w-full mx-auto rounded-lg my-2" />
       {locked && (
         <>
-          <p className="text-xs mb-2">
-            {t("pete.help.zero")}
-          </p>
+          <p className="text-xs mb-2">{t("pete.help.zero")}</p>
           <Label type="danger" className="mb-2 ml-1" icon={lockIcon}>
             {t("warning.level.required")}3
           </Label>

@@ -13,10 +13,10 @@ export const SFLExceeded = () => {
       <span>{t("dailyLim")}</span>
       <img src={suspiciousGoblin} alt="Warning" className="w-16 m-2" />
       <p className="text-sm mb-2">{t("statements.sflLim.one")}</p>
-      <p className="text-sm mb-2">
-        {t("statements.sflLim.two")}
-      </p>
-      <Button onClick={() => gameService.send("CONTINUE")}>{t("continue")}</Button>
+      <p className="text-sm mb-2">{t("statements.sflLim.two")}</p>
+      <Button onClick={() => gameService.send("CONTINUE")}>
+        {t("continue")}
+      </Button>
     </div>
   );
 };

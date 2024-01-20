@@ -16,9 +16,7 @@ export const GarbageCollectorModal: React.FC = () => {
       <>
         <div className="p-2">
           <p className="mb-3">{t("garbageCollector.welcome")}</p>
-          <p className="mb-2">
-          {t("garbageCollector.description")}
-          </p>
+          <p className="mb-2">{t("garbageCollector.description")}</p>
         </div>
         <Button
           onClick={() => {

@@ -97,12 +97,8 @@ export const NoBumpkin: React.FC = () => {
         <div className="flex items-center flex-col p-2">
           <span> {translate("noBumpkin.missingBumpkin")}</span>
           <img src={SUNNYSIDE.icons.heart} className="w-20 my-2" />
-          <p className="text-sm my-2">
-            {translate("noBumpkin.bumpkinNFT")}
-          </p>
-          <p className="text-sm my-2">
-            {translate("noBumpkin.bumpkinHelp")}
-          </p>
+          <p className="text-sm my-2">{translate("noBumpkin.bumpkinNFT")}</p>
+          <p className="text-sm my-2">{translate("noBumpkin.bumpkinHelp")}</p>
           <p className="text-sm my-2">{translate("noBumpkin.mintBumpkin")}</p>
           <p className="text-xs sm:text-sm text-shadow text-white p-1">
             <a

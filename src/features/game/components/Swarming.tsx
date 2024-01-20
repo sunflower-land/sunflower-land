@@ -56,16 +56,16 @@ export const Swarming: React.FC = () => {
         <p className="text-sm mb-3 mt-2 w-full">
           {t("swarming.tooLongToFarm")}
         </p>
-        <p className="text-sm mb-3 w-full">
-          {t("swarming.goblinsTakenOver")}
-        </p>
+        <p className="text-sm mb-3 w-full">{t("swarming.goblinsTakenOver")}</p>
         {secondsLeft >= 0 && (
           <div className="flex mt-2">
             <CountdownLabel timeLeft={secondsLeft} />
           </div>
         )}
       </div>
-      {secondsLeft < 0 && <Button onClick={onAcknowledge}>{t("continue")}</Button>}
+      {secondsLeft < 0 && (
+        <Button onClick={onAcknowledge}>{t("continue")}</Button>
+      )}
     </>
   );
 };

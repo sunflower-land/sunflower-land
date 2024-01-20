@@ -62,9 +62,7 @@ export const Donations: React.FC = () => {
     <>
       {state.matches("idle") && (
         <div className="flex flex-col mb-1 p-2 text-sm">
-          <p className="mb-2 text-center">
-            {translate("donation.one")}
-          </p>
+          <p className="mb-2 text-center">{translate("donation.one")}</p>
 
           <div className="flex flex-wrap mt-1 mb-2 justify-center">
             {CONTRIBUTORS.map((name) => (
@@ -107,7 +105,9 @@ export const Donations: React.FC = () => {
                 />
               </div>
             </div>
-            <span className="text-xs text-shadow my-2">{translate("donation.amount")}</span>
+            <span className="text-xs text-shadow my-2">
+              {translate("donation.amount")}
+            </span>
           </div>
 
           <Button
@@ -115,7 +115,9 @@ export const Donations: React.FC = () => {
             onClick={donate}
             disabled={donation < 0.1}
           >
-            <span className="text-xs whitespace-nowrap">{translate("donation.donate")}</span>
+            <span className="text-xs whitespace-nowrap">
+              {translate("donation.donate")}
+            </span>
           </Button>
         </div>
       )}

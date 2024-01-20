@@ -21,9 +21,7 @@ export const DeliveryHelp: React.FC = () => {
         <div className="w-12 flex justify-center">
           <img src={ITEM_DETAILS["Hammer"].image} className="h-7" />
         </div>
-        <p className="text-sm flex-1">
-          {translate("deliveryHelp.hammer")}
-        </p>
+        <p className="text-sm flex-1">{translate("deliveryHelp.hammer")}</p>
       </div>
       <div className="flex">
         <div className="w-12 flex justify-center">

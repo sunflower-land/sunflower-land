@@ -103,9 +103,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
       return (
         <div className="p-2">
           <p>{t("message.grubShopClosed")}</p>
-          <p className="mt-4 text-sm">
-          {t("message.grublinOrders")}
-          </p>
+          <p className="mt-4 text-sm">{t("message.grublinOrders")}</p>
         </div>
       );
     }
@@ -182,9 +180,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                   )}
                 </div>
                 <div className="flex items-center">
-                  <p className="text-xxs">
-                  {t("message.earnSeasonalTickets")}
-                  </p>
+                  <p className="text-xxs">{t("message.earnSeasonalTickets")}</p>
                 </div>
 
                 {/* TEMP */}

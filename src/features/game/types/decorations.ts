@@ -519,8 +519,7 @@ export const BASIC_DECORATIONS: () => Record<
 
   "Bonnie's Tombstone": {
     name: "Bonnie's Tombstone",
-    description:
-      translate("description.bonnies.tombstone"),
+    description: translate("description.bonnies.tombstone"),
     sfl: marketRate(0),
     ingredients: {
       Stone: new Decimal(10),

@@ -67,9 +67,11 @@ export const FestiveTree: React.FC<Props> = ({ id }) => {
           onClose={() => setShowGiftedModal(false)}
         >
           <div className="p-2">
-            <Label type="danger">{translate("festivetree.greedyBumpkin")}</Label>
+            <Label type="danger">
+              {translate("festivetree.greedyBumpkin")}
+            </Label>
             <p className="text-sm mt-2">
-            {translate("festivetree.alreadyGifted")}
+              {translate("festivetree.alreadyGifted")}
             </p>
           </div>
         </CloseButtonPanel>
@@ -85,9 +87,11 @@ export const FestiveTree: React.FC<Props> = ({ id }) => {
           onClose={() => setShowWrongTimeModal(false)}
         >
           <div className="p-2">
-            <Label type="danger">{translate("festivetree.greedyBumpkin")}</Label>
+            <Label type="danger">
+              {translate("festivetree.greedyBumpkin")}
+            </Label>
             <p className="text-sm mt-2">
-            {translate("festivetree.notFestiveSeason")}
+              {translate("festivetree.notFestiveSeason")}
             </p>
           </div>
         </CloseButtonPanel>

@@ -60,9 +60,7 @@ export const LostSunflorian: React.FC = () => {
           />
           <div className="p-2">
             <p className="mb-4">{translate("lostSunflorian.line1")}</p>
-            <p className="mb-4">
-              {translate("lostSunflorian.line2")}
-            </p>
+            <p className="mb-4">{translate("lostSunflorian.line2")}</p>
             <p>{translate("lostSunflorian.line3")}</p>
           </div>
         </Panel>

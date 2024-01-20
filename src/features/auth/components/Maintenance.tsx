@@ -14,9 +14,7 @@ export const Maintenance: React.FC = () => {
         className="w-2/3"
       />
 
-      <p className="text-center mb-4 text-sm">
-        {t("statements.maintenance")}
-      </p>
+      <p className="text-center mb-4 text-sm">{t("statements.maintenance")}</p>
     </div>
   );
 };

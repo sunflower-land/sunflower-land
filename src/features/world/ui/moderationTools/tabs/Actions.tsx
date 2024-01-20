@@ -28,9 +28,7 @@ export const Actions: React.FC<Props> = ({
               <img src={SoundOffIcon} className="w-8 h-8" />
               <p className="text-sm">{translate("mute.playe")}</p>
             </div>
-            <p className="text-xs">
-              {translate("mute.online")}
-            </p>
+            <p className="text-xs">{translate("mute.online")}</p>
             <Button
               onClick={() => {
                 setStep("MUTE");

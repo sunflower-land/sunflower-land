@@ -94,8 +94,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
           {`Claim ${reward} ${getSeasonalTicket()}${reward > 0 ? "s" : ""}`}
         </Button>
         <span className="text-xs">
-          {t("bert.day")} {" "}
-          {getSeasonalTicket()}.
+          {t("bert.day")} {getSeasonalTicket()}.
         </span>
       </>
     );

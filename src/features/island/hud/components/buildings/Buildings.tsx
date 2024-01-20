@@ -119,7 +119,9 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     if (nextLockedLevel && hasMaxNumberOfBuildings) return landLocked();
 
     if (isAlreadyCrafted) {
-      return <p className="text-xxs text-center mb-1">{translate("alr.crafted")}</p>;
+      return (
+        <p className="text-xxs text-center mb-1">{translate("alr.crafted")}</p>
+      );
     }
 
     return (

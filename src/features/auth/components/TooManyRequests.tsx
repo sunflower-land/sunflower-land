@@ -12,9 +12,7 @@ export const TooManyRequests: React.FC = () => {
       </div>
       <p className="text-center mb-3">{t("error.toManyRequest.one")}</p>
 
-      <p className="text-center mb-4 text-xs">
-        {t("error.toManyRequest.two")}
-      </p>
+      <p className="text-center mb-4 text-xs">{t("error.toManyRequest.two")}</p>
     </div>
   );
 };

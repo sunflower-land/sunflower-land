@@ -101,7 +101,9 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
             </span>
           </div>
           <div className="flex justify-content-around mt-2 space-x-1">
-            <Button onClick={() => setShowConfirm(false)}>{translate("cancel")}</Button>
+            <Button onClick={() => setShowConfirm(false)}>
+              {translate("cancel")}
+            </Button>
             <Button onClick={handleRestock}>{translate("restock")}</Button>
           </div>
         </CloseButtonPanel>

@@ -225,7 +225,9 @@ export const Placeable: React.FC<Props> = ({ location }) => {
                 }}
               >
                 <img src={SUNNYSIDE.icons.drag} className="h-6 mr-2" />
-                <span className="text-white text-sm">{t("landscape.dragMe")}</span>
+                <span className="text-white text-sm">
+                  {t("landscape.dragMe")}
+                </span>
               </div>
             )}
             <div

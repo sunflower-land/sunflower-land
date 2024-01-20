@@ -13,7 +13,7 @@ export const BumpkinPainting: React.FC<Props> = ({ onClose, bumpkin }) => {
     <CloseButtonPanel onClose={onClose}>
       <DynamicNFT showBackground bumpkinParts={bumpkin.equipped} />
       <p className="text-center text-xs my-2">
-      {translate("description.homeOwnerPainting")}
+        {translate("description.homeOwnerPainting")}
       </p>
     </CloseButtonPanel>
   );

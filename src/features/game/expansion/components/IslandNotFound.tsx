@@ -17,7 +17,9 @@ export const IslandNotFound = () => {
           <p className="my-4 px-2 text-center">
             {translate("islandNotFound.message")}
           </p>
-          <Button onClick={() => navigate(`/`)}>{translate("islandNotFound.takeMeHome")}</Button>
+          <Button onClick={() => navigate(`/`)}>
+            {translate("islandNotFound.takeMeHome")}
+          </Button>
         </div>
       </Panel>
     </Modal>

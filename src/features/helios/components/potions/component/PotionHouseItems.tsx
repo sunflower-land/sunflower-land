@@ -61,7 +61,11 @@ export const PotionHouseItems: React.FC = () => {
 
   const Action = () => {
     if (selected.name in POTION_HOUSE_ITEMS && inventory[selected.name])
-      return <span className="text-xxs text-center my-1">{translate("alr.minted")}</span>;
+      return (
+        <span className="text-xxs text-center my-1">
+          {translate("alr.minted")}
+        </span>
+      );
 
     return (
       <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>

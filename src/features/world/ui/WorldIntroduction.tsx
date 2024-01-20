@@ -57,12 +57,12 @@ export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
         <>
           <div className="p-2">
             <ProgressDots progress={1} total={5} />
-            <p className="text-sm my-2">
-              {translate("world.intro.visit")}
-            </p>
+            <p className="text-sm my-2">{translate("world.intro.visit")}</p>
             <img src={deliveries} className="w-full rounded-md" />
           </div>
-          <Button onClick={() => setPage((p) => p + 1)}>{translate("next")}</Button>
+          <Button onClick={() => setPage((p) => p + 1)}>
+            {translate("next")}
+          </Button>
         </>
       );
     }
@@ -73,15 +73,15 @@ export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
         <>
           <div className="p-2">
             <ProgressDots progress={2} total={5} />
-            <p className="text-sm my-2">
-              {translate("world.intro.craft")}
-            </p>
+            <p className="text-sm my-2">{translate("world.intro.craft")}</p>
             <p className="text-sm mb-2">
               {translate("world.intro.carf.limited")}
             </p>
             <img src={crafting} className="w-full rounded-md" />
           </div>
-          <Button onClick={() => setPage((p) => p + 1)}>{translate("next")}</Button>
+          <Button onClick={() => setPage((p) => p + 1)}>
+            {translate("next")}
+          </Button>
         </>
       );
     }
@@ -92,12 +92,12 @@ export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
         <>
           <div className="p-2">
             <ProgressDots progress={3} total={5} />
-            <p className="text-sm my-2">
-              {translate("world.intro.trade")}
-            </p>
+            <p className="text-sm my-2">{translate("world.intro.trade")}</p>
             <img src={trading} className="w-full rounded-md" />
           </div>
-          <Button onClick={() => setPage((p) => p + 1)}>{translate("next")}</Button>
+          <Button onClick={() => setPage((p) => p + 1)}>
+            {translate("next")}
+          </Button>
         </>
       );
     }
@@ -108,12 +108,12 @@ export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
         <>
           <div className="p-2">
             <ProgressDots progress={3} total={5} />
-            <p className="text-sm my-2">
-              {translate("world.intro.auction")}
-            </p>
+            <p className="text-sm my-2">{translate("world.intro.auction")}</p>
             <img src={auctions} className="w-full rounded-md" />
           </div>
-          <Button onClick={() => setPage((p) => p + 1)}>{translate("next")}</Button>
+          <Button onClick={() => setPage((p) => p + 1)}>
+            {translate("next")}
+          </Button>
         </>
       );
     }
@@ -127,29 +127,21 @@ export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
               <img src={SUNNYSIDE.icons.player} className="h-6" />
             </div>
             <div className="flex-1">
-              <p className="text-sm">
-                {translate("world.intro.four")}
-              </p>
-              <p className="text-xs italic">
-                {translate("world.intro.five")}
-              </p>
+              <p className="text-sm">{translate("world.intro.four")}</p>
+              <p className="text-xs italic">{translate("world.intro.five")}</p>
             </div>
           </div>
           <div className="flex mb-2">
             <div className="w-8">
               <img src={SUNNYSIDE.ui.cursor} className="h-6" />
             </div>
-            <p className="text-sm flex-1">
-              {translate("world.intro.six")}
-            </p>
+            <p className="text-sm flex-1">{translate("world.intro.six")}</p>
           </div>
           <div className="flex mb-1">
             <div className="w-8">
               <img src={SUNNYSIDE.icons.heart} className="h-6" />
             </div>
-            <p className="text-sm flex-1">
-              {translate("world.intro.seven")}
-            </p>
+            <p className="text-sm flex-1">{translate("world.intro.seven")}</p>
           </div>
         </div>
         <Button onClick={onClose}>{translate("lets.go")}</Button>

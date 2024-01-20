@@ -306,7 +306,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           onClose={closeModal}
           message={[
             {
-              text: t("interactableModals.plazaStatue.message")
+              text: t("interactableModals.plazaStatue.message"),
             },
           ]}
         />

@@ -68,9 +68,7 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
       <>
         <div className="p-2">
           <p className="text-sm mb-2">{t("discord.bonus.niceHat")}</p>
-          <p className="text-sm mb-2">
-            {t("discord.bonus.attentionEvents")}
-          </p>
+          <p className="text-sm mb-2">{t("discord.bonus.attentionEvents")}</p>
         </div>
       </>
     );
@@ -102,12 +100,8 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
           >
             {t("discord.bonus.bonusReward")}
           </Label>
-          <p className="text-xs mb-2">
-            {t("discord.bonus.enjoyCommunity")}
-          </p>
-          <p className="text-xs mb-2">
-            {t("discord.bonus.payAttention")}
-          </p>
+          <p className="text-xs mb-2">{t("discord.bonus.enjoyCommunity")}</p>
+          <p className="text-xs mb-2">{t("discord.bonus.payAttention")}</p>
         </div>
         <Button onClick={acknowledge}>{t("discord.bonus.claimGift")}</Button>
       </>
@@ -124,15 +118,9 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
         >
           {t("discord.bonus.bonusReward")}
         </Label>
-        <p className="text-xs mb-2">
-          {t("discord.bonus.communityInfo")}
-        </p>
-        <p className="text-xs mb-2">
-          {t("discord.bonus.farmingTips")}
-        </p>
-        <p className="text-xs mb-2">
-          {t("discord.bonus.freeGift")}
-        </p>
+        <p className="text-xs mb-2">{t("discord.bonus.communityInfo")}</p>
+        <p className="text-xs mb-2">{t("discord.bonus.farmingTips")}</p>
+        <p className="text-xs mb-2">{t("discord.bonus.freeGift")}</p>
       </div>
       <Button onClick={oauth}>{t("discord.bonus.connect")}</Button>
     </>

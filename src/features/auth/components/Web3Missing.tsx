@@ -53,9 +53,7 @@ export const Web3Missing: React.FC<{
         </div>
         <p className="text-center mb-3">{t("error.Web3NotFound")}</p>
 
-        <p className="text-center mb-3 text-xs">
-          {t("statements.guide.two")}
-        </p>
+        <p className="text-center mb-3 text-xs">{t("statements.guide.two")}</p>
       </div>
       <div className="flex space-x-1">
         <Button

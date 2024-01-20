@@ -290,11 +290,7 @@ export const npcDialogues: Partial<Record<NPCName, DeliveryNPCDialogue>> = {
 
 export const defaultDialogue: DeliveryNPCDialogue = {
   intro: [translate("defaultDialogue.intro")],
-  positiveDelivery: [
-    translate("defaultDialogue.positiveDelivery")
-  ],
-  negativeDelivery: [
-    translate("defaultDialogue.negativeDelivery")
-  ],
+  positiveDelivery: [translate("defaultDialogue.positiveDelivery")],
+  negativeDelivery: [translate("defaultDialogue.negativeDelivery")],
   noOrder: [translate("defaultDialogue.noOrder")],
 };

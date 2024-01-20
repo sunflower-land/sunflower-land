@@ -11,9 +11,7 @@ export const MultipleDevices: React.FC = () => {
 
       <img src={suspiciousGoblin} alt="Warning" className="w-16 m-2" />
 
-      <p className="mt-2 mb-2 text-sm">
-        {t("error.multipleDevices.two")}
-      </p>
+      <p className="mt-2 mb-2 text-sm">{t("error.multipleDevices.two")}</p>
     </div>
   );
 };

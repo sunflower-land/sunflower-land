@@ -31,7 +31,9 @@ export const Countdown: React.FC = () => {
     <div className="flex flex-col text-center items-center p-2">
       <span>{translate("transaction.mintFarm.one")}</span>
       <img src={minting} className="w-1/2 mt-2" />
-      <span className="text-xs mb-1">{translate("transaction.mintFarm.two")}</span>
+      <span className="text-xs mb-1">
+        {translate("transaction.mintFarm.two")}
+      </span>
       <span className="text-3xl">{time}</span>
       <span className="text-xs mt-4 underline mb-1">
         {translate("transaction.doNotRefresh")}

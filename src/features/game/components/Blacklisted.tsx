@@ -9,9 +9,7 @@ export const Blacklisted: React.FC = () => {
     <div className="flex flex-col items-center p-2">
       <span className="text-center">{t("farm.banned")}</span>
       <img src={suspiciousGoblin} alt="Warning" className="w-16 m-2" />
-      <span className="text-sm mt-2 mb-2">
-        {t("statements.blacklist.one")}
-      </span>
+      <span className="text-sm mt-2 mb-2">{t("statements.blacklist.one")}</span>
       <a
         href={`https://sunflowerland.freshdesk.com/support/tickets/new`}
         className="underline text-center text-sm hover:text-blue-500 mt-1 mb-2 block"

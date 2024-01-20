@@ -52,9 +52,7 @@ export const LandscapingIntroduction: React.FC = () => {
                 }}
               />
             </div>
-            <p className="text-sm flex-1">
-              {t("landscape.intro.two")}
-            </p>
+            <p className="text-sm flex-1">{t("landscape.intro.two")}</p>
           </div>
 
           <div className="flex mb-1 items-center">

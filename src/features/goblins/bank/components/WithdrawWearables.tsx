@@ -94,9 +94,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
       <div className="p-2 mt-3">
         <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
           <span className="text-xs">
-            {
-              t("withdraw.restricted")
-            }
+            {t("withdraw.restricted")}
             <a
               href="https://docs.sunflower-land.com/fundamentals/withdrawing#why-cant-i-withdraw-some-items"
               target="_blank"

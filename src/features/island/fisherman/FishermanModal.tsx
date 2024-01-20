@@ -337,9 +337,11 @@ export const FishermanModal: React.FC<Props> = ({
         <SpeakingText
           message={[
             {
-              text: `${translate("fishermanmodal.greetingPart1")} ${capitalizeFirstLetters(
-                npc
-              )} ${translate("fishermanmodal.greetingPart2")}`,
+              text: `${translate(
+                "fishermanmodal.greetingPart1"
+              )} ${capitalizeFirstLetters(npc)} ${translate(
+                "fishermanmodal.greetingPart2"
+              )}`,
             },
             {
               text: translate("fishermanModal.fishBenefits"),

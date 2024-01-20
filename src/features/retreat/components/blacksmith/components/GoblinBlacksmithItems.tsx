@@ -74,9 +74,7 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
   const selectedItem = GOBLIN_BLACKSMITH_ITEMS(state)?.[selectedName];
 
   if (itemNames.length === 0 || !selectedItem) {
-    return (
-      <div className="p-1 min-h-[200px]">{t("winner.mintTime.one")}</div>
-    );
+    return <div className="p-1 min-h-[200px]">{t("winner.mintTime.one")}</div>;
   }
 
   const lessIngredients = () => {
@@ -116,10 +114,14 @@ export const GoblinBlacksmithItems: React.FC<Props> = ({ onClose }) => {
     if (soldOut) return <></>;
 
     if (selectedItem.disabled)
-      return <span className="text-xxs text-center my-1">{t("coming.soon")}</span>;
+      return (
+        <span className="text-xxs text-center my-1">{t("coming.soon")}</span>
+      );
 
     if (inventory[selectedName] && !ALLOW_MULTIPLE_MINTS.includes(selectedName))
-      return <span className="text-xxs text-center my-1">{t("alr.minted")}</span>;
+      return (
+        <span className="text-xxs text-center my-1">{t("alr.minted")}</span>
+      );
 
     return (
       <Button disabled={disabled} onClick={craft}>

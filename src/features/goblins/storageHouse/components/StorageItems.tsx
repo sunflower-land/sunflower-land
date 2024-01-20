@@ -83,9 +83,7 @@ export const StorageItems: React.FC = () => {
           </div>
         )}
         <div className="text-xs mb-2">
-          <span>
-            {t("goblin.delivery")}
-          </span>
+          <span>{t("goblin.delivery")}</span>
           <a
             href="https://opensea.io/Goblin_Treasury"
             target="_blank"

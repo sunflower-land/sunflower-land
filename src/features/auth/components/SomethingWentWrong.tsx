@@ -67,7 +67,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
           <p>{t("error.connection.two")}</p>
           <p>{t("error.connection.three")}</p>
           <p>
-             {t("error.connection.four")}{" "}
+            {t("error.connection.four")}{" "}
             <a
               className="underline"
               href="https://sunflowerland.freshdesk.com"
@@ -89,15 +89,27 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
           </p>
         </div>
         <div className="flex flex-col w-full text-left mb-2 text-[12px] overflow-hidden">
-          {farmId && <p className="leading-3">{t("farm")}: {farmId}</p>}
+          {farmId && (
+            <p className="leading-3">
+              {t("farm")}: {farmId}
+            </p>
+          )}
           {error && (
-            <p className="leading-3 whitespace-nowrap">{t("error")}: {error}</p>
+            <p className="leading-3 whitespace-nowrap">
+              {t("error")}: {error}
+            </p>
           )}
           {transactionId && (
-            <p className="leading-3">{t("transaction.id")}: {transactionId}</p>
+            <p className="leading-3">
+              {t("transaction.id")}: {transactionId}
+            </p>
           )}
-          <p className="leading-3">{t("date")}: {date}</p>
-          <p className="leading-3">{t("version")}: {CONFIG.RELEASE_VERSION}</p>
+          <p className="leading-3">
+            {t("date")}: {date}
+          </p>
+          <p className="leading-3">
+            {t("version")}: {CONFIG.RELEASE_VERSION}
+          </p>
           {stack && showStackTrace && (
             <>
               <p className="leading-3">{t("details")}:</p>

@@ -32,8 +32,7 @@ export const CHORES: Chore[] = [
     activity: "Sunflower Harvested",
     description: translate("chores.harvestFields"),
     image: clickToHarvest,
-    introduction:
-     translate("chores.harvestFieldsIntro"),
+    introduction: translate("chores.harvestFieldsIntro"),
     requirement: 3,
     reward: {
       items: {},
@@ -43,8 +42,7 @@ export const CHORES: Chore[] = [
     description: `Earn ${CROPS().Sunflower.sellPrice.mul(5)} SFL`, //Translate
     sfl: CROPS().Sunflower.sellPrice.mul(5).toNumber(),
     image: betty,
-    introduction:
-      translate("chores.earnSflIntro"),
+    introduction: translate("chores.earnSflIntro"),
     requirement: CROPS().Sunflower.sellPrice.mul(5).toNumber(),
     reward: {
       items: {},
@@ -54,8 +52,7 @@ export const CHORES: Chore[] = [
     description: translate("chores.reachLevel"),
     bumpkinLevel: 2,
     image: bruce,
-    introduction:
-      translate("chores.reachLevelIntro"),
+    introduction: translate("chores.reachLevelIntro"),
     requirement: 2,
     reward: {
       items: {},
@@ -66,8 +63,7 @@ export const CHORES: Chore[] = [
     description: translate("chores.chopTrees"),
     requirement: 3,
     image: workbench,
-    introduction:
-      translate("chores.helpWithTrees"),
+    introduction: translate("chores.helpWithTrees"),
     reward: {
       items: {},
     },

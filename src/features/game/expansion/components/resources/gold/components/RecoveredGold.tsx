@@ -178,7 +178,9 @@ const RecoveredGoldComponent: React.FC<Props> = ({
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>{translate("equip")} {tool.toLowerCase()}</span>
+              <span>
+                {translate("equip")} {tool.toLowerCase()}
+              </span>
             </div>
           </InnerPanel>
         </div>

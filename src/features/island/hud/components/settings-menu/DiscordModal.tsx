@@ -76,11 +76,17 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const getContent = (): JSX.Element => {
     if (state === "error") {
-      return <span className="text-shadow">{translate("getContent.error")}</span>;
+      return (
+        <span className="text-shadow">{translate("getContent.error")}</span>
+      );
     }
 
     if (state === "joining") {
-      return <span className="text-shadow loading">{translate("getContent.joining")}</span>;
+      return (
+        <span className="text-shadow loading">
+          {translate("getContent.joining")}
+        </span>
+      );
     }
 
     if (state === "joined") {
@@ -115,7 +121,9 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
             <div>
               <span className="flex-1">{group.channel}</span>
               <div className="flex items-center flex-wrap">
-                <span className="text-xs mr-2">{translate("getContent.requires")}{" "}</span>
+                <span className="text-xs mr-2">
+                  {translate("getContent.requires")}{" "}
+                </span>
                 {group.items.map((name) => (
                   <img
                     key={name}
@@ -138,7 +146,9 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
           <div>
             <span className="flex-1">#bud-clubhouse</span>
             <div className="flex items-center flex-wrap">
-              <span className="text-xs mr-2">{translate("getContent.requires")}</span>
+              <span className="text-xs mr-2">
+                {translate("getContent.requires")}
+              </span>
               <img src={budIcon} className="h-6 mr-2" />
             </div>
           </div>

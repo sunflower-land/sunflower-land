@@ -38,9 +38,7 @@ export const HeliosSunflower: React.FC = () => {
           />
           <div className="p-2">
             <p>{translate("heliosSunflower.title")}</p>
-            <p className="mt-2">
-              {translate("heliosSunflower.description")}
-            </p>
+            <p className="mt-2">{translate("heliosSunflower.description")}</p>
           </div>
         </Panel>
       </Modal>

@@ -104,11 +104,19 @@ export const GoblinPirateItems: React.FC<Props> = ({ onClose }) => {
     if (soldOut) return <></>;
 
     if (selectedItem.disabled) {
-      return <span className="text-xxs text-center my-1">{translate("coming.soon")}</span>;
+      return (
+        <span className="text-xxs text-center my-1">
+          {translate("coming.soon")}
+        </span>
+      );
     }
 
     if (inventory[selectedName] || collectibles[selectedName])
-      return <span className="text-xxs text-center my-1">{translate("alr.minted")}</span>;
+      return (
+        <span className="text-xxs text-center my-1">
+          {translate("alr.minted")}
+        </span>
+      );
 
     return (
       <Button

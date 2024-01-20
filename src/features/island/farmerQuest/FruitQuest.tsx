@@ -29,12 +29,8 @@ export const FruitQuest: React.FC<Props> = ({ offset }) => {
   const ModalDescription = () => {
     return (
       <>
-        <p className="mb-4">
-          {translate("modalDescription.limited.abilitie")}
-        </p>
-        <p className="mb-4">
-          {translate("modalDescription.trail")}
-        </p>
+        <p className="mb-4">{translate("modalDescription.limited.abilitie")}</p>
+        <p className="mb-4">{translate("modalDescription.trail")}</p>
         <div className="flex justify-center mb-4">
           <img
             src={appleTree}
@@ -66,9 +62,7 @@ export const FruitQuest: React.FC<Props> = ({ offset }) => {
     return (
       <div className="pr-4 pl-2 py-2">
         <p className="mb-3">{translate("modalDescription.love.fruit")}</p>
-        <p>
-          {translate("modalDescription.gift")}
-        </p>
+        <p>{translate("modalDescription.gift")}</p>
       </div>
     );
   };

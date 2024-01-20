@@ -27,7 +27,7 @@ export function completeBertObsession({
   }
 
   if (!stateCopy.npcs) {
-    throw new Error(translate("error.npcsNotExist"));  
+    throw new Error(translate("error.npcsNotExist"));
   }
 
   if (!stateCopy.npcs?.bert) {
@@ -36,7 +36,7 @@ export function completeBertObsession({
 
   const currentObsession = stateCopy.bertObsession;
   if (!currentObsession) {
-    throw new Error(translate("error.noDiscoveryAvailable")); 
+    throw new Error(translate("error.noDiscoveryAvailable"));
   }
 
   if (stateCopy.npcs.bert.questCompletedAt) {

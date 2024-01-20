@@ -44,15 +44,9 @@ export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
             )}
           </div>
           <p>{translate("introPage.welcome")}</p>
-          <p>
-            {translate("introPage.description")}
-          </p>
-          <p>
-            {translate("introPage.mission")}
-          </p>
-          <p>
-            {translate("introPage.tip")}
-          </p>
+          <p>{translate("introPage.description")}</p>
+          <p>{translate("introPage.mission")}</p>
+          <p>{translate("introPage.tip")}</p>
         </div>
         <InnerPanel className="text-xxs space-y-1 p-1 mt-1">
           <p className="mb-2">{translate("introPage.feedbackIcons")}</p>

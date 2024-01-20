@@ -14,7 +14,10 @@ interface Props {
 
 export const RemoveKuebikoModal: React.FC<Props> = ({ onClose, onRemove }) => (
   <Modal show={true} onHide={onClose} centered={true}>
-    <CloseButtonPanel title={translate("removeKuebiko.title")} onClose={onClose}>
+    <CloseButtonPanel
+      title={translate("removeKuebiko.title")}
+      onClose={onClose}
+    >
       <div className="flex flex-col items-center p-2 w-full text-center text-sm">
         <img
           src={kuebiko}

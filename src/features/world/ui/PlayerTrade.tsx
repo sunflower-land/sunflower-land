@@ -85,7 +85,9 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
     return (
       <div className="p-2">
         <img src={SUNNYSIDE.icons.sad} className="mx-auto w-1/5 my-2" />
-        <p className="text-sm mb-2 text-center">{translate("playerTrade.no.trade")}</p>
+        <p className="text-sm mb-2 text-center">
+          {translate("playerTrade.no.trade")}
+        </p>
       </div>
     );
 

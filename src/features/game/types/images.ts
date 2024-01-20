@@ -1639,11 +1639,11 @@ export const ITEM_DETAILS: Items = {
   },
   "Bumpkin ganoush": {
     image: bumpkinGanoush,
-     description: translate("description.bumpkin.ganoush"),
+    description: translate("description.bumpkin.ganoush"),
   },
   "Eggplant Cake": {
     image: eggplantCake,
-     description: translate("description.eggplant.cake"),
+    description: translate("description.eggplant.cake"),
   },
   Cornbread: {
     image: cornBread,
@@ -2970,12 +2970,11 @@ export const ITEM_DETAILS: Items = {
   },
   Farmhand: {
     image: SUNNYSIDE.icons.player,
-    description:  translate("description.Farmhand"),
+    description: translate("description.Farmhand"),
   },
   Beehive: {
     image: beehive,
-    description:
-    translate("description.Beehive"),
+    description: translate("description.Beehive"),
   },
 
   "Flower 1": {

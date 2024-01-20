@@ -65,7 +65,9 @@ export const AuctioneerContent: React.FC<Props> = ({
     return (
       <div className="p-2">
         <p className="mb-2">{t("error.wentWrong")}</p>
-        <Button onClick={() => auctionService.send("REFRESH")}>{t("retry")}</Button>
+        <Button onClick={() => auctionService.send("REFRESH")}>
+          {t("retry")}
+        </Button>
       </div>
     );
   }

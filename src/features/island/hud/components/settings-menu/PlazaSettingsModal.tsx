@@ -60,7 +60,9 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2 px-1">
                 <img src={SoundOffIcon} className="h-8" />
-                <p className="text-sm">{translate("plazaSettings.mutedPlayers.button")}</p>
+                <p className="text-sm">
+                  {translate("plazaSettings.mutedPlayers.button")}
+                </p>
               </div>
               <p className="text-xs px-1">
                 {translate("plazaSettings.mutedPlayers.description")}
@@ -109,7 +111,9 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
               )}
             </div>
 
-            <Button onClick={() => setStep("MAIN")}>{translate("plazaSettings.back")}</Button>
+            <Button onClick={() => setStep("MAIN")}>
+              {translate("plazaSettings.back")}
+            </Button>
           </div>
         )}
       </CloseButtonPanel>

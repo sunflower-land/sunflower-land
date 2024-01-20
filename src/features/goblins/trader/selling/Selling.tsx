@@ -94,7 +94,9 @@ export const Selling: React.FC = () => {
         />
         <span className="text-xs">{t("error.wentWrong")}</span>
       </div>
-      <Button onClick={() => tradingPostService.send("CLOSE")}>{t("close")}</Button>
+      <Button onClick={() => tradingPostService.send("CLOSE")}>
+        {t("close")}
+      </Button>
     </>
   );
 };

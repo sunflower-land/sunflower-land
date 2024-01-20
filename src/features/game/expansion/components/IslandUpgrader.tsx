@@ -65,9 +65,7 @@ const IslandUpgraderModal: React.FC<{
           <p className="text-sm mb-2">
             {translate("islandupgrade.confirmUpgrade")}
           </p>
-          <p className="text-xs">
-            {translate("islandupgrade.warning")}
-          </p>
+          <p className="text-xs">{translate("islandupgrade.warning")}</p>
           <div className="flex my-2">
             {getKeys(upgrade.items).map((name) => (
               <Label
@@ -81,7 +79,9 @@ const IslandUpgraderModal: React.FC<{
         </div>
 
         <div className="flex">
-          <Button onClick={() => setShowConfirmation(false)}>{translate("no")}</Button>
+          <Button onClick={() => setShowConfirmation(false)}>
+            {translate("no")}
+          </Button>
           <Button className="ml-1" onClick={onUpgrade}>
             Yes
           </Button>
@@ -102,14 +102,16 @@ const IslandUpgraderModal: React.FC<{
     <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk} onClose={onClose}>
       <div className="p-2">
         <div className="flex items-center  mb-2 ">
-          <p className="text-sm mr-2">{translate("islandupgrade.upgradeIsland")}</p>
+          <p className="text-sm mr-2">
+            {translate("islandupgrade.upgradeIsland")}
+          </p>
           <img src={SUNNYSIDE.icons.heart} className="h-6" />
         </div>
         <p className="text-xs mb-2">
-        {translate("islandupgrade.newOpportunities")}
+          {translate("islandupgrade.newOpportunities")}
         </p>
         <p className="text-xs mb-2">
-        {translate("islandupgrade.confirmation")}
+          {translate("islandupgrade.confirmation")}
         </p>
         <img
           src={UPGRADE_PREVIEW[gameState.context.state.island.type] as string}
@@ -138,7 +140,11 @@ const IslandUpgraderModal: React.FC<{
               ))}
             </div>
             {remaindingExpansions > 0 && (
-              <p className="text-xs">{translate("islandupgrade.notReadyExpandMore")} {remaindingExpansions} {translate("islandupgrade.notReadyExpandMore.two")}</p>
+              <p className="text-xs">
+                {translate("islandupgrade.notReadyExpandMore")}{" "}
+                {remaindingExpansions}{" "}
+                {translate("islandupgrade.notReadyExpandMore.two")}
+              </p>
             )}
           </>
         )}
@@ -224,7 +230,9 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
             }
           )}
         >
-          <span className="loading">{translate("islandupgrade.exploring")}</span>
+          <span className="loading">
+            {translate("islandupgrade.exploring")}
+          </span>
         </div>,
         document.body
       )}
@@ -235,17 +243,23 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
       <Modal show={showUpgraded} centered>
         <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk}>
           <div className="p-2">
-            <p className="text-sm mb-2">{translate("islandupgrade.welcomePetalParadise")}</p>
-            <p className="text-xs mb-2">{translate("islandupgrade.exoticResourcesDescription")}</p>
+            <p className="text-sm mb-2">
+              {translate("islandupgrade.welcomePetalParadise")}
+            </p>
+            <p className="text-xs mb-2">
+              {translate("islandupgrade.exoticResourcesDescription")}
+            </p>
             <img
               src={UPGRADE_PREVIEW.basic}
               className="w-full rounded-md mb-2"
             />
             <p className="text-xs mb-2">
-            {translate("islandupgrade.itemsReturned")}
+              {translate("islandupgrade.itemsReturned")}
             </p>
           </div>
-          <Button onClick={() => setShowUpgraded(false)}>{translate("continue")}</Button>
+          <Button onClick={() => setShowUpgraded(false)}>
+            {translate("continue")}
+          </Button>
         </CloseButtonPanel>
       </Modal>
 

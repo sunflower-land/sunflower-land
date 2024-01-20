@@ -21,9 +21,7 @@ export const HowToFarm: React.FC<Props> = ({ onClose }) => {
       <HowToModalHeader title={t("howToFarm.title")} onClose={onClose} />
       <Modal.Body>
         <div className="flex items-center">
-          <p className="text-xs sm:text-sm p-2">
-            {t("howToFarm.stepOne")}
-          </p>
+          <p className="text-xs sm:text-sm p-2">{t("howToFarm.stepOne")}</p>
           <div className="relative">
             <img src={CROP_LIFECYCLE.Sunflower.crop} className="w-12" />
             <img
@@ -33,9 +31,7 @@ export const HowToFarm: React.FC<Props> = ({ onClose }) => {
           </div>
         </div>
         <div className="flex  items-center mt-2 ">
-          <p className="text-xs sm:text-sm p-2">
-            {t("howToFarm.stepTwo")}
-          </p>
+          <p className="text-xs sm:text-sm p-2">{t("howToFarm.stepTwo")}</p>
           <div className="relative">
             <img src={shop} className="w-14" />
             <img
@@ -45,9 +41,7 @@ export const HowToFarm: React.FC<Props> = ({ onClose }) => {
           </div>
         </div>
         <div className="flex items-center">
-          <p className="text-xs sm:text-sm p-2">
-            {t("howToFarm.stepThree")}
-          </p>
+          <p className="text-xs sm:text-sm p-2">{t("howToFarm.stepThree")}</p>
 
           <div className="relative">
             <img src={token} className="w-12" />

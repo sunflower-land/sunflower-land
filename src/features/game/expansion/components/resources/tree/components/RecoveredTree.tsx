@@ -191,7 +191,9 @@ const RecoveredTreeComponent: React.FC<Props> = ({
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>{t("equip")} {tool.toLowerCase()}</span>
+              <span>
+                {t("equip")} {tool.toLowerCase()}
+              </span>
             </div>
           </InnerPanel>
         </div>
