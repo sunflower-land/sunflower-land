@@ -5,6 +5,7 @@ import {
   HONEY_PRODUCTION_TIME,
   updateBeehives,
 } from "features/game/lib/updateBeehives";
+import { getKeys } from "features/game/types/craftables";
 
 export enum HARVEST_BEEHIVE_ERRORS {
   BEEHIVE_NOT_PLACED = "This beehive is not placed.",
@@ -20,6 +21,31 @@ type Options = {
   state: Readonly<GameState>;
   action: HarvestBeehiveAction;
   createdAt?: number;
+};
+
+const applySwarmBoostToCrops = (
+  crops: GameState["crops"]
+): GameState["crops"] => {
+  return getKeys(crops).reduce((acc, cropId) => {
+    const cropPlot = crops[cropId];
+
+    if (cropPlot.crop) {
+      const amount = cropPlot.crop.amount;
+
+      return {
+        ...acc,
+        [cropId]: {
+          ...cropPlot,
+          crop: {
+            ...cropPlot.crop,
+            amount: amount + 0.2,
+          },
+        },
+      };
+    }
+
+    return acc;
+  }, {} as GameState["crops"]);
 };
 
 export function harvestBeehive({
@@ -48,12 +74,18 @@ export function harvestBeehive({
 
   const totalHoneyProduced =
     stateCopy.beehives[action.id].honey.produced / HONEY_PRODUCTION_TIME;
+  const isFull = totalHoneyProduced >= 1;
 
   stateCopy.beehives[action.id].honey.produced = 0;
   stateCopy.beehives[action.id].honey.updatedAt = createdAt;
   stateCopy.inventory.Honey = (stateCopy.inventory.Honey ?? new Decimal(0)).add(
     new Decimal(totalHoneyProduced)
   );
+
+  if (isFull && stateCopy.beehives[action.id].swarm) {
+    stateCopy.crops = applySwarmBoostToCrops(stateCopy.crops);
+    stateCopy.beehives[action.id].swarm = false;
+  }
 
   const updatedBeehives = updateBeehives({
     beehives: stateCopy.beehives,

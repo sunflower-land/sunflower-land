@@ -245,6 +245,7 @@ describe("isWithinAOE", () => {
         crop: {
           name: "Sunflower",
           plantedAt: 0,
+          amount: 1,
         },
       },
     },
