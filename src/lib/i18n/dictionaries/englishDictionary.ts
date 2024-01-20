@@ -1068,10 +1068,13 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.arcade.token": "A token earned from mini-games and adventures. Can be exchanged for rewards.",
   "description.bumpkin.nutcracker": "A festive decoration from 2023.",
   "description.festive.tree": "A festive tree available each holiday season. I wonder if it is big enough for santa to see?",
+  "description.white.festive.fox": "The blessing of the White Fox inhabits the generous farms",
   "description.grinxs.hammer": "The magical hammer from Grinx, the legendary Goblin Blacksmith.",
   "description.angelfish": "The aquatic celestial beauty, adorned in a palette of vibrant hues.",
   "description.halibut": "The flat ocean floor dweller, a master of disguise in sandy camouflage.",
   "description.parrotFish": "A kaleidoscope of colors beneath the waves, this fish is nature's living artwork.",
+  "description.Farmhand": "A helpful farmhand",
+  "description.Beehive": "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
   
   // Banners
   "description.goblin.war.banner": "A display of allegiance to the Goblin cause",
@@ -1299,6 +1302,9 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.needCraftRod": "You must first craft a rod.",
   "fishermanModal.craft.beach": "Craft at Beach",
   "fishermanModal.zero.available": "0 available",
+  "fishermanmodal.greetingPart1": "Ahoy, fellow islanders! I'm --",
+  "fishermanmodal.greetingPart2": "--, your trusty island fisherman, and I've set my sights on a grand challenge - collecting every fish under the sun!",
+
 };
 
 const fishermanQuest: Record<FishermanQuest, string> = {

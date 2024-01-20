@@ -1070,11 +1070,14 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.arcade.token": "Um token ganho em minijogos e aventuras. Pode ser trocado por recompensas.",
   "description.bumpkin.nutcracker": "Uma decoração festiva de 2023.",
   "description.festive.tree": "Uma árvore festiva disponível a cada temporada de festas. Será que é grande o suficiente para o Papai Noel ver?",
+  "description.white.festive.fox": "A bênção da Raposa Branca habita as fazendas generosas",
   "description.grinxs.hammer": "O martelo mágico de Grinx, o lendário ferreiro goblin.",
   "description.angelfish": "A beleza celestial aquática, adornada com uma paleta de cores vibrantes.",
   "description.halibut": "O habitante do fundo do oceano plano, mestre do disfarce em camuflagem arenosa.",
   "description.parrotFish": "Um caleidoscópio de cores sob as ondas, este peixe é uma obra de arte viva da natureza.",
-  
+  "description.Farmhand": "Um ajudante de fazenda útil",
+  "description.Beehive": "Uma colmeia movimentada, produzindo mel de flores em crescimento ativo; 10% de chance na colheita do mel de invocar um enxame de abelhas que irá polinizar todas as culturas em crescimento com um impulso de +0.2!",
+
   // Banners
   "description.goblin.war.banner": "Um sinal de lealdade à causa dos Goblins",
   "description.human.war.banner": "Um sinal de lealdade à causa dos Humanos",
@@ -1301,6 +1304,8 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.needCraftRod": "Você precisa primeiro fabricar uma vara de pescar.",
   "fishermanModal.craft.beach": "Fabricar na praia",
   "fishermanModal.zero.available": "0 Disponível",
+  "fishermanmodal.greetingPart1": "Ahoy, companheiros da ilha! Eu sou ",
+  "fishermanmodal.greetingPart2": ", seu confiável pescador da ilha, e estabeleci um grande desafio - coletar todos os peixes sob o sol!",
 };
 
 const fishermanQuest: Record<FishermanQuest, string> = {

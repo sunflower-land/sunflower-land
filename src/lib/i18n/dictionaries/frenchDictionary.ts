@@ -1070,11 +1070,14 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.arcade.token": "Un jeton gagné lors de mini-jeux et d'aventures. Peut être échangé contre des récompenses.",
   "description.bumpkin.nutcracker": "Une décoration festive de 2023.",
   "description.festive.tree": "Un arbre festif disponible chaque saison des fêtes. Je me demande s'il est assez grand pour que le Père Noël le voie ?",
+  "description.white.festive.fox": "La bénédiction du Renard Blanc habite les fermes généreuses",
   "description.grinxs.hammer": "Le marteau magique de Grinx, le légendaire forgeron gobelin.",
   "description.angelfish": "La beauté céleste aquatique, ornée d'une palette de couleurs vibrantes.",
   "description.halibut": "L'habitant du fond de l'océan plat, maître du déguisement en camouflage sableux.",
   "description.parrotFish": "Un kaléidoscope de couleurs sous les vagues, ce poisson est une œuvre d'art vivante de la nature.",
-  
+  "description.Farmhand": "Un aide agricole utile",
+  "description.Beehive": "Une ruche animée, produisant du miel à partir de fleurs en pleine croissance ; 10 % de chance lors de la récolte du miel d'invoquer un essaim d'abeilles qui pollinisera toutes les cultures en croissance avec un bonus de +0.2 !",
+
   // Banners
   "description.goblin.war.banner": "Une marque d'allégeance à la cause des Gobelins",
   "description.human.war.banner": "Une marque d'allégeance à la cause des Humains",
@@ -1301,6 +1304,8 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.needCraftRod": "Vous devez d'abord fabriquer une canne à pêche.",
   "fishermanModal.craft.beach": "Fabriquer à la plage",
   "fishermanModal.zero.available": "0 Disponible",
+  "fishermanmodal.greetingPart1": "Ahoy, compagnons insulaires ! Je suis ",
+  "fishermanmodal.greetingPart2": " , votre fidèle pêcheur de l'île, et je me suis lancé un grand défi - collecter tous les poissons sous le soleil !",
 };
 
 const fishermanQuest: Record<FishermanQuest, string> = {

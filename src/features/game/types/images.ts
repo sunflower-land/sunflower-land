@@ -2934,7 +2934,7 @@ export const ITEM_DETAILS: Items = {
   },
   "White Festive Fox": {
     image: whiteFestiveFox,
-    description: "The blessing of the White Fox inhabits the generous farms",
+    description: translate("description.white.festive.fox"),
   },
   "Grinx's Hammer": {
     image: grinxsHammer,
@@ -2970,12 +2970,12 @@ export const ITEM_DETAILS: Items = {
   },
   Farmhand: {
     image: SUNNYSIDE.icons.player,
-    description: "A helpful farmhand",
+    description:  translate("description.Farmhand"),
   },
   Beehive: {
     image: beehive,
     description:
-      "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
+    translate("description.Beehive"),
   },
 
   "Flower 1": {

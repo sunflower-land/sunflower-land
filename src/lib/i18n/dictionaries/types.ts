@@ -704,10 +704,14 @@ export type DecorationDescriptions =
   | "description.arcade.token"
   | "description.bumpkin.nutcracker"
   | "description.festive.tree"
+  | "description.white.festive.fox"
   | "description.grinxs.hammer"
   | "description.angelfish"
   | "description.halibut"
   | "description.parrotFish"
+  | "description.Farmhand"
+  | "description.Beehive"
+
 
   //Banners
   | "description.goblin.war.banner"
@@ -923,7 +927,9 @@ export type FishermanModal =
   | "fishermanModal.dailyLimitReached"
   | "fishermanModal.needCraftRod"
   | "fishermanModal.craft.beach"
-  | "fishermanModal.zero.available";
+  | "fishermanModal.zero.available"
+  | "fishermanmodal.greetingPart1"
+  | "fishermanmodal.greetingPart2";
 
 export type FishermanQuest =
   | "fishermanQuest.Ohno"
