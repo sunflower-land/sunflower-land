@@ -1974,7 +1974,7 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1":
     "Well, howdy there, young whippersnappers! I'm Hayseed Hank, a seasoned ol' Bumpkin farmer, tending to the land like in the good ol' days.",
   "hayseedHankv2.dialog2":
-    "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with {{ticket}}s.",
+    "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with ",
   "hayseedHankv2.action": "Let's do it",
   "hayseedHankv2.title": "Daily Chores",
   "hayseedHankv2.newChoresAvailable": "New chores available in {{time}}.",

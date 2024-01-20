@@ -42,7 +42,9 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
             text: translate("hayseedHankv2.greeting"),
           },
           {
-            text: `However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with ${getSeasonalTicket()}s.`, //Translate
+            text: `${translate(
+              "hayseedHankv2.dialog2"
+            )} ${getSeasonalTicket()}.`,
             actions: [
               {
                 text: translate("hayseedHankv2.action"),

@@ -2087,7 +2087,7 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1":
     "Eh bien, salut là, jeunes fripons ! Je suis Hayseed Hank, un vieux fermier Bumpkin chevronné, qui s'occupe de la terre comme au bon vieux temps.",
   "hayseedHankv2.dialog2":
-    "Cependant, mes os ne sont plus ce qu'ils étaient. Si tu peux m'aider avec mes tâches quotidiennes, je te récompenserai avec des {{ticket}}s.",
+    "Cependant, mes os ne sont plus ce qu'ils étaient. Si tu peux m'aider avec mes tâches quotidiennes, je te récompenserai avec des ",
   "hayseedHankv2.action": "Faisons-le",
   "hayseedHankv2.title": "Tâches Quotidiennes",
   "hayseedHankv2.newChoresAvailable":
