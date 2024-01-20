@@ -1406,7 +1406,8 @@ export type HayseedHankV2 =
 
 export type HeliosSunflower =
   | "heliosSunflower.title"
-  | "heliosSunflower.description";
+  | "heliosSunflower.description"
+  | "confirmation.craft";
 
 export type HenHouseTerms =
   | "henHouse.chickens"

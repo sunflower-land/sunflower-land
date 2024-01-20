@@ -1996,6 +1996,7 @@ const heliosSunflower: Record<HeliosSunflower, string> = {
   "heliosSunflower.title": "Clytie the Sunflower",
   "heliosSunflower.description":
     "Only the true saviour can return and harvest this Sunflower.",
+  "confirmation.craft": "Are you sure you want to craft",
 };
 
 const henHouseTerms: Record<HenHouseTerms, string> = {

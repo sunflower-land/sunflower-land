@@ -2110,6 +2110,7 @@ const heliosSunflower: Record<HeliosSunflower, string> = {
   "heliosSunflower.title": "Clytie le Tournesol",
   "heliosSunflower.description":
     "Seul le véritable sauveur peut revenir et récolter ce Tournesol.",
+  "confirmation.craft": "Êtes-vous sûr de vouloir fabriquer",
 };
 
 const henHouseTerms: Record<HenHouseTerms, string> = {
