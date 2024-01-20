@@ -62,6 +62,7 @@ import {
   HalveningCountdown,
   Harvestflower,
   HarvestBeeHive,
+  HayseedHankPlaza,
   HayseedHankV2,
   HeliosSunflower,
   HenHouseTerms,
@@ -1970,6 +1971,14 @@ const harvestBeeHive: Record<HarvestBeeHive, string> = {
   "harvestBeeHive.noHoney": "This beehive has no honey.",
 };
 
+const hayseedHankPlaza: Record<HayseedHankPlaza, string> = {
+  "hayseedHankPlaza.cannotCompleteChore": "Cannot complete this chore?",
+  "hayseedHankPlaza.skipChore": "Skip chore",
+  "hayseedHankPlaza.canSkipIn": "You can skip this chore in",
+  "hayseedHankPlaza.wellDone": "Well done",
+  "hayseedHankPlaza.lendAHand": "Lend a hand?",
+};
+
 const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1":
     "Well, howdy there, young whippersnappers! I'm Hayseed Hank, a seasoned ol' Bumpkin farmer, tending to the land like in the good ol' days.",
@@ -3842,6 +3851,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...halveningCountdown,
   ...harvestflower,
   ...harvestBeeHive,
+  ...hayseedHankPlaza,
   ...hayseedHankV2,
   ...heliosSunflower,
   ...henHouseTerms,

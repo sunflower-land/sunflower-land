@@ -1388,6 +1388,13 @@ export type HarvestBeeHive =
   | "harvestBeeHive.notPlaced"
   | "harvestBeeHive.noHoney";
 
+export type HayseedHankPlaza =
+  | "hayseedHankPlaza.cannotCompleteChore"
+  | "hayseedHankPlaza.skipChore"
+  | "hayseedHankPlaza.canSkipIn"
+  | "hayseedHankPlaza.wellDone"
+  | "hayseedHankPlaza.lendAHand";
+
 export type HayseedHankV2 =
   | "hayseedHankv2.dialog1"
   | "hayseedHankv2.dialog2"
@@ -2647,6 +2654,7 @@ export type TranslationKeys =
   | HalveningCountdown
   | Harvestflower
   | HarvestBeeHive
+  | HayseedHankPlaza
   | HayseedHankV2
   | HeliosSunflower
   | HenHouseTerms
