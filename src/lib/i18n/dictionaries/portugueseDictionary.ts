@@ -39,6 +39,7 @@ import {
   ErrorAndAccess,
   ErrorTerms,
   ExoticShopItems,
+  FestiveTree,
   FishDescriptions,
   FishermanModal,
   FishermanQuest,
@@ -1218,6 +1219,12 @@ const exoticShopItems: Record<ExoticShopItems, string> = {
   "exoticShopItems.line4": "Equipe dos Feijões",
 };
 
+const festivetree: Record<FestiveTree, string> = {
+  "festivetree.greedyBumpkin": "Bumpkin ganancioso detectado",
+  "festivetree.alreadyGifted": "Esta árvore já foi presenteada. Aguarde até o próximo Natal para mais festividades.",
+  "festivetree.notFestiveSeason": "Não é a temporada festiva. Volte mais tarde.",
+};
+
 const fishDescriptions: Record<FishDescriptions, string> = {
   // Fish
   "description.anchovy.one": "O acrobata em miniatura do oceano, sempre em movimento!",
@@ -1679,6 +1686,7 @@ const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.itemsReturned": "Seus itens foram devolvidos com segurança ao seu inventário.",
   "islandupgrade.notReadyExpandMore": "Você não está pronto. Desenvolver mais",
   "islandupgrade.notReadyExpandMore.two": "expansões",
+  "islandupgrade.exoticResourcesDescription": "Esta área do Sunflower Land é conhecida por seus recursos exóticos. Expanda suas terras para descobrir frutas, flores, colmeias de abelhas e minerais raros!",
 };
 
 const interactableModals: Record<InteractableModals, string> = {
@@ -2960,6 +2968,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...errorAndAccess,
   ...errorTerms,
   ...exoticShopItems,
+  ...festivetree,
   ...fishDescriptions,
   ...fishermanModal,
   ...fishermanQuest,

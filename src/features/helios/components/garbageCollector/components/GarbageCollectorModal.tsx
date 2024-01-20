@@ -15,10 +15,9 @@ export const GarbageCollectorModal: React.FC = () => {
     return (
       <>
         <div className="p-2">
-          <p className="mb-3">Welcome to my humble shop.</p>
+          <p className="mb-3">{t("garbageCollector.welcome")}</p>
           <p className="mb-2">
-            {`I'm the Garbage Trader, and I'll buy anything you've got - as long
-            as it's garbage.`}
+          {t("garbageCollector.description")}
           </p>
         </div>
         <Button

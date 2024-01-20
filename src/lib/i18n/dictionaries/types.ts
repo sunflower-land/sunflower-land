@@ -844,6 +844,11 @@ export type ExoticShopItems =
   | "exoticShopItems.line3"
   | "exoticShopItems.line4";
 
+export type FestiveTree =
+  | "festivetree.greedyBumpkin"
+  | "festivetree.alreadyGifted"
+  | "festivetree.notFestiveSeason";
+
 export type FishDescriptions =
   //Fish
   | "description.anchovy.one"
@@ -1447,7 +1452,8 @@ export type HowToUpgrade =
   | "islandupgrade.welcomePetalParadise"
   | "islandupgrade.itemsReturned"
   | "islandupgrade.notReadyExpandMore"
-  | "islandupgrade.notReadyExpandMore.two";
+  | "islandupgrade.notReadyExpandMore.two"
+  | "islandupgrade.exoticResourcesDescription";
 
 
 export type InteractableModals =
@@ -2654,6 +2660,7 @@ export type TranslationKeys =
   | ErrorAndAccess
   | ErrorTerms
   | ExoticShopItems
+  | FestiveTree
   | FishDescriptions
   | FishermanModal
   | FishermanQuest

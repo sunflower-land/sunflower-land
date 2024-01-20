@@ -236,11 +236,7 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
         <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk}>
           <div className="p-2">
             <p className="text-sm mb-2">{translate("islandupgrade.welcomePetalParadise")}</p>
-            <p className="text-xs mb-2">
-              {`This area of Sunflower Land is known for it's exotic resources.
-              Expand your land to discover fruit, flowers, bee hives & rare
-              minerals!`}
-            </p>
+            <p className="text-xs mb-2">{translate("islandupgrade.exoticResourcesDescription")}</p>
             <img
               src={UPGRADE_PREVIEW.basic}
               className="w-full rounded-md mb-2"

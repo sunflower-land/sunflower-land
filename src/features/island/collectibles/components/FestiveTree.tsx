@@ -13,6 +13,7 @@ import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   id: string;
@@ -66,10 +67,9 @@ export const FestiveTree: React.FC<Props> = ({ id }) => {
           onClose={() => setShowGiftedModal(false)}
         >
           <div className="p-2">
-            <Label type="danger">Greedy Bumpkin Detected</Label>
+            <Label type="danger">{translate("festivetree.greedyBumpkin")}</Label>
             <p className="text-sm mt-2">
-              This tree has already been gifted. Wait until next Christmas for
-              more festivities.
+            {translate("festivetree.alreadyGifted")}
             </p>
           </div>
         </CloseButtonPanel>
@@ -85,9 +85,9 @@ export const FestiveTree: React.FC<Props> = ({ id }) => {
           onClose={() => setShowWrongTimeModal(false)}
         >
           <div className="p-2">
-            <Label type="danger">Greedy Bumpkin Detected</Label>
+            <Label type="danger">{translate("festivetree.greedyBumpkin")}</Label>
             <p className="text-sm mt-2">
-              It is not the Festive season. Come back later.
+            {translate("festivetree.notFestiveSeason")}
             </p>
           </div>
         </CloseButtonPanel>
