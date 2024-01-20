@@ -25,11 +25,21 @@ interface Props {
 }
 
 const obsessionDialogues = (itemName: string) => [
-  `Ah, the ${itemName}! I only wish to see it, not possess. Show it to me, and ${getSeasonalTicket()}s will be your reward.`,
-  `You've brought the ${itemName}? I merely want to gaze upon it. Let me see, and ${getSeasonalTicket()}s shall be yours.`,
-  `Is that the ${itemName} you have? A mere glance is all I desire. For this, you'll receive ${getSeasonalTicket()}s.`,
-  `The ${itemName}! I don't want to keep it, just to behold it. Show it to me, and ${getSeasonalTicket()}s are yours.`,
-  `You offer a view of the ${itemName}? All I ask is to see it briefly. For your generosity, ${getSeasonalTicket()}s will be granted to you.`,
+  `${translate("obsessionDialogue.line1.part1")} ${itemName}${translate(
+    "obsessionDialogue.line1.part2"
+  )} ${getSeasonalTicket()}${translate("obsessionDialogue.line1.part3")}`,
+  `${translate("obsessionDialogue.line2.part1")} ${itemName}${translate(
+    "obsessionDialogue.line2.part2"
+  )} ${getSeasonalTicket()}${translate("obsessionDialogue.line2.part3")}`,
+  `${translate("obsessionDialogue.line3.part1")} ${itemName}${translate(
+    "obsessionDialogue.line3.part2"
+  )} ${getSeasonalTicket()}${translate("obsessionDialogue.line3.part3")}`,
+  `${translate("obsessionDialogue.line4.part1")} ${itemName}${translate(
+    "obsessionDialogue.line4.part2"
+  )} ${getSeasonalTicket()}${translate("obsessionDialogue.line4.part3")}`,
+  `${translate("obsessionDialogue.line5.part1")} ${itemName}${translate(
+    "obsessionDialogue.line5.part2"
+  )} ${getSeasonalTicket()}${translate("obsessionDialogue.line5.part3")}`,
 ];
 
 export const Bert: React.FC<Props> = ({ onClose }) => {

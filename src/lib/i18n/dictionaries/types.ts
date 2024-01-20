@@ -2057,6 +2057,23 @@ export type PirateQuest =
   | "questDescription.pirateQuest3"
   | "questDescription.pirateQuest4";
 
+export type ObsessionDialogue =
+  | "obsessionDialogue.line1.part1"
+  | "obsessionDialogue.line1.part2"
+  | "obsessionDialogue.line1.part3"
+  | "obsessionDialogue.line2.part1"
+  | "obsessionDialogue.line2.part2"
+  | "obsessionDialogue.line2.part3"
+  | "obsessionDialogue.line3.part1"
+  | "obsessionDialogue.line3.part2"
+  | "obsessionDialogue.line3.part3"
+  | "obsessionDialogue.line4.part1"
+  | "obsessionDialogue.line4.part2"
+  | "obsessionDialogue.line4.part3"
+  | "obsessionDialogue.line5.part1"
+  | "obsessionDialogue.line5.part2"
+  | "obsessionDialogue.line5.part3";
+
 export type Offer =
   | "offer.okxOffer"
   | "offer.beginWithNFT"
@@ -2685,6 +2702,7 @@ export type TranslationKeys =
   | NpcDialogues
   | NyeButton
   | PirateQuest
+  | ObsessionDialogue
   | Offer
   | Onboarding
   | OnCollectReward

@@ -92,6 +92,7 @@ import {
   NpcDialogues,
   NyeButton,
   PirateQuest,
+  ObsessionDialogue,
   Offer,
   Onboarding,
   OnCollectReward,
@@ -3043,6 +3044,33 @@ const pirateQuest: Record<PirateQuest, string> = {
   "questDescription.pirateQuest4": "Collect 5 Corals",
 };
 
+const obsessionDialogue: Record<ObsessionDialogue, string> = {
+  "obsessionDialogue.line1.part1": "Ah, the",
+  "obsessionDialogue.line1.part2":
+    "! I only wish to see it, not possess. Show it to me, and",
+  "obsessionDialogue.line1.part3": "s will be your reward.",
+
+  "obsessionDialogue.line2.part1": "You've brought the",
+  "obsessionDialogue.line2.part2":
+    "? I merely want to gaze upon it. Let me see, and",
+  "obsessionDialogue.line2.part3": "s shall be yours.",
+
+  "obsessionDialogue.line3.part1": "Is that the",
+  "obsessionDialogue.line3.part2":
+    " you have? A mere glance is all I desire. For this, you'll receive",
+  "obsessionDialogue.line3.part3": "s.",
+
+  "obsessionDialogue.line4.part1": "The",
+  "obsessionDialogue.line4.part2":
+    "! I don't want to keep it, just to behold it. Show it to me, and",
+  "obsessionDialogue.line4.part3": "s are yours.",
+
+  "obsessionDialogue.line5.part1": "You offer a view of the",
+  "obsessionDialogue.line5.part2":
+    "? All I ask is to see it briefly. For your generosity,",
+  "obsessionDialogue.line5.part3": "s will be granted to you.",
+};
+
 const offer: Record<Offer, string> = {
   "offer.okxOffer": "Howdy Farmer, I have an exclusive OKX offer for you!",
   "offer.beginWithNFT":
@@ -3881,6 +3909,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...npcDialogues,
   ...npc_message,
   ...nyeButton,
+  ...obsessionDialogue,
   ...offer,
   ...onCollectReward,
   ...onboarding,
