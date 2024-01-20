@@ -509,6 +509,14 @@ export type CropFruitDescriptions =
   | "description.golden.helios"
   | "description.black.magic";
 
+export type Deliveryitem =
+  | "deliveryitem.loading"
+  | "deliveryitem.inventory"
+  | "deliveryitem.itemsToDeliver"
+  | "deliveryitem.deliverToWallet"
+  | "deliveryitem.viewOnOpenSea"
+  | "deliveryitem.deliver";
+
 export type DefaultDialogue =
   | "defaultDialogue.intro"
   | "defaultDialogue.positiveDelivery"
@@ -2638,6 +2646,7 @@ export type TranslationKeys =
   | ConfirmationTerms
   | Conversations
   | CropFruitDescriptions
+  | Deliveryitem
   | DefaultDialogue
   | DecorationDescriptions
   | Delivery

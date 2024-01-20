@@ -28,6 +28,7 @@ import {
   ConfirmationTerms,
   Conversations,
   CropFruitDescriptions,
+  Deliveryitem,
   DefaultDialogue,
   DecorationDescriptions,
   Delivery,
@@ -1048,6 +1049,16 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.chiogga": "Uma beterraba arco-íris!",
   "description.golden.helios": "Grandeza banhada pelo sol!",
   "description.black.magic": "Uma flor escura e misteriosa!",
+};
+
+const deliveryitem: Record<Deliveryitem, string> = {
+  "deliveryitem.loading": "Carregando",
+  "deliveryitem.inventory": "Inventário:",
+  "deliveryitem.itemsToDeliver": "Itens para entregar:",
+  "deliveryitem.deliverToWallet": "Entregar na sua carteira",
+  "deliveryitem.viewOnOpenSea":
+    "Uma vez entregues, você poderá visualizar seus itens no OpenSea.",
+  "deliveryitem.deliver": "Entregar",
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {
@@ -3926,6 +3937,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...confirmationTerms,
   ...conversations,
   ...cropFruitDescriptions,
+  ...deliveryitem,
   ...defaultDialogue,
   ...decorationDescriptions,
   ...delivery,
