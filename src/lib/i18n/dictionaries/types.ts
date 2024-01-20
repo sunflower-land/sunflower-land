@@ -2231,7 +2231,8 @@ export type RewardTerms =
   | "reward.found"
   | "reward.spendWisely"
   | "reward.wearable"
-  | "reward.woohoo";
+  | "reward.woohoo"
+  | "reward.connectWeb3Wallet";
 
 export type RulesGameStart =
   | "rules.gameStart"

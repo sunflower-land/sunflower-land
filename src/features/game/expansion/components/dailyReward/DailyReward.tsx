@@ -286,10 +286,10 @@ export const DailyReward: React.FC = () => {
                 }}
               />
               <p className="text-sm text-center">
-                Connect a Web3 Wallet for a daily reward.
+                {t("reward.connectWeb3Wallet")}
               </p>
             </div>
-            <Button onClick={() => setShowIntro(false)}>Continue</Button>
+            <Button onClick={() => setShowIntro(false)}>{t("continue")}</Button>
           </CloseButtonPanel>
         )}
         {!showIntro && (

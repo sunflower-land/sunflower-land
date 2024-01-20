@@ -3291,6 +3291,7 @@ const rewardTerms: Record<RewardTerms, string> = {
   "reward.spendWisely": "Spend it wisely.",
   "reward.wearable": "A wearable for your Bumpkin",
   "reward.woohoo": "Woohoo! Here is your reward",
+  "reward.connectWeb3Wallet": "Connect a Web3 Wallet for a daily reward.",
 };
 
 const rulesGameStart: Record<RulesGameStart, string> = {
