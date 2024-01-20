@@ -1986,7 +1986,7 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with ",
   "hayseedHankv2.action": "Let's do it",
   "hayseedHankv2.title": "Daily Chores",
-  "hayseedHankv2.newChoresAvailable": "New chores available in {{time}}.",
+  "hayseedHankv2.newChoresAvailable": "New chores available in ",
   "hayseedHankv2.skipChores": "You can skip chores each new day.",
   "hayseedHankv2.greeting":
     "Well, howdy there, young whippersnappers! I'm Hayseed Hank...",

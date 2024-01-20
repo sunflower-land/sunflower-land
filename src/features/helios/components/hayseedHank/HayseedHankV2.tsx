@@ -76,10 +76,11 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
             <div className="w-6">
               <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
             </div>
-            <span className="text-xs">{`New chores available in ${secondsToString(
-              secondsTillReset(),
-              { length: "full" }
-            )}.`}</span>
+            <span className="text-xs">{`${translate(
+              "hayseedHankv2.newChoresAvailable"
+            )} ${secondsToString(secondsTillReset(), {
+              length: "full",
+            })}.`}</span>
           </div>
           <div className="flex items-center ">
             <div className="w-6">

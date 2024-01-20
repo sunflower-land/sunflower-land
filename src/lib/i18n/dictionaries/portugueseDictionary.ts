@@ -2047,7 +2047,7 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     "No entanto, meus ossos já não são mais os mesmos. Se você puder me ajudar com minhas tarefas diárias, eu te recompensarei com ",
   "hayseedHankv2.action": "Vamos fazer isso",
   "hayseedHankv2.title": "Tarefas Diárias",
-  "hayseedHankv2.newChoresAvailable": "Novas tarefas disponíveis em {{time}}.",
+  "hayseedHankv2.newChoresAvailable": "Novas tarefas disponíveis em ",
   "hayseedHankv2.skipChores": "Você pode pular as tarefas a cada novo dia.",
   "hayseedHankv2.greeting":
     "Bem, olá aí, jovens pestinhas! Eu sou Hayseed Hank...",
