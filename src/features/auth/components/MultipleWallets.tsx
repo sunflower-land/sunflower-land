@@ -31,7 +31,7 @@ export const MultipleWallets: React.FC = () => {
       </div>
       <div className="flex space-x-1">
         <Button
-          onClick={() => authService.send("REFRESH")}
+          onClick={() => walletService.send("RESET")}
           className="overflow-hidden"
         >
           <span>{t("back")}</span>
