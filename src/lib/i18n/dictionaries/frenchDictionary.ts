@@ -137,7 +137,6 @@ import {
   TransactionTerms,
   TranslationKeys,
   Transfer,
-  TransferAccount,
   TreasureModal,
   TutorialPage,
   VisitislandEnter,
@@ -839,7 +838,7 @@ const chickenWinner: Record<ChickenWinner, string> = {
 
 const choresStart: Record<ChoresStart, string> = {
   "chores.harvestFields": "Récolter les champs",
-  "chores.earnSfl": "Gagner {{amount}} SFL",
+  "chores.earnSfl": "Gagner",
   "chores.harvestFieldsIntro":
     "Ces champs ne vont pas se labourer tout seuls. Récoltez 3 Tournesols.",
   "chores.earnSflIntro":
@@ -3858,20 +3857,6 @@ const transfer: Record<Transfer, string> = {
   "transfer.address": "Adresse du portefeuille :",
 };
 
-const transferAccount: Record<TransferAccount, string> = {
-  "transferAccount.transferYourAccount": "Transférez votre compte",
-  "transferAccount.walletAddress": "Adresse du portefeuille :",
-  "transferAccount.warning":
-    "Assurez-vous que l'adresse que vous avez fournie est sur la Blockchain Polygon, est correcte et vous appartient. Il n'y a pas de récupération pour les adresses incorrectes.",
-  "transferAccount.transfer": "Transférer",
-  "transferAccount.readMore": "En savoir plus",
-  "transferAccount.transferringFarm": "Transfert de votre ferme !",
-  "transferAccount.doNotRefresh": "Ne rafraîchissez pas ce navigateur",
-  "transferAccount.successMessage":
-    "Votre compte #{{farmId}} a été transféré à : {{address}}",
-  "transferAccount.continue": "Continuer",
-};
-
 const treasureModal: Record<TreasureModal, string> = {
   "treasureModal.noShovelTitle": "Pas de pelle à sable !",
   "treasureModal.needShovel":
@@ -4140,7 +4125,6 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...toolDescriptions,
   ...transactionTerms,
   ...transfer,
-  ...transferAccount,
   ...treasureModal,
   ...tutorialPage,
   ...visitislandEnter,

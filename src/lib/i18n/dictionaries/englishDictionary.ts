@@ -137,7 +137,6 @@ import {
   TransactionTerms,
   TranslationKeys,
   Transfer,
-  TransferAccount,
   TreasureModal,
   TutorialPage,
   VisitislandEnter,
@@ -459,9 +458,9 @@ const addSFL: Record<AddSFL, string> = {
   "addSFL.referralFee":
     "Sunflower Land takes a 5% referral fee to complete this transaction.",
   "addSFL.swapTitle": "Swap Details",
-  "addSFL.balance": "Balance: {{balance}}",
+  "addSFL.balance": "Balance:",
   "addSFL.for": "for",
-  "addSFL.minimumReceived": "Minimum Received: {{amount}}",
+  "addSFL.minimumReceived": "Minimum Received:",
   "addSFL.addSFL": "Add SFL",
   "addSFL.title": "Add SFL",
 };
@@ -818,7 +817,7 @@ const chickenWinner: Record<ChickenWinner, string> = {
 
 const choresStart: Record<ChoresStart, string> = {
   "chores.harvestFields": "Harvest the fields",
-  "chores.earnSfl": "Earn {{amount}} SFL",
+  "chores.earnSfl": "Earn",
   "chores.harvestFieldsIntro":
     "These fields ain't gonna plow themselves. Harvest 3 Sunflowers.",
   "chores.earnSflIntro":
@@ -3686,20 +3685,6 @@ const transfer: Record<Transfer, string> = {
   "transfer.address": "Wallet address:",
 };
 
-const transferAccount: Record<TransferAccount, string> = {
-  "transferAccount.transferYourAccount": "Transfer your account",
-  "transferAccount.walletAddress": "Wallet address:",
-  "transferAccount.warning":
-    "Please ensure that the address you provided is on the Polygon Blockchain, is correct and is owned by you. There is no recovery from incorrect addresses.",
-  "transferAccount.transfer": "Transfer",
-  "transferAccount.readMore": "Read more",
-  "transferAccount.transferringFarm": "Transferring your farm!",
-  "transferAccount.doNotRefresh": "Do not refresh this browser",
-  "transferAccount.successMessage":
-    "Your Account #{{farmId}} has been transferred to: {{address}}",
-  "transferAccount.continue": "Continue",
-};
-
 const treasureModal: Record<TreasureModal, string> = {
   "treasureModal.noShovelTitle": "No Sand Shovel!",
   "treasureModal.needShovel":
@@ -3966,7 +3951,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...toolDescriptions,
   ...transactionTerms,
   ...transfer,
-  ...transferAccount,
   ...treasureModal,
   ...tutorialPage,
   ...visitislandEnter,

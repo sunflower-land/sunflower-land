@@ -2516,17 +2516,6 @@ export type Transfer =
   | "transfer.Taccount"
   | "transfer.address";
 
-export type TransferAccount =
-  | "transferAccount.transferYourAccount"
-  | "transferAccount.walletAddress"
-  | "transferAccount.warning"
-  | "transferAccount.transfer"
-  | "transferAccount.readMore"
-  | "transferAccount.transferringFarm"
-  | "transferAccount.doNotRefresh"
-  | "transferAccount.successMessage"
-  | "transferAccount.continue";
-
 export type TreasureModal =
   | "treasureModal.noShovelTitle"
   | "treasureModal.needShovel"
@@ -2755,7 +2744,6 @@ export type TranslationKeys =
   | ToolDescriptions
   | TransactionTerms
   | Transfer
-  | TransferAccount
   | TreasureModal
   | TutorialPage
   | VisitislandEnter

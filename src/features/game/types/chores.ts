@@ -39,7 +39,9 @@ export const CHORES: Chore[] = [
     },
   },
   {
-    description: `Earn ${CROPS().Sunflower.sellPrice.mul(5)} SFL`, //Translate
+    description: `${translate(
+      "chores.earnSfl"
+    )} ${CROPS().Sunflower.sellPrice.mul(5)} SFL`,
     sfl: CROPS().Sunflower.sellPrice.mul(5).toNumber(),
     image: betty,
     introduction: translate("chores.earnSflIntro"),
