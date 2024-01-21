@@ -941,3 +941,183 @@ img {
   animation: honey-drop 1s infinite;
   animation-delay: 1.5s;
 }
+
+@keyframes fly-up-right {
+  0% {
+    transform: translate(0, -5px) scale(0) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, -15px) scale(1) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+}
+
+@keyframes fly-up-left {
+  0% {
+    transform: translate(0, -5px) scale(0);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, -15px) scale(1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+}
+
+/* Bee Swarm of 5 bees coming out of the hive and flying in different directions and then fading out */
+@keyframes bee-1 {
+  0% {
+    transform: translate(0, -7px) scale(0) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  15% {
+    transform: translate(0, -15px) scale(1) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(5px, 150px) scale(1) scaleX(-1);
+    transform-origin: center center;
+    opacity: 0;
+  }
+}
+
+/* Bee 2 should fly towards a 60 deg angle */
+@keyframes bee-2 {
+  0% {
+    transform: translate(0, -16px) scale(1) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(40px, 160px) scale(1) scaleX(-1);
+    transform-origin: center center;
+    opacity: 0;
+  }
+}
+
+@keyframes bee-3 {
+  0% {
+    transform: translate(0, -8px) scale(1) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  10% {
+    transform: translate(0, -20px) scale(1) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(60px, 140px) scale(1) scaleX(-1);
+    transform-origin: center center;
+    opacity: 0;
+  }
+}
+
+@keyframes bee-4 {
+  0% {
+    transform: translate(-10px, -8px) scale(1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  10% {
+    transform: translate(-12px, -15px) scale(1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-40px, 175px) scale(1);
+    transform-origin: center center;
+    opacity: 0;
+  }
+}
+
+@keyframes bee-5 {
+  0% {
+    transform: translate(-30px, -8px) scale(1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  10% {
+    transform: translate(-32px, -15px) scale(1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-70px, 90px) scale(1);
+    transform-origin: center center;
+    opacity: 0;
+  }
+}
+
+@keyframes bee-6 {
+  0% {
+    transform: translate(-20px, -20px) scale(1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-70px, 80px) scale(1);
+    transform-origin: center center;
+    opacity: 0;
+  }
+}
+
+@keyframes bee-7 {
+  0% {
+    transform: translate(5px, -8px) scale(1) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  15% {
+    transform: translate(8px, -14px) scale(1) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(50px, 60px) scale(1) scaleX(-1);
+    transform-origin: center center;
+    opacity: 0;
+  }
+}
+
+.swarm-bee-1 {
+  animation: fly-up-right 4s, bee-1 4s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
+}
+.swarm-bee-2 {
+  animation: fly-up-right 4s, bee-2 4s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
+}
+.swarm-bee-3 {
+  animation: fly-up-right 4s, bee-3 4s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
+}
+.swarm-bee-4 {
+  animation: fly-up-left 4s, bee-4 4s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
+}
+.swarm-bee-5 {
+  animation: fly-up-left 4s, bee-5 4s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
+}
+.swarm-bee-6 {
+  animation: fly-up-left 4s, bee-6 4s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
+}
+.swarm-bee-7 {
+  animation: fly-up-right 3s, bee-7 3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
+}
