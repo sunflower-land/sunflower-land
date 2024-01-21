@@ -49,6 +49,7 @@ export function placeSunstone({
         amount: 0,
         minedAt: 0,
       },
+      minesLeft: 10,
     },
   };
 

@@ -21,9 +21,9 @@ const DepletedSunstoneComponent: React.FC<Props> = ({ timeLeft }) => {
           src={ITEM_DETAILS["Sunstone Rock"].image}
           className="absolute opacity-50"
           style={{
-            width: `${PIXEL_SCALE * 14}px`,
-            bottom: `${PIXEL_SCALE * 3}px`,
-            left: `${PIXEL_SCALE * 1}px`,
+            width: `${PIXEL_SCALE * 18}px`,
+            bottom: `${PIXEL_SCALE * 7}px`,
+            left: `${PIXEL_SCALE * 7}px`,
           }}
         />
         <div

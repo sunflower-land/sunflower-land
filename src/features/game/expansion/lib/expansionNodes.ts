@@ -129,7 +129,7 @@ export function getBumpkinLevelRequiredForNode(
     count += EXPANSION_NODES[expansions as Land][key];
   }
 
-  return 65 as BumpkinLevel;
+  return 50 as BumpkinLevel;
 }
 
 export function getEnabledNodeCount(

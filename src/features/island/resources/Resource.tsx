@@ -25,6 +25,7 @@ import lockIcon from "assets/skills/lock.png";
 import { Crimstone } from "features/game/expansion/components/resources/crimstone/Crimstone";
 import { Beehive } from "features/game/expansion/components/resources/beehive/Beehive";
 import { FlowerBed } from "../flowers/FlowerBed";
+import { Sunstone } from "features/game/expansion/components/resources/sunstone/Sunstone";
 
 export interface ResourceProps {
   name: ResourceName;
@@ -165,8 +166,9 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
       src={SUNNYSIDE.resource.iron_rock}
       className="absolute h-auto w-full"
       style={{
-        width: `${PIXEL_SCALE * 32}px`,
-        bottom: `${PIXEL_SCALE * -4}px`,
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 7}px`,
+        left: `${PIXEL_SCALE * 7}px`,
       }}
     />
   ),
@@ -186,8 +188,7 @@ export const RESOURCE_COMPONENTS: Record<
   Boulder: Boulder,
   Beehive: Beehive,
   "Flower Bed": FlowerBed,
-  // "Sunstone Rock": Sunstone
-  "Sunstone Rock": () => null,
+  "Sunstone Rock": Sunstone,
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");

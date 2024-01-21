@@ -13,12 +13,12 @@ import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { loadAudio, miningAudio } from "lib/utils/sfx";
-import gold from "assets/resources/gold_small.png";
 import { ZoomContext } from "components/ZoomProvider";
 
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 const tool = "Iron Pickaxe";
 
@@ -99,16 +99,16 @@ const RecoveredSunstoneComponent: React.FC<Props> = ({
         {/* static resource node image */}
         {!showSpritesheet && (
           <img
-            src={gold}
+            src={ITEM_DETAILS["Sunstone Rock"].image}
             className={
               bumpkinTooLow
                 ? "absolute pointer-events-none opacity-50"
                 : "absolute pointer-events-none"
             }
             style={{
-              width: `${PIXEL_SCALE * 14}px`,
-              bottom: `${PIXEL_SCALE * 3}px`,
-              right: `${PIXEL_SCALE * 1}px`,
+              width: `${PIXEL_SCALE * 18}px`,
+              bottom: `${PIXEL_SCALE * 6}px`,
+              left: `${PIXEL_SCALE * 7}px`,
             }}
           />
         )}

@@ -95,6 +95,17 @@ export const getChestItems = (state: GameState) => {
       };
     }
 
+    if (itemName === "Sunstone Rock") {
+      return {
+        ...acc,
+        "Sunstone Rock": new Decimal(
+          state.inventory["Sunstone Rock"]?.minus(
+            Object.keys(state.sunstones).length
+          ) ?? 0
+        ),
+      };
+    }
+
     if (itemName === "Crop Plot") {
       return {
         ...acc,
