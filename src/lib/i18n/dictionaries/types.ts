@@ -2423,7 +2423,9 @@ export type Statements =
   | "statements.wallet.to.inventory.transfer"
   | "statements.crop.water"
   | "statements.daily.limit"
-  | "statements.sure.buy";
+  | "statements.sure.buy"
+  | "statements.max"
+  | "statements.perplayer";
 
 export type StopGoblin =
   | "stopGoblin.stop.goblin"

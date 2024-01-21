@@ -3567,6 +3567,8 @@ const statements: Record<Statements, string> = {
   "statements.crop.water": "These crops need water!",
   "statements.daily.limit": "Daily Limit:",
   "statements.sure.buy": "Are you sure you want to buy ",
+  "statements.max": "Max",
+  "statements.perplayer": "per Player",
 };
 
 const stopGoblin: Record<StopGoblin, string> = {

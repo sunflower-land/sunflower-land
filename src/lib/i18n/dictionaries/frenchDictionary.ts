@@ -3732,6 +3732,8 @@ const statements: Record<Statements, string> = {
   "statements.crop.water": "Ces cultures ont besoin d'eau !",
   "statements.daily.limit": "Limite quotidienne :",
   "statements.sure.buy": "Êtes-vous sûr de vouloir acheter ",
+  "statements.max": "Max",
+  "statements.perplayer": "par Joueur",
 };
 
 const stopGoblin: Record<StopGoblin, string> = {
