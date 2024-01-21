@@ -3610,6 +3610,9 @@ const statements: Record<Statements, string> = {
   "statements.sure.buy": "Are you sure you want to buy ",
   "statements.max": "Max",
   "statements.perplayer": "per Player",
+  "statements.minted.goToChest": "Go to your chest and place it on your island",
+  "statements.minted.withdrawAfterMint":
+    "You will be able to withdraw your item once the mint has finished",
 };
 
 const stopGoblin: Record<StopGoblin, string> = {

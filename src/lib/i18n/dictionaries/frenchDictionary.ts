@@ -3776,6 +3776,10 @@ const statements: Record<Statements, string> = {
   "statements.sure.buy": "Êtes-vous sûr de vouloir acheter ",
   "statements.max": "Max",
   "statements.perplayer": "par Joueur",
+  "statements.minted.goToChest":
+    "Allez à votre coffre et placez-le sur votre île",
+  "statements.minted.withdrawAfterMint":
+    "Vous pourrez retirer votre article une fois la frappe terminée",
 };
 
 const stopGoblin: Record<StopGoblin, string> = {

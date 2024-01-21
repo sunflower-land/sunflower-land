@@ -24,10 +24,10 @@ export const Minted: React.FC = () => {
         </h1>
         <img src={SUNNYSIDE.npcs.goblin_doing} className="w-20 mb-3" />
         <p className="mb-4 text-sm text-justify">
-          {`Go to your chest and place it on your island`}
+          {`${t("statements.minted.goToChest")}`}
         </p>
         <p className="mb-4 text-sm text-justify">
-          {`You will be able to withdraw your item once the mint has finished`}
+          {`${t("statements.minted.withdrawAfterMint")}`}
         </p>
       </div>
       <Button onClick={() => goblinService.send("REFRESH")}>{t("ok")}</Button>

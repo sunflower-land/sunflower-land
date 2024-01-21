@@ -3691,6 +3691,9 @@ const statements: Record<Statements, string> = {
   "statements.sure.buy": "Você tem certeza de que deseja comprar ",
   "statements.max": "Máx",
   "statements.perplayer": "por Jogador",
+  "statements.minted.goToChest": "Vá ao seu baú e coloque-o na sua ilha",
+  "statements.minted.withdrawAfterMint":
+    "Você poderá retirar seu item assim que a cunhagem terminar",
 };
 
 const stopGoblin: Record<StopGoblin, string> = {

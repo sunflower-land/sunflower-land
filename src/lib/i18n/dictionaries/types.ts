@@ -2460,7 +2460,9 @@ export type Statements =
   | "statements.daily.limit"
   | "statements.sure.buy"
   | "statements.max"
-  | "statements.perplayer";
+  | "statements.perplayer"
+  | "statements.minted.goToChest"
+  | "statements.minted.withdrawAfterMint";
 
 export type StopGoblin =
   | "stopGoblin.stop.goblin"
