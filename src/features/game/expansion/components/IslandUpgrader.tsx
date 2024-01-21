@@ -83,7 +83,7 @@ const IslandUpgraderModal: React.FC<{
             {translate("no")}
           </Button>
           <Button className="ml-1" onClick={onUpgrade}>
-            Yes
+            {translate("yes")}
           </Button>
         </div>
       </Panel>
