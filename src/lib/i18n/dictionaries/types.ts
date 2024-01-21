@@ -2479,7 +2479,8 @@ export type Statements =
   | "statements.max"
   | "statements.perplayer"
   | "statements.minted.goToChest"
-  | "statements.minted.withdrawAfterMint";
+  | "statements.minted.withdrawAfterMint"
+  | "statements.stargame";
 
 export type StopGoblin =
   | "stopGoblin.stop.goblin"

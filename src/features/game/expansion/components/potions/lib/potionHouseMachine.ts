@@ -7,6 +7,7 @@ import { POTIONS } from "./potions";
 import { PotionName } from "features/game/types/game";
 import { DesiredAnimation } from "../MixingPotion";
 import { getFeedbackText } from "./helpers";
+import { translate } from "lib/i18n/translate";
 
 type Potions = [
   PotionName | null,
@@ -105,7 +106,7 @@ export const potionHouseMachine = createMachine<
     isNewGame: false,
     animationQueue: [],
     score: null,
-    feedbackText: "Select your potions and unveil the secrets of the plants!",
+    feedbackText: translate("rules.potion.feedback"),
   },
   states: {
     introduction: {
@@ -306,8 +307,7 @@ export const potionHouseMachine = createMachine<
             currentGuess: [null, null, null, null],
             isNewGame: true,
             score: null,
-            feedbackText:
-              "Select your potions and unveil the secrets of the plants!",
+            feedbackText: translate("rules.potion.feedback"),
             animationQueue: [],
           })),
         },

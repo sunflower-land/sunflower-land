@@ -3812,6 +3812,7 @@ const statements: Record<Statements, string> = {
     "Allez à votre coffre et placez-le sur votre île",
   "statements.minted.withdrawAfterMint":
     "Vous pourrez retirer votre article une fois la frappe terminée",
+  "statements.stargame": "Commencer un Nouveau Jeu",
 };
 
 const stopGoblin: Record<StopGoblin, string> = {

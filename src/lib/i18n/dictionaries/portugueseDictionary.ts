@@ -3725,6 +3725,7 @@ const statements: Record<Statements, string> = {
   "statements.minted.goToChest": "Vá ao seu baú e coloque-o na sua ilha",
   "statements.minted.withdrawAfterMint":
     "Você poderá retirar seu item assim que a cunhagem terminar",
+  "statements.stargame": "Iniciar Novo Jogo",
 };
 
 const stopGoblin: Record<StopGoblin, string> = {
