@@ -114,6 +114,25 @@ describe("plantFlower", () => {
     ).toThrow("Not enough seeds");
   });
 
+  it("does not plant if user does not have the crossbreed", () => {
+    expect(() =>
+      plantFlower({
+        state: {
+          ...GAME_STATE,
+          bumpkin: INITIAL_BUMPKIN,
+          inventory: { "Sunpetal Seed": new Decimal(1) },
+        },
+        createdAt: dateNow,
+        action: {
+          type: "flower.planted",
+          id: "1",
+          seed: "Sunpetal Seed",
+          crossbreed: "Sunflower",
+        },
+      })
+    ).toThrow("Not enough crossbreed");
+  });
+
   it("plants a seed", () => {
     const seedAmount = new Decimal(5);
 
@@ -125,6 +144,7 @@ describe("plantFlower", () => {
         bumpkin: INITIAL_BUMPKIN,
         inventory: {
           "Sunpetal Seed": seedAmount,
+          Sunflower: new Decimal(100),
         },
       },
       createdAt: dateNow,
@@ -157,6 +177,7 @@ describe("plantFlower", () => {
         bumpkin: INITIAL_BUMPKIN,
         inventory: {
           "Sunpetal Seed": new Decimal(1),
+          Sunflower: new Decimal(100),
         },
       },
       createdAt: dateNow,
@@ -176,6 +197,7 @@ describe("plantFlower", () => {
       bumpkin: INITIAL_BUMPKIN,
       inventory: {
         "Sunpetal Seed": new Decimal(1),
+        Sunflower: new Decimal(100),
       },
     };
 
@@ -195,18 +217,19 @@ describe("plantFlower", () => {
   });
 
   it("deducts the amount of cross breed required", () => {
-    const amount = 1;
+    const initialState = {
+      ...GAME_STATE,
+      bumpkin: INITIAL_BUMPKIN,
+      inventory: {
+        "Sunpetal Seed": new Decimal(1),
+        Sunflower: new Decimal(100),
+      },
+    };
 
-    const inventoryBefore = GAME_STATE.inventory["Sunflower Seed"];
+    const inventoryBefore = initialState.inventory["Sunflower"];
 
     const state = plantFlower({
-      state: {
-        ...GAME_STATE,
-        bumpkin: INITIAL_BUMPKIN,
-        inventory: {
-          "Sunpetal Seed": new Decimal(1),
-        },
-      },
+      state: initialState,
       createdAt: dateNow,
       action: {
         type: "flower.planted",
