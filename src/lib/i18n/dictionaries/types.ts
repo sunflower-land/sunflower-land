@@ -1331,6 +1331,8 @@ export type GOBLIN_MESSAGES =
   | "goblinMessages.msg9"
   | "goblinMessages.msg10";
 
+export type Gold = "gold.recoversIn" | "gold.bumpkinLevel" | "gold.required";
+
 export type GoldPassModal =
   | "goldPass.unlockPower"
   | "goldPass.craftNFTs"
@@ -2726,6 +2728,7 @@ export type TranslationKeys =
   | GetContent
   | GetInputErrorMessage
   | GOBLIN_MESSAGES
+  | Gold
   | GoldPassModal
   | GoldTooth
   | GuideTerms

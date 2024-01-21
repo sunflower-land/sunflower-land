@@ -58,6 +58,7 @@ import {
   GetContent,
   GetInputErrorMessage,
   GOBLIN_MESSAGES,
+  Gold,
   GoldPassModal,
   GoldTooth,
   GuideTerms,
@@ -1988,6 +1989,12 @@ const goblin_messages: Record<GOBLIN_MESSAGES, string> = {
     "Salut, tu as des en-cas à partager ? Je promets que je ne les volerai pas... peut-être.",
   "goblinMessages.msg10":
     "Peu importe ce que c'est, donne-moi simplement de la nourriture !",
+};
+
+const gold: Record<Gold, string> = {
+  "gold.recoversIn": "Se régénère dans :",
+  "gold.bumpkinLevel": "Niveau de Bumpkin",
+  "gold.required": "requis.",
 };
 
 const goldpassModal: Record<GoldPassModal, string> = {
@@ -4137,6 +4144,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...getInputErrorMessage,
   ...goblin_messages,
   ...goldTooth,
+  ...gold,
   ...goldpassModal,
   ...guideTerms,
   ...grubshop,
