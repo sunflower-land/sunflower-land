@@ -4,6 +4,7 @@ import { ITEM_DETAILS } from "../types/images";
 import { KNOWN_ITEMS } from "../types";
 import { getFarmSlots, ListingStatus } from "lib/blockchain/Trader";
 import { CONFIG } from "lib/config";
+import { translate } from "lib/i18n/translate";
 
 export type OnChainEvent = {
   icon: string;
@@ -33,9 +34,9 @@ async function loadPastEvents({ farmId }: LoadPastEventArgs) {
     return {
       icon: ITEM_DETAILS[item].image,
       timestamp: listing?.purchasedAt || 0,
-      message: `Land #${listing?.purchasedById} purchased ${Number(
-        listing?.resourceAmount.toString()
-      )} ${item}`,
+      message: `${translate("land")} #${listing?.purchasedById} ${translate(
+        "purchased"
+      )} ${Number(listing?.resourceAmount.toString())} ${item}`,
     };
   });
 

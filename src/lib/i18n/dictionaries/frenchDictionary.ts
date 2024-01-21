@@ -237,7 +237,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   craft: "Fabriquer",
   cancel: "Annuler",
   check: "Vérifier",
-
   chest: "Coffre",
   chores: "Corvées",
   claim: "Réclamation",
@@ -276,6 +275,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   guide: "Guide",
   info: "Info",
   item: "Objet :",
+  land: "Terre",
   left: "Restant",
   list: "Liste",
   loading: "Chargement",
@@ -290,6 +290,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   no: "Non",
   ok: "OK",
   print: "Imprimer",
+  purchased: "acheté",
   purchasing: "Achat en cours",
   rank: "Classement",
   remove: "Retirer",
