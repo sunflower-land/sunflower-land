@@ -105,6 +105,8 @@ export type Base = "base.missing" | "base.far.away";
 
 export type Beach = "beach.party" | "beach.ready";
 
+export type Beehive = "beehive.honey" | "beehive.harvestHoney";
+
 export type BeachLuck =
   | "beachLuck.tryLuck"
   | "beachLuck.uncleFound"
@@ -2671,6 +2673,7 @@ export type TranslationKeys =
   | AvailableSeeds
   | Base
   | Beach
+  | Beehive
   | BeachLuck
   | BirdiePlaza
   | Blockbuckmodal

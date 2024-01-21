@@ -5,6 +5,7 @@ import {
   AvailableSeeds,
   Base,
   Beach,
+  Beehive,
   BeachLuck,
   BirdiePlaza,
   Blockbuckmodal,
@@ -491,6 +492,11 @@ const base: Record<Base, string> = {
 const beach: Record<Beach, string> = {
   "beach.party": "Nous travaillons dur pour préparer une fête à la plage.",
   "beach.ready": "Préparez votre crème solaire et vos parasols, l'été arrive !",
+};
+
+const beehive: Record<Beehive, string> = {
+  "beehive.honey": "Miel :",
+  "beehive.harvestHoney": "Récolter le miel",
 };
 
 const beachLuck: Record<BeachLuck, string> = {
@@ -4077,6 +4083,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...availableSeeds,
   ...base,
   ...beach,
+  ...beehive,
   ...beachLuck,
   ...birdiePlaza,
   ...blockbuckmodal,

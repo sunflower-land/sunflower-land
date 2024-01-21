@@ -26,6 +26,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { InfoPopover } from "features/island/common/InfoPopover";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   id: string;
@@ -224,7 +225,9 @@ export const Beehive: React.FC<Props> = ({ id }) => {
           <InfoPopover showPopover={showHoneyLevelPopover}>
             <div className="flex flex-1 items-center text-xxs justify-center px-2 py-1 whitespace-nowrap">
               <img src={ITEM_DETAILS.Honey.image} className="w-4 mr-1" />
-              <span>Honey: {honeyAmount}</span>
+              <span>
+                {translate("beehive.honey")} {honeyAmount}
+              </span>
             </div>
           </InfoPopover>
         </div>
@@ -284,7 +287,9 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                 </div>
               </div>
             </div>
-            <Button onClick={handleHarvestHoney}>Harvest honey</Button>
+            <Button onClick={handleHarvestHoney}>
+              {translate("beehive.harvestHoney")}
+            </Button>
           </>
         </Panel>
       </Modal>
