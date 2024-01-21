@@ -34,7 +34,7 @@ const DepletedGoldComponent: React.FC<Props> = ({ timeLeft }) => {
           }}
         >
           <TimeLeftPanel
-            text={translate("gold.recoversIn")}
+            text={translate("resources.recoversIn")}
             timeLeft={timeLeft}
             showTimeLeft={showTimeLeft}
           />

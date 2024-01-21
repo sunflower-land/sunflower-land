@@ -58,7 +58,6 @@ import {
   GetContent,
   GetInputErrorMessage,
   GOBLIN_MESSAGES,
-  Gold,
   GoldPassModal,
   GoldTooth,
   GuideTerms,
@@ -119,6 +118,7 @@ import {
   Resale,
   Restock,
   RetreatTerms,
+  Resources,
   RewardTerms,
   RulesGameStart,
   RulesTerms,
@@ -1879,12 +1879,6 @@ const goblin_messages: Record<GOBLIN_MESSAGES, string> = {
   "goblinMessages.msg10": "I don't care what it is, just give me food!",
 };
 
-const gold: Record<Gold, string> = {
-  "gold.recoversIn": "Recovers in:",
-  "gold.bumpkinLevel": "Bumpkin level",
-  "gold.required": "required.",
-};
-
 const goldpassModal: Record<GoldPassModal, string> = {
   "goldPass.unlockPower": "Unlock the power of the Gold Pass:",
   "goldPass.craftNFTs": "Craft rare NFTs",
@@ -3355,6 +3349,12 @@ const retreatTerms: Record<RetreatTerms, string> = {
   "retreatTerms.resale.three": "View items on OpenSea",
 };
 
+const resources: Record<Resources, string> = {
+  "resources.recoversIn": "Recovers in:",
+  "resources.bumpkinLevel": "Bumpkin level",
+  "resources.required": "required.",
+};
+
 const rewardTerms: Record<RewardTerms, string> = {
   "reward.title": "Daily Reward",
   "reward.streak": " day streak",
@@ -3965,7 +3965,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...getInputErrorMessage,
   ...goblin_messages,
   ...goldTooth,
-  ...gold,
+  ...resources,
   ...goldpassModal,
   ...guideTerms,
   ...grubshop,

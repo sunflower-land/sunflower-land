@@ -19,6 +19,7 @@ import { ZoomContext } from "components/ZoomProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { translate } from "lib/i18n/translate";
 
 const tool = "Gold Pickaxe";
 
@@ -161,7 +162,10 @@ const RecoveredRubyComponent: React.FC<Props> = ({
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>Bumpkin level {bumpkinLevelRequired} required.</span>
+              <span>
+                {translate("resources.bumpkinLevel")} {bumpkinLevelRequired}{" "}
+                {translate("resources.required")}
+              </span>
             </div>
           </InnerPanel>
         </div>

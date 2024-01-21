@@ -58,7 +58,7 @@ import {
   GetContent,
   GetInputErrorMessage,
   GOBLIN_MESSAGES,
-  Gold,
+  Resources,
   GoldPassModal,
   GoldTooth,
   GuideTerms,
@@ -1940,12 +1940,6 @@ const goblin_messages: Record<GOBLIN_MESSAGES, string> = {
   "goblinMessages.msg10": "Não importa o que seja, apenas me dê comida!",
 };
 
-const gold: Record<Gold, string> = {
-  "gold.recoversIn": "Recupera em:",
-  "gold.bumpkinLevel": "Nível do Bumpkin",
-  "gold.required": "necessário.",
-};
-
 const goldpassModal: Record<GoldPassModal, string> = {
   "goldPass.unlockPower": "Desbloqueie o poder do Gold Pass:",
   "goldPass.craftNFTs": "Fabricar NFTs raros",
@@ -3433,6 +3427,12 @@ const retreatTerms: Record<RetreatTerms, string> = {
   "retreatTerms.resale.three": "Veja os itens no OpenSea",
 };
 
+const resources: Record<Resources, string> = {
+  "resources.recoversIn": "Recupera em:",
+  "resources.bumpkinLevel": "Nível do Bumpkin",
+  "resources.required": "necessário.",
+};
+
 const rewardTerms: Record<RewardTerms, string> = {
   "reward.title": "Recompensa Diária",
   "reward.streak": " dias seguidos",
@@ -4049,7 +4049,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...getInputErrorMessage,
   ...goblin_messages,
   ...goldTooth,
-  ...gold,
+  ...resources,
   ...goldpassModal,
   ...guideTerms,
   ...grubshop,

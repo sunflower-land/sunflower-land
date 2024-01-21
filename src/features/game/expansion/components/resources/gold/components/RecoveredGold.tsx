@@ -163,8 +163,8 @@ const RecoveredGoldComponent: React.FC<Props> = ({
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
               <span>
-                {translate("gold.bumpkinLevel")} {bumpkinLevelRequired}{" "}
-                {translate("gold.required")}
+                {translate("resources.bumpkinLevel")} {bumpkinLevelRequired}{" "}
+                {translate("resources.required")}
               </span>
             </div>
           </InnerPanel>

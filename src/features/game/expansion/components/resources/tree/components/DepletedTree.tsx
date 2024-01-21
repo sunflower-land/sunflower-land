@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import stump from "assets/resources/tree/stump.png";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   timeLeft: number;
@@ -33,7 +34,7 @@ const DepletedTreeComponent: React.FC<Props> = ({ timeLeft }) => {
           }}
         >
           <TimeLeftPanel
-            text="Recovers in:"
+            text={translate("resources.recoversIn")}
             timeLeft={timeLeft}
             showTimeLeft={showTimeLeft}
           />

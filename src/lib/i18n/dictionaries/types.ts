@@ -1331,8 +1331,6 @@ export type GOBLIN_MESSAGES =
   | "goblinMessages.msg9"
   | "goblinMessages.msg10";
 
-export type Gold = "gold.recoversIn" | "gold.bumpkinLevel" | "gold.required";
-
 export type GoldPassModal =
   | "goldPass.unlockPower"
   | "goldPass.craftNFTs"
@@ -2270,6 +2268,11 @@ export type RetreatTerms =
   | "retreatTerms.resale.two"
   | "retreatTerms.resale.three";
 
+export type Resources =
+  | "resources.recoversIn"
+  | "resources.bumpkinLevel"
+  | "resources.required";
+
 export type RewardTerms =
   | "reward.title"
   | "reward.streak"
@@ -2728,7 +2731,6 @@ export type TranslationKeys =
   | GetContent
   | GetInputErrorMessage
   | GOBLIN_MESSAGES
-  | Gold
   | GoldPassModal
   | GoldTooth
   | GuideTerms
@@ -2789,6 +2791,7 @@ export type TranslationKeys =
   | Resale
   | Restock
   | RetreatTerms
+  | Resources
   | RewardTerms
   | RulesGameStart
   | RulesTerms
