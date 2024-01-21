@@ -307,7 +307,7 @@ export const SignIn = () => {
   if (showLoading) {
     return (
       <div className="">
-        <p className="text-sm loading">Loading</p>
+        <p className="text-sm loading">{t("loading")}</p>
       </div>
     );
   }

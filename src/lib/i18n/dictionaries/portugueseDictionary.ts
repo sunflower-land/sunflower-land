@@ -129,6 +129,7 @@ import {
   ShopItems,
   ShowingFarm,
   SnorklerDialogues,
+  SomethingWentWrong,
   Statements,
   StopGoblin,
   SubSettings,
@@ -3540,6 +3541,12 @@ const snorklerDialogues: Record<SnorklerDialogues, string> = {
   "snorkler.goldBeneath": "Deve haver ouro em algum lugar sob a superfície.",
 };
 
+const somethingWentWrong: Record<SomethingWentWrong, string> = {
+  "somethingWentWrong.supportTeam": "equipe de suporte",
+  "somethingWentWrong.jumpingOver": "ou pulando para o nosso",
+  "somethingWentWrong.askingCommunity": "e perguntando à nossa comunidade.",
+};
+
 const statements: Record<Statements, string> = {
   "statements.adventure": "Inicie sua aventura!",
   "statements.auctioneer.one":
@@ -4045,6 +4052,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...shopItems,
   ...showingFarm,
   ...snorklerDialogues,
+  ...somethingWentWrong,
   ...statements,
   ...stopGoblin,
   ...subSettings,

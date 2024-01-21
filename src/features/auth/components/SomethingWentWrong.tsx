@@ -50,7 +50,9 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
             <p>{t("error.polygonRPC")}</p>
           </div>
         </div>
-        {onAcknowledge && <Button onClick={onAcknowledge}>Refresh</Button>}
+        {onAcknowledge && (
+          <Button onClick={onAcknowledge}>{t("refresh")}</Button>
+        )}
       </>
     );
   }
@@ -74,9 +76,9 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              support team{" "}
+              {t("somethingWentWrong.supportTeam")}{" "}
             </a>
-            or jumping over to our{" "}
+            {t("somethingWentWrong.jumpingOver")}{" "}
             <a
               className="underline"
               target="_blank"
@@ -85,7 +87,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
             >
               discord
             </a>{" "}
-            and asking our community.
+            {t("somethingWentWrong.askingCommunity")}
           </p>
         </div>
         <div className="flex flex-col w-full text-left mb-2 text-[12px] overflow-hidden">

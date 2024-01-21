@@ -2355,6 +2355,11 @@ export type ShowingFarm = "showing.farm" | "showing.wallet";
 
 export type SnorklerDialogues = "snorkler.vastOcean" | "snorkler.goldBeneath";
 
+export type SomethingWentWrong =
+  | "somethingWentWrong.supportTeam"
+  | "somethingWentWrong.jumpingOver"
+  | "somethingWentWrong.askingCommunity";
+
 export type Statements =
   | "statements.adventure"
   | "statements.auctioneer.one"
@@ -2754,6 +2759,7 @@ export type TranslationKeys =
   | ShopItems
   | ShowingFarm
   | SnorklerDialogues
+  | SomethingWentWrong
   | Statements
   | StopGoblin
   | SubSettings
