@@ -30,7 +30,7 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
               onClose();
             }}
           >
-            Confirm
+            {translate("confirm")}
           </Button>
         </GameWallet>
       );
