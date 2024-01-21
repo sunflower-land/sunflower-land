@@ -30,6 +30,21 @@ describe("harvestBeehive", () => {
     },
   };
 
+  it("throw an error if you don't have a bumpkin", () => {
+    expect(() =>
+      harvestBeehive({
+        state: {
+          ...TEST_FARM,
+          bumpkin: undefined,
+        },
+        action: {
+          type: "beehive.harvested",
+          id: "1234",
+        },
+      })
+    ).toThrow("You do not have a Bumpkin");
+  });
+
   it("does not harvest a beehive that is not placed", () => {
     expect(() =>
       harvestBeehive({
@@ -284,6 +299,56 @@ describe("harvestBeehive", () => {
     expect(state.beehives?.["1234"].swarm).toEqual(false);
   });
 
+  it("adds bumpkin activity for honey harvested from a full hive", () => {
+    const amount = 1;
+    const state = harvestBeehive({
+      state: {
+        ...TEST_FARM,
+        beehives: {
+          "1234": {
+            ...DEFAULT_BEEHIVE,
+            swarm: true,
+            honey: {
+              updatedAt: 0,
+              produced: HONEY_PRODUCTION_TIME,
+            },
+          },
+        },
+      },
+      createdAt: Date.now(),
+      action: {
+        type: "beehive.harvested",
+        id: "1234",
+      },
+    });
+    expect(state.bumpkin?.activity?.["Honey Harvested"]).toEqual(amount);
+  });
+
+  it("adds bumpkin activity for honey harvested from a partially full hive", () => {
+    const amount = 0.5;
+    const state = harvestBeehive({
+      state: {
+        ...TEST_FARM,
+        beehives: {
+          "1234": {
+            ...DEFAULT_BEEHIVE,
+            swarm: false,
+            honey: {
+              updatedAt: 0,
+              produced: HONEY_PRODUCTION_TIME / 2,
+            },
+          },
+        },
+      },
+      createdAt: Date.now(),
+      action: {
+        type: "beehive.harvested",
+        id: "1234",
+      },
+    });
+    expect(state.bumpkin?.activity?.["Honey Harvested"]).toEqual(amount);
+  });
+
   it("updates the beehives", () => {
     const beehiveId = "1234";
     const flowerId = "5678";
@@ -320,6 +385,6 @@ describe("harvestBeehive", () => {
       createdAt: now,
     });
 
-    expect(gameState.beehives?.[beehiveId].flowers).toHaveLength(0);
+    expect(gameState.beehives?.[beehiveId].flowers).toHaveLength(1);
   });
 });

@@ -6,6 +6,7 @@ import {
   updateBeehives,
 } from "features/game/lib/updateBeehives";
 import { getKeys } from "features/game/types/craftables";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export enum HARVEST_BEEHIVE_ERRORS {
   BEEHIVE_NOT_PLACED = "This beehive is not placed.",
@@ -55,6 +56,10 @@ export function harvestBeehive({
 }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
 
+  if (!stateCopy.bumpkin) {
+    throw new Error("You do not have a Bumpkin");
+  }
+
   // Update beehives before harvesting to set honey produced
   const freshBeehives = updateBeehives({
     beehives: stateCopy.beehives,
@@ -86,6 +91,12 @@ export function harvestBeehive({
     stateCopy.crops = applySwarmBoostToCrops(stateCopy.crops);
     stateCopy.beehives[action.id].swarm = false;
   }
+
+  stateCopy.bumpkin.activity = trackActivity(
+    `Honey Harvested`,
+    stateCopy.bumpkin?.activity,
+    new Decimal(totalHoneyProduced)
+  );
 
   const updatedBeehives = updateBeehives({
     beehives: stateCopy.beehives,

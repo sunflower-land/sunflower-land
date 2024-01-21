@@ -28,7 +28,11 @@ type SellableName =
 type Recipes = Food | CookableName;
 type Edibles = Food | ConsumableName;
 
-export type HarvestEvent = `${CropName | FruitName | FlowerName} Harvested`;
+export type HarvestEvent = `${
+  | CropName
+  | FruitName
+  | FlowerName
+  | "Honey"} Harvested`;
 export type PlantEvent = `${CropName | FruitName} Planted`;
 export type FruitPlantEvent = `${FruitSeedName} Planted`;
 export type PlantFlowerEvent = `${FlowerSeedName} Planted`;
