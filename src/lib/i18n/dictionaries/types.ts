@@ -2341,7 +2341,8 @@ export type SeasonTerms =
   | "season.limitedOffer"
   | "season.accessTo"
   | "season.buyNow"
-  | "season.ctk";
+  | "season.ctk"
+  | "season.mintSeasonalBanner";
 
 export type Session = "session.expired" | "session.expiredMessage";
 

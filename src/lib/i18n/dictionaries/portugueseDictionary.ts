@@ -3526,6 +3526,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.limitedOffer": "Oferta por tempo limitado!",
   "season.wearableAirdrop": "Lançamento de roupas sazonais",
   "season.ctk": "Capture o Kraken",
+  "season.mintSeasonalBanner": "Cunhe sua Bandeira Sazonal exclusiva:",
 };
 
 const session: Record<Session, string> = {

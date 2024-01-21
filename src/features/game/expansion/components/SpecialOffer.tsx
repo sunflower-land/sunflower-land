@@ -80,7 +80,7 @@ export const PromotingModal: React.FC<Props> = ({
     if (showConfirmation) {
       return (
         <GameWallet action="purchase">
-          <p className="text-sm my-2">Mint your exclusive Seasonal Banner:</p>
+          <p className="text-sm my-2">{t("season.mintSeasonalBanner")}</p>
           <Button
             onClick={() => {
               gameService.send("PURCHASE_ITEM", {

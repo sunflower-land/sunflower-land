@@ -3447,6 +3447,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.limitedOffer": " Limited time only!",
   "season.wearableAirdrop": "Seasonal Wearable Airdrop",
   "season.ctk": "Catch the Kraken",
+  "season.mintSeasonalBanner": "Mint your exclusive Seasonal Banner:",
 };
 
 const session: Record<Session, string> = {
