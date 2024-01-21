@@ -7,6 +7,7 @@ import {
   Beach,
   BeachLuck,
   BirdiePlaza,
+  Blockbuckmodal,
   BoostDescriptions,
   BoostEffectDescriptions,
   BountyDescription,
@@ -643,6 +644,20 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Guardiã encantadora, ela estimula o crescimento das abóboras com seu charme místico. Colha abóboras abundantes sob seu olhar benevolente.",
   "description.queen.cornelia":
     "Comande o poder real da Rainha Cornelia e beneficie-se de um magnífico boost de área para sua produção de milho. +1 Milho.",
+};
+
+const blockbuckmodal: Record<Blockbuckmodal, string> = {
+  "blockbuckmodal.item": "Item:",
+  "blockbuckmodal.total": "Total:",
+  "blockbuckmodal.confirm": "Confirmar",
+  "blockbuckmodal.pricesExcludeFees": "*Os preços excluem taxas de transação.",
+  "blockbuckmodal.loading": "Carregando",
+  "blockbuckmodal.cashCard": "Dinheiro / Cartão",
+  "blockbuckmodal.minimum": "Mínimo",
+  "blockbuckmodal.payWithCash": "Pagar com dinheiro",
+  "blockbuckmodal.payWithMatic": "Pagar com Matic",
+  "blockbuckmodal.blockBucksStored":
+    "Os block bucks serão armazenados na sua fazenda.",
 };
 
 const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
@@ -3934,6 +3949,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...beach,
   ...beachLuck,
   ...birdiePlaza,
+  ...blockbuckmodal,
   ...boostDescriptions,
   ...boostEffectDescriptions,
   ...bountyDescription,

@@ -133,6 +133,18 @@ export type BirdiePlaza =
   | "birdieplaza.craftItems"
   | "birdieplaza.craftItems.two";
 
+export type Blockbuckmodal =
+  | "blockbuckmodal.item"
+  | "blockbuckmodal.total"
+  | "blockbuckmodal.confirm"
+  | "blockbuckmodal.pricesExcludeFees"
+  | "blockbuckmodal.loading"
+  | "blockbuckmodal.cashCard"
+  | "blockbuckmodal.minimum"
+  | "blockbuckmodal.payWithCash"
+  | "blockbuckmodal.payWithMatic"
+  | "blockbuckmodal.blockBucksStored";
+
 export type BoostDescriptions =
   //Mutant Chickens
   | "description.speed.chicken.one"
@@ -2641,6 +2653,7 @@ export type TranslationKeys =
   | Beach
   | BeachLuck
   | BirdiePlaza
+  | Blockbuckmodal
   | BoostDescriptions
   | BoostEffectDescriptions
   | BountyDescription

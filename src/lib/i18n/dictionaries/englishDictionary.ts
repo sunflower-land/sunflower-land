@@ -7,6 +7,7 @@ import {
   Beach,
   BeachLuck,
   BirdiePlaza,
+  Blockbuckmodal,
   BoostDescriptions,
   BoostEffectDescriptions,
   BountyDescription,
@@ -525,6 +526,19 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
   "birdieplaza.craftItems": "To craft these items, you must collect",
   "birdieplaza.craftItems.two":
     "and exchange them at the shops or the Auction house.",
+};
+
+const blockbuckmodal: Record<Blockbuckmodal, string> = {
+  "blockbuckmodal.item": "Item:",
+  "blockbuckmodal.total": "Total:",
+  "blockbuckmodal.confirm": "Confirm",
+  "blockbuckmodal.pricesExcludeFees": "*Prices exclude transaction fees.",
+  "blockbuckmodal.loading": "Loading",
+  "blockbuckmodal.cashCard": "Cash / Card",
+  "blockbuckmodal.minimum": "Minimum",
+  "blockbuckmodal.payWithCash": "Pay with Cash",
+  "blockbuckmodal.payWithMatic": "Pay with Matic",
+  "blockbuckmodal.blockBucksStored": "Block bucks will be stored on your farm.",
 };
 
 const boostDescriptions: Record<BoostDescriptions, string> = {
@@ -3848,12 +3862,12 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...action,
   ...addSFL,
-
   ...availableSeeds,
   ...base,
   ...beach,
   ...beachLuck,
   ...birdiePlaza,
+  ...blockbuckmodal,
   ...boostDescriptions,
   ...boostEffectDescriptions,
   ...bountyDescription,

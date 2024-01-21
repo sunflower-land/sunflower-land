@@ -18,6 +18,7 @@ import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import classNames from "classnames";
 import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   show: boolean;
@@ -163,7 +164,9 @@ const Content: React.FC<{
       <GameWallet action="purchase">
         <div className="flex flex-col w-full items-center space-y-1 pb-2 px-2 text-sm">
           <div className="flex items-center">
-            <p className="mr-2 mb-1">Item: {price.amount} x</p>
+            <p className="mr-2 mb-1">
+              {translate("blockbuckmodal.item")} {price.amount} x
+            </p>
             <img
               src={ticket}
               style={{
@@ -171,13 +174,17 @@ const Content: React.FC<{
               }}
             />
           </div>
-          <p className="mr-2 mb-1">{`Total: ${price.usd} USD`}</p>
+          <p className="mr-2 mb-1">{`${translate("blockbuckmodal.total")} ${
+            price.usd
+          } USD`}</p>
         </div>
 
-        <Button onClick={() => onMaticBuy()}>Confirm</Button>
+        <Button onClick={() => onMaticBuy()}>
+          {translate("blockbuckmodal.confirm")}
+        </Button>
 
         <p className="text-xxs italic text-center py-2">
-          *Prices exclude transaction fees.
+          {translate("blockbuckmodal.pricesExcludeFees")}
         </p>
       </GameWallet>
     );
@@ -186,7 +193,9 @@ const Content: React.FC<{
   if (isSaving) {
     return (
       <div className="flex justify-center">
-        <p className="loading text-center">Loading</p>
+        <p className="loading text-center">
+          {translate("blockbuckmodal.loading")}
+        </p>
       </div>
     );
   }
@@ -196,7 +205,9 @@ const Content: React.FC<{
       <>
         <div className="flex flex-col w-full items-center space-y-1 pb-2 px-2 text-sm">
           <div className="flex items-center">
-            <p className="mr-2 mb-1">Item: {price.amount} x</p>
+            <p className="mr-2 mb-1">
+              {translate("blockbuckmodal.item")} {price.amount} x
+            </p>
             <img
               src={ticket}
               style={{
@@ -204,12 +215,16 @@ const Content: React.FC<{
               }}
             />
           </div>
-          <p className="mr-2 mb-1">{`Total: ${price.usd} USD`}</p>
+          <p className="mr-2 mb-1">{`${translate("blockbuckmodal.total")} ${
+            price.usd
+          } USD`}</p>
         </div>
         <div className="flex flex-col flex-grow items-stretch justify-around mx-3 space-y-2 sm:space-y-0 sm:space-x-5 sm:flex-row">
           <OuterPanel className="w-full flex flex-col items-center relative">
             <div className="flex w-full items-center justify-center py-4 px-2">
-              <p className="mr-2 mb-1 text-xs">Cash / Card</p>
+              <p className="mr-2 mb-1 text-xs">
+                {translate("blockbuckmodal.cashCard")}
+              </p>
               <img
                 src={creditCard}
                 style={{
@@ -219,14 +234,14 @@ const Content: React.FC<{
             </div>
             {price.amount === 1 && (
               <Label type="info" className="mb-1">
-                Minimum 5 Block Bucks
+                {translate("blockbuckmodal.minimum")} 5 Block Bucks
               </Label>
             )}
             <Button
               onClick={() => onCreditCardBuy()}
               disabled={price.amount === 1}
             >
-              Pay with Cash
+              {translate("blockbuckmodal.payWithCash")}
             </Button>
           </OuterPanel>
           <OuterPanel
@@ -243,16 +258,16 @@ const Content: React.FC<{
               />
             </div>
             <Button onClick={() => setShowMaticConfirm(true)}>
-              Pay with Matic
+              {translate("blockbuckmodal.payWithMatic")}
             </Button>
           </OuterPanel>
         </div>
 
         <p className="text-xs text-center pt-2">
-          Block bucks will be stored on your farm.
+          {translate("blockbuckmodal.blockBucksStored")}
         </p>
         <p className="text-xxs italic text-center py-2">
-          *Prices exclude transaction fees.
+          {translate("blockbuckmodal.pricesExcludeFees")}
         </p>
       </>
     );
@@ -265,7 +280,7 @@ const Content: React.FC<{
         style={{ maxHeight: "280px" }}
       >
         <p className="text-xxs italic text-center pt-2">
-          *Prices exclude transaction fees.
+          {translate("blockbuckmodal.pricesExcludeFees")}
         </p>
         <div className="flex flex-wrap">
           {PRICES.map((price) => (
@@ -296,7 +311,7 @@ const Content: React.FC<{
           target="_blank"
           rel="noreferrer"
         >
-          Read more
+          {translate("read.more")}
         </a>
       </div>
     </>
