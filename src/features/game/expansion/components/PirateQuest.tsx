@@ -10,17 +10,14 @@ import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { MapPlacement } from "./MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 const ModalDescription = () => {
   const { t } = useAppTranslation();
   return (
     <>
       <div className="flex justify-center mb-3"></div>
-      <p className="mb-2 text-sm">
-        Welcome to the high seas of adventure, where ye be tested as a true
-        pirate. Set sail on a journey to find the richest pillage and become the
-        greatest pirate to ever grace the ocean waves.
-      </p>
+      <p className="mb-2 text-sm">{translate("piratequest.welcome")}</p>
       <a
         className="mb-4 underline text-sm"
         href="https://docs.sunflower-land.com/player-guides/islands/treasure-island"
@@ -36,13 +33,8 @@ const ModalDescription = () => {
 const QuestCompletion = () => {
   return (
     <div className="p-2">
-      <p className="mb-2">
-        Ahoy, ye be the finest pirate on the seven seas with yer loot!!
-      </p>
-      <p>
-        {`I have no more gifts for you. Don't forget to wear your new
-          items!`}
-      </p>
+      <p className="mb-2">{translate("piratequest.finestPirate")}</p>
+      <p>{`${translate("piratequest.noMoreGifts")}`}</p>
     </div>
   );
 };

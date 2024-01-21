@@ -2113,7 +2113,10 @@ export type PirateQuest =
   | "questDescription.pirateQuest1"
   | "questDescription.pirateQuest2"
   | "questDescription.pirateQuest3"
-  | "questDescription.pirateQuest4";
+  | "questDescription.pirateQuest4"
+  | "piratequest.welcome"
+  | "piratequest.finestPirate"
+  | "piratequest.noMoreGifts";
 
 export type ObsessionDialogue =
   | "obsessionDialogue.line1.part1"

@@ -3271,6 +3271,12 @@ const pirateQuest: Record<PirateQuest, string> = {
   "questDescription.pirateQuest2": "Collectez 10 algues",
   "questDescription.pirateQuest3": "Collectez 10 Pipis",
   "questDescription.pirateQuest4": "Collectez 5 coraux",
+  "piratequest.welcome":
+    "Bienvenue sur les hautes mers de l'aventure, où vous serez testé en tant que véritable pirate. Partez en voyage pour trouver le pillage le plus riche et devenir le plus grand pirate à avoir jamais navigué sur les vagues de l'océan.",
+  "piratequest.finestPirate":
+    "Ahoy, vous êtes le plus fin pirate des sept mers avec votre butin !!",
+  "piratequest.noMoreGifts":
+    "Je n'ai plus de cadeaux pour vous. N'oubliez pas de porter vos nouveaux objets !",
 };
 
 const obsessionDialogue: Record<ObsessionDialogue, string> = {

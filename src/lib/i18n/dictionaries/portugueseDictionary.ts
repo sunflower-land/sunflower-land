@@ -3200,6 +3200,12 @@ const pirateQuest: Record<PirateQuest, string> = {
   "questDescription.pirateQuest2": "Colete 10 algas",
   "questDescription.pirateQuest3": "Colete 10 Pipis",
   "questDescription.pirateQuest4": "Colete 5 corais",
+  "piratequest.welcome":
+    "Bem-vindo aos altos mares da aventura, onde serás testado como um verdadeiro pirata. Embarque numa jornada para encontrar o saque mais rico e tornar-se o maior pirata a navegar pelas ondas do oceano.",
+  "piratequest.finestPirate":
+    "Ahoy, tu és o mais fino pirata dos sete mares com teu tesouro!!",
+  "piratequest.noMoreGifts":
+    "Não tenho mais presentes para ti. Não te esqueças de usar os teus novos itens!",
 };
 
 const obsessionDialogue: Record<ObsessionDialogue, string> = {
