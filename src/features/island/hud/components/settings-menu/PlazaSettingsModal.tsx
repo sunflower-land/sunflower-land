@@ -77,7 +77,7 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
                 <p className="text-sm">Keybinds</p>
               </div>
               <p className="text-xs">
-                {translate("plazaSettings.mutedPlayers.button")}
+                {translate("plazaSettings.keybind")}
               </p>
               <Button onClick={() => setStep("KEYBINDS")}>Keybinds</Button>
             </div> */}
