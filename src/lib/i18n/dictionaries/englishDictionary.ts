@@ -3099,12 +3099,12 @@ const obsessionDialogue: Record<ObsessionDialogue, string> = {
 
 const offer: Record<Offer, string> = {
   "offer.okxOffer": "Howdy Farmer, I have an exclusive OKX offer for you!",
-  "offer.beginWithNFT":
-    "To begin you will need to mint a free Farm NFT. This will include:",
+  "offer.beginWithNFT": "To begin you will need to mint a ",
   "offer.getStarterPack": "Get Starter Pack Now",
   "offer.newHere": "Howdy Farmer, you look new here!",
   "offer.getStarted": "Get Started Now",
   "offer.NFT.inclu": "Farm NFT. This will include:",
+  "offer.free": "free",
 };
 
 const onboarding: Record<Onboarding, string> = {
