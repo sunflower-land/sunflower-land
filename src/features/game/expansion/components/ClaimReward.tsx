@@ -58,7 +58,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                 <Label type="warning">
                   {setPrecision(new Decimal(airdrop.sfl)).toString()} SFL
                 </Label>
-                <p className="text-xs">Spend it wisely.</p>
+                <p className="text-xs">{translate("reward.spendWisely")}</p>
               </div>
             </div>
           )}
@@ -99,7 +99,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                   <Label type="default">{`${setPrecision(
                     new Decimal(airdrop.wearables[name] ?? 1)
                   ).toString()} x ${name}`}</Label>
-                  <p className="text-xs">A wearable for your Bumpkin</p>
+                  <p className="text-xs">{translate("reward.wearable")}</p>
                 </div>
               </div>
             ))}
