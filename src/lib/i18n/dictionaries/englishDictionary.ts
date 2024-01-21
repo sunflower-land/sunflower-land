@@ -85,6 +85,7 @@ import {
   LostSunflorian,
   ModalDescription,
   Mute,
+  Noaccount,
   NoBumpkin,
   NoTownCenter,
   NotOnDiscordServer,
@@ -2385,6 +2386,21 @@ const mute: Record<Mute, string> = {
     "In case you need to mute a player that is not online, you can do so here. On their next login, they will be muted.",
 };
 
+const noaccount: Record<Noaccount, string> = {
+  "noaccount.enterPromoCode": "Enter your promo code:",
+  "noaccount.newFarmer": "New Farmer",
+  "noaccount.addPromoCode": "Add a promo code?",
+  "noaccount.alreadyHaveNFTFarm": "Already have an NFT farm?",
+  "noaccount.createFarm": "Create Farm",
+  "noaccount.loading": "Loading",
+  "noaccount.noFarmNFTs": "You do not own any farm NFTs.",
+  "noaccount.createNewFarm": "Create new farm",
+  "noaccount.selectNFTID": "Select your NFT ID:",
+  "noaccount.welcomeMessage":
+    "Welcome to Sunflower Land. It looks like you don't have a farm yet.",
+  "noaccount.promoCodeLabel": "Promo Code:",
+};
+
 const noBumpkin: Record<NoBumpkin, string> = {
   "noBumpkin.readyToFarm": "Awesome, your Bumpkin is ready to farm!",
   "noBumpkin.play": "Play",
@@ -3904,6 +3920,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...lostSunflorian,
   ...modalDescription,
   ...mute,
+  ...noaccount,
   ...noBumpkin,
   ...noTownCenter,
   ...notOnDiscordServer,

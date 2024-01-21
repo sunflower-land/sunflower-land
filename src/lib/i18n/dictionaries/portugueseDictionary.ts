@@ -85,6 +85,7 @@ import {
   LostSunflorian,
   ModalDescription,
   Mute,
+  Noaccount,
   NoBumpkin,
   NoTownCenter,
   NotOnDiscordServer,
@@ -2457,6 +2458,21 @@ const mute: Record<Mute, string> = {
     "No caso de você precisar silenciar um jogador que não está online, você pode fazê-lo aqui. Quando eles se conectarem na próxima vez, eles serão silenciados.",
 };
 
+const noaccount: Record<Noaccount, string> = {
+  "noaccount.enterPromoCode": "Digite seu código promocional:",
+  "noaccount.newFarmer": "Novo Fazendeiro",
+  "noaccount.addPromoCode": "Adicionar um código promocional?",
+  "noaccount.alreadyHaveNFTFarm": "Já possui uma fazenda NFT?",
+  "noaccount.createFarm": "Criar Fazenda",
+  "noaccount.loading": "Carregando",
+  "noaccount.noFarmNFTs": "Você não possui nenhum NFT de fazenda.",
+  "noaccount.createNewFarm": "Criar nova fazenda",
+  "noaccount.selectNFTID": "Selecione seu ID NFT:",
+  "noaccount.welcomeMessage":
+    "Bem-vindo ao Sunflower Land. Parece que você ainda não tem uma fazenda.",
+  "noaccount.promoCodeLabel": "Código Promocional:",
+};
+
 const noBumpkin: Record<NoBumpkin, string> = {
   "noBumpkin.readyToFarm":
     "Ótimo, seu Bumpkin está pronto para trabalhar na fazenda!",
@@ -3985,6 +4001,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...lostSunflorian,
   ...modalDescription,
   ...mute,
+  ...noaccount,
   ...noBumpkin,
   ...noTownCenter,
   ...notOnDiscordServer,
@@ -4036,7 +4053,6 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...toolDescriptions,
   ...transactionTerms,
   ...transfer,
-
   ...treasureModal,
   ...tutorialPage,
   ...visitislandEnter,

@@ -13,6 +13,7 @@ import { isAddress } from "web3-utils";
 import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { removeJWT } from "../actions/social";
+import { translate } from "lib/i18n/translate";
 
 export const NoAccount: React.FC = () => {
   const { authService } = useContext(Context);
@@ -27,7 +28,9 @@ export const NoAccount: React.FC = () => {
     return (
       <>
         <div className="p-2">
-          <p className="text-xs mb-1">Enter your promo code:</p>
+          <p className="text-xs mb-1">
+            {translate("noaccount.enterPromoCode")}
+          </p>
           <input
             style={{
               boxShadow: "#b96e50 0px 1px 1px 1px inset",
@@ -50,7 +53,7 @@ export const NoAccount: React.FC = () => {
               setShowPromoCode(false);
             }}
           >
-            Back
+            {translate("back")}
           </Button>
           <Button
             disabled={!promoCode}
@@ -59,7 +62,7 @@ export const NoAccount: React.FC = () => {
               savePromoCode(promoCode as string);
             }}
           >
-            Ok
+            {translate("ok")}
           </Button>
         </div>
       </>
@@ -82,11 +85,11 @@ export const NoAccount: React.FC = () => {
       <div className="px-2">
         <div className="flex items-center justify-between mb-2">
           <Label type="chill" icon={SUNNYSIDE.icons.heart}>
-            New Farmer
+            {translate("noaccount.newFarmer")}
           </Label>
           {promoCode && (
             <Label type="formula" icon={SUNNYSIDE.icons.search}>
-              {`Promo Code: ${getPromoCode()}`}
+              {`${translate("noaccount.promoCodeLabel")} ${getPromoCode()}`}
             </Label>
           )}
           {!promoCode && (
@@ -96,12 +99,12 @@ export const NoAccount: React.FC = () => {
               className="underline text-white text-xs cursor-pointer"
               onClick={() => setShowPromoCode(true)}
             >
-              Add a promo code?
+              {translate("noaccount.addPromoCode")}
             </a>
           )}
         </div>
         <p className="text-sm mb-2">
-          {`Welcome to Sunflower Land. It looks like you don't have a farm yet.`}
+          {`${translate("noaccount.welcomeMessage")}`}
         </p>
         {isAddress(authState.context.user.token?.address ?? "") && (
           <div className="mb-2">
@@ -111,7 +114,7 @@ export const NoAccount: React.FC = () => {
               className="underline text-white text-xs cursor-pointer"
               onClick={() => setShowClaimAccount(true)}
             >
-              Already have an NFT farm?
+              {translate("noaccount.alreadyHaveNFTFarm")}
             </a>
           </div>
         )}
@@ -124,10 +127,10 @@ export const NoAccount: React.FC = () => {
             authService.send("BACK");
           }}
         >
-          Back
+          {translate("back")}
         </Button>
         <Button onClick={() => authService.send("CREATE_FARM")}>
-          Create Farm
+          {translate("noaccount.createFarm")}
         </Button>
       </div>
     </>
@@ -160,13 +163,14 @@ export const ClaimAccount: React.FC<{
     load();
   }, []);
 
-  if (isLoading) return <p className="loading">Loading</p>;
+  if (isLoading)
+    return <p className="loading">{translate("noaccount.loading")}</p>;
 
   if (tokenIds.length === 0) {
     return (
       <>
-        <div className="p-2">You do not own any farm NFTs.</div>
-        <Button onClick={onBack}>Create new farm</Button>
+        <div className="p-2">{translate("noaccount.noFarmNFTs")}</div>
+        <Button onClick={onBack}>{translate("noaccount.createNewFarm")}</Button>
       </>
     );
   }
@@ -174,7 +178,7 @@ export const ClaimAccount: React.FC<{
   return (
     <>
       <div className="p-1">
-        <p className="m-1 text-sm">Select your NFT ID:</p>
+        <p className="m-1 text-sm">{translate("noaccount.selectNFTID")}</p>
         {tokenIds.map((id) => (
           <OuterPanel
             className={
@@ -187,7 +191,7 @@ export const ClaimAccount: React.FC<{
           </OuterPanel>
         ))}
       </div>
-      <Button onClick={onBack}>Back</Button>
+      <Button onClick={onBack}>{translate("back")}</Button>
     </>
   );
 };

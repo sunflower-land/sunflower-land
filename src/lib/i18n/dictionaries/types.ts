@@ -1682,6 +1682,19 @@ export type Mute =
   | "mute.unmute.wait"
   | "mute.online";
 
+export type Noaccount =
+  | "noaccount.enterPromoCode"
+  | "noaccount.newFarmer"
+  | "noaccount.addPromoCode"
+  | "noaccount.alreadyHaveNFTFarm"
+  | "noaccount.createFarm"
+  | "noaccount.loading"
+  | "noaccount.noFarmNFTs"
+  | "noaccount.createNewFarm"
+  | "noaccount.selectNFTID"
+  | "noaccount.welcomeMessage"
+  | "noaccount.promoCodeLabel";
+
 export type NoBumpkin =
   | "noBumpkin.readyToFarm"
   | "noBumpkin.play"
@@ -2696,6 +2709,7 @@ export type TranslationKeys =
   | LostSunflorian
   | ModalDescription
   | Mute
+  | Noaccount
   | NoBumpkin
   | NoTownCenter
   | NotOnDiscordServer
