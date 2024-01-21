@@ -87,8 +87,13 @@ export function harvestBeehive({
     new Decimal(totalHoneyProduced)
   );
 
-  if (isFull && stateCopy.beehives[action.id].swarm) {
-    stateCopy.crops = applySwarmBoostToCrops(stateCopy.crops);
+  // If the beehive is full, check, apply and update swarm
+  if (isFull) {
+    if (stateCopy.beehives[action.id].swarm) {
+      stateCopy.crops = applySwarmBoostToCrops(stateCopy.crops);
+    }
+
+    // Actual value updated on the server
     stateCopy.beehives[action.id].swarm = false;
   }
 
