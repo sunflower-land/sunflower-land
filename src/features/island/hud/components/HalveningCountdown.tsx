@@ -8,6 +8,7 @@ import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 export const HalveningCountdown: React.FC = () => {
   const start = useCountdown(new Date("2023-07-10").getTime());
@@ -28,19 +29,22 @@ export const HalveningCountdown: React.FC = () => {
           bumpkinParts={NPC_WEARABLES.grimbly}
         >
           <div className="p-2">
-            <p className="text-sm mb-2">The Halvening is Approaching!</p>
             <p className="text-sm mb-2">
-              At the Halvening, all prices of crops & certain resources are
-              halved. This makes it more difficult to attain SFL.
+              {translate("halveningCountdown.approaching")}
             </p>
-            <p className="text-sm mb-2">Make sure you are prepared!</p>
+            <p className="text-sm mb-2">
+              {translate("halveningCountdown.description")}
+            </p>
+            <p className="text-sm mb-2">
+              {translate("halveningCountdown.preparation")}
+            </p>
             <a
               href="https://docs.sunflower-land.com/economy/economic-controls/dynamic-supply-and-demand"
               target="_blank"
               rel="noopener noreferrer"
               className="underline text-white text-xs"
             >
-              {t("read.more")}
+              {translate("halveningCountdown.readMore")}
             </a>
           </div>
         </CloseButtonPanel>
@@ -53,7 +57,9 @@ export const HalveningCountdown: React.FC = () => {
         <div>
           <div className="flex -mb-1">
             <img src={sfl} className="h-5 mr-1" />
-            <p className="text-xs underline">Halvening</p>
+            <p className="text-xs underline">
+              {translate("halveningCountdown.title")}
+            </p>
             <img src={sfl} className="h-5 ml-1" />
           </div>
           <TimerDisplay time={start} />
