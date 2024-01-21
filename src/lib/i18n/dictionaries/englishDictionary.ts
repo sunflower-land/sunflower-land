@@ -3187,6 +3187,8 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.noMutedPlayers": "You have no muted players.",
   "plazaSettings.unmute": "Unmute",
   "plazaSettings.back": "Back",
+  "plazaSettings.keybind":
+    "Need to know what keybinds are available? Check them out here.",
 };
 
 const playerTrade: Record<PlayerTrade, string> = {

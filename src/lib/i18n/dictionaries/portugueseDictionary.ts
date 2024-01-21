@@ -3261,6 +3261,8 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.noMutedPlayers": "Você não tem nenhum jogador silenciado.",
   "plazaSettings.unmute": "Desmutar",
   "plazaSettings.back": "Voltar",
+  "plazaSettings.keybind":
+    "Precisa saber quais atalhos de teclado estão disponíveis? Confira-os aqui.",
 };
 
 const playerTrade: Record<PlayerTrade, string> = {

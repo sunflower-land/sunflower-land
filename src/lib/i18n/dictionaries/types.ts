@@ -2164,7 +2164,8 @@ export type PlazaSettings =
   | "plazaSettings.keybinds.button"
   | "plazaSettings.noMutedPlayers"
   | "plazaSettings.unmute"
-  | "plazaSettings.back";
+  | "plazaSettings.back"
+  | "plazaSettings.keybind";
 
 export type PlayerTrade =
   | "playerTrade.loading"

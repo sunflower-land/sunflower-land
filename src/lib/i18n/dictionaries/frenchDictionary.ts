@@ -3333,6 +3333,8 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.noMutedPlayers": "Vous n'avez aucun joueur muet.",
   "plazaSettings.unmute": "Démuter",
   "plazaSettings.back": "Retour",
+  "plazaSettings.keybind":
+    "Besoin de connaître les raccourcis clavier disponibles ? Consultez-les ici.",
 };
 
 const playerTrade: Record<PlayerTrade, string> = {
