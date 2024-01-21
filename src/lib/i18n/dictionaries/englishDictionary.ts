@@ -105,6 +105,7 @@ import {
   Parsnip,
   Pending,
   PersonHood,
+  PirateChest,
   Pickserver,
   PlazaSettings,
   PlayerTrade,
@@ -3237,6 +3238,14 @@ const personHood: Record<PersonHood, string> = {
   "personHood.Congrat": "Congratulations, your identity has been verified!",
 };
 
+const piratechest: Record<PirateChest, string> = {
+  "piratechest.greeting":
+    "Ahoy matey! Set sail and come back later for a chest full of swashbuckling rewards!",
+  "piratechest.refreshesIn": "Chest Refreshes in:",
+  "piratechest.warning":
+    "Ahoy there! This chest be filled with treasures fit for a pirate king, but beware, only those with a pirate skin can open it and claim the booty within!",
+};
+
 const pickserver: Record<Pickserver, string> = {
   "pickserver.server": "Choose a server to join",
   "pickserver.full": "FULL",
@@ -4010,6 +4019,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...parsnip,
   ...pending,
   ...personHood,
+  ...piratechest,
   ...pickserver,
   ...plazaSettings,
   ...playerTrade,

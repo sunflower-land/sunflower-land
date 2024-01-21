@@ -106,6 +106,7 @@ import {
   Pending,
   PersonHood,
   PirateQuest,
+  PirateChest,
   Pickserver,
   PlazaSettings,
   PlayerTrade,
@@ -3387,6 +3388,14 @@ const personHood: Record<PersonHood, string> = {
   "personHood.Congrat": "Congratulations, your identity has been verified!",
 };
 
+const piratechest: Record<PirateChest, string> = {
+  "piratechest.greeting":
+    "Ahoy matelot ! Prends la mer et reviens plus tard pour une poitrine pleine de récompenses d'abordage !",
+  "piratechest.refreshesIn": "Rafraîchissement du coffre dans :",
+  "piratechest.warning":
+    "Ahoy là ! Ce coffre est rempli de trésors dignes d'un roi pirate, mais attention, seuls ceux avec une peau de pirate peuvent l'ouvrir et réclamer le butin à l'intérieur !",
+};
+
 const pickserver: Record<Pickserver, string> = {
   "pickserver.server": "Choose a server to join",
   "pickserver.full": "FULL",
@@ -4190,6 +4199,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...parsnip,
   ...pending,
   ...personHood,
+  ...piratechest,
   ...pickserver,
   ...pirateQuest,
   ...plazaSettings,

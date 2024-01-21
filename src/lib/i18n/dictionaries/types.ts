@@ -1,3 +1,5 @@
+import { PirateChest } from "features/game/expansion/components/PirateChest";
+
 export type AchievementsTerms =
   | "breadWinner.description"
   | "breadWinner.one"
@@ -2196,6 +2198,11 @@ export type PersonHood =
   | "personHood.Identify"
   | "personHood.Congrat";
 
+export type PirateChest =
+  | "piratechest.greeting"
+  | "piratechest.refreshesIn"
+  | "piratechest.warning";
+
 export type Pickserver =
   | "pickserver.server"
   | "pickserver.full"
@@ -2778,6 +2785,7 @@ export type TranslationKeys =
   | Parsnip
   | Pending
   | PersonHood
+  | PirateChest
   | Pickserver
   | PlazaSettings
   | PlayerTrade

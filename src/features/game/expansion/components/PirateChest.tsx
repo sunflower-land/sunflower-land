@@ -13,6 +13,7 @@ import { MapPlacement } from "./MapPlacement";
 import { Revealing } from "features/game/components/Revealing";
 import { CountdownLabel } from "components/ui/CountdownLabel";
 import { isWearableActive } from "features/game/lib/wearables";
+import { translate } from "lib/i18n/translate";
 
 export const PirateChest: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -113,11 +114,12 @@ export const PirateChest: React.FC = () => {
               }}
             />
             <span className="text-center">
-              Ahoy matey! Set sail and come back later for a chest full of
-              swashbuckling rewards!
+              {translate("piratechest.greeting")}
             </span>
             <div className="flex flex-wrap gap-y-1 justify-center mt-4 items-center">
-              <p className="text-xxs mr-2">Chest Refreshes in:</p>
+              <p className="text-xxs mr-2">
+                {translate("piratechest.refreshesIn")}
+              </p>
               <CountdownLabel timeLeft={nextRefreshInSeconds} />
             </div>
           </div>
@@ -139,9 +141,7 @@ export const PirateChest: React.FC = () => {
               }}
             />
             <span className="mb-2 text-sm">
-              Ahoy there! This chest be filled with treasures fit for a pirate
-              king, but beware, only those with a pirate skin can open it and
-              claim the booty within!
+              {translate("piratechest.warning")}
             </span>
           </div>
         </CloseButtonPanel>
