@@ -226,6 +226,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "you.are.here": "Você está aqui",
   achievements: "Conquistas",
   auctions: "Leilões",
+  available: "disponível",
   back: "Voltar",
   bait: "Isca",
   basket: "Cesta",
@@ -1427,6 +1428,7 @@ const errorAndAccess: Record<ErrorAndAccess, string> = {
   "errorAndAccess.instructions.part2":
     ", vá para o canal #verify e obtenha a função de 'fazendeiro'.",
   "errorAndAccess.try.again": "Tentar Novamente  ",
+  "error.cannotPlaceInside": "Não é possível colocar dentro",
 };
 
 const errorTerms: Record<ErrorTerms, string> = {

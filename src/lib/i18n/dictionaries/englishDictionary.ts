@@ -225,6 +225,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "you.are.here": "You are here",
   achievements: "Achievements",
   auctions: "Auctions",
+  available: "available",
   back: "Back",
   bait: "Bait",
   basket: "Basket",
@@ -1382,6 +1383,7 @@ const errorAndAccess: Record<ErrorAndAccess, string> = {
   "errorAndAccess.instructions.part2":
     ", go to the #verify channel and have the 'farmer' role.",
   "errorAndAccess.try.again": "Try Again",
+  "error.cannotPlaceInside": "Cannot place inside",
 };
 
 const errorTerms: Record<ErrorTerms, string> = {
@@ -3844,6 +3846,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...action,
   ...addSFL,
+
   ...availableSeeds,
   ...base,
   ...beach,

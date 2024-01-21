@@ -776,7 +776,8 @@ export type ErrorAndAccess =
   | "errorAndAccess.instructions.part1"
   | "errorAndAccess.sflDiscord"
   | "errorAndAccess.instructions.part2"
-  | "errorAndAccess.try.again";
+  | "errorAndAccess.try.again"
+  | "error.cannotPlaceInside";
 
 export type ErrorTerms =
   | "error.congestion.one"
@@ -1112,6 +1113,7 @@ export type GeneralTerms =
   | "alr.crafted"
   | "alr.minted"
   | "auctions"
+  | "available"
   | "back"
   | "bait"
   | "basket"
