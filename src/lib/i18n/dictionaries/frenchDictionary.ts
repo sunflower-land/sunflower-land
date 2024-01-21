@@ -66,6 +66,7 @@ import {
   HarvestBeeHive,
   HayseedHankPlaza,
   HayseedHankV2,
+  Helper,
   HeliosSunflower,
   HenHouseTerms,
   HowToFarm,
@@ -2138,6 +2139,37 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     "Eh bien, salut là, jeunes fripons ! Je suis Hayseed Hank...",
 };
 
+const helper: Record<Helper, string> = {
+  "helper.highScore1":
+    "Incroyable ! Vous maîtrisez l'art de la préparation de potions !",
+  "helper.highScore2": "Magnifique ! Vos compétences donnent vie à la plante !",
+  "helper.highScore3":
+    "Stupéfiant ! La plante est émerveillée par votre expertise !",
+  "helper.midScore1":
+    "Presque ! Votre potion a eu un impact positif sur votre plante !",
+  "helper.midScore2":
+    "Continuez ainsi ! La plante commence à prospérer grâce à votre concoction habile !",
+  "helper.midScore3":
+    "Bien joué ! Votre potion commence à faire des merveilles sur la plante !",
+  "helper.lowScore1":
+    "Vous y êtes presque. La plante montre des signes de bonheur.",
+  "helper.lowScore2":
+    "Bon effort. Votre potion a apporté un peu de joie à la plante.",
+  "helper.lowScore3":
+    "Pas mal. Vos compétences commencent à faire bonne impression sur la plante.",
+  "helper.veryLowScore1":
+    "Continuez d'essayer. La plante reconnaît votre détermination.",
+  "helper.veryLowScore2": "Vous y arrivez. La plante voit vos progrès.",
+  "helper.veryLowScore3":
+    "Pas tout à fait, mais la plante sent votre engagement.",
+  "helper.noScore1":
+    "Oh non ! La plante déteste quelque chose dans votre potion ! Essayez encore.",
+  "helper.noScore2":
+    "Oups ! La plante se rétracte de quelque chose dans votre potion ! Essayez encore.",
+  "helper.noScore3":
+    "Aïe ! Quelque chose dans votre potion est un échec total avec la plante ! Essayez encore.",
+};
+
 const heliosSunflower: Record<HeliosSunflower, string> = {
   "heliosSunflower.title": "Clytie le Tournesol",
   "heliosSunflower.description":
@@ -4105,6 +4137,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...harvestBeeHive,
   ...hayseedHankPlaza,
   ...hayseedHankV2,
+  ...helper,
   ...heliosSunflower,
   ...henHouseTerms,
   ...howToFarm,

@@ -66,6 +66,7 @@ import {
   HarvestBeeHive,
   HayseedHankPlaza,
   HayseedHankV2,
+  Helper,
   HeliosSunflower,
   HenHouseTerms,
   HowToFarm,
@@ -2085,6 +2086,36 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     "Bem, olá aí, jovens pestinhas! Eu sou Hayseed Hank...",
 };
 
+const helper: Record<Helper, string> = {
+  "helper.highScore1": "Incrível! Você está dominando a arte de fazer poções!",
+  "helper.highScore2":
+    "Magnífico! Suas habilidades estão trazendo a planta à vida!",
+  "helper.highScore3":
+    "Espantoso! A planta está em admiração pela sua perícia!",
+  "helper.midScore1":
+    "Quase lá! Sua poção teve um impacto positivo na sua planta!",
+  "helper.midScore2":
+    "Continue assim! A planta está começando a prosperar com sua poção habilidosa!",
+  "helper.midScore3":
+    "Bom trabalho! Sua poção está começando a fazer sua mágica na planta!",
+  "helper.lowScore1":
+    "Está chegando lá. A planta está mostrando sinais de felicidade.",
+  "helper.lowScore2":
+    "Bom esforço. Sua poção trouxe um pouco de alegria para a planta.",
+  "helper.lowScore3":
+    "Nada mal. Suas habilidades estão começando a causar uma boa impressão na planta.",
+  "helper.veryLowScore1":
+    "Continue tentando. A planta reconhece sua determinação.",
+  "helper.veryLowScore2": "Você está chegando lá. A planta vê seu progresso.",
+  "helper.veryLowScore3": "Ainda não, mas a planta sente seu comprometimento.",
+  "helper.noScore1":
+    "Oh não! A planta detesta algo em sua poção! Tente novamente.",
+  "helper.noScore2":
+    "Ops! A planta recua de algo em sua poção! Tente novamente.",
+  "helper.noScore3":
+    "Uh-oh! Algo em sua poção é um fracasso total com a planta! Tente novamente.",
+};
+
 const heliosSunflower: Record<HeliosSunflower, string> = {
   "heliosSunflower.title": "Clytie o Girassol",
   "heliosSunflower.description":
@@ -4011,6 +4042,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...harvestBeeHive,
   ...hayseedHankPlaza,
   ...hayseedHankV2,
+  ...helper,
   ...heliosSunflower,
   ...henHouseTerms,
   ...howToFarm,

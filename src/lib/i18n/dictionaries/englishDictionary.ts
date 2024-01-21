@@ -66,6 +66,7 @@ import {
   HarvestBeeHive,
   HayseedHankPlaza,
   HayseedHankV2,
+  Helper,
   HeliosSunflower,
   HenHouseTerms,
   HowToFarm,
@@ -2030,6 +2031,34 @@ const heliosSunflower: Record<HeliosSunflower, string> = {
   "confirmation.craft": "Are you sure you want to craft",
 };
 
+const helper: Record<Helper, string> = {
+  "helper.highScore1": "Incredible! You're mastering the art of potion-making!",
+  "helper.highScore2":
+    "Magnificent! Your skills are bringing the plant to life!",
+  "helper.highScore3": "Astounding! The plant is in awe of your expertise!",
+  "helper.midScore1":
+    "Almost! Your potion has had a positive impact on your plant!",
+  "helper.midScore2":
+    "Keep it up! The plant is starting to thrive on your skillful concoction!",
+  "helper.midScore3":
+    "Nice one! Your potion is starting to work its magic on the plant!",
+  "helper.lowScore1": "Getting there. The plant is showing signs of happiness.",
+  "helper.lowScore2":
+    "Nice effort. Your potion has brought a bit of joy to the plant.",
+  "helper.lowScore3":
+    "Not bad. Your skills are starting to make a good impression on the plant.",
+  "helper.veryLowScore1":
+    "Keep trying. The plant recognizes your determination.",
+  "helper.veryLowScore2": "You're getting there. The plant sees your progress.",
+  "helper.veryLowScore3": "Not quite, but the plant senses your commitment.",
+  "helper.noScore1":
+    "Oh no! The plant despises something in your potion! Try again.",
+  "helper.noScore2":
+    "Oops! The plant recoils from something in your potion! Try again.",
+  "helper.noScore3":
+    "Uh-oh! Something in your potion is a total flop with the plant! Try again.",
+};
+
 const henHouseTerms: Record<HenHouseTerms, string> = {
   "henHouse.chickens": "Chickens",
   "henHouse.text.one": "Feed wheat and collect eggs",
@@ -3929,6 +3958,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...harvestBeeHive,
   ...hayseedHankPlaza,
   ...hayseedHankV2,
+  ...helper,
   ...heliosSunflower,
   ...henHouseTerms,
   ...howToFarm,

@@ -1428,6 +1428,23 @@ export type HayseedHankV2 =
   | "hayseedHankv2.skipChores"
   | "hayseedHankv2.greeting";
 
+export type Helper =
+  | "helper.highScore1"
+  | "helper.highScore2"
+  | "helper.highScore3"
+  | "helper.midScore1"
+  | "helper.midScore2"
+  | "helper.midScore3"
+  | "helper.lowScore1"
+  | "helper.lowScore2"
+  | "helper.lowScore3"
+  | "helper.veryLowScore1"
+  | "helper.veryLowScore2"
+  | "helper.veryLowScore3"
+  | "helper.noScore1"
+  | "helper.noScore2"
+  | "helper.noScore3";
+
 export type HeliosSunflower =
   | "heliosSunflower.title"
   | "heliosSunflower.description"
@@ -2714,6 +2731,7 @@ export type TranslationKeys =
   | HarvestBeeHive
   | HayseedHankPlaza
   | HayseedHankV2
+  | Helper
   | HeliosSunflower
   | HenHouseTerms
   | HowToFarm

@@ -56,7 +56,7 @@ export const Withdrawn: React.FC = () => {
           .
         </span>
       </div>
-      <Button onClick={() => goblinService.send("REFRESH")}>Ok</Button>
+      <Button onClick={() => goblinService.send("REFRESH")}>{t("ok")}</Button>
     </div>
   );
 };
