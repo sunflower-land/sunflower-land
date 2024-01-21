@@ -4203,6 +4203,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...removeKuebiko,
   ...resale,
   ...restock,
+  ...resources,
   ...retreatTerms,
   ...rewardTerms,
   ...rulesGameStart,
