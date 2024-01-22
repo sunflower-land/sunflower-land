@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import beehive from "assets/sfts/beehive.webp";
 import honeyDrop from "assets/sfts/honey_drop.webp";
 import bee from "assets/icons/bee.webp";
+import lightning from "assets/icons/lightning.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
@@ -26,8 +27,9 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { InfoPopover } from "features/island/common/InfoPopover";
-import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { BeeSwarm } from "./BeeSwarm";
+import { Label } from "components/ui/Label";
+import { SpeakingText } from "features/game/components/SpeakingModal";
 
 interface Props {
   id: string;
@@ -58,6 +60,8 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const [showHoneyLevelModal, setShowHoneyLevelModal] = useState(false);
   const [showSwarmModal, setShowSwarmModal] = useState(false);
   const [showHoneyLevelPopover, setShowHoneyLevelPopover] = useState(false);
+  const [showNoFlowerGrowingPopover, setShowNoFlowerGrowingPopover] =
+    useState(false);
 
   const landscaping = useSelector(gameService, _landscaping);
   const hive = useSelector(gameService, getBeehiveById(id), compareHive);
@@ -107,6 +111,8 @@ export const Beehive: React.FC<Props> = ({ id }) => {
 
   const handleHiveClick = () => {
     if (showBeeAnimation) return;
+    if (!honeyProduced) return;
+
     if (honeyReady) {
       handleHarvestHoney();
       return;
@@ -116,15 +122,26 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   };
 
   const handleHover = () => {
+    if (hive.flowers.length === 0) {
+      setShowNoFlowerGrowingPopover(true);
+      return;
+    }
+
     if (!honeyReady && !showBeeAnimation) {
       setShowHoneyLevelPopover(true);
     }
   };
 
   const handleMouseLeave = () => {
-    if (!showHoneyLevelPopover) return;
+    if (showHoneyLevelPopover) {
+      setShowHoneyLevelPopover(false);
+      return;
+    }
 
-    setShowHoneyLevelPopover(false);
+    if (showNoFlowerGrowingPopover) {
+      setShowNoFlowerGrowingPopover(false);
+      return;
+    }
   };
 
   useEffect(() => {
@@ -158,6 +175,8 @@ export const Beehive: React.FC<Props> = ({ id }) => {
 
   const honeyAmount = (honeyProduced / HONEY_PRODUCTION_TIME).toFixed(4);
   const percentage = (honeyProduced / HONEY_PRODUCTION_TIME) * 100;
+  const showQuantityBar =
+    showTimers && !landscaping && !showBeeAnimation && honeyProduced > 0;
 
   return (
     <>
@@ -207,7 +226,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
           />
         )}
         {/* Progress bar for honey production */}
-        {showTimers && !landscaping && !showBeeAnimation && (
+        {showQuantityBar && (
           <div
             className="absolute pointer-events-none"
             style={{
@@ -226,6 +245,20 @@ export const Beehive: React.FC<Props> = ({ id }) => {
             onAnimationEnd={handleBeeAnimationEnd}
           />
         )}
+        {/* No Active Flowers */}
+        <div
+          id="popover"
+          className="flex justify-center absolute w-full pointer-events-none"
+          style={{
+            top: `${PIXEL_SCALE * -19}px`,
+          }}
+        >
+          <InfoPopover showPopover={showNoFlowerGrowingPopover}>
+            <div className="flex flex-1 items-center text-xxs justify-center px-2 py-1 whitespace-nowrap">
+              <span>No flowers growing</span>
+            </div>
+          </InfoPopover>
+        </div>
         {/* Honey level popover */}
         <div
           id="popover"
@@ -312,9 +345,14 @@ export const Beehive: React.FC<Props> = ({ id }) => {
         show={showSwarmModal}
         onHide={() => setShowSwarmModal(false)}
       >
-        <div className="relative">
-          <SpeakingModal
-            bumpkinParts={NPC_WEARABLES.stevie}
+        <Panel
+          className="relative space-y-1"
+          bumpkinParts={NPC_WEARABLES.stevie}
+        >
+          <Label type="vibrant" icon={lightning}>
+            Bee swarm
+          </Label>
+          <SpeakingText
             message={[
               {
                 text: "Pollination celebration! Your crops are in for a treat with a 0.2 boost from a friendly bee swarm!",
@@ -323,7 +361,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
             onClose={() => setShowSwarmModal(false)}
           />
           <BeeSwarm />
-        </div>
+        </Panel>
       </Modal>
     </>
   );
