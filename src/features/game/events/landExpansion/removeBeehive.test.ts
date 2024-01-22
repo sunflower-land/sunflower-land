@@ -116,7 +116,10 @@ describe("removeBeehive", () => {
           Beehive: new Decimal(1),
         },
         flowers: {
-          [flower1Id]: DEFAULT_FLOWER_BED,
+          discovered: {},
+          flowerBeds: {
+            [flower1Id]: DEFAULT_FLOWER_BED,
+          },
         },
         beehives: {
           [beehive1Id]: {

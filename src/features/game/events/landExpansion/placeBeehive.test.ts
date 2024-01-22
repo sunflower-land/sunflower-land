@@ -64,16 +64,19 @@ describe("placeBeehive", () => {
           Beehive: new Decimal(1),
         },
         flowers: {
-          "123": {
-            createdAt: now,
-            x: 0,
-            y: 0,
-            height: 1,
-            width: 2,
-            flower: {
-              name: "Flower 1",
-              amount: 1,
-              plantedAt: now,
+          discovered: {},
+          flowerBeds: {
+            "123": {
+              createdAt: now,
+              x: 0,
+              y: 0,
+              height: 1,
+              width: 2,
+              flower: {
+                name: "Flower 1",
+                amount: 1,
+                plantedAt: now,
+              },
             },
           },
         },

@@ -132,7 +132,7 @@ export const getChestItems = (state: GameState) => {
         ...acc,
         "Flower Bed": new Decimal(
           state.inventory["Flower Bed"]?.minus(
-            Object.keys(state.flowers).length
+            Object.keys(state.flowers.flowerBeds).length
           ) ?? 0
         ),
       };

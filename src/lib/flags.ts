@@ -27,7 +27,8 @@ type FeatureName =
   | "PORTALS"
   | "BEACH_FISHING"
   | "HOME"
-  | "ISLAND_UPGRADE";
+  | "ISLAND_UPGRADE"
+  | "FLOWERS";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51];
@@ -86,6 +87,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
     return defaultFeatureFlag(game);
   },
   LOCALISATION: testnetFeatureFlag,
+  FLOWERS: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {

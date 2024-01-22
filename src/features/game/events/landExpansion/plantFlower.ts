@@ -35,7 +35,7 @@ export function plantFlower({
     throw new Error("You do not have a Bumpkin");
   }
 
-  const flowerBed = flowers[action.id];
+  const flowerBed = flowers.flowerBeds[action.id];
 
   if (!flowerBed) {
     throw new Error("Flower bed does not exist");
@@ -81,7 +81,7 @@ export function plantFlower({
 
   const updatedBeehives = updateBeehives({
     beehives: stateCopy.beehives,
-    flowers: stateCopy.flowers,
+    flowerBeds: stateCopy.flowers.flowerBeds,
     createdAt,
   });
 

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import cloneDeep from "lodash.clonedeep";
-import { Beehive, Beehives, Flowers } from "../types/game";
+import { Beehive, Beehives, FlowerBeds } from "../types/game";
 import { getKeys } from "../types/craftables";
 
 /**
@@ -19,7 +19,7 @@ export const FLOWER_GROW_TIME = 24 * 60 * 60 * 1000;
 interface GetFlowerDetail {
   flowerId: string;
   beehives: Beehives;
-  flowers: Flowers;
+  flowerBeds: FlowerBeds;
   createdAt: number;
 }
 
@@ -30,7 +30,7 @@ interface GetBeehiveDetail {
 
 interface CalculateFlowerDetails {
   beehives: Beehives;
-  flowers: Flowers;
+  flowerBeds: FlowerBeds;
   createdAt: number;
 }
 
@@ -46,13 +46,13 @@ interface RemoveInactiveFlowers {
 
 interface AttachFlowers {
   beehives: Beehives;
-  flowers: Flowers;
+  flowerBeds: FlowerBeds;
   createdAt: number;
 }
 
 interface UpdateBeehives {
   beehives: Beehives;
-  flowers: Flowers;
+  flowerBeds: FlowerBeds;
   createdAt: number;
 }
 
@@ -66,8 +66,8 @@ type FlowerDetail = {
   availableTime: number;
 };
 
-const getFlowerReadyAt = (flowerId: string, flowers: Flowers) => {
-  const plantedFlower = flowers[flowerId].flower;
+const getFlowerReadyAt = (flowerId: string, flowerBeds: FlowerBeds) => {
+  const plantedFlower = flowerBeds[flowerId].flower;
 
   if (!plantedFlower) {
     console.error(
@@ -81,7 +81,7 @@ const getFlowerReadyAt = (flowerId: string, flowers: Flowers) => {
 
 const updateProducedHoney = ({
   beehives,
-  flowers,
+  flowerBeds,
   createdAt,
 }: UpdateBeehives) => {
   const beehivesCopy = cloneDeep(beehives);
@@ -93,7 +93,7 @@ const updateProducedHoney = ({
     );
 
     attachedFlowers.forEach((attachedFlower, i) => {
-      const plantedFlower = flowers[attachedFlower.id].flower;
+      const plantedFlower = flowerBeds[attachedFlower.id].flower;
 
       if (!plantedFlower) {
         console.error(
@@ -140,7 +140,7 @@ const removeInactiveFlowers = ({
 
 const getFlowerDetail = ({
   flowerId,
-  flowers,
+  flowerBeds,
   beehives,
   createdAt,
 }: GetFlowerDetail): FlowerDetail => {
@@ -157,7 +157,7 @@ const getFlowerDetail = ({
     .filter((attachment) => attachment.flowerId === flowerId)
     .sort((a, b) => b.attachedAt - a.attachedAt)[0];
 
-  const flowerReadyAt = getFlowerReadyAt(flowerId, flowers);
+  const flowerReadyAt = getFlowerReadyAt(flowerId, flowerBeds);
 
   if (!flowerAttachment) {
     return {
@@ -173,14 +173,19 @@ const getFlowerDetail = ({
 };
 
 const calculateFlowerDetails = ({
-  flowers,
+  flowerBeds,
   beehives,
   createdAt,
 }: CalculateFlowerDetails): Record<string, FlowerDetail> => {
-  return getKeys(flowers).reduce(
+  return getKeys(flowerBeds).reduce(
     (flowerDetails, flowerId) => ({
       ...flowerDetails,
-      [flowerId]: getFlowerDetail({ flowerId, flowers, beehives, createdAt }),
+      [flowerId]: getFlowerDetail({
+        flowerId,
+        flowerBeds,
+        beehives,
+        createdAt,
+      }),
     }),
     {}
   );
@@ -222,12 +227,12 @@ const calculateHiveDetails = ({
   );
 };
 
-const attachFlowers = ({ beehives, flowers, createdAt }: AttachFlowers) => {
+const attachFlowers = ({ beehives, flowerBeds, createdAt }: AttachFlowers) => {
   const beehivesCopy = cloneDeep(beehives);
 
   let flowerDetails = calculateFlowerDetails({
     beehives,
-    flowers,
+    flowerBeds,
     createdAt,
   });
   let hiveDetails = calculateHiveDetails({ beehives, createdAt });
@@ -286,15 +291,19 @@ const attachFlowers = ({ beehives, flowers, createdAt }: AttachFlowers) => {
 
 export function updateBeehives({
   beehives,
-  flowers,
+  flowerBeds,
   createdAt,
 }: UpdateBeehives) {
-  let beehivesCopy = updateProducedHoney({ beehives, flowers, createdAt });
+  let beehivesCopy = updateProducedHoney({ beehives, flowerBeds, createdAt });
   beehivesCopy = removeInactiveFlowers({
     beehives: beehivesCopy,
     createdAt,
   });
-  beehivesCopy = attachFlowers({ beehives: beehivesCopy, flowers, createdAt });
+  beehivesCopy = attachFlowers({
+    beehives: beehivesCopy,
+    flowerBeds,
+    createdAt,
+  });
 
   return beehivesCopy;
 }

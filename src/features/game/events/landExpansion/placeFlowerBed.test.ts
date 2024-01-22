@@ -42,12 +42,15 @@ describe("placeFlowerBed", () => {
             "Flower Bed": new Decimal(1),
           },
           flowers: {
-            "123": {
-              createdAt: dateNow,
-              height: 1,
-              width: 3,
-              x: 1,
-              y: 1,
+            discovered: {},
+            flowerBeds: {
+              "123": {
+                createdAt: dateNow,
+                height: 1,
+                width: 3,
+                x: 1,
+                y: 1,
+              },
             },
           },
         },
@@ -73,12 +76,15 @@ describe("placeFlowerBed", () => {
             "Flower Bed": new Decimal(2),
           },
           flowers: {
-            "123": {
-              height: 1,
-              width: 3,
-              createdAt: dateNow,
-              x: 2,
-              y: 2,
+            discovered: {},
+            flowerBeds: {
+              "123": {
+                height: 1,
+                width: 3,
+                createdAt: dateNow,
+                x: 2,
+                y: 2,
+              },
             },
           },
         },
@@ -104,12 +110,15 @@ describe("placeFlowerBed", () => {
             "Flower Bed": new Decimal(2),
           },
           flowers: {
-            "123": {
-              height: 1,
-              width: 3,
-              createdAt: dateNow,
-              x: 0,
-              y: 0,
+            discovered: {},
+            flowerBeds: {
+              "123": {
+                height: 1,
+                width: 3,
+                createdAt: dateNow,
+                x: 0,
+                y: 0,
+              },
             },
           },
         },
@@ -135,19 +144,22 @@ describe("placeFlowerBed", () => {
           "Flower Bed": new Decimal(2),
         },
         flowers: {
-          "123": {
-            height: 1,
-            width: 3,
-            createdAt: dateNow,
-            x: 0,
-            y: 0,
+          discovered: {},
+          flowerBeds: {
+            "123": {
+              height: 1,
+              width: 3,
+              createdAt: dateNow,
+              x: 0,
+              y: 0,
+            },
           },
         },
       },
       createdAt,
     });
 
-    expect(state.flowers).toEqual({
+    expect(state.flowers.flowerBeds).toEqual({
       "1": {
         createdAt,
         height: 1,

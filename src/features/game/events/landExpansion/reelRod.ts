@@ -3,8 +3,8 @@ import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
-import { trackFarmActivity } from "features/game/lib/farmActivity";
 import { FishingLocation } from "features/game/types/fishing";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export type ReelRodAction = {
   type: "rod.reeled";

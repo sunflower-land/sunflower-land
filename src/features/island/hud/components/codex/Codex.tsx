@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 
 import { Modal } from "react-bootstrap";
 import { Tab } from "components/ui/Tab";
@@ -16,6 +16,8 @@ import {
 } from "features/game/types/codex";
 import { MilestoneReached } from "./components/MilestoneReached";
 import { MilestoneName } from "features/game/types/milestones";
+import { Flowers } from "./pages/Flowers";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   show: boolean;
@@ -26,6 +28,10 @@ export const categories: CodexCategory[] = [
   {
     name: "Fish",
     icon: SUNNYSIDE.icons.fish,
+  },
+  {
+    name: "Flowers",
+    icon: SUNNYSIDE.icons.expression_confused,
   },
   {
     name: "Farming",
@@ -127,6 +133,9 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable">
                 {currentTab === 0 && (
                   <Fish onMilestoneReached={handleMilestoneReached} />
+                )}
+                {currentTab === 1 && hasFeatureAccess(TEST_FARM, "FLOWERS") && (
+                  <Flowers onMilestoneReached={handleMilestoneReached} />
                 )}
               </InnerPanel>
             </div>
