@@ -41,7 +41,7 @@ import {
 } from "./fishing";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { PortalName } from "./portals";
-import { FlowerName, FlowerSeedName } from "./flowers";
+import { FlowerCrossBreedName, FlowerName, FlowerSeedName } from "./flowers";
 import { translate } from "lib/i18n/translate";
 
 export type Reward = {
