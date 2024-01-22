@@ -42,6 +42,8 @@ import { Fisherman } from "features/island/fisherman/Fisherman";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { Airdrop } from "./components/Airdrop";
 
+const IMAGE_GRID_WIDTH = 36;
+
 export const LAND_WIDTH = 6;
 
 const getIslandElements = ({
@@ -53,7 +55,9 @@ const getIslandElements = ({
   stones,
   iron,
   gold,
+  rubies,
   fruitPatches,
+  flowerBeds,
   crops,
   showTimers,
   grid,
@@ -61,6 +65,7 @@ const getIslandElements = ({
   isFirstRender,
   buds,
   airdrops,
+  beehives,
 }: {
   expansionConstruction?: ExpansionConstruction;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
@@ -71,14 +76,17 @@ const getIslandElements = ({
   stones: GameState["stones"];
   iron: GameState["iron"];
   gold: GameState["gold"];
+  rubies: GameState["rubies"];
   crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
+  flowerBeds: GameState["flowers"]["flowerBeds"];
   airdrops: GameState["airdrops"];
   showTimers: boolean;
   grid: GameGrid;
   mushrooms: GameState["mushrooms"]["mushrooms"];
   isFirstRender: boolean;
   buds: GameState["buds"];
+  beehives: GameState["beehives"];
 }) => {
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -136,6 +144,7 @@ const getIslandElements = ({
               width={width}
             >
               <Collectible
+                location="farm"
                 name={name}
                 id={id}
                 readyAt={readyAt}
@@ -283,6 +292,33 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
+    ...getKeys(rubies).map((id, index) => {
+      const { x, y, width, height } = rubies[id];
+
+      return (
+        <MapPlacement
+          key={`ruby-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+        >
+          <Resource
+            key={`ruby-${id}`}
+            name="Ruby Rock"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+            index={index}
+            x={x}
+            y={y}
+          />
+        </MapPlacement>
+      );
+    })
+  );
+
+  mapPlacements.push(
     ...getKeys(fruitPatches).map((id, index) => {
       const { x, y, width, height } = fruitPatches[id];
 
@@ -334,6 +370,32 @@ const getIslandElements = ({
     })
   );
 
+  mapPlacements.push(
+    ...getKeys(flowerBeds).map((id, index) => {
+      const { x, y, width, height } = flowerBeds[id];
+
+      return (
+        <MapPlacement
+          key={`flowers-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+        >
+          <Resource
+            name="Flower Bed"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+            index={index}
+            x={x}
+            y={y}
+          />
+        </MapPlacement>
+      );
+    })
+  );
+
   {
     mushrooms &&
       mapPlacements.push(
@@ -363,7 +425,11 @@ const getIslandElements = ({
     buds &&
       mapPlacements.push(
         ...getKeys(buds)
-          .filter((budId) => !!buds[budId].coordinates)
+          .filter(
+            (budId) =>
+              !!buds[budId].coordinates &&
+              (!buds[budId].location || buds[budId].location === "farm")
+          )
           .flatMap((id) => {
             const { x, y } = buds[id]!.coordinates!;
 
@@ -399,16 +465,44 @@ const getIslandElements = ({
     );
   }
 
+  mapPlacements.push(
+    ...getKeys(beehives).map((id, index) => {
+      const { x, y, width, height } = beehives[id];
+
+      return (
+        <MapPlacement
+          key={`beehive-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+        >
+          <Resource
+            name="Beehive"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+            index={index}
+            x={x}
+            y={y}
+          />
+        </MapPlacement>
+      );
+    })
+  );
+
   return mapPlacements;
 };
 
 const selectGameState = (state: MachineState) => state.context.state;
-const isAutosaving = (state: MachineState) => state.matches("autosaving");
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
 const isVisiting = (state: MachineState) => state.matches("visiting");
+const isPaused = (state: MachineState) => !!state.context.paused;
 
 export const Land: React.FC = () => {
   const { gameService, showTimers } = useContext(Context);
+
+  const paused = useSelector(gameService, isPaused);
 
   const state = useSelector(gameService, selectGameState);
   const {
@@ -422,13 +516,17 @@ export const Land: React.FC = () => {
     stones,
     iron,
     gold,
+    rubies,
     crops,
     fruitPatches,
+    flowers: { flowerBeds },
     mushrooms,
     buds,
     airdrops,
+    island,
+    beehives,
   } = state;
-  const autosaving = useSelector(gameService, isAutosaving);
+
   const landscaping = useSelector(gameService, isLandscaping);
   const visiting = useSelector(gameService, isVisiting);
 
@@ -450,17 +548,6 @@ export const Land: React.FC = () => {
   }, []);
 
   const isFirstRender = useFirstRender();
-
-  const boatCoordinates = () => {
-    if (expansionCount < 7) {
-      return { x: -2, y: -4.5 };
-    }
-    if (expansionCount >= 7 && expansionCount < 21) {
-      return { x: -9, y: -10.5 };
-    } else {
-      return { x: -16, y: -16.5 };
-    }
-  };
 
   // memorize game grid and only update it when the stringified value changes
   const gameGridValue = getGameGrid({ crops, collectibles });
@@ -494,6 +581,7 @@ export const Land: React.FC = () => {
               <Water
                 expansionCount={expansionCount}
                 townCenterBuilt={(buildings["Town Center"]?.length ?? 0) >= 1}
+                gameState={state}
               />
             )}
             {!landscaping && <UpcomingExpansion />}
@@ -515,28 +603,32 @@ export const Land: React.FC = () => {
             />
 
             {/* Sort island elements by y axis */}
-            {getIslandElements({
-              expansionConstruction,
-              buildings,
-              collectibles,
-              chickens,
-              bumpkin,
-              trees,
-              stones,
-              iron,
-              gold,
-              fruitPatches,
-              crops,
-              showTimers: showTimers,
-              grid: gameGrid,
-              mushrooms: mushrooms?.mushrooms,
-              isFirstRender,
-              buds,
-              airdrops,
-            }).sort((a, b) => b.props.y - a.props.y)}
+            {!paused &&
+              getIslandElements({
+                expansionConstruction,
+                buildings,
+                collectibles,
+                chickens,
+                bumpkin,
+                trees,
+                stones,
+                iron,
+                gold,
+                rubies,
+                fruitPatches,
+                flowerBeds,
+                crops,
+                showTimers: showTimers,
+                grid: gameGrid,
+                mushrooms: mushrooms?.mushrooms,
+                isFirstRender,
+                buds,
+                airdrops,
+                beehives,
+              }).sort((a, b) => b.props.y - a.props.y)}
           </div>
 
-          {landscaping && <Placeable />}
+          {landscaping && <Placeable location="farm" />}
         </div>
 
         {!landscaping && <Fisherman />}
@@ -553,7 +645,7 @@ export const Land: React.FC = () => {
         />
       </div>
 
-      {landscaping && <LandscapingHud isFarming />}
+      {landscaping && <LandscapingHud location="farm" />}
 
       {!landscaping && visiting && (
         <div className="absolute z-20">
@@ -561,7 +653,7 @@ export const Land: React.FC = () => {
         </div>
       )}
 
-      {!landscaping && !visiting && <Hud isFarming={true} />}
+      {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}
     </>
   );
 };

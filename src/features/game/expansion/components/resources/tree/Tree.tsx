@@ -6,7 +6,7 @@ import { Context } from "features/game/GameProvider";
 import { getTimeLeft } from "lib/utils/time";
 import { loadAudio, treeFallAudio } from "lib/utils/sfx";
 import {
-  Collectibles,
+  GameState,
   InventoryItemName,
   Reward,
   Tree as TreeType,
@@ -33,9 +33,9 @@ const tool = "Axe";
 
 const HasTool = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
-  collectibles: Collectibles
+  gameState: GameState
 ) => {
-  const axesNeeded = getRequiredAxeAmount(inventory, collectibles);
+  const axesNeeded = getRequiredAxeAmount(inventory, gameState);
 
   // has enough axes to chop the tree
 
@@ -47,15 +47,14 @@ const HasTool = (
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectTreesChopped = (state: MachineState) =>
   state.context.state.bumpkin?.activity?.["Tree Chopped"] ?? 0;
-const selectCollectibles = (state: MachineState) =>
-  state.context.state.collectibles;
+const selectGame = (state: MachineState) => state.context.state;
 
 const compareResource = (prev: TreeType, next: TreeType) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
-const compareCollectibles = (prev: Collectibles, next: Collectibles) =>
-  isCollectibleBuilt("Foreman Beaver", prev) ===
-  isCollectibleBuilt("Foreman Beaver", next);
+const compareGame = (prev: GameState, next: GameState) =>
+  isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
+  isCollectibleBuilt({ name: "Foreman Beaver", game: next });
 
 const _bumpkinLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
@@ -99,22 +98,18 @@ export const Tree: React.FC<Props> = ({ id, index }) => {
     (state) => state.context.state.trees[id],
     compareResource
   );
-  const collectibles = useSelector(
-    gameService,
-    selectCollectibles,
-    compareCollectibles
-  );
+  const game = useSelector(gameService, selectGame, compareGame);
   const inventory = useSelector(
     gameService,
     selectInventory,
     (prev, next) =>
-      HasTool(prev, collectibles) === HasTool(next, collectibles) &&
+      HasTool(prev, game) === HasTool(next, game) &&
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0))
   );
 
   const treesChopped = useSelector(gameService, selectTreesChopped);
 
-  const hasTool = HasTool(inventory, collectibles);
+  const hasTool = HasTool(inventory, game);
   const timeLeft = getTimeLeft(resource.wood.choppedAt, TREE_RECOVERY_TIME);
   const chopped = !canChop(resource);
 
@@ -129,7 +124,8 @@ export const Tree: React.FC<Props> = ({ id, index }) => {
     if (!hasTool) return;
 
     setTouchCount((count) => count + 1);
-    if (!isCollectibleBuilt("Foreman Beaver", collectibles)) shortcutItem(tool);
+    if (!isCollectibleBuilt({ name: "Foreman Beaver", game }))
+      shortcutItem(tool);
 
     // need to hit enough times to collect resource
     if (touchCount < HITS - 1) return;

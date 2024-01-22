@@ -106,6 +106,20 @@ export function revealLand({
     land.gold?.length ?? 0
   );
 
+  // Add Ruby
+  land.rubies?.forEach((coords) => {
+    game.rubies[randomUUID().slice(0, 8)] = {
+      height: 1,
+      width: 1,
+      x: coords.x + origin.x,
+      y: coords.y + origin.y,
+      stone: { amount: 1, minedAt: 0 },
+    };
+  });
+  inventory["Ruby Rock"] = (inventory["Ruby Rock"] || new Decimal(0)).add(
+    land.rubies?.length ?? 0
+  );
+
   // Add Plots
   land.plots?.forEach((coords) => {
     game.crops[randomUUID().slice(0, 8)] = {

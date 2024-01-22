@@ -9,6 +9,7 @@ import {
 } from "./removeBuilding";
 import { REMOVAL_RESTRICTIONS } from "features/game/types/removeables";
 import { SEEDS } from "features/game/types/seeds";
+import { CollectibleLocation } from "features/game/types/collectibles";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
@@ -22,6 +23,7 @@ export type RemoveCollectibleAction = {
   type: "collectible.removed";
   name: CollectibleName;
   id: string;
+  location: CollectibleLocation;
 };
 
 type Options = {
@@ -33,8 +35,11 @@ type Options = {
 export function removeCollectible({ state, action }: Options) {
   const stateCopy = cloneDeep(state) as GameState;
 
-  const { collectibles, inventory, bumpkin } = stateCopy;
-  const collectibleGroup = collectibles[action.name];
+  const { inventory, bumpkin } = stateCopy;
+  let collectibleGroup =
+    action.location === "home"
+      ? stateCopy.home.collectibles[action.name]
+      : stateCopy.collectibles[action.name];
 
   if (bumpkin === undefined) {
     throw new Error(REMOVE_COLLECTIBLE_ERRORS.NO_BUMPKIN);
@@ -58,13 +63,27 @@ export function removeCollectible({ state, action }: Options) {
     inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
   }
 
-  stateCopy.collectibles[action.name] = collectibleGroup.filter(
+  collectibleGroup = collectibleGroup.filter(
     (collectible) => collectible.id !== collectibleToRemove.id
   );
 
   // Remove collectible key if there are none placed
-  if (!stateCopy.collectibles[action.name]?.length) {
-    delete stateCopy.collectibles[action.name];
+  if (collectibleGroup.length === 0) {
+    if (action.location === "home") {
+      delete stateCopy.home.collectibles[action.name];
+    }
+
+    if (action.location === "farm") {
+      delete stateCopy.collectibles[action.name];
+    }
+  } else {
+    if (action.location === "home") {
+      stateCopy.home.collectibles[action.name] = collectibleGroup;
+    }
+
+    if (action.location === "farm") {
+      stateCopy.collectibles[action.name] = collectibleGroup;
+    }
   }
 
   if (action.name === "Chicken Coop") {

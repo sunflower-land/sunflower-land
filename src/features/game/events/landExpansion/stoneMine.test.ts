@@ -201,7 +201,7 @@ describe("getMinedAt", () => {
     const time = getMinedAt({
       skills: { "Coal Face": 1 },
       createdAt: now,
-      collectibles: {},
+      game: TEST_FARM,
     });
 
     expect(time).toEqual(now - STONE_RECOVERY_TIME * 0.2 * 1000);
@@ -211,15 +211,18 @@ describe("getMinedAt", () => {
     const now = Date.now();
 
     const time = getMinedAt({
-      collectibles: {
-        "Time Warp Totem": [
-          {
-            id: "123",
-            createdAt: now,
-            coordinates: { x: 1, y: 1 },
-            readyAt: now - 5 * 60 * 1000,
-          },
-        ],
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
       },
       skills: {},
       createdAt: now,

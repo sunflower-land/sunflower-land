@@ -5,26 +5,25 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import shakeSheet from "assets/resources/tree/shake_sheet.png";
+import strikeSheet from "assets/resources/ruby/ruby_rock_spark.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
-import { chopAudio } from "lib/utils/sfx";
-import { SUNNYSIDE } from "assets/sunnyside";
+import { loadAudio, miningAudio } from "lib/utils/sfx";
+import ruby from "assets/resources/ruby_small.png";
 import { ZoomContext } from "components/ZoomProvider";
 
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-const tool = "Axe";
+const tool = "Gold Pickaxe";
 
-const SHAKE_SHEET_FRAME_WIDTH = 448 / 7;
-const SHAKE_SHEET_FRAME_HEIGHT = 48;
+const STRIKE_SHEET_FRAME_WIDTH = 112;
+const STRIKE_SHEET_FRAME_HEIGHT = 48;
 
 const _bumpkinLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
@@ -32,28 +31,27 @@ const _bumpkinLevel = (state: MachineState) =>
 interface Props {
   bumpkinLevelRequired: number;
   hasTool: boolean;
-  showHelper: boolean;
   touchCount: number;
 }
 
-const RecoveredTreeComponent: React.FC<Props> = ({
+const RecoveredRubyComponent: React.FC<Props> = ({
   bumpkinLevelRequired,
   hasTool,
   touchCount,
-  showHelper,
 }) => {
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
   const [showBumpkinLevel, setShowBumpkinLevel] = useState(false);
 
-  const shakeGif = useRef<SpriteSheetInstance>();
-  const { t } = useAppTranslation();
+  const strikeGif = useRef<SpriteSheetInstance>();
 
-  // prevent performing react state update on an unmounted component
   useEffect(() => {
+    loadAudio([miningAudio]);
+
+    // prevent performing react state update on an unmounted component
     return () => {
-      shakeGif.current = undefined;
+      strikeGif.current = undefined;
     };
   }, []);
 
@@ -65,8 +63,8 @@ const RecoveredTreeComponent: React.FC<Props> = ({
     if (bumpkinTooLow) return;
     if (touchCount > 0) {
       setShowSpritesheet(true);
-      chopAudio.play();
-      shakeGif.current?.goToAndPlay(0);
+      miningAudio.play();
+      strikeGif.current?.goToAndPlay(0);
     }
   }, [touchCount]);
 
@@ -91,38 +89,26 @@ const RecoveredTreeComponent: React.FC<Props> = ({
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Unchopped tree which is choppable */}
+      {/* Uncollected resource node which is collectable */}
       <div
         className={classNames("absolute w-full h-full", {
           "cursor-pointer hover:img-highlight": !showEquipTool,
           "cursor-not-allowed": showEquipTool,
         })}
       >
-        {showHelper && (
-          <img
-            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
-            src={SUNNYSIDE.icons.chop_icon}
-            style={{
-              width: `${PIXEL_SCALE * 18}px`,
-              right: `${PIXEL_SCALE * -4}px`,
-              top: `${PIXEL_SCALE * -4}px`,
-            }}
-          />
-        )}
-
-        {/* static tree image */}
+        {/* static resource node image */}
         {!showSpritesheet && (
           <img
-            src={SUNNYSIDE.resource.tree}
+            src={ruby}
             className={
               bumpkinTooLow
                 ? "absolute pointer-events-none opacity-50"
                 : "absolute pointer-events-none"
             }
             style={{
-              width: `${PIXEL_SCALE * 26}px`,
-              bottom: `${PIXEL_SCALE * 2}px`,
-              right: `${PIXEL_SCALE * 3}px`,
+              width: `${PIXEL_SCALE * 14}px`,
+              bottom: `${PIXEL_SCALE * 3}px`,
+              right: `${PIXEL_SCALE * 1}px`,
             }}
           />
         )}
@@ -133,31 +119,31 @@ const RecoveredTreeComponent: React.FC<Props> = ({
             className="pointer-events-none"
             style={{
               position: "absolute",
-              width: `${SHAKE_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
-              height: `${SHAKE_SHEET_FRAME_HEIGHT * PIXEL_SCALE}px`,
+              width: `${STRIKE_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
+              height: `${STRIKE_SHEET_FRAME_HEIGHT * PIXEL_SCALE}px`,
               imageRendering: "pixelated",
 
-              // Adjust the base of tree to be perfectly aligned to
+              // Adjust the base of resource node to be perfectly aligned to
               // on a grid point.
-              bottom: `${PIXEL_SCALE * 2}px`,
-              right: `${PIXEL_SCALE * -4}px`,
+              bottom: `${PIXEL_SCALE * -13}px`,
+              right: `${PIXEL_SCALE * -63}px`,
             }}
             getInstance={(spritesheet) => {
-              shakeGif.current = spritesheet;
+              strikeGif.current = spritesheet;
               spritesheet.goToAndPlay(0);
             }}
-            image={shakeSheet}
-            widthFrame={SHAKE_SHEET_FRAME_WIDTH}
-            heightFrame={SHAKE_SHEET_FRAME_HEIGHT}
+            image={strikeSheet}
+            widthFrame={STRIKE_SHEET_FRAME_WIDTH}
+            heightFrame={STRIKE_SHEET_FRAME_HEIGHT}
             zoomScale={scale}
             fps={24}
-            steps={7}
+            steps={6}
             direction={`forward`}
             autoplay={false}
             loop={true}
             onLoopComplete={(spritesheet) => {
               spritesheet.pause();
-              if (touchCount == 0 && !!shakeGif.current) {
+              if (touchCount == 0 && !!strikeGif.current) {
                 setShowSpritesheet(false);
               }
             }}
@@ -175,9 +161,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>
-                {t("bumpkin.level")} {bumpkinLevelRequired} required.
-              </span>
+              <span>Bumpkin level {bumpkinLevelRequired} required.</span>
             </div>
           </InnerPanel>
         </div>
@@ -188,14 +172,12 @@ const RecoveredTreeComponent: React.FC<Props> = ({
         <div
           className="flex justify-center absolute w-full pointer-events-none"
           style={{
-            top: `${PIXEL_SCALE * -10}px`,
+            top: `${PIXEL_SCALE * -14}px`,
           }}
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>
-                {t("equip")} {tool.toLowerCase()}
-              </span>
+              <span>Equip {tool.toLowerCase()}</span>
             </div>
           </InnerPanel>
         </div>
@@ -217,4 +199,4 @@ const RecoveredTreeComponent: React.FC<Props> = ({
   );
 };
 
-export const RecoveredTree = React.memo(RecoveredTreeComponent);
+export const RecoveredRuby = React.memo(RecoveredRubyComponent);
