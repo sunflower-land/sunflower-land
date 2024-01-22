@@ -1,6 +1,8 @@
 import {
   Collectibles,
   GameState,
+  InventoryItemName,
+  IslandType,
   PlacedItem,
   Position,
 } from "features/game/types/game";
@@ -17,6 +19,7 @@ import {
   MUSHROOM_DIMENSIONS,
   RESOURCE_DIMENSIONS,
 } from "features/game/types/resources";
+import { CollectibleLocation } from "features/game/types/collectibles";
 
 type BoundingBox = Position;
 
@@ -97,8 +100,11 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     stones,
     gold,
     iron,
+    rubies,
     fruitPatches,
     buds,
+    beehives,
+    flowers: { flowerBeds },
   } = state;
 
   const placed = {
@@ -123,8 +129,11 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     ...Object.values(stones),
     ...Object.values(iron),
     ...Object.values(gold),
+    ...Object.values(rubies),
     ...Object.values(crops),
     ...Object.values(fruitPatches),
+    ...Object.values(beehives),
+    ...Object.values(flowerBeds),
   ];
 
   const resourceBoundingBoxes = resources.map((item) => ({
@@ -151,6 +160,89 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
 
   return boundingBoxes.some((resourceBoundingBox) =>
     isOverlapping(boundingBox, resourceBoundingBox)
+  );
+}
+
+export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
+  basic: {
+    height: 6,
+    width: 6,
+    x: -3,
+    y: -3,
+  },
+  spring: {
+    height: 12,
+    width: 12,
+    x: -6,
+    y: -6,
+  },
+  desert: {
+    height: 16,
+    width: 16,
+    x: -8,
+    y: -8,
+  },
+};
+
+const NON_COLLIDING_OBJECTS: InventoryItemName[] = ["Rug"];
+function detectHomeCollision({
+  state,
+  position,
+  name,
+}: {
+  state: GameState;
+  position: BoundingBox;
+  name: InventoryItemName;
+}) {
+  const bounds = HOME_BOUNDS[state.island.type];
+
+  const isOutside =
+    position.x < bounds.x ||
+    position.x + position.width > bounds.x + bounds.width ||
+    position.y > bounds.y + bounds.height ||
+    position.y - position.height < bounds.y;
+
+  if (isOutside) {
+    return true;
+  }
+
+  if (NON_COLLIDING_OBJECTS.includes(name)) {
+    return false;
+  }
+
+  const { home } = state;
+
+  const placed = home.collectibles;
+
+  const collidingItems = getKeys(placed).filter(
+    (name) => !NON_COLLIDING_OBJECTS.includes(name)
+  );
+
+  const placeableBounds = collidingItems.flatMap((name) => {
+    const items = placed[name] as PlacedItem[];
+    const dimensions = PLACEABLE_DIMENSIONS[name];
+
+    return items.map((item) => ({
+      x: item.coordinates.x,
+      y: item.coordinates.y,
+      height: dimensions.height,
+      width: dimensions.width,
+    }));
+  });
+
+  const budsBoundingBox = Object.values(state.buds ?? {})
+    .filter((bud) => !!bud.coordinates)
+    .map((item) => ({
+      x: item.coordinates!.x,
+      y: item.coordinates!.y,
+      height: 1,
+      width: 1,
+    }));
+
+  const boundingBoxes = [...placeableBounds, ...budsBoundingBox];
+
+  return boundingBoxes.some((resourceBoundingBox) =>
+    isOverlapping(position, resourceBoundingBox)
   );
 }
 
@@ -308,7 +400,21 @@ function detectLandCornerCollision(
   });
 }
 
-export function detectCollision(state: GameState, position: Position) {
+export function detectCollision({
+  state,
+  position,
+  location,
+  name,
+}: {
+  location: CollectibleLocation;
+  state: GameState;
+  position: Position;
+  name: InventoryItemName;
+}) {
+  if (location === "home") {
+    return detectHomeCollision({ state, position, name });
+  }
+
   const expansions = state.inventory["Basic Land"]?.toNumber() ?? 3;
 
   return (

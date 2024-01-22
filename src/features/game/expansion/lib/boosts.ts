@@ -1,12 +1,6 @@
 import Decimal from "decimal.js-light";
 
-import {
-  Bumpkin,
-  Collectibles,
-  GameState,
-  GrubShopOrder,
-  Inventory,
-} from "../../types/game";
+import { Bumpkin, GameState, GrubShopOrder, Inventory } from "../../types/game";
 import { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import { CROPS } from "../../types/crops";
 import { CAKES } from "../../types/craftables";
@@ -23,6 +17,7 @@ import {
 import { getSeasonalBanner } from "features/game/types/seasons";
 import { getBudExperienceBoosts } from "features/game/lib/getBudExperienceBoosts";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { isWearableActive } from "features/game/lib/wearables";
 
 const crops = CROPS();
 const cakes = CAKES();
@@ -111,7 +106,7 @@ export const hasSellBoost = (inventory: Inventory) => {
 export const getCookingTime = (
   seconds: number,
   bumpkin: Bumpkin | undefined,
-  collectibles: Collectibles
+  game: GameState
 ): number => {
   let reducedSecs = new Decimal(seconds);
 
@@ -121,11 +116,11 @@ export const getCookingTime = (
   }
 
   // Luna's Hat - 50% reduction
-  if (bumpkin?.equipped.hat === "Luna's Hat") {
+  if (isWearableActive({ name: "Luna's Hat", game })) {
     reducedSecs = reducedSecs.mul(0.5);
   }
 
-  if (isCollectibleActive("Time Warp Totem", collectibles)) {
+  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
     reducedSecs = reducedSecs.mul(0.5);
   }
 
@@ -143,11 +138,11 @@ export const getCookingTime = (
 export const getFoodExpBoost = (
   food: Consumable,
   bumpkin: Bumpkin,
-  collectibles: Collectibles,
+  game: GameState,
   buds: NonNullable<GameState["buds"]>
 ): number => {
   let boostedExp = new Decimal(food.experience);
-  const { skills, equipped } = bumpkin;
+  const { skills } = bumpkin;
 
   //Bumpkin Skill Boost Kitchen Hand
   if (skills["Kitchen Hand"]) {
@@ -160,38 +155,38 @@ export const getFoodExpBoost = (
   }
 
   //Bumpkin Wearable Boost Golden Spatula
-  if (equipped.tool === "Golden Spatula") {
+  if (isWearableActive({ name: "Golden Spatula", game })) {
     boostedExp = boostedExp.mul(1.1);
   }
 
   if (
     food.name in FISH_CONSUMABLES &&
-    equipped.hat === "Luminous Anglerfish Topper"
+    isWearableActive({ name: "Luminous Anglerfish Topper", game })
   ) {
     // 50% boost
     boostedExp = boostedExp.mul(1.5);
   }
 
   //Observatory is placed
-  if (isCollectibleBuilt("Observatory", collectibles)) {
+  if (isCollectibleBuilt({ name: "Observatory", game })) {
     boostedExp = boostedExp.mul(1.05);
   }
 
   if (
     (food.name in COOKABLE_CAKES || food.name === "Pirate Cake") &&
-    isCollectibleBuilt("Grain Grinder", collectibles)
+    isCollectibleBuilt({ name: "Grain Grinder", game })
   ) {
     boostedExp = boostedExp.mul(1.2);
   }
 
   if (
     food.name in FISH_CONSUMABLES &&
-    isCollectibleBuilt("Skill Shrimpy", collectibles)
+    isCollectibleBuilt({ name: "Skill Shrimpy", game })
   ) {
     boostedExp = boostedExp.mul(1.2);
   }
 
-  if (collectibles[getSeasonalBanner()]) {
+  if (isCollectibleBuilt({ name: getSeasonalBanner(), game })) {
     boostedExp = boostedExp.mul(1.1);
   }
 

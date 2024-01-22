@@ -1,5 +1,6 @@
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { BuildingName } from "./buildings";
+import { CollectibleLocation } from "./collectibles";
 import { CollectibleName } from "./craftables";
 import { InventoryItemName } from "./game";
 
@@ -77,6 +78,7 @@ export type Bud = {
   aura: AuraTrait;
   ears: EarTrait;
   coordinates?: Coordinates;
+  location?: CollectibleLocation;
 };
 
 export type BudName = `Bud-${number}`;

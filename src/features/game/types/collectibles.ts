@@ -9,6 +9,8 @@ import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { translate } from "lib/i18n/translate";
 
+export type CollectibleLocation = "farm" | "home";
+
 export type SeasonPassName =
   | "Dawn Breaker Banner"
   | "Solar Flare Banner"

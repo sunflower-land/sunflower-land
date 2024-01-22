@@ -10,57 +10,57 @@ import {
 } from "./removeables";
 
 export const canWithdrawBoostedWearable = (
-  wearable: BumpkinItem,
+  name: BumpkinItem,
   state?: GoblinState
 ) => {
   if (!state) return false;
 
   if (
-    wearable === "Green Amulet" ||
-    wearable === "Angel Wings" ||
-    wearable === "Devil Wings" ||
-    wearable === "Infernal Pitchfork"
+    name === "Green Amulet" ||
+    name === "Angel Wings" ||
+    name === "Devil Wings" ||
+    name === "Infernal Pitchfork"
   ) {
     return !areAnyCropsGrowing(state)[0];
   }
 
-  if (wearable === "Sunflower Amulet") {
+  if (name === "Sunflower Amulet") {
     return !cropIsGrowing({ item: "Sunflower", game: state })[0];
   }
 
-  if (wearable === "Carrot Amulet") {
+  if (name === "Carrot Amulet") {
     return !cropIsGrowing({ item: "Carrot", game: state })[0];
   }
 
-  if (wearable === "Beetroot Amulet") {
+  if (name === "Beetroot Amulet") {
     return !cropIsGrowing({ item: "Beetroot", game: state })[0];
   }
 
-  if (wearable === "Parsnip") {
+  if (name === "Parsnip") {
     return !cropIsGrowing({ item: "Parsnip", game: state })[0];
   }
 
-  if (wearable === "Eggplant Onesie") {
+  if (name === "Eggplant Onesie") {
     return !cropIsGrowing({ item: "Eggplant", game: state })[0];
   }
 
-  if (wearable === "Corn Onesie") {
+  if (name === "Corn Onesie") {
     return !cropIsGrowing({ item: "Corn", game: state })[0];
   }
 
-  if (wearable === "Fruit Picker Apron") {
+  if (name === "Fruit Picker Apron") {
     return !areAnyFruitsGrowing(state)[0];
   }
 
-  if (wearable === "Banana Amulet") {
+  if (name === "Banana Amulet") {
     return !areFruitsGrowing(state, "Banana")[0];
   }
 
-  if (wearable === "Cattlegrim") {
+  if (name === "Cattlegrim") {
     return !areAnyChickensFed(state)[0];
   }
 
-  if (wearable === "Luna's Hat") {
+  if (name === "Luna's Hat") {
     if (
       state.buildings["Fire Pit"]?.[0].crafting ||
       state.buildings["Kitchen"]?.[0].crafting ||
@@ -73,7 +73,7 @@ export const canWithdrawBoostedWearable = (
     return true;
   }
 
-  if (wearable === "Ancient Rod") {
+  if (name === "Ancient Rod") {
     return getDailyFishingCount(state) == 0;
   }
 

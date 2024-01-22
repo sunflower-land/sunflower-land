@@ -16,7 +16,6 @@ import {
   SoldOutCollectibleName,
 } from "./collectibles";
 import { BoostTreasure } from "./treasure";
-import { RESOURCE_DIMENSIONS } from "./resources";
 import { MarineMarvelName } from "./fishing";
 import { translate } from "lib/i18n/translate";
 
@@ -213,6 +212,7 @@ export type ToolName =
   | "Pickaxe"
   | "Stone Pickaxe"
   | "Iron Pickaxe"
+  | "Gold Pickaxe"
   | "Hammer"
   | "Rod";
 
@@ -531,6 +531,21 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
       },
       {
         item: "Iron",
+        amount: new Decimal(3),
+      },
+    ],
+  },
+  "Gold Pickaxe": {
+    name: "Gold Pickaxe",
+    description: "Used to collect rubies",
+    tokenAmount: new Decimal(7),
+    ingredients: [
+      {
+        item: "Wood",
+        amount: new Decimal(3),
+      },
+      {
+        item: "Gold",
         amount: new Decimal(3),
       },
     ],
@@ -1054,8 +1069,6 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   ...flagsDimension,
 
   ...DECORATION_DIMENSIONS,
-
-  ...RESOURCE_DIMENSIONS,
 
   // Blacksmith Items
   "Sunflower Statue": { width: 3, height: 4 },

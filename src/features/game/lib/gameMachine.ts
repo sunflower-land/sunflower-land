@@ -52,7 +52,7 @@ import { OFFLINE_FARM } from "./landData";
 import { randomID } from "lib/utils/random";
 
 import { buySFL } from "../actions/buySFL";
-import { PurchasableItems } from "../types/collectibles";
+import { CollectibleLocation, PurchasableItems } from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
@@ -125,6 +125,7 @@ export interface Context {
   linkedWallet?: string;
   wallet?: string;
   nftId?: number;
+  paused?: boolean;
 }
 
 export type Moderation = {
@@ -199,6 +200,7 @@ type LandscapeEvent = {
   };
   multiple?: boolean;
   maximum?: number;
+  location: CollectibleLocation;
 };
 
 type VisitEvent = {
@@ -266,6 +268,12 @@ export type BlockchainEvent =
     }
   | {
       type: "DEPOSIT";
+    }
+  | {
+      type: "PAUSE";
+    }
+  | {
+      type: "PLAY";
     }
   | {
       type: "REVEAL";
@@ -369,7 +377,6 @@ export type BlockchainState = {
     | "loading"
     | "loadLandToVisit"
     | "landToVisitNotFound"
-    | "deposited"
     | "visiting"
     | "gameRules"
     | "portalling"
@@ -401,7 +408,6 @@ export type BlockchainState = {
     | "buds"
     | "airdrop"
     | "noBumpkinFound"
-    | "noTownCenter"
     | "coolingDown"
     | "buyingBlockBucks"
     | "auctionResults"
@@ -665,11 +671,6 @@ export function startGame(authContext: AuthContext) {
         notifying: {
           always: [
             {
-              target: "deposited",
-              cond: (context: Context) =>
-                !!context.notifications && context.notifications?.length > 0,
-            },
-            {
               target: "transacting",
               cond: (context: Context) =>
                 !!context.transaction &&
@@ -690,9 +691,7 @@ export function startGame(authContext: AuthContext) {
             {
               target: "noBumpkinFound",
               cond: (context: Context, event: any) =>
-                !event.data?.state.bumpkin &&
-                !context.state.bumpkin &&
-                window.location.hash.includes("/land"),
+                !event.data?.state.bumpkin && !context.state.bumpkin,
             },
             {
               target: "introduction",
@@ -742,14 +741,7 @@ export function startGame(authContext: AuthContext) {
                 return !!airdrop;
               },
             },
-            {
-              target: "noTownCenter",
-              cond: (context: Context) => {
-                return (
-                  (context.state.buildings["Town Center"] ?? []).length === 0
-                );
-              },
-            },
+
             {
               // auctionResults needs to be the last check as it transitions directly
               // to playing. It does not target notifying.
@@ -795,20 +787,7 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-        noTownCenter: {
-          on: {
-            ACKNOWLEDGE: {
-              target: "playing",
-            },
-          },
-        },
-        deposited: {
-          on: {
-            ACKNOWLEDGE: {
-              target: "refreshing",
-            },
-          },
-        },
+
         gameRules: {
           on: {
             ACKNOWLEDGE: {
@@ -1371,6 +1350,7 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
+
         genieRevealed: {
           on: {
             CONTINUE: {
@@ -1458,8 +1438,8 @@ export function startGame(authContext: AuthContext) {
 
               return {
                 farm,
-                buyerId: Number(context.farmId),
-                sellerId,
+                buyerId: String(context.farmId),
+                sellerId: String(sellerId),
                 tradeId,
                 error,
               };
@@ -1633,6 +1613,7 @@ export function startGame(authContext: AuthContext) {
               collisionDetected: true,
               multiple: (_: Context, event: LandscapeEvent) => event.multiple,
               maximum: (_: Context, event: LandscapeEvent) => event.maximum,
+              location: (_: Context, event: LandscapeEvent) => event.location,
             },
             onDone: {
               target: "autosaving",
@@ -1695,6 +1676,16 @@ export function startGame(authContext: AuthContext) {
         },
       },
       on: {
+        PAUSE: {
+          actions: assign({
+            paused: (_) => true,
+          }),
+        },
+        PLAY: {
+          actions: assign({
+            paused: (_) => false,
+          }),
+        },
         COMMUNITY_UPDATE: {
           actions: assign({
             state: (_, event) => {
