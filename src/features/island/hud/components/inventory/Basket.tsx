@@ -84,7 +84,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     if (isFruitSeed(seedName)) {
       return getFruitTime(
         seedName,
-        collectibles,
+        gameState,
         (gameState.bumpkin as Bumpkin)?.equipped ?? {}
       );
     }
@@ -93,7 +93,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     return getCropTime({
       crop,
       inventory,
-      collectibles,
+      game: gameState,
       bumpkin: bumpkin as Bumpkin,
       buds: buds ?? {},
     });
@@ -168,7 +168,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       panel={
         selectedItem && (
           <InventoryItemDetails
-            collectibles={collectibles}
+            game={gameState}
             details={{
               item: selectedItem,
             }}
@@ -184,7 +184,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
                     getFoodExpBoost(
                       CONSUMABLES[selectedItem as ConsumableName],
                       gameState.bumpkin as Bumpkin,
-                      gameState.collectibles,
+                      gameState,
                       gameState.buds ?? {}
                     )
                   )

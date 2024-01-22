@@ -26,7 +26,7 @@ export const TradeCompleted: React.FC<Props> = ({ mmoService, farmId }) => {
 
   useEffect(() => {
     mmoService?.state?.context?.server?.state?.trades?.onAdd((trade) => {
-      if (trade.buyerId && trade.sellerId === farmId) {
+      if (trade.buyerId && Number(trade.sellerId) === farmId) {
         setTrade(trade);
       }
     });

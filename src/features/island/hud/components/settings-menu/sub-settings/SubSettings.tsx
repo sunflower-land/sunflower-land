@@ -54,7 +54,7 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
     }
 
     return (
-      <CloseButtonPanel title="Settings" onClose={onClose}>
+      <CloseButtonPanel title="Advanced" onClose={onClose}>
         <Button className="col p-1" onClick={onToggleAnimations}>
           {showAnimations ? "Disable Animations" : "Enable Animations"}
         </Button>

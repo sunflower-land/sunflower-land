@@ -68,6 +68,19 @@ describe("chest", () => {
         "Fire Pit": new Decimal(1),
         "Foreman Beaver": new Decimal(1),
         Scarecrow: new Decimal(1),
+        "Abandoned Bear": new Decimal(2),
+      },
+      home: {
+        collectibles: {
+          "Abandoned Bear": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: Date.now(),
+              id: "asd",
+              readyAt: Date.now(),
+            },
+          ],
+        },
       },
       collectibles: {
         Scarecrow: [
@@ -82,6 +95,7 @@ describe("chest", () => {
     });
     expect(chest).toEqual({
       "Foreman Beaver": new Decimal(1),
+      "Abandoned Bear": new Decimal(1),
     });
   });
 });

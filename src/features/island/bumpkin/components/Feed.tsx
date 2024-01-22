@@ -25,7 +25,7 @@ interface Props {
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
-const _collectibles = (state: MachineState) => state.context.state.collectibles;
+const _game = (state: MachineState) => state.context.state;
 const _buds = (state: MachineState) => state.context.state.buds;
 
 export const Feed: React.FC<Props> = ({ food }) => {
@@ -34,7 +34,7 @@ export const Feed: React.FC<Props> = ({ food }) => {
 
   const inventory = useSelector(gameService, _inventory);
   const bumpkin = useSelector(gameService, _bumpkin);
-  const collectibles = useSelector(gameService, _collectibles);
+  const game = useSelector(gameService, _game);
   const buds = useSelector(gameService, _buds);
   const { t } = useAppTranslation();
   useEffect(() => {
@@ -108,12 +108,7 @@ export const Feed: React.FC<Props> = ({ food }) => {
           }}
           properties={{
             xp: new Decimal(
-              getFoodExpBoost(
-                selected,
-                bumpkin as Bumpkin,
-                collectibles,
-                buds ?? {}
-              )
+              getFoodExpBoost(selected, bumpkin as Bumpkin, game, buds ?? {})
             ),
           }}
           actionView={

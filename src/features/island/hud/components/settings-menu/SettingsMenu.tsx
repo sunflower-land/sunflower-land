@@ -30,6 +30,8 @@ import { shortAddress } from "lib/utils/shortAddress";
 import walletIcon from "assets/icons/wallet.png";
 import { removeJWT } from "features/auth/actions/social";
 import { WalletContext } from "features/wallet/WalletProvider";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 enum MENU_LEVELS {
@@ -136,6 +138,14 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
     onClose();
   };
 
+  const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
+  const openConfirmLogoutModal = () => {
+    showConfirmLogoutModal(true);
+  };
+  const closeConfirmLogoutModal = () => {
+    showConfirmLogoutModal(false);
+  };
+
   return (
     <>
       <Modal show={show} centered onHide={onHide}>
@@ -235,7 +245,26 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                   </Button>
                 </li>
                 <li className="p-1">
-                  <Button onClick={onLogout}>Logout</Button>
+                  <Button onClick={openConfirmLogoutModal}>Logout</Button>
+                  <Modal
+                    centered
+                    show={isConfirmLogoutModalOpen}
+                    onHide={closeConfirmLogoutModal}
+                  >
+                    <CloseButtonPanel className="sm:w-4/5 m-auto">
+                      <div className="flex flex-col p-2">
+                        <span className="text-sm text-center">
+                          Are you sure you want to Logout?
+                        </span>
+                      </div>
+                      <div className="flex justify-content-around mt-2 space-x-1">
+                        <Button onClick={onLogout}>Logout</Button>
+                        <Button onClick={closeConfirmLogoutModal}>
+                          {translate("cancel")}
+                        </Button>
+                      </div>
+                    </CloseButtonPanel>
+                  </Modal>
                 </li>
               </>
             )}

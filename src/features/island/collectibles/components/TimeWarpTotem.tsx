@@ -12,7 +12,11 @@ import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-export const TimeWarpTotem: React.FC<CollectibleProps> = ({ createdAt }) => {
+export const TimeWarpTotem: React.FC<CollectibleProps> = ({
+  createdAt,
+  id,
+  location,
+}) => {
   const { gameService } = useContext(Context);
 
   const [_, setRender] = useState(0);
@@ -41,6 +45,8 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({ createdAt }) => {
             onClick={() => {
               gameService.send("collectible.burned", {
                 name: "Time Warp Totem",
+                location,
+                id,
               });
             }}
           >

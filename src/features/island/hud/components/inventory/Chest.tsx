@@ -159,7 +159,7 @@ export const Chest: React.FC<Props> = ({
 
     return (
       <InventoryItemDetails
-        collectibles={state.collectibles}
+        game={state}
         details={{
           item: selectedChestItem,
         }}

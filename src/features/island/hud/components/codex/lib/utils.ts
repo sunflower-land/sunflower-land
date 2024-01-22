@@ -7,6 +7,11 @@ import {
 } from "features/game/types/fishing";
 import { getKeys } from "features/game/types/craftables";
 import { AssetType } from "features/game/types/codex";
+import {
+  FLOWERS,
+  FlowerName,
+  FlowerSeedName,
+} from "features/game/types/flowers";
 
 export type ItemCounts = {
   available: number;
@@ -41,6 +46,21 @@ export const getFishByType = () => {
   });
 
   return fishByType;
+};
+
+export const getFlowerBySeed = () => {
+  const flowersBySeed: Record<FlowerSeedName, FlowerName[]> = {
+    "Sunpetal Seed": [],
+    "Bloom Seed": [],
+    "Lily Seed": [],
+  };
+
+  getKeys(FLOWERS).forEach((flowerName) => {
+    const flower = FLOWERS[flowerName];
+    flowersBySeed[flower.seed].push(flowerName);
+  });
+
+  return flowersBySeed;
 };
 
 export const getEncyclopediaFish = () => {

@@ -22,6 +22,7 @@ import { TravelButton } from "./components/deliveries/TravelButton";
 import { CodexButton } from "./components/codex/CodexButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { CollectibleLocation } from "features/game/types/collectibles";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -30,7 +31,8 @@ import { getBumpkinLevel } from "features/game/lib/level";
 const HudComponent: React.FC<{
   isFarming: boolean;
   moveButtonsUp?: boolean;
-}> = ({ isFarming, moveButtonsUp }) => {
+  location: CollectibleLocation;
+}> = ({ isFarming, moveButtonsUp, location }) => {
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -116,6 +118,7 @@ const HudComponent: React.FC<{
                 gameService.send("LANDSCAPE", {
                   action: "bud.placed",
                   placeable: selected,
+                  location,
                 });
               }}
               onDepositClick={() => setShowDepositModal(true)}

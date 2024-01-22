@@ -10,16 +10,13 @@ import { Label } from "components/ui/Label";
 import { OuterPanel } from "components/ui/Panel";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
-import {
-  Bumpkin,
-  Inventory,
-  InventoryItemName,
-} from "features/game/types/game";
+import { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import {
   CHUM_AMOUNTS,
   CHUM_DETAILS,
+  Chum,
   FISH,
   FishingBait,
   getTide,
@@ -33,6 +30,7 @@ import {
 } from "features/game/types/fishing";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
+import { isWearableActive } from "features/game/lib/wearables";
 import { translate } from "lib/i18n/translate";
 
 const host = window.location.host.replace(/^www\./, "");
@@ -48,15 +46,13 @@ function hasRead() {
 
 const ChumSelection: React.FC<{
   inventory: Inventory;
-  onList: (item: InventoryItemName) => void;
+  onList: (item: Chum) => void;
   onCancel: () => void;
-  initial?: InventoryItemName;
+  initial?: Chum;
 }> = ({ inventory, onList, onCancel, initial }) => {
   const { t } = useAppTranslation();
-  const [selected, setSelected] = useState<InventoryItemName | undefined>(
-    initial
-  );
-  const select = (name: InventoryItemName) => {
+  const [selected, setSelected] = useState<Chum | undefined>(initial);
+  const select = (name: Chum) => {
     setSelected(name);
   };
 
@@ -106,7 +102,7 @@ const ChumSelection: React.FC<{
         </Button>
         <Button
           disabled={!hasRequirements}
-          onClick={() => onList(selected as InventoryItemName)}
+          onClick={() => onList(selected as Chum)}
         >
           {translate("confirm")}
         </Button>
@@ -132,7 +128,7 @@ const BaitSelection: React.FC<{
     },
   ] = useActor(gameService);
   const [showChum, setShowChum] = useState(false);
-  const [chum, setChum] = useState<InventoryItemName | undefined>();
+  const [chum, setChum] = useState<Chum | undefined>();
   const [bait, setBait] = useState<FishingBait>("Earthworm");
 
   const { t } = useAppTranslation();
@@ -151,11 +147,11 @@ const BaitSelection: React.FC<{
     );
   }
 
-  const dailyFishingMax = getDailyFishingLimit(state.bumpkin as Bumpkin);
+  const dailyFishingMax = getDailyFishingLimit(state);
   const dailyFishingCount = getDailyFishingCount(state);
   const fishingLimitReached = dailyFishingCount >= dailyFishingMax;
   const missingRod =
-    state.bumpkin?.equipped?.tool !== "Ancient Rod" &&
+    !isWearableActive({ name: "Ancient Rod", game: state }) &&
     (!state.inventory["Rod"] || state.inventory.Rod.lt(1));
 
   const catches = getKeys(FISH).filter((name) =>
