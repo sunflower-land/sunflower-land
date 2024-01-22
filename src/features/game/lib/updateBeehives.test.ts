@@ -1,4 +1,4 @@
-import { Beehive, Beehives, FlowerBed, Flowers } from "../types/game";
+import { Beehive, Beehives, FlowerBed, FlowerBeds } from "../types/game";
 import {
   FLOWER_GROW_TIME,
   HONEY_PRODUCTION_TIME,
@@ -26,6 +26,7 @@ describe("updateBeehives", () => {
     y: 3,
     height: 1,
     width: 1,
+    swarm: false,
     honey: { updatedAt: now, produced: 0 },
     flowers: [],
   };
@@ -34,7 +35,7 @@ describe("updateBeehives", () => {
     const beehives = {};
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers: {},
+      flowerBeds: {},
       createdAt: now,
     });
 
@@ -51,7 +52,7 @@ describe("updateBeehives", () => {
     };
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers: {},
+      flowerBeds: {},
       createdAt: now,
     });
 
@@ -66,11 +67,11 @@ describe("updateBeehives", () => {
         flowers: [],
       },
     };
-    const flowers: Flowers = { "1": DEFAULT_FLOWER_BED };
+    const flowerBeds: FlowerBeds = { "1": DEFAULT_FLOWER_BED };
 
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers,
+      flowerBeds,
       createdAt: now,
     });
 
@@ -98,14 +99,14 @@ describe("updateBeehives", () => {
         flowers: [],
       },
     };
-    const flowers: Flowers = {
+    const flowerBeds: FlowerBeds = {
       "1": DEFAULT_FLOWER_BED,
       "2": DEFAULT_FLOWER_BED,
     };
 
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers,
+      flowerBeds,
       createdAt: now,
     });
 
@@ -128,7 +129,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_BEEHIVE,
       },
     };
-    const flowers: Flowers = {
+    const flowerBeds: FlowerBeds = {
       [flowerId1]: {
         ...DEFAULT_FLOWER_BED,
         flower: {
@@ -149,7 +150,7 @@ describe("updateBeehives", () => {
 
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers,
+      flowerBeds,
       createdAt: now,
     });
 
@@ -175,7 +176,7 @@ describe("updateBeehives", () => {
         flowers: [],
       },
     };
-    const flowers: Flowers = {
+    const flowerBeds: FlowerBeds = {
       [flowerId]: {
         ...DEFAULT_FLOWER_BED,
         flower: {
@@ -188,7 +189,7 @@ describe("updateBeehives", () => {
 
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers,
+      flowerBeds,
       createdAt: now,
     });
 
@@ -215,7 +216,7 @@ describe("updateBeehives", () => {
         ],
       },
     };
-    const flowers: Flowers = {
+    const flowerBeds: FlowerBeds = {
       [flowerId]: {
         ...DEFAULT_FLOWER_BED,
         flower: { name: "Flower 1", amount: 1, plantedAt: tenMinutesAgo },
@@ -224,7 +225,7 @@ describe("updateBeehives", () => {
 
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers,
+      flowerBeds,
       createdAt: now,
     });
 
@@ -264,7 +265,7 @@ describe("updateBeehives", () => {
         ],
       },
     };
-    const flowers: Flowers = {
+    const flowerBeds: FlowerBeds = {
       [flowerId1]: {
         ...DEFAULT_FLOWER_BED,
         flower: {
@@ -285,7 +286,7 @@ describe("updateBeehives", () => {
 
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers,
+      flowerBeds,
       createdAt: now,
     });
 
@@ -300,11 +301,11 @@ describe("updateBeehives", () => {
         flowers: [],
       },
     };
-    const flowers: Flowers = { "1": DEFAULT_FLOWER_BED };
+    const flowerBeds: FlowerBeds = { "1": DEFAULT_FLOWER_BED };
 
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers,
+      flowerBeds,
       createdAt: now,
     });
 
@@ -334,7 +335,7 @@ describe("updateBeehives", () => {
         ],
       },
     };
-    const flowers: Flowers = {
+    const flowerBeds: FlowerBeds = {
       [flowerId]: {
         ...DEFAULT_FLOWER_BED,
         flower: {
@@ -347,7 +348,7 @@ describe("updateBeehives", () => {
 
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers,
+      flowerBeds,
       createdAt: now,
     });
 
@@ -374,7 +375,7 @@ describe("updateBeehives", () => {
         ],
       },
     };
-    const flowers: Flowers = {
+    const flowerBeds: FlowerBeds = {
       [flowerId]: {
         ...DEFAULT_FLOWER_BED,
         flower: {
@@ -387,7 +388,7 @@ describe("updateBeehives", () => {
 
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers,
+      flowerBeds,
       createdAt: now,
     });
 
@@ -412,7 +413,7 @@ describe("updateBeehives", () => {
         ],
       },
     };
-    const flowers: Flowers = {
+    const flowerBeds: FlowerBeds = {
       [flowerId1]: {
         ...DEFAULT_FLOWER_BED,
         flower: {
@@ -433,7 +434,7 @@ describe("updateBeehives", () => {
 
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers,
+      flowerBeds,
       createdAt: now,
     });
 
@@ -456,7 +457,7 @@ describe("updateBeehives", () => {
         flowers: [],
       },
     };
-    const flowers: Flowers = {
+    const flowerBeds: FlowerBeds = {
       [flowerId1]: {
         ...DEFAULT_FLOWER_BED,
         flower: {
@@ -469,7 +470,7 @@ describe("updateBeehives", () => {
 
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers,
+      flowerBeds,
       createdAt: now,
     });
 
@@ -492,7 +493,7 @@ describe("updateBeehives", () => {
         flowers: [],
       },
     };
-    const flowers: Flowers = {
+    const flowerBeds: FlowerBeds = {
       [flowerId1]: {
         ...DEFAULT_FLOWER_BED,
         flower: {
@@ -505,7 +506,7 @@ describe("updateBeehives", () => {
 
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers,
+      flowerBeds,
       createdAt: now,
     });
 
@@ -534,7 +535,7 @@ describe("updateBeehives", () => {
         ],
       },
     };
-    const flowers: Flowers = {
+    const flowerBeds: FlowerBeds = {
       [flowerId]: {
         ...DEFAULT_FLOWER_BED,
         flower: {
@@ -547,7 +548,7 @@ describe("updateBeehives", () => {
 
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers,
+      flowerBeds,
       createdAt: now,
     });
 
@@ -586,7 +587,7 @@ describe("updateBeehives", () => {
         flowers: [],
       },
     };
-    const flowers: Flowers = {
+    const flowerBeds: FlowerBeds = {
       [flowerId1]: {
         ...DEFAULT_FLOWER_BED,
         flower: {
@@ -607,7 +608,7 @@ describe("updateBeehives", () => {
 
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers,
+      flowerBeds,
       createdAt: now,
     });
 
@@ -637,7 +638,7 @@ describe("updateBeehives", () => {
         ],
       },
     };
-    const flowers: Flowers = {
+    const flowerBeds: FlowerBeds = {
       [flowerId1]: {
         ...DEFAULT_FLOWER_BED,
         flower: {
@@ -650,7 +651,7 @@ describe("updateBeehives", () => {
 
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers,
+      flowerBeds,
       createdAt: now,
     });
 
@@ -677,7 +678,7 @@ describe("updateBeehives", () => {
         ],
       },
     };
-    const flowers: Flowers = {
+    const flowerBeds: FlowerBeds = {
       [flowerId1]: {
         ...DEFAULT_FLOWER_BED,
         flower: {
@@ -698,7 +699,7 @@ describe("updateBeehives", () => {
 
     const updatedBeehives = updateBeehives({
       beehives,
-      flowers,
+      flowerBeds,
       createdAt: now,
     });
 

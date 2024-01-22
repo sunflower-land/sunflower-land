@@ -7,9 +7,10 @@ import { BumpkinItem } from "./bumpkin";
 import { getKeys } from "./craftables";
 import { FishType, FishName, FISH, MarineMarvelName } from "./fishing";
 import { InventoryItemName, GameState } from "./game";
+import { FLOWERS } from "./flowers";
 import { translate } from "lib/i18n/translate";
 
-export type MilestoneName =
+type FishMilestoneName =
   | "Novice Angler"
   | "Advanced Angler"
   | "Expert Angler"
@@ -17,6 +18,13 @@ export type MilestoneName =
   | "Master Angler"
   | "Marine Marvel Master"
   | "Deep Sea Diver";
+
+type FlowerMilestoneName =
+  | "Sunpetal Savant"
+  | "Bloom Big Shot"
+  | "Lily Luminary";
+
+export type MilestoneName = FishMilestoneName | FlowerMilestoneName;
 
 type MilestoneReward = InventoryItemName | BumpkinItem;
 
@@ -35,7 +43,7 @@ export type Milestone = {
 const FISH_BY_TYPE: Record<FishType, (FishName | MarineMarvelName)[]> =
   getFishByType();
 
-export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
+export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
   "Novice Angler": {
     task: translate("quest.basic.fish"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
@@ -153,9 +161,70 @@ export const FISH_MILESTONES: Record<MilestoneName, Milestone> = {
   },
 };
 
+export const FLOWER_MILESTONES: Record<FlowerMilestoneName, Milestone> = {
+  "Sunpetal Savant": {
+    task: "Discover 12 Sunpetal variants",
+    reward: {
+      "Flower 1": 1,
+    },
+    percentageComplete: (farmActivity: GameState["farmActivity"]) => {
+      const sunpetalFlowers = getKeys(FLOWERS).filter(
+        (name) => FLOWERS[name].seed === "Sunpetal Seed"
+      );
+
+      const uniqueFlowersDiscovered = sunpetalFlowers.reduce(
+        (total, name) =>
+          total + Math.min(farmActivity[`${name} Harvested`] ?? 0, 1),
+        0
+      );
+
+      return Math.min((uniqueFlowersDiscovered / 12) * 100, 100);
+    },
+  },
+  "Bloom Big Shot": {
+    task: "Discover 12 Bloom variants",
+    reward: {
+      "Flower 1": 1,
+    },
+    percentageComplete: (farmActivity: GameState["farmActivity"]) => {
+      const sunpetalFlowers = getKeys(FLOWERS).filter(
+        (name) => FLOWERS[name].seed === "Bloom Seed"
+      );
+
+      const uniqueFlowersDiscovered = sunpetalFlowers.reduce(
+        (total, name) =>
+          total + Math.min(farmActivity[`${name} Harvested`] ?? 0, 1),
+        0
+      );
+
+      return Math.min((uniqueFlowersDiscovered / 12) * 100, 100);
+    },
+  },
+  "Lily Luminary": {
+    task: "Discover 12 Lily variants",
+    reward: {
+      "Flower 1": 1,
+    },
+    percentageComplete: (farmActivity: GameState["farmActivity"]) => {
+      const sunpetalFlowers = getKeys(FLOWERS).filter(
+        (name) => FLOWERS[name].seed === "Lily Seed"
+      );
+
+      const uniqueFlowersDiscovered = sunpetalFlowers.reduce(
+        (total, name) =>
+          total + Math.min(farmActivity[`${name} Harvested`] ?? 0, 1),
+        0
+      );
+
+      return Math.min((uniqueFlowersDiscovered / 12) * 100, 100);
+    },
+  },
+};
+
 // All Milestones
 export const MILESTONES: Record<MilestoneName, Milestone> = {
   ...FISH_MILESTONES,
+  ...FLOWER_MILESTONES,
 };
 
 export type ExperienceLevel = "Novice" | "Experienced" | "Expert";
@@ -197,4 +266,10 @@ export const MILESTONE_MESSAGES: Record<MilestoneName, string> = {
     "Congratulations, you've just reached the Marine Marvel Master milestone! You're the undisputed champion of the seas! Catching each Marvel proves your fishing prowess like no other.",
   "Deep Sea Diver":
     "Congratulations, you've just reached the Deep Sea Diver milestone! You have earnt the Deep Sea Helm - a mysterious Crown that attracts Marine Marvels to your hook.",
+  "Sunpetal Savant":
+    "Congratulations, you've just reached the Sunpetal Savant milestone! You've discovered each Sunpetal variant. You're a true Sunpetal expert!",
+  "Bloom Big Shot":
+    "Congratulations, you've just reached the Bloom Big Shot milestone! You've discovered each Bloom variant. You're a true Bloom expert!",
+  "Lily Luminary":
+    "Congratulations, you've just reached the Lily Luminary milestone! You've discovered each Lily variant. You're a true Lily expert!",
 };

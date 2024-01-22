@@ -25,6 +25,7 @@ const GAME_STATE: GameState = {
       crop: {
         name: "Sunflower",
         plantedAt: 0,
+        amount: 1,
       },
     },
   },
@@ -137,6 +138,7 @@ describe("plant", () => {
               crop: {
                 name: "Sunflower",
                 plantedAt: dateNow,
+                amount: 1,
               },
             },
           },

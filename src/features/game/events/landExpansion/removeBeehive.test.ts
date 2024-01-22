@@ -13,6 +13,7 @@ describe("removeBeehive", () => {
   const DEFAULT_BEEHIVE: Beehive = {
     x: 3,
     y: 3,
+    swarm: false,
     height: 1,
     width: 1,
     honey: { updatedAt: 0, produced: 0 },
@@ -115,7 +116,10 @@ describe("removeBeehive", () => {
           Beehive: new Decimal(1),
         },
         flowers: {
-          [flower1Id]: DEFAULT_FLOWER_BED,
+          discovered: {},
+          flowerBeds: {
+            [flower1Id]: DEFAULT_FLOWER_BED,
+          },
         },
         beehives: {
           [beehive1Id]: {

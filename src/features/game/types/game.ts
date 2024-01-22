@@ -41,8 +41,8 @@ import {
 } from "./fishing";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { PortalName } from "./portals";
-import { translate } from "lib/i18n/translate";
 import { FlowerName, FlowerSeedName } from "./flowers";
+import { translate } from "lib/i18n/translate";
 
 export type Reward = {
   sfl?: Decimal;
@@ -372,7 +372,7 @@ export type PlantedCrop = {
   id?: string;
   name: CropName;
   plantedAt: number;
-  amount?: number;
+  amount: number;
   reward?: Reward;
 };
 
@@ -778,7 +778,7 @@ export type FlowerBed = {
   createdAt: number;
 } & Position;
 
-export type Flowers = Record<string, FlowerBed>;
+export type FlowerBeds = Record<string, FlowerBed>;
 
 export type AttachedFlower = {
   id: string;
@@ -787,6 +787,7 @@ export type AttachedFlower = {
 };
 
 export type Beehive = {
+  swarm: boolean;
   honey: {
     updatedAt: number;
     produced: number;
@@ -842,7 +843,10 @@ export interface GameState {
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;
   beehives: Beehives;
-  flowers: Flowers;
+  flowers: {
+    discovered: Partial<Record<FlowerName, FlowerCrossBreedName[]>>;
+    flowerBeds: FlowerBeds;
+  };
   fishing: Fishing;
   farmActivity: Partial<Record<FarmActivityName, number>>;
   milestones: Partial<Record<MilestoneName, number>>;

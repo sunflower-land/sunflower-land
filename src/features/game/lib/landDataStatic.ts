@@ -3,6 +3,7 @@ import { GameState, Inventory } from "../types/game";
 import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { INITIAL_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
+import { HONEY_PRODUCTION_TIME } from "./updateBeehives";
 
 export const INITIAL_RESOURCES: Pick<
   GameState,
@@ -142,7 +143,10 @@ export const INITIAL_RESOURCES: Pick<
   fruitPatches: {},
   gold: {},
   iron: {},
-  flowers: {},
+  flowers: {
+    discovered: {},
+    flowerBeds: {},
+  },
   rubies: {},
 };
 
@@ -468,26 +472,48 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   airdrops: [],
   username: "Local Hero",
-  beehives: {},
-  flowers: {
-    "1": {
-      createdAt: Date.now(),
-      x: -1,
+  beehives: {
+    "123": {
+      x: 6,
       y: 2,
       height: 1,
-      width: 3,
-      flower: {
-        amount: 1,
-        name: "Flower 1",
-        plantedAt: Date.now(),
+      width: 1,
+      swarm: true,
+      honey: {
+        updatedAt: Date.now(),
+        produced: 0,
       },
+      flowers: [
+        {
+          attachedAt: Date.now(),
+          attachedUntil: Date.now() + HONEY_PRODUCTION_TIME,
+          id: "1",
+        },
+      ],
     },
-    "2": {
-      createdAt: Date.now(),
-      x: 4,
-      y: 6,
-      height: 1,
-      width: 3,
+  },
+  flowers: {
+    discovered: {},
+    flowerBeds: {
+      "1": {
+        createdAt: Date.now(),
+        x: -1,
+        y: 2,
+        height: 1,
+        width: 3,
+        flower: {
+          amount: 1,
+          name: "Flower 1",
+          plantedAt: Date.now(),
+        },
+      },
+      "2": {
+        createdAt: Date.now(),
+        x: 4,
+        y: 6,
+        height: 1,
+        width: 3,
+      },
     },
   },
 };

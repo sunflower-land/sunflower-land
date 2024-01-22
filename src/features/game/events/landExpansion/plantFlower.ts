@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import {
+  FLOWER_CROSS_BREED_AMOUNTS,
   FlowerCrossBreedName,
   FlowerSeedName,
   isFlowerSeed,
@@ -35,7 +36,7 @@ export function plantFlower({
     throw new Error(translate("harvestflower.noBumpkin"));
   }
 
-  const flowerBed = flowers[action.id];
+  const flowerBed = flowers.flowerBeds[action.id];
 
   if (!flowerBed) {
     throw new Error(translate("harvestflower.noFlowerBed"));
@@ -55,7 +56,17 @@ export function plantFlower({
     throw new Error("Not enough seeds");
   }
 
+  const crossBreedCount =
+    stateCopy.inventory[action.crossbreed] ?? new Decimal(0);
+  const crossBreedAmount = FLOWER_CROSS_BREED_AMOUNTS[action.crossbreed];
+
+  if (crossBreedCount.lessThan(crossBreedAmount)) {
+    throw new Error("Not enough crossbreeds");
+  }
+
   stateCopy.inventory[action.seed] = seedCount.minus(1);
+  stateCopy.inventory[action.crossbreed] =
+    crossBreedCount.minus(crossBreedAmount);
 
   flowerBed.flower = {
     plantedAt: createdAt,
@@ -71,7 +82,7 @@ export function plantFlower({
 
   const updatedBeehives = updateBeehives({
     beehives: stateCopy.beehives,
-    flowers: stateCopy.flowers,
+    flowerBeds: stateCopy.flowers.flowerBeds,
     createdAt,
   });
 

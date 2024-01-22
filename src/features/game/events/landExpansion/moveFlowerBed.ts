@@ -24,7 +24,7 @@ export function moveFlowerBed({
 }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
 
-  const flowerBed = stateCopy.flowers[action.id];
+  const flowerBed = stateCopy.flowers.flowerBeds[action.id];
 
   if (!flowerBed) {
     throw new Error(translate("harvestflower.noFlowerBed"));

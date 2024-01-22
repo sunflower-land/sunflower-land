@@ -7,6 +7,8 @@ import orangeSeed from "assets/fruit/orange/orange_seed.png";
 import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
 import bananaPlant from "assets/fruit/banana/banana_plant.png";
 import sunpetalSeed from "assets/fruit/banana/banana_plant.png";
+import bloomSeed from "assets/fruit/banana/banana_plant.png";
+import lilySeed from "assets/fruit/banana/banana_plant.png";
 
 // NFTs
 import grinxsHammer from "assets/sfts/grinx_hammer.png";
@@ -735,6 +737,14 @@ export const ITEM_DETAILS: Items = {
   "Sunpetal Seed": {
     description: FLOWER_SEEDS()["Sunpetal Seed"].description,
     image: sunpetalSeed,
+  },
+  "Bloom Seed": {
+    description: FLOWER_SEEDS()["Bloom Seed"].description,
+    image: bloomSeed,
+  },
+  "Lily Seed": {
+    description: FLOWER_SEEDS()["Lily Seed"].description,
+    image: lilySeed,
   },
 
   "Apple Pie": {
@@ -2982,6 +2992,14 @@ export const ITEM_DETAILS: Items = {
     description: "?",
   },
   "Flower 2": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Flower 3": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Flower 4": {
     image: SUNNYSIDE.icons.expression_confused,
     description: "?",
   },

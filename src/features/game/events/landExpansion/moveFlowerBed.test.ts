@@ -21,8 +21,11 @@ describe("moveFlowerBed", () => {
         state: {
           ...TEST_FARM,
           flowers: {
-            "1": { x: 1, y: 1, createdAt: 0, height: 1, width: 3 },
-            "2": { x: 0, y: 0, createdAt: 0, height: 1, width: 3 },
+            discovered: {},
+            flowerBeds: {
+              "1": { x: 1, y: 1, createdAt: 0, height: 1, width: 3 },
+              "2": { x: 0, y: 0, createdAt: 0, height: 1, width: 3 },
+            },
           },
         },
         action: {
@@ -38,7 +41,13 @@ describe("moveFlowerBed", () => {
     const result = moveFlowerBed({
       state: {
         ...TEST_FARM,
-        flowers: { "1": { x: 1, y: 1, createdAt: 0, height: 0, width: 0 } },
+        crops: {},
+        flowers: {
+          discovered: {},
+          flowerBeds: {
+            "1": { x: 1, y: 1, createdAt: 0, height: 0, width: 0 },
+          },
+        },
       },
       action: {
         type: "flowerBed.moved",
@@ -47,6 +56,6 @@ describe("moveFlowerBed", () => {
       },
     });
 
-    expect(result.flowers["1"]).toMatchObject({ x: 0, y: 0 });
+    expect(result.flowers.flowerBeds["1"]).toMatchObject({ x: 0, y: 0 });
   });
 });

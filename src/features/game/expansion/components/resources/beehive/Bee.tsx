@@ -19,7 +19,7 @@ interface Props {
 }
 
 const getFlowerById = (id: string) => (state: MachineState) =>
-  state.context.state.flowers[id];
+  state.context.state.flowers.flowerBeds[id];
 
 export const Bee: React.FC<Props> = ({
   hivePosition,

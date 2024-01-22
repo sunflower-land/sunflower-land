@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { plantFlower } from "./plantFlower";
-import { FlowerBed, GameState } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import { TEST_FARM } from "features/game/lib/constants";
 import { INITIAL_BUMPKIN } from "features/game/lib/bumpkinData";
 import { FLOWER_CROSS_BREED_AMOUNTS } from "features/game/types/flowers";
@@ -9,24 +9,27 @@ const GAME_STATE: GameState = {
   ...TEST_FARM,
   bumpkin: INITIAL_BUMPKIN,
   flowers: {
-    0: {
-      createdAt: Date.now(),
-      x: -2,
-      y: 0,
-      height: 1,
-      width: 3,
-      flower: {
-        name: "Flower 1",
-        amount: 1,
-        plantedAt: 123,
+    discovered: {},
+    flowerBeds: {
+      0: {
+        createdAt: Date.now(),
+        x: -2,
+        y: 0,
+        height: 1,
+        width: 3,
+        flower: {
+          name: "Flower 1",
+          amount: 1,
+          plantedAt: 123,
+        },
       },
-    },
-    1: {
-      createdAt: Date.now(),
-      x: -2,
-      y: 0,
-      height: 1,
-      width: 3,
+      1: {
+        createdAt: Date.now(),
+        x: -2,
+        y: 0,
+        height: 1,
+        width: 3,
+      },
     },
   },
 };
@@ -114,6 +117,25 @@ describe("plantFlower", () => {
     ).toThrow("Not enough seeds");
   });
 
+  it("does not plant if user does not have the crossbreed", () => {
+    expect(() =>
+      plantFlower({
+        state: {
+          ...GAME_STATE,
+          bumpkin: INITIAL_BUMPKIN,
+          inventory: { "Sunpetal Seed": new Decimal(1) },
+        },
+        createdAt: dateNow,
+        action: {
+          type: "flower.planted",
+          id: "1",
+          seed: "Sunpetal Seed",
+          crossbreed: "Sunflower",
+        },
+      })
+    ).toThrow("Not enough crossbreed");
+  });
+
   it("plants a seed", () => {
     const seedAmount = new Decimal(5);
 
@@ -125,6 +147,7 @@ describe("plantFlower", () => {
         bumpkin: INITIAL_BUMPKIN,
         inventory: {
           "Sunpetal Seed": seedAmount,
+          Sunflower: new Decimal(100),
         },
       },
       createdAt: dateNow,
@@ -136,10 +159,8 @@ describe("plantFlower", () => {
       },
     });
 
-    const flowers = state.flowers;
-
     expect(state.inventory["Sunpetal Seed"]).toEqual(seedAmount.minus(1));
-    expect((flowers as Record<number, FlowerBed>)[bedIndex]).toEqual(
+    expect(state.flowers.flowerBeds[bedIndex]).toEqual(
       expect.objectContaining({
         flower: expect.objectContaining({
           plantedAt: expect.any(Number),
@@ -157,6 +178,7 @@ describe("plantFlower", () => {
         bumpkin: INITIAL_BUMPKIN,
         inventory: {
           "Sunpetal Seed": new Decimal(1),
+          Sunflower: new Decimal(100),
         },
       },
       createdAt: dateNow,
@@ -176,6 +198,7 @@ describe("plantFlower", () => {
       bumpkin: INITIAL_BUMPKIN,
       inventory: {
         "Sunpetal Seed": new Decimal(1),
+        Sunflower: new Decimal(100),
       },
     };
 
@@ -195,18 +218,19 @@ describe("plantFlower", () => {
   });
 
   it("deducts the amount of cross breed required", () => {
-    const amount = 1;
+    const initialState = {
+      ...GAME_STATE,
+      bumpkin: INITIAL_BUMPKIN,
+      inventory: {
+        "Sunpetal Seed": new Decimal(1),
+        Sunflower: new Decimal(100),
+      },
+    };
 
-    const inventoryBefore = GAME_STATE.inventory["Sunflower Seed"];
+    const inventoryBefore = initialState.inventory["Sunflower"];
 
     const state = plantFlower({
-      state: {
-        ...GAME_STATE,
-        bumpkin: INITIAL_BUMPKIN,
-        inventory: {
-          "Sunpetal Seed": new Decimal(1),
-        },
-      },
+      state: initialState,
       createdAt: dateNow,
       action: {
         type: "flower.planted",

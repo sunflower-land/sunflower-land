@@ -33,6 +33,7 @@ describe("moveBeehive", () => {
         ...GAME_STATE,
         beehives: {
           "1234": {
+            swarm: false,
             height: 1,
             width: 1,
             honey: {

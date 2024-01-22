@@ -327,7 +327,10 @@ const INITIAL_LAND: Pick<
       width: 1,
     },
   },
-  flowers: {},
+  flowers: {
+    discovered: {},
+    flowerBeds: {},
+  },
   beehives: {},
   rubies: {},
 };

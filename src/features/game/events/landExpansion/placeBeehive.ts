@@ -36,6 +36,7 @@ export function placeBeehive({
   const beehive: Beehive = {
     x: action.coordinates.x,
     y: action.coordinates.y,
+    swarm: false,
     height: 1,
     width: 1,
     honey: {
@@ -49,7 +50,7 @@ export function placeBeehive({
 
   const updatedBeehives = updateBeehives({
     beehives: copy.beehives,
-    flowers: copy.flowers,
+    flowerBeds: copy.flowers.flowerBeds,
     createdAt,
   });
 
