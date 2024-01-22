@@ -823,6 +823,8 @@ const buyFarmHand: Record<BuyFarmHand, string> = {
     "Additional Bumpkins can be used to equip wearables and boost your farm.",
   "buyFarmHand.notEnoughSpace": "Not enough space - upgrade your island",
   "buyFarmHand.buyBumpkin": "Buy Bumpkin",
+  "buyFarmHand.newFarmhandGreeting":
+    "I am your new farmhand. I can't wait to get to work!",
 };
 
 const claimAchievement: Record<ClaimAchievement, string> = {

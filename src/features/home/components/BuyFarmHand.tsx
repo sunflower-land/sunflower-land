@@ -68,7 +68,7 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
             {translate("buyFarmHand.howdyBumpkin")}
           </p>
           <p className="text-xs mb-2 text-center">
-            {`I am your new farmhand. I can't wait to get to work!`}
+            {`${translate("buyFarmHand.newFarmhandGreeting")}`}
           </p>
           <div className="h-16 w-16 mb-4">
             <NPC parts={parts} />

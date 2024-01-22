@@ -838,6 +838,8 @@ const buyFarmHand: Record<BuyFarmHand, string> = {
     "Bumpkins adicionais podem ser usados para equipar acessórios e impulsionar sua fazenda.",
   "buyFarmHand.notEnoughSpace": "Espaço insuficiente - atualize sua ilha",
   "buyFarmHand.buyBumpkin": "Comprar Bumpkin",
+  "buyFarmHand.newFarmhandGreeting":
+    "Sou seu novo ajudante de fazenda. Mal posso esperar para começar a trabalhar!",
 };
 
 const claimAchievement: Record<ClaimAchievement, string> = {

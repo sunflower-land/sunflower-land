@@ -363,7 +363,8 @@ export type BuyFarmHand =
   | "buyFarmHand.adoptBumpkin"
   | "buyFarmHand.additionalBumpkinsInfo"
   | "buyFarmHand.notEnoughSpace"
-  | "buyFarmHand.buyBumpkin";
+  | "buyFarmHand.buyBumpkin"
+  | "buyFarmHand.newFarmhandGreeting";
 
 export type ClaimAchievement =
   | "claimAchievement.noBumpkin"
