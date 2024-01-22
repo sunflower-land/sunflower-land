@@ -262,7 +262,7 @@ describe("mineIron", () => {
       const now = Date.now();
 
       const time = getMinedAt({
-        collectibles: {},
+        game: TEST_FARM,
         createdAt: now,
       });
 
@@ -273,15 +273,18 @@ describe("mineIron", () => {
       const now = Date.now();
 
       const time = getMinedAt({
-        collectibles: {
-          "Time Warp Totem": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Time Warp Totem": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 5 * 60 * 1000,
+              },
+            ],
+          },
         },
         createdAt: now,
       });

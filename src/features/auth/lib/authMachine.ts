@@ -2,7 +2,6 @@ import { createMachine, Interpreter, State, assign } from "xstate";
 import { CONFIG } from "lib/config";
 import { ErrorCode } from "lib/errors";
 
-import { wallet } from "../../../lib/blockchain/wallet";
 import { saveReferrerId } from "../actions/createAccount";
 import { login, Token, decodeToken } from "../actions/login";
 import { oauthorise } from "../actions/oauth";
@@ -238,11 +237,6 @@ export const authMachine = createMachine(
           src: "login",
           onDone: [
             {
-              target: "oauthorising",
-              cond: "hasDiscordCode",
-            },
-
-            {
               target: "verifying",
               actions: ["assignToken"],
             },
@@ -280,6 +274,10 @@ export const authMachine = createMachine(
           {
             target: "noAccount",
             cond: (context) => !context.user.token?.farmId,
+          },
+          {
+            target: "oauthorising",
+            cond: "hasDiscordCode",
           },
           {
             target: "connected",
@@ -413,7 +411,6 @@ export const authMachine = createMachine(
         return { token };
       },
       oauthorise: async (context) => {
-        if (!wallet.myAccount) throw new Error("No account");
         const code = getDiscordCode() as string;
         // Navigates to Discord OAuth Flow
         const { token } = await oauthorise(
@@ -433,7 +430,12 @@ export const authMachine = createMachine(
       }),
       saveToken: (context: Context, event: any) => {
         // Clear browser token
-        window.history.pushState({}, "", window.location.pathname);
+        const hasParamsJWT = new URLSearchParams(window.location.search).get(
+          "token"
+        );
+        if (hasParamsJWT) {
+          window.history.pushState({}, "", window.location.pathname);
+        }
 
         // Save primary JWT
         saveJWT(event.data?.token ?? context.user.rawToken);

@@ -46,7 +46,7 @@ describe("equip", () => {
   it("requires clothing is available", () => {
     const action: EquipBumpkinAction = {
       type: "bumpkin.equipped",
-      equipment: { ...TEST_PARTS },
+      equipment: { ...TEST_PARTS, shirt: "Red Farmer Shirt" },
     };
 
     expect(() =>
@@ -65,7 +65,7 @@ describe("equip", () => {
         },
         action,
       })
-    ).toThrow(`Blue Farmer Shirt is not available for use`);
+    ).toThrow(`Red Farmer Shirt is not available for use`);
   });
 
   it("throws error if no bumpkin exists", () => {

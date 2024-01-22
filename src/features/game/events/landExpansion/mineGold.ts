@@ -3,7 +3,7 @@ import { canMine } from "features/game/expansion/lib/utils";
 import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
 import { GOLD_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { Collectibles, GameState } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type LandExpansionMineGoldAction = {
@@ -28,19 +28,16 @@ export enum EVENT_ERRORS {
 
 type GetMinedAtArgs = {
   createdAt: number;
-  collectibles: Collectibles;
+  game: GameState;
 };
 
 /**
  * Set a mined in the past to make it replenish faster
  */
-export function getMinedAt({
-  createdAt,
-  collectibles,
-}: GetMinedAtArgs): number {
+export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
   let time = createdAt;
 
-  if (isCollectibleActive("Time Warp Totem", collectibles)) {
+  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
     time -= GOLD_RECOVERY_TIME * 0.5 * 1000;
   }
 
@@ -80,7 +77,7 @@ export function mineGold({
   const amountInInventory = stateCopy.inventory.Gold || new Decimal(0);
 
   goldRock.stone = {
-    minedAt: getMinedAt({ createdAt, collectibles }),
+    minedAt: getMinedAt({ createdAt, game: stateCopy }),
     amount: 2,
   };
   bumpkin.activity = trackActivity("Gold Mined", bumpkin.activity);

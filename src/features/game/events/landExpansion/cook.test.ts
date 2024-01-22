@@ -263,7 +263,10 @@ describe("getReadyAt", () => {
       item: "Boiled Eggs",
       bumpkin: { ...INITIAL_BUMPKIN, skills: { "Rush Hour": 1 } },
       createdAt: now,
-      collectibles: {},
+      game: {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Rush Hour": 1 } },
+      },
     });
 
     const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.1;
@@ -283,7 +286,14 @@ describe("getReadyAt", () => {
         ...INITIAL_BUMPKIN,
         equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Luna's Hat" },
       },
-      collectibles: {},
+      game: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Luna's Hat" },
+        },
+      },
+
       createdAt: now,
     });
 
@@ -301,15 +311,18 @@ describe("getReadyAt", () => {
     const time = getReadyAt({
       item: "Boiled Eggs",
       bumpkin: INITIAL_BUMPKIN,
-      collectibles: {
-        "Time Warp Totem": [
-          {
-            id: "123",
-            createdAt: now,
-            coordinates: { x: 1, y: 1 },
-            readyAt: now - 5 * 60 * 1000,
-          },
-        ],
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
       },
       createdAt: now,
     });

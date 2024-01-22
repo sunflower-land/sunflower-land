@@ -1,24 +1,24 @@
 import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 
-import { Context } from "features/game/GameProvider";
 import { OnChainEvent } from "../actions/onChainEvents";
 import { Button } from "components/ui/Button";
 import { PIXEL_SCALE } from "../lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Context } from "../GoblinProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const CONTENT_HEIGHT = 400;
 
 export const Notifications: React.FC = () => {
-  const { gameService } = useContext(Context);
-  const [state] = useActor(gameService);
+  const { goblinService } = useContext(Context);
+  const [goblinState] = useActor(goblinService);
 
   function onAcknowledge() {
-    gameService.send("ACKNOWLEDGE");
+    goblinService.send("REFRESH");
   }
 
-  const notifications = state.context.notifications as OnChainEvent[];
+  const notifications = goblinState.context.notifications as OnChainEvent[];
 
   const { t } = useAppTranslation();
 

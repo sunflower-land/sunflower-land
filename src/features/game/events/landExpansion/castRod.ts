@@ -1,20 +1,22 @@
 import cloneDeep from "lodash.clonedeep";
 
-import { GameState, InventoryItemName } from "../../types/game";
+import { GameState } from "../../types/game";
 import {
   CHUM_AMOUNTS,
+  Chum,
   FishingBait,
   FishingLocation,
   getDailyFishingCount,
   getDailyFishingLimit,
 } from "features/game/types/fishing";
 import Decimal from "decimal.js-light";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export type CastRodAction = {
   type: "rod.casted";
   bait: FishingBait;
   location: FishingLocation;
-  chum?: InventoryItemName;
+  chum?: Chum;
 };
 
 type Options = {
@@ -37,13 +39,13 @@ export function castRod({
     throw new Error("You do not have a Bumpkin");
   }
 
-  if (getDailyFishingCount(game) >= getDailyFishingLimit(game.bumpkin)) {
+  if (getDailyFishingCount(game) >= getDailyFishingLimit(game)) {
     throw new Error("Daily attempts exhausted");
   }
 
   const rodCount = game.inventory.Rod ?? new Decimal(0);
   // Requires Rod
-  if (rodCount.lt(1) && game.bumpkin.equipped.tool !== "Ancient Rod") {
+  if (rodCount.lt(1) && !isWearableActive({ name: "Ancient Rod", game })) {
     throw new Error("Missing rod");
   }
 
@@ -74,7 +76,7 @@ export function castRod({
   }
 
   // Subtracts Rod
-  if (game.bumpkin.equipped.tool !== "Ancient Rod") {
+  if (!isWearableActive({ name: "Ancient Rod", game })) {
     game.inventory.Rod = rodCount.sub(1);
   }
 
