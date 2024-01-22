@@ -26,6 +26,7 @@ describe("updateBeehives", () => {
     y: 3,
     height: 1,
     width: 1,
+    swarm: false,
     honey: { updatedAt: now, produced: 0 },
     flowers: [],
   };

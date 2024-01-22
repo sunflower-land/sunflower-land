@@ -374,7 +374,7 @@ export type PlantedCrop = {
   id?: string;
   name: CropName;
   plantedAt: number;
-  amount?: number;
+  amount: number;
   reward?: Reward;
 };
 
@@ -789,6 +789,7 @@ export type AttachedFlower = {
 };
 
 export type Beehive = {
+  swarm: boolean;
   honey: {
     updatedAt: number;
     produced: number;

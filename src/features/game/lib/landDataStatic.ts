@@ -3,6 +3,7 @@ import { GameState, Inventory } from "../types/game";
 import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { INITIAL_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
+import { HONEY_PRODUCTION_TIME } from "./updateBeehives";
 
 export const INITIAL_RESOURCES: Pick<
   GameState,
@@ -468,7 +469,26 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   airdrops: [],
   username: "Local Hero",
-  beehives: {},
+  beehives: {
+    "123": {
+      x: 6,
+      y: 2,
+      height: 1,
+      width: 1,
+      swarm: true,
+      honey: {
+        updatedAt: Date.now(),
+        produced: 0,
+      },
+      flowers: [
+        {
+          attachedAt: Date.now(),
+          attachedUntil: Date.now() + HONEY_PRODUCTION_TIME,
+          id: "1",
+        },
+      ],
+    },
+  },
   flowers: {
     "1": {
       createdAt: Date.now(),
