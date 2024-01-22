@@ -1,9 +1,10 @@
-import { FLOWERS } from "features/game/types/flowers";
+import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
 import { GameState } from "../../types/game";
 import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export type HarvestFlowerAction = {
   type: "flower.harvested";
@@ -27,7 +28,7 @@ export function harvestFlower({
 
   if (!bumpkin) throw new Error("You do not have a Bumpkin");
 
-  const flowerBed = stateCopy.flowers[action.id];
+  const flowerBed = stateCopy.flowers.flowerBeds[action.id];
 
   if (!flowerBed) throw new Error("Flower bed does not exist");
 
@@ -36,7 +37,9 @@ export function harvestFlower({
   if (!flower) throw new Error("Flower bed does not have a flower");
 
   const isReady =
-    flower.plantedAt + FLOWERS[flower.name].harvestSeconds * 1000 < createdAt;
+    flower.plantedAt +
+      FLOWER_SEEDS()[FLOWERS[flower.name].seed].plantSeconds * 1000 <
+    createdAt;
 
   if (!isReady) throw new Error("Flower is not ready to harvest");
 
@@ -52,9 +55,15 @@ export function harvestFlower({
     new Decimal(1)
   );
 
+  stateCopy.farmActivity = trackFarmActivity(
+    `${flower.name} Harvested`,
+    stateCopy.farmActivity,
+    1
+  );
+
   const updatedBeehives = updateBeehives({
     beehives: stateCopy.beehives,
-    flowers: stateCopy.flowers,
+    flowerBeds: stateCopy.flowers.flowerBeds,
     createdAt,
   });
 

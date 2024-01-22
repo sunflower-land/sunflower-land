@@ -32,7 +32,7 @@ export function harvestBeehive({
   // Update beehives before harvesting to set honey produced
   const freshBeehives = updateBeehives({
     beehives: stateCopy.beehives,
-    flowers: stateCopy.flowers,
+    flowerBeds: stateCopy.flowers.flowerBeds,
     createdAt,
   });
 
@@ -57,7 +57,7 @@ export function harvestBeehive({
 
   const updatedBeehives = updateBeehives({
     beehives: stateCopy.beehives,
-    flowers: stateCopy.flowers,
+    flowerBeds: stateCopy.flowers.flowerBeds,
     createdAt,
   });
 

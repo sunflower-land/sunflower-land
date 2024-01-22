@@ -142,7 +142,10 @@ export const INITIAL_RESOURCES: Pick<
   fruitPatches: {},
   gold: {},
   iron: {},
-  flowers: {},
+  flowers: {
+    discovered: {},
+    flowerBeds: {},
+  },
   rubies: {},
 };
 
@@ -470,24 +473,27 @@ export const STATIC_OFFLINE_FARM: GameState = {
   username: "Local Hero",
   beehives: {},
   flowers: {
-    "1": {
-      createdAt: Date.now(),
-      x: -1,
-      y: 2,
-      height: 1,
-      width: 3,
-      flower: {
-        amount: 1,
-        name: "Flower 1",
-        plantedAt: Date.now(),
+    discovered: {},
+    flowerBeds: {
+      "1": {
+        createdAt: Date.now(),
+        x: -1,
+        y: 2,
+        height: 1,
+        width: 3,
+        flower: {
+          amount: 1,
+          name: "Flower 1",
+          plantedAt: Date.now(),
+        },
       },
-    },
-    "2": {
-      createdAt: Date.now(),
-      x: 4,
-      y: 6,
-      height: 1,
-      width: 3,
+      "2": {
+        createdAt: Date.now(),
+        x: 4,
+        y: 6,
+        height: 1,
+        width: 3,
+      },
     },
   },
 };

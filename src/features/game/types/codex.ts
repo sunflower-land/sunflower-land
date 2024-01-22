@@ -4,6 +4,7 @@ import { BuffLabel } from ".";
 
 export type CodexCategoryName =
   | "Fish"
+  | "Flowers"
   | "Season"
   | "Bumpkins"
   | "Farming"

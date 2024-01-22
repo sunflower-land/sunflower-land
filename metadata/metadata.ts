@@ -229,10 +229,36 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Sunpetal Seed": {
     name: "Sunpetal Seed",
     description:
-      "A seed used to grow flowers. Experiment to find all the variants.\n\nYou can buy sunpetal seeds in game at the market.",
+      "A seed used to grow flowers. Experiment to find all the variants.\n\nYou can buy Sunpetal seeds in game at the market.",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/121.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Rarity", value: "Rare" },
+    ],
+  },
+  "Bloom Seed": {
+    name: "Bloom Seed",
+    description:
+      "A seed used to grow flowers. Experiment to find all the variants.\n\nYou can buy Bloom seeds in game at the market.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/122.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Rarity", value: "Rare" },
+    ],
+  },
+  "Lily Seed": {
+    name: "Lily Seed",
+    description:
+      "A seed used to grow flowers. Experiment to find all the variants.\n\nYou can buy Lily seeds in game at the market.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/123.png",
     attributes: [
       { trait_type: "Purpose", value: "Seed" },
       { trait_type: "Tradable", value: "No" },
@@ -6336,6 +6362,22 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [],
   },
   "Flower 2": {
+    name: "Flower 2",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Flower 3": {
+    name: "Flower 2",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Flower 4": {
     name: "Flower 2",
     description: "A flower",
     decimals: 0,

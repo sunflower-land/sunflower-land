@@ -152,12 +152,15 @@ describe("harvestBeehive", () => {
       state: {
         ...TEST_FARM,
         flowers: {
-          [flowerId]: {
-            ...DEFAULT_FLOWER_BED,
-            flower: {
-              name: "Flower 1",
-              amount: 1,
-              plantedAt: fiveMinutesAgo,
+          discovered: {},
+          flowerBeds: {
+            [flowerId]: {
+              ...DEFAULT_FLOWER_BED,
+              flower: {
+                name: "Flower 1",
+                amount: 1,
+                plantedAt: fiveMinutesAgo,
+              },
             },
           },
         },

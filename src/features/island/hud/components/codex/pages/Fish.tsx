@@ -9,6 +9,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { MilestonePanel } from "../components/Milestone";
 import { MilestoneTracker } from "../components/MilestoneTracker";
 import {
+  FISH_MILESTONES,
   MILESTONES,
   MilestoneName,
   getExperienceLevelForMilestones,
@@ -62,7 +63,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
     onMilestoneReached(milestone);
   };
 
-  const milestoneNames = getKeys(MILESTONES);
+  const milestoneNames = getKeys(FISH_MILESTONES);
   const unclaimedMilestones = milestoneNames.filter(
     (milestone) => !milestones[milestone]
   );

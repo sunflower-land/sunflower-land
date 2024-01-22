@@ -57,7 +57,7 @@ const getIslandElements = ({
   gold,
   rubies,
   fruitPatches,
-  flowers,
+  flowerBeds,
   crops,
   showTimers,
   grid,
@@ -79,7 +79,7 @@ const getIslandElements = ({
   rubies: GameState["rubies"];
   crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
-  flowers: GameState["flowers"];
+  flowerBeds: GameState["flowers"]["flowerBeds"];
   airdrops: GameState["airdrops"];
   showTimers: boolean;
   grid: GameGrid;
@@ -371,8 +371,8 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
-    ...getKeys(flowers).map((id, index) => {
-      const { x, y, width, height } = flowers[id];
+    ...getKeys(flowerBeds).map((id, index) => {
+      const { x, y, width, height } = flowerBeds[id];
 
       return (
         <MapPlacement
@@ -519,7 +519,7 @@ export const Land: React.FC = () => {
     rubies,
     crops,
     fruitPatches,
-    flowers,
+    flowers: { flowerBeds },
     mushrooms,
     buds,
     airdrops,
@@ -616,7 +616,7 @@ export const Land: React.FC = () => {
                 gold,
                 rubies,
                 fruitPatches,
-                flowers,
+                flowerBeds,
                 crops,
                 showTimers: showTimers,
                 grid: gameGrid,

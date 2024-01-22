@@ -28,7 +28,7 @@ export function placeFlowerBed({
   const game = cloneDeep(state) as GameState;
 
   const available = (game.inventory["Flower Bed"] || new Decimal(0)).minus(
-    Object.keys(game.flowers).length
+    Object.keys(game.flowers.flowerBeds).length
   );
 
   if (available.lt(1)) {
@@ -52,12 +52,12 @@ export function placeFlowerBed({
     throw new Error("Flower Bed collides");
   }
 
-  if (game.flowers[action.id]) {
+  if (game.flowers.flowerBeds[action.id]) {
     throw new Error("ID exists");
   }
 
-  game.flowers = {
-    ...game.flowers,
+  game.flowers.flowerBeds = {
+    ...game.flowers.flowerBeds,
     [action.id]: {
       createdAt,
       x: action.coordinates.x,

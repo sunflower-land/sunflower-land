@@ -7,7 +7,7 @@ import flowerBedImage from "assets/flowers/flower_bed.webp";
 import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { useActor } from "@xstate/react";
-import { FLOWERS } from "features/game/types/flowers";
+import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
 import { TimerPopover } from "../common/TimerPopover";
 import { ITEM_DETAILS } from "features/game/types/images";
 import classNames from "classnames";
@@ -27,7 +27,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
     },
   ] = useActor(gameService);
 
-  const flowerBed = flowers[id];
+  const flowerBed = flowers.flowerBeds[id];
 
   const [showModal, setShowModal] = useState(false);
   const [showPopover, setShowPopover] = useState(false);
@@ -59,7 +59,8 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
 
   const flower = flowerBed.flower;
 
-  const growTime = FLOWERS[flower.name].harvestSeconds * 1000;
+  const growTime =
+    FLOWER_SEEDS()[FLOWERS[flower.name].seed].plantSeconds * 1000;
   const timeLeft = (flowerBed.flower?.plantedAt ?? 0) + growTime - Date.now();
   const timeLeftSeconds = Math.round(timeLeft / 1000);
 

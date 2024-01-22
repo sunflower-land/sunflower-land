@@ -104,7 +104,7 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     fruitPatches,
     buds,
     beehives,
-    flowers,
+    flowers: { flowerBeds },
   } = state;
 
   const placed = {
@@ -133,7 +133,7 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     ...Object.values(crops),
     ...Object.values(fruitPatches),
     ...Object.values(beehives),
-    ...Object.values(flowers),
+    ...Object.values(flowerBeds),
   ];
 
   const resourceBoundingBoxes = resources.map((item) => ({

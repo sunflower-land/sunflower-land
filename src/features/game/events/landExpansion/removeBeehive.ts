@@ -43,7 +43,7 @@ export function removeBeehive({
 
   const updatedBeehives = updateBeehives({
     beehives: copy.beehives,
-    flowers: copy.flowers,
+    flowerBeds: copy.flowers.flowerBeds,
     createdAt,
   });
 
