@@ -30,7 +30,7 @@ const INITIAL_LAND: Pick<
   | "trees"
   | "flowers"
   | "beehives"
-  | "rubies"
+  | "crimstones"
 > = {
   buildings: {
     House: [
@@ -332,7 +332,7 @@ const INITIAL_LAND: Pick<
     flowerBeds: {},
   },
   beehives: {},
-  rubies: {},
+  crimstones: {},
 };
 
 export const ISLAND_UPGRADE: Record<

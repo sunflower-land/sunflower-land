@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ruby from "assets/resources/ruby_small.png";
+import crimstone from "assets/resources/crimstone_small.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 
@@ -7,7 +7,7 @@ interface Props {
   timeLeft: number;
 }
 
-const DepletedRubyComponent: React.FC<Props> = ({ timeLeft }) => {
+const DepletedCrimstoneComponent: React.FC<Props> = ({ timeLeft }) => {
   const [showTimeLeft, setShowTimeLeft] = useState(false);
 
   return (
@@ -18,7 +18,7 @@ const DepletedRubyComponent: React.FC<Props> = ({ timeLeft }) => {
     >
       <div className="absolute w-full h-full pointer-events-none">
         <img
-          src={ruby}
+          src={crimstone}
           className="absolute opacity-50"
           style={{
             width: `${PIXEL_SCALE * 14}px`,
@@ -43,4 +43,4 @@ const DepletedRubyComponent: React.FC<Props> = ({ timeLeft }) => {
   );
 };
 
-export const DepletedRuby = React.memo(DepletedRubyComponent);
+export const DepletedCrimstone = React.memo(DepletedCrimstoneComponent);

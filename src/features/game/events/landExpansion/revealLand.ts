@@ -106,9 +106,9 @@ export function revealLand({
     land.gold?.length ?? 0
   );
 
-  // Add Ruby
-  land.rubies?.forEach((coords) => {
-    game.rubies[randomUUID().slice(0, 8)] = {
+  // Add Crimstone
+  land.crimstones?.forEach((coords) => {
+    game.crimstones[randomUUID().slice(0, 8)] = {
       height: 1,
       width: 1,
       x: coords.x + origin.x,
@@ -116,9 +116,9 @@ export function revealLand({
       stone: { amount: 1, minedAt: 0 },
     };
   });
-  inventory["Ruby Rock"] = (inventory["Ruby Rock"] || new Decimal(0)).add(
-    land.rubies?.length ?? 0
-  );
+  inventory["Crimstone Rock"] = (
+    inventory["Crimstone Rock"] || new Decimal(0)
+  ).add(land.crimstones?.length ?? 0);
 
   // Add Plots
   land.plots?.forEach((coords) => {

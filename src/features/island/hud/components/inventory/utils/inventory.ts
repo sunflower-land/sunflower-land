@@ -84,12 +84,12 @@ export const getChestItems = (state: GameState) => {
       };
     }
 
-    if (itemName === "Ruby Rock") {
+    if (itemName === "Crimstone Rock") {
       return {
         ...acc,
-        "Ruby Rock": new Decimal(
-          state.inventory["Ruby Rock"]?.minus(
-            Object.keys(state.rubies).length
+        "Crimstone Rock": new Decimal(
+          state.inventory["Crimstone Rock"]?.minus(
+            Object.keys(state.crimstones).length
           ) ?? 0
         ),
       };

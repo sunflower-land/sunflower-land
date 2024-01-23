@@ -732,7 +732,7 @@ export type Layout = {
   plots: Coordinates[];
   iron?: Coordinates[];
   gold?: Coordinates[];
-  rubies?: Coordinates[];
+  crimstones?: Coordinates[];
   fruitPatches?: Coordinates[];
 };
 

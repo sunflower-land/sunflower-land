@@ -13,7 +13,7 @@ import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { loadAudio, miningAudio } from "lib/utils/sfx";
-import ruby from "assets/resources/ruby_small.png";
+import crimstone from "assets/resources/ruby_small.png";
 import { ZoomContext } from "components/ZoomProvider";
 
 import { MachineState } from "features/game/lib/gameMachine";
@@ -34,7 +34,7 @@ interface Props {
   touchCount: number;
 }
 
-const RecoveredRubyComponent: React.FC<Props> = ({
+const RecoveredCrimstoneComponent: React.FC<Props> = ({
   bumpkinLevelRequired,
   hasTool,
   touchCount,
@@ -99,7 +99,7 @@ const RecoveredRubyComponent: React.FC<Props> = ({
         {/* static resource node image */}
         {!showSpritesheet && (
           <img
-            src={ruby}
+            src={crimstone}
             className={
               bumpkinTooLow
                 ? "absolute pointer-events-none opacity-50"
@@ -199,4 +199,4 @@ const RecoveredRubyComponent: React.FC<Props> = ({
   );
 };
 
-export const RecoveredRuby = React.memo(RecoveredRubyComponent);
+export const RecoveredCrimstone = React.memo(RecoveredCrimstoneComponent);
