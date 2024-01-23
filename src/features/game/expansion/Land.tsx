@@ -576,6 +576,9 @@ export const Land: React.FC = () => {
           src={cloudedMap}
           alt="land"
           className="z-30 absolute pointer-events-none clouds w-full h-full"
+          style={{
+            scale: "1.01", // Fix bleeding issues
+          }}
         />
 
         <img
