@@ -38,7 +38,7 @@ export const RetreatPirate: React.FC = () => {
 
   return (
     <>
-      <MapPlacement x={16} y={-3} height={3} width={2}>
+      <MapPlacement x={8} y={-13} height={3} width={2}>
         <div
           className="relative w-full h-full cursor-pointer hover:img-highlight"
           onClick={openPirate}

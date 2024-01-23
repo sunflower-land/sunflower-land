@@ -6,16 +6,12 @@ import dragonfly from "assets/decorations/dragonfly.gif";
 
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
 import cossies from "assets/decorations/cossies.png";
-import bearIsland from "assets/land/bear_island.webp";
-import abandonedLand from "assets/land/abandoned_land.webp";
 
 import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";
 import { SharkBumpkin } from "./water/SharkBumpkin";
-import { Arcade } from "features/community/arcade/Arcade";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { DailyReward } from "./dailyReward/DailyReward";
 import { SeasonTeaser } from "./SeasonTeaser";
 import { LAND_WIDTH } from "../Land";
 import { TravelTeaser } from "./TravelTeaser";
