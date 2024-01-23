@@ -3114,17 +3114,6 @@ export const ITEM_DETAILS: Items = {
   },
   "Flower 4": {
     image: SUNNYSIDE.icons.expression_confused,
-  },
-  "Flower Bed": {
-    image: SUNNYSIDE.resource.flowerBed,
-    description: "?",
-  },
-  "Ruby Rock": {
-    image: SUNNYSIDE.resource.rubyRock,
-    description: "?",
-  },
-  "Sun Boulder": {
-    image: SUNNYSIDE.resource.sunBoulder,
     description: "?",
   },
 };

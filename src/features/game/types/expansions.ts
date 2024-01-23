@@ -150,8 +150,7 @@ export function getLand({
   land.plots = land.plots.slice(0, availablePlots);
 
   const availableHives =
-    expectedResources["Bee Hive"] -
-    (game.inventory["Bee Hive"]?.toNumber() ?? 0);
+    expectedResources["Beehive"] - (game.inventory["Beehive"]?.toNumber() ?? 0);
   land.beeHives = land.beeHives?.slice(0, availableHives);
 
   const availableFlowers =
@@ -159,15 +158,12 @@ export function getLand({
     (game.inventory["Flower Bed"]?.toNumber() ?? 0);
   land.flowerBeds = land.flowerBeds?.slice(0, availableFlowers);
 
-  const availableSunBoulders =
-    expectedResources["Sun Boulder"] -
-    (game.inventory["Sun Boulder"]?.toNumber() ?? 0);
-  land.sunBoulders = land.sunBoulders?.slice(0, availableSunBoulders);
-
   const availableRubies =
     expectedResources["Ruby Rock"] -
     (game.inventory["Ruby Rock"]?.toNumber() ?? 0);
   land.rubies = land.rubies?.slice(0, availableRubies);
+
+  // Sun Stones
 
   return land;
 }
@@ -1146,6 +1142,9 @@ export const EXPANSION_REQUIREMENTS: Record<
     23: LAND_23_REQUIREMENTS,
   },
   spring: {
+    // TODO
+  },
+  desert: {
     // TODO
   },
 };
