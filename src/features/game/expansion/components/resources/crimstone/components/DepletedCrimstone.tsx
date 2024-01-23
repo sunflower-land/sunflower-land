@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import crimstone from "assets/resources/crimstone_small.png";
+import crimstone from "assets/resources/ruby_small.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 
