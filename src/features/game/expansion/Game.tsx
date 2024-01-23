@@ -20,6 +20,7 @@ import { Syncing } from "../components/Syncing";
 import logo from "assets/brand/logo_v2.png";
 import winterLogo from "assets/brand/winter_logo.png";
 import sparkle from "assets/fx/sparkle2.gif";
+import ocean from "assets/decorations/ocean.webp";
 
 import { Hoarding } from "../components/Hoarding";
 import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
@@ -296,7 +297,16 @@ export const GameWrapper: React.FC = ({ children }) => {
   if (loadingSession || loadingLandToVisit || portalling) {
     return (
       <>
-        <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
+        <div
+          className="h-screen w-full fixed top-0"
+          style={{
+            zIndex: 1050,
+
+            backgroundImage: `url(${ocean})`,
+            backgroundSize: `${64 * PIXEL_SCALE}px`,
+            imageRendering: "pixelated",
+          }}
+        >
           <Modal show centered backdrop={false}>
             <div
               className={classNames(

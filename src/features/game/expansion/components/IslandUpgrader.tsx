@@ -263,7 +263,7 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
         </CloseButtonPanel>
       </Modal>
 
-      <MapPlacement x={8 + offset} y={0} width={4}>
+      <MapPlacement x={7 + offset} y={0} width={4}>
         <div
           className="absolute cursor-pointer hover:img-highlight"
           onClick={() => setShowModal(true)}
