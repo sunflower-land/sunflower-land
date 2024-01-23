@@ -545,8 +545,6 @@ export const Land: React.FC = () => {
     y: 56 + gameboardSizeOffset,
   };
 
-  console.log({ gameboardDimensions });
-
   const [scrollIntoView] = useScrollIntoView();
 
   useLayoutEffect(() => {
@@ -561,14 +559,6 @@ export const Land: React.FC = () => {
     return gameGridValue;
   }, [JSON.stringify(gameGridValue)]);
 
-  console.log({
-    widthP: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
-    width: `${gameboardDimensions.x * GRID_WIDTH_PX}px`,
-    height: `${gameboardDimensions.y * GRID_WIDTH_PX}px`,
-
-    width2: `${1344 * PIXEL_SCALE}px`,
-    height2: `${896 * PIXEL_SCALE}px`,
-  });
   return (
     <>
       <div
