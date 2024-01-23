@@ -4206,6 +4206,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Tulip Bulb": {
+    description: "A ticket used during the Spring Blossom",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/735.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Sunflower Supporter": {
     description: "A true supporter of the project",
     decimals: 0,
@@ -4516,6 +4526,26 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "XP increase during Catch the Kraken Season",
         value: 10,
       },
+    ],
+  },
+  "Spring Blossom Banner": {
+    description: "",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/734.png",
+    attributes: [
+      { trait_type: "Decoration", value: "Banner" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_number",
+        trait_type: "Extra Tulip from Deliveries",
+        value: 2,
+      },
+      // {
+      //   display_type: "boost_percentage",
+      //   trait_type: "XP increase during Catch the Kraken Season",
+      //   value: 10,
+      // },
     ],
   },
   "Luminous Lantern": {
