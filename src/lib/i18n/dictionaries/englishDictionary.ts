@@ -1,6 +1,6 @@
 import {
   AchievementsTerms,
-  Action,
+  Auction,
   AddSFL,
   AvailableSeeds,
   Base,
@@ -460,20 +460,20 @@ const achievementTerms: Record<AchievementsTerms, string> = {
   "task.harvestSunflowers": "Harvest 10 Sunflowers",
 };
 
-const action: Record<Action, string> = {
-  "action.bid.message": "You have placed your bid.",
-  "action.bid": "Bid",
-  "action.reveal": "Reveal winners",
-  "action.time": "Auction:",
-  "action.live": "Auction is live!",
-  "action.requirement": "Requirements",
-  "action.start": "Starting Time",
-  "action.period": "Auction Period",
-  "action.closed": "Auction closed",
-  "action.rank": "Rank",
-  "action.farm": "Farm",
-  "action.const": "Under construction!",
-  "action.const.soon": "This feature is coming soon.",
+const auction: Record<Auction, string> = {
+  "auction.bid.message": "You have placed your bid.",
+  "auction.bid": "Bid",
+  "auction.reveal": "Reveal winners",
+  "auction.time": "Auction:",
+  "auction.live": "Auction is live!",
+  "auction.requirement": "Requirements",
+  "auction.start": "Starting Time",
+  "auction.period": "Auction Period",
+  "auction.closed": "Auction closed",
+  "auction.rank": "Rank",
+  "auction.farm": "Farm",
+  "auction.const": "Under construction!",
+  "auction.const.soon": "This feature is coming soon.",
 };
 
 const addSFL: Record<AddSFL, string> = {
@@ -3939,7 +3939,7 @@ const wornDescription: Record<WornDescription, string> = {
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
-  ...action,
+  ...auction,
   ...addSFL,
   ...availableSeeds,
   ...base,

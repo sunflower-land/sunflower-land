@@ -70,20 +70,20 @@ export type AchievementsTerms =
   | "eggcellentCollection.two"
   | "task.harvestSunflowers";
 
-export type Action =
-  | "action.bid.message"
-  | "action.bid"
-  | "action.reveal"
-  | "action.time"
-  | "action.live"
-  | "action.requirement"
-  | "action.start"
-  | "action.period"
-  | "action.closed"
-  | "action.rank"
-  | "action.farm"
-  | "action.const"
-  | "action.const.soon";
+export type Auction =
+  | "auction.bid.message"
+  | "auction.bid"
+  | "auction.reveal"
+  | "auction.time"
+  | "auction.live"
+  | "auction.requirement"
+  | "auction.start"
+  | "auction.period"
+  | "auction.closed"
+  | "auction.rank"
+  | "auction.farm"
+  | "auction.const"
+  | "auction.const.soon";
 
 export type AddSFL =
   | "addSFL.loading"
@@ -2697,7 +2697,7 @@ export type World =
 
 export type TranslationKeys =
   | AchievementsTerms
-  | Action
+  | Auction
   | AddSFL
   | AvailableSeeds
   | Base

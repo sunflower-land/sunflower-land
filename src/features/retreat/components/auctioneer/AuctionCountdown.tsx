@@ -9,7 +9,7 @@ import { Auction } from "features/game/lib/auctionMachine";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { loadAuctions } from "./actions/loadAuctions";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
   auction,
@@ -17,6 +17,7 @@ const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
 }) => {
   const start = useCountdown(auction?.startAt);
   const end = useCountdown(auction?.endAt);
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     if (auction.endAt < Date.now()) {
@@ -33,7 +34,7 @@ const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
       <div>
         <div className="h-6 flex justify-center">
           <Label type="info" icon={SUNNYSIDE.icons.stopwatch} className="ml-1">
-            {translate("action.live")}
+            {t("auction.live")}
           </Label>
           <img
             src={SUNNYSIDE.icons.close}
@@ -59,7 +60,7 @@ const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
               whiteSpace: "nowrap",
             }}
           >
-            {translate("action.time")}{" "}
+            {t("auction.time")}{" "}
             {auction.type === "collectible"
               ? auction.collectible
               : auction.wearable}

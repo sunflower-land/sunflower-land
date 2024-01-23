@@ -13,7 +13,7 @@ import { Auction, MachineInterpreter } from "features/game/lib/auctionMachine";
 import { getKeys } from "features/game/types/craftables";
 import { TimerDisplay } from "./AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const AUCTION_BUFFER_SECONDS = 30;
 
@@ -33,6 +33,8 @@ export const AuctionBid: React.FC<Props> = ({
 
   const readyAt = auction.endAt + AUCTION_BUFFER_SECONDS * 1000;
 
+  const { t } = useAppTranslation();
+
   const ready = useCountdown(readyAt);
   return (
     <div className="flex justify-center flex-col w-full items-center">
@@ -47,7 +49,7 @@ export const AuctionBid: React.FC<Props> = ({
       </div>
 
       <span className="mt-1 ml-2 text-center mb-2 text-sm">
-        {translate("action.bid.message")}
+        {t("auction.bid.message")}
       </span>
 
       <div className="flex flex-wrap">
@@ -72,7 +74,7 @@ export const AuctionBid: React.FC<Props> = ({
         disabled={readyAt > Date.now()}
         onClick={() => auctionService.send("CHECK_RESULTS")}
       >
-        {translate("action.reveal")}
+        {t("auction.reveal")}
       </Button>
     </div>
   );

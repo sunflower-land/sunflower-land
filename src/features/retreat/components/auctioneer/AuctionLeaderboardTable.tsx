@@ -4,7 +4,7 @@ import { AuctionResults } from "features/game/lib/auctionMachine";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import sflIcon from "assets/icons/token_2.png";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 // https://www.w3resource.com/javascript-exercises/fundamental/javascript-fundamental-exercise-122.php
 export const toOrdinalSuffix = (num: number) => {
@@ -24,6 +24,8 @@ export const AuctionLeaderboardTable: React.FC<{
   farmId: number;
   status: AuctionResults["status"];
 }> = ({ farmId, leaderboard, showHeader = true, status }) => {
+  const { t } = useAppTranslation();
+
   return (
     <>
       <table className="w-full text-xs table-fixed border-collapse p-">
@@ -34,16 +36,16 @@ export const AuctionLeaderboardTable: React.FC<{
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 w-[20%]"
               >
-                <p>{translate("action.rank")}</p>
+                <p>{t("auction.rank")}</p>
               </th>
               <th
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 w-1/5"
               >
-                <p>{translate("action.farm")}</p>
+                <p>{t("auction.farm")}</p>
               </th>
               <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
-                <p>{translate("action.bid")}</p>
+                <p>{t("auction.bid")}</p>
               </th>
             </tr>
           </thead>
