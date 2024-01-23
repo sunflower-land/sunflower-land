@@ -51,6 +51,7 @@ export const RESOURCE_MOVE_EVENTS: Record<
   Boulder: "tree.moved",
   Beehive: "beehive.moved",
   "Flower Bed": "flowerBed.moved",
+  "Sunstone Rock": "sunstone.moved",
 };
 
 function getMoveAction(

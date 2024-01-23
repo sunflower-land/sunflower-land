@@ -246,6 +246,12 @@ import {
   purchaseBanner,
   PurchaseBannerAction,
 } from "./landExpansion/bannerPurchased";
+import {
+  placeSunstone,
+  PlaceSunstoneAction,
+} from "./landExpansion/placeSunstone";
+import { moveSunstone, MoveSunstoneAction } from "./landExpansion/moveSunstone";
+import { mineSunstone, MineSunstoneAction } from "./landExpansion/mineSunstone";
 
 export type PlayingEvent =
   | TradeAction
@@ -258,6 +264,7 @@ export type PlayingEvent =
   | LandExpansionIronMineAction
   | LandExpansionMineGoldAction
   | MineCrimstoneAction
+  | MineSunstoneAction
   | ClaimAirdropAction
   | RecipeCookedAction
   | CollectRecipeAction
@@ -337,6 +344,7 @@ export type PlacementEvent =
   | PlaceIronAction
   | PlaceCrimstoneAction
   | PlaceFruitPatchAction
+  | PlaceSunstoneAction
   | buyDecorationAction
   | CraftCollectibleAction
   | MoveCollectibleAction
@@ -348,6 +356,7 @@ export type PlacementEvent =
   | MoveStoneAction
   | MoveGoldAction
   | MoveCrimstoneAction
+  | MoveSunstoneAction
   | MoveChickenAction
   | RemoveBuildingAction
   | RemoveCollectibleAction
@@ -396,6 +405,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "ironRock.mined": landExpansionIronMine,
   "goldRock.mined": landExpansionMineGold,
   "crimstoneRock.mined": mineCrimstone,
+  "sunstoneRock.mined": mineSunstone,
 
   "timber.chopped": landExpansionChop,
   "recipe.cooked": cook,
@@ -497,6 +507,8 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "beehive.placed": placeBeehive,
   "flowerBed.moved": moveFlowerBed,
   "flowerBed.placed": placeFlowerBed,
+  "sunstone.placed": placeSunstone,
+  "sunstone.moved": moveSunstone,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

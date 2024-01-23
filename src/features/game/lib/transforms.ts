@@ -92,6 +92,7 @@ export function makeGame(farm: any): GameState {
     iron: farm.iron ?? {},
     gold: farm.gold ?? {},
     crimstones: farm.crimstones ?? {},
+    sunstones: farm.sunstones ?? {},
     crops: farm.crops ?? {},
     fruitPatches: farm.fruitPatches ?? {},
     flowers: farm.flowers ?? {},

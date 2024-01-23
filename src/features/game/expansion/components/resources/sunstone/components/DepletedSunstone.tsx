@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import crimstone from "assets/resources/ruby_small.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {
   timeLeft: number;
 }
 
-const DepletedCrimstoneComponent: React.FC<Props> = ({ timeLeft }) => {
+const DepletedSunstoneComponent: React.FC<Props> = ({ timeLeft }) => {
   const [showTimeLeft, setShowTimeLeft] = useState(false);
 
   return (
@@ -18,12 +18,12 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({ timeLeft }) => {
     >
       <div className="absolute w-full h-full pointer-events-none">
         <img
-          src={crimstone}
+          src={ITEM_DETAILS["Sunstone Rock"].image}
           className="absolute opacity-50"
           style={{
-            width: `${PIXEL_SCALE * 14}px`,
-            bottom: `${PIXEL_SCALE * 3}px`,
-            left: `${PIXEL_SCALE * 1}px`,
+            width: `${PIXEL_SCALE * 18}px`,
+            bottom: `${PIXEL_SCALE * 7}px`,
+            left: `${PIXEL_SCALE * 7}px`,
           }}
         />
         <div
@@ -43,4 +43,4 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({ timeLeft }) => {
   );
 };
 
-export const DepletedCrimstone = React.memo(DepletedCrimstoneComponent);
+export const DepletedSunstone = React.memo(DepletedSunstoneComponent);

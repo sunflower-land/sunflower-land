@@ -886,6 +886,11 @@ export const ITEM_DETAILS: Items = {
     ...COMMODITIES["Diamond"],
     image: SUNNYSIDE.resource.diamond,
   },
+  Sunstone: {
+    ...COMMODITIES["Sunstone"],
+    image: SUNNYSIDE.resource.iron_rock, //Placeholder
+    // image: SUNNYSIDE.resource.sunstone_rock,
+  },
   Egg: {
     ...COMMODITIES["Egg"],
     image: SUNNYSIDE.resource.egg,
@@ -2342,6 +2347,11 @@ export const ITEM_DETAILS: Items = {
   "Crop Plot": {
     image: SUNNYSIDE.resource.plot,
     description: "An empty plot to plant crops on",
+  },
+  "Sunstone Rock": {
+    image: SUNNYSIDE.resource.iron_rock,
+    // image: sunstoneRock,
+    description: "A mineable rock to collect sunstone",
   },
   "Gold Rock": {
     image: goldRock,

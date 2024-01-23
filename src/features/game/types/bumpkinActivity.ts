@@ -72,6 +72,7 @@ export type BumpkinActivityName =
   | "Iron Mined"
   | "Gold Mined"
   | "Crimstone Mined"
+  | "Sunstone Mined"
   | "Egg Collected"
   // Misc
   | "SFL Spent"

@@ -399,6 +399,10 @@ export type Stone = {
   minedAt: number;
 };
 
+export type FiniteResource = {
+  minesLeft: number;
+} & Rock;
+
 export type Rock = {
   stone: Stone;
 } & Position;
@@ -845,6 +849,7 @@ export interface GameState {
   gold: Record<string, Rock>;
   iron: Record<string, Rock>;
   crimstones: Record<string, Rock>;
+  sunstones: Record<string, FiniteResource>;
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;
   beehives: Beehives;

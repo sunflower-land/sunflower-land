@@ -25,6 +25,8 @@ import { Beehive } from "features/game/expansion/components/resources/beehive/Be
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { ZoomContext } from "components/ZoomProvider";
+import { Sunstone } from "features/game/expansion/components/resources/sunstone/Sunstone";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export const RESOURCES: Record<
   keyof Layout,
@@ -81,6 +83,14 @@ export const RESOURCES: Record<
       width: 1,
     },
     icon: crimstone,
+  },
+  sunstones: {
+    component: () => <Sunstone id="0" index={0} />,
+    dimensions: {
+      height: 2,
+      width: 2,
+    },
+    icon: ITEM_DETAILS["Sunstone"].image,
   },
   plots: {
     component: () => <Plot id="0" index={0} />,

@@ -1315,6 +1315,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
+  Sunstone: {
+    name: "Sunstone",
+    description:
+      "A resource collected by mining sunstone mines.\n\nIt is used in a range of different crafting recipes.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/638.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
   Chicken: {
     name: "Chicken",
     description:
@@ -4342,6 +4354,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/633.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Sunstone Rock": {
+    description: "A radiant gem, essential for advanced crafting.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/619.png",
     attributes: [
       { trait_type: "Purpose", value: "Resource" },
       { trait_type: "Tradable", value: "No" },

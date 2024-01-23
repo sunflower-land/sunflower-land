@@ -7,6 +7,7 @@ export type Layout = {
   iron: Coordinates[];
   gold: Coordinates[];
   crimstones: Coordinates[];
+  sunstones: Coordinates[];
   fruitPatches: Coordinates[];
   boulder: Coordinates[];
   beehives: Coordinates[];
