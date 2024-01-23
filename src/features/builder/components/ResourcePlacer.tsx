@@ -7,7 +7,7 @@ import classNames from "classnames";
 import fruitPatch from "assets/fruit/apple/apple_tree.png";
 import goldStone from "assets/resources/gold_small.png";
 import ironStone from "assets/resources/iron_small.png";
-import rubyStone from "assets/resources/ruby_small.png";
+import crimstone from "assets/resources/ruby_small.png";
 import beehive from "assets/sfts/beehive.webp";
 
 import { FruitPatch } from "features/island/fruit/FruitPatch";
@@ -16,7 +16,7 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { Stone } from "features/game/expansion/components/resources/stone/Stone";
 import { Iron } from "features/game/expansion/components/resources/iron/Iron";
 import { Gold } from "features/game/expansion/components/resources/gold/Gold";
-import { Ruby } from "features/game/expansion/components/resources/ruby/Ruby";
+import { Crimstone } from "features/game/expansion/components/resources/crimstone/Crimstone";
 import { Plot } from "features/island/plots/Plot";
 import { Tree } from "features/game/expansion/components/resources/tree/Tree";
 import { Layout } from "../lib/layouts";
@@ -74,13 +74,13 @@ export const RESOURCES: Record<
     },
     icon: goldStone,
   },
-  rubies: {
-    component: () => <Ruby id="0" index={0} />,
+  crimstones: {
+    component: () => <Crimstone id="0" index={0} />,
     dimensions: {
       height: 1,
       width: 1,
     },
-    icon: rubyStone,
+    icon: crimstone,
   },
   plots: {
     component: () => <Plot id="0" index={0} />,

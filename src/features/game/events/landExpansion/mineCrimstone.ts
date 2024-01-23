@@ -1,36 +1,36 @@
 import Decimal from "decimal.js-light";
-import { RUBY_RECOVERY_TIME } from "features/game/lib/constants";
+import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 import { GameState, Rock } from "../../types/game";
 
-export type MineRubyAction = {
-  type: "rubyRock.mined";
+export type MineCrimstoneAction = {
+  type: "crimstoneRock.mined";
   index: number;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: MineRubyAction;
+  action: MineCrimstoneAction;
   createdAt?: number;
 };
 
 export function canMine(rock: Rock, now: number = Date.now()) {
-  const recoveryTime = RUBY_RECOVERY_TIME;
+  const recoveryTime = CRIMSTONE_RECOVERY_TIME;
   return now - rock.stone.minedAt > recoveryTime * 1000;
 }
 
-export function mineRuby({
+export function mineCrimstone({
   state,
   action,
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { rubies, bumpkin } = stateCopy;
-  const rock = rubies?.[action.index];
+  const { crimstones, bumpkin } = stateCopy;
+  const rock = crimstones?.[action.index];
 
   if (!rock) {
-    throw new Error("Ruby does not exist");
+    throw new Error("Crimstone does not exist");
   }
 
   if (bumpkin === undefined) {
@@ -48,7 +48,7 @@ export function mineRuby({
   }
 
   const stoneMined = rock.stone.amount;
-  const amountInInventory = stateCopy.inventory.Ruby || new Decimal(0);
+  const amountInInventory = stateCopy.inventory.Crimstone || new Decimal(0);
 
   rock.stone = {
     minedAt: createdAt,
@@ -56,9 +56,9 @@ export function mineRuby({
   };
 
   stateCopy.inventory["Gold Pickaxe"] = toolAmount.sub(1);
-  stateCopy.inventory.Ruby = amountInInventory.add(stoneMined);
+  stateCopy.inventory.Crimstone = amountInInventory.add(stoneMined);
 
-  bumpkin.activity = trackActivity("Ruby Mined", bumpkin.activity);
+  bumpkin.activity = trackActivity("Crimstone Mined", bumpkin.activity);
 
   return stateCopy;
 }

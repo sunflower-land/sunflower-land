@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
-import { RUBY_RECOVERY_TIME } from "features/game/lib/constants";
+import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { getTimeLeft } from "lib/utils/time";
@@ -13,9 +13,9 @@ import Decimal from "decimal.js-light";
 import { canMine } from "features/game/expansion/lib/utils";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getBumpkinLevelRequiredForNode } from "features/game/expansion/lib/expansionNodes";
-import { RecoveredRuby } from "./components/RecoveredRuby";
-import { DepletingRuby } from "./components/DepletingRuby";
-import { DepletedRuby } from "./components/DepletedRuby";
+import { RecoveredCrimstone } from "./components/RecoveredCrimstone";
+import { DepletingCrimstone } from "./components/DepletingCrimstone";
+import { DepletedCrimstone } from "./components/DepletedCrimstone";
 
 const HITS = 3;
 const tool = "Gold Pickaxe";
@@ -27,7 +27,7 @@ const HasTool = (inventory: Partial<Record<InventoryItemName, Decimal>>) => {
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 const showHelper = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 3 &&
-  !state.context.state.bumpkin?.activity?.["Ruby Mined"];
+  !state.context.state.bumpkin?.activity?.["Crimstone Mined"];
 const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
@@ -40,7 +40,7 @@ interface Props {
   index: number;
 }
 
-export const Ruby: React.FC<Props> = ({ id, index }) => {
+export const Crimstone: React.FC<Props> = ({ id, index }) => {
   const { gameService, shortcutItem } = useContext(Context);
 
   const [touchCount, setTouchCount] = useState(0);
@@ -70,7 +70,7 @@ export const Ruby: React.FC<Props> = ({ id, index }) => {
 
   const resource = useSelector(
     gameService,
-    (state) => state.context.state.rubies[id],
+    (state) => state.context.state.crimstones[id],
     compareResource
   );
   const inventory = useSelector(
@@ -84,12 +84,12 @@ export const Ruby: React.FC<Props> = ({ id, index }) => {
   const needsHelp = useSelector(gameService, showHelper);
 
   const hasTool = HasTool(inventory);
-  const timeLeft = getTimeLeft(resource.stone.minedAt, RUBY_RECOVERY_TIME);
-  const mined = !canMine(resource, RUBY_RECOVERY_TIME);
+  const timeLeft = getTimeLeft(resource.stone.minedAt, CRIMSTONE_RECOVERY_TIME);
+  const mined = !canMine(resource, CRIMSTONE_RECOVERY_TIME);
 
   const bumpkinLevelRequired = getBumpkinLevelRequiredForNode(
     index,
-    "Ruby Rock"
+    "Crimstone Rock"
   );
   const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
   const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
@@ -112,7 +112,7 @@ export const Ruby: React.FC<Props> = ({ id, index }) => {
   };
 
   const mine = async () => {
-    const newState = gameService.send("rubyRock.mined", {
+    const newState = gameService.send("crimstoneRock.mined", {
       index: id,
     });
 
@@ -132,7 +132,7 @@ export const Ruby: React.FC<Props> = ({ id, index }) => {
       {/* Resource ready to collect */}
       {!mined && (
         <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
-          <RecoveredRuby
+          <RecoveredCrimstone
             bumpkinLevelRequired={bumpkinLevelRequired}
             hasTool={hasTool}
             touchCount={touchCount}
@@ -141,10 +141,10 @@ export const Ruby: React.FC<Props> = ({ id, index }) => {
       )}
 
       {/* Depleting resource animation */}
-      {collecting && <DepletingRuby resourceAmount={collectedAmount} />}
+      {collecting && <DepletingCrimstone resourceAmount={collectedAmount} />}
 
       {/* Depleted resource */}
-      {mined && <DepletedRuby timeLeft={timeLeft} />}
+      {mined && <DepletedCrimstone timeLeft={timeLeft} />}
     </div>
   );
 };

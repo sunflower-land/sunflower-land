@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
-import { MineRubyAction, mineRuby } from "./mineRuby";
+import { MineCrimstoneAction, mineCrimstone } from "./mineCrimstone";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
-  rubies: {
+  crimstones: {
     0: {
       stone: {
         minedAt: 0,
@@ -29,14 +29,14 @@ const GAME_STATE: GameState = {
   },
 };
 
-describe("mineRuby", () => {
+describe("mineCrimstone", () => {
   beforeAll(() => {
     jest.useFakeTimers();
   });
 
   it("throws an error if no gold pickaxes are left", () => {
     expect(() =>
-      mineRuby({
+      mineCrimstone({
         state: {
           ...GAME_STATE,
           inventory: {
@@ -44,16 +44,16 @@ describe("mineRuby", () => {
           },
         },
         action: {
-          type: "rubyRock.mined",
+          type: "crimstoneRock.mined",
           index: 0,
         },
       })
     ).toThrow("No gold pickaxes left");
   });
 
-  it("throws an error if ruby does not exist", () => {
+  it("throws an error if crimstone does not exist", () => {
     expect(() =>
-      mineRuby({
+      mineCrimstone({
         state: {
           ...GAME_STATE,
           inventory: {
@@ -61,14 +61,14 @@ describe("mineRuby", () => {
           },
         },
         action: {
-          type: "rubyRock.mined",
+          type: "crimstoneRock.mined",
           index: 3,
         },
       })
-    ).toThrow("Ruby does not exist");
+    ).toThrow("Crimstone does not exist");
   });
 
-  it("throws an error if ruby is not ready", () => {
+  it("throws an error if crimstone is not ready", () => {
     const payload = {
       state: {
         ...GAME_STATE,
@@ -77,23 +77,23 @@ describe("mineRuby", () => {
         },
       },
       action: {
-        type: "rubyRock.mined",
+        type: "crimstoneRock.mined",
         expansionIndex: 0,
         index: 0,
-      } as MineRubyAction,
+      } as MineCrimstoneAction,
     };
-    const game = mineRuby(payload);
+    const game = mineCrimstone(payload);
 
     // Try same payload
     expect(() =>
-      mineRuby({
+      mineCrimstone({
         state: game,
         action: payload.action,
       })
     ).toThrow("Rock is still recovering");
   });
 
-  it("mines ruby", () => {
+  it("mines crimstone", () => {
     const payload = {
       state: {
         ...GAME_STATE,
@@ -102,20 +102,20 @@ describe("mineRuby", () => {
         },
       },
       action: {
-        type: "rubyRock.mined",
+        type: "crimstoneRock.mined",
         expansionIndex: 0,
         index: 0,
-      } as MineRubyAction,
+      } as MineCrimstoneAction,
     };
 
-    const game = mineRuby(payload);
+    const game = mineCrimstone(payload);
 
     expect(game.inventory["Gold Pickaxe"]).toEqual(new Decimal(0));
-    expect(game.inventory.Ruby).toEqual(new Decimal(2));
+    expect(game.inventory.Crimstone).toEqual(new Decimal(2));
   });
 
-  it("mines multiple rubies", () => {
-    let game = mineRuby({
+  it("mines multiple crimstones", () => {
+    let game = mineCrimstone({
       state: {
         ...GAME_STATE,
         inventory: {
@@ -123,26 +123,26 @@ describe("mineRuby", () => {
         },
       },
       action: {
-        type: "rubyRock.mined",
+        type: "crimstoneRock.mined",
         expansionIndex: 0,
         index: 0,
-      } as MineRubyAction,
+      } as MineCrimstoneAction,
     });
 
-    game = mineRuby({
+    game = mineCrimstone({
       state: game,
       action: {
-        type: "rubyRock.mined",
+        type: "crimstoneRock.mined",
         expansionIndex: 0,
         index: 1,
-      } as MineRubyAction,
+      } as MineCrimstoneAction,
     });
 
     expect(game.inventory["Gold Pickaxe"]).toEqual(new Decimal(1));
-    expect(game.inventory.Ruby).toEqual(new Decimal(5));
+    expect(game.inventory.Crimstone).toEqual(new Decimal(5));
   });
 
-  it("mines ruby after waiting", () => {
+  it("mines crimstone after waiting", () => {
     const payload = {
       state: {
         ...GAME_STATE,
@@ -151,28 +151,28 @@ describe("mineRuby", () => {
         },
       },
       action: {
-        type: "rubyRock.mined",
+        type: "crimstoneRock.mined",
         expansionIndex: 0,
         index: 0,
-      } as MineRubyAction,
+      } as MineCrimstoneAction,
     };
 
-    let game = mineRuby(payload);
+    let game = mineCrimstone(payload);
 
     // 48 hours + 100 milliseconds
     jest.advanceTimersByTime(2 * 24 * 60 * 60 * 1000 + 100);
-    game = mineRuby({
+    game = mineCrimstone({
       ...payload,
       state: game,
     });
 
     expect(game.inventory["Gold Pickaxe"]).toEqual(new Decimal(0));
-    expect(game.inventory.Ruby?.toNumber()).toBeGreaterThan(2);
+    expect(game.inventory.Crimstone?.toNumber()).toBeGreaterThan(2);
   });
 
   it("throws an error if the player doesn't have a bumpkin", async () => {
     expect(() =>
-      mineRuby({
+      mineCrimstone({
         state: {
           ...GAME_STATE,
           bumpkin: undefined,
@@ -181,10 +181,10 @@ describe("mineRuby", () => {
           },
         },
         action: {
-          type: "rubyRock.mined",
+          type: "crimstoneRock.mined",
           expansionIndex: 0,
           index: 0,
-        } as MineRubyAction,
+        } as MineCrimstoneAction,
       })
     ).toThrow("You do not have a Bumpkin");
   });

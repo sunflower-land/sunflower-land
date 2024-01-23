@@ -203,7 +203,7 @@ const commodities: Record<CommodityName, () => boolean> = {
   Stone: () => true,
   Iron: () => true,
   Gold: () => true,
-  Ruby: () => true,
+  Crimstone: () => true,
   Diamond: () => false,
 
   Honey: () => false,
@@ -215,7 +215,7 @@ const resources: Record<ResourceName, () => boolean> = {
   "Stone Rock": () => false,
   "Iron Rock": () => false,
   "Gold Rock": () => false,
-  "Ruby Rock": () => false,
+  "Crimstone Rock": () => false,
   "Crop Plot": () => false,
   "Fruit Patch": () => false,
   Boulder: () => false,

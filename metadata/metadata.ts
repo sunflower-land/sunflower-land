@@ -504,7 +504,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Gold Pickaxe": {
     name: "Gold Pickaxe",
     description:
-      "A tool used to mine rubies. It is burnt after use.\n\nYou can craft a gold pickaxe at the Blacksmith in the game.",
+      "A tool used to mine crimstones. It is burnt after use.\n\nYou can craft a gold pickaxe at the Blacksmith in the game.",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/304.png",
@@ -1279,10 +1279,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
-  Ruby: {
-    name: "Ruby",
+  Crimstone: {
+    name: "Crimstone",
     description:
-      "A resource collected by mining ruby mines.\n\nIt is used in a range of different crafting recipes.",
+      "A resource collected by mining crimstone mines.\n\nIt is used in a range of different crafting recipes.",
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/634.png",
@@ -4337,8 +4337,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  "Ruby Rock": {
-    description: "A rare resource used to mine rubies",
+  "Crimstone Rock": {
+    description: "A rare resource used to mine crimstones",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/633.png",

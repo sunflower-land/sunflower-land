@@ -59,7 +59,7 @@ const getIslandElements = ({
   stones,
   iron,
   gold,
-  rubies,
+  crimstones,
   fruitPatches,
   flowerBeds,
   crops,
@@ -80,7 +80,7 @@ const getIslandElements = ({
   stones: GameState["stones"];
   iron: GameState["iron"];
   gold: GameState["gold"];
-  rubies: GameState["rubies"];
+  crimstones: GameState["crimstones"];
   crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
   flowerBeds: GameState["flowers"]["flowerBeds"];
@@ -296,20 +296,20 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
-    ...getKeys(rubies).map((id, index) => {
-      const { x, y, width, height } = rubies[id];
+    ...getKeys(crimstones).map((id, index) => {
+      const { x, y, width, height } = crimstones[id];
 
       return (
         <MapPlacement
-          key={`ruby-${id}`}
+          key={`crimstone-${id}`}
           x={x}
           y={y}
           height={height}
           width={width}
         >
           <Resource
-            key={`ruby-${id}`}
-            name="Ruby Rock"
+            key={`crimstone-${id}`}
+            name="Crimstone Rock"
             createdAt={0}
             readyAt={0}
             id={id}
@@ -520,7 +520,7 @@ export const Land: React.FC = () => {
     stones,
     iron,
     gold,
-    rubies,
+    crimstones,
     crops,
     fruitPatches,
     flowers: { flowerBeds },
@@ -639,7 +639,7 @@ export const Land: React.FC = () => {
                 stones,
                 iron,
                 gold,
-                rubies,
+                crimstones,
                 fruitPatches,
                 flowerBeds,
                 crops,

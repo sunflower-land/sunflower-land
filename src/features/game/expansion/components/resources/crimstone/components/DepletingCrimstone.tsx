@@ -4,7 +4,7 @@ import Spritesheet, {
 } from "components/animation/SpriteAnimator";
 import dropSheet from "assets/resources/ruby/ruby_rock_drop.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import ruby from "assets/resources/ruby.png";
+import crimstone from "assets/resources/ruby.png";
 import { ZoomContext } from "components/ZoomProvider";
 
 const DROP_SHEET_FRAME_WIDTH = 112;
@@ -14,7 +14,7 @@ interface Props {
   resourceAmount?: number;
 }
 
-const DepletingRubyComponent: React.FC<Props> = ({ resourceAmount }) => {
+const DepletingCrimstoneComponent: React.FC<Props> = ({ resourceAmount }) => {
   const { scale } = useContext(ZoomContext);
   const [playing, setPlaying] = useState(false);
   const sparkGif = useRef<SpriteSheetInstance>();
@@ -71,7 +71,7 @@ const DepletingRubyComponent: React.FC<Props> = ({ resourceAmount }) => {
           }}
         >
           <img
-            src={ruby}
+            src={crimstone}
             className="mr-2 img-highlight-heavy"
             style={{
               width: `${PIXEL_SCALE * 10}px`,
@@ -84,4 +84,4 @@ const DepletingRubyComponent: React.FC<Props> = ({ resourceAmount }) => {
   );
 };
 
-export const DepletingRuby = React.memo(DepletingRubyComponent);
+export const DepletingCrimstone = React.memo(DepletingCrimstoneComponent);

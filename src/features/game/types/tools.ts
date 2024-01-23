@@ -59,7 +59,7 @@ export const WORKBENCH_TOOLS: (
   },
   "Gold Pickaxe": {
     name: "Gold Pickaxe",
-    description: "Used to collect rubies",
+    description: "Used to collect crimstones",
     sfl: new Decimal(0.3125),
     ingredients: {
       Wood: new Decimal(3),
