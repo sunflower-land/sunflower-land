@@ -60,7 +60,7 @@ export const maxItems: Inventory = {
   "Banana Plant": new Decimal(100),
 
   Sunstone: new Decimal("20"),
-  Ruby: new Decimal("40"),
+  Crimstone: new Decimal("40"),
   Gold: new Decimal("200"),
   Iron: new Decimal("400"),
   Stone: new Decimal("800"),
