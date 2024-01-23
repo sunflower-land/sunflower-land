@@ -1,4 +1,6 @@
 import Decimal from "decimal.js-light";
+import { canMine } from "features/game/expansion/lib/utils";
+import { SUNSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
@@ -18,6 +20,7 @@ export enum EVENT_ERRORS {
   NO_PICKAXES = "No gold pickaxes left",
   NO_BUMPKIN = "You do not have a Bumpkin",
   NO_SUNSTONE = "No sunstone rock found.",
+  STILL_RECOVERING = "Sunstone is still recovering",
 }
 
 export function mineSunstone({
@@ -39,6 +42,10 @@ export function mineSunstone({
     throw new Error(EVENT_ERRORS.NO_SUNSTONE);
   }
 
+  if (!canMine(sunstoneRock, SUNSTONE_RECOVERY_TIME, createdAt)) {
+    throw new Error(EVENT_ERRORS.STILL_RECOVERING);
+  }
+
   const toolAmount = stateCopy.inventory["Gold Pickaxe"] || new Decimal(0);
 
   if (toolAmount.lessThan(1)) {
@@ -47,6 +54,11 @@ export function mineSunstone({
 
   const sunstoneMined = sunstoneRock.stone.amount;
   const amountInInventory = stateCopy.inventory.Sunstone || new Decimal(0);
+
+  sunstoneRock.stone = {
+    minedAt: createdAt,
+    amount: 1,
+  };
 
   stateCopy.inventory["Gold Pickaxe"] = toolAmount.sub(1);
   stateCopy.inventory.Sunstone = amountInInventory.add(sunstoneMined);
