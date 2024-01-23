@@ -1,7 +1,7 @@
 import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 
-import island from "assets/land/witches_eve_teaser.webp";
+import island from "assets/land/spring_blossom_teaser.gif";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
@@ -36,15 +36,15 @@ export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
         <img
           src={island}
           style={{
-            width: `${PIXEL_SCALE * 94}px`,
+            width: `${PIXEL_SCALE * 82}px`,
           }}
         />
 
         <div
           className="absolute"
           style={{
-            left: `${GRID_WIDTH_PX * 2}px`,
-            bottom: `${GRID_WIDTH_PX * 2.2}px`,
+            left: `${GRID_WIDTH_PX * 2.3}px`,
+            bottom: `${GRID_WIDTH_PX * 4}px`,
           }}
         >
           <NPC

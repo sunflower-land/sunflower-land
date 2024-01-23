@@ -222,6 +222,7 @@ import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png"
 import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
 import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp";
 import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
+import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
 import budTicket from "assets/icons/bud_ticket.png";
 import budSeedling from "assets/icons/bud_seedling.png";
 
@@ -2429,7 +2430,7 @@ export const ITEM_DETAILS: Items = {
       "The Kraken is here! The mark of a participant in the Catch the Kraken Season.",
   },
   "Spring Blossom Banner": {
-    image: catchTheKrakenBanner,
+    image: springBlossomBanner,
     description: "",
   },
   "Luminous Lantern": {

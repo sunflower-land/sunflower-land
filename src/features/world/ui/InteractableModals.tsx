@@ -49,7 +49,7 @@ type InteractableName =
   | "beach_orange_book"
   | "beach_blue_book"
   | "walrus"
-  | "kraken_banner"
+  | "banner"
   | "crop_boom_finish"
   | "christmas_reward";
 
@@ -131,9 +131,9 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         />
       </Modal>
 
-      {interactable === "kraken_banner" && (
+      {interactable === "banner" && (
         <PlazaBanner
-          isOpen={interactable === "kraken_banner"}
+          isOpen={interactable === "banner"}
           closeModal={closeModal}
         />
       )}

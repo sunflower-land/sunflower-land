@@ -61,15 +61,19 @@ export const PromotingModal: React.FC<Props> = ({
 
   const { gameService } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
-  const hasPreviousSeasonBanner = !!inventory["Spring Blossom Banner"];
 
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  let price = hasPreviousSeasonBanner ? "35" : "50";
+  let price = hasDiscount ? "35" : "50";
 
   if (!isPreSeason) {
     price = "65";
   }
+
+  const onCloseConfirmation = () => {
+    onClose();
+    setShowConfirmation(false);
+  };
 
   const Content = () => {
     if (showConfirmation) {
@@ -77,7 +81,7 @@ export const PromotingModal: React.FC<Props> = ({
         <>
           <p className="text-sm my-2">{`Are you sure you want to purchase the banner for ${price} Block Bucks?`}</p>
           <div className="flex">
-            <Button className="mr-1" onClick={onClose}>
+            <Button className="mr-1" onClick={onCloseConfirmation}>
               {t("noThanks")}
             </Button>
             <Button
@@ -85,7 +89,7 @@ export const PromotingModal: React.FC<Props> = ({
                 gameService.send("banner.purchased", {
                   name: "Spring Blossom Banner",
                 });
-                onClose();
+                onCloseConfirmation();
               }}
             >
               {t("season.buyNow")}
@@ -128,7 +132,7 @@ export const PromotingModal: React.FC<Props> = ({
             </a>
           </div>
           <div className="flex">
-            <Button className="mr-1" onClick={onClose}>
+            <Button className="mr-1" onClick={onCloseConfirmation}>
               {t("close")}
             </Button>
           </div>
@@ -220,11 +224,11 @@ export const PromotingModal: React.FC<Props> = ({
           </a>
         </div>
         <div className="flex">
-          <Button className="mr-1" onClick={onClose}>
+          <Button className="mr-1" onClick={onCloseConfirmation}>
             {t("noThanks")}
           </Button>
           <Button
-            disabled={secondsLeft > 0 || insuficientBlockBucks}
+            disabled={secondsLeft < 0 || insuficientBlockBucks}
             onClick={() => {
               setShowConfirmation(true);
             }}
@@ -236,8 +240,11 @@ export const PromotingModal: React.FC<Props> = ({
     );
   };
   return (
-    <Modal centered show={isOpen} onHide={onClose}>
-      <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk} onClose={onClose}>
+    <Modal centered show={isOpen} onHide={onCloseConfirmation}>
+      <CloseButtonPanel
+        bumpkinParts={NPC_WEARABLES.grubnuk}
+        onClose={onCloseConfirmation}
+      >
         <Content />
       </CloseButtonPanel>
     </Modal>
