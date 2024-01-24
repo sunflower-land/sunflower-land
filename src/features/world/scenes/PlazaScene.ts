@@ -18,6 +18,7 @@ import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { hasFeatureAccess } from "lib/flags";
 import { TEST_FARM } from "features/game/lib/constants";
+import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -271,24 +272,30 @@ export class PlazaScene extends BaseScene {
     PAGE_POSITIONS.forEach(({ x, y }, index) => {
       const pageNumber = index + 1;
 
-      const page = new Page({ x, y, scene: this });
-      page.setDepth(1000000);
-      this.physics.world.enable(page);
+      const week = getSeasonWeek();
+      const collectedFlowerPages =
+        this.gameState.springBlossom[week].collectedFlowerPages;
 
-      this.physics.add.collider(
-        this.currentPlayer as BumpkinContainer,
-        page,
-        (obj1, obj2) => {
-          page.sprite?.destroy();
-          page.destroy();
+      if (collectedFlowerPages && !collectedFlowerPages.includes(pageNumber)) {
+        const page = new Page({ x, y, scene: this });
+        page.setDepth(1000000);
+        this.physics.world.enable(page);
 
-          const chime = this.sound.add("chime");
-          chime.play({ loop: false, volume: 0.1 });
+        this.physics.add.collider(
+          this.currentPlayer as BumpkinContainer,
+          page,
+          (obj1, obj2) => {
+            page.sprite?.destroy();
+            page.destroy();
 
-          interactableModalManager.open("page_discovered");
-          this.gameService.send("flowerPage.discovered", { id: pageNumber });
-        }
-      );
+            const chime = this.sound.add("chime");
+            chime.play({ loop: false, volume: 0.1 });
+
+            interactableModalManager.open("page_discovered");
+            this.gameService.send("flowerPage.discovered", { id: pageNumber });
+          }
+        );
+      }
     });
 
     const auctionLabel = new Label(this, "AUCTIONS", "brown");
