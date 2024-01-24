@@ -101,7 +101,11 @@ export const FlowerTrade: React.FC<Props> = ({
           </div>
         </Label>
       </div>
-      <Complete flowerCount={flowerCount} alreadyComplete={!!alreadyComplete} />
+      <Complete
+        flowerCount={flowerCount}
+        alreadyComplete={!!alreadyComplete}
+        desiredFlower={desiredFlower}
+      />
     </div>
   );
 };
