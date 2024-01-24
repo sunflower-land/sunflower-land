@@ -22,6 +22,9 @@ export function getBumpkinLevelRequiredForNode(
   index: number,
   nodeType: string
 ): BumpkinLevel {
+  // Excluded: New Bumpkin Level blocking code - separate PR
+  return 0 as BumpkinLevel;
+
   const key = nodeType as keyof Nodes;
 
   for (let expansions = 4; expansions <= 23; ++expansions) {
