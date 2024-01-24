@@ -17,6 +17,7 @@ export const INITIAL_RESOURCES: Pick<
   | "crimstones"
   | "fruitPatches"
   | "sunstones"
+  | "beehives"
 > = {
   crops: {
     1: {
@@ -142,15 +143,117 @@ export const INITIAL_RESOURCES: Pick<
       width: 1,
     },
   },
-  fruitPatches: {},
-  gold: {},
-  iron: {},
+  crimstones: {
+    1: {
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      x: 7,
+      y: 3,
+      height: 1,
+      width: 1,
+    },
+    2: {
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      x: 3,
+      y: 6,
+      height: 1,
+      width: 1,
+    },
+  },
+  fruitPatches: {
+    1: {
+      x: 7,
+      y: 3,
+      height: 1,
+      width: 1,
+    },
+  },
+  gold: {
+    1: {
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      x: 7,
+      y: 3,
+      height: 1,
+      width: 1,
+    },
+  },
+  iron: {
+    1: {
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      x: 7,
+      y: 3,
+      height: 1,
+      width: 1,
+    },
+  },
+  beehives: {
+    "1": {
+      x: 6,
+      y: 2,
+      height: 1,
+      width: 1,
+      swarm: true,
+      honey: {
+        updatedAt: Date.now(),
+        produced: 0,
+      },
+      flowers: [
+        {
+          attachedAt: Date.now(),
+          attachedUntil: Date.now() + HONEY_PRODUCTION_TIME,
+          id: "1",
+        },
+      ],
+    },
+  },
   flowers: {
     discovered: {},
-    flowerBeds: {},
+    flowerBeds: {
+      "1": {
+        createdAt: Date.now(),
+        x: -1,
+        y: 2,
+        height: 1,
+        width: 3,
+        flower: {
+          amount: 1,
+          name: "Flower 1",
+          plantedAt: Date.now(),
+        },
+      },
+      "2": {
+        createdAt: Date.now(),
+        x: 4,
+        y: 6,
+        height: 1,
+        width: 3,
+      },
+    },
   },
-  crimstones: {},
-  sunstones: {},
+  sunstones: {
+    1: {
+      minesLeft: 5,
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      x: 7,
+      y: 3,
+      height: 1,
+      width: 1,
+    },
+  },
 };
 
 const INITIAL_STOCK: Inventory = {
@@ -236,7 +339,6 @@ const OFFLINE_FARM_FRUIT = getEnabledNodeCount(
 );
 
 export const STATIC_OFFLINE_FARM: GameState = {
-  ruby: {},
   home: {
     collectibles: {
       Wardrobe: [
@@ -264,7 +366,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   island: {
-    type: "basic",
+    type: "spring",
   },
   mysteryPrizes: {},
   mushrooms: {
@@ -310,7 +412,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(3),
+    "Basic Land": new Decimal(4),
     "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),
     "Water Well": new Decimal(4),
     Tree: new Decimal(OFFLINE_FARM_TREES),
@@ -480,48 +582,4 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   airdrops: [],
   username: "Local Hero",
-  beehives: {
-    "123": {
-      x: 6,
-      y: 2,
-      height: 1,
-      width: 1,
-      swarm: true,
-      honey: {
-        updatedAt: Date.now(),
-        produced: 0,
-      },
-      flowers: [
-        {
-          attachedAt: Date.now(),
-          attachedUntil: Date.now() + HONEY_PRODUCTION_TIME,
-          id: "1",
-        },
-      ],
-    },
-  },
-  flowers: {
-    discovered: {},
-    flowerBeds: {
-      "1": {
-        createdAt: Date.now(),
-        x: -1,
-        y: 2,
-        height: 1,
-        width: 3,
-        flower: {
-          amount: 1,
-          name: "Flower 1",
-          plantedAt: Date.now(),
-        },
-      },
-      "2": {
-        createdAt: Date.now(),
-        x: 4,
-        y: 6,
-        height: 1,
-        width: 3,
-      },
-    },
-  },
 };

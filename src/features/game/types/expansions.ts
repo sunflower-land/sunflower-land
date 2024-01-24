@@ -151,19 +151,23 @@ export function getLand({
 
   const availableHives =
     expectedResources["Beehive"] - (game.inventory["Beehive"]?.toNumber() ?? 0);
-  land.beeHives = land.beeHives?.slice(0, availableHives);
+  land.beehives = land.beehives?.slice(0, availableHives);
 
   const availableFlowers =
     expectedResources["Flower Bed"] -
     (game.inventory["Flower Bed"]?.toNumber() ?? 0);
   land.flowerBeds = land.flowerBeds?.slice(0, availableFlowers);
 
-  const availableRubies =
-    expectedResources["Ruby Rock"] -
-    (game.inventory["Ruby Rock"]?.toNumber() ?? 0);
-  land.rubies = land.rubies?.slice(0, availableRubies);
+  const availableCrimstones =
+    expectedResources["Crimstone Rock"] -
+    (game.inventory["Crimstone Rock"]?.toNumber() ?? 0);
+  land.crimstones = land.crimstones?.slice(0, availableCrimstones);
 
   // Sun Stones
+  const availableSunstones =
+    expectedResources["Sunstone Rock"] -
+    (game.inventory["Sunstone Rock"]?.toNumber() ?? 0);
+  land.sunstones = land.sunstones?.slice(0, availableSunstones);
 
   return land;
 }
@@ -814,61 +818,62 @@ export const SPRING_LAND_5_LAYOUT: Layout = {
   plots: [
     {
       x: -2,
-      y: 1,
+      y: 0,
+    },
+    {
+      x: -1,
+      y: 0,
     },
     {
       x: -2,
-      y: 0,
+      y: -1,
     },
     {
       x: -1,
-      y: 1,
-    },
-    {
-      x: -1,
-      y: 0,
-    },
-    {
-      x: 0,
-      y: 1,
-    },
-    {
-      x: 0,
-      y: 0,
-    },
-    {
-      x: 1,
-      y: 1,
-    },
-    {
-      x: 1,
-      y: 0,
+      y: -1,
     },
   ],
-  fruitPatches: [],
-  gold: [],
+  fruitPatches: [
+    {
+      x: -1,
+      y: 3,
+    },
+  ],
+  gold: [
+    {
+      x: 1,
+      y: -2,
+    },
+  ],
   iron: [
     {
-      x: -2,
+      x: 0,
       y: -2,
     },
   ],
   stones: [
     {
-      x: 1,
+      x: -2,
+      y: -2,
+    },
+    {
+      x: -1,
       y: -2,
     },
   ],
+  crimstones: [],
+  sunstones: [],
   trees: [
     {
       x: 1,
       y: 3,
     },
     {
-      x: -2,
-      y: 3,
+      x: 1,
+      y: 1,
     },
   ],
+  beehives: [],
 };
 
 export type Layout = {
@@ -879,7 +884,8 @@ export type Layout = {
   iron?: Coordinates[];
   gold?: Coordinates[];
   crimstones?: Coordinates[];
-  beeHives?: Coordinates[];
+  sunstones?: Coordinates[];
+  beehives?: Coordinates[];
   flowerBeds?: Coordinates[];
   fruitPatches?: Coordinates[];
 };

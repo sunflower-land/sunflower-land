@@ -11,6 +11,7 @@ export type Layout = {
   fruitPatches: Coordinates[];
   boulder: Coordinates[];
   beehives: Coordinates[];
+  flowers: Coordinates[];
 };
 
 export const INITIAL_LAYOUTS: Record<string, Layout> = {};

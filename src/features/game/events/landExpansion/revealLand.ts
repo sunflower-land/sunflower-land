@@ -153,7 +153,7 @@ export function revealLand({
     land.fruitPatches?.length ?? 0
   );
 
-  if (inventory["Basic Land"].eq(4)) {
+  if (inventory["Basic Land"].eq(4) && game.island.type === "basic") {
     const prev = game.airdrops ?? [];
     game.airdrops = [
       ...prev,
@@ -173,7 +173,7 @@ export function revealLand({
     ];
   }
 
-  if (inventory["Basic Land"].eq(5)) {
+  if (inventory["Basic Land"].eq(5) && game.island.type === "basic") {
     const prev = game.airdrops ?? [];
     game.airdrops = [
       ...prev,
