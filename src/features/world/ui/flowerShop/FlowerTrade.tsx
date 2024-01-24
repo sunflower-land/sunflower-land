@@ -8,19 +8,20 @@ import { FlowerName } from "features/game/types/flowers";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
-
-// TODO move to backend
-const ALREADY_COMPLETE = false;
-const REWARD = 1;
+import { TICKETS_REWARDED } from "features/game/events/landExpansion/tradeFlowerShop";
 
 interface CompleteProps {
   flowerCount: number;
+  alreadyComplete: boolean;
 }
 
-const Complete: React.FC<CompleteProps> = ({ flowerCount }) => {
+const Complete: React.FC<CompleteProps> = ({
+  flowerCount,
+  alreadyComplete,
+}) => {
   const { gameService } = useContext(Context);
 
-  if (ALREADY_COMPLETE) {
+  if (alreadyComplete) {
     return <Label type="info">Already completed</Label>;
   }
 
@@ -30,7 +31,9 @@ const Complete: React.FC<CompleteProps> = ({ flowerCount }) => {
         disabled={flowerCount < 1}
         onClick={() => gameService.send("bertObsession.completed")}
       >
-        {`Trade for ${REWARD} ${getSeasonalTicket()}${REWARD > 0 ? "s" : ""}`}
+        {`Trade for ${TICKETS_REWARDED} ${getSeasonalTicket()}${
+          TICKETS_REWARDED > 0 ? "s" : ""
+        }`}
       </Button>
     </>
   );
@@ -39,18 +42,32 @@ const Complete: React.FC<CompleteProps> = ({ flowerCount }) => {
 interface Props {
   desiredFlower: FlowerName;
   flowerCount: number;
+  alreadyComplete: boolean;
 }
 
 export const FlowerTrade: React.FC<Props> = ({
   desiredFlower,
   flowerCount,
+  alreadyComplete,
 }) => {
   const desiredFlowerImage = ITEM_DETAILS[desiredFlower].image;
 
-  // TODO if in codex let the player get it immediately
+  // Get the current date and time in UTC
+  const currentDate = new Date();
+  const currentUTCDate = new Date(currentDate.toUTCString());
 
-  // TODO update reset seconds
-  const resetSeconds = 1;
+  // Calculate the number of seconds passed in the current week
+  const secondsInCurrentWeek =
+    currentUTCDate.getDay() * 24 * 60 * 60 +
+    currentUTCDate.getUTCHours() * 60 * 60 +
+    currentUTCDate.getUTCMinutes() * 60 +
+    currentUTCDate.getUTCSeconds();
+
+  // Calculate the total number of seconds in a week
+  const totalSecondsInWeek = 7 * 24 * 60 * 60;
+
+  // Calculate the remaining seconds in the week
+  const remainingSecondsInWeek = totalSecondsInWeek - secondsInCurrentWeek;
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -72,7 +89,7 @@ export const FlowerTrade: React.FC<Props> = ({
             <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
             <span>
               {"Offer ends in "}
-              {secondsToString(resetSeconds, {
+              {secondsToString(remainingSecondsInWeek, {
                 length: "medium",
                 removeTrailingZeros: true,
               })}
@@ -80,7 +97,7 @@ export const FlowerTrade: React.FC<Props> = ({
           </div>
         </Label>
       </div>
-      <Complete flowerCount={flowerCount} />
+      <Complete flowerCount={flowerCount} alreadyComplete={!!alreadyComplete} />
     </div>
   );
 };
