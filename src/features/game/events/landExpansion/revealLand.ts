@@ -48,8 +48,6 @@ export function revealLand({
   const origin = EXPANSION_ORIGINS[landCount - 1];
 
   delete game.expansionConstruction;
-  // TODO: Update expansion requirements for next expansion
-  //   game.expansionRequirements = makeExpansionRequirements(landCount + 1);
 
   // Add Trees
   land.trees?.forEach((coords) => {
@@ -153,6 +151,54 @@ export function revealLand({
     land.fruitPatches?.length ?? 0
   );
 
+  // Add sun stones
+  land.sunstones?.forEach((coords) => {
+    const id = Object.keys(game.sunstones).length;
+    game.sunstones[id] = {
+      height: 1,
+      width: 1,
+      x: coords.x + origin.x,
+      y: coords.y + origin.y,
+      stone: { amount: 1, minedAt: 0 },
+      minesLeft: 10,
+    };
+  });
+  inventory["Sunstone Rock"] = (
+    inventory["Sunstone Rock"] || new Decimal(0)
+  ).add(land.sunstones?.length ?? 0);
+
+  // Add bee hives
+  land.beehives?.forEach((coords) => {
+    const id = Object.keys(game.beehives).length;
+    game.beehives[id] = {
+      height: 1,
+      width: 1,
+      x: coords.x + origin.x,
+      y: coords.y + origin.y,
+      honey: { produced: 0, updatedAt: Date.now() },
+      flowers: [],
+      swarm: false,
+    };
+  });
+  inventory.Beehive = (inventory.Beehive || new Decimal(0)).add(
+    land.beehives?.length ?? 0
+  );
+
+  // Add flower beds
+  land.flowerBeds?.forEach((coords) => {
+    const id = Object.keys(game.flowers.flowerBeds).length;
+    game.flowers.flowerBeds[id] = {
+      height: 1,
+      width: 3,
+      x: coords.x + origin.x,
+      y: coords.y + origin.y,
+      createdAt,
+    };
+  });
+  inventory["Flower Bed"] = (inventory["Flower Bed"] || new Decimal(0)).add(
+    land.flowerBeds?.length ?? 0
+  );
+
   if (inventory["Basic Land"].eq(4) && game.island.type === "basic") {
     const prev = game.airdrops ?? [];
     game.airdrops = [
@@ -194,7 +240,7 @@ export function revealLand({
     ];
   }
 
-  // Refresh all resources
+  // Refresh all basic resources
   game.trees = getKeys(game.trees).reduce((acc, id) => {
     return {
       ...acc,

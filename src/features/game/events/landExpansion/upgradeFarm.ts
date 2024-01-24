@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
 import { getKeys } from "features/game/types/craftables";
 import {
   GameState,
@@ -371,10 +372,15 @@ function springUpgrade(state: GameState) {
   // Add new resources
   game.inventory.House = new Decimal(1);
 
-  // If they do not already have fruit patches
-  if (!game.inventory["Fruit Patch"]?.gt(2)) {
-    game.inventory["Fruit Patch"] = new Decimal(2);
-  }
+  // Ensure they have the minimum resources to start the island with
+  const minimum = TOTAL_EXPANSION_NODES.spring[4];
+
+  Object.entries(minimum).forEach(([name, amount]) => {
+    const item = game.inventory[name as InventoryItemName] ?? new Decimal(0);
+    if (item.lt(amount)) {
+      game.inventory[name as InventoryItemName] = new Decimal(amount);
+    }
+  });
 
   return game;
 }

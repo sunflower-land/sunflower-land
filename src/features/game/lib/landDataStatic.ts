@@ -3,7 +3,6 @@ import { GameState, Inventory } from "../types/game";
 import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { INITIAL_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
-import { HONEY_PRODUCTION_TIME } from "./updateBeehives";
 
 export const INITIAL_RESOURCES: Pick<
   GameState,
@@ -143,34 +142,13 @@ export const INITIAL_RESOURCES: Pick<
       width: 1,
     },
   },
-  crimstones: {
-    1: {
-      stone: {
-        amount: 1,
-        minedAt: 0,
-      },
-      x: 7,
-      y: 3,
-      height: 1,
-      width: 1,
-    },
-    2: {
-      stone: {
-        amount: 1,
-        minedAt: 0,
-      },
-      x: 3,
-      y: 6,
-      height: 1,
-      width: 1,
-    },
-  },
+  crimstones: {},
   fruitPatches: {
     1: {
       x: 7,
       y: 3,
-      height: 1,
-      width: 1,
+      height: 2,
+      width: 2,
     },
   },
   gold: {
@@ -197,63 +175,12 @@ export const INITIAL_RESOURCES: Pick<
       width: 1,
     },
   },
-  beehives: {
-    "1": {
-      x: 6,
-      y: 2,
-      height: 1,
-      width: 1,
-      swarm: true,
-      honey: {
-        updatedAt: Date.now(),
-        produced: 0,
-      },
-      flowers: [
-        {
-          attachedAt: Date.now(),
-          attachedUntil: Date.now() + HONEY_PRODUCTION_TIME,
-          id: "1",
-        },
-      ],
-    },
-  },
+  beehives: {},
   flowers: {
     discovered: {},
-    flowerBeds: {
-      "1": {
-        createdAt: Date.now(),
-        x: -1,
-        y: 2,
-        height: 1,
-        width: 3,
-        flower: {
-          amount: 1,
-          name: "Flower 1",
-          plantedAt: Date.now(),
-        },
-      },
-      "2": {
-        createdAt: Date.now(),
-        x: 4,
-        y: 6,
-        height: 1,
-        width: 3,
-      },
-    },
+    flowerBeds: {},
   },
-  sunstones: {
-    1: {
-      minesLeft: 5,
-      stone: {
-        amount: 1,
-        minedAt: 0,
-      },
-      x: 7,
-      y: 3,
-      height: 1,
-      width: 1,
-    },
-  },
+  sunstones: {},
 };
 
 const INITIAL_STOCK: Inventory = {
@@ -366,7 +293,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   island: {
-    type: "spring",
+    type: "basic",
   },
   mysteryPrizes: {},
   mushrooms: {
@@ -412,18 +339,18 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(4),
+    "Basic Land": new Decimal(9),
     "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),
     "Water Well": new Decimal(4),
     Tree: new Decimal(OFFLINE_FARM_TREES),
     "Stone Rock": new Decimal(OFFLINE_FARM_STONES),
     "Iron Rock": new Decimal(OFFLINE_FARM_IRON),
     "Gold Rock": new Decimal(OFFLINE_FARM_GOLD),
-    "Crimstone Rock": new Decimal(OFFLINE_FARM_CRIMSTONE),
-    "Sunstone Rock": new Decimal(OFFLINE_FARM_SUNSTONE),
-    "Fruit Patch": new Decimal(OFFLINE_FARM_FRUIT),
+    "Crimstone Rock": new Decimal(0),
+    "Sunstone Rock": new Decimal(0),
+    "Fruit Patch": new Decimal(0),
     Egg: new Decimal(12),
-    Beehive: new Decimal(2),
+    Beehive: new Decimal(0),
     Banana: new Decimal(12),
     Wood: new Decimal(100),
     Stone: new Decimal(100),

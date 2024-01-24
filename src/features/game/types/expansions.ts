@@ -87,13 +87,6 @@ function getBasicLand({ id, expansion }: { id: number; expansion: number }) {
   return null;
 }
 
-export function getSpringLand({ expansion }: { expansion: number }) {
-  if (expansion === 5) {
-    return SPRING_LAND_5_LAYOUT;
-  }
-
-  return null;
-}
 export function getLand({
   id,
   game,
@@ -110,7 +103,7 @@ export function getLand({
   }
 
   if (game.island.type === "spring") {
-    land = getSpringLand({ expansion });
+    land = SPRING_LAYOUTS[expansion];
   }
 
   if (!land) {
@@ -383,13 +376,17 @@ export const LAND_8_LAYOUT: Layout = {
 
 export const LAND_9_LAYOUT: Layout = {
   id: "9",
-  plots: [],
-  fruitPatches: [
+  plots: [
+    {
+      x: 1,
+      y: 2,
+    },
     {
       x: 0,
-      y: 3,
+      y: 2,
     },
   ],
+  fruitPatches: [],
   gold: [],
   iron: [
     {
@@ -876,6 +873,520 @@ export const SPRING_LAND_5_LAYOUT: Layout = {
   beehives: [],
 };
 
+export const SPRING_LAND_6_LAYOUT: Layout = {
+  id: "spring_6",
+  plots: [],
+  fruitPatches: [
+    {
+      x: 0,
+      y: 3,
+    },
+  ],
+  gold: [],
+  iron: [],
+  stones: [
+    {
+      x: -3,
+      y: 2,
+    },
+  ],
+  crimstones: [],
+  sunstones: [],
+  trees: [
+    {
+      x: -2,
+      y: 3,
+    },
+  ],
+  beehives: [
+    {
+      x: 0,
+      y: 0,
+    },
+  ],
+  flowerBeds: [
+    {
+      x: -1,
+      y: -1,
+    },
+  ],
+};
+
+export const SPRING_LAND_7_LAYOUT: Layout = {
+  id: "spring_7",
+  plots: [
+    {
+      x: -2,
+      y: 1,
+    },
+    {
+      x: -2,
+      y: 0,
+    },
+  ],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [
+    {
+      x: 0,
+      y: 2,
+    },
+  ],
+  crimstones: [
+    {
+      x: -1,
+      y: -2,
+    },
+  ],
+  sunstones: [],
+  trees: [
+    {
+      x: 1,
+      y: 0,
+    },
+  ],
+  beehives: [],
+};
+
+export const SPRING_LAND_8_LAYOUT: Layout = {
+  id: "spring_8",
+  plots: [
+    {
+      x: -1,
+      y: -2,
+    },
+    {
+      x: 0,
+      y: -2,
+    },
+  ],
+  fruitPatches: [
+    {
+      x: -1,
+      y: 0,
+    },
+  ],
+  gold: [
+    {
+      x: -3,
+      y: 0,
+    },
+  ],
+  iron: [
+    {
+      x: 1,
+      y: 1,
+    },
+  ],
+  stones: [
+    {
+      x: -1,
+      y: 2,
+    },
+  ],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+};
+
+export const SPRING_LAND_9_LAYOUT: Layout = {
+  plots: [],
+  fruitPatches: [
+    {
+      x: -2,
+      y: 2,
+    },
+  ],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [
+    {
+      x: -1,
+      y: -1,
+    },
+  ],
+  trees: [
+    {
+      x: 0,
+      y: 2,
+    },
+  ],
+  beehives: [],
+  id: "spring_9",
+};
+
+export const SPRING_LAND_10_LAYOUT: Layout = {
+  plots: [],
+  fruitPatches: [
+    {
+      x: -2,
+      y: 3,
+    },
+  ],
+  gold: [
+    {
+      x: 1,
+      y: 2,
+    },
+  ],
+  iron: [
+    {
+      x: 0,
+      y: 3,
+    },
+  ],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [
+    {
+      x: 0,
+      y: 0,
+    },
+  ],
+  flowerBeds: [
+    {
+      x: -1,
+      y: -1,
+    },
+  ],
+  id: "spring_10",
+};
+
+export const SPRING_LAND_11_LAYOUT: Layout = {
+  plots: [
+    {
+      x: -2,
+      y: 2,
+    },
+    {
+      x: -1,
+      y: 2,
+    },
+  ],
+  fruitPatches: [
+    {
+      x: -2,
+      y: -1,
+    },
+  ],
+  gold: [],
+  iron: [],
+  stones: [
+    {
+      x: 1,
+      y: 2,
+    },
+  ],
+  crimstones: [
+    {
+      x: -1,
+      y: 0,
+    },
+  ],
+  sunstones: [],
+  trees: [
+    {
+      x: 0,
+      y: -1,
+    },
+  ],
+  beehives: [],
+  id: "spring_11",
+};
+
+export const SPRING_LAND_12_LAYOUT: Layout = {
+  plots: [
+    {
+      x: -1,
+      y: 1,
+    },
+    {
+      x: 0,
+      y: 1,
+    },
+  ],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  id: "spring_12",
+};
+
+export const SPRING_LAND_13_LAYOUT: Layout = {
+  plots: [],
+  fruitPatches: [
+    {
+      x: -1,
+      y: 3,
+    },
+  ],
+  gold: [],
+  iron: [
+    {
+      x: 1,
+      y: 1,
+    },
+  ],
+  stones: [
+    {
+      x: -2,
+      y: 1,
+    },
+  ],
+  crimstones: [],
+  sunstones: [
+    {
+      x: 0,
+      y: -1,
+    },
+  ],
+  trees: [
+    {
+      x: -2,
+      y: -1,
+    },
+  ],
+  beehives: [],
+  id: "spring_13",
+};
+
+export const SPRING_LAND_14_LAYOUT: Layout = {
+  plots: [
+    {
+      x: -2,
+      y: 2,
+    },
+    {
+      x: -2,
+      y: 1,
+    },
+  ],
+  fruitPatches: [
+    {
+      x: 1,
+      y: 2,
+    },
+  ],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  id: "spring_14",
+};
+
+export const SPRING_LAND_15_LAYOUT: Layout = {
+  plots: [
+    {
+      x: -2,
+      y: 2,
+    },
+  ],
+  fruitPatches: [
+    {
+      x: 1,
+      y: 1,
+    },
+  ],
+  gold: [],
+  iron: [
+    {
+      x: -1,
+      y: -1,
+    },
+  ],
+  stones: [
+    {
+      x: -2,
+      y: 0,
+    },
+  ],
+  crimstones: [],
+  sunstones: [],
+  trees: [
+    {
+      x: 1,
+      y: 3,
+    },
+  ],
+  beehives: [],
+  id: "spring_15",
+};
+
+export const SPRING_LAND_16_LAYOUT: Layout = {
+  plots: [
+    {
+      x: -2,
+      y: 2,
+    },
+  ],
+  fruitPatches: [],
+  gold: [
+    {
+      x: -1,
+      y: 1,
+    },
+  ],
+  iron: [],
+  stones: [],
+  crimstones: [
+    {
+      x: -3,
+      y: 0,
+    },
+  ],
+  sunstones: [],
+  trees: [
+    {
+      x: 0,
+      y: 3,
+    },
+  ],
+  beehives: [
+    {
+      x: 0,
+      y: -1,
+    },
+  ],
+  flowerBeds: [
+    {
+      x: -1,
+      y: -2,
+    },
+  ],
+  id: "spring_16",
+};
+export const SPRING_LAND_17_LAYOUT: Layout = {
+  plots: [
+    {
+      x: 0,
+      y: 2,
+    },
+  ],
+  fruitPatches: [
+    {
+      x: -2,
+      y: 3,
+    },
+  ],
+  gold: [],
+  iron: [
+    {
+      x: 0,
+      y: -1,
+    },
+  ],
+  stones: [
+    {
+      x: -2,
+      y: 0,
+    },
+  ],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  id: "spring_17",
+};
+export const SPRING_LAND_18_LAYOUT: Layout = {
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [
+    {
+      x: -1,
+      y: 1,
+    },
+  ],
+  trees: [],
+  beehives: [],
+  id: "spring_18",
+};
+
+export const SPRING_LAND_19_LAYOUT: Layout = {
+  plots: [
+    {
+      x: -1,
+      y: 1,
+    },
+    {
+      x: 0,
+      y: 1,
+    },
+  ],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+  id: "spring_19",
+};
+
+export const SPRING_LAND_20_LAYOUT: Layout = {
+  plots: [
+    {
+      x: -1,
+      y: 2,
+    },
+    {
+      x: 0,
+      y: 2,
+    },
+  ],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [
+    {
+      x: -1,
+      y: 0,
+    },
+  ],
+  trees: [],
+  beehives: [],
+  id: "spring_20",
+};
+
+const SPRING_LAYOUTS: Record<number, Layout> = {
+  5: SPRING_LAND_5_LAYOUT,
+  6: SPRING_LAND_6_LAYOUT,
+  7: SPRING_LAND_7_LAYOUT,
+  8: SPRING_LAND_8_LAYOUT,
+  9: SPRING_LAND_9_LAYOUT,
+
+  10: SPRING_LAND_10_LAYOUT,
+  11: SPRING_LAND_11_LAYOUT,
+  12: SPRING_LAND_12_LAYOUT,
+  13: SPRING_LAND_13_LAYOUT,
+  14: SPRING_LAND_14_LAYOUT,
+  15: SPRING_LAND_15_LAYOUT,
+  16: SPRING_LAND_16_LAYOUT,
+  17: SPRING_LAND_17_LAYOUT,
+  18: SPRING_LAND_18_LAYOUT,
+  19: SPRING_LAND_19_LAYOUT,
+  20: SPRING_LAND_20_LAYOUT,
+};
+
 export type Layout = {
   id: string;
   trees: Coordinates[];
@@ -1121,6 +1632,102 @@ const LAND_23_REQUIREMENTS: Requirements = {
   bumpkinLevel: 60,
 };
 
+const SPRING_LAND_5_REQUIREMENTS: Requirements = {
+  resources: {},
+  seconds: 1,
+  bumpkinLevel: 0,
+};
+
+const SPRING_LAND_6_REQUIREMENTS: Requirements = {
+  resources: {},
+  seconds: 1,
+  bumpkinLevel: 0,
+};
+
+const SPRING_LAND_7_REQUIREMENTS: Requirements = {
+  resources: {},
+  seconds: 1,
+  bumpkinLevel: 0,
+};
+
+const SPRING_LAND_8_REQUIREMENTS: Requirements = {
+  resources: {},
+  seconds: 1,
+  bumpkinLevel: 0,
+};
+
+const SPRING_LAND_9_REQUIREMENTS: Requirements = {
+  resources: {},
+  seconds: 1,
+  bumpkinLevel: 0,
+};
+
+const SPRING_LAND_10_REQUIREMENTS: Requirements = {
+  resources: {},
+  seconds: 1,
+  bumpkinLevel: 0,
+};
+
+const SPRING_LAND_11_REQUIREMENTS: Requirements = {
+  resources: {},
+  seconds: 1,
+  bumpkinLevel: 0,
+};
+
+const SPRING_LAND_12_REQUIREMENTS: Requirements = {
+  resources: {},
+  seconds: 1,
+  bumpkinLevel: 0,
+};
+
+const SPRING_LAND_13_REQUIREMENTS: Requirements = {
+  resources: {},
+  seconds: 1,
+  bumpkinLevel: 0,
+};
+
+const SPRING_LAND_14_REQUIREMENTS: Requirements = {
+  resources: {},
+  seconds: 1,
+  bumpkinLevel: 0,
+};
+
+const SPRING_LAND_15_REQUIREMENTS: Requirements = {
+  resources: {},
+  seconds: 1,
+  bumpkinLevel: 0,
+};
+
+const SPRING_LAND_16_REQUIREMENTS: Requirements = {
+  resources: {},
+  seconds: 1,
+  bumpkinLevel: 0,
+};
+
+const SPRING_LAND_17_REQUIREMENTS: Requirements = {
+  resources: {},
+  seconds: 1,
+  bumpkinLevel: 0,
+};
+
+const SPRING_LAND_18_REQUIREMENTS: Requirements = {
+  resources: {},
+  seconds: 1,
+  bumpkinLevel: 0,
+};
+
+const SPRING_LAND_19_REQUIREMENTS: Requirements = {
+  resources: {},
+  seconds: 1,
+  bumpkinLevel: 0,
+};
+
+const SPRING_LAND_20_REQUIREMENTS: Requirements = {
+  resources: {},
+  seconds: 1,
+  bumpkinLevel: 0,
+};
+
 export const EXPANSION_REQUIREMENTS: Record<
   IslandType,
   Record<number, Requirements>
@@ -1148,7 +1755,22 @@ export const EXPANSION_REQUIREMENTS: Record<
     23: LAND_23_REQUIREMENTS,
   },
   spring: {
-    // TODO
+    5: SPRING_LAND_5_REQUIREMENTS,
+    6: SPRING_LAND_6_REQUIREMENTS,
+    7: SPRING_LAND_7_REQUIREMENTS,
+    8: SPRING_LAND_8_REQUIREMENTS,
+    9: SPRING_LAND_9_REQUIREMENTS,
+    10: SPRING_LAND_10_REQUIREMENTS,
+    11: SPRING_LAND_11_REQUIREMENTS,
+    12: SPRING_LAND_12_REQUIREMENTS,
+    13: SPRING_LAND_13_REQUIREMENTS,
+    14: SPRING_LAND_14_REQUIREMENTS,
+    15: SPRING_LAND_15_REQUIREMENTS,
+    16: SPRING_LAND_16_REQUIREMENTS,
+    17: SPRING_LAND_17_REQUIREMENTS,
+    18: SPRING_LAND_18_REQUIREMENTS,
+    19: SPRING_LAND_19_REQUIREMENTS,
+    20: SPRING_LAND_20_REQUIREMENTS,
   },
   desert: {
     // TODO
