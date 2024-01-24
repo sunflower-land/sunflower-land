@@ -24,6 +24,7 @@ import { GoldTooth } from "./npcs/GoldTooth";
 import { Luna } from "./npcs/Luna";
 import { Mayor } from "./npcs/Mayor";
 import { FlowerShop } from "./flowerShop/FlowerShop";
+import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -93,6 +94,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
 
         {npc === "shelly" && <Shelly onClose={closeModal} />}
 
+        {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
         {npc === "poppy" && <FlowerShop onClose={closeModal} />}
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <Grubnuk onClose={closeModal} />}

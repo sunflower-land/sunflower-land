@@ -11,11 +11,13 @@ import { Button } from "components/ui/Button";
 import { TICKETS_REWARDED } from "features/game/events/landExpansion/tradeFlowerShop";
 
 interface CompleteProps {
+  desiredFlower: FlowerName;
   flowerCount: number;
   alreadyComplete: boolean;
 }
 
 const Complete: React.FC<CompleteProps> = ({
+  desiredFlower,
   flowerCount,
   alreadyComplete,
 }) => {
@@ -29,7 +31,9 @@ const Complete: React.FC<CompleteProps> = ({
     <>
       <Button
         disabled={flowerCount < 1}
-        onClick={() => gameService.send("bertObsession.completed")}
+        onClick={() =>
+          gameService.send("flowerShop.traded", { flower: desiredFlower })
+        }
       >
         {`Trade for ${TICKETS_REWARDED} ${getSeasonalTicket()}${
           TICKETS_REWARDED > 0 ? "s" : ""
