@@ -20,6 +20,7 @@ import {
   RESOURCE_DIMENSIONS,
 } from "features/game/types/resources";
 import { CollectibleLocation } from "features/game/types/collectibles";
+import shuffle from "lodash.shuffle";
 
 type BoundingBox = Position;
 
@@ -543,4 +544,28 @@ export function isAOEImpacted(
       }
     }
   });
+}
+
+export function pickEmptyPosition({
+  bounding,
+  gameState,
+}: {
+  bounding: BoundingBox;
+  gameState: GameState;
+}): Position | undefined {
+  const positionsInBounding = splitBoundingBox(bounding);
+
+  const availablePositions = positionsInBounding.filter(
+    (position) =>
+      detectCollision({
+        state: gameState,
+        position,
+        location: "farm",
+        name: "Basic Bear", // Just assume the item is 1x1
+      }) === false
+  );
+
+  const shuffled = shuffle(availablePositions);
+
+  return shuffled[0];
 }

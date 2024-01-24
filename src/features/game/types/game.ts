@@ -812,6 +812,7 @@ export interface GameState {
   island: {
     type: IslandType;
     upgradedAt?: number;
+    previousExpansions?: number;
   };
 
   username?: string;

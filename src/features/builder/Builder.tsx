@@ -34,6 +34,7 @@ export const Builder: React.FC = () => {
     sunstones: [],
     trees: [],
     boulder: [],
+    flowers: [],
     beehives: [],
   });
 
@@ -133,6 +134,7 @@ export const Builder: React.FC = () => {
                 trees: [],
                 boulder: [],
                 beehives: [],
+                flowers: [],
               })
             }
           >

@@ -241,7 +241,7 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
             <p className="text-xs mb-2">
               {`This area of Sunflower Land is known for it's exotic resources.
               Expand your land to discover fruit, flowers, bee hives & rare
-              minerals!`}
+              gems!`}
             </p>
             <img
               src={UPGRADE_PREVIEW.basic}

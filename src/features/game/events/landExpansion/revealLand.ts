@@ -1,14 +1,18 @@
 import { v4 as randomUUID } from "uuid";
 import Decimal from "decimal.js-light";
-import { EXPANSION_ORIGINS } from "features/game/expansion/lib/constants";
+import {
+  EXPANSION_ORIGINS,
+  LAND_SIZE,
+} from "features/game/expansion/lib/constants";
 import {
   EXPANSION_REQUIREMENTS,
   getLand,
 } from "features/game/types/expansions";
-import { GameState } from "features/game/types/game";
+import { Airdrop, GameState } from "features/game/types/game";
 
 import cloneDeep from "lodash.clonedeep";
 import { getKeys } from "features/game/types/craftables";
+import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
 
 export type RevealLandAction = {
   type: "land.revealed";
@@ -199,47 +203,6 @@ export function revealLand({
     land.flowerBeds?.length ?? 0
   );
 
-  if (inventory["Basic Land"].eq(4) && game.island.type === "basic") {
-    const prev = game.airdrops ?? [];
-    game.airdrops = [
-      ...prev,
-      {
-        createdAt,
-        id: "expansion-four-airdrop",
-        items: {
-          Shovel: 1,
-        },
-        sfl: 0,
-        wearables: {},
-        coordinates: {
-          x: 0,
-          y: 8,
-        },
-      },
-    ];
-  }
-
-  if (inventory["Basic Land"].eq(5) && game.island.type === "basic") {
-    const prev = game.airdrops ?? [];
-    game.airdrops = [
-      ...prev,
-      {
-        createdAt,
-        id: "expansion-fifth-airdrop",
-        items: {
-          "Time Warp Totem": 1,
-          "Pumpkin Soup": 1,
-        },
-        sfl: 0,
-        wearables: {},
-        coordinates: {
-          x: -7,
-          y: 7,
-        },
-      },
-    ];
-  }
-
   // Refresh all basic resources
   game.trees = getKeys(game.trees).reduce((acc, id) => {
     return {
@@ -311,6 +274,11 @@ export function revealLand({
     game,
   });
 
+  // Add any rewards
+  const rewards = getRewards({ game, createdAt });
+  const previous = game.airdrops ?? [];
+  game.airdrops = [...previous, ...rewards];
+
   return {
     ...game,
     inventory,
@@ -349,3 +317,97 @@ export const expansionRequirements = ({
     resources,
   };
 };
+
+export function getRewards({
+  game,
+  createdAt,
+}: {
+  game: GameState;
+  createdAt: number;
+}): Airdrop[] {
+  const { inventory } = game;
+
+  const expansions = inventory["Basic Land"] ?? new Decimal(0);
+
+  let airdrops: Airdrop[] = [];
+
+  // Tutorial Reward
+  if (expansions.eq(4) && game.island.type === "basic") {
+    airdrops = [
+      ...airdrops,
+      {
+        createdAt,
+        id: "expansion-four-airdrop",
+        items: {
+          Shovel: 1,
+        },
+        sfl: 0,
+        wearables: {},
+        coordinates: {
+          x: 0,
+          y: 8,
+        },
+      },
+    ];
+  }
+
+  // Tutorial Reward
+  if (expansions.eq(5) && game.island.type === "basic") {
+    airdrops = [
+      ...airdrops,
+      {
+        createdAt,
+        id: "expansion-fifth-airdrop",
+        items: {
+          "Time Warp Totem": 1,
+          "Pumpkin Soup": 1,
+        },
+        sfl: 0,
+        wearables: {},
+        coordinates: {
+          x: -7,
+          y: 7,
+        },
+      },
+    ];
+  }
+
+  // Expansion Refunds
+  if (game.island.type === "spring") {
+    const expectedLand = expansions.add(5);
+
+    if (expectedLand.lte(game.island.previousExpansions ?? 0)) {
+      const refund = EXPANSION_REQUIREMENTS.basic[expectedLand.toNumber()];
+
+      const expansionBoundaries = {
+        x: EXPANSION_ORIGINS[expansions.toNumber() - 1].x - LAND_SIZE / 2,
+        y: EXPANSION_ORIGINS[expansions.toNumber() - 1].y + LAND_SIZE / 2,
+        width: LAND_SIZE,
+        height: LAND_SIZE,
+      };
+
+      const position = pickEmptyPosition({
+        gameState: game,
+        bounding: expansionBoundaries,
+      });
+
+      airdrops = [
+        ...airdrops,
+        {
+          createdAt,
+          id: `expansion-refund-${expectedLand.toNumber()}`,
+          items: refund.resources,
+          sfl: 0,
+          wearables: {},
+          message: "You are on OG expander, here's a reward!",
+          coordinates: position && {
+            x: position.x,
+            y: position.y,
+          },
+        },
+      ];
+    }
+  }
+
+  return airdrops;
+}

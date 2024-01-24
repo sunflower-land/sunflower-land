@@ -179,6 +179,26 @@ describe("upgradeFarm", () => {
     ]);
   });
 
+  it("sets island history", () => {
+    const createdAt = Date.now();
+    const state = upgrade({
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Basic Land": new Decimal(16),
+          Gold: new Decimal(15),
+        },
+      },
+      createdAt,
+    });
+
+    expect(state.island.upgradedAt).toEqual(createdAt);
+    expect(state.island.previousExpansions).toEqual(16);
+  });
+
   it("does not allow a player to upgrade to desert island", () => {
     expect(() =>
       upgrade({
