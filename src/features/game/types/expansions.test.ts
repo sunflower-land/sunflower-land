@@ -53,6 +53,7 @@ describe("getLand", () => {
           "Stone Rock": new Decimal(12),
           "Iron Rock": new Decimal(6),
           "Gold Rock": new Decimal(3),
+          "Fruit Patch": new Decimal(4),
         },
       },
     });
@@ -75,12 +76,13 @@ describe("getLand", () => {
         },
         inventory: {
           ...TEST_FARM.inventory,
-          "Basic Land": new Decimal(4),
+          "Basic Land": new Decimal(5),
           "Crop Plot": new Decimal(44),
           Tree: new Decimal(22),
           "Stone Rock": new Decimal(12),
           "Iron Rock": new Decimal(6),
           "Gold Rock": new Decimal(3),
+          "Fruit Patch": new Decimal(4),
         },
       },
     });
@@ -91,5 +93,7 @@ describe("getLand", () => {
     expect(land?.iron).toEqual([]);
     expect(land?.fruitPatches).toEqual([]);
     expect(land?.plots).toEqual([]);
+    expect(land?.beehives).toHaveLength(1);
+    expect(land?.flowerBeds).toHaveLength(1);
   });
 });
