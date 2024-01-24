@@ -1,0 +1,100 @@
+import { INITIAL_FARM } from "../lib/constants";
+import { SEASONS } from "../types/seasons";
+import { FLOWER_PAGES_COUNT, discoverFlowerPage } from "./discoverFlowerPage";
+
+describe("discoverFlowerPage", () => {
+  it("throws if before Spring Blossom season", () => {
+    expect(() =>
+      discoverFlowerPage({
+        state: INITIAL_FARM,
+        action: { type: "flowerPage.discovered", id: 1 },
+        createdAt: SEASONS["Spring Blossom"].startDate.getTime() - 1,
+      })
+    ).toThrow("Spring Blossom season has not started");
+  });
+
+  it("throws if after Spring Blossom season", () => {
+    expect(() =>
+      discoverFlowerPage({
+        state: INITIAL_FARM,
+        action: { type: "flowerPage.discovered", id: 1 },
+        createdAt: SEASONS["Spring Blossom"].endDate.getTime() + 1,
+      })
+    ).toThrow("Spring Blossom season has ended");
+  });
+
+  it("throws if the collected page is greater than the number of pages for the week", () => {
+    expect(() =>
+      discoverFlowerPage({
+        state: INITIAL_FARM,
+        action: { type: "flowerPage.discovered", id: FLOWER_PAGES_COUNT + 1 },
+        createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
+      })
+    ).toThrow("Page does not exist");
+  });
+
+  it("throws if the collected page is less than one", () => {
+    expect(() =>
+      discoverFlowerPage({
+        state: INITIAL_FARM,
+        action: { type: "flowerPage.discovered", id: 0 },
+        createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
+      })
+    ).toThrow("Page does not exist");
+  });
+
+  it("marks the page as collected", () => {
+    const state = discoverFlowerPage({
+      state: {
+        ...INITIAL_FARM,
+        springBlossom: {
+          1: { collectedFlowerPages: [], weeklyFlower: "Flower 1" },
+        },
+      },
+      action: { type: "flowerPage.discovered", id: 1 },
+      createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
+    });
+
+    expect(state.springBlossom).toEqual({
+      1: { collectedFlowerPages: [1], weeklyFlower: "Flower 1" },
+    });
+  });
+
+  it("marks multiple pages as collected", () => {
+    const firstState = discoverFlowerPage({
+      state: {
+        ...INITIAL_FARM,
+        springBlossom: {
+          1: { collectedFlowerPages: [], weeklyFlower: "Flower 1" },
+        },
+      },
+      action: { type: "flowerPage.discovered", id: 1 },
+      createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
+    });
+
+    const secondState = discoverFlowerPage({
+      state: firstState,
+      action: { type: "flowerPage.discovered", id: 2 },
+      createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
+    });
+
+    expect(secondState.springBlossom).toEqual({
+      1: { collectedFlowerPages: [1, 2], weeklyFlower: "Flower 1" },
+    });
+  });
+
+  it("updates the flower dex if all pages are collected", () => {
+    const state = discoverFlowerPage({
+      state: {
+        ...INITIAL_FARM,
+        springBlossom: {
+          1: { weeklyFlower: "Flower 1", collectedFlowerPages: [1, 2] },
+        },
+      },
+      action: { type: "flowerPage.discovered", id: 3 },
+      createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
+    });
+
+    expect(state.flowers.discovered).toEqual({ "Flower 1": ["Sunflower"] });
+  });
+});

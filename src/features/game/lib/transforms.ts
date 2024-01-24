@@ -109,6 +109,7 @@ export function makeGame(farm: any): GameState {
     buds: farm.buds,
     christmas: farm.christmas,
     beehives: farm.beehives ?? {},
+    springBlossom: farm.springBlossom ?? {},
   };
 }
 

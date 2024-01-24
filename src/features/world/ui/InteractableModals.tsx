@@ -12,6 +12,7 @@ import { Panel } from "components/ui/Panel";
 import { CropBoomFinish } from "features/portal/examples/cropBoom/components/CropBoomFinish";
 import { Luna } from "./npcs/Luna";
 import { NyeButton } from "./NyeButton";
+import { PageFound } from "./PageFound";
 
 type InteractableName =
   | "kraken"
@@ -52,7 +53,8 @@ type InteractableName =
   | "banner"
   | "crop_boom_finish"
   | "christmas_reward"
-  | "goblin_hammer";
+  | "goblin_hammer"
+  | "page_discovered";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -537,6 +539,14 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         <Panel bumpkinParts={NPC_WEARABLES.wizard}>
           <CropBoomFinish onClose={closeModal} />
         </Panel>
+      </Modal>
+
+      <Modal
+        centered
+        show={interactable === "page_discovered"}
+        onHide={closeModal}
+      >
+        <PageFound onClose={closeModal} />
       </Modal>
     </>
   );

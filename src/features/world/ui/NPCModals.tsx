@@ -3,7 +3,6 @@ import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPCName, NPC_WEARABLES, isNPCAcknowledged } from "lib/npcs";
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 import { Stylist } from "./stylist/Stylist";
 import { SceneId } from "../mmoMachine";
@@ -24,6 +23,7 @@ import { Finn } from "./npcs/Finn";
 import { GoldTooth } from "./npcs/GoldTooth";
 import { Luna } from "./npcs/Luna";
 import { Mayor } from "./npcs/Mayor";
+import { FlowerShop } from "./flowerShop/FlowerShop";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -93,7 +93,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
 
         {npc === "shelly" && <Shelly onClose={closeModal} />}
 
-        {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
+        {npc === "poppy" && <FlowerShop onClose={closeModal} />}
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <Grubnuk onClose={closeModal} />}
 
