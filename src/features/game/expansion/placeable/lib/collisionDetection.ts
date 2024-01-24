@@ -20,7 +20,6 @@ import {
   RESOURCE_DIMENSIONS,
 } from "features/game/types/resources";
 import { CollectibleLocation } from "features/game/types/collectibles";
-import shuffle from "lodash.shuffle";
 
 type BoundingBox = Position;
 
@@ -565,7 +564,5 @@ export function pickEmptyPosition({
       }) === false
   );
 
-  const shuffled = shuffle(availablePositions);
-
-  return shuffled[0];
+  return availablePositions[0];
 }

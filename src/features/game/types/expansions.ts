@@ -1636,8 +1636,7 @@ const SPRING_LAND_5_REQUIREMENTS: Requirements = {
   resources: {
     Wood: 20,
   },
-  // seconds: 60,
-  seconds: 1,
+  seconds: 60,
   bumpkinLevel: 15,
 };
 
@@ -1647,8 +1646,7 @@ const SPRING_LAND_6_REQUIREMENTS: Requirements = {
     Stone: 5,
     Gold: 2,
   },
-  // seconds: 5 * 60,
-  seconds: 1,
+  seconds: 5 * 60,
   bumpkinLevel: 17,
 };
 
@@ -1659,8 +1657,7 @@ const SPRING_LAND_7_REQUIREMENTS: Requirements = {
     Iron: 5,
     "Block Buck": 1,
   },
-  // seconds: 4 * 60 * 60,
-  seconds: 1,
+  seconds: 4 * 60 * 60,
   bumpkinLevel: 19,
 };
 
