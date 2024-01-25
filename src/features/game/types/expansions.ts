@@ -1423,7 +1423,7 @@ const LAND_4_REQUIREMENTS: Requirements = {
     Wood: 3,
   },
   seconds: 10,
-  bumpkinLevel: 2,
+  bumpkinLevel: 1,
 };
 
 const LAND_5_REQUIREMENTS: Requirements = {
