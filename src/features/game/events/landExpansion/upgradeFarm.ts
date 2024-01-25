@@ -414,6 +414,7 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
   // Clear all in progress items
   game.collectibles = {};
   game.buildings = {};
+  game.chickens = {};
   game.fishing.wharf = {};
   game.mushrooms = {
     mushrooms: {},
