@@ -8,6 +8,7 @@ import {
 } from "features/game/types/game";
 
 import cloneDeep from "lodash.clonedeep";
+import { expansionRequirements } from "./revealLand";
 
 export type UpgradeFarmAction = {
   type: "farm.upgraded";
@@ -447,6 +448,11 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
       ...game,
       ...INITIAL_LAND,
     };
+
+  game.expansionRequirements = expansionRequirements({
+    level: (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1,
+    game,
+  });
 
   return {
     ...game,
