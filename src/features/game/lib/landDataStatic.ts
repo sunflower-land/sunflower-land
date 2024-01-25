@@ -3,7 +3,6 @@ import { GameState, Inventory } from "../types/game";
 import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { INITIAL_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
-import { HONEY_PRODUCTION_TIME } from "./updateBeehives";
 
 export const INITIAL_RESOURCES: Pick<
   GameState,
@@ -17,6 +16,7 @@ export const INITIAL_RESOURCES: Pick<
   | "crimstones"
   | "fruitPatches"
   | "sunstones"
+  | "beehives"
 > = {
   crops: {
     1: {
@@ -142,14 +142,44 @@ export const INITIAL_RESOURCES: Pick<
       width: 1,
     },
   },
-  fruitPatches: {},
-  gold: {},
-  iron: {},
+  crimstones: {},
+  fruitPatches: {
+    1: {
+      x: 7,
+      y: 3,
+      height: 2,
+      width: 2,
+    },
+  },
+  gold: {
+    1: {
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      x: 7,
+      y: 3,
+      height: 1,
+      width: 1,
+    },
+  },
+  iron: {
+    1: {
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      x: 7,
+      y: 3,
+      height: 1,
+      width: 1,
+    },
+  },
+  beehives: {},
   flowers: {
     discovered: {},
     flowerBeds: {},
   },
-  crimstones: {},
   sunstones: {},
 };
 
@@ -271,7 +301,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   farmHands: { bumpkins: {} },
-  bumpkin: { ...INITIAL_BUMPKIN, experience: 10000 },
+  bumpkin: { ...INITIAL_BUMPKIN, experience: 1000000 },
   buds: {
     1: {
       aura: "Basic",
@@ -309,20 +339,18 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(3),
+    "Basic Land": new Decimal(11),
     "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),
     "Water Well": new Decimal(4),
     Tree: new Decimal(OFFLINE_FARM_TREES),
     "Stone Rock": new Decimal(OFFLINE_FARM_STONES),
     "Iron Rock": new Decimal(OFFLINE_FARM_IRON),
     "Gold Rock": new Decimal(OFFLINE_FARM_GOLD),
-    "Crimstone Rock": new Decimal(OFFLINE_FARM_CRIMSTONE),
-    "Sunstone Rock": new Decimal(OFFLINE_FARM_SUNSTONE),
-    "Fruit Patch": new Decimal(OFFLINE_FARM_FRUIT),
-    Axe: new Decimal(10),
-    "Block Buck": new Decimal(100),
+    "Crimstone Rock": new Decimal(0),
+    "Sunstone Rock": new Decimal(0),
+    "Fruit Patch": new Decimal(0),
     Egg: new Decimal(12),
-    Beehive: new Decimal(2),
+    Beehive: new Decimal(0),
     Banana: new Decimal(12),
     Wood: new Decimal(100),
     Stone: new Decimal(100),
@@ -372,7 +400,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   chickens: {},
   trades: {},
   buildings: {
-    "Town Center": [
+    House: [
       {
         id: "123",
         readyAt: 0,
@@ -481,48 +509,4 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   airdrops: [],
   username: "Local Hero",
-  beehives: {
-    "123": {
-      x: 6,
-      y: 2,
-      height: 1,
-      width: 1,
-      swarm: true,
-      honey: {
-        updatedAt: Date.now(),
-        produced: 0,
-      },
-      flowers: [
-        {
-          attachedAt: Date.now(),
-          attachedUntil: Date.now() + HONEY_PRODUCTION_TIME,
-          id: "1",
-        },
-      ],
-    },
-  },
-  flowers: {
-    discovered: {},
-    flowerBeds: {
-      "1": {
-        createdAt: Date.now(),
-        x: -1,
-        y: 2,
-        height: 1,
-        width: 3,
-        flower: {
-          amount: 1,
-          name: "Flower 1",
-          plantedAt: Date.now(),
-        },
-      },
-      "2": {
-        createdAt: Date.now(),
-        x: 4,
-        y: 6,
-        height: 1,
-        width: 3,
-      },
-    },
-  },
 };

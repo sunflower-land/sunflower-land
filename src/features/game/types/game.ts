@@ -812,6 +812,7 @@ export interface GameState {
   island: {
     type: IslandType;
     upgradedAt?: number;
+    previousExpansions?: number;
   };
 
   username?: string;
@@ -850,6 +851,7 @@ export interface GameState {
   iron: Record<string, Rock>;
   crimstones: Record<string, Rock>;
   sunstones: Record<string, FiniteResource>;
+
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;
   beehives: Beehives;

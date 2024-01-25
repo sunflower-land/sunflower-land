@@ -544,3 +544,25 @@ export function isAOEImpacted(
     }
   });
 }
+
+export function pickEmptyPosition({
+  bounding,
+  gameState,
+}: {
+  bounding: BoundingBox;
+  gameState: GameState;
+}): Position | undefined {
+  const positionsInBounding = splitBoundingBox(bounding);
+
+  const availablePositions = positionsInBounding.filter(
+    (position) =>
+      detectCollision({
+        state: gameState,
+        position,
+        location: "farm",
+        name: "Basic Bear", // Just assume the item is 1x1
+      }) === false
+  );
+
+  return availablePositions[0];
+}

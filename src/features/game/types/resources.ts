@@ -72,8 +72,8 @@ export type ResourceName =
   | "Fruit Patch"
   | "Boulder"
   | "Beehive"
-  | "Flower Bed"
-  | "Sunstone Rock";
+  | "Sunstone Rock"
+  | "Flower Bed";
 
 export const RESOURCES: Record<ResourceName, string> = {
   "Crop Plot": "Plant crops",
