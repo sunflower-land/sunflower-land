@@ -5,9 +5,9 @@ import Spritesheet, {
 import dropSheet1 from "assets/resources/crimstone/crimstone_rock_one_drop.png";
 import dropSheet2 from "assets/resources/crimstone/crimstone_rock_three_drop.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import crimstone from "assets/resources/crimstone.png";
 import { ZoomContext } from "components/ZoomProvider";
 import { getCrimstoneStage } from "../Crimstone";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 const DROP_SHEET_FRAME_WIDTH = 96;
 const DROP_SHEET_FRAME_HEIGHT = 48;
@@ -86,10 +86,10 @@ const DepletingCrimstoneComponent: React.FC<Props> = ({
           }}
         >
           <img
-            src={crimstone}
+            src={ITEM_DETAILS.Crimstone.image}
             className="mr-2 img-highlight-heavy"
             style={{
-              width: `${PIXEL_SCALE * 10}px`,
+              width: `${PIXEL_SCALE * 9}px`,
             }}
           />
           <span className="text-sm">{`+${resourceAmount}`}</span>
