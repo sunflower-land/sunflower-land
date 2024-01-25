@@ -22,7 +22,7 @@ export const Resale: React.FC = () => {
       <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>
         <CloseButtonPanel
           onClose={() => setIsOpen(false)}
-          title={translate("resale.lookingForItems")}
+          title={translate("retreatTerms.lookingForRareItems")}
         >
           <div className="p-2">
             <p className="text-sm mb-3">

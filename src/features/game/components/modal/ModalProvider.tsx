@@ -111,13 +111,13 @@ export const ModalProvider: FC = ({ children }) => {
         <SpeakingModal
           message={[
             {
-              text: translate("pete.blacksmith.one"),
+              text: translate("pete.craftScarecrow.one"),
             },
             {
-              text: translate("pete.blacksmith.two"),
+              text: translate("pete.craftScarecrow.two"),
             },
             {
-              text: translate("pete.blacksmith.three"),
+              text: translate("pete.craftScarecrow.three"),
             },
           ]}
           onClose={handleClose}

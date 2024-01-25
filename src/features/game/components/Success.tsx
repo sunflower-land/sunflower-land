@@ -12,7 +12,9 @@ export const Success: React.FC = () => {
   return (
     <div className="flex flex-col items-center">
       <img src={secure} className="w-16 my-4" />
-      <span className="text-center mb-2">{t("transaction.success")}</span>
+      <span className="text-center mb-2">
+        {t("transaction.storeProgress.success")}
+      </span>
       <Button onClick={() => gameService.send("REFRESH")}>
         {t("continue")}
       </Button>

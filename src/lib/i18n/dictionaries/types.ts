@@ -305,12 +305,12 @@ export type BumpkinItemBuff =
   | "bumpkinItemBuff.deep.sea.helm";
 
 export type BumpkinPartRequirements =
-  | "part.hair"
-  | "part.body"
-  | "part.shoes"
-  | "part.shirt"
-  | "part.pants"
-  | "part.background";
+  | "equip.missingHair"
+  | "equip.missingBody"
+  | "equip.missingShoes"
+  | "equip.missingShirt"
+  | "equip.missingPants"
+  | "equip.missingBackground";
 
 export type BumpkinSkillsDescription =
   //Crops
@@ -346,10 +346,10 @@ export type BumpkinSkillsDescription =
 
 export type BumpkinTrade =
   | "bumpkinTrade.askPrice"
-  | "bumpkinTrade.purchased"
-  | "bumpkinTrade.plaza"
-  | "bumpkinTrade.lvl"
-  | "bumpkinTrade.noTradeLs"
+  | "bumpkinTrade.listingPurchased"
+  | "bumpkinTrade.travelPlaza"
+  | "bumpkinTrade.minLevel"
+  | "bumpkinTrade.noTradeListed"
   | "bumpkinTrade.sell"
   | "bumpkinTrade.list"
   | "bumpkinTrade.like.list";
@@ -440,7 +440,7 @@ export type Conversations =
   | "hank-intro.one"
   | "hank-intro.two"
   | "hank-intro.three"
-  | "hank-crafting.headline"
+  | "hank.crafting.scarecrow"
   | "hank-crafting.one"
   | "hank-crafting.two"
   | "betty-intro.headline"
@@ -461,16 +461,16 @@ export type Conversations =
   | "pete.first-expansion.two"
   | "pete.first-expansion.three"
   | "pete.first-expansion.four"
-  | "pete.blacksmith.one"
-  | "pete.blacksmith.two"
-  | "pete.blacksmith.three"
+  | "pete.craftScarecrow.one"
+  | "pete.craftScarecrow.two"
+  | "pete.craftScarecrow.three"
   | "pete.levelthree.one"
   | "pete.levelthree.two"
   | "pete.levelthree.three"
   | "pete.levelthree.four"
   | "pete.help.zero"
-  | "pete.help.one"
-  | "pete.help.two"
+  | "pete.pumpkinPlaza.one"
+  | "pete.pumpkinPlaza.two"
   | "sunflowerLand.explorationPrompt"
   | "sunflowerLand.islandDescription"
   | "sunflowerLand.opportunitiesDescription"
@@ -482,6 +482,11 @@ export type Conversations =
   | "luna.rewards"
   | "luna.travel"
   | "luna.coming"
+  | "pete.intro.one"
+  | "pete.intro.two"
+  | "pete.intro.three"
+  | "pete.intro.four"
+  | "pete.intro.five"
   | "mayor.plaza.changeNamePrompt"
   | "mayor.plaza.intro"
   | "mayor.plaza.role"
@@ -804,7 +809,7 @@ export type ErrorTerms =
   | "error.multipleWallets.two"
   | "error.toManyRequest.one"
   | "error.toManyRequest.two"
-  | "error.blocked.betaTestersOnly"
+  | "error.betaTestersOnly"
   | "error.wentWrong"
   | "error.polygonRPC"
   | "error.connection.one"
@@ -1098,18 +1103,21 @@ export type GameDescriptions =
   | "description.homeOwnerPainting";
 
 export type GameTerms =
-  | "dailyLim"
-  | "gobSwarm"
-  | "potions"
-  | "bumpkinLvl"
-  | "sflDiscord"
   | "auction.winner"
+  | "bumpkin.level"
+  | "bumpkinBuzz"
+  | "bumpkinLvl"
+  | "dailyLim"
   | "farm.banned"
-  | "proof.of.humanity"
-  | "no.sfl"
+  | "gobSwarm"
   | "granting.wish"
   | "new.delivery.in"
-  | "bumpkinBuzz";
+  | "no.sfl"
+  | "opensea"
+  | "polygonscan"
+  | "potions"
+  | "proof.of.humanity"
+  | "sflDiscord";
 
 export type GarbageCollector =
   | "garbageCollector.welcome"
@@ -1362,38 +1370,35 @@ export type GoldTooth = "goldTooth.intro.part1" | "goldTooth.intro.part2";
 
 export type GuideTerms =
   | "guide.intro"
-  | "gathering.description.one"
-  | "gathering.description.two"
-  | "gathering.description.three"
-  | "crops.description.one"
-  | "crops.description.two"
-  | "crops.description.three"
-  | "building.description.one"
-  | "building.description.two"
-  | "cooking.description.one"
-  | "cooking.description.two"
-  | "cooking.description.three"
-  | "cooking.description.one"
-  | "cooking.description.two"
-  | "cooking.description.three"
-  | "cooking.description.four"
-  | "cooking.description.five"
-  | "animals.description.one"
-  | "animals.description.two"
-  | "animals.description.three"
-  | "crafting.description.one"
-  | "crafting.description.two"
-  | "crafting.description.three"
-  | "crafting.description.four"
-  | "deliveries.description.one"
-  | "deliveries.description.two"
-  | "scavenger.description.one"
-  | "scavenger.description.two"
-  | "fruit.description.one"
-  | "fruit.description.two"
-  | "fruit.description.three"
-  | "seasons.description.one"
-  | "seasons.description.two"
+  | "gathering.guide.one"
+  | "gathering.guide.two"
+  | "gathering.guide.three"
+  | "crops.guide.one"
+  | "crops.guide.two"
+  | "crops.guide.three"
+  | "building.guide.one"
+  | "building.guide.two"
+  | "cooking.guide.one"
+  | "cooking.guide.two"
+  | "cooking.guide.three"
+  | "cooking.guide.four"
+  | "cooking.guide.five"
+  | "animals.guide.one"
+  | "animals.guide.two"
+  | "animals.guide.three"
+  | "crafting.guide.one"
+  | "crafting.guide.two"
+  | "crafting.guide.three"
+  | "crafting.guide.four"
+  | "deliveries.guide.one"
+  | "deliveries.guide.two"
+  | "scavenger.guide.one"
+  | "scavenger.guide.two"
+  | "fruit.guide.one"
+  | "fruit.guide.two"
+  | "fruit.guide.three"
+  | "seasons.guide.one"
+  | "seasons.guide.two"
   | "pete.teaser.one"
   | "pete.teaser.two"
   | "pete.teaser.three"
@@ -1733,7 +1738,6 @@ export type Mute =
   | "mute.online";
 
 export type Noaccount =
-  | "noaccount.enterPromoCode"
   | "noaccount.newFarmer"
   | "noaccount.addPromoCode"
   | "noaccount.alreadyHaveNFTFarm"
@@ -2170,19 +2174,16 @@ export type Onboarding =
   | "onboarding.duplicateUser.one"
   | "onboarding.duplicateUser.two"
   | "onboarding.starterPack"
-  | "onboarding.wallet.titleOne"
+  | "onboarding.settingWallet"
   | "onboarding.wallet.one"
   | "onboarding.wallet.two"
   | "onboarding.wallet.haveWallet"
   | "onboarding.wallet.createButton"
-  | "onboarding.wallet.titleTwo"
-  | "onboarding.wallet.three"
-  | "onboarding.wallet.four"
   | "onboarding.wallet.acceptButton"
   | "onboarding.wallet.acceptLoading"
-  | "onboarding.wallet.titleThree"
-  | "onboarding.wallet.five"
-  | "onboarding.wallet.six"
+  | "onboarding.buyFarm.title"
+  | "onboarding.buyFarm.one"
+  | "onboarding.buyFarm.two"
   | "onboarding.wallet.final"
   | "onboarding.wallet.already";
 
@@ -2276,7 +2277,7 @@ export type RemoveKuebiko =
   | "removeKuebiko.description"
   | "removeKuebiko.removeSeeds";
 
-export type Resale = "resale.lookingForItems" | "resale.actionText";
+export type Resale = "resale.actionText";
 
 export type Restock = "restock.one.buck" | "restock.sure" | "restock.seed.buy";
 
@@ -2286,7 +2287,7 @@ export type RetreatTerms =
   | "retreatTerms.introTravel.two"
   | "retreatTerms.introTravel.three"
   | "retreatTerms.introTravel.four"
-  | "retreatTerms.resale.title"
+  | "retreatTerms.lookingForRareItems"
   | "retreatTerms.resale.one"
   | "retreatTerms.resale.two"
   | "retreatTerms.resale.three";
@@ -2297,32 +2298,26 @@ export type Resources =
   | "resources.required";
 
 export type RewardTerms =
-  | "reward.title"
+  | "reward.daily.reward"
   | "reward.streak"
   | "reward.comeBackLater"
   | "reward.nextBonus"
   | "reward.unlock"
   | "reward.open"
   | "reward.lvlRequirement"
-  | "reward.revealing"
+  | "reward.whatCouldItBe"
   | "reward.streakBonus"
   | "reward.found"
   | "reward.spendWisely"
   | "reward.wearable"
   | "reward.woohoo"
+  | "reward.promo.code"
   | "reward.connectWeb3Wallet";
 
 export type RulesGameStart =
   | "rules.gameStart"
-  | "rules.potionRuleOne"
-  | "rules.potionRuleTwo"
-  | "rules.potionRuleThree"
   | "rules.chaosPotionRule"
-  | "rules.potionRuleFour"
   | "rules.feedbackIconsIntro"
-  | "rules.correctPotion"
-  | "rules.almostCorrectPotion"
-  | "rules.incorrectPotion"
   | "rules.chaosPotionWarning"
   | "rules.potion.feedback"
   | "BloomBoost.description"
@@ -2334,30 +2329,29 @@ export type RulesGameStart =
   | "OrganicOasis.description";
 
 export type RulesTerms =
-  | "rules"
-  | "rules.accounts"
+  | "game.rules"
+  | "rules.oneAccountPerPlayer"
+  | "rules.gameNotFinancialProduct"
   | "rules.noBots"
-  | "rules.game"
   | "rules.termsOfService";
 
 export type SceneDialogueKey = "sceneDialogues.chefIsBusy";
 
 export type SeasonTerms =
-  | "season.goodLuck"
-  | "season.discount"
+  | "season.access"
   | "season.banner"
-  | "season.wearableAirdrop"
   | "season.bonusTickets"
   | "season.boostXP"
+  | "season.buyNow"
+  | "season.catch.the.kraken"
+  | "season.discount"
   | "season.exclusiveOffer"
+  | "season.goodLuck"
   | "season.includes"
   | "season.limitedOffer"
-  | "season.accessTo"
-  | "season.buyNow"
-  | "season.ctk"
-  | "season.mintSeasonalBanner";
+  | "season.wearableAirdrop";
 
-export type Session = "session.expired" | "session.expiredMessage";
+export type Session = "session.expired";
 
 export type SettingsMenu =
   | "settingsMenu.timeMachine"
@@ -2408,10 +2402,10 @@ export type ShellyDialogue =
   | "krakenIntro.catchInstruction";
 
 export type ShopItems =
-  | "shopItems.one"
-  | "shopItems.two"
-  | "shopItems.three"
-  | "betty.intro"
+  | "betty.post.sale.one"
+  | "betty.post.sale.two"
+  | "betty.post.sale.three"
+  | "betty.welcome"
   | "betty.buySeeds"
   | "betty.sellCrops";
 
@@ -2455,16 +2449,20 @@ export type Statements =
   | "statements.jigger.seven"
   | "statements.lvlUp"
   | "statements.maintenance"
-  | "statements.make.a.wish"
   | "statements.minted"
   | "statements.minting"
   | "statements.mutant.chicken"
-  | "statements.new.wish"
-  | "statements.no.reward"
+  | "statements.news"
   | "statements.ohNo"
   | "statements.openGuide"
   | "statements.patience"
-  | "statements.sfl.rewards.received"
+  | "statements.potionRule.one"
+  | "statements.potionRule.two"
+  | "statements.potionRule.three"
+  | "statements.potionRule.four"
+  | "statements.potionRule.five"
+  | "statements.potionRule.six"
+  | "statements.potionRule.seven"
   | "statements.sflLim.one"
   | "statements.sflLim.two"
   | "statements.sniped"
@@ -2476,23 +2474,9 @@ export type Statements =
   | "statements.tutorial.two"
   | "statements.tutorial.three"
   | "statements.visit.firePit"
-  | "statements.wish.granted.time"
-  | "statements.wish.granted"
-  | "statements.wish.made"
-  | "statements.wish.ready.in"
-  | "statements.wish.thanks"
-  | "statements.wish.time"
-  | "statements.wish.warning.one"
-  | "statements.wish.warning.two"
-  | "statements.wishing-well.info.one"
-  | "statements.wishing-well.info.two"
-  | "statements.wishing-well.info.three"
   | "statements.wishing-well.info.four"
   | "statements.wishing-well.info.five"
   | "statements.wishing-well.info.six"
-  | "statements.wishing-well.not.providing.liquidity"
-  | "statements.wishing.well.amount"
-  | "statements.wishing.well.luck"
   | "statements.wrongChain.one"
   | "statements.empty.chest"
   | "statements.chest.captcha"
@@ -2511,7 +2495,8 @@ export type Statements =
   | "statements.perplayer"
   | "statements.minted.goToChest"
   | "statements.minted.withdrawAfterMint"
-  | "statements.stargame";
+  | "statements.stargame"
+  | "statements.session.expired";
 
 export type StopGoblin =
   | "stopGoblin.stop.goblin"
@@ -2555,46 +2540,50 @@ export type ToolDescriptions =
   | "description.gold.pickaxe";
 
 export type TransactionTerms =
-  | "transaction.blockBucksFarm"
-  | "transaction.blockchain.one"
-  | "transaction.blockchain.two"
-  | "transaction.congrats"
+  | "transaction.storeBlockBucks"
+  | "transaction.storeProgress.blockchain.one"
+  | "transaction.storeProgress.blockchain.two"
+  | "transaction.trade.congrats"
   | "transaction.creditCard"
   | "transaction.donate"
   | "transaction.donating"
-  | "transaction.doNotRefresh"
+  | "transaction.doNotRefreshBrowser"
   | "transaction.estimated.fee"
   | "transaction.excludeFees"
   | "transaction.id"
+  | "transaction.termsOfService"
   | "transaction.matic"
   | "transaction.maticAmount"
   | "transaction.message0"
-  | "transaction.message"
+  | "transaction.noFee"
   | "transaction.minblockbucks"
-  | "transaction.mintFarm.one"
-  | "transaction.mintFarm.two"
-  | "transaction.network"
+  | "transaction.mintFarm"
+  | "transaction.farm.ready"
+  | "transaction.networkFeeRequired"
   | "transaction.openSea"
   | "transaction.payCardCash"
   | "transaction.payCash"
   | "transaction.payMatic"
-  | "transaction.progChain"
-  | "transaction.progress"
+  | "transaction.storeProgress.chain"
+  | "transaction.storeProgress"
   | "transaction.rejected"
-  | "transaction.success"
+  | "transaction.storeProgress.success"
   | "transaction.t&c.one"
   | "transaction.t&c.two"
-  | "transaction.thankYou"
-  | "transaction.transacting.one"
-  | "transaction.transacting.two"
-  | "transaction.transacting.three"
+  | "transaction.chooseDonationGame"
+  | "transaction.processing"
+  | "transaction.pleaseWait"
+  | "transaction.unconfirmed.reset"
   | "transaction.withdraw.one"
-  | "transaction.withdraw.two"
-  | "transaction.withdraw.three"
+  | "transaction.withdraw.sent"
+  | "transaction.withdraw.view"
   | "transaction.withdraw.four"
   | "transaction.withdraw.five"
-  | "transaction.withdraw.six"
-  | "transaction.withdraw.polygon";
+  | "transaction.displayItems"
+  | "transaction.withdraw.polygon"
+  | "transaction.termsOfService.one"
+  | "transaction.termsOfService.two"
+  | "transaction.termsOfService.accepting";
 
 export type Transfer =
   | "transfer.sure.adress"
@@ -2644,9 +2633,9 @@ export type WelcomeTerms =
   | "welcome.creatingAccount"
   | "welcome.login"
   | "welcome.signingIn"
-  | "welcome.signInMessage"
+  | "welcome.signIn.Message"
   | "welcome.email"
-  | "welcome.takeover"
+  | "welcome.takeover.ownership"
   | "welcome.promo";
 
 export type Winner =
@@ -2654,6 +2643,26 @@ export type Winner =
   | "winner.mintTime"
   | "winner.mint"
   | "winner.mintTime.one";
+
+export type WishingWell =
+  | "wishingWell.makeWish"
+  | "wishingWell.newWish"
+  | "wishingWell.noReward"
+  | "wishingWell.sflRewardsReceived"
+  | "wishingWell.wish.grantTime"
+  | "wishingWell.wish.granted"
+  | "wishingWell.wish.made"
+  | "wishingWell.wish.timeTillNextWish"
+  | "wishingWell.wish.thanksForSupport"
+  | "wishingWell.wish.comeBackAfter"
+  | "wishingWell.wish.warning.one"
+  | "wishingWell.wish.warning.two"
+  | "wishingWell.info.one"
+  | "wishingWell.info.two"
+  | "wishingWell.info.three"
+  | "wishingWell.noLiquidity"
+  | "wishingWell.rewardsInWell"
+  | "wishingWell.luck";
 
 export type Withdraw =
   | "withdraw.proof"
@@ -2772,7 +2781,6 @@ export type TranslationKeys =
   | HowToUpgrade
   | Islandupgrade
   | InteractableModals
-  | Intro
   | IntroPage
   | IslandName
   | IslandNotFound
@@ -2846,6 +2854,7 @@ export type TranslationKeys =
   | VisitislandNotFound
   | WarningTerms
   | WelcomeTerms
+  | WishingWell
   | Withdraw
   | Winner
   | WornDescription

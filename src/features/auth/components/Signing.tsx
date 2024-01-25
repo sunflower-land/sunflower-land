@@ -7,7 +7,7 @@ export const Signing: React.FC = () => {
     <>
       <span className="text-shadow loading">{t("welcome.signingIn")}</span>
       <span className="text-shadow block my-2 mx-2 sm:text-sm">
-        {t("welcome.signInMessage")}
+        {t("welcome.signIn.Message")}
       </span>
     </>
   );

@@ -52,7 +52,7 @@ export const ArcadeDonation: React.FC = () => {
     <>
       {state.matches("idle") && (
         <div className="flex flex-col mb-1 p-2 text-sm">
-          <p className="my-2">{t("transaction.thankYou")}</p>
+          <p className="my-2">{t("transaction.chooseDonationGame")}</p>
           <Carousel
             activeIndex={activeIndex}
             interval={null}

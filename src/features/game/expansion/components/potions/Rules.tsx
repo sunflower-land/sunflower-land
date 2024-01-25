@@ -16,12 +16,12 @@ export const Rules: React.FC<Props> = ({ onDone }) => {
       <div className="p-2 pt-0 flex flex-col h-full mt-2">
         <div className="text-[16px] leading-4 space-y-2 mb-3 -mt-2">
           <p>{t("rules.gameStart")}</p>
-          <p>{t("rules.potionRuleOne")}</p>
+          <p>{t("statements.potionRule.one")}</p>
           <ol className="list-decimal list-inside space-y-1">
-            <li>{t("rules.potionRuleTwo")}</li>
-            <li>{t("rules.potionRuleThree")}</li>
+            <li>{t("statements.potionRule.two")}</li>
+            <li>{t("statements.potionRule.three")}</li>
             <li>{t("rules.chaosPotionRule")}</li>
-            <li>{t("rules.potionRuleFour")}</li>
+            <li>{t("statements.potionRule.four")}</li>
           </ol>
         </div>
         <InnerPanel className="text-xxs space-y-1 p-1 mt-1">
@@ -34,7 +34,7 @@ export const Rules: React.FC<Props> = ({ onDone }) => {
                 height: `${PIXEL_SCALE * 8}px`,
               }}
             />
-            <span>{t("rules.correctPotion")}</span>
+            <span>{t("statements.potionRule.five")}</span>
           </div>
           <div className="flex items-center space-x-1">
             <img
@@ -44,7 +44,7 @@ export const Rules: React.FC<Props> = ({ onDone }) => {
                 height: `${PIXEL_SCALE * 8}px`,
               }}
             />
-            <span>{t("rules.almostCorrectPotion")}</span>
+            <span>{t("statements.potionRule.six")}</span>
           </div>
           <div className="flex items-center space-x-1">
             <img
@@ -54,7 +54,7 @@ export const Rules: React.FC<Props> = ({ onDone }) => {
                 height: `${PIXEL_SCALE * 8}px`,
               }}
             />
-            <span>{t("rules.incorrectPotion")}</span>
+            <span>{t("statements.potionRule.seven")}</span>
           </div>
           <div className="flex items-center space-x-1">
             <img

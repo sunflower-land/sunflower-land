@@ -75,7 +75,6 @@ import {
   HowToUpgrade,
   Islandupgrade,
   InteractableModals,
-  Intro,
   IntroPage,
   IslandName,
   IslandNotFound,
@@ -150,6 +149,7 @@ import {
   VisitislandNotFound,
   WarningTerms,
   WelcomeTerms,
+  WishingWell,
   Withdraw,
   Winner,
   WornDescription,
@@ -780,12 +780,12 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
 };
 
 const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {
-  "part.hair": "Hair is required",
-  "part.body": "Body is required",
-  "part.shoes": "Shoes are required",
-  "part.shirt": "Shirt is required",
-  "part.pants": "Pants are required",
-  "part.background": "Background is required",
+  "equip.missingHair": "Hair is required",
+  "equip.missingBody": "Body is required",
+  "equip.missingShoes": "Shoes are required",
+  "equip.missingShirt": "Shirt is required",
+  "equip.missingPants": "Pants are required",
+  "equip.missingBackground": "Background is required",
 };
 
 const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
@@ -819,10 +819,12 @@ const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.askPrice": "Asking price:",
-  "bumpkinTrade.purchased": "Congratulations, your listing was purchased!",
-  "bumpkinTrade.plaza": "Travel to the plaza so players can trade with you",
-  "bumpkinTrade.lvl": "You must be level 10 to trade",
-  "bumpkinTrade.noTradeLs": "You have no trades listed.",
+  "bumpkinTrade.listingPurchased":
+    "Congratulations, your listing was purchased!",
+  "bumpkinTrade.travelPlaza":
+    "Travel to the plaza so players can trade with you",
+  "bumpkinTrade.minLevel": "You must be level 10 to trade",
+  "bumpkinTrade.noTradeListed": "You have no trades listed.",
   "bumpkinTrade.sell": "Sell your resources to other players for SFL.",
   "bumpkinTrade.list": "List trade",
   "bumpkinTrade.like.list": "What would you like to list",
@@ -944,7 +946,7 @@ const conversations: Record<Conversations, string> = {
     "I've been working this land for fifty years but could sure use some help.",
   "hank-intro.three":
     "I can teach you the basics of farming, as long as you help me with my daily chores.",
-  "hank-crafting.headline": "Craft a scarecrow",
+  "hank.crafting.scarecrow": "Craft a scarecrow",
   "hank-crafting.one":
     "Hmmm, those crops are growing awfully slow. I aint' got time to wait around.",
   "hank-crafting.two": "Craft a scarecrow to speed up your crops.",
@@ -979,10 +981,10 @@ const conversations: Record<Conversations, string> = {
     "Keep an eye out for surprise gifts from the generous goblins as you explore-they're not just expert builders, but crafty secret givers!",
   "pete.first-expansion.four":
     "Congratulations, Bumpkin! Keep up the good work.",
-  "pete.blacksmith.one": "Hmm, those crops are growing slow.",
-  "pete.blacksmith.two":
+  "pete.craftScarecrow.one": "Hmm, those crops are growing slow.",
+  "pete.craftScarecrow.two":
     "Sunflower Land is full of magical items you can craft to enhance your farming abilities.",
-  "pete.blacksmith.three":
+  "pete.craftScarecrow.three":
     "Head over to the work bench and craft a scarecrow to speed up those Sunflowers.",
   "pete.levelthree.one": "Congratulations, your green thumb is truly shining!",
   "pete.levelthree.two":
@@ -992,9 +994,9 @@ const conversations: Record<Conversations, string> = {
   "pete.levelthree.four":
     "You can travel by clicking on the world icon in the bottom left.",
   "pete.help.zero": "Visit the fire pit, cook food and eat to level up.",
-  "pete.help.one":
+  "pete.pumpkinPlaza.one":
     "As you level up, you will unlock new areas to explore. First up is the Pumpkin Plaza....my home!",
-  "pete.help.two":
+  "pete.pumpkinPlaza.two":
     "Here you can complete deliveries for rewards, craft magical items & trade with other players.",
   "sunflowerLand.explorationPrompt": "Hey Traveller! Ready to explore?",
   "sunflowerLand.islandDescription":
@@ -1013,6 +1015,16 @@ const conversations: Record<Conversations, string> = {
   "luna.rewards": "Rewards",
   "luna.travel": "Travel to these player built portals and earn rewards.",
   "luna.coming": "Coming soon...",
+  "pete.intro.one":
+    "Howdy there, Bumpkin! Welcome to Sunflower Land, the bountiful farming paradise where anything is possible!",
+  "pete.intro.two":
+    "What a beautiful island you have set up on! I'm Pumpkin Pete, your neighboring farmer.",
+  "pete.intro.three":
+    "Right now the players are celebrating a festival in the plaza with fantastic rewards and magical items.",
+  "pete.intro.four":
+    "Before you can join the fun, you will need to grow your farm and gather some resources. You don't want to turn up empty handed!",
+  "pete.intro.five":
+    "To get started, you will want to chop down those trees and grow your island.",
   "mayor.plaza.changeNamePrompt":
     "Do you want to change your name? Unfortunately, I can't do that for you right now, the paperwork is too much for me to handle.",
   "mayor.plaza.intro":
@@ -1429,7 +1441,7 @@ const errorAndAccess: Record<ErrorAndAccess, string> = {
 };
 
 const errorTerms: Record<ErrorTerms, string> = {
-  "error.blocked.betaTestersOnly": "Beta testers only!",
+  "error.betaTestersOnly": "Beta testers only!",
   "error.congestion.one":
     "We are trying our best but looks like Polygon is getting a lot of traffic or you have lost your connection.",
   "error.congestion.two":
@@ -1469,9 +1481,9 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.noBumpkin2": "You do not have a Bumpkin",
   "error.dailyAttemptsExhausted": "Daily attempts exhausted",
   "error.missingRod": "Missing rod",
-  "error.missingBait": "Missing {bait}",
+  "error.missingBait": "Missing ",
   "error.alreadyCasted": "Already casted",
-  "error.unsupportedChum": "{chum} is not a supported chum",
+  "error.unsupportedChum": " is not a supported chum",
   "error.insufficientChum": "Insufficient Chum:",
   "error.alr.composter": "Composter is already composting",
   "error.no.alr.composter": "Composter is not ready for produce",
@@ -1529,7 +1541,7 @@ const fishDescriptions: Record<FishDescriptions, string> = {
     "The underwater jester, sporting a tangerine tuxedo and a clownish charm.",
   "description.clownfish.two": "No jokes, just pure deliciousness!",
   "description.seabass.one":
-    "Your 'not-so-exciting' friend with silver scales - a bassic catch!",
+    "Your 'not-so-exciting' friend with silver scales – a bassic catch!",
   "description.seabass.two": "The bass-ics of seaside cuisine!",
   "description.seahorse.one":
     "The ocean's slow-motion dancer, swaying gracefully in the aquatic ballet.",
@@ -1550,7 +1562,7 @@ const fishDescriptions: Record<FishDescriptions, string> = {
     "The seabed's master of disguise, always blending in with the crowd.",
   "description.oliveflounder.two": "Floundering in richness and taste!",
   "description.napoleanfish.one":
-    "Meet the fish with the Napoleon complex - short, but regal!",
+    "Meet the fish with the Napoleon complex – short, but regal!",
   "description.napoleanfish.two": "Conquer your hunger with this catch!",
   "description.surgeonfish.one":
     "The ocean's neon warrior, armed with a spine-sharp attitude.",
@@ -1576,7 +1588,7 @@ const fishDescriptions: Record<FishDescriptions, string> = {
   "description.bluemarlin.two":
     "Spearhead your appetite with this royal catch!",
   "description.oarfish.one":
-    "The long and the long of it - an enigmatic ocean wanderer.",
+    "The long and the long of it – an enigmatic ocean wanderer.",
   "description.oarfish.two": "Row your way into legendary flavor!",
   "description.footballfish.one":
     "The MVP of the deep, a bioluminescent star that's ready to play!",
@@ -1841,18 +1853,21 @@ const gameDescriptions: Record<GameDescriptions, string> = {
 };
 
 const gameTerms: Record<GameTerms, string> = {
+  "auction.winner": "Auction Winner!",
+  "bumpkin.level": "Bumpkin level",
+  bumpkinBuzz: "Bumpkin Buzz",
   bumpkinLvl: "Bumpkin level",
   dailyLim: "Daily SFL Limit",
-  gobSwarm: "Goblin Swarm!",
-  potions: "Potions",
-  sflDiscord: "Sunflower Land Discord Server",
-  "auction.winner": "Auction Winner!",
   "farm.banned": "This farm is banned",
-  "proof.of.humanity": "Proof of Humanity",
-  "no.sfl": "No SFL tokens found",
+  gobSwarm: "Goblin Swarm!",
   "granting.wish": "Granting your wish",
   "new.delivery.in": "New deliveries available in: ",
-  bumpkinBuzz: "Bumpkin Buzz",
+  "no.sfl": "No SFL tokens found",
+  opensea: "OpenSea",
+  polygonscan: "PolygonScan",
+  potions: "Potions",
+  "proof.of.humanity": "Proof of Humanity",
+  sflDiscord: "Sunflower Land Discord Server",
 };
 
 const getContent: Record<GetContent, string> = {
@@ -1920,72 +1935,72 @@ const goldTooth: Record<GoldTooth, string> = {
 const guideTerms: Record<GuideTerms, string> = {
   "guide.intro":
     "From humble beginnings to expert farming, this guide has got you covered!",
-  "gathering.description.one":
+  "gathering.guide.one":
     "To thrive in Sunflower Land, mastering the art of resource gathering is essential. Start by equipping the appropriate tools to collect different resources. Use the trusty Axe to chop down trees and acquire wood. To craft tools, visit the local workbench & exchange your SFL/resources for the desired tool.",
-  "gathering.description.two":
+  "gathering.guide.two":
     "As you progress and gather sufficient resources, you'll unlock the ability to expand your territory. Expanding your land opens up new horizons in Sunflower Land. Land expansions reveal a treasure trove of resources, including fertile soil for planting crops, majestic trees, valuable stone deposits, precious iron veins, shimmering gold deposits, delightful fruit patches and much more.",
-  "gathering.description.three":
+  "gathering.guide.three":
     "Remember, resource gathering and land expansion are the backbone of your farming journey. Embrace the challenges and rewards that come with each step, and watch your Sunflower Land flourish with bountiful resources and endless possibilities.",
 
-  "crops.description.one":
+  "crops.guide.one":
     "In Sunflower Land, crops play a crucial role in your journey towards prosperity. By planting and harvesting crops, you can earn SFL (Sunflower Token) or utilize them to craft valuable recipes and items within the game.",
-  "crops.description.two":
+  "crops.guide.two":
     "To grow crops, you need to purchase the respective seeds from the in-game shop. Each crop has a different growth time, ranging from just 1 minute for Sunflowers to 36 hours for Kale. Once the crops are fully grown, you can harvest them and reap the rewards.",
-  "crops.description.three":
+  "crops.guide.three":
     "Remember, as you expand your land and progress in the game, more crops will become available, offering greater opportunities for earning SFL and exploring the vast potential of Sunflower Land's farming economy. So get your hands dirty, plant those seeds, and watch your crops flourish as you harvest your way to success!",
 
-  "building.description.one":
+  "building.guide.one":
     "Explore the diverse range of buildings available as you progress in Sunflower Land. From hen houses to workshops and beyond, each structure brings unique advantages to your farm. Take advantage of these buildings to streamline your farming operations, increase productivity, and unlock new possibilities. Plan your layout carefully and enjoy the rewards that come with constructing a thriving farm in Sunflower Land.",
-  "building.description.two":
+  "building.guide.two":
     "In Sunflower Land, buildings are the cornerstone of your farming journey. To access the buildings menu, click the Inventory icon and select the Buildings tab. Choose the desired structure and return to your farm screen. Find an open space, marked in green, and confirm the placement. Wait for the timer to complete, and your new building will be ready to use. Buildings provide various benefits and unlock exciting gameplay features. Strategically position them on your farm to maximize efficiency and watch as your farming empire grows and prospers.",
 
-  "cooking.description.one":
+  "cooking.guide.one":
     "Cooking allows you to nourish your Bumpkin and help them gain valuable experience points (XP). By utilizing the crops you've harvested, you can prepare delicious food at different buildings dedicated to cooking.",
-  "cooking.description.two":
+  "cooking.guide.two":
     "Starting with the Fire Pit, every farm has access to basic cooking facilities from the beginning. However, as you progress, you can unlock more advanced buildings such as the Kitchen, Bakery, Deli, and Smoothie Shack, each offering a wider variety of recipes and culinary delights.",
-  "cooking.description.three":
+  "cooking.guide.three":
     "To cook, simply select a building and choose a recipe you wish to prepare. The recipe will provide details about the required ingredients, the XP gained upon consumption, and the preparation time. After initiating the cooking process, keep an eye on the timer to know when the food will be ready to collect.",
-  "cooking.description.four":
+  "cooking.guide.four":
     "Once the food is ready, retrieve it from the building by clicking on it and moving it into your inventory. From there, you can interact with your Bumpkin NPC on the farm and feed them the prepared food, helping them gain XP and progress further in the game.",
-  "cooking.description.five":
+  "cooking.guide.five":
     "Experiment with different recipes, unlock new buildings, and discover the joy of cooking as you nurture your Bumpkin and embark on a delicious culinary adventure in Sunflower Land.",
 
-  "animals.description.one":
+  "animals.guide.one":
     "Chickens in Sunflower Land are a delightful addition to your farm, serving as a source of eggs that can be used in various recipes and crafting. To start with chickens, you'll need to reach Bumpkin level 9 and build the Hen House. From there, you have the option to purchase chickens or place the ones you already have. Simply drag and drop them onto your farm, just like placing buildings. On a standard farm, every Hen House houses up to 10 chickens, and if you own the Chicken Coop SFT, this limit extends to 15.",
-  "animals.description.two":
+  "animals.guide.two":
     "Each chicken has an indicator above its head, displaying its current mood or needs. This can range from being hungry, tired, happy, or ready to hatch. To keep your chickens content and productive, feed them by selecting wheat from your inventory and interacting with the chicken. Feeding initiates the egg timer, which takes 48 hours for the eggs to be ready to hatch. Once the eggs are ready, visit your farm, check the icon above each chicken, and interact with them to find out the type of egg that has hatched. Occasionally, you may even discover rare mutant chickens, which offer special boosts such as faster egg production, increased yield, or reduced food consumption.",
-  "animals.description.three":
+  "animals.guide.three":
     "Nurturing your chickens and collecting their eggs adds a dynamic and rewarding element to your farm in Sunflower Land. Experiment with recipes, make use of the eggs in your crafting endeavors, and enjoy the surprises that come with rare mutant chickens. Build a thriving poultry operation and reap the benefits of your hard work as you embrace the charming world of chickens in Sunflower Land.",
 
-  "crafting.description.one":
-    "In Sunflower Land, crafting NFTs is a crucial aspect of boosting your farming output and accelerating your progress. These special items provide various bonuses, such as crop growth boosts, cooking enhancements, and resource boosts, which can greatly expedite your journey. By maximizing your SFL (Sunflower Token:  you can craft tools, gather resources, and expand your land to further establish your farming empire.",
-  "crafting.description.two":
+  "crafting.guide.one":
+    "In Sunflower Land, crafting NFTs is a crucial aspect of boosting your farming output and accelerating your progress. These special items provide various bonuses, such as crop growth boosts, cooking enhancements, and resource boosts, which can greatly expedite your journey. By maximizing your SFL (Sunflower Token), you can craft tools, gather resources, and expand your land to further establish your farming empire.",
+  "crafting.guide.two":
     "To begin crafting items, we'll visit Igor, a skilled craftsman in Sunfloria. After hopping on the boat and arriving at Sunfloria, head to the top of the island to have a conversation with Igor. He is currently offering a Basic Scarecrow, which boosts the speed of Sunflowers, Potatoes, and Pumpkins. This is an excellent deal that requires exchanging your resources for the scarecrow. Once obtained, return to your main island and enter design mode by clicking on the white hand icon in the top right corner of the game.",
-  "crafting.description.three":
+  "crafting.guide.three":
     "In design mode, you can strategically place items and rearrange resources on your farm to optimize its layout and enhance its visual appeal. This step is crucial in maximizing the effectiveness of your crafted equipment. For example, place the Scarecrow over the plots you want to boost. Additionally, consider purchasing decorations to add charm and tidiness to your land.",
-  "crafting.description.four":
+  "crafting.guide.four":
     "By crafting equipment and placing it strategically, you can amplify your farming abilities, create an island home to be proud of, and accelerate your progress in Sunflower Land.",
 
-  "deliveries.description.one":
+  "deliveries.guide.one":
     "Deliveries in Sunflower Land provide an exciting opportunity to help hungry Goblins and fellow Bumpkins while earning rewards. Every day you will be able to see all the orders you have by clicking on the delivery board on the bottom left of the screen. The orders have been placed by some local NPCs that can be found hanging around Pumpkin Plaza. To fulfill an order, you will need to take a boat ride to Pumpkin Plaza and look for the NPC expecting the delivery. Once you find them, click on them to deliver the order and receive your reward.",
-  "deliveries.description.two":
+  "deliveries.guide.two":
     "As a new player, you start with three order slots, but as you expand your farm, you will unlock additional slots, allowing advanced players to take on more orders. New orders come in every 24 hours, offering a range of tasks from farming produce to cooking food and gathering resources. Completing orders will earn you milestone bonuses, including Block Bucks, SFL, delicious cakes, and other rewards. The reward system is based on the difficulty of the request, so consider prioritizing orders that offer greater rewards to maximize your gains. Keep an eye on the board and challenge yourself with a variety of orders, leveling up and unlocking new buildings as needed to fulfill more demanding requests.",
 
-  "scavenger.description.one":
+  "scavenger.guide.one":
     "Scavenging in Sunflower Land offers exciting opportunities to uncover hidden treasures and gather valuable resources. The first aspect of scavenging is digging for treasure on Treasure Island, where you can become a pirate treasure hunter. By crafting a sand shovel and venturing to Treasure Island, you can dig in dark sandy areas to uncover a variety of treasures, including bounty, decorations, and even ancient SFTs with utility.",
-  "scavenger.description.two":
+  "scavenger.guide.two":
     "Another form of scavenging involves gathering wild mushrooms that appear spontaneously on your farm and surrounding islands. These mushrooms can be collected for free and used in recipes, quests, and crafting items. Keep an eye out for these mushrooms, as they replenish every 16 hours, with a maximum limit of 5 mushrooms on your farm. If your land is full, mushrooms will appear on the surrounding islands, ensuring you don't miss out on these valuable resources.",
 
-  "fruit.description.one":
+  "fruit.guide.one":
     "Fruit plays a significant role in Sunflower Land as a valuable resource that can be sold for SFL or utilized in various recipes and crafting. Unlike crops, fruit patches have the unique ability to replenish multiple times after each harvest, providing a sustainable source of fruit for players.",
-  "fruit.description.two":
+  "fruit.guide.two":
     "To plant fruit, you'll need to acquire larger fruit patches, which become available on the 9-10th expansion of your farm.",
-  "fruit.description.three":
+  "fruit.guide.three":
     "By cultivating fruit and incorporating it into your farming strategies, you can maximize your profits, create delicious recipes, and unlock new possibilities in Sunflower Land.",
 
-  "seasons.description.one":
+  "seasons.guide.one":
     "Seasons in Sunflower Land bring excitement and freshness to the game, offering players new challenges and opportunities. With the introduction of each season, players can look forward to a variety of new craftable items, limited edition decorations, mutant animals, and rare treasures. These seasonal changes create a dynamic and evolving gameplay experience, encouraging players to adapt their strategies and explore new possibilities on their farms. Additionally, seasonal tickets add a strategic element to the game, as players must decide how to allocate their tickets wisely, whether it's collecting rare items, opting for higher supply decorations, or exchanging tickets for SFL. The seasonal mechanic keeps the game engaging and ensures that there's always something to look forward to in Sunflower Land.",
-  "seasons.description.two":
+  "seasons.guide.two":
     "The availability of seasonal items at the Goblin Blacksmith adds another layer of excitement. Players must gather the required resources and seasonal tickets to craft these limited-supply items, creating a sense of competition and urgency. Planning ahead and strategizing become crucial as players aim to secure their desired items before the supply runs out. Moreover, the option to swap seasonal tickets for SFL provides flexibility and allows players to make choices that align with their specific gameplay goals. With each season's unique offerings and the anticipation of surprise events, Sunflower Land keeps players engaged and entertained throughout the year, fostering a vibrant and ever-evolving farming experience.",
   "pete.teaser.one": "Chop the trees",
   "pete.teaser.two": "Expand your land",
@@ -2241,19 +2256,6 @@ const interactableModals: Record<InteractableModals, string> = {
   "interactableModals.like.home": "Would you like to return home?",
 };
 
-const introTerms: Record<Intro, string> = {
-  "intro.one":
-    "Howdy there, Bumpkin! Welcome to Sunflower Land, the bountiful farming paradise where anything is possible!",
-  "intro.two":
-    "What a beautiful island you have set up on! I'm Pumpkin Pete, your neighboring farmer.",
-  "intro.three":
-    "Right now the players are celebrating a festival in the plaza with fantastic rewards and magical items.",
-  "intro.four":
-    "Before you can join the fun, you will need to grow your farm and gather some resources. You don't want to turn up empty handed!",
-  "intro.five":
-    "To get started, you will want to chop down those trees and grow your island.",
-};
-
 const introPage: Record<IntroPage, string> = {
   "introPage.welcome": "Welcome to the Potion Room, my curious apprentice!",
   "introPage.description":
@@ -2460,7 +2462,6 @@ const mute: Record<Mute, string> = {
 };
 
 const noaccount: Record<Noaccount, string> = {
-  "noaccount.enterPromoCode": "Enter your promo code:",
   "noaccount.newFarmer": "New Farmer",
   "noaccount.addPromoCode": "Add a promo code?",
   "noaccount.alreadyHaveNFTFarm": "Already have an NFT farm?",
@@ -3202,24 +3203,19 @@ const onboarding: Record<Onboarding, string> = {
   "onboarding.duplicateUser.two":
     "It looks like you have already registered for beta testing using a different address. Only one address can be used during beta testing. ",
   "onboarding.starterPack": "Starter Pack",
-  "onboarding.wallet.titleOne": "Setting up your wallet",
+  "onboarding.settingWallet": "Setting up your wallet",
   "onboarding.wallet.one":
     "There are many wallet providers out there, but we've partnered with Sequence because they're easy to use and secure.",
   "onboarding.wallet.two":
     "Select a sign-up method in the pop-up window and you're good to go. I'll see you back here in just a minute!",
   "onboarding.wallet.haveWallet": "I already have a wallet",
   "onboarding.wallet.createButton": "Create wallet",
-  "onboarding.wallet.titleTwo": "Accept the terms of service",
-  "onboarding.wallet.three":
-    "In order to buy your farm you will need to accept the Sunflower Land terms of service.",
-  "onboarding.wallet.four":
-    "This step will take you back to your new sequence wallet to accept the terms of service.",
   "onboarding.wallet.acceptButton": "Accept terms of service",
   "onboarding.wallet.acceptLoading": "Accepting terms...",
-  "onboarding.wallet.titleThree": "Buy your farm!",
-  "onboarding.wallet.five":
+  "onboarding.buyFarm.title": "Buy your farm!",
+  "onboarding.buyFarm.one":
     "Now that your wallet is all set up, it's time to get your very own farm NFT! ",
-  "onboarding.wallet.six":
+  "onboarding.buyFarm.two":
     "This NFT will securely store all your progress in Sunflower Land and allow you to keep coming back to tend to your farm.",
   "onboarding.wallet.final": "Let's do this!",
   "onboarding.wallet.already": "I already have a wallet ",
@@ -3353,7 +3349,6 @@ const removeKuebiko: Record<RemoveKuebiko, string> = {
 };
 
 const resale: Record<Resale, string> = {
-  "resale.lookingForItems": "Looking for rare items?",
   "resale.actionText": "Resale",
 };
 
@@ -3373,7 +3368,7 @@ const retreatTerms: Record<RetreatTerms, string> = {
     "Different locations bring different opportunities to spend your hard earned resources.",
   "retreatTerms.introTravel.four":
     "At any time click the travel button to return home.",
-  "retreatTerms.resale.title": "Looking for rare items?",
+  "retreatTerms.lookingForRareItems": "Looking for rare items?",
   "retreatTerms.resale.one":
     "Players can trade special items they crafted in-game.",
   "retreatTerms.resale.two":
@@ -3388,18 +3383,19 @@ const resources: Record<Resources, string> = {
 };
 
 const rewardTerms: Record<RewardTerms, string> = {
-  "reward.title": "Daily Reward",
+  "reward.daily.reward": "Daily Reward",
   "reward.streak": " day streak",
   "reward.comeBackLater": "Come back later for more rewards",
   "reward.nextBonus": " Next bonus: ",
   "reward.unlock": "Unlock Reward",
   "reward.open": "Open reward",
   "reward.lvlRequirement": "You must be level 3 to claim daily rewards.",
-  "reward.revealing": "What could it be?",
+  "reward.whatCouldItBe": "What could it be?",
   "reward.streakBonus": "3x streak bonus",
   "reward.found": "You found",
   "reward.spendWisely": "Spend it wisely.",
   "reward.wearable": "A wearable for your Bumpkin",
+  "reward.promo.code": "Enter your promo code:",
   "reward.woohoo": "Woohoo! Here is your reward",
   "reward.connectWeb3Wallet": "Connect a Web3 Wallet for a daily reward.",
 };
@@ -3407,20 +3403,9 @@ const rewardTerms: Record<RewardTerms, string> = {
 const rulesGameStart: Record<RulesGameStart, string> = {
   "rules.gameStart":
     "At the beginning of the game, the plant will randomly pick a combination of 4 potions and 1 'chaos' potion. The combination can be all different or all the same.",
-  "rules.potionRuleOne":
-    "Objective: Figure out the combination. You have 3 tries to get it right. The game will end if you have a perfect potion or if you run out of tries.",
-  "rules.potionRuleTwo":
-    "Choose a combination of potions and attempt to mix them.",
-  "rules.potionRuleThree":
-    "Adjust your next combination based on the feedback given.",
   "rules.chaosPotionRule":
     "If you add the 'chaos' potion your score for that attempt will be 0.",
-  "rules.potionRuleFour":
-    "When the game is complete, the score for your last attempt will determine help to determine your reward.",
   "rules.feedbackIconsIntro": "Pay attention to the feedback icons:",
-  "rules.correctPotion": "A perfect potion in the perfect position",
-  "rules.almostCorrectPotion": "Correct potion but wrong position",
-  "rules.incorrectPotion": "Oops, wrong potion",
   "rules.chaosPotionWarning": "Beware the 'chaos' potion, it shakes things up!",
   "rules.potion.feedback":
     "Select your potions and unveil the secrets of the plants!",
@@ -3440,9 +3425,9 @@ const rulesGameStart: Record<RulesGameStart, string> = {
 };
 
 const rulesTerms: Record<RulesTerms, string> = {
-  rules: "Game Rules",
-  "rules.accounts": "1 account per player",
-  "rules.game": "This is a game. Not a financial product.",
+  "game.rules": "Game Rules",
+  "rules.oneAccountPerPlayer": "1 account per player",
+  "rules.gameNotFinancialProduct": "This is a game. Not a financial product.",
   "rules.noBots": "No botting or automation",
   "rules.termsOfService": "Terms of Service",
 };
@@ -3452,7 +3437,7 @@ const sceneDialogueKey: Record<SceneDialogueKey, string> = {
 };
 
 const seasonTerms: Record<SeasonTerms, string> = {
-  "season.accessTo": "You have access to:",
+  "season.access": "You have access to:",
   "season.banner": "Seasonal Banner",
   "season.bonusTickets": "Bonus Seasonal Tickets",
   "season.boostXP": "+10% EXP from food",
@@ -3463,14 +3448,11 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.includes": "Includes:",
   "season.limitedOffer": " Limited time only!",
   "season.wearableAirdrop": "Seasonal Wearable Airdrop",
-  "season.ctk": "Catch the Kraken",
-  "season.mintSeasonalBanner": "Mint your exclusive Seasonal Banner:",
+  "season.catch.the.kraken": "Catch the Kraken",
 };
 
 const session: Record<Session, string> = {
   "session.expired": "Session expired!",
-  "session.expiredMessage":
-    "It looks like your session has expired. Please refresh the page to continue playing.",
 };
 
 const settingsMenu: Record<SettingsMenu, string> = {
@@ -3540,11 +3522,12 @@ const shellyDialogue: Record<ShellyDialogue, string> = {
 };
 
 const shopItems: Record<ShopItems, string> = {
-  "shopItems.one": "Hey, hey! Welcome back.",
-  "shopItems.two":
+  "betty.post.sale.one": "Hey, hey! Welcome back.",
+  "betty.post.sale.two":
     "You've helped solve the crop shortage and prices have returned to normal.",
-  "shopItems.three": "It's time to move onto some bigger and better crops!",
-  "betty.intro": "Welcome to my market. What would you like to do?",
+  "betty.post.sale.three":
+    "It's time to move onto some bigger and better crops!",
+  "betty.welcome": "Welcome to my market. What would you like to do?",
   "betty.buySeeds": "Buy seeds",
   "betty.sellCrops": "Sell crops",
 };
@@ -3606,20 +3589,27 @@ const statements: Record<Statements, string> = {
   "statements.lvlUp": "Feed your Bumpkin to level up",
   "statements.maintenance":
     "New things are coming! Thanks for your patience, the game will be live again shortly.",
-  "statements.make.a.wish": "Grant a new wish and see how lucky you are!",
   "statements.minted": "The goblins have crafted your ",
   "statements.minting":
     "Please be patient while your item is minted on the Blockchain.",
   "statements.mutant.chicken":
     "Congratulations, your chicken has laid a very rare mutant chicken!",
-  "statements.new.wish":
-    "A new wish has been made for you based on your current balance of LP tokens!",
-  "statements.no.reward":
-    "You have no reward available! Liquidity needs to be held for 3 days to get a reward!",
+  "statements.news":
+    "Recieve the latest news, complete chores & feed your Bumpkin.",
   "statements.ohNo": "Oh no! Something went wrong!",
   "statements.openGuide": "Open guide",
   "statements.patience": "Thank you for your patience.",
-  "statements.sfl.rewards.received": "SFL rewards received: ",
+  "statements.potionRule.one":
+    "Objective: Figure out the combination. You have 3 tries to get it right. The game will end if you have a perfect potion or if you run out of tries.",
+  "statements.potionRule.two":
+    "Choose a combination of potions and attempt to mix them.",
+  "statements.potionRule.three":
+    "Adjust your next combination based on the feedback given.",
+  "statements.potionRule.four":
+    "When the game is complete, the score for your last attempt will determine help to determine your reward.",
+  "statements.potionRule.five": "A perfect potion in the perfect position",
+  "statements.potionRule.six": "Correct potion but wrong position",
+  "statements.potionRule.seven": "Oops, wrong potion",
   "statements.sflLim.one": "You have reached the daily SFL limit.",
   "statements.sflLim.two":
     "You can continue playing, but will need to wait until tomorrow to sync again.",
@@ -3637,31 +3627,9 @@ const statements: Record<Statements, string> = {
     "Your adventure begins now, how far you explore ... that is on you.",
   "statements.visit.firePit":
     "Visit the Fire Pit to cook food and feed your Bumpkin.",
-  "statements.wish.granted.time": "It's time to grant your wish!",
-  "statements.wish.granted": "Your wish has been granted.",
-  "statements.wish.made": "You have made a wish!",
-  "statements.wish.ready.in": "Time till next wish: ",
-  "statements.wish.thanks":
-    "Thanks for supporting the project and making a wish.",
-  "statements.wish.time":
-    "Come back in the following amount of time to see just how lucky you have been: ",
-  "statements.wish.warning.one":
-    "Be aware that only the LP tokens you held at the time the wish was made will be considered when the wish is granted.",
-  "statements.wish.warning.two":
-    "If you remove your liquidity during this time you won't receive any rewards.",
-  "statements.wishing-well.info.one":
-    "The wishing well is a magical place where SFL rewards can be made just by making a wish!",
-  "statements.wishing-well.info.two":
-    "Wishes are granted to farmers who provided liquidity in the game. More info:",
-  "statements.wishing-well.info.three":
-    "Looks like you have those magic LP tokens in your wallet!",
   "statements.wishing-well.info.four": "provide liquidity",
-  "statements.wishing-well.not.providing.liquidity":
-    "It doesn't look like you're providing liquidity yet. More info: ",
   "statements.wishing-well.info.five": " in the game",
   "statements.wishing-well.info.six": "providing liquidity",
-  "statements.wishing.well.amount": "Amount of rewards in the well: ",
-  "statements.wishing.well.luck": "Let's see how lucky you are!",
   "statements.wrongChain.one":
     "Check out this guide to help you get connected.",
   "statements.feed.bumpkin.one": "You have no food in your inventory.",
@@ -3689,6 +3657,9 @@ const statements: Record<Statements, string> = {
   "statements.minted.withdrawAfterMint":
     "You will be able to withdraw your item once the mint has finished",
   "statements.stargame": "Star New Game",
+
+  "statements.session.expired":
+    "It looks like your session has expired. Please refresh the page to continue playing.",
 };
 
 const stopGoblin: Record<StopGoblin, string> = {
@@ -3748,10 +3719,10 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.t&c.one":
     "Accept the terms and conditions to sign in to Sunflower Land.",
   "transaction.t&c.two": "Accept Terms and Conditions",
-  "transaction.mintFarm.one": "Your farm has been minted!",
-  "transaction.mintFarm.two": "Your farm will be ready in",
-  "transaction.doNotRefresh": "Do not refresh this browser",
-  "transaction.network":
+  "transaction.mintFarm": "Your farm has been minted!",
+  "transaction.farm.ready": "Your farm will be ready in",
+  "transaction.doNotRefreshBrowser": "Do not refresh this browser",
+  "transaction.networkFeeRequired":
     "To secure your NFTs on the Blockchain, a small network fee is required.",
   "transaction.estimated.fee": "Estimated fee:",
   "transaction.payCardCash": "Pay with Card/Cash",
@@ -3759,43 +3730,50 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.rejected": "Transaction Rejected!",
   "transaction.message0":
     "You need to accept the transaction in the metamask popup to continue.",
-  "transaction.message":
+  "transaction.noFee":
     "This request will not trigger a blockchain transaction or cost any gas fees.",
   "transaction.maticAmount": "Amount in MATIC",
   "transaction.donate": "Donate",
   "transaction.donating": "Donating",
-  "transaction.thankYou":
+  "transaction.chooseDonationGame":
     "Thank you for your support! Kindly choose the game that you like donate to.",
   "transaction.minblockbucks": "Minimum 5 Block Bucks",
   "transaction.payCash": "Pay with Cash",
   "transaction.matic": "Matic",
   "transaction.payMatic": "Pay with Matic",
-  "transaction.blockBucksFarm": "Block bucks will be stored on your farm.",
+  "transaction.storeBlockBucks": "Block bucks will be stored on your farm.",
   "transaction.excludeFees": "*Prices exclude transaction fees.",
-  "transaction.blockchain.one":
+  "transaction.storeProgress.blockchain.one":
     "Do you wish to store your progress on the Blockchain?",
-  "transaction.blockchain.two":
+  "transaction.storeProgress.blockchain.two":
     "Storing data on the Blockchain does not restock shops.",
-  "transaction.progress": "Store progress",
-  "transaction.progChain": "Store progress on chain",
-  "transaction.success": "Woohoo! Your items are secured on the Blockchain!",
-  "transaction.congrats": "Congratulations, your trade was successful",
-  "transaction.transacting.one": "Processing your transaction.",
-  "transaction.transacting.two":
+  "transaction.storeProgress": "Store progress",
+  "transaction.storeProgress.chain": "Store progress on chain",
+  "transaction.storeProgress.success":
+    "Woohoo! Your items are secured on the Blockchain!",
+  "transaction.trade.congrats": "Congratulations, your trade was successful",
+  "transaction.processing": "Processing your transaction.",
+  "transaction.pleaseWait":
     "Please wait for your transaction to be confirmed by the Blockchain.",
-  "transaction.transacting.three":
+  "transaction.unconfirmed.reset":
     "After 5 minutes, any unconfirmed transactions will be reset.",
   "transaction.withdraw.one": "Withdrawing",
-  "transaction.withdraw.two": "Your items/tokens have been sent to:",
-  "transaction.withdraw.three": "You can view your items on",
+  "transaction.withdraw.sent": "Your items/tokens have been sent to:",
+  "transaction.withdraw.view": "You can view your items on",
   "transaction.openSea": "OpenSea",
   "transaction.withdraw.four":
     "You can view your tokens by importing the SFL Token to your wallet.",
   "transaction.withdraw.five": "Import SFL Token to MetaMask",
-  "transaction.withdraw.six":
+  "transaction.displayItems":
     "Please note that OpenSea can take up to 30 minutes to display your items. You can also view your items on",
   "transaction.withdraw.polygon": "PolygonScan",
   "transaction.id": "Transaction ID",
+  "transaction.termsOfService": "Accept the terms of service",
+  "transaction.termsOfService.one":
+    "In order to buy your farm you will need to accept the Sunflower Land terms of service.",
+  "transaction.termsOfService.two":
+    "This step will take you back to your new sequence wallet to accept the terms of service.",
+  "transaction.termsOfService.accepting": "Accepting terms...",
 };
 
 const transfer: Record<Transfer, string> = {
@@ -3865,9 +3843,9 @@ const welcomeTerms: Record<WelcomeTerms, string> = {
   "welcome.needHelp": "Need help?",
   "welcome.otherWallets": "Other wallets",
   "welcome.signingIn": "Signing you in",
-  "welcome.signInMessage":
+  "welcome.signIn.Message":
     "Accept the signature request in your browser wallet to login.",
-  "welcome.takeover":
+  "welcome.takeover.ownership":
     "It looks like you are new to Sunflower Land and have claimed ownership of another player's account.",
   "welcome.promo": "Add Promo Code",
 };
@@ -3877,6 +3855,37 @@ const winner: Record<Winner, string> = {
   "winner.mintTime": "You have 24 hours to mint your prize.",
   "winner.mint": "Mint",
   "winner.mintTime.one": "No items available to craft!",
+};
+
+const wishingWellTerms: Record<WishingWell, string> = {
+  "wishingWell.makeWish": "Grant a new wish and see how lucky you are!",
+  "wishingWell.newWish":
+    "A new wish has been made for you based on your current balance of LP tokens!",
+  "wishingWell.noReward":
+    "You have no reward available! Liquidity needs to be held for 3 days to get a reward!",
+  "wishingWell.sflRewardsReceived": "SFL rewards received:",
+  "wishingWell.wish.grantTime": "It's time to grant your wish!",
+  "wishingWell.wish.granted": "Your wish has been granted.",
+  "wishingWell.wish.made": "You have made a wish!",
+  "wishingWell.wish.timeTillNextWish": "Time till next wish:",
+  "wishingWell.wish.thanksForSupport":
+    "Thanks for supporting the project and making a wish.",
+  "wishingWell.wish.comeBackAfter":
+    "Come back in the following amount of time to see just how lucky you have been:",
+  "wishingWell.wish.warning.one":
+    "Be aware that only the LP tokens you held at the time the wish was made will be considered when the wish is granted.",
+  "wishingWell.wish.warning.two":
+    "If you remove your liquidity during this time you won't receive any rewards.",
+  "wishingWell.info.one":
+    "The wishing well is a magical place where SFL rewards can be made just by making a wish!",
+  "wishingWell.info.two":
+    "Wishes are granted to farmers who provided liquidity in the game. More info:",
+  "wishingWell.info.three":
+    "Looks like you have those magic LP tokens in your wallet!",
+  "wishingWell.noLiquidity":
+    "It doesn't look like you're providing liquidity yet. More info,",
+  "wishingWell.rewardsInWell": "Amount of rewards in the well: ",
+  "wishingWell.luck": "Let's see how lucky you are!",
 };
 
 const withdraw: Record<Withdraw, string> = {
@@ -4015,7 +4024,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...islandupgrade,
   ...interactableModals,
   ...introPage,
-  ...introTerms,
   ...islandName,
   ...islandNotFound,
   ...kick,
@@ -4088,6 +4096,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...visitislandNotFound,
   ...warningTerms,
   ...welcomeTerms,
+  ...wishingWellTerms,
   ...withdraw,
   ...winner,
   ...world,

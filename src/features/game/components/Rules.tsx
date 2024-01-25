@@ -18,13 +18,13 @@ export const Rules: React.FC = () => {
 
   return (
     <div className=" p-2">
-      <p className="text-lg text-center">{t("rules")}</p>
+      <p className="text-lg text-center">{t("game.rules")}</p>
       <div className="flex mt-4">
         <div className="w-16 flex justify-center">
           <img src={SUNNYSIDE.icons.player} className="h-8" />
         </div>
         <div className="flex-1">
-          <p>{t("rules.accounts")}</p>
+          <p>{t("rules.oneAccountPerPlayer")}</p>
         </div>
       </div>
       <div className="flex mt-4">
@@ -40,7 +40,7 @@ export const Rules: React.FC = () => {
           <img src={SUNNYSIDE.icons.heart} className="h-8" />
         </div>
         <div className="flex-1">
-          <p>{t("rules.game")}</p>
+          <p>{t("rules.gameNotFinancialProduct")}</p>
         </div>
       </div>
       <Button onClick={onAcknowledge} className="mt-4">

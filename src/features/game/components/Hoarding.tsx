@@ -71,7 +71,7 @@ export const Hoarding: React.FC = () => {
           </a>
         </div>
       </div>
-      <Button onClick={sync}>{t("transaction.progChain")}</Button>
+      <Button onClick={sync}>{t("transaction.storeProgress.chain")}</Button>
     </>
   );
 };

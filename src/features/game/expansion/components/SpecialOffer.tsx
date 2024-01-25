@@ -113,7 +113,7 @@ export const PromotingModal: React.FC<Props> = ({
               />
               <p className="text-sm">{t("season.goodLuck")}</p>
             </div>
-            <p className="text-sm">{t("season.accessTo")}</p>
+            <p className="text-sm">{t("season.access")}</p>
             <ul className="list-disc">
               <li className="text-xs ml-4">{t("season.discount")}</li>
               <li className="text-xs ml-4">{t("season.banner")}</li>

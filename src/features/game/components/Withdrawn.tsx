@@ -21,14 +21,14 @@ export const Withdrawn: React.FC = () => {
         <h1 className="text-center mb-4 mt-1 text-lg">{t("success")}</h1>
         <img src={secure} className="w-14 mb-4" />
         <p className="mb-4">
-          {t("transaction.withdraw.two")}
+          {t("transaction.withdraw.sent")}
           <span className="text-center mb-2 ml-2 text-sm">
             {shortAddress(wallet.myAccount as string)}
           </span>
         </p>
 
         <span className="mb-4">
-          {t("transaction.withdraw.three")}{" "}
+          {t("transaction.withdraw.view")}{" "}
           <a
             className="underline hover:text-white"
             href="https://opensea.io/account?search[resultModel]=ASSETS&search[sortBy]=LAST_TRANSFER_DATE&search[query]=sunflower%20land"
@@ -44,7 +44,7 @@ export const Withdrawn: React.FC = () => {
           {t("transaction.withdraw.five")}
         </Button>
         <span className="mb-4">
-          {t("transaction.withdraw.six")}{" "}
+          {t("transaction.displayItems")}{" "}
           <a
             className="underline hover:text-white"
             href={`https://polygonscan.com/address/${wallet.myAccount}#tokentxnsErc1155`}

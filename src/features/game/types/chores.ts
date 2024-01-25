@@ -73,7 +73,7 @@ export const CHORES: Chore[] = [
   // Craft Scarecrow
   // {
   //   activity: "Bush Bought",
-  //   description: translate("hank-crafting.headline"),
+  //   description: translate("hank.crafting.scarecrow"),
   //   requirement: 1,
   //   reward: {
   //     items: {

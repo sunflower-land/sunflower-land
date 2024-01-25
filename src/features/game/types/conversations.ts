@@ -48,7 +48,7 @@ export const CONVERSATIONS: Record<ConversationName, Message> = {
     from: "hank",
   },
   "hank-crafting": {
-    headline: translate("hank-crafting.headline"),
+    headline: translate("hank.crafting.scarecrow"),
     content: [
       {
         text: translate("hank-crafting.one"),

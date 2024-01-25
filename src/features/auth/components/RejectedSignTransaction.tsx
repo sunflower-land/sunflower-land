@@ -33,7 +33,7 @@ export const RejectedSignTransaction: React.FC<Props> = ({ onTryAgain }) => {
           </a>
           .
         </p>
-        <p className="mb-4 text-xs">{t("transaction.message")}</p>
+        <p className="mb-4 text-xs">{t("transaction.noFee")}</p>
       </div>
       <Button onClick={onTryAgain}>{t("try.again")}</Button>
     </>

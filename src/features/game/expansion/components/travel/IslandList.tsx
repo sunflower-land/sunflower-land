@@ -231,7 +231,7 @@ export const IslandList: React.FC<IslandListProps> = ({
           {t("deliveries")}
         </Label>,
         <Label type="vibrant" key="tentacle" icon={lightning}>
-          {t("season.ctk")}
+          {t("season.catch.the.kraken")}
         </Label>,
       ],
     },

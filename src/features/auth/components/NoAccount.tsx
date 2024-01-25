@@ -28,9 +28,7 @@ export const NoAccount: React.FC = () => {
     return (
       <>
         <div className="p-2">
-          <p className="text-xs mb-1">
-            {translate("noaccount.enterPromoCode")}
-          </p>
+          <p className="text-xs mb-1">{translate("reward.promo.code")}</p>
           <input
             style={{
               boxShadow: "#b96e50 0px 1px 1px 1px inset",
