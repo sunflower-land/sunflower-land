@@ -574,3 +574,27 @@ export function pickEmptyPosition({
 
   return availablePositions[0];
 }
+
+export function emptyPositions({
+  bounding,
+  gameState,
+}: {
+  bounding: BoundingBox;
+  gameState: GameState;
+}): Position[] {
+  const positionsInBounding = splitBoundingBox(bounding);
+
+  const availablePositions = positionsInBounding.filter(
+    (position) =>
+      detectCollision({
+        state: gameState,
+        position,
+        location: "farm",
+        name: "Basic Bear", // Just assume the item is 1x1
+      }) === false
+  );
+
+  console.log({ gameState, bounding, availablePositions, positionsInBounding });
+
+  return availablePositions;
+}

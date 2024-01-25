@@ -44,6 +44,10 @@ import { Airdrop } from "./components/Airdrop";
 import { DynamicClouds } from "./components/DynamicClouds";
 import { StaticClouds } from "./components/StaticClouds";
 import { BackgroundIslands } from "./components/BackgroundIslands";
+import { Modal } from "react-bootstrap";
+import { SpecialEventBumpkin } from "features/world/ui/SpecialEventBumpkin";
+import { WalkingNPC } from "features/island/bumpkin/components/WalkingNPC";
+import { NPC_WEARABLES } from "lib/npcs";
 
 const IMAGE_GRID_WIDTH = 36;
 
@@ -637,6 +641,8 @@ export const Land: React.FC = () => {
               />
             )}
             {!landscaping && <UpcomingExpansion />}
+
+            <WalkingNPC parts={NPC_WEARABLES.birdie} />
 
             <div
               className={classNames(

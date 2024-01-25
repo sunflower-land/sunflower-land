@@ -25,7 +25,7 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
     <>
       <div className="flex w-full">
         <div className="mr-2 relative" style={{ width: `${GRID_WIDTH_PX}px` }}>
-          <PlayerNPC parts={bumpkin.equipped} />
+          {/* <PlayerNPC parts={bumpkin.equipped} /> */}
         </div>
 
         {getKeys(farmHands).map((id) => (
