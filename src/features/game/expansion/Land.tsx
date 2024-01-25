@@ -59,7 +59,8 @@ const getIslandElements = ({
   stones,
   iron,
   gold,
-  rubies,
+  crimstones,
+  sunstones,
   fruitPatches,
   flowerBeds,
   crops,
@@ -80,7 +81,8 @@ const getIslandElements = ({
   stones: GameState["stones"];
   iron: GameState["iron"];
   gold: GameState["gold"];
-  rubies: GameState["rubies"];
+  crimstones: GameState["crimstones"];
+  sunstones: GameState["sunstones"];
   crops: GameState["crops"];
   fruitPatches: GameState["fruitPatches"];
   flowerBeds: GameState["flowers"]["flowerBeds"];
@@ -134,6 +136,7 @@ const getIslandElements = ({
       .filter((name) => collectibles[name])
       .flatMap((name, nameIndex) => {
         const items = collectibles[name]!;
+
         return items.map((collectible, itemIndex) => {
           const { readyAt, createdAt, coordinates, id } = collectible;
           const { x, y } = coordinates;
@@ -296,8 +299,35 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
-    ...getKeys(rubies).map((id, index) => {
-      const { x, y, width, height } = rubies[id];
+    ...getKeys(crimstones).map((id, index) => {
+      const { x, y, width, height } = crimstones[id];
+
+      return (
+        <MapPlacement
+          key={`crimstone-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+        >
+          <Resource
+            key={`crimstone-${id}`}
+            name="Crimstone Rock"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+            index={index}
+            x={x}
+            y={y}
+          />
+        </MapPlacement>
+      );
+    })
+  );
+
+  mapPlacements.push(
+    ...getKeys(sunstones).map((id, index) => {
+      const { x, y, width, height } = sunstones[id];
 
       return (
         <MapPlacement
@@ -309,7 +339,7 @@ const getIslandElements = ({
         >
           <Resource
             key={`ruby-${id}`}
-            name="Ruby Rock"
+            name="Sunstone Rock"
             createdAt={0}
             readyAt={0}
             id={id}
@@ -520,7 +550,8 @@ export const Land: React.FC = () => {
     stones,
     iron,
     gold,
-    rubies,
+    crimstones,
+    sunstones,
     crops,
     fruitPatches,
     flowers: { flowerBeds },
@@ -639,7 +670,8 @@ export const Land: React.FC = () => {
                 stones,
                 iron,
                 gold,
-                rubies,
+                crimstones,
+                sunstones,
                 fruitPatches,
                 flowerBeds,
                 crops,

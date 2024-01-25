@@ -681,7 +681,7 @@ export type DecorationDescriptions =
   | "description.gold.rock"
   | "description.iron.rock"
   | "description.stone.rock"
-  | "description.ruby.rock"
+  | "description.crimstone.rock"
   | "description.flower.bed"
   | "description.tree"
   | "description.fruit.patch"

@@ -5,7 +5,7 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import strikeSheet from "assets/resources/ruby/ruby_rock_spark.png";
+import strikeSheet from "assets/resources/gold/gold_rock_spark.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -13,15 +13,14 @@ import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { loadAudio, miningAudio } from "lib/utils/sfx";
-import ruby from "assets/resources/ruby_small.png";
 import { ZoomContext } from "components/ZoomProvider";
 
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { translate } from "lib/i18n/translate";
+import { ITEM_DETAILS } from "features/game/types/images";
 
-const tool = "Gold Pickaxe";
+const tool = "Iron Pickaxe";
 
 const STRIKE_SHEET_FRAME_WIDTH = 112;
 const STRIKE_SHEET_FRAME_HEIGHT = 48;
@@ -35,7 +34,7 @@ interface Props {
   touchCount: number;
 }
 
-const RecoveredRubyComponent: React.FC<Props> = ({
+const RecoveredSunstoneComponent: React.FC<Props> = ({
   bumpkinLevelRequired,
   hasTool,
   touchCount,
@@ -100,16 +99,16 @@ const RecoveredRubyComponent: React.FC<Props> = ({
         {/* static resource node image */}
         {!showSpritesheet && (
           <img
-            src={ruby}
+            src={ITEM_DETAILS["Sunstone Rock"].image}
             className={
               bumpkinTooLow
                 ? "absolute pointer-events-none opacity-50"
                 : "absolute pointer-events-none"
             }
             style={{
-              width: `${PIXEL_SCALE * 14}px`,
-              bottom: `${PIXEL_SCALE * 3}px`,
-              right: `${PIXEL_SCALE * 1}px`,
+              width: `${PIXEL_SCALE * 18}px`,
+              bottom: `${PIXEL_SCALE * 6}px`,
+              left: `${PIXEL_SCALE * 7}px`,
             }}
           />
         )}
@@ -162,10 +161,7 @@ const RecoveredRubyComponent: React.FC<Props> = ({
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>
-                {translate("resources.bumpkinLevel")} {bumpkinLevelRequired}{" "}
-                {translate("resources.required")}
-              </span>
+              <span>Bumpkin level {bumpkinLevelRequired} required.</span>
             </div>
           </InnerPanel>
         </div>
@@ -203,4 +199,4 @@ const RecoveredRubyComponent: React.FC<Props> = ({
   );
 };
 
-export const RecoveredRuby = React.memo(RecoveredRubyComponent);
+export const RecoveredSunstone = React.memo(RecoveredSunstoneComponent);

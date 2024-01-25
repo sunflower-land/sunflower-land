@@ -25,10 +25,10 @@ import { getKeys } from "features/game/types/craftables";
 import classNames from "classnames";
 import { createPortal } from "react-dom";
 import confetti from "canvas-confetti";
-import { hasFeatureAccess } from "lib/flags";
+import { ADMIN_IDS, hasFeatureAccess } from "lib/flags";
 import { GameState, IslandType } from "features/game/types/game";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const UPGRADE_RAFTS: Record<IslandType, string> = {
   basic: springRaft,
@@ -54,6 +54,7 @@ const IslandUpgraderModal: React.FC<{
 
   const { island, inventory } = gameState.context.state;
   const upgrade = ISLAND_UPGRADE[island.type];
+  const { t } = useAppTranslation();
 
   const remaindingExpansions =
     upgrade.expansions - (inventory["Basic Land"]?.toNumber() ?? 0);
@@ -62,10 +63,8 @@ const IslandUpgraderModal: React.FC<{
     return (
       <Panel>
         <div className="p-2">
-          <p className="text-sm mb-2">
-            {translate("islandupgrade.confirmUpgrade")}
-          </p>
-          <p className="text-xs">{translate("islandupgrade.warning")}</p>
+          <p className="text-sm mb-2">{t("islandupgrade.confirmUpgrade")}</p>
+          <p className="text-xs">{t("islandupgrade.warning")}</p>
           <div className="flex my-2">
             {getKeys(upgrade.items).map((name) => (
               <Label
@@ -79,11 +78,9 @@ const IslandUpgraderModal: React.FC<{
         </div>
 
         <div className="flex">
-          <Button onClick={() => setShowConfirmation(false)}>
-            {translate("no")}
-          </Button>
+          <Button onClick={() => setShowConfirmation(false)}>{t("no")}</Button>
           <Button className="ml-1" onClick={onUpgrade}>
-            {translate("yes")}
+            {t("yes")}
           </Button>
         </div>
       </Panel>
@@ -92,7 +89,8 @@ const IslandUpgraderModal: React.FC<{
 
   const hasAccess =
     gameState.context.state.island.type === "basic" &&
-    hasFeatureAccess(gameState.context.state, "ISLAND_UPGRADE");
+    (hasFeatureAccess(gameState.context.state, "ISLAND_UPGRADE") ||
+      ADMIN_IDS.includes(gameState.context.farmId));
 
   const hasResources = getKeys(upgrade.items).every(
     (name) => inventory[name]?.gte(upgrade.items[name] ?? 0) ?? false
@@ -102,17 +100,11 @@ const IslandUpgraderModal: React.FC<{
     <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk} onClose={onClose}>
       <div className="p-2">
         <div className="flex items-center  mb-2 ">
-          <p className="text-sm mr-2">
-            {translate("islandupgrade.upgradeIsland")}
-          </p>
+          <p className="text-sm mr-2">{t("islandupgrade.upgradeIsland")}</p>
           <img src={SUNNYSIDE.icons.heart} className="h-6" />
         </div>
-        <p className="text-xs mb-2">
-          {translate("islandupgrade.newOpportunities")}
-        </p>
-        <p className="text-xs mb-2">
-          {translate("islandupgrade.confirmation")}
-        </p>
+        <p className="text-xs mb-2">{t("islandupgrade.newOpportunities")}</p>
+        <p className="text-xs mb-2">{t("islandupgrade.confirmation")}</p>
         <img
           src={UPGRADE_PREVIEW[gameState.context.state.island.type] as string}
           className="w-full rounded-md"
@@ -123,7 +115,7 @@ const IslandUpgraderModal: React.FC<{
             <div className="flex items-center mt-2 mb-1">
               {remaindingExpansions > 0 && (
                 <Label icon={lockIcon} type="danger" className="mr-3">
-                  {translate("islandupgrade.locked")}
+                  {t("islandupgrade.locked")}
                 </Label>
               )}
               {getKeys(upgrade.items).map((name) => (
@@ -141,9 +133,8 @@ const IslandUpgraderModal: React.FC<{
             </div>
             {remaindingExpansions > 0 && (
               <p className="text-xs">
-                {translate("islandupgrade.notReadyExpandMore")}{" "}
-                {remaindingExpansions}{" "}
-                {translate("islandupgrade.notReadyExpandMore.two")}
+                {t("islandupgrade.notReadyExpandMore")} {remaindingExpansions}{" "}
+                {t("islandupgrade.notReadyExpandMore.two")}
               </p>
             )}
           </>
@@ -161,7 +152,7 @@ const IslandUpgraderModal: React.FC<{
         disabled={!hasResources || !hasAccess || remaindingExpansions > 0}
         onClick={() => setShowConfirmation(true)}
       >
-        {translate("continue")}
+        {t("continue")}
       </Button>
     </CloseButtonPanel>
   );
@@ -172,6 +163,8 @@ interface Props {
   offset: number;
 }
 export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
+  const { t } = useAppTranslation();
+
   const { gameService } = useContext(Context);
 
   const [showModal, setShowModal] = useState(false);
@@ -230,9 +223,7 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
             }
           )}
         >
-          <span className="loading">
-            {translate("islandupgrade.exploring")}
-          </span>
+          <span className="loading">{t("islandupgrade.exploring")}</span>
         </div>,
         document.body
       )}
@@ -244,21 +235,19 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
         <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk}>
           <div className="p-2">
             <p className="text-sm mb-2">
-              {translate("islandupgrade.welcomePetalParadise")}
+              {t("islandupgrade.welcomePetalParadise")}
             </p>
             <p className="text-xs mb-2">
-              {translate("islandupgrade.exoticResourcesDescription")}
+              {t("islandupgrade.exoticResourcesDescription")}
             </p>
             <img
               src={UPGRADE_PREVIEW.basic}
               className="w-full rounded-md mb-2"
             />
-            <p className="text-xs mb-2">
-              {translate("islandupgrade.itemsReturned")}
-            </p>
+            <p className="text-xs mb-2">{t("islandupgrade.itemsReturned")}</p>
           </div>
           <Button onClick={() => setShowUpgraded(false)}>
-            {translate("continue")}
+            {t("continue")}
           </Button>
         </CloseButtonPanel>
       </Modal>

@@ -203,9 +203,10 @@ const commodities: Record<CommodityName, () => boolean> = {
   Stone: () => true,
   Iron: () => true,
   Gold: () => true,
-  Ruby: () => true,
+  Crimstone: () => true,
   Diamond: () => false,
 
+  Sunstone: () => false,
   Honey: () => false,
   Egg: () => true,
 };
@@ -215,12 +216,13 @@ const resources: Record<ResourceName, () => boolean> = {
   "Stone Rock": () => false,
   "Iron Rock": () => false,
   "Gold Rock": () => false,
-  "Ruby Rock": () => false,
+  "Crimstone Rock": () => false,
   "Crop Plot": () => false,
   "Fruit Patch": () => false,
   Boulder: () => false,
   Beehive: () => false,
   "Flower Bed": () => false,
+  "Sunstone Rock": () => false,
 };
 
 const mutantChickens: Record<MutantChicken, () => boolean> = {
@@ -325,6 +327,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Arcade Token": () => false,
   "Farmhand Coupon": () => false,
   Farmhand: () => false,
+  "Tulip Bulb": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {
@@ -717,6 +720,7 @@ const purchasables: Record<PurchasableItems, () => boolean> = {
   "Solar Flare Banner": () => false,
   "Gold Pass": () => false,
   "Catch the Kraken Banner": () => false,
+  "Spring Blossom Banner": () => false,
 };
 
 const potionHouse: Record<

@@ -44,8 +44,13 @@ export function removePlaceable({
     return game;
   }
 
-  if (name === "Ruby Rock") {
-    delete game.rubies[id];
+  if (name === "Crimstone Rock") {
+    delete game.crimstones[id];
+    return game;
+  }
+
+  if (name === "Sunstone Rock") {
+    delete game.sunstones[id];
     return game;
   }
 

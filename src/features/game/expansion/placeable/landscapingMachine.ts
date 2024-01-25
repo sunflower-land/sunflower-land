@@ -27,11 +27,12 @@ export const RESOURCE_PLACE_EVENTS: Partial<
   "Stone Rock": "stone.placed",
   "Iron Rock": "iron.placed",
   "Gold Rock": "gold.placed",
-  "Ruby Rock": "ruby.placed",
+  "Crimstone Rock": "crimstone.placed",
   "Crop Plot": "plot.placed",
   "Fruit Patch": "fruitPatch.placed",
   Beehive: "beehive.placed",
   "Flower Bed": "flowerBed.placed",
+  "Sunstone Rock": "sunstone.placed",
 };
 
 export function placeEvent(

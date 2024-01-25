@@ -142,7 +142,7 @@ import singaporean_flag from "assets/sfts/flags/singaporean_flag.gif";
 // Resources
 import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
-import ruby from "assets/resources/ruby.png";
+import crimstone from "assets/resources/crimstone.png";
 import honey from "assets/resources/honey.png";
 import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
@@ -222,6 +222,7 @@ import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png"
 import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
 import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp";
 import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
+import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
 import budTicket from "assets/icons/bud_ticket.png";
 import budSeedling from "assets/icons/bud_seedling.png";
 
@@ -471,7 +472,7 @@ import grainGrinder from "assets/sfts/grain_grinder.png";
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
 import stoneRock from "assets/resources/stone_small.png";
-import rubyRock from "assets/resources/ruby_small.png";
+import crimstoneRock from "assets/resources/crimstone/crimstone_rock_1.webp";
 
 // Potion House
 import giantCabbage from "assets/sfts/giant_cabbage.png";
@@ -874,9 +875,9 @@ export const ITEM_DETAILS: Items = {
     ...COMMODITIES["Iron"],
     image: iron,
   },
-  Ruby: {
-    ...COMMODITIES["Ruby"],
-    image: ruby,
+  Crimstone: {
+    ...COMMODITIES["Crimstone"],
+    image: crimstone,
   },
   Gold: {
     ...COMMODITIES["Gold"],
@@ -885,6 +886,11 @@ export const ITEM_DETAILS: Items = {
   Diamond: {
     ...COMMODITIES["Diamond"],
     image: SUNNYSIDE.resource.diamond,
+  },
+  Sunstone: {
+    ...COMMODITIES["Sunstone"],
+    image: SUNNYSIDE.resource.iron_rock, //Placeholder
+    // image: SUNNYSIDE.resource.sunstone_rock,
   },
   Egg: {
     ...COMMODITIES["Egg"],
@@ -2271,6 +2277,10 @@ export const ITEM_DETAILS: Items = {
     image: mermaidScale,
     description: translate("description.mermaid.scale"),
   },
+  "Tulip Bulb": {
+    image: mermaidScale,
+    description: "A ticket used during the Spring Blossom",
+  },
 
   "Sunflower Supporter": {
     image: supporterTicket,
@@ -2306,6 +2316,11 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.plot,
     description: translate("description.crop.plot"),
   },
+  "Sunstone Rock": {
+    image: SUNNYSIDE.resource.iron_rock,
+    // image: sunstoneRock,
+    description: "A mineable rock to collect sunstone",
+  },
   "Gold Rock": {
     image: goldRock,
     description: translate("description.gold.rock"),
@@ -2318,9 +2333,9 @@ export const ITEM_DETAILS: Items = {
     image: stoneRock,
     description: translate("description.stone.rock"),
   },
-  "Ruby Rock": {
-    image: rubyRock,
-    description: translate("description.ruby.rock"),
+  "Crimstone Rock": {
+    image: crimstoneRock,
+    description: translate("description.crimstone.rock"),
   },
   Tree: {
     image: SUNNYSIDE.resource.tree,
@@ -2389,6 +2404,10 @@ export const ITEM_DETAILS: Items = {
   "Catch the Kraken Banner": {
     image: catchTheKrakenBanner,
     description: translate("description.catch.the.kraken.banner"),
+  },
+  "Spring Blossom Banner": {
+    image: springBlossomBanner,
+    description: "",
   },
   "Luminous Lantern": {
     image: luminousLantern,

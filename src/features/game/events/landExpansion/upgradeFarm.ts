@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
 import { getKeys } from "features/game/types/craftables";
 import {
   GameState,
@@ -8,6 +9,7 @@ import {
 } from "features/game/types/game";
 
 import cloneDeep from "lodash.clonedeep";
+import { expansionRequirements } from "./revealLand";
 
 export type UpgradeFarmAction = {
   type: "farm.upgraded";
@@ -30,7 +32,7 @@ const INITIAL_LAND: Pick<
   | "trees"
   | "flowers"
   | "beehives"
-  | "rubies"
+  | "crimstones"
 > = {
   buildings: {
     House: [
@@ -332,7 +334,7 @@ const INITIAL_LAND: Pick<
     flowerBeds: {},
   },
   beehives: {},
-  rubies: {},
+  crimstones: {},
 };
 
 export const ISLAND_UPGRADE: Record<
@@ -371,10 +373,15 @@ function springUpgrade(state: GameState) {
   // Add new resources
   game.inventory.House = new Decimal(1);
 
-  // If they do not already have fruit patches
-  if (!game.inventory["Fruit Patch"]?.gt(2)) {
-    game.inventory["Fruit Patch"] = new Decimal(2);
-  }
+  // Ensure they have the minimum resources to start the island with
+  const minimum = TOTAL_EXPANSION_NODES.spring[4];
+
+  Object.entries(minimum).forEach(([name, amount]) => {
+    const item = game.inventory[name as InventoryItemName] ?? new Decimal(0);
+    if (item.lt(amount)) {
+      game.inventory[name as InventoryItemName] = new Decimal(amount);
+    }
+  });
 
   return game;
 }
@@ -407,6 +414,7 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
   // Clear all in progress items
   game.collectibles = {};
   game.buildings = {};
+  game.chickens = {};
   game.fishing.wharf = {};
   game.mushrooms = {
     mushrooms: {},
@@ -428,6 +436,7 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
   game.island = {
     type: "spring",
     upgradedAt: createdAt,
+    previousExpansions: game.inventory["Basic Land"]?.toNumber() ?? 0,
   };
 
   if (upcoming.upgrade === "spring") {
@@ -447,6 +456,11 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
       ...game,
       ...INITIAL_LAND,
     };
+
+  game.expansionRequirements = expansionRequirements({
+    level: (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1,
+    game,
+  });
 
   return {
     ...game,

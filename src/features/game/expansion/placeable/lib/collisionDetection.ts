@@ -100,7 +100,8 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     stones,
     gold,
     iron,
-    rubies,
+    crimstones,
+    sunstones,
     fruitPatches,
     buds,
     beehives,
@@ -129,7 +130,8 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     ...Object.values(stones),
     ...Object.values(iron),
     ...Object.values(gold),
-    ...Object.values(rubies),
+    ...Object.values(crimstones),
+    ...Object.values(sunstones),
     ...Object.values(crops),
     ...Object.values(fruitPatches),
     ...Object.values(beehives),
@@ -541,4 +543,26 @@ export function isAOEImpacted(
       }
     }
   });
+}
+
+export function pickEmptyPosition({
+  bounding,
+  gameState,
+}: {
+  bounding: BoundingBox;
+  gameState: GameState;
+}): Position | undefined {
+  const positionsInBounding = splitBoundingBox(bounding);
+
+  const availablePositions = positionsInBounding.filter(
+    (position) =>
+      detectCollision({
+        state: gameState,
+        position,
+        location: "farm",
+        name: "Basic Bear", // Just assume the item is 1x1
+      }) === false
+  );
+
+  return availablePositions[0];
 }

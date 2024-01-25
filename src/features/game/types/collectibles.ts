@@ -22,7 +22,8 @@ export type PurchasableItems =
   | "Solar Flare Banner"
   | "Gold Pass"
   | "Witches' Eve Banner"
-  | "Catch the Kraken Banner";
+  | "Catch the Kraken Banner"
+  | "Spring Blossom Banner";
 
 export type HeliosBlacksmithItem =
   | "Immortal Pear"

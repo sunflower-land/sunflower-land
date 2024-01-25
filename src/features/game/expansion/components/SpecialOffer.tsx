@@ -13,9 +13,10 @@ import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
-import { getSeasonalBanner } from "features/game/types/seasons";
+import { SEASONS, getSeasonalBanner } from "features/game/types/seasons";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { GameWallet } from "features/wallet/Wallet";
+import { SUNNYSIDE } from "assets/sunnyside";
+import blockBuck from "assets/icons/block_buck.png";
 
 const isPromoting = (state: MachineState) => state.matches("specialOffer");
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -31,7 +32,7 @@ export const SpecialOffer: React.FC = () => {
     <PromotingModal
       isOpen={specialOffer}
       hasDiscount={hasPreviousSeasonBanner}
-      hasPurchased={!!inventory["Catch the Kraken Banner"]}
+      hasPurchased={!!inventory["Spring Blossom Banner"]}
       onClose={() => {
         acknowledgeSeasonPass();
         gameService.send("ACKNOWLEDGE");
@@ -54,53 +55,57 @@ export const PromotingModal: React.FC<Props> = ({
   hasDiscount,
 }) => {
   const { t } = useAppTranslation();
-  // Goes live on 17th of July.
-  // $3.99 for Dawn Breaker Holders, otherwise $5.99.
-  // Discounts on seasonal items, 1 Mystery Airdrop + Bonus Tickets completing chores.
-  // At 1st of August, price changes to $5.99 for everyone and available for 1 month.
 
-  const isPreSeason = Date.now() < new Date("2023-11-01").getTime();
-  const expiresOn = isPreSeason
-    ? new Date("2023-11-01")
-    : new Date("2023-12-01");
+  const isPreSeason =
+    Date.now() < SEASONS["Spring Blossom"].startDate.getTime();
 
   const { gameService } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
-  const hasPreviousSeasonBanner = !!inventory["Witches' Eve Banner"];
 
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  let price = hasPreviousSeasonBanner ? "4.99" : "6.99";
+  let price = hasDiscount ? "35" : "50";
 
   if (!isPreSeason) {
-    price = "8.99";
+    price = "65";
   }
+
+  const onCloseConfirmation = () => {
+    onClose();
+    setShowConfirmation(false);
+  };
 
   const Content = () => {
     if (showConfirmation) {
       return (
-        <GameWallet action="purchase">
-          <p className="text-sm my-2">{t("season.mintSeasonalBanner")}</p>
-          <Button
-            onClick={() => {
-              gameService.send("PURCHASE_ITEM", {
-                name: "Catch the Kraken Banner",
-              });
-              onClose();
-            }}
-          >
-            {t("season.buyNow")} {price}
-          </Button>
-        </GameWallet>
+        <>
+          <p className="text-sm my-2">{`Are you sure you want to purchase the banner for ${price} Block Bucks?`}</p>
+          <div className="flex">
+            <Button className="mr-1" onClick={onCloseConfirmation}>
+              {t("no.thanks")}
+            </Button>
+            <Button
+              onClick={() => {
+                gameService.send("banner.purchased", {
+                  name: "Spring Blossom Banner",
+                });
+                onCloseConfirmation();
+              }}
+            >
+              {t("season.buyNow")}
+            </Button>
+          </div>
+        </>
       );
     }
+
     if (hasPurchased) {
       return (
         <>
           <div className="flex flex-col p-2">
             <div className="flex items-center">
               <img
-                src={ITEM_DETAILS["Catch the Kraken Banner"].image}
+                src={ITEM_DETAILS["Spring Blossom Banner"].image}
                 className="rounded-md my-2 img-highlight mr-2"
                 style={{
                   height: `${PIXEL_SCALE * 16}px`,
@@ -127,7 +132,7 @@ export const PromotingModal: React.FC<Props> = ({
             </a>
           </div>
           <div className="flex">
-            <Button className="mr-1" onClick={onClose}>
+            <Button className="mr-1" onClick={onCloseConfirmation}>
               {t("close")}
             </Button>
           </div>
@@ -135,8 +140,9 @@ export const PromotingModal: React.FC<Props> = ({
       );
     }
 
-    const msLeft = new Date("2023-11-01").getTime() - Date.now();
+    const msLeft = SEASONS["Spring Blossom"].startDate.getTime() - Date.now();
     const secondsLeft = msLeft / 1000;
+    const insuficientBlockBucks = inventory["Block Buck"]?.lessThan(price);
 
     return (
       <>
@@ -145,19 +151,26 @@ export const PromotingModal: React.FC<Props> = ({
 
           <div className="flex items-center">
             <img
-              src={ITEM_DETAILS["Catch the Kraken Banner"].image}
+              src={ITEM_DETAILS["Spring Blossom Banner"].image}
               className="rounded-md my-2 img-highlight mr-2"
               style={{
                 height: `${PIXEL_SCALE * 32}px`,
               }}
             />
             <div>
-              <p className="text-sm">{`1 x Catch the Kraken Banner`}</p>
+              <p className="text-sm">{`1 x Spring Blossom Banner`}</p>
               {secondsLeft > 0 ? (
                 <>
                   <div className="flex my-1">
-                    <p className="line-through">$8.99</p>
-                    <p className="ml-2">{`$${price}`}</p>
+                    <img
+                      src={blockBuck}
+                      style={{
+                        width: `${PIXEL_SCALE * 12}px`,
+                        height: `${PIXEL_SCALE * 8}px`,
+                      }}
+                    />
+                    <p className="line-through ml-2">65</p>
+                    <p className="ml-2">{price}</p>
                   </div>
                   <Label type="danger">
                     {`${secondsToString(secondsLeft, {
@@ -167,7 +180,7 @@ export const PromotingModal: React.FC<Props> = ({
                 </>
               ) : (
                 <div className="flex my-1">
-                  <p>$8.99</p>
+                  <p>65</p>
                 </div>
               )}
             </div>
@@ -180,7 +193,7 @@ export const PromotingModal: React.FC<Props> = ({
             <li className="text-sm ml-4">{t("season.boostXP")}</li>
             <li className="text-sm ml-4">{t("season.bonusTickets")}</li>
           </ul>
-          {/* {!isPreSeason && (
+          {!isPreSeason && (
             <Label
               type="info"
               className="mt-2"
@@ -191,8 +204,8 @@ export const PromotingModal: React.FC<Props> = ({
             >
               {t("season.limitedOffer")}
             </Label>
-          )} */}
-          <Label
+          )}
+          {/* <Label
             type="danger"
             className="mt-2"
             style={{
@@ -200,7 +213,7 @@ export const PromotingModal: React.FC<Props> = ({
             }}
           >
             Sold out
-          </Label>
+          </Label> */}
           <a
             href="https://docs.sunflower-land.com/player-guides/seasons/catch-the-kraken#catch-the-kraken-banner"
             target="_blank"
@@ -211,24 +224,27 @@ export const PromotingModal: React.FC<Props> = ({
           </a>
         </div>
         <div className="flex">
-          <Button className="mr-1" onClick={onClose}>
+          <Button className="mr-1" onClick={onCloseConfirmation}>
             {t("no.thanks")}
           </Button>
           <Button
-            disabled
+            disabled={secondsLeft < 0 || insuficientBlockBucks}
             onClick={() => {
               setShowConfirmation(true);
             }}
           >
-            {t("season.buyNow")} {price}
+            {t("season.buyNow")}
           </Button>
         </div>
       </>
     );
   };
   return (
-    <Modal centered show={isOpen} onHide={onClose}>
-      <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk} onClose={onClose}>
+    <Modal centered show={isOpen} onHide={onCloseConfirmation}>
+      <CloseButtonPanel
+        bumpkinParts={NPC_WEARABLES.grubnuk}
+        onClose={onCloseConfirmation}
+      >
         <Content />
       </CloseButtonPanel>
     </Modal>

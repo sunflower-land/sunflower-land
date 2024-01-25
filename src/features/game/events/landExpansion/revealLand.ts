@@ -1,14 +1,18 @@
 import { v4 as randomUUID } from "uuid";
 import Decimal from "decimal.js-light";
-import { EXPANSION_ORIGINS } from "features/game/expansion/lib/constants";
+import {
+  EXPANSION_ORIGINS,
+  LAND_SIZE,
+} from "features/game/expansion/lib/constants";
 import {
   EXPANSION_REQUIREMENTS,
   getLand,
 } from "features/game/types/expansions";
-import { GameState } from "features/game/types/game";
+import { Airdrop, GameState } from "features/game/types/game";
 
 import cloneDeep from "lodash.clonedeep";
 import { getKeys } from "features/game/types/craftables";
+import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
 
 export type RevealLandAction = {
   type: "land.revealed";
@@ -35,8 +39,7 @@ export function revealLand({
     throw new Error("Land is not in construction");
   }
 
-  const nextLand = (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1;
-  const land = getLand(farmId, nextLand);
+  const land = getLand({ id: farmId, game });
   if (!land) {
     throw new Error("Land Does Not Exists");
   }
@@ -49,8 +52,6 @@ export function revealLand({
   const origin = EXPANSION_ORIGINS[landCount - 1];
 
   delete game.expansionConstruction;
-  // TODO: Update expansion requirements for next expansion
-  //   game.expansionRequirements = makeExpansionRequirements(landCount + 1);
 
   // Add Trees
   land.trees?.forEach((coords) => {
@@ -106,19 +107,20 @@ export function revealLand({
     land.gold?.length ?? 0
   );
 
-  // Add Ruby
-  land.rubies?.forEach((coords) => {
-    game.rubies[randomUUID().slice(0, 8)] = {
+  // Add Crimstone
+  land.crimstones?.forEach((coords) => {
+    game.crimstones[randomUUID().slice(0, 8)] = {
       height: 1,
       width: 1,
       x: coords.x + origin.x,
       y: coords.y + origin.y,
       stone: { amount: 1, minedAt: 0 },
+      minesLeft: 5,
     };
   });
-  inventory["Ruby Rock"] = (inventory["Ruby Rock"] || new Decimal(0)).add(
-    land.rubies?.length ?? 0
-  );
+  inventory["Crimstone Rock"] = (
+    inventory["Crimstone Rock"] || new Decimal(0)
+  ).add(land.crimstones?.length ?? 0);
 
   // Add Plots
   land.plots?.forEach((coords) => {
@@ -154,48 +156,55 @@ export function revealLand({
     land.fruitPatches?.length ?? 0
   );
 
-  if (inventory["Basic Land"].eq(4)) {
-    const prev = game.airdrops ?? [];
-    game.airdrops = [
-      ...prev,
-      {
-        createdAt,
-        id: "expansion-four-airdrop",
-        items: {
-          Shovel: 1,
-        },
-        sfl: 0,
-        wearables: {},
-        coordinates: {
-          x: 0,
-          y: 8,
-        },
-      },
-    ];
-  }
+  // Add sun stones
+  land.sunstones?.forEach((coords) => {
+    const id = Object.keys(game.sunstones).length;
+    game.sunstones[id] = {
+      height: 1,
+      width: 1,
+      x: coords.x + origin.x,
+      y: coords.y + origin.y,
+      stone: { amount: 1, minedAt: 0 },
+      minesLeft: 10,
+    };
+  });
+  inventory["Sunstone Rock"] = (
+    inventory["Sunstone Rock"] || new Decimal(0)
+  ).add(land.sunstones?.length ?? 0);
 
-  if (inventory["Basic Land"].eq(5)) {
-    const prev = game.airdrops ?? [];
-    game.airdrops = [
-      ...prev,
-      {
-        createdAt,
-        id: "expansion-fifth-airdrop",
-        items: {
-          "Time Warp Totem": 1,
-          "Pumpkin Soup": 1,
-        },
-        sfl: 0,
-        wearables: {},
-        coordinates: {
-          x: -7,
-          y: 7,
-        },
-      },
-    ];
-  }
+  // Add bee hives
+  land.beehives?.forEach((coords) => {
+    const id = Object.keys(game.beehives).length;
+    game.beehives[id] = {
+      height: 1,
+      width: 1,
+      x: coords.x + origin.x,
+      y: coords.y + origin.y,
+      honey: { produced: 0, updatedAt: Date.now() },
+      flowers: [],
+      swarm: false,
+    };
+  });
+  inventory.Beehive = (inventory.Beehive || new Decimal(0)).add(
+    land.beehives?.length ?? 0
+  );
 
-  // Refresh all resources
+  // Add flower beds
+  land.flowerBeds?.forEach((coords) => {
+    const id = Object.keys(game.flowers.flowerBeds).length;
+    game.flowers.flowerBeds[id] = {
+      height: 1,
+      width: 3,
+      x: coords.x + origin.x,
+      y: coords.y + origin.y,
+      createdAt,
+    };
+  });
+  inventory["Flower Bed"] = (inventory["Flower Bed"] || new Decimal(0)).add(
+    land.flowerBeds?.length ?? 0
+  );
+
+  // Refresh all basic resources
   game.trees = getKeys(game.trees).reduce((acc, id) => {
     return {
       ...acc,
@@ -266,6 +275,11 @@ export function revealLand({
     game,
   });
 
+  // Add any rewards
+  const rewards = getRewards({ game, createdAt });
+  const previous = game.airdrops ?? [];
+  game.airdrops = [...previous, ...rewards];
+
   return {
     ...game,
     inventory,
@@ -279,7 +293,7 @@ export const expansionRequirements = ({
   level: number;
   game: GameState;
 }) => {
-  const requirements = EXPANSION_REQUIREMENTS[level];
+  const requirements = EXPANSION_REQUIREMENTS[game.island.type][level];
 
   if (!requirements) {
     return undefined;
@@ -304,3 +318,97 @@ export const expansionRequirements = ({
     resources,
   };
 };
+
+export function getRewards({
+  game,
+  createdAt,
+}: {
+  game: GameState;
+  createdAt: number;
+}): Airdrop[] {
+  const { inventory } = game;
+
+  const expansions = inventory["Basic Land"] ?? new Decimal(0);
+
+  let airdrops: Airdrop[] = [];
+
+  // Tutorial Reward
+  if (expansions.eq(4) && game.island.type === "basic") {
+    airdrops = [
+      ...airdrops,
+      {
+        createdAt,
+        id: "expansion-four-airdrop",
+        items: {
+          Shovel: 1,
+        },
+        sfl: 0,
+        wearables: {},
+        coordinates: {
+          x: 0,
+          y: 8,
+        },
+      },
+    ];
+  }
+
+  // Tutorial Reward
+  if (expansions.eq(5) && game.island.type === "basic") {
+    airdrops = [
+      ...airdrops,
+      {
+        createdAt,
+        id: "expansion-fifth-airdrop",
+        items: {
+          "Time Warp Totem": 1,
+          "Pumpkin Soup": 1,
+        },
+        sfl: 0,
+        wearables: {},
+        coordinates: {
+          x: -7,
+          y: 7,
+        },
+      },
+    ];
+  }
+
+  // Expansion Refunds
+  if (game.island.type === "spring") {
+    const expectedLand = expansions.add(5);
+
+    if (expectedLand.lte(game.island.previousExpansions ?? 0)) {
+      const refund = EXPANSION_REQUIREMENTS.basic[expectedLand.toNumber()];
+
+      const expansionBoundaries = {
+        x: EXPANSION_ORIGINS[expansions.toNumber() - 1].x - LAND_SIZE / 2,
+        y: EXPANSION_ORIGINS[expansions.toNumber() - 1].y + LAND_SIZE / 2,
+        width: LAND_SIZE,
+        height: LAND_SIZE,
+      };
+
+      const position = pickEmptyPosition({
+        gameState: game,
+        bounding: expansionBoundaries,
+      });
+
+      airdrops = [
+        ...airdrops,
+        {
+          createdAt,
+          id: `expansion-refund-${expectedLand.toNumber()}`,
+          items: refund.resources,
+          sfl: 0,
+          wearables: {},
+          message: "You are on OG expander, here's a reward!",
+          coordinates: position && {
+            x: position.x,
+            y: position.y,
+          },
+        },
+      ];
+    }
+  }
+
+  return airdrops;
+}

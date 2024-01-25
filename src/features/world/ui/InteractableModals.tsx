@@ -50,9 +50,10 @@ type InteractableName =
   | "beach_orange_book"
   | "beach_blue_book"
   | "walrus"
-  | "kraken_banner"
+  | "banner"
   | "crop_boom_finish"
-  | "christmas_reward";
+  | "christmas_reward"
+  | "goblin_hammer";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -98,9 +99,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           isOpen={interactable === "auction_item"}
         />
       )}
-
       {interactable === "potion_table" && <PotionHouse onClose={closeModal} />}
-
       <Modal centered show={interactable === "boat_modal"} onHide={closeModal}>
         <BoatModal
           isOpen={interactable === "boat_modal"}
@@ -108,7 +107,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           id={id}
         />
       </Modal>
-
       <Modal centered show={interactable === "fat_chicken"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -119,7 +117,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal centered show={interactable === "kraken"} onHide={closeModal}>
         <KrakenIntro onClose={closeModal} />
       </Modal>
@@ -133,14 +130,12 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
-      {interactable === "kraken_banner" && (
+      {interactable === "banner" && (
         <PlazaBanner
-          isOpen={interactable === "kraken_banner"}
+          isOpen={interactable === "banner"}
           closeModal={closeModal}
         />
       )}
-
       <Modal centered show={interactable === "bud"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -151,7 +146,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal centered show={interactable === "walrus"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -162,7 +156,21 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
+      <Modal
+        centered
+        show={interactable === "goblin_hammer"}
+        onHide={closeModal}
+      >
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.grimtooth}
+          message={[
+            {
+              text: "Accckkk...Let me build in peace! Stella won't be happy if the Mega Store is not ready for Spring Blossom.",
+            },
+          ]}
+        />
+      </Modal>
       <Modal
         centered
         show={interactable === "plaza_blue_book"}
@@ -181,7 +189,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal
         centered
         show={interactable === "plaza_orange_book"}
@@ -200,7 +207,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal
         centered
         show={interactable === "beach_green_book"}
@@ -219,7 +225,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal
         centered
         show={interactable === "beach_blue_book"}
@@ -241,7 +246,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal
         centered
         show={interactable === "beach_orange_book"}
@@ -260,7 +264,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal
         centered
         show={interactable === "plaza_green_book"}
@@ -279,7 +282,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal
         centered
         show={interactable === "clubhouse_reward"}
@@ -296,7 +298,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           </div>
         </CloseButtonPanel>
       </Modal>
-
       <Modal
         centered
         show={interactable === "plaza_statue"}
@@ -311,7 +312,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal centered show={interactable === "dawn_book_1"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -329,11 +329,9 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal centered show={interactable === "portal"} onHide={closeModal}>
         <Luna onClose={closeModal} />
       </Modal>
-
       <Modal centered show={interactable === "dawn_book_2"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -348,7 +346,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal centered show={interactable === "dawn_book_3"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -366,7 +363,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal centered show={interactable === "dawn_book_4"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -382,7 +378,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal centered show={interactable === "timmy_home"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -394,7 +389,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal centered show={interactable === "windmill"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -406,7 +400,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal centered show={interactable === "igor_home"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -418,7 +411,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal
         centered
         show={interactable === "potion_house"}
@@ -437,7 +429,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal centered show={interactable === "guild_house"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -469,7 +460,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal centered show={interactable === "betty_home"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -481,7 +471,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal centered show={interactable === "bert_home"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -493,7 +482,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal centered show={interactable === "beach"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -508,7 +496,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal centered show={interactable === "castle"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -520,7 +507,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal centered show={interactable === "woodlands"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -532,7 +518,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal centered show={interactable === "port"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -544,11 +529,9 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-
       <Modal centered show={interactable === "nye_button"} onHide={closeModal}>
         <NyeButton onClose={closeModal} />
       </Modal>
-
       <Modal
         centered
         show={interactable === "crop_boom_finish"}

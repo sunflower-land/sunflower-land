@@ -22,9 +22,10 @@ import { isLocked as isGoldLocked } from "features/game/events/landExpansion/mov
 import { InnerPanel } from "components/ui/Panel";
 import { SquareIcon } from "components/ui/SquareIcon";
 import lockIcon from "assets/skills/lock.png";
-import { Ruby } from "features/game/expansion/components/resources/ruby/Ruby";
+import { Crimstone } from "features/game/expansion/components/resources/crimstone/Crimstone";
 import { Beehive } from "features/game/expansion/components/resources/beehive/Beehive";
 import { FlowerBed } from "../flowers/FlowerBed";
+import { Sunstone } from "features/game/expansion/components/resources/sunstone/Sunstone";
 
 export interface ResourceProps {
   name: ResourceName;
@@ -99,9 +100,9 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
       }}
     />
   ),
-  "Ruby Rock": () => (
+  "Crimstone Rock": () => (
     <img
-      src={ITEM_DETAILS["Ruby Rock"].image}
+      src={ITEM_DETAILS["Crimstone Rock"].image}
       className="relative"
       style={{
         width: `${PIXEL_SCALE * 14}px`,
@@ -160,6 +161,17 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
       }}
     />
   ),
+  "Sunstone Rock": () => (
+    <img
+      src={SUNNYSIDE.resource.iron_rock}
+      className="absolute h-auto w-full"
+      style={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 7}px`,
+        left: `${PIXEL_SCALE * 7}px`,
+      }}
+    />
+  ),
 };
 
 export const RESOURCE_COMPONENTS: Record<
@@ -170,12 +182,13 @@ export const RESOURCE_COMPONENTS: Record<
   "Gold Rock": Gold,
   "Iron Rock": Iron,
   "Stone Rock": Stone,
-  "Ruby Rock": Ruby,
+  "Crimstone Rock": Crimstone,
   Tree: Tree,
   "Fruit Patch": FruitPatch,
   Boulder: Boulder,
   Beehive: Beehive,
   "Flower Bed": FlowerBed,
+  "Sunstone Rock": Sunstone,
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");

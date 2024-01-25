@@ -1261,7 +1261,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.gold.rock": "A mineable rock to collect gold",
   "description.iron.rock": "A mineable rock to collect iron",
   "description.stone.rock": "A mineable rock to collect stone",
-  "description.ruby.rock": "A mineable rock to collect ruby",
+  "description.crimstone.rock": "A mineable rock to collect crimstone",
   "description.flower.bed": "An empty plot to plant flowers on",
   "description.tree": "A choppable tree to collect wood",
   "description.fruit.patch": "An empty plot to plant fruit on",
@@ -3741,7 +3741,7 @@ const toolDescriptions: Record<ToolDescriptions, string> = {
   "description.shovel": "Plant and harvest crops.",
   "description.sand.shovel": "Used for digging treasure",
   "description.sand.drill": "Drill deep for uncommon or rare treasure",
-  "description.gold.pickaxe": "Used to collect rubies",
+  "description.gold.pickaxe": "Used to collect crimstones",
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {

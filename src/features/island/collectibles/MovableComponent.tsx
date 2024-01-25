@@ -47,10 +47,11 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Gold Rock": "gold.moved",
   "Iron Rock": "iron.moved",
   "Stone Rock": "stone.moved",
-  "Ruby Rock": "ruby.moved",
+  "Crimstone Rock": "crimstone.moved",
   Boulder: "tree.moved",
   Beehive: "beehive.moved",
   "Flower Bed": "flowerBed.moved",
+  "Sunstone Rock": "sunstone.moved",
 };
 
 function getMoveAction(

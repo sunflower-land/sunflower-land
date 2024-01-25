@@ -267,9 +267,18 @@ export function startGoblinVillage({
                 }),
               },
             ],
-            onError: {
-              target: "error",
-            },
+            onError: [
+              {
+                target: "loading",
+                cond: () => !wallet.isAlchemy,
+                actions: () => {
+                  wallet.overrideProvider();
+                },
+              },
+              {
+                target: "error",
+              },
+            ],
           },
         },
         notifying: {

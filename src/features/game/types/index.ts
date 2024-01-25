@@ -260,8 +260,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Fishing Lure": 632,
   Beehive: 633,
   "Flower Bed": 634,
-  "Ruby Rock": 635,
-  Ruby: 636,
+  "Crimstone Rock": 635,
+  Crimstone: 636,
+  "Sunstone Rock": 637,
+  Sunstone: 638,
 
   "Green Thumb": 701,
   "Barn Manager": 702,
@@ -298,6 +300,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Arcade Token": 733,
   "Farmhand Coupon": 734,
   Farmhand: 735,
+  "Spring Blossom Banner": 736,
+  "Tulip Bulb": 737,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
