@@ -168,7 +168,6 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           ]}
         />
       </Modal>
-      c
       <Modal
         centered
         show={interactable === "plaza_blue_book"}
