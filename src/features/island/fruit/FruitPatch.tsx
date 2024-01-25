@@ -25,7 +25,6 @@ import { ResourceDropAnimator } from "components/animation/ResourceDropAnimator"
 import fruitPatchDirt from "assets/fruit/fruit_patch.png";
 import powerup from "assets/icons/level_up.png";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { getBumpkinLevelRequiredForNode } from "features/game/expansion/lib/expansionNodes";
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
@@ -90,13 +89,6 @@ export const FruitPatch: React.FC<Props> = ({ id, index }) => {
 
   const hasAxes = HasAxes(inventory, game, fruit);
 
-  const bumpkinLevelRequired = getBumpkinLevelRequiredForNode(
-    index,
-    "Fruit Patch"
-  );
-  const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
-  const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
-
   const plantTree = async () => {
     if (selectedItem === "Fruitful Blend") {
       fertilise();
@@ -129,7 +121,6 @@ export const FruitPatch: React.FC<Props> = ({ id, index }) => {
   };
 
   const harvestFruit = async () => {
-    if (bumpkinTooLow) return;
     if (!fruitPatch) return;
 
     const newState = gameService.send("fruit.harvested", {
@@ -195,7 +186,6 @@ export const FruitPatch: React.FC<Props> = ({ id, index }) => {
 
       {/* Fruit tree stages */}
       <FruitTree
-        bumpkinLevelRequired={bumpkinLevelRequired}
         plantedFruit={fruit}
         plantTree={plantTree}
         harvestFruit={harvestFruit}
