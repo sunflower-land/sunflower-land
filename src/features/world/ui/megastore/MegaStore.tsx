@@ -171,13 +171,16 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
       {tab === 0 && (
         <div className="relative h-full w-full">
           <div className="flex flex-col p-2 space-y-3">
-            <Label icon={SUNNYSIDE.icons.stopwatch} type="danger">
-              {secondsToString(timeRemaining, {
-                length: "medium",
-                removeTrailingZeros: true,
-              })}{" "}
-              left!
-            </Label>
+            <div className="space-y-2">
+              <Label icon={SUNNYSIDE.icons.stopwatch} type="danger">
+                {secondsToString(timeRemaining, {
+                  length: "medium",
+                  removeTrailingZeros: true,
+                })}{" "}
+                left!
+              </Label>
+              <span className="text-xs">{`Welcome to the Mega Store! Check out this month's limited items. If you like something, be sure to grab it before it vanishes into the realms of time.`}</span>
+            </div>
             {/* Wearables */}
             <ItemsList
               itemsLabel="Wearables"
