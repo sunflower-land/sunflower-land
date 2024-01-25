@@ -12,6 +12,7 @@ import {
 } from "../../game/lib/audio";
 import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -174,6 +175,15 @@ export class PlazaScene extends BaseScene {
       frameHeight: 15,
     });
 
+    this.load.spritesheet(
+      "goblin_hammer",
+      SUNNYSIDE.npcs.goblin_hammering_sheet,
+      {
+        frameWidth: 70,
+        frameHeight: 30,
+      }
+    );
+
     this.load.spritesheet("fat_chicken", "world/fat_chicken.png", {
       frameWidth: 17,
       frameHeight: 21,
@@ -258,6 +268,24 @@ export class PlazaScene extends BaseScene {
     fatChicken.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       interactableModalManager.open("fat_chicken");
     });
+
+    // Goblin Hammering
+    const hammerinGoblin = this.add.sprite(250, 268, "goblin_hammer");
+    this.anims.create({
+      key: "goblin_hammer_animation",
+      frames: this.anims.generateFrameNumbers("goblin_hammer", {
+        start: 0,
+        end: 22,
+      }),
+      repeat: -1,
+      frameRate: 14,
+    });
+    hammerinGoblin.play("goblin_hammer_animation", true);
+    hammerinGoblin
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("goblin_hammer");
+      });
 
     // Plaza Bud
     const bud = this.add.sprite(500, 420, "plaza_bud");
