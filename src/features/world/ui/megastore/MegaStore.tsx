@@ -10,13 +10,10 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";
 import { getTimeLeft, secondsToString } from "lib/utils/time";
 
-import token from "assets/icons/token_2.png";
-
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibles";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { Transition } from "@headlessui/react";
 import { BuffLabel } from "features/game/types";
-import { getSeasonalTicket } from "features/game/types/seasons";
 import { ItemDetail } from "./components/ItemDetails";
 import { ItemsList } from "./components/ItemsList";
 
@@ -24,7 +21,12 @@ interface Props {
   onClose: () => void;
 }
 
-export type Currency = "SFL" | InventoryItemName;
+export type Currency =
+  | "SFL"
+  | "Block Buck"
+  | "Crimstone"
+  | "Sunstone"
+  | "Seasonal Ticket";
 
 export type WearablesItem = {
   name: BumpkinItem;
@@ -40,7 +42,7 @@ export type CollectiblesItem = {
   price: Decimal;
 };
 
-export type MegaStoreItem = {
+export type MegaStoreItems = {
   available: {
     from: Date;
     to: Date;
@@ -49,7 +51,7 @@ export type MegaStoreItem = {
   collectibles: CollectiblesItem[];
 };
 
-const MEGA_STORE_ITEMS: MegaStoreItem = {
+const MEGA_STORE_ITEMS: MegaStoreItems = {
   available: {
     from: new Date("2024-01-01"),
     to: new Date("2024-02-01"),
@@ -59,7 +61,7 @@ const MEGA_STORE_ITEMS: MegaStoreItem = {
       name: "Nana",
       shortDescription:
         "This rare beauty is a surefire way to boost your banana harvests.",
-      currency: getSeasonalTicket(),
+      currency: "Seasonal Ticket",
       price: new Decimal(100),
     },
     {
@@ -75,29 +77,24 @@ const MEGA_STORE_ITEMS: MegaStoreItem = {
       name: "Tiki Mask",
       shortDescription:
         "This mask will help you get into the spirit of the island.",
-      currency: getSeasonalTicket(),
+      currency: "Seasonal Ticket",
       price: new Decimal(250),
     },
     {
       name: "Angler Waders",
       shortDescription:
         "Stay dry and warm with these waders, perfect for fishing.",
-      currency: getSeasonalTicket(),
+      currency: "Seasonal Ticket",
       price: new Decimal(500),
     },
     {
       name: "Stockeye Salmon Onesie",
       shortDescription:
         "This onesie is perfect for a cold night out on the lake.",
-      currency: getSeasonalTicket(),
+      currency: "Seasonal Ticket",
       price: new Decimal(30000),
     },
   ],
-};
-
-export const CURRENCY_ICONS: Partial<Record<Currency, string>> = {
-  [getSeasonalTicket()]: ITEM_DETAILS[getSeasonalTicket()].image,
-  SFL: token,
 };
 
 // type guard for WearablesItem | CollectiblesItem
@@ -138,15 +135,15 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
   >(null);
   const [isVisible, setIsVisible] = useState(false);
 
-  const handleClickItem = (item: WearablesItem | CollectiblesItem) => {
-    setSelectedItem(item);
-  };
-
   useEffect(() => {
     if (selectedItem && !isVisible) {
       setIsVisible(true);
     }
   }, [selectedItem, isVisible]);
+
+  const handleClickItem = (item: WearablesItem | CollectiblesItem) => {
+    setSelectedItem(item);
+  };
 
   const getTotalSecondsAvailable = () => {
     const { from, to } = MEGA_STORE_ITEMS.available;
@@ -215,10 +212,10 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
               />
             </Transition.Child>
             <Transition.Child
-              enter="transition-transform ease-out duration-150"
+              enter="transition-transform ease-linear duration-150"
               enterFrom="scale-0"
               enterTo="scale-100"
-              leave="transition-transform ease-out duration-150"
+              leave="transition-transform ease-linear duration-150"
               leaveFrom="scale-100"
               leaveTo="scale-0"
               afterLeave={() => setIsVisible(false)}

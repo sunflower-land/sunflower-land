@@ -1,7 +1,7 @@
 import React from "react";
 import {
-  CURRENCY_ICONS,
   CollectiblesItem,
+  Currency,
   WearablesItem,
   getItemBuffLabel,
   getItemImage,
@@ -11,6 +11,10 @@ import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
+import { getSeasonalTicket } from "features/game/types/seasons";
+
+import token from "assets/icons/token_2.png";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {
   itemsLabel: string;
@@ -23,6 +27,15 @@ export const ItemsList: React.FC<Props> = ({
   itemsLabel,
   onItemClick,
 }) => {
+  const getCurrencyIcon = (currency: Currency) => {
+    if (currency === "SFL") return token;
+
+    const currencyItem =
+      currency === "Seasonal Ticket" ? getSeasonalTicket() : currency;
+
+    return ITEM_DETAILS[currencyItem].image;
+  };
+
   return (
     <div className="flex flex-col space-y-2">
       <Label type="info">{itemsLabel}</Label>
@@ -59,10 +72,7 @@ export const ItemsList: React.FC<Props> = ({
               </div>
               {/* Price */}
               <div className="flex items-center space-x-1">
-                <SquareIcon
-                  icon={CURRENCY_ICONS[item.currency] as string}
-                  width={7}
-                />
+                <SquareIcon icon={getCurrencyIcon(item.currency)} width={7} />
                 <span className="text-xxs">
                   {formatNumber(item.price.toNumber())}
                 </span>

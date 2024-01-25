@@ -15,9 +15,9 @@ import { Button } from "components/ui/Button";
 import { BuffLabel } from "features/game/types";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { getSeasonalTicket } from "features/game/types/seasons";
 import { CollectiblesItem, WearablesItem } from "../MegaStore";
 import { MachineState } from "features/game/lib/gameMachine";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 interface ItemOverlayProps {
   item: WearablesItem | CollectiblesItem | null;
@@ -69,7 +69,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       return sflBalance.greaterThanOrEqualTo(item.price);
     }
 
-    return (inventory[item.currency] ?? new Decimal(0)).greaterThanOrEqualTo(
+    const currency =
+      item.currency === "Seasonal Ticket" ? getSeasonalTicket() : item.currency;
+
+    return (inventory[currency] ?? new Decimal(0)).greaterThanOrEqualTo(
       item.price
     );
   };
@@ -80,32 +83,12 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     const { name, currency, price } = item;
     const type = isWearable ? "Wearable" : "Collectible";
 
-    if (currency === "Block Buck") {
-      gameAnalytics.trackSink({
-        currency: "Block Buck",
-        amount: price.toNumber(),
-        item: name,
-        type,
-      });
-    }
-
-    if (currency === getSeasonalTicket()) {
-      gameAnalytics.trackSink({
-        currency: "Seasonal Ticket",
-        amount: price.toNumber(),
-        item: name,
-        type,
-      });
-    }
-
-    if (currency === "SFL") {
-      gameAnalytics.trackSink({
-        currency: "SFL",
-        amount: price.toNumber(),
-        item: name,
-        type,
-      });
-    }
+    gameAnalytics.trackSink({
+      currency,
+      amount: price.toNumber(),
+      item: name,
+      type,
+    });
 
     if (!isWearable) {
       const itemName = name as InventoryItemName;
@@ -135,6 +118,11 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
     trackAnalytics();
   };
+
+  const currency =
+    item?.currency === "Seasonal Ticket"
+      ? getSeasonalTicket()
+      : (item?.currency as InventoryItemName);
 
   return (
     <InnerPanel className="shadow-md">
@@ -198,11 +186,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                     {item?.currency !== "SFL" && (
                       <RequirementLabel
                         type="item"
-                        item={item?.currency as InventoryItemName}
-                        balance={
-                          inventory[item?.currency as InventoryItemName] ??
-                          new Decimal(0)
-                        }
+                        item={currency}
+                        balance={inventory[currency] ?? new Decimal(0)}
                         requirement={item?.price ?? new Decimal(0)}
                       />
                     )}
