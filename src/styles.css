@@ -322,11 +322,11 @@ img {
 
 @keyframes boating {
   0% {
-    transform: translateX(-1600px);
+    transform: translateX(-850px);
     animation-timing-function: linear;
   }
   100% {
-    transform: translateX(3200px);
+    transform: translateX(1800px);
     animation-timing-function: linear;
   }
 }

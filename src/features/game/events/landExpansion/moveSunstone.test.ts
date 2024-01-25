@@ -1,29 +1,29 @@
 import { TEST_FARM } from "features/game/lib/constants";
-import { MOVE_RUBY_ERRORS, moveRuby } from "./moveRuby";
+import { MOVE_GOLD_ERRORS, moveSunstone } from "./moveSunstone";
 
-describe("moveRuby", () => {
+describe("moveSunstone", () => {
   it("throws if player has no Bumpkin", () => {
     expect(() =>
-      moveRuby({
+      moveSunstone({
         state: {
           ...TEST_FARM,
           bumpkin: undefined,
         },
         action: {
-          type: "ruby.moved",
+          type: "sunstone.moved",
           id: "1",
           coordinates: { x: 2, y: 2 },
         },
       })
-    ).toThrow(MOVE_RUBY_ERRORS.NO_BUMPKIN);
+    ).toThrow(MOVE_GOLD_ERRORS.NO_BUMPKIN);
   });
 
-  it("does not move ruby with invalid id", () => {
+  it("does not move sunstone with invalid id", () => {
     expect(() =>
-      moveRuby({
+      moveSunstone({
         state: {
           ...TEST_FARM,
-          rubies: {
+          gold: {
             1: {
               height: 1,
               width: 1,
@@ -37,19 +37,19 @@ describe("moveRuby", () => {
           },
         },
         action: {
-          type: "ruby.moved",
+          type: "sunstone.moved",
           id: "2",
           coordinates: { x: 2, y: 2 },
         },
       })
-    ).toThrow(MOVE_RUBY_ERRORS.RUBY_NOT_PLACED);
+    ).toThrow(MOVE_GOLD_ERRORS.SUNSTONE_NOT_PLACED);
   });
 
-  it("moves a ruby node", () => {
-    const gameState = moveRuby({
+  it("moves a sunstone node", () => {
+    const gameState = moveSunstone({
       state: {
         ...TEST_FARM,
-        rubies: {
+        sunstones: {
           "123": {
             height: 1,
             width: 1,
@@ -59,6 +59,7 @@ describe("moveRuby", () => {
               amount: 1,
               minedAt: 0,
             },
+            minesLeft: 1,
           },
           "456": {
             height: 1,
@@ -69,6 +70,7 @@ describe("moveRuby", () => {
               amount: 1,
               minedAt: 0,
             },
+            minesLeft: 1,
           },
           "789": {
             height: 1,
@@ -79,17 +81,18 @@ describe("moveRuby", () => {
               amount: 1,
               minedAt: 0,
             },
+            minesLeft: 1,
           },
         },
       },
       action: {
-        type: "ruby.moved",
+        type: "sunstone.moved",
         id: "123",
         coordinates: { x: 2, y: 2 },
       },
     });
 
-    expect(gameState.rubies).toEqual({
+    expect(gameState.sunstones).toEqual({
       "123": {
         height: 1,
         width: 1,
@@ -99,6 +102,7 @@ describe("moveRuby", () => {
           amount: 1,
           minedAt: 0,
         },
+        minesLeft: 1,
       },
       "456": {
         height: 1,
@@ -109,6 +113,7 @@ describe("moveRuby", () => {
           amount: 1,
           minedAt: 0,
         },
+        minesLeft: 1,
       },
       "789": {
         height: 1,
@@ -119,6 +124,7 @@ describe("moveRuby", () => {
           amount: 1,
           minedAt: 0,
         },
+        minesLeft: 1,
       },
     });
   });

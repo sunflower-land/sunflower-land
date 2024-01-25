@@ -84,6 +84,7 @@ export const SUNNYSIDE = {
     goblin_doing: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_doing.gif`,
     goblin_farting: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_farting.gif`,
     goblin_hammering: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_hammering.gif`,
+    goblin_hammering_sheet: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_hammering_sheet.png`,
     goblin_jumping: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_jumping.gif`,
     goblin_mining: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_mining.gif`,
     goblin_swimming: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/goblin_swimming.gif`,

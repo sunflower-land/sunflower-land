@@ -1,37 +1,37 @@
 import Decimal from "decimal.js-light";
-import { RUBY_RECOVERY_TIME } from "features/game/lib/constants";
+import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 import { GameState, Rock } from "../../types/game";
 import { translate } from "lib/i18n/translate";
 
-export type MineRubyAction = {
-  type: "rubyRock.mined";
+export type MineCrimstoneAction = {
+  type: "crimstoneRock.mined";
   index: number;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: MineRubyAction;
+  action: MineCrimstoneAction;
   createdAt?: number;
 };
 
 export function canMine(rock: Rock, now: number = Date.now()) {
-  const recoveryTime = RUBY_RECOVERY_TIME;
+  const recoveryTime = CRIMSTONE_RECOVERY_TIME;
   return now - rock.stone.minedAt > recoveryTime * 1000;
 }
 
-export function mineRuby({
+export function mineCrimstone({
   state,
   action,
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
-  const { rubies, bumpkin } = stateCopy;
-  const rock = rubies?.[action.index];
+  const { crimstones, bumpkin } = stateCopy;
+  const rock = crimstones?.[action.index];
 
   if (!rock) {
-    throw new Error("Ruby does not exist");
+    throw new Error("Crimstone does not exist");
   }
 
   if (bumpkin === undefined) {
@@ -48,18 +48,34 @@ export function mineRuby({
     throw new Error("No gold pickaxes left");
   }
 
+  // if last minedAt is more than CRIMSTONE_RECOVERY_TIME + 24hrs, reset minesLeft to 5
+  // else, decrement minesLeft by 1
+  const twentyFourHrs = 24 * 60 * 60;
+
+  const timeToReset = (CRIMSTONE_RECOVERY_TIME + twentyFourHrs) * 1000;
+
+  if (createdAt - rock.stone.minedAt > timeToReset) {
+    rock.minesLeft = 5;
+  }
+
   const stoneMined = rock.stone.amount;
-  const amountInInventory = stateCopy.inventory.Ruby || new Decimal(0);
+  const amountInInventory = stateCopy.inventory.Crimstone || new Decimal(0);
 
   rock.stone = {
     minedAt: createdAt,
     amount: 1,
   };
 
-  stateCopy.inventory["Gold Pickaxe"] = toolAmount.sub(1);
-  stateCopy.inventory.Ruby = amountInInventory.add(stoneMined);
+  rock.minesLeft = rock.minesLeft - 1;
 
-  bumpkin.activity = trackActivity("Ruby Mined", bumpkin.activity);
+  if (rock.minesLeft === 0) {
+    rock.minesLeft = 5;
+  }
+
+  stateCopy.inventory["Gold Pickaxe"] = toolAmount.sub(1);
+  stateCopy.inventory.Crimstone = amountInInventory.add(stoneMined);
+
+  bumpkin.activity = trackActivity("Crimstone Mined", bumpkin.activity);
 
   return stateCopy;
 }

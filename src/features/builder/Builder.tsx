@@ -32,9 +32,11 @@ export const Builder: React.FC = () => {
     gold: [],
     iron: [],
     stones: [],
-    rubies: [],
+    crimstones: [],
+    sunstones: [],
     trees: [],
     boulder: [],
+    flowers: [],
     beehives: [],
   });
 
@@ -129,10 +131,12 @@ export const Builder: React.FC = () => {
                 gold: [],
                 iron: [],
                 stones: [],
-                rubies: [],
+                crimstones: [],
+                sunstones: [],
                 trees: [],
                 boulder: [],
                 beehives: [],
+                flowers: [],
               })
             }
           >

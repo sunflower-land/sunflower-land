@@ -307,6 +307,24 @@ export const Trade: React.FC = () => {
     );
   }
 
+  if (!gameState.context.state.inventory["Gold Pass"]) {
+    return (
+      <div className="relative">
+        <Label type="info" className="absolute top-2 right-2">
+          Beta
+        </Label>
+        <div className="p-1 flex flex-col items-center">
+          <img
+            src={ITEM_DETAILS["Gold Pass"].image}
+            className="w-1/5 mx-auto my-2 img-highlight-heavy"
+          />
+          <p className="text-sm">Gold Pass is required</p>
+          <p className="text-xs mb-2">Purchase at Goblin Retreat</p>
+        </div>
+      </div>
+    );
+  }
+
   if (showListing) {
     return (
       <ListTrade
