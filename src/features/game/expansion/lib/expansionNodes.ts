@@ -307,12 +307,11 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
       Beehive: 0,
     },
   },
-  // TODO - double check these match the totals?
   spring: {
     4: {
       "Crop Plot": 31,
       "Fruit Patch": 2,
-      Tree: 10,
+      Tree: 11,
       "Stone Rock": 8,
       "Iron Rock": 4,
       "Gold Rock": 2,
@@ -324,7 +323,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     5: {
       "Crop Plot": 33,
       "Fruit Patch": 3,
-      Tree: 11,
+      Tree: 12,
       "Stone Rock": 9,
       "Iron Rock": 5,
       "Gold Rock": 3,
@@ -336,7 +335,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     6: {
       "Crop Plot": 33,
       "Fruit Patch": 4,
-      Tree: 11,
+      Tree: 12,
       "Stone Rock": 10,
       "Iron Rock": 5,
       "Gold Rock": 3,
@@ -348,7 +347,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     7: {
       "Crop Plot": 35,
       "Fruit Patch": 4,
-      Tree: 12,
+      Tree: 13,
       "Stone Rock": 11,
       "Iron Rock": 5,
       "Gold Rock": 3,
@@ -360,7 +359,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     8: {
       "Crop Plot": 37,
       "Fruit Patch": 5,
-      Tree: 12,
+      Tree: 13,
       "Stone Rock": 12,
       "Iron Rock": 6,
       "Gold Rock": 4,
@@ -372,7 +371,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     9: {
       "Crop Plot": 37,
       "Fruit Patch": 6,
-      Tree: 13,
+      Tree: 14,
       "Stone Rock": 12,
       "Iron Rock": 6,
       "Gold Rock": 4,
@@ -384,7 +383,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     10: {
       "Crop Plot": 37,
       "Fruit Patch": 7,
-      Tree: 13,
+      Tree: 14,
       "Stone Rock": 12,
       "Iron Rock": 7,
       "Gold Rock": 5,
@@ -396,7 +395,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     11: {
       "Crop Plot": 39,
       "Fruit Patch": 8,
-      Tree: 14,
+      Tree: 15,
       "Stone Rock": 13,
       "Iron Rock": 7,
       "Gold Rock": 5,
@@ -408,7 +407,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     12: {
       "Crop Plot": 41,
       "Fruit Patch": 8,
-      Tree: 14,
+      Tree: 15,
       "Stone Rock": 13,
       "Iron Rock": 7,
       "Gold Rock": 5,
@@ -420,7 +419,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     13: {
       "Crop Plot": 41,
       "Fruit Patch": 9,
-      Tree: 15,
+      Tree: 16,
       "Stone Rock": 14,
       "Iron Rock": 8,
       "Gold Rock": 5,
@@ -432,7 +431,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     14: {
       "Crop Plot": 43,
       "Fruit Patch": 10,
-      Tree: 15,
+      Tree: 16,
       "Stone Rock": 14,
       "Iron Rock": 8,
       "Gold Rock": 5,
@@ -444,7 +443,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     15: {
       "Crop Plot": 44,
       "Fruit Patch": 11,
-      Tree: 16,
+      Tree: 17,
       "Stone Rock": 15,
       "Iron Rock": 9,
       "Gold Rock": 5,
@@ -456,7 +455,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     16: {
       "Crop Plot": 45,
       "Fruit Patch": 11,
-      Tree: 17,
+      Tree: 18,
       "Stone Rock": 15,
       "Iron Rock": 9,
       "Gold Rock": 6,
@@ -468,7 +467,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     17: {
       "Crop Plot": 46,
       "Fruit Patch": 12,
-      Tree: 17,
+      Tree: 18,
       "Stone Rock": 16,
       "Iron Rock": 10,
       "Gold Rock": 6,
@@ -480,7 +479,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     18: {
       "Crop Plot": 46,
       "Fruit Patch": 12,
-      Tree: 17,
+      Tree: 18,
       "Stone Rock": 15,
       "Iron Rock": 9,
       "Gold Rock": 6,
@@ -492,7 +491,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     19: {
       "Crop Plot": 48,
       "Fruit Patch": 12,
-      Tree: 17,
+      Tree: 18,
       "Stone Rock": 15,
       "Iron Rock": 9,
       "Gold Rock": 6,
@@ -504,7 +503,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     20: {
       "Crop Plot": 50,
       "Fruit Patch": 12,
-      Tree: 17,
+      Tree: 18,
       "Stone Rock": 15,
       "Iron Rock": 9,
       "Gold Rock": 6,
