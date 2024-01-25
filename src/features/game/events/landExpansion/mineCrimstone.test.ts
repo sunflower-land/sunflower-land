@@ -15,6 +15,7 @@ const GAME_STATE: GameState = {
       y: 1,
       height: 1,
       width: 1,
+      minesLeft: 5,
     },
     1: {
       stone: {
@@ -25,6 +26,7 @@ const GAME_STATE: GameState = {
       y: 1,
       height: 1,
       width: 1,
+      minesLeft: 5,
     },
   },
 };
@@ -32,6 +34,25 @@ const GAME_STATE: GameState = {
 describe("mineCrimstone", () => {
   beforeAll(() => {
     jest.useFakeTimers();
+  });
+
+  it("throws an error if the player doesn't have a bumpkin", async () => {
+    expect(() =>
+      mineCrimstone({
+        state: {
+          ...GAME_STATE,
+          bumpkin: undefined,
+          inventory: {
+            "Gold Pickaxe": new Decimal(2),
+          },
+        },
+        action: {
+          type: "crimstoneRock.mined",
+          expansionIndex: 0,
+          index: 0,
+        } as MineCrimstoneAction,
+      })
+    ).toThrow("You do not have a Bumpkin");
   });
 
   it("throws an error if no gold pickaxes are left", () => {
@@ -159,9 +180,9 @@ describe("mineCrimstone", () => {
 
     let game = mineCrimstone(payload);
 
-    // 48 hours + 100 milliseconds
-    jest.advanceTimersByTime(2 * 24 * 60 * 60 * 1000 + 100);
+    // 24 hours + 100 milliseconds
     game = mineCrimstone({
+      createdAt: Date.now() + 1 * 24 * 60 * 60 * 1000 + 100,
       ...payload,
       state: game,
     });
@@ -170,22 +191,30 @@ describe("mineCrimstone", () => {
     expect(game.inventory.Crimstone?.toNumber()).toBeGreaterThan(2);
   });
 
-  it("throws an error if the player doesn't have a bumpkin", async () => {
-    expect(() =>
-      mineCrimstone({
-        state: {
-          ...GAME_STATE,
-          bumpkin: undefined,
-          inventory: {
-            "Gold Pickaxe": new Decimal(2),
-          },
+  it("resets minesLeft after 24 hours", () => {
+    const payload = {
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Gold Pickaxe": new Decimal(2),
         },
-        action: {
-          type: "crimstoneRock.mined",
-          expansionIndex: 0,
-          index: 0,
-        } as MineCrimstoneAction,
-      })
-    ).toThrow("You do not have a Bumpkin");
+      },
+      action: {
+        type: "crimstoneRock.mined",
+        expansionIndex: 0,
+        index: 1,
+      } as MineCrimstoneAction,
+    };
+
+    let game = mineCrimstone(payload);
+
+    // 48 hours + 100 milliseconds
+    game = mineCrimstone({
+      createdAt: Date.now() + 2 * 24 * 60 * 60 * 1000 + 100,
+      ...payload,
+      state: game,
+    });
+
+    expect(game.crimstones[1].minesLeft).toEqual(4);
   });
 });

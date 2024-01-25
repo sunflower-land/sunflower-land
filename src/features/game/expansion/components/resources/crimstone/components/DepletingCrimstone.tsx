@@ -2,22 +2,37 @@ import React, { useContext, useRef, useState } from "react";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import dropSheet from "assets/resources/ruby/ruby_rock_drop.png";
+import dropSheet1 from "assets/resources/crimstone/crimstone_rock_one_drop.png";
+import dropSheet2 from "assets/resources/crimstone/crimstone_rock_three_drop.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import crimstone from "assets/resources/ruby.png";
+import crimstone from "assets/resources/crimstone.png";
 import { ZoomContext } from "components/ZoomProvider";
+import { getCrimstoneStage } from "../Crimstone";
 
-const DROP_SHEET_FRAME_WIDTH = 112;
+const DROP_SHEET_FRAME_WIDTH = 96;
 const DROP_SHEET_FRAME_HEIGHT = 48;
 
 interface Props {
   resourceAmount?: number;
+  minesLeft: number;
+  minedAt: number;
 }
 
-const DepletingCrimstoneComponent: React.FC<Props> = ({ resourceAmount }) => {
+const DepletingCrimstoneComponent: React.FC<Props> = ({
+  resourceAmount,
+  minesLeft,
+  minedAt,
+}) => {
   const { scale } = useContext(ZoomContext);
   const [playing, setPlaying] = useState(false);
   const sparkGif = useRef<SpriteSheetInstance>();
+
+  const getDropSheet = () => {
+    if (getCrimstoneStage(minesLeft, minedAt) === 6) {
+      return dropSheet2;
+    }
+    return dropSheet1;
+  };
 
   return (
     <div className="absolute w-full h-full pointer-events-none">
@@ -41,7 +56,7 @@ const DepletingCrimstoneComponent: React.FC<Props> = ({ resourceAmount }) => {
           spritesheet.goToAndPlay(0);
           setPlaying(true);
         }}
-        image={dropSheet}
+        image={getDropSheet()}
         widthFrame={DROP_SHEET_FRAME_WIDTH}
         heightFrame={DROP_SHEET_FRAME_HEIGHT}
         zoomScale={scale}

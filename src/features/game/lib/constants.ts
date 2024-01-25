@@ -32,7 +32,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     Pickaxe: new Decimal(60),
     "Stone Pickaxe": new Decimal(20),
     "Iron Pickaxe": new Decimal(5),
-    "Gold Pickaxe": new Decimal(5),
+    "Gold Pickaxe": new Decimal(1),
     Rod: new Decimal(50),
   };
 
@@ -46,7 +46,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
       Pickaxe: new Decimal(90),
       "Stone Pickaxe": new Decimal(30),
       "Iron Pickaxe": new Decimal(8),
-      "Gold Pickaxe": new Decimal(8),
+      "Gold Pickaxe": new Decimal(2),
       Rod: new Decimal(75),
     };
   }
@@ -544,5 +544,5 @@ export const TREE_RECOVERY_TIME = 2 * 60 * 60;
 export const STONE_RECOVERY_TIME = 4 * 60 * 60;
 export const IRON_RECOVERY_TIME = 8 * 60 * 60;
 export const GOLD_RECOVERY_TIME = 24 * 60 * 60;
-export const CRIMSTONE_RECOVERY_TIME = 2 * 24 * 60 * 60;
+export const CRIMSTONE_RECOVERY_TIME = 24 * 60 * 60;
 export const SUNSTONE_RECOVERY_TIME = 3 * 24 * 60 * 60;

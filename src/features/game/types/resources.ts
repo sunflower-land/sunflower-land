@@ -107,8 +107,8 @@ export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
     height: 1,
   },
   "Crimstone Rock": {
-    width: 1,
-    height: 1,
+    width: 2,
+    height: 2,
   },
   Tree: {
     width: 2,

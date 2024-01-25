@@ -5,7 +5,7 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import strikeSheet from "assets/resources/ruby/ruby_rock_spark.png";
+import strikeSheet from "assets/resources/crimstone/crimstone_rock_spark.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -13,16 +13,21 @@ import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { loadAudio, miningAudio } from "lib/utils/sfx";
-import crimstone from "assets/resources/ruby_small.png";
+import crimstone_1 from "assets/resources/crimstone/crimstone_rock_1.webp";
+import crimstone_2 from "assets/resources/crimstone/crimstone_rock_2.webp";
+import crimstone_3 from "assets/resources/crimstone/crimstone_rock_3.webp";
+import crimstone_4 from "assets/resources/crimstone/crimstone_rock_4.webp";
+import crimstone_5 from "assets/resources/crimstone/crimstone_rock_5.webp";
 import { ZoomContext } from "components/ZoomProvider";
 
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { getCrimstoneStage } from "../Crimstone";
 
 const tool = "Gold Pickaxe";
 
-const STRIKE_SHEET_FRAME_WIDTH = 112;
+const STRIKE_SHEET_FRAME_WIDTH = 48;
 const STRIKE_SHEET_FRAME_HEIGHT = 48;
 
 const _bumpkinLevel = (state: MachineState) =>
@@ -32,12 +37,16 @@ interface Props {
   bumpkinLevelRequired: number;
   hasTool: boolean;
   touchCount: number;
+  minesLeft: number;
+  minedAt: number;
 }
 
 const RecoveredCrimstoneComponent: React.FC<Props> = ({
   bumpkinLevelRequired,
   hasTool,
   touchCount,
+  minesLeft,
+  minedAt,
 }) => {
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
@@ -58,6 +67,14 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
   const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
+
+  const crimstoneImage = [
+    crimstone_1,
+    crimstone_2,
+    crimstone_3,
+    crimstone_4,
+    crimstone_5,
+  ][getCrimstoneStage(minesLeft, minedAt) - 1];
 
   useEffect(() => {
     if (bumpkinTooLow) return;
@@ -99,55 +116,70 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
         {/* static resource node image */}
         {!showSpritesheet && (
           <img
-            src={crimstone}
+            src={crimstoneImage}
             className={
               bumpkinTooLow
                 ? "absolute pointer-events-none opacity-50"
                 : "absolute pointer-events-none"
             }
             style={{
-              width: `${PIXEL_SCALE * 14}px`,
-              bottom: `${PIXEL_SCALE * 3}px`,
-              right: `${PIXEL_SCALE * 1}px`,
+              width: `${PIXEL_SCALE * 24}px`,
+              bottom: `${PIXEL_SCALE * 1}px`,
+              right: `${PIXEL_SCALE * 4}px`,
             }}
           />
         )}
 
         {/* spritesheet */}
         {showSpritesheet && (
-          <Spritesheet
-            className="pointer-events-none"
-            style={{
-              position: "absolute",
-              width: `${STRIKE_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
-              height: `${STRIKE_SHEET_FRAME_HEIGHT * PIXEL_SCALE}px`,
-              imageRendering: "pixelated",
-
-              // Adjust the base of resource node to be perfectly aligned to
-              // on a grid point.
-              bottom: `${PIXEL_SCALE * -13}px`,
-              right: `${PIXEL_SCALE * -63}px`,
-            }}
-            getInstance={(spritesheet) => {
-              strikeGif.current = spritesheet;
-              spritesheet.goToAndPlay(0);
-            }}
-            image={strikeSheet}
-            widthFrame={STRIKE_SHEET_FRAME_WIDTH}
-            heightFrame={STRIKE_SHEET_FRAME_HEIGHT}
-            zoomScale={scale}
-            fps={24}
-            steps={6}
-            direction={`forward`}
-            autoplay={false}
-            loop={true}
-            onLoopComplete={(spritesheet) => {
-              spritesheet.pause();
-              if (touchCount == 0 && !!strikeGif.current) {
-                setShowSpritesheet(false);
+          <>
+            <img
+              src={crimstoneImage}
+              className={
+                bumpkinTooLow
+                  ? "absolute pointer-events-none opacity-50"
+                  : "absolute pointer-events-none"
               }
-            }}
-          />
+              style={{
+                width: `${PIXEL_SCALE * 24}px`,
+                bottom: `${PIXEL_SCALE * 1}px`,
+                right: `${PIXEL_SCALE * 4}px`,
+              }}
+            />
+            <Spritesheet
+              className="pointer-events-none"
+              style={{
+                position: "absolute",
+                width: `${STRIKE_SHEET_FRAME_WIDTH * PIXEL_SCALE}px`,
+                height: `${STRIKE_SHEET_FRAME_HEIGHT * PIXEL_SCALE}px`,
+                imageRendering: "pixelated",
+
+                // Adjust the base of resource node to be perfectly aligned to
+                // on a grid point.
+                bottom: `${PIXEL_SCALE * 0}px`,
+                left: `${PIXEL_SCALE * -4}px`,
+              }}
+              getInstance={(spritesheet) => {
+                strikeGif.current = spritesheet;
+                spritesheet.goToAndPlay(0);
+              }}
+              image={strikeSheet}
+              widthFrame={STRIKE_SHEET_FRAME_WIDTH}
+              heightFrame={STRIKE_SHEET_FRAME_HEIGHT}
+              zoomScale={scale}
+              fps={24}
+              steps={6}
+              direction={`forward`}
+              autoplay={false}
+              loop={true}
+              onLoopComplete={(spritesheet) => {
+                spritesheet.pause();
+                if (touchCount == 0 && !!strikeGif.current) {
+                  setShowSpritesheet(false);
+                }
+              }}
+            />
+          </>
         )}
       </div>
 
