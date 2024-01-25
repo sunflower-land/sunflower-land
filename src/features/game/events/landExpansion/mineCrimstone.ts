@@ -47,6 +47,16 @@ export function mineCrimstone({
     throw new Error("No gold pickaxes left");
   }
 
+  // if last minedAt is more than CRIMSTONE_RECOVERY_TIME + 24hrs, reset minesLeft to 5
+  // else, decrement minesLeft by 1
+  const twentyFourHrs = 24 * 60 * 60;
+
+  const timeToReset = (CRIMSTONE_RECOVERY_TIME + twentyFourHrs) * 1000;
+
+  if (createdAt - rock.stone.minedAt > timeToReset) {
+    rock.minesLeft = 5;
+  }
+
   const stoneMined = rock.stone.amount;
   const amountInInventory = stateCopy.inventory.Crimstone || new Decimal(0);
 
@@ -54,6 +64,12 @@ export function mineCrimstone({
     minedAt: createdAt,
     amount: 1,
   };
+
+  rock.minesLeft = rock.minesLeft - 1;
+
+  if (rock.minesLeft === 0) {
+    rock.minesLeft = 5;
+  }
 
   stateCopy.inventory["Gold Pickaxe"] = toolAmount.sub(1);
   stateCopy.inventory.Crimstone = amountInInventory.add(stoneMined);

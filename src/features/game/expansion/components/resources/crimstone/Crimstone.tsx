@@ -25,13 +25,26 @@ const HasTool = (inventory: Partial<Record<InventoryItemName, Decimal>>) => {
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
-const showHelper = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 3 &&
-  !state.context.state.bumpkin?.activity?.["Crimstone Mined"];
+
 const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
 
+export const getCrimstoneStage = (minesLeft: number, minedAt: number) => {
+  const timeToReset = (CRIMSTONE_RECOVERY_TIME + 24 * 60 * 60) * 1000;
+  const now = Date.now();
+  if (now - minedAt > timeToReset) {
+    return 1;
+  }
+
+  if (minesLeft === 5 && now - minedAt < CRIMSTONE_RECOVERY_TIME * 1000)
+    return 6;
+  if (minesLeft === 5) return 1;
+  if (minesLeft === 4) return 2;
+  if (minesLeft === 3) return 3;
+  if (minesLeft === 2) return 4;
+  return 5;
+};
 const _bumpkinLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
@@ -80,8 +93,6 @@ export const Crimstone: React.FC<Props> = ({ id, index }) => {
       HasTool(prev) === HasTool(next) &&
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0))
   );
-
-  const needsHelp = useSelector(gameService, showHelper);
 
   const hasTool = HasTool(inventory);
   const timeLeft = getTimeLeft(resource.stone.minedAt, CRIMSTONE_RECOVERY_TIME);
@@ -136,15 +147,29 @@ export const Crimstone: React.FC<Props> = ({ id, index }) => {
             bumpkinLevelRequired={bumpkinLevelRequired}
             hasTool={hasTool}
             touchCount={touchCount}
+            minesLeft={resource.minesLeft}
+            minedAt={resource.stone.minedAt}
           />
         </div>
       )}
 
       {/* Depleting resource animation */}
-      {collecting && <DepletingCrimstone resourceAmount={collectedAmount} />}
+      {collecting && (
+        <DepletingCrimstone
+          resourceAmount={collectedAmount}
+          minesLeft={resource.minesLeft}
+          minedAt={resource.stone.minedAt}
+        />
+      )}
 
       {/* Depleted resource */}
-      {mined && <DepletedCrimstone timeLeft={timeLeft} />}
+      {mined && (
+        <DepletedCrimstone
+          timeLeft={timeLeft}
+          minesLeft={resource.minesLeft}
+          minedAt={resource.stone.minedAt}
+        />
+      )}
     </div>
   );
 };

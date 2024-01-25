@@ -49,6 +49,7 @@ export function placeCrimstone({
         amount: 0,
         minedAt: 0,
       },
+      minesLeft: 5,
     },
   };
 

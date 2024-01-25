@@ -142,7 +142,7 @@ import singaporean_flag from "assets/sfts/flags/singaporean_flag.gif";
 // Resources
 import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
-import crimstone from "assets/resources/ruby.png";
+import crimstone from "assets/resources/crimstone.png";
 import honey from "assets/resources/honey.png";
 import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
@@ -472,7 +472,7 @@ import grainGrinder from "assets/sfts/grain_grinder.png";
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
 import stoneRock from "assets/resources/stone_small.png";
-import crimstoneRock from "assets/resources/ruby_small.png";
+import crimstoneRock from "assets/resources/crimstone/crimstone_rock_1.webp";
 
 // Potion House
 import giantCabbage from "assets/sfts/giant_cabbage.png";

@@ -115,6 +115,7 @@ export function revealLand({
       x: coords.x + origin.x,
       y: coords.y + origin.y,
       stone: { amount: 1, minedAt: 0 },
+      minesLeft: 5,
     };
   });
   inventory["Crimstone Rock"] = (

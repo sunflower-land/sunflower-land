@@ -7,7 +7,7 @@ import classNames from "classnames";
 import fruitPatch from "assets/fruit/apple/apple_tree.png";
 import goldStone from "assets/resources/gold_small.png";
 import ironStone from "assets/resources/iron_small.png";
-import crimstone from "assets/resources/ruby_small.png";
+import crimstone from "assets/resources/crimstone/crimstone_rock_1.webp";
 import beehive from "assets/sfts/beehive.webp";
 
 import { FruitPatch } from "features/island/fruit/FruitPatch";
@@ -80,8 +80,8 @@ export const RESOURCES: Record<
   crimstones: {
     component: () => <Crimstone id="1" index={0} />,
     dimensions: {
-      height: 1,
-      width: 1,
+      height: 2,
+      width: 2,
     },
     icon: crimstone,
   },
