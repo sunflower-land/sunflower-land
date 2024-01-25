@@ -301,7 +301,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   farmHands: { bumpkins: {} },
-  bumpkin: { ...INITIAL_BUMPKIN, experience: 1000000 },
+  bumpkin: { ...INITIAL_BUMPKIN, experience: 1 },
   buds: {
     1: {
       aura: "Basic",
@@ -340,7 +340,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Market: new Decimal(1),
     Workbench: new Decimal(1),
     "Basic Land": new Decimal(3),
-    "Crop Plot": new Decimal(9),
+    "Gold Pass": new Decimal(1),
+    "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),
     "Water Well": new Decimal(4),
     Tree: new Decimal(3),
     "Stone Rock": new Decimal(2),

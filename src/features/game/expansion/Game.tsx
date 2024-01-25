@@ -56,6 +56,7 @@ import { CONFIG } from "lib/config";
 import { Home } from "features/home/Home";
 import { hasFeatureAccess } from "lib/flags";
 import { Wallet } from "features/wallet/Wallet";
+import { WeakBumpkin } from "features/island/bumpkin/WeakBumpkin";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -71,6 +72,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   hoarding: true,
   landscaping: false,
   noBumpkinFound: true,
+  weakBumpkin: true,
   swarming: true,
   coolingDown: true,
   gameRules: true,
@@ -124,6 +126,7 @@ const isPurchasing = (state: MachineState) =>
   state.matches({ buyingBlockBucks: "transacting" });
 const isNoBumpkinFound = (state: MachineState) =>
   state.matches("noBumpkinFound");
+const isWeakBumpkin = (state: MachineState) => state.matches("weakBumpkin");
 const isCoolingDown = (state: MachineState) => state.matches("coolingDown");
 const isGameRules = (state: MachineState) => state.matches("gameRules");
 const isDepositing = (state: MachineState) => state.matches("depositing");
@@ -239,6 +242,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const hoarding = useSelector(gameService, isHoarding);
   const swarming = useSelector(gameService, isSwarming);
   const noBumpkinFound = useSelector(gameService, isNoBumpkinFound);
+  const weakBumpkin = useSelector(gameService, isWeakBumpkin);
   const coolingDown = useSelector(gameService, isCoolingDown);
   const gameRules = useSelector(gameService, isGameRules);
   const depositing = useSelector(gameService, isDepositing);
@@ -386,6 +390,7 @@ export const GameWrapper: React.FC = ({ children }) => {
               <NoBumpkin />
             </Wallet>
           )}
+          {weakBumpkin && <WeakBumpkin />}
 
           {coolingDown && <Cooldown />}
           {gameRules && <Rules />}
