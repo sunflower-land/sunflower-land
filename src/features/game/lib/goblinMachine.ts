@@ -211,7 +211,7 @@ export function startGoblinVillage({
 
               const onChainStateFn = getOnChainState({
                 farmAddress,
-                account: wallet.myAccount,
+                account: null,
                 id: response.nftId as number,
               });
 

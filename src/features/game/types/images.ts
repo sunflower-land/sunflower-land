@@ -3100,20 +3100,64 @@ export const ITEM_DETAILS: Items = {
       "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
   },
 
-  "Flower 1": {
+  "Red Pansy": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
+    description: "A red pansy",
   },
-  "Flower 2": {
+  "Yellow Pansy": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
+    description: "A yellow pansy",
   },
-  "Flower 3": {
+  "Purple Pansy": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
+    description: "A purple pansy",
   },
-  "Flower 4": {
+  "Red Cosmos": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: "?",
+    description: "A red cosmos",
+  },
+  "Yellow Cosmos": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A yellow cosmos",
+  },
+  "Purple Cosmos": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A purple cosmos",
+  },
+  "Red Daffodil": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A red daffodil",
+  },
+  "Yellow Daffodil": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A yellow daffodil",
+  },
+  "Purple Daffodil": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A purple daffodil",
+  },
+  "Red Balloon Flower": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A red balloon flower",
+  },
+  "Yellow Balloon Flower": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A yellow balloon flower",
+  },
+  "Purple Balloon Flower": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A purple balloon flower",
+  },
+  "Red Lotus": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A red lotus",
+  },
+  "Yellow Lotus": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A yellow lotus",
+  },
+  "Purple Lotus": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A purple lotus",
   },
 };

@@ -70,7 +70,7 @@ export function plantFlower({
   flowerBed.flower = {
     plantedAt: createdAt,
     amount: 1,
-    name: "Flower 1",
+    name: "Red Pansy",
   };
 
   bumpkin.activity = trackActivity(

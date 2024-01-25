@@ -27,7 +27,7 @@ describe("removeBeehive", () => {
     height: 1,
     width: 2,
     flower: {
-      name: "Flower 1",
+      name: "Red Pansy",
       amount: 1,
       plantedAt: now,
     },
