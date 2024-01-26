@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { ITEM_IDS } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
-import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";
 import { getTimeLeft, secondsToString } from "lib/utils/time";
@@ -14,88 +12,202 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibles";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { Transition } from "@headlessui/react";
 import { BuffLabel } from "features/game/types";
-import { ItemDetail } from "./components/ItemDetails";
+import { ItemDetail } from "./components/ItemDetail";
 import { ItemsList } from "./components/ItemsList";
+import { WearablesItem, CollectiblesItem } from "features/game/types/game";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
 
 interface Props {
   onClose: () => void;
 }
 
-export type Currency =
-  | "SFL"
-  | "Block Buck"
-  | "Crimstone"
-  | "Sunstone"
-  | "Seasonal Ticket";
-
-export type WearablesItem = {
-  name: BumpkinItem;
-  shortDescription: string;
-  currency: Currency;
-  price: Decimal;
-};
-
-export type CollectiblesItem = {
-  name: InventoryItemName;
-  shortDescription: string;
-  currency: Currency;
-  price: Decimal;
-};
-
-export type MegaStoreItems = {
-  available: {
-    from: Date;
-    to: Date;
-  };
-  wearables: WearablesItem[];
-  collectibles: CollectiblesItem[];
-};
-
-const MEGA_STORE_ITEMS: MegaStoreItems = {
-  available: {
-    from: new Date("2024-01-01"),
-    to: new Date("2024-02-01"),
-  },
-  collectibles: [
-    {
-      name: "Nana",
-      shortDescription:
-        "This rare beauty is a surefire way to boost your banana harvests.",
-      currency: "Seasonal Ticket",
-      price: new Decimal(100),
-    },
-    {
-      name: "Soil Krabby",
-      shortDescription:
-        "This little guy will help you sift through your soil in no time.",
-      currency: "SFL",
-      price: new Decimal(1000),
-    },
-  ],
-  wearables: [
-    {
-      name: "Tiki Mask",
-      shortDescription:
-        "This mask will help you get into the spirit of the island.",
-      currency: "Seasonal Ticket",
-      price: new Decimal(250),
-    },
-    {
-      name: "Angler Waders",
-      shortDescription:
-        "Stay dry and warm with these waders, perfect for fishing.",
-      currency: "Seasonal Ticket",
-      price: new Decimal(500),
-    },
-    {
-      name: "Stockeye Salmon Onesie",
-      shortDescription:
-        "This onesie is perfect for a cold night out on the lake.",
-      currency: "Seasonal Ticket",
-      price: new Decimal(30000),
-    },
-  ],
-};
+// const MEGA_STORE_ITEMS: IMegaStore = {
+//   available: {
+//     from: Date.now(),
+//     to: Date.now(),
+//   },
+//   collectibles: [
+//     {
+//       name: "Nana",
+//       shortDescription:
+//         "This rare beauty is a surefire way to boost your banana harvests.",
+//       currency: "Seasonal Ticket",
+//       price: new Decimal(100),
+//     },
+//     {
+//       name: "Soil Krabby",
+//       shortDescription:
+//         "This little guy will help you sift through your soil in no time.",
+//       currency: "SFL",
+//       price: new Decimal(1000),
+//     },
+//     {
+//       name: "Nana",
+//       shortDescription:
+//         "This rare beauty is a surefire way to boost your banana harvests.",
+//       currency: "Seasonal Ticket",
+//       price: new Decimal(100),
+//     },
+//     {
+//       name: "Soil Krabby",
+//       shortDescription:
+//         "This little guy will help you sift through your soil in no time.",
+//       currency: "SFL",
+//       price: new Decimal(1000),
+//     },
+//     {
+//       name: "Nana",
+//       shortDescription:
+//         "This rare beauty is a surefire way to boost your banana harvests.",
+//       currency: "Seasonal Ticket",
+//       price: new Decimal(100),
+//     },
+//     {
+//       name: "Soil Krabby",
+//       shortDescription:
+//         "This little guy will help you sift through your soil in no time.",
+//       currency: "SFL",
+//       price: new Decimal(1000),
+//     },
+//     {
+//       name: "Nana",
+//       shortDescription:
+//         "This rare beauty is a surefire way to boost your banana harvests.",
+//       currency: "Seasonal Ticket",
+//       price: new Decimal(100),
+//     },
+//     {
+//       name: "Soil Krabby",
+//       shortDescription:
+//         "This little guy will help you sift through your soil in no time.",
+//       currency: "SFL",
+//       price: new Decimal(1000),
+//     },
+//     {
+//       name: "Nana",
+//       shortDescription:
+//         "This rare beauty is a surefire way to boost your banana harvests.",
+//       currency: "Seasonal Ticket",
+//       price: new Decimal(100),
+//     },
+//     {
+//       name: "Soil Krabby",
+//       shortDescription:
+//         "This little guy will help you sift through your soil in no time.",
+//       currency: "SFL",
+//       price: new Decimal(1000),
+//     },
+//     {
+//       name: "Nana",
+//       shortDescription:
+//         "This rare beauty is a surefire way to boost your banana harvests.",
+//       currency: "Seasonal Ticket",
+//       price: new Decimal(100),
+//     },
+//     {
+//       name: "Soil Krabby",
+//       shortDescription:
+//         "This little guy will help you sift through your soil in no time.",
+//       currency: "SFL",
+//       price: new Decimal(1000),
+//     },
+//     {
+//       name: "Nana",
+//       shortDescription:
+//         "This rare beauty is a surefire way to boost your banana harvests.",
+//       currency: "Seasonal Ticket",
+//       price: new Decimal(100),
+//     },
+//     {
+//       name: "Soil Krabby",
+//       shortDescription:
+//         "This little guy will help you sift through your soil in no time.",
+//       currency: "SFL",
+//       price: new Decimal(1000),
+//     },
+//     {
+//       name: "Nana",
+//       shortDescription:
+//         "This rare beauty is a surefire way to boost your banana harvests.",
+//       currency: "Seasonal Ticket",
+//       price: new Decimal(100),
+//     },
+//     {
+//       name: "Soil Krabby",
+//       shortDescription:
+//         "This little guy will help you sift through your soil in no time.",
+//       currency: "SFL",
+//       price: new Decimal(1000),
+//     },
+//   ],
+//   wearables: [
+//     {
+//       name: "Tiki Mask",
+//       shortDescription:
+//         "This mask will help you get into the spirit of the island.",
+//       currency: "Seasonal Ticket",
+//       price: new Decimal(250),
+//     },
+//     {
+//       name: "Angler Waders",
+//       shortDescription:
+//         "Stay dry and warm with these waders, perfect for fishing.",
+//       currency: "Seasonal Ticket",
+//       price: new Decimal(500),
+//     },
+//     {
+//       name: "Stockeye Salmon Onesie",
+//       shortDescription:
+//         "This onesie is perfect for a cold night out on the lake.",
+//       currency: "Seasonal Ticket",
+//       price: new Decimal(30000),
+//     },
+//     {
+//       name: "Tiki Mask",
+//       shortDescription:
+//         "This mask will help you get into the spirit of the island.",
+//       currency: "Seasonal Ticket",
+//       price: new Decimal(250),
+//     },
+//     {
+//       name: "Angler Waders",
+//       shortDescription:
+//         "Stay dry and warm with these waders, perfect for fishing.",
+//       currency: "Seasonal Ticket",
+//       price: new Decimal(500),
+//     },
+//     {
+//       name: "Stockeye Salmon Onesie",
+//       shortDescription:
+//         "This onesie is perfect for a cold night out on the lake.",
+//       currency: "Seasonal Ticket",
+//       price: new Decimal(30000),
+//     },
+//     {
+//       name: "Tiki Mask",
+//       shortDescription:
+//         "This mask will help you get into the spirit of the island.",
+//       currency: "Seasonal Ticket",
+//       price: new Decimal(250),
+//     },
+//     {
+//       name: "Angler Waders",
+//       shortDescription:
+//         "Stay dry and warm with these waders, perfect for fishing.",
+//       currency: "Seasonal Ticket",
+//       price: new Decimal(500),
+//     },
+//     {
+//       name: "Stockeye Salmon Onesie",
+//       shortDescription:
+//         "This onesie is perfect for a cold night out on the lake.",
+//       currency: "Seasonal Ticket",
+//       price: new Decimal(30000),
+//     },
+//   ],
+// };
 
 // type guard for WearablesItem | CollectiblesItem
 const isWearablesItem = (
@@ -128,7 +240,12 @@ export const getItemBuffLabel = (
   return COLLECTIBLE_BUFF_LABELS[item.name];
 };
 
+const _megastore = (state: MachineState) => state.context.state.megastore;
+
 export const MegaStore: React.FC<Props> = ({ onClose }) => {
+  const { gameService } = useContext(Context);
+  const megastore = useSelector(gameService, _megastore);
+
   const [tab, setTab] = useState(0);
   const [selectedItem, setSelectedItem] = useState<
     WearablesItem | CollectiblesItem | null
@@ -146,9 +263,9 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
   };
 
   const getTotalSecondsAvailable = () => {
-    const { from, to } = MEGA_STORE_ITEMS.available;
+    const { from, to } = megastore.available;
 
-    return (to.getTime() - from.getTime()) / 1000;
+    return (to - from) / 1000;
   };
 
   const timeRemaining = getTimeLeft(Date.now(), getTotalSecondsAvailable());
@@ -157,7 +274,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
     <CloseButtonPanel
       bumpkinParts={NPC_WEARABLES.stella}
       tabs={[
-        { icon: SUNNYSIDE.icons.wardrobe, name: "Sales" },
+        { icon: SUNNYSIDE.icons.wardrobe, name: "Mega Store" },
         {
           icon: SUNNYSIDE.icons.expression_confused,
           name: "Guide",
@@ -167,44 +284,43 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
     >
       {tab === 0 && (
         <div className="relative h-full w-full">
-          <div className="flex flex-col p-2 space-y-3">
-            <div className="space-y-2">
-              <Label icon={SUNNYSIDE.icons.stopwatch} type="danger">
-                {secondsToString(timeRemaining, {
-                  length: "medium",
-                  removeTrailingZeros: true,
-                })}{" "}
-                left!
-              </Label>
-              <span className="text-xs">{`Welcome to the Mega Store! Check out this month's limited items. If you like something, be sure to grab it before it vanishes into the realms of time.`}</span>
-            </div>
+          <div className="px-2 pb-2 bg-brown-300">
+            <Label icon={SUNNYSIDE.icons.stopwatch} type="danger">
+              {secondsToString(timeRemaining, {
+                length: "medium",
+                removeTrailingZeros: true,
+              })}{" "}
+              left!
+            </Label>
+          </div>
+          <div className="flex flex-col p-2 space-y-3 overflow-y-auto scrollable max-h-[300px]">
+            <span className="text-xs pb-2">{`Welcome to the Mega Store! Check out this month's limited items. If you like something, be sure to grab it before it vanishes into the realms of time.`}</span>
             {/* Wearables */}
             <ItemsList
               itemsLabel="Wearables"
-              items={MEGA_STORE_ITEMS.wearables}
+              items={megastore.wearables}
               onItemClick={handleClickItem}
             />
             {/* Collectibles */}
             <ItemsList
               itemsLabel="Collectibles"
-              items={MEGA_STORE_ITEMS.collectibles}
+              items={megastore.collectibles}
               onItemClick={handleClickItem}
             />
           </div>
           <Transition show={!!selectedItem}>
             {/* Overlay */}
             <Transition.Child
-              enter="transition-opacity ease-linear duration-150"
+              enter="transition-opacity ease-linear duration-100"
               enterFrom="opacity-0"
               enterTo="opacity-100"
-              leave="transition-opacity ease-linear duration-150"
+              leave="transition-opacity ease-linear duration-100"
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
-              className="h-full w-full"
             >
               <div
                 id="overlay-mine"
-                className="bg-brown-300 opacity-80 absolute inset-1"
+                className="bg-brown-300 opacity-70 absolute inset-1 top-8 z-20"
                 style={{
                   boxShadow: "rgb(194 134 105) 0px 0px 5px 6px",
                 }}
@@ -212,14 +328,14 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
               />
             </Transition.Child>
             <Transition.Child
-              enter="transition-transform ease-linear duration-150"
+              enter="transition-transform ease-linear duration-100"
               enterFrom="scale-0"
               enterTo="scale-100"
-              leave="transition-transform ease-linear duration-150"
+              leave="transition-transform ease-linear duration-100"
               leaveFrom="scale-100"
               leaveTo="scale-0"
               afterLeave={() => setIsVisible(false)}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform w-full sm:w-5/6"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform w-full sm:w-5/6 z-20"
             >
               <ItemDetail
                 isVisible={isVisible}
@@ -235,8 +351,8 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
           </Transition>
         </div>
       )}
-
-      {tab === 1 && <div></div>}
+      {/* Guide */}
+      {/* {tab === 1 && <div></div>} */}
     </CloseButtonPanel>
   );
 };

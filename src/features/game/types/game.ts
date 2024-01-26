@@ -776,6 +776,36 @@ export type Christmas = {
   >;
 };
 
+export type Currency =
+  | "SFL"
+  | "Block Buck"
+  | "Crimstone"
+  | "Sunstone"
+  | "Seasonal Ticket";
+
+export type WearablesItem = {
+  name: BumpkinItem;
+  shortDescription: string;
+  currency: Currency;
+  price: Decimal;
+};
+
+export type CollectiblesItem = {
+  name: InventoryItemName;
+  shortDescription: string;
+  currency: Currency;
+  price: Decimal;
+};
+
+export type MegaStore = {
+  available: {
+    from: number;
+    to: number;
+  };
+  wearables: WearablesItem[];
+  collectibles: CollectiblesItem[];
+};
+
 export type IslandType = "basic" | "spring" | "desert";
 
 export type Home = {
@@ -926,6 +956,7 @@ export interface GameState {
 
   christmas?: Christmas;
   springBlossom: Record<number, SpringBlossom>;
+  megastore: MegaStore;
 }
 
 export interface Context {

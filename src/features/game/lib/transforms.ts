@@ -95,6 +95,7 @@ export function makeGame(farm: any): GameState {
     crops: farm.crops ?? {},
     fruitPatches: farm.fruitPatches ?? {},
     flowers: farm.flowers ?? {},
+    beehives: farm.beehives ?? {},
     conversations: farm.conversations ?? [],
     mailbox: farm.mailbox ?? {
       read: [],
@@ -107,8 +108,18 @@ export function makeGame(farm: any): GameState {
     npcs: farm.npcs,
     buds: farm.buds,
     christmas: farm.christmas,
-    beehives: farm.beehives ?? {},
     springBlossom: farm.springBlossom ?? {},
+    megastore: {
+      ...farm.megastore,
+      wearables: farm.megastore.wearables.map((wearable: any) => ({
+        ...wearable,
+        price: new Decimal(wearable.price),
+      })),
+      collectibles: farm.megastore.collectibles.map((collectible: any) => ({
+        ...collectible,
+        price: new Decimal(collectible.price),
+      })),
+    },
   };
 }
 

@@ -2,7 +2,11 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
-import { InventoryItemName } from "features/game/types/game";
+import {
+  CollectiblesItem,
+  InventoryItemName,
+  WearablesItem,
+} from "features/game/types/game";
 
 import bg from "assets/ui/brown_background.png";
 
@@ -15,7 +19,6 @@ import { Button } from "components/ui/Button";
 import { BuffLabel } from "features/game/types";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { CollectiblesItem, WearablesItem } from "../MegaStore";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getSeasonalTicket } from "features/game/types/seasons";
 
@@ -72,9 +75,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     const currency =
       item.currency === "Seasonal Ticket" ? getSeasonalTicket() : item.currency;
 
-    return (inventory[currency] ?? new Decimal(0)).greaterThanOrEqualTo(
-      item.price
-    );
+    return (
+      inventory[currency as InventoryItemName] ?? new Decimal(0)
+    ).greaterThanOrEqualTo(item.price);
   };
 
   const trackAnalytics = () => {
@@ -117,6 +120,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     }
 
     trackAnalytics();
+    onClose();
   };
 
   const currency =
@@ -125,7 +129,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       : (item?.currency as InventoryItemName);
 
   return (
-    <InnerPanel className="shadow-md">
+    <InnerPanel className="shadow">
       {isVisible && (
         <div className="flex flex-col items-center space-y-2">
           <div className="flex items-center w-full">

@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  CollectiblesItem,
-  Currency,
-  WearablesItem,
-  getItemBuffLabel,
-  getItemImage,
-} from "../MegaStore";
+import { getItemBuffLabel, getItemImage } from "../MegaStore";
 import { Label } from "components/ui/Label";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -15,6 +9,12 @@ import { getSeasonalTicket } from "features/game/types/seasons";
 
 import token from "assets/icons/token_2.png";
 import { ITEM_DETAILS } from "features/game/types/images";
+import {
+  CollectiblesItem,
+  Currency,
+  InventoryItemName,
+  WearablesItem,
+} from "features/game/types/game";
 
 interface Props {
   itemsLabel: string;
@@ -33,12 +33,14 @@ export const ItemsList: React.FC<Props> = ({
     const currencyItem =
       currency === "Seasonal Ticket" ? getSeasonalTicket() : currency;
 
-    return ITEM_DETAILS[currencyItem].image;
+    return ITEM_DETAILS[currencyItem as InventoryItemName].image;
   };
 
   return (
     <div className="flex flex-col space-y-2">
-      <Label type="info">{itemsLabel}</Label>
+      <div className="bg-brown-300 sticky -top-2 pb-1 z-10">
+        <Label type="info">{itemsLabel}</Label>
+      </div>
       <div className="flex gap-2 flex-wrap">
         {items.map((item) => {
           const buff = getItemBuffLabel(item);
