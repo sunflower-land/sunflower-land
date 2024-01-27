@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import { ReactPortal } from "components/ui/ReactPortal";
@@ -5,7 +6,7 @@ import { Button } from "components/ui/Button";
 import classNames from "classnames";
 import { CONFIG } from "lib/config";
 
-const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 2;
+const CHECK_FOR_UPDATE_INTERVAL = 1000 * 20;
 
 export function ReloadPrompt() {
   const [checking, setChecking] = useState(false);
@@ -18,14 +19,16 @@ export function ReloadPrompt() {
     updateServiceWorker,
   } = useRegisterSW({
     onNeedRefresh() {
+      console.log("onNeedRefresh");
       // eslint-disable-next-line no-console
       console.log("Clearing interval while update is happening");
-      setIntervalId(undefined);
+      // setIntervalId(undefined);
     },
     onRegisteredSW(swUrl, registration) {
-      if (registration && !intervalId) {
+      console.log({ registration });
+      if (registration) {
         // eslint-disable-next-line no-console
-        console.log("Firing up a new interval");
+        // console.log("Firing up a new interval");
         const interval = setInterval(async () => {
           setChecking(true);
           if (!(!registration.installing && navigator)) return;
