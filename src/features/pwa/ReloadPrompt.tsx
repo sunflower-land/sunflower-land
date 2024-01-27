@@ -20,21 +20,26 @@ export function ReloadPrompt() {
         setInterval(async () => {
           setChecking(true);
           // eslint-disable-next-line no-console
-          console.log("checking for update");
           if (!(!registration.installing && navigator)) return;
 
           if ("connection" in navigator && !navigator.onLine) return;
 
-          const resp = await fetch(swUrl, {
-            cache: "no-store",
-            headers: {
+          try {
+            const resp = await fetch(swUrl, {
               cache: "no-store",
-              "cache-control": "no-cache",
-            },
-          });
+              headers: {
+                cache: "no-store",
+                "cache-control": "no-cache",
+              },
+            });
 
-          if (resp?.status === 200) await registration.update();
-          setChecking(false);
+            if (resp?.status === 200) await registration.update();
+            setChecking(false);
+          } catch (e) {
+            // eslint-disable-next-line no-console
+            console.log("error checking for update", e);
+            setChecking(false);
+          }
         }, CHECK_FOR_UPDATE_INTERVAL);
     },
   });
