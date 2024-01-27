@@ -42,7 +42,11 @@ export function ReloadPrompt() {
       <div className="fixed top-28 safe-pt left-1/2 -translate-x-1/2 text-xs flex flex-col">
         <span>{`Checking for update: ${checking}`}</span>
         <span>{`Needs update: ${needRefresh}`}</span>
-        <span>{`Release version: ${CONFIG.RELEASE_VERSION.slice(-5)}`}</span>
+        <span>{`Release version: ${
+          CONFIG.RELEASE_VERSION.length > 10
+            ? CONFIG.RELEASE_VERSION.slice(-5)
+            : CONFIG.RELEASE_VERSION
+        }`}</span>
       </div>
       <div
         className={classNames(
