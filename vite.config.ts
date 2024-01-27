@@ -23,7 +23,7 @@ export default defineConfig({
       srcDir: "src",
       strategies: "injectManifest",
       includeManifestIcons: false,
-      includeAssets: ["world/*", "pwa/**/*", "farms/*", "offline/*"],
+      includeAssets: ["**/*.{ico,gif,jpg,jpeg,png,webp,json,xml}"],
       injectManifest: {
         maximumFileSizeToCacheInBytes: 15000000,
         globPatterns: ["**/*.{js,css,html}", "assets/*.{jpg,mp3,svg,gif,png}"],
