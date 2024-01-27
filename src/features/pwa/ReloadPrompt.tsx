@@ -5,7 +5,7 @@ import { Button } from "components/ui/Button";
 import classNames from "classnames";
 import { CONFIG } from "lib/config";
 
-const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 5;
+const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 2;
 
 export function ReloadPrompt() {
   const [checking, setChecking] = useState(false);
@@ -27,6 +27,8 @@ export function ReloadPrompt() {
         // eslint-disable-next-line no-console
         console.log("Firing up a new interval");
         const interval = setInterval(async () => {
+          // eslint-disable-next-line no-console
+          console.log("Checking for update");
           setChecking(true);
           if (!(!registration.installing && navigator)) return;
 
@@ -43,11 +45,13 @@ export function ReloadPrompt() {
           if (resp?.status === 200) await registration.update();
           setChecking(false);
         }, CHECK_FOR_UPDATE_INTERVAL);
-
         setIntervalId(interval);
       }
     },
   });
+
+  // eslint-disable-next-line no-console
+  console.log("intervalId", intervalId);
 
   return (
     <ReactPortal>
