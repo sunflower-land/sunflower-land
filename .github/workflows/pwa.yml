@@ -51,7 +51,7 @@ jobs:
           VITE_BUMPKIN_DETAILS_CONTRACT: "0xAeB15F2aE9f248bf6a3606fadA02EF79f35c8bEF"
           VITE_BUMPKIN_ITEMS_CONTRACT: "0xa163b82370DeBb82C12B735b995a332D50a02252"
           VITE_BUMPKIN_CONTRACT: "0x48f53e506882a502b07668f6990f0e15422a539b"
-          VITE_DISCORD_REDIRECT: "https://sunflower-land.com/testnet/"
+          VITE_DISCORD_REDIRECT: "https://sunflower-land.com/pwa/"
           VITE_CLIENT_VERSION: ${{ steps.date.outputs.date }}
           VITE_RELEASE_VERSION: ${{ steps.get_version.outputs.VERSION }}
           VITE_RECAPTCHA_SITEKEY: "6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
