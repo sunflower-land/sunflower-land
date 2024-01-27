@@ -5,7 +5,7 @@ import { Button } from "components/ui/Button";
 import classNames from "classnames";
 import { CONFIG } from "lib/config";
 
-const CHECK_FOR_UPDATE_INTERVAL = 20 * 1000;
+const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 5;
 
 export function ReloadPrompt() {
   const [checking, setChecking] = useState(false);
