@@ -27,8 +27,6 @@ export function ReloadPrompt() {
         // eslint-disable-next-line no-console
         console.log("Firing up a new interval");
         const interval = setInterval(async () => {
-          // eslint-disable-next-line no-console
-          console.log("Checking for update");
           setChecking(true);
           if (!(!registration.installing && navigator)) return;
 
