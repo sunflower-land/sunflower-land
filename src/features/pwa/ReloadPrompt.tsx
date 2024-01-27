@@ -24,22 +24,16 @@ export function ReloadPrompt() {
 
           if ("connection" in navigator && !navigator.onLine) return;
 
-          try {
-            const resp = await fetch(swUrl, {
+          const resp = await fetch(swUrl, {
+            cache: "no-store",
+            headers: {
               cache: "no-store",
-              headers: {
-                cache: "no-store",
-                "cache-control": "no-cache",
-              },
-            });
+              "cache-control": "no-cache",
+            },
+          });
 
-            if (resp?.status === 200) await registration.update();
-            setChecking(false);
-          } catch (e) {
-            // eslint-disable-next-line no-console
-            console.log("error checking for update", e);
-            setChecking(false);
-          }
+          if (resp?.status === 200) await registration.update();
+          setChecking(false);
         }, CHECK_FOR_UPDATE_INTERVAL);
     },
   });
