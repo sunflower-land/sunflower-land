@@ -21,7 +21,6 @@ export function ReloadPrompt() {
     onNeedRefresh() {
       console.log("onNeedRefresh");
       // eslint-disable-next-line no-console
-      console.log("Clearing interval while update is happening");
       // setIntervalId(undefined);
     },
     onRegisteredSW(swUrl, registration) {
