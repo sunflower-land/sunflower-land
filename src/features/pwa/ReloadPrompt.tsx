@@ -9,15 +9,24 @@ const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 5;
 
 export function ReloadPrompt() {
   const [checking, setChecking] = useState(false);
+  const [intervalId, setIntervalId] = useState<NodeJS.Timer>();
+
   // Periodic Service Worker Updates
   // https://vite-pwa-org.netlify.app/guide/periodic-sw-updates.html#handling-edge-cases
   const {
     needRefresh: [needRefresh],
     updateServiceWorker,
   } = useRegisterSW({
+    onNeedRefresh() {
+      // eslint-disable-next-line no-console
+      console.log("Clearing interval while update is happening");
+      setIntervalId(undefined);
+    },
     onRegisteredSW(swUrl, registration) {
-      registration &&
-        setInterval(async () => {
+      if (registration && !intervalId) {
+        // eslint-disable-next-line no-console
+        console.log("Firing up a new interval");
+        const interval = setInterval(async () => {
           setChecking(true);
           if (!(!registration.installing && navigator)) return;
 
@@ -34,6 +43,9 @@ export function ReloadPrompt() {
           if (resp?.status === 200) await registration.update();
           setChecking(false);
         }, CHECK_FOR_UPDATE_INTERVAL);
+
+        setIntervalId(interval);
+      }
     },
   });
 
