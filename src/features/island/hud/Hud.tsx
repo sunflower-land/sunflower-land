@@ -146,7 +146,7 @@ const HudComponent: React.FC<{
         </div>
 
         <div
-          className="fixed z-50 flex flex-col justify-between"
+          className="absolute z-50 flex flex-col justify-between"
           style={{
             bottom: `${PIXEL_SCALE * 3}px`,
             left: `${PIXEL_SCALE * 28}px`,
