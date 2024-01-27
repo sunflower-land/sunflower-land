@@ -19,7 +19,6 @@ export function ReloadPrompt() {
       registration &&
         setInterval(async () => {
           setChecking(true);
-          // eslint-disable-next-line no-console
           if (!(!registration.installing && navigator)) return;
 
           if ("connection" in navigator && !navigator.onLine) return;
