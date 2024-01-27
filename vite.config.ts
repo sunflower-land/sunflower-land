@@ -23,11 +23,10 @@ export default defineConfig({
       srcDir: "src",
       strategies: "injectManifest",
       includeManifestIcons: false,
-      includeAssets: ["**/*.{ico,gif,jpg,jpeg,png,webp,xml}"],
+      includeAssets: ["world/*", "pwa/**/*", "farms/*", "offline/*"],
       injectManifest: {
         maximumFileSizeToCacheInBytes: 15000000,
         globPatterns: ["**/*.{js,css,html}", "assets/*.{jpg,mp3,svg,gif,png}"],
-        globIgnores: ["**/erc1155/**"],
       },
       filename: "sw.ts",
       manifest: {
