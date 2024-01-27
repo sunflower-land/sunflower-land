@@ -44,7 +44,7 @@ export function ReloadPrompt() {
         <span>{`Needs update: ${needRefresh}`}</span>
         <span>{`Release version: ${
           CONFIG.RELEASE_VERSION.length > 10
-            ? CONFIG.RELEASE_VERSION.slice(-5)
+            ? CONFIG.RELEASE_VERSION.slice(-6)
             : CONFIG.RELEASE_VERSION
         }`}</span>
       </div>
