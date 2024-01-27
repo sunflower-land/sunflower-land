@@ -25,7 +25,7 @@ self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();
 });
 
-// allow only fallback in dev: we don't want to cache anything in dev
+// allow only fallback in dev: we don't want to cache anything in development
 let allowlist: undefined | RegExp[];
 if (import.meta.env.DEV) {
   allowlist = [/^offline.html$/];
