@@ -23,15 +23,13 @@ export default defineConfig({
       srcDir: "src",
       strategies: "injectManifest",
       includeManifestIcons: false,
-      includeAssets: ["**/*.{ico,gif,jpg,jpeg,png,webp,json,zip,xml}"],
+      includeAssets: ["**/*.{ico,gif,jpg,jpeg,png,webp,xml}"],
       injectManifest: {
         maximumFileSizeToCacheInBytes: 15000000,
         globPatterns: ["**/*.{js,css,html}", "assets/*.{jpg,mp3,svg,gif,png}"],
+        globIgnores: ["**/erc1155/**"],
       },
       filename: "sw.ts",
-      // workbox: {
-      //   navigateFallback: "offline.html",
-      // },
       manifest: {
         name: "Sunflower Land",
         id: "com.sunflower-land",
