@@ -142,6 +142,15 @@ export const INITIAL_RESOURCES: Pick<
       width: 1,
     },
   },
+  crimstones: {},
+  fruitPatches: {
+    1: {
+      x: 7,
+      y: 3,
+      height: 2,
+      width: 2,
+    },
+  },
   gold: {
     1: {
       stone: {
