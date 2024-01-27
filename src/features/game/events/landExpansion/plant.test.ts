@@ -1577,8 +1577,13 @@ describe("getCropTime", () => {
       crop: "Carrot",
       inventory: {},
       buds: {},
-      game: TEST_FARM,
-
+      game: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Carrot Amulet" },
+        },
+      },
       bumpkin: {
         ...INITIAL_BUMPKIN,
         equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Carrot Amulet" },

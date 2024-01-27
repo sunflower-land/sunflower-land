@@ -131,8 +131,7 @@ export const getCropTime = ({
   plot?: CropPlot;
   fertiliser?: CropCompostName;
 }) => {
-  const { skills, equipped } = bumpkin;
-  const { necklace } = equipped;
+  const { skills } = bumpkin;
   let seconds = CROPS()[crop]?.harvestSeconds ?? 0;
 
   // Legacy Seed Specialist skill: 10% reduction
@@ -149,7 +148,7 @@ export const getCropTime = ({
   }
 
   // Bumpkin Wearable Boost
-  if (crop === "Carrot" && necklace === "Carrot Amulet") {
+  if (crop === "Carrot" && isWearableActive({ name: "Carrot Amulet", game })) {
     seconds = seconds * 0.8;
   }
 
