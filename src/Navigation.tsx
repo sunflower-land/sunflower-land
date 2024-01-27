@@ -79,6 +79,11 @@ export const Navigation: React.FC = () => {
   }, [orientation, isMobile]);
 
   useEffect(() => {
+    // Check if online during initial load
+    if (!navigator.onLine) {
+      setShowConnectionModal(true);
+    }
+    // Set up listeners to watch for connection changes
     window.addEventListener("offline", handleOffline);
     window.addEventListener("online", handleOnline);
 
