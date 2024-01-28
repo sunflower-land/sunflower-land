@@ -25,11 +25,7 @@ import sunstone_10 from "assets/resources/sunstone/sunstone_rock_10.webp";
 
 import { ZoomContext } from "components/ZoomProvider";
 
-import { MachineState } from "features/game/lib/gameMachine";
-import { Context } from "features/game/GameProvider";
-import { getBumpkinLevel } from "features/game/lib/level";
 import { getSunstoneStage } from "../Sunstone";
-import { ITEM_DETAILS } from "features/game/types/images";
 
 const tool = "Gold Pickaxe";
 
@@ -126,11 +122,7 @@ const RecoveredSunstoneComponent: React.FC<Props> = ({
           <>
             <img
               src={sunstoneImage}
-              className={
-                bumpkinTooLow
-                  ? "absolute pointer-events-none opacity-50"
-                  : "absolute pointer-events-none"
-              }
+              className="absolute pointer-events-none"
               style={{
                 width: `${PIXEL_SCALE * 24}px`,
                 bottom: `${PIXEL_SCALE * 1}px`,
