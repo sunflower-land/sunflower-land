@@ -1562,9 +1562,11 @@ describe("getCropTime", () => {
   it("applies a 5% speed boost with Cultivator skill", () => {
     const time = getCropTime({
       crop: "Carrot",
-      game: TEST_FARM,
+      game: {
+        ...TEST_FARM,
+        bumpkin: { ...INITIAL_BUMPKIN, skills: { Cultivator: 1 } },
+      },
       buds: {},
-      bumpkin: { ...INITIAL_BUMPKIN, skills: { Cultivator: 1 } },
       plot,
       inventory: {},
     });
@@ -1584,10 +1586,6 @@ describe("getCropTime", () => {
           equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Carrot Amulet" },
         },
       },
-      bumpkin: {
-        ...INITIAL_BUMPKIN,
-        equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Carrot Amulet" },
-      },
     });
 
     expect(time).toEqual(60 * 60 * 0.8);
@@ -1601,7 +1599,6 @@ describe("getCropTime", () => {
       buds: {},
       game: {
         ...TEST_FARM,
-
         collectibles: {
           "Lunar Calendar": [
             {
@@ -1613,7 +1610,6 @@ describe("getCropTime", () => {
           ],
         },
       },
-      bumpkin: { ...INITIAL_BUMPKIN },
       plot,
     });
 
@@ -1639,8 +1635,6 @@ describe("getCropTime", () => {
         },
       },
       inventory: {},
-
-      bumpkin: { ...INITIAL_BUMPKIN },
       plot,
     });
 
@@ -1665,7 +1659,6 @@ describe("getCropTime", () => {
           ],
         },
       },
-      bumpkin: { ...INITIAL_BUMPKIN },
       buds: {},
       plot,
     });
@@ -1747,7 +1740,6 @@ describe("getCropTime", () => {
           ],
         },
       },
-      bumpkin: { ...INITIAL_BUMPKIN },
       buds: {},
       plot,
     });
@@ -1775,7 +1767,6 @@ describe("getCropTime", () => {
           ],
         },
       },
-      bumpkin: { ...INITIAL_BUMPKIN },
       plot: { ...plot, x: 0, y: -2 },
     });
 
@@ -1801,7 +1792,6 @@ describe("getCropTime", () => {
           ],
         },
       },
-      bumpkin: { ...INITIAL_BUMPKIN },
       plot: { ...plot, x: 0, y: -2 },
       buds: {},
     });
@@ -1828,7 +1818,6 @@ describe("getCropTime", () => {
           ],
         },
       },
-      bumpkin: { ...INITIAL_BUMPKIN },
       buds: {},
       plot: { ...plot, x: 0, y: -2 },
     });
@@ -1855,7 +1844,6 @@ describe("getCropTime", () => {
           ],
         },
       },
-      bumpkin: { ...INITIAL_BUMPKIN },
       buds: {},
       plot: { ...plot, x: 0, y: -2 },
     });
@@ -1882,7 +1870,6 @@ describe("getCropTime", () => {
           ],
         },
       },
-      bumpkin: { ...INITIAL_BUMPKIN },
       buds: {},
       plot: { ...plot, x: 2, y: -2 },
     });
@@ -1909,7 +1896,6 @@ describe("getCropTime", () => {
           ],
         },
       },
-      bumpkin: { ...INITIAL_BUMPKIN },
       buds: {},
       plot: { ...plot, x: 0, y: -3 },
     });
@@ -2427,8 +2413,6 @@ describe("getCropYield", () => {
 
       const time = getPlantedAt({
         buds: {},
-        buildings: {},
-        bumpkin: INITIAL_BUMPKIN,
         crop: "Sunflower",
         inventory: {},
         game: {
@@ -2462,8 +2446,6 @@ describe("getCropYield", () => {
 
       const time = getPlantedAt({
         buds: {},
-        buildings: {},
-        bumpkin: INITIAL_BUMPKIN,
         crop: "Sunflower",
         inventory: {},
         game: {

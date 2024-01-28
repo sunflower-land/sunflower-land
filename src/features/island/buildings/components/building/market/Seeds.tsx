@@ -147,7 +147,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       crop: yields as CropName,
       inventory,
       game: state,
-      bumpkin: state.bumpkin as Bumpkin,
       buds: state.buds ?? {},
     });
   };

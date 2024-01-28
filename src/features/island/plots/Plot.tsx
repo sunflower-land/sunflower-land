@@ -385,7 +385,6 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
           inventory={inventory}
           // TODO
           game={gameService.state?.context?.state ?? TEST_FARM}
-          bumpkin={bumpkin}
           buds={buds}
           plot={plot}
           plantedAt={crop?.plantedAt}
