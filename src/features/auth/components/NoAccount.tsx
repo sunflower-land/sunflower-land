@@ -160,7 +160,7 @@ export const ClaimAccount: React.FC<{
     load();
   }, []);
 
-  if (isLoading) return <p className="loading">{t("noaccount.loading")}</p>;
+  if (isLoading) return <p className="loading">{t("loading")}</p>;
 
   if (tokenIds.length === 0) {
     return (

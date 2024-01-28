@@ -8,7 +8,6 @@ import {
   Beehive,
   BeachLuck,
   BirdiePlaza,
-  Blockbuckmodal,
   BoostDescriptions,
   BoostEffectDescriptions,
   BountyDescription,
@@ -116,6 +115,7 @@ import {
   Refunded,
   RemoveKuebiko,
   Resale,
+  ResourceTerms,
   Restock,
   RetreatTerms,
   Resources,
@@ -159,30 +159,33 @@ import {
 const generalTerms: Record<GeneralTerms, string> = {
   "2x.sale": "2x Sale",
   achievements: "Achievements",
-  "action.deposit": "Deposit",
+  deposit: "Deposit",
   add: "Add",
+  addSFL: "Add SFL",
   "add.liquidity": "Add Liquidity",
   "alr.bought": "Already Bought",
   "alr.claim": "Already Claimed!",
   "alr.completed": "Already Completed",
   "alr.crafted": "Already Crafted!",
   "alr.minted": "Already minted!",
+  auction: "Auction",
   auctions: "Auctions",
-  available: "available",
   "available.all.year": "Available all year round",
+  available: "Available",
   back: "Back",
   bait: "Bait",
+  balance: "Balance",
   basket: "Basket",
   "beach.bounty": "Beach Bounty",
   beta: "Beta",
+  bid: "Bid",
   bounty: "Bounty",
   build: "Build",
   buy: "Buy",
   cancel: "Cancel",
-  "card.cash": "Card/Cash",
+  "card.cash": "Card / Cash",
   check: "Check",
   chest: "Chest",
-  "chicken.description": "Used to lay eggs",
   chores: "Chores",
   claim: "Claim",
   "claim.skill": "Claim skill",
@@ -228,7 +231,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "feed.bumpkin": "Feed Bumpkin",
   fertilisers: "Fertilisers",
   fish: "Fish",
-  "fish.caught": "Fish Caught: ",
+  "fish.caught": "Fish Caught",
   foods: "Foods",
   for: "for",
   forbidden: "Forbidden",
@@ -241,13 +244,13 @@ const generalTerms: Record<GeneralTerms, string> = {
   gotIt: "Got it",
   "grant.wish": "Grant New Wish",
   guide: "Guide",
-  "honey.description": "Used to sweeten your cooking",
+  honey: "Honey",
   "hungry?": "Hungry?",
   info: "Info",
-  item: "Item:",
+  item: "Item",
   land: "Land",
   "land.id": "Land ID: ",
-  "last.updated": "Last updated: ",
+  "last.updated": "Last updated",
   left: "Left",
   "let'sDoThis": "Let's do this!",
   "lets.go": "Let's Go!",
@@ -255,10 +258,10 @@ const generalTerms: Record<GeneralTerms, string> = {
   "list.trade": "List trade",
   loading: "Loading",
   lvl: "Level",
-  "magicMushroom.description": "Used to cook advanced recipes",
   maintenance: "Maintenance",
   "make.wish": "Make a Wish",
   "making.wish": "Making a wish",
+  minimum: "Minimum",
   mins: "mins",
   mint: "Mint",
   minting: "minting",
@@ -277,6 +280,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "pass.required": "Pass Required",
   "place.map": "Place on map",
   "placing.bid": "Placing bid",
+  plant: "Plant",
   print: "Print",
   "promo.code": "Promo Code",
   "providing.liquidity": "Providing Liquidity",
@@ -291,7 +295,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "remaining.trades": "Remaining Trades",
   remove: "Remove",
   reqSkillPts: "Required Skill Points",
-  reqSkills: "Required Skills:",
+  reqSkills: "Required Skills",
   required: "required",
   resale: "Resale",
   resources: "Resources",
@@ -303,7 +307,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "seasonal.treasure": "Seasonal Treasure",
   secs: "secs",
   seeds: "Seeds",
-  "select.resource": "Select your resource:",
+  "select.resource": "Select your resource",
   sell: "Sell",
   "sell.all": "Sell All",
   "sell.one": "Sell 1",
@@ -311,10 +315,10 @@ const generalTerms: Record<GeneralTerms, string> = {
   "session.expired": "Session expired!",
   share: "Share",
   shopping: "Shopping",
-  skillPts: "Skill Points:",
+  skillPts: "Skill Points",
   skills: "Skills",
   "skip.order": "Skip Order",
-  "sound.effects": "Sound Effects: ",
+  "sound.effects": "Sound Effects",
   start: "Start",
   submit: "Submit",
   submitting: "Submitting",
@@ -325,7 +329,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   task: "Task",
   tools: "Tools",
   total: "Total",
-  "total.price": "Total Price: ",
   trades: "Trades",
   trading: "Trading",
   transfer: "Transfer",
@@ -336,6 +339,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   uncommon: "Uncommon",
   "unlock.land": "Unlock more land",
   unlocking: "Unlocking",
+  unmute: "Unmute",
   "use.craft": "Used to craft items",
   verify: "Verify",
   version: "Version",
@@ -346,7 +350,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   wallet: "Wallet",
   warning: "Warning",
   welcome: "Welcome!",
-  "wildMushroom.description": "Used to cook basic recipes",
   "wishing.well": "Wishing Well",
   withdraw: "Withdraw",
   withdrawing: "Withdrawing",
@@ -464,39 +467,29 @@ const achievementTerms: Record<AchievementsTerms, string> = {
 
 const auction: Record<Auction, string> = {
   "auction.bid.message": "You have placed your bid.",
-  "auction.bid": "Bid",
   "auction.reveal": "Reveal winners",
-  "auction.time": "Auction:",
   "auction.live": "Auction is live!",
   "auction.requirement": "Requirements",
   "auction.start": "Starting Time",
   "auction.period": "Auction Period",
   "auction.closed": "Auction closed",
-  "auction.rank": "Rank",
-  "auction.farm": "Farm",
   "auction.const": "Under construction!",
   "auction.const.soon": "This feature is coming soon.",
 };
 
 const addSFL: Record<AddSFL, string> = {
-  "addSFL.loading": "Loading",
   "addSFL.swapDetails":
     "Sunflower Land provides a quick way to swap Matic for SFL via Quickswap.",
   "addSFL.referralFee":
     "Sunflower Land takes a 5% referral fee to complete this transaction.",
   "addSFL.swapTitle": "Swap Details",
-  "addSFL.balance": "Balance:",
-  "addSFL.for": "for",
-  "addSFL.minimumReceived": "Minimum Received:",
-  "addSFL.addSFL": "Add SFL",
-  "addSFL.title": "Add SFL",
+  "addSFL.minimumReceived": "Minimum Received",
 };
 
 const availableSeeds: Record<AvailableSeeds, string> = {
   "availableSeeds.select": "Seed not selected",
   "availableSeeds.select.plant":
     "What seed would you like to select and plant?",
-  "availableSeeds.plant": "Plant",
 };
 
 const base: Record<Base, string> = {
@@ -510,7 +503,6 @@ const beach: Record<Beach, string> = {
 };
 
 const beehive: Record<Beehive, string> = {
-  "beehive.honey": "Honey:",
   "beehive.harvestHoney": "Harvest honey",
 };
 
@@ -519,7 +511,7 @@ const beachLuck: Record<BeachLuck, string> = {
   "beachLuck.uncleFound":
     "My uncle found a diamond ring digging at this beach. All I keep finding is boring SFL coins.",
   "beachLuck.grabShovel": "Just grab a shovel and start digging.",
-  "beachLuck.refreshesIn": "Treasures Refreshes in:",
+  "beachLuck.refreshesIn": "Treasures Refreshes in",
 };
 
 const birdiePlaza: Record<BirdiePlaza, string> = {
@@ -552,19 +544,6 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
   "birdieplaza.craftItems": "To craft these items, you must collect",
   "birdieplaza.craftItems.two":
     "and exchange them at the shops or the Auction house.",
-};
-
-const blockbuckmodal: Record<Blockbuckmodal, string> = {
-  "blockbuckmodal.item": "Item:",
-  "blockbuckmodal.total": "Total:",
-  "blockbuckmodal.confirm": "Confirm",
-  "blockbuckmodal.pricesExcludeFees": "*Prices exclude transaction fees.",
-  "blockbuckmodal.loading": "Loading",
-  "blockbuckmodal.cashCard": "Cash / Card",
-  "blockbuckmodal.minimum": "Minimum",
-  "blockbuckmodal.payWithCash": "Pay with Cash",
-  "blockbuckmodal.payWithMatic": "Pay with Matic",
-  "blockbuckmodal.blockBucksStored": "Block bucks will be stored on your farm.",
 };
 
 const boostDescriptions: Record<BoostDescriptions, string> = {
@@ -675,6 +654,13 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
   "description.queen.cornelia":
     "Command the regal power of Queen Cornelia and experience a magnificent Area of Effect boost to your corn production. +1 Corn.",
+};
+
+const resourceTerms: Record<ResourceTerms, string> = {
+  "chicken.description": "Used to lay eggs",
+  "magicMushroom.description": "Used to cook advanced recipes",
+  "wildMushroom.description": "Used to cook basic recipes",
+  "honey.description": "Used to sweeten your cooking",
 };
 
 const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
@@ -820,7 +806,7 @@ const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {
-  "bumpkinTrade.askPrice": "Asking price:",
+  "bumpkinTrade.askPrice": "Asking price",
   "bumpkinTrade.listingPurchased":
     "Congratulations, your listing was purchased!",
   "bumpkinTrade.travelPlaza":
@@ -853,7 +839,6 @@ const claimAchievement: Record<ClaimAchievement, string> = {
 };
 
 const chat: Record<Chat, string> = {
-  "chat.Loading": "Loading",
   "chat.Fail": "Connection failed",
   "chat.mute": "You are muted",
   "chat.again": "You will be able to chat again in",
@@ -1081,7 +1066,6 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
 };
 
 const deliveryitem: Record<Deliveryitem, string> = {
-  "deliveryitem.loading": "Loading",
   "deliveryitem.inventory": "Inventory:",
   "deliveryitem.itemsToDeliver": "Items to deliver:",
   "deliveryitem.deliverToWallet": "Deliver to your wallet",
@@ -1266,7 +1250,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.gold.egg": "Feed chickens without needing wheat",
   "description.easter.bunny": "Earn 20% more Carrots",
   "description.rooster": "Doubles the chance of dropping a mutant chicken",
-  "description.chiken": "Produces eggs. Requires wheat for feeding",
+  "description.chicken": "Produces eggs. Requires wheat for feeding",
   "description.cow": "Produces milk. Requires wheat for feeding",
   "description.pig": "Produces manure. Requires wheat for feeding",
   "description.sheep": "Produces wool. Requires wheat for feeding",
@@ -2468,7 +2452,6 @@ const noaccount: Record<Noaccount, string> = {
   "noaccount.addPromoCode": "Add a promo code?",
   "noaccount.alreadyHaveNFTFarm": "Already have an NFT farm?",
   "noaccount.createFarm": "Create Farm",
-  "noaccount.loading": "Loading",
   "noaccount.noFarmNFTs": "You do not own any farm NFTs.",
   "noaccount.createNewFarm": "Create new farm",
   "noaccount.selectNFTID": "Select your NFT ID:",
@@ -2489,7 +2472,6 @@ const noBumpkin: Record<NoBumpkin, string> = {
   "noBumpkin.allBumpkins": "Wow, look at all those Bumpkins!",
   "noBumpkin.chooseBumpkin": "Which Bumpkin would you like to play with?",
   "noBumpkin.deposit": "Deposit",
-  "noBumpkin.loading": "Loading",
 };
 
 const noTownCenter: Record<NoTownCenter, string> = {
@@ -3286,14 +3268,11 @@ const plazaSettings: Record<PlazaSettings, string> = {
     "Need to know what keybinds are available? Check them out here.",
   "plazaSettings.keybinds.button": "Keybinds",
   "plazaSettings.noMutedPlayers": "You have no muted players.",
-  "plazaSettings.unmute": "Unmute",
-  "plazaSettings.back": "Back",
   "plazaSettings.keybind":
     "Need to know what keybinds are available? Check them out here.",
 };
 
 const playerTrade: Record<PlayerTrade, string> = {
-  "playerTrade.loading": "Loading",
   "playerTrade.no.trade": "No trades available.",
   "playerTrade.max.item": "Oh no! You've reached your max items.",
   "playerTrade.Progress":
@@ -3308,7 +3287,6 @@ const playerTrade: Record<PlayerTrade, string> = {
 
 const portal: Record<Portal, string> = {
   "portal.wrong": "Something went wrong",
-  "portal.loading": "Loading",
   "portal.unauthorised": "unauthorised",
 };
 
@@ -3742,7 +3720,7 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.minblockbucks": "Minimum 5 Block Bucks",
   "transaction.payCash": "Pay with Cash",
   "transaction.matic": "Matic",
-  "transaction.payMatic": "Pay with Matic",
+  "transaction.payMatic": "Pay with MATIC",
   "transaction.storeBlockBucks": "Block bucks will be stored on your farm.",
   "transaction.excludeFees": "*Prices exclude transaction fees.",
   "transaction.storeProgress.blockchain.one":
@@ -3958,7 +3936,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...beehive,
   ...beachLuck,
   ...birdiePlaza,
-  ...blockbuckmodal,
   ...boostDescriptions,
   ...boostEffectDescriptions,
   ...bountyDescription,
@@ -4069,6 +4046,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...restock,
   ...retreatTerms,
   ...resources,
+  ...resourceTerms,
   ...rewardTerms,
   ...rulesGameStart,
   ...rulesTerms,

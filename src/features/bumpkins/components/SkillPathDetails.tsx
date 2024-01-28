@@ -60,7 +60,9 @@ const RequiredSkill = ({
         "text-error": missingSkillRequirement,
       })}
     >
-      <span className="text-center text-xxs sm:text-xs">{t("reqSkills")}</span>
+      <span className="text-center text-xxs sm:text-xs">
+        {t("reqSkills")}:{" "}
+      </span>
       <img
         src={requiredSkillImage}
         style={{ opacity: 0, marginLeft: `${PIXEL_SCALE * 4}px` }}

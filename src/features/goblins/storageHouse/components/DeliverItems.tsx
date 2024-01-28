@@ -164,7 +164,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   if (isLoading) {
-    return <span className="loading">{t("deliveryitem.loading")}</span>;
+    return <span className="loading">{t("loading")}</span>;
   }
 
   if (jiggerState) {

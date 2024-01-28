@@ -984,7 +984,7 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
 export const ANIMALS: () => Record<Animal, CraftableItem> = () => ({
   Chicken: {
     name: "Chicken",
-    description: translate("description.chiken"),
+    description: translate("description.chicken"),
     tokenAmount: marketRate(200),
     ingredients: [],
   },

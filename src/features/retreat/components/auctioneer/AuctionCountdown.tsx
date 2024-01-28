@@ -60,7 +60,7 @@ const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
               whiteSpace: "nowrap",
             }}
           >
-            {t("auction.time")}{" "}
+            {t("auction")}:{" "}
             {auction.type === "collectible"
               ? auction.collectible
               : auction.wearable}

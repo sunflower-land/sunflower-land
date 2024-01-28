@@ -75,7 +75,7 @@ export const Deposit: React.FC<Props> = ({
       <>
         <div className="p-2">
           <Label icon={SUNNYSIDE.resource.pirate_bounty} type="default">
-            {t("action.deposit")}
+            {t("deposit")}
           </Label>
           <p className="my-2 text-sm">{t("question.depositSFLItems")}</p>
         </div>

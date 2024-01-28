@@ -77,7 +77,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   }
 
   if (isLoading) {
-    return <p className="loading">{t("playerTrade.loading")}</p>;
+    return <p className="loading">{t("loading")}</p>;
   }
 
   if (!listing)

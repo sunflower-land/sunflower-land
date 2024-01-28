@@ -62,7 +62,7 @@ export const SeedSelection: React.FC<Props> = ({ onPlant, inventory }) => {
           onPlant(seed as SeedName);
         }}
       >
-        {t("availableSeeds.plant")}
+        {t("plant")}
       </Button>
     </>
   );

@@ -158,7 +158,7 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
     <Ocean>
       <Modal show centered backdrop={false}>
         <Panel>
-          <p className="loading">{t("chat.Loading")}</p>
+          <p className="loading">{t("loading")}</p>
         </Panel>
       </Modal>
     </Ocean>

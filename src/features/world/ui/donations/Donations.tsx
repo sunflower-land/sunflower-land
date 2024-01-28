@@ -142,7 +142,7 @@ export const Donations: React.FC = () => {
         <GameWallet action="donate">
           <p className="m-2">{`${donation} (MATIC)`}</p>
           <Button className="w-full ml-1" onClick={donate}>
-            <span className="text-xs whitespace-nowrap">Confirm</span>
+            <span className="text-xs whitespace-nowrap">{t("confirm")}</span>
           </Button>
         </GameWallet>
       )}

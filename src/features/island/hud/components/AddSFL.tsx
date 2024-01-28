@@ -13,6 +13,7 @@ import { setPrecision } from "lib/utils/formatNumber";
 import { Context } from "features/game/GameProvider";
 import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   isOpen: boolean;
@@ -25,7 +26,7 @@ export const INPUT_MAX_CHAR = 10;
 export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
   return (
     <Modal show={isOpen} centered onHide={onClose}>
-      <CloseButtonPanel title="Add SFL" onClose={onClose}>
+      <CloseButtonPanel title={translate("addSFL")} onClose={onClose}>
         <GameWallet action="purchase">
           <AddSFLOptions isOpen={isOpen} onClose={onClose} />
         </GameWallet>
@@ -113,7 +114,7 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const Content = () => {
     if (isLoading) {
-      return <span className="loading">{t("addSFL.loading")}</span>;
+      return <span className="loading">{t("loading")}</span>;
     }
 
     return (
@@ -150,7 +151,7 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
                   )}
                 />
                 <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">
-                  {t("addSFL.balance")}:{formattedMaticBalance}
+                  {t("balance")}:{formattedMaticBalance}
                 </span>
               </div>
               <div className="w-[10%] flex self-center justify-center">
@@ -163,9 +164,7 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
                   {t("error.wentWrong")}
                 </p>
               )}
-              <div className="text-left w-full mt-3 mb-4">
-                {t("addSFL.for")}
-              </div>
+              <div className="text-left w-full mt-3 mb-4">{t("for")}</div>
             </div>
             <div className="flex items-center justify-between mb-2">
               <div className="relative w-full mr-4">
@@ -184,7 +183,7 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
             <div className="relative h-3">
               {!!amountOutMin && (
                 <p className="text-xxs">
-                  {t("addSFL.minimumReceived")}{" "}
+                  {t("addSFL.minimumReceived")}:{" "}
                   {setPrecision(new Decimal(amountOutMin)).toNumber()}
                 </p>
               )}
@@ -197,7 +196,7 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
             disabled={amountGreaterThanBalance || !!maticInputError}
             className="whitespace-nowrap"
           >
-            {t("addSFL.addSFL")}
+            {t("addSFL")}
           </Button>
         </div>
       </>

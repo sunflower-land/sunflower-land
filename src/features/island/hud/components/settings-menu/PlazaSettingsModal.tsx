@@ -102,7 +102,7 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
                         onClick={() => removeMutedPlayer(farmId)}
                         className="w-1/3 text-xs"
                       >
-                        {t("plazaSettings.unmute")}
+                        {t("unmute")}
                       </Button>
                     </div>
                   ))}
@@ -114,9 +114,7 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
               )}
             </div>
 
-            <Button onClick={() => setStep("MAIN")}>
-              {t("plazaSettings.back")}
-            </Button>
+            <Button onClick={() => setStep("MAIN")}>{t("back")}</Button>
           </div>
         )}
       </CloseButtonPanel>

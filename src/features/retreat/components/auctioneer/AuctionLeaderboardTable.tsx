@@ -36,16 +36,16 @@ export const AuctionLeaderboardTable: React.FC<{
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 w-[20%]"
               >
-                <p>{t("auction.rank")}</p>
+                <p>{t("rank")}</p>
               </th>
               <th
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 w-1/5"
               >
-                <p>{t("auction.farm")}</p>
+                <p>{t("farm")}</p>
               </th>
               <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
-                <p>{t("auction.bid")}</p>
+                <p>{t("bid")}</p>
               </th>
             </tr>
           </thead>

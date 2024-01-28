@@ -74,7 +74,7 @@ export const NoBumpkin: React.FC = () => {
   if (isLoading) {
     return (
       <div className="p-2">
-        <p className="loading">{t("noBumpkin.loading")}</p>
+        <p className="loading">{t("loading")}</p>
       </div>
     );
   }

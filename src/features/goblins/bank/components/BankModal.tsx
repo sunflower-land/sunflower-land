@@ -42,7 +42,7 @@ export const BankModal: React.FC<Props> = ({ onClose, farmAddress }) => {
       >
         <Tab isActive={tab === "deposit"} onClick={() => setTab("deposit")}>
           <img src={chest} className="h-5 mr-2" />
-          <span className="text-sm">{t("action.deposit")}</span>
+          <span className="text-sm">{t("deposit")}</span>
         </Tab>
         <Tab isActive={tab === "withdraw"} onClick={() => setTab("withdraw")}>
           <img src={wallet} className="h-5 mr-2" />

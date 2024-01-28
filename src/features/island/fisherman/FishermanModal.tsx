@@ -61,7 +61,7 @@ const ChumSelection: React.FC<{
 
   return (
     <div>
-      <p className="mb-1 p-1 text-xs">{t("select.resource")}</p>
+      <p className="mb-1 p-1 text-xs">{t("select.resource")}: </p>
 
       <div className="flex flex-wrap">
         {getKeys(CHUM_AMOUNTS)

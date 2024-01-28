@@ -451,13 +451,13 @@ export const PhaserComponent: React.FC<Props> = ({
         backdrop={false}
       >
         <Panel>
-          <p className="loading">{t("chat.Loading")}</p>
+          <p className="loading">{t("loading")}</p>
         </Panel>
       </Modal>
 
       <Modal show={mmoState === "joinRoom"} centered backdrop={false}>
         <Panel>
-          <p className="loading">{t("chat.Loading")}</p>
+          <p className="loading">{t("loading")}</p>
         </Panel>
       </Modal>
       {mmoState === "error" && (
