@@ -2,33 +2,38 @@
 import React, { useState } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import { ReactPortal } from "components/ui/ReactPortal";
-import { Button } from "components/ui/Button";
-import classNames from "classnames";
 import { CONFIG } from "lib/config";
+import classNames from "classnames";
+import { Button } from "components/ui/Button";
 
-const CHECK_FOR_UPDATE_INTERVAL = 1000 * 20;
+const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 5;
 
 export function ReloadPrompt() {
   const [checking, setChecking] = useState(false);
-  const [intervalId, setIntervalId] = useState<NodeJS.Timer>();
-
+  const [isInstalling, setIsInstalling] = useState(false);
   // Periodic Service Worker Updates
   // https://vite-pwa-org.netlify.app/guide/periodic-sw-updates.html#handling-edge-cases
   const {
     needRefresh: [needRefresh],
     updateServiceWorker,
   } = useRegisterSW({
-    onNeedRefresh() {
-      console.log("onNeedRefresh");
-      // eslint-disable-next-line no-console
-      // setIntervalId(undefined);
-    },
     onRegisteredSW(swUrl, registration) {
-      console.log({ registration });
       if (registration) {
-        // eslint-disable-next-line no-console
-        // console.log("Firing up a new interval");
-        const interval = setInterval(async () => {
+        // Check if a SW is actively installing. We need this so we can remove the prompt if there was a new update ready but its now stale.
+        // If so, wait for it to finish installing before prompting reload.
+        registration.addEventListener("updatefound", () => {
+          setIsInstalling(true);
+          const newWorker = registration.installing;
+          if (newWorker) {
+            newWorker.addEventListener("statechange", () => {
+              if (newWorker.state === "installed") {
+                setIsInstalling(false);
+              }
+            });
+          }
+        });
+
+        setInterval(async () => {
           setChecking(true);
           if (!(!registration.installing && navigator)) return;
 
@@ -45,19 +50,16 @@ export function ReloadPrompt() {
           if (resp?.status === 200) await registration.update();
           setChecking(false);
         }, CHECK_FOR_UPDATE_INTERVAL);
-        setIntervalId(interval);
       }
     },
   });
-
-  // eslint-disable-next-line no-console
-  console.log("intervalId", intervalId);
 
   return (
     <ReactPortal>
       <div className="fixed top-28 safe-pt left-1/2 -translate-x-1/2 text-xs flex flex-col">
         <span>{`Checking for update: ${checking}`}</span>
-        <span>{`Needs update: ${needRefresh}`}</span>
+        <span>{`Needs update #44: ${needRefresh}`}</span>
+        <span>{`Is installing: ${isInstalling}`}</span>
         <span>{`Release version: ${
           CONFIG.RELEASE_VERSION.length > 10
             ? CONFIG.RELEASE_VERSION.slice(-6)
@@ -68,14 +70,14 @@ export function ReloadPrompt() {
         className={classNames(
           "fixed inset-x-0 bottom-0 transition-all duration-500 delay-1000 bg-brown-300 safe-pb safe-px",
           {
-            "translate-y-20": !needRefresh,
-            "-translate-y-0": needRefresh,
+            "translate-y-20": !needRefresh || isInstalling,
+            "-translate-y-0": needRefresh && !isInstalling,
           }
         )}
         style={{ zIndex: 10000 }}
       >
         {needRefresh && (
-          <div className="mx-auto max-w-2xl flex p-2 items-center safe-pb safe-px">
+          <div className="mx-auto max-w-2xl flex p-2 pb-1 items-center safe-pb safe-px">
             <div className="p-1 flex flex-1">
               <span className="text-xs">
                 New content available, click on reload button to update.
