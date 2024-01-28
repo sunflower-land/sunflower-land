@@ -275,10 +275,10 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
       bumpkinParts={NPC_WEARABLES.stella}
       tabs={[
         { icon: SUNNYSIDE.icons.wardrobe, name: "Mega Store" },
-        {
-          icon: SUNNYSIDE.icons.expression_confused,
-          name: "Guide",
-        },
+        // {
+        //   icon: SUNNYSIDE.icons.expression_confused,
+        //   name: "Guide",
+        // },
       ]}
       onClose={onClose}
     >
