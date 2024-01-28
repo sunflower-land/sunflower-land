@@ -21,6 +21,7 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import confetti from "canvas-confetti";
 
 interface ItemOverlayProps {
   item: WearablesItem | CollectiblesItem | null;
@@ -46,6 +47,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const sflBalance = useSelector(gameService, _sflBalance);
   const inventory = useSelector(gameService, _inventory);
   const [imageWidth, setImageWidth] = useState<number>(0);
+  const [showSuccess, setShowSuccess] = useState<boolean>(false);
 
   useLayoutEffect(() => {
     if (isWearable) {
@@ -105,22 +107,25 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const handleBuy = () => {
     if (!item) return;
 
-    const { name } = item;
+    gameService.send("megastoreItem.bought", {
+      name: item.name,
+    });
 
-    if (isWearable) {
-      gameService.send("wearable.bought", {
-        name,
-      });
-    } else {
-      gameService.send("collectible.crafted", {
-        name,
-      });
-
-      shortcutItem(name as InventoryItemName);
+    if (!isWearable) {
+      shortcutItem(item.name as InventoryItemName);
     }
 
+    confetti();
     trackAnalytics();
-    onClose();
+    setShowSuccess(true);
+  };
+
+  const getSuccessCopy = () => {
+    if (isWearable) {
+      return "Nice buy! Your new wearable is safely stored in your wardrobe. You can equip it to a bumpkin from there.";
+    }
+
+    return "Nice buy! Your new collectible is safely stored in your inventory.";
   };
 
   const currency =
@@ -131,80 +136,92 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   return (
     <InnerPanel className="shadow">
       {isVisible && (
-        <div className="flex flex-col items-center space-y-2">
-          <div className="flex items-center w-full">
-            <div style={{ width: `${PIXEL_SCALE * 9}px` }} />
-            <span className="flex-1 text-center">{item?.name}</span>
-            <img
-              src={SUNNYSIDE.icons.close}
-              className="cursor-pointer"
-              onClick={onClose}
-              style={{
-                width: `${PIXEL_SCALE * 9}px`,
-              }}
-            />
-          </div>
-          <div className="w-full p-2">
-            <div className="flex">
-              <div
-                className="w-[45%] min-w-[45%] sm:w-1/2 sm:min-w-[50%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
+        <>
+          <div className="flex flex-col items-center space-y-2">
+            <div className="flex items-center w-full">
+              <div style={{ width: `${PIXEL_SCALE * 9}px` }} />
+              <span className="flex-1 text-center">{item?.name}</span>
+              <img
+                src={SUNNYSIDE.icons.close}
+                className="cursor-pointer"
+                onClick={onClose}
                 style={{
-                  backgroundImage: `url(${bg})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
+                  width: `${PIXEL_SCALE * 9}px`,
                 }}
-              >
-                <img
-                  src={image}
-                  alt={item?.name}
-                  className={classNames()}
-                  style={{
-                    width: `${imageWidth}px`,
-                  }}
-                />
-              </div>
-              <div className="flex flex-col space-y-2">
-                {!!buff && (
-                  <div className="flex content-start flex-col sm:flex-row sm:flex-wrap gap-2">
-                    <Label
-                      type={buff.labelType}
-                      icon={buff.boostTypeIcon}
-                      secondaryIcon={buff.boostedItemIcon}
-                    >
-                      {buff.shortDescription}
-                    </Label>
-                  </div>
-                )}
-                <span className="text-xs leading-none">
-                  {item?.shortDescription}
-                </span>
-                {item && (
-                  <div className="flex flex-1 items-end">
-                    {item?.currency === "SFL" && (
-                      <RequirementLabel
-                        type="sfl"
-                        balance={sflBalance}
-                        requirement={item.price}
-                      />
-                    )}
-                    {item?.currency !== "SFL" && (
-                      <RequirementLabel
-                        type="item"
-                        item={currency}
-                        balance={inventory[currency] ?? new Decimal(0)}
-                        requirement={item?.price ?? new Decimal(0)}
-                      />
-                    )}
-                  </div>
-                )}
-              </div>
+              />
             </div>
+            {!showSuccess && (
+              <div className="w-full p-2">
+                <div className="flex">
+                  <div
+                    className="w-[40%] min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
+                    style={{
+                      backgroundImage: `url(${bg})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  >
+                    <img
+                      src={image}
+                      alt={item?.name}
+                      className={classNames()}
+                      style={{
+                        width: `${imageWidth}px`,
+                      }}
+                    />
+                  </div>
+                  <div className="flex flex-col space-y-2">
+                    {!!buff && (
+                      <div className="flex content-start flex-col sm:flex-row sm:flex-wrap gap-2">
+                        <Label
+                          type={buff.labelType}
+                          icon={buff.boostTypeIcon}
+                          secondaryIcon={buff.boostedItemIcon}
+                        >
+                          {buff.shortDescription}
+                        </Label>
+                      </div>
+                    )}
+                    <span className="text-xs leading-none">
+                      {item?.shortDescription}
+                    </span>
+                    {item && (
+                      <div className="flex flex-1 items-end">
+                        {item?.currency === "SFL" && (
+                          <RequirementLabel
+                            type="sfl"
+                            balance={sflBalance}
+                            requirement={item.price}
+                          />
+                        )}
+                        {item?.currency !== "SFL" && (
+                          <RequirementLabel
+                            type="item"
+                            item={currency}
+                            balance={inventory[currency] ?? new Decimal(0)}
+                            requirement={item?.price ?? new Decimal(0)}
+                          />
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-        </div>
+          {!showSuccess && (
+            <Button disabled={!canAfford()} onClick={handleBuy}>{`Buy ${
+              isWearable ? "wearable" : "collectible"
+            }`}</Button>
+          )}
+          {showSuccess && (
+            <div className="flex flex-col space-y-1">
+              <span className="p-2 text-xs">{getSuccessCopy()}</span>
+              <Button onClick={onClose}>Ok</Button>
+            </div>
+          )}
+        </>
       )}
-      <Button disabled={!canAfford()} onClick={handleBuy}>{`Buy ${
-        isWearable ? "wearable" : "collectible"
-      }`}</Button>
     </InnerPanel>
   );
 };
