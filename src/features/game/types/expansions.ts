@@ -1664,7 +1664,7 @@ const SPRING_LAND_7_REQUIREMENTS: Requirements = {
     Iron: 5,
     "Block Buck": 1,
   },
-  seconds: 4 * 60 * 60,
+  seconds: 30 * 60,
   bumpkinLevel: 19,
 };
 
@@ -1674,7 +1674,7 @@ const SPRING_LAND_8_REQUIREMENTS: Requirements = {
     Crimstone: 2,
     "Block Buck": 1,
   },
-  seconds: 8 * 60 * 60,
+  seconds: 2 * 60 * 60,
   bumpkinLevel: 21,
 };
 
@@ -1684,7 +1684,7 @@ const SPRING_LAND_9_REQUIREMENTS: Requirements = {
     Gold: 5,
     "Block Buck": 1,
   },
-  seconds: 12 * 60 * 60,
+  seconds: 2 * 60 * 60,
   bumpkinLevel: 23,
 };
 
@@ -1694,7 +1694,7 @@ const SPRING_LAND_10_REQUIREMENTS: Requirements = {
     Crimstone: 3,
     "Block Buck": 1,
   },
-  seconds: 24 * 60 * 60,
+  seconds: 4 * 60 * 60,
   bumpkinLevel: 25,
 };
 
@@ -1706,7 +1706,7 @@ const SPRING_LAND_11_REQUIREMENTS: Requirements = {
     Crimstone: 1,
     "Block Buck": 1,
   },
-  seconds: 24 * 60 * 60,
+  seconds: 8 * 60 * 60,
   bumpkinLevel: 27,
 };
 
@@ -1717,7 +1717,7 @@ const SPRING_LAND_12_REQUIREMENTS: Requirements = {
     Crimstone: 3,
     "Block Buck": 2,
   },
-  seconds: 24 * 60 * 60,
+  seconds: 12 * 60 * 60,
   bumpkinLevel: 29,
 };
 
@@ -1729,7 +1729,7 @@ const SPRING_LAND_13_REQUIREMENTS: Requirements = {
     Gold: 10,
     "Block Buck": 2,
   },
-  seconds: 24 * 60 * 60,
+  seconds: 12 * 60 * 60,
 
   bumpkinLevel: 32,
 };
@@ -1752,7 +1752,7 @@ const SPRING_LAND_15_REQUIREMENTS: Requirements = {
     Stone: 10,
     Iron: 10,
     Gold: 5,
-    Crimstone: 3,
+    Crimstone: 5,
     "Block Buck": 2,
   },
   seconds: 24 * 60 * 60,
@@ -1765,7 +1765,7 @@ const SPRING_LAND_16_REQUIREMENTS: Requirements = {
     Wood: 100,
     Stone: 10,
     Gold: 5,
-    Crimstone: 5,
+    Crimstone: 8,
     "Block Buck": 2,
   },
   seconds: 24 * 60 * 60,
@@ -1780,9 +1780,9 @@ const SPRING_LAND_17_REQUIREMENTS: Requirements = {
     Iron: 10,
     Gold: 5,
     Crimstone: 5,
-    "Block Buck": 2,
+    "Block Buck": 22,
   },
-  seconds: 24 * 60 * 60,
+  seconds: 36 * 60 * 60,
 
   bumpkinLevel: 47,
 };
@@ -1793,10 +1793,10 @@ const SPRING_LAND_18_REQUIREMENTS: Requirements = {
     Stone: 20,
     Iron: 10,
     Gold: 5,
-    Crimstone: 5,
+    Crimstone: 16,
     "Block Buck": 2,
   },
-  seconds: 24 * 60 * 60,
+  seconds: 36 * 60 * 60,
 
   bumpkinLevel: 51,
 };
@@ -1807,10 +1807,10 @@ const SPRING_LAND_19_REQUIREMENTS: Requirements = {
     Stone: 10,
     Iron: 5,
     Gold: 5,
-    Crimstone: 5,
+    Crimstone: 20,
     "Block Buck": 2,
   },
-  seconds: 24 * 60 * 60,
+  seconds: 36 * 60 * 60,
 
   bumpkinLevel: 53,
 };
@@ -1821,10 +1821,10 @@ const SPRING_LAND_20_REQUIREMENTS: Requirements = {
     Stone: 5,
     Iron: 5,
     Gold: 5,
-    Crimstone: 10,
+    Crimstone: 24,
     "Block Buck": 2,
   },
-  seconds: 24 * 60 * 60,
+  seconds: 48 * 60 * 60,
 
   bumpkinLevel: 55,
 };
