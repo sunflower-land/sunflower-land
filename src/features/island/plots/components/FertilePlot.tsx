@@ -51,7 +51,6 @@ const FertilePlotComponent: React.FC<Props> = ({
   cropName,
   inventory,
   game,
-  bumpkin,
   buds,
   plot,
   plantedAt,
@@ -69,13 +68,12 @@ const FertilePlotComponent: React.FC<Props> = ({
   const readyAt = plantedAt ? plantedAt + harvestSeconds * 1000 : 0;
 
   let startAt = plantedAt ?? 0;
-  if (cropName && bumpkin) {
+  if (cropName && game.bumpkin) {
     const fertiliserName = fertiliser?.name ?? undefined;
     harvestSeconds = getCropTime({
       crop: cropName,
       inventory,
       game,
-      bumpkin,
       buds: buds ?? {},
       plot,
       fertiliser: fertiliserName,

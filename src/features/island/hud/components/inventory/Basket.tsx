@@ -49,7 +49,7 @@ interface Prop {
 export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const divRef = useRef<HTMLDivElement>(null);
 
-  const { inventory, bumpkin, collectibles, buildings, buds } = gameState;
+  const { inventory, buds } = gameState;
   const basketMap = getBasketItems(inventory);
 
   const basketIsEmpty = Object.values(basketMap).length === 0;
@@ -91,7 +91,6 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       crop,
       inventory,
       game: gameState,
-      bumpkin: bumpkin as Bumpkin,
       buds: buds ?? {},
     });
   };
