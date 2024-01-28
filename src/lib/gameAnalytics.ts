@@ -1,8 +1,7 @@
 import { GameAnalytics } from "gameanalytics";
 import { CONFIG } from "./config";
-import { InventoryItemName } from "features/game/types/game";
+import { Currency, InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
-import { Currency } from "features/world/ui/megastore/MegaStore";
 
 // Their type definition has some issues, extract to here
 enum EGAResourceFlowType {

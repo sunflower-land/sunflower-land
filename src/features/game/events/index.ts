@@ -260,6 +260,10 @@ import {
   FlowerShopTradedAction,
   tradeFlowerShop,
 } from "./landExpansion/tradeFlowerShop";
+import {
+  buyMegaStoreItem,
+  BuyMegaStoreItemAction,
+} from "./landExpansion/buyMegaStoreItem";
 
 export type PlayingEvent =
   | TradeAction
@@ -339,7 +343,8 @@ export type PlayingEvent =
   | UpgradeFarmAction
   | PurchaseBannerAction
   | FlowerPageDiscoveredAction
-  | FlowerShopTradedAction;
+  | FlowerShopTradedAction
+  | BuyMegaStoreItemAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -482,6 +487,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "banner.purchased": purchaseBanner,
   "flowerPage.discovered": discoverFlowerPage,
   "flowerShop.traded": tradeFlowerShop,
+  "megastoreItem.bought": buyMegaStoreItem,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

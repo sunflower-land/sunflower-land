@@ -783,19 +783,24 @@ export type Currency =
   | "Sunstone"
   | "Seasonal Ticket";
 
-export type WearablesItem = {
-  name: BumpkinItem;
+type ItemBase = {
   shortDescription: string;
   currency: Currency;
   price: Decimal;
+  type: "wearable" | "collectible";
 };
+
+export type WearablesItem = {
+  name: BumpkinItem;
+} & ItemBase;
 
 export type CollectiblesItem = {
   name: InventoryItemName;
-  shortDescription: string;
-  currency: Currency;
-  price: Decimal;
-};
+} & ItemBase;
+
+export type MegaStoreItemName = BumpkinItem | InventoryItemName;
+
+export type MegaStoreItem = WearablesItem | CollectiblesItem;
 
 export type MegaStore = {
   available: {
