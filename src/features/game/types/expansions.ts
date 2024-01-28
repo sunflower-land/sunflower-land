@@ -28,7 +28,13 @@ export function getPlayerGroup(id: string): 0 | 1 | 2 {
   return groupId as 0 | 1 | 2;
 }
 
-function getBasicLand({ id, expansion }: { id: number; expansion: number }) {
+export function getBasicLand({
+  id,
+  expansion,
+}: {
+  id: number;
+  expansion: number;
+}) {
   if (expansion === 4) {
     return LAND_4_LAYOUT;
   }
@@ -49,13 +55,19 @@ function getBasicLand({ id, expansion }: { id: number; expansion: number }) {
     return LAND_8_LAYOUT;
   }
 
-  if (expansion >= 9 && expansion <= 11) {
-    const group = getPlayerGroup(id.toString());
-    const positionInPack = (expansion + group) % 3;
-
-    return LAND_PACK_TWO[positionInPack];
+  if (expansion === 9) {
+    return LAND_9_LAYOUT;
   }
 
+  if (expansion === 10) {
+    return LAND_10_LAYOUT;
+  }
+
+  if (expansion === 11) {
+    return LAND_11_LAYOUT;
+  }
+
+  // LEGACY - can remove from Feb 1st
   if (expansion >= 12 && expansion <= 14) {
     const group = getPlayerGroup(id.toString());
     const positionInPack = (expansion + group) % 3;
@@ -266,7 +278,12 @@ export const LAND_5_LAYOUT: Layout = {
       y: -1,
     },
   ],
-  trees: [],
+  trees: [
+    {
+      x: -3,
+      y: 2,
+    },
+  ],
 } as Layout;
 
 export const LAND_6_LAYOUT: Layout = {
@@ -378,12 +395,12 @@ export const LAND_9_LAYOUT: Layout = {
   id: "9",
   plots: [
     {
-      x: 1,
-      y: 2,
+      x: 0,
+      y: 3,
     },
     {
-      x: 0,
-      y: 2,
+      x: 1,
+      y: 3,
     },
   ],
   fruitPatches: [],
@@ -435,7 +452,6 @@ export const LAND_10_LAYOUT: Layout = {
     },
   ],
 } as Layout;
-
 export const LAND_11_LAYOUT: Layout = {
   id: "11",
   plots: [
@@ -474,7 +490,6 @@ export const LAND_11_LAYOUT: Layout = {
     },
   ],
 } as Layout;
-
 export const LAND_12_LAYOUT: Layout = {
   id: "12",
   plots: [],
@@ -820,14 +835,6 @@ export const SPRING_LAND_5_LAYOUT: Layout = {
     {
       x: -1,
       y: 0,
-    },
-    {
-      x: -2,
-      y: -1,
-    },
-    {
-      x: -1,
-      y: -1,
     },
   ],
   fruitPatches: [
@@ -1367,7 +1374,7 @@ export const SPRING_LAND_20_LAYOUT: Layout = {
   id: "spring_20",
 };
 
-const SPRING_LAYOUTS: Record<number, Layout> = {
+export const SPRING_LAYOUTS: Record<number, Layout> = {
   5: SPRING_LAND_5_LAYOUT,
   6: SPRING_LAND_6_LAYOUT,
   7: SPRING_LAND_7_LAYOUT,
