@@ -943,7 +943,7 @@ export const SPRING_LAND_7_LAYOUT: Layout = {
   crimstones: [
     {
       x: -1,
-      y: -2,
+      y: -1,
     },
   ],
   sunstones: [],
