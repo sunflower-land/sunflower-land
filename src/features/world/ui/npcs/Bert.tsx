@@ -43,14 +43,17 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
   const currentObsession = game.bertObsession;
   const obsessionCompletedAt = game.npcs?.bert?.questCompletedAt;
 
-  const isObsessionCollectible = game.bertObsession?.type === "collectible";
-
   const obsessionDialogue = useRandomItem(
     obsessionDialogues(currentObsession?.name as string)
   );
 
   const obsessionName = game.bertObsession?.name;
   const reward = game.bertObsession?.reward ?? 0;
+
+  let isObsessionCollectible = game.bertObsession?.type === "collectible";
+  if (ITEM_DETAILS[obsessionName as InventoryItemName] === undefined) {
+    isObsessionCollectible = false;
+  }
 
   const image = isObsessionCollectible
     ? ITEM_DETAILS[obsessionName as InventoryItemName].image
