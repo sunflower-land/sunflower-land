@@ -31,10 +31,10 @@ if (import.meta.env.DEV) {
   allowlist = [/^offline.html$/];
 }
 
-precacheAndRoute(self.__WB_MANIFEST);
-
 // clean old assets
 cleanupOutdatedCaches();
+
+precacheAndRoute(self.__WB_MANIFEST);
 
 if (import.meta.env.PROD) {
   const isTestnet = CONFIG.NETWORK === "mumbai";
