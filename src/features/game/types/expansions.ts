@@ -278,11 +278,10 @@ export const LAND_5_LAYOUT: Layout = {
       y: -1,
     },
   ],
-  // TODO - check collision
   trees: [
     {
-      x: -2,
-      y: 1,
+      x: -3,
+      y: 2,
     },
   ],
 } as Layout;
