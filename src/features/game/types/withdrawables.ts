@@ -1145,4 +1145,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Northern Lights Background": () => false,
   "Short Shorts": () => false,
   "Winter Jacket": () => false,
+
+  // Spring Blossom
+  // TODO Update withdraw dates
+  "Beehive Staff": () => false,
 };
