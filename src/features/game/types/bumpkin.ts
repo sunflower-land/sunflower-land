@@ -286,7 +286,8 @@ export type BumpkinSuit =
   | "Ox Costume"
   | "Potato Suit"
   | "Santa Suit"
-  | "Elf Suit";
+  | "Elf Suit"
+  | "Bee Suit";
 
 export type BumpkinWings =
   | "Angel Wings"
@@ -588,6 +589,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Winter Jacket": 273,
   "Beehive Staff": 274,
   "Bee Smoker": 275,
+  "Bee Suit": 276,
 };
 
 // The reverse of above
@@ -922,4 +924,5 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Winter Jacket": "shirt",
   "Beehive Staff": "tool",
   "Bee Smoker": "tool",
+  "Bee Suit": "suit",
 };

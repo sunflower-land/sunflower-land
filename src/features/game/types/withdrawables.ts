@@ -1150,4 +1150,5 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   // TODO Update withdraw dates
   "Beehive Staff": () => false,
   "Bee Smoker": () => false,
+  "Bee Suit": () => false,
 };
