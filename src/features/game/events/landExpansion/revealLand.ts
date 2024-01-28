@@ -231,19 +231,6 @@ export function revealLand({
     };
   }, {} as GameState["stones"]);
 
-  game.stones = getKeys(game.stones).reduce((acc, id) => {
-    return {
-      ...acc,
-      [id]: {
-        ...game.stones[id],
-        stone: {
-          ...game.stones[id].stone,
-          minedAt: createdAt - 12 * 60 * 60 * 1000,
-        },
-      },
-    };
-  }, {} as GameState["stones"]);
-
   game.iron = getKeys(game.iron).reduce((acc, id) => {
     return {
       ...acc,

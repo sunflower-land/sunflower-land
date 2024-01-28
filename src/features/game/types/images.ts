@@ -143,6 +143,7 @@ import singaporean_flag from "assets/sfts/flags/singaporean_flag.gif";
 import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
 import crimstone from "assets/resources/crimstone.png";
+import sunstone from "assets/resources/sunstone/sunstone.png";
 import honey from "assets/resources/honey.png";
 import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
@@ -473,6 +474,7 @@ import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
 import stoneRock from "assets/resources/stone_small.png";
 import crimstoneRock from "assets/resources/crimstone/crimstone_rock_1.webp";
+import sunstoneRock from "assets/resources/sunstone/sunstone_rock_1.webp";
 
 // Potion House
 import giantCabbage from "assets/sfts/giant_cabbage.png";
@@ -889,8 +891,7 @@ export const ITEM_DETAILS: Items = {
   },
   Sunstone: {
     ...COMMODITIES["Sunstone"],
-    image: SUNNYSIDE.resource.iron_rock, //Placeholder
-    // image: SUNNYSIDE.resource.sunstone_rock,
+    image: sunstone,
   },
   Egg: {
     ...COMMODITIES["Egg"],
@@ -2317,8 +2318,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.crop.plot"),
   },
   "Sunstone Rock": {
-    image: SUNNYSIDE.resource.iron_rock,
-    // image: sunstoneRock,
+    image: sunstoneRock,
     description: "A mineable rock to collect sunstone",
   },
   "Gold Rock": {

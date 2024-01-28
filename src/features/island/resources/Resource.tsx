@@ -163,12 +163,12 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
   ),
   "Sunstone Rock": () => (
     <img
-      src={SUNNYSIDE.resource.iron_rock}
+      src={ITEM_DETAILS["Sunstone Rock"].image}
       className="absolute h-auto w-full"
       style={{
-        width: `${PIXEL_SCALE * 18}px`,
-        bottom: `${PIXEL_SCALE * 7}px`,
-        left: `${PIXEL_SCALE * 7}px`,
+        width: `${PIXEL_SCALE * 24}px`,
+        bottom: `${PIXEL_SCALE * 1}px`,
+        left: `${PIXEL_SCALE * 4}px`,
       }}
     />
   ),
