@@ -30,6 +30,19 @@ const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
 
+export const getSunstoneStage = (minesLeft: number) => {
+  if (minesLeft === 10) return 1;
+  if (minesLeft === 9) return 2;
+  if (minesLeft === 8) return 3;
+  if (minesLeft === 7) return 4;
+  if (minesLeft === 6) return 5;
+  if (minesLeft === 5) return 6;
+  if (minesLeft === 4) return 7;
+  if (minesLeft === 3) return 8;
+  if (minesLeft === 2) return 9;
+  return 10;
+};
+
 const _bumpkinLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
@@ -132,15 +145,23 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
             bumpkinLevelRequired={bumpkinLevelRequired}
             hasTool={hasTool}
             touchCount={touchCount}
+            minesLeft={resource.minesLeft}
           />
         </div>
       )}
 
       {/* Depleting resource animation */}
-      {collecting && <DepletingSunstone resourceAmount={collectedAmount} />}
+      {collecting && (
+        <DepletingSunstone
+          resourceAmount={collectedAmount}
+          minesLeft={resource.minesLeft}
+        />
+      )}
 
       {/* Depleted resource */}
-      {mined && <DepletedSunstone timeLeft={timeLeft} />}
+      {mined && (
+        <DepletedSunstone timeLeft={timeLeft} minesLeft={resource.minesLeft} />
+      )}
     </div>
   );
 };

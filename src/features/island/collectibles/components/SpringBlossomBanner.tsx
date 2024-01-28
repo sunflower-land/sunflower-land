@@ -10,7 +10,7 @@ export const SpringBlossomBanner: React.FC = () => {
       className="absolute pointer-events-none"
       style={{
         width: `${PIXEL_SCALE * 22}px`,
-        top: `${PIXEL_SCALE * -4}px`,
+        top: `${PIXEL_SCALE * -6}px`,
         left: `${PIXEL_SCALE * -3}px`,
       }}
     >
