@@ -1,64 +1,40 @@
 /* eslint-disable no-console */
 import React, { useState } from "react";
-import { useRegisterSW } from "virtual:pwa-register/react";
+import { useRegisterServiceWorker } from "./register-service-worker";
 import { ReactPortal } from "components/ui/ReactPortal";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
 
+// TODO: extract this to define vite config file option
 const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 60 * 1;
 
 export function ReloadPrompt() {
   const [isInstalling, setIsInstalling] = useState(false);
-
-  // Check if a SW is actively installing. We need this so we can remove the
-  // prompt for update if there was a new update ready but its now stale as a new update has been released.
-  // If this is the case hide the update prompt and wait for the most recent update to finish installing before
-  // prompting reload again.
-  const activeServiceWorkerInstallationHandler = (
-    registration: ServiceWorkerRegistration
-  ) => {
-    const updatefoundHandler = () => {
-      setIsInstalling(true);
-
-      const newWorker = registration.installing;
-
-      if (newWorker) {
-        const statechangeHandler = () => {
-          if (newWorker.state === "installed") {
-            setIsInstalling(false);
-          }
-        };
-
-        newWorker.addEventListener("statechange", statechangeHandler);
-
-        return () => {
-          // Cleanup statechange event listener when the component is unmounted
-          newWorker.removeEventListener("statechange", statechangeHandler);
-        };
-      }
-    };
-
-    registration.addEventListener("updatefound", updatefoundHandler);
-
-    return () => {
-      // Cleanup updatefound event listener when the component is unmounted
-      registration.removeEventListener("updatefound", updatefoundHandler);
-    };
-  };
-
   // Periodic Service Worker Updates
   // https://vite-pwa-org.netlify.app/guide/periodic-sw-updates.html#handling-edge-cases
   const {
+    installing,
+    updating,
     needRefresh: [needRefresh],
+    checkForWaitingServiceWorkers,
     updateServiceWorker,
-  } = useRegisterSW({
+  } = useRegisterServiceWorker({
+    onInstalling(state) {
+      checkForWaitingServiceWorkers();
+      setIsInstalling(state);
+    },
+    onUpdateFound(state) {
+      checkForWaitingServiceWorkers();
+      setIsInstalling(state);
+    },
     onRegisteredSW(swUrl, registration) {
       if (registration) {
-        activeServiceWorkerInstallationHandler(registration);
-
         setInterval(async () => {
-          if (!(!registration.installing && navigator)) return;
-
+          // Check if a SW is actively installing. We need this so we can remove the
+          // prompt for update if there was a new update ready but its now stale as a new update has been released.
+          // If this is the case hide the update prompt and wait for the most recent update to finish installing before
+          // prompting reload again.
+          if (!navigator || installing || updating) return;
           if ("connection" in navigator && !navigator.onLine) return;
 
           const resp = await fetch(swUrl, {
@@ -97,7 +73,7 @@ export function ReloadPrompt() {
             <Button
               className="max-w-max h-10"
               onClick={() => {
-                updateServiceWorker(true);
+                updateServiceWorker();
                 // Safety net for if updateServiceWorker fails
                 window.location.reload();
               }}

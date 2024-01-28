@@ -20,6 +20,7 @@ export default defineConfig({
         type: "module",
         navigateFallback: "offline.html",
       },
+      injectRegister: false,
       srcDir: "src",
       strategies: "injectManifest",
       includeManifestIcons: false,
@@ -93,6 +94,20 @@ export default defineConfig({
       zlib: "browserify-zlib",
       util: "util",
     },
+  },
+  define: {
+    __SW__:
+      process.env.NODE_ENV === "production"
+        ? '"/sw.js"'
+        : '"/dev-sw.js?dev-sw"',
+    __SW_SCOPE__: '"/"',
+    __SW_TYPE__:
+      process.env.NODE_ENV === "development" ? '"module"' : '"classic"',
+    AUTO_DESTROY_SW: "false",
+    // TODO: change dev env to use another env variable, will not work on Windows OS
+    DISABLE_REGISTER_SW:
+      process.env.NODE_ENV === "production" ? "false" : "false",
+    "process.env.NODE_ENV": `"${process.env.NODE_ENV ?? "production"}"`,
   },
   css: {
     modules: {},
