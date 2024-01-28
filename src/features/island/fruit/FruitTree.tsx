@@ -52,7 +52,6 @@ const getFruitTreeStatus = (plantedFruit?: PlantedFruit): FruitTreeStatus => {
 };
 
 interface Props {
-  bumpkinLevelRequired: number;
   plantedFruit?: PlantedFruit;
   plantTree: () => void;
   harvestFruit: () => void;
@@ -63,7 +62,6 @@ interface Props {
 }
 
 export const FruitTree: React.FC<Props> = ({
-  bumpkinLevelRequired,
   plantedFruit,
   plantTree,
   harvestFruit,
@@ -120,10 +118,7 @@ export const FruitTree: React.FC<Props> = ({
   // Ready tree
   return (
     <div className="absolute w-full h-full" onClick={harvestFruit}>
-      <ReplenishedTree
-        bumpkinLevelRequired={bumpkinLevelRequired}
-        fruitName={name}
-      />
+      <ReplenishedTree fruitName={name} />
     </div>
   );
 };

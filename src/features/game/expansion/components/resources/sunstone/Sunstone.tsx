@@ -12,7 +12,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
 import { canMine } from "features/game/expansion/lib/utils";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { getBumpkinLevelRequiredForNode } from "features/game/expansion/lib/expansionNodes";
 import { DepletedSunstone } from "./components/DepletedSunstone";
 import { RecoveredSunstone } from "./components/RecoveredSunstone";
 import { DepletingSunstone } from "./components/DepletingSunstone";
@@ -96,17 +95,9 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
   const timeLeft = getTimeLeft(resource.stone.minedAt, SUNSTONE_RECOVERY_TIME);
   const mined = !canMine(resource, SUNSTONE_RECOVERY_TIME);
 
-  const bumpkinLevelRequired = getBumpkinLevelRequiredForNode(
-    index,
-    "Sunstone Rock"
-  );
-  const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
-  const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
-
   useUiRefresher({ active: mined });
 
   const strike = () => {
-    if (bumpkinTooLow) return;
     if (!hasTool) return;
 
     setTouchCount((count) => count + 1);
@@ -142,7 +133,6 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
       {!mined && (
         <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
           <RecoveredSunstone
-            bumpkinLevelRequired={bumpkinLevelRequired}
             hasTool={hasTool}
             touchCount={touchCount}
             minesLeft={resource.minesLeft}

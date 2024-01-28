@@ -12,10 +12,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
 import { DepletedIron } from "./components/DepletedIron";
 import { DepletingIron } from "./components/DepletingIron";
-import { RecoveredIron } from "./components/RecoveredIron";
 import { canMine } from "features/game/expansion/lib/utils";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { getBumpkinLevelRequiredForNode } from "features/game/expansion/lib/expansionNodes";
 
 const HITS = 3;
 const tool = "Stone Pickaxe";
@@ -83,17 +81,9 @@ export const Iron: React.FC<Props> = ({ id, index }) => {
   const timeLeft = getTimeLeft(resource.stone.minedAt, IRON_RECOVERY_TIME);
   const mined = !canMine(resource, IRON_RECOVERY_TIME);
 
-  const bumpkinLevelRequired = getBumpkinLevelRequiredForNode(
-    index,
-    "Iron Rock"
-  );
-  const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
-  const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
-
   useUiRefresher({ active: mined });
 
   const strike = () => {
-    if (bumpkinTooLow) return;
     if (!hasTool) return;
 
     setTouchCount((count) => count + 1);
@@ -125,17 +115,6 @@ export const Iron: React.FC<Props> = ({ id, index }) => {
 
   return (
     <div className="relative w-full h-full">
-      {/* Resource ready to collect */}
-      {!mined && (
-        <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
-          <RecoveredIron
-            bumpkinLevelRequired={bumpkinLevelRequired}
-            hasTool={hasTool}
-            touchCount={touchCount}
-          />
-        </div>
-      )}
-
       {/* Depleting resource animation */}
       {collecting && <DepletingIron resourceAmount={collectedAmount} />}
 

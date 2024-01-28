@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useSelector } from "@xstate/react";
 
 import Spritesheet, {
   SpriteSheetInstance,
@@ -21,7 +20,6 @@ import crimstone_5 from "assets/resources/crimstone/crimstone_rock_5.webp";
 import { ZoomContext } from "components/ZoomProvider";
 
 import { MachineState } from "features/game/lib/gameMachine";
-import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getCrimstoneStage } from "../Crimstone";
 
@@ -34,7 +32,6 @@ const _bumpkinLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
 interface Props {
-  bumpkinLevelRequired: number;
   hasTool: boolean;
   touchCount: number;
   minesLeft: number;
@@ -42,7 +39,6 @@ interface Props {
 }
 
 const RecoveredCrimstoneComponent: React.FC<Props> = ({
-  bumpkinLevelRequired,
   hasTool,
   touchCount,
   minesLeft,
@@ -51,7 +47,6 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
-  const [showBumpkinLevel, setShowBumpkinLevel] = useState(false);
 
   const strikeGif = useRef<SpriteSheetInstance>();
 
@@ -64,10 +59,6 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
     };
   }, []);
 
-  const { gameService } = useContext(Context);
-  const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
-  const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
-
   const crimstoneImage = [
     crimstone_1,
     crimstone_2,
@@ -77,7 +68,6 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
   ][getCrimstoneStage(minesLeft, minedAt) - 1];
 
   useEffect(() => {
-    if (bumpkinTooLow) return;
     if (touchCount > 0) {
       setShowSpritesheet(true);
       miningAudio.play();
@@ -86,17 +76,12 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
   }, [touchCount]);
 
   const handleHover = () => {
-    if (bumpkinTooLow) {
-      setShowBumpkinLevel(true);
-      return;
-    }
     if (!hasTool) {
       setShowEquipTool(true);
     }
   };
 
   const handleMouseLeave = () => {
-    setShowBumpkinLevel(false);
     setShowEquipTool(false);
   };
 
@@ -117,11 +102,7 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
         {!showSpritesheet && (
           <img
             src={crimstoneImage}
-            className={
-              bumpkinTooLow
-                ? "absolute pointer-events-none opacity-50"
-                : "absolute pointer-events-none"
-            }
+            className={"absolute pointer-events-none opacity-50"}
             style={{
               width: `${PIXEL_SCALE * 24}px`,
               bottom: `${PIXEL_SCALE * 1}px`,
@@ -135,11 +116,7 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
           <>
             <img
               src={crimstoneImage}
-              className={
-                bumpkinTooLow
-                  ? "absolute pointer-events-none opacity-50"
-                  : "absolute pointer-events-none"
-              }
+              className={"absolute pointer-events-none"}
               style={{
                 width: `${PIXEL_SCALE * 24}px`,
                 bottom: `${PIXEL_SCALE * 1}px`,
@@ -182,22 +159,6 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
           </>
         )}
       </div>
-
-      {/* Bumpkin level warning */}
-      {showBumpkinLevel && (
-        <div
-          className="flex justify-center absolute w-full pointer-events-none"
-          style={{
-            top: `${PIXEL_SCALE * -14}px`,
-          }}
-        >
-          <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
-            <div className="text-xxs mx-1 p-1">
-              <span>Bumpkin level {bumpkinLevelRequired} required.</span>
-            </div>
-          </InnerPanel>
-        </div>
-      )}
 
       {/* No tool warning */}
       {showEquipTool && (

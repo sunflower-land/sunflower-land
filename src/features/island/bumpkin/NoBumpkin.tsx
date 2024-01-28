@@ -10,9 +10,13 @@ import { wallet } from "lib/blockchain/wallet";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
+import { BUMPKIN_EXPANSIONS_LEVEL } from "features/game/types/expansions";
+import { useActor } from "@xstate/react";
+import { Label } from "components/ui/Label";
 
 export const NoBumpkin: React.FC = () => {
   const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
 
   const [selectedBumpkinId, setSelectedBumpkinId] = useState<number>();
 
@@ -20,6 +24,11 @@ export const NoBumpkin: React.FC = () => {
   const [farmBumpkins, setFarmBumpkins] = useState<OnChainBumpkin[]>();
 
   const [isLoading, setIsLoading] = useState(true);
+
+  const requiredLevel =
+    BUMPKIN_EXPANSIONS_LEVEL[gameState.context.state.island.type][
+      gameState.context.state.inventory["Basic Land"]?.toNumber() ?? 3
+    ];
 
   useEffect(() => {
     const load = async () => {
@@ -103,6 +112,10 @@ export const NoBumpkin: React.FC = () => {
             You need a Bumpkin to help you plant, harvest, chop, mine and expand
             your land.
           </p>
+          <Label
+            type="danger"
+            className="mx-auto my-2"
+          >{`Level ${requiredLevel} required`}</Label>
           <p className="text-sm my-2">You can get a Bumpkin from OpenSea:</p>
           <p className="text-xs sm:text-sm text-shadow text-white p-1">
             <a
@@ -159,6 +172,13 @@ export const NoBumpkin: React.FC = () => {
             );
           })}
         </div>
+        <p className="text-sm my-2">
+          This is an advanced island. A strong Bumpkin is required:
+        </p>
+        <Label
+          type="danger"
+          className="mx-auto my-2"
+        >{`Level ${requiredLevel} required`}</Label>
       </div>
       <Button disabled={!selectedBumpkinId} onClick={deposit}>
         Deposit

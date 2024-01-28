@@ -18,24 +18,6 @@ export interface Nodes {
   Beehive: number;
 }
 
-export function getBumpkinLevelRequiredForNode(
-  index: number,
-  nodeType: string
-): BumpkinLevel {
-  // Excluded: New Bumpkin Level blocking code - separate PR
-  return 0 as BumpkinLevel;
-
-  const key = nodeType as keyof Nodes;
-
-  for (let expansions = 4; expansions <= 23; ++expansions) {
-    if (TOTAL_EXPANSION_NODES.basic[expansions as Land][key] > index)
-      return EXPANSION_REQUIREMENTS[(expansions - 1) as Land]
-        .bumpkinLevel as BumpkinLevel;
-  }
-
-  return 50 as BumpkinLevel;
-}
-
 export function getEnabledNodeCount(
   bumpkinLevel: BumpkinLevel,
   nodeType: string
