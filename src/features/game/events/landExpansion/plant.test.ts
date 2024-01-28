@@ -1677,13 +1677,6 @@ describe("getCropTime", () => {
     const amount = getCropYieldAmount({
       crop: "Eggplant",
       inventory: {},
-      bumpkin: {
-        ...INITIAL_BUMPKIN,
-        equipped: {
-          ...INITIAL_BUMPKIN.equipped,
-          onesie: "Eggplant Onesie",
-        },
-      },
       game: {
         ...TEST_FARM,
         bumpkin: {
@@ -1705,13 +1698,6 @@ describe("getCropTime", () => {
     const amount = getCropYieldAmount({
       crop: "Corn",
       inventory: {},
-      bumpkin: {
-        ...INITIAL_BUMPKIN,
-        equipped: {
-          ...INITIAL_BUMPKIN.equipped,
-          onesie: "Corn Onesie",
-        },
-      },
       game: {
         ...TEST_FARM,
         bumpkin: {
@@ -2088,7 +2074,6 @@ describe("getCropYield", () => {
   it("does not apply sir goldensnout boost outside AOE", () => {
     const amount = getCropYieldAmount({
       crop: "Sunflower",
-      bumpkin: INITIAL_BUMPKIN,
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -2113,7 +2098,6 @@ describe("getCropYield", () => {
   it("applies sir goldensnout boost inside AOE", () => {
     const amount = getCropYieldAmount({
       crop: "Sunflower",
-      bumpkin: INITIAL_BUMPKIN,
       game: {
         ...TEST_FARM,
         collectibles: {

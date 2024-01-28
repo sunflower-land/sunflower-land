@@ -288,7 +288,6 @@ export function getCropYieldAmount({
   inventory,
   game,
   buds,
-  bumpkin,
   fertiliser,
 }: {
   crop: CropName;
@@ -296,11 +295,12 @@ export function getCropYieldAmount({
   inventory: Inventory;
   game: GameState;
   buds: NonNullable<GameState["buds"]>;
-  bumpkin: Bumpkin;
   fertiliser?: CropCompostName;
 }): number {
   let amount = 1;
-  const { skills } = bumpkin;
+  if (game.bumpkin === undefined) return amount;
+
+  const { skills } = game.bumpkin;
 
   if (
     crop === "Cauliflower" &&
@@ -599,7 +599,6 @@ export function plant({
         crop: cropName,
         inventory,
         game: stateCopy,
-        bumpkin,
         plot,
         buds,
         fertiliser: plot.fertiliser?.name,
