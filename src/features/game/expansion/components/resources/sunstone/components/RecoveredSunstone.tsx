@@ -20,7 +20,7 @@ import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-const tool = "Iron Pickaxe";
+const tool = "Gold Pickaxe";
 
 const STRIKE_SHEET_FRAME_WIDTH = 112;
 const STRIKE_SHEET_FRAME_HEIGHT = 48;
