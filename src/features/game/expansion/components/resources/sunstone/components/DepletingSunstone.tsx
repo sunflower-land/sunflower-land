@@ -2,16 +2,17 @@ import React, { useContext, useRef, useState } from "react";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import dropSheet from "assets/resources/gold/gold_rock_drop.png";
+import dropSheet from "assets/resources/sunstone/sunstone_drop.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ZoomContext } from "components/ZoomProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-const DROP_SHEET_FRAME_WIDTH = 112;
+const DROP_SHEET_FRAME_WIDTH = 96;
 const DROP_SHEET_FRAME_HEIGHT = 48;
 
 interface Props {
   resourceAmount?: number;
+  minesLeft: number;
 }
 
 const DepletingSunstoneComponent: React.FC<Props> = ({ resourceAmount }) => {
@@ -71,10 +72,10 @@ const DepletingSunstoneComponent: React.FC<Props> = ({ resourceAmount }) => {
           }}
         >
           <img
-            src={ITEM_DETAILS["Sunstone Rock"].image}
+            src={ITEM_DETAILS.Sunstone.image}
             className="mr-2 img-highlight-heavy"
             style={{
-              width: `${PIXEL_SCALE * 10}px`,
+              width: `${PIXEL_SCALE * 13}px`,
             }}
           />
           <span className="text-sm">{`+${resourceAmount}`}</span>
