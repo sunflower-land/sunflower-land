@@ -2,14 +2,12 @@
 import React, { useState } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import { ReactPortal } from "components/ui/ReactPortal";
-import { CONFIG } from "lib/config";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
 
-const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 5;
+const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 60 * 1;
 
 export function ReloadPrompt() {
-  const [checking, setChecking] = useState(false);
   const [isInstalling, setIsInstalling] = useState(false);
   // Periodic Service Worker Updates
   // https://vite-pwa-org.netlify.app/guide/periodic-sw-updates.html#handling-edge-cases
@@ -19,8 +17,10 @@ export function ReloadPrompt() {
   } = useRegisterSW({
     onRegisteredSW(swUrl, registration) {
       if (registration) {
-        // Check if a SW is actively installing. We need this so we can remove the prompt if there was a new update ready but its now stale.
-        // If so, wait for it to finish installing before prompting reload.
+        // Check if a SW is actively installing. We need this so we can remove the
+        // prompt for update if there was a new update ready but its now stale as a new update has been released.
+        // If this is the case hide the update prompt and wait for the most recent update to finish installing before
+        // prompting reload again.
         registration.addEventListener("updatefound", () => {
           setIsInstalling(true);
           const newWorker = registration.installing;
@@ -34,7 +34,6 @@ export function ReloadPrompt() {
         });
 
         setInterval(async () => {
-          setChecking(true);
           if (!(!registration.installing && navigator)) return;
 
           if ("connection" in navigator && !navigator.onLine) return;
@@ -48,7 +47,6 @@ export function ReloadPrompt() {
           });
 
           if (resp?.status === 200) await registration.update();
-          setChecking(false);
         }, CHECK_FOR_UPDATE_INTERVAL);
       }
     },
@@ -56,16 +54,6 @@ export function ReloadPrompt() {
 
   return (
     <ReactPortal>
-      <div className="fixed top-28 safe-pt left-1/2 -translate-x-1/2 text-xs flex flex-col">
-        <span>{`Checking for update: ${checking}`}</span>
-        <span>{`Needs update #2: ${needRefresh}`}</span>
-        <span>{`Is installing: ${isInstalling}`}</span>
-        <span>{`Release version: ${
-          CONFIG.RELEASE_VERSION.length > 10
-            ? CONFIG.RELEASE_VERSION.slice(-6)
-            : CONFIG.RELEASE_VERSION
-        }`}</span>
-      </div>
       <div
         className={classNames(
           "fixed inset-x-0 bottom-0 transition-all duration-500 delay-1000 bg-brown-300 safe-pb safe-px",

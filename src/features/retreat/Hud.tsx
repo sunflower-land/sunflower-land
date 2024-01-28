@@ -56,7 +56,7 @@ export const Hud: React.FC = () => {
         onDepositClick={handleDepositOpen}
       />
       <div
-        className="fixed z-50 flex flex-col justify-between"
+        className="absolute z-50 flex flex-col justify-between"
         style={{
           left: `${PIXEL_SCALE * 3}px`,
           bottom: `${PIXEL_SCALE * 3}px`,
@@ -67,7 +67,7 @@ export const Hud: React.FC = () => {
       </div>
       <BumpkinAvatar bumpkin={state.bumpkin} />
       <div
-        className="fixed z-50 flex flex-col justify-between"
+        className="absolute z-50 flex flex-col justify-between"
         style={{
           right: `${PIXEL_SCALE * 3}px`,
           bottom: `${PIXEL_SCALE * 3}px`,
